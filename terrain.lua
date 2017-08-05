@@ -5,11 +5,11 @@ function setup_terrain()
 	----Tiles
 	        tile_width = 32;
 	        tile_height = 16;
-	        tile_variations = 1;
+	        tile_variations = 1; --TOFIX unused
 
     ----Chunks
-	        chunk_width = 320;
-	        chunk_height = 320;
+	        chunk_width = 64;
+	        chunk_height = 64;
 	        chunk_size = chunk_width*chunk_height;
 	        IsoX = 400;
             IsoY = 0;
@@ -47,21 +47,21 @@ end
 
 
 function update_terrain()
-  terrain_batch:clear()
+  terrain_batch:clear();
   for i=chunk_width-1,0,-1 do
     for o=chunk_height-1,0,-1 do
       terrain_batch:add(
 		  				tile_quads[terrain_chunk[i][o]], 
-      					(-view_xview)+IsoX + (i - o) * tile_width  * 0.5,
-      					(-view_yview)+IsoY + (i + o) * tile_height * 0.5
-						  )
+      					IsoX + (i - o) * tile_width  * 0.5,
+      					IsoY + (i + o) * tile_height * 0.5
+						  );
     end
   end
   terrain_batch:flush()
 end
 
 function draw_terrain()
-  love.graphics.draw(terrain_batch,    -view_xview, -view_yview, 0, 1, 1) 
+  love.graphics.draw(terrain_batch,    -view_xview, -view_yview, 0, scale_x, scale_y); 
 end
 
 
