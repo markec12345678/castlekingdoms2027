@@ -39,9 +39,9 @@ function love.update(dt)
     view_xview = view_xview +5;  
   end
 
-  if love.keyboard.isDown("up") or love.keyboard.isDown("down") or love.keyboard.isDown("left") or love.keyboard.isDown("right") then
-  	update_terrain();
-  end
+  --if love.keyboard.isDown("up") or love.keyboard.isDown("down") or love.keyboard.isDown("left") or love.keyboard.isDown("right") then
+  --	update_terrain();
+  --end
 
   mx, my = love.mouse.getPosition( )  
    LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)); LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview)); 

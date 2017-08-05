@@ -8,8 +8,8 @@ function setup_terrain()
 	        tile_variations = 1;
 
     ----Chunks
-	        chunk_width = 32;
-	        chunk_height = 32;
+	        chunk_width = 320;
+	        chunk_height = 320;
 	        chunk_size = chunk_width*chunk_height;
 	        IsoX = 400;
             IsoY = 0;
@@ -61,7 +61,7 @@ function update_terrain()
 end
 
 function draw_terrain()
-  love.graphics.draw(terrain_batch,    0, 0, 0, 1, 1)
+  love.graphics.draw(terrain_batch,    -view_xview, -view_yview, 0, 1, 1) 
 end
 
 
