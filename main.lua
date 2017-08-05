@@ -1,4 +1,5 @@
 
+function math.round(n, deci) deci = 10^(deci or 0) return math.floor(n*deci+.5)/deci end
 
 
 function love.load()
@@ -17,6 +18,7 @@ function love.load()
 
 	--Request other files
 		require("terrain");
+    require("iso");
 		setup_terrain();
 end
 

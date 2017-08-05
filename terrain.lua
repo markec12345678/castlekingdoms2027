@@ -1,3 +1,5 @@
+
+
 function setup_terrain()
 	--Terrain Initialize
 	----Tiles
@@ -62,22 +64,7 @@ function draw_terrain()
   love.graphics.draw(terrain_batch,    0, 0, 0, 1, 1)
 end
 
-function math.round(n, deci) deci = 10^(deci or 0) return math.floor(n*deci+.5)/deci end
 
-
-function ScreenToIsoX(globalX, globalY) 
-    return (((globalX - IsoX) / (tile_width/2)) + ((globalY - IsoY) / (tile_height/2))) / 2;
-end
-
-function ScreenToIsoY(globalX, globalY) 
-    return (((globalY - IsoY) / (tile_height/2)) - ((globalX - IsoX) / (tile_width/2))) / 2;
-end
-
-function IsoToScreenX(xx, yy) 
-    return IsoX + ((xx - yy) * tile_width/2); end
-
-function IsoToScreenY(xx, yy) 
-    return IsoY + ((xx + yy) * tile_height/2); end  
 
 
 
