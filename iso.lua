@@ -11,3 +11,9 @@ function IsoToScreenX(xx, yy)
 
 function IsoToScreenY(xx, yy) 
     return IsoY + ((xx + yy) * tile_height/2); end  
+
+function ogIsoToScreenX(xx, yy) 
+    return  ((xx - yy) * tile_width/2); end
+
+function ogIsoToScreenY(xx, yy) 
+    return  ((xx + yy) * tile_height/2); end  

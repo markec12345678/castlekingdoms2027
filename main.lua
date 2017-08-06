@@ -1,12 +1,11 @@
 
 function math.round(n, deci) deci = 10^(deci or 0) return math.floor(n*deci+.5)/deci end
-
 function love.load()
-      min_dt = 1/60
-      next_time = love.timer.getTime()
+      min_dt = 1/60;
+      next_time = love.timer.getTime();
 	--Version, title and window information
 	    width, height, flags = love.window.getMode();
-      love.window.setMode(800, 600, {vsync=false})
+      love.window.setMode(1680, 1050, {vsync=true, fullscreen=true})
 	    love.window.setTitle( "Stronghold Empires");
 	    image = love.graphics.newImage( "assets/tiles/collection148.png" )
 	    view_xview = 0;
@@ -21,17 +20,22 @@ function love.load()
       dttime = 0;
 	--Request other files
 	require("terrain");
+    require("objects");
     require("iso");
     require("socket"); --ONLY FOR BENCHMARK
 	setup_terrain();
+    --setup_objects();
 end
 
 
-local tickPeriod = 1/60 -- seconds per tick
-local accumulator = 0.0
+
+
 
 function love.update(dt)
-  next_time = next_time + min_dt
+  next_time = next_time + min_dt;
+  ---------------------------------------
+  mx, my = love.mouse.getPosition();  
+  LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)); LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview)); 
   ---------------------------------------
   if love.keyboard.isDown("up")  then
     view_yview = view_yview-5;  
@@ -45,24 +49,30 @@ function love.update(dt)
   if love.keyboard.isDown("right")  then
     view_xview = view_xview +5;  
   end
-  if love.keyboard.isDown('w')  then --BENCHMARK
-    time = socket.gettime();
+  if love.keyboard.isDown("escape")  then
+    love.event.quit();
+  end
+  if love.mouse.isDown(1) then
+    if LocalX >0 and LocalY>0 and LocalX<chunk_width and LocalY<chunk_height then
+    terrain_chunk[LocalX][LocalY] = 11;
     update_terrain();
-    time = socket.gettime()-time;
+    end
+  end
+  if love.keyboard.isDown('w')  then --BENCHMARK
+    update_objects();
     dttime = love.timer.getAverageDelta();
   end
-  mx, my = love.mouse.getPosition( )  
-  LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)); LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview)); 
+  
 
 end
 
 function love.wheelmoved(x, y)
-    if y > 0 and scale_x < 1 then
-        scale_x = scale_x + 0.05;
-        scale_y = scale_y + 0.05;
-    elseif y < 0 and scale_y > 0.2 then
-        scale_x = scale_x - 0.05;
-        scale_y = scale_y - 0.05;
+    if y > 0 and scale_x < 1 then 
+        scale_x = scale_x + 0.1;
+        scale_y = scale_y + 0.1;
+    elseif y < 0 and scale_y > 0.3 then
+        scale_x = scale_x - 0.1;
+        scale_y = scale_y - 0.1;
     end
 end
 
@@ -71,7 +81,8 @@ end
 function love.draw()
 
     draw_terrain();
-    love.graphics.draw(image,IsoToScreenX(LocalX,LocalY)-view_xview,IsoToScreenY(LocalX,LocalY)-view_yview)
+    love.graphics.draw(image,IsoToScreenX(LocalX,LocalY)-view_xview,IsoToScreenY(LocalX,LocalY)-view_yview,nil,scale_x);
+    --draw_objects();
 
         love.graphics.print("v"..terrain_chunk[1][1] ..
          "\n LocalX: " .. LocalX ..
@@ -83,7 +94,7 @@ function love.draw()
          "\nCurrent FPS: "..tostring(love.timer.getFPS( )), 0, 0);
     
     -- LIMIT THE FPS TO 60
-    local cur_time = love.timer.getTime()
+    local cur_time = love.timer.getTime();
     if next_time <= cur_time then
         next_time = cur_time;
         return;
