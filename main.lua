@@ -23,14 +23,14 @@ function love.load()
     require("objects");
     require("iso");
     require("socket"); --ONLY FOR BENCHMARK
-	setup_terrain();
+	--setup_terrain();
     --setup_objects();
 end
 
 
 
 
-
+------------------[ UPDATE ]------------------
 function love.update(dt)
   next_time = next_time + min_dt;
   ---------------------------------------
@@ -53,18 +53,35 @@ function love.update(dt)
     love.event.quit();
   end
   if love.mouse.isDown(1) then
-    if LocalX >0 and LocalY>0 and LocalX<chunk_width and LocalY<chunk_height then
-    terrain_chunk[LocalX][LocalY] = 11;
-    update_terrain();
+    if LocalX >=0 and LocalY>=0 and LocalX<chunk_width and LocalY<chunk_height then
+    mx, my = love.mouse.getPosition(); 
+		LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)); 
+		LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview)); 
+		last_location_x = LocalX;
+		last_location_y = LocalY; 
+		location_distance = ((last_location_x-first_location_x)+(last_location_y-first_location_y));
+		angle = math.atan2 (last_location_y - first_location_y,last_location_x-first_location_x) --* 2;
+		angle = (angle *180)/math.pi;
+		angle = math.round (angle);
+		if angle<0 then angle = 360+angle end
+    generate_wall_piece();
+    --terrain_chunk[LocalX][LocalY] = 12;
+    --update_terrain();
     end
   end
   if love.keyboard.isDown('w')  then --BENCHMARK
     update_objects();
     dttime = love.timer.getAverageDelta();
   end
-  
 
 end
+
+--------------[ MOUSE PRESSED ]---------------
+--function love.mousepressed(x, y, button, istouch)
+--   if button == 1 and LocalX >0 and LocalY>0 and LocalX<chunk_width and LocalY<chunk_height then 
+--     
+--   end
+--end
 
 function love.wheelmoved(x, y)
     if y > 0 and scale_x < 1 then 
@@ -84,13 +101,13 @@ function love.draw()
     love.graphics.draw(image,IsoToScreenX(LocalX,LocalY)-view_xview,IsoToScreenY(LocalX,LocalY)-view_yview,nil,scale_x);
     --draw_objects();
 
-        love.graphics.print("v"..terrain_chunk[1][1] ..
+        love.graphics.print("v"..getTerrainChunk()[1][1] ..
          "\n LocalX: " .. LocalX ..
          "\n LocalY: " .. LocalY ..
          "\n scale_x: " .. scale_x ..
          "\n scale_y: " .. scale_y ..
-         "\n time: " .. time*1000 .. " ms" ..
-         "\n dttime: " .. dttime*1000 .. " ms" ..
+         "\n time: " .. getLocationDistance() .. " meters" ..
+         "\n dttime: " .. getLocationAngle() .. " ms" ..
          "\nCurrent FPS: "..tostring(love.timer.getFPS( )), 0, 0);
     
     -- LIMIT THE FPS TO 60
