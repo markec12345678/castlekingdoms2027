@@ -60,7 +60,6 @@ local angle;
 			tile_offset[12] = 107-16
 			local terrain_batch = love.graphics.newSpriteBatch(terrain_image, chunk_width*chunk_height)              
 
-
 function getTerrainChunk()
 	return terrain_chunk or {};
 end
@@ -73,7 +72,7 @@ function getLocationAngle()
 	return angle or 0;
 end
 
-function update_terrain()
+local function update_terrain()
   terrain_batch:clear(); 
   for i=0,chunk_width-1,1 do
     for o=0,chunk_height-1,1 do
@@ -84,19 +83,19 @@ function update_terrain()
 						  );
 						  -- TODO: Why the fuck am I changing the terrain and not object layer?
     end
-  end
+  end				  
   terrain_batch:flush()
 end
 
-function generate_wall_piece()
+local function generate_wall_piece()
 	local i;
 		for i=0,location_distance,1 do	
-			terrain_chunk[first_location_x+i][first_location_y] = 12;
+			terrain_chunk[first_location_x+i][first_location_y] = 11;
 		end
 	update_terrain();
 end
 
-function draw_terrain()
+local function draw_terrain()
   love.graphics.draw(terrain_batch,    -view_xview, -view_yview, 0, scale_x, scale_y); 
 end
 
@@ -128,9 +127,30 @@ function love.mousereleased(x, y, button, istouch)
    end
 end
 
+local function t_updateLoop()
+  if love.mouse.isDown(1) then
+    if LocalX >=0 and LocalY>=0 and LocalX<chunk_width and LocalY<chunk_height then
+    mx, my = love.mouse.getPosition(); 
+		LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)); 
+		LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview)); 
+		last_location_x = LocalX;
+		last_location_y = LocalY; 
+		location_distance = ((last_location_x-first_location_x)+(last_location_y-first_location_y));
+		angle = math.atan2 (last_location_y - first_location_y,last_location_x-first_location_x) --* 2;
+		angle = (angle *180)/math.pi;
+		angle = math.round (angle);
+		if angle<0 then angle = 360+angle end
+    generate_wall_piece();
+    --terrain_chunk[LocalX][LocalY] = 12;
+    --update_terrain();
+    end
+  end
+end
 
 update_terrain();
 
+local tableOfFunctions = {update = t_updateLoop, draw = draw_terrain,chunk = terrain_chunk}
+return tableOfFunctions, update_terrain
 
 
 
