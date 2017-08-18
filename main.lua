@@ -1,12 +1,9 @@
-
-local terrain, update_terrain = require("terrain");
+require('global');
 local iso = require("iso");
-local objects = require("objects");
-scale_x = 1;
-scale_y = 1;
-
+local terrain, update_terrain = require("terrain");
+local objects, update_objects = require("objects");
+testvar = -4;
 function love.load()
-      
       next_time = love.timer.getTime();
 	--Version, title and window information
 	    width, height, flags = love.window.getMode();
@@ -22,10 +19,7 @@ function love.load()
 	    LocalY = 0;
       time = 0;
       dttime = 0;
-	--Request other files
-	
-    
-    
+
     require("socket"); --ONLY FOR BENCHMARK
 	--setup_terrain();
     --setup_objects();
@@ -34,7 +28,7 @@ end
 
 
 
-------------------[ UPDATE ]------------------
+-----UPDATE LOOP
 function love.update(dt)
     next_time = next_time + min_dt;
     ---------------------------------------
@@ -42,7 +36,7 @@ function love.update(dt)
     LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)); LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview)); 
     ---------------------------------------
     iso.update();
-    terrain.update();
+    objects.update();
     ---------------------------------------
     if love.keyboard.isDown('w')  then --BENCHMARK
         for i=0,chunk_width-1,1 do
@@ -58,11 +52,11 @@ end
 function love.wheelmoved(x, y)
     iso.scale(y);
 end
-
-
+-----DRAW LOOP
 function love.draw()
 
     terrain.draw();
+    objects.draw();
     love.graphics.draw(image,IsoToScreenX(LocalX,LocalY)-view_xview,IsoToScreenY(LocalX,LocalY)-view_yview,nil,scale_x);
     --draw_objects();
 
@@ -71,9 +65,10 @@ function love.draw()
          "\n LocalY: " .. LocalY ..
          "\n scale_x: " .. scale_x ..
          "\n scale_y: " .. scale_y ..
-         "\n time: " .. getLocationDistance() .. " meters" ..
-         "\n dttime: " .. getLocationAngle() .. " ms" ..
-         "\nCurrent FPS: "..tostring(love.timer.getFPS( )), 0, 0);
+         "\n location_distance: " .. (getLocation() or 0) .. " meters" ..
+         "\n dttime: " .. 0 .. " ms" ..
+         "\nCurrent FPS: "..tostring(love.timer.getFPS( ))
+         , 0, 0);
     
     -- LIMIT THE FPS TO 60
     
@@ -85,4 +80,11 @@ function love.draw()
      love.timer.sleep(next_time - cur_time);
     
 end
-
+-----MOUSE RELEASED
+function love.mousereleased(x, y, button, istouch)
+    objects.mousereleased(x,y,button,istouch);
+end
+-----MOUSE PRESSED
+function love.mousepressed(x, y, button, istouch)
+    objects.mousepressed(x,y,button,istouch);
+end

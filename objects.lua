@@ -1,56 +1,153 @@
-function setup_objects()
-	--Objects Initialize	
+local first_location_x, first_location_y, last_location_x, last_location_y = 0;
+local previous_distance, location_distance = 0;
+local angle; 
+
+
+    --2D array stuff
 	----Rows and columns
-            canvas = love.graphics.newCanvas(1680, 1050)
-            cols = chunk_width;
-            rows = chunk_height;
-            ogX = 700;
-            ogY = 500;
+            local cols = chunk_width;
+            local rows = chunk_height;
 	----Chunk 2D array
-	        object_chunk = {}          
-            imageData = love.graphics.newImage(love.image.newImageData( 1,1 )); 
+	        local object_chunk = {}          
+
             for y = 0,cols do
                 local row = {}
                     for x = 0,rows do
-                        row[x]=imageData;
+                        row[x]=0;
                     end
                 object_chunk[y]=row;
             end
 
 	----Generate spriteBatch
-            object_image = {}
-	        object_image[1] = love.graphics.newImage( "assets/trees/0_0img0.png" );
+	        local object_image = love.graphics.newImage( "assets/tiles/image_strip.png" );
+	        local tile_quads = {};
+			local tile_offset = {};
+			local imageW,imageH = object_image:getWidth(), object_image:getHeight();
+			tile_quads[1] = love.graphics.newQuad(420, 1850, 30, 107, imageW,imageH)
+			tile_offset[1] = 107-16
+			tile_quads[2] = love.graphics.newQuad(450, 1850, 30, 107, imageW,imageH)
+			tile_offset[2] = 107-16
+			local object_batch = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)              
 
-	----Generate terrain    
-            update_objects();           
-end
-
-
-function update_objects()
-  object_chunk[0][0] = object_image[1];
+local function update_objects()
+  object_batch:clear(); 
   for i=0,chunk_width-1,1 do
-        for o=0,chunk_height-1,1 do
-        if love.math.random(100) == 1 then
-            object_chunk[i][o] = object_image[1]; 
+    for o=0,chunk_height-1,1 do
+        if object_chunk[i][o] ~= 0 then
+                    object_batch:add(
+		  				tile_quads[object_chunk[i][o]], 
+      					IsoX + (i - o) * tile_width  * 0.5,
+      					IsoY + (i + o) * tile_height * 0.5 - (tile_offset[object_chunk[i][o]] or 0)
+						  );
         end
     end
-  end
-  love.graphics.setCanvas(canvas)
-            love.graphics.clear()
-            love.graphics.setBlendMode("alpha")
-        for i=0,chunk_width,1 do
-        for o=0,chunk_height,1 do           
-            love.graphics.draw(object_chunk[i][o], ogX+ogIsoToScreenX(i,o)-77+16, ogY+ogIsoToScreenY(i,o)-138+8); 
-            
-        end
-        end
-        love.graphics.setCanvas()
+  end				  
+  object_batch:flush()
 end
 
-function draw_objects()
-    love.graphics.setColor(255, 255, 255, 255)
-    love.graphics.setBlendMode("alpha", "premultiplied")
-    love.graphics.draw(canvas,-view_xview-ogX,-view_yview-ogY)
-    love.graphics.setBlendMode("alpha")
+local function generate_wall_piece()
+    local i;
+	if previous_distance > location_distance then
+		for i=location_distance+1,previous_distance,1 do	
+			if object_chunk[first_location_x+i][first_location_y] == 2 then	
+				object_chunk[first_location_x+i][first_location_y] = 0;
+			end
+		end
+	else
+		for i=0,location_distance,1 do
+			if object_chunk[first_location_x+i][first_location_y] == 0 then	
+				object_chunk[first_location_x+i][first_location_y] = 2; 
+			end
+		end
+	end
+	previous_distance = location_distance;
+	    update_objects();
 end
+
+local function build_wall_piece()
+    local i;
+		for i=0,location_distance,1 do	
+			if object_chunk[first_location_x+i][first_location_y] == 2 then
+				object_chunk[first_location_x+i][first_location_y] = 1;
+			end
+		end
+		previous_distance = 0;
+	    update_objects();
+end
+
+local function draw_object()
+  love.graphics.draw(object_batch,    -view_xview, -view_yview, 0, scale_x, scale_y); 
+end
+
+local function mousereleased(x, y, button, istouch)
+   if button == 1 and LocalX >=0 and LocalY>=0 and LocalX<chunk_width and LocalY<chunk_height then -- TODO: remove localx,localy etc for chunks 
+		mx, my = love.mouse.getPosition(); 
+		LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)); 
+		LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview)); 
+		last_location_x = LocalX;
+		last_location_y = LocalY; 
+		location_distance = ((last_location_x-first_location_x)+(last_location_y-first_location_y));
+		angle = math.atan2 (last_location_y - first_location_y,last_location_x-first_location_x) --* 2;
+		angle = (angle *180)/math.pi;
+		angle = math.round (angle);
+		if angle<0 then angle = 360+angle end
+        build_wall_piece();
+   end
+end
+
+local function mousepressed(x, y, button, istouch)
+   if button == 1 and LocalX >=0 and LocalY>=0 and LocalX<chunk_width and LocalY<chunk_height then 
+		mx, my = love.mouse.getPosition(); 
+		LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)); 
+		LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview)); 
+		first_location_x = LocalX;
+		first_location_y = LocalY;
+   end
+end
+
+local function update()
+  if love.mouse.isDown(1) then
+    if LocalX >=0 and LocalY>=0 and LocalX<chunk_width and LocalY<chunk_height then
+    mx, my = love.mouse.getPosition(); 
+		LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)); 
+		LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview)); 
+		last_location_x = LocalX;
+		last_location_y = LocalY; 
+		location_distance = ((last_location_x-first_location_x)+(last_location_y-first_location_y));
+		angle = math.atan2 (last_location_y - first_location_y,last_location_x-first_location_x) --* 2;
+		angle = (angle *180)/math.pi;
+		angle = math.round (angle);
+		if angle<0 then angle = 360+angle end
+        generate_wall_piece();
+    end
+  end
+end
+function getLocation()
+	return location_distance;
+end
+update_objects();
+
+local tableOfFunctions = {
+                        update = update, 
+                        draw = draw_object,
+                        chunk = object_chunk, 
+                        mousereleased = mousereleased, 
+                        mousepressed = mousepressed, 
+                        generate_wall_piece = generate_wall_piece,
+                        
+                        }
+return tableOfFunctions, update_objects
+
+
+
+
+
+
+
+
+
+
+
+
+
 
