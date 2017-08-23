@@ -3,11 +3,12 @@ local iso = require("iso");
 local terrain, update_terrain = require("terrain");
 local objects, update_objects = require("objects");
 testvar = -4;
+debug.setmetatable(nil, { __index={} });
 function love.load()
       next_time = love.timer.getTime();
 	--Version, title and window information
 	    width, height, flags = love.window.getMode();
-      love.window.setMode(1680, 1050, {vsync=true, fullscreen=true})
+      love.window.setMode(800, 600, {vsync=true, fullscreen=false})
       min_dt = 1/60;
 	    love.window.setTitle( "Stronghold Empires");
 	    image = love.graphics.newImage( "assets/tiles/collection148.png" )

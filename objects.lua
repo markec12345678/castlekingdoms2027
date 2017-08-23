@@ -23,10 +23,12 @@ local angle;
 	        local tile_quads = {};
 			local tile_offset = {};
 			local imageW,imageH = object_image:getWidth(), object_image:getHeight();
-			tile_quads[1] = love.graphics.newQuad(420, 1850, 30, 107, imageW,imageH)
-			tile_offset[1] = 107-16
-			tile_quads[2] = love.graphics.newQuad(450, 1850, 30, 107, imageW,imageH)
-			tile_offset[2] = 107-16
+			-- Wall piece framework [1]
+				tile_quads[1]  = love.graphics.newQuad(420, 1850, 30, 107, imageW,imageH) 
+				tile_offset[1] = 107-16
+			-- Wall piece built [2]
+				tile_quads[2]  = love.graphics.newQuad(450, 1850, 30, 107, imageW,imageH)
+				tile_offset[2] = 107-16
 			local object_batch = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)              
 
 local function update_objects()
