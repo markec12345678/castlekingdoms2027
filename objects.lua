@@ -52,6 +52,7 @@ local function generate_wall_piece()
     local i, o;
 	--NOTE-- EAST
 	if ((angle >= 315+22 and angle <= 359) or (angle >=0 and angle <= 45-22)) then
+		location_distance = last_location_x-first_location_x;
 		if previous_dir == 'west' then
 			for o=0,first_location_x,1 do
 				if object_chunk[first_location_x-o][first_location_y] == 2 then	
@@ -86,8 +87,51 @@ local function generate_wall_piece()
 				end
 			end
 		end
+	--NOTE-- SOUTH EAST
+	elseif (angle > 45-22 and angle < 45+22) then
+		if previous_dir == 'west' then
+			for o=0,first_location_x,1 do
+				if object_chunk[first_location_x-o][first_location_y] == 2 then	
+					object_chunk[first_location_x-o][first_location_y] = 0;
+				end
+			end
+		elseif previous_dir == 'north' then
+			for o=0,first_location_y,1 do
+				if object_chunk[first_location_x][first_location_y-o] == 2 then	
+					object_chunk[first_location_x][first_location_y-o] = 0;
+				end
+			end
+		elseif previous_dir == 'south' then
+			for o=first_location_y,chunk_height,1 do
+				if object_chunk[first_location_x][o] == 2 then	
+					object_chunk[first_location_x][o] = 0;
+				end
+			end
+		elseif previous_dir == 'east' then
+			for o=first_location_x,chunk_width,1 do
+				if object_chunk[o][first_location_y] == 2 then	
+					object_chunk[o][first_location_y] = 0;
+				end
+			end
+		end
+
+		previous_dir = 'south east';	
+		if previous_distance > location_distance then
+			for i=(location_distance/2)+1,previous_distance/2,1 do	
+				if object_chunk[first_location_x+i][first_location_y+i] == 2 then	
+					object_chunk[first_location_x+i][first_location_y+i] = 0;
+				end
+			end
+		else
+			for i=0,(location_distance/2),1 do
+				if object_chunk[first_location_x+i][first_location_y+i] == 0 then	
+					object_chunk[first_location_x+i][first_location_y+i] = 2; 
+				end
+			end
+		end
 	--NOTE-- WEST
 	elseif (angle >= 135+22 and angle <= 225-22) then
+		location_distance = last_location_x-first_location_x;
 		if previous_dir == 'east' then
 			for o=first_location_x,chunk_width,1 do
 				if object_chunk[o][first_location_y] == 2 then	
@@ -125,6 +169,7 @@ local function generate_wall_piece()
 		end
 	--NOTE-- NORTH
 	elseif (angle >= 225+22 and angle <= 315-22) then
+		location_distance = last_location_y-first_location_y;
 		if previous_dir == 'west' then
 			for o=0,first_location_x,1 do
 				if object_chunk[first_location_x-o][first_location_y] == 2 then	
@@ -162,6 +207,7 @@ local function generate_wall_piece()
 		end
 	--NOTE-- SOUTH
 	elseif (angle >= 45+22 and angle <= 135-22) then
+		location_distance = last_location_y-first_location_y;
 		if previous_dir == 'west' then
 			for o=0,first_location_x,1 do
 				if object_chunk[first_location_x-o][first_location_y] == 2 then	

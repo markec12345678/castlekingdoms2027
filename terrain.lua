@@ -50,10 +50,6 @@ local angle;
 			tile_offset[12] = 107-16
 			local terrain_batch = love.graphics.newSpriteBatch(terrain_image, chunk_width*chunk_height)              
 
---note I don't need these functions 
---warning ss
---fixme I don't need these ?
---todo yeah
 function getTerrainChunk()
 	return terrain_chunk or {};
 end
