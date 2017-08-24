@@ -1,5 +1,6 @@
 local first_location_x, first_location_y, last_location_x, last_location_y = 0;
 local previous_distance, location_distance = 0;
+local previous_dir = 'none';
 local angle; 
 
 
@@ -48,17 +49,151 @@ local function update_objects()
 end
 
 local function generate_wall_piece()
-    local i;
-	if previous_distance > location_distance then
-		for i=location_distance+1,previous_distance,1 do	
-			if object_chunk[first_location_x+i][first_location_y] == 2 then	
-				object_chunk[first_location_x+i][first_location_y] = 0;
+    local i, o;
+	--NOTE-- EAST
+	if ((angle >= 315+22 and angle <= 359) or (angle >=0 and angle <= 45-22)) then
+		if previous_dir == 'west' then
+			for o=0,first_location_x,1 do
+				if object_chunk[first_location_x-o][first_location_y] == 2 then	
+					object_chunk[first_location_x-o][first_location_y] = 0;
+				end
+			end
+		elseif previous_dir == 'north' then
+			for o=0,first_location_y,1 do
+				if object_chunk[first_location_x][first_location_y-o] == 2 then	
+					object_chunk[first_location_x][first_location_y-o] = 0;
+				end
+			end
+		elseif previous_dir == 'south' then
+			for o=first_location_y,chunk_height,1 do
+				if object_chunk[first_location_x][o] == 2 then	
+					object_chunk[first_location_x][o] = 0;
+				end
 			end
 		end
-	else
-		for i=0,location_distance,1 do
-			if object_chunk[first_location_x+i][first_location_y] == 0 then	
-				object_chunk[first_location_x+i][first_location_y] = 2; 
+
+		previous_dir = 'east';	
+		if previous_distance > location_distance then
+			for i=location_distance+1,previous_distance,1 do	
+				if object_chunk[first_location_x+i][first_location_y] == 2 then	
+					object_chunk[first_location_x+i][first_location_y] = 0;
+				end
+			end
+		else
+			for i=0,location_distance,1 do
+				if object_chunk[first_location_x+i][first_location_y] == 0 then	
+					object_chunk[first_location_x+i][first_location_y] = 2; 
+				end
+			end
+		end
+	--NOTE-- WEST
+	elseif (angle >= 135+22 and angle <= 225-22) then
+		if previous_dir == 'east' then
+			for o=first_location_x,chunk_width,1 do
+				if object_chunk[o][first_location_y] == 2 then	
+					object_chunk[o][first_location_y] = 0;
+				end
+			end
+		elseif previous_dir == 'north' then
+			for o=0,first_location_y,1 do
+				if object_chunk[first_location_x][first_location_y-o] == 2 then	
+					object_chunk[first_location_x][first_location_y-o] = 0;
+				end
+			end
+		elseif previous_dir == 'south' then
+			for o=first_location_y,chunk_height,1 do
+				if object_chunk[first_location_x][o] == 2 then	
+					object_chunk[first_location_x][o] = 0;
+				end
+			end
+		end
+
+		previous_dir = 'west';	
+		if location_distance < 0 then location_distance = location_distance * (-1) end
+		if previous_distance > location_distance then
+			for i=location_distance+1,previous_distance,1 do	
+				if object_chunk[first_location_x-i][first_location_y] == 2 then	
+					object_chunk[first_location_x-i][first_location_y] = 0;
+				end
+			end
+		else
+			for i=0,location_distance,1 do
+				if object_chunk[first_location_x-i][first_location_y] == 0 then	
+					object_chunk[first_location_x-i][first_location_y] = 2; 
+				end
+			end
+		end
+	--NOTE-- NORTH
+	elseif (angle >= 225+22 and angle <= 315-22) then
+		if previous_dir == 'west' then
+			for o=0,first_location_x,1 do
+				if object_chunk[first_location_x-o][first_location_y] == 2 then	
+					object_chunk[first_location_x-o][first_location_y] = 0;
+				end
+			end
+		elseif previous_dir == 'east' then
+			for o=first_location_x,chunk_width,1 do
+				if object_chunk[o][first_location_y] == 2 then	
+					object_chunk[o][first_location_y] = 0;
+				end
+			end
+		elseif previous_dir == 'south' then
+			for o=first_location_y,chunk_height,1 do
+				if object_chunk[first_location_x][o] == 2 then	
+					object_chunk[first_location_x][o] = 0;
+				end
+			end
+		end
+
+		previous_dir = 'north';	
+		if location_distance < 0 then location_distance = location_distance * (-1) end
+		if previous_distance > location_distance then
+			for i=location_distance+1,previous_distance,1 do	
+				if object_chunk[first_location_x][first_location_y-i] == 2 then	
+					object_chunk[first_location_x][first_location_y-i] = 0;
+				end
+			end
+		else
+			for i=0,location_distance,1 do
+				if object_chunk[first_location_x][first_location_y-i] == 0 then	
+					object_chunk[first_location_x][first_location_y-i] = 2; 
+				end
+			end
+		end
+	--NOTE-- SOUTH
+	elseif (angle >= 45+22 and angle <= 135-22) then
+		if previous_dir == 'west' then
+			for o=0,first_location_x,1 do
+				if object_chunk[first_location_x-o][first_location_y] == 2 then	
+					object_chunk[first_location_x-o][first_location_y] = 0;
+				end
+			end
+		elseif previous_dir == 'east' then
+			for o=first_location_x,chunk_width,1 do
+				if object_chunk[o][first_location_y] == 2 then	
+					object_chunk[o][first_location_y] = 0;
+				end
+			end
+		elseif previous_dir == 'north' then
+			for o=0,first_location_y,1 do
+				if object_chunk[first_location_x][first_location_y-o] == 2 then	
+					object_chunk[first_location_x][first_location_y-o] = 0;
+				end
+			end
+		end
+
+		previous_dir = 'south';	
+		if previous_distance > location_distance then
+			for i=location_distance+1,previous_distance,1 do	
+				if object_chunk[first_location_x][first_location_y+i] == 2 then	
+					object_chunk[first_location_x][first_location_y+i] = 0;
+				end
+			end
+		else
+			for i=0,location_distance,1 do
+				if object_chunk[first_location_x][first_location_y+i] == 0 then	
+					object_chunk[first_location_x][first_location_y+i] = 2; 
+				end
 			end
 		end
 	end
@@ -82,14 +217,15 @@ local function draw_object()
 end
 
 local function mousereleased(x, y, button, istouch)
-   if button == 1 and LocalX >=0 and LocalY>=0 and LocalX<chunk_width and LocalY<chunk_height then -- TODO: remove localx,localy etc for chunks 
+   if button == 1 and LocalX >=0 and LocalY>=0 and LocalX<chunk_width and LocalY<chunk_height then 
+   		-- TODO remove localx,localy when implementing chunks 
 		mx, my = love.mouse.getPosition(); 
 		LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)); 
 		LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview)); 
 		last_location_x = LocalX;
 		last_location_y = LocalY; 
 		location_distance = ((last_location_x-first_location_x)+(last_location_y-first_location_y));
-		angle = math.atan2 (last_location_y - first_location_y,last_location_x-first_location_x) --* 2;
+		angle = math.atan2 (last_location_y - first_location_y,last_location_x-first_location_x);
 		angle = (angle *180)/math.pi;
 		angle = math.round (angle);
 		if angle<0 then angle = 360+angle end
@@ -124,9 +260,17 @@ local function update()
     end
   end
 end
+--warning These functions must be removed later
 function getLocation()
-	return location_distance;
+	return location_distance or 0;
 end
+function getLocationAngle()
+	return angle or 0;
+end
+function getPreviousDir()
+	return previous_dir or 0;
+end
+--warning end
 update_objects();
 
 local tableOfFunctions = {

@@ -3,7 +3,7 @@ local iso = require("iso");
 local terrain, update_terrain = require("terrain");
 local objects, update_objects = require("objects");
 testvar = -4;
-debug.setmetatable(nil, { __index={} });
+--debug.setmetatable(nil, { __index={} }); -- to avoid nil errors
 function love.load()
       next_time = love.timer.getTime();
 	--Version, title and window information
@@ -67,7 +67,7 @@ function love.draw()
          "\n scale_x: " .. scale_x ..
          "\n scale_y: " .. scale_y ..
          "\n location_distance: " .. (getLocation() or 0) .. " meters" ..
-         "\n dttime: " .. 0 .. " ms" ..
+         "\n dir: " .. getPreviousDir() .. " " ..
          "\nCurrent FPS: "..tostring(love.timer.getFPS( ))
          , 0, 0);
     

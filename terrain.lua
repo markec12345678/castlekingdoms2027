@@ -50,7 +50,10 @@ local angle;
 			tile_offset[12] = 107-16
 			local terrain_batch = love.graphics.newSpriteBatch(terrain_image, chunk_width*chunk_height)              
 
--- FIXME: I don't need these functions
+--note I don't need these functions 
+--warning ss
+--fixme I don't need these ?
+--todo yeah
 function getTerrainChunk()
 	return terrain_chunk or {};
 end
@@ -59,10 +62,8 @@ function getLocationDistance()
 	return location_distance or 0;
 end
 
-function getLocationAngle()
-	return angle or 0;
-end
--- END OF FIXME:------------
+
+
 local function update_terrain()
   terrain_batch:clear(); 
   for i=0,chunk_width-1,1 do
@@ -72,7 +73,6 @@ local function update_terrain()
       					IsoX + (i - o) * tile_width  * 0.5,
       					IsoY + (i + o) * tile_height * 0.5 - tile_offset[terrain_chunk[i][o]]
 						  );
-						  -- TODO: Why the fuck am I changing the terrain and not object layer? 
     end
   end				  
   terrain_batch:flush()
