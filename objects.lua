@@ -465,10 +465,12 @@ local function generate_wall_piece()
 end
 
 local function build_wall_piece()
-    local i;
-		for i=0,location_distance,1 do	
-			if object_chunk[first_location_x+i][first_location_y] == 2 then
-				object_chunk[first_location_x+i][first_location_y] = 1;
+    local i,o;
+		for i=0,chunk_width-1,1 do
+			for o=0,chunk_width-1,1 do
+				if object_chunk[i][o] == 2 then
+					object_chunk[i][o] = 1;
+				end
 			end
 		end
 		previous_distance = 0;

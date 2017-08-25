@@ -65,8 +65,8 @@ function love.draw()
          "\n LocalX: " .. LocalX ..
          "\n LocalY: " .. LocalY ..
          "\n scale_x: " .. scale_x ..
-         "\n scale_y: " .. testvar ..
-         "\n previous distance: " .. (m or -1) .. " meters" ..
+         "\n scale_y: " .. scale_y ..
+         "\n previous distance: " .. (getPreviousDistance()) .. " meters" ..
          "\n location_distance: " .. (getLocation() or 0) .. " meters" ..
          "\n dir: " .. getPreviousDir() .. " " ..
          "\nCurrent FPS: "..tostring(love.timer.getFPS( ))
