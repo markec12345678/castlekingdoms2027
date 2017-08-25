@@ -48,6 +48,52 @@ local function update_objects()
   object_batch:flush()
 end
 
+--NOTE wall remove for diagonal direcitons
+local function remove_diagonal_walls()
+	--STEP 1 
+	--	GET TOP and BOTTOM BORDER TILE COORDINATES
+	--TODO check for middle vertical tile
+	testvar = testvar + 1;
+	testvar = testvar % 10;
+	local p, distance;
+	local top_tile_x, top_tile_y = 0;
+	local bot_tile_x, bot_tile_y = 0;
+	if (first_location_x - first_location_y) > 0 then --TILE is right side from the center
+		top_tile_x = first_location_x - first_location_y;
+		top_tile_y = 0;
+		bot_tile_x = chunk_width-1;
+		bot_tile_y = (first_location_y)+((chunk_width-1)-first_location_x); 
+		distance = bot_tile_x-top_tile_x;
+		for p=0,distance,1 do
+			if object_chunk[top_tile_x + p][top_tile_y + p] == 2 then	
+				object_chunk[top_tile_x + p][top_tile_y + p] = 0;
+			end
+		end
+	elseif (first_location_x - first_location_y) < 0 then --TILE is left side from the center
+		top_tile_x = 0;
+		top_tile_y = first_location_y - first_location_x;
+		bot_tile_x = first_location_x+((chunk_width-1)-first_location_y);
+		bot_tile_y = chunk_width-1; 
+		distance = bot_tile_y-top_tile_y;
+		for p=0,distance,1 do
+			if object_chunk[top_tile_x + p][top_tile_y + p] == 2 then	
+				object_chunk[top_tile_x + p][top_tile_y + p] = 0;
+			end
+		end
+	else
+		top_tile_y, top_tile_x = 0, 0;
+		bot_tile_y, bot_tile_x = chunk_width-1, chunk_width-1
+		distance = chunk_width;
+		for p=0,distance,1 do
+			if object_chunk[top_tile_x + p][top_tile_y + p] == 2 then	
+				object_chunk[top_tile_x + p][top_tile_y + p] = 0;
+			end
+		end
+	end
+	
+	
+end
+
 local function generate_wall_piece()
     local i, o;
 	--NOTE-- EAST
@@ -71,6 +117,8 @@ local function generate_wall_piece()
 					object_chunk[first_location_x][o] = 0;
 				end
 			end
+		elseif previous_dir == 'south east' or previous_dir == 'south west' or previous_dir == 'north east' or previous_dir == 'north west' then
+			remove_diagonal_walls();
 		end
 
 		previous_dir = 'east';	
@@ -84,48 +132,6 @@ local function generate_wall_piece()
 			for i=0,location_distance,1 do
 				if object_chunk[first_location_x+i][first_location_y] == 0 then	
 					object_chunk[first_location_x+i][first_location_y] = 2; 
-				end
-			end
-		end
-	--NOTE-- SOUTH EAST
-	elseif (angle > 45-22 and angle < 45+22) then
-		if previous_dir == 'west' then
-			for o=0,first_location_x,1 do
-				if object_chunk[first_location_x-o][first_location_y] == 2 then	
-					object_chunk[first_location_x-o][first_location_y] = 0;
-				end
-			end
-		elseif previous_dir == 'north' then
-			for o=0,first_location_y,1 do
-				if object_chunk[first_location_x][first_location_y-o] == 2 then	
-					object_chunk[first_location_x][first_location_y-o] = 0;
-				end
-			end
-		elseif previous_dir == 'south' then
-			for o=first_location_y,chunk_height,1 do
-				if object_chunk[first_location_x][o] == 2 then	
-					object_chunk[first_location_x][o] = 0;
-				end
-			end
-		elseif previous_dir == 'east' then
-			for o=first_location_x,chunk_width,1 do
-				if object_chunk[o][first_location_y] == 2 then	
-					object_chunk[o][first_location_y] = 0;
-				end
-			end
-		end
-
-		previous_dir = 'south east';	
-		if previous_distance > location_distance then
-			for i=(location_distance/2)+1,previous_distance/2,1 do	
-				if object_chunk[first_location_x+i][first_location_y+i] == 2 then	
-					object_chunk[first_location_x+i][first_location_y+i] = 0;
-				end
-			end
-		else
-			for i=0,(location_distance/2),1 do
-				if object_chunk[first_location_x+i][first_location_y+i] == 0 then	
-					object_chunk[first_location_x+i][first_location_y+i] = 2; 
 				end
 			end
 		end
@@ -150,6 +156,8 @@ local function generate_wall_piece()
 					object_chunk[first_location_x][o] = 0;
 				end
 			end
+		elseif previous_dir == 'south east' or previous_dir == 'south west' or previous_dir == 'north east' or previous_dir == 'north west' then
+			remove_diagonal_walls();
 		end
 
 		previous_dir = 'west';	
@@ -188,6 +196,8 @@ local function generate_wall_piece()
 					object_chunk[first_location_x][o] = 0;
 				end
 			end
+		elseif previous_dir == 'south east' or previous_dir == 'south west' or previous_dir == 'north east' or previous_dir == 'north west' then
+			remove_diagonal_walls();
 		end
 
 		previous_dir = 'north';	
@@ -226,6 +236,8 @@ local function generate_wall_piece()
 					object_chunk[first_location_x][first_location_y-o] = 0;
 				end
 			end
+		elseif previous_dir == 'south east' or previous_dir == 'south west' or previous_dir == 'north east' or previous_dir == 'north west' then
+			remove_diagonal_walls();
 		end
 
 		previous_dir = 'south';	
@@ -239,6 +251,187 @@ local function generate_wall_piece()
 			for i=0,location_distance,1 do
 				if object_chunk[first_location_x][first_location_y+i] == 0 then	
 					object_chunk[first_location_x][first_location_y+i] = 2; 
+				end
+			end
+		end
+	--NOTE-- SOUTH EAST
+	elseif (angle > 45-22 and angle < 45+22) then
+		if previous_dir == 'west' then
+			for o=0,first_location_x,1 do
+				if object_chunk[first_location_x-o][first_location_y] == 2 then	
+					object_chunk[first_location_x-o][first_location_y] = 0;
+				end
+			end
+		elseif previous_dir == 'north' then
+			for o=0,first_location_y,1 do
+				if object_chunk[first_location_x][first_location_y-o] == 2 then	
+					object_chunk[first_location_x][first_location_y-o] = 0;
+				end
+			end
+		elseif previous_dir == 'south' then
+			for o=first_location_y,chunk_height,1 do
+				if object_chunk[first_location_x][o] == 2 then	
+					object_chunk[first_location_x][o] = 0;
+				end
+			end
+		elseif previous_dir == 'east' then
+			for o=first_location_x,chunk_width,1 do
+				if object_chunk[o][first_location_y] == 2 then	
+					object_chunk[o][first_location_y] = 0;
+				end
+			end
+		elseif previous_dir == 'south west' or previous_dir == 'north east' or previous_dir == 'north west' then
+			remove_diagonal_walls();
+		end
+
+		previous_dir = 'south east';	
+		if previous_distance > location_distance then
+			for i=math.round(location_distance/2)+1,math.round(previous_distance/2),1 do	
+				if object_chunk[first_location_x+i][first_location_y+i] == 2 then	
+					object_chunk[first_location_x+i][first_location_y+i] = 0;
+				end
+			end
+		else
+			for i=0,(location_distance/2),1 do
+				if object_chunk[first_location_x+i][first_location_y+i] == 0 then	
+					object_chunk[first_location_x+i][first_location_y+i] = 2; 
+				end
+			end
+		end
+	--NOTE-- NORTH WEST
+	elseif (angle > 225-22 and angle < 225+22) then
+		if previous_dir == 'west' then
+			for o=0,first_location_x,1 do
+				if object_chunk[first_location_x-o][first_location_y] == 2 then	
+					object_chunk[first_location_x-o][first_location_y] = 0;
+				end
+			end
+		elseif previous_dir == 'north' then
+			for o=0,first_location_y,1 do
+				if object_chunk[first_location_x][first_location_y-o] == 2 then	
+					object_chunk[first_location_x][first_location_y-o] = 0;
+				end
+			end
+		elseif previous_dir == 'south' then
+			for o=first_location_y,chunk_height,1 do
+				if object_chunk[first_location_x][o] == 2 then	
+					object_chunk[first_location_x][o] = 0;
+				end
+			end
+		elseif previous_dir == 'east' then
+			for o=first_location_x,chunk_width,1 do
+				if object_chunk[o][first_location_y] == 2 then	
+					object_chunk[o][first_location_y] = 0;
+				end
+			end
+		elseif previous_dir == 'south east' or previous_dir == 'south west' or previous_dir == 'north east' then
+			remove_diagonal_walls();
+		end
+
+		if location_distance < 0 then location_distance = location_distance * (-1) end
+		previous_dir = 'north west';	
+		if previous_distance > location_distance then
+			for i=math.round(location_distance/2)+1,math.round(previous_distance/2),1 do	
+				if object_chunk[first_location_x-i][first_location_y-i] == 2 then	
+					object_chunk[first_location_x-i][first_location_y-i] = 0;
+				end
+			end
+		else
+			for i=0,(location_distance/2),1 do
+				if object_chunk[first_location_x-i][first_location_y-i] == 0 then	
+					object_chunk[first_location_x-i][first_location_y-i] = 2; 
+				end
+			end
+		end
+	--NOTE-- SOUTH WEST
+	elseif (angle > 135-22 and angle < 135+22) then
+		location_distance = math.floor((last_location_x - first_location_x + first_location_y - last_location_y)/2);
+		if previous_dir == 'west' then
+			for o=0,first_location_x,1 do
+				if object_chunk[first_location_x-o][first_location_y] == 2 then	
+					object_chunk[first_location_x-o][first_location_y] = 0;
+				end
+			end
+		elseif previous_dir == 'north' then
+			for o=0,first_location_y,1 do
+				if object_chunk[first_location_x][first_location_y-o] == 2 then	
+					object_chunk[first_location_x][first_location_y-o] = 0;
+				end
+			end
+		elseif previous_dir == 'south' then
+			for o=first_location_y,chunk_height,1 do
+				if object_chunk[first_location_x][o] == 2 then	
+					object_chunk[first_location_x][o] = 0;
+				end
+			end
+		elseif previous_dir == 'east' then
+			for o=first_location_x,chunk_width,1 do
+				if object_chunk[o][first_location_y] == 2 then	
+					object_chunk[o][first_location_y] = 0;
+				end
+			end
+		elseif previous_dir == 'south east' or previous_dir == 'north east' or previous_dir == 'north west' then
+			remove_diagonal_walls();
+		end
+
+		if location_distance < 0 then location_distance = location_distance * (-1) end
+		previous_dir = 'south west';	
+		if previous_distance > location_distance then
+			for i=location_distance+1,previous_distance,1 do	
+				if object_chunk[first_location_x-i][first_location_y+i] == 2 then	
+					object_chunk[first_location_x-i][first_location_y+i] = 0;
+				end
+			end
+		else
+			for i=0,location_distance,1 do
+				if object_chunk[first_location_x-i][first_location_y+i] == 0 then	
+					object_chunk[first_location_x-i][first_location_y+i] = 2; 
+				end
+			end
+		end
+	--NOTE-- NORTH EAST
+	elseif (angle > 315-22 and angle < 315+22) then
+		location_distance = math.floor((last_location_x - first_location_x + first_location_y - last_location_y)/2);
+		if previous_dir == 'west' then
+			for o=0,first_location_x,1 do
+				if object_chunk[first_location_x-o][first_location_y] == 2 then	
+					object_chunk[first_location_x-o][first_location_y] = 0;
+				end
+			end
+		elseif previous_dir == 'north' then
+			for o=0,first_location_y,1 do
+				if object_chunk[first_location_x][first_location_y-o] == 2 then	
+					object_chunk[first_location_x][first_location_y-o] = 0;
+				end
+			end
+		elseif previous_dir == 'south' then
+			for o=first_location_y,chunk_height,1 do
+				if object_chunk[first_location_x][o] == 2 then	
+					object_chunk[first_location_x][o] = 0;
+				end
+			end
+		elseif previous_dir == 'east' then
+			for o=first_location_x,chunk_width,1 do
+				if object_chunk[o][first_location_y] == 2 then	
+					object_chunk[o][first_location_y] = 0;
+				end
+			end
+		elseif previous_dir == 'south east' or previous_dir == 'south west' or previous_dir == 'north west' then
+			remove_diagonal_walls();
+		end
+
+		--if location_distance < 0 then location_distance = location_distance * (-1) end
+		previous_dir = 'north east';	
+		if previous_distance > location_distance then
+			for i=location_distance+1,previous_distance,1 do	
+				if object_chunk[first_location_x+i][first_location_y-i] == 2 then	
+					object_chunk[first_location_x+i][first_location_y-i] = 0;
+				end
+			end
+		else
+			for i=0,location_distance,1 do
+				if object_chunk[first_location_x+i][first_location_y-i] == 0 then	
+					object_chunk[first_location_x+i][first_location_y-i] = 2; 
 				end
 			end
 		end
@@ -306,6 +499,8 @@ local function update()
     end
   end
 end
+
+
 --warning These functions must be removed later
 function getLocation()
 	return location_distance or 0;
@@ -315,6 +510,9 @@ function getLocationAngle()
 end
 function getPreviousDir()
 	return previous_dir or 0;
+end
+function getPreviousDistance()
+	return previous_distance or 0;
 end
 --warning end
 update_objects();
