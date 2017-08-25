@@ -53,8 +53,8 @@ local function remove_diagonal_walls()
 	--STEP 1 
 	--	GET TOP and BOTTOM BORDER TILE COORDINATES
 	--TODO check for middle vertical tile
-	testvar = testvar + 1;
-	testvar = testvar % 10;
+	--testvar = testvar + 1;
+	--testvar = testvar % 10;
 	local p, distance;
 	local top_tile_x, top_tile_y = 0;
 	local bot_tile_x, bot_tile_y = 0;
@@ -90,8 +90,30 @@ local function remove_diagonal_walls()
 			end
 		end
 	end
-	
-	
+	--STEP 2
+	--  GET LEFT and RIGHT BORDER TILE COORDINATES
+	local left_tile_x = 0;
+	local left_tile_y = first_location_x + first_location_y;
+	local right_tile_x = first_location_x + first_location_y;
+	local right_tile_y = 0;
+	local m;
+	if right_tile_x <= chunk_width-1 then --TILE is top side or center
+		for m=0,right_tile_x,1 do
+			if object_chunk[left_tile_x +m][left_tile_y - m] == 2 then	
+				object_chunk[left_tile_x + m][left_tile_y - m] = 0;
+			end
+		end
+	else --TILE is bot side
+		left_tile_x = first_location_x + first_location_y - chunk_width-1;
+		left_tile_y = chunk_width-1;
+		right_tile_x = chunk_width-1; 
+		right_tile_y = first_location_x + first_location_y - chunk_width-1;
+		for m=0,right_tile_x-right_tile_y,1 do
+			if object_chunk[left_tile_x +m+1][left_tile_y - m+1] == 2 then	
+				object_chunk[left_tile_x + m +1][left_tile_y - m+1] = 0;
+			end
+		end
+	end
 end
 
 local function generate_wall_piece()
@@ -437,6 +459,8 @@ local function generate_wall_piece()
 		end
 	end
 	previous_distance = location_distance;
+	if object_chunk[first_location_x][first_location_y] == 0 then
+	object_chunk[first_location_x][first_location_y] = 2; end
 	    update_objects();
 end
 
