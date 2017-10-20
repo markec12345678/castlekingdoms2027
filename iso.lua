@@ -22,16 +22,16 @@ function math.round(n, deci) deci = 10^(deci or 0) return math.floor(n*deci+.5)/
 
 local function update()
     if love.keyboard.isDown("up")  then
-        view_yview = view_yview-5;  
+        view_yview = view_yview - scroll_speed;  
     end
     if love.keyboard.isDown("down")  then
-        view_yview = view_yview+5;  
+        view_yview = view_yview + scroll_speed;  
     end
     if love.keyboard.isDown("left")  then
-        view_xview = view_xview -5;  
+        view_xview = view_xview - scroll_speed;  
     end
     if love.keyboard.isDown("right")  then
-        view_xview = view_xview +5;  
+        view_xview = view_xview + scroll_speed;  
     end
     if love.keyboard.isDown("escape")  then
         love.event.quit();

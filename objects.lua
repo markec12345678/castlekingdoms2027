@@ -14,24 +14,37 @@ local angle;
             for y = 0,cols do
                 local row = {}
                     for x = 0,rows do
-                        row[x]=0;
+					-- some random tree gen
+						local rand = love.math.random(400);
+						if rand == 5 then
+                        row[x]=3; elseif rand == 6 then
+						row[x]=4; else
+						row[x]=0; end
                     end
                 object_chunk[y]=row;
             end
-
 	----Generate spriteBatch
 	        local object_image = love.graphics.newImage( "assets/tiles/image_strip.png" );
 	        local tile_quads = {};
 			local tile_offset = {};
+			local tile_offset_x = {};
 			local imageW,imageH = object_image:getWidth(), object_image:getHeight();
-			-- Wall piece framework [1]
+			-- Wall piece built [1]
 				tile_quads[1]  = love.graphics.newQuad(420, 1850, 30, 107, imageW,imageH) 
 				tile_offset[1] = 107-16
-			-- Wall piece built [2]
+			-- Wall piece framework [2]
 				tile_quads[2]  = love.graphics.newQuad(450, 1850, 30, 107, imageW,imageH)
 				tile_offset[2] = 107-16
+			-- Tree fully grown , type 1 [3]				
+				tile_quads[3]  = love.graphics.newQuad(1100, 383, 181, 142, imageW,imageH)
+				tile_offset[3] = 117
+				tile_offset_x[3] = 73
+			-- Tree fully grown , type 2 [4]				
+				tile_quads[4]  = love.graphics.newQuad(733, 1127, 167, 130, imageW,imageH)
+				tile_offset[4] = 114
+				tile_offset_x[4] = 70
 			local object_batch = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)              
-
+			--TEST object_chunk[0][0] = 4;
 local function update_objects()
   object_batch:clear(); 
   for i=0,chunk_width-1,1 do
@@ -39,7 +52,7 @@ local function update_objects()
         if object_chunk[i][o] ~= 0 then
                     object_batch:add(
 		  				tile_quads[object_chunk[i][o]], 
-      					IsoX + (i - o) * tile_width  * 0.5,
+      					IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[object_chunk[i][o]] or 0),
       					IsoY + (i + o) * tile_height * 0.5 - (tile_offset[object_chunk[i][o]] or 0)
 						  );
         end
