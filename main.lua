@@ -39,6 +39,8 @@ function love.update(dt)
     
 xchunk = math.ceil((view_xview+800)/(chunk_width*tile_width))
 ychunk = math.ceil((view_yview+600)/(chunk_width*tile_height))
+current_chunk_x = xchunk;
+current_chunk_y = ychunk;
 
     ---------------------------------------
     if love.keyboard.isDown('w')  then --BENCHMARK

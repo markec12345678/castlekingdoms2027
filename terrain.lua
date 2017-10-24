@@ -86,9 +86,9 @@ local function update_terrain()
   for i=0,chunk_width-1,1 do
     for o=0,chunk_height-1,1 do
       terrain_batch:add(
-		  				tile_quads[terrain[1][1][i][o]], 
+		  				tile_quads[terrain[current_chunk_x][current_chunk_y][i][o]], 
       					IsoX + (i - o) * tile_width  * 0.5,
-      					IsoY + (i + o) * tile_height * 0.5 - tile_offset[terrain[1][1][i][o]]
+      					IsoY + (i + o) * tile_height * 0.5 - tile_offset[terrain[current_chunk_x][current_chunk_y][i][o]]
 						  );
     end
   end				  
@@ -96,7 +96,7 @@ local function update_terrain()
 end
 
 local function draw_terrain()
-  love.graphics.draw(terrain_batch,    -view_xview, -view_yview, 0, scale_x, scale_y); 
+  love.graphics.draw(terrain_batch,    -view_xview+(current_chunk_x-1)*chunk_width*30, -view_yview+(current_chunk_y-1)*chunk_height*16, 0, scale_x, scale_y); 
 end
 
 update_terrain();
