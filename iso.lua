@@ -1,3 +1,17 @@
+function newAutotable(dim)
+    local MT = {};
+    for i=1, dim do
+        MT[i] = {__index = function(t, k)
+            if i < dim then
+                t[k] = setmetatable({}, MT[i+1])
+                return t[k];
+            end
+        end}
+    end
+
+    return setmetatable({}, MT[1]);
+end
+
 function ScreenToIsoX(globalX, globalY) 
     return (((globalX - IsoX) / (tile_width/2)) + ((globalY - IsoY) / (tile_height/2))) / 2;
 end

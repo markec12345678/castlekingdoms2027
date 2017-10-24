@@ -3,21 +3,42 @@ local first_location_x, first_location_y, last_location_x, last_location_y = 0;
 local location_distance = 0;
 local angle; 
 
-
 	--Terrain Initialize
 	----Rows and columns
             local cols = chunk_width;
             local rows = chunk_height;
 	----Chunk 2D array
-	        local terrain_chunk = {}          
-
-            for y = 0,cols do
-                local row = {}
-                    for x = 0,rows do
-                        row[x]=love.math.random(10);
-                    end
-                terrain_chunk[y]=row;
-            end
+			local terrain = newAutotable(4);
+			-- for y = 0,10 do
+            --     local row = {}
+            --         for x = 0,10 do
+			-- 			local chunk = {} 
+			-- 			for yy = 0,cols do
+			-- 				local rowss = {}
+			-- 					for xx = 0,rows do
+			-- 						rowss[x]=love.math.random(10);
+			-- 					end
+			-- 				chunk[y]=row;
+			-- 			end
+            --             row[x]=chunk;
+            --         end
+            --     terrain[y]=row;
+            -- end
+			
+			for i=0,chunk_width-1,1 do
+    			for o=0,chunk_height-1,1 do
+					terrain[1][1][i][o]=love.math.random(10);
+				end
+			end
+			
+	        -- local chunk = {}          
+            -- for y = 0,cols do
+            --     local row = {}
+            --         for x = 0,rows do
+            --             row[x]=love.math.random(10);
+            --         end
+            --     chunk[y]=row;
+            -- end
 
 	----Generate spriteBatch
 	        local terrain_image = love.graphics.newImage( "assets/tiles/image_strip.png" );
@@ -51,7 +72,7 @@ local angle;
 			local terrain_batch = love.graphics.newSpriteBatch(terrain_image, chunk_width*chunk_height)              
 
 function getTerrainChunk()
-	return terrain_chunk or {};
+	return chunk or {};
 end
 
 function getLocationDistance()
@@ -65,9 +86,9 @@ local function update_terrain()
   for i=0,chunk_width-1,1 do
     for o=0,chunk_height-1,1 do
       terrain_batch:add(
-		  				tile_quads[terrain_chunk[i][o]], 
+		  				tile_quads[terrain[1][1][i][o]], 
       					IsoX + (i - o) * tile_width  * 0.5,
-      					IsoY + (i + o) * tile_height * 0.5 - tile_offset[terrain_chunk[i][o]]
+      					IsoY + (i + o) * tile_height * 0.5 - tile_offset[terrain[1][1][i][o]]
 						  );
     end
   end				  
@@ -80,7 +101,7 @@ end
 
 update_terrain();
 
-local tableOfFunctions = {update = t_updateLoop, draw = draw_terrain,chunk = terrain_chunk}
+local tableOfFunctions = {update = t_updateLoop, draw = draw_terrain,chunk = chunk}
 return tableOfFunctions, update_terrain
 
 

@@ -27,7 +27,6 @@ function love.load()
 end
 
 
-
 -----UPDATE LOOP
 function love.update(dt)
     next_time = next_time + min_dt;
@@ -37,6 +36,10 @@ function love.update(dt)
     ---------------------------------------
     iso.update();
     objects.update();
+    
+xchunk = math.ceil((view_xview+800)/(chunk_width*tile_width))
+ychunk = math.ceil((view_yview+600)/(chunk_width*tile_height))
+
     ---------------------------------------
     if love.keyboard.isDown('w')  then --BENCHMARK
         for i=0,chunk_width-1,1 do
@@ -77,6 +80,7 @@ function love.draw()
          "\n dir: " .. getPreviousDir() .. " " ..
          str .. " " ..
          str2 .. " " ..
+         "\n Chunk to load: [" .. xchunk .. "][".. ychunk .."]" ..
          "\n GPU: " .. device .. " " ..
          "\n CPU cores: " .. love.system.getProcessorCount( ) .. 
          "\n Max atlas size: " .. limits.texturesize .. " " ..
