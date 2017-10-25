@@ -20,6 +20,7 @@ function ScreenToIsoY(globalX, globalY)
     return (((globalY - IsoY) / (tile_height/2)) - ((globalX - IsoX) / (tile_width/2))) / 2;
 end
 
+
 function IsoToScreenX(xx, yy) 
     return IsoX + ((xx - yy) * tile_width/2); end
 

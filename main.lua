@@ -33,12 +33,15 @@ function love.update(dt)
     ---------------------------------------
     mx, my = love.mouse.getPosition();  
     LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)); LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview)); 
+    CenterX = math.round(ScreenToIsoX(window_width/2-16+view_xview, window_height/2-8+view_yview)); CenterY = math.round(ScreenToIsoY(window_width/2-16+view_xview, window_height/2-8+view_yview));
     ---------------------------------------
     iso.update();
     objects.update();
     
-xchunk = math.ceil((view_xview+800)/(chunk_width*tile_width))
-ychunk = math.ceil((view_yview+600)/(chunk_width*tile_height))
+--xchunk = math.ceil((view_xview+800)/(chunk_width*tile_width));
+--ychunk = math.ceil((view_yview+600)/(chunk_width*tile_height));
+xchunk = math.floor(CenterX/(chunk_width-1));
+ychunk = math.floor(CenterY/(chunk_width-1));
 current_chunk_x = xchunk;
 current_chunk_y = ychunk;
 
@@ -63,6 +66,7 @@ function love.draw()
     terrain.draw();
     objects.draw();
     love.graphics.draw(image,IsoToScreenX(LocalX,LocalY)-view_xview,IsoToScreenY(LocalX,LocalY)-view_yview,nil,scale_x);
+    love.graphics.draw(image,IsoToScreenX(CenterX,CenterY)-view_xview,IsoToScreenY(CenterX,CenterY)-view_yview,nil,scale_x);
     --draw_objects();
     
     local stats = love.graphics.getStats()
@@ -82,7 +86,7 @@ function love.draw()
          "\n dir: " .. getPreviousDir() .. " " ..
          str .. " " ..
          str2 .. " " ..
-         "\n Chunk to load: [" .. xchunk .. "][".. ychunk .."]" ..
+         "\n Center chunk: [" .. xchunk .. "][".. ychunk .."]" ..
          "\n GPU: " .. device .. " " ..
          "\n CPU cores: " .. love.system.getProcessorCount( ) .. 
          "\n Max atlas size: " .. limits.texturesize .. " " ..
