@@ -2,6 +2,9 @@ require('global');
 local iso = require("iso");
 local terrain, update_terrain = require("terrain");
 local objects, update_objects = require("objects");
+terrain_chunks = nil;
+--terrain_chunks = {next = terrain_chunks, chunkx = 0, chunky = 0}
+chunkUpdateList()
 testvar = -4;
 --debug.setmetatable(nil, { __index={} }); -- to avoid nil errors
 function love.load()
@@ -35,24 +38,28 @@ function love.update(dt)
     LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)); LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview)); 
     CenterX = math.round(ScreenToIsoX(window_width/2-16+view_xview, window_height/2-8+view_yview)); CenterY = math.round(ScreenToIsoY(window_width/2-16+view_xview, window_height/2-8+view_yview));
     ---------------------------------------
-    iso.update();
+    xchunk = math.floor(CenterX/(chunk_width-1));
+    ychunk = math.floor(CenterY/(chunk_width-1));
+    current_chunk_x = xchunk;
+    current_chunk_y = ychunk;
+    if previous_chunk_x ~= current_chunk_x or previous_chunk_y ~= current_chunk_y then 
+        --terrain.update()
+        chunkUpdateList()
+    end
+    previous_chunk_x = current_chunk_x;
+    previous_chunk_y = current_chunk_y;
+    ---------------------------------------
+    iso.update();    
     objects.update();
     
 --xchunk = math.ceil((view_xview+800)/(chunk_width*tile_width));
 --ychunk = math.ceil((view_yview+600)/(chunk_width*tile_height));
-xchunk = math.floor(CenterX/(chunk_width-1));
-ychunk = math.floor(CenterY/(chunk_width-1));
-current_chunk_x = xchunk;
-current_chunk_y = ychunk;
 
     ---------------------------------------
     if love.keyboard.isDown('w')  then --BENCHMARK
-        for i=0,chunk_width-1,1 do
-          for o=0,chunk_height-1,1 do
-              terrain.chunk[i][o]=11;
-          end
-        end
-        dttime = love.timer.getAverageDelta();
+    print("_____________")
+        printList(terrain_chunks);
+    print("_____________")
     end
 
 end

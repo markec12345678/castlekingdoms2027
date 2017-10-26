@@ -3,6 +3,8 @@ local first_location_x, first_location_y, last_location_x, last_location_y = 0;
 local location_distance = 0;
 local angle; 
 
+
+
 	--Terrain Initialize
 	----Rows and columns
             local cols = chunk_width;
@@ -28,16 +30,15 @@ local angle;
 			
 			for i=0,chunk_width-1,1 do
     			for o=0,chunk_height-1,1 do
-					terrain[1][1][i][o]=love.math.random(1);
+					terrain[0][0][i][o]=love.math.random(10);
 				end
 			end
 
 			-- Statuses:
-			-- loaded saved
-			-- loaded unsaved
-			-- unloaded - chunk exist on hard disk
+			-- [1] loaded unsaved
+			-- [2] unloaded - chunk exist on hard disk
 			-- nil - chunk needs to be generated first
-			status[1][1] = "loaded unsaved"
+			status[0][0] = 1
 			
 	----Generate spriteBatch
 	        local terrain_image = love.graphics.newImage( "assets/tiles/image_strip.png" );
@@ -81,38 +82,151 @@ function getLocationDistance()
 	return location_distance or 0;
 end
 
-local function generateTerrain()
-
-end
 
 local function update_terrain(chunk_x,chunk_y)
+	chunk_x = chunk_x or current_chunk_x;
+	chunk_y = chunk_y or current_chunk_y;
 	if terrain_batch[chunk_x][chunk_y] == nil then 
 		terrain_batch[chunk_x][chunk_y] = love.graphics.newSpriteBatch(terrain_image, chunk_width*chunk_height)
+		print("Made a terrain_batch for "..chunk_x.." and "..chunk_y)
 	end
 	terrain_batch[chunk_x][chunk_y]:clear(); 
 	for i=0,chunk_width-1,1 do
 		for o=0,chunk_height-1,1 do
 		terrain_batch[chunk_x][chunk_y]:add(
-							tile_quads[terrain[chunk_x][chunk_y][i][o]], 
+							tile_quads[terrain[chunk_x][chunk_y][i][o] or 1], 
 							IsoX + (i - o) * tile_width  * 0.5,
-							IsoY + (i + o) * tile_height * 0.5 - tile_offset[terrain[chunk_x][chunk_y][i][o]]
+							IsoY + (i + o) * tile_height * 0.5 - (tile_offset[terrain[chunk_x][chunk_y][i][o]] or 0)
 							);
 		end
 	end				  
 	terrain_batch[chunk_x][chunk_y]:flush()
 end
 
+local function updateLoopTerrain()
+	-- if status[current_chunk_x][current_chunk_y] == nil then
+	-- 	for i=0,chunk_width-1,1 do
+	-- 		for o=0,chunk_height-1,1 do
+	-- 			terrain[current_chunk_x][current_chunk_y][i][o]=love.math.random(10);
+	-- 		end
+	-- 	end
+	-- 	status[current_chunk_x][current_chunk_y] = 1;
+	-- 	update_terrain(current_chunk_x,current_chunk_y)
+	-- end
+end
+
+local function genTerrain(cx,cy)
+	--if status[cx][cy] == nil then
+		for i=0,chunk_width-1,1 do
+			for o=0,chunk_height-1,1 do
+				terrain[cx][cy][i][o]=love.math.random(10);
+			end
+		end
+		--status[cx][cy] = 1;
+		update_terrain(cx,cy)
+	--end
+end
+
+local function chunkUnload(x,y)
+	local l = terrain_chunks
+	local previous = nil;
+	local first = true;
+	while l do
+		if (l.chunkx == x and l.chunky == y) then
+			l.chunkx = nil
+			l.chunky = nil
+			l.next = nil
+			collectgarbage()
+			print(collectgarbage('count'))
+			terrain_batch[x][y] = nil;	
+			for i=0,chunk_width-1,1 do
+			for o=0,chunk_height-1,1 do
+				terrain[x][y]=nil;
+			end
+			end	
+			collectgarbage()
+			print(collectgarbage('count'))
+			if first then first = false elseif first == false then
+				previous.next = l.next  
+			end  
+		end
+	previous = l
+	l = l.next
+	end
+end
+
+local function chunkLoad(x,y,list)
+	list = {next = list, chunkx = x, chunky = y}
+	print("Loading chunk: "..x.."|"..y)
+end
+
+function chunkUpdateList()
+	local l = terrain_chunks;			
+	while l do
+		print("Unloading chunk: "..l.chunkx.."|"..l.chunky)
+		chunkUnload(l.chunkx,l.chunky)
+		l = l.next
+	end		
+	terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x+1, chunky = current_chunk_y+0}
+	terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x+1, chunky = current_chunk_y+1}
+	terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x+1, chunky = current_chunk_y-1}
+	terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x-1, chunky = current_chunk_y+0}
+	terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x-1, chunky = current_chunk_y+1}
+	terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x-1, chunky = current_chunk_y-1}
+	terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x, chunky = current_chunk_y+0}
+	terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x, chunky = current_chunk_y+1}
+	terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x, chunky = current_chunk_y-1}
+	terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x, chunky = current_chunk_y}
+	genTerrain(current_chunk_x+1,current_chunk_y+0)
+	genTerrain(current_chunk_x+1,current_chunk_y-1)
+	genTerrain(current_chunk_x+1,current_chunk_y+1)
+	genTerrain(current_chunk_x-1,current_chunk_y+0)
+	genTerrain(current_chunk_x-1,current_chunk_y-1)
+	genTerrain(current_chunk_x-1,current_chunk_y+1)
+	genTerrain(current_chunk_x,current_chunk_y+0)
+	genTerrain(current_chunk_x,current_chunk_y+1)
+	genTerrain(current_chunk_x,current_chunk_y-1)
+	genTerrain(current_chunk_x,current_chunk_y)
+	update_terrain(current_chunk_x+1,current_chunk_y+0)
+	update_terrain(current_chunk_x+1,current_chunk_y+1)
+	update_terrain(current_chunk_x+1,current_chunk_y-1)
+	update_terrain(current_chunk_x-1,current_chunk_y+0)
+	update_terrain(current_chunk_x-1,current_chunk_y+1)
+	update_terrain(current_chunk_x-1,current_chunk_y-1)
+	update_terrain(current_chunk_x,current_chunk_y+0)
+	update_terrain(current_chunk_x,current_chunk_y+1)
+	update_terrain(current_chunk_x,current_chunk_y-1)
+	update_terrain(current_chunk_x,current_chunk_y)
+	printList(terrain_chunks)
+end
+
+local function chunkDraw()
+	local l = terrain_chunks
+	while l do
+	
+			if l.chunkx == nil or terrain_batch[l.chunkx][l.chunky] == nil then break end;
+  			love.graphics.draw(terrain_batch[l.chunkx][l.chunky], 
+     				-view_xview+(l.chunkx-l.chunky)*chunk_width*30*0.5, 
+					-view_yview+(l.chunkx+l.chunky)*chunk_height*16*0.5
+					, 0, scale_x, scale_y);
+			l = l.next 
+	end
+end 
+
 local function draw_terrain()
-  love.graphics.draw(terrain_batch[0][0], 
+  love.graphics.draw(terrain_batch[current_chunk_x][current_chunk_y], 
      				-view_xview+(current_chunk_x-current_chunk_y)*chunk_width*30*0.5, 
 					-view_yview+(current_chunk_x+current_chunk_y)*chunk_height*16*0.5
 					, 0, scale_x, scale_y); 
+	chunkDraw();
   --love.graphics.draw(terrain_batch,    -view_xview+(current_chunk_x-1)*chunk_width*30, -view_yview+(current_chunk_y-1)*chunk_height*16, 0, scale_x, scale_y); 
 end
 
 update_terrain(0,0);
 
-local tableOfFunctions = {update = t_updateLoop, draw = draw_terrain,chunk = chunk}
+
+
+local tableOfFunctions = {update = updateLoopTerrain, draw = draw_terrain,chunk = chunk}
 return tableOfFunctions, update_terrain
 
 
