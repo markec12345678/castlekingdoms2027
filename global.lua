@@ -24,8 +24,7 @@
                 CenterX = 0;
                 CenterY = 0;
                 previous_chunk_x = 0;
-                previous_chunk_y = 0;                
-                                collectgarbage();
+                previous_chunk_y = 0;              
                 -- list = nil; --warning REMOVE THIS
                 -- list = {next = list, chunkx = current_chunk_x, chunky = current_chunk_y}                
                 -- list = {next = list, chunkx = current_chunk_x-1, chunky = current_chunk_y+1}                
@@ -47,6 +46,6 @@
     ----View
             scale_x = 1;
             scale_y = 1;
-            scroll_speed = 10;
+            scroll_speed = 80;
             window_height = 800;
             window_width = 1200;

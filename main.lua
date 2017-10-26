@@ -38,8 +38,8 @@ function love.update(dt)
     LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)); LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview)); 
     CenterX = math.round(ScreenToIsoX(window_width/2-16+view_xview, window_height/2-8+view_yview)); CenterY = math.round(ScreenToIsoY(window_width/2-16+view_xview, window_height/2-8+view_yview));
     ---------------------------------------
-    xchunk = math.floor(CenterX/(chunk_width-1));
-    ychunk = math.floor(CenterY/(chunk_width-1));
+    xchunk = math.floor(CenterX/(chunk_width));
+    ychunk = math.floor(CenterY/(chunk_width));
     current_chunk_x = xchunk;
     current_chunk_y = ychunk;
     if previous_chunk_x ~= current_chunk_x or previous_chunk_y ~= current_chunk_y then 
@@ -73,7 +73,7 @@ function love.draw()
     terrain.draw();
     objects.draw();
     love.graphics.draw(image,IsoToScreenX(LocalX,LocalY)-view_xview,IsoToScreenY(LocalX,LocalY)-view_yview,nil,scale_x);
-    love.graphics.draw(image,IsoToScreenX(CenterX,CenterY)-view_xview,IsoToScreenY(CenterX,CenterY)-view_yview,nil,scale_x);
+    --love.graphics.draw(image,IsoToScreenX(CenterX,CenterY)-view_xview,IsoToScreenY(CenterX,CenterY)-view_yview,nil,scale_x);
     --draw_objects();
     
     local stats = love.graphics.getStats()
@@ -86,8 +86,8 @@ function love.draw()
         love.graphics.print(
          "\n LocalX: " .. LocalX ..
          "\n LocalY: " .. LocalY ..
-         "\n scale_x: " .. scale_x ..
-         "\n scale_y: " .. scale_y ..
+         "\n viewx: " .. view_xview ..
+         "\n viewy: " .. view_yview ..
          "\n previous distance: " .. (getPreviousDistance()) .. " meters" ..
          "\n location_distance: " .. (getLocation() or 0) .. " meters" ..
          "\n dir: " .. getPreviousDir() .. " " ..
