@@ -120,22 +120,36 @@ end
 
 local function genTerrain(cx,cy)
 	--if status[cx][cy] == nil then
+	local chunk_x = cx or current_chunk_x;
+	local chunk_y = cy or current_chunk_y;
 	
-	local time = love.timer.getTime( )
+	if terrain_batch[chunk_x][chunk_y] == nil then 
+		terrain_batch[chunk_x][chunk_y] = love.graphics.newSpriteBatch(terrain_image, chunk_width*chunk_height)
+		--print("Made a terrain_batch for "..chunk_x.." and "..chunk_y)
+	end
+	terrain_batch[chunk_x][chunk_y]:clear();	
+
+	--local time = love.timer.getTime( )
 		for i=0,chunk_width-1,1 do
 			for o=0,chunk_height-1,1 do
-				terrain[cx][cy][i][o]=math.random(10);
+				local rand = math.random(10);
+				terrain[cx][cy][i][o]=rand;				
+				terrain_batch[chunk_x][chunk_y]:add(
+									tile_quads[rand], 
+									IsoX + (i - o) * tile_width  * 0.5,
+									IsoY + (i + o) * tile_height * 0.5 - (tile_offset[terrain[chunk_x][chunk_y][i][o]] or 0)
+									);
 			end
 		end
 		--status[cx][cy] = 1;
-		update_terrain(cx,cy)
+		--update_terrain(cx,cy)
 	--end
 	
-	print("Time elapsed gen terrain: "..(love.timer.getTime( ) - time)*1000)
+	--print("Time elapsed gen terrain: "..(love.timer.getTime( ) - time)*1000)
 end
 
 local function chunkUnload(x,y)
-	 time = love.timer.getTime( )
+	 --time = love.timer.getTime( )
 	local l = terrain_chunks
 	local previous = nil;
 	local first = true;
@@ -162,77 +176,69 @@ local function chunkUnload(x,y)
 	l = l.next
 	end
 	
-	print("Time elapsed chunk unload: "..(love.timer.getTime( ) - time)*1000)
+	--print("Time elapsed chunk unload: "..(love.timer.getTime( ) - time)*1000)
 end
 
 local function chunkLoad(x,y,list)
 	list = {next = list, chunkx = x, chunky = y}
-	print("Loading chunk: "..x.."|"..y)
+	--print("Loading chunk: "..x.."|"..y)
 end
 
 function chunkUpdateList()
 	local time = love.timer.getTime( )
 	local l = terrain_chunks;			
 	while l do
-		print("Unloading chunk: "..l.chunkx.."|"..l.chunky)
+		--print("Unloading chunk: "..l.chunkx.."|"..l.chunky)
 		chunkUnload(l.chunkx,l.chunky)
 		l = l.next
 	end		
+	
 	--NOTE Remove check for 2 and load from disk instead
 		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x+1, chunky = current_chunk_y+0};
 	if status[current_chunk_x+1][current_chunk_y] == nil or status[current_chunk_x+1][current_chunk_y] == 2 then 
 		genTerrain(current_chunk_x+1,current_chunk_y+0);
-		status[current_chunk_x+1][current_chunk_y] = 1;
-	else  print("Check for chunk "..(current_chunk_x+1).."|"..(current_chunk_y)) end
+		status[current_chunk_x+1][current_chunk_y] = 1; end
 	--NOTE --------------------------------------------
 		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x+1, chunky = current_chunk_y+1}
 	if status[current_chunk_x+1][current_chunk_y+1] == nil or status[current_chunk_x+1][current_chunk_y+1] == 2 then 
 		genTerrain(current_chunk_x+1,current_chunk_y+1)
-		status[current_chunk_x+1][current_chunk_y+1] = 1;
-	else  print("Check for chunk "..(current_chunk_x+1).."|"..(current_chunk_y+1).." has failed") end
+		status[current_chunk_x+1][current_chunk_y+1] = 1; end
 	--NOTE --------------------------------------------
 		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x+1, chunky = current_chunk_y-1}
 	if status[current_chunk_x+1][current_chunk_y-1] == nil or status[current_chunk_x+1][current_chunk_y-1] == 2 then 
 		genTerrain(current_chunk_x+1,current_chunk_y-1)
-		status[current_chunk_x+1][current_chunk_y-1] = 1;
-	else  print("Check for chunk "..(current_chunk_x+1).."|"..(current_chunk_y-1).." has failed") end
+		status[current_chunk_x+1][current_chunk_y-1] = 1; end
 	--NOTE 2--------------------------------------------
 		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x, chunky = current_chunk_y+1}
 	if status[current_chunk_x][current_chunk_y+1] == nil or status[current_chunk_x][current_chunk_y+1] == 2 then 
 		genTerrain(current_chunk_x,current_chunk_y+1)
-		status[current_chunk_x][current_chunk_y+1] = 1;
-	else  print("Check for chunk "..(current_chunk_x).."|"..(current_chunk_y+1).." has failed") end
+		status[current_chunk_x][current_chunk_y+1] = 1; end
 	--NOTE --------------------------------------------
 		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x, chunky = current_chunk_y}
 	if status[current_chunk_x][current_chunk_y] == nil or status[current_chunk_x][current_chunk_y] == 2 then 
 		genTerrain(current_chunk_x,current_chunk_y)
-		status[current_chunk_x][current_chunk_y] = 1;
-	else  print("Check for chunk "..(current_chunk_x).."|"..(current_chunk_y).." has failed") end
+		status[current_chunk_x][current_chunk_y] = 1; end
 	--NOTE --------------------------------------------
 		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x, chunky = current_chunk_y-1}
 	if status[current_chunk_x][current_chunk_y-1] == nil or status[current_chunk_x][current_chunk_y-1] == 2 then 
 		genTerrain(current_chunk_x,current_chunk_y-1)
-		status[current_chunk_x][current_chunk_y-1] = 1;
-	else  print("Check for chunk "..(current_chunk_x).."|"..(current_chunk_y-1).." has failed") end
+		status[current_chunk_x][current_chunk_y-1] = 1; end
 	--NOTE 3--------------------------------------------
 		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x-1, chunky = current_chunk_y+1}
 	if status[current_chunk_x-1][current_chunk_y+1] == nil or status[current_chunk_x-1][current_chunk_y+1] == 2 then 
 		genTerrain(current_chunk_x-1,current_chunk_y+1)
-		status[current_chunk_x-1][current_chunk_y+1] = 1;
-	else  print("Check for chunk "..(current_chunk_x-1).."|"..(current_chunk_y+1).." has failed") end
+		status[current_chunk_x-1][current_chunk_y+1] = 1; end
 	--NOTE --------------------------------------------
 		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x-1, chunky = current_chunk_y}
 	if status[current_chunk_x-1][current_chunk_y] == nil or status[current_chunk_x-1][current_chunk_y] == 2 then 
 		genTerrain(current_chunk_x-1,current_chunk_y)
-		status[current_chunk_x-1][current_chunk_y] = 1;
-	else  print("Check for chunk "..(current_chunk_x-1).."|"..(current_chunk_y).." has failed") end
+		status[current_chunk_x-1][current_chunk_y] = 1; end
 	--NOTE --------------------------------------------
 		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x-1, chunky = current_chunk_y-1}
 	if status[current_chunk_x-1][current_chunk_y-1] == nil or status[current_chunk_x-1][current_chunk_y-1] == 2 then 
 		genTerrain(current_chunk_x-1,current_chunk_y-1)
-		status[current_chunk_x-1][current_chunk_y-1] = 1;
-	else  print("Check for chunk "..(current_chunk_x-1).."|"..(current_chunk_y-1).." has failed") end
-	printList(terrain_chunks)
+		status[current_chunk_x-1][current_chunk_y-1] = 1; end
+	--printList(terrain_chunks)
 	print("Time elapsed: "..(love.timer.getTime( ) - time)*1000)
 end
 

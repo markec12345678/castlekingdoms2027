@@ -46,6 +46,6 @@
     ----View
             scale_x = 1;
             scale_y = 1;
-            scroll_speed = 80;
+            scroll_speed = 1000;
             window_height = 800;
             window_width = 1200;
