@@ -5,28 +5,12 @@ local objects, update_objects = require("objects");
 terrain_chunks = nil;
 --terrain_chunks = {next = terrain_chunks, chunkx = 0, chunky = 0}
 chunkUpdateList()
-testvar = -4;
---debug.setmetatable(nil, { __index={} }); -- to avoid nil errors
 function love.load()
     next_time = love.timer.getTime();
     min_dt = 1/60;
 	--Version, title and window information
 	    width, height, flags = love.window.getMode();
-      --love.window.setMode(800, 600, {vsync=true, fullscreen=false})
-	    love.window.setTitle( "Stronghold Empires");
 	    image = love.graphics.newImage( "assets/tiles/collection148.png" )
-	    view_xview = 0;
-	    view_yview = 0;
-	    mx = 0;
-	    my = 0;
-	    LocalX = 0;
-	    LocalY = 0;
-      time = 0;
-      dttime = 0;
-
-    require("socket"); --ONLY FOR BENCHMARK
-	--setup_terrain();
-    --setup_objects();
 end
 
 
@@ -36,14 +20,13 @@ function love.update(dt)
     ---------------------------------------
     mx, my = love.mouse.getPosition();  
     LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)); LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview)); 
-    CenterX = math.round(ScreenToIsoX(window_width/2-16+view_xview, window_height/2-8+view_yview)); CenterY = math.round(ScreenToIsoY(window_width/2-16+view_xview, window_height/2-8+view_yview));
+    CenterX = math.round(ScreenToIsoX(width/2-16+view_xview, height/2-8+view_yview)); CenterY = math.round(ScreenToIsoY(width/2-16+view_xview,height/2-8+view_yview));
     ---------------------------------------
     xchunk = math.floor(CenterX/(chunk_width));
     ychunk = math.floor(CenterY/(chunk_width));
     current_chunk_x = xchunk;
     current_chunk_y = ychunk;
     if previous_chunk_x ~= current_chunk_x or previous_chunk_y ~= current_chunk_y then 
-        --terrain.update()
         chunkUpdateList()
     end
     previous_chunk_x = current_chunk_x;
@@ -51,10 +34,6 @@ function love.update(dt)
     ---------------------------------------
     iso.update();    
     objects.update();
-    
---xchunk = math.ceil((view_xview+800)/(chunk_width*tile_width));
---ychunk = math.ceil((view_yview+600)/(chunk_width*tile_height));
-
     ---------------------------------------
     if love.keyboard.isDown('w')  then --BENCHMARK
     print("_____________")
@@ -73,8 +52,6 @@ function love.draw()
     terrain.draw();
     objects.draw();
     love.graphics.draw(image,IsoToScreenX(LocalX,LocalY)-view_xview,IsoToScreenY(LocalX,LocalY)-view_yview,nil,scale_x);
-    --love.graphics.draw(image,IsoToScreenX(CenterX,CenterY)-view_xview,IsoToScreenY(CenterX,CenterY)-view_yview,nil,scale_x);
-    --draw_objects();
     
     local stats = love.graphics.getStats()
  

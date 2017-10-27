@@ -24,28 +24,21 @@
                 CenterX = 0;
                 CenterY = 0;
                 previous_chunk_x = 0;
-                previous_chunk_y = 0;              
-                -- list = nil; --warning REMOVE THIS
-                -- list = {next = list, chunkx = current_chunk_x, chunky = current_chunk_y}                
-                -- list = {next = list, chunkx = current_chunk_x-1, chunky = current_chunk_y+1}                
-                -- list = {next = list, chunkx = current_chunk_x+1, chunky = current_chunk_y-1}                
-                -- list = {next = list, chunkx = current_chunk_x+1, chunky = current_chunk_y+1}
-                -- local l = list
-                
-                
-                
-                -- local l = list
-                -- while l do
-                -- print(l.chunkx.."|"..l.chunky)
-                -- l = l.next
-                -- end
-                
+                previous_chunk_y = 0;                                  
     ----Offset
             IsoX = 0;
             IsoY = 0;
     ----View
             scale_x = 1;
             scale_y = 1;
-            scroll_speed = 1000;
+            scroll_speed = 100;
             window_height = 800;
-            window_width = 1200;
+            window_width = 1200;  
+            view_xview = 0;
+	    view_yview = 0;
+	    mx = 0;
+	    my = 0;
+	    LocalX = 0;
+	    LocalY = 0;
+      time = 0;
+      dttime = 0;

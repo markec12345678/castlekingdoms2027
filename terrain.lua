@@ -2,8 +2,7 @@
 local first_location_x, first_location_y, last_location_x, last_location_y = 0;
 local location_distance = 0;
 local angle; 
-
-	
+previous_terrain_chunks = nil;
 
 	--Terrain Initialize
 	----Rows and columns
@@ -12,33 +11,11 @@ local angle;
 	----Chunk 2D array
 			local terrain = newAutotable(4);
 			local status = newAutotable(2);
-			-- for y = 0,10 do
-            --     local row = {}
-            --         for x = 0,10 do
-			-- 			local chunk = {} 
-			-- 			for yy = 0,cols do
-			-- 				local rowss = {}
-			-- 					for xx = 0,rows do
-			-- 						rowss[x]=love.math.random(10);
-			-- 					end
-			-- 				chunk[y]=row;
-			-- 			end
-            --             row[x]=chunk;
-            --         end
-            --     terrain[y]=row;
-            -- end
-			
-			for i=0,chunk_width-1,1 do
-    			for o=0,chunk_height-1,1 do
-					terrain[0][0][i][o]=love.math.random(10);
-				end
-			end
 
 			-- Statuses:
 			-- [1] loaded unsaved
 			-- [2] unloaded - chunk exist on hard disk
 			-- nil - chunk needs to be generated first
-			status[0][0] = 1
 			
 	----Generate spriteBatch
 	        local terrain_image = love.graphics.newImage( "assets/tiles/image_strip.png" );
@@ -73,7 +50,6 @@ local angle;
 			terrain_batch[0][0] = love.graphics.newSpriteBatch(terrain_image, chunk_width*chunk_height)
 			
 			
-
 function getTerrainChunk()
 	return chunk or {};
 end
@@ -82,7 +58,7 @@ function getLocationDistance()
 	return location_distance or 0;
 end
 
-
+-- NOTE -- deprecated
 local function update_terrain(chunk_x,chunk_y)
 	local time = love.timer.getTime()
 	chunk_x = chunk_x or current_chunk_x;
@@ -90,7 +66,6 @@ local function update_terrain(chunk_x,chunk_y)
 	
 	if terrain_batch[chunk_x][chunk_y] == nil then 
 		terrain_batch[chunk_x][chunk_y] = love.graphics.newSpriteBatch(terrain_image, chunk_width*chunk_height)
-		print("Made a terrain_batch for "..chunk_x.." and "..chunk_y)
 	end
 	terrain_batch[chunk_x][chunk_y]:clear(); 
 	for i=0,chunk_width-1,1 do
@@ -102,34 +77,16 @@ local function update_terrain(chunk_x,chunk_y)
 							);
 		end
 	end				  
-	
-	print("Time elapsed for update terrain: "..(love.timer.getTime( ) - time)*1000)
-end
-
-local function updateLoopTerrain()
-	-- if status[current_chunk_x][current_chunk_y] == nil then
-	-- 	for i=0,chunk_width-1,1 do
-	-- 		for o=0,chunk_height-1,1 do
-	-- 			terrain[current_chunk_x][current_chunk_y][i][o]=love.math.random(10);
-	-- 		end
-	-- 	end
-	-- 	status[current_chunk_x][current_chunk_y] = 1;
-	-- 	update_terrain(current_chunk_x,current_chunk_y)
-	-- end
 end
 
 local function genTerrain(cx,cy)
-	--if status[cx][cy] == nil then
 	local chunk_x = cx or current_chunk_x;
 	local chunk_y = cy or current_chunk_y;
 	
 	if terrain_batch[chunk_x][chunk_y] == nil then 
 		terrain_batch[chunk_x][chunk_y] = love.graphics.newSpriteBatch(terrain_image, chunk_width*chunk_height)
-		--print("Made a terrain_batch for "..chunk_x.." and "..chunk_y)
 	end
 	terrain_batch[chunk_x][chunk_y]:clear();	
-
-	--local time = love.timer.getTime( )
 		for i=0,chunk_width-1,1 do
 			for o=0,chunk_height-1,1 do
 				local rand = math.random(10);
@@ -141,33 +98,74 @@ local function genTerrain(cx,cy)
 									);
 			end
 		end
-		--status[cx][cy] = 1;
-		--update_terrain(cx,cy)
-	--end
-	
-	--print("Time elapsed gen terrain: "..(love.timer.getTime( ) - time)*1000)
+end
+
+local function chunkGarbageCollect()
+		terrain[current_chunk_x+2][current_chunk_y-2] = nil;
+		terrain[current_chunk_x+2][current_chunk_y-1] = nil;
+		terrain[current_chunk_x+2][current_chunk_y] = nil;
+		terrain[current_chunk_x+2][current_chunk_y+1] = nil;
+		terrain[current_chunk_x+2][current_chunk_y+2] = nil;
+		terrain_batch[current_chunk_x+2][current_chunk_y-2] = nil;
+		terrain_batch[current_chunk_x+2][current_chunk_y-1] = nil;
+		terrain_batch[current_chunk_x+2][current_chunk_y] = nil;
+		terrain_batch[current_chunk_x+2][current_chunk_y+1] = nil;
+		terrain_batch[current_chunk_x+2][current_chunk_y+2] = nil;
+		status[current_chunk_x+2][current_chunk_y-2] = nil;
+		status[current_chunk_x+2][current_chunk_y-1] = nil;
+		status[current_chunk_x+2][current_chunk_y] = nil;
+		status[current_chunk_x+2][current_chunk_y+1] = nil;
+		status[current_chunk_x+2][current_chunk_y+2] = nil;
+		
+		terrain[current_chunk_x-2][current_chunk_y-2] = nil;
+		terrain[current_chunk_x-2][current_chunk_y-1] = nil;
+		terrain[current_chunk_x-2][current_chunk_y] = nil;
+		terrain[current_chunk_x-2][current_chunk_y+1] = nil;
+		terrain[current_chunk_x-2][current_chunk_y+2] = nil;
+		terrain_batch[current_chunk_x-2][current_chunk_y-2] = nil;
+		terrain_batch[current_chunk_x-2][current_chunk_y-1] = nil;
+		terrain_batch[current_chunk_x-2][current_chunk_y] = nil;
+		terrain_batch[current_chunk_x-2][current_chunk_y+1] = nil;
+		terrain_batch[current_chunk_x-2][current_chunk_y+2] = nil;
+		status[current_chunk_x-2][current_chunk_y-2] = nil;
+		status[current_chunk_x-2][current_chunk_y-1] = nil;
+		status[current_chunk_x-2][current_chunk_y] = nil;
+		status[current_chunk_x-2][current_chunk_y+1] = nil;
+		status[current_chunk_x-2][current_chunk_y+2] = nil;
+		
+		terrain[current_chunk_x-1][current_chunk_y-2] = nil;
+		terrain[current_chunk_x][current_chunk_y-2] = nil;
+		terrain[current_chunk_x+1][current_chunk_y-2] = nil;
+		terrain_batch[current_chunk_x-1][current_chunk_y-2] = nil;
+		terrain_batch[current_chunk_x][current_chunk_y-2] = nil;
+		terrain_batch[current_chunk_x+1][current_chunk_y-2] = nil;
+		status[current_chunk_x-1][current_chunk_y-2] = nil;
+		status[current_chunk_x][current_chunk_y-2] = nil;
+		status[current_chunk_x+1][current_chunk_y-2] = nil;
+
+		terrain[current_chunk_x-1][current_chunk_y+2] = nil;
+		terrain[current_chunk_x][current_chunk_y+2] = nil;
+		terrain[current_chunk_x+1][current_chunk_y+2] = nil;
+		terrain_batch[current_chunk_x-1][current_chunk_y+2] = nil;
+		terrain_batch[current_chunk_x][current_chunk_y+2] = nil;
+		terrain_batch[current_chunk_x+1][current_chunk_y+2] = nil;
+		status[current_chunk_x-1][current_chunk_y+2] = nil;
+		status[current_chunk_x][current_chunk_y+2] = nil;
+		status[current_chunk_x+1][current_chunk_y+2] = nil;
+
+
+		collectgarbage();
 end
 
 local function chunkUnload(x,y)
-	 --time = love.timer.getTime( )
 	local l = terrain_chunks
 	local previous = nil;
 	local first = true;
 	while l do
-		if (l.chunkx == x and l.chunky == y) then
+		if (l.chunkx == x and l.chunky == y ) then
 			l.chunkx = nil
 			l.chunky = nil
 			l.next = nil
-			-- collectgarbage()
-			-- print(collectgarbage('count'))
-			-- terrain_batch[x][y] = nil;	
-			-- for i=0,chunk_width-1,1 do
-			-- for o=0,chunk_height-1,1 do
-			-- 	terrain[x][y]=nil;
-			-- end
-			-- end	
-			-- collectgarbage()
-			-- print(collectgarbage('count'))
 			if first == true then first = false elseif first == false then
 				previous.next = l.next  
 			end  
@@ -175,24 +173,16 @@ local function chunkUnload(x,y)
 	previous = l
 	l = l.next
 	end
-	
-	--print("Time elapsed chunk unload: "..(love.timer.getTime( ) - time)*1000)
 end
 
-local function chunkLoad(x,y,list)
-	list = {next = list, chunkx = x, chunky = y}
-	--print("Loading chunk: "..x.."|"..y)
-end
 
 function chunkUpdateList()
-	local time = love.timer.getTime( )
-	local l = terrain_chunks;			
+	local l = terrain_chunks;	
 	while l do
-		--print("Unloading chunk: "..l.chunkx.."|"..l.chunky)
 		chunkUnload(l.chunkx,l.chunky)
 		l = l.next
 	end		
-	
+	chunkGarbageCollect();
 	--NOTE Remove check for 2 and load from disk instead
 		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x+1, chunky = current_chunk_y+0};
 	if status[current_chunk_x+1][current_chunk_y] == nil or status[current_chunk_x+1][current_chunk_y] == 2 then 
@@ -238,14 +228,11 @@ function chunkUpdateList()
 	if status[current_chunk_x-1][current_chunk_y-1] == nil or status[current_chunk_x-1][current_chunk_y-1] == 2 then 
 		genTerrain(current_chunk_x-1,current_chunk_y-1)
 		status[current_chunk_x-1][current_chunk_y-1] = 1; end
-	--printList(terrain_chunks)
-	print("Time elapsed: "..(love.timer.getTime( ) - time)*1000)
 end
 
 local function chunkDraw()
 	local l = terrain_chunks
 	while l do
-	
 			if l.chunkx == nil or terrain_batch[l.chunkx][l.chunky] == nil then break end;
   			love.graphics.draw(terrain_batch[l.chunkx][l.chunky], 
      				-view_xview+(l.chunkx-l.chunky)*chunk_width*30*0.5, 
@@ -256,19 +243,13 @@ local function chunkDraw()
 end 
 
 local function draw_terrain()
-  love.graphics.draw(terrain_batch[current_chunk_x][current_chunk_y], 
-     				-view_xview+(current_chunk_x-current_chunk_y)*chunk_width*30*0.5, 
-					-view_yview+(current_chunk_x+current_chunk_y)*chunk_height*16*0.5
-					, 0, scale_x, scale_y); 
 	chunkDraw();
-  --love.graphics.draw(terrain_batch,    -view_xview+(current_chunk_x-1)*chunk_width*30, -view_yview+(current_chunk_y-1)*chunk_height*16, 0, scale_x, scale_y); 
 end
 
-update_terrain(0,0);
 
 
 
-local tableOfFunctions = {update = updateLoopTerrain, draw = draw_terrain,chunk = chunk}
+local tableOfFunctions = { draw = draw_terrain,chunk = chunk}
 return tableOfFunctions, update_terrain
 
 
