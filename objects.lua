@@ -3,6 +3,8 @@ local previous_distance, location_distance = 0;
 local previous_dir = 'none';
 local angle; 
 local location = {
+	gx = 0,
+	gy = 0,
 	x = 0,
 	y = 0,
 	cx = 0, 
@@ -112,6 +114,7 @@ local function update_objects(cx,cy)
     end
   end				  
   object_batch[chunk_x][chunk_y]:flush()
+  shadow_batch[chunk_x][chunk_y]:flush()
 end
 
 
@@ -184,10 +187,9 @@ local function remove_diagonal_walls()
 end
 
 local function generate_wall_piece()
-    local i, o;
 	--NOTE-- EAST
 	if ((angle >= 315+22 and angle <= 359) or (angle >=0 and angle <= 45-22)) then
-		location_distance = last_location.x-first_location.x;
+		location_distance = last_location.gx-first_location.gx;
 		if previous_dir == 'west' then
 			for o=0,first_location.x,1 do
 				if object[first_location.cx][first_location.cy][first_location.x-o][first_location.y] == 2 then	
@@ -218,11 +220,35 @@ local function generate_wall_piece()
 				end
 			end
 		else
-			for i=0,location_distance,1 do
-				if object[first_location.cx][first_location.cy][first_location.x+i][first_location.y] == 0 then	
-					object[first_location.cx][first_location.cy][first_location.x+i][first_location.y] = 2; 
+			local total_chunks_to_traverse = (last_location.cx-first_location.cx);
+			if total_chunks_to_traverse <= 0 then
+				for i=0,location_distance,1 do
+					if object[first_location.cx][first_location.cy][first_location.x+i][first_location.y] == 0 then	
+						object[first_location.cx][first_location.cy][first_location.x+i][first_location.y] = 2; 
+					end
+	    			update_objects(first_location.cx,first_location.cy);
+				end
+			else
+				for p=1,total_chunks_to_traverse do --start from 1 because we skip the first chunk
+					-- if p ~= total_chunks_to_traverse then 
+					-- 	for i=0,chunk_width,1 do
+					-- 		if object[first_location.cx+p][first_location.cy][first_location.x+i][first_location.y] == 0 then	
+					-- 			object[first_location.cx+p][first_location.cy][first_location.x+i][first_location.y] = 2; 
+					-- 		end
+					-- 	end
+					-- else
+					print("Chunk: "..p,LocalX%chunk_width)
+						for i=0,LocalX % chunk_width,1 do
+							if object[first_location.cx+p][first_location.cy][first_location.x+i][first_location.y] == 0 then	
+								object[first_location.cx+p][first_location.cy][i][first_location.y] = 2; 
+							end
+						end
+					-- end					
+	    			update_objects(first_location.cx+p,first_location.cy);
 				end
 			end
+			
+			print("Chunks to traverse: "..total_chunks_to_traverse.." because "..last_location.cx,first_location.cx)
 		end
 	--NOTE-- WEST
 	elseif (angle >= 135+22 and angle <= 225-22) then
@@ -545,14 +571,24 @@ local function build_wall_piece()
 end
 
 local function draw_object()
-	--love.graphics.setCanvas(canvas)
-	--love.graphics.clear()
-  --love.graphics.draw(shadow_batch,    -view_xview, -view_yview, 0, scale_x, scale_y);
-	--love.graphics.setCanvas()
+	love.graphics.setCanvas(canvas)
+	love.graphics.clear()
+	local l1 = terrain_chunks
+		while l1 do
+			if l1.chunkx ~= nil and shadow_batch[l1.chunkx][l1.chunky] ~= nil then  
+				love.graphics.draw(shadow_batch[l1.chunkx][l1.chunky], 
+						-view_xview+(l1.chunkx-l1.chunky)*chunk_width*30*0.5, 
+						-view_yview+(l1.chunkx+l1.chunky)*chunk_height*16*0.5
+						, 0, scale_x, scale_y);
+			end;
+				l1 = l1.next 
+		end
+  	--love.graphics.draw(shadow_batch[0][0],    -view_xview, -view_yview, 0, scale_x, scale_y);
+	love.graphics.setCanvas()
 	
-	-- love.graphics.setColor(255,255,255,50)
-	-- love.graphics.draw(canvas,0,0)
-	-- love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(255,255,255,50)
+	love.graphics.draw(canvas,0,0)
+	love.graphics.setColor(255,255,255,255)
 	local l = terrain_chunks
 	while l do
 			if l.chunkx == nil or object_batch[l.chunkx][l.chunky] == nil then break end;
@@ -565,58 +601,63 @@ local function draw_object()
 end
 
 local function mousereleased(x, y, button, istouch)
-   if button == 1 --and LocalX >=0 and LocalY>=0 and LocalX<chunk_width and LocalY<chunk_height 
-   then 
+   if button == 1 then 
    		-- TODO remove localx,localy when implementing chunks 
 		mx, my = love.mouse.getPosition(); 
 		LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)); 
 		LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview)); 
-		last_location.x = LocalX % 63;
-		last_location.y = LocalY % 63; 
+		last_location.gx = LocalX;
+		last_location.gy = LocalY;
+		last_location.x = LocalX % chunk_width;
+		last_location.y = LocalY % chunk_width; 
+		last_location.cx = math.ceil(LocalX/chunk_width);
+		last_location.cy = math.ceil(LocalY/chunk_width);
 		location_distance = ((last_location.x-first_location.x)+(last_location.y-first_location.y));
+		location_distance = ((last_location.gx-first_location.gx)+(last_location.gy-first_location.gy));
 		print(location_distance)
-		angle = math.atan2 (last_location.y - first_location.y,last_location.x-first_location.x);
+		angle = math.atan2 (last_location.gy - first_location.gy,last_location.gx-first_location.gx);
 		angle = (angle *180)/math.pi;
 		angle = math.round (angle);
 		if angle<0 then angle = 360+angle end
         build_wall_piece();
+		print(angle)
    end
 end
 
 local function mousepressed(x, y, button, istouch)
-   if button == 1 --and LocalX >=0 and LocalY>=0 and LocalX<chunk_width and LocalY<chunk_height 
-	then 
+   if button == 1 then 
 		mx, my = love.mouse.getPosition(); 
 		LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)); 
 		LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview)); 
+		first_location.gx = LocalX;
+		first_location.gy = LocalY;
 		first_location.x = LocalX % (chunk_width);
 		first_location.y = LocalY % (chunk_width);
-		first_location.cx = current_chunk_x;
-		first_location.cy = current_chunk_y;
-		print("First location: "..first_location.x,first_location.y)
+		first_location.cx = math.floor(LocalX/chunk_width);
+		first_location.cy = math.floor(LocalY/chunk_width);
+		print("First location: "..first_location.cx,first_location.cy)
    end
 end
 
 local function update()
-  if love.mouse.isDown(1) then
-    --if LocalX >=0 and LocalY>=0 and LocalX<chunk_width and LocalY<chunk_height then
-    mx, my = love.mouse.getPosition(); 
+  	if love.mouse.isDown(1) then
+    	mx, my = love.mouse.getPosition(); 
 		LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)); 
-		LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview)); 
+		LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview));  
+		last_location.gx = LocalX;
+		last_location.gy = LocalY;
 		last_location.x = LocalX % (chunk_width);
 		last_location.y = LocalY % (chunk_width); 
-		last_location.cx = current_chunk_x;
-		last_location.cy = current_chunk_y;
-		location_distance = ((last_location.x-first_location.x)+(last_location.y-first_location.y));
-		print(last_location.x,last_location.y)
-		angle = math.atan2 (last_location.y - first_location.y,last_location.x-first_location.x) --* 2;
+		last_location.cx = math.floor(LocalX/chunk_width);
+		last_location.cy = math.floor(LocalY/chunk_width);
+		location_distance = ((last_location.gx-first_location.gx)+(last_location.gy-first_location.gy));
+		--print("Location: "..location_distance)
+		angle = math.atan2 (last_location.gy - first_location.gy,last_location.gx-first_location.gx) --* 2;
 		angle = (angle *180)/math.pi;
 		angle = math.round (angle);
 		if angle<0 then angle = 360+angle end
-		if angle ~= 0 then print(angle) end
         generate_wall_piece();
-    --end
-  end
+  	end
 end
 
 
@@ -634,7 +675,7 @@ function getPreviousDistance()
 	return previous_distance or 0;
 end
 --warning end
-update_objects();
+update_objects(); --note do we need this?
 
 local tableOfFunctions = {
                         update = update, 
