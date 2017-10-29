@@ -2,9 +2,9 @@ require('global');
 local iso = require("iso");
 local terrain, update_terrain = require("terrain");
 local objects, update_objects = require("objects");
-terrain_chunks = nil;
---terrain_chunks = {next = terrain_chunks, chunkx = 0, chunky = 0}
+
 chunkUpdateList()
+
 function love.load()
     next_time = love.timer.getTime();
     min_dt = 1/60;
@@ -76,7 +76,7 @@ function love.draw()
          "\n Max atlas size: " .. limits.texturesize .. " " ..
          "\nCurrent FPS: "..tostring(love.timer.getFPS( ))
          , 0, 0);
-        -- LIMIT THE FPS TO 60
+         -- LIMIT THE FPS TO 60
             local cur_time = love.timer.getTime();
             if next_time <= cur_time then
                 next_time = cur_time;
@@ -96,6 +96,7 @@ function love.mousepressed(x, y, button, istouch)
 end
 
 function love.run()
+
 	if love.math then
 		love.math.setRandomSeed(os.time())
 	end

@@ -12,7 +12,7 @@ previous_terrain_chunks = nil;
 			local terrain = newAutotable(4);
 			local status = newAutotable(2);
 
-			-- Statuses:
+			-- Statuses: --note temporary disabled
 			-- [1] loaded unsaved
 			-- [2] unloaded - chunk exist on hard disk
 			-- nil - chunk needs to be generated first
@@ -82,7 +82,7 @@ end
 local function genTerrain(cx,cy)
 	local chunk_x = cx or current_chunk_x;
 	local chunk_y = cy or current_chunk_y;
-	
+	genObjects(cx,cy); --TODO OPTIMIZE: move genObjects in this loop so we don't loop twice!
 	if terrain_batch[chunk_x][chunk_y] == nil then 
 		terrain_batch[chunk_x][chunk_y] = love.graphics.newSpriteBatch(terrain_image, chunk_width*chunk_height)
 	end
@@ -116,6 +116,11 @@ local function chunkGarbageCollect()
 		status[current_chunk_x+2][current_chunk_y] = nil;
 		status[current_chunk_x+2][current_chunk_y+1] = nil;
 		status[current_chunk_x+2][current_chunk_y+2] = nil;
+		objectClean(current_chunk_x+2,current_chunk_y+2)
+		objectClean(current_chunk_x+2,current_chunk_y+1)
+		objectClean(current_chunk_x+2,current_chunk_y)
+		objectClean(current_chunk_x+2,current_chunk_y-1)
+		objectClean(current_chunk_x+2,current_chunk_y-2)
 		
 		terrain[current_chunk_x-2][current_chunk_y-2] = nil;
 		terrain[current_chunk_x-2][current_chunk_y-1] = nil;
@@ -132,6 +137,11 @@ local function chunkGarbageCollect()
 		status[current_chunk_x-2][current_chunk_y] = nil;
 		status[current_chunk_x-2][current_chunk_y+1] = nil;
 		status[current_chunk_x-2][current_chunk_y+2] = nil;
+		objectClean(current_chunk_x-2,current_chunk_y+2)
+		objectClean(current_chunk_x-2,current_chunk_y+1)
+		objectClean(current_chunk_x-2,current_chunk_y)
+		objectClean(current_chunk_x-2,current_chunk_y-1)
+		objectClean(current_chunk_x-2,current_chunk_y-2)
 		
 		terrain[current_chunk_x-1][current_chunk_y-2] = nil;
 		terrain[current_chunk_x][current_chunk_y-2] = nil;
@@ -142,6 +152,9 @@ local function chunkGarbageCollect()
 		status[current_chunk_x-1][current_chunk_y-2] = nil;
 		status[current_chunk_x][current_chunk_y-2] = nil;
 		status[current_chunk_x+1][current_chunk_y-2] = nil;
+		objectClean(current_chunk_x+1,current_chunk_y-2)
+		objectClean(current_chunk_x,current_chunk_y-2)
+		objectClean(current_chunk_x-1,current_chunk_y-2)
 
 		terrain[current_chunk_x-1][current_chunk_y+2] = nil;
 		terrain[current_chunk_x][current_chunk_y+2] = nil;
@@ -152,8 +165,10 @@ local function chunkGarbageCollect()
 		status[current_chunk_x-1][current_chunk_y+2] = nil;
 		status[current_chunk_x][current_chunk_y+2] = nil;
 		status[current_chunk_x+1][current_chunk_y+2] = nil;
-
-
+		objectClean(current_chunk_x+1,current_chunk_y+2)
+		objectClean(current_chunk_x,current_chunk_y+2)
+		objectClean(current_chunk_x-1,current_chunk_y+2)
+		
 		collectgarbage();
 end
 

@@ -1,6 +1,4 @@
 	----Functions
-            
-
             function printList(list)
                 local l = list;
                 while l do
@@ -11,7 +9,9 @@
 
             function listInsert(list,key1,value1,key2,value2)
                 list = {next = list, key1 = value1, key2 = value2}
-            end
+            end            
+            
+            terrain_chunks = nil;
     ----Tiles
 	        tile_width = 30;
 	        tile_height = 16;
@@ -31,7 +31,7 @@
     ----View
             scale_x = 1;
             scale_y = 1;
-            scroll_speed = 100;
+            scroll_speed = 10;
             window_height = 800;
             window_width = 1200;  
             view_xview = 0;
