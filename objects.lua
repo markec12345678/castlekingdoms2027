@@ -1,5 +1,6 @@
 --local first_location.x, first_location.y, last_location.x, last_location.y = 0;
 local previous_distance, location_distance = 0;
+local previous_total_chunks_to_traverse = 0;
 local previous_dir = 'none';
 local angle; 
 local location = {
@@ -212,43 +213,51 @@ local function generate_wall_piece()
 			remove_diagonal_walls();
 		end
 
-		previous_dir = 'east';	
+		previous_dir = 'east';
+		local total_chunks_to_traverse = (last_location.cx-first_location.cx);
 		if previous_distance > location_distance then
-			for i=location_distance+1,previous_distance,1 do	
-				if object[first_location.cx][first_location.cy][first_location.x+i][first_location.y] == 2 then	
-					object[first_location.cx][first_location.cy][first_location.x+i][first_location.y] = 0;
+			-- for i=location_distance+1,previous_distance,1 do	
+			-- 	if object[first_location.cx][first_location.cy][first_location.x+i][first_location.y] == 2 then	
+			-- 		object[first_location.cx][first_location.cy][first_location.x+i][first_location.y] = 0;
+			-- 	end
+			-- end
+			for p=0,previous_total_chunks_to_traverse do 
+				if p == 0 then 
+					for i=location_distance+1,previous_distance or 0 do
+						if object[first_location.cx][first_location.cy][first_location.x+i][first_location.y] == 2 then	
+							object[first_location.cx][first_location.cy][first_location.x+i][first_location.y] = 0; 
+						end
+						update_objects(first_location.cx,first_location.cy);
+					end
+				else
+						for i=location_distance-(chunk_width-first_location.x)+1-(p-1)*chunk_width,previous_distance-(chunk_width-first_location.x)-(p-1)*chunk_width,1 do
+							if object[first_location.cx+p][first_location.cy][i][first_location.y] == 2 then	
+								object[first_location.cx+p][first_location.cy][i][first_location.y] = 0; 
+							end
+						end
+					update_objects(first_location.cx+p,first_location.cy);
 				end
 			end
 		else
-			local total_chunks_to_traverse = (last_location.cx-first_location.cx);
-				for p=0,total_chunks_to_traverse do --start from 1 because we skip the first chunk
-					-- if p ~= total_chunks_to_traverse then 
-					-- 	for i=0,chunk_width,1 do
-					-- 		if object[first_location.cx+p][first_location.cy][first_location.x+i][first_location.y] == 0 then	
-					-- 			object[first_location.cx+p][first_location.cy][first_location.x+i][first_location.y] = 2; 
-					-- 		end
-					-- 	end
-					-- else
-					if p == 0 then 
-						for i=0,location_distance,1 do
-							if object[first_location.cx][first_location.cy][first_location.x+i][first_location.y] == 0 then	
-								object[first_location.cx][first_location.cy][first_location.x+i][first_location.y] = 2; 
-							end
-							update_objects(first_location.cx,first_location.cy);
+			for p=0,total_chunks_to_traverse do 
+				if p == 0 then 
+					for i=0,location_distance,1 do
+						if object[first_location.cx][first_location.cy][first_location.x+i][first_location.y] == 0 then	
+							object[first_location.cx][first_location.cy][first_location.x+i][first_location.y] = 2; 
 						end
-					else
-						print("LX: "..LocalX%chunk_width)
-							for i=0,LocalX % chunk_width,1 do
-								if object[first_location.cx+p][first_location.cy][i][first_location.y] == 0 then	
-									object[first_location.cx+p][first_location.cy][i][first_location.y] = 2; 
-								end
-							end
-						-- end					
-						update_objects(first_location.cx+p,first_location.cy);
 					end
+					update_objects(first_location.cx,first_location.cy);
+				else
+					for i=0,LocalX % chunk_width,1 do
+						if object[first_location.cx+p][first_location.cy][i][first_location.y] == 0 then	
+							object[first_location.cx+p][first_location.cy][i][first_location.y] = 2; 
+						end
+					end
+					update_objects(first_location.cx+p,first_location.cy);
 				end
-			
-			print("Chunks to traverse: "..total_chunks_to_traverse.." because "..last_location.cx,first_location.cx)
+			end				
+			previous_total_chunks_to_traverse = total_chunks_to_traverse;
+			if previous_total_chunks_to_traverse >= 1 then print("Print: "..previous_total_chunks_to_traverse,location_distance) end
 		end
 	--NOTE-- WEST
 	elseif (angle >= 135+22 and angle <= 225-22) then
