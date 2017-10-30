@@ -221,15 +221,7 @@ local function generate_wall_piece()
 			end
 		else
 			local total_chunks_to_traverse = (last_location.cx-first_location.cx);
-			if total_chunks_to_traverse <= 0 then
-				for i=0,location_distance,1 do
-					if object[first_location.cx][first_location.cy][first_location.x+i][first_location.y] == 0 then	
-						object[first_location.cx][first_location.cy][first_location.x+i][first_location.y] = 2; 
-					end
-	    			update_objects(first_location.cx,first_location.cy);
-				end
-			else
-				for p=1,total_chunks_to_traverse do --start from 1 because we skip the first chunk
+				for p=0,total_chunks_to_traverse do --start from 1 because we skip the first chunk
 					-- if p ~= total_chunks_to_traverse then 
 					-- 	for i=0,chunk_width,1 do
 					-- 		if object[first_location.cx+p][first_location.cy][first_location.x+i][first_location.y] == 0 then	
@@ -237,16 +229,24 @@ local function generate_wall_piece()
 					-- 		end
 					-- 	end
 					-- else
-					print("Chunk: "..p,LocalX%chunk_width)
-						for i=0,LocalX % chunk_width,1 do
-							if object[first_location.cx+p][first_location.cy][first_location.x+i][first_location.y] == 0 then	
-								object[first_location.cx+p][first_location.cy][i][first_location.y] = 2; 
+					if p == 0 then 
+						for i=0,location_distance,1 do
+							if object[first_location.cx][first_location.cy][first_location.x+i][first_location.y] == 0 then	
+								object[first_location.cx][first_location.cy][first_location.x+i][first_location.y] = 2; 
 							end
+							update_objects(first_location.cx,first_location.cy);
 						end
-					-- end					
-	    			update_objects(first_location.cx+p,first_location.cy);
+					else
+						print("LX: "..LocalX%chunk_width)
+							for i=0,LocalX % chunk_width,1 do
+								if object[first_location.cx+p][first_location.cy][i][first_location.y] == 0 then	
+									object[first_location.cx+p][first_location.cy][i][first_location.y] = 2; 
+								end
+							end
+						-- end					
+						update_objects(first_location.cx+p,first_location.cy);
+					end
 				end
-			end
 			
 			print("Chunks to traverse: "..total_chunks_to_traverse.." because "..last_location.cx,first_location.cx)
 		end
@@ -557,17 +557,18 @@ local function generate_wall_piece()
 	    update_objects();
 end
 
-local function build_wall_piece()
-    local i,o;
+local function build_wall_piece(cx,cy)
+	cx = cx or 0;
+	cy = cy or 0;
 		for i=0,chunk_width-1,1 do
 			for o=0,chunk_width-1,1 do
-				if object[first_location.cx][first_location.cy][i][o] == 2 then
-					object[first_location.cx][first_location.cy][i][o] = 1;
+				if object[cx][cy][i][o] == 2 then
+					object[cx][cy][i][o] = 1;
 				end
 			end
 		end
 		previous_distance = 0;
-	    update_objects(first_location.cx,first_location.cy);
+	    update_objects(cx,cy);
 end
 
 local function draw_object()
@@ -620,6 +621,7 @@ local function mousereleased(x, y, button, istouch)
 		angle = math.round (angle);
 		if angle<0 then angle = 360+angle end
         build_wall_piece();
+		if previous_dir == "east" then build_wall_piece(1,0) end
 		print(angle)
    end
 end
