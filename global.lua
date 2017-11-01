@@ -13,7 +13,7 @@
             
             terrain_chunks = nil;
     ----Tiles
-	        tile_width = 30;
+	        tile_width = 32;
 	        tile_height = 16;
     ----Chunks
 	        chunk_width = 64;

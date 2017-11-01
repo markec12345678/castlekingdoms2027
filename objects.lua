@@ -3,6 +3,7 @@ local previous_distance, location_distance = 0;
 local previous_total_chunks_to_traverse = 0;
 local previous_dir = 'none';
 local angle; 
+building_selection = 1;
 local location = {
 	gx = 0,
 	gy = 0,
@@ -52,8 +53,17 @@ local last_location = location:new();
 				tile_quads[4]  = love.graphics.newQuad(733, 1127, 167, 130, imageW,imageH)
 				tile_offset[4] = 114
 				tile_offset_x[4] = 70
-			-- Wall shadow - tremporary [5]
+			-- Wall shadow - temporary [5]
 				tile_quads[5]  = love.graphics.newQuad(482, 1933, 567-482, 1954-1933, imageW,imageH)
+			-- Small castle [6]
+				tile_quads[6]  = love.graphics.newQuad(2034, 1268, 2255-2034, 1464-1268, imageW,imageH)
+				tile_offset[6] = 32+8+16+16+16
+				tile_offset_x[6] = 64+32
+			-- Small castle shadow [7]
+				tile_quads[7]  = love.graphics.newQuad(2252, 1380, 2420-2252, 1470-1380, imageW,imageH)
+			-- Tree shadow [8]
+				tile_quads[8]  = love.graphics.newQuad(2350, 1597, 2523-2350, 1689-1597, imageW,imageH)
+
 
 			object_batch[0][0] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)
 			shadow_batch[0][0] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)		
@@ -105,7 +115,20 @@ local function update_objects(cx,cy)
 		  				tile_quads[5], 
       					IsoX + (i - o) * tile_width  * 0.5+16,
       					IsoY + (i + o) * tile_height * 0.5-4
-						  ); end						
+						  ); 
+				elseif object[chunk_x][chunk_y][i][o] == 6 then 					
+                    shadow_batch[chunk_x][chunk_y]:add(
+		  				tile_quads[7], 
+      					IsoX + (i - o) * tile_width  * 0.5 - 64+16+32-6+32,
+      					IsoY + (i + o) * tile_height * 0.5 + 32-8
+						  ); 
+				elseif object[chunk_x][chunk_y][i][o] == 3 or object[chunk_x][chunk_y][i][o] == 4 then  					
+                    shadow_batch[chunk_x][chunk_y]:add(
+		  				tile_quads[8], 
+      					IsoX + (i - o) * tile_width  * 0.5 - 35,
+      					IsoY + (i + o) * tile_height * 0.5 - 40
+						  ); 
+				end						
                     object_batch[chunk_x][chunk_y]:add(
 		  				tile_quads[object[chunk_x][chunk_y][i][o] or 1], 
       					IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[object[chunk_x][chunk_y][i][o]] or 0),
@@ -114,8 +137,8 @@ local function update_objects(cx,cy)
         end
     end
   end				  
-  object_batch[chunk_x][chunk_y]:flush()
-  shadow_batch[chunk_x][chunk_y]:flush()
+  --object_batch[chunk_x][chunk_y]:flush()
+  --shadow_batch[chunk_x][chunk_y]:flush()
 end
 
 
@@ -257,7 +280,7 @@ local function generate_wall_piece()
 				end
 			end				
 			previous_total_chunks_to_traverse = total_chunks_to_traverse;
-			if previous_total_chunks_to_traverse >= 1 then print("Print: "..previous_total_chunks_to_traverse,location_distance) end
+			--if previous_total_chunks_to_traverse >= 1 then print("Print: "..previous_total_chunks_to_traverse,location_distance) end
 		end
 	--NOTE-- WEST
 	elseif (angle >= 135+22 and angle <= 225-22) then
@@ -587,8 +610,8 @@ local function draw_object()
 		while l1 do
 			if l1.chunkx ~= nil and shadow_batch[l1.chunkx][l1.chunky] ~= nil then  
 				love.graphics.draw(shadow_batch[l1.chunkx][l1.chunky], 
-						-view_xview+(l1.chunkx-l1.chunky)*chunk_width*30*0.5, 
-						-view_yview+(l1.chunkx+l1.chunky)*chunk_height*16*0.5
+						-view_xview+(l1.chunkx-l1.chunky)*chunk_width*tile_width*0.5, 
+						-view_yview+(l1.chunkx+l1.chunky)*chunk_height*tile_height*0.5
 						, 0, scale_x, scale_y);
 			end;
 				l1 = l1.next 
@@ -596,43 +619,44 @@ local function draw_object()
   	--love.graphics.draw(shadow_batch[0][0],    -view_xview, -view_yview, 0, scale_x, scale_y);
 	love.graphics.setCanvas()
 	
-	love.graphics.setColor(255,255,255,50)
+	love.graphics.setColor(255,255,255,70)
 	love.graphics.draw(canvas,0,0)
 	love.graphics.setColor(255,255,255,255)
 	local l = terrain_chunks
 	while l do
 			if l.chunkx == nil or object_batch[l.chunkx][l.chunky] == nil then break end;
   			love.graphics.draw(object_batch[l.chunkx][l.chunky], 
-     				-view_xview+(l.chunkx-l.chunky)*chunk_width*30*0.5, 
-					-view_yview+(l.chunkx+l.chunky)*chunk_height*16*0.5
+     				-view_xview+(l.chunkx-l.chunky)*chunk_width*tile_width*0.5, 
+					-view_yview+(l.chunkx+l.chunky)*chunk_height*tile_height*0.5
 					, 0, scale_x, scale_y);
 			l = l.next 
 	end
+	love.graphics.setColor(255,255,255,255)
 end
 
 local function mousereleased(x, y, button, istouch)
-   if button == 1 then 
-   		-- TODO remove localx,localy when implementing chunks 
-		mx, my = love.mouse.getPosition(); 
-		LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)); 
-		LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview)); 
-		last_location.gx = LocalX;
-		last_location.gy = LocalY;
-		last_location.x = LocalX % chunk_width;
-		last_location.y = LocalY % chunk_width; 
-		last_location.cx = math.ceil(LocalX/chunk_width);
-		last_location.cy = math.ceil(LocalY/chunk_width);
-		location_distance = ((last_location.x-first_location.x)+(last_location.y-first_location.y));
-		location_distance = ((last_location.gx-first_location.gx)+(last_location.gy-first_location.gy));
-		print(location_distance)
-		angle = math.atan2 (last_location.gy - first_location.gy,last_location.gx-first_location.gx);
-		angle = (angle *180)/math.pi;
-		angle = math.round (angle);
-		if angle<0 then angle = 360+angle end
-        build_wall_piece();
-		if previous_dir == "east" then build_wall_piece(1,0) end
-		print(angle)
-   end
+--    if button == 1 then 
+--    		-- TODO remove localx,localy when implementing chunks 
+-- 		mx, my = love.mouse.getPosition(); 
+-- 		LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)); 
+-- 		LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview)); 
+-- 		last_location.gx = LocalX;
+-- 		last_location.gy = LocalY;
+-- 		last_location.x = LocalX % chunk_width;
+-- 		last_location.y = LocalY % chunk_width; 
+-- 		last_location.cx = math.ceil(LocalX/chunk_width);
+-- 		last_location.cy = math.ceil(LocalY/chunk_width);
+-- 		location_distance = ((last_location.x-first_location.x)+(last_location.y-first_location.y));
+-- 		location_distance = ((last_location.gx-first_location.gx)+(last_location.gy-first_location.gy));
+-- 		print(location_distance)
+-- 		angle = math.atan2 (last_location.gy - first_location.gy,last_location.gx-first_location.gx);
+-- 		angle = (angle *180)/math.pi;
+-- 		angle = math.round (angle);
+-- 		if angle<0 then angle = 360+angle end
+--         build_wall_piece(first_location.cx,first_location.cy);
+-- 		if previous_dir == "east" then build_wall_piece(1,0) end
+-- 		print(angle)
+--    end
 end
 
 local function mousepressed(x, y, button, istouch)
@@ -646,29 +670,51 @@ local function mousepressed(x, y, button, istouch)
 		first_location.y = LocalY % (chunk_width);
 		first_location.cx = math.floor(LocalX/chunk_width);
 		first_location.cy = math.floor(LocalY/chunk_width);
-		print("First location: "..first_location.cx,first_location.cy)
+
+		--TODO check first if tile is taken
+		if building_selection == 1 then
+			object[first_location.cx][first_location.cy][first_location.x][first_location.y] = 1
+			update_objects(first_location.cx,first_location.cy)
+		elseif building_selection == 2 then			
+			object[first_location.cx][first_location.cy][first_location.x-3][first_location.y-3] = 6
+			update_objects(first_location.cx,first_location.cy)
+			--print(first_location.cx,first_location.cy,first_location.x,first_location.y)
+		end
+		print(building_selection)
+   end
+   if button == 2 then
+		building_selection = building_selection + 1;
+		building_selection = (building_selection % 3);
+		if building_selection == 2 then
+		--TODO proper system for changing build selection
+			lx_offset = -6;
+			ly_offset = 0;
+		elseif building_selection == 1 or building_selection == 0 then
+			lx_offset = 0;
+			ly_offset = 0;
+		end
    end
 end
 
 local function update()
-  	if love.mouse.isDown(1) then
-    	mx, my = love.mouse.getPosition(); 
-		LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)); 
-		LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview));  
-		last_location.gx = LocalX;
-		last_location.gy = LocalY;
-		last_location.x = LocalX % (chunk_width);
-		last_location.y = LocalY % (chunk_width); 
-		last_location.cx = math.floor(LocalX/chunk_width);
-		last_location.cy = math.floor(LocalY/chunk_width);
-		location_distance = ((last_location.gx-first_location.gx)+(last_location.gy-first_location.gy));
-		--print("Location: "..location_distance)
-		angle = math.atan2 (last_location.gy - first_location.gy,last_location.gx-first_location.gx) --* 2;
-		angle = (angle *180)/math.pi;
-		angle = math.round (angle);
-		if angle<0 then angle = 360+angle end
-        generate_wall_piece();
-  	end
+  	-- if love.mouse.isDown(1) then
+    -- 	mx, my = love.mouse.getPosition(); 
+	-- 	LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)); 
+	-- 	LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview));  
+	-- 	last_location.gx = LocalX;
+	-- 	last_location.gy = LocalY;
+	-- 	last_location.x = LocalX % (chunk_width);
+	-- 	last_location.y = LocalY % (chunk_width); 
+	-- 	last_location.cx = math.floor(LocalX/chunk_width);
+	-- 	last_location.cy = math.floor(LocalY/chunk_width);
+	-- 	location_distance = ((last_location.gx-first_location.gx)+(last_location.gy-first_location.gy));
+	-- 	--print("Location: "..location_distance)
+	-- 	angle = math.atan2 (last_location.gy - first_location.gy,last_location.gx-first_location.gx) --* 2;
+	-- 	angle = (angle *180)/math.pi;
+	-- 	angle = math.round (angle);
+	-- 	if angle<0 then angle = 360+angle end
+    --     generate_wall_piece();
+  	-- end
 end
 
 

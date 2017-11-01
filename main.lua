@@ -2,7 +2,8 @@ require('global');
 local iso = require("iso");
 local terrain, update_terrain = require("terrain");
 local objects, update_objects = require("objects");
-
+lx_offset = 0;
+ly_offset = 0;
 chunkUpdateList()
 
 function love.load()
@@ -10,7 +11,11 @@ function love.load()
     min_dt = 1/60;
 	--Version, title and window information
 	    width, height, flags = love.window.getMode();
-	    image = love.graphics.newImage( "assets/tiles/collection148.png" )
+        image = {}
+	    image[1] = love.graphics.newImage( "assets/tiles/collection1489.png" )
+        image[0] = image[1];
+        image[2] = love.graphics.newImage( "assets/tiles/collection1499.png" )
+	    --image = love.graphics.newImage( "oc_assets/Tiles/tile_castle/collection21.png" )
 end
 
 
@@ -50,8 +55,9 @@ end
 function love.draw()
 
     terrain.draw();
+    love.graphics.draw(image[building_selection or 1],IsoToScreenX(LocalX+lx_offset,LocalY+ly_offset)-view_xview,IsoToScreenY(LocalX+lx_offset,LocalY+ly_offset)-view_yview,nil,scale_x);
     objects.draw();
-    love.graphics.draw(image,IsoToScreenX(LocalX,LocalY)-view_xview,IsoToScreenY(LocalX,LocalY)-view_yview,nil,scale_x);
+    --love.graphics.draw(image,mx-view_xview,my-view_yview,nil,scale_x);
     
     local stats = love.graphics.getStats()
  
