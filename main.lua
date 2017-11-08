@@ -1,105 +1,69 @@
+local lib, errmsg = package.loadlib(love.filesystem.getSource() .. "./libraries/nuklear.dll", "luaopen_nuklear")
+assert(lib, errmsg)
+local nk = lib()
+--assert(lib, errmsg)
+--local nk = lib()
+--local nk = require("libraries.nuklear");
 require('global');
-local iso = require("iso");
+Gamestate = require('gamestate');
+local core = require("iso");
 local terrain, update_terrain = require("terrain");
 local objects, update_objects = require("objects");
-lx_offset = 0;
-ly_offset = 0;
-chunkUpdateList()
+tile_image = {};
+local menu = {};
+local game = {};
+local ui = {};
 
 function love.load()
-    next_time = love.timer.getTime();
-    min_dt = 1/60;
-	--Version, title and window information
-	    width, height, flags = love.window.getMode();
-        image = {}
-	    image[1] = love.graphics.newImage( "assets/tiles/collection1489.png" )
-        image[0] = image[1];
-        image[2] = love.graphics.newImage( "assets/tiles/collection1499.png" )
-	    --image = love.graphics.newImage( "oc_assets/Tiles/tile_castle/collection21.png" )
+	--nk.init()
+    Gamestate.registerEvents()
+    Gamestate.switch(game)
 end
 
-
------UPDATE LOOP
-function love.update(dt)
-    next_time = next_time + min_dt;
-    ---------------------------------------
-    mx, my = love.mouse.getPosition();  
-    LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)); LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview)); 
-    CenterX = math.round(ScreenToIsoX(width/2-16+view_xview, height/2-8+view_yview)); CenterY = math.round(ScreenToIsoY(width/2-16+view_xview,height/2-8+view_yview));
-    ---------------------------------------
-    xchunk = math.floor(CenterX/(chunk_width));
-    ychunk = math.floor(CenterY/(chunk_width));
-    current_chunk_x = xchunk;
-    current_chunk_y = ychunk;
-    if previous_chunk_x ~= current_chunk_x or previous_chunk_y ~= current_chunk_y then 
-        chunkUpdateList()
-    end
-    previous_chunk_x = current_chunk_x;
-    previous_chunk_y = current_chunk_y;
-    ---------------------------------------
-    iso.update();    
+-----------------/||\------------------
+-----------------GAME------------------
+function game:update(dt)
+    core.update();    
     objects.update();
-    ---------------------------------------
-    if love.keyboard.isDown('w')  then --BENCHMARK
-    print("_____________")
-        printList(terrain_chunks);
-    print("_____________")
-    end
-
 end
-
-function love.wheelmoved(x, y)
-    iso.scale(y);
+-----WHEEL MOVE
+function game:wheelmoved(x, y)
+    core.scale(y);
+end
+-----ENTER
+function game:enter()
+    tile_image[0] = love.graphics.newImage( "assets/tiles/collection1489.png" )
+    tile_image[1] = tile_image[0];
+    tile_image[2] = love.graphics.newImage( "assets/tiles/collection1499.png" )
 end
 -----DRAW LOOP
-function love.draw()
-
-    terrain.draw();
-    love.graphics.draw(image[building_selection or 1],IsoToScreenX(LocalX+lx_offset,LocalY+ly_offset)-view_xview,IsoToScreenY(LocalX+lx_offset,LocalY+ly_offset)-view_yview,nil,scale_x);
-    objects.draw();
-    --love.graphics.draw(image,mx-view_xview,my-view_yview,nil,scale_x);
-    
-    local stats = love.graphics.getStats()
- 
-    local str = string.format("\n Texture memory used: %.2f MB", stats.texturememory / 1024 / 1024)
-    local str2 = string.format("\n Amount of drawcalls: %d", stats.drawcalls)
-    local name, version, vendor, device = love.graphics.getRendererInfo()
-    local limits = love.graphics.getSystemLimits( )
-    
-        love.graphics.print(
-         "\n LocalX: " .. LocalX ..
-         "\n LocalY: " .. LocalY ..
-         "\n viewx: " .. view_xview ..
-         "\n viewy: " .. view_yview ..
-         "\n previous distance: " .. (getPreviousDistance()) .. " meters" ..
-         "\n location_distance: " .. (getLocation() or 0) .. " meters" ..
-         "\n dir: " .. getPreviousDir() .. " " ..
-         str .. " " ..
-         str2 .. " " ..
-         "\n Center chunk: [" .. xchunk .. "][".. ychunk .."]" ..
-         "\n GPU: " .. device .. " " ..
-         "\n CPU cores: " .. love.system.getProcessorCount( ) .. 
-         "\n Max atlas size: " .. limits.texturesize .. " " ..
-         "\nCurrent FPS: "..tostring(love.timer.getFPS( ))
-         , 0, 0);
-         -- LIMIT THE FPS TO 60
-            local cur_time = love.timer.getTime();
-            if next_time <= cur_time then
-                next_time = cur_time;
-                return;
-            end
-            love.timer.sleep(next_time - cur_time);
-   
-    
+function game:draw()
+    terrain.draw()
+    objects.draw()
+    core.draw();
 end
 -----MOUSE RELEASED
-function love.mousereleased(x, y, button, istouch)
+function game:mousereleased(x, y, button, istouch)
     objects.mousereleased(x,y,button,istouch);
 end
 -----MOUSE PRESSED
-function love.mousepressed(x, y, button, istouch)
+function game:mousepressed(x, y, button, istouch)
     objects.mousepressed(x,y,button,istouch);
 end
+-----------------GAME------------------
+-----------------\||/------------------
+
+
+
+
+
+
+
+
+
+
+
+
 
 function love.run()
 

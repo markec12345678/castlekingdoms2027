@@ -35,7 +35,17 @@ function ogIsoToScreenY(xx, yy)
 
 function math.round(n, deci) deci = 10^(deci or 0) return math.floor(n*deci+.5)/deci end
 
-local function update()
+local function update()    
+    next_time = next_time + min_dt;
+    ---------------------------------------
+    mx, my = love.mouse.getPosition();  
+    LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)); LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview)); 
+    CenterX = math.round(ScreenToIsoX(width/2-16+view_xview, height/2-8+view_yview)); CenterY = math.round(ScreenToIsoY(width/2-16+view_xview,height/2-8+view_yview));
+    ---------------------------------------
+    xchunk = math.floor(CenterX/(chunk_width));
+    ychunk = math.floor(CenterY/(chunk_width));
+    current_chunk_x = xchunk;
+    current_chunk_y = ychunk;
     if love.keyboard.isDown("up")  then
         view_yview = view_yview - scroll_speed;  
     end
@@ -63,5 +73,25 @@ local function scale(y)
     end
 end
 
-local tableOfFunctions = {update = update, scale = scale}
+local function draw()
+        love.graphics.print(
+                "\n LocalX: " .. LocalX ..
+                "\n LocalY: " .. LocalY ..
+                "\n viewx: " .. view_xview ..
+                "\n viewy: " .. view_yview ..
+                "\n Center chunk: [" .. xchunk .. "][".. ychunk .."]" ..
+                "\n Current FPS: "..tostring(love.timer.getFPS( ))
+                , 0, 0);
+
+         -- LIMIT THE FPS TO 60
+            local cur_time = love.timer.getTime();
+            if next_time <= cur_time then
+                next_time = cur_time;
+                return;
+            end
+            love.timer.sleep(next_time - cur_time);
+end
+
+
+local tableOfFunctions = {update = update, scale = scale, draw = draw}
 return tableOfFunctions

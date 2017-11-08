@@ -10,7 +10,6 @@
             function listInsert(list,key1,value1,key2,value2)
                 list = {next = list, key1 = value1, key2 = value2}
             end            
-            
             terrain_chunks = nil;
     ----Tiles
 	        tile_width = 32;
@@ -18,7 +17,6 @@
     ----Chunks
 	        chunk_width = 64;
 	        chunk_height = 64;
-	        chunk_size = chunk_width*chunk_height;
                 current_chunk_x = 0;
                 current_chunk_y = 0;
                 CenterX = 0;
@@ -35,10 +33,20 @@
             window_height = 800;
             window_width = 1200;  
             view_xview = 0;
-	    view_yview = 0;
+	        view_yview = 0;
+    ----Mouse
 	    mx = 0;
 	    my = 0;
 	    LocalX = 0;
 	    LocalY = 0;
       time = 0;
       dttime = 0;
+        lx_offset = 0;
+        ly_offset = 0;
+        px_img_y_offset = 0;
+	----Version, title and window information
+	    width, height, flags = love.window.getMode();
+        min_dt = 1/60;
+        next_time = 0;
+    ----Objects related    
+        building_selection = 1;

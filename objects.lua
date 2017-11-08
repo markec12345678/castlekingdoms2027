@@ -3,7 +3,6 @@ local previous_distance, location_distance = 0;
 local previous_total_chunks_to_traverse = 0;
 local previous_dir = 'none';
 local angle; 
-building_selection = 1;
 local location = {
 	gx = 0,
 	gy = 0,
@@ -610,14 +609,16 @@ local function draw_object()
 		while l1 do
 			if l1.chunkx ~= nil and shadow_batch[l1.chunkx][l1.chunky] ~= nil then  
 				love.graphics.draw(shadow_batch[l1.chunkx][l1.chunky], 
-						-view_xview+(l1.chunkx-l1.chunky)*chunk_width*tile_width*0.5, 
-						-view_yview+(l1.chunkx+l1.chunky)*chunk_height*tile_height*0.5
+						-view_xview+(l1.chunkx-l1.chunky)*chunk_width*tile_width*0.5*scale_x, 
+						-view_yview+(l1.chunkx+l1.chunky)*chunk_height*tile_height*0.5*scale_y
 						, 0, scale_x, scale_y);
 			end;
 				l1 = l1.next 
+				--TODO sort the linked list first so depth order is right between chunks
 		end
   	--love.graphics.draw(shadow_batch[0][0],    -view_xview, -view_yview, 0, scale_x, scale_y);
 	love.graphics.setCanvas()
+    love.graphics.draw(tile_image[building_selection],IsoToScreenX(LocalX,LocalY)-view_xview,IsoToScreenY(LocalX,LocalY)-view_yview,nil,scale_x);
 	
 	love.graphics.setColor(255,255,255,70)
 	love.graphics.draw(canvas,0,0)
@@ -626,8 +627,8 @@ local function draw_object()
 	while l do
 			if l.chunkx == nil or object_batch[l.chunkx][l.chunky] == nil then break end;
   			love.graphics.draw(object_batch[l.chunkx][l.chunky], 
-     				-view_xview+(l.chunkx-l.chunky)*chunk_width*tile_width*0.5, 
-					-view_yview+(l.chunkx+l.chunky)*chunk_height*tile_height*0.5
+     				-view_xview+(l.chunkx-l.chunky)*chunk_width*tile_width*0.5*scale_x, 
+					-view_yview+(l.chunkx+l.chunky)*chunk_height*tile_height*0.5*scale_y
 					, 0, scale_x, scale_y);
 			l = l.next 
 	end
@@ -687,9 +688,11 @@ local function mousepressed(x, y, button, istouch)
 		building_selection = (building_selection % 3);
 		if building_selection == 2 then
 		--TODO proper system for changing build selection
+			px_img_y_offset = 8;
 			lx_offset = -6;
 			ly_offset = 0;
 		elseif building_selection == 1 or building_selection == 0 then
+			px_img_y_offset = 0;
 			lx_offset = 0;
 			ly_offset = 0;
 		end
@@ -697,24 +700,11 @@ local function mousepressed(x, y, button, istouch)
 end
 
 local function update()
-  	-- if love.mouse.isDown(1) then
-    -- 	mx, my = love.mouse.getPosition(); 
-	-- 	LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)); 
-	-- 	LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview));  
-	-- 	last_location.gx = LocalX;
-	-- 	last_location.gy = LocalY;
-	-- 	last_location.x = LocalX % (chunk_width);
-	-- 	last_location.y = LocalY % (chunk_width); 
-	-- 	last_location.cx = math.floor(LocalX/chunk_width);
-	-- 	last_location.cy = math.floor(LocalY/chunk_width);
-	-- 	location_distance = ((last_location.gx-first_location.gx)+(last_location.gy-first_location.gy));
-	-- 	--print("Location: "..location_distance)
-	-- 	angle = math.atan2 (last_location.gy - first_location.gy,last_location.gx-first_location.gx) --* 2;
-	-- 	angle = (angle *180)/math.pi;
-	-- 	angle = math.round (angle);
-	-- 	if angle<0 then angle = 360+angle end
-    --     generate_wall_piece();
-  	-- end
+    if previous_chunk_x ~= current_chunk_x or previous_chunk_y ~= current_chunk_y then 
+        chunkUpdateList()
+    end
+    previous_chunk_x = current_chunk_x;
+    previous_chunk_y = current_chunk_y;
 end
 
 
@@ -733,6 +723,8 @@ function getPreviousDistance()
 end
 --warning end
 update_objects(); --note do we need this?
+
+chunkUpdateList()
 
 local tableOfFunctions = {
                         update = update, 

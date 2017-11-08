@@ -250,8 +250,8 @@ local function chunkDraw()
 	while l do
 			if l.chunkx == nil or terrain_batch[l.chunkx][l.chunky] == nil then break end;
   			love.graphics.draw(terrain_batch[l.chunkx][l.chunky], 
-     				-view_xview+(l.chunkx-l.chunky)*chunk_width*tile_width*0.5, 
-					-view_yview+(l.chunkx+l.chunky)*chunk_height*tile_height*0.5
+     				-view_xview+(l.chunkx-l.chunky)*chunk_width*tile_width*0.5*scale_x, 
+					-view_yview+(l.chunkx+l.chunky)*chunk_height*tile_height*0.5*scale_y
 					, 0, scale_x, scale_y);
 			l = l.next 
 	end
