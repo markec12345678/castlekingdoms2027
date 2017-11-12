@@ -31,38 +31,11 @@ local last_location = location:new();
 	----Generate spriteBatch
 			local object_batch = newAutotable(2)   
 			local shadow_batch = newAutotable(2)
-			local canvas = love.graphics.newCanvas()   
-	        local object_image = love.graphics.newImage( "assets/tiles/image_strip.png" );
-	        local tile_quads = {};
+			local canvas = love.graphics.newCanvas()  
+			local object_image = love.graphics.newImage( "assets/tiles/image_strip_v2.png" ); 
+	        local tile_quads= require('objects_quads');
 			local tile_offset = {};
 			local tile_offset_x = {};
-			local imageW,imageH = object_image:getWidth(), object_image:getHeight();
-			-- Wall piece built [1]
-				tile_quads[0]  = love.graphics.newQuad(0,0,0,0,0,0)
-				tile_quads[1]  = love.graphics.newQuad(420, 1850, 30, 107, imageW,imageH) 
-				tile_offset[1] = 107-16
-			-- Wall piece framework [2]
-				tile_quads[2]  = love.graphics.newQuad(450, 1850, 30, 107, imageW,imageH)
-				tile_offset[2] = 107-16
-			-- Tree fully grown , type 1 [3]				
-				tile_quads[3]  = love.graphics.newQuad(1100, 383, 181, 142, imageW,imageH)
-				tile_offset[3] = 117
-				tile_offset_x[3] = 73
-			-- Tree fully grown , type 2 [4]				
-				tile_quads[4]  = love.graphics.newQuad(733, 1127, 167, 130, imageW,imageH)
-				tile_offset[4] = 114
-				tile_offset_x[4] = 70
-			-- Wall shadow - temporary [5]
-				tile_quads[5]  = love.graphics.newQuad(482, 1933, 567-482, 1954-1933, imageW,imageH)
-			-- Small castle [6]
-				tile_quads[6]  = love.graphics.newQuad(2034, 1268, 2255-2034, 1464-1268, imageW,imageH)
-				tile_offset[6] = 32+8+16+16+16
-				tile_offset_x[6] = 64+32
-			-- Small castle shadow [7]
-				tile_quads[7]  = love.graphics.newQuad(2252, 1380, 2420-2252, 1470-1380, imageW,imageH)
-			-- Tree shadow [8]
-				tile_quads[8]  = love.graphics.newQuad(2350, 1597, 2523-2350, 1689-1597, imageW,imageH)
-
 
 			object_batch[0][0] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)
 			shadow_batch[0][0] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)		
@@ -83,6 +56,7 @@ function genObjects(cx,cy)
 						object[cx][cy][i][o]=4; else
 						object[cx][cy][i][o]=0; end
 						--TODO add shadow gen here	
+				--object_batch[chunk_x][chunk_y]:setColor(255,0,0,255)
 				object_batch[chunk_x][chunk_y]:add(
 									tile_quads[object[cx][cy][i][o]], 
 									IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[object[chunk_x][chunk_y][i][o]] or 0),
@@ -91,7 +65,6 @@ function genObjects(cx,cy)
 			end
 		end
 end
-
 function objectClean(cx,cy)
 	object[cx][cy] = nil;
 	object_batch[cx][cy] = nil;
@@ -618,7 +591,7 @@ local function draw_object()
 		end
   	--love.graphics.draw(shadow_batch[0][0],    -view_xview, -view_yview, 0, scale_x, scale_y);
 	love.graphics.setCanvas()
-    love.graphics.draw(tile_image[building_selection],IsoToScreenX(LocalX,LocalY)-view_xview,IsoToScreenY(LocalX,LocalY)-view_yview,nil,scale_x);
+    love.graphics.draw(object_image,tile_quads[building_selection],IsoToScreenX(LocalX,LocalY)-view_xview,IsoToScreenY(LocalX,LocalY)-view_yview,nil,scale_x);
 	
 	love.graphics.setColor(255,255,255,70)
 	love.graphics.draw(canvas,0,0)
@@ -673,15 +646,11 @@ local function mousepressed(x, y, button, istouch)
 		first_location.cy = math.floor(LocalY/chunk_width);
 
 		--TODO check first if tile is taken
-		if building_selection == 1 then
-			object[first_location.cx][first_location.cy][first_location.x][first_location.y] = 1
+			object[first_location.cx][first_location.cy][first_location.x][first_location.y] = building_selection
+			if building_selection >= 398 and building_selection <= 401 then
+				building_selection = 398 + math.random(3);
+			end
 			update_objects(first_location.cx,first_location.cy)
-		elseif building_selection == 2 then			
-			object[first_location.cx][first_location.cy][first_location.x-3][first_location.y-3] = 6
-			update_objects(first_location.cx,first_location.cy)
-			--print(first_location.cx,first_location.cy,first_location.x,first_location.y)
-		end
-		print(building_selection)
    end
    if button == 2 then
 		building_selection = building_selection + 1;

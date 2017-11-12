@@ -64,7 +64,7 @@ local function update()
 end
 
 local function scale(y)
-    if y > 0 and scale_x < 1 then 
+    if y > 0 and scale_x < 2 then 
         scale_x = scale_x + 0.1;
         scale_y = scale_y + 0.1;
     elseif y < 0 and scale_y > 0.3 then
@@ -84,14 +84,23 @@ local function draw()
                 , 0, 0);
 
          -- LIMIT THE FPS TO 60
-            local cur_time = love.timer.getTime();
-            if next_time <= cur_time then
-                next_time = cur_time;
-                return;
-            end
-            love.timer.sleep(next_time - cur_time);
+            -- local cur_time = love.timer.getTime();
+            -- if next_time <= cur_time then
+            --     next_time = cur_time;
+            --     return;
+            -- end
+            -- love.timer.sleep(next_time - cur_time);
 end
 
+local function getBuildingSelection()
+    if building_selection == 374 or building_selection == 375 then
+        return "Small wooden castle"
+    elseif building_selection == 331 then
+        return "Granary"
+    elseif building_selection >= 398 and building_selection <= 401 then
+        return "Wooden wall"
+    end
+end
 
-local tableOfFunctions = {update = update, scale = scale, draw = draw}
+local tableOfFunctions = {update = update, scale = scale, draw = draw, getBuildingSelection = getBuildingSelection}
 return tableOfFunctions

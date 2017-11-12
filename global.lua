@@ -12,7 +12,7 @@
             end            
             terrain_chunks = nil;
     ----Tiles
-	        tile_width = 32;
+	        tile_width = 30;
 	        tile_height = 16;
     ----Chunks
 	        chunk_width = 64;
@@ -49,4 +49,4 @@
         min_dt = 1/60;
         next_time = 0;
     ----Objects related    
-        building_selection = 1;
+        building_selection = 398;
