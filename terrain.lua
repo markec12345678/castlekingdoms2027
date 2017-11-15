@@ -94,13 +94,13 @@ local function genTerrain(cx,cy)
 	terrain_batch[chunk_x][chunk_y]:clear();	
 		for i=0,chunk_width-1,1 do
 			for o=0,chunk_height-1,1 do
-				local rand = math.random(10);
+				local rand = math.random(8); --FIXME tile 9 or 10 is not correct size
 				terrain[cx][cy][i][o]=rand;				
 				terrain_batch[chunk_x][chunk_y]:add(
 									tile_quads[rand], 
 									IsoX + (i - o) * tile_width  * 0.5,
 									IsoY + (i + o) * tile_height * 0.5 - (tile_offset[terrain[chunk_x][chunk_y][i][o]] or 0)
-									);
+									,0,1.07,1);
 			end
 		end
 end

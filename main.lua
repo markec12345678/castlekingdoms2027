@@ -25,19 +25,19 @@ function game:update(dt)
     core.update();    
     objects.update();
 	nk.frameBegin()
-	if nk.windowBegin('building_toolbox', 0, height-110, width, height,
-			'border', 'movable') then
+	if nk.windowBegin('building_toolbox', 0, height-110, width, 110,
+			'border') then
 		nk.layoutRow('dynamic', 30, 1)
 		nk.label('Building selection: '..(core.getBuildingSelection() or ""))
 		nk.layoutRow('dynamic', 60, 8)
 		if nk.button('Small castle') then
-			--print('Sample!')
+			building_selection = 374;
 		end
 		if nk.button('Stockpile') then
-			--print('Button!')
+			building_selection = 459;
 		end
 		if nk.button('Granary') then
-			--print('Button!')
+			building_selection = 331;
 		end
 	end
 	nk.windowEnd()
@@ -62,17 +62,17 @@ function game:draw()
 end
 -----MOUSE RELEASED
 function game:mousereleased(x, y, button, istouch)
-    objects.mousereleased(x,y,button,istouch);
 	if nk.mousereleased(x, y, button, istouch) then
 		return -- event consumed
 	end
+    objects.mousereleased(x,y,button,istouch);
 end
 -----MOUSE PRESSED
 function game:mousepressed(x, y, button, istouch)
-    objects.mousepressed(x,y,button,istouch);
 	if nk.mousepressed(x, y, button, istouch) then
 		return -- event consumed
 	end
+    objects.mousepressed(x,y,button,istouch);
 end
 
 function game:keypressed(key, scancode, isrepeat)
@@ -103,6 +103,7 @@ function game:wheelmoved(x, y)
 	if nk.wheelmoved(x, y) then
 		return -- event consumed
 	end
+	core.scale(y)
 end
 -----------------GAME------------------
 -----------------\||/------------------

@@ -32,13 +32,14 @@ local last_location = location:new();
 			local object_batch = newAutotable(2)   
 			local shadow_batch = newAutotable(2)
 			local canvas = love.graphics.newCanvas()  
-			local object_image = love.graphics.newImage( "assets/tiles/image_strip_v2.png" ); 
-	        local tile_quads= require('objects_quads');
-			local tile_offset = {};
-			local tile_offset_x = {};
+			local object_image = love.graphics.newImage( "assets/tiles/object_texture.png" ); 
+	        local tile_quads = require('objects_quads');
+			if tile_quads ~= nil then print("true") end 
+			
 
 			object_batch[0][0] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)
 			shadow_batch[0][0] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)		
+			print(object_batch[0][0]:getBufferSize())
 
 function genObjects(cx,cy)
 	local chunk_x = cx or current_chunk_x;
@@ -52,16 +53,15 @@ function genObjects(cx,cy)
 			for o=0,chunk_height-1,1 do
 				local rand = love.math.random(400);
 						if rand == 5 then
-                        object[cx][cy][i][o]=3; elseif rand == 6 then
-						object[cx][cy][i][o]=4; else
-						object[cx][cy][i][o]=0; end
+                        object[cx][cy][i][o]=1450; end 
 						--TODO add shadow gen here	
-				--object_batch[chunk_x][chunk_y]:setColor(255,0,0,255)
+				if object[cx][cy][i][o] == nil or object[cx][cy][i][o] == 0 then else
 				object_batch[chunk_x][chunk_y]:add(
-									tile_quads[object[cx][cy][i][o]], 
+									tile_quads[(object[cx][cy][i][o] or 0)], 
 									IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[object[chunk_x][chunk_y][i][o]] or 0),
 									IsoY + (i + o) * tile_height * 0.5 - (tile_offset[object[chunk_x][chunk_y][i][o]] or 0)
 									);
+				end
 			end
 		end
 end
@@ -76,33 +76,14 @@ local function update_objects(cx,cy)
 	local chunk_y = cy or current_chunk_y;
 
 	object_batch[chunk_x][chunk_y] =  object_batch[chunk_x][chunk_y] or love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height);
-	shadow_batch[chunk_x][chunk_y] =  shadow_batch[chunk_x][chunk_y] or love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height);
+	--shadow_batch[chunk_x][chunk_y] =  shadow_batch[chunk_x][chunk_y] or love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height);
   object_batch[chunk_x][chunk_y]:clear(); 
-  shadow_batch[chunk_x][chunk_y]:clear();
+  --shadow_batch[chunk_x][chunk_y]:clear();
   for i=0,chunk_width-1,1 do
     for o=0,chunk_height-1,1 do
-        if object[chunk_x][chunk_y][i][o] ~= 0 then
-				if object[chunk_x][chunk_y][i][o] == 1 then 
-                    shadow_batch[chunk_x][chunk_y]:add(
-		  				tile_quads[5], 
-      					IsoX + (i - o) * tile_width  * 0.5+16,
-      					IsoY + (i + o) * tile_height * 0.5-4
-						  ); 
-				elseif object[chunk_x][chunk_y][i][o] == 6 then 					
-                    shadow_batch[chunk_x][chunk_y]:add(
-		  				tile_quads[7], 
-      					IsoX + (i - o) * tile_width  * 0.5 - 64+16+32-6+32,
-      					IsoY + (i + o) * tile_height * 0.5 + 32-8
-						  ); 
-				elseif object[chunk_x][chunk_y][i][o] == 3 or object[chunk_x][chunk_y][i][o] == 4 then  					
-                    shadow_batch[chunk_x][chunk_y]:add(
-		  				tile_quads[8], 
-      					IsoX + (i - o) * tile_width  * 0.5 - 35,
-      					IsoY + (i + o) * tile_height * 0.5 - 40
-						  ); 
-				end						
+        if object[chunk_x][chunk_y][i][o] ~= 0 then					
                     object_batch[chunk_x][chunk_y]:add(
-		  				tile_quads[object[chunk_x][chunk_y][i][o] or 1], 
+		  				tile_quads[object[chunk_x][chunk_y][i][o] or 0], 
       					IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[object[chunk_x][chunk_y][i][o]] or 0),
       					IsoY + (i + o) * tile_height * 0.5 - (tile_offset[object[chunk_x][chunk_y][i][o]] or 0)
 						  );
@@ -591,7 +572,7 @@ local function draw_object()
 		end
   	--love.graphics.draw(shadow_batch[0][0],    -view_xview, -view_yview, 0, scale_x, scale_y);
 	love.graphics.setCanvas()
-    love.graphics.draw(object_image,tile_quads[building_selection],IsoToScreenX(LocalX,LocalY)-view_xview,IsoToScreenY(LocalX,LocalY)-view_yview,nil,scale_x);
+    love.graphics.draw(object_image,tile_quads[building_selection],IsoToScreenX(LocalX,LocalY)-view_xview-(tile_offset_x[building_selection] or 0),IsoToScreenY(LocalX,LocalY)-view_yview-(tile_offset[building_selection] or 0),nil,scale_x);
 	
 	love.graphics.setColor(255,255,255,70)
 	love.graphics.draw(canvas,0,0)
