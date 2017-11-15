@@ -247,7 +247,9 @@ local function update()
 					:set(object[chunk_x][chunk_y][i][o].qid,
 						object[chunk_x][chunk_y][i][o].animation
 					:getFrameInfo(object[chunk_x][chunk_y][i][o].x,
-								object[chunk_x][chunk_y][i][o].y))
+								object[chunk_x][chunk_y][i][o].y));
+					--TODO add a list to keep track of all the objects, 
+					--TODO so we don't have to loop through the entire chunk
 				end
 			end
 		end	
