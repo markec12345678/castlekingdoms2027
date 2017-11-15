@@ -1,11 +1,11 @@
 local lib, errmsg = package.loadlib(love.filesystem.getSource() .. "./libraries/nuklear.dll", "luaopen_nuklear")
 assert(lib, errmsg)
 local nk = lib()
---assert(lib, errmsg)
---local nk = lib()
---local nk = require("libraries.nuklear");
+math.randomseed(os.time())
 require('global');
-Gamestate = require('gamestate');
+local Gamestate = require('libraries.gamestate');
+anim = require('libraries.anim8');
+class = require('libraries.middleclass');
 local core = require("iso");
 local terrain, update_terrain = require("terrain");
 local objects, update_objects = require("objects");
@@ -43,10 +43,7 @@ function game:update(dt)
 	nk.windowEnd()
 	nk.frameEnd()
 end
------WHEEL MOVE
-function game:wheelmoved(x, y)
-    core.scale(y);
-end
+
 -----ENTER
 function game:enter()
     tile_image[0] = love.graphics.newImage( "assets/tiles/collection1489.png" )
@@ -130,8 +127,7 @@ function love.run()
  
 	-- We don't want the first frame's dt to include time taken by love.load.
 	if love.timer then love.timer.step() end
-	local dt = 0
- 
+	dt = 0
 	-- Main loop time.
 	while true do
 		-- Process events.

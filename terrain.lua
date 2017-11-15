@@ -19,6 +19,7 @@ previous_terrain_chunks = nil;
 			
 	----Generate spriteBatch
 	        local terrain_image = love.graphics.newImage( "assets/tiles/image_strip.png" );
+			terrain_image:setFilter('nearest','nearest')
 	        local tile_quads = {};
 			local tile_offset = {};
 			local imageW,imageH = terrain_image:getWidth(), terrain_image:getHeight();

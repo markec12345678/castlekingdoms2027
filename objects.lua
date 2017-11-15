@@ -12,15 +12,13 @@ local location = {
 	cy = 0
 }
 function location:new (o)
-	o = o or {}   -- create object if user does not provide one
+	o = o or {}  
 	setmetatable(o, self)
 	self.__index = self
 	return o
 end
 local first_location = location:new();
 local last_location = location:new();
-
-	math.randomseed(os.time())
 
     --2D array stuff
 	----Rows and columns
@@ -33,6 +31,7 @@ local last_location = location:new();
 			local shadow_batch = newAutotable(2)
 			local canvas = love.graphics.newCanvas()  
 			local object_image = love.graphics.newImage( "assets/tiles/object_texture.png" ); 
+			object_image:setFilter('nearest','nearest')
 	        local tile_quads = require('objects_quads');
 			if tile_quads ~= nil then print("true") end 
 			
@@ -40,7 +39,32 @@ local last_location = location:new();
 			object_batch[0][0] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)
 			shadow_batch[0][0] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)		
 			print(object_batch[0][0]:getBufferSize())
-
+--- NOTE Object classes START
+local Object = class('Object');
+	function Object:initialize(cx,cy,i,o,x,y,type)
+		self.cx = cx;
+		self.cy = cy;
+		self.i = i;
+		self.o = o;
+		self.x = x;
+		self.y = y;
+		self.type = type;
+		self.qid = 0;
+	end
+local Tree = class('Tree', Object);
+	function Tree:initialize(cx,cy,i,o,x,y,type)
+		Object.initialize(self,gx,gy,i,o,x,y,type)
+		self.health = 100;
+		self.frames = {tile_quads[1450],tile_quads[1458],tile_quads[1454]} 
+		self.animation = anim.newAnimation(self.frames,0.1);
+	end
+	function Tree:animate()
+		self.animation:update(dt);
+	end
+	function Tree:getQuad()
+		return tile_quads[1450]
+	end
+--- NOTE Object classes END
 function genObjects(cx,cy)
 	local chunk_x = cx or current_chunk_x;
 	local chunk_y = cy or current_chunk_y;
@@ -51,16 +75,16 @@ function genObjects(cx,cy)
 	object_batch[chunk_x][chunk_y]:clear();	
 		for i=0,chunk_width-1,1 do
 			for o=0,chunk_height-1,1 do
-				local rand = love.math.random(400);
+				local rand = math.random(400);
 						if rand == 5 then
-                        object[cx][cy][i][o]=1450; end 
+						object[cx][cy][i][o] = Tree:new(cx,cy,i,o,
+						IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[object[chunk_x][chunk_y][i][o]] or 0),
+						IsoY + (i + o) * tile_height * 0.5 - (tile_offset[object[chunk_x][chunk_y][i][o]] or 0),"Pine tree")
+						end 
 						--TODO add shadow gen here	
 				if object[cx][cy][i][o] == nil or object[cx][cy][i][o] == 0 then else
-				object_batch[chunk_x][chunk_y]:add(
-									tile_quads[(object[cx][cy][i][o] or 0)], 
-									IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[object[chunk_x][chunk_y][i][o]] or 0),
-									IsoY + (i + o) * tile_height * 0.5 - (tile_offset[object[chunk_x][chunk_y][i][o]] or 0)
-									);
+					object[cx][cy][i][o].qid = object_batch[chunk_x][chunk_y]:
+					add(object[cx][cy][i][o].animation:getFrameInfo(object[cx][cy][i][o].x,object[cx][cy][i][o].y));
 				end
 			end
 		end
@@ -72,476 +96,31 @@ function objectClean(cx,cy)
 end
 
 local function update_objects(cx,cy)
-	local chunk_x = cx or current_chunk_x;
-	local chunk_y = cy or current_chunk_y;
+	-- local chunk_x = cx or current_chunk_x;
+	-- local chunk_y = cy or current_chunk_y;
 
-	object_batch[chunk_x][chunk_y] =  object_batch[chunk_x][chunk_y] or love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height);
-	--shadow_batch[chunk_x][chunk_y] =  shadow_batch[chunk_x][chunk_y] or love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height);
-  object_batch[chunk_x][chunk_y]:clear(); 
-  --shadow_batch[chunk_x][chunk_y]:clear();
-  for i=0,chunk_width-1,1 do
-    for o=0,chunk_height-1,1 do
-        if object[chunk_x][chunk_y][i][o] ~= 0 then					
-                    object_batch[chunk_x][chunk_y]:add(
-		  				tile_quads[object[chunk_x][chunk_y][i][o] or 0], 
-      					IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[object[chunk_x][chunk_y][i][o]] or 0),
-      					IsoY + (i + o) * tile_height * 0.5 - (tile_offset[object[chunk_x][chunk_y][i][o]] or 0)
-						  );
-        end
-    end
-  end				  
-  --object_batch[chunk_x][chunk_y]:flush()
-  --shadow_batch[chunk_x][chunk_y]:flush()
+	-- object_batch[chunk_x][chunk_y] =  object_batch[chunk_x][chunk_y] or love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height);
+	-- --shadow_batch[chunk_x][chunk_y] =  shadow_batch[chunk_x][chunk_y] or love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height);
+  	-- object_batch[chunk_x][chunk_y]:clear(); 
+  	-- --shadow_batch[chunk_x][chunk_y]:clear();
+  	-- for i=0,chunk_width-1,1 do
+    -- 	for o=0,chunk_height-1,1 do
+	-- 		if object[chunk_x][chunk_y][i][o] ~= nil then					
+	-- 					-- object_batch[chunk_x][chunk_y]:add(
+	-- 					-- 	object[chunk_x][chunk_y][i][o]:getQuad() or 0, 
+	-- 					-- 	IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[object[chunk_x][chunk_y][i][o]] or 0),
+	-- 					-- 	IsoY + (i + o) * tile_height * 0.5 - (tile_offset[object[chunk_x][chunk_y][i][o]] or 0)
+	-- 					-- 		);
+	-- 				object[cx][cy][i][o].qid = object_batch[chunk_x][chunk_y]:
+	-- 				add(object[cx][cy][i][o].animation:getFrameInfo(object[cx][cy][i][o].x,object[cx][cy][i][o].y));
+	-- 		end
+    -- 	end
+  	-- end				  
+ 	 --object_batch[chunk_x][chunk_y]:flush()
+ 	 --shadow_batch[chunk_x][chunk_y]:flush()
 end
 
-
-
-local function remove_diagonal_walls()
-	--STEP 1 
-	--	GET TOP and BOTTOM BORDER TILE COORDINATES
-	--TODO check for middle vertical tile
-	--testvar = testvar + 1;
-	--testvar = testvar % 10;
-	local p, distance;
-	local top_tile_x, top_tile_y = 0;
-	local bot_tile_x, bot_tile_y = 0;
-	if (first_location.x - first_location.y) > 0 then --TILE is right side from the center
-		top_tile_x = first_location.x - first_location.y;
-		top_tile_y = 0;
-		bot_tile_x = chunk_width-1;
-		bot_tile_y = (first_location.y)+((chunk_width-1)-first_location.x); 
-		distance = bot_tile_x-top_tile_x;
-		for p=0,distance,1 do
-			if object[first_location.cx][first_location.cy][top_tile_x + p][top_tile_y + p] == 2 then	
-				object[first_location.cx][first_location.cy][top_tile_x + p][top_tile_y + p] = 0;
-			end
-		end
-	elseif (first_location.x - first_location.y) < 0 then --TILE is left side from the center
-		top_tile_x = 0;
-		top_tile_y = first_location.y - first_location.x;
-		bot_tile_x = first_location.x+((chunk_width-1)-first_location.y);
-		bot_tile_y = chunk_width-1; 
-		distance = bot_tile_y-top_tile_y;
-		for p=0,distance,1 do
-			if object[first_location.cx][first_location.cy][top_tile_x + p][top_tile_y + p] == 2 then	
-				object[first_location.cx][first_location.cy][top_tile_x + p][top_tile_y + p] = 0;
-			end
-		end
-	else
-		top_tile_y, top_tile_x = 0, 0;
-		bot_tile_y, bot_tile_x = chunk_width-1, chunk_width-1
-		distance = chunk_width;
-		for p=0,distance,1 do
-			if object[first_location.cx][first_location.cy][top_tile_x + p][top_tile_y + p] == 2 then	
-				object[first_location.cx][first_location.cy][top_tile_x + p][top_tile_y + p] = 0;
-			end
-		end
-	end
-	--STEP 2
-	--  GET LEFT and RIGHT BORDER TILE COORDINATES
-	local left_tile_x = 0;
-	local left_tile_y = first_location.x + first_location.y;
-	local right_tile_x = first_location.x + first_location.y;
-	local right_tile_y = 0;
-	local m;
-	if right_tile_x <= chunk_width-1 then --TILE is top side or center
-		for m=0,right_tile_x,1 do
-			if object[first_location.cx][first_location.cy][left_tile_x +m][left_tile_y - m] == 2 then	
-				object[first_location.cx][first_location.cy][left_tile_x + m][left_tile_y - m] = 0;
-			end
-		end
-	else --TILE is bot side
-		left_tile_x = first_location.x + first_location.y - chunk_width-1;
-		left_tile_y = chunk_width-1;
-		right_tile_x = chunk_width-1; 
-		right_tile_y = first_location.x + first_location.y - chunk_width-1;
-		for m=0,right_tile_x-right_tile_y,1 do
-			if object[first_location.cx][first_location.cy][left_tile_x +m+1][left_tile_y - m+1] == 2 then	
-				object[first_location.cx][first_location.cy][left_tile_x + m +1][left_tile_y - m+1] = 0;
-			end
-		end
-	end
-end
-
-local function generate_wall_piece()
-	--NOTE-- EAST
-	if ((angle >= 315+22 and angle <= 359) or (angle >=0 and angle <= 45-22)) then
-		location_distance = last_location.gx-first_location.gx;
-		if previous_dir == 'west' then
-			for o=0,first_location.x,1 do
-				if object[first_location.cx][first_location.cy][first_location.x-o][first_location.y] == 2 then	
-					object[first_location.cx][first_location.cy][first_location.x-o][first_location.y] = 0;
-				end
-			end
-		elseif previous_dir == 'north' then
-			for o=0,first_location.y,1 do
-				if object[first_location.cx][first_location.cy][first_location.x][first_location.y-o] == 2 then	
-					object[first_location.cx][first_location.cy][first_location.x][first_location.y-o] = 0;
-				end
-			end
-		elseif previous_dir == 'south' then
-			for o=first_location.y,chunk_height,1 do
-				if object[first_location.cx][first_location.cy][first_location.x][o] == 2 then	
-					object[first_location.cx][first_location.cy][first_location.x][o] = 0;
-				end
-			end
-		elseif previous_dir == 'south east' or previous_dir == 'south west' or previous_dir == 'north east' or previous_dir == 'north west' then
-			remove_diagonal_walls();
-		end
-
-		previous_dir = 'east';
-		local total_chunks_to_traverse = (last_location.cx-first_location.cx);
-		if previous_distance > location_distance then
-			-- for i=location_distance+1,previous_distance,1 do	
-			-- 	if object[first_location.cx][first_location.cy][first_location.x+i][first_location.y] == 2 then	
-			-- 		object[first_location.cx][first_location.cy][first_location.x+i][first_location.y] = 0;
-			-- 	end
-			-- end
-			for p=0,previous_total_chunks_to_traverse do 
-				if p == 0 then 
-					for i=location_distance+1,previous_distance or 0 do
-						if object[first_location.cx][first_location.cy][first_location.x+i][first_location.y] == 2 then	
-							object[first_location.cx][first_location.cy][first_location.x+i][first_location.y] = 0; 
-						end
-						update_objects(first_location.cx,first_location.cy);
-					end
-				else
-						for i=location_distance-(chunk_width-first_location.x)+1-(p-1)*chunk_width,previous_distance-(chunk_width-first_location.x)-(p-1)*chunk_width,1 do
-							if object[first_location.cx+p][first_location.cy][i][first_location.y] == 2 then	
-								object[first_location.cx+p][first_location.cy][i][first_location.y] = 0; 
-							end
-						end
-					update_objects(first_location.cx+p,first_location.cy);
-				end
-			end
-		else
-			for p=0,total_chunks_to_traverse do 
-				if p == 0 then 
-					for i=0,location_distance,1 do
-						if object[first_location.cx][first_location.cy][first_location.x+i][first_location.y] == 0 then	
-							object[first_location.cx][first_location.cy][first_location.x+i][first_location.y] = 2; 
-						end
-					end
-					update_objects(first_location.cx,first_location.cy);
-				else
-					for i=0,LocalX % chunk_width,1 do
-						if object[first_location.cx+p][first_location.cy][i][first_location.y] == 0 then	
-							object[first_location.cx+p][first_location.cy][i][first_location.y] = 2; 
-						end
-					end
-					update_objects(first_location.cx+p,first_location.cy);
-				end
-			end				
-			previous_total_chunks_to_traverse = total_chunks_to_traverse;
-			--if previous_total_chunks_to_traverse >= 1 then print("Print: "..previous_total_chunks_to_traverse,location_distance) end
-		end
-	--NOTE-- WEST
-	elseif (angle >= 135+22 and angle <= 225-22) then
-		location_distance = last_location.x-first_location.x;
-		if previous_dir == 'east' then
-			for o=first_location.x,chunk_width,1 do
-				if object[first_location.cx][first_location.cy][o][first_location.y] == 2 then	
-					object[first_location.cx][first_location.cy][o][first_location.y] = 0;
-				end
-			end
-		elseif previous_dir == 'north' then
-			for o=0,first_location.y,1 do
-				if object[first_location.cx][first_location.cy][first_location.x][first_location.y-o] == 2 then	
-					object[first_location.cx][first_location.cy][first_location.x][first_location.y-o] = 0;
-				end
-			end
-		elseif previous_dir == 'south' then
-			for o=first_location.y,chunk_height,1 do
-				if object[first_location.cx][first_location.cy][first_location.x][o] == 2 then	
-					object[first_location.cx][first_location.cy][first_location.x][o] = 0;
-				end
-			end
-		elseif previous_dir == 'south east' or previous_dir == 'south west' or previous_dir == 'north east' or previous_dir == 'north west' then
-			remove_diagonal_walls();
-		end
-
-		previous_dir = 'west';	
-		if location_distance < 0 then location_distance = location_distance * (-1) end
-		if previous_distance > location_distance then
-			for i=location_distance+1,previous_distance,1 do	
-				if object[first_location.cx][first_location.cy][first_location.x-i][first_location.y] == 2 then	
-					object[first_location.cx][first_location.cy][first_location.x-i][first_location.y] = 0;
-				end
-			end
-		else
-			for i=0,location_distance,1 do
-				if object[first_location.cx][first_location.cy][first_location.x-i][first_location.y] == 0 then	
-					object[first_location.cx][first_location.cy][first_location.x-i][first_location.y] = 2; 
-				end
-			end
-		end
-	--NOTE-- NORTH
-	elseif (angle >= 225+22 and angle <= 315-22) then
-		location_distance = last_location.y-first_location.y;
-		if previous_dir == 'west' then
-			for o=0,first_location.x,1 do
-				if object[first_location.cx][first_location.cy][first_location.x-o][first_location.y] == 2 then	
-					object[first_location.cx][first_location.cy][first_location.x-o][first_location.y] = 0;
-				end
-			end
-		elseif previous_dir == 'east' then
-			for o=first_location.x,chunk_width,1 do
-				if object[first_location.cx][first_location.cy][o][first_location.y] == 2 then	
-					object[first_location.cx][first_location.cy][o][first_location.y] = 0;
-				end
-			end
-		elseif previous_dir == 'south' then
-			for o=first_location.y,chunk_height,1 do
-				if object[first_location.cx][first_location.cy][first_location.x][o] == 2 then	
-					object[first_location.cx][first_location.cy][first_location.x][o] = 0;
-				end
-			end
-		elseif previous_dir == 'south east' or previous_dir == 'south west' or previous_dir == 'north east' or previous_dir == 'north west' then
-			remove_diagonal_walls();
-		end
-
-		previous_dir = 'north';	
-		if location_distance < 0 then location_distance = location_distance * (-1) end
-		if previous_distance > location_distance then
-			for i=location_distance+1,previous_distance,1 do	
-				if object[first_location.cx][first_location.cy][first_location.x][first_location.y-i] == 2 then	
-					object[first_location.cx][first_location.cy][first_location.x][first_location.y-i] = 0;
-				end
-			end
-		else
-			for i=0,location_distance,1 do
-				if object[first_location.cx][first_location.cy][first_location.x][first_location.y-i] == 0 then	
-					object[first_location.cx][first_location.cy][first_location.x][first_location.y-i] = 2; 
-				end
-			end
-		end
-	--NOTE-- SOUTH
-	elseif (angle >= 45+22 and angle <= 135-22) then
-		location_distance = last_location.y-first_location.y;
-		if previous_dir == 'west' then
-			for o=0,first_location.x,1 do
-				if object[first_location.cx][first_location.cy][first_location.x-o][first_location.y] == 2 then	
-					object[first_location.cx][first_location.cy][first_location.x-o][first_location.y] = 0;
-				end
-			end
-		elseif previous_dir == 'east' then
-			for o=first_location.x,chunk_width,1 do
-				if object[first_location.cx][first_location.cy][o][first_location.y] == 2 then	
-					object[first_location.cx][first_location.cy][o][first_location.y] = 0;
-				end
-			end
-		elseif previous_dir == 'north' then
-			for o=0,first_location.y,1 do
-				if object[first_location.cx][first_location.cy][first_location.x][first_location.y-o] == 2 then	
-					object[first_location.cx][first_location.cy][first_location.x][first_location.y-o] = 0;
-				end
-			end
-		elseif previous_dir == 'south east' or previous_dir == 'south west' or previous_dir == 'north east' or previous_dir == 'north west' then
-			remove_diagonal_walls();
-		end
-
-		previous_dir = 'south';	
-		if previous_distance > location_distance then
-			for i=location_distance+1,previous_distance,1 do	
-				if object[first_location.cx][first_location.cy][first_location.x][first_location.y+i] == 2 then	
-					object[first_location.cx][first_location.cy][first_location.x][first_location.y+i] = 0;
-				end
-			end
-		else
-			for i=0,location_distance,1 do
-				if object[first_location.cx][first_location.cy][first_location.x][first_location.y+i] == 0 then	
-					object[first_location.cx][first_location.cy][first_location.x][first_location.y+i] = 2; 
-				end
-			end
-		end
-	--NOTE-- SOUTH EAST
-	elseif (angle > 45-22 and angle < 45+22) then
-		if previous_dir == 'west' then
-			for o=0,first_location.x,1 do
-				if object[first_location.cx][first_location.cy][first_location.x-o][first_location.y] == 2 then	
-					object[first_location.cx][first_location.cy][first_location.x-o][first_location.y] = 0;
-				end
-			end
-		elseif previous_dir == 'north' then
-			for o=0,first_location.y,1 do
-				if object[first_location.cx][first_location.cy][first_location.x][first_location.y-o] == 2 then	
-					object[first_location.cx][first_location.cy][first_location.x][first_location.y-o] = 0;
-				end
-			end
-		elseif previous_dir == 'south' then
-			for o=first_location.y,chunk_height,1 do
-				if object[first_location.cx][first_location.cy][first_location.x][o] == 2 then	
-					object[first_location.cx][first_location.cy][first_location.x][o] = 0;
-				end
-			end
-		elseif previous_dir == 'east' then
-			for o=first_location.x,chunk_width,1 do
-				if object[first_location.cx][first_location.cy][o][first_location.y] == 2 then	
-					object[first_location.cx][first_location.cy][o][first_location.y] = 0;
-				end
-			end
-		elseif previous_dir == 'south west' or previous_dir == 'north east' or previous_dir == 'north west' then
-			remove_diagonal_walls();
-		end
-
-		previous_dir = 'south east';	
-		if previous_distance > location_distance then
-			for i=math.round(location_distance/2)+1,math.round(previous_distance/2),1 do	
-				if object[first_location.cx][first_location.cy][first_location.x+i][first_location.y+i] == 2 then	
-					object[first_location.cx][first_location.cy][first_location.x+i][first_location.y+i] = 0;
-				end
-			end
-		else
-			for i=0,(location_distance/2),1 do
-				if object[first_location.cx][first_location.cy][first_location.x+i][first_location.y+i] == 0 then	
-					object[first_location.cx][first_location.cy][first_location.x+i][first_location.y+i] = 2; 
-				end
-			end
-		end
-	--NOTE-- NORTH WEST
-	elseif (angle > 225-22 and angle < 225+22) then
-		if previous_dir == 'west' then
-			for o=0,first_location.x,1 do
-				if object[first_location.cx][first_location.cy][first_location.x-o][first_location.y] == 2 then	
-					object[first_location.cx][first_location.cy][first_location.x-o][first_location.y] = 0;
-				end
-			end
-		elseif previous_dir == 'north' then
-			for o=0,first_location.y,1 do
-				if object[first_location.cx][first_location.cy][first_location.x][first_location.y-o] == 2 then	
-					object[first_location.cx][first_location.cy][first_location.x][first_location.y-o] = 0;
-				end
-			end
-		elseif previous_dir == 'south' then
-			for o=first_location.y,chunk_height,1 do
-				if object[first_location.cx][first_location.cy][first_location.x][o] == 2 then	
-					object[first_location.cx][first_location.cy][first_location.x][o] = 0;
-				end
-			end
-		elseif previous_dir == 'east' then
-			for o=first_location.x,chunk_width,1 do
-				if object[first_location.cx][first_location.cy][o][first_location.y] == 2 then	
-					object[first_location.cx][first_location.cy][o][first_location.y] = 0;
-				end
-			end
-		elseif previous_dir == 'south east' or previous_dir == 'south west' or previous_dir == 'north east' then
-			remove_diagonal_walls();
-		end
-
-		if location_distance < 0 then location_distance = location_distance * (-1) end
-		previous_dir = 'north west';	
-		if previous_distance > location_distance then
-			for i=math.round(location_distance/2)+1,math.round(previous_distance/2),1 do	
-				if object[first_location.cx][first_location.cy][first_location.x-i][first_location.y-i] == 2 then	
-					object[first_location.cx][first_location.cy][first_location.x-i][first_location.y-i] = 0;
-				end
-			end
-		else
-			for i=0,(location_distance/2),1 do
-				if object[first_location.cx][first_location.cy][first_location.x-i][first_location.y-i] == 0 then	
-					object[first_location.cx][first_location.cy][first_location.x-i][first_location.y-i] = 2; 
-				end
-			end
-		end
-	--NOTE-- SOUTH WEST
-	elseif (angle > 135-22 and angle < 135+22) then
-		location_distance = math.floor((last_location.x - first_location.x + first_location.y - last_location.y)/2);
-		if previous_dir == 'west' then
-			for o=0,first_location.x,1 do
-				if object[first_location.cx][first_location.cy][first_location.x-o][first_location.y] == 2 then	
-					object[first_location.cx][first_location.cy][first_location.x-o][first_location.y] = 0;
-				end
-			end
-		elseif previous_dir == 'north' then
-			for o=0,first_location.y,1 do
-				if object[first_location.cx][first_location.cy][first_location.x][first_location.y-o] == 2 then	
-					object[first_location.cx][first_location.cy][first_location.x][first_location.y-o] = 0;
-				end
-			end
-		elseif previous_dir == 'south' then
-			for o=first_location.y,chunk_height,1 do
-				if object[first_location.cx][first_location.cy][first_location.x][o] == 2 then	
-					object[first_location.cx][first_location.cy][first_location.x][o] = 0;
-				end
-			end
-		elseif previous_dir == 'east' then
-			for o=first_location.x,chunk_width,1 do
-				if object[first_location.cx][first_location.cy][o][first_location.y] == 2 then	
-					object[first_location.cx][first_location.cy][o][first_location.y] = 0;
-				end
-			end
-		elseif previous_dir == 'south east' or previous_dir == 'north east' or previous_dir == 'north west' then
-			remove_diagonal_walls();
-		end
-
-		if location_distance < 0 then location_distance = location_distance * (-1) end
-		previous_dir = 'south west';	
-		if previous_distance > location_distance then
-			for i=location_distance+1,previous_distance,1 do	
-				if object[first_location.cx][first_location.cy][first_location.x-i][first_location.y+i] == 2 then	
-					object[first_location.cx][first_location.cy][first_location.x-i][first_location.y+i] = 0;
-				end
-			end
-		else
-			for i=0,location_distance,1 do
-				if object[first_location.cx][first_location.cy][first_location.x-i][first_location.y+i] == 0 then	
-					object[first_location.cx][first_location.cy][first_location.x-i][first_location.y+i] = 2; 
-				end
-			end
-		end
-	--NOTE-- NORTH EAST
-	elseif (angle > 315-22 and angle < 315+22) then
-		location_distance = math.floor((last_location.x - first_location.x + first_location.y - last_location.y)/2);
-		if previous_dir == 'west' then
-			for o=0,first_location.x,1 do
-				if object[first_location.cx][first_location.cy][first_location.x-o][first_location.y] == 2 then	
-					object[first_location.cx][first_location.cy][first_location.x-o][first_location.y] = 0;
-				end
-			end
-		elseif previous_dir == 'north' then
-			for o=0,first_location.y,1 do
-				if object[first_location.cx][first_location.cy][first_location.x][first_location.y-o] == 2 then	
-					object[first_location.cx][first_location.cy][first_location.x][first_location.y-o] = 0;
-				end
-			end
-		elseif previous_dir == 'south' then
-			for o=first_location.y,chunk_height,1 do
-				if object[first_location.cx][first_location.cy][first_location.x][o] == 2 then	
-					object[first_location.cx][first_location.cy][first_location.x][o] = 0;
-				end
-			end
-		elseif previous_dir == 'east' then
-			for o=first_location.x,chunk_width,1 do
-				if object[first_location.cx][first_location.cy][o][first_location.y] == 2 then	
-					object[first_location.cx][first_location.cy][o][first_location.y] = 0;
-				end
-			end
-		elseif previous_dir == 'south east' or previous_dir == 'south west' or previous_dir == 'north west' then
-			remove_diagonal_walls();
-		end
-
-		--if location_distance < 0 then location_distance = location_distance * (-1) end
-		previous_dir = 'north east';	
-		if previous_distance > location_distance then
-			for i=location_distance+1,previous_distance,1 do	
-				if object[first_location.cx][first_location.cy][first_location.x+i][first_location.y-i] == 2 then	
-					object[first_location.cx][first_location.cy][first_location.x+i][first_location.y-i] = 0;
-				end
-			end
-		else
-			for i=0,location_distance,1 do
-				if object[first_location.cx][first_location.cy][first_location.x+i][first_location.y-i] == 0 then	
-					object[first_location.cx][first_location.cy][first_location.x+i][first_location.y-i] = 2; 
-				end
-			end
-		end
-	end
-	previous_distance = location_distance;
-	if object[first_location.cx][first_location.cy][first_location.x][first_location.y] == 0 then
-	object[first_location.cx][first_location.cy][first_location.x][first_location.y] = 2; end
-	    update_objects();
-end
-
+--TODO remove
 local function build_wall_piece(cx,cy)
 	cx = cx or 0;
 	cy = cy or 0;
@@ -648,13 +227,33 @@ local function mousepressed(x, y, button, istouch)
 		end
    end
 end
-
+local anim = 0;
 local function update()
     if previous_chunk_x ~= current_chunk_x or previous_chunk_y ~= current_chunk_y then 
         chunkUpdateList()
     end
     previous_chunk_x = current_chunk_x;
     previous_chunk_y = current_chunk_y;
+	anim = anim + 1;
+	anim = anim % 6;
+	local chunk_x = current_chunk_x;
+	local chunk_y = current_chunk_y;
+	if anim == 0 then 
+		for i=0,chunk_width-1,1 do
+			for o=0,chunk_height-1,1 do
+				if object[chunk_x][chunk_y][i][o] ~= nil then
+					object[chunk_x][chunk_y][i][o]:animate();
+					object_batch[chunk_x][chunk_y]
+					:set(object[chunk_x][chunk_y][i][o].qid,
+						object[chunk_x][chunk_y][i][o].animation
+					:getFrameInfo(object[chunk_x][chunk_y][i][o].x,
+								object[chunk_x][chunk_y][i][o].y))
+				end
+			end
+		end	
+		update_objects();
+	end
+
 end
 
 

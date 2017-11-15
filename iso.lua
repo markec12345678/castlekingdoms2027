@@ -84,12 +84,12 @@ local function draw()
                 , 0, 0);
 
          -- LIMIT THE FPS TO 60
-            -- local cur_time = love.timer.getTime();
-            -- if next_time <= cur_time then
-            --     next_time = cur_time;
-            --     return;
-            -- end
-            -- love.timer.sleep(next_time - cur_time);
+            local cur_time = love.timer.getTime();
+            if next_time <= cur_time then
+                next_time = cur_time;
+                return;
+            end
+            love.timer.sleep(next_time - cur_time);
 end
 
 local function getBuildingSelection()
