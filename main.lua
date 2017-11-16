@@ -14,6 +14,8 @@ local menu = {};
 local game = {};
 local ui = {};
 love.graphics.setBackgroundColor( 45,85,9 )
+
+
 function love.load()
 	nk.init()
     Gamestate.registerEvents()
@@ -24,24 +26,24 @@ end
 function game:update(dt)
     core.update();    
     objects.update();
-	nk.frameBegin()
-	if nk.windowBegin('building_toolbox', 0, height-110, width, 110,
-			'border') then
-		nk.layoutRow('dynamic', 30, 1)
-		nk.label('Building selection: '..(core.getBuildingSelection() or ""))
-		nk.layoutRow('dynamic', 60, 8)
-		if nk.button('Small castle') then
-			building_selection = 374;
-		end
-		if nk.button('Stockpile') then
-			building_selection = 459;
-		end
-		if nk.button('Granary') then
-			building_selection = 331;
-		end
-	end
-	nk.windowEnd()
-	nk.frameEnd()
+	-- nk.frameBegin()
+	-- if nk.windowBegin('building_toolbox', 0, height-110, width, 110,
+	-- 		'border') then
+	-- 	nk.layoutRow('dynamic', 30, 1)
+	-- 	nk.label('Building selection: '..(core.getBuildingSelection() or ""))
+	-- 	nk.layoutRow('dynamic', 60, 8)
+	-- 	if nk.button('Small castle') then
+	-- 		building_selection = 374;
+	-- 	end
+	-- 	if nk.button('Stockpile') then
+	-- 		building_selection = 459;
+	-- 	end
+	-- 	if nk.button('Granary') then
+	-- 		building_selection = 331;
+	-- 	end
+	-- end
+	-- nk.windowEnd()
+	-- nk.frameEnd()
 end
 
 -----ENTER

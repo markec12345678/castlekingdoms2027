@@ -2,6 +2,20 @@
 local previous_distance, location_distance = 0;
 local previous_total_chunks_to_traverse = 0;
 local previous_dir = 'none';
+local Grid = require ("libraries.jumper.grid")
+local Pathfinder = require ("libraries.jumper.pathfinder")
+        collision_map = newAutotable(2)
+--TODO add rest of pathfinder setup
+
+
+		for i=-20,256,1 do
+			for o=-20,256,1 do
+				collision_map[i][o] = 0;
+			end
+		end
+local grid = Grid(collision_map)
+local finder = Pathfinder(grid,'JPS', 0);
+
 local angle; 
 local location = {
 	gx = 0,
@@ -35,8 +49,7 @@ local last_location = location:new();
 			object_image:setFilter('nearest','nearest')
 	        local tile_quads = require('objects_quads');
 			if tile_quads ~= nil then print("true") end 
-			
-
+		
 			object_batch[0][0] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)
 			shadow_batch[0][0] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)		
 			print(object_batch[0][0]:getBufferSize())
@@ -57,6 +70,9 @@ local last_location = location:new();
 		local Tree = class('Tree', Object);
 			function Tree:initialize(cx,cy,i,o,x,y,type)
 				Object.initialize(self,cx,cy,i,o,x,y,type)
+				self.gx = chunk_width*self.cx+self.i; --warning fucking genius
+				self.gy = chunk_width*self.cy+self.o;
+				collision_map[self.gx][self.gy] = 1; 
 				self.health = 100;
 				self.frames = {tile_quads[1450],tile_quads[1455],tile_quads[1456]
 				,tile_quads[1457],tile_quads[1458],tile_quads[1459],tile_quads[1460]
@@ -83,10 +99,8 @@ local last_location = location:new();
 					self.animation:pause();
 					self.stump = true;
 					self.animation:update(dt);
-					object_batch[self.cx][self.cy]
-					:set(self.qid,self.animation:getFrameInfo(self.x-self.offset_x,self.y));
-					self.offset_x = 0;
 					self.animated = false; --mark for removal from list
+					self:animate(); --animate, because the list will remove us before we show the stump
 					print("Done!")
 					end
 				table.insert(active_objects,self);
@@ -97,21 +111,16 @@ local last_location = location:new();
 					:set(self.qid,self.animation:getFrameInfo(self.x-self.offset_x,self.y));
 				self.offset_x = 0;
 				end
-			-- function Tree:finish()
-			-- 	self.frames = {tile_quads[1449]};
-			-- 	self.animation = anim.newAnimation(self.frames,0.1);
-			-- 	self.animation:pause();
-			-- 	end
-			function Tree:cut()
+			function Tree:cut() --TODO return value to chopper
 				if self.health > 0 then
 					self.health = self.health - 10;
 					self.offset_x = 4+math.random(2);
-					self.animation:gotoFrame(4);
-					print("Cutting down!")
+					--self.animation:gotoFrame(4);
+					print("Cutting down!", self.gx,self.gy)
 				elseif self.health <= 0 and self.falling == false and self.chop == false and self.stump == false then
 					self.frames = {tile_quads[1436],tile_quads[1441],
 					tile_quads[1442],tile_quads[1443]}
-					self.animation = anim.newAnimation(self.frames,0.18,self.cut_down)
+					self.animation = anim.newAnimation(self.frames,0.13,self.cut_down)
 					self.falling = true;
 					end
 				if self.chop then 
@@ -123,6 +132,172 @@ local last_location = location:new();
 							self.chop = false;
 						end
 					end
+				end
+		local Woodcutter = class('Woodcutter', Object);
+			function Woodcutter:initialize(cx,cy,i,o,x,y,type)
+				Object.initialize(self,cx,cy,i,o,x,y,type)
+				self.endx = 0;
+				self.endy = 0;
+				self.waypoint_x = 0;
+				self.waypoint_y = 0;
+				self.state = 'Looking to chop tree';
+				self.path = 0;
+				self.straight_walk_speed = 0.03;
+				self.diagonal_walk_speed = 0.03;
+				self.nd = newAutotable(1);
+				self.nd_len = 0;
+				self.count = 1;
+				self.fr_walking_east = {
+					tile_quads[2201],tile_quads[2202],tile_quads[2203],
+					tile_quads[2204],tile_quads[2205],tile_quads[2206],
+					tile_quads[2207],tile_quads[2208]
+				}
+				self.fr_walking_north = {
+					tile_quads[2209],tile_quads[2210],tile_quads[2211],
+					tile_quads[2212],tile_quads[2213],tile_quads[2214],
+					tile_quads[2215],tile_quads[2216]
+				}
+				self.fr_walking_northeast = {
+					tile_quads[2217],tile_quads[2218],tile_quads[2219],
+					tile_quads[2220],tile_quads[2221],tile_quads[2222],
+					tile_quads[2223],tile_quads[2224]
+				}
+				self.fr_walking_northwest = {
+					tile_quads[2225],tile_quads[2226],tile_quads[2227],
+					tile_quads[2228],tile_quads[2229],tile_quads[2230],
+					tile_quads[2231],tile_quads[2232]
+				}
+				self.fr_walking_south = {
+					tile_quads[2233],tile_quads[2234],tile_quads[2235],
+					tile_quads[2236],tile_quads[2237],tile_quads[2238],
+					tile_quads[2239],tile_quads[2240]
+				}
+				self.fr_walking_southeast = {
+					tile_quads[2241],tile_quads[2242],tile_quads[2243],
+					tile_quads[2244],tile_quads[2245],tile_quads[2246],
+					tile_quads[2247],tile_quads[2248]
+				}
+				self.fr_walking_southwest = {
+					tile_quads[2249],tile_quads[2250],tile_quads[2251],
+					tile_quads[2252],tile_quads[2253],tile_quads[2254],
+					tile_quads[2255],tile_quads[2256]
+				}
+				self.fr_walking_west = {
+					tile_quads[2257],tile_quads[2258],tile_quads[2259],
+					tile_quads[2260],tile_quads[2261],tile_quads[2262],
+					tile_quads[2263],tile_quads[2264]
+				}
+				self.animation = anim.newAnimation(self.fr_walking_west,10);
+				self.move_dir = "none";
+				table.insert(active_objects,self);
+				end --todo finish this class
+			function Woodcutter:pathfind(xx,yy)
+					self.path = finder:getPath(self.i,self.o,xx,yy);
+					if self.path then
+						print("Start x,y",self.i,self.o)
+						print(('Path found! Length: %.2f'):format(self.path:getLength()))
+						--local nd, len = self.path:nodes()
+						for node, count in self.path:nodes() do
+	  						print(('Step: %d - x: %d - y: %d'):format(count, node.x, node.y))
+							if count>1 then
+							self.nd[count-1] = node;
+							self.nd_len = count-1;
+							end
+						end
+						 --print(nd.x,nd.y)
+						self.waypoint_x = self.nd[1].x; 
+						self.waypoint_y = self.nd[1].y;
+					end
+				end
+			function Woodcutter:find_tree()
+					for index, obj in ipairs ( active_objects ) do 
+						if obj.type == 'Pine tree' then
+							self.endx = obj.i;
+							self.endy = obj.o;
+							self:pathfind(self.endx+1,self.endy)
+							print("Found tree at "..self.endx.."  "..self.endy)
+							self.state = "Going to tree"
+							return;
+						end
+					end
+				end
+			function Woodcutter:update()
+				if self.move_dir == "none" then
+					local wx = self.waypoint_x;
+					local wy = self.waypoint_y;
+					--print("Yeah",self.i)
+					if self.i > self.waypoint_x and self.o == self.waypoint_y then --direction is west 
+						self.move_dir = "west";
+						self.animation = anim.newAnimation(self.fr_walking_west,0.15)
+					elseif self.i > wx and self.o > wy then --direction is southwest
+						self.move_dir = "southwest";
+						self.animation = anim.newAnimation(self.fr_walking_southwest,0.15)
+					elseif self.i > wx and self.o < wy then --direction is northwest
+						self.move_dir = "northwest";
+						self.animation = anim.newAnimation(self.fr_walking_northwest,0.15)
+					elseif self.i == wx and self.o < wy then --direction is north
+						self.move_dir = "north";
+						self.animation = anim.newAnimation(self.fr_walking_north,0.15)
+					elseif self.i == wx and self.o > wy then --direction is south
+						self.move_dir = "south";
+						self.animation = anim.newAnimation(self.fr_walking_south,0.15)
+					elseif self.i < wx and self.o == wy then --direction is east
+						self.move_dir = "east";
+						self.animation = anim.newAnimation(self.fr_walking_east,0.15)
+					elseif self.i < wx and self.o > wy then --direction is southeast
+						self.move_dir = "southeast";
+						self.animation = anim.newAnimation(self.fr_walking_southeast,0.15)
+					elseif self.i < wx and self.o < wy then --direction is northeast
+						self.move_dir = "northeast";
+						self.animation = anim.newAnimation(self.fr_walking_northeast,0.15)
+					end
+					print("Move dir is now "..self.move_dir)
+				end
+				self.x = IsoX + (self.i - self.o) * tile_width  * 0.5 - 0
+				self.y = IsoY + (self.i + self.o) * tile_height * 0.5 - 0
+				if self.state == "Going to tree" then
+					if self.move_dir == "west" then
+						self.i = self.i - self.straight_walk_speed
+					elseif self.move_dir == "south" then
+						self.o = self.o + self.straight_walk_speed
+					elseif self.move_dir == "north" then
+						self.o = self.o - self.straight_walk_speed
+					elseif self.move_dir == "east" then
+						self.i = self.i + self.straight_walk_speed
+					elseif self.move_dir == "northwest" then
+						self.i = self.i - self.diagonal_walk_speed
+						self.o = self.o - self.diagonal_walk_speed
+					elseif self.move_dir == "northeast" then
+						self.i = self.i + self.diagonal_walk_speed
+						self.o = self.o - self.diagonal_walk_speed
+					elseif self.move_dir == "southwest" then
+						self.i = self.i - self.diagonal_walk_speed
+						self.o = self.o + self.diagonal_walk_speed
+					elseif self.move_dir == "southeast" then
+						self.i = self.i + self.diagonal_walk_speed
+						self.o = self.o + self.diagonal_walk_speed
+					end
+				elseif self.state == "Looking to chop tree" then
+					self:find_tree();
+				end
+				--print("Distance x: ",self.i, self.waypoint_x)
+				--print("	Distance y: ",self.o, self.waypoint_y)
+				if math.round(self.i) == self.waypoint_x and math.round(self.o) == self.waypoint_y and self.state ~= "Cutting down" then
+					self.i = math.round(self.i);
+					self.o = math.round(self.o);
+					print("Reached checkpoint "..self.count)
+						self.count = self.count + 1;
+						if self.count >= self.nd_len then print("Reached end") self.state = "Cutting down" end
+						self.waypoint_x = self.nd[self.count].x; 
+						self.waypoint_y = self.nd[self.count].y;
+						self.move_dir = "none"
+				end
+				end
+			function Woodcutter:animate()
+				self:update();
+				self.animation:update(dt);
+				object_batch[self.cx][self.cy]
+					:set(self.qid,self.animation:getFrameInfo(self.x,self.y));
 				end
 --- NOTE --------------------------
 --- NOTE --------------------------
@@ -140,8 +315,8 @@ function genObjects(cx,cy)
 				local rand = math.random(400);
 						if rand == 5 then
 						object[cx][cy][i][o] = Tree:new(cx,cy,i,o, --TODO fix tile_offset/_x
-						IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[object[chunk_x][chunk_y][i][o]] or 0),
-						IsoY + (i + o) * tile_height * 0.5 - (tile_offset[object[chunk_x][chunk_y][i][o]] or 0),"Pine tree")
+						IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[object[chunk_x][chunk_y][i][o]] or 50),
+						IsoY + (i + o) * tile_height * 0.5 - (tile_offset[object[chunk_x][chunk_y][i][o]] or 170),"Pine tree")
 						object[cx][cy][i][o].animation:gotoFrame(math.random(6))
 						--table.insert(active_objects,object[cx][cy][i][o])
 						end 
@@ -215,7 +390,7 @@ local function draw_object()
 		end
   	--love.graphics.draw(shadow_batch[0][0],    -view_xview, -view_yview, 0, scale_x, scale_y);
 	love.graphics.setCanvas()
-    love.graphics.draw(object_image,tile_quads[building_selection],IsoToScreenX(LocalX,LocalY)-view_xview-(tile_offset_x[building_selection] or 0),IsoToScreenY(LocalX,LocalY)-view_yview-(tile_offset[building_selection] or 0),nil,scale_x);
+    --love.graphics.draw(object_image,tile_quads[building_selection],IsoToScreenX(LocalX,LocalY)-view_xview-(tile_offset_x[building_selection] or 0),IsoToScreenY(LocalX,LocalY)-view_yview-(tile_offset[building_selection] or 0),nil,scale_x);
 	
 	love.graphics.setColor(255,255,255,70)
 	love.graphics.draw(canvas,0,0)
@@ -258,8 +433,7 @@ local function mousereleased(x, y, button, istouch)
 end
 
 local function mousepressed(x, y, button, istouch)
-   if button == 1 then 
-		mx, my = x,y;
+	mx, my = x,y;
 		LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)); 
 		LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview)); 
 		first_location.gx = LocalX;
@@ -268,39 +442,35 @@ local function mousepressed(x, y, button, istouch)
 		first_location.y = LocalY % (chunk_width);
 		first_location.cx = math.floor(LocalX/chunk_width);
 		first_location.cy = math.floor(LocalY/chunk_width);
+   if button == 1 then 
 		if object[first_location.cx][first_location.cy][first_location.x][first_location.y] ~= nil then
-		object[first_location.cx][first_location.cy][first_location.x][first_location.y]:cut(); end
-
-		-- --TODO check first if tile is taken
-		-- 	object[first_location.cx][first_location.cy][first_location.x][first_location.y] = building_selection
-		-- 	if building_selection >= 398 and building_selection <= 401 then
-		-- 		building_selection = 398 + math.random(3);
-		-- 	end
-		-- 	update_objects(first_location.cx,first_location.cy)
+		object[first_location.cx][first_location.cy][first_location.x][first_location.y]:cut(); end --todo remove this in prod
+   elseif button == 2 then
+		--if object[first_location.cx][first_location.cy][first_location.x][first_location.y] ~ then
+			print("Trying to spawn woodcutter", first_location.x, first_location.y)
+			object[first_location.cx][first_location.cy][first_location.x][first_location.y] =  
+						Woodcutter:new(first_location.cx,first_location.cy,first_location.x,first_location.y, --TODO fix tile_offset/_x
+						IsoX + (first_location.x - first_location.y) * tile_width  * 0.5 - 0,
+						IsoY + (first_location.x + first_location.y) * tile_height * 0.5 - 0,"Woodcutter")
+					object[first_location.cx][first_location.cy][first_location.x][first_location.y].qid = object_batch[first_location.cx][first_location.cy]:
+					add(object[first_location.cx][first_location.cy][first_location.x][first_location.y].animation
+					:getFrameInfo(object[first_location.cx][first_location.cy][first_location.x][first_location.y].x,
+								  object[first_location.cx][first_location.cy][first_location.x][first_location.y].y));
+		--end 
    end
-   if button == 2 then
-		building_selection = building_selection + 1;
-		building_selection = (building_selection % 3);
-		if building_selection == 2 then
-		--TODO proper system for changing build selection
-			px_img_y_offset = 8;
-			lx_offset = -6;
-			ly_offset = 0;
-		elseif building_selection == 1 or building_selection == 0 then
-			px_img_y_offset = 0;
-			lx_offset = 0;
-			ly_offset = 0;
-		end
-   end
-end
+end 
+local previous_count = 0; --note remove this in prod
 local function update()
     if previous_chunk_x ~= current_chunk_x or previous_chunk_y ~= current_chunk_y then 
         chunkUpdateList()
     end
     previous_chunk_x = current_chunk_x;
     previous_chunk_y = current_chunk_y;
+	
+	local counter = 0 --note remove this in prod
 
 	for index, obj in ipairs ( active_objects ) do 
+				counter = counter + 1; --note remove this in prod
 				if (obj.cx > current_chunk_x+1) or (obj.cx < current_chunk_x-1)
 				or (obj.cy > current_chunk_y+1) or (obj.cy < current_chunk_y-1) or obj.animated == false then
 					table.remove(active_objects,index)
@@ -308,23 +478,9 @@ local function update()
 					obj:animate();
 				end
 	end
-		-- for i=0,chunk_width-1,1 do
-		-- 	for o=0,chunk_height-1,1 do
-		-- 		if object[chunk_x][chunk_y][i][o] ~= nil then
-		-- 			object[chunk_x][chunk_y][i][o]:animate();
-		-- 			object_batch[chunk_x][chunk_y]
-		-- 			:set(object[chunk_x][chunk_y][i][o].qid,
-		-- 				object[chunk_x][chunk_y][i][o].animation
-		-- 			:getFrameInfo(object[chunk_x][chunk_y][i][o].x,
-		-- 						object[chunk_x][chunk_y][i][o].y));
-		-- 			--TODO add a list to keep track of all the objects, 
-		-- 			--TODO so we don't have to loop through the entire chunk
-		-- 		end
-		-- 	end
-		-- end	
-		--update_objects();
-	--end
-
+	if previous_count ~= counter then --note remove this in prod
+	print("Amount of animated objects: "..counter) end --note remove this in prod
+	previous_count = counter; --note remove this in prod
 end
 
 

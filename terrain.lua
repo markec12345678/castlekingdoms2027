@@ -65,7 +65,7 @@ function getLocationDistance()
 end
 
 -- NOTE -- deprecated
-local function update_terrain(chunk_x,chunk_y)
+function update_terrain(chunk_x,chunk_y)
 	local time = love.timer.getTime()
 	chunk_x = chunk_x or current_chunk_x;
 	chunk_y = chunk_y or current_chunk_y;
