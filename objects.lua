@@ -24,7 +24,8 @@ local last_location = location:new();
 	----Rows and columns
             local cols = chunk_width;
             local rows = chunk_height;
-	----Chunk 2D array  
+	----Chunk 2D array 	
+			local active_objects = newAutotable(2);
 			local object = newAutotable(4)
 	----Generate spriteBatch
 			local object_batch = newAutotable(2)   
@@ -39,32 +40,93 @@ local last_location = location:new();
 			object_batch[0][0] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)
 			shadow_batch[0][0] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)		
 			print(object_batch[0][0]:getBufferSize())
---- NOTE Object classes START
-local Object = class('Object');
-	function Object:initialize(cx,cy,i,o,x,y,type)
-		self.cx = cx;
-		self.cy = cy;
-		self.i = i;
-		self.o = o;
-		self.x = x;
-		self.y = y;
-		self.type = type;
-		self.qid = 0;
-	end
-local Tree = class('Tree', Object);
-	function Tree:initialize(cx,cy,i,o,x,y,type)
-		Object.initialize(self,gx,gy,i,o,x,y,type)
-		self.health = 100;
-		self.frames = {tile_quads[1450],tile_quads[1458],tile_quads[1454]} 
-		self.animation = anim.newAnimation(self.frames,0.1);
-	end
-	function Tree:animate()
-		self.animation:update(dt);
-	end
-	function Tree:getQuad()
-		return tile_quads[1450]
-	end
---- NOTE Object classes END
+--- NOTE Object classes START ---
+--- NOTE --------------------------
+--- NOTE --------------------------
+		local Object = class('Object');
+			function Object:initialize(cx,cy,i,o,x,y,type)
+				self.cx = cx;
+				self.cy = cy;
+				self.i = i;
+				self.o = o;
+				self.x = x;
+				self.y = y;
+				self.type = type;
+				self.qid = 0;
+				end
+		local Tree = class('Tree', Object);
+			function Tree:initialize(cx,cy,i,o,x,y,type)
+				Object.initialize(self,cx,cy,i,o,x,y,type)
+				self.health = 100;
+				self.frames = {tile_quads[1450],tile_quads[1455],tile_quads[1456]
+				,tile_quads[1457],tile_quads[1458],tile_quads[1459],tile_quads[1460]
+				,tile_quads[1461],tile_quads[1462],tile_quads[1451],tile_quads[1452]
+				,tile_quads[1453],tile_quads[1454],tile_quads[1452],tile_quads[1462],tile_quads[1460]}; 
+				self.animation = anim.newAnimation(self.frames,0.13);
+				self.offset_x = 0;
+				self.falling = false;
+				self.chop = false;
+				self.stump = false; 
+				self.animated = true;
+				self.cut_down = function() 
+					print("Cut!")
+					self.falling = false;
+					self.chop = true;
+					self.frames = {tile_quads[1444],tile_quads[1445],tile_quads[1446],tile_quads[1447],
+					tile_quads[1448],tile_quads[1437],tile_quads[1438],tile_quads[1439],tile_quads[1440]}
+					self.animation = anim.newAnimation(self.frames,0.1)
+					self.animation:pause();
+					end
+				self.finish = function()
+					self.frames = {tile_quads[1449]};
+					self.animation = anim.newAnimation(self.frames,0.1);
+					self.animation:pause();
+					self.stump = true;
+					self.animation:update(dt);
+					object_batch[self.cx][self.cy]
+					:set(self.qid,self.animation:getFrameInfo(self.x-self.offset_x,self.y));
+					self.offset_x = 0;
+					self.animated = false; --mark for removal from list
+					print("Done!")
+					end
+				table.insert(active_objects,self);
+				end
+			function Tree:animate()
+				self.animation:update(dt);
+				object_batch[self.cx][self.cy]
+					:set(self.qid,self.animation:getFrameInfo(self.x-self.offset_x,self.y));
+				self.offset_x = 0;
+				end
+			-- function Tree:finish()
+			-- 	self.frames = {tile_quads[1449]};
+			-- 	self.animation = anim.newAnimation(self.frames,0.1);
+			-- 	self.animation:pause();
+			-- 	end
+			function Tree:cut()
+				if self.health > 0 then
+					self.health = self.health - 10;
+					self.offset_x = 4+math.random(2);
+					self.animation:gotoFrame(4);
+					print("Cutting down!")
+				elseif self.health <= 0 and self.falling == false and self.chop == false and self.stump == false then
+					self.frames = {tile_quads[1436],tile_quads[1441],
+					tile_quads[1442],tile_quads[1443]}
+					self.animation = anim.newAnimation(self.frames,0.18,self.cut_down)
+					self.falling = true;
+					end
+				if self.chop then 
+						print("Chopping!")
+						if self.animation:getTotalFrames() ~= self.animation:getCurrentFrame() then
+							self.animation:gotoFrame(self.animation:getCurrentFrame()+1)
+						else
+							self.finish();
+							self.chop = false;
+						end
+					end
+				end
+--- NOTE --------------------------
+--- NOTE --------------------------
+--- NOTE Object classes END ---
 function genObjects(cx,cy)
 	local chunk_x = cx or current_chunk_x;
 	local chunk_y = cy or current_chunk_y;
@@ -77,9 +139,11 @@ function genObjects(cx,cy)
 			for o=0,chunk_height-1,1 do
 				local rand = math.random(400);
 						if rand == 5 then
-						object[cx][cy][i][o] = Tree:new(cx,cy,i,o,
+						object[cx][cy][i][o] = Tree:new(cx,cy,i,o, --TODO fix tile_offset/_x
 						IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[object[chunk_x][chunk_y][i][o]] or 0),
 						IsoY + (i + o) * tile_height * 0.5 - (tile_offset[object[chunk_x][chunk_y][i][o]] or 0),"Pine tree")
+						object[cx][cy][i][o].animation:gotoFrame(math.random(6))
+						--table.insert(active_objects,object[cx][cy][i][o])
 						end 
 						--TODO add shadow gen here	
 				if object[cx][cy][i][o] == nil or object[cx][cy][i][o] == 0 then else
@@ -195,7 +259,7 @@ end
 
 local function mousepressed(x, y, button, istouch)
    if button == 1 then 
-		mx, my = love.mouse.getPosition(); 
+		mx, my = x,y;
 		LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)); 
 		LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview)); 
 		first_location.gx = LocalX;
@@ -204,13 +268,15 @@ local function mousepressed(x, y, button, istouch)
 		first_location.y = LocalY % (chunk_width);
 		first_location.cx = math.floor(LocalX/chunk_width);
 		first_location.cy = math.floor(LocalY/chunk_width);
+		if object[first_location.cx][first_location.cy][first_location.x][first_location.y] ~= nil then
+		object[first_location.cx][first_location.cy][first_location.x][first_location.y]:cut(); end
 
-		--TODO check first if tile is taken
-			object[first_location.cx][first_location.cy][first_location.x][first_location.y] = building_selection
-			if building_selection >= 398 and building_selection <= 401 then
-				building_selection = 398 + math.random(3);
-			end
-			update_objects(first_location.cx,first_location.cy)
+		-- --TODO check first if tile is taken
+		-- 	object[first_location.cx][first_location.cy][first_location.x][first_location.y] = building_selection
+		-- 	if building_selection >= 398 and building_selection <= 401 then
+		-- 		building_selection = 398 + math.random(3);
+		-- 	end
+		-- 	update_objects(first_location.cx,first_location.cy)
    end
    if button == 2 then
 		building_selection = building_selection + 1;
@@ -227,34 +293,37 @@ local function mousepressed(x, y, button, istouch)
 		end
    end
 end
-local anim = 0;
 local function update()
     if previous_chunk_x ~= current_chunk_x or previous_chunk_y ~= current_chunk_y then 
         chunkUpdateList()
     end
     previous_chunk_x = current_chunk_x;
     previous_chunk_y = current_chunk_y;
-	anim = anim + 1;
-	anim = anim % 6;
-	local chunk_x = current_chunk_x;
-	local chunk_y = current_chunk_y;
-	if anim == 0 then 
-		for i=0,chunk_width-1,1 do
-			for o=0,chunk_height-1,1 do
-				if object[chunk_x][chunk_y][i][o] ~= nil then
-					object[chunk_x][chunk_y][i][o]:animate();
-					object_batch[chunk_x][chunk_y]
-					:set(object[chunk_x][chunk_y][i][o].qid,
-						object[chunk_x][chunk_y][i][o].animation
-					:getFrameInfo(object[chunk_x][chunk_y][i][o].x,
-								object[chunk_x][chunk_y][i][o].y));
-					--TODO add a list to keep track of all the objects, 
-					--TODO so we don't have to loop through the entire chunk
+
+	for index, obj in ipairs ( active_objects ) do 
+				if (obj.cx > current_chunk_x+1) or (obj.cx < current_chunk_x-1)
+				or (obj.cy > current_chunk_y+1) or (obj.cy < current_chunk_y-1) or obj.animated == false then
+					table.remove(active_objects,index)
+				else
+					obj:animate();
 				end
-			end
-		end	
-		update_objects();
 	end
+		-- for i=0,chunk_width-1,1 do
+		-- 	for o=0,chunk_height-1,1 do
+		-- 		if object[chunk_x][chunk_y][i][o] ~= nil then
+		-- 			object[chunk_x][chunk_y][i][o]:animate();
+		-- 			object_batch[chunk_x][chunk_y]
+		-- 			:set(object[chunk_x][chunk_y][i][o].qid,
+		-- 				object[chunk_x][chunk_y][i][o].animation
+		-- 			:getFrameInfo(object[chunk_x][chunk_y][i][o].x,
+		-- 						object[chunk_x][chunk_y][i][o].y));
+		-- 			--TODO add a list to keep track of all the objects, 
+		-- 			--TODO so we don't have to loop through the entire chunk
+		-- 		end
+		-- 	end
+		-- end	
+		--update_objects();
+	--end
 
 end
 
