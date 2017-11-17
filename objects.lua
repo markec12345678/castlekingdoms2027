@@ -48,7 +48,7 @@ local last_location = location:new();
 			local object_image = love.graphics.newImage( "assets/tiles/object_texture.png" ); 
 			object_image:setFilter('nearest','nearest')
 	        local tile_quads = require('objects_quads');
-			if tile_quads ~= nil then print("true") end 
+			--if tile_quads ~= nil then print("true") end 
 		
 			object_batch[0][0] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)
 			shadow_batch[0][0] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)		
@@ -136,17 +136,20 @@ local last_location = location:new();
 		local Woodcutter = class('Woodcutter', Object);
 			function Woodcutter:initialize(cx,cy,i,o,x,y,type)
 				Object.initialize(self,cx,cy,i,o,x,y,type)
+				self.gx = chunk_width*self.cx+self.i; --warning fucking genius
+				self.gy = chunk_width*self.cy+self.o;
 				self.endx = 0;
 				self.endy = 0;
 				self.waypoint_x = 0;
 				self.waypoint_y = 0;
 				self.state = 'Looking to chop tree';
 				self.path = 0;
-				self.straight_walk_speed = 0.03;
-				self.diagonal_walk_speed = 0.03;
+				self.straight_walk_speed = 1;
+				self.diagonal_walk_speed = 1;
 				self.nd = newAutotable(1);
 				self.nd_len = 0;
 				self.count = 1;
+				self.timr = 0;
 				self.fr_walking_east = {
 					tile_quads[2201],tile_quads[2202],tile_quads[2203],
 					tile_quads[2204],tile_quads[2205],tile_quads[2206],
@@ -202,6 +205,7 @@ local last_location = location:new();
 							if count>1 then
 							self.nd[count-1] = node;
 							self.nd_len = count-1;
+							print(count)
 							end
 						end
 						 --print(nd.x,nd.y)
@@ -212,50 +216,62 @@ local last_location = location:new();
 			function Woodcutter:find_tree()
 					for index, obj in ipairs ( active_objects ) do 
 						if obj.type == 'Pine tree' then
-							self.endx = obj.i;
-							self.endy = obj.o;
-							self:pathfind(self.endx+1,self.endy)
-							print("Found tree at "..self.endx.."  "..self.endy)
-							self.state = "Going to tree"
-							return;
+							if obj.cx == self.cx and obj.cy == self.cy then
+								self.endx = obj.gx;
+								self.endy = obj.gy;
+								self:pathfind(self.endx+1,self.endy)
+								print("Found tree at "..self.endx.."  "..self.endy)
+								self.state = "Going to tree"
+								return;
+							end
 						end
 					end
 				end
 			function Woodcutter:update()
-				if self.move_dir == "none" then
+				if self.move_dir == "none" and self.state == "Going to tree" then
+				
+				self.gx = chunk_width*self.cx+self.i; --warning fucking genius
+				self.gy = chunk_width*self.cy+self.o;
 					local wx = self.waypoint_x;
 					local wy = self.waypoint_y;
 					--print("Yeah",self.i)
-					if self.i > self.waypoint_x and self.o == self.waypoint_y then --direction is west 
+					
+					local angle = math.atan2 (wy - self.gy,wx-self.gx);
+					angle = (angle *180)/math.pi;
+					angle = math.round (angle);
+					if angle<0 then angle = 360+angle end
+					if angle > 170  and angle < 190 then --direction is west 
 						self.move_dir = "west";
 						self.animation = anim.newAnimation(self.fr_walking_west,0.15)
-					elseif self.i > wx and self.o > wy then --direction is southwest
+					elseif angle > 90+45-20 and angle < 90+45+20 then --direction is southwest
 						self.move_dir = "southwest";
 						self.animation = anim.newAnimation(self.fr_walking_southwest,0.15)
-					elseif self.i > wx and self.o < wy then --direction is northwest
+					elseif angle > 200 and angle < 225+20 then --direction is northwest
 						self.move_dir = "northwest";
 						self.animation = anim.newAnimation(self.fr_walking_northwest,0.15)
-					elseif self.i == wx and self.o < wy then --direction is north
+					elseif angle > 270-20 and angle < 270+20 then --direction is north
 						self.move_dir = "north";
 						self.animation = anim.newAnimation(self.fr_walking_north,0.15)
-					elseif self.i == wx and self.o > wy then --direction is south
+					elseif angle > 90-20 and angle <90+20 then --direction is south
 						self.move_dir = "south";
 						self.animation = anim.newAnimation(self.fr_walking_south,0.15)
-					elseif self.i < wx and self.o == wy then --direction is east
+					elseif angle == 360 or angle == 0 or angle == 359 then --direction is east
 						self.move_dir = "east";
 						self.animation = anim.newAnimation(self.fr_walking_east,0.15)
-					elseif self.i < wx and self.o > wy then --direction is southeast
+					elseif angle > 45-20 and angle < 45+20 then --direction is southeast
 						self.move_dir = "southeast";
 						self.animation = anim.newAnimation(self.fr_walking_southeast,0.15)
-					elseif self.i < wx and self.o < wy then --direction is northeast
+					elseif angle > 312 and angle < 335 then --direction is northeast
 						self.move_dir = "northeast";
 						self.animation = anim.newAnimation(self.fr_walking_northeast,0.15)
 					end
-					print("Move dir is now "..self.move_dir)
+					print("Move dir is now "..self.move_dir, angle)
 				end
 				self.x = IsoX + (self.i - self.o) * tile_width  * 0.5 - 0
 				self.y = IsoY + (self.i + self.o) * tile_height * 0.5 - 0
-				if self.state == "Going to tree" then
+				self.timr = self.timr + 1;
+				self.timr = self.timr % 20;
+				if self.state == "Going to tree" and self.timr == 0 then
 					if self.move_dir == "west" then
 						self.i = self.i - self.straight_walk_speed
 					elseif self.move_dir == "south" then
@@ -277,19 +293,20 @@ local last_location = location:new();
 						self.i = self.i + self.diagonal_walk_speed
 						self.o = self.o + self.diagonal_walk_speed
 					end
+					print("Position ",self.i,self.o)
 				elseif self.state == "Looking to chop tree" then
 					self:find_tree();
 				end
 				--print("Distance x: ",self.i, self.waypoint_x)
 				--print("	Distance y: ",self.o, self.waypoint_y)
-				if math.round(self.i) == self.waypoint_x and math.round(self.o) == self.waypoint_y and self.state ~= "Cutting down" then
-					self.i = math.round(self.i);
-					self.o = math.round(self.o);
-					print("Reached checkpoint "..self.count)
+				if self.i == self.waypoint_x and self.o == self.waypoint_y and self.state ~= "Cutting down" and self.move_dir ~= "none" then
 						self.count = self.count + 1;
-						if self.count >= self.nd_len then print("Reached end") self.state = "Cutting down" end
-						self.waypoint_x = self.nd[self.count].x; 
-						self.waypoint_y = self.nd[self.count].y;
+						if self.count == self.nd_len then print("Reached end because self.i("..self.i..") is == to self.waypoint_x("..self.waypoint_x..
+							"and self.o("..self.o..") is == to self.waypoint_y("..self.waypoint_y)
+							 self.state = "Cutting down" return end
+						print("Reached checkpoint "..self.count)
+						self.waypoint_x = self.nd[self.count].x or -5; 
+						self.waypoint_y = self.nd[self.count].y or -5;
 						self.move_dir = "none"
 				end
 				end
@@ -450,8 +467,8 @@ local function mousepressed(x, y, button, istouch)
 			print("Trying to spawn woodcutter", first_location.x, first_location.y)
 			object[first_location.cx][first_location.cy][first_location.x][first_location.y] =  
 						Woodcutter:new(first_location.cx,first_location.cy,first_location.x,first_location.y, --TODO fix tile_offset/_x
-						IsoX + (first_location.x - first_location.y) * tile_width  * 0.5 - 0,
-						IsoY + (first_location.x + first_location.y) * tile_height * 0.5 - 0,"Woodcutter")
+						IsoX + (first_location.x - first_location.y) * tile_width  * 0.5 - 10,
+						IsoY + (first_location.x + first_location.y) * tile_height * 0.5 - 80,"Woodcutter")
 					object[first_location.cx][first_location.cy][first_location.x][first_location.y].qid = object_batch[first_location.cx][first_location.cy]:
 					add(object[first_location.cx][first_location.cy][first_location.x][first_location.y].animation
 					:getFrameInfo(object[first_location.cx][first_location.cy][first_location.x][first_location.y].x,
