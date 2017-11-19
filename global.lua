@@ -33,7 +33,7 @@
             window_height = 800;
             window_width = 1200;  
             view_xview = 0;
-	        view_yview = 0;
+	        view_yview = 11110;
     ----Mouse
 	    mx = 0;
 	    my = 0;
