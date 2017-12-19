@@ -4,8 +4,12 @@ local previous_total_chunks_to_traverse = 0;
 local previous_dir = 'none';
 local Grid = require ("libraries.jumper.grid")
 local Pathfinder = require ("libraries.jumper.pathfinder")
-        collision_map = newAutotable(2)
---TODO add rest of pathfinder setup
+
+local pf = require("libraries.lua-star")
+
+
+collision_map = newAutotable(2)
+--TODO Remove this old pathfinder
 
 
 		for i=-20,256,1 do
@@ -53,6 +57,20 @@ local last_location = location:new();
 			object_batch[0][0] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)
 			shadow_batch[0][0] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)		
 			print(object_batch[0][0]:getBufferSize())
+
+			
+function isPositionOpenfunc(x, y)
+    -- should return true if the map position at x, y is open to walk
+	-- TODO transform x,y (global) to local coordinates and add chunk coords
+	return true;
+	-- 	local xx = x % (chunk_width);
+	-- 	local yy = y % (chunk_width);
+	-- 	local cx = math.floor(x/chunk_width);
+	-- 	local cy = math.floor(y/chunk_width);
+	-- 	if object[cx][cy][xx][yy] ~= nil then
+    -- return true else return false; end
+end
+
 --- NOTE Object classes START ---
 --- NOTE --------------------------
 --- NOTE --------------------------
@@ -229,28 +247,41 @@ local last_location = location:new();
 				table.insert(active_objects,self);
 				end 
 			function Woodcutter:pathfind(xx,yy)
-					self.path = finder:getPath(self.i,self.o,xx,yy);
-					if self.path then
-						print("Start x,y",self.i,self.o)
-						print(('Path found! Length: %.2f'):format(self.path:getLength()))
-						--local nd, len = self.path:nodes()
-						for node, count in self.path:nodes() do
-	  						print(('Step: %d - x: %d - y: %d'):format(count, node.x, node.y))
-							if count>1 then
-							self.nd[count-1] = node;
-							self.nd_len = count-1;
-							print(count)
-							end
+					local mapwidth = 10000
+					local mapheight = 10000
+					print("Self:",self.gx,self.gy)
+					local paths = pf:find(mapwidth, mapheight, self.gx,self.gy, self.gx-5,self.gy-5, isPositionOpenfunc)
+					if paths then
+						print("Found a path my lord!");
+						for _, p in ipairs(paths) do
+							print("So:",p.x,p.y)							
 						end
-						 --print(nd.x,nd.y)
-						self.waypoint_x = self.nd[1].x; 
-						self.waypoint_y = self.nd[1].y;
+												
+							self.state = "No trees"
+					else print("Nope, need to find another tree (need to code it first)") end
+					
+					-- self.path = finder:getPath(self.i,self.o,xx,yy);
+					-- if self.path then
+					-- 	print("Start x,y",self.i,self.o)
+					-- 	print(('Path found! Length: %.2f'):format(self.path:getLength()))
+					-- 	--local nd, len = self.path:nodes()
+					-- 	for node, count in self.path:nodes() do
+	  				-- 		print(('Step: %d - x: %d - y: %d'):format(count, node.x, node.y))
+					-- 		if count>1 then
+					-- 		self.nd[count-1] = node;
+					-- 		self.nd_len = count-1;
+					-- 		print(count)
+					-- 		end
+					-- 	end
+					-- 	 --print(nd.x,nd.y)
+					-- 	self.waypoint_x = self.nd[1].x; 
+					-- 	self.waypoint_y = self.nd[1].y;
 						
-						self.move_dir = "none"
-					else
-						self.state = "No trees"
-						print("No trees left, lord")
-					end
+					-- 	self.move_dir = "none"
+					-- else
+					-- 	self.state = "No trees"
+					-- 	print("No trees left, my lord")
+					-- end
 				end
 			function Woodcutter:find_tree()
 					for index, obj in ipairs ( active_objects ) do 
@@ -274,7 +305,7 @@ local last_location = location:new();
 			function Woodcutter:update()
 				if object[self.cx][self.cy][math.round(self.fx*0.001)][math.round(self.fy*0.001)] == nil then
 					object[self.cx][self.cy][math.round(self.fx*0.001)][math.round(self.fy*0.001)] = self;
-					print("Pre updated at ",self.cx,self.cy,math.round(self.fx*0.001),math.round(self.fy*0.001))
+					--print("Pre updated at ",self.cx,self.cy,math.round(self.fx*0.001),math.round(self.fy*0.001))
 					object[self.cx][self.cy][self.originalx][self.originaly] = nil;
 					self.originalx = math.round(self.fx*0.001);
 					self.originaly = math.round(self.fy*0.001);
@@ -289,7 +320,7 @@ local last_location = location:new();
 							local wx = self.waypoint_x;
 							local wy = self.waypoint_y;
 							--print("Yeah",self.i)
-							
+							--warning REWRITE THIS SYSTEM TO USE GLOBAL INSTEAD OF LOCAL COORDINATES
 							local angle = math.atan2 (wy - self.fy*0.001,wx-self.fx*0.001);
 							angle = (angle *180)/math.pi;
 							angle = math.round (angle);
@@ -408,7 +439,7 @@ function genObjects(cx,cy)
 	object_batch[chunk_x][chunk_y]:clear();	
 		for i=0,chunk_width-1,1 do
 			for o=0,chunk_height-1,1 do
-				local rand = math.random(100);
+				local rand = math.random(25);
 						if rand == 5 then
 						object[cx][cy][i][o] = Tree:new(cx,cy,i,o, --TODO fix tile_offset/_x
 						IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[object[chunk_x][chunk_y][i][o]] or 50),
@@ -568,10 +599,10 @@ local function update()
     previous_chunk_y = current_chunk_y;
 	
 	local counter = 0 --note remove this in prod
-	upd = upd + 1;
-	upd = upd % 10;
-	if upd == 0 then
-	update_objects(10,10); end
+	--upd = upd + 1;
+	--upd = upd % 10;
+	--if upd == 0 then
+	update_objects(10,10); --end
 
 	for index, obj in ipairs ( active_objects ) do 
 				counter = counter + 1; --note remove this in prod

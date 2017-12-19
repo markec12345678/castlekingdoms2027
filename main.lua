@@ -16,6 +16,18 @@ local ui = {};
 love.graphics.setBackgroundColor( 45,85,9 )
 
 
+
+-- local mapwidth = 10000
+-- local mapheight = 10000
+-- local start = { 1, 10 }
+-- local goal = { 10, 1 }
+-- local path = pf:find(mapwidth, mapheight, 2,2, 4,5, isPositionOpenfunc)
+--  if path then
+--         for _, p in ipairs(path) do
+--             print(p.x, p.y)
+--         end
+--     else print("Nope") end
+
 function love.load()
 	nk.init()
     Gamestate.registerEvents()
