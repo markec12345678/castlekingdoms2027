@@ -62,13 +62,13 @@ local last_location = location:new();
 function isPositionOpenfunc(x, y)
     -- should return true if the map position at x, y is open to walk
 	-- TODO transform x,y (global) to local coordinates and add chunk coords
-	return true;
-	-- 	local xx = x % (chunk_width);
-	-- 	local yy = y % (chunk_width);
-	-- 	local cx = math.floor(x/chunk_width);
-	-- 	local cy = math.floor(y/chunk_width);
-	-- 	if object[cx][cy][xx][yy] ~= nil then
-    -- return true else return false; end
+	--return true;
+		local xx = x % (chunk_width);
+		local yy = y % (chunk_width);
+		local cx = math.floor(x/chunk_width);
+		local cy = math.floor(y/chunk_width);
+		if object[cx][cy][xx][yy] == nil then
+    return true else return false; end
 end
 
 --- NOTE Object classes START ---
@@ -161,8 +161,8 @@ end
 				self.gy = chunk_width*self.cy+self.o;
 				self.endx = 0;
 				self.endy = 0;
-				self.fx = i*1000;
-				self.fy = o*1000;
+				self.fx = self.gx*1000;
+				self.fy = self.gy*1000;
 				self.waypoint_x = 0;
 				self.waypoint_y = 0;
 				self.state = 'Looking to chop tree';
@@ -176,6 +176,7 @@ end
 				self.timr = 0;
 				self.move_dir = "none";
 				self.update_dir = true;
+				self.previous_dir = "none";
 				self.target_tree = 0;
 				self.cut = function() 
 					if self.state == "Cutting down" then
@@ -188,8 +189,8 @@ end
 						end
 					if tree_progress == 2 then
 						--self.animation = anim.newAnimation(self.fr_walking_north,0.15)
-						self.i = self.fx*0.001;
-						self.o = self.fy*0.001;
+						self.i = (self.fx*0.001)%chunk_width;
+						self.o = (self.fy*0.001)%chunk_width;
 						self.state = "Looking to chop tree"	
 						self.move_dir = "na"
 						self.count = 0;
@@ -238,7 +239,7 @@ end
 					tile_quads[2260],tile_quads[2261],tile_quads[2262],
 					tile_quads[2263],tile_quads[2264]
 				}
-				self.fr_cutting_northeast = { --warning actually north
+				self.fr_cutting_northeast = { --warning actually north --TODO: why not name it north then?
 					tile_quads[2056],tile_quads[2057],tile_quads[2058],
 					tile_quads[2059],tile_quads[2060],tile_quads[2061],
 					tile_quads[2062],tile_quads[2063]
@@ -250,46 +251,35 @@ end
 					local mapwidth = 10000
 					local mapheight = 10000
 					print("Self:",self.gx,self.gy)
-					local paths = pf:find(mapwidth, mapheight, self.gx,self.gy, self.gx-5,self.gy-5, isPositionOpenfunc)
+					local paths = pf:find(mapwidth, mapheight, self.gx,self.gy, xx,yy, isPositionOpenfunc)
 					if paths then
 						print("Found a path my lord!");
+						local count = 0;
+						local first = true; --skip the first node, because it's our position
 						for _, p in ipairs(paths) do
-							print("So:",p.x,p.y)							
+							print("So:",p.x,p.y)
+							if not first then
+								self.nd[count] = p;
+								self.nd_len = count;
+								count = count + 1;
+							else first = false end							
 						end
-												
-							self.state = "No trees"
-					else print("Nope, need to find another tree (need to code it first)") end
-					
-					-- self.path = finder:getPath(self.i,self.o,xx,yy);
-					-- if self.path then
-					-- 	print("Start x,y",self.i,self.o)
-					-- 	print(('Path found! Length: %.2f'):format(self.path:getLength()))
-					-- 	--local nd, len = self.path:nodes()
-					-- 	for node, count in self.path:nodes() do
-	  				-- 		print(('Step: %d - x: %d - y: %d'):format(count, node.x, node.y))
-					-- 		if count>1 then
-					-- 		self.nd[count-1] = node;
-					-- 		self.nd_len = count-1;
-					-- 		print(count)
-					-- 		end
-					-- 	end
-					-- 	 --print(nd.x,nd.y)
-					-- 	self.waypoint_x = self.nd[1].x; 
-					-- 	self.waypoint_y = self.nd[1].y;
-						
-					-- 	self.move_dir = "none"
-					-- else
-					-- 	self.state = "No trees"
-					-- 	print("No trees left, my lord")
-					-- end
+						self.waypoint_x = self.nd[0].x; 
+					 	self.waypoint_y = self.nd[0].y;
+						print("Waypoint: "..self.waypoint_x,self.waypoint_y)						
+					 	self.move_dir = "none"											  
+					else 
+						print("Nope, need to find another tree (need to code it first)")
+						self.state = "No trees"
+					end					
 				end
-			function Woodcutter:find_tree()
+			function Woodcutter:find_tree() --TODO fix so it finds the nearest tree...
 					for index, obj in ipairs ( active_objects ) do 
 						if obj.type == 'Pine tree' and obj.marked == false then
 							if obj.cx == self.cx and obj.cy == self.cy then --TODO only works in current chunk
-								self.target_tree = obj; print("Sooo", self.target_tree)
-								self.endx = obj.i;
-								self.endy = obj.o;
+								self.target_tree = obj; print("Target tree:", self.target_tree)
+								self.endx = obj.gx;
+								self.endy = obj.gy;
 								self:pathfind(self.endx,self.endy+1);
 								print("Found tree at "..self.endx.."  "..self.endy);
 								self.state = "Going to tree";
@@ -299,65 +289,71 @@ end
 						end
 					end
 				end
-			function Woodcutter:pre_update()
-				--todo precalculate cx and cy, they might have changed
-				end
-			function Woodcutter:update()
-				if object[self.cx][self.cy][math.round(self.fx*0.001)][math.round(self.fy*0.001)] == nil then
-					object[self.cx][self.cy][math.round(self.fx*0.001)][math.round(self.fy*0.001)] = self;
-					--print("Pre updated at ",self.cx,self.cy,math.round(self.fx*0.001),math.round(self.fy*0.001))
+			function Woodcutter:update() --TODO I need to update cx,cy somewhere when the woodcutter moves from chunk to chunk
+				if object[self.cx][self.cy][math.round((self.fx*0.001)%chunk_width)][math.round((self.fy*0.001)%chunk_width)] == nil then
+					object[self.cx][self.cy][math.round((self.fx*0.001)%chunk_width)][math.round((self.fy*0.001)%chunk_width)] = self;
+					print("------------------------------Pre updated at ",self.cx,self.cy,math.round(self.fx*0.001)%chunk_width,math.round(self.fy*0.001)%chunk_width)
 					object[self.cx][self.cy][self.originalx][self.originaly] = nil;
-					self.originalx = math.round(self.fx*0.001);
-					self.originaly = math.round(self.fy*0.001);
+					self.originalx = math.round((self.fx*0.001)%chunk_width);
+					self.originaly = math.round((self.fy*0.001)%chunk_width);
 				end
 				if self.state ~= "No trees" then
 						if self.state == "Looking to chop tree" then
 							self:find_tree();
 						elseif self.move_dir == "none" and self.state == "Going to tree" then
-						
-						--self.gx = chunk_width*self.cx+self.i; --warning fucking genius
-						--self.gy = chunk_width*self.cy+self.o;
 							local wx = self.waypoint_x;
 							local wy = self.waypoint_y;
-							--print("Yeah",self.i)
-							--warning REWRITE THIS SYSTEM TO USE GLOBAL INSTEAD OF LOCAL COORDINATES
-							local angle = math.atan2 (wy - self.fy*0.001,wx-self.fx*0.001);
+							local angle = math.atan2 (wy - (self.fy*0.001),wx-(self.fx*0.001));
 							angle = (angle *180)/math.pi;
 							angle = math.round (angle);
-							print("Calculated angle with wy("..wy.."), self.fy*0.001("..(self.fy*0.001)..
-							"),wx("..wx..") and self.fx*0.001("..(self.fx*0.001)..")")
+							print("Calculated angle with wy("..wy.."), self.fy*0.001("..((self.fy*0.001))..
+							"),wx("..wx..") and self.fx*0.001("..((self.fx*0.001))..")")
 							if angle<0 then angle = 360+angle end
-							--if (wx ~= self.fx*0.001) or (wy ~= self.fy*0.001) then
 								if (angle >= 135+22 and angle <= 225-22) then --direction is west 
 									self.move_dir = "west";
-									self.animation = anim.newAnimation(self.fr_walking_west,0.11)
+									if self.previous_dir ~= "west" then
+										self.animation = anim.newAnimation(self.fr_walking_west,0.11) 
+									end
 								elseif (angle > 135-22 and angle < 135+22) then --direction is southwest
 									self.move_dir = "southwest";
-									self.animation = anim.newAnimation(self.fr_walking_southwest,0.11)
+									if self.previous_dir ~= "southwest" then
+										self.animation = anim.newAnimation(self.fr_walking_southwest,0.11)
+									end
 								elseif (angle > 225-22 and angle < 225+22) then --direction is northwest
 									self.move_dir = "northwest";
-									self.animation = anim.newAnimation(self.fr_walking_northwest,0.11)
+									if self.previous_dir ~= "northwest" then
+										self.animation = anim.newAnimation(self.fr_walking_northwest,0.11)
+									end
 								elseif (angle >= 225+22 and angle <= 315-22) then --direction is north
 									self.move_dir = "north";
-									self.animation = anim.newAnimation(self.fr_walking_north,0.11)
+									if self.previous_dir ~= "north" then
+										self.animation = anim.newAnimation(self.fr_walking_north,0.11)
+									end
 								elseif (angle >= 45+22 and angle <= 135-22) then --direction is south
 									self.move_dir = "south";
-									self.animation = anim.newAnimation(self.fr_walking_south,0.11)
+									if self.previous_dir ~= "south" then
+										self.animation = anim.newAnimation(self.fr_walking_south,0.11)
+									end
 								elseif ((angle >= 315+22 and angle <= 359) or (angle >=0 and angle <= 45-22)) then --direction is east
 									self.move_dir = "east";
-									self.animation = anim.newAnimation(self.fr_walking_east,0.11)
+									if self.previous_dir ~= "east" then
+										self.animation = anim.newAnimation(self.fr_walking_east,0.11)
+									end
 								elseif (angle > 45-22 and angle < 45+22) then--direction is southeast
 									self.move_dir = "southeast";
-									self.animation = anim.newAnimation(self.fr_walking_southeast,0.11)
+									if self.previous_dir ~= "southeast" then
+										self.animation = anim.newAnimation(self.fr_walking_southeast,0.11)
+									end
 								elseif (angle > 315-22 and angle < 315+22) then --direction is northeast
 									self.move_dir = "northeast";
-									self.animation = anim.newAnimation(self.fr_walking_northeast,0.11)
+									if self.previous_dir ~= "northeast" then
+										self.animation = anim.newAnimation(self.fr_walking_northeast,0.11)
+									end
 								end
-							--end
 							print("Move dir is now "..self.move_dir, angle)
 						end
-						self.x = IsoX + (self.fx*0.001 - self.fy*0.001) * tile_width  * 0.5 - 47
-						self.y = IsoY + (self.fx*0.001 + self.fy*0.001) * tile_height * 0.5 - 53
+						self.x = IsoX + ((self.fx*0.001)%chunk_width - (self.fy*0.001)%chunk_width) * tile_width  * 0.5 - 47 --fixme magic numbers?
+						self.y = IsoY + ((self.fx*0.001)%chunk_width + (self.fy*0.001)%chunk_width) * tile_height * 0.5 - 53
 						self.timr = self.timr + 1;
 						self.timr = self.timr % 60;
 						if self.state == "Going to tree" then
@@ -382,16 +378,8 @@ end
 								self.fx = self.fx + self.diagonal_walk_speed
 								self.fy = self.fy + self.diagonal_walk_speed
 							end
-							-- object[self.cx][self.cy][self.originalx][self.originaly] = nil;
-							-- object[self.cx][self.cy][self.i][self.o] = self;
-							-- self.qid = object_batch[self.cx][self.cy]
-							-- :add(object[self.cx][self.cy][self.x][self.y].animation
-							-- :getFrameInfo(self.x,
-							-- 			  self.y)); 
-							if self.timr == 0 then print("Position ",self.fx*0.001,self.fy*0.001) end
+							if (self.fx*0.001)==math.floor(self.fx*0.001) then print("Position ",self.fx*0.001,self.fy*0.001) end
 						end
-						--print("Distance x: ",self.i, self.waypoint_x)
-						--print("	Distance y: ",self.o, self.waypoint_y)
 						if self.fx*0.001 == self.waypoint_x and self.fy*0.001 == self.waypoint_y and self.state ~= "Cutting down" and self.move_dir ~= "none" then
 								if self.count == self.nd_len then 
 									self.state = "Cutting down"
@@ -400,11 +388,12 @@ end
 									return 
 								end
 								self.count = self.count + 1;
-								print("Reached checkpoint "..self.count)
+								print("Reached checkpoint "..self.count);
 								self.waypoint_x = self.nd[self.count].x; --TODO check for nil before indexing
 								self.waypoint_y = self.nd[self.count].y;
-								print("Waypoint is now "..self.waypoint_x,self.waypoint_y)
-								self.move_dir = "none"
+								print("Waypoint is now "..self.waypoint_x,self.waypoint_y);
+								self.previous_dir = self.move_dir;
+								self.move_dir = "none";
 								if self.waypoint_x == self.fx*0.001 and self.waypoint_y == self.fy*0.001 then								
 									if self.count == self.nd_len then 
 										self.state = "Cutting down"
@@ -602,7 +591,7 @@ local function update()
 	--upd = upd + 1;
 	--upd = upd % 10;
 	--if upd == 0 then
-	update_objects(10,10); --end
+	update_objects(11,11); --end
 
 	for index, obj in ipairs ( active_objects ) do 
 				counter = counter + 1; --note remove this in prod
