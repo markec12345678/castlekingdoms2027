@@ -43,7 +43,8 @@ local last_location = location:new();
             local cols = chunk_width;
             local rows = chunk_height;
 	----Chunk 2D array 	
-			local active_objects = newAutotable(2);
+			local active_objects = newAutotable(1);
+			local active_chunks = {};
 			local object = newAutotable(4)
 	----Generate spriteBatch
 			local object_batch = newAutotable(2)   
@@ -163,6 +164,8 @@ end
 				self.endy = 0;
 				self.fx = self.gx*1000;
 				self.fy = self.gy*1000;
+				self.previous_cx = cx;
+				self.previous_cy = cx;
 				self.waypoint_x = 0;
 				self.waypoint_y = 0;
 				self.state = 'Looking to chop tree';
@@ -255,6 +258,7 @@ end
 					if paths then
 						print("Found a path my lord!");
 						local count = 0;
+						self.nd = nil; self.nd = {};
 						local first = true; --skip the first node, because it's our position
 						for _, p in ipairs(paths) do
 							print("So:",p.x,p.y)
@@ -273,7 +277,7 @@ end
 						self.state = "No trees"
 					end					
 				end
-			function Woodcutter:find_tree() --TODO fix so it finds the nearest tree...
+			function Woodcutter:find_tree() --TODO: fix so it finds the nearest tree...
 					for index, obj in ipairs ( active_objects ) do 
 						if obj.type == 'Pine tree' and obj.marked == false then
 							if obj.cx == self.cx and obj.cy == self.cy then --TODO only works in current chunk
@@ -290,9 +294,21 @@ end
 					end
 				end
 			function Woodcutter:update() --TODO I need to update cx,cy somewhere when the woodcutter moves from chunk to chunk
-				if object[self.cx][self.cy][math.round((self.fx*0.001)%chunk_width)][math.round((self.fy*0.001)%chunk_width)] == nil then
+				self.previous_cx,self.previous_cy = self.cx,self.cy;
+				self.cx,self.cy = math.floor(math.round((self.fx*0.001))/chunk_width),math.floor(math.round((self.fy*0.001))/chunk_width);
+				local found = false;
+				for index, chunk in pairs (active_chunks) do
+					if chunk.x == self.cx and chunk.y == self.cy then
+						found = true; break;						
+						end
+					end
+				if found == false then table.insert(active_chunks,{x = self.cx,y = self.cy}); end
+				if self.previous_cx ~= self.cx or self.previous_cy ~= self.cy then --update chunk location
+					print("Moved across chunks from "..self.previous_cx.."|"..self.previous_cy.." to "..self.cx.."|"..self.cy)
+					end
+				if object[self.cx][self.cy][math.round((self.fx*0.001)%chunk_width)][math.round((self.fy*0.001)%chunk_width)] == nil then				
 					object[self.cx][self.cy][math.round((self.fx*0.001)%chunk_width)][math.round((self.fy*0.001)%chunk_width)] = self;
-					print("------------------------------Pre updated at ",self.cx,self.cy,math.round(self.fx*0.001)%chunk_width,math.round(self.fy*0.001)%chunk_width)
+					--print("------------------------------Pre updated at ",self.cx,self.cy,math.round(self.fx*0.001)%chunk_width,math.round(self.fy*0.001)%chunk_width)
 					object[self.cx][self.cy][self.originalx][self.originaly] = nil;
 					self.originalx = math.round((self.fx*0.001)%chunk_width);
 					self.originaly = math.round((self.fy*0.001)%chunk_width);
@@ -378,7 +394,10 @@ end
 								self.fx = self.fx + self.diagonal_walk_speed
 								self.fy = self.fy + self.diagonal_walk_speed
 							end
-							if (self.fx*0.001)==math.floor(self.fx*0.001) then print("Position ",self.fx*0.001,self.fy*0.001) end
+							if (self.fx*0.001)==math.floor(self.fx*0.001) and (self.fy*0.001)==math.floor(self.fy*0.001) then 
+								print("Position ",self.fx*0.001,self.fy*0.001) 
+								self.gx,self.gy= self.fx*0.001,self.fy*0.001
+								end
 						end
 						if self.fx*0.001 == self.waypoint_x and self.fy*0.001 == self.waypoint_y and self.state ~= "Cutting down" and self.move_dir ~= "none" then
 								if self.count == self.nd_len then 
@@ -412,7 +431,7 @@ end
 			function Woodcutter:animate()
 				self:update();
 				self.animation:update(dt);
-				object_batch[self.cx][self.cy]
+				object_batch[self.cx][self.cy] --fixme check if batch is drawn
 					:set(self.qid,self.animation:getFrameInfo(self.x,self.y));
 				end
 --- NOTE --------------------------
@@ -428,7 +447,7 @@ function genObjects(cx,cy)
 	object_batch[chunk_x][chunk_y]:clear();	
 		for i=0,chunk_width-1,1 do
 			for o=0,chunk_height-1,1 do
-				local rand = math.random(25);
+				local rand = math.random(400);
 						if rand == 5 then
 						object[cx][cy][i][o] = Tree:new(cx,cy,i,o, --TODO fix tile_offset/_x
 						IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[object[chunk_x][chunk_y][i][o]] or 50),
@@ -591,8 +610,18 @@ local function update()
 	--upd = upd + 1;
 	--upd = upd % 10;
 	--if upd == 0 then
-	update_objects(11,11); --end
+	--update_objects(11,10);
+	--update_objects(10,11);
+	--update_objects(10,10);
+	--update_objects(12,10);
+	--update_objects(11,11); --fixme update all chunks which need to be updated
+	--print("?-------")
+	for index, chunk in ipairs ( active_chunks ) do 
+	--		print("Chunk to update: "..chunk.x.."|"..chunk.y)
+			update_objects(chunk.x,chunk.y)
+		end
 
+	--print("end-------")
 	for index, obj in ipairs ( active_objects ) do 
 				counter = counter + 1; --note remove this in prod
 				if (obj.cx > current_chunk_x+1) or (obj.cx < current_chunk_x-1)
