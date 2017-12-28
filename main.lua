@@ -14,8 +14,7 @@ local menu = {};
 local game = {};
 local ui = {};
 love.graphics.setBackgroundColor( 45,85,9 )
-
-
+local wood_img = love.graphics.newImage("oc_assets/res_wood_log.png")
 
 -- local mapwidth = 10000
 -- local mapheight = 10000
@@ -70,6 +69,9 @@ function game:draw()
     objects.draw()
     core.draw();
 	nk.draw()
+	--love.graphics.dra
+	love.graphics.draw(wood_img,200,10,0,0.25,0.25)
+	love.graphics.print(wood,236,18) 
 end
 -----MOUSE RELEASED
 function game:mousereleased(x, y, button, istouch)

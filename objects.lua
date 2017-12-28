@@ -9,16 +9,6 @@ local pf = require("libraries.lua-star")
 
 
 collision_map = newAutotable(2)
---TODO Remove this old pathfinder
-
-
-		for i=-20,256,1 do
-			for o=-20,256,1 do
-				collision_map[i][o] = 0;
-			end
-		end
-local grid = Grid(collision_map)
-local finder = Pathfinder(grid,'JPS', 0);
 
 local angle; 
 local location = {
@@ -148,9 +138,11 @@ end
 						print("Chopping!")
 						if self.animation:getTotalFrames() ~= self.animation:getCurrentFrame() then
 							self.animation:gotoFrame(self.animation:getCurrentFrame()+1)
+							wood = wood + 1;
 						else
 							self.finish();
 							self.chop = false;
+							wood = wood + 1;
 							return 2;
 						end
 					end
@@ -261,7 +253,7 @@ end
 						self.nd = nil; self.nd = {};
 						local first = true; --skip the first node, because it's our position
 						for _, p in ipairs(paths) do
-							print("So:",p.x,p.y)
+							--print("So:",p.x,p.y)
 							if not first then
 								self.nd[count] = p;
 								self.nd_len = count;
@@ -280,7 +272,7 @@ end
 			function Woodcutter:find_tree() --TODO: fix so it finds the nearest tree...
 					for index, obj in ipairs ( active_objects ) do 
 						if obj.type == 'Pine tree' and obj.marked == false then
-							if obj.cx == self.cx and obj.cy == self.cy then --TODO only works in current chunk
+							--if obj.cx == self.cx and obj.cy == self.cy then --TODO only works in current chunk
 								self.target_tree = obj; print("Target tree:", self.target_tree)
 								self.endx = obj.gx;
 								self.endy = obj.gy;
@@ -289,30 +281,51 @@ end
 								self.state = "Going to tree";
 								obj.marked = true;
 								return;
+							--end
+						end
+					end
+				end
+			function Woodcutter:sub_update()
+					self.previous_cx,self.previous_cy = self.cx,self.cy;
+					self.cx,self.cy = math.floor(math.round((self.fx*0.001))/chunk_width),math.floor(math.round((self.fy*0.001))/chunk_width);
+					local found = false;
+					for index, chunk in pairs (active_chunks) do
+						if chunk.x == self.cx and chunk.y == self.cy then
+							found = true; break;						
 							end
 						end
+					if found == false then table.insert(active_chunks,{x = self.cx,y = self.cy}); end
+					if self.previous_cx ~= self.cx or self.previous_cy ~= self.cy then --update chunk location
+						print("---Moved across chunks from "..self.previous_cx.."|"..self.previous_cy.." to "..self.cx.."|"..self.cy)
+						end
+					if object[self.cx][self.cy][math.round((self.fx*0.001)%chunk_width)][math.round((self.fy*0.001)%chunk_width)] == nil then				
+						object[self.cx][self.cy][math.round((self.fx*0.001)%chunk_width)][math.round((self.fy*0.001)%chunk_width)] = self;
+						--print("------------------------------Pre updated at ",self.cx,self.cy,math.round(self.fx*0.001)%chunk_width,math.round(self.fy*0.001)%chunk_width)
+						object[self.cx][self.cy][self.originalx][self.originaly] = nil;
+						self.originalx = math.round((self.fx*0.001)%chunk_width);
+						self.originaly = math.round((self.fy*0.001)%chunk_width);
 					end
 				end
 			function Woodcutter:update() --TODO I need to update cx,cy somewhere when the woodcutter moves from chunk to chunk
-				self.previous_cx,self.previous_cy = self.cx,self.cy;
-				self.cx,self.cy = math.floor(math.round((self.fx*0.001))/chunk_width),math.floor(math.round((self.fy*0.001))/chunk_width);
-				local found = false;
-				for index, chunk in pairs (active_chunks) do
-					if chunk.x == self.cx and chunk.y == self.cy then
-						found = true; break;						
-						end
-					end
-				if found == false then table.insert(active_chunks,{x = self.cx,y = self.cy}); end
-				if self.previous_cx ~= self.cx or self.previous_cy ~= self.cy then --update chunk location
-					print("Moved across chunks from "..self.previous_cx.."|"..self.previous_cy.." to "..self.cx.."|"..self.cy)
-					end
-				if object[self.cx][self.cy][math.round((self.fx*0.001)%chunk_width)][math.round((self.fy*0.001)%chunk_width)] == nil then				
-					object[self.cx][self.cy][math.round((self.fx*0.001)%chunk_width)][math.round((self.fy*0.001)%chunk_width)] = self;
-					--print("------------------------------Pre updated at ",self.cx,self.cy,math.round(self.fx*0.001)%chunk_width,math.round(self.fy*0.001)%chunk_width)
-					object[self.cx][self.cy][self.originalx][self.originaly] = nil;
-					self.originalx = math.round((self.fx*0.001)%chunk_width);
-					self.originaly = math.round((self.fy*0.001)%chunk_width);
-				end
+				-- self.previous_cx,self.previous_cy = self.cx,self.cy;
+				-- self.cx,self.cy = math.floor(math.round((self.fx*0.001))/chunk_width),math.floor(math.round((self.fy*0.001))/chunk_width);
+				-- local found = false;
+				-- for index, chunk in pairs (active_chunks) do
+				-- 	if chunk.x == self.cx and chunk.y == self.cy then
+				-- 		found = true; break;						
+				-- 		end
+				-- 	end
+				-- if found == false then table.insert(active_chunks,{x = self.cx,y = self.cy}); end
+				-- if self.previous_cx ~= self.cx or self.previous_cy ~= self.cy then --update chunk location
+				-- 	print("---Moved across chunks from "..self.previous_cx.."|"..self.previous_cy.." to "..self.cx.."|"..self.cy)
+				-- 	end
+				-- if object[self.cx][self.cy][math.round((self.fx*0.001)%chunk_width)][math.round((self.fy*0.001)%chunk_width)] == nil then				
+				-- 	object[self.cx][self.cy][math.round((self.fx*0.001)%chunk_width)][math.round((self.fy*0.001)%chunk_width)] = self;
+				-- 	--print("------------------------------Pre updated at ",self.cx,self.cy,math.round(self.fx*0.001)%chunk_width,math.round(self.fy*0.001)%chunk_width)
+				-- 	object[self.cx][self.cy][self.originalx][self.originaly] = nil;
+				-- 	self.originalx = math.round((self.fx*0.001)%chunk_width);
+				-- 	self.originaly = math.round((self.fy*0.001)%chunk_width);
+				-- end
 				if self.state ~= "No trees" then
 						if self.state == "Looking to chop tree" then
 							self:find_tree();
@@ -397,6 +410,7 @@ end
 							if (self.fx*0.001)==math.floor(self.fx*0.001) and (self.fy*0.001)==math.floor(self.fy*0.001) then 
 								print("Position ",self.fx*0.001,self.fy*0.001) 
 								self.gx,self.gy= self.fx*0.001,self.fy*0.001
+								self:sub_update();
 								end
 						end
 						if self.fx*0.001 == self.waypoint_x and self.fy*0.001 == self.waypoint_y and self.state ~= "Cutting down" and self.move_dir ~= "none" then

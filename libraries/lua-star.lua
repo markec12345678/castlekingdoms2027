@@ -200,7 +200,7 @@ function module:find(width, height, startx, starty, goalx, goaly, positionIsOpen
 
     end
 
-    saveCached(start, goal, path)
+    --saveCached(start, goal, path)
 
     -- reverse the closed list to get the solution
     return path
@@ -208,3 +208,5 @@ function module:find(width, height, startx, starty, goalx, goaly, positionIsOpen
 end
 
 return module
+
+

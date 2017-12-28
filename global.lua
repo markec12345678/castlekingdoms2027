@@ -51,3 +51,4 @@
     ----Objects related    
         building_selection = 398;
         tile_offset, tile_offset_x = {}, {};
+        wood = 10;
