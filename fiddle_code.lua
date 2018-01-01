@@ -1,3 +1,12 @@
+-- function isPositionOpenfunc(x, y)
+-- 		local xx = x % (chunk_width);
+-- 		local yy = y % (chunk_width);
+-- 		local cx = math.floor(x/chunk_width);
+-- 		local cy = math.floor(y/chunk_width);
+-- 		if object[cx][cy][xx][yy] == nil then
+--     return true else return false; end
+-- end
+
 -- First, set a collision map
 local map = {
 	{0,1,0,1,0},

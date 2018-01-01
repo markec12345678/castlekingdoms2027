@@ -2,13 +2,7 @@
 local previous_distance, location_distance = 0;
 local previous_total_chunks_to_traverse = 0;
 local previous_dir = 'none';
-local Grid = require ("libraries.jumper.grid")
-local Pathfinder = require ("libraries.jumper.pathfinder")
 
-local pf = require("libraries.lua-star")
-
-
-collision_map = newAutotable(2)
 
 local angle; 
 local location = {
@@ -25,6 +19,7 @@ function location:new (o)
 	self.__index = self
 	return o
 end
+--TODO remove or find a use later, not needed for now
 local first_location = location:new();
 local last_location = location:new();
 
@@ -40,27 +35,14 @@ local last_location = location:new();
 			local object_batch = newAutotable(2)   
 			local shadow_batch = newAutotable(2)
 			local canvas = love.graphics.newCanvas()  
-			local object_image = love.graphics.newImage( "assets/tiles/object_texture.png" ); 
+			--local object_image = love.graphics.newImage( "assets/tiles/object_texture.png" ); 
 			object_image:setFilter('nearest','nearest')
 	        local tile_quads = require('objects_quads');
-			--if tile_quads ~= nil then print("true") end 
-		
+
 			object_batch[0][0] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)
 			shadow_batch[0][0] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)		
 			print(object_batch[0][0]:getBufferSize())
 
-			
-function isPositionOpenfunc(x, y)
-    -- should return true if the map position at x, y is open to walk
-	-- TODO transform x,y (global) to local coordinates and add chunk coords
-	--return true;
-		local xx = x % (chunk_width);
-		local yy = y % (chunk_width);
-		local cx = math.floor(x/chunk_width);
-		local cy = math.floor(y/chunk_width);
-		if object[cx][cy][xx][yy] == nil then
-    return true else return false; end
-end
 
 --- NOTE Object classes START ---
 --- NOTE --------------------------
@@ -81,7 +63,6 @@ end
 				Object.initialize(self,cx,cy,i,o,x,y,type)
 				self.gx = chunk_width*self.cx+self.i; --warning fucking genius
 				self.gy = chunk_width*self.cy+self.o;
-				collision_map[self.gx][self.gy] = 1; 
 				self.health = 100;
 				self.frames = {tile_quads[1450],tile_quads[1455],tile_quads[1456]
 				,tile_quads[1457],tile_quads[1458],tile_quads[1459],tile_quads[1460]
@@ -243,31 +224,32 @@ end
 				table.insert(active_objects,self);
 				end 
 			function Woodcutter:pathfind(xx,yy)
-					local mapwidth = 10000
-					local mapheight = 10000
-					print("Self:",self.gx,self.gy)
-					local paths = pf:find(mapwidth, mapheight, self.gx,self.gy, xx,yy, isPositionOpenfunc)
-					if paths then
-						print("Found a path my lord!");
-						local count = 0;
-						self.nd = nil; self.nd = {};
-						local first = true; --skip the first node, because it's our position
-						for _, p in ipairs(paths) do
-							--print("So:",p.x,p.y)
-							if not first then
-								self.nd[count] = p;
-								self.nd_len = count;
-								count = count + 1;
-							else first = false end							
-						end
-						self.waypoint_x = self.nd[0].x; 
-					 	self.waypoint_y = self.nd[0].y;
-						print("Waypoint: "..self.waypoint_x,self.waypoint_y)						
-					 	self.move_dir = "none"											  
-					else 
-						print("Nope, need to find another tree (need to code it first)")
-						self.state = "No trees"
-					end					
+			--TODO fix pathfinding
+					-- local mapwidth = 10000
+					-- local mapheight = 10000
+					-- print("Self:",self.gx,self.gy)
+					-- local paths = pf:find(mapwidth, mapheight, self.gx,self.gy, xx,yy, isPositionOpenfunc)
+					-- if paths then
+					-- 	print("Found a path my lord!");
+					-- 	local count = 0;
+					-- 	self.nd = nil; self.nd = {};
+					-- 	local first = true; --skip the first node, because it's our position
+					-- 	for _, p in ipairs(paths) do
+					-- 		--print("So:",p.x,p.y)
+					-- 		if not first then
+					-- 			self.nd[count] = p;
+					-- 			self.nd_len = count;
+					-- 			count = count + 1;
+					-- 		else first = false end							
+					-- 	end
+					-- 	self.waypoint_x = self.nd[0].x; 
+					--  	self.waypoint_y = self.nd[0].y;
+					-- 	print("Waypoint: "..self.waypoint_x,self.waypoint_y)						
+					--  	self.move_dir = "none"											  
+					-- else 
+					-- 	print("Nope, need to find another tree (need to code it first)")
+					-- 	self.state = "No trees"
+					-- end					
 				end
 			function Woodcutter:find_tree() --TODO: fix so it finds the nearest tree...
 					for index, obj in ipairs ( active_objects ) do 
@@ -445,7 +427,7 @@ end
 			function Woodcutter:animate()
 				self:update();
 				self.animation:update(dt);
-				object_batch[self.cx][self.cy] --fixme check if batch is drawn
+				object_batch[self.cx][self.cy] --fixme check if batch is drawn TODO:
 					:set(self.qid,self.animation:getFrameInfo(self.x,self.y));
 				end
 --- NOTE --------------------------
@@ -467,7 +449,6 @@ function genObjects(cx,cy)
 						IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[object[chunk_x][chunk_y][i][o]] or 50),
 						IsoY + (i + o) * tile_height * 0.5 - (tile_offset[object[chunk_x][chunk_y][i][o]] or 170),"Pine tree")
 						object[cx][cy][i][o].animation:gotoFrame(math.random(6))
-						--table.insert(active_objects,object[cx][cy][i][o])
 						end 
 						--TODO add shadow gen here	
 				if object[cx][cy][i][o] == nil or object[cx][cy][i][o] == 0 then else
@@ -511,21 +492,6 @@ local function update_objects(cx,cy)
  	 --shadow_batch[chunk_x][chunk_y]:flush()
 end
 
---TODO remove
-local function build_wall_piece(cx,cy)
-	cx = cx or 0;
-	cy = cy or 0;
-		for i=0,chunk_width-1,1 do
-			for o=0,chunk_width-1,1 do
-				if object[cx][cy][i][o] == 2 then
-					object[cx][cy][i][o] = 1;
-				end
-			end
-		end
-		previous_distance = 0;
-	    update_objects(cx,cy);
-end
-
 local function draw_object()
 	love.graphics.setCanvas(canvas)
 	love.graphics.clear()
@@ -559,30 +525,6 @@ local function draw_object()
 	love.graphics.setColor(255,255,255,255)
 end
 
-local function mousereleased(x, y, button, istouch)
---    if button == 1 then 
---    		-- TODO remove localx,localy when implementing chunks 
--- 		mx, my = love.mouse.getPosition(); 
--- 		LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)); 
--- 		LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview)); 
--- 		last_location.gx = LocalX;
--- 		last_location.gy = LocalY;
--- 		last_location.x = LocalX % chunk_width;
--- 		last_location.y = LocalY % chunk_width; 
--- 		last_location.cx = math.ceil(LocalX/chunk_width);
--- 		last_location.cy = math.ceil(LocalY/chunk_width);
--- 		location_distance = ((last_location.x-first_location.x)+(last_location.y-first_location.y));
--- 		location_distance = ((last_location.gx-first_location.gx)+(last_location.gy-first_location.gy));
--- 		print(location_distance)
--- 		angle = math.atan2 (last_location.gy - first_location.gy,last_location.gx-first_location.gx);
--- 		angle = (angle *180)/math.pi;
--- 		angle = math.round (angle);
--- 		if angle<0 then angle = 360+angle end
---         build_wall_piece(first_location.cx,first_location.cy);
--- 		if previous_dir == "east" then build_wall_piece(1,0) end
--- 		print(angle)
---    end
-end
 
 local function mousepressed(x, y, button, istouch)
 	mx, my = x,y;
@@ -621,21 +563,12 @@ local function update()
     previous_chunk_y = current_chunk_y;
 	
 	local counter = 0 --note remove this in prod
-	--upd = upd + 1;
-	--upd = upd % 10;
-	--if upd == 0 then
-	--update_objects(11,10);
-	--update_objects(10,11);
-	--update_objects(10,10);
-	--update_objects(12,10);
-	--update_objects(11,11); --fixme update all chunks which need to be updated
-	--print("?-------")
+	 --fixme update all chunks which need to be updated
 	for index, chunk in ipairs ( active_chunks ) do 
-	--		print("Chunk to update: "..chunk.x.."|"..chunk.y)
-			update_objects(chunk.x,chunk.y)
-		end
+		--print("Chunk to update: "..chunk.x.."|"..chunk.y)
+		update_objects(chunk.x,chunk.y)
+	end
 
-	--print("end-------")
 	for index, obj in ipairs ( active_objects ) do 
 				counter = counter + 1; --note remove this in prod
 				if (obj.cx > current_chunk_x+1) or (obj.cx < current_chunk_x-1)
@@ -650,21 +583,6 @@ local function update()
 	previous_count = counter; --note remove this in prod
 end
 
-
---warning These functions must be removed later
-function getLocation()
-	return location_distance or 0;
-end
-function getLocationAngle()
-	return angle or 0;
-end
-function getPreviousDir()
-	return previous_dir or 0;
-end
-function getPreviousDistance()
-	return previous_distance or 0;
-end
---warning end
 
 chunkUpdateList()
 

@@ -8,32 +8,29 @@ anim = require('libraries.anim8');
 class = require('libraries.middleclass');
 local core = require("iso");
 local terrain, update_terrain = require("terrain");
-local objects, update_objects = require("objects");
+local objects, update_objects;
 tile_image = {};
 local menu = {};
 local game = {};
 local ui = {};
-love.graphics.setBackgroundColor( 45,85,9 )
---local wood_img = love.graphics.newImage("oc_assets/res_wood_log.png")
-
--- local mapwidth = 10000
--- local mapheight = 10000
--- local start = { 1, 10 }
--- local goal = { 10, 1 }
--- local path = pf:find(mapwidth, mapheight, 2,2, 4,5, isPositionOpenfunc)
---  if path then
---         for _, p in ipairs(path) do
---             print(p.x, p.y)
---         end
---     else print("Nope") end
+local loader = require("libraries.lily")
 
 function love.load()
 	nk.init()
     Gamestate.registerEvents()
-    Gamestate.switch(game)
+    Gamestate.switch(ui)
+	loader.newImage("assets/tiles/object_texture.png"):onComplete(function(image)
+		object_image = image
+	end)
 end
+
 -----------------/||\------------------
 -----------------GAME------------------
+function game:init()
+	love.graphics.setBackgroundColor( 45,85,9 )
+    objects, update_objects = require("objects");
+end
+
 function game:update(dt)
     core.update();    
     objects.update();
@@ -57,6 +54,14 @@ function game:update(dt)
 	-- nk.frameEnd()
 end
 
+function ui:update(dt)
+	if object_image then Gamestate.switch(game) end
+end
+
+function ui:draw()
+	love.graphics.print("Loading assets...",100,100)
+end
+
 -----ENTER
 function game:enter()
     tile_image[0] = love.graphics.newImage( "assets/tiles/collection1489.png" )
@@ -69,16 +74,13 @@ function game:draw()
     objects.draw()
     core.draw();
 	nk.draw()
-	--love.graphics.dra
-	--love.graphics.draw(wood_img,200,10,0,0.25,0.25)
-	--love.graphics.print(wood,236,18) 
 end
 -----MOUSE RELEASED
 function game:mousereleased(x, y, button, istouch)
 	if nk.mousereleased(x, y, button, istouch) then
 		return -- event consumed
 	end
-    objects.mousereleased(x,y,button,istouch);
+    --note objects.mousereleased(x,y,button,istouch);
 end
 -----MOUSE PRESSED
 function game:mousepressed(x, y, button, istouch)
