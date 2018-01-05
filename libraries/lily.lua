@@ -17,18 +17,22 @@
 --    misrepresented as being the original software.
 -- 3. This notice may not be removed or altered from any source distribution.
 
-local lily = {_VERSION = "1.0.0"}
+local lily = {_VERSION = "2.0.2"}
 local love = require("love")
+assert(love._version >= "0.10.0", "Lily require at least LOVE 0.10.0")
 
 -- Get current script directory
 local _arg = {...}
 local module_path
+local lily_thread_script
+print(_arg[1])
+love.handlers.print = print
 
 if type(_arg[1]) == "string" then
 	-- Oh, standard Lua require
 	module_path = _arg[1]:match("(.-)[^%.]+$")
 else
-	-- In case it's loaded from AquaShine.LoadModule
+	-- In case it's loaded from AquaShine.LoadModule, but how to detect it?
 	module_path = ""
 end
 
@@ -51,7 +55,6 @@ for a, b in pairs(love._modules) do
 	
 	if not(f) then lily.modules[#lily.modules + 1] = a end
 end
---print(lily)
 
 -- We have some ways to get processor count
 local number_processor = 1
@@ -60,7 +63,7 @@ if love.system then
 	number_processor = love.system.getProcessorCount()
 elseif package.path:find("\\", 1, true) then
 	-- Windows. Use NUMBER_OF_PROCESSORS environment variable
-	number_processor = assert(tonumber(os.getenv("NUMBER_OF_PROCESSORS")), "NUMBER_OF_PROCESSORS is not a valid processor number")
+	number_processor = assert(tonumber(os.getenv("NUMBER_OF_PROCESSORS")), "Invalid NUMBER_OF_PROCESSORS")
 elseif os.execute() == 1 then
 	-- Ok we have shell support
 	if os.execute("nproc") == 0 then
@@ -78,7 +81,10 @@ for i = 1, number_processor do
 	local a = {}
 	a.channel_info = love.thread.newChannel()
 	a.channel = love.thread.newChannel()
-	a.thread = love.thread.newThread("libraries/lily_thread.lua")
+	a.thread = love.thread.newThread(
+		(lily_thread_script and #lily_thread_script > 30 and lily_thread_script) or
+		module_path:gsub("%.", "/").."lily_thread.lua"
+	)
 	a.thread:start(lily.modules, math.random(), a.channel, a.channel_info, errchannel)
 	
 	lily.threads[i] = a
@@ -86,6 +92,10 @@ end
 for i = 1, number_processor do
 	local a = lily.threads[i]
 	a.id = a.channel_info:demand()
+	-- Wait until task_count count is added.
+	-- Somehow, using suply/demand doesn't work
+	-- so busy wait is last resort. Please someone fix
+	while a.channel_info:getCount() == 0 do end
 end
 
 -- Function handler
@@ -106,14 +116,14 @@ function love.handlers.lily_resp(req_id, ...)
 		
 		-- If there's error, then the second value is the error message
 		if select(1, ...) == errchannel then
-			lilyobj.error(select(2, ...))
+			lilyobj.error(lilyobj.userdata, select(2, ...))
 		else
 			-- No error. Pass it to secondary handler
 			local values = {pcall(lily.handlers[lilyobj.request_type], lilyobj, select(1, ...))}
 			
 			if not(values[1]) then
 				-- Error handler again
-				lilyobj.error(values[2])
+				lilyobj.error(lilyobj.userdata, values[2])
 			else
 				-- Ok no error.
 				-- Remove first element
@@ -122,7 +132,9 @@ function love.handlers.lily_resp(req_id, ...)
 				end
 				values[#values] = nil
 				
-				lilyobj.complete(unpack(values))
+				lilyobj.values = values
+				lilyobj.done = true
+				lilyobj.complete(lilyobj.userdata, unpack(values))
 			end
 		end
 	end
@@ -189,7 +201,7 @@ end
 local lily_methods = {__index = {}}
 
 function lily_methods.__index.complete() end
-function lily_methods.__index.error(msg) return error(msg, 2) end
+function lily_methods.__index.error(_, msg) return error(msg, 2) end
 
 function lily_methods.__index.onComplete(this, func)
 	this.complete = assert(type(func) == "function" and func, "bad argument #1 to 'lilyObject:onComplete' (function expected)")
@@ -197,8 +209,26 @@ function lily_methods.__index.onComplete(this, func)
 end
 
 function lily_methods.__index.onError(this, func)
-	this.error = assert(type(func) == "function" and func, "bad argument #1 to 'lilyObject:onComplete' (function expected)")
+	this.error = assert(type(func) == "function" and func, "bad argument #1 to 'lilyObject:onError' (function expected)")
 	return this
+end
+
+function lily_methods.__index.setUserData(this, userdata)
+	this.userdata = userdata
+	return this
+end
+
+function lily_methods.__index.isComplete(this)
+	return this.done
+end
+
+function lily_methods.__index.getValues(this)
+	assert(this.done, "Incomplete request")
+	return unpack(this.values)
+end
+
+function lily_methods.__tostring(this)
+	return "lilyObject "..this.request_type
 end
 
 -- Request ID used to distinguish between different request
@@ -217,6 +247,7 @@ local function new_lily_object(reqtype, ...)
 	this.request_type = reqtype
 	this.req_id = create_request_id()
 	this.arguments = {...}
+	this.done = false
 	
 	-- Send request to other thread
 	local thread = get_lowest_task_count()
@@ -233,6 +264,120 @@ local function new_lily_object(reqtype, ...)
 	
 	-- Insert to request table
 	lily.request[this.req_id] = this
+	
+	return this
+end
+
+-- Multi Lily object. Loads everything in parallel
+local multilily_methods = {__index = {}}
+-- loaded(multilily, val)
+multilily_methods.__index.loaded = lily_methods.__index.complete
+-- error(msg)
+multilily_methods.__index.error = lily_methods.__index.error
+-- complete(lilydatas)
+multilily_methods.__index.complete = lily_methods.__index.complete
+
+function multilily_methods.__len(this)
+	return #this.lilies
+end
+
+function multilily_methods.__index.onLoaded(this, func)
+	this.loaded = assert(type(func) == "function" and func, "bad argument #1 to 'lilyObject:onLoaded' (function expected)")
+	return this
+end
+
+function multilily_methods.__index.onComplete(this, func)
+	this.complete = assert(type(func) == "function" and func, "bad argument #1 to 'lilyObject:onComplete' (function expected)")
+	return this
+end
+
+function multilily_methods.__index.onError(this, func)
+	this.error = assert(type(func) == "function" and func, "bad argument #1 to 'lilyObject:onError' (function expected)")
+	
+	for i = 1, #this.lilies do
+		this.lilies[i]:onError(this.error)
+	end
+	
+	return this
+end
+
+function multilily_methods.__index.setUserData(this, userdata)
+	this.userdata = userdata
+	return this
+end
+
+function multilily_methods.__index.isComplete(this)
+	return this.completed_request >= #this.lilies
+end
+
+function multilily_methods.__index.getValues(this, index)
+	assert(this.done, "Incomplete request")
+	
+	if index == nil then
+		local output = {}
+		for i = 1, #this.lilies do
+			output[i] = this.lilies[i].values
+		end
+		
+		return output
+	end
+	
+	return assert(this.values[index], "Invalid index")
+end
+
+function multilily_methods.__index.getCount(this)
+	return #this.liles
+end
+
+local function multilily_onLoaded(info, ...)
+	local multilily = info[2]
+	
+	multilily.completed_request = multilily.completed_request + 1
+	multilily.loaded(multilily.userdata, info[1], select(1, ...))
+	
+	if multilily:isComplete() then
+		-- Process
+		local output = {}
+		for i = 1, #multilily.lilies do
+			output[i] = multilily.lilies[i].values
+		end
+		
+		multilily.complete(multilily.userdata, output)
+	end
+end
+
+-- Multi Lily constructor
+function lily.loadMulti(tabdecl)
+	local this = setmetatable({
+		lilies = {},
+		completed_request = 0
+	}, multilily_methods)
+	
+	for i = 1, #tabdecl do
+		local tab = tabdecl[i]
+		
+		-- tab[1] is lily name, the rest is arguments
+		local func
+		
+		if type(tab[1]) == "string" then
+			if lily[tab[1]] and lily.handlers[tab[1]] then
+				func = lily[tab[1]]
+			else
+				error("Invalid lily function ("..tab[1]..") at index #"..i)
+			end
+		elseif type(tab[1]) == "function" then
+			-- Must be `lily[function]`
+			func = tab[1]
+		else
+			error("Invalid lily function at index #"..i)
+		end
+		
+		local lilyobj = func(unpack(tab, 2))
+			:setUserData({i, this})
+			:onComplete(multilily_onLoaded)
+		
+		this.lilies[#this.lilies + 1] = lilyobj
+	end
 	
 	return this
 end
@@ -275,15 +420,39 @@ if love.image then
 end
 
 if love.math and love._version < "0.11.0" or love.data then
-	-- Notice: compress/decompress in lily expects it to be string
-	lily_new_func("compress", function(lilyobj, value)
+	local function dataGetString(lilyobj, value)
 		return value:getString()
-	end)
-	lily_new_func("decompress", dummyhandler)
+	end
+	
+	-- Notice: compress/decompress in lily expects it to be string
+	lily_new_func("compress", dataGetString)
+	lily_new_func("decompress", dataGetString)
 end
 
 if love.sound then
 	lily_new_func("newSoundData", dummyhandler)
 end
 
+if love.video then
+	lily_new_func("newVideoStream", dummyhandler)
+end
+
 return lily
+
+--[[
+Changelog:
+v2.0.2: 04-01-2018
+> Fixed random crash (again)
+> Fixed when lily in folder, it doesn't work
+
+v2.0.1: 03-01-2018
+> Fixed random crash
+
+v2.0.0: 01-01-2018
+> Support `newVideoStream`
+> Support multi loading (`lily.loadMulti`)
+> More methods for `LilyObject`
+
+v1.0.0: 21-12-2017
+> Initial Release
+]]

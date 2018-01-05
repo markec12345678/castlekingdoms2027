@@ -1,59 +1,60 @@
-local lib, errmsg = package.loadlib(love.filesystem.getSource() .. "./libraries/nuklear.dll", "luaopen_nuklear")
-assert(lib, errmsg)
-local nk = lib()
+--local lib, errmsg = package.loadlib(love.filesystem.getSource() .. "./libraries/nuklear.dll", "luaopen_nuklear")
+--assert(lib, errmsg)
+--local nk = lib()
 math.randomseed(os.time())
-require('global');
-local Gamestate = require('libraries.gamestate');
-anim = require('libraries.anim8');
-class = require('libraries.middleclass');
-local core = require("iso");
-local terrain, update_terrain = require("terrain");
-local objects, update_objects;
-tile_image = {};
-local menu = {};
-local game = {};
-local ui = {};
+require('global') 
+local object_image
+local Gamestate = require('libraries.gamestate') 
+anim = require('libraries.anim8') 
+class = require('libraries.middleclass') 
+local core = require("iso") 
+local terrain, update_terrain = require("terrain") 
+local objects, update_objects 
+
+tile_image = {} 
+local menu, game, ui = {}, {}, {}
 local loader = require("libraries.lily")
 
 function love.load()
-	nk.init()
+	--nk.init()
     Gamestate.registerEvents()
     Gamestate.switch(ui)
-	loader.newImage("assets/tiles/object_texture.png"):onComplete(function(image)
-		object_image = image
+	loader.newImage("assets/tiles/object_texture.png"):onComplete(function(userdata,image)
+		object_image = image		
 	end)
 end
+
 
 -----------------/||\------------------
 -----------------GAME------------------
 function game:init()
+    objects, update_objects = love.filesystem.load('objects.lua')(object_image)
 	love.graphics.setBackgroundColor( 45,85,9 )
-    objects, update_objects = require("objects");
 end
 
 function game:update(dt)
-    core.update();    
-    objects.update();
-	-- nk.frameBegin()
-	-- if nk.windowBegin('building_toolbox', 0, height-110, width, 110,
-	-- 		'border') then
-	-- 	nk.layoutRow('dynamic', 30, 1)
-	-- 	nk.label('Building selection: '..(core.getBuildingSelection() or ""))
-	-- 	nk.layoutRow('dynamic', 60, 8)
-	-- 	if nk.button('Small castle') then
-	-- 		building_selection = 374;
-	-- 	end
-	-- 	if nk.button('Stockpile') then
-	-- 		building_selection = 459;
-	-- 	end
-	-- 	if nk.button('Granary') then
-	-- 		building_selection = 331;
-	-- 	end
-	-- end
-	-- nk.windowEnd()
-	-- nk.frameEnd()
+    core.update()     
+    objects.update() 
 end
 
+function game:enter()
+    tile_image[0] = love.graphics.newImage( "assets/tiles/collection1489.png" )
+    tile_image[1] = tile_image[0] 
+    tile_image[2] = love.graphics.newImage( "assets/tiles/collection1499.png" )
+end
+
+function game:draw()
+    terrain.draw()
+    objects.draw()
+    core.draw() 
+end
+
+function game:wheelmoved(x, y)
+	core.scale(y)
+end
+-----------------GAME------------------
+-----------------====------------------
+------------------UI-------------------
 function ui:update(dt)
 	if object_image then Gamestate.switch(game) end
 end
@@ -61,76 +62,8 @@ end
 function ui:draw()
 	love.graphics.print("Loading assets...",100,100)
 end
-
------ENTER
-function game:enter()
-    tile_image[0] = love.graphics.newImage( "assets/tiles/collection1489.png" )
-    tile_image[1] = tile_image[0];
-    tile_image[2] = love.graphics.newImage( "assets/tiles/collection1499.png" )
-end
------DRAW LOOP
-function game:draw()
-    terrain.draw()
-    objects.draw()
-    core.draw();
-	nk.draw()
-end
------MOUSE RELEASED
-function game:mousereleased(x, y, button, istouch)
-	if nk.mousereleased(x, y, button, istouch) then
-		return -- event consumed
-	end
-    --note objects.mousereleased(x,y,button,istouch);
-end
------MOUSE PRESSED
-function game:mousepressed(x, y, button, istouch)
-	if nk.mousepressed(x, y, button, istouch) then
-		return -- event consumed
-	end
-    objects.mousepressed(x,y,button,istouch);
-end
-
-function game:keypressed(key, scancode, isrepeat)
-	if nk.keypressed(key, scancode, isrepeat) then
-		return -- event consumed
-	end
-end
-
-function game:keyreleased(key, scancode)
-	if nk.keyreleased(key, scancode) then
-		return -- event consumed
-	end
-end
-
-function game:mousemoved(x, y, dx, dy, istouch)
-	if nk.mousemoved(x, y, dx, dy, istouch) then
-		return -- event consumed
-	end
-end
-
-function game:textinput(text)
-	if nk.textinput(text) then
-		return -- event consumed
-	end
-end
-
-function game:wheelmoved(x, y)
-	if nk.wheelmoved(x, y) then
-		return -- event consumed
-	end
-	core.scale(y)
-end
------------------GAME------------------
+------------------UI-------------------
 -----------------\||/------------------
-
-
-
-
-
-
-
-
-
 
 
 

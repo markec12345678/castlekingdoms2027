@@ -55,6 +55,8 @@ do
 	-- Supply means push + wait until received.
 	thread_lily_id = table.concat(t)
 	channel_info:supply(thread_lily_id)
+	-- Push current lily thread task count
+	channel_info:push(0)
 end
 
 -- Function handlers
@@ -140,16 +142,22 @@ if love.math and love._version < "0.11.0" then
 	end)
 elseif love.data then
 	lily_handler_func("compress", 2, function(t)
-		return love.data.compress(t[1], t[2], t[3])
+		return love.data.compress("data", t[1], t[2], t[3])
 	end)
 	lily_handler_func("decompress", 1, function(t)
-		return love.data.decompress(t[1], t[2])
+		return love.data.decompress("data", t[1], t[2])
 	end)
 end
 
 if love.sound then
 	lily_handler_func("newSoundData", 1, function(t)
 		return love.sound.newSoundData(t[1], t[2], t[3], t[4])
+	end)
+end
+
+if love.video then
+	lily_handler_func("newVideoStream", 1, function(t)
+		return love.video.newVideoStream(t[1])
 	end)
 end
 
@@ -165,9 +173,6 @@ end
 local function not_quit()
 	return channel_info:getCount() == 1
 end
-
--- Current active task
-channel_info:push(0)
 
 -- If main thread puses anything to channel_info, or pop the count, that means we should exit
 while channel_info:performAtomic(not_quit) do
