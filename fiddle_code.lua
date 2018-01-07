@@ -7,6 +7,24 @@
 --     return true else return false; end
 -- end
 
+-- local location = {
+-- 	gx = 0,
+-- 	gy = 0,
+-- 	x = 0,
+-- 	y = 0,
+-- 	cx = 0, 
+-- 	cy = 0
+-- }
+-- function location:new (o)
+-- 	o = o or {}  
+-- 	setmetatable(o, self)
+-- 	self.__index = self
+-- 	return o
+-- end
+--TODO remove or find a use later, not needed for now
+--local first_location = location:new()
+--local last_location = location:new()
+
 -- First, set a collision map
 local map = {
 	{0,1,0,1,0},

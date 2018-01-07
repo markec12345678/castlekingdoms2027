@@ -1,16 +1,3 @@
-function newAutotable(dim)
-    local MT = {};
-    for i=1, dim do
-        MT[i] = {__index = function(t, k)
-            if i < dim then
-                t[k] = setmetatable({}, MT[i+1])
-                return t[k];
-            end
-        end}
-    end
-
-    return setmetatable({}, MT[1]);
-end
 
 function ScreenToIsoX(globalX, globalY) 
     return (((globalX - IsoX) / (tile_width/2)) + ((globalY - IsoY) / (tile_height/2))) / 2;
@@ -75,10 +62,10 @@ end
 
 local function draw()
         love.graphics.print(
-                "\n LocalX: " .. LocalX ..
-                "\n LocalY: " .. LocalY ..
-                "\n viewx: " .. view_xview ..
-                "\n viewy: " .. view_yview ..
+                "\n GlobalX: " .. LocalX ..
+                "\n GlobalY: " .. LocalY ..
+                "\n LocalX: " .. LocalX%chunk_width ..
+                "\n LocalY: " .. LocalY%chunk_width ..
                 "\n Center chunk: [" .. xchunk .. "][".. ychunk .."]" ..
                 "\n Current FPS: "..tostring(love.timer.getFPS( ))
                 , 0, 0);

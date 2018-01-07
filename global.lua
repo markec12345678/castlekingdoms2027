@@ -7,6 +7,20 @@
                 end
             end
 
+            function newAutotable(dim)
+                local MT = {};
+                for i=1, dim do
+                    MT[i] = {__index = function(t, k)
+                        if i < dim then
+                            t[k] = setmetatable({}, MT[i+1])
+                            return t[k];
+                        end
+                    end}          
+                end
+
+                return setmetatable({}, MT[1]);
+            end
+
             function listInsert(list,key1,value1,key2,value2)
                 list = {next = list, key1 = value1, key2 = value2}
             end            
@@ -22,7 +36,10 @@
                 CenterX = 0;
                 CenterY = 0;
                 previous_chunk_x = 0;
-                previous_chunk_y = 0;                                  
+                previous_chunk_y = 0;       
+    ----Terrain
+            terrain = newAutotable(2) 
+            status = newAutotable(2)                            
     ----Offset
             IsoX = 0;
             IsoY = 0;

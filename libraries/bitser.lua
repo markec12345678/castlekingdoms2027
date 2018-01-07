@@ -244,7 +244,7 @@ serialize_value = function(value, seen)
 end
 
 local function serialize(value)
-	Buffer_makeBuffer(4096)
+	Buffer_makeBuffer(8192)
 	local seen = {len = 0}
 	serialize_value(value, seen)
 end
@@ -363,8 +363,12 @@ return {dumps = function(value)
 	serialize(value)
 	return ffi.string(buf, buf_pos)
 end, dumpLoveFile = function(fname, value)
+	write(3.1)
 	serialize(value)
+	write(3.2)
 	love.filesystem.write(fname, ffi.string(buf, buf_pos))
+	remove(3.1)
+	remove(3.2)
 end, loadLoveFile = function(fname)
 	local serializedData = love.filesystem.newFileData(fname)
 	Buffer_newDataReader(serializedData:getPointer(), serializedData:getSize())

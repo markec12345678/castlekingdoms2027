@@ -1,28 +1,29 @@
-local object_image = ... 
-local previous_distance, location_distance = 0
-local previous_total_chunks_to_traverse = 0
-local previous_dir = 'none'
+local object_image= ... 
 local bitser = require("libraries.bitser")
-local angle 
-local location = {
-	gx = 0,
-	gy = 0,
-	x = 0,
-	y = 0,
-	cx = 0, 
-	cy = 0
-}
-function location:new (o)
-	o = o or {}  
-	setmetatable(o, self)
-	self.__index = self
-	return o
-end
---TODO remove or find a use later, not needed for now
-local first_location = location:new()
-local last_location = location:new()
 
-    --2D array stuff
+    --Declarations
+	----Direction and distance
+			local previous_distance, location_distance = 0, 0
+			local previous_total_chunks_to_traverse = 0
+			local previous_dir = 'none'
+			local angle 
+	----Location thing
+			local location = {
+				gx = 0,
+				gy = 0,
+				x = 0,
+				y = 0,
+				cx = 0, 
+				cy = 0
+			}
+			function location:new (o)
+				o = o or {}  
+				setmetatable(o, self)
+				self.__index = self
+				return o
+			end
+			local first_location = location:new()
+			local last_location = location:new()
 	----Rows and columns
             local cols = chunk_width
             local rows = chunk_height
@@ -36,9 +37,9 @@ local last_location = location:new()
 			local canvas = love.graphics.newCanvas()  
 			object_image:setFilter('nearest','nearest')
 	        local tile_quads = require('objects_quads')
-			local chunk_ser = {}
 			object_batch[0][0] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)
 			shadow_batch[0][0] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)		
+
 
 --- NOTE Object classes START ---
 --- NOTE --------------------------
@@ -50,6 +51,7 @@ local Woodcutter 	= love.filesystem.load('objects/Woodcutter.lua')(object_batch,
 --- NOTE --------------------------
 --- NOTE Object classes END ---
 
+
 function genObjects(cx,cy)
 	local chunk_x = cx or current_chunk_x
 	local chunk_y = cy or current_chunk_y
@@ -58,9 +60,9 @@ function genObjects(cx,cy)
 		object_batch[chunk_x][chunk_y] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)
 	end
 	object_batch[chunk_x][chunk_y]:clear()	
-		for i=0,chunk_width-1,1 do
-			for o=0,chunk_height-1,1 do
-				local rand = math.random(400)
+		for i=1,chunk_width,1 do
+			for o=1,chunk_height,1 do
+				local rand = math.random(490)
 						if rand == 5 then
 						object[cx][cy][i][o] = Tree:new(cx,cy,i,o, --TODO fix tile_offset/_x
 						IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[object[chunk_x][chunk_y][i][o]] or 50),
@@ -75,14 +77,38 @@ function genObjects(cx,cy)
 			end
 		end
 end
-function objectClean(cx,cy)		
+function objectClean(cx,cy)	
 	--todo finish up here
-	-- chunk_ser.position = {cx,cy}			
-	-- local test = bitser.dumps(object[cx][cy][i][o]:ser())
-	-- table.insert(chunk_ser,test)
+	write(1)
+	local save = false
+	local chunk_ser = {terrain = {},objects = {}}
+	chunk_ser.position = {cx,cy}			
+	-- for index, obj in ipairs ( active_objects ) do 
+	-- 		if obj.cx == cx and obj.cy == cy then 
+	-- 			table.insert(chunk_ser.objects,obj:ser())
+	-- 		end
+	-- end
+	local time = love.timer.getTime()
+	local filename = "chunk-test"..cx.."l"..cy..".bin"
+	--if tstatus[cx][cy] ~= nil and tstatus[cx][cy] == 1 then print("Found:"..(bitser.loads(bitser.dumps(terrain[cx][cy])))[60][60]) end
+	if status ~= nil then 
+		if status[cx][cy] == 1 then 
+			chunk_ser.terrain = terrain[cx][cy]
+			status[cx][cy] = 2
+			--print(chunk_ser.terrain[2][2])
+			save = true
+		end
+	end
+	write(2)
+	if save then write(3) bitser.dumpLoveFile(filename, chunk_ser) else
+	status[cx][cy] = nil end
+	--if save then assert(inspect(bitser.loadLoveFile(filename))) end
 	object[cx][cy] = nil
 	object_batch[cx][cy] = nil
 	shadow_batch[cx][cy] = nil
+	remove(1)
+	remove(2)
+	remove(3)
 end
 
 local function update_objects(cx,cy)
@@ -93,8 +119,8 @@ local function update_objects(cx,cy)
 	--shadow_batch[chunk_x][chunk_y] =  shadow_batch[chunk_x][chunk_y] or love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)
   	object_batch[chunk_x][chunk_y]:clear() 
   	--shadow_batch[chunk_x][chunk_y]:clear()
-  	for i=0,chunk_width-1,1 do
-    	for o=0,chunk_height-1,1 do
+  	for i=1,chunk_width,1 do
+    	for o=1,chunk_height,1 do
 			if object[chunk_x][chunk_y][i][o] ~= nil then
 					object[chunk_x][chunk_y][i][o].qid = object_batch[chunk_x][chunk_y]:
 					add(object[chunk_x][chunk_y][i][o].animation
@@ -142,7 +168,7 @@ end
 
 
 local function mousepressed(x, y, button, istouch)
-	mx, my = x,y
+	local mx, my = x,y
 		LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)) 
 		LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview)) 
 		first_location.gx = LocalX
@@ -151,7 +177,9 @@ local function mousepressed(x, y, button, istouch)
 		first_location.y = LocalY % (chunk_width)
 		first_location.cx = math.floor(LocalX/chunk_width)
 		first_location.cy = math.floor(LocalY/chunk_width)
+		print("Button", button)
    if button == 1 then 
+		print("Pressed at",first_location.x,first_location.y,object[first_location.cx][first_location.cy][first_location.x][first_location.y] )
 		if object[first_location.cx][first_location.cy][first_location.x][first_location.y] ~= nil then
 		object[first_location.cx][first_location.cy][first_location.x][first_location.y]:cut() end --todo remove this in prod
    elseif button == 2 then
@@ -199,16 +227,14 @@ local function update()
 end
 
 
-chunkUpdateList()
+--chunkUpdateList()
 
 local tableOfFunctions = {
                         update = update, 
                         draw = draw_object,
                         chunk = object[first_location.cx][first_location.cy], 
                         mousereleased = mousereleased, 
-                        mousepressed = mousepressed, 
-                        generate_wall_piece = generate_wall_piece,
-                        
+                        mousepressed = mousepressed                        
                         }
 return tableOfFunctions, update_objects
 

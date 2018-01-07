@@ -8,12 +8,13 @@ local Gamestate = require('libraries.gamestate')
 anim = require('libraries.anim8') 
 class = require('libraries.middleclass') 
 local core = require("iso") 
-local terrain, update_terrain = require("terrain") 
+local terrain = require("terrain") 
 local objects, update_objects 
-
 tile_image = {} 
 local menu, game, ui = {}, {}, {}
-local loader = require("libraries.lily")
+local loader = require('libraries.lily')
+inspect = require('libraries.inspect')
+
 
 function love.load()
 	--nk.init()
@@ -49,6 +50,11 @@ function game:draw()
     core.draw() 
 end
 
+function game:mousepressed(x, y, button, istouch)
+	ter.mousepressed(x,y,button,istouch)
+	objects.mousepressed(x,y,button,istouch)
+end
+
 function game:wheelmoved(x, y)
 	core.scale(y)
 end
@@ -66,6 +72,15 @@ end
 -----------------\||/------------------
 
 
+function love.quit()
+    f = love.filesystem.newFile("notasde.txt")
+	f:open("w")
+	for i = 1, 10 do
+		f:write("This is line "..i.."!\r\n")
+	end
+	f:close()
+    return true
+end
 
 
 function love.run()
@@ -82,7 +97,6 @@ function love.run()
 	-- Main loop time.
 	while true do
 		-- Process events.
-		if love.event then
 			love.event.pump()
 			for name, a,b,c,d,e,f in love.event.poll() do
 				if name == "quit" then
@@ -92,7 +106,6 @@ function love.run()
 				end
 				love.handlers[name](a,b,c,d,e,f)
 			end
-		end
  
 		-- Update dt, as we'll be passing it to update
 		if love.timer then
