@@ -37,6 +37,7 @@
                 CenterY = 0;
                 previous_chunk_x = 0;
                 previous_chunk_y = 0;       
+            chunkUpdateList = function () end;
     ----Terrain
             terrain = newAutotable(2) 
             status = newAutotable(2)                            

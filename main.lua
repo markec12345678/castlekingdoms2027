@@ -7,9 +7,9 @@ local object_image
 local Gamestate = require('libraries.gamestate') 
 anim = require('libraries.anim8') 
 class = require('libraries.middleclass') 
-local core = require("iso") 
-local terrain = require("terrain") 
-local objects, update_objects 
+local core = require("iso")
+
+local objects, terrain 
 tile_image = {} 
 local menu, game, ui = {}, {}, {}
 local loader = require('libraries.lily')
@@ -29,7 +29,10 @@ end
 -----------------/||\------------------
 -----------------GAME------------------
 function game:init()
-    objects, update_objects = love.filesystem.load('objects.lua')(object_image)
+	terrain = require('terrain')
+    objects = love.filesystem.load('objects.lua')(object_image)
+	package.loaded['objects'] = objects
+	chunkUpdateList = require('objects/chunk_system')
 	love.graphics.setBackgroundColor( 45,85,9 )
 end
 
@@ -72,15 +75,15 @@ end
 -----------------\||/------------------
 
 
-function love.quit()
-    f = love.filesystem.newFile("notasde.txt")
-	f:open("w")
-	for i = 1, 10 do
-		f:write("This is line "..i.."!\r\n")
-	end
-	f:close()
-    return true
-end
+-- function love.quit()
+--     f = love.filesystem.newFile("notasde.txt")
+-- 	f:open("w")
+-- 	for i = 1, 10 do
+-- 		f:write("This is line "..i.."!\r\n")
+-- 	end
+-- 	f:close()
+--     return true
+-- end
 
 
 function love.run()

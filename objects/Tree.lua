@@ -51,6 +51,7 @@ local Tree = class('Tree', Object)
 				table_to_serialize.stump = self.stump
 				table_to_serialize.health = self.health
 				table_to_serialize.y = self.y
+				table_to_serialize.class = "Tree"
 				--TODO: turn from tree to stump when cut down to ease on serialization
 				return table_to_serialize				
 				end

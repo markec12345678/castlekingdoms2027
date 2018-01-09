@@ -47,6 +47,7 @@ local bitser = require("libraries.bitser")
 local Object 		= require('objects.Object')
 local Tree 		 	= love.filesystem.load('objects/Tree.lua')(object_batch, active_objects, tile_quads)
 local Woodcutter 	= love.filesystem.load('objects/Woodcutter.lua')(object_batch, active_objects, tile_quads)
+package.loaded['objects.Tree'],package.loaded['objects.Woodcutter'] = Tree, Woodcutter
 --- NOTE --------------------------
 --- NOTE --------------------------
 --- NOTE Object classes END ---
@@ -77,39 +78,6 @@ function genObjects(cx,cy)
 			end
 		end
 end
-function objectClean(cx,cy)	
-	--todo finish up here
-	write(1)
-	local save = false
-	local chunk_ser = {terrain = {},objects = {}}
-	chunk_ser.position = {cx,cy}			
-	-- for index, obj in ipairs ( active_objects ) do 
-	-- 		if obj.cx == cx and obj.cy == cy then 
-	-- 			table.insert(chunk_ser.objects,obj:ser())
-	-- 		end
-	-- end
-	local time = love.timer.getTime()
-	local filename = "chunk-test"..cx.."l"..cy..".bin"
-	--if tstatus[cx][cy] ~= nil and tstatus[cx][cy] == 1 then print("Found:"..(bitser.loads(bitser.dumps(terrain[cx][cy])))[60][60]) end
-	if status ~= nil then 
-		if status[cx][cy] == 1 then 
-			chunk_ser.terrain = terrain[cx][cy]
-			status[cx][cy] = 2
-			--print(chunk_ser.terrain[2][2])
-			save = true
-		end
-	end
-	write(2)
-	if save then write(3) bitser.dumpLoveFile(filename, chunk_ser) else
-	status[cx][cy] = nil end
-	--if save then assert(inspect(bitser.loadLoveFile(filename))) end
-	object[cx][cy] = nil
-	object_batch[cx][cy] = nil
-	shadow_batch[cx][cy] = nil
-	remove(1)
-	remove(2)
-	remove(3)
-end
 
 local function update_objects(cx,cy)
 	local chunk_x = cx or current_chunk_x
@@ -122,8 +90,8 @@ local function update_objects(cx,cy)
   	for i=1,chunk_width,1 do
     	for o=1,chunk_height,1 do
 			if object[chunk_x][chunk_y][i][o] ~= nil then
-					object[chunk_x][chunk_y][i][o].qid = object_batch[chunk_x][chunk_y]:
-					add(object[chunk_x][chunk_y][i][o].animation
+					object[chunk_x][chunk_y][i][o].qid = object_batch[chunk_x][chunk_y]
+					:add(object[chunk_x][chunk_y][i][o].animation
 					:getFrameInfo(object[chunk_x][chunk_y][i][o].x,
 								  object[chunk_x][chunk_y][i][o].y))
 			end
@@ -234,9 +202,14 @@ local tableOfFunctions = {
                         draw = draw_object,
                         chunk = object[first_location.cx][first_location.cy], 
                         mousereleased = mousereleased, 
-                        mousepressed = mousepressed                        
-                        }
-return tableOfFunctions, update_objects
+                        mousepressed = mousepressed,
+						active = active_objects,
+						object = object,
+						batch = object_batch,               
+                        shadow = shadow_batch,
+						update_objects = update_objects,
+						}
+return tableOfFunctions
 
 
 
