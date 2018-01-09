@@ -8,6 +8,7 @@ local Gamestate = require('libraries.gamestate')
 anim = require('libraries.anim8') 
 class = require('libraries.middleclass') 
 local core = require("iso")
+local bitser = require('libraries.bitser')
 
 local objects, terrain 
 tile_image = {} 
@@ -75,15 +76,10 @@ end
 -----------------\||/------------------
 
 
--- function love.quit()
---     f = love.filesystem.newFile("notasde.txt")
--- 	f:open("w")
--- 	for i = 1, 10 do
--- 		f:write("This is line "..i.."!\r\n")
--- 	end
--- 	f:close()
---     return true
--- end
+function love.quit()
+    bitser.dumpLoveFile("status.bin",status)
+    return true
+end
 
 
 function love.run()

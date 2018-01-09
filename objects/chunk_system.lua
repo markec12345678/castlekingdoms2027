@@ -47,9 +47,8 @@ end
 
 local function loadObjects(cx, cy, data)
 	for _,obj in ipairs(data) do
-		print("Yeah:"..inspect(obj)) 
 		local ob = object_hashMap[obj.class]
-		ob:deserialize(data)
+		--TODO ob:deserialize(data)
 		--TODO: add deserialization in Tree 
 	end
 end
@@ -57,10 +56,10 @@ end
 local function loadTerrain(cx,cy)
 		local chunk_ser = bitser.loadLoveFile("chunk-test"..cx.."l"..cy..".bin")
 		print("Loading",cx,cy)
-		status[cx][cy] = 3
+		status[cx][cy] = 3 --TODO: save chunks on love.quit and change their status to 2
 		update_terrain(cx,cy,chunk_ser.terrain)
 		--update_objects(cx,cy,chunk_ser.objects)
-		print(inspect(chunk_ser.objects))
+		--print(inspect(chunk_ser.objects))
 		print("------------------------")
 		loadObjects(cx,cy,chunk_ser.objects)
 end 

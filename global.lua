@@ -1,4 +1,5 @@
 	----Functions
+            local bitser = require('libraries.bitser')
             function printList(list)
                 local l = list;
                 while l do
@@ -40,7 +41,8 @@
             chunkUpdateList = function () end;
     ----Terrain
             terrain = newAutotable(2) 
-            status = newAutotable(2)                            
+            if love.filesystem.exists("status.bin") then status = bitser.loadLoveFile("status.bin") else
+            status = newAutotable(2) end                
     ----Offset
             IsoX = 0;
             IsoY = 0;
