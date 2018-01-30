@@ -8,7 +8,7 @@ local active_objects = object_table.active
 local object 		= object_table.object
 local object_batch  = object_table.batch
 local shadow_batch  = object_table.shadow
-local update_object = object_table.update
+local update_objects = object_table.update
 local Tree = require('objects.Tree')
 local object_hashMap = {
 	["Tree"] = Tree:new(0,0,0,0,0,0,"")
@@ -22,7 +22,7 @@ local function objectClean(cx,cy)
 	local counter = 1	
 	for index, obj in ipairs ( active_objects ) do 
 			if obj.cx == cx and obj.cy == cy then 
-				chunk_ser.objects[counter] = obj:ser()
+				chunk_ser.objects[counter] = obj:serialize()
 				counter = counter + 1
 			end
 	end
@@ -37,31 +37,28 @@ local function objectClean(cx,cy)
 			save = true
 		end
 	end
-	if save then bitser.dumpLoveFile(filename, chunk_ser) print("-") else
+	if save then bitser.dumpLoveFile(filename, chunk_ser) else
 	status[cx][cy] = nil end
 	--if save then assert(inspect(bitser.loadLoveFile(filename))) end
-	object[cx][cy] = nil
-	object_batch[cx][cy] = nil
+	--object[cx][cy] = nil
+	--object_batch[cx][cy] = nil
 	shadow_batch[cx][cy] = nil
 end
 
 local function loadObjects(cx, cy, data)
 	for _,obj in ipairs(data) do
 		local ob = object_hashMap[obj.class]
-		--TODO ob:deserialize(data)
-		--TODO: add deserialization in Tree 
+		ob:deserialize(obj)
 	end
 end
 
-local function loadTerrain(cx,cy)
+local function loadChunk(cx,cy)
 		local chunk_ser = bitser.loadLoveFile("chunk-test"..cx.."l"..cy..".bin")
 		print("Loading",cx,cy)
 		status[cx][cy] = 3 --TODO: save chunks on love.quit and change their status to 2
 		update_terrain(cx,cy,chunk_ser.terrain)
-		--update_objects(cx,cy,chunk_ser.objects)
-		--print(inspect(chunk_ser.objects))
-		print("------------------------")
 		loadObjects(cx,cy,chunk_ser.objects)
+		update_objects(cx,cy, true)
 end 
 
 local function chunkGarbageCollect()
@@ -170,7 +167,7 @@ local function chunkUpdateList()
 		genTerrain(current_chunk_x+1,current_chunk_y) 
 		status[current_chunk_x+1][current_chunk_y] = 1  
 	elseif status[current_chunk_x+1][current_chunk_y] == 2 then
-		loadTerrain(current_chunk_x+1,current_chunk_y)
+		loadChunk(current_chunk_x+1,current_chunk_y)
 	end 
 	--NOTE --------------------------------------------
 		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x+1, chunky = current_chunk_y+1}
@@ -178,7 +175,7 @@ local function chunkUpdateList()
 		genTerrain(current_chunk_x+1,current_chunk_y+1)
 		status[current_chunk_x+1][current_chunk_y+1] = 1    
 	elseif status[current_chunk_x+1][current_chunk_y+1] == 2 then
-		loadTerrain(current_chunk_x+1,current_chunk_y+1)
+		loadChunk(current_chunk_x+1,current_chunk_y+1)
 	end 
 	--NOTE --------------------------------------------
 		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x+1, chunky = current_chunk_y-1}
@@ -186,7 +183,7 @@ local function chunkUpdateList()
 		genTerrain(current_chunk_x+1,current_chunk_y-1)
 		status[current_chunk_x+1][current_chunk_y-1] = 1   
 	elseif status[current_chunk_x+1][current_chunk_y-1] == 2 then
-		loadTerrain(current_chunk_x+1,current_chunk_y-1)
+		loadChunk(current_chunk_x+1,current_chunk_y-1)
 	end 
 	--NOTE 2--------------------------------------------
 		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x, chunky = current_chunk_y+1}
@@ -194,7 +191,7 @@ local function chunkUpdateList()
 		genTerrain(current_chunk_x,current_chunk_y+1)
 		status[current_chunk_x][current_chunk_y+1] = 1    
 	elseif status[current_chunk_x][current_chunk_y+1] == 2 then
-		loadTerrain(current_chunk_x,current_chunk_y+1)
+		loadChunk(current_chunk_x,current_chunk_y+1)
 	end 
 	--NOTE --------------------------------------------
 		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x, chunky = current_chunk_y}
@@ -202,7 +199,7 @@ local function chunkUpdateList()
 		genTerrain(current_chunk_x,current_chunk_y)
 		status[current_chunk_x][current_chunk_y] = 1    
 	elseif status[current_chunk_x][current_chunk_y] == 2 then
-		loadTerrain(current_chunk_x,current_chunk_y)
+		loadChunk(current_chunk_x,current_chunk_y)
 	end 
 	--NOTE --------------------------------------------
 		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x, chunky = current_chunk_y-1}
@@ -210,7 +207,7 @@ local function chunkUpdateList()
 		genTerrain(current_chunk_x,current_chunk_y-1)
 		status[current_chunk_x][current_chunk_y-1] = 1   
 	elseif status[current_chunk_x][current_chunk_y-1] == 2 then
-		loadTerrain(current_chunk_x,current_chunk_y-1)
+		loadChunk(current_chunk_x,current_chunk_y-1)
 	end 
 	--NOTE 3--------------------------------------------
 		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x-1, chunky = current_chunk_y+1}
@@ -218,7 +215,7 @@ local function chunkUpdateList()
 		genTerrain(current_chunk_x-1,current_chunk_y+1)
 		status[current_chunk_x-1][current_chunk_y+1] = 1   
 	elseif status[current_chunk_x-1][current_chunk_y+1] == 2 then
-		loadTerrain(current_chunk_x-1,current_chunk_y+1)
+		loadChunk(current_chunk_x-1,current_chunk_y+1)
 	end 
 	--NOTE --------------------------------------------
 		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x-1, chunky = current_chunk_y}
@@ -226,7 +223,7 @@ local function chunkUpdateList()
 		genTerrain(current_chunk_x-1,current_chunk_y)
 		status[current_chunk_x-1][current_chunk_y] = 1   
 	elseif status[current_chunk_x-1][current_chunk_y] == 2 then
-		loadTerrain(current_chunk_x-1,current_chunk_y)
+		loadChunk(current_chunk_x-1,current_chunk_y)
 	end 
 	--NOTE --------------------------------------------
 		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x-1, chunky = current_chunk_y-1}
@@ -234,7 +231,7 @@ local function chunkUpdateList()
 		genTerrain(current_chunk_x-1,current_chunk_y-1)
 		status[current_chunk_x-1][current_chunk_y-1] = 1   
 	elseif status[current_chunk_x-1][current_chunk_y-1] == 2 then
-		loadTerrain(current_chunk_x-1,current_chunk_y-1)
+		loadChunk(current_chunk_x-1,current_chunk_y-1)
 	end 
 end
 

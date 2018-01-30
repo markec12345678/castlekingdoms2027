@@ -1,4 +1,5 @@
 	----Functions
+            local ffi = require("ffi")
             local bitser = require('libraries.bitser')
             function printList(list)
                 local l = list;
@@ -59,11 +60,12 @@
 	    my = 0;
 	    LocalX = 0;
 	    LocalY = 0;
-      time = 0;
-      dttime = 0;
+        time = 0;
+        dttime = 0;
         lx_offset = 0;
         ly_offset = 0;
-        px_img_y_offset = 0;
+        px_img_y_offset = 0;        
+        tile_image = {} 
 	----Version, title and window information
 	    width, height, flags = love.window.getMode();
         min_dt = 1/60;
@@ -72,3 +74,33 @@
         building_selection = 398;
         tile_offset, tile_offset_x = {}, {};
         wood = 10;
+    ----Pathfinding data structures
+        collision_map = ffi.new("unsigned char[2048][2048]", {})
+        ffi.cdef[[
+        void *calloc(size_t nitems, size_t size);
+        void free(void *ptr);
+        typedef struct node node;
+
+        struct node { 
+            unsigned short _x,_y,_h,_g,_f; 
+            unsigned char walkable; 
+            bool _opened, _closed, init; 
+            node* _parent;
+        };
+        ]]        
+        -- local N = 8192
+        -- local arr = ffi.cast("unsigned char **", ffi.C.malloc(N*ffi.sizeof("unsigned char*")))
+        -- for i = 0, N do
+        --     arr[i] = ffi.cast("unsigned char *", ffi.C.malloc(N*ffi.sizeof("unsigned char")))
+        -- end
+        -- assert(arr ~= nil, "out of memory")
+
+        -- print("array =", arr)
+        -- arr[0][2] = 1.5
+        -- arr[N-1][3] = 2.5
+        -- print("arr[0][2] =", arr[0][2])
+        -- print("arr["..(N-1).."][3] =", arr[N-1][3])
+    ----Libraries        
+        anim = require('libraries.anim8') 
+        class = require('libraries.middleclass') 
+        inspect = require('libraries.inspect')

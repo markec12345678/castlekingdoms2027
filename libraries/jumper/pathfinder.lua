@@ -337,16 +337,21 @@ if (...) then
   -- @treturn path a path (array of nodes) when found, otherwise nil
 	-- @usage local path = myFinder:getPath(1,1,5,5)
   function Pathfinder:getPath(startX, startY, endX, endY, clearance)
+    write(1)
 		self:reset()
+    write(2)
     local startNode = self._grid:getNodeAt(startX, startY)
+    write(3)
     local endNode = self._grid:getNodeAt(endX, endY)
-    assert(startNode, ('Invalid location [%d, %d]'):format(startX, startY))
-    assert(endNode and self._grid:isWalkableAt(endX, endY),
-      ('Invalid or unreachable location [%d, %d]'):format(endX, endY))
+    --assert(startNode, ('Invalid location [%d, %d]'):format(startX, startY))
+    --assert(endNode and self._grid:isWalkableAt(endX, endY),
+      --('Invalid or unreachable location [%d, %d]'):format(endX, endY))
     local _endNode = Finders[self._finder](self, startNode, endNode, clearance, toClear)
+    write1('reppppppppeat')
     if _endNode then
 			return Utils.traceBackPath(self, _endNode, startNode)
     end
+    write1('_done')
     return nil
   end
 
@@ -356,7 +361,11 @@ if (...) then
 	-- @treturn pathfinder self (the calling `pathfinder` itself, can be chained)
 	-- @usage local path, len = myFinder:getPath(1,1,5,5)
 	function Pathfinder:reset()
-    for node in pairs(toClear) do node:reset() end
+    for node in pairs(toClear) do 
+        node._x,node._y,node._h,node._g,node._f, node.walkable = 0,0,0,0,0,0
+        node._opened,node._closed,node.init = false,false,false
+        node._parent = nil
+    end
     toClear = {}
 		return self
 	end

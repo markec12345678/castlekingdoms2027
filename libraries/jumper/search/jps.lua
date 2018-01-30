@@ -1,7 +1,7 @@
 -- Jump Point search algorithm
 
 if (...) then
-
+  local ffi = require'ffi'
   -- Dependancies
   local _PATH = (...):match('(.+)%.search.jps$')
   local Heuristics = require (_PATH .. '.core.heuristics')
@@ -29,9 +29,11 @@ if (...) then
     Otherwise, we add left and right node (perpendicular to the direction
     of move) in the neighbours list.
   --]]
-  local function findNeighbours(finder, node, clearance)
-
-    if node._parent then
+  local function findNeighbours(finder, node, clearance)    
+    --if 
+    --print("par",node._parent.declared)
+    write(1111)
+    if node.init == true then
       local neighbours = {}
       local x,y = node._x, node._y
       -- Node have a parent, we will prune some neighbours
@@ -114,7 +116,7 @@ if (...) then
       end
       return neighbours
     end
-
+    remove(1111)
     -- Node do not have parent, we return all neighbouring nodes
     return finder._grid:getNeighbours(node, finder._walkable, finder._allowDiagonal, finder._tunnel, clearance)
   end
@@ -130,16 +132,19 @@ if (...) then
     to perform a straight move.
   --]]
   local function jump(finder, node, parent, endNode, clearance)
-	if not node then return end
-
+  --finder._allowDiagonal = false
+	if not node then write1('_ended') return end
     local x,y = node._x, node._y
     local dx, dy = x - parent._x,y - parent._y
-
+    write(91)
     -- If the node to be examined is unwalkable, return nil
-    if not finder._grid:isWalkableAt(x,y,finder._walkable, clearance) then return end
-		
+    if not finder._grid:isWalkableAt(x,y,finder._walkable, clearance) then write1('_unwalkable') return end
+    remove(91)
+		write(92)
     -- If the node to be examined is the endNode, return this node
-    if node == endNode then return node end
+    if node._x == endNode._x and node._y == endNode._y then write1('_endNode') return node end
+    remove(92)
+		write(93)
     -- Diagonal search case
     if dx~=0 and dy~=0 then
       -- Current node is a jump point if one of his leftside/rightside neighbours ahead is forced
@@ -174,19 +179,22 @@ if (...) then
         end
       end
     end
-
+    remove(93)
+		write(94)
     -- Recursive horizontal/vertical search
     if dx~=0 and dy~=0 then
       if jump(finder,finder._grid:getNodeAt(x+dx,y),node,endNode, clearance) then return node end
       if jump(finder,finder._grid:getNodeAt(x,y+dy),node,endNode, clearance) then return node end
     end
-
+    remove(94)
+		write(95)
     -- Recursive diagonal search
     if finder._allowDiagonal then
-      if finder._grid:isWalkableAt(x+dx,y,finder._walkable, clearance) or finder._grid:isWalkableAt(x,y+dy,finder._walkable, clearance) then
+      if finder._grid:isWalkableAt(x+dx,y,finder._walkable, clearance) or finder._grid:isWalkableAt(x,y+dy,finder._walkable, clearance) then 
         return jump(finder,finder._grid:getNodeAt(x+dx,y+dy),node,endNode, clearance)
       end
     end
+		remove(95)
 end
 
   --[[
@@ -200,70 +208,104 @@ end
     node currently expanded in a straight mode search, we skip this jump point.
   --]]
   local function identifySuccessors(finder, openList, node, endNode, clearance, toClear)
-
+    write(111)
     -- Gets the valid neighbours of the given node
     -- Looks for a jump point in the direction of each neighbour
     local neighbours = findNeighbours(finder,node, clearance)
+    remove(111)
     for i = #neighbours,1,-1 do
-
+    write(112)
       local skip = false
       local neighbour = neighbours[i]
+    write(112.1)
       local jumpNode = jump(finder,neighbour,node,endNode, clearance)
+    remove(112.1)
+    write(113)
 		
       -- : in case a diagonal jump point was found in straight mode, skip it.
       if jumpNode and not finder._allowDiagonal then
         if ((jumpNode._x ~= node._x) and (jumpNode._y ~= node._y)) then skip = true end
       end
+
+    write(114)
 		
       -- Performs regular A-star on a set of jump points
       if jumpNode and not skip then
+
+    write(115)
         -- Update the jump node and move it in the closed list if it wasn't there
         if not jumpNode._closed then			
+          write(116)
 					local extraG = Heuristics.EUCLIDIAN(jumpNode, node)
+          write(117)
 					local newG = node._g + extraG
+          write(118)
 					if not jumpNode._opened or newG < jumpNode._g then
+          write(119)
 						toClear[jumpNode] = true -- Records this node to reset its properties later.
 						jumpNode._g = newG
 						jumpNode._h = jumpNode._h or
 							(finder._heuristic(jumpNode, endNode))
 						jumpNode._f = jumpNode._g+jumpNode._h
 						jumpNode._parent = node
+            jumpNode.init = true
+            write(120)
 						if not jumpNode._opened then
 							openList:push(jumpNode)
 							jumpNode._opened = true
 						else
 							openList:heapify(jumpNode)
 						end
+            write(121)
 					end					
 				end
       end
     end
+    remove(111)
+    remove(112)
+    remove(113)
+    remove(114)
+    remove(115)
+    remove(116)
+    remove(117)
+    remove(118)
+    remove(119)
+    remove(120)
+    remove(121)
+    
   end
 
   -- Calculates a path.
   -- Returns the path from location `<startX, startY>` to location `<endX, endY>`.
   return function(finder, startNode, endNode, clearance, toClear)
-
+    write(11)
     startNode._g, startNode._f, startNode._h = 0,0,0
+    write(12)
 		local openList = Heap()
+    write(13)
     openList:push(startNode)
+    write(14)
     startNode._opened = true
     toClear[startNode] = true
-
+    write(15)
     local node
+    write(16)
     while not openList:empty() do
+      write(17)
       -- Pops the lowest F-cost node, moves it in the closed list
       node = openList:pop()
       node._closed = true
         -- If the popped node is the endNode, return it
-        if node == endNode then
+        if node._x == endNode._x and node._y == endNode._y then
           return node
         end
       -- otherwise, identify successors of the popped node
       identifySuccessors(finder, openList, node, endNode, clearance, toClear)
+      remove(17)
     end
 
     -- No path found, return nil
+    remove(11)
     return nil
   end
 

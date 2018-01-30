@@ -4,16 +4,7 @@ local location_distance = 0
 local angle, first = 0, 0  
 previous_terrain_chunks = nil 
 
- function write(par) -- warning temp
-	-- f = love.filesystem.newFile("note"..par..".txt")
-	-- f:open("w")
-	-- 	f:write("This is line !\r\n")
-	-- f:close()
-end
 
- function remove(par) -- warning temp
-	-- love.filesystem.remove("note"..par..".txt")
-end
 	--Terrain Initialize
 	----Rows and columns
             local cols = chunk_width 
@@ -22,6 +13,7 @@ end
 			-- Statuses: 
 			-- [1] loaded unsaved
 			-- [2] unloaded - chunk exist on hard disk
+			-- [3] loaded saved - chunk hasn't been changed so no need to save it
 			-- nil - chunk needs to be generated first
 			
 	----Generate spriteBatch

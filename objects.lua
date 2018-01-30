@@ -1,6 +1,37 @@
 local object_image= ... 
 local bitser = require("libraries.bitser")
 
+-- First, set a collision map
+local map = collision_map
+-- Value for walkable tiles
+local walkable = 0
+
+-- Library setup
+local Grid = require ("libraries.jumper.grid") -- The grid class
+local Pathfinder = require ("libraries.jumper.pathfinder") -- The pathfinder lass
+
+-- Creates a grid object
+local grid = Grid(map) 
+-- Creates a pathfinder object using Jump Point Search
+local myFinder = Pathfinder(grid, 'JPS', walkable) 
+
+-- Define start and goal locations coordinates
+local startx, starty = 1,1
+local endx, endy = 154,1985
+
+-- Calculates the path, and its length
+write(6)
+write(7)
+local path = myFinder:getPath(startx, starty, endx, endy)
+
+if path then
+  write1(('Path found! Length: %.2f'):format(path:getLength()))
+	for node, count in path:nodes() do
+		write1('node'..node._x..'l'..node._y)
+	  print(('Step: %d - x: %d - y: %d'):format(count,node._x,node._y))
+	end
+else print("Not found!") end
+remove(6)
     --Declarations
 	----Direction and distance
 			local previous_distance, location_distance = 0, 0
@@ -45,7 +76,7 @@ local bitser = require("libraries.bitser")
 --- NOTE --------------------------
 --- NOTE --------------------------
 local Object 		= require('objects.Object')
-local Tree 		 	= love.filesystem.load('objects/Tree.lua')(object_batch, active_objects, tile_quads)
+local Tree 		 	= love.filesystem.load('objects/Tree.lua')(object_batch, active_objects, tile_quads,object)
 local Woodcutter 	= love.filesystem.load('objects/Woodcutter.lua')(object_batch, active_objects, tile_quads)
 package.loaded['objects.Tree'],package.loaded['objects.Woodcutter'] = Tree, Woodcutter
 --- NOTE --------------------------
@@ -63,7 +94,7 @@ function genObjects(cx,cy)
 	object_batch[chunk_x][chunk_y]:clear()	
 		for i=1,chunk_width,1 do
 			for o=1,chunk_height,1 do
-				local rand = math.random(490)
+				local rand = math.random(400)
 						if rand == 5 then
 						object[cx][cy][i][o] = Tree:new(cx,cy,i,o, --TODO fix tile_offset/_x
 						IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[object[chunk_x][chunk_y][i][o]] or 50),
@@ -79,9 +110,10 @@ function genObjects(cx,cy)
 		end
 end
 
-local function update_objects(cx,cy)
+local function update_objects(cx,cy,deser)
 	local chunk_x = cx or current_chunk_x
 	local chunk_y = cy or current_chunk_y
+	local deser = deser or false
 
 	object_batch[chunk_x][chunk_y] =  object_batch[chunk_x][chunk_y] or love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)
 	--shadow_batch[chunk_x][chunk_y] =  shadow_batch[chunk_x][chunk_y] or love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)
@@ -94,6 +126,11 @@ local function update_objects(cx,cy)
 					:add(object[chunk_x][chunk_y][i][o].animation
 					:getFrameInfo(object[chunk_x][chunk_y][i][o].x,
 								  object[chunk_x][chunk_y][i][o].y))
+					if deser then
+						if object[cx][cy][i][o] == nil or object[cx][cy][i][o] == 0 then else
+					object[cx][cy][i][o].qid = object_batch[chunk_x][chunk_y]:
+					add(object[cx][cy][i][o].animation:getFrameInfo(object[cx][cy][i][o].x,object[cx][cy][i][o].y))
+					end end
 			end
     	end
   	end				  
@@ -102,26 +139,26 @@ local function update_objects(cx,cy)
 end
 
 local function draw_object()
-	love.graphics.setCanvas(canvas)
-	love.graphics.clear()
-	local l1 = terrain_chunks
-		while l1 do
-			if l1.chunkx ~= nil and shadow_batch[l1.chunkx][l1.chunky] ~= nil then  
-				love.graphics.draw(shadow_batch[l1.chunkx][l1.chunky], 
-						-view_xview+(l1.chunkx-l1.chunky)*chunk_width*tile_width*0.5*scale_x, 
-						-view_yview+(l1.chunkx+l1.chunky)*chunk_height*tile_height*0.5*scale_y
-						, 0, scale_x, scale_y)
-			end
-				l1 = l1.next 
-				--TODO sort the linked list first so depth order is right between chunks
-		end
+	--love.graphics.setCanvas(canvas)
+	--love.graphics.clear()
+	-- local l1 = terrain_chunks
+	-- 	while l1 do
+	-- 		if l1.chunkx ~= nil and shadow_batch[l1.chunkx][l1.chunky] ~= nil then  
+	-- 			love.graphics.draw(shadow_batch[l1.chunkx][l1.chunky], 
+	-- 					-view_xview+(l1.chunkx-l1.chunky)*chunk_width*tile_width*0.5*scale_x, 
+	-- 					-view_yview+(l1.chunkx+l1.chunky)*chunk_height*tile_height*0.5*scale_y
+	-- 					, 0, scale_x, scale_y)
+	-- 		end
+	-- 			l1 = l1.next 
+	-- 			--TODO sort the linked list first so depth order is right between chunks
+	-- 	end
   	--love.graphics.draw(shadow_batch[0][0],    -view_xview, -view_yview, 0, scale_x, scale_y)
-	love.graphics.setCanvas()
+	--love.graphics.setCanvas()
     --love.graphics.draw(object_image,tile_quads[building_selection],IsoToScreenX(LocalX,LocalY)-view_xview-(tile_offset_x[building_selection] or 0),IsoToScreenY(LocalX,LocalY)-view_yview-(tile_offset[building_selection] or 0),nil,scale_x)
 	
-	love.graphics.setColor(255,255,255,70)
-	love.graphics.draw(canvas,0,0)
-	love.graphics.setColor(255,255,255,255)
+	--love.graphics.setColor(255,255,255,70)
+	--love.graphics.draw(canvas,0,0)
+	--love.graphics.setColor(255,255,255,255)
 	local l = terrain_chunks
 	while l do
 			if l.chunkx == nil or object_batch[l.chunkx][l.chunky] == nil then break end

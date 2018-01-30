@@ -5,17 +5,37 @@ math.randomseed(os.time())
 require('global') 
 local object_image
 local Gamestate = require('libraries.gamestate') 
-anim = require('libraries.anim8') 
-class = require('libraries.middleclass') 
 local core = require("iso")
 local bitser = require('libraries.bitser')
-
 local objects, terrain 
-tile_image = {} 
 local menu, game, ui = {}, {}, {}
 local loader = require('libraries.lily')
-inspect = require('libraries.inspect')
 
+ function write(par,op) -- warning temp
+	-- if love.filesystem.exists("note"..par..".txt") then 
+	-- write(par..(op or 'y')) return true
+	-- end
+	-- f = love.filesystem.newFile("note"..par..".txt")
+	-- f:open("w")
+	-- 	f:write("This is line !\r\n")
+	-- f:close()
+	-- return true
+end
+ function write1(par) -- warning temp
+	-- local f = love.filesystem.newFile(par..".txt")
+	-- f:open("w")
+	-- 	f:write("This is line !\r\n")
+	-- f:close()
+	-- return true
+end
+ function remove(par) -- warning temp
+	-- love.filesystem.remove("note"..par..".txt")
+	-- return true
+end 
+function remove1(par) -- warning temp
+	-- love.filesystem.remove(par..".txt")
+	-- return true
+end
 
 function love.load()
 	--nk.init()
@@ -55,13 +75,25 @@ function game:draw()
 end
 
 function game:mousepressed(x, y, button, istouch)
-	ter.mousepressed(x,y,button,istouch)
+	terrain.mousepressed(x,y,button,istouch)
 	objects.mousepressed(x,y,button,istouch)
 end
 
 function game:wheelmoved(x, y)
 	core.scale(y)
 end
+
+function game:keyreleased(key, scancode)
+	-- print("*----------------------------*")
+	-- local l = terrain_chunks
+	-- while l do
+	-- 	if l.chunkx ~= nil then
+	-- 		print(l.chunkx,l.chunky,objects.batch[l.chunkx][l.chunky])
+	-- 	end
+	-- 		l = l.next 
+	-- end
+end
+
 -----------------GAME------------------
 -----------------====------------------
 ------------------UI-------------------
@@ -77,7 +109,7 @@ end
 
 
 function love.quit()
-    bitser.dumpLoveFile("status.bin",status)
+    --bitser.dumpLoveFile("status.bin",status)
     return true
 end
 

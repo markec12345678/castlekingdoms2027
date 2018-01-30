@@ -6,7 +6,6 @@
 -- object, and the whole set of nodes are tight inside the `grid` object itself.
 
 if (...) then
-
 	-- Dependencies
   local _PATH = (...):gsub('%.grid$','')
 
@@ -75,7 +74,7 @@ if (...) then
 			assert(Assert.isStrMap(map), 'Wrong argument #1. Not a valid string map')
 			map = Utils.strToMap(map)
 		end
-    assert(Assert.isMap(map),('Bad argument #1. Not a valid map'))
+    --assert(Assert.isMap(map),('Bad argument #1. Not a valid map'))
     assert(Assert.isBool(cacheNodeAtRuntime) or Assert.isNil(cacheNodeAtRuntime),
       ('Bad argument #2. Expected \'boolean\', got %s.'):format(type(cacheNodeAtRuntime)))
     if cacheNodeAtRuntime then
@@ -106,24 +105,11 @@ if (...) then
 	-- -- True if node at [2,3] collision map value is 0 and has a clearance higher or equal to 2
 	-- print(myGrid:isWalkableAt(2,3,0,2))
 	--
+
   function Grid:isWalkableAt(x, y, walkable, clearance)
-    local nodeValue = self._map[y] and self._map[y][x]
-    if nodeValue then
-      if not walkable then return true end
-    else
-			return false
-    end
-		local hasEnoughClearance = not clearance and true or false
-		if not hasEnoughClearance then
-			if not self._isAnnotated[walkable] then return false end
-			local node = self:getNodeAt(x,y)
-			local nodeClearance = node:getClearance(walkable)
-			hasEnoughClearance = (nodeClearance >= clearance)
-		end
-    if self._eval then
-			return walkable(nodeValue) and hasEnoughClearance
-		end
-    return ((nodeValue == walkable) and hasEnoughClearance)
+      --TODO: MAP COORDS kaylemaster
+      if x >= 2048 or x < 0 or y >= 2048 or y < 0 then return false end
+      return (self._nodes[x][y].walkable == 0)
   end
 
   --- Returns the `grid` width.
@@ -184,6 +170,7 @@ if (...) then
 	-- @usage
 	-- local aNode = myGrid:getNodeAt(5,6)
 	-- local neighbours = myGrid:getNeighbours(aNode, 0, true)
+  local ffi = require'ffi'
   function Grid:getNeighbours(node, walkable, allowDiagonal, tunnel, clearance)
 		local neighbours = {}
     for i = 1,#straightOffsets do
@@ -191,11 +178,13 @@ if (...) then
         node._x + straightOffsets[i].x,
         node._y + straightOffsets[i].y
       )
-      if n and self:isWalkableAt(n._x, n._y, walkable, clearance) then
+      
+      if (node._x + straightOffsets[i].x) < 512 and (node._y + straightOffsets[i].y) < 512 and (node._x + straightOffsets[i].x) > 0 and (node._y + straightOffsets[i].y) > 0
+       and n.walkable == 0 then
         neighbours[#neighbours+1] = n
       end
     end
-
+    
     if not allowDiagonal then return neighbours end
 
 		tunnel = not not tunnel
@@ -204,7 +193,8 @@ if (...) then
         node._x + diagonalOffsets[i].x,
         node._y + diagonalOffsets[i].y
       )
-      if n and self:isWalkableAt(n._x, n._y, walkable, clearance) then
+      if (node._x + diagonalOffsets[i].x) < 512 and (node._y + diagonalOffsets[i].y) < 512 and (node._x + diagonalOffsets[i].x) > 0 and (node._y + diagonalOffsets[i].y) > 0
+        and self:isWalkableAt(n._x, n._y, walkable, clearance) then
 				if tunnel then
 					neighbours[#neighbours+1] = n
 				else
@@ -218,7 +208,6 @@ if (...) then
 				end
       end
     end
-
     return neighbours
   end
 
@@ -395,7 +384,9 @@ if (...) then
 
   -- Gets the node at location <x,y> on a preprocessed grid
   function PreProcessGrid:getNodeAt(x,y)
-    return self._nodes[y] and self._nodes[y][x] or nil
+    --TODO: Map fix kaylemaster
+    if (x < 2048 and x >= 0) and y < 2048 and y >= 0 then return self._nodes[x][y] else return false end
+    --return self._nodes[y] and self._nodes[y][x] or nil
   end
 
   -- Gets the node at location <x,y> on a postprocessed grid

@@ -28,7 +28,7 @@ if (...) then
 	local floor = math.floor
 
 	-- Default comparison function
-	local function f_min(a,b) return a < b end
+	local function f_min(a,b) return a._f < b._f end
 
 	-- Percolates up
 	local function percolate_up(heap, index)
