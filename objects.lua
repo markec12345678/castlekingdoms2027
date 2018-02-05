@@ -1,38 +1,30 @@
 local object_image= ... 
-local bitser = require("libraries.bitser")
 
--- First, set a collision map
-local map = collision_map
--- Value for walkable tiles
-local walkable = 0
 
--- Library setup
-local Grid = require ("libraries.jumper.grid") -- The grid class
-local Pathfinder = require ("libraries.jumper.pathfinder") -- The pathfinder lass
-
--- Creates a grid object
-local grid = Grid(map) 
--- Creates a pathfinder object using Jump Point Search
-local myFinder = Pathfinder(grid, 'JPS', walkable) 
 
 -- Define start and goal locations coordinates
-local startx, starty = 1,1
-local endx, endy = 154,1985
+-- local startx, starty = 1,1
+-- local endx, endy = 154,1985
 
--- Calculates the path, and its length
-write(6)
-write(7)
-local path = myFinder:getPath(startx, starty, endx, endy)
+-- -- Calculates the path, and its length
+-- local path = myFinder:getPath(startx, starty, endx, endy)
 
-if path then
-  write1(('Path found! Length: %.2f'):format(path:getLength()))
-	for node, count in path:nodes() do
-		write1('node'..node._x..'l'..node._y)
-	  print(('Step: %d - x: %d - y: %d'):format(count,node._x,node._y))
-	end
-else print("Not found!") end
-remove(6)
+-- if path then
+--   write1(('Path found! Length: %.2f'):format(path:getLength()))
+-- 	for node, count in path:nodes() do
+-- 	  print(('Step: %d - x: %d - y: %d'):format(count,node._x,node._y))
+-- 	end
+-- else print("Path not found!") end
+
+
     --Declarations
+	----Library setup
+			local bitser = require("libraries.bitser")
+			local Grid = require ("libraries.jumper.grid") -- The grid class
+			_G.Pathfinder = require ("libraries.jumper.pathfinder") -- The pathfinder class
+	----Pathfinding setup
+			_G.grid = Grid(_G.collision_map)
+			_G.finder = Pathfinder(grid , 'JPS', 0) 
 	----Direction and distance
 			local previous_distance, location_distance = 0, 0
 			local previous_total_chunks_to_traverse = 0
@@ -60,8 +52,14 @@ remove(6)
             local rows = chunk_height
 	----Chunk 2D array 	
 			local active_objects = newAutotable(1)
-			local active_chunks = {}
+			_G.active_chunks = {}
 			local object = newAutotable(4)
+	----Calculate center chunk
+			local CenterX = math.round(ScreenToIsoX(width/2-16+view_xview, height/2-8+view_yview));
+			local CenterY = math.round(ScreenToIsoY(width/2-16+view_xview,height/2-8+view_yview))
+			---------------------------------------
+			_G.xchunk = math.floor(CenterX/(chunk_width))
+			_G.ychunk = math.floor(CenterY/(chunk_width))
 	----Generate spriteBatch
 			local object_batch = newAutotable(2)   
 			local shadow_batch = newAutotable(2)
@@ -77,7 +75,7 @@ remove(6)
 --- NOTE --------------------------
 local Object 		= require('objects.Object')
 local Tree 		 	= love.filesystem.load('objects/Tree.lua')(object_batch, active_objects, tile_quads,object)
-local Woodcutter 	= love.filesystem.load('objects/Woodcutter.lua')(object_batch, active_objects, tile_quads)
+local Woodcutter 	= love.filesystem.load('objects/Woodcutter.lua')(object,object_batch, active_objects, tile_quads)
 package.loaded['objects.Tree'],package.loaded['objects.Woodcutter'] = Tree, Woodcutter
 --- NOTE --------------------------
 --- NOTE --------------------------
@@ -97,8 +95,8 @@ function genObjects(cx,cy)
 				local rand = math.random(400)
 						if rand == 5 then
 						object[cx][cy][i][o] = Tree:new(cx,cy,i,o, --TODO fix tile_offset/_x
-						IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[object[chunk_x][chunk_y][i][o]] or 50),
-						IsoY + (i + o) * tile_height * 0.5 - (tile_offset[object[chunk_x][chunk_y][i][o]] or 170),"Pine tree")
+						IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[object[chunk_x][chunk_y][i][o]] or 38),
+						IsoY + (i + o) * tile_height * 0.5 - (tile_offset[object[chunk_x][chunk_y][i][o]] or 166),"Pine tree")
 						object[cx][cy][i][o].animation:gotoFrame(math.random(6))
 						end 
 						--TODO add shadow gen here	
@@ -125,12 +123,13 @@ local function update_objects(cx,cy,deser)
 					object[chunk_x][chunk_y][i][o].qid = object_batch[chunk_x][chunk_y]
 					:add(object[chunk_x][chunk_y][i][o].animation
 					:getFrameInfo(object[chunk_x][chunk_y][i][o].x,
-								  object[chunk_x][chunk_y][i][o].y))
-					if deser then
-						if object[cx][cy][i][o] == nil or object[cx][cy][i][o] == 0 then else
-					object[cx][cy][i][o].qid = object_batch[chunk_x][chunk_y]:
-					add(object[cx][cy][i][o].animation:getFrameInfo(object[cx][cy][i][o].x,object[cx][cy][i][o].y))
-					end end
+								  object[chunk_x][chunk_y][i][o].y))		
+					-- if deser then
+					-- 	if object[cx][cy][i][o] ~= nil then 
+					-- 		object[cx][cy][i][o].qid = object_batch[chunk_x][chunk_y]:
+					-- 			add(object[cx][cy][i][o].animation:getFrameInfo())
+					-- 	end 
+					-- end
 			end
     	end
   	end				  
@@ -184,7 +183,8 @@ local function mousepressed(x, y, button, istouch)
 		first_location.cy = math.floor(LocalY/chunk_width)
 		print("Button", button)
    if button == 1 then 
-		print("Pressed at",first_location.x,first_location.y,object[first_location.cx][first_location.cy][first_location.x][first_location.y] )
+		--update_objects(first_location.cx,first_location.cy)
+		print("Pressed at",first_location.x,first_location.y,first_location.cx,first_location.cy)
 		if object[first_location.cx][first_location.cy][first_location.x][first_location.y] ~= nil then
 		object[first_location.cx][first_location.cy][first_location.x][first_location.y]:cut() end --todo remove this in prod
    elseif button == 2 then
@@ -192,12 +192,13 @@ local function mousepressed(x, y, button, istouch)
 			print("Trying to spawn woodcutter", first_location.x, first_location.y)
 			object[first_location.cx][first_location.cy][first_location.x][first_location.y] =  
 						Woodcutter:new(first_location.cx,first_location.cy,first_location.x,first_location.y, --TODO fix tile_offset/_x
-						IsoX + (first_location.x - first_location.y) * tile_width  * 0.5 -47,
-						IsoY + (first_location.x + first_location.y) * tile_height * 0.5 -77,"Woodcutter")
-					object[first_location.cx][first_location.cy][first_location.x][first_location.y].qid = object_batch[first_location.cx][first_location.cy]:
-					add(object[first_location.cx][first_location.cy][first_location.x][first_location.y].animation
+						IsoX + (first_location.x - first_location.y) * tile_width  * 0.5 ,
+						IsoY + (first_location.x + first_location.y) * tile_height * 0.5 ,"Woodcutter")
+					object[first_location.cx][first_location.cy][first_location.x][first_location.y].qid = object_batch[first_location.cx][first_location.cy]
+					:add(object[first_location.cx][first_location.cy][first_location.x][first_location.y].animation
 					:getFrameInfo(object[first_location.cx][first_location.cy][first_location.x][first_location.y].x,
 								  object[first_location.cx][first_location.cy][first_location.x][first_location.y].y))
+								  update_objects(first_location.cx,first_location.cy)
 		--end 
    end
 end 
@@ -211,16 +212,17 @@ local function update()
     previous_chunk_y = current_chunk_y
 	
 	local counter = 0 --note remove this in prod
-	 --fixme update all chunks which need to be updated
-	for index, chunk in ipairs ( active_chunks ) do 
-		--print("Chunk to update: "..chunk.x.."|"..chunk.y)
-		update_objects(chunk.x,chunk.y)
-	end
+	--  -- update all chunks which need to be updated
+	-- for index, chunk in ipairs ( active_chunks ) do 
+	-- 	--print("Chunk to update: "..chunk.x.."|"..chunk.y)
+	-- 	update_objects(chunk.x,chunk.y)
+	-- end
 
-	for index, obj in ipairs ( active_objects ) do 
+	for index, obj in ipairs ( active_objects ) do --TODO: still update woodcutter even if they're not on the screen
 				counter = counter + 1 --note remove this in prod
 				if (obj.cx > current_chunk_x+1) or (obj.cx < current_chunk_x-1)
 				or (obj.cy > current_chunk_y+1) or (obj.cy < current_chunk_y-1) or obj.animated == false then
+					obj.active = false
 					table.remove(active_objects,index)
 				else
 					obj:animate()
@@ -229,6 +231,12 @@ local function update()
 	if previous_count ~= counter then --note remove this in prod
 	print("Amount of animated objects: "..counter) end --note remove this in prod
 	previous_count = counter --note remove this in prod
+	local l = terrain_chunks
+	while l do
+			if l.chunkx == nil then break end 
+		update_objects(l.chunkx,l.chunky)
+			l = l.next 
+	end
 end
 
 

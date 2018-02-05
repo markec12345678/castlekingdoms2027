@@ -17,6 +17,9 @@ local Tree = class('Tree', Object)
 				self.stump = false 
 				self.animated = true
 				self.marked = false
+				self.active = false
+				if self.gx < 2048 and self.gx >= 0 and self.gy < 2048 and self.gy >= 0 then
+				_G.collision_map[self.gx][self.gy] = 1 _G.nodes[self.gx][self.gy].walkable = 1 end
 				self.cut_down = function() 
 					print("Cut!")
 					self.falling = false
@@ -36,24 +39,33 @@ local Tree = class('Tree', Object)
 					self:animate() --animate, because the list will remove us before we show the stump
 					self.type = "Stump"
 					--print("Done!")
-					end
-					if self.type ~= "" then
-				table.insert(active_objects,self) end
+					end				
+				if manhattan_distance(_G.xchunk,_G.ychunk,self.cx,self.cy)<7 then
+						table.insert(active_objects,self) self.active = true 
 				end
+				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
+				table.insert(_G.chunk_objects[self.cx][self.cy],self)
+			end
+			function Tree:activate()
+				if not self.active then
+					table.insert(active_objects,self)
+					self.active = true
+				end
+			end
 			function Tree:serialize()
 				local table_to_serialize = {}
-				table_to_serialize.cx = self.cx
-				table_to_serialize.cy = self.cy
-				table_to_serialize.i = self.i
-				table_to_serialize.o = self.o
-				table_to_serialize.x = self.x
-				table_to_serialize.y = self.y
-				table_to_serialize.type = self.type
-				table_to_serialize.health = self.health
-				table_to_serialize.animated = self.animated
-				table_to_serialize.chop = self.chop
-				if self.chop then table_to_serialize.current_frame = self.animation:getCurrentFrame() end
-				table_to_serialize.class = "Tree"
+				-- table_to_serialize.cx = self.cx
+				-- table_to_serialize.cy = self.cy
+				-- table_to_serialize.i = self.i
+				-- table_to_serialize.o = self.o
+				-- table_to_serialize.x = self.x
+				-- table_to_serialize.y = self.y
+				-- table_to_serialize.type = self.type
+				-- table_to_serialize.health = self.health
+				-- table_to_serialize.animated = self.animated
+				-- table_to_serialize.chop = self.chop
+				-- if self.chop then table_to_serialize.current_frame = self.animation:getCurrentFrame() end
+				-- table_to_serialize.class = "Tree"
 				--TODO: turn from tree to stump when cut down to ease on serialization
 				return table_to_serialize			
 				end
@@ -79,20 +91,13 @@ local Tree = class('Tree', Object)
 				object[self.cx][self.cy][self.i][self.o] = self				
 				if self.animated then table.insert(active_objects,self) end	
 				end
-			function Tree:animate()
-				if object_batch[self.cx][self.cy] and self.qid  then
-					self.animation:update(dt)
-					object_batch[self.cx][self.cy]
-						:set(self.qid,self.animation:getFrameInfo(self.x-self.offset_x,self.y))
-					self.offset_x = 0
-					end
+			function Tree:animate() 
+					self.animation:update(dt) 					
 				end
 			function Tree:cut() --TODO return value to chopper
 				if self.health > 0 then
 					status[self.cx][self.cy] = 1
-					self.health = self.health - 10
-					self.offset_x = 4+math.random(2)
-					--self.animation:gotoFrame(4)
+					self.health = self.health - 50
 					print("Cutting down!", self.gx,self.gy)
 				elseif self.health <= 0 and self.falling == false and self.chop == false and self.stump == false then				
 					status[self.cx][self.cy] = 1

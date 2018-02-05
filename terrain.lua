@@ -2,7 +2,7 @@
 local first_location_x, first_location_y, last_location_x, last_location_y = 0 
 local location_distance = 0 
 local angle, first = 0, 0  
-previous_terrain_chunks = nil 
+local ffi = require('ffi')
 
 
 	--Terrain Initialize
@@ -94,10 +94,9 @@ local function genTerrain(cx,cy)
 	end
 
 	terrain_batch[chunk_x][chunk_y]:clear() 
-	terrain[cx][cy] = {}	
-		for i=1,chunk_width,1 do
-		terrain[cx][cy][i] = {}
-			for o=1,chunk_height,1 do
+	terrain[cx][cy] = ffi.new("unsigned char[64][64]", {})
+		for i=0,chunk_width-1,1 do
+			for o=0,chunk_height-1,1 do
 				local rand = math.random(8)  --FIXME tile 9 or 10 is not correct size
 				terrain[cx][cy][i][o]=rand 	
 				terrain_batch[chunk_x][chunk_y]:add(
@@ -110,7 +109,7 @@ local function genTerrain(cx,cy)
 end
 
 local function chunkDraw() 
-	local l = terrain_chunks
+	local l = _G.terrain_chunks
 	while l do
 			if l.chunkx == nil or terrain_batch[l.chunkx][l.chunky] == nil then break end 
   			love.graphics.draw(terrain_batch[l.chunkx][l.chunky], 
@@ -121,14 +120,19 @@ local function chunkDraw()
 	end
 end 
 
-local function draw_terrain()
-	chunkDraw() 
+
+for i = 1, 32 do
+ for o = 1, 32 do
+	genTerrain(i,o)
+	_G.status[i][o] = 2
+ end
 end
 
+	
 
 local tableOfFunctions = { 
 	update_terrain= update_terrain, 
-	draw = draw_terrain,
+	draw = chunkDraw,
 	chunk = chunk, 
 	mousepressed = function() end, 
 	batch = terrain_batch,

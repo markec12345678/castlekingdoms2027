@@ -362,7 +362,7 @@ if (...) then
 	-- @usage local path, len = myFinder:getPath(1,1,5,5)
 	function Pathfinder:reset()
     for node in pairs(toClear) do 
-        node._x,node._y,node._h,node._g,node._f, node.walkable = 0,0,0,0,0,0
+        node._h,node._g,node._f = 0,0,0
         node._opened,node._closed,node.init = false,false,false
         node._parent = nil
     end

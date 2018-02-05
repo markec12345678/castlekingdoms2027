@@ -15,6 +15,7 @@ local object_hashMap = {
 }
 
 local function objectClean(cx,cy)	
+	if true then return end --warning temporarily disabled
 	--todo finish up here
 	local save = false
 	local chunk_ser = {terrain = {},objects = {}}
@@ -53,10 +54,15 @@ local function loadObjects(cx, cy, data)
 end
 
 local function loadChunk(cx,cy)
+		status[cx][cy] = 3 
+		for k,v in pairs(_G.chunk_objects[cx][cy]) do
+			v:activate();
+		end
+		print("Activating..")
+		--update_terrain(cx,cy,chunk_ser.terrain)
+		if true then return end --warning temp disabled
 		local chunk_ser = bitser.loadLoveFile("chunk-test"..cx.."l"..cy..".bin")
 		print("Loading",cx,cy)
-		status[cx][cy] = 3 --TODO: save chunks on love.quit and change their status to 2
-		update_terrain(cx,cy,chunk_ser.terrain)
 		loadObjects(cx,cy,chunk_ser.objects)
 		update_objects(cx,cy, true)
 end 
@@ -73,11 +79,11 @@ local function chunkGarbageCollect()
 		-- terrain[current_chunk_x+2][current_chunk_y] = nil 
 		-- terrain[current_chunk_x+2][current_chunk_y+1] = nil 
 		-- terrain[current_chunk_x+2][current_chunk_y+2] = nil 
-		terrain_batch[current_chunk_x+2][current_chunk_y-2] = nil 
-		terrain_batch[current_chunk_x+2][current_chunk_y-1] = nil 
-		terrain_batch[current_chunk_x+2][current_chunk_y] = nil 
-		terrain_batch[current_chunk_x+2][current_chunk_y+1] = nil 
-		terrain_batch[current_chunk_x+2][current_chunk_y+2] = nil 
+		-- terrain_batch[current_chunk_x+2][current_chunk_y-2] = nil 
+		-- terrain_batch[current_chunk_x+2][current_chunk_y-1] = nil 
+		-- terrain_batch[current_chunk_x+2][current_chunk_y] = nil 
+		-- terrain_batch[current_chunk_x+2][current_chunk_y+1] = nil 
+		-- terrain_batch[current_chunk_x+2][current_chunk_y+2] = nil 
 		--status[current_chunk_x+2][current_chunk_y-2] = nil 
 		--status[current_chunk_x+2][current_chunk_y-1] = nil 
 		--status[current_chunk_x+2][current_chunk_y] = nil 
@@ -94,11 +100,11 @@ local function chunkGarbageCollect()
 		-- terrain[current_chunk_x-2][current_chunk_y] = nil 
 		-- terrain[current_chunk_x-2][current_chunk_y+1] = nil 
 		-- terrain[current_chunk_x-2][current_chunk_y+2] = nil 
-		terrain_batch[current_chunk_x-2][current_chunk_y-2] = nil 
-		terrain_batch[current_chunk_x-2][current_chunk_y-1] = nil 
-		terrain_batch[current_chunk_x-2][current_chunk_y] = nil 
-		terrain_batch[current_chunk_x-2][current_chunk_y+1] = nil 
-		terrain_batch[current_chunk_x-2][current_chunk_y+2] = nil 
+		-- terrain_batch[current_chunk_x-2][current_chunk_y-2] = nil 
+		-- terrain_batch[current_chunk_x-2][current_chunk_y-1] = nil 
+		-- terrain_batch[current_chunk_x-2][current_chunk_y] = nil 
+		-- terrain_batch[current_chunk_x-2][current_chunk_y+1] = nil 
+		-- terrain_batch[current_chunk_x-2][current_chunk_y+2] = nil 
 		--status[current_chunk_x-2][current_chunk_y-2] = nil 
 		--status[current_chunk_x-2][current_chunk_y-1] = nil 
 		--status[current_chunk_x-2][current_chunk_y] = nil 
@@ -111,9 +117,9 @@ local function chunkGarbageCollect()
 		-- terrain[current_chunk_x-1][current_chunk_y-2] = nil 
 		-- terrain[current_chunk_x][current_chunk_y-2] = nil 
 		-- terrain[current_chunk_x+1][current_chunk_y-2] = nil 
-		terrain_batch[current_chunk_x-1][current_chunk_y-2] = nil 
-		terrain_batch[current_chunk_x][current_chunk_y-2] = nil 
-		terrain_batch[current_chunk_x+1][current_chunk_y-2] = nil 
+		-- terrain_batch[current_chunk_x-1][current_chunk_y-2] = nil 
+		-- terrain_batch[current_chunk_x][current_chunk_y-2] = nil 
+		-- terrain_batch[current_chunk_x+1][current_chunk_y-2] = nil 
 		--status[current_chunk_x-1][current_chunk_y-2] = nil 
 		--status[current_chunk_x][current_chunk_y-2] = nil 
 		--status[current_chunk_x+1][current_chunk_y-2] = nil 
@@ -125,9 +131,9 @@ local function chunkGarbageCollect()
 		-- terrain[current_chunk_x-1][current_chunk_y+2] = nil 
 		-- terrain[current_chunk_x][current_chunk_y+2] = nil 
 		-- terrain[current_chunk_x+1][current_chunk_y+2] = nil 
-		terrain_batch[current_chunk_x-1][current_chunk_y+2] = nil 
-		terrain_batch[current_chunk_x][current_chunk_y+2] = nil 
-		terrain_batch[current_chunk_x+1][current_chunk_y+2] = nil 
+		-- terrain_batch[current_chunk_x-1][current_chunk_y+2] = nil 
+		-- terrain_batch[current_chunk_x][current_chunk_y+2] = nil 
+		-- terrain_batch[current_chunk_x+1][current_chunk_y+2] = nil 
 		--status[current_chunk_x-1][current_chunk_y+2] = nil 
 		--status[current_chunk_x][current_chunk_y+2] = nil 
 		--status[current_chunk_x+1][current_chunk_y+2] = nil 
@@ -164,72 +170,72 @@ local function chunkUpdateList()
 
 		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x+1, chunky = current_chunk_y+0} 
 	if status[current_chunk_x+1][current_chunk_y] == nil then 
-		genTerrain(current_chunk_x+1,current_chunk_y) 
-		status[current_chunk_x+1][current_chunk_y] = 1  
+		--genTerrain(current_chunk_x+1,current_chunk_y) 
+		--status[current_chunk_x+1][current_chunk_y] = 1  
 	elseif status[current_chunk_x+1][current_chunk_y] == 2 then
 		loadChunk(current_chunk_x+1,current_chunk_y)
 	end 
 	--NOTE --------------------------------------------
 		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x+1, chunky = current_chunk_y+1}
 	if status[current_chunk_x+1][current_chunk_y+1] == nil then 
-		genTerrain(current_chunk_x+1,current_chunk_y+1)
-		status[current_chunk_x+1][current_chunk_y+1] = 1    
+		--genTerrain(current_chunk_x+1,current_chunk_y+1)
+		--status[current_chunk_x+1][current_chunk_y+1] = 1    
 	elseif status[current_chunk_x+1][current_chunk_y+1] == 2 then
 		loadChunk(current_chunk_x+1,current_chunk_y+1)
 	end 
 	--NOTE --------------------------------------------
 		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x+1, chunky = current_chunk_y-1}
 	if status[current_chunk_x+1][current_chunk_y-1] == nil then 
-		genTerrain(current_chunk_x+1,current_chunk_y-1)
-		status[current_chunk_x+1][current_chunk_y-1] = 1   
+		--genTerrain(current_chunk_x+1,current_chunk_y-1)
+		--status[current_chunk_x+1][current_chunk_y-1] = 1   
 	elseif status[current_chunk_x+1][current_chunk_y-1] == 2 then
 		loadChunk(current_chunk_x+1,current_chunk_y-1)
 	end 
 	--NOTE 2--------------------------------------------
 		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x, chunky = current_chunk_y+1}
 	if status[current_chunk_x][current_chunk_y+1] == nil then 
-		genTerrain(current_chunk_x,current_chunk_y+1)
-		status[current_chunk_x][current_chunk_y+1] = 1    
+		--genTerrain(current_chunk_x,current_chunk_y+1)
+		--status[current_chunk_x][current_chunk_y+1] = 1    
 	elseif status[current_chunk_x][current_chunk_y+1] == 2 then
 		loadChunk(current_chunk_x,current_chunk_y+1)
 	end 
 	--NOTE --------------------------------------------
 		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x, chunky = current_chunk_y}
 	if status[current_chunk_x][current_chunk_y] == nil then 
-		genTerrain(current_chunk_x,current_chunk_y)
-		status[current_chunk_x][current_chunk_y] = 1    
+		--genTerrain(current_chunk_x,current_chunk_y)
+		--status[current_chunk_x][current_chunk_y] = 1    
 	elseif status[current_chunk_x][current_chunk_y] == 2 then
 		loadChunk(current_chunk_x,current_chunk_y)
 	end 
 	--NOTE --------------------------------------------
 		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x, chunky = current_chunk_y-1}
 	if status[current_chunk_x][current_chunk_y-1] == nil then 
-		genTerrain(current_chunk_x,current_chunk_y-1)
-		status[current_chunk_x][current_chunk_y-1] = 1   
+		--genTerrain(current_chunk_x,current_chunk_y-1)
+		--status[current_chunk_x][current_chunk_y-1] = 1   
 	elseif status[current_chunk_x][current_chunk_y-1] == 2 then
 		loadChunk(current_chunk_x,current_chunk_y-1)
 	end 
 	--NOTE 3--------------------------------------------
 		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x-1, chunky = current_chunk_y+1}
 	if status[current_chunk_x-1][current_chunk_y+1] == nil then 
-		genTerrain(current_chunk_x-1,current_chunk_y+1)
-		status[current_chunk_x-1][current_chunk_y+1] = 1   
+		--genTerrain(current_chunk_x-1,current_chunk_y+1)
+		--status[current_chunk_x-1][current_chunk_y+1] = 1   
 	elseif status[current_chunk_x-1][current_chunk_y+1] == 2 then
 		loadChunk(current_chunk_x-1,current_chunk_y+1)
 	end 
 	--NOTE --------------------------------------------
 		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x-1, chunky = current_chunk_y}
 	if status[current_chunk_x-1][current_chunk_y] == nil then 
-		genTerrain(current_chunk_x-1,current_chunk_y)
-		status[current_chunk_x-1][current_chunk_y] = 1   
+		--genTerrain(current_chunk_x-1,current_chunk_y)
+		--status[current_chunk_x-1][current_chunk_y] = 1   
 	elseif status[current_chunk_x-1][current_chunk_y] == 2 then
 		loadChunk(current_chunk_x-1,current_chunk_y)
 	end 
 	--NOTE --------------------------------------------
 		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x-1, chunky = current_chunk_y-1}
 	if status[current_chunk_x-1][current_chunk_y-1] == nil then 
-		genTerrain(current_chunk_x-1,current_chunk_y-1)
-		status[current_chunk_x-1][current_chunk_y-1] = 1   
+		--genTerrain(current_chunk_x-1,current_chunk_y-1)
+		--status[current_chunk_x-1][current_chunk_y-1] = 1   
 	elseif status[current_chunk_x-1][current_chunk_y-1] == 2 then
 		loadChunk(current_chunk_x-1,current_chunk_y-1)
 	end 

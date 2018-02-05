@@ -1,3 +1,30 @@
+--NOTE LuaJIT FFI struct oop
+local ffi = require("ffi")
+local point
+point = ffi.metatype("struct { double x, y; }", {
+  __add = function(a, b)
+   return point(a.x + b.x, a.y + b.y)
+  end
+})
+local a, b = point(1.5, 2.5), point(3.25, 4.75)
+for i=1,100000000 do a = (a + b) + b end
+print(a.x, a.y)
+--NOTE VS Lua table
+local point
+point = {
+  new = function(self, x, y)
+    return setmetatable({x=x, y=y}, self)
+  end,
+  __add = function(a, b)
+   return point:new(a.x + b.x, a.y + b.y)
+  end,
+}
+point.__index = point
+local a, b = point:new(1.5, 2.5), point:new(3.25, 4.75)
+for i=1,100000000 do a = (a + b) + b end
+print(a.x, a.y)
+
+
 -- function isPositionOpenfunc(x, y)
 -- 		local xx = x % (chunk_width);
 -- 		local yy = y % (chunk_width);

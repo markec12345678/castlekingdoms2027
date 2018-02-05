@@ -29,10 +29,10 @@ local function update()
     LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)); LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview)); 
     CenterX = math.round(ScreenToIsoX(width/2-16+view_xview, height/2-8+view_yview)); CenterY = math.round(ScreenToIsoY(width/2-16+view_xview,height/2-8+view_yview));
     ---------------------------------------
-    xchunk = math.floor(CenterX/(chunk_width));
-    ychunk = math.floor(CenterY/(chunk_width));
-    current_chunk_x = xchunk;
-    current_chunk_y = ychunk;
+    _G.xchunk = math.floor(CenterX/(chunk_width));
+    _G.ychunk = math.floor(CenterY/(chunk_width));
+    current_chunk_x = _G.xchunk;
+    current_chunk_y = _G.ychunk;
     if love.keyboard.isDown("up")  then
         view_yview = view_yview - scroll_speed;  
     end
@@ -50,6 +50,12 @@ local function update()
     end
 end
 
+function manhattan_distance(x1,y1,x2,y2)
+    local dx = math.abs(x1 - x2)
+    local dy = math.abs(y1 - y2)
+    return (dx + dy) 
+end
+
 local function scale(y)
     if y > 0 and scale_x < 2 then 
         scale_x = scale_x + 0.1;
@@ -64,8 +70,9 @@ local function draw()
         love.graphics.print(
                 "\n GlobalX: " .. LocalX ..
                 "\n GlobalY: " .. LocalY ..
-                "\n LocalX: " .. LocalX%chunk_width ..
-                "\n LocalY: " .. LocalY%chunk_width ..
+                "\n LocalX: " .. ((LocalX)%chunk_width+1) ..
+                "\n LocalY: " .. ((LocalY)%chunk_width+1) ..
+                "\n Collidable " .. (_G.collision_map[LocalX][LocalY] or 0) ..
                 "\n Center chunk: [" .. xchunk .. "][".. ychunk .."][" .. (status[xchunk][ychunk] or "N\\A") .."]"..
                 "\n Current FPS: "..tostring(love.timer.getFPS( ))
                 , 0, 0);

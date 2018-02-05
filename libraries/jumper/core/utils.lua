@@ -101,7 +101,7 @@ local ffi = require('ffi')
     local min_x, max_x = 0, mapw
     local min_y, max_y = 0, maph
    -- local nodes = ffi.new("node["..mapw.."]["..maph.."]")
-		local nodes = ffi.cast("node **", ffi.C.calloc(mapw,ffi.sizeof("node*")))
+		_G.nodes = ffi.cast("node **", ffi.C.calloc(mapw,ffi.sizeof("node*")))
 		for i = 0, maph-1 do
 				nodes[i] = ffi.cast("node *", ffi.C.calloc(maph,ffi.sizeof("node")))
 		end
@@ -115,7 +115,7 @@ local ffi = require('ffi')
 					nodes[x][y].init = false
           nodes[x][y]._x = x
 					nodes[x][y]._y = y
-					nodes[x][y].walkable = map[x][y]
+					nodes[x][y].walkable = _G.collision_map[x][y]
         end
       end
     return nodes,

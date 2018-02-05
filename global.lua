@@ -31,6 +31,8 @@
 	        tile_width = 32;
 	        tile_height = 16;
     ----Chunks
+            xchunk = 0;
+            ychunk = 0;
 	        chunk_width = 64;
 	        chunk_height = 64;
                 current_chunk_x = 0;
@@ -40,10 +42,13 @@
                 previous_chunk_x = 0;
                 previous_chunk_y = 0;       
             chunkUpdateList = function () end;
+            previous_terrain_chunks = 0; 
     ----Terrain
             terrain = newAutotable(2) 
             if love.filesystem.exists("status.bin") then status = bitser.loadLoveFile("status.bin") else
-            status = newAutotable(2) end                
+            status = newAutotable(2) end   
+            _G.chunk_objects = newAutotable(2);     
+            print("Fucking done") 
     ----Offset
             IsoX = 0;
             IsoY = 0;
@@ -54,7 +59,7 @@
             window_height = 800;
             window_width = 1200;  
             view_xview = 0;
-	        view_yview = 11110;
+	        view_yview = 5000;
     ----Mouse
 	    mx = 0;
 	    my = 0;
@@ -82,7 +87,7 @@
         typedef struct node node;
 
         struct node { 
-            unsigned short _x,_y,_h,_g,_f; 
+            short _x,_y,_h,_g,_f; 
             unsigned char walkable; 
             bool _opened, _closed, init; 
             node* _parent;

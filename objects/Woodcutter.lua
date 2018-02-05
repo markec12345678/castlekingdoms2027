@@ -1,5 +1,4 @@
-local object_batch, active_objects, tile_quads = ...
-local Object = require("objects.Object")
+local object,object_batch, active_objects, tile_quads = ...
 local Object = require("objects.Object")
 		local Woodcutter = class('Woodcutter', Object)
 			function Woodcutter:initialize(cx,cy,i,o,x,y,type)
@@ -21,10 +20,12 @@ local Object = require("objects.Object")
 				self.originalx = i self.originaly = o
 				self.nd = newAutotable(1)
 				self.nd_len = 0
+				self.path = 0
 				self.count = 1
 				self.timr = 0
 				self.move_dir = "none"
 				self.update_dir = true
+				self.temp_qid = nil
 				self.previous_dir = "none"
 				self.target_tree = 0
 				self.cut = function() 
@@ -42,8 +43,9 @@ local Object = require("objects.Object")
 						self.o = (self.fy*0.001)%chunk_width
 						self.state = "Looking to chop tree"	
 						self.move_dir = "na"
-						self.count = 0
-						tree_progress = 3				
+						self.count = 1
+						tree_progress = 3
+						self.animation = anim.newAnimation(self.fr_walking_west,1) 				
 						end
 						else print("State", self.state)
 						end
@@ -88,7 +90,7 @@ local Object = require("objects.Object")
 					tile_quads[2260],tile_quads[2261],tile_quads[2262],
 					tile_quads[2263],tile_quads[2264]
 				}
-				self.fr_cutting_northeast = { --warning actually north --TODO: why not name it north then?
+				self.fr_cutting_northeast = { --warning actually north --TODO why not name it north then?
 					tile_quads[2056],tile_quads[2057],tile_quads[2058],
 					tile_quads[2059],tile_quads[2060],tile_quads[2061],
 					tile_quads[2062],tile_quads[2063]
@@ -97,89 +99,76 @@ local Object = require("objects.Object")
 				table.insert(active_objects,self)
 				end 
 			function Woodcutter:pathfind(xx,yy)
-			--TODO fix pathfinding
-					-- local mapwidth = 10000
-					-- local mapheight = 10000
-					-- print("Self:",self.gx,self.gy)
-					-- local paths = pf:find(mapwidth, mapheight, self.gx,self.gy, xx,yy, isPositionOpenfunc)
-					-- if paths then
-					-- 	print("Found a path my lord!")
-					-- 	local count = 0
-					-- 	self.nd = nil self.nd = {}
-					-- 	local first = true --skip the first node, because it's our position
-					-- 	for _, p in ipairs(paths) do
-					-- 		--print("So:",p.x,p.y)
-					-- 		if not first then
-					-- 			self.nd[count] = p
-					-- 			self.nd_len = count
-					-- 			count = count + 1
-					-- 		else first = false end							
-					-- 	end
-					-- 	self.waypoint_x = self.nd[0].x 
-					--  	self.waypoint_y = self.nd[0].y
-					-- 	print("Waypoint: "..self.waypoint_x,self.waypoint_y)						
-					--  	self.move_dir = "none"											  
-					-- else 
-					-- 	print("Nope, need to find another tree (need to code it first)")
-					-- 	self.state = "No trees"
-					-- end					
-				end
-			function Woodcutter:find_tree() --TODO: fix so it finds the nearest tree...
-					for index, obj in ipairs ( active_objects ) do 
-						if obj.type == 'Pine tree' and obj.marked == false then
-							--if obj.cx == self.cx and obj.cy == self.cy then --TODO only works in current chunk
-								self.target_tree = obj print("Target tree:", self.target_tree)
-								self.endx = obj.gx
-								self.endy = obj.gy
-								self:pathfind(self.endx,self.endy+1)
-								print("Found tree at "..self.endx.."  "..self.endy)
-								self.state = "Going to tree"
-								obj.marked = true
-								return
-							--end
+				--print("Called",self.gx, self.gy, xx, yy)
+				-- -- Calculates the path, and its length
+				self.path = _G.finder:getPath(self.gx, self.gy, xx, yy)
+				if self.path then
+				  	self.nd = {}
+					local first = true --skip the first node, because it's our position
+					--print("Printing steps:")
+					local countt = 0
+					for node, count in self.path:nodes() do
+						--print(('Step: %d - x: %d - y: %d'):format(count,node._x,node._y))
+						if not first then
+							self.nd[countt] = node
+							countt = countt + 1
+						else first = false end	
+					end
+					self.nd_len = countt
+					--print("Length",self.nd_len,self.count)
+					self.waypoint_x = self.nd[0]._x 
+				 	self.waypoint_y = self.nd[0]._y
+					--print("Waypoint: "..self.waypoint_x,self.waypoint_y)						
+				 	self.move_dir = "none"	
+				else print("Path not found!")
+					self.state = "No trees" end			
+			end
+			function Woodcutter:find_tree()
+				local closest_object, closest_distance = nil,10000000
+				for index, obj in ipairs ( active_objects ) do 
+					if obj.type == 'Pine tree' and obj.marked == false then
+						local dist = manhattan_distance(self.gx,self.gy, obj.gx, obj.gy)
+						if dist < closest_distance then 
+							closest_object = obj
+							closest_distance = dist
 						end
 					end
 				end
+				if not closest_object then print("No trees nearby!") return end
+				self.target_tree = closest_object 
+				print("Target tree:", self.target_tree)
+				self.endx = closest_object.gx
+				self.endy = closest_object.gy
+				self:pathfind(self.endx,self.endy+1)
+				print("Found tree at "..self.endx.."  "..self.endy)
+				self.state = "Going to tree"
+				closest_object.marked = true
+			end
 			function Woodcutter:sub_update()
 					self.previous_cx,self.previous_cy = self.cx,self.cy
-					self.cx,self.cy = math.floor(math.round((self.fx*0.001))/chunk_width),math.floor(math.round((self.fy*0.001))/chunk_width)
-					local found = false
-					for index, chunk in pairs (active_chunks) do
-						if chunk.x == self.cx and chunk.y == self.cy then
-							found = true break						
-							end
-						end
-					if found == false then table.insert(active_chunks,{x = self.cx,y = self.cy}) end
+					local xx, yy = ((self.gx) % chunk_width)+1, ((self.gy) % chunk_width)+1
+					self.cx,self.cy = math.floor(math.round(self.gx)/(chunk_width)),math.floor(math.round(self.gy)/(chunk_width))
+					print("{coords} = "..xx.."|"..yy)
+					print("{position} = "..self.cx.."l"..self.cy.." --x,y ="..(self.gx).."-l-"..self.gy)
 					if self.previous_cx ~= self.cx or self.previous_cy ~= self.cy then --update chunk location
+					print("Updated: {coords} = "..xx.."|"..yy)
+					print("{position} = "..self.cx.."l"..self.cy.." --x,y ="..(self.gx).."-l-"..self.gy)
 						print("---Moved across chunks from "..self.previous_cx.."|"..self.previous_cy.." to "..self.cx.."|"..self.cy)
-						end
-					if object[self.cx][self.cy][math.round((self.fx*0.001)%chunk_width)][math.round((self.fy*0.001)%chunk_width)] == nil then				
-						object[self.cx][self.cy][math.round((self.fx*0.001)%chunk_width)][math.round((self.fy*0.001)%chunk_width)] = self
-						--print("------------------------------Pre updated at ",self.cx,self.cy,math.round(self.fx*0.001)%chunk_width,math.round(self.fy*0.001)%chunk_width)
+						--object_batch[self.previous_cx][self.previous_cy]:set(self.qid,tile_quads[0],0,0) 
+						self.qid = object_batch[self.cx][self.cy]:add(self.animation:getFrameInfo(self.x, self.y))
+						else print("Didn't move across chunks") end
+					if object[self.cx][self.cy][xx][yy] == nil then			
+						object[self.cx][self.cy][xx][yy] = self
+						print("{set_myself_} = "..xx.."|"..yy)
 						object[self.cx][self.cy][self.originalx][self.originaly] = nil
-						self.originalx = math.round((self.fx*0.001)%chunk_width)
-						self.originaly = math.round((self.fy*0.001)%chunk_width)
-					end
+						self.originalx = xx
+						self.originaly = yy
+					else print("{result} = false") end
 				end
-			function Woodcutter:update() --TODO I need to update cx,cy somewhere when the woodcutter moves from chunk to chunk
-				-- self.previous_cx,self.previous_cy = self.cx,self.cy
-				-- self.cx,self.cy = math.floor(math.round((self.fx*0.001))/chunk_width),math.floor(math.round((self.fy*0.001))/chunk_width)
-				-- local found = false
-				-- for index, chunk in pairs (active_chunks) do
-				-- 	if chunk.x == self.cx and chunk.y == self.cy then
-				-- 		found = true break						
-				-- 		end
-				-- 	end
-				-- if found == false then table.insert(active_chunks,{x = self.cx,y = self.cy}) end
-				-- if self.previous_cx ~= self.cx or self.previous_cy ~= self.cy then --update chunk location
-				-- 	print("---Moved across chunks from "..self.previous_cx.."|"..self.previous_cy.." to "..self.cx.."|"..self.cy)
-				-- 	end
-				-- if object[self.cx][self.cy][math.round((self.fx*0.001)%chunk_width)][math.round((self.fy*0.001)%chunk_width)] == nil then				
-				-- 	object[self.cx][self.cy][math.round((self.fx*0.001)%chunk_width)][math.round((self.fy*0.001)%chunk_width)] = self
-				-- 	--print("------------------------------Pre updated at ",self.cx,self.cy,math.round(self.fx*0.001)%chunk_width,math.round(self.fy*0.001)%chunk_width)
-				-- 	object[self.cx][self.cy][self.originalx][self.originaly] = nil
-				-- 	self.originalx = math.round((self.fx*0.001)%chunk_width)
-				-- 	self.originaly = math.round((self.fy*0.001)%chunk_width)
+			function Woodcutter:update()
+				-- if self.temp_qid ~= nil then 
+				-- 	object_batch[self.previous_cx][self.previous_cy]:set(self.temp_qid,tile_quads[0],0,0) 
+				-- 	self.temp_qid = nil 
 				-- end
 				if self.state ~= "No trees" then
 						if self.state == "Looking to chop tree" then
@@ -187,9 +176,12 @@ local Object = require("objects.Object")
 						elseif self.move_dir == "none" and self.state == "Going to tree" then
 							local wx = self.waypoint_x
 							local wy = self.waypoint_y
-							local angle = math.atan2 (wy - (self.fy*0.001),wx-(self.fx*0.001))
-							angle = (angle *180)/math.pi
+							local angle = math.atan2 (wy-(self.fy*0.001),wx-(self.fx*0.001))
+							if angle < 0 then angle = angle+2*math.pi end
+							angle = angle*(180/math.pi)
 							angle = math.round (angle)
+							
+
 							print("Calculated angle with wy("..wy.."), self.fy*0.001("..((self.fy*0.001))..
 							"),wx("..wx..") and self.fx*0.001("..((self.fx*0.001))..")")
 							if angle<0 then angle = 360+angle end
@@ -236,8 +228,8 @@ local Object = require("objects.Object")
 								end
 							print("Move dir is now "..self.move_dir, angle)
 						end
-						self.x = IsoX + ((self.fx*0.001)%chunk_width - (self.fy*0.001)%chunk_width) * tile_width  * 0.5 - 47 --fixme magic numbers?
-						self.y = IsoY + ((self.fx*0.001)%chunk_width + (self.fy*0.001)%chunk_width) * tile_height * 0.5 - 53
+						self.x = IsoX + ((self.fx*0.001)%chunk_width - (self.fy*0.001)%chunk_width) * tile_width  * 0.5 - 47+16 --fixme magic numbers?
+						self.y = IsoY + ((self.fx*0.001)%chunk_width + (self.fy*0.001)%chunk_width) * tile_height * 0.5 - 53+8
 						self.timr = self.timr + 1
 						self.timr = self.timr % 60
 						if self.state == "Going to tree" then
@@ -263,7 +255,7 @@ local Object = require("objects.Object")
 								self.fy = self.fy + self.diagonal_walk_speed
 							end
 							if (self.fx*0.001)==math.floor(self.fx*0.001) and (self.fy*0.001)==math.floor(self.fy*0.001) then 
-								print("Position ",self.fx*0.001,self.fy*0.001) 
+								--print("Position ",self.fx*0.001,self.fy*0.001) 
 								self.gx,self.gy= self.fx*0.001,self.fy*0.001
 								self:sub_update()
 								end
@@ -273,33 +265,22 @@ local Object = require("objects.Object")
 									self.state = "Cutting down"
 									self.animation = anim.newAnimation(self.fr_cutting_northeast,0.12,self.cut)
 									self.nd = {}
+									self.waypoint_x, self.waypoint_y = nil, nil
 									return 
+								else
+									--print("Reached checkpoint "..self.count,self.nd_len)
+									self.waypoint_x = self.nd[self.count]._x --TODO check for nil before indexing
+									self.waypoint_y = self.nd[self.count]._y
+									--print("Waypoint is now "..self.waypoint_x,self.waypoint_y)
+									self.previous_dir = self.move_dir
+									self.move_dir = "none"									
 								end
 								self.count = self.count + 1
-								print("Reached checkpoint "..self.count)
-								self.waypoint_x = self.nd[self.count].x --TODO check for nil before indexing
-								self.waypoint_y = self.nd[self.count].y
-								print("Waypoint is now "..self.waypoint_x,self.waypoint_y)
-								self.previous_dir = self.move_dir
-								self.move_dir = "none"
-								if self.waypoint_x == self.fx*0.001 and self.waypoint_y == self.fy*0.001 then								
-									if self.count == self.nd_len then 
-										self.state = "Cutting down"
-										self.animation = anim.newAnimation(self.fr_cutting_northeast,0.12,self.cut)
-										self.nd = {}
-										return 
-									end
-									self.count = self.count + 1
-									print("Reached checkpoint "..self.count)
-									self.waypoint_x = self.nd[self.count].x 
-									self.waypoint_y = self.nd[self.count].y
-								end
 						end
 					end
 				end
 			function Woodcutter:animate()
 				self:update()
 				self.animation:update(dt)
-				object_batch[self.cx][self.cy] --fixme check if batch is drawn TODO:
-					:set(self.qid,self.animation:getFrameInfo(self.x,self.y))
 				end
+return Woodcutter

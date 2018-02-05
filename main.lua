@@ -50,9 +50,9 @@ end
 -----------------/||\------------------
 -----------------GAME------------------
 function game:init()
-	terrain = require('terrain')
     objects = love.filesystem.load('objects.lua')(object_image)
 	package.loaded['objects'] = objects
+	terrain = require('terrain')
 	chunkUpdateList = require('objects/chunk_system')
 	love.graphics.setBackgroundColor( 45,85,9 )
 end
