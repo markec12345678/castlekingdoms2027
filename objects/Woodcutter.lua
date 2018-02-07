@@ -147,7 +147,16 @@ local Object = require("objects.Object")
 			function Woodcutter:sub_update()
 					self.previous_cx,self.previous_cy = self.cx,self.cy
 					local xx, yy = ((self.gx) % chunk_width)+1, ((self.gy) % chunk_width)+1
-					self.cx,self.cy = math.floor(math.round(self.gx)/(chunk_width)),math.floor(math.round(self.gy)/(chunk_width))
+					if self.move_dir == "south" then
+						self.cx,self.cy = math.floor(math.round(self.gx)/(chunk_width)),math.floor(math.round(self.gy)/(chunk_width))
+					elseif self.move_dir == "north" then
+						self.cx,self.cy = math.floor(math.round(self.gx)/(chunk_width+1)),math.floor(math.round(self.gy)/(chunk_width+1))
+					elseif self.move_dir == "west" then
+						self.cx,self.cy = math.floor(math.round(self.gx)/(chunk_width+1)),math.floor(math.round(self.gy)/(chunk_width+1))
+					else
+						self.cx,self.cy = math.floor(math.round(self.gx)/(chunk_width)),math.floor(math.round(self.gy)/(chunk_width))
+					end
+					--TODO: finish up here
 					print("{coords} = "..xx.."|"..yy)
 					print("{position} = "..self.cx.."l"..self.cy.." --x,y ="..(self.gx).."-l-"..self.gy)
 					if self.previous_cx ~= self.cx or self.previous_cy ~= self.cy then --update chunk location
@@ -171,116 +180,116 @@ local Object = require("objects.Object")
 				-- 	self.temp_qid = nil 
 				-- end
 				if self.state ~= "No trees" then
-						if self.state == "Looking to chop tree" then
-							self:find_tree()
-						elseif self.move_dir == "none" and self.state == "Going to tree" then
-							local wx = self.waypoint_x
-							local wy = self.waypoint_y
-							local angle = math.atan2 (wy-(self.fy*0.001),wx-(self.fx*0.001))
-							if angle < 0 then angle = angle+2*math.pi end
-							angle = angle*(180/math.pi)
-							angle = math.round (angle)
-							
+					if self.state == "Looking to chop tree" then
+						self:find_tree()
+					elseif self.move_dir == "none" and self.state == "Going to tree" then
+						local wx = self.waypoint_x
+						local wy = self.waypoint_y
+						local angle = math.atan2 (wy-(self.fy*0.001),wx-(self.fx*0.001))
+						if angle < 0 then angle = angle+2*math.pi end
+						angle = angle*(180/math.pi)
+						angle = math.round (angle)
+						
 
-							print("Calculated angle with wy("..wy.."), self.fy*0.001("..((self.fy*0.001))..
-							"),wx("..wx..") and self.fx*0.001("..((self.fx*0.001))..")")
-							if angle<0 then angle = 360+angle end
-								if (angle >= 135+22 and angle <= 225-22) then --direction is west 
-									self.move_dir = "west"
-									if self.previous_dir ~= "west" then
-										self.animation = anim.newAnimation(self.fr_walking_west,0.11) 
-									end
-								elseif (angle > 135-22 and angle < 135+22) then --direction is southwest
-									self.move_dir = "southwest"
-									if self.previous_dir ~= "southwest" then
-										self.animation = anim.newAnimation(self.fr_walking_southwest,0.11)
-									end
-								elseif (angle > 225-22 and angle < 225+22) then --direction is northwest
-									self.move_dir = "northwest"
-									if self.previous_dir ~= "northwest" then
-										self.animation = anim.newAnimation(self.fr_walking_northwest,0.11)
-									end
-								elseif (angle >= 225+22 and angle <= 315-22) then --direction is north
-									self.move_dir = "north"
-									if self.previous_dir ~= "north" then
-										self.animation = anim.newAnimation(self.fr_walking_north,0.11)
-									end
-								elseif (angle >= 45+22 and angle <= 135-22) then --direction is south
-									self.move_dir = "south"
-									if self.previous_dir ~= "south" then
-										self.animation = anim.newAnimation(self.fr_walking_south,0.11)
-									end
-								elseif ((angle >= 315+22 and angle <= 359) or (angle >=0 and angle <= 45-22)) then --direction is east
-									self.move_dir = "east"
-									if self.previous_dir ~= "east" then
-										self.animation = anim.newAnimation(self.fr_walking_east,0.11)
-									end
-								elseif (angle > 45-22 and angle < 45+22) then--direction is southeast
-									self.move_dir = "southeast"
-									if self.previous_dir ~= "southeast" then
-										self.animation = anim.newAnimation(self.fr_walking_southeast,0.11)
-									end
-								elseif (angle > 315-22 and angle < 315+22) then --direction is northeast
-									self.move_dir = "northeast"
-									if self.previous_dir ~= "northeast" then
-										self.animation = anim.newAnimation(self.fr_walking_northeast,0.11)
-									end
+						print("Calculated angle with wy("..wy.."), self.fy*0.001("..((self.fy*0.001))..
+						"),wx("..wx..") and self.fx*0.001("..((self.fx*0.001))..")")
+						if angle<0 then angle = 360+angle end
+							if (angle >= 135+22 and angle <= 225-22) then --direction is west 
+								self.move_dir = "west"
+								if self.previous_dir ~= "west" then
+									self.animation = anim.newAnimation(self.fr_walking_west,0.11) 
 								end
-							print("Move dir is now "..self.move_dir, angle)
-						end
-						self.x = IsoX + ((self.fx*0.001)%chunk_width - (self.fy*0.001)%chunk_width) * tile_width  * 0.5 - 47+16 --fixme magic numbers?
-						self.y = IsoY + ((self.fx*0.001)%chunk_width + (self.fy*0.001)%chunk_width) * tile_height * 0.5 - 53+8
-						self.timr = self.timr + 1
-						self.timr = self.timr % 60
-						if self.state == "Going to tree" then
-							if self.move_dir == "west" then
-								self.fx = self.fx - self.straight_walk_speed
-							elseif self.move_dir == "south" then
-								self.fy = self.fy + self.straight_walk_speed
-							elseif self.move_dir == "north" then
-								self.fy = self.fy - self.straight_walk_speed
-							elseif self.move_dir == "east" then
-								self.fx = self.fx + self.straight_walk_speed
-							elseif self.move_dir == "northwest" then
-								self.fx = self.fx - self.diagonal_walk_speed
-								self.fy = self.fy - self.diagonal_walk_speed
-							elseif self.move_dir == "northeast" then
-								self.fx = self.fx + self.diagonal_walk_speed
-								self.fy = self.fy - self.diagonal_walk_speed
-							elseif self.move_dir == "southwest" then
-								self.fx = self.fx - self.diagonal_walk_speed
-								self.fy = self.fy + self.diagonal_walk_speed
-							elseif self.move_dir == "southeast" then
-								self.fx = self.fx + self.diagonal_walk_speed
-								self.fy = self.fy + self.diagonal_walk_speed
+							elseif (angle > 135-22 and angle < 135+22) then --direction is southwest
+								self.move_dir = "southwest"
+								if self.previous_dir ~= "southwest" then
+									self.animation = anim.newAnimation(self.fr_walking_southwest,0.11)
+								end
+							elseif (angle > 225-22 and angle < 225+22) then --direction is northwest
+								self.move_dir = "northwest"
+								if self.previous_dir ~= "northwest" then
+									self.animation = anim.newAnimation(self.fr_walking_northwest,0.11)
+								end
+							elseif (angle >= 225+22 and angle <= 315-22) then --direction is north
+								self.move_dir = "north"
+								if self.previous_dir ~= "north" then
+									self.animation = anim.newAnimation(self.fr_walking_north,0.11)
+								end
+							elseif (angle >= 45+22 and angle <= 135-22) then --direction is south
+								self.move_dir = "south"
+								if self.previous_dir ~= "south" then
+									self.animation = anim.newAnimation(self.fr_walking_south,0.11)
+								end
+							elseif ((angle >= 315+22 and angle <= 359) or (angle >=0 and angle <= 45-22)) then --direction is east
+								self.move_dir = "east"
+								if self.previous_dir ~= "east" then
+									self.animation = anim.newAnimation(self.fr_walking_east,0.11)
+								end
+							elseif (angle > 45-22 and angle < 45+22) then--direction is southeast
+								self.move_dir = "southeast"
+								if self.previous_dir ~= "southeast" then
+									self.animation = anim.newAnimation(self.fr_walking_southeast,0.11)
+								end
+							elseif (angle > 315-22 and angle < 315+22) then --direction is northeast
+								self.move_dir = "northeast"
+								if self.previous_dir ~= "northeast" then
+									self.animation = anim.newAnimation(self.fr_walking_northeast,0.11)
+								end
 							end
-							if (self.fx*0.001)==math.floor(self.fx*0.001) and (self.fy*0.001)==math.floor(self.fy*0.001) then 
-								--print("Position ",self.fx*0.001,self.fy*0.001) 
-								self.gx,self.gy= self.fx*0.001,self.fy*0.001
-								self:sub_update()
-								end
+						print("Move dir is now "..self.move_dir, angle)
+					end
+					self.x = IsoX + ((self.fx*0.001)%chunk_width - (self.fy*0.001)%chunk_width) * tile_width  * 0.5 - 47+16 --fixme magic numbers?
+					self.y = IsoY + ((self.fx*0.001)%chunk_width + (self.fy*0.001)%chunk_width) * tile_height * 0.5 - 53+8
+					self.timr = self.timr + 1
+					self.timr = self.timr % 60
+					if self.state == "Going to tree" then
+						if self.move_dir == "west" then
+							self.fx = self.fx - self.straight_walk_speed
+						elseif self.move_dir == "south" then
+							self.fy = self.fy + self.straight_walk_speed
+						elseif self.move_dir == "north" then
+							self.fy = self.fy - self.straight_walk_speed
+						elseif self.move_dir == "east" then
+							self.fx = self.fx + self.straight_walk_speed
+						elseif self.move_dir == "northwest" then
+							self.fx = self.fx - self.diagonal_walk_speed
+							self.fy = self.fy - self.diagonal_walk_speed
+						elseif self.move_dir == "northeast" then
+							self.fx = self.fx + self.diagonal_walk_speed
+							self.fy = self.fy - self.diagonal_walk_speed
+						elseif self.move_dir == "southwest" then
+							self.fx = self.fx - self.diagonal_walk_speed
+							self.fy = self.fy + self.diagonal_walk_speed
+						elseif self.move_dir == "southeast" then
+							self.fx = self.fx + self.diagonal_walk_speed
+							self.fy = self.fy + self.diagonal_walk_speed
 						end
-						if self.fx*0.001 == self.waypoint_x and self.fy*0.001 == self.waypoint_y and self.state ~= "Cutting down" and self.move_dir ~= "none" then
-								if self.count == self.nd_len then 
-									self.state = "Cutting down"
-									self.animation = anim.newAnimation(self.fr_cutting_northeast,0.12,self.cut)
-									self.nd = {}
-									self.waypoint_x, self.waypoint_y = nil, nil
-									return 
-								else
-									--print("Reached checkpoint "..self.count,self.nd_len)
-									self.waypoint_x = self.nd[self.count]._x --TODO check for nil before indexing
-									self.waypoint_y = self.nd[self.count]._y
-									--print("Waypoint is now "..self.waypoint_x,self.waypoint_y)
-									self.previous_dir = self.move_dir
-									self.move_dir = "none"									
-								end
-								self.count = self.count + 1
-						end
+						if (self.fx*0.001)==math.floor(self.fx*0.001) and (self.fy*0.001)==math.floor(self.fy*0.001) then 
+							--print("Position ",self.fx*0.001,self.fy*0.001) 
+							self.gx,self.gy= self.fx*0.001,self.fy*0.001
+							self:sub_update()
+							end
+					end
+					if self.fx*0.001 == self.waypoint_x and self.fy*0.001 == self.waypoint_y and self.state ~= "Cutting down" and self.move_dir ~= "none" then
+							if self.count == self.nd_len then 
+								self.state = "Cutting down"
+								self.animation = anim.newAnimation(self.fr_cutting_northeast,0.12,self.cut)
+								self.nd = {}
+								self.waypoint_x, self.waypoint_y = nil, nil
+								return 
+							else
+								--print("Reached checkpoint "..self.count,self.nd_len)
+								self.waypoint_x = self.nd[self.count]._x --TODO check for nil before indexing
+								self.waypoint_y = self.nd[self.count]._y
+								--print("Waypoint is now "..self.waypoint_x,self.waypoint_y)
+								self.previous_dir = self.move_dir
+								self.move_dir = "none"									
+							end
+							self.count = self.count + 1
 					end
 				end
+			end
 			function Woodcutter:animate()
 				self:update()
 				self.animation:update(dt)
-				end
+			end
 return Woodcutter

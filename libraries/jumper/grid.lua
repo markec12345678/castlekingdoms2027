@@ -108,7 +108,8 @@ if (...) then
 
   function Grid:isWalkableAt(x, y, walkable, clearance)
       --TODO: MAP COORDS kaylemaster
-      if x >= 2048 or x < 0 or y >= 2048 or y < 0 then return false end
+      if x >= 2048 or x < 0 or y >= 2048 or y < 0 then return false end --print("Not walkable"..x.."|"..y)
+      --print("Walkable"..x.."|"..y.." :".. self._nodes[x][y].walkable)
       return (self._nodes[x][y].walkable == 0)
   end
 
