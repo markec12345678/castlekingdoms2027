@@ -25,7 +25,6 @@ local Object = require("objects.Object")
 				self.timr = 0
 				self.move_dir = "none"
 				self.update_dir = true
-				self.temp_qid = nil
 				self.previous_dir = "none"
 				self.target_tree = 0
 				self.cut = function() 
@@ -160,25 +159,25 @@ local Object = require("objects.Object")
 					print("{coords} = "..xx.."|"..yy)
 					print("{position} = "..self.cx.."l"..self.cy.." --x,y ="..(self.gx).."-l-"..self.gy)
 					if self.previous_cx ~= self.cx or self.previous_cy ~= self.cy then --update chunk location
-					print("Updated: {coords} = "..xx.."|"..yy)
-					print("{position} = "..self.cx.."l"..self.cy.." --x,y ="..(self.gx).."-l-"..self.gy)
 						print("---Moved across chunks from "..self.previous_cx.."|"..self.previous_cy.." to "..self.cx.."|"..self.cy)
-						--object_batch[self.previous_cx][self.previous_cy]:set(self.qid,tile_quads[0],0,0) 
+						object_batch[self.previous_cx][self.previous_cy]:set(self.qid,tile_quads[0],0,0) 
+					self.x = IsoX + ((self.fx*0.001)%chunk_width - (self.fy*0.001)%chunk_width) * tile_width  * 0.5 - 47+16 --fixme magic numbers?
+					self.y = IsoY + ((self.fx*0.001)%chunk_width + (self.fy*0.001)%chunk_width) * tile_height * 0.5 - 53+8
+						local tempq = self.qid
 						self.qid = object_batch[self.cx][self.cy]:add(self.animation:getFrameInfo(self.x, self.y))
+						object[self.cx][self.cy][xx][yy] = object[self.previous_cx][self.previous_cy][self.originalx][self.originaly] 
+						object[self.previous_cx][self.previous_cy][self.originalx][self.originaly] = nil
+						print(self.x,self.y)
+						print(inspect(self.animation))
 						else print("Didn't move across chunks") end
 					if object[self.cx][self.cy][xx][yy] == nil then			
 						object[self.cx][self.cy][xx][yy] = self
-						print("{set_myself_} = "..xx.."|"..yy)
 						object[self.cx][self.cy][self.originalx][self.originaly] = nil
 						self.originalx = xx
 						self.originaly = yy
-					else print("{result} = false") end
+					end
 				end
 			function Woodcutter:update()
-				-- if self.temp_qid ~= nil then 
-				-- 	object_batch[self.previous_cx][self.previous_cy]:set(self.temp_qid,tile_quads[0],0,0) 
-				-- 	self.temp_qid = nil 
-				-- end
 				if self.state ~= "No trees" then
 					if self.state == "Looking to chop tree" then
 						self:find_tree()
@@ -188,8 +187,7 @@ local Object = require("objects.Object")
 						local angle = math.atan2 (wy-(self.fy*0.001),wx-(self.fx*0.001))
 						if angle < 0 then angle = angle+2*math.pi end
 						angle = angle*(180/math.pi)
-						angle = math.round (angle)
-						
+						angle = math.round (angle)						
 
 						print("Calculated angle with wy("..wy.."), self.fy*0.001("..((self.fy*0.001))..
 						"),wx("..wx..") and self.fx*0.001("..((self.fx*0.001))..")")
