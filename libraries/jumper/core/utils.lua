@@ -98,8 +98,8 @@ local ffi = require('ffi')
         -- print("arr["..(N-1).."][3] =", arr[N-1][3])
 
 		local mapw, maph = 2048,2048
-    local min_x, max_x = 0, mapw
-    local min_y, max_y = 0, maph
+    local min_x, max_x = 0, mapw-1
+    local min_y, max_y = 0, maph-1
    -- local nodes = ffi.new("node["..mapw.."]["..maph.."]")
 		_G.nodes = ffi.cast("node **", ffi.C.calloc(mapw,ffi.sizeof("node*")))
 		for i = 0, maph-1 do

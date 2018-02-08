@@ -337,21 +337,16 @@ if (...) then
   -- @treturn path a path (array of nodes) when found, otherwise nil
 	-- @usage local path = myFinder:getPath(1,1,5,5)
   function Pathfinder:getPath(startX, startY, endX, endY, clearance)
-    write(1)
 		self:reset()
-    write(2)
     local startNode = self._grid:getNodeAt(startX, startY)
-    write(3)
     local endNode = self._grid:getNodeAt(endX, endY)
     --assert(startNode, ('Invalid location [%d, %d]'):format(startX, startY))
     --assert(endNode and self._grid:isWalkableAt(endX, endY),
       --('Invalid or unreachable location [%d, %d]'):format(endX, endY))
     local _endNode = Finders[self._finder](self, startNode, endNode, clearance, toClear)
-    write1('reppppppppeat')
     if _endNode then
 			return Utils.traceBackPath(self, _endNode, startNode)
     end
-    write1('_done')
     return nil
   end
 

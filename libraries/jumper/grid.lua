@@ -7,8 +7,8 @@
 
 if (...) then
 	-- Dependencies
-  local _PATH = (...):gsub('%.grid$','')
-
+  local _PATH = (...):gsub('%.grid$','')  
+  local ffi = require'ffi'
 	-- Local references
   local Utils = require (_PATH .. '.core.utils')
   local Assert = require (_PATH .. '.core.assert')
@@ -171,7 +171,6 @@ if (...) then
 	-- @usage
 	-- local aNode = myGrid:getNodeAt(5,6)
 	-- local neighbours = myGrid:getNeighbours(aNode, 0, true)
-  local ffi = require'ffi'
   function Grid:getNeighbours(node, walkable, allowDiagonal, tunnel, clearance)
 		local neighbours = {}
     for i = 1,#straightOffsets do
@@ -179,34 +178,27 @@ if (...) then
         node._x + straightOffsets[i].x,
         node._y + straightOffsets[i].y
       )
-      
-      if (node._x + straightOffsets[i].x) < 512 and (node._y + straightOffsets[i].y) < 512 and (node._x + straightOffsets[i].x) > 0 and (node._y + straightOffsets[i].y) > 0
+      if (node._x + straightOffsets[i].x) < 2048 and (node._y + straightOffsets[i].y) < 2048 and (node._x + straightOffsets[i].x) > 0 and (node._y + straightOffsets[i].y) > 0
        and n.walkable == 0 then
         neighbours[#neighbours+1] = n
       end
     end
-    
-    if not allowDiagonal then return neighbours end
-
-		tunnel = not not tunnel
     for i = 1,#diagonalOffsets do
       local n = self:getNodeAt(
         node._x + diagonalOffsets[i].x,
         node._y + diagonalOffsets[i].y
       )
-      if (node._x + diagonalOffsets[i].x) < 512 and (node._y + diagonalOffsets[i].y) < 512 and (node._x + diagonalOffsets[i].x) > 0 and (node._y + diagonalOffsets[i].y) > 0
-        and self:isWalkableAt(n._x, n._y, walkable, clearance) then
-				if tunnel then
-					neighbours[#neighbours+1] = n
-				else
+      --TODO: 
+      --FIXME MAGIC NUMBERS 2048
+      if (node._x + diagonalOffsets[i].x) < 2048 and (node._y + diagonalOffsets[i].y) < 2048 and (node._x + diagonalOffsets[i].x) > 0 and (node._y + diagonalOffsets[i].y) > 0
+      and node.walkable == 0 then				
 					local skipThisNode = false
 					local n1 = self:getNodeAt(node._x+diagonalOffsets[i].x, node._y)
 					local n2 = self:getNodeAt(node._x, node._y+diagonalOffsets[i].y)
-					if ((n1 and n2) and not self:isWalkableAt(n1._x, n1._y, walkable, clearance) and not self:isWalkableAt(n2._x, n2._y, walkable, clearance)) then
+					if (n1 and n2) and not n1.walkable == 0 and not n1.walkable == 0 then
 						skipThisNode = true
 					end
 					if not skipThisNode then neighbours[#neighbours+1] = n end
-				end
       end
     end
     return neighbours

@@ -11,31 +11,17 @@ local objects, terrain
 local menu, game, ui = {}, {}, {}
 local loader = require('libraries.lily')
 
- function write(par,op) -- warning temp
-	-- if love.filesystem.exists("note"..par..".txt") then 
-	-- write(par..(op or 'y')) return true
-	-- end
-	-- f = love.filesystem.newFile("note"..par..".txt")
-	-- f:open("w")
-	-- 	f:write("This is line !\r\n")
-	-- f:close()
-	-- return true
-end
- function write1(par) -- warning temp
-	-- local f = love.filesystem.newFile(par..".txt")
-	-- f:open("w")
-	-- 	f:write("This is line !\r\n")
-	-- f:close()
-	-- return true
-end
- function remove(par) -- warning temp
-	-- love.filesystem.remove("note"..par..".txt")
-	-- return true
-end 
-function remove1(par) -- warning temp
-	-- love.filesystem.remove(par..".txt")
-	-- return true
-end
+-- function write(par) 
+-- 	f = love.filesystem.newFile("line"..par..".txt")
+-- 	f:open("w")
+-- 		f:write("This is line !\r\n")
+-- 	f:close()
+-- 	return true
+-- end
+-- function remove(par) 
+-- 	love.filesystem.remove("line"..par..".txt")
+-- 	return true
+-- end
 
 function love.load()
 	--nk.init()
