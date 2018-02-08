@@ -52,6 +52,7 @@ local object_image= ...
             local rows = chunk_height
 	----Chunk 2D array 	
 			local active_objects = newAutotable(1)
+			local active_entities = newAutotable(1)
 			_G.active_chunks = {}
 			local object = newAutotable(4)
 	----Calculate center chunk
@@ -75,7 +76,7 @@ local object_image= ...
 --- NOTE --------------------------
 local Object 		= require('objects.Object')
 local Tree 		 	= love.filesystem.load('objects/Tree.lua')(object_batch, active_objects, tile_quads,object)
-local Woodcutter 	= love.filesystem.load('objects/Woodcutter.lua')(object,object_batch, active_objects, tile_quads)
+local Woodcutter 	= love.filesystem.load('objects/Woodcutter.lua')(object,object_batch, active_entities, tile_quads)
 package.loaded['objects.Tree'],package.loaded['objects.Woodcutter'] = Tree, Woodcutter
 --- NOTE --------------------------
 --- NOTE --------------------------
@@ -218,7 +219,7 @@ local function update()
 	-- 	update_objects(chunk.x,chunk.y)
 	-- end
 
-	for index, obj in ipairs ( active_objects ) do --TODO: still update woodcutter even if they're not on the screen
+	for index, obj in ipairs ( active_objects ) do
 				counter = counter + 1 --note remove this in prod
 				if (obj.cx > current_chunk_x+1) or (obj.cx < current_chunk_x-1)
 				or (obj.cy > current_chunk_y+1) or (obj.cy < current_chunk_y-1) or obj.animated == false then
@@ -228,6 +229,11 @@ local function update()
 					obj:animate()
 				end
 	end
+
+	for index, obj in ipairs(active_entities) do
+		obj:animate()
+	end
+
 	if previous_count ~= counter then --note remove this in prod
 	print("Amount of animated objects: "..counter) end --note remove this in prod
 	previous_count = counter --note remove this in prod

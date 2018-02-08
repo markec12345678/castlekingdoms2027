@@ -1,4 +1,4 @@
-local object,object_batch, active_objects, tile_quads = ...
+local object,object_batch, active_entities, tile_quads = ...
 local Object = require("objects.Object")
 		local Woodcutter = class('Woodcutter', Object)
 			function Woodcutter:initialize(cx,cy,i,o,x,y,type)
@@ -95,7 +95,7 @@ local Object = require("objects.Object")
 					tile_quads[2062],tile_quads[2063]
 				}
 				self.animation = anim.newAnimation(self.fr_walking_west,10)
-				table.insert(active_objects,self)
+				table.insert(active_entities,self)
 				end 
 			function Woodcutter:pathfind(xx,yy)
 				--print("Called",self.gx, self.gy, xx, yy)
@@ -122,15 +122,63 @@ local Object = require("objects.Object")
 				else print("Path not found!")
 					self.state = "No trees" end			
 			end
-			function Woodcutter:find_tree()
+			function Woodcutter:check_trees(cx,cy)
+				local chunkx,chunky = cx or self.cx,cy or self.cy 
 				local closest_object, closest_distance = nil,10000000
-				for index, obj in ipairs ( active_objects ) do 
+				for index, obj in ipairs ( _G.chunk_objects[chunkx][chunky] ) do 
 					if obj.type == 'Pine tree' and obj.marked == false then
 						local dist = manhattan_distance(self.gx,self.gy, obj.gx, obj.gy)
 						if dist < closest_distance then 
 							closest_object = obj
 							closest_distance = dist
 						end
+					end
+				end
+				if not closest_object then return false,false else return closest_object,closest_distance end
+			end
+			function Woodcutter:find_tree()
+				local closest_object, closest_distance = nil,10000000
+				closest_object = self:check_trees()
+				if not closest_object then
+					local objt,disto = self:check_trees(self.cx+1,self.cy)
+					if disto and disto < closest_distance then  
+							closest_object = objt
+							closest_distance = disto
+					end
+					objt,disto = self:check_trees(self.cx+1,self.cy+1)
+					if disto and disto < closest_distance then  
+							closest_object = objt
+							closest_distance = disto
+					end
+					objt,disto = self:check_trees(self.cx+1,self.cy-1)
+					if disto and disto < closest_distance then  
+							closest_object = objt
+							closest_distance = disto
+					end
+					objt,disto = self:check_trees(self.cx-1,self.cy+1)
+					if disto and disto < closest_distance then  
+							closest_object = objt
+							closest_distance = disto
+					end
+					objt,disto = self:check_trees(self.cx-1,self.cy)
+					if disto and disto < closest_distance then  
+							closest_object = objt
+							closest_distance = disto
+					end
+					objt,disto = self:check_trees(self.cx-1,self.cy-1)
+					if disto and disto < closest_distance then  
+							closest_object = objt
+							closest_distance = disto
+					end
+					objt,disto = self:check_trees(self.cx,self.cy+1)
+					if disto and disto < closest_distance then  
+							closest_object = objt
+							closest_distance = disto
+					end
+					objt,disto = self:check_trees(self.cx,self.cy-1)
+					if disto and disto < closest_distance then  
+							closest_object = objt
+							closest_distance = disto
 					end
 				end
 				if not closest_object then print("No trees nearby!") return end
@@ -161,9 +209,6 @@ local Object = require("objects.Object")
 					if self.previous_cx ~= self.cx or self.previous_cy ~= self.cy then --update chunk location
 						print("---Moved across chunks from "..self.previous_cx.."|"..self.previous_cy.." to "..self.cx.."|"..self.cy)
 						object_batch[self.previous_cx][self.previous_cy]:set(self.qid,tile_quads[0],0,0) 
-					self.x = IsoX + ((self.fx*0.001)%chunk_width - (self.fy*0.001)%chunk_width) * tile_width  * 0.5 - 47+16 --fixme magic numbers?
-					self.y = IsoY + ((self.fx*0.001)%chunk_width + (self.fy*0.001)%chunk_width) * tile_height * 0.5 - 53+8
-						local tempq = self.qid
 						self.qid = object_batch[self.cx][self.cy]:add(self.animation:getFrameInfo(self.x, self.y))
 						object[self.cx][self.cy][xx][yy] = object[self.previous_cx][self.previous_cy][self.originalx][self.originaly] 
 						object[self.previous_cx][self.previous_cy][self.originalx][self.originaly] = nil
