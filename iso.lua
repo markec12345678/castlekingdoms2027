@@ -26,8 +26,10 @@ local function update()
     next_time = next_time + min_dt;
     ---------------------------------------
     mx, my = love.mouse.getPosition();  
-    LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)); LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview)); 
-    CenterX = math.round(ScreenToIsoX(width/2-16+view_xview, height/2-8+view_yview)); CenterY = math.round(ScreenToIsoY(width/2-16+view_xview,height/2-8+view_yview));
+    LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)); 
+    LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview)); 
+    CenterX = math.round(ScreenToIsoX(width/2-16+view_xview-width/2, height/2-8+view_yview-height/2)); 
+    CenterY = math.round(ScreenToIsoY(width/2-16+view_xview-width/2, height/2-8+view_yview-height/2));
     ---------------------------------------
     _G.xchunk = math.floor(CenterX/(chunk_width));
     _G.ychunk = math.floor(CenterY/(chunk_width));
@@ -73,7 +75,7 @@ local function draw()
                 "\n LocalX: " .. ((LocalX)%chunk_width) ..
                 "\n LocalY: " .. ((LocalY)%chunk_width) ..
                 "\n Collidable " .. (_G.collision_map[LocalX][LocalY] or 0) ..
-                "\n Wood: " .. wood ..
+                "\n Scale: " .. scale_x ..
                 "\n Center chunk: [" .. xchunk .. "][".. ychunk .."][" .. (status[xchunk][ychunk] or "N\\A") .."]"..
                 "\n Current FPS: "..tostring(love.timer.getFPS( ))
                 , 0, 0);

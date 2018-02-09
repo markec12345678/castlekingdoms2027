@@ -58,7 +58,7 @@ local function loadChunk(cx,cy)
 		-- for k,v in pairs(_G.chunk_objects[cx][cy]) do
 		-- 	v:activate();
 		-- end
-		print("Activating..")
+		--print("Activating..")
 		--update_terrain(cx,cy,chunk_ser.terrain)
 		if true then return end --warning temp disabled
 		local chunk_ser = bitser.loadLoveFile("chunk-test"..cx.."l"..cy..".bin")

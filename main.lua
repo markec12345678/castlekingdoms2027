@@ -40,7 +40,6 @@ function game:init()
 	package.loaded['objects'] = objects
 	terrain = require('terrain')
 	chunkUpdateList = require('objects/chunk_system')
-	love.graphics.setBackgroundColor( 45,85,9 )
 end
 
 function game:update(dt)
@@ -55,8 +54,11 @@ function game:enter()
 end
 
 function game:draw()
+love.graphics.push();
+love.graphics.translate((love.graphics.getWidth()/2),(love.graphics.getHeight()/2));
     terrain.draw()
     objects.draw()
+	love.graphics.pop()
     core.draw() 
 end
 

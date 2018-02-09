@@ -58,8 +58,8 @@
             scroll_speed = 10;
             window_height = 800;
             window_width = 1200;  
-            view_xview = 2000;
-	        view_yview = 7000;
+            view_xview = -100;
+	        view_yview = 1000;
     ----Mouse
 	    mx = 0;
 	    my = 0;

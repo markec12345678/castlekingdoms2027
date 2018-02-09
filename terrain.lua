@@ -112,15 +112,30 @@ local function genTerrain(cx,cy)
 end
 
 local function chunkDraw() 
-	local l = _G.terrain_chunks
-	while l do
-			if l.chunkx == nil or terrain_batch[l.chunkx][l.chunky] == nil then break end 
-  			love.graphics.draw(terrain_batch[l.chunkx][l.chunky], 
-     				-view_xview+(l.chunkx-l.chunky)*chunk_width*tile_width*0.5*scale_x, 
-					-view_yview+(l.chunkx+l.chunky)*chunk_height*tile_height*0.5*scale_y
-					, 0, scale_x, scale_y) 
-			l = l.next 
+	for x = 1, 3 do
+		for y = 1, 3 do
+			local xx,yy = current_chunk_x+x-2, current_chunk_y+y-2
+			if terrain_batch[xx][yy] ~= nil then
+				if xx <= 32 and yy <= 32 and xx > 0 and yy > 0 then
+					love.graphics.draw(terrain_batch[xx][yy], 
+						-view_xview*scale_x+(xx*scale_x-yy*scale_x)*chunk_width*tile_width*0.5, 
+						-view_yview*scale_x+(xx*scale_x+yy*scale_x)*chunk_height*tile_height*0.5
+						, 0, scale_x, scale_y)
+				end
+			end
+		end
 	end
+	-- local l = _G.terrain_chunks
+	-- while l do
+	-- 		if l.chunkx == nil or terrain_batch[l.chunkx][l.chunky] == nil then break end 
+	-- 		if l.chunkx <= 32 and l.chunky <= 32 and l.chunkx > 0 and l.chunky > 0 then
+	-- 			love.graphics.draw(terrain_batch[l.chunkx][l.chunky], 
+	-- 					-view_xview+(l.chunkx-l.chunky)*chunk_width*tile_width*0.5*scale_x, 
+	-- 					-view_yview+(l.chunkx+l.chunky)*chunk_height*tile_height*0.5*scale_y
+	-- 					, 0, scale_x, scale_y)
+	-- 		end 
+	-- 		l = l.next 
+	-- end
 end 
 
 

@@ -93,7 +93,7 @@ function genObjects(cx,cy)
 	object_batch[chunk_x][chunk_y]:clear()	
 		for i=0,chunk_width-1,1 do
 			for o=0,chunk_height-1,1 do
-				if i == 1 and o == 61 then 
+				if i == 62 and o == 63 then 
 						object[cx][cy][i][o] = Tree:new(cx,cy,i,o, --TODO fix tile_offset/_x
 						IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[object[chunk_x][chunk_y][i][o]] or 38),
 						IsoY + (i + o) * tile_height * 0.5 - (tile_offset[object[chunk_x][chunk_y][i][o]] or 166),"Pine tree")
@@ -141,12 +141,6 @@ local function update_objects(cx,cy,deser)
 					:getFrameInfo(object[chunk_x][chunk_y][i][o].x,
 								  object[chunk_x][chunk_y][i][o].y))	
 				::continue:: 	
-					-- if deser then
-					-- 	if object[cx][cy][i][o] ~= nil then 
-					-- 		object[cx][cy][i][o].qid = object_batch[chunk_x][chunk_y]:
-					-- 			add(object[cx][cy][i][o].animation:getFrameInfo())
-					-- 	end 
-					-- end
 			end
     	end
   	end				  
@@ -175,15 +169,31 @@ local function draw_object()
 	--love.graphics.setColor(255,255,255,70)
 	--love.graphics.draw(canvas,0,0)
 	--love.graphics.setColor(255,255,255,255)
-	local l = terrain_chunks
-	while l do
-			if l.chunkx == nil or object_batch[l.chunkx][l.chunky] == nil then break end
-  			love.graphics.draw(object_batch[l.chunkx][l.chunky], 
-     				-view_xview+(l.chunkx-l.chunky)*chunk_width*tile_width*0.5*scale_x, 
-					-view_yview+(l.chunkx+l.chunky)*chunk_height*tile_height*0.5*scale_y
-					, 0, scale_x, scale_y)
-			l = l.next 
+	
+	for x = 1, 3 do
+		for y = 1, 3 do
+			local xx,yy = current_chunk_x+x-2, current_chunk_y+y-2
+			if object_batch[xx][yy] ~= nil then
+				if xx <= 32 and yy <= 32 and xx > 0 and yy > 0 then
+					love.graphics.draw(object_batch[xx][yy], 
+						-view_xview*scale_x+(xx*scale_x-yy*scale_x)*chunk_width*tile_width*0.5, 
+						-view_yview*scale_x+(xx*scale_x+yy*scale_x)*chunk_height*tile_height*0.5
+						, 0, scale_x, scale_y)
+				end
+			end
+		end
 	end
+	-- local l = terrain_chunks
+	-- while l do
+	-- 		if l.chunkx == nil or object_batch[l.chunkx][l.chunky] == nil then break end
+	-- 		if l.chunkx <= 32 and l.chunky <= 32 and l.chunkx > 0 and l.chunky > 0 then
+	-- 			love.graphics.draw(object_batch[l.chunkx][l.chunky], 
+	-- 					-view_xview+(l.chunkx-l.chunky)*chunk_width*tile_width*0.5*scale_x, 
+	-- 					-view_yview+(l.chunkx+l.chunky)*chunk_height*tile_height*0.5*scale_y
+	-- 					, 0, scale_x, scale_y)
+	-- 		end
+	-- 			l = l.next 
+	-- end
 	love.graphics.setColor(255,255,255,255)
 end
 

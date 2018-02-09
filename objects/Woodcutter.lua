@@ -228,6 +228,14 @@ local Object = require("objects.Object")
 							elseif xx~= 63 and yy == 0 then
 								self.cx,self.cy = math.floor((self.fx*0.001-1)/(chunk_width)),math.floor((self.fy*0.001-1)/(chunk_width)) 
 							end
+						elseif self.move_dir == "southwest" then						
+							if xx == 0 and yy ~= 63 then
+								self.cx,self.cy = math.floor((self.fx*0.001-1)/(chunk_width)),math.floor((self.fy*0.001)/(chunk_width)) 
+							elseif xx == 0 and yy == 63 then
+								self.cx,self.cy = math.floor((self.fx*0.001-1)/(chunk_width)),math.floor((self.fy*0.001-1)/(chunk_width)) 
+							elseif xx ~= 0 and yy == 63 then
+								self.cx,self.cy = math.floor((self.fx*0.001)/(chunk_width)),math.floor((self.fy*0.001-1)/(chunk_width)) 
+							end
 						elseif self.move_dir == "north" then 
 							self.cx,self.cy = math.floor((self.fx*0.001)/(chunk_width)),math.floor((self.fy*0.001-1)/(chunk_width)) 
 						elseif self.move_dir == "east" then 
