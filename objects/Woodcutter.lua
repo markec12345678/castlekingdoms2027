@@ -20,6 +20,7 @@ local Object = require("objects.Object")
 				self.originalx = i self.originaly = o
 				self.nd = newAutotable(1)
 				self.nd_len = 0
+				self.marked = 0
 				self.path = 0
 				self.count = 1
 				self.timr = 0

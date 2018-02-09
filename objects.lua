@@ -127,10 +127,20 @@ local function update_objects(cx,cy,deser)
   	for i=0,chunk_width-1,1 do
     	for o=0,chunk_height-1,1 do
 			if object[chunk_x][chunk_y][i][o] then
+				if object[chunk_x][chunk_y][i][o].cx ~= cx or object[chunk_x][chunk_y][i][o].cy ~= cy then
+					if object[chunk_x][chunk_y][i][o].marked ~= 2 then
+						object[chunk_x][chunk_y][i][o].marked = object[chunk_x][chunk_y][i][o].marked + 1
+					else					
+						object[chunk_x][chunk_y][i][o].marked = 0
+						object[chunk_x][chunk_y][i][o] = nil	
+						goto continue
+					end
+				end
 					object[chunk_x][chunk_y][i][o].qid = object_batch[chunk_x][chunk_y]
 					:add(object[chunk_x][chunk_y][i][o].animation
 					:getFrameInfo(object[chunk_x][chunk_y][i][o].x,
-								  object[chunk_x][chunk_y][i][o].y))		
+								  object[chunk_x][chunk_y][i][o].y))	
+				::continue:: 	
 					-- if deser then
 					-- 	if object[cx][cy][i][o] ~= nil then 
 					-- 		object[cx][cy][i][o].qid = object_batch[chunk_x][chunk_y]:
