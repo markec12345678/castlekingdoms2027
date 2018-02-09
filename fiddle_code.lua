@@ -24,6 +24,11 @@ local a, b = point:new(1.5, 2.5), point:new(3.25, 4.75)
 for i=1,100000000 do a = (a + b) + b end
 print(a.x, a.y)
 
+				local ccx,ccy,clx,cly
+				clx = (self.gx) % (chunk_width)
+				cly = (self.gy) % (chunk_width)
+				ccx = math.floor(self.gx/chunk_width)
+				ccy = math.floor(self.gy/chunk_width)
 
 -- function isPositionOpenfunc(x, y)
 -- 		local xx = x % (chunk_width);

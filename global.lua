@@ -51,15 +51,15 @@
             print("Fucking done") 
     ----Offset
             IsoX = 0;
-            IsoY = 0;
+            IsoY = -1400;
     ----View
             scale_x = 1;
             scale_y = 1;
             scroll_speed = 10;
             window_height = 800;
             window_width = 1200;  
-            view_xview = -100;
-	        view_yview = 1000;
+            view_xview = 0;
+	        view_yview = 0;
     ----Mouse
 	    mx = 0;
 	    my = 0;

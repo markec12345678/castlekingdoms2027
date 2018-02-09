@@ -26,8 +26,8 @@ local function update()
     next_time = next_time + min_dt;
     ---------------------------------------
     mx, my = love.mouse.getPosition();  
-    LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)); 
-    LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview)); 
+    LocalX = math.round(ScreenToIsoX(mx-16+view_xview-width/2, my-8+view_yview-height/2)); 
+    LocalY = math.round(ScreenToIsoY(mx-16+view_xview-width/2, my-8+view_yview-height/2)); 
     CenterX = math.round(ScreenToIsoX(width/2-16+view_xview-width/2, height/2-8+view_yview-height/2)); 
     CenterY = math.round(ScreenToIsoY(width/2-16+view_xview-width/2, height/2-8+view_yview-height/2));
     ---------------------------------------

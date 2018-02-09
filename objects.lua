@@ -93,14 +93,16 @@ function genObjects(cx,cy)
 	object_batch[chunk_x][chunk_y]:clear()	
 		for i=0,chunk_width-1,1 do
 			for o=0,chunk_height-1,1 do
-				if i == 62 and o == 63 then 
-						object[cx][cy][i][o] = Tree:new(cx,cy,i,o, --TODO fix tile_offset/_x
-						IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[object[chunk_x][chunk_y][i][o]] or 38),
-						IsoY + (i + o) * tile_height * 0.5 - (tile_offset[object[chunk_x][chunk_y][i][o]] or 166),"Pine tree")
-						object[cx][cy][i][o].animation:gotoFrame(math.random(6))
-				end
-				local rand = math.random(400)
-						if rand == 500 then
+				-- if i == 62 and o == 63 then 
+				-- 		object[cx][cy][i][o] = Tree:new(cx,cy,i,o, --TODO fix tile_offset/_x
+				-- 		IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[object[chunk_x][chunk_y][i][o]] or 38),
+				-- 		IsoY + (i + o) * tile_height * 0.5 - (tile_offset[object[chunk_x][chunk_y][i][o]] or 166),"Pine tree")
+				-- 		object[cx][cy][i][o].animation:gotoFrame(math.random(6))
+				-- end
+				local rand = math.random(30)
+						if rand == 4 then
+						if o == 0 and object[cx][cy-1][i][o-1] and object[cx][cy-1][i][o-1].type == "Pine tree" then goto continue end
+						if o ~= 0 and object[cx][cy][i][o-1] and object[cx][cy][i][o-1].type == "Pine tree" then goto continue end
 						object[cx][cy][i][o] = Tree:new(cx,cy,i,o, --TODO fix tile_offset/_x
 						IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[object[chunk_x][chunk_y][i][o]] or 38),
 						IsoY + (i + o) * tile_height * 0.5 - (tile_offset[object[chunk_x][chunk_y][i][o]] or 166),"Pine tree")
@@ -111,6 +113,7 @@ function genObjects(cx,cy)
 					object[cx][cy][i][o].qid = object_batch[chunk_x][chunk_y]:
 					add(object[cx][cy][i][o].animation:getFrameInfo(object[cx][cy][i][o].x,object[cx][cy][i][o].y))
 				end
+				::continue::
 			end
 		end
 end
@@ -200,8 +203,8 @@ end
 
 local function mousepressed(x, y, button, istouch)
 	local mx, my = x,y
-		LocalX = math.round(ScreenToIsoX(mx-16+view_xview, my-8+view_yview)) 
-		LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview)) 
+    LocalX = math.round(ScreenToIsoX(mx-16+view_xview-width/2, my-8+view_yview-height/2)); 
+    LocalY = math.round(ScreenToIsoY(mx-16+view_xview-width/2, my-8+view_yview-height/2)); 
 		first_location.gx = LocalX
 		first_location.gy = LocalY
 		first_location.x = (LocalX) % (chunk_width)
@@ -211,10 +214,8 @@ local function mousepressed(x, y, button, istouch)
 		print("Button", button)
    if button == 1 then 
 		--update_objects(first_location.cx,first_location.cy)
-		print(inspect(object[first_location.cx][first_location.cy]))
-		print("Pressed at",first_location.x,first_location.y,first_location.cx,first_location.cy)
+		--print("Pressed at",first_location.x,first_location.y,first_location.cx,first_location.cy)
 		if not object[first_location.cx][first_location.cy][first_location.x][first_location.y] then
-		print("Spawned")
 		object[first_location.cx][first_location.cy][first_location.x][first_location.y] = 
 			Tree:new(first_location.cx,first_location.cy,first_location.x,first_location.y, 
 			IsoX + (first_location.x - first_location.y) * tile_width  * 0.5 - 38,
@@ -225,7 +226,8 @@ local function mousepressed(x, y, button, istouch)
 					add(object[first_location.cx][first_location.cy][first_location.x][first_location.y].animation
 						:getFrameInfo(object[first_location.cx][first_location.cy][first_location.x][first_location.y].x,
 									  object[first_location.cx][first_location.cy][first_location.x][first_location.y].y))
-		update_objects(first_location.cx,first_location.cy) else
+		--update_objects(first_location.cx,first_location.cy) 
+		else
 		print(object[first_location.cx][first_location.cy][first_location.x][first_location.y]) end
    elseif button == 2 then
 		--if object[first_location.cx][first_location.cy][first_location.x][first_location.y] ~ then

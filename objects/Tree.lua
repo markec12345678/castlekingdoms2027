@@ -18,8 +18,6 @@ local Tree = class('Tree', Object)
 				self.animated = true
 				self.marked = false
 				self.active = false
-				if self.gx < 2048 and self.gx >= 0 and self.gy < 2048 and self.gy >= 0 then
-				_G.collision_map[self.gx][self.gy] = 1 _G.nodes[self.gx][self.gy].walkable = 1 end
 				self.cut_down = function() 
 					print("Cut!")
 					self.falling = false
@@ -39,16 +37,17 @@ local Tree = class('Tree', Object)
 					self:animate() --animate, because the list will remove us before we show the stump
 					self.type = "Stump"
 					--print("Done!")
-					end				
-				
+					end	
+				if self.gx < 2048 and self.gx >= 0 and self.gy < 2048 and self.gy >= 0 then
+				_G.collision_map[self.gx][self.gy] = 1 _G.nodes[self.gx][self.gy].walkable = 1 end
 				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
 				table.insert(_G.chunk_objects[self.cx][self.cy],self)
 			end
 			function Tree:activate()
-				if not self.active then
-					table.insert(active_objects,self)
-					self.active = true
-				end
+				-- if not self.active then
+				-- 	table.insert(active_objects,self)
+				-- 	self.active = true
+				-- end
 			end
 			function Tree:serialize()
 				local table_to_serialize = {}
