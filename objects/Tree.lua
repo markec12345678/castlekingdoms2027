@@ -40,9 +40,7 @@ local Tree = class('Tree', Object)
 					self.type = "Stump"
 					--print("Done!")
 					end				
-				if manhattan_distance(_G.xchunk,_G.ychunk,self.cx,self.cy)<7 then
-						table.insert(active_objects,self) self.active = true 
-				end
+				
 				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
 				table.insert(_G.chunk_objects[self.cx][self.cy],self)
 			end
@@ -94,7 +92,7 @@ local Tree = class('Tree', Object)
 			function Tree:animate() 
 					self.animation:update(dt) 					
 				end
-			function Tree:cut() --TODO return value to chopper
+			function Tree:cut()
 				if self.health > 0 then
 					status[self.cx][self.cy] = 1
 					self.health = self.health - 50
@@ -105,7 +103,12 @@ local Tree = class('Tree', Object)
 					tile_quads[1442],tile_quads[1443]}
 					self.animation = anim.newAnimation(self.frames,0.13,self.cut_down)
 					self.falling = true
+					if (self.cx > current_chunk_x+1) or (self.cx < current_chunk_x-1)
+					or (self.cy > current_chunk_y+1) or (self.cy < current_chunk_y-1) then
+						self.chop = true
+						self.falling = false
 					end
+				end
 				if self.chop then 						
 					status[self.cx][self.cy] = 1
 						print("Chopping!")

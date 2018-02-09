@@ -70,9 +70,10 @@ local function draw()
         love.graphics.print(
                 "\n GlobalX: " .. LocalX ..
                 "\n GlobalY: " .. LocalY ..
-                "\n LocalX: " .. ((LocalX)%chunk_width+1) ..
-                "\n LocalY: " .. ((LocalY)%chunk_width+1) ..
+                "\n LocalX: " .. ((LocalX)%chunk_width) ..
+                "\n LocalY: " .. ((LocalY)%chunk_width) ..
                 "\n Collidable " .. (_G.collision_map[LocalX][LocalY] or 0) ..
+                "\n Wood: " .. wood ..
                 "\n Center chunk: [" .. xchunk .. "][".. ychunk .."][" .. (status[xchunk][ychunk] or "N\\A") .."]"..
                 "\n Current FPS: "..tostring(love.timer.getFPS( ))
                 , 0, 0);

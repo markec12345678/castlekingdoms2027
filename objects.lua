@@ -91,10 +91,16 @@ function genObjects(cx,cy)
 		object_batch[chunk_x][chunk_y] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)
 	end
 	object_batch[chunk_x][chunk_y]:clear()	
-		for i=1,chunk_width,1 do
-			for o=1,chunk_height,1 do
+		for i=0,chunk_width-1,1 do
+			for o=0,chunk_height-1,1 do
+				if i == 1 and o == 61 then 
+						object[cx][cy][i][o] = Tree:new(cx,cy,i,o, --TODO fix tile_offset/_x
+						IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[object[chunk_x][chunk_y][i][o]] or 38),
+						IsoY + (i + o) * tile_height * 0.5 - (tile_offset[object[chunk_x][chunk_y][i][o]] or 166),"Pine tree")
+						object[cx][cy][i][o].animation:gotoFrame(math.random(6))
+				end
 				local rand = math.random(400)
-						if rand == 5 then
+						if rand == 500 then
 						object[cx][cy][i][o] = Tree:new(cx,cy,i,o, --TODO fix tile_offset/_x
 						IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[object[chunk_x][chunk_y][i][o]] or 38),
 						IsoY + (i + o) * tile_height * 0.5 - (tile_offset[object[chunk_x][chunk_y][i][o]] or 166),"Pine tree")
@@ -118,9 +124,9 @@ local function update_objects(cx,cy,deser)
 	--shadow_batch[chunk_x][chunk_y] =  shadow_batch[chunk_x][chunk_y] or love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)
   	object_batch[chunk_x][chunk_y]:clear() 
   	--shadow_batch[chunk_x][chunk_y]:clear()
-  	for i=1,chunk_width,1 do
-    	for o=1,chunk_height,1 do
-			if object[chunk_x][chunk_y][i][o] ~= nil then
+  	for i=0,chunk_width-1,1 do
+    	for o=0,chunk_height-1,1 do
+			if object[chunk_x][chunk_y][i][o] then
 					object[chunk_x][chunk_y][i][o].qid = object_batch[chunk_x][chunk_y]
 					:add(object[chunk_x][chunk_y][i][o].animation
 					:getFrameInfo(object[chunk_x][chunk_y][i][o].x,
@@ -178,16 +184,29 @@ local function mousepressed(x, y, button, istouch)
 		LocalY = math.round(ScreenToIsoY(mx-16+view_xview, my-8+view_yview)) 
 		first_location.gx = LocalX
 		first_location.gy = LocalY
-		first_location.x = LocalX % (chunk_width)
-		first_location.y = LocalY % (chunk_width)
+		first_location.x = (LocalX) % (chunk_width)
+		first_location.y = (LocalY) % (chunk_width)
 		first_location.cx = math.floor(LocalX/chunk_width)
 		first_location.cy = math.floor(LocalY/chunk_width)
 		print("Button", button)
    if button == 1 then 
 		--update_objects(first_location.cx,first_location.cy)
+		print(inspect(object[first_location.cx][first_location.cy]))
 		print("Pressed at",first_location.x,first_location.y,first_location.cx,first_location.cy)
-		if object[first_location.cx][first_location.cy][first_location.x][first_location.y] ~= nil then
-		object[first_location.cx][first_location.cy][first_location.x][first_location.y]:cut() end --todo remove this in prod
+		if not object[first_location.cx][first_location.cy][first_location.x][first_location.y] then
+		print("Spawned")
+		object[first_location.cx][first_location.cy][first_location.x][first_location.y] = 
+			Tree:new(first_location.cx,first_location.cy,first_location.x,first_location.y, 
+			IsoX + (first_location.x - first_location.y) * tile_width  * 0.5 - 38,
+			IsoY + (first_location.x + first_location.y) * tile_height * 0.5 - 166,"Pine tree")
+			
+						object[first_location.cx][first_location.cy][first_location.x][first_location.y].animation:gotoFrame(math.random(6))
+			object[first_location.cx][first_location.cy][first_location.x][first_location.y].qid = object_batch[first_location.cx][first_location.cy]:
+					add(object[first_location.cx][first_location.cy][first_location.x][first_location.y].animation
+						:getFrameInfo(object[first_location.cx][first_location.cy][first_location.x][first_location.y].x,
+									  object[first_location.cx][first_location.cy][first_location.x][first_location.y].y))
+		update_objects(first_location.cx,first_location.cy) else
+		print(object[first_location.cx][first_location.cy][first_location.x][first_location.y]) end
    elseif button == 2 then
 		--if object[first_location.cx][first_location.cy][first_location.x][first_location.y] ~ then
 			print("Trying to spawn woodcutter", first_location.x, first_location.y)
@@ -213,22 +232,6 @@ local function update()
     previous_chunk_y = current_chunk_y
 	
 	local counter = 0 --note remove this in prod
-	--  -- update all chunks which need to be updated
-	-- for index, chunk in ipairs ( active_chunks ) do 
-	-- 	--print("Chunk to update: "..chunk.x.."|"..chunk.y)
-	-- 	update_objects(chunk.x,chunk.y)
-	-- end
-
-	for index, obj in ipairs ( active_objects ) do
-				counter = counter + 1 --note remove this in prod
-				if (obj.cx > current_chunk_x+1) or (obj.cx < current_chunk_x-1)
-				or (obj.cy > current_chunk_y+1) or (obj.cy < current_chunk_y-1) or obj.animated == false then
-					obj.active = false
-					table.remove(active_objects,index)
-				else
-					obj:animate()
-				end
-	end
 
 	for index, obj in ipairs(active_entities) do
 		obj:animate()
@@ -239,10 +242,17 @@ local function update()
 	previous_count = counter --note remove this in prod
 	local l = terrain_chunks
 	while l do
-			if l.chunkx == nil then break end 
+		if l.chunkx == nil then break end 
 		update_objects(l.chunkx,l.chunky)
-			l = l.next 
+		if _G.chunk_objects[l.chunkx][l.chunky] then
+			for _,obj in ipairs(_G.chunk_objects[l.chunkx][l.chunky]) do
+				obj:animate()
+			end
+		end
+		l = l.next 
 	end
+
+	--collectgarbage()
 end
 
 

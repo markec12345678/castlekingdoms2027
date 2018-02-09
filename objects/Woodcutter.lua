@@ -125,12 +125,14 @@ local Object = require("objects.Object")
 			function Woodcutter:check_trees(cx,cy)
 				local chunkx,chunky = cx or self.cx,cy or self.cy 
 				local closest_object, closest_distance = nil,10000000
-				for index, obj in ipairs ( _G.chunk_objects[chunkx][chunky] ) do 
-					if obj.type == 'Pine tree' and obj.marked == false then
-						local dist = manhattan_distance(self.gx,self.gy, obj.gx, obj.gy)
-						if dist < closest_distance then 
-							closest_object = obj
-							closest_distance = dist
+				if _G.chunk_objects[chunkx][chunky] then
+					for index, obj in ipairs ( _G.chunk_objects[chunkx][chunky] ) do 
+						if obj.type == 'Pine tree' and obj.marked == false then
+							local dist = manhattan_distance(self.gx,self.gy, obj.gx, obj.gy)
+							if dist < closest_distance then 
+								closest_object = obj
+								closest_distance = dist
+							end
 						end
 					end
 				end
@@ -138,9 +140,13 @@ local Object = require("objects.Object")
 			end
 			function Woodcutter:find_tree()
 				local closest_object, closest_distance = nil,10000000
-				closest_object = self:check_trees()
-				if not closest_object then
-					local objt,disto = self:check_trees(self.cx+1,self.cy)
+				local objt,disto
+					objt,disto = self:check_trees(self.cx,self.cy)
+					if disto and disto < closest_distance then  
+							closest_object = objt
+							closest_distance = disto
+					end
+					objt,disto = self:check_trees(self.cx+1,self.cy)
 					if disto and disto < closest_distance then  
 							closest_object = objt
 							closest_distance = disto
@@ -180,7 +186,6 @@ local Object = require("objects.Object")
 							closest_object = objt
 							closest_distance = disto
 					end
-				end
 				if not closest_object then print("No trees nearby!") return end
 				self.target_tree = closest_object 
 				print("Target tree:", self.target_tree)
@@ -193,28 +198,56 @@ local Object = require("objects.Object")
 			end
 			function Woodcutter:sub_update()
 					self.previous_cx,self.previous_cy = self.cx,self.cy
-					local xx, yy = ((self.gx) % chunk_width)+1, ((self.gy) % chunk_width)+1
-					if self.move_dir == "south" then
-						self.cx,self.cy = math.floor(math.round(self.gx)/(chunk_width)),math.floor(math.round(self.gy)/(chunk_width))
-					elseif self.move_dir == "north" then
-						self.cx,self.cy = math.floor(math.round(self.gx)/(chunk_width+1)),math.floor(math.round(self.gy)/(chunk_width+1))
-					elseif self.move_dir == "west" then
-						self.cx,self.cy = math.floor(math.round(self.gx)/(chunk_width+1)),math.floor(math.round(self.gy)/(chunk_width+1))
-					else
-						self.cx,self.cy = math.floor(math.round(self.gx)/(chunk_width)),math.floor(math.round(self.gy)/(chunk_width))
-					end
+					local xx, yy = ((self.fx*0.001) % chunk_width), ((self.fy*0.001) % chunk_width)
+					-- if self.move_dir == "south" or self.move_dir == "southwest" or self.move_dir == "southeast" then
+					-- 	self.cx,self.cy = math.floor(math.round(self.gx)/(chunk_width)),math.floor(math.round(self.gy)/(chunk_width))
+					-- elseif self.move_dir == "north" then
+					-- 	self.cx,self.cy = math.floor(math.round(self.gx)/(chunk_width+1)),math.floor(math.round(self.gy)/(chunk_width+1))
+					-- elseif self.move_dir == "northwest" then						
+					-- 	self.cx,self.cy = math.floor((self.fx*0.001-1)/(chunk_width)),math.floor((self.fy*0.001-1)/(chunk_width))
+					-- elseif self.move_dir == "northeast" then
+					-- 	self.cx,self.cy = math.floor(math.round(self.gx)/(chunk_width+1)),math.floor(math.round(self.gy)/(chunk_width+1))
+					-- elseif self.move_dir == "west" then
+					-- 	self.cx,self.cy = math.floor(math.round(self.gx)/(chunk_width+1)),math.floor(math.round(self.gy)/(chunk_width+1))
+					-- else
+						self.cx,self.cy = math.floor((self.fx*0.001)/(chunk_width)),math.floor((self.fy*0.001)/(chunk_width))
+						if self.move_dir == "northwest" then						
+							if xx == 0 and yy ~= 0 then
+								self.cx,self.cy = math.floor((self.fx*0.001-1)/(chunk_width)),math.floor((self.fy*0.001)/(chunk_width)) 
+							elseif xx == 0 and yy == 0 then
+								self.cx,self.cy = math.floor((self.fx*0.001-1)/(chunk_width)),math.floor((self.fy*0.001-1)/(chunk_width)) 
+							elseif xx~= 0 and yy == 0 then
+								self.cx,self.cy = math.floor((self.fx*0.001)/(chunk_width)),math.floor((self.fy*0.001-1)/(chunk_width)) 
+							end
+						elseif self.move_dir == "northeast" then						
+							if xx == 63 and yy ~= 0 then
+								self.cx,self.cy = math.floor((self.fx*0.001+1)/(chunk_width)),math.floor((self.fy*0.001)/(chunk_width)) 
+							elseif xx == 63 and yy == 0 then
+								self.cx,self.cy = math.floor((self.fx*0.001)/(chunk_width)),math.floor((self.fy*0.001-1)/(chunk_width)) 
+							elseif xx~= 63 and yy == 0 then
+								self.cx,self.cy = math.floor((self.fx*0.001-1)/(chunk_width)),math.floor((self.fy*0.001-1)/(chunk_width)) 
+							end
+						elseif self.move_dir == "north" then 
+							self.cx,self.cy = math.floor((self.fx*0.001)/(chunk_width)),math.floor((self.fy*0.001-1)/(chunk_width)) 
+						elseif self.move_dir == "east" then 
+							self.cx,self.cy = math.floor((self.fx*0.001+1)/(chunk_width)),math.floor((self.fy*0.001)/(chunk_width)) 
+						elseif self.move_dir == "west" then 
+							self.cx,self.cy = math.floor((self.fx*0.001-1)/(chunk_width)),math.floor((self.fy*0.001)/(chunk_width)) 
+						elseif self.move_dir == "south" then 
+							self.cx,self.cy = math.floor((self.fx*0.001)/(chunk_width)),math.floor((self.fy*0.001+1)/(chunk_width)) 
+						end
+
+					
 					--TODO: finish up here
 					print("{coords} = "..xx.."|"..yy)
 					print("{position} = "..self.cx.."l"..self.cy.." --x,y ="..(self.gx).."-l-"..self.gy)
 					if self.previous_cx ~= self.cx or self.previous_cy ~= self.cy then --update chunk location
 						print("---Moved across chunks from "..self.previous_cx.."|"..self.previous_cy.." to "..self.cx.."|"..self.cy)
-						object_batch[self.previous_cx][self.previous_cy]:set(self.qid,tile_quads[0],0,0) 
-						self.qid = object_batch[self.cx][self.cy]:add(self.animation:getFrameInfo(self.x, self.y))
-						object[self.cx][self.cy][xx][yy] = object[self.previous_cx][self.previous_cy][self.originalx][self.originaly] 
-						object[self.previous_cx][self.previous_cy][self.originalx][self.originaly] = nil
-						print(self.x,self.y)
-						print(inspect(self.animation))
-						else print("Didn't move across chunks") end
+						-- object_batch[self.previous_cx][self.previous_cy]:set(self.qid,tile_quads[0],0,0) 
+						-- object[self.cx][self.cy][xx][yy] = self
+						-- object[self.previous_cx][self.previous_cy][self.originalx][self.originaly] = nil
+						-- self.qid = object_batch[self.cx][self.cy]:add(self.animation:getFrameInfo(self.x, self.y))
+					else print("Didn't move across chunks") end
 					if object[self.cx][self.cy][xx][yy] == nil then			
 						object[self.cx][self.cy][xx][yy] = self
 						object[self.cx][self.cy][self.originalx][self.originaly] = nil
@@ -280,8 +313,8 @@ local Object = require("objects.Object")
 							end
 						print("Move dir is now "..self.move_dir, angle)
 					end
-					self.x = IsoX + ((self.fx*0.001)%chunk_width - (self.fy*0.001)%chunk_width) * tile_width  * 0.5 - 47+16 --fixme magic numbers?
-					self.y = IsoY + ((self.fx*0.001)%chunk_width + (self.fy*0.001)%chunk_width) * tile_height * 0.5 - 53+8
+					self.x = IsoX + ((self.fx*0.001)%chunk_width - (self.fy*0.001)%chunk_width) * tile_width  * 0.5 -31 --fixme magic numbers?
+					self.y = IsoY + ((self.fx*0.001)%chunk_width + (self.fy*0.001)%chunk_width) * tile_height * 0.5 -50
 					self.timr = self.timr + 1
 					self.timr = self.timr % 60
 					if self.state == "Going to tree" then

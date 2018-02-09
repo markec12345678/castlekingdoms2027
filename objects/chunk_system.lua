@@ -55,9 +55,9 @@ end
 
 local function loadChunk(cx,cy)
 		status[cx][cy] = 3 
-		for k,v in pairs(_G.chunk_objects[cx][cy]) do
-			v:activate();
-		end
+		-- for k,v in pairs(_G.chunk_objects[cx][cy]) do
+		-- 	v:activate();
+		-- end
 		print("Activating..")
 		--update_terrain(cx,cy,chunk_ser.terrain)
 		if true then return end --warning temp disabled
