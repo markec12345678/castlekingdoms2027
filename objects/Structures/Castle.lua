@@ -65,18 +65,18 @@ local Castle = class('Castle', Object)
 				Castle_alias:new(tile_quads[0],self.gx+6,self.gy-4+6,self)
 				Castle_alias:new(tile_quads[0],self.gx+6,self.gy-5+6,self)
 
-				
+				local ccx,ccy
 				for xx = -2, 8 do
 					for yy = -2, 8 do --TODO: make it use gx,gy so it's cross chunk compatible			
 						if yy == 7 or xx == 7 or xx == -1 or yy == -1 then
-						terrain[cx][cy][self.i+xx][self.o+yy]  = math.random(6,8)
+						ccx, ccy = terrainSetTileAt(self.gx+xx,self.gy+yy,math.random(6,8))
 						elseif math.random(1,3) == 1 then
-						terrain[cx][cy][self.i+xx][self.o+yy]  = math.random(6,8)
+						ccx, ccy = terrainSetTileAt(self.gx+xx,self.gy+yy,math.random(6,8))
 						end
 					end
 				end
-				update_terrain(cx,cy)
 
+				update_terrain(ccx,ccy)
 			end
 
 return Castle

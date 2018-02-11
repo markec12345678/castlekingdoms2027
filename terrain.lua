@@ -119,18 +119,23 @@ local function chunkDraw()
 			end
 		end
 	end
-	-- local l = _G.terrain_chunks
-	-- while l do
-	-- 		if l.chunkx == nil or terrain_batch[l.chunkx][l.chunky] == nil then break end 
-	-- 		if l.chunkx <= 32 and l.chunky <= 32 and l.chunkx > 0 and l.chunky > 0 then
-	-- 			love.graphics.draw(terrain_batch[l.chunkx][l.chunky], 
-	-- 					-view_xview+(l.chunkx-l.chunky)*chunk_width*tile_width*0.5*scale_x, 
-	-- 					-view_yview+(l.chunkx+l.chunky)*chunk_height*tile_height*0.5*scale_y
-	-- 					, 0, scale_x, scale_y)
-	-- 		end 
-	-- 		l = l.next 
-	-- end
 end 
+
+local last_cx, last_cy = nil, nil
+function terrainSetTileAt(gx,gy,tile)
+	local i = (gx) % (chunk_width)
+	local o = (gy) % (chunk_width)
+	local cx = math.floor(gx/chunk_width)
+	local cy = math.floor(gy/chunk_width)		
+	terrain[cx][cy][i][o] = tile
+	if cx ~= last_cx or cy ~= last_cy then
+		update_terrain(last_cx,last_cy)
+	end
+	last_cx, last_cy = cx, cy
+	return cx,cy
+end
+
+
 
 
 for i = 1, 32 do

@@ -37,6 +37,13 @@ local Stockpile = class('Stockpile', Object)
 				self.offset_y = -12
                 self.level = 1
                 self.rotation = 1
+				local ccx, ccy
+                for xx = -1, 5 do
+					for yy = -1, 5 do 					
+						ccx, ccy = terrainSetTileAt(self.gx+xx,self.gy+yy,math.random(6,8))
+					end
+				end
+				update_terrain(ccx,ccy)
 
                 Stockpile_alias:new(tile_quads[2292],self.gx,self.gy+4,self,12+8*4)
                 Stockpile_alias:new(tile_quads[2293],self.gx,self.gy+3,self,12+8*3)
@@ -47,13 +54,7 @@ local Stockpile = class('Stockpile', Object)
                 Stockpile_alias:new(tile_quads[2298],self.gx+2,self.gy,self,12+8*2,16)
                 Stockpile_alias:new(tile_quads[2299],self.gx+3,self.gy,self,12+8*3,16)
                 Stockpile_alias:new(tile_quads[2300],self.gx+4,self.gy,self,12+8*4,16)
-                --TODO: add aliases from bottom side
-                for xx = -1, 5 do
-					for yy = -1, 5 do --TODO: make it use gx,gy so it's cross chunk compatible	
-						terrain[cx][cy][self.i+xx][self.o+yy]  = math.random(6,8)
-					end
-				end
-                update_terrain(cx,cy)
+                --TODO: add aliases from bottom side			
 			end
 
 return Stockpile
