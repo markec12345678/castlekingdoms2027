@@ -44,7 +44,7 @@
             chunkUpdateList = function () end;
             previous_terrain_chunks = 0; 
     ----Terrain
-            terrain = newAutotable(2) 
+            _G.terrain = newAutotable(2) 
             if love.filesystem.exists("status.bin") then status = bitser.loadLoveFile("status.bin") else
             status = newAutotable(2) end   
             _G.chunk_objects = newAutotable(2);     

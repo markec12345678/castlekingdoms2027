@@ -78,8 +78,10 @@ local Object 		= require('objects.Object')
 local Tree 		 	= love.filesystem.load('objects/Environment/Tree.lua')(object_batch, active_objects, tile_quads,object)
 local Woodcutter 	= love.filesystem.load('objects/Units/Woodcutter.lua')(object,object_batch, active_entities, tile_quads)
 local Castle 	= love.filesystem.load('objects/Structures/Castle.lua')(object, tile_quads)
+local Stockpile 	= love.filesystem.load('objects/Structures/Stockpile.lua')(object, tile_quads)
 package.loaded['objects.Environment.Tree'],package.loaded['objects.Units.Woodcutter'] = Tree, Woodcutter
 package.loaded['objects.Structures.Castle'] = Castle
+package.loaded['objects.Structures.Stockpile'] = Stockpile
 --- NOTE --------------------------
 --- NOTE --------------------------
 --- NOTE Object classes END ---
@@ -222,14 +224,12 @@ local function mousepressed(x, y, button, istouch)
 		first_location.cy = math.floor(LocalY/chunk_width)
 		print("Button", button)
    if button == 1 then 
-		--update_objects(first_location.cx,first_location.cy)
 		--print("Pressed at",first_location.x,first_location.y,first_location.cx,first_location.cy)
 		if not object[first_location.cx][first_location.cy][first_location.x][first_location.y] then
 		object[first_location.cx][first_location.cy][first_location.x][first_location.y] = 
 			Castle:new(first_location.cx,first_location.cy,first_location.x,first_location.y, 
 			IsoX + (first_location.x - first_location.y) * tile_width  * 0.5 - 0,
 			IsoY + (first_location.x + first_location.y) * tile_height * 0.5 - 0)
-			--update_objects(first_location.cx,first_location.cy) 
 		else
 		print(object[first_location.cx][first_location.cy][first_location.x][first_location.y]) end
    elseif button == 2 then
@@ -244,8 +244,14 @@ local function mousepressed(x, y, button, istouch)
 					:add(object[first_location.cx][first_location.cy][first_location.x][first_location.y].animation
 					:getFrameInfo(object[first_location.cx][first_location.cy][first_location.x][first_location.y].x,
 								  object[first_location.cx][first_location.cy][first_location.x][first_location.y].y))
-								  update_objects(first_location.cx,first_location.cy)
 		end 
+   elseif button == 3 then
+		if not object[first_location.cx][first_location.cy][first_location.x][first_location.y] then
+		object[first_location.cx][first_location.cy][first_location.x][first_location.y] = 
+			Stockpile:new(first_location.cx,first_location.cy,first_location.x,first_location.y, 
+			IsoX + (first_location.x - first_location.y) * tile_width  * 0.5,
+			IsoY + (first_location.x + first_location.y) * tile_height * 0.5)
+		end
    end
 end 
 local previous_count = 0 --note remove this in prod

@@ -64,23 +64,20 @@ function getLocationDistance()
 	return location_distance or 0 
 end
 
--- NOTE -- deprecated
-function update_terrain(chunk_x,chunk_y,opdata)
-	opdata = opdata or print("-----This shouldn't happen")
-	chunk_x = chunk_x or current_chunk_x 
-	chunk_y = chunk_y or current_chunk_y 
-	--genObjects(cx,cy) --TODO load objects, don't gen them
+function update_terrain(chunk_x,chunk_y)
+	local chunk_x = chunk_x or current_chunk_x 
+	local chunk_y = chunk_y or current_chunk_y 
 	if terrain_batch[chunk_x][chunk_y] == nil then 
 		terrain_batch[chunk_x][chunk_y] = love.graphics.newSpriteBatch(terrain_image, chunk_width*chunk_height)
 	end
 	terrain_batch[chunk_x][chunk_y]:clear()  
-	for i=1,chunk_width,1 do
-		for o=1,chunk_width,1 do
-		terrain_batch[chunk_x][chunk_y]:add(
-							tile_quads[opdata[i][o]], 
-							IsoX + (i - o) * tile_width  * 0.5,
-							IsoY + (i + o) * tile_height * 0.5 - (tile_offset[opdata[i][o]] or 0)
-							) 
+	for i=0,chunk_width-1,1 do
+		for o=0,chunk_width-1,1 do
+			terrain_batch[chunk_x][chunk_y]:add(
+								tile_quads[terrain[chunk_x][chunk_y][i][o]], 
+								IsoX + (i - o) * tile_width  * 0.5,
+								IsoY + (i + o) * tile_height * 0.5 - (tile_offset[terrain[chunk_x][chunk_y][i][o]] or 0),
+								0,1.06666,1) 
 		end
 	end				  
 end
@@ -95,17 +92,17 @@ local function genTerrain(cx,cy)
 
 	terrain_batch[chunk_x][chunk_y]:clear() 
 	terrain[cx][cy] = ffi.new("unsigned char[64][64]", {})
-		for i=0,chunk_width-1,1 do
-			for o=0,chunk_height-1,1 do
-				local rand = math.random(6)  --FIXME tile 9 or 10 is not correct size
-				terrain[cx][cy][i][o]=rand 	
-				terrain_batch[chunk_x][chunk_y]:add(
-									tile_quads[rand], 
-									IsoX + (i - o) * tile_width  * 0.5,
-									IsoY + (i + o) * tile_height * 0.5 - (tile_offset[terrain[chunk_x][chunk_y][i][o]] or 0)
-									,0,1.07,1) 
-			end
+	for i=0,chunk_width-1,1 do
+		for o=0,chunk_height-1,1 do
+			local rand = math.random(6)  --FIXME tile 9 or 10 is not correct size
+			terrain[cx][cy][i][o]=rand 	
+			terrain_batch[chunk_x][chunk_y]:add(
+								tile_quads[rand], 
+								IsoX + (i - o) * tile_width  * 0.5,
+								IsoY + (i + o) * tile_height * 0.5 - (tile_offset[terrain[chunk_x][chunk_y][i][o]] or 0),
+								0,1.06666,1) 
 		end
+	end
 end
 
 local function chunkDraw() 
@@ -152,6 +149,7 @@ local tableOfFunctions = {
 	mousepressed = function() end, 
 	batch = terrain_batch,
 	genTerrain = genTerrain,
+	terrain = tile
 	}
 return tableOfFunctions
 

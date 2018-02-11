@@ -1,7 +1,7 @@
 local object, tile_quads = ...
 local Object = require("objects.Object")
 
-local Castle_alias = class('Castle_alias')
+local Castle_alias = class('Castle_alias', Object)
 			function Castle_alias:initialize(tile,gx,gy,parent,offset_y,offset_x)
                 local mytype = "Static structure"
 				local i = (gx) % (chunk_width)
@@ -64,6 +64,19 @@ local Castle = class('Castle', Object)
 				Castle_alias:new(tile_quads[0],self.gx+6,self.gy-3+6,self)
 				Castle_alias:new(tile_quads[0],self.gx+6,self.gy-4+6,self)
 				Castle_alias:new(tile_quads[0],self.gx+6,self.gy-5+6,self)
+
+				
+				for xx = -2, 8 do
+					for yy = -2, 8 do --TODO: make it use gx,gy so it's cross chunk compatible			
+						if yy == 7 or xx == 7 or xx == -1 or yy == -1 then
+						terrain[cx][cy][self.i+xx][self.o+yy]  = math.random(6,8)
+						elseif math.random(1,3) == 1 then
+						terrain[cx][cy][self.i+xx][self.o+yy]  = math.random(6,8)
+						end
+					end
+				end
+				update_terrain(cx,cy)
+
 			end
 
 return Castle
