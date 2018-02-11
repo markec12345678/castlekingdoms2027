@@ -3,7 +3,7 @@ local Object = require("objects.Object")
 		local Woodcutter = class('Woodcutter', Object)
 			function Woodcutter:initialize(cx,cy,i,o,x,y,type)
 				Object.initialize(self,cx,cy,i,o,x,y,type)
-				self.gx = chunk_width*self.cx+self.i --warning fucking genius
+				self.gx = chunk_width*self.cx+self.i
 				self.gy = chunk_width*self.cy+self.o
 				self.endx = 0
 				self.endy = 0
@@ -17,7 +17,8 @@ local Object = require("objects.Object")
 				self.path = 0
 				self.straight_walk_speed = 40
 				self.diagonal_walk_speed = 25
-				self.originalx = i self.originaly = o
+				self.originalx = i 
+				self.originaly = o
 				self.nd = newAutotable(1)
 				self.nd_len = 0
 				self.marked = 0

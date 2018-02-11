@@ -75,9 +75,11 @@ local object_image= ...
 --- NOTE --------------------------
 --- NOTE --------------------------
 local Object 		= require('objects.Object')
-local Tree 		 	= love.filesystem.load('objects/Tree.lua')(object_batch, active_objects, tile_quads,object)
-local Woodcutter 	= love.filesystem.load('objects/Woodcutter.lua')(object,object_batch, active_entities, tile_quads)
-package.loaded['objects.Tree'],package.loaded['objects.Woodcutter'] = Tree, Woodcutter
+local Tree 		 	= love.filesystem.load('objects/Environment/Tree.lua')(object_batch, active_objects, tile_quads,object)
+local Woodcutter 	= love.filesystem.load('objects/Units/Woodcutter.lua')(object,object_batch, active_entities, tile_quads)
+local Castle 	= love.filesystem.load('objects/Structures/Castle.lua')(object, tile_quads)
+package.loaded['objects.Environment.Tree'],package.loaded['objects.Units.Woodcutter'] = Tree, Woodcutter
+package.loaded['objects.Structures.Castle'] = Castle
 --- NOTE --------------------------
 --- NOTE --------------------------
 --- NOTE Object classes END ---
@@ -99,7 +101,7 @@ function genObjects(cx,cy)
 				-- 		IsoY + (i + o) * tile_height * 0.5 - (tile_offset[object[chunk_x][chunk_y][i][o]] or 166),"Pine tree")
 				-- 		object[cx][cy][i][o].animation:gotoFrame(math.random(6))
 				-- end
-				local rand = math.random(30)
+				local rand = math.random(300)
 						if rand == 4 then
 						if o == 0 and object[cx][cy-1][i][o-1] and object[cx][cy-1][i][o-1].type == "Pine tree" then goto continue end
 						if o ~= 0 and object[cx][cy][i][o-1] and object[cx][cy][i][o-1].type == "Pine tree" then goto continue end
@@ -139,10 +141,17 @@ local function update_objects(cx,cy,deser)
 						goto continue
 					end
 				end
+				if object[chunk_x][chunk_y][i][o].type == "Pine tree" or object[chunk_x][chunk_y][i][o].type == "Stump" or object[chunk_x][chunk_y][i][o].type == "Woodcutter" then
 					object[chunk_x][chunk_y][i][o].qid = object_batch[chunk_x][chunk_y]
 					:add(object[chunk_x][chunk_y][i][o].animation
 					:getFrameInfo(object[chunk_x][chunk_y][i][o].x,
 								  object[chunk_x][chunk_y][i][o].y))	
+				elseif object[chunk_x][chunk_y][i][o].type == "Static structure" then
+					object[chunk_x][chunk_y][i][o].qid = object_batch[chunk_x][chunk_y]
+					:add(object[chunk_x][chunk_y][i][o].tile,
+						object[chunk_x][chunk_y][i][o].x+object[chunk_x][chunk_y][i][o].offset_x,
+						object[chunk_x][chunk_y][i][o].y+object[chunk_x][chunk_y][i][o].offset_y)
+				end
 				::continue:: 	
 			end
     	end
@@ -217,30 +226,25 @@ local function mousepressed(x, y, button, istouch)
 		--print("Pressed at",first_location.x,first_location.y,first_location.cx,first_location.cy)
 		if not object[first_location.cx][first_location.cy][first_location.x][first_location.y] then
 		object[first_location.cx][first_location.cy][first_location.x][first_location.y] = 
-			Tree:new(first_location.cx,first_location.cy,first_location.x,first_location.y, 
-			IsoX + (first_location.x - first_location.y) * tile_width  * 0.5 - 38,
-			IsoY + (first_location.x + first_location.y) * tile_height * 0.5 - 166,"Pine tree")
-			
-						object[first_location.cx][first_location.cy][first_location.x][first_location.y].animation:gotoFrame(math.random(6))
-			object[first_location.cx][first_location.cy][first_location.x][first_location.y].qid = object_batch[first_location.cx][first_location.cy]:
-					add(object[first_location.cx][first_location.cy][first_location.x][first_location.y].animation
-						:getFrameInfo(object[first_location.cx][first_location.cy][first_location.x][first_location.y].x,
-									  object[first_location.cx][first_location.cy][first_location.x][first_location.y].y))
-		--update_objects(first_location.cx,first_location.cy) 
+			Castle:new(first_location.cx,first_location.cy,first_location.x,first_location.y, 
+			IsoX + (first_location.x - first_location.y) * tile_width  * 0.5 - 0,
+			IsoY + (first_location.x + first_location.y) * tile_height * 0.5 - 0)
+			--update_objects(first_location.cx,first_location.cy) 
 		else
 		print(object[first_location.cx][first_location.cy][first_location.x][first_location.y]) end
    elseif button == 2 then
+	print(object[first_location.cx][first_location.cy][first_location.x][first_location.y])
 		--if object[first_location.cx][first_location.cy][first_location.x][first_location.y] ~ then
-			print("Trying to spawn woodcutter", first_location.x, first_location.y)
-			object[first_location.cx][first_location.cy][first_location.x][first_location.y] =  
-						Woodcutter:new(first_location.cx,first_location.cy,first_location.x,first_location.y, --TODO fix tile_offset/_x
-						IsoX + (first_location.x - first_location.y) * tile_width  * 0.5 ,
-						IsoY + (first_location.x + first_location.y) * tile_height * 0.5 ,"Woodcutter")
-					object[first_location.cx][first_location.cy][first_location.x][first_location.y].qid = object_batch[first_location.cx][first_location.cy]
-					:add(object[first_location.cx][first_location.cy][first_location.x][first_location.y].animation
-					:getFrameInfo(object[first_location.cx][first_location.cy][first_location.x][first_location.y].x,
-								  object[first_location.cx][first_location.cy][first_location.x][first_location.y].y))
-								  update_objects(first_location.cx,first_location.cy)
+			-- print("Trying to spawn woodcutter", first_location.x, first_location.y)
+			-- object[first_location.cx][first_location.cy][first_location.x][first_location.y] =  
+			-- 			Woodcutter:new(first_location.cx,first_location.cy,first_location.x,first_location.y, --TODO fix tile_offset/_x
+			-- 			IsoX + (first_location.x - first_location.y) * tile_width  * 0.5 ,
+			-- 			IsoY + (first_location.x + first_location.y) * tile_height * 0.5 ,"Woodcutter")
+			-- 		object[first_location.cx][first_location.cy][first_location.x][first_location.y].qid = object_batch[first_location.cx][first_location.cy]
+			-- 		:add(object[first_location.cx][first_location.cy][first_location.x][first_location.y].animation
+			-- 		:getFrameInfo(object[first_location.cx][first_location.cy][first_location.x][first_location.y].x,
+			-- 					  object[first_location.cx][first_location.cy][first_location.x][first_location.y].y))
+			-- 					  update_objects(first_location.cx,first_location.cy)
 		--end 
    end
 end 

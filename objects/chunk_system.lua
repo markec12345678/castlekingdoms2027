@@ -9,7 +9,7 @@ local object 		= object_table.object
 local object_batch  = object_table.batch
 local shadow_batch  = object_table.shadow
 local update_objects = object_table.update
-local Tree = require('objects.Tree')
+local Tree = require('objects.Environment.Tree')
 local object_hashMap = {
 	["Tree"] = Tree:new(0,0,0,0,0,0,"")
 }

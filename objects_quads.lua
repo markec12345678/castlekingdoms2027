@@ -2283,4 +2283,20 @@ local tile_quads = {};
 			tile_quads   [2276] = love.graphics.newQuad(445, 1375, 126, 132, imageW,imageH)  --workshop (7)
 			tile_quads   [2277] = love.graphics.newQuad(795, 1015, 126, 132, imageW,imageH)  --workshop (8)
 			tile_quads   [2278] = love.graphics.newQuad(922, 1015, 126, 129, imageW,imageH)  --workshop (9)
+
+			tile_quads   [2279] = love.graphics.newQuad(446+16*0, 344, 16, 205, imageW,imageH)  --wood_castle_part1_left
+			tile_quads   [2280] = love.graphics.newQuad(446+16*1, 344, 16, 205, imageW,imageH)  --wood_castle_part2
+			tile_quads   [2281] = love.graphics.newQuad(446+16*2, 344, 16, 205, imageW,imageH)  --wood_castle_part3
+			tile_quads   [2282] = love.graphics.newQuad(446+16*3, 344, 16, 205, imageW,imageH)  --wood_castle_part4
+			tile_quads   [2283] = love.graphics.newQuad(446+16*4, 344, 16, 205, imageW,imageH)  --wood_castle_part5
+			tile_quads   [2284] = love.graphics.newQuad(446+16*5, 344, 16, 205, imageW,imageH)  --wood_castle_part6
+			tile_quads   [2285] = love.graphics.newQuad(446+16*6, 344, 32, 205, imageW,imageH)  --wood_castle_part7_center
+			tile_quads   [2286] = love.graphics.newQuad(446+16*8, 344, 16, 205, imageW,imageH)  --wood_castle_part8
+			tile_quads   [2287] = love.graphics.newQuad(446+16*9, 344, 16, 205, imageW,imageH)  --wood_castle_part9
+			tile_quads   [2288] = love.graphics.newQuad(446+16*10, 344, 16, 205, imageW,imageH)  --wood_castle_part10
+			tile_quads   [2289] = love.graphics.newQuad(446+16*11, 344, 16, 205, imageW,imageH)  --wood_castle_part11
+			tile_quads   [2290] = love.graphics.newQuad(446+16*12, 344, 16, 205, imageW,imageH)  --wood_castle_part12
+			tile_quads   [2291] = love.graphics.newQuad(446+16*13, 344, 16, 205, imageW,imageH)  --wood_castle_part13_right
+
+			--love.graphics.newQuad(x,y,width,height,sw,sh)
 return tile_quads;
