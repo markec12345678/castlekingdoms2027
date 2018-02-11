@@ -78,7 +78,7 @@ local Object 		= require('objects.Object')
 local Tree 		 	= love.filesystem.load('objects/Environment/Tree.lua')(object_batch, active_objects, tile_quads,object)
 local Woodcutter 	= love.filesystem.load('objects/Units/Woodcutter.lua')(object,object_batch, active_entities, tile_quads)
 local Castle 	= love.filesystem.load('objects/Structures/Castle.lua')(object, tile_quads)
-local Stockpile 	= love.filesystem.load('objects/Structures/Stockpile.lua')(object, tile_quads)
+local Stockpile 	= love.filesystem.load('objects/Structures/Stockpile.lua')(object, tile_quads, object_batch)
 package.loaded['objects.Environment.Tree'],package.loaded['objects.Units.Woodcutter'] = Tree, Woodcutter
 package.loaded['objects.Structures.Castle'] = Castle
 package.loaded['objects.Structures.Stockpile'] = Stockpile
@@ -251,6 +251,8 @@ local function mousepressed(x, y, button, istouch)
 			Stockpile:new(first_location.cx,first_location.cy,first_location.x,first_location.y, 
 			IsoX + (first_location.x - first_location.y) * tile_width  * 0.5,
 			IsoY + (first_location.x + first_location.y) * tile_height * 0.5)
+		_G.stockpile = object[first_location.cx][first_location.cy][first_location.x][first_location.y]
+		update_objects(first_location.cx,first_location.cy)
 		end
    end
 end 
