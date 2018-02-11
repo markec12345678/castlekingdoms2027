@@ -234,18 +234,18 @@ local function mousepressed(x, y, button, istouch)
 		print(object[first_location.cx][first_location.cy][first_location.x][first_location.y]) end
    elseif button == 2 then
 	print(object[first_location.cx][first_location.cy][first_location.x][first_location.y])
-		--if object[first_location.cx][first_location.cy][first_location.x][first_location.y] ~ then
-			-- print("Trying to spawn woodcutter", first_location.x, first_location.y)
-			-- object[first_location.cx][first_location.cy][first_location.x][first_location.y] =  
-			-- 			Woodcutter:new(first_location.cx,first_location.cy,first_location.x,first_location.y, --TODO fix tile_offset/_x
-			-- 			IsoX + (first_location.x - first_location.y) * tile_width  * 0.5 ,
-			-- 			IsoY + (first_location.x + first_location.y) * tile_height * 0.5 ,"Woodcutter")
-			-- 		object[first_location.cx][first_location.cy][first_location.x][first_location.y].qid = object_batch[first_location.cx][first_location.cy]
-			-- 		:add(object[first_location.cx][first_location.cy][first_location.x][first_location.y].animation
-			-- 		:getFrameInfo(object[first_location.cx][first_location.cy][first_location.x][first_location.y].x,
-			-- 					  object[first_location.cx][first_location.cy][first_location.x][first_location.y].y))
-			-- 					  update_objects(first_location.cx,first_location.cy)
-		--end 
+		if not object[first_location.cx][first_location.cy][first_location.x][first_location.y] then
+			print("Trying to spawn woodcutter", first_location.x, first_location.y)
+			object[first_location.cx][first_location.cy][first_location.x][first_location.y] =  
+						Woodcutter:new(first_location.cx,first_location.cy,first_location.x,first_location.y, --TODO replace magic number with tile_offset/_x
+						IsoX + (first_location.x - first_location.y) * tile_width  * 0.5 ,
+						IsoY + (first_location.x + first_location.y) * tile_height * 0.5 ,"Woodcutter")
+					object[first_location.cx][first_location.cy][first_location.x][first_location.y].qid = object_batch[first_location.cx][first_location.cy]
+					:add(object[first_location.cx][first_location.cy][first_location.x][first_location.y].animation
+					:getFrameInfo(object[first_location.cx][first_location.cy][first_location.x][first_location.y].x,
+								  object[first_location.cx][first_location.cy][first_location.x][first_location.y].y))
+								  update_objects(first_location.cx,first_location.cy)
+		end 
    end
 end 
 local previous_count = 0 --note remove this in prod
