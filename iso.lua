@@ -77,7 +77,7 @@ local function draw()
                 "\n Collidable " .. (_G.collision_map[LocalX][LocalY] or 0) ..
                 "\n Scale: " .. scale_x ..
                 "\n Center chunk: [" .. xchunk .. "][".. ychunk .."][" .. (status[xchunk][ychunk] or "N\\A") .."]"..
-                "\n Current FPS: "..tostring(love.timer.getFPS( ))
+                "\n Current FPS: "..tostring(love.timer.getFPS())
                 , 0, 0);
 
          -- LIMIT THE FPS TO 60

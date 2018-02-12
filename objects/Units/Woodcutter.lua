@@ -1,5 +1,47 @@
 local object,object_batch, active_entities, tile_quads = ...
 local Object = require("objects.Object")
+
+local fr_walking_plank_east = {
+	tile_quads[1985], tile_quads[1986], tile_quads[1987],
+	tile_quads[1988], tile_quads[1989], tile_quads[1990],
+	tile_quads[1991], tile_quads[1992]
+}
+local fr_walking_plank_north = {
+	tile_quads[1993], tile_quads[1994], tile_quads[1995],
+	tile_quads[1996], tile_quads[1997], tile_quads[1998],
+	tile_quads[1999], tile_quads[2000]
+}
+local fr_walking_plank_west = {
+	tile_quads[2041], tile_quads[2042], tile_quads[2043],
+	tile_quads[2044], tile_quads[2045], tile_quads[2046],
+	tile_quads[2047], tile_quads[2048]
+}
+local fr_walking_plank_south = {
+	tile_quads[2017], tile_quads[2018], tile_quads[2019],
+	tile_quads[2020], tile_quads[2021], tile_quads[2022],
+	tile_quads[2023], tile_quads[2024]
+}
+local fr_walking_plank_northeast = {
+	tile_quads[2001], tile_quads[2002], tile_quads[2003],
+	tile_quads[2004], tile_quads[2005], tile_quads[2006],
+	tile_quads[2007], tile_quads[2008]
+}
+local fr_walking_plank_northwest = {
+	tile_quads[2009], tile_quads[2010], tile_quads[2011],
+	tile_quads[2012], tile_quads[2013], tile_quads[2014],
+	tile_quads[2015], tile_quads[2016]
+}
+local fr_walking_plank_southeast = {
+	tile_quads[2025], tile_quads[2026], tile_quads[2027],
+	tile_quads[2028], tile_quads[2029], tile_quads[2030],
+	tile_quads[2031], tile_quads[2032]
+}
+local fr_walking_plank_southwest = {
+	tile_quads[2033], tile_quads[2034], tile_quads[2035],
+	tile_quads[2036], tile_quads[2037], tile_quads[2038],
+	tile_quads[2039], tile_quads[2040]
+}
+
 		local Woodcutter = class('Woodcutter', Object)
 			function Woodcutter:initialize(cx,cy,i,o,x,y,type)
 				Object.initialize(self,cx,cy,i,o,x,y,type)
@@ -31,7 +73,7 @@ local Object = require("objects.Object")
 				self.target_tree = 0
 				self.cut = function() 
 					if self.state == "Cutting down" then
-						print("Trying to cut down "..self.target_tree.type)
+						--print("Trying to cut down "..self.target_tree.type)
 						local tree_progress = 0
 						if self.target_tree.type == "Pine tree" then
 						tree_progress = self.target_tree:cut() else 
@@ -51,7 +93,7 @@ local Object = require("objects.Object")
 									self:pathfind(_G.stockpile.gx+2,_G.stockpile.gy+5)
 								else self.state = "Looking to chop tree" end
 						end
-					else print("State", self.state)
+					else --print("State", self.state)
 					end
 				end
 				self.fr_walking_east = {
@@ -217,42 +259,74 @@ local Object = require("objects.Object")
 				if (angle >= 135+22 and angle <= 225-22) then --direction is west 
 					self.move_dir = "west"
 					if self.previous_dir ~= "west" then
-						self.animation = anim.newAnimation(self.fr_walking_west,0.11) 
+						if self.state == "Going to stockpile" then
+							self.animation = anim.newAnimation(fr_walking_plank_west,0.11) 
+						else
+							self.animation = anim.newAnimation(self.fr_walking_west,0.11)
+						end
 					end
 				elseif (angle > 135-22 and angle < 135+22) then --direction is southwest
 					self.move_dir = "southwest"
 					if self.previous_dir ~= "southwest" then
-						self.animation = anim.newAnimation(self.fr_walking_southwest,0.11)
+						if self.state == "Going to stockpile" then
+							self.animation = anim.newAnimation(fr_walking_plank_southwest,0.11)
+						else
+							self.animation = anim.newAnimation(self.fr_walking_southwest,0.11)
+						end
 					end
 				elseif (angle > 225-22 and angle < 225+22) then --direction is northwest
 					self.move_dir = "northwest"
 					if self.previous_dir ~= "northwest" then
-						self.animation = anim.newAnimation(self.fr_walking_northwest,0.11)
+						if self.state == "Going to stockpile" then
+							self.animation = anim.newAnimation(fr_walking_plank_northwest,0.11)
+						else
+							self.animation = anim.newAnimation(self.fr_walking_northwest,0.11)
+						end
 					end
 				elseif (angle >= 225+22 and angle <= 315-22) then --direction is north
 					self.move_dir = "north"
 					if self.previous_dir ~= "north" then
-						self.animation = anim.newAnimation(self.fr_walking_north,0.11)
+						if self.state == "Going to stockpile" then
+							self.animation = anim.newAnimation(fr_walking_plank_north,0.11)
+						else
+							self.animation = anim.newAnimation(self.fr_walking_north,0.11)
+						end
 					end
 				elseif (angle >= 45+22 and angle <= 135-22) then --direction is south
 					self.move_dir = "south"
 					if self.previous_dir ~= "south" then
-						self.animation = anim.newAnimation(self.fr_walking_south,0.11)
+						if self.state == "Going to stockpile" then
+							self.animation = anim.newAnimation(fr_walking_plank_south,0.11)
+						else
+							self.animation = anim.newAnimation(self.fr_walking_south,0.11)
+						end
 					end
 				elseif ((angle >= 315+22 and angle <= 359) or (angle >=0 and angle <= 45-22)) then --direction is east
 					self.move_dir = "east"
 					if self.previous_dir ~= "east" then
-						self.animation = anim.newAnimation(self.fr_walking_east,0.11)
+						if self.state == "Going to stockpile" then
+							self.animation = anim.newAnimation(fr_walking_plank_east,0.11)
+						else
+							self.animation = anim.newAnimation(self.fr_walking_east,0.11)
+						end
 					end
 				elseif (angle > 45-22 and angle < 45+22) then--direction is southeast
 					self.move_dir = "southeast"
 					if self.previous_dir ~= "southeast" then
-						self.animation = anim.newAnimation(self.fr_walking_southeast,0.11)
+						if self.state == "Going to stockpile" then
+							self.animation = anim.newAnimation(fr_walking_plank_southeast,0.11)
+						else
+							self.animation = anim.newAnimation(self.fr_walking_southeast,0.11)
+						end
 					end
 				elseif (angle > 315-22 and angle < 315+22) then --direction is northeast
 					self.move_dir = "northeast"
 					if self.previous_dir ~= "northeast" then
-						self.animation = anim.newAnimation(self.fr_walking_northeast,0.11)
+						if self.state == "Going to stockpile" then
+							self.animation = anim.newAnimation(fr_walking_plank_northeast,0.11)
+						else
+							self.animation = anim.newAnimation(self.fr_walking_northeast,0.11)
+						end
 					end
 				end
 			end
@@ -372,6 +446,12 @@ local Object = require("objects.Object")
 							self.count = self.count + 1
 						elseif self.state == "Going to stockpile" then
 							if self.count == self.nd_len then 
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
 								_G.stockpile:store('wood')
 								_G.stockpile:store('wood')
 								self.state = "Looking to chop tree"

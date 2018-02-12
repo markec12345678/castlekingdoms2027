@@ -18,8 +18,7 @@ local Tree = class('Tree', Object)
 				self.animated = true
 				self.marked = false
 				self.active = false
-				self.cut_down = function() 
-					print("Cut!")
+				self.cut_down = function()
 					self.falling = false
 					self.chop = true
 					self.frames = {tile_quads[1444],tile_quads[1445],tile_quads[1446],tile_quads[1447],
@@ -36,7 +35,6 @@ local Tree = class('Tree', Object)
 					self.animated = false --mark for removal from list
 					self:animate() --animate, because the list will remove us before we show the stump
 					self.type = "Stump"
-					--print("Done!")
 					end	
 				if self.gx < 2048 and self.gx >= 0 and self.gy < 2048 and self.gy >= 0 then
 				_G.collision_map[self.gx][self.gy] = 1 _G.nodes[self.gx][self.gy].walkable = 1 end
@@ -95,7 +93,6 @@ local Tree = class('Tree', Object)
 				if self.health > 0 then
 					status[self.cx][self.cy] = 1
 					self.health = self.health - 50
-					print("Cutting down!", self.gx,self.gy)
 				elseif self.health <= 0 and self.falling == false and self.chop == false and self.stump == false then				
 					status[self.cx][self.cy] = 1
 					self.frames = {tile_quads[1436],tile_quads[1441],
@@ -110,7 +107,6 @@ local Tree = class('Tree', Object)
 				end
 				if self.chop then 						
 					status[self.cx][self.cy] = 1
-						print("Chopping!")
 						if self.animation:getTotalFrames() ~= self.animation:getCurrentFrame() then
 							self.animation:gotoFrame(self.animation:getCurrentFrame()+1)
 							wood = wood + 1

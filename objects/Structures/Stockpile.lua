@@ -52,6 +52,21 @@ local quad_map_wood = {
 	 [48] = tile_quads[1625],
 }
 
+local offset_y_wood = {
+	-2,-2,-2,
+	-4,-4,-4,-4,
+	-5,-5,-5,-5,
+	-7,-7,-7,-7,
+	-10,-10,-10,-10,
+	-11,-11,-11,-11,
+	-13,-13,-13,-13,
+	-15,-15,-15,-15,
+	-17,-17,-17,-17,
+	-20,-20,-20,-20,
+	-21,-21,-21,-21,
+	-23,-23,-23,-23,
+	-25
+}
 local Stockpile_alias = class('Stockpile_alias', Object)
 			function Stockpile_alias:initialize(tile,gx,gy,parent,offset_y,offset_x)
                 local mytype = "Static structure"
@@ -66,10 +81,12 @@ local Stockpile_alias = class('Stockpile_alias', Object)
 				self.gy = gy
 				_G.nodes[self.gx][self.gy].walkable = 1
 				self.parent = parent
-                self.qid = nil
+                self.qid = 0
                 self.tile = tile
+				self.base_offset_y = offset_y or 0
+				self.additional_offset_y = 0
 				self.offset_x = offset_x or 0
-				self.offset_y = -(offset_y or 0)
+				self.offset_y = self.additional_offset_y-self.base_offset_y 
 				object[cx][cy][i][o] = self	
 			end
 
@@ -93,11 +110,6 @@ local Stockpile = class('Stockpile', Object)
 				self.stockpile[2] = {id = nil, empty = true, type = nil, quantity = 0}
 				self.stockpile[3] = {id = nil, empty = true, type = nil, quantity = 0}
 				self.stockpile[4] = {id = nil, empty = true, type = nil, quantity = 0}
-
-				self.stockpile[1].id = Stockpile_alias:new(tile_quads[0],self.gx+1,self.gy+1,self,32-2,-16)
-				self.stockpile[2].id = Stockpile_alias:new(tile_quads[0],self.gx+1,self.gy+4,self,32-2,-16)
-				self.stockpile[3].id = Stockpile_alias:new(tile_quads[0],self.gx+4,self.gy+1,self,32-2,-16)
-				self.stockpile[4].id = Stockpile_alias:new(tile_quads[0],self.gx+4,self.gy+4,self,32-2,-16)
 				
 				local ccx, ccy
                 for xx = -1, 5 do
@@ -117,14 +129,15 @@ local Stockpile = class('Stockpile', Object)
                 Stockpile_alias:new(tile_quads[2299],self.gx+3,self.gy,self,12+8*3,16)
                 Stockpile_alias:new(tile_quads[2300],self.gx+4,self.gy,self,12+8*4,16)
 
-                Stockpile_alias:new(tile_quads[0],self.gx+4,self.gy+4,self,12+8*4,16)
                 Stockpile_alias:new(tile_quads[0],self.gx+4,self.gy+4-1,self,12+8*4,16)
                 Stockpile_alias:new(tile_quads[0],self.gx+4,self.gy+4-2,self,12+8*4,16)
-                Stockpile_alias:new(tile_quads[0],self.gx+4,self.gy+4-3,self,12+8*4,16)
                 Stockpile_alias:new(tile_quads[0],self.gx+4-1,self.gy+4,self,12+8*4,16)
                 Stockpile_alias:new(tile_quads[0],self.gx+4-2,self.gy+4,self,12+8*4,16)
-                Stockpile_alias:new(tile_quads[0],self.gx+4-3,self.gy+4,self,12+8*4,16)
-                --TODO: add aliases from bottom side		
+
+				self.stockpile[1].id = Stockpile_alias:new(tile_quads[0],self.gx+1,self.gy+1,self,32-4,-16)
+				self.stockpile[2].id = Stockpile_alias:new(tile_quads[0],self.gx+1,self.gy+4,self,32-4,-16)
+				self.stockpile[3].id = Stockpile_alias:new(tile_quads[0],self.gx+4,self.gy+1,self,32-4,-16)
+				self.stockpile[4].id = Stockpile_alias:new(tile_quads[0],self.gx+4,self.gy+4,self,32-4,-16)
 			end
 			function Stockpile:store(resource)
 				if resource == 'wood' then 
@@ -138,7 +151,6 @@ local Stockpile = class('Stockpile', Object)
 					end 
 					if not found then
 						for index = 1, 4 do
-							print(index)
 							if self.stockpile[index].empty then
 								self.stockpile[index].empty = false
 								self.stockpile[index].type = 'wood'
@@ -152,8 +164,17 @@ local Stockpile = class('Stockpile', Object)
 			end
 			function Stockpile:update_stockpile(index)
 				self.stockpile[index].id.tile = quad_map_wood[self.stockpile[index].quantity]
-				object_batch[self.stockpile[index].id.cx][self.stockpile[index].id.cy]
-					:set(self.stockpile[index].id.qid, self.stockpile[index].id.tile,self.stockpile[index].id.x,self.stockpile[index].id.y)
+				self.stockpile[index].id.additional_offset_y = offset_y_wood[self.stockpile[index].quantity]
+				self.stockpile[index].id.offset_y = self.stockpile[index].id.additional_offset_y - self.stockpile[index].id.base_offset_y
+				if object_batch[self.stockpile[index].id.cx][self.stockpile[index].id.cy] then
+					object_batch[self.stockpile[index].id.cx][self.stockpile[index].id.cy]
+					:set(
+						self.stockpile[index].id.qid, 
+						self.stockpile[index].id.tile,
+						self.stockpile[index].id.x,
+						self.stockpile[index].id.y
+						)
+				end
 			end
 
 return Stockpile

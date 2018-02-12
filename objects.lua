@@ -103,7 +103,7 @@ function genObjects(cx,cy)
 				-- 		IsoY + (i + o) * tile_height * 0.5 - (tile_offset[object[chunk_x][chunk_y][i][o]] or 166),"Pine tree")
 				-- 		object[cx][cy][i][o].animation:gotoFrame(math.random(6))
 				-- end
-				local rand = math.random(300)
+				local rand = math.random(30)
 						if rand == 4 then
 						if o == 0 and object[cx][cy-1][i][o-1] and object[cx][cy-1][i][o-1].type == "Pine tree" then goto continue end
 						if o ~= 0 and object[cx][cy][i][o-1] and object[cx][cy][i][o-1].type == "Pine tree" then goto continue end
@@ -139,7 +139,7 @@ local function update_objects(cx,cy,deser)
 						object[chunk_x][chunk_y][i][o].marked = object[chunk_x][chunk_y][i][o].marked + 1
 					else					
 						object[chunk_x][chunk_y][i][o].marked = 0
-						object[chunk_x][chunk_y][i][o] = nil	
+						object[chunk_x][chunk_y][i][o] = nil
 						goto continue
 					end
 				end
@@ -148,7 +148,7 @@ local function update_objects(cx,cy,deser)
 					:add(object[chunk_x][chunk_y][i][o].animation
 					:getFrameInfo(object[chunk_x][chunk_y][i][o].x,
 								  object[chunk_x][chunk_y][i][o].y))	
-				elseif object[chunk_x][chunk_y][i][o].type == "Static structure" then
+				else --object[chunk_x][chunk_y][i][o].type == "Static structure" then
 					object[chunk_x][chunk_y][i][o].qid = object_batch[chunk_x][chunk_y]
 					:add(object[chunk_x][chunk_y][i][o].tile,
 						object[chunk_x][chunk_y][i][o].x+object[chunk_x][chunk_y][i][o].offset_x,
@@ -251,8 +251,8 @@ local function mousepressed(x, y, button, istouch)
 			Stockpile:new(first_location.cx,first_location.cy,first_location.x,first_location.y, 
 			IsoX + (first_location.x - first_location.y) * tile_width  * 0.5,
 			IsoY + (first_location.x + first_location.y) * tile_height * 0.5)
-		_G.stockpile = object[first_location.cx][first_location.cy][first_location.x][first_location.y]
 		update_objects(first_location.cx,first_location.cy)
+		_G.stockpile = object[first_location.cx][first_location.cy][first_location.x][first_location.y]
 		end
    end
 end 
