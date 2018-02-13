@@ -453,16 +453,11 @@ local fr_cutting_northeast = { --note actually north
 							end
 							self.count = self.count + 1
 						elseif self.state == "Going to stockpile" then
-							if self.count == self.nd_len then  
-								
+							if self.count == self.nd_len then
 								_G.stockpile:store('wood')
 								_G.stockpile:store('wood')
 								_G.stockpile:store('wood')
 								_G.stockpile:store('wood')
-								_G.stockpile:store('stone')
-								_G.stockpile:store('stone')
-								_G.stockpile:store('stone')
-								_G.stockpile:store('stone')
                     			--print(inspect(_G.stockpile.list,{depth = 3}))
 								self.state = "Looking to chop tree"
 								self.nd = {}

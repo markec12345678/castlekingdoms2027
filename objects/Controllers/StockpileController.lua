@@ -7,6 +7,9 @@ local StockpileController = class('StockpileController')
                 self.resources = {
                     ["wood"] = {},
                     ["stone"] = {},
+                    ["wheat"] = {},
+                    ["iron"] = {},
+                    ["flour"] = {}
                 }
                 self.node_list = {}
 			end
