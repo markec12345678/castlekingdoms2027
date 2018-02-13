@@ -1,71 +1,133 @@
 local object, tile_quads, object_batch = ...
 local Object = require("objects.Object")
 
-local quad_map_wood = {
-	 [1] = tile_quads[1667],
-	 [2] = tile_quads[1666],
-	 [3] = tile_quads[1665],
-	 [4] = tile_quads[1664],
-	 [5] = tile_quads[1663],
-	 [6] = tile_quads[1662],
-	 [7] = tile_quads[1661],
-	 [8] = tile_quads[1660],
-	 [9] = tile_quads[1659],
-	 [10] = tile_quads[1657],
-	 [11] = tile_quads[1656],
-	 [12] = tile_quads[1655],
-	 [13] = tile_quads[1654],
-	 [14] = tile_quads[1653],
-	 [15] = tile_quads[1652],
-	 [16] = tile_quads[1651],
-	 [17] = tile_quads[1650],
-	 [18] = tile_quads[1649],
-	 [19] = tile_quads[1648],
-	 [20] = tile_quads[1646],
-	 [21] = tile_quads[1645],
-	 [22] = tile_quads[1644],
-	 [23] = tile_quads[1643],
-	 [24] = tile_quads[1642],
-	 [25] = tile_quads[1641],
-	 [26] = tile_quads[1640],
-	 [27] = tile_quads[1639],
-	 [28] = tile_quads[1638],
-	 [29] = tile_quads[1637],	 
-	 [30] = tile_quads[1635],
-	 [31] = tile_quads[1634],
-	 [32] = tile_quads[1633],
-	 [33] = tile_quads[1632],
-	 [34] = tile_quads[1631],
-	 [35] = tile_quads[1630],
-	 [36] = tile_quads[1629],
-	 [37] = tile_quads[1628],
-	 [38] = tile_quads[1627],
-	 [39] = tile_quads[1626],
-	 [40] = tile_quads[1672],
-	 [41] = tile_quads[1671],
-	 [42] = tile_quads[1670],
-	 [43] = tile_quads[1669],
-	 [44] = tile_quads[1668],
-	 [45] = tile_quads[1658],
-	 [46] = tile_quads[1647],
-	 [47] = tile_quads[1636],
-	 [48] = tile_quads[1625],
+local quad_map = {
+	["wood"] = {
+	 	[1] = tile_quads[1667],
+		[2] = tile_quads[1666],
+	 	[3] = tile_quads[1665],
+	 	[4] = tile_quads[1664],
+	 	[5] = tile_quads[1663],
+	 	[6] = tile_quads[1662],
+	 	[7] = tile_quads[1661],
+	 	[8] = tile_quads[1660],
+	 	[9] = tile_quads[1659],
+	 	[10] = tile_quads[1657],
+	 	[11] = tile_quads[1656],
+	 	[12] = tile_quads[1655],
+	 	[13] = tile_quads[1654],
+	 	[14] = tile_quads[1653],
+	 	[15] = tile_quads[1652],
+	 	[16] = tile_quads[1651],
+	 	[17] = tile_quads[1650],
+	 	[18] = tile_quads[1649],
+	 	[19] = tile_quads[1648],
+	 	[20] = tile_quads[1646],
+	 	[21] = tile_quads[1645],
+	 	[22] = tile_quads[1644],
+	 	[23] = tile_quads[1643],
+	 	[24] = tile_quads[1642],
+	 	[25] = tile_quads[1641],
+	 	[26] = tile_quads[1640],
+	 	[27] = tile_quads[1639],
+	 	[28] = tile_quads[1638],
+	 	[29] = tile_quads[1637],	 
+	 	[30] = tile_quads[1635],
+	 	[31] = tile_quads[1634],
+	 	[32] = tile_quads[1633],
+	 	[33] = tile_quads[1632],
+	 	[34] = tile_quads[1631],
+	 	[35] = tile_quads[1630],
+	 	[36] = tile_quads[1629],
+	 	[37] = tile_quads[1628],
+	 	[38] = tile_quads[1627],
+	 	[39] = tile_quads[1626],
+	 	[40] = tile_quads[1672],
+	 	[41] = tile_quads[1671],
+	 	[42] = tile_quads[1670],
+	 	[43] = tile_quads[1669],
+	 	[44] = tile_quads[1668],
+	 	[45] = tile_quads[1658],
+	 	[46] = tile_quads[1647],
+		[47] = tile_quads[1636],
+		[48] = tile_quads[1625], 
+	 },
+	["stone"] = {
+		[1] = tile_quads[1586],
+		[2] = tile_quads[1585],
+		[3] = tile_quads[1584],
+		[4] = tile_quads[1583],
+		[5] = tile_quads[1582],
+		[6] = tile_quads[1581],
+		[7] = tile_quads[1580],
+		[8] = tile_quads[1579],
+		[9] = tile_quads[1578],
+		[10] = tile_quads[1576],
+		[11] = tile_quads[1575],
+		[12] = tile_quads[1574],
+		[13] = tile_quads[1573],
+		[14] = tile_quads[1572],
+		[15] = tile_quads[1571],
+		[16] = tile_quads[1570],
+		[17] = tile_quads[1569],
+		[18] = tile_quads[1568],
+		[19] = tile_quads[1567],
+		[20] = tile_quads[1565],
+		[21] = tile_quads[1564],
+		[22] = tile_quads[1563],
+		[23] = tile_quads[1562],
+		[24] = tile_quads[1561],
+		[25] = tile_quads[1560],
+		[26] = tile_quads[1559],
+		[27] = tile_quads[1558],
+		[28] = tile_quads[1557],
+		[29] = tile_quads[1556],
+		[30] = tile_quads[1554],
+		[31] = tile_quads[1553],
+		[32] = tile_quads[1552],
+		[33] = tile_quads[1551],
+		[34] = tile_quads[1550],
+		[35] = tile_quads[1549],
+		[36] = tile_quads[1548],
+		[37] = tile_quads[1547],
+		[38] = tile_quads[1546],
+		[39] = tile_quads[1545],
+		[40] = tile_quads[1591],
+		[41] = tile_quads[1590],
+		[42] = tile_quads[1589],
+		[43] = tile_quads[1588],
+		[44] = tile_quads[1587],
+		[45] = tile_quads[1577],
+		[46] = tile_quads[1566],
+		[47] = tile_quads[1555],
+		[48] = tile_quads[1544],
+	 }	
 }
 
-local offset_y_wood = {
-	-2,-2,-2,
-	-4,-4,-4,-4,
-	-5,-5,-5,-5,
-	-7,-7,-7,-7,
-	-10,-10,-10,-10,
-	-11,-11,-11,-11,
-	-13,-13,-13,-13,
-	-15,-15,-15,-15,
-	-17,-17,-17,-17,
-	-20,-20,-20,-20,
-	-21,-21,-21,-21,
-	-23,-23,-23,-23,
-	-25
+
+local offset_y = {
+	["wood"] = {
+		-2,-2,-2,
+		-4,-4,-4,-4,
+		-5,-5,-5,-5,
+		-7,-7,-7,-7,
+		-10,-10,-10,-10,
+		-11,-11,-11,-11,
+		-13,-13,-13,-13,
+		-15,-15,-15,-15,
+		-17,-17,-17,-17,
+		-20,-20,-20,-20,
+		-21,-21,-21,-21,
+		-23,-23,-23,-23,
+		-25 },
+	["stone"] = {
+		-9,-9,-9,-9,-9,-9,-9,-9,-9,
+		-18,-18,-18,-18,-18,-18,-18,-18,-18,
+		-26,-26,-26,-26,-26,-26,-26,-26,-26,
+		-35,-35,-35,-35,-35,-35,-35,-35,-35,
+		-43,-43,-43,-43,-43,-43,-43,-43,-43,
+		-47,-47,-47,-47
+		},
 }
 
 local max_quantity = {
@@ -183,20 +245,21 @@ local Stockpile = class('Stockpile', Object)
 				if not found then return true end
 			end
 			function Stockpile:update_stockpile(index)
-				self.stockpile[index].id.tile = quad_map_wood[self.stockpile[index].quantity]
-				self.stockpile[index].id.additional_offset_y = offset_y_wood[self.stockpile[index].quantity]
-				self.stockpile[index].id.offset_y = self.stockpile[index].id.additional_offset_y - self.stockpile[index].id.base_offset_y
-				if object_batch[self.stockpile[index].id.cx][self.stockpile[index].id.cy] then
-					object_batch[self.stockpile[index].id.cx][self.stockpile[index].id.cy]
+				local pile = self.stockpile[index]
+				pile.id.tile = quad_map[pile.type][pile.quantity]
+				pile.id.additional_offset_y = offset_y[pile.type][pile.quantity]
+				pile.id.offset_y = pile.id.additional_offset_y - pile.id.base_offset_y
+				if object_batch[pile.id.cx][pile.id.cy] then
+					object_batch[pile.id.cx][pile.id.cy]
 					:set(
-						self.stockpile[index].id.qid, 
-						self.stockpile[index].id.tile,
-						self.stockpile[index].id.x,
-						self.stockpile[index].id.y
+						pile.id.qid, 
+						pile.id.tile,
+						pile.id.x,
+						pile.id.y
 						)
 				end
-				if self.stockpile[index].quantity == max_quantity[self.stockpile[index].type] then
-					table.remove(_G.stockpile.resources[self.stockpile[index].type],self.stockpile[index].key)
+				if pile.quantity == max_quantity[pile.type] then
+					table.remove(_G.stockpile.resources[pile.type],pile.key)
 				end
 			end
 
