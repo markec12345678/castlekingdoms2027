@@ -41,6 +41,51 @@ local fr_walking_plank_southwest = {
 	tile_quads[2036], tile_quads[2037], tile_quads[2038],
 	tile_quads[2039], tile_quads[2040]
 }
+local fr_walking_east = {
+	tile_quads[2201],tile_quads[2202],tile_quads[2203],
+	tile_quads[2204],tile_quads[2205],tile_quads[2206],
+	tile_quads[2207],tile_quads[2208]
+}
+local fr_walking_north = {
+	tile_quads[2209],tile_quads[2210],tile_quads[2211],
+	tile_quads[2212],tile_quads[2213],tile_quads[2214],
+	tile_quads[2215],tile_quads[2216]
+}
+local fr_walking_northeast = {
+	tile_quads[2217],tile_quads[2218],tile_quads[2219],
+	tile_quads[2220],tile_quads[2221],tile_quads[2222],
+	tile_quads[2223],tile_quads[2224]
+}
+local fr_walking_northwest = {
+	tile_quads[2225],tile_quads[2226],tile_quads[2227],
+	tile_quads[2228],tile_quads[2229],tile_quads[2230],
+	tile_quads[2231],tile_quads[2232]
+}
+local fr_walking_south = {
+	tile_quads[2233],tile_quads[2234],tile_quads[2235],
+	tile_quads[2236],tile_quads[2237],tile_quads[2238],
+	tile_quads[2239],tile_quads[2240]
+}
+local fr_walking_southeast = {
+	tile_quads[2241],tile_quads[2242],tile_quads[2243],
+	tile_quads[2244],tile_quads[2245],tile_quads[2246],
+	tile_quads[2247],tile_quads[2248]
+}
+local fr_walking_southwest = {
+	tile_quads[2249],tile_quads[2250],tile_quads[2251],
+	tile_quads[2252],tile_quads[2253],tile_quads[2254],
+	tile_quads[2255],tile_quads[2256]
+}
+local fr_walking_west = {
+	tile_quads[2257],tile_quads[2258],tile_quads[2259],
+	tile_quads[2260],tile_quads[2261],tile_quads[2262],
+	tile_quads[2263],tile_quads[2264]
+}
+local fr_cutting_northeast = { --note actually north
+	tile_quads[2056],tile_quads[2057],tile_quads[2058],
+	tile_quads[2059],tile_quads[2060],tile_quads[2061],
+	tile_quads[2062],tile_quads[2063]
+}
 
 		local Woodcutter = class('Woodcutter', Object)
 			function Woodcutter:initialize(cx,cy,i,o,x,y,type)
@@ -61,7 +106,7 @@ local fr_walking_plank_southwest = {
 				self.diagonal_walk_speed = 25
 				self.originalx = i 
 				self.originaly = o
-				self.nd = newAutotable(1)
+				self.nd = {}
 				self.nd_len = 0
 				self.marked = 0
 				self.path = 0
@@ -81,67 +126,30 @@ local fr_walking_plank_southwest = {
 							self.move_dir = "none"
 						end
 						if tree_progress == 2 then
-							--self.animation = anim.newAnimation(self.fr_walking_north,0.15)
+							--self.animation = anim.newAnimation(fr_walking_north,0.15)
 							self.i = (self.fx*0.001)%chunk_width
 							self.o = (self.fy*0.001)%chunk_width
 							self.move_dir = "none"
 							self.count = 1
 							tree_progress = 3			
-								if _G.stockpile and _G.stockpile.class.name == "Stockpile" then
+								if _G.stockpile then
 									self.state = "Going to stockpile"	
-									--self.waypoint_x, self.waypoint_y = _G.stockpile.gx+3, _G.stockpile.gy+6
-									self:pathfind(_G.stockpile.gx+2,_G.stockpile.gy+5)
+									local closest_node
+									local distance = math.huge
+									for k,v in ipairs(_G.stockpile.node_list) do
+										local tmp = manhattan_distance(v.gx,v.gy,self.gx,self.gy)
+										if tmp < distance then
+											distance = tmp
+											closest_node = v
+										end
+									end
+									self:pathfind(closest_node.gx,closest_node.gy)
 								else self.state = "Looking to chop tree" end
 						end
 					else --print("State", self.state)
 					end
 				end
-				self.fr_walking_east = {
-					tile_quads[2201],tile_quads[2202],tile_quads[2203],
-					tile_quads[2204],tile_quads[2205],tile_quads[2206],
-					tile_quads[2207],tile_quads[2208]
-				}
-				self.fr_walking_north = {
-					tile_quads[2209],tile_quads[2210],tile_quads[2211],
-					tile_quads[2212],tile_quads[2213],tile_quads[2214],
-					tile_quads[2215],tile_quads[2216]
-				}
-				self.fr_walking_northeast = {
-					tile_quads[2217],tile_quads[2218],tile_quads[2219],
-					tile_quads[2220],tile_quads[2221],tile_quads[2222],
-					tile_quads[2223],tile_quads[2224]
-				}
-				self.fr_walking_northwest = {
-					tile_quads[2225],tile_quads[2226],tile_quads[2227],
-					tile_quads[2228],tile_quads[2229],tile_quads[2230],
-					tile_quads[2231],tile_quads[2232]
-				}
-				self.fr_walking_south = {
-					tile_quads[2233],tile_quads[2234],tile_quads[2235],
-					tile_quads[2236],tile_quads[2237],tile_quads[2238],
-					tile_quads[2239],tile_quads[2240]
-				}
-				self.fr_walking_southeast = {
-					tile_quads[2241],tile_quads[2242],tile_quads[2243],
-					tile_quads[2244],tile_quads[2245],tile_quads[2246],
-					tile_quads[2247],tile_quads[2248]
-				}
-				self.fr_walking_southwest = {
-					tile_quads[2249],tile_quads[2250],tile_quads[2251],
-					tile_quads[2252],tile_quads[2253],tile_quads[2254],
-					tile_quads[2255],tile_quads[2256]
-				}
-				self.fr_walking_west = {
-					tile_quads[2257],tile_quads[2258],tile_quads[2259],
-					tile_quads[2260],tile_quads[2261],tile_quads[2262],
-					tile_quads[2263],tile_quads[2264]
-				}
-				self.fr_cutting_northeast = { --warning actually north --TODO why not name it north then?
-					tile_quads[2056],tile_quads[2057],tile_quads[2058],
-					tile_quads[2059],tile_quads[2060],tile_quads[2061],
-					tile_quads[2062],tile_quads[2063]
-				}
-				self.animation = anim.newAnimation(self.fr_walking_west,10)
+				self.animation = anim.newAnimation(fr_walking_west,10)
 				table.insert(active_entities,self)
 			end 
 			function Woodcutter:pathfind(xx,yy)
@@ -262,7 +270,7 @@ local fr_walking_plank_southwest = {
 						if self.state == "Going to stockpile" then
 							self.animation = anim.newAnimation(fr_walking_plank_west,0.11) 
 						else
-							self.animation = anim.newAnimation(self.fr_walking_west,0.11)
+							self.animation = anim.newAnimation(fr_walking_west,0.11)
 						end
 					end
 				elseif (angle > 135-22 and angle < 135+22) then --direction is southwest
@@ -271,7 +279,7 @@ local fr_walking_plank_southwest = {
 						if self.state == "Going to stockpile" then
 							self.animation = anim.newAnimation(fr_walking_plank_southwest,0.11)
 						else
-							self.animation = anim.newAnimation(self.fr_walking_southwest,0.11)
+							self.animation = anim.newAnimation(fr_walking_southwest,0.11)
 						end
 					end
 				elseif (angle > 225-22 and angle < 225+22) then --direction is northwest
@@ -280,7 +288,7 @@ local fr_walking_plank_southwest = {
 						if self.state == "Going to stockpile" then
 							self.animation = anim.newAnimation(fr_walking_plank_northwest,0.11)
 						else
-							self.animation = anim.newAnimation(self.fr_walking_northwest,0.11)
+							self.animation = anim.newAnimation(fr_walking_northwest,0.11)
 						end
 					end
 				elseif (angle >= 225+22 and angle <= 315-22) then --direction is north
@@ -289,7 +297,7 @@ local fr_walking_plank_southwest = {
 						if self.state == "Going to stockpile" then
 							self.animation = anim.newAnimation(fr_walking_plank_north,0.11)
 						else
-							self.animation = anim.newAnimation(self.fr_walking_north,0.11)
+							self.animation = anim.newAnimation(fr_walking_north,0.11)
 						end
 					end
 				elseif (angle >= 45+22 and angle <= 135-22) then --direction is south
@@ -298,7 +306,7 @@ local fr_walking_plank_southwest = {
 						if self.state == "Going to stockpile" then
 							self.animation = anim.newAnimation(fr_walking_plank_south,0.11)
 						else
-							self.animation = anim.newAnimation(self.fr_walking_south,0.11)
+							self.animation = anim.newAnimation(fr_walking_south,0.11)
 						end
 					end
 				elseif ((angle >= 315+22 and angle <= 359) or (angle >=0 and angle <= 45-22)) then --direction is east
@@ -307,7 +315,7 @@ local fr_walking_plank_southwest = {
 						if self.state == "Going to stockpile" then
 							self.animation = anim.newAnimation(fr_walking_plank_east,0.11)
 						else
-							self.animation = anim.newAnimation(self.fr_walking_east,0.11)
+							self.animation = anim.newAnimation(fr_walking_east,0.11)
 						end
 					end
 				elseif (angle > 45-22 and angle < 45+22) then--direction is southeast
@@ -316,7 +324,7 @@ local fr_walking_plank_southwest = {
 						if self.state == "Going to stockpile" then
 							self.animation = anim.newAnimation(fr_walking_plank_southeast,0.11)
 						else
-							self.animation = anim.newAnimation(self.fr_walking_southeast,0.11)
+							self.animation = anim.newAnimation(fr_walking_southeast,0.11)
 						end
 					end
 				elseif (angle > 315-22 and angle < 315+22) then --direction is northeast
@@ -325,7 +333,7 @@ local fr_walking_plank_southwest = {
 						if self.state == "Going to stockpile" then
 							self.animation = anim.newAnimation(fr_walking_plank_northeast,0.11)
 						else
-							self.animation = anim.newAnimation(self.fr_walking_northeast,0.11)
+							self.animation = anim.newAnimation(fr_walking_northeast,0.11)
 						end
 					end
 				end
@@ -429,7 +437,7 @@ local fr_walking_plank_southwest = {
 						if self.state == "Going to tree" then
 							if self.count == self.nd_len then 
 								self.state = "Cutting down"
-								self.animation = anim.newAnimation(self.fr_cutting_northeast,0.12,self.cut)
+								self.animation = anim.newAnimation(fr_cutting_northeast,0.12,self.cut)
 								self.nd = {}
 								self.waypoint_x, self.waypoint_y = nil, nil
 								self.move_dir = "none"			
@@ -445,7 +453,8 @@ local fr_walking_plank_southwest = {
 							end
 							self.count = self.count + 1
 						elseif self.state == "Going to stockpile" then
-							if self.count == self.nd_len then 
+							if self.count == self.nd_len then  
+								
 								_G.stockpile:store('wood')
 								_G.stockpile:store('wood')
 								_G.stockpile:store('wood')
@@ -454,6 +463,15 @@ local fr_walking_plank_southwest = {
 								_G.stockpile:store('wood')
 								_G.stockpile:store('wood')
 								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+                    			--print(inspect(_G.stockpile.list,{depth = 3}))
 								self.state = "Looking to chop tree"
 								self.nd = {}
 								self.waypoint_x, self.waypoint_y = nil, nil

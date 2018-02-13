@@ -66,7 +66,7 @@ local object_image= ...
 			local shadow_batch = newAutotable(2)
 			local canvas = love.graphics.newCanvas()  
 			object_image:setFilter('nearest','nearest')
-	        local tile_quads = require('objects_quads')
+	        local tile_quads = require('objects.objects_quads')
 			object_batch[0][0] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)
 			shadow_batch[0][0] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)		
 
@@ -82,6 +82,8 @@ local Stockpile 	= love.filesystem.load('objects/Structures/Stockpile.lua')(obje
 package.loaded['objects.Environment.Tree'],package.loaded['objects.Units.Woodcutter'] = Tree, Woodcutter
 package.loaded['objects.Structures.Castle'] = Castle
 package.loaded['objects.Structures.Stockpile'] = Stockpile
+local StockpileController = require('objects.Controllers.StockpileController')
+_G.stockpile = StockpileController:new()
 --- NOTE --------------------------
 --- NOTE --------------------------
 --- NOTE Object classes END ---
@@ -103,7 +105,7 @@ function genObjects(cx,cy)
 				-- 		IsoY + (i + o) * tile_height * 0.5 - (tile_offset[object[chunk_x][chunk_y][i][o]] or 166),"Pine tree")
 				-- 		object[cx][cy][i][o].animation:gotoFrame(math.random(6))
 				-- end
-				local rand = math.random(30)
+				local rand = math.random(200)
 						if rand == 4 then
 						if o == 0 and object[cx][cy-1][i][o-1] and object[cx][cy-1][i][o-1].type == "Pine tree" then goto continue end
 						if o ~= 0 and object[cx][cy][i][o-1] and object[cx][cy][i][o-1].type == "Pine tree" then goto continue end
@@ -225,13 +227,13 @@ local function mousepressed(x, y, button, istouch)
 		print("Button", button)
    if button == 1 then 
 		--print("Pressed at",first_location.x,first_location.y,first_location.cx,first_location.cy)
-		if not object[first_location.cx][first_location.cy][first_location.x][first_location.y] then
+		if object[first_location.cx][first_location.cy][first_location.x][first_location.y] == nil then
 		object[first_location.cx][first_location.cy][first_location.x][first_location.y] = 
 			Castle:new(first_location.cx,first_location.cy,first_location.x,first_location.y, 
 			IsoX + (first_location.x - first_location.y) * tile_width  * 0.5 - 0,
 			IsoY + (first_location.x + first_location.y) * tile_height * 0.5 - 0)
-		else
-		print(object[first_location.cx][first_location.cy][first_location.x][first_location.y]) end
+		end		
+		print(object[first_location.cx][first_location.cy][first_location.x][first_location.y])
    elseif button == 2 then
 	print(object[first_location.cx][first_location.cy][first_location.x][first_location.y])
 		if not object[first_location.cx][first_location.cy][first_location.x][first_location.y] then
@@ -251,9 +253,10 @@ local function mousepressed(x, y, button, istouch)
 			Stockpile:new(first_location.cx,first_location.cy,first_location.x,first_location.y, 
 			IsoX + (first_location.x - first_location.y) * tile_width  * 0.5,
 			IsoY + (first_location.x + first_location.y) * tile_height * 0.5)
-		update_objects(first_location.cx,first_location.cy)
-		_G.stockpile = object[first_location.cx][first_location.cy][first_location.x][first_location.y]
+		--update_objects(first_location.cx,first_location.cy)
 		end
+   elseif button == 4 then
+		print(object[first_location.cx][first_location.cy][first_location.x][first_location.y])
    end
 end 
 local previous_count = 0 --note remove this in prod

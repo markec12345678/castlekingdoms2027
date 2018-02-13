@@ -18,6 +18,7 @@ local Tree = class('Tree', Object)
 				self.animated = true
 				self.marked = false
 				self.active = false
+				self.chunk_key = false
 				self.cut_down = function()
 					self.falling = false
 					self.chop = true
@@ -39,7 +40,8 @@ local Tree = class('Tree', Object)
 				if self.gx < 2048 and self.gx >= 0 and self.gy < 2048 and self.gy >= 0 then
 				_G.collision_map[self.gx][self.gy] = 1 _G.nodes[self.gx][self.gy].walkable = 1 end
 				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
-				table.insert(_G.chunk_objects[self.cx][self.cy],self)
+				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
+				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self
 			end
 			function Tree:activate()
 				-- if not self.active then
@@ -83,12 +85,16 @@ local Tree = class('Tree', Object)
 					self.animation:pause()
 					self.animation:gotoFrame(table_to_deserialize.current_frame)
 				else self.animation:gotoFrame(math.random(6)) end
-				object[self.cx][self.cy][self.i][self.o] = self				
-				if self.animated then table.insert(active_objects,self) end	
-				end
+				object[self.cx][self.cy][self.i][self.o] = self					
+			end
 			function Tree:animate() 
-					self.animation:update(dt) 					
-				end
+				self.animation:update(dt) 					
+			end
+			function Tree:destroy()
+				if self.chunk_key then table.remove(_G.chunk_objects,self.chunk_key) end
+				object[self.cx][self.cy][self.i][self.o] = nil
+				self = nil
+			end
 			function Tree:cut()
 				if self.health > 0 then
 					status[self.cx][self.cy] = 1

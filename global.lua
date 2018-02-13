@@ -47,8 +47,7 @@
             _G.terrain = newAutotable(2) 
             if love.filesystem.exists("status.bin") then status = bitser.loadLoveFile("status.bin") else
             status = newAutotable(2) end   
-            _G.chunk_objects = newAutotable(2);     
-            print("Fucking done") 
+            _G.chunk_objects = newAutotable(2); 
     ----Offset
             IsoX = 0;
             IsoY = -1400;
@@ -93,18 +92,7 @@
             node* _parent;
         };
         ]]        
-        -- local N = 8192
-        -- local arr = ffi.cast("unsigned char **", ffi.C.malloc(N*ffi.sizeof("unsigned char*")))
-        -- for i = 0, N do
-        --     arr[i] = ffi.cast("unsigned char *", ffi.C.malloc(N*ffi.sizeof("unsigned char")))
-        -- end
-        -- assert(arr ~= nil, "out of memory")
-
-        -- print("array =", arr)
-        -- arr[0][2] = 1.5
-        -- arr[N-1][3] = 2.5
-        -- print("arr[0][2] =", arr[0][2])
-        -- print("arr["..(N-1).."][3] =", arr[N-1][3])
+    ----Resources
     ----Libraries        
         anim = require('libraries.anim8') 
         class = require('libraries.middleclass') 

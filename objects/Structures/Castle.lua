@@ -36,7 +36,8 @@ local Castle = class('Castle', Object)
 				self.offset_x = 0
 				self.offset_y = -93
                 self.level = 1
-                self.rotation = 1
+                self.rotation = 1				
+
 				Castle_alias:new(tile_quads[2279],self.gx,self.gy+6,self,125+16)  
 				Castle_alias:new(tile_quads[2280],self.gx,self.gy+5,self,125+8)  
 				Castle_alias:new(tile_quads[2281],self.gx,self.gy+4,self,125)  

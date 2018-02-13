@@ -1,11 +1,9 @@
---local lib, errmsg = package.loadlib(love.filesystem.getSource() .. "./libraries/nuklear.dll", "luaopen_nuklear")
---assert(lib, errmsg)
---local nk = lib()
-math.randomseed(os.time())
+
+--math.randomseed(os.time())
 require('global') 
 local object_image
 local Gamestate = require('libraries.gamestate') 
-local core = require("iso")
+local core = require("misc")
 local bitser = require('libraries.bitser')
 local objects, terrain 
 local menu, game, ui = {}, {}, {}
@@ -24,10 +22,9 @@ local loader = require('libraries.lily')
 -- end
 
 function love.load()
-	--nk.init()
     Gamestate.registerEvents()
     Gamestate.switch(ui)
-	loader.newImage("assets/tiles/object_texture.png"):onComplete(function(userdata,image)
+	loader.newImage("assets/tiles/object_texture.dxt5"):onComplete(function(userdata,image)
 		object_image = image		
 	end)
 end
@@ -36,8 +33,8 @@ end
 -----------------/||\------------------
 -----------------GAME------------------
 function game:init()
-    objects = love.filesystem.load('objects.lua')(object_image)
-	package.loaded['objects'] = objects
+    objects = love.filesystem.load('objects/objects.lua')(object_image)
+	package.loaded['objects.objects'] = objects
 	terrain = require('terrain')
 	chunkUpdateList = require('objects/chunk_system')
 end

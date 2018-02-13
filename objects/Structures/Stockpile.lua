@@ -67,6 +67,11 @@ local offset_y_wood = {
 	-23,-23,-23,-23,
 	-25
 }
+
+local max_quantity = {
+	["wood"] = 48,
+	["stone"] = 48
+}
 local Stockpile_alias = class('Stockpile_alias', Object)
 			function Stockpile_alias:initialize(tile,gx,gy,parent,offset_y,offset_x)
                 local mytype = "Static structure"
@@ -87,6 +92,12 @@ local Stockpile_alias = class('Stockpile_alias', Object)
 				self.additional_offset_y = 0
 				self.offset_x = offset_x or 0
 				self.offset_y = self.additional_offset_y-self.base_offset_y 
+				for k,v in ipairs(_G.stockpile.node_list) do
+					if v.gx == self.gx and v.gy == self.gy then
+						table.remove(_G.stockpile.node_list, k)
+						break
+					end
+				end
 				object[cx][cy][i][o] = self	
 			end
 
@@ -106,10 +117,10 @@ local Stockpile = class('Stockpile', Object)
                 self.level = 1
                 self.rotation = 1
 				self.stockpile = {}
-				self.stockpile[1] = {id = nil, empty = true, type = nil, quantity = 0}
-				self.stockpile[2] = {id = nil, empty = true, type = nil, quantity = 0}
-				self.stockpile[3] = {id = nil, empty = true, type = nil, quantity = 0}
-				self.stockpile[4] = {id = nil, empty = true, type = nil, quantity = 0}
+				self.stockpile[1] = {id = nil, empty = true, type = nil, quantity = 0, index = 1}
+				self.stockpile[2] = {id = nil, empty = true, type = nil, quantity = 0, index = 2}
+				self.stockpile[3] = {id = nil, empty = true, type = nil, quantity = 0, index = 3}
+				self.stockpile[4] = {id = nil, empty = true, type = nil, quantity = 0, index = 4}
 				
 				local ccx, ccy
                 for xx = -1, 5 do
@@ -134,33 +145,42 @@ local Stockpile = class('Stockpile', Object)
                 Stockpile_alias:new(tile_quads[0],self.gx+4-1,self.gy+4,self,12+8*4,16)
                 Stockpile_alias:new(tile_quads[0],self.gx+4-2,self.gy+4,self,12+8*4,16)
 
+
 				self.stockpile[1].id = Stockpile_alias:new(tile_quads[0],self.gx+1,self.gy+1,self,32-4,-16)
 				self.stockpile[2].id = Stockpile_alias:new(tile_quads[0],self.gx+1,self.gy+4,self,32-4,-16)
 				self.stockpile[3].id = Stockpile_alias:new(tile_quads[0],self.gx+4,self.gy+1,self,32-4,-16)
 				self.stockpile[4].id = Stockpile_alias:new(tile_quads[0],self.gx+4,self.gy+4,self,32-4,-16)
+				table.insert(_G.stockpile.node_list,{gx = self.gx+2, gy = self.gy+5})
+				table.insert(_G.stockpile.node_list,{gx = self.gx-1, gy = self.gy+2})
+				table.insert(_G.stockpile.node_list,{gx = self.gx+2, gy = self.gy-1})
+				table.insert(_G.stockpile.node_list,{gx = self.gx+5, gy = self.gy+2})
+
+				_G.stockpile.list[(#stockpile.list or 0) + 1] = self
 			end
 			function Stockpile:store(resource)
-				if resource == 'wood' then 
-					local found = false
+				local found = false
+				for index = 1, 4 do
+					if self.stockpile[index].type == resource and self.stockpile[index].quantity < max_quantity[resource] then
+						self.stockpile[index].quantity = self.stockpile[index].quantity + 1					
+						found = true
+						self:update_stockpile(index)
+					end
+				end 
+				if not found then
 					for index = 1, 4 do
-						if self.stockpile[index].type == 'wood' and self.stockpile[index].quantity < 48 then
-							self.stockpile[index].quantity = self.stockpile[index].quantity + 1					
-							found = true
+						if self.stockpile[index].empty then
+							self.stockpile[index].empty = false
+							self.stockpile[index].type = resource
+							self.stockpile[index].quantity = 1
+							self.stockpile[index].key = #_G.stockpile.resources[resource]+1
+							_G.stockpile.resources[resource][#_G.stockpile.resources[resource]+1] = self.stockpile[index]
 							self:update_stockpile(index)
-						end
-					end 
-					if not found then
-						for index = 1, 4 do
-							if self.stockpile[index].empty then
-								self.stockpile[index].empty = false
-								self.stockpile[index].type = 'wood'
-								self.stockpile[index].quantity = 1
-								self:update_stockpile(index)
-								break
-							end
+							found = true
+							break
 						end
 					end
 				end
+				if not found then return true end
 			end
 			function Stockpile:update_stockpile(index)
 				self.stockpile[index].id.tile = quad_map_wood[self.stockpile[index].quantity]
@@ -174,6 +194,9 @@ local Stockpile = class('Stockpile', Object)
 						self.stockpile[index].id.x,
 						self.stockpile[index].id.y
 						)
+				end
+				if self.stockpile[index].quantity == max_quantity[self.stockpile[index].type] then
+					table.remove(_G.stockpile.resources[self.stockpile[index].type],self.stockpile[index].key)
 				end
 			end
 

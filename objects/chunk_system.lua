@@ -1,7 +1,7 @@
 
 local bitser = require("libraries.bitser")
 local terrain_table = require('terrain')
-local object_table     = require('objects')
+local object_table     = require('objects.objects')
 local terrain_batch = terrain_table.batch
 local genTerrain = terrain_table.genTerrain
 local active_objects = object_table.active
