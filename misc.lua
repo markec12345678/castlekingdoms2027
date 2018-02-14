@@ -28,8 +28,8 @@ local function update()
     mx, my = love.mouse.getPosition();  
     LocalX = math.round(ScreenToIsoX(mx-16+view_xview-width/2, my-8+view_yview-height/2)); 
     LocalY = math.round(ScreenToIsoY(mx-16+view_xview-width/2, my-8+view_yview-height/2)); 
-    CenterX = math.round(ScreenToIsoX(width/2-16+view_xview-width/2, height/2-8+view_yview-height/2)); 
-    CenterY = math.round(ScreenToIsoY(width/2-16+view_xview-width/2, height/2-8+view_yview-height/2));
+    CenterX = math.round(ScreenToIsoX(16+view_xview, 8+view_yview)); 
+    CenterY = math.round(ScreenToIsoY(16+view_xview, 8+view_yview));
     ---------------------------------------
     _G.xchunk = math.floor(CenterX/(chunk_width));
     _G.ychunk = math.floor(CenterY/(chunk_width));

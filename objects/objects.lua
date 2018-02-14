@@ -216,8 +216,10 @@ end
 
 local function mousepressed(x, y, button, istouch)
 	local mx, my = x,y
-    LocalX = math.round(ScreenToIsoX(mx-16+view_xview-width/2, my-8+view_yview-height/2)); 
-    LocalY = math.round(ScreenToIsoY(mx-16+view_xview-width/2, my-8+view_yview-height/2)); 
+	local vx = mx-width/2
+	local vy = (my)-height/2
+    LocalX = math.round(ScreenToIsoX(vx/scale_x+view_xview-16, vy/scale_x+view_yview-8 )); 
+    LocalY = math.round(ScreenToIsoY(vx/scale_x+view_xview-16, vy/scale_x+view_yview-8 )); 
 		first_location.gx = LocalX
 		first_location.gy = LocalY
 		first_location.x = (LocalX) % (chunk_width)
