@@ -104,8 +104,8 @@ local fr_cutting_northeast = { --note actually north
 				self.path = 0
 				self.straight_walk_speed = 40
 				self.diagonal_walk_speed = 25
-				self.originalx = i 
-				self.originaly = o
+				self.originalx = self.gx 
+				self.originaly = self.gy
 				self.nd = {}
 				self.nd_len = 0
 				self.marked = 0
@@ -133,18 +133,19 @@ local fr_cutting_northeast = { --note actually north
 							self.count = 1
 							tree_progress = 3			
 								if _G.stockpile then
-									self.state = "Going to stockpile"	
-									local closest_node
-									local distance = math.huge
-									for k,v in ipairs(_G.stockpile.node_list) do
-										local tmp = manhattan_distance(v.gx,v.gy,self.gx,self.gy)
-										if tmp < distance then
-											distance = tmp
-											closest_node = v
-										end
-									end
-									self:pathfind(closest_node.gx,closest_node.gy)
-								else self.state = "Looking to chop tree" end
+                                    self.state = "Going to stockpile"    
+                                    local closest_node
+                                    local distance = math.huge
+                                    for k,v in ipairs(_G.stockpile.node_list) do
+                                        local tmp = manhattan_distance(v.gx,v.gy,self.gx,self.gy)
+                                        if tmp < distance then
+                                            distance = tmp
+                                            closest_node = v
+                                        end
+                                    end
+                                    if not closest_node then self.state = "Looking to chop tree" else                                    
+                                    self:pathfind(closest_node.gx,closest_node.gy) end
+                                else self.state = "Looking to chop tree" end
 						end
 					else --print("State", self.state)
 					end
@@ -338,60 +339,7 @@ local fr_cutting_northeast = { --note actually north
 					end
 				end
 			end
-			function Woodcutter:sub_update()
-					self.previous_cx,self.previous_cy = self.cx,self.cy
-					local xx, yy = ((self.fx*0.001) % chunk_width), ((self.fy*0.001) % chunk_width)
-						self.cx,self.cy = math.floor((self.fx*0.001)/(chunk_width)),math.floor((self.fy*0.001)/(chunk_width))
-						if self.move_dir == "northwest" then						
-							if xx == 0 and yy ~= 0 then
-								self.cx,self.cy = math.floor((self.fx*0.001-1)/(chunk_width)),math.floor((self.fy*0.001)/(chunk_width)) 
-							elseif xx == 0 and yy == 0 then
-								self.cx,self.cy = math.floor((self.fx*0.001-1)/(chunk_width)),math.floor((self.fy*0.001-1)/(chunk_width)) 
-							elseif xx~= 0 and yy == 0 then
-								self.cx,self.cy = math.floor((self.fx*0.001)/(chunk_width)),math.floor((self.fy*0.001-1)/(chunk_width)) 
-							end
-						elseif self.move_dir == "northeast" then						
-							if xx == 63 and yy ~= 0 then
-								self.cx,self.cy = math.floor((self.fx*0.001+1)/(chunk_width)),math.floor((self.fy*0.001)/(chunk_width)) 
-							elseif xx == 63 and yy == 0 then
-								self.cx,self.cy = math.floor((self.fx*0.001)/(chunk_width)),math.floor((self.fy*0.001-1)/(chunk_width)) 
-							elseif xx~= 63 and yy == 0 then
-								self.cx,self.cy = math.floor((self.fx*0.001-1)/(chunk_width)),math.floor((self.fy*0.001-1)/(chunk_width)) 
-							end
-						elseif self.move_dir == "southwest" then						
-							if xx == 0 and yy ~= 63 then
-								self.cx,self.cy = math.floor((self.fx*0.001-1)/(chunk_width)),math.floor((self.fy*0.001)/(chunk_width)) 
-							elseif xx == 0 and yy == 63 then
-								self.cx,self.cy = math.floor((self.fx*0.001-1)/(chunk_width)),math.floor((self.fy*0.001-1)/(chunk_width)) 
-							elseif xx ~= 0 and yy == 63 then
-								self.cx,self.cy = math.floor((self.fx*0.001)/(chunk_width)),math.floor((self.fy*0.001-1)/(chunk_width)) 
-							end
-						elseif self.move_dir == "north" then 
-							self.cx,self.cy = math.floor((self.fx*0.001)/(chunk_width)),math.floor((self.fy*0.001-1)/(chunk_width)) 
-						elseif self.move_dir == "east" then 
-							self.cx,self.cy = math.floor((self.fx*0.001+1)/(chunk_width)),math.floor((self.fy*0.001)/(chunk_width)) 
-						elseif self.move_dir == "west" then 
-							self.cx,self.cy = math.floor((self.fx*0.001-1)/(chunk_width)),math.floor((self.fy*0.001)/(chunk_width)) 
-						elseif self.move_dir == "south" then 
-							self.cx,self.cy = math.floor((self.fx*0.001)/(chunk_width)),math.floor((self.fy*0.001+1)/(chunk_width)) 
-						end
-					-- print("{coords} = "..xx.."|"..yy)
-					-- print("{position} = "..self.cx.."l"..self.cy.." --x,y ="..(self.gx).."-l-"..self.gy)
-					if self.previous_cx ~= self.cx or self.previous_cy ~= self.cy then --update chunk location
-						--print("---Moved across chunks from "..self.previous_cx.."|"..self.previous_cy.." to "..self.cx.."|"..self.cy)
-						-- object_batch[self.previous_cx][self.previous_cy]:set(self.qid,tile_quads[0],0,0) 
-						-- object[self.cx][self.cy][xx][yy] = self
-						-- object[self.previous_cx][self.previous_cy][self.originalx][self.originaly] = nil
-						-- self.qid = object_batch[self.cx][self.cy]:add(self.animation:getFrameInfo(self.x, self.y))
-					else --print("Didn't move across chunks") 
-					end
-					if object[self.cx][self.cy][xx][yy] == nil then			
-						object[self.cx][self.cy][xx][yy] = self
-						object[self.cx][self.cy][self.originalx][self.originaly] = nil
-						self.originalx = xx
-						self.originaly = yy
-					end
-				end
+			
 			function Woodcutter:update()
 				if self.state ~= "No trees" then
 					if self.state == "Looking to chop tree" then
@@ -401,8 +349,6 @@ local fr_cutting_northeast = { --note actually north
 					elseif self.move_dir == "none" and self.state == "Going to stockpile" then
 						self:update_direction()
 					end
-					self.x = IsoX + ((self.fx*0.001)%chunk_width - (self.fy*0.001)%chunk_width) * tile_width  * 0.5 -31 --fixme magic numbers?
-					self.y = IsoY + ((self.fx*0.001)%chunk_width + (self.fy*0.001)%chunk_width) * tile_height * 0.5 -50
 					self.timr = self.timr + 1
 					self.timr = self.timr % 60
 					if self.state == "Going to tree" or self.state == "Going to stockpile" then
@@ -420,18 +366,25 @@ local fr_cutting_northeast = { --note actually north
 						elseif self.move_dir == "northeast" then
 							self.fx = self.fx + self.diagonal_walk_speed
 							self.fy = self.fy - self.diagonal_walk_speed
-						elseif self.move_dir == "southwest" then
+						elseif self.move_dir == "southwest" then 
 							self.fx = self.fx - self.diagonal_walk_speed
 							self.fy = self.fy + self.diagonal_walk_speed
-						elseif self.move_dir == "southeast" then
+						elseif self.move_dir == "southeast" then --done
 							self.fx = self.fx + self.diagonal_walk_speed
 							self.fy = self.fy + self.diagonal_walk_speed
-						end
-						if (self.fx*0.001)==math.floor(self.fx*0.001) and (self.fy*0.001)==math.floor(self.fy*0.001) then 
-							--print("Position ",self.fx*0.001,self.fy*0.001) 
-							self.gx,self.gy= self.fx*0.001,self.fy*0.001
-							self:sub_update()
-							end
+						end						
+						self.previous_cx, self.previous_cy = self.cx,self.cy 
+						self.gx,self.gy= self.fx*0.001,self.fy*0.001
+						self.cx,self.cy = math.floor((self.gx)/chunk_width), math.floor((self.gy)/chunk_width)
+						local xx,yy
+							xx, yy = (math.round(self.gx))%(chunk_width),(math.round(self.gy))%(chunk_width)
+							object[self.cx][self.cy][xx][yy] = self
+						if self.previous_cx ~= self.cx or self.previous_cy ~= self.cy then
+							print("Diff "..self.previous_cx,self.previous_cy,self.cx,self.cy)
+							object[self.cx][self.cy][xx][yy] = self			
+						end							
+						self.x = IsoX + ((self.fx*0.001)%chunk_width - (self.fy*0.001)%chunk_width) * tile_width  * 0.5 -31 --fixme magic numbers?
+						self.y = IsoY + ((self.fx*0.001)%chunk_width + (self.fy*0.001)%chunk_width) * tile_height * 0.5 -50
 					end
 					if self.fx*0.001 == self.waypoint_x and self.fy*0.001 == self.waypoint_y and self.move_dir ~= "none" then
 						if self.state == "Going to tree" then

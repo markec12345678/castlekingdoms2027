@@ -45,7 +45,7 @@ local object_image= ...
 				self.__index = self
 				return o
 			end
-			local first_location = location:new()
+			local press = location:new()
 			local last_location = location:new()
 	----Rows and columns
             local cols = chunk_width
@@ -99,14 +99,14 @@ function genObjects(cx,cy)
 	object_batch[chunk_x][chunk_y]:clear()	
 		for i=0,chunk_width-1,1 do
 			for o=0,chunk_height-1,1 do
-				-- if i == 62 and o == 63 then 
-				-- 		object[cx][cy][i][o] = Tree:new(cx,cy,i,o, --TODO fix tile_offset/_x
-				-- 		IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[object[chunk_x][chunk_y][i][o]] or 38),
-				-- 		IsoY + (i + o) * tile_height * 0.5 - (tile_offset[object[chunk_x][chunk_y][i][o]] or 166),"Pine tree")
-				-- 		object[cx][cy][i][o].animation:gotoFrame(math.random(6))
-				-- end
+				if i == 63 and o == 63 then 
+						object[cx][cy][i][o] = Tree:new(cx,cy,i,o, --TODO fix tile_offset/_x
+						IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[object[chunk_x][chunk_y][i][o]] or 38),
+						IsoY + (i + o) * tile_height * 0.5 - (tile_offset[object[chunk_x][chunk_y][i][o]] or 166),"Pine tree")
+						object[cx][cy][i][o].animation:gotoFrame(math.random(6))
+				end
 				local rand = math.random(200)
-						if rand == 4 then
+						if rand == 400 then
 						if o == 0 and object[cx][cy-1][i][o-1] and object[cx][cy-1][i][o-1].type == "Pine tree" then goto continue end
 						if o ~= 0 and object[cx][cy][i][o-1] and object[cx][cy][i][o-1].type == "Pine tree" then goto continue end
 						object[cx][cy][i][o] = Tree:new(cx,cy,i,o, --TODO fix tile_offset/_x
@@ -124,7 +124,7 @@ function genObjects(cx,cy)
 		end
 end
 
-local function update_objects(cx,cy,deser)
+function update_objects(cx,cy,deser)
 	local chunk_x = cx or current_chunk_x
 	local chunk_y = cy or current_chunk_y
 	local deser = deser or false
@@ -136,27 +136,22 @@ local function update_objects(cx,cy,deser)
   	for i=0,chunk_width-1,1 do
     	for o=0,chunk_height-1,1 do
 			if object[chunk_x][chunk_y][i][o] then
-				if object[chunk_x][chunk_y][i][o].cx ~= cx or object[chunk_x][chunk_y][i][o].cy ~= cy then
-					if object[chunk_x][chunk_y][i][o].marked ~= 2 then
-						object[chunk_x][chunk_y][i][o].marked = object[chunk_x][chunk_y][i][o].marked + 1
-					else					
-						object[chunk_x][chunk_y][i][o].marked = 0
-						object[chunk_x][chunk_y][i][o] = nil
-						goto continue
-					end
+				if object[chunk_x][chunk_y][i][o].cx ~= chunk_x or object[chunk_x][chunk_y][i][o].cy ~= chunk_y then
+					object[chunk_x][chunk_y][i][o] = nil
+				 	goto continue
 				end
 				if object[chunk_x][chunk_y][i][o].type == "Pine tree" or object[chunk_x][chunk_y][i][o].type == "Stump" or object[chunk_x][chunk_y][i][o].type == "Woodcutter" then
 					object[chunk_x][chunk_y][i][o].qid = object_batch[chunk_x][chunk_y]
 					:add(object[chunk_x][chunk_y][i][o].animation
 					:getFrameInfo(object[chunk_x][chunk_y][i][o].x,
 								  object[chunk_x][chunk_y][i][o].y))	
-				else --object[chunk_x][chunk_y][i][o].type == "Static structure" then
+				else 
 					object[chunk_x][chunk_y][i][o].qid = object_batch[chunk_x][chunk_y]
 					:add(object[chunk_x][chunk_y][i][o].tile,
 						object[chunk_x][chunk_y][i][o].x+object[chunk_x][chunk_y][i][o].offset_x,
 						object[chunk_x][chunk_y][i][o].y+object[chunk_x][chunk_y][i][o].offset_y)
-				end
-				::continue:: 	
+				end	
+				::continue::
 			end
     	end
   	end				  
@@ -220,45 +215,52 @@ local function mousepressed(x, y, button, istouch)
 	local vy = (my)-height/2
     LocalX = math.round(ScreenToIsoX(vx/scale_x+view_xview-16, vy/scale_x+view_yview-8 )); 
     LocalY = math.round(ScreenToIsoY(vx/scale_x+view_xview-16, vy/scale_x+view_yview-8 )); 
-		first_location.gx = LocalX
-		first_location.gy = LocalY
-		first_location.x = (LocalX) % (chunk_width)
-		first_location.y = (LocalY) % (chunk_width)
-		first_location.cx = math.floor(LocalX/chunk_width)
-		first_location.cy = math.floor(LocalY/chunk_width)
+		press.gx = LocalX
+		press.gy = LocalY
+		press.x = (LocalX) % (chunk_width)
+		press.y = (LocalY) % (chunk_width)
+		press.cx = math.floor(LocalX/chunk_width)
+		press.cy = math.floor(LocalY/chunk_width)
 		print("Button", button)
    if button == 1 then 
-		--print("Pressed at",first_location.x,first_location.y,first_location.cx,first_location.cy)
-		if object[first_location.cx][first_location.cy][first_location.x][first_location.y] == nil then
-		object[first_location.cx][first_location.cy][first_location.x][first_location.y] = 
-			Castle:new(first_location.cx,first_location.cy,first_location.x,first_location.y, 
-			IsoX + (first_location.x - first_location.y) * tile_width  * 0.5 - 0,
-			IsoY + (first_location.x + first_location.y) * tile_height * 0.5 - 0)
-		end		
-		print(object[first_location.cx][first_location.cy][first_location.x][first_location.y])
+		--print("Pressed at",press.x,press.y,press.cx,press.cy)
+		-- if object[press.cx][press.cy][press.x][press.y] == nil then
+		-- object[press.cx][press.cy][press.x][press.y] = 
+		-- 	Castle:new(press.cx,press.cy,press.x,press.y, 
+		-- 	IsoX + (press.x - press.y) * tile_width  * 0.5 - 0,
+		-- 	IsoY + (press.x + press.y) * tile_height * 0.5 - 0)
+		-- end		
+		print(inspect(object[press.cx][press.cy]))
    elseif button == 2 then
-	print(object[first_location.cx][first_location.cy][first_location.x][first_location.y])
-		if not object[first_location.cx][first_location.cy][first_location.x][first_location.y] then
-			print("Trying to spawn woodcutter", first_location.x, first_location.y)
-			object[first_location.cx][first_location.cy][first_location.x][first_location.y] =  
-						Woodcutter:new(first_location.cx,first_location.cy,first_location.x,first_location.y, --TODO replace magic number with tile_offset/_x
-						IsoX + (first_location.x - first_location.y) * tile_width  * 0.5 ,
-						IsoY + (first_location.x + first_location.y) * tile_height * 0.5 ,"Woodcutter")
-					object[first_location.cx][first_location.cy][first_location.x][first_location.y].qid = object_batch[first_location.cx][first_location.cy]
-					:add(object[first_location.cx][first_location.cy][first_location.x][first_location.y].animation
-					:getFrameInfo(object[first_location.cx][first_location.cy][first_location.x][first_location.y].x,
-								  object[first_location.cx][first_location.cy][first_location.x][first_location.y].y))
+	print(object[press.cx][press.cy][press.x][press.y])
+		if not object[press.cx][press.cy][press.x][press.y] then
+			print("Trying to spawn woodcutter", press.x, press.y)
+			object[press.cx][press.cy][press.x][press.y] =  
+						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
+						IsoX + (press.x - press.y) * tile_width  * 0.5 ,
+						IsoY + (press.x + press.y) * tile_height * 0.5 ,"Woodcutter")
+					object[press.cx][press.cy][press.x][press.y].qid = object_batch[press.cx][press.cy]
+					:add(object[press.cx][press.cy][press.x][press.y].animation
+					:getFrameInfo(object[press.cx][press.cy][press.x][press.y].x,
+								  object[press.cx][press.cy][press.x][press.y].y))
 		end 
    elseif button == 3 then
-		if not object[first_location.cx][first_location.cy][first_location.x][first_location.y] then
-		object[first_location.cx][first_location.cy][first_location.x][first_location.y] = 
-			Stockpile:new(first_location.cx,first_location.cy,first_location.x,first_location.y, 
-			IsoX + (first_location.x - first_location.y) * tile_width  * 0.5,
-			IsoY + (first_location.x + first_location.y) * tile_height * 0.5)
-		--update_objects(first_location.cx,first_location.cy)
+		if not object[press.cx][press.cy][press.x][press.y] then
+		object[press.cx][press.cy][press.x][press.y] = 
+			Stockpile:new(press.cx,press.cy,press.x,press.y, 
+			IsoX + (press.x - press.y) * tile_width  * 0.5,
+			IsoY + (press.x + press.y) * tile_height * 0.5)
+		--update_objects(press.cx,press.cy)
 		end
    elseif button == 4 then
-		print(object[first_location.cx][first_location.cy][first_location.x][first_location.y])
+		print(object[press.cx][press.cy][press.x][press.y])
+		object[press.cx][press.cy][press.x][press.y]= Tree:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
+						IsoX + (press.x - press.y) * tile_width  * 0.5 -38,
+						IsoY + (press.x + press.y) * tile_height * 0.5 -166,"Pine tree")
+					object[press.cx][press.cy][press.x][press.y].qid = object_batch[press.cx][press.cy]
+					:add(object[press.cx][press.cy][press.x][press.y].animation
+					:getFrameInfo(object[press.cx][press.cy][press.x][press.y].x,
+								  object[press.cx][press.cy][press.x][press.y].y))
    end
 end 
 local previous_count = 0 --note remove this in prod
@@ -300,7 +302,7 @@ end
 local tableOfFunctions = {
                         update = update, 
                         draw = draw_object,
-                        chunk = object[first_location.cx][first_location.cy], 
+                        chunk = object[press.cx][press.cy], 
                         mousereleased = mousereleased, 
                         mousepressed = mousepressed,
 						active = active_objects,
