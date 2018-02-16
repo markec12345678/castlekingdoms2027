@@ -378,13 +378,28 @@ local fr_cutting_northeast = { --note actually north
 						self.cx,self.cy = math.floor((self.gx)/chunk_width), math.floor((self.gy)/chunk_width)
 						local xx,yy
 							xx, yy = (math.round(self.gx))%(chunk_width),(math.round(self.gy))%(chunk_width)
-							object[self.cx][self.cy][xx][yy] = self
+							if object[self.cx][self.cy][xx][yy] == nil then
+								object[self.cx][self.cy][xx][yy] = self
+							print(xx,yy,self.originalx,self.originaly,object[self.cx][self.cy][self.originalx][self.originaly] == self)
+								object[self.cx][self.cy][self.originalx][self.originaly] = nil
+								print("DID:")
+							end
 						if self.previous_cx ~= self.cx or self.previous_cy ~= self.cy then
 							print("Diff "..self.previous_cx,self.previous_cy,self.cx,self.cy)
 							object[self.cx][self.cy][xx][yy] = self			
+						    self.qid = object_batch[self.cx][self.cy]:add(self.animation:getFrameInfo(self.x, self.y))
 						end							
 						self.x = IsoX + ((self.fx*0.001)%chunk_width - (self.fy*0.001)%chunk_width) * tile_width  * 0.5 -31 --fixme magic numbers?
 						self.y = IsoY + ((self.fx*0.001)%chunk_width + (self.fy*0.001)%chunk_width) * tile_height * 0.5 -50
+						-- if self.gx == math.round(self.gx) and self.gy == math.round(self.gy) then
+						-- 	if object[self.cx][self.cy][xx][yy] == nil then			
+						-- object[self.cx][self.cy][xx][yy] = self
+						-- self.originalx = xx
+						-- self.originaly = yy
+						-- 	end
+						-- end
+						self.originalx = math.round(self.gx)%chunk_width
+						self.originaly = math.round(self.gy)%chunk_width
 					end
 					if self.fx*0.001 == self.waypoint_x and self.fy*0.001 == self.waypoint_y and self.move_dir ~= "none" then
 						if self.state == "Going to tree" then
