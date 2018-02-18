@@ -8,7 +8,8 @@ local bitser = require('libraries.bitser')
 local objects, terrain 
 local menu, game, ui = {}, {}, {}
 local loader = require('libraries.lily')
-
+_G.BuildController = require("objects.Controllers.BuildController"):new()
+_G.BuildController:set(5,5)
 -- function write(par) 
 -- 	f = love.filesystem.newFile("line"..par..".txt")
 -- 	f:open("w")
@@ -57,6 +58,7 @@ love.graphics.translate((love.graphics.getWidth()/2),(love.graphics.getHeight()/
     objects.draw()
 	love.graphics.pop()
     core.draw() 
+	BuildController:draw()
 end
 
 function game:mousepressed(x, y, button, istouch)

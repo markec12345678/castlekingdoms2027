@@ -26,10 +26,12 @@ local function update()
     next_time = next_time + min_dt;
     ---------------------------------------
     mx, my = love.mouse.getPosition();  
-    LocalX = math.round(ScreenToIsoX(mx-16+view_xview-width/2, my-8+view_yview-height/2)); 
-    LocalY = math.round(ScreenToIsoY(mx-16+view_xview-width/2, my-8+view_yview-height/2)); 
-    CenterX = math.round(ScreenToIsoX(16+view_xview, 8+view_yview)); 
-    CenterY = math.round(ScreenToIsoY(16+view_xview, 8+view_yview));
+    mx = (mx-16 - width/2)/scale_x
+    my = (my-8 - height/2)/scale_x
+    LocalX = math.round(ScreenToIsoX(mx+view_xview-width/2, my+view_yview-height/2)); 
+    LocalY = math.round(ScreenToIsoY(mx+view_xview-width/2, my+view_yview-height/2)); 
+    CenterX = math.round(ScreenToIsoX(view_xview, view_yview)); 
+    CenterY = math.round(ScreenToIsoY(view_xview, view_yview));
     ---------------------------------------
     _G.xchunk = math.floor(CenterX/(chunk_width));
     _G.ychunk = math.floor(CenterY/(chunk_width));
@@ -79,7 +81,6 @@ local function draw()
                 "\n Center chunk: [" .. xchunk .. "][".. ychunk .."][" .. (status[xchunk][ychunk] or "N\\A") .."]"..
                 "\n Current FPS: "..tostring(love.timer.getFPS())
                 , 0, 0);
-
          -- LIMIT THE FPS TO 60
             local cur_time = love.timer.getTime();
             if next_time <= cur_time then
