@@ -99,14 +99,14 @@ function genObjects(cx,cy)
 	object_batch[chunk_x][chunk_y]:clear()	
 		for i=0,chunk_width-1,1 do
 			for o=0,chunk_height-1,1 do
-				if i == 63 and o == 63 then 
-						object[cx][cy][i][o] = Tree:new(cx,cy,i,o, --TODO fix tile_offset/_x
-						IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[object[chunk_x][chunk_y][i][o]] or 38),
-						IsoY + (i + o) * tile_height * 0.5 - (tile_offset[object[chunk_x][chunk_y][i][o]] or 166),"Pine tree")
-						object[cx][cy][i][o].animation:gotoFrame(math.random(6))
-				end
+				-- if i == 63 and o == 63 then 
+				-- 		object[cx][cy][i][o] = Tree:new(cx,cy,i,o, --TODO fix tile_offset/_x
+				-- 		IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[object[chunk_x][chunk_y][i][o]] or 38),
+				-- 		IsoY + (i + o) * tile_height * 0.5 - (tile_offset[object[chunk_x][chunk_y][i][o]] or 166),"Pine tree")
+				-- 		object[cx][cy][i][o].animation:gotoFrame(math.random(6))
+				-- end
 				local rand = math.random(200)
-						if rand == 400 then
+						if rand == 4 then
 						if o == 0 and object[cx][cy-1][i][o-1] and object[cx][cy-1][i][o-1].type == "Pine tree" then goto continue end
 						if o ~= 0 and object[cx][cy][i][o-1] and object[cx][cy][i][o-1].type == "Pine tree" then goto continue end
 						object[cx][cy][i][o] = Tree:new(cx,cy,i,o, --TODO fix tile_offset/_x
@@ -185,7 +185,7 @@ local function draw_object()
 		for y = 1, 3 do
 			local xx,yy = current_chunk_x+x-2, current_chunk_y+y-2
 			if object_batch[xx][yy] ~= nil then
-				if xx <= 32 and yy <= 32 and xx > 0 and yy > 0 then
+				if xx <= 31 and yy <= 31 and xx >= 0 and yy >= 0 then --FIXME MAGIC NUMBERS
 					love.graphics.draw(object_batch[xx][yy], 
 						-view_xview*scale_x+(xx*scale_x-yy*scale_x)*chunk_width*tile_width*0.5, 
 						-view_yview*scale_x+(xx*scale_x+yy*scale_x)*chunk_height*tile_height*0.5
@@ -217,8 +217,8 @@ local function mousepressed(x, y, button, istouch)
     LocalY = math.round(ScreenToIsoY(vx/scale_x+view_xview-16, vy/scale_x+view_yview-8 )); 
 	    
                 local MX, MY = love.mouse.getPosition();  
-                MX = (MX - 16 - width/2)/scale_x +view_xview
-                MY = (MY - 8 - height/2)/scale_x +view_yview
+                MX = (MX - width/2)/scale_x +view_xview - 16
+                MY = (MY - height/2)/scale_x +view_yview - 8
                 LocalX = math.round(ScreenToIsoX(MX, MY))
                 LocalY = math.round(ScreenToIsoY(MX, MY))
 		press.gx = LocalX
@@ -235,8 +235,7 @@ local function mousepressed(x, y, button, istouch)
 		-- 	Castle:new(press.cx,press.cy,press.x,press.y, 
 		-- 	IsoX + (press.x - press.y) * tile_width  * 0.5 - 0,
 		-- 	IsoY + (press.x + press.y) * tile_height * 0.5 - 0)
-		-- end		
-		print(inspect(object[press.cx][press.cy]))
+		-- end	
    elseif button == 2 then
 	print(object[press.cx][press.cy][press.x][press.y])
 		if not object[press.cx][press.cy][press.x][press.y] then

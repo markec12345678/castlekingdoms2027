@@ -8,8 +8,6 @@ local bitser = require('libraries.bitser')
 local objects, terrain 
 local menu, game, ui = {}, {}, {}
 local loader = require('libraries.lily')
-_G.BuildController = require("objects.Controllers.BuildController"):new()
-_G.BuildController:set(5,5)
 -- function write(par) 
 -- 	f = love.filesystem.newFile("line"..par..".txt")
 -- 	f:open("w")
@@ -38,11 +36,14 @@ function game:init()
 	package.loaded['objects.objects'] = objects
 	terrain = require('terrain')
 	chunkUpdateList = require('objects/chunk_system')
+	_G.BuildController = love.filesystem.load("objects/Controllers/BuildController.lua")(package.loaded['objects.objects'].object):new()
+	_G.BuildController:set(5,5)
 end
 
 function game:update(dt)
     core.update()     
     objects.update() 
+	_G.BuildController:update()
 end
 
 function game:enter()
@@ -55,8 +56,8 @@ function game:draw()
 love.graphics.push();
 love.graphics.translate((love.graphics.getWidth()/2),(love.graphics.getHeight()/2));
     terrain.draw()
-	BuildController:draw()
     objects.draw()
+	BuildController:draw()
 	love.graphics.pop()
     core.draw() 
 end

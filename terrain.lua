@@ -110,7 +110,7 @@ local function chunkDraw()
 		for y = 1, 3 do
 			local xx,yy = current_chunk_x+x-2, current_chunk_y+y-2
 			if terrain_batch[xx][yy] ~= nil then
-				if xx <= 32 and yy <= 32 and xx > 0 and yy > 0 then
+				if xx <= 31 and yy <= 31 and xx >= 0 and yy >= 0 then
 					love.graphics.draw(terrain_batch[xx][yy], 
 						-view_xview*scale_x+(xx*scale_x-yy*scale_x)*chunk_width*tile_width*0.5, 
 						-view_yview*scale_x+(xx*scale_x+yy*scale_x)*chunk_height*tile_height*0.5
@@ -137,9 +137,9 @@ end
 
 
 
-
-for i = 1, 32 do
- for o = 1, 32 do
+--FIXME MAGIC NUMBERS
+for i = 0, 31 do
+ for o = 0, 31 do
 	genTerrain(i,o)
 	_G.status[i][o] = 2
  end
