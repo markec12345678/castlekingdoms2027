@@ -215,6 +215,12 @@ local function mousepressed(x, y, button, istouch)
 	local vy = (my)-height/2
     LocalX = math.round(ScreenToIsoX(vx/scale_x+view_xview-16, vy/scale_x+view_yview-8 )); 
     LocalY = math.round(ScreenToIsoY(vx/scale_x+view_xview-16, vy/scale_x+view_yview-8 )); 
+	    
+                local MX, MY = love.mouse.getPosition();  
+                MX = (MX - 16 - width/2)/scale_x +view_xview
+                MY = (MY - 8 - height/2)/scale_x +view_yview
+                LocalX = math.round(ScreenToIsoX(MX, MY))
+                LocalY = math.round(ScreenToIsoY(MX, MY))
 		press.gx = LocalX
 		press.gy = LocalY
 		press.x = (LocalX) % (chunk_width)
