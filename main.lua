@@ -55,10 +55,10 @@ function game:draw()
 love.graphics.push();
 love.graphics.translate((love.graphics.getWidth()/2),(love.graphics.getHeight()/2));
     terrain.draw()
+	BuildController:draw()
     objects.draw()
 	love.graphics.pop()
     core.draw() 
-	BuildController:draw()
 end
 
 function game:mousepressed(x, y, button, istouch)

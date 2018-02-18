@@ -27,15 +27,18 @@ local BuildController = class('BuildController')
                 self.active = true
             end
             function BuildController:draw()                
-                mx, my = love.mouse.getPosition();  
-                mx = (mx - width/2 + view_xview)/scale_x
-                my = (my - height/2 + view_yview)/scale_x
-                local LX = math.round(ScreenToIsoX(mx, my)); 
-                local LY = math.round(ScreenToIsoY(mx, my)); 
+                local MX, MY = love.mouse.getPosition();  
+                MX = (MX - 16 - width/2)/scale_x +view_xview
+                MY = (MY - 8 - height/2)/scale_x +view_yview
+                local LX = math.round(ScreenToIsoX(MX, MY))
+                local LY = math.round(ScreenToIsoY(MX, MY))
                 if self.active then     
-                    love.graphics.draw(self.batch,IsoToScreenX(LX,LY)+width/2-(IsoToScreenX(LX,LY)*(1-scale_x)) - view_xview, 
-                                                  IsoToScreenY(LX,LY)+height/2-(IsoToScreenY(LX,LY)*(1-scale_x)) - view_yview,
-                                                  nil,scale_x);
+                    love.graphics.draw(self.batch,
+                                    IsoToScreenX(LX,LY) - view_xview - ((IsoToScreenX(LX,LY))-view_xview)*(1-scale_x), 
+                                    IsoToScreenY(LX,LY) - view_yview - ((IsoToScreenY(LX,LY))-view_yview)*(1-scale_x),
+                                    nil,
+                                    scale_x
+                                    )
                 end
             end
 

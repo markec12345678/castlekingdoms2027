@@ -26,10 +26,10 @@ local function update()
     next_time = next_time + min_dt;
     ---------------------------------------
     mx, my = love.mouse.getPosition();  
-    mx = (mx-16 - width/2)/scale_x
-    my = (my-8 - height/2)/scale_x
-    LocalX = math.round(ScreenToIsoX(mx+view_xview-width/2, my+view_yview-height/2)); 
-    LocalY = math.round(ScreenToIsoY(mx+view_xview-width/2, my+view_yview-height/2)); 
+                mx = (mx - 16 - width/2)/scale_x +view_xview
+                my = (my - 8 - height/2)/scale_x +view_yview
+    LocalX = math.round(ScreenToIsoX(mx, my))
+    LocalY = math.round(ScreenToIsoY(mx, my))
     CenterX = math.round(ScreenToIsoX(view_xview, view_yview)); 
     CenterY = math.round(ScreenToIsoY(view_xview, view_yview));
     ---------------------------------------
@@ -76,7 +76,6 @@ local function draw()
                 "\n GlobalY: " .. LocalY ..
                 "\n LocalX: " .. ((LocalX)%chunk_width) ..
                 "\n LocalY: " .. ((LocalY)%chunk_width) ..
-                "\n Collidable " .. (_G.collision_map[LocalX][LocalY] or 0) ..
                 "\n Scale: " .. scale_x ..
                 "\n Center chunk: [" .. xchunk .. "][".. ychunk .."][" .. (status[xchunk][ychunk] or "N\\A") .."]"..
                 "\n Current FPS: "..tostring(love.timer.getFPS())
