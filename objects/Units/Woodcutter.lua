@@ -381,7 +381,10 @@ local fr_cutting_northeast = { --note actually north
 							if object[self.cx][self.cy][xx][yy] == nil then
 								object[self.cx][self.cy][xx][yy] = self
 							end
-							if object[self.cx][self.cy][self.originalx][self.originaly] == nil then
+							if object[self.cx][self.cy][self.originalx][self.originaly] == self 
+							and (self.originalx ~= math.round(self.gx)%chunk_width or self.originaly ~= math.round(self.gy)%chunk_width)
+							then
+								print("yea")
 								object[self.cx][self.cy][self.originalx][self.originaly] = nil
 							end
 						if self.previous_cx ~= self.cx or self.previous_cy ~= self.cy then
@@ -390,8 +393,10 @@ local fr_cutting_northeast = { --note actually north
 						end							
 						self.x = IsoX + ((self.fx*0.001)%chunk_width - (self.fy*0.001)%chunk_width) * tile_width  * 0.5 -31 --fixme magic numbers?
 						self.y = IsoY + ((self.fx*0.001)%chunk_width + (self.fy*0.001)%chunk_width) * tile_height * 0.5 -50
-						self.originalx = math.round(self.gx)%chunk_width
-						self.originaly = math.round(self.gy)%chunk_width
+						if self.originalx ~= math.round(self.gx)%chunk_width or self.originaly ~= math.round(self.gy)%chunk_width then
+							self.originalx = math.round(self.gx)%chunk_width
+							self.originaly = math.round(self.gy)%chunk_width
+						end
 					end
 					if self.fx*0.001 == self.waypoint_x and self.fy*0.001 == self.waypoint_y and self.move_dir ~= "none" then
 						if self.state == "Going to tree" then
