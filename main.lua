@@ -37,7 +37,7 @@ function game:init()
 	terrain = require('terrain')
 	chunkUpdateList = require('objects/chunk_system')
 	_G.BuildController = love.filesystem.load("objects/Controllers/BuildController.lua")(package.loaded['objects.objects'].object, object_image):new()
-	_G.BuildController:set(5,5)
+	_G.BuildController:set('castle')
 end
 
 function game:update(dt)

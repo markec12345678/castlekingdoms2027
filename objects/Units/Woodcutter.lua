@@ -148,7 +148,7 @@ local fr_cutting_northeast = { --note actually north
                                 else self.state = "Looking to chop tree" end
 						end
 					else --print("State", self.state)
-					end
+					end					
 				end
 				self.animation = anim.newAnimation(fr_walking_west,10)
 				table.insert(active_entities,self)
@@ -175,8 +175,11 @@ local fr_cutting_northeast = { --note actually north
 				 	self.waypoint_y = self.nd[0]._y
 					--print("Waypoint: "..self.waypoint_x,self.waypoint_y)						
 				 	self.move_dir = "none"	
+					return true
 				else print("Path not found!")
-					self.state = "No trees" end			
+					self.state = "No trees"
+					return false
+				 end			
 			end
 			function Woodcutter:check_trees(cx,cy)
 				local chunkx,chunky = cx or self.cx,cy or self.cy 
@@ -244,15 +247,16 @@ local fr_cutting_northeast = { --note actually north
 							closest_object = objt
 							closest_distance = disto
 					end
-				if not closest_object then print("No trees nearby!") return end
+				if not closest_object then print("No trees nearby!") self.state = "No trees" return end
 				self.target_tree = closest_object 
 				--print("Target tree:", self.target_tree)
 				self.endx = closest_object.gx
 				self.endy = closest_object.gy
-				self:pathfind(self.endx,self.endy+1)
+				if self:pathfind(self.endx,self.endy+1) then
 				--print("Found tree at "..self.endx.."  "..self.endy)
-				self.state = "Going to tree"
-				closest_object.marked = true
+					self.state = "Going to tree"
+					closest_object.marked = true
+				else self.state = "No trees" end --todo rename to stuck
 			end
 			function Woodcutter:update_direction()
 				local wx = self.waypoint_x
@@ -369,7 +373,7 @@ local fr_cutting_northeast = { --note actually north
 						elseif self.move_dir == "southwest" then 
 							self.fx = self.fx - self.diagonal_walk_speed
 							self.fy = self.fy + self.diagonal_walk_speed
-						elseif self.move_dir == "southeast" then --done
+						elseif self.move_dir == "southeast" then
 							self.fx = self.fx + self.diagonal_walk_speed
 							self.fy = self.fy + self.diagonal_walk_speed
 						end						
@@ -384,7 +388,6 @@ local fr_cutting_northeast = { --note actually north
 							if object[self.cx][self.cy][self.originalx][self.originaly] == self 
 							and (self.originalx ~= math.round(self.gx)%chunk_width or self.originaly ~= math.round(self.gy)%chunk_width)
 							then
-								print("yea")
 								object[self.cx][self.cy][self.originalx][self.originaly] = nil
 							end
 						if self.previous_cx ~= self.cx or self.previous_cy ~= self.cy then

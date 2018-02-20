@@ -6,13 +6,22 @@ local image = love.graphics.newImage( "assets/tiles/info_tiles_strip.png" )
 
 local building = {
     ["castle"] = {
-        quad = tile_quads[10],
-        offset_x = 0,
+        quad = tile_quads[767],
+        offset_y = 93,
+        offset_x = 6*15+6,
+        w = 7, h = 7,
     },
     ["stockpile"] = {
         quad = tile_quads[735],
         offset_x = 64,
         offset_y = 12,
+        w = 5, h = 5,
+    },
+    ["granary"] = {
+        quad = tile_quads[723],
+        offset_x = 3*15+3,
+        offset_y = 62+16,
+        w = 4, h = 4,
     }
 }
 
@@ -25,6 +34,7 @@ local BuildController = class('BuildController')
                 self.gy = 0
                 self.FX = 0
                 self.FY = 0
+                self.can_build = false
                 self.building = "stockpile"
                 print('building: ',building[self.building].quad)
                 self.batch = love.graphics.newSpriteBatch(image)
@@ -33,12 +43,13 @@ local BuildController = class('BuildController')
                 self.quads[2] = love.graphics.newQuad(30, 0,30, 16, 90,16)
                 self.quads[3] = love.graphics.newQuad(60, 0,30, 16, 90,16)
             end
-            function BuildController:set(w,h)
-                self.width, self.height = w,h
+            function BuildController:set(type)
+                self.building = type
+                self.width, self.height = building[type].w,building[type].h
                 self.batch:clear()
                 local type
-                for x = 0, w-1 do
-                    for y = 0, h-1 do
+                for x = 0, self.width-1 do
+                    for y = 0, self.height-1 do
                         type = 2
                         self.batch:add(
 								self.quads[type], 
@@ -60,14 +71,14 @@ local BuildController = class('BuildController')
                 self.gx, self.gy = LX,LY
                 self.FX = IsoToScreenX(LX,LY) - view_xview - ((IsoToScreenX(LX,LY))-view_xview)*(1-scale_x)
                 self.FY = IsoToScreenY(LX,LY) - view_yview - ((IsoToScreenY(LX,LY))-view_yview)*(1-scale_x) 
-                local can_build = true
+                self.can_build = true
                 for xx = 0, self.width-1 do
                     for yy = 0, self.height-1 do   
                         local x = (xx+LX) % (chunk_width)
                         local y = (yy+LY) % (chunk_width)
                         local cx = math.floor((xx+LX)/chunk_width)
                         local cy = math.floor((yy+LY)/chunk_width)
-                        if object[cx][cy][x][y] ~= nil then can_build = false end
+                        if object[cx][cy][x][y] ~= nil then self.can_build = false end
                     end
                 end
                
@@ -79,7 +90,7 @@ local BuildController = class('BuildController')
                         local cx = math.floor((xx+LX)/chunk_width)
                         local cy = math.floor((yy+LY)/chunk_width)
                         if object[cx][cy][x][y] == nil then 
-                            if can_build then
+                            if self.can_build then
                                 type = 2
                             else
                                 type = 3
@@ -103,6 +114,11 @@ local BuildController = class('BuildController')
                     love.graphics.draw(self.batch, self.FX, self.FY, nil, scale_x)
                     love.graphics.draw(object_image,building[self.building].quad,self.FX-building[self.building].offset_x*scale_x,self.FY-building[self.building].offset_y*scale_x,0,scale_x)
                     love.graphics.setColor( 255, 255, 255, 255 )
+                end
+            end
+            function BuildController:build()
+                if self.can_build then
+                    
                 end
             end
 
