@@ -363,7 +363,7 @@ local Stockpile = class('Stockpile', Object)
 			end
 			function Stockpile:store(resource)
 				local found = false
-				for index = 4, 1, -1 do
+				for index = 1, 4 do
 					if self.stockpile[index].type == resource and self.stockpile[index].quantity < max_quantity[resource] then
 						self.stockpile[index].quantity = self.stockpile[index].quantity + 1				
 						_G.resources[resource] = _G.resources[resource] + 1			
@@ -378,19 +378,23 @@ local Stockpile = class('Stockpile', Object)
 							self.stockpile[index].empty = false
 							self.stockpile[index].type = resource
 							self.stockpile[index].quantity = 1	
+							_G.not_full_stockpiles = _G.not_full_stockpiles + 1
 							_G.resources[resource] = _G.resources[resource] + 1	
 							self.stockpile[index].key = #_G.stockpile.resources[resource]+1
-							_G.stockpile.resources[resource][#_G.stockpile.resources[resource]+1] = self.stockpile[index]
+							_G.stockpile.resources[resource][self.stockpile[index].key] = self.stockpile[index]
 							self:update_stockpile(index)
 							found = true
 							break
 						end
 					end
 				end
-				if not found then return false else return true end
+				if not found then print("Falsing") return false else return true end
 			end
 			function Stockpile:take(resource,amount, from)
 				if from.type == resource and from.quantity > 0 then
+					if from.quantity == max_quantity[resource] then
+						_G.not_full_stockpiles = _G.not_full_stockpiles + 1
+					end
 					from.quantity = from.quantity - 1			
 					found = true
 					self:update_stockpile(from)
@@ -417,15 +421,12 @@ local Stockpile = class('Stockpile', Object)
 					pile = self.stockpile[index]
 				end
 				if pile.quantity == 0 then
-					print("PILE IS EMPTY")
 					table.remove(_G.stockpile.resources[pile.type],pile.key)
+					_G.not_full_stockpiles = _G.not_full_stockpiles - 1
+					pile.quantity = -1
 					pile.type = nil
-					empty = true				
-					if object_batch[pile.id.cx][pile.id.cy] then	
-						object_batch[pile.id.cx][pile.id.cy]:set(pile.id.qid,tile_quads[0],0,0)
-					end
-					pile.id.tile = 0
-					pile.id.qid = 0
+					pile.empty = true				
+					pile.id.tile = tile_quads[0]
 					return
 				end
 				pile.id.tile = quad_map[pile.type][pile.quantity]
@@ -440,9 +441,9 @@ local Stockpile = class('Stockpile', Object)
 						pile.id.y
 						)
 				end
-				-- if pile.quantity == max_quantity[pile.type] then
-				-- 	table.remove(_G.stockpile.resources[pile.type],pile.key)
-				-- end
+				if pile.quantity == max_quantity[pile.type] then
+					_G.not_full_stockpiles = _G.not_full_stockpiles - 1
+				end
 			end
 
 return Stockpile

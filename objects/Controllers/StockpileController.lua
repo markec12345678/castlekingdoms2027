@@ -14,12 +14,13 @@ local StockpileController = class('StockpileController')
                 self.node_list = {}
 			end
 			function StockpileController:store(resource) --TODO add amount
-                if next(self.resources[resource]) == nil then
+                if _G.not_full_stockpiles < 1 then
+                    print("CHECKING LIST!!!!!!!!!!!!!!!!!!!!!!")
                     for k,v in ipairs(self.list) do
                         if v:store(resource) then break end
                     end
                 else
-                    self.resources[resource][1].id.parent:store(resource)
+                    self.resources[resource][#self.resources[resource]].id.parent:store(resource)
                 end
 			end
             function StockpileController:take(resource,amount)

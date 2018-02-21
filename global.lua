@@ -100,6 +100,7 @@
             ['flour'] = 0,
             ['wheat'] = 0,
         }
+        _G.not_full_stockpiles = 0
     ----Libraries        
         anim = require('libraries.anim8') 
         class = require('libraries.middleclass') 

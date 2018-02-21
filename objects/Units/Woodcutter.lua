@@ -422,6 +422,23 @@ local fr_cutting_northeast = { --note actually north
 							self.count = self.count + 1
 						elseif self.state == "Going to stockpile" then
 							if self.count == self.nd_len then
+                        print("-------------------")
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
 								_G.stockpile:store('wood')
 								_G.stockpile:store('wood')
 								_G.stockpile:store('wood')
