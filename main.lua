@@ -1,14 +1,14 @@
 
 --math.randomseed(os.time())
-require('global') 
+require('global')
 local object_image
-local Gamestate = require('libraries.gamestate') 
+local Gamestate = require('libraries.gamestate')
 local core = require("misc")
-local bitser = require('libraries.bitser')
-local objects, terrain 
-local menu, game, ui = {}, {}, {}
+--local bitser = require('libraries.bitser')
+local objects, terrain
+local game, ui = {}, {}
 local loader = require('libraries.lily')
--- function write(par) 
+-- function write(par)
 -- 	f = love.filesystem.newFile("line"..par..".txt")
 -- 	f:open("w")
 -- 		f:write("This is line !\r\n")
@@ -24,7 +24,7 @@ function love.load()
     Gamestate.registerEvents()
     Gamestate.switch(ui)
 	loader.newImage("assets/tiles/object_texture.dxt5"):onComplete(function(userdata,image)
-		object_image = image		
+		object_image = image
 	end)
 end
 
@@ -35,21 +35,18 @@ function game:init()
     objects = love.filesystem.load('objects/objects.lua')(object_image)
 	package.loaded['objects.objects'] = objects
 	terrain = require('terrain')
-	chunkUpdateList = require('objects/chunk_system')
+	_G.chunkUpdateList = require('objects/chunk_system')
 	_G.BuildController = love.filesystem.load("objects/Controllers/BuildController.lua")(package.loaded['objects.objects'].object, object_image):new()
 	_G.BuildController:set('castle')
 end
 
 function game:update(dt)
-    core.update()     
-    objects.update() 
+    core.update()
+    objects.update()
 	_G.BuildController:update()
 end
 
 function game:enter()
-    tile_image[0] = love.graphics.newImage( "assets/tiles/collection1489.png" )
-    tile_image[1] = tile_image[0] 
-    tile_image[2] = love.graphics.newImage( "assets/tiles/collection1499.png" )
 end
 
 function game:draw()
@@ -57,7 +54,7 @@ love.graphics.push();
 love.graphics.translate((love.graphics.getWidth()/2),(love.graphics.getHeight()/2));
     terrain.draw()
     objects.draw()
-	BuildController:draw()
+	_G.BuildController:draw()
 	love.graphics.pop()
     core.draw() 
 end
@@ -65,6 +62,7 @@ end
 function game:mousepressed(x, y, button, istouch)
 	terrain.mousepressed(x,y,button,istouch)
 	objects.mousepressed(x,y,button,istouch)
+	if button == 2 then _G.BuildController.active = false end
 end
 
 function game:wheelmoved(x, y)
@@ -72,14 +70,17 @@ function game:wheelmoved(x, y)
 end
 
 function game:keyreleased(key, scancode)
-	-- print("*----------------------------*")
-	-- local l = terrain_chunks
-	-- while l do
-	-- 	if l.chunkx ~= nil then
-	-- 		print(l.chunkx,l.chunky,objects.batch[l.chunkx][l.chunky])
-	-- 	end
-	-- 		l = l.next 
-	-- end
+	if key == "q" then
+		_G.BuildController:set('castle')
+   	elseif key == "w" then
+		_G.BuildController:set('stockpile')
+	elseif key == "e" then
+		_G.BuildController:set('granary')
+	-- elseif key == "r" then
+	-- 	_G.BuildController:set('quarry')
+	-- elseif key == "t" then
+	-- 	_G.BuildController:set('iron_mine')
+	end
 end
 
 -----------------GAME------------------

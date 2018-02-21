@@ -126,13 +126,15 @@ function terrainSetTileAt(gx,gy,tile)
 	local i = (gx) % (chunk_width)
 	local o = (gy) % (chunk_width)
 	local cx = math.floor(gx/chunk_width)
-	local cy = math.floor(gy/chunk_width)		
-	terrain[cx][cy][i][o] = tile
-	if cx ~= last_cx or cy ~= last_cy then
-		update_terrain(last_cx,last_cy)
-	end
+	local cy = math.floor(gy/chunk_width)
+	if terrain[cx] and terrain[cx][cy]  then		
+		terrain[cx][cy][i][o] = tile
+		if cx ~= last_cx or cy ~= last_cy then
+			update_terrain(last_cx,last_cy)
+		end
 	last_cx, last_cy = cx, cy
 	return cx,cy
+	end
 end
 
 

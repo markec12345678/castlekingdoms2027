@@ -77,11 +77,13 @@ local object_image= ...
 local Object 		= require('objects.Object')
 local Tree 		 	= love.filesystem.load('objects/Environment/Tree.lua')(object_batch, active_objects, tile_quads,object)
 local Woodcutter 	= love.filesystem.load('objects/Units/Woodcutter.lua')(object,object_batch, active_entities, tile_quads)
-local Castle 	= love.filesystem.load('objects/Structures/Castle.lua')(object, tile_quads)
+local Castle 		= love.filesystem.load('objects/Structures/Castle.lua')(object, tile_quads)
 local Stockpile 	= love.filesystem.load('objects/Structures/Stockpile.lua')(object, tile_quads, object_batch)
+local Granary       = love.filesystem.load('objects/Structures/Granary.lua')(object, tile_quads, object_batch)
 package.loaded['objects.Environment.Tree'],package.loaded['objects.Units.Woodcutter'] = Tree, Woodcutter
 package.loaded['objects.Structures.Castle'] = Castle
 package.loaded['objects.Structures.Stockpile'] = Stockpile
+package.loaded['objects.Structures.Granary'] = Granary
 local StockpileController = require('objects.Controllers.StockpileController')
 _G.stockpile = StockpileController:new()
 --- NOTE --------------------------
@@ -229,6 +231,7 @@ local function mousepressed(x, y, button, istouch)
 		press.cy = math.floor(LocalY/chunk_width)
 		print("Button", button)
    if button == 1 then 
+   _G.BuildController:build(press.cx,press.cy,press.x,press.y)
 		--print("Pressed at",press.x,press.y,press.cx,press.cy)
 		-- if object[press.cx][press.cy][press.x][press.y] == nil then
 		-- object[press.cx][press.cy][press.x][press.y] = 

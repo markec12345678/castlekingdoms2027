@@ -3,6 +3,9 @@ local object, object_image = ...
 
 local tile_quads = require('objects.objects_quads')
 local image = love.graphics.newImage( "assets/tiles/info_tiles_strip.png" )
+local Castle = require('objects.Structures.Castle')
+local Stockpile = require('objects.Structures.Stockpile')
+local Granary = require('objects.Structures.Granary')
 
 local building = {
     ["castle"] = {
@@ -10,18 +13,36 @@ local building = {
         offset_y = 93,
         offset_x = 6*15+6,
         w = 7, h = 7,
+        build = function(cx,cy,x,y) 
+            object[cx][cy][x][y] = 
+			Castle:new(cx,cy,x,y, 
+			IsoX + (x - y) * tile_width  * 0.5 - 0,
+			IsoY + (x + y) * tile_height * 0.5 - 0)
+        end,
     },
     ["stockpile"] = {
         quad = tile_quads[735],
         offset_x = 64,
         offset_y = 12,
         w = 5, h = 5,
+        build = function(cx,cy,x,y)
+            object[cx][cy][x][y] = 
+			Stockpile:new(cx,cy,x,y, 
+			IsoX + (x - y) * tile_width  * 0.5,
+			IsoY + (x + y) * tile_height * 0.5)
+        end,
     },
     ["granary"] = {
         quad = tile_quads[723],
         offset_x = 3*15+3,
         offset_y = 62+16,
         w = 4, h = 4,
+        build = function(cx,cy,x,y)
+            object[cx][cy][x][y] = 
+			Granary:new(cx,cy,x,y, 
+			IsoX + (x - y) * tile_width  * 0.5,
+			IsoY + (x + y) * tile_height * 0.5)
+        end,
     }
 }
 
@@ -36,7 +57,6 @@ local BuildController = class('BuildController')
                 self.FY = 0
                 self.can_build = false
                 self.building = "stockpile"
-                print('building: ',building[self.building].quad)
                 self.batch = love.graphics.newSpriteBatch(image)
                 self.quads = {}
                 self.quads[1] = love.graphics.newQuad(0, 0,30, 16, 90,16)
@@ -108,17 +128,18 @@ local BuildController = class('BuildController')
                 end
                 self.batch:flush()
             end
+            function BuildController:build(cx,cy,x,y)
+                if self.active and self.can_build and cx >= 0 and cy >= 0 and cx < 32 and cy < 32 then
+                    building[self.building].build(cx,cy,x,y)
+                    self.active = false
+                end
+            end
             function BuildController:draw()       
                 if self.active then     
                     love.graphics.setColor( 255, 255, 255, 127 )
                     love.graphics.draw(self.batch, self.FX, self.FY, nil, scale_x)
                     love.graphics.draw(object_image,building[self.building].quad,self.FX-building[self.building].offset_x*scale_x,self.FY-building[self.building].offset_y*scale_x,0,scale_x)
                     love.graphics.setColor( 255, 255, 255, 255 )
-                end
-            end
-            function BuildController:build()
-                if self.can_build then
-                    
                 end
             end
 

@@ -386,6 +386,9 @@ local Stockpile = class('Stockpile', Object)
 				end
 				if not found then return true end
 			end
+			function Stockpile:take(resource,amount)
+			
+			end
 			function Stockpile:update_stockpile(index)
 				local pile = self.stockpile[index]
 				pile.id.tile = quad_map[pile.type][pile.quantity]

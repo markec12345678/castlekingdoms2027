@@ -231,9 +231,9 @@ local Granary = class('Granary', Object)
 				_G.nodes[self.gx][self.gy].walkable = 1
 				self.health = 1000
                 self.qid = nil
-                self.tile = tile_quads[2296]
-				self.offset_x = 0
-				self.offset_y = -12
+                self.tile = tile_quads[723]
+				self.offset_x = -48
+				self.offset_y = -64-14
                 self.level = 1
                 self.rotation = 1
 				-- self.stockpile = {}
@@ -243,8 +243,8 @@ local Granary = class('Granary', Object)
 				-- self.stockpile[4] = {id = nil, empty = true, type = nil, quantity = 0, index = 4}
 				
 				local ccx, ccy
-                for xx = -1, 5 do
-					for yy = -1, 5 do 					
+                for xx = -1, 4 do
+					for yy = -1, 4 do 					
 						ccx, ccy = terrainSetTileAt(self.gx+xx,self.gy+yy,math.random(6,8))
 					end
 				end
