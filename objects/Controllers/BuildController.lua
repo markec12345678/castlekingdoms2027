@@ -130,6 +130,18 @@ local BuildController = class('BuildController')
             end
             function BuildController:build(cx,cy,x,y)
                 if self.active and self.can_build and cx >= 0 and cy >= 0 and cx < 32 and cy < 32 then
+                    if resources.wood > 10 then
+                        _G.stockpile:take('wood')
+                        _G.stockpile:take('wood')
+                        _G.stockpile:take('wood')
+                        _G.stockpile:take('wood')
+                        _G.stockpile:take('wood')
+                        _G.stockpile:take('wood')
+                        _G.stockpile:take('wood')
+                        _G.stockpile:take('wood')
+                        _G.stockpile:take('wood')
+                        _G.stockpile:take('wood')
+                    end
                     building[self.building].build(cx,cy,x,y)
                     self.active = false
                 end

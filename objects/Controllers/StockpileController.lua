@@ -16,13 +16,17 @@ local StockpileController = class('StockpileController')
 			function StockpileController:store(resource) --TODO add amount
                 if next(self.resources[resource]) == nil then
                     for k,v in ipairs(self.list) do
-                        if not v:store(resource) then break end
+                        if v:store(resource) then break end
                     end
                 else
                     self.resources[resource][1].id.parent:store(resource)
                 end
 			end
             function StockpileController:take(resource,amount)
-            
+                if next(self.resources[resource]) == nil then
+                    return false
+                else
+                    self.resources[resource][#self.resources[resource]].id.parent:take(resource,1,self.resources[resource][#self.resources[resource]])
+                end            
             end
 return StockpileController

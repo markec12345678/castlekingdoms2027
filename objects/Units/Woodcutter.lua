@@ -426,6 +426,18 @@ local fr_cutting_northeast = { --note actually north
 								_G.stockpile:store('wood')
 								_G.stockpile:store('wood')
 								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
+								_G.stockpile:store('wood')
                     			--print(inspect(_G.stockpile.list,{depth = 3}))
 								self.state = "Looking to chop tree"
 								self.nd = {}

@@ -363,11 +363,13 @@ local Stockpile = class('Stockpile', Object)
 			end
 			function Stockpile:store(resource)
 				local found = false
-				for index = 1, 4 do
+				for index = 4, 1, -1 do
 					if self.stockpile[index].type == resource and self.stockpile[index].quantity < max_quantity[resource] then
-						self.stockpile[index].quantity = self.stockpile[index].quantity + 1					
+						self.stockpile[index].quantity = self.stockpile[index].quantity + 1				
+						_G.resources[resource] = _G.resources[resource] + 1			
 						found = true
 						self:update_stockpile(index)
+						return true
 					end
 				end 
 				if not found then
@@ -375,7 +377,8 @@ local Stockpile = class('Stockpile', Object)
 						if self.stockpile[index].empty then
 							self.stockpile[index].empty = false
 							self.stockpile[index].type = resource
-							self.stockpile[index].quantity = 1
+							self.stockpile[index].quantity = 1	
+							_G.resources[resource] = _G.resources[resource] + 1	
 							self.stockpile[index].key = #_G.stockpile.resources[resource]+1
 							_G.stockpile.resources[resource][#_G.stockpile.resources[resource]+1] = self.stockpile[index]
 							self:update_stockpile(index)
@@ -384,13 +387,47 @@ local Stockpile = class('Stockpile', Object)
 						end
 					end
 				end
-				if not found then return true end
+				if not found then return false else return true end
 			end
-			function Stockpile:take(resource,amount)
-			
+			function Stockpile:take(resource,amount, from)
+				if from.type == resource and from.quantity > 0 then
+					from.quantity = from.quantity - 1			
+					found = true
+					self:update_stockpile(from)
+					return true
+				end
+				local found = false
+				for index = 1, 4 do
+					if self.stockpile[index].type == resource and self.stockpile[index].quantity > 0 then
+						self.stockpile[index].quantity = self.stockpile[index].quantity - 1			
+						_G.resources[resource] = _G.resources[resource] - 1
+						found = true
+						self:update_stockpile(index)
+						return true
+					end
+				end 
+				if not found then
+					return false
+				end
+				return true
 			end
-			function Stockpile:update_stockpile(index)
-				local pile = self.stockpile[index]
+			function Stockpile:update_stockpile(index) --TODO FIX BUG WHEN ALL 4 PILES ARE EMPTY
+				local pile
+				if type(index) ~= "number" then pile = index else				 
+					pile = self.stockpile[index]
+				end
+				if pile.quantity == 0 then
+					print("PILE IS EMPTY")
+					table.remove(_G.stockpile.resources[pile.type],pile.key)
+					pile.type = nil
+					empty = true				
+					if object_batch[pile.id.cx][pile.id.cy] then	
+						object_batch[pile.id.cx][pile.id.cy]:set(pile.id.qid,tile_quads[0],0,0)
+					end
+					pile.id.tile = 0
+					pile.id.qid = 0
+					return
+				end
 				pile.id.tile = quad_map[pile.type][pile.quantity]
 				pile.id.additional_offset_y = offset_y[pile.type][pile.quantity]
 				pile.id.offset_y = pile.id.additional_offset_y - pile.id.base_offset_y
@@ -403,9 +440,9 @@ local Stockpile = class('Stockpile', Object)
 						pile.id.y
 						)
 				end
-				if pile.quantity == max_quantity[pile.type] then
-					table.remove(_G.stockpile.resources[pile.type],pile.key)
-				end
+				-- if pile.quantity == max_quantity[pile.type] then
+				-- 	table.remove(_G.stockpile.resources[pile.type],pile.key)
+				-- end
 			end
 
 return Stockpile
