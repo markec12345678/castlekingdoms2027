@@ -132,26 +132,26 @@ local BuildController = class('BuildController')
                 self.active = true
             end
             function BuildController:update()   
-                local MX, MY = love.mouse.getPosition();  
-                local type = 1
-                MX = (MX - width/2)/scale_x +view_xview - 16
-                MY = (MY - height/2)/scale_x +view_yview - 8
-                local LX = math.round(ScreenToIsoX(MX, MY))
-                local LY = math.round(ScreenToIsoY(MX, MY))
-                self.gx, self.gy = LX,LY
-                self.FX = IsoToScreenX(LX,LY) - view_xview - ((IsoToScreenX(LX,LY))-view_xview)*(1-scale_x)
-                self.FY = IsoToScreenY(LX,LY) - view_yview - ((IsoToScreenY(LX,LY))-view_yview)*(1-scale_x) 
-                self.can_build = true
-                for xx = 0, self.width-1 do
-                    for yy = 0, self.height-1 do   
-                        local x = (xx+LX) % (chunk_width)
-                        local y = (yy+LY) % (chunk_width)
-                        local cx = math.floor((xx+LX)/chunk_width)
-                        local cy = math.floor((yy+LY)/chunk_width)
-                        if object[cx][cy][x][y] ~= nil then self.can_build = false end
+                if self.active then 
+                    local MX, MY = love.mouse.getPosition();  
+                    local type = 1
+                    MX = (MX - width/2)/scale_x +view_xview - 16
+                    MY = (MY - height/2)/scale_x +view_yview - 8
+                    local LX = math.round(ScreenToIsoX(MX, MY))
+                    local LY = math.round(ScreenToIsoY(MX, MY))
+                    self.gx, self.gy = LX,LY
+                    self.FX = IsoToScreenX(LX,LY) - view_xview - ((IsoToScreenX(LX,LY))-view_xview)*(1-scale_x)
+                    self.FY = IsoToScreenY(LX,LY) - view_yview - ((IsoToScreenY(LX,LY))-view_yview)*(1-scale_x) 
+                    self.can_build = true
+                    for xx = 0, self.width-1 do
+                        for yy = 0, self.height-1 do   
+                            local x = (xx+LX) % (chunk_width)
+                            local y = (yy+LY) % (chunk_width)
+                            local cx = math.floor((xx+LX)/chunk_width)
+                            local cy = math.floor((yy+LY)/chunk_width)
+                            if object[cx][cy][x][y] ~= nil then self.can_build = false end
+                        end
                     end
-                end
-                if self.previous_gx ~= self.gx or self.previous_gy ~= self.gy then
                     do
                         local i = (self.gx) % (chunk_width)
                         local o = (self.gy) % (chunk_width)
@@ -159,59 +159,35 @@ local BuildController = class('BuildController')
                         local cy = math.floor(self.gy/chunk_width)
                         if not building[self.building]:special_requirements(cx,cy,i,o) then self.can_build = false end
                     end
-                end
-                self.batch:clear()
-                for xx = 0, self.width-1 do
-                    for yy = 0, self.height-1 do   
-                        local x = (xx+LX) % (chunk_width)
-                        local y = (yy+LY) % (chunk_width)
-                        local cx = math.floor((xx+LX)/chunk_width)
-                        local cy = math.floor((yy+LY)/chunk_width)
-                        if object[cx][cy][x][y] == nil then 
-                            if self.can_build then
-                                type = 2
-                            else
-                                type = 3
-                            end                
-                        else type = 1 end
-                        self.batch:add(
-                                self.quads[type], 
-                                (xx - yy) * tile_width  * 0.5,
-                                (xx + yy) * tile_height * 0.5,
-                                0,1,1) 
-                        self.batch:add(
-                            tile_quads[324]
-                            ,(xx - yy) * tile_width  * 0.5,(xx + yy) * tile_height * 0.5,0)
+                    self.batch:clear()
+                    for xx = 0, self.width-1 do
+                        for yy = 0, self.height-1 do   
+                            local x = (xx+LX) % (chunk_width)
+                            local y = (yy+LY) % (chunk_width)
+                            local cx = math.floor((xx+LX)/chunk_width)
+                            local cy = math.floor((yy+LY)/chunk_width)
+                            if object[cx][cy][x][y] == nil then 
+                                if self.can_build then
+                                    type = 2
+                                else
+                                    type = 3
+                                end                
+                            else type = 1 end
+                            self.batch:add(
+                                    self.quads[type], 
+                                    (xx - yy) * tile_width  * 0.5,
+                                    (xx + yy) * tile_height * 0.5,
+                                    0,1,1) 
+                            self.batch:add(
+                                tile_quads[324]
+                                ,(xx - yy) * tile_width  * 0.5,(xx + yy) * tile_height * 0.5,0)
+                        end
                     end
+                    self.batch:flush()
+                    self.previous_gx = self.gx
+                    self.previous_gy = self.gy
+                    self.previous_can_build = self.can_build
                 end
-                self.batch:flush()self.batch:clear()
-                for xx = 0, self.width-1 do
-                    for yy = 0, self.height-1 do   
-                        local x = (xx+LX) % (chunk_width)
-                        local y = (yy+LY) % (chunk_width)
-                        local cx = math.floor((xx+LX)/chunk_width)
-                        local cy = math.floor((yy+LY)/chunk_width)
-                        if object[cx][cy][x][y] == nil then 
-                            if self.can_build then
-                                type = 2
-                            else
-                                type = 3
-                            end                
-                        else type = 1 end
-                        self.batch:add(
-                                self.quads[type], 
-                                (xx - yy) * tile_width  * 0.5,
-                                (xx + yy) * tile_height * 0.5,
-                                0,1,1) 
-                        self.batch:add(
-                            tile_quads[324]
-                            ,(xx - yy) * tile_width  * 0.5,(xx + yy) * tile_height * 0.5,0)
-                    end
-                end
-                self.batch:flush()
-                self.previous_gx = self.gx
-                self.previous_gy = self.gy
-                self.previous_can_build = self.can_build
             end
             function BuildController:build(cx,cy,x,y)
                 print(self.active,self.can_build)
