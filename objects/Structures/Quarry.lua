@@ -200,7 +200,7 @@ local fr_shaper = {
 	tile_quads[387],
 	tile_quads[388],
 }
-local fr_puller = {
+local fr_puller_part2 = {
 	tile_quads[209],
 	tile_quads[220],
 	tile_quads[231],
@@ -243,6 +243,8 @@ local fr_puller = {
 	tile_quads[243],
 	tile_quads[244],
 	tile_quads[245],
+}
+local fr_puller_part1 = {
 	tile_quads[246],
 	tile_quads[247],
 	tile_quads[248],
@@ -279,10 +281,10 @@ local Quarry_lifter = class('Quarry_lifter', Object)
 					self.animation:pause()
 				end
 				self.part2_end = function ()
-					self.parent.puller:activate()
 					self.animation = anim.newAnimation(fr_lifter_part3,0.11,self.part3_end)
 				end
 				self.part1_end = function ()
+					self.parent.puller:activate()
 					self.parent.hook:activate()
 					self.animation = anim.newAnimation(fr_lifter_part2,0.11,self.part2_end)
 				end
@@ -396,11 +398,15 @@ local Quarry_puller = class('Quarry_puller', Object)
 				local y = IsoY + (i + o) * tile_height * 0.5
 				Object.initialize(self,cx,cy,i,o,x,y,mytype)
 				self.animated = true
-				self.anim_end = function() 
+				self.anim_end = function () 
+					self.animation = anim.newAnimation(fr_puller_part1,0.11,self.part1_end)
 					self.animation:gotoFrame(1)
 					self.animation:pause()
 				end
-				self.animation = anim.newAnimation(fr_puller,0.11,self.anim_end)
+				self.part1_end = function ()
+					self.animation = anim.newAnimation(fr_puller_part2,0.11,self.anim_end)
+				end
+				self.animation = anim.newAnimation(fr_puller_part1,0.11,self.part1_end)
 				self.animation:pause()
 				self.gx = gx
 				self.gy = gy
