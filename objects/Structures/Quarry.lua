@@ -37,6 +37,8 @@ local fr_lifter_part2 = {
 	tile_quads[169],
 	tile_quads[170],
 	tile_quads[171],
+}
+local fr_lifter_part3 = {	
 	tile_quads[173],
 	tile_quads[174],
 	tile_quads[175],
@@ -67,7 +69,7 @@ local fr_lifter_part2 = {
 	tile_quads[202],
 	tile_quads[203],
 	tile_quads[204],
-	tile_quads[206],
+	tile_quads[206]
 }
 local fr_hook_part1 = {
 	tile_quads[2301],
@@ -198,6 +200,69 @@ local fr_shaper = {
 	tile_quads[387],
 	tile_quads[388],
 }
+local fr_puller = {
+	tile_quads[209],
+	tile_quads[220],
+	tile_quads[231],
+	tile_quads[242],
+	tile_quads[253],
+	tile_quads[264],
+	tile_quads[267],
+	tile_quads[268],
+	tile_quads[269],
+	tile_quads[210],
+	tile_quads[211],
+	tile_quads[212],
+	tile_quads[213],
+	tile_quads[214],
+	tile_quads[215],
+	tile_quads[216],
+	tile_quads[217],
+	tile_quads[218],
+	tile_quads[219],
+	tile_quads[221],
+	tile_quads[222],
+	tile_quads[223],
+	tile_quads[224],
+	tile_quads[225],
+	tile_quads[226],
+	tile_quads[227],
+	tile_quads[228],
+	tile_quads[229],
+	tile_quads[230],
+	tile_quads[232],
+	tile_quads[233],
+	tile_quads[234],
+	tile_quads[235],
+	tile_quads[236],
+	tile_quads[237],
+	tile_quads[238],
+	tile_quads[239],
+	tile_quads[240],
+	tile_quads[241],
+	tile_quads[243],
+	tile_quads[244],
+	tile_quads[245],
+	tile_quads[246],
+	tile_quads[247],
+	tile_quads[248],
+	tile_quads[249],
+	tile_quads[250],
+	tile_quads[251],
+	tile_quads[252],
+	tile_quads[254],
+	tile_quads[255],
+	tile_quads[256],
+	tile_quads[257],
+	tile_quads[258],
+	tile_quads[259],
+	tile_quads[260],
+	tile_quads[261],
+	tile_quads[262],
+	tile_quads[263],
+	tile_quads[265],
+	tile_quads[266]
+}
 local Quarry_lifter = class('Quarry_lifter', Object)
 			function Quarry_lifter:initialize(gx,gy,parent,offset_x,offset_y)
                 local mytype = "Lifter"
@@ -209,13 +274,17 @@ local Quarry_lifter = class('Quarry_lifter', Object)
 				local y = IsoY + (i + o) * tile_height * 0.5
 				Object.initialize(self,cx,cy,i,o,x,y,mytype)
 				self.animated = true
-				self.part2_end = function ()
+				self.part3_end = function ()
 					self.animation = anim.newAnimation(fr_lifter_part1,0.11,function () self.animation:gotoFrame(1) end)
 					self.animation:pause()
 				end
-				self.part1_end = function()
+				self.part2_end = function ()
+					self.parent.puller:activate()
+					self.animation = anim.newAnimation(fr_lifter_part3,0.11,self.part3_end)
+				end
+				self.part1_end = function ()
 					self.parent.hook:activate()
-					self.animation = anim.newAnimation(fr_lifter_part2,0.11,'pauseAtEnd')
+					self.animation = anim.newAnimation(fr_lifter_part2,0.11,self.part2_end)
 				end
 				self.animation = anim.newAnimation(fr_lifter_part1, 0.11,self.part1_end)--, 'pauseAtEnd')
 				self.gx = gx
@@ -231,10 +300,9 @@ local Quarry_lifter = class('Quarry_lifter', Object)
 				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self
 			end	
 			function Quarry_lifter:animate() 
-				self.animation:update(dt) 					
+				self.animation:update(dt) 			
 			end
 			function Quarry_lifter:activate()
-				print("Called")
 				self.animation = anim.newAnimation(fr_lifter_part1, 0.11,self.part1_end)
 			end
 
@@ -256,7 +324,7 @@ local Quarry_hook = class('Quarry_hook', Object)
 				end
 				self.part1_end = function () 
 					self.parent.shaper:activate()
-					self.animation = anim.newAnimation(fr_hook_part2,0.11,self.part2_end)				
+					self.animation = anim.newAnimation(fr_hook_part2,0.12,self.part2_end)				
 				end
 				self.animation = anim.newAnimation(fr_hook_part1,0.11,self.part1_end)
 				self.animation:pause()
@@ -317,6 +385,42 @@ local Quarry_shaper = class('Quarry_shaper', Object)
 				self.animation:resume()
 			end
 
+local Quarry_puller = class('Quarry_puller', Object)
+			function Quarry_puller:initialize(gx,gy,parent,offset_x,offset_y)
+                local mytype = "Shaper"
+				local i = (gx) % (chunk_width)
+				local o = (gy) % (chunk_width)
+				local cx = math.floor(gx/chunk_width)
+				local cy = math.floor(gy/chunk_width)				 
+				local x = IsoX + (i - o) * tile_width  * 0.5
+				local y = IsoY + (i + o) * tile_height * 0.5
+				Object.initialize(self,cx,cy,i,o,x,y,mytype)
+				self.animated = true
+				self.anim_end = function() 
+					self.animation:gotoFrame(1)
+					self.animation:pause()
+				end
+				self.animation = anim.newAnimation(fr_puller,0.11,self.anim_end)
+				self.animation:pause()
+				self.gx = gx
+				self.gy = gy
+				_G.nodes[self.gx][self.gy].walkable = 1
+				self.parent = parent
+                self.qid = 0
+				self.offset_x = 92+offset_x-16-16
+				self.offset_y = 58+offset_y-32-16
+				object[cx][cy][i][o] = self	
+				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
+				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
+				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self
+			end	
+			function Quarry_puller:animate() 
+				self.animation:update(dt) 					
+			end
+			function Quarry_puller:activate()
+				self.animation:resume()
+			end
+
 local Quarry = class('Quarry', Object)
 			function Quarry:initialize(cx,cy,i,o,x,y,type)
                 local mytype = "Static structure"
@@ -334,6 +438,7 @@ local Quarry = class('Quarry', Object)
 				self.lifter = Quarry_lifter:new(self.gx+3,self.gy+3,self,self.offset_x,self.offset_y)
 				self.hook =  Quarry_hook:new(self.gx+1,self.gy+1,self,self.offset_x,self.offset_y)
 				self.shaper = Quarry_shaper:new(self.gx+2,self.gy+2,self,self.offset_x,self.offset_y)
+				self.puller = Quarry_puller:new(self.gx+4,self.gy+2,self,self.offset_x,self.offset_y)
 				local ccx, ccy
                 for xx = -1, 4 do
 					for yy = -1, 4 do 					
