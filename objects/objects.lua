@@ -144,11 +144,11 @@ function update_objects(cx,cy,deser)
 					object[chunk_x][chunk_y][i][o] = nil
 				 	goto continue
 				end
-				if object[chunk_x][chunk_y][i][o].type == "Pine tree" or object[chunk_x][chunk_y][i][o].type == "Stump" or object[chunk_x][chunk_y][i][o].type == "Woodcutter" then
+				if object[chunk_x][chunk_y][i][o].animated then
 					object[chunk_x][chunk_y][i][o].qid = object_batch[chunk_x][chunk_y]
 					:add(object[chunk_x][chunk_y][i][o].animation
-					:getFrameInfo(object[chunk_x][chunk_y][i][o].x,
-								  object[chunk_x][chunk_y][i][o].y))	
+					:getFrameInfo(object[chunk_x][chunk_y][i][o].x+(object[chunk_x][chunk_y][i][o].offset_x or 0),
+								  object[chunk_x][chunk_y][i][o].y+(object[chunk_x][chunk_y][i][o].offset_y or 0)))	
 				else 
 					object[chunk_x][chunk_y][i][o].qid = object_batch[chunk_x][chunk_y]
 					:add(object[chunk_x][chunk_y][i][o].tile,
