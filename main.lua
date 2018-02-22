@@ -78,6 +78,8 @@ function game:keyreleased(key, scancode)
 			_G.BuildController:set('stockpile')
 		elseif key == "e" then
 			_G.BuildController:set('granary')
+		elseif key == "t" then
+			_G.BuildController:set('quarry')
 		elseif key == "r" then
 			print(inspect(_G.resources))
 		end

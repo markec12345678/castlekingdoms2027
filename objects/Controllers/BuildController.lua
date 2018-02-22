@@ -6,6 +6,7 @@ local image = love.graphics.newImage( "assets/tiles/info_tiles_strip.png" )
 local Castle = require('objects.Structures.Castle')
 local Stockpile = require('objects.Structures.Stockpile')
 local Granary = require('objects.Structures.Granary')
+local Quarry = require('objects.Structures.Quarry')
 
 local building = {
     ["castle"] = {
@@ -67,6 +68,22 @@ local building = {
         build = function(self,cx,cy,x,y)
             object[cx][cy][x][y] = 
 			Granary:new(cx,cy,x,y, 
+			IsoX + (x - y) * tile_width  * 0.5,
+			IsoY + (x + y) * tile_height * 0.5)
+        end,
+        special_requirements = function(self,cx,cy,x,y) return true end,
+    },
+    ["quarry"] = {
+        quad = tile_quads[732],
+        offset_x = 64+16,
+        offset_y = 7*16+6,
+        w = 6, h = 6,
+        cost = {
+            ["wood"] = 48
+        },
+        build = function(self,cx,cy,x,y)
+            object[cx][cy][x][y] = 
+			Quarry:new(cx,cy,x,y, 
 			IsoX + (x - y) * tile_width  * 0.5,
 			IsoY + (x + y) * tile_height * 0.5)
         end,
