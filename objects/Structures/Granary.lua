@@ -231,11 +231,12 @@ local Granary = class('Granary', Object)
 				_G.nodes[self.gx][self.gy].walkable = 1
 				self.health = 1000
                 self.qid = nil
-                self.tile = tile_quads[723]
+                self.tile = tile_quads[724]
 				self.offset_x = -48
 				self.offset_y = -64-14
                 self.level = 1
                 self.rotation = 1
+				self.hover_action = true
 				-- self.stockpile = {}
 				-- self.stockpile[1] = {id = nil, empty = true, type = nil, quantity = 0, index = 1}
 				-- self.stockpile[2] = {id = nil, empty = true, type = nil, quantity = 0, index = 2}

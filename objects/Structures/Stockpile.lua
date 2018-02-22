@@ -378,7 +378,7 @@ local Stockpile = class('Stockpile', Object)
 							self.stockpile[index].empty = false
 							self.stockpile[index].type = resource
 							self.stockpile[index].quantity = 1	
-							_G.not_full_stockpiles = _G.not_full_stockpiles + 1
+							_G.not_full_stockpiles[self.stockpile[index].type] = _G.not_full_stockpiles[self.stockpile[index].type] + 1
 							_G.resources[resource] = _G.resources[resource] + 1	
 							self.stockpile[index].key = #_G.stockpile.resources[resource]+1
 							_G.stockpile.resources[resource][self.stockpile[index].key] = self.stockpile[index]
@@ -393,7 +393,7 @@ local Stockpile = class('Stockpile', Object)
 			function Stockpile:take(resource, from)
 				if from.type == resource and from.quantity > 0 then
 					if from.quantity == max_quantity[resource] then
-						_G.not_full_stockpiles = _G.not_full_stockpiles + 1
+						_G.not_full_stockpiles[resource] = _G.not_full_stockpiles[resource] + 1
 					end
 					from.quantity = from.quantity - 1		
 					_G.resources[resource] = _G.resources[resource] - 1		
@@ -423,7 +423,7 @@ local Stockpile = class('Stockpile', Object)
 				end
 				if pile.quantity == 0 then
 					table.remove(_G.stockpile.resources[pile.type],pile.key)
-					_G.not_full_stockpiles = _G.not_full_stockpiles - 1
+					_G.not_full_stockpiles[pile.type] = _G.not_full_stockpiles[pile.type] - 1
 					pile.quantity = -1
 					pile.type = nil
 					pile.empty = true				
@@ -443,7 +443,7 @@ local Stockpile = class('Stockpile', Object)
 						)
 				end
 				if pile.quantity == max_quantity[pile.type] then
-					_G.not_full_stockpiles = _G.not_full_stockpiles - 1
+					_G.not_full_stockpiles[pile.type] = _G.not_full_stockpiles[pile.type] - 1
 				end
 			end
 

@@ -100,7 +100,13 @@
             ['flour'] = 0,
             ['wheat'] = 0,
         }
-        _G.not_full_stockpiles = 0
+        _G.not_full_stockpiles = {
+            ["wood"] = 0,
+            ["stone"] = 0,
+            ["wheat"] = 0,
+            ["iron"] = 0,
+            ["flour"] = 0
+            }
     ----Libraries        
         anim = require('libraries.anim8') 
         class = require('libraries.middleclass') 

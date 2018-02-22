@@ -77,7 +77,7 @@ function update_terrain(chunk_x,chunk_y)
 								tile_quads[terrain[chunk_x][chunk_y][i][o]], 
 								IsoX + (i - o) * tile_width  * 0.5,
 								IsoY + (i + o) * tile_height * 0.5 - (tile_offset[terrain[chunk_x][chunk_y][i][o]] or 0),
-								0,1,1) 
+								0,1.06666,1) 
 		end
 	end				  
 end
@@ -94,7 +94,7 @@ local function genTerrain(cx,cy)
 	terrain[cx][cy] = ffi.new("unsigned char[64][64]", {})
 	for i=0,chunk_width-1,1 do
 		for o=0,chunk_height-1,1 do
-			local rand = math.random(6)  --FIXME tile 9 or 10 is not correct size
+			local rand = math.random(5)  --FIXME tile 9 or 10 is not correct size
 			terrain[cx][cy][i][o]=rand 	
 			terrain_batch[chunk_x][chunk_y]:add(
 								tile_quads[rand], 
