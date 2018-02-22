@@ -77,7 +77,7 @@ function update_terrain(chunk_x,chunk_y)
 								tile_quads[terrain[chunk_x][chunk_y][i][o]], 
 								IsoX + (i - o) * tile_width  * 0.5,
 								IsoY + (i + o) * tile_height * 0.5 - (tile_offset[terrain[chunk_x][chunk_y][i][o]] or 0),
-								0,1.06666,1) 
+								0,1,1) 
 		end
 	end				  
 end

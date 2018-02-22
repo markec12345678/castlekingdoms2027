@@ -13,23 +13,47 @@ local building = {
         offset_y = 93,
         offset_x = 6*15+6,
         w = 7, h = 7,
-        build = function(cx,cy,x,y) 
+        cost = {
+            ["wood"] = 50
+        },
+        build = function(self,cx,cy,x,y) 
             object[cx][cy][x][y] = 
 			Castle:new(cx,cy,x,y, 
 			IsoX + (x - y) * tile_width  * 0.5 - 0,
 			IsoY + (x + y) * tile_height * 0.5 - 0)
         end,
+        special_requirements = function(self,cx,cy,x,y) return true end,
     },
     ["stockpile"] = {
         quad = tile_quads[735],
         offset_x = 64,
         offset_y = 12,
         w = 5, h = 5,
-        build = function(cx,cy,x,y)
+        cost = {
+            ["stone"] = 10
+        },
+        build = function(self,cx,cy,x,y)
             object[cx][cy][x][y] = 
 			Stockpile:new(cx,cy,x,y, 
 			IsoX + (x - y) * tile_width  * 0.5,
 			IsoY + (x + y) * tile_height * 0.5)
+        end,
+        special_requirements = function(self,cx,cy,x,y)
+            if not next(_G.stockpile.list) then return true end
+            local gx = chunk_width*cx+x
+            local gy = chunk_width*cy+y
+            local i,o,cxx,cyy
+            for w = gx-1, self.w+gx do
+                for h = gy-1, self.h+gy do
+                    i = (w) % (chunk_width)
+                    o = (h) % (chunk_width)
+                    cxx = math.floor(w/chunk_width)
+                    cyy = math.floor(h/chunk_width)
+                    if object[cxx][cyy][i][o] and (object[cxx][cyy][i][o].class.name == "Stockpile" or object[cxx][cyy][i][o].class.name =="Stockpile_alias") then
+                        return true
+                    end
+                end
+            end
         end,
     },
     ["granary"] = {
@@ -37,12 +61,16 @@ local building = {
         offset_x = 3*15+3,
         offset_y = 62+16,
         w = 4, h = 4,
-        build = function(cx,cy,x,y)
+        cost = {
+            ["wood"] = 10
+        },
+        build = function(self,cx,cy,x,y)
             object[cx][cy][x][y] = 
 			Granary:new(cx,cy,x,y, 
 			IsoX + (x - y) * tile_width  * 0.5,
 			IsoY + (x + y) * tile_height * 0.5)
         end,
+        special_requirements = function(self,cx,cy,x,y) return true end,
     }
 }
 
@@ -51,10 +79,14 @@ local BuildController = class('BuildController')
                 self.width = 0
                 self.height = 0
                 self.active = false
+                self.can_afford = true
+                self.start = false
                 self.gx = 0
                 self.gy = 0
                 self.FX = 0
                 self.FY = 0
+                self.previous_gx = 0
+                self.previous_gy = 0
                 self.can_build = false
                 self.building = "stockpile"
                 self.batch = love.graphics.newSpriteBatch(image)
@@ -89,61 +121,85 @@ local BuildController = class('BuildController')
                 local LX = math.round(ScreenToIsoX(MX, MY))
                 local LY = math.round(ScreenToIsoY(MX, MY))
                 self.gx, self.gy = LX,LY
-                self.FX = IsoToScreenX(LX,LY) - view_xview - ((IsoToScreenX(LX,LY))-view_xview)*(1-scale_x)
-                self.FY = IsoToScreenY(LX,LY) - view_yview - ((IsoToScreenY(LX,LY))-view_yview)*(1-scale_x) 
-                self.can_build = true
-                for xx = 0, self.width-1 do
-                    for yy = 0, self.height-1 do   
-                        local x = (xx+LX) % (chunk_width)
-                        local y = (yy+LY) % (chunk_width)
-                        local cx = math.floor((xx+LX)/chunk_width)
-                        local cy = math.floor((yy+LY)/chunk_width)
-                        if object[cx][cy][x][y] ~= nil then self.can_build = false end
+                if self.previous_gx ~= self.gx or self.previous_gy ~= self.gy then
+                    self.FX = IsoToScreenX(LX,LY) - view_xview - ((IsoToScreenX(LX,LY))-view_xview)*(1-scale_x)
+                    self.FY = IsoToScreenY(LX,LY) - view_yview - ((IsoToScreenY(LX,LY))-view_yview)*(1-scale_x) 
+                    self.can_build = true
+                    for xx = 0, self.width-1 do
+                        for yy = 0, self.height-1 do   
+                            local x = (xx+LX) % (chunk_width)
+                            local y = (yy+LY) % (chunk_width)
+                            local cx = math.floor((xx+LX)/chunk_width)
+                            local cy = math.floor((yy+LY)/chunk_width)
+                            if object[cx][cy][x][y] ~= nil then self.can_build = false end
+                        end
                     end
-                end
-               
-                self.batch:clear()
-                for xx = 0, self.width-1 do
-                    for yy = 0, self.height-1 do   
-                        local x = (xx+LX) % (chunk_width)
-                        local y = (yy+LY) % (chunk_width)
-                        local cx = math.floor((xx+LX)/chunk_width)
-                        local cy = math.floor((yy+LY)/chunk_width)
-                        if object[cx][cy][x][y] == nil then 
-                            if self.can_build then
-                                type = 2
-                            else
-                                type = 3
-                            end                
-                        else type = 1 end
-                        self.batch:add(
-								self.quads[type], 
-								 (xx - yy) * tile_width  * 0.5,
-								 (xx + yy) * tile_height * 0.5,
-								0,1,1) 
-                        self.batch:add(
-                            tile_quads[324]
-                            ,(xx - yy) * tile_width  * 0.5,(xx + yy) * tile_height * 0.5,0)
+
+                    do
+                        local i = (self.gx) % (chunk_width)
+                        local o = (self.gy) % (chunk_width)
+                        local cx = math.floor(self.gx/chunk_width)
+                        local cy = math.floor(self.gy/chunk_width)
+                        if not building[self.building]:special_requirements(cx,cy,i,o) then self.can_build = false end
                     end
+
+                    self.batch:clear()
+                    for xx = 0, self.width-1 do
+                        for yy = 0, self.height-1 do   
+                            local x = (xx+LX) % (chunk_width)
+                            local y = (yy+LY) % (chunk_width)
+                            local cx = math.floor((xx+LX)/chunk_width)
+                            local cy = math.floor((yy+LY)/chunk_width)
+                            if object[cx][cy][x][y] == nil then 
+                                if self.can_build then
+                                    type = 2
+                                else
+                                    type = 3
+                                end                
+                            else type = 1 end
+                            self.batch:add(
+                                    self.quads[type], 
+                                    (xx - yy) * tile_width  * 0.5,
+                                    (xx + yy) * tile_height * 0.5,
+                                    0,1,1) 
+                            self.batch:add(
+                                tile_quads[324]
+                                ,(xx - yy) * tile_width  * 0.5,(xx + yy) * tile_height * 0.5,0)
+                        end
+                    end
+                    self.batch:flush()
                 end
-                self.batch:flush()
+                self.previous_gx = self.gx
+                self.previous_gy = self.gy
             end
             function BuildController:build(cx,cy,x,y)
                 if self.active and self.can_build and cx >= 0 and cy >= 0 and cx < 32 and cy < 32 then
-                    if resources.wood > 10 then
-                        _G.stockpile:take('wood')
-                        _G.stockpile:take('wood')
-                        _G.stockpile:take('wood')
-                        _G.stockpile:take('wood')
-                        _G.stockpile:take('wood')
-                        _G.stockpile:take('wood')
-                        _G.stockpile:take('wood')
-                        _G.stockpile:take('wood')
-                        _G.stockpile:take('wood')
-                        _G.stockpile:take('wood')
+                    self.can_afford = true
+                    for resource, amount in pairs(building[self.building].cost) do
+                        if _G.resources[resource] < amount then 
+                            self.can_afford = false 
+                            print("Cannot afford building! Not enough "..resource.."!")
+                            break                             
+                        end
                     end
-                    building[self.building].build(cx,cy,x,y)
-                    self.active = false
+                    if self.can_afford then
+                        for resource, amount in pairs(building[self.building].cost) do                            
+                            _G.stockpile:take(resource,amount)
+                        end                          
+                        building[self.building]:build(cx,cy,x,y)
+                        self.active = false
+                        return
+                    end
+                    if self.start then       
+                        if self.building == 'castle' then               
+                            building[self.building]:build(cx,cy,x,y)
+                            self:set('stockpile')
+                        elseif self.building == 'stockpile' then                               
+                            building[self.building]:build(cx,cy,x,y)
+                            self.active = false
+                            self.start = false
+                        end
+                    end
                 end
             end
             function BuildController:draw()       

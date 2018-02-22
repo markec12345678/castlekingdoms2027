@@ -38,6 +38,7 @@ function game:init()
 	_G.chunkUpdateList = require('objects/chunk_system')
 	_G.BuildController = love.filesystem.load("objects/Controllers/BuildController.lua")(package.loaded['objects.objects'].object, object_image):new()
 	_G.BuildController:set('castle')
+	_G.BuildController.start = true
 end
 
 function game:update(dt)
@@ -70,16 +71,16 @@ function game:wheelmoved(x, y)
 end
 
 function game:keyreleased(key, scancode)
-	if key == "q" then
-		_G.BuildController:set('castle')
-   	elseif key == "w" then
-		_G.BuildController:set('stockpile')
-	elseif key == "e" then
-		_G.BuildController:set('granary')
-	elseif key == "r" then
-		print(inspect(_G.resources))
-	-- elseif key == "t" then
-	-- 	_G.BuildController:set('iron_mine')
+	if not _G.BuildController.start then
+		if key == "q" then
+			_G.BuildController:set('castle')
+		elseif key == "w" then
+			_G.BuildController:set('stockpile')
+		elseif key == "e" then
+			_G.BuildController:set('granary')
+		elseif key == "r" then
+			print(inspect(_G.resources))
+		end
 	end
 end
 

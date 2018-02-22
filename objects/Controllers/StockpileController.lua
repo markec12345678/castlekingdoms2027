@@ -15,7 +15,6 @@ local StockpileController = class('StockpileController')
 			end
 			function StockpileController:store(resource) --TODO add amount
                 if _G.not_full_stockpiles < 1 then
-                    print("CHECKING LIST!!!!!!!!!!!!!!!!!!!!!!")
                     for k,v in ipairs(self.list) do
                         if v:store(resource) then break end
                     end
@@ -23,11 +22,14 @@ local StockpileController = class('StockpileController')
                     self.resources[resource][#self.resources[resource]].id.parent:store(resource)
                 end
 			end
-            function StockpileController:take(resource,amount)
-                if next(self.resources[resource]) == nil then
-                    return false
-                else
-                    self.resources[resource][#self.resources[resource]].id.parent:take(resource,1,self.resources[resource][#self.resources[resource]])
-                end            
+            function StockpileController:take(resource, amount)
+                for i = 1, amount do
+                    if next(self.resources[resource]) == nil then
+                        print("Ran out?",i,amount)
+                        break
+                    else
+                        self.resources[resource][#self.resources[resource]].id.parent:take(resource,self.resources[resource][#self.resources[resource]])
+                    end    
+                end        
             end
 return StockpileController

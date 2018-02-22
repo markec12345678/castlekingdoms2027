@@ -231,14 +231,7 @@ local function mousepressed(x, y, button, istouch)
 		press.cy = math.floor(LocalY/chunk_width)
 		print("Button", button)
    if button == 1 then 
-   _G.BuildController:build(press.cx,press.cy,press.x,press.y)
-		--print("Pressed at",press.x,press.y,press.cx,press.cy)
-		-- if object[press.cx][press.cy][press.x][press.y] == nil then
-		-- object[press.cx][press.cy][press.x][press.y] = 
-		-- 	Castle:new(press.cx,press.cy,press.x,press.y, 
-		-- 	IsoX + (press.x - press.y) * tile_width  * 0.5 - 0,
-		-- 	IsoY + (press.x + press.y) * tile_height * 0.5 - 0)
-		-- end	
+   
    elseif button == 2 then
 	print(object[press.cx][press.cy][press.x][press.y])
 		if not object[press.cx][press.cy][press.x][press.y] then
@@ -252,24 +245,24 @@ local function mousepressed(x, y, button, istouch)
 					:getFrameInfo(object[press.cx][press.cy][press.x][press.y].x,
 								  object[press.cx][press.cy][press.x][press.y].y))
 		end 
-   elseif button == 3 then
-		if not object[press.cx][press.cy][press.x][press.y] then
-		object[press.cx][press.cy][press.x][press.y] = 
-			Stockpile:new(press.cx,press.cy,press.x,press.y, 
-			IsoX + (press.x - press.y) * tile_width  * 0.5,
-			IsoY + (press.x + press.y) * tile_height * 0.5)
-		--update_objects(press.cx,press.cy)
-		end
-   elseif button == 4 then
-		print(object[press.cx][press.cy][press.x][press.y])
-		object[press.cx][press.cy][press.x][press.y]= Tree:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
-						IsoX + (press.x - press.y) * tile_width  * 0.5 -38,
-						IsoY + (press.x + press.y) * tile_height * 0.5 -166,"Pine tree")
-					object[press.cx][press.cy][press.x][press.y].qid = object_batch[press.cx][press.cy]
-					:add(object[press.cx][press.cy][press.x][press.y].animation
-					:getFrameInfo(object[press.cx][press.cy][press.x][press.y].x,
-								  object[press.cx][press.cy][press.x][press.y].y))
-   end
+	elseif button == 3 then
+			-- if not object[press.cx][press.cy][press.x][press.y] then
+			-- object[press.cx][press.cy][press.x][press.y] = 
+			-- 	Stockpile:new(press.cx,press.cy,press.x,press.y, 
+			-- 	IsoX + (press.x - press.y) * tile_width  * 0.5,
+			-- 	IsoY + (press.x + press.y) * tile_height * 0.5)
+			-- --update_objects(press.cx,press.cy)
+			-- end
+	elseif button == 4 then
+			print(object[press.cx][press.cy][press.x][press.y])
+			object[press.cx][press.cy][press.x][press.y]= Tree:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
+							IsoX + (press.x - press.y) * tile_width  * 0.5 -38,
+							IsoY + (press.x + press.y) * tile_height * 0.5 -166,"Pine tree")
+						object[press.cx][press.cy][press.x][press.y].qid = object_batch[press.cx][press.cy]
+						:add(object[press.cx][press.cy][press.x][press.y].animation
+						:getFrameInfo(object[press.cx][press.cy][press.x][press.y].x,
+									object[press.cx][press.cy][press.x][press.y].y))
+	end
 end 
 local previous_count = 0 --note remove this in prod
 local upd = 0
