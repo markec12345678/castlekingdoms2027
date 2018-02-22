@@ -16,6 +16,31 @@ local fr_walking_northeast = {
     tile_quads[1868],tile_quads[1869],tile_quads[1870],
     tile_quads[1871],tile_quads[1872],
 }
+local fr_walking_northwest = {
+    tile_quads[1881],tile_quads[1882],tile_quads[1883],
+    tile_quads[1884],tile_quads[1885],tile_quads[1886],
+    tile_quads[1887],tile_quads[1888],
+}
+local fr_walking_south = {
+    tile_quads[1889],tile_quads[1890],tile_quads[1891],
+    tile_quads[1892],tile_quads[1893],tile_quads[1894],
+    tile_quads[1895],tile_quads[1895],
+}
+local fr_walking_southeast = {
+    tile_quads[1897],tile_quads[1898],tile_quads[1899],
+    tile_quads[1900],tile_quads[1901],tile_quads[1902],
+    tile_quads[1903],tile_quads[1904],
+}
+local fr_walking_southwest = {
+    tile_quads[1905],tile_quads[1906],tile_quads[1907],
+    tile_quads[1908],tile_quads[1909],tile_quads[1910],
+    tile_quads[1911],tile_quads[1912],
+}
+local fr_walking_west = {
+    tile_quads[1913],tile_quads[1914],tile_quads[1915],
+    tile_quads[1916],tile_quads[1917],tile_quads[1918],
+    tile_quads[1919],tile_quads[1920],
+}
 
 
 		local Stonemason = class('Stonemason', Object)
