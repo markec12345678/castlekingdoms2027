@@ -88,6 +88,7 @@ local BuildController = class('BuildController')
                 self.previous_gx = 0
                 self.previous_gy = 0
                 self.can_build = false
+                self.previous_can_build = false
                 self.building = "stockpile"
                 self.batch = love.graphics.newSpriteBatch(image)
                 self.quads = {}
@@ -121,20 +122,19 @@ local BuildController = class('BuildController')
                 local LX = math.round(ScreenToIsoX(MX, MY))
                 local LY = math.round(ScreenToIsoY(MX, MY))
                 self.gx, self.gy = LX,LY
-                if self.previous_gx ~= self.gx or self.previous_gy ~= self.gy then
-                    self.FX = IsoToScreenX(LX,LY) - view_xview - ((IsoToScreenX(LX,LY))-view_xview)*(1-scale_x)
-                    self.FY = IsoToScreenY(LX,LY) - view_yview - ((IsoToScreenY(LX,LY))-view_yview)*(1-scale_x) 
-                    self.can_build = true
-                    for xx = 0, self.width-1 do
-                        for yy = 0, self.height-1 do   
-                            local x = (xx+LX) % (chunk_width)
-                            local y = (yy+LY) % (chunk_width)
-                            local cx = math.floor((xx+LX)/chunk_width)
-                            local cy = math.floor((yy+LY)/chunk_width)
-                            if object[cx][cy][x][y] ~= nil then self.can_build = false end
-                        end
+                self.FX = IsoToScreenX(LX,LY) - view_xview - ((IsoToScreenX(LX,LY))-view_xview)*(1-scale_x)
+                self.FY = IsoToScreenY(LX,LY) - view_yview - ((IsoToScreenY(LX,LY))-view_yview)*(1-scale_x) 
+                self.can_build = true
+                for xx = 0, self.width-1 do
+                    for yy = 0, self.height-1 do   
+                        local x = (xx+LX) % (chunk_width)
+                        local y = (yy+LY) % (chunk_width)
+                        local cx = math.floor((xx+LX)/chunk_width)
+                        local cy = math.floor((yy+LY)/chunk_width)
+                        if object[cx][cy][x][y] ~= nil then self.can_build = false end
                     end
-
+                end
+                if self.previous_gx ~= self.gx or self.previous_gy ~= self.gy then
                     do
                         local i = (self.gx) % (chunk_width)
                         local o = (self.gy) % (chunk_width)
@@ -142,55 +142,81 @@ local BuildController = class('BuildController')
                         local cy = math.floor(self.gy/chunk_width)
                         if not building[self.building]:special_requirements(cx,cy,i,o) then self.can_build = false end
                     end
-
-                    self.batch:clear()
-                    for xx = 0, self.width-1 do
-                        for yy = 0, self.height-1 do   
-                            local x = (xx+LX) % (chunk_width)
-                            local y = (yy+LY) % (chunk_width)
-                            local cx = math.floor((xx+LX)/chunk_width)
-                            local cy = math.floor((yy+LY)/chunk_width)
-                            if object[cx][cy][x][y] == nil then 
-                                if self.can_build then
-                                    type = 2
-                                else
-                                    type = 3
-                                end                
-                            else type = 1 end
-                            self.batch:add(
-                                    self.quads[type], 
-                                    (xx - yy) * tile_width  * 0.5,
-                                    (xx + yy) * tile_height * 0.5,
-                                    0,1,1) 
-                            self.batch:add(
-                                tile_quads[324]
-                                ,(xx - yy) * tile_width  * 0.5,(xx + yy) * tile_height * 0.5,0)
-                        end
-                    end
-                    self.batch:flush()
                 end
+                self.batch:clear()
+                for xx = 0, self.width-1 do
+                    for yy = 0, self.height-1 do   
+                        local x = (xx+LX) % (chunk_width)
+                        local y = (yy+LY) % (chunk_width)
+                        local cx = math.floor((xx+LX)/chunk_width)
+                        local cy = math.floor((yy+LY)/chunk_width)
+                        if object[cx][cy][x][y] == nil then 
+                            if self.can_build then
+                                type = 2
+                            else
+                                type = 3
+                            end                
+                        else type = 1 end
+                        self.batch:add(
+                                self.quads[type], 
+                                (xx - yy) * tile_width  * 0.5,
+                                (xx + yy) * tile_height * 0.5,
+                                0,1,1) 
+                        self.batch:add(
+                            tile_quads[324]
+                            ,(xx - yy) * tile_width  * 0.5,(xx + yy) * tile_height * 0.5,0)
+                    end
+                end
+                self.batch:flush()self.batch:clear()
+                for xx = 0, self.width-1 do
+                    for yy = 0, self.height-1 do   
+                        local x = (xx+LX) % (chunk_width)
+                        local y = (yy+LY) % (chunk_width)
+                        local cx = math.floor((xx+LX)/chunk_width)
+                        local cy = math.floor((yy+LY)/chunk_width)
+                        if object[cx][cy][x][y] == nil then 
+                            if self.can_build then
+                                type = 2
+                            else
+                                type = 3
+                            end                
+                        else type = 1 end
+                        self.batch:add(
+                                self.quads[type], 
+                                (xx - yy) * tile_width  * 0.5,
+                                (xx + yy) * tile_height * 0.5,
+                                0,1,1) 
+                        self.batch:add(
+                            tile_quads[324]
+                            ,(xx - yy) * tile_width  * 0.5,(xx + yy) * tile_height * 0.5,0)
+                    end
+                end
+                self.batch:flush()
                 self.previous_gx = self.gx
                 self.previous_gy = self.gy
+                self.previous_can_build = self.can_build
             end
             function BuildController:build(cx,cy,x,y)
+                print(self.active,self.can_build)
                 if self.active and self.can_build and cx >= 0 and cy >= 0 and cx < 32 and cy < 32 then
                     self.can_afford = true
-                    for resource, amount in pairs(building[self.building].cost) do
-                        if _G.resources[resource] < amount then 
-                            self.can_afford = false 
-                            print("Cannot afford building! Not enough "..resource.."!")
-                            break                             
+                    if not self.start then
+                        for resource, amount in pairs(building[self.building].cost) do
+                            if _G.resources[resource] < amount then 
+                                self.can_afford = false 
+                                print("Cannot afford building! Not enough "..resource.."!")
+                                break                             
+                            end
                         end
-                    end
-                    if self.can_afford then
-                        for resource, amount in pairs(building[self.building].cost) do                            
-                            _G.stockpile:take(resource,amount)
-                        end                          
-                        building[self.building]:build(cx,cy,x,y)
-                        self.active = false
-                        return
-                    end
-                    if self.start then       
+                        if self.can_afford then
+                            for resource, amount in pairs(building[self.building].cost) do                            
+                                _G.stockpile:take(resource,amount)
+                            end                          
+                            building[self.building]:build(cx,cy,x,y)
+                            self.active = false
+                            return
+                        end
+                    else        
                         if self.building == 'castle' then               
                             building[self.building]:build(cx,cy,x,y)
                             self:set('stockpile')

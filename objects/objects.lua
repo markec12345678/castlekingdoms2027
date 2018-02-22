@@ -231,7 +231,7 @@ local function mousepressed(x, y, button, istouch)
 		press.cy = math.floor(LocalY/chunk_width)
 		print("Button", button)
    if button == 1 then 
-   
+		_G.BuildController:build(press.cx,press.cy,press.x,press.y)
    elseif button == 2 then
 	print(object[press.cx][press.cy][press.x][press.y])
 		if not object[press.cx][press.cy][press.x][press.y] then

@@ -63,7 +63,7 @@ end
 function game:mousepressed(x, y, button, istouch)
 	terrain.mousepressed(x,y,button,istouch)
 	objects.mousepressed(x,y,button,istouch)
-	if button == 2 then _G.BuildController.active = false end
+	if button == 2 and not _G.BuildController.start then _G.BuildController.active = false end
 end
 
 function game:wheelmoved(x, y)
