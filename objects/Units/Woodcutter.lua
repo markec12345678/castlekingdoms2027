@@ -115,6 +115,7 @@ local fr_cutting_northeast = { --note actually north
 				self.move_dir = "none"
 				self.update_dir = true
 				self.previous_dir = "none"
+				self.animated = true
 				self.target_tree = 0
 				self.cut = function() 
 					if self.state == "Cutting down" then

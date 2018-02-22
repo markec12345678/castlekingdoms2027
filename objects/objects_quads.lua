@@ -2310,5 +2310,7 @@ local tile_quads = {};
 			tile_quads   [2299] = love.graphics.newQuad(382+16*8, 1095, 16, 92, imageW,imageH)  --stockpile_4x4
 			tile_quads   [2300] = love.graphics.newQuad(382+16*9, 1095, 14, 92, imageW,imageH)  --stockpile_4x4
 
+			tile_quads   [2301] = love.graphics.newQuad(2315, 333, 110, 90, imageW,imageH)  --anim_quarry_rope (1)
+
 			--love.graphics.newQuad(x,y,width,height,sw,sh)
 return tile_quads;

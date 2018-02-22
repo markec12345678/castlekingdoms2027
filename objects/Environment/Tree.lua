@@ -22,6 +22,7 @@ local Tree = class('Tree', Object)
 				self.stump = false 
 				self.animated = true
 				self.marked = false
+				self.tile = nil
 				self.active = false
 				self.chunk_key = false
 				self.cut_down = function()
@@ -39,6 +40,7 @@ local Tree = class('Tree', Object)
 					self.animated = false --mark for removal from list
 					self:animate() --animate, because the list will remove us before we show the stump
 					self.type = "Stump"
+					self.tile = tile_quads[1449]
 					end	
 				if self.gx < 2048 and self.gx >= 0 and self.gy < 2048 and self.gy >= 0 then
 				_G.collision_map[self.gx][self.gy] = 1 _G.nodes[self.gx][self.gy].walkable = 1 end

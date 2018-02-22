@@ -152,8 +152,8 @@ function update_objects(cx,cy,deser)
 				else 
 					object[chunk_x][chunk_y][i][o].qid = object_batch[chunk_x][chunk_y]
 					:add(object[chunk_x][chunk_y][i][o].tile,
-						object[chunk_x][chunk_y][i][o].x+object[chunk_x][chunk_y][i][o].offset_x,
-						object[chunk_x][chunk_y][i][o].y+object[chunk_x][chunk_y][i][o].offset_y)
+						object[chunk_x][chunk_y][i][o].x+(object[chunk_x][chunk_y][i][o].offset_x or 0),
+						object[chunk_x][chunk_y][i][o].y+(object[chunk_x][chunk_y][i][o].offset_y or 0))
 				end	
 				::continue::
 			end
