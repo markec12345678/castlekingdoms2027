@@ -305,7 +305,13 @@ local Quarry_lifter = class('Quarry_lifter', Object)
 				self.animation:update(dt) 			
 			end
 			function Quarry_lifter:activate()
+				self.animated = true
 				self.animation = anim.newAnimation(fr_lifter_part1, 0.11,self.part1_end)
+			end
+			function Quarry_lifter:deactivate()
+				self.animation:pause()
+				self.tile = tile_quads[0]
+				self.animated = false
 			end
 
 local Quarry_hook = class('Quarry_hook', Object)
@@ -365,6 +371,7 @@ local Quarry_shaper = class('Quarry_shaper', Object)
 					self.parent.lifter:activate()
 					self.animation:gotoFrame(1)
 					self.animation:pause()
+					_G.stockpile:store("stone")
 				end
 				self.animation = anim.newAnimation(fr_shaper,0.11,self.anim_end)
 				self.animation:pause()
@@ -384,12 +391,18 @@ local Quarry_shaper = class('Quarry_shaper', Object)
 				self.animation:update(dt) 					
 			end
 			function Quarry_shaper:activate()
+				self.animated = true
 				self.animation:resume()
+			end
+			function Quarry_shaper:deactivate()
+				self.animation:pause()
+				self.tile = tile_quads[0]
+				self.animated = false
 			end
 
 local Quarry_puller = class('Quarry_puller', Object)
 			function Quarry_puller:initialize(gx,gy,parent,offset_x,offset_y)
-                local mytype = "Shaper"
+                local mytype = "Puller"
 				local i = (gx) % (chunk_width)
 				local o = (gy) % (chunk_width)
 				local cx = math.floor(gx/chunk_width)
@@ -424,7 +437,12 @@ local Quarry_puller = class('Quarry_puller', Object)
 				self.animation:update(dt) 					
 			end
 			function Quarry_puller:activate()
+				self.animated = true
 				self.animation:resume()
+			end
+			function Quarry_puller:deactivate()
+				self.tile = tile_quads[0]
+				self.animated = false
 			end
 local Quarry_alias = class('Quarry_alias', Object)
 			function Quarry_alias:initialize(tile,gx,gy,parent,offset_y,offset_x)
@@ -457,6 +475,7 @@ local Quarry_alias = class('Quarry_alias', Object)
 
 local Quarry = class('Quarry', Object)
 			function Quarry:initialize(cx,cy,i,o,x,y,type)
+				_G.JobController:add("Stonemason",self)
                 local mytype = "Static structure"
 				Object.initialize(self,cx,cy,i,o,x,y,mytype)
 				self.gx = chunk_width*self.cx+self.i
@@ -465,14 +484,18 @@ local Quarry = class('Quarry', Object)
 				self.health = 400
                 self.qid = nil
                 self.tile = tile_quads[2307]
+				self.working = false
 				self.offset_x = 0
 				self.offset_y = -7*16-6
                 self.level = 1
                 self.rotation = 1
 				self.lifter = Quarry_lifter:new(self.gx+3,self.gy+3,self,self.offset_x-64-16,self.offset_y)
-				self.hook =  Quarry_hook:new(self.gx+1,self.gy+1,self,self.offset_x-64-16,self.offset_y)
+				self.lifter:deactivate()
 				self.shaper = Quarry_shaper:new(self.gx+2,self.gy+2,self,self.offset_x-64-16,self.offset_y)
+				self.shaper:deactivate()
 				self.puller = Quarry_puller:new(self.gx+4,self.gy+2,self,self.offset_x-64-16,self.offset_y)
+				self.puller:deactivate()
+				self.hook =  Quarry_hook:new(self.gx+1,self.gy+1,self,self.offset_x-64-16,self.offset_y)
 				local ccx, ccy
                 for xx = -1, 6 do
 					for yy = -1, 6 do 					
@@ -502,6 +525,59 @@ local Quarry = class('Quarry', Object)
                 Quarry_alias:new(tile_quads[0],self.gx+2,self.gy+5,self,12+8*4,16)
                 Quarry_alias:new(tile_quads[0],self.gx+3,self.gy+5,self,12+8*4,16)
                 Quarry_alias:new(tile_quads[0],self.gx+4,self.gy+5,self,12+8*4,16)
+
+				self.free_spots = 3
+				self.lift_worker = nil
+				self.pull_worker = nil
+				self.shape_worker = nil
+			end
+			function Quarry:join(worker)
+				if self.free_spots == 3 then
+					self.lift_worker = worker
+					worker.workplace = self
+					self.free_spots = self.free_spots - 1
+				elseif self.free_spots == 2 then
+					self.pull_worker = worker
+					worker.workplace = self
+					self.free_spots = self.free_spots - 1
+				elseif self.free_spots == 1 then
+					self.shape_worker = worker
+					worker.workplace = self
+					self.free_spots = self.free_spots - 1
+				end
+			end
+			function Quarry:work(worker)
+				if self.lift_worker == worker then
+					worker.state = "Working"
+					worker.tile = tile_quads[0]
+					worker.animated = false
+					worker.gx = self.gx+3
+					worker.gy = self.gy+2
+					worker:job_update()
+					self.lifter.tile = tile_quads[139]
+				elseif self.pull_worker == worker then
+					worker.state = "Working"
+					worker.tile = tile_quads[0]
+					worker.animated = false
+					worker.gx = self.gx+4
+					worker.gy = self.gy+3
+					worker:job_update()
+					self.puller.tile = tile_quads[246]
+				elseif self.shape_worker == worker then
+					worker.state = "Working"
+					worker.tile = tile_quads[0]
+					worker.animated = false
+					worker.gx = self.gx+3
+					worker.gy = self.gy+4
+					worker:job_update()
+					self.shaper.tile = tile_quads[331]
+				end
+				if self.shape_worker and self.shape_worker.state == "Working" and not self.working and
+				   self.lift_worker.state == "Working" and
+				   self.pull_worker.state == "Working" then
+					self.working = true
+					self.lifter:activate()
+				end
 			end
 
 return Quarry

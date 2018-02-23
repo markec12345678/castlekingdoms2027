@@ -38,10 +38,11 @@ function game:init()
     objects = love.filesystem.load('objects/objects.lua')(object_image)
 	package.loaded['objects.objects'] = objects
 	terrain = require('terrain')
-	_G.chunkUpdateList = require('objects/chunk_system')
+	_G.chunkUpdateList = require('objects.chunk_system')
 	_G.BuildController = love.filesystem.load("objects/Controllers/BuildController.lua")(package.loaded['objects.objects'].object, object_image):new()
 	_G.BuildController:set('castle')
 	_G.BuildController.start = true
+	_G.JobController = require('objects.Controllers.JobController'):new()
 end
 
 function game:update(dt)

@@ -12,9 +12,9 @@ local fr_walking_north = {
     tile_quads[1871],tile_quads[1872],
 }
 local fr_walking_northeast = {
-    tile_quads[1865],tile_quads[1866],tile_quads[1867],
-    tile_quads[1868],tile_quads[1869],tile_quads[1870],
-    tile_quads[1871],tile_quads[1872],
+    tile_quads[1873],tile_quads[1874],tile_quads[1875],
+    tile_quads[1876],tile_quads[1877],tile_quads[1878],
+    tile_quads[1879],tile_quads[1880],
 }
 local fr_walking_northwest = {
     tile_quads[1881],tile_quads[1882],tile_quads[1883],
@@ -50,13 +50,15 @@ local fr_walking_west = {
 				self.gy = chunk_width*self.cy+self.o
 				self.endx = 0
 				self.endy = 0
+				self.workplace = nil
+				self.lrx, self.lry,self.lrcx,self.lrcy = 0,0,0,0
 				self.fx = self.gx*1000
 				self.fy = self.gy*1000
 				self.previous_cx = cx
 				self.previous_cy = cx
 				self.waypoint_x = 0
 				self.waypoint_y = 0
-				self.state = 'Going to quarry'
+				self.state = 'Find a job'
 				self.path = 0
 				self.straight_walk_speed = 40
 				self.diagonal_walk_speed = 25
@@ -107,7 +109,7 @@ local fr_walking_west = {
 				-- 	else --print("State", self.state)
 				-- 	end					
 				--end
-				--self.animation = anim.newAnimation(fr_walking_west,10)
+				self.animation = anim.newAnimation(fr_walking_west,10)
 				table.insert(active_entities,self)
 			end 
 			function Stonemason:pathfind(xx,yy)
@@ -154,7 +156,8 @@ local fr_walking_west = {
 					self.move_dir = "west"
 					if self.previous_dir ~= "west" then
 						if self.state == "Going to stockpile" then
-							self.animation = anim.newAnimation(fr_walking_plank_west,0.11) 
+							self.animation = anim.newAnimation(fr_walking_plank_west,0.11) --FIXME --WARNING
+							print("ADD WALKING WITH STONE!")
 						else
 							self.animation = anim.newAnimation(fr_walking_west,0.11)
 						end
@@ -224,19 +227,28 @@ local fr_walking_west = {
 					end
 				end
 			end
-			
+			function Stonemason:job_update()	
+				object[self.lrcx][self.lrcy][self.lrx][self.lry] = nil
+			end
 			function Stonemason:update()
-				if self.state ~= "No path to quarry" then
-					if self.state == "Looking to chop tree" then
-						self:find_tree()
-					elseif self.move_dir == "none" and self.state == "Going to tree" then
+				--print(self.state)
+				if self.state ~= "No path to quarry" and self.state ~= "Working" then
+					if self.state == "Find a job" then
+						_G.JobController:find_job(self,"Stonemason")
+					elseif self.state == "Go to workplace" then
+						if self:pathfind(self.workplace.gx-1,self.workplace.gy) then
+							self.state = "Going to workplace"
+							self.move_dir = "none"
+						end
+					elseif self.move_dir == "none" and self.state == "Going to workplace" then
+						print("UPDATING DIRECTION I SAID")
 						self:update_direction()
 					elseif self.move_dir == "none" and self.state == "Going to stockpile" then
 						self:update_direction()
 					end
 					self.timr = self.timr + 1
 					self.timr = self.timr % 60
-					if self.state == "Going to tree" or self.state == "Going to stockpile" then
+					if self.state == "Going to workplace" or self.state == "Going to stockpile" then
 						if self.move_dir == "west" then
 							self.fx = self.fx - self.straight_walk_speed
 						elseif self.move_dir == "south" then
@@ -265,6 +277,7 @@ local fr_walking_west = {
 							xx, yy = (math.round(self.gx))%(chunk_width),(math.round(self.gy))%(chunk_width)
 							if object[self.cx][self.cy][xx][yy] == nil then
 								object[self.cx][self.cy][xx][yy] = self
+								self.lrcx, self.lrcy, self.lrx, self.lry = self.cx,self.cy,xx,yy
 							end
 							if object[self.cx][self.cy][self.originalx][self.originaly] == self 
 							and (self.originalx ~= math.round(self.gx)%chunk_width or self.originaly ~= math.round(self.gy)%chunk_width)
@@ -273,20 +286,20 @@ local fr_walking_west = {
 							end
 						if self.previous_cx ~= self.cx or self.previous_cy ~= self.cy then
 							object[self.cx][self.cy][xx][yy] = self			
+								self.lrcx, self.lrcy, self.lrx, self.lry = self.cx,self.cy,xx,yy
 						    self.qid = object_batch[self.cx][self.cy]:add(self.animation:getFrameInfo(self.x, self.y))
 						end							
-						self.x = IsoX + ((self.fx*0.001)%chunk_width - (self.fy*0.001)%chunk_width) * tile_width  * 0.5 -31 --fixme magic numbers?
-						self.y = IsoY + ((self.fx*0.001)%chunk_width + (self.fy*0.001)%chunk_width) * tile_height * 0.5 -50
+						self.x = IsoX + ((self.fx*0.001)%chunk_width - (self.fy*0.001)%chunk_width) * tile_width  * 0.5 -34 --fixme magic numbers?
+						self.y = IsoY + ((self.fx*0.001)%chunk_width + (self.fy*0.001)%chunk_width) * tile_height * 0.5 -50+8
 						if self.originalx ~= math.round(self.gx)%chunk_width or self.originaly ~= math.round(self.gy)%chunk_width then
 							self.originalx = math.round(self.gx)%chunk_width
 							self.originaly = math.round(self.gy)%chunk_width
 						end
 					end
 					if self.fx*0.001 == self.waypoint_x and self.fy*0.001 == self.waypoint_y and self.move_dir ~= "none" then
-						if self.state == "Going to tree" then
+						if self.state == "Going to workplace" then
 							if self.count == self.nd_len then 
-								self.state = "Cutting down"
-								self.animation = anim.newAnimation(fr_cutting_northeast,0.12,self.cut)
+								self.workplace:work(self)
 								self.nd = {}
 								self.waypoint_x, self.waypoint_y = nil, nil
 								self.move_dir = "none"			
@@ -303,11 +316,10 @@ local fr_walking_west = {
 							self.count = self.count + 1
 						elseif self.state == "Going to stockpile" then
 							if self.count == self.nd_len then
-                        print("-------------------")
+                       			print("-------------------")
 								_G.stockpile:store('stone')
 								_G.stockpile:store('stone')
-                    			--print(inspect(_G.stockpile.list,{depth = 3}))
-								self.state = "Looking to chop tree"
+								self.state = "Go to workplace"
 								self.nd = {}
 								self.waypoint_x, self.waypoint_y = nil, nil
 								self.move_dir = "none"				

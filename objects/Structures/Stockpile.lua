@@ -388,7 +388,7 @@ local Stockpile = class('Stockpile', Object)
 						end
 					end
 				end
-				if not found then print("Falsing") return false else return true end
+				if not found then return false else return true end
 			end
 			function Stockpile:take(resource, from)
 				if from.type == resource and from.quantity > 0 then
@@ -438,8 +438,8 @@ local Stockpile = class('Stockpile', Object)
 					:set(
 						pile.id.qid, 
 						pile.id.tile,
-						pile.id.x,
-						pile.id.y
+						pile.id.x+pile.id.offset_x,
+						pile.id.y+pile.id.offset_y
 						)
 				end
 				if pile.quantity == max_quantity[pile.type] then

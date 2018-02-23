@@ -77,11 +77,13 @@ local object_image= ...
 local Object 		= require('objects.Object')
 local Tree 		 	= love.filesystem.load('objects/Environment/Tree.lua')(object_batch, active_objects, tile_quads,object)
 local Woodcutter 	= love.filesystem.load('objects/Units/Woodcutter.lua')(object,object_batch, active_entities, tile_quads)
+local Stonemason 	= love.filesystem.load('objects/Units/Stonemason.lua')(object,object_batch, active_entities, tile_quads)
 local Castle 		= love.filesystem.load('objects/Structures/Castle.lua')(object, tile_quads)
 local Stockpile 	= love.filesystem.load('objects/Structures/Stockpile.lua')(object, tile_quads, object_batch)
 local Granary       = love.filesystem.load('objects/Structures/Granary.lua')(object, tile_quads, object_batch)
 local Quarry        = love.filesystem.load('objects/Structures/Quarry.lua')(object, tile_quads, object_batch)
 package.loaded['objects.Environment.Tree'],package.loaded['objects.Units.Woodcutter'] = Tree, Woodcutter
+package.loaded['objects.Units.Stonemason'] = Stonemason
 package.loaded['objects.Structures.Castle'] = Castle
 package.loaded['objects.Structures.Stockpile'] = Stockpile
 package.loaded['objects.Structures.Granary'] = Granary
@@ -240,21 +242,22 @@ local function mousepressed(x, y, button, istouch)
 			print("Trying to spawn woodcutter", press.x, press.y)
 			object[press.cx][press.cy][press.x][press.y] =  
 						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
-						IsoX + (press.x - press.y) * tile_width  * 0.5 ,
-						IsoY + (press.x + press.y) * tile_height * 0.5 ,"Woodcutter")
+						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
+						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter")
 					object[press.cx][press.cy][press.x][press.y].qid = object_batch[press.cx][press.cy]
 					:add(object[press.cx][press.cy][press.x][press.y].animation
 					:getFrameInfo(object[press.cx][press.cy][press.x][press.y].x,
 								  object[press.cx][press.cy][press.x][press.y].y))
 		end 
 	elseif button == 3 then
-			-- if not object[press.cx][press.cy][press.x][press.y] then
-			-- object[press.cx][press.cy][press.x][press.y] = 
-			-- 	Stockpile:new(press.cx,press.cy,press.x,press.y, 
-			-- 	IsoX + (press.x - press.y) * tile_width  * 0.5,
-			-- 	IsoY + (press.x + press.y) * tile_height * 0.5)
-			-- --update_objects(press.cx,press.cy)
-			-- end
+			object[press.cx][press.cy][press.x][press.y] =  
+						Stonemason:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
+						IsoX + (press.x - press.y) * tile_width  * 0.5 -34,
+						IsoY + (press.x + press.y) * tile_height * 0.5 -50+8,"Stonemason")
+					object[press.cx][press.cy][press.x][press.y].qid = object_batch[press.cx][press.cy]
+					:add(object[press.cx][press.cy][press.x][press.y].animation
+					:getFrameInfo(object[press.cx][press.cy][press.x][press.y].x,
+								  object[press.cx][press.cy][press.x][press.y].y))
 	elseif button == 4 then
 			print(object[press.cx][press.cy][press.x][press.y])
 			object[press.cx][press.cy][press.x][press.y]= Tree:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x

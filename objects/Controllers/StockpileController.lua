@@ -1,5 +1,4 @@
 
-local Object = require("objects.Object")
 
 local StockpileController = class('StockpileController')
 			function StockpileController:initialize()
