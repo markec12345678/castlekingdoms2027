@@ -371,7 +371,10 @@ local Quarry_shaper = class('Quarry_shaper', Object)
 					self.parent.lifter:activate()
 					self.animation:gotoFrame(1)
 					self.animation:pause()
-					self.parent:send_to_stockpile()
+					self.parent.stone_quantity = self.parent.stone_quantity + 1
+					if self.parent.stone_quantity == 3 then
+						self.parent:send_to_stockpile()
+					end
 				end
 				self.animation = anim.newAnimation(fr_shaper,0.11,self.anim_end)
 				self.animation:pause()
@@ -484,6 +487,7 @@ local Quarry = class('Quarry', Object)
 				self.health = 400
                 self.qid = nil
                 self.tile = tile_quads[2307]
+				self.stone_quantity = 0
 				self.working = false
 				self.offset_x = 0
 				self.offset_y = -7*16-6
@@ -580,18 +584,47 @@ local Quarry = class('Quarry', Object)
 				end
 			end
 			function Quarry:send_to_stockpile()
+				self.stone_quantity = 0
+				local i,o,cx,cy
 				self.lift_worker.state = "Go to stockpile"
 				self.lift_worker.animated = true
 				self.lift_worker.gx = self.gx+6
 				self.lift_worker.gy = self.gy+2
 				self.lift_worker.fx = (self.gx+6)*1000
 				self.lift_worker.fy = (self.gy+2)*1000
-				local i = (self.lift_worker.gx) % (chunk_width)
-				local o = (self.lift_worker.gy) % (chunk_width)
-				local cx = math.floor(self.lift_worker.gx/chunk_width)
-				local cy = math.floor(self.lift_worker.gy/chunk_width)
+				i = (self.lift_worker.gx) % (chunk_width)
+				o = (self.lift_worker.gy) % (chunk_width)
+				cx = math.floor(self.lift_worker.gx/chunk_width)
+				cy = math.floor(self.lift_worker.gy/chunk_width)
 					object[cx][cy][i][o] = self.lift_worker
+				
+				self.pull_worker.state = "Go to stockpile"
+				self.pull_worker.animated = true
+				self.pull_worker.gx = self.gx+5
+				self.pull_worker.gy = self.gy-1
+				self.pull_worker.fx = (self.gx+5)*1000
+				self.pull_worker.fy = (self.gy-1)*1000
+				i = (self.pull_worker.gx) % (chunk_width)
+				o = (self.pull_worker.gy) % (chunk_width)
+				cx = math.floor(self.pull_worker.gx/chunk_width)
+				cy = math.floor(self.pull_worker.gy/chunk_width)
+					object[cx][cy][i][o] = self.pull_worker
+
+				self.shape_worker.state = "Go to stockpile"
+				self.shape_worker.animated = true
+				self.shape_worker.gx = self.gx+1
+				self.shape_worker.gy = self.gy+6
+				self.shape_worker.fx = (self.gx+1)*1000
+				self.shape_worker.fy = (self.gy+6)*1000
+				i = (self.shape_worker.gx) % (chunk_width)
+				o = (self.shape_worker.gy) % (chunk_width)
+				cx = math.floor(self.shape_worker.gx/chunk_width)
+				cy = math.floor(self.shape_worker.gy/chunk_width)
+					object[cx][cy][i][o] = self.shape_worker				
+
 				self.lifter:deactivate()
+				self.puller:deactivate()
+				self.shaper:deactivate()
 				self.working = false
 			end
 
