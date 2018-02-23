@@ -79,7 +79,7 @@ local building = {
         offset_y = 7*16+6,
         w = 6, h = 6,
         cost = {
-            ["wood"] = 48
+            ["wood"] = 24
         },
         build = function(self,cx,cy,x,y)
             object[cx][cy][x][y] = 
