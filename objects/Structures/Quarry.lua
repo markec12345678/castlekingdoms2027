@@ -426,6 +426,34 @@ local Quarry_puller = class('Quarry_puller', Object)
 			function Quarry_puller:activate()
 				self.animation:resume()
 			end
+local Quarry_alias = class('Quarry_alias', Object)
+			function Quarry_alias:initialize(tile,gx,gy,parent,offset_y,offset_x)
+                local mytype = "Static structure"
+				local i = (gx) % (chunk_width)
+				local o = (gy) % (chunk_width)
+				local cx = math.floor(gx/chunk_width)
+				local cy = math.floor(gy/chunk_width)				 
+				local x = IsoX + (i - o) * tile_width  * 0.5
+				local y = IsoY + (i + o) * tile_height * 0.5
+				Object.initialize(self,cx,cy,i,o,x,y,mytype)
+				self.gx = gx
+				self.gy = gy
+				_G.nodes[self.gx][self.gy].walkable = 1
+				self.parent = parent
+                self.qid = 0
+                self.tile = tile
+				self.base_offset_y = offset_y or 0
+				self.additional_offset_y = 0
+				self.offset_x = offset_x or 0
+				self.offset_y = self.additional_offset_y-self.base_offset_y 
+				for k,v in ipairs(_G.stockpile.node_list) do
+					if v.gx == self.gx and v.gy == self.gy then
+						table.remove(_G.stockpile.node_list, k)
+						break
+					end
+				end
+				object[cx][cy][i][o] = self	
+			end
 
 local Quarry = class('Quarry', Object)
 			function Quarry:initialize(cx,cy,i,o,x,y,type)
@@ -436,22 +464,44 @@ local Quarry = class('Quarry', Object)
 				_G.nodes[self.gx][self.gy].walkable = 1
 				self.health = 400
                 self.qid = nil
-                self.tile = tile_quads[732]
-				self.offset_x = -64-16
+                self.tile = tile_quads[2307]
+				self.offset_x = 0
 				self.offset_y = -7*16-6
                 self.level = 1
                 self.rotation = 1
-				self.lifter = Quarry_lifter:new(self.gx+3,self.gy+3,self,self.offset_x,self.offset_y)
-				self.hook =  Quarry_hook:new(self.gx+1,self.gy+1,self,self.offset_x,self.offset_y)
-				self.shaper = Quarry_shaper:new(self.gx+2,self.gy+2,self,self.offset_x,self.offset_y)
-				self.puller = Quarry_puller:new(self.gx+4,self.gy+2,self,self.offset_x,self.offset_y)
+				self.lifter = Quarry_lifter:new(self.gx+3,self.gy+3,self,self.offset_x-64-16,self.offset_y)
+				self.hook =  Quarry_hook:new(self.gx+1,self.gy+1,self,self.offset_x-64-16,self.offset_y)
+				self.shaper = Quarry_shaper:new(self.gx+2,self.gy+2,self,self.offset_x-64-16,self.offset_y)
+				self.puller = Quarry_puller:new(self.gx+4,self.gy+2,self,self.offset_x-64-16,self.offset_y)
 				local ccx, ccy
-                for xx = -1, 4 do
-					for yy = -1, 4 do 					
+                for xx = -1, 6 do
+					for yy = -1, 6 do 					
 						ccx, ccy = terrainSetTileAt(self.gx+xx,self.gy+yy,math.random(6,8))
 					end
 				end
 				update_terrain(ccx,ccy)
+
+                Quarry_alias:new(tile_quads[2302],self.gx,self.gy+5,self,118+8*5)				
+                Quarry_alias:new(tile_quads[2303],self.gx,self.gy+4,self,118+8*4)
+                Quarry_alias:new(tile_quads[2304],self.gx,self.gy+3,self,118+8*3)
+                Quarry_alias:new(tile_quads[2305],self.gx,self.gy+2,self,118+8*2)
+                Quarry_alias:new(tile_quads[2306],self.gx,self.gy+1,self,118+8*1)
+
+                Quarry_alias:new(tile_quads[2308],self.gx+1,self.gy,self,118+8*1,14)
+                Quarry_alias:new(tile_quads[2309],self.gx+2,self.gy,self,118+8*2,14)
+                Quarry_alias:new(tile_quads[2310],self.gx+3,self.gy,self,118+8*3,14)
+                Quarry_alias:new(tile_quads[2311],self.gx+4,self.gy,self,118+8*4,14)
+                Quarry_alias:new(tile_quads[2312],self.gx+5,self.gy,self,118+8*5,14)
+				
+                Quarry_alias:new(tile_quads[0],self.gx+5,self.gy+1,self,12+8*4,16)
+                Quarry_alias:new(tile_quads[0],self.gx+5,self.gy+2,self,12+8*4,16)
+                Quarry_alias:new(tile_quads[0],self.gx+5,self.gy+3,self,12+8*4,16)
+                Quarry_alias:new(tile_quads[0],self.gx+5,self.gy+4,self,12+8*4,16)
+                Quarry_alias:new(tile_quads[0],self.gx+5,self.gy+5,self,12+8*4,16)
+                Quarry_alias:new(tile_quads[0],self.gx+1,self.gy+5,self,12+8*4,16)
+                Quarry_alias:new(tile_quads[0],self.gx+2,self.gy+5,self,12+8*4,16)
+                Quarry_alias:new(tile_quads[0],self.gx+3,self.gy+5,self,12+8*4,16)
+                Quarry_alias:new(tile_quads[0],self.gx+4,self.gy+5,self,12+8*4,16)
 			end
 
 return Quarry

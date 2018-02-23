@@ -1,5 +1,8 @@
 
---math.randomseed(os.time())
+math.randomseed(os.time())
+math.random()
+math.random()
+math.random()
 require('global')
 local object_image
 local Gamestate = require('libraries.gamestate')

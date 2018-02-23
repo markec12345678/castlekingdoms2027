@@ -2311,6 +2311,18 @@ local tile_quads = {};
 			tile_quads   [2300] = love.graphics.newQuad(382+16*9, 1095, 14, 92, imageW,imageH)  --stockpile_4x4
 
 			tile_quads   [2301] = love.graphics.newQuad(2315, 333, 110, 90, imageW,imageH)  --anim_quarry_rope (1)
+			
+			tile_quads   [2302] = love.graphics.newQuad(828+16*0, 800, 16, 214, imageW,imageH)  --quarry_left
+			tile_quads   [2303] = love.graphics.newQuad(828+16*1, 800, 16, 214, imageW,imageH)  --quarry
+			tile_quads   [2304] = love.graphics.newQuad(828+16*2, 800, 16, 214, imageW,imageH)  --quarry
+			tile_quads   [2305] = love.graphics.newQuad(828+16*3, 800, 16, 214, imageW,imageH)  --quarry
+			tile_quads   [2306] = love.graphics.newQuad(828+16*4, 800, 16, 214, imageW,imageH)  --quarry
+			tile_quads   [2307] = love.graphics.newQuad(828+16*5, 800, 30, 214, imageW,imageH)   --quarry _center
+			tile_quads   [2308] = love.graphics.newQuad(828+16*5+30, 800, 16, 214, imageW,imageH)  --quarry
+			tile_quads   [2309] = love.graphics.newQuad(828+16*6+30, 800, 16, 214, imageW,imageH)  --quarry
+			tile_quads   [2310] = love.graphics.newQuad(828+16*7+30, 800, 16, 214, imageW,imageH)  --quarry
+			tile_quads   [2311] = love.graphics.newQuad(828+16*8+30, 800, 16, 214, imageW,imageH)  --quarry
+			tile_quads   [2312] = love.graphics.newQuad(828+16*9+30, 800, 16, 214, imageW,imageH)  --quarry_right
 
 			--love.graphics.newQuad(x,y,width,height,sw,sh)
 return tile_quads;

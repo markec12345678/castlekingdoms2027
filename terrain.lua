@@ -94,7 +94,7 @@ local function genTerrain(cx,cy)
 	terrain[cx][cy] = ffi.new("unsigned char[64][64]", {})
 	for i=0,chunk_width-1,1 do
 		for o=0,chunk_height-1,1 do
-			local rand = math.random(5)  --FIXME tile 9 or 10 is not correct size
+			local rand = math.round(love.math.noise(i,o)*4)+1
 			terrain[cx][cy][i][o]=rand 	
 			terrain_batch[chunk_x][chunk_y]:add(
 								tile_quads[rand], 

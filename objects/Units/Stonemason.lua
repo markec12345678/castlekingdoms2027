@@ -56,7 +56,7 @@ local fr_walking_west = {
 				self.previous_cy = cx
 				self.waypoint_x = 0
 				self.waypoint_y = 0
-				self.state = 'Looking to chop tree'
+				self.state = 'Going to quarry'
 				self.path = 0
 				self.straight_walk_speed = 40
 				self.diagonal_walk_speed = 25
@@ -72,42 +72,42 @@ local fr_walking_west = {
 				self.update_dir = true
 				self.previous_dir = "none"
 				self.animated = true
-				self.target_tree = 0
-				self.cut = function() 
-					if self.state == "Cutting down" then
-						--print("Trying to cut down "..self.target_tree.type)
-						local tree_progress = 0
-						if self.target_tree.type == "Pine tree" then
-						tree_progress = self.target_tree:cut() else 
-						self.state = "Looking to chop tree"	
-							self.move_dir = "none"
-						end
-						if tree_progress == 2 then
-							--self.animation = anim.newAnimation(fr_walking_north,0.15)
-							self.i = (self.fx*0.001)%chunk_width
-							self.o = (self.fy*0.001)%chunk_width
-							self.move_dir = "none"
-							self.count = 1
-							tree_progress = 3			
-								if _G.stockpile then
-                                    self.state = "Going to stockpile"    
-                                    local closest_node
-                                    local distance = math.huge
-                                    for k,v in ipairs(_G.stockpile.node_list) do
-                                        local tmp = manhattan_distance(v.gx,v.gy,self.gx,self.gy)
-                                        if tmp < distance then
-                                            distance = tmp
-                                            closest_node = v
-                                        end
-                                    end
-                                    if not closest_node then self.state = "Looking to chop tree" else                                    
-                                    self:pathfind(closest_node.gx,closest_node.gy) end
-                                else self.state = "Looking to chop tree" end
-						end
-					else --print("State", self.state)
-					end					
-				end
-				self.animation = anim.newAnimation(fr_walking_west,10)
+				-- self.target_tree = 0
+				-- self.cut = function() 
+				-- 	if self.state == "Cutting down" then
+				-- 		--print("Trying to cut down "..self.target_tree.type)
+				-- 		local tree_progress = 0
+				-- 		if self.target_tree.type == "Pine tree" then
+				-- 		tree_progress = self.target_tree:cut() else 
+				-- 		self.state = "Looking to chop tree"	
+				-- 			self.move_dir = "none"
+				-- 		end
+				-- 		if tree_progress == 2 then
+				-- 			--self.animation = anim.newAnimation(fr_walking_north,0.15)
+				-- 			self.i = (self.fx*0.001)%chunk_width
+				-- 			self.o = (self.fy*0.001)%chunk_width
+				-- 			self.move_dir = "none"
+				-- 			self.count = 1
+				-- 			tree_progress = 3			
+				-- 				if _G.stockpile then
+                --                     self.state = "Going to stockpile"    
+                --                     local closest_node
+                --                     local distance = math.huge
+                --                     for k,v in ipairs(_G.stockpile.node_list) do
+                --                         local tmp = manhattan_distance(v.gx,v.gy,self.gx,self.gy)
+                --                         if tmp < distance then
+                --                             distance = tmp
+                --                             closest_node = v
+                --                         end
+                --                     end
+                --                     if not closest_node then self.state = "Looking to chop tree" else                                    
+                --                     self:pathfind(closest_node.gx,closest_node.gy) end
+                --                 else self.state = "Looking to chop tree" end
+				-- 		end
+				-- 	else --print("State", self.state)
+				-- 	end					
+				--end
+				--self.animation = anim.newAnimation(fr_walking_west,10)
 				table.insert(active_entities,self)
 			end 
 			function Stonemason:pathfind(xx,yy)
@@ -134,87 +134,11 @@ local fr_walking_west = {
 				 	self.move_dir = "none"	
 					return true
 				else print("Path not found!")
-					self.state = "No trees"
+					self.state = "No path to quarry"
 					return false
 				 end			
 			end
-			function Stonemason:check_trees(cx,cy)
-				local chunkx,chunky = cx or self.cx,cy or self.cy 
-				local closest_object, closest_distance = nil,10000000
-				if _G.chunk_objects[chunkx][chunky] then
-					for index, obj in ipairs ( _G.chunk_objects[chunkx][chunky] ) do 
-						if obj.type == 'Pine tree' and obj.marked == false then
-							if _G.nodes[obj.gx][obj.gy+1].walkable == 0 then
-								local dist = manhattan_distance(self.gx,self.gy, obj.gx, obj.gy)
-								if dist < closest_distance then 
-									closest_object = obj
-									closest_distance = dist
-								end
-							end
-						end
-					end
-				end
-				if not closest_object then return false,false else return closest_object,closest_distance end
-			end
-			function Stonemason:find_tree()
-				local closest_object, closest_distance = nil,10000000
-				local objt,disto
-					objt,disto = self:check_trees(self.cx,self.cy)
-					if disto and disto < closest_distance then  
-							closest_object = objt
-							closest_distance = disto
-					end
-					objt,disto = self:check_trees(self.cx+1,self.cy)
-					if disto and disto < closest_distance then  
-							closest_object = objt
-							closest_distance = disto
-					end
-					objt,disto = self:check_trees(self.cx+1,self.cy+1)
-					if disto and disto < closest_distance then  
-							closest_object = objt
-							closest_distance = disto
-					end
-					objt,disto = self:check_trees(self.cx+1,self.cy-1)
-					if disto and disto < closest_distance then  
-							closest_object = objt
-							closest_distance = disto
-					end
-					objt,disto = self:check_trees(self.cx-1,self.cy+1)
-					if disto and disto < closest_distance then  
-							closest_object = objt
-							closest_distance = disto
-					end
-					objt,disto = self:check_trees(self.cx-1,self.cy)
-					if disto and disto < closest_distance then  
-							closest_object = objt
-							closest_distance = disto
-					end
-					objt,disto = self:check_trees(self.cx-1,self.cy-1)
-					if disto and disto < closest_distance then  
-							closest_object = objt
-							closest_distance = disto
-					end
-					objt,disto = self:check_trees(self.cx,self.cy+1)
-					if disto and disto < closest_distance then  
-							closest_object = objt
-							closest_distance = disto
-					end
-					objt,disto = self:check_trees(self.cx,self.cy-1)
-					if disto and disto < closest_distance then  
-							closest_object = objt
-							closest_distance = disto
-					end
-				if not closest_object then print("No trees nearby!") self.state = "No trees" return end
-				self.target_tree = closest_object 
-				--print("Target tree:", self.target_tree)
-				self.endx = closest_object.gx
-				self.endy = closest_object.gy
-				if self:pathfind(self.endx,self.endy+1) then
-				--print("Found tree at "..self.endx.."  "..self.endy)
-					self.state = "Going to tree"
-					closest_object.marked = true
-				else self.state = "No trees" end --todo rename to stuck
-			end
+			
 			function Stonemason:update_direction()
 				local wx = self.waypoint_x
 				local wy = self.waypoint_y
@@ -302,7 +226,7 @@ local fr_walking_west = {
 			end
 			
 			function Stonemason:update()
-				if self.state ~= "No trees" then
+				if self.state ~= "No path to quarry" then
 					if self.state == "Looking to chop tree" then
 						self:find_tree()
 					elseif self.move_dir == "none" and self.state == "Going to tree" then
