@@ -41,7 +41,86 @@ local fr_walking_west = {
     tile_quads[1916],tile_quads[1917],tile_quads[1918],
     tile_quads[1919],tile_quads[1920],
 }
-
+local fr_walking_stone_east = {
+	tile_quads[1793],
+	tile_quads[1794],
+	tile_quads[1795],
+	tile_quads[1796],
+	tile_quads[1797],
+	tile_quads[1798],
+	tile_quads[1799],
+	tile_quads[1800],
+}
+local fr_walking_stone_north = {
+	tile_quads[1801],
+	tile_quads[1802],
+	tile_quads[1803],
+	tile_quads[1804],
+	tile_quads[1805],
+	tile_quads[1806],
+	tile_quads[1807],
+	tile_quads[1808],
+}
+local fr_walking_stone_northeast = {
+	tile_quads[1809],
+	tile_quads[1810],
+	tile_quads[1811],
+	tile_quads[1812],
+	tile_quads[1813],
+	tile_quads[1814],
+	tile_quads[1815],
+	tile_quads[1816],
+}
+local fr_walking_stone_northwest = {
+	tile_quads[1817],
+	tile_quads[1818],
+	tile_quads[1819],
+	tile_quads[1820],
+	tile_quads[1821],
+	tile_quads[1822],
+	tile_quads[1823],
+	tile_quads[1824],
+}
+local fr_walking_stone_south = {
+	tile_quads[1825],
+	tile_quads[1826],
+	tile_quads[1827],
+	tile_quads[1828],
+	tile_quads[1829],
+	tile_quads[1830],
+	tile_quads[1831],
+	tile_quads[1832],
+}
+local fr_walking_stone_southeast = {
+	tile_quads[1833],
+	tile_quads[1834],
+	tile_quads[1835],
+	tile_quads[1836],
+	tile_quads[1837],
+	tile_quads[1838],
+	tile_quads[1839],
+	tile_quads[1840],
+}
+local fr_walking_stone_southwest = {
+	tile_quads[1841],
+	tile_quads[1842],
+	tile_quads[1843],
+	tile_quads[1844],
+	tile_quads[1845],
+	tile_quads[1846],
+	tile_quads[1847],
+	tile_quads[1848],
+}
+local fr_walking_stone_west = {
+	tile_quads[1849],
+	tile_quads[1850],
+	tile_quads[1851],
+	tile_quads[1852],
+	tile_quads[1853],
+	tile_quads[1854],
+	tile_quads[1855],
+	tile_quads[1856],
+}
 
 		local Stonemason = class('Stonemason', Object)
 			function Stonemason:initialize(cx,cy,i,o,x,y,type)
@@ -73,42 +152,7 @@ local fr_walking_west = {
 				self.move_dir = "none"
 				self.update_dir = true
 				self.previous_dir = "none"
-				self.animated = true
-				-- self.target_tree = 0
-				-- self.cut = function() 
-				-- 	if self.state == "Cutting down" then
-				-- 		--print("Trying to cut down "..self.target_tree.type)
-				-- 		local tree_progress = 0
-				-- 		if self.target_tree.type == "Pine tree" then
-				-- 		tree_progress = self.target_tree:cut() else 
-				-- 		self.state = "Looking to chop tree"	
-				-- 			self.move_dir = "none"
-				-- 		end
-				-- 		if tree_progress == 2 then
-				-- 			--self.animation = anim.newAnimation(fr_walking_north,0.15)
-				-- 			self.i = (self.fx*0.001)%chunk_width
-				-- 			self.o = (self.fy*0.001)%chunk_width
-				-- 			self.move_dir = "none"
-				-- 			self.count = 1
-				-- 			tree_progress = 3			
-				-- 				if _G.stockpile then
-                --                     self.state = "Going to stockpile"    
-                --                     local closest_node
-                --                     local distance = math.huge
-                --                     for k,v in ipairs(_G.stockpile.node_list) do
-                --                         local tmp = manhattan_distance(v.gx,v.gy,self.gx,self.gy)
-                --                         if tmp < distance then
-                --                             distance = tmp
-                --                             closest_node = v
-                --                         end
-                --                     end
-                --                     if not closest_node then self.state = "Looking to chop tree" else                                    
-                --                     self:pathfind(closest_node.gx,closest_node.gy) end
-                --                 else self.state = "Looking to chop tree" end
-				-- 		end
-				-- 	else --print("State", self.state)
-				-- 	end					
-				--end
+				self.animated = true				
 				self.animation = anim.newAnimation(fr_walking_west,10)
 				table.insert(active_entities,self)
 			end 
@@ -156,8 +200,7 @@ local fr_walking_west = {
 					self.move_dir = "west"
 					if self.previous_dir ~= "west" then
 						if self.state == "Going to stockpile" then
-							self.animation = anim.newAnimation(fr_walking_plank_west,0.11) --FIXME --WARNING
-							print("ADD WALKING WITH STONE!")
+							self.animation = anim.newAnimation(fr_walking_stone_west,0.11)
 						else
 							self.animation = anim.newAnimation(fr_walking_west,0.11)
 						end
@@ -166,7 +209,7 @@ local fr_walking_west = {
 					self.move_dir = "southwest"
 					if self.previous_dir ~= "southwest" then
 						if self.state == "Going to stockpile" then
-							self.animation = anim.newAnimation(fr_walking_plank_southwest,0.11)
+							self.animation = anim.newAnimation(fr_walking_stone_southwest,0.11)
 						else
 							self.animation = anim.newAnimation(fr_walking_southwest,0.11)
 						end
@@ -175,7 +218,7 @@ local fr_walking_west = {
 					self.move_dir = "northwest"
 					if self.previous_dir ~= "northwest" then
 						if self.state == "Going to stockpile" then
-							self.animation = anim.newAnimation(fr_walking_plank_northwest,0.11)
+							self.animation = anim.newAnimation(fr_walking_stone_northwest,0.11)
 						else
 							self.animation = anim.newAnimation(fr_walking_northwest,0.11)
 						end
@@ -184,7 +227,7 @@ local fr_walking_west = {
 					self.move_dir = "north"
 					if self.previous_dir ~= "north" then
 						if self.state == "Going to stockpile" then
-							self.animation = anim.newAnimation(fr_walking_plank_north,0.11)
+							self.animation = anim.newAnimation(fr_walking_stone_north,0.11)
 						else
 							self.animation = anim.newAnimation(fr_walking_north,0.11)
 						end
@@ -193,7 +236,7 @@ local fr_walking_west = {
 					self.move_dir = "south"
 					if self.previous_dir ~= "south" then
 						if self.state == "Going to stockpile" then
-							self.animation = anim.newAnimation(fr_walking_plank_south,0.11)
+							self.animation = anim.newAnimation(fr_walking_stone_south,0.11)
 						else
 							self.animation = anim.newAnimation(fr_walking_south,0.11)
 						end
@@ -202,7 +245,7 @@ local fr_walking_west = {
 					self.move_dir = "east"
 					if self.previous_dir ~= "east" then
 						if self.state == "Going to stockpile" then
-							self.animation = anim.newAnimation(fr_walking_plank_east,0.11)
+							self.animation = anim.newAnimation(fr_walking_stone_east,0.11)
 						else
 							self.animation = anim.newAnimation(fr_walking_east,0.11)
 						end
@@ -211,7 +254,7 @@ local fr_walking_west = {
 					self.move_dir = "southeast"
 					if self.previous_dir ~= "southeast" then
 						if self.state == "Going to stockpile" then
-							self.animation = anim.newAnimation(fr_walking_plank_southeast,0.11)
+							self.animation = anim.newAnimation(fr_walking_stone_southeast,0.11)
 						else
 							self.animation = anim.newAnimation(fr_walking_southeast,0.11)
 						end
@@ -220,7 +263,7 @@ local fr_walking_west = {
 					self.move_dir = "northeast"
 					if self.previous_dir ~= "northeast" then
 						if self.state == "Going to stockpile" then
-							self.animation = anim.newAnimation(fr_walking_plank_northeast,0.11)
+							self.animation = anim.newAnimation(fr_walking_stone_northeast,0.11)
 						else
 							self.animation = anim.newAnimation(fr_walking_northeast,0.11)
 						end
@@ -235,13 +278,40 @@ local fr_walking_west = {
 				if self.state ~= "No path to quarry" and self.state ~= "Working" then
 					if self.state == "Find a job" then
 						_G.JobController:find_job(self,"Stonemason")
-					elseif self.state == "Go to workplace" then
-						if self:pathfind(self.workplace.gx-1,self.workplace.gy) then
-							self.state = "Going to workplace"
+					elseif self.state == "Go to stockpile" then
+						if _G.stockpile then
+							self.state = "Going to stockpile"    
+							local closest_node
+							local distance = math.huge
+							for k,v in ipairs(_G.stockpile.node_list) do
+								local tmp = manhattan_distance(v.gx,v.gy,self.gx,self.gy)
+								if tmp < distance then
+									distance = tmp
+									closest_node = v
+								end
+							end
+							if not closest_node then print("Closest node not found") else                                    
+							self:pathfind(closest_node.gx,closest_node.gy) print("Found path!") end
 							self.move_dir = "none"
 						end
+					elseif self.state == "Go to workplace" then
+						if self.workplace.lift_worker == self then
+							if self:pathfind(self.workplace.gx+6,self.workplace.gy+3) then
+								self.state = "Going to workplace"
+								self.move_dir = "none"
+							end
+						elseif self.workplace.pull_worker == self then
+							if self:pathfind(self.workplace.gx+5,self.workplace.gy-1) then
+								self.state = "Going to workplace"
+								self.move_dir = "none"
+							end
+						elseif self.workplace.shape_worker == self then
+							if self:pathfind(self.workplace.gx+1,self.workplace.gy+6) then
+								self.state = "Going to workplace"
+								self.move_dir = "none"
+							end
+						end
 					elseif self.move_dir == "none" and self.state == "Going to workplace" then
-						print("UPDATING DIRECTION I SAID")
 						self:update_direction()
 					elseif self.move_dir == "none" and self.state == "Going to stockpile" then
 						self:update_direction()

@@ -371,7 +371,7 @@ local Quarry_shaper = class('Quarry_shaper', Object)
 					self.parent.lifter:activate()
 					self.animation:gotoFrame(1)
 					self.animation:pause()
-					_G.stockpile:store("stone")
+					self.parent:send_to_stockpile()
 				end
 				self.animation = anim.newAnimation(fr_shaper,0.11,self.anim_end)
 				self.animation:pause()
@@ -578,6 +578,21 @@ local Quarry = class('Quarry', Object)
 					self.working = true
 					self.lifter:activate()
 				end
+			end
+			function Quarry:send_to_stockpile()
+				self.lift_worker.state = "Go to stockpile"
+				self.lift_worker.animated = true
+				self.lift_worker.gx = self.gx+6
+				self.lift_worker.gy = self.gy+2
+				self.lift_worker.fx = (self.gx+6)*1000
+				self.lift_worker.fy = (self.gy+2)*1000
+				local i = (self.lift_worker.gx) % (chunk_width)
+				local o = (self.lift_worker.gy) % (chunk_width)
+				local cx = math.floor(self.lift_worker.gx/chunk_width)
+				local cy = math.floor(self.lift_worker.gy/chunk_width)
+					object[cx][cy][i][o] = self.lift_worker
+				self.lifter:deactivate()
+				self.working = false
 			end
 
 return Quarry
