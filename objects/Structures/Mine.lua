@@ -97,6 +97,90 @@ local fr_miner_going_down = {
 	tile_quads[82],
 	tile_quads[83],
 	tile_quads[84],
+}local fr_miner_going_up = {
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[53],
+	tile_quads[84],
+	tile_quads[83],
+	tile_quads[82],
+	tile_quads[81],
+	tile_quads[80],
+	tile_quads[79],
+	tile_quads[78],
+	tile_quads[77],
+	tile_quads[76],
+	tile_quads[74],
+	tile_quads[73],
+	tile_quads[72],
+	tile_quads[71],
+	tile_quads[70],
+	tile_quads[69],
+	tile_quads[68],
+	tile_quads[67],
+	tile_quads[66],
+	tile_quads[65],
+	tile_quads[63],
+	tile_quads[62],
+	tile_quads[61],
+	tile_quads[60],
+	tile_quads[59],
+	tile_quads[58],
+	tile_quads[57],
+	tile_quads[56],
+	tile_quads[55],
+	tile_quads[90],
+	tile_quads[89],
+	tile_quads[88],
+	tile_quads[87],
+	tile_quads[86],
+	tile_quads[85],
+	tile_quads[75],
+	tile_quads[64],
 }
 local fr_miner_pulling = {
     tile_quads[91],
@@ -113,7 +197,6 @@ local fr_miner_pulling = {
     tile_quads[94],
 }
 local fr_stack = {
-    tile_quads[131],
     tile_quads[132],
     tile_quads[133],
     tile_quads[134],
@@ -121,6 +204,7 @@ local fr_stack = {
     tile_quads[136],
     tile_quads[137],
     tile_quads[138],
+    tile_quads[131],
 }
 
 local Mine_going_down = class('Mine_going_down', Object)
@@ -138,9 +222,12 @@ local Mine_going_down = class('Mine_going_down', Object)
 					self.animation:pause()
                     self:deactivate()
                     self.parent.puller:activate()
-                    self.parent.bucket:activate()                    
+                    self.parent.bucket:activate()            
 				end
-				self.animation = anim.newAnimation(fr_miner_going_down, 0.11, self.anim_end)--, 'pauseAtEnd')
+				self.part1_end = function()
+					self.animation = anim.newAnimation(fr_miner_going_up, 0.11, self.anim_end)
+				end
+				self.animation = anim.newAnimation(fr_miner_going_down, 0.11, self.part1_end)
 				self.gx = gx
 				self.gy = gy
 				_G.nodes[self.gx][self.gy].walkable = 1
@@ -156,7 +243,7 @@ local Mine_going_down = class('Mine_going_down', Object)
 			function Mine_going_down:animate() 
 				self.animation:update(dt) 			
 			end
-			function Mine_going_down:activate()
+			function Mine_going_down:activate()       
 				self.animated = true
 				self.animation = anim.newAnimation(fr_miner_going_down, 0.11,self.part1_end)
 			end
@@ -228,7 +315,7 @@ local Mine_bucket = class('Mine_bucket', Object)
 				self.part1_end = function () 
 					self.parent.shaper:activate()			
 				end
-				self.animation = anim.newAnimation(fr_bucket,0.23)		
+				self.animation = anim.newAnimation(fr_bucket,0.19)		
 				self.animation:pause()
 				self.gx = gx
 				self.gy = gy
@@ -268,13 +355,13 @@ local Mine_pourer = class('Mine_pourer', Object)
 				Object.initialize(self,cx,cy,i,o,x,y,mytype)
 				self.animated = true
 				self.part2_end = function ()
-					self.animation = anim.newAnimation(fr_hook_part1,0.11,self.part1_end)
-					self.animation:pause()
+					self:deactivate()
 					--self.parent.shaper.animation = anim.newAnimation(fr_shaper_part2,0.11,self.parent.shaper.anim_end)
 				end
 				self.part1_end = function () 
+					self.animation = anim.newAnimation({tile_quads[13]},0.1,self.part2_end)		
 					self.parent.casting:activate()
-					self.animation = anim.newAnimation(fr_pouring,0.11,'pauseAtEnd')				
+					self.parent.going_down:activate()		
 				end
 				self.animation = anim.newAnimation(fr_pouring,0.11,self.part1_end)		
 				self.animation:pause()
@@ -294,11 +381,113 @@ local Mine_pourer = class('Mine_pourer', Object)
 				self.animation:update(dt) 					
 			end
 			function Mine_pourer:activate()
+				self.animation = anim.newAnimation(fr_pouring,0.11,self.part1_end)		
                 self.animated = true
 				self.animation:gotoFrame(1)
 				self.animation:resume()
 			end
 			function Mine_pourer:deactivate()
+				self.animation:pause()
+				self.tile = tile_quads[0]
+				self.animated = false
+			end
+local Mine_casting = class('Mine_casting', Object)
+			function Mine_casting:initialize(gx,gy,parent,offset_x,offset_y)
+                local mytype = "Animatino"
+				local i = (gx) % (chunk_width)
+				local o = (gy) % (chunk_width)
+				local cx = math.floor(gx/chunk_width)
+				local cy = math.floor(gy/chunk_width)				 
+				local x = IsoX + (i - o) * tile_width  * 0.5
+				local y = IsoY + (i + o) * tile_height * 0.5
+				Object.initialize(self,cx,cy,i,o,x,y,mytype)
+				self.animated = true
+				self.part2_end = function ()
+					self.animation = anim.newAnimation(fr_hook_part1,0.11,self.part1_end)
+					self.animation:pause()
+					--self.parent.shaper.animation = anim.newAnimation(fr_shaper_part2,0.11,self.parent.shaper.anim_end)
+				end
+				self.part1_end = function () 
+					if not self.parent.stack.animated then
+					self.parent.stack:activate()	 end
+					self.parent.stack:stack()
+					self:deactivate()		
+				end
+				self.animation = anim.newAnimation(fr_casting_iron,0.11,self.part1_end)		
+				self.animation:pause()
+				self.gx = gx
+				self.gy = gy
+				_G.nodes[self.gx][self.gy].walkable = 1
+				self.parent = parent
+                self.qid = 0
+				self.offset_x = 49+offset_x-16
+				self.offset_y = 11+offset_y-64
+				object[cx][cy][i][o] = self	
+				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
+				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
+				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self
+			end	
+			function Mine_casting:animate() 
+				self.animation:update(dt) 					
+			end
+			function Mine_casting:activate()
+                self.animated = true
+				self.animation:gotoFrame(1)
+				self.animation:resume()
+			end
+			function Mine_casting:deactivate()
+				self.animation:pause()
+				self.tile = tile_quads[0]
+				self.animated = false
+			end
+local Mine_stack = class('Mine_stack', Object)
+			function Mine_stack:initialize(gx,gy,parent,offset_x,offset_y)
+                local mytype = "Animatino"
+				local i = (gx) % (chunk_width)
+				local o = (gy) % (chunk_width)
+				local cx = math.floor(gx/chunk_width)
+				local cy = math.floor(gy/chunk_width)				 
+				local x = IsoX + (i - o) * tile_width  * 0.5
+				local y = IsoY + (i + o) * tile_height * 0.5
+				Object.initialize(self,cx,cy,i,o,x,y,mytype)
+				self.animated = true
+				self.part2_end = function ()
+					self.animation = anim.newAnimation(fr_hook_part1,0.11,self.part1_end)
+					self.animation:pause()
+					--self.parent.shaper.animation = anim.newAnimation(fr_shaper_part2,0.11,self.parent.shaper.anim_end)
+				end
+				self.part1_end = function () 
+					--self.parent.stack:activate()			
+				end
+				self.animation = anim.newAnimation(fr_stack,0.11,self.part1_end)		
+				self.animation:pause()
+				self.quantity = 0
+				self.gx = gx
+				self.gy = gy
+				_G.nodes[self.gx][self.gy].walkable = 1
+				self.parent = parent
+                self.qid = 0
+				self.offset_x = 49+offset_x-16
+				self.offset_y = 11+offset_y-32-8+3
+				object[cx][cy][i][o] = self	
+				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
+				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
+				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self
+			end	
+			function Mine_stack:stack()
+				self.quantity = self.quantity + 1
+				if self.quantity == 7 then print("there we go") end
+				self.animation:gotoFrame(self.quantity)
+			end
+			function Mine_stack:animate() 
+				self.animation:update(dt) 					
+			end
+			function Mine_stack:activate()
+                self.animated = true
+				self.animation:gotoFrame(1)
+				self.animation:pause()
+			end
+			function Mine_stack:deactivate()
 				self.animation:pause()
 				self.tile = tile_quads[0]
 				self.animated = false
@@ -349,14 +538,17 @@ local Mine = class('Mine', Object)
 				self.offset_y = -64+16+4
                 self.level = 1
                 self.rotation = 1
+				self.pourer = Mine_pourer:new(self.gx+1,self.gy+1,self,self.offset_x-64-16,self.offset_y)
+                self.pourer:deactivate()
 				self.going_down = Mine_going_down:new(self.gx+3,self.gy+3,self,self.offset_x,self.offset_y)
 				self.puller = Mine_puller:new(self.gx+4,self.gy+2,self,self.offset_x-64-16,self.offset_y)
 				self.puller:deactivate()
 				self.bucket = Mine_bucket:new(self.gx+2,self.gy+2,self,self.offset_x-64-16,self.offset_y)
 				self.bucket:deactivate()
-				-- self.puller:deactivate()
-				self.pourer =  Mine_pourer:new(self.gx+1,self.gy+1,self,self.offset_x-64-16,self.offset_y)
-                self.pourer:deactivate()
+				self.casting = Mine_casting:new(self.gx+2,self.gy+3,self,self.offset_x,self.offset_y)
+                self.casting:deactivate()
+				self.stack = Mine_stack:new(self.gx+3,self.gy+2,self,self.offset_x,self.offset_y)
+                self.stack:deactivate()
 				local ccx, ccy
                 for xx = -1, 4 do
 					for yy = -1, 4 do 					
