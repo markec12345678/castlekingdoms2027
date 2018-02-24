@@ -7,6 +7,7 @@ local Castle = require('objects.Structures.Castle')
 local Stockpile = require('objects.Structures.Stockpile')
 local Granary = require('objects.Structures.Granary')
 local Quarry = require('objects.Structures.Quarry')
+local Mine = require('objects.Structures.Mine')
 
 local building = {
     ["castle"] = {
@@ -88,7 +89,24 @@ local building = {
 			IsoY + (x + y) * tile_height * 0.5)
         end,
         special_requirements = function(self,cx,cy,x,y) return true end,
-    }
+    },
+    ["iron_mine"] = {
+        quad = tile_quads[726],
+        offset_x = 48,
+        offset_y = 64-16-4,
+        w = 4, h = 4,
+        cost = {
+            ["wood"] = 24,
+            ["stone"] = 10,
+        },
+        build = function(self,cx,cy,x,y)
+            object[cx][cy][x][y] = 
+			Mine:new(cx,cy,x,y, 
+			IsoX + (x - y) * tile_width  * 0.5,
+			IsoY + (x + y) * tile_height * 0.5)
+        end,
+        special_requirements = function(self,cx,cy,x,y) return true end,
+    },
 }
 
 local BuildController = class('BuildController')

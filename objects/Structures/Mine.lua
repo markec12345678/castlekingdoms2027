@@ -1,7 +1,7 @@
 local object, tile_quads, object_batch = ...
 local Object = require("objects.Object")
 
-local fr_bucket= {	
+local fr_pouring= {	
 	tile_quads[1],
 	tile_quads[12],
 	tile_quads[14],
@@ -23,9 +23,109 @@ local fr_bucket= {
 	tile_quads[11],
 	tile_quads[13],
 }
-local Mine_lifter = class('Mine_lifter', Object)
-			function Mine_lifter:initialize(gx,gy,parent,offset_x,offset_y)
-                local mytype = "Lifter"
+local fr_bucket = {	
+	tile_quads[21],
+	tile_quads[22],
+	tile_quads[23],
+	tile_quads[24],
+	tile_quads[25],
+	tile_quads[26],
+	tile_quads[27],
+	tile_quads[28],
+}
+local fr_casting_iron = {	
+	tile_quads[29],
+	tile_quads[40],
+	tile_quads[46],
+	tile_quads[47],
+	tile_quads[48],
+	tile_quads[49],
+	tile_quads[50],
+	tile_quads[51],
+	tile_quads[52],
+	tile_quads[30],
+	tile_quads[31],
+	tile_quads[32],
+	tile_quads[33],
+	tile_quads[34],
+	tile_quads[35],
+	tile_quads[36],
+	tile_quads[37],
+	tile_quads[38],
+	tile_quads[39],
+	tile_quads[41],
+	tile_quads[42],
+	tile_quads[43],
+	tile_quads[44],
+	tile_quads[45],
+}
+local fr_miner_going_down = {
+	tile_quads[53],
+	tile_quads[64],
+	tile_quads[75],
+	tile_quads[85],
+	tile_quads[86],
+	tile_quads[87],
+	tile_quads[88],
+	tile_quads[89],
+	tile_quads[90],
+	tile_quads[55],
+	tile_quads[56],
+	tile_quads[57],
+	tile_quads[58],
+	tile_quads[59],
+	tile_quads[60],
+	tile_quads[61],
+	tile_quads[62],
+	tile_quads[63],
+	tile_quads[65],
+	tile_quads[66],
+	tile_quads[67],
+	tile_quads[68],
+	tile_quads[69],
+	tile_quads[70],
+	tile_quads[71],
+	tile_quads[72],
+	tile_quads[73],
+	tile_quads[74],
+	tile_quads[76],
+	tile_quads[77],
+	tile_quads[78],
+	tile_quads[79],
+	tile_quads[80],
+	tile_quads[81],
+	tile_quads[82],
+	tile_quads[83],
+	tile_quads[84],
+}
+local fr_miner_pulling = {
+    tile_quads[91],
+    tile_quads[95],
+    tile_quads[96],
+    tile_quads[97],
+    tile_quads[98],
+    tile_quads[99],
+    tile_quads[100],
+    tile_quads[101],
+    tile_quads[102],
+    tile_quads[92],
+    tile_quads[93],
+    tile_quads[94],
+}
+local fr_stack = {
+    tile_quads[131],
+    tile_quads[132],
+    tile_quads[133],
+    tile_quads[134],
+    tile_quads[135],
+    tile_quads[136],
+    tile_quads[137],
+    tile_quads[138],
+}
+
+local Mine_going_down = class('Mine_going_down', Object)
+			function Mine_going_down:initialize(gx,gy,parent,offset_x,offset_y)
+                local mytype = "Animation"
 				local i = (gx) % (chunk_width)
 				local o = (gy) % (chunk_width)
 				local cx = math.floor(gx/chunk_width)
@@ -34,46 +134,83 @@ local Mine_lifter = class('Mine_lifter', Object)
 				local y = IsoY + (i + o) * tile_height * 0.5
 				Object.initialize(self,cx,cy,i,o,x,y,mytype)
 				self.animated = true
-				self.part3_end = function ()
-					self.animation = anim.newAnimation(fr_lifter_part1,0.11,function () self.animation:gotoFrame(1) end)
+				self.anim_end = function ()
 					self.animation:pause()
+                    self:deactivate()
+                    self.parent.puller:activate()
+                    self.parent.bucket:activate()                    
 				end
-				self.part2_end = function ()
-					self.animation = anim.newAnimation(fr_lifter_part3,0.11,self.part3_end)
-				end
-				self.part1_end = function ()
-					self.parent.puller:activate()
-					self.parent.hook:activate()
-					self.animation = anim.newAnimation(fr_lifter_part2,0.11,self.part2_end)
-				end
-				self.animation = anim.newAnimation(fr_lifter_part1, 0.11,self.part1_end)--, 'pauseAtEnd')
+				self.animation = anim.newAnimation(fr_miner_going_down, 0.11, self.anim_end)--, 'pauseAtEnd')
 				self.gx = gx
 				self.gy = gy
 				_G.nodes[self.gx][self.gy].walkable = 1
 				self.parent = parent
                 self.qid = 0
-				self.offset_x = 48+offset_x
-				self.offset_y = 74+offset_y-64+32
+				self.offset_x = 13+offset_x
+				self.offset_y = 6+offset_y-32-16
 				object[cx][cy][i][o] = self	
 				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
 				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
 				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self
 			end	
-			function Mine_lifter:animate() 
+			function Mine_going_down:animate() 
 				self.animation:update(dt) 			
 			end
-			function Mine_lifter:activate()
+			function Mine_going_down:activate()
 				self.animated = true
-				self.animation = anim.newAnimation(fr_lifter_part1, 0.11,self.part1_end)
+				self.animation = anim.newAnimation(fr_miner_going_down, 0.11,self.part1_end)
 			end
-			function Mine_lifter:deactivate()
+			function Mine_going_down:deactivate()
 				self.animation:pause()
 				self.tile = tile_quads[0]
 				self.animated = false
 			end
 
-local Mine_hook = class('Mine_hook', Object)
-			function Mine_hook:initialize(gx,gy,parent,offset_x,offset_y)
+
+local Mine_puller = class('Mine_puller', Object)
+			function Mine_puller:initialize(gx,gy,parent,offset_x,offset_y)
+                local mytype = "Puller"
+				local i = (gx) % (chunk_width)
+				local o = (gy) % (chunk_width)
+				local cx = math.floor(gx/chunk_width)
+				local cy = math.floor(gy/chunk_width)				 
+				local x = IsoX + (i - o) * tile_width  * 0.5
+				local y = IsoY + (i + o) * tile_height * 0.5
+				Object.initialize(self,cx,cy,i,o,x,y,mytype)
+				self.animated = true
+				self.part1_end = function ()
+                    self.animation:pause()
+                    self.parent.pourer:activate()
+                    self:deactivate()
+                    self.parent.bucket:deactivate()
+				end
+				self.animation = anim.newAnimation(fr_miner_pulling,0.11,self.part1_end)
+				self.animation:pause()
+				self.gx = gx
+				self.gy = gy
+				_G.nodes[self.gx][self.gy].walkable = 1
+				self.parent = parent
+                self.qid = 0
+				self.offset_x = 13+offset_x+32+16
+				self.offset_y = -2+offset_y-32-16
+				object[cx][cy][i][o] = self	
+				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
+				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
+				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self
+			end	
+			function Mine_puller:animate() 
+				self.animation:update(dt) 					
+			end
+			function Mine_puller:activate()
+				self.animated = true
+				self.animation:resume()
+			end
+			function Mine_puller:deactivate()
+				self.tile = tile_quads[0]
+				self.animated = false
+			end
+local Mine_bucket = class('Mine_bucket', Object)
+			function Mine_bucket:initialize(gx,gy,parent,offset_x,offset_y)
                 local mytype = "Hook"
 				local i = (gx) % (chunk_width)
 				local o = (gy) % (chunk_width)
@@ -89,81 +226,39 @@ local Mine_hook = class('Mine_hook', Object)
 					--self.parent.shaper.animation = anim.newAnimation(fr_shaper_part2,0.11,self.parent.shaper.anim_end)
 				end
 				self.part1_end = function () 
-					self.parent.shaper:activate()
-					self.animation = anim.newAnimation(fr_hook_part2,0.12,self.part2_end)				
+					self.parent.shaper:activate()			
 				end
-				self.animation = anim.newAnimation(fr_hook_part1,0.11,self.part1_end)
+				self.animation = anim.newAnimation(fr_bucket,0.23)		
 				self.animation:pause()
 				self.gx = gx
 				self.gy = gy
 				_G.nodes[self.gx][self.gy].walkable = 1
 				self.parent = parent
                 self.qid = 0
-				self.offset_x = 32+offset_x
-				self.offset_y = 57+offset_y-15
+				self.offset_x = -3+offset_x+48+32
+				self.offset_y = -8+offset_y-32
 				object[cx][cy][i][o] = self	
 				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
 				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
 				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self
 			end	
-			function Mine_hook:animate() 
+			function Mine_bucket:animate() 
 				self.animation:update(dt) 					
 			end
-			function Mine_hook:activate()
-				self.animation:gotoFrame(2)
+			function Mine_bucket:activate()
+                self.animated = true
+				self.animation:gotoFrame(1)
 				self.animation:resume()
 			end
-
-local Mine_shaper = class('Mine_shaper', Object)
-			function Mine_shaper:initialize(gx,gy,parent,offset_x,offset_y)
-                local mytype = "Shaper"
-				local i = (gx) % (chunk_width)
-				local o = (gy) % (chunk_width)
-				local cx = math.floor(gx/chunk_width)
-				local cy = math.floor(gy/chunk_width)				 
-				local x = IsoX + (i - o) * tile_width  * 0.5
-				local y = IsoY + (i + o) * tile_height * 0.5
-				Object.initialize(self,cx,cy,i,o,x,y,mytype)
-				self.animated = true
-				self.anim_end = function() 
-					self.parent.lifter:activate()
-					self.animation:gotoFrame(1)
-					self.animation:pause()
-					self.parent.stone_quantity = self.parent.stone_quantity + 1
-					if self.parent.stone_quantity == 3 then
-						self.parent:send_to_stockpile()
-					end
-				end
-				self.animation = anim.newAnimation(fr_shaper,0.11,self.anim_end)
-				self.animation:pause()
-				self.gx = gx
-				self.gy = gy
-				_G.nodes[self.gx][self.gy].walkable = 1
-				self.parent = parent
-                self.qid = 0
-				self.offset_x = -15+offset_x
-				self.offset_y = 57+offset_y-2
-				object[cx][cy][i][o] = self	
-				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
-				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
-				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self
-			end	
-			function Mine_shaper:animate() 
-				self.animation:update(dt) 					
-			end
-			function Mine_shaper:activate()
-				self.animated = true
-				self.animation:resume()
-			end
-			function Mine_shaper:deactivate()
+			function Mine_bucket:deactivate()
 				self.animation:pause()
 				self.tile = tile_quads[0]
 				self.animated = false
 			end
 
-local Mine_puller = class('Mine_puller', Object)
-			function Mine_puller:initialize(gx,gy,parent,offset_x,offset_y)
-                local mytype = "Puller"
+local Mine_pourer = class('Mine_pourer', Object)
+			function Mine_pourer:initialize(gx,gy,parent,offset_x,offset_y)
+                local mytype = "Hook"
 				local i = (gx) % (chunk_width)
 				local o = (gy) % (chunk_width)
 				local cx = math.floor(gx/chunk_width)
@@ -172,36 +267,39 @@ local Mine_puller = class('Mine_puller', Object)
 				local y = IsoY + (i + o) * tile_height * 0.5
 				Object.initialize(self,cx,cy,i,o,x,y,mytype)
 				self.animated = true
-				self.anim_end = function () 
-					self.animation = anim.newAnimation(fr_puller_part1,0.11,self.part1_end)
-					self.animation:gotoFrame(1)
+				self.part2_end = function ()
+					self.animation = anim.newAnimation(fr_hook_part1,0.11,self.part1_end)
 					self.animation:pause()
+					--self.parent.shaper.animation = anim.newAnimation(fr_shaper_part2,0.11,self.parent.shaper.anim_end)
 				end
-				self.part1_end = function ()
-					self.animation = anim.newAnimation(fr_puller_part2,0.11,self.anim_end)
+				self.part1_end = function () 
+					self.parent.casting:activate()
+					self.animation = anim.newAnimation(fr_pouring,0.11,'pauseAtEnd')				
 				end
-				self.animation = anim.newAnimation(fr_puller_part1,0.11,self.part1_end)
+				self.animation = anim.newAnimation(fr_pouring,0.11,self.part1_end)		
 				self.animation:pause()
 				self.gx = gx
 				self.gy = gy
 				_G.nodes[self.gx][self.gy].walkable = 1
 				self.parent = parent
                 self.qid = 0
-				self.offset_x = 92+offset_x-16-16
-				self.offset_y = 58+offset_y-32-16
+				self.offset_x = 13+offset_x+48+32
+				self.offset_y = -13+offset_y-16
 				object[cx][cy][i][o] = self	
 				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
 				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
 				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self
 			end	
-			function Mine_puller:animate() 
+			function Mine_pourer:animate() 
 				self.animation:update(dt) 					
 			end
-			function Mine_puller:activate()
-				self.animated = true
+			function Mine_pourer:activate()
+                self.animated = true
+				self.animation:gotoFrame(1)
 				self.animation:resume()
 			end
-			function Mine_puller:deactivate()
+			function Mine_pourer:deactivate()
+				self.animation:pause()
 				self.tile = tile_quads[0]
 				self.animated = false
 			end
@@ -236,7 +334,7 @@ local Mine_alias = class('Mine_alias', Object)
 
 local Mine = class('Mine', Object)
 			function Mine:initialize(cx,cy,i,o,x,y,type)
-				_G.JobController:add("Stonemason",self)
+				_G.JobController:add("Miner",self)
                 local mytype = "Static structure"
 				Object.initialize(self,cx,cy,i,o,x,y,mytype)
 				self.gx = chunk_width*self.cx+self.i
@@ -244,49 +342,50 @@ local Mine = class('Mine', Object)
 				_G.nodes[self.gx][self.gy].walkable = 1
 				self.health = 400
                 self.qid = nil
-                self.tile = tile_quads[2307]
+                self.tile = tile_quads[726]
 				self.stone_quantity = 0
 				self.working = false
-				self.offset_x = 0
-				self.offset_y = -7*16-6
+				self.offset_x = -48
+				self.offset_y = -64+16+4
                 self.level = 1
                 self.rotation = 1
-				self.lifter = Mine_lifter:new(self.gx+3,self.gy+3,self,self.offset_x-64-16,self.offset_y)
-				self.lifter:deactivate()
-				self.shaper = Mine_shaper:new(self.gx+2,self.gy+2,self,self.offset_x-64-16,self.offset_y)
-				self.shaper:deactivate()
+				self.going_down = Mine_going_down:new(self.gx+3,self.gy+3,self,self.offset_x,self.offset_y)
 				self.puller = Mine_puller:new(self.gx+4,self.gy+2,self,self.offset_x-64-16,self.offset_y)
 				self.puller:deactivate()
-				self.hook =  Mine_hook:new(self.gx+1,self.gy+1,self,self.offset_x-64-16,self.offset_y)
+				self.bucket = Mine_bucket:new(self.gx+2,self.gy+2,self,self.offset_x-64-16,self.offset_y)
+				self.bucket:deactivate()
+				-- self.puller:deactivate()
+				self.pourer =  Mine_pourer:new(self.gx+1,self.gy+1,self,self.offset_x-64-16,self.offset_y)
+                self.pourer:deactivate()
 				local ccx, ccy
-                for xx = -1, 6 do
-					for yy = -1, 6 do 					
+                for xx = -1, 4 do
+					for yy = -1, 4 do 					
 						ccx, ccy = terrainSetTileAt(self.gx+xx,self.gy+yy,math.random(6,8))
 					end
 				end
 				update_terrain(ccx,ccy)
 
-                Mine_alias:new(tile_quads[2302],self.gx,self.gy+5,self,118+8*5)				
-                Mine_alias:new(tile_quads[2303],self.gx,self.gy+4,self,118+8*4)
-                Mine_alias:new(tile_quads[2304],self.gx,self.gy+3,self,118+8*3)
-                Mine_alias:new(tile_quads[2305],self.gx,self.gy+2,self,118+8*2)
-                Mine_alias:new(tile_quads[2306],self.gx,self.gy+1,self,118+8*1)
+                -- Mine_alias:new(tile_quads[2302],self.gx,self.gy+5,self,118+8*5)				
+                -- Mine_alias:new(tile_quads[2303],self.gx,self.gy+4,self,118+8*4)
+                -- Mine_alias:new(tile_quads[2304],self.gx,self.gy+3,self,118+8*3)
+                -- Mine_alias:new(tile_quads[2305],self.gx,self.gy+2,self,118+8*2)
+                -- Mine_alias:new(tile_quads[2306],self.gx,self.gy+1,self,118+8*1)
 
-                Mine_alias:new(tile_quads[2308],self.gx+1,self.gy,self,118+8*1,14)
-                Mine_alias:new(tile_quads[2309],self.gx+2,self.gy,self,118+8*2,14)
-                Mine_alias:new(tile_quads[2310],self.gx+3,self.gy,self,118+8*3,14)
-                Mine_alias:new(tile_quads[2311],self.gx+4,self.gy,self,118+8*4,14)
-                Mine_alias:new(tile_quads[2312],self.gx+5,self.gy,self,118+8*5,14)
+                -- Mine_alias:new(tile_quads[2308],self.gx+1,self.gy,self,118+8*1,14)
+                -- Mine_alias:new(tile_quads[2309],self.gx+2,self.gy,self,118+8*2,14)
+                -- Mine_alias:new(tile_quads[2310],self.gx+3,self.gy,self,118+8*3,14)
+                -- Mine_alias:new(tile_quads[2311],self.gx+4,self.gy,self,118+8*4,14)
+                -- Mine_alias:new(tile_quads[2312],self.gx+5,self.gy,self,118+8*5,14)
 				
-                Mine_alias:new(tile_quads[0],self.gx+5,self.gy+1,self,12+8*4,16)
-                Mine_alias:new(tile_quads[0],self.gx+5,self.gy+2,self,12+8*4,16)
-                Mine_alias:new(tile_quads[0],self.gx+5,self.gy+3,self,12+8*4,16)
-                Mine_alias:new(tile_quads[0],self.gx+5,self.gy+4,self,12+8*4,16)
-                Mine_alias:new(tile_quads[0],self.gx+5,self.gy+5,self,12+8*4,16)
-                Mine_alias:new(tile_quads[0],self.gx+1,self.gy+5,self,12+8*4,16)
-                Mine_alias:new(tile_quads[0],self.gx+2,self.gy+5,self,12+8*4,16)
-                Mine_alias:new(tile_quads[0],self.gx+3,self.gy+5,self,12+8*4,16)
-                Mine_alias:new(tile_quads[0],self.gx+4,self.gy+5,self,12+8*4,16)
+                -- Mine_alias:new(tile_quads[0],self.gx+5,self.gy+1,self,12+8*4,16)
+                -- Mine_alias:new(tile_quads[0],self.gx+5,self.gy+2,self,12+8*4,16)
+                -- Mine_alias:new(tile_quads[0],self.gx+5,self.gy+3,self,12+8*4,16)
+                -- Mine_alias:new(tile_quads[0],self.gx+5,self.gy+4,self,12+8*4,16)
+                -- Mine_alias:new(tile_quads[0],self.gx+5,self.gy+5,self,12+8*4,16)
+                -- Mine_alias:new(tile_quads[0],self.gx+1,self.gy+5,self,12+8*4,16)
+                -- Mine_alias:new(tile_quads[0],self.gx+2,self.gy+5,self,12+8*4,16)
+                -- Mine_alias:new(tile_quads[0],self.gx+3,self.gy+5,self,12+8*4,16)
+                -- Mine_alias:new(tile_quads[0],self.gx+4,self.gy+5,self,12+8*4,16)
 
 				self.free_spots = 3
 				self.lift_worker = nil

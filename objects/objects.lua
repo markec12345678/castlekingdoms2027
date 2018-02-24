@@ -82,12 +82,14 @@ local Castle 		= love.filesystem.load('objects/Structures/Castle.lua')(object, t
 local Stockpile 	= love.filesystem.load('objects/Structures/Stockpile.lua')(object, tile_quads, object_batch)
 local Granary       = love.filesystem.load('objects/Structures/Granary.lua')(object, tile_quads, object_batch)
 local Quarry        = love.filesystem.load('objects/Structures/Quarry.lua')(object, tile_quads, object_batch)
+local Mine 			= love.filesystem.load('objects/Structures/Mine.lua')(object, tile_quads, object_batch)
 package.loaded['objects.Environment.Tree'],package.loaded['objects.Units.Woodcutter'] = Tree, Woodcutter
 package.loaded['objects.Units.Stonemason'] = Stonemason
 package.loaded['objects.Structures.Castle'] = Castle
 package.loaded['objects.Structures.Stockpile'] = Stockpile
 package.loaded['objects.Structures.Granary'] = Granary
 package.loaded['objects.Structures.Quarry'] = Quarry
+package.loaded['objects.Structures.Mine'] = Mine
 local StockpileController = require('objects.Controllers.StockpileController')
 _G.stockpile = StockpileController:new()
 --- NOTE --------------------------
