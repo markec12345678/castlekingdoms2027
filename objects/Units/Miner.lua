@@ -180,7 +180,7 @@ local fr_walking_stone_west = {
 				 	self.move_dir = "none"	
 					return true
 				else print("Path not found!")
-					self.state = "No path to quarry"
+					self.state = "No path to workplace"
 					return false
 				 end			
 			end
@@ -225,10 +225,12 @@ local fr_walking_stone_west = {
 					end
 				elseif (angle >= 225+22 and angle <= 315-22) then --direction is north
 					self.move_dir = "north"
+                    print(self.state,self.previous_dir)
 					if self.previous_dir ~= "north" then
 						if self.state == "Going to stockpile" then
 							self.animation = anim.newAnimation(fr_walking_stone_north,0.11)
 						else
+                            print("set this!")
 							self.animation = anim.newAnimation(fr_walking_north,0.11)
 						end
 					end
@@ -269,13 +271,13 @@ local fr_walking_stone_west = {
 						end
 					end
 				end
+                self.previous_dir = self.move_dir
 			end
 			function Miner:job_update()	
 				object[self.lrcx][self.lrcy][self.lrx][self.lry] = nil
 			end
 			function Miner:update()
-				--print(self.state)
-				if self.state ~= "No path to quarry" and self.state ~= "Working" then
+				if self.state ~= "No path to workplace" and self.state ~= "Working" then
 					if self.state == "Find a job" then
 						_G.JobController:find_job(self,"Miner")
 					elseif self.state == "Go to stockpile" then
@@ -295,24 +297,13 @@ local fr_walking_stone_west = {
 							self.move_dir = "none"
 						end
 					elseif self.state == "Go to workplace" then
-						if self.workplace.lift_worker == self then
-							if self:pathfind(self.workplace.gx+6,self.workplace.gy+3) then
-								self.state = "Going to workplace"
-								self.move_dir = "none"
-							end
-						elseif self.workplace.pull_worker == self then
-							if self:pathfind(self.workplace.gx+5,self.workplace.gy-1) then
-								self.state = "Going to workplace"
-								self.move_dir = "none"
-							end
-						elseif self.workplace.shape_worker == self then
-							if self:pathfind(self.workplace.gx+1,self.workplace.gy+6) then
-								self.state = "Going to workplace"
-								self.move_dir = "none"
-							end
-						end
+                        if self:pathfind(self.workplace.gx-1,self.workplace.gy) then
+                            self.state = "Going to workplace"
+                            self.move_dir = "none"
+                        end
 					elseif self.move_dir == "none" and self.state == "Going to workplace" then
 						self:update_direction()
+                        print(self.move_dir)
 					elseif self.move_dir == "none" and self.state == "Going to stockpile" then
 						self:update_direction()
 					end
@@ -378,7 +369,7 @@ local fr_walking_stone_west = {
 							else	
 								self.waypoint_x = self.nd[self.count]._x
 								self.waypoint_y = self.nd[self.count]._y
-								self.previous_dir = self.move_dir
+								--self.previous_dir = self.move_dir
 								self.move_dir = "none"									
 							end
 							self.count = self.count + 1
@@ -394,7 +385,7 @@ local fr_walking_stone_west = {
 							else
 								self.waypoint_x = self.nd[self.count]._x
 								self.waypoint_y = self.nd[self.count]._y
-								self.previous_dir = self.move_dir
+								--self.previous_dir = self.move_dir
 								self.move_dir = "none"									
 							end
 							self.count = self.count + 1

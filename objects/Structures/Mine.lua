@@ -278,8 +278,8 @@ local Mine_puller = class('Mine_puller', Object)
 				_G.nodes[self.gx][self.gy].walkable = 1
 				self.parent = parent
                 self.qid = 0
-				self.offset_x = 13+offset_x+32+16
-				self.offset_y = -2+offset_y-32-16
+				self.offset_x = 13+offset_x+32+32
+				self.offset_y = -2+offset_y-32+8
 				object[cx][cy][i][o] = self	
 				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
 				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
@@ -345,7 +345,7 @@ local Mine_bucket = class('Mine_bucket', Object)
 
 local Mine_pourer = class('Mine_pourer', Object)
 			function Mine_pourer:initialize(gx,gy,parent,offset_x,offset_y)
-                local mytype = "Hook"
+                local mytype = "Animation"
 				local i = (gx) % (chunk_width)
 				local o = (gy) % (chunk_width)
 				local cx = math.floor(gx/chunk_width)
@@ -361,7 +361,12 @@ local Mine_pourer = class('Mine_pourer', Object)
 				self.part1_end = function () 
 					self.animation = anim.newAnimation({tile_quads[13]},0.1,self.part2_end)		
 					self.parent.casting:activate()
-					self.parent.going_down:activate()		
+					if self.parent.stack.quantity < 7 then
+						self.parent.going_down:activate()
+					else
+						self.parent.unloading = true
+						self.parent:send_to_stockpile()
+					end		
 				end
 				self.animation = anim.newAnimation(fr_pouring,0.11,self.part1_end)		
 				self.animation:pause()
@@ -393,7 +398,7 @@ local Mine_pourer = class('Mine_pourer', Object)
 			end
 local Mine_casting = class('Mine_casting', Object)
 			function Mine_casting:initialize(gx,gy,parent,offset_x,offset_y)
-                local mytype = "Animatino"
+                local mytype = "Animation"
 				local i = (gx) % (chunk_width)
 				local o = (gy) % (chunk_width)
 				local cx = math.floor(gx/chunk_width)
@@ -409,7 +414,8 @@ local Mine_casting = class('Mine_casting', Object)
 				end
 				self.part1_end = function () 
 					if not self.parent.stack.animated then
-					self.parent.stack:activate()	 end
+						self.parent.stack:activate()	
+					end
 					self.parent.stack:stack()
 					self:deactivate()		
 				end
@@ -476,7 +482,6 @@ local Mine_stack = class('Mine_stack', Object)
 			end	
 			function Mine_stack:stack()
 				self.quantity = self.quantity + 1
-				if self.quantity == 7 then print("there we go") end
 				self.animation:gotoFrame(self.quantity)
 			end
 			function Mine_stack:animate() 
@@ -491,6 +496,15 @@ local Mine_stack = class('Mine_stack', Object)
 				self.animation:pause()
 				self.tile = tile_quads[0]
 				self.animated = false
+			end
+			function Mine_stack:take()
+				self.quantity = self.quantity - 1
+				if self.quantity == 0 then 
+					self:deactivate()
+					self.parent.unloading = false
+					return
+				end
+				self.animation:gotoFrame(self.quantity)
 			end
 local Mine_alias = class('Mine_alias', Object)
 			function Mine_alias:initialize(tile,gx,gy,parent,offset_y,offset_x)
@@ -534,6 +548,7 @@ local Mine = class('Mine', Object)
                 self.tile = tile_quads[726]
 				self.stone_quantity = 0
 				self.working = false
+				self.unloading = false
 				self.offset_x = -48
 				self.offset_y = -64+16+4
                 self.level = 1
@@ -541,7 +556,8 @@ local Mine = class('Mine', Object)
 				self.pourer = Mine_pourer:new(self.gx+1,self.gy+1,self,self.offset_x-64-16,self.offset_y)
                 self.pourer:deactivate()
 				self.going_down = Mine_going_down:new(self.gx+3,self.gy+3,self,self.offset_x,self.offset_y)
-				self.puller = Mine_puller:new(self.gx+4,self.gy+2,self,self.offset_x-64-16,self.offset_y)
+				self.going_down:deactivate()
+				self.puller = Mine_puller:new(self.gx+2,self.gy+1,self,self.offset_x-64-16,self.offset_y)
 				self.puller:deactivate()
 				self.bucket = Mine_bucket:new(self.gx+2,self.gy+2,self,self.offset_x-64-16,self.offset_y)
 				self.bucket:deactivate()
@@ -579,101 +595,50 @@ local Mine = class('Mine', Object)
                 -- Mine_alias:new(tile_quads[0],self.gx+3,self.gy+5,self,12+8*4,16)
                 -- Mine_alias:new(tile_quads[0],self.gx+4,self.gy+5,self,12+8*4,16)
 
-				self.free_spots = 3
-				self.lift_worker = nil
-				self.pull_worker = nil
-				self.shape_worker = nil
+				self.free_spots = 1
+				self.worker = nil
 			end
 			function Mine:join(worker)
-				if self.free_spots == 3 then
-					self.lift_worker = worker
-					worker.workplace = self
-					self.free_spots = self.free_spots - 1
-				elseif self.free_spots == 2 then
-					self.pull_worker = worker
-					worker.workplace = self
-					self.free_spots = self.free_spots - 1
-				elseif self.free_spots == 1 then
-					self.shape_worker = worker
+				if self.free_spots == 1 then
+					self.worker = worker
 					worker.workplace = self
 					self.free_spots = self.free_spots - 1
 				end
 			end
 			function Mine:work(worker)
-				if self.lift_worker == worker then
-					worker.state = "Working"
-					worker.tile = tile_quads[0]
-					worker.animated = false
-					worker.gx = self.gx+3
-					worker.gy = self.gy+2
-					worker:job_update()
-					self.lifter.tile = tile_quads[139]
-				elseif self.pull_worker == worker then
-					worker.state = "Working"
-					worker.tile = tile_quads[0]
-					worker.animated = false
-					worker.gx = self.gx+4
-					worker.gy = self.gy+3
-					worker:job_update()
-					self.puller.tile = tile_quads[246]
-				elseif self.shape_worker == worker then
-					worker.state = "Working"
-					worker.tile = tile_quads[0]
-					worker.animated = false
-					worker.gx = self.gx+3
-					worker.gy = self.gy+4
-					worker:job_update()
-					self.shaper.tile = tile_quads[331]
+				if self.unloading then 					
+					self.worker.state = "Go to stockpile"
+					self.stack:take()
+					return
 				end
-				if self.shape_worker and self.shape_worker.state == "Working" and not self.working and
-				   self.lift_worker.state == "Working" and
-				   self.pull_worker.state == "Working" then
+				worker.state = "Working"
+				worker.tile = tile_quads[0]
+				worker.animated = false
+				worker.gx = self.gx+1
+				worker.gy = self.gy+2
+				worker:job_update()
+				--self.lifter.tile = tile_quads[139]
+				
+				if not self.working and self.worker.state == "Working" then
 					self.working = true
-					self.lifter:activate()
+					self.going_down:activate()
 				end
 			end
 			function Mine:send_to_stockpile()
-				self.stone_quantity = 0
 				local i,o,cx,cy
-				self.lift_worker.state = "Go to stockpile"
-				self.lift_worker.animated = true
-				self.lift_worker.gx = self.gx+6
-				self.lift_worker.gy = self.gy+2
-				self.lift_worker.fx = (self.gx+6)*1000
-				self.lift_worker.fy = (self.gy+2)*1000
-				i = (self.lift_worker.gx) % (chunk_width)
-				o = (self.lift_worker.gy) % (chunk_width)
-				cx = math.floor(self.lift_worker.gx/chunk_width)
-				cy = math.floor(self.lift_worker.gy/chunk_width)
-					object[cx][cy][i][o] = self.lift_worker
-				
-				self.pull_worker.state = "Go to stockpile"
-				self.pull_worker.animated = true
-				self.pull_worker.gx = self.gx+5
-				self.pull_worker.gy = self.gy-1
-				self.pull_worker.fx = (self.gx+5)*1000
-				self.pull_worker.fy = (self.gy-1)*1000
-				i = (self.pull_worker.gx) % (chunk_width)
-				o = (self.pull_worker.gy) % (chunk_width)
-				cx = math.floor(self.pull_worker.gx/chunk_width)
-				cy = math.floor(self.pull_worker.gy/chunk_width)
-					object[cx][cy][i][o] = self.pull_worker
-
-				self.shape_worker.state = "Go to stockpile"
-				self.shape_worker.animated = true
-				self.shape_worker.gx = self.gx+1
-				self.shape_worker.gy = self.gy+6
-				self.shape_worker.fx = (self.gx+1)*1000
-				self.shape_worker.fy = (self.gy+6)*1000
-				i = (self.shape_worker.gx) % (chunk_width)
-				o = (self.shape_worker.gy) % (chunk_width)
-				cx = math.floor(self.shape_worker.gx/chunk_width)
-				cy = math.floor(self.shape_worker.gy/chunk_width)
-					object[cx][cy][i][o] = self.shape_worker				
-
-				self.lifter:deactivate()
-				self.puller:deactivate()
-				self.shaper:deactivate()
+				self.worker.state = "Go to stockpile"
+				self.worker.animated = true
+				self.worker.gx = self.gx-1
+				self.worker.gy = self.gy
+				self.worker.fx = (self.gx-1)*1000
+				self.worker.fy = (self.gy)*1000
+				i = (self.worker.gx) % (chunk_width)
+				o = (self.worker.gy) % (chunk_width)
+				cx = math.floor(self.worker.gx/chunk_width)
+				cy = math.floor(self.worker.gy/chunk_width)
+					object[cx][cy][i][o] = self.worker					
+				self.stack:take()
+				self.going_down:deactivate()
 				self.working = false
 			end
 
