@@ -2329,10 +2329,21 @@ local tile_quads = {};
 			tile_quads   [2313] = love.graphics.newQuad(1049+16*0, 930, 16, 108, imageW,imageH)  --iron_mine
 			tile_quads   [2314] = love.graphics.newQuad(1049+16*1, 930, 16, 108, imageW,imageH)  --iron_mine
 			tile_quads   [2315] = love.graphics.newQuad(1049+16*2, 930, 16, 108, imageW,imageH)  --iron_mine
-			tile_quads   [2316] = love.graphics.newQuad(1049+16*3, 930, 30, 108, imageW,imageH)  --iron_mine
+			tile_quads   [2316] = love.graphics.newQuad(1049+16*3, 930, 30, 108, imageW,imageH)  --iron_mine_center
 			tile_quads   [2317] = love.graphics.newQuad(1049+16*3+30, 930, 16, 108, imageW,imageH)  --iron_mine
 			tile_quads   [2318] = love.graphics.newQuad(1049+16*4+30, 930, 16, 108, imageW,imageH)  --iron_mine
 			tile_quads   [2319] = love.graphics.newQuad(1049+16*5+30, 930, 16, 108, imageW,imageH)  --iron_mine
+			
+			--tile_quads   [724 ] = love.graphics.newQuad(286, 1528, 126, 142, imageW,imageH)  --granary_no_wall
+
+			tile_quads   [2320] = love.graphics.newQuad(286+16*0, 1528, 16, 142, imageW,imageH)  --granary_no_wall
+			tile_quads   [2321] = love.graphics.newQuad(286+16*1, 1528, 16, 142, imageW,imageH)  --granary_no_wall
+			tile_quads   [2322] = love.graphics.newQuad(286+16*2, 1528, 16, 142, imageW,imageH)  --granary_no_wall
+			tile_quads   [2323] = love.graphics.newQuad(286+16*3, 1528, 30, 142, imageW,imageH)  --granary_no_wall_center
+			tile_quads   [2324] = love.graphics.newQuad(286+16*3+30, 1528, 16, 142, imageW,imageH)  --granary_no_wall
+			tile_quads   [2325] = love.graphics.newQuad(286+16*4+30, 1528, 16, 142, imageW,imageH)  --granary_no_wall
+			tile_quads   [2326] = love.graphics.newQuad(286+16*5+30, 1528, 16, 142, imageW,imageH)  --granary_no_wall
+
 
 
 			--love.graphics.newQuad(x,y,width,height,sw,sh)

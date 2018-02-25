@@ -192,34 +192,34 @@ local max_quantity = {
 	["bread"] = 32,
 	["cheese"] = 16,
 }
--- local Granary_alias = class('Granary_alias', Object)
--- 			function Granary_alias:initialize(tile,gx,gy,parent,offset_y,offset_x)
---                 local mytype = "Static structure"
--- 				local i = (gx) % (chunk_width)
--- 				local o = (gy) % (chunk_width)
--- 				local cx = math.floor(gx/chunk_width)
--- 				local cy = math.floor(gy/chunk_width)				 
--- 				local x = IsoX + (i - o) * tile_width  * 0.5
--- 				local y = IsoY + (i + o) * tile_height * 0.5
--- 				Object.initialize(self,cx,cy,i,o,x,y,mytype)
--- 				self.gx = gx
--- 				self.gy = gy
--- 				_G.nodes[self.gx][self.gy].walkable = 1
--- 				self.parent = parent
---                 self.qid = 0
---                 self.tile = tile
--- 				self.base_offset_y = offset_y or 0
--- 				self.additional_offset_y = 0
--- 				self.offset_x = offset_x or 0
--- 				self.offset_y = self.additional_offset_y-self.base_offset_y 
--- 				for k,v in ipairs(_G.stockpile.node_list) do
--- 					if v.gx == self.gx and v.gy == self.gy then
--- 						table.remove(_G.stockpile.node_list, k)
--- 						break
--- 					end
--- 				end
--- 				object[cx][cy][i][o] = self	
--- 			end
+local Granary_alias = class('Granary_alias', Object)
+			function Granary_alias:initialize(tile,gx,gy,parent,offset_y,offset_x)
+                local mytype = "Static structure"
+				local i = (gx) % (chunk_width)
+				local o = (gy) % (chunk_width)
+				local cx = math.floor(gx/chunk_width)
+				local cy = math.floor(gy/chunk_width)				 
+				local x = IsoX + (i - o) * tile_width  * 0.5
+				local y = IsoY + (i + o) * tile_height * 0.5
+				Object.initialize(self,cx,cy,i,o,x,y,mytype)
+				self.gx = gx
+				self.gy = gy
+				_G.nodes[self.gx][self.gy].walkable = 1
+				self.parent = parent
+                self.qid = 0
+                self.tile = tile
+				self.base_offset_y = offset_y or 0
+				self.additional_offset_y = 0
+				self.offset_x = offset_x or 0
+				self.offset_y = self.additional_offset_y-self.base_offset_y 
+				for k,v in ipairs(_G.stockpile.node_list) do
+					if v.gx == self.gx and v.gy == self.gy then
+						table.remove(_G.stockpile.node_list, k)
+						break
+					end
+				end
+				object[cx][cy][i][o] = self	
+			end
 
 
 local Granary = class('Granary', Object)
@@ -231,8 +231,8 @@ local Granary = class('Granary', Object)
 				_G.nodes[self.gx][self.gy].walkable = 1
 				self.health = 1000
                 self.qid = nil
-                self.tile = tile_quads[724]
-				self.offset_x = -48
+                self.tile = tile_quads[2323]
+				self.offset_x = 0
 				self.offset_y = -64-14
                 self.level = 1
                 self.rotation = 1
@@ -251,20 +251,19 @@ local Granary = class('Granary', Object)
 				end
 				update_terrain(ccx,ccy)
 
-                -- Granary_alias:new(tile_quads[2292],self.gx,self.gy+4,self,12+8*4)
-                -- Granary_alias:new(tile_quads[2293],self.gx,self.gy+3,self,12+8*3)
-                -- Granary_alias:new(tile_quads[2294],self.gx,self.gy+2,self,12+8*2)
-                -- Granary_alias:new(tile_quads[2295],self.gx,self.gy+1,self,12+8*1)
+                Granary_alias:new(tile_quads[2320],self.gx,self.gy+3,self,-(-64-14)+8*3)
+                Granary_alias:new(tile_quads[2321],self.gx,self.gy+2,self,-(-64-14)+8*2)
+                Granary_alias:new(tile_quads[2322],self.gx,self.gy+1,self,-(-64-14)+8*1)
 
-                -- Granary_alias:new(tile_quads[2297],self.gx+1,self.gy,self,12+8*1,16)
-                -- Granary_alias:new(tile_quads[2298],self.gx+2,self.gy,self,12+8*2,16)
-                -- Granary_alias:new(tile_quads[2299],self.gx+3,self.gy,self,12+8*3,16)
-                -- Granary_alias:new(tile_quads[2300],self.gx+4,self.gy,self,12+8*4,16)
+                Granary_alias:new(tile_quads[2324],self.gx+1,self.gy,self,-(-64-14)+8*1,14)
+                Granary_alias:new(tile_quads[2325],self.gx+2,self.gy,self,-(-64-14)+8*2,14)
+                Granary_alias:new(tile_quads[2326],self.gx+3,self.gy,self,-(-64-14)+8*3,14)
 
-                -- Granary_alias:new(tile_quads[0],self.gx+4,self.gy+4-1,self,12+8*4,16)
-                -- Granary_alias:new(tile_quads[0],self.gx+4,self.gy+4-2,self,12+8*4,16)
-                -- Granary_alias:new(tile_quads[0],self.gx+4-1,self.gy+4,self,12+8*4,16)
-                -- Granary_alias:new(tile_quads[0],self.gx+4-2,self.gy+4,self,12+8*4,16)
+                Granary_alias:new(tile_quads[0],self.gx+3,self.gy+3,self,0,0)
+                Granary_alias:new(tile_quads[0],self.gx+2,self.gy+3,self,0,0)
+                Granary_alias:new(tile_quads[0],self.gx+1,self.gy+3,self,0,0)
+                Granary_alias:new(tile_quads[0],self.gx+3,self.gy+2,self,0,0)
+                Granary_alias:new(tile_quads[0],self.gx+3,self.gy+1,self,0,0)
 
 
 				-- self.stockpile[1].id = Granary_alias:new(tile_quads[0],self.gx+1,self.gy+1,self,32-4,-16)
