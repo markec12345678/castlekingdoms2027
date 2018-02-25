@@ -2323,6 +2323,17 @@ local tile_quads = {};
 			tile_quads   [2310] = love.graphics.newQuad(828+16*7+30, 800, 16, 214, imageW,imageH)  --quarry
 			tile_quads   [2311] = love.graphics.newQuad(828+16*8+30, 800, 16, 214, imageW,imageH)  --quarry
 			tile_quads   [2312] = love.graphics.newQuad(828+16*9+30, 800, 16, 214, imageW,imageH)  --quarry_right
+			
+			--tile_quads   [726 ] = love.graphics.newQuad(1049, 930, 126, 108, imageW,imageH)  --iron_mine
+
+			tile_quads   [2313] = love.graphics.newQuad(1049+16*0, 930, 16, 108, imageW,imageH)  --iron_mine
+			tile_quads   [2314] = love.graphics.newQuad(1049+16*1, 930, 16, 108, imageW,imageH)  --iron_mine
+			tile_quads   [2315] = love.graphics.newQuad(1049+16*2, 930, 16, 108, imageW,imageH)  --iron_mine
+			tile_quads   [2316] = love.graphics.newQuad(1049+16*3, 930, 30, 108, imageW,imageH)  --iron_mine
+			tile_quads   [2317] = love.graphics.newQuad(1049+16*3+30, 930, 16, 108, imageW,imageH)  --iron_mine
+			tile_quads   [2318] = love.graphics.newQuad(1049+16*4+30, 930, 16, 108, imageW,imageH)  --iron_mine
+			tile_quads   [2319] = love.graphics.newQuad(1049+16*5+30, 930, 16, 108, imageW,imageH)  --iron_mine
+
 
 			--love.graphics.newQuad(x,y,width,height,sw,sh)
 return tile_quads;

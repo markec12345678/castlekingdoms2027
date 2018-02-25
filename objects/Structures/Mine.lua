@@ -233,7 +233,7 @@ local Mine_going_down = class('Mine_going_down', Object)
 				_G.nodes[self.gx][self.gy].walkable = 1
 				self.parent = parent
                 self.qid = 0
-				self.offset_x = 13+offset_x
+				self.offset_x = 13+offset_x-48
 				self.offset_y = 6+offset_y-32-16
 				object[cx][cy][i][o] = self	
 				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
@@ -278,7 +278,7 @@ local Mine_puller = class('Mine_puller', Object)
 				_G.nodes[self.gx][self.gy].walkable = 1
 				self.parent = parent
                 self.qid = 0
-				self.offset_x = 13+offset_x+32+32
+				self.offset_x = 13+offset_x+32+32-48
 				self.offset_y = -2+offset_y-32+8
 				object[cx][cy][i][o] = self	
 				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
@@ -322,7 +322,7 @@ local Mine_bucket = class('Mine_bucket', Object)
 				_G.nodes[self.gx][self.gy].walkable = 1
 				self.parent = parent
                 self.qid = 0
-				self.offset_x = -3+offset_x+48+32
+				self.offset_x = -3+offset_x+48+32-48
 				self.offset_y = -8+offset_y-32
 				object[cx][cy][i][o] = self	
 				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
@@ -375,7 +375,7 @@ local Mine_pourer = class('Mine_pourer', Object)
 				_G.nodes[self.gx][self.gy].walkable = 1
 				self.parent = parent
                 self.qid = 0
-				self.offset_x = 13+offset_x+48+32
+				self.offset_x = 13+offset_x+48+32-48
 				self.offset_y = -13+offset_y-16
 				object[cx][cy][i][o] = self	
 				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
@@ -426,7 +426,7 @@ local Mine_casting = class('Mine_casting', Object)
 				_G.nodes[self.gx][self.gy].walkable = 1
 				self.parent = parent
                 self.qid = 0
-				self.offset_x = 49+offset_x-16
+				self.offset_x = 49+offset_x-16-48
 				self.offset_y = 11+offset_y-64
 				object[cx][cy][i][o] = self	
 				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
@@ -473,7 +473,7 @@ local Mine_stack = class('Mine_stack', Object)
 				_G.nodes[self.gx][self.gy].walkable = 1
 				self.parent = parent
                 self.qid = 0
-				self.offset_x = 49+offset_x-16
+				self.offset_x = 49+offset_x-16-48
 				self.offset_y = 11+offset_y-32-8+3
 				object[cx][cy][i][o] = self	
 				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
@@ -545,11 +545,11 @@ local Mine = class('Mine', Object)
 				_G.nodes[self.gx][self.gy].walkable = 1
 				self.health = 400
                 self.qid = nil
-                self.tile = tile_quads[726]
+                self.tile = tile_quads[2316]
 				self.stone_quantity = 0
 				self.working = false
 				self.unloading = false
-				self.offset_x = -48
+				self.offset_x = 0
 				self.offset_y = -64+16+4
                 self.level = 1
                 self.rotation = 1
@@ -573,27 +573,16 @@ local Mine = class('Mine', Object)
 				end
 				update_terrain(ccx,ccy)
 
-                -- Mine_alias:new(tile_quads[2302],self.gx,self.gy+5,self,118+8*5)				
-                -- Mine_alias:new(tile_quads[2303],self.gx,self.gy+4,self,118+8*4)
-                -- Mine_alias:new(tile_quads[2304],self.gx,self.gy+3,self,118+8*3)
-                -- Mine_alias:new(tile_quads[2305],self.gx,self.gy+2,self,118+8*2)
-                -- Mine_alias:new(tile_quads[2306],self.gx,self.gy+1,self,118+8*1)
+                Mine_alias:new(tile_quads[2313],self.gx,self.gy+3,self,-(-64+16+4)+8*3)				
+                Mine_alias:new(tile_quads[2314],self.gx,self.gy+2,self,-(-64+16+4)+8*2)
+                Mine_alias:new(tile_quads[2315],self.gx,self.gy+1,self,-(-64+16+4)+8*1)
 
-                -- Mine_alias:new(tile_quads[2308],self.gx+1,self.gy,self,118+8*1,14)
-                -- Mine_alias:new(tile_quads[2309],self.gx+2,self.gy,self,118+8*2,14)
-                -- Mine_alias:new(tile_quads[2310],self.gx+3,self.gy,self,118+8*3,14)
-                -- Mine_alias:new(tile_quads[2311],self.gx+4,self.gy,self,118+8*4,14)
-                -- Mine_alias:new(tile_quads[2312],self.gx+5,self.gy,self,118+8*5,14)
+                Mine_alias:new(tile_quads[2317],self.gx+1,self.gy,self,-(-64+16+4)+8*1,14)
+                Mine_alias:new(tile_quads[2318],self.gx+2,self.gy,self,-(-64+16+4)+8*2,14)
+                Mine_alias:new(tile_quads[2319],self.gx+3,self.gy,self,-(-64+16+4)+8*3,14)
 				
-                -- Mine_alias:new(tile_quads[0],self.gx+5,self.gy+1,self,12+8*4,16)
-                -- Mine_alias:new(tile_quads[0],self.gx+5,self.gy+2,self,12+8*4,16)
-                -- Mine_alias:new(tile_quads[0],self.gx+5,self.gy+3,self,12+8*4,16)
-                -- Mine_alias:new(tile_quads[0],self.gx+5,self.gy+4,self,12+8*4,16)
-                -- Mine_alias:new(tile_quads[0],self.gx+5,self.gy+5,self,12+8*4,16)
-                -- Mine_alias:new(tile_quads[0],self.gx+1,self.gy+5,self,12+8*4,16)
-                -- Mine_alias:new(tile_quads[0],self.gx+2,self.gy+5,self,12+8*4,16)
-                -- Mine_alias:new(tile_quads[0],self.gx+3,self.gy+5,self,12+8*4,16)
-                -- Mine_alias:new(tile_quads[0],self.gx+4,self.gy+5,self,12+8*4,16)
+                Mine_alias:new(tile_quads[0],self.gx+1,self.gy+3,self,12+8*4,16)
+                Mine_alias:new(tile_quads[0],self.gx+3,self.gy+1,self,12+8*4,16)
 
 				self.free_spots = 1
 				self.worker = nil
