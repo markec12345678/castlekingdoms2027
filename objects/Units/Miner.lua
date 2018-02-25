@@ -122,8 +122,8 @@ local fr_walking_stone_west = {
 	tile_quads[1856],
 }
 
-		local Stonemason = class('Stonemason', Object)
-			function Stonemason:initialize(cx,cy,i,o,x,y,type)
+		local Miner = class('Miner', Object)
+			function Miner:initialize(cx,cy,i,o,x,y,type)
 				Object.initialize(self,cx,cy,i,o,x,y,type)
 				self.gx = chunk_width*self.cx+self.i
 				self.gy = chunk_width*self.cy+self.o
@@ -156,7 +156,7 @@ local fr_walking_stone_west = {
 				self.animation = anim.newAnimation(fr_walking_west,10)
 				table.insert(active_entities,self)
 			end 
-			function Stonemason:pathfind(xx,yy)
+			function Miner:pathfind(xx,yy)
 				--print("Called",self.gx, self.gy, xx, yy)
 				-- -- Calculates the path, and its length
 				self.path = _G.finder:getPath(self.gx, self.gy, xx, yy)
@@ -185,7 +185,7 @@ local fr_walking_stone_west = {
 				 end			
 			end
 			
-			function Stonemason:update_direction()
+			function Miner:update_direction()
 				local wx = self.waypoint_x
 				local wy = self.waypoint_y
 				local angle = math.atan2 (wy-(self.fy*0.001),wx-(self.fx*0.001))
@@ -270,14 +270,14 @@ local fr_walking_stone_west = {
 					end
 				end
 			end
-			function Stonemason:job_update()	
+			function Miner:job_update()	
 				object[self.lrcx][self.lrcy][self.lrx][self.lry] = nil
 			end
-			function Stonemason:update()
+			function Miner:update()
 				--print(self.state)
 				if self.state ~= "No path to quarry" and self.state ~= "Working" then
 					if self.state == "Find a job" then
-						_G.JobController:find_job(self,"Stonemason")
+						_G.JobController:find_job(self,"Miner")
 					elseif self.state == "Go to stockpile" then
 						if _G.stockpile then
 							self.state = "Going to stockpile"    
@@ -375,7 +375,7 @@ local fr_walking_stone_west = {
 								self.move_dir = "none"			
 								self.count = 1					
 								return 
-							else
+							else	
 								self.waypoint_x = self.nd[self.count]._x
 								self.waypoint_y = self.nd[self.count]._y
 								self.previous_dir = self.move_dir
@@ -384,7 +384,7 @@ local fr_walking_stone_west = {
 							self.count = self.count + 1
 						elseif self.state == "Going to stockpile" then
 							if self.count == self.nd_len then
-								_G.stockpile:store('stone')
+								_G.stockpile:store('iron')
 								self.state = "Go to workplace"
 								self.nd = {}
 								self.waypoint_x, self.waypoint_y = nil, nil
@@ -402,8 +402,8 @@ local fr_walking_stone_west = {
 					end
 				end
 			end
-			function Stonemason:animate()
+			function Miner:animate()
 				self:update()
 				self.animation:update(dt)
 			end
-return Stonemason
+return Miner
