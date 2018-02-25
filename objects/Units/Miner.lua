@@ -225,12 +225,10 @@ local fr_walking_stone_west = {
 					end
 				elseif (angle >= 225+22 and angle <= 315-22) then --direction is north
 					self.move_dir = "north"
-                    print(self.state,self.previous_dir)
 					if self.previous_dir ~= "north" then
 						if self.state == "Going to stockpile" then
 							self.animation = anim.newAnimation(fr_walking_stone_north,0.11)
 						else
-                            print("set this!")
 							self.animation = anim.newAnimation(fr_walking_north,0.11)
 						end
 					end

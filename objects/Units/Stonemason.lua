@@ -268,7 +268,8 @@ local fr_walking_stone_west = {
 							self.animation = anim.newAnimation(fr_walking_northeast,0.11)
 						end
 					end
-				end
+				end				
+                self.previous_dir = self.move_dir
 			end
 			function Stonemason:job_update()	
 				object[self.lrcx][self.lrcy][self.lrx][self.lry] = nil
@@ -378,7 +379,6 @@ local fr_walking_stone_west = {
 							else
 								self.waypoint_x = self.nd[self.count]._x
 								self.waypoint_y = self.nd[self.count]._y
-								self.previous_dir = self.move_dir
 								self.move_dir = "none"									
 							end
 							self.count = self.count + 1
@@ -394,7 +394,6 @@ local fr_walking_stone_west = {
 							else
 								self.waypoint_x = self.nd[self.count]._x
 								self.waypoint_y = self.nd[self.count]._y
-								self.previous_dir = self.move_dir
 								self.move_dir = "none"									
 							end
 							self.count = self.count + 1

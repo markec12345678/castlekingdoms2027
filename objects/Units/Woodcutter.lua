@@ -343,6 +343,7 @@ local fr_cutting_northeast = { --note actually north
 						end
 					end
 				end
+				self.previous_dir = self.move_dir
 			end
 			
 			function Woodcutter:update()
@@ -413,11 +414,8 @@ local fr_cutting_northeast = { --note actually north
 								self.count = 1					
 								return 
 							else
-								--print("Reached checkpoint "..self.count,self.nd_len)		
 								self.waypoint_x = self.nd[self.count]._x
 								self.waypoint_y = self.nd[self.count]._y
-								--print("Waypoint is now "..self.waypoint_x,self.waypoint_y)
-								self.previous_dir = self.move_dir
 								self.move_dir = "none"									
 							end
 							self.count = self.count + 1
@@ -434,7 +432,6 @@ local fr_cutting_northeast = { --note actually north
 							else
 								self.waypoint_x = self.nd[self.count]._x
 								self.waypoint_y = self.nd[self.count]._y
-								self.previous_dir = self.move_dir
 								self.move_dir = "none"									
 							end
 							self.count = self.count + 1
