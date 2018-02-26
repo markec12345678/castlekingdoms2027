@@ -87,37 +87,21 @@ local ffi = require('ffi')
 
  -- Converts an array to a set of nodes
   local function arrayToNodes(map)
-
-			--local N = 8192
-        
-
-        -- print("array =", arr)
-        -- arr[0][2] = 1.5
-        -- arr[N-1][3] = 2.5
-        -- print("arr[0][2] =", arr[0][2])
-        -- print("arr["..(N-1).."][3] =", arr[N-1][3])
-
 		local mapw, maph = 2048,2048
     local min_x, max_x = 0, mapw-1
     local min_y, max_y = 0, maph-1
-   -- local nodes = ffi.new("node["..mapw.."]["..maph.."]")
 		_G.nodes = ffi.cast("node **", ffi.C.calloc(mapw,ffi.sizeof("node*")))
 		for i = 0, maph-1 do
 				nodes[i] = ffi.cast("node *", ffi.C.calloc(maph,ffi.sizeof("node")))
 		end
 		for x = 0, mapw-1, 1 do
-		 	-- min_y = not min_y and y or (y<min_y and y or min_y)
-      --   max_y = not max_y and y or (y>max_y and y or max_y)
-       -- nodes[y] = {}
 			for y= 0, maph-1, 1 do 
-          -- min_x = not min_x and x or (x<min_x and x or min_x)
-          -- max_x = not max_x and x or (x>max_x and x or max_x)
 					nodes[x][y].init = false
           nodes[x][y]._x = x
 					nodes[x][y]._y = y
 					nodes[x][y].walkable = _G.collision_map[x][y]
-        end
       end
+    end
     return nodes,
 			 (min_x or 0), (max_x or 0),
 			 (min_y or 0), (max_y or 0)

@@ -295,7 +295,7 @@ local fr_walking_stone_west = {
 							self.move_dir = "none"
 						end
 					elseif self.state == "Go to workplace" then
-                        if self:pathfind(self.workplace.gx-1,self.workplace.gy) then
+                        if self:pathfind(self.workplace.gx-1,self.workplace.gy+1) then
                             self.state = "Going to workplace"
                             self.move_dir = "none"
                         end

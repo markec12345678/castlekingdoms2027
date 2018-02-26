@@ -172,7 +172,7 @@ local fr_cutting_northeast = { --note actually north
 					end
 					self.nd_len = countt
 					--print("Length",self.nd_len,self.count)
-					self.waypoint_x = self.nd[0]._x 
+					self.waypoint_x = self.nd[0]._x --fixme If spawning right next to a tree, will throw error here
 				 	self.waypoint_y = self.nd[0]._y
 					--print("Waypoint: "..self.waypoint_x,self.waypoint_y)						
 				 	self.move_dir = "none"	
@@ -188,7 +188,7 @@ local fr_cutting_northeast = { --note actually north
 				if _G.chunk_objects[chunkx][chunky] then
 					for index, obj in ipairs ( _G.chunk_objects[chunkx][chunky] ) do 
 						if obj.type == 'Pine tree' and obj.marked == false then
-							if _G.nodes[obj.gx][obj.gy+1].walkable == 0 then
+							if obj.gx > 0 and obj.gx < 2048 and obj.gy > 0 and obj.gy < 2048 and _G.nodes[obj.gx][obj.gy+1].walkable == 0 then
 								local dist = manhattan_distance(self.gx,self.gy, obj.gx, obj.gy)
 								if dist < closest_distance then 
 									closest_object = obj

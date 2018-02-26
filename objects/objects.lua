@@ -115,7 +115,7 @@ function genObjects(cx,cy)
 				-- 		IsoY + (i + o) * tile_height * 0.5 - (tile_offset[object[chunk_x][chunk_y][i][o]] or 166),"Pine tree")
 				-- 		object[cx][cy][i][o].animation:gotoFrame(math.random(6))
 				-- end
-				local rand = math.random(200)
+				local rand = math.random(40)
 						if rand == 4 then
 						if o == 0 and object[cx][cy-1][i][o-1] and object[cx][cy-1][i][o-1].type == "Pine tree" then goto continue end
 						if o ~= 0 and object[cx][cy][i][o-1] and object[cx][cy][i][o-1].type == "Pine tree" then goto continue end
@@ -238,12 +238,101 @@ local function mousepressed(x, y, button, istouch)
 		press.cx = math.floor(LocalX/chunk_width)
 		press.cy = math.floor(LocalY/chunk_width)
 		print("Button", button)
-   if button == 1 then 
+   	if button == 1 then 
+   		object[press.cx][press.cy][press.x][press.y] = nil
 		_G.BuildController:build(press.cx,press.cy,press.x,press.y)
-   elseif button == 2 then
-	print(object[press.cx][press.cy][press.x][press.y])
+   	elseif button == 2 then
+		print(object[press.cx][press.cy][press.x][press.y])
 		if not object[press.cx][press.cy][press.x][press.y] then
 			print("Trying to spawn woodcutter", press.x, press.y)
+			object[press.cx][press.cy][press.x][press.y] =  
+						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
+						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
+						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter")
+					object[press.cx][press.cy][press.x][press.y].qid = object_batch[press.cx][press.cy]
+					:add(object[press.cx][press.cy][press.x][press.y].animation
+					:getFrameInfo(object[press.cx][press.cy][press.x][press.y].x,
+								  object[press.cx][press.cy][press.x][press.y].y))
+			object[press.cx][press.cy][press.x][press.y] =  
+						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
+						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
+						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter")
+					object[press.cx][press.cy][press.x][press.y].qid = object_batch[press.cx][press.cy]
+					:add(object[press.cx][press.cy][press.x][press.y].animation
+					:getFrameInfo(object[press.cx][press.cy][press.x][press.y].x,
+								  object[press.cx][press.cy][press.x][press.y].y))
+			object[press.cx][press.cy][press.x][press.y] =  
+						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
+						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
+						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter")
+					object[press.cx][press.cy][press.x][press.y].qid = object_batch[press.cx][press.cy]
+					:add(object[press.cx][press.cy][press.x][press.y].animation
+					:getFrameInfo(object[press.cx][press.cy][press.x][press.y].x,
+								  object[press.cx][press.cy][press.x][press.y].y))
+			object[press.cx][press.cy][press.x][press.y] =  
+						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
+						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
+						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter")
+					object[press.cx][press.cy][press.x][press.y].qid = object_batch[press.cx][press.cy]
+					:add(object[press.cx][press.cy][press.x][press.y].animation
+					:getFrameInfo(object[press.cx][press.cy][press.x][press.y].x,
+								  object[press.cx][press.cy][press.x][press.y].y))
+			object[press.cx][press.cy][press.x][press.y] =  
+						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
+						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
+						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter")
+					object[press.cx][press.cy][press.x][press.y].qid = object_batch[press.cx][press.cy]
+					:add(object[press.cx][press.cy][press.x][press.y].animation
+					:getFrameInfo(object[press.cx][press.cy][press.x][press.y].x,
+								  object[press.cx][press.cy][press.x][press.y].y))
+			object[press.cx][press.cy][press.x][press.y] =  
+						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
+						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
+						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter")
+					object[press.cx][press.cy][press.x][press.y].qid = object_batch[press.cx][press.cy]
+					:add(object[press.cx][press.cy][press.x][press.y].animation
+					:getFrameInfo(object[press.cx][press.cy][press.x][press.y].x,
+								  object[press.cx][press.cy][press.x][press.y].y))
+			object[press.cx][press.cy][press.x][press.y] =  
+						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
+						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
+						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter")
+					object[press.cx][press.cy][press.x][press.y].qid = object_batch[press.cx][press.cy]
+					:add(object[press.cx][press.cy][press.x][press.y].animation
+					:getFrameInfo(object[press.cx][press.cy][press.x][press.y].x,
+								  object[press.cx][press.cy][press.x][press.y].y))
+			object[press.cx][press.cy][press.x][press.y] =  
+						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
+						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
+						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter")
+					object[press.cx][press.cy][press.x][press.y].qid = object_batch[press.cx][press.cy]
+					:add(object[press.cx][press.cy][press.x][press.y].animation
+					:getFrameInfo(object[press.cx][press.cy][press.x][press.y].x,
+								  object[press.cx][press.cy][press.x][press.y].y))
+			object[press.cx][press.cy][press.x][press.y] =  
+						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
+						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
+						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter")
+					object[press.cx][press.cy][press.x][press.y].qid = object_batch[press.cx][press.cy]
+					:add(object[press.cx][press.cy][press.x][press.y].animation
+					:getFrameInfo(object[press.cx][press.cy][press.x][press.y].x,
+								  object[press.cx][press.cy][press.x][press.y].y))
+			object[press.cx][press.cy][press.x][press.y] =  
+						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
+						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
+						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter")
+					object[press.cx][press.cy][press.x][press.y].qid = object_batch[press.cx][press.cy]
+					:add(object[press.cx][press.cy][press.x][press.y].animation
+					:getFrameInfo(object[press.cx][press.cy][press.x][press.y].x,
+								  object[press.cx][press.cy][press.x][press.y].y))
+			object[press.cx][press.cy][press.x][press.y] =  
+						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
+						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
+						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter")
+					object[press.cx][press.cy][press.x][press.y].qid = object_batch[press.cx][press.cy]
+					:add(object[press.cx][press.cy][press.x][press.y].animation
+					:getFrameInfo(object[press.cx][press.cy][press.x][press.y].x,
+								  object[press.cx][press.cy][press.x][press.y].y))
 			object[press.cx][press.cy][press.x][press.y] =  
 						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
 						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
