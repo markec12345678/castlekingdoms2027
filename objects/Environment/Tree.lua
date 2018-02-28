@@ -43,7 +43,9 @@ local Tree = class('Tree', Object)
 					self.tile = tile_quads[1449]
 					end	
 				if self.gx < 2048 and self.gx >= 0 and self.gy < 2048 and self.gy >= 0 then
-				_G.collision_map[self.gx][self.gy] = 1 _G.nodes[self.gx][self.gy].walkable = 1 end
+					_G.collision_map[self.gx][self.gy] = 1 
+					setWalkable(self.gx,self.gy,1)
+				end
 				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
 				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
 				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self

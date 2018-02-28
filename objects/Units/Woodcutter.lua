@@ -110,6 +110,7 @@ local fr_cutting_northeast = { --note actually north
 				self.nd_len = 0
 				self.marked = 0
 				self.path = 0
+				self.path_state = "None"
 				self.count = 1
 				self.timr = 0
 				self.move_dir = "none"
@@ -145,7 +146,7 @@ local fr_cutting_northeast = { --note actually north
                                         end
                                     end
                                     if not closest_node then self.state = "Looking to chop tree" else                                    
-                                    self:pathfind(closest_node.gx,closest_node.gy) end
+                                    self:requestPath(closest_node.gx,closest_node.gy) end
                                 else self.state = "Looking to chop tree" end
 						end
 					else --print("State", self.state)
@@ -154,33 +155,46 @@ local fr_cutting_northeast = { --note actually north
 				self.animation = anim.newAnimation(fr_walking_west,10)
 				table.insert(active_entities,self)
 			end 
-			function Woodcutter:pathfind(xx,yy)
-				--print("Called",self.gx, self.gy, xx, yy)
-				-- -- Calculates the path, and its length
-				self.path = _G.finder:getPath(self.gx, self.gy, xx, yy)
+			function Woodcutter:requestPath(xx,yy)							
+				_G.finder:requestPath(self.gx, self.gy, xx, yy)
+				self.endx = xx
+				self.endy = yy
+				self.path_state = "Waiting for path"
+			end
+			function Woodcutter:pathfind()
+				self.path = _G.finder:getPath(self.gx, self.gy, self.endx, self.endy)
+				--print(inspect(self.path))
 				if self.path then
-				  	self.nd = {}
-					local first = true --skip the first node, because it's our position
-					--print("Printing steps:")
-					local countt = 0
-					for node, count in self.path:nodes() do
-						--print(('Step: %d - x: %d - y: %d'):format(count,node._x,node._y))
-						if not first then
-							self.nd[countt] = node
-							countt = countt + 1
-						else first = false end	
+					print("we've found something")
+					if type(self.path) == "table" then
+						print("we've got it boys!")
+						self.nd = {}
+						print(inspect(self.path))
+						local first = true --skip the first node, because it's our position
+						--print("Printing steps:")
+						local countt = 0
+						for count, node in ipairs(self.path) do
+							--print(('Step: %d - x: %d - y: %d'):format(count,node._x,node._y))
+							if not first then
+								self.nd[countt] = node
+								countt = countt + 1
+							else first = false end	
+						end
+						self.nd_len = countt
+						--print("Length",self.nd_len,self.count)
+						print(inspect(self.nd))
+						self.waypoint_x = self.nd[0][1]--fixme If spawning right next to a tree, will throw error here
+						self.waypoint_y = self.nd[0][2]
+						--print("Waypoint: "..self.waypoint_x,self.waypoint_y)						
+						self.move_dir = "none"	
+						self.path_state = "Found"
+						return true
+					elseif self.path == 2 then
+						print("when does this happen?")
+						self.path_state = "No path"
+						self.state = "No trees"
 					end
-					self.nd_len = countt
-					--print("Length",self.nd_len,self.count)
-					self.waypoint_x = self.nd[0]._x --fixme If spawning right next to a tree, will throw error here
-				 	self.waypoint_y = self.nd[0]._y
-					--print("Waypoint: "..self.waypoint_x,self.waypoint_y)						
-				 	self.move_dir = "none"	
-					return true
-				else print("Path not found!")
-					self.state = "No trees"
-					return false
-				 end			
+				end		
 			end
 			function Woodcutter:check_trees(cx,cy)
 				local chunkx,chunky = cx or self.cx,cy or self.cy 
@@ -188,7 +202,7 @@ local fr_cutting_northeast = { --note actually north
 				if _G.chunk_objects[chunkx][chunky] then
 					for index, obj in ipairs ( _G.chunk_objects[chunkx][chunky] ) do 
 						if obj.type == 'Pine tree' and obj.marked == false then
-							if obj.gx > 0 and obj.gx < 2048 and obj.gy > 0 and obj.gy < 2048 and _G.nodes[obj.gx][obj.gy+1].walkable == 0 then
+							if obj.gx > 0 and obj.gx < 2048 and obj.gy > 0 and obj.gy < 2048 then --and _G.nodes[obj.gx][obj.gy+1].walkable == 0 then --fixme
 								local dist = manhattan_distance(self.gx,self.gy, obj.gx, obj.gy)
 								if dist < closest_distance then 
 									closest_object = obj
@@ -252,12 +266,11 @@ local fr_cutting_northeast = { --note actually north
 				self.target_tree = closest_object 
 				--print("Target tree:", self.target_tree)
 				self.endx = closest_object.gx
-				self.endy = closest_object.gy
-				if self:pathfind(self.endx,self.endy+1) then
+				self.endy = closest_object.gy+1
+				self:requestPath(self.endx,self.endy) 
 				--print("Found tree at "..self.endx.."  "..self.endy)
 					self.state = "Going to tree"
 					closest_object.marked = true
-				else self.state = "No trees" end --todo rename to stuck
 			end
 			function Woodcutter:update_direction()
 				local wx = self.waypoint_x
@@ -344,10 +357,11 @@ local fr_cutting_northeast = { --note actually north
 					end
 				end
 				self.previous_dir = self.move_dir
-			end
-			
+			end			
 			function Woodcutter:update()
-				if self.state ~= "No trees" then
+				if self.path_state == "Waiting for path" then
+					self:pathfind()
+				elseif self.state ~= "No trees" then
 					if self.state == "Looking to chop tree" then
 						self:find_tree()
 					elseif self.move_dir == "none" and self.state == "Going to tree" then
@@ -414,8 +428,8 @@ local fr_cutting_northeast = { --note actually north
 								self.count = 1					
 								return 
 							else
-								self.waypoint_x = self.nd[self.count]._x
-								self.waypoint_y = self.nd[self.count]._y
+								self.waypoint_x = self.nd[self.count][1]
+								self.waypoint_y = self.nd[self.count][2]
 								self.move_dir = "none"									
 							end
 							self.count = self.count + 1
@@ -430,8 +444,8 @@ local fr_cutting_northeast = { --note actually north
 								self.count = 1		
 								return 
 							else
-								self.waypoint_x = self.nd[self.count]._x
-								self.waypoint_y = self.nd[self.count]._y
+								self.waypoint_x = self.nd[self.count][1]
+								self.waypoint_y = self.nd[self.count][2]
 								self.move_dir = "none"									
 							end
 							self.count = self.count + 1

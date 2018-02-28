@@ -8,6 +8,7 @@ local object_image
 local Gamestate = require('libraries.gamestate')
 local core = require("misc")
 --local bitser = require('libraries.bitser')
+local thread
 local objects, terrain
 local game, ui = {}, {}
 local loader = require('libraries.lily')
@@ -43,12 +44,22 @@ function game:init()
 	_G.BuildController:set('castle')
 	_G.BuildController.start = true
 	_G.JobController = require('objects.Controllers.JobController'):new()
+	----Pathfinding setup
+	thread = love.thread.newThread ( "libraries/pathfinding_thread.lua" )
+	thread:start ()
+	_G.channel = {}
+	_G.channel.request = love.thread.getChannel ( "request" )
+	_G.channel.receive = love.thread.getChannel ( "receive" )
+	_G.finder = require('objects.Controllers.PathController'):new()
 end
 
 function game:update(dt)
     core.update()
     objects.update()
 	_G.BuildController:update()
+	_G.finder:update()
+	local error = thread:getError()
+    assert( not error, error )
 end
 
 function game:enter()

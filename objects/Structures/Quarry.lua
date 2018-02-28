@@ -291,7 +291,7 @@ local Quarry_lifter = class('Quarry_lifter', Object)
 				self.animation = anim.newAnimation(fr_lifter_part1, 0.11,self.part1_end)--, 'pauseAtEnd')
 				self.gx = gx
 				self.gy = gy
-				_G.nodes[self.gx][self.gy].walkable = 1
+					setWalkable(self.gx,self.gy,1)
 				self.parent = parent
                 self.qid = 0
 				self.offset_x = 48+offset_x
@@ -338,7 +338,7 @@ local Quarry_hook = class('Quarry_hook', Object)
 				self.animation:pause()
 				self.gx = gx
 				self.gy = gy
-				_G.nodes[self.gx][self.gy].walkable = 1
+					setWalkable(self.gx,self.gy,1)
 				self.parent = parent
                 self.qid = 0
 				self.offset_x = 32+offset_x
@@ -380,7 +380,7 @@ local Quarry_shaper = class('Quarry_shaper', Object)
 				self.animation:pause()
 				self.gx = gx
 				self.gy = gy
-				_G.nodes[self.gx][self.gy].walkable = 1
+					setWalkable(self.gx,self.gy,1)
 				self.parent = parent
                 self.qid = 0
 				self.offset_x = -15+offset_x
@@ -426,7 +426,7 @@ local Quarry_puller = class('Quarry_puller', Object)
 				self.animation:pause()
 				self.gx = gx
 				self.gy = gy
-				_G.nodes[self.gx][self.gy].walkable = 1
+					setWalkable(self.gx,self.gy,1)
 				self.parent = parent
                 self.qid = 0
 				self.offset_x = 92+offset_x-16-16
@@ -459,7 +459,7 @@ local Quarry_alias = class('Quarry_alias', Object)
 				Object.initialize(self,cx,cy,i,o,x,y,mytype)
 				self.gx = gx
 				self.gy = gy
-				_G.nodes[self.gx][self.gy].walkable = 1
+					setWalkable(self.gx,self.gy,1)
 				self.parent = parent
                 self.qid = 0
                 self.tile = tile
@@ -483,7 +483,7 @@ local Quarry = class('Quarry', Object)
 				Object.initialize(self,cx,cy,i,o,x,y,mytype)
 				self.gx = chunk_width*self.cx+self.i
 				self.gy = chunk_width*self.cy+self.o
-				_G.nodes[self.gx][self.gy].walkable = 1
+					setWalkable(self.gx,self.gy,1)
 				self.health = 400
                 self.qid = nil
                 self.tile = tile_quads[2307]

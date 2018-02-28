@@ -230,7 +230,7 @@ local Mine_going_down = class('Mine_going_down', Object)
 				self.animation = anim.newAnimation(fr_miner_going_down, 0.11, self.part1_end)
 				self.gx = gx
 				self.gy = gy
-				_G.nodes[self.gx][self.gy].walkable = 1
+					setWalkable(self.gx,self.gy,1)
 				self.parent = parent
                 self.qid = 0
 				self.offset_x = 13+offset_x-48
@@ -275,7 +275,7 @@ local Mine_puller = class('Mine_puller', Object)
 				self.animation:pause()
 				self.gx = gx
 				self.gy = gy
-				_G.nodes[self.gx][self.gy].walkable = 1
+					setWalkable(self.gx,self.gy,1)
 				self.parent = parent
                 self.qid = 0
 				self.offset_x = 13+offset_x+32+32-48
@@ -319,7 +319,7 @@ local Mine_bucket = class('Mine_bucket', Object)
 				self.animation:pause()
 				self.gx = gx
 				self.gy = gy
-				_G.nodes[self.gx][self.gy].walkable = 1
+					setWalkable(self.gx,self.gy,1)
 				self.parent = parent
                 self.qid = 0
 				self.offset_x = -3+offset_x+48+32-48
@@ -372,7 +372,7 @@ local Mine_pourer = class('Mine_pourer', Object)
 				self.animation:pause()
 				self.gx = gx
 				self.gy = gy
-				_G.nodes[self.gx][self.gy].walkable = 1
+					setWalkable(self.gx,self.gy,1)
 				self.parent = parent
                 self.qid = 0
 				self.offset_x = 13+offset_x+48+32-48
@@ -423,7 +423,7 @@ local Mine_casting = class('Mine_casting', Object)
 				self.animation:pause()
 				self.gx = gx
 				self.gy = gy
-				_G.nodes[self.gx][self.gy].walkable = 1
+					setWalkable(self.gx,self.gy,1)
 				self.parent = parent
                 self.qid = 0
 				self.offset_x = 49+offset_x-16-48
@@ -470,7 +470,7 @@ local Mine_stack = class('Mine_stack', Object)
 				self.quantity = 0
 				self.gx = gx
 				self.gy = gy
-				_G.nodes[self.gx][self.gy].walkable = 1
+					setWalkable(self.gx,self.gy,1)
 				self.parent = parent
                 self.qid = 0
 				self.offset_x = 49+offset_x-16-48
@@ -518,7 +518,7 @@ local Mine_alias = class('Mine_alias', Object)
 				Object.initialize(self,cx,cy,i,o,x,y,mytype)
 				self.gx = gx
 				self.gy = gy
-				_G.nodes[self.gx][self.gy].walkable = 1
+					setWalkable(self.gx,self.gy,1)
 				self.parent = parent
                 self.qid = 0
                 self.tile = tile
@@ -542,7 +542,7 @@ local Mine = class('Mine', Object)
 				Object.initialize(self,cx,cy,i,o,x,y,mytype)
 				self.gx = chunk_width*self.cx+self.i
 				self.gy = chunk_width*self.cy+self.o
-				_G.nodes[self.gx][self.gy].walkable = 1
+					setWalkable(self.gx,self.gy,1)
 				self.health = 400
                 self.qid = nil
                 self.tile = tile_quads[2316]

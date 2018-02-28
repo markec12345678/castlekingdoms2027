@@ -79,6 +79,10 @@
         tile_offset, tile_offset_x = {}, {};
         wood = 10;
     ----Pathfinding data structures
+        function setWalkable(gx,gy,value) --TODO finish
+            --1 is unwalkable, 0 is walkable
+
+        end
         collision_map = ffi.new("unsigned char[2048][2048]", {})
         ffi.cdef[[
         void *calloc(size_t nitems, size_t size);

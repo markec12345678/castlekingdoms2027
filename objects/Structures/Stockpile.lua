@@ -288,7 +288,7 @@ local Stockpile_alias = class('Stockpile_alias', Object)
 				Object.initialize(self,cx,cy,i,o,x,y,mytype)
 				self.gx = gx
 				self.gy = gy
-				_G.nodes[self.gx][self.gy].walkable = 1
+					setWalkable(self.gx,self.gy,1)
 				self.parent = parent
                 self.qid = 0
                 self.tile = tile
@@ -312,7 +312,7 @@ local Stockpile = class('Stockpile', Object)
 				Object.initialize(self,cx,cy,i,o,x,y,mytype)
 				self.gx = chunk_width*self.cx+self.i
 				self.gy = chunk_width*self.cy+self.o
-				_G.nodes[self.gx][self.gy].walkable = 1
+					setWalkable(self.gx,self.gy,1)
 				self.health = 1000
                 self.qid = nil
                 self.tile = tile_quads[2296]

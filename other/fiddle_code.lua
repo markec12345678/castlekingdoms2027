@@ -1,3 +1,35 @@
+
+-- main
+thread		= love.thread.newThread ( "thread.lua" );
+thread:start ();
+channel		= {};
+channel.a	= love.thread.getChannel ( "a" );
+channel.b	= love.thread.getChannel ( "b" );
+channel.b:push ( "foo" );
+ 
+function love.update ( dt )
+	local v = channel.a:pop ();
+	if v then
+		print ( tostring ( v ) );
+		channel.b:push ( "foo" );
+	end
+end
+ 
+-- thread
+channel 	= {};
+channel.a	= love.thread.getChannel ( "a" );
+channel.b	= love.thread.getChannel ( "b" );
+ 
+while true do
+	local v = channel.b:pop ();
+	if v then
+		print ( tostring ( v ) );
+		channel.a:push ( "bar" );
+	end
+end
+-------------------------------------
+
+
 --NOTE LuaJIT FFI struct oop
 local ffi = require("ffi")
 local point
@@ -88,20 +120,6 @@ if path then
 	  print(('Step: %d - x: %d - y: %d'):format(count, node:getX(), node:getY()))
 	end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
