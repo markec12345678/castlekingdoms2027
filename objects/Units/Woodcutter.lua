@@ -165,11 +165,11 @@ local fr_cutting_northeast = { --note actually north
 				self.path = _G.finder:getPath(self.gx, self.gy, self.endx, self.endy)
 				--print(inspect(self.path))
 				if self.path then
-					print("we've found something")
+					--print("we've found something")
 					if type(self.path) == "table" then
-						print("we've got it boys!")
+						--print("we've got it boys!")
 						self.nd = {}
-						print(inspect(self.path))
+						--print(inspect(self.path))
 						local first = true --skip the first node, because it's our position
 						--print("Printing steps:")
 						local countt = 0
@@ -182,7 +182,6 @@ local fr_cutting_northeast = { --note actually north
 						end
 						self.nd_len = countt
 						--print("Length",self.nd_len,self.count)
-						print(inspect(self.nd))
 						self.waypoint_x = self.nd[0][1]--fixme If spawning right next to a tree, will throw error here
 						self.waypoint_y = self.nd[0][2]
 						--print("Waypoint: "..self.waypoint_x,self.waypoint_y)						
@@ -190,7 +189,6 @@ local fr_cutting_northeast = { --note actually north
 						self.path_state = "Found"
 						return true
 					elseif self.path == 2 then
-						print("when does this happen?")
 						self.path_state = "No path"
 						self.state = "No trees"
 					end

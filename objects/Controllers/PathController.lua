@@ -8,7 +8,7 @@ local PathController = class('PathController')
                 self.paths = newAutotable(4) 
 			end
 			function PathController:requestPath(startx, starty, endx, endy)
-                print("Path requested",startx, starty, endx, endy)
+                --print("Path requested",startx, starty, endx, endy)
                 _G.channel.request:push({sx = startx, sy = starty, ex = endx, ey = endy})
 			end
             function PathController:update() 
@@ -35,7 +35,9 @@ local PathController = class('PathController')
                     if self.paths[startx][starty][endx][endy] == 1 then
                         return 2
                     elseif type(self.paths[startx][starty][endx][endy]) == 'table' then
-                        return self.paths[startx][starty][endx][endy]
+                        local returnval = self.paths[startx][starty][endx][endy]
+                        self.paths[startx][starty][endx][endy] = nil 
+                        return returnval
                     end
                 else return false  end
             end

@@ -23,7 +23,7 @@
     local channel = {}
     channel.request = love.thread.getChannel( "request" )
     channel.receive = love.thread.getChannel( "receive" )
-    print("WOOOOOOOOOOOOOOOOOOOOAAAAAAAAAAAAAHHHHHHHHHH")
+    
     while true do
             local table = channel.request:demand()
             local path = finder:getPath(table.sx, table.sy, table.ex, table.ey)
