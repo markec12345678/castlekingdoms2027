@@ -79,9 +79,12 @@
         tile_offset, tile_offset_x = {}, {};
         wood = 10;
     ----Pathfinding data structures
-        function setWalkable(gx,gy,value) --TODO finish
-            --1 is unwalkable, 0 is walkable
-
+        _G.channel = {}
+        _G.channel.request = love.thread.getChannel ( "request" )
+        _G.channel.receive = love.thread.getChannel ( "receive" )
+        _G.channel.map_update = love.thread.getChannel ( "map_update" )
+        function setWalkable(gx,gy,walkable) 
+            _G.channel.map_update:push({gx,gy,walkable})
         end
         collision_map = ffi.new("unsigned char[2048][2048]", {})            
     ----Resources

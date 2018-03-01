@@ -73,7 +73,7 @@ local Object 		= require('objects.Object')
 local Tree 		 	= love.filesystem.load('objects/Environment/Tree.lua')(object_batch, active_objects, tile_quads,object)
 local Woodcutter 	= love.filesystem.load('objects/Units/Woodcutter.lua')(object,object_batch, active_entities, tile_quads)
 local Stonemason 	= love.filesystem.load('objects/Units/Stonemason.lua')(object,object_batch, active_entities, tile_quads)
-local Miner 	= love.filesystem.load('objects/Units/Miner.lua')(object,object_batch, active_entities, tile_quads)
+local Miner 		= love.filesystem.load('objects/Units/Miner.lua')(object,object_batch, active_entities, tile_quads)
 local Castle 		= love.filesystem.load('objects/Structures/Castle.lua')(object, tile_quads)
 local Stockpile 	= love.filesystem.load('objects/Structures/Stockpile.lua')(object, tile_quads, object_batch)
 local Granary       = love.filesystem.load('objects/Structures/Granary.lua')(object, tile_quads, object_batch)
@@ -106,8 +106,8 @@ function genObjects(cx,cy)
 			for o=0,chunk_height-1,1 do
 				-- if i == 63 and o == 63 then 
 				-- 		object[cx][cy][i][o] = Tree:new(cx,cy,i,o, --TODO fix tile_offset/_x
-				-- 		IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[object[chunk_x][chunk_y][i][o]] or 38),
-				-- 		IsoY + (i + o) * tile_height * 0.5 - (tile_offset[object[chunk_x][chunk_y][i][o]] or 166),"Pine tree")
+				-- 		IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[obj] or 38),
+				-- 		IsoY + (i + o) * tile_height * 0.5 - (tile_offset[obj] or 166),"Pine tree")
 				-- 		object[cx][cy][i][o].animation:gotoFrame(math.random(6))
 				-- end
 				local rand = math.random(200)
@@ -115,8 +115,8 @@ function genObjects(cx,cy)
 						if o == 0 and object[cx][cy-1][i][o-1] and object[cx][cy-1][i][o-1].type == "Pine tree" then goto continue end
 						if o ~= 0 and object[cx][cy][i][o-1] and object[cx][cy][i][o-1].type == "Pine tree" then goto continue end
 						object[cx][cy][i][o] = Tree:new(cx,cy,i,o, --TODO fix tile_offset/_x
-						IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[object[chunk_x][chunk_y][i][o]] or 38),
-						IsoY + (i + o) * tile_height * 0.5 - (tile_offset[object[chunk_x][chunk_y][i][o]] or 166),"Pine tree")
+						IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[obj] or 38),
+						IsoY + (i + o) * tile_height * 0.5 - (tile_offset[obj] or 166),"Pine tree")
 						object[cx][cy][i][o].animation:gotoFrame(math.random(6))
 						end 
 						--TODO add shadow gen here	
@@ -140,21 +140,22 @@ function update_objects(cx,cy,deser)
   	--shadow_batch[chunk_x][chunk_y]:clear()
   	for i=0,chunk_width-1,1 do
     	for o=0,chunk_height-1,1 do
-			if object[chunk_x][chunk_y][i][o] then
-				if object[chunk_x][chunk_y][i][o].cx ~= chunk_x or object[chunk_x][chunk_y][i][o].cy ~= chunk_y then
-					object[chunk_x][chunk_y][i][o] = nil
+			local obj = object[chunk_x][chunk_y][i][o]
+			if obj then
+				if obj.cx ~= chunk_x or obj.cy ~= chunk_y then
+					obj = nil
 				 	goto continue
 				end
-				if object[chunk_x][chunk_y][i][o].animated then
-					object[chunk_x][chunk_y][i][o].qid = object_batch[chunk_x][chunk_y]
-					:add(object[chunk_x][chunk_y][i][o].animation
-					:getFrameInfo(object[chunk_x][chunk_y][i][o].x+(object[chunk_x][chunk_y][i][o].offset_x or 0),
-								  object[chunk_x][chunk_y][i][o].y+(object[chunk_x][chunk_y][i][o].offset_y or 0)))	
+				if obj.animated then
+					obj.qid = object_batch[chunk_x][chunk_y]
+					:add(obj.animation
+					:getFrameInfo(obj.x+(obj.offset_x or 0),
+								  obj.y+(obj.offset_y or 0)))	
 				else 
-					object[chunk_x][chunk_y][i][o].qid = object_batch[chunk_x][chunk_y]
-					:add(object[chunk_x][chunk_y][i][o].tile,
-						object[chunk_x][chunk_y][i][o].x+(object[chunk_x][chunk_y][i][o].offset_x or 0),
-						object[chunk_x][chunk_y][i][o].y+(object[chunk_x][chunk_y][i][o].offset_y or 0))
+					obj.qid = object_batch[chunk_x][chunk_y]
+					:add(obj.tile,
+						obj.x+(obj.offset_x or 0),
+						obj.y+(obj.offset_y or 0))
 				end	
 				::continue::
 			end

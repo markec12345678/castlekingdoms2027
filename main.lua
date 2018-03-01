@@ -7,22 +7,11 @@ require('global')
 local object_image
 local Gamestate = require('libraries.gamestate')
 local core = require("misc")
---local bitser = require('libraries.bitser')
 local thread
 local objects, terrain
 local game, ui = {}, {}
 local loader = require('libraries.lily')
--- function write(par)
--- 	f = love.filesystem.newFile("line"..par..".txt")
--- 	f:open("w")
--- 		f:write("This is line !\r\n")
--- 	f:close()
--- 	return true
--- end
--- function remove(par) 
--- 	love.filesystem.remove("line"..par..".txt")
--- 	return true
--- end
+
 
 function love.load()
     Gamestate.registerEvents()
@@ -47,9 +36,6 @@ function game:init()
 	----Pathfinding setup
 	thread = love.thread.newThread ( "libraries/pathfinding_thread.lua" )
 	thread:start ()
-	_G.channel = {}
-	_G.channel.request = love.thread.getChannel ( "request" )
-	_G.channel.receive = love.thread.getChannel ( "receive" )
 	_G.finder = require('objects.Controllers.PathController'):new()
 end
 

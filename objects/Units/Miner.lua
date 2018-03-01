@@ -139,6 +139,7 @@ local fr_walking_stone_west = {
 				self.waypoint_y = 0
 				self.state = 'Find a job'
 				self.path = 0
+				self.path_state = "None"
 				self.straight_walk_speed = 40
 				self.diagonal_walk_speed = 25
 				self.originalx = self.gx 
@@ -156,35 +157,45 @@ local fr_walking_stone_west = {
 				self.animation = anim.newAnimation(fr_walking_west,10)
 				table.insert(active_entities,self)
 			end 
-			function Miner:pathfind(xx,yy)
-				--print("Called",self.gx, self.gy, xx, yy)
-				-- -- Calculates the path, and its length
-				self.path = _G.finder:getPath(self.gx, self.gy, xx, yy)
-				if self.path then
-				  	self.nd = {}
-					local first = true --skip the first node, because it's our position
-					--print("Printing steps:")
-					local countt = 0
-					for node, count in self.path:nodes() do
-						--print(('Step: %d - x: %d - y: %d'):format(count,node._x,node._y))
-						if not first then
-							self.nd[countt] = node
-							countt = countt + 1
-						else first = false end	
-					end
-					self.nd_len = countt
-					--print("Length",self.nd_len,self.count)
-					self.waypoint_x = self.nd[0]._x 
-				 	self.waypoint_y = self.nd[0]._y
-					--print("Waypoint: "..self.waypoint_x,self.waypoint_y)						
-				 	self.move_dir = "none"	
-					return true
-				else print("Path not found!")
-					self.state = "No path to workplace"
-					return false
-				 end			
+			function Miner:requestPath(xx,yy)							
+				_G.finder:requestPath(self.gx, self.gy, xx, yy)
+				self.endx = xx
+				self.endy = yy
+				self.path_state = "Waiting for path"
 			end
-			
+			function Miner:pathfind()
+				self.path = _G.finder:getPath(self.gx, self.gy, self.endx, self.endy)
+				--print(inspect(self.path))
+				if self.path then
+					--print("we've found something")
+					if type(self.path) == "table" then
+						--print("we've got it boys!")
+						self.nd = {}
+						--print(inspect(self.path))
+						local first = true --skip the first node, because it's our position
+						--print("Printing steps:")
+						local countt = 0
+						for count, node in ipairs(self.path) do
+							--print(('Step: %d - x: %d - y: %d'):format(count,node._x,node._y))
+							if not first then
+								self.nd[countt] = node
+								countt = countt + 1
+							else first = false end	
+						end
+						self.nd_len = countt
+						--print("Length",self.nd_len,self.count)
+						self.waypoint_x = self.nd[0][1]
+						self.waypoint_y = self.nd[0][2]
+						--print("Waypoint: "..self.waypoint_x,self.waypoint_y)						
+						self.move_dir = "none"	
+						self.path_state = "Found"
+						return true
+					elseif self.path == 2 then
+						self.path_state = "No path"
+						self.state = "No path to workplace"
+					end
+				end					
+			end
 			function Miner:update_direction()
 				local wx = self.waypoint_x
 				local wy = self.waypoint_y
@@ -275,7 +286,9 @@ local fr_walking_stone_west = {
 				object[self.lrcx][self.lrcy][self.lrx][self.lry] = nil
 			end
 			function Miner:update()
-				if self.state ~= "No path to workplace" and self.state ~= "Working" then
+				if self.path_state == "Waiting for path" then
+					self:pathfind()
+				elseif self.state ~= "No path to workplace" and self.state ~= "Working" then
 					if self.state == "Find a job" then
 						_G.JobController:find_job(self,"Miner")
 					elseif self.state == "Go to stockpile" then
@@ -291,14 +304,13 @@ local fr_walking_stone_west = {
 								end
 							end
 							if not closest_node then print("Closest node not found") else                                    
-							self:pathfind(closest_node.gx,closest_node.gy) print("Found path!") end
+							self:requestPath(closest_node.gx,closest_node.gy) print("Found path!") end
 							self.move_dir = "none"
 						end
 					elseif self.state == "Go to workplace" then
-                        if self:pathfind(self.workplace.gx-1,self.workplace.gy+1) then
+                        self:requestPath(self.workplace.gx-1,self.workplace.gy+1)
                             self.state = "Going to workplace"
-                            self.move_dir = "none"
-                        end
+                            self.move_dir = "none"                        
 					elseif self.move_dir == "none" and self.state == "Going to workplace" then
 						self:update_direction()
                         print(self.move_dir)
@@ -365,8 +377,8 @@ local fr_walking_stone_west = {
 								self.count = 1					
 								return 
 							else	
-								self.waypoint_x = self.nd[self.count]._x
-								self.waypoint_y = self.nd[self.count]._y
+								self.waypoint_x = self.nd[self.count][1]
+								self.waypoint_y = self.nd[self.count][2]
 								--self.previous_dir = self.move_dir
 								self.move_dir = "none"									
 							end
@@ -381,8 +393,8 @@ local fr_walking_stone_west = {
 								self.count = 1		
 								return 
 							else
-								self.waypoint_x = self.nd[self.count]._x
-								self.waypoint_y = self.nd[self.count]._y
+								self.waypoint_x = self.nd[self.count][1]
+								self.waypoint_y = self.nd[self.count][2]
 								--self.previous_dir = self.move_dir
 								self.move_dir = "none"									
 							end

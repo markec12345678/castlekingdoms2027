@@ -23,9 +23,19 @@
     local channel = {}
     channel.request = love.thread.getChannel( "request" )
     channel.receive = love.thread.getChannel( "receive" )
+	channel.map_update = love.thread.getChannel ( "map_update" )
     
     while true do
+
             local table = channel.request:demand()
+            local map_update 
+            repeat                
+                map_update = channel.map_update:pop()
+                if map_update then 
+                    _G.nodes[map_update[1]][map_update[2]].walkable = map_update[3]
+                else break end
+            until (not map_update)
+
             local path = finder:getPath(table.sx, table.sy, table.ex, table.ey)
             local path_to_send = {}
             path_to_send.sx = table.sx

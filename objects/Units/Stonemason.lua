@@ -192,11 +192,10 @@ local fr_walking_stone_west = {
 						return true
 					elseif self.path == 2 then
 						self.path_state = "No path"
-						self.state = "No path to quarry"
+						self.state = "No path to workplace"
 					end
 				end					
-			end
-			
+			end			
 			function Stonemason:update_direction()
 				local wx = self.waypoint_x
 				local wy = self.waypoint_y
