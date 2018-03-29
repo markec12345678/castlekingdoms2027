@@ -10,7 +10,7 @@ A real-time strategy game built with LÖVE.
 ##### Rendering  
 > My goal for this project was for it to run at least 30 fps on my PC (GT 720, Core2Duo) and this why I took this approach:  
  
-I used spritebatches to reduce the drawcalls from N objects on screen to 2M where M is the amount of chunks drawn. It's 2 because we draw a spritebatch for the terrain, and a spritebatch for the object layer. This caused some issues that were solved in 0.1 and hopefully one last issue #1 in 0.2  
+I used spritebatches to reduce the drawcalls from N objects on screen to 2M where M is the amount of chunks drawn. It's 2 because we draw a spritebatch for the terrain, and a spritebatch for the object layer. This caused some issues that were solved in 0.1 and hopefully one last issue #2 in 0.2  
 There's also a limitation, in such that for the object layer we can only use one texture atlas. I did some research and found out that 8k x 8k atlas is supported by 90% of steam users so that's what I went with. There's plenty of space left for the other assets that are not yet there.
 
 
