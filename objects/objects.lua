@@ -87,8 +87,7 @@ package.loaded['objects.Structures.Stockpile'] = Stockpile
 package.loaded['objects.Structures.Granary'] = Granary
 package.loaded['objects.Structures.Quarry'] = Quarry
 package.loaded['objects.Structures.Mine'] = Mine
-local StockpileController = require('objects.Controllers.StockpileController')
-_G.stockpile = StockpileController:new()
+_G.stockpile = require('objects.Controllers.StockpileController')
 --- NOTE --------------------------
 --- NOTE --------------------------
 --- NOTE Object classes END ---

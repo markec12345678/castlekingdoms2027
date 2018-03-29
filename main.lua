@@ -29,14 +29,14 @@ function game:init()
 	package.loaded['objects.objects'] = objects
 	terrain = require('terrain')
 	_G.chunkUpdateList = require('objects.chunk_system')
-	_G.BuildController = love.filesystem.load("objects/Controllers/BuildController.lua")(package.loaded['objects.objects'].object, object_image):new()
+	_G.BuildController = love.filesystem.load("objects/Controllers/BuildController.lua")(package.loaded['objects.objects'].object, object_image)
 	_G.BuildController:set('castle')
 	_G.BuildController.start = true
-	_G.JobController = require('objects.Controllers.JobController'):new()
+	_G.JobController = require('objects.Controllers.JobController')
 	----Pathfinding setup
 	thread = love.thread.newThread ( "libraries/pathfinding_thread.lua" )
 	thread:start ()
-	_G.finder = require('objects.Controllers.PathController'):new()
+	_G.finder = require('objects.Controllers.PathController')
 end
 
 function game:update(dt)

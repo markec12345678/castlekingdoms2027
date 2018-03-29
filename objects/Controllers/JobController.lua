@@ -20,4 +20,4 @@ local JobController = class('JobController')
                     end
                 end       
             end
-return JobController
+return JobController:new()

@@ -31,4 +31,4 @@ local StockpileController = class('StockpileController')
                     end    
                 end        
             end
-return StockpileController
+return StockpileController:new()

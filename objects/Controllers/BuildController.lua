@@ -318,4 +318,4 @@ local BuildController = class('BuildController')
                 end
             end
 
-return BuildController
+return BuildController:new()

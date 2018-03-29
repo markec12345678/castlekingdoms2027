@@ -34,4 +34,4 @@ local PathController = class('PathController')
                     end
                 else return false  end
             end
-return PathController
+return PathController:new()
