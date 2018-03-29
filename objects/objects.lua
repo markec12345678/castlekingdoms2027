@@ -94,38 +94,54 @@ _G.stockpile = require('objects.Controllers.StockpileController')
 
 function addObjectAt(cx,cy,x,y,object_to_add)
 	if type(object[cx][cy][x][y]) ~= 'table' then
-		addObjectAt(cx, cy, x, {})
+		object[cx][cy][x][y] = {}
 	end
 	object[cx][cy][x][y][#object[cx][cy][x][y] + 1] = object_to_add
 	return object_to_add
 end
 
 function removeObjectAt(cx,cy,x,y,object_to_remove)
-	if object_to_remove then
-		for index, current_object in ipairs(object[cx][cy][x][y]) do
-			if current_object == object_to_remove then 
-				table.remove(object[cx][cy][x][y], index)
-				break
+	if type(object[cx][cy][x][y]) == 'table' then
+		if object_to_remove then
+			for index, current_object in ipairs(object[cx][cy][x][y]) do
+				if current_object == object_to_remove then 
+					table.remove(object[cx][cy][x][y], index)
+					break
+				end
 			end
+		else
+			for index, current_object in ipairs(object[cx][cy][x][y]) do
+				current_object:destroy()
+			end
+			object[cx][cy][x][y] = {}
 		end
-	else
-		for index, current_object in ipairs(object[cx][cy][x][y]) do
-			current_object:destroy()
-		end
-		object[cx][cy][x][y] = {}
 	end
 end
 
-function objectFromTypeAt(cx,cy,x,y,type)
-	for index,current_object in ipairs(object[cx][cy][x][y]) do
-		if current_object.type == type then
-			return current_object
+function objectFromTypeAt(cx,cy,x,y,obj_type)
+	if type(object[cx][cy][x][y]) == 'table' then
+		for index,current_object in ipairs(object[cx][cy][x][y]) do
+			if current_object.type == obj_type or current_object.class.name == obj_type then
+				return current_object
+			end
 		end
 	end
+	return false
+end
+
+function isObjectAt(cx, cy, x, y, object_compared)
+	if type(object[cx][cy][x][y]) == 'table' then
+		for index,current_object in ipairs(object[cx][cy][x][y]) do
+			if current_object == object_compared then
+				return current_object
+			end
+		end
+	end
+	return false
 end
 
 function objectAt(cx,cy,x,y)
-	if next(object[cx][cy][x][y]) == nil then
+	if (type(object[cx][cy][x][y]) == 'table' and next(object[cx][cy][x][y]) == nil) or not object[cx][cy][x][y] then
 		return false
 	else return true end
 end
@@ -144,12 +160,12 @@ function genObjects(cx,cy)
 						if rand == 4 then
 						if o == 0 and objectAt(cx,cy-1,i,o-1) then goto continue end
 						if o ~= 0 and objectAt(cx,cy,i,o-1) then goto continue end
-						local tree = addObjectAt(cx, cy, i, Tree:new(cx,cy,i,o, --TODO fix tile_offset/_x
+						local tree = addObjectAt(cx, cy, i, o, Tree:new(cx,cy,i,o, --TODO fix tile_offset/_x
 						IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[obj] or 38),
 						IsoY + (i + o) * tile_height * 0.5 - (tile_offset[obj] or 166),"Pine tree"))
 						tree.animation:gotoFrame(math.random(6))
 						end 
-				if objectAt(cx,cy,x,y) then
+				if objectAt(cx,cy,i,o) then
 					for index, ob in ipairs(object[cx][cy][i][o]) do
 						if ob.animated then
 							ob.qid = object_batch[chunk_x][chunk_y]:add(ob.animation:getFrameInfo(ob.x,ob.y))
@@ -172,23 +188,25 @@ function update_objects(cx,cy,deser)
   	--shadow_batch[chunk_x][chunk_y]:clear()
   	for i=0,chunk_width-1,1 do
     	for o=0,chunk_height-1,1 do
-			for index, obj in ipairs(object[cx][cy][i][o]) do 
-				if obj.cx ~= chunk_x or obj.cy ~= chunk_y then
-					obj = nil
-					goto continue
+			if type(object[cx][cy][i][o]) == 'table' then
+				for index, obj in ipairs(object[cx][cy][i][o]) do 
+					if obj.cx ~= chunk_x or obj.cy ~= chunk_y then
+						obj = nil
+						goto continue
+					end
+					if obj.animated then
+						obj.qid = object_batch[chunk_x][chunk_y]
+						:add(obj.animation
+						:getFrameInfo(obj.x+(obj.offset_x or 0),
+									obj.y+(obj.offset_y or 0)))	
+					else 
+						obj.qid = object_batch[chunk_x][chunk_y]
+						:add(obj.tile,
+							obj.x+(obj.offset_x or 0),
+							obj.y+(obj.offset_y or 0))
+					end	
+					::continue::
 				end
-				if obj.animated then
-					obj.qid = object_batch[chunk_x][chunk_y]
-					:add(obj.animation
-					:getFrameInfo(obj.x+(obj.offset_x or 0),
-								obj.y+(obj.offset_y or 0)))	
-				else 
-					obj.qid = object_batch[chunk_x][chunk_y]
-					:add(obj.tile,
-						obj.x+(obj.offset_x or 0),
-						obj.y+(obj.offset_y or 0))
-				end	
-				::continue::
 			end
     	end
   	end				  

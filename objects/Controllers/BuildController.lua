@@ -19,10 +19,10 @@ local building = {
             ["wood"] = 50
         },
         build = function(self,cx,cy,x,y) 
-           addObjectAt(cx, cy, x, y, = 
+           addObjectAt(cx, cy, x, y, 
 			Castle:new(cx,cy,x,y, 
 			IsoX + (x - y) * tile_width  * 0.5 - 0,
-			IsoY + (x + y) * tile_height * 0.5 - 0)
+			IsoY + (x + y) * tile_height * 0.5 - 0))
         end,
         special_requirements = function(self,cx,cy,x,y) return true end,
     },
@@ -35,10 +35,10 @@ local building = {
             ["stone"] = 1
         },
         build = function(self,cx,cy,x,y)
-           addObjectAt(cx, cy, x, y, = 
+           addObjectAt(cx, cy, x, y, 
 			Stockpile:new(cx,cy,x,y, 
 			IsoX + (x - y) * tile_width  * 0.5,
-			IsoY + (x + y) * tile_height * 0.5)
+			IsoY + (x + y) * tile_height * 0.5))
         end,
         special_requirements = function(self,cx,cy,x,y)
             if not next(_G.stockpile.list) then return true end
@@ -51,7 +51,7 @@ local building = {
                     o = (h) % (chunk_width)
                     cxx = math.floor(w/chunk_width)
                     cyy = math.floor(h/chunk_width)
-                    if addObjectAt(cxx, cyy, i, $5 and (addObjectAt(cxx, cyy, i, .class.name) == "Stockpile" or addObjectAt(cxx, cyy, i, $5.class.name =="Stockpile_alias") then
+                    if objectFromTypeAt(cxx, cyy ,i, o, "Stockpile") or objectFromTypeAt(cxx, cyy, i, o, "Stockpile_alias") then
                         return true
                     end
                 end
@@ -67,10 +67,10 @@ local building = {
             ["wood"] = 10
         },
         build = function(self,cx,cy,x,y)
-           addObjectAt(cx, cy, x, y, = 
+           addObjectAt(cx, cy, x, y, 
 			Granary:new(cx,cy,x,y, 
 			IsoX + (x - y) * tile_width  * 0.5,
-			IsoY + (x + y) * tile_height * 0.5)
+			IsoY + (x + y) * tile_height * 0.5))
         end,
         special_requirements = function(self,cx,cy,x,y) return true end,
     },
@@ -83,10 +83,10 @@ local building = {
             ["wood"] = 24
         },
         build = function(self,cx,cy,x,y)
-           addObjectAt(cx, cy, x, y, = 
+           addObjectAt(cx, cy, x, y, 
 			Quarry:new(cx,cy,x,y, 
 			IsoX + (x - y) * tile_width  * 0.5,
-			IsoY + (x + y) * tile_height * 0.5)
+			IsoY + (x + y) * tile_height * 0.5))
         end,
         special_requirements = function(self,cx,cy,x,y) return true end,
     },
@@ -100,10 +100,10 @@ local building = {
             ["stone"] = 10,
         },
         build = function(self,cx,cy,x,y)
-           addObjectAt(cx, cy, x, y, = 
+           addObjectAt(cx, cy, x, y,
 			Mine:new(cx,cy,x,y, 
 			IsoX + (x - y) * tile_width  * 0.5,
-			IsoY + (x + y) * tile_height * 0.5)
+			IsoY + (x + y) * tile_height * 0.5))
         end,
         special_requirements = function(self,cx,cy,x,y) return true end,
     },
@@ -167,7 +167,7 @@ local BuildController = class('BuildController')
                             local y = (yy+LY) % (chunk_width)
                             local cx = math.floor((xx+LX)/chunk_width)
                             local cy = math.floor((yy+LY)/chunk_width)
-                            ifaddObjectAt(cx, cy, x, y, ~= nil then self.can_build = false end
+                            if objectAt(cx, cy, x, y) then self.can_build = false end
                         end
                     end
                     do
@@ -184,7 +184,7 @@ local BuildController = class('BuildController')
                             local y = (yy+LY) % (chunk_width)
                             local cx = math.floor((xx+LX)/chunk_width)
                             local cy = math.floor((yy+LY)/chunk_width)
-                            ifaddObjectAt(cx, cy, x, y, == nil then 
+                            if not objectAt(cx, cy, x, y) then 
                                 if self.can_build then
                                     type = 2
                                 else

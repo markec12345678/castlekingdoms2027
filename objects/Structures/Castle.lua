@@ -19,7 +19,7 @@ local Castle_alias = class('Castle_alias', Object)
                 self.tile = tile
 				self.offset_x = offset_x or 0
 				self.offset_y = -(offset_y or 0)
-				addObjectAt(cx, cy, i, self)	
+				addObjectAt(cx, cy, i, o, self)	
 			end
 
 
@@ -68,7 +68,7 @@ local Castle = class('Castle', Object)
 
 				local ccx,ccy
 				for xx = -2, 8 do
-					for yy = -2, 8 do --TODO: make it use gx,gy so it's cross chunk compatible			
+					for yy = -2, 8 do 			
 						if yy == 7 or xx == 7 or xx == -1 or yy == -1 then
 						ccx, ccy = terrainSetTileAt(self.gx+xx,self.gy+yy,math.random(6,8))
 						elseif math.random(1,3) == 1 then

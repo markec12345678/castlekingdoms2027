@@ -296,7 +296,7 @@ local Quarry_lifter = class('Quarry_lifter', Object)
                 self.qid = 0
 				self.offset_x = 48+offset_x
 				self.offset_y = 74+offset_y-64+32
-				addObjectAt(cx, cy, i, self)	
+				addObjectAt(cx, cy, i, o, self)	
 				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
 				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
 				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self
@@ -343,7 +343,7 @@ local Quarry_hook = class('Quarry_hook', Object)
                 self.qid = 0
 				self.offset_x = 32+offset_x
 				self.offset_y = 57+offset_y-15
-				addObjectAt(cx, cy, i, self)	
+				addObjectAt(cx, cy, i, o, self)	
 				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
 				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
 				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self
@@ -385,7 +385,7 @@ local Quarry_shaper = class('Quarry_shaper', Object)
                 self.qid = 0
 				self.offset_x = -15+offset_x
 				self.offset_y = 57+offset_y-2
-				addObjectAt(cx, cy, i, self)	
+				addObjectAt(cx, cy, i, o, self)	
 				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
 				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
 				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self
@@ -431,7 +431,7 @@ local Quarry_puller = class('Quarry_puller', Object)
                 self.qid = 0
 				self.offset_x = 92+offset_x-16-16
 				self.offset_y = 58+offset_y-32-16
-				addObjectAt(cx, cy, i, self)	
+				addObjectAt(cx, cy, i, o, self)	
 				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
 				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
 				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self
@@ -473,7 +473,7 @@ local Quarry_alias = class('Quarry_alias', Object)
 						break
 					end
 				end
-				addObjectAt(cx, cy, i, self)	
+				addObjectAt(cx, cy, i, o, self)	
 			end
 
 local Quarry = class('Quarry', Object)
@@ -596,7 +596,7 @@ local Quarry = class('Quarry', Object)
 				o = (self.lift_worker.gy) % (chunk_width)
 				cx = math.floor(self.lift_worker.gx/chunk_width)
 				cy = math.floor(self.lift_worker.gy/chunk_width)
-					addObjectAt(cx, cy, i, self.lift_worker)
+					addObjectAt(cx, cy, i, o, self.lift_worker)
 				
 				self.pull_worker.state = "Go to stockpile"
 				self.pull_worker.animated = true
@@ -608,7 +608,7 @@ local Quarry = class('Quarry', Object)
 				o = (self.pull_worker.gy) % (chunk_width)
 				cx = math.floor(self.pull_worker.gx/chunk_width)
 				cy = math.floor(self.pull_worker.gy/chunk_width)
-					addObjectAt(cx, cy, i, self.pull_worker)
+					addObjectAt(cx, cy, i, o, self.pull_worker)
 
 				self.shape_worker.state = "Go to stockpile"
 				self.shape_worker.animated = true
@@ -620,7 +620,7 @@ local Quarry = class('Quarry', Object)
 				o = (self.shape_worker.gy) % (chunk_width)
 				cx = math.floor(self.shape_worker.gx/chunk_width)
 				cy = math.floor(self.shape_worker.gy/chunk_width)
-					addObjectAt(cx, cy, i, self.shape_worker)				
+					addObjectAt(cx, cy, i, o, self.shape_worker)				
 
 				self.lifter:deactivate()
 				self.puller:deactivate()

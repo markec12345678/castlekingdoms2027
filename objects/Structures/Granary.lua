@@ -218,7 +218,7 @@ local Granary_alias = class('Granary_alias', Object)
 						break
 					end
 				end
-				addObjectAt(cx, cy, i, self)	
+				addObjectAt(cx, cy, i, o, self)	
 			end
 
 

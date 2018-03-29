@@ -283,7 +283,7 @@ local fr_walking_stone_west = {
                 self.previous_dir = self.move_dir
 			end
 			function Stonemason:job_update()	
-				addObjectAt(self.lrcx, self.lrcy, self.lrx, nil)
+				removeObjectAt(self.lrcx, self.lrcy, self.lrx, self.lry, self)
 			end
 			function Stonemason:update()
 				if self.path_state == "Waiting for path" then
@@ -358,20 +358,17 @@ local fr_walking_stone_west = {
 						self.cx,self.cy = math.floor((self.gx)/chunk_width), math.floor((self.gy)/chunk_width)
 						local xx,yy
 							xx, yy = (math.round(self.gx))%(chunk_width),(math.round(self.gy))%(chunk_width)
-							ifaddObjectAt(self.cx, self.cy, xx, yy, == nil then
-								addObjectAt(self.cx, self.cy, xx, self)
-								self.lrcx, self.lrcy, self.lrx, self.lry = self.cx,self.cy,xx,yy
-							end
-							ifaddObjectAt(self.cx, self.cy, self.originalx, self.originaly, == self 
+							addObjectAt(self.cx, self.cy, xx, yy, self)
+							if isObjectAt(self.cx, self.cy, self.originalx, self.originaly, self)
 							and (self.originalx ~= math.round(self.gx)%chunk_width or self.originaly ~= math.round(self.gy)%chunk_width)
 							then
-								addObjectAt(self.cx, self.cy, self.originalx, nil)
+								removeObjectAt(self.cx, self.cy, self.originalx, self.originaly, self)
 							end
 						if self.previous_cx ~= self.cx or self.previous_cy ~= self.cy then
-							addObjectAt(self.cx, self.cy, xx, self)			
-								self.lrcx, self.lrcy, self.lrx, self.lry = self.cx,self.cy,xx,yy
+							addObjectAt(self.cx, self.cy, xx, yy, self)	
 						    self.qid = object_batch[self.cx][self.cy]:add(self.animation:getFrameInfo(self.x, self.y))
-						end							
+								self.lrcx, self.lrcy, self.lrx, self.lry = self.cx,self.cy,xx,yy
+						end					
 						self.x = IsoX + ((self.fx*0.001)%chunk_width - (self.fy*0.001)%chunk_width) * tile_width  * 0.5 -34 --fixme magic numbers?
 						self.y = IsoY + ((self.fx*0.001)%chunk_width + (self.fy*0.001)%chunk_width) * tile_height * 0.5 -50+8
 						if self.originalx ~= math.round(self.gx)%chunk_width or self.originaly ~= math.round(self.gy)%chunk_width then
