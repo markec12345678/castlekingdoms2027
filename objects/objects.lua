@@ -294,6 +294,24 @@ local function mousepressed(x, y, button, istouch)
 						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter"))
 					obj.qid = object_batch[press.cx][press.cy]
 					:add(obj.animation:getFrameInfo(obj.x, obj.y))
+			obj = addObjectAt(press.cx, press.cy, press.x, press.y,  
+						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
+						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
+						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter"))
+					obj.qid = object_batch[press.cx][press.cy]
+					:add(obj.animation:getFrameInfo(obj.x, obj.y))
+			obj = addObjectAt(press.cx, press.cy, press.x, press.y,  
+						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
+						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
+						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter"))
+					obj.qid = object_batch[press.cx][press.cy]
+					:add(obj.animation:getFrameInfo(obj.x, obj.y))
+			obj = addObjectAt(press.cx, press.cy, press.x, press.y,  
+						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
+						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
+						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter"))
+					obj.qid = object_batch[press.cx][press.cy]
+					:add(obj.animation:getFrameInfo(obj.x, obj.y))
 		end 
 	elseif button == 3 then
 			obj = addObjectAt(press.cx, press.cy, press.x, press.y, 

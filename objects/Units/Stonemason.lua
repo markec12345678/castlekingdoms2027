@@ -358,17 +358,21 @@ local fr_walking_stone_west = {
 						self.cx,self.cy = math.floor((self.gx)/chunk_width), math.floor((self.gy)/chunk_width)
 						local xx,yy
 							xx, yy = (math.round(self.gx))%(chunk_width),(math.round(self.gy))%(chunk_width)
-							addObjectAt(self.cx, self.cy, xx, yy, self)
+							if not isObjectAt(self.cx, self.cy, xx, yy, self) then
+								addObjectAt(self.cx, self.cy, xx, yy, self)
+							end
 							if isObjectAt(self.cx, self.cy, self.originalx, self.originaly, self)
 							and (self.originalx ~= math.round(self.gx)%chunk_width or self.originaly ~= math.round(self.gy)%chunk_width)
 							then
 								removeObjectAt(self.cx, self.cy, self.originalx, self.originaly, self)
 							end
-						if self.previous_cx ~= self.cx or self.previous_cy ~= self.cy then
-							addObjectAt(self.cx, self.cy, xx, yy, self)	
+						if self.previous_cx ~= self.cx or self.previous_cy ~= self.cy then						
+							if not isObjectAt(self.cx, self.cy, xx, yy, self) then
+								addObjectAt(self.cx, self.cy, xx, yy, self)	
+							end
 						    self.qid = object_batch[self.cx][self.cy]:add(self.animation:getFrameInfo(self.x, self.y))
-								self.lrcx, self.lrcy, self.lrx, self.lry = self.cx,self.cy,xx,yy
 						end					
+						self.lrcx, self.lrcy, self.lrx, self.lry = self.cx,self.cy,xx,yy
 						self.x = IsoX + ((self.fx*0.001)%chunk_width - (self.fy*0.001)%chunk_width) * tile_width  * 0.5 -34 --fixme magic numbers?
 						self.y = IsoY + ((self.fx*0.001)%chunk_width + (self.fy*0.001)%chunk_width) * tile_height * 0.5 -50+8
 						if self.originalx ~= math.round(self.gx)%chunk_width or self.originaly ~= math.round(self.gy)%chunk_width then
