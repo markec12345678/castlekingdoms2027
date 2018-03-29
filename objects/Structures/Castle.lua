@@ -19,7 +19,7 @@ local Castle_alias = class('Castle_alias', Object)
                 self.tile = tile
 				self.offset_x = offset_x or 0
 				self.offset_y = -(offset_y or 0)
-				object[cx][cy][i][o] = self	
+				addObjectAt(cx, cy, i, self)	
 			end
 
 

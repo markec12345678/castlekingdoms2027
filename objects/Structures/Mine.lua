@@ -235,7 +235,7 @@ local Mine_going_down = class('Mine_going_down', Object)
                 self.qid = 0
 				self.offset_x = 13+offset_x-48
 				self.offset_y = 6+offset_y-32-16
-				object[cx][cy][i][o] = self	
+				addObjectAt(cx, cy, i, self)	
 				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
 				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
 				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self
@@ -280,7 +280,7 @@ local Mine_puller = class('Mine_puller', Object)
                 self.qid = 0
 				self.offset_x = 13+offset_x+32+32-48
 				self.offset_y = -2+offset_y-32+8
-				object[cx][cy][i][o] = self	
+				addObjectAt(cx, cy, i, self)	
 				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
 				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
 				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self
@@ -324,7 +324,7 @@ local Mine_bucket = class('Mine_bucket', Object)
                 self.qid = 0
 				self.offset_x = -3+offset_x+48+32-48
 				self.offset_y = -8+offset_y-32
-				object[cx][cy][i][o] = self	
+				addObjectAt(cx, cy, i, self)	
 				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
 				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
 				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self
@@ -377,7 +377,7 @@ local Mine_pourer = class('Mine_pourer', Object)
                 self.qid = 0
 				self.offset_x = 13+offset_x+48+32-48
 				self.offset_y = -13+offset_y-16
-				object[cx][cy][i][o] = self	
+				addObjectAt(cx, cy, i, self)	
 				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
 				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
 				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self
@@ -428,7 +428,7 @@ local Mine_casting = class('Mine_casting', Object)
                 self.qid = 0
 				self.offset_x = 49+offset_x-16-48
 				self.offset_y = 11+offset_y-64
-				object[cx][cy][i][o] = self	
+				addObjectAt(cx, cy, i, self)	
 				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
 				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
 				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self
@@ -475,7 +475,7 @@ local Mine_stack = class('Mine_stack', Object)
                 self.qid = 0
 				self.offset_x = 49+offset_x-16-48
 				self.offset_y = 11+offset_y-32-8+3
-				object[cx][cy][i][o] = self	
+				addObjectAt(cx, cy, i, self)	
 				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
 				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
 				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self
@@ -532,7 +532,7 @@ local Mine_alias = class('Mine_alias', Object)
 						break
 					end
 				end
-				object[cx][cy][i][o] = self	
+				addObjectAt(cx, cy, i, self)	
 			end
 
 local Mine = class('Mine', Object)
@@ -625,7 +625,7 @@ local Mine = class('Mine', Object)
 				o = (self.worker.gy) % (chunk_width)
 				cx = math.floor(self.worker.gx/chunk_width)
 				cy = math.floor(self.worker.gy/chunk_width)
-					object[cx][cy][i][o] = self.worker					
+					addObjectAt(cx, cy, i, self.worker)					
 				self.stack:take()
 				self.going_down:deactivate()
 				self.working = false

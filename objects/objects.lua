@@ -92,6 +92,43 @@ _G.stockpile = require('objects.Controllers.StockpileController')
 --- NOTE --------------------------
 --- NOTE Object classes END ---
 
+function addObjectAt(cx,cy,x,y,object_to_add)
+	if type(object[cx][cy][x][y]) ~= 'table' then
+		addObjectAt(cx, cy, x, {})
+	end
+	object[cx][cy][x][y][#object[cx][cy][x][y] + 1] = object_to_add
+	return object_to_add
+end
+
+function removeObjectAt(cx,cy,x,y,object_to_remove)
+	if object_to_remove then
+		for index, current_object in ipairs(object[cx][cy][x][y]) do
+			if current_object == object_to_remove then 
+				table.remove(object[cx][cy][x][y], index)
+				break
+			end
+		end
+	else
+		for index, current_object in ipairs(object[cx][cy][x][y]) do
+			current_object:destroy()
+		end
+		object[cx][cy][x][y] = {}
+	end
+end
+
+function objectFromTypeAt(cx,cy,x,y,type)
+	for index,current_object in ipairs(object[cx][cy][x][y]) do
+		if current_object.type == type then
+			return current_object
+		end
+	end
+end
+
+function objectAt(cx,cy,x,y)
+	if next(object[cx][cy][x][y]) == nil then
+		return false
+	else return true end
+end
 
 function genObjects(cx,cy)
 	local chunk_x = cx or current_chunk_x
@@ -103,25 +140,21 @@ function genObjects(cx,cy)
 	object_batch[chunk_x][chunk_y]:clear()	
 		for i=0,chunk_width-1,1 do
 			for o=0,chunk_height-1,1 do
-				-- if i == 63 and o == 63 then 
-				-- 		object[cx][cy][i][o] = Tree:new(cx,cy,i,o, --TODO fix tile_offset/_x
-				-- 		IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[obj] or 38),
-				-- 		IsoY + (i + o) * tile_height * 0.5 - (tile_offset[obj] or 166),"Pine tree")
-				-- 		object[cx][cy][i][o].animation:gotoFrame(math.random(6))
-				-- end
 				local rand = math.random(200)
 						if rand == 4 then
-						if o == 0 and object[cx][cy-1][i][o-1] and object[cx][cy-1][i][o-1].type == "Pine tree" then goto continue end
-						if o ~= 0 and object[cx][cy][i][o-1] and object[cx][cy][i][o-1].type == "Pine tree" then goto continue end
-						object[cx][cy][i][o] = Tree:new(cx,cy,i,o, --TODO fix tile_offset/_x
+						if o == 0 and objectAt(cx,cy-1,i,o-1) then goto continue end
+						if o ~= 0 and objectAt(cx,cy,i,o-1) then goto continue end
+						local tree = addObjectAt(cx, cy, i, Tree:new(cx,cy,i,o, --TODO fix tile_offset/_x
 						IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[obj] or 38),
-						IsoY + (i + o) * tile_height * 0.5 - (tile_offset[obj] or 166),"Pine tree")
-						object[cx][cy][i][o].animation:gotoFrame(math.random(6))
+						IsoY + (i + o) * tile_height * 0.5 - (tile_offset[obj] or 166),"Pine tree"))
+						tree.animation:gotoFrame(math.random(6))
 						end 
-						--TODO add shadow gen here	
-				if object[cx][cy][i][o] == nil or object[cx][cy][i][o] == 0 then else
-					object[cx][cy][i][o].qid = object_batch[chunk_x][chunk_y]:
-					add(object[cx][cy][i][o].animation:getFrameInfo(object[cx][cy][i][o].x,object[cx][cy][i][o].y))
+				if objectAt(cx,cy,x,y) then
+					for index, ob in ipairs(object[cx][cy][i][o]) do
+						if ob.animated then
+							ob.qid = object_batch[chunk_x][chunk_y]:add(ob.animation:getFrameInfo(ob.x,ob.y))
+						end
+					end
 				end
 				::continue::
 			end
@@ -139,17 +172,16 @@ function update_objects(cx,cy,deser)
   	--shadow_batch[chunk_x][chunk_y]:clear()
   	for i=0,chunk_width-1,1 do
     	for o=0,chunk_height-1,1 do
-			local obj = object[chunk_x][chunk_y][i][o]
-			if obj then
+			for index, obj in ipairs(object[cx][cy][i][o]) do 
 				if obj.cx ~= chunk_x or obj.cy ~= chunk_y then
 					obj = nil
-				 	goto continue
+					goto continue
 				end
 				if obj.animated then
 					obj.qid = object_batch[chunk_x][chunk_y]
 					:add(obj.animation
 					:getFrameInfo(obj.x+(obj.offset_x or 0),
-								  obj.y+(obj.offset_y or 0)))	
+								obj.y+(obj.offset_y or 0)))	
 				else 
 					obj.qid = object_batch[chunk_x][chunk_y]
 					:add(obj.tile,
@@ -176,7 +208,6 @@ local function draw_object()
 	-- 					, 0, scale_x, scale_y)
 	-- 		end
 	-- 			l1 = l1.next 
-	-- 			--TODO sort the linked list first so depth order is right between chunks
 	-- 	end
   	--love.graphics.draw(shadow_batch[0][0],    -view_xview, -view_yview, 0, scale_x, scale_y)
 	--love.graphics.setCanvas()
@@ -233,113 +264,33 @@ local function mousepressed(x, y, button, istouch)
 		press.cx = math.floor(LocalX/chunk_width)
 		press.cy = math.floor(LocalY/chunk_width)
 		print("Button", button)
+		local obj
    	if button == 1 then 
-   		object[press.cx][press.cy][press.x][press.y] = nil
 		_G.BuildController:build(press.cx,press.cy,press.x,press.y)
    	elseif button == 2 then
-		print(object[press.cx][press.cy][press.x][press.y])
-		if not object[press.cx][press.cy][press.x][press.y] then
-			print("Trying to spawn woodcutter", press.x, press.y)
-			
-			object[press.cx][press.cy][press.x][press.y] =  
+		if not objectAt(press.cx, press.cy, press.x, press.y) then
+			print("Trying to spawn a woodcutter", press.x, press.y)
+			obj = addObjectAt(press.cx, press.cy, press.x, press.y,  
 						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
 						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
-						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter")
-					object[press.cx][press.cy][press.x][press.y].qid = object_batch[press.cx][press.cy]
-					:add(object[press.cx][press.cy][press.x][press.y].animation
-					:getFrameInfo(object[press.cx][press.cy][press.x][press.y].x,
-								  object[press.cx][press.cy][press.x][press.y].y))
-			object[press.cx][press.cy][press.x][press.y] =  
-						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
-						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
-						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter")
-					object[press.cx][press.cy][press.x][press.y].qid = object_batch[press.cx][press.cy]
-					:add(object[press.cx][press.cy][press.x][press.y].animation
-					:getFrameInfo(object[press.cx][press.cy][press.x][press.y].x,
-								  object[press.cx][press.cy][press.x][press.y].y))
-			object[press.cx][press.cy][press.x][press.y] =  
-						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
-						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
-						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter")
-					object[press.cx][press.cy][press.x][press.y].qid = object_batch[press.cx][press.cy]
-					:add(object[press.cx][press.cy][press.x][press.y].animation
-					:getFrameInfo(object[press.cx][press.cy][press.x][press.y].x,
-								  object[press.cx][press.cy][press.x][press.y].y))
-			object[press.cx][press.cy][press.x][press.y] =  
-						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
-						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
-						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter")
-					object[press.cx][press.cy][press.x][press.y].qid = object_batch[press.cx][press.cy]
-					:add(object[press.cx][press.cy][press.x][press.y].animation
-					:getFrameInfo(object[press.cx][press.cy][press.x][press.y].x,
-								  object[press.cx][press.cy][press.x][press.y].y))
-			object[press.cx][press.cy][press.x][press.y] =  
-						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
-						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
-						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter")
-					object[press.cx][press.cy][press.x][press.y].qid = object_batch[press.cx][press.cy]
-					:add(object[press.cx][press.cy][press.x][press.y].animation
-					:getFrameInfo(object[press.cx][press.cy][press.x][press.y].x,
-								  object[press.cx][press.cy][press.x][press.y].y))
-			object[press.cx][press.cy][press.x][press.y] =  
-						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
-						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
-						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter")
-					object[press.cx][press.cy][press.x][press.y].qid = object_batch[press.cx][press.cy]
-					:add(object[press.cx][press.cy][press.x][press.y].animation
-					:getFrameInfo(object[press.cx][press.cy][press.x][press.y].x,
-								  object[press.cx][press.cy][press.x][press.y].y))
-			object[press.cx][press.cy][press.x][press.y] =  
-						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
-						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
-						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter")
-					object[press.cx][press.cy][press.x][press.y].qid = object_batch[press.cx][press.cy]
-					:add(object[press.cx][press.cy][press.x][press.y].animation
-					:getFrameInfo(object[press.cx][press.cy][press.x][press.y].x,
-								  object[press.cx][press.cy][press.x][press.y].y))
-			object[press.cx][press.cy][press.x][press.y] =  
-						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
-						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
-						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter")
-					object[press.cx][press.cy][press.x][press.y].qid = object_batch[press.cx][press.cy]
-					:add(object[press.cx][press.cy][press.x][press.y].animation
-					:getFrameInfo(object[press.cx][press.cy][press.x][press.y].x,
-								  object[press.cx][press.cy][press.x][press.y].y))
-			object[press.cx][press.cy][press.x][press.y] =  
-						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
-						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
-						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter")
-					object[press.cx][press.cy][press.x][press.y].qid = object_batch[press.cx][press.cy]
-					:add(object[press.cx][press.cy][press.x][press.y].animation
-					:getFrameInfo(object[press.cx][press.cy][press.x][press.y].x,
-								  object[press.cx][press.cy][press.x][press.y].y))
-			object[press.cx][press.cy][press.x][press.y] =  
-						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
-						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
-						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter")
-					object[press.cx][press.cy][press.x][press.y].qid = object_batch[press.cx][press.cy]
-					:add(object[press.cx][press.cy][press.x][press.y].animation
-					:getFrameInfo(object[press.cx][press.cy][press.x][press.y].x,
-								  object[press.cx][press.cy][press.x][press.y].y))
+						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter"))
+					obj.qid = object_batch[press.cx][press.cy]
+					:add(obj.animation:getFrameInfo(obj.x, obj.y))
 		end 
 	elseif button == 3 then
-			object[press.cx][press.cy][press.x][press.y] =  
+			obj = addObjectAt(press.cx, press.cy, press.x, press.y, 
 						Stonemason:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
 						IsoX + (press.x - press.y) * tile_width  * 0.5 -34,
-						IsoY + (press.x + press.y) * tile_height * 0.5 -50+8,"Stonemason")
-					object[press.cx][press.cy][press.x][press.y].qid = object_batch[press.cx][press.cy]
-					:add(object[press.cx][press.cy][press.x][press.y].animation
-					:getFrameInfo(object[press.cx][press.cy][press.x][press.y].x,
-								  object[press.cx][press.cy][press.x][press.y].y))
+						IsoY + (press.x + press.y) * tile_height * 0.5 -50+8,"Stonemason"))
+					obj.qid = object_batch[press.cx][press.cy]					
+					:add(obj.animation:getFrameInfo(obj.x, obj.y))
 	elseif button == 4 then
-			object[press.cx][press.cy][press.x][press.y] =  
+			obj = addObjectAt(press.cx, press.cy, press.x, press.y,
 						Miner:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
 						IsoX + (press.x - press.y) * tile_width  * 0.5 -34,
-						IsoY + (press.x + press.y) * tile_height * 0.5 -50+8,"Miner")
-					object[press.cx][press.cy][press.x][press.y].qid = object_batch[press.cx][press.cy]
-					:add(object[press.cx][press.cy][press.x][press.y].animation
-					:getFrameInfo(object[press.cx][press.cy][press.x][press.y].x,
-								  object[press.cx][press.cy][press.x][press.y].y))
+						IsoY + (press.x + press.y) * tile_height * 0.5 -50+8,"Miner"))					
+					obj.qid = object_batch[press.cx][press.cy]					
+					:add(obj.animation:getFrameInfo(obj.x, obj.y))
 	end
 end 
 local previous_count = 0 --note remove this in prod

@@ -55,7 +55,7 @@ local Tree = class('Tree', Object)
 			end
 			function Tree:destroy()
 				if self.chunk_key then table.remove(_G.chunk_objects,self.chunk_key) end
-				object[self.cx][self.cy][self.i][self.o] = nil
+				addObjectAt(self.cx, self.cy, self.i, nil)
 				self = nil
 			end
 			function Tree:cut()

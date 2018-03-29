@@ -396,16 +396,16 @@ local fr_cutting_northeast = { --note actually north
 						self.cx,self.cy = math.floor((self.gx)/chunk_width), math.floor((self.gy)/chunk_width)
 						local xx,yy
 							xx, yy = (math.round(self.gx))%(chunk_width),(math.round(self.gy))%(chunk_width)
-							if object[self.cx][self.cy][xx][yy] == nil then
-								object[self.cx][self.cy][xx][yy] = self
+							if addObjectAt(self.cx, self.cy, xx, $5 == nil then
+								addObjectAt(self.cx, self.cy, xx, self)
 							end
-							if object[self.cx][self.cy][self.originalx][self.originaly] == self 
+							if addObjectAt(self.cx, self.cy, self.originalx, $5 == self 
 							and (self.originalx ~= math.round(self.gx)%chunk_width or self.originaly ~= math.round(self.gy)%chunk_width)
 							then
-								object[self.cx][self.cy][self.originalx][self.originaly] = nil
+								addObjectAt(self.cx, self.cy, self.originalx, nil)
 							end
 						if self.previous_cx ~= self.cx or self.previous_cy ~= self.cy then
-							object[self.cx][self.cy][xx][yy] = self			
+							addObjectAt(self.cx, self.cy, xx, self)			
 						    self.qid = object_batch[self.cx][self.cy]:add(self.animation:getFrameInfo(self.x, self.y))
 						end							
 						self.x = IsoX + ((self.fx*0.001)%chunk_width - (self.fy*0.001)%chunk_width) * tile_width  * 0.5 -31 --fixme magic numbers?
