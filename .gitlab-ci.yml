@@ -1,0 +1,13 @@
+stages:
+  - build
+
+before_script:
+  - add-apt-repository ppa:bartbes/love-stable
+  - apt-get update
+  - apt-get install love package=0.10.2ppa1
+
+job1:
+  stage: build
+  script: 
+    - zip -9 -r testbuild.love .
+    - love testbuild.love
