@@ -70,23 +70,27 @@ local object_image= ...
 --- NOTE --------------------------
 --- NOTE --------------------------
 local Object 		= require('objects.Object')
-local Tree 		 	= love.filesystem.load('objects/Environment/Tree.lua')(object_batch, active_objects, tile_quads,object)
-local Woodcutter 	= love.filesystem.load('objects/Units/Woodcutter.lua')(object,object_batch, active_entities, tile_quads)
-local Stonemason 	= love.filesystem.load('objects/Units/Stonemason.lua')(object,object_batch, active_entities, tile_quads)
-local Miner 		= love.filesystem.load('objects/Units/Miner.lua')(object,object_batch, active_entities, tile_quads)
+local Unit 			= love.filesystem.load('objects/Units/Unit.lua')(active_entities, object_batch)
+package.loaded['objects.Units.Unit'] = Unit
+
+local Tree 		 	= love.filesystem.load('objects/Environment/Tree.lua')(object_batch, active_objects, tile_quads, object)
+local Woodcutter 	= love.filesystem.load('objects/Units/Woodcutter.lua')(object, tile_quads)
+local Stonemason 	= love.filesystem.load('objects/Units/Stonemason.lua')(object, object_batch, tile_quads)
+local Miner 		= love.filesystem.load('objects/Units/Miner.lua')(object, object_batch, tile_quads)
 local Castle 		= love.filesystem.load('objects/Structures/Castle.lua')(object, tile_quads)
 local Stockpile 	= love.filesystem.load('objects/Structures/Stockpile.lua')(object, tile_quads, object_batch)
 local Granary       = love.filesystem.load('objects/Structures/Granary.lua')(object, tile_quads, object_batch)
 local Quarry        = love.filesystem.load('objects/Structures/Quarry.lua')(object, tile_quads, object_batch)
 local Mine 			= love.filesystem.load('objects/Structures/Mine.lua')(object, tile_quads, object_batch)
-package.loaded['objects.Environment.Tree'],package.loaded['objects.Units.Woodcutter'] = Tree, Woodcutter
-package.loaded['objects.Units.Stonemason'] = Stonemason
-package.loaded['objects.Units.Miner'] = Miner
-package.loaded['objects.Structures.Castle'] = Castle
-package.loaded['objects.Structures.Stockpile'] = Stockpile
-package.loaded['objects.Structures.Granary'] = Granary
-package.loaded['objects.Structures.Quarry'] = Quarry
-package.loaded['objects.Structures.Mine'] = Mine
+package.loaded['objects.Environment.Tree']  		= Tree
+package.loaded['objects.Units.Woodcutter']  		= Woodcutter
+package.loaded['objects.Units.Stonemason']  		= Stonemason
+package.loaded['objects.Units.Miner'] 				= Miner
+package.loaded['objects.Structures.Castle'] 		= Castle
+package.loaded['objects.Structures.Stockpile'] 		= Stockpile
+package.loaded['objects.Structures.Granary'] 		= Granary
+package.loaded['objects.Structures.Quarry'] 		= Quarry
+package.loaded['objects.Structures.Mine'] 			= Mine
 _G.stockpile = require('objects.Controllers.StockpileController')
 --- NOTE --------------------------
 --- NOTE --------------------------

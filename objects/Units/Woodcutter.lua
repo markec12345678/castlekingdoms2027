@@ -1,5 +1,5 @@
-local object,object_batch, active_entities, tile_quads = ...
-local Object = require("objects.Object")
+local object, tile_quads = ...
+local Unit = require("objects.Units.Unit")
 
 local fr_walking_plank_east = {
 	tile_quads[1985], tile_quads[1986], tile_quads[1987],
@@ -87,36 +87,13 @@ local fr_cutting_northeast = { --note actually north
 	tile_quads[2062],tile_quads[2063]
 }
 
-		local Woodcutter = class('Woodcutter', Object)
+		local Woodcutter = class('Woodcutter', Unit)
 			function Woodcutter:initialize(cx,cy,i,o,x,y,type)
-				Object.initialize(self,cx,cy,i,o,x,y,type)
-				self.gx = chunk_width*self.cx+self.i
-				self.gy = chunk_width*self.cy+self.o
-				self.endx = 0
-				self.endy = 0
-				self.fx = self.gx*1000
-				self.fy = self.gy*1000
-				self.previous_cx = cx
-				self.previous_cy = cx
-				self.waypoint_x = 0
-				self.waypoint_y = 0
+				Unit.initialize(self,cx,cy,i,o,x,y,type, "No trees")
 				self.state = 'Looking to chop tree'
-				self.path = 0
-				self.straight_walk_speed = 40
-				self.diagonal_walk_speed = 25
-				self.originalx = self.gx 
-				self.originaly = self.gy
-				self.nd = {}
-				self.nd_len = 0
 				self.marked = 0
-				self.path = 0
-				self.path_state = "None"
 				self.count = 1
 				self.timr = 0
-				self.move_dir = "none"
-				self.update_dir = true
-				self.previous_dir = "none"
-				self.animated = true
 				self.target_tree = 0
 				self.cut = function() 
 					if self.state == "Cutting down" then
@@ -152,48 +129,8 @@ local fr_cutting_northeast = { --note actually north
 					else --print("State", self.state)
 					end					
 				end
-				self.animation = anim.newAnimation(fr_walking_west,10)
-				table.insert(active_entities,self)
+				self.animation = anim.newAnimation(fr_walking_west,10)		
 			end 
-			function Woodcutter:requestPath(xx,yy)							
-				_G.finder:requestPath(self.gx, self.gy, xx, yy)
-				self.endx = xx
-				self.endy = yy
-				self.path_state = "Waiting for path"
-			end
-			function Woodcutter:pathfind()
-				self.path = _G.finder:getPath(self.gx, self.gy, self.endx, self.endy)
-				--print(inspect(self.path))
-				if self.path then
-					--print("we've found something")
-					if type(self.path) == "table" then
-						--print("we've got it boys!")
-						self.nd = {}
-						--print(inspect(self.path))
-						local first = true --skip the first node, because it's our position
-						--print("Printing steps:")
-						local countt = 0
-						for count, node in ipairs(self.path) do
-							--print(('Step: %d - x: %d - y: %d'):format(count,node._x,node._y))
-							if not first then
-								self.nd[countt] = node
-								countt = countt + 1
-							else first = false end	
-						end
-						self.nd_len = countt
-						--print("Length",self.nd_len,self.count)
-						self.waypoint_x = self.nd[0][1]--fixme If spawning right next to a tree, will throw error here
-						self.waypoint_y = self.nd[0][2]
-						--print("Waypoint: "..self.waypoint_x,self.waypoint_y)						
-						self.move_dir = "none"	
-						self.path_state = "Found"
-						return true
-					elseif self.path == 2 then
-						self.path_state = "No path"
-						self.state = "No trees"
-					end
-				end		
-			end
 			function Woodcutter:check_trees(cx,cy)
 				local chunkx,chunky = cx or self.cx,cy or self.cy 
 				local closest_object, closest_distance = nil,10000000
@@ -270,92 +207,57 @@ local fr_cutting_northeast = { --note actually north
 					self.state = "Going to tree"
 					closest_object.marked = true
 			end
-			function Woodcutter:update_direction()
-				local wx = self.waypoint_x
-				local wy = self.waypoint_y
-				local angle = math.atan2 (wy-(self.fy*0.001),wx-(self.fx*0.001))
-				if angle < 0 then angle = angle+2*math.pi end
-				angle = angle*(180/math.pi)
-				angle = math.round (angle)						
-
-				--print("Calculated angle with wy("..wy.."), self.fy*0.001("..((self.fy*0.001))..
-				--"),wx("..wx..") and self.fx*0.001("..((self.fx*0.001))..")")
-				if angle<0 then angle = 360+angle end
-				if (angle >= 135+22 and angle <= 225-22) then --direction is west 
-					self.move_dir = "west"
-					if self.previous_dir ~= "west" then
-						if self.state == "Going to stockpile" then
-							self.animation = anim.newAnimation(fr_walking_plank_west,0.11) 
-						else
-							self.animation = anim.newAnimation(fr_walking_west,0.11)
-						end
-					end
-				elseif (angle > 135-22 and angle < 135+22) then --direction is southwest
-					self.move_dir = "southwest"
-					if self.previous_dir ~= "southwest" then
-						if self.state == "Going to stockpile" then
-							self.animation = anim.newAnimation(fr_walking_plank_southwest,0.11)
-						else
-							self.animation = anim.newAnimation(fr_walking_southwest,0.11)
-						end
-					end
-				elseif (angle > 225-22 and angle < 225+22) then --direction is northwest
-					self.move_dir = "northwest"
-					if self.previous_dir ~= "northwest" then
-						if self.state == "Going to stockpile" then
-							self.animation = anim.newAnimation(fr_walking_plank_northwest,0.11)
-						else
-							self.animation = anim.newAnimation(fr_walking_northwest,0.11)
-						end
-					end
-				elseif (angle >= 225+22 and angle <= 315-22) then --direction is north
-					self.move_dir = "north"
-					if self.previous_dir ~= "north" then
-						if self.state == "Going to stockpile" then
-							self.animation = anim.newAnimation(fr_walking_plank_north,0.11)
-						else
-							self.animation = anim.newAnimation(fr_walking_north,0.11)
-						end
-					end
-				elseif (angle >= 45+22 and angle <= 135-22) then --direction is south
-					self.move_dir = "south"
-					if self.previous_dir ~= "south" then
-						if self.state == "Going to stockpile" then
-							self.animation = anim.newAnimation(fr_walking_plank_south,0.11)
-						else
-							self.animation = anim.newAnimation(fr_walking_south,0.11)
-						end
-					end
-				elseif ((angle >= 315+22 and angle <= 359) or (angle >=0 and angle <= 45-22)) then --direction is east
-					self.move_dir = "east"
-					if self.previous_dir ~= "east" then
-						if self.state == "Going to stockpile" then
-							self.animation = anim.newAnimation(fr_walking_plank_east,0.11)
-						else
-							self.animation = anim.newAnimation(fr_walking_east,0.11)
-						end
-					end
-				elseif (angle > 45-22 and angle < 45+22) then--direction is southeast
-					self.move_dir = "southeast"
-					if self.previous_dir ~= "southeast" then
-						if self.state == "Going to stockpile" then
-							self.animation = anim.newAnimation(fr_walking_plank_southeast,0.11)
-						else
-							self.animation = anim.newAnimation(fr_walking_southeast,0.11)
-						end
-					end
-				elseif (angle > 315-22 and angle < 315+22) then --direction is northeast
-					self.move_dir = "northeast"
-					if self.previous_dir ~= "northeast" then
-						if self.state == "Going to stockpile" then
-							self.animation = anim.newAnimation(fr_walking_plank_northeast,0.11)
-						else
-							self.animation = anim.newAnimation(fr_walking_northeast,0.11)
-						end
-					end
+			function Woodcutter:dir_sub_update(dir)
+				if dir == "west" then
+                    if self.state == "Going to stockpile" then
+                        self.animation = anim.newAnimation(fr_walking_plank_west,0.11) 
+                    else
+                        self.animation = anim.newAnimation(fr_walking_west,0.11)
+                    end
+				elseif dir == "southwest" then
+                    if self.state == "Going to stockpile" then
+                        self.animation = anim.newAnimation(fr_walking_plank_southwest,0.11)
+                    else
+                        self.animation = anim.newAnimation(fr_walking_southwest,0.11)
+                    end
+				elseif dir == "northwest" then
+                    if self.state == "Going to stockpile" then
+                        self.animation = anim.newAnimation(fr_walking_plank_northwest,0.11)
+                    else
+                        self.animation = anim.newAnimation(fr_walking_northwest,0.11)
+                    end
+				elseif dir == "north" then
+                    if self.state == "Going to stockpile" then
+                        self.animation = anim.newAnimation(fr_walking_plank_north,0.11)
+                    else
+                        self.animation = anim.newAnimation(fr_walking_north,0.11)
+                    end
+				elseif dir == "south" then
+                    if self.state == "Going to stockpile" then
+                        self.animation = anim.newAnimation(fr_walking_plank_south,0.11)
+                    else
+                        self.animation = anim.newAnimation(fr_walking_south,0.11)
+                    end
+				elseif dir == "east" then
+                    if self.state == "Going to stockpile" then
+                        self.animation = anim.newAnimation(fr_walking_plank_east,0.11)
+                    else
+                        self.animation = anim.newAnimation(fr_walking_east,0.11)
+                    end
+				elseif dir == "southeast" then
+                    if self.state == "Going to stockpile" then
+                        self.animation = anim.newAnimation(fr_walking_plank_southeast,0.11)
+                    else
+                        self.animation = anim.newAnimation(fr_walking_southeast,0.11)
+                    end
+				elseif dir == "northeast" then
+                    if self.state == "Going to stockpile" then
+                        self.animation = anim.newAnimation(fr_walking_plank_northeast,0.11)
+                    else
+                        self.animation = anim.newAnimation(fr_walking_northeast,0.11)
+                    end
 				end
-				self.previous_dir = self.move_dir
-			end			
+			end
 			function Woodcutter:update()
 				if self.path_state == "Waiting for path" then
 					self:pathfind()
@@ -370,53 +272,7 @@ local fr_cutting_northeast = { --note actually north
 					self.timr = self.timr + 1
 					self.timr = self.timr % 60
 					if self.state == "Going to tree" or self.state == "Going to stockpile" then
-						if self.move_dir == "west" then
-							self.fx = self.fx - self.straight_walk_speed
-						elseif self.move_dir == "south" then
-							self.fy = self.fy + self.straight_walk_speed
-						elseif self.move_dir == "north" then
-							self.fy = self.fy - self.straight_walk_speed
-						elseif self.move_dir == "east" then
-							self.fx = self.fx + self.straight_walk_speed
-						elseif self.move_dir == "northwest" then
-							self.fx = self.fx - self.diagonal_walk_speed
-							self.fy = self.fy - self.diagonal_walk_speed
-						elseif self.move_dir == "northeast" then
-							self.fx = self.fx + self.diagonal_walk_speed
-							self.fy = self.fy - self.diagonal_walk_speed
-						elseif self.move_dir == "southwest" then 
-							self.fx = self.fx - self.diagonal_walk_speed
-							self.fy = self.fy + self.diagonal_walk_speed
-						elseif self.move_dir == "southeast" then
-							self.fx = self.fx + self.diagonal_walk_speed
-							self.fy = self.fy + self.diagonal_walk_speed
-						end						
-						self.previous_cx, self.previous_cy = self.cx,self.cy 
-						self.gx,self.gy= self.fx*0.001,self.fy*0.001
-						self.cx,self.cy = math.floor((self.gx)/chunk_width), math.floor((self.gy)/chunk_width)
-						local xx,yy
-							xx, yy = (math.round(self.gx))%(chunk_width),(math.round(self.gy))%(chunk_width)
-							if not isObjectAt(self.cx, self.cy, xx, yy, self) then
-								addObjectAt(self.cx, self.cy, xx, yy, self)
-							end
-							if isObjectAt(self.cx, self.cy, self.originalx, self.originaly, self)
-							and (self.originalx ~= math.round(self.gx)%chunk_width or self.originaly ~= math.round(self.gy)%chunk_width)
-							then
-								removeObjectAt(self.cx, self.cy, self.originalx, self.originaly, self)
-							end
-						if self.previous_cx ~= self.cx or self.previous_cy ~= self.cy then						
-							if not isObjectAt(self.cx, self.cy, xx, yy, self) then
-								addObjectAt(self.cx, self.cy, xx, yy, self)	
-							end
-						    self.qid = object_batch[self.cx][self.cy]:add(self.animation:getFrameInfo(self.x, self.y))
-						end					
-						self.lrcx, self.lrcy, self.lrx, self.lry = self.cx,self.cy,xx,yy			
-						self.x = IsoX + ((self.fx*0.001)%chunk_width - (self.fy*0.001)%chunk_width) * tile_width  * 0.5 -31 --fixme magic numbers?
-						self.y = IsoY + ((self.fx*0.001)%chunk_width + (self.fy*0.001)%chunk_width) * tile_height * 0.5 -50
-						if self.originalx ~= math.round(self.gx)%chunk_width or self.originaly ~= math.round(self.gy)%chunk_width then
-							self.originalx = math.round(self.gx)%chunk_width
-							self.originaly = math.round(self.gy)%chunk_width
-						end
+						self:move()
 					end
 					if self.fx*0.001 == self.waypoint_x and self.fy*0.001 == self.waypoint_y and self.move_dir ~= "none" then
 						if self.state == "Going to tree" then
