@@ -1,3 +1,4 @@
+[![pipeline status](https://gitlab.com/evgenit28/stone-kingdoms/badges/master/pipeline.svg)](https://gitlab.com/evgenit28/stone-kingdoms/commits/master)[![coverage report](https://gitlab.com/evgenit28/stone-kingdoms/badges/master/coverage.svg)](https://gitlab.com/evgenit28/stone-kingdoms/commits/master)
 ## Stone Kingdoms
 
 

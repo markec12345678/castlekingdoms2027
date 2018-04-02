@@ -71,7 +71,7 @@
         px_img_y_offset = 0;        
         tile_image = {} 
 	----Version, title and window information
-	    width, height, flags = love.window.getMode();
+	    --width, height, flags = love.window.getMode();
         min_dt = 1/60;
         next_time = 0;
     ----Objects related    

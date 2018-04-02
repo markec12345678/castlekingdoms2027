@@ -13,9 +13,10 @@ local game, ui = {}, {}
 local loader = require('libraries.lily')
 
 
-function love.load()
+function love.load(arg)
     Gamestate.registerEvents()
     Gamestate.switch(ui)
+    if _G.test_mode then require('libraries.love.love_graphics') love.event.quit(0) return end
 	loader.newImage("assets/tiles/object_texture.dxt5"):onComplete(function(userdata,image)
 		object_image = image
 	end)
@@ -93,6 +94,7 @@ end
 -----------------====------------------
 ------------------UI-------------------
 function ui:update(dt)
+	if _G.test_mode then love.event.quit(1) end
 	if object_image then Gamestate.switch(game) end
 end
 

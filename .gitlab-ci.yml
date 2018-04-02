@@ -1,13 +1,36 @@
 stages:
   - build
+  - test
 
-before_script:
-  - add-apt-repository ppa:bartbes/love-stable
-  - apt-get update
-  - apt-get install love package=0.10.2ppa1
-
-job1:
+build:
   stage: build
-  script: 
-    - zip -9 -r testbuild.love .
-    - love testbuild.love
+  before_script: 
+    - apt-get update
+    - apt-get install --assume-yes zip
+  script:  
+    - zip -9 -r test.love .
+  
+  artifacts:
+    untracked: true
+
+
+run: 
+  stage: test
+  dependencies:
+    - build
+  script:
+    - apt-get update
+    - apt-get install --assume-yes libmodplug1
+    - apt-get install --assume-yes libmpg123-0
+    - apt-get install --assume-yes libogg0
+    - apt-get install --assume-yes libopenal1
+    - apt-get install --assume-yes libphysfs1
+    - apt-get install --assume-yes libsdl2-2.0-0
+    - apt-get install --assume-yes libluajit-5.1-2
+    - apt-get install --assume-yes libtheora0
+    - apt-get install --assume-yes libvorbisfile3
+    - dpkg -i libraries/love/liblove0_0.10.2ppa1_amd64.deb
+    - dpkg -i libraries/love/love_0.10.2ppa1_amd64.deb
+    - cat /usr/bin/love test.love > testbuild
+    - chmod a+x ./testbuild
+    - ./testbuild --test
