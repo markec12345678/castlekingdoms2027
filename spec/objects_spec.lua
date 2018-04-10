@@ -1,10 +1,10 @@
                   
 require 'busted.runner' ()
 
-local ob = require 'objects.objects'  
 local lcov = require'luacov'
 lcov.excludetree('.')
 lcov.includefile('objects/objects.lua')
+local ob = require 'objects.objects'  
 local object = ob.object
 local object_batch = ob.batch
 local addObjectAt = ob.addObjectAt
