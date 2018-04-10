@@ -1,25 +1,13 @@
 stages:
-  - build
   - test
-
-build:
-  stage: build
-  before_script: 
-    - apt-get update
-    - apt-get install --assume-yes zip
-  script:  
-    - zip -9 -r test.love .
-  
-  artifacts:
-    untracked: true
 
 
 run: 
   stage: test
-  dependencies:
-    - build
   script:
     - apt-get update
+    - apt-get install --assume-yes zip
+    - zip -9 -r test.love .
     - apt-get install --assume-yes libmodplug1
     - apt-get install --assume-yes libmpg123-0
     - apt-get install --assume-yes libogg0
@@ -33,4 +21,20 @@ run:
     - dpkg -i libraries/love/love_0.10.2ppa1_amd64.deb
     - cat /usr/bin/love test.love > testbuild
     - chmod a+x ./testbuild
+    - apt-get install --assume-yes cmake
+    - apt-get install --assume-yes luarocks
+    - git clone https://github.com/torch/luajit-rocks.git
+    - cd luajit-rocks
+    - mkdir build
+    - cd build
+    - cmake .. -DCMAKE_INSTALL_PREFIX=/ljit
+    - make install
+    - ls
+    - cd ..
+    - cd ..
+    - luarocks install luacheck
+    - luarocks install luacov
+    - luarocks install busted
+    - luacheck --globals love --std max+busted *.lua spec
     - ./testbuild --test
+    

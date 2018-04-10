@@ -71,11 +71,13 @@
         px_img_y_offset = 0;        
         tile_image = {} 
 	----Version, title and window information
-	    --width, height, flags = love.window.getMode();
+	    width, height, flags = love.window.getMode();
+        width = width or 1
+        height = height or 1
         min_dt = 1/60;
         next_time = 0;
     ----Objects related    
-        building_selection = 398;
+        building_selection = 398; --fixme are we still using this?
         tile_offset, tile_offset_x = {}, {};
         wood = 10;
     ----Pathfinding data structures

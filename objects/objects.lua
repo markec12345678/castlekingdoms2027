@@ -1,7 +1,6 @@
 local object_image= ... 
 
 
-
 -- Define start and goal locations coordinates
 -- local startx, starty = 1,1
 -- local endx, endy = 154,1985
@@ -52,15 +51,17 @@ local object_image= ...
 			local object = newAutotable(4)
 	----Calculate center chunk
 			local CenterX = math.round(ScreenToIsoX(width/2-16+view_xview, height/2-8+view_yview));
-			local CenterY = math.round(ScreenToIsoY(width/2-16+view_xview,height/2-8+view_yview))
+			local CenterY = math.round(ScreenToIsoY(width/2-16+view_xview, height/2-8+view_yview))
 			---------------------------------------
 			_G.xchunk = math.floor(CenterX/(chunk_width))
 			_G.ychunk = math.floor(CenterY/(chunk_width))
 	----Generate spriteBatch
 			local object_batch = newAutotable(2)   
 			local shadow_batch = newAutotable(2)
-			local canvas = love.graphics.newCanvas()  
-			object_image:setFilter('nearest','nearest')
+			--local canvas = love.graphics.newCanvas()  
+			if not _G.test_mode then
+				object_image:setFilter('nearest','nearest')
+			end
 	        local tile_quads = require('objects.objects_quads')
 			object_batch[0][0] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)
 			shadow_batch[0][0] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)		
@@ -154,38 +155,40 @@ function genObjects(cx,cy)
 	local chunk_x = cx or current_chunk_x
 	local chunk_y = cy or current_chunk_y
 	
+	if not _G.test_mode then
 	if object_batch[chunk_x][chunk_y] == nil then 
 		object_batch[chunk_x][chunk_y] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)
 	end
 	object_batch[chunk_x][chunk_y]:clear()	
-		for i=0,chunk_width-1,1 do
-			for o=0,chunk_height-1,1 do
-				local rand = math.random(200)
-						if rand == 4 then
-						if o == 0 and objectAt(cx,cy-1,i,o-1) then goto continue end
-						if o ~= 0 and objectAt(cx,cy,i,o-1) then goto continue end
-						local tree = addObjectAt(cx, cy, i, o, Tree:new(cx,cy,i,o, --TODO fix tile_offset/_x
-						IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[obj] or 38),
-						IsoY + (i + o) * tile_height * 0.5 - (tile_offset[obj] or 166),"Pine tree"))
-						tree.animation:gotoFrame(math.random(6))
-						end 
-				if objectAt(cx,cy,i,o) then
-					for index, ob in ipairs(object[cx][cy][i][o]) do
-						if ob.animated then
-							ob.qid = object_batch[chunk_x][chunk_y]:add(ob.animation:getFrameInfo(ob.x,ob.y))
-						end
+	for i=0,chunk_width-1,1 do
+		for o=0,chunk_height-1,1 do
+			local rand = math.random(200)
+					if rand == 4 then
+					if o == 0 and objectAt(cx,cy-1,i,o-1) then goto continue end
+					if o ~= 0 and objectAt(cx,cy,i,o-1) then goto continue end
+					local tree = addObjectAt(cx, cy, i, o, Tree:new(cx,cy,i,o, --TODO fix tile_offset/_x
+					IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[obj] or 38),
+					IsoY + (i + o) * tile_height * 0.5 - (tile_offset[obj] or 166),"Pine tree"))
+					tree.animation:gotoFrame(math.random(6))
+					end 
+			if objectAt(cx,cy,i,o) then
+				for index, ob in ipairs(object[cx][cy][i][o]) do
+					if ob.animated then
+						ob.qid = object_batch[chunk_x][chunk_y]:add(ob.animation:getFrameInfo(ob.x,ob.y))
 					end
 				end
-				::continue::
 			end
+			::continue::
 		end
+	end
+	end
 end
 
 function update_objects(cx,cy,deser)
 	local chunk_x = cx or current_chunk_x
 	local chunk_y = cy or current_chunk_y
 	local deser = deser or false
-
+	if not _G.test_mode then
 	object_batch[chunk_x][chunk_y] =  object_batch[chunk_x][chunk_y] or love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)
 	--shadow_batch[chunk_x][chunk_y] =  shadow_batch[chunk_x][chunk_y] or love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)
   	object_batch[chunk_x][chunk_y]:clear() 
@@ -216,6 +219,7 @@ function update_objects(cx,cy,deser)
   	end				  
  	 object_batch[chunk_x][chunk_y]:flush()
  	 --shadow_batch[chunk_x][chunk_y]:flush()
+	end
 end
 
 local function draw_object()
@@ -380,6 +384,7 @@ local tableOfFunctions = {
 						batch = object_batch,               
                         shadow = shadow_batch,
 						update_objects = update_objects,
+						addObjectAt = addObjectAt,
 						}
 return tableOfFunctions
 

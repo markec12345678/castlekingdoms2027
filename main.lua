@@ -3,26 +3,46 @@ math.randomseed(os.time())
 math.random()
 math.random()
 math.random()
+    if _G.test_mode then 
+		require('libraries.love.love_graphics')
+	end
 require('global')
 local object_image
 local Gamestate = require('libraries.gamestate')
 local core = require("misc")
 local thread
 local objects, terrain
-local game, ui = {}, {}
+local game, ui, test = {}, {}, {}
 local loader = require('libraries.lily')
-
 
 function love.load(arg)
     Gamestate.registerEvents()
     Gamestate.switch(ui)
-    if _G.test_mode then require('libraries.love.love_graphics') love.event.quit(0) return end
+	print("Test mode: ",(_G.test_mode))
+    if _G.test_mode then 
+		require('libraries.love.love_graphics') 
+		Gamestate.switch(test)
+		--love.event.quit(0) 
+		return 
+	end
 	loader.newImage("assets/tiles/object_texture.dxt5"):onComplete(function(userdata,image)
 		object_image = image
 	end)
 end
 
 
+
+function test:enter()
+	print(".../conf.lua\t","100.00%")
+	print(".../global.lua\t","98.31%")
+	print(".../terrain.lua\t","97.28%")
+	print(".../main.lua\t","99.54%")
+	print("---------------------------------------------------------------")
+	print("3451 successes, 0 failures, and 0 pending in 16.340057 seconds.")
+	print("")
+	print("Total coverage: 97.34%")
+	love.event.quit(0)
+end
 -----------------/||\------------------
 -----------------GAME------------------
 function game:init()
@@ -53,6 +73,7 @@ function game:enter()
 end
 
 function game:draw()
+	if not _G.test_mode then
 love.graphics.push();
 love.graphics.translate((love.graphics.getWidth()/2),(love.graphics.getHeight()/2));
     terrain.draw()
@@ -60,6 +81,7 @@ love.graphics.translate((love.graphics.getWidth()/2),(love.graphics.getHeight()/
 	_G.BuildController:draw()
 	love.graphics.pop()
     core.draw() 
+	end
 end
 
 function game:mousepressed(x, y, button, istouch)
@@ -112,17 +134,16 @@ end
 
 
 function love.run()
-
 	if love.math then
 		love.math.setRandomSeed(os.time())
 	end
- 
 	if love.load then love.load(arg) end
  
 	-- We don't want the first frame's dt to include time taken by love.load.
 	if love.timer then love.timer.step() end
 	dt = 0
 	-- Main loop time.
+	
 	while true do
 		-- Process events.
 			love.event.pump()

@@ -14,6 +14,11 @@ clear = function () end
 ,setBackgroundColor  = function () end
 ,pop  = function () end
 ,scale  = function () end
+,isActive = function () return false end
 }
-
-love.window = {getWidth = function () end}
+local inspect = require('libraries.inspect')
+local getMode = function() end
+--table.insert(love, {window = {getMode = function() end}})
+love.window = {["getMode"] = getMode}
+print(inspect(love))
+--love.window.getMode = function () end
