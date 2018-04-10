@@ -164,7 +164,6 @@ describe("mousepressed", function()
         mousepressed(500,500,2)
         mousepressed(500,500,3)
         mousepressed(500,500,4)
-        ob.update()
     end)
 end)
 --=======================================================================--
