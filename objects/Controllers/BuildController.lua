@@ -208,7 +208,6 @@ local BuildController = class('BuildController')
                 end
             end
             function BuildController:build(cx,cy,x,y)
-                print(self.active,self.can_build)
                 if self.active and self.can_build and cx >= 0 and cy >= 0 and cx < 32 and cy < 32 then
                     self.can_afford = true
                     if not self.start then

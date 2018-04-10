@@ -1,6 +1,10 @@
 stages:
   - test
 
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+
+image: ruby:2.4.4-slim
 
 run: 
   stage: test
@@ -8,6 +12,7 @@ run:
     - apt-get update
     - apt-get install --assume-yes zip
     - zip -9 -r test.love .
+    - apt-get install --assume-yes git
     - apt-get install --assume-yes libmodplug1
     - apt-get install --assume-yes libmpg123-0
     - apt-get install --assume-yes libogg0
@@ -17,24 +22,29 @@ run:
     - apt-get install --assume-yes libluajit-5.1-2
     - apt-get install --assume-yes libtheora0
     - apt-get install --assume-yes libvorbisfile3
+    - apt-get install --assume-yes libfreetype6
     - dpkg -i libraries/love/liblove0_0.10.2ppa1_amd64.deb
     - dpkg -i libraries/love/love_0.10.2ppa1_amd64.deb
     - cat /usr/bin/love test.love > testbuild
     - chmod a+x ./testbuild
-    - apt-get install --assume-yes cmake
     - apt-get install --assume-yes luarocks
-    - git clone https://github.com/torch/luajit-rocks.git
-    - cd luajit-rocks
-    - mkdir build
-    - cd build
-    - cmake .. -DCMAKE_INSTALL_PREFIX=/ljit
-    - make install
-    - ls
-    - cd ..
-    - cd ..
     - luarocks install luacheck
     - luarocks install luacov
-    - luarocks install busted
-    - luacheck --globals love --std max+busted *.lua spec
-    - ./testbuild --test
+    - luarocks install luacov-console
+    - luarocks install dkjson
+    - luarocks install luasystem
+    - luarocks install lua_cliargs
+    - luarocks install say
+    - luarocks install luassert
+    - luarocks install lua-term
+    - luarocks install penlight
+    - luarocks install mediator_lua  
+    - ls 
+    - rm -r busted
+    - rm -r libraries 
+    - rm -r spec 
+    - rm -r objects/objects_quads.lua
+    - RES=$(./testbuild --verbose --test) || { echo "$RES"; exit 1; }
+    - luacov-console 
+    - luacov-console -s && echo "$RES"   
     

@@ -55,9 +55,10 @@ return function(options)
   end
 
   -- If coverage arg is passed in, load LuaCovsupport
-  --if cliArgs.coverage then
+  if cliArgs.coverage then
+    print("\27[32mLuacov was called.\27[0m")
     luacov()
-  --end
+  end
 
   -- If auto-insulate is disabled, re-register file without insulation
   if not cliArgs['auto-insulate'] then

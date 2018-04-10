@@ -4,9 +4,9 @@ s:set_namespace('en')
 
 -- 'Pending: test.lua @ 12 \n description
 s:set('output.pending', 'Pending')
-s:set('output.failure', 'Failure')
-s:set('output.error', 'Error')
-s:set('output.success', 'Success')
+s:set('output.failure', '\27[31mFailure\27[0m')
+s:set('output.error', '\27[31mError\27[0m')
+s:set('output.success', '\27[32mSuccess\27[0m')
 
 s:set('output.pending_plural', 'pending')
 s:set('output.failure_plural', 'failures')

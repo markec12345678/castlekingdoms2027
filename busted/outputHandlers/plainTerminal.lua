@@ -5,8 +5,8 @@ return function(options)
   local busted = require 'busted'
   local handler = require 'busted.outputHandlers.base'()
 
-  local successDot =  '+'
-  local failureDot =  '-'
+  local successDot =  '\27[32m■\27[0m'
+  local failureDot =  '\27[31m■\27[0m'
   local errorDot =  '*'
   local pendingDot = '.'
 
@@ -103,11 +103,13 @@ return function(options)
 
     local formattedTime = ('%.6f'):format(sec):gsub('([0-9])0+$', '%1')
 
-    return successes .. ' ' .. successString .. ' / ' ..
-      failures .. ' ' .. failureString .. ' / ' ..
-      errors .. ' ' .. errorString .. ' / ' ..
-      pendings .. ' ' .. pendingString .. ' : ' ..
-      formattedTime .. ' ' .. s('output.seconds')
+    return 
+      '----------------------------------------------------------------\n'..
+      '\27[32m'..successes .. ' ' .. successString .. '\27[0m, \27[31m' ..
+      failures .. ' ' .. failureString .. '\27[0m, \27[31m' ..
+      errors .. ' ' .. errorString .. '\27[0m, \27[37m' ..
+      pendings .. '\27[0m ' .. pendingString .. ' in \27[37m' ..
+      formattedTime .. '\27[0m ' .. s('output.seconds')
   end
 
   handler.testEnd = function(element, parent, status, debug)

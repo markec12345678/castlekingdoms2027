@@ -25,7 +25,6 @@ assert(love._version >= "0.10.0", "Lily require at least LOVE 0.10.0")
 local _arg = {...}
 local module_path
 local lily_thread_script
-print(_arg[1])
 love.handlers.print = print
 
 if type(_arg[1]) == "string" then

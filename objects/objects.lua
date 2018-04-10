@@ -1,6 +1,5 @@
 local object_image= ... 
 
-
 -- Define start and goal locations coordinates
 -- local startx, starty = 1,1
 -- local endx, endy = 154,1985
@@ -126,7 +125,7 @@ end
 function objectFromTypeAt(cx,cy,x,y,obj_type)
 	if type(object[cx][cy][x][y]) == 'table' then
 		for index,current_object in ipairs(object[cx][cy][x][y]) do
-			if current_object.type == obj_type or current_object.class.name == obj_type then
+			if (current_object.type and current_object.type == obj_type) or current_object.class.name == obj_type then
 				return current_object
 			end
 		end
@@ -155,7 +154,6 @@ function genObjects(cx,cy)
 	local chunk_x = cx or current_chunk_x
 	local chunk_y = cy or current_chunk_y
 	
-	if not _G.test_mode then
 	if object_batch[chunk_x][chunk_y] == nil then 
 		object_batch[chunk_x][chunk_y] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)
 	end
@@ -181,14 +179,12 @@ function genObjects(cx,cy)
 			::continue::
 		end
 	end
-	end
 end
 
 function update_objects(cx,cy,deser)
 	local chunk_x = cx or current_chunk_x
 	local chunk_y = cy or current_chunk_y
 	local deser = deser or false
-	if not _G.test_mode then
 	object_batch[chunk_x][chunk_y] =  object_batch[chunk_x][chunk_y] or love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)
 	--shadow_batch[chunk_x][chunk_y] =  shadow_batch[chunk_x][chunk_y] or love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)
   	object_batch[chunk_x][chunk_y]:clear() 
@@ -198,7 +194,7 @@ function update_objects(cx,cy,deser)
 			if type(object[cx][cy][i][o]) == 'table' then
 				for index, obj in ipairs(object[cx][cy][i][o]) do 
 					if obj.cx ~= chunk_x or obj.cy ~= chunk_y then
-						obj = nil
+						removeObjectAt(cx,cy,i,o,obj)
 						goto continue
 					end
 					if obj.animated then
@@ -219,7 +215,6 @@ function update_objects(cx,cy,deser)
   	end				  
  	 object_batch[chunk_x][chunk_y]:flush()
  	 --shadow_batch[chunk_x][chunk_y]:flush()
-	end
 end
 
 local function draw_object()
@@ -256,17 +251,6 @@ local function draw_object()
 			end
 		end
 	end
-	-- local l = terrain_chunks
-	-- while l do
-	-- 		if l.chunkx == nil or object_batch[l.chunkx][l.chunky] == nil then break end
-	-- 		if l.chunkx <= 32 and l.chunky <= 32 and l.chunkx > 0 and l.chunky > 0 then
-	-- 			love.graphics.draw(object_batch[l.chunkx][l.chunky], 
-	-- 					-view_xview+(l.chunkx-l.chunky)*chunk_width*tile_width*0.5*scale_x, 
-	-- 					-view_yview+(l.chunkx+l.chunky)*chunk_height*tile_height*0.5*scale_y
-	-- 					, 0, scale_x, scale_y)
-	-- 		end
-	-- 			l = l.next 
-	-- end
 	love.graphics.setColor(255,255,255,255)
 end
 
@@ -289,13 +273,11 @@ local function mousepressed(x, y, button, istouch)
 		press.y = (LocalY) % (chunk_width)
 		press.cx = math.floor(LocalX/chunk_width)
 		press.cy = math.floor(LocalY/chunk_width)
-		print("Button", button)
 		local obj
    	if button == 1 then 
 		_G.BuildController:build(press.cx,press.cy,press.x,press.y)
    	elseif button == 2 then
 		if not objectAt(press.cx, press.cy, press.x, press.y) then
-			print("Trying to spawn a woodcutter", press.x, press.y)
 			obj = addObjectAt(press.cx, press.cy, press.x, press.y,  
 						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
 						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
@@ -372,7 +354,6 @@ end
 
 
 --chunkUpdateList()
-
 local tableOfFunctions = {
                         update = update, 
                         draw = draw_object,

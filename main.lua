@@ -18,7 +18,6 @@ local loader = require('libraries.lily')
 function love.load(arg)
     Gamestate.registerEvents()
     Gamestate.switch(ui)
-	print("Test mode: ",(_G.test_mode))
     if _G.test_mode then 
 		require('libraries.love.love_graphics') 
 		Gamestate.switch(test)
@@ -33,14 +32,18 @@ end
 
 
 function test:enter()
-	print(".../conf.lua\t","100.00%")
-	print(".../global.lua\t","98.31%")
-	print(".../terrain.lua\t","97.28%")
-	print(".../main.lua\t","99.54%")
-	print("---------------------------------------------------------------")
-	print("3451 successes, 0 failures, and 0 pending in 16.340057 seconds.")
-	print("")
-	print("Total coverage: 97.34%")
+	require('objects.objects')
+	terrain = require('terrain')
+	_G.chunkUpdateList = require('objects.chunk_system')
+	_G.BuildController = love.filesystem.load("objects/Controllers/BuildController.lua")(package.loaded['objects.objects'].object, object_image)
+	_G.BuildController:set('castle')
+	_G.BuildController.start = true
+	_G.JobController = require('objects.Controllers.JobController')
+	----Pathfinding setup
+	thread = love.thread.newThread ( "libraries/pathfinding_thread.lua" )
+	thread:start ()
+	_G.finder = require('objects.Controllers.PathController')
+	require('spec.objects_spec')
 	love.event.quit(0)
 end
 -----------------/||\------------------
@@ -116,7 +119,6 @@ end
 -----------------====------------------
 ------------------UI-------------------
 function ui:update(dt)
-	if _G.test_mode then love.event.quit(1) end
 	if object_image then Gamestate.switch(game) end
 end
 

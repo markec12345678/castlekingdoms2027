@@ -34,11 +34,6 @@ return {
   unpack = table.unpack or unpack,
 
   exit = function(code, force)
-    if not force and code ~= 0 and _VERSION:match('^Lua 5%.[12]$') then
-      error()
-    elseif code ~= 0 then
-      code = 1
-    end
     if _VERSION == 'Lua 5.1' and
       (type(jit) ~= 'table' or not jit.version or jit.version_num < 20000) then
       -- From Lua 5.1 manual:

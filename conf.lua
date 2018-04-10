@@ -1,11 +1,12 @@
 function love.conf(t)
-    _G.test_mode = false
-	for k,v in pairs(_G.arg) do
-		if v == "--test" or k == "--test" then
-			_G.test_mode = true
-			break
-		end	
-	end
+    _G.test_mode = false	
+    for ind, val in ipairs(_G.arg) do
+        if val == "--test" then
+        _G.test_mode = true
+        table.remove(arg, ind)
+        break
+        end
+    end
     t.identity = nil                    -- The name of the save directory (string)
     t.version = "0.10.2"                -- The LÖVE version this game was made for (string)
     t.console =  test_mode            -- Attach a console (boolean, Windows only)

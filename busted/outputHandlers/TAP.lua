@@ -55,7 +55,7 @@ return function(options)
     counter = counter + 1
     if status == 'success' then
       local t = handler.successes[#handler.successes]
-      print(success:format(counter, t.name))
+      print("\27[32m"..success:format(counter, t.name).."\27[0m")
     elseif status == 'pending' then
       local t = handler.pendings[#handler.pendings]
       print(skip:format(counter, (t.message or t.name)))
