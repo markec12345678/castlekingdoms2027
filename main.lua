@@ -1,11 +1,10 @@
-
 math.randomseed(os.time())
 math.random()
 math.random()
 math.random()
-    if _G.test_mode then 
-		require('libraries.love.love_graphics')
-	end
+if _G.test_mode then 
+	require('libraries.love.love_graphics')
+end
 require('global')
 local object_image
 local Gamestate = require('libraries.gamestate')
@@ -19,7 +18,6 @@ function love.load(arg)
     Gamestate.registerEvents()
     Gamestate.switch(ui)
     if _G.test_mode then 
-		require('libraries.love.love_graphics') 
 		Gamestate.switch(test)
 		--love.event.quit(0) 
 		return 
@@ -32,10 +30,9 @@ end
 
 
 function test:enter()
-	require('objects.objects')
-	terrain = require('terrain')
+	require('spec.objects_spec')
+	require('spec.terrain_spec')
 	_G.chunkUpdateList = require('objects.chunk_system')
-	_G.BuildController = love.filesystem.load("objects/Controllers/BuildController.lua")(package.loaded['objects.objects'].object, object_image)
 	_G.BuildController:set('castle')
 	_G.BuildController.start = true
 	_G.JobController = require('objects.Controllers.JobController')
@@ -43,7 +40,6 @@ function test:enter()
 	thread = love.thread.newThread ( "libraries/pathfinding_thread.lua" )
 	thread:start ()
 	_G.finder = require('objects.Controllers.PathController')
-	require('spec.objects_spec')
 	love.event.quit(0)
 end
 -----------------/||\------------------
@@ -51,7 +47,7 @@ end
 function game:init()
     objects = love.filesystem.load('objects/objects.lua')(object_image)
 	package.loaded['objects.objects'] = objects
-	terrain = require('terrain')
+	terrain = require('objects.terrain')
 	_G.chunkUpdateList = require('objects.chunk_system')
 	_G.BuildController = love.filesystem.load("objects/Controllers/BuildController.lua")(package.loaded['objects.objects'].object, object_image)
 	_G.BuildController:set('castle')

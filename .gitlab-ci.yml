@@ -1,10 +1,10 @@
 stages:
   - test
 
+image: ubuntu:artful
+
 cache:
   key: ${CI_COMMIT_REF_SLUG}
-
-image: ruby:2.4.4-slim
 
 run: 
   stage: test

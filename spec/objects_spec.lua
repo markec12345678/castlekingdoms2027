@@ -1,10 +1,9 @@
                   
 require 'busted.runner' ()
 
-local lcov = require'luacov'
-lcov.excludetree('.')
-lcov.includefile('objects/objects.lua')
-local ob = require 'objects.objects'  
+local ob = require 'objects.objects' 
+
+_G.BuildController = love.filesystem.load("objects/Controllers/BuildController.lua")(package.loaded['objects.objects'].object, nil)
 local object = ob.object
 local object_batch = ob.batch
 local addObjectAt = ob.addObjectAt
@@ -161,9 +160,13 @@ describe("mousepressed", function()
         spy.on(_G.BuildController,'build')
         mousepressed(12,32,1)
         assert.spy(_G.BuildController.build).was.called()
-        mousepressed(500,500,2)
-        mousepressed(500,500,3)
-        mousepressed(500,500,4)
+        genObjects(1,1)
+        genObjects(2,2)
+        genObjects(1,2)
+        genObjects(2,1)
+        mousepressed(-500,-500,2)
+        mousepressed(-500,-500,3)
+        mousepressed(-500,-500,4)
     end)
 end)
 --=======================================================================--

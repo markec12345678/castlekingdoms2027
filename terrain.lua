@@ -140,8 +140,8 @@ end
 
 
 --FIXME MAGIC NUMBERS
-for i = 0, 31 do
- for o = 0, 31 do
+for i = 0, 1 do
+ for o = 0, 1 do
 	genTerrain(i,o)
 	_G.status[i][o] = 2
  end
