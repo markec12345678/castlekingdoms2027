@@ -44,7 +44,7 @@ run:
     - rm -r libraries 
     - rm -r spec 
     - rm -r objects/objects_quads.lua
-    - RES=$(./testbuild --verbose --test) || { echo "$RES"; exit 1; }
+    - RES=$(./testbuild --verbose --coverage --test) || { echo "$RES"; exit 1; }
     - luacov
     - cat luacov.report.out
     - luacov-console 
