@@ -140,8 +140,8 @@ end
 
 
 --FIXME MAGIC NUMBERS
-for i = 0, 1 do
- for o = 0, 1 do
+for i = 0, 8 do
+ for o = 0, 8 do --usually both are 32 (jumper is set like that with magic numbers)
 	genTerrain(i,o)
 	_G.status[i][o] = 2
  end

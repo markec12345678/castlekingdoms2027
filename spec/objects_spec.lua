@@ -1,8 +1,7 @@
-                  
-require 'busted.runner' ()
+   
 
 local ob = require 'objects.objects' 
-
+require 'busted.runner' () 	
 _G.BuildController = love.filesystem.load("objects/Controllers/BuildController.lua")(package.loaded['objects.objects'].object, nil)
 local object = ob.object
 local object_batch = ob.batch
