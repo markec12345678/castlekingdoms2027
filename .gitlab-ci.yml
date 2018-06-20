@@ -13,6 +13,7 @@ run:
     - apt-get install --assume-yes zip
     - zip -9 -r test.love .
     - apt-get install --assume-yes git
+    - git config lfs.url $(git config remote.origin.url)
     - apt-get install --assume-yes libmodplug1
     - apt-get install --assume-yes libmpg123-0
     - apt-get install --assume-yes libogg0

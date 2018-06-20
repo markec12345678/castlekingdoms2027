@@ -1,4 +1,3 @@
-
 ![](assets/other/sk_logo_medium.png)  
 
    
@@ -7,7 +6,17 @@
 ## Stone Kingdoms
 
 
-A real-time strategy game built with LÖVE.
+A real-time strategy game built with LÖVE 0.10.2
+[Official forum post](https://love2d.org/forums/viewtopic.php?f=14&t=85272)
+
+### License
+---
+
+Stone Kingdoms is licensed under Apache 2.0 License. See LICENSE.md for more details.
+
+Stone Kingdoms uses image assets from Firefly Studios' Stronghold (2001)
+
+Please see respective files (or website) for license of the libraries located in /libraries or root directory (busted).
 
 
 ### Under the hood
@@ -18,7 +27,7 @@ A real-time strategy game built with LÖVE.
  
 I used spritebatches to reduce the drawcalls from N objects on screen to 2M where M is the amount of chunks drawn. It's 2 because we draw a spritebatch for the terrain, and a spritebatch for the object layer. This caused some issues that were solved in 0.1 and hopefully one last issue #2 in 0.2  
 There's also a limitation, in such that for the object layer we can only use one texture atlas. I did some research and found out that 8k x 8k atlas is supported by 90% of steam users so that's what I went with. There's plenty of space left for the other assets that are not yet there.
-
+Also, you may receive some errors about missing asset files if you decide to run the project using this repo, to fix that, download the .love from the forum post, it should have all the files needed.
 
 ##### Layers   
 > There are two layers - objects and terrain. There used to be a shadow layer but that's postponed until 0.8 because it's only a graphical enhancement.    
@@ -28,12 +37,9 @@ There's also a limitation, in such that for the object layer we can only use one
    - Objects - This is the layer drawn on top of the terrain layer. It holds buildings, trees, units, etc.  
    `selected_object = object[chunk_x][chunk_y][x][y]` holds object selected_object which is in the chunk x,y at chunk_x, chunk_y and in that chunk it's location is x,y. Chunk size is 64x64.  
     
-    
-##### Units
-> Oh boy, this is messy right now. This hopefully should be fixed with #14.  
   
 ##### Pathfinding  
-I'm actually pretty glad with how it turned out. We don't have any more stuff to do with pathfinding ever again (except clearance, but I'll take care of that). Look at the PathController module for more info.  
+I'm actually pretty glad with how it turned out. The magic numbers will need to be removed from the modified jumper library tho. Look at the PathController module for more info.  
 
 ##### Graphics  
 They're in object_texture mostly. I load them as quads in the sprite_quads module.  
