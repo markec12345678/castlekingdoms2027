@@ -106,6 +106,13 @@ function game:keyreleased(key, scancode)
 			_G.BuildController:set('iron_mine')
 		elseif key == "r" then
 			print(inspect(_G.resources))
+		elseif key == "f" then
+			local fullscreen, fstype = love.window.getFullscreen()
+			if fullscreen then
+				love.window.setFullscreen(false)
+			else
+				love.window.setFullscreen(true)
+			end
 		end
 	end
 end
