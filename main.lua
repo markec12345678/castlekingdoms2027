@@ -123,6 +123,10 @@ end
 -----------------GAME------------------
 -----------------====------------------
 ------------------UI-------------------
+function main_menu:init()
+    main_menu.logo = love.graphics.newImage('assets/other/sk_logo_medium.png')
+end
+
 function main_menu:update(dt)
     nk.frameBegin()
     if nk.windowBegin('Stone Kingdoms', 100, 100, 200, 160, 'border', 'title') then
@@ -142,11 +146,12 @@ function main_menu:update(dt)
 end
 
 function main_menu:draw()
-	if not object_image then
-		love.graphics.print("Loading assets...",100,100)
-	else
-		nk.draw()
-	end
+    if not object_image then
+	love.graphics.draw(main_menu.logo, 100, 100)
+	love.graphics.print("Loading...", 105, 225)
+    else
+	nk.draw()
+    end
 end
 
 function main_menu:keypressed(key, scancode, isrepeat)
