@@ -1,6 +1,36 @@
 	----Functions
+
+            local OS = love.system.getOS()
+            local nuklearPath = ''
+            local arch
+
+            if (os.getenv"os" or ""):match"^Windows" then
+                print("Your system is Windows")
+                arch = os.getenv("PROCESSOR_ARCHITECTURE")
+            else
+                print("Your system is Linux")
+                arch = io.popen"uname -m":read"*a"
+            end
+
+            if (arch or ""):match"64" then
+                arch = '64'
+            else
+                arch = '32'
+            end
+
+            if OS == 'Windows' then
+                nuklearPath = './libraries/win'..arch..'/nuklear.dll'
+            elseif OS == 'Linux' then
+                nuklearPath = './libraries/linux'..arch..'/nuklear.so'
+            else assert(false, 'Your system is not supported yet!') end
+
+            local lib, errmsg = package.loadlib(nuklearPath, "luaopen_nuklear")
+            assert(lib, errmsg)
+            _G.nk = lib()
+
             local ffi = require("ffi")
             local bitser = require('libraries.bitser')
+
             function printList(list)
                 local l = list;
                 while l do

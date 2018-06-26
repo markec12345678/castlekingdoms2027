@@ -14,7 +14,8 @@ local objects, terrain
 local game, ui, test = {}, {}, {}
 local loader = require('libraries.lily')
 
-function love.load(arg)
+function love.load(arg)	
+	nk.init()
     Gamestate.registerEvents()
     Gamestate.switch(ui)
     if _G.test_mode then 
@@ -121,11 +122,59 @@ end
 -----------------====------------------
 ------------------UI-------------------
 function ui:update(dt)
-	if object_image then Gamestate.switch(game) end
+	--if object_image then Gamestate.switch(game) end
+	nk.frameBegin()
+	if nk.windowBegin('Simple Example', 100, 100, 200, 160,
+			'border', 'title', 'movable') then
+		nk.layoutRow('dynamic', 30, 1)
+		nk.label('Hello, world!')
+		nk.layoutRow('dynamic', 30, 2)
+		nk.label('Buttons:')
+		if nk.button('Play') then
+			Gamestate.switch(game)
+		end
+		if nk.button('Button') then
+			print('Button!')
+		end
+	end
+	nk.windowEnd()
+	nk.frameEnd()
 end
 
 function ui:draw()
-	love.graphics.print("Loading assets...",100,100)
+	if not object_image then
+		love.graphics.print("Loading assets...",100,100)
+	else
+		nk.draw()
+	end
+end
+
+function ui:keypressed(key, scancode, isrepeat)
+	nk.keypressed(key, scancode, isrepeat)
+end
+
+function ui:keyreleased(key, scancode)
+	nk.keyreleased(key, scancode)
+end
+
+function ui:mousepressed(x, y, button, istouch)
+	nk.mousepressed(x, y, button, istouch)
+end
+
+function ui:mousereleased(x, y, button, istouch)
+	nk.mousereleased(x, y, button, istouch)
+end
+
+function ui:mousemoved(x, y, dx, dy, istouch)
+	nk.mousemoved(x, y, dx, dy, istouch)
+end
+
+function ui:textinput(text)
+	nk.textinput(text)
+end
+
+function ui:wheelmoved(x, y)
+	nk.wheelmoved(x, y)
 end
 ------------------UI-------------------
 -----------------\||/------------------
