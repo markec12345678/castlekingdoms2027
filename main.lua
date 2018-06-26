@@ -15,7 +15,6 @@ local game, main_menu, test = {}, {}, {}
 local loader = require('libraries.lily')
 
 function love.load(arg)	
-	nk.init()
     Gamestate.registerEvents()
     Gamestate.switch(main_menu)
     if _G.test_mode then 
@@ -23,6 +22,7 @@ function love.load(arg)
 		--love.event.quit(0) 
 		return 
 	else		
+		nk.init()
     	Gamestate.switch(main_menu)
 	end
 	loader.newImage("assets/tiles/object_texture.dxt5"):onComplete(function(userdata,image)
