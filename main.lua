@@ -22,6 +22,8 @@ function love.load(arg)
 		Gamestate.switch(test)
 		--love.event.quit(0) 
 		return 
+	else		
+    	Gamestate.switch(main_menu)
 	end
 	loader.newImage("assets/tiles/object_texture.dxt5"):onComplete(function(userdata,image)
 		object_image = image

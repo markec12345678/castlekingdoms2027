@@ -18,15 +18,17 @@
                 arch = '32'
             end
 
-            if OS == 'Windows' then
-                nuklearPath = './libraries/win'..arch..'/nuklear.dll'
-            elseif OS == 'Linux' then
-                nuklearPath = './libraries/linux'..arch..'/nuklear.so'
-            else assert(false, 'Your system is not supported yet!') end
+            if not _G.test_mode then
+                if OS == 'Windows' then
+                    nuklearPath = './libraries/win'..arch..'/nuklear.dll'
+                elseif OS == 'Linux' then
+                    nuklearPath = './libraries/linux'..arch..'/nuklear.so'
+                else assert(false, 'Your system is not supported yet!') end
 
-            local lib, errmsg = package.loadlib(nuklearPath, "luaopen_nuklear")
-            assert(lib, errmsg)
-            _G.nk = lib()
+                local lib, errmsg = package.loadlib(nuklearPath, "luaopen_nuklear")
+                assert(lib, errmsg)
+                _G.nk = lib()
+            end
 
             local ffi = require("ffi")
             local bitser = require('libraries.bitser')
