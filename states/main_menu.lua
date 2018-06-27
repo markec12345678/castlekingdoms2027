@@ -17,15 +17,17 @@ end
 
 function main_menu:update(dt)
     nk.frameBegin()
-    if nk.windowBegin('Stone Kingdoms', 100, 100, 200, 160, 'border', 'title') then
+    if nk.windowBegin('Stone Kingdoms', window_width/2 - 100, 120, 200, 160, 'border') then
         nk.layoutRow('dynamic', 30, 1)
-        nk.label('Welcome to the game!')
+        nk.label('Stone Kingdoms','centered')
+        nk.layoutRow('dynamic', 10, 1)
         nk.layoutRow('dynamic', 30, 1)
 
         if nk.button('Play') then
             Gamestate.switch(game)
         end
 
+        nk.layoutRow('dynamic', 10, 1)
         nk.layoutRow('dynamic', 30, 1)
 
         if nk.button('Exit') then
