@@ -80,13 +80,7 @@ local function draw()
                 "\n Center chunk: [" .. xchunk .. "][".. ychunk .."][" .. (status[xchunk][ychunk] or "N\\A") .."]"..
                 "\n Current FPS: "..tostring(love.timer.getFPS())
                 , 0, 0);
-         -- LIMIT THE FPS TO 60
-            local cur_time = love.timer.getTime();
-            if next_time <= cur_time then
-                next_time = cur_time;
-                return;
-            end
-            love.timer.sleep(next_time - cur_time);
+        limitfps()
 end
 
 local function getBuildingSelection()
