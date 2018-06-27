@@ -28,25 +28,26 @@ function game:update(dt)
     nk.windowBegin('Main', 0, window_height - 160, 200, 160, 'border', 'title')
     nk.layoutRow('dynamic', 30, 1)
     if nk.button('Construction') then
-	ui.show.construction = not ui.show.construction
+		nk.windowClose("Construction")
+		ui.show.construction = not ui.show.construction
     end
     nk.windowEnd()
 
     if ui.show.construction then
-	if nk.windowBegin('Construction', 100, 100, 200, 160, 'border', 'title', 'movable', 'closable') then
-	    nk.layoutRow('dynamic', 30, 1)
-	    if nk.button('Castle') then
-		_G.BuildController:set('castle')
-		_G.BuildController.start = true
-	    end
-	    if nk.button('Stockpile') then
-		_G.BuildController:set('stockpile')
-		_G.BuildController.start = true
-	    end
-	else
-	    ui.show.construction = false
-	end
-	nk.windowEnd()
+		if nk.windowBegin('Construction', 100, 100, 200, 160, 'border', 'title', 'movable', 'closable') then
+			nk.layoutRow('dynamic', 30, 1)
+			if nk.button('Castle') then
+				_G.BuildController:set('castle')
+				_G.BuildController.start = true
+			end
+			if nk.button('Stockpile') then
+				_G.BuildController:set('stockpile')
+				_G.BuildController.start = true
+			end
+		else
+			ui.show.construction = false
+		end
+		nk.windowEnd()
     end
     nk.frameEnd()
 
@@ -59,23 +60,23 @@ end
 
 function game:draw()
     if not _G.test_mode then
-	love.graphics.push();
-	love.graphics.translate((love.graphics.getWidth()/2),(love.graphics.getHeight()/2));
-	terrain.draw()
-	objects.draw()
-	_G.BuildController:draw()
-	love.graphics.pop()
-	core.draw()
+		love.graphics.push();
+		love.graphics.translate((love.graphics.getWidth()/2),(love.graphics.getHeight()/2));
+		terrain.draw()
+		objects.draw()
+		_G.BuildController:draw()
+		love.graphics.pop()
+		core.draw()
 
-	nk.draw()
+		nk.draw()
     end
 end
 
 function game:mousepressed(x, y, button, istouch)
     if nk.mousepressed(x, y, button, istouch) then return end
 
-    terrain.mousepressed(x,y,button,istouch)
-    objects.mousepressed(x,y,button,istouch)
+	terrain.mousepressed(x,y,button,istouch)
+	objects.mousepressed(x,y,button,istouch)
     if button == 2 and not _G.BuildController.start then _G.BuildController.active = false end
 end
 
