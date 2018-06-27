@@ -2,9 +2,9 @@ function love.conf(t)
     _G.test_mode = false	
     for ind, val in ipairs(_G.arg) do
         if val == "--test" then
-        _G.test_mode = true
-        table.remove(arg, ind)
-        break
+            _G.test_mode = true
+            table.remove(arg, ind)
+            break
         end
     end
     t.identity = nil                    -- The name of the save directory (string)

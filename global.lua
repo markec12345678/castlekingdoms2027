@@ -1,4 +1,8 @@
-	----Functions
+	----Setup
+            math.randomseed(os.time())
+            math.random()
+            math.random()
+            math.random()
 
             local OS = love.system.getOS()
             local nuklearPath = ''
@@ -32,6 +36,17 @@
 
             local ffi = require("ffi")
             local bitser = require('libraries.bitser')
+
+    ----Functions
+            function limitfps()
+                -- LIMIT THE FPS TO 60, GOES IN DRAW EVENT
+                local cur_time = love.timer.getTime();
+                if next_time <= cur_time then
+                    next_time = cur_time;
+                    return;
+                end
+                love.timer.sleep(next_time - cur_time);
+            end
 
             function printList(list)
                 local l = list;
