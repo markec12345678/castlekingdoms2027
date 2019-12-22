@@ -1,20 +1,5 @@
 local object_image= ... 
 
--- Define start and goal locations coordinates
--- local startx, starty = 1,1
--- local endx, endy = 154,1985
-
--- -- Calculates the path, and its length
--- local path = myFinder:getPath(startx, starty, endx, endy)
-
--- if path then
---   write1(('Path found! Length: %.2f'):format(path:getLength()))
--- 	for node, count in path:nodes() do
--- 	  print(('Step: %d - x: %d - y: %d'):format(count,node._x,node._y))
--- 	end
--- else print("Path not found!") end
-
-
     --Declarations
 	----Library setup
 			local bitser = require("libraries.bitser")
@@ -186,9 +171,7 @@ function update_objects(cx,cy,deser)
 	local chunk_y = cy or current_chunk_y
 	local deser = deser or false
 	object_batch[chunk_x][chunk_y] =  object_batch[chunk_x][chunk_y] or love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)
-	--shadow_batch[chunk_x][chunk_y] =  shadow_batch[chunk_x][chunk_y] or love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)
   	object_batch[chunk_x][chunk_y]:clear() 
-  	--shadow_batch[chunk_x][chunk_y]:clear()
   	for i=0,chunk_width-1,1 do
     	for o=0,chunk_height-1,1 do
 			if type(object[cx][cy][i][o]) == 'table' then
@@ -214,30 +197,9 @@ function update_objects(cx,cy,deser)
     	end
   	end				  
  	 object_batch[chunk_x][chunk_y]:flush()
- 	 --shadow_batch[chunk_x][chunk_y]:flush()
 end
 
-local function draw_object()
-	--love.graphics.setCanvas(canvas)
-	--love.graphics.clear()
-	-- local l1 = terrain_chunks
-	-- 	while l1 do
-	-- 		if l1.chunkx ~= nil and shadow_batch[l1.chunkx][l1.chunky] ~= nil then  
-	-- 			love.graphics.draw(shadow_batch[l1.chunkx][l1.chunky], 
-	-- 					-view_xview+(l1.chunkx-l1.chunky)*chunk_width*tile_width*0.5*scale_x, 
-	-- 					-view_yview+(l1.chunkx+l1.chunky)*chunk_height*tile_height*0.5*scale_y
-	-- 					, 0, scale_x, scale_y)
-	-- 		end
-	-- 			l1 = l1.next 
-	-- 	end
-  	--love.graphics.draw(shadow_batch[0][0],    -view_xview, -view_yview, 0, scale_x, scale_y)
-	--love.graphics.setCanvas()
-    --love.graphics.draw(object_image,tile_quads[building_selection],IsoToScreenX(LocalX,LocalY)-view_xview-(tile_offset_x[building_selection] or 0),IsoToScreenY(LocalX,LocalY)-view_yview-(tile_offset[building_selection] or 0),nil,scale_x)
-	
-	--love.graphics.setColor(255,255,255,70)
-	--love.graphics.draw(canvas,0,0)
-	--love.graphics.setColor(255,255,255,255)
-	
+local function draw_object()	
 	for x = 1, 3 do
 		for y = 1, 3 do
 			local xx,yy = current_chunk_x+x-2, current_chunk_y+y-2
@@ -251,7 +213,7 @@ local function draw_object()
 			end
 		end
 	end
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1,1,1,1)
 end
 
 

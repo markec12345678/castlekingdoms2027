@@ -42,14 +42,14 @@ local Object = require('objects.Object')
                 if type(self.path) == "table" then
                     self.nd = {}
                     local first = true --skip the first node, because it's our position
-                    local countt = 0
-                    for count, node in ipairs(self.path) do
+                    local count = 0
+                    for _, node in ipairs(self.path) do
                         if not first then
-                            self.nd[countt] = node
-                            countt = countt + 1
+                            self.nd[count] = node
+                            count = count + 1
                         else first = false end	
                     end
-                    self.nd_len = countt
+                    self.nd_len = count
                     self.waypoint_x = self.nd[0][1]--fixme If spawning right next to a tree, will throw error here
                     self.waypoint_y = self.nd[0][2]					
                     self.move_dir = "none"	
@@ -138,16 +138,17 @@ local Object = require('objects.Object')
             self.previous_cx, self.previous_cy = self.cx,self.cy 
             self.gx,self.gy= self.fx*0.001,self.fy*0.001
             self.cx,self.cy = math.floor((self.gx)/chunk_width), math.floor((self.gy)/chunk_width)
+            
             local xx,yy
-                xx, yy = (math.round(self.gx))%(chunk_width),(math.round(self.gy))%(chunk_width)
-                if not isObjectAt(self.cx, self.cy, xx, yy, self) then
-                    addObjectAt(self.cx, self.cy, xx, yy, self)
-                end
-                if isObjectAt(self.cx, self.cy, self.originalx, self.originaly, self)
-                and (self.originalx ~= math.round(self.gx)%chunk_width or self.originaly ~= math.round(self.gy)%chunk_width)
-                then
-                    removeObjectAt(self.cx, self.cy, self.originalx, self.originaly, self)
-                end
+            xx, yy = (math.round(self.gx))%(chunk_width),(math.round(self.gy))%(chunk_width)
+            if not isObjectAt(self.cx, self.cy, xx, yy, self) then
+                addObjectAt(self.cx, self.cy, xx, yy, self)
+            end
+            if isObjectAt(self.cx, self.cy, self.originalx, self.originaly, self)
+            and (self.originalx ~= math.round(self.gx)%chunk_width or self.originaly ~= math.round(self.gy)%chunk_width)
+            then
+                removeObjectAt(self.cx, self.cy, self.originalx, self.originaly, self)
+            end
             if self.previous_cx ~= self.cx or self.previous_cy ~= self.cy then						
                 if not isObjectAt(self.cx, self.cy, xx, yy, self) then
                     addObjectAt(self.cx, self.cy, xx, yy, self)	
