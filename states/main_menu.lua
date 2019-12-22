@@ -17,11 +17,10 @@ end
 
 function main_menu:update(dt)
     counter = (counter + 1) % 21
-    print(counter)
     if counter == 20 then 
         stringLoop = (stringLoop % 4) + 1
     end
-    if love.keyboard.isDown("escape")  then
+    if love.keyboard.isDown("escape") then
         love.event.quit();
     end
     if object_image then

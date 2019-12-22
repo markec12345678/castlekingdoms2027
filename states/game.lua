@@ -15,7 +15,8 @@ function game:init()
     ----Pathfinding setup
     thread = love.thread.newThread ( "libraries/pathfinding_thread.lua" )
     thread:start ()
-    _G.finder = require('objects.Controllers.PathController')
+	_G.finder = require('objects.Controllers.PathController')
+	_G.BuildController:set("castle")
 end
 
 function game:update(dt)
