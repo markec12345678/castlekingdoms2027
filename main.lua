@@ -1,127 +1,27 @@
-math.randomseed(os.time())
-math.random()
-math.random()
-math.random()
 if _G.test_mode then 
 	require('libraries.love.love_graphics')
 end
+
 require('global')
-local object_image
 local Gamestate = require('libraries.gamestate')
-local core = require("misc")
-local thread
-local objects, terrain
-local game, ui, test = {}, {}, {}
 local loader = require('libraries.lily')
 
-function love.load(arg)
+local main_menu = require('states.main_menu')
+local game = require('states.game')
+local test = require('states.test')
+
+function love.load(arg)	
     Gamestate.registerEvents()
-    Gamestate.switch(ui)
     if _G.test_mode then 
 		Gamestate.switch(test)
-		--love.event.quit(0) 
 		return 
+	else		
+    	Gamestate.switch(main_menu)
 	end
 	loader.newImage("assets/tiles/object_texture.dxt5"):onComplete(function(userdata,image)
-		object_image = image
+		_G.object_image = image
 	end)
 end
-
-
-
-function test:enter()
-	require('spec.objects_spec')
-	_G.chunkUpdateList = require('objects.chunk_system')
-	_G.BuildController:set('castle')
-	_G.BuildController.start = true
-	_G.JobController = require('objects.Controllers.JobController')
-	----Pathfinding setup
-	thread = love.thread.newThread ( "libraries/pathfinding_thread.lua" )
-	thread:start ()
-	_G.finder = require('objects.Controllers.PathController')
-	love.event.quit(0)
-end
------------------/||\------------------
------------------GAME------------------
-function game:init()
-    objects = love.filesystem.load('objects/objects.lua')(object_image)
-	package.loaded['objects.objects'] = objects
-	terrain = require('terrain.terrain')
-	_G.chunkUpdateList = require('objects.chunk_system')
-	_G.BuildController = love.filesystem.load("objects/Controllers/BuildController.lua")(package.loaded['objects.objects'].object, object_image)
-	_G.BuildController:set('castle')
-	_G.BuildController.start = true
-	_G.JobController = require('objects.Controllers.JobController')
-	----Pathfinding setup
-	thread = love.thread.newThread ( "libraries/pathfinding_thread.lua" )
-	thread:start ()
-	_G.finder = require('objects.Controllers.PathController')
-end
-
-function game:update(dt)
-    core.update()
-    objects.update()
-	_G.BuildController:update()
-	_G.finder:update()
-	local error = thread:getError()
-    assert( not error, error )
-end
-
-function game:enter()
-end
-
-function game:draw()
-	if not _G.test_mode then
-		love.graphics.push();
-		love.graphics.translate((love.graphics.getWidth()/2),(love.graphics.getHeight()/2));
-		terrain.draw()
-		objects.draw()
-		_G.BuildController:draw()
-		love.graphics.pop()
-		core.draw() 
-	end
-end
-
-function game:mousepressed(x, y, button, istouch)
-	terrain.mousepressed(x,y,button,istouch)
-	objects.mousepressed(x,y,button,istouch)
-	if button == 2 and not _G.BuildController.start then _G.BuildController.active = false end
-end
-
-function game:wheelmoved(x, y)
-	core.scale(y)
-end
-
-function game:keyreleased(key, scancode)
-	if not _G.BuildController.start then
-		if key == "q" then
-			_G.BuildController:set('castle')
-		elseif key == "w" then
-			_G.BuildController:set('stockpile')
-		elseif key == "e" then
-			_G.BuildController:set('granary')
-		elseif key == "t" then
-			_G.BuildController:set('quarry')
-		elseif key == "y" then
-			_G.BuildController:set('iron_mine')
-		elseif key == "r" then
-			print(inspect(_G.resources))
-		end
-	end
-end
-
------------------GAME------------------
------------------====------------------
-------------------UI-------------------
-function ui:update(dt)
-	if object_image then Gamestate.switch(game) end
-end
-
-function ui:draw()
-	love.graphics.print("Loading assets...",100,100)
-end
-------------------UI-------------------
------------------\||/------------------
 
 
 function love.quit()
@@ -143,15 +43,15 @@ function love.run()
 	
 	while true do
 		-- Process events.
-			love.event.pump()
-			for name, a,b,c,d,e,f in love.event.poll() do
-				if name == "quit" then
-					if not love.quit or not love.quit() then
-						return a
-					end
+		love.event.pump()
+		for name, a,b,c,d,e,f in love.event.poll() do
+			if name == "quit" then
+				if not love.quit or not love.quit() then
+					return a
 				end
-				love.handlers[name](a,b,c,d,e,f)
 			end
+			love.handlers[name](a,b,c,d,e,f)
+		end
  
 		-- Update dt, as we'll be passing it to update
 		if love.timer then
@@ -169,5 +69,4 @@ function love.run()
 			love.graphics.present()
 		end
 	end
-
 end

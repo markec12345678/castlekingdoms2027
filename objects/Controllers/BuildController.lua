@@ -32,7 +32,7 @@ local building = {
         offset_y = 12,
         w = 5, h = 5,
         cost = {
-            ["stone"] = 1
+            ["stone"] = 4
         },
         build = function(self,cx,cy,x,y)
            addObjectAt(cx, cy, x, y, 

@@ -2,14 +2,14 @@ function love.conf(t)
     _G.test_mode = false	
     for ind, val in ipairs(_G.arg) do
         if val == "--test" then
-        _G.test_mode = true
-        table.remove(arg, ind)
-        break
+            _G.test_mode = true
+            table.remove(arg, ind)
+            break
         end
     end
     t.identity = nil                    -- The name of the save directory (string)
     t.version = "11.3"                -- The LÖVE version this game was made for (string)
-    t.console = false            -- Attach a console (boolean, Windows only)
+    t.console = true            -- Attach a console (boolean, Windows only)
     t.accelerometerjoystick = false      -- Enable the accelerometer on iOS and Android by exposing it as a Joystick (boolean)
     t.externalstorage = false           -- True to save files (and read from the save directory) in external storage on Android (boolean) 
     t.gammacorrect = false              -- Enable gamma-correct rendering, when supported by the system (boolean)
@@ -26,7 +26,7 @@ function love.conf(t)
     t.window.fullscreentype = "desktop" -- Choose between "desktop" fullscreen or "exclusive" fullscreen mode (string)
     t.window.vsync = true           -- Enable vertical sync (boolean)
     t.window.msaa = 0              -- The number of samples to use with multi-sampled antialiasing (number)
-    t.window.display = 1                -- Index of the monitor to show the window in (number)
+    t.window.display = 3                -- Index of the monitor to show the window in (number)
     t.window.highdpi = false            -- Enable high-dpi mode for the window on a Retina display (boolean)
     t.window.x = nil                    -- The x-coordinate of the window's position in the specified display (number)
     t.window.y = nil                    -- The y-coordinate of the window's position in the specified display (number)

@@ -145,7 +145,7 @@ function genObjects(cx,cy)
 	object_batch[chunk_x][chunk_y]:clear()	
 	for i=0,chunk_width-1,1 do
 		for o=0,chunk_height-1,1 do
-			local rand = math.random(200)
+			local rand = math.random(60)
 					if rand == 4 then
 					if o == 0 and objectAt(cx,cy-1,i,o-1) then goto continue end
 					if o ~= 0 and objectAt(cx,cy,i,o-1) then goto continue end
@@ -240,43 +240,45 @@ local function mousepressed(x, y, button, istouch)
 		_G.BuildController:build(press.cx,press.cy,press.x,press.y)
    	elseif button == 2 then
 		if not objectAt(press.cx, press.cy, press.x, press.y) then
-			obj = addObjectAt(press.cx, press.cy, press.x, press.y,  
+			if love.keyboard.isDown('m') then			
+				obj = addObjectAt(press.cx, press.cy, press.x, press.y,
+						Miner:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
+						IsoX + (press.x - press.y) * tile_width  * 0.5 -34,
+						IsoY + (press.x + press.y) * tile_height * 0.5 -50+8,"Miner"))					
+					obj.qid = object_batch[press.cx][press.cy]					
+					:add(obj.animation:getFrameInfo(obj.x, obj.y))
+			else
+				obj = addObjectAt(press.cx, press.cy, press.x, press.y,  
 						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
 						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
 						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter"))
 					obj.qid = object_batch[press.cx][press.cy]
 					:add(obj.animation:getFrameInfo(obj.x, obj.y))
-			obj = addObjectAt(press.cx, press.cy, press.x, press.y,  
+				obj = addObjectAt(press.cx, press.cy, press.x, press.y,  
 						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
 						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
 						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter"))
 					obj.qid = object_batch[press.cx][press.cy]
 					:add(obj.animation:getFrameInfo(obj.x, obj.y))
-			obj = addObjectAt(press.cx, press.cy, press.x, press.y,  
+				obj = addObjectAt(press.cx, press.cy, press.x, press.y,  
 						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
 						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
 						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter"))
 					obj.qid = object_batch[press.cx][press.cy]
 					:add(obj.animation:getFrameInfo(obj.x, obj.y))
-			obj = addObjectAt(press.cx, press.cy, press.x, press.y,  
+				obj = addObjectAt(press.cx, press.cy, press.x, press.y,  
 						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
 						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
 						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter"))
 					obj.qid = object_batch[press.cx][press.cy]
 					:add(obj.animation:getFrameInfo(obj.x, obj.y))
+			end
 		end 
 	elseif button == 3 then
 			obj = addObjectAt(press.cx, press.cy, press.x, press.y, 
 						Stonemason:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
 						IsoX + (press.x - press.y) * tile_width  * 0.5 -34,
 						IsoY + (press.x + press.y) * tile_height * 0.5 -50+8,"Stonemason"))
-					obj.qid = object_batch[press.cx][press.cy]					
-					:add(obj.animation:getFrameInfo(obj.x, obj.y))
-	elseif button == 4 then
-			obj = addObjectAt(press.cx, press.cy, press.x, press.y,
-						Miner:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
-						IsoX + (press.x - press.y) * tile_width  * 0.5 -34,
-						IsoY + (press.x + press.y) * tile_height * 0.5 -50+8,"Miner"))					
 					obj.qid = object_batch[press.cx][press.cy]					
 					:add(obj.animation:getFrameInfo(obj.x, obj.y))
 	end
