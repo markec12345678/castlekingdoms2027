@@ -4,6 +4,27 @@ local core = require("misc")
 local thread, objects, terrain
 local ui = {show = {construction = false}}
 
+local function manual_gc(time_budget, safetynet_megabytes, disable_otherwise)
+	local max_steps = 1000
+	local steps = 0
+	local start_time = love.timer.getTime()
+	while
+		love.timer.getTime() - start_time < time_budget and
+		steps < max_steps
+	do
+		collectgarbage("step", 1)
+		steps = steps + 1
+	end
+	--safety net
+	if collectgarbage("count") / 1024 > safetynet_megabytes then
+		collectgarbage("collect")
+	end
+	--don't collect gc outside this margin
+	if disable_otherwise then
+		collectgarbage("stop")
+	end
+end
+
 function game:init()
     objects = love.filesystem.load('objects/objects.lua')(object_image)
     package.loaded['objects.objects'] = objects
@@ -20,19 +41,33 @@ function game:init()
 end
 
 function game:update(dt)
+	prof.push("frame")
+	prof.push("update")
+	prof.push("core")
     core.update()
+	prof.pop("core")
+	prof.push("objects")
     objects.update()
+	prof.pop("objects")
+	prof.push("bcontr")
     _G.BuildController:update()
+	prof.pop("bcontr")
+	prof.push("pathfind")
     _G.finder:update()
-
+	prof.pop("pathfind")
+	prof.push("gc")
+	manual_gc(0.7e-3, 20000)
+	prof.pop("gc")
     local error = thread:getError()
-    assert( not error, error )
+	assert( not error, error )
+	prof.pop("update")
 end
 
 function game:enter()
 end
 
 function game:draw()
+	prof.push("draw")
     if not _G.test_mode then
 		love.graphics.push();
 		love.graphics.translate((love.graphics.getWidth()/2),(love.graphics.getHeight()/2));
@@ -41,7 +76,9 @@ function game:draw()
 		_G.BuildController:draw()
 		love.graphics.pop()
 		core.draw()
-    end
+	end
+	prof.pop("draw")
+	prof.pop("frame")
 end
 
 function game:mousepressed(x, y, button, istouch)

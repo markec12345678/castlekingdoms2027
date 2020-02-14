@@ -37,6 +37,13 @@ local Object = require('objects.Object')
             self.path_state = "Waiting for path"
         end
         function Unit:pathfind()
+            if self.endx >= _G.chunks_wide*_G.chunk_width or self.endy >= _G.chunks_high*_G.chunk_height
+            or self.endx < 0 or self.endy < 0 then
+                self.path_state = "No path"
+                self.state = self.no_path_state
+                print("AVOIDED DISASTER, TODO: RETURN RESULT")
+                return
+            end
             self.path = _G.finder:getPath(self.gx, self.gy, self.endx, self.endy)
             if self.path then
                 if type(self.path) == "table" then

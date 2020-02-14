@@ -138,7 +138,6 @@ local function chunkGarbageCollect()
 		--status[current_chunk_x][current_chunk_y+2] = nil 
 		--status[current_chunk_x+1][current_chunk_y+2] = nil 
 		
-		collectgarbage() 
 end
 
 local function chunkUnload(x,y)
@@ -166,7 +165,6 @@ local function chunkUpdateList()
 		chunkUnload(l.chunkx,l.chunky)
 		l = l.next
 	end		
-	chunkGarbageCollect() 
 
 		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x+1, chunky = current_chunk_y+0} 
 	if status[current_chunk_x+1][current_chunk_y] == nil then 

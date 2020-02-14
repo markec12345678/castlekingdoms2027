@@ -1,54 +1,54 @@
 local object_image= ... 
 
-    --Declarations
-	----Library setup
-			local bitser = require("libraries.bitser")
-	----Direction and distance
-			local previous_distance, location_distance = 0, 0
-			local previous_total_chunks_to_traverse = 0
-			local previous_dir = 'none'
-			local angle 
-	----Location thing
-			local location = {
-				gx = 0,
-				gy = 0,
-				x = 0,
-				y = 0,
-				cx = 0, 
-				cy = 0
-			}
-			function location:new (o)
-				o = o or {}  
-				setmetatable(o, self)
-				self.__index = self
-				return o
-			end
-			local press = location:new()
-			local last_location = location:new()
-	----Rows and columns
-            local cols = chunk_width
-            local rows = chunk_height
-	----Chunk 2D array 	
-			local active_objects = newAutotable(1)
-			local active_entities = newAutotable(1)
-			_G.active_chunks = {}
-			local object = newAutotable(4)
-	----Calculate center chunk
-			local CenterX = math.round(ScreenToIsoX(width/2-16+view_xview, height/2-8+view_yview));
-			local CenterY = math.round(ScreenToIsoY(width/2-16+view_xview, height/2-8+view_yview))
-			---------------------------------------
-			_G.xchunk = math.floor(CenterX/(chunk_width))
-			_G.ychunk = math.floor(CenterY/(chunk_width))
-	----Generate spriteBatch
-			local object_batch = newAutotable(2)   
-			local shadow_batch = newAutotable(2)
-			--local canvas = love.graphics.newCanvas()  
-			if not _G.test_mode then
-				object_image:setFilter('nearest','nearest')
-			end
-	        local tile_quads = require('objects.objects_quads')
-			object_batch[0][0] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)
-			shadow_batch[0][0] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)		
+--Declarations
+----Library setup
+		local bitser = require("libraries.bitser")
+----Direction and distance
+		local previous_distance, location_distance = 0, 0
+		local previous_total_chunks_to_traverse = 0
+		local previous_dir = 'none'
+		local angle
+----Location thing
+		local location = {
+			gx = 0,
+			gy = 0,
+			x = 0,
+			y = 0,
+			cx = 0, 
+			cy = 0
+		}
+		function location:new (o)
+			o = o or {}  
+			setmetatable(o, self)
+			self.__index = self
+			return o
+		end
+		local press = location:new()
+		local last_location = location:new()
+----Rows and columns
+		local cols = chunk_width
+		local rows = chunk_height
+----Chunk 2D array 	
+		local active_objects = newAutotable(1)
+		local active_entities = newAutotable(1)
+		_G.active_chunks = {}
+		local object = newAutotable(4)
+----Calculate center chunk
+		local CenterX = math.round(ScreenToIsoX(width/2-16+view_xview, height/2-8+view_yview));
+		local CenterY = math.round(ScreenToIsoY(width/2-16+view_xview, height/2-8+view_yview))
+		---------------------------------------
+		_G.xchunk = math.floor(CenterX/(chunk_width))
+		_G.ychunk = math.floor(CenterY/(chunk_width))
+----Generate spriteBatch
+		local object_batch = newAutotable(2)   
+		local shadow_batch = newAutotable(2)
+		--local canvas = love.graphics.newCanvas()  
+		if not _G.test_mode then
+			object_image:setFilter('nearest','nearest')
+		end
+		local tile_quads = require('objects.object_quads')
+		object_batch[0][0] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)
+		shadow_batch[0][0] = love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)		
 
 
 --- NOTE Object classes START ---
@@ -166,16 +166,22 @@ function genObjects(cx,cy)
 	end
 end
 
-function update_objects(cx,cy,deser)
+function update_objects(cx,cy,deser) 
+	prof.push("ST")  
 	local chunk_x = cx or current_chunk_x
 	local chunk_y = cy or current_chunk_y
 	local deser = deser or false
 	object_batch[chunk_x][chunk_y] =  object_batch[chunk_x][chunk_y] or love.graphics.newSpriteBatch(object_image, chunk_width*chunk_height)
   	object_batch[chunk_x][chunk_y]:clear() 
-  	for i=0,chunk_width-1,1 do
-    	for o=0,chunk_height-1,1 do
-			if type(object[cx][cy][i][o]) == 'table' then
-				for index, obj in ipairs(object[cx][cy][i][o]) do 
+	prof.pop("ST")  
+	prof.push("LP") 
+	for i=0,chunk_width-1,1 do
+		for o=0,chunk_height-1,1 do
+			local object_index = object[cx][cy][i][o]
+			if type(object_index) == 'table' then
+				local c = false
+				for index, obj in ipairs(object_index) do 
+					c = true
 					if obj.cx ~= chunk_x or obj.cy ~= chunk_y then
 						removeObjectAt(cx,cy,i,o,obj)
 						goto continue
@@ -193,10 +199,14 @@ function update_objects(cx,cy,deser)
 					end	
 					::continue::
 				end
+				if not c then object[cx][cy][i][o] = nil end
 			end
     	end
-  	end				  
- 	 object_batch[chunk_x][chunk_y]:flush()
+	end				
+	prof.pop("LP")    
+	prof.push("FL")  
+	object_batch[chunk_x][chunk_y]:flush()
+	prof.pop("FL")  
 end
 
 local function draw_object()	
@@ -285,39 +295,37 @@ local function mousepressed(x, y, button, istouch)
 end 
 local previous_count = 0 --note remove this in prod
 local upd = 0
-local function update()
+local function update()	
+	prof.push("CUL")
     if previous_chunk_x ~= current_chunk_x or previous_chunk_y ~= current_chunk_y then 
         chunkUpdateList()
     end
+	prof.pop("CUL")
+	prof.push("AE")
     previous_chunk_x = current_chunk_x
     previous_chunk_y = current_chunk_y
 	
-	local counter = 0 --note remove this in prod
 
 	for index, obj in ipairs(active_entities) do
 		obj:animate()
 	end
-
-	if previous_count ~= counter then --note remove this in prod
-	print("Amount of animated objects: "..counter) end --note remove this in prod
-	previous_count = counter --note remove this in prod
+	prof.pop("AE")
+	prof.push("UPDATE")
 	local l = terrain_chunks
 	while l do
 		if l.chunkx == nil then break end 
 		update_objects(l.chunkx,l.chunky)
 		if _G.chunk_objects[l.chunkx][l.chunky] then
-			for _,obj in ipairs(_G.chunk_objects[l.chunkx][l.chunky]) do
+			for _,obj in pairs(_G.chunk_objects[l.chunkx][l.chunky]) do
 				obj:animate()
 			end
 		end
 		l = l.next 
 	end
-
-	--collectgarbage()
+	prof.pop("UPDATE")
 end
 
 
---chunkUpdateList()
 local tableOfFunctions = {
                         update = update, 
                         draw = draw_object,

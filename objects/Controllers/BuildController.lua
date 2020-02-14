@@ -1,7 +1,7 @@
 
 local object, object_image = ...
 
-local tile_quads = require('objects.objects_quads')
+local tile_quads = require('objects.object_quads')
 local image = love.graphics.newImage( "assets/tiles/info_tiles_strip.png" )
 local Castle = require('objects.Structures.Castle')
 local Stockpile = require('objects.Structures.Stockpile')
@@ -11,7 +11,7 @@ local Mine = require('objects.Structures.Mine')
 
 local building = {
     ["castle"] = {
-        quad = tile_quads[767],
+        quad = tile_quads["tile_castle/small_wooden_castle (1)"],
         offset_y = 93,
         offset_x = 6*15+6,
         w = 7, h = 7,
@@ -27,7 +27,7 @@ local building = {
         special_requirements = function(self,cx,cy,x,y) return true end,
     },
     ["stockpile"] = {
-        quad = tile_quads[735],
+        quad = tile_quads["tile_buildings_2/stockpile"],
         offset_x = 64,
         offset_y = 12,
         w = 5, h = 5,
@@ -59,7 +59,7 @@ local building = {
         end,
     },
     ["granary"] = {
-        quad = tile_quads[723],
+        quad = tile_quads["tile_buildings_2/granary (1)"],
         offset_x = 3*15+3,
         offset_y = 62+16,
         w = 4, h = 4,
@@ -75,7 +75,7 @@ local building = {
         special_requirements = function(self,cx,cy,x,y) return true end,
     },
     ["quarry"] = {
-        quad = tile_quads[732],
+        quad = tile_quads["tile_buildings_2/stone_quarry"],
         offset_x = 64+16,
         offset_y = 7*16+6,
         w = 6, h = 6,
@@ -91,7 +91,7 @@ local building = {
         special_requirements = function(self,cx,cy,x,y) return true end,
     },
     ["iron_mine"] = {
-        quad = tile_quads[726],
+        quad = tile_quads["tile_buildings_2/iron_mine"],
         offset_x = 48,
         offset_y = 64-16-4,
         w = 4, h = 4,
@@ -197,7 +197,7 @@ local BuildController = class('BuildController')
                             (xx + yy) * tile_height * 0.5,
                             0,1,1) 
                     self.batch:add(
-                        tile_quads[324]
+                        tile_quads["anim_quarry/anim_quarry_hook (1)"]
                         ,(xx - yy) * tile_width  * 0.5,(xx + yy) * tile_height * 0.5,0)
                 end
             end

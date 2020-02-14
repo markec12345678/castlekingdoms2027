@@ -5,7 +5,10 @@
         math.random()
         local ffi = require("ffi")
         local bitser = require('libraries.bitser')
-
+        local tile_quads = require('objects.object_quads')
+        PROF_CAPTURE = false
+        prof = require("libraries.jprof")
+        prof.connect()
     ----Functions
         function limitfps()
             -- LIMIT THE FPS TO 60, GOES IN DRAW EVENT
@@ -15,6 +18,15 @@
                 return
             end
             love.timer.sleep(next_time - cur_time)
+        end
+
+        function indexQuad(string, amount, start)
+            local start = start or 1
+            local temp_array = {}
+            for i=start, amount do
+                temp_array[#temp_array + 1] = tile_quads[string.." ("..tostring(i)..")"]
+            end
+            return temp_array
         end
 
         function printList(list)
@@ -51,6 +63,8 @@
         ychunk = 0
         chunk_width = 64
         chunk_height = 64
+        chunks_wide = 32
+        chunks_high = 32
         current_chunk_x = 0
         current_chunk_y = 0
         CenterX = 0

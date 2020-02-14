@@ -139,8 +139,8 @@ end
 
 local function genMap()
 	--FIXME MAGIC NUMBERS
-	for i = 0, 8 do
-		for o = 0, 8 do --usually both are 32 (jumper is set like that with magic numbers)
+	for i = 0, _G.chunks_wide-1 do
+		for o = 0, _G.chunks_high-1 do --usually both are 32 (jumper is set like that with magic numbers)
 			genTerrain(i,o)
 			_G.status[i][o] = 2
 		end
@@ -149,8 +149,8 @@ end
 
 local function allocateSpriteBatches()
 	--FIXME MAGIC NUMBERS
-	for i = 0, 8 do
-		for o = 0, 8 do 
+	for i = 0, _G.chunks_wide do
+		for o = 0, _G.chunks_high do 
 			if terrain_batch[i][o] == nil then 
 				terrain_batch[i][o] = love.graphics.newSpriteBatch(terrain_image, chunk_width*chunk_height)
 			end

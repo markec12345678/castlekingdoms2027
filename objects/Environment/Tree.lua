@@ -1,13 +1,9 @@
 local object_batch, active_objects, tile_quads, object = ...
 local Object = require("objects.Object")
 
-local frames_static = {tile_quads[1450],tile_quads[1455],tile_quads[1456],
-				tile_quads[1457],tile_quads[1458],tile_quads[1459],tile_quads[1460],
-				tile_quads[1461],tile_quads[1462],tile_quads[1451],tile_quads[1452],
-				tile_quads[1453],tile_quads[1454],tile_quads[1452],tile_quads[1462],tile_quads[1460]} 
-local frames_falling = {tile_quads[1436],tile_quads[1441],tile_quads[1442],tile_quads[1443]}
-local frames_chop = {tile_quads[1444],tile_quads[1445],tile_quads[1446],tile_quads[1447],
-				tile_quads[1448],tile_quads[1437],tile_quads[1438],tile_quads[1439],tile_quads[1440]}
+local frames_static = indexQuad("tree_pine_done/tree_pine_large", 13)
+local frames_falling = indexQuad("tree_pine_done/tree_pine_large_falling", 3)
+local frames_chop = indexQuad("tree_pine_done/tree_pine_large_falling", 9, 4)
 
 local Tree = class('Tree', Object)
 			function Tree:initialize(cx,cy,i,o,x,y,type)
@@ -33,28 +29,29 @@ local Tree = class('Tree', Object)
 					self.animation:pause()
 					end
 				self.finish = function() --TODO: turn into stump object
-					self.animation = anim.newAnimation({tile_quads[1449]},0.1)
+					self.animation = anim.newAnimation({tile_quads["tree_pine_done/tree_pine_trunk"]},0.1)
 					self.animation:pause()
 					self.stump = true
 					self.animation:update(dt)
 					self.animated = false --mark for removal from list
 					self:animate() --animate, because the list will remove us before we show the stump
 					self.type = "Stump"
-					self.tile = tile_quads[1449]
+					self.tile = tile_quads["tree_pine_done/tree_pine_trunk"]
+					self:destroy()
 					end	
 				if self.gx < 2048 and self.gx >= 0 and self.gy < 2048 and self.gy >= 0 then
 					_G.collision_map[self.gx][self.gy] = 1 
 					setWalkable(self.gx,self.gy,1)
 				end
 				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
-				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
-				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self
+				_G.chunk_objects[self.cx][self.cy][self] = self
 			end			
 			function Tree:animate() 
-				self.animation:update(dt) 					
+				self.animation:update(dt) 
 			end
 			function Tree:destroy()
-				if self.chunk_key then table.remove(_G.chunk_objects,self.chunk_key) end
+				removeObjectAt(self.cx,self.cy,self.i,self.o, self)
+				_G.chunk_objects[self.cx][self.cy][self] = nil
 				self = nil
 			end
 			function Tree:cut()

@@ -77,6 +77,7 @@ local function draw()
                 "\n LocalX: " .. ((LocalX)%chunk_width) ..
                 "\n LocalY: " .. ((LocalY)%chunk_width) ..
                 "\n Scale: " .. scale_x ..
+                "\n Garbage (kB): " .. collectgarbage('count') ..
                 "\n Center chunk: [" .. xchunk .. "][".. ychunk .."][" .. (status[xchunk][ychunk] or "N\\A") .."]"..
                 "\n Current FPS: "..tostring(love.timer.getFPS())
                 , 0, 0);
