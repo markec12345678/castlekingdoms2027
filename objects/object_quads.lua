@@ -1,5 +1,7 @@
-local imageW,imageH = 8104,9588
+imageW,imageH = 8104,9588
 local tile_quads = {}
+
+tile_quads["empty"] = love.graphics.newQuad(0, 0,0, 0, imageW,imageH)
 tile_quads["armourer_anim (1)"] = love.graphics.newQuad(2058, 1512, 23, 42, imageW,imageH)
 tile_quads["armourer_anim (2)"] = love.graphics.newQuad(2627, 1848, 24, 43, imageW,imageH)
 tile_quads["armourer_anim (3)"] = love.graphics.newQuad(2988, 1065, 24, 40, imageW,imageH)
