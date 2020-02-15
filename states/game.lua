@@ -64,6 +64,8 @@ function game:update(dt)
 end
 
 function game:enter()
+	collectgarbage()
+	collectgarbage()
 end
 
 function game:draw()
