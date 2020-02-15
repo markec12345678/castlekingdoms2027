@@ -310,7 +310,7 @@ local Quarry_lifter = class('Quarry_lifter', Object)
 			end
 			function Quarry_lifter:deactivate()
 				self.animation:pause()
-				self.tile = tile_quads[0]
+				self.tile = tile_quads["empty"]
 				self.animated = false
 			end
 
@@ -399,7 +399,7 @@ local Quarry_shaper = class('Quarry_shaper', Object)
 			end
 			function Quarry_shaper:deactivate()
 				self.animation:pause()
-				self.tile = tile_quads[0]
+				self.tile = tile_quads["empty"]
 				self.animated = false
 			end
 
@@ -444,7 +444,7 @@ local Quarry_puller = class('Quarry_puller', Object)
 				self.animation:resume()
 			end
 			function Quarry_puller:deactivate()
-				self.tile = tile_quads[0]
+				self.tile = tile_quads["empty"]
 				self.animated = false
 			end
 local Quarry_alias = class('Quarry_alias', Object)
@@ -520,15 +520,15 @@ local Quarry = class('Quarry', Object)
                 Quarry_alias:new(tile_quads[2311],self.gx+4,self.gy,self,118+8*4,14)
                 Quarry_alias:new(tile_quads[2312],self.gx+5,self.gy,self,118+8*5,14)
 				
-                Quarry_alias:new(tile_quads[0],self.gx+5,self.gy+1,self,12+8*4,16)
-                Quarry_alias:new(tile_quads[0],self.gx+5,self.gy+2,self,12+8*4,16)
-                Quarry_alias:new(tile_quads[0],self.gx+5,self.gy+3,self,12+8*4,16)
-                Quarry_alias:new(tile_quads[0],self.gx+5,self.gy+4,self,12+8*4,16)
-                Quarry_alias:new(tile_quads[0],self.gx+5,self.gy+5,self,12+8*4,16)
-                Quarry_alias:new(tile_quads[0],self.gx+1,self.gy+5,self,12+8*4,16)
-                Quarry_alias:new(tile_quads[0],self.gx+2,self.gy+5,self,12+8*4,16)
-                Quarry_alias:new(tile_quads[0],self.gx+3,self.gy+5,self,12+8*4,16)
-                Quarry_alias:new(tile_quads[0],self.gx+4,self.gy+5,self,12+8*4,16)
+                Quarry_alias:new(tile_quads["empty"],self.gx+5,self.gy+1,self,12+8*4,16)
+                Quarry_alias:new(tile_quads["empty"],self.gx+5,self.gy+2,self,12+8*4,16)
+                Quarry_alias:new(tile_quads["empty"],self.gx+5,self.gy+3,self,12+8*4,16)
+                Quarry_alias:new(tile_quads["empty"],self.gx+5,self.gy+4,self,12+8*4,16)
+                Quarry_alias:new(tile_quads["empty"],self.gx+5,self.gy+5,self,12+8*4,16)
+                Quarry_alias:new(tile_quads["empty"],self.gx+1,self.gy+5,self,12+8*4,16)
+                Quarry_alias:new(tile_quads["empty"],self.gx+2,self.gy+5,self,12+8*4,16)
+                Quarry_alias:new(tile_quads["empty"],self.gx+3,self.gy+5,self,12+8*4,16)
+                Quarry_alias:new(tile_quads["empty"],self.gx+4,self.gy+5,self,12+8*4,16)
 
 				self.free_spots = 3
 				self.lift_worker = nil
@@ -553,7 +553,7 @@ local Quarry = class('Quarry', Object)
 			function Quarry:work(worker)
 				if self.lift_worker == worker then
 					worker.state = "Working"
-					worker.tile = tile_quads[0]
+					worker.tile = tile_quads["empty"]
 					worker.animated = false
 					worker.gx = self.gx+3
 					worker.gy = self.gy+2
@@ -561,7 +561,7 @@ local Quarry = class('Quarry', Object)
 					self.lifter.tile = tile_quads[139]
 				elseif self.pull_worker == worker then
 					worker.state = "Working"
-					worker.tile = tile_quads[0]
+					worker.tile = tile_quads["empty"]
 					worker.animated = false
 					worker.gx = self.gx+4
 					worker.gy = self.gy+3
@@ -569,7 +569,7 @@ local Quarry = class('Quarry', Object)
 					self.puller.tile = tile_quads[246]
 				elseif self.shape_worker == worker then
 					worker.state = "Working"
-					worker.tile = tile_quads[0]
+					worker.tile = tile_quads["empty"]
 					worker.animated = false
 					worker.gx = self.gx+3
 					worker.gy = self.gy+4

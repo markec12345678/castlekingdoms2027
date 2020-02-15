@@ -249,7 +249,7 @@ local Mine_going_down = class('Mine_going_down', Object)
 			end
 			function Mine_going_down:deactivate()
 				self.animation:pause()
-				self.tile = tile_quads[0]
+				self.tile = tile_quads["empty"]
 				self.animated = false
 			end
 
@@ -293,7 +293,7 @@ local Mine_puller = class('Mine_puller', Object)
 				self.animation:resume()
 			end
 			function Mine_puller:deactivate()
-				self.tile = tile_quads[0]
+				self.tile = tile_quads["empty"]
 				self.animated = false
 			end
 local Mine_bucket = class('Mine_bucket', Object)
@@ -339,7 +339,7 @@ local Mine_bucket = class('Mine_bucket', Object)
 			end
 			function Mine_bucket:deactivate()
 				self.animation:pause()
-				self.tile = tile_quads[0]
+				self.tile = tile_quads["empty"]
 				self.animated = false
 			end
 
@@ -393,7 +393,7 @@ local Mine_pourer = class('Mine_pourer', Object)
 			end
 			function Mine_pourer:deactivate()
 				self.animation:pause()
-				self.tile = tile_quads[0]
+				self.tile = tile_quads["empty"]
 				self.animated = false
 			end
 local Mine_casting = class('Mine_casting', Object)
@@ -443,7 +443,7 @@ local Mine_casting = class('Mine_casting', Object)
 			end
 			function Mine_casting:deactivate()
 				self.animation:pause()
-				self.tile = tile_quads[0]
+				self.tile = tile_quads["empty"]
 				self.animated = false
 			end
 local Mine_stack = class('Mine_stack', Object)
@@ -494,7 +494,7 @@ local Mine_stack = class('Mine_stack', Object)
 			end
 			function Mine_stack:deactivate()
 				self.animation:pause()
-				self.tile = tile_quads[0]
+				self.tile = tile_quads["empty"]
 				self.animated = false
 			end
 			function Mine_stack:take()
@@ -581,8 +581,8 @@ local Mine = class('Mine', Object)
                 Mine_alias:new(tile_quads[2318],self.gx+2,self.gy,self,-(-64+16+4)+8*2,14)
                 Mine_alias:new(tile_quads[2319],self.gx+3,self.gy,self,-(-64+16+4)+8*3,14)
 				
-                Mine_alias:new(tile_quads[0],self.gx+1,self.gy+3,self,12+8*4,16)
-                Mine_alias:new(tile_quads[0],self.gx+3,self.gy+1,self,12+8*4,16)
+                Mine_alias:new(tile_quads["empty"],self.gx+1,self.gy+3,self,12+8*4,16)
+                Mine_alias:new(tile_quads["empty"],self.gx+3,self.gy+1,self,12+8*4,16)
 
 				self.free_spots = 1
 				self.worker = nil
@@ -601,7 +601,7 @@ local Mine = class('Mine', Object)
 					return
 				end
 				worker.state = "Working"
-				worker.tile = tile_quads[0]
+				worker.tile = tile_quads["empty"]
 				worker.animated = false
 				worker.gx = self.gx+1
 				worker.gy = self.gy+2
