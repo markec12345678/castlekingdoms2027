@@ -1,18 +1,18 @@
 local object_batch, active_objects, tile_quads, object = ...
 local Object = require("objects.Object")
 
-local frames_static = indexQuad("tree_pine_done/tree_pine_large", 13)
-local frames_falling = indexQuad("tree_pine_done/tree_pine_large_falling", 3)
-local frames_chop = indexQuad("tree_pine_done/tree_pine_large_falling", 9, 4)
+local frames_static = indexQuad("tree_pine_large", 25, nil, true)
+local frames_falling = indexQuad("tree_pine_large_falling", 7)
+local frames_chop = indexQuad("tree_pine_large_falling", 17, 8)
 
 local Tree = class('Tree', Object)
 			function Tree:initialize(cx,cy,i,o,x,y,type)
 				Object.initialize(self,cx,cy,i,o,x,y,type)
 				self.gx = chunk_width*self.cx+self.i --warning fucking genius
 				self.gy = chunk_width*self.cy+self.o
-				self.health = 100				
-				self.animation = anim.newAnimation(frames_static,0.13)
-				self.offset_x = 0
+				self.health = 6				
+				self.animation = anim.newAnimation(frames_static,0.1)
+				self.offset_x = -3
 				self.falling = false
 				self.chop = false
 				self.stump = false 
@@ -20,6 +20,7 @@ local Tree = class('Tree', Object)
 				self.marked = false
 				self.tile = nil
 				self.active = false
+				self.offset_timer = 0
 				self.chunk_key = false
 				self.cut_down = function()
 					self.falling = false
@@ -29,15 +30,15 @@ local Tree = class('Tree', Object)
 					self.animation:pause()
 					end
 				self.finish = function() --TODO: turn into stump object
-					self.animation = anim.newAnimation({tile_quads["tree_pine_done/tree_pine_trunk"]},0.1)
+					self.animation = anim.newAnimation({tile_quads["tree_pine_trunk (1)"]},0.1)
 					self.animation:pause()
 					self.stump = true
 					self.animation:update(dt)
 					self.animated = false --mark for removal from list
 					self:animate() --animate, because the list will remove us before we show the stump
 					self.type = "Stump"
-					self.tile = tile_quads["tree_pine_done/tree_pine_trunk"]
-					self:destroy()
+					self.tile = tile_quads["tree_pine_trunk (1)"]
+					-- self:destroy()
 					end	
 				if self.gx < 2048 and self.gx >= 0 and self.gy < 2048 and self.gy >= 0 then
 					_G.collision_map[self.gx][self.gy] = 1 
@@ -48,6 +49,10 @@ local Tree = class('Tree', Object)
 			end			
 			function Tree:animate() 
 				self.animation:update(dt) 
+				self.offset_timer = self.offset_timer + 1
+				if self.offset_timer > 4 then
+					self.offset_x = -3
+				end
 			end
 			function Tree:destroy()
 				removeObjectAt(self.cx,self.cy,self.i,self.o, self)
@@ -57,9 +62,13 @@ local Tree = class('Tree', Object)
 			function Tree:cut()
 				if self.health > 0 then
 					status[self.cx][self.cy] = 1
-					self.health = self.health - 50
+					self.offset_x = 1
+					self.offset_timer = 0
+					self.health = self.health - 1
 				elseif self.health <= 0 and self.falling == false and self.chop == false and self.stump == false then				
 					status[self.cx][self.cy] = 1
+					self.offset_x = 4
+					self.offset_timer = 0
 					
 					self.animation = anim.newAnimation(frames_falling,0.13,self.cut_down)
 					self.falling = true
