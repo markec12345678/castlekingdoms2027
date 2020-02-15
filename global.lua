@@ -20,11 +20,16 @@
             love.timer.sleep(next_time - cur_time)
         end
 
-        function indexQuad(string, amount, start)
+        function indexQuad(string, end_amount, start, reverse)
             local start = start or 1
             local temp_array = {}
-            for i=start, amount do
+            for i=start, end_amount do
                 temp_array[#temp_array + 1] = tile_quads[string.." ("..tostring(i)..")"]
+            end
+            if reverse then
+                for i=2, end_amount do
+                    temp_array[#temp_array + 1] = tile_quads[string.." ("..tostring(end_amount - i)..")"]
+                end
             end
             return temp_array
         end
