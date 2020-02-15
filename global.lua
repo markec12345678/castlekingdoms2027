@@ -61,7 +61,7 @@
             return total_tiles_wide-1, result_array
         end
 
-        function indexQuad(string, end_amount, start, reverse)
+        function indexQuads(string, end_amount, start, reverse)
             local start = start or 1
             local temp_array = {}
             for i=start, end_amount do
@@ -162,7 +162,11 @@
         function setWalkable(gx,gy,walkable) 
             _G.channel.map_update:push({gx,gy,walkable})
         end
-        collision_map = ffi.new("unsigned char[2048][2048]", {})            
+        collision_map = ffi.new("unsigned char[2048][2048]", {})    
+        height_map = ffi.new("unsigned short[2048][2048]", {})    
+        function setHeight(gx,gy,height) 
+            height_map[gx][gy] = height
+        end           
     ----Resources
         resources = {
             ['wood'] = 0,
