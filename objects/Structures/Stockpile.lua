@@ -77,7 +77,7 @@ local max_quantity = {
 	["flour"] = 32
 }
 local Stockpile_alias = class('Stockpile_alias', Object)
-			function Stockpile_alias:initialize(tile,gx,gy,parent,offset_y,offset_x)
+			function Stockpile_alias:initialize(tile,gx,gy,parent,offset_y,offset_x, not_walkable)
                 local mytype = "Static structure"
 				local i = (gx) % (chunk_width)
 				local o = (gy) % (chunk_width)
@@ -88,7 +88,9 @@ local Stockpile_alias = class('Stockpile_alias', Object)
 				Object.initialize(self,cx,cy,i,o,x,y,mytype)
 				self.gx = gx
 				self.gy = gy
+				if not_walkable then
 					setWalkable(self.gx,self.gy,1)
+				end
 				self.parent = parent
                 self.qid = 0
                 self.tile = tile
@@ -120,18 +122,21 @@ local Stockpile = class('Stockpile', Object)
 				self.offset_y = -12
                 self.level = 1
                 self.rotation = 1
-				self.stockpile = {}
-				self.stockpile[1] = {id = nil, empty = true, type = nil, quantity = 0, index = 1}
-				self.stockpile[2] = {id = nil, empty = true, type = nil, quantity = 0, index = 2}
-				self.stockpile[3] = {id = nil, empty = true, type = nil, quantity = 0, index = 3}
-				self.stockpile[4] = {id = nil, empty = true, type = nil, quantity = 0, index = 4}
 		
 				for tile=1, tiles do
-					Stockpile_alias:new(quad_array[tile],self.gx,self.gy+(tiles-tile+1),self,-self.offset_y+8*(tiles-tile+1))
+					local not_walkable = true
+					if tile == 2 then
+						not_walkable = false
+					end
+					Stockpile_alias:new(quad_array[tile],self.gx,self.gy+(tiles-tile+1),self,-self.offset_y+8*(tiles-tile+1),nil, not_walkable)
 				end
 				
 				for tile=1, tiles do
-					Stockpile_alias:new(quad_array[tiles + 1 + tile],self.gx+tile,self.gy,self,-self.offset_y+8*tile,16)
+					local not_walkable = true
+					if tile == 2 then
+						not_walkable = false
+					end
+					Stockpile_alias:new(quad_array[tiles + 1 + tile],self.gx+tile,self.gy,self,-self.offset_y+8*tile,16,nil, not_walkable)
 				end
 				
 				local ccx, ccy
@@ -140,13 +145,25 @@ local Stockpile = class('Stockpile', Object)
 						ccx, ccy = terrainSetTileAt(self.gx+xx,self.gy+yy,math.random(6,8))
 					end
 				end
-                Stockpile_alias:new(tile_quads["empty"],self.gx+4,self.gy+4-1,self,12+8*4,16)
-                Stockpile_alias:new(tile_quads["empty"],self.gx+4,self.gy+4-2,self,12+8*4,16)
-                Stockpile_alias:new(tile_quads["empty"],self.gx+4-1,self.gy+4,self,12+8*4,16)
-                Stockpile_alias:new(tile_quads["empty"],self.gx+4-2,self.gy+4,self,12+8*4,16)
+                Stockpile_alias:new(tile_quads["empty"],self.gx+4,self.gy+4-1,self)
+                Stockpile_alias:new(tile_quads["empty"],self.gx+4-1,self.gy+4,self)
+                Stockpile_alias:new(tile_quads["empty"],self.gx+4-1,self.gy+4,self)
+                Stockpile_alias:new(tile_quads["empty"],self.gx+3,self.gy+1,self)
+                Stockpile_alias:new(tile_quads["empty"],self.gx+1,self.gy+3,self)
+                Stockpile_alias:new(tile_quads["empty"],self.gx+3,self.gy+3,self)
+                Stockpile_alias:new(tile_quads["empty"],self.gx+1,self.gy+1,self)
 				update_terrain(ccx,ccy)
+				for tile_x=0, tiles do
+					for tile_y=0, tiles do
+						setHeight(self.gx+tile_x, self.gy+tile_y, 10)
+					end
+				end
 
-
+				self.stockpile = {}
+				self.stockpile[1] = {id = nil, empty = true, type = nil, quantity = 0, index = 1}
+				self.stockpile[2] = {id = nil, empty = true, type = nil, quantity = 0, index = 2}
+				self.stockpile[3] = {id = nil, empty = true, type = nil, quantity = 0, index = 3}
+				self.stockpile[4] = {id = nil, empty = true, type = nil, quantity = 0, index = 4}
 				self.stockpile[1].id = Stockpile_alias:new(tile_quads["empty"],self.gx+1,self.gy+1,self,32-4,-16)
 				self.stockpile[2].id = Stockpile_alias:new(tile_quads["empty"],self.gx+1,self.gy+4,self,32-4,-16)
 				self.stockpile[3].id = Stockpile_alias:new(tile_quads["empty"],self.gx+4,self.gy+1,self,32-4,-16)

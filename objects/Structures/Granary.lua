@@ -1,6 +1,8 @@
 local object, tile_quads, object_batch = ...
 local Object = require("objects.Object")
 
+local tiles, quad_array = indexBuildingQuads("granary (1)")
+
 local quad_map = {
 	["apples"] = {
 	 	[1] = tile_quads[1667],
@@ -154,6 +156,18 @@ local quad_map = {
 	 },	
 }
 
+for i=1, 8 do
+	quad_map["apples"][#quad_map["apples"] + 1] = tile_quads["apple_goods ("..tostring(i)..")"]
+end
+
+for i=1, 32 do
+	quad_map["bread"][#quad_map["bread"] + 1] = tile_quads["bread_goods ("..tostring(i)..")"]
+end
+
+for i=1, 16 do
+	quad_map["cheese"][#quad_map["cheese"] + 1] = tile_quads["cheese_goods ("..tostring(i)..")"]
+end
+
 local offset_y = {
 	["apples"] = {
 		-2,-2,-2,
@@ -231,7 +245,7 @@ local Granary = class('Granary', Object)
 					setWalkable(self.gx,self.gy,1)
 				self.health = 1000
                 self.qid = nil
-                self.tile = tile_quads[2323]
+				self.tile = quad_array[tiles + 1]
 				self.offset_x = 0
 				self.offset_y = -64-14
                 self.level = 1
@@ -250,14 +264,14 @@ local Granary = class('Granary', Object)
 					end
 				end
 				update_terrain(ccx,ccy)
-
-                Granary_alias:new(tile_quads[2320],self.gx,self.gy+3,self,-(-64-14)+8*3)
-                Granary_alias:new(tile_quads[2321],self.gx,self.gy+2,self,-(-64-14)+8*2)
-                Granary_alias:new(tile_quads[2322],self.gx,self.gy+1,self,-(-64-14)+8*1)
-
-                Granary_alias:new(tile_quads[2324],self.gx+1,self.gy,self,-(-64-14)+8*1,14)
-                Granary_alias:new(tile_quads[2325],self.gx+2,self.gy,self,-(-64-14)+8*2,14)
-                Granary_alias:new(tile_quads[2326],self.gx+3,self.gy,self,-(-64-14)+8*3,14)
+		
+				for tile=1, tiles do
+					Granary_alias:new(quad_array[tile],self.gx,self.gy+(tiles-tile+1),self,-self.offset_y+8*(tiles-tile+1))
+				end
+				
+				for tile=1, tiles do
+					Granary_alias:new(quad_array[tiles + 1 + tile],self.gx+tile,self.gy,self,-self.offset_y+8*tile,14)
+				end
 
                 Granary_alias:new(tile_quads["empty"],self.gx+3,self.gy+3,self,0,0)
                 Granary_alias:new(tile_quads["empty"],self.gx+2,self.gy+3,self,0,0)

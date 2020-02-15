@@ -1,9 +1,9 @@
 local object_batch, active_objects, tile_quads, object = ...
 local Object = require("objects.Object")
 
-local frames_static = indexQuad("tree_pine_large", 25, nil, true)
-local frames_falling = indexQuad("tree_pine_large_falling", 7)
-local frames_chop = indexQuad("tree_pine_large_falling", 17, 8)
+local frames_static = indexQuads("tree_pine_large", 25, nil, true)
+local frames_falling = indexQuads("tree_pine_large_falling", 7)
+local frames_chop = indexQuads("tree_pine_large_falling", 17, 8)
 
 local Tree = class('Tree', Object)
 			function Tree:initialize(cx,cy,i,o,x,y,type)
