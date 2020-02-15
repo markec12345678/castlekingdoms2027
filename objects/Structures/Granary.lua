@@ -4,156 +4,9 @@ local Object = require("objects.Object")
 local tiles, quad_array = indexBuildingQuads("granary (1)")
 
 local quad_map = {
-	["apples"] = {
-	 	[1] = tile_quads[1667],
-		[2] = tile_quads[1666],
-	 	[3] = tile_quads[1665],
-	 	[4] = tile_quads[1664],
-	 	[5] = tile_quads[1663],
-	 	[6] = tile_quads[1662],
-	 	[7] = tile_quads[1661],
-	 	[8] = tile_quads[1660],
-	 	[9] = tile_quads[1659],
-	 	[10] = tile_quads[1657],
-	 	[11] = tile_quads[1656],
-	 	[12] = tile_quads[1655],
-	 	[13] = tile_quads[1654],
-	 	[14] = tile_quads[1653],
-	 	[15] = tile_quads[1652],
-	 	[16] = tile_quads[1651],
-	 	[17] = tile_quads[1650],
-	 	[18] = tile_quads[1649],
-	 	[19] = tile_quads[1648],
-	 	[20] = tile_quads[1646],
-	 	[21] = tile_quads[1645],
-	 	[22] = tile_quads[1644],
-	 	[23] = tile_quads[1643],
-	 	[24] = tile_quads[1642],
-	 	[25] = tile_quads[1641],
-	 	[26] = tile_quads[1640],
-	 	[27] = tile_quads[1639],
-	 	[28] = tile_quads[1638],
-	 	[29] = tile_quads[1637],	 
-	 	[30] = tile_quads[1635],
-	 	[31] = tile_quads[1634],
-	 	[32] = tile_quads[1633],
-	 	[33] = tile_quads[1632],
-	 	[34] = tile_quads[1631],
-	 	[35] = tile_quads[1630],
-	 	[36] = tile_quads[1629],
-	 	[37] = tile_quads[1628],
-	 	[38] = tile_quads[1627],
-	 	[39] = tile_quads[1626],
-	 	[40] = tile_quads[1672],
-	 	[41] = tile_quads[1671],
-	 	[42] = tile_quads[1670],
-	 	[43] = tile_quads[1669],
-	 	[44] = tile_quads[1668],
-	 	[45] = tile_quads[1658],
-	 	[46] = tile_quads[1647],
-		[47] = tile_quads[1636],
-		[48] = tile_quads[1625], 
-	 },
-	["bread"] = {
-		[1] = tile_quads[1586],
-		[2] = tile_quads[1585],
-		[3] = tile_quads[1584],
-		[4] = tile_quads[1583],
-		[5] = tile_quads[1582],
-		[6] = tile_quads[1581],
-		[7] = tile_quads[1580],
-		[8] = tile_quads[1579],
-		[9] = tile_quads[1578],
-		[10] = tile_quads[1576],
-		[11] = tile_quads[1575],
-		[12] = tile_quads[1574],
-		[13] = tile_quads[1573],
-		[14] = tile_quads[1572],
-		[15] = tile_quads[1571],
-		[16] = tile_quads[1570],
-		[17] = tile_quads[1569],
-		[18] = tile_quads[1568],
-		[19] = tile_quads[1567],
-		[20] = tile_quads[1565],
-		[21] = tile_quads[1564],
-		[22] = tile_quads[1563],
-		[23] = tile_quads[1562],
-		[24] = tile_quads[1561],
-		[25] = tile_quads[1560],
-		[26] = tile_quads[1559],
-		[27] = tile_quads[1558],
-		[28] = tile_quads[1557],
-		[29] = tile_quads[1556],
-		[30] = tile_quads[1554],
-		[31] = tile_quads[1553],
-		[32] = tile_quads[1552],
-		[33] = tile_quads[1551],
-		[34] = tile_quads[1550],
-		[35] = tile_quads[1549],
-		[36] = tile_quads[1548],
-		[37] = tile_quads[1547],
-		[38] = tile_quads[1546],
-		[39] = tile_quads[1545],
-		[40] = tile_quads[1591],
-		[41] = tile_quads[1590],
-		[42] = tile_quads[1589],
-		[43] = tile_quads[1588],
-		[44] = tile_quads[1587],
-		[45] = tile_quads[1577],
-		[46] = tile_quads[1566],
-		[47] = tile_quads[1555],
-		[48] = tile_quads[1544],
-	 },	
-	["cheese"] = {
-		[1] = tile_quads[1586],
-		[2] = tile_quads[1585],
-		[3] = tile_quads[1584],
-		[4] = tile_quads[1583],
-		[5] = tile_quads[1582],
-		[6] = tile_quads[1581],
-		[7] = tile_quads[1580],
-		[8] = tile_quads[1579],
-		[9] = tile_quads[1578],
-		[10] = tile_quads[1576],
-		[11] = tile_quads[1575],
-		[12] = tile_quads[1574],
-		[13] = tile_quads[1573],
-		[14] = tile_quads[1572],
-		[15] = tile_quads[1571],
-		[16] = tile_quads[1570],
-		[17] = tile_quads[1569],
-		[18] = tile_quads[1568],
-		[19] = tile_quads[1567],
-		[20] = tile_quads[1565],
-		[21] = tile_quads[1564],
-		[22] = tile_quads[1563],
-		[23] = tile_quads[1562],
-		[24] = tile_quads[1561],
-		[25] = tile_quads[1560],
-		[26] = tile_quads[1559],
-		[27] = tile_quads[1558],
-		[28] = tile_quads[1557],
-		[29] = tile_quads[1556],
-		[30] = tile_quads[1554],
-		[31] = tile_quads[1553],
-		[32] = tile_quads[1552],
-		[33] = tile_quads[1551],
-		[34] = tile_quads[1550],
-		[35] = tile_quads[1549],
-		[36] = tile_quads[1548],
-		[37] = tile_quads[1547],
-		[38] = tile_quads[1546],
-		[39] = tile_quads[1545],
-		[40] = tile_quads[1591],
-		[41] = tile_quads[1590],
-		[42] = tile_quads[1589],
-		[43] = tile_quads[1588],
-		[44] = tile_quads[1587],
-		[45] = tile_quads[1577],
-		[46] = tile_quads[1566],
-		[47] = tile_quads[1555],
-		[48] = tile_quads[1544],
-	 },	
+	["apples"] = {},
+	["bread"] = {},	
+	["cheese"] = {},	
 }
 
 for i=1, 8 do
@@ -170,35 +23,17 @@ end
 
 local offset_y = {
 	["apples"] = {
-		-2,-2,-2,
-		-4,-4,-4,-4,
-		-5,-5,-5,-5,
-		-7,-7,-7,-7,
-		-10,-10,-10,-10,
-		-11,-11,-11,-11,
-		-13,-13,-13,-13,
-		-15,-15,-15,-15,
-		-17,-17,-17,-17,
-		-20,-20,-20,-20,
-		-21,-21,-21,-21,
-		-23,-23,-23,-23,
-		-25 },
+		0,-1, -7,-11,-11,
+		-16,-22,-23
+	},
 	["bread"] = {
-		-9,-9,-9,-9,-9,-9,-9,-9,-9,
-		-18,-18,-18,-18,-18,-18,-18,-18,-18,
-		-26,-26,-26,-26,-26,-26,-26,-26,-26,
-		-35,-35,-35,-35,-35,-35,-35,-35,-35,
-		-43,-43,-43,-43,-43,-43,-43,-43,-43,
-		-47,-47,-47,-47
-		},
+		0, -3, -7, -10, -14, -14, -14, -14, -14, -14, -14, -14,
+		-18+4, -18+4, -18+4, -18+4, -21+4, -24+4, -28+4, -31+4, -31+4,-31+4,-31+4,-31+4,-31+4,-31+4,-31+4,-31+4,-31+4,-31+4,-31+4,-31+4,
+	},
     ["cheese"] = {
-		-9,-9,-9,-9,-9,-9,-9,-9,-9,
-		-18,-18,-18,-18,-18,-18,-18,-18,-18,
-		-26,-26,-26,-26,-26,-26,-26,-26,-26,
-		-35,-35,-35,-35,-35,-35,-35,-35,-35,
-		-43,-43,-43,-43,-43,-43,-43,-43,-43,
-		-47,-47,-47,-47
-		},
+		0,-3,-6,-12,-12,-12,-18,-18,-18,-24,-24,-24,-30,-30,-30,
+		-33
+	},
 }
 
 local max_quantity = {
@@ -226,9 +61,9 @@ local Granary_alias = class('Granary_alias', Object)
 				self.additional_offset_y = 0
 				self.offset_x = offset_x or 0
 				self.offset_y = self.additional_offset_y-self.base_offset_y 
-				for k,v in ipairs(_G.stockpile.node_list) do
+				for k,v in ipairs(_G.foodpile.node_list) do
 					if v.gx == self.gx and v.gy == self.gy then
-						table.remove(_G.stockpile.node_list, k)
+						table.remove(_G.foodpile.node_list, k)
 						break
 					end
 				end
@@ -251,11 +86,11 @@ local Granary = class('Granary', Object)
                 self.level = 1
                 self.rotation = 1
 				self.hover_action = true
-				-- self.stockpile = {}
-				-- self.stockpile[1] = {id = nil, empty = true, type = nil, quantity = 0, index = 1}
-				-- self.stockpile[2] = {id = nil, empty = true, type = nil, quantity = 0, index = 2}
-				-- self.stockpile[3] = {id = nil, empty = true, type = nil, quantity = 0, index = 3}
-				-- self.stockpile[4] = {id = nil, empty = true, type = nil, quantity = 0, index = 4}
+				self.foodpile = {}
+				self.foodpile[1] = {id = nil, empty = true, type = nil, quantity = 0, index = 1}
+				self.foodpile[2] = {id = nil, empty = true, type = nil, quantity = 0, index = 2}
+				self.foodpile[3] = {id = nil, empty = true, type = nil, quantity = 0, index = 3}
+				self.foodpile[4] = {id = nil, empty = true, type = nil, quantity = 0, index = 4}
 				
 				local ccx, ccy
                 for xx = -1, 4 do
@@ -280,59 +115,101 @@ local Granary = class('Granary', Object)
                 Granary_alias:new(tile_quads["empty"],self.gx+3,self.gy+1,self,0,0)
 
 
-				-- self.stockpile[1].id = Granary_alias:new(tile_quads["empty"],self.gx+1,self.gy+1,self,32-4,-16)
-				-- self.stockpile[2].id = Granary_alias:new(tile_quads["empty"],self.gx+1,self.gy+4,self,32-4,-16)
-				-- self.stockpile[3].id = Granary_alias:new(tile_quads["empty"],self.gx+4,self.gy+1,self,32-4,-16)
-				-- self.stockpile[4].id = Granary_alias:new(tile_quads["empty"],self.gx+4,self.gy+4,self,32-4,-16)
-				-- table.insert(_G.stockpile.node_list,{gx = self.gx+2, gy = self.gy+5})
-				-- table.insert(_G.stockpile.node_list,{gx = self.gx-1, gy = self.gy+2})
-				-- table.insert(_G.stockpile.node_list,{gx = self.gx+2, gy = self.gy-1})
-				-- table.insert(_G.stockpile.node_list,{gx = self.gx+5, gy = self.gy+2})
+				self.foodpile[1].id = Granary_alias:new(tile_quads["empty"],self.gx+1,self.gy+1,self,32-4)
+				self.foodpile[2].id = Granary_alias:new(tile_quads["empty"],self.gx+1,self.gy+3,self,32-4)
+				self.foodpile[3].id = Granary_alias:new(tile_quads["empty"],self.gx+3,self.gy+1,self,32-4)
+				self.foodpile[4].id = Granary_alias:new(tile_quads["empty"],self.gx+3,self.gy+3,self,32-4)
+				table.insert(_G.foodpile.node_list,{gx = self.gx+2, gy = self.gy+3})
+				table.insert(_G.foodpile.node_list,{gx = self.gx-1, gy = self.gy+2})
+				table.insert(_G.foodpile.node_list,{gx = self.gx+2, gy = self.gy-1})
+				table.insert(_G.foodpile.node_list,{gx = self.gx+3, gy = self.gy+2})
 
-				-- _G.stockpile.list[(#stockpile.list or 0) + 1] = self
+				_G.foodpile.list[(#foodpile.list or 0) + 1] = self
 			end
-			-- function Granary:store(resource)
-			-- 	local found = false
-			-- 	for index = 1, 4 do
-			-- 		if self.stockpile[index].type == resource and self.stockpile[index].quantity < max_quantity[resource] then
-			-- 			self.stockpile[index].quantity = self.stockpile[index].quantity + 1					
-			-- 			found = true
-			-- 			self:update_stockpile(index)
-			-- 		end
-			-- 	end 
-			-- 	if not found then
-			-- 		for index = 1, 4 do
-			-- 			if self.stockpile[index].empty then
-			-- 				self.stockpile[index].empty = false
-			-- 				self.stockpile[index].type = resource
-			-- 				self.stockpile[index].quantity = 1
-			-- 				self.stockpile[index].key = #_G.stockpile.resources[resource]+1
-			-- 				_G.stockpile.resources[resource][#_G.stockpile.resources[resource]+1] = self.stockpile[index]
-			-- 				self:update_stockpile(index)
-			-- 				found = true
-			-- 				break
-			-- 			end
-			-- 		end
-			-- 	end
-			-- 	if not found then return true end
-			-- end
-			-- function Granary:update_stockpile(index)
-			-- 	local pile = self.stockpile[index]
-			-- 	pile.id.tile = quad_map[pile.type][pile.quantity]
-			-- 	pile.id.additional_offset_y = offset_y[pile.type][pile.quantity]
-			-- 	pile.id.offset_y = pile.id.additional_offset_y - pile.id.base_offset_y
-			-- 	if object_batch[pile.id.cx][pile.id.cy] then
-			-- 		object_batch[pile.id.cx][pile.id.cy]
-			-- 		:set(
-			-- 			pile.id.qid, 
-			-- 			pile.id.tile,
-			-- 			pile.id.x,
-			-- 			pile.id.y
-			-- 			)
-			-- 	end
-			-- 	if pile.quantity == max_quantity[pile.type] then
-			-- 		table.remove(_G.stockpile.resources[pile.type],pile.key)
-			-- 	end
-			-- end
+			function Granary:store(food)
+				local found = false
+				for index = 1, 4 do
+					if self.foodpile[index].type == food and self.foodpile[index].quantity < max_quantity[food] then
+						self.foodpile[index].quantity = self.foodpile[index].quantity + 1				
+						_G.food[food] = _G.food[food] + 1			
+						found = true
+						self:update_foodpile(index)
+						return true
+					end
+				end 
+				if not found then
+					for index = 1, 4 do
+						if self.foodpile[index].empty then
+							self.foodpile[index].empty = false
+							self.foodpile[index].type = food
+							self.foodpile[index].quantity = 1	
+							_G.not_full_foods[self.foodpile[index].type] = _G.not_full_foods[self.foodpile[index].type] + 1
+							_G.food[food] = _G.food[food] + 1	
+							self.foodpile[index].key = #_G.foodpile.food[food]+1
+							_G.foodpile.food[food][self.foodpile[index].key] = self.foodpile[index]
+							self:update_foodpile(index)
+							found = true
+							break
+						end
+					end
+				end
+				if not found then return false else return true end
+			end
+			function Granary:take(food, from)
+				if from.type == food and from.quantity > 0 then
+					if from.quantity == max_quantity[food] then
+						_G.not_full_foods[food] = _G.not_full_foods[food] + 1
+					end
+					from.quantity = from.quantity - 1		
+					_G.food[food] = _G.food[food] - 1		
+					found = true
+					self:update_foodpile(from)
+					return true
+				end
+				local found = false
+				for index = 1, 4 do
+					if self.foodpile[index].type == food and self.foodpile[index].quantity > 0 then
+						self.foodpile[index].quantity = self.foodpile[index].quantity - 1			
+						_G.food[food] = _G.food[food] - 1
+						found = true
+						self:update_foodpile(index)
+						return true
+					end
+				end 
+				if not found then
+					return false
+				end
+				return true
+			end
+			function Granary:update_foodpile(index)
+				local pile
+				if type(index) ~= "number" then pile = index else				 
+					pile = self.foodpile[index]
+				end
+				if pile.quantity == 0 then
+					table.remove(_G.foodpile.food[pile.type],pile.key)
+					_G.not_full_foods[pile.type] = _G.not_full_foods[pile.type] - 1
+					pile.quantity = -1
+					pile.type = nil
+					pile.empty = true				
+					pile.id.tile = tile_quads["empty"]
+					return
+				end
+				pile.id.tile = quad_map[pile.type][pile.quantity]
+				pile.id.additional_offset_y = offset_y[pile.type][pile.quantity]
+				pile.id.offset_y = pile.id.additional_offset_y - pile.id.base_offset_y
+				if object_batch[pile.id.cx][pile.id.cy] then
+					object_batch[pile.id.cx][pile.id.cy]
+					:set(
+						pile.id.qid, 
+						pile.id.tile,
+						pile.id.x+pile.id.offset_x,
+						pile.id.y+pile.id.offset_y
+						)
+				end
+				if pile.quantity == max_quantity[pile.type] then
+					_G.not_full_foods[pile.type] = _G.not_full_foods[pile.type] - 1
+				end
+			end
 
 return Granary

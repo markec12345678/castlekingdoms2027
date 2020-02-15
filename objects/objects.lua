@@ -78,6 +78,7 @@ package.loaded['objects.Structures.Granary'] 		= Granary
 package.loaded['objects.Structures.Quarry'] 		= Quarry
 package.loaded['objects.Structures.Mine'] 			= Mine
 _G.stockpile = require('objects.Controllers.StockpileController')
+_G.foodpile = require('objects.Controllers.FoodController')
 --- NOTE --------------------------
 --- NOTE --------------------------
 --- NOTE Object classes END ---

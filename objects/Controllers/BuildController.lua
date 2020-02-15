@@ -302,6 +302,15 @@ local BuildController = class('BuildController')
                     _G.stockpile:store('wood')
                 elseif self.building == "granary" then                        
                     building[self.building]:build(cx,cy,x,y)
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
                     self.active = false
                     self.start = false
                 end

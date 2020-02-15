@@ -106,7 +106,11 @@ function game:keyreleased(key, scancode)
 	elseif key == "y" then
 	    _G.BuildController:set('iron_mine')
 	elseif key == "r" then
+		_G.foodpile:store('bread')
+		_G.foodpile:store('apples')
+		_G.foodpile:store('cheese')
 	    print(inspect(_G.resources))
+	    print(inspect(_G.food))
 	elseif key == "f" then
 	    local fullscreen, fstype = love.window.getFullscreen()
 	    if fullscreen then
