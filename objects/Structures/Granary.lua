@@ -91,6 +91,11 @@ local Granary = class('Granary', Object)
 				self.foodpile[2] = {id = nil, empty = true, type = nil, quantity = 0, index = 2}
 				self.foodpile[3] = {id = nil, empty = true, type = nil, quantity = 0, index = 3}
 				self.foodpile[4] = {id = nil, empty = true, type = nil, quantity = 0, index = 4}
+				self.foodpile[5] = {id = nil, empty = true, type = nil, quantity = 0, index = 5}
+				self.foodpile[6] = {id = nil, empty = true, type = nil, quantity = 0, index = 6}
+				self.foodpile[7] = {id = nil, empty = true, type = nil, quantity = 0, index = 7}
+				self.foodpile[8] = {id = nil, empty = true, type = nil, quantity = 0, index = 8}
+				self.foodpile[9] = {id = nil, empty = true, type = nil, quantity = 0, index = 9}
 				
 				local ccx, ccy
                 for xx = -1, 4 do
@@ -116,19 +121,24 @@ local Granary = class('Granary', Object)
 
 
 				self.foodpile[1].id = Granary_alias:new(tile_quads["empty"],self.gx+1,self.gy+1,self,32-4)
-				self.foodpile[2].id = Granary_alias:new(tile_quads["empty"],self.gx+1,self.gy+3,self,32-4)
+				self.foodpile[2].id = Granary_alias:new(tile_quads["empty"],self.gx+2,self.gy+1,self,32-4)
 				self.foodpile[3].id = Granary_alias:new(tile_quads["empty"],self.gx+3,self.gy+1,self,32-4)
-				self.foodpile[4].id = Granary_alias:new(tile_quads["empty"],self.gx+3,self.gy+3,self,32-4)
-				table.insert(_G.foodpile.node_list,{gx = self.gx+2, gy = self.gy+3})
-				table.insert(_G.foodpile.node_list,{gx = self.gx-1, gy = self.gy+2})
-				table.insert(_G.foodpile.node_list,{gx = self.gx+2, gy = self.gy-1})
-				table.insert(_G.foodpile.node_list,{gx = self.gx+3, gy = self.gy+2})
+				self.foodpile[4].id = Granary_alias:new(tile_quads["empty"],self.gx+1,self.gy+2,self,32-4)
+				self.foodpile[5].id = Granary_alias:new(tile_quads["empty"],self.gx+2,self.gy+2,self,32-4)
+				self.foodpile[6].id = Granary_alias:new(tile_quads["empty"],self.gx+3,self.gy+2,self,32-4)
+				self.foodpile[7].id = Granary_alias:new(tile_quads["empty"],self.gx+1,self.gy+3,self,32-4)
+				self.foodpile[8].id = Granary_alias:new(tile_quads["empty"],self.gx+2,self.gy+3,self,32-4)
+				self.foodpile[9].id = Granary_alias:new(tile_quads["empty"],self.gx+3,self.gy+3,self,32-4)
+				table.insert(_G.foodpile.node_list,{gx = self.gx+4, gy = self.gy+4})
+				table.insert(_G.foodpile.node_list,{gx = self.gx-1, gy = self.gy+4})
+				table.insert(_G.foodpile.node_list,{gx = self.gx+4, gy = self.gy-1})
+				table.insert(_G.foodpile.node_list,{gx = self.gx-1, gy = self.gy-1})
 
 				_G.foodpile.list[(#foodpile.list or 0) + 1] = self
 			end
 			function Granary:store(food)
 				local found = false
-				for index = 1, 4 do
+				for index = 1, 9 do
 					if self.foodpile[index].type == food and self.foodpile[index].quantity < max_quantity[food] then
 						self.foodpile[index].quantity = self.foodpile[index].quantity + 1				
 						_G.food[food] = _G.food[food] + 1			
@@ -138,7 +148,7 @@ local Granary = class('Granary', Object)
 					end
 				end 
 				if not found then
-					for index = 1, 4 do
+					for index = 1, 9 do
 						if self.foodpile[index].empty then
 							self.foodpile[index].empty = false
 							self.foodpile[index].type = food
@@ -167,7 +177,7 @@ local Granary = class('Granary', Object)
 					return true
 				end
 				local found = false
-				for index = 1, 4 do
+				for index = 1, 9 do
 					if self.foodpile[index].type == food and self.foodpile[index].quantity > 0 then
 						self.foodpile[index].quantity = self.foodpile[index].quantity - 1			
 						_G.food[food] = _G.food[food] - 1
