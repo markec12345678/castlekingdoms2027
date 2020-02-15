@@ -20,6 +20,47 @@
             love.timer.sleep(next_time - cur_time)
         end
 
+        function indexBuildingQuads(quad_string)
+            -- TODO: Probably wont work for non-square buildings
+            local result_array = {}
+            local quad = tile_quads[quad_string]
+            local x, y, w, h = quad:getViewport()
+            local total_tiles_wide = math.ceil(w / _G.tile_width)
+            local middle_count = 0
+            for i=1, total_tiles_wide-1 do
+                result_array[#result_array + 1] =
+                love.graphics.newQuad(
+                    x+16*(i-1),
+                    y,
+                    _G.tile_width/2,
+                    h,
+                    imageW,
+                    imageH
+                )
+                middle_count = i
+            end
+            result_array[#result_array + 1] = love.graphics.newQuad(
+                x+16*(middle_count),
+                y,
+                _G.tile_width,
+                h,
+                imageW,
+                imageH
+            )
+            for i=middle_count+2, middle_count + total_tiles_wide do
+                result_array[#result_array + 1] = love.graphics.newQuad(
+                    x+16*(i), 
+                    y, 
+                    _G.tile_width/2, 
+                    h, 
+                    imageW,
+                    imageH
+                )
+            end
+
+            return total_tiles_wide-1, result_array
+        end
+
         function indexQuad(string, end_amount, start, reverse)
             local start = start or 1
             local temp_array = {}
