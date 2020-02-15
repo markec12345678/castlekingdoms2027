@@ -16,28 +16,29 @@ local fr_walking_south = indexQuad("body_woodcutter_walk_s", 16)
 local fr_walking_southeast = indexQuad("body_woodcutter_walk_se", 16)
 local fr_walking_southwest = indexQuad("body_woodcutter_walk_sw", 16)
 local fr_walking_west = indexQuad("body_woodcutter_walk_w", 16)
-local fr_cutting_northeast = indexQuad("body_woodcutter_cut_ne", 16)
+local fr_cutting_northeast = indexQuad("body_woodcutter_cut_ne", 12)
 
 
 local Woodcutter = class('Woodcutter', Unit)
 function Woodcutter:initialize(cx,cy,i,o,x,y,type)
 	Unit.initialize(self,cx,cy,i,o,x,y,type, "No trees")
-	self.an_walking_plank_west = anim.newAnimation(fr_walking_plank_west,0.11) 
-	self.an_walking_west = anim.newAnimation(fr_walking_west,0.11)
-	self.an_walking_plank_southwest = anim.newAnimation(fr_walking_plank_southwest,0.11)
-	self.an_walking_southwest = anim.newAnimation(fr_walking_southwest,0.11)
-	self.an_walking_plank_northwest = anim.newAnimation(fr_walking_plank_northwest,0.11)
-	self.an_walking_northwest = anim.newAnimation(fr_walking_northwest,0.11)
-	self.an_walking_plank_north = anim.newAnimation(fr_walking_plank_north,0.11)
-	self.an_walking_north = anim.newAnimation(fr_walking_north,0.11)
-	self.an_walking_plank_south = anim.newAnimation(fr_walking_plank_south,0.11)
-	self.an_walking_south = anim.newAnimation(fr_walking_south,0.11)
-	self.an_walking_plank_east = anim.newAnimation(fr_walking_plank_east,0.11)
-	self.an_walking_east = anim.newAnimation(fr_walking_east,0.11)
-	self.an_walking_plank_southeast = anim.newAnimation(fr_walking_plank_southeast,0.11)
-	self.an_walking_southeast = anim.newAnimation(fr_walking_southeast,0.11)
-	self.an_walking_plank_northeast = anim.newAnimation(fr_walking_plank_northeast,0.11)
-	self.an_walking_northeast = anim.newAnimation(fr_walking_northeast,0.11)
+	local walking_speed_anim = 0.05
+	self.an_walking_plank_west = anim.newAnimation(fr_walking_plank_west, walking_speed_anim) 
+	self.an_walking_west = anim.newAnimation(fr_walking_west, walking_speed_anim)
+	self.an_walking_plank_southwest = anim.newAnimation(fr_walking_plank_southwest, walking_speed_anim)
+	self.an_walking_southwest = anim.newAnimation(fr_walking_southwest, walking_speed_anim)
+	self.an_walking_plank_northwest = anim.newAnimation(fr_walking_plank_northwest, walking_speed_anim)
+	self.an_walking_northwest = anim.newAnimation(fr_walking_northwest, walking_speed_anim)
+	self.an_walking_plank_north = anim.newAnimation(fr_walking_plank_north, walking_speed_anim)
+	self.an_walking_north = anim.newAnimation(fr_walking_north, walking_speed_anim)
+	self.an_walking_plank_south = anim.newAnimation(fr_walking_plank_south, walking_speed_anim)
+	self.an_walking_south = anim.newAnimation(fr_walking_south, walking_speed_anim)
+	self.an_walking_plank_east = anim.newAnimation(fr_walking_plank_east, walking_speed_anim)
+	self.an_walking_east = anim.newAnimation(fr_walking_east, walking_speed_anim)
+	self.an_walking_plank_southeast = anim.newAnimation(fr_walking_plank_southeast, walking_speed_anim)
+	self.an_walking_southeast = anim.newAnimation(fr_walking_southeast, walking_speed_anim)
+	self.an_walking_plank_northeast = anim.newAnimation(fr_walking_plank_northeast, walking_speed_anim)
+	self.an_walking_northeast = anim.newAnimation(fr_walking_northeast, walking_speed_anim)
 	self.state = 'Looking to chop tree'
 	self.marked = 0
 	self.count = 1
@@ -227,7 +228,7 @@ function Woodcutter:update()
 			if self.state == "Going to tree" then
 				if self.count == self.nd_len then
 					self.state = "Cutting down"
-					self.animation = anim.newAnimation(fr_cutting_northeast,0.12,self.cut)
+					self.animation = anim.newAnimation(fr_cutting_northeast,0.10,self.cut)
 					self.nd = {}
 					self.waypoint_x, self.waypoint_y = nil, nil
 					self.move_dir = "none"
