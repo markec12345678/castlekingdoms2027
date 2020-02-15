@@ -1,126 +1,22 @@
 local object, tile_quads = ...
 local Unit = require("objects.Units.Unit")
 
-local fr_walking_east = {
-    tile_quads[1857],tile_quads[1858],tile_quads[1859],
-    tile_quads[1860],tile_quads[1861],tile_quads[1862],
-    tile_quads[1863],tile_quads[1864],
-}
-local fr_walking_north = {
-    tile_quads[1865],tile_quads[1866],tile_quads[1867],
-    tile_quads[1868],tile_quads[1869],tile_quads[1870],
-    tile_quads[1871],tile_quads[1872],
-}
-local fr_walking_northeast = {
-    tile_quads[1873],tile_quads[1874],tile_quads[1875],
-    tile_quads[1876],tile_quads[1877],tile_quads[1878],
-    tile_quads[1879],tile_quads[1880],
-}
-local fr_walking_northwest = {
-    tile_quads[1881],tile_quads[1882],tile_quads[1883],
-    tile_quads[1884],tile_quads[1885],tile_quads[1886],
-    tile_quads[1887],tile_quads[1888],
-}
-local fr_walking_south = {
-    tile_quads[1889],tile_quads[1890],tile_quads[1891],
-    tile_quads[1892],tile_quads[1893],tile_quads[1894],
-    tile_quads[1895],tile_quads[1895],
-}
-local fr_walking_southeast = {
-    tile_quads[1897],tile_quads[1898],tile_quads[1899],
-    tile_quads[1900],tile_quads[1901],tile_quads[1902],
-    tile_quads[1903],tile_quads[1904],
-}
-local fr_walking_southwest = {
-    tile_quads[1905],tile_quads[1906],tile_quads[1907],
-    tile_quads[1908],tile_quads[1909],tile_quads[1910],
-    tile_quads[1911],tile_quads[1912],
-}
-local fr_walking_west = {
-    tile_quads[1913],tile_quads[1914],tile_quads[1915],
-    tile_quads[1916],tile_quads[1917],tile_quads[1918],
-    tile_quads[1919],tile_quads[1920],
-}
-local fr_walking_stone_east = {
-	tile_quads[1793],
-	tile_quads[1794],
-	tile_quads[1795],
-	tile_quads[1796],
-	tile_quads[1797],
-	tile_quads[1798],
-	tile_quads[1799],
-	tile_quads[1800],
-}
-local fr_walking_stone_north = {
-	tile_quads[1801],
-	tile_quads[1802],
-	tile_quads[1803],
-	tile_quads[1804],
-	tile_quads[1805],
-	tile_quads[1806],
-	tile_quads[1807],
-	tile_quads[1808],
-}
-local fr_walking_stone_northeast = {
-	tile_quads[1809],
-	tile_quads[1810],
-	tile_quads[1811],
-	tile_quads[1812],
-	tile_quads[1813],
-	tile_quads[1814],
-	tile_quads[1815],
-	tile_quads[1816],
-}
-local fr_walking_stone_northwest = {
-	tile_quads[1817],
-	tile_quads[1818],
-	tile_quads[1819],
-	tile_quads[1820],
-	tile_quads[1821],
-	tile_quads[1822],
-	tile_quads[1823],
-	tile_quads[1824],
-}
-local fr_walking_stone_south = {
-	tile_quads[1825],
-	tile_quads[1826],
-	tile_quads[1827],
-	tile_quads[1828],
-	tile_quads[1829],
-	tile_quads[1830],
-	tile_quads[1831],
-	tile_quads[1832],
-}
-local fr_walking_stone_southeast = {
-	tile_quads[1833],
-	tile_quads[1834],
-	tile_quads[1835],
-	tile_quads[1836],
-	tile_quads[1837],
-	tile_quads[1838],
-	tile_quads[1839],
-	tile_quads[1840],
-}
-local fr_walking_stone_southwest = {
-	tile_quads[1841],
-	tile_quads[1842],
-	tile_quads[1843],
-	tile_quads[1844],
-	tile_quads[1845],
-	tile_quads[1846],
-	tile_quads[1847],
-	tile_quads[1848],
-}
-local fr_walking_stone_west = {
-	tile_quads[1849],
-	tile_quads[1850],
-	tile_quads[1851],
-	tile_quads[1852],
-	tile_quads[1853],
-	tile_quads[1854],
-	tile_quads[1855],
-	tile_quads[1856],
-}
+local fr_walking_stone_east = indexQuads("body_stonemason_walk_stone_e", 16)
+local fr_walking_stone_north = indexQuads("body_stonemason_walk_stone_n", 16)
+local fr_walking_stone_west = indexQuads("body_stonemason_walk_stone_w", 16)
+local fr_walking_stone_south = indexQuads("body_stonemason_walk_stone_s", 16)
+local fr_walking_stone_northeast = indexQuads("body_stonemason_walk_stone_ne", 16)
+local fr_walking_stone_northwest = indexQuads("body_stonemason_walk_stone_nw", 16)
+local fr_walking_stone_southeast = indexQuads("body_stonemason_walk_stone_se", 16)
+local fr_walking_stone_southwest = indexQuads("body_stonemason_walk_stone_sw", 16)
+local fr_walking_east = indexQuads("body_stonemason_walk_e", 16)
+local fr_walking_north = indexQuads("body_stonemason_walk_n", 16)
+local fr_walking_northeast = indexQuads("body_stonemason_walk_ne", 16)
+local fr_walking_northwest = indexQuads("body_stonemason_walk_nw", 16)
+local fr_walking_south = indexQuads("body_stonemason_walk_s", 16)
+local fr_walking_southeast = indexQuads("body_stonemason_walk_se", 16)
+local fr_walking_southwest = indexQuads("body_stonemason_walk_sw", 16)
+local fr_walking_west = indexQuads("body_stonemason_walk_w", 16)
 
 		local Stonemason = class('Stonemason', Unit)
 			function Stonemason:initialize(cx,cy,i,o,x,y,type)
@@ -136,51 +32,51 @@ local fr_walking_stone_west = {
 			function Stonemason:dir_sub_update()
 				if self.move_dir == "west" then
                     if self.state == "Going to stockpile" then
-                        self.animation = anim.newAnimation(fr_walking_stone_west,0.11) 
+                        self.animation = anim.newAnimation(fr_walking_stone_west,0.05) 
                     else
-                        self.animation = anim.newAnimation(fr_walking_west,0.11)
+                        self.animation = anim.newAnimation(fr_walking_west,0.05)
                     end
 				elseif self.move_dir == "southwest" then
                     if self.state == "Going to stockpile" then
-                        self.animation = anim.newAnimation(fr_walking_stone_southwest,0.11)
+                        self.animation = anim.newAnimation(fr_walking_stone_southwest,0.05)
                     else
-                        self.animation = anim.newAnimation(fr_walking_southwest,0.11)
+                        self.animation = anim.newAnimation(fr_walking_southwest,0.05)
                     end
 				elseif self.move_dir == "northwest" then
                     if self.state == "Going to stockpile" then
-                        self.animation = anim.newAnimation(fr_walking_stone_northwest,0.11)
+                        self.animation = anim.newAnimation(fr_walking_stone_northwest,0.05)
                     else
-                        self.animation = anim.newAnimation(fr_walking_northwest,0.11)
+                        self.animation = anim.newAnimation(fr_walking_northwest,0.05)
                     end
 				elseif self.move_dir == "north" then
                     if self.state == "Going to stockpile" then
-                        self.animation = anim.newAnimation(fr_walking_stone_north,0.11)
+                        self.animation = anim.newAnimation(fr_walking_stone_north,0.05)
                     else
-                        self.animation = anim.newAnimation(fr_walking_north,0.11)
+                        self.animation = anim.newAnimation(fr_walking_north,0.05)
                     end
 				elseif self.move_dir == "south" then
                     if self.state == "Going to stockpile" then
-                        self.animation = anim.newAnimation(fr_walking_stone_south,0.11)
+                        self.animation = anim.newAnimation(fr_walking_stone_south,0.05)
                     else
-                        self.animation = anim.newAnimation(fr_walking_south,0.11)
+                        self.animation = anim.newAnimation(fr_walking_south,0.05)
                     end
 				elseif self.move_dir == "east" then
                     if self.state == "Going to stockpile" then
-                        self.animation = anim.newAnimation(fr_walking_stone_east,0.11)
+                        self.animation = anim.newAnimation(fr_walking_stone_east,0.05)
                     else
-                        self.animation = anim.newAnimation(fr_walking_east,0.11)
+                        self.animation = anim.newAnimation(fr_walking_east,0.05)
                     end
 				elseif self.move_dir == "southeast" then
                     if self.state == "Going to stockpile" then
-                        self.animation = anim.newAnimation(fr_walking_stone_southeast,0.11)
+                        self.animation = anim.newAnimation(fr_walking_stone_southeast,0.05)
                     else
-                        self.animation = anim.newAnimation(fr_walking_southeast,0.11)
+                        self.animation = anim.newAnimation(fr_walking_southeast,0.05)
                     end
 				elseif self.move_dir == "northeast" then
                     if self.state == "Going to stockpile" then
-                        self.animation = anim.newAnimation(fr_walking_stone_northeast,0.11)
+                        self.animation = anim.newAnimation(fr_walking_stone_northeast,0.05)
                     else
-                        self.animation = anim.newAnimation(fr_walking_northeast,0.11)
+                        self.animation = anim.newAnimation(fr_walking_northeast,0.05)
                     end
 				end
 			end
