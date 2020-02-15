@@ -2493,6 +2493,7 @@ quad_offset[tile_quads["anim_quarry_cut (96)"]] = {32,  39}
 quad_offset[tile_quads["anim_quarry_cut (97)"]] = {32,  39}
 quad_offset[tile_quads["anim_quarry_cut (98)"]] = {32,  39}
 quad_offset[tile_quads["anim_quarry_cut (99)"]] = {32,  39}
+quad_offset[tile_quads["anim_quarry_hook_empty (1)"]] = {55,  4}
 quad_offset[tile_quads["anim_quarry_hook (1)"]] = {55,  4}
 quad_offset[tile_quads["anim_quarry_hook (10)"]] = {55,  4}
 quad_offset[tile_quads["anim_quarry_hook (11)"]] = {55,  4}

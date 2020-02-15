@@ -1920,6 +1920,7 @@ tile_quads["anim_quarry_cut (128)"] = love.graphics.newQuad(2698, 2726, 63, 46, 
 tile_quads["anim_quarry_cut (129)"] = love.graphics.newQuad(2761, 2726, 63, 46, imageW,imageH)
 tile_quads["anim_quarry_cut (130)"] = love.graphics.newQuad(2824, 2726, 63, 46, imageW,imageH)
 tile_quads["anim_quarry_cut (131)"] = love.graphics.newQuad(2887, 2726, 63, 46, imageW,imageH)
+tile_quads["anim_quarry_hook_empty (1)"] = love.graphics.newQuad(6908, 7451, 20, 104-20, imageW,imageH)
 tile_quads["anim_quarry_hook (1)"] = love.graphics.newQuad(6908, 7451, 20, 104, imageW,imageH)
 tile_quads["anim_quarry_hook (2)"] = love.graphics.newQuad(7129, 7451, 20, 104, imageW,imageH)
 tile_quads["anim_quarry_hook (3)"] = love.graphics.newQuad(7251, 7451, 20, 104, imageW,imageH)
