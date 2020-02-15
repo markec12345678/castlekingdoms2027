@@ -188,17 +188,21 @@ function update_objects(cx,cy,deser)
 						goto continue
 					end
 					if obj.animated then
+						local offset_x, offset_y = 0, 0
+						if quad_offset[obj.animation:getQuad()] then
+							offset_x, offset_y = quad_offset[obj.animation:getQuad()][1] or 0, quad_offset[obj.animation:getQuad()][2] or 0
+						end
 						obj.qid = object_batch[chunk_x][chunk_y]
 						:add(obj.animation
 							:getFrameInfo(
-								obj.x+(obj.offset_x or 0) + quad_offset[obj.animation:getQuad()][1],
-								obj.y+(obj.offset_y or 0) + quad_offset[obj.animation:getQuad()][2]
+								obj.x+(obj.offset_x or 0) + offset_x,
+								obj.y+(obj.offset_y or 0) + offset_y - _G.height_map[obj.gx][obj.gy]
 							)
 						)
 					else 
 						local offset_x, offset_y = 0, 0
 						if quad_offset[obj.tile] then
-							offset_x, offset_y = quad_offset[obj.tile][1], quad_offset[obj.tile][2]
+							offset_x, offset_y = quad_offset[obj.tile][1] or 0, quad_offset[obj.tile][2] or 0
 						end
 						obj.qid = object_batch[chunk_x][chunk_y]
 						:add(obj.tile,
@@ -296,13 +300,14 @@ local function mousepressed(x, y, button, istouch)
 		local insp = object[press.cx][press.cy][press.x][press.y]
 		if insp then
 			print(inspect(insp))
+		else
+			obj = addObjectAt(press.cx, press.cy, press.x, press.y, 
+					Stonemason:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
+					IsoX + (press.x - press.y) * tile_width  * 0.5 -34,
+					IsoY + (press.x + press.y) * tile_height * 0.5 -50+8,"Stonemason"))
+				obj.qid = object_batch[press.cx][press.cy]					
+				:add(obj.animation:getFrameInfo(obj.x, obj.y))
 		end
-			-- obj = addObjectAt(press.cx, press.cy, press.x, press.y, 
-			-- 			Stonemason:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
-			-- 			IsoX + (press.x - press.y) * tile_width  * 0.5 -34,
-			-- 			IsoY + (press.x + press.y) * tile_height * 0.5 -50+8,"Stonemason"))
-			-- 		obj.qid = object_batch[press.cx][press.cy]					
-			-- 		:add(obj.animation:getFrameInfo(obj.x, obj.y))
 	end
 end 
 local previous_count = 0 --note remove this in prod
