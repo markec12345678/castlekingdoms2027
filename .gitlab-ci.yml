@@ -1,7 +1,7 @@
 stages:
   - test
 
-image: ubuntu:artful
+image: ubuntu
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
