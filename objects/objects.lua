@@ -196,10 +196,14 @@ function update_objects(cx,cy,deser)
 							)
 						)
 					else 
+						local offset_x, offset_y = 0, 0
+						if quad_offset[obj.tile] then
+							offset_x, offset_y = quad_offset[obj.tile][1], quad_offset[obj.tile][2]
+						end
 						obj.qid = object_batch[chunk_x][chunk_y]
 						:add(obj.tile,
-							obj.x+(obj.offset_x or 0) + quad_offset[obj.animation:getQuad()][1],
-							obj.y+(obj.offset_y or 0) + quad_offset[obj.animation:getQuad()][2])
+							obj.x+(obj.offset_x or 0) + offset_x,
+							obj.y+(obj.offset_y or 0) + offset_y)
 					end	
 					::continue::
 				end
