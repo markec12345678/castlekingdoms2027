@@ -1,30 +1,49 @@
 local object, tile_quads = ...
 local Unit = require("objects.Units.Unit")
-local fr_walking_plank_east = indexQuad("body_woodcutter/body_woodcutter_walk_plank_e", 16)
-local fr_walking_plank_north = indexQuad("body_woodcutter/body_woodcutter_walk_plank_n", 16)
-local fr_walking_plank_west = indexQuad("body_woodcutter/body_woodcutter_walk_plank_w", 16)
-local fr_walking_plank_south = indexQuad("body_woodcutter/body_woodcutter_walk_plank_s", 16)
-local fr_walking_plank_northeast = indexQuad("body_woodcutter/body_woodcutter_walk_plank_ne", 16)
-local fr_walking_plank_northwest = indexQuad("body_woodcutter/body_woodcutter_walk_plank_nw", 16)
-local fr_walking_plank_southeast = indexQuad("body_woodcutter/body_woodcutter_walk_plank_se", 16)
-local fr_walking_plank_southwest = indexQuad("body_woodcutter/body_woodcutter_walk_plank_sw", 16)
-local fr_walking_east = indexQuad("body_woodcutter/body_woodcutter_walk_e", 16)
-local fr_walking_north = indexQuad("body_woodcutter/body_woodcutter_walk_n", 16)
-local fr_walking_northeast = indexQuad("body_woodcutter/body_woodcutter_walk_ne", 16)
-local fr_walking_northwest = indexQuad("body_woodcutter/body_woodcutter_walk_nw", 16)
-local fr_walking_south = indexQuad("body_woodcutter/body_woodcutter_walk_s", 16)
-local fr_walking_southeast = indexQuad("body_woodcutter/body_woodcutter_walk_se", 16)
-local fr_walking_southwest = indexQuad("body_woodcutter/body_woodcutter_walk_sw", 16)
-local fr_walking_west = indexQuad("body_woodcutter/body_woodcutter_walk_w", 16)
-local fr_cutting_northeast = indexQuad("body_woodcutter/body_woodcutter_cut_ne", 16)
+local fr_walking_plank_east = indexQuad("body_woodcutter_walk_plank_e", 16)
+local fr_walking_plank_north = indexQuad("body_woodcutter_walk_plank_n", 16)
+local fr_walking_plank_west = indexQuad("body_woodcutter_walk_plank_w", 16)
+local fr_walking_plank_south = indexQuad("body_woodcutter_walk_plank_s", 16)
+local fr_walking_plank_northeast = indexQuad("body_woodcutter_walk_plank_ne", 16)
+local fr_walking_plank_northwest = indexQuad("body_woodcutter_walk_plank_nw", 16)
+local fr_walking_plank_southeast = indexQuad("body_woodcutter_walk_plank_se", 16)
+local fr_walking_plank_southwest = indexQuad("body_woodcutter_walk_plank_sw", 16)
+local fr_walking_east = indexQuad("body_woodcutter_walk_e", 16)
+local fr_walking_north = indexQuad("body_woodcutter_walk_n", 16)
+local fr_walking_northeast = indexQuad("body_woodcutter_walk_ne", 16)
+local fr_walking_northwest = indexQuad("body_woodcutter_walk_nw", 16)
+local fr_walking_south = indexQuad("body_woodcutter_walk_s", 16)
+local fr_walking_southeast = indexQuad("body_woodcutter_walk_se", 16)
+local fr_walking_southwest = indexQuad("body_woodcutter_walk_sw", 16)
+local fr_walking_west = indexQuad("body_woodcutter_walk_w", 16)
+local fr_cutting_northeast = indexQuad("body_woodcutter_cut_ne", 16)
+
 
 local Woodcutter = class('Woodcutter', Unit)
 function Woodcutter:initialize(cx,cy,i,o,x,y,type)
 	Unit.initialize(self,cx,cy,i,o,x,y,type, "No trees")
+	self.an_walking_plank_west = anim.newAnimation(fr_walking_plank_west,0.11) 
+	self.an_walking_west = anim.newAnimation(fr_walking_west,0.11)
+	self.an_walking_plank_southwest = anim.newAnimation(fr_walking_plank_southwest,0.11)
+	self.an_walking_southwest = anim.newAnimation(fr_walking_southwest,0.11)
+	self.an_walking_plank_northwest = anim.newAnimation(fr_walking_plank_northwest,0.11)
+	self.an_walking_northwest = anim.newAnimation(fr_walking_northwest,0.11)
+	self.an_walking_plank_north = anim.newAnimation(fr_walking_plank_north,0.11)
+	self.an_walking_north = anim.newAnimation(fr_walking_north,0.11)
+	self.an_walking_plank_south = anim.newAnimation(fr_walking_plank_south,0.11)
+	self.an_walking_south = anim.newAnimation(fr_walking_south,0.11)
+	self.an_walking_plank_east = anim.newAnimation(fr_walking_plank_east,0.11)
+	self.an_walking_east = anim.newAnimation(fr_walking_east,0.11)
+	self.an_walking_plank_southeast = anim.newAnimation(fr_walking_plank_southeast,0.11)
+	self.an_walking_southeast = anim.newAnimation(fr_walking_southeast,0.11)
+	self.an_walking_plank_northeast = anim.newAnimation(fr_walking_plank_northeast,0.11)
+	self.an_walking_northeast = anim.newAnimation(fr_walking_northeast,0.11)
 	self.state = 'Looking to chop tree'
 	self.marked = 0
 	self.count = 1
 	self.timr = 0
+	self.offset_x = -5
+	self.offset_y = -10
 	self.target_tree = 0
 	self.cut = function() 
 		if self.state == "Cutting down" then
@@ -51,7 +70,7 @@ function Woodcutter:initialize(cx,cy,i,o,x,y,type)
 								closest_node = v
 							end
 						end
-						if not closest_node then self.state = "Looking to chop tree" else                                    
+						if not closest_node then self.state = "Looking to chop tree" else      
 						self:requestPath(closest_node.gx,closest_node.gy) end
 					else self.state = "Looking to chop tree" end
 			end
@@ -132,57 +151,57 @@ function Woodcutter:find_tree()
 	self.endx = closest_object.gx
 	self.endy = closest_object.gy+1
 	self:requestPath(self.endx,self.endy) 
-		self.state = "Going to tree"
-		closest_object.marked = true
+	self.state = "Going to tree"
+	closest_object.marked = true
 end
-function Woodcutter:dir_sub_update(dir)
-	if dir == "west" then
+function Woodcutter:dir_sub_update()
+	if self.move_dir == "west" then
 		if self.state == "Going to stockpile" then
-			self.animation = anim.newAnimation(fr_walking_plank_west,0.11) 
+			self.animation = self.an_walking_plank_west 
 		else
-			self.animation = anim.newAnimation(fr_walking_west,0.11)
+			self.animation = self.an_walking_west
 		end
-	elseif dir == "southwest" then
+	elseif self.move_dir == "southwest" then
 		if self.state == "Going to stockpile" then
-			self.animation = anim.newAnimation(fr_walking_plank_southwest,0.11)
+			self.animation = self.an_walking_plank_southwest
 		else
-			self.animation = anim.newAnimation(fr_walking_southwest,0.11)
+			self.animation = self.an_walking_southwest
 		end
-	elseif dir == "northwest" then
+	elseif self.move_dir == "northwest" then
 		if self.state == "Going to stockpile" then
-			self.animation = anim.newAnimation(fr_walking_plank_northwest,0.11)
+			self.animation = self.an_walking_plank_northwest
 		else
-			self.animation = anim.newAnimation(fr_walking_northwest,0.11)
+			self.animation = self.an_walking_northwest
 		end
-	elseif dir == "north" then
+	elseif self.move_dir == "north" then
 		if self.state == "Going to stockpile" then
-			self.animation = anim.newAnimation(fr_walking_plank_north,0.11)
+			self.animation = self.an_walking_plank_north
 		else
-			self.animation = anim.newAnimation(fr_walking_north,0.11)
+			self.animation = self.an_walking_north
 		end
-	elseif dir == "south" then
+	elseif self.move_dir == "south" then
 		if self.state == "Going to stockpile" then
-			self.animation = anim.newAnimation(fr_walking_plank_south,0.11)
+			self.animation = self.an_walking_plank_south
 		else
-			self.animation = anim.newAnimation(fr_walking_south,0.11)
+			self.animation = self.an_walking_south
 		end
-	elseif dir == "east" then
+	elseif self.move_dir == "east" then
 		if self.state == "Going to stockpile" then
-			self.animation = anim.newAnimation(fr_walking_plank_east,0.11)
+			self.animation = self.an_walking_plank_east
 		else
-			self.animation = anim.newAnimation(fr_walking_east,0.11)
+			self.animation = self.an_walking_east
 		end
-	elseif dir == "southeast" then
+	elseif self.move_dir == "southeast" then
 		if self.state == "Going to stockpile" then
-			self.animation = anim.newAnimation(fr_walking_plank_southeast,0.11)
+			self.animation = self.an_walking_plank_southeast
 		else
-			self.animation = anim.newAnimation(fr_walking_southeast,0.11)
+			self.animation = self.an_walking_southeast
 		end
-	elseif dir == "northeast" then
+	elseif self.move_dir == "northeast" then
 		if self.state == "Going to stockpile" then
-			self.animation = anim.newAnimation(fr_walking_plank_northeast,0.11)
+			self.animation = self.an_walking_plank_northeast
 		else
-			self.animation = anim.newAnimation(fr_walking_northeast,0.11)
+			self.animation = self.an_walking_northeast
 		end
 	end
 end
@@ -194,8 +213,10 @@ function Woodcutter:update()
 			self:find_tree()
 		elseif self.move_dir == "none" and self.state == "Going to tree" then
 			self:update_direction()
+			self:dir_sub_update()
 		elseif self.move_dir == "none" and self.state == "Going to stockpile" then
 			self:update_direction()
+			self:dir_sub_update()
 		end
 		self.timr = self.timr + 1
 		self.timr = self.timr % 60

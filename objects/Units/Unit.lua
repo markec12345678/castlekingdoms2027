@@ -12,6 +12,7 @@ local Object = require('objects.Object')
             self.fy = self.gy*1000
             self.previous_cx = cx
             self.previous_cy = cx
+            self.has_move_dir = false
             self.waypoint_x = 0
             self.waypoint_y = 0
             self.straight_walk_speed = 40
@@ -32,6 +33,7 @@ local Object = require('objects.Object')
         end
         function Unit:requestPath(xx, yy)							
             _G.finder:requestPath(self.gx, self.gy, xx, yy)
+            self.has_move_dir = false
             self.endx = xx
             self.endy = yy
             self.path_state = "Waiting for path"
@@ -80,47 +82,48 @@ local Object = require('objects.Object')
             if (angle >= 135+22 and angle <= 225-22) then --direction is west 
                 self.move_dir = "west"
                 if self.previous_dir ~= "west" then
-                    self:dir_sub_update(self.move_dir)
+                    self:dir_sub_update()
                 end
             elseif (angle > 135-22 and angle < 135+22) then --direction is southwest
                 self.move_dir = "southwest"
                 if self.previous_dir ~= "southwest" then
-                    self:dir_sub_update(self.move_dir)
+                    self:dir_sub_update()
                 end
             elseif (angle > 225-22 and angle < 225+22) then --direction is northwest
                 self.move_dir = "northwest"
                 if self.previous_dir ~= "northwest" then
-                    self:dir_sub_update(self.move_dir)
+                    self:dir_sub_update()
                 end
             elseif (angle >= 225+22 and angle <= 315-22) then --direction is north
                 self.move_dir = "north"
                 if self.previous_dir ~= "north" then
-                    self:dir_sub_update(self.move_dir)
+                    self:dir_sub_update()
                 end
             elseif (angle >= 45+22 and angle <= 135-22) then --direction is south
                 self.move_dir = "south"
                 if self.previous_dir ~= "south" then
-                    self:dir_sub_update(self.move_dir)
+                    self:dir_sub_update()
                 end
             elseif ((angle >= 315+22 and angle <= 359) or (angle >=0 and angle <= 45-22)) then --direction is east
                 self.move_dir = "east"
                 if self.previous_dir ~= "east" then
-                    self:dir_sub_update(self.move_dir)
+                    self:dir_sub_update()
                 end
             elseif (angle > 45-22 and angle < 45+22) then--direction is southeast
                 self.move_dir = "southeast"
                 if self.previous_dir ~= "southeast" then
-                    self:dir_sub_update(self.move_dir)
+                    self:dir_sub_update()
                 end
             elseif (angle > 315-22 and angle < 315+22) then --direction is northeast
                 self.move_dir = "northeast"
                 if self.previous_dir ~= "northeast" then
-                    self:dir_sub_update(self.move_dir)
+                    self:dir_sub_update()
                 end
             end
             self.previous_dir = self.move_dir
         end			
         function Unit:move()
+            if not self.has_move_dir then self:dir_sub_update() self.has_move_dir = true end
             if self.move_dir == "west" then
                 self.fx = self.fx - self.straight_walk_speed
             elseif self.move_dir == "south" then
@@ -141,7 +144,7 @@ local Object = require('objects.Object')
             elseif self.move_dir == "southeast" then
                 self.fx = self.fx + self.diagonal_walk_speed
                 self.fy = self.fy + self.diagonal_walk_speed
-            end						
+            end	
             self.previous_cx, self.previous_cy = self.cx,self.cy 
             self.gx,self.gy= self.fx*0.001,self.fy*0.001
             self.cx,self.cy = math.floor((self.gx)/chunk_width), math.floor((self.gy)/chunk_width)

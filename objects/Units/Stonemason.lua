@@ -133,50 +133,50 @@ local fr_walking_stone_west = {
 				self.animated = true				
 				self.animation = anim.newAnimation(fr_walking_west,10)
 			end 
-			function Stonemason:dir_sub_update(dir)
-				if dir == "west" then
+			function Stonemason:dir_sub_update()
+				if self.move_dir == "west" then
                     if self.state == "Going to stockpile" then
                         self.animation = anim.newAnimation(fr_walking_stone_west,0.11) 
                     else
                         self.animation = anim.newAnimation(fr_walking_west,0.11)
                     end
-				elseif dir == "southwest" then
+				elseif self.move_dir == "southwest" then
                     if self.state == "Going to stockpile" then
                         self.animation = anim.newAnimation(fr_walking_stone_southwest,0.11)
                     else
                         self.animation = anim.newAnimation(fr_walking_southwest,0.11)
                     end
-				elseif dir == "northwest" then
+				elseif self.move_dir == "northwest" then
                     if self.state == "Going to stockpile" then
                         self.animation = anim.newAnimation(fr_walking_stone_northwest,0.11)
                     else
                         self.animation = anim.newAnimation(fr_walking_northwest,0.11)
                     end
-				elseif dir == "north" then
+				elseif self.move_dir == "north" then
                     if self.state == "Going to stockpile" then
                         self.animation = anim.newAnimation(fr_walking_stone_north,0.11)
                     else
                         self.animation = anim.newAnimation(fr_walking_north,0.11)
                     end
-				elseif dir == "south" then
+				elseif self.move_dir == "south" then
                     if self.state == "Going to stockpile" then
                         self.animation = anim.newAnimation(fr_walking_stone_south,0.11)
                     else
                         self.animation = anim.newAnimation(fr_walking_south,0.11)
                     end
-				elseif dir == "east" then
+				elseif self.move_dir == "east" then
                     if self.state == "Going to stockpile" then
                         self.animation = anim.newAnimation(fr_walking_stone_east,0.11)
                     else
                         self.animation = anim.newAnimation(fr_walking_east,0.11)
                     end
-				elseif dir == "southeast" then
+				elseif self.move_dir == "southeast" then
                     if self.state == "Going to stockpile" then
                         self.animation = anim.newAnimation(fr_walking_stone_southeast,0.11)
                     else
                         self.animation = anim.newAnimation(fr_walking_southeast,0.11)
                     end
-				elseif dir == "northeast" then
+				elseif self.move_dir == "northeast" then
                     if self.state == "Going to stockpile" then
                         self.animation = anim.newAnimation(fr_walking_stone_northeast,0.11)
                     else
