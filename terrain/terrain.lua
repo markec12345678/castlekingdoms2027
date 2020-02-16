@@ -106,10 +106,15 @@ local function genTerrain(cx,cy)
 end
 
 local function chunkDraw() 
-	for x = 1, 3 do
-		for y = 1, 3 do
-			local xx,yy = current_chunk_x+x-2, current_chunk_y+y-2
+	local chunk_width_in_pixels =_G.chunk_width * _G.tile_width * scale_x
+	local chunk_height_in_pixels =_G.chunk_height * _G.tile_height * scale_y
+	local chunks_to_load_wide = love.graphics.getWidth() / chunk_width_in_pixels
+	local chunks_to_load_high = love.graphics.getHeight() / chunk_height_in_pixels
+	for x=-math.ceil(chunks_to_load_wide/2), math.ceil(chunks_to_load_wide/2) do
+		for y=-math.ceil(chunks_to_load_high/2), math.ceil(chunks_to_load_high/2) do
+			local xx,yy = current_chunk_x+x, current_chunk_y+y
 			if terrain_batch[xx][yy] ~= nil then
+				-- FIXME: Magic numbers
 				if xx <= 31 and yy <= 31 and xx >= 0 and yy >= 0 then
 					love.graphics.draw(terrain_batch[xx][yy], 
 						-view_xview*scale_x+(xx*scale_x-yy*scale_x)*chunk_width*tile_width*0.5, 

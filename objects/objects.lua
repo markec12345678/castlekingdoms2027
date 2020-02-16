@@ -222,10 +222,14 @@ function update_objects(cx,cy,deser)
 	prof.pop("FL")  
 end
 
-local function draw_object()	
-	for x = 1, 3 do
-		for y = 1, 3 do
-			local xx,yy = current_chunk_x+x-2, current_chunk_y+y-2
+local function draw_object()		
+	local chunk_width_in_pixels = _G.chunk_width * _G.tile_width * scale_x
+	local chunk_height_in_pixels = _G.chunk_height * _G.tile_height * scale_y
+	local chunks_to_load_wide = love.graphics.getWidth() / chunk_width_in_pixels
+	local chunks_to_load_high = love.graphics.getHeight() / chunk_height_in_pixels
+	for x=-math.ceil(chunks_to_load_wide/2), math.ceil(chunks_to_load_wide/2) do
+		for y=-math.ceil(chunks_to_load_high/2), math.ceil(chunks_to_load_high/2) do
+			local xx,yy = current_chunk_x+x, current_chunk_y+y
 			if object_batch[xx][yy] ~= nil then
 				if xx <= 31 and yy <= 31 and xx >= 0 and yy >= 0 then --FIXME MAGIC NUMBERS
 					love.graphics.draw(object_batch[xx][yy], 
@@ -246,12 +250,11 @@ local function mousepressed(x, y, button, istouch)
 	local vy = (my)-height/2
     LocalX = math.round(ScreenToIsoX(vx/scale_x+view_xview-16, vy/scale_x+view_yview-8 )); 
     LocalY = math.round(ScreenToIsoY(vx/scale_x+view_xview-16, vy/scale_x+view_yview-8 )); 
-	    
-                local MX, MY = love.mouse.getPosition();  
-                MX = (MX - width/2)/scale_x +view_xview - 16
-                MY = (MY - height/2)/scale_x +view_yview - 8
-                LocalX = math.round(ScreenToIsoX(MX, MY))
-                LocalY = math.round(ScreenToIsoY(MX, MY))
+	local MX, MY = love.mouse.getPosition() 
+	MX = (MX - width/2)/scale_x +view_xview - 16
+	MY = (MY - height/2)/scale_x +view_yview - 8
+	LocalX = math.round(ScreenToIsoX(MX, MY))
+	LocalY = math.round(ScreenToIsoY(MX, MY))
 		press.gx = LocalX
 		press.gy = LocalY
 		press.x = (LocalX) % (chunk_width)
@@ -315,13 +318,14 @@ local previous_count = 0 --note remove this in prod
 local upd = 0
 local function update()	
 	prof.push("CUL")
-    if previous_chunk_x ~= current_chunk_x or previous_chunk_y ~= current_chunk_y then 
+    if previous_chunk_x ~= current_chunk_x or previous_chunk_y ~= current_chunk_y or top_left_chunk_x ~= (previous_top_left_chunk_x or 0) then 
         chunkUpdateList()
     end
 	prof.pop("CUL")
 	prof.push("AE")
     previous_chunk_x = current_chunk_x
-    previous_chunk_y = current_chunk_y
+	previous_chunk_y = current_chunk_y
+	previous_top_left_chunk_x = top_left_chunk_x
 	
 
 	for index, obj in ipairs(active_entities) do

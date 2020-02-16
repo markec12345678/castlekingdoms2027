@@ -164,79 +164,21 @@ local function chunkUpdateList()
 	while l do
 		chunkUnload(l.chunkx,l.chunky)
 		l = l.next
-	end		
-
-		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x+1, chunky = current_chunk_y+0} 
-	if status[current_chunk_x+1][current_chunk_y] == nil then 
-		--genTerrain(current_chunk_x+1,current_chunk_y) 
-		--status[current_chunk_x+1][current_chunk_y] = 1  
-	elseif status[current_chunk_x+1][current_chunk_y] == 2 then
-		loadChunk(current_chunk_x+1,current_chunk_y)
-	end 
-	--NOTE --------------------------------------------
-		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x+1, chunky = current_chunk_y+1}
-	if status[current_chunk_x+1][current_chunk_y+1] == nil then 
-		--genTerrain(current_chunk_x+1,current_chunk_y+1)
-		--status[current_chunk_x+1][current_chunk_y+1] = 1    
-	elseif status[current_chunk_x+1][current_chunk_y+1] == 2 then
-		loadChunk(current_chunk_x+1,current_chunk_y+1)
-	end 
-	--NOTE --------------------------------------------
-		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x+1, chunky = current_chunk_y-1}
-	if status[current_chunk_x+1][current_chunk_y-1] == nil then 
-		--genTerrain(current_chunk_x+1,current_chunk_y-1)
-		--status[current_chunk_x+1][current_chunk_y-1] = 1   
-	elseif status[current_chunk_x+1][current_chunk_y-1] == 2 then
-		loadChunk(current_chunk_x+1,current_chunk_y-1)
-	end 
-	--NOTE 2--------------------------------------------
-		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x, chunky = current_chunk_y+1}
-	if status[current_chunk_x][current_chunk_y+1] == nil then 
-		--genTerrain(current_chunk_x,current_chunk_y+1)
-		--status[current_chunk_x][current_chunk_y+1] = 1    
-	elseif status[current_chunk_x][current_chunk_y+1] == 2 then
-		loadChunk(current_chunk_x,current_chunk_y+1)
-	end 
-	--NOTE --------------------------------------------
-		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x, chunky = current_chunk_y}
-	if status[current_chunk_x][current_chunk_y] == nil then 
-		--genTerrain(current_chunk_x,current_chunk_y)
-		--status[current_chunk_x][current_chunk_y] = 1    
-	elseif status[current_chunk_x][current_chunk_y] == 2 then
-		loadChunk(current_chunk_x,current_chunk_y)
-	end 
-	--NOTE --------------------------------------------
-		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x, chunky = current_chunk_y-1}
-	if status[current_chunk_x][current_chunk_y-1] == nil then 
-		--genTerrain(current_chunk_x,current_chunk_y-1)
-		--status[current_chunk_x][current_chunk_y-1] = 1   
-	elseif status[current_chunk_x][current_chunk_y-1] == 2 then
-		loadChunk(current_chunk_x,current_chunk_y-1)
-	end 
-	--NOTE 3--------------------------------------------
-		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x-1, chunky = current_chunk_y+1}
-	if status[current_chunk_x-1][current_chunk_y+1] == nil then 
-		--genTerrain(current_chunk_x-1,current_chunk_y+1)
-		--status[current_chunk_x-1][current_chunk_y+1] = 1   
-	elseif status[current_chunk_x-1][current_chunk_y+1] == 2 then
-		loadChunk(current_chunk_x-1,current_chunk_y+1)
-	end 
-	--NOTE --------------------------------------------
-		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x-1, chunky = current_chunk_y}
-	if status[current_chunk_x-1][current_chunk_y] == nil then 
-		--genTerrain(current_chunk_x-1,current_chunk_y)
-		--status[current_chunk_x-1][current_chunk_y] = 1   
-	elseif status[current_chunk_x-1][current_chunk_y] == 2 then
-		loadChunk(current_chunk_x-1,current_chunk_y)
-	end 
-	--NOTE --------------------------------------------
-		terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x-1, chunky = current_chunk_y-1}
-	if status[current_chunk_x-1][current_chunk_y-1] == nil then 
-		--genTerrain(current_chunk_x-1,current_chunk_y-1)
-		--status[current_chunk_x-1][current_chunk_y-1] = 1   
-	elseif status[current_chunk_x-1][current_chunk_y-1] == 2 then
-		loadChunk(current_chunk_x-1,current_chunk_y-1)
-	end 
+	end
+	-- TODO: This is repeated in objects.draw and terrain.draw, make into a function
+	local chunk_width_in_pixels =_G.chunk_width * _G.tile_width * scale_x
+	local chunk_height_in_pixels =_G.chunk_height * _G.tile_height * scale_y
+	local chunks_to_load_wide = love.graphics.getWidth() / chunk_width_in_pixels
+	local chunks_to_load_high = love.graphics.getHeight() / chunk_height_in_pixels
+	for x=-math.ceil(chunks_to_load_wide/2), math.ceil(chunks_to_load_wide/2) do
+		for y=-math.ceil(chunks_to_load_high/2), math.ceil(chunks_to_load_high/2) do
+			terrain_chunks = {next = terrain_chunks, chunkx = current_chunk_x+x, chunky = current_chunk_y+y} 
+			if status[current_chunk_x+x][current_chunk_y+y] == nil then 
+			elseif status[current_chunk_x+x][current_chunk_y+y] == 2 then
+				loadChunk(current_chunk_x+x,current_chunk_y+y)
+			end 
+		end
+	end
 end
 
 return chunkUpdateList

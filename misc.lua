@@ -35,6 +35,22 @@ local function update()
     ---------------------------------------
     _G.xchunk = math.floor(CenterX/(chunk_width));
     _G.ychunk = math.floor(CenterY/(chunk_width));
+    -- TODO: Make into a function
+    local MX, MY = 0, 0  
+	MX = (MX - width/2)/scale_x +view_xview - 16
+	MY = (MY - height/2)/scale_x +view_yview - 8
+	local LocalX = math.round(ScreenToIsoX(MX, MY))
+	local LocalY = math.round(ScreenToIsoY(MX, MY))
+    top_left_chunk_x = math.floor(LocalX/chunk_width)
+    top_left_chunk_y = math.floor(LocalY/chunk_width)
+    MX, MY = love.graphics.getWidth(), love.graphics.getHeight() 
+	MX = (MX - width/2)/scale_x +view_xview - 16
+	MY = (MY - height/2)/scale_x +view_yview - 8
+	LocalX = math.round(ScreenToIsoX(MX, MY))
+	LocalY = math.round(ScreenToIsoY(MX, MY))
+    bottom_right_chunk_x = math.floor(LocalX/chunk_width)
+    bottom_right_chunk_y = math.floor(LocalY/chunk_width)
+    -- Right up to here ^
     current_chunk_x = _G.xchunk;
     current_chunk_y = _G.ychunk;
     if love.keyboard.isDown("up")  then
@@ -79,8 +95,10 @@ local function draw()
                 "\n Scale: " .. scale_x ..
                 "\n Garbage (kB): " .. collectgarbage('count') ..
                 "\n Center chunk: [" .. xchunk .. "][".. ychunk .."][" .. (status[xchunk][ychunk] or "N\\A") .."]"..
+                "\n Top left chunk: [" .. top_left_chunk_x .. "][".. top_left_chunk_y .."][" .. (status[top_left_chunk_x][top_left_chunk_y] or "N\\A") .."]"..
+                "\n Bottom right chunk: [" .. bottom_right_chunk_x .. "][".. bottom_right_chunk_y .."][" .. (status[bottom_right_chunk_x][bottom_right_chunk_y] or "N\\A") .."]"..
                 "\n Current FPS: "..tostring(love.timer.getFPS())
-                , 0, 0);
+                , 0, 0)
         limitfps()
 end
 

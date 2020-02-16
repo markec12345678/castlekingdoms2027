@@ -9,6 +9,11 @@
         PROF_CAPTURE = false
         prof = require("libraries.jprof")
         prof.connect()
+        
+        top_left_chunk_x = 0
+        top_left_chunk_y = 0
+        bottom_right_chunk_x = 0
+        bottom_right_chunk_y = 0
     ----Functions
         function limitfps()
             -- LIMIT THE FPS TO 60, GOES IN DRAW EVENT
