@@ -60,13 +60,18 @@ function love.run()
 		end
  
 		-- Call update and draw 
+		prof.push("frame")
+		prof.push("update")
 		if love.update then love.update(dt) end -- will pass 0 if love.timer is disabled
- 
+		prof.pop("update")
+		prof.push("draw")
 		if love.graphics and love.graphics.isActive() then
 			love.graphics.clear(love.graphics.getBackgroundColor())
 			love.graphics.origin()
 			if love.draw then love.draw() end             
 			love.graphics.present()
 		end
+		prof.pop("draw")
+		prof.pop("frame")
 	end
 end
