@@ -25,6 +25,45 @@
             love.timer.sleep(next_time - cur_time)
         end
 
+        function reverse(t)
+            local n = #t
+            local i = 1
+            while i < n do
+                t[i],t[n] = t[n],t[i]
+                i = i + 1
+                n = n - 1
+            end
+            return t
+        end
+
+        function TileSitesInRectangle(tile_start, tile_end)
+
+            local function Row(tile) return tile.x + tile.y end
+    
+            local function Column(tile) return tile.x - tile.y end
+    
+            local function TileSiteAt(row, column)
+                local x = bit.rshift(row + column, 1)
+                local y = bit.rshift(row - column, 1)
+                return {x=x, y=y}
+            end
+            
+            local firstRow = math.min(Row(tile_start), Row(tile_end))
+            local lastRow = math.max(Row(tile_start), Row(tile_end))
+
+            local firstColumn = math.min(Column(tile_start), Column(tile_end))
+            local lastColumn = math.max(Column(tile_start), Column(tile_end))
+            
+            local result = {}
+            for row = firstRow, lastRow do
+                local shift = bit.band(bit.bxor(row, firstColumn),  1)
+                for column = firstColumn + shift, lastColumn, 2 do
+                    result[#result + 1] = TileSiteAt(row, column)
+                end
+            end
+            return result
+        end
+
         function indexBuildingQuads(quad_string)
             -- TODO: Probably wont work for non-square buildings
             local result_array = {}
