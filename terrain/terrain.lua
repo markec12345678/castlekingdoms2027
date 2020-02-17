@@ -106,21 +106,23 @@ local function genTerrain(cx,cy)
 end
 
 local function chunkDraw() 
-	local chunk_width_in_pixels =_G.chunk_width * _G.tile_width * scale_x
-	local chunk_height_in_pixels =_G.chunk_height * _G.tile_height * scale_y
-	local chunks_to_load_wide = love.graphics.getWidth() / chunk_width_in_pixels
-	local chunks_to_load_high = love.graphics.getHeight() / chunk_height_in_pixels
-	for x=-math.ceil(chunks_to_load_wide/2), math.ceil(chunks_to_load_wide/2) do
-		for y=-math.ceil(chunks_to_load_high/2), math.ceil(chunks_to_load_high/2) do
-			local xx,yy = current_chunk_x+x, current_chunk_y+y
+	local tile_start_x, tile_start_y, tile_end_x, tile_end_y = top_left_chunk_x-1, top_left_chunk_y, bottom_right_chunk_x+1, bottom_right_chunk_y
+	
+	local firstRow = math.min(tile_start_x + tile_start_y, tile_end_x + tile_end_y)
+	local lastRow = math.max(tile_start_x + tile_start_y, tile_end_x + tile_end_y)
+
+	local firstColumn = math.min(tile_start_x - tile_start_y, tile_end_x - tile_end_y)
+	local lastColumn = math.max(tile_start_x - tile_start_y, tile_end_x - tile_end_y)
+	
+	for row = firstRow, lastRow do
+		local shift = bit.band(bit.bxor(row, firstColumn),  1)
+		for column = firstColumn + shift, lastColumn, 2 do
+			local xx,yy = bit.rshift(row + column, 1), bit.rshift(row - column, 1)
 			if terrain_batch[xx][yy] ~= nil then
-				-- FIXME: Magic numbers
-				if xx <= 31 and yy <= 31 and xx >= 0 and yy >= 0 then
-					love.graphics.draw(terrain_batch[xx][yy], 
-						-view_xview*scale_x+(xx*scale_x-yy*scale_x)*chunk_width*tile_width*0.5, 
-						-view_yview*scale_x+(xx*scale_x+yy*scale_x)*chunk_height*tile_height*0.5
-						, 0, scale_x, scale_y)
-				end
+				love.graphics.draw(terrain_batch[xx][yy], 
+					-view_xview*scale_x+(xx*scale_x-yy*scale_x)*chunk_width*tile_width*0.5, 
+					-view_yview*scale_x+(xx*scale_x+yy*scale_x)*chunk_height*tile_height*0.5
+					, 0, scale_x, scale_y)
 			end
 		end
 	end

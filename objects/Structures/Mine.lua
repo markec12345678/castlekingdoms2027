@@ -1,215 +1,18 @@
 local object, tile_quads, object_batch = ...
 local Object = require("objects.Object")
 
-local fr_pouring= {	
-	tile_quads[1],
-	tile_quads[12],
-	tile_quads[14],
-	tile_quads[15],
-	tile_quads[16],
-	tile_quads[17],
-	tile_quads[18],
-	tile_quads[19],
-	tile_quads[20],
-	tile_quads[2],
-	tile_quads[3],
-	tile_quads[4],
-	tile_quads[5],
-	tile_quads[6],
-	tile_quads[7],
-	tile_quads[8],
-	tile_quads[9],
-	tile_quads[10],
-	tile_quads[11],
-	tile_quads[13],
-}
-local fr_bucket = {	
-	tile_quads[21],
-	tile_quads[22],
-	tile_quads[23],
-	tile_quads[24],
-	tile_quads[25],
-	tile_quads[26],
-	tile_quads[27],
-	tile_quads[28],
-}
-local fr_casting_iron = {	
-	tile_quads[29],
-	tile_quads[40],
-	tile_quads[46],
-	tile_quads[47],
-	tile_quads[48],
-	tile_quads[49],
-	tile_quads[50],
-	tile_quads[51],
-	tile_quads[52],
-	tile_quads[30],
-	tile_quads[31],
-	tile_quads[32],
-	tile_quads[33],
-	tile_quads[34],
-	tile_quads[35],
-	tile_quads[36],
-	tile_quads[37],
-	tile_quads[38],
-	tile_quads[39],
-	tile_quads[41],
-	tile_quads[42],
-	tile_quads[43],
-	tile_quads[44],
-	tile_quads[45],
-}
-local fr_miner_going_down = {
-	tile_quads[53],
-	tile_quads[64],
-	tile_quads[75],
-	tile_quads[85],
-	tile_quads[86],
-	tile_quads[87],
-	tile_quads[88],
-	tile_quads[89],
-	tile_quads[90],
-	tile_quads[55],
-	tile_quads[56],
-	tile_quads[57],
-	tile_quads[58],
-	tile_quads[59],
-	tile_quads[60],
-	tile_quads[61],
-	tile_quads[62],
-	tile_quads[63],
-	tile_quads[65],
-	tile_quads[66],
-	tile_quads[67],
-	tile_quads[68],
-	tile_quads[69],
-	tile_quads[70],
-	tile_quads[71],
-	tile_quads[72],
-	tile_quads[73],
-	tile_quads[74],
-	tile_quads[76],
-	tile_quads[77],
-	tile_quads[78],
-	tile_quads[79],
-	tile_quads[80],
-	tile_quads[81],
-	tile_quads[82],
-	tile_quads[83],
-	tile_quads[84],
-}local fr_miner_going_up = {
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[53],
-	tile_quads[84],
-	tile_quads[83],
-	tile_quads[82],
-	tile_quads[81],
-	tile_quads[80],
-	tile_quads[79],
-	tile_quads[78],
-	tile_quads[77],
-	tile_quads[76],
-	tile_quads[74],
-	tile_quads[73],
-	tile_quads[72],
-	tile_quads[71],
-	tile_quads[70],
-	tile_quads[69],
-	tile_quads[68],
-	tile_quads[67],
-	tile_quads[66],
-	tile_quads[65],
-	tile_quads[63],
-	tile_quads[62],
-	tile_quads[61],
-	tile_quads[60],
-	tile_quads[59],
-	tile_quads[58],
-	tile_quads[57],
-	tile_quads[56],
-	tile_quads[55],
-	tile_quads[90],
-	tile_quads[89],
-	tile_quads[88],
-	tile_quads[87],
-	tile_quads[86],
-	tile_quads[85],
-	tile_quads[75],
-	tile_quads[64],
-}
-local fr_miner_pulling = {
-    tile_quads[91],
-    tile_quads[95],
-    tile_quads[96],
-    tile_quads[97],
-    tile_quads[98],
-    tile_quads[99],
-    tile_quads[100],
-    tile_quads[101],
-    tile_quads[102],
-    tile_quads[92],
-    tile_quads[93],
-    tile_quads[94],
-}
-local fr_stack = {
-    tile_quads[132],
-    tile_quads[133],
-    tile_quads[134],
-    tile_quads[135],
-    tile_quads[136],
-    tile_quads[137],
-    tile_quads[138],
-    tile_quads[131],
-}
+local tiles, quad_array = indexBuildingQuads("iron_mine")
+local fr_pouring = indexQuads("anim_iron_miner_pour", 20)
+local fr_bucket = indexQuads("anim_iron_miner_pull", 8)
+local fr_casting_iron = indexQuads("anim_iron_miner_cast", 24)
+local fr_miner_going_down = indexQuads("anim_iron_miner_hole", 38)
+local fr_miner_going_up = reverse(indexQuads("anim_iron_miner_hole", 38))
+local fr_miner_pulling = indexQuads("anim_iron_miner_rope", 12)
+local fr_stack = indexQuads("anim_iron_miner_stack", 8)
 
 local Mine_going_down = class('Mine_going_down', Object)
 			function Mine_going_down:initialize(gx,gy,parent,offset_x,offset_y)
-                local mytype = "Animation"
+                local mytype = "Iron mine up/down"
 				local i = (gx) % (chunk_width)
 				local o = (gy) % (chunk_width)
 				local cx = math.floor(gx/chunk_width)
@@ -236,14 +39,12 @@ local Mine_going_down = class('Mine_going_down', Object)
 				self.offset_x = 13+offset_x-48
 				self.offset_y = 6+offset_y-32-16
 				addObjectAt(cx, cy, i, o, self)	
-				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
-				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
-				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self
+				table.insert(active_entities,self)
 			end	
 			function Mine_going_down:animate() 
 				self.animation:update(dt) 			
 			end
-			function Mine_going_down:activate()       
+			function Mine_going_down:activate()
 				self.animated = true
 				self.animation = anim.newAnimation(fr_miner_going_down, 0.11,self.part1_end)
 			end
@@ -281,9 +82,7 @@ local Mine_puller = class('Mine_puller', Object)
 				self.offset_x = 13+offset_x+32+32-48
 				self.offset_y = -2+offset_y-32+8
 				addObjectAt(cx, cy, i, o, self)	
-				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
-				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
-				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self
+				table.insert(active_entities,self)
 			end	
 			function Mine_puller:animate() 
 				self.animation:update(dt) 					
@@ -325,9 +124,7 @@ local Mine_bucket = class('Mine_bucket', Object)
 				self.offset_x = -3+offset_x+48+32-48
 				self.offset_y = -8+offset_y-32
 				addObjectAt(cx, cy, i, o, self)	
-				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
-				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
-				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self
+				table.insert(active_entities,self)
 			end	
 			function Mine_bucket:animate() 
 				self.animation:update(dt) 					
@@ -359,7 +156,7 @@ local Mine_pourer = class('Mine_pourer', Object)
 					--self.parent.shaper.animation = anim.newAnimation(fr_shaper_part2,0.11,self.parent.shaper.anim_end)
 				end
 				self.part1_end = function () 
-					self.animation = anim.newAnimation({tile_quads[13]},0.1,self.part2_end)		
+					self.animation = anim.newAnimation({tile_quads["anim_iron_miner_pour (20)"]},0.1,self.part2_end)		
 					self.parent.casting:activate()
 					if self.parent.stack.quantity < 7 then
 						self.parent.going_down:activate()
@@ -378,9 +175,7 @@ local Mine_pourer = class('Mine_pourer', Object)
 				self.offset_x = 13+offset_x+48+32-48
 				self.offset_y = -13+offset_y-16
 				addObjectAt(cx, cy, i, o, self)		
-				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
-				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
-				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self
+				table.insert(active_entities,self)
 			end	
 			function Mine_pourer:animate() 
 				self.animation:update(dt) 					
@@ -429,9 +224,7 @@ local Mine_casting = class('Mine_casting', Object)
 				self.offset_x = 49+offset_x-16-48
 				self.offset_y = 11+offset_y-64
 				addObjectAt(cx, cy, i, o, self)	
-				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
-				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
-				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self
+				table.insert(active_entities,self)
 			end	
 			function Mine_casting:animate() 
 				self.animation:update(dt) 					
@@ -476,9 +269,7 @@ local Mine_stack = class('Mine_stack', Object)
 				self.offset_x = 49+offset_x-16-48
 				self.offset_y = 11+offset_y-32-8+3
 				addObjectAt(cx, cy, i, o, self)		
-				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
-				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
-				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self
+				table.insert(active_entities,self)
 			end	
 			function Mine_stack:stack()
 				self.quantity = self.quantity + 1
@@ -545,7 +336,7 @@ local Mine = class('Mine', Object)
 					setWalkable(self.gx,self.gy,1)
 				self.health = 400
                 self.qid = nil
-                self.tile = tile_quads[2316]
+                self.tile = quad_array[tiles + 1]
 				self.stone_quantity = 0
 				self.working = false
 				self.unloading = false
@@ -573,13 +364,21 @@ local Mine = class('Mine', Object)
 				end
 				update_terrain(ccx,ccy)
 
-                Mine_alias:new(tile_quads[2313],self.gx,self.gy+3,self,-(-64+16+4)+8*3)				
-                Mine_alias:new(tile_quads[2314],self.gx,self.gy+2,self,-(-64+16+4)+8*2)
-                Mine_alias:new(tile_quads[2315],self.gx,self.gy+1,self,-(-64+16+4)+8*1)
+				for tile=1, tiles do
+					Mine_alias:new(quad_array[tile],self.gx,self.gy+(tiles-tile+1),self,-self.offset_y+8*(tiles-tile+1))
+				end
+				
+				for tile=1, tiles do
+					Mine_alias:new(quad_array[tiles + 1 + tile],self.gx+tile,self.gy,self,-self.offset_y+8*tile,14)
+				end
 
-                Mine_alias:new(tile_quads[2317],self.gx+1,self.gy,self,-(-64+16+4)+8*1,14)
-                Mine_alias:new(tile_quads[2318],self.gx+2,self.gy,self,-(-64+16+4)+8*2,14)
-                Mine_alias:new(tile_quads[2319],self.gx+3,self.gy,self,-(-64+16+4)+8*3,14)
+                -- Mine_alias:new(tile_quads[2313],self.gx,self.gy+3,self,-(-64+16+4)+8*3)				
+                -- Mine_alias:new(tile_quads[2314],self.gx,self.gy+2,self,-(-64+16+4)+8*2)
+                -- Mine_alias:new(tile_quads[2315],self.gx,self.gy+1,self,-(-64+16+4)+8*1)
+
+                -- Mine_alias:new(tile_quads[2317],self.gx+1,self.gy,self,-(-64+16+4)+8*1,14)
+                -- Mine_alias:new(tile_quads[2318],self.gx+2,self.gy,self,-(-64+16+4)+8*2,14)
+                -- Mine_alias:new(tile_quads[2319],self.gx+3,self.gy,self,-(-64+16+4)+8*3,14)
 				
                 Mine_alias:new(tile_quads["empty"],self.gx+1,self.gy+3,self,12+8*4,16)
                 Mine_alias:new(tile_quads["empty"],self.gx+3,self.gy+1,self,12+8*4,16)

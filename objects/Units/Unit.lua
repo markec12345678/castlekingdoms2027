@@ -28,7 +28,7 @@ local Object = require('objects.Object')
             self.previous_dir = "none"
             self.animated = true
             self.no_path_state = no_path_state or "No path"
-            self.lrcx, self.lrcy, self.lrx, self.lry = 0, 0, 0, 0            
+            self.lrcx, self.lrcy, self.lrx, self.lry = 0, 0, 0, 0
 			table.insert(active_entities,self)
         end
         function Unit:requestPath(xx, yy)							

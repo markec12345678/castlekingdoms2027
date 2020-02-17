@@ -1,4 +1,4 @@
-local object, tile_quads, object_batch = ...
+local active_entities, object, tile_quads, object_batch = ...
 local Object = require("objects.Object")
 local tiles, quad_array = indexBuildingQuads("stone_quarry")
 
@@ -46,9 +46,7 @@ local Quarry_lifter = class('Quarry_lifter', Object)
 				self.offset_x = 48+offset_x
 				self.offset_y = 74+offset_y-64+32
 				addObjectAt(cx, cy, i, o, self)	
-				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
-				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
-				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self
+				table.insert(active_entities,self)
 			end	
 			function Quarry_lifter:animate() 
 				self.animation:update(dt) 			
@@ -93,9 +91,7 @@ local Quarry_hook = class('Quarry_hook', Object)
 				self.offset_x = 32+offset_x
 				self.offset_y = 57+offset_y-15
 				addObjectAt(cx, cy, i, o, self)	
-				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
-				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
-				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self
+				table.insert(active_entities,self)
 			end	
 			function Quarry_hook:animate() 
 				self.animation:update(dt) 					
@@ -135,9 +131,7 @@ local Quarry_shaper = class('Quarry_shaper', Object)
 				self.offset_x = -15+offset_x
 				self.offset_y = 57+offset_y-2
 				addObjectAt(cx, cy, i, o, self)	
-				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
-				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
-				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self
+				table.insert(active_entities,self)
 			end	
 			function Quarry_shaper:animate() 
 				self.animation:update(dt) 					
@@ -181,9 +175,7 @@ local Quarry_puller = class('Quarry_puller', Object)
 				self.offset_x = 92+offset_x-16-16
 				self.offset_y = 58+offset_y-32-16
 				addObjectAt(cx, cy, i, o, self)	
-				if _G.chunk_objects[self.cx][self.cy] == nil then _G.chunk_objects[self.cx][self.cy] = {} end
-				self.chunk_key = #chunk_objects[self.cx][self.cy] + 1
-				_G.chunk_objects[self.cx][self.cy][self.chunk_key] = self
+				table.insert(active_entities,self)
 			end	
 			function Quarry_puller:animate() 
 				self.animation:update(dt) 					

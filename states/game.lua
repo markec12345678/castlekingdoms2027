@@ -41,8 +41,6 @@ function game:init()
 end
 
 function game:update(dt)
-	prof.push("frame")
-	prof.push("update")
 	prof.push("core")
     core.update()
 	prof.pop("core")
@@ -60,7 +58,6 @@ function game:update(dt)
 	prof.pop("gc")
     local error = thread:getError()
 	assert( not error, error )
-	prof.pop("update")
 end
 
 function game:enter()
@@ -69,7 +66,6 @@ function game:enter()
 end
 
 function game:draw()
-	prof.push("draw")
     if not _G.test_mode then
 		love.graphics.push();
 		love.graphics.translate((love.graphics.getWidth()/2),(love.graphics.getHeight()/2));
@@ -79,8 +75,6 @@ function game:draw()
 		love.graphics.pop()
 		core.draw()
 	end
-	prof.pop("draw")
-	prof.pop("frame")
 end
 
 function game:mousepressed(x, y, button, istouch)

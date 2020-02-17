@@ -165,7 +165,6 @@ local function chunkUpdateList()
 		chunkUnload(l.chunkx,l.chunky)
 		l = l.next
 	end
-	-- TODO: This is repeated in objects.draw and terrain.draw, make into a function
 	local chunk_width_in_pixels =_G.chunk_width * _G.tile_width * scale_x
 	local chunk_height_in_pixels =_G.chunk_height * _G.tile_height * scale_y
 	local chunks_to_load_wide = love.graphics.getWidth() / chunk_width_in_pixels

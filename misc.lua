@@ -48,8 +48,8 @@ local function update()
 	MY = (MY - height/2)/scale_x +view_yview - 8
 	LocalX = math.round(ScreenToIsoX(MX, MY))
 	LocalY = math.round(ScreenToIsoY(MX, MY))
-    bottom_right_chunk_x = math.floor(LocalX/chunk_width)
-    bottom_right_chunk_y = math.floor(LocalY/chunk_width)
+    bottom_right_chunk_x = math.ceil(LocalX/chunk_width)
+    bottom_right_chunk_y = math.ceil(LocalY/chunk_width)
     -- Right up to here ^
     current_chunk_x = _G.xchunk;
     current_chunk_y = _G.ychunk;

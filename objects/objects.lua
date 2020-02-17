@@ -66,8 +66,8 @@ local Miner 		= love.filesystem.load('objects/Units/Miner.lua')(object, tile_qua
 local Castle 		= love.filesystem.load('objects/Structures/Castle.lua')(object, tile_quads)
 local Stockpile 	= love.filesystem.load('objects/Structures/Stockpile.lua')(object, tile_quads, object_batch)
 local Granary       = love.filesystem.load('objects/Structures/Granary.lua')(object, tile_quads, object_batch)
-local Quarry        = love.filesystem.load('objects/Structures/Quarry.lua')(object, tile_quads, object_batch)
-local Mine 			= love.filesystem.load('objects/Structures/Mine.lua')(object, tile_quads, object_batch)
+local Quarry        = love.filesystem.load('objects/Structures/Quarry.lua')(active_entities, object, tile_quads, object_batch)
+local Mine 			= love.filesystem.load('objects/Structures/Mine.lua')(active_entities, object, tile_quads, object_batch)
 package.loaded['objects.Environment.Tree']  		= Tree
 package.loaded['objects.Units.Woodcutter']  		= Woodcutter
 package.loaded['objects.Units.Stonemason']  		= Stonemason
@@ -154,12 +154,22 @@ function genObjects(cx,cy)
 					local tree = addObjectAt(cx, cy, i, o, Tree:new(cx,cy,i,o, --TODO fix tile_offset/_x
 					IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[obj] or 38),
 					IsoY + (i + o) * tile_height * 0.5 - (tile_offset[obj] or 166),"Pine tree"))
-					tree.animation:gotoFrame(math.random(6))
+					tree.animation:gotoFrame(math.random(1,20))
 					end 
 			if objectAt(cx,cy,i,o) then
 				for index, ob in ipairs(object[cx][cy][i][o]) do
 					if ob.animated then
-						ob.qid = object_batch[chunk_x][chunk_y]:add(ob.animation:getFrameInfo(ob.x,ob.y))
+						local offset_x, offset_y = 0, 0
+						if quad_offset[ob.animation:getQuad()] then
+							offset_x, offset_y = quad_offset[ob.animation:getQuad()][1] or 0, quad_offset[ob.animation:getQuad()][2] or 0
+						end
+						ob.qid = object_batch[chunk_x][chunk_y]
+						:add(ob.animation
+							:getFrameInfo(
+								ob.x+(ob.offset_x or 0) + offset_x,
+								ob.y+(ob.offset_y or 0) + offset_y - _G.height_map[ob.gx][ob.gy]
+							)
+						)
 					end
 				end
 			end
@@ -167,8 +177,12 @@ function genObjects(cx,cy)
 		end
 	end
 end
-
+local flag = 0
 function update_objects(cx,cy,deser) 
+	if scale_x < 0.5 then
+		flag = flag + 1
+		if flag < (1-scale_x)*6 then return else flag = math.floor(love.math.random(-1,1)+0.5) end
+	end
 	prof.push("ST")  
 	local chunk_x = cx or current_chunk_x
 	local chunk_y = cy or current_chunk_y
@@ -222,21 +236,24 @@ function update_objects(cx,cy,deser)
 	prof.pop("FL")  
 end
 
-local function draw_object()		
-	local chunk_width_in_pixels = _G.chunk_width * _G.tile_width * scale_x
-	local chunk_height_in_pixels = _G.chunk_height * _G.tile_height * scale_y
-	local chunks_to_load_wide = love.graphics.getWidth() / chunk_width_in_pixels
-	local chunks_to_load_high = love.graphics.getHeight() / chunk_height_in_pixels
-	for x=-math.ceil(chunks_to_load_wide/2), math.ceil(chunks_to_load_wide/2) do
-		for y=-math.ceil(chunks_to_load_high/2), math.ceil(chunks_to_load_high/2) do
-			local xx,yy = current_chunk_x+x, current_chunk_y+y
+local function draw_object()
+	local tile_start_x, tile_start_y, tile_end_x, tile_end_y = top_left_chunk_x-1, top_left_chunk_y, bottom_right_chunk_x+1, bottom_right_chunk_y
+	
+	local firstRow = math.min(tile_start_x + tile_start_y, tile_end_x + tile_end_y)
+	local lastRow = math.max(tile_start_x + tile_start_y, tile_end_x + tile_end_y)
+
+	local firstColumn = math.min(tile_start_x - tile_start_y, tile_end_x - tile_end_y)
+	local lastColumn = math.max(tile_start_x - tile_start_y, tile_end_x - tile_end_y)
+	
+	for row = firstRow, lastRow do
+		local shift = bit.band(bit.bxor(row, firstColumn),  1)
+		for column = firstColumn + shift, lastColumn, 2 do
+			local xx,yy = bit.rshift(row + column, 1), bit.rshift(row - column, 1)
 			if object_batch[xx][yy] ~= nil then
-				if xx <= 31 and yy <= 31 and xx >= 0 and yy >= 0 then --FIXME MAGIC NUMBERS
-					love.graphics.draw(object_batch[xx][yy], 
-						-view_xview*scale_x+(xx*scale_x-yy*scale_x)*chunk_width*tile_width*0.5, 
-						-view_yview*scale_x+(xx*scale_x+yy*scale_x)*chunk_height*tile_height*0.5
-						, 0, scale_x, scale_y)
-				end
+				love.graphics.draw(object_batch[xx][yy], 
+					-view_xview*scale_x+(xx*scale_x-yy*scale_x)*chunk_width*tile_width*0.5, 
+					-view_yview*scale_x+(xx*scale_x+yy*scale_x)*chunk_height*tile_height*0.5
+					, 0, scale_x, scale_y)
 			end
 		end
 	end
@@ -247,7 +264,7 @@ end
 local function mousepressed(x, y, button, istouch)
 	local mx, my = x,y
 	local vx = mx-width/2
-	local vy = (my)-height/2
+	local vy = my-height/2
     LocalX = math.round(ScreenToIsoX(vx/scale_x+view_xview-16, vy/scale_x+view_yview-8 )); 
     LocalY = math.round(ScreenToIsoY(vx/scale_x+view_xview-16, vy/scale_x+view_yview-8 )); 
 	local MX, MY = love.mouse.getPosition() 
@@ -339,6 +356,9 @@ local function update()
 		update_objects(l.chunkx,l.chunky)
 		if _G.chunk_objects[l.chunkx][l.chunky] then
 			for _,obj in pairs(_G.chunk_objects[l.chunkx][l.chunky]) do
+				if (obj.type ~= "Pine tree") then
+					print(obj.type)
+				end
 				obj:animate()
 			end
 		end
@@ -362,17 +382,3 @@ local tableOfFunctions = {
 						addObjectAt = addObjectAt,
 						}
 return tableOfFunctions
-
-
-
-
-
-
-
-
-
-
-
-
-
-
