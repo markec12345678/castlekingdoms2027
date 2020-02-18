@@ -56,6 +56,7 @@ local object_image= ...
 --- NOTE --------------------------
 --- NOTE --------------------------
 local Object 		= require('objects.Object')
+local Structure 	= require('objects.Structure')
 local Unit 			= love.filesystem.load('objects/Units/Unit.lua')(active_entities, object_batch)
 package.loaded['objects.Units.Unit'] = Unit
 
@@ -68,6 +69,7 @@ local Stockpile 	= love.filesystem.load('objects/Structures/Stockpile.lua')(obje
 local Granary       = love.filesystem.load('objects/Structures/Granary.lua')(object, tile_quads, object_batch)
 local Quarry        = love.filesystem.load('objects/Structures/Quarry.lua')(active_entities, object, tile_quads, object_batch)
 local Mine 			= love.filesystem.load('objects/Structures/Mine.lua')(active_entities, object, tile_quads, object_batch)
+local Campfire      = love.filesystem.load('objects/Structures/Campfire.lua')(object, tile_quads, object_batch)
 package.loaded['objects.Environment.Tree']  		= Tree
 package.loaded['objects.Units.Woodcutter']  		= Woodcutter
 package.loaded['objects.Units.Stonemason']  		= Stonemason
@@ -77,6 +79,7 @@ package.loaded['objects.Structures.Stockpile'] 		= Stockpile
 package.loaded['objects.Structures.Granary'] 		= Granary
 package.loaded['objects.Structures.Quarry'] 		= Quarry
 package.loaded['objects.Structures.Mine'] 			= Mine
+package.loaded['objects.Structures.Campfire'] 		= Campfire
 _G.stockpile = require('objects.Controllers.StockpileController')
 _G.foodpile = require('objects.Controllers.FoodController')
 --- NOTE --------------------------
@@ -151,9 +154,9 @@ function genObjects(cx,cy)
 					if rand == 4 then
 					if o == 0 and objectAt(cx,cy-1,i,o-1) then goto continue end
 					if o ~= 0 and objectAt(cx,cy,i,o-1) then goto continue end
-					local tree = addObjectAt(cx, cy, i, o, Tree:new(cx,cy,i,o, --TODO fix tile_offset/_x
-					IsoX + (i - o) * tile_width  * 0.5 - (tile_offset_x[obj] or 38),
-					IsoY + (i + o) * tile_height * 0.5 - (tile_offset[obj] or 166),"Pine tree"))
+					local gx = chunk_width*cx+i
+					local gy = chunk_width*cy+o
+					local tree = Tree:new(gx,gy,"Pine tree")
 					tree.animation:gotoFrame(math.random(1,20))
 					end 
 			if objectAt(cx,cy,i,o) then
@@ -280,41 +283,16 @@ local function mousepressed(x, y, button, istouch)
 		press.cy = math.floor(LocalY/chunk_width)
 		local obj
    	if button == 1 then 
-		_G.BuildController:build(press.cx,press.cy,press.x,press.y)
+		_G.BuildController:build(press.gx,press.gy)
    	elseif button == 2 then
 		if not objectAt(press.cx, press.cy, press.x, press.y) then
 			if love.keyboard.isDown('m') then			
-				obj = addObjectAt(press.cx, press.cy, press.x, press.y,
-						Miner:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
-						IsoX + (press.x - press.y) * tile_width  * 0.5 -34,
-						IsoY + (press.x + press.y) * tile_height * 0.5 -50+8,"Miner"))					
-					obj.qid = object_batch[press.cx][press.cy]					
-					:add(obj.animation:getFrameInfo(obj.x, obj.y))
+				obj = Miner:new(press.gx, press.gy,"Miner")			
 			else
-				obj = addObjectAt(press.cx, press.cy, press.x, press.y,  
-						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
-						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
-						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter"))
-					obj.qid = object_batch[press.cx][press.cy]
-					:add(obj.animation:getFrameInfo(obj.x, obj.y))
-				obj = addObjectAt(press.cx, press.cy, press.x, press.y,  
-						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
-						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
-						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter"))
-					obj.qid = object_batch[press.cx][press.cy]
-					:add(obj.animation:getFrameInfo(obj.x, obj.y))
-				obj = addObjectAt(press.cx, press.cy, press.x, press.y,  
-						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
-						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
-						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter"))
-					obj.qid = object_batch[press.cx][press.cy]
-					:add(obj.animation:getFrameInfo(obj.x, obj.y))
-				obj = addObjectAt(press.cx, press.cy, press.x, press.y,  
-						Woodcutter:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
-						IsoX + (press.x - press.y) * tile_width  * 0.5 -31,
-						IsoY + (press.x + press.y) * tile_height * 0.5 -50,"Woodcutter"))
-					obj.qid = object_batch[press.cx][press.cy]
-					:add(obj.animation:getFrameInfo(obj.x, obj.y))
+				obj = Woodcutter:new(press.gx, press.gy,"Woodcutter")
+				obj = Woodcutter:new(press.gx, press.gy,"Woodcutter")
+				obj = Woodcutter:new(press.gx, press.gy,"Woodcutter")
+				obj = Woodcutter:new(press.gx, press.gy,"Woodcutter")
 			end
 		end 
 	elseif button == 3 then
@@ -322,12 +300,7 @@ local function mousepressed(x, y, button, istouch)
 		if insp then
 			print(inspect(insp))
 		else
-			obj = addObjectAt(press.cx, press.cy, press.x, press.y, 
-					Stonemason:new(press.cx,press.cy,press.x,press.y, --TODO replace magic number with tile_offset/_x
-					IsoX + (press.x - press.y) * tile_width  * 0.5 -34,
-					IsoY + (press.x + press.y) * tile_height * 0.5 -50+8,"Stonemason"))
-				obj.qid = object_batch[press.cx][press.cy]					
-				:add(obj.animation:getFrameInfo(obj.x, obj.y))
+			obj = Stonemason:new(press.gx, press.gy,"Stonemason")
 		end
 	end
 end 
@@ -356,9 +329,6 @@ local function update()
 		update_objects(l.chunkx,l.chunky)
 		if _G.chunk_objects[l.chunkx][l.chunky] then
 			for _,obj in pairs(_G.chunk_objects[l.chunkx][l.chunky]) do
-				if (obj.type ~= "Pine tree") then
-					print(obj.type)
-				end
 				obj:animate()
 			end
 		end

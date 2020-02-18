@@ -2,10 +2,8 @@ local active_entities, object_batch = ...
 local Object = require('objects.Object')
 
     local Unit = class('Unit', Object)
-        function Unit:initialize(cx,cy,i,o,x,y,type, no_path_state)
-            Object.initialize(self,cx,cy,i,o,x,y,type)
-            self.gx = chunk_width*self.cx+self.i
-            self.gy = chunk_width*self.cy+self.o
+        function Unit:initialize(gx,gy,type, no_path_state)
+            Object.initialize(self,gx,gy,type)
             self.endx = 0
             self.endy = 0
             self.fx = self.gx*1000
@@ -29,7 +27,9 @@ local Object = require('objects.Object')
             self.animated = true
             self.no_path_state = no_path_state or "No path"
             self.lrcx, self.lrcy, self.lrx, self.lry = 0, 0, 0, 0
-			table.insert(active_entities,self)
+            addObjectAt(self.cx, self.cy, self.i, self.o, self)	
+            table.insert(active_entities,self)
+            self:calculate_position()
         end
         function Unit:requestPath(xx, yy)							
             _G.finder:requestPath(self.gx, self.gy, xx, yy)
@@ -69,6 +69,11 @@ local Object = require('objects.Object')
                     self.state = self.no_path_state
                 end
             end		
+        end
+        function Unit:calculate_position()
+            -- slightly magic numbers?
+            self.x = IsoX + ((self.fx*0.001)%chunk_width - (self.fy*0.001)%chunk_width) * tile_width  * 0.5 -31
+            self.y = IsoY + ((self.fx*0.001)%chunk_width + (self.fy*0.001)%chunk_width) * tile_height * 0.5 -50
         end
         function Unit:update_direction()
             local wx = self.waypoint_x
@@ -166,8 +171,7 @@ local Object = require('objects.Object')
                 self.qid = object_batch[self.cx][self.cy]:add(self.animation:getFrameInfo(self.x, self.y))
             end					
             self.lrcx, self.lrcy, self.lrx, self.lry = self.cx,self.cy,xx,yy			
-            self.x = IsoX + ((self.fx*0.001)%chunk_width - (self.fy*0.001)%chunk_width) * tile_width  * 0.5 -31 --fixme magic numbers?
-            self.y = IsoY + ((self.fx*0.001)%chunk_width + (self.fy*0.001)%chunk_width) * tile_height * 0.5 -50
+            self:calculate_position()
             if self.originalx ~= math.round(self.gx)%chunk_width or self.originaly ~= math.round(self.gy)%chunk_width then
                 self.originalx = math.round(self.gx)%chunk_width
                 self.originaly = math.round(self.gy)%chunk_width
