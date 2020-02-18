@@ -16,8 +16,8 @@ function Campfire:initialize(gx, gy, type)
     self.hover_action = true
 
     local ccx, ccy
-    for xx = -2, 3 do
-        for yy = -2, 3 do
+    for xx = -2, 4 do
+        for yy = -2, 4 do
             ccx, ccy = terrainSetTileAt(self.gx + xx, self.gy + yy,
                                         math.random(6, 8))
         end
