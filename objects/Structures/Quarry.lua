@@ -1,5 +1,5 @@
 local active_entities, object, tile_quads, object_batch = ...
-local Object = require("objects.Object")
+local Structure = require("objects.Structure")
 local tiles, quad_array = indexBuildingQuads("stone_quarry")
 
 local fr_lifter_part1 = indexQuads("anim_quarry_lower", 17)
@@ -14,7 +14,7 @@ local fr_puller_part2 = {}
 fr_puller_part2 = indexQuads("anim_quarry_pull", 42+20, 20)
 local fr_puller_part1 = {}
 fr_puller_part1 = indexQuads("anim_quarry_pull", 19)
-local Quarry_lifter = class('Quarry_lifter', Object)
+local Quarry_lifter = class('Quarry_lifter', Structure)
 			function Quarry_lifter:initialize(gx,gy,parent,offset_x,offset_y)
                 local mytype = "Lifter"
 				local i = (gx) % (chunk_width)
@@ -23,7 +23,7 @@ local Quarry_lifter = class('Quarry_lifter', Object)
 				local cy = math.floor(gy/chunk_width)				 
 				local x = IsoX + (i - o) * tile_width  * 0.5
 				local y = IsoY + (i + o) * tile_height * 0.5
-				Object.initialize(self,cx,cy,i,o,x,y,mytype)
+				Structure.initialize(self, gx, gy, mytype)
 				self.animated = true
 				self.part3_end = function ()
 					self.animation = anim.newAnimation(fr_lifter_part1,0.10,function () self.animation:gotoFrame(1) end)
@@ -61,7 +61,7 @@ local Quarry_lifter = class('Quarry_lifter', Object)
 				self.animated = false
 			end
 
-local Quarry_hook = class('Quarry_hook', Object)
+local Quarry_hook = class('Quarry_hook', Structure)
 			function Quarry_hook:initialize(gx,gy,parent,offset_x,offset_y)
                 local mytype = "Hook"
 				local i = (gx) % (chunk_width)
@@ -70,7 +70,7 @@ local Quarry_hook = class('Quarry_hook', Object)
 				local cy = math.floor(gy/chunk_width)				 
 				local x = IsoX + (i - o) * tile_width  * 0.5
 				local y = IsoY + (i + o) * tile_height * 0.5
-				Object.initialize(self,cx,cy,i,o,x,y,mytype)
+				Structure.initialize(self,gx,gy,mytype)
 				self.animated = true
 				self.part2_end = function ()
 					self.animation = anim.newAnimation(fr_hook_part1,0.11,self.part1_end)
@@ -101,7 +101,7 @@ local Quarry_hook = class('Quarry_hook', Object)
 				self.animation:resume()
 			end
 
-local Quarry_shaper = class('Quarry_shaper', Object)
+local Quarry_shaper = class('Quarry_shaper', Structure)
 			function Quarry_shaper:initialize(gx,gy,parent,offset_x,offset_y)
                 local mytype = "Shaper"
 				local i = (gx) % (chunk_width)
@@ -110,7 +110,7 @@ local Quarry_shaper = class('Quarry_shaper', Object)
 				local cy = math.floor(gy/chunk_width)				 
 				local x = IsoX + (i - o) * tile_width  * 0.5
 				local y = IsoY + (i + o) * tile_height * 0.5
-				Object.initialize(self,cx,cy,i,o,x,y,mytype)
+				Structure.initialize(self,gx,gy,mytype)
 				self.animated = true
 				self.anim_end = function() 
 					self.parent.lifter:activate()
@@ -146,7 +146,7 @@ local Quarry_shaper = class('Quarry_shaper', Object)
 				self.animated = false
 			end
 
-local Quarry_puller = class('Quarry_puller', Object)
+local Quarry_puller = class('Quarry_puller', Structure)
 			function Quarry_puller:initialize(gx,gy,parent,offset_x,offset_y)
                 local mytype = "Puller"
 				local i = (gx) % (chunk_width)
@@ -155,7 +155,7 @@ local Quarry_puller = class('Quarry_puller', Object)
 				local cy = math.floor(gy/chunk_width)				 
 				local x = IsoX + (i - o) * tile_width  * 0.5
 				local y = IsoY + (i + o) * tile_height * 0.5
-				Object.initialize(self,cx,cy,i,o,x,y,mytype)
+				Structure.initialize(self,gx,gy,mytype)
 				self.animated = true
 				self.anim_end = function () 
 					self.animation = anim.newAnimation(fr_puller_part1,0.11, self.part1_end)
@@ -188,7 +188,7 @@ local Quarry_puller = class('Quarry_puller', Object)
 				self.tile = tile_quads["empty"]
 				self.animated = false
 			end
-local Quarry_alias = class('Quarry_alias', Object)
+local Quarry_alias = class('Quarry_alias', Structure)
 			function Quarry_alias:initialize(tile,gx,gy,parent,offset_y,offset_x)
                 local mytype = "Static structure"
 				local i = (gx) % (chunk_width)
@@ -197,7 +197,7 @@ local Quarry_alias = class('Quarry_alias', Object)
 				local cy = math.floor(gy/chunk_width)				 
 				local x = IsoX + (i - o) * tile_width  * 0.5
 				local y = IsoY + (i + o) * tile_height * 0.5
-				Object.initialize(self,cx,cy,i,o,x,y,mytype)
+				Structure.initialize(self,gx,gy,mytype)
 				self.gx = gx
 				self.gy = gy
 					setWalkable(self.gx,self.gy,1)
@@ -217,11 +217,11 @@ local Quarry_alias = class('Quarry_alias', Object)
 				addObjectAt(cx, cy, i, o, self)	
 			end
 
-local Quarry = class('Quarry', Object)
-			function Quarry:initialize(cx,cy,i,o,x,y,type)
+local Quarry = class('Quarry', Structure)
+			function Quarry:initialize(gx,gy,type)
 				_G.JobController:add("Stonemason",self)
                 local mytype = "Static structure"
-				Object.initialize(self,cx,cy,i,o,x,y,mytype)
+				Structure.initialize(self,gx,gy,mytype)
 				self.gx = chunk_width*self.cx+self.i
 				self.gy = chunk_width*self.cy+self.o
 					setWalkable(self.gx,self.gy,1)

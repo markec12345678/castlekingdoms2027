@@ -1,5 +1,5 @@
-local object, tile_quads, object_batch = ...
-local Object = require("objects.Object")
+local active_entities, object, tile_quads, object_batch = ...
+local Structure = require("objects.Structure")
 
 local tiles, quad_array = indexBuildingQuads("iron_mine")
 local fr_pouring = indexQuads("anim_iron_miner_pour", 20)
@@ -10,7 +10,7 @@ local fr_miner_going_up = reverse(indexQuads("anim_iron_miner_hole", 38))
 local fr_miner_pulling = indexQuads("anim_iron_miner_rope", 12)
 local fr_stack = indexQuads("anim_iron_miner_stack", 8)
 
-local Mine_going_down = class('Mine_going_down', Object)
+local Mine_going_down = class('Mine_going_down', Structure)
 			function Mine_going_down:initialize(gx,gy,parent,offset_x,offset_y)
                 local mytype = "Iron mine up/down"
 				local i = (gx) % (chunk_width)
@@ -19,7 +19,7 @@ local Mine_going_down = class('Mine_going_down', Object)
 				local cy = math.floor(gy/chunk_width)				 
 				local x = IsoX + (i - o) * tile_width  * 0.5
 				local y = IsoY + (i + o) * tile_height * 0.5
-				Object.initialize(self,cx,cy,i,o,x,y,mytype)
+				Structure.initialize(self,gx,gy,mytype)
 				self.animated = true
 				self.anim_end = function ()
 					self.animation:pause()
@@ -38,7 +38,7 @@ local Mine_going_down = class('Mine_going_down', Object)
                 self.qid = 0
 				self.offset_x = 13+offset_x-48
 				self.offset_y = 6+offset_y-32-16
-				addObjectAt(cx, cy, i, o, self)	
+				
 				table.insert(active_entities,self)
 			end	
 			function Mine_going_down:animate() 
@@ -55,7 +55,7 @@ local Mine_going_down = class('Mine_going_down', Object)
 			end
 
 
-local Mine_puller = class('Mine_puller', Object)
+local Mine_puller = class('Mine_puller', Structure)
 			function Mine_puller:initialize(gx,gy,parent,offset_x,offset_y)
                 local mytype = "Puller"
 				local i = (gx) % (chunk_width)
@@ -64,7 +64,7 @@ local Mine_puller = class('Mine_puller', Object)
 				local cy = math.floor(gy/chunk_width)				 
 				local x = IsoX + (i - o) * tile_width  * 0.5
 				local y = IsoY + (i + o) * tile_height * 0.5
-				Object.initialize(self,cx,cy,i,o,x,y,mytype)
+				Structure.initialize(self,gx,gy,mytype)
 				self.animated = true
 				self.part1_end = function ()
                     self.animation:pause()
@@ -81,7 +81,7 @@ local Mine_puller = class('Mine_puller', Object)
                 self.qid = 0
 				self.offset_x = 13+offset_x+32+32-48
 				self.offset_y = -2+offset_y-32+8
-				addObjectAt(cx, cy, i, o, self)	
+				
 				table.insert(active_entities,self)
 			end	
 			function Mine_puller:animate() 
@@ -95,7 +95,7 @@ local Mine_puller = class('Mine_puller', Object)
 				self.tile = tile_quads["empty"]
 				self.animated = false
 			end
-local Mine_bucket = class('Mine_bucket', Object)
+local Mine_bucket = class('Mine_bucket', Structure)
 			function Mine_bucket:initialize(gx,gy,parent,offset_x,offset_y)
                 local mytype = "Hook"
 				local i = (gx) % (chunk_width)
@@ -104,7 +104,7 @@ local Mine_bucket = class('Mine_bucket', Object)
 				local cy = math.floor(gy/chunk_width)				 
 				local x = IsoX + (i - o) * tile_width  * 0.5
 				local y = IsoY + (i + o) * tile_height * 0.5
-				Object.initialize(self,cx,cy,i,o,x,y,mytype)
+				Structure.initialize(self,gx,gy,mytype)
 				self.animated = true
 				self.part2_end = function ()
 					self.animation = anim.newAnimation(fr_hook_part1,0.11,self.part1_end)
@@ -123,7 +123,7 @@ local Mine_bucket = class('Mine_bucket', Object)
                 self.qid = 0
 				self.offset_x = -3+offset_x+48+32-48
 				self.offset_y = -8+offset_y-32
-				addObjectAt(cx, cy, i, o, self)	
+				
 				table.insert(active_entities,self)
 			end	
 			function Mine_bucket:animate() 
@@ -140,7 +140,7 @@ local Mine_bucket = class('Mine_bucket', Object)
 				self.animated = false
 			end
 
-local Mine_pourer = class('Mine_pourer', Object)
+local Mine_pourer = class('Mine_pourer', Structure)
 			function Mine_pourer:initialize(gx,gy,parent,offset_x,offset_y)
                 local mytype = "Animation"
 				local i = (gx) % (chunk_width)
@@ -149,7 +149,7 @@ local Mine_pourer = class('Mine_pourer', Object)
 				local cy = math.floor(gy/chunk_width)				 
 				local x = IsoX + (i - o) * tile_width  * 0.5
 				local y = IsoY + (i + o) * tile_height * 0.5
-				Object.initialize(self,cx,cy,i,o,x,y,mytype)
+				Structure.initialize(self,gx,gy,mytype)
 				self.animated = true
 				self.part2_end = function ()
 					self:deactivate()
@@ -174,7 +174,7 @@ local Mine_pourer = class('Mine_pourer', Object)
                 self.qid = 0
 				self.offset_x = 13+offset_x+48+32-48
 				self.offset_y = -13+offset_y-16
-				addObjectAt(cx, cy, i, o, self)		
+					
 				table.insert(active_entities,self)
 			end	
 			function Mine_pourer:animate() 
@@ -191,7 +191,7 @@ local Mine_pourer = class('Mine_pourer', Object)
 				self.tile = tile_quads["empty"]
 				self.animated = false
 			end
-local Mine_casting = class('Mine_casting', Object)
+local Mine_casting = class('Mine_casting', Structure)
 			function Mine_casting:initialize(gx,gy,parent,offset_x,offset_y)
                 local mytype = "Animation"
 				local i = (gx) % (chunk_width)
@@ -200,7 +200,7 @@ local Mine_casting = class('Mine_casting', Object)
 				local cy = math.floor(gy/chunk_width)				 
 				local x = IsoX + (i - o) * tile_width  * 0.5
 				local y = IsoY + (i + o) * tile_height * 0.5
-				Object.initialize(self,cx,cy,i,o,x,y,mytype)
+				Structure.initialize(self,gx,gy,mytype)
 				self.animated = true
 				self.part2_end = function ()
 					self.animation = anim.newAnimation(fr_hook_part1,0.11,self.part1_end)
@@ -223,7 +223,7 @@ local Mine_casting = class('Mine_casting', Object)
                 self.qid = 0
 				self.offset_x = 49+offset_x-16-48
 				self.offset_y = 11+offset_y-64
-				addObjectAt(cx, cy, i, o, self)	
+				
 				table.insert(active_entities,self)
 			end	
 			function Mine_casting:animate() 
@@ -239,7 +239,7 @@ local Mine_casting = class('Mine_casting', Object)
 				self.tile = tile_quads["empty"]
 				self.animated = false
 			end
-local Mine_stack = class('Mine_stack', Object)
+local Mine_stack = class('Mine_stack', Structure)
 			function Mine_stack:initialize(gx,gy,parent,offset_x,offset_y)
                 local mytype = "Animatino"
 				local i = (gx) % (chunk_width)
@@ -248,7 +248,7 @@ local Mine_stack = class('Mine_stack', Object)
 				local cy = math.floor(gy/chunk_width)				 
 				local x = IsoX + (i - o) * tile_width  * 0.5
 				local y = IsoY + (i + o) * tile_height * 0.5
-				Object.initialize(self,cx,cy,i,o,x,y,mytype)
+				Structure.initialize(self,gx,gy,mytype)
 				self.animated = true
 				self.part2_end = function ()
 					self.animation = anim.newAnimation(fr_hook_part1,0.11,self.part1_end)
@@ -268,7 +268,7 @@ local Mine_stack = class('Mine_stack', Object)
                 self.qid = 0
 				self.offset_x = 49+offset_x-16-48
 				self.offset_y = 11+offset_y-32-8+3
-				addObjectAt(cx, cy, i, o, self)		
+					
 				table.insert(active_entities,self)
 			end	
 			function Mine_stack:stack()
@@ -297,7 +297,7 @@ local Mine_stack = class('Mine_stack', Object)
 				end
 				self.animation:gotoFrame(self.quantity)
 			end
-local Mine_alias = class('Mine_alias', Object)
+local Mine_alias = class('Mine_alias', Structure)
 			function Mine_alias:initialize(tile,gx,gy,parent,offset_y,offset_x)
                 local mytype = "Static structure"
 				local i = (gx) % (chunk_width)
@@ -306,7 +306,7 @@ local Mine_alias = class('Mine_alias', Object)
 				local cy = math.floor(gy/chunk_width)				 
 				local x = IsoX + (i - o) * tile_width  * 0.5
 				local y = IsoY + (i + o) * tile_height * 0.5
-				Object.initialize(self,cx,cy,i,o,x,y,mytype)
+				Structure.initialize(self,gx,gy,mytype)
 				self.gx = gx
 				self.gy = gy
 					setWalkable(self.gx,self.gy,1)
@@ -323,14 +323,14 @@ local Mine_alias = class('Mine_alias', Object)
 						break
 					end
 				end
-				addObjectAt(cx, cy, i, o, self)		
+					
 			end
 
-local Mine = class('Mine', Object)
-			function Mine:initialize(cx,cy,i,o,x,y,type)
+local Mine = class('Mine', Structure)
+			function Mine:initialize(gx,gy,type)
 				_G.JobController:add("Miner",self)
                 local mytype = "Static structure"
-				Object.initialize(self,cx,cy,i,o,x,y,mytype)
+				Structure.initialize(self,gx,gy,mytype)
 				self.gx = chunk_width*self.cx+self.i
 				self.gy = chunk_width*self.cy+self.o
 					setWalkable(self.gx,self.gy,1)

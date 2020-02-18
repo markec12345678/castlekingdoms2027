@@ -20,13 +20,12 @@ local fr_walking_iron_west = indexQuads("body_iron_miner_walk_ingot_w", 16)
 
 local Miner = class('Miner', Unit)
 
-function Miner:initialize(cx, cy, i, o, x, y, type)
-    Unit.initialize(self, cx, cy, i, o, x, y, type)
+function Miner:initialize(gx, gy, type)
+    Unit.initialize(self, gx, gy, type)	
     self.state = 'Find a job'
     self.marked = 0
     self.count = 1
     self.timr = 0
-    self.animated = true
     self.animation = anim.newAnimation(fr_walking_west, 10)
 end
 
@@ -118,9 +117,10 @@ function Miner:update()
             self.move_dir = "none"
         elseif self.move_dir == "none" and self.state == "Going to workplace" then
             self:update_direction()
-            print(self.move_dir)
+			self:dir_sub_update()
         elseif self.move_dir == "none" and self.state == "Going to stockpile" then
             self:update_direction()
+			self:dir_sub_update()
         end
         self.timr = self.timr + 1
         self.timr = self.timr % 60
@@ -164,9 +164,9 @@ function Miner:update()
     end
 end
 
-function Miner:animate()
-    self:update()
-    self.animation:update(dt)
+function Miner:animate()		
+    self:update()		
+    self.animation:update(dt)	
 end
 
 return Miner

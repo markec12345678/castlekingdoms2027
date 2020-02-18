@@ -8,23 +8,23 @@ local Stockpile = require('objects.Structures.Stockpile')
 local Granary = require('objects.Structures.Granary')
 local Quarry = require('objects.Structures.Quarry')
 local Mine = require('objects.Structures.Mine')
+local Campfire = require('objects.Structures.Campfire')
+
 
 local building = {
     ["castle"] = {
         quad = tile_quads["small_wooden_castle (1)"],
         offset_y = 93,
         offset_x = 6*15+6,
-        w = 7, h = 7,
+        w = 7, h = 15,
         cost = {
             ["wood"] = 50
         },
-        build = function(self,cx,cy,x,y) 
-           addObjectAt(cx, cy, x, y, 
-			Castle:new(cx,cy,x,y, 
-			IsoX + (x - y) * tile_width  * 0.5 - 0,
-			IsoY + (x + y) * tile_height * 0.5 - 0))
+        build = function(self,gx, gy) 
+            Castle:new(gx, gy)
+            Campfire:new(gx+2,gy+10)
         end,
-        special_requirements = function(self,cx,cy,x,y) return true end,
+        special_requirements = function(self, gx, gy) return true end,
     },
     ["stockpile"] = {
         quad = tile_quads["stockpile"],
@@ -34,16 +34,11 @@ local building = {
         cost = {
             ["stone"] = 4
         },
-        build = function(self,cx,cy,x,y)
-           addObjectAt(cx, cy, x, y, 
-			Stockpile:new(cx,cy,x,y, 
-			IsoX + (x - y) * tile_width  * 0.5,
-			IsoY + (x + y) * tile_height * 0.5))
+        build = function(self,gx, gy)
+			Stockpile:new(gx, gy)
         end,
-        special_requirements = function(self,cx,cy,x,y)
+        special_requirements = function(self, gx, gy)
             if not next(_G.stockpile.list) then return true end
-            local gx = chunk_width*cx+x
-            local gy = chunk_width*cy+y
             local i,o,cxx,cyy
             for w = gx-1, self.w+gx do
                 for h = gy-1, self.h+gy do
@@ -66,13 +61,10 @@ local building = {
         cost = {
             ["wood"] = 10
         },
-        build = function(self,cx,cy,x,y)
-           addObjectAt(cx, cy, x, y, 
-			Granary:new(cx,cy,x,y, 
-			IsoX + (x - y) * tile_width  * 0.5,
-			IsoY + (x + y) * tile_height * 0.5))
+        build = function(self,gx, gy)
+			Granary:new(gx, gy)
         end,
-        special_requirements = function(self,cx,cy,x,y) return true end,
+        special_requirements = function(self, gx, gy) return true end,
     },
     ["quarry"] = {
         quad = tile_quads["stone_quarry"],
@@ -82,13 +74,10 @@ local building = {
         cost = {
             ["wood"] = 24
         },
-        build = function(self,cx,cy,x,y)
-           addObjectAt(cx, cy, x, y, 
-			Quarry:new(cx,cy,x,y, 
-			IsoX + (x - y) * tile_width  * 0.5,
-			IsoY + (x + y) * tile_height * 0.5))
+        build = function(self,gx, gy)
+			Quarry:new(gx, gy)
         end,
-        special_requirements = function(self,cx,cy,x,y) return true end,
+        special_requirements = function(self,gx, gy) return true end,
     },
     ["iron_mine"] = {
         quad = tile_quads["iron_mine"],
@@ -99,13 +88,10 @@ local building = {
             ["wood"] = 24,
             ["stone"] = 10,
         },
-        build = function(self,cx,cy,x,y)
-           addObjectAt(cx, cy, x, y,
-			Mine:new(cx,cy,x,y, 
-			IsoX + (x - y) * tile_width  * 0.5,
-			IsoY + (x + y) * tile_height * 0.5))
+        build = function(self,gx, gy)
+			Mine:new(gx, gy)
         end,
-        special_requirements = function(self,cx,cy,x,y) return true end,
+        special_requirements = function(self,gx, gy) return true end,
     },
 }
 
@@ -170,13 +156,7 @@ local BuildController = class('BuildController')
                     if objectAt(cx, cy, x, y) then self.can_build = false end
                 end
             end
-            do
-                local i = (self.gx) % (chunk_width)
-                local o = (self.gy) % (chunk_width)
-                local cx = math.floor(self.gx/chunk_width)
-                local cy = math.floor(self.gy/chunk_width)
-                if not building[self.building]:special_requirements(cx,cy,i,o) then self.can_build = false end
-            end
+            if not building[self.building]:special_requirements(self.gx, self.gy) then self.can_build = false end
             self.batch:clear()
             for xx = 0, self.width-1 do
                 for yy = 0, self.height-1 do   
@@ -204,8 +184,8 @@ local BuildController = class('BuildController')
             self.previous_can_build = self.can_build
         end
     end
-    function BuildController:build(cx,cy,x,y)
-        if self.active and self.can_build and cx >= 0 and cy >= 0 and cx < 32 and cy < 32 then
+    function BuildController:build(gx, gy)
+        if self.active and self.can_build and self.gx > 0 and self.gx < 2048 and self.gy > 0 and self.gy < 2048 then
             self.can_afford = true
             if not self.start then
                 for resource, amount in pairs(building[self.building].cost) do
@@ -219,16 +199,16 @@ local BuildController = class('BuildController')
                     for resource, amount in pairs(building[self.building].cost) do                            
                         _G.stockpile:take(resource,amount)
                     end                          
-                    building[self.building]:build(cx,cy,x,y)
+                    building[self.building]:build(gx, gy)
                     self.active = false
                     return
                 end
             else        
                 if self.building == 'castle' then               
-                    building[self.building]:build(cx,cy,x,y)
+                    building[self.building]:build(gx, gy)
                     self:set('stockpile')
                 elseif self.building == 'stockpile' then                               
-                    building[self.building]:build(cx,cy,x,y)
+                    building[self.building]:build(gx, gy)
                     self:set('granary')
                     _G.stockpile:store('stone')
                     _G.stockpile:store('stone')
@@ -301,7 +281,7 @@ local BuildController = class('BuildController')
                     _G.stockpile:store('wood')
                     _G.stockpile:store('wood')
                 elseif self.building == "granary" then                        
-                    building[self.building]:build(cx,cy,x,y)
+                    building[self.building]:build(gx, gy)
                     _G.foodpile:store('bread')
                     _G.foodpile:store('bread')
                     _G.foodpile:store('bread')

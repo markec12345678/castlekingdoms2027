@@ -19,8 +19,8 @@ local fr_walking_southwest = indexQuads("body_stonemason_walk_sw", 16)
 local fr_walking_west = indexQuads("body_stonemason_walk_w", 16)
 
 		local Stonemason = class('Stonemason', Unit)
-			function Stonemason:initialize(cx,cy,i,o,x,y,type)
-				Unit.initialize(self,cx,cy,i,o,x,y,type)
+			function Stonemason:initialize(gx, gy, type)
+				Unit.initialize(self, gx, gy, type)
 				self.workplace = nil
 				self.state = 'Find a job'
 				self.marked = 0

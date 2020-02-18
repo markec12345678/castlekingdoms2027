@@ -1,9 +1,9 @@
 local object, tile_quads = ...
-local Object = require("objects.Object")
+local Structure = require("objects.Structure")
 
 local tiles, quad_array = indexBuildingQuads("small_wooden_castle (1)")
 
-local Castle_alias = class('Castle_alias', Object)
+local Castle_alias = class('Castle_alias', Structure)
 			function Castle_alias:initialize(tile,gx,gy,parent,offset_y,offset_x)
                 local mytype = "Static structure"
 				local i = (gx) % (chunk_width)
@@ -12,7 +12,7 @@ local Castle_alias = class('Castle_alias', Object)
 				local cy = math.floor(gy/chunk_width)				 
 				local x = IsoX + (i - o) * tile_width  * 0.5
 				local y = IsoY + (i + o) * tile_height * 0.5
-				Object.initialize(self,cx,cy,i,o,x,y,mytype)
+				Structure.initialize(self,gx,gy,mytype)
 				self.gx = gx
 				self.gy = gy
 					setWalkable(self.gx,self.gy,1)
@@ -25,13 +25,11 @@ local Castle_alias = class('Castle_alias', Object)
 			end
 
 
-local Castle = class('Castle', Object)
-			function Castle:initialize(cx,cy,i,o,x,y,type)
+local Castle = class('Castle', Structure)
+			function Castle:initialize(gx,gy,type)
                 local mytype = "Static structure"
-				Object.initialize(self,cx,cy,i,o,x,y,mytype)
-				self.gx = chunk_width*self.cx+self.i
-				self.gy = chunk_width*self.cy+self.o
-					setWalkable(self.gx,self.gy,1)
+				Structure.initialize(self,gx,gy,mytype)
+				setWalkable(self.gx,self.gy,1)
 				self.health = 1000
                 self.qid = nil
                 self.tile = quad_array[tiles + 1]

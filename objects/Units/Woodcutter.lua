@@ -20,8 +20,8 @@ local fr_cutting_northeast = indexQuads("body_woodcutter_cut_ne", 12)
 
 
 local Woodcutter = class('Woodcutter', Unit)
-function Woodcutter:initialize(cx,cy,i,o,x,y,type)
-	Unit.initialize(self,cx,cy,i,o,x,y,type, "No trees")
+function Woodcutter:initialize(gx,gy,type)
+	Unit.initialize(self,gx,gy,type, "No trees")
 	local walking_speed_anim = 0.05
 	self.an_walking_plank_west = anim.newAnimation(fr_walking_plank_west, walking_speed_anim) 
 	self.an_walking_west = anim.newAnimation(fr_walking_west, walking_speed_anim)

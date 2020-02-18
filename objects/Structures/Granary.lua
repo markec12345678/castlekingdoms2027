@@ -1,5 +1,5 @@
 local object, tile_quads, object_batch = ...
-local Object = require("objects.Object")
+local Structure = require("objects.Structure")
 
 local tiles, quad_array = indexBuildingQuads("granary (1)")
 
@@ -41,7 +41,7 @@ local max_quantity = {
 	["bread"] = 32,
 	["cheese"] = 16,
 }
-local Granary_alias = class('Granary_alias', Object)
+local Granary_alias = class('Granary_alias', Structure)
 			function Granary_alias:initialize(tile,gx,gy,parent,offset_y,offset_x)
                 local mytype = "Static structure"
 				local i = (gx) % (chunk_width)
@@ -50,7 +50,7 @@ local Granary_alias = class('Granary_alias', Object)
 				local cy = math.floor(gy/chunk_width)				 
 				local x = IsoX + (i - o) * tile_width  * 0.5
 				local y = IsoY + (i + o) * tile_height * 0.5
-				Object.initialize(self,cx,cy,i,o,x,y,mytype)
+				Structure.initialize(self, gx, gy, mytype)
 				self.gx = gx
 				self.gy = gy
 					setWalkable(self.gx,self.gy,1)
@@ -71,12 +71,10 @@ local Granary_alias = class('Granary_alias', Object)
 			end
 
 
-local Granary = class('Granary', Object)
-			function Granary:initialize(cx,cy,i,o,x,y,type)
+local Granary = class('Granary', Structure)
+			function Granary:initialize(gx, gy, type)
                 local mytype = "Static structure"
-				Object.initialize(self,cx,cy,i,o,x,y,mytype)
-				self.gx = chunk_width*self.cx+self.i
-				self.gy = chunk_width*self.cy+self.o
+				Structure.initialize(self, gx, gy, mytype)
 					setWalkable(self.gx,self.gy,1)
 				self.health = 1000
                 self.qid = nil

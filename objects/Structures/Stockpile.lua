@@ -1,5 +1,5 @@
 local object, tile_quads, object_batch = ...
-local Object = require("objects.Object")
+local Structure = require("objects.Structure")
 
 local tiles, quad_array = indexBuildingQuads("stockpile")
 
@@ -76,7 +76,7 @@ local max_quantity = {
 	["iron"] = 48,
 	["flour"] = 32
 }
-local Stockpile_alias = class('Stockpile_alias', Object)
+local Stockpile_alias = class('Stockpile_alias', Structure)
 			function Stockpile_alias:initialize(tile,gx,gy,parent,offset_y,offset_x, not_walkable)
                 local mytype = "Static structure"
 				local i = (gx) % (chunk_width)
@@ -85,7 +85,7 @@ local Stockpile_alias = class('Stockpile_alias', Object)
 				local cy = math.floor(gy/chunk_width)				 
 				local x = IsoX + (i - o) * tile_width  * 0.5
 				local y = IsoY + (i + o) * tile_height * 0.5
-				Object.initialize(self,cx,cy,i,o,x,y,mytype)
+				Structure.initialize(self, gx, gy, mytype)
 				self.gx = gx
 				self.gy = gy
 				if not_walkable then
@@ -104,16 +104,13 @@ local Stockpile_alias = class('Stockpile_alias', Object)
 						break
 					end
 				end
-				addObjectAt(cx, cy, i, o, self)	
 			end
 
 
-local Stockpile = class('Stockpile', Object)
-			function Stockpile:initialize(cx,cy,i,o,x,y,type)
+local Stockpile = class('Stockpile', Structure)
+			function Stockpile:initialize(gx,gy,type)
                 local mytype = "Static structure"
-				Object.initialize(self,cx,cy,i,o,x,y,mytype)
-				self.gx = chunk_width*self.cx+self.i
-				self.gy = chunk_width*self.cy+self.o
+				Structure.initialize(self,gx,gy,mytype)
 					setWalkable(self.gx,self.gy,1)
 				self.health = 1000
                 self.qid = nil

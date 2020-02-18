@@ -1,9 +1,9 @@
 local object, tile_quads, object_batch = ...
-local Object = require("objects.Object")
+local Structure = require("objects.Structure")
 local tiles, quad_array = indexBuildingQuads("farm (3)")
 
 
-local Orchard_alias = class('Orchard_alias', Object)
+local Orchard_alias = class('Orchard_alias', Structure)
 			function Orchard_alias:initialize(tile,gx,gy,parent,offset_y,offset_x)
                 local mytype = "Static structure"
 				local i = (gx) % (chunk_width)
@@ -12,7 +12,7 @@ local Orchard_alias = class('Orchard_alias', Object)
 				local cy = math.floor(gy/chunk_width)				 
 				local x = IsoX + (i - o) * tile_width  * 0.5
 				local y = IsoY + (i + o) * tile_height * 0.5
-				Object.initialize(self,cx,cy,i,o,x,y,mytype)
+				Structure.initialize(self,gx,gy,mytype)
 				self.gx = gx
 				self.gy = gy
 					setWalkable(self.gx,self.gy,1)
@@ -32,13 +32,11 @@ local Orchard_alias = class('Orchard_alias', Object)
 				addObjectAt(cx, cy, i, o, self)	
 			end
 
-local Orchard = class('Orchard', Object)
-			function Orchard:initialize(cx,cy,i,o,x,y,type)
+local Orchard = class('Orchard', Structure)
+			function Orchard:initialize(gx, gy,type)
 				_G.JobController:add("Stonemason",self)
                 local mytype = "Static structure"
-				Object.initialize(self,cx,cy,i,o,x,y,mytype)
-				self.gx = chunk_width*self.cx+self.i
-				self.gy = chunk_width*self.cy+self.o
+				Structure.initialize(self, gx, gy, mytype)
 					setWalkable(self.gx,self.gy,1)
 				self.health = 400
                 self.qid = nil
