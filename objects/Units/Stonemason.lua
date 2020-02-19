@@ -25,6 +25,7 @@ local fr_walking_west = indexQuads("body_stonemason_walk_w", 16)
 				self.state = 'Find a job'
 				self.marked = 0
 				self.count = 1
+				self.eat_timer = 0
 				self.timr = 0
 				self.animated = true				
 				self.animation = anim.newAnimation(fr_walking_west,10)
@@ -84,6 +85,11 @@ local fr_walking_west = indexQuads("body_stonemason_walk_w", 16)
 				removeObjectAt(self.lrcx, self.lrcy, self.lrx, self.lry, self)
 			end
 			function Stonemason:update()
+				self.eat_timer = self.eat_timer + 1
+				if self.eat_timer > 3000 then
+					_G.foodpile:take()
+					self.eat_timer = 0
+				end
 				if self.path_state == "Waiting for path" then
 					self:pathfind()
 				elseif self.state ~= "No path to quarry" and self.state ~= "Working" then

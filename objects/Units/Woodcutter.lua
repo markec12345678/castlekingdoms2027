@@ -42,6 +42,7 @@ function Woodcutter:initialize(gx,gy,type)
 	self.state = 'Looking to chop tree'
 	self.marked = 0
 	self.count = 1
+	self.eat_timer = 0
 	self.timr = 0
 	self.offset_x = -5
 	self.offset_y = -10
@@ -151,8 +152,17 @@ function Woodcutter:find_tree()
 	self.target_tree = closest_object 
 	self.endx = closest_object.gx
 	self.endy = closest_object.gy+1
-	self:requestPath(self.endx,self.endy) 
-	self.state = "Going to tree"
+	if self.endx == self.gx and self.endy == self.gy then
+		self.state = "Cutting down"
+		self.animation = anim.newAnimation(fr_cutting_northeast,0.10,self.cut)
+		self.nd = {}
+		self.waypoint_x, self.waypoint_y = nil, nil
+		self.move_dir = "none"
+		self.count = 1
+	else
+		self:requestPath(self.endx,self.endy) 
+		self.state = "Going to tree"
+	end
 	closest_object.marked = true
 end
 function Woodcutter:dir_sub_update()
@@ -207,6 +217,11 @@ function Woodcutter:dir_sub_update()
 	end
 end
 function Woodcutter:update()
+	self.eat_timer = self.eat_timer + 1
+	if self.eat_timer > 3000 then
+		_G.foodpile:take()
+		self.eat_timer = 0
+	end
 	if self.path_state == "Waiting for path" then
 		self:pathfind()
 	elseif self.state ~= "No trees" then

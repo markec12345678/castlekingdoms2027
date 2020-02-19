@@ -63,6 +63,7 @@ package.loaded['objects.Units.Unit'] = Unit
 local Tree 		 	= love.filesystem.load('objects/Environment/Tree.lua')(object_batch, active_objects, tile_quads, object)
 local Woodcutter 	= love.filesystem.load('objects/Units/Woodcutter.lua')(object, tile_quads)
 local Stonemason 	= love.filesystem.load('objects/Units/Stonemason.lua')(object, tile_quads)
+local Farmer 	= love.filesystem.load('objects/Units/Farmer.lua')(object, tile_quads)
 local Miner 		= love.filesystem.load('objects/Units/Miner.lua')(object, tile_quads)
 local Castle 		= love.filesystem.load('objects/Structures/Castle.lua')(object, tile_quads)
 local Stockpile 	= love.filesystem.load('objects/Structures/Stockpile.lua')(object, tile_quads, object_batch)
@@ -70,9 +71,11 @@ local Granary       = love.filesystem.load('objects/Structures/Granary.lua')(obj
 local Quarry        = love.filesystem.load('objects/Structures/Quarry.lua')(active_entities, object, tile_quads, object_batch)
 local Mine 			= love.filesystem.load('objects/Structures/Mine.lua')(active_entities, object, tile_quads, object_batch)
 local Campfire      = love.filesystem.load('objects/Structures/Campfire.lua')(object, tile_quads, object_batch)
+local Orchard      = love.filesystem.load('objects/Structures/Orchard.lua')(object, tile_quads, object_batch)
 package.loaded['objects.Environment.Tree']  		= Tree
 package.loaded['objects.Units.Woodcutter']  		= Woodcutter
 package.loaded['objects.Units.Stonemason']  		= Stonemason
+package.loaded['objects.Units.Farmer']  			= Farmer
 package.loaded['objects.Units.Miner'] 				= Miner
 package.loaded['objects.Structures.Castle'] 		= Castle
 package.loaded['objects.Structures.Stockpile'] 		= Stockpile
@@ -80,6 +83,7 @@ package.loaded['objects.Structures.Granary'] 		= Granary
 package.loaded['objects.Structures.Quarry'] 		= Quarry
 package.loaded['objects.Structures.Mine'] 			= Mine
 package.loaded['objects.Structures.Campfire'] 		= Campfire
+package.loaded['objects.Structures.Orchard'] 		= Orchard
 _G.stockpile = require('objects.Controllers.StockpileController')
 _G.foodpile = require('objects.Controllers.FoodController')
 --- NOTE --------------------------
@@ -135,7 +139,7 @@ function isObjectAt(cx, cy, x, y, object_compared)
 end
 
 function objectAt(cx,cy,x,y)
-	if (type(object[cx][cy][x][y]) == 'table' and next(object[cx][cy][x][y]) == nil) or not object[cx][cy][x][y] then
+	if (type(object[cx][cy][x][y]) == 'table' and next(object[cx][cy][x][y]) == nil) or not object[cx][cy][x][y] or objectFromTypeAt(cx, cy, x, y, "Stump") then
 		return false
 	else return true end
 end
@@ -150,7 +154,7 @@ function genObjects(cx,cy)
 	object_batch[chunk_x][chunk_y]:clear()	
 	for i=0,chunk_width-1,1 do
 		for o=0,chunk_height-1,1 do
-			local rand = math.random(60)
+			local rand = math.random(70)
 					if rand == 4 then
 					if o == 0 and objectAt(cx,cy-1,i,o-1) then goto continue end
 					if o ~= 0 and objectAt(cx,cy,i,o-1) then goto continue end
@@ -182,9 +186,10 @@ function genObjects(cx,cy)
 end
 local flag = 0
 function update_objects(cx,cy,deser) 
+	_G.JobController:make_worker()
 	if scale_x < 0.5 then
 		flag = flag + 1
-		if flag < (1-scale_x)*6 then return else flag = math.floor(love.math.random(-1,1)+0.5) end
+		if flag < (1-scale_x)*5 then return else flag = math.floor(love.math.random(-1,1)+0.5) end
 	end
 	prof.push("ST")  
 	local chunk_x = cx or current_chunk_x
@@ -286,21 +291,15 @@ local function mousepressed(x, y, button, istouch)
 		_G.BuildController:build(press.gx,press.gy)
    	elseif button == 2 then
 		if not objectAt(press.cx, press.cy, press.x, press.y) then
-			if love.keyboard.isDown('m') then			
-				obj = Miner:new(press.gx, press.gy,"Miner")			
-			else
-				obj = Woodcutter:new(press.gx, press.gy,"Woodcutter")
-				obj = Woodcutter:new(press.gx, press.gy,"Woodcutter")
-				obj = Woodcutter:new(press.gx, press.gy,"Woodcutter")
-				obj = Woodcutter:new(press.gx, press.gy,"Woodcutter")
-			end
+			obj = Woodcutter:new(press.gx, press.gy,"Woodcutter")
+			obj = Woodcutter:new(press.gx, press.gy,"Woodcutter")
+			obj = Woodcutter:new(press.gx, press.gy,"Woodcutter")
+			obj = Woodcutter:new(press.gx, press.gy,"Woodcutter")
 		end 
 	elseif button == 3 then
 		local insp = object[press.cx][press.cy][press.x][press.y]
 		if insp then
 			print(inspect(insp))
-		else
-			obj = Stonemason:new(press.gx, press.gy,"Stonemason")
 		end
 	end
 end 

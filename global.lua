@@ -177,7 +177,7 @@
         scroll_speed = 10
         window_width, window_height = love.window.getMode()
         view_xview = -100
-        view_yview = 1200
+        view_yview = 16000
     ----Mouse
 	    mx = 0
 	    my = 0

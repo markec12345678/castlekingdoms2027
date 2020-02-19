@@ -59,6 +59,7 @@ local Castle = class('Castle', Structure)
 				Castle_alias:new(tile_quads["empty"],self.gx+6,self.gy-3+6,self)
 				Castle_alias:new(tile_quads["empty"],self.gx+6,self.gy-4+6,self)
 				Castle_alias:new(tile_quads["empty"],self.gx+6,self.gy-5+6,self)
+				_G.spawn_point_x, _G.spawn_point_y = self.gx+3, self.gy+7
 
 				local ccx,ccy
 				for xx = -2, 8 do

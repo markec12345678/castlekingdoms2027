@@ -90,7 +90,7 @@ end
 function game:keyreleased(key, scancode)
     if not _G.BuildController.start then
 	if key == "q" then
-	    _G.BuildController:set('castle')
+	    _G.BuildController:set('orchard')
 	elseif key == "w" then
 	    _G.BuildController:set('stockpile')
 	elseif key == "e" then

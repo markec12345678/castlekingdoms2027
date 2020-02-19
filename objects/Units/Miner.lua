@@ -24,6 +24,7 @@ function Miner:initialize(gx, gy, type)
     Unit.initialize(self, gx, gy, type)	
     self.state = 'Find a job'
     self.marked = 0
+	self.eat_timer = 0
     self.count = 1
     self.timr = 0
     self.animation = anim.newAnimation(fr_walking_west, 10)
@@ -32,51 +33,51 @@ end
 function Miner:dir_sub_update()
     if self.move_dir == "west" then
         if self.state == "Going to stockpile" then
-            self.animation = anim.newAnimation(fr_walking_iron_west, 0.11)
+            self.animation = anim.newAnimation(fr_walking_iron_west, 0.05)
         else
-            self.animation = anim.newAnimation(fr_walking_west, 0.11)
+            self.animation = anim.newAnimation(fr_walking_west, 0.05)
         end
     elseif self.move_dir == "southwest" then
         if self.state == "Going to stockpile" then
-            self.animation = anim.newAnimation(fr_walking_iron_southwest, 0.11)
+            self.animation = anim.newAnimation(fr_walking_iron_southwest, 0.05)
         else
-            self.animation = anim.newAnimation(fr_walking_southwest, 0.11)
+            self.animation = anim.newAnimation(fr_walking_southwest, 0.05)
         end
     elseif self.move_dir == "northwest" then
         if self.state == "Going to stockpile" then
-            self.animation = anim.newAnimation(fr_walking_iron_northwest, 0.11)
+            self.animation = anim.newAnimation(fr_walking_iron_northwest, 0.05)
         else
-            self.animation = anim.newAnimation(fr_walking_northwest, 0.11)
+            self.animation = anim.newAnimation(fr_walking_northwest, 0.05)
         end
     elseif self.move_dir == "north" then
         if self.state == "Going to stockpile" then
-            self.animation = anim.newAnimation(fr_walking_iron_north, 0.11)
+            self.animation = anim.newAnimation(fr_walking_iron_north, 0.05)
         else
-            self.animation = anim.newAnimation(fr_walking_north, 0.11)
+            self.animation = anim.newAnimation(fr_walking_north, 0.05)
         end
     elseif self.move_dir == "south" then
         if self.state == "Going to stockpile" then
-            self.animation = anim.newAnimation(fr_walking_iron_south, 0.11)
+            self.animation = anim.newAnimation(fr_walking_iron_south, 0.05)
         else
-            self.animation = anim.newAnimation(fr_walking_south, 0.11)
+            self.animation = anim.newAnimation(fr_walking_south, 0.05)
         end
     elseif self.move_dir == "east" then
         if self.state == "Going to stockpile" then
-            self.animation = anim.newAnimation(fr_walking_iron_east, 0.11)
+            self.animation = anim.newAnimation(fr_walking_iron_east, 0.05)
         else
-            self.animation = anim.newAnimation(fr_walking_east, 0.11)
+            self.animation = anim.newAnimation(fr_walking_east, 0.05)
         end
     elseif self.move_dir == "southeast" then
         if self.state == "Going to stockpile" then
-            self.animation = anim.newAnimation(fr_walking_iron_southeast, 0.11)
+            self.animation = anim.newAnimation(fr_walking_iron_southeast, 0.05)
         else
-            self.animation = anim.newAnimation(fr_walking_southeast, 0.11)
+            self.animation = anim.newAnimation(fr_walking_southeast, 0.05)
         end
     elseif self.move_dir == "northeast" then
         if self.state == "Going to stockpile" then
-            self.animation = anim.newAnimation(fr_walking_iron_northeast, 0.11)
+            self.animation = anim.newAnimation(fr_walking_iron_northeast, 0.05)
         else
-            self.animation = anim.newAnimation(fr_walking_northeast, 0.11)
+            self.animation = anim.newAnimation(fr_walking_northeast, 0.05)
         end
     end
 end
@@ -86,6 +87,11 @@ function Miner:job_update()
 end
 
 function Miner:update()
+    self.eat_timer = self.eat_timer + 1
+    if self.eat_timer > 3000 then
+        _G.foodpile:take()
+        self.eat_timer = 0
+    end
     if self.path_state == "Waiting for path" then
         self:pathfind()
     elseif self.state ~= "No path to workplace" and self.state ~= "Working" then

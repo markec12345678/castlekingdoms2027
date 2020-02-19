@@ -9,6 +9,7 @@ local Granary = require('objects.Structures.Granary')
 local Quarry = require('objects.Structures.Quarry')
 local Mine = require('objects.Structures.Mine')
 local Campfire = require('objects.Structures.Campfire')
+local Orchard = require('objects.Structures.Orchard')
 
 
 local building = {
@@ -64,7 +65,21 @@ local building = {
         build = function(self,gx, gy)
 			Granary:new(gx, gy)
         end,
-        special_requirements = function(self, gx, gy) return true end,
+        special_requirements = function(self, gx, gy)
+            if not next(_G.foodpile.list) then return true end
+            local i,o,cxx,cyy
+            for w = gx-1, self.w+gx do
+                for h = gy-1, self.h+gy do
+                    i = (w) % (chunk_width)
+                    o = (h) % (chunk_width)
+                    cxx = math.floor(w/chunk_width)
+                    cyy = math.floor(h/chunk_width)
+                    if objectFromTypeAt(cxx, cyy ,i, o, "Granary") or objectFromTypeAt(cxx, cyy, i, o, "Granary_alias") then
+                        return true
+                    end
+                end
+            end
+        end,
     },
     ["quarry"] = {
         quad = tile_quads["stone_quarry"],
@@ -90,6 +105,19 @@ local building = {
         },
         build = function(self,gx, gy)
 			Mine:new(gx, gy)
+        end,
+        special_requirements = function(self,gx, gy) return true end,
+    },
+    ["orchard"] = {
+        quad = tile_quads["farm (3)"],
+        offset_x = 32,
+        offset_y = 48+6,
+        w = 12, h = 12,
+        cost = {
+            ["wood"] = 2,
+        },
+        build = function(self,gx, gy)
+			Orchard:new(gx, gy)
         end,
         special_requirements = function(self,gx, gy) return true end,
     },
@@ -282,6 +310,24 @@ local BuildController = class('BuildController')
                     _G.stockpile:store('wood')
                 elseif self.building == "granary" then                        
                     building[self.building]:build(gx, gy)
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
                     _G.foodpile:store('bread')
                     _G.foodpile:store('bread')
                     _G.foodpile:store('bread')
