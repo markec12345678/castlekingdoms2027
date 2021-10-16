@@ -88,18 +88,22 @@ end
 
 local function draw()
         love.graphics.print(
-                "\n GlobalX: " .. LocalX ..
-                "\n GlobalY: " .. LocalY ..
-                "\n LocalX: " .. ((LocalX)%chunk_width) ..
-                "\n LocalY: " .. ((LocalY)%chunk_width) ..
-                "\n Scale: " .. scale_x ..
-                "\n Garbage (kB): " .. collectgarbage('count') ..
-                "\n Center chunk: [" .. xchunk .. "][".. ychunk .."][" .. (status[xchunk][ychunk] or "N\\A") .."]"..
-                "\n Top left chunk: [" .. top_left_chunk_x .. "][".. top_left_chunk_y .."][" .. (status[top_left_chunk_x][top_left_chunk_y] or "N\\A") .."]"..
-                "\n Bottom right chunk: [" .. bottom_right_chunk_x .. "][".. bottom_right_chunk_y .."][" .. (status[bottom_right_chunk_x][bottom_right_chunk_y] or "N\\A") .."]"..
-                "\n Current FPS: "..tostring(love.timer.getFPS())
-                , 0, 0)
-        limitfps()
+            "\n GlobalX: " .. LocalX ..
+            "\n GlobalY: " .. LocalY ..
+            "\n LocalX: " .. ((LocalX)%chunk_width) ..
+            "\n LocalY: " .. ((LocalY)%chunk_width) ..
+            "\n Scale: " .. scale_x ..
+            "\n Garbage (kB): " .. collectgarbage('count') ..
+            "\n Center chunk: [" .. xchunk .. "][".. ychunk .."][" .. (status[xchunk][ychunk] or "N\\A") .."]"..
+            "\n Current FPS: "..tostring(love.timer.getFPS())..
+            "\n Max FPS: "..tostring(previous_frame_time)..
+            "\n Wood: "..tostring(_G.resources['wood'])..
+            "\n Stone: "..tostring(_G.resources['stone'])..
+            "\n Iron: "..tostring(_G.resources['iron'])
+            , 0, 0)
+        love.graphics.print(
+            "[Q] - Apple orchard\n[W] - Stockpile\n[E] - Granary\n[T] - Quarry\n[Y] - Iron mine\n[Right click] - Spawn woodcutters\n[Move keys] - Move map\n[Mouse scroll] - Zoom in/out\n[Escape] - Exit"
+                , 0, height-130)
 end
 
 local function getBuildingSelection()

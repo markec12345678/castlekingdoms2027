@@ -29,7 +29,8 @@ function love.quit()
     return true
 end
 
-
+local cnt = 0
+local previous_frame = 0
 function love.run()
 	if love.math then
 		love.math.setRandomSeed(os.time())
@@ -58,8 +59,14 @@ function love.run()
 			love.timer.step()
 			dt = love.timer.getDelta()
 		end
- 
+		cnt = cnt + 1
+		if cnt == 10 then
+			_G.previous_frame_time = tonumber(math.floor(previous_frame / 10))
+			cnt = 0
+			previous_frame = 0
+		end
 		-- Call update and draw 
+		local start_time_FPS = love.timer.getTime()
 		prof.push("frame")
 		prof.push("update")
 		if love.update then love.update(dt) end -- will pass 0 if love.timer is disabled
@@ -71,6 +78,8 @@ function love.run()
 			if love.draw then love.draw() end             
 			love.graphics.present()
 		end
+		previous_frame = previous_frame + 1/(love.timer.getTime()-start_time_FPS)
+        limitfps()
 		prof.pop("draw")
 		prof.pop("frame")
 	end

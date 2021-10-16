@@ -113,7 +113,6 @@ function Miner:update()
                     print("Closest node not found")
                 else
                     self:requestPath(closest_node.gx, closest_node.gy)
-                    print("Found path!")
                 end
                 self.move_dir = "none"
             end

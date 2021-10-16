@@ -18,7 +18,6 @@ local FoodController = class('FoodController')
                         if v:store(food) then break end
                     end
                 else
-                    print(inspect(_G.not_full_foods))
                     self.food[food][#self.food[food]].id.parent:store(food)
                 end
 			end
