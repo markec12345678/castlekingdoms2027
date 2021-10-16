@@ -64,7 +64,7 @@ local function loadChunk(cx,cy)
 		local chunk_ser = bitser.loadLoveFile("chunk-test"..cx.."l"..cy..".bin")
 		print("Loading",cx,cy)
 		loadObjects(cx,cy,chunk_ser.objects)
-		update_objects(cx,cy, true)
+		update_objects(cx,cy) -- need to update with deserialization
 end 
 
 local function chunkGarbageCollect()
