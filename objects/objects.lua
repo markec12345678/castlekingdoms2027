@@ -60,6 +60,7 @@ package.loaded['objects.Units.Unit'] = Unit
 local Tree = love.filesystem.load('objects/Environment/Tree.lua')(object_batch, active_objects, tile_quads, object)
 local Woodcutter = love.filesystem.load('objects/Units/Woodcutter.lua')(object, tile_quads)
 local Stonemason = love.filesystem.load('objects/Units/Stonemason.lua')(object, tile_quads)
+local Peasant = love.filesystem.load('objects/Units/Peasant.lua')(object, tile_quads)
 local Farmer = love.filesystem.load('objects/Units/Farmer.lua')(object, tile_quads)
 local Miner = love.filesystem.load('objects/Units/Miner.lua')(object, tile_quads)
 local Castle = love.filesystem.load('objects/Structures/Castle.lua')(object, tile_quads)
@@ -72,6 +73,7 @@ local Orchard = love.filesystem.load('objects/Structures/Orchard.lua')(object, t
 package.loaded['objects.Environment.Tree'] = Tree
 package.loaded['objects.Units.Woodcutter'] = Woodcutter
 package.loaded['objects.Units.Stonemason'] = Stonemason
+package.loaded['objects.Units.Peasant'] = Peasant
 package.loaded['objects.Units.Farmer'] = Farmer
 package.loaded['objects.Units.Miner'] = Miner
 package.loaded['objects.Structures.Castle'] = Castle
@@ -301,10 +303,11 @@ local function mousepressed(x, y, button)
         _G.BuildController:build(press.gx, press.gy)
     elseif button == 2 then
         if not objectAt(press.cx, press.cy, press.x, press.y) then
-            Woodcutter:new(press.gx, press.gy, "Woodcutter")
-            Woodcutter:new(press.gx, press.gy, "Woodcutter")
-            Woodcutter:new(press.gx, press.gy, "Woodcutter")
-            Woodcutter:new(press.gx, press.gy, "Woodcutter")
+            Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
+            -- Woodcutter:new(press.gx, press.gy, "Woodcutter")
+            -- Woodcutter:new(press.gx, press.gy, "Woodcutter")
+            -- Woodcutter:new(press.gx, press.gy, "Woodcutter")
+            -- Woodcutter:new(press.gx, press.gy, "Woodcutter")
         end
     elseif button == 3 then
         local insp = object[press.cx][press.cy][press.x][press.y]
@@ -328,8 +331,12 @@ local function update()
     _G.previous_top_left_chunk_x = _G.top_left_chunk_x
 
     local updated_chunks = _G.newAutotable(2)
-    for _, obj in ipairs(active_entities) do
-        obj:animate()
+    for idx, obj in pairs(active_entities) do
+        if obj.to_be_deleted then
+            active_entities[idx] = nil
+        else
+            obj:animate()
+        end
     end
     prof.pop("AE")
     prof.push("UPDATE")

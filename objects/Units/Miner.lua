@@ -21,10 +21,12 @@ local fr_walking_iron_west = indexQuads("body_iron_miner_walk_ingot_w", 16)
 local Miner = class('Miner', Unit)
 
 function Miner:initialize(gx, gy, type)
-    Unit.initialize(self, gx, gy, type)	
+    Unit.initialize(self, gx, gy, type)
     self.state = 'Find a job'
     self.marked = 0
-	self.eat_timer = 0
+    self.eat_timer = 0
+    self.offset_y = -10
+    self.offset_x = -5
     self.count = 1
     self.timr = 0
     self.animation = anim.newAnimation(fr_walking_west, 10)
@@ -122,17 +124,17 @@ function Miner:update()
             self.move_dir = "none"
         elseif self.move_dir == "none" and self.state == "Going to workplace" then
             self:update_direction()
-			self:dir_sub_update()
+            self:dir_sub_update()
         elseif self.move_dir == "none" and self.state == "Going to stockpile" then
             self:update_direction()
-			self:dir_sub_update()
+            self:dir_sub_update()
         end
         self.timr = self.timr + 1
         self.timr = self.timr % 60
-        if self.state == "Going to workplace" or self.state ==
-            "Going to stockpile" then self:move() end
-        if self.fx * 0.001 == self.waypoint_x and self.fy * 0.001 ==
-            self.waypoint_y and self.move_dir ~= "none" then
+        if self.state == "Going to workplace" or self.state == "Going to stockpile" then
+            self:move()
+        end
+        if self.fx * 0.001 == self.waypoint_x and self.fy * 0.001 == self.waypoint_y and self.move_dir ~= "none" then
             if self.state == "Going to workplace" then
                 if self.count == self.nd_len then
                     self.workplace:work(self)
@@ -169,9 +171,9 @@ function Miner:update()
     end
 end
 
-function Miner:animate()		
-    self:update()		
-    self.animation:update(dt)	
+function Miner:animate()
+    self:update()
+    self.animation:update(dt)
 end
 
 return Miner
