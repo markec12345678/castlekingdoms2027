@@ -1,6 +1,8 @@
 local _, tile_quads, _ = ...
 local Structure = require("objects.Structure")
 
+local fr_campfire_burning = _G.indexQuads("campfire", 19, 2)
+
 local Campfire_alias = _G.class('Campfire_alias', Structure)
 function Campfire_alias:initialize(gx, gy, parent)
     Structure.initialize(self, gx, gy, "Static structure")
@@ -21,6 +23,8 @@ function Campfire:initialize(gx, gy, type)
     self.tile = tile_quads["campfire (1)"]
     self.offset_x = 0
     self.offset_y = 0
+    self.animated = false
+    self.peasants = 0
     self.level = 1
     self.rotation = 1
     self.hover_action = true
@@ -46,12 +50,22 @@ function Campfire:initialize(gx, gy, type)
     self:take_spot(self.gx, self.gy)
     _G.update_terrain(ccx, ccy)
     _G.campfire = self
+    if _G.chunk_objects[self.cx][self.cy] == nil then
+        _G.chunk_objects[self.cx][self.cy] = {}
+    end
+    _G.chunk_objects[self.cx][self.cy][self] = self
 end
 function Campfire:get_next_free_spot(peasant)
+    if not self.animated then
+        self.animated = true
+        self.offset_y = -22
+        self.animation = _G.anim.newAnimation(fr_campfire_burning, 0.1)
+    end
     for xx = -1, 3 do
         for yy = -2, 3 do
             if self.free_spots[xx][yy] == true then
                 self.free_spots[xx][yy] = peasant
+                self.peasants = self.peasants + 1
                 return self.gx + xx, self.gy + yy, self:get_pointing_direction(self.gx + xx, self.gy + yy)
             end
         end
@@ -64,6 +78,11 @@ function Campfire:get_free_peasant()
             if type(self.free_spots[xx][yy]) == "table" then
                 local peasant = self.free_spots[xx][yy]
                 self.free_spots[xx][yy] = true
+                self.peasants = self.peasants - 1
+                if self.peasants == 0 then
+                    self.animated = false
+                    self.offset_y = 0
+                end
                 return peasant
             end
         end
@@ -107,5 +126,8 @@ end
 function Campfire:take_spot(gx, gy)
     local x, y = -(self.gx - gx), -(self.gy - gy)
     self.free_spots[x][y] = false
+end
+function Campfire:animate()
+    self.animation:update(_G.dt)
 end
 return Campfire
