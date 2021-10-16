@@ -68,6 +68,8 @@ local Stockpile = love.filesystem.load('objects/Structures/Stockpile.lua')(objec
 local Granary = love.filesystem.load('objects/Structures/Granary.lua')(object, tile_quads, object_batch)
 local Quarry = love.filesystem.load('objects/Structures/Quarry.lua')(active_entities, object, tile_quads, object_batch)
 local Mine = love.filesystem.load('objects/Structures/Mine.lua')(active_entities, object, tile_quads, object_batch)
+local WoodcutterHut = love.filesystem.load('objects/Structures/WoodcutterHut.lua')(active_entities, object, tile_quads,
+    object_batch)
 local Campfire = love.filesystem.load('objects/Structures/Campfire.lua')(object, tile_quads, object_batch)
 local Orchard = love.filesystem.load('objects/Structures/Orchard.lua')(object, tile_quads, object_batch)
 package.loaded['objects.Environment.Tree'] = Tree
@@ -81,6 +83,7 @@ package.loaded['objects.Structures.Stockpile'] = Stockpile
 package.loaded['objects.Structures.Granary'] = Granary
 package.loaded['objects.Structures.Quarry'] = Quarry
 package.loaded['objects.Structures.Mine'] = Mine
+package.loaded['objects.Structures.WoodcutterHut'] = WoodcutterHut
 package.loaded['objects.Structures.Campfire'] = Campfire
 package.loaded['objects.Structures.Orchard'] = Orchard
 _G.stockpile = require('objects.Controllers.StockpileController')

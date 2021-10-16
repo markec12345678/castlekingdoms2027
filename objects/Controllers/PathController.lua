@@ -1,5 +1,3 @@
-
-
 local bitser = require("libraries.bitser")
 
 local PathController = class('PathController')
@@ -7,7 +5,12 @@ function PathController:initialize()
     self.paths = newAutotable(4)
 end
 function PathController:requestPath(startx, starty, endx, endy)
-    _G.channel.request:push({sx = startx, sy = starty, ex = endx, ey = endy})
+    _G.channel.request:push({
+        sx = startx,
+        sy = starty,
+        ex = endx,
+        ey = endy
+    })
 end
 function PathController:update()
     local table
@@ -20,7 +23,9 @@ function PathController:update()
             else
                 self.paths[table.sx][table.sy][table.ex][table.ey] = table.nodes
             end
-        else break end
+        else
+            break
+        end
     until (not table)
 end
 function PathController:getPath(startx, starty, endx, endy)
@@ -32,6 +37,7 @@ function PathController:getPath(startx, starty, endx, endy)
             self.paths[startx][starty][endx][endy] = nil
             return returnval
         end
-    else return false  end
+    end
+    return false
 end
 return PathController:new()

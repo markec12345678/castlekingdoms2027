@@ -52,6 +52,8 @@ function JobController:make_worker()
                     worker = Miner:new(_G.spawn_point_x, _G.spawn_point_y, "Miner")
                 elseif job == "Farmer" then
                     worker = Farmer:new(_G.spawn_point_x, _G.spawn_point_y, "Farmer")
+                elseif job == "Woodcutter" then
+                    worker = Woodcutter:new(_G.spawn_point_x, _G.spawn_point_y, "Woodcutter")
                 end
                 workplace:join(worker)
                 worker.state = "Go to workplace"

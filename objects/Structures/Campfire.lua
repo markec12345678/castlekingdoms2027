@@ -39,7 +39,7 @@ function Campfire:initialize(gx, gy, type)
             ccx, ccy = _G.terrainSetTileAt(self.gx + xx, self.gy + yy, math.random(6, 8))
         end
     end
-
+    self:take_spot(_G.spawn_point_x, _G.spawn_point_y)
     Campfire_alias:new(self.gx, self.gy - 1, self)
     Campfire_alias:new(self.gx, self.gy + 1, self)
     Campfire_alias:new(self.gx + 1, self.gy, self)

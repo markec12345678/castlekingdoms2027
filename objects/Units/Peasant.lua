@@ -42,6 +42,7 @@ function Peasant:initialize(gx, gy, type)
     local camp_x, camp_y, orientation = _G.campfire:get_next_free_spot(self)
     self.orientation = orientation
     self:requestPath(camp_x, camp_y)
+    self.try_to_get_a_job = false
 end
 function Peasant:dir_sub_update()
     if self.move_dir == "west" then
@@ -66,12 +67,17 @@ function Peasant:job_update()
     _G.removeObjectAt(self.lrcx, self.lrcy, self.lrx, self.lry, self)
 end
 function Peasant:get_a_job()
-    if self.state ~= "Going to door" then
+    if self.state == "Waiting" then
         self:requestPath(_G.spawn_point_x, _G.spawn_point_y)
         self.state = "Going to door"
+    else
+        self.try_to_get_a_job = true
     end
 end
 function Peasant:update()
+    if self.try_to_get_a_job and self.state == "Waiting" then
+        self:get_a_job()
+    end
     self.eat_timer = self.eat_timer + 1
     if self.eat_timer > 3000 then
         _G.foodpile:take()
@@ -88,7 +94,7 @@ function Peasant:update()
     end
     if self.fx * 0.001 == self.waypoint_x and self.fy * 0.001 == self.waypoint_y and self.move_dir ~= "none" then
         if self.state == "Going to campfire" or self.state == "Going to door" then
-            if self.count == self.nd_len then
+            if self.count == self.nd_len or self.nd[self.count] == nil then
                 self.nd = {}
                 self.waypoint_x, self.waypoint_y = nil, nil
                 self.move_dir = "none"
@@ -124,6 +130,8 @@ function Peasant:update()
                 end
                 return
             else
+                -- TODO: Likes to throw an exception here, indexing a nil value at self.nd[self.count][1]
+                -- fixed by making the upper if check if last node is same as first
                 self.waypoint_x = self.nd[self.count][1]
                 self.waypoint_y = self.nd[self.count][2]
                 self.move_dir = "none"

@@ -46,23 +46,31 @@ function Unit:pathfind()
         print("AVOIDED DISASTER, TODO: RETURN RESULT")
         return
     end
+    -- self.path = _G.finder:getPath(math.round(self.gx), math.round(self.gy), self.endx, self.endy)
     self.path = _G.finder:getPath(self.gx, self.gy, self.endx, self.endy)
     if self.path then
         if type(self.path) == "table" then
             self.nd = {}
-            local first = true -- skip the first node, because it's our position
+            local first, second = true, false -- skip the first node, because it's our position
             local count = 0
             for _, node in ipairs(self.path) do
                 if not first then
                     self.nd[count] = node
                     count = count + 1
+                    second = true
                 else
+                    self.nd[-1] = node
                     first = false
                 end
             end
             self.nd_len = count
-            self.waypoint_x = self.nd[0][1] -- fixme If spawning right next to a tree, will throw error here
-            self.waypoint_y = self.nd[0][2]
+            if not second then
+                self.waypoint_x = self.nd[-1][1] -- fixme If spawning right next to a tree, will throw error here
+                self.waypoint_y = self.nd[-1][2]
+            else
+                self.waypoint_x = self.nd[0][1] -- fixme If spawning right next to a tree, will throw error here
+                self.waypoint_y = self.nd[0][2]
+            end
             self.move_dir = "none"
             self.path_state = "Found"
             return true
@@ -184,6 +192,7 @@ function Unit:move()
         self.originalx = math.round(self.gx) % chunk_width
         self.originaly = math.round(self.gy) % chunk_width
     end
+    self.gx, self.gy = math.round(self.fx * 0.001), math.round(self.fy * 0.001)
 end
 
 return Unit

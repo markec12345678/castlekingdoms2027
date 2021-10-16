@@ -8,6 +8,7 @@ local Stockpile = require('objects.Structures.Stockpile')
 local Granary = require('objects.Structures.Granary')
 local Quarry = require('objects.Structures.Quarry')
 local Mine = require('objects.Structures.Mine')
+local WoodcutterHut = require('objects.Structures.WoodcutterHut')
 local Campfire = require('objects.Structures.Campfire')
 local Orchard = require('objects.Structures.Orchard')
 
@@ -136,6 +137,23 @@ local building = {
         build = function(self, gx, gy)
             Orchard:new(gx, gy)
         end,
+        special_requirements = function(self, gx, gy)
+            return true
+        end
+    },
+    ["woodcutter_hut"] = {
+        quad = tile_quads["woodcutter_hut"],
+        offset_x = 32,
+        offset_y = 32,
+        w = 3,
+        h = 3,
+        cost = {
+            ["wood"] = 3
+        },
+        build = function(self, gx, gy)
+            WoodcutterHut:new(gx, gy)
+        end,
+        -- add requirement for w h
         special_requirements = function(self, gx, gy)
             return true
         end

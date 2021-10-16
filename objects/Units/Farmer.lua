@@ -104,7 +104,6 @@ function Farmer:update()
     elseif self.state ~= "No path to farm" then
         if self.state == "Find a job" then
             _G.JobController:find_job(self, "Farmer")
-            print(self.state)
         elseif self.state == "Go to foodpile" then
             if _G.foodpile then
                 self.state = "Going to foodpile"
