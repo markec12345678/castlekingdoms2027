@@ -79,7 +79,6 @@ end
 local function genTerrain(cx, cy)
     local chunk_x = cx or current_chunk_x
     local chunk_y = cy or current_chunk_y
-    genObjects(cx, cy) -- TODO OPTIMIZE: move genObjects in this loop so we don't loop twice!
     if terrain_batch[chunk_x][chunk_y] == nil then
         terrain_batch[chunk_x][chunk_y] = love.graphics.newSpriteBatch(terrain_image, chunk_width * chunk_height)
     end
@@ -94,6 +93,7 @@ local function genTerrain(cx, cy)
                 tile_height * 0.5 - (tile_offset[terrain[chunk_x][chunk_y][i][o]] or 0), 0, 1.06666, 1)
         end
     end
+    genObjects(cx, cy) -- TODO OPTIMIZE: move genObjects in this loop so we don't loop twice!
 end
 
 local function chunkDraw()
@@ -143,7 +143,7 @@ local function genForest()
         forest_gen[x] = {}
         for y = 1, math.round((_G.chunks_high * _G.chunk_height) / 8) + 1 do
             local Value = love.math.random(0, 100)
-            if Value < 47 then
+            if Value < 45 then
                 forest_gen[x][y] = true
             else
                 forest_gen[x][y] = false

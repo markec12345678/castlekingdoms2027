@@ -66,7 +66,8 @@ function Woodcutter:initialize(gx, gy, type)
     self.cut = function()
         if self.state == "Cutting down" then
             local tree_progress
-            if self.target_tree.type == "Pine tree" then
+            if self.target_tree.type == "Pine tree" or self.target_tree.type == "Small pine tree" or
+                self.target_tree.type == "Medium pine tree" then
                 tree_progress = self.target_tree:cut()
             else
                 self.state = "Looking to chop tree"
@@ -93,7 +94,8 @@ function Woodcutter:check_trees(cx, cy)
     local closest_object, closest_distance = nil, 10000000
     if _G.chunk_objects[chunkx][chunky] then
         for index, obj in pairs(_G.chunk_objects[chunkx][chunky]) do
-            if obj.type == 'Pine tree' and obj.marked == false then
+            if (obj.type == 'Pine tree' or obj.type == "Small pine tree" or obj.type == "Medium pine tree") and
+                obj.marked == false then
                 -- TODO: Fix magic numbers CRITICAL
                 if obj.gx > 0 and obj.gx < 2047 and obj.gy > 0 and obj.gy < 2047 then -- and _G.nodes[obj.gx][obj.gy+1].walkable == 0 then --fixme
                     local dist = manhattan_distance(self.gx, self.gy, obj.gx, obj.gy)
@@ -155,9 +157,12 @@ function Woodcutter:find_tree()
         closest_distance = disto
     end
     objt, disto = self:check_trees(self.cx, self.cy - 1)
-    if disto and disto < closest_distance then
-        closest_object = objt
-        closest_distance = disto
+
+    if not importantObjectAtGlobal(objt.gx, objt.gy + 1) then
+        if disto and disto < closest_distance then
+            closest_object = objt
+            closest_distance = disto
+        end
     end
     if not closest_object then
         print("No trees nearby!")

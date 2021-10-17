@@ -214,7 +214,7 @@ function BuildController:update()
                 local y = (yy + LY) % (chunk_width)
                 local cx = math.floor((xx + LX) / chunk_width)
                 local cy = math.floor((yy + LY) / chunk_width)
-                if objectAt(cx, cy, x, y) then
+                if importantObjectAt(cx, cy, x, y) then
                     self.can_build = false
                 end
             end
@@ -229,7 +229,7 @@ function BuildController:update()
                 local y = (yy + LY) % (chunk_width)
                 local cx = math.floor((xx + LX) / chunk_width)
                 local cy = math.floor((yy + LY) / chunk_width)
-                if not objectAt(cx, cy, x, y) then
+                if not importantObjectAt(cx, cy, x, y) then
                     if self.can_build then
                         type = 2
                     else
