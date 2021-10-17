@@ -1,17 +1,27 @@
 local object, tile_quads = ...
 local Structure = require("objects.Structure")
 
-local tiles, quad_array = indexBuildingQuads("small_wooden_castle (1)")
+local tiles, quad_array = _G.indexBuildingQuads("small_wooden_castle (1)")
+local tile_castle_door_1 = tile_quads["doors_bits (3)"]
+local tile_castle_door_2 = tile_quads["doors_bits (4)"]
+
+local Castle_door = _G.class('Castle_door', Structure)
+function Castle_door:initialize(tile, gx, gy, parent, offset_y, offset_x)
+    local mytype = "Static structure"
+    Structure.initialize(self, gx, gy, mytype)
+    self.gx = gx
+    self.gy = gy
+    _G.setWalkable(self.gx, self.gy, 1)
+    self.parent = parent
+    self.qid = nil
+    self.tile = tile
+    self.offset_x = offset_x or 0
+    self.offset_y = -67 + 16
+end
 
 local Castle_alias = class('Castle_alias', Structure)
 function Castle_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     local mytype = "Static structure"
-    local i = (gx) % (chunk_width)
-    local o = (gy) % (chunk_width)
-    local cx = math.floor(gx / chunk_width)
-    local cy = math.floor(gy / chunk_width)
-    local x = IsoX + (i - o) * tile_width * 0.5
-    local y = IsoY + (i + o) * tile_height * 0.5
     Structure.initialize(self, gx, gy, mytype)
     self.gx = gx
     self.gy = gy
@@ -21,7 +31,6 @@ function Castle_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     self.tile = tile
     self.offset_x = offset_x or 0
     self.offset_y = -(offset_y or 0)
-    addObjectAt(cx, cy, i, o, self)
 end
 
 local Castle = class('Castle', Structure)
@@ -36,7 +45,6 @@ function Castle:initialize(gx, gy, type)
     self.offset_y = -93
     self.level = 1
     self.rotation = 1
-    local base_offset = 101
     for tile = 1, tiles do
         Castle_alias:new(quad_array[tile], self.gx, self.gy + (tiles - tile + 1), self,
             -self.offset_y + 8 * (tiles - tile + 1))
@@ -59,6 +67,8 @@ function Castle:initialize(gx, gy, type)
     Castle_alias:new(tile_quads["empty"], self.gx + 6, self.gy - 3 + 6, self)
     Castle_alias:new(tile_quads["empty"], self.gx + 6, self.gy - 4 + 6, self)
     Castle_alias:new(tile_quads["empty"], self.gx + 6, self.gy - 5 + 6, self)
+    Castle_door:new(tile_castle_door_1, self.gx + 2, self.gy + 7, self)
+    Castle_door:new(tile_castle_door_2, self.gx + 4, self.gy + 7, self)
     _G.spawn_point_x, _G.spawn_point_y = self.gx + 3, self.gy + 8
 
     local ccx, ccy
