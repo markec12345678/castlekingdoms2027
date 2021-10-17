@@ -23,6 +23,7 @@ function Tree:initialize(gx, gy, type)
     self.tile = nil
     self.active = false
     self.offset_timer = 0
+    self.update_timer = 0
     self.chunk_key = false
     self.cut_down = function()
         self.falling = false
@@ -53,10 +54,19 @@ function Tree:initialize(gx, gy, type)
     addObjectAt(self.cx, self.cy, self.i, self.o, self)
 end
 function Tree:animate()
-    self.animation:update(dt)
-    self.offset_timer = self.offset_timer + 1
-    if self.offset_timer > 4 then
-        self.offset_x = self.base_offset_x
+    if _G.scale_x > 0.5 then
+        self.animation:update(dt)
+        self.offset_timer = self.offset_timer + 1
+        if self.offset_timer > 4 then
+            self.offset_x = self.base_offset_x
+        end
+    elseif _G.scale_x > 0.3 then
+        self.update_timer = self.update_timer + 1
+        if self.update_timer == 10 then
+            self.animation:update(dt)
+            self.animation:update(dt)
+            self.update_timer = 0
+        end
     end
 end
 function Tree:destroy()

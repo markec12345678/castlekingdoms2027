@@ -149,6 +149,19 @@ function objectAt(cx, cy, x, y)
     end
 end
 
+function objectAtGlobal(gx, gy)
+    local cx = math.floor(gx / chunk_width)
+    local cy = math.floor(gy / chunk_width)
+    local x = (gx) % (chunk_width)
+    local y = (gy) % (chunk_width)
+    if (type(object[cx][cy][x][y]) == 'table' and next(object[cx][cy][x][y]) == nil) or not object[cx][cy][x][y] or
+        objectFromTypeAt(cx, cy, x, y, "Stump") then
+        return false
+    else
+        return true
+    end
+end
+
 function genObjects(cx, cy)
     local chunk_x = cx or _G.current_chunk_x
     local chunk_y = cy or _G.current_chunk_y
@@ -159,18 +172,72 @@ function genObjects(cx, cy)
     object_batch[chunk_x][chunk_y]:clear()
     for i = 0, chunk_width - 1, 1 do
         for o = 0, chunk_height - 1, 1 do
-            local rand = math.random(70)
-            if rand == 4 then
-                if o == 0 and objectAt(cx, cy - 1, i, o - 1) then
+            local gx = chunk_width * cx + i
+            local gy = chunk_width * cy + o
+            local tree_generated = false
+            if _G.forest_gen[math.round((gx) / 8) + 1][math.round((gy) / 8) + 1] ~= false then
+                local rand = math.random(5)
+                if rand ~= 3 then
                     goto continue
                 end
-                if o ~= 0 and objectAt(cx, cy, i, o - 1) then
+                if objectAtGlobal(gx, gy + 1) then
                     goto continue
                 end
-                local gx = chunk_width * cx + i
-                local gy = chunk_width * cy + o
+                if objectAtGlobal(gx, gy - 1) then
+                    goto continue
+                end
+                if objectAtGlobal(gx + 1, gy + 1) then
+                    goto continue
+                end
+                if objectAtGlobal(gx + 1, gy) then
+                    goto continue
+                end
+                if objectAtGlobal(gx + 1, gy - 1) then
+                    goto continue
+                end
+                if objectAtGlobal(gx - 1, gy + 1) then
+                    goto continue
+                end
+                if objectAtGlobal(gx - 1, gy) then
+                    goto continue
+                end
+                if objectAtGlobal(gx - 1, gy - 1) then
+                    goto continue
+                end
+                local rand = math.random(2)
+                if rand ~= 2 then
+                    goto continue
+                end
                 local tree = Tree:new(gx, gy, "Pine tree")
                 tree.animation:gotoFrame(math.random(1, 20))
+                tree_generated = true
+            else
+                if objectAtGlobal(gx, gy - 1) then
+                    goto continue
+                end
+                local chance = 0
+                for sx = -1, 1 do
+                    for sy = -1, 1 do
+                        if _G.forest_gen[math.round((gx) / 8) + 1 + sx] and
+                            _G.forest_gen[math.round((gx) / 8) + 1 + sx][math.round((gy) / 8) + 1 + sy] == true then
+                            chance = chance + 1
+                        end
+                    end
+                end
+                if chance > 0 then
+                    local rand = math.random(20 - chance)
+                    if rand ~= 3 then
+                        goto continue
+                    end
+                    local tree = Tree:new(gx, gy, "Pine tree")
+                    tree.animation:gotoFrame(math.random(1, 20))
+                    tree_generated = true
+                end
+                if not tree_generated and love.math.random(1000) == 4 then
+                    local tree = Tree:new(gx, gy, "Pine tree")
+                    tree.animation:gotoFrame(math.random(1, 20))
+                    tree_generated = true
+                end
             end
             if objectAt(cx, cy, i, o) then
                 for _, ob in ipairs(object[cx][cy][i][o]) do
