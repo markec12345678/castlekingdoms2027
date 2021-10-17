@@ -240,7 +240,7 @@ function Mine_casting:deactivate()
 end
 local Mine_stack = class('Mine_stack', Structure)
 function Mine_stack:initialize(gx, gy, parent, offset_x, offset_y)
-    local mytype = "Animatino"
+    local mytype = "Animation"
     local i = (gx) % (chunk_width)
     local o = (gy) % (chunk_width)
     local cx = math.floor(gx / chunk_width)

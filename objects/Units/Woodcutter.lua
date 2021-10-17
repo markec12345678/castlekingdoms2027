@@ -61,10 +61,11 @@ function Woodcutter:initialize(gx, gy, type)
     self.eat_timer = 0
     self.offset_x = -5
     self.offset_y = -10
+    self.store_timer = 0
     self.target_tree = 0
     self.cut = function()
         if self.state == "Cutting down" then
-            local tree_progress = 0
+            local tree_progress
             if self.target_tree.type == "Pine tree" then
                 tree_progress = self.target_tree:cut()
             else
@@ -83,6 +84,9 @@ function Woodcutter:initialize(gx, gy, type)
         end
     end
     self.animation = anim.newAnimation(fr_walking_west, 10)
+end
+function Woodcutter:job_update()
+    removeObjectAt(self.lrcx, self.lrcy, self.lrx, self.lry, self)
 end
 function Woodcutter:check_trees(cx, cy)
     local chunkx, chunky = cx or self.cx, cy or self.cy
@@ -245,6 +249,7 @@ function Woodcutter:dir_sub_update()
 end
 function Woodcutter:update()
     self.eat_timer = self.eat_timer + 1
+    self.store_timer = self.store_timer + 1
     if self.eat_timer > 3000 then
         _G.foodpile:take()
         self.eat_timer = 0
@@ -253,6 +258,38 @@ function Woodcutter:update()
         self:pathfind()
     elseif self.state == "Find a job" then
         _G.JobController:find_job(self, "Woodcutter")
+    elseif self.state == "Storing second plank" and self.store_timer > 10 then
+        self.store_timer = 0
+        self.state = "Storing third plank"
+        _G.stockpile:store('wood')
+    elseif self.state == "Storing third plank" and self.store_timer > 10 then
+        self.store_timer = 0
+        _G.stockpile:store('wood')
+        self.state = "Storing fourth plank"
+    elseif self.state == "Storing fourth plank" and self.store_timer > 10 then
+        self.store_timer = 0
+        _G.stockpile:store('wood')
+        self.animation:resume()
+        self.state = "Go to workplace"
+    elseif self.state == "Go to stockpile" then
+        if _G.stockpile then
+            self.state = "Going to stockpile"
+            local closest_node
+            local distance = math.huge
+            for k, v in ipairs(_G.stockpile.node_list) do
+                local tmp = manhattan_distance(v.gx, v.gy, self.gx, self.gy)
+                if tmp < distance then
+                    distance = tmp
+                    closest_node = v
+                end
+            end
+            if not closest_node then
+                print("Closest stockpile node not found")
+            else
+                self:requestPath(closest_node.gx, closest_node.gy)
+            end
+            self.move_dir = "none"
+        end
     elseif self.state ~= "No trees" then
         if self.state == "Looking to chop tree" then
             self:find_tree()
@@ -288,23 +325,7 @@ function Woodcutter:update()
                 self.count = self.count + 1
             elseif self.state == "Going to workplace with wood" then
                 if self.count == self.nd_len then
-                    if _G.stockpile then
-                        self.state = "Going to stockpile"
-                        local closest_node
-                        local distance = math.huge
-                        for _, v in ipairs(_G.stockpile.node_list) do
-                            local tmp = _G.manhattan_distance(v.gx, v.gy, self.gx, self.gy)
-                            if tmp < distance then
-                                distance = tmp
-                                closest_node = v
-                            end
-                        end
-                        if not closest_node then
-                            print("couldn't find a node to a stockpile")
-                        else
-                            self:requestPath(closest_node.gx, closest_node.gy)
-                        end
-                    end
+                    self.workplace:work(self)
                     self.nd = {}
                     self.waypoint_x, self.waypoint_y = nil, nil
                     self.move_dir = "none"
@@ -319,9 +340,9 @@ function Woodcutter:update()
             elseif self.state == "Going to stockpile" then
                 if self.count == self.nd_len then
                     _G.stockpile:store('wood')
-                    _G.stockpile:store('wood')
-                    _G.stockpile:store('wood')
-                    self.state = "Go to workplace"
+                    self.state = "Storing second plank"
+                    self.animation:pause()
+                    self.store_timer = 0
                     self.nd = {}
                     self.waypoint_x, self.waypoint_y = nil, nil
                     self.move_dir = "none"
