@@ -58,6 +58,10 @@ local Unit = love.filesystem.load('objects/Units/Unit.lua')(active_entities, obj
 package.loaded['objects.Units.Unit'] = Unit
 
 local Tree = love.filesystem.load('objects/Environment/Tree.lua')(object_batch, active_objects, tile_quads, object)
+local PineTree = love.filesystem.load('objects/Environment/PineTree.lua')(object_batch, active_objects, tile_quads,
+    object, Tree)
+local OakTree = love.filesystem.load('objects/Environment/OakTree.lua')(object_batch, active_objects, tile_quads,
+    object, Tree)
 local Shrub = love.filesystem.load('objects/Environment/Shrub.lua')(object_batch, active_objects, tile_quads, object)
 local Woodcutter = love.filesystem.load('objects/Units/Woodcutter.lua')(object, tile_quads)
 local Stonemason = love.filesystem.load('objects/Units/Stonemason.lua')(object, tile_quads)
@@ -74,6 +78,8 @@ local WoodcutterHut = love.filesystem.load('objects/Structures/WoodcutterHut.lua
 local Campfire = love.filesystem.load('objects/Structures/Campfire.lua')(object, tile_quads, object_batch)
 local Orchard = love.filesystem.load('objects/Structures/Orchard.lua')(object, tile_quads, object_batch)
 package.loaded['objects.Environment.Tree'] = Tree
+package.loaded['objects.Environment.PineTree'] = PineTree
+package.loaded['objects.Environment.OakTree'] = OakTree
 package.loaded['objects.Environment.Shrub'] = Shrub
 package.loaded['objects.Units.Woodcutter'] = Woodcutter
 package.loaded['objects.Units.Stonemason'] = Stonemason
@@ -175,6 +181,21 @@ function importantObjectAtGlobal(gx, gy)
     end
 end
 
+function clearEnvironmentObjectAtGlobal(gx, gy)
+    -- TODO: finish
+    local cx = math.floor(gx / chunk_width)
+    local cy = math.floor(gy / chunk_width)
+    local x = (gx) % (chunk_width)
+    local y = (gy) % (chunk_width)
+    if (type(object[cx][cy][x][y]) == 'table' and next(object[cx][cy][x][y]) == nil) or not object[cx][cy][x][y] or
+        objectFromTypeAt(cx, cy, x, y, "Stump") or objectFromTypeAt(cx, cy, x, y, "Tall shrub") or
+        objectFromTypeAt(cx, cy, x, y, "Short shrub") then
+        return false
+    else
+        return true
+    end
+end
+
 function objectAtGlobal(gx, gy)
     local cx = math.floor(gx / chunk_width)
     local cy = math.floor(gy / chunk_width)
@@ -202,7 +223,7 @@ function genObjects(cx, cy)
             local gy = chunk_width * cy + o
             local tree_generated = false
             if _G.forest_gen[math.round((gx) / 8) + 1][math.round((gy) / 8) + 1] ~= false then
-                terrainSetTileAt(gx, gy, math.random(6, 8))
+                _G.terrainSetTileAt(gx, gy, _G.terrain_biome.scarce_grass)
                 local rand = math.random(5)
                 if rand ~= 3 then
                     goto continue
@@ -235,8 +256,12 @@ function genObjects(cx, cy)
                 if rand ~= 2 then
                     goto continue
                 end
-                local tree = Tree:new(gx, gy, "Pine tree")
-                tree.animation:gotoFrame(math.random(1, 20))
+                if love.math.random(1, 25) == 1 then
+                    PineTree:new(gx, gy, "Dead pine tree")
+                else
+                    local tree = PineTree:new(gx, gy, "Pine tree")
+                    tree.animation:gotoFrame(math.random(1, 20))
+                end
                 tree_generated = true
             else
                 if objectAtGlobal(gx, gy - 1) then
@@ -260,7 +285,7 @@ function genObjects(cx, cy)
                         end
                         goto continue
                     end
-                    local tree = Tree:new(gx, gy, "Medium pine tree")
+                    local tree = PineTree:new(gx, gy, "Medium pine tree")
                     tree.animation:gotoFrame(math.random(1, 20))
                     tree_generated = true
                 else
@@ -277,7 +302,7 @@ function genObjects(cx, cy)
                     local rand = math.random(30 - chance)
                     if rand ~= 3 then
                         if rand == 4 then
-                            local tree = Tree:new(gx, gy, "Very small pine tree")
+                            local tree = PineTree:new(gx, gy, "Very small pine tree")
                             tree.animation:gotoFrame(math.random(1, 20))
                         end
                         if rand == 5 then
@@ -286,12 +311,12 @@ function genObjects(cx, cy)
                         end
                         goto continue
                     end
-                    local tree = Tree:new(gx, gy, "Small pine tree")
+                    local tree = PineTree:new(gx, gy, "Small pine tree")
                     tree.animation:gotoFrame(math.random(1, 20))
                     tree_generated = true
                 end
                 if not tree_generated and love.math.random(1000) == 4 then
-                    local tree = Tree:new(gx, gy, "Small pine tree")
+                    local tree = PineTree:new(gx, gy, "Small pine tree")
                     tree.animation:gotoFrame(math.random(1, 20))
                     tree_generated = true
                 end
@@ -434,7 +459,7 @@ local function mousepressed(x, y, button)
         _G.BuildController:build(press.gx, press.gy)
     elseif button == 2 then
         if not objectAt(press.cx, press.cy, press.x, press.y) then
-            Shrub:new(press.gx, press.gy, "Short shrub")
+            -- OakTree:new(press.gx, press.gy)
             Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
             -- Woodcutter:new(press.gx, press.gy, "Woodcutter")
             -- Woodcutter:new(press.gx, press.gy, "Woodcutter")
@@ -473,7 +498,6 @@ local function update()
     prof.pop("AE")
     prof.push("UPDATE")
     -- Render the center chunks with higher priority
-    local any_animated = false
     local super_slow_mode = false
     if scale_x < 0.31 then
         super_slow_mode = true
@@ -489,7 +513,6 @@ local function update()
             if _G.chunk_objects[l.chunkx][l.chunky] then
                 for _, obj in pairs(_G.chunk_objects[l.chunkx][l.chunky]) do
                     obj:animate()
-                    any_animated = true
                 end
             end
         end
@@ -511,12 +534,11 @@ local function update()
         for column = firstColumn + shift, lastColumn, 2 do
             local xx, yy = bit.rshift(row + column, 1), bit.rshift(row - column, 1)
             if updated_chunks[xx][yy] ~= true then
-                if not super_slow_mode or love.math.random(1, 10) == 1 then
+                if love.math.random(1, 8) == 1 then
                     update_objects(xx, yy, true)
                     if _G.chunk_objects[xx][yy] then
                         for _, obj in pairs(_G.chunk_objects[xx][yy]) do
                             obj:animate()
-                            any_animated = true
                         end
                     end
                 end

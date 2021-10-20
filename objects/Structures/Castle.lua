@@ -71,18 +71,15 @@ function Castle:initialize(gx, gy, type)
     Castle_door:new(tile_castle_door_2, self.gx + 4, self.gy + 7, self)
     _G.spawn_point_x, _G.spawn_point_y = self.gx + 3, self.gy + 8
 
-    local ccx, ccy
     for xx = -2, 8 do
         for yy = -2, 8 do
             if yy == 7 or xx == 7 or xx == -1 or yy == -1 then
-                ccx, ccy = terrainSetTileAt(self.gx + xx, self.gy + yy, math.random(6, 8))
+                _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.scarce_grass)
             elseif math.random(1, 3) == 1 then
-                ccx, ccy = terrainSetTileAt(self.gx + xx, self.gy + yy, math.random(6, 8))
+                _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.scarce_grass)
             end
         end
     end
-
-    update_terrain(ccx, ccy)
 end
 
 return Castle

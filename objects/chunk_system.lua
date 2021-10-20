@@ -178,17 +178,79 @@ local function chunkUpdateList()
     local chunk_height_in_pixels = _G.chunk_height * _G.tile_height * scale_y
     local chunks_to_load_wide = love.graphics.getWidth() / chunk_width_in_pixels
     local chunks_to_load_high = love.graphics.getHeight() / chunk_height_in_pixels
-    for x = -math.ceil(chunks_to_load_wide / 2), math.ceil(chunks_to_load_wide / 2) do
-        for y = -math.ceil(chunks_to_load_high / 2), math.ceil(chunks_to_load_high / 2) do
+
+    local loaded_1, loaded_2, loaded_3, loaded_4 = false
+    for x = -math.round(chunks_to_load_wide / 2), math.round(chunks_to_load_wide / 2) do
+        for y = -math.round(chunks_to_load_high / 2), math.round(chunks_to_load_high / 2) do
             terrain_chunks = {
                 next = terrain_chunks,
                 chunkx = current_chunk_x + x,
                 chunky = current_chunk_y + y
             }
+            if current_chunk_x + x == _G.xchunk + 1 then
+                loaded_1 = true
+            end
+            if current_chunk_x + x == _G.xchunk - 1 then
+                loaded_2 = true
+            end
+            if current_chunk_y + y == _G.ychunk + 1 then
+                loaded_3 = true
+            end
+            if current_chunk_y + y == _G.ychunk - 1 then
+                loaded_4 = true
+            end
             if status[current_chunk_x + x][current_chunk_y + y] == nil then
             elseif status[current_chunk_x + x][current_chunk_y + y] == 2 then
                 loadChunk(current_chunk_x + x, current_chunk_y + y)
             end
+        end
+    end
+    if not loaded_1 then
+        local lx, ly = _G.xchunk + 1, _G.ychunk
+        terrain_chunks = {
+            next = terrain_chunks,
+            chunkx = lx,
+            chunky = ly
+        }
+        if status[lx][ly] == nil then
+        elseif status[lx][ly] == 2 then
+            loadChunk(lx, ly)
+        end
+    end
+    if not loaded_2 then
+        local lx, ly = _G.xchunk - 1, _G.ychunk
+        terrain_chunks = {
+            next = terrain_chunks,
+            chunkx = lx,
+            chunky = ly
+        }
+        if status[lx][ly] == nil then
+        elseif status[lx][ly] == 2 then
+            loadChunk(lx, ly)
+        end
+    end
+    if not loaded_3 then
+        local lx, ly = _G.xchunk, _G.ychunk + 1
+        terrain_chunks = {
+            next = terrain_chunks,
+            chunkx = lx,
+            chunky = ly
+        }
+        if status[lx][ly] == nil then
+        elseif status[lx][ly] == 2 then
+            loadChunk(lx, ly)
+        end
+    end
+    if not loaded_4 then
+        local lx, ly = _G.xchunk, _G.ychunk - 1
+        terrain_chunks = {
+            next = terrain_chunks,
+            chunkx = lx,
+            chunky = ly
+        }
+        if status[lx][ly] == nil then
+        elseif status[lx][ly] == 2 then
+            loadChunk(lx, ly)
         end
     end
 end

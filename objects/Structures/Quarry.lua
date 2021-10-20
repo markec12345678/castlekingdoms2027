@@ -243,13 +243,11 @@ function Quarry:initialize(gx, gy, type)
     self.puller = Quarry_puller:new(self.gx + 4, self.gy + 2, self, self.offset_x - 64 - 16, self.offset_y)
     self.puller:deactivate()
     self.hook = Quarry_hook:new(self.gx + 1, self.gy + 1, self, self.offset_x - 64 - 16, self.offset_y)
-    local ccx, ccy
     for xx = -1, 6 do
         for yy = -1, 6 do
-            ccx, ccy = terrainSetTileAt(self.gx + xx, self.gy + yy, math.random(6, 8))
+            _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.dirt)
         end
     end
-    update_terrain(ccx, ccy)
 
     for tile = 1, tiles do
         Quarry_alias:new(quad_array[tile], self.gx, self.gy + (tiles - tile + 1), self,

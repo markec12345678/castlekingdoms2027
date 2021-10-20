@@ -355,13 +355,11 @@ function Mine:initialize(gx, gy, type)
     self.casting:deactivate()
     self.stack = Mine_stack:new(self.gx + 3, self.gy + 2, self, self.offset_x, self.offset_y)
     self.stack:deactivate()
-    local ccx, ccy
     for xx = -1, 4 do
         for yy = -1, 4 do
-            ccx, ccy = terrainSetTileAt(self.gx + xx, self.gy + yy, math.random(6, 8))
+            terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.dirt)
         end
     end
-    update_terrain(ccx, ccy)
 
     for tile = 1, tiles do
         Mine_alias:new(quad_array[tile], self.gx, self.gy + (tiles - tile + 1), self,

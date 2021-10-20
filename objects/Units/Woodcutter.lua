@@ -66,8 +66,7 @@ function Woodcutter:initialize(gx, gy, type)
     self.cut = function()
         if self.state == "Cutting down" then
             local tree_progress
-            if self.target_tree.type == "Pine tree" or self.target_tree.type == "Small pine tree" or
-                self.target_tree.type == "Medium pine tree" then
+            if self.target_tree.tree and self.target_tree.cuttable then
                 tree_progress = self.target_tree:cut()
             else
                 self.state = "Looking to chop tree"

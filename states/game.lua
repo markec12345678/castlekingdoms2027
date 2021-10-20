@@ -49,6 +49,7 @@ function game:update(dt)
     prof.push("objects")
     objects.update()
     prof.pop("objects")
+    terrain.update()
     prof.push("bcontr")
     _G.BuildController:update()
     prof.pop("bcontr")
@@ -105,6 +106,16 @@ function game:keyreleased(key, scancode)
             _G.BuildController:set('iron_mine')
         elseif key == "u" then
             _G.BuildController:set('woodcutter_hut')
+        elseif key == "o" then
+            _G.saw.offset_y = _G.saw.offset_y + 1
+        elseif key == "l" then
+            _G.saw.offset_y = _G.saw.offset_y - 1
+        elseif key == "k" then
+            _G.saw.base_offset_x = _G.saw.base_offset_x + 1
+        elseif key == ";" then
+            _G.saw.base_offset_x = _G.saw.base_offset_x - 1
+        elseif key == "p" then
+            print("x,y", _G.saw.offset_x, _G.saw.offset_y)
         elseif key == "r" then
             _G.foodpile:store('bread')
             _G.foodpile:store('apples')

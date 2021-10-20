@@ -112,10 +112,9 @@ function Stockpile:initialize(gx, gy, type)
             nil, not_walkable)
     end
 
-    local ccx, ccy
     for xx = -1, 5 do
         for yy = -1, 5 do
-            ccx, ccy = terrainSetTileAt(self.gx + xx, self.gy + yy, math.random(6, 8))
+            _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.dirt)
         end
     end
     Stockpile_alias:new(tile_quads["empty"], self.gx + 4, self.gy + 4 - 1, self)
@@ -125,10 +124,9 @@ function Stockpile:initialize(gx, gy, type)
     Stockpile_alias:new(tile_quads["empty"], self.gx + 1, self.gy + 3, self)
     Stockpile_alias:new(tile_quads["empty"], self.gx + 3, self.gy + 3, self)
     Stockpile_alias:new(tile_quads["empty"], self.gx + 1, self.gy + 1, self)
-    update_terrain(ccx, ccy)
     for tile_x = 0, tiles do
         for tile_y = 0, tiles do
-            setHeight(self.gx + tile_x, self.gy + tile_y, 10)
+            _G.setHeight(self.gx + tile_x, self.gy + tile_y, 10)
         end
     end
 

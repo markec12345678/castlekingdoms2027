@@ -195,13 +195,16 @@ function WoodcutterHut:initialize(gx, gy, type)
     self.sawing_obj = WoodcutterHut_sawing:new(self.gx, self.gy, self, self.offset_x, self.offset_y)
     self.log_stack = WoodcutterHut_log_stack:new(self.gx + 2, self.gy + 1, self, self.offset_x, self.offset_y)
     -- self.stack:deactivate()
-    local ccx, ccy
-    for xx = -1, 3 do
-        for yy = -1, 3 do
-            ccx, ccy = terrainSetTileAt(self.gx + xx, self.gy + yy, math.random(6, 8))
+    for xx = -2, 4 do
+        for yy = -2, 4 do
+            _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.dirt, _G.terrain_biome.abundant_grass)
         end
     end
-    update_terrain(ccx, ccy)
+    for xx = -1, 3 do
+        for yy = -1, 3 do
+            _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.scarce_grass)
+        end
+    end
     for tile = 1, tiles do
         WoodcutterHut_alias:new(quad_array[tile], self.gx, self.gy + (tiles - tile + 1), self,
             -self.offset_y + 8 * (tiles - tile + 1))

@@ -32,13 +32,20 @@ function Campfire:initialize(gx, gy, type)
     self.spawn_point_x = self.gx
     self.spawn_point_y = self.gy - 3
 
-    local ccx, ccy
+    for xx = -3, 5 do
+        for yy = -1, 5 do
+            self.free_spots[xx][yy] = true
+            _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.dirt)
+        end
+    end
     for xx = -2, 4 do
         for yy = -2, 4 do
             self.free_spots[xx][yy] = true
-            ccx, ccy = _G.terrainSetTileAt(self.gx + xx, self.gy + yy, math.random(6, 8))
+            _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.scarce_grass)
         end
     end
+    _G.terrainSetTileAt(self.gx + 4, self.gy + 4, _G.terrain_biome.dirt)
+    _G.terrainSetTileAt(self.gx + -2, self.gy + 4, _G.terrain_biome.dirt)
     self:take_spot(_G.spawn_point_x, _G.spawn_point_y)
     Campfire_alias:new(self.gx, self.gy - 1, self)
     Campfire_alias:new(self.gx, self.gy + 1, self)
@@ -48,7 +55,6 @@ function Campfire:initialize(gx, gy, type)
     Campfire_alias:new(self.gx + 2, self.gy, self)
     Campfire_alias:new(self.gx + 2, self.gy + 1, self)
     self:take_spot(self.gx, self.gy)
-    _G.update_terrain(ccx, ccy)
     _G.campfire = self
     if _G.chunk_objects[self.cx][self.cy] == nil then
         _G.chunk_objects[self.cx][self.cy] = {}
