@@ -47,7 +47,6 @@ function Quarry_lifter:initialize(gx, gy, parent, offset_x, offset_y)
     self.qid = 0
     self.offset_x = 48 + offset_x
     self.offset_y = 74 + offset_y - 64 + 32
-    addObjectAt(cx, cy, i, o, self)
     table.insert(active_entities, self)
 end
 function Quarry_lifter:animate()
@@ -92,7 +91,6 @@ function Quarry_hook:initialize(gx, gy, parent, offset_x, offset_y)
     self.qid = 0
     self.offset_x = 32 + offset_x
     self.offset_y = 57 + offset_y - 15
-    addObjectAt(cx, cy, i, o, self)
     table.insert(active_entities, self)
 end
 function Quarry_hook:animate()
@@ -132,7 +130,6 @@ function Quarry_shaper:initialize(gx, gy, parent, offset_x, offset_y)
     self.qid = 0
     self.offset_x = -15 + offset_x
     self.offset_y = 57 + offset_y - 2
-    addObjectAt(cx, cy, i, o, self)
     table.insert(active_entities, self)
 end
 function Quarry_shaper:animate()
@@ -176,7 +173,6 @@ function Quarry_puller:initialize(gx, gy, parent, offset_x, offset_y)
     self.qid = 0
     self.offset_x = 92 + offset_x - 16 - 16
     self.offset_y = 58 + offset_y - 32 - 16
-    addObjectAt(cx, cy, i, o, self)
     table.insert(active_entities, self)
 end
 function Quarry_puller:animate()
@@ -216,7 +212,6 @@ function Quarry_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
             break
         end
     end
-    addObjectAt(cx, cy, i, o, self)
 end
 
 local Quarry = class('Quarry', Structure)

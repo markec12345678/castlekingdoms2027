@@ -11,10 +11,10 @@ function Unit:initialize(gx, gy, type, no_path_state)
     self.previous_cx = cx
     self.previous_cy = cx
     self.has_move_dir = false
-    self.waypoint_x = 0
-    self.waypoint_y = 0
-    self.straight_walk_speed = 40
-    self.diagonal_walk_speed = 25
+    self.waypoint_x = nil
+    self.waypoint_y = nil
+    self.straight_walk_speed = 2400
+    self.diagonal_walk_speed = 1500
     self.originalx = self.gx
     self.originaly = self.gy
     self.nd = {}
@@ -101,78 +101,149 @@ function Unit:update_direction()
     if (angle >= 135 + 22 and angle <= 225 - 22) then -- direction is west 
         self.move_dir = "west"
         if self.previous_dir ~= "west" then
+            self:update_position()
             self:dir_sub_update()
         end
     elseif (angle > 135 - 22 and angle < 135 + 22) then -- direction is southwest
         self.move_dir = "southwest"
         if self.previous_dir ~= "southwest" then
+            self:update_position()
             self:dir_sub_update()
         end
     elseif (angle > 225 - 22 and angle < 225 + 22) then -- direction is northwest
         self.move_dir = "northwest"
         if self.previous_dir ~= "northwest" then
+            self:update_position()
             self:dir_sub_update()
         end
     elseif (angle >= 225 + 22 and angle <= 315 - 22) then -- direction is north
         self.move_dir = "north"
         if self.previous_dir ~= "north" then
+            self:update_position()
             self:dir_sub_update()
         end
     elseif (angle >= 45 + 22 and angle <= 135 - 22) then -- direction is south
         self.move_dir = "south"
         if self.previous_dir ~= "south" then
+            self:update_position()
             self:dir_sub_update()
         end
     elseif ((angle >= 315 + 22 and angle <= 359) or (angle >= 0 and angle <= 45 - 22)) then -- direction is east
         self.move_dir = "east"
         if self.previous_dir ~= "east" then
+            self:update_position()
             self:dir_sub_update()
         end
     elseif (angle > 45 - 22 and angle < 45 + 22) then -- direction is southeast
         self.move_dir = "southeast"
         if self.previous_dir ~= "southeast" then
+            self:update_position()
             self:dir_sub_update()
         end
     elseif (angle > 315 - 22 and angle < 315 + 22) then -- direction is northeast
         self.move_dir = "northeast"
         if self.previous_dir ~= "northeast" then
+            self:update_position()
             self:dir_sub_update()
         end
     end
     self.previous_dir = self.move_dir
 end
-function Unit:move()
+function Unit:update_position()
+    self.previous_cx, self.previous_cy = self.cx, self.cy
+    self.gx, self.gy = math.round(self.fx * 0.001), math.round(self.fy * 0.001)
+    self.cx, self.cy = math.floor((self.gx) / chunk_width), math.floor((self.gy) / chunk_width)
+
+    local xx, yy = (math.round(self.gx)) % (chunk_width), (math.round(self.gy)) % (chunk_width)
+    if not isObjectAt(self.cx, self.cy, xx, yy, self) then
+        addObjectAt(self.cx, self.cy, xx, yy, self)
+    end
+    if isObjectAt(self.cx, self.cy, self.originalx, self.originaly, self) and
+        (self.originalx ~= math.round(self.gx) % chunk_width or self.originaly ~= math.round(self.gy) % chunk_width) then
+        removeObjectAt(self.cx, self.cy, self.originalx, self.originaly, self)
+    end
+    if self.previous_cx ~= self.cx or self.previous_cy ~= self.cy then
+        if not isObjectAt(self.cx, self.cy, xx, yy, self) then
+            addObjectAt(self.cx, self.cy, xx, yy, self)
+        end
+        self.qid = object_batch[self.cx][self.cy]:add(self.animation:getFrameInfo(self.x, self.y))
+    end
+    self.lrcx, self.lrcy, self.lrx, self.lry = self.cx, self.cy, xx, yy
+    if self.originalx ~= math.round(self.gx) % chunk_width or self.originaly ~= math.round(self.gy) % chunk_width then
+        self.originalx = math.round(self.gx) % chunk_width
+        self.originaly = math.round(self.gy) % chunk_width
+    end
+    -- self.gx, self.gy = self.fx * 0.001, self.fy * 0.001
+    self.gx, self.gy = math.round(self.fx * 0.001), math.round(self.fy * 0.001)
+    -- self.gx, self.gy = self.cx * chunk_width + xx, self.cy * chunk_width + yy
+end
+function Unit:move(special)
     if not self.has_move_dir then
         self:dir_sub_update()
         self.has_move_dir = true
     end
     if self.move_dir == "west" then
-        self.fx = self.fx - self.straight_walk_speed
+        self.fx = self.fx - _G.dt * self.straight_walk_speed
+        if self.fx < self.waypoint_x * 1000 then
+            self.fx = self.waypoint_x * 1000
+        end
     elseif self.move_dir == "south" then
-        self.fy = self.fy + self.straight_walk_speed
+        self.fy = self.fy + _G.dt * self.straight_walk_speed
+        if self.fy > self.waypoint_y * 1000 then
+            self.fy = self.waypoint_y * 1000
+        end
     elseif self.move_dir == "north" then
-        self.fy = self.fy - self.straight_walk_speed
+        self.fy = self.fy - _G.dt * self.straight_walk_speed
+        if self.fy < self.waypoint_y * 1000 then
+            self.fy = self.waypoint_y * 1000
+        end
     elseif self.move_dir == "east" then
-        self.fx = self.fx + self.straight_walk_speed
+        self.fx = self.fx + _G.dt * self.straight_walk_speed
+        if self.fx > self.waypoint_x * 1000 then
+            self.fx = self.waypoint_x * 1000
+        end
     elseif self.move_dir == "northwest" then
-        self.fx = self.fx - self.diagonal_walk_speed
-        self.fy = self.fy - self.diagonal_walk_speed
+        self.fx = self.fx - _G.dt * self.diagonal_walk_speed
+        self.fy = self.fy - _G.dt * self.diagonal_walk_speed
+        if self.fx < self.waypoint_x * 1000 then
+            self.fx = self.waypoint_x * 1000
+        end
+        if self.fy < self.waypoint_y * 1000 then
+            self.fy = self.waypoint_y * 1000
+        end
     elseif self.move_dir == "northeast" then
-        self.fx = self.fx + self.diagonal_walk_speed
-        self.fy = self.fy - self.diagonal_walk_speed
+        self.fx = self.fx + _G.dt * self.diagonal_walk_speed
+        self.fy = self.fy - _G.dt * self.diagonal_walk_speed
+        if self.fx > self.waypoint_x * 1000 then
+            self.fx = self.waypoint_x * 1000
+        end
+        if self.fy < self.waypoint_y * 1000 then
+            self.fy = self.waypoint_y * 1000
+        end
     elseif self.move_dir == "southwest" then
-        self.fx = self.fx - self.diagonal_walk_speed
-        self.fy = self.fy + self.diagonal_walk_speed
+        self.fx = self.fx - _G.dt * self.diagonal_walk_speed
+        self.fy = self.fy + _G.dt * self.diagonal_walk_speed
+        if self.fx < self.waypoint_x * 1000 then
+            self.fx = self.waypoint_x * 1000
+        end
+        if self.fy > self.waypoint_y * 1000 then
+            self.fy = self.waypoint_y * 1000
+        end
     elseif self.move_dir == "southeast" then
-        self.fx = self.fx + self.diagonal_walk_speed
-        self.fy = self.fy + self.diagonal_walk_speed
+        self.fx = self.fx + _G.dt * self.diagonal_walk_speed
+        self.fy = self.fy + _G.dt * self.diagonal_walk_speed
+        if self.fx > self.waypoint_x * 1000 then
+            self.fx = self.waypoint_x * 1000
+        end
+        if self.fy > self.waypoint_y * 1000 then
+            self.fy = self.waypoint_y * 1000
+        end
     end
     self.previous_cx, self.previous_cy = self.cx, self.cy
     self.gx, self.gy = self.fx * 0.001, self.fy * 0.001
     self.cx, self.cy = math.floor((self.gx) / chunk_width), math.floor((self.gy) / chunk_width)
 
-    local xx, yy
-    xx, yy = (math.round(self.gx)) % (chunk_width), (math.round(self.gy)) % (chunk_width)
+    local xx, yy = (math.round(self.gx)) % (chunk_width), (math.round(self.gy)) % (chunk_width)
     if not isObjectAt(self.cx, self.cy, xx, yy, self) then
         addObjectAt(self.cx, self.cy, xx, yy, self)
     end
@@ -192,7 +263,9 @@ function Unit:move()
         self.originalx = math.round(self.gx) % chunk_width
         self.originaly = math.round(self.gy) % chunk_width
     end
+    -- self.gx, self.gy = self.fx * 0.001, self.fy * 0.001
     self.gx, self.gy = math.round(self.fx * 0.001), math.round(self.fy * 0.001)
+    -- self.gx, self.gy = self.cx * chunk_width + xx, self.cy * chunk_width + yy
 end
 
 return Unit

@@ -31,7 +31,6 @@ function Orchard_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
             break
         end
     end
-    addObjectAt(cx, cy, i, o, self)
 end
 local Orchard_tree = class('Orchard_tree', Structure)
 function Orchard_tree:initialize(gx, gy, parent, offset_y, offset_x)
@@ -62,12 +61,10 @@ function Orchard_tree:initialize(gx, gy, parent, offset_y, offset_x)
             break
         end
     end
-    addObjectAt(cx, cy, i, o, self)
     if _G.chunk_objects[self.cx][self.cy] == nil then
         _G.chunk_objects[self.cx][self.cy] = {}
     end
     _G.chunk_objects[self.cx][self.cy][self] = self
-    addObjectAt(self.cx, self.cy, self.i, self.o, self)
 end
 function Orchard_tree:animate()
     self.animation:update(dt)
@@ -75,7 +72,7 @@ end
 
 local Orchard = class('Orchard', Structure)
 function Orchard:initialize(gx, gy, type)
-    _G.JobController:add("Farmer", self)
+    _G.JobController:add("OrchardFarmer", self)
     local mytype = "Static structure"
     Structure.initialize(self, gx, gy, mytype)
     setWalkable(self.gx, self.gy, 1)

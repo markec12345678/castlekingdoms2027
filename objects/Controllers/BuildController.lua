@@ -11,6 +11,7 @@ local Mine = require('objects.Structures.Mine')
 local WoodcutterHut = require('objects.Structures.WoodcutterHut')
 local Campfire = require('objects.Structures.Campfire')
 local Orchard = require('objects.Structures.Orchard')
+local WheatFarm = require('objects.Structures.WheatFarm')
 
 local building = {
     ["castle"] = {
@@ -25,6 +26,19 @@ local building = {
         build = function(self, gx, gy)
             Castle:new(gx, gy)
             Campfire:new(gx + 2, gy + 10)
+            Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
+            Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
+            Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
+            Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
+            Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
+            Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
+            Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
+            Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
+            Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
+            Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
+            Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
+            Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
+            Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
             Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
         end,
         special_requirements = function(self, gx, gy)
@@ -136,6 +150,22 @@ local building = {
         },
         build = function(self, gx, gy)
             Orchard:new(gx, gy)
+        end,
+        special_requirements = function(self, gx, gy)
+            return true
+        end
+    },
+    ["wheat_farm"] = {
+        quad = tile_quads["farm (2)"],
+        offset_x = 32,
+        offset_y = 64 + 6 + 8,
+        w = 12,
+        h = 12,
+        cost = {
+            ["wood"] = 2
+        },
+        build = function(self, gx, gy)
+            WheatFarm:new(gx, gy)
         end,
         special_requirements = function(self, gx, gy)
             return true

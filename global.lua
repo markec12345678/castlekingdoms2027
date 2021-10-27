@@ -153,8 +153,8 @@ xchunk = 0
 ychunk = 0
 chunk_width = 64
 chunk_height = 64
-chunks_wide = 16
-chunks_high = 16
+chunks_wide = 32
+chunks_high = 32
 current_chunk_x = 0
 current_chunk_y = 0
 CenterX = 0
@@ -240,7 +240,17 @@ not_full_foods = {
     ["bread"] = 0,
     ["cheese"] = 0
 }
+_G.wheat_season_counter = 0
+_G.wheat_growing_season = false
 ----Libraries        
 anim = require('libraries.anim8')
 class = require('libraries.middleclass')
 inspect = require('libraries.inspect')
+
+function _G.string.starts_with(str, start)
+    return str:sub(1, #start) == start
+end
+
+function _G.string.ends_with(str, ending)
+    return ending == "" or str:sub(-#ending) == ending
+end

@@ -1,6 +1,7 @@
 local Woodcutter = require("objects.Units.Woodcutter")
 local Stonemason = require("objects.Units.Stonemason")
-local Farmer = require("objects.Units.Farmer")
+local OrchardFarmer = require("objects.Units.OrchardFarmer")
+local WheatFarmer = require("objects.Units.WheatFarmer")
 local Miner = require("objects.Units.Miner")
 
 local JobController = class('JobController')
@@ -9,7 +10,8 @@ function JobController:initialize()
         ["Stonemason"] = {},
         ["Woodcutter"] = {},
         ["Miner"] = {},
-        ["Farmer"] = {}
+        ["OrchardFarmer"] = {},
+        ["WheatFarmer"] = {}
     }
     self.workers = 0
     self.requested_workers = 0
@@ -50,8 +52,10 @@ function JobController:make_worker()
                     worker = Stonemason:new(_G.spawn_point_x, _G.spawn_point_y, "Stonemason")
                 elseif job == "Miner" then
                     worker = Miner:new(_G.spawn_point_x, _G.spawn_point_y, "Miner")
-                elseif job == "Farmer" then
-                    worker = Farmer:new(_G.spawn_point_x, _G.spawn_point_y, "Farmer")
+                elseif job == "OrchardFarmer" then
+                    worker = OrchardFarmer:new(_G.spawn_point_x, _G.spawn_point_y, "OrchardFarmer")
+                elseif job == "WheatFarmer" then
+                    worker = WheatFarmer:new(_G.spawn_point_x, _G.spawn_point_y, "WheatFarmer")
                 elseif job == "Woodcutter" then
                     worker = Woodcutter:new(_G.spawn_point_x, _G.spawn_point_y, "Woodcutter")
                 end

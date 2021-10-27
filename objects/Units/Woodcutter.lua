@@ -73,8 +73,8 @@ function Woodcutter:initialize(gx, gy, type)
                 self.move_dir = "none"
             end
             if tree_progress == 2 then
-                self.i = (self.fx * 0.001) % chunk_width
-                self.o = (self.fy * 0.001) % chunk_width
+                self.i = math.round((self.fx * 0.001)) % chunk_width
+                self.o = math.round((self.fy * 0.001)) % chunk_width
                 self.move_dir = "none"
                 self.count = 1
                 tree_progress = 3

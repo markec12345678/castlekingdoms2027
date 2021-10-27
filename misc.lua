@@ -104,7 +104,7 @@ local function draw()
                             "\n Wood: " .. tostring(_G.resources['wood']) .. "\n Stone: " ..
                             tostring(_G.resources['stone']) .. "\n Iron: " .. tostring(_G.resources['iron']), 0, 0)
     love.graphics.print(
-        "[Q] - Apple orchard\n[W] - Stockpile\n[E] - Granary\n[T] - Quarry\n[Y] - Iron mine\n[Right click] - Spawn woodcutters\n[Move keys] - Move map\n[Mouse scroll] - Zoom in/out\n[Escape] - Exit",
+        "[Q] - Apple orchard\n[W] - Stockpile\n[E] - Granary\n[T] - Quarry\n[Y] - Iron mine\n[I] - Wheat farm\n[Move keys] - Move map\n[Mouse scroll] - Zoom in/out\n[Escape] - Exit",
         0, height - 130)
 end
 

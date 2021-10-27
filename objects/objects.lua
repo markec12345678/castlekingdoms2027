@@ -66,7 +66,8 @@ local Shrub = love.filesystem.load('objects/Environment/Shrub.lua')(object_batch
 local Woodcutter = love.filesystem.load('objects/Units/Woodcutter.lua')(object, tile_quads)
 local Stonemason = love.filesystem.load('objects/Units/Stonemason.lua')(object, tile_quads)
 local Peasant = love.filesystem.load('objects/Units/Peasant.lua')(object, tile_quads)
-local Farmer = love.filesystem.load('objects/Units/Farmer.lua')(object, tile_quads)
+local OrchardFarmer = love.filesystem.load('objects/Units/OrchardFarmer.lua')(object, tile_quads)
+local WheatFarmer = love.filesystem.load('objects/Units/WheatFarmer.lua')(object, tile_quads)
 local Miner = love.filesystem.load('objects/Units/Miner.lua')(object, tile_quads)
 local Castle = love.filesystem.load('objects/Structures/Castle.lua')(object, tile_quads)
 local Stockpile = love.filesystem.load('objects/Structures/Stockpile.lua')(object, tile_quads, object_batch)
@@ -75,8 +76,15 @@ local Quarry = love.filesystem.load('objects/Structures/Quarry.lua')(active_enti
 local Mine = love.filesystem.load('objects/Structures/Mine.lua')(active_entities, object, tile_quads, object_batch)
 local WoodcutterHut = love.filesystem.load('objects/Structures/WoodcutterHut.lua')(active_entities, object, tile_quads,
     object_batch)
+local WoodenWall = love.filesystem.load('objects/Structures/WoodenWall.lua')(active_entities, object, tile_quads,
+    object_batch)
+local WoodenWallWalkable = love.filesystem.load('objects/Structures/WoodenWallWalkable.lua')(active_entities, object,
+    tile_quads, object_batch)
+local WoodenTower = love.filesystem.load('objects/Structures/WoodenTower.lua')(active_entities, object, tile_quads,
+    object_batch)
 local Campfire = love.filesystem.load('objects/Structures/Campfire.lua')(object, tile_quads, object_batch)
 local Orchard = love.filesystem.load('objects/Structures/Orchard.lua')(object, tile_quads, object_batch)
+local WheatFarm = love.filesystem.load('objects/Structures/WheatFarm.lua')(object, tile_quads, object_batch)
 package.loaded['objects.Environment.Tree'] = Tree
 package.loaded['objects.Environment.PineTree'] = PineTree
 package.loaded['objects.Environment.OakTree'] = OakTree
@@ -84,7 +92,8 @@ package.loaded['objects.Environment.Shrub'] = Shrub
 package.loaded['objects.Units.Woodcutter'] = Woodcutter
 package.loaded['objects.Units.Stonemason'] = Stonemason
 package.loaded['objects.Units.Peasant'] = Peasant
-package.loaded['objects.Units.Farmer'] = Farmer
+package.loaded['objects.Units.OrchardFarmer'] = OrchardFarmer
+package.loaded['objects.Units.WheatFarmer'] = WheatFarmer
 package.loaded['objects.Units.Miner'] = Miner
 package.loaded['objects.Structures.Castle'] = Castle
 package.loaded['objects.Structures.Stockpile'] = Stockpile
@@ -92,8 +101,12 @@ package.loaded['objects.Structures.Granary'] = Granary
 package.loaded['objects.Structures.Quarry'] = Quarry
 package.loaded['objects.Structures.Mine'] = Mine
 package.loaded['objects.Structures.WoodcutterHut'] = WoodcutterHut
+package.loaded['objects.Structures.WoodenWall'] = WoodenWall
+package.loaded['objects.Structures.WoodenWallWalkable'] = WoodenWallWalkable
+package.loaded['objects.Structures.WoodenTower'] = WoodenTower
 package.loaded['objects.Structures.Campfire'] = Campfire
 package.loaded['objects.Structures.Orchard'] = Orchard
+package.loaded['objects.Structures.WheatFarm'] = WheatFarm
 _G.stockpile = require('objects.Controllers.StockpileController')
 _G.foodpile = require('objects.Controllers.FoodController')
 --- NOTE --------------------------
@@ -347,6 +360,11 @@ end
 local flag = 0
 local low_prio_chunks = _G.newAutotable(2)
 function update_objects(cx, cy, low_priority)
+    local chunk_x = cx or _G.current_chunk_x
+    local chunk_y = cy or _G.current_chunk_y
+    if chunk_x < 0 or chunk_y < 0 or chunk_x > _G.chunks_wide or chunk_y > _G.chunks_high then
+        return
+    end
     if low_priority then
         if type(low_prio_chunks[cx][cy]) == "number" then
             low_prio_chunks[cx][cy] = low_prio_chunks[cx][cy] + 1
@@ -365,8 +383,6 @@ function update_objects(cx, cy, low_priority)
         flag = math.floor(love.math.random(-1, 1) + 0.5)
     end
     prof.push("ST")
-    local chunk_x = cx or _G.current_chunk_x
-    local chunk_y = cy or _G.current_chunk_y
     object_batch[chunk_x][chunk_y] = object_batch[chunk_x][chunk_y] or
                                          love.graphics.newSpriteBatch(object_image, chunk_width * chunk_height)
     object_batch[chunk_x][chunk_y]:clear()
@@ -457,16 +473,20 @@ local function mousepressed(x, y, button)
     press.cy = math.floor(LocalY / chunk_width)
     if button == 1 then
         _G.BuildController:build(press.gx, press.gy)
-    elseif button == 2 then
         if not objectAt(press.cx, press.cy, press.x, press.y) then
-            -- OakTree:new(press.gx, press.gy)
-            Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
-            -- Woodcutter:new(press.gx, press.gy, "Woodcutter")
-            -- Woodcutter:new(press.gx, press.gy, "Woodcutter")
-            -- Woodcutter:new(press.gx, press.gy, "Woodcutter")
-            -- Woodcutter:new(press.gx, press.gy, "Woodcutter")
+            WoodenWall:new(press.gx, press.gy)
         end
+    elseif button == 2 then
+        -- if not objectAt(press.cx, press.cy, press.x, press.y) then
+        --     -- OakTree:new(press.gx, press.gy)
+        --     -- WoodenTower:new(press.gx, press.gy)
+        --     -- Woodcutter:new(press.gx, press.gy, "Woodcutter")
+        --     -- Woodcutter:new(press.gx, press.gy, "Woodcutter")
+        --     -- Woodcutter:new(press.gx, press.gy, "Woodcutter")
+        --     -- Woodcutter:new(press.gx, press.gy, "Woodcutter")
+        -- end
     elseif button == 3 then
+        WoodenWallWalkable:new(press.gx, press.gy)
         local insp = object[press.cx][press.cy][press.x][press.y]
         if insp then
             print(inspect(insp))
@@ -474,7 +494,7 @@ local function mousepressed(x, y, button)
     end
 end
 
-local function update()
+local function update(dt)
     _G.JobController:make_worker()
     prof.push("CUL")
     if previous_chunk_x ~= _G.current_chunk_x or previous_chunk_y ~= _G.current_chunk_y or _G.top_left_chunk_x ~=
@@ -486,13 +506,20 @@ local function update()
     previous_chunk_x = _G.current_chunk_x
     previous_chunk_y = _G.current_chunk_y
     _G.previous_top_left_chunk_x = _G.top_left_chunk_x
-
+    _G.wheat_season_counter = _G.wheat_season_counter + dt
+    if _G.wheat_season_counter > 20 then
+        _G.wheat_season_counter = 0
+        _G.wheat_growing_season = true
+    end
+    if _G.wheat_growing_season and _G.wheat_season_counter > 0.5 then
+        _G.wheat_growing_season = false
+    end
     local updated_chunks = _G.newAutotable(2)
     for idx, obj in pairs(active_entities) do
         if obj.to_be_deleted then
             active_entities[idx] = nil
         else
-            obj:animate()
+            obj:animate(dt)
         end
     end
     prof.pop("AE")
@@ -512,7 +539,11 @@ local function update()
             update_objects(l.chunkx, l.chunky)
             if _G.chunk_objects[l.chunkx][l.chunky] then
                 for _, obj in pairs(_G.chunk_objects[l.chunkx][l.chunky]) do
-                    obj:animate()
+                    if obj.animated then
+                        obj:animate(dt)
+                    else
+                        obj:update(dt)
+                    end
                 end
             end
         end
@@ -538,7 +569,11 @@ local function update()
                     update_objects(xx, yy, true)
                     if _G.chunk_objects[xx][yy] then
                         for _, obj in pairs(_G.chunk_objects[xx][yy]) do
-                            obj:animate()
+                            if obj.animated then
+                                obj:animate(dt)
+                            else
+                                obj:update(dt)
+                            end
                         end
                     end
                 end

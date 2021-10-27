@@ -60,7 +60,6 @@ function Granary_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
             break
         end
     end
-    addObjectAt(cx, cy, i, o, self)
 end
 
 local Granary = class('Granary', Structure)

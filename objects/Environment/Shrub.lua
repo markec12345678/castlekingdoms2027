@@ -37,7 +37,6 @@ function Shrub:initialize(gx, gy, type)
         _G.chunk_objects[self.cx][self.cy] = {}
     end
     _G.chunk_objects[self.cx][self.cy][self] = self
-    addObjectAt(self.cx, self.cy, self.i, self.o, self)
 end
 function Shrub:animate()
     if _G.scale_x > 0.6 then

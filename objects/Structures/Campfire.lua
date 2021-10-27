@@ -61,6 +61,9 @@ function Campfire:initialize(gx, gy, type)
     end
     _G.chunk_objects[self.cx][self.cy][self] = self
 end
+function Campfire:update()
+    return
+end
 function Campfire:get_next_free_spot(peasant)
     if not self.animated then
         self.animated = true

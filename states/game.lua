@@ -47,7 +47,7 @@ function game:update(dt)
     core.update()
     prof.pop("core")
     prof.push("objects")
-    objects.update()
+    objects.update(dt)
     prof.pop("objects")
     terrain.update()
     prof.push("bcontr")
@@ -106,6 +106,8 @@ function game:keyreleased(key, scancode)
             _G.BuildController:set('iron_mine')
         elseif key == "u" then
             _G.BuildController:set('woodcutter_hut')
+        elseif key == "i" then
+            _G.BuildController:set('wheat_farm')
         elseif key == "o" then
             _G.saw.offset_y = _G.saw.offset_y + 1
         elseif key == "l" then

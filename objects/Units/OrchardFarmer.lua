@@ -25,8 +25,8 @@ local fr_gather_apples_northeast = indexQuads("body_farmer_actual_apples_ne", 10
 local fr_gather_apples_northwest = indexQuads("body_farmer_actual_apples_nw", 10)
 local fr_gather_apples_southeast = indexQuads("body_farmer_actual_apples_se", 10)
 local fr_gather_apples_southwest = indexQuads("body_farmer_actual_apples_sw", 10)
-local Farmer = class('Farmer', Unit)
-function Farmer:initialize(gx, gy, type)
+local OrchardFarmer = class('OrchardFarmer', Unit)
+function OrchardFarmer:initialize(gx, gy, type)
     Unit.initialize(self, gx, gy, type)
     self.workplace = nil
     self.state = 'Find a job'
@@ -39,7 +39,7 @@ function Farmer:initialize(gx, gy, type)
     self.animated = true
     self.animation = anim.newAnimation(fr_walking_west, 10)
 end
-function Farmer:dir_sub_update()
+function OrchardFarmer:dir_sub_update()
     if self.move_dir == "west" then
         if self.state == "Going to foodpile" or self.state == "Going to apple tree" then
             self.animation = anim.newAnimation(fr_walking_apples_west, 0.05)
@@ -90,10 +90,10 @@ function Farmer:dir_sub_update()
         end
     end
 end
-function Farmer:job_update()
+function OrchardFarmer:job_update()
     removeObjectAt(self.lrcx, self.lrcy, self.lrx, self.lry, self)
 end
-function Farmer:update()
+function OrchardFarmer:update()
     self.eat_timer = self.eat_timer + 1
     if self.eat_timer > 3000 then
         _G.foodpile:take()
@@ -103,7 +103,7 @@ function Farmer:update()
         self:pathfind()
     elseif self.state ~= "No path to farm" then
         if self.state == "Find a job" then
-            _G.JobController:find_job(self, "Farmer")
+            _G.JobController:find_job(self, "OrchardFarmer")
         elseif self.state == "Go to foodpile" then
             if _G.foodpile then
                 self.state = "Going to foodpile"
@@ -193,8 +193,8 @@ function Farmer:update()
         end
     end
 end
-function Farmer:animate()
+function OrchardFarmer:animate()
     self:update()
     self.animation:update(dt)
 end
-return Farmer
+return OrchardFarmer
