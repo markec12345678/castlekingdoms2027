@@ -35,8 +35,22 @@ local function update()
     my = (my - 8 - height / 2) / scale_x + view_yview
     LocalX = math.round(ScreenToIsoX(mx, my))
     LocalY = math.round(ScreenToIsoY(mx, my))
-    CenterX = math.round(ScreenToIsoX(view_xview, view_yview));
-    CenterY = math.round(ScreenToIsoY(view_xview, view_yview));
+    CenterX = math.round(ScreenToIsoX(view_xview, view_yview))
+    CenterY = math.round(ScreenToIsoY(view_xview, view_yview))
+
+    -- Used for culling animations
+    local TX, TY = 0, 0
+    TX = (TX - _G.width / 2) / _G.scale_x + _G.view_xview - 16
+    TY = (TY - _G.height / 2) / _G.scale_x + _G.view_yview - 8
+    TopLeftX = TX
+    TopLeftY = TY
+
+    local BX, BY = love.graphics.getWidth(), love.graphics.getHeight() + 100
+    BX = (BX - _G.width / 2) / _G.scale_x + _G.view_xview - 16
+    BY = (BY - _G.height / 2) / _G.scale_x + _G.view_yview - 8
+    BottomRightX = BX
+    BottomRightY = BY
+
     ---------------------------------------
     _G.xchunk = math.floor(CenterX / (chunk_width));
     _G.ychunk = math.floor(CenterY / (chunk_width));

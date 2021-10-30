@@ -35,7 +35,7 @@ function PineTree:initialize(gx, gy, type)
     end
     if type == "Pine tree" then
         self.health = 6
-        self.animation = anim.newAnimation(fr_static, 0.1)
+        self.animation = anim.newAnimation(fr_static, 0.09)
         self.chop_animation = anim.newAnimation(fr_chop, 0.1)
         self.falling_animation = anim.newAnimation(fr_falling, 0.13, self.cut_down)
         for xx = -1, 1 do
@@ -45,22 +45,22 @@ function PineTree:initialize(gx, gy, type)
         end
     elseif type == "Dead pine tree" then
         self.health = 4
-        self.animation = anim.newAnimation(fr_dead_static, 0.1)
+        self.animation = anim.newAnimation(fr_dead_static, 0.09)
         self.dead = true
     elseif type == "Medium pine tree" then
         self.health = 4
-        self.animation = anim.newAnimation(fr_medium_static, 0.1)
+        self.animation = anim.newAnimation(fr_medium_static, 0.09)
         self.chop_animation = anim.newAnimation(fr_medium_chop, 0.1)
         self.falling_animation = anim.newAnimation(fr_medium_falling, 0.13, self.cut_down)
     elseif type == "Small pine tree" then
         self.health = 2
-        self.animation = anim.newAnimation(fr_small_static, 0.1)
+        self.animation = anim.newAnimation(fr_small_static, 0.09)
         self.chop_animation = anim.newAnimation(fr_small_chop, 0.1)
         self.falling_animation = anim.newAnimation(fr_small_falling, 0.13, self.cut_down)
     elseif type == "Very small pine tree" then
         self.health = 1
         self.cuttable = false
-        self.animation = anim.newAnimation(fr_very_small_static, 0.1)
+        self.animation = anim.newAnimation(fr_very_small_static, 0.09)
         self.chop_animation = anim.newAnimation(fr_very_small_chop, 0.1)
         self.falling_animation = anim.newAnimation(fr_very_small_falling, 0.13, self.cut_down)
     end

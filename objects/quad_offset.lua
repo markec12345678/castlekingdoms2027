@@ -1,6 +1,6 @@
 local tile_quads = require('objects.object_quads')
 
-local quad_offset = {}
+_G.quad_offset = {}
 quad_offset[tile_quads["spearman_falling_e (1)"]] = {34,  33}
 quad_offset[tile_quads["spearman_falling_e (2)"]] = {29,  34}
 quad_offset[tile_quads["spearman_falling_e (3)"]] = {26,  33}
