@@ -322,7 +322,7 @@ function Mine_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
             break
         end
     end
-
+    Structure.render(self)
 end
 
 local Mine = class('Mine', Structure)
@@ -383,6 +383,7 @@ function Mine:initialize(gx, gy, type)
 
     self.free_spots = 1
     self.worker = nil
+    Structure.render(self)
 end
 function Mine:join(worker)
     if self.free_spots == 1 then

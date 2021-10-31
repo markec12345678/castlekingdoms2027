@@ -170,6 +170,7 @@ function WoodcutterHut_alias:initialize(tile, gx, gy, parent, offset_y, offset_x
             break
         end
     end
+    Structure.render(self)
 end
 
 local WoodcutterHut = class('WoodcutterHut', Structure)
@@ -216,6 +217,7 @@ function WoodcutterHut:initialize(gx, gy, type)
 
     self.free_spots = 1
     self.worker = nil
+    Structure.render(self)
 end
 function WoodcutterHut:join(worker)
     if self.free_spots == 1 then

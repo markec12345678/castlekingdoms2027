@@ -378,6 +378,6 @@ function Woodcutter:update()
 end
 function Woodcutter:animate()
     self:update()
-    self.animation:update(dt)
+    Unit.animate(self)
 end
 return Woodcutter

@@ -140,8 +140,8 @@ function Peasant:update()
         end
     end
 end
-function Peasant:animate()
+function Peasant:animate(dt)
     self:update()
-    self.animation:update(_G.dt)
+    Unit.animate(self)
 end
 return Peasant

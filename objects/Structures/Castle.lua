@@ -17,6 +17,7 @@ function Castle_door:initialize(tile, gx, gy, parent, offset_y, offset_x)
     self.tile = tile
     self.offset_x = offset_x or 0
     self.offset_y = -67 + 16
+    Structure.render(self)
 end
 
 local Castle_alias = class('Castle_alias', Structure)
@@ -31,6 +32,7 @@ function Castle_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     self.tile = tile
     self.offset_x = offset_x or 0
     self.offset_y = -(offset_y or 0)
+    Structure.render(self)
 end
 
 local Castle = class('Castle', Structure)
@@ -80,6 +82,7 @@ function Castle:initialize(gx, gy, type)
             end
         end
     end
+    Structure.render(self)
 end
 
 return Castle

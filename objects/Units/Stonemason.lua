@@ -131,7 +131,6 @@ function Stonemason:update()
                 self:requestPath(self.workplace.gx + 1, self.workplace.gy + 6)
                 self.state = "Going to workplace"
                 self.move_dir = "none"
-
             end
         elseif self.move_dir == "none" and self.state == "Going to workplace" then
             self:update_direction()
@@ -179,6 +178,6 @@ function Stonemason:update()
 end
 function Stonemason:animate()
     self:update()
-    self.animation:update(dt)
+    Unit.animate(self)
 end
 return Stonemason

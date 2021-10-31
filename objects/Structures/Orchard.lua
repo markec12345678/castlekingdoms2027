@@ -31,6 +31,7 @@ function Orchard_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
             break
         end
     end
+    Structure.render(self)
 end
 local Orchard_tree = class('Orchard_tree', Structure)
 function Orchard_tree:initialize(gx, gy, parent, offset_y, offset_x)
@@ -133,6 +134,7 @@ function Orchard:initialize(gx, gy, type)
     -- Orchard_alias:new(tile_quads["empty"],self.gx+4,self.gy+5,self,12+8*4,16)
 
     self.free_spots = 1
+    Structure.render(self)
 end
 function Orchard:join(worker)
     -- if self.free_spots == 3 then

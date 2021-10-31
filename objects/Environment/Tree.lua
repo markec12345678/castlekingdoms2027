@@ -19,7 +19,6 @@ function Tree:initialize(gx, gy, type)
     self.cuttable = true
     self.tree = true
     self.active = false
-    self.vert_data = {}
     self.offset_timer = 0
     self.instancemesh = nil
     self.update_timer = 0
@@ -35,11 +34,13 @@ function Tree:initialize(gx, gy, type)
         self.animation = anim.newAnimation({self.trunk_tile}, 0.1)
         self.animation:pause()
         self.stump = true
-        self.animation:update(dt)
+        -- self.animation:update(dt)
         self.animated = false -- mark for removal from list
-        self:animate() -- animate, because the list will remove us before we show the stump
+        -- self:animate() -- animate, because the list will remove us before we show the stump
+        _G.chunk_objects[self.cx][self.cy][self] = nil
         self.type = "Stump"
         self.tile = self.trunk_tile
+        self:render()
         for xx = -1, 1 do
             for yy = -1, 1 do
                 _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.dirt, _G.terrain_biome.scarce_grass)
@@ -57,7 +58,21 @@ function Tree:initialize(gx, gy, type)
     _G.chunk_objects[self.cx][self.cy][self] = self
     addObjectAt(self.cx, self.cy, self.i, self.o, self)
 end
-function Tree:animate(dt)
+function Tree:render()
+    if _G.object_mesh then
+        local offset_x, offset_y = 0, 0
+        if quad_offset[self.tile] then
+            offset_x, offset_y = quad_offset[self.tile][1] or 0, quad_offset[self.tile][2] or 0
+        end
+        local instancemesh = object_mesh[self.cx][self.cy]
+        local x, y = self.x + (self.offset_x or 0) + offset_x, self.y + (self.offset_y or 0) + offset_y
+        local qx, qy, qw, qh = self.tile:getViewport()
+        self.vert_id = (self.i + self.o * chunk_width) + 1
+        self.instancemesh = instancemesh
+        self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
+    end
+end
+function Tree:animate(dt, force_update)
     local updated = false
     if _G.scale_x > 0.6 then
         updated = self.animation:update(dt)
@@ -72,7 +87,9 @@ function Tree:animate(dt)
             self.update_timer = 0
         end
     end
-    if self.instancemesh and updated then
+    updated = updated or self.offset_x ~= self.previous_offset_x
+    self.previous_offset_x = self.offset_x
+    if self.instancemesh and (updated or force_update) then
         self.last_updated = 0
         local offset_x, offset_y = 0, 0
         if quad_offset[self.animation:getQuad()] then
@@ -82,15 +99,7 @@ function Tree:animate(dt)
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
             self.y + (self.offset_y or 0) + offset_y - _G.height_map[self.gx][self.gy])
         local qx, qy, qw, qh = quad:getViewport()
-        self.instancemesh:setVertexAttribute(self.vert_id, 1, x, y)
-        self.instancemesh:setVertexAttribute(self.vert_id, 2, qx, qy)
-        self.instancemesh:setVertexAttribute(self.vert_id, 3, qw, qh)
-        self.vert_data[1] = x
-        self.vert_data[2] = y
-        self.vert_data[3] = qx
-        self.vert_data[4] = qy
-        self.vert_data[5] = qw
-        self.vert_data[6] = qh
+        self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
         return
     end
     if not self.instancemesh and _G.object_mesh then
@@ -105,7 +114,6 @@ function Tree:animate(dt)
         local qx, qy, qw, qh = quad:getViewport()
         self.vert_id = (self.i + self.o * chunk_width) + 1
         self.instancemesh = instancemesh
-        self.vert_data = {x, y, qx, qy, qw, qh}
         self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
     end
 end
@@ -141,6 +149,7 @@ function Tree:cut()
         status[self.cx][self.cy] = 1
         if self.animation:getTotalFrames() ~= self.animation:getCurrentFrame() then
             self.animation:gotoFrame(self.animation:getCurrentFrame() + 1)
+            self:animate(_G.dt, true)
         else
             self.finish()
             self.chop = false

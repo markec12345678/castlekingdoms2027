@@ -493,6 +493,6 @@ function WheatFarmer:update()
 end
 function WheatFarmer:animate()
     self.animation:update(dt)
-    self:update()
+    Unit.animate(self)
 end
 return WheatFarmer

@@ -237,44 +237,49 @@ function BuildController:update()
         self.gx, self.gy = LX, LY
         self.FX = IsoToScreenX(LX, LY) - view_xview - ((IsoToScreenX(LX, LY)) - view_xview) * (1 - scale_x)
         self.FY = IsoToScreenY(LX, LY) - view_yview - ((IsoToScreenY(LX, LY)) - view_yview) * (1 - scale_x)
-        self.can_build = true
-        for xx = 0, self.width - 1 do
-            for yy = 0, self.height - 1 do
-                local x = (xx + LX) % (chunk_width)
-                local y = (yy + LY) % (chunk_width)
-                local cx = math.floor((xx + LX) / chunk_width)
-                local cy = math.floor((yy + LY) / chunk_width)
-                if importantObjectAt(cx, cy, x, y) then
-                    self.can_build = false
-                end
-            end
-        end
-        if not building[self.building]:special_requirements(self.gx, self.gy) then
-            self.can_build = false
-        end
-        self.batch:clear()
-        for xx = 0, self.width - 1 do
-            for yy = 0, self.height - 1 do
-                local x = (xx + LX) % (chunk_width)
-                local y = (yy + LY) % (chunk_width)
-                local cx = math.floor((xx + LX) / chunk_width)
-                local cy = math.floor((yy + LY) / chunk_width)
-                if not importantObjectAt(cx, cy, x, y) then
-                    if self.can_build then
-                        type = 2
-                    else
-                        type = 3
+        -- No point to flush the batch everytime
+        if self.last_building ~= self.building or self.previous_gx ~= self.gx or self.previous_gx ~= self.gy then
+            self.can_build = true
+            for xx = 0, self.width - 1 do
+                for yy = 0, self.height - 1 do
+                    local x = (xx + LX) % (chunk_width)
+                    local y = (yy + LY) % (chunk_width)
+                    local cx = math.floor((xx + LX) / chunk_width)
+                    local cy = math.floor((yy + LY) / chunk_width)
+                    if importantObjectAt(cx, cy, x, y) then
+                        self.can_build = false
                     end
-                else
-                    type = 1
                 end
-                self.batch:add(self.quads[type], (xx - yy) * tile_width * 0.5, (xx + yy) * tile_height * 0.5, 0, 1, 1)
             end
+            if not building[self.building]:special_requirements(self.gx, self.gy) then
+                self.can_build = false
+            end
+            self.batch:clear()
+            for xx = 0, self.width - 1 do
+                for yy = 0, self.height - 1 do
+                    local x = (xx + LX) % (chunk_width)
+                    local y = (yy + LY) % (chunk_width)
+                    local cx = math.floor((xx + LX) / chunk_width)
+                    local cy = math.floor((yy + LY) / chunk_width)
+                    if not importantObjectAt(cx, cy, x, y) then
+                        if self.can_build then
+                            type = 2
+                        else
+                            type = 3
+                        end
+                    else
+                        type = 1
+                    end
+                    self.batch:add(self.quads[type], (xx - yy) * tile_width * 0.5, (xx + yy) * tile_height * 0.5, 0, 1,
+                        1)
+                end
+            end
+            self.batch:flush()
+            self.previous_gx = self.gx
+            self.previous_gy = self.gy
+            self.previous_can_build = self.can_build
+            self.last_building = self.building
         end
-        self.batch:flush()
-        self.previous_gx = self.gx
-        self.previous_gy = self.gy
-        self.previous_can_build = self.can_build
     end
 end
 function BuildController:build(gx, gy)

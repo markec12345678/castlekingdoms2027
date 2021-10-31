@@ -173,7 +173,7 @@ end
 
 function Miner:animate()
     self:update()
-    self.animation:update(dt)
+    Unit.animate(self)
 end
 
 return Miner

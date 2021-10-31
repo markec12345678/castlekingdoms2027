@@ -195,6 +195,6 @@ function OrchardFarmer:update()
 end
 function OrchardFarmer:animate()
     self:update()
-    self.animation:update(dt)
+    Unit.animate(self)
 end
 return OrchardFarmer

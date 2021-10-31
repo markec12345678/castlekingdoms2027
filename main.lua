@@ -86,7 +86,7 @@ function love.run()
             love.graphics.present()
         end
         previous_frame = previous_frame + 1 / (love.timer.getTime() - start_time_FPS)
-        -- limitfps()
+        limitfps()
         prof.pop("draw")
         prof.pop("frame")
     end
