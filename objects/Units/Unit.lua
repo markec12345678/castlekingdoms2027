@@ -50,7 +50,8 @@ function Unit:animate()
     end
     self.previous_vert_id = self.vert_id
     self.previous_fx, self.previous_fy = self.fx, self.fy
-    updated = updated or self.previous_fx ~= self.fx or self.previous_fy ~= self.fy
+    updated = updated or
+                  ((self.previous_fx ~= self.fx or self.previous_fy ~= self.fy) and Object.is_visible_on_screen(self))
     if self.instancemesh and updated then
         self.last_updated = 0
         local offset_x, offset_y = 0, 0
@@ -204,6 +205,7 @@ function Unit:update_position()
     self.cx, self.cy = math.floor((self.gx) / chunk_width), math.floor((self.gy) / chunk_width)
 
     local xx, yy = (math.round(self.gx)) % (chunk_width), (math.round(self.gy)) % (chunk_width)
+    self.i, self.o = xx, yy
     if not isObjectAt(self.cx, self.cy, xx, yy, self) then
         addObjectAt(self.cx, self.cy, xx, yy, self)
     end
@@ -221,7 +223,6 @@ function Unit:update_position()
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
             self.y + (self.offset_y or 0) + offset_y - _G.height_map[self.gx][self.gy])
         local qx, qy, qw, qh = quad:getViewport()
-        self.vert_id = (self.i + self.o * chunk_width) + 1
         self.instancemesh = object_mesh[self.cx][self.cy]
         self.vert_data = {x, y, qx, qy, qw, qh}
         self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
@@ -304,6 +305,7 @@ function Unit:move(special)
     self.cx, self.cy = math.floor((self.gx) / chunk_width), math.floor((self.gy) / chunk_width)
 
     local xx, yy = (self.gx) % (chunk_width), (self.gy) % (chunk_width)
+    self.i, self.o = xx, yy
     if not isObjectAt(self.cx, self.cy, xx, yy, self) then
         addObjectAt(self.cx, self.cy, xx, yy, self)
     end
@@ -317,7 +319,6 @@ function Unit:move(special)
         end
         self.last_chunk_vert_id = self.vert_id
         self.last_chunk_instancemesh = self.instancemesh
-        self.vert_id = xx + yy * chunk_width + 1
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
             self.y + (self.offset_y or 0) + offset_y - _G.height_map[self.gx][self.gy])
         local qx, qy, qw, qh = quad:getViewport()
