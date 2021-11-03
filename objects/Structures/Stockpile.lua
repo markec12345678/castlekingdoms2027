@@ -81,6 +81,9 @@ function Stockpile_alias:initialize(tile, gx, gy, parent, offset_y, offset_x, no
     end
     Structure.render(self)
 end
+function Stockpile_alias:render()
+    Structure.render(self)
+end
 
 local Stockpile = class('Stockpile', Structure)
 function Stockpile:initialize(gx, gy, type)
@@ -263,10 +266,7 @@ function Stockpile:update_stockpile(index)
     pile.id.tile = quad_map[pile.type][pile.quantity]
     pile.id.additional_offset_y = offset_y[pile.type][pile.quantity]
     pile.id.offset_y = pile.id.additional_offset_y - pile.id.base_offset_y
-    if object_batch[pile.id.cx][pile.id.cy] then
-        -- object_batch[pile.id.cx][pile.id.cy]:set(pile.id.qid, pile.id.tile, pile.id.x + pile.id.offset_x,
-        --     pile.id.y + pile.id.offset_y)        
-    end
+    pile.id:render()
     if pile.quantity == max_quantity[pile.type] then
         _G.not_full_stockpiles[pile.type] = _G.not_full_stockpiles[pile.type] - 1
     end

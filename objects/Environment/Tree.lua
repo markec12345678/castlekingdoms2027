@@ -70,9 +70,10 @@ function Tree:render()
     end
 end
 function Tree:animate(dt, force_update)
-    local updated = false
+    local updated, ticked = false, false
     if _G.scale_x > 0.6 then
         updated = self.animation:update(dt)
+        ticked = true
         self.offset_timer = self.offset_timer + 1
         if self.offset_timer > 4 then
             self.offset_x = self.base_offset_x
@@ -80,8 +81,15 @@ function Tree:animate(dt, force_update)
     elseif _G.scale_x > 0.3 then
         self.update_timer = self.update_timer + 1
         if self.update_timer == 10 then
-            updated = self.animation:update(dt * 10)
+            updated = self.animation:update(dt)
+            ticked = true
             self.update_timer = 0
+        end
+    end
+    if self.falling and not ticked then
+        updated = self.animation:update(dt)
+        if not Object.is_visible_on_screen(self) then
+            return -- no need to update vertex if we can't see it
         end
     end
     updated = updated or self.offset_x ~= self.previous_offset_x
