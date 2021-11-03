@@ -40,6 +40,13 @@ local building = {
             Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
             Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
             Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
+            Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
+            Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
+            Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
+            Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
+            Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
+            Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
+            Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
         end,
         special_requirements = function(self, gx, gy)
             return true

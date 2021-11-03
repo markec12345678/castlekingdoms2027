@@ -22,9 +22,10 @@ function ogIsoToScreenY(xx, yy)
     return ((xx + yy) * tile_height / 2);
 end
 
-function math.round(n, deci)
-    deci = 10 ^ (deci or 0)
-    return math.floor(n * deci + .5) / deci
+function math.round(x, deci)
+    -- deci = 10 ^ (deci or 0)
+    -- return math.floor(n * deci + .5) / deci
+    return x >= 0 and math.floor(x + 0.5) or math.ceil(x - 0.5)
 end
 
 local function update()

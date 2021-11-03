@@ -64,11 +64,8 @@ function Tree:render()
         if quad_offset[self.tile] then
             offset_x, offset_y = quad_offset[self.tile][1] or 0, quad_offset[self.tile][2] or 0
         end
-        local instancemesh = object_mesh[self.cx][self.cy]
         local x, y = self.x + (self.offset_x or 0) + offset_x, self.y + (self.offset_y or 0) + offset_y
         local qx, qy, qw, qh = self.tile:getViewport()
-        self.vert_id = (self.i + self.o * chunk_width) + 1
-        self.instancemesh = instancemesh
         self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
     end
 end
@@ -112,7 +109,7 @@ function Tree:animate(dt, force_update)
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
             self.y + (self.offset_y or 0) + offset_y - _G.height_map[self.gx][self.gy])
         local qx, qy, qw, qh = quad:getViewport()
-        self.vert_id = (self.i + self.o * chunk_width) + 1
+        self.vert_id = _G.getFreeVertexFromTile(self.cx, self.cy, self.i, self.o)
         self.instancemesh = instancemesh
         self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
     end

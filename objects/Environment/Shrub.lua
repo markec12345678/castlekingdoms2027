@@ -38,6 +38,7 @@ function Shrub:initialize(gx, gy, type)
         _G.chunk_objects[self.cx][self.cy] = {}
     end
     _G.chunk_objects[self.cx][self.cy][self] = self
+    addObjectAt(self.cx, self.cy, self.i, self.o, self)
 end
 function Shrub:animate()
     -- if _G.scale_x > 0.6 then
@@ -77,7 +78,7 @@ function Shrub:animate()
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
             self.y + (self.offset_y or 0) + offset_y - _G.height_map[self.gx][self.gy])
         local qx, qy, qw, qh = quad:getViewport()
-        self.vert_id = (self.i + self.o * chunk_width) + 1
+        self.vert_id = _G.vertices_per_tile * (self.i + self.o * chunk_width) + 1
         self.instancemesh = instancemesh
         self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
     end

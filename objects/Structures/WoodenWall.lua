@@ -19,7 +19,6 @@ function WoodenWall:initialize(gx, gy, type)
     self.offset_y = -(sh - 16)
     self.level = 1
     self.rotation = 1
-    _G.saw = self
 
     _G.terrainSetTileAt(self.gx, self.gy, _G.terrain_biome.dirt, _G.terrain_biome.abundant_grass)
 end

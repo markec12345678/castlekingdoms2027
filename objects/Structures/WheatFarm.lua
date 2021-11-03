@@ -70,7 +70,6 @@ function WheatFarm_plant:initialize(gx, gy, parent, is_plant)
     -- else
     -- self.tile = farmland_tiles_stage_0[random_tile]
     -- end
-    _G.saw = self
     for k, v in ipairs(_G.stockpile.node_list) do
         if v.gx == self.gx and v.gy == self.gy then
             table.remove(_G.stockpile.node_list, k)

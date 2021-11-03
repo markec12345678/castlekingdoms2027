@@ -40,7 +40,6 @@ function WoodenTower:initialize(gx, gy, type)
     self.offset_y = -64
     self.level = 1
     self.rotation = 1
-    _G.saw = self
     for tile = 1, tiles do
         WoodenTower_alias:new(quad_array[tile], self.gx, self.gy + (tiles - tile + 1), self,
             -self.offset_y + 8 * (tiles - tile + 1))

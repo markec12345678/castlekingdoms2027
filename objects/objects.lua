@@ -120,9 +120,12 @@ function addObjectAt(cx, cy, x, y, object_to_add)
 end
 
 object_image:setWrap("clampzero")
-_G.object_mesh = newAutotable(2)
 
 function removeObjectAt(cx, cy, x, y, object_to_remove)
+    if x > 63 or y > 64 then
+        print((debug.traceback("Error: trying to remove out of bounds unit", 1):gsub("\n[^\n]+$", "")))
+        love.event.quit()
+    end
     if type(object[cx][cy][x][y]) == 'table' then
         if object_to_remove then
             for index, current_object in ipairs(object[cx][cy][x][y]) do
@@ -223,6 +226,9 @@ function objectAtGlobal(gx, gy)
     end
 end
 
+_G.object_mesh = newAutotable(2)
+_G.object_mesh_vert_id_map = newAutotable(3)
+
 function genObjects(cx, cy)
     local chunk_x = cx or _G.current_chunk_x
     local chunk_y = cy or _G.current_chunk_y
@@ -233,7 +239,8 @@ function genObjects(cx, cy)
         object_batch[chunk_x][chunk_y] = love.graphics.newMesh(treeverts, "strip", "static")
     end
     local instancemesh = love.graphics.newMesh({{"InstancePosition", "float", 2}, {"UVOffset", "float", 2},
-                                                {"ImageDim", "float", 2}}, 4096, nil, "dynamic")
+                                                {"ImageDim", "float", 2}},
+        chunk_width * chunk_height * _G.vertices_per_tile, nil, "dynamic")
     for i = 0, chunk_width - 1, 1 do
         for o = 0, chunk_height - 1, 1 do
             local gx = chunk_width * cx + i
@@ -361,7 +368,8 @@ function genObjects(cx, cy)
                             ob.animation:getFrameInfo(ob.x + (ob.offset_x or 0) + offset_x, ob.y + (ob.offset_y or 0) +
                                 offset_y - _G.height_map[ob.gx][ob.gy])
                         local qx, qy, qw, qh = quad:getViewport()
-                        ob.vert_id = (i + o * chunk_width) + 1
+                        ob.vert_id = _G.vertices_per_tile * (i + o * chunk_width) + 1
+                        _G.object_mesh_vert_id_map[chunk_x][chunk_y][ob.vert_id] = true
                         ob.instancemesh = instancemesh
                         instancemesh:setVertex(ob.vert_id, x, y, qx, qy, qw, qh)
                         ob.vert_data = {x, y, qx, qy, qw, qh}
@@ -376,96 +384,6 @@ function genObjects(cx, cy)
     object_batch[chunk_x][chunk_y]:attachAttribute("UVOffset", instancemesh, "perinstance")
     object_batch[chunk_x][chunk_y]:attachAttribute("ImageDim", instancemesh, "perinstance")
     _G.object_mesh[chunk_x][chunk_y] = instancemesh
-end
-
-local flag = 0
-local low_prio_chunks = _G.newAutotable(2)
-function update_objects(cx, cy, low_priority)
-    -- REMOVE: Deprecated
-    local chunk_x = cx or _G.current_chunk_x
-    local chunk_y = cy or _G.current_chunk_y
-    if chunk_x < 0 or chunk_y < 0 or chunk_x > _G.chunks_wide or chunk_y > _G.chunks_high then
-        return
-    end
-    if low_priority then
-        if type(low_prio_chunks[cx][cy]) == "number" then
-            low_prio_chunks[cx][cy] = low_prio_chunks[cx][cy] + 1
-            if low_prio_chunks[cx][cy] < 40 * (1 - _G.scale_x) then
-                return
-            end
-            low_prio_chunks[cx][cy] = 1
-        else
-            low_prio_chunks[cx][cy] = 1
-        end
-    elseif _G.scale_x < 0.5 then
-        flag = flag + 1
-        if not low_priority and flag < (1 - _G.scale_x) * 5 then
-            return
-        end
-        flag = math.floor(love.math.random(-1, 1) + 0.5)
-    end
-    -- object_batch[chunk_x][chunk_y] = object_batch[chunk_x][chunk_y] or
-    --                                      love.graphics.newSpriteBatch(object_image, chunk_width * chunk_height)
-    -- object_batch[chunk_x][chunk_y]:clear()
-    local vertices = {}
-    for i = 0, chunk_width - 1, 1 do
-        for o = 0, chunk_height - 1, 1 do
-            local object_index = object[cx][cy][i][o]
-            if type(object_index) == 'table' then
-                local c = false
-                for _, obj in ipairs(object_index) do
-                    c = true
-                    if obj.cx ~= chunk_x or obj.cy ~= chunk_y then
-                        removeObjectAt(cx, cy, i, o, obj)
-                        goto continue
-                    end
-                    if obj.animated then
-                        -- local offset_x, offset_y = 0, 0
-                        -- if quad_offset[obj.animation:getQuad()] then
-                        --     offset_x, offset_y = quad_offset[obj.animation:getQuad()][1] or 0,
-                        --         quad_offset[obj.animation:getQuad()][2] or 0
-                        -- end
-                        -- if obj.qid then
-                        --     object_batch[chunk_x][chunk_y]:set(obj.qid,
-                        --         obj.animation:getFrameInfo(obj.x + (obj.offset_x or 0) + offset_x, obj.y +
-                        --             (obj.offset_y or 0) + offset_y - _G.height_map[obj.gx][obj.gy]))
-                        -- else
-                        -- obj.qid = object_batch[chunk_x][chunk_y]:add(
-                        --     obj.animation:getFrameInfo(obj.x + (obj.offset_x or 0) + offset_x, obj.y +
-                        --         (obj.offset_y or 0) + offset_y - _G.height_map[obj.gx][obj.gy]))
-                        -- end
-
-                        local offset_x, offset_y = 0, 0
-                        if quad_offset[obj.animation:getQuad()] then
-                            offset_x, offset_y = quad_offset[obj.animation:getQuad()][1] or 0,
-                                quad_offset[obj.animation:getQuad()][2] or 0
-                        end
-                        obj.spritebatch = object_batch[chunk_x][chunk_y]
-                        local quad, x, y, _, _, _, _, _, _, _ = obj.animation:getFrameInfo(
-                            obj.x + (obj.offset_x or 0) + offset_x,
-                            obj.y + (obj.offset_y or 0) + offset_y - _G.height_map[obj.gx][obj.gy])
-                        local qx, qy, qw, qh = quad:getViewport()
-                        obj.vert_id = #vertices + 1
-                        obj.instancemesh = object_mesh[chunk_x][chunk_y]
-                        vertices[#vertices + 1] = obj:animate(_G.dt)
-                    else
-                        local offset_x, offset_y = 0, 0
-                        if quad_offset[obj.tile] then
-                            offset_x, offset_y = quad_offset[obj.tile][1] or 0, quad_offset[obj.tile][2] or 0
-                        end
-                        obj.qid = object_batch[chunk_x][chunk_y]:add(obj.tile, obj.x + (obj.offset_x or 0) + offset_x,
-                            obj.y + (obj.offset_y or 0) + offset_y)
-                    end
-                    ::continue::
-                end
-                if not c then
-                    object[cx][cy][i][o] = nil
-                end
-            end
-        end
-    end
-    _G.object_mesh[chunk_x][chunk_y]:setVertices(vertices)
-    -- object_batch[chunk_x][chunk_y]:flush()
 end
 
 local shader = love.graphics.newShader [[
@@ -548,6 +466,12 @@ local function mousepressed(x, y, button)
         --     WoodenWall:new(press.gx, press.gy)
         -- end
     elseif button == 2 then
+        -- _G.saw.state = "Going to waypoint"
+        -- _G.saw.nd = {}
+        -- _G.saw.waypoint_x, _G.saw.waypoint_y = nil, nil
+        -- _G.saw.move_dir = "none"
+        -- _G.saw.count = 1
+        -- _G.saw:requestPath(press.gx, press.gy)
         -- if not objectAt(press.cx, press.cy, press.x, press.y) then
         --     -- OakTree:new(press.gx, press.gy)
         --     -- WoodenTower:new(press.gx, press.gy)
@@ -558,10 +482,21 @@ local function mousepressed(x, y, button)
         -- end
     elseif button == 3 then
         -- WoodenWallWalkable:new(press.gx, press.gy)
+        Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
         local insp = object[press.cx][press.cy][press.x][press.y]
         if insp then
             print("____________")
             for _, ibj in pairs(insp) do
+                print(ibj.type, ibj.vert_id, ibj.i, ibj.o, press.x, press.y, press.cx, press.cy)
+                local remove_all_metatables = function(item, path)
+                    if path[#path] ~= inspect.METATABLE then
+                        return item
+                    end
+                end
+                print(inspect(ibj, {
+                    depth = 2,
+                    process = remove_all_metatables
+                }))
                 -- print(ibj.type, ibj.x + (ibj.cx - ibj.cy) * chunk_width * tile_width * 0.5,
                 --     ibj.y + (ibj.cx + ibj.cy) * chunk_width * tile_height * 0.5)
                 -- print(ibj.type, (view_xview) - 1920 / 2 - 100, (view_yview) - 1080 / 2 - 100)

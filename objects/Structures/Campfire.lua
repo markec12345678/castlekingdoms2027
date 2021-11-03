@@ -29,8 +29,6 @@ function Campfire:initialize(gx, gy, type)
     self.rotation = 1
     self.hover_action = true
     self.free_spots = _G.newAutotable(2)
-    self.spawn_point_x = self.gx
-    self.spawn_point_y = self.gy - 3
 
     for xx = -3, 5 do
         for yy = -1, 5 do
@@ -150,7 +148,8 @@ function Campfire:animate()
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
             self.y + (self.offset_y or 0) + offset_y - _G.height_map[self.gx][self.gy])
         local qx, qy, qw, qh = quad:getViewport()
-        self.vert_id = (self.i + self.o * chunk_width) + 1
+        -- TODO FIXME, TO REQUEST VERTEX WITH API
+        self.vert_id = _G.vertices_per_tile * (self.i + self.o * chunk_width) + 1
         self.instancemesh = instancemesh
         self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
     end

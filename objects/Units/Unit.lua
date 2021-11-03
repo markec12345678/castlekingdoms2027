@@ -6,6 +6,7 @@ function Unit:initialize(gx, gy, type, no_path_state)
     Object.initialize(self, gx, gy, type)
     self.endx = 0
     self.endy = 0
+    self.last_i, self.last_o = self.i, self.o
     self.fx = self.gx * 1000
     self.fy = self.gy * 1000
     self.previous_fx, self.previous_fy = self.fx, self.fy
@@ -14,8 +15,8 @@ function Unit:initialize(gx, gy, type, no_path_state)
     self.has_move_dir = false
     self.waypoint_x = nil
     self.waypoint_y = nil
-    self.straight_walk_speed = 2400
-    self.diagonal_walk_speed = 1500
+    self.straight_walk_speed = 2400 * 10
+    self.diagonal_walk_speed = 1500 * 10
     self.originalx = self.gx
     self.originaly = self.gy
     self.nd = {}
@@ -28,31 +29,53 @@ function Unit:initialize(gx, gy, type, no_path_state)
     self.animated = true
     self.changed_chunks = 0
     self.no_path_state = no_path_state or "No path"
+    self.need_new_vert_asap = false
     self.lrcx, self.lrcy, self.lrx, self.lry = 0, 0, 0, 0
     addObjectAt(self.cx, self.cy, self.i, self.o, self)
     table.insert(active_entities, self)
     self:calculate_position()
 end
 function Unit:animate()
+    if self == nil or self.animation == nil then
+        return -- nothing to animate
+    end
     local updated = self.animation:update(_G.dt)
-    self.vert_id = self.i + self.o * chunk_width + 1
-    updated = updated or self.previous_vert_id ~= self.vert_id
+    local changed_tiles = self.i ~= self.last_i or self.o ~= self.last_o or self.need_new_vert_asap
+    updated = updated or changed_tiles
     if self.instancemesh then
-        if self.last_chunk_instancemesh and self.changed_chunks > 0 then
-            self.changed_chunks = self.changed_chunks - 1
-            if self.changed_chunks == 0 then
-                self.last_chunk_instancemesh:setVertex(self.last_chunk_vert_id)
-                self.last_chunk_instancemesh = nil
+        if self.last_chunk_instancemesh then
+            self.last_chunk_instancemesh = nil
+            _G.freeVertexFromTile(self.previous_cx, self.previous_cy, self.last_chunk_vert_id)
+            local offset_x, offset_y = 0, 0
+            if quad_offset[self.animation:getQuad()] then
+                offset_x, offset_y = quad_offset[self.animation:getQuad()][1] or 0,
+                    quad_offset[self.animation:getQuad()][2] or 0
             end
-        elseif self.previous_vert_id ~= self.vert_id then
-            self.instancemesh:setVertex(self.previous_vert_id)
+            local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(
+                self.x + (self.offset_x or 0) + offset_x,
+                self.y + (self.offset_y or 0) + offset_y - _G.height_map[math.round(self.gx)][math.round(self.gy)])
+            local qx, qy, qw, qh = quad:getViewport()
+            self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
+            return
+        elseif changed_tiles then
+            _G.freeVertexFromTile(self.cx, self.cy, self.vert_id)
+            local new_vert = _G.getFreeVertexFromTile(self.cx, self.cy, self.i, self.o)
+            if new_vert ~= false then
+                self.need_new_vert_asap = false
+                self.previous_vert_id = self.vert_id
+                self.vert_id = new_vert
+                self.last_i, self.last_o = self.i, self.o
+                updated = true
+            else
+                self.need_new_vert_asap = true
+                -- print("didn't receive new vert 1", self, self.vert_id)
+            end
         end
     end
-    self.previous_vert_id = self.vert_id
     self.previous_fx, self.previous_fy = self.fx, self.fy
     updated = updated or
                   ((self.previous_fx ~= self.fx or self.previous_fy ~= self.fy) and Object.is_visible_on_screen(self))
-    if self.instancemesh and updated then
+    if self.instancemesh and self.animation then
         self.last_updated = 0
         local offset_x, offset_y = 0, 0
         if quad_offset[self.animation:getQuad()] then
@@ -60,12 +83,13 @@ function Unit:animate()
                 quad_offset[self.animation:getQuad()][2] or 0
         end
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
-            self.y + (self.offset_y or 0) + offset_y - _G.height_map[self.gx][self.gy])
+            self.y + (self.offset_y or 0) + offset_y - _G.height_map[math.round(self.gx)][math.round(self.gy)])
         local qx, qy, qw, qh = quad:getViewport()
         self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
         return
     end
     if not self.instancemesh and _G.object_mesh then
+        self:update_position()
         local offset_x, offset_y = 0, 0
         if quad_offset[self.animation:getQuad()] then
             offset_x, offset_y = quad_offset[self.animation:getQuad()][1] or 0,
@@ -73,11 +97,22 @@ function Unit:animate()
         end
         local instancemesh = object_mesh[self.cx][self.cy]
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
-            self.y + (self.offset_y or 0) + offset_y - _G.height_map[self.gx][self.gy])
+            self.y + (self.offset_y or 0) + offset_y - _G.height_map[math.round(self.gx)][math.round(self.gy)])
         local qx, qy, qw, qh = quad:getViewport()
-        self.vert_id = (self.i + self.o * chunk_width) + 1
-        self.instancemesh = instancemesh
-        self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
+        if self.vert_id then
+            _G.freeVertexFromTile(self.cx, self.cy, self.vert_id)
+        end
+        local new_vert = _G.getFreeVertexFromTile(self.cx, self.cy, self.i, self.o)
+        if new_vert then
+            self.need_new_vert_asap = false
+            self.vert_id = new_vert
+            self.instancemesh = instancemesh
+            self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
+            self.has_animation = true
+        else
+            self.need_new_vert_asap = true
+            -- print("didn't receive new vert 2")
+        end
     end
 end
 function Unit:requestPath(xx, yy)
@@ -133,7 +168,10 @@ function Unit:calculate_position()
     -- slightly magic numbers?
     self.x = IsoX + ((self.fx * 0.001) % chunk_width - (self.fy * 0.001) % chunk_width) * tile_width * 0.5 - 31
     self.y = IsoY + ((self.fx * 0.001) % chunk_width + (self.fy * 0.001) % chunk_width) * tile_height * 0.5 - 50
-    self.i, self.o = self.lrx, self.lry
+    -- if self.last_x ~= self.x or self.last_y ~= self.y then
+    --     print(self.x, self.y, self.i, self.o, "chunk", self.cx, self.cy)
+    -- end
+    self.last_x, self.last_y = self.x, self.y
 end
 function Unit:update_direction()
     local wx = self.waypoint_x
@@ -201,42 +239,44 @@ function Unit:update_direction()
 end
 function Unit:update_position()
     self.previous_cx, self.previous_cy = self.cx, self.cy
-    self.gx, self.gy = math.round(self.fx * 0.001), math.round(self.fy * 0.001)
+    self.gx, self.gy = self.fx * 0.001, self.fy * 0.001
     self.cx, self.cy = math.floor((self.gx) / chunk_width), math.floor((self.gy) / chunk_width)
-
     local xx, yy = (math.round(self.gx)) % (chunk_width), (math.round(self.gy)) % (chunk_width)
+    self.last_i, self.last_o = self.i, self.o
     self.i, self.o = xx, yy
-    if not isObjectAt(self.cx, self.cy, xx, yy, self) then
-        addObjectAt(self.cx, self.cy, xx, yy, self)
-    end
-    if isObjectAt(self.cx, self.cy, self.originalx, self.originaly, self) and
-        (self.originalx ~= math.round(self.gx) % chunk_width or self.originaly ~= math.round(self.gy) % chunk_width) then
-        removeObjectAt(self.cx, self.cy, self.originalx, self.originaly, self)
-    end
     if self.previous_cx ~= self.cx or self.previous_cy ~= self.cy then
         if not isObjectAt(self.cx, self.cy, xx, yy, self) then
             addObjectAt(self.cx, self.cy, xx, yy, self)
+            removeObjectAt(self.previous_cx, self.previous_cy, self.originalx, self.originaly, self)
         end
         self.last_chunk_vert_id = self.vert_id
+        self.last_chunk_cx, self.last_chunk_cy = self.previous_cx, self.previous_cy
         self.last_chunk_instancemesh = self.instancemesh
-        self.vert_id = xx + yy * chunk_width + 1
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
-            self.y + (self.offset_y or 0) + offset_y - _G.height_map[self.gx][self.gy])
+            self.y + (self.offset_y or 0) + offset_y - _G.height_map[math.round(self.gx)][math.round(self.gy)])
         local qx, qy, qw, qh = quad:getViewport()
-        self.instancemesh = object_mesh[self.cx][self.cy]
-        self.vert_data = {x, y, qx, qy, qw, qh}
-        self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
-        self.changed_chunks = 1
-        -- :add
+        _G.freeVertexFromTile(self.previous_cx, self.previous_cy, self.vert_id)
+        local new_vert = _G.getFreeVertexFromTile(self.cx, self.cy, self.i, self.o)
+        if new_vert then
+            self.vert_id = new_vert
+            self.need_new_vert_asap = false
+            self.instancemesh = object_mesh[self.cx][self.cy]
+            self.vert_data = {x, y, qx, qy, qw, qh}
+            self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
+            self.has_animation = true
+            self.changed_chunks = 1
+        else
+            self.need_new_vert_asap = true
+        end
     end
     self.lrcx, self.lrcy, self.lrx, self.lry = self.cx, self.cy, xx, yy
     if self.originalx ~= math.round(self.gx) % chunk_width or self.originaly ~= math.round(self.gy) % chunk_width then
+        addObjectAt(self.cx, self.cy, xx, yy, self)
+        removeObjectAt(self.cx, self.cy, self.last_i, self.last_o, self)
         self.originalx = math.round(self.gx) % chunk_width
         self.originaly = math.round(self.gy) % chunk_width
     end
-    -- self.gx, self.gy = self.fx * 0.001, self.fy * 0.001
-    self.gx, self.gy = math.round(self.fx * 0.001), math.round(self.fy * 0.001)
-    -- self.gx, self.gy = self.cx * chunk_width + xx, self.cy * chunk_width + yy
+    self:calculate_position()
 end
 function Unit:move(special)
     if not self.has_move_dir then
@@ -300,41 +340,7 @@ function Unit:move(special)
             self.fy = self.waypoint_y * 1000
         end
     end
-    self.previous_cx, self.previous_cy = self.cx, self.cy
-    self.gx, self.gy = math.floor(self.fx * 0.001), math.floor(self.fy * 0.001)
-    self.cx, self.cy = math.floor((self.gx) / chunk_width), math.floor((self.gy) / chunk_width)
-
-    local xx, yy = (self.gx) % (chunk_width), (self.gy) % (chunk_width)
-    self.i, self.o = xx, yy
-    if not isObjectAt(self.cx, self.cy, xx, yy, self) then
-        addObjectAt(self.cx, self.cy, xx, yy, self)
-    end
-    if isObjectAt(self.cx, self.cy, self.originalx, self.originaly, self) and
-        (self.originalx ~= self.gx % chunk_width or self.originaly ~= self.gy % chunk_width) then
-        removeObjectAt(self.cx, self.cy, self.originalx, self.originaly, self)
-    end
-    if self.previous_cx ~= self.cx or self.previous_cy ~= self.cy then
-        if not isObjectAt(self.cx, self.cy, xx, yy, self) then
-            addObjectAt(self.cx, self.cy, xx, yy, self)
-        end
-        self.last_chunk_vert_id = self.vert_id
-        self.last_chunk_instancemesh = self.instancemesh
-        local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
-            self.y + (self.offset_y or 0) + offset_y - _G.height_map[self.gx][self.gy])
-        local qx, qy, qw, qh = quad:getViewport()
-        self.vert_id = (self.i + self.o * chunk_width) + 1
-        self.instancemesh = object_mesh[self.cx][self.cy]
-        self.vert_data = {x, y, qx, qy, qw, qh}
-        self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
-        self.changed_chunks = 1
-        -- self.qid = object_batch[self.cx][self.cy]:add(self.animation:getFrameInfo(self.x, self.y))
-    end
-    self.lrcx, self.lrcy, self.lrx, self.lry = self.cx, self.cy, xx, yy
-    self:calculate_position()
-    if self.originalx ~= self.gx % chunk_width or self.originaly ~= self.gy % chunk_width then
-        self.originalx = self.gx % chunk_width
-        self.originaly = self.gy % chunk_width
-    end
+    self:update_position()
 end
 
 return Unit

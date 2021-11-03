@@ -122,8 +122,10 @@ function Peasant:update()
                     self.state = "Getting a job"
                     local getting_job = function()
                         self.to_be_deleted = true
-                        _G.removeObjectAt(self.lrcx, self.lrcy, self.lrx, self.lry, self)
-                        self = nil
+                        _G.freeVertexFromTile(self.cx, self.cy, self.previous_vert_id, self)
+                        self.animation = nil
+                        _G.freeVertexFromTile(self.cx, self.cy, self.vert_id, self)
+                        _G.removeObjectAt(self.cx, self.cy, self.i, self.o, self)
                         _G.JobController:add_available_worker()
                     end
                     self.animation = anim.newAnimation(fr_bowing_north, 0.12, getting_job)

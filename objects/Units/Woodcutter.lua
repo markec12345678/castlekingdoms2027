@@ -157,7 +157,7 @@ function Woodcutter:find_tree()
     end
     objt, disto = self:check_trees(self.cx, self.cy - 1)
 
-    if not importantObjectAtGlobal(objt.gx, objt.gy + 1) then
+    if objt and not _G.importantObjectAtGlobal(objt.gx, objt.gy + 1) then
         if disto and disto < closest_distance then
             closest_object = objt
             closest_distance = disto
@@ -166,6 +166,7 @@ function Woodcutter:find_tree()
     if not closest_object then
         print("No trees nearby!")
         self.state = "No trees"
+        -- TODO: Mark woodcutters hut as inactive
         return
     end
     self.target_tree = closest_object
@@ -173,7 +174,7 @@ function Woodcutter:find_tree()
     self.endy = closest_object.gy + 1
     if self.endx == self.gx and self.endy == self.gy then
         self.state = "Cutting down"
-        self.animation = anim.newAnimation(fr_cutting_northeast, 0.08, self.cut)
+        self.animation = anim.newAnimation(fr_cutting_northeast, 0.08 * 0.1, self.cut)
         self.nd = {}
         self.waypoint_x, self.waypoint_y = nil, nil
         self.move_dir = "none"
@@ -304,7 +305,7 @@ function Woodcutter:update()
             self.state = "Going to workplace"
             self.move_dir = "none"
         elseif self.state == "Going to tree" or self.state == "Going to stockpile" or self.state == "Going to workplace" or
-            self.state == "Going to workplace with wood" then
+            self.state == "Going to workplace with wood" or self.state == "Going to waypoint" then
             if self.move_dir == "none" then
                 self:update_direction()
                 self:dir_sub_update()
@@ -315,7 +316,7 @@ function Woodcutter:update()
             if self.state == "Going to tree" then
                 if self.count == self.nd_len then
                     self.state = "Cutting down"
-                    self.animation = anim.newAnimation(fr_cutting_northeast, 0.10, self.cut)
+                    self.animation = anim.newAnimation(fr_cutting_northeast, 0.10 * 0.1, self.cut)
                     self.nd = {}
                     self.waypoint_x, self.waypoint_y = nil, nil
                     self.move_dir = "none"
@@ -366,6 +367,22 @@ function Woodcutter:update()
                     self.move_dir = "none"
                     self.count = 1
                     return
+                else
+                    self.waypoint_x = self.nd[self.count][1]
+                    self.waypoint_y = self.nd[self.count][2]
+                    self.move_dir = "none"
+                end
+                self.count = self.count + 1
+            elseif self.state == "Going to waypoint" then
+                if self.count == self.nd_len then
+                    self.state = "none"
+                    self.nd = {}
+                    self.waypoint_x, self.waypoint_y = nil, nil
+                    self.move_dir = "none"
+                    self.count = 1
+                    return
+                elseif not (self.nd[self.count] and self.nd[self.count][1]) then
+                    self.move_dir = "none"
                 else
                     self.waypoint_x = self.nd[self.count][1]
                     self.waypoint_y = self.nd[self.count][2]

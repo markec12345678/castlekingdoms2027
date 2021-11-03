@@ -146,6 +146,30 @@ function listInsert(list, key1, value1, key2, value2)
 end
 terrain_chunks = nil
 ----Tiles
+_G.vertices_per_tile = 4
+function _G.getFreeVertexFromTile(cx, cy, local_x, local_y)
+    local vert_id = _G.vertices_per_tile * (local_x + local_y * chunk_width) + 1
+    chunk_vertices = _G.object_mesh_vert_id_map[cx][cy]
+    if chunk_vertices then
+        for i = _G.vertices_per_tile - 1, 0, -1 do
+            if not chunk_vertices[vert_id + i] then
+                _G.object_mesh_vert_id_map[cx][cy][vert_id + i] = true
+                return vert_id + i
+            end
+        end
+    end
+    return false
+end
+
+function _G.freeVertexFromTile(cx, cy, vert_id, unit)
+    chunk_vertices = _G.object_mesh_vert_id_map[cx][cy]
+    if chunk_vertices then
+        _G.object_mesh[cx][cy]:setVertex(vert_id)
+        chunk_vertices[vert_id] = false
+    else
+        return true
+    end
+end
 tile_width = 32
 tile_height = 16
 ----Chunks
@@ -153,8 +177,8 @@ xchunk = 0
 ychunk = 0
 chunk_width = 64
 chunk_height = 64
-chunks_wide = 16
-chunks_high = 16
+chunks_wide = 8
+chunks_high = 8
 current_chunk_x = 0
 current_chunk_y = 0
 CenterX = 0

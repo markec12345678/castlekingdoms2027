@@ -73,7 +73,6 @@ function WoodcutterHut_plank_stack:initialize(gx, gy, parent, offset_x, offset_y
     self.qid = 0
     self.offset_x = -56
     self.offset_y = -52
-    _G.saw = self
 
     table.insert(active_entities, self)
 end

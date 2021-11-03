@@ -12,7 +12,7 @@ function Structure:render()
         end
         local x, y = self.x + (self.offset_x or 0) + offset_x, self.y + (self.offset_y or 0) + offset_y
         local qx, qy, qw, qh = self.tile:getViewport()
-        self.vert_id = (self.i + self.o * _G.chunk_width) + 1
+        self.vert_id = _G.vertices_per_tile * (self.i + self.o * _G.chunk_width) + 1
         self.instancemesh = _G.object_mesh[self.cx][self.cy]
         self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
     end
