@@ -62,6 +62,9 @@ function Granary_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     end
     Structure.render(self)
 end
+function Granary_alias:render()
+    Structure.render(self)
+end
 
 local Granary = class('Granary', Structure)
 function Granary:initialize(gx, gy, type)
@@ -269,6 +272,7 @@ function Granary:update_foodpile(index)
     pile.id.tile = quad_map[pile.type][pile.quantity]
     pile.id.additional_offset_y = offset_y[pile.type][pile.quantity]
     pile.id.offset_y = pile.id.additional_offset_y - pile.id.base_offset_y
+    pile.id:render()
     -- if object_batch[pile.id.cx][pile.id.cy] then
     --     object_batch[pile.id.cx][pile.id.cy]:set(pile.id.qid, pile.id.tile, pile.id.x + pile.id.offset_x,
     --         pile.id.y + pile.id.offset_y)
