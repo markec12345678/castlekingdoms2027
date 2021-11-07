@@ -237,14 +237,14 @@ function WheatFarmer:seed_land()
         self.move_dir = "none"
         self.count = 1
     else
-        self.straight_walk_speed = 638.4
-        self.animation = anim.newAnimation(anim1, 0.1, function()
+        self.straight_walk_speed = 638.4 * 10
+        self.animation = anim.newAnimation(anim1, 0.1 * 0.1, function()
             self.fy = math.round(self.fy / 1000) * 1000
             self:update_position()
             self:calculate_position()
             self.move_dir = "none"
-            self.straight_walk_speed = 40
-            self.animation = anim.newAnimation(anim1, 0.1)
+            self.straight_walk_speed = 40 * 60 * 10
+            self.animation = anim.newAnimation(anim1, 0.1 * 0.1)
             self.animation:pause()
             self.workplace:update_tiles(self.farmland_tiles)
             self.workplace:work(self)
@@ -282,11 +282,13 @@ function WheatFarmer:hoe_land()
     self.animation:resume()
     self.waypoint_x, self.waypoint_y = future_waypoint_x, future_waypoint_y
     if skip_walking then
-        self.animation = anim.newAnimation(anim2, 0.1, function()
+        self.animation = anim.newAnimation(anim2, 0.1 * 0.1, function()
             self.workplace:update_tiles(self.farmland_tiles)
-            self.animation = anim.newAnimation(anim3, 0.1, function()
-                self.straight_walk_speed = 2400
-                self.animation = anim.newAnimation(anim1, 0.1)
+            self:update_position()
+            self.animation = anim.newAnimation(anim3, 0.1 * 0.1, function()
+                self.straight_walk_speed = 2400 * 10
+                self.animation = anim.newAnimation(anim1, 0.1 * 0.1)
+                self:update_position()
                 self.animation:pause()
                 self.workplace:work(self)
                 self.nd = {}
@@ -296,17 +298,18 @@ function WheatFarmer:hoe_land()
             end)
         end)
     else
-        self.straight_walk_speed = 1276.7
-        self.animation = anim.newAnimation(anim1, 0.1, function()
+        self.straight_walk_speed = 1276.7 * 10
+        self:update_position()
+        self.animation = anim.newAnimation(anim1, 0.1 * 0.1, function()
             self.fy = math.round(self.fy / 1000) * 1000
             self:update_position()
-            self:calculate_position()
             self.move_dir = "none"
-            self.animation = anim.newAnimation(anim2, 0.1, function()
+            self.animation = anim.newAnimation(anim2, 0.1 * 0.1, function()
                 self.workplace:update_tiles(self.farmland_tiles)
-                self.animation = anim.newAnimation(anim3, 0.1, function()
-                    self.straight_walk_speed = 2400
-                    self.animation = anim.newAnimation(anim1, 0.1)
+                self.animation = anim.newAnimation(anim3, 0.1 * 0.1, function()
+                    self.straight_walk_speed = 2400 * 10
+                    self.animation = anim.newAnimation(anim1, 0.1 * 0.1)
+                    self:update_position()
                     self.animation:pause()
                     self.workplace:work(self)
                     self.nd = {}
@@ -345,10 +348,10 @@ function WheatFarmer:scythe_land()
     self.animation:resume()
     self.waypoint_x, self.waypoint_y = future_waypoint_x, future_waypoint_y
     if skip_walking then
-        self.animation = anim.newAnimation(anim2, 0.1, function()
+        self.animation = anim.newAnimation(anim2, 0.1 * 0.1, function()
             self.workplace:update_tiles(self.farmland_tiles)
-            self.animation = anim.newAnimation(anim3, 0.1, function()
-                self.straight_walk_speed = 40
+            self.animation = anim.newAnimation(anim3, 0.1 * 0.1, function()
+                self.straight_walk_speed = 40 * 60 * 10
                 self.animation = anim.newAnimation(anim1, 0.1)
                 self.animation:pause()
                 self.workplace:work(self)
@@ -359,17 +362,16 @@ function WheatFarmer:scythe_land()
             end)
         end)
     else
-        self.straight_walk_speed = 21.2794
-        self.animation = anim.newAnimation(anim1, 0.1, function()
+        self.straight_walk_speed = 21.2794 * 60 * 10
+        self.animation = anim.newAnimation(anim1, 0.1 * 0.1, function()
             self.fy = math.round(self.fy / 1000) * 1000
             self:update_position()
-            self:calculate_position()
             self.move_dir = "none"
-            self.animation = anim.newAnimation(anim2, 0.1, function()
+            self.animation = anim.newAnimation(anim2, 0.1 * 0.1, function()
                 self.workplace:update_tiles(self.farmland_tiles)
-                self.animation = anim.newAnimation(anim3, 0.1, function()
-                    self.straight_walk_speed = 40
-                    self.animation = anim.newAnimation(anim1, 0.1)
+                self.animation = anim.newAnimation(anim3, 0.1 * 0.1, function()
+                    self.straight_walk_speed = 40 * 60 * 10
+                    self.animation = anim.newAnimation(anim1, 0.1 * 0.1)
                     self.animation:pause()
                     self.workplace:work(self)
                     self.nd = {}
@@ -492,7 +494,7 @@ function WheatFarmer:update()
     end
 end
 function WheatFarmer:animate()
-    self.animation:update(dt)
+    self:update()
     Unit.animate(self)
 end
 return WheatFarmer

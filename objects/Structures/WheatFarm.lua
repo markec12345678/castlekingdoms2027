@@ -35,6 +35,7 @@ function WheatFarm_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
             break
         end
     end
+    Structure.render(self)
 end
 local WheatFarm_plant = class('WheatFarm_plant', Structure)
 function WheatFarm_plant:initialize(gx, gy, parent, is_plant)
@@ -84,9 +85,9 @@ function WheatFarm_plant:initialize(gx, gy, parent, is_plant)
     self.started_growing = false
     -- addObjectAt(self.cx, self.cy, self.i, self.o, self)
 end
--- function WheatFarm_plant:animate()
---     self.animation:update(dt)
--- end
+function WheatFarm_plant:render()
+    Structure.render(self)
+end
 function WheatFarm_plant:update(dt)
     dt = dt or _G.dt
     if self.state > 0 and self.state < 4 and self.is_plant and self.parent.tiles_sowed ==
@@ -135,6 +136,7 @@ function WheatFarm_plant:set_state(state)
             self.tile = farmland_tiles_stage_1[random_tile]
         end
     end
+    self:render()
 end
 
 local WheatFarm = class('WheatFarm', Structure)
@@ -246,6 +248,7 @@ function WheatFarm:initialize(gx, gy, type)
     -- for x =i
 
     self.free_spots = 1
+    Structure.render(self)
 end
 function WheatFarm:join(worker)
     -- if self.free_spots == 3 then
