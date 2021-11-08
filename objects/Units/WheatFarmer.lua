@@ -208,6 +208,12 @@ end
 function WheatFarmer:job_update()
     removeObjectAt(self.lrcx, self.lrcy, self.lrx, self.lry, self)
 end
+function WheatFarmer:anchor_work_position()
+    self.fx = self.waypoint_x * 1000
+    self.fy = self.waypoint_y * 1000
+    self.gy = math.round(self.fx * 0.001)
+    self.gy = math.round(self.fy * 0.001)
+end
 function WheatFarmer:seed_land()
     local anim1, anim2, anim3, skip_walking
     local future_waypoint_x, future_waypoint_y = self.gx, self.gy
@@ -239,7 +245,7 @@ function WheatFarmer:seed_land()
     else
         self.straight_walk_speed = 638.4 * 10
         self.animation = anim.newAnimation(anim1, 0.1 * 0.1, function()
-            self.fy = math.round(self.fy / 1000) * 1000
+            self:anchor_work_position()
             self:update_position()
             self:calculate_position()
             self.move_dir = "none"
@@ -274,6 +280,13 @@ function WheatFarmer:hoe_land()
         anim2 = fr_gather_hoe_north
         anim3 = fr_gather_hoe_part2_north
         future_waypoint_y = self.gy - 1
+    elseif self.state == "Hoe walking to eastern tile" or self.state == "Going to hoe the land from east" then
+        self.move_dir = "east"
+        -- TODO: finish
+        anim1 = fr_gather_walk_hoe_east
+        anim2 = fr_gather_hoe_east
+        anim3 = fr_gather_hoe_part2_east
+        future_waypoint_x = self.gx + 1
     end
     self.state = "Working"
     self.has_move_dir = true
@@ -301,7 +314,7 @@ function WheatFarmer:hoe_land()
         self.straight_walk_speed = 1276.7 * 10
         self:update_position()
         self.animation = anim.newAnimation(anim1, 0.1 * 0.1, function()
-            self.fy = math.round(self.fy / 1000) * 1000
+            self:anchor_work_position()
             self:update_position()
             self.move_dir = "none"
             self.animation = anim.newAnimation(anim2, 0.1 * 0.1, function()
@@ -320,53 +333,33 @@ function WheatFarmer:hoe_land()
             end)
         end)
     end
-end
 
-function WheatFarmer:scythe_land()
-    local anim1, anim2, anim3, skip_walking
-    local future_waypoint_x, future_waypoint_y = self.gx, self.gy
-    if self.state == "Going to scythe the land from south" or self.state == "Going to scythe the land from north" then
-        skip_walking = true
-    end
-    if self.state == "Scythe walking to southern tile" or self.state == "Going to scythe the land from north" then
-        self.move_dir = "south"
-        anim1 = fr_gather_moving_scythe_1_south
-        anim2 = fr_gather_moving_scythe_2_south
-        anim3 = fr_gather_moving_scythe_3_south
-        future_waypoint_y = self.gy + 1
-    elseif self.state == "Scythe walking to northern tile" or self.state == "Going to scythe the land from south" then
-        self.move_dir = "north"
-        anim1 = fr_gather_moving_scythe_1_north
-        anim2 = fr_gather_moving_scythe_2_north
-        anim3 = fr_gather_moving_scythe_3_north
-        future_waypoint_y = self.gy - 1
-    end
-    self.state = "Working"
-    self.has_move_dir = true
-    local loop = 0
-    self.straight_walk_speed = 0
-    self.animation:resume()
-    self.waypoint_x, self.waypoint_y = future_waypoint_x, future_waypoint_y
-    if skip_walking then
-        self.animation = anim.newAnimation(anim2, 0.1 * 0.1, function()
-            self.workplace:update_tiles(self.farmland_tiles)
-            self.animation = anim.newAnimation(anim3, 0.1 * 0.1, function()
-                self.straight_walk_speed = 40 * 60 * 10
-                self.animation = anim.newAnimation(anim1, 0.1)
-                self.animation:pause()
-                self.workplace:work(self)
-                self.nd = {}
-                self.waypoint_x, self.waypoint_y = nil, nil
-                self.move_dir = "none"
-                self.count = 1
-            end)
-        end)
-    else
-        self.straight_walk_speed = 21.2794 * 60 * 10
-        self.animation = anim.newAnimation(anim1, 0.1 * 0.1, function()
-            self.fy = math.round(self.fy / 1000) * 1000
-            self:update_position()
-            self.move_dir = "none"
+    function WheatFarmer:scythe_land()
+        local anim1, anim2, anim3, skip_walking
+        local future_waypoint_x, future_waypoint_y = self.gx, self.gy
+        if self.state == "Going to scythe the land from south" or self.state == "Going to scythe the land from north" then
+            skip_walking = true
+        end
+        if self.state == "Scythe walking to southern tile" or self.state == "Going to scythe the land from north" then
+            self.move_dir = "south"
+            anim1 = fr_gather_moving_scythe_1_south
+            anim2 = fr_gather_moving_scythe_2_south
+            anim3 = fr_gather_moving_scythe_3_south
+            future_waypoint_y = self.gy + 1
+        elseif self.state == "Scythe walking to northern tile" or self.state == "Going to scythe the land from south" then
+            self.move_dir = "north"
+            anim1 = fr_gather_moving_scythe_1_north
+            anim2 = fr_gather_moving_scythe_2_north
+            anim3 = fr_gather_moving_scythe_3_north
+            future_waypoint_y = self.gy - 1
+        end
+        self.state = "Working"
+        self.has_move_dir = true
+        local loop = 0
+        self.straight_walk_speed = 0
+        self.animation:resume()
+        self.waypoint_x, self.waypoint_y = future_waypoint_x, future_waypoint_y
+        if skip_walking then
             self.animation = anim.newAnimation(anim2, 0.1 * 0.1, function()
                 self.workplace:update_tiles(self.farmland_tiles)
                 self.animation = anim.newAnimation(anim3, 0.1 * 0.1, function()
@@ -380,7 +373,29 @@ function WheatFarmer:scythe_land()
                     self.count = 1
                 end)
             end)
-        end)
+        else
+            self.straight_walk_speed = 1715.26586621 * 10
+            -- self.straight_walk_speed = 21.2794 * 60 * 5
+            self.animation = anim.newAnimation(anim1, 0.1 * 0.1, function()
+                self:update_position()
+                self.move_dir = "none"
+                self.animation = anim.newAnimation(anim2, 0.1 * 0.1, function()
+                    self.workplace:update_tiles(self.farmland_tiles)
+                    self.animation = anim.newAnimation(anim3, 0.1 * 0.1, function()
+                        self.straight_walk_speed = 40 * 60 * 10
+                        self.animation = anim.newAnimation(anim1, 0.1 * 0.1)
+                        self.animation:pause()
+
+                        self:anchor_work_position()
+                        self.workplace:work(self)
+                        self.nd = {}
+                        self.waypoint_x, self.waypoint_y = nil, nil
+                        self.move_dir = "none"
+                        self.count = 1
+                    end)
+                end)
+            end)
+        end
     end
 end
 function WheatFarmer:update()
