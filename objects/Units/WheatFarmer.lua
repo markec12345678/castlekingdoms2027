@@ -46,6 +46,7 @@ local fr_gather_hoe_part2_southwest = indexQuads("body_farmer_hoe_sw", 16, 13)
 local fr_gather_moving_scythe_1_north = indexQuads("body_farmer_mow_scythe_n", 6)
 local fr_gather_moving_scythe_1_west = indexQuads("body_farmer_mow_scythe_w", 6)
 local fr_gather_moving_scythe_1_south = indexQuads("body_farmer_mow_scythe_s", 6)
+local fr_gather_moving_scythe_1_east = indexQuads("body_farmer_mow_scythe_e", 6)
 local fr_gather_moving_scythe_1_northeast = indexQuads("body_farmer_mow_scythe_ne", 6)
 local fr_gather_moving_scythe_1_northwest = indexQuads("body_farmer_mow_scythe_nw", 6)
 local fr_gather_moving_scythe_1_southeast = indexQuads("body_farmer_mow_scythe_se", 6)
@@ -94,6 +95,7 @@ local fr_gather_earthing_southwest = indexQuads("body_farmer_earth_sw", 8)
 local fr_gather_planting_north = indexQuads("body_farmer_seed_n", 16)
 local fr_gather_planting_west = indexQuads("body_farmer_seed_w", 16)
 local fr_gather_planting_south = indexQuads("body_farmer_seed_s", 16)
+local fr_gather_planting_east = indexQuads("body_farmer_seed_e", 16)
 local fr_gather_planting_northeast = indexQuads("body_farmer_seed_ne", 16)
 local fr_gather_planting_northwest = indexQuads("body_farmer_seed_nw", 16)
 local fr_gather_planting_southeast = indexQuads("body_farmer_seed_se", 16)
@@ -214,6 +216,109 @@ function WheatFarmer:anchor_work_position()
     self.gy = math.round(self.fx * 0.001)
     self.gy = math.round(self.fy * 0.001)
 end
+
+function WheatFarmer:hoe_land()
+    local anim1, anim2, anim3, skip_walking
+    local future_waypoint_x, future_waypoint_y = self.gx, self.gy
+    if self.state == "Going to hoe the land from south" or self.state == "Going to hoe the land from north" then
+        skip_walking = true
+    end
+    if self.state == "Hoe walking to southern tile" or self.state == "Going to hoe the land from north" then
+        self.move_dir = "south"
+        anim1 = fr_gather_walk_hoe_south
+        anim2 = fr_gather_hoe_south
+        anim3 = fr_gather_hoe_part2_south
+        future_waypoint_y = self.gy + 1
+    elseif self.state == "Hoe walking to northern tile" or self.state == "Going to hoe the land from south" then
+        self.move_dir = "north"
+        anim1 = fr_gather_walk_hoe_north
+        anim2 = fr_gather_hoe_north
+        anim3 = fr_gather_hoe_part2_north
+        future_waypoint_y = self.gy - 1
+    elseif self.state == "Hoe walking to eastern tile" or self.state == "Going to hoe the land from east" then
+        self.move_dir = "east"
+        -- TODO: finish
+        anim1 = fr_gather_walk_hoe_east
+        anim2 = fr_gather_hoe_east
+        anim3 = fr_gather_hoe_part2_east
+        future_waypoint_x = self.gx + 1
+    elseif self.state == "Hoe walking to northeastern tile" then
+        self.move_dir = "northeast"
+        anim1 = fr_gather_walk_hoe_northeast
+        anim2 = fr_gather_hoe_northeast
+        anim3 = fr_gather_hoe_part2_northeast
+        future_waypoint_x = self.gx + 1
+        future_waypoint_y = self.gy - 1
+        if self.current_tile and self.gx == self.current_tile.gx - 1 and self.gy == self.current_tile.gy + 1 then
+            skip_walking = true
+            future_waypoint_x = self.gx
+            future_waypoint_y = self.gy
+        elseif self.current_tile and self.gx == self.current_tile.gx - 2 and self.gy == self.current_tile.gy + 1 then
+            skip_walking = true
+            future_waypoint_x = self.gx
+            future_waypoint_y = self.gy
+        elseif self.current_tile and self.gx + 1 == self.current_tile.gx and self.gy - 2 == self.current_tile.gy then
+            anim2 = fr_gather_hoe_north
+            anim3 = fr_gather_hoe_part2_north
+        end
+    elseif self.state == "Hoe walking to southeastern tile" then
+        self.move_dir = "southeast"
+        anim1 = fr_gather_walk_hoe_southeast
+        anim2 = fr_gather_hoe_southeast
+        anim3 = fr_gather_hoe_part2_southeast
+        future_waypoint_x = self.gx + 1
+        future_waypoint_y = self.gy + 1
+    end
+    self.state = "Working"
+    self.has_move_dir = true
+    local loop = 0
+    self.straight_walk_speed = 0
+    self.animation:resume()
+    self.waypoint_x, self.waypoint_y = future_waypoint_x, future_waypoint_y
+    if skip_walking then
+        self.animation = anim.newAnimation(anim2, 0.1 * 0.1, function()
+            self.workplace:update_tiles(self.farmland_tiles)
+            self:update_position()
+            self.animation = anim.newAnimation(anim3, 0.1 * 0.1, function()
+                self.straight_walk_speed = 2400 * 10
+                self.diagonal_walk_speed = self.straight_walk_speed * 1.414
+                self.animation = anim.newAnimation(anim1, 0.1 * 0.1)
+                self:update_position()
+                self.animation:pause()
+                self.workplace:work(self)
+                self.nd = {}
+                self.waypoint_x, self.waypoint_y = nil
+                self.move_dir = "none"
+                self.count = 1
+            end)
+        end)
+    else
+        self.straight_walk_speed = 1276.7 * 10
+        self.diagonal_walk_speed = self.straight_walk_speed * 1.414 * 10
+        self:update_position()
+        self.animation = anim.newAnimation(anim1, 0.1 * 0.1, function()
+            self:anchor_work_position()
+            self:update_position()
+            self.move_dir = "none"
+            self.animation = anim.newAnimation(anim2, 0.1 * 0.1, function()
+                self.workplace:update_tiles(self.farmland_tiles)
+                self.animation = anim.newAnimation(anim3, 0.1 * 0.1, function()
+                    self.straight_walk_speed = 2400 * 10
+                    self.diagonal_walk_speed = self.straight_walk_speed * 1.414
+                    self.animation = anim.newAnimation(anim1, 0.1 * 0.1)
+                    self:update_position()
+                    self.animation:pause()
+                    self.workplace:work(self)
+                    self.nd = {}
+                    self.waypoint_x, self.waypoint_y = nil
+                    self.move_dir = "none"
+                    self.count = 1
+                end)
+            end)
+        end)
+    end
+end
+
 function WheatFarmer:seed_land()
     local anim1, anim2, anim3, skip_walking
     local future_waypoint_x, future_waypoint_y = self.gx, self.gy
@@ -228,11 +333,35 @@ function WheatFarmer:seed_land()
         self.move_dir = "north"
         anim1 = fr_gather_planting_north
         future_waypoint_y = self.gy - 1
+    elseif self.state == "Seed walking to eastern tile" or self.state == "Going to seed the land from east" then
+        self.move_dir = "east"
+        anim1 = fr_gather_planting_east
+        future_waypoint_x = self.gx + 1
+    elseif self.state == "Seed walking to northeastern tile" then
+        self.move_dir = "northeast"
+        anim1 = fr_gather_planting_northeast
+        future_waypoint_x = self.gx + 1
+        future_waypoint_y = self.gy - 1
+        if self.current_tile and self.gx == self.current_tile.gx - 1 and self.gy == self.current_tile.gy + 1 then
+            skip_walking = true
+            future_waypoint_x = self.gx
+            future_waypoint_y = self.gy
+        elseif self.current_tile and self.gx == self.current_tile.gx - 2 and self.gy == self.current_tile.gy + 1 then
+            skip_walking = true
+            future_waypoint_x = self.gx
+            future_waypoint_y = self.gy
+        end
+    elseif self.state == "Seed walking to southeastern tile" then
+        self.move_dir = "southeast"
+        anim1 = fr_gather_planting_southeast
+        future_waypoint_x = self.gx + 1
+        future_waypoint_y = self.gy + 1
     end
     self.state = "Working"
     self.has_move_dir = true
     local loop = 0
-    self.straight_walk_speed = 0
+    -- self.straight_walk_speed = 0
+    -- self.diagonal_walk_speed = self.straight_walk_speed * 1.2
     self.animation:resume()
     self.waypoint_x, self.waypoint_y = future_waypoint_x, future_waypoint_y
     if skip_walking then
@@ -244,12 +373,14 @@ function WheatFarmer:seed_land()
         self.count = 1
     else
         self.straight_walk_speed = 638.4 * 10
+        self.diagonal_walk_speed = self.straight_walk_speed
         self.animation = anim.newAnimation(anim1, 0.1 * 0.1, function()
             self:anchor_work_position()
             self:update_position()
             self:calculate_position()
             self.move_dir = "none"
             self.straight_walk_speed = 40 * 60 * 10
+            self.diagonal_walk_speed = self.straight_walk_speed * 1.414
             self.animation = anim.newAnimation(anim1, 0.1 * 0.1)
             self.animation:pause()
             self.workplace:update_tiles(self.farmland_tiles)
@@ -261,32 +392,57 @@ function WheatFarmer:seed_land()
         end)
     end
 end
-function WheatFarmer:hoe_land()
+
+function WheatFarmer:scythe_land()
     local anim1, anim2, anim3, skip_walking
     local future_waypoint_x, future_waypoint_y = self.gx, self.gy
-    if self.state == "Going to hoe the land from south" or self.state == "Going to hoe the land from north" then
+    if self.state == "Going to scythe the land from south" or self.state == "Going to scythe the land from north" then
         skip_walking = true
     end
-    if self.state == "Hoe walking to southern tile" or self.state == "Going to hoe the land from north" then
+    if self.state == "Scythe walking to southern tile" or self.state == "Going to scythe the land from north" then
         self.move_dir = "south"
-        anim1 = fr_gather_walk_hoe_south
-        anim2 = fr_gather_hoe_south
-        anim3 = fr_gather_hoe_part2_south
+        anim1 = fr_gather_moving_scythe_1_south
+        anim2 = fr_gather_moving_scythe_2_south
+        anim3 = fr_gather_moving_scythe_3_south
         future_waypoint_y = self.gy + 1
-
-    elseif self.state == "Hoe walking to northern tile" or self.state == "Going to hoe the land from south" then
+    elseif self.state == "Scythe walking to northern tile" or self.state == "Going to scythe the land from south" then
         self.move_dir = "north"
-        anim1 = fr_gather_walk_hoe_north
-        anim2 = fr_gather_hoe_north
-        anim3 = fr_gather_hoe_part2_north
+        anim1 = fr_gather_moving_scythe_1_north
+        anim2 = fr_gather_moving_scythe_2_north
+        anim3 = fr_gather_moving_scythe_3_north
         future_waypoint_y = self.gy - 1
-    elseif self.state == "Hoe walking to eastern tile" or self.state == "Going to hoe the land from east" then
+    elseif self.state == "Scythe walking to eastern tile" or self.state == "Going to scythe the land from east" then
         self.move_dir = "east"
-        -- TODO: finish
-        anim1 = fr_gather_walk_hoe_east
-        anim2 = fr_gather_hoe_east
-        anim3 = fr_gather_hoe_part2_east
+        anim1 = fr_gather_moving_scythe_1_east
+        anim2 = fr_gather_moving_scythe_2_east
+        anim3 = fr_gather_moving_scythe_3_east
         future_waypoint_x = self.gx + 1
+    elseif self.state == "Scythe walking to northeastern tile" then
+        self.move_dir = "northeast"
+        anim1 = fr_gather_moving_scythe_1_northeast
+        anim2 = fr_gather_moving_scythe_2_northeast
+        anim3 = fr_gather_moving_scythe_3_northeast
+        future_waypoint_x = self.gx + 1
+        future_waypoint_y = self.gy - 1
+        if self.current_tile and self.gx == self.current_tile.gx - 1 and self.gy == self.current_tile.gy + 1 then
+            skip_walking = true
+            future_waypoint_x = self.gx
+            future_waypoint_y = self.gy
+        elseif self.current_tile and self.gx == self.current_tile.gx - 2 and self.gy == self.current_tile.gy + 1 then
+            skip_walking = true
+            future_waypoint_x = self.gx
+            future_waypoint_y = self.gy
+        elseif self.current_tile and self.gx + 1 == self.current_tile.gx and self.gy - 2 == self.current_tile.gy then
+            anim2 = fr_gather_moving_scythe_2_north
+            anim3 = fr_gather_moving_scythe_3_north
+        end
+    elseif self.state == "Scythe walking to southeastern tile" then
+        self.move_dir = "southeast"
+        anim1 = fr_gather_moving_scythe_1_southeast
+        anim2 = fr_gather_moving_scythe_2_southeast
+        anim3 = fr_gather_moving_scythe_3_southeast
+        future_waypoint_x = self.gx + 1
+        future_waypoint_y = self.gy + 1
     end
     self.state = "Working"
     self.has_move_dir = true
@@ -295,77 +451,36 @@ function WheatFarmer:hoe_land()
     self.animation:resume()
     self.waypoint_x, self.waypoint_y = future_waypoint_x, future_waypoint_y
     if skip_walking then
-        self.animation = anim.newAnimation(anim2, 0.1 * 0.1, function()
+        self.animation = anim.newAnimation(anim2, 0.1, function()
             self.workplace:update_tiles(self.farmland_tiles)
-            self:update_position()
-            self.animation = anim.newAnimation(anim3, 0.1 * 0.1, function()
-                self.straight_walk_speed = 2400 * 10
-                self.animation = anim.newAnimation(anim1, 0.1 * 0.1)
-                self:update_position()
+            self.animation = anim.newAnimation(anim3, 0.1, function()
+                self.straight_walk_speed = 40 * 60
+                self.diagonal_walk_speed = self.straight_walk_speed * 1.414
+                self.animation = anim.newAnimation(anim1, 0.1)
                 self.animation:pause()
                 self.workplace:work(self)
                 self.nd = {}
-                self.waypoint_x, self.waypoint_y = nil
+                self.waypoint_x, self.waypoint_y = nil, nil
                 self.move_dir = "none"
                 self.count = 1
             end)
         end)
     else
-        self.straight_walk_speed = 1276.7 * 10
-        self:update_position()
-        self.animation = anim.newAnimation(anim1, 0.1 * 0.1, function()
-            self:anchor_work_position()
+        self.straight_walk_speed = 1715.26586621
+        self.diagonal_walk_speed = self.straight_walk_speed * 1.414
+        -- self.straight_walk_speed = 21.2794 * 60 * 5
+        self.animation = anim.newAnimation(anim1, 0.1, function()
             self:update_position()
             self.move_dir = "none"
-            self.animation = anim.newAnimation(anim2, 0.1 * 0.1, function()
+            self.animation = anim.newAnimation(anim2, 0.1, function()
                 self.workplace:update_tiles(self.farmland_tiles)
-                self.animation = anim.newAnimation(anim3, 0.1 * 0.1, function()
-                    self.straight_walk_speed = 2400 * 10
-                    self.animation = anim.newAnimation(anim1, 0.1 * 0.1)
-                    self:update_position()
+                self.animation = anim.newAnimation(anim3, 0.1, function()
+                    self.straight_walk_speed = 40 * 60
+                    self.diagonal_walk_speed = self.straight_walk_speed * 1.414
+                    self.animation = anim.newAnimation(anim1, 0.1)
                     self.animation:pause()
-                    self.workplace:work(self)
-                    self.nd = {}
-                    self.waypoint_x, self.waypoint_y = nil
-                    self.move_dir = "none"
-                    self.count = 1
-                end)
-            end)
-        end)
-    end
 
-    function WheatFarmer:scythe_land()
-        local anim1, anim2, anim3, skip_walking
-        local future_waypoint_x, future_waypoint_y = self.gx, self.gy
-        if self.state == "Going to scythe the land from south" or self.state == "Going to scythe the land from north" then
-            skip_walking = true
-        end
-        if self.state == "Scythe walking to southern tile" or self.state == "Going to scythe the land from north" then
-            self.move_dir = "south"
-            anim1 = fr_gather_moving_scythe_1_south
-            anim2 = fr_gather_moving_scythe_2_south
-            anim3 = fr_gather_moving_scythe_3_south
-            future_waypoint_y = self.gy + 1
-        elseif self.state == "Scythe walking to northern tile" or self.state == "Going to scythe the land from south" then
-            self.move_dir = "north"
-            anim1 = fr_gather_moving_scythe_1_north
-            anim2 = fr_gather_moving_scythe_2_north
-            anim3 = fr_gather_moving_scythe_3_north
-            future_waypoint_y = self.gy - 1
-        end
-        self.state = "Working"
-        self.has_move_dir = true
-        local loop = 0
-        self.straight_walk_speed = 0
-        self.animation:resume()
-        self.waypoint_x, self.waypoint_y = future_waypoint_x, future_waypoint_y
-        if skip_walking then
-            self.animation = anim.newAnimation(anim2, 0.1 * 0.1, function()
-                self.workplace:update_tiles(self.farmland_tiles)
-                self.animation = anim.newAnimation(anim3, 0.1 * 0.1, function()
-                    self.straight_walk_speed = 40 * 60 * 10
-                    self.animation = anim.newAnimation(anim1, 0.1 * 0.1)
-                    self.animation:pause()
+                    self:anchor_work_position()
                     self.workplace:work(self)
                     self.nd = {}
                     self.waypoint_x, self.waypoint_y = nil, nil
@@ -373,29 +488,7 @@ function WheatFarmer:hoe_land()
                     self.count = 1
                 end)
             end)
-        else
-            self.straight_walk_speed = 1715.26586621 * 10
-            -- self.straight_walk_speed = 21.2794 * 60 * 5
-            self.animation = anim.newAnimation(anim1, 0.1 * 0.1, function()
-                self:update_position()
-                self.move_dir = "none"
-                self.animation = anim.newAnimation(anim2, 0.1 * 0.1, function()
-                    self.workplace:update_tiles(self.farmland_tiles)
-                    self.animation = anim.newAnimation(anim3, 0.1 * 0.1, function()
-                        self.straight_walk_speed = 40 * 60 * 10
-                        self.animation = anim.newAnimation(anim1, 0.1 * 0.1)
-                        self.animation:pause()
-
-                        self:anchor_work_position()
-                        self.workplace:work(self)
-                        self.nd = {}
-                        self.waypoint_x, self.waypoint_y = nil, nil
-                        self.move_dir = "none"
-                        self.count = 1
-                    end)
-                end)
-            end)
-        end
+        end)
     end
 end
 function WheatFarmer:update()
@@ -446,11 +539,17 @@ function WheatFarmer:update()
         if _G.string.starts_with(self.state, "Going") then
             self:move()
         end
-        if self.state == "Hoe walking to southern tile" or self.state == "Hoe walking to northern tile" then
+        if self.state == "Hoe walking to southern tile" or self.state == "Hoe walking to northern tile" or self.state ==
+            "Hoe walking to eastern tile" or self.state == "Hoe walking to southeastern tile" or self.state ==
+            "Hoe walking to northeastern tile" then
             self:hoe_land()
-        elseif self.state == "Seed walking to southern tile" or self.state == "Seed walking to northern tile" then
+        elseif self.state == "Seed walking to southern tile" or self.state == "Seed walking to northern tile" or
+            self.state == "Seed walking to eastern tile" or self.state == "Seed walking to southeastern tile" or
+            self.state == "Seed walking to northeastern tile" then
             self:seed_land()
-        elseif self.state == "Scythe walking to southern tile" or self.state == "Scythe walking to northern tile" then
+        elseif self.state == "Scythe walking to southern tile" or self.state == "Scythe walking to northern tile" or
+            self.state == "Scythe walking to eastern tile" or self.state == "Scythe walking to southeastern tile" or
+            self.state == "Scythe walking to northeastern tile" then
             self:scythe_land()
         elseif self.fx * 0.001 == self.waypoint_x and self.fy * 0.001 == self.waypoint_y and self.move_dir ~= "none" then
             if self.state == "Going to workplace" or self.state == "Going to hoe the land from south" or self.state ==

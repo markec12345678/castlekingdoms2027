@@ -178,6 +178,7 @@ function WheatFarm:initialize(gx, gy, type)
         t2 = WheatFarm_plant:new(self.gx + 1, self.gy + y, self, true)
         table.insert(self.land_tiles, {t1, t2})
     end
+
     for y = 11, 0, -1 do
         t1 = false
         if y > 3 then
@@ -295,10 +296,17 @@ function WheatFarm:work(worker)
                 self.wheat_worker.state = "Hoe walking to southern tile"
             elseif self.wheat_worker.gx == current_tile.gx and self.wheat_worker.gy == current_tile.gy + 2 then
                 self.wheat_worker.state = "Hoe walking to northern tile"
+            elseif self.wheat_worker.gx + 1 == current_tile.gx and self.wheat_worker.gy - 2 == current_tile.gy then
+                self.wheat_worker.state = "Hoe walking to northeastern tile"
+                self.wheat_worker.current_tile = current_tile
+            elseif self.wheat_worker.gx == current_tile.gx - 1 and self.wheat_worker.gy == current_tile.gy + 1 then
+                self.wheat_worker.state = "Hoe walking to northeastern tile"
+                self.wheat_worker.current_tile = current_tile
+            elseif self.wheat_worker.gx == current_tile.gx - 2 and self.wheat_worker.gy == current_tile.gy + 1 then
+                self.wheat_worker.state = "Hoe walking to northeastern tile"
+                self.wheat_worker.current_tile = current_tile
             elseif self.wheat_worker.gx == current_tile.gx - 2 and self.wheat_worker.gy == current_tile.gy - 1 then
-                self.wheat_worker:requestPath(current_tile.gx, current_tile.gy + 1)
-                self.wheat_worker.state = "Going to hoe the land from south"
-                self.wheat_worker.move_dir = "none"
+                self.wheat_worker.state = "Hoe walking to southeastern tile"
             else
                 self.wheat_worker:requestPath(current_tile.gx, current_tile.gy - 1)
                 self.wheat_worker.state = "Going to hoe the land from north"
@@ -322,10 +330,17 @@ function WheatFarm:work(worker)
                 self.wheat_worker.state = "Seed walking to southern tile"
             elseif self.wheat_worker.gx == current_tile.gx and self.wheat_worker.gy == current_tile.gy + 2 then
                 self.wheat_worker.state = "Seed walking to northern tile"
+            elseif self.wheat_worker.gx + 1 == current_tile.gx and self.wheat_worker.gy - 2 == current_tile.gy then
+                self.wheat_worker.state = "Seed walking to northeastern tile"
+                self.wheat_worker.current_tile = current_tile
+            elseif self.wheat_worker.gx == current_tile.gx - 1 and self.wheat_worker.gy == current_tile.gy + 1 then
+                self.wheat_worker.state = "Seed walking to northeastern tile"
+                self.wheat_worker.current_tile = current_tile
+            elseif self.wheat_worker.gx == current_tile.gx - 2 and self.wheat_worker.gy == current_tile.gy + 1 then
+                self.wheat_worker.state = "Seed walking to northeastern tile"
+                self.wheat_worker.current_tile = current_tile
             elseif self.wheat_worker.gx == current_tile.gx - 2 and self.wheat_worker.gy == current_tile.gy - 1 then
-                self.wheat_worker:requestPath(current_tile.gx, current_tile.gy + 1)
-                self.wheat_worker.state = "Going to seed the land from south"
-                self.wheat_worker.move_dir = "none"
+                self.wheat_worker.state = "Seed walking to southeastern tile"
             else
                 self.wheat_worker:requestPath(current_tile.gx, current_tile.gy - 1)
                 self.wheat_worker.state = "Going to seed the land from north"
@@ -345,10 +360,17 @@ function WheatFarm:work(worker)
                 self.wheat_worker.state = "Scythe walking to southern tile"
             elseif self.wheat_worker.gx == current_tile.gx and self.wheat_worker.gy == current_tile.gy + 2 then
                 self.wheat_worker.state = "Scythe walking to northern tile"
+            elseif self.wheat_worker.gx + 1 == current_tile.gx and self.wheat_worker.gy - 2 == current_tile.gy then
+                self.wheat_worker.state = "Scythe walking to northeastern tile"
+                self.wheat_worker.current_tile = current_tile
+            elseif self.wheat_worker.gx == current_tile.gx - 1 and self.wheat_worker.gy == current_tile.gy + 1 then
+                self.wheat_worker.state = "Scythe walking to northeastern tile"
+                self.wheat_worker.current_tile = current_tile
+            elseif self.wheat_worker.gx == current_tile.gx - 2 and self.wheat_worker.gy == current_tile.gy + 1 then
+                self.wheat_worker.state = "Scythe walking to northeastern tile"
+                self.wheat_worker.current_tile = current_tile
             elseif self.wheat_worker.gx == current_tile.gx - 2 and self.wheat_worker.gy == current_tile.gy - 1 then
-                self.wheat_worker:requestPath(current_tile.gx, current_tile.gy + 1)
-                self.wheat_worker.state = "Going to scythe the land from south"
-                self.wheat_worker.move_dir = "none"
+                self.wheat_worker.state = "Scythe walking to southeastern tile"
             else
                 self.wheat_worker:requestPath(current_tile.gx, current_tile.gy - 1)
                 self.wheat_worker.state = "Going to scythe the land from north"
