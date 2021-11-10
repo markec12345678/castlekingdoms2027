@@ -20,4 +20,6 @@ function Object:is_visible_on_screen()
     end
     return false
 end
+function Object:update()
+end
 return Object

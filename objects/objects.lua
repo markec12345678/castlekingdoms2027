@@ -560,6 +560,8 @@ local function update(dt)
                     if obj.animated then
                         if obj:is_visible_on_screen() then
                             obj:animate(dt)
+                        else
+                            obj:update(dt)
                         end
                     else
                         obj:update(dt)

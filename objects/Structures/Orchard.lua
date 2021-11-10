@@ -36,12 +36,6 @@ end
 local Orchard_tree = class('Orchard_tree', Structure)
 function Orchard_tree:initialize(gx, gy, parent, offset_y, offset_x)
     local mytype = "Static structure"
-    local i = (gx) % (chunk_width)
-    local o = (gy) % (chunk_width)
-    local cx = math.floor(gx / chunk_width)
-    local cy = math.floor(gy / chunk_width)
-    local x = IsoX + (i - o) * tile_width * 0.5
-    local y = IsoY + (i + o) * tile_height * 0.5
     Structure.initialize(self, gx, gy, mytype)
     self.animated = true
     self.anim_raw = anim.newAnimation(tree_raw, 0.10)
@@ -68,7 +62,38 @@ function Orchard_tree:initialize(gx, gy, parent, offset_y, offset_x)
     _G.chunk_objects[self.cx][self.cy][self] = self
 end
 function Orchard_tree:animate()
-    self.animation:update(dt)
+    local updated = self.animation:update(_G.dt)
+    if not self.instancemesh and _G.object_mesh then
+        local offset_x, offset_y = 0, 0
+        if quad_offset[self.animation:getQuad()] then
+            offset_x, offset_y = quad_offset[self.animation:getQuad()][1] or 0,
+                quad_offset[self.animation:getQuad()][2] or 0
+        end
+        local instancemesh = object_mesh[self.cx][self.cy]
+        local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
+            self.y + (self.offset_y or 0) + offset_y - _G.height_map[self.gx][self.gy])
+        local qx, qy, qw, qh = quad:getViewport()
+        -- TODO FIXME, TO REQUEST VERTEX WITH API
+        self.vert_id = _G.vertices_per_tile * (self.i + self.o * chunk_width) + 1
+        self.instancemesh = instancemesh
+        self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
+    end
+    if self.instancemesh and updated then
+        self.last_updated = 0
+        local offset_x, offset_y = 0, 0
+        if quad_offset[self.animation:getQuad()] then
+            offset_x, offset_y = quad_offset[self.animation:getQuad()][1] or 0,
+                quad_offset[self.animation:getQuad()][2] or 0
+        end
+        local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
+            self.y + (self.offset_y or 0) + offset_y - _G.height_map[self.gx][self.gy])
+        local qx, qy, qw, qh = quad:getViewport()
+        self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
+        return
+    end
+end
+function Orchard_tree:update()
+    return
 end
 
 local Orchard = class('Orchard', Structure)

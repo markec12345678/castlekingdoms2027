@@ -314,7 +314,7 @@ function Woodcutter:update()
         end
         if self.fx * 0.001 == self.waypoint_x and self.fy * 0.001 == self.waypoint_y and self.move_dir ~= "none" then
             if self.state == "Going to tree" then
-                if self.count == self.nd_len then
+                if self:reached_path_end() then
                     self.state = "Cutting down"
                     self.animation = anim.newAnimation(fr_cutting_northeast, 0.10 * 0.1, self.cut)
                     self.nd = {}
@@ -329,7 +329,7 @@ function Woodcutter:update()
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to workplace with wood" then
-                if self.count == self.nd_len then
+                if self:reached_path_end() then
                     self.workplace:work(self)
                     self.nd = {}
                     self.waypoint_x, self.waypoint_y = nil, nil
@@ -343,7 +343,7 @@ function Woodcutter:update()
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to stockpile" then
-                if self.count == self.nd_len then
+                if self:reached_path_end() then
                     _G.stockpile:store('wood')
                     self.state = "Storing second plank"
                     self.animation:pause()
@@ -360,7 +360,7 @@ function Woodcutter:update()
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to workplace" then
-                if self.count == self.nd_len then
+                if self:reached_path_end() then
                     self.state = "Looking to chop tree"
                     self.nd = {}
                     self.waypoint_x, self.waypoint_y = nil, nil
@@ -374,7 +374,7 @@ function Woodcutter:update()
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to waypoint" then
-                if self.count == self.nd_len then
+                if self:reached_path_end() then
                     self.state = "none"
                     self.nd = {}
                     self.waypoint_x, self.waypoint_y = nil, nil

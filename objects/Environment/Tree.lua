@@ -69,6 +69,11 @@ function Tree:render()
         self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
     end
 end
+function Tree:update(dt)
+    if self.falling then
+        self:animate(dt)
+    end
+end
 function Tree:animate(dt, force_update)
     local updated, ticked = false, false
     if _G.scale_x > 0.6 then
