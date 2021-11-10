@@ -87,6 +87,9 @@ function Woodcutter:initialize(gx, gy, type)
 end
 function Woodcutter:job_update()
     removeObjectAt(self.lrcx, self.lrcy, self.lrx, self.lry, self)
+    _G.freeVertexFromTile(self.cx, self.cy, self.vert_id)
+    self.instancemesh = nil
+    self.animation = nil
 end
 function Woodcutter:check_trees(cx, cy)
     local chunkx, chunky = cx or self.cx, cy or self.cy

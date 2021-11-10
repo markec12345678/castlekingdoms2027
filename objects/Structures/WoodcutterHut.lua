@@ -29,19 +29,26 @@ end
 function WoodcutterHut_log_stack:stack()
     self.quantity = self.quantity + 1
     self.animation:gotoFrame(self.quantity)
+    self:animate(_G.dt, true)
 end
-function WoodcutterHut_log_stack:animate()
-    self.animation:update(dt)
+function WoodcutterHut_log_stack:animate(dt)
+    Structure.animate(self, dt, true)
 end
 function WoodcutterHut_log_stack:activate()
     self.animated = true
     self.quantity = 1
     self.animation:gotoFrame(1)
     self.animation:pause()
+    self:animate()
 end
 function WoodcutterHut_log_stack:deactivate()
     self.animation:pause()
+    self.quantity = 0
     self.tile = tile_quads["empty"]
+    if self.instancemesh then
+        _G.freeVertexFromTile(self.cx, self.cy, self.vert_id)
+        self.instancemesh = nil
+    end
     self.animated = false
 end
 function WoodcutterHut_log_stack:take()
@@ -54,6 +61,7 @@ function WoodcutterHut_log_stack:take()
         return true
     end
     self.animation:gotoFrame(self.quantity)
+    self:animate(_G.dt, true)
     return true
 end
 
@@ -71,28 +79,35 @@ function WoodcutterHut_plank_stack:initialize(gx, gy, parent, offset_x, offset_y
     setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.qid = 0
-    self.offset_x = -56
+    self.offset_x = -23
     self.offset_y = -52
+    _G.saw = self
 
     table.insert(active_entities, self)
 end
 function WoodcutterHut_plank_stack:stack()
     self.quantity = self.quantity + 1
     self.animation:gotoFrame(self.quantity)
+    self:animate(_G.dt, true)
 end
-function WoodcutterHut_plank_stack:animate()
-    self.animation:update(dt)
+function WoodcutterHut_plank_stack:animate(dt)
+    Structure.animate(self, dt, true)
 end
 function WoodcutterHut_plank_stack:activate()
     self.animated = true
     self.quantity = 1
     self.animation:gotoFrame(1)
     self.animation:pause()
+    self:animate()
 end
 function WoodcutterHut_plank_stack:deactivate()
     self.animation:pause()
     self.quantity = 0
     self.tile = tile_quads["empty"]
+    if self.instancemesh then
+        _G.freeVertexFromTile(self.cx, self.cy, self.vert_id)
+        self.instancemesh = nil
+    end
     self.animated = false
 end
 function WoodcutterHut_plank_stack:take()
@@ -135,17 +150,22 @@ function WoodcutterHut_sawing:initialize(gx, gy, parent, offset_x, offset_y)
 
     table.insert(active_entities, self)
 end
-function WoodcutterHut_sawing:animate()
-    self.animation:update(_G.dt)
+function WoodcutterHut_sawing:animate(dt)
+    Structure.animate(self, _G.dt, true)
 end
 function WoodcutterHut_sawing:activate()
     self.animated = true
     self.animation:gotoFrame(1)
     self.animation:resume()
+    self:animate(_G.dt)
 end
 function WoodcutterHut_sawing:deactivate()
     self.animation:pause()
     self.tile = tile_quads["empty"]
+    if self.instancemesh then
+        _G.freeVertexFromTile(self.cx, self.cy, self.vert_id)
+        self.instancemesh = nil
+    end
     self.animated = false
 end
 
@@ -191,7 +211,7 @@ function WoodcutterHut:initialize(gx, gy, type)
     self.level = 1
     self.rotation = 1
 
-    self.stack = WoodcutterHut_plank_stack:new(self.gx + 1, self.gy + 1, self, self.offset_x, self.offset_y)
+    self.stack = WoodcutterHut_plank_stack:new(self.gx, self.gy + 2, self, self.offset_x, self.offset_y)
     self.sawing_obj = WoodcutterHut_sawing:new(self.gx, self.gy, self, self.offset_x, self.offset_y)
     self.log_stack = WoodcutterHut_log_stack:new(self.gx + 2, self.gy + 1, self, self.offset_x, self.offset_y)
     -- self.stack:deactivate()
