@@ -142,7 +142,7 @@ function OrchardFarmer:update()
         end
         if self.fx * 0.001 == self.waypoint_x and self.fy * 0.001 == self.waypoint_y and self.move_dir ~= "none" then
             if self.state == "Going to workplace" or self.state == "Going to apple tree" then
-                if self.count == self.nd_len then
+                if self:reached_path_end() then
                     if self.state == "Going to apple tree" then
                         self.state = "Working"
                         local loop = 0
@@ -168,7 +168,7 @@ function OrchardFarmer:update()
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to foodpile" then
-                if self.count == self.nd_len then
+                if self:reached_path_end() then
                     _G.foodpile:store('apples')
                     _G.foodpile:store('apples')
                     _G.foodpile:store('apples')

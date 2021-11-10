@@ -122,6 +122,22 @@ function Unit:requestPath(xx, yy)
     self.endy = yy
     self.path_state = "Waiting for path"
 end
+function Unit:reached_path_end()
+    if self.nd[1] == nil then
+        print("Checkign for path end...", self.gx, self.gy, inspect(self.nd))
+        if self.gx == self.nd[0][1] and self.gy == self.nd[0][2] then
+            print("Path end found!")
+            return true
+        end
+    else
+        local last_node = self.nd[#self.nd]
+        if self.gx == last_node[1] and self.gy == last_node[2] then
+            print("Path end found! V@")
+            return true
+        end
+    end
+    return false
+end
 function Unit:pathfind()
     if self.endx >= _G.chunks_wide * _G.chunk_width or self.endy >= _G.chunks_high * _G.chunk_height or self.endx < 0 or
         self.endy < 0 then
@@ -136,25 +152,39 @@ function Unit:pathfind()
         if type(self.path) == "table" then
             self.nd = {}
             local first, second = true, false -- skip the first node, because it's our position
-            local count = 0
+            local count, len_offset = 0, 0
+            local cnt = 0
+            local last_count = 0
+            print("======================")
             for _, node in ipairs(self.path) do
+                print(cnt)
+                cnt = cnt + 1
                 if not first then
+                    print("added node at count", count, node)
                     self.nd[count] = node
+                    last_count = count
                     count = count + 1
                     second = true
                 else
-                    self.nd[-1] = node
+                    if node[1] == self.gx and node[2] == self.gy then
+                        self.nd[-1] = node
+                        print("added node at count", count, "pos", -1, node)
+                    else
+                        print("added node at count", count, node)
+                        self.nd[count] = node
+                        last_count = count
+                        -- count = count + 1
+                    end
                     first = false
                 end
             end
-            self.nd_len = count
-            if not second then
-                self.waypoint_x = self.nd[-1][1] -- fixme If spawning right next to a tree, will throw error here
-                self.waypoint_y = self.nd[-1][2]
-            else
-                self.waypoint_x = self.nd[0][1] -- fixme If spawning right next to a tree, will throw error here
-                self.waypoint_y = self.nd[0][2]
-            end
+            print("ND_LEN IS", last_count)
+            self.nd_len = last_count
+            self.count = 1
+            -- if not second then
+            self.waypoint_x = self.nd[0][1] -- fixme If spawning right next to a tree, will throw error here
+            self.waypoint_y = self.nd[0][2]
+            -- end
             self.move_dir = "none"
             self.path_state = "Found"
             return true

@@ -94,7 +94,7 @@ function Peasant:update()
     end
     if self.fx * 0.001 == self.waypoint_x and self.fy * 0.001 == self.waypoint_y and self.move_dir ~= "none" then
         if self.state == "Going to campfire" or self.state == "Going to door" then
-            if self.count == self.nd_len or self.nd[self.count] == nil then
+            if self:reached_path_end() then
                 self.nd = {}
                 self.waypoint_x, self.waypoint_y = nil, nil
                 self.move_dir = "none"
