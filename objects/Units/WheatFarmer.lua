@@ -9,6 +9,14 @@ local fr_walking_apples_northeast = indexQuads("body_farmer_walk_apples_ne", 16)
 local fr_walking_apples_northwest = indexQuads("body_farmer_walk_apples_nw", 16)
 local fr_walking_apples_southeast = indexQuads("body_farmer_walk_apples_se", 16)
 local fr_walking_apples_southwest = indexQuads("body_farmer_walk_apples_sw", 16)
+local fr_walking_wheat_east = indexQuads("body_farmer_walk_wheat_e", 16)
+local fr_walking_wheat_north = indexQuads("body_farmer_walk_wheat_n", 16)
+local fr_walking_wheat_west = indexQuads("body_farmer_walk_wheat_w", 16)
+local fr_walking_wheat_south = indexQuads("body_farmer_walk_wheat_s", 16)
+local fr_walking_wheat_northeast = indexQuads("body_farmer_walk_wheat_ne", 16)
+local fr_walking_wheat_northwest = indexQuads("body_farmer_walk_wheat_nw", 16)
+local fr_walking_wheat_southeast = indexQuads("body_farmer_walk_wheat_se", 16)
+local fr_walking_wheat_southwest = indexQuads("body_farmer_walk_wheat_sw", 16)
 local fr_walking_east = indexQuads("body_farmer_walk_e", 16)
 local fr_walking_north = indexQuads("body_farmer_walk_n", 16)
 local fr_walking_northeast = indexQuads("body_farmer_walk_ne", 16)
@@ -136,70 +144,71 @@ function WheatFarmer:initialize(gx, gy, type)
     self.timr = 0
     self.animated = true
     self.animation = anim.newAnimation(fr_walking_west, 10)
+    self.wheat = 0
 end
 function WheatFarmer:dir_sub_update()
     if self.state == "Working" then
         return
     end
     if self.move_dir == "west" then
-        if self.state == "Going to foodpile" then
-            self.animation = anim.newAnimation(fr_walking_apples_west, 0.05)
+        if self.state == "Going to stockpile" or (self.state == "Going to pick up wheat" and self.wheat > 0) then
+            self.animation = anim.newAnimation(fr_walking_wheat_west, 0.05)
         elseif self.state == "Going to seed the land" then
             self.animation = anim.newAnimation(fr_walking_apples_west, 0.05)
         else
             self.animation = anim.newAnimation(fr_walking_west, 0.05)
         end
     elseif self.move_dir == "southwest" then
-        if self.state == "Going to foodpile" then
-            self.animation = anim.newAnimation(fr_walking_apples_southwest, 0.05)
+        if self.state == "Going to stockpile" or (self.state == "Going to pick up wheat" and self.wheat > 0) then
+            self.animation = anim.newAnimation(fr_walking_wheat_southwest, 0.05)
         elseif self.state == "Going to seed the land" then
             self.animation = anim.newAnimation(fr_walking_apples_southwest, 0.05)
         else
             self.animation = anim.newAnimation(fr_walking_southwest, 0.05)
         end
     elseif self.move_dir == "northwest" then
-        if self.state == "Going to foodpile" then
-            self.animation = anim.newAnimation(fr_walking_apples_northwest, 0.05)
+        if self.state == "Going to stockpile" or (self.state == "Going to pick up wheat" and self.wheat > 0) then
+            self.animation = anim.newAnimation(fr_walking_wheat_northwest, 0.05)
         elseif self.state == "Going to seed the land" then
             self.animation = anim.newAnimation(fr_walking_apples_northwest, 0.05)
         else
             self.animation = anim.newAnimation(fr_walking_northwest, 0.05)
         end
     elseif self.move_dir == "north" then
-        if self.state == "Going to foodpile" then
-            self.animation = anim.newAnimation(fr_walking_apples_north, 0.05)
+        if self.state == "Going to stockpile" or (self.state == "Going to pick up wheat" and self.wheat > 0) then
+            self.animation = anim.newAnimation(fr_walking_wheat_north, 0.05)
         elseif self.state == "Going to seed the land" then
             self.animation = anim.newAnimation(fr_walking_apples_north, 0.05)
         else
             self.animation = anim.newAnimation(fr_walking_north, 0.05)
         end
     elseif self.move_dir == "south" then
-        if self.state == "Going to foodpile" then
-            self.animation = anim.newAnimation(fr_walking_apples_south, 0.05)
+        if self.state == "Going to stockpile" or (self.state == "Going to pick up wheat" and self.wheat > 0) then
+            self.animation = anim.newAnimation(fr_walking_wheat_south, 0.05)
         elseif self.state == "Going to seed the land" then
             self.animation = anim.newAnimation(fr_walking_apples_south, 0.05)
         else
             self.animation = anim.newAnimation(fr_walking_south, 0.05)
         end
     elseif self.move_dir == "east" then
-        if self.state == "Going to foodpile" then
-            self.animation = anim.newAnimation(fr_walking_apples_east, 0.05)
+        if self.state == "Going to stockpile" or (self.state == "Going to pick up wheat" and self.wheat > 0) then
+            self.animation = anim.newAnimation(fr_walking_wheat_east, 0.05)
         elseif self.state == "Going to seed the land" then
             self.animation = anim.newAnimation(fr_walking_apples_east, 0.05)
         else
             self.animation = anim.newAnimation(fr_walking_east, 0.05)
         end
     elseif self.move_dir == "southeast" then
-        if self.state == "Going to foodpile" then
-            self.animation = anim.newAnimation(fr_walking_apples_southeast, 0.05)
+        if self.state == "Going to stockpile" or (self.state == "Going to pick up wheat" and self.wheat > 0) then
+            self.animation = anim.newAnimation(fr_walking_wheat_southeast, 0.05)
         elseif self.state == "Going to seed the land" then
             self.animation = anim.newAnimation(fr_walking_apples_southeast, 0.05)
         else
             self.animation = anim.newAnimation(fr_walking_southeast, 0.05)
         end
     elseif self.move_dir == "northeast" then
-        if self.state == "Going to foodpile" then
-            self.animation = anim.newAnimation(fr_walking_apples_northeast, 0.05)
+        if self.state == "Going to stockpile" or (self.state == "Going to pick up wheat" and self.wheat > 0) then
+            self.animation = anim.newAnimation(fr_walking_wheat_northeast, 0.05)
         elseif self.state == "Going to seed the land" then
             self.animation = anim.newAnimation(fr_walking_apples_northeast, 0.05)
         else
@@ -451,12 +460,12 @@ function WheatFarmer:scythe_land()
     self.animation:resume()
     self.waypoint_x, self.waypoint_y = future_waypoint_x, future_waypoint_y
     if skip_walking then
-        self.animation = anim.newAnimation(anim2, 0.1, function()
+        self.animation = anim.newAnimation(anim2, 0.1 * 0.1, function()
             self.workplace:update_tiles(self.farmland_tiles)
-            self.animation = anim.newAnimation(anim3, 0.1, function()
-                self.straight_walk_speed = 40 * 60
+            self.animation = anim.newAnimation(anim3, 0.1 * 0.1, function()
+                self.straight_walk_speed = 40 * 60 * 10
                 self.diagonal_walk_speed = self.straight_walk_speed * 1.414
-                self.animation = anim.newAnimation(anim1, 0.1)
+                self.animation = anim.newAnimation(anim1, 0.1 * 0.1)
                 self.animation:pause()
                 self.workplace:work(self)
                 self.nd = {}
@@ -466,18 +475,18 @@ function WheatFarmer:scythe_land()
             end)
         end)
     else
-        self.straight_walk_speed = 1715.26586621
+        self.straight_walk_speed = 1715.26586621 * 10
         self.diagonal_walk_speed = self.straight_walk_speed * 1.414
         -- self.straight_walk_speed = 21.2794 * 60 * 5
-        self.animation = anim.newAnimation(anim1, 0.1, function()
+        self.animation = anim.newAnimation(anim1, 0.1 * 0.1, function()
             self:update_position()
             self.move_dir = "none"
-            self.animation = anim.newAnimation(anim2, 0.1, function()
+            self.animation = anim.newAnimation(anim2, 0.1 * 0.1, function()
                 self.workplace:update_tiles(self.farmland_tiles)
-                self.animation = anim.newAnimation(anim3, 0.1, function()
-                    self.straight_walk_speed = 40 * 60
-                    self.diagonal_walk_speed = self.straight_walk_speed * 1.414
-                    self.animation = anim.newAnimation(anim1, 0.1)
+                self.animation = anim.newAnimation(anim3, 0.1 * 0.1, function()
+                    self.straight_walk_speed = 40 * 60 * 10
+                    self.diagonal_walk_speed = self.straight_walk_speed
+                    self.animation = anim.newAnimation(anim1, 0.1 * 0.1)
                     self.animation:pause()
 
                     self:anchor_work_position()
@@ -493,6 +502,11 @@ function WheatFarmer:scythe_land()
 end
 function WheatFarmer:update()
     local xx, yy = (math.round(self.gx)) % (chunk_width), (math.round(self.gy)) % (chunk_width)
+    local wstate = ""
+    if self.workplace then
+        wstate = self.workplace.state
+    end
+    print(self.state, self.path_state, self.gx, self.gy, wstate)
     self.eat_timer = self.eat_timer + 1
     if self.eat_timer > 3000 then
         _G.foodpile:take()
@@ -510,12 +524,12 @@ function WheatFarmer:update()
     elseif self.state ~= "No path to farm" then
         if self.state == "Find a job" then
             _G.JobController:find_job(self, "WheatFarmer")
-        elseif self.state == "Go to foodpile" then
-            if _G.foodpile then
-                self.state = "Going to foodpile"
+        elseif self.state == "Go to stockpile" then
+            if _G.stockpile then
+                self.state = "Going to stockpile"
                 local closest_node
                 local distance = math.huge
-                for k, v in ipairs(_G.foodpile.node_list) do
+                for k, v in ipairs(_G.stockpile.node_list) do
                     local tmp = manhattan_distance(v.gx, v.gy, self.gx, self.gy)
                     if tmp < distance then
                         distance = tmp
@@ -523,7 +537,7 @@ function WheatFarmer:update()
                     end
                 end
                 if not closest_node then
-                    print("Closest foodpile node not found")
+                    print("Closest stockpile node not found")
                 else
                     self:requestPath(closest_node.gx, closest_node.gy)
                 end
@@ -556,7 +570,7 @@ function WheatFarmer:update()
                 "Going to hoe the land from north" or self.state == "Going to seed the land from south" or self.state ==
                 "Going to seed the land from north" or self.state == "Going to scythe the land from north" or self.state ==
                 "Going to scythe the land from south" then
-                if self.count == self.nd_len then
+                if self:reached_path_end() then
                     if self.state == "Going to hoe the land from south" or self.state ==
                         "Going to hoe the land from north" then
                         self:hoe_land()
@@ -581,16 +595,42 @@ function WheatFarmer:update()
                     self.move_dir = "none"
                 end
                 self.count = self.count + 1
-            elseif self.state == "Going to foodpile" then
-                if self.count == self.nd_len then
-                    _G.foodpile:store('apples')
-                    _G.foodpile:store('apples')
-                    _G.foodpile:store('apples')
-                    _G.foodpile:store('apples')
-                    _G.foodpile:store('apples')
-                    _G.foodpile:store('apples')
-                    _G.foodpile:store('apples')
-                    _G.foodpile:store('apples')
+            elseif self.state == "Going to pick up wheat" then
+                if self:reached_path_end() then
+                    self.resource_tile:take_resource()
+                    self.wheat = self.wheat + 1
+                    if self.wheat < 3 then
+                        self.workplace:work(self)
+                        self.nd = {}
+                        self.waypoint_x, self.waypoint_y = nil, nil
+                        self.move_dir = "none"
+                        self.count = 1
+                    else
+                        self.state = "Go to stockpile"
+                        self.nd = {}
+                        self.waypoint_x, self.waypoint_y = nil, nil
+                        self.move_dir = "none"
+                        self.count = 1
+                        return
+                    end
+                else
+                    self.waypoint_x = self.nd[self.count][1]
+                    self.waypoint_y = self.nd[self.count][2]
+                    self.move_dir = "none"
+                end
+                self.count = self.count + 1
+            elseif self.state == "Going to stockpile" then
+                if self:reached_path_end() then
+                    if self.wheat > 0 then
+                        _G.stockpile:store('wheat')
+                    end
+                    if self.wheat > 1 then
+                        _G.stockpile:store('wheat')
+                    end
+                    if self.wheat > 2 then
+                        _G.stockpile:store('wheat')
+                    end
+                    self.wheat = 0
                     self.state = "Go to workplace"
                     self.nd = {}
                     self.waypoint_x, self.waypoint_y = nil, nil

@@ -38,7 +38,7 @@ function WheatFarm_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     Structure.render(self)
 end
 local WheatFarm_plant = class('WheatFarm_plant', Structure)
-function WheatFarm_plant:initialize(gx, gy, parent, is_plant)
+function WheatFarm_plant:initialize(gx, gy, parent)
     local mytype = "Wheat Plant"
     local i = (gx) % (chunk_width)
     local o = (gy) % (chunk_width)
@@ -47,18 +47,16 @@ function WheatFarm_plant:initialize(gx, gy, parent, is_plant)
     local x = IsoX + (i - o) * tile_width * 0.5
     local y = IsoY + (i + o) * tile_height * 0.5
     Structure.initialize(self, gx, gy, mytype)
-    self.is_plant = is_plant or false
     self.animated = false
+    self.is_plant = false
     self.gx = gx
     self.gy = gy
     self.state = -1
     self.has_wheat_resource = false
     self.parent = parent
-    if is_plant then
-        parent.available_plant_tiles = parent.available_plant_tiles + 1
-    end
+    parent.available_plant_tiles = parent.available_plant_tiles + 1
     if parent.available_plant_tiles % 8 == 0 then
-        self.has_wheat_resource = true
+        self.is_plant = true
     end
     self.qid = 0
     self.offset_x = 0
@@ -90,8 +88,8 @@ function WheatFarm_plant:render()
 end
 function WheatFarm_plant:update(dt)
     dt = dt or _G.dt
-    if self.state > 0 and self.state < 4 and self.is_plant and self.parent.tiles_sowed ==
-        self.parent.available_plant_tiles and (_G.wheat_growing_season or self.started_growing) then
+    if self.state > 0 and self.state < 4 and self.parent.tiles_sowed == self.parent.available_plant_tiles and
+        (_G.wheat_growing_season or self.started_growing) then
         self.started_growing = true
         self.wheat_mature_counter = self.wheat_mature_counter + dt
         if self.wheat_mature_counter > 3 then
@@ -104,38 +102,37 @@ function WheatFarm_plant:update(dt)
         end
     end
 end
+function WheatFarm_plant:take_resource()
+    if self.has_wheat_resource then
+        self:set_state(0)
+        self.has_wheat_resource = false
+        return true
+    end
+    return false
+end
 function WheatFarm_plant:set_state(state)
     state = state or self.state
     local random_tile = love.math.random(1, 4)
-    if self.is_plant then
-        self.state = state
-        if state == 0 then
+    self.state = state
+    if state == 0 then
+        self.tile = farmland_tiles_stage_0[random_tile]
+    elseif state == 1 then
+        self.tile = farmland_tiles_stage_1[random_tile]
+    elseif state == 2 then
+        self.tile = farmland_tiles_stage_2[random_tile]
+    elseif state == 3 then
+        self.tile = farmland_tiles_stage_3[random_tile]
+    elseif state == 4 then
+        self.tile = farmland_tiles_stage_4[random_tile]
+    elseif state == 5 then
+        if self.is_plant then
+            self.tile = farmland_hay_tile
+        else
             self.tile = farmland_tiles_stage_0[random_tile]
-        elseif state == 1 then
-            self.tile = farmland_tiles_stage_1[random_tile]
-        elseif state == 2 then
-            self.tile = farmland_tiles_stage_2[random_tile]
-        elseif state == 3 then
-            self.tile = farmland_tiles_stage_3[random_tile]
-        elseif state == 4 then
-            self.tile = farmland_tiles_stage_4[random_tile]
-        elseif state == 5 then
-            if self.has_wheat_resource then
-                self.tile = farmland_hay_tile
-            else
-                self.tile = farmland_tiles_stage_0[random_tile]
-            end
-        end
-        local _, _, _, wh = self.tile:getViewport()
-        self.offset_y = -(wh - 16)
-    else
-        self.state = state
-        if state == 0 then
-            self.tile = farmland_tiles_stage_0[random_tile]
-        elseif state == 1 then
-            self.tile = farmland_tiles_stage_1[random_tile]
         end
     end
+    local _, _, _, wh = self.tile:getViewport()
+    self.offset_y = -(wh - 16)
     self:render()
 end
 
@@ -273,16 +270,35 @@ function WheatFarm:update_tiles(farmland_tiles)
                 tile:set_state(0)
             elseif tile.state == 0 then
                 tile:set_state(1)
-                if tile.is_plant then
-                    self.tiles_sowed = self.tiles_sowed + 1
-                end
+                self.tiles_sowed = self.tiles_sowed + 1
             elseif tile.state == 4 then
                 if tile.is_plant then
                     tile:set_state(5)
+                else
+                    tile:set_state(0)
                 end
             end
         end
     end
+end
+function WheatFarm:fill_resource_tiles()
+    for _, tile_pair in ipairs(self.land_tiles) do
+        for _, tile in ipairs(tile_pair) do
+            if tile and tile.is_plant then
+                tile.has_wheat_resource = true
+            end
+        end
+    end
+end
+function WheatFarm:get_next_resource_tile()
+    for _, tile_pair in ipairs(self.land_tiles) do
+        for _, tile in ipairs(tile_pair) do
+            if tile and tile.has_wheat_resource then
+                return tile
+            end
+        end
+    end
+    return false
 end
 function WheatFarm:work(worker)
     if self.wheat_worker == worker then
@@ -321,6 +337,7 @@ function WheatFarm:work(worker)
             if self.processed_tiles == self.max_land_tiles then
                 self.state = 2
                 self.processed_tiles = 0
+                self:fill_resource_tiles()
                 self.wheat_worker.state = "Go to rest"
                 return
             end
@@ -378,15 +395,35 @@ function WheatFarm:work(worker)
             end
             self.wheat_worker.farmland_tiles = self.land_tiles[self.processed_tiles]
             if self.processed_tiles == self.max_land_tiles then
-                self.state = 1
+                self.state = 4
                 self.processed_tiles = 0
             end
         elseif self.state == 4 then
-            self.tree4.animation = self.tree4.anim_raw
-            self.wheat_worker:requestPath(self.gx + 6, self.gy + 2)
-            self.wheat_worker.state = "Going to apple tree"
-            self.wheat_worker.move_dir = "none"
-            self.state = 5
+            local resource_tile = self:get_next_resource_tile()
+            if resource_tile then
+                self.wheat_worker.resource_tile = resource_tile
+                self.wheat_worker.state = "Going to pick up wheat"
+                self.nd = {}
+                self.waypoint_x, self.waypoint_y = nil, nil
+                self.wheat_worker.move_dir = "none"
+                self.count = 1
+                self.wheat_worker:requestPath(resource_tile.gx, resource_tile.gy)
+            else
+                if self.wheat_worker.wheat > 0 then
+                    self.wheat_worker.state = "Go to stockpile"
+                    self.nd = {}
+                    self.waypoint_x, self.waypoint_y = nil, nil
+                    self.move_dir = "none"
+                    self.count = 1
+                else
+                    print("Moved to state 1")
+                    self.tiles_fully_grown = 0
+                    self.tiles_sowed = 0
+                    self.state = 1
+                    self.processed_tiles = 0
+                    self:work(self.wheat_worker)
+                end
+            end
         elseif self.state == 5 then
             self.tree3.animation = self.tree3.anim_raw
             self.wheat_worker:requestPath(self.gx + 11, self.gy + 2)
