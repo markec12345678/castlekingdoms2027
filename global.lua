@@ -147,21 +147,34 @@ end
 terrain_chunks = nil
 ----Tiles
 _G.vertices_per_tile = 4
-function _G.getFreeVertexFromTile(cx, cy, local_x, local_y)
+function _G.getFreeVertexFromTile(cx, cy, local_x, local_y, last_vertex_first)
+    last_vertex_first = last_vertex_first or false
     local vert_id = _G.vertices_per_tile * (local_x + local_y * chunk_width) + 1
     chunk_vertices = _G.object_mesh_vert_id_map[cx][cy]
     if chunk_vertices then
-        for i = _G.vertices_per_tile - 1, 0, -1 do
-            if not chunk_vertices[vert_id + i] then
-                _G.object_mesh_vert_id_map[cx][cy][vert_id + i] = true
-                return vert_id + i
+        if last_vertex_first then
+            for i = 0, _G.vertices_per_tile - 1 do
+                if not chunk_vertices[vert_id + i] then
+                    _G.object_mesh_vert_id_map[cx][cy][vert_id + i] = true
+                    return vert_id + i
+                end
+            end
+        else
+            for i = _G.vertices_per_tile - 1, 0, -1 do
+                if not chunk_vertices[vert_id + i] then
+                    _G.object_mesh_vert_id_map[cx][cy][vert_id + i] = true
+                    return vert_id + i
+                end
             end
         end
     end
     return false
 end
 
-function _G.freeVertexFromTile(cx, cy, vert_id, unit)
+function _G.freeVertexFromTile(cx, cy, vert_id)
+    if not vert_id then
+        return
+    end
     chunk_vertices = _G.object_mesh_vert_id_map[cx][cy]
     if chunk_vertices then
         _G.object_mesh[cx][cy]:setVertex(vert_id)
