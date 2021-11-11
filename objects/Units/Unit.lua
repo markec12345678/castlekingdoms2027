@@ -358,5 +358,11 @@ function Unit:move(special)
     end
     self:update_position()
 end
+function Unit:job_update()
+    _G.removeObjectAt(self.lrcx, self.lrcy, self.lrx, self.lry, self)
+    _G.freeVertexFromTile(self.cx, self.cy, self.vert_id)
+    self.instancemesh = nil
+    self.animation = nil
+end
 
 return Unit

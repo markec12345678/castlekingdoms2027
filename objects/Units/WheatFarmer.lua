@@ -506,7 +506,6 @@ function WheatFarmer:update()
     if self.workplace then
         wstate = self.workplace.state
     end
-    print(self.state, self.path_state, self.gx, self.gy, wstate)
     self.eat_timer = self.eat_timer + 1
     if self.eat_timer > 3000 then
         _G.foodpile:take()

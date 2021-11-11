@@ -83,9 +83,6 @@ function Stonemason:dir_sub_update()
         end
     end
 end
-function Stonemason:job_update()
-    removeObjectAt(self.lrcx, self.lrcy, self.lrx, self.lry, self)
-end
 function Stonemason:update()
     self.eat_timer = self.eat_timer + 1
     if self.eat_timer > 3000 then
