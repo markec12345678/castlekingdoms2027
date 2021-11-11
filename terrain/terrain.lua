@@ -274,7 +274,7 @@ local function update_terrain(chunk_x, chunk_y)
                 terrain_batch[cx][cy]:add(tile_quads[tile_key], _G.IsoX + (i - o) * tile_width * 0.5 + l_offset_x,
                     _G.IsoY + (i + o) * tile_height * 0.5 + l_offset_y, 0, l_scale, l_scale)
             else
-                if terrain_tile[cx][cy][i][o] then
+                if terrain_tile[cx][cy][i][o] and #terrain_tile[chunk_x][chunk_y][i][o] > 0 then
                     terrain_batch[cx][cy]:add(unpack(terrain_tile[cx][cy][i][o]))
                 end
             end
@@ -354,7 +354,7 @@ local function update_terrain(chunk_x, chunk_y)
                     _G.IsoY + (i + o) * tile_height * 0.5 + l_offset_y, 0, l_scale, l_scale)
 
             else
-                if terrain_tile[cx][cy][i][o] then
+                if terrain_tile[cx][cy][i][o] and #terrain_tile[chunk_x][chunk_y][i][o] > 0 then
                     terrain_batch[cx][cy]:add(unpack(terrain_tile[cx][cy][i][o]))
                 end
             end
@@ -374,7 +374,7 @@ local function refresh_terrain(chunk_x, chunk_y)
     terrain_batch[chunk_x][chunk_y]:clear()
     for i = 0, chunk_width - 1, 1 do
         for o = 0, chunk_width - 1, 1 do
-            if terrain_tile[cx][cy][i][o] then
+            if terrain_tile[chunk_x][chunk_y][i][o] and #terrain_tile[chunk_x][chunk_y][i][o] > 0 then
                 terrain_batch[cx][cy]:add(unpack(terrain_tile[cx][cy][i][o]))
             end
         end
