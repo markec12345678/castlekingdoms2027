@@ -61,6 +61,7 @@ local PineTree = love.filesystem.load('objects/Environment/PineTree.lua')(object
 local OakTree = love.filesystem.load('objects/Environment/OakTree.lua')(object_batch, active_objects, tile_quads,
     object, Tree)
 local Shrub = love.filesystem.load('objects/Environment/Shrub.lua')(object_batch, active_objects, tile_quads, object)
+local Stone = love.filesystem.load('objects/Environment/Stone.lua')(object_batch, active_objects, tile_quads, object)
 local Woodcutter = love.filesystem.load('objects/Units/Woodcutter.lua')(object, tile_quads)
 local Stonemason = love.filesystem.load('objects/Units/Stonemason.lua')(object, tile_quads)
 local Peasant = love.filesystem.load('objects/Units/Peasant.lua')(object, tile_quads)
@@ -87,6 +88,7 @@ package.loaded['objects.Environment.Tree'] = Tree
 package.loaded['objects.Environment.PineTree'] = PineTree
 package.loaded['objects.Environment.OakTree'] = OakTree
 package.loaded['objects.Environment.Shrub'] = Shrub
+package.loaded['objects.Environment.Stone'] = Stone
 package.loaded['objects.Units.Woodcutter'] = Woodcutter
 package.loaded['objects.Units.Stonemason'] = Stonemason
 package.loaded['objects.Units.Peasant'] = Peasant
@@ -143,6 +145,26 @@ function removeObjectAt(cx, cy, x, y, object_to_remove)
     end
 end
 
+function removeObjectFromClassAtGlobal(gx, gy, class_to_remove)
+    local cx = math.floor(gx / chunk_width)
+    local cy = math.floor(gy / chunk_width)
+    local x = (gx) % (chunk_width)
+    local y = (gy) % (chunk_width)
+    if x > 63 or y > 64 then
+        print((debug.traceback("Error: trying to remove out of bounds unit", 1):gsub("\n[^\n]+$", "")))
+        love.event.quit()
+    end
+    if type(object[cx][cy][x][y]) == 'table' then
+        for index, current_object in ipairs(object[cx][cy][x][y]) do
+            if current_object.class.name == class_to_remove then
+                table.remove(object[cx][cy][x][y], index)
+                current_object:destroy()
+                break
+            end
+        end
+    end
+end
+
 function objectFromTypeAt(cx, cy, x, y, obj_type)
     if type(object[cx][cy][x][y]) == 'table' then
         for _, current_object in ipairs(object[cx][cy][x][y]) do
@@ -158,6 +180,21 @@ function isObjectAt(cx, cy, x, y, object_compared)
     if type(object[cx][cy][x][y]) == 'table' then
         for _, current_object in ipairs(object[cx][cy][x][y]) do
             if current_object == object_compared then
+                return current_object
+            end
+        end
+    end
+    return false
+end
+
+function objectFromClassAtGlobal(gx, gy, obj_class)
+    local cx = math.floor(gx / chunk_width)
+    local cy = math.floor(gy / chunk_width)
+    local x = (gx) % (chunk_width)
+    local y = (gy) % (chunk_width)
+    if type(object[cx][cy][x][y]) == 'table' then
+        for _, current_object in ipairs(object[cx][cy][x][y]) do
+            if current_object.class.name == obj_class then
                 return current_object
             end
         end
@@ -241,6 +278,7 @@ function genObjects(cx, cy)
     local instancemesh = love.graphics.newMesh({{"InstancePosition", "float", 2}, {"UVOffset", "float", 2},
                                                 {"ImageDim", "float", 2}},
         chunk_width * chunk_height * _G.vertices_per_tile, nil, "dynamic")
+    _G.object_mesh[chunk_x][chunk_y] = instancemesh
     for i = 0, chunk_width - 1, 1 do
         for o = 0, chunk_height - 1, 1 do
             local gx = chunk_width * cx + i
@@ -351,6 +389,32 @@ function genObjects(cx, cy)
                     shrub.animation:gotoFrame(math.random(1, 20))
                 end
             end
+            if not tree_generated and not (_G.forest_gen[math.round((gx) / 8) + 1][math.round((gy) / 8) + 1] ~= false) and
+                _G.stone_gen[math.round((gx) / 3) + 1][math.round((gy) / 3) + 1] ~= false then
+                local border = false
+                for lx = -1, 1, 1 do
+                    for ly = -1, 1, 1 do
+                        if not (lx == 0 and ly == 0) then
+                            if _G.stone_gen[math.round((gx + lx) / 3) + 1][math.round((gy + ly) / 3) + 1] == false then
+                                border = true
+                            end
+                        end
+                    end
+                end
+                if border then
+                    if love.math.random(1, 2) == 2 then
+                        Stone:new(gx, gy)
+                        if gy - 1 > 0 and not objectAtGlobal(gx, gy - 1) then
+                            Stone:new(gx, gy - 1)
+                        end
+                    end
+                else
+                    Stone:new(gx, gy)
+                    if gy - 1 > 0 and not objectAtGlobal(gx, gy - 1) then
+                        Stone:new(gx, gy - 1)
+                    end
+                end
+            end
             if objectAt(cx, cy, i, o) then
                 local n = 0
                 for _, ob in ipairs(object[cx][cy][i][o]) do
@@ -383,7 +447,6 @@ function genObjects(cx, cy)
     object_batch[chunk_x][chunk_y]:attachAttribute("InstancePosition", instancemesh, "perinstance")
     object_batch[chunk_x][chunk_y]:attachAttribute("UVOffset", instancemesh, "perinstance")
     object_batch[chunk_x][chunk_y]:attachAttribute("ImageDim", instancemesh, "perinstance")
-    _G.object_mesh[chunk_x][chunk_y] = instancemesh
 end
 
 local shader = love.graphics.newShader [[
@@ -522,7 +585,7 @@ local function update(dt)
     previous_chunk_y = _G.current_chunk_y
     _G.previous_top_left_chunk_x = _G.top_left_chunk_x
     _G.wheat_season_counter = _G.wheat_season_counter + dt
-    if _G.wheat_season_counter > 20 then
+    if _G.wheat_season_counter > 5 then
         _G.wheat_season_counter = 0
         _G.wheat_growing_season = true
     end

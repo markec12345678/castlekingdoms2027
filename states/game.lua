@@ -113,9 +113,9 @@ function game:keyreleased(key, scancode)
         elseif key == "l" then
             _G.saw.offset_y = _G.saw.offset_y - 1
         elseif key == "k" then
-            _G.saw.base_offset_x = _G.saw.base_offset_x + 1
+            _G.saw.offset_x = _G.saw.offset_x + 1
         elseif key == ";" then
-            _G.saw.base_offset_x = _G.saw.base_offset_x - 1
+            _G.saw.offset_x = _G.saw.offset_x - 1
         elseif key == "p" then
             print("x,y", _G.saw.offset_x, _G.saw.offset_y)
         elseif key == "r" then

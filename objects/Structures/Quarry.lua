@@ -280,9 +280,10 @@ function Quarry:initialize(gx, gy, type)
     self.puller = Quarry_puller:new(self.gx + 4, self.gy + 2, self, self.offset_x - 64 - 16, self.offset_y)
     self.puller:deactivate()
     self.hook = Quarry_hook:new(self.gx + 2, self.gy + 5, self, self.offset_x - 64 - 16, self.offset_y)
-    for xx = -1, 6 do
-        for yy = -1, 6 do
-            _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.dirt)
+
+    for xx = 0, 5 do
+        for yy = 0, 5 do
+            removeObjectFromClassAtGlobal(self.gx + xx, self.gy + yy, "Stone")
         end
     end
 

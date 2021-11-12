@@ -32,7 +32,8 @@ _G.terrain_biome = {
     ["orange_grass"] = "orange_grass",
     ["pitch_grass"] = "pitch_grass",
     ["mountain_grass"] = "mountain_grass_a",
-    ["beach"] = "beach"
+    ["beach"] = "beach",
+    ["abundant_grass_stones_white"] = "land_stones_1_white_rock"
 }
 local terrain = _G.terrain
 local terrain_batch = newAutotable(2)
@@ -222,9 +223,6 @@ local function update_terrain(chunk_x, chunk_y)
                     end
                 end
                 if keys_to_skip[cx][cy][i][o] then
-                    if multi_tile_origin and multi_tile_origin.size == 2 and this_tile then
-                        print("skipping", i, o)
-                    end
                     goto continue
                 end
                 local tile_width, tile_height = _G.tile_width, _G.tile_height
@@ -238,6 +236,9 @@ local function update_terrain(chunk_x, chunk_y)
                     upper_border = 24
                 elseif max_size == 4 then
                     upper_border = 28
+                end
+                if current_biome == _G.terrain_biome.abundant_grass_stones_white then
+                    upper_border = 16
                 end
                 local rand = love.math.random(1, upper_border)
                 local rand2 = love.math.random(1, upper_border)
@@ -316,6 +317,9 @@ local function update_terrain(chunk_x, chunk_y)
                     upper_border = 24
                 elseif max_size == 4 then
                     upper_border = 28
+                end
+                if current_biome == _G.terrain_biome.abundant_grass_stones_white then
+                    upper_border = 16
                 end
                 local rand = love.math.random(1, upper_border)
                 local rand2 = love.math.random(1, upper_border)
@@ -461,8 +465,8 @@ local function genForest()
         end
     end
 
-    forest_update_counter = 0
-    forest_update_limit = 3
+    local forest_update_counter = 0
+    local forest_update_limit = 3
 
     repeat
         for x = 1, #forest_gen do
@@ -494,9 +498,65 @@ local function genForest()
     until (forest_update_counter == forest_update_limit)
 end
 
+local function genStone()
+    _G.stone_gen = {}
+    local total_stones = 0
+    for x = 1, math.round((_G.chunks_wide * _G.chunk_width) / 3) + 1 do
+        stone_gen[x] = {}
+        for y = 1, math.round((_G.chunks_high * _G.chunk_height) / 3) + 1 do
+            local Value = love.math.random(0, 100)
+            if Value < 37 then
+                stone_gen[x][y] = true
+                total_stones = total_stones + 1
+            else
+                stone_gen[x][y] = false
+            end
+        end
+    end
+
+    local stone_update_counter = 0
+    local stone_update_limit = 20
+
+    repeat
+        for x = 1, #stone_gen do
+            for y = 1, #stone_gen[x] do
+                local tile = stone_gen[x][y]
+                local neighbors_alive = 0
+                for I = 0, 9 do
+                    if I ~= 4 then
+                        offset_x = math.floor(I % 3) - 1
+                        offset_y = math.floor(I / 3) - 1
+
+                        if stone_gen[x + offset_x] and stone_gen[x + offset_x][y + offset_y] and
+                            stone_gen[x + offset_x][y + offset_y] then
+                            neighbors_alive = neighbors_alive + 1
+                        end
+                    end
+                end
+
+                if tile and neighbors_alive < 4 then
+                    stone_gen[x][y] = false
+                    total_stones = total_stones - 1
+                end
+                if not tile and neighbors_alive > 5 then
+                    stone_gen[x][y] = true
+                    total_stones = total_stones + 1
+                end
+            end
+        end
+
+        stone_update_counter = stone_update_counter + 1
+    until (stone_update_counter == stone_update_limit)
+    print(total_stones)
+    return total_stones
+end
+
 local function genMap()
-    -- FIXME MAGIC NUMBERS
     genForest()
+    repeat
+        _G.stone_gen = {}
+        local stones = genStone()
+    until stones > 400 and stones < 550
     for i = 0, _G.chunks_wide - 1 do
         for o = 0, _G.chunks_high - 1 do -- usually both are 32 (jumper is set like that with magic numbers)
             genTerrain(i, o)

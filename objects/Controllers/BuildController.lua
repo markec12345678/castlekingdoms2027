@@ -126,7 +126,62 @@ local building = {
             Quarry:new(gx, gy)
         end,
         special_requirements = function(self, gx, gy)
-            return true
+            for w = gx, self.w + gx do
+                for h = gy, self.h + gy do
+                    if objectFromClassAtGlobal(w, h, "Stone") then
+                        return true
+                    end
+                end
+            end
+        end,
+        override_requirements = function(self, ctrl)
+            local MX, MY = love.mouse.getPosition()
+            local type = 1
+            for xx = 0, ctrl.width - 1 do
+                for yy = 0, ctrl.height - 1 do
+                    local x = (xx + ctrl.gx) % (chunk_width)
+                    local y = (yy + ctrl.gy) % (chunk_width)
+                    local cx = math.floor((xx + ctrl.gx) / chunk_width)
+                    local cy = math.floor((yy + ctrl.gy) / chunk_width)
+                    if not _G.objectFromClassAtGlobal(xx + ctrl.gx, yy + ctrl.gy, "Stone") then
+                        ctrl.can_build = false
+                    end
+                end
+            end
+            if not self:special_requirements(ctrl.gx, ctrl.gy) then
+                ctrl.can_build = false
+            end
+            ctrl.batch:clear()
+            for xx = 0, ctrl.width - 1 do
+                for yy = 0, ctrl.height - 1 do
+                    local x = (xx + ctrl.gx) % (chunk_width)
+                    local y = (yy + ctrl.gy) % (chunk_width)
+                    local cx = math.floor((xx + ctrl.gx) / chunk_width)
+                    local cy = math.floor((yy + ctrl.gy) / chunk_width)
+                    if _G.objectFromClassAtGlobal(xx + ctrl.gx, yy + ctrl.gy, "Stone") then
+                        if ctrl.can_build then
+                            type = 2
+                        else
+                            type = 4
+                        end
+                    elseif not importantObjectAt(cx, cy, x, y) then
+                        if ctrl.can_build then
+                            type = 2
+                        else
+                            type = 3
+                        end
+                    else
+                        type = 1
+                    end
+                    ctrl.batch:add(ctrl.quads[type], (xx - yy) * tile_width * 0.5, (xx + yy) * tile_height * 0.5, 0, 1,
+                        1)
+                end
+            end
+            ctrl.batch:flush()
+            ctrl.previous_gx = ctrl.gx
+            ctrl.previous_gy = ctrl.gy
+            ctrl.previous_can_build = ctrl.can_build
+            ctrl.last_building = ctrl.building
         end
     },
     ["iron_mine"] = {
@@ -215,9 +270,10 @@ function BuildController:initialize()
     self.building = "castle"
     self.batch = love.graphics.newSpriteBatch(image)
     self.quads = {}
-    self.quads[1] = love.graphics.newQuad(0, 0, 30, 16, 90, 16)
-    self.quads[2] = love.graphics.newQuad(30, 0, 30, 16, 90, 16)
-    self.quads[3] = love.graphics.newQuad(60, 0, 30, 16, 90, 16)
+    self.quads[1] = love.graphics.newQuad(0, 0, 30, 16, image:getWidth(), image:getHeight())
+    self.quads[2] = love.graphics.newQuad(30, 0, 30, 16, image:getWidth(), image:getHeight())
+    self.quads[3] = love.graphics.newQuad(60, 0, 30, 16, image:getWidth(), image:getHeight())
+    self.quads[4] = love.graphics.newQuad(90, 0, 30, 16, image:getWidth(), image:getHeight())
 end
 function BuildController:set(type)
     self.building = type
@@ -235,7 +291,7 @@ function BuildController:set(type)
 end
 function BuildController:update()
     if self.active then
-        local MX, MY = love.mouse.getPosition();
+        local MX, MY = love.mouse.getPosition()
         local type = 1
         MX = (MX - width / 2) / scale_x + view_xview - 16
         MY = (MY - height / 2) / scale_x + view_yview - 8
@@ -247,45 +303,49 @@ function BuildController:update()
         -- No point to flush the batch everytime
         if self.last_building ~= self.building or self.previous_gx ~= self.gx or self.previous_gx ~= self.gy then
             self.can_build = true
-            for xx = 0, self.width - 1 do
-                for yy = 0, self.height - 1 do
-                    local x = (xx + LX) % (chunk_width)
-                    local y = (yy + LY) % (chunk_width)
-                    local cx = math.floor((xx + LX) / chunk_width)
-                    local cy = math.floor((yy + LY) / chunk_width)
-                    if importantObjectAt(cx, cy, x, y) then
-                        self.can_build = false
-                    end
-                end
-            end
-            if not building[self.building]:special_requirements(self.gx, self.gy) then
-                self.can_build = false
-            end
-            self.batch:clear()
-            for xx = 0, self.width - 1 do
-                for yy = 0, self.height - 1 do
-                    local x = (xx + LX) % (chunk_width)
-                    local y = (yy + LY) % (chunk_width)
-                    local cx = math.floor((xx + LX) / chunk_width)
-                    local cy = math.floor((yy + LY) / chunk_width)
-                    if not importantObjectAt(cx, cy, x, y) then
-                        if self.can_build then
-                            type = 2
-                        else
-                            type = 3
+            if building[self.building].override_requirements then
+                building[self.building]:override_requirements(self)
+            else
+                for xx = 0, self.width - 1 do
+                    for yy = 0, self.height - 1 do
+                        local x = (xx + self.gx) % (chunk_width)
+                        local y = (yy + self.gy) % (chunk_width)
+                        local cx = math.floor((xx + self.gx) / chunk_width)
+                        local cy = math.floor((yy + self.gy) / chunk_width)
+                        if importantObjectAt(cx, cy, x, y) then
+                            self.can_build = false
                         end
-                    else
-                        type = 1
                     end
-                    self.batch:add(self.quads[type], (xx - yy) * tile_width * 0.5, (xx + yy) * tile_height * 0.5, 0, 1,
-                        1)
                 end
+                if not building[self.building]:special_requirements(self.gx, self.gy) then
+                    self.can_build = false
+                end
+                self.batch:clear()
+                for xx = 0, self.width - 1 do
+                    for yy = 0, self.height - 1 do
+                        local x = (xx + self.gx) % (chunk_width)
+                        local y = (yy + self.gy) % (chunk_width)
+                        local cx = math.floor((xx + self.gx) / chunk_width)
+                        local cy = math.floor((yy + self.gy) / chunk_width)
+                        if not importantObjectAt(cx, cy, x, y) then
+                            if self.can_build then
+                                type = 2
+                            else
+                                type = 3
+                            end
+                        else
+                            type = 1
+                        end
+                        self.batch:add(self.quads[type], (xx - yy) * tile_width * 0.5, (xx + yy) * tile_height * 0.5, 0,
+                            1, 1)
+                    end
+                end
+                self.batch:flush()
+                self.previous_gx = self.gx
+                self.previous_gy = self.gy
+                self.previous_can_build = self.can_build
+                self.last_building = self.building
             end
-            self.batch:flush()
-            self.previous_gx = self.gx
-            self.previous_gy = self.gy
-            self.previous_can_build = self.can_build
-            self.last_building = self.building
         end
     end
 end
