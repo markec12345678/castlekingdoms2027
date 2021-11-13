@@ -101,7 +101,7 @@ function manhattan_distance(x1, y1, x2, y2)
 end
 
 local function scale(y)
-    if y > 0 and scale_x < 2 then
+    if y > 0 and scale_x < 4 then
         scale_x = scale_x + 0.1;
         scale_y = scale_y + 0.1;
     elseif y < 0 and scale_y > 0.3 then
