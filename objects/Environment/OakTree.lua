@@ -26,6 +26,7 @@ function OakTree:initialize(gx, gy, type)
     Tree.initialize(self, gx, gy, type)
     self.offset_y = -144
     self.base_offset_x = -73
+    self.offset_x = self.base_offset_x
     self.trunk_tile = tile_quads["tree_oak_trunk (1)"]
 
     if type == "Oak tree" then
