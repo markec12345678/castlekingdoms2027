@@ -62,6 +62,7 @@ local OakTree = love.filesystem.load('objects/Environment/OakTree.lua')(object_b
     object, Tree)
 local Shrub = love.filesystem.load('objects/Environment/Shrub.lua')(object_batch, active_objects, tile_quads, object)
 local Stone = love.filesystem.load('objects/Environment/Stone.lua')(object_batch, active_objects, tile_quads, object)
+local Iron = love.filesystem.load('objects/Environment/Iron.lua')(object_batch, active_objects, tile_quads, object)
 local Woodcutter = love.filesystem.load('objects/Units/Woodcutter.lua')(object, tile_quads)
 local Stonemason = love.filesystem.load('objects/Units/Stonemason.lua')(object, tile_quads)
 local Peasant = love.filesystem.load('objects/Units/Peasant.lua')(object, tile_quads)
@@ -89,6 +90,7 @@ package.loaded['objects.Environment.PineTree'] = PineTree
 package.loaded['objects.Environment.OakTree'] = OakTree
 package.loaded['objects.Environment.Shrub'] = Shrub
 package.loaded['objects.Environment.Stone'] = Stone
+package.loaded['objects.Environment.Iron'] = Iron
 package.loaded['objects.Units.Woodcutter'] = Woodcutter
 package.loaded['objects.Units.Stonemason'] = Stonemason
 package.loaded['objects.Units.Peasant'] = Peasant
@@ -389,8 +391,7 @@ function genObjects(cx, cy)
                     shrub.animation:gotoFrame(math.random(1, 20))
                 end
             end
-            if not tree_generated and not (_G.forest_gen[math.round((gx) / 8) + 1][math.round((gy) / 8) + 1] ~= false) and
-                _G.stone_gen[math.round((gx) / 3) + 1][math.round((gy) / 3) + 1] ~= false then
+            if not tree_generated and _G.stone_gen[math.round((gx) / 3) + 1][math.round((gy) / 3) + 1] ~= false then
                 local border = false
                 for lx = -1, 1, 1 do
                     for ly = -1, 1, 1 do
@@ -412,6 +413,31 @@ function genObjects(cx, cy)
                     Stone:new(gx, gy)
                     if gy - 1 > 0 and not objectAtGlobal(gx, gy - 1) then
                         Stone:new(gx, gy - 1)
+                    end
+                end
+            end
+            if not tree_generated and _G.iron_gen[math.round((gx) / 3) + 1][math.round((gy) / 3) + 1] ~= false then
+                local border = false
+                for lx = -1, 1, 1 do
+                    for ly = -1, 1, 1 do
+                        if not (lx == 0 and ly == 0) then
+                            if _G.iron_gen[math.round((gx + lx) / 3) + 1][math.round((gy + ly) / 3) + 1] == false then
+                                border = true
+                            end
+                        end
+                    end
+                end
+                if border then
+                    if love.math.random(1, 2) == 2 then
+                        Iron:new(gx, gy)
+                        if gy - 1 > 0 and not objectAtGlobal(gx, gy - 1) then
+                            Iron:new(gx, gy - 1)
+                        end
+                    end
+                else
+                    Iron:new(gx, gy)
+                    if gy - 1 > 0 and not objectAtGlobal(gx, gy - 1) then
+                        Iron:new(gx, gy - 1)
                     end
                 end
             end

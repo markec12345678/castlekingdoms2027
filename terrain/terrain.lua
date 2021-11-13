@@ -31,7 +31,7 @@ _G.terrain_biome = {
     ["yellow_grass"] = "yellow_grass",
     ["orange_grass"] = "orange_grass",
     ["pitch_grass"] = "pitch_grass",
-    ["mountain_grass"] = "mountain_grass_a",
+    ["mountain_grass"] = "mountain_grass_b",
     ["beach"] = "beach",
     ["abundant_grass_stones_white"] = "land_stones_1_white_rock"
 }
@@ -506,8 +506,12 @@ local function genStone()
         for y = 1, math.round((_G.chunks_high * _G.chunk_height) / 3) + 1 do
             local Value = love.math.random(0, 100)
             if Value < 37 then
-                stone_gen[x][y] = true
-                total_stones = total_stones + 1
+                if not (_G.forest_gen[math.round((x * 2.66) / 8) + 1][math.round((y * 2.66) / 8) + 1] ~= false) then
+                    stone_gen[x][y] = true
+                    total_stones = total_stones + 1
+                else
+                    stone_gen[x][y] = false
+                end
             else
                 stone_gen[x][y] = false
             end
@@ -551,12 +555,74 @@ local function genStone()
     return total_stones
 end
 
+local function genIron()
+    _G.iron_gen = {}
+    local total_iron = 0
+    for x = 1, math.round((_G.chunks_wide * _G.chunk_width) / 3) + 1 do
+        iron_gen[x] = {}
+        for y = 1, math.round((_G.chunks_high * _G.chunk_height) / 3) + 1 do
+            local Value = love.math.random(0, 100)
+            if Value < 38 then
+                if not (_G.forest_gen[math.round((x * 2.66) / 8) + 1][math.round((y * 2.66) / 8) + 1] ~= false) and
+                    not (_G.stone_gen[x][y] ~= false) then
+                    iron_gen[x][y] = true
+                    total_iron = total_iron + 1
+                else
+                    iron_gen[x][y] = false
+                end
+            else
+                iron_gen[x][y] = false
+            end
+        end
+    end
+
+    local iron_update_counter = 0
+    local iron_update_limit = 20
+
+    repeat
+        for x = 1, #iron_gen do
+            for y = 1, #iron_gen[x] do
+                local tile = iron_gen[x][y]
+                local neighbors_alive = 0
+                for I = 0, 9 do
+                    if I ~= 4 then
+                        offset_x = math.floor(I % 3) - 1
+                        offset_y = math.floor(I / 3) - 1
+
+                        if iron_gen[x + offset_x] and iron_gen[x + offset_x][y + offset_y] and
+                            iron_gen[x + offset_x][y + offset_y] then
+                            neighbors_alive = neighbors_alive + 1
+                        end
+                    end
+                end
+
+                if tile and neighbors_alive < 4 then
+                    iron_gen[x][y] = false
+                    total_iron = total_iron - 1
+                end
+                if not tile and neighbors_alive > 5 then
+                    iron_gen[x][y] = true
+                    total_iron = total_iron + 1
+                end
+            end
+        end
+
+        iron_update_counter = iron_update_counter + 1
+    until (iron_update_counter == iron_update_limit)
+    print("Iron in map", total_iron)
+    return total_iron
+end
+
 local function genMap()
     genForest()
     repeat
         _G.stone_gen = {}
         local stones = genStone()
-    until stones > 400 and stones < 550
+    until stones > 400 -- and stones < 550
+    repeat
+        _G.iron_gen = {}
+        local iron = genIron()
+    until iron > 100 and iron < 250
     for i = 0, _G.chunks_wide - 1 do
         for o = 0, _G.chunks_high - 1 do -- usually both are 32 (jumper is set like that with magic numbers)
             genTerrain(i, o)
