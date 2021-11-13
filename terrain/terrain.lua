@@ -618,7 +618,7 @@ local function genMap()
     repeat
         _G.stone_gen = {}
         local stones = genStone()
-    until stones > 400 -- and stones < 550
+    until stones > 170 and stones < 300
     repeat
         _G.iron_gen = {}
         local iron = genIron()

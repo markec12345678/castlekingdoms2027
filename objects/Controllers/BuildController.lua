@@ -191,14 +191,69 @@ local building = {
         w = 4,
         h = 4,
         cost = {
-            ["wood"] = 24,
+            ["wood"] = 10,
             ["stone"] = 10
         },
         build = function(self, gx, gy)
             Mine:new(gx, gy)
         end,
         special_requirements = function(self, gx, gy)
-            return true
+            for w = gx, self.w + gx do
+                for h = gy, self.h + gy do
+                    if objectFromClassAtGlobal(w, h, "Iron") then
+                        return true
+                    end
+                end
+            end
+        end,
+        override_requirements = function(self, ctrl)
+            local MX, MY = love.mouse.getPosition()
+            local type = 1
+            for xx = 0, ctrl.width - 1 do
+                for yy = 0, ctrl.height - 1 do
+                    local x = (xx + ctrl.gx) % (chunk_width)
+                    local y = (yy + ctrl.gy) % (chunk_width)
+                    local cx = math.floor((xx + ctrl.gx) / chunk_width)
+                    local cy = math.floor((yy + ctrl.gy) / chunk_width)
+                    if not _G.objectFromClassAtGlobal(xx + ctrl.gx, yy + ctrl.gy, "Iron") then
+                        ctrl.can_build = false
+                    end
+                end
+            end
+            if not self:special_requirements(ctrl.gx, ctrl.gy) then
+                ctrl.can_build = false
+            end
+            ctrl.batch:clear()
+            for xx = 0, ctrl.width - 1 do
+                for yy = 0, ctrl.height - 1 do
+                    local x = (xx + ctrl.gx) % (chunk_width)
+                    local y = (yy + ctrl.gy) % (chunk_width)
+                    local cx = math.floor((xx + ctrl.gx) / chunk_width)
+                    local cy = math.floor((yy + ctrl.gy) / chunk_width)
+                    if _G.objectFromClassAtGlobal(xx + ctrl.gx, yy + ctrl.gy, "Iron") then
+                        if ctrl.can_build then
+                            type = 2
+                        else
+                            type = 4
+                        end
+                    elseif not importantObjectAt(cx, cy, x, y) then
+                        if ctrl.can_build then
+                            type = 2
+                        else
+                            type = 3
+                        end
+                    else
+                        type = 1
+                    end
+                    ctrl.batch:add(ctrl.quads[type], (xx - yy) * tile_width * 0.5, (xx + yy) * tile_height * 0.5, 0, 1,
+                        1)
+                end
+            end
+            ctrl.batch:flush()
+            ctrl.previous_gx = ctrl.gx
+            ctrl.previous_gy = ctrl.gy
+            ctrl.previous_can_build = ctrl.can_build
+            ctrl.last_building = ctrl.building
         end
     },
     ["orchard"] = {

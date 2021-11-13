@@ -54,12 +54,6 @@ local max_quantity = {
 local Stockpile_alias = class('Stockpile_alias', Structure)
 function Stockpile_alias:initialize(tile, gx, gy, parent, offset_y, offset_x, not_walkable)
     local mytype = "Static structure"
-    local i = (gx) % (chunk_width)
-    local o = (gy) % (chunk_width)
-    local cx = math.floor(gx / chunk_width)
-    local cy = math.floor(gy / chunk_width)
-    local x = IsoX + (i - o) * tile_width * 0.5
-    local y = IsoY + (i + o) * tile_height * 0.5
     Structure.initialize(self, gx, gy, mytype)
     self.gx = gx
     self.gy = gy

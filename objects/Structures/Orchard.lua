@@ -8,12 +8,6 @@ local quad_offset = require('objects.quad_offset')
 local Orchard_alias = class('Orchard_alias', Structure)
 function Orchard_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     local mytype = "Static structure"
-    local i = (gx) % (chunk_width)
-    local o = (gy) % (chunk_width)
-    local cx = math.floor(gx / chunk_width)
-    local cy = math.floor(gy / chunk_width)
-    local x = IsoX + (i - o) * tile_width * 0.5
-    local y = IsoY + (i + o) * tile_height * 0.5
     Structure.initialize(self, gx, gy, mytype)
     self.gx = gx
     self.gy = gy

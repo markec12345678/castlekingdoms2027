@@ -382,7 +382,7 @@ function genObjects(cx, cy)
                     goto continue
                 end
                 if not tree_generated and love.math.random(1000) == 4 then
-                    local tree = PineTree:new(gx, gy, "Small pine tree")
+                    local tree = OakTree:new(gx, gy, "Medium oak tree")
                     tree.animation:gotoFrame(math.random(1, 20))
                     tree_generated = true
                 end

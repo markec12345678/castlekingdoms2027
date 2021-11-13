@@ -40,12 +40,6 @@ end
 local WheatFarm_plant = class('WheatFarm_plant', Structure)
 function WheatFarm_plant:initialize(gx, gy, parent)
     local mytype = "Wheat Plant"
-    local i = (gx) % (chunk_width)
-    local o = (gy) % (chunk_width)
-    local cx = math.floor(gx / chunk_width)
-    local cy = math.floor(gy / chunk_width)
-    local x = IsoX + (i - o) * tile_width * 0.5
-    local y = IsoY + (i + o) * tile_height * 0.5
     Structure.initialize(self, gx, gy, mytype)
     self.animated = false
     self.is_plant = false
@@ -204,34 +198,6 @@ function WheatFarm:initialize(gx, gy, type)
         t2 = WheatFarm_plant:new(self.gx + 11, self.gy + y, self, true)
         table.insert(self.land_tiles, {t1, t2})
     end
-    -- for y = 11, 0, -1 do
-    --     t1 = false
-    --     if y > 3 then
-    --         t1 = WheatFarm_plant:new(self.gx + 2, self.gy + y, self, true)
-    --     end
-    --     t2 = WheatFarm_plant:new(self.gx + 3, self.gy + y, self)
-    --     table.insert(self.land_tiles, {t1, t2})
-    -- end
-    -- for y = 0, 11 do
-    --     t1 = WheatFarm_plant:new(self.gx + 4, self.gy + y, self, true)
-    --     t2 = WheatFarm_plant:new(self.gx + 5, self.gy + y, self)
-    --     table.insert(self.land_tiles, {t1, t2})
-    -- end
-    -- for y = 11, 0, -1 do
-    --     t1 = WheatFarm_plant:new(self.gx + 6, self.gy + y, self, true)
-    --     t2 = WheatFarm_plant:new(self.gx + 7, self.gy + y, self)
-    --     table.insert(self.land_tiles, {t1, t2})
-    -- end
-    -- for y = 0, 11 do
-    --     t1 = WheatFarm_plant:new(self.gx + 8, self.gy + y, self, true)
-    --     t2 = WheatFarm_plant:new(self.gx + 9, self.gy + y, self)
-    --     table.insert(self.land_tiles, {t1, t2})
-    -- end
-    -- for y = 11, 0, -1 do
-    --     t1 = WheatFarm_plant:new(self.gx + 10, self.gy + y, self, true)
-    --     t2 = WheatFarm_plant:new(self.gx + 11, self.gy + y, self)
-    --     table.insert(self.land_tiles, {t1, t2})
-    -- end
     table.insert(self.land_tiles[1], WheatFarm_plant:new(self.gx + 0, self.gy + 3, self, true))
     table.insert(self.land_tiles[1], WheatFarm_plant:new(self.gx + 2, self.gy + 3, self, true))
     table.insert(self.land_tiles[1], WheatFarm_plant:new(self.gx + 1, self.gy + 3, self, true))
@@ -243,20 +209,11 @@ function WheatFarm:initialize(gx, gy, type)
     -- WheatFarm_plant:new(self.gx + 3, self.gy + 3, self)
     self.max_land_tiles = #self.land_tiles
     self.processed_tiles = 0
-    -- for x =i
 
     self.free_spots = 1
     Structure.render(self)
 end
 function WheatFarm:join(worker)
-    -- if self.free_spots == 3 then
-    --  self.lift_worker = worker
-    --  worker.workplace = self
-    --  self.free_spots = self.free_spots - 1
-    -- elseif self.free_spots == 2 then
-    --  self.pull_worker = worker
-    --  worker.workplace = self
-    --  self.free_spots = self.free_spots - 1
     if self.free_spots == 1 then
         self.wheat_worker = worker
         worker.workplace = self
@@ -424,35 +381,12 @@ function WheatFarm:work(worker)
                     self:work(self.wheat_worker)
                 end
             end
-        elseif self.state == 5 then
-            self.tree3.animation = self.tree3.anim_raw
-            self.wheat_worker:requestPath(self.gx + 11, self.gy + 2)
-            self.wheat_worker.state = "Going to apple tree"
-            self.wheat_worker.move_dir = "none"
-            self.state = 6
-        elseif self.state == 6 then
-            self.tree6.animation = self.tree6.anim_raw
-            self.wheat_worker:requestPath(self.gx + 11, self.gy + 7)
-            self.wheat_worker.state = "Going to apple tree"
-            self.wheat_worker.move_dir = "none"
-            self.state = 7
-        elseif self.state == 7 then
-            self.tree7.animation = self.tree7.anim_raw
-            self.wheat_worker:requestPath(self.gx + 11, self.gy + 12)
-            self.wheat_worker.state = "Going to apple tree"
-            self.wheat_worker.move_dir = "none"
-            self.state = 8
-        elseif self.state == 8 then
-            self.tree8.animation = self.tree8.anim_raw
-            self:send_to_stockpile()
-            self.state = 0
         end
     end
 end
 function WheatFarm:send_to_stockpile()
     self.wheat_worker.state = "Go to foodpile"
     self.wheat_worker.move_dir = "none"
-    -- addObjectAt(cx, cy, i, o, self.wheat_worker)     
     self.working = false
 end
 

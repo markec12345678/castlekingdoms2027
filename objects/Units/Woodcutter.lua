@@ -96,8 +96,8 @@ function Woodcutter:check_trees(cx, cy)
     local closest_object, closest_distance = nil, 10000000
     if _G.chunk_objects[chunkx][chunky] then
         for index, obj in pairs(_G.chunk_objects[chunkx][chunky]) do
-            if (obj.type == 'Pine tree' or obj.type == "Small pine tree" or obj.type == "Medium pine tree") and
-                obj.marked == false then
+            if (obj.type == 'Pine tree' or obj.type == "Small pine tree" or obj.type == "Medium pine tree" or obj.type ==
+                'Oak tree' or obj.type == "Small oak tree" or obj.type == "Medium oak tree") and obj.marked == false then
                 -- TODO: Fix magic numbers CRITICAL
                 if obj.gx > 0 and obj.gx < 2047 and obj.gy > 0 and obj.gy < 2047 then -- and _G.nodes[obj.gx][obj.gy+1].walkable == 0 then --fixme
                     local dist = manhattan_distance(self.gx, self.gy, obj.gx, obj.gy)
