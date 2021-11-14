@@ -9,6 +9,7 @@ cache:
 run: 
   stage: test
   script:
+    - add-apt-repository ppa:bartbes/love-stable --assume-yes
     - apt-get update
     - apt-get install --assume-yes zip
     - zip -9 -r test.love .
@@ -23,8 +24,7 @@ run:
     - apt-get install --assume-yes libtheora0
     - apt-get install --assume-yes libvorbisfile3
     - apt-get install --assume-yes libfreetype6
-    - dpkg -i libraries/love/liblove0_11.3ppa1_amd64.deb
-    - dpkg -i libraries/love/love_11.3ppa1_amd64.deb
+    - apt-get install --assume-yes love==11.3ppa1
     - cat /usr/bin/love test.love > testbuild
     - chmod a+x ./testbuild
     - apt-get install --assume-yes luarocks
