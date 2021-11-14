@@ -50,6 +50,9 @@ function Object:destroy()
     if self.vert_id then
         _G.freeVertexFromTile(self.cx, self.cy, self.vert_id)
     end
+    _G.removeObjectAt(self.cx, self.cy, self.i, self.o, self)
+    _G.chunk_objects[self.cx][self.cy][self] = nil
+    self = nil
 end
 function Object:update_vertex()
     if _G.object_mesh then

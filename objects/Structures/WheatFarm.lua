@@ -147,6 +147,7 @@ function WheatFarm:initialize(gx, gy, type)
     self.rotation = 1
     self.state = 0
     self.last_tile = nil
+
     for xx = -1, 13 do
         for yy = -1, 13 do
             _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.dirt)

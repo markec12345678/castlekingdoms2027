@@ -5,8 +5,6 @@ local quad_offset = require('objects.quad_offset')
 local Tree = class('Tree', Object)
 function Tree:initialize(gx, gy, type)
     Object.initialize(self, gx, gy, type)
-    self.gx = chunk_width * self.cx + self.i -- warning fucking genius
-    self.gy = chunk_width * self.cy + self.o
     self.offset_y = self.offset_y or -166
     self.base_offset_x = self.base_offset_x or -3 - 38
     self.offset_x = self.base_offset_x
@@ -50,13 +48,13 @@ function Tree:initialize(gx, gy, type)
     end
     if self.gx < 2048 and self.gx >= 0 and self.gy < 2048 and self.gy >= 0 then
         _G.collision_map[self.gx][self.gy] = 1
-        setWalkable(self.gx, self.gy, 1)
+        _G.setWalkable(self.gx, self.gy, 1)
     end
     if _G.chunk_objects[self.cx][self.cy] == nil then
         _G.chunk_objects[self.cx][self.cy] = {}
     end
     _G.chunk_objects[self.cx][self.cy][self] = self
-    addObjectAt(self.cx, self.cy, self.i, self.o, self)
+    _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
 end
 function Tree:render()
     if _G.object_mesh then
@@ -118,7 +116,7 @@ function Tree:animate(dt, force_update)
             offset_x, offset_y = quad_offset[self.animation:getQuad()][1] or 0,
                 quad_offset[self.animation:getQuad()][2] or 0
         end
-        local instancemesh = object_mesh[self.cx][self.cy]
+        local instancemesh = _G.object_mesh[self.cx][self.cy]
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
             self.y + (self.offset_y or 0) + offset_y - _G.height_map[self.gx][self.gy])
         local qx, qy, qw, qh = quad:getViewport()
@@ -126,11 +124,6 @@ function Tree:animate(dt, force_update)
         self.instancemesh = instancemesh
         self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
     end
-end
-function Tree:destroy()
-    removeObjectAt(self.cx, self.cy, self.i, self.o, self)
-    _G.chunk_objects[self.cx][self.cy][self] = nil
-    self = nil
 end
 function Tree:cut()
     if self.health > 0 then

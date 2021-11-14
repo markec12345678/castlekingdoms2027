@@ -41,16 +41,6 @@ function Shrub:initialize(gx, gy, type)
     addObjectAt(self.cx, self.cy, self.i, self.o, self)
 end
 function Shrub:animate()
-    -- if _G.scale_x > 0.6 then
-    --     self.animation:update(dt)
-    -- elseif _G.scale_x > 0.4 then
-    --     self.update_timer = self.update_timer + 1
-    --     if self.update_timer == 10 then
-    --         self.animation:update(dt)
-    --         self.animation:update(dt)
-    --         self.update_timer = 0
-    --     end
-    -- end
     local updated = false
     if _G.scale_x > 0.6 then
         updated = self.animation:update(dt)
@@ -82,11 +72,6 @@ function Shrub:animate()
         self.instancemesh = instancemesh
         self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
     end
-end
-function Shrub:destroy()
-    removeObjectAt(self.cx, self.cy, self.i, self.o, self)
-    _G.chunk_objects[self.cx][self.cy][self] = nil
-    self = nil
 end
 function Shrub:cut()
     if self.health > 0 then

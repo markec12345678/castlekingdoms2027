@@ -12,6 +12,7 @@ local WoodcutterHut = require('objects.Structures.WoodcutterHut')
 local Campfire = require('objects.Structures.Campfire')
 local Orchard = require('objects.Structures.Orchard')
 local WheatFarm = require('objects.Structures.WheatFarm')
+local Windmill = require('objects.Structures.Windmill')
 
 local building = {
     ["castle"] = {
@@ -304,6 +305,22 @@ local building = {
         special_requirements = function(self, gx, gy)
             return true
         end
+    },
+    ["windmill"] = {
+        quad = tile_quads["windmill_whole"],
+        offset_x = 32,
+        offset_y = 243 - 48,
+        w = 3,
+        h = 3,
+        cost = {
+            ["wood"] = 3
+        },
+        build = function(self, gx, gy)
+            Windmill:new(gx, gy)
+        end,
+        special_requirements = function(self, gx, gy)
+            return true
+        end
     }
 }
 
@@ -418,6 +435,11 @@ function BuildController:build(gx, gy)
             if self.can_afford then
                 for resource, amount in pairs(building[self.building].cost) do
                     _G.stockpile:take(resource, amount)
+                end
+                for xx = 0, building[self.building].w do
+                    for yy = 0, building[self.building].h do
+                        removeObjectFromClassAtGlobal(gx + xx, gy + yy, "Shrub")
+                    end
                 end
                 building[self.building]:build(gx, gy)
                 self.active = false

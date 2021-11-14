@@ -76,6 +76,8 @@ local Quarry = love.filesystem.load('objects/Structures/Quarry.lua')(active_enti
 local Mine = love.filesystem.load('objects/Structures/Mine.lua')(active_entities, object, tile_quads, object_batch)
 local WoodcutterHut = love.filesystem.load('objects/Structures/WoodcutterHut.lua')(active_entities, object, tile_quads,
     object_batch)
+local Windmill = love.filesystem.load('objects/Structures/Windmill.lua')(active_entities, object, tile_quads,
+    object_batch)
 local WoodenWall = love.filesystem.load('objects/Structures/WoodenWall.lua')(active_entities, object, tile_quads,
     object_batch)
 local WoodenWallWalkable = love.filesystem.load('objects/Structures/WoodenWallWalkable.lua')(active_entities, object,
@@ -103,6 +105,7 @@ package.loaded['objects.Structures.Granary'] = Granary
 package.loaded['objects.Structures.Quarry'] = Quarry
 package.loaded['objects.Structures.Mine'] = Mine
 package.loaded['objects.Structures.WoodcutterHut'] = WoodcutterHut
+package.loaded['objects.Structures.Windmill'] = Windmill
 package.loaded['objects.Structures.WoodenWall'] = WoodenWall
 package.loaded['objects.Structures.WoodenWallWalkable'] = WoodenWallWalkable
 package.loaded['objects.Structures.WoodenTower'] = WoodenTower
@@ -598,12 +601,34 @@ local function mousepressed(x, y, button)
     end
 end
 
+local function preload(dt)
+    -- Animates all the objects once so they don't pop in when scrolling
+    for i = 0, _G.chunks_wide - 1 do
+        for o = 0, _G.chunks_high - 1 do
+            if _G.chunk_objects[i][o] then
+                for _, obj in pairs(_G.chunk_objects[i][o]) do
+                    if obj.animated then
+                        obj:animate(dt)
+                    else
+                        obj:update(dt)
+                    end
+                end
+            end
+        end
+    end
+end
+
+local first_update = true
 local function update(dt)
     _G.JobController:make_worker()
     prof.push("CUL")
     if previous_chunk_x ~= _G.current_chunk_x or previous_chunk_y ~= _G.current_chunk_y or _G.top_left_chunk_x ~=
         (_G.previous_top_left_chunk_x or 0) then
         _G.chunkUpdateList()
+    end
+    if first_update then
+        preload(dt)
+        first_update = false
     end
     prof.pop("CUL")
     prof.push("AE")
