@@ -255,6 +255,7 @@ function Stockpile:update_stockpile(index)
         pile.type = nil
         pile.empty = true
         pile.id.tile = tile_quads["empty"]
+        pile.id:render()
         return
     end
     pile.id.tile = quad_map[pile.type][pile.quantity]

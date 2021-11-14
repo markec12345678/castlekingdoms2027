@@ -7,6 +7,25 @@ local fr_windmill_fan = _G.indexQuads("anim_windmill_fan", 15)
 local fr_anim_windmill_outside = _G.indexQuads("anim_windmill_outside", 15)
 local fr_anim_windmill_inside = _G.indexQuads("anim_windmill_inside", 15)
 
+local temp_anim = {unpack(fr_windmill_fan)}
+for i = 1, 2 do
+    for _, v in ipairs(temp_anim) do
+        table.insert(fr_windmill_fan, v)
+    end
+end
+temp_anim = {unpack(fr_anim_windmill_outside)}
+for i = 1, 2 do
+    for _, v in ipairs(temp_anim) do
+        table.insert(fr_anim_windmill_outside, v)
+    end
+end
+temp_anim = {unpack(fr_anim_windmill_inside)}
+for i = 1, 2 do
+    for _, v in ipairs(temp_anim) do
+        table.insert(fr_anim_windmill_inside, v)
+    end
+end
+
 local Windmill_blade = class('Windmill_blade', Structure)
 function Windmill_blade:initialize(gx, gy, parent, offset_x, offset_y)
     local mytype = "Animation"
@@ -14,10 +33,11 @@ function Windmill_blade:initialize(gx, gy, parent, offset_x, offset_y)
     self.tile = tile_quads["empty"]
     self.animated = true
     self.part1_end = function()
-        -- TODO
+        self.parent:send_to_stockpile()
+        self.animation:pause()
     end
     self.animation = anim.newAnimation(fr_windmill_fan, 0.11, self.part1_end)
-    -- self.animation:pause()
+    self.animation:pause()
     self.gx = gx
     self.gy = gy
     self.parent = parent
@@ -31,18 +51,10 @@ function Windmill_blade:animate(dt)
     Structure.animate(self, dt, true)
 end
 function Windmill_blade:activate()
-    self.animated = true
     self.animation:resume()
-    self:animate(_G.dt)
 end
 function Windmill_blade:deactivate()
     self.animation:pause()
-    self.tile = tile_quads["empty"]
-    if self.instancemesh then
-        _G.freeVertexFromTile(self.cx, self.cy, self.vert_id)
-        self.instancemesh = nil
-    end
-    self.animated = false
 end
 
 local Windmill_shadow = class('Windmill_shadow', Structure)
@@ -53,10 +65,9 @@ function Windmill_shadow:initialize(gx, gy, parent, offset_x, offset_y)
     self.animated = true
     self.part1_end = function()
         -- TODO
-        print("Did 1 rotation")
     end
     self.animation = anim.newAnimation(fr_anim_windmill_outside, 0.11, self.part1_end)
-    -- self.animation:pause()
+    self.animation:pause()
     self.gx = gx
     self.gy = gy
     self.parent = parent
@@ -70,18 +81,21 @@ function Windmill_shadow:animate(dt)
     Structure.animate(self, dt, true)
 end
 function Windmill_shadow:activate()
-    self.animated = true
     self.animation:resume()
-    self:animate(_G.dt)
+end
+function Windmill_shadow:show_inside()
+    local frame = self.animation.position
+    self.animation = anim.newAnimation(fr_anim_windmill_inside, 0.11)
+    self.animation:gotoFrame(frame)
+end
+function Windmill_shadow:show_outside()
+    local frame = self.animation.position
+    self.animation = anim.newAnimation(fr_anim_windmill_outside, 0.11)
+    self.animation:gotoFrame(frame)
+    self:animate()
 end
 function Windmill_shadow:deactivate()
     self.animation:pause()
-    self.tile = tile_quads["empty"]
-    if self.instancemesh then
-        _G.freeVertexFromTile(self.cx, self.cy, self.vert_id)
-        self.instancemesh = nil
-    end
-    self.animated = false
 end
 
 local Windmill_alias = _G.class('Windmill_alias', Structure)
@@ -109,7 +123,7 @@ end
 
 local Windmill = class('Windmill', Structure)
 function Windmill:initialize(gx, gy, type)
-    -- _G.JobController:add("Miller", self)
+    _G.JobController:add("Miller", self)
     local mytype = "Static structure"
     Structure.initialize(self, gx, gy, mytype)
     self.gx = chunk_width * self.cx + self.i
@@ -162,19 +176,22 @@ function Windmill:join(worker)
     end
 end
 function Windmill:work(worker)
-    self.log_stack:activate()
-    self.log_stack:stack()
-    self.log_stack:stack()
-    worker.state = "Working"
-    worker.tile = tile_quads["empty"]
-    worker.animated = false
-    worker.gx = self.gx + 1
-    worker.gy = self.gy + 2
-    worker:job_update()
-
-    if not self.working and self.worker.state == "Working" then
+    if self.worker.state == "Going to workplace with wheat" then
+        self.worker.state = "Working"
         self.working = true
-        self.sawing_obj:activate()
+        worker.tile = tile_quads["empty"]
+        worker.animated = false
+        worker.gx = self.gx + 1
+        worker.gy = self.gy + 2
+        worker:job_update()
+        self.blade:activate()
+        self.blade_shadow:activate()
+        self.blade_shadow:show_inside()
+    else
+        self.worker.state = "Working"
+        if not self.working and self.worker.state == "Working" then
+            self.worker.state = "Go to stockpile for wheat"
+        end
     end
 end
 function Windmill:send_to_stockpile()
@@ -190,8 +207,9 @@ function Windmill:send_to_stockpile()
     cx = math.floor(self.worker.gx / chunk_width)
     cy = math.floor(self.worker.gy / chunk_width)
     addObjectAt(cx, cy, i, o, self.worker)
-    self.stack:deactivate()
     self.working = false
+    self.blade_shadow:show_outside()
+    self.blade_shadow:deactivate()
 end
 
 return Windmill
