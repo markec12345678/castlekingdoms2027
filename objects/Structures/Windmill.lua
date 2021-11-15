@@ -226,7 +226,6 @@ function Windmill:join(worker)
     end
 end
 function Windmill:work(worker)
-    print(self.wheat)
     if worker.state == "Going to workplace with wheat" then
         if not self.working then
             self.wheat = self.wheat + 1
