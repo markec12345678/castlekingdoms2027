@@ -110,6 +110,8 @@ function game:keyreleased(key, scancode)
             _G.BuildController:set('wheat_farm')
         elseif key == "a" then
             _G.BuildController:set('windmill')
+        elseif key == "s" then
+            _G.BuildController:set('bakery')
         elseif key == "o" then
             _G.saw.offset_y = _G.saw.offset_y + 1
         elseif key == "l" then

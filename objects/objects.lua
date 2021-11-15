@@ -64,6 +64,7 @@ local Shrub = love.filesystem.load('objects/Environment/Shrub.lua')(object_batch
 local Stone = love.filesystem.load('objects/Environment/Stone.lua')(object_batch, active_objects, tile_quads, object)
 local Iron = love.filesystem.load('objects/Environment/Iron.lua')(object_batch, active_objects, tile_quads, object)
 local Woodcutter = love.filesystem.load('objects/Units/Woodcutter.lua')(object, tile_quads)
+local Baker = love.filesystem.load('objects/Units/Baker.lua')(object, tile_quads)
 local Stonemason = love.filesystem.load('objects/Units/Stonemason.lua')(object, tile_quads)
 local Peasant = love.filesystem.load('objects/Units/Peasant.lua')(object, tile_quads)
 local OrchardFarmer = love.filesystem.load('objects/Units/OrchardFarmer.lua')(object, tile_quads)
@@ -78,6 +79,7 @@ local WoodcutterHut = love.filesystem.load('objects/Structures/WoodcutterHut.lua
     object_batch)
 local Windmill = love.filesystem.load('objects/Structures/Windmill.lua')(active_entities, object, tile_quads,
     object_batch)
+local Bakery = love.filesystem.load('objects/Structures/Bakery.lua')(active_entities, object, tile_quads, object_batch)
 local WoodenWall = love.filesystem.load('objects/Structures/WoodenWall.lua')(active_entities, object, tile_quads,
     object_batch)
 local WoodenWallWalkable = love.filesystem.load('objects/Structures/WoodenWallWalkable.lua')(active_entities, object,
@@ -86,7 +88,8 @@ local WoodenTower = love.filesystem.load('objects/Structures/WoodenTower.lua')(a
     object_batch)
 local Campfire = love.filesystem.load('objects/Structures/Campfire.lua')(object, tile_quads, object_batch)
 local Orchard = love.filesystem.load('objects/Structures/Orchard.lua')(object, tile_quads, object_batch)
-local WheatFarm = love.filesystem.load('objects/Structures/WheatFarm.lua')(object, tile_quads, object_batch)
+local WheatFarm = love.filesystem.load('objects/Structures/WheatFarm.lua')(object, tile_quads, object_batch,
+    active_entities)
 package.loaded['objects.Environment.Tree'] = Tree
 package.loaded['objects.Environment.PineTree'] = PineTree
 package.loaded['objects.Environment.OakTree'] = OakTree
@@ -94,6 +97,7 @@ package.loaded['objects.Environment.Shrub'] = Shrub
 package.loaded['objects.Environment.Stone'] = Stone
 package.loaded['objects.Environment.Iron'] = Iron
 package.loaded['objects.Units.Woodcutter'] = Woodcutter
+package.loaded['objects.Units.Baker'] = Baker
 package.loaded['objects.Units.Stonemason'] = Stonemason
 package.loaded['objects.Units.Peasant'] = Peasant
 package.loaded['objects.Units.OrchardFarmer'] = OrchardFarmer
@@ -106,6 +110,7 @@ package.loaded['objects.Structures.Quarry'] = Quarry
 package.loaded['objects.Structures.Mine'] = Mine
 package.loaded['objects.Structures.WoodcutterHut'] = WoodcutterHut
 package.loaded['objects.Structures.Windmill'] = Windmill
+package.loaded['objects.Structures.Bakery'] = Bakery
 package.loaded['objects.Structures.WoodenWall'] = WoodenWall
 package.loaded['objects.Structures.WoodenWallWalkable'] = WoodenWallWalkable
 package.loaded['objects.Structures.WoodenTower'] = WoodenTower
@@ -706,6 +711,8 @@ local function update(dt)
                             if obj.animated then
                                 if obj:is_visible_on_screen() then
                                     obj:animate(dt)
+                                else
+                                    obj:update(dt)
                                 end
                             else
                                 obj:update(dt)

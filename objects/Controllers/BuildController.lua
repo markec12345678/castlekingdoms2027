@@ -13,6 +13,7 @@ local Campfire = require('objects.Structures.Campfire')
 local Orchard = require('objects.Structures.Orchard')
 local WheatFarm = require('objects.Structures.WheatFarm')
 local Windmill = require('objects.Structures.Windmill')
+local Bakery = require('objects.Structures.Bakery')
 
 local building = {
     ["castle"] = {
@@ -321,6 +322,22 @@ local building = {
         special_requirements = function(self, gx, gy)
             return true
         end
+    },
+    ["bakery"] = {
+        quad = tile_quads["bakery_workshop (18)"],
+        offset_x = 48,
+        offset_y = 131 - 64,
+        w = 4,
+        h = 4,
+        cost = {
+            ["wood"] = 3
+        },
+        build = function(self, gx, gy)
+            Bakery:new(gx, gy)
+        end,
+        special_requirements = function(self, gx, gy)
+            return true
+        end
     }
 }
 
@@ -452,17 +469,18 @@ function BuildController:build(gx, gy)
             elseif self.building == 'stockpile' then
                 building[self.building]:build(gx, gy)
                 self:set('granary')
-                _G.stockpile:store('stone')
-                _G.stockpile:store('stone')
-                _G.stockpile:store('stone')
-                _G.stockpile:store('stone')
-                _G.stockpile:store('stone')
-                _G.stockpile:store('stone')
-                _G.stockpile:store('stone')
-                _G.stockpile:store('stone')
-                _G.stockpile:store('stone')
-                _G.stockpile:store('stone')
-                _G.stockpile:store('stone')
+                _G.stockpile:store('wheat')
+                _G.stockpile:store('wheat')
+                _G.stockpile:store('wheat')
+                _G.stockpile:store('wheat')
+                _G.stockpile:store('wheat')
+                _G.stockpile:store('wheat')
+                _G.stockpile:store('wheat')
+                _G.stockpile:store('wheat')
+                _G.stockpile:store('wheat')
+                _G.stockpile:store('wheat')
+                _G.stockpile:store('wheat')
+                _G.stockpile:store('wheat')
                 _G.stockpile:store('stone')
                 _G.stockpile:store('stone')
                 _G.stockpile:store('stone')

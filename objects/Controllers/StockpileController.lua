@@ -24,9 +24,8 @@ end
 function StockpileController:take(resource, amount)
     amount = amount or 1
     -- TODO: won't work with multiple amount - will return true even if 1 out of 3 resources are present
-    for i = 1, amount do
+    for _ = 1, amount do
         if next(self.resources[resource]) == nil then
-            print("Ran out?", i, amount)
             return false
         else
             self.resources[resource][#self.resources[resource]].id.parent:take(resource,

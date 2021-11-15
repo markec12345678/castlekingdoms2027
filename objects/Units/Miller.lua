@@ -39,7 +39,6 @@ function Miller:initialize(gx, gy, type)
     self.offset_y = -10
     self.offset_x = -5
     self.count = 1
-    self.timr = 0
     self.animation = anim.newAnimation(fr_walking_west, 10)
 end
 
@@ -137,6 +136,8 @@ function Miller:update()
     end
     if self.path_state == "Waiting for path" then
         self:pathfind()
+    elseif self.state == "Waiting for work" then
+        self.workplace:work(self)
     elseif self.state ~= "No path to workplace" and self.state ~= "Working" then
         if self.state == "Find a job" then
             _G.JobController:find_job(self, "Miller")
@@ -164,21 +165,26 @@ function Miller:update()
                 self.move_dir = "none"
             end
         elseif self.state == "Go to workplace" or self.state == "Go to workplace with wheat" then
-            self:requestPath(self.workplace.gx, self.workplace.gy + 4)
+            if self.workplace.worker == self then
+                self:requestPath(self.workplace.gx, self.workplace.gy + 4)
+            elseif self.workplace.worker2 == self then
+                self:requestPath(self.workplace.gx + 1, self.workplace.gy + 4)
+            else
+                self:requestPath(self.workplace.gx + 2, self.workplace.gy + 4)
+            end
             if self.state == "Go to workplace with wheat" then
                 self.state = "Going to workplace with wheat"
             else
                 self.state = "Going to workplace"
             end
             self.move_dir = "none"
+            return
         elseif self.move_dir == "none" and
             (self.state == "Going to workplace" or self.state == "Going to stockpile" or self.state ==
                 "Going to workplace with wheat" or self.state == "Going to stockpile for wheat") then
             self:update_direction()
             self:dir_sub_update()
         end
-        self.timr = self.timr + 1
-        self.timr = self.timr % 60
         if (self.state == "Going to workplace" or self.state == "Going to stockpile" or self.state ==
             "Going to workplace with wheat" or self.state == "Going to stockpile for wheat") then
             self:move()
@@ -187,10 +193,6 @@ function Miller:update()
             if self.state == "Going to workplace" or self.state == "Going to workplace with wheat" then
                 if self:reached_path_end() then
                     self.workplace:work(self)
-                    self.nd = {}
-                    self.waypoint_x, self.waypoint_y = nil, nil
-                    self.move_dir = "none"
-                    self.count = 1
                     return
                 else
                     self.waypoint_x = self.nd[self.count][1]

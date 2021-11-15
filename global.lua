@@ -71,8 +71,12 @@ function TileSitesInRectangle(tile_start, tile_end)
     return result
 end
 
-function _G.indexBuildingQuads(quad_string, trim_last)
-    trim_last = trim_last or false
+function _G.indexBuildingQuads(quad_string, trim_last, last_width_offset)
+    trim_last = trim_last or last_width_offset or false
+    last_width_offset = last_width_offset or 0
+    if trim_last and last_width_offset == 0 then
+        last_width_offset = 8
+    end
     -- TODO: Probably wont work for non-square buildings
     local result_array = {}
     local quad = tile_quads[quad_string]
@@ -88,8 +92,8 @@ function _G.indexBuildingQuads(quad_string, trim_last)
                                           .newQuad(x + 16 * (middle_count), y, _G.tile_width, h, imageW, imageH)
     for i = middle_count + 2, middle_count + total_tiles_wide do
         if trim_last and i == middle_count + total_tiles_wide then
-            result_array[#result_array + 1] = love.graphics.newQuad(x + 16 * (i), y, _G.tile_width / 2 - 8, h, imageW,
-                imageH)
+            result_array[#result_array + 1] = love.graphics.newQuad(x + 16 * (i), y,
+                _G.tile_width / 2 - last_width_offset, h, imageW, imageH)
         else
             result_array[#result_array + 1] = love.graphics.newQuad(x + 16 * (i), y, _G.tile_width / 2, h, imageW,
                 imageH)

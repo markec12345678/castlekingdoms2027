@@ -1,4 +1,4 @@
-local object, tile_quads, object_batch = ...
+local object, tile_quads, object_batch, active_entities = ...
 local Structure = require("objects.Structure")
 local tiles, quad_array = indexBuildingQuads("farm (2)")
 local wheat_tile = tile_quads["tile_farmland_stage_4 (1)"]
@@ -56,29 +56,21 @@ function WheatFarm_plant:initialize(gx, gy, parent)
     self.offset_x = 0
     self.offset_y = 0
     self.tile = tile_quads["empty"]
-    local random_tile = love.math.random(1, 4)
-    -- if is_plant then
-    --     self.tile = farmland_tiles_stage_4[random_tile]
-    --     self.offset_y = -16
-    -- else
-    -- self.tile = farmland_tiles_stage_0[random_tile]
-    -- end
     for k, v in ipairs(_G.stockpile.node_list) do
         if v.gx == self.gx and v.gy == self.gy then
             table.remove(_G.stockpile.node_list, k)
             break
         end
     end
-    if _G.chunk_objects[self.cx][self.cy] == nil then
-        _G.chunk_objects[self.cx][self.cy] = {}
-    end
-    _G.chunk_objects[self.cx][self.cy][self] = self
     self.wheat_mature_counter = 0
     self.started_growing = false
-    -- addObjectAt(self.cx, self.cy, self.i, self.o, self)
+    table.insert(active_entities, self)
 end
 function WheatFarm_plant:render()
     Structure.render(self)
+end
+function WheatFarm_plant:animate(dt)
+    self:update(dt)
 end
 function WheatFarm_plant:update(dt)
     dt = dt or _G.dt
@@ -374,7 +366,6 @@ function WheatFarm:work(worker)
                     self.move_dir = "none"
                     self.count = 1
                 else
-                    print("Moved to state 1")
                     self.tiles_fully_grown = 0
                     self.tiles_sowed = 0
                     self.state = 1

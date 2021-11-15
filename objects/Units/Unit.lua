@@ -268,21 +268,27 @@ function Unit:update_position()
         self.last_chunk_vert_id = self.vert_id
         self.last_chunk_cx, self.last_chunk_cy = self.previous_cx, self.previous_cy
         self.last_chunk_instancemesh = self.instancemesh
-        local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
-            self.y + (self.offset_y or 0) + offset_y - _G.height_map[math.round(self.gx)][math.round(self.gy)])
-        local qx, qy, qw, qh = quad:getViewport()
-        _G.freeVertexFromTile(self.previous_cx, self.previous_cy, self.vert_id)
-        local new_vert = _G.getFreeVertexFromTile(self.cx, self.cy, self.i, self.o)
-        if new_vert then
-            self.vert_id = new_vert
-            self.need_new_vert_asap = false
-            self.instancemesh = object_mesh[self.cx][self.cy]
-            self.vert_data = {x, y, qx, qy, qw, qh}
-            self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
-            self.has_animation = true
-            self.changed_chunks = 1
+        if self.animation then
+            local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(
+                self.x + (self.offset_x or 0) + offset_x,
+                self.y + (self.offset_y or 0) + offset_y - _G.height_map[math.round(self.gx)][math.round(self.gy)])
+            local qx, qy, qw, qh = quad:getViewport()
+            _G.freeVertexFromTile(self.previous_cx, self.previous_cy, self.vert_id)
+            local new_vert = _G.getFreeVertexFromTile(self.cx, self.cy, self.i, self.o)
+            if new_vert then
+                self.vert_id = new_vert
+                self.need_new_vert_asap = false
+                self.instancemesh = object_mesh[self.cx][self.cy]
+                self.vert_data = {x, y, qx, qy, qw, qh}
+                self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
+                self.has_animation = true
+                self.changed_chunks = 1
+            else
+                self.need_new_vert_asap = true
+            end
         else
             self.need_new_vert_asap = true
+
         end
     end
     self.lrcx, self.lrcy, self.lrx, self.lry = self.cx, self.cy, xx, yy
