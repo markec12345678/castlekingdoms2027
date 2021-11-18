@@ -134,7 +134,7 @@ end
 object_image:setWrap("clampzero")
 
 function removeObjectAt(cx, cy, x, y, object_to_remove)
-    if x > 63 or y > 64 then
+    if x > 63 or y > 63 then
         print((debug.traceback("Error: trying to remove out of bounds unit", 1):gsub("\n[^\n]+$", "")))
         love.event.quit()
     end
@@ -166,7 +166,7 @@ function removeObjectFromClassAtGlobal(gx, gy, class_to_remove)
     end
     if type(object[cx][cy][x][y]) == 'table' then
         for index, current_object in ipairs(object[cx][cy][x][y]) do
-            if current_object.class.name == class_to_remove then
+            if current_object.class.name == class_to_remove or current_object.type == class_to_remove then
                 table.remove(object[cx][cy][x][y], index)
                 current_object:destroy()
                 break

@@ -88,7 +88,6 @@ function Bakery_cooking:initialize(gx, gy, parent, offset_x, offset_y)
     self.animation:pause()
     self.gx = gx
     self.gy = gy
-    _G.saw = self
     setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.qid = 0
