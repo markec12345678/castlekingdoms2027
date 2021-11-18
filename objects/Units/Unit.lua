@@ -257,7 +257,7 @@ function Unit:update_position()
     self.previous_cx, self.previous_cy = self.cx, self.cy
     self.gx, self.gy = self.fx * 0.001, self.fy * 0.001
     self.cx, self.cy = math.floor((self.gx) / chunk_width), math.floor((self.gy) / chunk_width)
-    local xx, yy = (math.round(self.gx)) % (chunk_width), (math.round(self.gy)) % (chunk_width)
+    local xx, yy = (math.floor(self.gx)) % (chunk_width), (math.floor(self.gy)) % (chunk_width)
     self.last_i, self.last_o = self.i, self.o
     self.i, self.o = xx, yy
     if self.previous_cx ~= self.cx or self.previous_cy ~= self.cy then
