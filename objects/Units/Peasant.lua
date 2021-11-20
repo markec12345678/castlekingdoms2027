@@ -132,11 +132,7 @@ function Peasant:update()
                 end
                 return
             else
-                -- TODO: Likes to throw an exception here, indexing a nil value at self.nd[self.count][1]
-                -- fixed by making the upper if check if last node is same as first
-                self.waypoint_x = self.nd[self.count][1]
-                self.waypoint_y = self.nd[self.count][2]
-                self.move_dir = "none"
+                self:set_next_waypoint()
             end
             self.count = self.count + 1
         end

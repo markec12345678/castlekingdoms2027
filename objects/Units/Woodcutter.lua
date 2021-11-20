@@ -326,9 +326,8 @@ function Woodcutter:update()
                     self.count = 1
                     return
                 else
-                    self.waypoint_x = self.nd[self.count][1]
-                    self.waypoint_y = self.nd[self.count][2]
-                    self.move_dir = "none"
+                    self:set_next_waypoint()
+
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to workplace with wood" then
@@ -340,9 +339,8 @@ function Woodcutter:update()
                     self.count = 1
                     return
                 else
-                    self.waypoint_x = self.nd[self.count][1]
-                    self.waypoint_y = self.nd[self.count][2]
-                    self.move_dir = "none"
+                    self:set_next_waypoint()
+
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to stockpile" then
@@ -357,9 +355,8 @@ function Woodcutter:update()
                     self.count = 1
                     return
                 else
-                    self.waypoint_x = self.nd[self.count][1]
-                    self.waypoint_y = self.nd[self.count][2]
-                    self.move_dir = "none"
+                    self:set_next_waypoint()
+
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to workplace" then
@@ -371,9 +368,8 @@ function Woodcutter:update()
                     self.count = 1
                     return
                 else
-                    self.waypoint_x = self.nd[self.count][1]
-                    self.waypoint_y = self.nd[self.count][2]
-                    self.move_dir = "none"
+                    self:set_next_waypoint()
+
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to waypoint" then
@@ -387,9 +383,8 @@ function Woodcutter:update()
                 elseif not (self.nd[self.count] and self.nd[self.count][1]) then
                     self.move_dir = "none"
                 else
-                    self.waypoint_x = self.nd[self.count][1]
-                    self.waypoint_y = self.nd[self.count][2]
-                    self.move_dir = "none"
+                    self:set_next_waypoint()
+
                 end
                 self.count = self.count + 1
             end

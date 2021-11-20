@@ -7,8 +7,8 @@ function Unit:initialize(gx, gy, type, no_path_state)
     self.endx = 0
     self.endy = 0
     self.last_i, self.last_o = self.i, self.o
-    self.fx = self.gx * 1000
-    self.fy = self.gy * 1000
+    self.fx = self.gx * 1000 + 500
+    self.fy = self.gy * 1000 + 500
     self.previous_fx, self.previous_fy = self.fx, self.fy
     self.previous_cx = cx
     self.previous_cy = cx
@@ -17,6 +17,8 @@ function Unit:initialize(gx, gy, type, no_path_state)
     self.waypoint_y = nil
     self.straight_walk_speed = 2400 * 10
     self.diagonal_walk_speed = 1500 * 10
+    self.unit_offset_x = 30
+    self.unit_offset_y = 57
     self.originalx = self.gx
     self.originaly = self.gy
     self.nd = {}
@@ -31,9 +33,20 @@ function Unit:initialize(gx, gy, type, no_path_state)
     self.no_path_state = no_path_state or "No path"
     self.need_new_vert_asap = false
     self.lrcx, self.lrcy, self.lrx, self.lry = 0, 0, 0, 0
-    addObjectAt(self.cx, self.cy, self.i, self.o, self)
+    _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
     table.insert(active_entities, self)
     self:calculate_position()
+end
+function Unit:set_next_waypoint()
+    self.waypoint_x = self.nd[self.count][1] + 0.5
+    self.waypoint_y = self.nd[self.count][2] + 0.5
+    self.move_dir = "none"
+end
+function Unit:isPositionAt(px, py)
+    if self.gx - 0.5 == px and self.gy - 0.5 == py then
+        return true
+    end
+    return false
 end
 function Unit:animate()
     if self == nil or self.animation == nil then
@@ -116,7 +129,8 @@ function Unit:animate()
     end
 end
 function Unit:requestPath(xx, yy)
-    _G.finder:requestPath(self.gx, self.gy, xx, yy)
+    self.startx, self.starty = math.floor(self.gx), math.floor(self.gy)
+    _G.finder:requestPath(self.startx, self.starty, xx, yy)
     self.has_move_dir = false
     self.endx = xx
     self.endy = yy
@@ -124,12 +138,12 @@ function Unit:requestPath(xx, yy)
 end
 function Unit:reached_path_end()
     if self.nd[1] == nil then
-        if self.gx == self.nd[0][1] and self.gy == self.nd[0][2] then
+        if self.gx == self.nd[0][1] + 0.5 and self.gy == self.nd[0][2] + 0.5 then
             return true
         end
     else
         local last_node = self.nd[#self.nd]
-        if self.gx == last_node[1] and self.gy == last_node[2] then
+        if self.gx == last_node[1] + 0.5 and self.gy == last_node[2] + 0.5 then
             return true
         end
     end
@@ -143,8 +157,7 @@ function Unit:pathfind()
         print("AVOIDED DISASTER, TODO: RETURN RESULT")
         return
     end
-    -- self.path = _G.finder:getPath(math.round(self.gx), math.round(self.gy), self.endx, self.endy)
-    self.path = _G.finder:getPath(self.gx, self.gy, self.endx, self.endy)
+    self.path = _G.finder:getPath(self.startx, self.starty, self.endx, self.endy)
     if self.path then
         if type(self.path) == "table" then
             self.nd = {}
@@ -169,8 +182,8 @@ function Unit:pathfind()
             end
             self.nd_len = last_count
             self.count = 1
-            self.waypoint_x = self.nd[0][1] -- fixme If spawning right next to a tree, will throw error here
-            self.waypoint_y = self.nd[0][2]
+            self.waypoint_x = self.nd[0][1] + 0.5
+            self.waypoint_y = self.nd[0][2] + 0.5
             self.move_dir = "none"
             self.path_state = "Found"
             return true
@@ -181,12 +194,10 @@ function Unit:pathfind()
     end
 end
 function Unit:calculate_position()
-    -- slightly magic numbers?
-    self.x = IsoX + ((self.fx * 0.001) % chunk_width - (self.fy * 0.001) % chunk_width) * tile_width * 0.5 - 31
-    self.y = IsoY + ((self.fx * 0.001) % chunk_width + (self.fy * 0.001) % chunk_width) * tile_height * 0.5 - 50
-    -- if self.last_x ~= self.x or self.last_y ~= self.y then
-    --     print(self.x, self.y, self.i, self.o, "chunk", self.cx, self.cy)
-    -- end
+    self.x = IsoX + ((self.fx * 0.001) % _G.chunk_width - (self.fy * 0.001) % _G.chunk_width) * tile_width * 0.5 -
+                 self.unit_offset_x
+    self.y = IsoY + ((self.fx * 0.001) % _G.chunk_width + (self.fy * 0.001) % _G.chunk_width) * tile_height * 0.5 -
+                 self.unit_offset_y
     self.last_x, self.last_y = self.x, self.y
 end
 function Unit:update_direction()
@@ -256,29 +267,30 @@ end
 function Unit:update_position()
     self.previous_cx, self.previous_cy = self.cx, self.cy
     self.gx, self.gy = self.fx * 0.001, self.fy * 0.001
-    self.cx, self.cy = math.floor((self.gx) / chunk_width), math.floor((self.gy) / chunk_width)
-    local xx, yy = (math.floor(self.gx)) % (chunk_width), (math.floor(self.gy)) % (chunk_width)
+    self.cx, self.cy = math.floor(math.floor(self.gx) / _G.chunk_width),
+        math.floor(math.floor(self.gy) / _G.chunk_width)
+    local xx, yy = math.floor((self.gx) % (_G.chunk_width)), math.floor((self.gy) % (_G.chunk_width))
     self.last_i, self.last_o = self.i, self.o
     self.i, self.o = xx, yy
     if self.previous_cx ~= self.cx or self.previous_cy ~= self.cy then
-        if not isObjectAt(self.cx, self.cy, xx, yy, self) then
-            addObjectAt(self.cx, self.cy, xx, yy, self)
-            removeObjectAt(self.previous_cx, self.previous_cy, self.originalx, self.originaly, self)
+        if not _G.isObjectAt(self.cx, self.cy, xx, yy, self) then
+            _G.addObjectAt(self.cx, self.cy, xx, yy, self)
+            _G.removeObjectAt(self.previous_cx, self.previous_cy, self.originalx, self.originaly, self)
         end
         self.last_chunk_vert_id = self.vert_id
         self.last_chunk_cx, self.last_chunk_cy = self.previous_cx, self.previous_cy
         self.last_chunk_instancemesh = self.instancemesh
         if self.animation then
             local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(
-                self.x + (self.offset_x or 0) + offset_x,
-                self.y + (self.offset_y or 0) + offset_y - _G.height_map[math.round(self.gx)][math.round(self.gy)])
+                self.x + (self.offset_x or 0) + _G.offset_x,
+                self.y + (self.offset_y or 0) + _G.offset_y - _G.height_map[math.floor(self.gx)][math.floor(self.gy)])
             local qx, qy, qw, qh = quad:getViewport()
             _G.freeVertexFromTile(self.previous_cx, self.previous_cy, self.vert_id)
             local new_vert = _G.getFreeVertexFromTile(self.cx, self.cy, self.i, self.o)
             if new_vert then
                 self.vert_id = new_vert
                 self.need_new_vert_asap = false
-                self.instancemesh = object_mesh[self.cx][self.cy]
+                self.instancemesh = _G.object_mesh[self.cx][self.cy]
                 self.vert_data = {x, y, qx, qy, qw, qh}
                 self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
                 self.has_animation = true
@@ -292,11 +304,11 @@ function Unit:update_position()
         end
     end
     self.lrcx, self.lrcy, self.lrx, self.lry = self.cx, self.cy, xx, yy
-    if self.originalx ~= math.round(self.gx) % chunk_width or self.originaly ~= math.round(self.gy) % chunk_width then
-        addObjectAt(self.cx, self.cy, xx, yy, self)
-        removeObjectAt(self.cx, self.cy, self.last_i, self.last_o, self)
-        self.originalx = math.round(self.gx) % chunk_width
-        self.originaly = math.round(self.gy) % chunk_width
+    if self.originalx ~= math.floor(self.gx % _G.chunk_width) or self.originaly ~= math.floor(self.gy % _G.chunk_width) then
+        _G.addObjectAt(self.cx, self.cy, xx, yy, self)
+        _G.removeObjectAt(self.cx, self.cy, self.last_i, self.last_o, self)
+        self.originalx = math.floor(self.gx % _G.chunk_width)
+        self.originaly = math.floor(self.gy % _G.chunk_width)
     end
     self:calculate_position()
 end

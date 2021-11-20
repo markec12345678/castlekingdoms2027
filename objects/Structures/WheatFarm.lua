@@ -258,20 +258,20 @@ function WheatFarm:work(worker)
         if self.state == 0 then
             self.processed_tiles = self.processed_tiles + 1
             local current_tile = self.land_tiles[self.processed_tiles][2]
-            if self.wheat_worker.gx == current_tile.gx and self.wheat_worker.gy == current_tile.gy - 2 then
+            if self.wheat_worker:isPositionAt(current_tile.gx, current_tile.gy - 2) then
                 self.wheat_worker.state = "Hoe walking to southern tile"
-            elseif self.wheat_worker.gx == current_tile.gx and self.wheat_worker.gy == current_tile.gy + 2 then
+            elseif self.wheat_worker:isPositionAt(current_tile.gx, current_tile.gy + 2) then
                 self.wheat_worker.state = "Hoe walking to northern tile"
-            elseif self.wheat_worker.gx + 1 == current_tile.gx and self.wheat_worker.gy - 2 == current_tile.gy then
+            elseif self.wheat_worker:isPositionAt(current_tile.gx - 1, current_tile.gy + 2) then
                 self.wheat_worker.state = "Hoe walking to northeastern tile"
                 self.wheat_worker.current_tile = current_tile
-            elseif self.wheat_worker.gx == current_tile.gx - 1 and self.wheat_worker.gy == current_tile.gy + 1 then
+            elseif self.wheat_worker:isPositionAt(current_tile.gx - 1, current_tile.gy + 1) then
                 self.wheat_worker.state = "Hoe walking to northeastern tile"
                 self.wheat_worker.current_tile = current_tile
-            elseif self.wheat_worker.gx == current_tile.gx - 2 and self.wheat_worker.gy == current_tile.gy + 1 then
+            elseif self.wheat_worker:isPositionAt(current_tile.gx - 2, current_tile.gy + 1) then
                 self.wheat_worker.state = "Hoe walking to northeastern tile"
                 self.wheat_worker.current_tile = current_tile
-            elseif self.wheat_worker.gx == current_tile.gx - 2 and self.wheat_worker.gy == current_tile.gy - 1 then
+            elseif self.wheat_worker:isPositionAt(current_tile.gx - 2, current_tile.gy - 1) then
                 self.wheat_worker.state = "Hoe walking to southeastern tile"
             else
                 self.wheat_worker:requestPath(current_tile.gx, current_tile.gy - 1)
@@ -293,20 +293,20 @@ function WheatFarm:work(worker)
             end
             self.processed_tiles = self.processed_tiles + 1
             local current_tile = self.land_tiles[self.processed_tiles][2]
-            if self.wheat_worker.gx == current_tile.gx and self.wheat_worker.gy == current_tile.gy - 2 then
+            if self.wheat_worker:isPositionAt(current_tile.gx, current_tile.gy - 2) then
                 self.wheat_worker.state = "Seed walking to southern tile"
-            elseif self.wheat_worker.gx == current_tile.gx and self.wheat_worker.gy == current_tile.gy + 2 then
+            elseif self.wheat_worker:isPositionAt(current_tile.gx, current_tile.gy + 2) then
                 self.wheat_worker.state = "Seed walking to northern tile"
-            elseif self.wheat_worker.gx + 1 == current_tile.gx and self.wheat_worker.gy - 2 == current_tile.gy then
+            elseif self.wheat_worker:isPositionAt(current_tile.gx - 1, current_tile.gy + 2) then
                 self.wheat_worker.state = "Seed walking to northeastern tile"
                 self.wheat_worker.current_tile = current_tile
-            elseif self.wheat_worker.gx == current_tile.gx - 1 and self.wheat_worker.gy == current_tile.gy + 1 then
+            elseif self.wheat_worker:isPositionAt(current_tile.gx - 1, current_tile.gy + 1) then
                 self.wheat_worker.state = "Seed walking to northeastern tile"
                 self.wheat_worker.current_tile = current_tile
-            elseif self.wheat_worker.gx == current_tile.gx - 2 and self.wheat_worker.gy == current_tile.gy + 1 then
+            elseif self.wheat_worker:isPositionAt(current_tile.gx - 2, current_tile.gy + 1) then
                 self.wheat_worker.state = "Seed walking to northeastern tile"
                 self.wheat_worker.current_tile = current_tile
-            elseif self.wheat_worker.gx == current_tile.gx - 2 and self.wheat_worker.gy == current_tile.gy - 1 then
+            elseif self.wheat_worker:isPositionAt(current_tile.gx - 2, current_tile.gy - 1) then
                 self.wheat_worker.state = "Seed walking to southeastern tile"
             else
                 self.wheat_worker:requestPath(current_tile.gx, current_tile.gy - 1)
@@ -323,20 +323,20 @@ function WheatFarm:work(worker)
         elseif self.state == 3 then
             self.processed_tiles = self.processed_tiles + 1
             local current_tile = self.land_tiles[self.processed_tiles][2]
-            if self.wheat_worker.gx == current_tile.gx and self.wheat_worker.gy == current_tile.gy - 2 then
+            if self.wheat_worker:isPositionAt(current_tile.gx, current_tile.gy - 2) then
                 self.wheat_worker.state = "Scythe walking to southern tile"
-            elseif self.wheat_worker.gx == current_tile.gx and self.wheat_worker.gy == current_tile.gy + 2 then
+            elseif self.wheat_worker:isPositionAt(current_tile.gx, current_tile.gy + 2) then
                 self.wheat_worker.state = "Scythe walking to northern tile"
-            elseif self.wheat_worker.gx + 1 == current_tile.gx and self.wheat_worker.gy - 2 == current_tile.gy then
+            elseif self.wheat_worker:isPositionAt(current_tile.gx - 1, current_tile.gy + 2) then
                 self.wheat_worker.state = "Scythe walking to northeastern tile"
                 self.wheat_worker.current_tile = current_tile
-            elseif self.wheat_worker.gx == current_tile.gx - 1 and self.wheat_worker.gy == current_tile.gy + 1 then
+            elseif self.wheat_worker:isPositionAt(current_tile.gx - 1, current_tile.gy + 1) then
                 self.wheat_worker.state = "Scythe walking to northeastern tile"
                 self.wheat_worker.current_tile = current_tile
-            elseif self.wheat_worker.gx == current_tile.gx - 2 and self.wheat_worker.gy == current_tile.gy + 1 then
+            elseif self.wheat_worker:isPositionAt(current_tile.gx - 2, current_tile.gy + 1) then
                 self.wheat_worker.state = "Scythe walking to northeastern tile"
                 self.wheat_worker.current_tile = current_tile
-            elseif self.wheat_worker.gx == current_tile.gx - 2 and self.wheat_worker.gy == current_tile.gy - 1 then
+            elseif self.wheat_worker:isPositionAt(current_tile.gx - 2, current_tile.gy - 1) then
                 self.wheat_worker.state = "Scythe walking to southeastern tile"
             else
                 self.wheat_worker:requestPath(current_tile.gx, current_tile.gy - 1)

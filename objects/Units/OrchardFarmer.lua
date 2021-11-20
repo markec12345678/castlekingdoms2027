@@ -162,9 +162,8 @@ function OrchardFarmer:update()
                     self.count = 1
                     return
                 else
-                    self.waypoint_x = self.nd[self.count][1]
-                    self.waypoint_y = self.nd[self.count][2]
-                    self.move_dir = "none"
+                    self:set_next_waypoint()
+
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to foodpile" then
@@ -184,9 +183,8 @@ function OrchardFarmer:update()
                     self.count = 1
                     return
                 else
-                    self.waypoint_x = self.nd[self.count][1]
-                    self.waypoint_y = self.nd[self.count][2]
-                    self.move_dir = "none"
+                    self:set_next_waypoint()
+
                 end
                 self.count = self.count + 1
             end

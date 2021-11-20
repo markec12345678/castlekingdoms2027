@@ -213,9 +213,8 @@ function Baker:update()
                     self.count = 1
                     return
                 else
-                    self.waypoint_x = self.nd[self.count][1]
-                    self.waypoint_y = self.nd[self.count][2]
-                    self.move_dir = "none"
+                    self:set_next_waypoint()
+
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to stockpile for flour" then
@@ -233,9 +232,8 @@ function Baker:update()
                         return
                     end
                 else
-                    self.waypoint_x = self.nd[self.count][1]
-                    self.waypoint_y = self.nd[self.count][2]
-                    self.move_dir = "none"
+                    self:set_next_waypoint()
+
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to granary" then
@@ -251,9 +249,8 @@ function Baker:update()
                     self.count = 1
                     return
                 else
-                    self.waypoint_x = self.nd[self.count][1]
-                    self.waypoint_y = self.nd[self.count][2]
-                    self.move_dir = "none"
+                    self:set_next_waypoint()
+
                 end
                 self.count = self.count + 1
             end
