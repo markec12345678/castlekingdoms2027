@@ -73,8 +73,8 @@ function Woodcutter:initialize(gx, gy, type)
                 self.move_dir = "none"
             end
             if tree_progress == 2 then
-                self.i = math.round((self.fx * 0.001)) % chunk_width
-                self.o = math.round((self.fy * 0.001)) % chunk_width
+                -- self.i = math.round((self.fx * 0.001)) % chunk_width
+                -- self.o = math.round((self.fy * 0.001)) % chunk_width
                 self.move_dir = "none"
                 self.count = 1
                 tree_progress = 3
@@ -256,6 +256,8 @@ function Woodcutter:dir_sub_update()
     end
 end
 function Woodcutter:update()
+    print(self.state, self.path_state, self.waypoint_x, self.waypoint_y, self.gx, self.gy, self.fx * 0.001,
+        self.fy * 0.001)
     self.eat_timer = self.eat_timer + 1
     self.store_timer = self.store_timer + 1
     if self.eat_timer > 3000 then
@@ -303,7 +305,7 @@ function Woodcutter:update()
             self:find_tree()
         elseif self.state == "Go to workplace" then
             self.gx, self.gy = math.round(self.gx), math.round(self.gy)
-            self.fx, self.fy = self.gx * 1000, self.gy * 1000
+            self.fx, self.fy = self.gx * 1000 + 500, self.gy * 1000 + 500
             self:requestPath(self.workplace.gx + 1, self.workplace.gy + 3)
             self.state = "Going to workplace"
             self.move_dir = "none"
@@ -327,7 +329,6 @@ function Woodcutter:update()
                     return
                 else
                     self:set_next_waypoint()
-
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to workplace with wood" then
@@ -340,7 +341,6 @@ function Woodcutter:update()
                     return
                 else
                     self:set_next_waypoint()
-
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to stockpile" then
@@ -356,7 +356,6 @@ function Woodcutter:update()
                     return
                 else
                     self:set_next_waypoint()
-
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to workplace" then
@@ -369,7 +368,6 @@ function Woodcutter:update()
                     return
                 else
                     self:set_next_waypoint()
-
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to waypoint" then
@@ -380,11 +378,8 @@ function Woodcutter:update()
                     self.move_dir = "none"
                     self.count = 1
                     return
-                elseif not (self.nd[self.count] and self.nd[self.count][1]) then
-                    self.move_dir = "none"
                 else
                     self:set_next_waypoint()
-
                 end
                 self.count = self.count + 1
             end

@@ -33,6 +33,8 @@ _G.terrain_biome = {
     ["pitch_grass"] = "pitch_grass",
     ["mountain_grass"] = "mountain_grass_b",
     ["beach"] = "beach",
+    ["sea"] = "sea_deep",
+    ["sea_beach"] = "sea_beach",
     ["abundant_grass_stones_white"] = "land_stones_1_white_rock"
 }
 local terrain = _G.terrain
@@ -239,36 +241,84 @@ local function update_terrain(chunk_x, chunk_y)
                 end
                 if current_biome == _G.terrain_biome.abundant_grass_stones_white then
                     upper_border = 16
+                elseif current_biome == _G.terrain_biome.sea then
+                    upper_border = 8
                 end
                 local rand = love.math.random(1, upper_border)
-                local rand2 = love.math.random(1, upper_border)
-                local rand3 = love.math.random(1, upper_border)
-                rand = math.max(rand, rand2, rand3)
+                if current_biome ~= _G.terrain_biome.abundant_grass_stones_white and current_biome ~=
+                    _G.terrain_biome.sea then
+                    local rand2 = love.math.random(1, upper_border)
+                    local rand3 = love.math.random(1, upper_border)
+                    rand = math.max(rand, rand2, rand3)
+                end
                 local tile_key
                 local l_offset_x, l_offset_y = 0, 0
-                if rand <= 16 then
-                    tile_key = terrain[cx][cy][i][o] .. "_1x1 (" .. tostring(rand) .. ")"
-                elseif rand > 16 and rand <= 20 then
-                    l_offset_x = -16 - 4
-                    multi_tile_terrain(2, keys_to_skip, cx, cy, i, o, current_biome)
-                    tile_key = terrain[cx][cy][i][o] .. "_2x2 (" .. tostring(21 - rand) .. ")"
-                    local _, _, lw, lh = tile_quads[tile_key]:getViewport()
-                    l_offset_y = 32 - lh
-                    l_offset_x = l_offset_x + 62 - lw
-                elseif rand > 20 and rand <= 24 then
-                    l_offset_x = -32
-                    multi_tile_terrain(3, keys_to_skip, cx, cy, i, o, current_biome)
-                    tile_key = terrain[cx][cy][i][o] .. "_3x3 (" .. tostring(25 - rand) .. ")"
-                    local _, _, lw, lh = tile_quads[tile_key]:getViewport()
-                    l_offset_y = 48 - lh
-                    l_offset_x = l_offset_x + 94 - lw
+                if current_biome == _G.terrain_biome.sea_beach then
+                    local gx = chunk_width * cx + i
+                    local gy = chunk_width * cy + o
+                    local north = _G.getTerrainBiomeAt(gx, gy - 1) == _G.terrain_biome.sea
+                    local south = _G.getTerrainBiomeAt(gx, gy + 1) == _G.terrain_biome.sea
+                    local east = _G.getTerrainBiomeAt(gx + 1, gy) == _G.terrain_biome.sea
+                    local west = _G.getTerrainBiomeAt(gx - 1, gy) == _G.terrain_biome.sea
+                    local ne = _G.getTerrainBiomeAt(gx + 1, gy - 1) == _G.terrain_biome.sea
+                    local nw = _G.getTerrainBiomeAt(gx - 1, gy - 1) == _G.terrain_biome.sea
+                    local se = _G.getTerrainBiomeAt(gx + 1, gy + 1) == _G.terrain_biome.sea
+                    local sw = _G.getTerrainBiomeAt(gx - 1, gy + 1) == _G.terrain_biome.sea
+                    tile_key = "yellow_grass_1x1 (1)"
+                    if north then
+                        if east then
+                            tile_key = "sea_beach_sw_outside (" .. tostring(love.math.random(1, 2)) .. ")"
+                        elseif west then
+                            tile_key = "sea_beach_se_outside (" .. tostring(love.math.random(1, 2)) .. ")"
+                        else
+                            tile_key = "sea_beach_s (" .. tostring(love.math.random(1, 4)) .. ")"
+                        end
+                    elseif south then
+                        if east then
+                            tile_key = "sea_beach_nw_outside (" .. tostring(love.math.random(1, 2)) .. ")"
+                        elseif west then
+                            tile_key = "sea_beach_ne_outside (" .. tostring(love.math.random(1, 2)) .. ")"
+                        else
+                            tile_key = "sea_beach_n (" .. tostring(love.math.random(1, 4)) .. ")"
+                        end
+                    elseif east then
+                        tile_key = "sea_beach_w (" .. tostring(love.math.random(1, 4)) .. ")"
+                    elseif west then
+                        tile_key = "sea_beach_e (" .. tostring(love.math.random(1, 4)) .. ")"
+                    elseif ne then
+                        tile_key = "sea_beach_sw_inside (" .. tostring(love.math.random(1, 2)) .. ")"
+                    elseif nw then
+                        tile_key = "sea_beach_se_inside (" .. tostring(love.math.random(1, 2)) .. ")"
+                    elseif se then
+                        tile_key = "sea_beach_nw_inside (" .. tostring(love.math.random(1, 2)) .. ")"
+                    elseif sw then
+                        tile_key = "sea_beach_ne_inside (" .. tostring(love.math.random(1, 2)) .. ")"
+                    end
                 else
-                    l_offset_x = -32 - 16
-                    multi_tile_terrain(4, keys_to_skip, cx, cy, i, o, current_biome)
-                    tile_key = terrain[cx][cy][i][o] .. "_4x4 (" .. tostring(29 - rand) .. ")"
-                    local _, _, lw, lh = tile_quads[tile_key]:getViewport()
-                    l_offset_y = 64 - lh
-                    l_offset_x = l_offset_x + 124 - lw
+                    if rand <= 16 then
+                        tile_key = terrain[cx][cy][i][o] .. "_1x1 (" .. tostring(rand) .. ")"
+                    elseif rand > 16 and rand <= 20 then
+                        l_offset_x = -16 - 4
+                        multi_tile_terrain(2, keys_to_skip, cx, cy, i, o, current_biome)
+                        tile_key = terrain[cx][cy][i][o] .. "_2x2 (" .. tostring(21 - rand) .. ")"
+                        local _, _, lw, lh = tile_quads[tile_key]:getViewport()
+                        l_offset_y = 32 - lh
+                        l_offset_x = l_offset_x + 62 - lw
+                    elseif rand > 20 and rand <= 24 then
+                        l_offset_x = -32
+                        multi_tile_terrain(3, keys_to_skip, cx, cy, i, o, current_biome)
+                        tile_key = terrain[cx][cy][i][o] .. "_3x3 (" .. tostring(25 - rand) .. ")"
+                        local _, _, lw, lh = tile_quads[tile_key]:getViewport()
+                        l_offset_y = 48 - lh
+                        l_offset_x = l_offset_x + 94 - lw
+                    else
+                        l_offset_x = -32 - 16
+                        multi_tile_terrain(4, keys_to_skip, cx, cy, i, o, current_biome)
+                        tile_key = terrain[cx][cy][i][o] .. "_4x4 (" .. tostring(29 - rand) .. ")"
+                        local _, _, lw, lh = tile_quads[tile_key]:getViewport()
+                        l_offset_y = 64 - lh
+                        l_offset_x = l_offset_x + 124 - lw
+                    end
                 end
                 terrain_tile[cx][cy][i][o] = {tile_quads[tile_key], _G.IsoX + (i - o) * tile_width * 0.5 + l_offset_x,
                                               _G.IsoY + (i + o) * tile_height * 0.5 + l_offset_y, 0, l_scale, l_scale}
@@ -320,37 +370,85 @@ local function update_terrain(chunk_x, chunk_y)
                 end
                 if current_biome == _G.terrain_biome.abundant_grass_stones_white then
                     upper_border = 16
+                elseif current_biome == _G.terrain_biome.sea then
+                    upper_border = 8
                 end
                 local rand = love.math.random(1, upper_border)
-                local rand2 = love.math.random(1, upper_border)
-                local rand3 = love.math.random(1, upper_border)
-                rand = math.max(rand, rand2, rand3)
+                if current_biome ~= _G.terrain_biome.abundant_grass_stones_white and current_biome ~=
+                    _G.terrain_biome.sea then
+                    local rand2 = love.math.random(1, upper_border)
+                    local rand3 = love.math.random(1, upper_border)
+                    rand = math.max(rand, rand2, rand3)
+                end
                 local tile_key
                 local l_offset_x, l_offset_y = 0, 0
-                if rand <= 16 then
-                    tile_key = terrain[cx][cy][i][o] .. "_1x1 (" .. tostring(rand) .. ")"
-                elseif rand > 16 and rand <= 20 then
-                    l_offset_x = -16 - 4
-                    multi_tile_terrain(2, keys_to_skip, cx, cy, i, o, current_biome)
-                    tile_key = terrain[cx][cy][i][o] .. "_2x2 (" .. tostring(21 - rand) .. ")"
-                    local _, _, lw, lh = tile_quads[tile_key]:getViewport()
-                    l_offset_y = 32 - lh
-                    l_offset_x = l_offset_x + 62 - lw
-                elseif rand > 20 and rand <= 24 then
-                    l_offset_x = -32
-                    multi_tile_terrain(3, keys_to_skip, cx, cy, i, o, current_biome)
-                    tile_key = terrain[cx][cy][i][o] .. "_3x3 (" .. tostring(25 - rand) .. ")"
-
-                    local _, _, lw, lh = tile_quads[tile_key]:getViewport()
-                    l_offset_y = 48 - lh
-                    l_offset_x = l_offset_x + 94 - lw
+                if current_biome == _G.terrain_biome.sea_beach then
+                    local gx = chunk_width * cx + i
+                    local gy = chunk_width * cy + o
+                    local north = _G.getTerrainBiomeAt(gx, gy - 1) == _G.terrain_biome.sea
+                    local south = _G.getTerrainBiomeAt(gx, gy + 1) == _G.terrain_biome.sea
+                    local east = _G.getTerrainBiomeAt(gx + 1, gy) == _G.terrain_biome.sea
+                    local west = _G.getTerrainBiomeAt(gx - 1, gy) == _G.terrain_biome.sea
+                    local ne = _G.getTerrainBiomeAt(gx + 1, gy - 1) == _G.terrain_biome.sea
+                    local nw = _G.getTerrainBiomeAt(gx - 1, gy - 1) == _G.terrain_biome.sea
+                    local se = _G.getTerrainBiomeAt(gx + 1, gy + 1) == _G.terrain_biome.sea
+                    local sw = _G.getTerrainBiomeAt(gx - 1, gy + 1) == _G.terrain_biome.sea
+                    tile_key = "yellow_grass_1x1 (1)"
+                    if north then
+                        if east then
+                            tile_key = "sea_beach_sw_outside (" .. tostring(love.math.random(1, 2)) .. ")"
+                        elseif west then
+                            tile_key = "sea_beach_se_outside (" .. tostring(love.math.random(1, 2)) .. ")"
+                        else
+                            tile_key = "sea_beach_s (" .. tostring(love.math.random(1, 4)) .. ")"
+                        end
+                    elseif south then
+                        if east then
+                            tile_key = "sea_beach_nw_outside (" .. tostring(love.math.random(1, 2)) .. ")"
+                        elseif west then
+                            tile_key = "sea_beach_ne_outside (" .. tostring(love.math.random(1, 2)) .. ")"
+                        else
+                            tile_key = "sea_beach_n (" .. tostring(love.math.random(1, 4)) .. ")"
+                        end
+                    elseif east then
+                        tile_key = "sea_beach_w (" .. tostring(love.math.random(1, 4)) .. ")"
+                    elseif west then
+                        tile_key = "sea_beach_e (" .. tostring(love.math.random(1, 4)) .. ")"
+                    elseif ne then
+                        tile_key = "sea_beach_sw_inside (" .. tostring(love.math.random(1, 2)) .. ")"
+                    elseif nw then
+                        tile_key = "sea_beach_se_inside (" .. tostring(love.math.random(1, 2)) .. ")"
+                    elseif se then
+                        tile_key = "sea_beach_nw_inside (" .. tostring(love.math.random(1, 2)) .. ")"
+                    elseif sw then
+                        tile_key = "sea_beach_ne_inside (" .. tostring(love.math.random(1, 2)) .. ")"
+                    end
                 else
-                    l_offset_x = -32 - 16
-                    multi_tile_terrain(4, keys_to_skip, cx, cy, i, o, current_biome)
-                    tile_key = terrain[cx][cy][i][o] .. "_4x4 (" .. tostring(29 - rand) .. ")"
-                    local _, _, lw, lh = tile_quads[tile_key]:getViewport()
-                    l_offset_y = 64 - lh
-                    l_offset_x = l_offset_x + 124 - lw
+                    if rand <= 16 then
+                        tile_key = terrain[cx][cy][i][o] .. "_1x1 (" .. tostring(rand) .. ")"
+                    elseif rand > 16 and rand <= 20 then
+                        l_offset_x = -16 - 4
+                        multi_tile_terrain(2, keys_to_skip, cx, cy, i, o, current_biome)
+                        tile_key = terrain[cx][cy][i][o] .. "_2x2 (" .. tostring(21 - rand) .. ")"
+                        local _, _, lw, lh = tile_quads[tile_key]:getViewport()
+                        l_offset_y = 32 - lh
+                        l_offset_x = l_offset_x + 62 - lw
+                    elseif rand > 20 and rand <= 24 then
+                        l_offset_x = -32
+                        multi_tile_terrain(3, keys_to_skip, cx, cy, i, o, current_biome)
+                        tile_key = terrain[cx][cy][i][o] .. "_3x3 (" .. tostring(25 - rand) .. ")"
+
+                        local _, _, lw, lh = tile_quads[tile_key]:getViewport()
+                        l_offset_y = 48 - lh
+                        l_offset_x = l_offset_x + 94 - lw
+                    else
+                        l_offset_x = -32 - 16
+                        multi_tile_terrain(4, keys_to_skip, cx, cy, i, o, current_biome)
+                        tile_key = terrain[cx][cy][i][o] .. "_4x4 (" .. tostring(29 - rand) .. ")"
+                        local _, _, lw, lh = tile_quads[tile_key]:getViewport()
+                        l_offset_y = 64 - lh
+                        l_offset_x = l_offset_x + 124 - lw
+                    end
                 end
                 terrain_tile[cx][cy][i][o] = {tile_quads[tile_key], _G.IsoX + (i - o) * tile_width * 0.5 + l_offset_x,
                                               _G.IsoY + (i + o) * tile_height * 0.5 + l_offset_y, 0, l_scale, l_scale}
@@ -401,8 +499,27 @@ local function genTerrain(cx, cy)
     terrain[cx][cy] = newAutotable(2)
     for i = 0, chunk_width - 1, 1 do
         for o = 0, chunk_height - 1, 1 do
+            local gx = chunk_width * cx + i
+            local gy = chunk_width * cy + o
+            terrain[cx][cy][i][o] = _G.terrain_biome.abundant_grass
             schedule_terrain_update(cx, cy, i, o)
-            terrain[cx][cy][i][o] = terrain_biome.abundant_grass
+            -- if _G.lake_gen[gx + 1][gy + 1] ~= false then
+            --     local border = false
+            --     for lx = -1, 1, 1 do
+            --         for ly = -1, 1, 1 do
+            --             if not (lx == 0 and ly == 0) then
+            --                 if _G.lake_gen[gx + lx + 1] and _G.lake_gen[gx + lx + 1][gy + ly + 1] == false then
+            --                     border = true
+            --                 end
+            --             end
+            --         end
+            --     end
+            --     if border then
+            --         terrain[cx][cy][i][o] = _G.terrain_biome.sea_beach
+            --     else
+            --         terrain[cx][cy][i][o] = _G.terrain_biome.sea
+            --     end
+            -- end
         end
     end
     genObjects(cx, cy) -- TODO OPTIMIZE: move genObjects in this loop so we don't loop twice!
@@ -447,6 +564,16 @@ function _G.terrainSetTileAt(gx, gy, biome, from)
             _G.terrain[cx][cy][i][o] = biome
             schedule_terrain_update(cx, cy, i, o)
         end
+    end
+end
+
+function _G.getTerrainBiomeAt(gx, gy)
+    local i = (gx) % (chunk_width)
+    local o = (gy) % (chunk_width)
+    local cx = math.floor(gx / chunk_width)
+    local cy = math.floor(gy / chunk_width)
+    if _G.terrain[cx] and _G.terrain[cx][cy] then
+        return _G.terrain[cx][cy][i][o]
     end
 end
 
@@ -613,6 +740,63 @@ local function genIron()
     return total_iron
 end
 
+local function genLake()
+    _G.lake_gen = {}
+    local total_lake = 0
+    for x = 1, math.round((_G.chunks_wide * _G.chunk_width)) + 1 do
+        lake_gen[x] = {}
+        for y = 1, math.round((_G.chunks_high * _G.chunk_height)) + 1 do
+            local Value = love.math.random(0, 100)
+            if Value < 50 then
+                if true then
+                    lake_gen[x][y] = true
+                    total_lake = total_lake + 1
+                else
+                    lake_gen[x][y] = false
+                end
+            else
+                lake_gen[x][y] = false
+            end
+        end
+    end
+
+    local lake_update_counter = 0
+    local lake_update_limit = 30
+
+    repeat
+        for x = 1, #lake_gen do
+            for y = 1, #lake_gen[x] do
+                local tile = lake_gen[x][y]
+                local neighbors_alive = 0
+                for I = 0, 9 do
+                    if I ~= 4 then
+                        offset_x = math.floor(I % 3) - 1
+                        offset_y = math.floor(I / 3) - 1
+
+                        if lake_gen[x + offset_x] and lake_gen[x + offset_x][y + offset_y] and
+                            lake_gen[x + offset_x][y + offset_y] then
+                            neighbors_alive = neighbors_alive + 1
+                        end
+                    end
+                end
+
+                if tile and neighbors_alive < 4 then
+                    lake_gen[x][y] = false
+                    total_lake = total_lake - 1
+                end
+                if not tile and neighbors_alive > 5 then
+                    lake_gen[x][y] = true
+                    total_lake = total_lake + 1
+                end
+            end
+        end
+
+        lake_update_counter = lake_update_counter + 1
+    until (lake_update_counter == lake_update_limit)
+    -- print("lake in map", total_lake)
+    return total_lake
+end
+
 local function genMap()
     genForest()
     repeat
@@ -623,6 +807,7 @@ local function genMap()
         _G.iron_gen = {}
         local iron = genIron()
     until iron > 100 and iron < 250
+    -- genLake()
     for i = 0, _G.chunks_wide - 1 do
         for o = 0, _G.chunks_high - 1 do -- usually both are 32 (jumper is set like that with magic numbers)
             genTerrain(i, o)

@@ -267,8 +267,8 @@ function WoodcutterHut:send_to_stockpile()
     self.worker.animated = true
     self.worker.gx = self.gx + 1
     self.worker.gy = self.gy + 3
-    self.worker.fx = (self.gx + 1) * 1000
-    self.worker.fy = (self.gy + 3) * 1000
+    self.worker.fx = (self.gx + 1) * 1000 + 500
+    self.worker.fy = (self.gy + 3) * 1000 + 500
     i = (self.worker.gx) % (chunk_width)
     o = (self.worker.gy) % (chunk_width)
     cx = math.floor(self.worker.gx / chunk_width)

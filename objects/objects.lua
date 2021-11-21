@@ -563,6 +563,16 @@ local function mousepressed(x, y, button)
         --     WoodenWall:new(press.gx, press.gy)
         -- end
     elseif button == 2 then
+        -- for i = -2, 2 do
+        --     for o = -2, 2 do
+        --         if i == 2 or i == -2 or o == 2 or o == -2 then
+        --             _G.terrainSetTileAt(press.gx + i, press.gy + o, _G.terrain_biome.sea_beach,
+        --                 _G.terrain_biome.abundant_grass)
+        --         else
+        --             _G.terrainSetTileAt(press.gx + i, press.gy + o, _G.terrain_biome.sea)
+        --         end
+        --     end
+        -- end
         -- _G.saw.state = "Going to waypoint"
         -- _G.saw.nd = {}
         -- _G.saw.waypoint_x, _G.saw.waypoint_y = nil, nil
@@ -625,6 +635,22 @@ end
 
 local first_update = true
 local function update(dt)
+    if love.mouse.isDown(2) then
+        local MX, MY = love.mouse.getPosition()
+        MX = (MX - _G.width / 2) / _G.scale_x + _G.view_xview - 16
+        MY = (MY - _G.height / 2) / _G.scale_x + _G.view_yview - 8
+        local pgx = math.round(ScreenToIsoX(MX, MY))
+        local pgy = math.round(ScreenToIsoY(MX, MY))
+        for i = -2, 2 do
+            for o = -2, 2 do
+                if i == 2 or i == -2 or o == 2 or o == -2 then
+                    _G.terrainSetTileAt(pgx + i, pgy + o, _G.terrain_biome.sea_beach, _G.terrain_biome.abundant_grass)
+                else
+                    _G.terrainSetTileAt(pgx + i, pgy + o, _G.terrain_biome.sea)
+                end
+            end
+        end
+    end
     _G.JobController:make_worker()
     prof.push("CUL")
     if previous_chunk_x ~= _G.current_chunk_x or previous_chunk_y ~= _G.current_chunk_y or _G.top_left_chunk_x ~=
