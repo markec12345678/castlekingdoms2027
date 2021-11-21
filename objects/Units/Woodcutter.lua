@@ -256,8 +256,6 @@ function Woodcutter:dir_sub_update()
     end
 end
 function Woodcutter:update()
-    print(self.state, self.path_state, self.waypoint_x, self.waypoint_y, self.gx, self.gy, self.fx * 0.001,
-        self.fy * 0.001)
     self.eat_timer = self.eat_timer + 1
     self.store_timer = self.store_timer + 1
     if self.eat_timer > 3000 then
