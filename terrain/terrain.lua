@@ -27,7 +27,7 @@ local shadowmap = newAutotable(4)
 local terrain_tile = newAutotable(4)
 local imageW, imageH = terrain_image:getWidth(), terrain_image:getHeight()
 _G.terrain_biome = {
-    ["abundant_grass"] = "dirt",
+    ["abundant_grass"] = "abundant_grass",
     ["dirt"] = "dirt",
     ["scarce_grass"] = "scarce_grass",
     ["yellow_grass"] = "yellow_grass",
@@ -51,105 +51,192 @@ function getLocationDistance()
     return location_distance or 0
 end
 
-local function check_max_size_biome(biome, cx, cy, i, o, keys_to_skip)
-    local current_height = heightmap[cx][cy][i][o]
+local function check_max_size_biome(biome, cx, cy, i, o, keys_to_skip, verbose)
+    local current_height = 0
+    if shadowmap[cx][cy][i][o] ~= 0 and shadowmap[cx][cy][i][o] ~= nil then
+        -- if verbose then
+        --     print("Gotcha 1", shadowmap[cx][cy][i][o])
+        -- end
+        return 1
+    end
     if i + 1 >= chunk_width - 1 or o + 1 >= chunk_height - 1 then
+        -- if verbose then
+        --     print("Gotcha 2", i, o)
+        -- end
         return 1
     end
     if _G.terrain[cx][cy][i + 0][o + 1] ~= biome or keys_to_skip[cx][cy][i + 0][o + 1] then
+        -- if verbose then
+        --     print("Gotcha 3", _G.terrain[cx][cy][i + 0][o + 1] ~= biome, inspect(keys_to_skip[cx][cy][i + 0][o + 1]))
+        -- end
         return 1
     end
-    if heightmap[cx][cy][i + 0][o + 1] ~= current_height then
+    if heightmap[cx][cy][i + 0][o + 1] ~= nil and heightmap[cx][cy][i + 0][o + 1] ~= current_height then
+        -- if verbose then
+        --     print("Gotcha 4", heightmap[cx][cy][i][o + 1])
+        -- end
+        return 1
+    end
+    if shadowmap[cx][cy][i + 0][o + 1] ~= 0 and shadowmap[cx][cy][i + 0][o + 1] ~= nil then
+        -- if verbose then
+        --     print("Gotcha 5", shadowmap[cx][cy][i][o + 1])
+        -- end
         return 1
     end
     if _G.terrain[cx][cy][i + 1][o + 1] ~= biome or keys_to_skip[cx][cy][i + 1][o + 1] then
+        -- if verbose then
+        --     print("Gotcha 6")
+        -- end
         return 1
     end
-    if heightmap[cx][cy][i + 1][o + 1] ~= current_height then
+    if heightmap[cx][cy][i + 1][o + 1] ~= nil and heightmap[cx][cy][i + 1][o + 1] ~= current_height then
+        -- if verbose then
+        --     print("Gotcha 7", heightmap[cx][cy][i + 1][o + 1])
+        -- end
+        return 1
+    end
+    if shadowmap[cx][cy][i + 1][o + 1] ~= 0 and shadowmap[cx][cy][i + 1][o + 1] ~= nil then
+        -- if verbose then
+        --     print("Gotcha 8", shadowmap[cx][cy][i + 1][o + 1])
+        -- end
         return 1
     end
     if _G.terrain[cx][cy][i + 1][o + 0] ~= biome or keys_to_skip[cx][cy][i + 1][o + 0] then
+        -- if verbose then
+        --     print("Gotcha 9")
+        -- end
         return 1
     end
-    if heightmap[cx][cy][i + 1][o + 0] ~= current_height then
+    if heightmap[cx][cy][i + 1][o + 0] ~= nil and heightmap[cx][cy][i + 1][o + 0] ~= current_height then
+        -- if verbose then
+        --     print("Gotcha 10", heightmap[cx][cy][i + 1][o + 0])
+        -- end
+        return 1
+    end
+    if shadowmap[cx][cy][i + 1][o + 0] ~= 0 and shadowmap[cx][cy][i + 1][o + 0] ~= nil then
+        -- if verbose then
+        --     print("Gotcha 11", shadowmap[cx][cy][i + 1][o + 0])
+        -- end
         return 1
     end
     if i + 2 >= chunk_width - 1 or o + 2 >= chunk_height - 1 then
         return 2
     end
+    if shadowmap[cx][cy][i + 2][o + 2] ~= 0 and shadowmap[cx][cy][i + 2][o + 2] ~= nil then
+        return 2
+    end
     if _G.terrain[cx][cy][i + 2][o + 0] ~= biome or keys_to_skip[cx][cy][i + 2][o + 0] then
         return 2
     end
-    if heightmap[cx][cy][i + 2][o + 0] ~= current_height then
+    if heightmap[cx][cy][i + 2][o + 0] ~= nil and heightmap[cx][cy][i + 2][o + 0] ~= current_height then
+        return 2
+    end
+    if shadowmap[cx][cy][i + 2][o + 0] ~= 0 and shadowmap[cx][cy][i + 2][o + 0] ~= nil then
         return 2
     end
     if _G.terrain[cx][cy][i + 2][o + 1] ~= biome or keys_to_skip[cx][cy][i + 2][o + 1] then
         return 2
     end
-    if heightmap[cx][cy][i + 2][o + 1] ~= current_height then
+    if heightmap[cx][cy][i + 2][o + 1] ~= nil and heightmap[cx][cy][i + 2][o + 1] ~= current_height then
+        return 2
+    end
+    if shadowmap[cx][cy][i + 2][o + 1] ~= 0 and shadowmap[cx][cy][i + 2][o + 1] ~= nil then
         return 2
     end
     if _G.terrain[cx][cy][i + 2][o + 2] ~= biome or keys_to_skip[cx][cy][i + 2][o + 2] then
         return 2
     end
-    if heightmap[cx][cy][i + 2][o + 2] ~= current_height then
+    if heightmap[cx][cy][i + 2][o + 2] ~= nil and heightmap[cx][cy][i + 2][o + 2] ~= current_height then
+        return 2
+    end
+    if shadowmap[cx][cy][i + 2][o + 2] ~= 0 and shadowmap[cx][cy][i + 2][o + 2] ~= nil then
         return 2
     end
     if _G.terrain[cx][cy][i + 0][o + 2] ~= biome or keys_to_skip[cx][cy][i + 0][o + 2] then
         return 2
     end
-    if heightmap[cx][cy][i + 0][o + 2] ~= current_height then
+    if heightmap[cx][cy][i + 0][o + 2] ~= nil and heightmap[cx][cy][i + 0][o + 2] ~= current_height then
+        return 2
+    end
+    if shadowmap[cx][cy][i + 0][o + 2] ~= 0 and shadowmap[cx][cy][i + 0][o + 2] ~= nil then
         return 2
     end
     if _G.terrain[cx][cy][i + 1][o + 2] ~= biome or keys_to_skip[cx][cy][i + 1][o + 2] then
         return 2
     end
-    if heightmap[cx][cy][i + 1][o + 2] ~= current_height then
+    if heightmap[cx][cy][i + 1][o + 2] ~= nil and heightmap[cx][cy][i + 1][o + 2] ~= current_height then
+        return 2
+    end
+    if shadowmap[cx][cy][i + 1][o + 2] ~= 0 and shadowmap[cx][cy][i + 1][o + 2] ~= nil then
         return 2
     end
     if i + 3 >= chunk_width - 1 or o + 3 >= chunk_height - 1 then
         return 3
     end
+    if shadowmap[cx][cy][i + 3][o + 3] ~= 0 and shadowmap[cx][cy][i + 3][o + 3] ~= nil then
+        return 1
+    end
     if _G.terrain[cx][cy][i + 3][o + 0] ~= biome or keys_to_skip[cx][cy][i + 3][o + 0] then
         return 3
     end
-    if heightmap[cx][cy][i + 3][o + 0] ~= current_height then
+    if heightmap[cx][cy][i + 3][o + 0] ~= nil and heightmap[cx][cy][i + 3][o + 0] ~= current_height then
+        return 3
+    end
+    if shadowmap[cx][cy][i + 3][o + 0] ~= 0 and shadowmap[cx][cy][i + 3][o + 0] ~= nil then
         return 3
     end
     if _G.terrain[cx][cy][i + 3][o + 1] ~= biome or keys_to_skip[cx][cy][i + 3][o + 1] then
         return 3
     end
-    if heightmap[cx][cy][i + 3][o + 1] ~= current_height then
+    if heightmap[cx][cy][i + 3][o + 1] ~= nil and heightmap[cx][cy][i + 3][o + 1] ~= current_height then
+        return 3
+    end
+    if shadowmap[cx][cy][i + 3][o + 1] ~= 0 and shadowmap[cx][cy][i + 3][o + 1] ~= nil then
         return 3
     end
     if _G.terrain[cx][cy][i + 3][o + 2] ~= biome or keys_to_skip[cx][cy][i + 3][o + 2] then
         return 3
     end
-    if heightmap[cx][cy][i + 3][o + 2] ~= current_height then
+    if heightmap[cx][cy][i + 3][o + 2] ~= nil and heightmap[cx][cy][i + 3][o + 2] ~= current_height then
+        return 3
+    end
+    if shadowmap[cx][cy][i + 3][o + 2] ~= 0 and shadowmap[cx][cy][i + 3][o + 2] ~= nil then
         return 3
     end
     if _G.terrain[cx][cy][i + 3][o + 3] ~= biome or keys_to_skip[cx][cy][i + 3][o + 3] then
         return 3
     end
-    if heightmap[cx][cy][i + 3][o + 3] ~= current_height then
+    if heightmap[cx][cy][i + 3][o + 3] ~= nil and heightmap[cx][cy][i + 3][o + 3] ~= current_height then
+        return 3
+    end
+    if shadowmap[cx][cy][i + 3][o + 3] ~= 0 and shadowmap[cx][cy][i + 3][o + 3] ~= nil then
         return 3
     end
     if _G.terrain[cx][cy][i + 0][o + 3] ~= biome or keys_to_skip[cx][cy][i + 0][o + 3] then
         return 3
     end
-    if heightmap[cx][cy][i + 0][o + 3] ~= current_height then
+    if heightmap[cx][cy][i + 0][o + 3] ~= nil and heightmap[cx][cy][i + 0][o + 3] ~= current_height then
+        return 3
+    end
+    if shadowmap[cx][cy][i + 0][o + 3] ~= 0 and shadowmap[cx][cy][i + 0][o + 3] ~= nil then
         return 3
     end
     if _G.terrain[cx][cy][i + 1][o + 3] ~= biome or keys_to_skip[cx][cy][i + 1][o + 3] then
         return 3
     end
-    if heightmap[cx][cy][i + 1][o + 3] ~= current_height then
+    if heightmap[cx][cy][i + 1][o + 3] ~= nil and heightmap[cx][cy][i + 1][o + 3] ~= current_height then
+        return 3
+    end
+    if shadowmap[cx][cy][i + 1][o + 3] ~= 0 and shadowmap[cx][cy][i + 1][o + 3] ~= nil then
         return 3
     end
     if _G.terrain[cx][cy][i + 2][o + 3] ~= biome or keys_to_skip[cx][cy][i + 2][o + 3] then
         return 3
     end
-    if heightmap[cx][cy][i + 2][o + 3] ~= current_height then
+    if heightmap[cx][cy][i + 2][o + 3] ~= nil and heightmap[cx][cy][i + 2][o + 3] ~= current_height then
+        return 3
+    end
+    if shadowmap[cx][cy][i + 2][o + 3] ~= 0 and shadowmap[cx][cy][i + 2][o + 3] ~= nil then
         return 3
     end
     return 4
@@ -401,6 +488,7 @@ local function update_terrain_2nd_pass(chunk_x, chunk_y)
     secondary_tiles_to_update_in_chunk[cx][cy] = nil
 end
 
+local empty_table = newAutotable(4)
 local function update_terrain(chunk_x, chunk_y)
     local cx = chunk_x or _G.current_chunk_x
     local cy = chunk_y or _G.current_chunk_y
@@ -416,9 +504,7 @@ local function update_terrain(chunk_x, chunk_y)
             local total_height = 0
             for sx = -1, 1 do
                 for sy = -1, 1 do
-                    if sx == 0 and sy == 0 then
-
-                    else
+                    if not (sx == 0 and sy == 0) then
                         local cur_i = (gx + sx) % (chunk_width)
                         local cur_o = (gy + sy) % (chunk_width)
                         local cur_cx = math.floor((gx + sx) / chunk_width)
@@ -449,7 +535,7 @@ local function update_terrain(chunk_x, chunk_y)
                     prev_shadow = 0
                 end
             end
-            shadowmap[cx][cy][i][o] = math.max(prev_height, prev_shadow) - 1.5
+            shadowmap[cx][cy][i][o] = math.max(math.max(prev_height, prev_shadow) - 2, 0)
             if tiles_to_update_in_chunk[cx][cy][i] and tiles_to_update_in_chunk[cx][cy][i][o] then
                 local current_biome = terrain[cx][cy][i][o]
                 local multi_tile_origin
@@ -464,7 +550,7 @@ local function update_terrain(chunk_x, chunk_y)
                     local max_size = check_max_size_biome(mt.biome, mt.cx, mt.cy, mt[1], mt[2], keys_to_skip)
                     if max_size ~= mt.size or multi_tile_origin.biome ~= current_biome then
                         terrain_tile[cx][cy][cur_idx[1]][cur_idx[2]] = {}
-                        free_multi_tile_terrain(multi_tile_origin.size, keys_to_skip, cx, cy, cur_idx[1], cur_idx[2])
+                        free_multi_tile_terrain(multi_tile_origin.size, keys_to_skip, cx, cy, mt[1], mt[2])
                     end
                 end
                 if keys_to_skip[cx][cy][i][o] then
@@ -473,8 +559,27 @@ local function update_terrain(chunk_x, chunk_y)
                 multiTileCalculate(current_biome, cx, cy, i, o)
             end
             ::continue::
+            if shadowmap[cx][cy][i][o] and shadowmap[cx][cy][i][o] > 0 then
+                local current_biome = terrain[cx][cy][i][o]
+                local multi_tile_origin
+                if keys_to_skip[cx][cy][i][o] then
+                    local cur_idx = keys_to_skip[cx][cy][i][o]
+                    if cur_idx["size"] then
+                        multi_tile_origin = cur_idx
+                    else
+                        multi_tile_origin = keys_to_skip[cx][cy][cur_idx[1]][cur_idx[2]]
+                    end
+                    local mt = multi_tile_origin
+                    local max_size = check_max_size_biome(mt.biome, mt.cx, mt.cy, mt[1], mt[2], empty_table, true)
+                    if max_size ~= mt.size then
+                        terrain_tile[cx][cy][mt[1]][mt[2]] = {}
+                        free_multi_tile_terrain(multi_tile_origin.size, keys_to_skip, cx, cy, mt[1], mt[2])
+                    end
+                end
+            end
         end
     end
+    -- print(_G.total_chunk_tiles)
     update_terrain_2nd_pass(cx, cy)
 end
 
@@ -488,44 +593,65 @@ local function refresh_terrain(chunk_x, chunk_y)
     terrain_batch[chunk_x][chunk_y]:clear()
     for i = 0, chunk_width - 1, 1 do
         for o = 0, chunk_width - 1, 1 do
-            if terrain_tile[chunk_x][chunk_y][i][o] and #terrain_tile[chunk_x][chunk_y][i][o] > 0 then
-                local elevation_offset_y = heightmap[cx][cy][i][o] or 0
-                local shadow_value = shadowmap[cx][cy][i][o] or 0
-                local is_in_shadow = shadow_value > elevation_offset_y
-                shadow_value = math.min((shadow_value - elevation_offset_y) / 20, 0.4)
-                local tile_has_slope = false
-                local tiles_with_slope = 0
-                local gx = chunk_width * cx + i
-                local gy = chunk_width * cy + o
-                for xx = -1, 1 do
-                    for yy = -1, 1 do
-                        local pi = (gx + xx) % (chunk_width)
-                        local po = (gy + yy) % (chunk_width)
-                        local pcx = math.floor((gx + xx) / chunk_width)
-                        local pcy = math.floor((gy + yy) / chunk_width)
-                        if heightmap[pcx][pcy][pi][po] and heightmap[pcx][pcy][pi][po] ~= elevation_offset_y then
-                            tiles_with_slope = tiles_with_slope + 1
-                        end
+            local elevation_offset_y = heightmap[cx][cy][i][o] or 0
+            local shadow_value = shadowmap[cx][cy][i][o] or 0
+            local is_in_shadow = shadow_value > elevation_offset_y
+            shadow_value = math.min((shadow_value - elevation_offset_y) / 40, 0.6) / 1.25
+            local tile_has_slope = false
+            local tiles_with_slope = 0
+            local gx = chunk_width * cx + i
+            local gy = chunk_width * cy + o
+            for xx = -1, 1 do
+                for yy = -1, 1 do
+                    local pi = (gx + xx) % (chunk_width)
+                    local po = (gy + yy) % (chunk_width)
+                    local pcx = math.floor((gx + xx) / chunk_width)
+                    local pcy = math.floor((gy + yy) / chunk_width)
+                    if heightmap[pcx][pcy][pi][po] and heightmap[pcx][pcy][pi][po] ~= elevation_offset_y then
+                        tiles_with_slope = tiles_with_slope + 1
                     end
                 end
-                if tiles_with_slope > 5 then
-                    tile_has_slope = true
-                end
-                if is_in_shadow then
-                    terrain_batch[cx][cy]:setColor(1 - shadow_value, 1 - shadow_value, 1 - shadow_value)
-                else
-                    local light_modifier = elevation_offset_y / 100
-                    if light_modifier > 0 and tile_has_slope then
-                        terrain_batch[cx][cy]:setColor(0.9 + math.min(light_modifier, 1),
-                            0.9 + math.min(light_modifier, 1), 0.9 + math.min(light_modifier, 1))
-                    else
-                        terrain_batch[cx][cy]:setColor(0.9, 0.9, 0.9)
-                    end
-                end
-                local t = terrain_tile[cx][cy][i][o]
-                terrain_batch[cx][cy]:add(t[1], t[2], t[3] - elevation_offset_y * 2, t[4], t[5], t[6])
-                terrain_batch[cx][cy]:setColor(0.9, 0.9, 0.9)
             end
+            if tiles_with_slope > 5 then
+                tile_has_slope = true
+            end
+            local skip_multi_tile = false
+            local t = terrain_tile[cx][cy][i][o]
+            if not t or #t <= 0 then
+                skip_multi_tile = true
+                t = {nil, _G.IsoX + (i - o) * tile_width * 0.5, _G.IsoY + (i + o) * tile_height * 0.5, 0, 1.06, 1.06}
+            end
+            local tile_number = "grass_chevron (" .. tostring(love.math.random(1, 9)) .. ")"
+            if is_in_shadow then
+                if elevation_offset_y ~= 0 then
+                    terrain_batch[cx][cy]:setColor(0.9 - shadow_value, 0.9 - shadow_value, 0.9 - shadow_value)
+                    terrain_batch[cx][cy]:add(tile_quads[tile_number], t[2], t[3] - elevation_offset_y * 2 + 8, t[4],
+                        t[5], t[6] * 3)
+                end
+                terrain_batch[cx][cy]:setColor(0.9 - shadow_value, 0.9 - shadow_value, 0.9 - shadow_value)
+            else
+                local light_modifier = elevation_offset_y / 50
+                if light_modifier > 0 and tile_has_slope then
+                    if elevation_offset_y ~= 0 and tile_has_slope then
+                        terrain_batch[cx][cy]:setColor(0.85, 0.85, 0.85)
+                        terrain_batch[cx][cy]:add(tile_quads[tile_number], t[2], t[3] - elevation_offset_y * 2 + 8,
+                            t[4], t[5], t[6] * 3)
+                    end
+                    terrain_batch[cx][cy]:setColor(0.9 + math.min(light_modifier, 1), 0.9 + math.min(light_modifier, 1),
+                        0.9 + math.min(light_modifier, 1))
+                else
+                    if elevation_offset_y ~= 0 then
+                        terrain_batch[cx][cy]:setColor(0.8, 0.8, 0.8)
+                        terrain_batch[cx][cy]:add(tile_quads[tile_number], t[2], t[3] - elevation_offset_y * 2 + 8,
+                            t[4], t[5], t[6] * 3)
+                    end
+                    terrain_batch[cx][cy]:setColor(0.9, 0.9, 0.9)
+                end
+            end
+            if not skip_multi_tile then
+                terrain_batch[cx][cy]:add(t[1], t[2], t[3] - elevation_offset_y * 2, t[4], t[5], t[6])
+            end
+            terrain_batch[cx][cy]:setColor(0.9, 0.9, 0.9)
         end
     end
 end
