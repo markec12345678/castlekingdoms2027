@@ -390,7 +390,7 @@ function genObjects(cx, cy)
                     goto continue
                 end
                 if not tree_generated and love.math.random(1000) == 4 then
-                    local tree = OakTree:new(gx, gy, "Medium oak tree")
+                    local tree = PineTree:new(gx, gy, "Medium pine tree")
                     tree.animation:gotoFrame(math.random(1, 20))
                     tree_generated = true
                 end
@@ -589,7 +589,26 @@ local function mousepressed(x, y, button)
         -- end
     elseif button == 3 then
         -- WoodenWallWalkable:new(press.gx, press.gy)
-        Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
+        -- _G.terrainElevateTileAt(press.gx, press.gy)
+        -- _G.terrainElevateTileAt(press.gx, press.gy)
+
+        -- for xxx = -2, 2 do
+        --     for yyy = -2, 2 do
+        --         if xxx == 0 and yyy == 0 then
+        --         else
+        --             _G.terrainElevateTileAt(press.gx + xxx, press.gy + yyy)
+        --             _G.terrainElevateTileAt(press.gx + xxx, press.gy + yyy)
+        --         end
+        --     end
+        -- end
+
+        -- for xxx = -1, 1 do
+        --     for yyy = -1, 1 do
+        --         _G.terrainElevateTileAt(press.gx + xxx, press.gy + yyy)
+        --         _G.terrainElevateTileAt(press.gx + xxx, press.gy + yyy)
+        --     end
+        -- end
+        -- Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
         local insp = object[press.cx][press.cy][press.x][press.y]
         if insp then
             print("____________")
@@ -641,13 +660,21 @@ local function update(dt)
         MY = (MY - _G.height / 2) / _G.scale_x + _G.view_yview - 8
         local pgx = math.round(ScreenToIsoX(MX, MY))
         local pgy = math.round(ScreenToIsoY(MX, MY))
-        for i = -2, 2 do
-            for o = -2, 2 do
-                if i == 2 or i == -2 or o == 2 or o == -2 then
-                    _G.terrainSetTileAt(pgx + i, pgy + o, _G.terrain_biome.sea_beach, _G.terrain_biome.abundant_grass)
-                else
-                    _G.terrainSetTileAt(pgx + i, pgy + o, _G.terrain_biome.sea)
-                end
+        -- Lake gen
+        -- for i = -2, 2 do
+        --     for o = -2, 2 do
+        --         if i == 2 or i == -2 or o == 2 or o == -2 then
+        --             _G.terrainSetTileAt(pgx + i, pgy + o, _G.terrain_biome.sea_beach, _G.terrain_biome.abundant_grass)
+        --         else
+        --             _G.terrainSetTileAt(pgx + i, pgy + o, _G.terrain_biome.sea)
+        --         end
+        --     end
+        -- end
+
+        for xxx = -1, 1 do
+            for yyy = -1, 1 do
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
             end
         end
     end
