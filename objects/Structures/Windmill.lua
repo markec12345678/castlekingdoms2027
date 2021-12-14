@@ -183,6 +183,17 @@ function Windmill:initialize(gx, gy, type)
     self.filling_flour = Windmill_filling:new(self.gx + 1, self.gy + 2, self, self.offset_x, self.offset_y)
     -- self.log_stack = Windmill_log_stack:new(self.gx + 2, self.gy + 1, self, self.offset_x, self.offset_y)
     -- self.stack:deactivate()
+
+    for xx = 0, 2 do
+        for yy = 0, 2 do
+            local xxx = (self.gx + xx) % (chunk_width)
+            local yyy = (self.gy + yy) % (chunk_width)
+            local ccx = math.floor((self.gx + xx) / chunk_width)
+            local ccy = math.floor((self.gy + yy) / chunk_width)
+            _G.buildingheightmap[ccx][ccy][xxx][yyy] = 25
+        end
+    end
+
     for xx = -2, 4 do
         for yy = -2, 4 do
             _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.dirt, _G.terrain_biome.abundant_grass)
@@ -208,6 +219,7 @@ function Windmill:initialize(gx, gy, type)
     self.worker_delivered = false
     self.worker2_delivered = false
     self.worker3_delivered = false
+    _G.setWalkable(self.gx + 2, self.gy + 2, false)
     Structure.render(self)
 end
 function Windmill:join(worker)

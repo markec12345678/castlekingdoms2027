@@ -31,7 +31,12 @@ function Object:render()
         if _G.quad_offset[self.tile] then
             offset_x, offset_y = _G.quad_offset[self.tile][1] or 0, _G.quad_offset[self.tile][2] or 0
         end
-        local x, y = self.x + (self.offset_x or 0) + offset_x, self.y + (self.offset_y or 0) + offset_y
+        local elevation_offset_y = 0
+        if _G.heightmap[self.cx][self.cy][self.i][self.o] then
+            elevation_offset_y = _G.heightmap[self.cx][self.cy][self.i][self.o] * 2
+        end
+        local x, y = self.x + (self.offset_x or 0) + offset_x,
+            self.y + (self.offset_y or 0) + offset_y - elevation_offset_y
         local qx, qy, qw, qh = self.tile:getViewport()
 
         local new_vert = _G.getFreeVertexFromTile(self.cx, self.cy, self.i, self.o, true)
@@ -43,7 +48,7 @@ function Object:render()
             love.event.quit()
         end
         self.instancemesh = _G.object_mesh[self.cx][self.cy]
-        self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
+        self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh, 1)
     end
 end
 function Object:destroy()
@@ -60,10 +65,15 @@ function Object:update_vertex()
         if _G.quad_offset[self.tile] then
             offset_x, offset_y = _G.quad_offset[self.tile][1] or 0, _G.quad_offset[self.tile][2] or 0
         end
-        local x, y = self.x + (self.offset_x or 0) + offset_x, self.y + (self.offset_y or 0) + offset_y
+        local elevation_offset_y = 0
+        if _G.heightmap[self.cx][self.cy][self.i][self.o] then
+            elevation_offset_y = _G.heightmap[self.cx][self.cy][self.i][self.o] * 2
+        end
+        local x, y = self.x + (self.offset_x or 0) + offset_x,
+            self.y + (self.offset_y or 0) + offset_y - elevation_offset_y
         local qx, qy, qw, qh = self.tile:getViewport()
         self.instancemesh = _G.object_mesh[self.cx][self.cy]
-        self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
+        self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh, 1)
     end
 end
 return Object

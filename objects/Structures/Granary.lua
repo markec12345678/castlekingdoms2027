@@ -141,6 +141,13 @@ function Granary:initialize(gx, gy, type)
     for xx = -1, 4 do
         for yy = -1, 4 do
             _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.dirt)
+            if xx ~= -1 and yy ~= -1 and xx ~= 4 and yy ~= 4 then
+                local xxx = (self.gx + xx) % (chunk_width)
+                local yyy = (self.gy + yy) % (chunk_width)
+                local ccx = math.floor((self.gx + xx) / chunk_width)
+                local ccy = math.floor((self.gy + yy) / chunk_width)
+                _G.buildingheightmap[ccx][ccy][xxx][yyy] = 17
+            end
         end
     end
 

@@ -286,7 +286,7 @@ function genObjects(cx, cy)
         object_batch[chunk_x][chunk_y] = love.graphics.newMesh(treeverts, "strip", "static")
     end
     local instancemesh = love.graphics.newMesh({{"InstancePosition", "float", 2}, {"UVOffset", "float", 2},
-                                                {"ImageDim", "float", 2}},
+                                                {"ImageDim", "float", 2}, {"ImageShade", "float", 1}},
         chunk_width * chunk_height * _G.vertices_per_tile, nil, "dynamic")
     _G.object_mesh[chunk_x][chunk_y] = instancemesh
     for i = 0, chunk_width - 1, 1 do
@@ -469,8 +469,8 @@ function genObjects(cx, cy)
                         ob.vert_id = _G.vertices_per_tile * (i + o * chunk_width) + 1
                         _G.object_mesh_vert_id_map[chunk_x][chunk_y][ob.vert_id] = true
                         ob.instancemesh = instancemesh
-                        instancemesh:setVertex(ob.vert_id, x, y, qx, qy, qw, qh)
-                        ob.vert_data = {x, y, qx, qy, qw, qh}
+                        instancemesh:setVertex(ob.vert_id, x, y, qx, qy, qw, qh, 1)
+                        ob.vert_data = {x, y, qx, qy, qw, qh, 1}
                     end
                 end
             end
@@ -481,21 +481,25 @@ function genObjects(cx, cy)
     object_batch[chunk_x][chunk_y]:attachAttribute("InstancePosition", instancemesh, "perinstance")
     object_batch[chunk_x][chunk_y]:attachAttribute("UVOffset", instancemesh, "perinstance")
     object_batch[chunk_x][chunk_y]:attachAttribute("ImageDim", instancemesh, "perinstance")
+    object_batch[chunk_x][chunk_y]:attachAttribute("ImageShade", instancemesh, "perinstance")
 end
 
 local shader = love.graphics.newShader [[
 varying vec2 uvoff;
 varying vec2 imgdim;
+varying float imgshd;
 
 #ifdef VERTEX
 attribute vec2 InstancePosition;
 attribute vec2 UVOffset;
 attribute vec2 ImageDim;
+attribute float ImageShade;
 
 vec4 position(mat4 transform_projection, vec4 vertex_position)
 {
     uvoff = UVOffset;
     imgdim = ImageDim;
+    imgshd = ImageShade;
     vertex_position.xy *= ImageDim;
     vertex_position.xy += InstancePosition;
 	return transform_projection * vertex_position;
@@ -505,6 +509,9 @@ vec4 position(mat4 transform_projection, vec4 vertex_position)
 #ifdef PIXEL
 vec4 effect( vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords )
 {
+    color.x *= imgshd;
+    color.y *= imgshd;
+    color.z *= imgshd;
     texture_coords.x = (uvoff.x + imgdim.x*texture_coords.x)/8192.0;
     texture_coords.y = (uvoff.y + imgdim.y*texture_coords.y)/9694.0;
     vec4 texcolor = Texel(tex, texture_coords);
@@ -559,20 +566,7 @@ local function mousepressed(x, y, button)
     press.cy = math.floor(LocalY / chunk_width)
     if button == 1 then
         _G.BuildController:build(press.gx, press.gy)
-        -- if not objectAt(press.cx, press.cy, press.x, press.y) then
-        --     WoodenWall:new(press.gx, press.gy)
-        -- end
     elseif button == 2 then
-        -- for i = -2, 2 do
-        --     for o = -2, 2 do
-        --         if i == 2 or i == -2 or o == 2 or o == -2 then
-        --             _G.terrainSetTileAt(press.gx + i, press.gy + o, _G.terrain_biome.sea_beach,
-        --                 _G.terrain_biome.abundant_grass)
-        --         else
-        --             _G.terrainSetTileAt(press.gx + i, press.gy + o, _G.terrain_biome.sea)
-        --         end
-        --     end
-        -- end
         -- _G.saw.state = "Going to waypoint"
         -- _G.saw.nd = {}
         -- _G.saw.waypoint_x, _G.saw.waypoint_y = nil, nil
@@ -588,6 +582,19 @@ local function mousepressed(x, y, button)
         --     -- Woodcutter:new(press.gx, press.gy, "Woodcutter")
         -- end
     elseif button == 3 then
+        if not objectAt(press.cx, press.cy, press.x, press.y) then
+            WoodenWall:new(press.gx, press.gy)
+        end
+        -- for i = -2, 2 do
+        --     for o = -2, 2 do
+        --         if i == 2 or i == -2 or o == 2 or o == -2 then
+        --             _G.terrainSetTileAt(press.gx + i, press.gy + o, _G.terrain_biome.sea_beach,
+        --                 _G.terrain_biome.abundant_grass)
+        --         else
+        --             _G.terrainSetTileAt(press.gx + i, press.gy + o, _G.terrain_biome.sea)
+        --         end
+        --     end
+        -- end
         -- WoodenWallWalkable:new(press.gx, press.gy)
         -- _G.terrainElevateTileAt(press.gx, press.gy)
         -- _G.terrainElevateTileAt(press.gx, press.gy)
@@ -673,6 +680,28 @@ local function update(dt)
 
         for xxx = -1, 1 do
             for yyy = -1, 1 do
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
                 _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
                 _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
             end

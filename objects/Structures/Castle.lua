@@ -73,6 +73,15 @@ function Castle:initialize(gx, gy, type)
     Castle_door:new(tile_castle_door_2, self.gx + 4, self.gy + 7, self)
     _G.spawn_point_x, _G.spawn_point_y = self.gx + 3, self.gy + 8
 
+    for xx = 0, 6 do
+        for yy = 0, 6 do
+            local xxx = (self.gx + xx) % (chunk_width)
+            local yyy = (self.gy + yy) % (chunk_width)
+            local ccx = math.floor((self.gx + xx) / chunk_width)
+            local ccy = math.floor((self.gy + yy) / chunk_width)
+            _G.buildingheightmap[ccx][ccy][xxx][yyy] = 23
+        end
+    end
     for xx = -2, 8 do
         for yy = -2, 8 do
             if yy == 7 or xx == 7 or xx == -1 or yy == -1 then

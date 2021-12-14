@@ -111,10 +111,25 @@ local function scale(y)
 end
 
 local function draw()
+    local gx, gy = LocalX, LocalY
+    local prev_i = (gx - 1) % (chunk_width)
+    local prev_o = (gy + 1) % (chunk_width)
+    local prev_cx = math.floor((gx - 1) / chunk_width)
+    local prev_cy = math.floor((gy + 1) / chunk_width)
+
+    local prev_shadow, prev_height, prev_height_2, prev_tileheight = 0, 0, 0, 0
+    if _G.terrain[prev_cx] and _G.terrain[prev_cx][prev_cy] then
+        prev_height = _G.heightmap[prev_cx][prev_cy][prev_i][prev_o] or 0
+        prev_height_2 = 75 * prev_height / (40 + prev_height)
+        prev_shadow = _G.shadowmap[prev_cx][prev_cy][prev_i][prev_o] or 0
+        prev_tileheight = _G.buildingheightmap[prev_cx][prev_cy][prev_i][prev_o] or 0
+    end
     love.graphics.print("\n GlobalX: " .. LocalX .. "\n GlobalY: " .. LocalY .. "\n LocalX: " ..
                             ((LocalX) % chunk_width) .. "\n LocalY: " .. ((LocalY) % chunk_width) .. "\n Scale: " ..
-                            scale_x .. "\n Garbage (kB): " .. collectgarbage('count') .. "\n Center chunk: [" .. xchunk ..
-                            "][" .. ychunk .. "][" .. (status[xchunk][ychunk] or "N\\A") .. "]" .. "\n Current FPS: " ..
+                            scale_x .. "\n Shadow stuff:" .. prev_height .. " - " .. prev_height_2 .. " : " ..
+                            prev_shadow .. " - " .. prev_tileheight .. "\n Garbage (kB): " .. collectgarbage('count') ..
+                            "\n Center chunk: [" .. xchunk .. "][" .. ychunk .. "][" ..
+                            (status[xchunk][ychunk] or "N\\A") .. "]" .. "\n Current FPS: " ..
                             tostring(love.timer.getFPS()) .. "\n Max FPS: " .. tostring(previous_frame_time) ..
                             "\n Wood: " .. tostring(_G.resources['wood']) .. "\n Stone: " ..
                             tostring(_G.resources['stone']) .. "\n Iron: " .. tostring(_G.resources['iron']), 0, 0)

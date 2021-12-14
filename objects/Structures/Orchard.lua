@@ -70,7 +70,7 @@ function Orchard_tree:animate()
         self.vert_id = _G.getFreeVertexFromTile(self.cx, self.cy, self.i, self.o)
         if self.vert_id then
             self.instancemesh = instancemesh
-            self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
+            self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh, 1)
         end
     end
     if self.instancemesh and updated then
@@ -83,7 +83,7 @@ function Orchard_tree:animate()
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
             self.y + (self.offset_y or 0) + offset_y - _G.height_map[self.gx][self.gy])
         local qx, qy, qw, qh = quad:getViewport()
-        self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
+        self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh, 1)
         return
     end
 end

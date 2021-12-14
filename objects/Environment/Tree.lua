@@ -46,6 +46,21 @@ function Tree:initialize(gx, gy, type)
         end
         -- self:destroy()
     end
+    for xx = -1, 1 do
+        for yy = -1, 1 do
+            if not ((xx == -1 and yy == -1) or (xx == 1 and yy == 1) or (xx == -1 and yy == 1) or (xx == 1 and yy == -1)) then
+                local xxx = (self.gx + xx) % (chunk_width)
+                local yyy = (self.gy + yy) % (chunk_width)
+                local ccx = math.floor((self.gx + xx) / chunk_width)
+                local ccy = math.floor((self.gy + yy) / chunk_width)
+                if xx == 0 and yy == 0 then
+                    _G.buildingheightmap[ccx][ccy][xxx][yyy] = 19
+                else
+                    _G.buildingheightmap[ccx][ccy][xxx][yyy] = 14
+                end
+            end
+        end
+    end
     if self.gx < 2048 and self.gx >= 0 and self.gy < 2048 and self.gy >= 0 then
         _G.collision_map[self.gx][self.gy] = 1
         _G.setWalkable(self.gx, self.gy, 1)
@@ -64,7 +79,7 @@ function Tree:render()
         end
         local x, y = self.x + (self.offset_x or 0) + offset_x, self.y + (self.offset_y or 0) + offset_y
         local qx, qy, qw, qh = self.tile:getViewport()
-        self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
+        self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh, 1)
     end
 end
 function Tree:update(dt)
@@ -106,8 +121,14 @@ function Tree:animate(dt, force_update)
         end
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
             self.y + (self.offset_y or 0) + offset_y - _G.height_map[self.gx][self.gy])
+
+        local elevation_offset_y = 0
+        if _G.heightmap[self.cx][self.cy][self.i][self.o] then
+            elevation_offset_y = _G.heightmap[self.cx][self.cy][self.i][self.o] * 2
+        end
+        y = y - elevation_offset_y
         local qx, qy, qw, qh = quad:getViewport()
-        self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
+        self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh, 1)
         return
     end
     if not self.instancemesh and _G.object_mesh then
@@ -119,10 +140,15 @@ function Tree:animate(dt, force_update)
         local instancemesh = _G.object_mesh[self.cx][self.cy]
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
             self.y + (self.offset_y or 0) + offset_y - _G.height_map[self.gx][self.gy])
+        local elevation_offset_y = 0
+        if _G.heightmap[self.cx][self.cy][self.i][self.o] then
+            elevation_offset_y = _G.heightmap[self.cx][self.cy][self.i][self.o] * 2
+        end
+        y = y - elevation_offset_y
         local qx, qy, qw, qh = quad:getViewport()
         self.vert_id = _G.getFreeVertexFromTile(self.cx, self.cy, self.i, self.o)
         self.instancemesh = instancemesh
-        self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
+        self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh, 1)
     end
 end
 function Tree:cut()

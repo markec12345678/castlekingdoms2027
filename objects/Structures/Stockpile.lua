@@ -113,6 +113,13 @@ function Stockpile:initialize(gx, gy, type)
     for xx = -1, 5 do
         for yy = -1, 5 do
             _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.dirt)
+            if xx ~= -1 and yy ~= -1 and xx ~= 5 and yy ~= 5 then
+                local xxx = (self.gx + xx) % (chunk_width)
+                local yyy = (self.gy + yy) % (chunk_width)
+                local ccx = math.floor((self.gx + xx) / chunk_width)
+                local ccy = math.floor((self.gy + yy) / chunk_width)
+                _G.buildingheightmap[ccx][ccy][xxx][yyy] = 12
+            end
         end
     end
     Stockpile_alias:new(tile_quads["empty"], self.gx + 4, self.gy + 4 - 1, self)

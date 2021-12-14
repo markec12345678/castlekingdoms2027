@@ -224,6 +224,32 @@ function WoodcutterHut:initialize(gx, gy, type)
             _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.scarce_grass)
         end
     end
+
+    _G.terrainSetTileAt(self.gx - 2, self.gy, _G.terrain_biome.scarce_grass)
+    _G.terrainSetTileAt(self.gx - 2, self.gy + 1, _G.terrain_biome.scarce_grass)
+    _G.terrainSetTileAt(self.gx - 2, self.gy + 2, _G.terrain_biome.scarce_grass)
+
+    _G.terrainSetTileAt(self.gx, self.gy - 2, _G.terrain_biome.scarce_grass)
+    _G.terrainSetTileAt(self.gx + 1, self.gy - 2, _G.terrain_biome.scarce_grass)
+    _G.terrainSetTileAt(self.gx + 2, self.gy - 2, _G.terrain_biome.scarce_grass)
+
+    _G.terrainSetTileAt(self.gx + 4, self.gy, _G.terrain_biome.scarce_grass)
+    _G.terrainSetTileAt(self.gx + 4, self.gy + 1, _G.terrain_biome.scarce_grass)
+    _G.terrainSetTileAt(self.gx + 4, self.gy + 2, _G.terrain_biome.scarce_grass)
+
+    _G.terrainSetTileAt(self.gx, self.gy + 4, _G.terrain_biome.scarce_grass)
+    _G.terrainSetTileAt(self.gx + 1, self.gy + 4, _G.terrain_biome.scarce_grass)
+    _G.terrainSetTileAt(self.gx + 2, self.gy + 4, _G.terrain_biome.scarce_grass)
+
+    for xx = 0, 2 do
+        for yy = 0, 2 do
+            local xxx = (self.gx + xx) % (chunk_width)
+            local yyy = (self.gy + yy) % (chunk_width)
+            local ccx = math.floor((self.gx + xx) / chunk_width)
+            local ccy = math.floor((self.gy + yy) / chunk_width)
+            _G.buildingheightmap[ccx][ccy][xxx][yyy] = 14
+        end
+    end
     for tile = 1, tiles do
         WoodcutterHut_alias:new(quad_array[tile], self.gx, self.gy + (tiles - tile + 1), self,
             -self.offset_y + 8 * (tiles - tile + 1))

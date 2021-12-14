@@ -15,8 +15,8 @@ function Unit:initialize(gx, gy, type, no_path_state)
     self.has_move_dir = false
     self.waypoint_x = nil
     self.waypoint_y = nil
-    self.straight_walk_speed = 2400 * 10
-    self.diagonal_walk_speed = 1500 * 10
+    self.straight_walk_speed = 2400 * 1
+    self.diagonal_walk_speed = 1500 * 1
     self.unit_offset_x = 30
     self.unit_offset_y = 57
     self.originalx = self.gx
@@ -67,8 +67,21 @@ function Unit:animate()
             local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(
                 self.x + (self.offset_x or 0) + offset_x,
                 self.y + (self.offset_y or 0) + offset_y - _G.height_map[math.round(self.gx)][math.round(self.gy)])
+
+            local elevation_offset_y = 0
+            if _G.heightmap[self.cx][self.cy][self.i][self.o] then
+                elevation_offset_y = _G.heightmap[self.cx][self.cy][self.i][self.o]
+            end
+            y = y - elevation_offset_y * 2
             local qx, qy, qw, qh = quad:getViewport()
-            self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
+            local shadow_value = _G.shadowmap[self.cx][self.cy][self.i][self.o] or 0
+            local is_in_shadow = shadow_value > elevation_offset_y
+            if is_in_shadow then
+                shadow_value = math.min((shadow_value - elevation_offset_y) / 40, 0.6) / 1.25
+            else
+                shadow_value = 0
+            end
+            self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh, 1 - shadow_value / 1.5)
             return
         elseif changed_tiles then
             _G.freeVertexFromTile(self.cx, self.cy, self.vert_id)
@@ -88,7 +101,7 @@ function Unit:animate()
     self.previous_fx, self.previous_fy = self.fx, self.fy
     updated = updated or
                   ((self.previous_fx ~= self.fx or self.previous_fy ~= self.fy) and Object.is_visible_on_screen(self))
-    if self.instancemesh and self.animation then
+    if self.instancemesh and self.animation and updated then
         self.last_updated = 0
         local offset_x, offset_y = 0, 0
         if quad_offset[self.animation:getQuad()] then
@@ -97,8 +110,21 @@ function Unit:animate()
         end
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
             self.y + (self.offset_y or 0) + offset_y - _G.height_map[math.round(self.gx)][math.round(self.gy)])
+
+        local elevation_offset_y = 0
+        if _G.heightmap[self.cx][self.cy][self.i][self.o] then
+            elevation_offset_y = _G.heightmap[self.cx][self.cy][self.i][self.o]
+        end
+        y = y - elevation_offset_y * 2
         local qx, qy, qw, qh = quad:getViewport()
-        self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
+        local shadow_value = _G.shadowmap[self.cx][self.cy][self.i][self.o] or 0
+        local is_in_shadow = shadow_value > elevation_offset_y
+        if is_in_shadow then
+            shadow_value = math.min((shadow_value - elevation_offset_y) / 40, 0.6) / 1.25
+        else
+            shadow_value = 0
+        end
+        self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh, 1 - shadow_value / 1.5)
         return
     end
     if not self.instancemesh and _G.object_mesh then
@@ -111,6 +137,12 @@ function Unit:animate()
         local instancemesh = object_mesh[self.cx][self.cy]
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
             self.y + (self.offset_y or 0) + offset_y - _G.height_map[math.round(self.gx)][math.round(self.gy)])
+
+        local elevation_offset_y = 0
+        if _G.heightmap[self.cx][self.cy][self.i][self.o] then
+            elevation_offset_y = _G.heightmap[self.cx][self.cy][self.i][self.o]
+        end
+        y = y - elevation_offset_y * 2
         local qx, qy, qw, qh = quad:getViewport()
         if self.vert_id then
             _G.freeVertexFromTile(self.cx, self.cy, self.vert_id)
@@ -120,7 +152,14 @@ function Unit:animate()
             self.need_new_vert_asap = false
             self.vert_id = new_vert
             self.instancemesh = instancemesh
-            self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
+            local shadow_value = _G.shadowmap[self.cx][self.cy][self.i][self.o] or 0
+            local is_in_shadow = shadow_value > elevation_offset_y
+            if is_in_shadow then
+                shadow_value = math.min((shadow_value - elevation_offset_y) / 40, 0.6) / 1.25
+            else
+                shadow_value = 0
+            end
+            self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh, 1 - shadow_value / 1.5)
             self.has_animation = true
         else
             self.need_new_vert_asap = true
@@ -291,8 +330,16 @@ function Unit:update_position()
                 self.vert_id = new_vert
                 self.need_new_vert_asap = false
                 self.instancemesh = _G.object_mesh[self.cx][self.cy]
-                self.vert_data = {x, y, qx, qy, qw, qh}
-                self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh)
+                self.vert_data = {x, y, qx, qy, qw, qh, 1}
+                local shadow_value = _G.shadowmap[self.cx][self.cy][self.i][self.o] or 0
+                local elevation_offset_y = _G.heightmap[self.cx][self.cy][self.i][self.o] or 0
+                local is_in_shadow = shadow_value > elevation_offset_y
+                if is_in_shadow then
+                    shadow_value = math.min((shadow_value - elevation_offset_y) / 40, 0.6) / 1.25
+                else
+                    shadow_value = 0
+                end
+                self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh, 1 - shadow_value / 1.5)
                 self.has_animation = true
                 self.changed_chunks = 1
             else
