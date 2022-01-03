@@ -1,4 +1,4 @@
-_G.imageW,_G.imageH = 8192,9694
+_G.imageW,_G.imageH = 8192,12000
 local tile_quads = {}
 
 tile_quads["empty"] = love.graphics.newQuad(0, 0,0, 0, imageW,imageH)

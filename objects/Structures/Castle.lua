@@ -42,33 +42,36 @@ function Castle:initialize(gx, gy, type)
     setWalkable(self.gx, self.gy, 1)
     self.health = 1000
     self.qid = nil
-    self.tile = quad_array[tiles + 1]
+    self.tile = tile_quads["empty"]
     self.offset_x = 0
     self.offset_y = -93
     self.level = 1
     self.rotation = 1
     for tile = 1, tiles do
-        Castle_alias:new(quad_array[tile], self.gx, self.gy + (tiles - tile + 1), self,
-            -self.offset_y + 8 * (tiles - tile + 1))
+        Castle_alias:new(quad_array[tile], self.gx + tile, self.gy + tiles, self, -self.offset_y + 8 * tile + 48, -16)
     end
+
+    local _, _, _, center_tile_offset_y = quad_array[tiles + 1]:getViewport()
+    Castle_alias:new(quad_array[tiles + 1], self.gx + tiles, self.gy + tiles, self, center_tile_offset_y - 16)
 
     for tile = 1, tiles do
-        Castle_alias:new(quad_array[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offset_y + 8 * tile, 16)
+        Castle_alias:new(quad_array[tiles + 1 + tile], self.gx + tiles, self.gy + (tiles - tile + 1), self,
+            -self.offset_y + 8 * (tiles - tile + 1) + 48, 32)
     end
 
-    Castle_alias:new(tile_quads["empty"], self.gx - 5 + 6, self.gy + 6, self)
-    Castle_alias:new(tile_quads["empty"], self.gx - 4 + 6, self.gy + 6, self)
-    Castle_alias:new(tile_quads["empty"], self.gx - 3 + 6, self.gy + 6, self)
-    Castle_alias:new(tile_quads["empty"], self.gx - 2 + 6, self.gy + 6, self)
-    Castle_alias:new(tile_quads["empty"], self.gx - 1 + 6, self.gy + 6, self)
+    -- Castle_alias:new(tile_quads["empty"], self.gx - 5 + 6, self.gy + 6, self)
+    -- Castle_alias:new(tile_quads["empty"], self.gx - 4 + 6, self.gy + 6, self)
+    -- Castle_alias:new(tile_quads["empty"], self.gx - 3 + 6, self.gy + 6, self)
+    -- Castle_alias:new(tile_quads["empty"], self.gx - 2 + 6, self.gy + 6, self)
+    -- Castle_alias:new(tile_quads["empty"], self.gx - 1 + 6, self.gy + 6, self)
 
-    Castle_alias:new(tile_quads["empty"], self.gx + 6, self.gy + 6, self)
+    -- Castle_alias:new(tile_quads["empty"], self.gx + 6, self.gy + 6, self)
 
-    Castle_alias:new(tile_quads["empty"], self.gx + 6, self.gy - 1 + 6, self)
-    Castle_alias:new(tile_quads["empty"], self.gx + 6, self.gy - 2 + 6, self)
-    Castle_alias:new(tile_quads["empty"], self.gx + 6, self.gy - 3 + 6, self)
-    Castle_alias:new(tile_quads["empty"], self.gx + 6, self.gy - 4 + 6, self)
-    Castle_alias:new(tile_quads["empty"], self.gx + 6, self.gy - 5 + 6, self)
+    -- Castle_alias:new(tile_quads["empty"], self.gx + 6, self.gy - 1 + 6, self)
+    -- Castle_alias:new(tile_quads["empty"], self.gx + 6, self.gy - 2 + 6, self)
+    -- Castle_alias:new(tile_quads["empty"], self.gx + 6, self.gy - 3 + 6, self)
+    -- Castle_alias:new(tile_quads["empty"], self.gx + 6, self.gy - 4 + 6, self)
+    -- Castle_alias:new(tile_quads["empty"], self.gx + 6, self.gy - 5 + 6, self)
     Castle_door:new(tile_castle_door_1, self.gx + 2, self.gy + 7, self)
     Castle_door:new(tile_castle_door_2, self.gx + 4, self.gy + 7, self)
     _G.spawn_point_x, _G.spawn_point_y = self.gx + 3, self.gy + 8

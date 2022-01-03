@@ -214,11 +214,7 @@ function WoodcutterHut:initialize(gx, gy, type)
     self.sawing_obj = WoodcutterHut_sawing:new(self.gx, self.gy, self, self.offset_x, self.offset_y)
     self.log_stack = WoodcutterHut_log_stack:new(self.gx + 2, self.gy + 1, self, self.offset_x, self.offset_y)
     -- self.stack:deactivate()
-    for xx = -2, 4 do
-        for yy = -2, 4 do
-            _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.dirt, _G.terrain_biome.abundant_grass)
-        end
-    end
+
     for xx = -1, 3 do
         for yy = -1, 3 do
             _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.scarce_grass)
@@ -248,6 +244,7 @@ function WoodcutterHut:initialize(gx, gy, type)
             local ccx = math.floor((self.gx + xx) / chunk_width)
             local ccy = math.floor((self.gy + yy) / chunk_width)
             _G.buildingheightmap[ccx][ccy][xxx][yyy] = 14
+            _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.none)
         end
     end
     for tile = 1, tiles do

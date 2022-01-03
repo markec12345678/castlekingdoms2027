@@ -44,6 +44,19 @@ function Tree:initialize(gx, gy, type)
                 _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.dirt, _G.terrain_biome.scarce_grass)
             end
         end
+        for xx = -1, 1 do
+            for yy = -1, 1 do
+                if not ((xx == -1 and yy == -1) or (xx == 1 and yy == 1) or (xx == -1 and yy == 1) or
+                    (xx == 1 and yy == -1)) then
+                    local xxx = (self.gx + xx) % (chunk_width)
+                    local yyy = (self.gy + yy) % (chunk_width)
+                    local ccx = math.floor((self.gx + xx) / chunk_width)
+                    local ccy = math.floor((self.gy + yy) / chunk_width)
+                    _G.buildingheightmap[ccx][ccy][xxx][yyy] = 0
+                    -- TODO: Force a shadow refresh here
+                end
+            end
+        end
         -- self:destroy()
     end
     for xx = -1, 1 do

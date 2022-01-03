@@ -18,7 +18,7 @@ function love.load(arg)
     else
         Gamestate.switch(main_menu)
     end
-    loader.newImage("assets/tiles/stronghold_assets_packed_v2.png"):onComplete(function(userdata, image)
+    loader.newImage("assets/tiles/stronghold_assets_packed_v3.png"):onComplete(function(userdata, image)
         _G.object_image = image
     end)
 end

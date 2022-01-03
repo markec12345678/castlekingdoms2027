@@ -119,6 +119,7 @@ function Stockpile:initialize(gx, gy, type)
                 local ccx = math.floor((self.gx + xx) / chunk_width)
                 local ccy = math.floor((self.gy + yy) / chunk_width)
                 _G.buildingheightmap[ccx][ccy][xxx][yyy] = 12
+                _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.none)
             end
         end
     end

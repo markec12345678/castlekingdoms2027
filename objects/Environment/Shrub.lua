@@ -56,6 +56,11 @@ function Shrub:animate()
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
             self.y + (self.offset_y or 0) + offset_y - _G.height_map[self.gx][self.gy])
         local qx, qy, qw, qh = quad:getViewport()
+        local elevation_offset_y = 0
+        if _G.heightmap[self.cx][self.cy][self.i][self.o] then
+            elevation_offset_y = _G.heightmap[self.cx][self.cy][self.i][self.o] * 2
+        end
+        y = y - elevation_offset_y
         self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh, 1)
         return
     end
@@ -69,7 +74,12 @@ function Shrub:animate()
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
             self.y + (self.offset_y or 0) + offset_y - _G.height_map[self.gx][self.gy])
         local qx, qy, qw, qh = quad:getViewport()
-        self.vert_id = _G.vertices_per_tile * (self.i + self.o * chunk_width) + 1
+        local elevation_offset_y = 0
+        if _G.heightmap[self.cx][self.cy][self.i][self.o] then
+            elevation_offset_y = _G.heightmap[self.cx][self.cy][self.i][self.o] * 2
+        end
+        y = y - elevation_offset_y
+        self.vert_id = _G.getFreeVertexFromTile(self.cx, self.cy, self.i, self.o)
         self.instancemesh = instancemesh
         self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh, 1)
     end

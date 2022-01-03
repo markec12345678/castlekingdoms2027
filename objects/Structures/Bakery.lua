@@ -160,14 +160,19 @@ function Bakery:initialize(gx, gy, type)
     self.cooking_obj = Bakery_cooking:new(self.gx + 3, self.gy + 2, self, self.offset_x, self.offset_y)
     self.stack = Bakery_bread_stack:new(self.gx + 3, self.gy + 3, self, self.offset_x, self.offset_y)
 
-    for xx = -2, 4 do
-        for yy = -2, 4 do
+    for xx = -2, 5 do
+        for yy = -2, 5 do
             _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.dirt, _G.terrain_biome.abundant_grass)
         end
     end
-    for xx = -1, 3 do
-        for yy = -1, 3 do
+    for xx = -1, 4 do
+        for yy = -1, 4 do
             _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.scarce_grass)
+        end
+    end
+    for xx = 0, 3 do
+        for yy = 0, 3 do
+            _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.none)
         end
     end
     for tile = 1, tiles do

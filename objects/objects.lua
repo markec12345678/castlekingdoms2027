@@ -273,13 +273,9 @@ function objectAtGlobal(gx, gy)
     end
 end
 
-_G.object_mesh = newAutotable(2)
-_G.object_mesh_vert_id_map = newAutotable(3)
-
-function genObjects(cx, cy)
-    local chunk_x = cx or _G.current_chunk_x
-    local chunk_y = cy or _G.current_chunk_y
-
+function _G.allocateMesh(cx, cy)
+    local chunk_x = cx
+    local chunk_y = cy
     local treeverts = {{0, 0, 0, 0, 1.0, 1.0, 1.0, 1.0}, {1, 0, 1, 0, 1.0, 1.0, 1.0, 1.0},
                        {0, 1, 0, 1, 1.0, 1.0, 1.0, 1.0}, {1, 1, 1, 1, 1.0, 1.0, 1.0, 1.0}}
     if object_batch[chunk_x][chunk_y] == nil then
@@ -287,8 +283,16 @@ function genObjects(cx, cy)
     end
     local instancemesh = love.graphics.newMesh({{"InstancePosition", "float", 2}, {"UVOffset", "float", 2},
                                                 {"ImageDim", "float", 2}, {"ImageShade", "float", 1}},
-        chunk_width * chunk_height * _G.vertices_per_tile, nil, "dynamic")
+        chunk_width * chunk_height * _G.vertices_per_tile + 1000, nil, "dynamic")
     _G.object_mesh[chunk_x][chunk_y] = instancemesh
+    object_batch[chunk_x][chunk_y]:setTexture(object_image)
+    object_batch[chunk_x][chunk_y]:attachAttribute("InstancePosition", instancemesh, "perinstance")
+    object_batch[chunk_x][chunk_y]:attachAttribute("UVOffset", instancemesh, "perinstance")
+    object_batch[chunk_x][chunk_y]:attachAttribute("ImageDim", instancemesh, "perinstance")
+    object_batch[chunk_x][chunk_y]:attachAttribute("ImageShade", instancemesh, "perinstance")
+end
+
+function genObjects(cx, cy)
     for i = 0, chunk_width - 1, 1 do
         for o = 0, chunk_height - 1, 1 do
             local gx = chunk_width * cx + i
@@ -324,7 +328,7 @@ function genObjects(cx, cy)
                 if objectAtGlobal(gx - 1, gy - 1) then
                     goto continue
                 end
-                local rand = math.random(2)
+                rand = math.random(2)
                 if rand ~= 2 then
                     goto continue
                 end
@@ -449,39 +453,9 @@ function genObjects(cx, cy)
                     end
                 end
             end
-            if objectAt(cx, cy, i, o) then
-                local n = 0
-                for _, ob in ipairs(object[cx][cy][i][o]) do
-                    n = n + 1
-                    if n > 1 then
-                        print("More than one!", ob.type)
-                    end
-                    if ob.animated then
-                        local offset_x, offset_y = 0, 0
-                        if quad_offset[ob.animation:getQuad()] then
-                            offset_x, offset_y = quad_offset[ob.animation:getQuad()][1] or 0,
-                                quad_offset[ob.animation:getQuad()][2] or 0
-                        end
-                        local quad, x, y, _, _, _, _, _, _, _ =
-                            ob.animation:getFrameInfo(ob.x + (ob.offset_x or 0) + offset_x, ob.y + (ob.offset_y or 0) +
-                                offset_y - _G.height_map[ob.gx][ob.gy])
-                        local qx, qy, qw, qh = quad:getViewport()
-                        ob.vert_id = _G.vertices_per_tile * (i + o * chunk_width) + 1
-                        _G.object_mesh_vert_id_map[chunk_x][chunk_y][ob.vert_id] = true
-                        ob.instancemesh = instancemesh
-                        instancemesh:setVertex(ob.vert_id, x, y, qx, qy, qw, qh, 1)
-                        ob.vert_data = {x, y, qx, qy, qw, qh, 1}
-                    end
-                end
-            end
             ::continue::
         end
     end
-    object_batch[chunk_x][chunk_y]:setTexture(object_image)
-    object_batch[chunk_x][chunk_y]:attachAttribute("InstancePosition", instancemesh, "perinstance")
-    object_batch[chunk_x][chunk_y]:attachAttribute("UVOffset", instancemesh, "perinstance")
-    object_batch[chunk_x][chunk_y]:attachAttribute("ImageDim", instancemesh, "perinstance")
-    object_batch[chunk_x][chunk_y]:attachAttribute("ImageShade", instancemesh, "perinstance")
 end
 
 local shader = love.graphics.newShader [[
@@ -509,11 +483,9 @@ vec4 position(mat4 transform_projection, vec4 vertex_position)
 #ifdef PIXEL
 vec4 effect( vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords )
 {
-    color.x *= imgshd;
-    color.y *= imgshd;
-    color.z *= imgshd;
+    color.xyz *= imgshd;
     texture_coords.x = (uvoff.x + imgdim.x*texture_coords.x)/8192.0;
-    texture_coords.y = (uvoff.y + imgdim.y*texture_coords.y)/9694.0;
+    texture_coords.y = (uvoff.y + imgdim.y*texture_coords.y)/12000.0;
     vec4 texcolor = Texel(tex, texture_coords);
     return texcolor * color;
 }
@@ -678,30 +650,10 @@ local function update(dt)
         --     end
         -- end
 
+        _G.terrainElevateTileAt(pgx + 0, pgy + 0)
+        _G.terrainElevateTileAt(pgx + 0, pgy + 0)
         for xxx = -1, 1 do
             for yyy = -1, 1 do
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
                 _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
                 _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
             end

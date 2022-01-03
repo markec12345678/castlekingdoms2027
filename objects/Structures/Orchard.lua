@@ -113,6 +113,13 @@ function Orchard:initialize(gx, gy, type)
         end
     end
 
+    
+    for xx = 0, 2 do
+        for yy = 0, 2 do
+            _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.none)
+        end
+    end
+
     for tile = 1, tiles do
         Orchard_alias:new(quad_array[tile], self.gx, self.gy + (tiles - tile + 1), self,
             -self.offset_y + 8 * (tiles - tile + 1))

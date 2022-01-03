@@ -150,29 +150,41 @@ function listInsert(list, key1, value1, key2, value2)
 end
 terrain_chunks = nil
 ----Tiles
-_G.vertices_per_tile = 4
+_G.object_mesh = newAutotable(2)
+_G.object_mesh_vert_id_map = newAutotable(3)
+_G.vertices_per_tile = 6
 function _G.getFreeVertexFromTile(cx, cy, local_x, local_y, last_vertex_first)
     last_vertex_first = last_vertex_first or false
     local vert_id = _G.vertices_per_tile * (local_x + local_y * chunk_width) + 1
     chunk_vertices = _G.object_mesh_vert_id_map[cx][cy]
-    if chunk_vertices then
-        if last_vertex_first then
-            for i = 0, _G.vertices_per_tile - 1 do
-                if not chunk_vertices[vert_id + i] then
-                    _G.object_mesh_vert_id_map[cx][cy][vert_id + i] = true
-                    return vert_id + i
-                end
+    if last_vertex_first then
+        for i = 2, _G.vertices_per_tile - 1 do
+            if not chunk_vertices[vert_id + i] then
+                _G.object_mesh_vert_id_map[cx][cy][vert_id + i] = true
+                return vert_id + i
             end
-        else
-            for i = _G.vertices_per_tile - 1, 0, -1 do
-                if not chunk_vertices[vert_id + i] then
-                    _G.object_mesh_vert_id_map[cx][cy][vert_id + i] = true
-                    return vert_id + i
-                end
+        end
+    else
+        for i = _G.vertices_per_tile - 1, 2, -1 do
+            if not chunk_vertices[vert_id + i] then
+                _G.object_mesh_vert_id_map[cx][cy][vert_id + i] = true
+                return vert_id + i
             end
         end
     end
     return false
+end
+
+function _G.getTerrainVertex(cx, cy, local_x, local_y)
+    local vert_id = _G.vertices_per_tile * (local_x + local_y * chunk_width) + 2
+    _G.object_mesh_vert_id_map[cx][cy][vert_id] = true
+    return vert_id
+end
+
+function _G.getChevronVertex(cx, cy, local_x, local_y)
+    local vert_id = _G.vertices_per_tile * (local_x + local_y * chunk_width) + 1
+    _G.object_mesh_vert_id_map[cx][cy][vert_id] = true
+    return vert_id
 end
 
 function _G.freeVertexFromTile(cx, cy, vert_id)

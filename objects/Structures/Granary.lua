@@ -67,7 +67,7 @@ function Granary:initialize(gx, gy, type)
     setWalkable(self.gx, self.gy, 1)
     self.health = 1000
     self.qid = nil
-    self.tile = quad_array[tiles + 1]
+    self.tile = tile_quads["empty"]
     self.offset_x = 0
     self.offset_y = -64 - 14
     self.level = 1
@@ -95,48 +95,48 @@ function Granary:initialize(gx, gy, type)
         quantity = 0,
         index = 3
     }
-    self.foodpile[4] = {
-        id = nil,
-        empty = true,
-        type = nil,
-        quantity = 0,
-        index = 4
-    }
-    self.foodpile[5] = {
-        id = nil,
-        empty = true,
-        type = nil,
-        quantity = 0,
-        index = 5
-    }
-    self.foodpile[6] = {
-        id = nil,
-        empty = true,
-        type = nil,
-        quantity = 0,
-        index = 6
-    }
-    self.foodpile[7] = {
-        id = nil,
-        empty = true,
-        type = nil,
-        quantity = 0,
-        index = 7
-    }
-    self.foodpile[8] = {
-        id = nil,
-        empty = true,
-        type = nil,
-        quantity = 0,
-        index = 8
-    }
-    self.foodpile[9] = {
-        id = nil,
-        empty = true,
-        type = nil,
-        quantity = 0,
-        index = 9
-    }
+    -- self.foodpile[4] = {
+    --     id = nil,
+    --     empty = true,
+    --     type = nil,
+    --     quantity = 0,
+    --     index = 4
+    -- }
+    -- self.foodpile[5] = {
+    --     id = nil,
+    --     empty = true,
+    --     type = nil,
+    --     quantity = 0,
+    --     index = 5
+    -- }
+    -- self.foodpile[6] = {
+    --     id = nil,
+    --     empty = true,
+    --     type = nil,
+    --     quantity = 0,
+    --     index = 6
+    -- }
+    -- self.foodpile[7] = {
+    --     id = nil,
+    --     empty = true,
+    --     type = nil,
+    --     quantity = 0,
+    --     index = 7
+    -- }
+    -- self.foodpile[8] = {
+    --     id = nil,
+    --     empty = true,
+    --     type = nil,
+    --     quantity = 0,
+    --     index = 8
+    -- }
+    -- self.foodpile[9] = {
+    --     id = nil,
+    --     empty = true,
+    --     type = nil,
+    --     quantity = 0,
+    --     index = 9
+    -- }
 
     for xx = -1, 4 do
         for yy = -1, 4 do
@@ -146,35 +146,38 @@ function Granary:initialize(gx, gy, type)
                 local yyy = (self.gy + yy) % (chunk_width)
                 local ccx = math.floor((self.gx + xx) / chunk_width)
                 local ccy = math.floor((self.gy + yy) / chunk_width)
+                _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.none)
                 _G.buildingheightmap[ccx][ccy][xxx][yyy] = 17
             end
         end
     end
 
     for tile = 1, tiles do
-        Granary_alias:new(quad_array[tile], self.gx, self.gy + (tiles - tile + 1), self,
-            -self.offset_y + 8 * (tiles - tile + 1))
+        Granary_alias:new(quad_array[tile], self.gx + tile - 1, self.gy + tiles, self, -self.offset_y + 8 * tile + 16)
     end
+
+    local _, _, _, center_tile_offset_y = quad_array[tiles + 1]:getViewport()
+    Granary_alias:new(quad_array[tiles + 1], self.gx + tiles, self.gy + tiles, self, center_tile_offset_y - 16)
 
     for tile = 1, tiles do
-        Granary_alias:new(quad_array[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offset_y + 8 * tile, 14)
+        Granary_alias:new(quad_array[tiles + 1 + tile], self.gx + tiles, self.gy + (tiles - tile), self,
+            -self.offset_y + 8 * (tiles - tile) + 32 - 8, 16)
     end
+    -- Granary_alias:new(tile_quads["empty"], self.gx + 3, self.gy + 3, self, 0, 0)
+    -- Granary_alias:new(tile_quads["empty"], self.gx + 2, self.gy + 3, self, 0, 0)
+    -- Granary_alias:new(tile_quads["empty"], self.gx + 1, self.gy + 3, self, 0, 0)
+    -- Granary_alias:new(tile_quads["empty"], self.gx + 3, self.gy + 2, self, 0, 0)
+    -- Granary_alias:new(tile_quads["empty"], self.gx + 3, self.gy + 1, self, 0, 0)
 
-    Granary_alias:new(tile_quads["empty"], self.gx + 3, self.gy + 3, self, 0, 0)
-    Granary_alias:new(tile_quads["empty"], self.gx + 2, self.gy + 3, self, 0, 0)
-    Granary_alias:new(tile_quads["empty"], self.gx + 1, self.gy + 3, self, 0, 0)
-    Granary_alias:new(tile_quads["empty"], self.gx + 3, self.gy + 2, self, 0, 0)
-    Granary_alias:new(tile_quads["empty"], self.gx + 3, self.gy + 1, self, 0, 0)
-
-    self.foodpile[1].id = Granary_alias:new(tile_quads["empty"], self.gx + 1, self.gy + 1, self, 32 - 4)
-    self.foodpile[2].id = Granary_alias:new(tile_quads["empty"], self.gx + 2, self.gy + 1, self, 32 - 4)
-    self.foodpile[3].id = Granary_alias:new(tile_quads["empty"], self.gx + 3, self.gy + 1, self, 32 - 4)
-    self.foodpile[4].id = Granary_alias:new(tile_quads["empty"], self.gx + 1, self.gy + 2, self, 32 - 4)
-    self.foodpile[5].id = Granary_alias:new(tile_quads["empty"], self.gx + 2, self.gy + 2, self, 32 - 4)
-    self.foodpile[6].id = Granary_alias:new(tile_quads["empty"], self.gx + 3, self.gy + 2, self, 32 - 4)
-    self.foodpile[7].id = Granary_alias:new(tile_quads["empty"], self.gx + 1, self.gy + 3, self, 32 - 4)
-    self.foodpile[8].id = Granary_alias:new(tile_quads["empty"], self.gx + 2, self.gy + 3, self, 32 - 4)
-    self.foodpile[9].id = Granary_alias:new(tile_quads["empty"], self.gx + 3, self.gy + 3, self, 32 - 4)
+    self.foodpile[1].id = Granary_alias:new(tile_quads["empty"], self.gx + 3, self.gy + 4, self, 64 - 4)
+    self.foodpile[2].id = Granary_alias:new(tile_quads["empty"], self.gx + 4, self.gy + 4, self, 64 - 4)
+    self.foodpile[3].id = Granary_alias:new(tile_quads["empty"], self.gx + 4, self.gy + 3, self, 64 - 4)
+    -- self.foodpile[4].id = Granary_alias:new(tile_quads["empty"], self.gx + 4, self.gy + 4, self, 32 - 4)
+    -- self.foodpile[5].id = Granary_alias:new(tile_quads["empty"], self.gx + 4, self.gy + 4, self, 32 - 4)
+    -- self.foodpile[6].id = Granary_alias:new(tile_quads["empty"], self.gx + 4, self.gy + 4, self, 32 - 4)
+    -- self.foodpile[7].id = Granary_alias:new(tile_quads["empty"], self.gx + 4, self.gy + 3, self, 32 - 4)
+    -- self.foodpile[8].id = Granary_alias:new(tile_quads["empty"], self.gx + 4, self.gy + 3, self, 32 - 4)
+    -- self.foodpile[9].id = Granary_alias:new(tile_quads["empty"], self.gx + 4, self.gy + 3, self, 32 - 4)
     table.insert(_G.foodpile.node_list, {
         gx = self.gx + 4,
         gy = self.gy + 4
@@ -197,7 +200,7 @@ function Granary:initialize(gx, gy, type)
 end
 function Granary:store(food)
     local found = false
-    for index = 1, 9 do
+    for index = 1, #self.foodpile do
         if self.foodpile[index].type == food and self.foodpile[index].quantity < max_quantity[food] then
             self.foodpile[index].quantity = self.foodpile[index].quantity + 1
             _G.food[food] = _G.food[food] + 1
@@ -207,7 +210,7 @@ function Granary:store(food)
         end
     end
     if not found then
-        for index = 1, 9 do
+        for index = 1, #self.foodpile do
             if self.foodpile[index].empty then
                 self.foodpile[index].empty = false
                 self.foodpile[index].type = food
