@@ -4,13 +4,11 @@ end
 
 require('global')
 local Gamestate = require('libraries.gamestate')
-local loader = require('libraries.lily')
 
 local main_menu = require('states.main_menu')
-local game = require('states.game')
 local test = require('states.test')
 
-function love.load(arg)
+function love.load()
     Gamestate.registerEvents()
     if _G.test_mode then
         Gamestate.switch(test)
@@ -18,7 +16,8 @@ function love.load(arg)
     else
         Gamestate.switch(main_menu)
     end
-    loader.newImage("assets/tiles/stronghold_assets_packed_v3.png"):onComplete(function(userdata, image)
+    local loader = require('libraries.lily')
+    loader.newImage("assets/tiles/stronghold_assets_packed_v3.png"):onComplete(function(_, image)
         _G.object_image = image
     end)
 end
@@ -35,7 +34,7 @@ function love.run()
         love.math.setRandomSeed(os.time())
     end
     if love.load then
-        love.load(arg)
+        love.load()
     end
 
     -- We don't want the first frame's dt to include time taken by love.load.
@@ -68,7 +67,7 @@ function love.run()
             cnt = 0
             previous_frame = 0
         end
-        -- Call update and draw 
+        -- Call update and draw
         local start_time_FPS = love.timer.getTime()
         prof.push("frame")
         prof.push("update")
@@ -86,7 +85,7 @@ function love.run()
             love.graphics.present()
         end
         previous_frame = previous_frame + 1 / (love.timer.getTime() - start_time_FPS)
-        limitfps()
+        _G.limitfps()
         prof.pop("draw")
         prof.pop("frame")
     end
