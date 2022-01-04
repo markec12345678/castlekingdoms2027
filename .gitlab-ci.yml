@@ -9,9 +9,7 @@ cache:
 run: 
   stage: test
   script:
-    - apt-get update
-    - apt-get install software-properties-common
-    - add-apt-repository ppa:bartbes/love-stable --assume-yes
+    - apt-add-repository ppa:bartbes/love-stable --assume-yes
     - apt-get update
     - apt-get install --assume-yes zip
     - zip -9 -r test.love .
