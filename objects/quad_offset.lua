@@ -17468,6 +17468,7 @@ quad_offset[tile_quads["body_hunter_walk_meat_se (13)"]] = {37,  31}
 quad_offset[tile_quads["body_hunter_walk_meat_se (14)"]] = {37,  31}
 quad_offset[tile_quads["body_hunter_walk_meat_se (15)"]] = {37,  30}
 quad_offset[tile_quads["body_hunter_walk_meat_se (16)"]] = {37,  30}
+local function extend(quad_offset)
 quad_offset[tile_quads["body_hunter_walk_meat_se (2)"]] = {37,  30}
 quad_offset[tile_quads["body_hunter_walk_meat_se (3)"]] = {37,  30}
 quad_offset[tile_quads["body_hunter_walk_meat_se (4)"]] = {38,  31}
@@ -17483,7 +17484,6 @@ quad_offset[tile_quads["body_hunter_walk_meat_sw (12)"]] = {37,  32}
 quad_offset[tile_quads["body_hunter_walk_meat_sw (13)"]] = {35,  33}
 quad_offset[tile_quads["body_hunter_walk_meat_sw (14)"]] = {37,  32}
 quad_offset[tile_quads["body_hunter_walk_meat_sw (15)"]] = {38,  32}
-local function extend(quad_offset)
 quad_offset[tile_quads["body_hunter_walk_meat_sw (16)"]] = {38,  32}
 quad_offset[tile_quads["body_hunter_walk_meat_sw (2)"]] = {38,  32}
 quad_offset[tile_quads["body_hunter_walk_meat_sw (3)"]] = {38,  32}
