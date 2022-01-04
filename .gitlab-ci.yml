@@ -29,7 +29,7 @@ run:
     - apt-get install --assume-yes libtheora0
     - apt-get install --assume-yes libvorbisfile3
     - apt-get install --assume-yes libfreetype6
-    - apt-get install --assume-yes love==11.3ppa1
+    - apt-get install --assume-yes love=11.3ppa1
     - cat /usr/bin/love test.love > testbuild
     - chmod a+x ./testbuild
     - apt-get install --assume-yes luarocks
