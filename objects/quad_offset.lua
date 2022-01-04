@@ -1,6 +1,7 @@
 if _G.test_mode then return {} end
 local tile_quads = require('objects.object_quads')
 _G.quad_offset = {}
+local function extend_1()
 quad_offset[tile_quads["spearman_falling_e (1)"]] = {34,  33}
 quad_offset[tile_quads["spearman_falling_e (2)"]] = {29,  34}
 quad_offset[tile_quads["spearman_falling_e (3)"]] = {26,  33}
@@ -9997,6 +9998,8 @@ quad_offset[tile_quads["body_crossbowman_die_arrow (24)"]] = {32,  36}
 quad_offset[tile_quads["body_crossbowman_die_arrow (3)"]] = {24,  24}
 quad_offset[tile_quads["body_crossbowman_die_arrow (4)"]] = {25,  26}
 quad_offset[tile_quads["body_crossbowman_die_arrow (5)"]] = {27,  26}
+end
+local function extend_2()
 quad_offset[tile_quads["body_crossbowman_die_arrow (6)"]] = {29,  31}
 quad_offset[tile_quads["body_crossbowman_die_arrow (7)"]] = {30,  30}
 quad_offset[tile_quads["body_crossbowman_die_arrow (8)"]] = {32,  30}
@@ -19995,6 +19998,8 @@ quad_offset[tile_quads["body_lady_run_sw (13)"]] = {36,  32}
 quad_offset[tile_quads["body_lady_run_sw (14)"]] = {39,  32}
 quad_offset[tile_quads["body_lady_run_sw (15)"]] = {41,  33}
 quad_offset[tile_quads["body_lady_run_sw (16)"]] = {43,  33}
+end
+local function extend_3()
 quad_offset[tile_quads["body_lady_run_sw (2)"]] = {39,  33}
 quad_offset[tile_quads["body_lady_run_sw (3)"]] = {38,  32}
 quad_offset[tile_quads["body_lady_run_sw (4)"]] = {37,  31}
@@ -29993,6 +29998,8 @@ quad_offset[tile_quads["body_trebuchet_loadfire_se (26)"]] = {92,  5}
 quad_offset[tile_quads["body_trebuchet_loadfire_se (27)"]] = {92,  13}
 quad_offset[tile_quads["body_trebuchet_loadfire_se (28)"]] = {92,  47}
 quad_offset[tile_quads["body_trebuchet_loadfire_se (29)"]] = {92,  44}
+end
+local function extend_3()
 quad_offset[tile_quads["body_trebuchet_loadfire_se (3)"]] = {93,  78}
 quad_offset[tile_quads["body_trebuchet_loadfire_se (30)"]] = {92,  50}
 quad_offset[tile_quads["body_trebuchet_loadfire_se (31)"]] = {92,  73}
@@ -34469,4 +34476,8 @@ quad_offset[tile_quads["tree_shrub2 (6)"]] = {7,  16}
 quad_offset[tile_quads["tree_shrub2 (7)"]] = {7,  16}
 quad_offset[tile_quads["tree_shrub2 (8)"]] = {7,  16}
 quad_offset[tile_quads["tree_shrub2 (9)"]] = {7,  16}
+end
+extend_1()
+extend_2()
+extend_3()
 return quad_offset
