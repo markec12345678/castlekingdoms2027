@@ -9,7 +9,8 @@ cache:
 run: 
   stage: test
   script:
-    - apt-add-repository ppa:bartbes/love-stable --assume-yes
+    - echo "deb http://ppa.launchpad.net/bartbes/love-stable/ubuntu $(lsb_release -cs) main" | sudo tee -a /etc/apt/sources.list
+    - echo "deb-src http://ppa.launchpad.net/bartbes/love-stable/ubuntu $(lsb_release -cs) main" | sudo tee -a /etc/apt/sources.list
     - apt-get update
     - apt-get install --assume-yes zip
     - zip -9 -r test.love .
