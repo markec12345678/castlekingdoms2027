@@ -10,6 +10,7 @@ run:
   stage: test
   script:
     - apt-get update
+    - apt-get install -y gnupg2
     - apt-get install -y lsb-release
     - echo "deb http://ppa.launchpad.net/bartbes/love-stable/ubuntu $(lsb_release -cs) main" | tee -a /etc/apt/sources.list
     - echo "deb-src http://ppa.launchpad.net/bartbes/love-stable/ubuntu $(lsb_release -cs) main" | tee -a /etc/apt/sources.list
