@@ -23,8 +23,6 @@ local chunks_set = newAutotable(2)
 
 ----Generate spriteBatch
 local terrain_image = _G.object_image
--- terrain_image:setFilter('nearest', 'nearest')
-local tile_offset = {}
 _G.heightmap = newAutotable(4)
 local heightmap = _G.heightmap
 local shadowmap = newAutotable(4)
@@ -32,7 +30,6 @@ _G.shadowmap = shadowmap
 _G.buildingheightmap = newAutotable(4)
 local tileheight = _G.buildingheightmap
 local terrain_tile = newAutotable(4)
-local imageW, imageH = terrain_image:getWidth(), terrain_image:getHeight()
 _G.terrain_biome = {
     ["abundant_grass"] = "abundant_grass",
     ["dirt"] = "dirt",
@@ -387,6 +384,16 @@ function _G.terrainElevateTileAt(gx, gy)
     end
 end
 
+function _G.terrainSetHeight(gx, gy, value)
+    -- print(gx, gy)
+    local i = (gx) % (chunk_width)
+    local o = (gy) % (chunk_width)
+    local cx = math.floor(gx / chunk_width)
+    local cy = math.floor(gy / chunk_width)
+    heightmap[cx][cy][i][o] = value
+    schedule_terrain_update(cx, cy, i, o)
+end
+
 local keys_to_skip = newAutotable(4)
 
 local function multiTileCalculate(current_biome, cx, cy, i, o)
@@ -558,9 +565,9 @@ local function update_terrain(chunk_x, chunk_y)
                     end
                 end
             end
-            average_height = total_height / 8
-            local prev_heightmap_value = heightmap[cx][cy][i][o] or 0
-            heightmap[cx][cy][i][o] = math.floor(math.max(average_height, (heightmap[cx][cy][i][o] or 0)))
+            -- average_height = total_height / 8
+            -- local prev_heightmap_value = heightmap[cx][cy][i][o] or 0
+            -- heightmap[cx][cy][i][o] = math.floor(math.max(average_height, (heightmap[cx][cy][i][o] or 0)))
             if heightmap[cx][cy][i][o] ~= prev_heightmap_value then
                 tiles_to_update_in_chunk[cx][cy][i][o] = true
             end
@@ -691,7 +698,7 @@ local function tileShouldBeCliff(my_gx, my_gy)
     cx = math.floor(gx / chunk_width)
     cy = math.floor(gy / chunk_width)
     local tile_left_height = heightmap[cx][cy][i][o] or 0
-    if (my_height - tile_left_height) > 4 then
+    if (my_height - tile_left_height) > 8 then
         return true
     end
     gx, gy = my_gx, my_gy + 1
@@ -700,7 +707,7 @@ local function tileShouldBeCliff(my_gx, my_gy)
     cx = math.floor(gx / chunk_width)
     cy = math.floor(gy / chunk_width)
     local tile_right_height = heightmap[cx][cy][i][o] or 0
-    if (my_height - tile_right_height) > 4 then
+    if (my_height - tile_right_height) > 8 then
         return true
     end
     gx, gy = my_gx + 1, my_gy + 1
@@ -800,15 +807,18 @@ local function refresh_terrain(chunk_x, chunk_y)
                 local cliff_chevron
                 local tile_overriden = false
                 local hill_chevron_sunny_side, hill_chevron_normal, hill_chevron_base
+                local l_scale = 1.06666
                 if elevation_offset_y ~= 0 then
                     local num = tostring(math.min(math.floor(elevation_offset_y / 6), 15) + 1)
                     -- local sunny_rand = tostring(love.math.random(1, 4))
                     -- local normal_rand = tostring(love.math.random(5, 8))
                     local sunny_rand = tostring((i + o) % 5 + 1)
-                    local normal_rand = tostring((i + o) % 4 + 5)
+                    -- local normal_rand = tostring((i + o) % 4 + 5)
+                    local normal_rand = love.math.random(1, 8)
                     if terrain[cx][cy][i][o] == _G.terrain_biome.scarce_grass then
                         -- terrain[cx][cy][i][o] = _G.terrain_biome.abundant_grass
-                        normal_rand = tostring((i + o + 1) % 16 + 1)
+                        -- normal_rand = tostring((i + o + 1) % 16 + 1)
+                        normal_rand = love.math.random(1, 16)
                         if elevation_offset_y < 33 and elevation_offset_y > 10 then
                             hill_tile_base = "mountain_grass_a_1x1 ("
                         elseif elevation_offset_y < 66 then
@@ -817,7 +827,8 @@ local function refresh_terrain(chunk_x, chunk_y)
                             hill_tile_base = "mountain_grass_b_1x1 ("
                         else
                             hill_tile_base = "hill_" .. num .. " ("
-                            normal_rand = tostring((i + o) % 4 + 5)
+                            normal_rand = love.math.random(5, 8)
+                            -- normal_rand = tostring((i + o) % 4 + 5)
                         end
                     else
                         hill_tile_base = "hill_" .. num .. " ("
@@ -832,7 +843,7 @@ local function refresh_terrain(chunk_x, chunk_y)
                     hill_chevron_normal = tile_quads[hill_chevron_normal]
                     hill_chevron_sunny_side = tile_quads[hill_chevron_sunny_side]
                     -- cliff_chevron = tile_quads["rock_cliff (" .. tostring(love.math.random(1, 31)) .. ")"]
-                    cliff_chevron = tile_quads["rock_cliff (" .. tostring((i + o) % 31 + 1) .. ")"]
+                    cliff_chevron = tile_quads["sand_cliffs (" .. tostring((i + o) % 31 + 1) .. ")"]
                 end
                 local light_value = 1
                 if is_in_shadow then
@@ -841,15 +852,15 @@ local function refresh_terrain(chunk_x, chunk_y)
                         if is_cliff then
                             local qx, qy, qw, qh = cliff_chevron:getViewport()
                             instancemesh:setVertex(chevron_id, t[2], t[3] - elevation_offset_y * 2 + 8, qx, qy, qw, qh,
-                                1 - shadow_value)
+                                1 - shadow_value, l_scale)
                         else
                             local qx, qy, qw, qh = hill_chevron_normal:getViewport()
                             instancemesh:setVertex(chevron_id, t[2], t[3] - elevation_offset_y * 2 + 8, qx, qy, qw, qh,
-                                1 - shadow_value)
+                                1 - shadow_value, l_scale)
                         end
                         local qx, qy, qw, qh = hill_tile_normal:getViewport()
                         instancemesh:setVertex(vert_id, t[2], t[3] - elevation_offset_y * 2, qx, qy, qw, qh,
-                            1 - shadow_value)
+                            1 - shadow_value, l_scale)
                         tile_overriden = true
                     end
                     light_value = max_shadow
@@ -860,35 +871,36 @@ local function refresh_terrain(chunk_x, chunk_y)
                         if is_cliff then
                             local qx, qy, qw, qh = cliff_chevron:getViewport()
                             instancemesh:setVertex(chevron_id, t[2], t[3] - elevation_offset_y * 2 + 8, qx, qy, qw, qh,
-                                0.9 + math.min(light_modifier, 0.11))
+                                0.9 + math.min(light_modifier, 0.11), l_scale)
                         else
                             local qx, qy, qw, qh = hill_chevron_sunny_side:getViewport()
                             instancemesh:setVertex(chevron_id, t[2], t[3] - elevation_offset_y * 2 + 8, qx, qy, qw, qh,
-                                0.9 + math.min(light_modifier, 0.11))
+                                0.9 + math.min(light_modifier, 0.11), l_scale)
                         end
                         local qx, qy, qw, qh = hill_tile_sunny_side:getViewport()
                         instancemesh:setVertex(vert_id, t[2], t[3] - elevation_offset_y * 2, qx, qy, qw, qh,
-                            0.9 + math.min(light_modifier, 0.11))
+                            0.9 + math.min(light_modifier, 0.11), l_scale)
                         tile_overriden = true
                     elseif elevation_offset_y ~= 0 then
                         light_value = 1
                         if is_cliff then
                             local qx, qy, qw, qh = cliff_chevron:getViewport()
                             instancemesh:setVertex(chevron_id, t[2], t[3] - elevation_offset_y * 2 + 8, qx, qy, qw, qh,
-                                1)
+                                1, l_scale)
                         else
                             local qx, qy, qw, qh = hill_chevron_normal:getViewport()
                             instancemesh:setVertex(chevron_id, t[2], t[3] - elevation_offset_y * 2 + 8, qx, qy, qw, qh,
-                                1)
+                                1, l_scale)
                         end
                         local qx, qy, qw, qh = hill_tile_normal:getViewport()
-                        instancemesh:setVertex(vert_id, t[2], t[3] - elevation_offset_y * 2, qx, qy, qw, qh, 1)
+                        instancemesh:setVertex(vert_id, t[2], t[3] - elevation_offset_y * 2, qx, qy, qw, qh, 1, l_scale)
                         tile_overriden = true
                     end
                 end
-                if not skip_multi_tile and not tile_overriden then
+                if not skip_multi_tile and not tile_overriden and t[1] then
                     local qx, qy, qw, qh = t[1]:getViewport()
-                    instancemesh:setVertex(vert_id, t[2], t[3] - elevation_offset_y * 2, qx, qy, qw, qh, light_value)
+                    instancemesh:setVertex(vert_id, t[2], t[3] - elevation_offset_y * 2, qx, qy, qw, qh, light_value,
+                        l_scale)
                 end
             elseif terrain[cx][cy][i][o] == _G.terrain_biome.none then
                 local vert_id = _G.getTerrainVertex(cx, cy, i, o)
@@ -898,6 +910,41 @@ local function refresh_terrain(chunk_x, chunk_y)
         end
     end
     tertiary_tiles_to_update_in_chunk[cx][cy] = nil
+end
+
+function _G.getTerrainTileOnMouse(mx, my)
+    local MX, MY, rMX, rMY
+    rMX = (mx - _G.width / 2) / _G.scale_x + _G.view_xview - 16
+    rMY = (my - _G.height / 2) / _G.scale_x + _G.view_yview
+    local max_tiles = 20
+    local offset_y
+    local LocalX = math.round(ScreenToIsoX(rMX, rMY))
+    local LocalY = math.round(ScreenToIsoY(rMX, rMY))
+    local last_valid_gx, last_valid_gy = LocalX, LocalY
+    for tiles_iterated = 0, max_tiles do
+        offset_y = tiles_iterated * 8
+        MX = (mx - _G.width / 2) / _G.scale_x + _G.view_xview - 16
+        MY = (my + offset_y * _G.scale_x - _G.height / 2) / _G.scale_x + _G.view_yview - 8
+        LocalX = math.round(ScreenToIsoX(MX, MY))
+        LocalY = math.round(ScreenToIsoY(MX, MY))
+        local gx = LocalX
+        local gy = LocalY
+        local i = (LocalX) % (chunk_width)
+        local o = (LocalY) % (chunk_width)
+        local cx = math.floor(LocalX / chunk_width)
+        local cy = math.floor(LocalY / chunk_width)
+        local elevation_offset_y = (heightmap[cx][cy][i][o] or 0) * 2
+        local t = terrain_tile[cx][cy][i][o]
+        local cy_offset = (cx + cy) * chunk_height * tile_height * 0.5
+        if not t or #t <= 0 then
+            t = {nil, _G.IsoX + (i - o) * tile_width * 0.5, _G.IsoY + (i + o) * tile_height * 0.5, 0, 1.06, 1.06}
+        end
+        local recty = t[3] - elevation_offset_y + cy_offset
+        if rMY >= recty then
+            last_valid_gx, last_valid_gy = gx, gy
+        end
+    end
+    return last_valid_gx, last_valid_gy
 end
 
 local function update()

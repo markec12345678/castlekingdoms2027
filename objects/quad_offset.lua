@@ -1,6 +1,7 @@
 if _G.test_mode then return {} end
 local tile_quads = require('objects.object_quads')
 _G.quad_offset = {}
+local quad_offset = _G.quad_offset
 local function extend_1()
 quad_offset[tile_quads["spearman_falling_e (1)"]] = {34,  33}
 quad_offset[tile_quads["spearman_falling_e (2)"]] = {29,  34}
@@ -29999,7 +30000,7 @@ quad_offset[tile_quads["body_trebuchet_loadfire_se (27)"]] = {92,  13}
 quad_offset[tile_quads["body_trebuchet_loadfire_se (28)"]] = {92,  47}
 quad_offset[tile_quads["body_trebuchet_loadfire_se (29)"]] = {92,  44}
 end
-local function extend_3()
+local function extend_4()
 quad_offset[tile_quads["body_trebuchet_loadfire_se (3)"]] = {93,  78}
 quad_offset[tile_quads["body_trebuchet_loadfire_se (30)"]] = {92,  50}
 quad_offset[tile_quads["body_trebuchet_loadfire_se (31)"]] = {92,  73}
@@ -34480,4 +34481,5 @@ end
 extend_1()
 extend_2()
 extend_3()
+extend_4()
 return quad_offset

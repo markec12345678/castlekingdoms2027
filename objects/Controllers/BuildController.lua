@@ -175,8 +175,9 @@ local building = {
                     else
                         type = 1
                     end
-                    ctrl.batch:add(ctrl.quads[type], (xx - yy) * tile_width * 0.5, (xx + yy) * tile_height * 0.5, 0, 1,
-                        1)
+                    local elevation_offset_y = (_G.heightmap[cx][cy][x][y] or 0) * 2
+                    ctrl.batch:add(ctrl.quads[type], (xx - yy) * tile_width * 0.5,
+                        (xx + yy) * tile_height * 0.5 - elevation_offset_y, 0, 1, 1)
                 end
             end
             ctrl.batch:flush()
@@ -247,8 +248,9 @@ local building = {
                     else
                         type = 1
                     end
-                    ctrl.batch:add(ctrl.quads[type], (xx - yy) * tile_width * 0.5, (xx + yy) * tile_height * 0.5, 0, 1,
-                        1)
+                    local elevation_offset_y = (_G.heightmap[cx][cy][x][y] or 0) * 2
+                    ctrl.batch:add(ctrl.quads[type], (xx - yy) * tile_width * 0.5,
+                        (xx + yy) * tile_height * 0.5 - elevation_offset_y, 0, 1, 1)
                 end
             end
             ctrl.batch:flush()
@@ -354,6 +356,7 @@ function BuildController:initialize()
     self.FY = 0
     self.previous_gx = 0
     self.previous_gy = 0
+    self.elevation_offset_y = 0
     self.can_build = false
     self.previous_can_build = false
     self.building = "castle"
@@ -382,11 +385,13 @@ function BuildController:update()
     if self.active then
         local MX, MY = love.mouse.getPosition()
         local type = 1
-        MX = (MX - width / 2) / scale_x + view_xview - 16
-        MY = (MY - height / 2) / scale_x + view_yview - 8
-        local LX = math.round(ScreenToIsoX(MX, MY))
-        local LY = math.round(ScreenToIsoY(MX, MY))
+        local LX, LY = _G.getTerrainTileOnMouse(MX, MY)
         self.gx, self.gy = LX, LY
+        local x = (self.gx) % (chunk_width)
+        local y = (self.gy) % (chunk_width)
+        local cx = math.floor((self.gx) / chunk_width)
+        local cy = math.floor((self.gy) / chunk_width)
+        self.elevation_offset_y = (_G.heightmap[cx][cy][x][y] or 0) * 2
         self.FX = IsoToScreenX(LX, LY) - view_xview - ((IsoToScreenX(LX, LY)) - view_xview) * (1 - scale_x)
         self.FY = IsoToScreenY(LX, LY) - view_yview - ((IsoToScreenY(LX, LY)) - view_yview) * (1 - scale_x)
         -- No point to flush the batch everytime
@@ -425,8 +430,9 @@ function BuildController:update()
                         else
                             type = 1
                         end
-                        self.batch:add(self.quads[type], (xx - yy) * tile_width * 0.5, (xx + yy) * tile_height * 0.5, 0,
-                            1, 1)
+                        local elevation_offset_y = (_G.heightmap[cx][cy][x][y] or 0) * 2
+                        self.batch:add(self.quads[type], (xx - yy) * tile_width * 0.5,
+                            (xx + yy) * tile_height * 0.5 - elevation_offset_y, 0, 1, 1)
                     end
                 end
                 self.batch:flush()
@@ -580,8 +586,8 @@ function BuildController:draw()
         love.graphics.setColor(1, 1, 1, 0.5)
         love.graphics.draw(self.batch, self.FX, self.FY, nil, scale_x)
         love.graphics.draw(object_image, building[self.building].quad,
-            self.FX - building[self.building].offset_x * scale_x, self.FY - building[self.building].offset_y * scale_x,
-            0, scale_x)
+            self.FX - building[self.building].offset_x * scale_x, self.FY - self.elevation_offset_y * scale_x -
+                building[self.building].offset_y * scale_x, 0, scale_x)
         love.graphics.setColor(1, 1, 1, 1)
     end
 end

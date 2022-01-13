@@ -282,7 +282,8 @@ function _G.allocateMesh(cx, cy)
         object_batch[chunk_x][chunk_y] = love.graphics.newMesh(treeverts, "strip", "static")
     end
     local instancemesh = love.graphics.newMesh({{"InstancePosition", "float", 2}, {"UVOffset", "float", 2},
-                                                {"ImageDim", "float", 2}, {"ImageShade", "float", 1}},
+                                                {"ImageDim", "float", 2}, {"ImageShade", "float", 1},
+                                                {"ScaleX", "float", 1}},
         chunk_width * chunk_height * _G.vertices_per_tile + 1000, nil, "dynamic")
     _G.object_mesh[chunk_x][chunk_y] = instancemesh
     object_batch[chunk_x][chunk_y]:setTexture(object_image)
@@ -290,6 +291,7 @@ function _G.allocateMesh(cx, cy)
     object_batch[chunk_x][chunk_y]:attachAttribute("UVOffset", instancemesh, "perinstance")
     object_batch[chunk_x][chunk_y]:attachAttribute("ImageDim", instancemesh, "perinstance")
     object_batch[chunk_x][chunk_y]:attachAttribute("ImageShade", instancemesh, "perinstance")
+    object_batch[chunk_x][chunk_y]:attachAttribute("ScaleX", instancemesh, "perinstance")
 end
 
 function genObjects(cx, cy)
@@ -298,8 +300,8 @@ function genObjects(cx, cy)
             local gx = chunk_width * cx + i
             local gy = chunk_width * cy + o
             local tree_generated = false
-            if _G.forest_gen[math.round((gx) / 8) + 1][math.round((gy) / 8) + 1] ~= false then
-                _G.terrainSetTileAt(gx, gy, _G.terrain_biome.scarce_grass)
+            if _G.forest_gen[math.round((gx) / 8) + 1][math.round((gy) / 8) + 1] ~= false and false then
+                -- _G.terrainSetTileAt(gx, gy, _G.terrain_biome.scarce_grass)
                 local rand = math.random(5)
                 if rand ~= 3 then
                     goto continue
@@ -333,13 +335,13 @@ function genObjects(cx, cy)
                     goto continue
                 end
                 if love.math.random(1, 25) == 1 then
-                    PineTree:new(gx, gy, "Dead pine tree")
+                    -- PineTree:new(gx, gy, "Dead pine tree")
                 else
-                    local tree = PineTree:new(gx, gy, "Pine tree")
-                    tree.animation:gotoFrame(math.random(1, 20))
+                    -- local tree = PineTree:new(gx, gy, "Pine tree")
+                    -- tree.animation:gotoFrame(math.random(1, 20))
                 end
                 tree_generated = true
-            elseif not tree_generated then
+            elseif not tree_generated and false then
                 if objectAtGlobal(gx, gy - 1) then
                     goto continue
                 end
@@ -361,8 +363,8 @@ function genObjects(cx, cy)
                         end
                         goto continue
                     end
-                    local tree = PineTree:new(gx, gy, "Medium pine tree")
-                    tree.animation:gotoFrame(math.random(1, 20))
+                    -- local tree = PineTree:new(gx, gy, "Medium pine tree")
+                    -- tree.animation:gotoFrame(math.random(1, 20))
                     tree_generated = true
                     goto continue
                 else
@@ -379,8 +381,8 @@ function genObjects(cx, cy)
                     local rand = math.random(30 - chance)
                     if rand ~= 3 then
                         if rand == 4 then
-                            local tree = PineTree:new(gx, gy, "Very small pine tree")
-                            tree.animation:gotoFrame(math.random(1, 20))
+                            -- local tree = PineTree:new(gx, gy, "Very small pine tree")
+                            -- tree.animation:gotoFrame(math.random(1, 20))
                         end
                         if rand == 5 then
                             local shrub = Shrub:new(gx, gy, "Tall shrub")
@@ -388,22 +390,23 @@ function genObjects(cx, cy)
                         end
                         goto continue
                     end
-                    local tree = PineTree:new(gx, gy, "Small pine tree")
-                    tree.animation:gotoFrame(math.random(1, 20))
+                    -- local tree = PineTree:new(gx, gy, "Small pine tree")
+                    -- tree.animation:gotoFrame(math.random(1, 20))
                     tree_generated = true
                     goto continue
                 end
                 if not tree_generated and love.math.random(1000) == 4 then
-                    local tree = PineTree:new(gx, gy, "Medium pine tree")
-                    tree.animation:gotoFrame(math.random(1, 20))
+                    -- local tree = PineTree:new(gx, gy, "Medium pine tree")
+                    -- tree.animation:gotoFrame(math.random(1, 20))
                     tree_generated = true
                 end
                 if not tree_generated and love.math.random(800) == 4 then
-                    local shrub = Shrub:new(gx, gy, "Short shrub")
-                    shrub.animation:gotoFrame(math.random(1, 20))
+                    -- local shrub = Shrub:new(gx, gy, "Short shrub")
+                    -- shrub.animation:gotoFrame(math.random(1, 20))
                 end
             end
-            if not tree_generated and _G.stone_gen[math.round((gx) / 3) + 1][math.round((gy) / 3) + 1] ~= false then
+            if not tree_generated and _G.stone_gen[math.round((gx) / 3) + 1][math.round((gy) / 3) + 1] ~= false and
+                false then
                 local border = false
                 for lx = -1, 1, 1 do
                     for ly = -1, 1, 1 do
@@ -428,7 +431,7 @@ function genObjects(cx, cy)
                     end
                 end
             end
-            if not tree_generated and _G.iron_gen[math.round((gx) / 3) + 1][math.round((gy) / 3) + 1] ~= false then
+            if not tree_generated and _G.iron_gen[math.round((gx) / 3) + 1][math.round((gy) / 3) + 1] ~= false and false then
                 local border = false
                 for lx = -1, 1, 1 do
                     for ly = -1, 1, 1 do
@@ -468,13 +471,20 @@ attribute vec2 InstancePosition;
 attribute vec2 UVOffset;
 attribute vec2 ImageDim;
 attribute float ImageShade;
+attribute float ScaleX;
+varying float imgscale;
 
 vec4 position(mat4 transform_projection, vec4 vertex_position)
 {
     uvoff = UVOffset;
     imgdim = ImageDim;
     imgshd = ImageShade;
+    imgscale = ScaleX;
+    if (imgscale == 0) {
+        imgscale = 1.0;
+    }
     vertex_position.xy *= ImageDim;
+    vertex_position.x *= imgscale;
     vertex_position.xy += InstancePosition;
 	return transform_projection * vertex_position;
 }
@@ -521,21 +531,11 @@ end
 
 local function mousepressed(x, y, button)
     local mx, my = x, y
-    local vx = mx - _G.width / 2
-    local vy = my - _G.height / 2
-    LocalX = math.round(ScreenToIsoX(vx / _G.scale_x + _G.view_xview - 16, vy / _G.scale_x + _G.view_yview - 8));
-    LocalY = math.round(ScreenToIsoY(vx / _G.scale_x + _G.view_xview - 16, vy / _G.scale_x + _G.view_yview - 8));
-    local MX, MY = love.mouse.getPosition()
-    MX = (MX - _G.width / 2) / _G.scale_x + _G.view_xview - 16
-    MY = (MY - _G.height / 2) / _G.scale_x + _G.view_yview - 8
-    LocalX = math.round(ScreenToIsoX(MX, MY))
-    LocalY = math.round(ScreenToIsoY(MX, MY))
-    press.gx = LocalX
-    press.gy = LocalY
-    press.x = (LocalX) % (chunk_width)
-    press.y = (LocalY) % (chunk_width)
-    press.cx = math.floor(LocalX / chunk_width)
-    press.cy = math.floor(LocalY / chunk_width)
+    press.gx, press.gy = _G.getTerrainTileOnMouse(mx, my)
+    press.cx = math.floor(press.gx / chunk_width)
+    press.cy = math.floor(press.gy / chunk_width)
+    press.x = (press.gx) % (chunk_width)
+    press.y = (press.gy) % (chunk_width)
     if button == 1 then
         _G.BuildController:build(press.gx, press.gy)
     elseif button == 2 then
@@ -554,9 +554,11 @@ local function mousepressed(x, y, button)
         --     -- Woodcutter:new(press.gx, press.gy, "Woodcutter")
         -- end
     elseif button == 3 then
-        if not objectAt(press.cx, press.cy, press.x, press.y) then
-            WoodenWall:new(press.gx, press.gy)
-        end
+        require("objects.Controllers.Ferdnhoven")
+        _G.getTerrainTileOnMouse(mx, my, true)
+        -- if not objectAt(press.cx, press.cy, press.x, press.y) then
+        --     WoodenWall:new(press.gx, press.gy)
+        -- end
         -- for i = -2, 2 do
         --     for o = -2, 2 do
         --         if i == 2 or i == -2 or o == 2 or o == -2 then
@@ -631,6 +633,19 @@ local function preload(dt)
     end
 end
 
+function _G.setWaterAt(gx, gy)
+    local pgx, pgy = gx, gy
+    for i = -1, 1 do
+        for o = -1, 1 do
+            if i == 1 or i == -1 or o == 1 or o == -1 then
+                _G.terrainSetTileAt(pgx + i, pgy + o, _G.terrain_biome.sea_beach, _G.terrain_biome.abundant_grass)
+            else
+                _G.terrainSetTileAt(pgx + i, pgy + o, _G.terrain_biome.sea)
+            end
+        end
+    end
+end
+
 local first_update = true
 local function update(dt)
     if love.mouse.isDown(2) then
@@ -654,6 +669,30 @@ local function update(dt)
         _G.terrainElevateTileAt(pgx + 0, pgy + 0)
         for xxx = -1, 1 do
             for yyy = -1, 1 do
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
+                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
                 _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
                 _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
             end

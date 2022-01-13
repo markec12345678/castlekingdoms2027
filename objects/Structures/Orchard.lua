@@ -44,6 +44,21 @@ function Orchard_tree:initialize(gx, gy, parent, offset_y, offset_x)
     self.additional_offset_y = 0
     self.offset_x = offset_x or 0
     self.offset_y = self.additional_offset_y - self.base_offset_y
+    for xx = -1, 1 do
+        for yy = -1, 1 do
+            if not ((xx == -1 and yy == -1) or (xx == 1 and yy == 1) or (xx == -1 and yy == 1) or (xx == 1 and yy == -1)) then
+                local xxx = (self.gx + xx) % (chunk_width)
+                local yyy = (self.gy + yy) % (chunk_width)
+                local ccx = math.floor((self.gx + xx) / chunk_width)
+                local ccy = math.floor((self.gy + yy) / chunk_width)
+                if xx == 0 and yy == 0 then
+                    _G.buildingheightmap[ccx][ccy][xxx][yyy] = 17
+                else
+                    _G.buildingheightmap[ccx][ccy][xxx][yyy] = 14
+                end
+            end
+        end
+    end
     for k, v in ipairs(_G.stockpile.node_list) do
         if v.gx == self.gx and v.gy == self.gy then
             table.remove(_G.stockpile.node_list, k)
@@ -113,7 +128,6 @@ function Orchard:initialize(gx, gy, type)
         end
     end
 
-    
     for xx = 0, 2 do
         for yy = 0, 2 do
             _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.none)
@@ -159,6 +173,16 @@ function Orchard:initialize(gx, gy, type)
     -- Orchard_alias:new(tile_quads["empty"],self.gx+2,self.gy+5,self,12+8*4,16)
     -- Orchard_alias:new(tile_quads["empty"],self.gx+3,self.gy+5,self,12+8*4,16)
     -- Orchard_alias:new(tile_quads["empty"],self.gx+4,self.gy+5,self,12+8*4,16)
+
+    for xx = 0, 2 do
+        for yy = 0, 2 do
+            local xxx = (self.gx + xx) % (chunk_width)
+            local yyy = (self.gy + yy) % (chunk_width)
+            local ccx = math.floor((self.gx + xx) / chunk_width)
+            local ccy = math.floor((self.gy + yy) / chunk_width)
+            _G.buildingheightmap[ccx][ccy][xxx][yyy] = 15
+        end
+    end
 
     self.free_spots = 1
     Structure.render(self)
