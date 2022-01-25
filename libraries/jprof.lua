@@ -1,10 +1,26 @@
 -- https://github.com/pfirsich/jprof
-
+-- MIT License
+-- Copyright (c) 2017 Joel Schumacher
+-- Permission is hereby granted, free of charge, to any person obtaining a copy
+-- of this software and associated documentation files (the "Software"), to deal
+-- in the Software without restriction, including without limitation the rights
+-- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+-- copies of the Software, and to permit persons to whom the Software is
+-- furnished to do so, subject to the following conditions:
+-- The above copyright notice and this permission notice shall be included in all
+-- copies or substantial portions of the Software.
+-- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+-- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+-- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+-- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+-- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+-- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+-- SOFTWARE.
 _prefix = (...):match("(.+%.)[^%.]+$") or ""
 -- we need to make sure we have our own instance, so we can adjust settings
 local msgpack_old = package.loaded["MessagePack"]
 package.loaded["MessagePack"] = nil
-local msgpack = require(_prefix .."MessagePack")
+local msgpack = require(_prefix .. "MessagePack")
 package.loaded["MessagePack"] = msgpack_old
 
 -- We need to make sure the number format is "double", so our timestamps have enough accuracy.
@@ -21,8 +37,7 @@ local profiler = {}
 -- we do this, so table.insert/table.remove does have no (non-constant) impact on
 -- the memory consumption we determine using collectgarbage("count"))
 -- since no allocations/deallocations are triggered by them anymore
-local zoneStack = {nil, nil, nil, nil, nil, nil, nil, nil,
-                   nil, nil, nil, nil, nil, nil, nil, nil}
+local zoneStack = {nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil}
 local profData = {}
 local netBuffer = nil
 local profEnabled = true
@@ -32,7 +47,7 @@ local profEnabled = true
 local profMem = 0
 
 local function getByte(n, byte)
-    return bit.rshift(bit.band(n, bit.lshift(0xff, 8*byte)), 8*byte)
+    return bit.rshift(bit.band(n, bit.lshift(0xff, 8 * byte)), 8 * byte)
 end
 
 -- I need this function (and not just msgpack.pack), so I can pack and write
@@ -68,7 +83,9 @@ end
 
 if PROF_CAPTURE then
     function profiler.push(name, annotation)
-        if not profEnabled then return end
+        if not profEnabled then
+            return
+        end
 
         if #zoneStack == 0 then
             assert(name == "frame", "(jprof) You may only push the 'frame' zone onto an empty stack")
@@ -90,11 +107,14 @@ if PROF_CAPTURE then
     end
 
     function profiler.pop(name)
-        if not profEnabled then return end
+        if not profEnabled then
+            return
+        end
 
         if name then
             assert(zoneStack[#zoneStack] == name,
-                ("(jprof) Top of zone stack, does not match the zone passed to prof.pop ('%s', on top: '%s')!"):format(name, zoneStack[#zoneStack]))
+                ("(jprof) Top of zone stack, does not match the zone passed to prof.pop ('%s', on top: '%s')!"):format(
+                    name, zoneStack[#zoneStack]))
         end
 
         local memCount = collectgarbage("count")
@@ -186,7 +206,8 @@ if PROF_CAPTURE then
         end
     end
 else
-    local noop = function() end
+    local noop = function()
+    end
 
     profiler.push = noop
     profiler.pop = noop
