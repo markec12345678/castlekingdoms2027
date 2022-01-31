@@ -247,10 +247,9 @@ ly_offset = 0
 px_img_y_offset = 0
 tile_image = {}
 ----Version, title and window information
-width, height, flags = love.window.getMode()
-width = width or 1
-height = height or 1
-min_dt = 1 / 60
+local _
+_G.ScreenWidth, _G.ScreenHeight, _ = love.window.getMode()
+min_dt = 1 / 61
 next_time = 0
 ----Objects related    
 tile_offset, tile_offset_x = {}, {}

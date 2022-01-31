@@ -1,21 +1,15 @@
-local first_location_x, first_location_y, last_location_x, last_location_y = 0
-local location_distance = 0
-local angle, first = 0, 0
-local ffi = require('ffi')
 local tile_quads = require('terrain.terrain_quads')
-
+local ScreenToIsoX, ScreenToIsoY = _G.ScreenToIsoX, _G.ScreenToIsoY
+local tile_width, tile_height = _G.tile_width, _G.tile_height
 -- Terrain Initialize
 ----Rows and columns
-local cols = chunk_width
-local rows = chunk_height
 local chunk_width, chunk_height = _G.chunk_width, _G.chunk_height
 local tiles_to_update_in_chunk = _G.newAutotable(4)
 local secondary_tiles_to_update_in_chunk = _G.newAutotable(4)
 local tertiary_tiles_to_update_in_chunk = _G.newAutotable(4)
-local second_chunks_to_update = {}
 local chunks_set = newAutotable(2)
 ----Chunk 2D array
--- Statuses: 
+-- Statuses:
 -- [1] loaded unsaved
 -- [2] unloaded - chunk exist on hard disk
 -- [3] loaded saved - chunk hasn't been changed so no need to save it
@@ -48,15 +42,7 @@ local terrain = _G.terrain
 local terrain_batch = newAutotable(2)
 terrain_batch[0][0] = love.graphics.newSpriteBatch(terrain_image, chunk_width * chunk_height)
 
-function getTerrainChunk()
-    return chunk or {}
-end
-
-function getLocationDistance()
-    return location_distance or 0
-end
-
-local function check_max_size_biome(biome, cx, cy, i, o, keys_to_skip, verbose)
+local function check_max_size_biome(biome, cx, cy, i, o, keys_to_skip)
     local current_height = 0
     if shadowmap[cx][cy][i][o] ~= 0 and shadowmap[cx][cy][i][o] ~= nil then
         return 1
@@ -353,7 +339,7 @@ local function multi_tile_terrain(size, keys_to_skip, cx, cy, i, o, biome)
 end
 
 local chunks_to_update = {}
-local function schedule_terrain_update(cx, cy, i, o)
+function _G.schedule_terrain_update(cx, cy, i, o)
     tiles_to_update_in_chunk[cx][cy][i][o] = true
     tertiary_tiles_to_update_in_chunk[cx][cy][i][o] = true
     for x = -4, 4 do
@@ -380,7 +366,7 @@ function _G.terrainElevateTileAt(gx, gy)
             heightmap[cx][cy][i][o] = 1
         end
         heightmap[cx][cy][i][o] = math.min(heightmap[cx][cy][i][o], 80)
-        schedule_terrain_update(cx, cy, i, o)
+        _G.schedule_terrain_update(cx, cy, i, o)
     end
 end
 
@@ -391,14 +377,13 @@ function _G.terrainSetHeight(gx, gy, value)
     local cx = math.floor(gx / chunk_width)
     local cy = math.floor(gy / chunk_width)
     heightmap[cx][cy][i][o] = value
-    schedule_terrain_update(cx, cy, i, o)
+    _G.schedule_terrain_update(cx, cy, i, o)
 end
 
 local keys_to_skip = newAutotable(4)
 
 local function multiTileCalculate(current_biome, cx, cy, i, o)
     local l_scale = 1.06
-    local tile_width, tile_height = _G.tile_width, _G.tile_height
     local max_size = check_max_size_biome(current_biome, cx, cy, i, o, keys_to_skip)
     local upper_border
     if max_size == 1 then
@@ -467,10 +452,8 @@ local function multiTileCalculate(current_biome, cx, cy, i, o)
         elseif sw then
             tile_key = "sea_beach_ne_inside (" .. tostring(love.math.random(1, 2)) .. ")"
         end
-    else
-        if rand == 0 then
-            -- No tile, skip
-        elseif rand <= 16 then
+    elseif current_biome ~= _G.terrain_biome.none then
+        if rand > 0 and rand <= 16 then
             tile_key = terrain[cx][cy][i][o] .. "_1x1 (" .. tostring(rand) .. ")"
             local _, _, _, lh = tile_quads[tile_key]:getViewport()
             l_offset_y = 16 - lh
@@ -550,7 +533,6 @@ local function update_terrain(chunk_x, chunk_y)
         for o = 0, chunk_width - 1, 1 do
             local gx = chunk_width * cx + i
             local gy = chunk_width * cy + o
-            local average_height
             local total_height = 0
             for sx = -1, 1 do
                 for sy = -1, 1 do
@@ -565,26 +547,17 @@ local function update_terrain(chunk_x, chunk_y)
                     end
                 end
             end
-            -- average_height = total_height / 8
-            -- local prev_heightmap_value = heightmap[cx][cy][i][o] or 0
-            -- heightmap[cx][cy][i][o] = math.floor(math.max(average_height, (heightmap[cx][cy][i][o] or 0)))
-            if heightmap[cx][cy][i][o] ~= prev_heightmap_value then
-                tiles_to_update_in_chunk[cx][cy][i][o] = true
-            end
             local prev_i = (gx - 1) % (chunk_width)
             local prev_o = (gy + 1) % (chunk_width)
             local prev_cx = math.floor((gx - 1) / chunk_width)
             local prev_cy = math.floor((gy + 1) / chunk_width)
 
             local prev_height, prev_shadow, prev_tileheight = 0, 0, 0
-            local curr_tileheight = tileheight[cx][cy][i][o] or 0
             if _G.terrain[prev_cx] and _G.terrain[prev_cx][prev_cy] then
                 prev_height = heightmap[prev_cx][prev_cy][prev_i][prev_o] or 0
                 prev_height = 75 * prev_height / (40 + prev_height)
                 prev_shadow = shadowmap[prev_cx][prev_cy][prev_i][prev_o] or 0
                 prev_tileheight = tileheight[prev_cx][prev_cy][prev_i][prev_o] or 0
-                -- prev_tileheight = 75 * prev_tileheight / (40 + prev_tileheight)
-                -- total_height = 75 * (prev_height + prev_tileheight) / (40 + (prev_height + prev_tileheight))
             end
             shadowmap[cx][cy][i][o] = math.max(math.max(prev_height + prev_tileheight, prev_shadow) - 3.5, 0)
 
@@ -674,7 +647,7 @@ local function update_terrain(chunk_x, chunk_y)
                         multi_tile_origin = keys_to_skip[cx][cy][cur_idx[1]][cur_idx[2]]
                     end
                     local mt = multi_tile_origin
-                    local max_size = check_max_size_biome(current_biome, mt.cx, mt.cy, mt[1], mt[2], empty_table, true)
+                    local max_size = check_max_size_biome(current_biome, mt.cx, mt.cy, mt[1], mt[2], empty_table)
                     if max_size ~= mt.size then
                         terrain_tile[cx][cy][mt[1]][mt[2]] = {}
                         free_multi_tile_terrain(multi_tile_origin.size, keys_to_skip, cx, cy, mt[1], mt[2])
@@ -742,8 +715,8 @@ local function refresh_terrain(chunk_x, chunk_y)
     tiles_to_update_in_chunk[cx][cy] = nil
     for i = 0, chunk_width - 1, 1 do
         for o = 0, chunk_width - 1, 1 do
-            if tertiary_tiles_to_update_in_chunk[cx][cy][i] and tertiary_tiles_to_update_in_chunk[cx][cy][i][o] == true and
-                terrain[cx][cy][i][o] ~= _G.terrain_biome.none then
+            if true or tertiary_tiles_to_update_in_chunk[cx][cy][i] and tertiary_tiles_to_update_in_chunk[cx][cy][i][o] ==
+                true and terrain[cx][cy][i][o] ~= _G.terrain_biome.none then
                 local vert_id = _G.getTerrainVertex(cx, cy, i, o)
                 local chevron_id = _G.getChevronVertex(cx, cy, i, o)
                 local instancemesh = _G.object_mesh[cx][cy]
@@ -763,12 +736,10 @@ local function refresh_terrain(chunk_x, chunk_y)
                 local prev_cx = math.floor((gx - 1) / chunk_width)
                 local prev_cy = math.floor((gy + 1) / chunk_width)
 
-                local prev_height, prev_shadow, prev_tileheight = 0, 0, 0
+                local prev_height, prev_shadow, prev_tileheight
                 prev_height = heightmap[prev_cx][prev_cy][prev_i][prev_o] or 0
                 prev_shadow = shadowmap[prev_cx][prev_cy][prev_i][prev_o] or 0
                 prev_tileheight = tileheight[prev_cx][prev_cy][prev_i][prev_o] or 0
-                local prev_elevation_value = 75 * prev_height / (40 + prev_height)
-                local prev_shadow_value = math.min((prev_shadow - prev_elevation_value / 40) / 40, 0.45) / 1.25
                 local prev_in_shadow = prev_shadow > prev_height
                 if prev_height <= elevation_offset_y and prev_tileheight <= this_tileheight and not prev_in_shadow and
                     shadow_value > elevation_value then
@@ -812,9 +783,9 @@ local function refresh_terrain(chunk_x, chunk_y)
                     local num = tostring(math.min(math.floor(elevation_offset_y / 6), 15) + 1)
                     -- local sunny_rand = tostring(love.math.random(1, 4))
                     -- local normal_rand = tostring(love.math.random(5, 8))
-                    local sunny_rand = tostring((i + o) % 5 + 1)
+                    local sunny_rand = love.math.random(4, 8) + 4
                     -- local normal_rand = tostring((i + o) % 4 + 5)
-                    local normal_rand = love.math.random(1, 8)
+                    local normal_rand = love.math.random(4, 8) + 4
                     if terrain[cx][cy][i][o] == _G.terrain_biome.scarce_grass then
                         -- terrain[cx][cy][i][o] = _G.terrain_biome.abundant_grass
                         -- normal_rand = tostring((i + o + 1) % 16 + 1)
@@ -843,7 +814,7 @@ local function refresh_terrain(chunk_x, chunk_y)
                     hill_chevron_normal = tile_quads[hill_chevron_normal]
                     hill_chevron_sunny_side = tile_quads[hill_chevron_sunny_side]
                     -- cliff_chevron = tile_quads["rock_cliff (" .. tostring(love.math.random(1, 31)) .. ")"]
-                    cliff_chevron = tile_quads["sand_cliffs (" .. tostring((i + o) % 31 + 1) .. ")"]
+                    cliff_chevron = tile_quads["rock_cliff (" .. tostring((i + o) % 31 + 1) .. ")"]
                 end
                 local light_value = 1
                 if is_in_shadow then
@@ -867,19 +838,19 @@ local function refresh_terrain(chunk_x, chunk_y)
                 else
                     local light_modifier = elevation_offset_y / 50
                     if light_modifier > 0 and tile_has_slope and elevation_offset_y ~= 0 then
-                        light_value = 0.85
+                        light_value = 0.9 + math.min(light_modifier, 0.1)
                         if is_cliff then
                             local qx, qy, qw, qh = cliff_chevron:getViewport()
                             instancemesh:setVertex(chevron_id, t[2], t[3] - elevation_offset_y * 2 + 8, qx, qy, qw, qh,
-                                0.9 + math.min(light_modifier, 0.11), l_scale)
+                                0.9 + math.min(light_modifier, 0.1), l_scale)
                         else
                             local qx, qy, qw, qh = hill_chevron_sunny_side:getViewport()
                             instancemesh:setVertex(chevron_id, t[2], t[3] - elevation_offset_y * 2 + 8, qx, qy, qw, qh,
-                                0.9 + math.min(light_modifier, 0.11), l_scale)
+                                0.9 + math.min(light_modifier, 0.1), l_scale)
                         end
                         local qx, qy, qw, qh = hill_tile_sunny_side:getViewport()
                         instancemesh:setVertex(vert_id, t[2], t[3] - elevation_offset_y * 2, qx, qy, qw, qh,
-                            0.9 + math.min(light_modifier, 0.11), l_scale)
+                            0.9 + math.min(light_modifier, 0.1), l_scale)
                         tile_overriden = true
                     elseif elevation_offset_y ~= 0 then
                         light_value = 1
@@ -914,8 +885,8 @@ end
 
 function _G.getTerrainTileOnMouse(mx, my)
     local MX, MY, rMX, rMY
-    rMX = (mx - _G.width / 2) / _G.scale_x + _G.view_xview - 16
-    rMY = (my - _G.height / 2) / _G.scale_x + _G.view_yview
+    rMX = (mx - _G.ScreenWidth / 2) / _G.scale_x + _G.view_xview - 16
+    rMY = (my - _G.ScreenHeight / 2) / _G.scale_x + _G.view_yview
     local max_tiles = 20
     local offset_y
     local LocalX = math.round(ScreenToIsoX(rMX, rMY))
@@ -923,8 +894,8 @@ function _G.getTerrainTileOnMouse(mx, my)
     local last_valid_gx, last_valid_gy = LocalX, LocalY
     for tiles_iterated = 0, max_tiles do
         offset_y = tiles_iterated * 8
-        MX = (mx - _G.width / 2) / _G.scale_x + _G.view_xview - 16
-        MY = (my + offset_y * _G.scale_x - _G.height / 2) / _G.scale_x + _G.view_yview - 8
+        MX = (mx - _G.ScreenWidth / 2) / _G.scale_x + _G.view_xview - 16
+        MY = (my + offset_y * _G.scale_x - _G.ScreenHeight / 2) / _G.scale_x + _G.view_yview - 8
         LocalX = math.round(ScreenToIsoX(MX, MY))
         LocalY = math.round(ScreenToIsoY(MX, MY))
         local gx = LocalX
@@ -956,44 +927,20 @@ local function update()
     chunks_to_update = {}
 end
 local function genTerrain(cx, cy)
-    local chunk_x = cx or current_chunk_x
-    local chunk_y = cy or current_chunk_y
-    if terrain_batch[chunk_x][chunk_y] == nil then
-        terrain_batch[chunk_x][chunk_y] = love.graphics.newSpriteBatch(terrain_image, chunk_width * chunk_height)
+    if terrain_batch[cx][cy] == nil then
+        terrain_batch[cx][cy] = love.graphics.newSpriteBatch(terrain_image, chunk_width * chunk_height)
     end
     _G.allocateMesh(cx, cy)
     terrain[cx][cy] = newAutotable(2)
     for i = 0, chunk_width - 1, 1 do
         for o = 0, chunk_height - 1, 1 do
-            local gx = chunk_width * cx + i
-            local gy = chunk_width * cy + o
             terrain[cx][cy][i][o] = _G.terrain_biome.abundant_grass
-            schedule_terrain_update(cx, cy, i, o)
-            -- if _G.lake_gen[gx + 1][gy + 1] ~= false then
-            --     local border = false
-            --     for lx = -1, 1, 1 do
-            --         for ly = -1, 1, 1 do
-            --             if not (lx == 0 and ly == 0) then
-            --                 if _G.lake_gen[gx + lx + 1] and _G.lake_gen[gx + lx + 1][gy + ly + 1] == false then
-            --                     border = true
-            --                 end
-            --             end
-            --         end
-            --     end
-            --     if border then
-            --         terrain[cx][cy][i][o] = _G.terrain_biome.sea_beach
-            --     else
-            --         terrain[cx][cy][i][o] = _G.terrain_biome.sea
-            --     end
-            -- end
+            _G.schedule_terrain_update(cx, cy, i, o)
         end
     end
-    genObjects(cx, cy) -- TODO OPTIMIZE: move genObjects in this loop so we don't loop twice!
+    _G.genObjects(cx, cy) -- TODO OPTIMIZE: move genObjects in this loop so we don't loop twice!
 end
 
-local function chunkDraw()
-    -- Deprecated
-end
 function _G.terrainSetTileAt(gx, gy, biome, from)
     local i = (gx) % (chunk_width)
     local o = (gy) % (chunk_width)
@@ -1003,11 +950,11 @@ function _G.terrainSetTileAt(gx, gy, biome, from)
         if from then
             if _G.terrain[cx][cy][i][o] == from then
                 _G.terrain[cx][cy][i][o] = biome
-                schedule_terrain_update(cx, cy, i, o)
+                _G.schedule_terrain_update(cx, cy, i, o)
             end
         else
             _G.terrain[cx][cy][i][o] = biome
-            schedule_terrain_update(cx, cy, i, o)
+            _G.schedule_terrain_update(cx, cy, i, o)
         end
     end
 end
@@ -1024,6 +971,7 @@ end
 
 local function genForest()
     _G.forest_gen = {}
+    local forest_gen = _G.forest_gen
 
     for x = 1, math.round((_G.chunks_wide * _G.chunk_width) / 8) + 1 do
         forest_gen[x] = {}
@@ -1072,6 +1020,8 @@ end
 
 local function genStone()
     _G.stone_gen = {}
+    local stone_gen = _G.stone_gen
+
     local total_stones = 0
     for x = 1, math.round((_G.chunks_wide * _G.chunk_width) / 3) + 1 do
         stone_gen[x] = {}
@@ -1123,12 +1073,13 @@ local function genStone()
 
         stone_update_counter = stone_update_counter + 1
     until (stone_update_counter == stone_update_limit)
-    print(total_stones)
     return total_stones
 end
 
 local function genIron()
     _G.iron_gen = {}
+    local iron_gen = _G.iron_gen
+
     local total_iron = 0
     for x = 1, math.round((_G.chunks_wide * _G.chunk_width) / 3) + 1 do
         iron_gen[x] = {}
@@ -1185,74 +1136,12 @@ local function genIron()
     return total_iron
 end
 
-local function genLake()
-    _G.lake_gen = {}
-    local total_lake = 0
-    for x = 1, math.round((_G.chunks_wide * _G.chunk_width)) + 1 do
-        lake_gen[x] = {}
-        for y = 1, math.round((_G.chunks_high * _G.chunk_height)) + 1 do
-            local Value = love.math.random(0, 100)
-            if Value < 50 then
-                if true then
-                    lake_gen[x][y] = true
-                    total_lake = total_lake + 1
-                else
-                    lake_gen[x][y] = false
-                end
-            else
-                lake_gen[x][y] = false
-            end
-        end
-    end
-
-    local lake_update_counter = 0
-    local lake_update_limit = 30
-
-    repeat
-        for x = 1, #lake_gen do
-            for y = 1, #lake_gen[x] do
-                local tile = lake_gen[x][y]
-                local neighbors_alive = 0
-                for I = 0, 9 do
-                    if I ~= 4 then
-                        offset_x = math.floor(I % 3) - 1
-                        offset_y = math.floor(I / 3) - 1
-
-                        if lake_gen[x + offset_x] and lake_gen[x + offset_x][y + offset_y] and
-                            lake_gen[x + offset_x][y + offset_y] then
-                            neighbors_alive = neighbors_alive + 1
-                        end
-                    end
-                end
-
-                if tile and neighbors_alive < 4 then
-                    lake_gen[x][y] = false
-                    total_lake = total_lake - 1
-                end
-                if not tile and neighbors_alive > 5 then
-                    lake_gen[x][y] = true
-                    total_lake = total_lake + 1
-                end
-            end
-        end
-
-        lake_update_counter = lake_update_counter + 1
-    until (lake_update_counter == lake_update_limit)
-    -- print("lake in map", total_lake)
-    return total_lake
-end
-
 local function genMap()
     genForest()
-    -- repeat
     _G.stone_gen = {}
-    local stones = genStone()
-    -- until stones > 170 and stones < 300
-    -- repeat
+    local _ = genStone()
     _G.iron_gen = {}
-    local iron = genIron()
-    -- until iron > 100 and iron < 250
-    -- genLake()
+    local _ = genIron()
     for i = 0, _G.chunks_wide - 1 do
         for o = 0, _G.chunks_high - 1 do -- usually both are 32 (jumper is set like that with magic numbers)
             genTerrain(i, o)
@@ -1274,13 +1163,10 @@ end
 
 local tableOfFunctions = {
     update = update,
-    draw = chunkDraw,
-    chunk = chunk,
     mousepressed = function()
     end,
     batch = terrain_batch,
     genTerrain = genTerrain,
-    terrain = tile,
     genMap = genMap,
     allocateSpriteBatches = allocateSpriteBatches
 }

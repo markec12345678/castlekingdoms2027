@@ -10,9 +10,6 @@ local inspect = require("libraries.inspect")
 -- Declarations
 ----Library setup
 -- local bitser = require("libraries.bitser")
-----Direction and distance
-local quad_offset = require('objects.quad_offset')
-----Location thing
 local location = {
     gx = 0,
     gy = 0,
@@ -35,8 +32,10 @@ local active_entities = newAutotable(1)
 _G.active_chunks = {}
 local object = newAutotable(4)
 ----Calculate center chunk
-local CenterX = math.round(ScreenToIsoX(_G.width / 2 - 16 + _G.view_xview, _G.height / 2 - 8 + _G.view_yview));
-local CenterY = math.round(ScreenToIsoY(_G.width / 2 - 16 + _G.view_xview, _G.height / 2 - 8 + _G.view_yview))
+local CenterX = math.round(
+    ScreenToIsoX(_G.ScreenWidth / 2 - 16 + _G.view_xview, _G.ScreenHeight / 2 - 8 + _G.view_yview));
+local CenterY = math.round(
+    ScreenToIsoY(_G.ScreenWidth / 2 - 16 + _G.view_xview, _G.ScreenHeight / 2 - 8 + _G.view_yview))
 ---------------------------------------
 _G.xchunk = math.floor(CenterX / (chunk_width))
 _G.ychunk = math.floor(CenterY / (chunk_width))
@@ -86,6 +85,14 @@ local WoodenWallWalkable = love.filesystem.load('objects/Structures/WoodenWallWa
     tile_quads, object_batch)
 local WoodenTower = love.filesystem.load('objects/Structures/WoodenTower.lua')(active_entities, object, tile_quads,
     object_batch)
+local Rock_4x4 = love.filesystem.load('objects/Environment/Rock_4x4.lua')(active_entities, object, tile_quads,
+    object_batch)
+local Rock_3x3 = love.filesystem.load('objects/Environment/Rock_3x3.lua')(active_entities, object, tile_quads,
+    object_batch)
+local Rock_2x2 = love.filesystem.load('objects/Environment/Rock_2x2.lua')(active_entities, object, tile_quads,
+    object_batch)
+local Rock_1x1 = love.filesystem.load('objects/Environment/Rock_1x1.lua')(active_entities, object, tile_quads,
+    object_batch)
 local Campfire = love.filesystem.load('objects/Structures/Campfire.lua')(object, tile_quads, object_batch)
 local Orchard = love.filesystem.load('objects/Structures/Orchard.lua')(object, tile_quads, object_batch)
 local WheatFarm = love.filesystem.load('objects/Structures/WheatFarm.lua')(object, tile_quads, object_batch,
@@ -96,6 +103,10 @@ package.loaded['objects.Environment.OakTree'] = OakTree
 package.loaded['objects.Environment.Shrub'] = Shrub
 package.loaded['objects.Environment.Stone'] = Stone
 package.loaded['objects.Environment.Iron'] = Iron
+package.loaded['objects.Environment.Rock_4x4'] = Rock_4x4
+package.loaded['objects.Environment.Rock_3x3'] = Rock_3x3
+package.loaded['objects.Environment.Rock_2x2'] = Rock_2x2
+package.loaded['objects.Environment.Rock_1x1'] = Rock_1x1
 package.loaded['objects.Units.Woodcutter'] = Woodcutter
 package.loaded['objects.Units.Baker'] = Baker
 package.loaded['objects.Units.Stonemason'] = Stonemason
@@ -133,7 +144,7 @@ end
 
 object_image:setWrap("clampzero")
 
-function removeObjectAt(cx, cy, x, y, object_to_remove)
+function _G.removeObjectAt(cx, cy, x, y, object_to_remove)
     if x > 63 or y > 63 then
         print((debug.traceback("Error: trying to remove out of bounds unit", 1):gsub("\n[^\n]+$", "")))
         love.event.quit()
@@ -155,7 +166,7 @@ function removeObjectAt(cx, cy, x, y, object_to_remove)
     end
 end
 
-function removeObjectFromClassAtGlobal(gx, gy, class_to_remove)
+function _G.removeObjectFromClassAtGlobal(gx, gy, class_to_remove)
     local cx = math.floor(gx / chunk_width)
     local cy = math.floor(gy / chunk_width)
     local x = (gx) % (chunk_width)
@@ -186,7 +197,7 @@ function objectFromTypeAt(cx, cy, x, y, obj_type)
     return false
 end
 
-function isObjectAt(cx, cy, x, y, object_compared)
+function _G.isObjectAt(cx, cy, x, y, object_compared)
     if type(object[cx][cy][x][y]) == 'table' then
         for _, current_object in ipairs(object[cx][cy][x][y]) do
             if current_object == object_compared then
@@ -197,7 +208,7 @@ function isObjectAt(cx, cy, x, y, object_compared)
     return false
 end
 
-function objectFromClassAtGlobal(gx, gy, obj_class)
+function _G.objectFromClassAtGlobal(gx, gy, obj_class)
     local cx = math.floor(gx / chunk_width)
     local cy = math.floor(gy / chunk_width)
     local x = (gx) % (chunk_width)
@@ -221,7 +232,7 @@ function objectAt(cx, cy, x, y)
     end
 end
 
-function importantObjectAt(cx, cy, x, y)
+function _G.importantObjectAt(cx, cy, x, y)
     if (type(object[cx][cy][x][y]) == 'table' and next(object[cx][cy][x][y]) == nil) or not object[cx][cy][x][y] or
         objectFromTypeAt(cx, cy, x, y, "Stump") or objectFromTypeAt(cx, cy, x, y, "Tall shrub") or
         objectFromTypeAt(cx, cy, x, y, "Short shrub") then
@@ -231,22 +242,7 @@ function importantObjectAt(cx, cy, x, y)
     end
 end
 
-function importantObjectAtGlobal(gx, gy)
-    local cx = math.floor(gx / chunk_width)
-    local cy = math.floor(gy / chunk_width)
-    local x = (gx) % (chunk_width)
-    local y = (gy) % (chunk_width)
-    if (type(object[cx][cy][x][y]) == 'table' and next(object[cx][cy][x][y]) == nil) or not object[cx][cy][x][y] or
-        objectFromTypeAt(cx, cy, x, y, "Stump") or objectFromTypeAt(cx, cy, x, y, "Tall shrub") or
-        objectFromTypeAt(cx, cy, x, y, "Short shrub") then
-        return false
-    else
-        return true
-    end
-end
-
-function clearEnvironmentObjectAtGlobal(gx, gy)
-    -- TODO: finish
+function _G.importantObjectAtGlobal(gx, gy)
     local cx = math.floor(gx / chunk_width)
     local cy = math.floor(gy / chunk_width)
     local x = (gx) % (chunk_width)
@@ -294,14 +290,14 @@ function _G.allocateMesh(cx, cy)
     object_batch[chunk_x][chunk_y]:attachAttribute("ScaleX", instancemesh, "perinstance")
 end
 
-function genObjects(cx, cy)
+function _G.genObjects(cx, cy)
     for i = 0, chunk_width - 1, 1 do
         for o = 0, chunk_height - 1, 1 do
             local gx = chunk_width * cx + i
             local gy = chunk_width * cy + o
             local tree_generated = false
-            if _G.forest_gen[math.round((gx) / 8) + 1][math.round((gy) / 8) + 1] ~= false and false then
-                -- _G.terrainSetTileAt(gx, gy, _G.terrain_biome.scarce_grass)
+            if _G.forest_gen[math.round((gx) / 8) + 1][math.round((gy) / 8) + 1] ~= false then
+                _G.terrainSetTileAt(gx, gy, _G.terrain_biome.scarce_grass)
                 local rand = math.random(5)
                 if rand ~= 3 then
                     goto continue
@@ -335,13 +331,13 @@ function genObjects(cx, cy)
                     goto continue
                 end
                 if love.math.random(1, 25) == 1 then
-                    -- PineTree:new(gx, gy, "Dead pine tree")
+                    PineTree:new(gx, gy, "Dead pine tree")
                 else
-                    -- local tree = PineTree:new(gx, gy, "Pine tree")
-                    -- tree.animation:gotoFrame(math.random(1, 20))
+                    local tree = PineTree:new(gx, gy, "Pine tree")
+                    tree.animation:gotoFrame(math.random(1, 20))
                 end
                 tree_generated = true
-            elseif not tree_generated and false then
+            elseif not tree_generated then
                 if objectAtGlobal(gx, gy - 1) then
                     goto continue
                 end
@@ -363,9 +359,8 @@ function genObjects(cx, cy)
                         end
                         goto continue
                     end
-                    -- local tree = PineTree:new(gx, gy, "Medium pine tree")
-                    -- tree.animation:gotoFrame(math.random(1, 20))
-                    tree_generated = true
+                    local tree = PineTree:new(gx, gy, "Medium pine tree")
+                    tree.animation:gotoFrame(math.random(1, 20))
                     goto continue
                 else
                     for sx = -2, 2 do
@@ -381,8 +376,8 @@ function genObjects(cx, cy)
                     local rand = math.random(30 - chance)
                     if rand ~= 3 then
                         if rand == 4 then
-                            -- local tree = PineTree:new(gx, gy, "Very small pine tree")
-                            -- tree.animation:gotoFrame(math.random(1, 20))
+                            local tree = PineTree:new(gx, gy, "Very small pine tree")
+                            tree.animation:gotoFrame(math.random(1, 20))
                         end
                         if rand == 5 then
                             local shrub = Shrub:new(gx, gy, "Tall shrub")
@@ -390,19 +385,18 @@ function genObjects(cx, cy)
                         end
                         goto continue
                     end
-                    -- local tree = PineTree:new(gx, gy, "Small pine tree")
-                    -- tree.animation:gotoFrame(math.random(1, 20))
-                    tree_generated = true
+                    local tree = PineTree:new(gx, gy, "Small pine tree")
+                    tree.animation:gotoFrame(math.random(1, 20))
                     goto continue
                 end
                 if not tree_generated and love.math.random(1000) == 4 then
-                    -- local tree = PineTree:new(gx, gy, "Medium pine tree")
-                    -- tree.animation:gotoFrame(math.random(1, 20))
+                    local tree = PineTree:new(gx, gy, "Medium pine tree")
+                    tree.animation:gotoFrame(math.random(1, 20))
                     tree_generated = true
                 end
                 if not tree_generated and love.math.random(800) == 4 then
-                    -- local shrub = Shrub:new(gx, gy, "Short shrub")
-                    -- shrub.animation:gotoFrame(math.random(1, 20))
+                    local shrub = Shrub:new(gx, gy, "Short shrub")
+                    shrub.animation:gotoFrame(math.random(1, 20))
                 end
             end
             if not tree_generated and _G.stone_gen[math.round((gx) / 3) + 1][math.round((gy) / 3) + 1] ~= false and
@@ -431,7 +425,7 @@ function genObjects(cx, cy)
                     end
                 end
             end
-            if not tree_generated and _G.iron_gen[math.round((gx) / 3) + 1][math.round((gy) / 3) + 1] ~= false and false then
+            if not tree_generated and _G.iron_gen[math.round((gx) / 3) + 1][math.round((gy) / 3) + 1] ~= false then
                 local border = false
                 for lx = -1, 1, 1 do
                     for ly = -1, 1, 1 do
@@ -518,7 +512,7 @@ local function draw_object()
         for column = firstColumn + shift, lastColumn, 2 do
             local xx, yy = bit.rshift(row + column, 1), bit.rshift(row - column, 1)
             if object_batch[xx][yy] ~= nil then
-                love.graphics.drawInstanced(object_batch[xx][yy], object_mesh[xx][yy]:getVertexCount(),
+                love.graphics.drawInstanced(object_batch[xx][yy], _G.object_mesh[xx][yy]:getVertexCount(),
                     -_G.view_xview * _G.scale_x + (xx * _G.scale_x - yy * _G.scale_x) * chunk_width * tile_width * 0.5,
                     -_G.view_yview * _G.scale_x + (xx * _G.scale_x + yy * _G.scale_x) * chunk_height * tile_height * 0.5,
                     0, _G.scale_x, _G.scale_y)
@@ -538,27 +532,20 @@ local function mousepressed(x, y, button)
     press.y = (press.gy) % (chunk_width)
     if button == 1 then
         _G.BuildController:build(press.gx, press.gy)
-    elseif button == 2 then
-        -- _G.saw.state = "Going to waypoint"
-        -- _G.saw.nd = {}
-        -- _G.saw.waypoint_x, _G.saw.waypoint_y = nil, nil
-        -- _G.saw.move_dir = "none"
-        -- _G.saw.count = 1
-        -- _G.saw:requestPath(press.gx, press.gy)
-        -- if not objectAt(press.cx, press.cy, press.x, press.y) then
-        --     -- OakTree:new(press.gx, press.gy)
-        --     -- WoodenTower:new(press.gx, press.gy)
-        --     -- Woodcutter:new(press.gx, press.gy, "Woodcutter")
-        --     -- Woodcutter:new(press.gx, press.gy, "Woodcutter")
-        --     -- Woodcutter:new(press.gx, press.gy, "Woodcutter")
-        --     -- Woodcutter:new(press.gx, press.gy, "Woodcutter")
-        -- end
     elseif button == 3 then
         require("objects.Controllers.Ferdnhoven")
-        _G.getTerrainTileOnMouse(mx, my, true)
-        -- if not objectAt(press.cx, press.cy, press.x, press.y) then
-        --     WoodenWall:new(press.gx, press.gy)
-        -- end
+        -- _G.getTerrainTileOnMouse(mx, my)
+        if not objectAt(press.cx, press.cy, press.x, press.y) then
+            if love.keyboard.isDown("1") then
+                Rock_1x1:new(press.gx, press.gy)
+            elseif love.keyboard.isDown("2") then
+                Rock_2x2:new(press.gx, press.gy)
+            elseif love.keyboard.isDown("3") then
+                Rock_3x3:new(press.gx, press.gy)
+            elseif love.keyboard.isDown("4") then
+                Rock_4x4:new(press.gx, press.gy)
+            end
+        end
         -- for i = -2, 2 do
         --     for o = -2, 2 do
         --         if i == 2 or i == -2 or o == 2 or o == -2 then
@@ -650,8 +637,8 @@ local first_update = true
 local function update(dt)
     if love.mouse.isDown(2) then
         local MX, MY = love.mouse.getPosition()
-        MX = (MX - _G.width / 2) / _G.scale_x + _G.view_xview - 16
-        MY = (MY - _G.height / 2) / _G.scale_x + _G.view_yview - 8
+        MX = (MX - _G.ScreenWidth / 2) / _G.scale_x + _G.view_xview - 16
+        MY = (MY - _G.ScreenHeight / 2) / _G.scale_x + _G.view_yview - 8
         local pgx = math.round(ScreenToIsoX(MX, MY))
         local pgy = math.round(ScreenToIsoY(MX, MY))
         -- Lake gen
@@ -736,11 +723,10 @@ local function update(dt)
     prof.push("UPDATE_CHUNK_OBJ")
 
     local super_slow_mode = false
-    if scale_x < 0.31 then
+    if _G.scale_x < 0.31 then
         super_slow_mode = true
     end
     local l = _G.terrain_chunks
-    local vert
     while l do
         if l.chunkx == nil then
             break
@@ -809,7 +795,6 @@ local tableOfFunctions = {
     object = object,
     batch = object_batch,
     shadow = shadow_batch,
-    update_objects = update_objects,
     addObjectAt = addObjectAt
 }
 return tableOfFunctions

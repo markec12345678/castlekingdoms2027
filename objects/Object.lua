@@ -1,11 +1,14 @@
-local Object = class('Object')
+local Object = _G.class('Object')
+local chunk_width, tile_width = _G.chunk_width, _G.tile_width
+local chunk_height, tile_height = _G.chunk_height, _G.tile_height
+
 function Object:initialize(gx, gy, type)
     self.i = (gx) % (chunk_width)
     self.o = (gy) % (chunk_width)
     self.cx = math.floor(gx / chunk_width)
     self.cy = math.floor(gy / chunk_width)
-    self.x = IsoX + (self.i - self.o) * tile_width * 0.5
-    self.y = IsoY + (self.i + self.o) * tile_height * 0.5
+    self.x = _G.IsoX + (self.i - self.o) * tile_width * 0.5
+    self.y = _G.IsoY + (self.i + self.o) * tile_height * 0.5
     self.gx = gx
     self.gy = gy
     self.type = type
@@ -13,9 +16,9 @@ function Object:initialize(gx, gy, type)
     self.to_be_deleted = false
 end
 function Object:is_visible_on_screen()
-    if not (self.x + (self.cx - self.cy) * chunk_width * tile_width * 0.5 < TopLeftX or self.x + (self.cx - self.cy) *
-        chunk_width * tile_width * 0.5 > BottomRightX or self.y + (self.cx + self.cy) * chunk_height * tile_height * 0.5 <
-        TopLeftY or self.y + (self.cx + self.cy) * chunk_height * tile_height * 0.5 > BottomRightY) then
+    if not (self.x + (self.cx - self.cy) * chunk_width * tile_width * 0.5 < _G.TopLeftX or self.x + (self.cx - self.cy) *
+        chunk_width * tile_width * 0.5 > _G.BottomRightX or self.y + (self.cx + self.cy) * chunk_height * tile_height *
+        0.5 < _G.TopLeftY or self.y + (self.cx + self.cy) * chunk_height * tile_height * 0.5 > _G.BottomRightY) then
         return true
     end
     return false
@@ -89,7 +92,6 @@ function Object:destroy()
     end
     _G.removeObjectAt(self.cx, self.cy, self.i, self.o, self)
     _G.chunk_objects[self.cx][self.cy][self] = nil
-    self = nil
 end
 function Object:update_vertex()
     if _G.object_mesh then
