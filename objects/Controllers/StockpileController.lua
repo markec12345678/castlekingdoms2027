@@ -1,4 +1,4 @@
-local StockpileController = class('StockpileController')
+local StockpileController = _G.class('StockpileController')
 function StockpileController:initialize()
     self.list = {}
     self.resources = {
@@ -12,7 +12,7 @@ function StockpileController:initialize()
 end
 function StockpileController:store(resource) -- TODO add amount
     if _G.not_full_stockpiles[resource] < 1 then
-        for k, v in ipairs(self.list) do
+        for _, v in ipairs(self.list) do
             if v:store(resource) then
                 break
             end

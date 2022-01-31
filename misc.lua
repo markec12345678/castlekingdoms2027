@@ -22,18 +22,26 @@ function ogIsoToScreenY(xx, yy)
     return ((xx + yy) * tile_height / 2);
 end
 
-function math.round(x, deci)
+function _G.getLocalCoordinatesFromGlobal(gx, gy)
+    local cx = math.floor(gx / _G.chunk_width)
+    local cy = math.floor(gy / _G.chunk_width)
+    local x = (gx) % (_G.chunk_width)
+    local y = (gy) % (_G.chunk_width)
+    return cx, cy, x, y
+end
+
+function _G.math.round(x, deci)
     -- deci = 10 ^ (deci or 0)
     -- return math.floor(n * deci + .5) / deci
     return x >= 0 and math.floor(x + 0.5) or math.ceil(x - 0.5)
 end
 
 local function update()
-    next_time = next_time + min_dt;
+    next_time = next_time + _G.min_dt;
     ---------------------------------------
     mx, my = love.mouse.getPosition();
-    mx = (mx - 16 - width / 2) / scale_x + view_xview
-    my = (my - 8 - height / 2) / scale_x + view_yview
+    mx = (mx - 16 - _G.ScreenWidth / 2) / scale_x + view_xview
+    my = (my - 8 - _G.ScreenHeight / 2) / scale_x + view_yview
     LocalX = math.round(ScreenToIsoX(mx, my))
     LocalY = math.round(ScreenToIsoY(mx, my))
     CenterX = math.round(ScreenToIsoX(view_xview, view_yview))
@@ -41,31 +49,31 @@ local function update()
 
     -- Used for culling animations
     local TX, TY = 0, 0
-    TX = (TX - _G.width / 2) / _G.scale_x + _G.view_xview - 16
-    TY = (TY - _G.height / 2) / _G.scale_x + _G.view_yview - 8
-    TopLeftX = TX
-    TopLeftY = TY
+    TX = (TX - _G.ScreenWidth / 2) / _G.scale_x + _G.view_xview - 16
+    TY = (TY - _G.ScreenHeight / 2) / _G.scale_x + _G.view_yview - 8
+    _G.TopLeftX = TX
+    _G.TopLeftY = TY
 
     local BX, BY = love.graphics.getWidth(), love.graphics.getHeight() + 100
-    BX = (BX - _G.width / 2) / _G.scale_x + _G.view_xview - 16
-    BY = (BY - _G.height / 2) / _G.scale_x + _G.view_yview - 8
-    BottomRightX = BX
-    BottomRightY = BY
+    BX = (BX - _G.ScreenWidth / 2) / _G.scale_x + _G.view_xview - 16
+    BY = (BY - _G.ScreenHeight / 2) / _G.scale_x + _G.view_yview - 8
+    _G.BottomRightX = BX
+    _G.BottomRightY = BY
 
     ---------------------------------------
     _G.xchunk = math.floor(CenterX / (chunk_width));
     _G.ychunk = math.floor(CenterY / (chunk_width));
     -- TODO: Make into a function
     local MX, MY = 0, 0
-    MX = (MX - width / 2) / scale_x + view_xview - 16
-    MY = (MY - height / 2) / scale_x + view_yview - 8
+    MX = (MX - _G.ScreenWidth / 2) / scale_x + view_xview - 16
+    MY = (MY - _G.ScreenHeight / 2) / scale_x + view_yview - 8
     local LocalX = math.round(ScreenToIsoX(MX, MY))
     local LocalY = math.round(ScreenToIsoY(MX, MY))
     top_left_chunk_x = math.floor(LocalX / chunk_width)
     top_left_chunk_y = math.floor(LocalY / chunk_width)
     MX, MY = love.graphics.getWidth(), love.graphics.getHeight()
-    MX = (MX - width / 2) / scale_x + view_xview - 16
-    MY = (MY - height / 2) / scale_x + view_yview - 8
+    MX = (MX - _G.ScreenWidth / 2) / scale_x + view_xview - 16
+    MY = (MY - _G.ScreenHeight / 2) / scale_x + view_yview - 8
     LocalX = math.round(ScreenToIsoX(MX, MY))
     LocalY = math.round(ScreenToIsoY(MX, MY))
     bottom_right_chunk_x = math.ceil(LocalX / chunk_width)
@@ -135,7 +143,7 @@ local function draw()
                             tostring(_G.resources['stone']) .. "\n Iron: " .. tostring(_G.resources['iron']), 0, 0)
     love.graphics.print(
         "[Q] - Apple orchard\n[W] - Stockpile\n[E] - Granary\n[T] - Quarry\n[Y] - Iron mine\n[I] - Wheat farm\n[Move keys] - Move map\n[Mouse scroll] - Zoom in/out\n[Escape] - Exit",
-        0, height - 130)
+        0, _G.ScreenHeight - 130)
 end
 
 local function getBuildingSelection()

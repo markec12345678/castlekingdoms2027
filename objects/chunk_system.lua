@@ -7,7 +7,6 @@ local active_objects = object_table.active
 local object = object_table.object
 local object_batch = object_table.batch
 local shadow_batch = object_table.shadow
-local update_objects = object_table.update
 local Tree = require('objects.Environment.Tree')
 local object_hashMap = {
     -- ["Tree"] = Tree:new(0,0,0,0,0,0,"")
@@ -73,7 +72,6 @@ local function loadChunk(cx, cy)
     local chunk_ser = bitser.loadLoveFile("chunk-test" .. cx .. "l" .. cy .. ".bin")
     print("Loading", cx, cy)
     loadObjects(cx, cy, chunk_ser.objects)
-    update_objects(cx, cy) -- need to update with deserialization
 end
 
 local function chunkGarbageCollect()

@@ -1,4 +1,4 @@
-local object, object_image = ...
+local _, object_image = ...
 
 local tile_quads = require('objects.object_quads')
 local image = love.graphics.newImage("assets/tiles/info_tiles_strip.png")
@@ -14,6 +14,11 @@ local Orchard = require('objects.Structures.Orchard')
 local WheatFarm = require('objects.Structures.WheatFarm')
 local Windmill = require('objects.Structures.Windmill')
 local Bakery = require('objects.Structures.Bakery')
+
+local objectFromTypeAt = _G.objectFromTypeAt
+local chunk_width = _G.chunk_width
+local tile_width, tile_height = _G.tile_width, _G.tile_height
+local IsoToScreenX, IsoToScreenY = _G.IsoToScreenX, _G.IsoToScreenY
 
 local building = {
     ["castle"] = {
@@ -50,7 +55,7 @@ local building = {
             Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
             Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
         end,
-        special_requirements = function(self, gx, gy)
+        special_requirements = function(self, _, _)
             return true
         end
     },
@@ -130,21 +135,16 @@ local building = {
         special_requirements = function(self, gx, gy)
             for w = gx, self.w + gx do
                 for h = gy, self.h + gy do
-                    if objectFromClassAtGlobal(w, h, "Stone") then
+                    if _G.objectFromClassAtGlobal(w, h, "Stone") then
                         return true
                     end
                 end
             end
         end,
         override_requirements = function(self, ctrl)
-            local MX, MY = love.mouse.getPosition()
             local type = 1
             for xx = 0, ctrl.width - 1 do
                 for yy = 0, ctrl.height - 1 do
-                    local x = (xx + ctrl.gx) % (chunk_width)
-                    local y = (yy + ctrl.gy) % (chunk_width)
-                    local cx = math.floor((xx + ctrl.gx) / chunk_width)
-                    local cy = math.floor((yy + ctrl.gy) / chunk_width)
                     if not _G.objectFromClassAtGlobal(xx + ctrl.gx, yy + ctrl.gy, "Stone") then
                         ctrl.can_build = false
                     end
@@ -156,17 +156,14 @@ local building = {
             ctrl.batch:clear()
             for xx = 0, ctrl.width - 1 do
                 for yy = 0, ctrl.height - 1 do
-                    local x = (xx + ctrl.gx) % (chunk_width)
-                    local y = (yy + ctrl.gy) % (chunk_width)
-                    local cx = math.floor((xx + ctrl.gx) / chunk_width)
-                    local cy = math.floor((yy + ctrl.gy) / chunk_width)
+                    local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(xx + ctrl.gx, yy + ctrl.gy)
                     if _G.objectFromClassAtGlobal(xx + ctrl.gx, yy + ctrl.gy, "Stone") then
                         if ctrl.can_build then
                             type = 2
                         else
                             type = 4
                         end
-                    elseif not importantObjectAt(cx, cy, x, y) then
+                    elseif not _G.importantObjectAt(cx, cy, x, y) then
                         if ctrl.can_build then
                             type = 2
                         else
@@ -203,21 +200,16 @@ local building = {
         special_requirements = function(self, gx, gy)
             for w = gx, self.w + gx do
                 for h = gy, self.h + gy do
-                    if objectFromClassAtGlobal(w, h, "Iron") then
+                    if _G.objectFromClassAtGlobal(w, h, "Iron") then
                         return true
                     end
                 end
             end
         end,
         override_requirements = function(self, ctrl)
-            local MX, MY = love.mouse.getPosition()
             local type = 1
             for xx = 0, ctrl.width - 1 do
                 for yy = 0, ctrl.height - 1 do
-                    local x = (xx + ctrl.gx) % (chunk_width)
-                    local y = (yy + ctrl.gy) % (chunk_width)
-                    local cx = math.floor((xx + ctrl.gx) / chunk_width)
-                    local cy = math.floor((yy + ctrl.gy) / chunk_width)
                     if not _G.objectFromClassAtGlobal(xx + ctrl.gx, yy + ctrl.gy, "Iron") then
                         ctrl.can_build = false
                     end
@@ -229,17 +221,14 @@ local building = {
             ctrl.batch:clear()
             for xx = 0, ctrl.width - 1 do
                 for yy = 0, ctrl.height - 1 do
-                    local x = (xx + ctrl.gx) % (chunk_width)
-                    local y = (yy + ctrl.gy) % (chunk_width)
-                    local cx = math.floor((xx + ctrl.gx) / chunk_width)
-                    local cy = math.floor((yy + ctrl.gy) / chunk_width)
+                    local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(xx + ctrl.gx, yy + ctrl.gy)
                     if _G.objectFromClassAtGlobal(xx + ctrl.gx, yy + ctrl.gy, "Iron") then
                         if ctrl.can_build then
                             type = 2
                         else
                             type = 4
                         end
-                    elseif not importantObjectAt(cx, cy, x, y) then
+                    elseif not _G.importantObjectAt(cx, cy, x, y) then
                         if ctrl.can_build then
                             type = 2
                         else
@@ -272,7 +261,7 @@ local building = {
         build = function(self, gx, gy)
             Orchard:new(gx, gy)
         end,
-        special_requirements = function(self, gx, gy)
+        special_requirements = function(self, _, _)
             return true
         end
     },
@@ -288,7 +277,7 @@ local building = {
         build = function(self, gx, gy)
             WheatFarm:new(gx, gy)
         end,
-        special_requirements = function(self, gx, gy)
+        special_requirements = function(self, _, _)
             return true
         end
     },
@@ -305,7 +294,7 @@ local building = {
             WoodcutterHut:new(gx, gy)
         end,
         -- add requirement for w h
-        special_requirements = function(self, gx, gy)
+        special_requirements = function(self, _, _)
             return true
         end
     },
@@ -321,7 +310,7 @@ local building = {
         build = function(self, gx, gy)
             Windmill:new(gx, gy)
         end,
-        special_requirements = function(self, gx, gy)
+        special_requirements = function(self, _, _)
             return true
         end
     },
@@ -337,13 +326,13 @@ local building = {
         build = function(self, gx, gy)
             Bakery:new(gx, gy)
         end,
-        special_requirements = function(self, gx, gy)
+        special_requirements = function(self, _, _)
             return true
         end
     }
 }
 
-local BuildController = class('BuildController')
+local BuildController = _G.class('BuildController')
 function BuildController:initialize()
     self.width = 0
     self.height = 0
@@ -371,7 +360,6 @@ function BuildController:set(type)
     self.building = type
     self.width, self.height = building[type].w, building[type].h
     self.batch:clear()
-    local type
     for x = 0, self.width - 1 do
         for y = 0, self.height - 1 do
             type = 2
@@ -384,16 +372,16 @@ end
 function BuildController:update()
     if self.active then
         local MX, MY = love.mouse.getPosition()
-        local type = 1
         local LX, LY = _G.getTerrainTileOnMouse(MX, MY)
         self.gx, self.gy = LX, LY
         local x = (self.gx) % (chunk_width)
         local y = (self.gy) % (chunk_width)
         local cx = math.floor((self.gx) / chunk_width)
         local cy = math.floor((self.gy) / chunk_width)
+        local type = 1
         self.elevation_offset_y = (_G.heightmap[cx][cy][x][y] or 0) * 2
-        self.FX = IsoToScreenX(LX, LY) - view_xview - ((IsoToScreenX(LX, LY)) - view_xview) * (1 - scale_x)
-        self.FY = IsoToScreenY(LX, LY) - view_yview - ((IsoToScreenY(LX, LY)) - view_yview) * (1 - scale_x)
+        self.FX = IsoToScreenX(LX, LY) - _G.view_xview - ((IsoToScreenX(LX, LY)) - _G.view_xview) * (1 - _G.scale_x)
+        self.FY = IsoToScreenY(LX, LY) - _G.view_yview - ((IsoToScreenY(LX, LY)) - _G.view_yview) * (1 - _G.scale_x)
         -- No point to flush the batch everytime
         if self.last_building ~= self.building or self.previous_gx ~= self.gx or self.previous_gx ~= self.gy then
             self.can_build = true
@@ -402,11 +390,8 @@ function BuildController:update()
             else
                 for xx = 0, self.width - 1 do
                     for yy = 0, self.height - 1 do
-                        local x = (xx + self.gx) % (chunk_width)
-                        local y = (yy + self.gy) % (chunk_width)
-                        local cx = math.floor((xx + self.gx) / chunk_width)
-                        local cy = math.floor((yy + self.gy) / chunk_width)
-                        if importantObjectAt(cx, cy, x, y) then
+                        local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
+                        if _G.importantObjectAt(ccx, ccy, xxx, yyy) then
                             self.can_build = false
                         end
                     end
@@ -417,11 +402,8 @@ function BuildController:update()
                 self.batch:clear()
                 for xx = 0, self.width - 1 do
                     for yy = 0, self.height - 1 do
-                        local x = (xx + self.gx) % (chunk_width)
-                        local y = (yy + self.gy) % (chunk_width)
-                        local cx = math.floor((xx + self.gx) / chunk_width)
-                        local cy = math.floor((yy + self.gy) / chunk_width)
-                        if not importantObjectAt(cx, cy, x, y) then
+                        local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
+                        if not _G.importantObjectAt(ccx, ccy, xxx, yyy) then
                             if self.can_build then
                                 type = 2
                             else
@@ -461,7 +443,7 @@ function BuildController:build(gx, gy)
                 end
                 for xx = 0, building[self.building].w do
                     for yy = 0, building[self.building].h do
-                        removeObjectFromClassAtGlobal(gx + xx, gy + yy, "Shrub")
+                        _G.removeObjectFromClassAtGlobal(gx + xx, gy + yy, "Shrub")
                     end
                 end
                 building[self.building]:build(gx, gy)
@@ -584,10 +566,10 @@ end
 function BuildController:draw()
     if self.active then
         love.graphics.setColor(1, 1, 1, 0.5)
-        love.graphics.draw(self.batch, self.FX, self.FY, nil, scale_x)
+        love.graphics.draw(self.batch, self.FX, self.FY, nil, _G.scale_x)
         love.graphics.draw(object_image, building[self.building].quad,
-            self.FX - building[self.building].offset_x * scale_x, self.FY - self.elevation_offset_y * scale_x -
-                building[self.building].offset_y * scale_x, 0, scale_x)
+            self.FX - building[self.building].offset_x * _G.scale_x, self.FY - self.elevation_offset_y * _G.scale_x -
+                building[self.building].offset_y * _G.scale_x, 0, _G.scale_x)
         love.graphics.setColor(1, 1, 1, 1)
     end
 end
