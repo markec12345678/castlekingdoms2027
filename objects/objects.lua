@@ -167,10 +167,7 @@ function _G.removeObjectAt(cx, cy, x, y, object_to_remove)
 end
 
 function _G.removeObjectFromClassAtGlobal(gx, gy, class_to_remove)
-    local cx = math.floor(gx / chunk_width)
-    local cy = math.floor(gy / chunk_width)
-    local x = (gx) % (chunk_width)
-    local y = (gy) % (chunk_width)
+    local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(gx, gy)
     if x > 63 or y > 64 then
         print((debug.traceback("Error: trying to remove out of bounds unit", 1):gsub("\n[^\n]+$", "")))
         love.event.quit()
@@ -209,10 +206,7 @@ function _G.isObjectAt(cx, cy, x, y, object_compared)
 end
 
 function _G.objectFromClassAtGlobal(gx, gy, obj_class)
-    local cx = math.floor(gx / chunk_width)
-    local cy = math.floor(gy / chunk_width)
-    local x = (gx) % (chunk_width)
-    local y = (gy) % (chunk_width)
+    local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(gx, gy)
     if type(object[cx][cy][x][y]) == 'table' then
         for _, current_object in ipairs(object[cx][cy][x][y]) do
             if current_object.class.name == obj_class then
@@ -243,10 +237,7 @@ function _G.importantObjectAt(cx, cy, x, y)
 end
 
 function _G.importantObjectAtGlobal(gx, gy)
-    local cx = math.floor(gx / chunk_width)
-    local cy = math.floor(gy / chunk_width)
-    local x = (gx) % (chunk_width)
-    local y = (gy) % (chunk_width)
+    local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(gx, gy)
     if (type(object[cx][cy][x][y]) == 'table' and next(object[cx][cy][x][y]) == nil) or not object[cx][cy][x][y] or
         objectFromTypeAt(cx, cy, x, y, "Stump") or objectFromTypeAt(cx, cy, x, y, "Tall shrub") or
         objectFromTypeAt(cx, cy, x, y, "Short shrub") then
@@ -257,10 +248,7 @@ function _G.importantObjectAtGlobal(gx, gy)
 end
 
 function objectAtGlobal(gx, gy)
-    local cx = math.floor(gx / chunk_width)
-    local cy = math.floor(gy / chunk_width)
-    local x = (gx) % (chunk_width)
-    local y = (gy) % (chunk_width)
+    local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(gx, gy)
     if (type(object[cx][cy][x][y]) == 'table' and next(object[cx][cy][x][y]) == nil) or not object[cx][cy][x][y] or
         objectFromTypeAt(cx, cy, x, y, "Stump") then
         return false

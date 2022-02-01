@@ -374,11 +374,8 @@ function BuildController:update()
         local MX, MY = love.mouse.getPosition()
         local LX, LY = _G.getTerrainTileOnMouse(MX, MY)
         self.gx, self.gy = LX, LY
-        local x = (self.gx) % (chunk_width)
-        local y = (self.gy) % (chunk_width)
-        local cx = math.floor((self.gx) / chunk_width)
-        local cy = math.floor((self.gy) / chunk_width)
-        local type = 1
+        local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(self.gx, self.gy)
+        local type
         self.elevation_offset_y = (_G.heightmap[cx][cy][x][y] or 0) * 2
         self.FX = IsoToScreenX(LX, LY) - _G.view_xview - ((IsoToScreenX(LX, LY)) - _G.view_xview) * (1 - _G.scale_x)
         self.FY = IsoToScreenY(LX, LY) - _G.view_yview - ((IsoToScreenY(LX, LY)) - _G.view_yview) * (1 - _G.scale_x)

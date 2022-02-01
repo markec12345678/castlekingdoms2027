@@ -25,8 +25,8 @@ end
 function _G.getLocalCoordinatesFromGlobal(gx, gy)
     local cx = math.floor(gx / _G.chunk_width)
     local cy = math.floor(gy / _G.chunk_width)
-    local x = (gx) % (_G.chunk_width)
-    local y = (gy) % (_G.chunk_width)
+    local x = gx % _G.chunk_width
+    local y = gy % _G.chunk_width
     return cx, cy, x, y
 end
 

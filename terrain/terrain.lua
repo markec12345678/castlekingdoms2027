@@ -355,10 +355,7 @@ function _G.schedule_terrain_update(cx, cy, i, o)
 end
 
 function _G.terrainElevateTileAt(gx, gy)
-    local i = (gx) % (chunk_width)
-    local o = (gy) % (chunk_width)
-    local cx = math.floor(gx / chunk_width)
-    local cy = math.floor(gy / chunk_width)
+    local cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(gx, gy)
     if _G.terrain[cx] and _G.terrain[cx][cy] then
         if heightmap[cx][cy][i][o] then
             heightmap[cx][cy][i][o] = heightmap[cx][cy][i][o] + 1
@@ -371,11 +368,7 @@ function _G.terrainElevateTileAt(gx, gy)
 end
 
 function _G.terrainSetHeight(gx, gy, value)
-    -- print(gx, gy)
-    local i = (gx) % (chunk_width)
-    local o = (gy) % (chunk_width)
-    local cx = math.floor(gx / chunk_width)
-    local cy = math.floor(gy / chunk_width)
+    local cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(gx, gy)
     heightmap[cx][cy][i][o] = value
     _G.schedule_terrain_update(cx, cy, i, o)
 end
@@ -660,10 +653,7 @@ local function update_terrain(chunk_x, chunk_y)
 end
 
 local function tileShouldBeCliff(my_gx, my_gy)
-    local i = (my_gx) % (chunk_width)
-    local o = (my_gy) % (chunk_width)
-    local cx = math.floor(my_gx / chunk_width)
-    local cy = math.floor(my_gy / chunk_width)
+    local cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(my_gx, my_gy)
     local my_height = heightmap[cx][cy][i][o] or 0
     local gx, gy = my_gx + 1, my_gy
     i = (gx) % (chunk_width)
@@ -900,10 +890,7 @@ function _G.getTerrainTileOnMouse(mx, my)
         LocalY = math.round(ScreenToIsoY(MX, MY))
         local gx = LocalX
         local gy = LocalY
-        local i = (LocalX) % (chunk_width)
-        local o = (LocalY) % (chunk_width)
-        local cx = math.floor(LocalX / chunk_width)
-        local cy = math.floor(LocalY / chunk_width)
+        local cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(LocalX, LocalY)
         local elevation_offset_y = (heightmap[cx][cy][i][o] or 0) * 2
         local t = terrain_tile[cx][cy][i][o]
         local cy_offset = (cx + cy) * chunk_height * tile_height * 0.5
@@ -942,10 +929,7 @@ local function genTerrain(cx, cy)
 end
 
 function _G.terrainSetTileAt(gx, gy, biome, from)
-    local i = (gx) % (chunk_width)
-    local o = (gy) % (chunk_width)
-    local cx = math.floor(gx / chunk_width)
-    local cy = math.floor(gy / chunk_width)
+    local cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(gx, gy)
     if _G.terrain[cx] and _G.terrain[cx][cy] then
         if from then
             if _G.terrain[cx][cy][i][o] == from then
@@ -960,10 +944,7 @@ function _G.terrainSetTileAt(gx, gy, biome, from)
 end
 
 function _G.getTerrainBiomeAt(gx, gy)
-    local i = (gx) % (chunk_width)
-    local o = (gy) % (chunk_width)
-    local cx = math.floor(gx / chunk_width)
-    local cy = math.floor(gy / chunk_width)
+    local cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(gx, gy)
     if _G.terrain[cx] and _G.terrain[cx][cy] then
         return _G.terrain[cx][cy][i][o]
     end

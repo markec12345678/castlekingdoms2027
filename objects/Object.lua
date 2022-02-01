@@ -70,10 +70,7 @@ function Object:render_alias()
         local x, y = self.x + (self.offset_x or 0) + offset_x,
             self.y + (self.offset_y or 0) + offset_y - elevation_offset_y
         local qx, qy, qw, qh = self.tile:getViewport()
-        local cx = math.floor((self.gx - 1) / chunk_width)
-        local cy = math.floor((self.gy - 1) / chunk_width)
-        local xx = (self.gx - 1) % (chunk_width)
-        local yy = (self.gy - 1) % (chunk_width)
+        local cx, cy, xx, yy = _G.getLocalCoordinatesFromGlobal(self.gx - 1, self.gy - 1)
         local new_vert = _G.getFreeVertexFromTile(cx, cy, xx, yy, true)
         if new_vert ~= false then
             self.vert_id = new_vert
