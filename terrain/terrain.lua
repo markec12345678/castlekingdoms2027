@@ -705,11 +705,12 @@ local function refresh_terrain(chunk_x, chunk_y)
     tiles_to_update_in_chunk[cx][cy] = nil
     for i = 0, chunk_width - 1, 1 do
         for o = 0, chunk_width - 1, 1 do
-            if true or tertiary_tiles_to_update_in_chunk[cx][cy][i] and tertiary_tiles_to_update_in_chunk[cx][cy][i][o] ==
-                true and terrain[cx][cy][i][o] ~= _G.terrain_biome.none then
-                local vert_id = _G.getTerrainVertex(cx, cy, i, o)
-                local chevron_id = _G.getChevronVertex(cx, cy, i, o)
-                local instancemesh = _G.object_mesh[cx][cy]
+            local vert_id = _G.getTerrainVertex(cx, cy, i, o)
+            local chevron_id = _G.getChevronVertex(cx, cy, i, o)
+            local instancemesh = _G.object_mesh[cx][cy]
+            if terrain[cx][cy][i][o] ~= _G.terrain_biome.none or tertiary_tiles_to_update_in_chunk[cx][cy][i] and
+                tertiary_tiles_to_update_in_chunk[cx][cy][i][o] == true and terrain[cx][cy][i][o] ~=
+                _G.terrain_biome.none then
                 instancemesh:setVertex(vert_id)
                 local elevation_offset_y = heightmap[cx][cy][i][o] or 0
                 local elevation_value = 75 * elevation_offset_y / (40 + elevation_offset_y)
@@ -864,9 +865,8 @@ local function refresh_terrain(chunk_x, chunk_y)
                         l_scale)
                 end
             elseif terrain[cx][cy][i][o] == _G.terrain_biome.none then
-                local vert_id = _G.getTerrainVertex(cx, cy, i, o)
-                local instancemesh = _G.object_mesh[cx][cy]
                 instancemesh:setVertex(vert_id)
+                instancemesh:setVertex(chevron_id)
             end
         end
     end
