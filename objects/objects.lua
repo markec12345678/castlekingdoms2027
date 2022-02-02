@@ -615,6 +615,7 @@ function _G.setWaterAt(gx, gy)
             if i == 1 or i == -1 or o == 1 or o == -1 then
                 _G.terrainSetTileAt(pgx + i, pgy + o, _G.terrain_biome.sea_beach, _G.terrain_biome.abundant_grass)
             else
+                _G.setWalkable(pgx + i, pgy + o, 1)
                 _G.terrainSetTileAt(pgx + i, pgy + o, _G.terrain_biome.sea)
             end
         end
