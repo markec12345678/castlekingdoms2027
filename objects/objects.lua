@@ -519,7 +519,7 @@ local function mousepressed(x, y, button)
     press.x = (press.gx) % (chunk_width)
     press.y = (press.gy) % (chunk_width)
     if button == 1 then
-        _G.BuildController:build(press.gx, press.gy)
+        _G.BuildController:mousepressed(mx, my)
     elseif button == 3 then
         require("objects.Controllers.Ferdnhoven")
         -- _G.getTerrainTileOnMouse(mx, my)

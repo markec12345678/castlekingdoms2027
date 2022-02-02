@@ -373,6 +373,7 @@ function BuildController:update()
     if self.active then
         local MX, MY = love.mouse.getPosition()
         local LX, LY = _G.getTerrainTileOnMouse(MX, MY)
+        LX, LY = LX - math.floor(self.width / 2), LY - math.floor(self.height / 2)
         self.gx, self.gy = LX, LY
         local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(self.gx, self.gy)
         local type
@@ -385,10 +386,16 @@ function BuildController:update()
             if building[self.building].override_requirements then
                 building[self.building]:override_requirements(self)
             else
+                local fcx, fcy, fxx, fyy = _G.getLocalCoordinatesFromGlobal(self.gx + math.floor(self.width / 2),
+                    self.gy + math.floor(self.height / 2))
+                local first_terrain_height = (_G.heightmap[fcx][fcy][fxx][fyy] or 0) * 2
                 for xx = 0, self.width - 1 do
                     for yy = 0, self.height - 1 do
                         local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
                         if _G.importantObjectAt(ccx, ccy, xxx, yyy) then
+                            self.can_build = false
+                        end
+                        if first_terrain_height ~= (_G.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 then
                             self.can_build = false
                         end
                     end
@@ -400,7 +407,8 @@ function BuildController:update()
                 for xx = 0, self.width - 1 do
                     for yy = 0, self.height - 1 do
                         local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
-                        if not _G.importantObjectAt(ccx, ccy, xxx, yyy) then
+                        if not _G.importantObjectAt(ccx, ccy, xxx, yyy) and first_terrain_height ==
+                            (_G.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 then
                             if self.can_build then
                                 type = 2
                             else
@@ -409,7 +417,7 @@ function BuildController:update()
                         else
                             type = 1
                         end
-                        local elevation_offset_y = (_G.heightmap[cx][cy][x][y] or 0) * 2
+                        local elevation_offset_y = (_G.heightmap[ccx][ccy][xxx][yyy] or 0) * 2
                         self.batch:add(self.quads[type], (xx - yy) * tile_width * 0.5,
                             (xx + yy) * tile_height * 0.5 - elevation_offset_y, 0, 1, 1)
                     end
@@ -422,6 +430,11 @@ function BuildController:update()
             end
         end
     end
+end
+function BuildController:mousepressed(x, y)
+    local gx, gy = _G.getTerrainTileOnMouse(x, y)
+    gx, gy = gx - math.floor(self.width / 2), gy - math.floor(self.height / 2)
+    return self:build(gx, gy)
 end
 function BuildController:build(gx, gy)
     if self.active and self.can_build and self.gx > 0 and self.gx < 2048 and self.gy > 0 and self.gy < 2048 then
@@ -564,9 +577,12 @@ function BuildController:draw()
     if self.active then
         love.graphics.setColor(1, 1, 1, 0.5)
         love.graphics.draw(self.batch, self.FX, self.FY, nil, _G.scale_x)
-        love.graphics.draw(object_image, building[self.building].quad,
-            self.FX - building[self.building].offset_x * _G.scale_x, self.FY - self.elevation_offset_y * _G.scale_x -
-                building[self.building].offset_y * _G.scale_x, 0, _G.scale_x)
+        if self.can_build then
+            love.graphics.draw(object_image, building[self.building].quad,
+                self.FX - building[self.building].offset_x * _G.scale_x,
+                self.FY - self.elevation_offset_y * _G.scale_x - building[self.building].offset_y * _G.scale_x, 0,
+                _G.scale_x)
+        end
         love.graphics.setColor(1, 1, 1, 1)
     end
 end
