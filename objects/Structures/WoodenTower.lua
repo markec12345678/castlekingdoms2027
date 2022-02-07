@@ -38,8 +38,7 @@ function WoodenTower:initialize(gx, gy, type)
     self.offset_x = 0
     local _, _, _, sh = self.tile:getViewport()
     self.offset_y = -64
-    self.level = 1
-    self.rotation = 1
+
     for tile = 1, tiles do
         WoodenTower_alias:new(quad_array[tile], self.gx, self.gy + (tiles - tile + 1), self,
             -self.offset_y + 8 * (tiles - tile + 1))

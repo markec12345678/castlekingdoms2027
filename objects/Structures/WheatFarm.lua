@@ -135,8 +135,7 @@ function WheatFarm:initialize(gx, gy, type)
     self.working = false
     self.offset_x = 0
     self.offset_y = -64 - 6 - 8
-    self.level = 1
-    self.rotation = 1
+
     self.state = 0
     self.last_tile = nil
 
@@ -145,8 +144,7 @@ function WheatFarm:initialize(gx, gy, type)
             _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.dirt)
         end
     end
-    
-    
+
     for xx = 0, 2 do
         for yy = 0, 2 do
             _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.none)

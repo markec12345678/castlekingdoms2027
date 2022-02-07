@@ -173,8 +173,7 @@ function Windmill:initialize(gx, gy, type)
     self.offset_x = 0
     local _, _, _, lh = self.tile:getViewport()
     self.offset_y = 48 - lh
-    self.level = 1
-    self.rotation = 1
+
     self.wheat = 0
 
     -- self.stack = Windmill_plank_stack:new(self.gx, self.gy + 2, self, self.offset_x, self.offset_y)

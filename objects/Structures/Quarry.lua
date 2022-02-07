@@ -241,8 +241,7 @@ function Quarry:initialize(gx, gy, type)
     self.working = false
     self.offset_x = 0
     self.offset_y = -7 * 16 - 6
-    self.level = 1
-    self.rotation = 1
+
     self.lifter = Quarry_lifter:new(self.gx + 3, self.gy + 5, self, self.offset_x - 64 - 16, self.offset_y)
     self.lifter:deactivate()
     self.shaper = Quarry_shaper:new(self.gx + 1, self.gy + 5, self, self.offset_x - 64 - 16, self.offset_y)

@@ -207,8 +207,6 @@ function WoodcutterHut:initialize(gx, gy, type)
     self.unloading = false
     self.offset_x = 0
     self.offset_y = -32
-    self.level = 1
-    self.rotation = 1
 
     self.stack = WoodcutterHut_plank_stack:new(self.gx, self.gy + 2, self, self.offset_x, self.offset_y)
     self.sawing_obj = WoodcutterHut_sawing:new(self.gx, self.gy, self, self.offset_x, self.offset_y)

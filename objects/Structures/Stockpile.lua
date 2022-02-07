@@ -89,8 +89,6 @@ function Stockpile:initialize(gx, gy, type)
     self.tile = quad_array[tiles + 1]
     self.offset_x = 0
     self.offset_y = -12
-    self.level = 1
-    self.rotation = 1
 
     for tile = 1, tiles do
         local not_walkable = true

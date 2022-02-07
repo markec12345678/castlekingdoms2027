@@ -70,8 +70,7 @@ function Granary:initialize(gx, gy, type)
     self.tile = tile_quads["empty"]
     self.offset_x = 0
     self.offset_y = -64 - 14
-    self.level = 1
-    self.rotation = 1
+
     self.hover_action = true
     self.foodpile = {}
     self.foodpile[1] = {

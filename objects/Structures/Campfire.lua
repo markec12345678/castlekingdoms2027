@@ -25,8 +25,7 @@ function Campfire:initialize(gx, gy, type)
     self.offset_y = 0
     self.animated = false
     self.peasants = 0
-    self.level = 1
-    self.rotation = 1
+
     self.hover_action = true
     self.free_spots = _G.newAutotable(2)
 

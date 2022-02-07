@@ -119,8 +119,7 @@ function Orchard:initialize(gx, gy, type)
     self.working = false
     self.offset_x = 0
     self.offset_y = -48 - 6
-    self.level = 1
-    self.rotation = 1
+
     self.state = 0
     for xx = -1, 13 do
         for yy = -1, 13 do

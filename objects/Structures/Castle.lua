@@ -45,8 +45,7 @@ function Castle:initialize(gx, gy, type)
     self.tile = tile_quads["empty"]
     self.offset_x = 0
     self.offset_y = -93
-    self.level = 1
-    self.rotation = 1
+
     for tile = 1, tiles do
         Castle_alias:new(quad_array[tile], self.gx + tile, self.gy + tiles, self, -self.offset_y + 8 * tile + 48, -16)
     end

@@ -154,8 +154,6 @@ function Bakery:initialize(gx, gy, type)
     self.unloading = false
     self.offset_x = 0
     self.offset_y = 64 - 131
-    self.level = 1
-    self.rotation = 1
 
     self.cooking_obj = Bakery_cooking:new(self.gx + 3, self.gy + 2, self, self.offset_x, self.offset_y)
     self.stack = Bakery_bread_stack:new(self.gx + 3, self.gy + 3, self, self.offset_x, self.offset_y)

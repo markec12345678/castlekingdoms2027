@@ -354,8 +354,7 @@ function Mine:initialize(gx, gy, type)
     self.unloading = false
     self.offset_x = 0
     self.offset_y = -64 + 16 + 4
-    self.level = 1
-    self.rotation = 1
+
     self.pourer = Mine_pourer:new(self.gx + 1, self.gy + 1, self, self.offset_x - 64 - 16, self.offset_y)
     self.pourer:deactivate()
     self.going_down = Mine_going_down:new(self.gx + 3, self.gy + 3, self, self.offset_x, self.offset_y)
