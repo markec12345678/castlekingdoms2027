@@ -21,7 +21,7 @@ function WheatFarm_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     Structure.initialize(self, gx, gy, mytype)
     self.gx = gx
     self.gy = gy
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.qid = 0
     self.tile = tile
@@ -75,7 +75,7 @@ end
 function WheatFarm_plant:update(dt)
     dt = dt or _G.dt
     if self.state > 0 and self.state < 4 and self.parent.tiles_sowed == self.parent.available_plant_tiles and
-        (_G.wheat_growing_season or self.started_growing) then
+        (_G.state.wheat_growing_season or self.started_growing) then
         self.started_growing = true
         self.wheat_mature_counter = self.wheat_mature_counter + dt
         if self.wheat_mature_counter > 3 then
@@ -127,7 +127,7 @@ function WheatFarm:initialize(gx, gy, type)
     _G.JobController:add("WheatFarmer", self)
     local mytype = "Static structure"
     Structure.initialize(self, gx, gy, mytype)
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 400
     self.qid = nil
     self.tile = quad_array[tiles + 1]

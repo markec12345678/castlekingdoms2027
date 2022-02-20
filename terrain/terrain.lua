@@ -17,13 +17,12 @@ local chunks_set = newAutotable(2)
 
 ----Generate spriteBatch
 local terrain_image = _G.object_image
-_G.heightmap = newAutotable(4)
-local heightmap = _G.heightmap
-local shadowmap = newAutotable(4)
+local heightmap = _G.state.map.heightmap
+local shadowmap = _G.state.map.shadowmap
 _G.shadowmap = shadowmap
-_G.buildingheightmap = newAutotable(4)
+_G.buildingheightmap = _G.state.map.buildingheightmap
 local tileheight = _G.buildingheightmap
-local terrain_tile = newAutotable(4)
+local terrain_tile = _G.state.map.terrain_tile
 _G.terrain_biome = {
     ["abundant_grass"] = "abundant_grass",
     ["dirt"] = "dirt",
@@ -38,7 +37,7 @@ _G.terrain_biome = {
     ["sea_beach"] = "sea_beach",
     ["abundant_grass_stones_white"] = "land_stones_1_white_rock"
 }
-local terrain = _G.terrain
+local terrain = _G.state.map.terrain
 local terrain_batch = newAutotable(2)
 terrain_batch[0][0] = love.graphics.newSpriteBatch(terrain_image, chunk_width * chunk_height)
 
@@ -53,7 +52,7 @@ local function check_max_size_biome(biome, cx, cy, i, o, keys_to_skip)
     if i + 1 >= chunk_width - 1 or o + 1 >= chunk_height - 1 then
         return 1
     end
-    if _G.terrain[cx][cy][i + 0][o + 1] ~= biome or keys_to_skip[cx][cy][i + 0][o + 1] then
+    if _G.state.map.terrain[cx][cy][i + 0][o + 1] ~= biome or keys_to_skip[cx][cy][i + 0][o + 1] then
         return 1
     end
     if heightmap[cx][cy][i + 0][o + 1] ~= nil and heightmap[cx][cy][i + 0][o + 1] ~= current_height then
@@ -62,7 +61,7 @@ local function check_max_size_biome(biome, cx, cy, i, o, keys_to_skip)
     if shadowmap[cx][cy][i + 0][o + 1] ~= 0 and shadowmap[cx][cy][i + 0][o + 1] ~= nil then
         return 1
     end
-    if _G.terrain[cx][cy][i + 1][o + 1] ~= biome or keys_to_skip[cx][cy][i + 1][o + 1] then
+    if _G.state.map.terrain[cx][cy][i + 1][o + 1] ~= biome or keys_to_skip[cx][cy][i + 1][o + 1] then
         return 1
     end
     if heightmap[cx][cy][i + 1][o + 1] ~= nil and heightmap[cx][cy][i + 1][o + 1] ~= current_height then
@@ -71,7 +70,7 @@ local function check_max_size_biome(biome, cx, cy, i, o, keys_to_skip)
     if shadowmap[cx][cy][i + 1][o + 1] ~= 0 and shadowmap[cx][cy][i + 1][o + 1] ~= nil then
         return 1
     end
-    if _G.terrain[cx][cy][i + 1][o + 0] ~= biome or keys_to_skip[cx][cy][i + 1][o + 0] then
+    if _G.state.map.terrain[cx][cy][i + 1][o + 0] ~= biome or keys_to_skip[cx][cy][i + 1][o + 0] then
         return 1
     end
     if heightmap[cx][cy][i + 1][o + 0] ~= nil and heightmap[cx][cy][i + 1][o + 0] ~= current_height then
@@ -86,7 +85,7 @@ local function check_max_size_biome(biome, cx, cy, i, o, keys_to_skip)
     if shadowmap[cx][cy][i + 2][o + 2] ~= 0 and shadowmap[cx][cy][i + 2][o + 2] ~= nil then
         return 2
     end
-    if _G.terrain[cx][cy][i + 2][o + 0] ~= biome or keys_to_skip[cx][cy][i + 2][o + 0] then
+    if _G.state.map.terrain[cx][cy][i + 2][o + 0] ~= biome or keys_to_skip[cx][cy][i + 2][o + 0] then
         return 2
     end
     if heightmap[cx][cy][i + 2][o + 0] ~= nil and heightmap[cx][cy][i + 2][o + 0] ~= current_height then
@@ -95,7 +94,7 @@ local function check_max_size_biome(biome, cx, cy, i, o, keys_to_skip)
     if shadowmap[cx][cy][i + 2][o + 0] ~= 0 and shadowmap[cx][cy][i + 2][o + 0] ~= nil then
         return 2
     end
-    if _G.terrain[cx][cy][i + 2][o + 1] ~= biome or keys_to_skip[cx][cy][i + 2][o + 1] then
+    if _G.state.map.terrain[cx][cy][i + 2][o + 1] ~= biome or keys_to_skip[cx][cy][i + 2][o + 1] then
         return 2
     end
     if heightmap[cx][cy][i + 2][o + 1] ~= nil and heightmap[cx][cy][i + 2][o + 1] ~= current_height then
@@ -104,7 +103,7 @@ local function check_max_size_biome(biome, cx, cy, i, o, keys_to_skip)
     if shadowmap[cx][cy][i + 2][o + 1] ~= 0 and shadowmap[cx][cy][i + 2][o + 1] ~= nil then
         return 2
     end
-    if _G.terrain[cx][cy][i + 2][o + 2] ~= biome or keys_to_skip[cx][cy][i + 2][o + 2] then
+    if _G.state.map.terrain[cx][cy][i + 2][o + 2] ~= biome or keys_to_skip[cx][cy][i + 2][o + 2] then
         return 2
     end
     if heightmap[cx][cy][i + 2][o + 2] ~= nil and heightmap[cx][cy][i + 2][o + 2] ~= current_height then
@@ -113,7 +112,7 @@ local function check_max_size_biome(biome, cx, cy, i, o, keys_to_skip)
     if shadowmap[cx][cy][i + 2][o + 2] ~= 0 and shadowmap[cx][cy][i + 2][o + 2] ~= nil then
         return 2
     end
-    if _G.terrain[cx][cy][i + 0][o + 2] ~= biome or keys_to_skip[cx][cy][i + 0][o + 2] then
+    if _G.state.map.terrain[cx][cy][i + 0][o + 2] ~= biome or keys_to_skip[cx][cy][i + 0][o + 2] then
         return 2
     end
     if heightmap[cx][cy][i + 0][o + 2] ~= nil and heightmap[cx][cy][i + 0][o + 2] ~= current_height then
@@ -122,7 +121,7 @@ local function check_max_size_biome(biome, cx, cy, i, o, keys_to_skip)
     if shadowmap[cx][cy][i + 0][o + 2] ~= 0 and shadowmap[cx][cy][i + 0][o + 2] ~= nil then
         return 2
     end
-    if _G.terrain[cx][cy][i + 1][o + 2] ~= biome or keys_to_skip[cx][cy][i + 1][o + 2] then
+    if _G.state.map.terrain[cx][cy][i + 1][o + 2] ~= biome or keys_to_skip[cx][cy][i + 1][o + 2] then
         return 2
     end
     if heightmap[cx][cy][i + 1][o + 2] ~= nil and heightmap[cx][cy][i + 1][o + 2] ~= current_height then
@@ -137,7 +136,7 @@ local function check_max_size_biome(biome, cx, cy, i, o, keys_to_skip)
     if shadowmap[cx][cy][i + 3][o + 3] ~= 0 and shadowmap[cx][cy][i + 3][o + 3] ~= nil then
         return 1
     end
-    if _G.terrain[cx][cy][i + 3][o + 0] ~= biome or keys_to_skip[cx][cy][i + 3][o + 0] then
+    if _G.state.map.terrain[cx][cy][i + 3][o + 0] ~= biome or keys_to_skip[cx][cy][i + 3][o + 0] then
         return 3
     end
     if heightmap[cx][cy][i + 3][o + 0] ~= nil and heightmap[cx][cy][i + 3][o + 0] ~= current_height then
@@ -146,7 +145,7 @@ local function check_max_size_biome(biome, cx, cy, i, o, keys_to_skip)
     if shadowmap[cx][cy][i + 3][o + 0] ~= 0 and shadowmap[cx][cy][i + 3][o + 0] ~= nil then
         return 3
     end
-    if _G.terrain[cx][cy][i + 3][o + 1] ~= biome or keys_to_skip[cx][cy][i + 3][o + 1] then
+    if _G.state.map.terrain[cx][cy][i + 3][o + 1] ~= biome or keys_to_skip[cx][cy][i + 3][o + 1] then
         return 3
     end
     if heightmap[cx][cy][i + 3][o + 1] ~= nil and heightmap[cx][cy][i + 3][o + 1] ~= current_height then
@@ -155,7 +154,7 @@ local function check_max_size_biome(biome, cx, cy, i, o, keys_to_skip)
     if shadowmap[cx][cy][i + 3][o + 1] ~= 0 and shadowmap[cx][cy][i + 3][o + 1] ~= nil then
         return 3
     end
-    if _G.terrain[cx][cy][i + 3][o + 2] ~= biome or keys_to_skip[cx][cy][i + 3][o + 2] then
+    if _G.state.map.terrain[cx][cy][i + 3][o + 2] ~= biome or keys_to_skip[cx][cy][i + 3][o + 2] then
         return 3
     end
     if heightmap[cx][cy][i + 3][o + 2] ~= nil and heightmap[cx][cy][i + 3][o + 2] ~= current_height then
@@ -164,7 +163,7 @@ local function check_max_size_biome(biome, cx, cy, i, o, keys_to_skip)
     if shadowmap[cx][cy][i + 3][o + 2] ~= 0 and shadowmap[cx][cy][i + 3][o + 2] ~= nil then
         return 3
     end
-    if _G.terrain[cx][cy][i + 3][o + 3] ~= biome or keys_to_skip[cx][cy][i + 3][o + 3] then
+    if _G.state.map.terrain[cx][cy][i + 3][o + 3] ~= biome or keys_to_skip[cx][cy][i + 3][o + 3] then
         return 3
     end
     if heightmap[cx][cy][i + 3][o + 3] ~= nil and heightmap[cx][cy][i + 3][o + 3] ~= current_height then
@@ -173,7 +172,7 @@ local function check_max_size_biome(biome, cx, cy, i, o, keys_to_skip)
     if shadowmap[cx][cy][i + 3][o + 3] ~= 0 and shadowmap[cx][cy][i + 3][o + 3] ~= nil then
         return 3
     end
-    if _G.terrain[cx][cy][i + 0][o + 3] ~= biome or keys_to_skip[cx][cy][i + 0][o + 3] then
+    if _G.state.map.terrain[cx][cy][i + 0][o + 3] ~= biome or keys_to_skip[cx][cy][i + 0][o + 3] then
         return 3
     end
     if heightmap[cx][cy][i + 0][o + 3] ~= nil and heightmap[cx][cy][i + 0][o + 3] ~= current_height then
@@ -182,7 +181,7 @@ local function check_max_size_biome(biome, cx, cy, i, o, keys_to_skip)
     if shadowmap[cx][cy][i + 0][o + 3] ~= 0 and shadowmap[cx][cy][i + 0][o + 3] ~= nil then
         return 3
     end
-    if _G.terrain[cx][cy][i + 1][o + 3] ~= biome or keys_to_skip[cx][cy][i + 1][o + 3] then
+    if _G.state.map.terrain[cx][cy][i + 1][o + 3] ~= biome or keys_to_skip[cx][cy][i + 1][o + 3] then
         return 3
     end
     if heightmap[cx][cy][i + 1][o + 3] ~= nil and heightmap[cx][cy][i + 1][o + 3] ~= current_height then
@@ -191,7 +190,7 @@ local function check_max_size_biome(biome, cx, cy, i, o, keys_to_skip)
     if shadowmap[cx][cy][i + 1][o + 3] ~= 0 and shadowmap[cx][cy][i + 1][o + 3] ~= nil then
         return 3
     end
-    if _G.terrain[cx][cy][i + 2][o + 3] ~= biome or keys_to_skip[cx][cy][i + 2][o + 3] then
+    if _G.state.map.terrain[cx][cy][i + 2][o + 3] ~= biome or keys_to_skip[cx][cy][i + 2][o + 3] then
         return 3
     end
     if heightmap[cx][cy][i + 2][o + 3] ~= nil and heightmap[cx][cy][i + 2][o + 3] ~= current_height then
@@ -356,7 +355,7 @@ end
 
 function _G.terrainElevateTileAt(gx, gy)
     local cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(gx, gy)
-    if _G.terrain[cx] and _G.terrain[cx][cy] then
+    if _G.state.map.terrain[cx] and _G.state.map.terrain[cx][cy] then
         if heightmap[cx][cy][i][o] then
             heightmap[cx][cy][i][o] = heightmap[cx][cy][i][o] + 1
         else
@@ -546,7 +545,7 @@ local function update_terrain(chunk_x, chunk_y)
             local prev_cy = math.floor((gy + 1) / chunk_width)
 
             local prev_height, prev_shadow, prev_tileheight = 0, 0, 0
-            if _G.terrain[prev_cx] and _G.terrain[prev_cx][prev_cy] then
+            if _G.state.map.terrain[prev_cx] and _G.state.map.terrain[prev_cx][prev_cy] then
                 prev_height = heightmap[prev_cx][prev_cy][prev_i][prev_o] or 0
                 prev_height = 75 * prev_height / (40 + prev_height)
                 prev_shadow = shadowmap[prev_cx][prev_cy][prev_i][prev_o] or 0
@@ -658,13 +657,13 @@ local function tileShouldBeCliff(my_gx, my_gy)
     cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(my_gx + 1, my_gy)
     local tile_left_height = heightmap[cx][cy][i][o] or 0
     if (my_height - tile_left_height) > 8 then
-        _G.setWalkable(my_gx, my_gy, 1)
+        _G.state.map:setWalkable(my_gx, my_gy, 1)
         return true
     end
     cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(my_gx, my_gy + 1)
     local tile_right_height = heightmap[cx][cy][i][o] or 0
     if (my_height - tile_right_height) > 8 then
-        _G.setWalkable(my_gx, my_gy, 1)
+        _G.state.map:setWalkable(my_gx, my_gy, 1)
         return true
     end
     cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(my_gx + 1, my_gy + 1)
@@ -673,17 +672,17 @@ local function tileShouldBeCliff(my_gx, my_gy)
     end
     cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(my_gx, my_gy - 1)
     if my_height - (heightmap[cx][cy][i][o] or 0) > 8 then
-        _G.setWalkable(my_gx, my_gy, 1)
+        _G.state.map:setWalkable(my_gx, my_gy, 1)
         -- return true
     end
     cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(my_gx - 1, my_gy - 1)
     if my_height - (heightmap[cx][cy][i][o] or 0) > 8 then
-        _G.setWalkable(my_gx, my_gy, 1)
+        _G.state.map:setWalkable(my_gx, my_gy, 1)
         -- return true
     end
     cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(my_gx - 1, my_gy)
     if my_height - (heightmap[cx][cy][i][o] or 0) > 8 then
-        _G.setWalkable(my_gx, my_gy, 1)
+        _G.state.map:setWalkable(my_gx, my_gy, 1)
         -- return true
     end
     gx, gy = my_gx + 1, my_gy
@@ -692,7 +691,7 @@ local function tileShouldBeCliff(my_gx, my_gy)
     cx = math.floor(gx / chunk_width)
     cy = math.floor(gy / chunk_width)
     if terrain[cx][cy] and terrain[cx][cy][i] and terrain[cx][cy][i][o] == _G.terrain_biome.none then
-        _G.setWalkable(my_gx, my_gy, 1)
+        _G.state.map:setWalkable(my_gx, my_gy, 1)
         return true
     end
 end
@@ -705,7 +704,7 @@ local function refresh_terrain(chunk_x, chunk_y)
         for o = 0, chunk_width - 1, 1 do
             local vert_id = _G.getTerrainVertex(cx, cy, i, o)
             local chevron_id = _G.getChevronVertex(cx, cy, i, o)
-            local instancemesh = _G.object_mesh[cx][cy]
+            local instancemesh = _G.state.object_mesh[cx][cy]
             if terrain[cx][cy][i][o] ~= _G.terrain_biome.none or tertiary_tiles_to_update_in_chunk[cx][cy][i] and
                 tertiary_tiles_to_update_in_chunk[cx][cy][i][o] == true and terrain[cx][cy][i][o] ~=
                 _G.terrain_biome.none then
@@ -873,8 +872,8 @@ end
 
 function _G.getTerrainTileOnMouse(mx, my)
     local MX, MY, rMX, rMY
-    rMX = (mx - _G.ScreenWidth / 2) / _G.scale_x + _G.view_xview - 16
-    rMY = (my - _G.ScreenHeight / 2) / _G.scale_x + _G.view_yview
+    rMX = (mx - _G.ScreenWidth / 2) / _G.state.scale_x + _G.state.view_xview - 16
+    rMY = (my - _G.ScreenHeight / 2) / _G.state.scale_x + _G.state.view_yview
     local max_tiles = 20
     local offset_y
     local LocalX = math.round(ScreenToIsoX(rMX, rMY))
@@ -882,8 +881,8 @@ function _G.getTerrainTileOnMouse(mx, my)
     local last_valid_gx, last_valid_gy = LocalX, LocalY
     for tiles_iterated = 0, max_tiles do
         offset_y = tiles_iterated * 8
-        MX = (mx - _G.ScreenWidth / 2) / _G.scale_x + _G.view_xview - 16
-        MY = (my + offset_y * _G.scale_x - _G.ScreenHeight / 2) / _G.scale_x + _G.view_yview - 8
+        MX = (mx - _G.ScreenWidth / 2) / _G.state.scale_x + _G.state.view_xview - 16
+        MY = (my + offset_y * _G.state.scale_x - _G.ScreenHeight / 2) / _G.state.scale_x + _G.state.view_yview - 8
         LocalX = math.round(ScreenToIsoX(MX, MY))
         LocalY = math.round(ScreenToIsoY(MX, MY))
         local gx = LocalX
@@ -912,9 +911,6 @@ local function update()
     chunks_to_update = {}
 end
 local function genTerrain(cx, cy)
-    if terrain_batch[cx][cy] == nil then
-        terrain_batch[cx][cy] = love.graphics.newSpriteBatch(terrain_image, chunk_width * chunk_height)
-    end
     _G.allocateMesh(cx, cy)
     terrain[cx][cy] = newAutotable(2)
     for i = 0, chunk_width - 1, 1 do
@@ -928,14 +924,14 @@ end
 
 function _G.terrainSetTileAt(gx, gy, biome, from)
     local cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(gx, gy)
-    if _G.terrain[cx] and _G.terrain[cx][cy] then
+    if _G.state.map.terrain[cx] and _G.state.map.terrain[cx][cy] then
         if from then
-            if _G.terrain[cx][cy][i][o] == from then
-                _G.terrain[cx][cy][i][o] = biome
+            if _G.state.map.terrain[cx][cy][i][o] == from then
+                _G.state.map.terrain[cx][cy][i][o] = biome
                 _G.schedule_terrain_update(cx, cy, i, o)
             end
         else
-            _G.terrain[cx][cy][i][o] = biome
+            _G.state.map.terrain[cx][cy][i][o] = biome
             _G.schedule_terrain_update(cx, cy, i, o)
         end
     end
@@ -943,8 +939,8 @@ end
 
 function _G.getTerrainBiomeAt(gx, gy)
     local cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(gx, gy)
-    if _G.terrain[cx] and _G.terrain[cx][cy] then
-        return _G.terrain[cx][cy][i][o]
+    if _G.state.map.terrain[cx] and _G.state.map.terrain[cx][cy] then
+        return _G.state.map.terrain[cx][cy][i][o]
     end
 end
 
@@ -1124,7 +1120,7 @@ local function genMap()
     for i = 0, _G.chunks_wide - 1 do
         for o = 0, _G.chunks_high - 1 do -- usually both are 32 (jumper is set like that with magic numbers)
             genTerrain(i, o)
-            _G.status[i][o] = 2
+            -- _G.status[i][o] = 2
         end
     end
 end

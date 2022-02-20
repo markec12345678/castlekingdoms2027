@@ -172,7 +172,7 @@ local building = {
                     else
                         type = 1
                     end
-                    local elevation_offset_y = (_G.heightmap[cx][cy][x][y] or 0) * 2
+                    local elevation_offset_y = (_G.state.map.heightmap[cx][cy][x][y] or 0) * 2
                     ctrl.batch:add(ctrl.quads[type], (xx - yy) * tile_width * 0.5,
                         (xx + yy) * tile_height * 0.5 - elevation_offset_y, 0, 1, 1)
                 end
@@ -237,7 +237,7 @@ local building = {
                     else
                         type = 1
                     end
-                    local elevation_offset_y = (_G.heightmap[cx][cy][x][y] or 0) * 2
+                    local elevation_offset_y = (_G.state.map.heightmap[cx][cy][x][y] or 0) * 2
                     ctrl.batch:add(ctrl.quads[type], (xx - yy) * tile_width * 0.5,
                         (xx + yy) * tile_height * 0.5 - elevation_offset_y, 0, 1, 1)
                 end
@@ -377,9 +377,11 @@ function BuildController:update()
         self.gx, self.gy = LX, LY
         local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(self.gx, self.gy)
         local type
-        self.elevation_offset_y = (_G.heightmap[cx][cy][x][y] or 0) * 2
-        self.FX = IsoToScreenX(LX, LY) - _G.view_xview - ((IsoToScreenX(LX, LY)) - _G.view_xview) * (1 - _G.scale_x)
-        self.FY = IsoToScreenY(LX, LY) - _G.view_yview - ((IsoToScreenY(LX, LY)) - _G.view_yview) * (1 - _G.scale_x)
+        self.elevation_offset_y = (_G.state.map.heightmap[cx][cy][x][y] or 0) * 2
+        self.FX = IsoToScreenX(LX, LY) - _G.state.view_xview - ((IsoToScreenX(LX, LY)) - _G.state.view_xview) *
+                      (1 - _G.state.scale_x)
+        self.FY = IsoToScreenY(LX, LY) - _G.state.view_yview - ((IsoToScreenY(LX, LY)) - _G.state.view_yview) *
+                      (1 - _G.state.scale_x)
         -- No point to flush the batch everytime
         if self.last_building ~= self.building or self.previous_gx ~= self.gx or self.previous_gx ~= self.gy then
             self.can_build = true
@@ -388,14 +390,14 @@ function BuildController:update()
             else
                 local fcx, fcy, fxx, fyy = _G.getLocalCoordinatesFromGlobal(self.gx + math.floor(self.width / 2),
                     self.gy + math.floor(self.height / 2))
-                local first_terrain_height = (_G.heightmap[fcx][fcy][fxx][fyy] or 0) * 2
+                local first_terrain_height = (_G.state.map.heightmap[fcx][fcy][fxx][fyy] or 0) * 2
                 for xx = 0, self.width - 1 do
                     for yy = 0, self.height - 1 do
                         local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
                         if _G.importantObjectAt(ccx, ccy, xxx, yyy) then
                             self.can_build = false
                         end
-                        if first_terrain_height ~= (_G.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 then
+                        if first_terrain_height ~= (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 then
                             self.can_build = false
                         end
                     end
@@ -408,7 +410,7 @@ function BuildController:update()
                     for yy = 0, self.height - 1 do
                         local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
                         if not _G.importantObjectAt(ccx, ccy, xxx, yyy) and first_terrain_height ==
-                            (_G.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 then
+                            (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 then
                             if self.can_build then
                                 type = 2
                             else
@@ -417,7 +419,7 @@ function BuildController:update()
                         else
                             type = 1
                         end
-                        local elevation_offset_y = (_G.heightmap[ccx][ccy][xxx][yyy] or 0) * 2
+                        local elevation_offset_y = (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2
                         self.batch:add(self.quads[type], (xx - yy) * tile_width * 0.5,
                             (xx + yy) * tile_height * 0.5 - elevation_offset_y, 0, 1, 1)
                     end
@@ -441,7 +443,7 @@ function BuildController:build(gx, gy)
         self.can_afford = true
         if not self.start then
             for resource, amount in pairs(building[self.building].cost) do
-                if _G.resources[resource] < amount then
+                if _G.state.resources[resource] < amount then
                     self.can_afford = false
                     print("Cannot afford building! Not enough " .. resource .. "!")
                     break
@@ -576,12 +578,11 @@ end
 function BuildController:draw()
     if self.active then
         love.graphics.setColor(1, 1, 1, 0.5)
-        love.graphics.draw(self.batch, self.FX, self.FY, nil, _G.scale_x)
+        love.graphics.draw(self.batch, self.FX, self.FY, nil, _G.state.scale_x)
         if self.can_build then
             love.graphics.draw(object_image, building[self.building].quad,
-                self.FX - building[self.building].offset_x * _G.scale_x,
-                self.FY - self.elevation_offset_y * _G.scale_x - building[self.building].offset_y * _G.scale_x, 0,
-                _G.scale_x)
+                self.FX - building[self.building].offset_x * _G.state.scale_x, self.FY - self.elevation_offset_y *
+                    _G.state.scale_x - building[self.building].offset_y * _G.state.scale_x, 0, _G.state.scale_x)
         end
         love.graphics.setColor(1, 1, 1, 1)
     end

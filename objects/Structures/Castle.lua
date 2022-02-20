@@ -11,7 +11,7 @@ function Castle_door:initialize(tile, gx, gy, parent, offset_y, offset_x)
     Structure.initialize(self, gx, gy, mytype)
     self.gx = gx
     self.gy = gy
-    _G.setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.qid = nil
     self.tile = tile
@@ -26,7 +26,7 @@ function Castle_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     Structure.initialize(self, gx, gy, mytype)
     self.gx = gx
     self.gy = gy
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.qid = nil
     self.tile = tile
@@ -39,7 +39,7 @@ local Castle = class('Castle', Structure)
 function Castle:initialize(gx, gy, type)
     local mytype = "Static structure"
     Structure.initialize(self, gx, gy, mytype)
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 1000
     self.qid = nil
     self.tile = tile_quads["empty"]

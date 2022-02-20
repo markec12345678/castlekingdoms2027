@@ -26,4 +26,5 @@ function Iron:initialize(gx, gy, type)
         end
     end
 end
+
 return Iron

@@ -1,6 +1,6 @@
 local bitser = require("libraries.bitser")
 
-local PathController = class('PathController')
+local PathController = _G.class('PathController')
 function PathController:initialize()
     self.paths = newAutotable(4)
 end

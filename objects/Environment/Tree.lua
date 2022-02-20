@@ -35,7 +35,7 @@ function Tree:initialize(gx, gy, type)
         -- self.animation:update(dt)
         self.animated = false -- mark for removal from list
         -- self:animate() -- animate, because the list will remove us before we show the stump
-        _G.chunk_objects[self.cx][self.cy][self] = nil
+        -- _G.state.chunk_objects[self.cx][self.cy][self] = nil
         self.type = "Stump"
         self.tile = self.trunk_tile
         self:render()
@@ -75,17 +75,19 @@ function Tree:initialize(gx, gy, type)
         end
     end
     if self.gx < 2048 and self.gx >= 0 and self.gy < 2048 and self.gy >= 0 then
-        _G.collision_map[self.gx][self.gy] = 1
-        _G.setWalkable(self.gx, self.gy, 1)
+        _G.state.map:setWalkable(self.gx, self.gy, 1)
     end
-    if _G.chunk_objects[self.cx][self.cy] == nil then
-        _G.chunk_objects[self.cx][self.cy] = {}
+    if _G.state.chunk_objects[self.cx][self.cy] == nil then
+        _G.state.chunk_objects[self.cx][self.cy] = {}
     end
-    _G.chunk_objects[self.cx][self.cy][self] = self
+    _G.state.chunk_objects[self.cx][self.cy][self] = self
     _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
 end
 function Tree:render()
-    if _G.object_mesh then
+    if not self.instancemesh then
+        self:animate()
+    end
+    if _G.state.object_mesh then
         local offset_x, offset_y = 0, 0
         if quad_offset[self.tile] then
             offset_x, offset_y = quad_offset[self.tile][1] or 0, quad_offset[self.tile][2] or 0
@@ -102,14 +104,14 @@ function Tree:update(dt)
 end
 function Tree:animate(dt, force_update)
     local updated, ticked = false, false
-    if _G.scale_x > 0.6 then
+    if _G.state.scale_x > 0.6 then
         updated = self.animation:update(dt)
         ticked = true
         self.offset_timer = self.offset_timer + 1
         if self.offset_timer > 4 then
             self.offset_x = self.base_offset_x
         end
-    elseif _G.scale_x > 0.3 then
+    elseif _G.state.scale_x > 0.3 then
         self.update_timer = self.update_timer + 1
         if self.update_timer == 10 then
             updated = self.animation:update(dt)
@@ -133,29 +135,29 @@ function Tree:animate(dt, force_update)
                 quad_offset[self.animation:getQuad()][2] or 0
         end
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
-            self.y + (self.offset_y or 0) + offset_y - _G.height_map[self.gx][self.gy])
+            self.y + (self.offset_y or 0) + offset_y - _G.state.map.walking_heightmap[self.gx][self.gy])
 
         local elevation_offset_y = 0
-        if _G.heightmap[self.cx][self.cy][self.i][self.o] then
-            elevation_offset_y = _G.heightmap[self.cx][self.cy][self.i][self.o] * 2
+        if _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] then
+            elevation_offset_y = _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] * 2
         end
         y = y - elevation_offset_y
         local qx, qy, qw, qh = quad:getViewport()
         self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh, 1)
         return
     end
-    if not self.instancemesh and _G.object_mesh then
+    if not self.instancemesh and _G.state.object_mesh then
         local offset_x, offset_y = 0, 0
         if quad_offset[self.animation:getQuad()] then
             offset_x, offset_y = quad_offset[self.animation:getQuad()][1] or 0,
                 quad_offset[self.animation:getQuad()][2] or 0
         end
-        local instancemesh = _G.object_mesh[self.cx][self.cy]
+        local instancemesh = _G.state.object_mesh[self.cx][self.cy]
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
-            self.y + (self.offset_y or 0) + offset_y - _G.height_map[self.gx][self.gy])
+            self.y + (self.offset_y or 0) + offset_y - _G.state.map.walking_heightmap[self.gx][self.gy])
         local elevation_offset_y = 0
-        if _G.heightmap[self.cx][self.cy][self.i][self.o] then
-            elevation_offset_y = _G.heightmap[self.cx][self.cy][self.i][self.o] * 2
+        if _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] then
+            elevation_offset_y = _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] * 2
         end
         y = y - elevation_offset_y
         local qx, qy, qw, qh = quad:getViewport()
@@ -166,12 +168,10 @@ function Tree:animate(dt, force_update)
 end
 function Tree:cut()
     if self.health > 0 then
-        status[self.cx][self.cy] = 1
         self.offset_x = self.base_offset_x + 4
         self.offset_timer = 0
         self.health = self.health - 1
     elseif self.health <= 0 and self.falling == false and self.chop == false and self.stump == false then
-        status[self.cx][self.cy] = 1
         self.offset_x = self.base_offset_x - 8
         self.offset_timer = 0
         if self.dead then
@@ -188,7 +188,6 @@ function Tree:cut()
         end
     end
     if self.chop then
-        status[self.cx][self.cy] = 1
         if self.animation:getTotalFrames() ~= self.animation:getCurrentFrame() then
             self.animation:gotoFrame(self.animation:getCurrentFrame() + 1)
             self:animate(_G.dt, true)
@@ -198,6 +197,33 @@ function Tree:cut()
             return 2
         end
     end
+end
+function Tree:serialize()
+    local data = {}
+    data.object = Object.serialize(self)
+    data.offset_y = self.offset_y
+    data.base_offset_x = self.base_offset_x
+    data.offset_x = self.offset_x
+    data.falling = self.falling
+    data.chop = self.chop
+    data.stump = self.stump
+    data.type = self.type
+    data.animated = self.animated
+    data.marked = self.marked
+    data.tile = self.tile
+    data.cuttable = self.cuttable
+    data.tree = self.tree
+    data.active = self.active
+    data.offset_timer = self.offset_timer
+    data.update_timer = self.update_timer
+    data.chunk_key = self.chunk_key
+    return data
+end
+
+function Tree.static:deserialize(data)
+    local obj = self:new(data.object.gx, data.object.gy, data.object.type)
+    Object.deserialize(self, data)
+    return obj
 end
 
 return Tree

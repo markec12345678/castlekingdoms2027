@@ -1,5 +1,6 @@
 local _, _, tile_quads, _, Tree = ...
 local anim = require("libraries.anim8")
+local Object = require('objects.Object')
 
 local fr_dead_static = {tile_quads["tree_pine_dead (1)"]}
 
@@ -63,7 +64,44 @@ function PineTree:initialize(gx, gy, type)
         self.animation = anim.newAnimation(fr_very_small_static, 0.09)
         self.chop_animation = anim.newAnimation(fr_very_small_chop, 0.1)
         self.falling_animation = anim.newAnimation(fr_very_small_falling, 0.13, self.cut_down)
+    elseif type == "Stump" then
+        self.animation = anim.newAnimation({self.trunk_tile}, 0.1)
+        self.animation:pause()
+        self.stump = true
+        self.animated = false -- mark for removal from list
+        -- _G.state.chunk_objects[self.cx][self.cy][self] = nil
+        self.type = "Stump"
+        self.tile = self.trunk_tile
+        self:render()
     end
+end
+
+function PineTree:serialize()
+    local data = {}
+    local tree_data = Tree.serialize(self)
+    for k, v in pairs(tree_data) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
+    data.class = PineTree.name
+    data.offset_y = self.offset_y
+    data.base_offset_x = self.base_offset_x
+    data.dead = self.dead
+    data.cuttable = self.cuttable
+    data.health = self.health
+    if self.stump then
+        print("SERIALIZE")
+        print(inspect(data))
+        print(inspect(tree_data))
+    end
+    return data
+end
+
+function PineTree.static:deserialize(data)
+    local obj = self:new(data.object.gx, data.object.gy, data.object.type)
+    Object.deserialize(self, data)
+    return obj
 end
 
 return PineTree

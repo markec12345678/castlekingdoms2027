@@ -20,7 +20,7 @@ function Bakery_bread_stack:initialize(gx, gy, parent, offset_x, offset_y)
     self.quantity = 0
     self.gx = gx
     self.gy = gy
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.qid = 0
     self.offset_x = -24
@@ -88,7 +88,7 @@ function Bakery_cooking:initialize(gx, gy, parent, offset_x, offset_y)
     self.animation:pause()
     self.gx = gx
     self.gy = gy
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.qid = 0
     self.offset_x = -36
@@ -121,7 +121,7 @@ function Bakery_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     Structure.initialize(self, gx, gy, mytype)
     self.gx = gx
     self.gy = gy
-    _G.setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.qid = 0
     self.tile = tile
@@ -145,7 +145,7 @@ function Bakery:initialize(gx, gy, type)
     Structure.initialize(self, gx, gy, mytype)
     self.gx = chunk_width * self.cx + self.i
     self.gy = chunk_width * self.cy + self.o
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 400
     self.qid = nil
     self.tile = quad_array[tiles + 1]

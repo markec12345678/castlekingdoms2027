@@ -8,7 +8,7 @@ function Rock_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     Structure.initialize(self, gx, gy, mytype)
     self.gx = gx
     self.gy = gy
-    _G.setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.qid = 0
     self.tile = tile
@@ -25,7 +25,7 @@ function Rock:initialize(gx, gy, type)
     Structure.initialize(self, gx, gy, mytype)
     self.gx = chunk_width * self.cx + self.i
     self.gy = chunk_width * self.cy + self.o
-    _G.setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 100
     self.qid = nil
     self.tile = tile_quads["empty"]

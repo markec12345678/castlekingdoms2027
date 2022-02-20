@@ -33,4 +33,5 @@ function Stone:initialize(gx, gy, type)
         end
     end
 end
+
 return Stone

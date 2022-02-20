@@ -1,0 +1,154 @@
+local bitser = require('libraries.bitser')
+local Map = require('objects.Map')
+local State = _G.class('State')
+
+function State:initialize()
+    self.map = Map:new()
+    self.top_left_chunk_x = 0
+    self.top_left_chunk_y = 0
+    self.bottom_right_chunk_x = 0
+    self.bottom_right_chunk_y = 0
+    self.terrain_chunks = nil
+    self.object = newAutotable(4)
+    self.object_mesh = newAutotable(2)
+    self.object_mesh_vert_id_map = newAutotable(3)
+    self.vertices_per_tile = 6
+    self.chunk_objects = newAutotable(2)
+    self.scale_x = 1
+    self.view_xview = -100
+    self.view_yview = 4000
+    -- TODO: Make the collision map dynamic
+    self.collision_map = ffi.new("unsigned char[2048][2048]", {})
+    self.resources = {
+        ['wood'] = 0,
+        ['stone'] = 0,
+        ['iron'] = 0,
+        ['flour'] = 0,
+        ['wheat'] = 0
+    }
+    self.food = {
+        ["apples"] = 0,
+        ["bread"] = 0,
+        ["cheese"] = 0
+    }
+    self.not_full_stockpiles = {
+        ["wood"] = 0,
+        ["stone"] = 0,
+        ["wheat"] = 0,
+        ["iron"] = 0,
+        ["flour"] = 0
+    }
+    self.not_full_foods = {
+        ["apples"] = 0,
+        ["bread"] = 0,
+        ["cheese"] = 0
+    }
+    self.wheat_season_counter = 0
+    self.wheat_growing_season = false
+end
+
+function State:save(filename)
+    return self:serialize()
+    -- bitser.saveLoveFile(filename)
+end
+
+function State:serializeChunkObjects()
+    local chunk_data = {}
+    for cx = 0, _G.chunks_wide - 1 do
+        chunk_data[cx] = {}
+        for cy = 0, _G.chunks_high - 1 do
+            chunk_data[cx][cy] = {}
+            local data = chunk_data[cx][cy]
+            if self.chunk_objects[cx][cy] then
+                for _, obj in pairs(_G.state.chunk_objects[cx][cy]) do
+                    data[#data + 1] = obj:serialize()
+                end
+            end
+        end
+    end
+    return chunk_data
+end
+
+function State:deserializeChunkObjects(load_data)
+    self.chunk_objects = newAutotable(2)
+    print("started deserializing")
+    for cx = 0, _G.chunks_wide - 1 do
+        for cy = 0, _G.chunks_high - 1 do
+            local data = load_data[cx] and load_data[cx][cy]
+            if data then
+                for _, obj in pairs(data) do
+                    -- if obj.stump then
+                    --     print("GOTCHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                    --     print(inspect(obj))
+                    -- end
+                    if obj and obj.class then
+                        local object = _G.getClassByName(obj.class)
+                        if object then
+                            object:deserialize(obj)
+                        end
+                    end
+                end
+            end
+        end
+    end
+    return self.chunk_objects
+end
+
+function State:serialize()
+    local data = {}
+    data.resources = self.resources
+    data.food = self.food
+    data.not_full_stockpiles = self.not_full_stockpiles
+    data.not_full_foods = self.not_full_foods
+    data.wheat_season_counter = self.wheat_season_counter
+    data.wheat_growing_season = self.wheat_growing_season
+    data.collision_map = self.collision_map
+    data.top_left_chunk_x = self.top_left_chunk_x
+    data.top_left_chunk_y = self.top_left_chunk_y
+    data.bottom_right_chunk_x = self.bottom_right_chunk_x
+    data.bottom_right_chunk_y = self.bottom_right_chunk_y
+    data.terrain_chunks = self.terrain_chunks
+    -- data.object_mesh = self.object_mesh
+    -- data.object_mesh_vert_id_map = self.object_mesh_vert_id_map
+    data.vertices_per_tile = self.vertices_per_tile
+    data.chunk_objects = self:serializeChunkObjects()
+    data.scale_x = self.scale_x
+    data.view_xview = self.view_xview
+    data.view_yview = self.view_yview
+    data.map = self.map:serialize()
+    return data
+end
+
+function State.static:deserialize()
+
+end
+
+function State:load(filename)
+    local load = bitser.loadLoveFile(filename)
+    self.resources = load.resources
+    self.food = load.food
+    self.not_full_stockpiles = load.not_full_stockpiles
+    self.not_full_foods = load.not_full_foods
+    self.wheat_season_counter = load.wheat_season_counter
+    self.wheat_growing_season = load.wheat_growing_season
+    self.collision_map = load.collision_map
+    self.top_left_chunk_x = load.top_left_chunk_x
+    self.top_left_chunk_y = load.top_left_chunk_y
+    self.bottom_right_chunk_x = load.bottom_right_chunk_x
+    self.bottom_right_chunk_y = load.bottom_right_chunk_y
+    self.terrain_chunks = load.terrain_chunks
+    -- self.object_mesh = load.object_mesh
+    -- self.object_mesh_vert_id_map = load.object_mesh_vert_id_map
+    self.vertices_per_tile = load.vertices_per_tile
+    self.chunk_objects = self:deserializeChunkObjects(load.chunk_objects)
+    self.scale_x = load.scale_x
+    self.view_xview = load.view_xview
+    self.view_yview = load.view_yview
+    print("................")
+    print(self.map)
+    self.map:deserialize(load.map)
+    print(self.map)
+    self.map:forceRefresh()
+end
+
+return State

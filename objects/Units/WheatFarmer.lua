@@ -117,18 +117,10 @@ local fr_gather_walk_wheat_northwest = indexQuads("body_farmer_walk_wheat_nw", 1
 local fr_gather_walk_wheat_southeast = indexQuads("body_farmer_walk_wheat_se", 16)
 local fr_gather_walk_wheat_southwest = indexQuads("body_farmer_walk_wheat_sw", 16)
 -- idle
-local function reverse(t)
-    local n = #t
-    local i = 1
-    while i < n do
-        t[i], t[n] = t[n], t[i]
-        i = i + 1
-        n = n - 1
-    end
-end
+
 local fr_idle = indexQuads("body_farmer_idle", 16)
 local fr_idle_loop = indexQuads("body_farmer_idle", 16, 12, true)
--- reverse(fr_idle_loop)
+
 local WheatFarmer = class('WheatFarmer', Unit)
 function WheatFarmer:initialize(gx, gy, type)
     Unit.initialize(self, gx, gy, type)

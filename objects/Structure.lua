@@ -14,18 +14,18 @@ function Structure:animate(dt, force_update)
     if not self.animation or not self.animated then
         return
     end
-    if not self.instancemesh and _G.object_mesh then
+    if not self.instancemesh and _G.state.object_mesh then
         local offset_x, offset_y = 0, 0
         if quad_offset[self.animation:getQuad()] then
             offset_x, offset_y = quad_offset[self.animation:getQuad()][1] or 0,
                 quad_offset[self.animation:getQuad()][2] or 0
         end
-        local instancemesh = object_mesh[self.cx][self.cy]
+        local instancemesh = _G.state.object_mesh[self.cx][self.cy]
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
-            self.y + (self.offset_y or 0) + offset_y - _G.height_map[self.gx][self.gy])
+            self.y + (self.offset_y or 0) + offset_y - _G.state.map.walking_heightmap[self.gx][self.gy])
         local elevation_offset_y = 0
-        if _G.heightmap[self.cx][self.cy][self.i][self.o] then
-            elevation_offset_y = _G.heightmap[self.cx][self.cy][self.i][self.o] * 2
+        if _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] then
+            elevation_offset_y = _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] * 2
         end
         y = y - elevation_offset_y
         local qx, qy, qw, qh = quad:getViewport()
@@ -43,10 +43,10 @@ function Structure:animate(dt, force_update)
                 quad_offset[self.animation:getQuad()][2] or 0
         end
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
-            self.y + (self.offset_y or 0) + offset_y - _G.height_map[self.gx][self.gy])
+            self.y + (self.offset_y or 0) + offset_y - _G.state.map.walking_heightmap[self.gx][self.gy])
         local elevation_offset_y = 0
-        if _G.heightmap[self.cx][self.cy][self.i][self.o] then
-            elevation_offset_y = _G.heightmap[self.cx][self.cy][self.i][self.o] * 2
+        if _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] then
+            elevation_offset_y = _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] * 2
         end
         y = y - elevation_offset_y
         if quad then
@@ -56,4 +56,5 @@ function Structure:animate(dt, force_update)
         return
     end
 end
+
 return Structure

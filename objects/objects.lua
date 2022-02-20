@@ -30,12 +30,12 @@ local press = location:new()
 local active_objects = newAutotable(1)
 local active_entities = newAutotable(1)
 _G.active_chunks = {}
-local object = newAutotable(4)
+local object = _G.state.object
 ----Calculate center chunk
-local CenterX = math.round(
-    ScreenToIsoX(_G.ScreenWidth / 2 - 16 + _G.view_xview, _G.ScreenHeight / 2 - 8 + _G.view_yview));
-local CenterY = math.round(
-    ScreenToIsoY(_G.ScreenWidth / 2 - 16 + _G.view_xview, _G.ScreenHeight / 2 - 8 + _G.view_yview))
+local CenterX = math.round(ScreenToIsoX(_G.ScreenWidth / 2 - 16 + _G.state.view_xview,
+    _G.ScreenHeight / 2 - 8 + _G.state.view_yview));
+local CenterY = math.round(ScreenToIsoY(_G.ScreenWidth / 2 - 16 + _G.state.view_xview,
+    _G.ScreenHeight / 2 - 8 + _G.state.view_yview))
 ---------------------------------------
 _G.xchunk = math.floor(CenterX / (chunk_width))
 _G.ychunk = math.floor(CenterY / (chunk_width))
@@ -268,8 +268,8 @@ function _G.allocateMesh(cx, cy)
     local instancemesh = love.graphics.newMesh({{"InstancePosition", "float", 2}, {"UVOffset", "float", 2},
                                                 {"ImageDim", "float", 2}, {"ImageShade", "float", 1},
                                                 {"ScaleX", "float", 1}},
-        chunk_width * chunk_height * _G.vertices_per_tile + 1000, nil, "dynamic")
-    _G.object_mesh[chunk_x][chunk_y] = instancemesh
+        chunk_width * chunk_height * _G.state.vertices_per_tile + 1000, nil, "dynamic")
+    _G.state.object_mesh[chunk_x][chunk_y] = instancemesh
     object_batch[chunk_x][chunk_y]:setTexture(object_image)
     object_batch[chunk_x][chunk_y]:attachAttribute("InstancePosition", instancemesh, "perinstance")
     object_batch[chunk_x][chunk_y]:attachAttribute("UVOffset", instancemesh, "perinstance")
@@ -484,8 +484,8 @@ vec4 effect( vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords )
 #endif
 ]]
 local function draw_object()
-    local tile_start_x, tile_start_y, tile_end_x, tile_end_y = _G.top_left_chunk_x - 1, _G.top_left_chunk_y,
-        _G.bottom_right_chunk_x + 1, _G.bottom_right_chunk_y
+    local tile_start_x, tile_start_y, tile_end_x, tile_end_y = _G.state.top_left_chunk_x - 1, _G.state.top_left_chunk_y,
+        _G.state.bottom_right_chunk_x + 1, _G.state.bottom_right_chunk_y
 
     local firstRow = math.min(tile_start_x + tile_start_y, tile_end_x + tile_end_y)
     local lastRow = math.max(tile_start_x + tile_start_y, tile_end_x + tile_end_y)
@@ -500,10 +500,11 @@ local function draw_object()
         for column = firstColumn + shift, lastColumn, 2 do
             local xx, yy = bit.rshift(row + column, 1), bit.rshift(row - column, 1)
             if object_batch[xx][yy] ~= nil then
-                love.graphics.drawInstanced(object_batch[xx][yy], _G.object_mesh[xx][yy]:getVertexCount(),
-                    -_G.view_xview * _G.scale_x + (xx * _G.scale_x - yy * _G.scale_x) * chunk_width * tile_width * 0.5,
-                    -_G.view_yview * _G.scale_x + (xx * _G.scale_x + yy * _G.scale_x) * chunk_height * tile_height * 0.5,
-                    0, _G.scale_x, _G.scale_y)
+                love.graphics.drawInstanced(object_batch[xx][yy], _G.state.object_mesh[xx][yy]:getVertexCount(),
+                    -_G.state.view_xview * _G.state.scale_x + (xx * _G.state.scale_x - yy * _G.state.scale_x) *
+                        chunk_width * tile_width * 0.5,
+                    -_G.state.view_yview * _G.state.scale_x + (xx * _G.state.scale_x + yy * _G.state.scale_x) *
+                        chunk_height * tile_height * 0.5, 0, _G.state.scale_x, _G.state.scale_x)
             end
         end
     end
@@ -581,10 +582,7 @@ local function mousepressed(x, y, button)
                 }))
                 -- print(ibj.type, ibj.x + (ibj.cx - ibj.cy) * chunk_width * tile_width * 0.5,
                 --     ibj.y + (ibj.cx + ibj.cy) * chunk_width * tile_height * 0.5)
-                -- print(ibj.type, (view_xview) - 1920 / 2 - 100, (view_yview) - 1080 / 2 - 100)
-                -- print(ibj.type, ((view_xview) - 1920 / 2 - 100) * scale_x, ((view_yview) - 1080 / 2 - 100) * scale_y)
-                -- print(ibj.type, ((view_xview) - 1920 / 2 - 100) / scale_x, ((view_yview) - 1080 / 2 - 100) / scale_y)
-                -- print(ibj.type, ((view_xview) - 1920 / 2 - 100) / scale_x, ((view_yview) - 1080 / 2 - 100) * scale_y)
+                -- print(ibj.type, (_G.state.view_xview) - 1920 / 2 - 100, (_G.state.view_yview) - 1080 / 2 - 100)
             end
             -- print(inspect(insp))
         end
@@ -595,8 +593,8 @@ local function preload(dt)
     -- Animates all the objects once so they don't pop in when scrolling
     for i = 0, _G.chunks_wide - 1 do
         for o = 0, _G.chunks_high - 1 do
-            if _G.chunk_objects[i][o] then
-                for _, obj in pairs(_G.chunk_objects[i][o]) do
+            if _G.state.chunk_objects[i][o] then
+                for _, obj in pairs(_G.state.chunk_objects[i][o]) do
                     if obj.animated then
                         obj:animate(dt)
                     else
@@ -615,7 +613,7 @@ function _G.setWaterAt(gx, gy)
             if i == 1 or i == -1 or o == 1 or o == -1 then
                 _G.terrainSetTileAt(pgx + i, pgy + o, _G.terrain_biome.sea_beach, _G.terrain_biome.abundant_grass)
             else
-                _G.setWalkable(pgx + i, pgy + o, 1)
+                _G.state.map:setWalkable(pgx + i, pgy + o, 1)
                 _G.terrainSetTileAt(pgx + i, pgy + o, _G.terrain_biome.sea)
             end
         end
@@ -626,8 +624,8 @@ local first_update = true
 local function update(dt)
     if love.mouse.isDown(2) then
         local MX, MY = love.mouse.getPosition()
-        MX = (MX - _G.ScreenWidth / 2) / _G.scale_x + _G.view_xview - 16
-        MY = (MY - _G.ScreenHeight / 2) / _G.scale_x + _G.view_yview - 8
+        MX = (MX - _G.ScreenWidth / 2) / _G.state.scale_x + _G.state.view_xview - 16
+        MY = (MY - _G.ScreenHeight / 2) / _G.state.scale_x + _G.state.view_yview - 8
         local pgx = math.round(ScreenToIsoX(MX, MY))
         local pgy = math.round(ScreenToIsoY(MX, MY))
         -- Lake gen
@@ -688,14 +686,14 @@ local function update(dt)
     prof.push("AE")
     previous_chunk_x = _G.current_chunk_x
     previous_chunk_y = _G.current_chunk_y
-    _G.previous_top_left_chunk_x = _G.top_left_chunk_x
-    _G.wheat_season_counter = _G.wheat_season_counter + dt
-    if _G.wheat_season_counter > 5 then
-        _G.wheat_season_counter = 0
-        _G.wheat_growing_season = true
+    _G.state.previous_top_left_chunk_x = _G.state.top_left_chunk_x
+    _G.state.wheat_season_counter = _G.state.wheat_season_counter + dt
+    if _G.state.wheat_season_counter > 5 then
+        _G.state.wheat_season_counter = 0
+        _G.state.wheat_growing_season = true
     end
-    if _G.wheat_growing_season and _G.wheat_season_counter > 0.5 then
-        _G.wheat_growing_season = false
+    if _G.state.wheat_growing_season and _G.state.wheat_season_counter > 0.5 then
+        _G.state.wheat_growing_season = false
     end
     local updated_chunks = _G.newAutotable(2)
     for idx, obj in pairs(active_entities) do
@@ -712,18 +710,18 @@ local function update(dt)
     prof.push("UPDATE_CHUNK_OBJ")
 
     local super_slow_mode = false
-    if _G.scale_x < 0.31 then
+    if _G.state.scale_x < 0.31 then
         super_slow_mode = true
     end
-    local l = _G.terrain_chunks
+    local l = _G.state.terrain_chunks
     while l do
         if l.chunkx == nil then
             break
         end
         updated_chunks[l.chunkx][l.chunky] = true
         if not super_slow_mode or love.math.random(1, 10) == 1 then
-            if _G.chunk_objects[l.chunkx][l.chunky] then
-                for _, obj in pairs(_G.chunk_objects[l.chunkx][l.chunky]) do
+            if _G.state.chunk_objects[l.chunkx][l.chunky] then
+                for _, obj in pairs(_G.state.chunk_objects[l.chunkx][l.chunky]) do
                     if obj.animated then
                         if obj:is_visible_on_screen() then
                             obj:animate(dt)
@@ -739,8 +737,8 @@ local function update(dt)
         l = l.next
     end
     -- Render the edge chunks with lower priority
-    local tile_start_x, tile_start_y, tile_end_x, tile_end_y = _G.top_left_chunk_x - 1, _G.top_left_chunk_y,
-        _G.bottom_right_chunk_x + 1, _G.bottom_right_chunk_y
+    local tile_start_x, tile_start_y, tile_end_x, tile_end_y = _G.state.top_left_chunk_x - 1, _G.state.top_left_chunk_y,
+        _G.state.bottom_right_chunk_x + 1, _G.state.bottom_right_chunk_y
 
     local firstRow = math.min(tile_start_x + tile_start_y, tile_end_x + tile_end_y)
     local lastRow = math.max(tile_start_x + tile_start_y, tile_end_x + tile_end_y)
@@ -754,8 +752,8 @@ local function update(dt)
             local xx, yy = bit.rshift(row + column, 1), bit.rshift(row - column, 1)
             if updated_chunks[xx][yy] ~= true then
                 if love.math.random(1, 5) == 1 then
-                    if _G.chunk_objects[xx][yy] then
-                        for _, obj in pairs(_G.chunk_objects[xx][yy]) do
+                    if _G.state.chunk_objects[xx][yy] then
+                        for _, obj in pairs(_G.state.chunk_objects[xx][yy]) do
                             if obj.animated then
                                 if obj:is_visible_on_screen() then
                                     obj:animate(dt)

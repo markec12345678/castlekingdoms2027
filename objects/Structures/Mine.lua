@@ -54,7 +54,7 @@ function Mine_going_down:initialize(gx, gy, parent, offset_x, offset_y)
     self.animation = anim.newAnimation(fr_miner_going_down, 0.11, self.part1_end)
     self.gx = gx
     self.gy = gy
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.qid = 0
     self.offset_x = 13 + offset_x - 48
@@ -95,7 +95,7 @@ function Mine_puller:initialize(gx, gy, parent, offset_x, offset_y)
     self.animation:pause()
     self.gx = gx
     self.gy = gy
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.qid = 0
     self.offset_x = 13 + offset_x + 32 + 32 - 48
@@ -132,7 +132,7 @@ function Mine_bucket:initialize(gx, gy, parent, offset_x, offset_y)
     self.animation:pause()
     self.gx = gx
     self.gy = gy
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.qid = 0
     self.offset_x = -3 + offset_x + 48 + 32 - 48
@@ -178,7 +178,7 @@ function Mine_pourer:initialize(gx, gy, parent, offset_x, offset_y)
     self.animation:pause()
     self.gx = gx
     self.gy = gy
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.qid = 0
     self.offset_x = 13 + offset_x + 48 + 32 - 48
@@ -238,7 +238,7 @@ function Mine_casting:initialize(gx, gy, parent, offset_x, offset_y)
     self.animation:pause()
     self.gx = gx
     self.gy = gy
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.qid = 0
     self.offset_x, self.offset_y = chimney_x, chimney_y
@@ -276,7 +276,7 @@ function Mine_stack:initialize(gx, gy, parent, offset_x, offset_y)
     self.quantity = 0
     self.gx = gx
     self.gy = gy
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.qid = 0
     self.offset_x = 49 + offset_x - 16 - 48
@@ -321,7 +321,7 @@ function Mine_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     Structure.initialize(self, gx, gy, mytype)
     self.gx = gx
     self.gy = gy
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.qid = 0
     self.tile = tile
@@ -345,7 +345,7 @@ function Mine:initialize(gx, gy, type)
     Structure.initialize(self, gx, gy, mytype)
     self.gx = chunk_width * self.cx + self.i
     self.gy = chunk_width * self.cy + self.o
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 400
     self.qid = nil
     self.tile = quad_array[tiles + 1]

@@ -42,7 +42,7 @@ function Quarry_lifter:initialize(gx, gy, parent, offset_x, offset_y)
     self.animation = anim.newAnimation(fr_lifter_part1, 0.10, self.part1_end) -- , 'pauseAtEnd')
     self.gx = gx
     self.gy = gy
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.qid = 0
     self.offset_x = -2
@@ -91,7 +91,7 @@ function Quarry_hook:initialize(gx, gy, parent, offset_x, offset_y)
     self.animation:pause()
     self.gx = gx
     self.gy = gy
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.qid = 0
     self.offset_x = -2
@@ -126,7 +126,7 @@ function Quarry_shaper:initialize(gx, gy, parent, offset_x, offset_y)
     self.animation:pause()
     self.gx = gx
     self.gy = gy
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.qid = 0
     self.offset_x = -31
@@ -173,7 +173,7 @@ function Quarry_puller:initialize(gx, gy, parent, offset_x, offset_y)
     self.animation:pause()
     self.gx = gx
     self.gy = gy
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.qid = 0
     self.offset_x = 92 + offset_x - 16 - 16
@@ -209,7 +209,7 @@ function Quarry_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     Structure.initialize(self, gx, gy, mytype)
     self.gx = gx
     self.gy = gy
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.qid = 0
     self.tile = tile
@@ -233,7 +233,7 @@ function Quarry:initialize(gx, gy, type)
     Structure.initialize(self, gx, gy, mytype)
     self.gx = chunk_width * self.cx + self.i
     self.gy = chunk_width * self.cy + self.o
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 400
     self.qid = nil
     self.tile = quad_array[tiles + 1]

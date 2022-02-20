@@ -11,7 +11,7 @@ function Orchard_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     Structure.initialize(self, gx, gy, mytype)
     self.gx = gx
     self.gy = gy
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.qid = 0
     self.tile = tile
@@ -37,7 +37,7 @@ function Orchard_tree:initialize(gx, gy, parent, offset_y, offset_x)
     self.animation = self.anim_full
     self.gx = gx
     self.gy = gy
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.qid = 0
     self.base_offset_y = offset_y or 0
@@ -65,22 +65,22 @@ function Orchard_tree:initialize(gx, gy, parent, offset_y, offset_x)
             break
         end
     end
-    if _G.chunk_objects[self.cx][self.cy] == nil then
-        _G.chunk_objects[self.cx][self.cy] = {}
+    if _G.state.chunk_objects[self.cx][self.cy] == nil then
+        _G.state.chunk_objects[self.cx][self.cy] = {}
     end
-    _G.chunk_objects[self.cx][self.cy][self] = self
+    _G.state.chunk_objects[self.cx][self.cy][self] = self
 end
 function Orchard_tree:animate()
     local updated = self.animation:update(_G.dt)
-    if not self.instancemesh and _G.object_mesh then
+    if not self.instancemesh and _G.state.object_mesh then
         local offset_x, offset_y = 0, 0
         if quad_offset[self.animation:getQuad()] then
             offset_x, offset_y = quad_offset[self.animation:getQuad()][1] or 0,
                 quad_offset[self.animation:getQuad()][2] or 0
         end
-        local instancemesh = object_mesh[self.cx][self.cy]
+        local instancemesh = _G.state.object_mesh[self.cx][self.cy]
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
-            self.y + (self.offset_y or 0) + offset_y - _G.height_map[self.gx][self.gy])
+            self.y + (self.offset_y or 0) + offset_y - _G.state.map.walking_heightmap[self.gx][self.gy])
         local qx, qy, qw, qh = quad:getViewport()
         self.vert_id = _G.getFreeVertexFromTile(self.cx, self.cy, self.i, self.o)
         if self.vert_id then
@@ -96,7 +96,7 @@ function Orchard_tree:animate()
                 quad_offset[self.animation:getQuad()][2] or 0
         end
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
-            self.y + (self.offset_y or 0) + offset_y - _G.height_map[self.gx][self.gy])
+            self.y + (self.offset_y or 0) + offset_y - _G.state.map.walking_heightmap[self.gx][self.gy])
         local qx, qy, qw, qh = quad:getViewport()
         self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh, 1)
         return
@@ -111,7 +111,7 @@ function Orchard:initialize(gx, gy, type)
     _G.JobController:add("OrchardFarmer", self)
     local mytype = "Static structure"
     Structure.initialize(self, gx, gy, mytype)
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 400
     self.qid = nil
     self.tile = quad_array[tiles + 1]

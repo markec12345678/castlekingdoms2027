@@ -11,7 +11,7 @@ function StockpileController:initialize()
     self.node_list = {}
 end
 function StockpileController:store(resource) -- TODO add amount
-    if _G.not_full_stockpiles[resource] < 1 then
+    if _G.state.not_full_stockpiles[resource] < 1 then
         for _, v in ipairs(self.list) do
             if v:store(resource) then
                 break

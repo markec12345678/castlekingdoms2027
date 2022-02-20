@@ -1,7 +1,7 @@
-local object, tile_quads, object_batch = ...
+local _, tile_quads, _ = ...
 local Structure = require("objects.Structure")
 
-local tiles, quad_array = indexBuildingQuads("granary (1)")
+local tiles, quad_array = _G.indexBuildingQuads("granary (1)")
 
 local quad_map = {
     ["apples"] = {},
@@ -34,13 +34,13 @@ local max_quantity = {
     ["bread"] = 32,
     ["cheese"] = 16
 }
-local Granary_alias = class('Granary_alias', Structure)
+local Granary_alias = _G.class('Granary_alias', Structure)
 function Granary_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     local mytype = "Static structure"
     Structure.initialize(self, gx, gy, mytype)
     self.gx = gx
     self.gy = gy
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.qid = 0
     self.tile = tile
@@ -60,11 +60,11 @@ function Granary_alias:render()
     Structure.render(self)
 end
 
-local Granary = class('Granary', Structure)
+local Granary = _G.class('Granary', Structure)
 function Granary:initialize(gx, gy, type)
     local mytype = "Static structure"
     Structure.initialize(self, gx, gy, mytype)
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 1000
     self.qid = nil
     self.tile = tile_quads["empty"]
@@ -194,34 +194,31 @@ function Granary:initialize(gx, gy, type)
         gy = self.gy - 1
     })
 
-    _G.foodpile.list[(#foodpile.list or 0) + 1] = self
+    _G.foodpile.list[(#_G.foodpile.list or 0) + 1] = self
     Structure.render(self)
 end
 function Granary:store(food)
-    local found = false
     for index = 1, #self.foodpile do
         if self.foodpile[index].type == food and self.foodpile[index].quantity < max_quantity[food] then
             self.foodpile[index].quantity = self.foodpile[index].quantity + 1
-            _G.food[food] = _G.food[food] + 1
-            found = true
+            _G.state.food[food] = _G.state.food[food] + 1
             self:update_foodpile(index)
             return true
         end
     end
-    if not found then
-        for index = 1, #self.foodpile do
-            if self.foodpile[index].empty then
-                self.foodpile[index].empty = false
-                self.foodpile[index].type = food
-                self.foodpile[index].quantity = 1
-                _G.not_full_foods[self.foodpile[index].type] = _G.not_full_foods[self.foodpile[index].type] + 1
-                _G.food[food] = _G.food[food] + 1
-                self.foodpile[index].key = #_G.foodpile.food[food] + 1
-                _G.foodpile.food[food][self.foodpile[index].key] = self.foodpile[index]
-                self:update_foodpile(index)
-                found = true
-                break
-            end
+    local found = false
+    for index = 1, #self.foodpile do
+        if self.foodpile[index].empty then
+            self.foodpile[index].empty = false
+            self.foodpile[index].type = food
+            self.foodpile[index].quantity = 1
+            _G.state.not_full_foods[self.foodpile[index].type] = _G.state.not_full_foods[self.foodpile[index].type] + 1
+            _G.state.food[food] = _G.state.food[food] + 1
+            self.foodpile[index].key = #_G.foodpile.food[food] + 1
+            _G.foodpile.food[food][self.foodpile[index].key] = self.foodpile[index]
+            self:update_foodpile(index)
+            found = true
+            break
         end
     end
     if not found then
@@ -233,26 +230,20 @@ end
 function Granary:take(food, from)
     if from.type == food and from.quantity > 0 then
         if from.quantity == max_quantity[food] then
-            _G.not_full_foods[food] = _G.not_full_foods[food] + 1
+            _G.state.not_full_foods[food] = _G.state.not_full_foods[food] + 1
         end
         from.quantity = from.quantity - 1
-        _G.food[food] = _G.food[food] - 1
-        found = true
+        _G.state.food[food] = _G.state.food[food] - 1
         self:update_foodpile(from)
         return true
     end
-    local found = false
     for index = 1, 9 do
         if self.foodpile[index].type == food and self.foodpile[index].quantity > 0 then
             self.foodpile[index].quantity = self.foodpile[index].quantity - 1
-            _G.food[food] = _G.food[food] - 1
-            found = true
+            _G.state.food[food] = _G.state.food[food] - 1
             self:update_foodpile(index)
             return true
         end
-    end
-    if not found then
-        return false
     end
     return true
 end
@@ -265,7 +256,7 @@ function Granary:update_foodpile(index)
     end
     if pile.quantity == 0 then
         table.remove(_G.foodpile.food[pile.type], pile.key)
-        _G.not_full_foods[pile.type] = _G.not_full_foods[pile.type] - 1
+        _G.state.not_full_foods[pile.type] = _G.state.not_full_foods[pile.type] - 1
         pile.quantity = -1
         pile.type = nil
         pile.empty = true
@@ -281,7 +272,7 @@ function Granary:update_foodpile(index)
     --         pile.id.y + pile.id.offset_y)
     -- end
     if pile.quantity == max_quantity[pile.type] then
-        _G.not_full_foods[pile.type] = _G.not_full_foods[pile.type] - 1
+        _G.state.not_full_foods[pile.type] = _G.state.not_full_foods[pile.type] - 1
     end
 end
 

@@ -94,8 +94,8 @@ end
 function Woodcutter:check_trees(cx, cy)
     local chunkx, chunky = cx or self.cx, cy or self.cy
     local closest_object, closest_distance = nil, 10000000
-    if _G.chunk_objects[chunkx][chunky] then
-        for index, obj in pairs(_G.chunk_objects[chunkx][chunky]) do
+    if _G.state.chunk_objects[chunkx][chunky] then
+        for index, obj in pairs(_G.state.chunk_objects[chunkx][chunky]) do
             if (obj.type == 'Pine tree' or obj.type == "Small pine tree" or obj.type == "Medium pine tree" or obj.type ==
                 'Oak tree' or obj.type == "Small oak tree" or obj.type == "Medium oak tree") and obj.marked == false then
                 -- TODO: Fix magic numbers CRITICAL

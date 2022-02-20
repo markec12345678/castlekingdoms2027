@@ -142,4 +142,5 @@ function Peasant:animate(dt)
     self:update()
     Unit.animate(self)
 end
+
 return Peasant

@@ -18,7 +18,7 @@ function WoodcutterHut_log_stack:initialize(gx, gy, parent, offset_x, offset_y)
     self.quantity = 0
     self.gx = gx
     self.gy = gy
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.qid = 0
     self.offset_x = -51
@@ -76,7 +76,7 @@ function WoodcutterHut_plank_stack:initialize(gx, gy, parent, offset_x, offset_y
     self.quantity = 0
     self.gx = gx
     self.gy = gy
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.qid = 0
     self.offset_x = -23
@@ -141,7 +141,7 @@ function WoodcutterHut_sawing:initialize(gx, gy, parent, offset_x, offset_y)
     self.animation:pause()
     self.gx = gx
     self.gy = gy
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.qid = 0
     self.offset_x = -35
@@ -174,7 +174,7 @@ function WoodcutterHut_alias:initialize(tile, gx, gy, parent, offset_y, offset_x
     Structure.initialize(self, gx, gy, mytype)
     self.gx = gx
     self.gy = gy
-    _G.setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.qid = 0
     self.tile = tile
@@ -198,7 +198,7 @@ function WoodcutterHut:initialize(gx, gy, type)
     Structure.initialize(self, gx, gy, mytype)
     self.gx = chunk_width * self.cx + self.i
     self.gy = chunk_width * self.cy + self.o
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 400
     self.qid = nil
     self.tile = quad_array[tiles + 1]

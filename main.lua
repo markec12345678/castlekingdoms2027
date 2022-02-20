@@ -4,6 +4,7 @@ end
 
 require('global')
 local Gamestate = require('libraries.gamestate')
+local bitser = require("libraries.bitser")
 
 local main_menu = require('states.main_menu')
 local test = require('states.test')
@@ -23,7 +24,9 @@ function love.load()
 end
 
 function love.quit()
-    -- bitser.dumpLoveFile("status.bin",status)
+    print("Saving game..")
+    local state = _G.state:save("status.bin")
+    bitser.dumpLoveFile("status.bin", state)
     return true
 end
 

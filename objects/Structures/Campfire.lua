@@ -9,7 +9,7 @@ function Campfire_alias:initialize(gx, gy, parent)
     self.gx = gx
     self.gy = gy
     self.tile = tile_quads["empty"]
-    _G.setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     parent:take_spot(gx, gy)
 end
@@ -17,7 +17,7 @@ end
 local Campfire = _G.class('Campfire', Structure)
 function Campfire:initialize(gx, gy, type)
     Structure.initialize(self, gx, gy, type or "Campfire")
-    _G.setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 1000
     self.qid = nil
     self.tile = tile_quads["campfire (1)"]
@@ -53,10 +53,10 @@ function Campfire:initialize(gx, gy, type)
     Campfire_alias:new(self.gx + 2, self.gy + 1, self)
     self:take_spot(self.gx, self.gy)
     _G.campfire = self
-    if _G.chunk_objects[self.cx][self.cy] == nil then
-        _G.chunk_objects[self.cx][self.cy] = {}
+    if _G.state.chunk_objects[self.cx][self.cy] == nil then
+        _G.state.chunk_objects[self.cx][self.cy] = {}
     end
-    _G.chunk_objects[self.cx][self.cy][self] = self
+    _G.state.chunk_objects[self.cx][self.cy][self] = self
     Structure.render(self)
 end
 function Campfire:update()
@@ -137,15 +137,15 @@ function Campfire:take_spot(gx, gy)
 end
 function Campfire:animate()
     local updated = self.animation:update(_G.dt)
-    if not self.instancemesh and _G.object_mesh then
+    if not self.instancemesh and _G.state.object_mesh then
         local offset_x, offset_y = 0, 0
         if quad_offset[self.animation:getQuad()] then
             offset_x, offset_y = quad_offset[self.animation:getQuad()][1] or 0,
                 quad_offset[self.animation:getQuad()][2] or 0
         end
-        local instancemesh = object_mesh[self.cx][self.cy]
+        local instancemesh = _G.state.object_mesh[self.cx][self.cy]
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
-            self.y + (self.offset_y or 0) + offset_y - _G.height_map[self.gx][self.gy])
+            self.y + (self.offset_y or 0) + offset_y - _G.state.map.walking_heightmap[self.gx][self.gy])
         local qx, qy, qw, qh = quad:getViewport()
         self.vert_id = _G.getFreeVertexFromTile(self.cx, self.cy, self.i, self.o)
         self.instancemesh = instancemesh
@@ -159,10 +159,11 @@ function Campfire:animate()
                 quad_offset[self.animation:getQuad()][2] or 0
         end
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
-            self.y + (self.offset_y or 0) + offset_y - _G.height_map[self.gx][self.gy])
+            self.y + (self.offset_y or 0) + offset_y - _G.state.map.walking_heightmap[self.gx][self.gy])
         local qx, qy, qw, qh = quad:getViewport()
         self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh, 1)
         return
     end
 end
+
 return Campfire

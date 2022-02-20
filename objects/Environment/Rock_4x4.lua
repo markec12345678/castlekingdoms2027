@@ -1,6 +1,7 @@
-local active_entities, object, tile_quads, object_batch = ...
+local _, _, tile_quads, _ = ...
 
 local Structure = require("objects.Structure")
+local chunk_width = _G.chunk_width
 
 local Rock_alias = _G.class('Rock_alias', Structure)
 function Rock_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
@@ -8,7 +9,7 @@ function Rock_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     Structure.initialize(self, gx, gy, mytype)
     self.gx = gx
     self.gy = gy
-    _G.setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.qid = 0
     self.tile = tile
@@ -19,18 +20,18 @@ function Rock_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     Structure.render(self)
 end
 
-local Rock = class('Rock', Structure)
+local Rock = _G.class('Rock', Structure)
 function Rock:initialize(gx, gy, type)
     local mytype = "Rock"
     Structure.initialize(self, gx, gy, mytype)
     self.gx = chunk_width * self.cx + self.i
     self.gy = chunk_width * self.cy + self.o
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 100
     self.qid = nil
     self.tile = tile_quads["empty"]
     self.offset_x = 0
-    local _, _, _, sh = self.tile:getViewport()
+    -- local _, _, _, sh = self.tile:getViewport()
     self.offset_y = 0
 
     local tiles, quad_array = _G.indexBuildingQuads("rocks_3x3tile (" .. love.math.random(1, 16) .. ")", false, 3)
