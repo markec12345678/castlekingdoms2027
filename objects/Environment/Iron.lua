@@ -27,4 +27,17 @@ function Iron:initialize(gx, gy, type)
     end
 end
 
+function Iron:serialize()
+    local data = {}
+    data.object = Object.serialize(self)
+    data.class = Iron.name
+    return data
+end
+
+function Iron.static:deserialize(data)
+    local obj = self:new(data.object.gx, data.object.gy, data.object.type)
+    Object.deserialize(self, data)
+    return obj
+end
+
 return Iron

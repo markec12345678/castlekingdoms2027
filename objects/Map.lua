@@ -51,9 +51,6 @@ function Map:serializeHeightmap()
                         data[cx][cy][i] = {}
                         for o = 0, _G.chunk_width - 1, 1 do
                             data[cx][cy][i][o] = self.heightmap[cx][cy][i][o]
-                            if self.heightmap[cx][cy][i][o] then
-                                print("Sent one")
-                            end
                         end
                     end
                 end

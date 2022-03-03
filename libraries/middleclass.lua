@@ -137,6 +137,8 @@ local function _includeMixin(aClass, mixin)
     return aClass
 end
 
+local id_count = 0
+
 local DefaultMixin = {
     __tostring = function(self)
         return "instance of " .. tostring(self.class)
@@ -161,6 +163,8 @@ local DefaultMixin = {
             assert(type(self) == 'table', "Make sure that you are using 'Class:new' instead of 'Class.new'")
             local instance = self:allocate()
             instance:initialize(...)
+            id_count = id_count + 1
+            instance.id = id_count
             return instance
         end,
 

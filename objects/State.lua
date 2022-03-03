@@ -62,6 +62,7 @@ function State:serializeChunkObjects()
             if self.chunk_objects[cx][cy] then
                 for _, obj in pairs(_G.state.chunk_objects[cx][cy]) do
                     data[#data + 1] = obj:serialize()
+                    self.serialized_object_ids[obj.id] = data[#data]
                 end
             end
         end
@@ -77,10 +78,6 @@ function State:deserializeChunkObjects(load_data)
             local data = load_data[cx] and load_data[cx][cy]
             if data then
                 for _, obj in pairs(data) do
-                    -- if obj.stump then
-                    --     print("GOTCHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-                    --     print(inspect(obj))
-                    -- end
                     if obj and obj.class then
                         local object = _G.getClassByName(obj.class)
                         if object then
@@ -94,8 +91,59 @@ function State:deserializeChunkObjects(load_data)
     return self.chunk_objects
 end
 
+function State:deserializeObjects(data)
+    for cx = 0, _G.chunks_wide - 1 do
+        for cy = 0, _G.chunks_high - 1 do
+            for i = 0, _G.chunk_width - 1 do
+                for o = 0, _G.chunk_width - 1 do
+                    if data[cx][cy][i][o] then
+                        for _, obj in pairs(data[cx][cy][i][o]) do
+                            if obj and obj.class then
+                                local object = _G.getClassByName(obj.class)
+                                if object then
+                                    object:deserialize(obj)
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+    return self.object
+end
+
+function State:serializeObjects()
+    local data = {}
+    for cx = 0, _G.chunks_wide - 1 do
+        data[cx] = {}
+        for cy = 0, _G.chunks_high - 1 do
+            data[cx][cy] = {}
+            for i = 0, _G.chunk_width - 1 do
+                data[cx][cy][i] = {}
+                for o = 0, _G.chunk_width - 1 do
+                    data[cx][cy][i][o] = {}
+                    if self.object[cx][cy][i][o] then
+                        for _, obj in pairs(self.object[cx][cy][i][o]) do
+                            if self.serialized_object_ids[obj.id] then
+                                data[cx][cy][i][o][#data[cx][cy][i][o] + 1] = self.serialized_object_ids[obj.id]
+                            else
+                                local serial = obj:serialize()
+                                data[cx][cy][i][o][#data[cx][cy][i][o] + 1] = serial
+                                self.serialized_object_ids[obj.id] = serial
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+    return data
+end
+
 function State:serialize()
     local data = {}
+    self.serialized_object_ids = {}
     data.resources = self.resources
     data.food = self.food
     data.not_full_stockpiles = self.not_full_stockpiles
@@ -112,6 +160,7 @@ function State:serialize()
     -- data.object_mesh_vert_id_map = self.object_mesh_vert_id_map
     data.vertices_per_tile = self.vertices_per_tile
     data.chunk_objects = self:serializeChunkObjects()
+    data.object = self:serializeObjects()
     data.scale_x = self.scale_x
     data.view_xview = self.view_xview
     data.view_yview = self.view_yview
@@ -141,6 +190,7 @@ function State:load(filename)
     -- self.object_mesh_vert_id_map = load.object_mesh_vert_id_map
     self.vertices_per_tile = load.vertices_per_tile
     self.chunk_objects = self:deserializeChunkObjects(load.chunk_objects)
+    self.object = self:deserializeObjects(load.object)
     self.scale_x = load.scale_x
     self.view_xview = load.view_xview
     self.view_yview = load.view_yview

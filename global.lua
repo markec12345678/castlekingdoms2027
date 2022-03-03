@@ -9,7 +9,6 @@ _G.anim = require('libraries.anim8')
 _G.class = require('libraries.middleclass')
 _G.inspect = require('libraries.inspect')
 _G.ffi = require("ffi")
-_G.serpent = require("libraries.serpent")
 _G.PROF_CAPTURE = false
 _G.prof = require("libraries.jprof")
 _G.prof.connect()

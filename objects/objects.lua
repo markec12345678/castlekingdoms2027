@@ -387,8 +387,7 @@ function _G.genObjects(cx, cy)
                     shrub.animation:gotoFrame(math.random(1, 20))
                 end
             end
-            if not tree_generated and _G.stone_gen[math.round((gx) / 3) + 1][math.round((gy) / 3) + 1] ~= false and
-                false then
+            if not tree_generated and _G.stone_gen[math.round((gx) / 3) + 1][math.round((gy) / 3) + 1] ~= false then
                 local border = false
                 for lx = -1, 1, 1 do
                     for ly = -1, 1, 1 do
