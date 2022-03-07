@@ -8,6 +8,8 @@ function Campfire_alias:initialize(gx, gy, parent)
     Structure.initialize(self, gx, gy, "Static structure")
     self.gx = gx
     self.gy = gy
+    self.offset_x = 0
+    self.offset_y = -16
     self.tile = tile_quads["empty"]
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
@@ -20,7 +22,7 @@ function Campfire:initialize(gx, gy, type)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 1000
     self.qid = nil
-    self.tile = tile_quads["campfire (1)"]
+    self.tile = tile_quads["empty"]
     self.offset_x = 0
     self.offset_y = 0
     self.animated = false
@@ -48,25 +50,27 @@ function Campfire:initialize(gx, gy, type)
     Campfire_alias:new(self.gx, self.gy + 1, self)
     Campfire_alias:new(self.gx + 1, self.gy, self)
     Campfire_alias:new(self.gx + 1, self.gy - 1, self)
-    Campfire_alias:new(self.gx + 1, self.gy + 1, self)
+    self.animated_alias = Campfire_alias:new(self.gx + 1, self.gy + 1, self)
+    self.animated_alias.tile = tile_quads["campfire (1)"]
     Campfire_alias:new(self.gx + 2, self.gy, self)
     Campfire_alias:new(self.gx + 2, self.gy + 1, self)
     self:take_spot(self.gx, self.gy)
     _G.campfire = self
-    if _G.state.chunk_objects[self.cx][self.cy] == nil then
-        _G.state.chunk_objects[self.cx][self.cy] = {}
+    if _G.state.chunk_objects[self.animated_alias.cx][self.animated_alias.cy] == nil then
+        _G.state.chunk_objects[self.animated_alias.cx][self.animated_alias.cy] = {}
     end
-    _G.state.chunk_objects[self.cx][self.cy][self] = self
-    Structure.render(self)
+    _G.state.chunk_objects[self.animated_alias.cx][self.animated_alias.cy][self.animated_alias] = self.animated_alias
+
+    Structure.render(self.animated_alias)
 end
 function Campfire:update()
     return
 end
 function Campfire:get_next_free_spot(peasant)
     if not self.animated then
-        self.animated = true
-        self.offset_y = -22
-        self.animation = _G.anim.newAnimation(fr_campfire_burning, 0.1)
+        self.animated_alias.animated = true
+        self.animated_alias.offset_y = -22 - 16
+        self.animated_alias.animation = _G.anim.newAnimation(fr_campfire_burning, 0.1)
     end
     for xx = -1, 3 do
         for yy = -2, 3 do
@@ -87,9 +91,9 @@ function Campfire:get_free_peasant()
                 self.free_spots[xx][yy] = true
                 self.peasants = self.peasants - 1
                 if self.peasants == 0 then
-                    self.animated = false
-                    self.offset_y = 0
-                    Structure.render(self)
+                    self.animated_alias.animated = false
+                    self.animated_alias.offset_y = -16
+                    Structure.render(self.animated_alias)
                 end
                 return peasant
             end
@@ -134,36 +138,6 @@ end
 function Campfire:take_spot(gx, gy)
     local x, y = -(self.gx - gx), -(self.gy - gy)
     self.free_spots[x][y] = false
-end
-function Campfire:animate()
-    local updated = self.animation:update(_G.dt)
-    if not self.instancemesh and _G.state.object_mesh then
-        local offset_x, offset_y = 0, 0
-        if quad_offset[self.animation:getQuad()] then
-            offset_x, offset_y = quad_offset[self.animation:getQuad()][1] or 0,
-                quad_offset[self.animation:getQuad()][2] or 0
-        end
-        local instancemesh = _G.state.object_mesh[self.cx][self.cy]
-        local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
-            self.y + (self.offset_y or 0) + offset_y - _G.state.map.walking_heightmap[self.gx][self.gy])
-        local qx, qy, qw, qh = quad:getViewport()
-        self.vert_id = _G.getFreeVertexFromTile(self.cx, self.cy, self.i, self.o)
-        self.instancemesh = instancemesh
-        self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh, 1)
-    end
-    if self.instancemesh and updated then
-        self.last_updated = 0
-        local offset_x, offset_y = 0, 0
-        if quad_offset[self.animation:getQuad()] then
-            offset_x, offset_y = quad_offset[self.animation:getQuad()][1] or 0,
-                quad_offset[self.animation:getQuad()][2] or 0
-        end
-        local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
-            self.y + (self.offset_y or 0) + offset_y - _G.state.map.walking_heightmap[self.gx][self.gy])
-        local qx, qy, qw, qh = quad:getViewport()
-        self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh, 1)
-        return
-    end
 end
 
 return Campfire
