@@ -396,9 +396,15 @@ function BuildController:update()
                         local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
                         if _G.importantObjectAt(ccx, ccy, xxx, yyy) then
                             self.can_build = false
+                            break
                         end
                         if first_terrain_height ~= (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 then
                             self.can_build = false
+                            break
+                        end
+                        if _G.state.map:isWaterAt(self.gx + xx, self.gy + yy) then
+                            self.can_build = false
+                            break
                         end
                     end
                 end
@@ -410,7 +416,8 @@ function BuildController:update()
                     for yy = 0, self.height - 1 do
                         local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
                         if not _G.importantObjectAt(ccx, ccy, xxx, yyy) and first_terrain_height ==
-                            (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 then
+                            (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 and
+                            not _G.state.map:isWaterAt(self.gx + xx, self.gy + yy) then
                             if self.can_build then
                                 type = 2
                             else

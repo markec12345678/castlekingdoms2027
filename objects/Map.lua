@@ -6,6 +6,7 @@ function Map:initialize()
     self.buildingheightmap = newAutotable(4)
     self.terrain_tile = newAutotable(4)
     self.terrain = newAutotable(2)
+    self.water = newAutotable(2)
     -- TODO: Make it dynamic
     self.walking_heightmap = _G.ffi.new("unsigned short[2048][2048]", {})
 end
@@ -16,6 +17,25 @@ end
 
 function Map:setHeight(gx, gy, height)
     self.walking_heightmap[gx][gy] = height
+end
+
+function Map:setWater(gx, gy)
+    local pgx, pgy = gx, gy
+    for i = -1, 1 do
+        for o = -1, 1 do
+            if i == 1 or i == -1 or o == 1 or o == -1 then
+                _G.terrainSetTileAt(pgx + i, pgy + o, _G.terrain_biome.sea_beach, _G.terrain_biome.abundant_grass)
+            else
+                _G.state.map:setWalkable(pgx + i, pgy + o, 1)
+                self.water[gx][gy] = true
+                _G.terrainSetTileAt(pgx + i, pgy + o, _G.terrain_biome.sea)
+            end
+        end
+    end
+end
+
+function Map:isWaterAt(gx, gy)
+    return self.water[gx][gy]
 end
 
 function Map:serializeTerrain()

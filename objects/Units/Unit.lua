@@ -230,6 +230,7 @@ function Unit:pathfind()
             return true
         elseif self.path == 2 then
             self.path_state = "No path"
+            print("No path found")
             self.state = self.no_path_state
         end
     end

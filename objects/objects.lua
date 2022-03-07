@@ -606,17 +606,7 @@ local function preload(dt)
 end
 
 function _G.setWaterAt(gx, gy)
-    local pgx, pgy = gx, gy
-    for i = -1, 1 do
-        for o = -1, 1 do
-            if i == 1 or i == -1 or o == 1 or o == -1 then
-                _G.terrainSetTileAt(pgx + i, pgy + o, _G.terrain_biome.sea_beach, _G.terrain_biome.abundant_grass)
-            else
-                _G.state.map:setWalkable(pgx + i, pgy + o, 1)
-                _G.terrainSetTileAt(pgx + i, pgy + o, _G.terrain_biome.sea)
-            end
-        end
-    end
+    _G.state.map:setWater(gx, gy)
 end
 
 local first_update = true
