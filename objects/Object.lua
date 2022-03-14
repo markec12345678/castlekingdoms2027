@@ -119,9 +119,13 @@ function Object:serialize()
     data.gy = self.gy
     data.type = self.type
     data.to_be_deleted = self.to_be_deleted
+    data.class_name = self.class.name
+    if data.class_name ~= "Stockpile_alias" and string.find(data.class_name or tostring(self.class), "alias") then
+        return {}
+    end
     return data
 end
-function Object.static:deserialize(load)
+function Object.static.deserialize(self, load)
     for k, v in pairs(load) do
         self[k] = v
     end

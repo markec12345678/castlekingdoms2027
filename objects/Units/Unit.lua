@@ -10,8 +10,8 @@ function Unit:initialize(gx, gy, type, no_path_state)
     self.fx = self.gx * 1000 + 500
     self.fy = self.gy * 1000 + 500
     self.previous_fx, self.previous_fy = self.fx, self.fy
-    self.previous_cx = cx
-    self.previous_cy = cx
+    self.previous_cx = nil
+    self.previous_cy = nil
     self.has_move_dir = false
     self.waypoint_x = nil
     self.waypoint_y = nil
@@ -22,14 +22,11 @@ function Unit:initialize(gx, gy, type, no_path_state)
     self.originalx = self.gx
     self.originaly = self.gy
     self.nd = {}
-    self.nd_len = 0
     self.path = 0
     self.path_state = "None"
     self.move_dir = "none"
-    self.update_dir = true
     self.previous_dir = "none"
     self.animated = true
-    self.changed_chunks = 0
     self.no_path_state = no_path_state or "No path"
     self.need_new_vert_asap = false
     self.lrcx, self.lrcy, self.lrx, self.lry = 0, 0, 0, 0
@@ -50,6 +47,7 @@ function Unit:isPositionAt(px, py)
 end
 function Unit:animate()
     if self == nil or self.animation == nil then
+        print("nothing to animate")
         return -- nothing to animate
     end
     local updated = self.animation:update(_G.dt)
@@ -221,7 +219,6 @@ function Unit:pathfind()
                     first = false
                 end
             end
-            self.nd_len = last_count
             self.count = 1
             self.waypoint_x = self.nd[0][1] + 0.5
             self.waypoint_y = self.nd[0][2] + 0.5
@@ -344,7 +341,6 @@ function Unit:update_position()
                 end
                 self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh, 1 - shadow_value / 1.5)
                 self.has_animation = true
-                self.changed_chunks = 1
             else
                 self.need_new_vert_asap = true
             end
@@ -431,6 +427,55 @@ function Unit:job_update()
     _G.freeVertexFromTile(self.cx, self.cy, self.vert_id)
     self.instancemesh = nil
     self.animation = nil
+end
+function Unit:serialize()
+    local data = {}
+    local object_data = Object.serialize(self)
+    for k, v in pairs(object_data) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
+    data.endx = self.endx
+    data.endy = self.endy
+    data.last_i, data.last_o = self.last_i, self.last_o
+    data.fx = self.fx
+    data.fy = self.fy
+    data.previous_fx, data.previous_fy = self.previous_fx, self.previous_fy
+    data.previous_cx = self.previous_cx
+    data.previous_cy = self.previous_cy
+    data.has_move_dir = self.has_move_dir
+    data.waypoint_x = self.waypoint_x
+    data.waypoint_y = self.waypoint_y
+    data.straight_walk_speed = self.straight_walk_speed
+    data.diagonal_walk_speed = self.diagonal_walk_speed
+    data.unit_offset_x = self.unit_offset_x
+    data.unit_offset_y = self.unit_offset_y
+    data.originalx = self.originalx
+    data.originaly = self.originaly
+    data.nd = self.nd
+    data.path = self.path
+    data.path_state = self.path_state
+    data.move_dir = self.move_dir
+    data.previous_dir = self.previous_dir
+    data.animated = self.animated
+    data.no_path_state = self.no_path_state
+    data.need_new_vert_asap = self.need_new_vert_asap
+    data.lrcx, data.lrcy, data.lrx, data.lry = self.lrcx, self.lrcy, self.lrx, self.lry
+    return data
+end
+function Unit.static:deserialize(data)
+    local object = _G.getClassByName(data.class_name)
+    data.need_new_vert_asap = true
+    local obj = object:allocate()
+    Object.deserialize(obj, data)
+    obj:load(data)
+    return obj
+end
+function Unit:load(_)
+    _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
+    table.insert(active_entities, self)
+    self:calculate_position()
 end
 
 return Unit

@@ -154,9 +154,12 @@ local DefaultMixin = {
     static = {
         allocate = function(self)
             assert(type(self) == 'table', "Make sure that you are using 'Class:allocate' instead of 'Class.allocate'")
-            return setmetatable({
+            local instance = setmetatable({
                 class = self
             }, self.__instanceDict)
+            id_count = id_count + 1
+            instance.id = id_count
+            return instance
         end,
 
         new = function(self, ...)

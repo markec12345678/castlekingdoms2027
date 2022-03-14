@@ -3,6 +3,8 @@ local Map = require('objects.Map')
 local State = _G.class('State')
 
 function State:initialize()
+    self.serialized_object_ids = {}
+    self.deserialized_object_ids = {}
     self.map = Map:new()
     self.top_left_chunk_x = 0
     self.top_left_chunk_y = 0
@@ -52,6 +54,40 @@ function State:save(filename)
     -- bitser.saveLoveFile(filename)
 end
 
+function State:serializeObject(obj)
+    if not self.serialized_object_ids[obj.id] then
+        self.serialized_object_ids[obj.id] = obj:serialize()
+        if not self.serialized_object_ids[obj.id] then
+            error("Serialized object has no data!")
+        end
+    end
+    return {
+        _ref = obj.id,
+        info = tostring(obj)
+    }
+end
+
+function State:dereferenceObject(ref_obj)
+    local ref = ref_obj._ref
+    -- Check if object has been deserialized already
+    if self.deserialized_object_ids[ref] then
+        return self.deserialized_object_ids[ref]
+    end
+    -- Find the object and deserialize it
+    if self.raw_object_ids[ref] then
+        local obj = self.raw_object_ids[ref]
+        if obj and obj.class_name then
+            local object = _G.getClassByName(obj.class_name)
+            if object then
+                local ret = object:deserialize(obj)
+                self.deserialized_object_ids[ref] = ret
+                return ret
+            end
+        end
+    end
+    error("Couldn't dereference object:" .. tostring(self.raw_object_ids[ref]) .. " with ref" .. tostring(inspect(ref)))
+end
+
 function State:serializeChunkObjects()
     local chunk_data = {}
     for cx = 0, _G.chunks_wide - 1 do
@@ -72,14 +108,13 @@ end
 
 function State:deserializeChunkObjects(load_data)
     self.chunk_objects = newAutotable(2)
-    print("started deserializing")
     for cx = 0, _G.chunks_wide - 1 do
         for cy = 0, _G.chunks_high - 1 do
             local data = load_data[cx] and load_data[cx][cy]
             if data then
                 for _, obj in pairs(data) do
-                    if obj and obj.class then
-                        local object = _G.getClassByName(obj.class)
+                    if obj and obj.class_name then
+                        local object = _G.getClassByName(obj.class_name)
                         if object then
                             object:deserialize(obj)
                         end
@@ -98,8 +133,8 @@ function State:deserializeObjects(data)
                 for o = 0, _G.chunk_width - 1 do
                     if data[cx][cy][i][o] then
                         for _, obj in pairs(data[cx][cy][i][o]) do
-                            if obj and obj.class then
-                                local object = _G.getClassByName(obj.class)
+                            if obj and obj.class_name then
+                                local object = _G.getClassByName(obj.class_name)
                                 if object then
                                     object:deserialize(obj)
                                 end
@@ -156,6 +191,11 @@ function State:serialize()
     data.bottom_right_chunk_x = self.bottom_right_chunk_x
     data.bottom_right_chunk_y = self.bottom_right_chunk_y
     data.terrain_chunks = self.terrain_chunks
+    data.build_controller = _G.BuildController:serialize()
+    data.stockpile_controller = _G.stockpile:serialize()
+    data.spawn_point_x, data.spawn_point_y = _G.spawn_point_x, _G.spawn_point_y
+    data.offset_x, data.offset_y = _G.offset_x, _G.offset_y
+    data.campfire = _G.campfire:serialize()
     -- data.object_mesh = self.object_mesh
     -- data.object_mesh_vert_id_map = self.object_mesh_vert_id_map
     data.vertices_per_tile = self.vertices_per_tile
@@ -164,18 +204,17 @@ function State:serialize()
     data.scale_x = self.scale_x
     data.view_xview = self.view_xview
     data.view_yview = self.view_yview
+    data.serialized_object_ids = self.serialized_object_ids
     data.map = self.map:serialize()
     return data
 end
 
-function State.static:deserialize()
-
-end
-
 function State:load(filename)
     local load = bitser.loadLoveFile(filename)
+    self.deserialized_object_ids = {}
     self.resources = load.resources
     self.food = load.food
+    self.raw_object_ids = load.serialized_object_ids
     self.not_full_stockpiles = load.not_full_stockpiles
     self.not_full_foods = load.not_full_foods
     self.wheat_season_counter = load.wheat_season_counter
@@ -189,15 +228,23 @@ function State:load(filename)
     -- self.object_mesh = load.object_mesh
     -- self.object_mesh_vert_id_map = load.object_mesh_vert_id_map
     self.vertices_per_tile = load.vertices_per_tile
+    _G.BuildController:deserialize(load.build_controller)
+    _G.spawn_point_x, _G.spawn_point_y = load.spawn_point_x, load.spawn_point_y
+    _G.offset_x, _G.offset_y = load.offset_x, load.offset_y
+    local campfireClass = _G.getClassByName(load.campfire.class_name)
+    if campfireClass then
+        campfireClass:deserialize(load.campfire)
+    else
+        print("Campfire is not deserialized")
+        love.quit()
+    end
+    _G.stockpile:deserialize(load.stockpile_controller)
     self.chunk_objects = self:deserializeChunkObjects(load.chunk_objects)
     self.object = self:deserializeObjects(load.object)
     self.scale_x = load.scale_x
     self.view_xview = load.view_xview
     self.view_yview = load.view_yview
-    print("................")
-    print(self.map)
     self.map:deserialize(load.map)
-    print(self.map)
     self.map:forceRefresh()
 end
 

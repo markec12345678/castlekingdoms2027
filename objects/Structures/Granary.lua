@@ -1,5 +1,6 @@
 local _, tile_quads, _ = ...
 local Structure = require("objects.Structure")
+local Object = require("objects.Object")
 
 local tiles, quad_array = _G.indexBuildingQuads("granary (1)")
 
@@ -274,6 +275,41 @@ function Granary:update_foodpile(index)
     if pile.quantity == max_quantity[pile.type] then
         _G.state.not_full_foods[pile.type] = _G.state.not_full_foods[pile.type] - 1
     end
+end
+
+function Granary:serialize()
+    local data = {}
+    local struct_data = Structure.serialize(self)
+    for k, v in pairs(struct_data) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
+    data.st_pile_raw = {}
+    for _, v in ipairs(self.foodpile) do
+        data.st_pile_raw[#data.st_pile_raw + 1] = {}
+        for sk, sv in pairs(v) do
+            if sk ~= "id" then
+                data.st_pile_raw[#data.st_pile_raw][sk] = sv
+            end
+        end
+    end
+    return data
+end
+function Granary.static:deserialize(data)
+    local obj = self:new(data.gx, data.gy, data.type)
+    Object.deserialize(obj, data)
+    for idx, v in ipairs(data.st_pile_raw) do
+        for sk, sv in pairs(v) do
+            obj.foodpile[idx][sk] = sv
+        end
+    end
+    for idx, pile in ipairs(obj.foodpile) do
+        if pile.quantity > 0 then
+            obj:update_foodpile(idx)
+        end
+    end
+    return obj
 end
 
 return Granary

@@ -356,6 +356,30 @@ function BuildController:initialize()
     self.quads[3] = love.graphics.newQuad(60, 0, 30, 16, image:getWidth(), image:getHeight())
     self.quads[4] = love.graphics.newQuad(90, 0, 30, 16, image:getWidth(), image:getHeight())
 end
+function BuildController:serialize()
+    local data = {}
+    data.width = self.width
+    data.height = self.height
+    data.active = self.active
+    data.can_afford = self.can_afford
+    data.start = self.start
+    data.gx = self.gx
+    data.gy = self.gy
+    data.FX = self.FX
+    data.FY = self.FY
+    data.previous_gx = self.previous_gx
+    data.previous_gy = self.previous_gy
+    data.elevation_offset_y = self.elevation_offset_y
+    data.can_build = self.can_build
+    data.previous_can_build = self.previous_can_build
+    data.building = self.building
+    return data
+end
+function BuildController:deserialize(data)
+    for k, v in pairs(data) do
+        self[k] = v
+    end
+end
 function BuildController:set(type)
     self.building = type
     self.width, self.height = building[type].w, building[type].h

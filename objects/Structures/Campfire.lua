@@ -1,5 +1,6 @@
 local _, tile_quads, _ = ...
 local Structure = require("objects.Structure")
+local Object = require("objects.Object")
 
 local fr_campfire_burning = _G.indexQuads("campfire", 19, 2)
 
@@ -138,6 +139,37 @@ end
 function Campfire:take_spot(gx, gy)
     local x, y = -(self.gx - gx), -(self.gy - gy)
     self.free_spots[x][y] = false
+end
+function Campfire:serialize()
+    local data = {}
+    local struct_data = Structure.serialize(self)
+    for k, v in pairs(struct_data) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
+    data.offset_x = self.offset_x
+    data.offset_y = self.offset_y
+    data.animated = self.animated
+    data.peasants = self.peasants
+    data.hover_action = self.hover_action
+    return data
+end
+function Campfire.static:deserialize(data)
+    local obj = self:new(data.gx, data.gy, data.type)
+    Object.deserialize(obj, data)
+    if obj.peasants > 0 then
+        obj.animated_alias.animated = true
+        obj.animated_alias.offset_y = -22 - 16
+        obj.animated_alias.tile = tile_quads["empty"]
+        obj.animated_alias.animation = _G.anim.newAnimation(fr_campfire_burning, 0.1)
+    elseif obj.peasants == 0 then
+        obj.animated_alias.tile = tile_quads["campfire (1)"]
+        obj.animated_alias.animated = false
+        obj.animated_alias.offset_y = -16
+    end
+    Structure.render(obj.animated_alias)
+    return obj
 end
 
 return Campfire

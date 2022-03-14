@@ -162,8 +162,10 @@ function Tree:animate(dt, force_update)
         y = y - elevation_offset_y
         local qx, qy, qw, qh = quad:getViewport()
         self.vert_id = _G.getFreeVertexFromTile(self.cx, self.cy, self.i, self.o)
-        self.instancemesh = instancemesh
-        self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh, 1)
+        if self.vert_id then
+            self.instancemesh = instancemesh
+            self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh, 1)
+        end
     end
 end
 function Tree:cut()
@@ -200,7 +202,12 @@ function Tree:cut()
 end
 function Tree:serialize()
     local data = {}
-    data.object = Object.serialize(self)
+    local object_data = Object.serialize(self)
+    for k, v in pairs(object_data) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
     data.offset_y = self.offset_y
     data.base_offset_x = self.base_offset_x
     data.offset_x = self.offset_x
@@ -221,8 +228,8 @@ function Tree:serialize()
 end
 
 function Tree.static:deserialize(data)
-    local obj = self:new(data.object.gx, data.object.gy, data.object.type)
-    Object.deserialize(self, data)
+    local obj = self:new(data.gx, data.gy, data.type)
+    Object.deserialize(obj, data)
     return obj
 end
 

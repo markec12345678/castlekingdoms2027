@@ -16,9 +16,9 @@ function Structure:animate(dt, force_update)
     end
     if not self.instancemesh and _G.state.object_mesh then
         local offset_x, offset_y = 0, 0
-        if quad_offset[self.animation:getQuad()] then
-            offset_x, offset_y = quad_offset[self.animation:getQuad()][1] or 0,
-                quad_offset[self.animation:getQuad()][2] or 0
+        if _G.quad_offset[self.animation:getQuad()] then
+            offset_x, offset_y = _G.quad_offset[self.animation:getQuad()][1] or 0,
+                _G.quad_offset[self.animation:getQuad()][2] or 0
         end
         local instancemesh = _G.state.object_mesh[self.cx][self.cy]
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
@@ -38,9 +38,9 @@ function Structure:animate(dt, force_update)
     end
     if self.instancemesh and updated then
         local offset_x, offset_y = 0, 0
-        if quad_offset[self.animation:getQuad()] then
-            offset_x, offset_y = quad_offset[self.animation:getQuad()][1] or 0,
-                quad_offset[self.animation:getQuad()][2] or 0
+        if _G.quad_offset[self.animation:getQuad()] then
+            offset_x, offset_y = _G.quad_offset[self.animation:getQuad()][1] or 0,
+                _G.quad_offset[self.animation:getQuad()][2] or 0
         end
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
             self.y + (self.offset_y or 0) + offset_y - _G.state.map.walking_heightmap[self.gx][self.gy])
@@ -55,6 +55,20 @@ function Structure:animate(dt, force_update)
         end
         return
     end
+end
+function Structure:serialize()
+    local data = {}
+    local object_data = Object.serialize(self)
+    for k, v in pairs(object_data) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
+    return data
+end
+function Structure:load(data)
+    Object.initialize(self, data.gx, data.gy, data.type)
+    _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
 end
 
 return Structure

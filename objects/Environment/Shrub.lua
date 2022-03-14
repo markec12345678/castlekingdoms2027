@@ -99,8 +99,12 @@ function Shrub:cut()
 end
 function Shrub:serialize()
     local data = {}
-    data.object = Object.serialize(self)
-    data.class = Shrub.name
+    local object_data = Object.serialize(self)
+    for k, v in pairs(object_data) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
     data.gx = self.gx
     data.gy = self.gy
     data.health = self.health
@@ -114,8 +118,8 @@ function Shrub:serialize()
     return data
 end
 function Shrub.static:deserialize(data)
-    local obj = self:new(data.object.gx, data.object.gy, data.object.type)
-    Object.deserialize(self, data)
+    local obj = self:new(data.gx, data.gy, data.type)
+    Object.deserialize(obj, data)
     return obj
 end
 

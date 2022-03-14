@@ -1,5 +1,7 @@
-local object, tile_quads = ...
+local _, _ = ...
 local Unit = require("objects.Units.Unit")
+local anim = _G.anim
+local indexQuads = _G.indexQuads
 local fr_walking_plank_east = indexQuads("body_woodcutter_walk_plank_e", 16)
 local fr_walking_plank_north = indexQuads("body_woodcutter_walk_plank_n", 16)
 local fr_walking_plank_west = indexQuads("body_woodcutter_walk_plank_w", 16)
@@ -26,7 +28,7 @@ local fr_walking_southwest = indexQuads("body_woodcutter_walk_sw", 16)
 local fr_walking_west = indexQuads("body_woodcutter_walk_w", 16)
 local fr_cutting_northeast = indexQuads("body_woodcutter_cut_ne", 12)
 
-local Woodcutter = class('Woodcutter', Unit)
+local Woodcutter = _G.class('Woodcutter', Unit)
 function Woodcutter:initialize(gx, gy, type)
     Unit.initialize(self, gx, gy, type)
     local walking_speed_anim = 0.05
@@ -73,20 +75,17 @@ function Woodcutter:initialize(gx, gy, type)
                 self.move_dir = "none"
             end
             if tree_progress == 2 then
-                -- self.i = math.round((self.fx * 0.001)) % chunk_width
-                -- self.o = math.round((self.fy * 0.001)) % chunk_width
                 self.move_dir = "none"
                 self.count = 1
-                tree_progress = 3
                 self.state = "Going to workplace with wood"
                 self:requestPath(self.workplace.gx + 1, self.workplace.gy + 3)
             end
         end
     end
-    self.animation = anim.newAnimation(fr_walking_west, 10)
+    self.animation = _G.anim.newAnimation(fr_walking_west, 10)
 end
 function Woodcutter:job_update()
-    removeObjectAt(self.lrcx, self.lrcy, self.lrx, self.lry, self)
+    _G.removeObjectAt(self.lrcx, self.lrcy, self.lrx, self.lry, self)
     _G.freeVertexFromTile(self.cx, self.cy, self.vert_id)
     self.instancemesh = nil
     self.animation = nil
@@ -95,12 +94,12 @@ function Woodcutter:check_trees(cx, cy)
     local chunkx, chunky = cx or self.cx, cy or self.cy
     local closest_object, closest_distance = nil, 10000000
     if _G.state.chunk_objects[chunkx][chunky] then
-        for index, obj in pairs(_G.state.chunk_objects[chunkx][chunky]) do
+        for _, obj in pairs(_G.state.chunk_objects[chunkx][chunky]) do
             if (obj.type == 'Pine tree' or obj.type == "Small pine tree" or obj.type == "Medium pine tree" or obj.type ==
                 'Oak tree' or obj.type == "Small oak tree" or obj.type == "Medium oak tree") and obj.marked == false then
                 -- TODO: Fix magic numbers CRITICAL
                 if obj.gx > 0 and obj.gx < 2047 and obj.gy > 0 and obj.gy < 2047 then -- and _G.nodes[obj.gx][obj.gy+1].walkable == 0 then --fixme
-                    local dist = manhattan_distance(self.gx, self.gy, obj.gx, obj.gy)
+                    local dist = _G.manhattan_distance(self.gx, self.gy, obj.gx, obj.gy)
                     if dist < closest_distance then
                         closest_object = obj
                         closest_distance = dist
@@ -163,7 +162,6 @@ function Woodcutter:find_tree()
     if objt and not _G.importantObjectAtGlobal(objt.gx, objt.gy + 1) then
         if disto and disto < closest_distance then
             closest_object = objt
-            closest_distance = disto
         end
     end
     if not closest_object then
@@ -177,7 +175,7 @@ function Woodcutter:find_tree()
     self.endy = closest_object.gy + 1
     if self.endx == self.gx and self.endy == self.gy then
         self.state = "Cutting down"
-        self.animation = anim.newAnimation(fr_cutting_northeast, 0.08 * 0.1, self.cut)
+        self.animation = _G.anim.newAnimation(fr_cutting_northeast, 0.08 * 0.1, self.cut)
         self.nd = {}
         self.waypoint_x, self.waypoint_y = nil, nil
         self.move_dir = "none"
@@ -284,8 +282,8 @@ function Woodcutter:update()
             self.state = "Going to stockpile"
             local closest_node
             local distance = math.huge
-            for k, v in ipairs(_G.stockpile.node_list) do
-                local tmp = manhattan_distance(v.gx, v.gy, self.gx, self.gy)
+            for _, v in ipairs(_G.stockpile.node_list) do
+                local tmp = _G.manhattan_distance(v.gx, v.gy, self.gx, self.gy)
                 if tmp < distance then
                     distance = tmp
                     closest_node = v
@@ -319,7 +317,7 @@ function Woodcutter:update()
             if self.state == "Going to tree" then
                 if self:reached_path_end() then
                     self.state = "Cutting down"
-                    self.animation = anim.newAnimation(fr_cutting_northeast, 0.10 * 0.1, self.cut)
+                    self.animation = _G.anim.newAnimation(fr_cutting_northeast, 0.10 * 0.1, self.cut)
                     self.nd = {}
                     self.waypoint_x, self.waypoint_y = nil, nil
                     self.move_dir = "none"
@@ -387,5 +385,22 @@ end
 function Woodcutter:animate()
     self:update()
     Unit.animate(self)
+end
+function Woodcutter:serialize()
+    local data = {}
+    local unit_data = Unit.serialize(self)
+    for k, v in pairs(unit_data) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
+    data.offset_y = self.offset_y
+    data.base_offset_x = self.base_offset_x
+    data.dead = self.dead
+    data.cuttable = self.cuttable
+    data.health = self.health
+    data.eat_timer = self.eat_timer
+    data.store_timer = self.store_timer
+    return data
 end
 return Woodcutter

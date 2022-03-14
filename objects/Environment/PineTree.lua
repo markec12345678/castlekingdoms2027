@@ -84,23 +84,17 @@ function PineTree:serialize()
             data[k] = v
         end
     end
-    data.class = PineTree.name
     data.offset_y = self.offset_y
     data.base_offset_x = self.base_offset_x
     data.dead = self.dead
     data.cuttable = self.cuttable
     data.health = self.health
-    if self.stump then
-        print("SERIALIZE")
-        print(inspect(data))
-        print(inspect(tree_data))
-    end
     return data
 end
 
 function PineTree.static:deserialize(data)
-    local obj = self:new(data.object.gx, data.object.gy, data.object.type)
-    Object.deserialize(self, data)
+    local obj = self:new(data.gx, data.gy, data.type)
+    Object.deserialize(obj, data)
     return obj
 end
 

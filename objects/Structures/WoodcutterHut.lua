@@ -1,5 +1,6 @@
 local active_entities, object, tile_quads, object_batch = ...
 local Structure = require("objects.Structure")
+local Object = require("objects.Object")
 
 local tiles, quad_array = _G.indexBuildingQuads("woodcutter_hut", true)
 
@@ -196,17 +197,16 @@ function WoodcutterHut:initialize(gx, gy, type)
     _G.JobController:add("Woodcutter", self)
     local mytype = "Static structure"
     Structure.initialize(self, gx, gy, mytype)
-    self.gx = chunk_width * self.cx + self.i
-    self.gy = chunk_width * self.cy + self.o
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 400
     self.qid = nil
     self.tile = quad_array[tiles + 1]
-    self.stone_quantity = 0
     self.working = false
     self.unloading = false
     self.offset_x = 0
     self.offset_y = -32
+    self.free_spots = 1
+    self.worker = nil
 
     self.stack = WoodcutterHut_plank_stack:new(self.gx, self.gy + 2, self, self.offset_x, self.offset_y)
     self.sawing_obj = WoodcutterHut_sawing:new(self.gx, self.gy, self, self.offset_x, self.offset_y)
@@ -254,8 +254,6 @@ function WoodcutterHut:initialize(gx, gy, type)
             16)
     end
 
-    self.free_spots = 1
-    self.worker = nil
     Structure.render(self)
 end
 function WoodcutterHut:join(worker)
@@ -297,6 +295,24 @@ function WoodcutterHut:send_to_stockpile()
     addObjectAt(cx, cy, i, o, self.worker)
     self.stack:deactivate()
     self.working = false
+end
+function WoodcutterHut:serialize()
+    local data = {}
+    local struct_data = Structure.serialize(self)
+    for k, v in pairs(struct_data) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
+    data.health = self.health
+    data.offset_x = self.offset_x
+    data.offset_y = self.offset_y
+    return data
+end
+function WoodcutterHut.static:deserialize(data)
+    local obj = self:new(data.gx, data.gy, data.type)
+    Object.deserialize(obj, data)
+    return obj
 end
 
 return WoodcutterHut

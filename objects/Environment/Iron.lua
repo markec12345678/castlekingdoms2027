@@ -29,14 +29,18 @@ end
 
 function Iron:serialize()
     local data = {}
-    data.object = Object.serialize(self)
-    data.class = Iron.name
+    local object_data = Object.serialize(self)
+    for k, v in pairs(object_data) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
     return data
 end
 
 function Iron.static:deserialize(data)
-    local obj = self:new(data.object.gx, data.object.gy, data.object.type)
-    Object.deserialize(self, data)
+    local obj = self:new(data.gx, data.gy, data.type)
+    Object.deserialize(obj, data)
     return obj
 end
 
