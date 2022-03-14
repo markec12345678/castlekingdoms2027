@@ -69,6 +69,10 @@ end
 
 function State:dereferenceObject(ref_obj)
     local ref = ref_obj._ref
+    if not ref and ref_obj.class_name then
+        -- Probably the object itself
+        ref = ref_obj.id
+    end
     -- Check if object has been deserialized already
     if self.deserialized_object_ids[ref] then
         return self.deserialized_object_ids[ref]
@@ -97,8 +101,12 @@ function State:serializeChunkObjects()
             local data = chunk_data[cx][cy]
             if self.chunk_objects[cx][cy] then
                 for _, obj in pairs(_G.state.chunk_objects[cx][cy]) do
-                    data[#data + 1] = obj:serialize()
-                    self.serialized_object_ids[obj.id] = data[#data]
+                    if self.serialized_object_ids[obj.id] then
+                        data[#data + 1] = self.serialized_object_ids[obj.id]
+                    else
+                        data[#data + 1] = obj:serialize()
+                        self.serialized_object_ids[obj.id] = data[#data]
+                    end
                 end
             end
         end
@@ -133,11 +141,8 @@ function State:deserializeObjects(data)
                 for o = 0, _G.chunk_width - 1 do
                     if data[cx][cy][i][o] then
                         for _, obj in pairs(data[cx][cy][i][o]) do
-                            if obj and obj.class_name then
-                                local object = _G.getClassByName(obj.class_name)
-                                if object then
-                                    object:deserialize(obj)
-                                end
+                            if obj and next(obj) then
+                                self:dereferenceObject(obj)
                             end
                         end
                     end

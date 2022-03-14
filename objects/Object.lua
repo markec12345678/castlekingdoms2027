@@ -109,6 +109,7 @@ function Object:update_vertex()
 end
 function Object:serialize()
     local data = {}
+    data.id = self.id
     data.i = self.i
     data.o = self.o
     data.cx = self.cx
@@ -120,7 +121,8 @@ function Object:serialize()
     data.type = self.type
     data.to_be_deleted = self.to_be_deleted
     data.class_name = self.class.name
-    if data.class_name ~= "Stockpile_alias" and string.find(data.class_name or tostring(self.class), "alias") then
+    if data.class_name ~= "Stockpile_alias" and data.class_name ~= "WoodcutterHut_alias" and
+        string.find(data.class_name or tostring(self.class), "alias") then
         return {}
     end
     return data

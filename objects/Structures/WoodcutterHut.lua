@@ -1,4 +1,4 @@
-local active_entities, object, tile_quads, object_batch = ...
+local active_entities, _, tile_quads, _ = ...
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 
@@ -8,13 +8,23 @@ local fr_woodcutter_sawing = _G.indexQuads("anim_woodcutter_saw", 19, nil, true)
 local fr_plank_stack = _G.indexQuads("anim_woodcutter_planks", 3)
 local fr_log_stack = _G.indexQuads("anim_woodcutter_logs", 3)
 
-local WoodcutterHut_log_stack = class('WoodcutterHut_log_stack', Structure)
+local AN_HUT_SAWING = "Sawing"
+local AN_HUT_PLANKS = "Plank stack"
+local AN_HUT_LOGS = "Log stack"
+
+local an = {
+    [AN_HUT_SAWING] = fr_woodcutter_sawing,
+    [AN_HUT_PLANKS] = fr_plank_stack,
+    [AN_HUT_LOGS] = fr_log_stack
+}
+
+local WoodcutterHut_log_stack = _G.class('WoodcutterHut_log_stack', Structure)
 function WoodcutterHut_log_stack:initialize(gx, gy, parent, offset_x, offset_y)
     local mytype = "Animation"
     Structure.initialize(self, gx, gy, mytype)
     self.tile = tile_quads["empty"]
     self.animated = false
-    self.animation = anim.newAnimation(fr_log_stack, 0.11)
+    self.animation = _G.anim.newAnimation(an[AN_HUT_LOGS], 0.11, nil, AN_HUT_LOGS)
     self.animation:pause()
     self.quantity = 0
     self.gx = gx
@@ -26,6 +36,43 @@ function WoodcutterHut_log_stack:initialize(gx, gy, parent, offset_x, offset_y)
     self.offset_y = -50
 
     table.insert(active_entities, self)
+end
+function WoodcutterHut_log_stack:serialize()
+    local data = {}
+    local struct_data = Structure.serialize(self)
+    for k, v in pairs(struct_data) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
+    data.animation = self.animation:serialize()
+    data.animated = self.animated
+    data.quantity = self.quantity
+    data.offset_x = self.offset_x
+    data.offset_y = self.offset_y
+    return data
+end
+function WoodcutterHut_log_stack.static:deserialize(data)
+    local obj = self:allocate()
+    Object.deserialize(obj, data)
+    Structure.load(obj, data)
+    local an_data = data.animation
+    local callback = function()
+        if not obj.parent.stack.animated then
+            obj.parent.stack:activate()
+        else
+            obj.parent.stack:stack()
+        end
+        local took_log = obj.parent.log_stack:take()
+        if not took_log then
+            obj.parent:send_to_stockpile()
+            obj:deactivate()
+        end
+    end
+    obj.animation = _G.anim.newAnimation(an[an_data.animation_identifier], 1, callback, an_data.animation_identifier)
+    obj.animation:deserialize(an_data)
+    table.insert(active_entities, obj)
+    return obj
 end
 function WoodcutterHut_log_stack:stack()
     self.quantity = self.quantity + 1
@@ -66,13 +113,13 @@ function WoodcutterHut_log_stack:take()
     return true
 end
 
-local WoodcutterHut_plank_stack = class('WoodcutterHut_plank_stack', Structure)
+local WoodcutterHut_plank_stack = _G.class('WoodcutterHut_plank_stack', Structure)
 function WoodcutterHut_plank_stack:initialize(gx, gy, parent, offset_x, offset_y)
     local mytype = "Animation"
     Structure.initialize(self, gx, gy, mytype)
     self.tile = tile_quads["empty"]
     self.animated = false
-    self.animation = anim.newAnimation(fr_plank_stack, 0.11)
+    self.animation = _G.anim.newAnimation(an[AN_HUT_PLANKS], 0.11, nil, AN_HUT_PLANKS)
     self.animation:pause()
     self.quantity = 0
     self.gx = gx
@@ -84,6 +131,31 @@ function WoodcutterHut_plank_stack:initialize(gx, gy, parent, offset_x, offset_y
     self.offset_y = -52
 
     table.insert(active_entities, self)
+end
+function WoodcutterHut_plank_stack:serialize()
+    local data = {}
+    local struct_data = Structure.serialize(self)
+    for k, v in pairs(struct_data) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
+    data.animation = self.animation:serialize()
+    data.animated = self.animated
+    data.quantity = self.quantity
+    data.offset_x = self.offset_x
+    data.offset_y = self.offset_y
+    return data
+end
+function WoodcutterHut_plank_stack.static:deserialize(data)
+    local obj = self:allocate()
+    Object.deserialize(obj, data)
+    Structure.load(obj, data)
+    local an_data = data.animation
+    obj.animation = _G.anim.newAnimation(an[an_data.animation_identifier], 1, callback, an_data.animation_identifier)
+    obj.animation:deserialize(an_data)
+    table.insert(active_entities, obj)
+    return obj
 end
 function WoodcutterHut_plank_stack:stack()
     self.quantity = self.quantity + 1
@@ -120,25 +192,13 @@ function WoodcutterHut_plank_stack:take()
     self.animation:gotoFrame(self.quantity)
 end
 
-local WoodcutterHut_sawing = class('WoodcutterHut_sawing', Structure)
+local WoodcutterHut_sawing = _G.class('WoodcutterHut_sawing', Structure)
 function WoodcutterHut_sawing:initialize(gx, gy, parent, offset_x, offset_y)
     local mytype = "Animation"
     Structure.initialize(self, gx, gy, mytype)
     self.tile = tile_quads["empty"]
     self.animated = false
-    self.part1_end = function()
-        if not self.parent.stack.animated then
-            self.parent.stack:activate()
-        else
-            self.parent.stack:stack()
-        end
-        local took_log = self.parent.log_stack:take()
-        if not took_log then
-            self.parent:send_to_stockpile()
-            self:deactivate()
-        end
-    end
-    self.animation = anim.newAnimation(fr_woodcutter_sawing, 0.11, self.part1_end)
+    self.animation = _G.anim.newAnimation(an[AN_HUT_SAWING], 0.11, nil, AN_HUT_SAWING)
     self.animation:pause()
     self.gx = gx
     self.gy = gy
@@ -147,6 +207,7 @@ function WoodcutterHut_sawing:initialize(gx, gy, parent, offset_x, offset_y)
     self.qid = 0
     self.offset_x = -35
     self.offset_y = -44
+    self:setCallback()
 
     table.insert(active_entities, self)
 end
@@ -167,6 +228,46 @@ function WoodcutterHut_sawing:deactivate()
         self.instancemesh = nil
     end
     self.animated = false
+end
+function WoodcutterHut_sawing:serialize()
+    local data = {}
+    local struct_data = Structure.serialize(self)
+    for k, v in pairs(struct_data) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
+    data.animation = self.animation:serialize()
+    data.animated = self.animated
+    data.offset_x = self.offset_x
+    data.offset_y = self.offset_y
+    return data
+end
+function WoodcutterHut_sawing:setCallback()
+    local parent = self.parent
+    self.animation.onLoop = function()
+        if not parent.stack.animated then
+            parent.stack:activate()
+        else
+            parent.stack:stack()
+        end
+        local took_log = parent.log_stack:take()
+        if not took_log then
+            parent:send_to_stockpile()
+            self:deactivate()
+        end
+    end
+end
+function WoodcutterHut_sawing.static:deserialize(data)
+    local obj = self:allocate()
+    Object.deserialize(obj, data)
+    Structure.load(obj, data)
+    local an_data = data.animation
+    print("parent imm", obj.parent)
+    obj.animation = _G.anim.newAnimation(an[an_data.animation_identifier], 1, nil, an_data.animation_identifier)
+    obj.animation:deserialize(an_data)
+    table.insert(active_entities, obj)
+    return obj
 end
 
 local WoodcutterHut_alias = _G.class('WoodcutterHut_alias', Structure)
@@ -191,8 +292,34 @@ function WoodcutterHut_alias:initialize(tile, gx, gy, parent, offset_y, offset_x
     end
     Structure.render(self)
 end
+function WoodcutterHut_alias:serialize()
+    local data = {}
+    local struct_data = Structure.serialize(self)
+    for k, v in pairs(struct_data) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
+    data.tile_key = self.tile_key
+    data.base_offset_y = self.base_offset_y
+    data.additional_offset_y = self.additional_offset_y
+    data.offset_x = self.offset_x
+    data.offset_y = self.offset_y
+    return data
+end
+function WoodcutterHut_alias.static:deserialize(data)
+    local obj = self:allocate()
+    Object.deserialize(obj, data)
+    Structure.load(obj, data)
+    if data.tile_key then
+        obj.tile = quad_array[data.tile_key]
+        obj.tile_key = data.tile_key
+        obj:render()
+    end
+    return obj
+end
 
-local WoodcutterHut = class('WoodcutterHut', Structure)
+local WoodcutterHut = _G.class('WoodcutterHut', Structure)
 function WoodcutterHut:initialize(gx, gy, type)
     _G.JobController:add("Woodcutter", self)
     local mytype = "Static structure"
@@ -246,12 +373,14 @@ function WoodcutterHut:initialize(gx, gy, type)
         end
     end
     for tile = 1, tiles do
-        WoodcutterHut_alias:new(quad_array[tile], self.gx, self.gy + (tiles - tile + 1), self,
+        local wht = WoodcutterHut_alias:new(quad_array[tile], self.gx, self.gy + (tiles - tile + 1), self,
             -self.offset_y + 8 * (tiles - tile + 1))
+        wht.tile_key = tile
     end
     for tile = 1, tiles do
-        WoodcutterHut_alias:new(quad_array[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offset_y + 8 * tile,
-            16)
+        local wht = WoodcutterHut_alias:new(quad_array[tiles + 1 + tile], self.gx + tile, self.gy, self,
+            -self.offset_y + 8 * tile, 16)
+        wht.tile_key = tiles + 1 + tile
     end
 
     Structure.render(self)
@@ -296,6 +425,24 @@ function WoodcutterHut:send_to_stockpile()
     self.stack:deactivate()
     self.working = false
 end
+function WoodcutterHut:load(data)
+    Object.deserialize(self, data)
+    Structure.load(self, data)
+    -- TODO: Make woodcutter able to be serialized with anim
+    -- self.worker = _G.state:dereferenceObject(data.worker)
+    self.stack = _G.state:dereferenceObject(data.stack)
+    self.stack.parent = self
+    self.sawing_obj = _G.state:dereferenceObject(data.sawing_obj)
+    self.sawing_obj.parent = self
+    self.sawing_obj:setCallback()
+    self.log_stack = _G.state:dereferenceObject(data.log_stack)
+    self.log_stack.parent = self
+    self.health = data.health
+    self.offset_x = data.offset_x
+    self.offset_y = data.offset_y
+    self.tile = quad_array[tiles + 1]
+    Structure.render(self)
+end
 function WoodcutterHut:serialize()
     local data = {}
     local struct_data = Structure.serialize(self)
@@ -305,13 +452,20 @@ function WoodcutterHut:serialize()
         end
     end
     data.health = self.health
+    data.working = self.working
+    data.unloading = self.unloading
     data.offset_x = self.offset_x
     data.offset_y = self.offset_y
+    data.free_spots = self.free_spots
+    -- data.worker = _G.state:serializeObject(self.worker)
+    data.stack = _G.state:serializeObject(self.stack)
+    data.sawing_obj = _G.state:serializeObject(self.sawing_obj)
+    data.log_stack = _G.state:serializeObject(self.log_stack)
     return data
 end
 function WoodcutterHut.static:deserialize(data)
-    local obj = self:new(data.gx, data.gy, data.type)
-    Object.deserialize(obj, data)
+    local obj = self:allocate()
+    obj:load(data)
     return obj
 end
 
