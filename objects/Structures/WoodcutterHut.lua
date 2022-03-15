@@ -428,8 +428,10 @@ end
 function WoodcutterHut:load(data)
     Object.deserialize(self, data)
     Structure.load(self, data)
-    -- TODO: Make woodcutter able to be serialized with anim
-    -- self.worker = _G.state:dereferenceObject(data.worker)
+    if data.worker then
+        self.worker = _G.state:dereferenceObject(data.worker)
+        self.worker.workplace = self
+    end
     self.stack = _G.state:dereferenceObject(data.stack)
     self.stack.parent = self
     self.sawing_obj = _G.state:dereferenceObject(data.sawing_obj)
@@ -457,7 +459,9 @@ function WoodcutterHut:serialize()
     data.offset_x = self.offset_x
     data.offset_y = self.offset_y
     data.free_spots = self.free_spots
-    -- data.worker = _G.state:serializeObject(self.worker)
+    if self.worker then
+        data.worker = _G.state:serializeObject(self.worker)
+    end
     data.stack = _G.state:serializeObject(self.stack)
     data.sawing_obj = _G.state:serializeObject(self.sawing_obj)
     data.log_stack = _G.state:serializeObject(self.log_stack)
