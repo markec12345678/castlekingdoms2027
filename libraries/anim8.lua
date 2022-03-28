@@ -183,6 +183,9 @@ local function newAnimation(frames, durations, onLoop, animation_identifier)
     if (td ~= 'number' or durations <= 0) and td ~= 'table' then
         error("durations must be a positive number. Was " .. tostring(durations))
     end
+    if (type(frames) == "string") then
+        error("expected animation frames but received a string: " .. frames)
+    end
     onLoop = onLoop or nop
     durations = parseDurations(durations, #frames)
     local intervals, totalDuration = parseIntervals(durations)
