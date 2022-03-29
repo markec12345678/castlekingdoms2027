@@ -1,8 +1,7 @@
-local object, tile_quads, object_batch, active_entities = ...
+local _, tile_quads, _, active_entities = ...
 local Structure = require("objects.Structure")
-local tiles, quad_array = indexBuildingQuads("farm (2)")
-local wheat_tile = tile_quads["tile_farmland_stage_4 (1)"]
-local quad_offset = require('objects.quad_offset')
+local Object = require("objects.Object")
+local tiles, quad_array = _G.indexBuildingQuads("farm (2)")
 local farmland_tiles_stage_0 = {tile_quads["tile_farmland_stage_0 (1)"], tile_quads["tile_farmland_stage_0 (2)"],
                                 tile_quads["tile_farmland_stage_0 (3)"], tile_quads["tile_farmland_stage_0 (4)"]}
 local farmland_tiles_stage_1 = {tile_quads["tile_farmland_stage_1 (1)"], tile_quads["tile_farmland_stage_1 (2)"],
@@ -15,7 +14,7 @@ local farmland_tiles_stage_4 = {tile_quads["tile_farmland_stage_4 (1)"], tile_qu
                                 tile_quads["tile_farmland_stage_4 (3)"], tile_quads["tile_farmland_stage_4 (4)"]}
 local farmland_hay_tile = tile_quads["tile_farmland_hay (1)"]
 
-local WheatFarm_alias = class('WheatFarm_alias', Structure)
+local WheatFarm_alias = _G.class('WheatFarm_alias', Structure)
 function WheatFarm_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     local mytype = "Static structure"
     Structure.initialize(self, gx, gy, mytype)
@@ -37,14 +36,41 @@ function WheatFarm_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     end
     Structure.render(self)
 end
-local WheatFarm_plant = class('WheatFarm_plant', Structure)
+function WheatFarm_alias:serialize()
+    local data = {}
+    local struct_data = Structure.serialize(self)
+    for k, v in pairs(struct_data) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
+    data.parent = _G.state:serializeObject(self.parent)
+    data.tile_key = self.tile_key
+    data.base_offset_y = self.base_offset_y
+    data.additional_offset_y = self.additional_offset_y
+    data.offset_x = self.offset_x
+    data.offset_y = self.offset_y
+    return data
+end
+function WheatFarm_alias.static:deserialize(data)
+    local obj = self:allocate()
+    Object.deserialize(obj, data)
+    Structure.load(obj, data)
+    if data.tile_key then
+        obj.tile = quad_array[data.tile_key]
+        obj.tile_key = data.tile_key
+        obj:render()
+    end
+    obj.parent = _G.state:dereferenceObject(data.parent)
+    return obj
+end
+
+local WheatFarm_plant = _G.class('WheatFarm_plant', Structure)
 function WheatFarm_plant:initialize(gx, gy, parent)
     local mytype = "Wheat Plant"
     Structure.initialize(self, gx, gy, mytype)
     self.animated = false
     self.is_plant = false
-    self.gx = gx
-    self.gy = gy
     self.state = -1
     self.has_wheat_resource = false
     self.parent = parent
@@ -56,6 +82,7 @@ function WheatFarm_plant:initialize(gx, gy, parent)
     self.offset_x = 0
     self.offset_y = 0
     self.tile = tile_quads["empty"]
+    self.tile_key = "empty"
     for k, v in ipairs(_G.stockpile.node_list) do
         if v.gx == self.gx and v.gy == self.gy then
             table.remove(_G.stockpile.node_list, k)
@@ -65,6 +92,37 @@ function WheatFarm_plant:initialize(gx, gy, parent)
     self.wheat_mature_counter = 0
     self.started_growing = false
     table.insert(active_entities, self)
+end
+function WheatFarm_plant:serialize()
+    local data = {}
+    local struct_data = Structure.serialize(self)
+    for k, v in pairs(struct_data) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
+    data.animated = self.animated
+    data.is_plant = self.is_plant
+    data.state = self.state
+    data.tile_key = self.tile_key
+    data.has_wheat_resource = self.has_wheat_resource
+    data.offset_x = self.offset_x
+    data.offset_y = self.offset_y
+    data.wheat_mature_counter = self.wheat_mature_counter
+    data.started_growing = self.started_growing
+    return data
+end
+function WheatFarm_plant.static:deserialize(data)
+    local obj = self:allocate()
+    Object.deserialize(obj, data)
+    Structure.load(obj, data)
+    if data.tile_key then
+        obj.tile = tile_quads[data.tile_key]
+        obj.tile_key = data.tile_key
+        obj:render()
+    end
+    table.insert(active_entities, obj)
+    return obj
 end
 function WheatFarm_plant:render()
     Structure.render(self)
@@ -102,19 +160,26 @@ function WheatFarm_plant:set_state(state)
     self.state = state
     if state == 0 then
         self.tile = farmland_tiles_stage_0[random_tile]
+        self.tile_key = "tile_farmland_stage_0 (" .. tostring(random_tile) .. ")"
     elseif state == 1 then
         self.tile = farmland_tiles_stage_1[random_tile]
+        self.tile_key = "tile_farmland_stage_1 (" .. tostring(random_tile) .. ")"
     elseif state == 2 then
         self.tile = farmland_tiles_stage_2[random_tile]
+        self.tile_key = "tile_farmland_stage_2 (" .. tostring(random_tile) .. ")"
     elseif state == 3 then
         self.tile = farmland_tiles_stage_3[random_tile]
+        self.tile_key = "tile_farmland_stage_3 (" .. tostring(random_tile) .. ")"
     elseif state == 4 then
         self.tile = farmland_tiles_stage_4[random_tile]
+        self.tile_key = "tile_farmland_stage_4 (" .. tostring(random_tile) .. ")"
     elseif state == 5 then
         if self.is_plant then
             self.tile = farmland_hay_tile
+            self.tile_key = "tile_farmland_hay (1)"
         else
             self.tile = farmland_tiles_stage_0[random_tile]
+            self.tile_key = "tile_farmland_stage_0 (" .. tostring(random_tile) .. ")"
         end
     end
     local _, _, _, wh = self.tile:getViewport()
@@ -122,11 +187,11 @@ function WheatFarm_plant:set_state(state)
     self:render()
 end
 
-local WheatFarm = class('WheatFarm', Structure)
+local WheatFarm = _G.class('WheatFarm', Structure)
 function WheatFarm:initialize(gx, gy, type)
     _G.JobController:add("WheatFarmer", self)
-    local mytype = "Static structure"
-    Structure.initialize(self, gx, gy, mytype)
+    type = type or "Static structure"
+    Structure.initialize(self, gx, gy, type)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 400
     self.qid = nil
@@ -137,7 +202,6 @@ function WheatFarm:initialize(gx, gy, type)
     self.offset_y = -64 - 6 - 8
 
     self.state = 0
-    self.last_tile = nil
 
     for xx = -1, 13 do
         for yy = -1, 13 do
@@ -152,12 +216,15 @@ function WheatFarm:initialize(gx, gy, type)
     end
 
     for tile = 1, tiles do
-        WheatFarm_alias:new(quad_array[tile], self.gx, self.gy + (tiles - tile + 1), self,
+        local whf = WheatFarm_alias:new(quad_array[tile], self.gx, self.gy + (tiles - tile + 1), self,
             -self.offset_y + 8 * (tiles - tile + 1))
+        whf.tile_key = tile
     end
 
     for tile = 1, tiles do
-        WheatFarm_alias:new(quad_array[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offset_y + 8 * tile, 14)
+        local whf = WheatFarm_alias:new(quad_array[tiles + 1 + tile], self.gx + tile, self.gy, self,
+            -self.offset_y + 8 * tile, 14)
+        whf.tile_key = tiles + 1 + tile
     end
     self.available_plant_tiles = 0
     self.land_tiles = {}
@@ -196,6 +263,15 @@ function WheatFarm:initialize(gx, gy, type)
         t2 = WheatFarm_plant:new(self.gx + 11, self.gy + y, self, true)
         table.insert(self.land_tiles, {t1, t2})
     end
+    for xx = 0, 2 do
+        for yy = 0, 2 do
+            local xxx = (self.gx + xx) % (_G.chunk_width)
+            local yyy = (self.gy + yy) % (_G.chunk_width)
+            local ccx = math.floor((self.gx + xx) / _G.chunk_width)
+            local ccy = math.floor((self.gy + yy) / _G.chunk_width)
+            _G.buildingheightmap[ccx][ccy][xxx][yyy] = 14
+        end
+    end
     table.insert(self.land_tiles[1], WheatFarm_plant:new(self.gx + 0, self.gy + 3, self, true))
     table.insert(self.land_tiles[1], WheatFarm_plant:new(self.gx + 2, self.gy + 3, self, true))
     table.insert(self.land_tiles[1], WheatFarm_plant:new(self.gx + 1, self.gy + 3, self, true))
@@ -211,6 +287,74 @@ function WheatFarm:initialize(gx, gy, type)
     self.free_spots = 1
     Structure.render(self)
 end
+function WheatFarm:load(data)
+    Object.deserialize(self, data)
+    Structure.load(self, data)
+    self.tile = quad_array[tiles + 1]
+    self.land_tiles = {}
+    for idx, ltiles in ipairs(data.land_tiles_raw) do
+        self.land_tiles[idx] = {}
+        for _, stile in ipairs(ltiles) do
+            if stile == false then
+                self.land_tiles[idx][#self.land_tiles[idx] + 1] = false
+            else
+                local farm_tile = _G.state:dereferenceObject(stile)
+                self.land_tiles[idx][#self.land_tiles[idx] + 1] = farm_tile
+                farm_tile.parent = self
+            end
+        end
+    end
+    if data.wheat_worker then
+        self.wheat_worker = _G.state:dereferenceObject(data.wheat_worker)
+        self.wheat_worker.workplace = self
+    end
+    self:verify_farmland_integrity()
+    Structure.render(self)
+end
+function WheatFarm:serialize()
+    local data = {}
+    local struct_data = Structure.serialize(self)
+    for k, v in pairs(struct_data) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
+    data.available_plant_tiles = self.available_plant_tiles
+    data.health = self.health
+    data.stone_quantity = self.stone_quantity
+    data.working = self.working
+    data.offset_x = self.offset_x
+    data.offset_y = self.offset_y
+    data.max_land_tiles = self.max_land_tiles
+    data.processed_tiles = self.processed_tiles
+    data.tiles_sowed = self.tiles_sowed
+    data.tiles_fully_grown = self.tiles_fully_grown
+    data.free_spots = self.free_spots
+    data.state = self.state
+    if self.wheat_worker then
+        data.wheat_worker = _G.state:serializeObject(self.wheat_worker)
+    end
+    local land_tiles = {}
+    for idx, ltiles in ipairs(self.land_tiles) do
+        land_tiles[idx] = {}
+        for _, stile in ipairs(ltiles) do
+            if stile then
+                local farm_tile = _G.state:serializeObject(stile)
+                land_tiles[idx][#land_tiles[idx] + 1] = farm_tile
+            else
+                land_tiles[idx][#land_tiles[idx] + 1] = false
+            end
+        end
+    end
+    data.land_tiles_raw = land_tiles
+    return data
+end
+function WheatFarm.static:deserialize(data)
+    local obj = self:allocate()
+    obj:load(data)
+    return obj
+end
+
 function WheatFarm:join(worker)
     if self.free_spots == 1 then
         self.wheat_worker = worker
@@ -263,6 +407,9 @@ function WheatFarm:work(worker)
         if self.state == 0 then
             self.processed_tiles = self.processed_tiles + 1
             local current_tile = self.land_tiles[self.processed_tiles][2]
+            if not current_tile then
+                current_tile = self.land_tiles[self.processed_tiles][1]
+            end
             if self.wheat_worker:isPositionAt(current_tile.gx, current_tile.gy - 2) then
                 self.wheat_worker.state = "Hoe walking to southern tile"
             elseif self.wheat_worker:isPositionAt(current_tile.gx, current_tile.gy + 2) then

@@ -47,7 +47,6 @@ function Unit:isPositionAt(px, py)
 end
 function Unit:animate()
     if self == nil or self.animation == nil then
-        print("nothing to animate")
         return -- nothing to animate
     end
     local updated = self.animation:update(_G.dt)
@@ -469,6 +468,9 @@ function Unit.static:deserialize(data)
     data.need_new_vert_asap = true
     local obj = object:allocate()
     Object.deserialize(obj, data)
+    if not obj.eat_timer then
+        obj.eat_timer = 0
+    end
     obj:load(data)
     return obj
 end

@@ -214,7 +214,9 @@ function Peasant:serialize()
     data.orientation = self.orientation
     data.timr = self.timr
     data.animated = self.animated
-    data.animation = self.animation:serialize()
+    if self.animation then
+        data.animation = self.animation:serialize()
+    end
     data.try_to_get_a_job = self.try_to_get_a_job
     return data
 end
