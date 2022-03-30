@@ -1,9 +1,11 @@
-local active_entities, object, tile_quads, object_batch = ...
+local _, _, tile_quads, _ = ...
 
 local Structure = require("objects.Structure")
+local Object = require("objects.Object")
 
-local Rock_alias = _G.class('Rock_alias', Structure)
-function Rock_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
+local Rock_2x2_alias = _G.class('Rock_2x2_alias', Structure)
+Rock_2x2_alias.static.unserializable = true
+function Rock_2x2_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     local mytype = "Static structure"
     Structure.initialize(self, gx, gy, mytype)
     self.gx = gx
@@ -19,43 +21,65 @@ function Rock_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     Structure.render(self)
 end
 
-local Rock = class('Rock', Structure)
-function Rock:initialize(gx, gy, type)
-    local mytype = "Rock"
-    Structure.initialize(self, gx, gy, mytype)
-    self.gx = chunk_width * self.cx + self.i
-    self.gy = chunk_width * self.cy + self.o
+local Rock_2x2 = _G.class('Rock_2x2', Structure)
+function Rock_2x2:initialize(gx, gy, type, rock_variation)
+    type = type or "Rock_2x2"
+    Structure.initialize(self, gx, gy, type)
+    self.gx = _G.chunk_width * self.cx + self.i
+    self.gy = _G.chunk_width * self.cy + self.o
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 100
     self.qid = nil
     self.tile = tile_quads["empty"]
     self.offset_x = 0
     self.offset_y = 0
-
-    local tiles, quad_array = _G.indexBuildingQuads("rocks_2x2tile (" .. love.math.random(1, 16) .. ")", false, 3)
+    rock_variation = rock_variation or love.math.random(1, 16)
+    self.rock_variation = rock_variation
+    local tiles, quad_array = _G.indexBuildingQuads("rocks_2x2tile (" .. rock_variation .. ")", false, 3)
     for xx = 0, 1 do
         for yy = 0, 1 do
-            local xxx = (self.gx + xx) % (chunk_width)
-            local yyy = (self.gy + yy) % (chunk_width)
-            local ccx = math.floor((self.gx + xx) / chunk_width)
-            local ccy = math.floor((self.gy + yy) / chunk_width)
+            local xxx = (self.gx + xx) % (_G.chunk_width)
+            local yyy = (self.gy + yy) % (_G.chunk_width)
+            local ccx = math.floor((self.gx + xx) / _G.chunk_width)
+            local ccy = math.floor((self.gy + yy) / _G.chunk_width)
             _G.buildingheightmap[ccx][ccy][xxx][yyy] = 15
         end
     end
     local _, _, _, center_tile_offset_y = quad_array[tiles + 1]:getViewport()
 
     for tile = 1, tiles do
-        Rock_alias:new(quad_array[tile], self.gx + tile - 1, self.gy + tiles, self,
+        Rock_2x2_alias:new(quad_array[tile], self.gx + tile - 1, self.gy + tiles, self,
             center_tile_offset_y - 14 + 16 - 32 + 8 * tile)
     end
 
-    Rock_alias:new(quad_array[tiles + 1], self.gx + tiles, self.gy + tiles, self, center_tile_offset_y - 14)
+    Rock_2x2_alias:new(quad_array[tiles + 1], self.gx + tiles, self.gy + tiles, self, center_tile_offset_y - 14)
 
     for tile = 1, tiles do
-        Rock_alias:new(quad_array[tiles + 1 + tile], self.gx + tiles, self.gy + (tiles - tile), self,
+        Rock_2x2_alias:new(quad_array[tiles + 1 + tile], self.gx + tiles, self.gy + (tiles - tile), self,
             center_tile_offset_y - 14 - 32 + 8 * (tiles - tile) + 8 + 16, 16)
     end
     Structure.render(self)
 end
 
-return Rock
+function Rock_2x2:serialize()
+    local data = {}
+    local object_data = Object.serialize(self)
+    for k, v in pairs(object_data) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
+    data.tile_key = self.tile_key
+    data.offset_y = self.offset_y
+    data.health = self.health
+    data.rock_variation = self.rock_variation
+    return data
+end
+
+function Rock_2x2.static:deserialize(data)
+    local obj = self:new(data.gx, data.gy, data.type, data.rock_variation)
+    Object.deserialize(obj, data)
+    return obj
+end
+
+return Rock_2x2

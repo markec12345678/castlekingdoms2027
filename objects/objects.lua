@@ -521,7 +521,7 @@ local function mousepressed(x, y, button)
     if button == 1 then
         _G.BuildController:mousepressed(mx, my)
     elseif button == 3 then
-        require("objects.Controllers.Ferdnhoven")
+        -- require("objects.Controllers.Ferdnhoven")
         -- _G.getTerrainTileOnMouse(mx, my)
         if not objectAt(press.cx, press.cy, press.x, press.y) then
             if love.keyboard.isDown("1") then
@@ -565,26 +565,26 @@ local function mousepressed(x, y, button)
         --     end
         -- end
         -- Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
-        local insp = object[press.cx][press.cy][press.x][press.y]
-        if insp then
-            print("____________")
-            for _, ibj in pairs(insp) do
-                print(ibj.type, ibj.vert_id, ibj.i, ibj.o, press.x, press.y, press.cx, press.cy)
-                local remove_all_metatables = function(item, path)
-                    if path[#path] ~= inspect.METATABLE then
-                        return item
-                    end
-                end
-                print(inspect(ibj, {
-                    depth = 2,
-                    process = remove_all_metatables
-                }))
-                -- print(ibj.type, ibj.x + (ibj.cx - ibj.cy) * chunk_width * tile_width * 0.5,
-                --     ibj.y + (ibj.cx + ibj.cy) * chunk_width * tile_height * 0.5)
-                -- print(ibj.type, (_G.state.view_xview) - 1920 / 2 - 100, (_G.state.view_yview) - 1080 / 2 - 100)
-            end
-            -- print(inspect(insp))
-        end
+        -- local insp = object[press.cx][press.cy][press.x][press.y]
+        -- if insp then
+        --     print("____________")
+        --     for _, ibj in pairs(insp) do
+        --         print(ibj.type, ibj.vert_id, ibj.i, ibj.o, press.x, press.y, press.cx, press.cy)
+        --         local remove_all_metatables = function(item, path)
+        --             if path[#path] ~= inspect.METATABLE then
+        --                 return item
+        --             end
+        --         end
+        --         print(inspect(ibj, {
+        --             depth = 2,
+        --             process = remove_all_metatables
+        --         }))
+        --         -- print(ibj.type, ibj.x + (ibj.cx - ibj.cy) * chunk_width * tile_width * 0.5,
+        --         --     ibj.y + (ibj.cx + ibj.cy) * chunk_width * tile_height * 0.5)
+        --         -- print(ibj.type, (_G.state.view_xview) - 1920 / 2 - 100, (_G.state.view_yview) - 1080 / 2 - 100)
+        --     end
+        --     -- print(inspect(insp))
+        -- end
     end
 end
 

@@ -359,7 +359,6 @@ function Stockpile:load(data)
     for idx, v in ipairs(data.st_pile_raw) do
         for sk, sv in pairs(v) do
             if sk == "id" then
-                print("stockpile source")
                 self.stockpile[idx][sk] = _G.state:dereferenceObject(sv)
                 self.stockpile[idx][sk].parent = self
             else

@@ -308,7 +308,6 @@ function WheatFarm:load(data)
         self.wheat_worker = _G.state:dereferenceObject(data.wheat_worker)
         self.wheat_worker.workplace = self
     end
-    self:verify_farmland_integrity()
     Structure.render(self)
 end
 function WheatFarm:serialize()

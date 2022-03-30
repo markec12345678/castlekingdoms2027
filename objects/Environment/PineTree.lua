@@ -4,23 +4,23 @@ local Object = require('objects.Object')
 
 local fr_dead_static = {tile_quads["tree_pine_dead (1)"]}
 
-local fr_static = indexQuads("tree_pine_large", 25, nil, true)
-local fr_falling = indexQuads("tree_pine_large_falling", 7)
-local fr_chop = indexQuads("tree_pine_large_falling", 10, 7)
+local fr_static = _G.indexQuads("tree_pine_large", 25, nil, true)
+local fr_falling = _G.indexQuads("tree_pine_large_falling", 7)
+local fr_chop = _G.indexQuads("tree_pine_large_falling", 10, 7)
 
-local fr_medium_static = indexQuads("tree_pine_medium", 25, nil, true)
-local fr_medium_falling = indexQuads("tree_pine_medium_falling", 8)
-local fr_medium_chop = indexQuads("tree_pine_medium_falling", 12, 8)
+local fr_medium_static = _G.indexQuads("tree_pine_medium", 25, nil, true)
+local fr_medium_falling = _G.indexQuads("tree_pine_medium_falling", 8)
+local fr_medium_chop = _G.indexQuads("tree_pine_medium_falling", 12, 8)
 
-local fr_small_static = indexQuads("tree_pine_small", 25, nil, true)
-local fr_small_falling = indexQuads("tree_pine_small_falling", 8)
-local fr_small_chop = indexQuads("tree_pine_small_falling", 10, 8)
+local fr_small_static = _G.indexQuads("tree_pine_small", 25, nil, true)
+local fr_small_falling = _G.indexQuads("tree_pine_small_falling", 8)
+local fr_small_chop = _G.indexQuads("tree_pine_small_falling", 10, 8)
 
-local fr_very_small_static = indexQuads("tree_pine_very_small", 25, nil, true)
-local fr_very_small_falling = indexQuads("tree_pine_very_small_falling", 5)
-local fr_very_small_chop = indexQuads("tree_pine_very_small_falling", 7, 6)
+local fr_very_small_static = _G.indexQuads("tree_pine_very_small", 25, nil, true)
+local fr_very_small_falling = _G.indexQuads("tree_pine_very_small_falling", 5)
+local fr_very_small_chop = _G.indexQuads("tree_pine_very_small_falling", 7, 6)
 
-local PineTree = class('PineTree', Tree)
+local PineTree = _G.class('PineTree', Tree)
 function PineTree:initialize(gx, gy, type)
     type = type or "Pine tree"
     Tree.initialize(self, gx, gy, type)
