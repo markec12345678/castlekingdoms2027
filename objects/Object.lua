@@ -121,6 +121,9 @@ function Object:serialize()
     data.type = self.type
     data.to_be_deleted = self.to_be_deleted
     data.class_name = self.class.name
+    if self.class.unserializable then
+        return {}
+    end
     if data.class_name ~= "Stockpile_alias" and data.class_name ~= "WheatFarm_alias" and data.class_name ~=
         "WoodcutterHut_alias" and string.find(data.class_name or tostring(self.class), "alias") then
         return {}
@@ -129,7 +132,9 @@ function Object:serialize()
 end
 function Object.static.deserialize(self, load)
     for k, v in pairs(load) do
-        self[k] = v
+        if k ~= "id" then
+            self[k] = v
+        end
     end
 end
 
