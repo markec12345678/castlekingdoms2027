@@ -47,9 +47,12 @@ function Unit:isPositionAt(px, py)
 end
 function Unit:animate()
     if self == nil or self.animation == nil then
-        return -- nothing to animate
+        return -- nothing to animated_alias
     end
     local updated = self.animation:update(_G.dt)
+    if self == nil or self.animation == nil then
+        return -- animation may have been deleted on callback
+    end
     local changed_tiles = self.i ~= self.last_i or self.o ~= self.last_o or self.need_new_vert_asap
     updated = updated or changed_tiles
     if self.instancemesh then
@@ -199,21 +202,17 @@ function Unit:pathfind()
     if self.path then
         if type(self.path) == "table" then
             self.nd = {}
-            local first, second = true, false -- skip the first node, because it's our position
-            local count, len_offset = 0, 0
-            local last_count = 0
+            local first = true -- skip the first node, because it's our position
+            local count = 0
             for _, node in ipairs(self.path) do
                 if not first then
                     self.nd[count] = node
-                    last_count = count
                     count = count + 1
-                    second = true
                 else
                     if node[1] == self.gx and node[2] == self.gy then
                         self.nd[-1] = node
                     else
                         self.nd[count] = node
-                        last_count = count
                     end
                     first = false
                 end
@@ -345,7 +344,6 @@ function Unit:update_position()
             end
         else
             self.need_new_vert_asap = true
-
         end
     end
     self.lrcx, self.lrcy, self.lrx, self.lry = self.cx, self.cy, xx, yy
@@ -357,7 +355,7 @@ function Unit:update_position()
     end
     self:calculate_position()
 end
-function Unit:move(special)
+function Unit:move()
     if not self.has_move_dir then
         self:dir_sub_update()
         self.has_move_dir = true

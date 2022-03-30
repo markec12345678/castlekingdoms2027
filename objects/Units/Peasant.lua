@@ -24,6 +24,7 @@ local fr_idle_southwest_2 = indexQuads("body_peasant_walk_sw", 11, 10)
 local fr_idle_west_2 = indexQuads("body_peasant_walk_w", 11, 10)
 
 local AN_BOWING = "Bowing"
+local AN_BOWING_FOR_A_JOB = "Bowing for a job"
 local AN_WALKING_WEST = "Walking west"
 local AN_WALKING_SOUTHWEST = "Walking southwest"
 local AN_WALKING_NORTHWEST = "Walking northwest"
@@ -43,6 +44,7 @@ local AN_IDLE_NORTHEAST = "Idling northeast"
 
 local an = {
     [AN_BOWING] = fr_bowing_north,
+    [AN_BOWING_FOR_A_JOB] = fr_bowing_north,
     [AN_WALKING_WEST] = fr_walking_west,
     [AN_WALKING_SOUTHWEST] = fr_walking_southwest,
     [AN_WALKING_NORTHWEST] = fr_walking_northwest,
@@ -93,6 +95,10 @@ function Peasant:load(data)
         callback = function(animation)
             animation:pause()
             self.state = "Going to campfire"
+        end
+    elseif an_data.animation_identifier == AN_BOWING_FOR_A_JOB then
+        callback = function()
+            self:bowing_job_callback()
         end
     end
     self.animation = anim.newAnimation(an[an_data.animation_identifier], 1, callback, an_data.animation_identifier)
@@ -174,15 +180,9 @@ function Peasant:update()
                     end
                 elseif self.state == "Going to door" then
                     self.state = "Getting a job"
-                    local getting_job = function()
-                        self.to_be_deleted = true
-                        _G.freeVertexFromTile(self.cx, self.cy, self.previous_vert_id)
-                        self.animation = nil
-                        _G.freeVertexFromTile(self.cx, self.cy, self.vert_id)
-                        _G.removeObjectAt(self.cx, self.cy, self.i, self.o, self)
-                        _G.JobController:add_available_worker()
-                    end
-                    self.animation = anim.newAnimation(fr_bowing_north, 0.12, getting_job)
+                    self.animation = anim.newAnimation(an[AN_BOWING_FOR_A_JOB], 0.12, function()
+                        self:bowing_job_callback()
+                    end, AN_BOWING_FOR_A_JOB)
                 end
                 return
             else
@@ -191,6 +191,14 @@ function Peasant:update()
             self.count = self.count + 1
         end
     end
+end
+function Peasant:bowing_job_callback()
+    self.to_be_deleted = true
+    _G.freeVertexFromTile(self.cx, self.cy, self.previous_vert_id)
+    self.animation = nil
+    _G.freeVertexFromTile(self.cx, self.cy, self.vert_id)
+    _G.removeObjectAt(self.cx, self.cy, self.i, self.o, self)
+    _G.JobController:add_available_worker()
 end
 function Peasant:animate(dt)
     self:update()
