@@ -84,6 +84,8 @@ function State:dereferenceObject(ref_obj)
             local object = _G.getClassByName(obj.class_name)
             if object then
                 local ret = object:deserialize(obj)
+                self.deserialized_object_count = self.deserialized_object_count + 1
+                self.deser_debug[obj.class_name] = (self.deser_debug[obj.class_name] or 0) + 1
                 self.deserialized_object_ids[ref] = ret
                 return ret
             end
@@ -122,10 +124,7 @@ function State:deserializeChunkObjects(load_data)
             if data then
                 for _, obj in pairs(data) do
                     if obj and obj.class_name then
-                        local object = _G.getClassByName(obj.class_name)
-                        if object then
-                            object:deserialize(obj)
-                        end
+                        self:dereferenceObject(obj)
                     end
                 end
             end
@@ -216,6 +215,8 @@ end
 
 function State:load(filename)
     local load = bitser.loadLoveFile(filename)
+    self.deserialized_object_count = 0
+    self.deser_debug = {}
     self.deserialized_object_ids = {}
     self.resources = load.resources
     self.food = load.food
@@ -251,6 +252,8 @@ function State:load(filename)
     self.view_yview = load.view_yview
     self.map:deserialize(load.map)
     self.map:forceRefresh()
+    -- print(inspect(self.deser_debug))
+    -- print("TOTAL DESERIALIZED OBJECTS", self.deserialized_object_count)
 end
 
 return State
