@@ -1,9 +1,22 @@
-local object, tile_quads, object_batch = ...
+local _, _, _ = ...
+
 local Structure = require("objects.Structure")
-local tiles, quad_array = indexBuildingQuads("farm (3)")
-local tree_raw = indexQuads("tree_apple", 25, nil, true)
-local tree_apple = indexQuads("tree_apple_apple", 25, nil, true)
-local quad_offset = require('objects.quad_offset')
+local Object = require("objects.Object")
+local anim = require("libraries.anim8")
+
+local class = _G.class
+
+local tiles, quad_array = _G.indexBuildingQuads("farm (3)")
+local tree_raw = _G.indexQuads("tree_apple", 25, nil, true)
+local tree_apple = _G.indexQuads("tree_apple_apple", 25, nil, true)
+
+local TREE_EMPTY = "Tree empty"
+local TREE_APPLES = "Tree with apples"
+
+local an = {
+    [TREE_EMPTY] = tree_raw,
+    [TREE_APPLES] = tree_apple
+}
 
 local Orchard_alias = class('Orchard_alias', Structure)
 function Orchard_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
@@ -27,13 +40,42 @@ function Orchard_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     end
     Structure.render(self)
 end
+function Orchard_alias:serialize()
+    local data = {}
+    local struct_data = Structure.serialize(self)
+    for k, v in pairs(struct_data) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
+    data.parent = _G.state:serializeObject(self.parent)
+    data.tile_key = self.tile_key
+    data.base_offset_y = self.base_offset_y
+    data.additional_offset_y = self.additional_offset_y
+    data.offset_x = self.offset_x
+    data.offset_y = self.offset_y
+    return data
+end
+function Orchard_alias.static:deserialize(data)
+    local obj = self:allocate()
+    Object.deserialize(obj, data)
+    Structure.load(obj, data)
+    if data.tile_key then
+        obj.tile = quad_array[data.tile_key]
+        obj.tile_key = data.tile_key
+        obj:render()
+    end
+    obj.parent = _G.state:dereferenceObject(data.parent)
+    return obj
+end
+
 local Orchard_tree = class('Orchard_tree', Structure)
 function Orchard_tree:initialize(gx, gy, parent, offset_y, offset_x)
     local mytype = "Static structure"
     Structure.initialize(self, gx, gy, mytype)
     self.animated = true
-    self.anim_raw = anim.newAnimation(tree_raw, 0.10)
-    self.anim_full = anim.newAnimation(tree_apple, 0.10)
+    self.anim_raw = anim.newAnimation(an[TREE_EMPTY], 0.10, nil, TREE_EMPTY)
+    self.anim_full = anim.newAnimation(an[TREE_APPLES], 0.10, nil, TREE_APPLES)
     self.animation = self.anim_full
     self.gx = gx
     self.gy = gy
@@ -47,10 +89,10 @@ function Orchard_tree:initialize(gx, gy, parent, offset_y, offset_x)
     for xx = -1, 1 do
         for yy = -1, 1 do
             if not ((xx == -1 and yy == -1) or (xx == 1 and yy == 1) or (xx == -1 and yy == 1) or (xx == 1 and yy == -1)) then
-                local xxx = (self.gx + xx) % (chunk_width)
-                local yyy = (self.gy + yy) % (chunk_width)
-                local ccx = math.floor((self.gx + xx) / chunk_width)
-                local ccy = math.floor((self.gy + yy) / chunk_width)
+                local xxx = (self.gx + xx) % (_G.chunk_width)
+                local yyy = (self.gy + yy) % (_G.chunk_width)
+                local ccx = math.floor((self.gx + xx) / _G.chunk_width)
+                local ccy = math.floor((self.gy + yy) / _G.chunk_width)
                 if xx == 0 and yy == 0 then
                     _G.buildingheightmap[ccx][ccy][xxx][yyy] = 17
                 else
@@ -70,52 +112,58 @@ function Orchard_tree:initialize(gx, gy, parent, offset_y, offset_x)
     end
     _G.state.chunk_objects[self.cx][self.cy][self] = self
 end
-function Orchard_tree:animate()
-    local updated = self.animation:update(_G.dt)
-    if not self.instancemesh and _G.state.object_mesh then
-        local offset_x, offset_y = 0, 0
-        if quad_offset[self.animation:getQuad()] then
-            offset_x, offset_y = quad_offset[self.animation:getQuad()][1] or 0,
-                quad_offset[self.animation:getQuad()][2] or 0
-        end
-        local instancemesh = _G.state.object_mesh[self.cx][self.cy]
-        local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
-            self.y + (self.offset_y or 0) + offset_y - _G.state.map.walking_heightmap[self.gx][self.gy])
-        local qx, qy, qw, qh = quad:getViewport()
-        self.vert_id = _G.getFreeVertexFromTile(self.cx, self.cy, self.i, self.o)
-        if self.vert_id then
-            self.instancemesh = instancemesh
-            self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh, 1)
+function Orchard_tree:serialize()
+    local data = {}
+    local struct_data = Structure.serialize(self)
+    for k, v in pairs(struct_data) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
         end
     end
-    if self.instancemesh and updated then
-        self.last_updated = 0
-        local offset_x, offset_y = 0, 0
-        if quad_offset[self.animation:getQuad()] then
-            offset_x, offset_y = quad_offset[self.animation:getQuad()][1] or 0,
-                quad_offset[self.animation:getQuad()][2] or 0
-        end
-        local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
-            self.y + (self.offset_y or 0) + offset_y - _G.state.map.walking_heightmap[self.gx][self.gy])
-        local qx, qy, qw, qh = quad:getViewport()
-        self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh, 1)
-        return
-    end
+    data.animation = self.animation:serialize()
+    data.anim_raw = self.anim_raw:serialize()
+    data.anim_full = self.anim_full:serialize()
+    data.base_offset_y = self.base_offset_y
+    data.additional_offset_y = self.additional_offset_y
+    data.offset_x = self.offset_x
+    data.offset_y = self.offset_y
+    data.animated = self.animated
+    return data
 end
-function Orchard_tree:update()
-    return
+function Orchard_tree.static:deserialize(data)
+    local obj = self:allocate()
+    Object.deserialize(obj, data)
+    Structure.load(obj, data)
+    local an1 = data.anim_raw
+    local an2 = data.anim_full
+    local an3 = data.animation
+    obj.anim_raw = _G.anim.newAnimation(an[an1.animation_identifier], 1, nil, an1.animation_identifier)
+    obj.anim_raw:deserialize(an1)
+    obj.anim_full = _G.anim.newAnimation(an[an2.animation_identifier], 1, nil, an2.animation_identifier)
+    obj.anim_full:deserialize(an2)
+    if an3.animation_identifier == an2.animation_identifier then
+        obj.animation = obj.anim_full
+    elseif an3.animation_identifier == an1.animation_identifier then
+        obj.animation = obj.anim_raw
+    else
+        error("Unknown animation for orchard tree: " .. tostring(an3.animation_identifier))
+    end
+    if _G.state.chunk_objects[obj.cx][obj.cy] == nil then
+        _G.state.chunk_objects[obj.cx][obj.cy] = {}
+    end
+    _G.state.chunk_objects[obj.cx][obj.cy][obj] = obj
+    return obj
 end
 
 local Orchard = class('Orchard', Structure)
 function Orchard:initialize(gx, gy, type)
     _G.JobController:add("OrchardFarmer", self)
-    local mytype = "Static structure"
-    Structure.initialize(self, gx, gy, mytype)
+    type = type or "Orchard"
+    Structure.initialize(self, gx, gy, type)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 400
     self.qid = nil
     self.tile = quad_array[tiles + 1]
-    self.stone_quantity = 0
     self.working = false
     self.offset_x = 0
     self.offset_y = -48 - 6
@@ -134,18 +182,16 @@ function Orchard:initialize(gx, gy, type)
     end
 
     for tile = 1, tiles do
-        Orchard_alias:new(quad_array[tile], self.gx, self.gy + (tiles - tile + 1), self,
+        local ora = Orchard_alias:new(quad_array[tile], self.gx, self.gy + (tiles - tile + 1), self,
             -self.offset_y + 8 * (tiles - tile + 1))
+        ora.tile_key = tile
     end
 
     for tile = 1, tiles do
-        Orchard_alias:new(quad_array[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offset_y + 8 * tile, 14)
+        local ora = Orchard_alias:new(quad_array[tiles + 1 + tile], self.gx + tile, self.gy, self,
+            -self.offset_y + 8 * tile, 14)
+        ora.tile_key = tiles + 1 + tile
     end
-    -- Orchard_alias:new(tile_quads[2302],self.gx,self.gy+5,self,118+8*5)				
-    -- Orchard_alias:new(tile_quads[2303],self.gx,self.gy+4,self,118+8*4)
-    -- Orchard_alias:new(tile_quads[2304],self.gx,self.gy+3,self,118+8*3)
-    -- Orchard_alias:new(tile_quads[2305],self.gx,self.gy+2,self,118+8*2)
-    -- Orchard_alias:new(tile_quads[2306],self.gx,self.gy+1,self,118+8*1)
     local offset_x, offset_y = -64 - 8, 116
     self.tree1 = Orchard_tree:new(self.gx + 1, self.gy + 6, self, offset_y, offset_x)
     self.tree2 = Orchard_tree:new(self.gx + 1, self.gy + 11, self, offset_y, offset_x)
@@ -157,28 +203,13 @@ function Orchard:initialize(gx, gy, type)
     self.tree6 = Orchard_tree:new(self.gx + 11, self.gy + 1, self, offset_y, offset_x)
     self.tree7 = Orchard_tree:new(self.gx + 11, self.gy + 6, self, offset_y, offset_x)
     self.tree8 = Orchard_tree:new(self.gx + 11, self.gy + 11, self, offset_y, offset_x)
-    -- Orchard_alias:new(tile_quads[2308],self.gx+1,self.gy,self,118+8*1,14)
-    -- Orchard_alias:new(tile_quads[2309],self.gx+2,self.gy,self,118+8*2,14)
-    -- Orchard_alias:new(tile_quads[2310],self.gx+3,self.gy,self,118+8*3,14)
-    -- Orchard_alias:new(tile_quads[2311],self.gx+4,self.gy,self,118+8*4,14)
-    -- Orchard_alias:new(tile_quads[2312],self.gx+5,self.gy,self,118+8*5,14)
-
-    -- Orchard_alias:new(tile_quads["empty"],self.gx+5,self.gy+1,self,12+8*4,16)
-    -- Orchard_alias:new(tile_quads["empty"],self.gx+5,self.gy+2,self,12w+8*4,16)
-    -- Orchard_alias:new(tile_quads["empty"],self.gx+5,self.gy+3,self,12+8*4,16)
-    -- Orchard_alias:new(tile_quads["empty"],self.gx+5,self.gy+4,self,12+8*4,16)
-    -- Orchard_alias:new(tile_quads["empty"],self.gx+5,self.gy+5,self,12+8*4,16)
-    -- Orchard_alias:new(tile_quads["empty"],self.gx+1,self.gy+5,self,12+8*4,16)
-    -- Orchard_alias:new(tile_quads["empty"],self.gx+2,self.gy+5,self,12+8*4,16)
-    -- Orchard_alias:new(tile_quads["empty"],self.gx+3,self.gy+5,self,12+8*4,16)
-    -- Orchard_alias:new(tile_quads["empty"],self.gx+4,self.gy+5,self,12+8*4,16)
 
     for xx = 0, 2 do
         for yy = 0, 2 do
-            local xxx = (self.gx + xx) % (chunk_width)
-            local yyy = (self.gy + yy) % (chunk_width)
-            local ccx = math.floor((self.gx + xx) / chunk_width)
-            local ccy = math.floor((self.gy + yy) / chunk_width)
+            local xxx = (self.gx + xx) % (_G.chunk_width)
+            local yyy = (self.gy + yy) % (_G.chunk_width)
+            local ccx = math.floor((self.gx + xx) / _G.chunk_width)
+            local ccy = math.floor((self.gy + yy) / _G.chunk_width)
             _G.buildingheightmap[ccx][ccy][xxx][yyy] = 15
         end
     end
@@ -186,15 +217,65 @@ function Orchard:initialize(gx, gy, type)
     self.free_spots = 1
     Structure.render(self)
 end
+function Orchard:serialize()
+    local data = {}
+    local struct_data = Structure.serialize(self)
+    for k, v in pairs(struct_data) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
+    data.health = self.health
+    data.working = self.working
+    data.offset_x = self.offset_x
+    data.offset_y = self.offset_y
+    data.state = self.state
+    data.working = self.working
+    data.free_spots = self.free_spots
+    if self.apple_worker then
+        data.apple_worker = _G.state:serializeObject(self.apple_worker)
+    end
+    data.tree1 = _G.state:serializeObject(self.tree1)
+    data.tree2 = _G.state:serializeObject(self.tree2)
+
+    data.tree3 = _G.state:serializeObject(self.tree3)
+    data.tree4 = _G.state:serializeObject(self.tree4)
+    data.tree5 = _G.state:serializeObject(self.tree5)
+
+    data.tree6 = _G.state:serializeObject(self.tree6)
+    data.tree7 = _G.state:serializeObject(self.tree7)
+    data.tree8 = _G.state:serializeObject(self.tree8)
+    return data
+end
+function Orchard.static:deserialize(data)
+    local obj = self:allocate()
+    Object.deserialize(obj, data)
+    Structure.load(obj, data)
+    obj.tile = quad_array[tiles + 1]
+    if data.apple_worker then
+        obj.apple_worker = _G.state:dereferenceObject(data.apple_worker)
+        obj.apple_worker.workplace = obj
+    end
+    obj.tree1 = _G.state:dereferenceObject(data.tree1)
+    obj.tree1.parent = self
+    obj.tree2 = _G.state:dereferenceObject(data.tree2)
+    obj.tree2.parent = self
+    obj.tree3 = _G.state:dereferenceObject(data.tree3)
+    obj.tree3.parent = self
+    obj.tree4 = _G.state:dereferenceObject(data.tree4)
+    obj.tree4.parent = self
+    obj.tree5 = _G.state:dereferenceObject(data.tree5)
+    obj.tree5.parent = self
+    obj.tree6 = _G.state:dereferenceObject(data.tree6)
+    obj.tree6.parent = self
+    obj.tree7 = _G.state:dereferenceObject(data.tree7)
+    obj.tree7.parent = self
+    obj.tree8 = _G.state:dereferenceObject(data.tree8)
+    obj.tree8.parent = self
+    Structure.render(obj)
+    return obj
+end
 function Orchard:join(worker)
-    -- if self.free_spots == 3 then
-    -- 	self.lift_worker = worker
-    -- 	worker.workplace = self
-    -- 	self.free_spots = self.free_spots - 1
-    -- elseif self.free_spots == 2 then
-    -- 	self.pull_worker = worker
-    -- 	worker.workplace = self
-    -- 	self.free_spots = self.free_spots - 1
     if self.free_spots == 1 then
         self.apple_worker = worker
         worker.workplace = self
@@ -202,31 +283,6 @@ function Orchard:join(worker)
     end
 end
 function Orchard:work(worker)
-    -- if self.lift_worker == worker then
-    -- 	worker.state = "Working"
-    -- 	worker.tile = tile_quads["empty"]
-    -- 	worker.animated = false
-    -- 	worker.gx = self.gx+3
-    -- 	worker.gy = self.gy+2
-    -- 	worker:job_update()
-    -- 	self.lifter.tile = tile_quads["anim_quarry_lower (1)"]
-    -- elseif self.pull_worker == worker then
-    -- 	worker.state = "Working"
-    -- 	worker.tile = tile_quads["empty"]
-    -- 	worker.animated = false
-    -- 	worker.gx = self.gx+4
-    -- 	worker.gy = self.gy+3
-    -- 	worker:job_update()
-    -- 	self.puller.tile = tile_quads["anim_quarry_pull (1)"]
-    -- elseif self.apple_worker == worker then
-    -- 	worker.state = "Working"
-    -- 	worker.tile = tile_quads["empty"]
-    -- 	worker.animated = false
-    -- 	worker.gx = self.gx+3
-    -- 	worker.gy = self.gy+4
-    -- 	worker:job_update()
-    -- 	self.shaper.tile = tile_quads["anim_quarry_cut (1)"]
-    -- end
     if self.apple_worker == worker then
         self.apple_worker.state = "Working"
         if self.state == 0 then
@@ -295,7 +351,6 @@ end
 function Orchard:send_to_stockpile()
     self.apple_worker.state = "Go to foodpile"
     self.apple_worker.move_dir = "none"
-    -- addObjectAt(cx, cy, i, o, self.apple_worker)		
     self.working = false
 end
 

@@ -20,7 +20,7 @@ function State:initialize()
     self.view_xview = -100
     self.view_yview = 4000
     -- TODO: Make the collision map dynamic
-    self.collision_map = ffi.new("unsigned char[2048][2048]", {})
+    self.collision_map = _G.ffi.new("unsigned char[2048][2048]", {})
     self.resources = {
         ['wood'] = 0,
         ['stone'] = 0,
@@ -49,9 +49,8 @@ function State:initialize()
     self.wheat_growing_season = false
 end
 
-function State:save(filename)
+function State:save()
     return self:serialize()
-    -- bitser.saveLoveFile(filename)
 end
 
 function State:serializeObject(obj)
@@ -91,7 +90,8 @@ function State:dereferenceObject(ref_obj)
             end
         end
     end
-    error("Couldn't dereference object:" .. tostring(self.raw_object_ids[ref]) .. " with ref" .. tostring(inspect(ref)))
+    error("Couldn't dereference object:" .. tostring(self.raw_object_ids[ref]) .. " with ref obj:" ..
+              tostring(_G.inspect(ref_obj)))
 end
 
 function State:serializeChunkObjects()
@@ -200,6 +200,7 @@ function State:serialize()
     data.spawn_point_x, data.spawn_point_y = _G.spawn_point_x, _G.spawn_point_y
     data.offset_x, data.offset_y = _G.offset_x, _G.offset_y
     data.campfire = _G.campfire:serialize()
+    data.food_controller = _G.foodpile:serialize()
     -- data.object_mesh = self.object_mesh
     -- data.object_mesh_vert_id_map = self.object_mesh_vert_id_map
     data.vertices_per_tile = self.vertices_per_tile
@@ -235,6 +236,7 @@ function State:load(filename)
     -- self.object_mesh_vert_id_map = load.object_mesh_vert_id_map
     self.vertices_per_tile = load.vertices_per_tile
     _G.BuildController:deserialize(load.build_controller)
+    _G.foodpile:deserialize(load.food_controller)
     _G.spawn_point_x, _G.spawn_point_y = load.spawn_point_x, load.spawn_point_y
     _G.offset_x, _G.offset_y = load.offset_x, load.offset_y
     local campfireClass = _G.getClassByName(load.campfire.class_name)

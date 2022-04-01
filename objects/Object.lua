@@ -125,7 +125,8 @@ function Object:serialize()
         return {}
     end
     if data.class_name ~= "Stockpile_alias" and data.class_name ~= "WheatFarm_alias" and data.class_name ~=
-        "WoodcutterHut_alias" and string.find(data.class_name or tostring(self.class), "alias") then
+        "WoodcutterHut_alias" and data.class_name ~= "Orchard_alias" and data.class_name ~= "Granary_alias" and
+        string.find(data.class_name or tostring(self.class), "alias") then
         return {}
     end
     return data

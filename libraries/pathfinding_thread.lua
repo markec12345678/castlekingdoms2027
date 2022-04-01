@@ -11,11 +11,11 @@ ffi.cdef [[
             node* _parent;
         };
         ]]
-collision_map = ffi.new("unsigned char[2048][2048]", {})
+_G.collision_map = ffi.new("unsigned char[2048][2048]", {})
 local Grid = require("libraries.jumper.grid") -- The grid class
 local Pathfinder = require("libraries.jumper.pathfinder") -- The pathfinder class
 local bitser = require("libraries.bitser")
-local grid = Grid(collision_map)
+local grid = Grid(_G.collision_map)
 local finder = Pathfinder(grid, 'JPS', 0)
 local channel = {}
 channel.request = love.thread.getChannel("request")

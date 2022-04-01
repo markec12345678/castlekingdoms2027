@@ -7,12 +7,25 @@ function Map:initialize()
     self.terrain_tile = newAutotable(4)
     self.terrain = newAutotable(2)
     self.water = newAutotable(2)
+    self.collision_map = _G.ffi.new("unsigned char[2048][2048]", {})
     -- TODO: Make it dynamic
     self.walking_heightmap = _G.ffi.new("unsigned short[2048][2048]", {})
 end
 
 function Map:setWalkable(gx, gy, walkable)
-    _G.channel.map_update:push({gx, gy, walkable})
+    walkable = walkable or 0
+    if gx >= 0 and gx < 2048 and gy >= 0 and gy < 2048 then
+        _G.channel.map_update:push({gx, gy, walkable})
+        self.collision_map[gx][gy] = walkable
+    else
+        print("Trying to set out of bounds as walkable..", gx, gy)
+    end
+end
+
+function Map:getWalkable(gx, gy)
+    if gx >= 1 and gx < 2048 and gy >= 0 and gy < 2048 then
+        return self.collision_map[gx][gy]
+    end
 end
 
 function Map:setHeight(gx, gy, height)
@@ -80,6 +93,26 @@ function Map:serializeHeightmap()
     return data
 end
 
+function Map:serializeCollisionMap()
+    local data = {}
+    for x = 0, 2048 do
+        data[x] = {}
+        for y = 0, 2048 do
+            data[x][y] = self:getWalkable(x, y)
+        end
+    end
+    return data
+end
+
+function Map:deserializeCollisionMap(data)
+    for x = 0, 2048 - 1 do
+        for y = 0, 2048 - 1 do
+            self:setWalkable(x, y, data[x][y])
+        end
+    end
+    return data
+end
+
 function Map:forceRefresh()
     for cx = 0, _G.chunks_wide - 1 do
         for cy = 0, _G.chunks_high - 1 do
@@ -125,12 +158,14 @@ function Map:serialize()
     local data = {}
     data.terrain = self:serializeTerrain()
     data.heightmap = self:serializeHeightmap()
+    data.collision = self:serializeCollisionMap()
     return data
 end
 
 function Map:deserialize(data)
     self:deserializeTerrain(data.terrain)
     self:deserializeHeightmap(data.heightmap)
+    self:deserializeCollisionMap(data.collision)
 end
 
 return Map

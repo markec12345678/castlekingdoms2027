@@ -47,4 +47,48 @@ function FoodController:take(food, amount)
         end
     end
 end
+function FoodController:serialize()
+    local data = {}
+    data.node_list = self.node_list
+    local food = {}
+    for foodtype, foodlist in pairs(self.food) do
+        food[foodtype] = {}
+        for i, foodpile in ipairs(foodlist) do
+            food[foodtype][i] = {}
+            for sk, sv in pairs(foodpile) do
+                if sk == "id" then
+                    food[foodtype][i][sk] = _G.state:serializeObject(sv)
+                else
+                    food[foodtype][i][sk] = sv
+                end
+            end
+        end
+    end
+    local granary_list = {}
+    for _, v in ipairs(self.list) do
+        granary_list[#granary_list + 1] = _G.state:serializeObject(v)
+    end
+    data.granary_list = granary_list
+    data.raw_food = food
+    return data
+end
+function FoodController:deserialize(data)
+    self.node_list = data.node_list
+    for foodtype, foodlist in pairs(data.raw_food) do
+        self.food[foodtype] = {}
+        for i, foodpile in ipairs(foodlist) do
+            self.food[foodtype][i] = {}
+            for sk, sv in pairs(foodpile) do
+                if sk == "id" then
+                    self.food[foodtype][i][sk] = _G.state:dereferenceObject(sv)
+                else
+                    self.food[foodtype][i][sk] = sv
+                end
+            end
+        end
+    end
+    for _, v in ipairs(data.granary_list) do
+        self.list[#self.list + 1] = _G.state:dereferenceObject(v)
+    end
+end
 return FoodController:new()
