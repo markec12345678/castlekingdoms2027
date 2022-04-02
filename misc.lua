@@ -54,19 +54,19 @@ end
 
 -- use this instead of table.remove for arrays
 function _G.arrayRemove(t, fnKeep)
-    local j, n = 1, #t;
+    local j, n = 1, #t
     for i = 1, n do
         if (fnKeep(t, i, j)) then
             if (i ~= j) then
-                t[j] = t[i];
-                t[i] = nil;
+                t[j] = t[i]
+                t[i] = nil
             end
-            j = j + 1;
+            j = j + 1
         else
-            t[i] = nil;
+            t[i] = nil
         end
     end
-    return t;
+    return t
 end
 
 local function update()
