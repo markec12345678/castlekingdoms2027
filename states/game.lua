@@ -2,6 +2,7 @@ local game = {}
 local Gamestate = require('libraries.gamestate')
 local core = require("misc")
 local thread, objects, terrain
+require("shaders.postshader")
 local ui = {
     show = {
         construction = false
@@ -82,12 +83,15 @@ end
 
 function game:draw()
     if not _G.test_mode then
-        love.graphics.push();
-        love.graphics.translate((love.graphics.getWidth() / 2), (love.graphics.getHeight() / 2));
+        love.postshader.setBuffer("render")
+        love.graphics.push()
+        love.graphics.translate((love.graphics.getWidth() / 2), (love.graphics.getHeight() / 2))
         objects.draw()
         _G.BuildController:draw()
         love.graphics.pop()
         core.draw()
+        love.postshader.addTiltshift()
+        love.postshader.draw()
     end
 end
 
@@ -168,6 +172,8 @@ function game:keyreleased(key, scancode)
             -- _G.saw.offset_x = _G.saw.offset_x - 1
         elseif key == "p" then
             print("x,y", _G.saw.offset_x, _G.saw.offset_y)
+        elseif key == "v" then
+            _G.foodpile:take()
         elseif key == "r" then
             _G.foodpile:store('bread')
             _G.foodpile:store('apples')
