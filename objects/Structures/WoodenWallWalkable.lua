@@ -7,7 +7,7 @@ function WoodenWallWalkable:initialize(gx, gy, type)
     Structure.initialize(self, gx, gy, mytype)
     self.gx = chunk_width * self.cx + self.i
     self.gy = chunk_width * self.cy + self.o
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 100
     self.qid = nil
     self.tile = tile_quads["wood_wall_walkable"]

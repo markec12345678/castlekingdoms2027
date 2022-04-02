@@ -1,4 +1,3 @@
-local bitser = require("libraries.bitser")
 local terrain_table = require('terrain.terrain')
 local object_table = require('objects.objects')
 local terrain_batch = terrain_table.batch
@@ -41,27 +40,20 @@ local function objectClean(cx, cy)
             save = true
         end
     end
-    if save then
-        bitser.dumpLoveFile(filename, chunk_ser)
-    else
-        status[cx][cy] = nil
-    end
+    -- if save then
+    --     bitser.dumpLoveFile(filename, chunk_ser)
+    -- else
+    --     status[cx][cy] = nil
+    -- end
     -- if save then assert(inspect(bitser.loadLoveFile(filename))) end
     -- object[cx][cy] = nil
     -- object_batch[cx][cy] = nil
     shadow_batch[cx][cy] = nil
 end
 
-local function loadObjects(cx, cy, data)
-    for _, obj in ipairs(data) do
-        local ob = object_hashMap[obj.class]
-        ob:deserialize(obj)
-    end
-end
-
 local function loadChunk(cx, cy)
-    status[cx][cy] = 3
-    -- for k,v in pairs(_G.chunk_objects[cx][cy]) do
+    -- status[cx][cy] = 3
+    -- for k,v in pairs(_G.state.chunk_objects[cx][cy]) do
     -- 	v:activate();
     -- end
     -- print("Activating..")
@@ -69,9 +61,9 @@ local function loadChunk(cx, cy)
     if true then
         return
     end -- warning temp disabled
-    local chunk_ser = bitser.loadLoveFile("chunk-test" .. cx .. "l" .. cy .. ".bin")
-    print("Loading", cx, cy)
-    loadObjects(cx, cy, chunk_ser.objects)
+    -- local chunk_ser = bitser.loadLoveFile("chunk-test" .. cx .. "l" .. cy .. ".bin")
+    -- print("Loading", cx, cy)
+    -- loadObjects(cx, cy, chunk_ser.objects)
 end
 
 local function chunkGarbageCollect()
@@ -147,7 +139,7 @@ local function chunkGarbageCollect()
 end
 
 local function chunkUnload(x, y)
-    local l = terrain_chunks
+    local l = _G.state.terrain_chunks
     local previous = nil
     local first = true
     while l do
@@ -167,21 +159,21 @@ local function chunkUnload(x, y)
 end
 
 local function chunkUpdateList()
-    local l = terrain_chunks
+    local l = _G.state.terrain_chunks
     while l do
         chunkUnload(l.chunkx, l.chunky)
         l = l.next
     end
-    local chunk_width_in_pixels = _G.chunk_width * _G.tile_width * scale_x
-    local chunk_height_in_pixels = _G.chunk_height * _G.tile_height * scale_y
+    local chunk_width_in_pixels = _G.chunk_width * _G.tile_width * _G.state.scale_x
+    local chunk_height_in_pixels = _G.chunk_height * _G.tile_height * _G.state.scale_x
     local chunks_to_load_wide = love.graphics.getWidth() / chunk_width_in_pixels
     local chunks_to_load_high = love.graphics.getHeight() / chunk_height_in_pixels
 
     local loaded_1, loaded_2, loaded_3, loaded_4 = false
     for x = -math.round(chunks_to_load_wide / 2), math.round(chunks_to_load_wide / 2) do
         for y = -math.round(chunks_to_load_high / 2), math.round(chunks_to_load_high / 2) do
-            terrain_chunks = {
-                next = terrain_chunks,
+            _G.state.terrain_chunks = {
+                next = _G.state.terrain_chunks,
                 chunkx = current_chunk_x + x,
                 chunky = current_chunk_y + y
             }
@@ -197,59 +189,46 @@ local function chunkUpdateList()
             if current_chunk_y + y == _G.ychunk - 1 then
                 loaded_4 = true
             end
-            if status[current_chunk_x + x][current_chunk_y + y] == nil then
-            elseif status[current_chunk_x + x][current_chunk_y + y] == 2 then
-                loadChunk(current_chunk_x + x, current_chunk_y + y)
-            end
+            -- if status[current_chunk_x + x][current_chunk_y + y] == 2 then
+            loadChunk(current_chunk_x + x, current_chunk_y + y)
+            -- end
         end
     end
     if not loaded_1 then
         local lx, ly = _G.xchunk + 1, _G.ychunk
-        terrain_chunks = {
-            next = terrain_chunks,
+        _G.state.terrain_chunks = {
+            next = _G.state.terrain_chunks,
             chunkx = lx,
             chunky = ly
         }
-        if status[lx][ly] == nil then
-        elseif status[lx][ly] == 2 then
-            loadChunk(lx, ly)
-        end
+        loadChunk(lx, ly)
     end
     if not loaded_2 then
         local lx, ly = _G.xchunk - 1, _G.ychunk
-        terrain_chunks = {
-            next = terrain_chunks,
+        _G.state.terrain_chunks = {
+            next = _G.state.terrain_chunks,
             chunkx = lx,
             chunky = ly
         }
-        if status[lx][ly] == nil then
-        elseif status[lx][ly] == 2 then
-            loadChunk(lx, ly)
-        end
+        loadChunk(lx, ly)
     end
     if not loaded_3 then
         local lx, ly = _G.xchunk, _G.ychunk + 1
-        terrain_chunks = {
-            next = terrain_chunks,
+        _G.state.terrain_chunks = {
+            next = _G.state.terrain_chunks,
             chunkx = lx,
             chunky = ly
         }
-        if status[lx][ly] == nil then
-        elseif status[lx][ly] == 2 then
-            loadChunk(lx, ly)
-        end
+        loadChunk(lx, ly)
     end
     if not loaded_4 then
         local lx, ly = _G.xchunk, _G.ychunk - 1
-        terrain_chunks = {
-            next = terrain_chunks,
+        _G.state.terrain_chunks = {
+            next = _G.state.terrain_chunks,
             chunkx = lx,
             chunky = ly
         }
-        if status[lx][ly] == nil then
-        elseif status[lx][ly] == 2 then
-            loadChunk(lx, ly)
-        end
+        loadChunk(lx, ly)
     end
 end
 

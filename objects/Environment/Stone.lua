@@ -1,12 +1,13 @@
-local object_batch, active_objects, tile_quads, object = ...
+local _, _, _, _ = ...
 local Object = require("objects.Object")
 
 local tiles_stone = _G.indexQuads("tile_destroyed_stone", 32)
 
-local Stone = class('Stone', Object)
+local Stone = _G.class('Stone', Object)
 function Stone:initialize(gx, gy, type)
     Object.initialize(self, gx, gy, type)
-    self.tile = tiles_stone[love.math.random(1, 32)]
+    self.tile_key = love.math.random(1, 32)
+    self.tile = tiles_stone[self.tile_key]
     local _, _, _, lh = self.tile:getViewport()
     self.offset_y = 16 - lh + 3
     _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
@@ -33,4 +34,28 @@ function Stone:initialize(gx, gy, type)
         end
     end
 end
+
+function Stone:serialize()
+    local data = {}
+    local object_data = Object.serialize(self)
+    for k, v in pairs(object_data) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
+    data.tile_key = self.tile_key
+    data.offset_y = self.offset_y
+    return data
+end
+
+function Stone.static:deserialize(data)
+    local obj = self:allocate()
+    Object.deserialize(obj, data)
+    obj.tile_key = data.tile_key
+    obj.tile = tiles_stone[data.tile_key]
+    obj:render()
+    _G.addObjectAt(obj.cx, obj.cy, obj.i, obj.o, obj)
+    return obj
+end
+
 return Stone

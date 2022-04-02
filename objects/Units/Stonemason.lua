@@ -1,85 +1,125 @@
-local object, tile_quads = ...
+local _, _ = ...
+
 local Unit = require("objects.Units.Unit")
+local Object = require("objects.Object")
+local anim = require("libraries.anim8")
 
-local fr_walking_stone_east = indexQuads("body_stonemason_walk_stone_e", 16)
-local fr_walking_stone_north = indexQuads("body_stonemason_walk_stone_n", 16)
-local fr_walking_stone_west = indexQuads("body_stonemason_walk_stone_w", 16)
-local fr_walking_stone_south = indexQuads("body_stonemason_walk_stone_s", 16)
-local fr_walking_stone_northeast = indexQuads("body_stonemason_walk_stone_ne", 16)
-local fr_walking_stone_northwest = indexQuads("body_stonemason_walk_stone_nw", 16)
-local fr_walking_stone_southeast = indexQuads("body_stonemason_walk_stone_se", 16)
-local fr_walking_stone_southwest = indexQuads("body_stonemason_walk_stone_sw", 16)
-local fr_walking_east = indexQuads("body_stonemason_walk_e", 16)
-local fr_walking_north = indexQuads("body_stonemason_walk_n", 16)
-local fr_walking_northeast = indexQuads("body_stonemason_walk_ne", 16)
-local fr_walking_northwest = indexQuads("body_stonemason_walk_nw", 16)
-local fr_walking_south = indexQuads("body_stonemason_walk_s", 16)
-local fr_walking_southeast = indexQuads("body_stonemason_walk_se", 16)
-local fr_walking_southwest = indexQuads("body_stonemason_walk_sw", 16)
-local fr_walking_west = indexQuads("body_stonemason_walk_w", 16)
+local fr_walking_stone_east = _G.indexQuads("body_stonemason_walk_stone_e", 16)
+local fr_walking_stone_north = _G.indexQuads("body_stonemason_walk_stone_n", 16)
+local fr_walking_stone_west = _G.indexQuads("body_stonemason_walk_stone_w", 16)
+local fr_walking_stone_south = _G.indexQuads("body_stonemason_walk_stone_s", 16)
+local fr_walking_stone_northeast = _G.indexQuads("body_stonemason_walk_stone_ne", 16)
+local fr_walking_stone_northwest = _G.indexQuads("body_stonemason_walk_stone_nw", 16)
+local fr_walking_stone_southeast = _G.indexQuads("body_stonemason_walk_stone_se", 16)
+local fr_walking_stone_southwest = _G.indexQuads("body_stonemason_walk_stone_sw", 16)
+local fr_walking_east = _G.indexQuads("body_stonemason_walk_e", 16)
+local fr_walking_north = _G.indexQuads("body_stonemason_walk_n", 16)
+local fr_walking_northeast = _G.indexQuads("body_stonemason_walk_ne", 16)
+local fr_walking_northwest = _G.indexQuads("body_stonemason_walk_nw", 16)
+local fr_walking_south = _G.indexQuads("body_stonemason_walk_s", 16)
+local fr_walking_southeast = _G.indexQuads("body_stonemason_walk_se", 16)
+local fr_walking_southwest = _G.indexQuads("body_stonemason_walk_sw", 16)
+local fr_walking_west = _G.indexQuads("body_stonemason_walk_w", 16)
 
-local Stonemason = class('Stonemason', Unit)
+local ANIM_WALKING_STONE_EAST = "walking_stone_east"
+local ANIM_WALKING_STONE_NORTH = "walking_stone_north"
+local ANIM_WALKING_STONE_WEST = "walking_stone_west"
+local ANIM_WALKING_STONE_SOUTH = "walking_stone_south"
+local ANIM_WALKING_STONE_NORTHEAST = "walking_stone_northeast"
+local ANIM_WALKING_STONE_NORTHWEST = "walking_stone_northwest"
+local ANIM_WALKING_STONE_SOUTHEAST = "walking_stone_southeast"
+local ANIM_WALKING_STONE_SOUTHWEST = "walking_stone_southwest"
+local ANIM_WALKING_EAST = "walking_east"
+local ANIM_WALKING_NORTH = "walking_north"
+local ANIM_WALKING_NORTHEAST = "walking_northeast"
+local ANIM_WALKING_NORTHWEST = "walking_northwest"
+local ANIM_WALKING_SOUTH = "walking_south"
+local ANIM_WALKING_SOUTHEAST = "walking_southeast"
+local ANIM_WALKING_SOUTHWEST = "walking_southwest"
+local ANIM_WALKING_WEST = "walking_west"
+
+local an = {
+    [ANIM_WALKING_STONE_EAST] = fr_walking_stone_east,
+    [ANIM_WALKING_STONE_NORTH] = fr_walking_stone_north,
+    [ANIM_WALKING_STONE_WEST] = fr_walking_stone_west,
+    [ANIM_WALKING_STONE_SOUTH] = fr_walking_stone_south,
+    [ANIM_WALKING_STONE_NORTHEAST] = fr_walking_stone_northeast,
+    [ANIM_WALKING_STONE_NORTHWEST] = fr_walking_stone_northwest,
+    [ANIM_WALKING_STONE_SOUTHEAST] = fr_walking_stone_southeast,
+    [ANIM_WALKING_STONE_SOUTHWEST] = fr_walking_stone_southwest,
+    [ANIM_WALKING_EAST] = fr_walking_east,
+    [ANIM_WALKING_NORTH] = fr_walking_north,
+    [ANIM_WALKING_NORTHEAST] = fr_walking_northeast,
+    [ANIM_WALKING_NORTHWEST] = fr_walking_northwest,
+    [ANIM_WALKING_SOUTH] = fr_walking_south,
+    [ANIM_WALKING_SOUTHEAST] = fr_walking_southeast,
+    [ANIM_WALKING_SOUTHWEST] = fr_walking_southwest,
+    [ANIM_WALKING_WEST] = fr_walking_west
+}
+local Stonemason = _G.class('Stonemason', Unit)
 function Stonemason:initialize(gx, gy, type)
     Unit.initialize(self, gx, gy, type)
     self.workplace = nil
     self.state = 'Find a job'
-    self.marked = 0
     self.count = 1
     self.offset_y = -10
     self.offset_x = -5
     self.eat_timer = 0
-    self.timr = 0
     self.animated = true
-    self.animation = anim.newAnimation(fr_walking_west, 10)
+    self.animation = anim.newAnimation(an[ANIM_WALKING_WEST], 10, nil, ANIM_WALKING_WEST)
 end
 function Stonemason:dir_sub_update()
     if self.move_dir == "west" then
         if self.state == "Going to stockpile" then
-            self.animation = anim.newAnimation(fr_walking_stone_west, 0.05)
+            self.animation = anim.newAnimation(an[ANIM_WALKING_STONE_WEST], 0.05, nil, ANIM_WALKING_STONE_WEST)
         else
-            self.animation = anim.newAnimation(fr_walking_west, 0.05)
+            self.animation = anim.newAnimation(an[ANIM_WALKING_WEST], 0.05, nil, ANIM_WALKING_WEST)
         end
     elseif self.move_dir == "southwest" then
         if self.state == "Going to stockpile" then
-            self.animation = anim.newAnimation(fr_walking_stone_southwest, 0.05)
+            self.animation =
+                anim.newAnimation(an[ANIM_WALKING_STONE_SOUTHWEST], 0.05, nil, ANIM_WALKING_STONE_SOUTHWEST)
         else
-            self.animation = anim.newAnimation(fr_walking_southwest, 0.05)
+            self.animation = anim.newAnimation(an[ANIM_WALKING_SOUTHWEST], 0.05, nil, ANIM_WALKING_SOUTHWEST)
         end
     elseif self.move_dir == "northwest" then
         if self.state == "Going to stockpile" then
-            self.animation = anim.newAnimation(fr_walking_stone_northwest, 0.05)
+            self.animation =
+                anim.newAnimation(an[ANIM_WALKING_STONE_NORTHWEST], 0.05, nil, ANIM_WALKING_STONE_NORTHWEST)
         else
-            self.animation = anim.newAnimation(fr_walking_northwest, 0.05)
+            self.animation = anim.newAnimation(an[ANIM_WALKING_NORTHWEST], 0.05, nil, ANIM_WALKING_NORTHWEST)
         end
     elseif self.move_dir == "north" then
         if self.state == "Going to stockpile" then
-            self.animation = anim.newAnimation(fr_walking_stone_north, 0.05)
+            self.animation = anim.newAnimation(an[ANIM_WALKING_STONE_NORTH], 0.05, nil, ANIM_WALKING_STONE_NORTH)
         else
-            self.animation = anim.newAnimation(fr_walking_north, 0.05)
+            self.animation = anim.newAnimation(an[ANIM_WALKING_NORTH], 0.05, nil, ANIM_WALKING_NORTH)
         end
     elseif self.move_dir == "south" then
         if self.state == "Going to stockpile" then
-            self.animation = anim.newAnimation(fr_walking_stone_south, 0.05)
+            self.animation = anim.newAnimation(an[ANIM_WALKING_STONE_SOUTH], 0.05, nil, ANIM_WALKING_STONE_SOUTH)
         else
-            self.animation = anim.newAnimation(fr_walking_south, 0.05)
+            self.animation = anim.newAnimation(an[ANIM_WALKING_SOUTH], 0.05, nil, ANIM_WALKING_SOUTH)
         end
     elseif self.move_dir == "east" then
         if self.state == "Going to stockpile" then
-            self.animation = anim.newAnimation(fr_walking_stone_east, 0.05)
+            self.animation = anim.newAnimation(an[ANIM_WALKING_STONE_EAST], 0.05, nil, ANIM_WALKING_STONE_EAST)
         else
-            self.animation = anim.newAnimation(fr_walking_east, 0.05)
+            self.animation = anim.newAnimation(an[ANIM_WALKING_EAST], 0.05, nil, ANIM_WALKING_EAST)
         end
     elseif self.move_dir == "southeast" then
         if self.state == "Going to stockpile" then
-            self.animation = anim.newAnimation(fr_walking_stone_southeast, 0.05)
+            self.animation =
+                anim.newAnimation(an[ANIM_WALKING_STONE_SOUTHEAST], 0.05, nil, ANIM_WALKING_STONE_SOUTHEAST)
         else
-            self.animation = anim.newAnimation(fr_walking_southeast, 0.05)
+            self.animation = anim.newAnimation(an[ANIM_WALKING_SOUTHEAST], 0.05, nil, ANIM_WALKING_SOUTHEAST)
         end
     elseif self.move_dir == "northeast" then
         if self.state == "Going to stockpile" then
-            self.animation = anim.newAnimation(fr_walking_stone_northeast, 0.05)
+            self.animation =
+                anim.newAnimation(an[ANIM_WALKING_STONE_NORTHEAST], 0.05, nil, ANIM_WALKING_STONE_NORTHEAST)
         else
-            self.animation = anim.newAnimation(fr_walking_northeast, 0.05)
+            self.animation = anim.newAnimation(an[ANIM_WALKING_NORTHEAST], 0.05, nil, ANIM_WALKING_NORTHEAST)
         end
     end
 end
@@ -99,8 +139,8 @@ function Stonemason:update()
                 self.state = "Going to stockpile"
                 local closest_node
                 local distance = math.huge
-                for k, v in ipairs(_G.stockpile.node_list) do
-                    local tmp = manhattan_distance(v.gx, v.gy, self.gx, self.gy)
+                for _, v in ipairs(_G.stockpile.node_list) do
+                    local tmp = _G.manhattan_distance(v.gx, v.gy, self.gx, self.gy)
                     if tmp < distance then
                         distance = tmp
                         closest_node = v
@@ -134,8 +174,6 @@ function Stonemason:update()
         elseif self.move_dir == "none" and self.state == "Going to stockpile" then
             self:update_direction()
         end
-        self.timr = self.timr + 1
-        self.timr = self.timr % 60
         if self.state == "Going to workplace" or self.state == "Going to stockpile" then
             self:move()
         end
@@ -174,5 +212,33 @@ end
 function Stonemason:animate()
     self:update()
     Unit.animate(self)
+end
+function Stonemason:load(data)
+    Object.deserialize(self, data)
+    Unit.load(self, data)
+    local an_data = data.animation
+    if an_data then
+        self.animation = anim.newAnimation(an[an_data.animation_identifier], 1, nil, an_data.animation_identifier)
+        self.animation:deserialize(an_data)
+    end
+end
+function Stonemason:serialize()
+    local data = {}
+    local unit_data = Unit.serialize(self)
+    for k, v in pairs(unit_data) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
+    if self.animation then
+        data.animation = self.animation:serialize()
+    end
+    data.state = self.state
+    data.eat_timer = self.eat_timer
+    data.offset_y = self.offset_y
+    data.offset_x = self.offset_x
+    data.animated = self.animated
+    data.count = self.count
+    return data
 end
 return Stonemason

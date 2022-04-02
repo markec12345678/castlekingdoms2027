@@ -10,8 +10,8 @@ function Unit:initialize(gx, gy, type, no_path_state)
     self.fx = self.gx * 1000 + 500
     self.fy = self.gy * 1000 + 500
     self.previous_fx, self.previous_fy = self.fx, self.fy
-    self.previous_cx = cx
-    self.previous_cy = cx
+    self.previous_cx = nil
+    self.previous_cy = nil
     self.has_move_dir = false
     self.waypoint_x = nil
     self.waypoint_y = nil
@@ -22,14 +22,11 @@ function Unit:initialize(gx, gy, type, no_path_state)
     self.originalx = self.gx
     self.originaly = self.gy
     self.nd = {}
-    self.nd_len = 0
     self.path = 0
     self.path_state = "None"
     self.move_dir = "none"
-    self.update_dir = true
     self.previous_dir = "none"
     self.animated = true
-    self.changed_chunks = 0
     self.no_path_state = no_path_state or "No path"
     self.need_new_vert_asap = false
     self.lrcx, self.lrcy, self.lrx, self.lry = 0, 0, 0, 0
@@ -50,9 +47,12 @@ function Unit:isPositionAt(px, py)
 end
 function Unit:animate()
     if self == nil or self.animation == nil then
-        return -- nothing to animate
+        return -- nothing to animated_alias
     end
     local updated = self.animation:update(_G.dt)
+    if self == nil or self.animation == nil then
+        return -- animation may have been deleted on callback
+    end
     local changed_tiles = self.i ~= self.last_i or self.o ~= self.last_o or self.need_new_vert_asap
     updated = updated or changed_tiles
     if self.instancemesh then
@@ -65,12 +65,12 @@ function Unit:animate()
                     quad_offset[self.animation:getQuad()][2] or 0
             end
             local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(
-                self.x + (self.offset_x or 0) + offset_x,
-                self.y + (self.offset_y or 0) + offset_y - _G.height_map[math.round(self.gx)][math.round(self.gy)])
+                self.x + (self.offset_x or 0) + offset_x, self.y + (self.offset_y or 0) + offset_y -
+                    _G.state.map.walking_heightmap[math.round(self.gx)][math.round(self.gy)])
 
             local elevation_offset_y = 0
-            if _G.heightmap[self.cx][self.cy][self.i][self.o] then
-                elevation_offset_y = _G.heightmap[self.cx][self.cy][self.i][self.o]
+            if _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] then
+                elevation_offset_y = _G.state.map.heightmap[self.cx][self.cy][self.i][self.o]
             end
             y = y - elevation_offset_y * 2
             local qx, qy, qw, qh = quad:getViewport()
@@ -109,11 +109,12 @@ function Unit:animate()
                 quad_offset[self.animation:getQuad()][2] or 0
         end
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
-            self.y + (self.offset_y or 0) + offset_y - _G.height_map[math.round(self.gx)][math.round(self.gy)])
+            self.y + (self.offset_y or 0) + offset_y -
+                _G.state.map.walking_heightmap[math.round(self.gx)][math.round(self.gy)])
 
         local elevation_offset_y = 0
-        if _G.heightmap[self.cx][self.cy][self.i][self.o] then
-            elevation_offset_y = _G.heightmap[self.cx][self.cy][self.i][self.o]
+        if _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] then
+            elevation_offset_y = _G.state.map.heightmap[self.cx][self.cy][self.i][self.o]
         end
         y = y - elevation_offset_y * 2
         local qx, qy, qw, qh = quad:getViewport()
@@ -127,20 +128,21 @@ function Unit:animate()
         self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh, 1 - shadow_value / 1.5)
         return
     end
-    if not self.instancemesh and _G.object_mesh then
+    if not self.instancemesh and _G.state.object_mesh then
         self:update_position()
         local offset_x, offset_y = 0, 0
         if quad_offset[self.animation:getQuad()] then
             offset_x, offset_y = quad_offset[self.animation:getQuad()][1] or 0,
                 quad_offset[self.animation:getQuad()][2] or 0
         end
-        local instancemesh = object_mesh[self.cx][self.cy]
+        local instancemesh = _G.state.object_mesh[self.cx][self.cy]
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offset_x or 0) + offset_x,
-            self.y + (self.offset_y or 0) + offset_y - _G.height_map[math.round(self.gx)][math.round(self.gy)])
+            self.y + (self.offset_y or 0) + offset_y -
+                _G.state.map.walking_heightmap[math.round(self.gx)][math.round(self.gy)])
 
         local elevation_offset_y = 0
-        if _G.heightmap[self.cx][self.cy][self.i][self.o] then
-            elevation_offset_y = _G.heightmap[self.cx][self.cy][self.i][self.o]
+        if _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] then
+            elevation_offset_y = _G.state.map.heightmap[self.cx][self.cy][self.i][self.o]
         end
         y = y - elevation_offset_y * 2
         local qx, qy, qw, qh = quad:getViewport()
@@ -196,30 +198,29 @@ function Unit:pathfind()
         print("AVOIDED DISASTER, TODO: RETURN RESULT")
         return
     end
+    if not self.startx or not self.starty or not self.endx or not self.endy then
+        print(self.startx, self.starty, self.endx, self.endy)
+        error("Trying to pathfind with wrong coordinates")
+    end
     self.path = _G.finder:getPath(self.startx, self.starty, self.endx, self.endy)
     if self.path then
         if type(self.path) == "table" then
             self.nd = {}
-            local first, second = true, false -- skip the first node, because it's our position
-            local count, len_offset = 0, 0
-            local last_count = 0
+            local first = true -- skip the first node, because it's our position
+            local count = 0
             for _, node in ipairs(self.path) do
                 if not first then
                     self.nd[count] = node
-                    last_count = count
                     count = count + 1
-                    second = true
                 else
                     if node[1] == self.gx and node[2] == self.gy then
                         self.nd[-1] = node
                     else
                         self.nd[count] = node
-                        last_count = count
                     end
                     first = false
                 end
             end
-            self.nd_len = last_count
             self.count = 1
             self.waypoint_x = self.nd[0][1] + 0.5
             self.waypoint_y = self.nd[0][2] + 0.5
@@ -228,6 +229,7 @@ function Unit:pathfind()
             return true
         elseif self.path == 2 then
             self.path_state = "No path"
+            print("No path found", self.state)
             self.state = self.no_path_state
         end
     end
@@ -321,18 +323,18 @@ function Unit:update_position()
         self.last_chunk_instancemesh = self.instancemesh
         if self.animation then
             local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(
-                self.x + (self.offset_x or 0) + _G.offset_x,
-                self.y + (self.offset_y or 0) + _G.offset_y - _G.height_map[math.floor(self.gx)][math.floor(self.gy)])
+                self.x + (self.offset_x or 0) + _G.offset_x, self.y + (self.offset_y or 0) + _G.offset_y -
+                    _G.state.map.walking_heightmap[math.floor(self.gx)][math.floor(self.gy)])
             local qx, qy, qw, qh = quad:getViewport()
             _G.freeVertexFromTile(self.previous_cx, self.previous_cy, self.vert_id)
             local new_vert = _G.getFreeVertexFromTile(self.cx, self.cy, self.i, self.o)
             if new_vert then
                 self.vert_id = new_vert
                 self.need_new_vert_asap = false
-                self.instancemesh = _G.object_mesh[self.cx][self.cy]
+                self.instancemesh = _G.state.object_mesh[self.cx][self.cy]
                 self.vert_data = {x, y, qx, qy, qw, qh, 1}
                 local shadow_value = _G.shadowmap[self.cx][self.cy][self.i][self.o] or 0
-                local elevation_offset_y = _G.heightmap[self.cx][self.cy][self.i][self.o] or 0
+                local elevation_offset_y = _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] or 0
                 local is_in_shadow = shadow_value > elevation_offset_y
                 if is_in_shadow then
                     shadow_value = math.min((shadow_value - elevation_offset_y) / 40, 0.6) / 1.25
@@ -341,13 +343,11 @@ function Unit:update_position()
                 end
                 self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh, 1 - shadow_value / 1.5)
                 self.has_animation = true
-                self.changed_chunks = 1
             else
                 self.need_new_vert_asap = true
             end
         else
             self.need_new_vert_asap = true
-
         end
     end
     self.lrcx, self.lrcy, self.lrx, self.lry = self.cx, self.cy, xx, yy
@@ -359,7 +359,7 @@ function Unit:update_position()
     end
     self:calculate_position()
 end
-function Unit:move(special)
+function Unit:move()
     if not self.has_move_dir then
         self:dir_sub_update()
         self.has_move_dir = true
@@ -428,6 +428,60 @@ function Unit:job_update()
     _G.freeVertexFromTile(self.cx, self.cy, self.vert_id)
     self.instancemesh = nil
     self.animation = nil
+end
+function Unit:serialize()
+    local data = {}
+    local object_data = Object.serialize(self)
+    for k, v in pairs(object_data) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
+    data.startx = self.startx
+    data.starty = self.starty
+    data.endx = self.endx
+    data.endy = self.endy
+    data.last_i, data.last_o = self.last_i, self.last_o
+    data.fx = self.fx
+    data.fy = self.fy
+    data.previous_fx, data.previous_fy = self.previous_fx, self.previous_fy
+    data.previous_cx = self.previous_cx
+    data.previous_cy = self.previous_cy
+    data.has_move_dir = self.has_move_dir
+    data.waypoint_x = self.waypoint_x
+    data.waypoint_y = self.waypoint_y
+    data.straight_walk_speed = self.straight_walk_speed
+    data.diagonal_walk_speed = self.diagonal_walk_speed
+    data.unit_offset_x = self.unit_offset_x
+    data.unit_offset_y = self.unit_offset_y
+    data.originalx = self.originalx
+    data.originaly = self.originaly
+    data.nd = self.nd
+    data.path = self.path
+    data.path_state = self.path_state
+    data.move_dir = self.move_dir
+    data.previous_dir = self.previous_dir
+    data.animated = self.animated
+    data.no_path_state = self.no_path_state
+    data.need_new_vert_asap = self.need_new_vert_asap
+    data.lrcx, data.lrcy, data.lrx, data.lry = self.lrcx, self.lrcy, self.lrx, self.lry
+    return data
+end
+function Unit.static:deserialize(data)
+    local object = _G.getClassByName(data.class_name)
+    data.need_new_vert_asap = true
+    local obj = object:allocate()
+    Object.deserialize(obj, data)
+    if not obj.eat_timer then
+        obj.eat_timer = 0
+    end
+    obj:load(data)
+    return obj
+end
+function Unit:load(_)
+    _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
+    table.insert(active_entities, self)
+    self:calculate_position()
 end
 
 return Unit

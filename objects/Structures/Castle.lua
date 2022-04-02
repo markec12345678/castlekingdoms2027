@@ -1,5 +1,6 @@
-local object, tile_quads = ...
+local _, tile_quads = ...
 local Structure = require("objects.Structure")
+local Object = require("objects.Object")
 
 local tiles, quad_array = _G.indexBuildingQuads("small_wooden_castle (1)")
 local tile_castle_door_1 = tile_quads["doors_bits (3)"]
@@ -11,22 +12,22 @@ function Castle_door:initialize(tile, gx, gy, parent, offset_y, offset_x)
     Structure.initialize(self, gx, gy, mytype)
     self.gx = gx
     self.gy = gy
-    _G.setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.qid = nil
     self.tile = tile
     self.offset_x = offset_x or 0
-    self.offset_y = -67 + 16
+    self.offset_y = (offset_y or 0) + -67 + 16
     Structure.render(self)
 end
 
-local Castle_alias = class('Castle_alias', Structure)
+local Castle_alias = _G.class('Castle_alias', Structure)
 function Castle_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     local mytype = "Static structure"
     Structure.initialize(self, gx, gy, mytype)
     self.gx = gx
     self.gy = gy
-    setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.qid = nil
     self.tile = tile
@@ -35,11 +36,11 @@ function Castle_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     Structure.render(self)
 end
 
-local Castle = class('Castle', Structure)
+local Castle = _G.class('Castle', Structure)
 function Castle:initialize(gx, gy, type)
-    local mytype = "Static structure"
-    Structure.initialize(self, gx, gy, mytype)
-    setWalkable(self.gx, self.gy, 1)
+    type = type or "Castle (default)"
+    Structure.initialize(self, gx, gy, type)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 1000
     self.qid = nil
     self.tile = tile_quads["empty"]
@@ -58,29 +59,16 @@ function Castle:initialize(gx, gy, type)
             -self.offset_y + 8 * (tiles - tile + 1) + 48, 32)
     end
 
-    -- Castle_alias:new(tile_quads["empty"], self.gx - 5 + 6, self.gy + 6, self)
-    -- Castle_alias:new(tile_quads["empty"], self.gx - 4 + 6, self.gy + 6, self)
-    -- Castle_alias:new(tile_quads["empty"], self.gx - 3 + 6, self.gy + 6, self)
-    -- Castle_alias:new(tile_quads["empty"], self.gx - 2 + 6, self.gy + 6, self)
-    -- Castle_alias:new(tile_quads["empty"], self.gx - 1 + 6, self.gy + 6, self)
-
-    -- Castle_alias:new(tile_quads["empty"], self.gx + 6, self.gy + 6, self)
-
-    -- Castle_alias:new(tile_quads["empty"], self.gx + 6, self.gy - 1 + 6, self)
-    -- Castle_alias:new(tile_quads["empty"], self.gx + 6, self.gy - 2 + 6, self)
-    -- Castle_alias:new(tile_quads["empty"], self.gx + 6, self.gy - 3 + 6, self)
-    -- Castle_alias:new(tile_quads["empty"], self.gx + 6, self.gy - 4 + 6, self)
-    -- Castle_alias:new(tile_quads["empty"], self.gx + 6, self.gy - 5 + 6, self)
     Castle_door:new(tile_castle_door_1, self.gx + 2, self.gy + 7, self)
     Castle_door:new(tile_castle_door_2, self.gx + 4, self.gy + 7, self)
     _G.spawn_point_x, _G.spawn_point_y = self.gx + 3, self.gy + 8
 
     for xx = 0, 6 do
         for yy = 0, 6 do
-            local xxx = (self.gx + xx) % (chunk_width)
-            local yyy = (self.gy + yy) % (chunk_width)
-            local ccx = math.floor((self.gx + xx) / chunk_width)
-            local ccy = math.floor((self.gy + yy) / chunk_width)
+            local xxx = (self.gx + xx) % (_G.chunk_width)
+            local yyy = (self.gy + yy) % (_G.chunk_width)
+            local ccx = math.floor((self.gx + xx) / _G.chunk_width)
+            local ccy = math.floor((self.gy + yy) / _G.chunk_width)
             _G.buildingheightmap[ccx][ccy][xxx][yyy] = 23
         end
     end
@@ -94,6 +82,11 @@ function Castle:initialize(gx, gy, type)
         end
     end
     Structure.render(self)
+end
+function Castle.static:deserialize(data)
+    local obj = self:new(data.gx, data.gy, data.type)
+    Object.deserialize(obj, data)
+    return obj
 end
 
 return Castle

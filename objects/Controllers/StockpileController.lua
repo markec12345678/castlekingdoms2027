@@ -10,8 +10,8 @@ function StockpileController:initialize()
     }
     self.node_list = {}
 end
-function StockpileController:store(resource) -- TODO add amount
-    if _G.not_full_stockpiles[resource] < 1 then
+function StockpileController:store(resource) -- TODO: add amount
+    if _G.state.not_full_stockpiles[resource] < 1 then
         for _, v in ipairs(self.list) do
             if v:store(resource) then
                 break
@@ -28,10 +28,18 @@ function StockpileController:take(resource, amount)
         if next(self.resources[resource]) == nil then
             return false
         else
-            self.resources[resource][#self.resources[resource]].id.parent:take(resource,
-                self.resources[resource][#self.resources[resource]])
+            local res_table = self.resources[resource]
+            res_table[#res_table].id.parent:take(resource, res_table[#res_table])
         end
     end
     return true
+end
+function StockpileController:serialize()
+    local data = {
+        dummy = true
+    }
+    return data
+end
+function StockpileController:deserialize(_)
 end
 return StockpileController:new()

@@ -26,4 +26,22 @@ function Iron:initialize(gx, gy, type)
         end
     end
 end
+
+function Iron:serialize()
+    local data = {}
+    local object_data = Object.serialize(self)
+    for k, v in pairs(object_data) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
+    return data
+end
+
+function Iron.static:deserialize(data)
+    local obj = self:new(data.gx, data.gy, data.type)
+    Object.deserialize(obj, data)
+    return obj
+end
+
 return Iron

@@ -27,10 +27,12 @@ local function manual_gc(time_budget, safetynet_megabytes, disable_otherwise)
 end
 
 function game:init()
+    local new_game = not (love.filesystem.getInfo and love.filesystem.getInfo("status.bin"))
+    local State = require('objects.State')
+    _G.state = State:new()
     objects = love.filesystem.load('objects/objects.lua')(object_image)
     package.loaded['objects.objects'] = objects
     terrain = require('terrain.terrain')
-    terrain.genMap()
     _G.chunkUpdateList = require('objects.chunk_system')
     _G.BuildController = love.filesystem.load("objects/Controllers/BuildController.lua")(
         package.loaded['objects.objects'].object, object_image)
@@ -39,7 +41,17 @@ function game:init()
     thread = love.thread.newThread("libraries/pathfinding_thread.lua")
     thread:start()
     _G.finder = require('objects.Controllers.PathController')
-    _G.BuildController:set("castle")
+    if new_game then
+        terrain.genMap()
+        _G.BuildController:set("castle")
+    else
+        for cx = 0, _G.chunks_wide - 1 do
+            for cy = 0, _G.chunks_high - 1 do
+                _G.allocateMesh(cx, cy)
+            end
+        end
+        _G.state:load("status.bin")
+    end
 end
 
 function game:update(dt)

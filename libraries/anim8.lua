@@ -178,15 +178,25 @@ local Animationmt = {
 local nop = function()
 end
 
-local function newAnimation(frames, durations, onLoop)
+local function newAnimation(frames, durations, onLoop, animation_identifier)
     local td = type(durations);
     if (td ~= 'number' or durations <= 0) and td ~= 'table' then
         error("durations must be a positive number. Was " .. tostring(durations))
+    end
+    if (type(frames) == "string") then
+        error("expected animation frames but received a string: " .. frames)
+    end
+    if frames == nil then
+        error("anim8: frames are nil: " .. tostring(animation_identifier))
+    end
+    if animation_identifier ~= nil and (type(animation_identifier) ~= "string") then
+        error("anim8: received wrong type of animation identifier: " .. tostring(type(animation_identifier)))
     end
     onLoop = onLoop or nop
     durations = parseDurations(durations, #frames)
     local intervals, totalDuration = parseIntervals(durations)
     return setmetatable({
+        animation_identifier = animation_identifier,
         frames = cloneArray(frames),
         durations = durations,
         intervals = intervals,
@@ -198,6 +208,39 @@ local function newAnimation(frames, durations, onLoop)
         flippedH = false,
         flippedV = false
     }, Animationmt)
+end
+
+function Animation:serialize()
+    if not self.animation_identifier then
+        error("No animation_identifier, cannot serialize")
+        return
+    end
+    local data = {}
+    data.type = "Anim8"
+    data.animation_identifier = self.animation_identifier
+    data.durations = self.durations
+    data.intervals = self.intervals
+    data.totalDuration = self.totalDuration
+    data.timer = self.timer
+    data.position = self.position
+    data.status = self.status
+    if type(self.onLoop) == "string" then
+        data.onLoop = self.onLoop
+    end
+    return data
+end
+
+function Animation:deserialize(data)
+    self.animation_identifier = data.animation_identifier
+    self.durations = data.durations
+    self.intervals = data.intervals
+    self.totalDuration = data.totalDuration
+    self.timer = data.timer
+    self.position = data.position
+    self.status = data.status
+    if type(data.onLoop) == "string" then
+        self.onLoop = data.onLoop
+    end
 end
 
 function Animation:clone()
