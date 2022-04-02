@@ -91,18 +91,20 @@ function Peasant:load(data)
     Unit.load(self, data)
     local an_data = data.animation
     local callback
-    if an_data.animation_identifier == AN_BOWING then
-        callback = function(animation)
-            animation:pause()
-            self.state = "Going to campfire"
+    if an_data then
+        if an_data.animation_identifier == AN_BOWING then
+            callback = function(animation)
+                animation:pause()
+                self.state = "Going to campfire"
+            end
+        elseif an_data.animation_identifier == AN_BOWING_FOR_A_JOB then
+            callback = function()
+                self:bowing_job_callback()
+            end
         end
-    elseif an_data.animation_identifier == AN_BOWING_FOR_A_JOB then
-        callback = function()
-            self:bowing_job_callback()
-        end
+        self.animation = anim.newAnimation(an[an_data.animation_identifier], 1, callback, an_data.animation_identifier)
+        self.animation:deserialize(an_data)
     end
-    self.animation = anim.newAnimation(an[an_data.animation_identifier], 1, callback, an_data.animation_identifier)
-    self.animation:deserialize(an_data)
 end
 function Peasant:dir_sub_update()
     if self.move_dir == "west" then

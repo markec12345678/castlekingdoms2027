@@ -198,6 +198,10 @@ function Unit:pathfind()
         print("AVOIDED DISASTER, TODO: RETURN RESULT")
         return
     end
+    if not self.startx or not self.starty or not self.endx or not self.endy then
+        print(self.startx, self.starty, self.endx, self.endy)
+        error("Trying to pathfind with wrong coordinates")
+    end
     self.path = _G.finder:getPath(self.startx, self.starty, self.endx, self.endy)
     if self.path then
         if type(self.path) == "table" then
@@ -433,6 +437,8 @@ function Unit:serialize()
             data[k] = v
         end
     end
+    data.startx = self.startx
+    data.starty = self.starty
     data.endx = self.endx
     data.endy = self.endy
     data.last_i, data.last_o = self.last_i, self.last_o

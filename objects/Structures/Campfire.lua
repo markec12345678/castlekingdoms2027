@@ -2,13 +2,16 @@ local _, tile_quads, _ = ...
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 
-local fr_campfire_burning = _G.indexQuads("campfire", 19, 2)
+local ANIM_CAMPFIRE_BURNING = "Campfire burning"
+
+local an = {
+    [ANIM_CAMPFIRE_BURNING] = _G.indexQuads("campfire", 19, 2)
+}
 
 local Campfire_alias = _G.class('Campfire_alias', Structure)
-function Campfire_alias:initialize(gx, gy, parent)
-    Structure.initialize(self, gx, gy, "Static structure")
-    self.gx = gx
-    self.gy = gy
+function Campfire_alias:initialize(gx, gy, parent, animated_alias)
+    Structure.initialize(self, gx, gy, "Campfire alias")
+    self.animated_alias = animated_alias
     self.offset_x = 0
     self.offset_y = -16
     self.tile = tile_quads["empty"]
@@ -16,19 +19,59 @@ function Campfire_alias:initialize(gx, gy, parent)
     self.parent = parent
     parent:take_spot(gx, gy)
 end
+function Campfire_alias:serialize()
+    local data = {}
+    local struct_data = Structure.serialize(self)
+    for k, v in pairs(struct_data) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
+    data.tile_key = self.tile_key
+    data.base_offset_y = self.base_offset_y
+    data.animated = self.animated
+    data.additional_offset_y = self.additional_offset_y
+    data.animated_alias = self.animated_alias
+    data.offset_x = self.offset_x
+    data.offset_y = self.offset_y
+    if self.animation then
+        data.animation = self.animation:serialize()
+    end
+    if not self.animated_alias then
+        data.parent = _G.state:serializeObject(self.parent)
+    end
+    return data
+end
+function Campfire_alias.static:deserialize(data)
+    local obj = self:allocate()
+    Object.deserialize(obj, data)
+    Structure.load(obj, data)
+    if not data.animated_alias then
+        obj.parent = _G.state:dereferenceObject(data.parent)
+    end
+    if data.tile_key then
+        obj.tile = tile_quads[data.tile_key]
+        obj.tile_key = data.tile_key
+        obj:render()
+    end
+    if data.animation then
+        local an_data = data.animation
+        obj.animation = _G.anim.newAnimation(an[an_data.animation_identifier], 1, nil, an_data.animation_identifier)
+        obj.animation:deserialize(an_data)
+    end
+    return obj
+end
 
 local Campfire = _G.class('Campfire', Structure)
 function Campfire:initialize(gx, gy, type)
     Structure.initialize(self, gx, gy, type or "Campfire")
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 1000
-    self.qid = nil
     self.tile = tile_quads["empty"]
     self.offset_x = 0
     self.offset_y = 0
     self.animated = false
     self.peasants = 0
-
     self.hover_action = true
     self.free_spots = _G.newAutotable(2)
 
@@ -51,8 +94,9 @@ function Campfire:initialize(gx, gy, type)
     Campfire_alias:new(self.gx, self.gy + 1, self)
     Campfire_alias:new(self.gx + 1, self.gy, self)
     Campfire_alias:new(self.gx + 1, self.gy - 1, self)
-    self.animated_alias = Campfire_alias:new(self.gx + 1, self.gy + 1, self)
-    self.animated_alias.tile = tile_quads["campfire (1)"]
+    self.animated_alias = Campfire_alias:new(self.gx + 1, self.gy + 1, self, true)
+    self.animated_alias.tile_key = "campfire (1)"
+    self.animated_alias.tile = tile_quads[self.animated_alias.tile_key]
     Campfire_alias:new(self.gx + 2, self.gy, self)
     Campfire_alias:new(self.gx + 2, self.gy + 1, self)
     self:take_spot(self.gx, self.gy)
@@ -71,7 +115,7 @@ function Campfire:get_next_free_spot(peasant)
     if not self.animated then
         self.animated_alias.animated = true
         self.animated_alias.offset_y = -22 - 16
-        self.animated_alias.animation = _G.anim.newAnimation(fr_campfire_burning, 0.1)
+        self.animated_alias.animation = _G.anim.newAnimation(an[ANIM_CAMPFIRE_BURNING], 0.1, nil, ANIM_CAMPFIRE_BURNING)
     end
     for xx = -1, 3 do
         for yy = -2, 3 do
@@ -153,23 +197,63 @@ function Campfire:serialize()
     data.animated = self.animated
     data.peasants = self.peasants
     data.hover_action = self.hover_action
+    data.health = self.health
+    local free_spots = {}
+    for xx = -3, 5 do
+        free_spots[xx] = {}
+        for yy = -1, 5 do
+            free_spots[xx][yy] = self.free_spots[xx][yy]
+            if free_spots[xx][yy] and type(free_spots[xx][yy]) ~= "boolean" then
+                free_spots[xx][yy] = _G.state:serializeObject(free_spots[xx][yy])
+            end
+        end
+    end
+    for xx = -2, 4 do
+        free_spots[xx] = {}
+        for yy = -2, 4 do
+            free_spots[xx][yy] = self.free_spots[xx][yy]
+            if free_spots[xx][yy] and type(free_spots[xx][yy]) ~= "boolean" then
+                free_spots[xx][yy] = _G.state:serializeObject(free_spots[xx][yy])
+            end
+        end
+    end
+    data.animated_alias = _G.state:serializeObject(self.animated_alias)
+    data.free_spots = free_spots
     return data
 end
 function Campfire.static:deserialize(data)
-    local obj = self:new(data.gx, data.gy, data.type)
-    Object.deserialize(obj, data)
-    if obj.peasants > 0 then
-        obj.animated_alias.animated = true
-        obj.animated_alias.offset_y = -22 - 16
-        obj.animated_alias.tile = tile_quads["empty"]
-        obj.animated_alias.animation = _G.anim.newAnimation(fr_campfire_burning, 0.1)
-    elseif obj.peasants == 0 then
-        obj.animated_alias.tile = tile_quads["campfire (1)"]
-        obj.animated_alias.animated = false
-        obj.animated_alias.offset_y = -16
-    end
-    Structure.render(obj.animated_alias)
+    local obj = self:allocate()
+    obj:load(data)
     return obj
+end
+function Campfire:load(data)
+    Object.deserialize(self, data)
+    Structure.load(self, data)
+    self.free_spots = _G.newAutotable(2)
+    for xx = -3, 5 do
+        for yy = -1, 5 do
+            self.free_spots[xx][yy] = data.free_spots[xx][yy]
+            if type(self.free_spots[xx][yy]) == "table" then
+                self.free_spots[xx][yy] = _G.state:dereferenceObject(self.free_spots[xx][yy])
+            end
+        end
+    end
+    for xx = -2, 4 do
+        for yy = -2, 4 do
+            self.free_spots[xx][yy] = data.free_spots[xx][yy]
+            if type(self.free_spots[xx][yy]) == "table" then
+                self.free_spots[xx][yy] = _G.state:dereferenceObject(self.free_spots[xx][yy])
+            end
+        end
+    end
+    self.animated_alias = _G.state:dereferenceObject(data.animated_alias)
+    self.animated_alias.parent = self
+    _G.campfire = self
+    if _G.state.chunk_objects[self.animated_alias.cx][self.animated_alias.cy] == nil then
+        _G.state.chunk_objects[self.animated_alias.cx][self.animated_alias.cy] = {}
+    end
+    _G.state.chunk_objects[self.animated_alias.cx][self.animated_alias.cy][self.animated_alias] = self.animated_alias
+    Structure.render(self.animated_alias)
 end
 
 return Campfire
