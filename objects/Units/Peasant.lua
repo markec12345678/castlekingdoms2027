@@ -200,7 +200,7 @@ function Peasant:bowing_job_callback()
     _G.removeObjectAt(self.cx, self.cy, self.i, self.o, self)
     _G.JobController:add_available_worker()
 end
-function Peasant:animate(dt)
+function Peasant:animate()
     self:update()
     Unit.animate(self)
 end

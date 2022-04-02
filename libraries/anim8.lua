@@ -189,6 +189,9 @@ local function newAnimation(frames, durations, onLoop, animation_identifier)
     if frames == nil then
         error("anim8: frames are nil: " .. tostring(animation_identifier))
     end
+    if animation_identifier ~= nil and (type(animation_identifier) ~= "string") then
+        error("anim8: received wrong type of animation identifier: " .. tostring(type(animation_identifier)))
+    end
     onLoop = onLoop or nop
     durations = parseDurations(durations, #frames)
     local intervals, totalDuration = parseIntervals(durations)

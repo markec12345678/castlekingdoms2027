@@ -52,6 +52,23 @@ function _G.limitfps()
     love.timer.sleep(next_time - cur_time)
 end
 
+-- use this instead of table.remove for arrays
+function _G.arrayRemove(t, fnKeep)
+    local j, n = 1, #t;
+    for i = 1, n do
+        if (fnKeep(t, i, j)) then
+            if (i ~= j) then
+                t[j] = t[i];
+                t[i] = nil;
+            end
+            j = j + 1;
+        else
+            t[i] = nil;
+        end
+    end
+    return t;
+end
+
 local function update()
     next_time = next_time + min_dt;
     ---------------------------------------

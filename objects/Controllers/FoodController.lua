@@ -23,17 +23,16 @@ end
 function FoodController:take(food, amount)
     local taken_food = 0
     if not food then
-        for food_type, _ in pairs(self.food) do
+        for food_type, food_pile in pairs(self.food) do
             for _ = 1, (amount or 1) do
                 if taken_food == amount then
                     return
                 end
-                if next(self.food[food_type]) == nil then
+                if next(food_pile) == nil then
                     break
                 else
                     taken_food = taken_food + 1
-                    self.food[food_type][#self.food[food_type]].id.parent:take(food_type,
-                        self.food[food_type][#self.food[food_type]])
+                    food_pile[#food_pile].id.parent:take(food_type, food_pile[#food_pile])
                 end
             end
         end

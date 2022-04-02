@@ -685,13 +685,25 @@ local function update(dt)
         _G.state.wheat_growing_season = false
     end
     local updated_chunks = _G.newAutotable(2)
-    for idx, obj in pairs(active_entities) do
+    local objects_to_be_deleted
+    local needs_to_be_deleted = false
+    for idx, obj in ipairs(active_entities) do
         if obj.to_be_deleted then
-            active_entities[idx] = nil
+            if needs_to_be_deleted == false then
+                needs_to_be_deleted = true
+                objects_to_be_deleted = {}
+            end
+            objects_to_be_deleted[idx] = true
         else
             obj:animate(dt)
         end
     end
+    if needs_to_be_deleted then
+        active_entities = _G.arrayRemove(active_entities, function(t, i, j)
+            return not objects_to_be_deleted[i]
+        end)
+    end
+
     prof.pop("AE")
     prof.push("UPDATE_OBJECTS")
     -- Render the center chunks with higher priority

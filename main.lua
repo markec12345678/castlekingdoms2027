@@ -45,6 +45,7 @@ function love.run()
         love.timer.step()
     end
     dt = 0
+    local consecutive_large_dts = 0
     -- Main loop time.
 
     while true do
@@ -63,6 +64,14 @@ function love.run()
         if love.timer then
             love.timer.step()
             dt = love.timer.getDelta()
+            if dt > 0.5 and consecutive_large_dts < 3 then
+                -- We prefer the game to slow down on large short spikes
+                -- so the units don't teleport around
+                dt = 0.016
+                consecutive_large_dts = consecutive_large_dts + 1
+            elseif dt <= 0.5 then
+                consecutive_large_dts = 0
+            end
         end
         cnt = cnt + 1
         if cnt == 10 then

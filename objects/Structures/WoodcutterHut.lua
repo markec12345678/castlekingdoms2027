@@ -19,7 +19,7 @@ local an = {
 }
 
 local WoodcutterHut_log_stack = _G.class('WoodcutterHut_log_stack', Structure)
-function WoodcutterHut_log_stack:initialize(gx, gy, parent, offset_x, offset_y)
+function WoodcutterHut_log_stack:initialize(gx, gy, parent)
     local mytype = "Animation"
     Structure.initialize(self, gx, gy, mytype)
     self.tile = tile_quads["empty"]
@@ -114,7 +114,7 @@ function WoodcutterHut_log_stack:take()
 end
 
 local WoodcutterHut_plank_stack = _G.class('WoodcutterHut_plank_stack', Structure)
-function WoodcutterHut_plank_stack:initialize(gx, gy, parent, offset_x, offset_y)
+function WoodcutterHut_plank_stack:initialize(gx, gy, parent)
     local mytype = "Animation"
     Structure.initialize(self, gx, gy, mytype)
     self.tile = tile_quads["empty"]
@@ -152,7 +152,7 @@ function WoodcutterHut_plank_stack.static:deserialize(data)
     Object.deserialize(obj, data)
     Structure.load(obj, data)
     local an_data = data.animation
-    obj.animation = _G.anim.newAnimation(an[an_data.animation_identifier], 1, callback, an_data.animation_identifier)
+    obj.animation = _G.anim.newAnimation(an[an_data.animation_identifier], 1, nil, an_data.animation_identifier)
     obj.animation:deserialize(an_data)
     table.insert(active_entities, obj)
     return obj
@@ -193,7 +193,7 @@ function WoodcutterHut_plank_stack:take()
 end
 
 local WoodcutterHut_sawing = _G.class('WoodcutterHut_sawing', Structure)
-function WoodcutterHut_sawing:initialize(gx, gy, parent, offset_x, offset_y)
+function WoodcutterHut_sawing:initialize(gx, gy, parent)
     local mytype = "Animation"
     Structure.initialize(self, gx, gy, mytype)
     self.tile = tile_quads["empty"]
@@ -211,7 +211,7 @@ function WoodcutterHut_sawing:initialize(gx, gy, parent, offset_x, offset_y)
 
     table.insert(active_entities, self)
 end
-function WoodcutterHut_sawing:animate(dt)
+function WoodcutterHut_sawing:animate()
     Structure.animate(self, _G.dt, true)
 end
 function WoodcutterHut_sawing:activate()
@@ -263,7 +263,6 @@ function WoodcutterHut_sawing.static:deserialize(data)
     Object.deserialize(obj, data)
     Structure.load(obj, data)
     local an_data = data.animation
-    print("parent imm", obj.parent)
     obj.animation = _G.anim.newAnimation(an[an_data.animation_identifier], 1, nil, an_data.animation_identifier)
     obj.animation:deserialize(an_data)
     table.insert(active_entities, obj)
@@ -322,8 +321,8 @@ end
 local WoodcutterHut = _G.class('WoodcutterHut', Structure)
 function WoodcutterHut:initialize(gx, gy, type)
     _G.JobController:add("Woodcutter", self)
-    local mytype = "Static structure"
-    Structure.initialize(self, gx, gy, mytype)
+    type = type or "Woodcutter hut"
+    Structure.initialize(self, gx, gy, type)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 400
     self.qid = nil
@@ -335,10 +334,9 @@ function WoodcutterHut:initialize(gx, gy, type)
     self.free_spots = 1
     self.worker = nil
 
-    self.stack = WoodcutterHut_plank_stack:new(self.gx, self.gy + 2, self, self.offset_x, self.offset_y)
-    self.sawing_obj = WoodcutterHut_sawing:new(self.gx, self.gy, self, self.offset_x, self.offset_y)
-    self.log_stack = WoodcutterHut_log_stack:new(self.gx + 2, self.gy + 1, self, self.offset_x, self.offset_y)
-    -- self.stack:deactivate()
+    self.stack = WoodcutterHut_plank_stack:new(self.gx, self.gy + 2, self)
+    self.sawing_obj = WoodcutterHut_sawing:new(self.gx, self.gy, self)
+    self.log_stack = WoodcutterHut_log_stack:new(self.gx + 2, self.gy + 1, self)
 
     for xx = -1, 3 do
         for yy = -1, 3 do
@@ -364,10 +362,10 @@ function WoodcutterHut:initialize(gx, gy, type)
 
     for xx = 0, 2 do
         for yy = 0, 2 do
-            local xxx = (self.gx + xx) % (chunk_width)
-            local yyy = (self.gy + yy) % (chunk_width)
-            local ccx = math.floor((self.gx + xx) / chunk_width)
-            local ccy = math.floor((self.gy + yy) / chunk_width)
+            local xxx = (self.gx + xx) % (_G.chunk_width)
+            local yyy = (self.gy + yy) % (_G.chunk_width)
+            local ccx = math.floor((self.gx + xx) / _G.chunk_width)
+            local ccy = math.floor((self.gy + yy) / _G.chunk_width)
             _G.buildingheightmap[ccx][ccy][xxx][yyy] = 14
             _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.none)
         end
@@ -417,11 +415,11 @@ function WoodcutterHut:send_to_stockpile()
     self.worker.gy = self.gy + 3
     self.worker.fx = (self.gx + 1) * 1000 + 500
     self.worker.fy = (self.gy + 3) * 1000 + 500
-    i = (self.worker.gx) % (chunk_width)
-    o = (self.worker.gy) % (chunk_width)
-    cx = math.floor(self.worker.gx / chunk_width)
-    cy = math.floor(self.worker.gy / chunk_width)
-    addObjectAt(cx, cy, i, o, self.worker)
+    i = (self.worker.gx) % (_G.chunk_width)
+    o = (self.worker.gy) % (_G.chunk_width)
+    cx = math.floor(self.worker.gx / _G.chunk_width)
+    cy = math.floor(self.worker.gy / _G.chunk_width)
+    _G.addObjectAt(cx, cy, i, o, self.worker)
     self.stack:deactivate()
     self.working = false
 end
