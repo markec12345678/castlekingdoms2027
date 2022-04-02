@@ -205,7 +205,7 @@ function WheatFarm:initialize(gx, gy, type)
 
     for xx = -1, 13 do
         for yy = -1, 13 do
-            _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.dirt)
+            _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.scarce_grass)
         end
     end
 

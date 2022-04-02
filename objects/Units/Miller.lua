@@ -99,9 +99,6 @@ end
 function Miller:load(data)
     Object.deserialize(self, data)
     Unit.load(self, data)
-    self.cut = function()
-        self:cut_callback()
-    end
     local an_data = data.animation
     if an_data then
         self.animation = anim.newAnimation(an[an_data.animation_identifier], 1, nil, an_data.animation_identifier)
