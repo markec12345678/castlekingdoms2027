@@ -6,7 +6,7 @@ local Miner = require("objects.Units.Miner")
 local Miller = require("objects.Units.Miller")
 local Baker = require("objects.Units.Baker")
 
-local JobController = class('JobController')
+local JobController = _G.class('JobController')
 function JobController:initialize()
     self.list = {
         ["Stonemason"] = {},
@@ -22,15 +22,6 @@ function JobController:initialize()
 end
 function JobController:add(job, workplace)
     table.insert(self.list[job], workplace)
-end
-function JobController:find_job(worker, job)
-    -- for _, workplace in pairs(self.list[job]) do
-    --     if workplace.free_spots > 0 then   
-    --         workplace:join(worker)
-    --         worker.state = "Go to workplace"
-    --         break
-    --     end
-    -- end       
 end
 function JobController:add_available_worker()
     self.workers = self.workers + 1
@@ -71,6 +62,38 @@ function JobController:make_worker()
                 worker.state = "Go to workplace"
                 break
             end
+        end
+    end
+end
+function JobController:serialize()
+    local data = {}
+    self.list = {
+        ["Stonemason"] = {},
+        ["Woodcutter"] = {},
+        ["Miner"] = {},
+        ["OrchardFarmer"] = {},
+        ["WheatFarmer"] = {},
+        ["Miller"] = {},
+        ["Baker"] = {}
+    }
+    local ls = {}
+    for k, v in pairs(self.list) do
+        ls[k] = {}
+        for idx, sv in ipairs(v) do
+            ls[k][idx] = _G.state:serializeObject(sv)
+        end
+    end
+    data.rawlist = ls
+    data.workers = 0
+    data.requested_workers = 0
+    return data
+end
+function JobController:deserialize(data)
+    self.workers = data.workers
+    self.requested_workers = data.requested_workers
+    for k, v in pairs(data.rawlist) do
+        for idx, sv in ipairs(v) do
+            self[k][idx] = _G.state:dereferenceObject(sv)
         end
     end
 end
