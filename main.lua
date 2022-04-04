@@ -21,6 +21,9 @@ function love.load()
     loader.newImage("assets/tiles/stronghold_assets_packed_v3.png"):onComplete(function(_, image)
         _G.object_image = image
     end)
+    _G.fx = require("sounds.fx")
+    require("sounds.fx_volume")
+    _G.speech_fx = require("sounds.speech")
 end
 
 function love.quit()

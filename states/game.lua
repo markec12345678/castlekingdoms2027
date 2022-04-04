@@ -45,6 +45,7 @@ function game:init()
     if new_game then
         terrain.genMap()
         _G.BuildController:set("castle")
+        _G.speech_fx["place_a_keep"]:play()
     else
         for cx = 0, _G.chunks_wide - 1 do
             for cy = 0, _G.chunks_high - 1 do

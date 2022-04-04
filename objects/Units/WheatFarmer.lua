@@ -4,6 +4,12 @@ local Object = require("objects.Object")
 local indexQuads = _G.indexQuads
 local anim = _G.anim
 
+local harvest_fx = {_G.fx["harvest_01"], _G.fx["harvest_02"], _G.fx["harvest_03"], _G.fx["harvest_04"],
+                    _G.fx["harvest_05"], _G.fx["harvest_06"]}
+
+local hoe_fx = {_G.fx["hoe_01"], _G.fx["hoe_02"], _G.fx["hoe_03"], _G.fx["hoe_04"], _G.fx["hoe_05"], _G.fx["hoe_06"],
+                _G.fx["hoe_07"]}
+
 local fr = {
     walking_apples_east = indexQuads("body_farmer_walk_apples_e", 16),
     walking_apples_north = indexQuads("body_farmer_walk_apples_n", 16),
@@ -648,6 +654,7 @@ function WheatFarmer:hoe_land_callback(state)
         end, anim2)
     elseif state == 2 then
         self.workplace:update_tiles(self.farmland_tiles)
+        _G.play_sfx(self, hoe_fx)
         self.animation = anim.newAnimation(an[anim3], 0.1 * 0.1, function()
             state_3_callback()
         end, anim3)
@@ -983,12 +990,14 @@ function WheatFarmer:scythe_land_callback(state)
         self.move_dir = "none"
         self.animation = anim.newAnimation(an[anim2], 0.1, function()
             self.workplace:update_tiles(self.farmland_tiles)
+            _G.play_sfx(self, harvest_fx)
             self.animation = anim.newAnimation(an[anim3], 0.1, function()
                 state_3_callback()
             end, anim3)
         end, anim2)
     elseif state == 2 then
         self.workplace:update_tiles(self.farmland_tiles)
+        _G.play_sfx(self, harvest_fx)
         self.animation = anim.newAnimation(an[anim3], 0.1, function()
             state_3_callback()
         end, anim3)

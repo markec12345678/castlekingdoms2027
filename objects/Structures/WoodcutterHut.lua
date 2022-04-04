@@ -4,6 +4,10 @@ local Object = require("objects.Object")
 
 local tiles, quad_array = _G.indexBuildingQuads("woodcutter_hut", true)
 
+local sawpull_fx = {_G.fx["sawpull1 22k"], _G.fx["sawpull2 22k"], _G.fx["sawpull3 22k"]}
+
+local sawpush_fx = {_G.fx["sawpush1 22k"], _G.fx["sawpush2 22k"], _G.fx["sawpush3 22k"]}
+
 local fr_woodcutter_sawing = _G.indexQuads("anim_woodcutter_saw", 19, nil, true)
 local fr_plank_stack = _G.indexQuads("anim_woodcutter_planks", 3)
 local fr_log_stack = _G.indexQuads("anim_woodcutter_logs", 3)
@@ -212,6 +216,11 @@ function WoodcutterHut_sawing:initialize(gx, gy, parent)
     table.insert(active_entities, self)
 end
 function WoodcutterHut_sawing:animate()
+    if self.animation.position == 8 or self.animation.position == 21 then
+        _G.play_sfx(self, sawpull_fx)
+    elseif self.animation.position == 13 or self.animation.position == 26 then
+        _G.play_sfx(self, sawpush_fx)
+    end
     Structure.animate(self, _G.dt, true)
 end
 function WoodcutterHut_sawing:activate()
@@ -394,13 +403,13 @@ function WoodcutterHut:work(worker)
     self.log_stack:activate()
     self.log_stack:stack()
     self.log_stack:stack()
+    _G.play_sfx(self, _G.fx["droplog"])
     worker.state = "Working"
     worker.tile = tile_quads["empty"]
     worker.animated = false
     worker.gx = self.gx + 1
     worker.gy = self.gy + 2
     worker:job_update()
-    -- self.lifter.tile = tile_quads[139]
 
     if not self.working and self.worker.state == "Working" then
         self.working = true

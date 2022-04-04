@@ -88,6 +88,9 @@ local building = {
                     end
                 end
             end
+        end,
+        on_failed_special_requirement = function()
+            _G.speech_fx["adjacent_stockpile"]:play()
         end
     },
     ["granary"] = {
@@ -351,6 +354,7 @@ function BuildController:initialize()
     self.building = "castle"
     self.batch = love.graphics.newSpriteBatch(image)
     self.quads = {}
+    self.cannot_build_because_special = false
     self.quads[1] = love.graphics.newQuad(0, 0, 30, 16, image:getWidth(), image:getHeight())
     self.quads[2] = love.graphics.newQuad(30, 0, 30, 16, image:getWidth(), image:getHeight())
     self.quads[3] = love.graphics.newQuad(60, 0, 30, 16, image:getWidth(), image:getHeight())
@@ -373,6 +377,7 @@ function BuildController:serialize()
     data.can_build = self.can_build
     data.previous_can_build = self.previous_can_build
     data.building = self.building
+    data.cannot_build_because_special = self.cannot_build_because_special
     return data
 end
 function BuildController:deserialize(data)
@@ -434,6 +439,9 @@ function BuildController:update()
                 end
                 if not building[self.building]:special_requirements(self.gx, self.gy) then
                     self.can_build = false
+                    self.cannot_build_because_special = true
+                else
+                    self.cannot_build_because_special = false
                 end
                 self.batch:clear()
                 for xx = 0, self.width - 1 do
@@ -470,157 +478,172 @@ function BuildController:mousepressed(x, y)
     return self:build(gx, gy)
 end
 function BuildController:build(gx, gy)
-    if self.active and self.can_build and self.gx > 0 and self.gx < 2048 and self.gy > 0 and self.gy < 2048 then
-        self.can_afford = true
-        if not self.start then
-            for resource, amount in pairs(building[self.building].cost) do
-                if _G.state.resources[resource] < amount then
-                    self.can_afford = false
-                    print("Cannot afford building! Not enough " .. resource .. "!")
-                    break
-                end
-            end
-            if self.can_afford then
+    if self.active and self.gx > 0 and self.gx < 2048 and self.gy > 0 and self.gy < 2048 then
+        if self.can_build then
+            self.can_afford = true
+            if not self.start then
                 for resource, amount in pairs(building[self.building].cost) do
-                    _G.stockpile:take(resource, amount)
-                end
-                for xx = 0, building[self.building].w do
-                    for yy = 0, building[self.building].h do
-                        _G.removeObjectFromClassAtGlobal(gx + xx, gy + yy, "Shrub")
+                    if _G.state.resources[resource] < amount then
+                        self.can_afford = false
+                        print("Cannot afford building! Not enough " .. resource .. "!")
+                        break
                     end
                 end
-                building[self.building]:build(gx, gy)
-                self.active = false
-                return
+                if self.can_afford then
+                    for resource, amount in pairs(building[self.building].cost) do
+                        _G.stockpile:take(resource, amount)
+                    end
+                    for xx = 0, building[self.building].w do
+                        for yy = 0, building[self.building].h do
+                            _G.removeObjectFromClassAtGlobal(gx + xx, gy + yy, "Shrub")
+                        end
+                    end
+                    building[self.building]:build(gx, gy)
+                    self.active = false
+                    return
+                end
+            else
+                if self.building == 'castle' then
+                    building[self.building]:build(gx, gy)
+                    self:set('stockpile')
+                elseif self.building == 'stockpile' then
+                    building[self.building]:build(gx, gy)
+                    self:set('granary')
+                    _G.speech_fx["place_granary"]:play()
+                    _G.stockpile:store('wheat')
+                    _G.stockpile:store('wheat')
+                    _G.stockpile:store('wheat')
+                    _G.stockpile:store('wheat')
+                    _G.stockpile:store('wheat')
+                    _G.stockpile:store('wheat')
+                    _G.stockpile:store('wheat')
+                    _G.stockpile:store('wheat')
+                    _G.stockpile:store('wheat')
+                    _G.stockpile:store('wheat')
+                    _G.stockpile:store('wheat')
+                    _G.stockpile:store('wheat')
+                    _G.stockpile:store('flour')
+                    _G.stockpile:store('flour')
+                    _G.stockpile:store('flour')
+                    _G.stockpile:store('flour')
+                    _G.stockpile:store('flour')
+                    _G.stockpile:store('flour')
+                    _G.stockpile:store('stone')
+                    _G.stockpile:store('stone')
+                    _G.stockpile:store('stone')
+                    _G.stockpile:store('stone')
+                    _G.stockpile:store('stone')
+                    _G.stockpile:store('stone')
+                    _G.stockpile:store('stone')
+                    _G.stockpile:store('stone')
+                    _G.stockpile:store('stone')
+                    _G.stockpile:store('stone')
+                    _G.stockpile:store('stone')
+                    _G.stockpile:store('stone')
+                    _G.stockpile:store('stone')
+                    _G.stockpile:store('stone')
+                    _G.stockpile:store('stone')
+                    _G.stockpile:store('stone')
+                    _G.stockpile:store('stone')
+                    _G.stockpile:store('stone')
+                    _G.stockpile:store('stone')
+                    _G.stockpile:store('stone')
+                    _G.stockpile:store('stone')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                    _G.stockpile:store('wood')
+                elseif self.building == "granary" then
+                    building[self.building]:build(gx, gy)
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    _G.foodpile:store('bread')
+                    self.active = false
+                    self.start = false
+                end
             end
         else
-            if self.building == 'castle' then
-                building[self.building]:build(gx, gy)
-                self:set('stockpile')
-            elseif self.building == 'stockpile' then
-                building[self.building]:build(gx, gy)
-                self:set('granary')
-                _G.stockpile:store('wheat')
-                _G.stockpile:store('wheat')
-                _G.stockpile:store('wheat')
-                _G.stockpile:store('wheat')
-                _G.stockpile:store('wheat')
-                _G.stockpile:store('wheat')
-                _G.stockpile:store('wheat')
-                _G.stockpile:store('wheat')
-                _G.stockpile:store('wheat')
-                _G.stockpile:store('wheat')
-                _G.stockpile:store('wheat')
-                _G.stockpile:store('wheat')
-                _G.stockpile:store('flour')
-                _G.stockpile:store('flour')
-                _G.stockpile:store('flour')
-                _G.stockpile:store('flour')
-                _G.stockpile:store('flour')
-                _G.stockpile:store('flour')
-                _G.stockpile:store('stone')
-                _G.stockpile:store('stone')
-                _G.stockpile:store('stone')
-                _G.stockpile:store('stone')
-                _G.stockpile:store('stone')
-                _G.stockpile:store('stone')
-                _G.stockpile:store('stone')
-                _G.stockpile:store('stone')
-                _G.stockpile:store('stone')
-                _G.stockpile:store('stone')
-                _G.stockpile:store('stone')
-                _G.stockpile:store('stone')
-                _G.stockpile:store('stone')
-                _G.stockpile:store('stone')
-                _G.stockpile:store('stone')
-                _G.stockpile:store('stone')
-                _G.stockpile:store('stone')
-                _G.stockpile:store('stone')
-                _G.stockpile:store('stone')
-                _G.stockpile:store('stone')
-                _G.stockpile:store('stone')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-                _G.stockpile:store('wood')
-            elseif self.building == "granary" then
-                building[self.building]:build(gx, gy)
-                _G.foodpile:store('bread')
-                _G.foodpile:store('bread')
-                _G.foodpile:store('bread')
-                _G.foodpile:store('bread')
-                _G.foodpile:store('bread')
-                _G.foodpile:store('bread')
-                _G.foodpile:store('bread')
-                _G.foodpile:store('bread')
-                _G.foodpile:store('bread')
-                _G.foodpile:store('bread')
-                _G.foodpile:store('bread')
-                _G.foodpile:store('bread')
-                _G.foodpile:store('bread')
-                _G.foodpile:store('bread')
-                _G.foodpile:store('bread')
-                _G.foodpile:store('bread')
-                _G.foodpile:store('bread')
-                _G.foodpile:store('bread')
-                _G.foodpile:store('bread')
-                _G.foodpile:store('bread')
-                _G.foodpile:store('bread')
-                _G.foodpile:store('bread')
-                _G.foodpile:store('bread')
-                _G.foodpile:store('bread')
-                _G.foodpile:store('bread')
-                _G.foodpile:store('bread')
-                _G.foodpile:store('bread')
-                self.active = false
-                self.start = false
+            if self.cannot_build_because_special and building[self.building].on_failed_special_requirement then
+                building[self.building]:on_failed_special_requirement()
+            else
+                local sfxi = math.random(1, 2)
+                if sfxi == 1 then
+                    _G.speech_fx["cannot_place_1"]:play()
+                else
+                    _G.speech_fx["cannot_place_2"]:play()
+                end
             end
+
         end
     end
 end

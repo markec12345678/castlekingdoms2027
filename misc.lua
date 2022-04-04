@@ -69,6 +69,17 @@ function _G.arrayRemove(t, fnKeep)
     return t
 end
 
+local function getZFromZoom()
+    local val = 1
+    local scale = _G.state.scale_x
+    if scale < 1 then
+        val = (1 - scale) * 50
+    elseif scale > 1 then
+        val = scale
+    end
+    return val
+end
+
 local function update()
     next_time = next_time + min_dt;
     ---------------------------------------
@@ -119,16 +130,20 @@ local function update()
         final_scroll_speed = 5
     end
     if love.keyboard.isDown("up") then
-        _G.state.view_yview = _G.state.view_yview - final_scroll_speed;
+        _G.state.view_yview = _G.state.view_yview - final_scroll_speed
+        love.audio.setPosition((_G.state.view_xview) / 100, (_G.state.view_yview) / 100, getZFromZoom())
     end
     if love.keyboard.isDown("down") then
-        _G.state.view_yview = _G.state.view_yview + final_scroll_speed;
+        _G.state.view_yview = _G.state.view_yview + final_scroll_speed
+        love.audio.setPosition((_G.state.view_xview) / 100, (_G.state.view_yview) / 100, getZFromZoom())
     end
     if love.keyboard.isDown("left") then
-        _G.state.view_xview = _G.state.view_xview - final_scroll_speed;
+        _G.state.view_xview = _G.state.view_xview - final_scroll_speed
+        love.audio.setPosition((_G.state.view_xview) / 100, (_G.state.view_yview) / 100, getZFromZoom())
     end
     if love.keyboard.isDown("right") then
-        _G.state.view_xview = _G.state.view_xview + final_scroll_speed;
+        _G.state.view_xview = _G.state.view_xview + final_scroll_speed
+        love.audio.setPosition((_G.state.view_xview) / 100, (_G.state.view_yview) / 100, getZFromZoom())
     end
     if love.keyboard.isDown("escape") then
         love.event.quit();
@@ -147,6 +162,7 @@ local function scale(y)
     elseif y < 0 and _G.state.scale_x > 0.3 then
         _G.state.scale_x = _G.state.scale_x - 0.1;
     end
+    love.audio.setPosition((_G.state.view_xview) / 100, (_G.state.view_yview) / 100, getZFromZoom())
 end
 
 local function draw()

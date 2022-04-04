@@ -190,3 +190,14 @@ end
 function _G.string.ends_with(str, ending)
     return ending == "" or str:sub(-#ending) == ending
 end
+
+function _G.play_sfx(obj, sfx)
+    if type(sfx) == "table" then
+        sfx = sfx[math.random(#sfx)]
+    end
+    sfx:setRelative(false)
+    sfx:setPosition((obj.x + (obj.cx - obj.cy) * _G.chunk_width * _G.tile_width * 0.5) / 100,
+        (obj.y + (obj.cx + obj.cy) * _G.chunk_height * _G.tile_height * 0.5) / 100, 4.1)
+    sfx:setPitch(1 + love.math.random(-10, 10) / 100)
+    sfx:play()
+end
