@@ -1,8 +1,12 @@
-local object_batch, active_objects, tile_quads, object = ...
+local _, _, tile_quads, _ = ...
 local Object = require("objects.Object")
+local anim = require("libraries.anim8")
+
+local fall_fx = {_G.fx["liltreefall"], _G.fx["bigtreefall1"], _G.fx["bigtreefall2"]}
 
 local quad_offset = require('objects.quad_offset')
-local Tree = class('Tree', Object)
+local STATIC_TRUNK = "Static Trunk"
+local Tree = _G.class('Tree', Object)
 function Tree:initialize(gx, gy, type)
     Object.initialize(self, gx, gy, type)
     self.offset_y = self.offset_y or -166
@@ -22,50 +26,13 @@ function Tree:initialize(gx, gy, type)
     self.update_timer = 0
     self.chunk_key = false
     self.trunk_tile = tile_quads["empty"]
-    self.cut_down = function()
-        self.falling = false
-        self.chop = true
-        self.animation = self.chop_animation
-        self.animation:pause()
-    end
-    self.finish = function() -- TODO: turn into stump object
-        self.animation = anim.newAnimation({self.trunk_tile}, 0.1)
-        self.animation:pause()
-        self.stump = true
-        -- self.animation:update(dt)
-        self.animated = false -- mark for removal from list
-        -- self:animate() -- animate, because the list will remove us before we show the stump
-        -- _G.state.chunk_objects[self.cx][self.cy][self] = nil
-        self.type = "Stump"
-        self.tile = self.trunk_tile
-        self:render()
-        for xx = -1, 1 do
-            for yy = -1, 1 do
-                _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.dirt, _G.terrain_biome.scarce_grass)
-            end
-        end
-        for xx = -1, 1 do
-            for yy = -1, 1 do
-                if not ((xx == -1 and yy == -1) or (xx == 1 and yy == 1) or (xx == -1 and yy == 1) or
-                    (xx == 1 and yy == -1)) then
-                    local xxx = (self.gx + xx) % (chunk_width)
-                    local yyy = (self.gy + yy) % (chunk_width)
-                    local ccx = math.floor((self.gx + xx) / chunk_width)
-                    local ccy = math.floor((self.gy + yy) / chunk_width)
-                    _G.buildingheightmap[ccx][ccy][xxx][yyy] = 0
-                    -- TODO: Force a shadow refresh here
-                end
-            end
-        end
-        -- self:destroy()
-    end
     for xx = -1, 1 do
         for yy = -1, 1 do
             if not ((xx == -1 and yy == -1) or (xx == 1 and yy == 1) or (xx == -1 and yy == 1) or (xx == 1 and yy == -1)) then
-                local xxx = (self.gx + xx) % (chunk_width)
-                local yyy = (self.gy + yy) % (chunk_width)
-                local ccx = math.floor((self.gx + xx) / chunk_width)
-                local ccy = math.floor((self.gy + yy) / chunk_width)
+                local xxx = (self.gx + xx) % (_G.chunk_width)
+                local yyy = (self.gy + yy) % (_G.chunk_width)
+                local ccx = math.floor((self.gx + xx) / _G.chunk_width)
+                local ccy = math.floor((self.gy + yy) / _G.chunk_width)
                 if xx == 0 and yy == 0 then
                     _G.buildingheightmap[ccx][ccy][xxx][yyy] = 19
                 else
@@ -82,6 +49,41 @@ function Tree:initialize(gx, gy, type)
     end
     _G.state.chunk_objects[self.cx][self.cy][self] = self
     _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
+end
+function Tree:finish()
+    -- TODO: turn into stump object
+    self.animation = anim.newAnimation({self.trunk_tile}, 0.1, nil, STATIC_TRUNK)
+    self.animation:pause()
+    self.stump = true
+    self.animated = false -- mark for removal from list
+    self.type = "Stump"
+    self.tile = self.trunk_tile
+    self:render()
+    for xx = -1, 1 do
+        for yy = -1, 1 do
+            _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.dirt, _G.terrain_biome.scarce_grass)
+        end
+    end
+    for xx = -1, 1 do
+        for yy = -1, 1 do
+            if not ((xx == -1 and yy == -1) or (xx == 1 and yy == 1) or (xx == -1 and yy == 1) or (xx == 1 and yy == -1)) then
+                local xxx = (self.gx + xx) % (_G.chunk_width)
+                local yyy = (self.gy + yy) % (_G.chunk_width)
+                local ccx = math.floor((self.gx + xx) / _G.chunk_width)
+                local ccy = math.floor((self.gy + yy) / _G.chunk_width)
+                _G.buildingheightmap[ccx][ccy][xxx][yyy] = 0
+                -- TODO: Force a shadow refresh here
+            end
+        end
+    end
+end
+function Tree:cut_down()
+    return function()
+        self.falling = false
+        self.chop = true
+        self.animation = self.chop_animation
+        self.animation:pause()
+    end
 end
 function Tree:render()
     if not self.instancemesh then
@@ -177,13 +179,14 @@ function Tree:cut()
         self.offset_x = self.base_offset_x - 8
         self.offset_timer = 0
         if self.dead then
-            self.finish()
+            self:finish()
             return 2
         else
             self.animation = self.falling_animation
+            _G.play_sfx(self, fall_fx)
             self.falling = true
-            if (self.cx > current_chunk_x + 1) or (self.cx < current_chunk_x - 1) or (self.cy > current_chunk_y + 1) or
-                (self.cy < current_chunk_y - 1) then
+            if (self.cx > _G.current_chunk_x + 1) or (self.cx < _G.current_chunk_x - 1) or
+                (self.cy > _G.current_chunk_y + 1) or (self.cy < _G.current_chunk_y - 1) then
                 self.chop = true
                 self.falling = false
             end
@@ -194,7 +197,7 @@ function Tree:cut()
             self.animation:gotoFrame(self.animation:getCurrentFrame() + 1)
             self:animate(_G.dt, true)
         else
-            self.finish()
+            self:finish()
             self.chop = false
             return 2
         end
@@ -217,7 +220,6 @@ function Tree:serialize()
     data.type = self.type
     data.animated = self.animated
     data.marked = self.marked
-    data.tile = self.tile
     data.cuttable = self.cuttable
     data.tree = self.tree
     data.active = self.active
@@ -226,7 +228,14 @@ function Tree:serialize()
     data.chunk_key = self.chunk_key
     return data
 end
-
+function Tree:load(data)
+    Object.initialize(self, data.gx, data.gy, data.type)
+    if _G.state.chunk_objects[self.cx][self.cy] == nil then
+        _G.state.chunk_objects[self.cx][self.cy] = {}
+    end
+    _G.state.chunk_objects[self.cx][self.cy][self] = self
+    _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
+end
 function Tree.static:deserialize(data)
     local obj = self:new(data.gx, data.gy, data.type)
     Object.deserialize(obj, data)

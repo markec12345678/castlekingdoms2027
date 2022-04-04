@@ -3,6 +3,12 @@ local Unit = require("objects.Units.Unit")
 local Object = require("objects.Object")
 local anim = _G.anim
 local indexQuads = _G.indexQuads
+
+local cutting_fx = {_G.fx["chop1 22k"], _G.fx["chop2 22k"], _G.fx["chop3 22k"], _G.fx["chop4 22k"]}
+local chopping_fx = {_G.fx["wood_chop_1"], _G.fx["wood_chop_2"], _G.fx["wood_chop_3"]}
+local footstep_fx = {_G.fx["footstep_grass_1"], _G.fx["footstep_grass_2"], _G.fx["footstep_grass_3"],
+                     _G.fx["footstep_grass_4"], _G.fx["footstep_grass_5"]}
+
 local fr_walking_plank_east = indexQuads("body_woodcutter_walk_plank_e", 16)
 local fr_walking_plank_north = indexQuads("body_woodcutter_walk_plank_n", 16)
 local fr_walking_plank_west = indexQuads("body_woodcutter_walk_plank_w", 16)
@@ -276,11 +282,17 @@ function Woodcutter:cut_callback()
         local tree_progress
         if self.target_tree.tree and self.target_tree.cuttable then
             tree_progress = self.target_tree:cut()
+            if self.target_tree.chop or self.target_tree.falling then
+                _G.play_sfx(self, chopping_fx)
+            else
+                _G.play_sfx(self, cutting_fx)
+            end
         else
             self.state = "Looking to chop tree"
             self.move_dir = "none"
         end
         if tree_progress == 2 then
+            self.animation:pause()
             self.move_dir = "none"
             self.count = 1
             self.state = "Going to workplace with wood"
@@ -379,7 +391,7 @@ function Woodcutter:find_tree()
     self.endy = closest_object.gy + 1
     if self.endx == self.gx and self.endy == self.gy then
         self.state = "Cutting down"
-        self.animation = anim.newAnimation(an[AN_CUTTING_NORTHEAST], 0.08 * 0.1, self.cut, AN_CUTTING_NORTHEAST)
+        self.animation = anim.newAnimation(an[AN_CUTTING_NORTHEAST], 0.08, self.cut, AN_CUTTING_NORTHEAST)
         self.nd = {}
         self.waypoint_x, self.waypoint_y = nil, nil
         self.move_dir = "none"
@@ -521,8 +533,7 @@ function Woodcutter:update()
             if self.state == "Going to tree" then
                 if self:reached_path_end() then
                     self.state = "Cutting down"
-                    self.animation = anim.newAnimation(an[AN_CUTTING_NORTHEAST], 0.08 * 0.1, self.cut,
-                        AN_CUTTING_NORTHEAST)
+                    self.animation = anim.newAnimation(an[AN_CUTTING_NORTHEAST], 0.08, self.cut, AN_CUTTING_NORTHEAST)
                     self.nd = {}
                     self.waypoint_x, self.waypoint_y = nil, nil
                     self.move_dir = "none"
@@ -588,6 +599,9 @@ function Woodcutter:update()
     end
 end
 function Woodcutter:animate()
+    if self.move_dir ~= "none" and self.animation and (self.animation.position == 2 or self.animation.position == 10) then
+        _G.play_sfx(self, footstep_fx)
+    end
     self:update()
     Unit.animate(self)
 end
