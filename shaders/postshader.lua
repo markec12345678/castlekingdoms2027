@@ -38,6 +38,7 @@ love.postshader.setBuffer = function(path)
     else
         love.graphics.setCanvas(LOVE_POSTSHADER_BUFFER_RENDER)
     end
+    love.graphics.clear()
     LOVE_POSTSHADER_LAST_BUFFER = love.graphics.getCanvas()
 end
 

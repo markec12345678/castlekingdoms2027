@@ -586,11 +586,6 @@ function WheatFarmer:load(data)
                 self:scythe_land_callback(3)
             end
         end
-        -- callback = function(an)
-        --     print("CALLED SUCESSFULLY", an.animation_identifier)
-        --     an:pause()
-        --     return
-        -- end
         self.animation = anim.newAnimation(an[an_data.animation_identifier], 1, callback, an_data.animation_identifier)
         self.animation:deserialize(an_data)
     end
@@ -1134,7 +1129,6 @@ function WheatFarmer:update()
                     end
                 else
                     self:set_next_waypoint()
-
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to stockpile" then

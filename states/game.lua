@@ -90,8 +90,10 @@ function game:draw()
         objects.draw()
         _G.BuildController:draw()
         love.graphics.pop()
+        if _G.state.scale_x >= 2.6 then
+            love.postshader.addTiltshift()
+        end
         core.draw()
-        love.postshader.addTiltshift()
         love.postshader.draw()
     end
 end

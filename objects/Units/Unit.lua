@@ -23,7 +23,7 @@ function Unit:initialize(gx, gy, type, no_path_state)
     self.originaly = self.gy
     self.nd = {}
     self.path = 0
-    self.path_state = "None"
+    self.path_state = "none"
     self.move_dir = "none"
     self.previous_dir = "none"
     self.animated = true
