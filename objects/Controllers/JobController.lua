@@ -84,8 +84,8 @@ function JobController:serialize()
         end
     end
     data.rawlist = ls
-    data.workers = 0
-    data.requested_workers = 0
+    data.workers = self.workers
+    data.requested_workers = self.requested_workers
     return data
 end
 function JobController:deserialize(data)

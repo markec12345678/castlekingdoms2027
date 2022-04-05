@@ -31,11 +31,8 @@ function WoodcutterHut_log_stack:initialize(gx, gy, parent)
     self.animation = _G.anim.newAnimation(an[AN_HUT_LOGS], 0.11, nil, AN_HUT_LOGS)
     self.animation:pause()
     self.quantity = 0
-    self.gx = gx
-    self.gy = gy
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
-    self.qid = 0
     self.offset_x = -51
     self.offset_y = -50
 
@@ -126,11 +123,8 @@ function WoodcutterHut_plank_stack:initialize(gx, gy, parent)
     self.animation = _G.anim.newAnimation(an[AN_HUT_PLANKS], 0.11, nil, AN_HUT_PLANKS)
     self.animation:pause()
     self.quantity = 0
-    self.gx = gx
-    self.gy = gy
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
-    self.qid = 0
     self.offset_x = -23
     self.offset_y = -52
 
@@ -204,11 +198,8 @@ function WoodcutterHut_sawing:initialize(gx, gy, parent)
     self.animated = false
     self.animation = _G.anim.newAnimation(an[AN_HUT_SAWING], 0.11, nil, AN_HUT_SAWING)
     self.animation:pause()
-    self.gx = gx
-    self.gy = gy
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
-    self.qid = 0
     self.offset_x = -35
     self.offset_y = -44
     self:setCallback()
@@ -282,11 +273,8 @@ local WoodcutterHut_alias = _G.class('WoodcutterHut_alias', Structure)
 function WoodcutterHut_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     local mytype = "Static structure"
     Structure.initialize(self, gx, gy, mytype)
-    self.gx = gx
-    self.gy = gy
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
-    self.qid = 0
     self.tile = tile
     self.base_offset_y = offset_y or 0
     self.additional_offset_y = 0
@@ -334,7 +322,6 @@ function WoodcutterHut:initialize(gx, gy, type)
     Structure.initialize(self, gx, gy, type)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 400
-    self.qid = nil
     self.tile = quad_array[tiles + 1]
     self.working = false
     self.unloading = false
@@ -438,6 +425,9 @@ function WoodcutterHut:load(data)
     if data.worker then
         self.worker = _G.state:dereferenceObject(data.worker)
         self.worker.workplace = self
+    else
+        print("-------------------------------------------------------------NO WORKER BRO")
+        _G.JobController:add("Woodcutter", self)
     end
     self.stack = _G.state:dereferenceObject(data.stack)
     self.stack.parent = self

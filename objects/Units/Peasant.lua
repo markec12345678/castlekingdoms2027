@@ -130,8 +130,15 @@ function Peasant:job_update()
 end
 function Peasant:get_a_job()
     if self.state == "Waiting" then
-        self:requestPath(_G.spawn_point_x, _G.spawn_point_y)
-        self.state = "Going to door"
+        if math.floor(self.gx) == _G.spawn_point_x and math.floor(self.gy) == _G.spawn_point_y then
+            self.state = "Getting a job"
+            self.animation = anim.newAnimation(an[AN_BOWING_FOR_A_JOB], 0.12, function()
+                self:bowing_job_callback()
+            end, AN_BOWING_FOR_A_JOB)
+        else
+            self:requestPath(_G.spawn_point_x, _G.spawn_point_y)
+            self.state = "Going to door"
+        end
     else
         self.try_to_get_a_job = true
     end

@@ -931,8 +931,10 @@ function _G.terrainSetTileAt(gx, gy, biome, from)
                 _G.schedule_terrain_update(cx, cy, i, o)
             end
         else
-            _G.state.map.terrain[cx][cy][i][o] = biome
-            _G.schedule_terrain_update(cx, cy, i, o)
+            if _G.state.map.terrain[cx][cy][i][o] ~= _G.terrain_biome.none then
+                _G.state.map.terrain[cx][cy][i][o] = biome
+                _G.schedule_terrain_update(cx, cy, i, o)
+            end
         end
     end
 end

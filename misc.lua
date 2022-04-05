@@ -63,6 +63,7 @@ function _G.arrayRemove(t, fnKeep)
             end
             j = j + 1
         else
+            _G.removeObjectAt(t[i].cx, t[i].cy, t[i].i, t[i].o, t[i])
             t[i] = nil
         end
     end

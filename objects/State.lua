@@ -232,9 +232,9 @@ function State:load(filename)
     self.bottom_right_chunk_y = load.bottom_right_chunk_y
     self.terrain_chunks = load.terrain_chunks
     self.vertices_per_tile = load.vertices_per_tile
+    _G.JobController:deserialize(load.job_controller)
     _G.BuildController:deserialize(load.build_controller)
     _G.foodpile:deserialize(load.food_controller)
-    _G.JobController:deserialize(load.job_controller)
     _G.spawn_point_x, _G.spawn_point_y = load.spawn_point_x, load.spawn_point_y
     _G.offset_x, _G.offset_y = load.offset_x, load.offset_y
     local campfireClass = _G.getClassByName(load.campfire.class_name)
@@ -252,6 +252,7 @@ function State:load(filename)
     self.view_yview = load.view_yview
     self.map:deserialize(load.map)
     self.map:forceRefresh()
+    collectgarbage()
     -- print(inspect(self.deser_debug))
     -- print("TOTAL DESERIALIZED OBJECTS", self.deserialized_object_count)
 end

@@ -140,10 +140,14 @@ function Campfire:get_free_peasant()
                     self.animated_alias.offset_y = -16
                     Structure.render(self.animated_alias)
                 end
+                if peasant.state ~= "Waiting" then
+                    goto skip_this_peasant
+                end
                 peasant.state = "Waiting"
                 peasant.try_to_get_a_job = true
                 return peasant
             end
+            ::skip_this_peasant::
         end
     end
     return false
