@@ -14,6 +14,7 @@ local Orchard = require('objects.Structures.Orchard')
 local WheatFarm = require('objects.Structures.WheatFarm')
 local Windmill = require('objects.Structures.Windmill')
 local Bakery = require('objects.Structures.Bakery')
+local House = require('objects.Structures.House')
 
 local objectFromTypeAt = _G.objectFromTypeAt
 local chunk_width = _G.chunk_width
@@ -328,6 +329,22 @@ local building = {
         },
         build = function(self, gx, gy)
             Bakery:new(gx, gy)
+        end,
+        special_requirements = function(self, _, _)
+            return true
+        end
+    },
+    ["house"] = {
+        quad = tile_quads["housing (1)"],
+        offset_x = 48,
+        offset_y = 135 - 32 - 64,
+        w = 4,
+        h = 4,
+        cost = {
+            ["wood"] = 3
+        },
+        build = function(self, gx, gy)
+            House:new(gx, gy)
         end,
         special_requirements = function(self, _, _)
             return true

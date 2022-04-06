@@ -126,8 +126,9 @@ function Object:serialize()
     if data.class_name ~= "Stockpile_alias" and data.class_name ~= "Campfire_alias" and data.class_name ~=
         "WheatFarm_alias" and data.class_name ~= "Bakery_alias" and data.class_name ~= "Bakery_alias" and
         data.class_name ~= "WoodcutterHut_alias" and data.class_name ~= "Orchard_alias" and data.class_name ~=
-        "Granary_alias" and data.class_name ~= "Windmill_alias" and data.class_name ~= "Quarry_alias" and
-        data.class_name ~= "Mine_alias" and string.find(data.class_name or tostring(self.class), "alias") then
+        "Granary_alias" and data.class_name ~= "Windmill_alias" and data.class_name ~= "House_alias" and data.class_name ~=
+        "Quarry_alias" and data.class_name ~= "Mine_alias" and
+        string.find(data.class_name or tostring(self.class), "alias") then
         return {}
     end
     return data

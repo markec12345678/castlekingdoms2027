@@ -79,6 +79,7 @@ local WoodcutterHut = love.filesystem.load('objects/Structures/WoodcutterHut.lua
 local Windmill = love.filesystem.load('objects/Structures/Windmill.lua')(active_entities, object, tile_quads,
     object_batch)
 local Bakery = love.filesystem.load('objects/Structures/Bakery.lua')(active_entities, object, tile_quads, object_batch)
+local House = love.filesystem.load('objects/Structures/House.lua')(active_entities, object, tile_quads, object_batch)
 local WoodenWall = love.filesystem.load('objects/Structures/WoodenWall.lua')(active_entities, object, tile_quads,
     object_batch)
 local WoodenWallWalkable = love.filesystem.load('objects/Structures/WoodenWallWalkable.lua')(active_entities, object,
@@ -122,6 +123,7 @@ package.loaded['objects.Structures.Mine'] = Mine
 package.loaded['objects.Structures.WoodcutterHut'] = WoodcutterHut
 package.loaded['objects.Structures.Windmill'] = Windmill
 package.loaded['objects.Structures.Bakery'] = Bakery
+package.loaded['objects.Structures.House'] = House
 package.loaded['objects.Structures.WoodenWall'] = WoodenWall
 package.loaded['objects.Structures.WoodenWallWalkable'] = WoodenWallWalkable
 package.loaded['objects.Structures.WoodenTower'] = WoodenTower
@@ -565,26 +567,27 @@ local function mousepressed(x, y, button)
         --     end
         -- end
         -- Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
-        -- local insp = object[press.cx][press.cy][press.x][press.y]
-        -- if insp then
-        --     print("____________")
-        --     for _, ibj in pairs(insp) do
-        --         print(ibj.type, ibj.vert_id, ibj.i, ibj.o, press.x, press.y, press.cx, press.cy)
-        --         local remove_all_metatables = function(item, path)
-        --             if path[#path] ~= inspect.METATABLE then
-        --                 return item
-        --             end
-        --         end
-        --         print(inspect(ibj, {
-        --             depth = 2,
-        --             process = remove_all_metatables
-        --         }))
-        --         -- print(ibj.type, ibj.x + (ibj.cx - ibj.cy) * chunk_width * tile_width * 0.5,
-        --         --     ibj.y + (ibj.cx + ibj.cy) * chunk_width * tile_height * 0.5)
-        --         -- print(ibj.type, (_G.state.view_xview) - 1920 / 2 - 100, (_G.state.view_yview) - 1080 / 2 - 100)
-        --     end
-        --     -- print(inspect(insp))
-        -- end
+        local insp = object[press.cx][press.cy][press.x][press.y]
+        if insp then
+            print("____________")
+            for _, ibj in pairs(insp) do
+                print(ibj, ibj.gx, ibj.gy)
+                --     print(ibj.type, ibj.vert_id, ibj.i, ibj.o, press.x, press.y, press.cx, press.cy)
+                --     local remove_all_metatables = function(item, path)
+                --         if path[#path] ~= inspect.METATABLE then
+                --             return item
+                --         end
+                --     end
+                --     print(inspect(ibj, {
+                --         depth = 2,
+                --         process = remove_all_metatables
+                --     }))
+                --     -- print(ibj.type, ibj.x + (ibj.cx - ibj.cy) * chunk_width * tile_width * 0.5,
+                --     --     ibj.y + (ibj.cx + ibj.cy) * chunk_width * tile_height * 0.5)
+                --     -- print(ibj.type, (_G.state.view_xview) - 1920 / 2 - 100, (_G.state.view_yview) - 1080 / 2 - 100)
+            end
+            -- -- print(inspect(insp))
+        end
     end
 end
 
