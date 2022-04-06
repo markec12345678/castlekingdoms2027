@@ -8,6 +8,11 @@ local Baker = require("objects.Units.Baker")
 
 local JobController = _G.class('JobController')
 function JobController:initialize()
+    self:initializeWorkplaces()
+    self.workers = 0
+    self.requested_workers = 0
+end
+function JobController:initializeWorkplaces()
     self.list = {
         ["Stonemason"] = {},
         ["Woodcutter"] = {},
@@ -17,8 +22,6 @@ function JobController:initialize()
         ["Miller"] = {},
         ["Baker"] = {}
     }
-    self.workers = 0
-    self.requested_workers = 0
 end
 function JobController:add(job, workplace)
     table.insert(self.list[job], workplace)
@@ -67,15 +70,6 @@ function JobController:make_worker()
 end
 function JobController:serialize()
     local data = {}
-    self.list = {
-        ["Stonemason"] = {},
-        ["Woodcutter"] = {},
-        ["Miner"] = {},
-        ["OrchardFarmer"] = {},
-        ["WheatFarmer"] = {},
-        ["Miller"] = {},
-        ["Baker"] = {}
-    }
     local ls = {}
     for k, v in pairs(self.list) do
         ls[k] = {}
@@ -89,11 +83,12 @@ function JobController:serialize()
     return data
 end
 function JobController:deserialize(data)
+    self:initializeWorkplaces()
     self.workers = data.workers
     self.requested_workers = data.requested_workers
     for k, v in pairs(data.rawlist) do
         for idx, sv in ipairs(v) do
-            self[k][idx] = _G.state:dereferenceObject(sv)
+            self.list[k][idx] = _G.state:dereferenceObject(sv)
         end
     end
 end
