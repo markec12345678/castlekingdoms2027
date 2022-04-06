@@ -65,10 +65,7 @@ function Castle:initialize(gx, gy, type)
 
     for xx = 0, 6 do
         for yy = 0, 6 do
-            local xxx = (self.gx + xx) % (_G.chunk_width)
-            local yyy = (self.gy + yy) % (_G.chunk_width)
-            local ccx = math.floor((self.gx + xx) / _G.chunk_width)
-            local ccy = math.floor((self.gy + yy) / _G.chunk_width)
+            local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(self.gx + xx, self.gy + yy)
             _G.buildingheightmap[ccx][ccy][xxx][yyy] = 23
         end
     end

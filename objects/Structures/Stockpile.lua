@@ -138,10 +138,7 @@ function Stockpile:initialize(gx, gy, type)
     for xx = -1, 5 do
         for yy = -1, 5 do
             if xx ~= -1 and yy ~= -1 and xx ~= 5 and yy ~= 5 then
-                local xxx = (self.gx + xx) % (_G.chunk_width)
-                local yyy = (self.gy + yy) % (_G.chunk_width)
-                local ccx = math.floor((self.gx + xx) / _G.chunk_width)
-                local ccy = math.floor((self.gy + yy) / _G.chunk_width)
+                local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(self.gx + xx, self.gy + yy)
                 _G.buildingheightmap[ccx][ccy][xxx][yyy] = 12
                 _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.none)
             else

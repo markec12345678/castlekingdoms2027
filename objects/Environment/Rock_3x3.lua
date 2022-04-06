@@ -40,10 +40,7 @@ function Rock_3x3:initialize(gx, gy, type, rock_variation)
 
     for xx = 0, 2 do
         for yy = 0, 2 do
-            local xxx = (self.gx + xx) % (_G.chunk_width)
-            local yyy = (self.gy + yy) % (_G.chunk_width)
-            local ccx = math.floor((self.gx + xx) / _G.chunk_width)
-            local ccy = math.floor((self.gy + yy) / _G.chunk_width)
+            local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(self.gx + xx, self.gy + yy)
             _G.buildingheightmap[ccx][ccy][xxx][yyy] = 15
         end
     end

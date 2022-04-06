@@ -115,6 +115,8 @@ function game:keyreleased(key, scancode)
     if not _G.BuildController.start then
         if key == "q" then
             _G.BuildController:set('orchard')
+        elseif key == "d" then
+            _G.BuildController:set('house')
         elseif key == "w" then
             _G.BuildController:set('stockpile')
         elseif key == "e" then
@@ -129,50 +131,8 @@ function game:keyreleased(key, scancode)
             _G.BuildController:set('wheat_farm')
         elseif key == "a" then
             _G.BuildController:set('windmill')
-            -- _G.saw.unit_offset_x = _G.saw.unit_offset_x + 1
-            -- _G.saw:calculate_position()
         elseif key == "s" then
             _G.BuildController:set('bakery')
-            -- _G.saw.unit_offset_x = _G.saw.unit_offset_x - 1
-            -- _G.saw:calculate_position()
-        elseif key == "d" then
-            -- _G.saw.unit_offset_y = _G.saw.unit_offset_y + 1
-            -- _G.saw:calculate_position()
-        elseif key == "f" then
-            -- _G.saw.unit_offset_y = _G.saw.unit_offset_y - 1
-            -- _G.saw:calculate_position()
-        elseif key == "o" then
-            -- _G.saw.fy = _G.saw.fy + 100
-            -- print("(((((((((((((((((((((")
-            -- print("\t", ob.x, ob.y)
-            -- print(ob.gx, ob.gy, ob.cx, ob.cy, ob.i, ob.o, ob.vert_id)
-            -- _G.saw:update_position()
-            -- print("\t", ob.x, ob.y)
-            -- print(ob.gx, ob.gy, ob.cx, ob.cy, ob.i, ob.o, ob.vert_id)
-            -- print(")))))))))))))))))))))")
-            -- _G.saw.offset_y = _G.saw.offset_y + 1
-        elseif key == "l" then
-            -- _G.saw.fy = _G.saw.fy - 100
-            -- print("(((((((((((((((((((((")
-            -- print("\t", ob.x, ob.y)
-            -- print(ob.gx, ob.gy, ob.cx, ob.cy, ob.i, ob.o, ob.vert_id)
-            -- _G.saw:update_position()
-            -- print("\t", ob.x, ob.y)
-            -- print(ob.gx, ob.gy, ob.cx, ob.cy, ob.i, ob.o, ob.vert_id)
-            -- print(")))))))))))))))))))))")
-            -- _G.saw.offset_y = _G.saw.offset_y - 1
-        elseif key == "k" then
-            -- _G.saw.fx = _G.saw.fx + 1000
-            -- _G.saw:update_position()
-            -- print("\t", ob.x, ob.y)
-            -- print(ob.gx, ob.gy, ob.cx, ob.cy)
-            -- _G.saw.offset_x = _G.saw.offset_x + 1
-        elseif key == ";" then
-            -- _G.saw.fx = _G.saw.fx - 1000
-            -- _G.saw:update_position()
-            -- print("\t", ob.x, ob.y)
-            -- print(ob.gx, ob.gy, ob.cx, ob.cy)
-            -- _G.saw.offset_x = _G.saw.offset_x - 1
         elseif key == "p" then
             print("x,y", _G.saw.offset_x, _G.saw.offset_y)
         elseif key == "v" then

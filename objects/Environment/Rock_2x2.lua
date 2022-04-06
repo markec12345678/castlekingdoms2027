@@ -38,10 +38,7 @@ function Rock_2x2:initialize(gx, gy, type, rock_variation)
     local tiles, quad_array = _G.indexBuildingQuads("rocks_2x2tile (" .. rock_variation .. ")", false, 3)
     for xx = 0, 1 do
         for yy = 0, 1 do
-            local xxx = (self.gx + xx) % (_G.chunk_width)
-            local yyy = (self.gy + yy) % (_G.chunk_width)
-            local ccx = math.floor((self.gx + xx) / _G.chunk_width)
-            local ccy = math.floor((self.gy + yy) / _G.chunk_width)
+            local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(self.gx + xx, self.gy + yy)
             _G.buildingheightmap[ccx][ccy][xxx][yyy] = 15
         end
     end

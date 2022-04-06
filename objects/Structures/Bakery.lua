@@ -259,6 +259,8 @@ function Bakery:initialize(gx, gy)
     for xx = 0, 3 do
         for yy = 0, 3 do
             _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.none)
+            local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(self.gx + xx, self.gy + yy)
+            _G.buildingheightmap[ccx][ccy][xxx][yyy] = 17
         end
     end
     for tile = 1, tiles do
