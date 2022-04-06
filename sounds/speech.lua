@@ -62,4 +62,8 @@ local speech = {
 
 }
 
+for _, sf in pairs(speech) do
+    sf:setRelative(true)
+end
+
 return speech
