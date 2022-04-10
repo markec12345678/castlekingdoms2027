@@ -19,6 +19,8 @@ function State:initialize()
     self.scale_x = 1
     self.view_xview = -100
     self.view_yview = 4000
+    self.population = 0
+    self.max_population = 5
     -- TODO: Make the collision map dynamic
     self.collision_map = _G.ffi.new("unsigned char[2048][2048]", {})
     self.resources = {
@@ -209,6 +211,8 @@ function State:serialize()
     data.view_xview = self.view_xview
     data.view_yview = self.view_yview
     data.serialized_object_ids = self.serialized_object_ids
+    data.population = self.population
+    data.max_population = self.max_population
     data.map = self.map:serialize()
     return data
 end
@@ -232,6 +236,8 @@ function State:load(filename)
     self.bottom_right_chunk_y = load.bottom_right_chunk_y
     self.terrain_chunks = load.terrain_chunks
     self.vertices_per_tile = load.vertices_per_tile
+    self.max_population = load.max_population
+    self.population = load.population
     _G.JobController:deserialize(load.job_controller)
     _G.BuildController:deserialize(load.build_controller)
     _G.foodpile:deserialize(load.food_controller)

@@ -35564,4 +35564,12 @@ tile_quads["wall_crenelations_tile_land3 (19)"] = love.graphics.newQuad(tpack_x+
 tile_quads["wall_crenelations_tile_land3 (20)"] = love.graphics.newQuad(tpack_x+342,tpack_y+295,30,40,imageW, imageH)
 tile_quads["wall_crenelations_tile_land3 (21)"] = love.graphics.newQuad(tpack_x+104,tpack_y+341,30,46,imageW, imageH)
 
+for num=1,51 do
+    tile_quads["float_circle_green ("..tostring(num)..")"] = love.graphics.newQuad(1022+40*(num-1), 9701, 40, 23, imageW,imageH)
+end
+tile_quads["float_circle_red (1)"] = love.graphics.newQuad(1022, 9725, 40, 23, imageW,imageH)
+for num=2,51 do
+    tile_quads["float_circle_red ("..tostring(num)..")"] = love.graphics.newQuad(1022+40*(num-1), 9725, 40, 23, imageW,imageH)
+end
+
 return tile_quads

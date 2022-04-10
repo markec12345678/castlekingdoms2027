@@ -80,6 +80,8 @@ function House:initialize(gx, gy)
         end
     end
 
+    _G.state.max_population = _G.state.max_population + 4
+
     Structure.render(self)
 end
 function House:load(data)

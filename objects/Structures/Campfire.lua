@@ -1,12 +1,118 @@
-local _, tile_quads, _ = ...
+local active_entities, tile_quads, _ = ...
+local anim = require("libraries.anim8")
 local Structure = require("objects.Structure")
+local Peasant = require("objects.Units.Peasant")
 local Object = require("objects.Object")
 
 local ANIM_CAMPFIRE_BURNING = "Campfire burning"
+local ANIM_FLOAT_CIRCLE_GREEN = "Peasants coming float"
+local ANIM_FLOAT_CIRCLE_RED = "Peasants leaving float"
 
 local an = {
-    [ANIM_CAMPFIRE_BURNING] = _G.indexQuads("campfire", 19, 2)
+    [ANIM_CAMPFIRE_BURNING] = _G.indexQuads("campfire", 19, 2),
+    [ANIM_FLOAT_CIRCLE_GREEN] = _G.indexQuads("float_circle_green", 51),
+    [ANIM_FLOAT_CIRCLE_RED] = _G.indexQuads("float_circle_green", 51)
 }
+
+local Campfire_float_pop = _G.class('Campfire_float_pop', Structure)
+function Campfire_float_pop:initialize(gx, gy)
+    Structure.initialize(self, gx, gy, "Campfire float circle")
+    self.animated_alias = true
+    self.animated = true
+    self.green_animation = anim.newAnimation(an[ANIM_FLOAT_CIRCLE_GREEN], 0.025, self:immigrant_callback(),
+        ANIM_FLOAT_CIRCLE_GREEN)
+    self.red_animation = anim.newAnimation(an[ANIM_FLOAT_CIRCLE_GREEN], 0.025, self:emigrant_callback(),
+        ANIM_FLOAT_CIRCLE_GREEN)
+    self.offset_x = 7
+    self.offset_y = -81
+    self.animation = self.green_animation
+    self.tile = tile_quads["empty"]
+    table.insert(active_entities, self)
+end
+function Campfire_float_pop:animate(dt)
+    local should_add_peasants = true
+    if _G.state.population >= _G.state.max_population then
+        if self.animation == self.green_animation then
+            self.animation:pauseAtStart()
+            should_add_peasants = false
+        end
+    end
+    if _G.campfire and _G.campfire.peasants >= _G.campfire.max_peasants then
+        if self.animation == self.green_animation then
+            self.animation:pauseAtStart()
+            should_add_peasants = false
+        end
+    end
+    if should_add_peasants then
+        if self.animation == self.green_animation then
+            self.animation:resume()
+        end
+    end
+    Structure.animate(self, dt, true)
+end
+function Campfire_float_pop:immigrant_callback()
+    return function()
+        _G.state.population = _G.state.population + 1
+        Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
+    end
+end
+function Campfire_float_pop:emigrant_callback()
+    return function()
+        print("leaving the town")
+    end
+end
+function Campfire_float_pop:serialize()
+    local data = {}
+    local struct_data = Structure.serialize(self)
+    for k, v in pairs(struct_data) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
+    data.base_offset_y = self.base_offset_y
+    data.animated = self.animated
+    data.additional_offset_y = self.additional_offset_y
+    data.animated_alias = self.animated_alias
+    data.offset_x = self.offset_x
+    data.offset_y = self.offset_y
+    if self.animation then
+        data.animation = self.animation:serialize()
+    end
+    data.green_animation = self.green_animation:serialize()
+    data.red_animation = self.red_animation:serialize()
+    return data
+end
+function Campfire_float_pop.static:deserialize(data)
+    local obj = self:allocate()
+    Object.deserialize(obj, data)
+    Structure.load(obj, data)
+    if data.animation then
+        local an_data = data.animation
+        local callback
+        if an_data.animation_identifier == ANIM_FLOAT_CIRCLE_GREEN then
+            callback = obj:immigrant_callback()
+        else
+            obj.red_animation = _G.anim.newAnimation(an[data.red_animation.animation_identifier], 1,
+                obj:emigrant_callback(), data.red_animation.animation_identifier)
+        end
+        if an_data.animation_identifier == ANIM_FLOAT_CIRCLE_RED then
+            callback = obj:emigrant_callback()
+        else
+            obj.green_animation = _G.anim.newAnimation(an[data.green_animation.animation_identifier], 1,
+                obj:immigrant_callback(), data.green_animation.animation_identifier)
+        end
+        obj.animation = _G.anim
+                            .newAnimation(an[an_data.animation_identifier], 1, callback, an_data.animation_identifier)
+        obj.animation:deserialize(an_data)
+        if obj.green_animation then
+            obj.red_animation = obj.animation
+        else
+            obj.green_animation = obj.animation
+        end
+    end
+    table.insert(active_entities, obj)
+    return obj
+end
 
 local Campfire_alias = _G.class('Campfire_alias', Structure)
 function Campfire_alias:initialize(gx, gy, parent, animated_alias)
@@ -73,6 +179,7 @@ function Campfire:initialize(gx, gy, type)
     self.animated = false
     self.peasants = 0
     self.hover_action = true
+    self.max_peasants = 20
     self.free_spots = _G.newAutotable(2)
 
     for xx = -3, 5 do
@@ -90,6 +197,7 @@ function Campfire:initialize(gx, gy, type)
     _G.terrainSetTileAt(self.gx + 4, self.gy + 4, _G.terrain_biome.dirt)
     _G.terrainSetTileAt(self.gx + -2, self.gy + 4, _G.terrain_biome.dirt)
     self:take_spot(_G.spawn_point_x, _G.spawn_point_y)
+    Campfire_float_pop:new(self.gx + 3, self.gy + 3)
     Campfire_alias:new(self.gx, self.gy - 1, self)
     Campfire_alias:new(self.gx, self.gy + 1, self)
     Campfire_alias:new(self.gx + 1, self.gy, self)
@@ -133,15 +241,15 @@ function Campfire:get_free_peasant()
         for yy = -2, 3 do
             if type(self.free_spots[xx][yy]) == "table" then
                 local peasant = self.free_spots[xx][yy]
+                if peasant.state ~= "Waiting" then
+                    goto skip_this_peasant
+                end
                 self.free_spots[xx][yy] = true
                 self.peasants = self.peasants - 1
                 if self.peasants == 0 then
                     self.animated_alias.animated = false
                     self.animated_alias.offset_y = -16
                     Structure.render(self.animated_alias)
-                end
-                if peasant.state ~= "Waiting" then
-                    goto skip_this_peasant
                 end
                 peasant.state = "Waiting"
                 peasant.try_to_get_a_job = true
@@ -202,6 +310,7 @@ function Campfire:serialize()
     data.offset_y = self.offset_y
     data.animated = self.animated
     data.peasants = self.peasants
+    data.max_peasants = self.max_peasants
     data.hover_action = self.hover_action
     data.health = self.health
     local free_spots = {}

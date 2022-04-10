@@ -94,7 +94,7 @@ local Rock_2x2 = love.filesystem.load('objects/Environment/Rock_2x2.lua')(active
     object_batch)
 local Rock_1x1 = love.filesystem.load('objects/Environment/Rock_1x1.lua')(active_entities, object, tile_quads,
     object_batch)
-local Campfire = love.filesystem.load('objects/Structures/Campfire.lua')(object, tile_quads, object_batch)
+local Campfire = love.filesystem.load('objects/Structures/Campfire.lua')(active_entities, tile_quads, object_batch)
 local Orchard = love.filesystem.load('objects/Structures/Orchard.lua')(object, tile_quads, object_batch)
 local WheatFarm = love.filesystem.load('objects/Structures/WheatFarm.lua')(object, tile_quads, object_batch,
     active_entities)
