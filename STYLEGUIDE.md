@@ -505,8 +505,7 @@ This guide is based on the guide from Olivine Labs and luarocks.
     -- good
     (function(global) 
       -- ...stuff...
-    end)(self)
-\ 
+    end)(self) 
 
     ```
 
