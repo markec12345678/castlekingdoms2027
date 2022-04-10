@@ -15,7 +15,7 @@ function State:initialize()
     self.object_mesh = newAutotable(2)
     self.object_mesh_vert_id_map = newAutotable(3)
     self.vertices_per_tile = 6
-    self.chunk_objects = newAutotable(2)
+    self.chunk_objects = newAutotable(3)
     self.scale_x = 1
     self.view_xview = -100
     self.view_yview = 4000
@@ -119,14 +119,14 @@ function State:serializeChunkObjects()
 end
 
 function State:deserializeChunkObjects(load_data)
-    self.chunk_objects = newAutotable(2)
     for cx = 0, _G.chunks_wide - 1 do
         for cy = 0, _G.chunks_high - 1 do
             local data = load_data[cx] and load_data[cx][cy]
             if data then
                 for _, obj in pairs(data) do
                     if obj and obj.class_name then
-                        self:dereferenceObject(obj)
+                        local new = self:dereferenceObject(obj)
+                        self.chunk_objects[new.cx][new.cy][new] = new
                     end
                 end
             end
@@ -251,7 +251,7 @@ function State:load(filename)
         love.quit()
     end
     _G.stockpile:deserialize(load.stockpile_controller)
-    self.chunk_objects = self:deserializeChunkObjects(load.chunk_objects)
+    self:deserializeChunkObjects(load.chunk_objects)
     self.object = self:deserializeObjects(load.object)
     self.scale_x = load.scale_x
     self.view_xview = load.view_xview

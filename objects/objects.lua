@@ -27,7 +27,6 @@ end
 local press = location:new()
 ----Rows and columns
 ----Chunk 2D array
-local active_objects = newAutotable(1)
 local active_entities = newAutotable(1)
 _G.active_chunks = {}
 local object = _G.state.object
@@ -54,14 +53,14 @@ local tile_quads = require('objects.object_quads')
 local Unit = love.filesystem.load('objects/Units/Unit.lua')(active_entities, object_batch)
 package.loaded['objects.Units.Unit'] = Unit
 
-local Tree = love.filesystem.load('objects/Environment/Tree.lua')(object_batch, active_objects, tile_quads, object)
-local PineTree = love.filesystem.load('objects/Environment/PineTree.lua')(object_batch, active_objects, tile_quads,
+local Tree = love.filesystem.load('objects/Environment/Tree.lua')(object_batch, active_entities, tile_quads, object)
+local PineTree = love.filesystem.load('objects/Environment/PineTree.lua')(object_batch, active_entities, tile_quads,
     object, Tree)
-local OakTree = love.filesystem.load('objects/Environment/OakTree.lua')(object_batch, active_objects, tile_quads,
+local OakTree = love.filesystem.load('objects/Environment/OakTree.lua')(object_batch, active_entities, tile_quads,
     object, Tree)
-local Shrub = love.filesystem.load('objects/Environment/Shrub.lua')(object_batch, active_objects, tile_quads, object)
-local Stone = love.filesystem.load('objects/Environment/Stone.lua')(object_batch, active_objects, tile_quads, object)
-local Iron = love.filesystem.load('objects/Environment/Iron.lua')(object_batch, active_objects, tile_quads, object)
+local Shrub = love.filesystem.load('objects/Environment/Shrub.lua')(object_batch, active_entities, tile_quads, object)
+local Stone = love.filesystem.load('objects/Environment/Stone.lua')(object_batch, active_entities, tile_quads, object)
+local Iron = love.filesystem.load('objects/Environment/Iron.lua')(object_batch, active_entities, tile_quads, object)
 local Woodcutter = love.filesystem.load('objects/Units/Woodcutter.lua')(object, tile_quads)
 local Baker = love.filesystem.load('objects/Units/Baker.lua')(object, tile_quads)
 local Stonemason = love.filesystem.load('objects/Units/Stonemason.lua')(object, tile_quads)
@@ -95,7 +94,7 @@ local Rock_2x2 = love.filesystem.load('objects/Environment/Rock_2x2.lua')(active
 local Rock_1x1 = love.filesystem.load('objects/Environment/Rock_1x1.lua')(active_entities, object, tile_quads,
     object_batch)
 local Campfire = love.filesystem.load('objects/Structures/Campfire.lua')(active_entities, tile_quads, object_batch)
-local Orchard = love.filesystem.load('objects/Structures/Orchard.lua')(object, tile_quads, object_batch)
+local Orchard = love.filesystem.load('objects/Structures/Orchard.lua')(active_entities, tile_quads, object_batch)
 local WheatFarm = love.filesystem.load('objects/Structures/WheatFarm.lua')(object, tile_quads, object_batch,
     active_entities)
 package.loaded['objects.Environment.Tree'] = Tree
@@ -567,11 +566,13 @@ local function mousepressed(x, y, button)
         --     end
         -- end
         -- Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
+
         local insp = object[press.cx][press.cy][press.x][press.y]
         if insp then
             print("____________")
             for _, ibj in pairs(insp) do
                 print(ibj, ibj.gx, ibj.gy)
+                print(inspect(ibj:serialize()))
                 --     print(ibj.type, ibj.vert_id, ibj.i, ibj.o, press.x, press.y, press.cx, press.cy)
                 --     local remove_all_metatables = function(item, path)
                 --         if path[#path] ~= inspect.METATABLE then
@@ -782,7 +783,7 @@ local tableOfFunctions = {
     chunk = object[press.cx][press.cy],
     mousereleased = _G.mousereleased,
     mousepressed = mousepressed,
-    active = active_objects,
+    active = active_entities,
     object = object,
     batch = object_batch,
     shadow = shadow_batch,

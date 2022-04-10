@@ -2,7 +2,7 @@ local terrain_table = require('terrain.terrain')
 local object_table = require('objects.objects')
 local terrain_batch = terrain_table.batch
 local genTerrain = terrain_table.genTerrain
-local active_objects = object_table.active
+local active_entities = object_table.active
 local object = object_table.object
 local object_batch = object_table.batch
 local shadow_batch = object_table.shadow
@@ -23,7 +23,7 @@ local function objectClean(cx, cy)
     }
     chunk_ser.position = {cx, cy}
     local counter = 1
-    for index, obj in ipairs(active_objects) do
+    for index, obj in ipairs(active_entities) do
         if obj.cx == cx and obj.cy == cy then
             chunk_ser.objects[counter] = obj:serialize()
             counter = counter + 1
