@@ -506,7 +506,7 @@ This guide is based on the guide from Olivine Labs and luarocks.
     (function(global) 
       -- ...stuff...
     end)(self) 
-
+    -- newline here
     ```
 
   - Surround operators with spaces.
