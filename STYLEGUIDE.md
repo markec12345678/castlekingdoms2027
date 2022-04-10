@@ -1,11 +1,8 @@
 # Lua Style Guide
 
-This style guide contains a list of guidelines that we try to follow for this project. It does not attempt to make arguments for the styles; its goal is
-to provide consistency across projects.
+This style guide contains a list of guidelines that we try to follow for this project. It does not attempt to make arguments for the styles; its goal is to provide consistency across projects.
 
-Feel free to fork this style guide and change to your own
-liking, and file issues / pull requests if you have questions, comments, or if
-you find any mistakes or typos.
+Feel free to fork this style guide and change to your own liking, and file issues / pull requests if you have questions, comments, or if you find any mistakes or typos.
 
 This guide is based on the guide from Olivine Labs and luarocks.
 
@@ -37,7 +34,7 @@ This guide is based on the guide from Olivine Labs and luarocks.
 
 ## <a name='types'>Types</a>
 
-  - **Primitives**: When you access a primitive type you work directly on its value
+  - **Primitives**: When you access a primitive type, you work directly on its value.
 
     + `string`
     + `number`
@@ -53,7 +50,7 @@ This guide is based on the guide from Olivine Labs and luarocks.
     print(foo, bar) -- => 1	9
     ```
 
-  - **Complex**: When you access a complex type you work on a reference to its value
+  - **Complex**: When you access a complex type, you work on a reference to its value.
 
     + `table`
     + `function`
@@ -75,7 +72,7 @@ This guide is based on the guide from Olivine Labs and luarocks.
 
 ## <a name='tables'>Tables</a>
 
-  - Use the constructor syntax for table property creation where possible.
+  - Use the constructor syntax for table property creation, where possible.
 
     ```lua
     -- bad
@@ -156,8 +153,7 @@ This guide is based on the guide from Olivine Labs and luarocks.
     local fullName = 'Bob ' .. self.lastName
     ```
 
-  - Strings longer than 80 characters should be written across multiple lines 
-    using concatenation. This allows you to indent nicely.
+  - Strings longer than 80 characters should be written across multiple lines using concatenation. This allows you to indent nicely.
 
     ```lua
     -- bad
@@ -170,7 +166,6 @@ This guide is based on the guide from Olivine Labs and luarocks.
     how Batman had anything to do \
     with this, you would get nowhere \
     fast.'
-
 
     -- bad
     local errorMessage = [[This is a super long error that
@@ -193,10 +188,9 @@ This guide is based on the guide from Olivine Labs and luarocks.
 
 
 ## <a name='functions'>Functions</a>
-  - Prefer lots of small functions to large, complex functions. [Smalls Functions Are Good For The Universe](http://kikito.github.io/blog/2012/03/16/small-functions-are-good-for-the-universe/).
+  - Prefer lots of small functions to large, complex functions. [Small Functions Are Good For The Universe](http://kikito.github.io/blog/2012/03/16/small-functions-are-good-for-the-universe/).
 
-  - Prefer function syntax over variable syntax. This helps differentiate
-    between named and anonymous functions.
+  - Prefer function syntax over variable syntax; This helps differentiate between named and anonymous functions.
 
     ```lua
     -- bad
@@ -210,7 +204,7 @@ This guide is based on the guide from Olivine Labs and luarocks.
     end
     ```
 
-  - Never name a parameter `arg`, this will take precendence over the `arg` object that is given to every function scope in older versions of Lua.
+  - Never name a parameter `arg`, this will take precendence over the `arg` object that is given to every function scope in older versions of lua.
 
     ```lua
     -- bad
@@ -224,7 +218,7 @@ This guide is based on the guide from Olivine Labs and luarocks.
     end
     ```
 
-  - Perform validation early and return as early as possible.
+  - Perform validation early, and return as early as possible.
 
     ```lua
     -- bad
@@ -267,8 +261,7 @@ This guide is based on the guide from Olivine Labs and luarocks.
     local isJedi = luke.jedi
     ```
 
-  - Use subscript notation `[]` when accessing properties with a variable
-    or if using a table as a list.
+  - Use subscript notation `[]` when accessing properties with a variable, or if using a table as a list.
 
     ```lua
     local luke = {
@@ -288,8 +281,7 @@ This guide is based on the guide from Olivine Labs and luarocks.
 
 ## <a name='variables'>Variables</a>
 
-  - Always use `local` to declare variables. Not doing so will result in
-    global variables to avoid polluting the global namespace.
+  - Always use `local` to declare variables to avoid polluting the global namespace with global variables.
 
     ```lua
     -- bad
@@ -335,15 +327,14 @@ This guide is based on the guide from Olivine Labs and luarocks.
     end
     ```
 
-    > **Rationale:** Lua has proper lexical scoping. Declaring the function later means that its
-scope is smaller, so this makes it easier to check for the effects of a variable.
+    > **Rationale:** Lua has proper lexical scoping; Declaring the function later means that its scope is smaller, so this makes it easier to check for the effects of a variable.
 
   **[[⬆]](#TOC)**
 
 
 ## <a name='conditionals'>Conditional Expressions & Equality</a>
 
-  - False and nil are *falsy* in conditional expressions. All else is true.
+  - False and nil are *falsy* in conditional expressions. Every other type is *truthy*.
 
     ```lua
     local str = ''
@@ -353,8 +344,7 @@ scope is smaller, so this makes it easier to check for the effects of a variable
     end
     ```
 
-  - Use shortcuts when you can, unless you need to know the difference between
-    false and nil.
+  - Use shortcuts when you can, unless you need to know the difference between false and nil.
 
     ```lua
     -- bad
@@ -368,8 +358,7 @@ scope is smaller, so this makes it easier to check for the effects of a variable
     end
     ```
 
-  - Prefer *true* statements over *false* statements where it makes sense. 
-    Prioritize truthy conditions when writing multiple conditions.
+  - Prefer *true* statements over *false* statements where it makes sense. Prioritize truthy conditions when writing multiple conditions.
 
     ```lua
     --bad
@@ -387,9 +376,7 @@ scope is smaller, so this makes it easier to check for the effects of a variable
     end
     ```
 
-  - Prefer defaults to `else` statements where it makes sense. This results in
-    less complex and safer code at the expense of variable reassignment, so
-    situations may differ.
+  - Prefer defaults to `else` statements where it makes sense; This results in less complex and safer code at the expense of variable reassignment, so situations may differ.
 
     ```lua
     --bad
@@ -436,8 +423,7 @@ scope is smaller, so this makes it easier to check for the effects of a variable
 
 ## <a name='blocks'>Blocks</a>
 
-  - Single line blocks are okay for *small* statements. Try to keep lines under 120 characters.
-    Indent lines if they overflow past the limit.
+  - Single line blocks are okay for *small* statements. Try to keep lines under 120 characters. Indent lines if they overflow past the limit.
 
     ```lua
     -- good
@@ -484,7 +470,7 @@ scope is smaller, so this makes it easier to check for the effects of a variable
     end
     ```
 
-  - Place 1 space before opening and closing braces. Place no spaces around parens.
+  - Place 1 space after opening, and before closing braces; Place no spaces around parens.
 
     ```lua
     -- bad
@@ -520,6 +506,7 @@ scope is smaller, so this makes it easier to check for the effects of a variable
     (function(global) 
       -- ...stuff...
     end)(self)
+\ 
 
     ```
 
@@ -606,8 +593,7 @@ scope is smaller, so this makes it easier to check for the effects of a variable
     }
     ```
 
-    > **Rationale:** This makes the structure of your tables more evident at a glance.
-Trailing commas make it quicker to add new fields and produces shorter diffs.
+    > **Rationale:** This makes the structure of your tables more evident at a glance. Trailing commas make it quicker to add new fields and produces shorter diffs.
 
   **[[⬆]](#TOC)**
 
@@ -644,7 +630,7 @@ Trailing commas make it quicker to add new fields and produces shorter diffs.
     local totalScore = tostring(reviewScore)
     ```
 
-  - Use `tonumber` for Numbers.
+  - Use `tonumber` for numbers.
 
     ```lua
     local inputValue = '4'
@@ -661,8 +647,7 @@ Trailing commas make it quicker to add new fields and produces shorter diffs.
 
 ## <a name='naming-conventions'>Naming Conventions</a>
 
-  - Avoid single letter names. Be descriptive with your naming. You can get
-    away with single-letter names when they are variables in loops.
+  - Avoid single letter names; Be descriptive with your naming. You can get away with single-letter names when they are variables in loops.
 
     ```lua
     -- bad
@@ -685,8 +670,7 @@ Trailing commas make it quicker to add new fields and produces shorter diffs.
     end
     ```
 
-  - Use snake_case when naming variables. Use camelCase for functions. Tend towards
-    verbosity if unsure about naming.
+  - Use snake_case when naming variables. Use camelCase for functions. Tend towards verbosity if unsure about naming.
 
     ```lua
     -- bad
@@ -716,7 +700,6 @@ Trailing commas make it quicker to add new fields and produces shorter diffs.
     local Player = require('player')
     ```
 
-    
   - Use `is` or `has` for boolean-returning functions that are part of tables.
 
     ```lua
@@ -736,8 +719,8 @@ Trailing commas make it quicker to add new fields and produces shorter diffs.
 ## <a name='modules'>Modules</a>
 
   - The module should return a table or function.
-  - The module should not use the global namespace. The
-    module should be a closure.
+  - The module should not use the global namespace.
+  - The module should be a closure.
   - The file should be named like the module.
 
     ```lua
@@ -750,19 +733,16 @@ Trailing commas make it quicker to add new fields and produces shorter diffs.
       end
     }
 
-
     return setmetatable(thing, meta)
     ```
 
-  - Note that modules are [loaded as singletons](http://lua-users.org/wiki/TheEssenceOfLoadingCode)
-    and therefore should usually be factories (a function returning a new instance of a table)
-    unless static (like utility libraries.)
+  - Note that modules are [loaded as singletons](http://lua-users.org/wiki/TheEssenceOfLoadingCode) and therefore should usually be factories (a function returning a new instance of a table) unless they are static (like utility libraries.)
 
   **[[⬆]](#TOC)**
 
 ## <a name='file-structrure'>File Structure</a>
 
-  - Files should be named in all lowercase and in snake_case **except factories, classes and singletons**.
+  - Files should be named in all lowercase, and in snake_case **except factories, classes and singletons**.
   - Tests should be in the ./spec folder and named after the module it tests with the suffix _spec.lua
 
   ```
@@ -791,12 +771,9 @@ Trailing commas make it quicker to add new fields and produces shorter diffs.
 
 ## <a name='testing'>Testing</a>
 
-  - Use [busted](http://olivinelabs.com/busted) and write lots of tests in a /spec 
-    folder. Separate tests by module.
-  - Use descriptive `describe` and `it` blocks so it's obvious to see what
-    precisely is failing.
-  - Test interfaces. Don't test private methods. If you need to test something
-    that is private, it probably shouldn't be private in the first place.
+  - Use [busted](http://olivinelabs.com/busted) and write lots of tests in a /spec folder. Separate tests by module.
+  - Use descriptive `describe` and `it` blocks so it's obvious to see what precisely is failing.
+  - Test interfaces. Don't test private methods. If you need to test something that is private, it probably shouldn't be private in the first place.
 
 
 > **Warning:** There's an issue with the current setup of busted, which limits tests to be only in one file (which is objects_spec) and also has higher than actual code coverage. This will be addressed in the future.
@@ -805,9 +782,7 @@ Trailing commas make it quicker to add new fields and produces shorter diffs.
 
 ## <a name='documentation'>Documentation</a>
 
-* Document function signatures using
-[LDoc](https://stevedonovan.github.io/ldoc/). Specifying typing information
-after each parameter or return value is a nice plus.
+* Document function signatures using [LDoc](https://stevedonovan.github.io/ldoc/). Specifying typing information after each parameter or return value is a nice plus.
 
 ```lua
 --- Load a local or remote manifest describing a repository.
@@ -822,9 +797,7 @@ function manif.load_manifest(repo_url, lua_version)
 end
 ```
 
-* Use `TODO` and `FIXME` tags in comments. `TODO` indicates a missing feature
-to be implemented later. `FIXME` indicates a problem in the existing code
-(inefficient implementation, bug, unnecessary code, etc).
+* Use `TODO` and `FIXME` tags in comments. `TODO` indicates a missing feature to be implemented later. `FIXME` indicates a problem in the existing code (inefficient implementation, bug, unnecessary code, etc).
 
 ```lua
 -- TODO: implement method
@@ -833,11 +806,7 @@ local function something()
 end
 ```
 
-* Prefer LDoc comments over the function that explain _what_ the function does
-than inline comments inside the function that explain _how_ it does it. Ideally,
-the implementation should be simple enough so that comments aren't needed. If
-the function grows complex, split it into multiple functions so that their names
-explain what each part does.
+* Prefer LDoc comments over the function that explain _what_ the function does than inline comments inside the function that explain _how_ it does it. Ideally, the implementation should be simple enough so that comments aren't needed. If the function grows complex, split it into multiple functions so that their names explain what each part does.
 
   **[[⬆]](#TOC)**
 
@@ -846,30 +815,16 @@ explain what each part does.
 
 It's best if code passes [luacheck](https://github.com/mpeterv/luacheck).
 
-* luacheck warnings of class 6xx refer to whitespace issues and can be
-ignored. Do not send pull requests "fixing" trailing whitespaces.
+* luacheck warnings of class 6xx refer to whitespace issues and can be ignored. Do not send pull requests "fixing" trailing whitespaces.
 
-> **Rationale:** Git is paranoid about trailing whitespace due to the
-patch-file email-based workflow inherited from the Linux kernel mailing list.
-When using the Git tool proper, exceeding whitespace makes no difference
-whatsoever except for being highlighted by Git's coloring (for the aforementioned
-reasons). Git's pedantism about it has spread over the year to the syntax
-highlighting of many text editors and now everyone says they hate trailing
-whitespace without being really able to answer why (the actual cause being
-that tools complain to them about it, for no good reason).
+> **Rationale:** Git is paranoid about trailing whitespace due to the patch-file email-based workflow inherited from the Linux kernel mailing list.
+When using the Git tool proper, exceeding whitespace makes no difference whatsoever except for being highlighted by Git's coloring (for the aforementioned reasons).
+Git's pedantism about it has spread over the year to the syntax highlighting of many text editors and now everyone says they hate trailing whitespace without being really able to answer why (the actual cause being that tools complain to them about it, for no good reason).
 
-* luacheck warnings of class 211, 212, 213 (unused variable, argument or loop
-variable) should be ignored, if the unused variable was added explicitly: for
-example, sometimes it is useful, for code understandability, to spell out what
-the keys and values in a table are, even if you're only using one of them.
-Another example is a function that needs to follow a given signature for API
-reasons (e.g. a callback that follows a given format) but doesn't use some of
-its arguments; it's better to spell out in the argument what the API the
-function implements is, instead of adding `_` variables.
+* luacheck warnings of class 211, 212, 213 (unused variable, argument or loop variable) should be ignored, if the unused variable was added explicitly: for example, sometimes it is useful, for code understandability, to spell out what the keys and values in a table are, even if you're only using one of them.
+Another example is a function that needs to follow a given signature for API reasons (e.g. a callback that follows a given format) but doesn't use some of its arguments; it's better to spell out in the argument what the API the function implements is, instead of adding `_` variables.
 
-* luacheck warning 542 (empty if branch) can also be ignored, when a sequence
-of `if`/`elseif`/`else` blocks implements a "switch/case"-style list of cases,
-and one of the cases is meant to mean "pass". For example:
+* luacheck warning 542 (empty if branch) can also be ignored, when a sequence of `if`/`elseif`/`else` blocks implements a "switch/case"-style list of cases, and one of the cases is meant to mean "pass". For example:
 
 ```lua
 if warning >= 600 and warning <= 699 then
@@ -881,9 +836,7 @@ else
 end
 ```
 
-> **Rationale:** This avoids writing negated conditions in the final fallback
-case, and it's easy to add another case to the construct without having to
-edit the fallback.
+> **Rationale:** This avoids writing negated conditions in the final fallback case, and it's easy to add another case to the construct without having to edit the fallback.
 
   **[[⬆]](#TOC)**
 
