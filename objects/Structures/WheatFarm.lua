@@ -18,11 +18,8 @@ local WheatFarm_alias = _G.class('WheatFarm_alias', Structure)
 function WheatFarm_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     local mytype = "Static structure"
     Structure.initialize(self, gx, gy, mytype)
-    self.gx = gx
-    self.gy = gy
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
-    self.qid = 0
     self.tile = tile
     self.base_offset_y = offset_y or 0
     self.additional_offset_y = 0
@@ -78,7 +75,6 @@ function WheatFarm_plant:initialize(gx, gy, parent)
     if parent.available_plant_tiles % 8 == 0 then
         self.is_plant = true
     end
-    self.qid = 0
     self.offset_x = 0
     self.offset_y = 0
     self.tile = tile_quads["empty"]
@@ -194,7 +190,6 @@ function WheatFarm:initialize(gx, gy, type)
     Structure.initialize(self, gx, gy, type)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 400
-    self.qid = nil
     self.tile = quad_array[tiles + 1]
     self.stone_quantity = 0
     self.working = false
@@ -501,18 +496,12 @@ function WheatFarm:work(worker)
             if resource_tile then
                 self.wheat_worker.resource_tile = resource_tile
                 self.wheat_worker.state = "Going to pick up wheat"
-                self.nd = {}
-                self.waypoint_x, self.waypoint_y = nil, nil
-                self.wheat_worker.move_dir = "none"
-                self.count = 1
+                self.wheat_worker:clear_path()
                 self.wheat_worker:requestPath(resource_tile.gx, resource_tile.gy)
             else
                 if self.wheat_worker.wheat > 0 then
                     self.wheat_worker.state = "Go to stockpile"
-                    self.nd = {}
-                    self.waypoint_x, self.waypoint_y = nil, nil
-                    self.move_dir = "none"
-                    self.count = 1
+                    self.wheat_worker:clear_path()
                 else
                     self.tiles_fully_grown = 0
                     self.tiles_sowed = 0

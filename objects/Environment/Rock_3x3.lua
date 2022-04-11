@@ -8,11 +8,8 @@ Rock_3x3_alias.static.unserializable = true
 function Rock_3x3_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     local mytype = "Static structure"
     Structure.initialize(self, gx, gy, mytype)
-    self.gx = gx
-    self.gy = gy
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
-    self.qid = 0
     self.tile = tile
     self.base_offset_y = offset_y or 0
     self.additional_offset_y = 0
@@ -25,11 +22,8 @@ local Rock_3x3 = _G.class('Rock_3x3', Structure)
 function Rock_3x3:initialize(gx, gy, type, rock_variation)
     type = type or "Rock_3x3"
     Structure.initialize(self, gx, gy, type)
-    self.gx = _G.chunk_width * self.cx + self.i
-    self.gy = _G.chunk_width * self.cy + self.o
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 100
-    self.qid = nil
     self.tile = tile_quads["empty"]
     self.offset_x = 0
     self.offset_y = 0

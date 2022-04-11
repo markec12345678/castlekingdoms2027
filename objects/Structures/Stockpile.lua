@@ -54,13 +54,10 @@ local max_quantity = {
 local Stockpile_alias = _G.class('Stockpile_alias', Structure)
 function Stockpile_alias:initialize(tile, gx, gy, parent, offset_y, offset_x, not_walkable)
     Structure.initialize(self, gx, gy, "Stockpile alias")
-    self.gx = gx
-    self.gy = gy
     if not_walkable then
         _G.state.map:setWalkable(self.gx, self.gy, 1)
     end
     self.parent = parent
-    self.qid = 0
     self.tile = tile
     self.base_offset_y = offset_y or 0
     self.additional_offset_y = 0
@@ -110,7 +107,6 @@ function Stockpile:initialize(gx, gy, type)
     Structure.initialize(self, gx, gy, type)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 1000
-    self.qid = nil
     self.tile = quad_array[tiles + 1]
     self.offset_x = 0
     self.offset_y = -12

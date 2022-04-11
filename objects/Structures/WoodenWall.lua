@@ -8,11 +8,8 @@ local WoodenWall = class('WoodenWall', Structure)
 function WoodenWall:initialize(gx, gy, type)
     local mytype = "Wall"
     Structure.initialize(self, gx, gy, mytype)
-    self.gx = chunk_width * self.cx + self.i
-    self.gy = chunk_width * self.cy + self.o
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 100
-    self.qid = nil
     self.tile = tiles[love.math.random(1, 4)]
     self.offset_x = 0
     local _, _, _, sh = self.tile:getViewport()

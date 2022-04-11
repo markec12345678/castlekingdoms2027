@@ -7,11 +7,8 @@ local WoodenTower_alias = _G.class('WoodenTower_alias', Structure)
 function WoodenTower_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     local mytype = "Static structure"
     Structure.initialize(self, gx, gy, mytype)
-    self.gx = gx
-    self.gy = gy
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
-    self.qid = 0
     self.tile = tile
     self.base_offset_y = offset_y or 0
     self.additional_offset_y = 0
@@ -29,11 +26,8 @@ local WoodenTower = class('WoodenTower', Structure)
 function WoodenTower:initialize(gx, gy, type)
     local mytype = "Walkable Wall"
     Structure.initialize(self, gx, gy, mytype)
-    self.gx = chunk_width * self.cx + self.i
-    self.gy = chunk_width * self.cy + self.o
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 100
-    self.qid = nil
     self.tile = quad_array[tiles + 1]
     self.offset_x = 0
     local _, _, _, sh = self.tile:getViewport()

@@ -12,7 +12,6 @@ function Object:initialize(gx, gy, type)
     self.gx = gx
     self.gy = gy
     self.type = type
-    self.qid = 0
     self.to_be_deleted = false
 end
 function Object:is_visible_on_screen()

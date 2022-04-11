@@ -589,6 +589,11 @@ function WheatFarmer:load(data)
         self.animation = anim.newAnimation(an[an_data.animation_identifier], 1, callback, an_data.animation_identifier)
         self.animation:deserialize(an_data)
     end
+    if self.path == 2 then
+        self.path = 0
+        self:clear_path()
+        self:requestPath(self.endx, self.endy)
+    end
 end
 function WheatFarmer:serialize()
     local data = {}
@@ -632,10 +637,7 @@ function WheatFarmer:hoe_land_callback(state)
         self:update_position()
         self.animation:pause()
         self.workplace:work(self)
-        self.nd = {}
-        self.waypoint_x, self.waypoint_y = nil, nil
-        self.move_dir = "none"
-        self.count = 1
+        self:clear_path()
     end
     if state == 1 then
         self:anchor_work_position()
@@ -796,10 +798,7 @@ function WheatFarmer:seed_land_callback()
     self.animation:pause()
     self.workplace:update_tiles(self.farmland_tiles)
     self.workplace:work(self)
-    self.nd = {}
-    self.waypoint_x, self.waypoint_y = nil, nil
-    self.move_dir = "none"
-    self.count = 1
+    self:clear_path()
 end
 function WheatFarmer:seed_land()
     local anim1, skip_walking
@@ -846,10 +845,7 @@ function WheatFarmer:seed_land()
     if skip_walking then
         self.workplace:update_tiles(self.farmland_tiles)
         self.workplace:work(self)
-        self.nd = {}
-        self.waypoint_x, self.waypoint_y = nil, nil
-        self.move_dir = "none"
-        self.count = 1
+        self:clear_path()
     else
         self.straight_walk_speed = 638.4 * 10
         self.diagonal_walk_speed = self.straight_walk_speed * 1.414
@@ -974,10 +970,7 @@ function WheatFarmer:scythe_land_callback(state)
         self.diagonal_walk_speed = self.straight_walk_speed * 1.414
         self.animation:pauseAtEnd()
         self.workplace:work(self)
-        self.nd = {}
-        self.waypoint_x, self.waypoint_y = nil, nil
-        self.move_dir = "none"
-        self.count = 1
+        self:clear_path()
     end
     if state == 1 then
         self:anchor_work_position()
@@ -1097,11 +1090,8 @@ function WheatFarmer:update()
                         self:scythe_land()
                     else
                         self.workplace:work(self)
-                        self.nd = {}
-                        self.waypoint_x, self.waypoint_y = nil, nil
+                        self:clear_path()
                         self:update_position()
-                        self.move_dir = "none"
-                        self.count = 1
                     end
                     return
                 else
@@ -1115,16 +1105,10 @@ function WheatFarmer:update()
                     self.wheat = self.wheat + 1
                     if self.wheat < 3 then
                         self.workplace:work(self)
-                        self.nd = {}
-                        self.waypoint_x, self.waypoint_y = nil, nil
-                        self.move_dir = "none"
-                        self.count = 1
+                        self:clear_path()
                     else
                         self.state = "Go to stockpile"
-                        self.nd = {}
-                        self.waypoint_x, self.waypoint_y = nil, nil
-                        self.move_dir = "none"
-                        self.count = 1
+                        self:clear_path()
                         return
                     end
                 else
@@ -1144,10 +1128,7 @@ function WheatFarmer:update()
                     end
                     self.wheat = 0
                     self.state = "Go to workplace"
-                    self.nd = {}
-                    self.waypoint_x, self.waypoint_y = nil, nil
-                    self.move_dir = "none"
-                    self.count = 1
+                    self:clear_path()
                     return
                 else
                     self:set_next_waypoint()

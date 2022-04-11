@@ -190,13 +190,14 @@ function OrchardFarmer:update()
                         closest_node = v
                     end
                 end
+                self:clear_path()
+                self.animation:pause()
                 if not closest_node then
                     print("Closest foodpile node not found")
                 else
                     print("Requesting path to ", closest_node.gx, closest_node.gy)
                     self:requestPath(closest_node.gx, closest_node.gy)
                 end
-                self.move_dir = "none"
             end
         elseif self.state == "Go to workplace" then
             self:requestPath(self.workplace.gx - 1, self.workplace.gy - 1)
@@ -224,14 +225,10 @@ function OrchardFarmer:update()
                     else
                         self.workplace:work(self)
                     end
-                    self.nd = {}
-                    self.waypoint_x, self.waypoint_y = nil, nil
-                    self.move_dir = "none"
-                    self.count = 1
+                    self:clear_path()
                     return
                 else
                     self:set_next_waypoint()
-
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to foodpile" then
@@ -245,14 +242,10 @@ function OrchardFarmer:update()
                     _G.foodpile:store('apples')
                     _G.foodpile:store('apples')
                     self.state = "Go to workplace"
-                    self.nd = {}
-                    self.waypoint_x, self.waypoint_y = nil, nil
-                    self.move_dir = "none"
-                    self.count = 1
+                    self:clear_path()
                     return
                 else
                     self:set_next_waypoint()
-
                 end
                 self.count = self.count + 1
             end

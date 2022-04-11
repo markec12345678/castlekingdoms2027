@@ -22,11 +22,8 @@ local Orchard_alias = class('Orchard_alias', Structure)
 function Orchard_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     local mytype = "Static structure"
     Structure.initialize(self, gx, gy, mytype)
-    self.gx = gx
-    self.gy = gy
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
-    self.qid = 0
     self.tile = tile
     self.base_offset_y = offset_y or 0
     self.additional_offset_y = 0
@@ -77,11 +74,8 @@ function Orchard_tree:initialize(gx, gy, parent, offset_y, offset_x)
     self.anim_raw = anim.newAnimation(an[TREE_EMPTY], 0.10, nil, TREE_EMPTY)
     self.anim_full = anim.newAnimation(an[TREE_APPLES], 0.10, nil, TREE_APPLES)
     self.animation = self.anim_full
-    self.gx = gx
-    self.gy = gy
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
-    self.qid = 0
     self.base_offset_y = offset_y or 0
     self.additional_offset_y = 0
     self.offset_x = offset_x or 0
@@ -159,7 +153,6 @@ function Orchard:initialize(gx, gy, type)
     Structure.initialize(self, gx, gy, type)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 400
-    self.qid = nil
     self.tile = quad_array[tiles + 1]
     self.working = false
     self.offset_x = 0
@@ -288,51 +281,51 @@ function Orchard:work(worker)
             self.tree6.animation = self.tree6.anim_full
             self.tree7.animation = self.tree7.anim_full
             self.tree8.animation = self.tree8.anim_full
+            self.apple_worker:clear_path()
             self.apple_worker:requestPath(self.gx + 1, self.gy + 7)
             self.apple_worker.state = "Going to apple tree"
-            self.apple_worker.move_dir = "none"
             self.state = 1
         elseif self.state == 1 then
             self.tree1.animation = self.tree1.anim_raw
+            self.apple_worker:clear_path()
             self.apple_worker:requestPath(self.gx + 1, self.gy + 12)
             self.apple_worker.state = "Going to apple tree"
-            self.apple_worker.move_dir = "none"
             self.state = 2
         elseif self.state == 2 then
             self.tree2.animation = self.tree2.anim_raw
+            self.apple_worker:clear_path()
             self.apple_worker:requestPath(self.gx + 6, self.gy + 12)
             self.apple_worker.state = "Going to apple tree"
-            self.apple_worker.move_dir = "none"
             self.state = 3
         elseif self.state == 3 then
             self.tree5.animation = self.tree5.anim_raw
+            self.apple_worker:clear_path()
             self.apple_worker:requestPath(self.gx + 6, self.gy + 7)
             self.apple_worker.state = "Going to apple tree"
-            self.apple_worker.move_dir = "none"
             self.state = 4
         elseif self.state == 4 then
             self.tree4.animation = self.tree4.anim_raw
+            self.apple_worker:clear_path()
             self.apple_worker:requestPath(self.gx + 6, self.gy + 2)
             self.apple_worker.state = "Going to apple tree"
-            self.apple_worker.move_dir = "none"
             self.state = 5
         elseif self.state == 5 then
             self.tree3.animation = self.tree3.anim_raw
+            self.apple_worker:clear_path()
             self.apple_worker:requestPath(self.gx + 11, self.gy + 2)
             self.apple_worker.state = "Going to apple tree"
-            self.apple_worker.move_dir = "none"
             self.state = 6
         elseif self.state == 6 then
             self.tree6.animation = self.tree6.anim_raw
+            self.apple_worker:clear_path()
             self.apple_worker:requestPath(self.gx + 11, self.gy + 7)
             self.apple_worker.state = "Going to apple tree"
-            self.apple_worker.move_dir = "none"
             self.state = 7
         elseif self.state == 7 then
             self.tree7.animation = self.tree7.anim_raw
+            self.apple_worker:clear_path()
             self.apple_worker:requestPath(self.gx + 11, self.gy + 12)
             self.apple_worker.state = "Going to apple tree"
-            self.apple_worker.move_dir = "none"
             self.state = 8
         elseif self.state == 8 then
             self.tree8.animation = self.tree8.anim_raw
@@ -344,7 +337,7 @@ function Orchard:work(worker)
 end
 function Orchard:send_to_stockpile()
     self.apple_worker.state = "Go to foodpile"
-    self.apple_worker.move_dir = "none"
+    self.apple_worker:clear_path()
     self.working = false
 end
 

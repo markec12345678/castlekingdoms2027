@@ -218,10 +218,7 @@ function Miller:update()
                 return
             else
                 self.state = "Go to workplace with wheat"
-                self.nd = {}
-                self.waypoint_x, self.waypoint_y = nil, nil
-                self.move_dir = "none"
-                self.count = 1
+                self:clear_path()
                 return
             end
         end
@@ -302,10 +299,7 @@ function Miller:update()
                         return
                     else
                         self.state = "Go to workplace with wheat"
-                        self.nd = {}
-                        self.waypoint_x, self.waypoint_y = nil, nil
-                        self.move_dir = "none"
-                        self.count = 1
+                        self:clear_path()
                         return
                     end
                 else

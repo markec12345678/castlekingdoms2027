@@ -163,10 +163,7 @@ function Baker:update()
                 return
             else
                 self.state = "Go to workplace with flour"
-                self.nd = {}
-                self.waypoint_x, self.waypoint_y = nil, nil
-                self.move_dir = "none"
-                self.count = 1
+                self:clear_path()
                 return
             end
         end
@@ -240,10 +237,7 @@ function Baker:update()
             if self.state == "Going to workplace" or self.state == "Going to workplace with flour" then
                 if self:reached_path_end() then
                     self.workplace:work(self)
-                    self.nd = {}
-                    self.waypoint_x, self.waypoint_y = nil, nil
-                    self.move_dir = "none"
-                    self.count = 1
+                    self:clear_path()
                     return
                 else
                     self:set_next_waypoint()
@@ -258,10 +252,7 @@ function Baker:update()
                         return
                     else
                         self.state = "Go to workplace with flour"
-                        self.nd = {}
-                        self.waypoint_x, self.waypoint_y = nil, nil
-                        self.move_dir = "none"
-                        self.count = 1
+                        self:clear_path()
                         return
                     end
                 else
@@ -276,10 +267,7 @@ function Baker:update()
                     _G.foodpile:store('bread')
                     _G.foodpile:store('bread')
                     self.state = "Go to stockpile for flour"
-                    self.nd = {}
-                    self.waypoint_x, self.waypoint_y = nil, nil
-                    self.move_dir = "none"
-                    self.count = 1
+                    self:clear_path()
                     return
                 else
                     self:set_next_waypoint()

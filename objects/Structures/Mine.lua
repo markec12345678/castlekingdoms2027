@@ -592,7 +592,6 @@ function Mine:initialize(gx, gy)
     Structure.initialize(self, gx, gy, "Mine")
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 400
-    self.qid = nil
     self.tile = quad_array[tiles + 1]
     self.working = false
     self.unloading = false

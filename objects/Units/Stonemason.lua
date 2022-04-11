@@ -181,10 +181,7 @@ function Stonemason:update()
             if self.state == "Going to workplace" then
                 if self:reached_path_end() then
                     self.workplace:work(self)
-                    self.nd = {}
-                    self.waypoint_x, self.waypoint_y = nil, nil
-                    self.move_dir = "none"
-                    self.count = 1
+                    self:clear_path()
                     return
                 else
                     self:set_next_waypoint()
@@ -195,10 +192,7 @@ function Stonemason:update()
                 if self:reached_path_end() then
                     _G.stockpile:store('stone')
                     self.state = "Go to workplace"
-                    self.nd = {}
-                    self.waypoint_x, self.waypoint_y = nil, nil
-                    self.move_dir = "none"
-                    self.count = 1
+                    self:clear_path()
                     return
                 else
                     self:set_next_waypoint()

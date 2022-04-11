@@ -184,8 +184,6 @@ local Bakery_alias = _G.class('Bakery_alias', Structure)
 function Bakery_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     local mytype = "Static structure"
     Structure.initialize(self, gx, gy, mytype)
-    self.gx = gx
-    self.gy = gy
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.tile = tile

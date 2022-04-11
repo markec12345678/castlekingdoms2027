@@ -392,10 +392,7 @@ function Woodcutter:find_tree()
     if self.endx == self.gx and self.endy == self.gy then
         self.state = "Cutting down"
         self.animation = anim.newAnimation(an[AN_CUTTING_NORTHEAST], 0.08, self.cut, AN_CUTTING_NORTHEAST)
-        self.nd = {}
-        self.waypoint_x, self.waypoint_y = nil, nil
-        self.move_dir = "none"
-        self.count = 1
+        self:clear_path()
     else
         self:requestPath(self.endx, self.endy)
         self.state = "Going to tree"
@@ -534,10 +531,7 @@ function Woodcutter:update()
                 if self:reached_path_end() then
                     self.state = "Cutting down"
                     self.animation = anim.newAnimation(an[AN_CUTTING_NORTHEAST], 0.08, self.cut, AN_CUTTING_NORTHEAST)
-                    self.nd = {}
-                    self.waypoint_x, self.waypoint_y = nil, nil
-                    self.move_dir = "none"
-                    self.count = 1
+                    self:clear_path()
                     return
                 else
                     self:set_next_waypoint()
@@ -546,10 +540,7 @@ function Woodcutter:update()
             elseif self.state == "Going to workplace with wood" then
                 if self:reached_path_end() then
                     self.workplace:work(self)
-                    self.nd = {}
-                    self.waypoint_x, self.waypoint_y = nil, nil
-                    self.move_dir = "none"
-                    self.count = 1
+                    self:clear_path()
                     return
                 else
                     self:set_next_waypoint()
@@ -561,10 +552,7 @@ function Woodcutter:update()
                     self.state = "Storing second plank"
                     self.animation:pause()
                     self.store_timer = 0
-                    self.nd = {}
-                    self.waypoint_x, self.waypoint_y = nil, nil
-                    self.move_dir = "none"
-                    self.count = 1
+                    self:clear_path()
                     return
                 else
                     self:set_next_waypoint()
@@ -573,10 +561,7 @@ function Woodcutter:update()
             elseif self.state == "Going to workplace" then
                 if self:reached_path_end() then
                     self.state = "Looking to chop tree"
-                    self.nd = {}
-                    self.waypoint_x, self.waypoint_y = nil, nil
-                    self.move_dir = "none"
-                    self.count = 1
+                    self:clear_path()
                     return
                 else
                     self:set_next_waypoint()
@@ -585,10 +570,7 @@ function Woodcutter:update()
             elseif self.state == "Going to waypoint" then
                 if self:reached_path_end() then
                     self.state = "none"
-                    self.nd = {}
-                    self.waypoint_x, self.waypoint_y = nil, nil
-                    self.move_dir = "none"
-                    self.count = 1
+                    self:clear_path()
                     return
                 else
                     self:set_next_waypoint()

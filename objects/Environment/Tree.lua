@@ -1,4 +1,4 @@
-local _, _, tile_quads, _ = ...
+local _, active_entities, tile_quads, _ = ...
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
 
@@ -48,7 +48,8 @@ function Tree:initialize(gx, gy, type)
     _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
 end
 function Tree:finish()
-    -- TODO: turn into stump object
+    -- Object was deleted by arrayRemove, so we need to readd it
+    _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
     self.animation = anim.newAnimation({self.trunk_tile}, 0.1, nil, STATIC_TRUNK)
     self.animation:pause()
     self.stump = true
@@ -73,6 +74,7 @@ function Tree:finish()
 end
 function Tree:cut_down()
     return function()
+        self.to_be_deleted = true
         self.falling = false
         self.chop = true
         self.animation = self.chop_animation
@@ -179,6 +181,8 @@ function Tree:cut()
             self.animation = self.falling_animation
             _G.play_sfx(self, fall_fx)
             self.falling = true
+            -- We need to animate the falling even if the chunk isn't in the view
+            table.insert(active_entities, self)
             if (self.cx > _G.current_chunk_x + 1) or (self.cx < _G.current_chunk_x - 1) or
                 (self.cy > _G.current_chunk_y + 1) or (self.cy < _G.current_chunk_y - 1) then
                 self.chop = true

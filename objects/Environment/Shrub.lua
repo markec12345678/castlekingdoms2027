@@ -8,8 +8,6 @@ local fr_shrub_2 = indexQuads("tree_shrub2", 25, nil, true)
 local Shrub = class('Shrub', Object)
 function Shrub:initialize(gx, gy, type)
     Object.initialize(self, gx, gy, type)
-    self.gx = chunk_width * self.cx + self.i
-    self.gy = chunk_width * self.cy + self.o
     self.health = 1
     if not type then
         if love.math.random(0, 1) == 0 then

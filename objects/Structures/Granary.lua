@@ -42,7 +42,6 @@ function Granary_alias:initialize(tile, gx, gy, parent, offset_y, offset_x, seri
     self.serialize_parent = not (serialize_parent)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
-    self.qid = 0
     self.tile = tile
     self.base_offset_y = offset_y or 0
     self.additional_offset_y = 0
@@ -96,7 +95,6 @@ function Granary:initialize(gx, gy, type)
     Structure.initialize(self, gx, gy, type)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 1000
-    self.qid = nil
     self.tile = quad_array[tiles + 1]
     self.offset_x = 0
     self.offset_y = -64 - 14

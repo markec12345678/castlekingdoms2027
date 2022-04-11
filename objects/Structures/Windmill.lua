@@ -49,7 +49,6 @@ function Windmill_blade:initialize(gx, gy, parent)
     self.animated = true
     self.animation = anim.newAnimation(an[ANIM_WINDMILL_FAN], 0.11, nil, ANIM_WINDMILL_FAN)
     self.parent = parent
-    self.qid = 0
     self.offset_x = -60
     self.offset_y = -274
 
@@ -100,7 +99,6 @@ function Windmill_filling:initialize(gx, gy, parent)
     self.animation:pause()
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
-    self.qid = 0
     self.offset_x = -62
     self.offset_y = -201
 
@@ -168,7 +166,6 @@ function Windmill_shadow:initialize(gx, gy, parent)
     self.animated = true
     self.animation = anim.newAnimation(an[ANIM_WINDMILL_OUTSIDE], 0.11, nil, ANIM_WINDMILL_OUTSIDE)
     self.parent = parent
-    self.qid = 0
     self.offset_x = -46
     self.offset_y = -243
 
@@ -224,7 +221,6 @@ function Windmill_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     Structure.initialize(self, gx, gy, "Windmill alias")
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
-    self.qid = 0
     self.tile = tile
     self.base_offset_y = offset_y or 0
     self.additional_offset_y = 0
@@ -272,7 +268,6 @@ function Windmill:initialize(gx, gy, type)
     Structure.initialize(self, gx, gy, type)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 400
-    self.qid = nil
     self.tile = quad_array[tiles + 1]
     self.working = false
     self.unloading = false
@@ -431,10 +426,7 @@ function Windmill:work(worker)
                         worker.animated = false
                         worker.gx = self.gx + 1
                         worker.gy = self.gy + 2
-                        worker.nd = {}
-                        worker.waypoint_x, worker.waypoint_y = nil, nil
-                        worker.move_dir = "none"
-                        worker.count = 1
+                        worker:clear_path()
                         worker:job_update()
                         self.filling_flour:activate()
                         self.wheat = self.wheat - 3
@@ -458,10 +450,7 @@ function Windmill:work(worker)
             worker.animated = false
             worker.gx = self.gx + 1
             worker.gy = self.gy + 2
-            worker.nd = {}
-            worker.waypoint_x, worker.waypoint_y = nil, nil
-            worker.move_dir = "none"
-            worker.count = 1
+            worker:clear_path()
             worker:job_update()
             self.wheat = self.wheat - 3
             self.worker2_delivered, self.worker3_delivered = false, false
@@ -470,17 +459,11 @@ function Windmill:work(worker)
         else
             if worker == self.worker3 and self.wheat < 4 then
                 worker.state = "Go to stockpile for wheat"
-                worker.nd = {}
-                worker.waypoint_x, worker.waypoint_y = nil, nil
-                worker.move_dir = "none"
-                worker.count = 1
+                worker:clear_path()
             end
             if worker == self.worker2 and self.wheat < 4 then
                 worker.state = "Go to stockpile for wheat"
-                worker.nd = {}
-                worker.waypoint_x, worker.waypoint_y = nil, nil
-                worker.move_dir = "none"
-                worker.count = 1
+                worker:clear_path()
             end
             if worker == self.worker and not self.worker_delivered then
                 if self.wheat >= 3 then
@@ -490,10 +473,7 @@ function Windmill:work(worker)
                     worker.animated = false
                     worker.gx = self.gx + 1
                     worker.gy = self.gy + 2
-                    worker.nd = {}
-                    worker.waypoint_x, worker.waypoint_y = nil, nil
-                    worker.move_dir = "none"
-                    worker.count = 1
+                    worker:clear_path()
                     worker:job_update()
                     self.wheat = self.wheat - 3
                     self.worker2_delivered, self.worker3_delivered = false, false
@@ -501,10 +481,7 @@ function Windmill:work(worker)
                     self.blade_shadow:show_inside()
                 elseif not self.worker_delivered then
                     worker.state = "Go to stockpile for wheat"
-                    worker.nd = {}
-                    worker.waypoint_x, worker.waypoint_y = nil, nil
-                    worker.move_dir = "none"
-                    worker.count = 1
+                    worker:clear_path()
                 end
             end
         end

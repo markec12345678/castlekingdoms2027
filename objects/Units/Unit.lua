@@ -180,11 +180,17 @@ end
 function Unit:reached_path_end()
     if self.nd[1] == nil then
         if self.gx == self.nd[0][1] + 0.5 and self.gy == self.nd[0][2] + 0.5 then
+            if self.chosen_one then
+                print("reached path end 1", self.state)
+            end
             return true
         end
     else
         local last_node = self.nd[#self.nd]
         if self.gx == last_node[1] + 0.5 and self.gy == last_node[2] + 0.5 then
+            if self.chosen_one then
+                print("reached path end 2", self.state)
+            end
             return true
         end
     end
@@ -477,6 +483,13 @@ function Unit.static:deserialize(data)
     end
     obj:load(data)
     return obj
+end
+function Unit:clear_path()
+    self.nd = {}
+    self.waypoint_x, self.waypoint_y = nil, nil
+    self.previous_dir = "none"
+    self.move_dir = "none"
+    self.count = 1
 end
 function Unit:load(_)
     _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
