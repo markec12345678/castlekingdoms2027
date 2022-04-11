@@ -16,6 +16,7 @@ function Map:setWalkable(gx, gy, walkable)
     walkable = walkable or 0
     if gx >= 0 and gx < 2048 and gy >= 0 and gy < 2048 then
         _G.channel.map_update:push({gx, gy, walkable})
+        _G.channel2.map_update:push({gx, gy, walkable})
         self.collision_map[gx][gy] = walkable
     else
         print("Trying to set out of bounds as walkable..", gx, gy)

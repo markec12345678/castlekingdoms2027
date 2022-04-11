@@ -1,3 +1,4 @@
+local id = ...
 local ffi = require('ffi')
 ffi.cdef [[
         void *calloc(size_t nitems, size_t size);
@@ -20,7 +21,7 @@ local finder = Pathfinder(grid, 'JPS', 0)
 local channel = {}
 channel.request = love.thread.getChannel("request")
 channel.receive = love.thread.getChannel("receive")
-channel.map_update = love.thread.getChannel("map_update")
+channel.map_update = love.thread.getChannel("map_update" .. id)
 
 while true do
     local table = channel.request:demand()

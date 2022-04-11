@@ -179,6 +179,8 @@ _G.channel = {}
 _G.channel.request = love.thread.getChannel("request")
 _G.channel.receive = love.thread.getChannel("receive")
 _G.channel.map_update = love.thread.getChannel("map_update")
+_G.channel2 = {}
+_G.channel2.map_update = love.thread.getChannel("map_update2")
 
 ----Resources
 ----Libraries
