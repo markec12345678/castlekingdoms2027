@@ -32,21 +32,20 @@ end
 function Campfire_float_pop:animate(dt)
     local should_add_peasants = true
     if _G.state.population >= _G.state.max_population then
+        should_add_peasants = false
         if self.animation == self.green_animation then
             self.animation:pauseAtStart()
-            should_add_peasants = false
         end
     end
     if _G.campfire and _G.campfire.peasants >= _G.campfire.max_peasants then
-        if self.animation == self.green_animation then
+        should_add_peasants = false
+        if self.animation.animation_identifier == ANIM_FLOAT_CIRCLE_GREEN then
             self.animation:pauseAtStart()
-            should_add_peasants = false
         end
     end
     if should_add_peasants then
-        if self.animation == self.green_animation then
-            self.animation:resume()
-        end
+        self.animation = self.green_animation
+        self.animation:resume()
     end
     Structure.animate(self, dt, true)
 end
@@ -94,12 +93,14 @@ function Campfire_float_pop.static:deserialize(data)
         else
             obj.red_animation = _G.anim.newAnimation(an[data.red_animation.animation_identifier], 1,
                 obj:emigrant_callback(), data.red_animation.animation_identifier)
+            obj.red_animation:deserialize(data.red_animation)
         end
         if an_data.animation_identifier == ANIM_FLOAT_CIRCLE_RED then
             callback = obj:emigrant_callback()
         else
             obj.green_animation = _G.anim.newAnimation(an[data.green_animation.animation_identifier], 1,
                 obj:immigrant_callback(), data.green_animation.animation_identifier)
+            obj.green_animation:deserialize(data.green_animation)
         end
         obj.animation = _G.anim
                             .newAnimation(an[an_data.animation_identifier], 1, callback, an_data.animation_identifier)
