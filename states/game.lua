@@ -1,7 +1,7 @@
 local game = {}
 local Gamestate = require('libraries.gamestate')
 local core = require("misc")
-local thread, objects, terrain
+local thread, thread2, objects, terrain
 require("shaders.postshader")
 local ui = {
     show = {
@@ -40,7 +40,9 @@ function game:init()
     _G.JobController = require('objects.Controllers.JobController')
     ----Pathfinding setup
     thread = love.thread.newThread("libraries/pathfinding_thread.lua")
-    thread:start()
+    thread:start("1")
+    thread2 = love.thread.newThread("libraries/pathfinding_thread.lua")
+    thread2:start("2")
     _G.finder = require('objects.Controllers.PathController')
     if new_game then
         terrain.genMap()
@@ -133,6 +135,14 @@ function game:keyreleased(key, scancode)
             _G.BuildController:set('windmill')
         elseif key == "s" then
             _G.BuildController:set('bakery')
+            -- elseif key == "o" then
+            --     _G.saw.offset_y = _G.saw.offset_y + 1
+            -- elseif key == "l" then
+            --     _G.saw.offset_y = _G.saw.offset_y - 1
+            -- elseif key == "k" then
+            --     _G.saw.offset_x = _G.saw.offset_x + 1
+            -- elseif key == ";" then
+            --     _G.saw.offset_x = _G.saw.offset_x - 1
         elseif key == "p" then
             print("x,y", _G.saw.offset_x, _G.saw.offset_y)
         elseif key == "v" then
@@ -141,6 +151,7 @@ function game:keyreleased(key, scancode)
             _G.foodpile:store('bread')
             _G.foodpile:store('apples')
             _G.foodpile:store('cheese')
+            print(inspect(_G.food))
         elseif key == "f" then
             local fullscreen, fstype = love.window.getFullscreen()
             if fullscreen then

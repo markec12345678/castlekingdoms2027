@@ -29,8 +29,16 @@ function Unit:initialize(gx, gy, type, no_path_state)
     self.animated = true
     self.no_path_state = no_path_state or "No path"
     self.need_new_vert_asap = false
+    self.locations_cx = {}
+    self.locations_cy = {}
+    self.locations_i = {}
+    self.locations_o = {}
     self.lrcx, self.lrcy, self.lrx, self.lry = 0, 0, 0, 0
     _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
+    table.insert(self.locations_cx, self.cx)
+    table.insert(self.locations_cy, self.cy)
+    table.insert(self.locations_i, self.i)
+    table.insert(self.locations_o, self.o)
     table.insert(active_entities, self)
     self:calculate_position()
 end
@@ -53,42 +61,19 @@ function Unit:animate()
     if self == nil or self.animation == nil then
         return -- animation may have been deleted on callback
     end
+    if not self.vert_id then
+        self.need_new_vert_asap = true
+    end
     local changed_tiles = self.i ~= self.last_i or self.o ~= self.last_o or self.need_new_vert_asap
     updated = updated or changed_tiles
     if self.instancemesh then
-        if self.last_chunk_instancemesh then
-            self.last_chunk_instancemesh = nil
-            _G.freeVertexFromTile(self.previous_cx, self.previous_cy, self.last_chunk_vert_id)
-            local offset_x, offset_y = 0, 0
-            if quad_offset[self.animation:getQuad()] then
-                offset_x, offset_y = quad_offset[self.animation:getQuad()][1] or 0,
-                    quad_offset[self.animation:getQuad()][2] or 0
-            end
-            local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(
-                self.x + (self.offset_x or 0) + offset_x, self.y + (self.offset_y or 0) + offset_y -
-                    _G.state.map.walking_heightmap[math.round(self.gx)][math.round(self.gy)])
-
-            local elevation_offset_y = 0
-            if _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] then
-                elevation_offset_y = _G.state.map.heightmap[self.cx][self.cy][self.i][self.o]
-            end
-            y = y - elevation_offset_y * 2
-            local qx, qy, qw, qh = quad:getViewport()
-            local shadow_value = _G.shadowmap[self.cx][self.cy][self.i][self.o] or 0
-            local is_in_shadow = shadow_value > elevation_offset_y
-            if is_in_shadow then
-                shadow_value = math.min((shadow_value - elevation_offset_y) / 40, 0.6) / 1.25
-            else
-                shadow_value = 0
-            end
-            self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh, 1 - shadow_value / 1.5)
-            return
-        elseif changed_tiles then
+        if changed_tiles then
             _G.freeVertexFromTile(self.cx, self.cy, self.vert_id)
+            self.vert_id = nil
+            self.instancemesh = nil
             local new_vert = _G.getFreeVertexFromTile(self.cx, self.cy, self.i, self.o)
             if new_vert ~= false then
                 self.need_new_vert_asap = false
-                self.previous_vert_id = self.vert_id
                 self.vert_id = new_vert
                 self.last_i, self.last_o = self.i, self.o
                 updated = true
@@ -101,7 +86,7 @@ function Unit:animate()
     self.previous_fx, self.previous_fy = self.fx, self.fy
     updated = updated or
                   ((self.previous_fx ~= self.fx or self.previous_fy ~= self.fy) and Object.is_visible_on_screen(self))
-    if self.instancemesh and self.animation and updated then
+    if self.instancemesh and self.animation and updated and self.vert_id then
         self.last_updated = 0
         local offset_x, offset_y = 0, 0
         if quad_offset[self.animation:getQuad()] then
@@ -148,6 +133,7 @@ function Unit:animate()
         local qx, qy, qw, qh = quad:getViewport()
         if self.vert_id then
             _G.freeVertexFromTile(self.cx, self.cy, self.vert_id)
+            self.vert_id = nil
         end
         local new_vert = _G.getFreeVertexFromTile(self.cx, self.cy, self.i, self.o)
         if new_vert then
@@ -170,6 +156,12 @@ function Unit:animate()
     end
 end
 function Unit:requestPath(xx, yy)
+    if type(xx) ~= "number" then
+        error("Wrong type for request path xx: " .. tostring(xx))
+    end
+    if type(yy) ~= "number" then
+        error("Wrong type for request path yy: " .. tostring(yy))
+    end
     self.startx, self.starty = math.floor(self.gx), math.floor(self.gy)
     _G.finder:requestPath(self.startx, self.starty, xx, yy)
     self.has_move_dir = false
@@ -322,17 +314,23 @@ function Unit:update_position()
     if self.previous_cx ~= self.cx or self.previous_cy ~= self.cy then
         if not _G.isObjectAt(self.cx, self.cy, xx, yy, self) then
             _G.addObjectAt(self.cx, self.cy, xx, yy, self)
-            _G.removeObjectAt(self.previous_cx, self.previous_cy, self.originalx, self.originaly, self)
+            for idx, _ in ipairs(self.locations_cx) do
+                _G.removeObjectAt(self.locations_cx[idx], self.locations_cy[idx], self.locations_i[idx],
+                    self.locations_o[idx], self)
+            end
+            self.locations_cx = {self.cx}
+            self.locations_cy = {self.cy}
+            self.locations_i = {xx}
+            self.locations_o = {yy}
         end
-        self.last_chunk_vert_id = self.vert_id
-        self.last_chunk_cx, self.last_chunk_cy = self.previous_cx, self.previous_cy
-        self.last_chunk_instancemesh = self.instancemesh
+        _G.freeVertexFromTile(self.previous_cx, self.previous_cy, self.vert_id)
+        self.vert_id = nil
+        self.instancemesh = nil
         if self.animation then
             local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(
                 self.x + (self.offset_x or 0) + _G.offset_x, self.y + (self.offset_y or 0) + _G.offset_y -
                     _G.state.map.walking_heightmap[math.floor(self.gx)][math.floor(self.gy)])
             local qx, qy, qw, qh = quad:getViewport()
-            _G.freeVertexFromTile(self.previous_cx, self.previous_cy, self.vert_id)
             local new_vert = _G.getFreeVertexFromTile(self.cx, self.cy, self.i, self.o)
             if new_vert then
                 self.vert_id = new_vert
@@ -350,6 +348,7 @@ function Unit:update_position()
                 self.instancemesh:setVertex(self.vert_id, x, y, qx, qy, qw, qh, 1 - shadow_value / 1.5)
                 self.has_animation = true
             else
+                -- print("didn't receive new vert 3")
                 self.need_new_vert_asap = true
             end
         else
@@ -359,7 +358,14 @@ function Unit:update_position()
     self.lrcx, self.lrcy, self.lrx, self.lry = self.cx, self.cy, xx, yy
     if self.originalx ~= math.floor(self.gx % _G.chunk_width) or self.originaly ~= math.floor(self.gy % _G.chunk_width) then
         _G.addObjectAt(self.cx, self.cy, xx, yy, self)
-        _G.removeObjectAt(self.cx, self.cy, self.last_i, self.last_o, self)
+        for idx, _ in ipairs(self.locations_cx) do
+            _G.removeObjectAt(self.locations_cx[idx], self.locations_cy[idx], self.locations_i[idx],
+                self.locations_o[idx], self)
+        end
+        self.locations_cx = {self.cx}
+        self.locations_cy = {self.cy}
+        self.locations_i = {xx}
+        self.locations_o = {yy}
         self.originalx = math.floor(self.gx % _G.chunk_width)
         self.originaly = math.floor(self.gy % _G.chunk_width)
     end
@@ -432,6 +438,7 @@ end
 function Unit:job_update()
     _G.removeObjectAt(self.lrcx, self.lrcy, self.lrx, self.lry, self)
     _G.freeVertexFromTile(self.cx, self.cy, self.vert_id)
+    self.vert_id = nil
     self.instancemesh = nil
     self.animation = nil
 end
@@ -470,6 +477,10 @@ function Unit:serialize()
     data.animated = self.animated
     data.no_path_state = self.no_path_state
     data.need_new_vert_asap = self.need_new_vert_asap
+    data.locations_cx = self.locations_cx
+    data.locations_cy = self.locations_cy
+    data.locations_i = self.locations_i
+    data.locations_o = self.locations_o
     data.lrcx, data.lrcy, data.lrx, data.lry = self.lrcx, self.lrcy, self.lrx, self.lry
     return data
 end
@@ -493,6 +504,10 @@ function Unit:clear_path()
 end
 function Unit:load(_)
     _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
+    table.insert(self.locations_cx, self.cx)
+    table.insert(self.locations_cy, self.cy)
+    table.insert(self.locations_i, self.i)
+    table.insert(self.locations_o, self.o)
     table.insert(active_entities, self)
     self:calculate_position()
 end
