@@ -15,7 +15,7 @@ A real-time strategy game built with LÖVE 11.4 and written in LuaJIT.
 1. Download the repository from [here](https://gitlab.com/kaylemaster/stone-kingdoms/-/archive/master/stone-kingdoms-master.zip) or clone via git
 2. Install LÖVE 11.4 from the [official website](https://love2d.org/)  
 3. Open terminal or command line in the directory where `main.lua` is located
-4. run `love .` and play!  
+4. Run `love .` and play!  
 
 ### How to contribute
 Contact Kayle in the discord server for more instructions.  
