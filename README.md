@@ -6,8 +6,7 @@
 ## Stone Kingdoms
 
 
-A real-time strategy game built with LÖVE 11.4 and written in LuaJIT.
-[Discord](https://discord.gg/PRh8SPZxEf)  
+A real-time strategy game built with LÖVE 11.4 and written in LuaJIT.  
   
   
 ### Install from source  
@@ -16,6 +15,9 @@ A real-time strategy game built with LÖVE 11.4 and written in LuaJIT.
 2. Install LÖVE 11.4 from the [official website](https://love2d.org/)  
 3. Open terminal or command line in the directory where `main.lua` is located
 4. Run `love .` and play!  
+
+## Links
+* [Discord server](https://discord.gg/PRh8SPZxEf)
 
 ### How to contribute
 Contact Kayle in the discord server for more instructions.  
