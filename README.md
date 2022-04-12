@@ -16,7 +16,7 @@ A real-time strategy game built with LÖVE 11.4 and written in LuaJIT.
 3. Open terminal or command line in the directory where `main.lua` is located
 4. Run `love .` and play!  
 
-## Links
+### Links
 * [Discord server](https://discord.gg/PRh8SPZxEf)
 
 ### How to contribute
