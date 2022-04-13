@@ -7,6 +7,7 @@
 
 
 A real-time strategy game built with LÖVE 11.4 and written in LuaJIT.  
+![](assets/other/screenshot_1.png)   
   
   
 ### Install from source  
