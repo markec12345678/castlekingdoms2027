@@ -443,46 +443,7 @@ function _G.genObjects(cx, cy)
     end
 end
 
-local shader = love.graphics.newShader [[
-varying vec2 uvoff;
-varying vec2 imgdim;
-varying float imgshd;
-
-#ifdef VERTEX
-attribute vec2 InstancePosition;
-attribute vec2 UVOffset;
-attribute vec2 ImageDim;
-attribute float ImageShade;
-attribute float ScaleX;
-varying float imgscale;
-
-vec4 position(mat4 transform_projection, vec4 vertex_position)
-{
-    uvoff = UVOffset;
-    imgdim = ImageDim;
-    imgshd = ImageShade;
-    imgscale = ScaleX;
-    if (imgscale == 0) {
-        imgscale = 1.0;
-    }
-    vertex_position.xy *= ImageDim;
-    vertex_position.x *= imgscale;
-    vertex_position.xy += InstancePosition;
-	return transform_projection * vertex_position;
-}
-#endif
-
-#ifdef PIXEL
-vec4 effect( vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords )
-{
-    color.xyz *= imgshd;
-    texture_coords.x = (uvoff.x + imgdim.x*texture_coords.x)/8192.0;
-    texture_coords.y = (uvoff.y + imgdim.y*texture_coords.y)/12000.0;
-    vec4 texcolor = Texel(tex, texture_coords);
-    return texcolor * color;
-}
-#endif
-]]
+local shader = love.graphics.newShader("shaders/main.glsl")
 local function draw_object()
     local tile_start_x, tile_start_y, tile_end_x, tile_end_y = _G.state.top_left_chunk_x - 1, _G.state.top_left_chunk_y,
         _G.state.bottom_right_chunk_x + 1, _G.state.bottom_right_chunk_y
@@ -535,37 +496,6 @@ local function mousepressed(x, y, button)
                 Rock_4x4:new(press.gx, press.gy)
             end
         end
-        -- for i = -2, 2 do
-        --     for o = -2, 2 do
-        --         if i == 2 or i == -2 or o == 2 or o == -2 then
-        --             _G.terrainSetTileAt(press.gx + i, press.gy + o, _G.terrain_biome.sea_beach,
-        --                 _G.terrain_biome.abundant_grass)
-        --         else
-        --             _G.terrainSetTileAt(press.gx + i, press.gy + o, _G.terrain_biome.sea)
-        --         end
-        --     end
-        -- end
-        -- WoodenWallWalkable:new(press.gx, press.gy)
-        -- _G.terrainElevateTileAt(press.gx, press.gy)
-        -- _G.terrainElevateTileAt(press.gx, press.gy)
-
-        -- for xxx = -2, 2 do
-        --     for yyy = -2, 2 do
-        --         if xxx == 0 and yyy == 0 then
-        --         else
-        --             _G.terrainElevateTileAt(press.gx + xxx, press.gy + yyy)
-        --             _G.terrainElevateTileAt(press.gx + xxx, press.gy + yyy)
-        --         end
-        --     end
-        -- end
-
-        -- for xxx = -1, 1 do
-        --     for yyy = -1, 1 do
-        --         _G.terrainElevateTileAt(press.gx + xxx, press.gy + yyy)
-        --         _G.terrainElevateTileAt(press.gx + xxx, press.gy + yyy)
-        --     end
-        -- end
-        -- Peasant:new(_G.spawn_point_x, _G.spawn_point_y)
 
         local insp = object[press.cx][press.cy][press.x][press.y]
         if insp then
@@ -587,7 +517,6 @@ local function mousepressed(x, y, button)
                 --     --     ibj.y + (ibj.cx + ibj.cy) * chunk_width * tile_height * 0.5)
                 --     -- print(ibj.type, (_G.state.view_xview) - 1920 / 2 - 100, (_G.state.view_yview) - 1080 / 2 - 100)
             end
-            -- -- print(inspect(insp))
         end
     end
 end
