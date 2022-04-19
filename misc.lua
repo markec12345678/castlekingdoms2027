@@ -180,15 +180,16 @@ local function draw()
         prev_shadow = _G.shadowmap[prev_cx][prev_cy][prev_i][prev_o] or 0
         prev_tileheight = _G.buildingheightmap[prev_cx][prev_cy][prev_i][prev_o] or 0
     end
-    love.graphics.print("\n GlobalX: " .. LocalX .. "\n GlobalY: " .. LocalY .. "\n LocalX: " ..
-                            ((LocalX) % chunk_width) .. "\n LocalY: " .. ((LocalY) % chunk_width) .. "\n Scale: " ..
-                            _G.state.scale_x .. "\n Shadow stuff:" .. prev_height .. " - " .. prev_height_2 .. " : " ..
-                            prev_shadow .. " - " .. prev_tileheight .. "\n Garbage (kB): " .. collectgarbage('count') ..
-                            "\n Center chunk: [" .. xchunk .. "][" .. ychunk .. "]" .. "\n Current FPS: " ..
-                            tostring(love.timer.getFPS()) .. "\n Max FPS: " .. tostring(previous_frame_time) ..
-                            "\n Wood: " .. tostring(_G.state.resources['wood']) .. "\n Stone: " ..
-                            tostring(_G.state.resources['stone']) .. "\n Iron: " .. tostring(_G.state.resources['iron']),
-        0, 0)
+    mx, my = love.mouse.getPosition()
+    love.graphics.print("\n MX:" .. mx .. "\n MY:" .. my .. "\n GlobalX: " .. LocalX .. "\n GlobalY: " .. LocalY ..
+                            "\n LocalX: " .. ((LocalX) % chunk_width) .. "\n LocalY: " .. ((LocalY) % chunk_width) ..
+                            "\n Scale: " .. _G.state.scale_x .. "\n Shadow stuff:" .. prev_height .. " - " ..
+                            prev_height_2 .. " : " .. prev_shadow .. " - " .. prev_tileheight .. "\n Garbage (kB): " ..
+                            collectgarbage('count') .. "\n Center chunk: [" .. xchunk .. "][" .. ychunk .. "]" ..
+                            "\n Current FPS: " .. tostring(love.timer.getFPS()) .. "\n Max FPS: " ..
+                            tostring(previous_frame_time) .. "\n Wood: " .. tostring(_G.state.resources['wood']) ..
+                            "\n Stone: " .. tostring(_G.state.resources['stone']) .. "\n Iron: " ..
+                            tostring(_G.state.resources['iron']), 0, 0)
     love.graphics.print(
         "[Q] - Apple orchard\n[W] - Stockpile\n[E] - Granary\n[T] - Quarry\n[Y] - Iron mine\n[I] - Wheat farm\n[Move keys] - Move map\n[Mouse scroll] - Zoom in/out\n[Escape] - Exit",
         0, _G.ScreenHeight - 130)

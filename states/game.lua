@@ -1,13 +1,13 @@
 local game = {}
 local Gamestate = require('libraries.gamestate')
+local loveframes = require('libraries.loveframes')
+require('states.ui.action_bar')
+require('states.ui.construction.level_1')
+local ui_action_bar = require('states.ui.action_bar_frames')
+local states = require('states.ui.states')
 local core = require("misc")
 local thread, thread2, objects, terrain
 require("shaders.postshader")
-local ui = {
-    show = {
-        construction = false
-    }
-}
 
 local function manual_gc(time_budget, safetynet_megabytes, disable_otherwise)
     local max_steps = 1000
@@ -56,6 +56,7 @@ function game:init()
         end
         _G.state:load("status.bin")
     end
+    _G.action_bar = love.graphics.newImage("assets/ui/action_bar.png")
 end
 
 function game:update(dt)
@@ -69,6 +70,7 @@ function game:update(dt)
     prof.push("bcontr")
     _G.BuildController:update()
     prof.pop("bcontr")
+    loveframes.update()
     prof.push("pathfind")
     _G.finder:update()
     prof.pop("pathfind")
@@ -82,30 +84,49 @@ end
 function game:enter()
     collectgarbage()
     collectgarbage()
+    loveframes.SetState(states.STATE_INGAME_CONSTRUCTION)
 end
 
 function game:draw()
     if not _G.test_mode then
-        love.postshader.setBuffer("render")
+        if _G.state.scale_x >= 2.1 then
+            love.postshader.setBuffer("render")
+        end
         love.graphics.push()
         love.graphics.translate((love.graphics.getWidth() / 2), (love.graphics.getHeight() / 2))
         objects.draw()
         _G.BuildController:draw()
         love.graphics.pop()
-        if _G.state.scale_x >= 2.6 then
+        if _G.state.scale_x >= 2.1 then
             love.postshader.addTiltshift()
         end
         core.draw()
-        love.postshader.draw()
+        -- love.graphics.draw(action_bar, (1920 - 1215) / 2, 1080 - 198)
+        loveframes.draw()
+        -- love.graphics.setColor(1, 0, 0)
+        -- for _, fr in pairs(ui_action_bar) do
+        --     love.graphics.rectangle("line", fr.x, fr.y, fr.width, fr.height)
+        -- end
+        -- love.graphics.setColor(1, 1, 1)
+        if _G.state.scale_x >= 2.1 then
+            love.postshader.draw()
+        end
     end
 end
 
 function game:mousepressed(x, y, button, istouch)
+    -- TODO: Check if event is consumed
+    loveframes.mousepressed(x, y, button)
     terrain.mousepressed(x, y, button, istouch)
     objects.mousepressed(x, y, button, istouch)
     if button == 2 and not _G.BuildController.start then
         _G.BuildController.active = false
     end
+end
+
+function game:mousereleased(x, y, button, istouch)
+    -- TODO: Check if event is consumed
+    loveframes.mousereleased(x, y, button)
 end
 
 function game:wheelmoved(x, y)
