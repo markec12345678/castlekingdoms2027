@@ -1,6 +1,7 @@
 local states = require('states.ui.states')
 local ab = require('states.ui.action_bar_frames')
 local ActionBarButton = require('states.ui.ActionBarButton')
+local action_bar = require('states.ui.ActionBar')
 
 local castle_btn = ActionBarButton:new(love.graphics.newImage('assets/ui/castle_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 1)
@@ -20,6 +21,7 @@ local shield_btn = ActionBarButton:new(love.graphics.newImage('assets/ui/shield_
 local sickle_btn = ActionBarButton:new(love.graphics.newImage('assets/ui/sickle_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 6)
 
+action_bar:register_group("main", {castle_btn, hammer_btn, apple_btn, house_btn, shield_btn, sickle_btn})
 local elements = {
     buttons = {
         castle_btn = castle_btn,

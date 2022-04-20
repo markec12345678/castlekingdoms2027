@@ -108,23 +108,24 @@ return function(loveframes)
         if not self.visible then
             return
         end
-
+        local consumed
         local internals = self.internals
         if internals then
             for k, v in ipairs(internals) do
-                v:mousepressed(x, y, button)
+                consumed = v:mousepressed(x, y, button) or consumed
             end
         end
 
         local children = self.children
         if children then
             for k, v in ipairs(children) do
-                v:mousepressed(x, y, button)
+                consumed = v:mousepressed(x, y, button) or consumed
                 -- if v.stop_propagation == true then
                 --     return
                 -- end
             end
         end
+        return consumed
     end
 
     --[[---------------------------------------------------------
@@ -139,20 +140,21 @@ return function(loveframes)
         if not self.visible then
             return
         end
-
+        local consumed
         local children = self.children
         if children then
             for k, v in ipairs(children) do
-                v:mousereleased(x, y, button)
+                consumed = v:mousereleased(x, y, button) or consumed
             end
         end
 
         local internals = self.internals
         if internals then
             for k, v in ipairs(internals) do
-                v:mousereleased(x, y, button)
+                consumed = v:mousereleased(x, y, button) or consumed
             end
         end
+        return consumed
     end
 
     --[[---------------------------------------------------------

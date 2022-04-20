@@ -80,12 +80,24 @@ function ActionBarButton:set_on_click(callback)
     self.background.OnClick = callback
 end
 function ActionBarButton:on_mouse_enter(element)
-    element:SetImage(ActionBarButton.background_hover_image)
-    element:SetScale((self.frame.width) / element:GetImageWidth())
+    if not self.selected then
+        element:SetImage(ActionBarButton.background_hover_image)
+        element:SetScale((self.frame.width) / element:GetImageWidth())
+    end
 end
 function ActionBarButton:on_mouse_exit(element)
-    element:SetImage(ActionBarButton.background_image)
-    element:SetScale((self.frame.width) / element:GetImageWidth())
+    if not self.selected then
+        element:SetImage(ActionBarButton.background_image)
+        element:SetScale((self.frame.width) / element:GetImageWidth())
+    end
+end
+function ActionBarButton:unselect()
+    self.selected = false
+    self.background:SetImage(ActionBarButton.background_image)
+end
+function ActionBarButton:select()
+    self.selected = true
+    self.background:SetImage(ActionBarButton.background_selected_image)
 end
 
 return ActionBarButton

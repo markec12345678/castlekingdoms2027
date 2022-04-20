@@ -1,9 +1,7 @@
 local game = {}
 local Gamestate = require('libraries.gamestate')
 local loveframes = require('libraries.loveframes')
-require('states.ui.action_bar')
-require('states.ui.construction.level_1')
-local ui_action_bar = require('states.ui.action_bar_frames')
+require('states.ui.init')
 local states = require('states.ui.states')
 local core = require("misc")
 local thread, thread2, objects, terrain
@@ -101,13 +99,7 @@ function game:draw()
             love.postshader.addTiltshift()
         end
         core.draw()
-        -- love.graphics.draw(action_bar, (1920 - 1215) / 2, 1080 - 198)
         loveframes.draw()
-        -- love.graphics.setColor(1, 0, 0)
-        -- for _, fr in pairs(ui_action_bar) do
-        --     love.graphics.rectangle("line", fr.x, fr.y, fr.width, fr.height)
-        -- end
-        -- love.graphics.setColor(1, 1, 1)
         if _G.state.scale_x >= 2.1 then
             love.postshader.draw()
         end
@@ -116,11 +108,25 @@ end
 
 function game:mousepressed(x, y, button, istouch)
     -- TODO: Check if event is consumed
-    loveframes.mousepressed(x, y, button)
-    terrain.mousepressed(x, y, button, istouch)
-    objects.mousepressed(x, y, button, istouch)
+    local consumed
+    consumed = loveframes.mousepressed(x, y, button)
+    if consumed then
+        return
+    end
+    consumed = terrain.mousepressed(x, y, button, istouch)
+    if consumed then
+        return
+    end
+    consumed = objects.mousepressed(x, y, button, istouch)
+    if consumed then
+        return
+    end
     if button == 2 and not _G.BuildController.start then
         _G.BuildController.active = false
+        if _G.BuildController.on_click_callback then
+            _G.BuildController.on_click_callback()
+            _G.BuildController.on_click_callback = nil
+        end
     end
 end
 

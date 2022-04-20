@@ -71,6 +71,38 @@ return function(loveframes)
 
     end
 
+    function newobject:mousepressed(x, y, button)
+        if self.OnClick then
+            local state = loveframes.state
+            local selfstate = self.state
+
+            if state ~= selfstate then
+                return
+            end
+
+            local visible = self.visible
+
+            if not visible then
+                return
+            end
+
+            local hover = self.hover
+            local clickable = self.clickable or true
+            local enabled = self.enabled or true
+            local onclick = self.OnClick
+
+            if hover and clickable and button == 1 then
+                if enabled then
+                    if onclick then
+                        return true
+                    end
+                end
+            end
+
+            return false
+        end
+    end
+
     function newobject:mousereleased(x, y, button)
         if self.OnClick then
             local state = loveframes.state
@@ -100,11 +132,14 @@ return function(loveframes)
                             -- to prevent double click bug
                             self.hover = false
                         end
+                        self.down = false
+                        return true
                     end
                 end
             end
 
             self.down = false
+            return false
         end
     end
     --[[---------------------------------------------------------
