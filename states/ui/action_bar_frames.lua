@@ -1,5 +1,5 @@
-local action_bar = require('states.ui.action_bar')
-
+local action_bar = require('states.ui.ActionBar')
+action_bar = action_bar.element
 local ACTION_BAR_X_OFFSET = 240
 local ACTION_BAR_Y_OFFSET = 134
 local ACTION_BAR_WIDTH = 981 - ACTION_BAR_X_OFFSET

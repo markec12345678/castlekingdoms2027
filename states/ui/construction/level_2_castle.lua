@@ -7,7 +7,7 @@ local ActionBarButton = require('states.ui.ActionBarButton')
 local action_bar = require('states.ui.ActionBar')
 
 local hunter_btn = ActionBarButton:new(love.graphics.newImage('assets/ui/hunter_ab.png'),
-    states.STATE_INGAME_CONSTRUCTION, 1)
+    states.STATE_INGAME_CONSTRUCTION, 1, nil, nil, true)
 hunter_btn:hide()
 
 local apple_farm_btn = ActionBarButton:new(love.graphics.newImage('assets/ui/apple_farm_ab.png'),
@@ -22,7 +22,7 @@ apple_farm_btn:set_on_click(function(self)
 end)
 
 local cheese_farm_btn = ActionBarButton:new(love.graphics.newImage('assets/ui/cheese_farm_ab.png'),
-    states.STATE_INGAME_CONSTRUCTION, 3)
+    states.STATE_INGAME_CONSTRUCTION, 3, nil, nil, true)
 cheese_farm_btn:hide()
 
 local wheat_farm_btn = ActionBarButton:new(love.graphics.newImage('assets/ui/wheat_farm_ab.png'),
@@ -37,7 +37,7 @@ wheat_farm_btn:set_on_click(function(self)
 end)
 
 local hops_farm_btn = ActionBarButton:new(love.graphics.newImage('assets/ui/hops_ab.png'),
-    states.STATE_INGAME_CONSTRUCTION, 5)
+    states.STATE_INGAME_CONSTRUCTION, 5, nil, nil, true)
 hops_farm_btn:hide()
 
 local back_btn = ActionBarButton:new(love.graphics.newImage('assets/ui/back_ab.png'), states.STATE_INGAME_CONSTRUCTION,

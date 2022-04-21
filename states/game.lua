@@ -54,7 +54,6 @@ function game:init()
         end
         _G.state:load("status.bin")
     end
-    _G.action_bar = love.graphics.newImage("assets/ui/action_bar.png")
 end
 
 function game:update(dt)
@@ -107,18 +106,13 @@ function game:draw()
 end
 
 function game:mousepressed(x, y, button, istouch)
-    -- TODO: Check if event is consumed
-    local consumed
-    consumed = loveframes.mousepressed(x, y, button)
-    if consumed then
+    if loveframes.mousepressed(x, y, button) then
         return
     end
-    consumed = terrain.mousepressed(x, y, button, istouch)
-    if consumed then
+    if terrain.mousepressed(x, y, button, istouch) then
         return
     end
-    consumed = objects.mousepressed(x, y, button, istouch)
-    if consumed then
+    if objects.mousepressed(x, y, button, istouch) then
         return
     end
     if button == 2 and not _G.BuildController.start then

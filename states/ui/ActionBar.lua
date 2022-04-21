@@ -3,9 +3,10 @@ local states = require('states.ui.states')
 local base = require('states.ui.base')
 local w, h = base.w, base.h
 
-local ACTION_BAR_USER_SCALE = 60
+local ACTION_BAR_USER_SCALE_W = 60
+local ACTION_BAR_USER_SCALE_H = 20
 
-if ACTION_BAR_USER_SCALE > 100 or ACTION_BAR_USER_SCALE < 5 then
+if ACTION_BAR_USER_SCALE_W > 100 or ACTION_BAR_USER_SCALE_W < 5 then
     error("Action bar scale must be between 5 and 100")
 end
 
@@ -16,9 +17,10 @@ function ActionBar:initialize()
     element:SetState(states.STATE_INGAME_CONSTRUCTION)
     element:SetImage(ActionBar.action_bar_image)
     element:SetOffsetX(element:GetImageWidth() / 2)
-    local scale = (w.percent[ACTION_BAR_USER_SCALE]) / ActionBar.action_bar_image:getWidth()
-    element:SetScaleX(scale)
-    element:SetScaleY(scale)
+    local scale_1 = (w.percent[ACTION_BAR_USER_SCALE_W]) / ActionBar.action_bar_image:getWidth()
+    local scale_2 = (h.percent[ACTION_BAR_USER_SCALE_H]) / ActionBar.action_bar_image:getHeight()
+    local scale = math.min(scale_1, scale_2)
+    element:SetScale(scale, scale)
     element:SetPos(w.percent[50], h.percent[100] - element:GetImageHeight() * element:GetScaleY())
     self.element = element
     self.groups = {}

@@ -9,7 +9,7 @@ local ActionBarButton = _G.class("ActionBarButton")
 ActionBarButton.static.background_image = img_ab_background
 ActionBarButton.static.background_hover_image = img_ab_background_hover
 ActionBarButton.static.background_selected_image = img_ab_background_selected
-function ActionBarButton:initialize(image, state, position, big_frame_foreground, onclick)
+function ActionBarButton:initialize(image, state, position, big_frame_foreground, onclick, disabled)
     if onclick then
         assert(type(onclick) == "function")
     end
@@ -25,6 +25,7 @@ function ActionBarButton:initialize(image, state, position, big_frame_foreground
     self.big_frame_foreground = big_frame_foreground or false
     self.on_click = onclick
     self.image = image
+    self.disabled = disabled or false
     self.state = state
     self.background = loveframes.Create("image"):SetState(self.state):SetImage(ActionBarButton.background_image)
         :SetOffsetX(ActionBarButton.background_image:getWidth() / 2):SetOffsetY(
@@ -64,6 +65,9 @@ function ActionBarButton:initialize(image, state, position, big_frame_foreground
     else
         self.foreground:SetScale((self.foreground_frame.height) / self.foreground:GetImageHeight())
     end
+    if self.disabled then
+        self.foreground:SetColor(0.6, 0.6, 0.6, 0.6)
+    end
 end
 function ActionBarButton:hide()
     self.background.visible = false
@@ -80,13 +84,13 @@ function ActionBarButton:set_on_click(callback)
     self.background.OnClick = callback
 end
 function ActionBarButton:on_mouse_enter(element)
-    if not self.selected then
+    if not self.selected and not self.disabled then
         element:SetImage(ActionBarButton.background_hover_image)
         element:SetScale((self.frame.width) / element:GetImageWidth())
     end
 end
 function ActionBarButton:on_mouse_exit(element)
-    if not self.selected then
+    if not self.selected and not self.disabled then
         element:SetImage(ActionBarButton.background_image)
         element:SetScale((self.frame.width) / element:GetImageWidth())
     end
