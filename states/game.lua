@@ -117,9 +117,9 @@ function game:mousepressed(x, y, button, istouch)
     end
     if button == 2 and not _G.BuildController.start then
         _G.BuildController.active = false
-        if _G.BuildController.on_click_callback then
-            _G.BuildController.on_click_callback()
-            _G.BuildController.on_click_callback = nil
+        if _G.BuildController.on_build_callback then
+            _G.BuildController.on_build_callback()
+            _G.BuildController.on_build_callback = nil
         end
     end
 end

@@ -4,11 +4,13 @@ local ab = require('states.ui.action_bar_frames')
 local img_ab_background = love.graphics.newImage('assets/ui/action_bar_background_clear.png')
 local img_ab_background_hover = love.graphics.newImage('assets/ui/action_bar_background_hover.png')
 local img_ab_background_selected = love.graphics.newImage('assets/ui/action_bar_background_selected.png')
+local img_ab_background_clear = love.graphics.newImage('assets/ui/action_bar_background_clear.png')
 
 local ActionBarButton = _G.class("ActionBarButton")
 ActionBarButton.static.background_image = img_ab_background
 ActionBarButton.static.background_hover_image = img_ab_background_hover
 ActionBarButton.static.background_selected_image = img_ab_background_selected
+ActionBarButton.static.background_clear = img_ab_background_clear
 function ActionBarButton:initialize(image, state, position, big_frame_foreground, onclick, disabled)
     if onclick then
         assert(type(onclick) == "function")
@@ -30,6 +32,13 @@ function ActionBarButton:initialize(image, state, position, big_frame_foreground
     self.background = loveframes.Create("image"):SetState(self.state):SetImage(ActionBarButton.background_image)
         :SetOffsetX(ActionBarButton.background_image:getWidth() / 2):SetOffsetY(
             ActionBarButton.background_image:getHeight() / 2)
+    if self.disabled then
+        self.background:SetImage(ActionBarButton.background_clear):SetOffsetX(
+            ActionBarButton.background_clear:getWidth() / 2)
+            :SetOffsetY(ActionBarButton.background_clear:getHeight() / 2)
+        self.background:SetColor(0.8, 0.8, 0.8, 1)
+
+    end
     local frame = ab["fr_action_" .. tostring(position)]
     self.frame = frame
     local small_frame = ab["fr_action_" .. tostring(position) .. "_img"]

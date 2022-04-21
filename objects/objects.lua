@@ -544,56 +544,6 @@ end
 
 local first_update = true
 local function update(dt)
-    if love.mouse.isDown(2) then
-        local MX, MY = love.mouse.getPosition()
-        MX = (MX - _G.ScreenWidth / 2) / _G.state.scale_x + _G.state.view_xview - 16
-        MY = (MY - _G.ScreenHeight / 2) / _G.state.scale_x + _G.state.view_yview - 8
-        local pgx = math.round(ScreenToIsoX(MX, MY))
-        local pgy = math.round(ScreenToIsoY(MX, MY))
-        -- Lake gen
-        -- for i = -2, 2 do
-        --     for o = -2, 2 do
-        --         if i == 2 or i == -2 or o == 2 or o == -2 then
-        --             _G.terrainSetTileAt(pgx + i, pgy + o, _G.terrain_biome.sea_beach, _G.terrain_biome.abundant_grass)
-        --         else
-        --             _G.terrainSetTileAt(pgx + i, pgy + o, _G.terrain_biome.sea)
-        --         end
-        --     end
-        -- end
-
-        _G.terrainElevateTileAt(pgx + 0, pgy + 0)
-        _G.terrainElevateTileAt(pgx + 0, pgy + 0)
-        for xxx = -1, 1 do
-            for yyy = -1, 1 do
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-                _G.terrainElevateTileAt(pgx + xxx, pgy + yyy)
-            end
-        end
-    end
     _G.JobController:make_worker()
     prof.push("CUL")
     if previous_chunk_x ~= _G.current_chunk_x or previous_chunk_y ~= _G.current_chunk_y or _G.top_left_chunk_x ~=

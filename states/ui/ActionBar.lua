@@ -48,13 +48,14 @@ function ActionBar:hide_group(name)
 end
 function ActionBar:show_group(name)
     self.current_group = name
-    for k, elements in pairs(self.groups) do
-        if k == name then
-            for _, el in ipairs(elements) do
-                el:show()
-            end
-        else
+    for k, _ in pairs(self.groups) do
+        if k ~= name then
             self:hide_group(k)
+        end
+    end
+    if name then
+        for _, el in ipairs(self.groups[name]) do
+            el:show()
         end
     end
 end
