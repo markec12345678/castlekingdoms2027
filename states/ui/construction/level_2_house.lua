@@ -1,6 +1,5 @@
 local el, back_btn = ...
 
-local loveframes = require('libraries.loveframes')
 local states = require('states.ui.states')
 local ActionBarButton = require('states.ui.ActionBarButton')
 local action_bar = require('states.ui.ActionBar')

@@ -33,13 +33,6 @@ function ActionBarButton:initialize(image, state, position, big_frame_foreground
     self.background = loveframes.Create("image"):SetState(self.state):SetImage(ActionBarButton.background_image)
         :SetOffsetX(ActionBarButton.background_image:getWidth() / 2):SetOffsetY(
             ActionBarButton.background_image:getHeight() / 2)
-    if self.disabled then
-        self.background:SetImage(ActionBarButton.background_clear):SetOffsetX(
-            ActionBarButton.background_clear:getWidth() / 2)
-            :SetOffsetY(ActionBarButton.background_clear:getHeight() / 2)
-        self.background:SetColor(0.8, 0.8, 0.8, 1)
-
-    end
     local frame = ab["fr_action_" .. tostring(position)]
     self.frame = frame
     local small_frame = ab["fr_action_" .. tostring(position) .. "_img"]
@@ -88,6 +81,7 @@ function ActionBarButton:set_tooltip(title, tooltip_text)
         tooltip:SetObject(self.background)
         tooltip:SetState(self.state)
         tooltip:SetPadding(10)
+        tooltip.visible = false
         tooltip:SetText(tooltip_text, title)
         self.tooltip = tooltip
     else
