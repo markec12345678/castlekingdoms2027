@@ -6,11 +6,9 @@ local action_bar = require('states.ui.ActionBar')
 
 local castle_btn = ActionBarButton:new(love.graphics.newImage('assets/ui/wooden_castle_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 1)
-castle_btn:hide()
 
 castle_btn:set_on_click(function(self)
     _G.BuildController:set("castle", function()
-        print("doing the thing")
         castle_btn:unselect()
     end)
     action_bar:select_button(castle_btn)
@@ -18,7 +16,6 @@ end)
 
 local wooden_wall_btn = ActionBarButton:new(love.graphics.newImage('assets/ui/wooden_wall_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 2, true, nil, true)
-wooden_wall_btn:hide()
 
 el.buttons.castle_btn:set_on_click(function(self)
     action_bar:show_group("castle")

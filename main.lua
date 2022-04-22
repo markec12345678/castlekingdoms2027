@@ -21,6 +21,9 @@ function love.load()
     loader.newImage("assets/tiles/stronghold_assets_packed_v4.png"):onComplete(function(_, image)
         _G.object_image = image
     end)
+    local cursor_img = love.image.newImageData("assets/ui/cursor.png")
+    local cursor = love.mouse.newCursor(cursor_img, 2, 2)
+    love.mouse.setCursor(cursor)
     _G.fx = require("sounds.fx")
     require("sounds.fx_volume")
     _G.speech_fx = require("sounds.speech")
@@ -100,7 +103,7 @@ function love.run()
             love.graphics.present()
         end
         previous_frame = previous_frame + 1 / (love.timer.getTime() - start_time_FPS)
-        _G.limitfps()
+        -- _G.limitfps()
         prof.pop("draw")
         prof.pop("frame")
     end

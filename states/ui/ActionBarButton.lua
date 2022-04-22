@@ -77,6 +77,9 @@ function ActionBarButton:initialize(image, state, position, big_frame_foreground
     if self.disabled then
         self.foreground:SetColor(0.6, 0.6, 0.6, 0.6)
     end
+    -- hidden by default
+    self.background.visible = false
+    self.foreground.visible = false
 end
 function ActionBarButton:hide()
     self.background.visible = false

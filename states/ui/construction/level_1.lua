@@ -25,10 +25,11 @@ action_bar:register_group("main", {castle_btn, hammer_btn, apple_btn, house_btn,
 
 local back_btn = ActionBarButton:new(love.graphics.newImage('assets/ui/back_ab.png'), states.STATE_INGAME_CONSTRUCTION,
     12)
-back_btn:hide()
 back_btn:set_on_click(function(self)
     action_bar:show_group("main")
 end)
+
+action_bar:show_group("main")
 local elements = {
     buttons = {
         castle_btn = castle_btn,
