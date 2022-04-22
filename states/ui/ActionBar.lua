@@ -26,6 +26,42 @@ function ActionBar:initialize()
     self.groups = {}
     self.current_group = "main"
 end
+function ActionBar:activate_button(position)
+    local button
+    if self.groups[self.current_group] then
+        local button = self.groups[self.current_group][position]
+        if button then
+            button:press()
+        end
+    end
+end
+function ActionBar:keypressed(key, scancode)
+    if key == "1" then
+        self:activate_button(1)
+    elseif key == "2" then
+        self:activate_button(2)
+    elseif key == "3" then
+        self:activate_button(3)
+    elseif key == "4" then
+        self:activate_button(4)
+    elseif key == "5" then
+        self:activate_button(5)
+    elseif key == "6" then
+        self:activate_button(6)
+    elseif key == "7" then
+        self:activate_button(7)
+    elseif key == "8" then
+        self:activate_button(8)
+    elseif key == "9" then
+        self:activate_button(9)
+    elseif key == "0" then
+        self:activate_button(10)
+    elseif key == "-" then
+        self:activate_button(11)
+    elseif key == "=" or key == "`" then
+        self:activate_button(12)
+    end
+end
 function ActionBar:select_button(element)
     if not element.background.visible then
         error("trying to select an invisible button")
@@ -36,13 +72,14 @@ function ActionBar:select_button(element)
     element:select()
 end
 function ActionBar:register_group(name, list_of_elements)
-    self.groups[name] = list_of_elements
+    self.groups[name] = {}
     for _, v in ipairs(list_of_elements) do
         v.group = name
+        self.groups[name][v.position] = v
     end
 end
 function ActionBar:hide_group(name)
-    for _, el in ipairs(self.groups[name]) do
+    for _, el in pairs(self.groups[name]) do
         el:hide()
     end
 end
@@ -54,7 +91,7 @@ function ActionBar:show_group(name)
         end
     end
     if name then
-        for _, el in ipairs(self.groups[name]) do
+        for _, el in pairs(self.groups[name]) do
             el:show()
         end
     end

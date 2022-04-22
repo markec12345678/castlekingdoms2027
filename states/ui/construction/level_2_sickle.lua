@@ -9,7 +9,7 @@ local windmill_btn = ActionBarButton:new(love.graphics.newImage('assets/ui/windm
     states.STATE_INGAME_CONSTRUCTION, 1, true)
 
 windmill_btn:set_on_click(function(self)
-    _G.BuildController:set("house", function()
+    _G.BuildController:set("windmill", function()
         windmill_btn:unselect()
     end)
     action_bar:select_button(windmill_btn)
@@ -20,7 +20,7 @@ local bakery_btn = ActionBarButton:new(love.graphics.newImage('assets/ui/bakery_
     states.STATE_INGAME_CONSTRUCTION, 2, true)
 
 bakery_btn:set_on_click(function(self)
-    _G.BuildController:set("house", function()
+    _G.BuildController:set("bakery", function()
         bakery_btn:unselect()
     end)
     action_bar:select_button(bakery_btn)

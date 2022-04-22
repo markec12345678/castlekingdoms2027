@@ -27,6 +27,7 @@ function ActionBarButton:initialize(image, state, position, big_frame_foreground
     self.big_frame_foreground = big_frame_foreground or false
     self.on_click = onclick
     self.image = image
+    self.position = position
     self.disabled = disabled or false
     self.state = state
     self.background = loveframes.Create("image"):SetState(self.state):SetImage(ActionBarButton.background_image)
@@ -106,6 +107,11 @@ function ActionBarButton:set_on_click(callback)
         error("OnClick callback is nil")
     end
     self.background.OnClick = callback
+end
+function ActionBarButton:press()
+    if self.background.OnClick then
+        self.background.OnClick()
+    end
 end
 function ActionBarButton:on_mouse_enter(element)
     if not self.selected and not self.disabled then

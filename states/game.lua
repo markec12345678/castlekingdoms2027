@@ -2,6 +2,7 @@ local game = {}
 local Gamestate = require('libraries.gamestate')
 local loveframes = require('libraries.loveframes')
 require('states.ui.init')
+local action_bar = require('states.ui.ActionBar')
 local states = require('states.ui.states')
 local core = require("misc")
 local thread, thread2, objects, terrain
@@ -122,6 +123,10 @@ function game:mousepressed(x, y, button, istouch)
             _G.BuildController.on_build_callback = nil
         end
     end
+end
+
+function game:keypressed(key, scancode, is_repeat)
+    action_bar:keypressed(key, scancode)
 end
 
 function game:mousereleased(x, y, button, istouch)
