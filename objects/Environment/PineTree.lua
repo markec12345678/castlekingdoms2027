@@ -45,7 +45,7 @@ function PineTree:initialize(gx, gy, type)
 
     for xx = -1, 1 do
         for yy = -1, 1 do
-            _G.terrainSetTileAt(gx + xx, gy + yy, _G.terrain_biome.dirt)
+            _G.terrainSetTileAt(gx + xx, gy + yy, _G.terrain_biome.dirt, _G.terrain_biome.abundant_grass)
         end
     end
     if type == "Pine tree" then
