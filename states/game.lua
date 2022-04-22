@@ -145,37 +145,7 @@ end
 function game:keyreleased(key, scancode)
     local ob = _G.saw
     if not _G.BuildController.start then
-        if key == "q" then
-            _G.BuildController:set('orchard')
-        elseif key == "d" then
-            _G.BuildController:set('house')
-        elseif key == "w" then
-            _G.BuildController:set('stockpile')
-        elseif key == "e" then
-            _G.BuildController:set('granary')
-        elseif key == "t" then
-            _G.BuildController:set('quarry')
-        elseif key == "y" then
-            _G.BuildController:set('iron_mine')
-        elseif key == "u" then
-            _G.BuildController:set('woodcutter_hut')
-        elseif key == "i" then
-            _G.BuildController:set('wheat_farm')
-        elseif key == "a" then
-            _G.BuildController:set('windmill')
-        elseif key == "s" then
-            _G.BuildController:set('bakery')
-            -- elseif key == "o" then
-            --     _G.saw.offset_y = _G.saw.offset_y + 1
-            -- elseif key == "l" then
-            --     _G.saw.offset_y = _G.saw.offset_y - 1
-            -- elseif key == "k" then
-            --     _G.saw.offset_x = _G.saw.offset_x + 1
-            -- elseif key == ";" then
-            --     _G.saw.offset_x = _G.saw.offset_x - 1
-        elseif key == "p" then
-            print("x,y", _G.saw.offset_x, _G.saw.offset_y)
-        elseif key == "v" then
+        if key == "v" then
             _G.foodpile:take()
         elseif key == "r" then
             _G.foodpile:store('bread')

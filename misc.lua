@@ -190,9 +190,6 @@ local function draw()
                             tostring(previous_frame_time) .. "\n Wood: " .. tostring(_G.state.resources['wood']) ..
                             "\n Stone: " .. tostring(_G.state.resources['stone']) .. "\n Iron: " ..
                             tostring(_G.state.resources['iron']), 0, 0)
-    love.graphics.print(
-        "[Q] - Apple orchard\n[W] - Stockpile\n[E] - Granary\n[T] - Quarry\n[Y] - Iron mine\n[I] - Wheat farm\n[Move keys] - Move map\n[Mouse scroll] - Zoom in/out\n[Escape] - Exit",
-        0, _G.ScreenHeight - 130)
 end
 
 local function getBuildingSelection()
