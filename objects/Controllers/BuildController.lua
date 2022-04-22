@@ -240,7 +240,7 @@ local building = {
         w = 12,
         h = 12,
         cost = {
-            ["wood"] = 2
+            ["wood"] = 3
         },
         build = function(self, gx, gy)
             Orchard:new(gx, gy)
@@ -256,7 +256,7 @@ local building = {
         w = 12,
         h = 12,
         cost = {
-            ["wood"] = 2
+            ["wood"] = 4
         },
         build = function(self, gx, gy)
             WheatFarm:new(gx, gy)
@@ -289,7 +289,7 @@ local building = {
         w = 3,
         h = 3,
         cost = {
-            ["wood"] = 3
+            ["wood"] = 8
         },
         build = function(self, gx, gy)
             Windmill:new(gx, gy)
@@ -305,7 +305,8 @@ local building = {
         w = 4,
         h = 4,
         cost = {
-            ["wood"] = 3
+            ["wood"] = 10,
+            ["stone"] = 5
         },
         build = function(self, gx, gy)
             Bakery:new(gx, gy)

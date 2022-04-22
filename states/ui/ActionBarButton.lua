@@ -81,6 +81,18 @@ function ActionBarButton:initialize(image, state, position, big_frame_foreground
     self.background.visible = false
     self.foreground.visible = false
 end
+function ActionBarButton:set_tooltip(title, tooltip_text)
+    if not self.tooltip then
+        local tooltip = loveframes.Create("tooltip")
+        tooltip:SetObject(self.background)
+        tooltip:SetState(self.state)
+        tooltip:SetPadding(10)
+        tooltip:SetText(tooltip_text, title)
+        self.tooltip = tooltip
+    else
+        self.tooltip:SetText(tooltip_text, title)
+    end
+end
 function ActionBarButton:hide()
     self.background.visible = false
     self.foreground.visible = false

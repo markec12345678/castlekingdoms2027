@@ -13,9 +13,11 @@ castle_btn:set_on_click(function(self)
     end)
     action_bar:select_button(castle_btn)
 end)
+castle_btn:set_tooltip("Wooden castle", "Requires 50 Wood\nHas no purpose at the moment")
 
 local wooden_wall_btn = ActionBarButton:new(love.graphics.newImage('assets/ui/wooden_wall_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 2, true, nil, true)
+wooden_wall_btn:set_tooltip("Wooden wall", "Unimplemented")
 
 el.buttons.castle_btn:set_on_click(function(self)
     action_bar:show_group("castle")

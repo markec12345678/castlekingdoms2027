@@ -141,6 +141,8 @@ _G.tile_width = 32
 _G.tile_height = 16
 _G.chunk_width = 64
 _G.chunk_height = 64
+-- UI
+_G.TOOLTIP_DELAY = 0.1
 ----Chunks
 _G.xchunk = 0
 _G.ychunk = 0

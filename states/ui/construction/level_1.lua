@@ -16,7 +16,7 @@ local house_btn = ActionBarButton:new(love.graphics.newImage('assets/ui/house_ab
     states.STATE_INGAME_CONSTRUCTION, 4)
 
 local shield_btn = ActionBarButton:new(love.graphics.newImage('assets/ui/shield_ab.png'),
-    states.STATE_INGAME_CONSTRUCTION, 5)
+    states.STATE_INGAME_CONSTRUCTION, 5, nil, nil, true)
 
 local sickle_btn = ActionBarButton:new(love.graphics.newImage('assets/ui/sickle_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 6)
@@ -27,6 +27,13 @@ local back_btn = ActionBarButton:new(love.graphics.newImage('assets/ui/back_ab.p
     12)
 back_btn:set_on_click(function(self)
     action_bar:show_group("main")
+    if not _G.BuildController.start then
+        _G.BuildController.active = false
+        if _G.BuildController.on_build_callback then
+            _G.BuildController.on_build_callback()
+            _G.BuildController.on_build_callback = nil
+        end
+    end
 end)
 
 action_bar:show_group("main")
@@ -51,3 +58,10 @@ package.loaded['states.ui.construction.level_2_farms'] = love.filesystem
 
 package.loaded['states.ui.construction.level_2_resource'] = love.filesystem.load(
     'states/ui/construction/level_2_resource.lua')(elements, back_btn)
+
+package.loaded['states.ui.construction.level_2_house'] = love.filesystem
+                                                             .load('states/ui/construction/level_2_house.lua')(elements,
+    back_btn)
+
+package.loaded['states.ui.construction.level_2_sickle'] = love.filesystem.load(
+    'states/ui/construction/level_2_sickle.lua')(elements, back_btn)

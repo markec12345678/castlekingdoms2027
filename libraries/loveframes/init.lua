@@ -55,6 +55,7 @@ loveframes.input_cursor_set = false
 loveframes.prevcursor = nil
 loveframes.basicfont = love.graphics.newFont(12)
 loveframes.basicfontsmall = love.graphics.newFont(10)
+loveframes.font_vera_bold = love.graphics.newFont("assets/fonts/VeraBd.ttf")
 loveframes.collisions = {}
 
 -- install directory of the library
