@@ -109,10 +109,10 @@ function Tree:animate(dt, force_update)
         if self.offset_timer > 4 then
             self.offset_x = self.base_offset_x
         end
-    elseif _G.state.scale_x > 0.3 then
+    elseif _G.state.scale_x >= 0.5 then
         self.update_timer = self.update_timer + 1
-        if self.update_timer == 10 then
-            updated = self.animation:update(dt)
+        if self.update_timer == 4 then
+            updated = self.animation:update(dt * 4)
             ticked = true
             self.update_timer = 0
         end

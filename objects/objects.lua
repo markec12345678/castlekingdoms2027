@@ -596,18 +596,12 @@ local function update(dt)
     end
     _G.JobController:make_worker()
     prof.push("CUL")
-    if previous_chunk_x ~= _G.current_chunk_x or previous_chunk_y ~= _G.current_chunk_y or _G.top_left_chunk_x ~=
-        (_G.previous_top_left_chunk_x or 0) then
-        _G.chunkUpdateList()
-    end
     if first_update then
         preload(dt)
         first_update = false
     end
     prof.pop("CUL")
     prof.push("AE")
-    previous_chunk_x = _G.current_chunk_x
-    previous_chunk_y = _G.current_chunk_y
     _G.state.previous_top_left_chunk_x = _G.state.top_left_chunk_x
     _G.state.wheat_season_counter = _G.state.wheat_season_counter + dt
     if _G.state.wheat_season_counter > 5 then
@@ -636,41 +630,9 @@ local function update(dt)
             return not objects_to_be_deleted[i]
         end)
     end
-
     prof.pop("AE")
-    prof.push("UPDATE_OBJECTS")
-    -- Render the center chunks with higher priority
-    prof.pop("UPDATE_OBJECTS")
-    prof.push("UPDATE_CHUNK_OBJ")
 
-    local super_slow_mode = false
-    if _G.state.scale_x < 0.31 then
-        super_slow_mode = true
-    end
-    local l = _G.state.terrain_chunks
-    while l do
-        if l.chunkx == nil then
-            break
-        end
-        updated_chunks[l.chunkx][l.chunky] = true
-        if not super_slow_mode or love.math.random(1, 10) == 1 then
-            if _G.state.chunk_objects[l.chunkx][l.chunky] then
-                for _, obj in pairs(_G.state.chunk_objects[l.chunkx][l.chunky]) do
-                    if obj.animated then
-                        if obj:is_visible_on_screen() then
-                            obj:animate(dt)
-                        else
-                            obj:update(dt)
-                        end
-                    else
-                        obj:update(dt)
-                    end
-                end
-            end
-        end
-        l = l.next
-    end
-    -- Render the edge chunks with lower priority
+    prof.push("UPDATE_CHUNK_OBJ")
     local tile_start_x, tile_start_y, tile_end_x, tile_end_y = _G.state.top_left_chunk_x - 1, _G.state.top_left_chunk_y,
         _G.state.bottom_right_chunk_x + 1, _G.state.bottom_right_chunk_y
 
@@ -685,18 +647,16 @@ local function update(dt)
         for column = firstColumn + shift, lastColumn, 2 do
             local xx, yy = bit.rshift(row + column, 1), bit.rshift(row - column, 1)
             if updated_chunks[xx][yy] ~= true then
-                if love.math.random(1, 5) == 1 then
-                    if _G.state.chunk_objects[xx][yy] then
-                        for _, obj in pairs(_G.state.chunk_objects[xx][yy]) do
-                            if obj.animated then
-                                if obj:is_visible_on_screen() then
-                                    obj:animate(dt)
-                                else
-                                    obj:update(dt)
-                                end
+                if _G.state.chunk_objects[xx][yy] then
+                    for _, obj in pairs(_G.state.chunk_objects[xx][yy]) do
+                        if obj.animated then
+                            if obj:is_visible_on_screen() then
+                                obj:animate(dt)
                             else
                                 obj:update(dt)
                             end
+                        else
+                            obj:update(dt)
                         end
                     end
                 end

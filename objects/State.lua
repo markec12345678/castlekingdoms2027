@@ -10,7 +10,6 @@ function State:initialize()
     self.top_left_chunk_y = 0
     self.bottom_right_chunk_x = 0
     self.bottom_right_chunk_y = 0
-    self.terrain_chunks = nil
     self.object = newAutotable(4)
     self.object_mesh = newAutotable(2)
     self.object_mesh_vert_id_map = newAutotable(3)
@@ -196,7 +195,6 @@ function State:serialize()
     data.top_left_chunk_y = self.top_left_chunk_y
     data.bottom_right_chunk_x = self.bottom_right_chunk_x
     data.bottom_right_chunk_y = self.bottom_right_chunk_y
-    data.terrain_chunks = self.terrain_chunks
     data.build_controller = _G.BuildController:serialize()
     data.stockpile_controller = _G.stockpile:serialize()
     data.spawn_point_x, data.spawn_point_y = _G.spawn_point_x, _G.spawn_point_y
@@ -234,7 +232,6 @@ function State:load(filename)
     self.top_left_chunk_y = load.top_left_chunk_y
     self.bottom_right_chunk_x = load.bottom_right_chunk_x
     self.bottom_right_chunk_y = load.bottom_right_chunk_y
-    self.terrain_chunks = load.terrain_chunks
     self.vertices_per_tile = load.vertices_per_tile
     self.max_population = load.max_population
     self.population = load.population

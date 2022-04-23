@@ -18,7 +18,7 @@ function love.load()
         Gamestate.switch(main_menu)
     end
     local loader = require('libraries.lily')
-    loader.newImage("assets/tiles/stronghold_assets_packed_v4.png"):onComplete(function(_, image)
+    loader.newImage("assets/tiles/stronghold_assets_packed_v5.png"):onComplete(function(_, image)
         _G.object_image = image
     end)
     _G.fx = require("sounds.fx")
