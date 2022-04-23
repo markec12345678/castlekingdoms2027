@@ -306,7 +306,7 @@ local building = {
         h = 4,
         cost = {
             ["wood"] = 10,
-            ["stone"] = 5
+            ["stone"] = 2
         },
         build = function(self, gx, gy)
             Bakery:new(gx, gy)

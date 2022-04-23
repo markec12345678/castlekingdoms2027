@@ -39,19 +39,6 @@ function _G.math.round(x, deci)
     return x >= 0 and math.floor(x + 0.5) or math.ceil(x - 0.5)
 end
 
-local min_dt = 1 / 60
-local next_time = 0
-
-function _G.limitfps()
-    -- LIMIT THE FPS TO 60, GOES IN DRAW EVENT
-    local cur_time = love.timer.getTime()
-    if next_time <= cur_time then
-        next_time = cur_time
-        return
-    end
-    love.timer.sleep(next_time - cur_time)
-end
-
 -- use this instead of table.remove for arrays
 function _G.arrayRemove(t, fnKeep)
     local j, n = 1, #t
@@ -82,7 +69,6 @@ local function getZFromZoom()
 end
 
 local function update()
-    next_time = next_time + min_dt;
     ---------------------------------------
     mx, my = love.mouse.getPosition();
     mx = (mx - 16 - _G.ScreenWidth / 2) / _G.state.scale_x + _G.state.view_xview

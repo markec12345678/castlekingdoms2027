@@ -8,24 +8,6 @@ local core = require("misc")
 local thread, thread2, objects, terrain
 require("shaders.postshader")
 
-local function manual_gc(time_budget, safetynet_megabytes, disable_otherwise)
-    local max_steps = 1000
-    local steps = 0
-    local start_time = love.timer.getTime()
-    while love.timer.getTime() - start_time < time_budget and steps < max_steps do
-        collectgarbage("step", 1)
-        steps = steps + 1
-    end
-    -- safety net
-    if collectgarbage("count") / 1024 > safetynet_megabytes then
-        collectgarbage("collect")
-    end
-    -- don't collect gc outside this margin
-    if disable_otherwise then
-        collectgarbage("stop")
-    end
-end
-
 function game:init()
     local new_game = not (love.filesystem.getInfo and love.filesystem.getInfo("status.bin"))
     local State = require('objects.State')
@@ -74,9 +56,9 @@ function game:update(dt)
     prof.push("pathfind")
     _G.finder:update()
     prof.pop("pathfind")
-    prof.push("gc")
-    manual_gc(0.7e-3, 20000)
-    prof.pop("gc")
+    -- prof.push("gc")
+    -- manual_gc(0.7e-3, 20000)
+    -- prof.pop("gc")
     local error = thread:getError()
     assert(not error, error)
 end

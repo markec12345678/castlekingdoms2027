@@ -24,7 +24,7 @@ bakery_btn:set_on_click(function(self)
     end)
     action_bar:select_button(bakery_btn)
 end)
-bakery_btn:set_tooltip("Bakery", "Requires 10 Wood, 5 Stone\nProcesses flour into bread")
+bakery_btn:set_tooltip("Bakery", "Requires 10 Wood, 2 Stone\nProcesses flour into bread")
 
 el.buttons.sickle_btn:set_on_click(function(self)
     action_bar:show_group("sickle")
