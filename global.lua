@@ -3,7 +3,6 @@ math.random()
 math.random()
 math.random()
 
-local tile_quads = require('objects.object_quads')
 _G.classes = {}
 _G.anim = require('libraries.anim8')
 _G.class = require('libraries.middleclass')
@@ -29,6 +28,7 @@ function _G.getClassByName(class_name)
 end
 
 function _G.indexBuildingQuads(quad_string, trim_last, last_width_offset)
+    local tile_quads = require('objects.object_quads')
     trim_last = trim_last or last_width_offset or false
     last_width_offset = last_width_offset or 0
     if trim_last and last_width_offset == 0 then
@@ -61,6 +61,7 @@ function _G.indexBuildingQuads(quad_string, trim_last, last_width_offset)
 end
 
 function _G.indexQuads(string, end_amount, start, reverse)
+    local tile_quads = require('objects.object_quads')
     start = start or 1
     local temp_array = {}
     for i = start, end_amount do

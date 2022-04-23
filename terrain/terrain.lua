@@ -1,4 +1,4 @@
-local tile_quads = require('terrain.terrain_quads')
+local tile_quads = require('objects.object_quads')
 local ScreenToIsoX, ScreenToIsoY = _G.ScreenToIsoX, _G.ScreenToIsoY
 local tile_width, tile_height = _G.tile_width, _G.tile_height
 -- Terrain Initialize

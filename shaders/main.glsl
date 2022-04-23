@@ -30,8 +30,8 @@ vec4 position(mat4 transform_projection, vec4 vertex_position)
 vec4 effect( vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords )
 {
     color.xyz *= imgshd;
-    texture_coords.x = (uvoff.x + imgdim.x*texture_coords.x)/8192.0;
-    texture_coords.y = (uvoff.y + imgdim.y*texture_coords.y)/12000.0;
+    texture_coords.x = (uvoff.x + imgdim.x*texture_coords.x)/8187.0;
+    texture_coords.y = (uvoff.y + imgdim.y*texture_coords.y)/11311.0;
     vec4 texcolor = Texel(tex, texture_coords);
     return texcolor * color;
 }
