@@ -53,9 +53,19 @@ loveframes.dragobject = false
 loveframes.hover = false
 loveframes.input_cursor_set = false
 loveframes.prevcursor = nil
-loveframes.basicfont = love.graphics.newFont(12)
-loveframes.basicfontsmall = love.graphics.newFont(10)
-loveframes.font_vera_bold = love.graphics.newFont("assets/fonts/VeraBd.ttf")
+if love.graphics.getHeight() >= 1440 and love.graphics.getWidth() >= 2560 and love.graphics.getWidth() < 3840 then
+    loveframes.basicfont = love.graphics.newFont(18)
+    loveframes.basicfontsmall = love.graphics.newFont(16)
+    loveframes.font_vera_bold = love.graphics.newFont("assets/fonts/VeraBd.ttf", 18)
+elseif love.graphics.getHeight() >= 1440 and love.graphics.getWidth() >= 3840 then
+    loveframes.basicfont = love.graphics.newFont(28)
+    loveframes.basicfontsmall = love.graphics.newFont(26)
+    loveframes.font_vera_bold = love.graphics.newFont("assets/fonts/VeraBd.ttf", 28)
+else
+    loveframes.basicfont = love.graphics.newFont(12)
+    loveframes.basicfontsmall = love.graphics.newFont(10)
+    loveframes.font_vera_bold = love.graphics.newFont("assets/fonts/VeraBd.ttf")
+end
 loveframes.collisions = {}
 
 -- install directory of the library
