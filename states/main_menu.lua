@@ -9,9 +9,10 @@ function main_menu:init()
 end
 
 function main_menu:update(dt)
-    counter = (counter + 1) % 21
-    if counter == 20 then
+    counter = counter + 1
+    if counter >= 10 then
         stringLoop = (stringLoop % 4) + 1
+        counter = 0
     end
     if love.keyboard.isDown("escape") then
         love.event.quit();
@@ -24,7 +25,6 @@ end
 function main_menu:draw()
     love.graphics.draw(main_menu.logo, 100, 100)
     love.graphics.print(loadingString[stringLoop], 105, 225)
-    limitfps()
 end
 
 return main_menu

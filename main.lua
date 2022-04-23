@@ -21,6 +21,9 @@ function love.load()
     loader.newImage("assets/tiles/stronghold_assets_packed_v5.png"):onComplete(function(_, image)
         _G.object_image = image
     end)
+    local cursor_img = love.image.newImageData("assets/ui/cursor.png")
+    local cursor = love.mouse.newCursor(cursor_img, 2, 2)
+    love.mouse.setCursor(cursor)
     _G.fx = require("sounds.fx")
     require("sounds.fx_volume")
     _G.speech_fx = require("sounds.speech")
@@ -50,6 +53,7 @@ function love.run()
     dt = 0
     local consecutive_large_dts = 0
     -- Main loop time.
+    local next_time = 0
 
     while true do
         -- Process events.
@@ -64,6 +68,7 @@ function love.run()
         end
 
         -- Update dt, as we'll be passing it to update
+        next_time = next_time + 1 / _G.MAX_FPS
         if love.timer then
             love.timer.step()
             dt = love.timer.getDelta()
@@ -97,10 +102,16 @@ function love.run()
             if love.draw then
                 love.draw()
             end
-            love.graphics.present()
         end
         previous_frame = previous_frame + 1 / (love.timer.getTime() - start_time_FPS)
-        _G.limitfps()
+
+        local cur_time = love.timer.getTime()
+        if next_time <= cur_time then
+            next_time = cur_time
+        else
+            manual_gc(next_time - cur_time, nil, true)
+        end
+        love.graphics.present()
         prof.pop("draw")
         prof.pop("frame")
     end

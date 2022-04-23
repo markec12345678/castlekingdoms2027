@@ -2,6 +2,7 @@ local _, object_image = ...
 
 local tile_quads = require('objects.object_quads')
 local image = love.graphics.newImage("assets/tiles/info_tiles_strip.png")
+local action_bar = require('states.ui.ActionBar')
 local Peasant = require('objects.Units.Peasant')
 local Castle = require('objects.Structures.Castle')
 local Stockpile = require('objects.Structures.Stockpile')
@@ -239,7 +240,7 @@ local building = {
         w = 12,
         h = 12,
         cost = {
-            ["wood"] = 2
+            ["wood"] = 3
         },
         build = function(self, gx, gy)
             Orchard:new(gx, gy)
@@ -255,7 +256,7 @@ local building = {
         w = 12,
         h = 12,
         cost = {
-            ["wood"] = 2
+            ["wood"] = 4
         },
         build = function(self, gx, gy)
             WheatFarm:new(gx, gy)
@@ -288,7 +289,7 @@ local building = {
         w = 3,
         h = 3,
         cost = {
-            ["wood"] = 3
+            ["wood"] = 8
         },
         build = function(self, gx, gy)
             Windmill:new(gx, gy)
@@ -304,7 +305,8 @@ local building = {
         w = 4,
         h = 4,
         cost = {
-            ["wood"] = 3
+            ["wood"] = 10,
+            ["stone"] = 2
         },
         build = function(self, gx, gy)
             Bakery:new(gx, gy)
@@ -380,8 +382,12 @@ function BuildController:deserialize(data)
     for k, v in pairs(data) do
         self[k] = v
     end
+    if self.start then
+        action_bar:show_group(nil)
+    end
 end
-function BuildController:set(type)
+function BuildController:set(type, callback)
+    self.on_build_callback = callback
     self.building = type
     self.width, self.height = building[type].w, building[type].h
     self.batch:clear()
@@ -396,6 +402,9 @@ function BuildController:set(type)
 end
 function BuildController:update()
     if self.active then
+        if self.start and action_bar.current_group ~= nil then
+            action_bar:show_group(nil)
+        end
         local MX, MY = love.mouse.getPosition()
         local LX, LY = _G.getTerrainTileOnMouse(MX, MY)
         LX, LY = LX - math.floor(self.width / 2), LY - math.floor(self.height / 2)
@@ -496,6 +505,10 @@ function BuildController:build(gx, gy)
                     end
                     building[self.building]:build(gx, gy)
                     self.active = false
+                    if self.on_build_callback then
+                        self.on_build_callback()
+                        self.on_build_callback = nil
+                    end
                     return
                 end
             else
@@ -626,6 +639,7 @@ function BuildController:build(gx, gy)
                     _G.foodpile:store('bread')
                     self.active = false
                     self.start = false
+                    action_bar:show_group("main")
                 end
             end
         else

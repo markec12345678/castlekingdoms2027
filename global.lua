@@ -11,6 +11,7 @@ _G.ffi = require("ffi")
 _G.PROF_CAPTURE = false
 _G.prof = require("libraries.jprof")
 _G.prof.connect()
+_G.MAX_FPS = 60
 
 function _G.reverse(t)
     local n = #t
@@ -142,6 +143,8 @@ _G.tile_width = 32
 _G.tile_height = 16
 _G.chunk_width = 64
 _G.chunk_height = 64
+-- UI
+_G.TOOLTIP_DELAY = 0.1
 ----Chunks
 _G.xchunk = 0
 _G.ychunk = 0
@@ -200,4 +203,22 @@ function _G.play_sfx(obj, sfx)
         (obj.y + (obj.cx + obj.cy) * _G.chunk_height * _G.tile_height * 0.5) / 100, 4.1)
     sfx:setPitch(1 + love.math.random(-10, 10) / 100)
     sfx:play()
+end
+
+function _G.manual_gc(time_budget, safetynet_megabytes, disable_otherwise)
+    local max_steps = 1000
+    local steps = 0
+    local start_time = love.timer.getTime()
+    while love.timer.getTime() - start_time < time_budget do
+        collectgarbage("step", 1)
+        steps = steps + 1
+    end
+    -- safety net
+    if safetynet_megabytes and collectgarbage("count") / 1024 > safetynet_megabytes then
+        collectgarbage("collect")
+    end
+    -- don't collect gc outside this margin
+    if disable_otherwise then
+        collectgarbage("stop")
+    end
 end
