@@ -1,10 +1,8 @@
 local test = {}
-local Gamestate = require('libraries.gamestate')
 local thread
 
 function test:enter()
     require('spec.objects_spec')
-    _G.chunkUpdateList = require('objects.chunk_system')
     _G.BuildController:set('castle')
     _G.BuildController.start = true
     _G.JobController = require('objects.Controllers.JobController')

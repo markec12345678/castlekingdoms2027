@@ -150,9 +150,6 @@ _G.current_chunk_x = 0
 _G.current_chunk_y = 0
 _G.CenterX = 0
 _G.CenterY = 0
-_G.previous_chunk_x = 0
-_G.previous_chunk_y = 0
-_G.previous_terrain_chunks = 0
 ----Terrain
 -- if love.filesystem.getInfo and love.filesystem.getInfo("status.bin") then
 --     print("Save file found..")
