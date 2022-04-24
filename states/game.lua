@@ -1,5 +1,4 @@
 local game = {}
-local Gamestate = require('libraries.gamestate')
 local loveframes = require('libraries.loveframes')
 require('states.ui.init')
 local action_bar = require('states.ui.ActionBar')
@@ -7,9 +6,10 @@ local states = require('states.ui.states')
 local core = require("misc")
 local thread, thread2, objects, terrain
 require("shaders.postshader")
+local renderLoadingScreen = require('states.ui.loading_screen')
+local initialized = 2
 
-function game:init()
-    local new_game = not (love.filesystem.getInfo and love.filesystem.getInfo("status.bin"))
+local function delayedInit()
     local State = require('objects.State')
     _G.state = State:new()
     objects = love.filesystem.load('objects/objects.lua')(object_image)
@@ -24,6 +24,7 @@ function game:init()
     thread2 = love.thread.newThread("libraries/pathfinding_thread.lua")
     thread2:start("2")
     _G.finder = require('objects.Controllers.PathController')
+    local new_game = not (love.filesystem.getInfo and love.filesystem.getInfo("status.bin"))
     if new_game then
         terrain.genMap()
         _G.BuildController:set("castle")
@@ -38,25 +39,38 @@ function game:init()
     end
 end
 
+function game:init()
+end
+
 function game:update(dt)
-    prof.push("core")
-    core.update()
-    prof.pop("core")
-    prof.push("objects")
-    objects.update(dt)
-    prof.pop("objects")
-    terrain.update()
-    prof.push("bcontr")
-    _G.BuildController:update()
-    prof.pop("bcontr")
-    prof.push("ui")
-    loveframes.update()
-    prof.pop("ui")
-    prof.push("pathfind")
-    _G.finder:update()
-    prof.pop("pathfind")
-    local error = thread:getError()
-    assert(not error, error)
+    if initialized == 2 then
+        initialized = 1
+    elseif initialized == 1 then
+        initialized = true
+        delayedInit()
+    else
+        prof.push("core")
+        core.update()
+        prof.pop("core")
+        if not _G.paused then
+            prof.push("objects")
+            objects.update(dt)
+            prof.pop("objects")
+            terrain.update()
+            prof.push("bcontr")
+            _G.BuildController:update()
+            prof.pop("bcontr")
+        end
+        prof.push("ui")
+        loveframes.update()
+        prof.pop("ui")
+        prof.push("pathfind")
+        _G.finder:update()
+        prof.pop("pathfind")
+        local error = thread:getError()
+        assert(not error, error)
+        _G.loaded = true
+    end
 end
 
 function game:enter()
@@ -67,23 +81,31 @@ end
 
 function game:draw()
     if not _G.test_mode then
-        if _G.state.scale_x >= 2.1 then
-            love.postshader.setBuffer("render")
-        end
-        love.graphics.push()
-        love.graphics.translate((love.graphics.getWidth() / 2), (love.graphics.getHeight() / 2))
-        objects.draw()
-        _G.BuildController:draw()
-        love.graphics.pop()
-        if _G.state.scale_x >= 2.1 then
-            love.postshader.addTiltshift()
-        end
-        core.draw()
-        prof.push("ui_draw")
-        loveframes.draw()
-        prof.pop("ui_draw")
-        if _G.state.scale_x >= 2.1 then
-            love.postshader.draw()
+        if _G.loaded then
+            if _G.state.scale_x >= 2.1 or _G.paused then
+                love.postshader.setBuffer("render")
+            end
+            love.graphics.push()
+            love.graphics.translate((love.graphics.getWidth() / 2), (love.graphics.getHeight() / 2))
+            objects.draw()
+            if not _G.paused then
+                _G.BuildController:draw()
+            end
+            love.graphics.pop()
+            if _G.paused then
+                love.postshader.addTiltshift(12)
+            elseif _G.state.scale_x >= 2.1 then
+                love.postshader.addTiltshift(4)
+            end
+            core.draw()
+            prof.push("ui_draw")
+            loveframes.draw()
+            prof.pop("ui_draw")
+            if _G.state.scale_x >= 2.1 or _G.paused then
+                love.postshader.draw()
+            end
+        else
+            renderLoadingScreen("Initialiazing...")
         end
     end
 end
@@ -109,6 +131,9 @@ end
 
 function game:keypressed(key, scancode, is_repeat)
     action_bar:keypressed(key, scancode)
+    if key == "escape" then
+        loveframes.TogglePause()
+    end
 end
 
 function game:mousereleased(x, y, button, istouch)
@@ -121,7 +146,6 @@ function game:wheelmoved(x, y)
 end
 
 function game:keyreleased(key, scancode)
-    local ob = _G.saw
     if not _G.BuildController.start then
         if key == "v" then
             _G.foodpile:take()
@@ -129,9 +153,9 @@ function game:keyreleased(key, scancode)
             _G.foodpile:store('bread')
             _G.foodpile:store('apples')
             _G.foodpile:store('cheese')
-            print(inspect(_G.food))
+            print(_G.inspect(_G.food))
         elseif key == "f" then
-            local fullscreen, fstype = love.window.getFullscreen()
+            local fullscreen, _ = love.window.getFullscreen()
             if fullscreen then
                 love.window.setFullscreen(false)
             else

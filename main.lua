@@ -4,7 +4,6 @@ end
 
 require('global')
 local Gamestate = require('libraries.gamestate')
-local bitser = require("libraries.bitser")
 
 local main_menu = require('states.main_menu')
 local test = require('states.test')
@@ -30,9 +29,6 @@ function love.load()
 end
 
 function love.quit()
-    print("Saving game..")
-    local state = _G.state:save("status.bin")
-    bitser.dumpLoveFile("status.bin", state)
     return true
 end
 
@@ -50,7 +46,7 @@ function love.run()
     if love.timer then
         love.timer.step()
     end
-    dt = 0
+    _G.dt = 0
     local consecutive_large_dts = 0
     -- Main loop time.
     local next_time = 0
@@ -81,6 +77,9 @@ function love.run()
                 consecutive_large_dts = 0
             end
         end
+        if _G.paused then
+            _G.dt = 0
+        end
         cnt = cnt + 1
         if cnt == 10 then
             _G.previous_frame_time = tonumber(math.floor(previous_frame / 10))
@@ -97,7 +96,9 @@ function love.run()
         prof.pop("update")
         prof.push("draw")
         if love.graphics and love.graphics.isActive() then
-            love.graphics.clear(love.graphics.getBackgroundColor())
+            if _G.loaded then
+                love.graphics.clear(love.graphics.getBackgroundColor())
+            end
             love.graphics.origin()
             if love.draw then
                 love.draw()
@@ -109,7 +110,7 @@ function love.run()
         if next_time <= cur_time then
             next_time = cur_time
         else
-            manual_gc(next_time - cur_time, nil, true)
+            _G.manual_gc(next_time - cur_time, nil, true)
         end
         love.graphics.present()
         prof.pop("draw")

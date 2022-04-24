@@ -42,7 +42,7 @@ love.postshader.setBuffer = function(path)
     LOVE_POSTSHADER_LAST_BUFFER = love.graphics.getCanvas()
 end
 
-love.postshader.addTiltshift = function()
+love.postshader.addTiltshift = function(steps)
     LOVE_POSTSHADER_LAST_BUFFER = love.graphics.getCanvas()
 
     love.graphics.setCanvas(LOVE_POSTSHADER_BUFFER_BACK)
@@ -51,8 +51,8 @@ love.postshader.addTiltshift = function()
     -- Blur Shader
     LOVE_POSTSHADER_BLURV:send("screen", {love.graphics.getWidth(), love.graphics.getHeight()})
     LOVE_POSTSHADER_BLURH:send("screen", {love.graphics.getWidth(), love.graphics.getHeight()})
-    LOVE_POSTSHADER_BLURV:send("steps", 4)
-    LOVE_POSTSHADER_BLURH:send("steps", 4)
+    LOVE_POSTSHADER_BLURV:send("steps", steps)
+    LOVE_POSTSHADER_BLURH:send("steps", steps)
 
     love.graphics.setShader(LOVE_POSTSHADER_BLURV)
     love.graphics.draw(LOVE_POSTSHADER_BUFFER_RENDER)

@@ -116,24 +116,23 @@ local function update()
     if final_scroll_speed < 5 then
         final_scroll_speed = 5
     end
-    if love.keyboard.isDown("up") then
-        _G.state.view_yview = _G.state.view_yview - final_scroll_speed
-        love.audio.setPosition((_G.state.view_xview) / 100, (_G.state.view_yview) / 100, getZFromZoom())
-    end
-    if love.keyboard.isDown("down") then
-        _G.state.view_yview = _G.state.view_yview + final_scroll_speed
-        love.audio.setPosition((_G.state.view_xview) / 100, (_G.state.view_yview) / 100, getZFromZoom())
-    end
-    if love.keyboard.isDown("left") then
-        _G.state.view_xview = _G.state.view_xview - final_scroll_speed
-        love.audio.setPosition((_G.state.view_xview) / 100, (_G.state.view_yview) / 100, getZFromZoom())
-    end
-    if love.keyboard.isDown("right") then
-        _G.state.view_xview = _G.state.view_xview + final_scroll_speed
-        love.audio.setPosition((_G.state.view_xview) / 100, (_G.state.view_yview) / 100, getZFromZoom())
-    end
-    if love.keyboard.isDown("escape") then
-        love.event.quit();
+    if not _G.paused then
+        if love.keyboard.isDown("up") then
+            _G.state.view_yview = _G.state.view_yview - final_scroll_speed
+            love.audio.setPosition((_G.state.view_xview) / 100, (_G.state.view_yview) / 100, getZFromZoom())
+        end
+        if love.keyboard.isDown("down") then
+            _G.state.view_yview = _G.state.view_yview + final_scroll_speed
+            love.audio.setPosition((_G.state.view_xview) / 100, (_G.state.view_yview) / 100, getZFromZoom())
+        end
+        if love.keyboard.isDown("left") then
+            _G.state.view_xview = _G.state.view_xview - final_scroll_speed
+            love.audio.setPosition((_G.state.view_xview) / 100, (_G.state.view_yview) / 100, getZFromZoom())
+        end
+        if love.keyboard.isDown("right") then
+            _G.state.view_xview = _G.state.view_xview + final_scroll_speed
+            love.audio.setPosition((_G.state.view_xview) / 100, (_G.state.view_yview) / 100, getZFromZoom())
+        end
     end
 end
 

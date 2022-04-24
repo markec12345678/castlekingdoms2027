@@ -93,6 +93,9 @@ return function(loveframes)
 
             if hover and clickable and button == 1 then
                 if enabled then
+                    if self.OnMouseDown then
+                        self:OnMouseDown()
+                    end
                     if onclick then
                         return true
                     end
