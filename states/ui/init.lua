@@ -14,3 +14,5 @@ keybinds:SetOffsetY(img_keybinds:getHeight())
 keybinds:SetPos(ab.fr_action_1.x + ab.fr_action_1.width - 14 * el.scalex,
     ab.fr_action_bar.y + ab.fr_action_bar.height - 3 * el.scalex)
 keybinds:SetScale(el.scalex)
+
+require('states.ui.pause.menu')

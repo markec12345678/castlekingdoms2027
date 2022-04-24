@@ -11,6 +11,7 @@ _G.ffi = require("ffi")
 _G.PROF_CAPTURE = false
 _G.prof = require("libraries.jprof")
 _G.prof.connect()
+_G.paused = false
 _G.MAX_FPS = 60
 
 function _G.reverse(t)
@@ -145,6 +146,7 @@ _G.chunk_width = 64
 _G.chunk_height = 64
 -- UI
 _G.TOOLTIP_DELAY = 0.1
+_G.loaded = false
 ----Chunks
 _G.xchunk = 0
 _G.ychunk = 0
@@ -154,13 +156,6 @@ _G.current_chunk_x = 0
 _G.current_chunk_y = 0
 _G.CenterX = 0
 _G.CenterY = 0
-----Terrain
--- if love.filesystem.getInfo and love.filesystem.getInfo("status.bin") then
---     print("Save file found..")
---     _G.state = State.load("status.bin")
--- else
---     print("No save file, starting new game..")
--- end
 ----Offset
 _G.IsoX = 0
 _G.IsoY = -1400
@@ -183,9 +178,6 @@ _G.channel.map_update = love.thread.getChannel("map_update")
 _G.channel2 = {}
 _G.channel2.map_update = love.thread.getChannel("map_update2")
 
-----Resources
-----Libraries
-
 function _G.string.starts_with(str, start)
     return str:sub(1, #start) == start
 end
@@ -206,12 +198,9 @@ function _G.play_sfx(obj, sfx)
 end
 
 function _G.manual_gc(time_budget, safetynet_megabytes, disable_otherwise)
-    local max_steps = 1000
-    local steps = 0
     local start_time = love.timer.getTime()
     while love.timer.getTime() - start_time < time_budget do
         collectgarbage("step", 1)
-        steps = steps + 1
     end
     -- safety net
     if safetynet_megabytes and collectgarbage("count") / 1024 > safetynet_megabytes then

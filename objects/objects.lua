@@ -28,7 +28,6 @@ local press = location:new()
 ----Rows and columns
 ----Chunk 2D array
 local active_entities = newAutotable(1)
-_G.active_chunks = {}
 local object = _G.state.object
 ----Calculate center chunk
 local CenterX = math.round(ScreenToIsoX(_G.ScreenWidth / 2 - 16 + _G.state.view_xview,
