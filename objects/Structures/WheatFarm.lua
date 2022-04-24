@@ -13,7 +13,6 @@ local farmland_tiles_stage_3 = {tile_quads["tile_farmland_stage_3 (1)"], tile_qu
 local farmland_tiles_stage_4 = {tile_quads["tile_farmland_stage_4 (1)"], tile_quads["tile_farmland_stage_4 (2)"],
                                 tile_quads["tile_farmland_stage_4 (3)"], tile_quads["tile_farmland_stage_4 (4)"]}
 local farmland_hay_tile = tile_quads["tile_farmland_hay (1)"]
-
 local WheatFarm_alias = _G.class('WheatFarm_alias', Structure)
 function WheatFarm_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     local mytype = "Static structure"
@@ -184,6 +183,11 @@ function WheatFarm_plant:set_state(state)
 end
 
 local WheatFarm = _G.class('WheatFarm', Structure)
+
+WheatFarm.static.WIDTH = 2
+WheatFarm.static.LENGTH = 2
+WheatFarm.static.HEIGHT = 14
+
 function WheatFarm:initialize(gx, gy, type)
     _G.JobController:add("WheatFarmer", self)
     type = type or "Static structure"
@@ -258,12 +262,9 @@ function WheatFarm:initialize(gx, gy, type)
         t2 = WheatFarm_plant:new(self.gx + 11, self.gy + y, self, true)
         table.insert(self.land_tiles, {t1, t2})
     end
-    for xx = 0, 2 do
-        for yy = 0, 2 do
-            local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(self.gx + xx, self.gy + yy)
-            _G.buildingheightmap[ccx][ccy][xxx][yyy] = 14
-        end
-    end
+
+    Structure:applyBuildingHeightMap(gx, gy, WheatFarm.WIDTH, WheatFarm.LENGTH, WheatFarm.HEIGHT)
+
     table.insert(self.land_tiles[1], WheatFarm_plant:new(self.gx + 0, self.gy + 3, self, true))
     table.insert(self.land_tiles[1], WheatFarm_plant:new(self.gx + 2, self.gy + 3, self, true))
     table.insert(self.land_tiles[1], WheatFarm_plant:new(self.gx + 1, self.gy + 3, self, true))

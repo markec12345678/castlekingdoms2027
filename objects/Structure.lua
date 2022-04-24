@@ -66,6 +66,20 @@ function Structure:serialize()
     end
     return data
 end
+
+function Structure.static:applyBuildingHeightMap(gx, gy, buildingWidth, buildingLength, buildingHeight)
+    for xx = 0, buildingWidth do
+        for yy = 0, buildingLength do
+            local building_tile_coordinate_x = gx + xx
+            local building_tile_coordinate_y = gy + yy
+            _G.terrainSetTileAt(building_tile_coordinate_x, building_tile_coordinate_y, _G.terrain_biome.none)
+            local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(building_tile_coordinate_x,
+                building_tile_coordinate_y)
+            _G.buildingheightmap[ccx][ccy][xxx][yyy] = buildingHeight
+        end
+    end
+end
+
 function Structure:load(data)
     Object.initialize(self, data.gx, data.gy, data.type)
     _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)

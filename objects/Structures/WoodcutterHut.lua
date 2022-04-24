@@ -21,7 +21,6 @@ local an = {
     [AN_HUT_PLANKS] = fr_plank_stack,
     [AN_HUT_LOGS] = fr_log_stack
 }
-
 local WoodcutterHut_log_stack = _G.class('WoodcutterHut_log_stack', Structure)
 function WoodcutterHut_log_stack:initialize(gx, gy, parent)
     local mytype = "Animation"
@@ -316,6 +315,11 @@ function WoodcutterHut_alias.static:deserialize(data)
 end
 
 local WoodcutterHut = _G.class('WoodcutterHut', Structure)
+
+WoodcutterHut.static.WIDTH = 2
+WoodcutterHut.static.LENGTH = 2
+WoodcutterHut.static.HEIGHT = 14
+
 function WoodcutterHut:initialize(gx, gy, type)
     _G.JobController:add("Woodcutter", self)
     type = type or "Woodcutter hut"
@@ -356,13 +360,8 @@ function WoodcutterHut:initialize(gx, gy, type)
     _G.terrainSetTileAt(self.gx + 1, self.gy + 4, _G.terrain_biome.scarce_grass)
     _G.terrainSetTileAt(self.gx + 2, self.gy + 4, _G.terrain_biome.scarce_grass)
 
-    for xx = 0, 2 do
-        for yy = 0, 2 do
-            local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(self.gx + xx, self.gy + yy)
-            _G.buildingheightmap[ccx][ccy][xxx][yyy] = 14
-            _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.none)
-        end
-    end
+    Structure:applyBuildingHeightMap(gx, gy, WoodcutterHut.WIDTH, WoodcutterHut.LENGTH, WoodcutterHut.HEIGHT)
+
     for tile = 1, tiles do
         local wht = WoodcutterHut_alias:new(quad_array[tile], self.gx, self.gy + (tiles - tile + 1), self,
             -self.offset_y + 8 * (tiles - tile + 1))

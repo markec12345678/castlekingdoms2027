@@ -229,6 +229,11 @@ function Bakery_alias.static:deserialize(data)
 end
 
 local Bakery = _G.class('Bakery', Structure)
+
+Bakery.static.WIDTH = 3
+Bakery.static.LENGTH = 3
+Bakery.static.HEIGHT = 17
+
 function Bakery:initialize(gx, gy)
     _G.JobController:add("Baker", self)
     Structure.initialize(self, gx, gy, "Bakery")
@@ -254,13 +259,7 @@ function Bakery:initialize(gx, gy)
             _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.scarce_grass)
         end
     end
-    for xx = 0, 3 do
-        for yy = 0, 3 do
-            _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.none)
-            local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(self.gx + xx, self.gy + yy)
-            _G.buildingheightmap[ccx][ccy][xxx][yyy] = 17
-        end
-    end
+    Structure:applyBuildingHeightMap(gx, gy, Bakery.WIDTH, Bakery.LENGTH, Bakery.HEIGHT)
     for tile = 1, tiles do
         local bkr = Bakery_alias:new(quad_array[tile], self.gx, self.gy + (tiles - tile + 1), self,
             -self.offset_y + 8 * (tiles - tile + 1))
