@@ -4,7 +4,6 @@ local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 
 local tiles, quad_array = _G.indexBuildingQuads("housing (1)", true)
-
 local House_alias = _G.class('House_alias', Structure)
 function House_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     local mytype = "Static structure"
@@ -54,6 +53,11 @@ function House_alias.static:deserialize(data)
 end
 
 local House = _G.class('House', Structure)
+
+House.static.WIDTH = 3
+House.static.LENGTH = 3
+House.static.HEIGHT = 17
+
 function House:initialize(gx, gy)
     Structure.initialize(self, gx, gy, "House")
     _G.state.map:setWalkable(self.gx, self.gy, 1)
@@ -72,13 +76,7 @@ function House:initialize(gx, gy)
         hsl.tile_key = tiles + 1 + tile
     end
 
-    for xx = 0, 3 do
-        for yy = 0, 3 do
-            _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.none)
-            local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(self.gx + xx, self.gy + yy)
-            _G.buildingheightmap[ccx][ccy][xxx][yyy] = 17
-        end
-    end
+    Structure:applyBuildingHeightMap(gx, gy, House.WIDTH, House.LENGTH, House.HEIGHT)
 
     _G.state.max_population = _G.state.max_population + 4
 

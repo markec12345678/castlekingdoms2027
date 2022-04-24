@@ -35,6 +35,7 @@ local max_quantity = {
     ["bread"] = 32,
     ["cheese"] = 16
 }
+
 local Granary_alias = _G.class('Granary_alias', Structure)
 function Granary_alias:initialize(tile, gx, gy, parent, offset_y, offset_x, serialize_parent)
     local mytype = "Static structure"
@@ -90,6 +91,11 @@ function Granary_alias.static:deserialize(data)
 end
 
 local Granary = _G.class('Granary', Structure)
+
+Granary.static.WIDTH = 3
+Granary.static.LENGTH = 3
+Granary.static.HEIGHT = 17
+
 function Granary:initialize(gx, gy, type)
     type = type or "Granary"
     Structure.initialize(self, gx, gy, type)
@@ -168,13 +174,10 @@ function Granary:initialize(gx, gy, type)
     for xx = -1, 4 do
         for yy = -1, 4 do
             _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.dirt)
-            if xx ~= -1 and yy ~= -1 and xx ~= 4 and yy ~= 4 then
-                _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.none)
-                local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(self.gx + xx, self.gy + yy)
-                _G.buildingheightmap[ccx][ccy][xxx][yyy] = 17
-            end
         end
     end
+
+    Structure:applyBuildingHeightMap(gx, gy, Granary.WIDTH, Granary.LENGTH, Granary.HEIGHT)
 
     for tile = 1, tiles do
         local gra = Granary_alias:new(quad_array[tile], self.gx, self.gy + (tiles - tile + 1), self,

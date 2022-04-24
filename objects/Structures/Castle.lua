@@ -31,6 +31,11 @@ function Castle_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
 end
 
 local Castle = _G.class('Castle', Structure)
+
+Castle.static.WIDTH = 6
+Castle.static.LENGTH = 6
+Castle.static.HEIGHT = 23
+
 function Castle:initialize(gx, gy, type)
     type = type or "Castle (default)"
     Structure.initialize(self, gx, gy, type)
@@ -56,12 +61,7 @@ function Castle:initialize(gx, gy, type)
     Castle_door:new(tile_castle_door_2, self.gx + 4, self.gy + 7, self)
     _G.spawn_point_x, _G.spawn_point_y = self.gx + 3, self.gy + 8
 
-    for xx = 0, 6 do
-        for yy = 0, 6 do
-            local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(self.gx + xx, self.gy + yy)
-            _G.buildingheightmap[ccx][ccy][xxx][yyy] = 23
-        end
-    end
+    Structure:applyBuildingHeightMap(gx, gy, Castle.WIDTH, Castle.LENGTH, Castle.HEIGHT)
     for xx = -2, 8 do
         for yy = -2, 8 do
             if yy == 7 or xx == 7 or xx == -1 or yy == -1 then

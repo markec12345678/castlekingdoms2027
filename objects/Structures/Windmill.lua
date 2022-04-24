@@ -262,6 +262,11 @@ function Windmill_alias.static:deserialize(data)
 end
 
 local Windmill = _G.class('Windmill', Structure)
+
+Windmill.static.WIDTH = 3
+Windmill.static.LENGTH = 3
+Windmill.static.HEIGHT = 17
+
 function Windmill:initialize(gx, gy, type)
     _G.JobController:add("Miller", self)
     type = type or "Windmill"
@@ -288,12 +293,7 @@ function Windmill:initialize(gx, gy, type)
     self.blade_shadow = Windmill_shadow:new(self.gx, self.gy + 2, self)
     self.filling_flour = Windmill_filling:new(self.gx + 1, self.gy + 2, self)
 
-    for xx = 0, 2 do
-        for yy = 0, 2 do
-            local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(self.gx + xx, self.gy + yy)
-            _G.buildingheightmap[ccx][ccy][xxx][yyy] = 25
-        end
-    end
+    Structure:applyBuildingHeightMap(gx, gy, Windmill.WIDTH, Windmill.LENGTH, Windmill.HEIGHT)
 
     for xx = -2, 4 do
         for yy = -2, 4 do
