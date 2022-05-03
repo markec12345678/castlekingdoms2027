@@ -1,13 +1,13 @@
-local tile_quads = require('objects.object_quads')
+local tileQuads = require('objects.object_quads')
 local ScreenToIsoX, ScreenToIsoY = _G.ScreenToIsoX, _G.ScreenToIsoY
-local tile_width, tile_height = _G.tile_width, _G.tile_height
+local tileWidth, tileHeight = _G.tileWidth, _G.tileHeight
 -- Terrain Initialize
 ----Rows and columns
-local chunk_width, chunk_height = _G.chunk_width, _G.chunk_height
-local tiles_to_update_in_chunk = _G.newAutotable(4)
-local secondary_tiles_to_update_in_chunk = _G.newAutotable(4)
-local tertiary_tiles_to_update_in_chunk = _G.newAutotable(4)
-local chunks_set = newAutotable(2)
+local chunkWidth, chunkHeight = _G.chunkWidth, _G.chunkHeight
+local tilesToUpdateInChunk = _G.newAutotable(4)
+local secondaryTilesToUpdateInChunk = _G.newAutotable(4)
+local tertiaryTilesToUpdateInChunk = _G.newAutotable(4)
+local chunksSet = newAutotable(2)
 ----Chunk 2D array
 -- Statuses:
 -- [1] loaded unsaved
@@ -16,184 +16,184 @@ local chunks_set = newAutotable(2)
 -- nil - chunk needs to be generated first
 
 ----Generate spriteBatch
-local terrain_image = _G.object_image
+local terrainImage = _G.objectAtlas
 local heightmap = _G.state.map.heightmap
 local shadowmap = _G.state.map.shadowmap
 _G.shadowmap = shadowmap
 _G.buildingheightmap = _G.state.map.buildingheightmap
 local tileheight = _G.buildingheightmap
-local terrain_tile = _G.state.map.terrain_tile
-_G.terrain_biome = {
-    ["abundant_grass"] = "abundant_grass",
-    ["dirt"] = "dirt",
-    ["none"] = "none",
-    ["scarce_grass"] = "scarce_grass",
-    ["yellow_grass"] = "yellow_grass",
-    ["orange_grass"] = "orange_grass",
-    ["pitch_grass"] = "pitch_grass",
-    ["mountain_grass"] = "mountain_grass_b",
-    ["beach"] = "beach",
-    ["sea"] = "sea_deep",
-    ["sea_beach"] = "sea_beach",
-    ["abundant_grass_stones_white"] = "land_stones_1_white_rock"
+local terrainTile = _G.state.map.terrainTile
+_G.terrainBiome = {
+    abundantGrass = "abundant_grass",
+    dirt = "dirt",
+    none = "none",
+    scarceGrass = "scarce_grass",
+    yellowGrass = "yellow_grass",
+    orangeGrass = "orange_grass",
+    pitchGrass = "pitch_grass",
+    mountainGrass = "mountain_grass_b",
+    beach = "beach",
+    sea = "sea_deep",
+    seaBeach = "sea_beach",
+    abundantGrassStonesWhite = "land_stones_1_white_rock"
 }
 local terrain = _G.state.map.terrain
-local terrain_batch = newAutotable(2)
-terrain_batch[0][0] = love.graphics.newSpriteBatch(terrain_image, chunk_width * chunk_height)
+local terrainBatch = newAutotable(2)
+terrainBatch[0][0] = love.graphics.newSpriteBatch(terrainImage, chunkWidth * chunkHeight)
 
-local function check_max_size_biome(biome, cx, cy, i, o, keys_to_skip)
-    local current_height = 0
+local function checkMaxSizeBiome(biome, cx, cy, i, o, keysToSkip)
+    local currentHeight = 0
     if shadowmap[cx][cy][i][o] ~= 0 and shadowmap[cx][cy][i][o] ~= nil then
         return 1
     end
-    if heightmap[cx][cy][i + 0][o + 0] ~= nil and heightmap[cx][cy][i + 0][o + 0] ~= current_height then
+    if heightmap[cx][cy][i + 0][o + 0] ~= nil and heightmap[cx][cy][i + 0][o + 0] ~= currentHeight then
         return 1
     end
-    if i + 1 >= chunk_width - 1 or o + 1 >= chunk_height - 1 then
+    if i + 1 >= chunkWidth - 1 or o + 1 >= chunkHeight - 1 then
         return 1
     end
-    if _G.state.map.terrain[cx][cy][i + 0][o + 1] ~= biome or keys_to_skip[cx][cy][i + 0][o + 1] then
+    if _G.state.map.terrain[cx][cy][i + 0][o + 1] ~= biome or keysToSkip[cx][cy][i + 0][o + 1] then
         return 1
     end
-    if heightmap[cx][cy][i + 0][o + 1] ~= nil and heightmap[cx][cy][i + 0][o + 1] ~= current_height then
+    if heightmap[cx][cy][i + 0][o + 1] ~= nil and heightmap[cx][cy][i + 0][o + 1] ~= currentHeight then
         return 1
     end
     if shadowmap[cx][cy][i + 0][o + 1] ~= 0 and shadowmap[cx][cy][i + 0][o + 1] ~= nil then
         return 1
     end
-    if _G.state.map.terrain[cx][cy][i + 1][o + 1] ~= biome or keys_to_skip[cx][cy][i + 1][o + 1] then
+    if _G.state.map.terrain[cx][cy][i + 1][o + 1] ~= biome or keysToSkip[cx][cy][i + 1][o + 1] then
         return 1
     end
-    if heightmap[cx][cy][i + 1][o + 1] ~= nil and heightmap[cx][cy][i + 1][o + 1] ~= current_height then
+    if heightmap[cx][cy][i + 1][o + 1] ~= nil and heightmap[cx][cy][i + 1][o + 1] ~= currentHeight then
         return 1
     end
     if shadowmap[cx][cy][i + 1][o + 1] ~= 0 and shadowmap[cx][cy][i + 1][o + 1] ~= nil then
         return 1
     end
-    if _G.state.map.terrain[cx][cy][i + 1][o + 0] ~= biome or keys_to_skip[cx][cy][i + 1][o + 0] then
+    if _G.state.map.terrain[cx][cy][i + 1][o + 0] ~= biome or keysToSkip[cx][cy][i + 1][o + 0] then
         return 1
     end
-    if heightmap[cx][cy][i + 1][o + 0] ~= nil and heightmap[cx][cy][i + 1][o + 0] ~= current_height then
+    if heightmap[cx][cy][i + 1][o + 0] ~= nil and heightmap[cx][cy][i + 1][o + 0] ~= currentHeight then
         return 1
     end
     if shadowmap[cx][cy][i + 1][o + 0] ~= 0 and shadowmap[cx][cy][i + 1][o + 0] ~= nil then
         return 1
     end
-    if i + 2 >= chunk_width - 1 or o + 2 >= chunk_height - 1 then
+    if i + 2 >= chunkWidth - 1 or o + 2 >= chunkHeight - 1 then
         return 2
     end
     if shadowmap[cx][cy][i + 2][o + 2] ~= 0 and shadowmap[cx][cy][i + 2][o + 2] ~= nil then
         return 2
     end
-    if _G.state.map.terrain[cx][cy][i + 2][o + 0] ~= biome or keys_to_skip[cx][cy][i + 2][o + 0] then
+    if _G.state.map.terrain[cx][cy][i + 2][o + 0] ~= biome or keysToSkip[cx][cy][i + 2][o + 0] then
         return 2
     end
-    if heightmap[cx][cy][i + 2][o + 0] ~= nil and heightmap[cx][cy][i + 2][o + 0] ~= current_height then
+    if heightmap[cx][cy][i + 2][o + 0] ~= nil and heightmap[cx][cy][i + 2][o + 0] ~= currentHeight then
         return 2
     end
     if shadowmap[cx][cy][i + 2][o + 0] ~= 0 and shadowmap[cx][cy][i + 2][o + 0] ~= nil then
         return 2
     end
-    if _G.state.map.terrain[cx][cy][i + 2][o + 1] ~= biome or keys_to_skip[cx][cy][i + 2][o + 1] then
+    if _G.state.map.terrain[cx][cy][i + 2][o + 1] ~= biome or keysToSkip[cx][cy][i + 2][o + 1] then
         return 2
     end
-    if heightmap[cx][cy][i + 2][o + 1] ~= nil and heightmap[cx][cy][i + 2][o + 1] ~= current_height then
+    if heightmap[cx][cy][i + 2][o + 1] ~= nil and heightmap[cx][cy][i + 2][o + 1] ~= currentHeight then
         return 2
     end
     if shadowmap[cx][cy][i + 2][o + 1] ~= 0 and shadowmap[cx][cy][i + 2][o + 1] ~= nil then
         return 2
     end
-    if _G.state.map.terrain[cx][cy][i + 2][o + 2] ~= biome or keys_to_skip[cx][cy][i + 2][o + 2] then
+    if _G.state.map.terrain[cx][cy][i + 2][o + 2] ~= biome or keysToSkip[cx][cy][i + 2][o + 2] then
         return 2
     end
-    if heightmap[cx][cy][i + 2][o + 2] ~= nil and heightmap[cx][cy][i + 2][o + 2] ~= current_height then
+    if heightmap[cx][cy][i + 2][o + 2] ~= nil and heightmap[cx][cy][i + 2][o + 2] ~= currentHeight then
         return 2
     end
     if shadowmap[cx][cy][i + 2][o + 2] ~= 0 and shadowmap[cx][cy][i + 2][o + 2] ~= nil then
         return 2
     end
-    if _G.state.map.terrain[cx][cy][i + 0][o + 2] ~= biome or keys_to_skip[cx][cy][i + 0][o + 2] then
+    if _G.state.map.terrain[cx][cy][i + 0][o + 2] ~= biome or keysToSkip[cx][cy][i + 0][o + 2] then
         return 2
     end
-    if heightmap[cx][cy][i + 0][o + 2] ~= nil and heightmap[cx][cy][i + 0][o + 2] ~= current_height then
+    if heightmap[cx][cy][i + 0][o + 2] ~= nil and heightmap[cx][cy][i + 0][o + 2] ~= currentHeight then
         return 2
     end
     if shadowmap[cx][cy][i + 0][o + 2] ~= 0 and shadowmap[cx][cy][i + 0][o + 2] ~= nil then
         return 2
     end
-    if _G.state.map.terrain[cx][cy][i + 1][o + 2] ~= biome or keys_to_skip[cx][cy][i + 1][o + 2] then
+    if _G.state.map.terrain[cx][cy][i + 1][o + 2] ~= biome or keysToSkip[cx][cy][i + 1][o + 2] then
         return 2
     end
-    if heightmap[cx][cy][i + 1][o + 2] ~= nil and heightmap[cx][cy][i + 1][o + 2] ~= current_height then
+    if heightmap[cx][cy][i + 1][o + 2] ~= nil and heightmap[cx][cy][i + 1][o + 2] ~= currentHeight then
         return 2
     end
     if shadowmap[cx][cy][i + 1][o + 2] ~= 0 and shadowmap[cx][cy][i + 1][o + 2] ~= nil then
         return 2
     end
-    if i + 3 >= chunk_width - 1 or o + 3 >= chunk_height - 1 then
+    if i + 3 >= chunkWidth - 1 or o + 3 >= chunkHeight - 1 then
         return 3
     end
     if shadowmap[cx][cy][i + 3][o + 3] ~= 0 and shadowmap[cx][cy][i + 3][o + 3] ~= nil then
         return 1
     end
-    if _G.state.map.terrain[cx][cy][i + 3][o + 0] ~= biome or keys_to_skip[cx][cy][i + 3][o + 0] then
+    if _G.state.map.terrain[cx][cy][i + 3][o + 0] ~= biome or keysToSkip[cx][cy][i + 3][o + 0] then
         return 3
     end
-    if heightmap[cx][cy][i + 3][o + 0] ~= nil and heightmap[cx][cy][i + 3][o + 0] ~= current_height then
+    if heightmap[cx][cy][i + 3][o + 0] ~= nil and heightmap[cx][cy][i + 3][o + 0] ~= currentHeight then
         return 3
     end
     if shadowmap[cx][cy][i + 3][o + 0] ~= 0 and shadowmap[cx][cy][i + 3][o + 0] ~= nil then
         return 3
     end
-    if _G.state.map.terrain[cx][cy][i + 3][o + 1] ~= biome or keys_to_skip[cx][cy][i + 3][o + 1] then
+    if _G.state.map.terrain[cx][cy][i + 3][o + 1] ~= biome or keysToSkip[cx][cy][i + 3][o + 1] then
         return 3
     end
-    if heightmap[cx][cy][i + 3][o + 1] ~= nil and heightmap[cx][cy][i + 3][o + 1] ~= current_height then
+    if heightmap[cx][cy][i + 3][o + 1] ~= nil and heightmap[cx][cy][i + 3][o + 1] ~= currentHeight then
         return 3
     end
     if shadowmap[cx][cy][i + 3][o + 1] ~= 0 and shadowmap[cx][cy][i + 3][o + 1] ~= nil then
         return 3
     end
-    if _G.state.map.terrain[cx][cy][i + 3][o + 2] ~= biome or keys_to_skip[cx][cy][i + 3][o + 2] then
+    if _G.state.map.terrain[cx][cy][i + 3][o + 2] ~= biome or keysToSkip[cx][cy][i + 3][o + 2] then
         return 3
     end
-    if heightmap[cx][cy][i + 3][o + 2] ~= nil and heightmap[cx][cy][i + 3][o + 2] ~= current_height then
+    if heightmap[cx][cy][i + 3][o + 2] ~= nil and heightmap[cx][cy][i + 3][o + 2] ~= currentHeight then
         return 3
     end
     if shadowmap[cx][cy][i + 3][o + 2] ~= 0 and shadowmap[cx][cy][i + 3][o + 2] ~= nil then
         return 3
     end
-    if _G.state.map.terrain[cx][cy][i + 3][o + 3] ~= biome or keys_to_skip[cx][cy][i + 3][o + 3] then
+    if _G.state.map.terrain[cx][cy][i + 3][o + 3] ~= biome or keysToSkip[cx][cy][i + 3][o + 3] then
         return 3
     end
-    if heightmap[cx][cy][i + 3][o + 3] ~= nil and heightmap[cx][cy][i + 3][o + 3] ~= current_height then
+    if heightmap[cx][cy][i + 3][o + 3] ~= nil and heightmap[cx][cy][i + 3][o + 3] ~= currentHeight then
         return 3
     end
     if shadowmap[cx][cy][i + 3][o + 3] ~= 0 and shadowmap[cx][cy][i + 3][o + 3] ~= nil then
         return 3
     end
-    if _G.state.map.terrain[cx][cy][i + 0][o + 3] ~= biome or keys_to_skip[cx][cy][i + 0][o + 3] then
+    if _G.state.map.terrain[cx][cy][i + 0][o + 3] ~= biome or keysToSkip[cx][cy][i + 0][o + 3] then
         return 3
     end
-    if heightmap[cx][cy][i + 0][o + 3] ~= nil and heightmap[cx][cy][i + 0][o + 3] ~= current_height then
+    if heightmap[cx][cy][i + 0][o + 3] ~= nil and heightmap[cx][cy][i + 0][o + 3] ~= currentHeight then
         return 3
     end
     if shadowmap[cx][cy][i + 0][o + 3] ~= 0 and shadowmap[cx][cy][i + 0][o + 3] ~= nil then
         return 3
     end
-    if _G.state.map.terrain[cx][cy][i + 1][o + 3] ~= biome or keys_to_skip[cx][cy][i + 1][o + 3] then
+    if _G.state.map.terrain[cx][cy][i + 1][o + 3] ~= biome or keysToSkip[cx][cy][i + 1][o + 3] then
         return 3
     end
-    if heightmap[cx][cy][i + 1][o + 3] ~= nil and heightmap[cx][cy][i + 1][o + 3] ~= current_height then
+    if heightmap[cx][cy][i + 1][o + 3] ~= nil and heightmap[cx][cy][i + 1][o + 3] ~= currentHeight then
         return 3
     end
     if shadowmap[cx][cy][i + 1][o + 3] ~= 0 and shadowmap[cx][cy][i + 1][o + 3] ~= nil then
         return 3
     end
-    if _G.state.map.terrain[cx][cy][i + 2][o + 3] ~= biome or keys_to_skip[cx][cy][i + 2][o + 3] then
+    if _G.state.map.terrain[cx][cy][i + 2][o + 3] ~= biome or keysToSkip[cx][cy][i + 2][o + 3] then
         return 3
     end
-    if heightmap[cx][cy][i + 2][o + 3] ~= nil and heightmap[cx][cy][i + 2][o + 3] ~= current_height then
+    if heightmap[cx][cy][i + 2][o + 3] ~= nil and heightmap[cx][cy][i + 2][o + 3] ~= currentHeight then
         return 3
     end
     if shadowmap[cx][cy][i + 2][o + 3] ~= 0 and shadowmap[cx][cy][i + 2][o + 3] ~= nil then
@@ -202,80 +202,80 @@ local function check_max_size_biome(biome, cx, cy, i, o, keys_to_skip)
     return 4
 end
 
-local function free_multi_tile_terrain(size, keys_to_skip, cx, cy, i, o)
-    keys_to_skip[cx][cy][i][o] = false
-    terrain_tile[cx][cy][i][o] = nil
-    secondary_tiles_to_update_in_chunk[cx][cy][i][o] = true
-    tertiary_tiles_to_update_in_chunk[cx][cy][i][o] = true
-    keys_to_skip[cx][cy][i + 1][o] = false
-    terrain_tile[cx][cy][i + 1][o] = nil
-    secondary_tiles_to_update_in_chunk[cx][cy][i + 1][o] = true
-    tertiary_tiles_to_update_in_chunk[cx][cy][i + 1][o] = true
-    keys_to_skip[cx][cy][i + 1][o + 1] = false
-    terrain_tile[cx][cy][i + 1][o + 1] = nil
-    secondary_tiles_to_update_in_chunk[cx][cy][i + 1][o + 1] = true
-    tertiary_tiles_to_update_in_chunk[cx][cy][i + 1][o + 1] = true
-    keys_to_skip[cx][cy][i][o + 1] = false
-    terrain_tile[cx][cy][i][o + 1] = nil
-    secondary_tiles_to_update_in_chunk[cx][cy][i][o + 1] = true
-    tertiary_tiles_to_update_in_chunk[cx][cy][i][o + 1] = true
+local function freeMultiTileTerrain(size, keysToSkip, cx, cy, i, o)
+    keysToSkip[cx][cy][i][o] = false
+    terrainTile[cx][cy][i][o] = nil
+    secondaryTilesToUpdateInChunk[cx][cy][i][o] = true
+    tertiaryTilesToUpdateInChunk[cx][cy][i][o] = true
+    keysToSkip[cx][cy][i + 1][o] = false
+    terrainTile[cx][cy][i + 1][o] = nil
+    secondaryTilesToUpdateInChunk[cx][cy][i + 1][o] = true
+    tertiaryTilesToUpdateInChunk[cx][cy][i + 1][o] = true
+    keysToSkip[cx][cy][i + 1][o + 1] = false
+    terrainTile[cx][cy][i + 1][o + 1] = nil
+    secondaryTilesToUpdateInChunk[cx][cy][i + 1][o + 1] = true
+    tertiaryTilesToUpdateInChunk[cx][cy][i + 1][o + 1] = true
+    keysToSkip[cx][cy][i][o + 1] = false
+    terrainTile[cx][cy][i][o + 1] = nil
+    secondaryTilesToUpdateInChunk[cx][cy][i][o + 1] = true
+    tertiaryTilesToUpdateInChunk[cx][cy][i][o + 1] = true
     if size >= 3 then
-        keys_to_skip[cx][cy][i + 2][o] = false
-        terrain_tile[cx][cy][i + 2][o] = nil
-        secondary_tiles_to_update_in_chunk[cx][cy][i + 2][o] = true
-        tertiary_tiles_to_update_in_chunk[cx][cy][i + 2][o] = true
-        keys_to_skip[cx][cy][i + 2][o + 1] = false
-        terrain_tile[cx][cy][i + 2][o + 1] = nil
-        secondary_tiles_to_update_in_chunk[cx][cy][i + 2][o + 1] = true
-        tertiary_tiles_to_update_in_chunk[cx][cy][i + 2][o + 1] = true
-        keys_to_skip[cx][cy][i + 2][o + 2] = false
-        terrain_tile[cx][cy][i + 2][o + 2] = nil
-        secondary_tiles_to_update_in_chunk[cx][cy][i + 2][o + 2] = true
-        tertiary_tiles_to_update_in_chunk[cx][cy][i + 2][o + 2] = true
-        keys_to_skip[cx][cy][i][o + 2] = false
-        terrain_tile[cx][cy][i][o + 2] = nil
-        secondary_tiles_to_update_in_chunk[cx][cy][i][o + 2] = true
-        tertiary_tiles_to_update_in_chunk[cx][cy][i][o + 2] = true
-        keys_to_skip[cx][cy][i + 1][o + 2] = false
-        terrain_tile[cx][cy][i + 1][o + 2] = nil
-        secondary_tiles_to_update_in_chunk[cx][cy][i + 1][o + 2] = true
-        tertiary_tiles_to_update_in_chunk[cx][cy][i + 1][o + 2] = true
+        keysToSkip[cx][cy][i + 2][o] = false
+        terrainTile[cx][cy][i + 2][o] = nil
+        secondaryTilesToUpdateInChunk[cx][cy][i + 2][o] = true
+        tertiaryTilesToUpdateInChunk[cx][cy][i + 2][o] = true
+        keysToSkip[cx][cy][i + 2][o + 1] = false
+        terrainTile[cx][cy][i + 2][o + 1] = nil
+        secondaryTilesToUpdateInChunk[cx][cy][i + 2][o + 1] = true
+        tertiaryTilesToUpdateInChunk[cx][cy][i + 2][o + 1] = true
+        keysToSkip[cx][cy][i + 2][o + 2] = false
+        terrainTile[cx][cy][i + 2][o + 2] = nil
+        secondaryTilesToUpdateInChunk[cx][cy][i + 2][o + 2] = true
+        tertiaryTilesToUpdateInChunk[cx][cy][i + 2][o + 2] = true
+        keysToSkip[cx][cy][i][o + 2] = false
+        terrainTile[cx][cy][i][o + 2] = nil
+        secondaryTilesToUpdateInChunk[cx][cy][i][o + 2] = true
+        tertiaryTilesToUpdateInChunk[cx][cy][i][o + 2] = true
+        keysToSkip[cx][cy][i + 1][o + 2] = false
+        terrainTile[cx][cy][i + 1][o + 2] = nil
+        secondaryTilesToUpdateInChunk[cx][cy][i + 1][o + 2] = true
+        tertiaryTilesToUpdateInChunk[cx][cy][i + 1][o + 2] = true
     end
     if size >= 4 then
-        keys_to_skip[cx][cy][i + 3][o] = false
-        terrain_tile[cx][cy][i + 3][o] = nil
-        secondary_tiles_to_update_in_chunk[cx][cy][i + 3][o] = true
-        tertiary_tiles_to_update_in_chunk[cx][cy][i + 3][o] = true
-        keys_to_skip[cx][cy][i + 3][o + 1] = false
-        terrain_tile[cx][cy][i + 3][o + 1] = nil
-        secondary_tiles_to_update_in_chunk[cx][cy][i + 3][o + 1] = true
-        tertiary_tiles_to_update_in_chunk[cx][cy][i + 3][o + 1] = true
-        keys_to_skip[cx][cy][i + 3][o + 2] = false
-        terrain_tile[cx][cy][i + 3][o + 2] = nil
-        secondary_tiles_to_update_in_chunk[cx][cy][i + 3][o + 2] = true
-        tertiary_tiles_to_update_in_chunk[cx][cy][i + 3][o + 2] = true
-        keys_to_skip[cx][cy][i + 3][o + 3] = false
-        terrain_tile[cx][cy][i + 3][o + 3] = nil
-        secondary_tiles_to_update_in_chunk[cx][cy][i + 3][o + 3] = true
-        tertiary_tiles_to_update_in_chunk[cx][cy][i + 3][o + 3] = true
-        keys_to_skip[cx][cy][i][o + 3] = false
-        terrain_tile[cx][cy][i][o + 3] = nil
-        secondary_tiles_to_update_in_chunk[cx][cy][i][o + 3] = true
-        tertiary_tiles_to_update_in_chunk[cx][cy][i][o + 3] = true
-        keys_to_skip[cx][cy][i + 1][o + 3] = false
-        terrain_tile[cx][cy][i + 1][o + 3] = nil
-        secondary_tiles_to_update_in_chunk[cx][cy][i + 1][o + 3] = true
-        tertiary_tiles_to_update_in_chunk[cx][cy][i + 1][o + 3] = true
-        keys_to_skip[cx][cy][i + 2][o + 3] = false
-        terrain_tile[cx][cy][i + 2][o + 3] = nil
-        secondary_tiles_to_update_in_chunk[cx][cy][i + 2][o + 3] = true
-        tertiary_tiles_to_update_in_chunk[cx][cy][i + 2][o + 3] = true
+        keysToSkip[cx][cy][i + 3][o] = false
+        terrainTile[cx][cy][i + 3][o] = nil
+        secondaryTilesToUpdateInChunk[cx][cy][i + 3][o] = true
+        tertiaryTilesToUpdateInChunk[cx][cy][i + 3][o] = true
+        keysToSkip[cx][cy][i + 3][o + 1] = false
+        terrainTile[cx][cy][i + 3][o + 1] = nil
+        secondaryTilesToUpdateInChunk[cx][cy][i + 3][o + 1] = true
+        tertiaryTilesToUpdateInChunk[cx][cy][i + 3][o + 1] = true
+        keysToSkip[cx][cy][i + 3][o + 2] = false
+        terrainTile[cx][cy][i + 3][o + 2] = nil
+        secondaryTilesToUpdateInChunk[cx][cy][i + 3][o + 2] = true
+        tertiaryTilesToUpdateInChunk[cx][cy][i + 3][o + 2] = true
+        keysToSkip[cx][cy][i + 3][o + 3] = false
+        terrainTile[cx][cy][i + 3][o + 3] = nil
+        secondaryTilesToUpdateInChunk[cx][cy][i + 3][o + 3] = true
+        tertiaryTilesToUpdateInChunk[cx][cy][i + 3][o + 3] = true
+        keysToSkip[cx][cy][i][o + 3] = false
+        terrainTile[cx][cy][i][o + 3] = nil
+        secondaryTilesToUpdateInChunk[cx][cy][i][o + 3] = true
+        tertiaryTilesToUpdateInChunk[cx][cy][i][o + 3] = true
+        keysToSkip[cx][cy][i + 1][o + 3] = false
+        terrainTile[cx][cy][i + 1][o + 3] = nil
+        secondaryTilesToUpdateInChunk[cx][cy][i + 1][o + 3] = true
+        tertiaryTilesToUpdateInChunk[cx][cy][i + 1][o + 3] = true
+        keysToSkip[cx][cy][i + 2][o + 3] = false
+        terrainTile[cx][cy][i + 2][o + 3] = nil
+        secondaryTilesToUpdateInChunk[cx][cy][i + 2][o + 3] = true
+        tertiaryTilesToUpdateInChunk[cx][cy][i + 2][o + 3] = true
     end
 end
 
-local function multi_tile_terrain(size, keys_to_skip, cx, cy, i, o, biome)
-    terrain_tile[cx][cy][i][o] = nil
-    keys_to_skip[cx][cy][i][o] = {
+local function multiTileTerrain(size, keysToSkip, cx, cy, i, o, biome)
+    terrainTile[cx][cy][i][o] = nil
+    keysToSkip[cx][cy][i][o] = {
         i,
         o,
         ["size"] = 2,
@@ -283,15 +283,15 @@ local function multi_tile_terrain(size, keys_to_skip, cx, cy, i, o, biome)
         ["cx"] = cx,
         ["cy"] = cy
     }
-    keys_to_skip[cx][cy][i + 1][o] = {i, o}
-    terrain_tile[cx][cy][i + 1][o] = nil
-    keys_to_skip[cx][cy][i + 1][o + 1] = {i, o}
-    terrain_tile[cx][cy][i + 1][o + 1] = nil
-    keys_to_skip[cx][cy][i][o + 1] = {i, o}
-    terrain_tile[cx][cy][i][o + 1] = nil
+    keysToSkip[cx][cy][i + 1][o] = {i, o}
+    terrainTile[cx][cy][i + 1][o] = nil
+    keysToSkip[cx][cy][i + 1][o + 1] = {i, o}
+    terrainTile[cx][cy][i + 1][o + 1] = nil
+    keysToSkip[cx][cy][i][o + 1] = {i, o}
+    terrainTile[cx][cy][i][o + 1] = nil
     if size >= 3 then
-        terrain_tile[cx][cy][i][o] = nil
-        keys_to_skip[cx][cy][i][o] = {
+        terrainTile[cx][cy][i][o] = nil
+        keysToSkip[cx][cy][i][o] = {
             i,
             o,
             ["size"] = 3,
@@ -299,20 +299,20 @@ local function multi_tile_terrain(size, keys_to_skip, cx, cy, i, o, biome)
             ["cx"] = cx,
             ["cy"] = cy
         }
-        keys_to_skip[cx][cy][i + 2][o] = {i, o}
-        terrain_tile[cx][cy][i + 2][o] = nil
-        keys_to_skip[cx][cy][i + 2][o + 1] = {i, o}
-        terrain_tile[cx][cy][i + 2][o + 1] = nil
-        keys_to_skip[cx][cy][i + 2][o + 2] = {i, o}
-        terrain_tile[cx][cy][i + 2][o + 2] = nil
-        keys_to_skip[cx][cy][i][o + 2] = {i, o}
-        terrain_tile[cx][cy][i][o + 2] = nil
-        keys_to_skip[cx][cy][i + 1][o + 2] = {i, o}
-        terrain_tile[cx][cy][i + 1][o + 2] = nil
+        keysToSkip[cx][cy][i + 2][o] = {i, o}
+        terrainTile[cx][cy][i + 2][o] = nil
+        keysToSkip[cx][cy][i + 2][o + 1] = {i, o}
+        terrainTile[cx][cy][i + 2][o + 1] = nil
+        keysToSkip[cx][cy][i + 2][o + 2] = {i, o}
+        terrainTile[cx][cy][i + 2][o + 2] = nil
+        keysToSkip[cx][cy][i][o + 2] = {i, o}
+        terrainTile[cx][cy][i][o + 2] = nil
+        keysToSkip[cx][cy][i + 1][o + 2] = {i, o}
+        terrainTile[cx][cy][i + 1][o + 2] = nil
     end
     if size >= 4 then
-        terrain_tile[cx][cy][i][o] = nil
-        keys_to_skip[cx][cy][i][o] = {
+        terrainTile[cx][cy][i][o] = nil
+        keysToSkip[cx][cy][i][o] = {
             i,
             o,
             ["size"] = 4,
@@ -320,36 +320,36 @@ local function multi_tile_terrain(size, keys_to_skip, cx, cy, i, o, biome)
             ["cx"] = cx,
             ["cy"] = cy
         }
-        keys_to_skip[cx][cy][i + 3][o] = {i, o}
-        terrain_tile[cx][cy][i + 3][o] = nil
-        keys_to_skip[cx][cy][i + 3][o + 1] = {i, o}
-        terrain_tile[cx][cy][i + 3][o + 1] = nil
-        keys_to_skip[cx][cy][i + 3][o + 2] = {i, o}
-        terrain_tile[cx][cy][i + 3][o + 2] = nil
-        keys_to_skip[cx][cy][i + 3][o + 3] = {i, o}
-        terrain_tile[cx][cy][i + 3][o + 3] = nil
-        keys_to_skip[cx][cy][i][o + 3] = {i, o}
-        terrain_tile[cx][cy][i][o + 3] = nil
-        keys_to_skip[cx][cy][i + 1][o + 3] = {i, o}
-        terrain_tile[cx][cy][i + 1][o + 3] = nil
-        keys_to_skip[cx][cy][i + 2][o + 3] = {i, o}
-        terrain_tile[cx][cy][i + 2][o + 3] = nil
+        keysToSkip[cx][cy][i + 3][o] = {i, o}
+        terrainTile[cx][cy][i + 3][o] = nil
+        keysToSkip[cx][cy][i + 3][o + 1] = {i, o}
+        terrainTile[cx][cy][i + 3][o + 1] = nil
+        keysToSkip[cx][cy][i + 3][o + 2] = {i, o}
+        terrainTile[cx][cy][i + 3][o + 2] = nil
+        keysToSkip[cx][cy][i + 3][o + 3] = {i, o}
+        terrainTile[cx][cy][i + 3][o + 3] = nil
+        keysToSkip[cx][cy][i][o + 3] = {i, o}
+        terrainTile[cx][cy][i][o + 3] = nil
+        keysToSkip[cx][cy][i + 1][o + 3] = {i, o}
+        terrainTile[cx][cy][i + 1][o + 3] = nil
+        keysToSkip[cx][cy][i + 2][o + 3] = {i, o}
+        terrainTile[cx][cy][i + 2][o + 3] = nil
     end
 end
 
-local chunks_to_update = {}
-function _G.schedule_terrain_update(cx, cy, i, o)
-    tiles_to_update_in_chunk[cx][cy][i][o] = true
-    tertiary_tiles_to_update_in_chunk[cx][cy][i][o] = true
+local chunksToUpdate = {}
+function _G.scheduleTerrainUpdate(cx, cy, i, o)
+    tilesToUpdateInChunk[cx][cy][i][o] = true
+    tertiaryTilesToUpdateInChunk[cx][cy][i][o] = true
     for x = -4, 4 do
         for y = -4, 4 do
-            secondary_tiles_to_update_in_chunk[cx][cy][i + x][o + y] = true
-            tertiary_tiles_to_update_in_chunk[cx][cy][i + x][o + y] = true
+            secondaryTilesToUpdateInChunk[cx][cy][i + x][o + y] = true
+            tertiaryTilesToUpdateInChunk[cx][cy][i + x][o + y] = true
         end
     end
-    if not chunks_set[cx][cy] then
-        chunks_to_update[#chunks_to_update + 1] = {cx, cy}
-        chunks_set[cx][cy] = true
+    if not chunksSet[cx][cy] then
+        chunksToUpdate[#chunksToUpdate + 1] = {cx, cy}
+        chunksSet[cx][cy] = true
     end
 end
 
@@ -362,561 +362,558 @@ function _G.terrainElevateTileAt(gx, gy)
             heightmap[cx][cy][i][o] = 1
         end
         heightmap[cx][cy][i][o] = math.min(heightmap[cx][cy][i][o], 80)
-        _G.schedule_terrain_update(cx, cy, i, o)
+        _G.scheduleTerrainUpdate(cx, cy, i, o)
     end
 end
 
 function _G.terrainSetHeight(gx, gy, value)
     local cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(gx, gy)
     heightmap[cx][cy][i][o] = value
-    _G.schedule_terrain_update(cx, cy, i, o)
+    _G.scheduleTerrainUpdate(cx, cy, i, o)
 end
 
-local keys_to_skip = newAutotable(4)
+local keysToSkip = newAutotable(4)
 
-local function multiTileCalculate(current_biome, cx, cy, i, o)
-    local l_scale = 1.06
-    local max_size = check_max_size_biome(current_biome, cx, cy, i, o, keys_to_skip)
-    local upper_border
-    if max_size == 1 then
-        upper_border = 16
-    elseif max_size == 2 then
-        upper_border = 20
-    elseif max_size == 3 then
-        upper_border = 24
-    elseif max_size == 4 then
-        upper_border = 28
+local function multiTileCalculate(currentBiome, cx, cy, i, o)
+    local lScale = 1.06
+    local maxSize = checkMaxSizeBiome(currentBiome, cx, cy, i, o, keysToSkip)
+    local upperBorder
+    if maxSize == 1 then
+        upperBorder = 16
+    elseif maxSize == 2 then
+        upperBorder = 20
+    elseif maxSize == 3 then
+        upperBorder = 24
+    elseif maxSize == 4 then
+        upperBorder = 28
     end
-    if current_biome == _G.terrain_biome.abundant_grass_stones_white then
-        upper_border = 16
-    elseif current_biome == _G.terrain_biome.sea then
-        upper_border = 8
+    if currentBiome == _G.terrainBiome.abundantGrassStonesWhite then
+        upperBorder = 16
+    elseif currentBiome == _G.terrainBiome.sea then
+        upperBorder = 8
     end
-    local rand = love.math.random(1, upper_border)
-    if current_biome ~= _G.terrain_biome.abundant_grass_stones_white and current_biome ~= _G.terrain_biome.sea then
-        local rand2 = love.math.random(1, upper_border)
-        local rand3 = love.math.random(1, upper_border)
+    local rand = love.math.random(1, upperBorder)
+    if currentBiome ~= _G.terrainBiome.abundantGrassStonesWhite and currentBiome ~= _G.terrainBiome.sea then
+        local rand2 = love.math.random(1, upperBorder)
+        local rand3 = love.math.random(1, upperBorder)
         rand = math.max(rand, rand2, rand3)
     end
-    if current_biome == _G.terrain_biome.none then
+    if currentBiome == _G.terrainBiome.none then
         rand = 0
     end
-    local tile_key
-    local l_offset_x, l_offset_y = 0, 0
-    if current_biome == _G.terrain_biome.sea_beach then
-        local gx = chunk_width * cx + i
-        local gy = chunk_width * cy + o
-        local north = _G.getTerrainBiomeAt(gx, gy - 1) == _G.terrain_biome.sea
-        local south = _G.getTerrainBiomeAt(gx, gy + 1) == _G.terrain_biome.sea
-        local east = _G.getTerrainBiomeAt(gx + 1, gy) == _G.terrain_biome.sea
-        local west = _G.getTerrainBiomeAt(gx - 1, gy) == _G.terrain_biome.sea
-        local ne = _G.getTerrainBiomeAt(gx + 1, gy - 1) == _G.terrain_biome.sea
-        local nw = _G.getTerrainBiomeAt(gx - 1, gy - 1) == _G.terrain_biome.sea
-        local se = _G.getTerrainBiomeAt(gx + 1, gy + 1) == _G.terrain_biome.sea
-        local sw = _G.getTerrainBiomeAt(gx - 1, gy + 1) == _G.terrain_biome.sea
-        tile_key = "yellow_grass_1x1 (1)"
+    local tileKey
+    local lOffsetX, lOffsetY = 0, 0
+    if currentBiome == _G.terrainBiome.seaBeach then
+        local gx = chunkWidth * cx + i
+        local gy = chunkWidth * cy + o
+        local north = _G.getTerrainBiomeAt(gx, gy - 1) == _G.terrainBiome.sea
+        local south = _G.getTerrainBiomeAt(gx, gy + 1) == _G.terrainBiome.sea
+        local east = _G.getTerrainBiomeAt(gx + 1, gy) == _G.terrainBiome.sea
+        local west = _G.getTerrainBiomeAt(gx - 1, gy) == _G.terrainBiome.sea
+        local ne = _G.getTerrainBiomeAt(gx + 1, gy - 1) == _G.terrainBiome.sea
+        local nw = _G.getTerrainBiomeAt(gx - 1, gy - 1) == _G.terrainBiome.sea
+        local se = _G.getTerrainBiomeAt(gx + 1, gy + 1) == _G.terrainBiome.sea
+        local sw = _G.getTerrainBiomeAt(gx - 1, gy + 1) == _G.terrainBiome.sea
+        tileKey = "yellow_grass_1x1 (1)"
         if north then
             if east then
-                tile_key = "sea_beach_sw_outside (" .. tostring(love.math.random(1, 2)) .. ")"
+                tileKey = "sea_beach_sw_outside (" .. tostring(love.math.random(1, 2)) .. ")"
             elseif west then
-                tile_key = "sea_beach_se_outside (" .. tostring(love.math.random(1, 2)) .. ")"
+                tileKey = "sea_beach_se_outside (" .. tostring(love.math.random(1, 2)) .. ")"
             else
-                tile_key = "sea_beach_s (" .. tostring(love.math.random(1, 4)) .. ")"
+                tileKey = "sea_beach_s (" .. tostring(love.math.random(1, 4)) .. ")"
             end
         elseif south then
             if east then
-                tile_key = "sea_beach_nw_outside (" .. tostring(love.math.random(1, 2)) .. ")"
+                tileKey = "sea_beach_nw_outside (" .. tostring(love.math.random(1, 2)) .. ")"
             elseif west then
-                tile_key = "sea_beach_ne_outside (" .. tostring(love.math.random(1, 2)) .. ")"
+                tileKey = "sea_beach_ne_outside (" .. tostring(love.math.random(1, 2)) .. ")"
             else
-                tile_key = "sea_beach_n (" .. tostring(love.math.random(1, 4)) .. ")"
+                tileKey = "sea_beach_n (" .. tostring(love.math.random(1, 4)) .. ")"
             end
         elseif east then
-            tile_key = "sea_beach_w (" .. tostring(love.math.random(1, 4)) .. ")"
+            tileKey = "sea_beach_w (" .. tostring(love.math.random(1, 4)) .. ")"
         elseif west then
-            tile_key = "sea_beach_e (" .. tostring(love.math.random(1, 4)) .. ")"
+            tileKey = "sea_beach_e (" .. tostring(love.math.random(1, 4)) .. ")"
         elseif ne then
-            tile_key = "sea_beach_sw_inside (" .. tostring(love.math.random(1, 2)) .. ")"
+            tileKey = "sea_beach_sw_inside (" .. tostring(love.math.random(1, 2)) .. ")"
         elseif nw then
-            tile_key = "sea_beach_se_inside (" .. tostring(love.math.random(1, 2)) .. ")"
+            tileKey = "sea_beach_se_inside (" .. tostring(love.math.random(1, 2)) .. ")"
         elseif se then
-            tile_key = "sea_beach_nw_inside (" .. tostring(love.math.random(1, 2)) .. ")"
+            tileKey = "sea_beach_nw_inside (" .. tostring(love.math.random(1, 2)) .. ")"
         elseif sw then
-            tile_key = "sea_beach_ne_inside (" .. tostring(love.math.random(1, 2)) .. ")"
+            tileKey = "sea_beach_ne_inside (" .. tostring(love.math.random(1, 2)) .. ")"
         end
-    elseif current_biome ~= _G.terrain_biome.none then
+    elseif currentBiome ~= _G.terrainBiome.none then
         if rand > 0 and rand <= 16 then
-            tile_key = terrain[cx][cy][i][o] .. "_1x1 (" .. tostring(rand) .. ")"
-            local _, _, _, lh = tile_quads[tile_key]:getViewport()
-            l_offset_y = 16 - lh
+            tileKey = terrain[cx][cy][i][o] .. "_1x1 (" .. tostring(rand) .. ")"
+            local _, _, _, lh = tileQuads[tileKey]:getViewport()
+            lOffsetY = 16 - lh
         elseif rand > 16 and rand <= 20 then
-            l_offset_x = -16 - 4
-            multi_tile_terrain(2, keys_to_skip, cx, cy, i, o, current_biome)
-            tile_key = terrain[cx][cy][i][o] .. "_2x2 (" .. tostring(21 - rand) .. ")"
-            local _, _, lw, lh = tile_quads[tile_key]:getViewport()
-            l_offset_y = 32 - lh
-            l_offset_x = l_offset_x + 62 - lw
+            lOffsetX = -16 - 4
+            multiTileTerrain(2, keysToSkip, cx, cy, i, o, currentBiome)
+            tileKey = terrain[cx][cy][i][o] .. "_2x2 (" .. tostring(21 - rand) .. ")"
+            local _, _, lw, lh = tileQuads[tileKey]:getViewport()
+            lOffsetY = 32 - lh
+            lOffsetX = lOffsetX + 62 - lw
         elseif rand > 20 and rand <= 24 then
-            l_offset_x = -32
-            multi_tile_terrain(3, keys_to_skip, cx, cy, i, o, current_biome)
-            tile_key = terrain[cx][cy][i][o] .. "_3x3 (" .. tostring(25 - rand) .. ")"
-            local _, _, lw, lh = tile_quads[tile_key]:getViewport()
-            l_offset_y = 48 - lh
-            l_offset_x = l_offset_x + 94 - lw
+            lOffsetX = -32
+            multiTileTerrain(3, keysToSkip, cx, cy, i, o, currentBiome)
+            tileKey = terrain[cx][cy][i][o] .. "_3x3 (" .. tostring(25 - rand) .. ")"
+            local _, _, lw, lh = tileQuads[tileKey]:getViewport()
+            lOffsetY = 48 - lh
+            lOffsetX = lOffsetX + 94 - lw
         else
-            l_offset_x = -32 - 16
-            multi_tile_terrain(4, keys_to_skip, cx, cy, i, o, current_biome)
-            tile_key = terrain[cx][cy][i][o] .. "_4x4 (" .. tostring(29 - rand) .. ")"
-            local _, _, lw, lh = tile_quads[tile_key]:getViewport()
-            l_offset_y = 64 - lh
-            l_offset_x = l_offset_x + 124 - lw
+            lOffsetX = -32 - 16
+            multiTileTerrain(4, keysToSkip, cx, cy, i, o, currentBiome)
+            tileKey = terrain[cx][cy][i][o] .. "_4x4 (" .. tostring(29 - rand) .. ")"
+            local _, _, lw, lh = tileQuads[tileKey]:getViewport()
+            lOffsetY = 64 - lh
+            lOffsetX = lOffsetX + 124 - lw
         end
     end
     if rand == 0 then
-        terrain_tile[cx][cy][i][o] = nil
+        terrainTile[cx][cy][i][o] = nil
     else
-        terrain_tile[cx][cy][i][o] = {tile_quads[tile_key], _G.IsoX + (i - o) * tile_width * 0.5 + l_offset_x,
-                                      _G.IsoY + (i + o) * tile_height * 0.5 + l_offset_y, 0, l_scale, l_scale}
+        terrainTile[cx][cy][i][o] = {tileQuads[tileKey], _G.IsoX + (i - o) * tileWidth * 0.5 + lOffsetX,
+                                     _G.IsoY + (i + o) * tileHeight * 0.5 + lOffsetY, 0, lScale, lScale}
     end
 end
 
-local function update_terrain_2nd_pass(chunk_x, chunk_y)
-    local cx = chunk_x or _G.current_chunk_x
-    local cy = chunk_y or _G.current_chunk_y
-    for i = 0, chunk_width - 1, 1 do
-        for o = 0, chunk_width - 1, 1 do
-            if secondary_tiles_to_update_in_chunk[cx][cy][i] and secondary_tiles_to_update_in_chunk[cx][cy][i][o] then
-                local current_biome = terrain[cx][cy][i][o]
-                local multi_tile_origin
-                if keys_to_skip[cx][cy][i][o] then
-                    local cur_idx = keys_to_skip[cx][cy][i][o]
-                    if cur_idx["size"] then
-                        multi_tile_origin = cur_idx
+local function updateTerrain_2ndPass(chunkX, chunkY)
+    local cx = chunkX or _G.currentChunkX
+    local cy = chunkY or _G.currentChunkY
+    for i = 0, chunkWidth - 1, 1 do
+        for o = 0, chunkWidth - 1, 1 do
+            if secondaryTilesToUpdateInChunk[cx][cy][i] and secondaryTilesToUpdateInChunk[cx][cy][i][o] then
+                local currentBiome = terrain[cx][cy][i][o]
+                local multiTileOrigin
+                if keysToSkip[cx][cy][i][o] then
+                    local curIdx = keysToSkip[cx][cy][i][o]
+                    if curIdx["size"] then
+                        multiTileOrigin = curIdx
                     else
-                        multi_tile_origin = keys_to_skip[cx][cy][cur_idx[1]][cur_idx[2]]
+                        multiTileOrigin = keysToSkip[cx][cy][curIdx[1]][curIdx[2]]
                     end
-                    local mt = multi_tile_origin
-                    if mt.biome ~= current_biome then
-                        terrain_tile[cx][cy][cur_idx[1]][cur_idx[2]] = {}
-                        free_multi_tile_terrain(multi_tile_origin.size, keys_to_skip, cx, cy, mt[1], mt[2])
+                    local mt = multiTileOrigin
+                    if mt.biome ~= currentBiome then
+                        terrainTile[cx][cy][curIdx[1]][curIdx[2]] = {}
+                        freeMultiTileTerrain(multiTileOrigin.size, keysToSkip, cx, cy, mt[1], mt[2])
                     end
                 end
-                if keys_to_skip[cx][cy][i][o] then
-                    goto end_multi_tile
+                if keysToSkip[cx][cy][i][o] then
+                    goto endMultiTile
                 end
-                multiTileCalculate(current_biome, cx, cy, i, o)
+                multiTileCalculate(currentBiome, cx, cy, i, o)
 
             end
-            ::end_multi_tile::
+            ::endMultiTile::
         end
     end
-    secondary_tiles_to_update_in_chunk[cx][cy] = nil
+    secondaryTilesToUpdateInChunk[cx][cy] = nil
 end
 
-local empty_table = newAutotable(4)
-local function update_terrain(chunk_x, chunk_y)
-    local cx = chunk_x or _G.current_chunk_x
-    local cy = chunk_y or _G.current_chunk_y
-    if terrain_batch[chunk_x][chunk_y] == nil then
-        terrain_batch[chunk_x][chunk_y] = love.graphics.newSpriteBatch(terrain_image, chunk_width * chunk_height)
+local emptyTable = newAutotable(4)
+local function updateTerrain(chunkX, chunkY)
+    local cx = chunkX or _G.currentChunkX
+    local cy = chunkY or _G.currentChunkY
+    if terrainBatch[chunkX][chunkY] == nil then
+        terrainBatch[chunkX][chunkY] = love.graphics.newSpriteBatch(terrainImage, chunkWidth * chunkHeight)
     end
-    terrain_batch[chunk_x][chunk_y]:clear()
-    for i = 0, chunk_width - 1, 1 do
-        for o = 0, chunk_width - 1, 1 do
-            local gx = chunk_width * cx + i
-            local gy = chunk_width * cy + o
-            local total_height = 0
+    terrainBatch[chunkX][chunkY]:clear()
+    for i = 0, chunkWidth - 1, 1 do
+        for o = 0, chunkWidth - 1, 1 do
+            local gx = chunkWidth * cx + i
+            local gy = chunkWidth * cy + o
+            local totalHeight = 0
             for sx = -1, 1 do
                 for sy = -1, 1 do
                     if not (sx == 0 and sy == 0) then
-                        local cur_i = (gx + sx) % (chunk_width)
-                        local cur_o = (gy + sy) % (chunk_width)
-                        local cur_cx = math.floor((gx + sx) / chunk_width)
-                        local cur_cy = math.floor((gy + sy) / chunk_width)
-                        if heightmap[cur_cx] and heightmap[cur_cx][cur_cy] then
-                            total_height = total_height + (heightmap[cur_cx][cur_cy][cur_i][cur_o] or 0)
+                        local curI = (gx + sx) % (chunkWidth)
+                        local curO = (gy + sy) % (chunkWidth)
+                        local curCx = math.floor((gx + sx) / chunkWidth)
+                        local curCy = math.floor((gy + sy) / chunkWidth)
+                        if heightmap[curCx] and heightmap[curCx][curCy] then
+                            totalHeight = totalHeight + (heightmap[curCx][curCy][curI][curO] or 0)
                         end
                     end
                 end
             end
-            local prev_i = (gx - 1) % (chunk_width)
-            local prev_o = (gy + 1) % (chunk_width)
-            local prev_cx = math.floor((gx - 1) / chunk_width)
-            local prev_cy = math.floor((gy + 1) / chunk_width)
+            local prevI = (gx - 1) % (chunkWidth)
+            local prevO = (gy + 1) % (chunkWidth)
+            local prevCx = math.floor((gx - 1) / chunkWidth)
+            local prevCy = math.floor((gy + 1) / chunkWidth)
 
-            local prev_height, prev_shadow, prev_tileheight = 0, 0, 0
-            if _G.state.map.terrain[prev_cx] and _G.state.map.terrain[prev_cx][prev_cy] then
-                prev_height = heightmap[prev_cx][prev_cy][prev_i][prev_o] or 0
-                prev_height = 75 * prev_height / (40 + prev_height)
-                prev_shadow = shadowmap[prev_cx][prev_cy][prev_i][prev_o] or 0
-                prev_tileheight = tileheight[prev_cx][prev_cy][prev_i][prev_o] or 0
+            local prevHeight, prevShadow, prevTileheight = 0, 0, 0
+            if _G.state.map.terrain[prevCx] and _G.state.map.terrain[prevCx][prevCy] then
+                prevHeight = heightmap[prevCx][prevCy][prevI][prevO] or 0
+                prevHeight = 75 * prevHeight / (40 + prevHeight)
+                prevShadow = shadowmap[prevCx][prevCy][prevI][prevO] or 0
+                prevTileheight = tileheight[prevCx][prevCy][prevI][prevO] or 0
             end
-            shadowmap[cx][cy][i][o] = math.max(math.max(prev_height + prev_tileheight, prev_shadow) - 3.5, 0)
+            shadowmap[cx][cy][i][o] = math.max(math.max(prevHeight + prevTileheight, prevShadow) - 3.5, 0)
 
-            local prev1_i = (gx - 1) % (chunk_width)
-            local prev1_o = (gy) % (chunk_width)
-            local prev1_cx = math.floor((gx - 1) / chunk_width)
-            local prev1_cy = math.floor((gy) / chunk_width)
-            local prev2_i = (gx) % (chunk_width)
-            local prev2_o = (gy + 1) % (chunk_width)
-            local prev2_cx = math.floor((gx) / chunk_width)
-            local prev2_cy = math.floor((gy + 1) / chunk_width)
-            local prev1_height = heightmap[prev1_cx][prev1_cy][prev1_i][prev1_o] or 0
-            prev1_height = 75 * prev1_height / (40 + prev1_height)
-            local prev1_shadow = shadowmap[prev1_cx][prev1_cy][prev1_i][prev1_o] or 0
-            local prev1_tileheight = tileheight[prev1_cx][prev1_cy][prev1_i][prev1_o] or 0
-            local prev2_height = heightmap[prev2_cx][prev2_cy][prev2_i][prev2_o] or 0
-            prev2_height = 75 * prev2_height / (40 + prev2_height)
-            local prev2_shadow = shadowmap[prev2_cx][prev2_cy][prev2_i][prev2_o] or 0
-            local prev2_tileheight = tileheight[prev2_cx][prev2_cy][prev2_i][prev2_o] or 0
-            local prev1_shadow_value = math.max(math.max(prev1_height + prev1_tileheight, prev1_shadow) - 3.5, 0)
-            local prev2_shadow_value = math.max(math.max(prev2_height + prev2_tileheight, prev2_shadow) - 3.5, 0)
+            local prev1I = (gx - 1) % (chunkWidth)
+            local prev1O = (gy) % (chunkWidth)
+            local prev1Cx = math.floor((gx - 1) / chunkWidth)
+            local prev1Cy = math.floor((gy) / chunkWidth)
+            local prev2I = (gx) % (chunkWidth)
+            local prev2O = (gy + 1) % (chunkWidth)
+            local prev2Cx = math.floor((gx) / chunkWidth)
+            local prev2Cy = math.floor((gy + 1) / chunkWidth)
+            local prev1Height = heightmap[prev1Cx][prev1Cy][prev1I][prev1O] or 0
+            prev1Height = 75 * prev1Height / (40 + prev1Height)
+            local prev1Shadow = shadowmap[prev1Cx][prev1Cy][prev1I][prev1O] or 0
+            local prev1Tileheight = tileheight[prev1Cx][prev1Cy][prev1I][prev1O] or 0
+            local prev2Height = heightmap[prev2Cx][prev2Cy][prev2I][prev2O] or 0
+            prev2Height = 75 * prev2Height / (40 + prev2Height)
+            local prev2Shadow = shadowmap[prev2Cx][prev2Cy][prev2I][prev2O] or 0
+            local prev2Tileheight = tileheight[prev2Cx][prev2Cy][prev2I][prev2O] or 0
+            local prev1ShadowValue = math.max(math.max(prev1Height + prev1Tileheight, prev1Shadow) - 3.5, 0)
+            local prev2ShadowValue = math.max(math.max(prev2Height + prev2Tileheight, prev2Shadow) - 3.5, 0)
 
-            local prev3_i = (gx + 1) % (chunk_width)
-            local prev3_o = (gy) % (chunk_width)
-            local prev3_cx = math.floor((gx + 1) / chunk_width)
-            local prev3_cy = math.floor((gy) / chunk_width)
-            local prev3_height = heightmap[prev3_cx][prev3_cy][prev3_i][prev3_o] or 0
-            prev3_height = 75 * prev3_height / (40 + prev3_height)
-            local prev3_tileheight = tileheight[prev3_cx][prev3_cy][prev3_i][prev3_o] or 0
-            local prev3_shadow = shadowmap[prev3_cx][prev3_cy][prev3_i][prev3_o] or 0
-            local prev3_shadow_value = math.max(math.max(prev3_height + prev3_tileheight, prev3_shadow) - 3.5, 0)
+            local prev3I = (gx + 1) % (chunkWidth)
+            local prev3O = (gy) % (chunkWidth)
+            local prev3Cx = math.floor((gx + 1) / chunkWidth)
+            local prev3Cy = math.floor((gy) / chunkWidth)
+            local prev3Height = heightmap[prev3Cx][prev3Cy][prev3I][prev3O] or 0
+            prev3Height = 75 * prev3Height / (40 + prev3Height)
+            local prev3Tileheight = tileheight[prev3Cx][prev3Cy][prev3I][prev3O] or 0
+            local prev3Shadow = shadowmap[prev3Cx][prev3Cy][prev3I][prev3O] or 0
+            local prev3ShadowValue = math.max(math.max(prev3Height + prev3Tileheight, prev3Shadow) - 3.5, 0)
 
-            local prev4_i = (gx) % (chunk_width)
-            local prev4_o = (gy - 1) % (chunk_width)
-            local prev4_cx = math.floor((gx) / chunk_width)
-            local prev4_cy = math.floor((gy - 1) / chunk_width)
-            local prev4_height = heightmap[prev4_cx][prev4_cy][prev4_i][prev4_o] or 0
-            prev4_height = 75 * prev4_height / (40 + prev4_height)
-            local prev4_tileheight = tileheight[prev4_cx][prev4_cy][prev4_i][prev4_o] or 0
-            local prev4_shadow = shadowmap[prev4_cx][prev4_cy][prev4_i][prev4_o] or 0
-            local prev4_shadow_value = math.max(math.max(prev4_height + prev4_tileheight, prev4_shadow) - 3.5, 0)
-            -- shadowmap[cx][cy][i][o] = math.max(shadowmap[cx][cy][i][o], prev1_shadow_value / 2, prev2_shadow_value / 2)
-            if (prev1_shadow_value == prev2_shadow_value) and prev1_shadow_value > shadowmap[cx][cy][i][o] then
-                shadowmap[cx][cy][i][o] = prev1_shadow_value
+            local prev4I = (gx) % (chunkWidth)
+            local prev4O = (gy - 1) % (chunkWidth)
+            local prev4Cx = math.floor((gx) / chunkWidth)
+            local prev4Cy = math.floor((gy - 1) / chunkWidth)
+            local prev4Height = heightmap[prev4Cx][prev4Cy][prev4I][prev4O] or 0
+            prev4Height = 75 * prev4Height / (40 + prev4Height)
+            local prev4Tileheight = tileheight[prev4Cx][prev4Cy][prev4I][prev4O] or 0
+            local prev4Shadow = shadowmap[prev4Cx][prev4Cy][prev4I][prev4O] or 0
+            local prev4ShadowValue = math.max(math.max(prev4Height + prev4Tileheight, prev4Shadow) - 3.5, 0)
+            -- shadowmap[cx][cy][i][o] = math.max(shadowmap[cx][cy][i][o], prev1ShadowValue / 2, prev2ShadowValue / 2)
+            if (prev1ShadowValue == prev2ShadowValue) and prev1ShadowValue > shadowmap[cx][cy][i][o] then
+                shadowmap[cx][cy][i][o] = prev1ShadowValue
             end
-            local current_shadow = shadowmap[cx][cy][i][o] or 0
-            local elevation_offset_y = heightmap[cx][cy][i][o] or 0
-            local elevation_value = 75 * elevation_offset_y / (40 + elevation_offset_y)
-            local is_in_shadow = current_shadow > elevation_offset_y or current_shadow > elevation_value
-            if not is_in_shadow then
-                local interpolated_shadow_val = (prev1_shadow_value * 2 + prev2_shadow_value * 2 + prev3_shadow_value +
-                                                    prev4_shadow_value) / 6
-                shadowmap[cx][cy][i][o] = interpolated_shadow_val
+            local currentShadow = shadowmap[cx][cy][i][o] or 0
+            local elevationOffsetY = heightmap[cx][cy][i][o] or 0
+            local elevationValue = 75 * elevationOffsetY / (40 + elevationOffsetY)
+            local isInShadow = currentShadow > elevationOffsetY or currentShadow > elevationValue
+            if not isInShadow then
+                local interpolatedShadowVal = (prev1ShadowValue * 2 + prev2ShadowValue * 2 + prev3ShadowValue +
+                                                  prev4ShadowValue) / 6
+                shadowmap[cx][cy][i][o] = interpolatedShadowVal
             end
 
-            if tiles_to_update_in_chunk[cx][cy][i] and tiles_to_update_in_chunk[cx][cy][i][o] then
-                local current_biome = terrain[cx][cy][i][o]
-                local multi_tile_origin
-                if keys_to_skip[cx][cy][i][o] then
-                    local cur_idx = keys_to_skip[cx][cy][i][o]
-                    if cur_idx["size"] then
-                        multi_tile_origin = cur_idx
+            if tilesToUpdateInChunk[cx][cy][i] and tilesToUpdateInChunk[cx][cy][i][o] then
+                local currentBiome = terrain[cx][cy][i][o]
+                local multiTileOrigin
+                if keysToSkip[cx][cy][i][o] then
+                    local curIdx = keysToSkip[cx][cy][i][o]
+                    if curIdx["size"] then
+                        multiTileOrigin = curIdx
                     else
-                        multi_tile_origin = keys_to_skip[cx][cy][cur_idx[1]][cur_idx[2]]
+                        multiTileOrigin = keysToSkip[cx][cy][curIdx[1]][curIdx[2]]
                     end
-                    local mt = multi_tile_origin
-                    local max_size = check_max_size_biome(current_biome, mt.cx, mt.cy, mt[1], mt[2], keys_to_skip)
-                    if max_size ~= mt.size or multi_tile_origin.biome ~= current_biome then
-                        terrain_tile[cx][cy][mt[1]][mt[2]] = {}
-                        free_multi_tile_terrain(multi_tile_origin.size, keys_to_skip, cx, cy, mt[1], mt[2])
+                    local mt = multiTileOrigin
+                    local maxSize = checkMaxSizeBiome(currentBiome, mt.cx, mt.cy, mt[1], mt[2], keysToSkip)
+                    if maxSize ~= mt.size or multiTileOrigin.biome ~= currentBiome then
+                        terrainTile[cx][cy][mt[1]][mt[2]] = {}
+                        freeMultiTileTerrain(multiTileOrigin.size, keysToSkip, cx, cy, mt[1], mt[2])
                     end
                 end
-                if keys_to_skip[cx][cy][i][o] then
+                if keysToSkip[cx][cy][i][o] then
                     goto continue
                 end
-                multiTileCalculate(current_biome, cx, cy, i, o)
+                multiTileCalculate(currentBiome, cx, cy, i, o)
             end
             ::continue::
             if shadowmap[cx][cy][i][o] and shadowmap[cx][cy][i][o] > 0 and terrain[cx][cy] then
-                local current_biome = terrain[cx][cy][i][o]
-                local multi_tile_origin
-                if keys_to_skip[cx][cy][i][o] then
-                    local cur_idx = keys_to_skip[cx][cy][i][o]
-                    if cur_idx["size"] then
-                        multi_tile_origin = cur_idx
+                local currentBiome = terrain[cx][cy][i][o]
+                local multiTileOrigin
+                if keysToSkip[cx][cy][i][o] then
+                    local curIdx = keysToSkip[cx][cy][i][o]
+                    if curIdx["size"] then
+                        multiTileOrigin = curIdx
                     else
-                        multi_tile_origin = keys_to_skip[cx][cy][cur_idx[1]][cur_idx[2]]
+                        multiTileOrigin = keysToSkip[cx][cy][curIdx[1]][curIdx[2]]
                     end
-                    local mt = multi_tile_origin
-                    local max_size = check_max_size_biome(current_biome, mt.cx, mt.cy, mt[1], mt[2], empty_table)
-                    if max_size ~= mt.size then
-                        terrain_tile[cx][cy][mt[1]][mt[2]] = {}
-                        free_multi_tile_terrain(multi_tile_origin.size, keys_to_skip, cx, cy, mt[1], mt[2])
+                    local mt = multiTileOrigin
+                    local maxSize = checkMaxSizeBiome(currentBiome, mt.cx, mt.cy, mt[1], mt[2], emptyTable)
+                    if maxSize ~= mt.size then
+                        terrainTile[cx][cy][mt[1]][mt[2]] = {}
+                        freeMultiTileTerrain(multiTileOrigin.size, keysToSkip, cx, cy, mt[1], mt[2])
                     end
                 end
             end
         end
     end
-    update_terrain_2nd_pass(cx, cy)
+    updateTerrain_2ndPass(cx, cy)
 end
 
-local function tileShouldBeCliff(my_gx, my_gy)
-    local cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(my_gx, my_gy)
-    local my_height = heightmap[cx][cy][i][o] or 0
-    cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(my_gx + 1, my_gy)
-    local tile_left_height = heightmap[cx][cy][i][o] or 0
-    if (my_height - tile_left_height) > 8 then
-        _G.state.map:setWalkable(my_gx, my_gy, 1)
+local function tileShouldBeCliff(myGx, myGy)
+    local cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(myGx, myGy)
+    local myHeight = heightmap[cx][cy][i][o] or 0
+    cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(myGx + 1, myGy)
+    local tileLeftHeight = heightmap[cx][cy][i][o] or 0
+    if (myHeight - tileLeftHeight) > 8 then
+        _G.state.map:setWalkable(myGx, myGy, 1)
         return true
     end
-    cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(my_gx, my_gy + 1)
-    local tile_right_height = heightmap[cx][cy][i][o] or 0
-    if (my_height - tile_right_height) > 8 then
-        _G.state.map:setWalkable(my_gx, my_gy, 1)
+    cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(myGx, myGy + 1)
+    local tileRightHeight = heightmap[cx][cy][i][o] or 0
+    if (myHeight - tileRightHeight) > 8 then
+        _G.state.map:setWalkable(myGx, myGy, 1)
         return true
     end
-    cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(my_gx + 1, my_gy + 1)
-    if terrain[cx][cy] and terrain[cx][cy][i] and terrain[cx][cy][i][o] == _G.terrain_biome.none then
+    cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(myGx + 1, myGy + 1)
+    if terrain[cx][cy] and terrain[cx][cy][i] and terrain[cx][cy][i][o] == _G.terrainBiome.none then
         return true
     end
-    cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(my_gx, my_gy - 1)
-    if my_height - (heightmap[cx][cy][i][o] or 0) > 8 then
-        _G.state.map:setWalkable(my_gx, my_gy, 1)
+    cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(myGx, myGy - 1)
+    if myHeight - (heightmap[cx][cy][i][o] or 0) > 8 then
+        _G.state.map:setWalkable(myGx, myGy, 1)
         -- return true
     end
-    cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(my_gx - 1, my_gy - 1)
-    if my_height - (heightmap[cx][cy][i][o] or 0) > 8 then
-        _G.state.map:setWalkable(my_gx, my_gy, 1)
+    cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(myGx - 1, myGy - 1)
+    if myHeight - (heightmap[cx][cy][i][o] or 0) > 8 then
+        _G.state.map:setWalkable(myGx, myGy, 1)
         -- return true
     end
-    cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(my_gx - 1, my_gy)
-    if my_height - (heightmap[cx][cy][i][o] or 0) > 8 then
-        _G.state.map:setWalkable(my_gx, my_gy, 1)
+    cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(myGx - 1, myGy)
+    if myHeight - (heightmap[cx][cy][i][o] or 0) > 8 then
+        _G.state.map:setWalkable(myGx, myGy, 1)
         -- return true
     end
-    gx, gy = my_gx + 1, my_gy
-    i = (gx) % (chunk_width)
-    o = (gy) % (chunk_width)
-    cx = math.floor(gx / chunk_width)
-    cy = math.floor(gy / chunk_width)
-    if terrain[cx][cy] and terrain[cx][cy][i] and terrain[cx][cy][i][o] == _G.terrain_biome.none then
-        _G.state.map:setWalkable(my_gx, my_gy, 1)
+    gx, gy = myGx + 1, myGy
+    i = (gx) % (chunkWidth)
+    o = (gy) % (chunkWidth)
+    cx = math.floor(gx / chunkWidth)
+    cy = math.floor(gy / chunkWidth)
+    if terrain[cx][cy] and terrain[cx][cy][i] and terrain[cx][cy][i][o] == _G.terrainBiome.none then
+        _G.state.map:setWalkable(myGx, myGy, 1)
         return true
     end
 end
 
-local function refresh_terrain(chunk_x, chunk_y)
-    local cx = chunk_x or _G.current_chunk_x
-    local cy = chunk_y or _G.current_chunk_y
-    tiles_to_update_in_chunk[cx][cy] = nil
-    for i = 0, chunk_width - 1, 1 do
-        for o = 0, chunk_width - 1, 1 do
-            local vert_id = _G.getTerrainVertex(cx, cy, i, o)
-            local chevron_id = _G.getChevronVertex(cx, cy, i, o)
-            local instancemesh = _G.state.object_mesh[cx][cy]
-            if terrain[cx][cy][i][o] ~= _G.terrain_biome.none or tertiary_tiles_to_update_in_chunk[cx][cy][i] and
-                tertiary_tiles_to_update_in_chunk[cx][cy][i][o] == true and terrain[cx][cy][i][o] ~=
-                _G.terrain_biome.none then
-                instancemesh:setVertex(vert_id)
-                local elevation_offset_y = heightmap[cx][cy][i][o] or 0
-                local elevation_value = 75 * elevation_offset_y / (40 + elevation_offset_y)
-                local shadow_value = shadowmap[cx][cy][i][o] or 0
-                local this_tileheight = tileheight[cx][cy][i][o] or 0
-                local is_in_shadow = shadow_value > elevation_offset_y or shadow_value > elevation_value
-                shadow_value = math.min((shadow_value - elevation_value) / 40, 0.6)
+local function refreshTerrain(chunkX, chunkY)
+    local cx = chunkX or _G.currentChunkX
+    local cy = chunkY or _G.currentChunkY
+    tilesToUpdateInChunk[cx][cy] = nil
+    for i = 0, chunkWidth - 1, 1 do
+        for o = 0, chunkWidth - 1, 1 do
+            local vertId = _G.getTerrainVertex(cx, cy, i, o)
+            local chevronId = _G.getChevronVertex(cx, cy, i, o)
+            local instancemesh = _G.state.objectMesh[cx][cy]
+            if terrain[cx][cy][i][o] ~= _G.terrainBiome.none or tertiaryTilesToUpdateInChunk[cx][cy][i] and
+                tertiaryTilesToUpdateInChunk[cx][cy][i][o] == true and terrain[cx][cy][i][o] ~= _G.terrainBiome.none then
+                instancemesh:setVertex(vertId)
+                local elevationOffsetY = heightmap[cx][cy][i][o] or 0
+                local elevationValue = 75 * elevationOffsetY / (40 + elevationOffsetY)
+                local shadowValue = shadowmap[cx][cy][i][o] or 0
+                local thisTileheight = tileheight[cx][cy][i][o] or 0
+                local isInShadow = shadowValue > elevationOffsetY or shadowValue > elevationValue
+                shadowValue = math.min((shadowValue - elevationValue) / 40, 0.6)
 
                 -- -- CHECK IF PREVIOUS TILE HAS THE SAME HEIGHT
-                local gx = chunk_width * cx + i
-                local gy = chunk_width * cy + o
-                local prev_i = (gx - 1) % (chunk_width)
-                local prev_o = (gy + 1) % (chunk_width)
-                local prev_cx = math.floor((gx - 1) / chunk_width)
-                local prev_cy = math.floor((gy + 1) / chunk_width)
+                local gx = chunkWidth * cx + i
+                local gy = chunkWidth * cy + o
+                local prevI = (gx - 1) % (chunkWidth)
+                local prevO = (gy + 1) % (chunkWidth)
+                local prevCx = math.floor((gx - 1) / chunkWidth)
+                local prevCy = math.floor((gy + 1) / chunkWidth)
 
-                local prev_height, prev_shadow, prev_tileheight
-                prev_height = heightmap[prev_cx][prev_cy][prev_i][prev_o] or 0
-                prev_shadow = shadowmap[prev_cx][prev_cy][prev_i][prev_o] or 0
-                prev_tileheight = tileheight[prev_cx][prev_cy][prev_i][prev_o] or 0
-                local prev_in_shadow = prev_shadow > prev_height
-                if prev_height <= elevation_offset_y and prev_tileheight <= this_tileheight and not prev_in_shadow and
-                    shadow_value > elevation_value then
-                    is_in_shadow = false
+                local prevHeight, prevShadow, prevTileheight
+                prevHeight = heightmap[prevCx][prevCy][prevI][prevO] or 0
+                prevShadow = shadowmap[prevCx][prevCy][prevI][prevO] or 0
+                prevTileheight = tileheight[prevCx][prevCy][prevI][prevO] or 0
+                local prevInShadow = prevShadow > prevHeight
+                if prevHeight <= elevationOffsetY and prevTileheight <= thisTileheight and not prevInShadow and
+                    shadowValue > elevationValue then
+                    isInShadow = false
                 end
-                if this_tileheight > 0 then
-                    is_in_shadow = true
+                if thisTileheight > 0 then
+                    isInShadow = true
                 end
 
-                -- shadow_value = math.min((shadow_value - elevation_value / 40) / 40, 0.45) / 1.25
-                local tile_has_slope = false
-                local tiles_with_slope = 0
+                -- shadowValue = math.min((shadowValue - elevationValue / 40) / 40, 0.45) / 1.25
+                local tileHasSlope = false
+                local tilesWithSlope = 0
                 for xx = -1, 1 do
                     for yy = -1, 1 do
-                        local pi = (gx + xx) % (chunk_width)
-                        local po = (gy + yy) % (chunk_width)
-                        local pcx = math.floor((gx + xx) / chunk_width)
-                        local pcy = math.floor((gy + yy) / chunk_width)
-                        if heightmap[pcx][pcy][pi][po] and heightmap[pcx][pcy][pi][po] ~= elevation_offset_y then
-                            tiles_with_slope = tiles_with_slope + 1
+                        local pi = (gx + xx) % (chunkWidth)
+                        local po = (gy + yy) % (chunkWidth)
+                        local pcx = math.floor((gx + xx) / chunkWidth)
+                        local pcy = math.floor((gy + yy) / chunkWidth)
+                        if heightmap[pcx][pcy][pi][po] and heightmap[pcx][pcy][pi][po] ~= elevationOffsetY then
+                            tilesWithSlope = tilesWithSlope + 1
                         end
                     end
                 end
-                if tiles_with_slope > 5 then
-                    tile_has_slope = true
+                if tilesWithSlope > 5 then
+                    tileHasSlope = true
                 end
-                local hill_tile_base, hill_tile_sunny_side, hill_tile_normal
-                local skip_multi_tile = false
-                local t = terrain_tile[cx][cy][i][o]
+                local hillTileBase, hillTileSunnySide, hillTileNormal
+                local skipMultiTile = false
+                local t = terrainTile[cx][cy][i][o]
                 if not t or #t <= 0 then
-                    skip_multi_tile = true
-                    t =
-                        {nil, _G.IsoX + (i - o) * tile_width * 0.5, _G.IsoY + (i + o) * tile_height * 0.5, 0, 1.06, 1.06}
+                    skipMultiTile = true
+                    t = {nil, _G.IsoX + (i - o) * tileWidth * 0.5, _G.IsoY + (i + o) * tileHeight * 0.5, 0, 1.06, 1.06}
                 end
-                local is_cliff = tileShouldBeCliff(gx, gy)
-                local cliff_chevron
-                local tile_overriden = false
-                local hill_chevron_sunny_side, hill_chevron_normal, hill_chevron_base
-                local l_scale = 1.06666
-                if elevation_offset_y ~= 0 then
-                    local num = tostring(math.min(math.floor(elevation_offset_y / 6), 15) + 1)
-                    -- local sunny_rand = tostring(love.math.random(1, 4))
-                    -- local normal_rand = tostring(love.math.random(5, 8))
-                    local sunny_rand = love.math.random(4, 8) + 4
-                    -- local normal_rand = tostring((i + o) % 4 + 5)
-                    local normal_rand = love.math.random(4, 8) + 4
-                    if terrain[cx][cy][i][o] == _G.terrain_biome.scarce_grass then
-                        -- terrain[cx][cy][i][o] = _G.terrain_biome.abundant_grass
-                        -- normal_rand = tostring((i + o + 1) % 16 + 1)
-                        normal_rand = love.math.random(1, 16)
-                        if elevation_offset_y < 33 and elevation_offset_y > 10 then
-                            hill_tile_base = "mountain_grass_a_1x1 ("
-                        elseif elevation_offset_y < 66 then
-                            hill_tile_base = "mountain_grass_b_1x1 ("
-                        elseif elevation_offset_y >= 66 then
-                            hill_tile_base = "mountain_grass_b_1x1 ("
+                local isCliff = tileShouldBeCliff(gx, gy)
+                local cliffChevron
+                local tileOverriden = false
+                local hillChevronSunnySide, hillChevronNormal, hillChevronBase
+                local lScale = 1.06666
+                if elevationOffsetY ~= 0 then
+                    local num = tostring(math.min(math.floor(elevationOffsetY / 6), 15) + 1)
+                    -- local sunnyRand = tostring(love.math.random(1, 4))
+                    -- local normalRand = tostring(love.math.random(5, 8))
+                    local sunnyRand = love.math.random(4, 8) + 4
+                    -- local normalRand = tostring((i + o) % 4 + 5)
+                    local normalRand = love.math.random(4, 8) + 4
+                    if terrain[cx][cy][i][o] == _G.terrainBiome.scarceGrass then
+                        -- terrain[cx][cy][i][o] = _G.terrainBiome.abundantGrass
+                        -- normalRand = tostring((i + o + 1) % 16 + 1)
+                        normalRand = love.math.random(1, 16)
+                        if elevationOffsetY < 33 and elevationOffsetY > 10 then
+                            hillTileBase = "mountain_grass_a_1x1 ("
+                        elseif elevationOffsetY < 66 then
+                            hillTileBase = "mountain_grass_b_1x1 ("
+                        elseif elevationOffsetY >= 66 then
+                            hillTileBase = "mountain_grass_b_1x1 ("
                         else
-                            hill_tile_base = "hill_" .. num .. " ("
-                            normal_rand = love.math.random(5, 8)
-                            -- normal_rand = tostring((i + o) % 4 + 5)
+                            hillTileBase = "hill_" .. num .. " ("
+                            normalRand = love.math.random(5, 8)
+                            -- normalRand = tostring((i + o) % 4 + 5)
                         end
                     else
-                        hill_tile_base = "hill_" .. num .. " ("
+                        hillTileBase = "hill_" .. num .. " ("
                     end
-                    hill_chevron_base = "hill_chevron_" .. num .. " ("
-                    hill_tile_sunny_side = hill_tile_base .. sunny_rand .. ")"
-                    hill_chevron_sunny_side = hill_chevron_base .. sunny_rand .. ")"
-                    hill_tile_normal = hill_tile_base .. normal_rand .. ")"
-                    hill_chevron_normal = hill_chevron_base .. normal_rand .. ")"
-                    hill_tile_normal = tile_quads[hill_tile_normal]
-                    hill_tile_sunny_side = tile_quads[hill_tile_sunny_side]
-                    hill_chevron_normal = tile_quads[hill_chevron_normal]
-                    hill_chevron_sunny_side = tile_quads[hill_chevron_sunny_side]
-                    -- cliff_chevron = tile_quads["rock_cliff (" .. tostring(love.math.random(1, 31)) .. ")"]
-                    cliff_chevron = tile_quads["rock_cliff (" .. tostring((i + o) % 31 + 1) .. ")"]
+                    hillChevronBase = "hill_chevron_" .. num .. " ("
+                    hillTileSunnySide = hillTileBase .. sunnyRand .. ")"
+                    hillChevronSunnySide = hillChevronBase .. sunnyRand .. ")"
+                    hillTileNormal = hillTileBase .. normalRand .. ")"
+                    hillChevronNormal = hillChevronBase .. normalRand .. ")"
+                    hillTileNormal = tileQuads[hillTileNormal]
+                    hillTileSunnySide = tileQuads[hillTileSunnySide]
+                    hillChevronNormal = tileQuads[hillChevronNormal]
+                    hillChevronSunnySide = tileQuads[hillChevronSunnySide]
+                    -- cliffChevron = tileQuads["rock_cliff (" .. tostring(love.math.random(1, 31)) .. ")"]
+                    cliffChevron = tileQuads["rock_cliff (" .. tostring((i + o) % 31 + 1) .. ")"]
                 end
-                local light_value = 1
-                if is_in_shadow then
-                    local max_shadow = math.min(0.9, 1 - shadow_value)
-                    if elevation_offset_y ~= 0 then
-                        if is_cliff then
-                            local qx, qy, qw, qh = cliff_chevron:getViewport()
-                            instancemesh:setVertex(chevron_id, t[2], t[3] - elevation_offset_y * 2 + 8, qx, qy, qw, qh,
-                                1 - shadow_value, l_scale)
+                local lightValue = 1
+                if isInShadow then
+                    local maxShadow = math.min(0.9, 1 - shadowValue)
+                    if elevationOffsetY ~= 0 then
+                        if isCliff then
+                            local qx, qy, qw, qh = cliffChevron:getViewport()
+                            instancemesh:setVertex(chevronId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
+                                1 - shadowValue, lScale)
                         else
-                            local qx, qy, qw, qh = hill_chevron_normal:getViewport()
-                            instancemesh:setVertex(chevron_id, t[2], t[3] - elevation_offset_y * 2 + 8, qx, qy, qw, qh,
-                                1 - shadow_value, l_scale)
+                            local qx, qy, qw, qh = hillChevronNormal:getViewport()
+                            instancemesh:setVertex(chevronId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
+                                1 - shadowValue, lScale)
                         end
-                        local qx, qy, qw, qh = hill_tile_normal:getViewport()
-                        instancemesh:setVertex(vert_id, t[2], t[3] - elevation_offset_y * 2, qx, qy, qw, qh,
-                            1 - shadow_value, l_scale)
-                        tile_overriden = true
+                        local qx, qy, qw, qh = hillTileNormal:getViewport()
+                        instancemesh:setVertex(vertId, t[2], t[3] - elevationOffsetY * 2, qx, qy, qw, qh,
+                            1 - shadowValue, lScale)
+                        tileOverriden = true
                     end
-                    light_value = max_shadow
+                    lightValue = maxShadow
                 else
-                    local light_modifier = elevation_offset_y / 50
-                    if light_modifier > 0 and tile_has_slope and elevation_offset_y ~= 0 then
-                        light_value = 0.9 + math.min(light_modifier, 0.1)
-                        if is_cliff then
-                            local qx, qy, qw, qh = cliff_chevron:getViewport()
-                            instancemesh:setVertex(chevron_id, t[2], t[3] - elevation_offset_y * 2 + 8, qx, qy, qw, qh,
-                                0.9 + math.min(light_modifier, 0.1), l_scale)
+                    local lightModifier = elevationOffsetY / 50
+                    if lightModifier > 0 and tileHasSlope and elevationOffsetY ~= 0 then
+                        lightValue = 0.9 + math.min(lightModifier, 0.1)
+                        if isCliff then
+                            local qx, qy, qw, qh = cliffChevron:getViewport()
+                            instancemesh:setVertex(chevronId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
+                                0.9 + math.min(lightModifier, 0.1), lScale)
                         else
-                            local qx, qy, qw, qh = hill_chevron_sunny_side:getViewport()
-                            instancemesh:setVertex(chevron_id, t[2], t[3] - elevation_offset_y * 2 + 8, qx, qy, qw, qh,
-                                0.9 + math.min(light_modifier, 0.1), l_scale)
+                            local qx, qy, qw, qh = hillChevronSunnySide:getViewport()
+                            instancemesh:setVertex(chevronId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
+                                0.9 + math.min(lightModifier, 0.1), lScale)
                         end
-                        local qx, qy, qw, qh = hill_tile_sunny_side:getViewport()
-                        instancemesh:setVertex(vert_id, t[2], t[3] - elevation_offset_y * 2, qx, qy, qw, qh,
-                            0.9 + math.min(light_modifier, 0.1), l_scale)
-                        tile_overriden = true
-                    elseif elevation_offset_y ~= 0 then
-                        light_value = 1
-                        if is_cliff then
-                            local qx, qy, qw, qh = cliff_chevron:getViewport()
-                            instancemesh:setVertex(chevron_id, t[2], t[3] - elevation_offset_y * 2 + 8, qx, qy, qw, qh,
-                                1, l_scale)
+                        local qx, qy, qw, qh = hillTileSunnySide:getViewport()
+                        instancemesh:setVertex(vertId, t[2], t[3] - elevationOffsetY * 2, qx, qy, qw, qh,
+                            0.9 + math.min(lightModifier, 0.1), lScale)
+                        tileOverriden = true
+                    elseif elevationOffsetY ~= 0 then
+                        lightValue = 1
+                        if isCliff then
+                            local qx, qy, qw, qh = cliffChevron:getViewport()
+                            instancemesh:setVertex(chevronId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 1,
+                                lScale)
                         else
-                            local qx, qy, qw, qh = hill_chevron_normal:getViewport()
-                            instancemesh:setVertex(chevron_id, t[2], t[3] - elevation_offset_y * 2 + 8, qx, qy, qw, qh,
-                                1, l_scale)
+                            local qx, qy, qw, qh = hillChevronNormal:getViewport()
+                            instancemesh:setVertex(chevronId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 1,
+                                lScale)
                         end
-                        local qx, qy, qw, qh = hill_tile_normal:getViewport()
-                        instancemesh:setVertex(vert_id, t[2], t[3] - elevation_offset_y * 2, qx, qy, qw, qh, 1, l_scale)
-                        tile_overriden = true
+                        local qx, qy, qw, qh = hillTileNormal:getViewport()
+                        instancemesh:setVertex(vertId, t[2], t[3] - elevationOffsetY * 2, qx, qy, qw, qh, 1, lScale)
+                        tileOverriden = true
                     end
                 end
-                if not skip_multi_tile and not tile_overriden and t[1] then
+                if not skipMultiTile and not tileOverriden and t[1] then
                     local qx, qy, qw, qh = t[1]:getViewport()
-                    instancemesh:setVertex(vert_id, t[2], t[3] - elevation_offset_y * 2, qx, qy, qw, qh, light_value,
-                        l_scale)
+                    instancemesh:setVertex(vertId, t[2], t[3] - elevationOffsetY * 2, qx, qy, qw, qh, lightValue, lScale)
                 end
-            elseif terrain[cx][cy][i][o] == _G.terrain_biome.none then
-                instancemesh:setVertex(vert_id)
-                instancemesh:setVertex(chevron_id)
+            elseif terrain[cx][cy][i][o] == _G.terrainBiome.none then
+                instancemesh:setVertex(vertId)
+                instancemesh:setVertex(chevronId)
             end
         end
     end
-    tertiary_tiles_to_update_in_chunk[cx][cy] = nil
+    tertiaryTilesToUpdateInChunk[cx][cy] = nil
 end
 
 function _G.getTerrainTileOnMouse(mx, my)
     local MX, MY, rMX, rMY
-    rMX = (mx - _G.ScreenWidth / 2) / _G.state.scale_x + _G.state.view_xview - 16
-    rMY = (my - _G.ScreenHeight / 2) / _G.state.scale_x + _G.state.view_yview
-    local max_tiles = 20
-    local offset_y
+    rMX = (mx - _G.ScreenWidth / 2) / _G.state.scaleX + _G.state.viewXview - 16
+    rMY = (my - _G.ScreenHeight / 2) / _G.state.scaleX + _G.state.viewYview
+    local maxTiles = 20
+    local offsetY
     local LocalX = math.round(ScreenToIsoX(rMX, rMY))
     local LocalY = math.round(ScreenToIsoY(rMX, rMY))
-    local last_valid_gx, last_valid_gy = LocalX, LocalY
-    for tiles_iterated = 0, max_tiles do
-        offset_y = tiles_iterated * 8
-        MX = (mx - _G.ScreenWidth / 2) / _G.state.scale_x + _G.state.view_xview - 16
-        MY = (my + offset_y * _G.state.scale_x - _G.ScreenHeight / 2) / _G.state.scale_x + _G.state.view_yview - 8
+    local lastValidGx, lastValidGy = LocalX, LocalY
+    for tilesIterated = 0, maxTiles do
+        offsetY = tilesIterated * 8
+        MX = (mx - _G.ScreenWidth / 2) / _G.state.scaleX + _G.state.viewXview - 16
+        MY = (my + offsetY * _G.state.scaleX - _G.ScreenHeight / 2) / _G.state.scaleX + _G.state.viewYview - 8
         LocalX = math.round(ScreenToIsoX(MX, MY))
         LocalY = math.round(ScreenToIsoY(MX, MY))
         local gx = LocalX
         local gy = LocalY
         local cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(LocalX, LocalY)
-        local elevation_offset_y = (heightmap[cx][cy][i][o] or 0) * 2
-        local t = terrain_tile[cx][cy][i][o]
-        local cy_offset = (cx + cy) * chunk_height * tile_height * 0.5
+        local elevationOffsetY = (heightmap[cx][cy][i][o] or 0) * 2
+        local t = terrainTile[cx][cy][i][o]
+        local cyOffset = (cx + cy) * chunkHeight * tileHeight * 0.5
         if not t or #t <= 0 then
-            t = {nil, _G.IsoX + (i - o) * tile_width * 0.5, _G.IsoY + (i + o) * tile_height * 0.5, 0, 1.06, 1.06}
+            t = {nil, _G.IsoX + (i - o) * tileWidth * 0.5, _G.IsoY + (i + o) * tileHeight * 0.5, 0, 1.06, 1.06}
         end
-        local recty = t[3] - elevation_offset_y + cy_offset
+        local recty = t[3] - elevationOffsetY + cyOffset
         if rMY >= recty then
-            last_valid_gx, last_valid_gy = gx, gy
+            lastValidGx, lastValidGy = gx, gy
         end
     end
-    return last_valid_gx, last_valid_gy
+    return lastValidGx, lastValidGy
 end
 
 local function update()
-    for _, chunk in ipairs(chunks_to_update) do
-        update_terrain(chunk[1], chunk[2])
-        refresh_terrain(chunk[1], chunk[2])
-        chunks_set[chunk[1]][chunk[2]] = nil
+    for _, chunk in ipairs(chunksToUpdate) do
+        updateTerrain(chunk[1], chunk[2])
+        refreshTerrain(chunk[1], chunk[2])
+        chunksSet[chunk[1]][chunk[2]] = nil
     end
-    chunks_to_update = {}
+    chunksToUpdate = {}
 end
 local function genTerrain(cx, cy)
     _G.allocateMesh(cx, cy)
     terrain[cx][cy] = newAutotable(2)
-    for i = 0, chunk_width - 1, 1 do
-        for o = 0, chunk_height - 1, 1 do
-            terrain[cx][cy][i][o] = _G.terrain_biome.abundant_grass
-            _G.schedule_terrain_update(cx, cy, i, o)
+    for i = 0, chunkWidth - 1, 1 do
+        for o = 0, chunkHeight - 1, 1 do
+            terrain[cx][cy][i][o] = _G.terrainBiome.abundantGrass
+            _G.scheduleTerrainUpdate(cx, cy, i, o)
         end
     end
     _G.genObjects(cx, cy) -- TODO OPTIMIZE: move genObjects in this loop so we don't loop twice!
@@ -928,12 +925,12 @@ function _G.terrainSetTileAt(gx, gy, biome, from)
         if from then
             if _G.state.map.terrain[cx][cy][i][o] == from then
                 _G.state.map.terrain[cx][cy][i][o] = biome
-                _G.schedule_terrain_update(cx, cy, i, o)
+                _G.scheduleTerrainUpdate(cx, cy, i, o)
             end
         else
-            if _G.state.map.terrain[cx][cy][i][o] ~= _G.terrain_biome.none then
+            if _G.state.map.terrain[cx][cy][i][o] ~= _G.terrainBiome.none then
                 _G.state.map.terrain[cx][cy][i][o] = biome
-                _G.schedule_terrain_update(cx, cy, i, o)
+                _G.scheduleTerrainUpdate(cx, cy, i, o)
             end
         end
     end
@@ -947,180 +944,180 @@ function _G.getTerrainBiomeAt(gx, gy)
 end
 
 local function genForest()
-    _G.forest_gen = {}
-    local forest_gen = _G.forest_gen
+    _G.forestGen = {}
+    local forestGen = _G.forestGen
 
-    for x = 1, math.round((_G.chunks_wide * _G.chunk_width) / 8) + 1 do
-        forest_gen[x] = {}
-        for y = 1, math.round((_G.chunks_high * _G.chunk_height) / 8) + 1 do
+    for x = 1, math.round((_G.chunksWide * _G.chunkWidth) / 8) + 1 do
+        forestGen[x] = {}
+        for y = 1, math.round((_G.chunksHigh * _G.chunkHeight) / 8) + 1 do
             local Value = love.math.random(0, 100)
             if Value < 45 then
-                forest_gen[x][y] = true
+                forestGen[x][y] = true
             else
-                forest_gen[x][y] = false
+                forestGen[x][y] = false
             end
         end
     end
 
-    local forest_update_counter = 0
-    local forest_update_limit = 3
+    local forestUpdateCounter = 0
+    local forestUpdateLimit = 3
 
     repeat
-        for x = 1, #forest_gen do
-            for y = 1, #forest_gen[x] do
-                local tile = forest_gen[x][y]
-                local neighbors_alive = 0
+        for x = 1, #forestGen do
+            for y = 1, #forestGen[x] do
+                local tile = forestGen[x][y]
+                local neighborsAlive = 0
                 for I = 0, 9 do
                     if I ~= 4 then
-                        offset_x = math.floor(I % 3) - 1
-                        offset_y = math.floor(I / 3) - 1
+                        offsetX = math.floor(I % 3) - 1
+                        offsetY = math.floor(I / 3) - 1
 
-                        if forest_gen[x + offset_x] and forest_gen[x + offset_x][y + offset_y] and
-                            forest_gen[x + offset_x][y + offset_y] then
-                            neighbors_alive = neighbors_alive + 1
+                        if forestGen[x + offsetX] and forestGen[x + offsetX][y + offsetY] and
+                            forestGen[x + offsetX][y + offsetY] then
+                            neighborsAlive = neighborsAlive + 1
                         end
                     end
                 end
 
-                if tile and neighbors_alive < 4 then
-                    forest_gen[x][y] = false
+                if tile and neighborsAlive < 4 then
+                    forestGen[x][y] = false
                 end
-                if not tile and neighbors_alive > 5 then
-                    forest_gen[x][y] = true
+                if not tile and neighborsAlive > 5 then
+                    forestGen[x][y] = true
                 end
             end
         end
 
-        forest_update_counter = forest_update_counter + 1
-    until (forest_update_counter == forest_update_limit)
+        forestUpdateCounter = forestUpdateCounter + 1
+    until (forestUpdateCounter == forestUpdateLimit)
 end
 
 local function genStone()
-    _G.stone_gen = {}
-    local stone_gen = _G.stone_gen
+    _G.stoneGen = {}
+    local stoneGen = _G.stoneGen
 
-    local total_stones = 0
-    for x = 1, math.round((_G.chunks_wide * _G.chunk_width) / 3) + 1 do
-        stone_gen[x] = {}
-        for y = 1, math.round((_G.chunks_high * _G.chunk_height) / 3) + 1 do
+    local totalStones = 0
+    for x = 1, math.round((_G.chunksWide * _G.chunkWidth) / 3) + 1 do
+        stoneGen[x] = {}
+        for y = 1, math.round((_G.chunksHigh * _G.chunkHeight) / 3) + 1 do
             local Value = love.math.random(0, 100)
             if Value < 37 then
-                if not (_G.forest_gen[math.round((x * 2.66) / 8) + 1][math.round((y * 2.66) / 8) + 1] ~= false) then
-                    stone_gen[x][y] = true
-                    total_stones = total_stones + 1
+                if not (_G.forestGen[math.round((x * 2.66) / 8) + 1][math.round((y * 2.66) / 8) + 1] ~= false) then
+                    stoneGen[x][y] = true
+                    totalStones = totalStones + 1
                 else
-                    stone_gen[x][y] = false
+                    stoneGen[x][y] = false
                 end
             else
-                stone_gen[x][y] = false
+                stoneGen[x][y] = false
             end
         end
     end
 
-    local stone_update_counter = 0
-    local stone_update_limit = 20
+    local stoneUpdateCounter = 0
+    local stoneUpdateLimit = 20
 
     repeat
-        for x = 1, #stone_gen do
-            for y = 1, #stone_gen[x] do
-                local tile = stone_gen[x][y]
-                local neighbors_alive = 0
+        for x = 1, #stoneGen do
+            for y = 1, #stoneGen[x] do
+                local tile = stoneGen[x][y]
+                local neighborsAlive = 0
                 for I = 0, 9 do
                     if I ~= 4 then
-                        offset_x = math.floor(I % 3) - 1
-                        offset_y = math.floor(I / 3) - 1
+                        offsetX = math.floor(I % 3) - 1
+                        offsetY = math.floor(I / 3) - 1
 
-                        if stone_gen[x + offset_x] and stone_gen[x + offset_x][y + offset_y] and
-                            stone_gen[x + offset_x][y + offset_y] then
-                            neighbors_alive = neighbors_alive + 1
+                        if stoneGen[x + offsetX] and stoneGen[x + offsetX][y + offsetY] and
+                            stoneGen[x + offsetX][y + offsetY] then
+                            neighborsAlive = neighborsAlive + 1
                         end
                     end
                 end
 
-                if tile and neighbors_alive < 4 then
-                    stone_gen[x][y] = false
-                    total_stones = total_stones - 1
+                if tile and neighborsAlive < 4 then
+                    stoneGen[x][y] = false
+                    totalStones = totalStones - 1
                 end
-                if not tile and neighbors_alive > 5 then
-                    stone_gen[x][y] = true
-                    total_stones = total_stones + 1
+                if not tile and neighborsAlive > 5 then
+                    stoneGen[x][y] = true
+                    totalStones = totalStones + 1
                 end
             end
         end
 
-        stone_update_counter = stone_update_counter + 1
-    until (stone_update_counter == stone_update_limit)
-    return total_stones
+        stoneUpdateCounter = stoneUpdateCounter + 1
+    until (stoneUpdateCounter == stoneUpdateLimit)
+    return totalStones
 end
 
 local function genIron()
-    _G.iron_gen = {}
-    local iron_gen = _G.iron_gen
+    _G.ironGen = {}
+    local ironGen = _G.ironGen
 
-    local total_iron = 0
-    for x = 1, math.round((_G.chunks_wide * _G.chunk_width) / 3) + 1 do
-        iron_gen[x] = {}
-        for y = 1, math.round((_G.chunks_high * _G.chunk_height) / 3) + 1 do
+    local totalIron = 0
+    for x = 1, math.round((_G.chunksWide * _G.chunkWidth) / 3) + 1 do
+        ironGen[x] = {}
+        for y = 1, math.round((_G.chunksHigh * _G.chunkHeight) / 3) + 1 do
             local Value = love.math.random(0, 100)
             if Value < 38 then
-                if not (_G.forest_gen[math.round((x * 2.66) / 8) + 1][math.round((y * 2.66) / 8) + 1] ~= false) and
-                    not (_G.stone_gen[x][y] ~= false) then
-                    iron_gen[x][y] = true
-                    total_iron = total_iron + 1
+                if not (_G.forestGen[math.round((x * 2.66) / 8) + 1][math.round((y * 2.66) / 8) + 1] ~= false) and
+                    not (_G.stoneGen[x][y] ~= false) then
+                    ironGen[x][y] = true
+                    totalIron = totalIron + 1
                 else
-                    iron_gen[x][y] = false
+                    ironGen[x][y] = false
                 end
             else
-                iron_gen[x][y] = false
+                ironGen[x][y] = false
             end
         end
     end
 
-    local iron_update_counter = 0
-    local iron_update_limit = 20
+    local ironUpdateCounter = 0
+    local ironUpdateLimit = 20
 
     repeat
-        for x = 1, #iron_gen do
-            for y = 1, #iron_gen[x] do
-                local tile = iron_gen[x][y]
-                local neighbors_alive = 0
+        for x = 1, #ironGen do
+            for y = 1, #ironGen[x] do
+                local tile = ironGen[x][y]
+                local neighborsAlive = 0
                 for I = 0, 9 do
                     if I ~= 4 then
-                        offset_x = math.floor(I % 3) - 1
-                        offset_y = math.floor(I / 3) - 1
+                        offsetX = math.floor(I % 3) - 1
+                        offsetY = math.floor(I / 3) - 1
 
-                        if iron_gen[x + offset_x] and iron_gen[x + offset_x][y + offset_y] and
-                            iron_gen[x + offset_x][y + offset_y] then
-                            neighbors_alive = neighbors_alive + 1
+                        if ironGen[x + offsetX] and ironGen[x + offsetX][y + offsetY] and
+                            ironGen[x + offsetX][y + offsetY] then
+                            neighborsAlive = neighborsAlive + 1
                         end
                     end
                 end
 
-                if tile and neighbors_alive < 4 then
-                    iron_gen[x][y] = false
-                    total_iron = total_iron - 1
+                if tile and neighborsAlive < 4 then
+                    ironGen[x][y] = false
+                    totalIron = totalIron - 1
                 end
-                if not tile and neighbors_alive > 5 then
-                    iron_gen[x][y] = true
-                    total_iron = total_iron + 1
+                if not tile and neighborsAlive > 5 then
+                    ironGen[x][y] = true
+                    totalIron = totalIron + 1
                 end
             end
         end
 
-        iron_update_counter = iron_update_counter + 1
-    until (iron_update_counter == iron_update_limit)
-    print("Iron in map", total_iron)
-    return total_iron
+        ironUpdateCounter = ironUpdateCounter + 1
+    until (ironUpdateCounter == ironUpdateLimit)
+    print("Iron in map", totalIron)
+    return totalIron
 end
 
 local function genMap()
     genForest()
-    _G.stone_gen = {}
+    _G.stoneGen = {}
     local _ = genStone()
-    _G.iron_gen = {}
+    _G.ironGen = {}
     local _ = genIron()
-    for i = 0, _G.chunks_wide - 1 do
-        for o = 0, _G.chunks_high - 1 do -- usually both are 32 (jumper is set like that with magic numbers)
+    for i = 0, _G.chunksWide - 1 do
+        for o = 0, _G.chunksHigh - 1 do -- usually both are 32 (jumper is set like that with magic numbers)
             genTerrain(i, o)
             -- _G.status[i][o] = 2
         end
@@ -1129,10 +1126,10 @@ end
 
 local function allocateSpriteBatches()
     -- FIXME MAGIC NUMBERS
-    for i = 0, _G.chunks_wide do
-        for o = 0, _G.chunks_high do
-            if terrain_batch[i][o] == nil then
-                terrain_batch[i][o] = love.graphics.newSpriteBatch(terrain_image, chunk_width * chunk_height)
+    for i = 0, _G.chunksWide do
+        for o = 0, _G.chunksHigh do
+            if terrainBatch[i][o] == nil then
+                terrainBatch[i][o] = love.graphics.newSpriteBatch(terrainImage, chunkWidth * chunkHeight)
             end
         end
     end
@@ -1142,7 +1139,7 @@ local tableOfFunctions = {
     update = update,
     mousepressed = function()
     end,
-    batch = terrain_batch,
+    batch = terrainBatch,
     genTerrain = genTerrain,
     genMap = genMap,
     allocateSpriteBatches = allocateSpriteBatches

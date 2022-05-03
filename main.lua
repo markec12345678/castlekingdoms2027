@@ -1,31 +1,31 @@
-if _G.test_mode then
+if _G.testMode then
     require('libraries.love.love_graphics')
 end
 
 require('global')
 local Gamestate = require('libraries.gamestate')
 
-local main_menu = require('states.main_menu')
+local mainMenu = require('states.main_menu')
 local test = require('states.test')
 
 function love.load()
     Gamestate.registerEvents()
-    if _G.test_mode then
+    if _G.testMode then
         Gamestate.switch(test)
         return
     else
-        Gamestate.switch(main_menu)
+        Gamestate.switch(mainMenu)
     end
     local loader = require('libraries.lily')
     loader.newImage("assets/tiles/stronghold_assets_packed_v5.png"):onComplete(function(_, image)
-        _G.object_image = image
+        _G.objectAtlas = image
     end)
-    local cursor_img = love.image.newImageData("assets/ui/cursor.png")
-    local cursor = love.mouse.newCursor(cursor_img, 2, 2)
+    local cursorImg = love.image.newImageData("assets/ui/cursor.png")
+    local cursor = love.mouse.newCursor(cursorImg, 2, 2)
     love.mouse.setCursor(cursor)
     _G.fx = require("sounds.fx")
     require("sounds.fx_volume")
-    _G.speech_fx = require("sounds.speech")
+    _G.speechFx = require("sounds.speech")
 end
 
 function love.quit()
@@ -33,7 +33,7 @@ function love.quit()
 end
 
 local cnt = 0
-local previous_frame = 0
+local previousFrame = 0
 function love.run()
     if love.math then
         love.math.setRandomSeed(os.time())
@@ -47,9 +47,9 @@ function love.run()
         love.timer.step()
     end
     _G.dt = 0
-    local consecutive_large_dts = 0
+    local consecutiveLargeDts = 0
     -- Main loop time.
-    local next_time = 0
+    local nextTime = 0
 
     while true do
         -- Process events.
@@ -64,17 +64,17 @@ function love.run()
         end
 
         -- Update dt, as we'll be passing it to update
-        next_time = next_time + 1 / _G.MAX_FPS
+        nextTime = nextTime + 1 / _G.MAX_FPS
         if love.timer then
             love.timer.step()
             dt = love.timer.getDelta()
-            if dt > 0.5 and consecutive_large_dts < 3 then
+            if dt > 0.5 and consecutiveLargeDts < 3 then
                 -- We prefer the game to slow down on large short spikes
                 -- so the units don't teleport around
                 dt = 0.016
-                consecutive_large_dts = consecutive_large_dts + 1
+                consecutiveLargeDts = consecutiveLargeDts + 1
             elseif dt <= 0.5 then
-                consecutive_large_dts = 0
+                consecutiveLargeDts = 0
             end
         end
         if _G.paused then
@@ -82,12 +82,12 @@ function love.run()
         end
         cnt = cnt + 1
         if cnt == 10 then
-            _G.previous_frame_time = tonumber(math.floor(previous_frame / 10))
+            _G.previousFrameTime = tonumber(math.floor(previousFrame / 10))
             cnt = 0
-            previous_frame = 0
+            previousFrame = 0
         end
         -- Call update and draw
-        local start_time_FPS = love.timer.getTime()
+        local startTimeFPS = love.timer.getTime()
         prof.push("frame")
         prof.push("update")
         if love.update then
@@ -104,13 +104,13 @@ function love.run()
                 love.draw()
             end
         end
-        previous_frame = previous_frame + 1 / (love.timer.getTime() - start_time_FPS)
+        previousFrame = previousFrame + 1 / (love.timer.getTime() - startTimeFPS)
 
-        local cur_time = love.timer.getTime()
-        if next_time <= cur_time then
-            next_time = cur_time
+        local curTime = love.timer.getTime()
+        if nextTime <= curTime then
+            nextTime = curTime
         else
-            _G.manual_gc(next_time - cur_time, nil, true)
+            _G.manualGc(nextTime - curTime, nil, true)
         end
         love.graphics.present()
         prof.pop("draw")

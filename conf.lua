@@ -1,8 +1,8 @@
 function love.conf(t)
-    _G.test_mode = false
+    _G.testMode = false
     for ind, val in ipairs(_G.arg) do
         if val == "--test" then
-            _G.test_mode = true
+            _G.testMode = true
             table.remove(_G.arg, ind)
             break
         elseif val == "new" then
@@ -32,9 +32,9 @@ function love.conf(t)
     t.window.x = nil -- The x-coordinate of the window's position in the specified display (number)
     t.window.y = nil -- The y-coordinate of the window's position in the specified display (number)
 
-    t.modules.audio = not _G.test_mode -- Enable the audio module (boolean)
+    t.modules.audio = not _G.testMode -- Enable the audio module (boolean)
     t.modules.event = true -- Enable the event module (boolean)
-    t.modules.graphics = not _G.test_mode -- Enable the graphics module (boolean)
+    t.modules.graphics = not _G.testMode -- Enable the graphics module (boolean)
     t.modules.image = true -- Enable the image module (boolean)
     t.modules.joystick = false -- Enable the joystick module (boolean)
     t.modules.keyboard = true -- Enable the keyboard module (boolean)
@@ -46,6 +46,6 @@ function love.conf(t)
     t.modules.timer = true -- Enable the timer module (boolean), Disabling it will result 0 delta time in love.update
     t.modules.touch = true -- Enable the touch module (boolean)
     t.modules.video = false -- Enable the video module (boolean)
-    t.modules.window = not _G.test_mode -- Enable the window module (boolean)
+    t.modules.window = not _G.testMode -- Enable the window module (boolean)
     t.modules.thread = true -- Enable the thread module (boolean)
 end

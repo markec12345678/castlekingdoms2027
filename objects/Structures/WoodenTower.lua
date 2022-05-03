@@ -3,8 +3,8 @@ local tiles, quad_array = _G.indexBuildingQuads("wood_tower", false)
 
 local Structure = require("objects.Structure")
 
-local WoodenTower_alias = _G.class('WoodenTower_alias', Structure)
-function WoodenTower_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
+local WoodenTowerAlias = _G.class('WoodenTowerAlias', Structure)
+function WoodenTowerAlias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     local mytype = "Static structure"
     Structure.initialize(self, gx, gy, mytype)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
@@ -34,11 +34,11 @@ function WoodenTower:initialize(gx, gy, type)
     self.offset_y = -64
 
     for tile = 1, tiles do
-        WoodenTower_alias:new(quad_array[tile], self.gx, self.gy + (tiles - tile + 1), self,
+        WoodenTowerAlias:new(quad_array[tile], self.gx, self.gy + (tiles - tile + 1), self,
             -self.offset_y + 8 * (tiles - tile + 1))
     end
     for tile = 1, tiles do
-        WoodenTower_alias:new(quad_array[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offset_y + 8 * tile, 16)
+        WoodenTowerAlias:new(quad_array[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offset_y + 8 * tile, 16)
     end
 
     _G.terrainSetTileAt(self.gx, self.gy, _G.terrain_biome.dirt, _G.terrain_biome.abundant_grass)

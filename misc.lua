@@ -1,35 +1,35 @@
 local IsoX, IsoY = _G.IsoX, _G.IsoY
-local tile_width, tile_height = _G.tile_width, _G.tile_height
+local tileWidth, tileHeight = _G.tileWidth, _G.tileHeight
 
 function ScreenToIsoX(globalX, globalY)
-    return (((globalX - IsoX) / (tile_width / 2)) + ((globalY - IsoY) / (tile_height / 2))) / 2;
+    return (((globalX - IsoX) / (tileWidth / 2)) + ((globalY - IsoY) / (tileHeight / 2))) / 2;
 end
 
 function ScreenToIsoY(globalX, globalY)
-    return (((globalY - IsoY) / (tile_height / 2)) - ((globalX - IsoX) / (tile_width / 2))) / 2;
+    return (((globalY - IsoY) / (tileHeight / 2)) - ((globalX - IsoX) / (tileWidth / 2))) / 2;
 end
 
 function _G.IsoToScreenX(xx, yy)
-    return IsoX + ((xx - yy) * tile_width / 2);
+    return IsoX + ((xx - yy) * tileWidth / 2);
 end
 
 function _G.IsoToScreenY(xx, yy)
-    return IsoY + ((xx + yy) * tile_height / 2);
+    return IsoY + ((xx + yy) * tileHeight / 2);
 end
 
 function _G.ogIsoToScreenX(xx, yy)
-    return ((xx - yy) * tile_width / 2);
+    return ((xx - yy) * tileWidth / 2);
 end
 
 function _G.ogIsoToScreenY(xx, yy)
-    return ((xx + yy) * tile_height / 2);
+    return ((xx + yy) * tileHeight / 2);
 end
 
 function _G.getLocalCoordinatesFromGlobal(gx, gy)
-    local cx = math.floor(gx / _G.chunk_width)
-    local cy = math.floor(gy / _G.chunk_width)
-    local x = gx % _G.chunk_width
-    local y = gy % _G.chunk_width
+    local cx = math.floor(gx / _G.chunkWidth)
+    local cy = math.floor(gy / _G.chunkWidth)
+    local x = gx % _G.chunkWidth
+    local y = gy % _G.chunkWidth
     return cx, cy, x, y
 end
 
@@ -59,7 +59,7 @@ end
 
 local function getZFromZoom()
     local val = 1
-    local scale = _G.state.scale_x
+    local scale = _G.state.scaleX
     if scale < 1 then
         val = (1 - scale) * 50
     elseif scale > 1 then
@@ -71,120 +71,110 @@ end
 local function update()
     ---------------------------------------
     mx, my = love.mouse.getPosition();
-    mx = (mx - 16 - _G.ScreenWidth / 2) / _G.state.scale_x + _G.state.view_xview
-    my = (my - 8 - _G.ScreenHeight / 2) / _G.state.scale_x + _G.state.view_yview
+    mx = (mx - 16 - _G.ScreenWidth / 2) / _G.state.scaleX + _G.state.viewXview
+    my = (my - 8 - _G.ScreenHeight / 2) / _G.state.scaleX + _G.state.viewYview
     LocalX = math.round(ScreenToIsoX(mx, my))
     LocalY = math.round(ScreenToIsoY(mx, my))
-    CenterX = math.round(ScreenToIsoX(_G.state.view_xview, _G.state.view_yview))
-    CenterY = math.round(ScreenToIsoY(_G.state.view_xview, _G.state.view_yview))
+    CenterX = math.round(ScreenToIsoX(_G.state.viewXview, _G.state.viewYview))
+    CenterY = math.round(ScreenToIsoY(_G.state.viewXview, _G.state.viewYview))
 
     -- Used for culling animations
     local TX, TY = 0, 0
-    TX = (TX - _G.ScreenWidth / 2) / _G.state.scale_x + _G.state.view_xview - 16
-    TY = (TY - _G.ScreenHeight / 2) / _G.state.scale_x + _G.state.view_yview - 8
+    TX = (TX - _G.ScreenWidth / 2) / _G.state.scaleX + _G.state.viewXview - 16
+    TY = (TY - _G.ScreenHeight / 2) / _G.state.scaleX + _G.state.viewYview - 8
     _G.TopLeftX = TX
     _G.TopLeftY = TY
 
     local BX, BY = love.graphics.getWidth(), love.graphics.getHeight() + 100
-    BX = (BX - _G.ScreenWidth / 2) / _G.state.scale_x + _G.state.view_xview - 16
-    BY = (BY - _G.ScreenHeight / 2) / _G.state.scale_x + _G.state.view_yview - 8
+    BX = (BX - _G.ScreenWidth / 2) / _G.state.scaleX + _G.state.viewXview - 16
+    BY = (BY - _G.ScreenHeight / 2) / _G.state.scaleX + _G.state.viewYview - 8
     _G.BottomRightX = BX
     _G.BottomRightY = BY
 
     ---------------------------------------
-    _G.xchunk = math.floor(CenterX / (chunk_width));
-    _G.ychunk = math.floor(CenterY / (chunk_width));
+    _G.xchunk = math.floor(CenterX / (chunkWidth));
+    _G.ychunk = math.floor(CenterY / (chunkWidth));
     -- TODO: Make into a function
     local MX, MY = 0, 0
-    MX = (MX - _G.ScreenWidth / 2) / _G.state.scale_x + _G.state.view_xview - 16
-    MY = (MY - _G.ScreenHeight / 2) / _G.state.scale_x + _G.state.view_yview - 8
+    MX = (MX - _G.ScreenWidth / 2) / _G.state.scaleX + _G.state.viewXview - 16
+    MY = (MY - _G.ScreenHeight / 2) / _G.state.scaleX + _G.state.viewYview - 8
     local LocalX = math.round(ScreenToIsoX(MX, MY))
     local LocalY = math.round(ScreenToIsoY(MX, MY))
-    _G.state.top_left_chunk_x = math.floor(LocalX / chunk_width)
-    _G.state.top_left_chunk_y = math.floor(LocalY / chunk_width)
+    _G.state.topLeftChunkX = math.floor(LocalX / chunkWidth)
+    _G.state.topLeftChunkY = math.floor(LocalY / chunkWidth)
     MX, MY = love.graphics.getWidth(), love.graphics.getHeight()
-    MX = (MX - _G.ScreenWidth / 2) / _G.state.scale_x + _G.state.view_xview - 16
-    MY = (MY - _G.ScreenHeight / 2) / _G.state.scale_x + _G.state.view_yview - 8
+    MX = (MX - _G.ScreenWidth / 2) / _G.state.scaleX + _G.state.viewXview - 16
+    MY = (MY - _G.ScreenHeight / 2) / _G.state.scaleX + _G.state.viewYview - 8
     LocalX = math.round(ScreenToIsoX(MX, MY))
     LocalY = math.round(ScreenToIsoY(MX, MY))
-    _G.state.bottom_right_chunk_x = math.ceil(LocalX / chunk_width)
-    _G.state.bottom_right_chunk_y = math.ceil(LocalY / chunk_width)
+    _G.state.bottomRightChunkX = math.ceil(LocalX / chunkWidth)
+    _G.state.bottomRightChunkY = math.ceil(LocalY / chunkWidth)
     -- Right up to here ^
-    current_chunk_x = _G.xchunk;
-    current_chunk_y = _G.ychunk;
-    local final_scroll_speed = scroll_speed + ((1 - _G.state.scale_x) * 20)
-    if final_scroll_speed < 5 then
-        final_scroll_speed = 5
+    currentChunkX = _G.xchunk;
+    currentChunkY = _G.ychunk;
+    local finalScrollSpeed = scrollSpeed + ((1 - _G.state.scaleX) * 20)
+    if finalScrollSpeed < 5 then
+        finalScrollSpeed = 5
     end
     if not _G.paused then
         if love.keyboard.isDown("up") then
-            _G.state.view_yview = _G.state.view_yview - final_scroll_speed
-            love.audio.setPosition((_G.state.view_xview) / 100, (_G.state.view_yview) / 100, getZFromZoom())
+            _G.state.viewYview = _G.state.viewYview - finalScrollSpeed
+            love.audio.setPosition((_G.state.viewXview) / 100, (_G.state.viewYview) / 100, getZFromZoom())
         end
         if love.keyboard.isDown("down") then
-            _G.state.view_yview = _G.state.view_yview + final_scroll_speed
-            love.audio.setPosition((_G.state.view_xview) / 100, (_G.state.view_yview) / 100, getZFromZoom())
+            _G.state.viewYview = _G.state.viewYview + finalScrollSpeed
+            love.audio.setPosition((_G.state.viewXview) / 100, (_G.state.viewYview) / 100, getZFromZoom())
         end
         if love.keyboard.isDown("left") then
-            _G.state.view_xview = _G.state.view_xview - final_scroll_speed
-            love.audio.setPosition((_G.state.view_xview) / 100, (_G.state.view_yview) / 100, getZFromZoom())
+            _G.state.viewXview = _G.state.viewXview - finalScrollSpeed
+            love.audio.setPosition((_G.state.viewXview) / 100, (_G.state.viewYview) / 100, getZFromZoom())
         end
         if love.keyboard.isDown("right") then
-            _G.state.view_xview = _G.state.view_xview + final_scroll_speed
-            love.audio.setPosition((_G.state.view_xview) / 100, (_G.state.view_yview) / 100, getZFromZoom())
+            _G.state.viewXview = _G.state.viewXview + finalScrollSpeed
+            love.audio.setPosition((_G.state.viewXview) / 100, (_G.state.viewYview) / 100, getZFromZoom())
         end
     end
 end
 
-function manhattan_distance(x1, y1, x2, y2)
+function manhattanDistance(x1, y1, x2, y2)
     local dx = math.abs(x1 - x2)
     local dy = math.abs(y1 - y2)
     return (dx + dy)
 end
 
 local function scale(y)
-    if y > 0 and _G.state.scale_x < 4 then
-        _G.state.scale_x = _G.state.scale_x + 0.1;
-    elseif y < 0 and _G.state.scale_x > 0.3 then
-        _G.state.scale_x = _G.state.scale_x - 0.1;
+    if y > 0 and _G.state.scaleX < 4 then
+        _G.state.scaleX = _G.state.scaleX + 0.1;
+    elseif y < 0 and _G.state.scaleX > 0.3 then
+        _G.state.scaleX = _G.state.scaleX - 0.1;
     end
-    love.audio.setPosition((_G.state.view_xview) / 100, (_G.state.view_yview) / 100, getZFromZoom())
+    love.audio.setPosition((_G.state.viewXview) / 100, (_G.state.viewYview) / 100, getZFromZoom())
 end
 
 local function draw()
     local gx, gy = LocalX, LocalY
-    local prev_i = (gx - 1) % (chunk_width)
-    local prev_o = (gy + 1) % (chunk_width)
-    local prev_cx = math.floor((gx - 1) / chunk_width)
-    local prev_cy = math.floor((gy + 1) / chunk_width)
+    local prevI = (gx - 1) % (chunkWidth)
+    local prevO = (gy + 1) % (chunkWidth)
+    local prevCx = math.floor((gx - 1) / chunkWidth)
+    local prevCy = math.floor((gy + 1) / chunkWidth)
 
-    local prev_shadow, prev_height, prev_height_2, prev_tileheight = 0, 0, 0, 0
-    if _G.state.map.terrain[prev_cx] and _G.state.map.terrain[prev_cx][prev_cy] then
-        prev_height = _G.state.map.heightmap[prev_cx][prev_cy][prev_i][prev_o] or 0
-        prev_height_2 = 75 * prev_height / (40 + prev_height)
-        prev_shadow = _G.shadowmap[prev_cx][prev_cy][prev_i][prev_o] or 0
-        prev_tileheight = _G.buildingheightmap[prev_cx][prev_cy][prev_i][prev_o] or 0
+    local prevShadow, prevHeight, prevHeight_2, prevTileheight = 0, 0, 0, 0
+    if _G.state.map.terrain[prevCx] and _G.state.map.terrain[prevCx][prevCy] then
+        prevHeight = _G.state.map.heightmap[prevCx][prevCy][prevI][prevO] or 0
+        prevHeight_2 = 75 * prevHeight / (40 + prevHeight)
+        prevShadow = _G.shadowmap[prevCx][prevCy][prevI][prevO] or 0
+        prevTileheight = _G.buildingheightmap[prevCx][prevCy][prevI][prevO] or 0
     end
     mx, my = love.mouse.getPosition()
-    love.graphics.print("\n MX:" .. mx .. "\n MY:" .. my .. "\n GlobalX: " .. LocalX .. "\n GlobalY: " .. LocalY ..
-                            "\n LocalX: " .. ((LocalX) % chunk_width) .. "\n LocalY: " .. ((LocalY) % chunk_width) ..
-                            "\n Scale: " .. _G.state.scale_x .. "\n Shadow stuff:" .. prev_height .. " - " ..
-                            prev_height_2 .. " : " .. prev_shadow .. " - " .. prev_tileheight .. "\n Garbage (kB): " ..
-                            collectgarbage('count') .. "\n Center chunk: [" .. xchunk .. "][" .. ychunk .. "]" ..
-                            "\n Current FPS: " .. tostring(love.timer.getFPS()) .. "\n Max FPS: " ..
-                            tostring(previous_frame_time) .. "\n Wood: " .. tostring(_G.state.resources['wood']) ..
-                            "\n Stone: " .. tostring(_G.state.resources['stone']) .. "\n Iron: " ..
-                            tostring(_G.state.resources['iron']), 0, 0)
-end
-
-local function getBuildingSelection()
-    if building_selection == 374 or building_selection == 375 then
-        return "Small wooden castle"
-    elseif building_selection == 331 then
-        return "Granary"
-    elseif building_selection >= 398 and building_selection <= 401 then
-        return "Wooden wall"
-    end
+    -- love.graphics.print("\n MX:" .. mx .. "\n MY:" .. my .. "\n GlobalX: " .. LocalX .. "\n GlobalY: " .. LocalY ..
+    --                         "\n LocalX: " .. ((LocalX) % chunkWidth) .. "\n LocalY: " .. ((LocalY) % chunkWidth) ..
+    --                         "\n Scale: " .. _G.state.scaleX .. "\n Shadow stuff:" .. prevHeight .. " - " ..
+    --                         prevHeight_2 .. " : " .. prevShadow .. " - " .. prevTileheight .. "\n Garbage (kB): " ..
+    --                         collectgarbage('count') .. "\n Center chunk: [" .. xchunk .. "][" .. ychunk .. "]" ..
+    --                         "\n Current FPS: " .. tostring(love.timer.getFPS()) .. "\n Max FPS: " ..
+    --                         tostring(previousFrameTime) .. "\n Wood: " .. tostring(_G.state.resources['wood']) ..
+    --                         "\n Stone: " .. tostring(_G.state.resources['stone']) .. "\n Iron: " ..
+    --                         tostring(_G.state.resources['iron']), 0, 0)
 end
 
 local tableOfFunctions = {

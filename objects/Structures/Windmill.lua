@@ -1,261 +1,261 @@
-local active_entities, _, tile_quads, _ = ...
+local activeEntities, _, tileQuads, _ = ...
 
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
 
-local tiles, quad_array = _G.indexBuildingQuads("windmill_whole", nil, 2)
+local tiles, quadArray = _G.indexBuildingQuads("windmill_whole", nil, 2)
 
-local fr_windmill_fan = _G.indexQuads("anim_windmill_fan", 15)
-local fr_anim_windmill_outside = _G.indexQuads("anim_windmill_outside", 15)
-local fr_anim_windmill_inside = _G.indexQuads("anim_windmill_inside", 15)
-local fr_anim_windmill_filling = _G.indexQuads("anim_windmill_filling", 30)
+local frWindmillFan = _G.indexQuads("anim_windmill_fan", 15)
+local frAnimWindmillOutside = _G.indexQuads("anim_windmill_outside", 15)
+local frAnimWindmillInside = _G.indexQuads("anim_windmill_inside", 15)
+local frAnimWindmillFilling = _G.indexQuads("anim_windmill_filling", 30)
 
 local ANIM_WINDMILL_FAN = "anim_windmill_fan"
 local ANIM_WINDMILL_OUTSIDE = "anim_windmill_outside"
 local ANIM_WINDMILL_INSIDE = "anim_windmill_inside"
 local ANIM_WINDMILL_FILLING = "anim_windmill_filling"
 
-local temp_anim = {_G.unpack(fr_windmill_fan)}
+local tempAnim = {_G.unpack(frWindmillFan)}
 for _ = 1, 2 do
-    for _, v in ipairs(temp_anim) do
-        table.insert(fr_windmill_fan, v)
+    for _, v in ipairs(tempAnim) do
+        table.insert(frWindmillFan, v)
     end
 end
-temp_anim = {_G.unpack(fr_anim_windmill_outside)}
+tempAnim = {_G.unpack(frAnimWindmillOutside)}
 for _ = 1, 2 do
-    for _, v in ipairs(temp_anim) do
-        table.insert(fr_anim_windmill_outside, v)
+    for _, v in ipairs(tempAnim) do
+        table.insert(frAnimWindmillOutside, v)
     end
 end
-temp_anim = {_G.unpack(fr_anim_windmill_inside)}
+tempAnim = {_G.unpack(frAnimWindmillInside)}
 for _ = 1, 2 do
-    for _, v in ipairs(temp_anim) do
-        table.insert(fr_anim_windmill_inside, v)
+    for _, v in ipairs(tempAnim) do
+        table.insert(frAnimWindmillInside, v)
     end
 end
 
 local an = {
-    [ANIM_WINDMILL_FAN] = fr_windmill_fan,
-    [ANIM_WINDMILL_OUTSIDE] = fr_anim_windmill_outside,
-    [ANIM_WINDMILL_INSIDE] = fr_anim_windmill_inside,
-    [ANIM_WINDMILL_FILLING] = fr_anim_windmill_filling
+    [ANIM_WINDMILL_FAN] = frWindmillFan,
+    [ANIM_WINDMILL_OUTSIDE] = frAnimWindmillOutside,
+    [ANIM_WINDMILL_INSIDE] = frAnimWindmillInside,
+    [ANIM_WINDMILL_FILLING] = frAnimWindmillFilling
 }
 
-local Windmill_blade = _G.class('Windmill_blade', Structure)
-function Windmill_blade:initialize(gx, gy, parent)
+local WindmillBlade = _G.class('WindmillBlade', Structure)
+function WindmillBlade:initialize(gx, gy, parent)
     Structure.initialize(self, gx, gy, "Windmill blade")
-    self.tile = tile_quads["empty"]
+    self.tile = tileQuads["empty"]
     self.animated = true
     self.animation = anim.newAnimation(an[ANIM_WINDMILL_FAN], 0.11, nil, ANIM_WINDMILL_FAN)
     self.parent = parent
-    self.offset_x = -60
-    self.offset_y = -274
+    self.offsetX = -60
+    self.offsetY = -274
 
-    table.insert(active_entities, self)
+    table.insert(activeEntities, self)
 end
-function Windmill_blade:serialize()
+function WindmillBlade:serialize()
     local data = {}
-    local struct_data = Structure.serialize(self)
-    for k, v in pairs(struct_data) do
+    local structData = Structure.serialize(self)
+    for k, v in pairs(structData) do
         if type(v) ~= "function" and type(v) ~= "userdata" then
             data[k] = v
         end
     end
     data.animation = self.animation:serialize()
     data.animated = self.animated
-    data.offset_x = self.offset_x
-    data.offset_y = self.offset_y
+    data.offsetX = self.offsetX
+    data.offsetY = self.offsetY
     return data
 end
-function Windmill_blade.static:deserialize(data)
+function WindmillBlade.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
     Structure.load(obj, data)
-    local an_data = data.animation
-    obj.animation = _G.anim.newAnimation(an[an_data.animation_identifier], 1, nil, an_data.animation_identifier)
-    obj.animation:deserialize(an_data)
-    table.insert(active_entities, obj)
+    local anData = data.animation
+    obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, nil, anData.animationIdentifier)
+    obj.animation:deserialize(anData)
+    table.insert(activeEntities, obj)
     return obj
 end
-function Windmill_blade:animate(dt)
+function WindmillBlade:animate(dt)
     Structure.animate(self, dt, true)
 end
-function Windmill_blade:activate()
+function WindmillBlade:activate()
     self.animation:resume()
 end
-function Windmill_blade:deactivate()
+function WindmillBlade:deactivate()
     self.animation:pause()
 end
 
-local Windmill_filling = _G.class('Windmill_filling', Structure)
-function Windmill_filling:initialize(gx, gy, parent)
+local WindmillFilling = _G.class('WindmillFilling', Structure)
+function WindmillFilling:initialize(gx, gy, parent)
     Structure.initialize(self, gx, gy, "Windmill filling animation")
-    self.tile = tile_quads["empty"]
+    self.tile = tileQuads["empty"]
     self.animated = false
     self.animation = anim.newAnimation(an[ANIM_WINDMILL_FILLING], 0.11, function()
-        self:filling_callback()
+        self:fillingCallback()
     end, ANIM_WINDMILL_FILLING)
     self.animation:pause()
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
-    self.offset_x = -62
-    self.offset_y = -201
+    self.offsetX = -62
+    self.offsetY = -201
 
-    table.insert(active_entities, self)
+    table.insert(activeEntities, self)
 end
-function Windmill_filling:filling_callback()
-    self.parent.blade_shadow:show_outside()
-    self.parent:send_to_stockpile()
+function WindmillFilling:fillingCallback()
+    self.parent.bladeShadow:showOutside()
+    self.parent:sendToStockpile()
     self:deactivate()
 end
-function Windmill_filling:animate(dt)
+function WindmillFilling:animate(dt)
     Structure.animate(self, dt, true)
 end
-function Windmill_filling:activate()
+function WindmillFilling:activate()
     self.animated = true
-    self.parent.blade_shadow:show_inside()
+    self.parent.bladeShadow:showInside()
     self.animation:gotoFrame(1)
     self.animation:resume()
     self:animate(_G.dt)
 end
-function Windmill_filling:deactivate()
+function WindmillFilling:deactivate()
     self.animation:pause()
-    self.tile = tile_quads["empty"]
+    self.tile = tileQuads["empty"]
     if self.instancemesh then
-        _G.freeVertexFromTile(self.cx, self.cy, self.vert_id)
+        _G.freeVertexFromTile(self.cx, self.cy, self.vertId)
         self.instancemesh = nil
     end
     self.animated = false
 end
-function Windmill_filling:serialize()
+function WindmillFilling:serialize()
     local data = {}
-    local struct_data = Structure.serialize(self)
-    for k, v in pairs(struct_data) do
+    local structData = Structure.serialize(self)
+    for k, v in pairs(structData) do
         if type(v) ~= "function" and type(v) ~= "userdata" then
             data[k] = v
         end
     end
     data.animation = self.animation:serialize()
     data.animated = self.animated
-    data.offset_x = self.offset_x
-    data.offset_y = self.offset_y
+    data.offsetX = self.offsetX
+    data.offsetY = self.offsetY
     return data
 end
-function Windmill_filling.static:deserialize(data)
+function WindmillFilling.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
     Structure.load(obj, data)
-    local an_data = data.animation
+    local anData = data.animation
     local callback
-    if an_data.animation_identifier == ANIM_WINDMILL_FILLING then
+    if anData.animationIdentifier == ANIM_WINDMILL_FILLING then
         callback = function()
-            obj:filling_callback()
+            obj:fillingCallback()
         end
     end
-    obj.animation = _G.anim.newAnimation(an[an_data.animation_identifier], 1, callback, an_data.animation_identifier)
-    obj.animation:deserialize(an_data)
-    table.insert(active_entities, obj)
+    obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
+    obj.animation:deserialize(anData)
+    table.insert(activeEntities, obj)
     return obj
 end
 
-local Windmill_shadow = _G.class('Windmill_shadow', Structure)
-function Windmill_shadow:initialize(gx, gy, parent)
+local WindmillShadow = _G.class('WindmillShadow', Structure)
+function WindmillShadow:initialize(gx, gy, parent)
     Structure.initialize(self, gx, gy, "Windmill shadow")
-    self.tile = tile_quads["empty"]
+    self.tile = tileQuads["empty"]
     self.animated = true
     self.animation = anim.newAnimation(an[ANIM_WINDMILL_OUTSIDE], 0.11, nil, ANIM_WINDMILL_OUTSIDE)
     self.parent = parent
-    self.offset_x = -46
-    self.offset_y = -243
+    self.offsetX = -46
+    self.offsetY = -243
 
-    table.insert(active_entities, self)
+    table.insert(activeEntities, self)
 end
-function Windmill_shadow:serialize()
+function WindmillShadow:serialize()
     local data = {}
-    local struct_data = Structure.serialize(self)
-    for k, v in pairs(struct_data) do
+    local structData = Structure.serialize(self)
+    for k, v in pairs(structData) do
         if type(v) ~= "function" and type(v) ~= "userdata" then
             data[k] = v
         end
     end
     data.animation = self.animation:serialize()
     data.animated = self.animated
-    data.offset_x = self.offset_x
-    data.offset_y = self.offset_y
+    data.offsetX = self.offsetX
+    data.offsetY = self.offsetY
     return data
 end
-function Windmill_shadow.static:deserialize(data)
+function WindmillShadow.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
     Structure.load(obj, data)
-    local an_data = data.animation
-    obj.animation = _G.anim.newAnimation(an[an_data.animation_identifier], 1, nil, an_data.animation_identifier)
-    obj.animation:deserialize(an_data)
-    table.insert(active_entities, obj)
+    local anData = data.animation
+    obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, nil, anData.animationIdentifier)
+    obj.animation:deserialize(anData)
+    table.insert(activeEntities, obj)
     return obj
 end
-function Windmill_shadow:animate(dt)
+function WindmillShadow:animate(dt)
     Structure.animate(self, dt, true)
 end
-function Windmill_shadow:activate()
+function WindmillShadow:activate()
     self.animation:resume()
 end
-function Windmill_shadow:show_inside()
+function WindmillShadow:showInside()
     local frame = self.animation.position
     self.animation = anim.newAnimation(an[ANIM_WINDMILL_INSIDE], 0.11, nil, ANIM_WINDMILL_INSIDE)
     self.animation:gotoFrame(frame)
 end
-function Windmill_shadow:show_outside()
+function WindmillShadow:showOutside()
     local frame = self.animation.position
     self.animation = anim.newAnimation(an[ANIM_WINDMILL_OUTSIDE], 0.11, nil, ANIM_WINDMILL_OUTSIDE)
     self.animation:gotoFrame(frame)
     self:animate()
 end
-function Windmill_shadow:deactivate()
+function WindmillShadow:deactivate()
     self.animation:pause()
 end
 
-local Windmill_alias = _G.class('Windmill_alias', Structure)
-function Windmill_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
+local WindmillAlias = _G.class('WindmillAlias', Structure)
+function WindmillAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     Structure.initialize(self, gx, gy, "Windmill alias")
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.tile = tile
-    self.base_offset_y = offset_y or 0
-    self.additional_offset_y = 0
-    self.offset_x = offset_x or 0
-    self.offset_y = self.additional_offset_y - self.base_offset_y
-    for k, v in ipairs(_G.stockpile.node_list) do
+    self.baseOffsetY = offsetY or 0
+    self.additionalOffsetY = 0
+    self.offsetX = offsetX or 0
+    self.offsetY = self.additionalOffsetY - self.baseOffsetY
+    for k, v in ipairs(_G.stockpile.nodeList) do
         if v.gx == self.gx and v.gy == self.gy then
-            table.remove(_G.stockpile.node_list, k)
+            table.remove(_G.stockpile.nodeList, k)
             break
         end
     end
     Structure.render(self)
 end
-function Windmill_alias:serialize()
+function WindmillAlias:serialize()
     local data = {}
-    local struct_data = Structure.serialize(self)
-    for k, v in pairs(struct_data) do
+    local structData = Structure.serialize(self)
+    for k, v in pairs(structData) do
         if type(v) ~= "function" and type(v) ~= "userdata" then
             data[k] = v
         end
     end
-    data.tile_key = self.tile_key
-    data.base_offset_y = self.base_offset_y
-    data.additional_offset_y = self.additional_offset_y
-    data.offset_x = self.offset_x
-    data.offset_y = self.offset_y
+    data.tileKey = self.tileKey
+    data.baseOffsetY = self.baseOffsetY
+    data.additionalOffsetY = self.additionalOffsetY
+    data.offsetX = self.offsetX
+    data.offsetY = self.offsetY
     return data
 end
-function Windmill_alias.static:deserialize(data)
+function WindmillAlias.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
     Structure.load(obj, data)
-    if data.tile_key then
-        obj.tile = quad_array[data.tile_key]
-        obj.tile_key = data.tile_key
+    if data.tileKey then
+        obj.tile = quadArray[data.tileKey]
+        obj.tileKey = data.tileKey
         obj:render()
     end
     return obj
@@ -273,52 +273,52 @@ function Windmill:initialize(gx, gy, type)
     Structure.initialize(self, gx, gy, type)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 400
-    self.tile = quad_array[tiles + 1]
+    self.tile = quadArray[tiles + 1]
     self.working = false
     self.unloading = false
-    self.offset_x = 0
+    self.offsetX = 0
     local _, _, _, lh = self.tile:getViewport()
-    self.offset_y = 48 - lh
+    self.offsetY = 48 - lh
 
     self.wheat = 0
-    self.free_spots = 3
+    self.freeSpots = 3
     self.worker = nil
     self.worker2 = nil
     self.worker3 = nil
-    self.worker_delivered = false
-    self.worker2_delivered = false
-    self.worker3_delivered = false
+    self.workerDelivered = false
+    self.worker2Delivered = false
+    self.worker3Delivered = false
 
-    self.blade = Windmill_blade:new(self.gx, self.gy + 2, self)
-    self.blade_shadow = Windmill_shadow:new(self.gx, self.gy + 2, self)
-    self.filling_flour = Windmill_filling:new(self.gx + 1, self.gy + 2, self)
+    self.blade = WindmillBlade:new(self.gx, self.gy + 2, self)
+    self.bladeShadow = WindmillShadow:new(self.gx, self.gy + 2, self)
+    self.fillingFlour = WindmillFilling:new(self.gx + 1, self.gy + 2, self)
 
     Structure:applyBuildingHeightMap(gx, gy, Windmill.WIDTH, Windmill.LENGTH, Windmill.HEIGHT)
 
     for xx = -2, 4 do
         for yy = -2, 4 do
-            _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.dirt, _G.terrain_biome.abundant_grass)
+            _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrainBiome.dirt, _G.terrainBiome.abundantGrass)
         end
     end
     for xx = -1, 3 do
         for yy = -1, 3 do
-            _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.scarce_grass)
+            _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrainBiome.scarceGrass)
         end
     end
     for xx = 0, 2 do
         for yy = 0, 2 do
-            _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.none)
+            _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrainBiome.none)
         end
     end
     for tile = 1, tiles do
-        local wnd = Windmill_alias:new(quad_array[tile], self.gx, self.gy + (tiles - tile + 1), self,
-            -self.offset_y + 8 * (tiles - tile + 1))
-        wnd.tile_key = tile
+        local wnd = WindmillAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
+            -self.offsetY + 8 * (tiles - tile + 1))
+        wnd.tileKey = tile
     end
     for tile = 1, tiles do
-        local wnd = Windmill_alias:new(quad_array[tiles + 1 + tile], self.gx + tile, self.gy, self,
-            -self.offset_y + 8 * tile, 16)
-        wnd.tile_key = tiles + 1 + tile
+        local wnd = WindmillAlias:new(quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self,
+            -self.offsetY + 8 * tile, 16)
+        wnd.tileKey = tiles + 1 + tile
     end
 
     _G.state.map:setWalkable(self.gx + 2, self.gy + 2, false)
@@ -330,10 +330,10 @@ function Windmill:load(data)
     self.health = data.health
     self.working = data.working
     self.unloading = data.unloading
-    self.offset_x = data.offset_x
-    self.offset_y = data.offset_y
+    self.offsetX = data.offsetX
+    self.offsetY = data.offsetY
     self.wheat = data.wheat
-    self.free_spots = data.free_spots
+    self.freeSpots = data.freeSpots
     if data.worker then
         self.worker = _G.state:dereferenceObject(data.worker)
         self.worker.workplace = self
@@ -346,22 +346,22 @@ function Windmill:load(data)
         self.worker3 = _G.state:dereferenceObject(data.worker3)
         self.worker3.workplace = self
     end
-    self.worker_delivered = data.worker_delivered
-    self.worker2_delivered = data.worker2_delivered
-    self.worker3_delivered = data.worker3_delivered
+    self.workerDelivered = data.workerDelivered
+    self.worker2Delivered = data.worker2Delivered
+    self.worker3Delivered = data.worker3Delivered
     self.blade = _G.state:dereferenceObject(data.blade)
     self.blade.parent = self
-    self.blade_shadow = _G.state:dereferenceObject(data.blade_shadow)
-    self.blade_shadow.parent = self
-    self.filling_flour = _G.state:dereferenceObject(data.filling_flour)
-    self.filling_flour.parent = self
-    self.tile = quad_array[tiles + 1]
+    self.bladeShadow = _G.state:dereferenceObject(data.bladeShadow)
+    self.bladeShadow.parent = self
+    self.fillingFlour = _G.state:dereferenceObject(data.fillingFlour)
+    self.fillingFlour.parent = self
+    self.tile = quadArray[tiles + 1]
     Structure.render(self)
 end
 function Windmill:serialize()
     local data = {}
-    local struct_data = Structure.serialize(self)
-    for k, v in pairs(struct_data) do
+    local structData = Structure.serialize(self)
+    for k, v in pairs(structData) do
         if type(v) ~= "function" and type(v) ~= "userdata" then
             data[k] = v
         end
@@ -369,10 +369,10 @@ function Windmill:serialize()
     data.health = self.health
     data.working = self.working
     data.unloading = self.unloading
-    data.offset_x = self.offset_x
-    data.offset_y = self.offset_y
+    data.offsetX = self.offsetX
+    data.offsetY = self.offsetY
     data.wheat = self.wheat
-    data.free_spots = self.free_spots
+    data.freeSpots = self.freeSpots
     if self.worker then
         data.worker = _G.state:serializeObject(self.worker)
     end
@@ -382,12 +382,12 @@ function Windmill:serialize()
     if self.worker3 then
         data.worker3 = _G.state:serializeObject(self.worker3)
     end
-    data.worker_delivered = self.worker_delivered
-    data.worker2_delivered = self.worker2_delivered
-    data.worker3_delivered = self.worker3_delivered
+    data.workerDelivered = self.workerDelivered
+    data.worker2Delivered = self.worker2Delivered
+    data.worker3Delivered = self.worker3Delivered
     data.blade = _G.state:serializeObject(self.blade)
-    data.blade_shadow = _G.state:serializeObject(self.blade_shadow)
-    data.filling_flour = _G.state:serializeObject(self.filling_flour)
+    data.bladeShadow = _G.state:serializeObject(self.bladeShadow)
+    data.fillingFlour = _G.state:serializeObject(self.fillingFlour)
     return data
 end
 function Windmill.static:deserialize(data)
@@ -396,18 +396,18 @@ function Windmill.static:deserialize(data)
     return obj
 end
 function Windmill:join(worker)
-    if self.free_spots == 3 then
+    if self.freeSpots == 3 then
         self.worker = worker
         self.worker.workplace = self
-        self.free_spots = self.free_spots - 1
-    elseif self.free_spots == 2 then
+        self.freeSpots = self.freeSpots - 1
+    elseif self.freeSpots == 2 then
         self.worker2 = worker
         self.worker2.workplace = self
-        self.free_spots = self.free_spots - 1
-    elseif self.free_spots == 1 then
+        self.freeSpots = self.freeSpots - 1
+    elseif self.freeSpots == 1 then
         self.worker3 = worker
         self.worker3.workplace = self
-        self.free_spots = self.free_spots - 1
+        self.freeSpots = self.freeSpots - 1
     end
 end
 function Windmill:work(worker)
@@ -422,16 +422,16 @@ function Windmill:work(worker)
                     if not self.working then
                         worker.state = "Working"
                         self.working = true
-                        worker.tile = tile_quads["empty"]
+                        worker.tile = tileQuads["empty"]
                         worker.animated = false
                         worker.gx = self.gx + 1
                         worker.gy = self.gy + 2
-                        worker:clear_path()
-                        worker:job_update()
-                        self.filling_flour:activate()
+                        worker:clearPath()
+                        worker:jobUpdate()
+                        self.fillingFlour:activate()
                         self.wheat = self.wheat - 3
-                        self.blade_shadow:show_inside()
-                        self.worker2_delivered, self.worker3_delivered = false, false
+                        self.bladeShadow:showInside()
+                        self.worker2Delivered, self.worker3Delivered = false, false
                         -- else
                         --     self.worker.state = "Waiting for work"
                     end
@@ -446,48 +446,48 @@ function Windmill:work(worker)
         if worker == self.worker and self.wheat == 3 then
             worker.state = "Working"
             self.working = true
-            worker.tile = tile_quads["empty"]
+            worker.tile = tileQuads["empty"]
             worker.animated = false
             worker.gx = self.gx + 1
             worker.gy = self.gy + 2
-            worker:clear_path()
-            worker:job_update()
+            worker:clearPath()
+            worker:jobUpdate()
             self.wheat = self.wheat - 3
-            self.worker2_delivered, self.worker3_delivered = false, false
-            self.filling_flour:activate()
-            self.blade_shadow:show_inside()
+            self.worker2Delivered, self.worker3Delivered = false, false
+            self.fillingFlour:activate()
+            self.bladeShadow:showInside()
         else
             if worker == self.worker3 and self.wheat < 4 then
                 worker.state = "Go to stockpile for wheat"
-                worker:clear_path()
+                worker:clearPath()
             end
             if worker == self.worker2 and self.wheat < 4 then
                 worker.state = "Go to stockpile for wheat"
-                worker:clear_path()
+                worker:clearPath()
             end
-            if worker == self.worker and not self.worker_delivered then
+            if worker == self.worker and not self.workerDelivered then
                 if self.wheat >= 3 then
                     worker.state = "Working"
                     self.working = true
-                    worker.tile = tile_quads["empty"]
+                    worker.tile = tileQuads["empty"]
                     worker.animated = false
                     worker.gx = self.gx + 1
                     worker.gy = self.gy + 2
-                    worker:clear_path()
-                    worker:job_update()
+                    worker:clearPath()
+                    worker:jobUpdate()
                     self.wheat = self.wheat - 3
-                    self.worker2_delivered, self.worker3_delivered = false, false
-                    self.filling_flour:activate()
-                    self.blade_shadow:show_inside()
-                elseif not self.worker_delivered then
+                    self.worker2Delivered, self.worker3Delivered = false, false
+                    self.fillingFlour:activate()
+                    self.bladeShadow:showInside()
+                elseif not self.workerDelivered then
                     worker.state = "Go to stockpile for wheat"
-                    worker:clear_path()
+                    worker:clearPath()
                 end
             end
         end
     end
 end
-function Windmill:send_to_stockpile()
+function Windmill:sendToStockpile()
     local i, o, cx, cy
     self.worker.state = "Go to stockpile"
     self.worker.animated = true
@@ -495,13 +495,13 @@ function Windmill:send_to_stockpile()
     self.worker.gy = self.gy + 4
     self.worker.fx = (self.gx + 1) * 1000 + 500
     self.worker.fy = (self.gy + 4) * 1000 + 500
-    i = (self.worker.gx) % (_G.chunk_width)
-    o = (self.worker.gy) % (_G.chunk_width)
-    cx = math.floor(self.worker.gx / _G.chunk_width)
-    cy = math.floor(self.worker.gy / _G.chunk_width)
+    i = (self.worker.gx) % (_G.chunkWidth)
+    o = (self.worker.gy) % (_G.chunkWidth)
+    cx = math.floor(self.worker.gx / _G.chunkWidth)
+    cy = math.floor(self.worker.gy / _G.chunkWidth)
     _G.addObjectAt(cx, cy, i, o, self.worker)
     self.working = false
-    self.worker_delivered = false
+    self.workerDelivered = false
 end
 
 return Windmill

@@ -1,60 +1,60 @@
-local el, back_btn = ...
+local el, backButton = ...
 
 local states = require('states.ui.states')
 local ActionBarButton = require('states.ui.ActionBarButton')
-local action_bar = require('states.ui.ActionBar')
+local ActionBar = require('states.ui.ActionBar')
 
-local stockpile_btn = ActionBarButton:new(love.graphics.newImage('assets/ui/stockpile_ab.png'),
+local stockpileButton = ActionBarButton:new(love.graphics.newImage('assets/ui/stockpile_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 1, true)
 
-stockpile_btn:set_on_click(function(self)
+stockpileButton:setOnClick(function(self)
     _G.BuildController:set("stockpile", function()
-        stockpile_btn:unselect()
+        stockpileButton:unselect()
     end)
-    action_bar:select_button(stockpile_btn)
+    ActionBar:selectButton(stockpileButton)
 end)
-stockpile_btn:set_tooltip("Stockpile",
+stockpileButton:setTooltip("Stockpile",
     "Requires 4 Stone\nIncreases resource capacity\nMust be placed adjacent to a stockpile")
 
-local woodcutter_btn = ActionBarButton:new(love.graphics.newImage('assets/ui/woodcutter_hut_ab.png'),
+local woodcutterButton = ActionBarButton:new(love.graphics.newImage('assets/ui/woodcutter_hut_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 2, true)
 
-woodcutter_btn:set_on_click(function(self)
+woodcutterButton:setOnClick(function(self)
     _G.BuildController:set("woodcutter_hut", function()
-        woodcutter_btn:unselect()
+        woodcutterButton:unselect()
     end)
-    action_bar:select_button(woodcutter_btn)
+    ActionBar:selectButton(woodcutterButton)
 end)
-woodcutter_btn:set_tooltip("Woodcutter's Hut", "Requires 3 Wood\nCuts down nearby trees to produce wood")
+woodcutterButton:setTooltip("Woodcutter's Hut", "Requires 3 Wood\nCuts down nearby trees to produce wood")
 
-local quarry_btn = ActionBarButton:new(love.graphics.newImage('assets/ui/quarry_ab.png'),
+local quarryButton = ActionBarButton:new(love.graphics.newImage('assets/ui/quarry_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 3, true)
 
-quarry_btn:set_on_click(function(self)
+quarryButton:setOnClick(function(self)
     _G.BuildController:set("quarry", function()
-        quarry_btn:unselect()
+        quarryButton:unselect()
     end)
-    action_bar:select_button(quarry_btn)
+    ActionBar:selectButton(quarryButton)
 end)
-quarry_btn:set_tooltip("Quarry", "Requires 24 Wood\nProduces stone blocks from the ground resource")
+quarryButton:setTooltip("Quarry", "Requires 24 Wood\nProduces stone blocks from the ground resource")
 
-local ox_btn = ActionBarButton:new(love.graphics.newImage('assets/ui/ox_ab.png'), states.STATE_INGAME_CONSTRUCTION, 4,
+local oxButton = ActionBarButton:new(love.graphics.newImage('assets/ui/ox_ab.png'), states.STATE_INGAME_CONSTRUCTION, 4,
     true, nil, true)
-ox_btn:set_tooltip("Ox", "Not implemented yet")
+oxButton:setTooltip("Ox", "Not implemented yet")
 
-local iron_mine = ActionBarButton:new(love.graphics.newImage('assets/ui/iron_mine_ab.png'),
+local ironMine = ActionBarButton:new(love.graphics.newImage('assets/ui/iron_mine_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 5, true)
 
-iron_mine:set_on_click(function(self)
+ironMine:setOnClick(function(self)
     _G.BuildController:set("iron_mine", function()
-        iron_mine:unselect()
+        ironMine:unselect()
     end)
-    action_bar:select_button(iron_mine)
+    ActionBar:selectButton(ironMine)
 end)
-iron_mine:set_tooltip("Iron Mine", "Requires 10 Wood, 10 Stone\nProduces iron ingots from ground iron ore")
+ironMine:setTooltip("Iron Mine", "Requires 10 Wood, 10 Stone\nProduces iron ingots from ground iron ore")
 
-el.buttons.hammer_btn:set_on_click(function(self)
-    action_bar:show_group("resource")
+el.buttons.hammerButton:setOnClick(function(self)
+    ActionBar:showGroup("resource")
 end)
 
-action_bar:register_group("resource", {stockpile_btn, woodcutter_btn, quarry_btn, ox_btn, iron_mine, back_btn})
+ActionBar:registerGroup("resource", {stockpileButton, woodcutterButton, quarryButton, oxButton, ironMine, backButton})

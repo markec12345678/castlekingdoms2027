@@ -89,26 +89,26 @@ local Miller = _G.class('Miller', Unit)
 function Miller:initialize(gx, gy, type)
     Unit.initialize(self, gx, gy, type)
     self.state = 'Find a job'
-    self.eat_timer = 0
-    self.wait_timer = 0
-    self.offset_y = -10
-    self.offset_x = -5
+    self.eatTimer = 0
+    self.waitTimer = 0
+    self.offsetY = -10
+    self.offsetX = -5
     self.count = 1
     self.animation = anim.newAnimation(an[ANIM_WALKING_WEST], 10, nil, ANIM_WALKING_WEST)
 end
 function Miller:load(data)
     Object.deserialize(self, data)
     Unit.load(self, data)
-    local an_data = data.animation
-    if an_data then
-        self.animation = anim.newAnimation(an[an_data.animation_identifier], 1, nil, an_data.animation_identifier)
-        self.animation:deserialize(an_data)
+    local anData = data.animation
+    if anData then
+        self.animation = anim.newAnimation(an[anData.animationIdentifier], 1, nil, anData.animationIdentifier)
+        self.animation:deserialize(anData)
     end
 end
 function Miller:serialize()
     local data = {}
-    local unit_data = Unit.serialize(self)
-    for k, v in pairs(unit_data) do
+    local unitData = Unit.serialize(self)
+    for k, v in pairs(unitData) do
         if type(v) ~= "function" and type(v) ~= "userdata" then
             data[k] = v
         end
@@ -117,16 +117,16 @@ function Miller:serialize()
         data.animation = self.animation:serialize()
     end
     data.state = self.state
-    data.eat_timer = self.eat_timer
-    data.wait_timer = self.wait_timer
-    data.offset_y = self.offset_y
-    data.offset_x = self.offset_x
+    data.eatTimer = self.eatTimer
+    data.waitTimer = self.waitTimer
+    data.offsetY = self.offsetY
+    data.offsetX = self.offsetX
     data.count = self.count
     return data
 end
 
-function Miller:dir_sub_update()
-    if self.move_dir == "west" then
+function Miller:dirSubUpdate()
+    if self.moveDir == "west" then
         if self.state == "Going to stockpile" then
             self.animation = anim.newAnimation(an[ANIM_WALKING_FLOUR_WEST], 0.05, nil, ANIM_WALKING_FLOUR_WEST)
         elseif self.state == "Going to workplace with wheat" then
@@ -134,7 +134,7 @@ function Miller:dir_sub_update()
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_WEST], 0.05, nil, ANIM_WALKING_WEST)
         end
-    elseif self.move_dir == "southwest" then
+    elseif self.moveDir == "southwest" then
         if self.state == "Going to stockpile" then
             self.animation =
                 anim.newAnimation(an[ANIM_WALKING_FLOUR_SOUTHWEST], 0.05, nil, ANIM_WALKING_FLOUR_SOUTHWEST)
@@ -144,7 +144,7 @@ function Miller:dir_sub_update()
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_SOUTHWEST], 0.05, nil, ANIM_WALKING_SOUTHWEST)
         end
-    elseif self.move_dir == "northwest" then
+    elseif self.moveDir == "northwest" then
         if self.state == "Going to stockpile" then
             self.animation =
                 anim.newAnimation(an[ANIM_WALKING_FLOUR_NORTHWEST], 0.05, nil, ANIM_WALKING_FLOUR_NORTHWEST)
@@ -154,7 +154,7 @@ function Miller:dir_sub_update()
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_NORTHWEST], 0.05, nil, ANIM_WALKING_NORTHWEST)
         end
-    elseif self.move_dir == "north" then
+    elseif self.moveDir == "north" then
         if self.state == "Going to stockpile" then
             self.animation = anim.newAnimation(an[ANIM_WALKING_FLOUR_NORTH], 0.05, nil, ANIM_WALKING_FLOUR_NORTH)
         elseif self.state == "Going to workplace with wheat" then
@@ -162,7 +162,7 @@ function Miller:dir_sub_update()
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_NORTH], 0.05, nil, ANIM_WALKING_NORTH)
         end
-    elseif self.move_dir == "south" then
+    elseif self.moveDir == "south" then
         if self.state == "Going to stockpile" then
             self.animation = anim.newAnimation(an[ANIM_WALKING_FLOUR_SOUTH], 0.05, nil, ANIM_WALKING_FLOUR_SOUTH)
         elseif self.state == "Going to workplace with wheat" then
@@ -170,7 +170,7 @@ function Miller:dir_sub_update()
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_SOUTH], 0.05, nil, ANIM_WALKING_SOUTH)
         end
-    elseif self.move_dir == "east" then
+    elseif self.moveDir == "east" then
         if self.state == "Going to stockpile" then
             self.animation = anim.newAnimation(an[ANIM_WALKING_FLOUR_EAST], 0.05, nil, ANIM_WALKING_FLOUR_EAST)
         elseif self.state == "Going to workplace with wheat" then
@@ -178,7 +178,7 @@ function Miller:dir_sub_update()
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_EAST], 0.05, nil, ANIM_WALKING_EAST)
         end
-    elseif self.move_dir == "southeast" then
+    elseif self.moveDir == "southeast" then
         if self.state == "Going to stockpile" then
             self.animation =
                 anim.newAnimation(an[ANIM_WALKING_FLOUR_SOUTHEAST], 0.05, nil, ANIM_WALKING_FLOUR_SOUTHEAST)
@@ -188,7 +188,7 @@ function Miller:dir_sub_update()
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_SOUTHEAST], 0.05, nil, ANIM_WALKING_SOUTHEAST)
         end
-    elseif self.move_dir == "northeast" then
+    elseif self.moveDir == "northeast" then
         if self.state == "Going to stockpile" then
             self.animation =
                 anim.newAnimation(an[ANIM_WALKING_FLOUR_NORTHEAST], 0.05, nil, ANIM_WALKING_FLOUR_NORTHEAST)
@@ -202,34 +202,34 @@ function Miller:dir_sub_update()
 end
 
 function Miller:update()
-    self.eat_timer = self.eat_timer + 1
-    if self.eat_timer > 3000 then
-        self.eat_timer = 0
+    self.eatTimer = self.eatTimer + 1
+    if self.eatTimer > 3000 then
+        self.eatTimer = 0
         _G.foodpile:take()
     end
-    self.wait_timer = self.wait_timer + _G.dt
-    if self.wait_timer > 1 then
-        self.wait_timer = 0
+    self.waitTimer = self.waitTimer + _G.dt
+    if self.waitTimer > 1 then
+        self.waitTimer = 0
         if self.state == "Waiting for wheat" then
-            self.wait_timer = 0
-            local got_resource = _G.stockpile:take('wheat')
-            if not got_resource then
+            self.waitTimer = 0
+            local gotResource = _G.stockpile:take('wheat')
+            if not gotResource then
                 self.state = "Waiting for wheat"
                 return
             else
                 self.state = "Go to workplace with wheat"
-                self:clear_path()
+                self:clearPath()
                 return
             end
         end
     end
-    if self.path_state == "Waiting for path" then
+    if self.pathState == "Waiting for path" then
         self:pathfind()
     elseif self.state == "Waiting for work" then
         self.workplace:work(self)
     elseif self.state ~= "No path to workplace" and self.state ~= "Working" then
         if self.state == "Find a job" then
-            _G.JobController:find_job(self, "Miller")
+            _G.JobController:findJob(self, "Miller")
         elseif self.state == "Go to stockpile" or self.state == "Go to stockpile for wheat" then
             if _G.stockpile then
                 if self.state == "Go to stockpile" then
@@ -237,21 +237,21 @@ function Miller:update()
                 else
                     self.state = "Going to stockpile for wheat"
                 end
-                local closest_node
+                local closestNode
                 local distance = math.huge
-                for _, v in ipairs(_G.stockpile.node_list) do
-                    local tmp = _G.manhattan_distance(v.gx, v.gy, self.gx, self.gy)
+                for _, v in ipairs(_G.stockpile.nodeList) do
+                    local tmp = _G.manhattanDistance(v.gx, v.gy, self.gx, self.gy)
                     if tmp < distance then
                         distance = tmp
-                        closest_node = v
+                        closestNode = v
                     end
                 end
-                if not closest_node then
+                if not closestNode then
                     print("Closest node not found")
                 else
-                    self:requestPath(closest_node.gx, closest_node.gy)
+                    self:requestPath(closestNode.gx, closestNode.gy)
                 end
-                self.move_dir = "none"
+                self.moveDir = "none"
             end
         elseif self.state == "Go to workplace" or self.state == "Go to workplace with wheat" then
             if self.workplace.worker == self then
@@ -266,44 +266,44 @@ function Miller:update()
             else
                 self.state = "Going to workplace"
             end
-            self.move_dir = "none"
+            self.moveDir = "none"
             return
-        elseif self.move_dir == "none" and
+        elseif self.moveDir == "none" and
             (self.state == "Going to workplace" or self.state == "Going to stockpile" or self.state ==
                 "Going to workplace with wheat" or self.state == "Going to stockpile for wheat") then
-            self:update_direction()
-            self:dir_sub_update()
+            self:updateDirection()
+            self:dirSubUpdate()
         end
         if (self.state == "Going to workplace" or self.state == "Going to stockpile" or self.state ==
             "Going to workplace with wheat" or self.state == "Going to stockpile for wheat") then
             self:move()
         end
-        if self.fx * 0.001 == self.waypoint_x and self.fy * 0.001 == self.waypoint_y and self.move_dir ~= "none" then
+        if self.fx * 0.001 == self.waypointX and self.fy * 0.001 == self.waypointY and self.moveDir ~= "none" then
             if self.state == "Going to workplace" or self.state == "Going to workplace with wheat" then
-                if self:reached_path_end() then
+                if self:reachedPathEnd() then
                     self.workplace:work(self)
                     return
                 else
-                    self:set_next_waypoint()
+                    self:setNextWaypoint()
 
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to stockpile for wheat" or self.state == "Going to stockpile" then
-                if self:reached_path_end() then
+                if self:reachedPathEnd() then
                     if self.state == "Going to stockpile" then
                         _G.stockpile:store('flour')
                     end
-                    local got_resource = _G.stockpile:take('wheat')
-                    if not got_resource then
+                    local gotResource = _G.stockpile:take('wheat')
+                    if not gotResource then
                         self.state = "Waiting for wheat"
                         return
                     else
                         self.state = "Go to workplace with wheat"
-                        self:clear_path()
+                        self:clearPath()
                         return
                     end
                 else
-                    self:set_next_waypoint()
+                    self:setNextWaypoint()
 
                 end
                 self.count = self.count + 1

@@ -3,25 +3,25 @@ local Map = require('objects.Map')
 local State = _G.class('State')
 
 function State:initialize()
-    self.serialized_object_ids = {}
-    self.deserialized_object_ids = {}
+    self.serializedObjectIds = {}
+    self.deserializedObjectIds = {}
     self.map = Map:new()
-    self.top_left_chunk_x = 0
-    self.top_left_chunk_y = 0
-    self.bottom_right_chunk_x = 0
-    self.bottom_right_chunk_y = 0
+    self.topLeftChunkX = 0
+    self.topLeftChunkY = 0
+    self.bottomRightChunkX = 0
+    self.bottomRightChunkY = 0
     self.object = newAutotable(4)
-    self.object_mesh = newAutotable(2)
-    self.object_mesh_vert_id_map = newAutotable(3)
-    self.vertices_per_tile = 6
-    self.chunk_objects = newAutotable(3)
-    self.scale_x = 1
-    self.view_xview = -100
-    self.view_yview = 4000
+    self.objectMesh = newAutotable(2)
+    self.objectMeshVertIdMap = newAutotable(3)
+    self.verticesPerTile = 6
+    self.chunkObjects = newAutotable(3)
+    self.scaleX = 1
+    self.viewXview = -100
+    self.viewYview = 4000
     self.population = 0
-    self.max_population = 5
+    self.maxPopulation = 5
     -- TODO: Make the collision map dynamic
-    self.collision_map = _G.ffi.new("unsigned char[2048][2048]", {})
+    self.collisionMap = _G.ffi.new("unsigned char[2048][2048]", {})
     self.resources = {
         ['wood'] = 0,
         ['stone'] = 0,
@@ -34,20 +34,20 @@ function State:initialize()
         ["bread"] = 0,
         ["cheese"] = 0
     }
-    self.not_full_stockpiles = {
+    self.notFullStockpiles = {
         ["wood"] = 0,
         ["stone"] = 0,
         ["wheat"] = 0,
         ["iron"] = 0,
         ["flour"] = 0
     }
-    self.not_full_foods = {
+    self.notFullFoods = {
         ["apples"] = 0,
         ["bread"] = 0,
         ["cheese"] = 0
     }
-    self.wheat_season_counter = 0
-    self.wheat_growing_season = false
+    self.wheatSeasonCounter = 0
+    self.wheatGrowingSeason = false
 end
 
 function State:save()
@@ -55,9 +55,9 @@ function State:save()
 end
 
 function State:serializeObject(obj)
-    if not self.serialized_object_ids[obj.id] then
-        self.serialized_object_ids[obj.id] = obj:serialize()
-        if not self.serialized_object_ids[obj.id] then
+    if not self.serializedObjectIds[obj.id] then
+        self.serializedObjectIds[obj.id] = obj:serialize()
+        if not self.serializedObjectIds[obj.id] then
             error("Serialized object has no data!")
         end
     end
@@ -67,78 +67,78 @@ function State:serializeObject(obj)
     }
 end
 
-function State:dereferenceObject(ref_obj)
-    local ref = ref_obj._ref
-    if not ref and ref_obj.class_name then
+function State:dereferenceObject(refObj)
+    local ref = refObj._ref
+    if not ref and refObj.className then
         -- Probably the object itself
-        ref = ref_obj.id
+        ref = refObj.id
     end
     -- Check if object has been deserialized already
-    if self.deserialized_object_ids[ref] then
-        return self.deserialized_object_ids[ref]
+    if self.deserializedObjectIds[ref] then
+        return self.deserializedObjectIds[ref]
     end
     -- Find the object and deserialize it
-    if self.raw_object_ids[ref] then
-        local obj = self.raw_object_ids[ref]
-        if obj and obj.class_name then
-            local object = _G.getClassByName(obj.class_name)
+    if self.rawObjectIds[ref] then
+        local obj = self.rawObjectIds[ref]
+        if obj and obj.className then
+            local object = _G.getClassByName(obj.className)
             if object then
                 local ret = object:deserialize(obj)
-                self.deserialized_object_count = self.deserialized_object_count + 1
-                self.deser_debug[obj.class_name] = (self.deser_debug[obj.class_name] or 0) + 1
-                self.deserialized_object_ids[ref] = ret
+                self.deserializedObjectCount = self.deserializedObjectCount + 1
+                self.deserDebug[obj.className] = (self.deserDebug[obj.className] or 0) + 1
+                self.deserializedObjectIds[ref] = ret
                 return ret
             end
         end
     end
-    error("Couldn't dereference object:" .. tostring(self.raw_object_ids[ref]) .. " with ref obj:" ..
-              tostring(_G.inspect(ref_obj)))
+    error("Couldn't dereference object:" .. tostring(self.rawObjectIds[ref]) .. " with ref obj:" ..
+              tostring(_G.inspect(refObj)))
 end
 
 function State:serializeChunkObjects()
-    local chunk_data = {}
-    for cx = 0, _G.chunks_wide - 1 do
-        chunk_data[cx] = {}
-        for cy = 0, _G.chunks_high - 1 do
-            chunk_data[cx][cy] = {}
-            local data = chunk_data[cx][cy]
-            if self.chunk_objects[cx][cy] then
-                for _, obj in pairs(_G.state.chunk_objects[cx][cy]) do
-                    if self.serialized_object_ids[obj.id] then
-                        data[#data + 1] = self.serialized_object_ids[obj.id]
+    local chunkData = {}
+    for cx = 0, _G.chunksWide - 1 do
+        chunkData[cx] = {}
+        for cy = 0, _G.chunksHigh - 1 do
+            chunkData[cx][cy] = {}
+            local data = chunkData[cx][cy]
+            if self.chunkObjects[cx][cy] then
+                for _, obj in pairs(_G.state.chunkObjects[cx][cy]) do
+                    if self.serializedObjectIds[obj.id] then
+                        data[#data + 1] = self.serializedObjectIds[obj.id]
                     else
                         data[#data + 1] = obj:serialize()
-                        self.serialized_object_ids[obj.id] = data[#data]
+                        self.serializedObjectIds[obj.id] = data[#data]
                     end
                 end
             end
         end
     end
-    return chunk_data
+    return chunkData
 end
 
-function State:deserializeChunkObjects(load_data)
-    for cx = 0, _G.chunks_wide - 1 do
-        for cy = 0, _G.chunks_high - 1 do
-            local data = load_data[cx] and load_data[cx][cy]
+function State:deserializeChunkObjects(loadData)
+    for cx = 0, _G.chunksWide - 1 do
+        for cy = 0, _G.chunksHigh - 1 do
+            local data = loadData[cx] and loadData[cx][cy]
             if data then
                 for _, obj in pairs(data) do
-                    if obj and obj.class_name then
+                    if obj and obj.className then
                         local new = self:dereferenceObject(obj)
-                        self.chunk_objects[new.cx][new.cy][new] = new
+                        self.chunkObjects[new.cx][new.cy][new] = new
                     end
                 end
             end
         end
     end
-    return self.chunk_objects
+    return self.chunkObjects
 end
 
 function State:deserializeObjects(data)
-    for cx = 0, _G.chunks_wide - 1 do
-        for cy = 0, _G.chunks_high - 1 do
-            for i = 0, _G.chunk_width - 1 do
-                for o = 0, _G.chunk_width - 1 do
+    for cx = 0, _G.chunksWide - 1 do
+        for cy = 0, _G.chunksHigh - 1 do
+            for i = 0, _G.chunkWidth - 1 do
+                for o = 0, _G.chunkWidth - 1 do
                     if data[cx][cy][i][o] then
                         for _, obj in pairs(data[cx][cy][i][o]) do
                             if obj and next(obj) then
@@ -155,22 +155,22 @@ end
 
 function State:serializeObjects()
     local data = {}
-    for cx = 0, _G.chunks_wide - 1 do
+    for cx = 0, _G.chunksWide - 1 do
         data[cx] = {}
-        for cy = 0, _G.chunks_high - 1 do
+        for cy = 0, _G.chunksHigh - 1 do
             data[cx][cy] = {}
-            for i = 0, _G.chunk_width - 1 do
+            for i = 0, _G.chunkWidth - 1 do
                 data[cx][cy][i] = {}
-                for o = 0, _G.chunk_width - 1 do
+                for o = 0, _G.chunkWidth - 1 do
                     data[cx][cy][i][o] = {}
                     if self.object[cx][cy][i][o] then
                         for _, obj in pairs(self.object[cx][cy][i][o]) do
-                            if self.serialized_object_ids[obj.id] then
-                                data[cx][cy][i][o][#data[cx][cy][i][o] + 1] = self.serialized_object_ids[obj.id]
+                            if self.serializedObjectIds[obj.id] then
+                                data[cx][cy][i][o][#data[cx][cy][i][o] + 1] = self.serializedObjectIds[obj.id]
                             else
                                 local serial = obj:serialize()
                                 data[cx][cy][i][o][#data[cx][cy][i][o] + 1] = serial
-                                self.serialized_object_ids[obj.id] = serial
+                                self.serializedObjectIds[obj.id] = serial
                             end
                         end
                     end
@@ -183,81 +183,81 @@ end
 
 function State:serialize()
     local data = {}
-    self.serialized_object_ids = {}
+    self.serializedObjectIds = {}
     data.resources = self.resources
     data.food = self.food
-    data.not_full_stockpiles = self.not_full_stockpiles
-    data.not_full_foods = self.not_full_foods
-    data.wheat_season_counter = self.wheat_season_counter
-    data.wheat_growing_season = self.wheat_growing_season
-    data.collision_map = self.collision_map
-    data.top_left_chunk_x = self.top_left_chunk_x
-    data.top_left_chunk_y = self.top_left_chunk_y
-    data.bottom_right_chunk_x = self.bottom_right_chunk_x
-    data.bottom_right_chunk_y = self.bottom_right_chunk_y
-    data.build_controller = _G.BuildController:serialize()
-    data.stockpile_controller = _G.stockpile:serialize()
-    data.spawn_point_x, data.spawn_point_y = _G.spawn_point_x, _G.spawn_point_y
-    data.offset_x, data.offset_y = _G.offset_x, _G.offset_y
+    data.notFullStockpiles = self.notFullStockpiles
+    data.notFullFoods = self.notFullFoods
+    data.wheatSeasonCounter = self.wheatSeasonCounter
+    data.wheatGrowingSeason = self.wheatGrowingSeason
+    data.collisionMap = self.collisionMap
+    data.topLeftChunkX = self.topLeftChunkX
+    data.topLeftChunkY = self.topLeftChunkY
+    data.bottomRightChunkX = self.bottomRightChunkX
+    data.bottomRightChunkY = self.bottomRightChunkY
+    data.buildController = _G.BuildController:serialize()
+    data.stockpileController = _G.stockpile:serialize()
+    data.spawnPointX, data.spawnPointY = _G.spawnPointX, _G.spawnPointY
+    data.offsetX, data.offsetY = _G.offsetX, _G.offsetY
     data.campfire = _G.campfire:serialize()
-    data.food_controller = _G.foodpile:serialize()
-    data.job_controller = _G.JobController:serialize()
-    data.vertices_per_tile = self.vertices_per_tile
-    data.chunk_objects = self:serializeChunkObjects()
+    data.foodController = _G.foodpile:serialize()
+    data.jobController = _G.JobController:serialize()
+    data.verticesPerTile = self.verticesPerTile
+    data.chunkObjects = self:serializeChunkObjects()
     data.object = self:serializeObjects()
-    data.scale_x = self.scale_x
-    data.view_xview = self.view_xview
-    data.view_yview = self.view_yview
-    data.serialized_object_ids = self.serialized_object_ids
+    data.scaleX = self.scaleX
+    data.viewXview = self.viewXview
+    data.viewYview = self.viewYview
+    data.serializedObjectIds = self.serializedObjectIds
     data.population = self.population
-    data.max_population = self.max_population
+    data.maxPopulation = self.maxPopulation
     data.map = self.map:serialize()
     return data
 end
 
 function State:load(filename)
     local load = bitser.loadLoveFile(filename)
-    self.deserialized_object_count = 0
-    self.deser_debug = {}
-    self.deserialized_object_ids = {}
+    self.deserializedObjectCount = 0
+    self.deserDebug = {}
+    self.deserializedObjectIds = {}
     self.resources = load.resources
     self.food = load.food
-    self.raw_object_ids = load.serialized_object_ids
-    self.not_full_stockpiles = load.not_full_stockpiles
-    self.not_full_foods = load.not_full_foods
-    self.wheat_season_counter = load.wheat_season_counter
-    self.wheat_growing_season = load.wheat_growing_season
-    self.collision_map = load.collision_map
-    self.top_left_chunk_x = load.top_left_chunk_x
-    self.top_left_chunk_y = load.top_left_chunk_y
-    self.bottom_right_chunk_x = load.bottom_right_chunk_x
-    self.bottom_right_chunk_y = load.bottom_right_chunk_y
-    self.vertices_per_tile = load.vertices_per_tile
-    self.max_population = load.max_population
+    self.rawObjectIds = load.serializedObjectIds
+    self.notFullStockpiles = load.notFullStockpiles
+    self.notFullFoods = load.notFullFoods
+    self.wheatSeasonCounter = load.wheatSeasonCounter
+    self.wheatGrowingSeason = load.wheatGrowingSeason
+    self.collisionMap = load.collisionMap
+    self.topLeftChunkX = load.topLeftChunkX
+    self.topLeftChunkY = load.topLeftChunkY
+    self.bottomRightChunkX = load.bottomRightChunkX
+    self.bottomRightChunkY = load.bottomRightChunkY
+    self.verticesPerTile = load.verticesPerTile
+    self.maxPopulation = load.maxPopulation
     self.population = load.population
-    _G.JobController:deserialize(load.job_controller)
-    _G.BuildController:deserialize(load.build_controller)
-    _G.foodpile:deserialize(load.food_controller)
-    _G.spawn_point_x, _G.spawn_point_y = load.spawn_point_x, load.spawn_point_y
-    _G.offset_x, _G.offset_y = load.offset_x, load.offset_y
-    local campfireClass = _G.getClassByName(load.campfire.class_name)
+    _G.JobController:deserialize(load.jobController)
+    _G.BuildController:deserialize(load.buildController)
+    _G.foodpile:deserialize(load.foodController)
+    _G.spawnPointX, _G.spawnPointY = load.spawnPointX, load.spawnPointY
+    _G.offsetX, _G.offsetY = load.offsetX, load.offsetY
+    local campfireClass = _G.getClassByName(load.campfire.className)
     if campfireClass then
         campfireClass:deserialize(load.campfire)
     else
         print("Campfire is not deserialized")
         love.quit()
     end
-    _G.stockpile:deserialize(load.stockpile_controller)
-    self:deserializeChunkObjects(load.chunk_objects)
+    _G.stockpile:deserialize(load.stockpileController)
+    self:deserializeChunkObjects(load.chunkObjects)
     self.object = self:deserializeObjects(load.object)
-    self.scale_x = load.scale_x
-    self.view_xview = load.view_xview
-    self.view_yview = load.view_yview
+    self.scaleX = load.scaleX
+    self.viewXview = load.viewXview
+    self.viewYview = load.viewYview
     self.map:deserialize(load.map)
     self.map:forceRefresh()
     collectgarbage()
-    -- print(inspect(self.deser_debug))
-    -- print("TOTAL DESERIALIZED OBJECTS", self.deserialized_object_count)
+    -- print(inspect(self.deserDebug))
+    -- print("TOTAL DESERIALIZED OBJECTS", self.deserializedObjectCount)
 end
 
 return State

@@ -6,10 +6,10 @@ local h = {
 }
 
 -- TODO: Update this on resize
-local screen_width, screen_height = love.graphics.getDimensions()
+local screenWidth, screenHeight = love.graphics.getDimensions()
 for i = 1, 100 do
-    w.percent[i] = screen_width * (i / 100)
-    h.percent[i] = screen_height * (i / 100)
+    w.percent[i] = screenWidth * (i / 100)
+    h.percent[i] = screenHeight * (i / 100)
 end
 return {
     w = w,

@@ -1,7 +1,7 @@
 local game = {}
 local loveframes = require('libraries.loveframes')
 require('states.ui.init')
-local action_bar = require('states.ui.ActionBar')
+local ActionBar = require('states.ui.ActionBar')
 local states = require('states.ui.states')
 local core = require("misc")
 local thread, thread2, objects, terrain
@@ -12,11 +12,11 @@ local initialized = 2
 local function delayedInit()
     local State = require('objects.State')
     _G.state = State:new()
-    objects = love.filesystem.load('objects/objects.lua')(object_image)
+    objects = love.filesystem.load('objects/objects.lua')(objectAtlas)
     package.loaded['objects.objects'] = objects
     terrain = require('terrain.terrain')
     _G.BuildController = love.filesystem.load("objects/Controllers/BuildController.lua")(
-        package.loaded['objects.objects'].object, object_image)
+        package.loaded['objects.objects'].object, objectAtlas)
     _G.JobController = require('objects.Controllers.JobController')
     ----Pathfinding setup
     thread = love.thread.newThread("libraries/pathfinding_thread.lua")
@@ -24,14 +24,14 @@ local function delayedInit()
     thread2 = love.thread.newThread("libraries/pathfinding_thread.lua")
     thread2:start("2")
     _G.finder = require('objects.Controllers.PathController')
-    local new_game = not (love.filesystem.getInfo and love.filesystem.getInfo("status.bin"))
-    if new_game then
+    local newGame = not (love.filesystem.getInfo and love.filesystem.getInfo("status.bin"))
+    if newGame then
         terrain.genMap()
         _G.BuildController:set("castle")
-        _G.speech_fx["place_a_keep"]:play()
+        _G.speechFx["place_a_keep"]:play()
     else
-        for cx = 0, _G.chunks_wide - 1 do
-            for cy = 0, _G.chunks_high - 1 do
+        for cx = 0, _G.chunksWide - 1 do
+            for cy = 0, _G.chunksHigh - 1 do
                 _G.allocateMesh(cx, cy)
             end
         end
@@ -80,9 +80,9 @@ function game:enter()
 end
 
 function game:draw()
-    if not _G.test_mode then
+    if not _G.testMode then
         if _G.loaded then
-            if _G.state.scale_x >= 2.1 or _G.paused then
+            if _G.state.scaleX >= 2.1 or _G.paused then
                 love.postshader.setBuffer("render")
             end
             love.graphics.push()
@@ -94,14 +94,14 @@ function game:draw()
             love.graphics.pop()
             if _G.paused then
                 love.postshader.addTiltshift(12)
-            elseif _G.state.scale_x >= 2.1 then
+            elseif _G.state.scaleX >= 2.1 then
                 love.postshader.addTiltshift(4)
             end
             core.draw()
             prof.push("ui_draw")
             loveframes.draw()
             prof.pop("ui_draw")
-            if _G.state.scale_x >= 2.1 or _G.paused then
+            if _G.state.scaleX >= 2.1 or _G.paused then
                 love.postshader.draw()
             end
         else
@@ -122,15 +122,15 @@ function game:mousepressed(x, y, button, istouch)
     end
     if button == 2 and not _G.BuildController.start then
         _G.BuildController.active = false
-        if _G.BuildController.on_build_callback then
-            _G.BuildController.on_build_callback()
-            _G.BuildController.on_build_callback = nil
+        if _G.BuildController.onBuildCallback then
+            _G.BuildController.onBuildCallback()
+            _G.BuildController.onBuildCallback = nil
         end
     end
 end
 
-function game:keypressed(key, scancode, is_repeat)
-    action_bar:keypressed(key, scancode)
+function game:keypressed(key, scancode, isRepeat)
+    ActionBar:keypressed(key, scancode)
     if key == "escape" then
         loveframes.TogglePause()
     end
