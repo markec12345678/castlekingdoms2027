@@ -1,4 +1,4 @@
-local _, _, tile_quads, _, Tree = ...
+local _, _, tileQuads, _, Tree = ...
 local anim = require("libraries.anim8")
 local Object = require('objects.Object')
 
@@ -18,8 +18,8 @@ local ANIM_VERY_SMALL_FALLING = "Very_Small_Falling"
 local ANIM_VERY_SMALL_CHOP = "Very_Small_Chop"
 
 local an = {
-    [STATIC_TRUNK] = {tile_quads["tree_pine_trunk (1)"]},
-    [ANIM_DEAD_STATIC] = {tile_quads["tree_pine_dead (1)"]},
+    [STATIC_TRUNK] = {tileQuads["tree_pine_trunk (1)"]},
+    [ANIM_DEAD_STATIC] = {tileQuads["tree_pine_dead (1)"]},
     [ANIM_STATIC] = _G.indexQuads("tree_pine_large", 25, nil, true),
     [ANIM_FALLING] = _G.indexQuads("tree_pine_large_falling", 7),
     [ANIM_CHOP] = _G.indexQuads("tree_pine_large_falling", 10, 7),
@@ -38,24 +38,24 @@ local PineTree = _G.class('PineTree', Tree)
 function PineTree:initialize(gx, gy, type)
     type = type or "Pine tree"
     Tree.initialize(self, gx, gy, type)
-    self.offset_y = -166
-    self.base_offset_x = -3 - 38
-    self.trunk_tile = tile_quads["tree_pine_trunk (1)"]
+    self.offsetY = -166
+    self.baseOffsetX = -3 - 38
+    self.trunkTile = tileQuads["tree_pine_trunk (1)"]
     self.dead = false
 
     for xx = -1, 1 do
         for yy = -1, 1 do
-            _G.terrainSetTileAt(gx + xx, gy + yy, _G.terrain_biome.dirt, _G.terrain_biome.abundant_grass)
+            _G.terrainSetTileAt(gx + xx, gy + yy, _G.terrainBiome.dirt, _G.terrainBiome.abundantGrass)
         end
     end
     if type == "Pine tree" then
         self.health = 14
         self.animation = anim.newAnimation(an[ANIM_STATIC], 0.09, nil, ANIM_STATIC)
-        self.chop_animation = anim.newAnimation(an[ANIM_CHOP], 0.1, nil, ANIM_CHOP)
-        self.falling_animation = anim.newAnimation(an[ANIM_FALLING], 0.13, self:cut_down(), ANIM_FALLING)
+        self.chopAnimation = anim.newAnimation(an[ANIM_CHOP], 0.1, nil, ANIM_CHOP)
+        self.fallingAnimation = anim.newAnimation(an[ANIM_FALLING], 0.13, self:cutDown(), ANIM_FALLING)
         for xx = -1, 1 do
             for yy = -1, 1 do
-                _G.terrainSetTileAt(gx + xx, gy + yy, _G.terrain_biome.scarce_grass)
+                _G.terrainSetTileAt(gx + xx, gy + yy, _G.terrainBiome.scarceGrass)
             end
         end
     elseif type == "Dead pine tree" then
@@ -65,76 +65,76 @@ function PineTree:initialize(gx, gy, type)
     elseif type == "Medium pine tree" then
         self.health = 12
         self.animation = anim.newAnimation(an[ANIM_MEDIUM_STATIC], 0.09, nil, ANIM_MEDIUM_STATIC)
-        self.chop_animation = anim.newAnimation(an[ANIM_MEDIUM_CHOP], 0.1, nil, ANIM_MEDIUM_CHOP)
-        self.falling_animation = anim.newAnimation(an[ANIM_MEDIUM_FALLING], 0.13, self:cut_down(), ANIM_MEDIUM_FALLING)
+        self.chopAnimation = anim.newAnimation(an[ANIM_MEDIUM_CHOP], 0.1, nil, ANIM_MEDIUM_CHOP)
+        self.fallingAnimation = anim.newAnimation(an[ANIM_MEDIUM_FALLING], 0.13, self:cutDown(), ANIM_MEDIUM_FALLING)
     elseif type == "Small pine tree" then
         self.health = 5
         self.animation = anim.newAnimation(an[ANIM_SMALL_STATIC], 0.09, nil, ANIM_SMALL_STATIC)
-        self.chop_animation = anim.newAnimation(an[ANIM_SMALL_CHOP], 0.1, nil, ANIM_SMALL_CHOP)
-        self.falling_animation = anim.newAnimation(an[ANIM_SMALL_FALLING], 0.13, self:cut_down(), ANIM_SMALL_FALLING)
+        self.chopAnimation = anim.newAnimation(an[ANIM_SMALL_CHOP], 0.1, nil, ANIM_SMALL_CHOP)
+        self.fallingAnimation = anim.newAnimation(an[ANIM_SMALL_FALLING], 0.13, self:cutDown(), ANIM_SMALL_FALLING)
     elseif type == "Very small pine tree" then
         self.health = 3
         self.cuttable = false
         self.animation = anim.newAnimation(an[ANIM_VERY_SMALL_STATIC], 0.09, nil, ANIM_VERY_SMALL_STATIC)
-        self.chop_animation = anim.newAnimation(an[ANIM_VERY_SMALL_CHOP], 0.1, nil, ANIM_VERY_SMALL_CHOP)
-        self.falling_animation = anim.newAnimation(an[ANIM_VERY_SMALL_FALLING], 0.13, self:cut_down(),
+        self.chopAnimation = anim.newAnimation(an[ANIM_VERY_SMALL_CHOP], 0.1, nil, ANIM_VERY_SMALL_CHOP)
+        self.fallingAnimation = anim.newAnimation(an[ANIM_VERY_SMALL_FALLING], 0.13, self:cutDown(),
             ANIM_VERY_SMALL_FALLING)
     elseif type == "Stump" then
         self.animation = anim.newAnimation(an[STATIC_TRUNK], 0.1, nil, STATIC_TRUNK)
         self.animation:pause()
         self.stump = true
         self.animated = false -- mark for removal from list
-        -- _G.state.chunk_objects[self.cx][self.cy][self] = nil
+        -- _G.state.chunkObjects[self.cx][self.cy][self] = nil
         self.type = "Stump"
-        self.tile = self.trunk_tile
+        self.tile = self.trunkTile
         self:render()
     end
 end
 function PineTree:load(data)
     Object.deserialize(self, data)
     Tree.load(self, data)
-    local an_data = data.animation
-    if an_data then
+    local anData = data.animation
+    if anData then
         local callback
-        if an_data.animation_identifier == ANIM_VERY_SMALL_FALLING or an_data.animation_identifier == ANIM_SMALL_FALLING or
-            an_data.animation_identifier == ANIM_MEDIUM_FALLING or an_data.animation_identifier == ANIM_FALLING then
-            callback = self:cut_down()
+        if anData.animationIdentifier == ANIM_VERY_SMALL_FALLING or anData.animationIdentifier == ANIM_SMALL_FALLING or
+            anData.animationIdentifier == ANIM_MEDIUM_FALLING or anData.animationIdentifier == ANIM_FALLING then
+            callback = self:cutDown()
         end
-        self.animation = anim.newAnimation(an[an_data.animation_identifier], 1, callback, an_data.animation_identifier)
-        self.animation:deserialize(an_data)
+        self.animation = anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
+        self.animation:deserialize(anData)
     end
-    an_data = data.chop_animation
-    if an_data then
-        self.chop_animation = anim.newAnimation(an[an_data.animation_identifier], 1, nil, an_data.animation_identifier)
-        self.chop_animation:deserialize(an_data)
+    anData = data.chopAnimation
+    if anData then
+        self.chopAnimation = anim.newAnimation(an[anData.animationIdentifier], 1, nil, anData.animationIdentifier)
+        self.chopAnimation:deserialize(anData)
     end
-    an_data = data.falling_animation
-    if an_data then
+    anData = data.fallingAnimation
+    if anData then
         local callback
-        if an_data.animation_identifier == ANIM_VERY_SMALL_FALLING or an_data.animation_identifier == ANIM_SMALL_FALLING or
-            an_data.animation_identifier == ANIM_MEDIUM_FALLING or an_data.animation_identifier == ANIM_FALLING then
-            callback = self:cut_down()
+        if anData.animationIdentifier == ANIM_VERY_SMALL_FALLING or anData.animationIdentifier == ANIM_SMALL_FALLING or
+            anData.animationIdentifier == ANIM_MEDIUM_FALLING or anData.animationIdentifier == ANIM_FALLING then
+            callback = self:cutDown()
         end
-        self.falling_animation = anim.newAnimation(an[an_data.animation_identifier], 1, callback,
-            an_data.animation_identifier)
-        self.falling_animation:deserialize(an_data)
+        self.fallingAnimation = anim.newAnimation(an[anData.animationIdentifier], 1, callback,
+            anData.animationIdentifier)
+        self.fallingAnimation:deserialize(anData)
     end
-    self.trunk_tile = tile_quads["tree_pine_trunk (1)"]
+    self.trunkTile = tileQuads["tree_pine_trunk (1)"]
     if self.type == "Stump" then
-        self.tile = self.trunk_tile
+        self.tile = self.trunkTile
         self:render()
     end
 end
 function PineTree:serialize()
     local data = {}
-    local tree_data = Tree.serialize(self)
-    for k, v in pairs(tree_data) do
+    local treeData = Tree.serialize(self)
+    for k, v in pairs(treeData) do
         if type(v) ~= "function" and type(v) ~= "userdata" then
             data[k] = v
         end
     end
-    data.offset_y = self.offset_y
-    data.base_offset_x = self.base_offset_x
+    data.offsetY = self.offsetY
+    data.baseOffsetX = self.baseOffsetX
     data.dead = self.dead
     data.cuttable = self.cuttable
     data.health = self.health
@@ -143,18 +143,18 @@ function PineTree:serialize()
     if self.animation then
         data.animation = self.animation:serialize()
     end
-    if self.chop_animation then
-        data.chop_animation = self.chop_animation:serialize()
+    if self.chopAnimation then
+        data.chopAnimation = self.chopAnimation:serialize()
     end
-    if self.falling_animation then
-        data.falling_animation = self.falling_animation:serialize()
+    if self.fallingAnimation then
+        data.fallingAnimation = self.fallingAnimation:serialize()
     end
     return data
 end
 
 function PineTree.static:deserialize(data)
     local obj = self:allocate()
-    data.need_new_vert_asap = true
+    data.needNewVertAsap = true
     Object.deserialize(obj, data)
     obj:load(data)
     return obj

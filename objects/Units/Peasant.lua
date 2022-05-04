@@ -70,101 +70,100 @@ function Peasant:initialize(gx, gy, type)
     self.state = 'Bowing'
     self.marked = 0
     self.count = 1
-    self.offset_y = -10
-    self.offset_x = -5
-    self.eat_timer = 0
-    self.timr = 0
+    self.offsetY = -10
+    self.offsetX = -5
+    self.eatTimer = 0
     self.animated = true
     self.orientation = ""
-    local bowing_end = function(animation)
+    local bowingEnd = function(animation)
         animation:pause()
         self.state = "Going to campfire"
     end
-    self.animation = anim.newAnimation(an[AN_BOWING], 0.12, bowing_end, AN_BOWING)
-    local camp_x, camp_y, orientation = _G.campfire:get_next_free_spot(self)
+    self.animation = anim.newAnimation(an[AN_BOWING], 0.12, bowingEnd, AN_BOWING)
+    local campX, campY, orientation = _G.campfire:getNextFreeSpot(self)
     self.orientation = orientation
-    self:requestPath(camp_x, camp_y)
-    self.try_to_get_a_job = false
+    self:requestPath(campX, campY)
+    self.tryTogetAJob = false
 end
 function Peasant:load(data)
     Object.deserialize(self, data)
     Unit.load(self, data)
-    local an_data = data.animation
+    local anData = data.animation
     local callback
-    if an_data then
-        if an_data.animation_identifier == AN_BOWING then
+    if anData then
+        if anData.animationIdentifier == AN_BOWING then
             callback = function(animation)
                 animation:pause()
                 self.state = "Going to campfire"
             end
-        elseif an_data.animation_identifier == AN_BOWING_FOR_A_JOB then
+        elseif anData.animationIdentifier == AN_BOWING_FOR_A_JOB then
             callback = function()
-                self:bowing_job_callback()
+                self:bowingJobCallback()
             end
         end
-        self.animation = anim.newAnimation(an[an_data.animation_identifier], 1, callback, an_data.animation_identifier)
-        self.animation:deserialize(an_data)
+        self.animation = anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
+        self.animation:deserialize(anData)
     end
 end
-function Peasant:dir_sub_update()
-    if self.move_dir == "west" then
+function Peasant:dirSubUpdate()
+    if self.moveDir == "west" then
         self.animation = anim.newAnimation(an[AN_WALKING_WEST], 0.05, nil, AN_WALKING_WEST)
-    elseif self.move_dir == "southwest" then
+    elseif self.moveDir == "southwest" then
         self.animation = anim.newAnimation(an[AN_WALKING_SOUTHWEST], 0.05, nil, AN_WALKING_SOUTHWEST)
-    elseif self.move_dir == "northwest" then
+    elseif self.moveDir == "northwest" then
         self.animation = anim.newAnimation(an[AN_WALKING_NORTHWEST], 0.05, nil, AN_WALKING_NORTHWEST)
-    elseif self.move_dir == "north" then
+    elseif self.moveDir == "north" then
         self.animation = anim.newAnimation(an[AN_WALKING_NORTH], 0.05, nil, AN_WALKING_NORTH)
-    elseif self.move_dir == "south" then
+    elseif self.moveDir == "south" then
         self.animation = anim.newAnimation(an[AN_WALKING_SOUTH], 0.05, nil, AN_WALKING_SOUTH)
-    elseif self.move_dir == "east" then
+    elseif self.moveDir == "east" then
         self.animation = anim.newAnimation(an[AN_WALKING_EAST], 0.05, nil, AN_WALKING_EAST)
-    elseif self.move_dir == "southeast" then
+    elseif self.moveDir == "southeast" then
         self.animation = anim.newAnimation(an[AN_WALKING_SOUTHEAST], 0.05, nil, AN_WALKING_SOUTHEAST)
-    elseif self.move_dir == "northeast" then
+    elseif self.moveDir == "northeast" then
         self.animation = anim.newAnimation(an[AN_WALKING_NORTHEAST], 0.05, nil, AN_WALKING_NORTHEAST)
     end
 end
-function Peasant:job_update()
+function Peasant:jobUpdate()
     _G.removeObjectAt(self.lrcx, self.lrcy, self.lrx, self.lry, self)
 end
-function Peasant:get_a_job()
+function Peasant:getAJob()
     if self.state == "Waiting" then
-        if math.floor(self.gx) == _G.spawn_point_x and math.floor(self.gy) == _G.spawn_point_y then
+        if math.floor(self.gx) == _G.spawnPointX and math.floor(self.gy) == _G.spawnPointY then
             self.state = "Getting a job"
             self.animation = anim.newAnimation(an[AN_BOWING_FOR_A_JOB], 0.12, function()
-                self:bowing_job_callback()
+                self:bowingJobCallback()
             end, AN_BOWING_FOR_A_JOB)
         else
-            self:requestPath(_G.spawn_point_x, _G.spawn_point_y)
+            self:requestPath(_G.spawnPointX, _G.spawnPointY)
             self.state = "Going to door"
         end
     else
-        self.try_to_get_a_job = true
+        self.tryTogetAJob = true
     end
 end
 function Peasant:update()
-    if self.try_to_get_a_job and self.state == "Waiting" then
-        self:get_a_job()
+    if self.tryToGetAJob and self.state == "Waiting" then
+        self:getAJob()
     end
-    self.eat_timer = self.eat_timer + 1
-    if self.eat_timer > 3000 then
+    self.eatTimer = self.eatTimer + 1
+    if self.eatTimer > 3000 then
         _G.foodpile:take()
-        self.eat_timer = 0
+        self.eatTimer = 0
     end
-    if self.path_state == "Waiting for path" then
+    if self.pathState == "Waiting for path" then
         self:pathfind()
     elseif self.state == "Going to campfire" then
-        self:update_direction()
+        self:updateDirection()
         self:move()
     elseif self.state == "Going to door" then
-        self:update_direction()
+        self:updateDirection()
         self:move()
     end
-    if self.fx * 0.001 == self.waypoint_x and self.fy * 0.001 == self.waypoint_y and self.move_dir ~= "none" then
+    if self.fx * 0.001 == self.waypointX and self.fy * 0.001 == self.waypointY and self.moveDir ~= "none" then
         if self.state == "Going to campfire" or self.state == "Going to door" then
-            if self:reached_path_end() then
-                self:clear_path()
+            if self:reachedPathEnd() then
+                self:clearPath()
                 if self.state == "Going to campfire" then
                     self.state = "Waiting"
                     if self.orientation == "west" then
@@ -187,24 +186,24 @@ function Peasant:update()
                 elseif self.state == "Going to door" then
                     self.state = "Getting a job"
                     self.animation = anim.newAnimation(an[AN_BOWING_FOR_A_JOB], 0.12, function()
-                        self:bowing_job_callback()
+                        self:bowingJobCallback()
                     end, AN_BOWING_FOR_A_JOB)
                 end
                 return
             else
-                self:set_next_waypoint()
+                self:setNextWaypoint()
             end
             self.count = self.count + 1
         end
     end
 end
-function Peasant:bowing_job_callback()
-    self.to_be_deleted = true
-    _G.freeVertexFromTile(self.cx, self.cy, self.previous_vert_id)
+function Peasant:bowingJobCallback()
+    self.toBeDeleted = true
+    _G.freeVertexFromTile(self.cx, self.cy, self.previousVertId)
     self.animation = nil
-    _G.freeVertexFromTile(self.cx, self.cy, self.vert_id)
+    _G.freeVertexFromTile(self.cx, self.cy, self.vertId)
     _G.removeObjectAt(self.cx, self.cy, self.i, self.o, self)
-    _G.JobController:add_available_worker()
+    _G.JobController:addAvailableWorker()
 end
 function Peasant:animate()
     self:update()
@@ -212,8 +211,8 @@ function Peasant:animate()
 end
 function Peasant:serialize()
     local data = {}
-    local unit_data = Unit.serialize(self)
-    for k, v in pairs(unit_data) do
+    local unitData = Unit.serialize(self)
+    for k, v in pairs(unitData) do
         if type(v) ~= "function" and type(v) ~= "userdata" then
             data[k] = v
         end
@@ -222,16 +221,15 @@ function Peasant:serialize()
     data.state = self.state
     data.marked = self.marked
     data.count = self.count
-    data.offset_y = self.offset_y
-    data.offset_x = self.offset_x
-    data.eat_timer = self.eat_timer
+    data.offsetY = self.offsetY
+    data.offsetX = self.offsetX
+    data.eatTimer = self.eatTimer
     data.orientation = self.orientation
-    data.timr = self.timr
     data.animated = self.animated
     if self.animation then
         data.animation = self.animation:serialize()
     end
-    data.try_to_get_a_job = self.try_to_get_a_job
+    data.tryToGetAJob = self.tryToGetAJob
     return data
 end
 

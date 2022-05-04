@@ -178,7 +178,7 @@ local Animationmt = {
 local nop = function()
 end
 
-local function newAnimation(frames, durations, onLoop, animation_identifier)
+local function newAnimation(frames, durations, onLoop, animationIdentifier)
     local td = type(durations);
     if (td ~= 'number' or durations <= 0) and td ~= 'table' then
         error("durations must be a positive number. Was " .. tostring(durations))
@@ -187,16 +187,16 @@ local function newAnimation(frames, durations, onLoop, animation_identifier)
         error("expected animation frames but received a string: " .. frames)
     end
     if frames == nil then
-        error("anim8: frames are nil: " .. tostring(animation_identifier))
+        error("anim8: frames are nil: " .. tostring(animationIdentifier))
     end
-    if animation_identifier ~= nil and (type(animation_identifier) ~= "string") then
-        error("anim8: received wrong type of animation identifier: " .. tostring(type(animation_identifier)))
+    if animationIdentifier ~= nil and (type(animationIdentifier) ~= "string") then
+        error("anim8: received wrong type of animation identifier: " .. tostring(type(animationIdentifier)))
     end
     onLoop = onLoop or nop
     durations = parseDurations(durations, #frames)
     local intervals, totalDuration = parseIntervals(durations)
     return setmetatable({
-        animation_identifier = animation_identifier,
+        animationIdentifier = animationIdentifier,
         frames = cloneArray(frames),
         durations = durations,
         intervals = intervals,
@@ -211,13 +211,13 @@ local function newAnimation(frames, durations, onLoop, animation_identifier)
 end
 
 function Animation:serialize()
-    if not self.animation_identifier then
-        error("No animation_identifier, cannot serialize")
+    if not self.animationIdentifier then
+        error("No animationIdentifier, cannot serialize")
         return
     end
     local data = {}
     data.type = "Anim8"
-    data.animation_identifier = self.animation_identifier
+    data.animationIdentifier = self.animationIdentifier
     data.durations = self.durations
     data.intervals = self.intervals
     data.totalDuration = self.totalDuration
@@ -231,7 +231,7 @@ function Animation:serialize()
 end
 
 function Animation:deserialize(data)
-    self.animation_identifier = data.animation_identifier
+    self.animationIdentifier = data.animationIdentifier
     self.durations = data.durations
     self.intervals = data.intervals
     self.totalDuration = data.totalDuration

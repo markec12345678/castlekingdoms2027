@@ -1,26 +1,26 @@
-local active_entities, _, tile_quads, _ = ...
+local activeEntities, _, tileQuads, _ = ...
 
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
-local tiles, quad_array = _G.indexBuildingQuads("stone_quarry")
+local tiles, quadArray = _G.indexBuildingQuads("stone_quarry")
 
-local fr_lifter_part1 = _G.indexQuads("anim_quarry_lower", 17)
-local fr_lifter_part2 = _G.indexQuads("anim_quarry_lower", 20 + 18, 18)
-local fr_lifter_part3 = _G.indexQuads("anim_quarry_lower", 31 + 18 + 20, 18 + 20)
-local fr_hook_part1 = _G.indexQuads("anim_quarry_hook", 47)
-table.insert(fr_hook_part1, 1, tile_quads["anim_quarry_hook_empty (1)"])
-local fr_hook_part2 = _G.indexQuads("anim_quarry_hook", 17 + 45, 48)
-local fr_shaper = _G.indexQuads("anim_quarry_cut", 131)
+local frLifterPart1 = _G.indexQuads("anim_quarry_lower", 17)
+local frLifterPart2 = _G.indexQuads("anim_quarry_lower", 20 + 18, 18)
+local frLifterPart3 = _G.indexQuads("anim_quarry_lower", 31 + 18 + 20, 18 + 20)
+local frHookPart1 = _G.indexQuads("anim_quarry_hook", 47)
+table.insert(frHookPart1, 1, tileQuads["anim_quarry_hook_empty (1)"])
+local frHookPart2 = _G.indexQuads("anim_quarry_hook", 17 + 45, 48)
+local frShaper = _G.indexQuads("anim_quarry_cut", 131)
 
-table.remove(fr_shaper, 2)
-table.remove(fr_shaper, 2)
-table.remove(fr_shaper, 2)
-table.remove(fr_shaper, 2)
-table.remove(fr_shaper, 2)
+table.remove(frShaper, 2)
+table.remove(frShaper, 2)
+table.remove(frShaper, 2)
+table.remove(frShaper, 2)
+table.remove(frShaper, 2)
 
-local fr_puller_part2 = _G.indexQuads("anim_quarry_pull", 42 + 20, 20)
-local fr_puller_part1 = _G.indexQuads("anim_quarry_pull", 19)
+local frPullerPart2 = _G.indexQuads("anim_quarry_pull", 42 + 20, 20)
+local frPullerPart1 = _G.indexQuads("anim_quarry_pull", 19)
 
 local ANIM_LIFTER_PART1 = "lifter_part1"
 local ANIM_LIFTER_PART2 = "lifter_part2"
@@ -33,383 +33,383 @@ local ANIM_PULLER_PART1 = "puller_part1"
 local ANIM_PULLER_PART2 = "puller_part1"
 
 local an = {
-    [ANIM_LIFTER_PART1] = fr_lifter_part1,
-    [ANIM_LIFTER_PART2] = fr_lifter_part2,
-    [ANIM_LIFTER_PART3] = fr_lifter_part3,
-    [ANIM_LIFTER_PART4] = fr_lifter_part1,
-    [ANIM_HOOK_PART1] = fr_hook_part1,
-    [ANIM_HOOK_PART2] = fr_hook_part2,
-    [ANIM_SHAPER] = fr_shaper,
-    [ANIM_PULLER_PART1] = fr_puller_part1,
-    [ANIM_PULLER_PART2] = fr_puller_part2
+    [ANIM_LIFTER_PART1] = frLifterPart1,
+    [ANIM_LIFTER_PART2] = frLifterPart2,
+    [ANIM_LIFTER_PART3] = frLifterPart3,
+    [ANIM_LIFTER_PART4] = frLifterPart1,
+    [ANIM_HOOK_PART1] = frHookPart1,
+    [ANIM_HOOK_PART2] = frHookPart2,
+    [ANIM_SHAPER] = frShaper,
+    [ANIM_PULLER_PART1] = frPullerPart1,
+    [ANIM_PULLER_PART2] = frPullerPart2
 }
 
-local Quarry_lifter = _G.class('Quarry_lifter', Structure)
-function Quarry_lifter:initialize(gx, gy, parent)
+local QuarryLifter = _G.class('QuarryLifter', Structure)
+function QuarryLifter:initialize(gx, gy, parent)
     local mytype = "Lifter"
     Structure.initialize(self, gx, gy, mytype)
     self.animated = true
-    self.animation = anim.newAnimation(an[ANIM_LIFTER_PART1], 0.10, self:lifter_callback_1(), ANIM_LIFTER_PART1)
+    self.animation = anim.newAnimation(an[ANIM_LIFTER_PART1], 0.10, self:lifterCallback_1(), ANIM_LIFTER_PART1)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
-    self.offset_x = -2
-    self.offset_y = -93
-    table.insert(active_entities, self)
+    self.offsetX = -2
+    self.offsetY = -93
+    table.insert(activeEntities, self)
 end
-function Quarry_lifter:serialize()
+function QuarryLifter:serialize()
     local data = {}
-    local struct_data = Structure.serialize(self)
-    for k, v in pairs(struct_data) do
+    local structData = Structure.serialize(self)
+    for k, v in pairs(structData) do
         if type(v) ~= "function" and type(v) ~= "userdata" then
             data[k] = v
         end
     end
     data.animation = self.animation:serialize()
     data.animated = self.animated
-    data.offset_x = self.offset_x
-    data.offset_y = self.offset_y
+    data.offsetX = self.offsetX
+    data.offsetY = self.offsetY
     data.parent = _G.state:serializeObject(self.parent)
     return data
 end
-function Quarry_lifter.static:deserialize(data)
+function QuarryLifter.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
     Structure.load(obj, data)
     obj.parent = _G.state:dereferenceObject(data.parent)
     obj.parent.lifter = obj
     local callback
-    local an_data = data.animation
-    if an_data.animation_identifier == ANIM_LIFTER_PART1 then
-        callback = obj:lifter_callback_1()
-    elseif an_data.animation_identifier == ANIM_LIFTER_PART2 then
-        callback = obj:lifter_callback_2()
-    elseif an_data.animation_identifier == ANIM_LIFTER_PART3 then
-        callback = obj:lifter_callback_3()
-    elseif an_data.animation_identifier == ANIM_LIFTER_PART4 then
-        callback = obj:lifter_callback_4()
+    local anData = data.animation
+    if anData.animationIdentifier == ANIM_LIFTER_PART1 then
+        callback = obj:lifterCallback_1()
+    elseif anData.animationIdentifier == ANIM_LIFTER_PART2 then
+        callback = obj:lifterCallback_2()
+    elseif anData.animationIdentifier == ANIM_LIFTER_PART3 then
+        callback = obj:lifterCallback_3()
+    elseif anData.animationIdentifier == ANIM_LIFTER_PART4 then
+        callback = obj:lifterCallback_4()
     end
-    obj.animation = _G.anim.newAnimation(an[an_data.animation_identifier], 1, callback, an_data.animation_identifier)
-    obj.animation:deserialize(an_data)
-    table.insert(active_entities, obj)
+    obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
+    obj.animation:deserialize(anData)
+    table.insert(activeEntities, obj)
     return obj
 end
-function Quarry_lifter:lifter_callback_1()
+function QuarryLifter:lifterCallback_1()
     return function()
         self.parent.puller:activate()
         self.parent.hook:activate()
-        self.animation = anim.newAnimation(an[ANIM_LIFTER_PART2], 0.10, self:lifter_callback_2(), ANIM_LIFTER_PART2)
+        self.animation = anim.newAnimation(an[ANIM_LIFTER_PART2], 0.10, self:lifterCallback_2(), ANIM_LIFTER_PART2)
     end
 end
-function Quarry_lifter:lifter_callback_2()
+function QuarryLifter:lifterCallback_2()
     return function()
-        self.animation = anim.newAnimation(an[ANIM_LIFTER_PART3], 0.10, self:lifter_callback_3(), ANIM_LIFTER_PART3)
+        self.animation = anim.newAnimation(an[ANIM_LIFTER_PART3], 0.10, self:lifterCallback_3(), ANIM_LIFTER_PART3)
     end
 end
-function Quarry_lifter:lifter_callback_3()
+function QuarryLifter:lifterCallback_3()
     return function()
-        self.animation = anim.newAnimation(an[ANIM_LIFTER_PART4], 0.10, self:lifter_callback_4(), ANIM_LIFTER_PART4)
+        self.animation = anim.newAnimation(an[ANIM_LIFTER_PART4], 0.10, self:lifterCallback_4(), ANIM_LIFTER_PART4)
         self.animation:pause()
     end
 end
-function Quarry_lifter:lifter_callback_4()
+function QuarryLifter:lifterCallback_4()
     return function()
         self.animation:gotoFrame(1)
     end
 end
-function Quarry_lifter:animate(dt)
+function QuarryLifter:animate(dt)
     Structure.animate(self, dt, true)
 end
-function Quarry_lifter:start()
+function QuarryLifter:start()
     self.animated = true
-    self.animation = anim.newAnimation(an[ANIM_LIFTER_PART1], 0.11, self:lifter_callback_1(), ANIM_LIFTER_PART1)
+    self.animation = anim.newAnimation(an[ANIM_LIFTER_PART1], 0.11, self:lifterCallback_1(), ANIM_LIFTER_PART1)
     self.animation:pause()
     self:animate()
 end
-function Quarry_lifter:activate()
+function QuarryLifter:activate()
     self.animated = true
-    self.animation = anim.newAnimation(an[ANIM_LIFTER_PART1], 0.11, self:lifter_callback_1(), ANIM_LIFTER_PART1)
+    self.animation = anim.newAnimation(an[ANIM_LIFTER_PART1], 0.11, self:lifterCallback_1(), ANIM_LIFTER_PART1)
     self:animate()
 end
-function Quarry_lifter:deactivate()
+function QuarryLifter:deactivate()
     self.animation:pause()
-    self.tile = tile_quads["empty"]
+    self.tile = tileQuads["empty"]
     if self.instancemesh then
-        _G.freeVertexFromTile(self.cx, self.cy, self.vert_id)
+        _G.freeVertexFromTile(self.cx, self.cy, self.vertId)
         self.instancemesh = nil
     end
     self.animated = false
 end
 
-local Quarry_hook = _G.class('Quarry_hook', Structure)
-function Quarry_hook:initialize(gx, gy, parent)
+local QuarryHook = _G.class('QuarryHook', Structure)
+function QuarryHook:initialize(gx, gy, parent)
     local mytype = "Hook"
     Structure.initialize(self, gx, gy, mytype)
     self.animated = true
-    self.animation = anim.newAnimation(an[ANIM_HOOK_PART1], 0.11, self:hook_callback_1(), ANIM_HOOK_PART1)
+    self.animation = anim.newAnimation(an[ANIM_HOOK_PART1], 0.11, self:hookCallback_1(), ANIM_HOOK_PART1)
     self.animation:pause()
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
-    self.offset_x = -2
-    self.offset_y = -116
-    table.insert(active_entities, self)
+    self.offsetX = -2
+    self.offsetY = -116
+    table.insert(activeEntities, self)
 end
-function Quarry_hook:hook_callback_1()
+function QuarryHook:hookCallback_1()
     return function()
         self.parent.shaper:activate()
-        self.animation = anim.newAnimation(an[ANIM_HOOK_PART2], 0.12, self:hook_callback_2(), ANIM_HOOK_PART2)
+        self.animation = anim.newAnimation(an[ANIM_HOOK_PART2], 0.12, self:hookCallback_2(), ANIM_HOOK_PART2)
     end
 end
-function Quarry_hook:hook_callback_2()
+function QuarryHook:hookCallback_2()
     return function()
-        self.animation = anim.newAnimation(an[ANIM_HOOK_PART1], 0.11, self:hook_callback_1(), ANIM_HOOK_PART1)
+        self.animation = anim.newAnimation(an[ANIM_HOOK_PART1], 0.11, self:hookCallback_1(), ANIM_HOOK_PART1)
         self.animation:pause()
     end
 end
-function Quarry_hook:animate(dt)
+function QuarryHook:animate(dt)
     Structure.animate(self, dt, true)
 end
-function Quarry_hook:activate()
+function QuarryHook:activate()
     self.animated = true
     self.animation:gotoFrame(2)
     self.animation:resume()
     self:animate()
 end
-function Quarry_hook:serialize()
+function QuarryHook:serialize()
     local data = {}
-    local struct_data = Structure.serialize(self)
-    for k, v in pairs(struct_data) do
+    local structData = Structure.serialize(self)
+    for k, v in pairs(structData) do
         if type(v) ~= "function" and type(v) ~= "userdata" then
             data[k] = v
         end
     end
     data.animation = self.animation:serialize()
     data.animated = self.animated
-    data.offset_x = self.offset_x
-    data.offset_y = self.offset_y
+    data.offsetX = self.offsetX
+    data.offsetY = self.offsetY
     data.parent = _G.state:serializeObject(self.parent)
     return data
 end
-function Quarry_hook.static:deserialize(data)
+function QuarryHook.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
     Structure.load(obj, data)
     obj.parent = _G.state:dereferenceObject(data.parent)
     obj.parent.hook = obj
     local callback
-    local an_data = data.animation
-    if an_data.animation_identifier == ANIM_HOOK_PART1 then
-        callback = obj:hook_callback_1()
-    elseif an_data.animation_identifier == ANIM_HOOK_PART2 then
-        callback = obj:hook_callback_2()
+    local anData = data.animation
+    if anData.animationIdentifier == ANIM_HOOK_PART1 then
+        callback = obj:hookCallback_1()
+    elseif anData.animationIdentifier == ANIM_HOOK_PART2 then
+        callback = obj:hookCallback_2()
     end
-    obj.animation = _G.anim.newAnimation(an[an_data.animation_identifier], 1, callback, an_data.animation_identifier)
-    obj.animation:deserialize(an_data)
-    table.insert(active_entities, obj)
+    obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
+    obj.animation:deserialize(anData)
+    table.insert(activeEntities, obj)
     return obj
 end
 
-local Quarry_shaper = _G.class('Quarry_shaper', Structure)
-function Quarry_shaper:initialize(gx, gy, parent)
+local QuarryShaper = _G.class('QuarryShaper', Structure)
+function QuarryShaper:initialize(gx, gy, parent)
     local mytype = "Shaper"
     Structure.initialize(self, gx, gy, mytype)
     self.animated = true
-    self.animation = anim.newAnimation(an[ANIM_SHAPER], 0.05, self:shaper_callback(), ANIM_SHAPER)
+    self.animation = anim.newAnimation(an[ANIM_SHAPER], 0.05, self:shaperCallback(), ANIM_SHAPER)
     self.animation:pause()
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
-    self.offset_x = -31
-    self.offset_y = -79
-    table.insert(active_entities, self)
+    self.offsetX = -31
+    self.offsetY = -79
+    table.insert(activeEntities, self)
 end
-function Quarry_shaper:shaper_callback()
+function QuarryShaper:shaperCallback()
     return function()
         self.parent.lifter:activate()
         self.animation:gotoFrame(1)
         self.animation:pause()
-        self.parent.stone_quantity = self.parent.stone_quantity + 1
-        if self.parent.stone_quantity == 3 then
-            self.parent:send_to_stockpile()
+        self.parent.stoneQuantity = self.parent.stoneQuantity + 1
+        if self.parent.stoneQuantity == 3 then
+            self.parent:sendToStockpile()
         end
     end
 end
-function Quarry_shaper:animate(dt)
+function QuarryShaper:animate(dt)
     Structure.animate(self, dt, true)
 end
-function Quarry_shaper:start()
+function QuarryShaper:start()
     self.animated = true
     self.animation:pause()
     self:animate()
 end
-function Quarry_shaper:activate()
+function QuarryShaper:activate()
     self.animated = true
     self.animation:resume()
     self:animate()
 end
-function Quarry_shaper:deactivate()
+function QuarryShaper:deactivate()
     self.animation:pause()
-    self.tile = tile_quads["empty"]
+    self.tile = tileQuads["empty"]
     if self.instancemesh then
-        _G.freeVertexFromTile(self.cx, self.cy, self.vert_id)
+        _G.freeVertexFromTile(self.cx, self.cy, self.vertId)
         self.instancemesh = nil
     end
     self.animated = false
 end
-function Quarry_shaper:serialize()
+function QuarryShaper:serialize()
     local data = {}
-    local struct_data = Structure.serialize(self)
-    for k, v in pairs(struct_data) do
+    local structData = Structure.serialize(self)
+    for k, v in pairs(structData) do
         if type(v) ~= "function" and type(v) ~= "userdata" then
             data[k] = v
         end
     end
     data.animation = self.animation:serialize()
     data.animated = self.animated
-    data.offset_x = self.offset_x
-    data.offset_y = self.offset_y
+    data.offsetX = self.offsetX
+    data.offsetY = self.offsetY
     data.parent = _G.state:serializeObject(self.parent)
     return data
 end
-function Quarry_shaper.static:deserialize(data)
+function QuarryShaper.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
     Structure.load(obj, data)
     obj.parent = _G.state:dereferenceObject(data.parent)
     obj.parent.shaper = obj
     local callback
-    local an_data = data.animation
-    if an_data.animation_identifier == ANIM_SHAPER then
-        callback = obj:shaper_callback()
+    local anData = data.animation
+    if anData.animationIdentifier == ANIM_SHAPER then
+        callback = obj:shaperCallback()
     end
-    obj.animation = _G.anim.newAnimation(an[an_data.animation_identifier], 1, callback, an_data.animation_identifier)
-    obj.animation:deserialize(an_data)
-    table.insert(active_entities, obj)
+    obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
+    obj.animation:deserialize(anData)
+    table.insert(activeEntities, obj)
     return obj
 end
 
-local Quarry_puller = _G.class('Quarry_puller', Structure)
-function Quarry_puller:initialize(gx, gy, parent, offset_x, offset_y)
+local QuarryPuller = _G.class('QuarryPuller', Structure)
+function QuarryPuller:initialize(gx, gy, parent, offsetX, offsetY)
     local mytype = "Puller"
     Structure.initialize(self, gx, gy, mytype)
     self.animated = true
-    self.animation = anim.newAnimation(an[ANIM_PULLER_PART1], 0.11, self:puller_callback_1(), ANIM_PULLER_PART1)
+    self.animation = anim.newAnimation(an[ANIM_PULLER_PART1], 0.11, self:pullerCallback_1(), ANIM_PULLER_PART1)
     self.animation:pause()
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
-    self.offset_x = 92 + offset_x - 16 - 16
-    self.offset_y = 58 + offset_y - 32 - 16
-    table.insert(active_entities, self)
+    self.offsetX = 92 + offsetX - 16 - 16
+    self.offsetY = 58 + offsetY - 32 - 16
+    table.insert(activeEntities, self)
 end
-function Quarry_puller:puller_callback_1()
+function QuarryPuller:pullerCallback_1()
     return function()
-        self.animation = anim.newAnimation(an[ANIM_PULLER_PART2], 0.11, self:puller_callback_2(), ANIM_PULLER_PART2)
+        self.animation = anim.newAnimation(an[ANIM_PULLER_PART2], 0.11, self:pullerCallback_2(), ANIM_PULLER_PART2)
     end
 end
-function Quarry_puller:puller_callback_2()
+function QuarryPuller:pullerCallback_2()
     return function()
-        self.animation = anim.newAnimation(an[ANIM_PULLER_PART1], 0.11, self:puller_callback_1(), ANIM_PULLER_PART1)
+        self.animation = anim.newAnimation(an[ANIM_PULLER_PART1], 0.11, self:pullerCallback_1(), ANIM_PULLER_PART1)
         self.animation:gotoFrame(1)
         self.animation:pause()
     end
 end
-function Quarry_puller:animate(dt)
+function QuarryPuller:animate(dt)
     Structure.animate(self, dt, true)
 end
-function Quarry_puller:start()
+function QuarryPuller:start()
     self.animated = true
     self.animation:pause()
     self:animate()
 end
-function Quarry_puller:activate()
+function QuarryPuller:activate()
     self.animated = true
     self.animation:resume()
     self:animate()
 end
-function Quarry_puller:deactivate()
+function QuarryPuller:deactivate()
     self.animation:pause()
     self.quantity = 0
-    self.tile = tile_quads["empty"]
+    self.tile = tileQuads["empty"]
     if self.instancemesh then
-        _G.freeVertexFromTile(self.cx, self.cy, self.vert_id)
+        _G.freeVertexFromTile(self.cx, self.cy, self.vertId)
         self.instancemesh = nil
     end
     self.animated = false
 end
-function Quarry_puller:serialize()
+function QuarryPuller:serialize()
     local data = {}
-    local struct_data = Structure.serialize(self)
-    for k, v in pairs(struct_data) do
+    local structData = Structure.serialize(self)
+    for k, v in pairs(structData) do
         if type(v) ~= "function" and type(v) ~= "userdata" then
             data[k] = v
         end
     end
     data.animation = self.animation:serialize()
     data.animated = self.animated
-    data.offset_x = self.offset_x
-    data.offset_y = self.offset_y
+    data.offsetX = self.offsetX
+    data.offsetY = self.offsetY
     data.parent = _G.state:serializeObject(self.parent)
     return data
 end
-function Quarry_puller.static:deserialize(data)
+function QuarryPuller.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
     Structure.load(obj, data)
     obj.parent = _G.state:dereferenceObject(data.parent)
     obj.parent.puller = obj
     local callback
-    local an_data = data.animation
-    if an_data.animation_identifier == ANIM_PULLER_PART1 then
-        callback = obj:puller_callback_1()
-    elseif an_data.animation_identifier == ANIM_PULLER_PART2 then
-        callback = obj:puller_callback_2()
+    local anData = data.animation
+    if anData.animationIdentifier == ANIM_PULLER_PART1 then
+        callback = obj:pullerCallback_1()
+    elseif anData.animationIdentifier == ANIM_PULLER_PART2 then
+        callback = obj:pullerCallback_2()
     end
-    obj.animation = _G.anim.newAnimation(an[an_data.animation_identifier], 1, callback, an_data.animation_identifier)
-    obj.animation:deserialize(an_data)
-    table.insert(active_entities, obj)
+    obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
+    obj.animation:deserialize(anData)
+    table.insert(activeEntities, obj)
     return obj
 end
 
-local Quarry_alias = _G.class('Quarry_alias', Structure)
-function Quarry_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
+local QuarryAlias = _G.class('QuarryAlias', Structure)
+function QuarryAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     Structure.initialize(self, gx, gy, "Quarry alias")
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.tile = tile
-    self.base_offset_y = offset_y or 0
-    self.additional_offset_y = 0
-    self.offset_x = offset_x or 0
-    self.offset_y = self.additional_offset_y - self.base_offset_y
-    for k, v in ipairs(_G.stockpile.node_list) do
+    self.baseOffsetY = offsetY or 0
+    self.additionalOffsetY = 0
+    self.offsetX = offsetX or 0
+    self.offsetY = self.additionalOffsetY - self.baseOffsetY
+    for k, v in ipairs(_G.stockpile.nodeList) do
         if v.gx == self.gx and v.gy == self.gy then
-            table.remove(_G.stockpile.node_list, k)
+            table.remove(_G.stockpile.nodeList, k)
             break
         end
     end
     Structure.render(self)
 end
-function Quarry_alias:serialize()
+function QuarryAlias:serialize()
     local data = {}
-    local struct_data = Structure.serialize(self)
-    for k, v in pairs(struct_data) do
+    local structData = Structure.serialize(self)
+    for k, v in pairs(structData) do
         if type(v) ~= "function" and type(v) ~= "userdata" then
             data[k] = v
         end
     end
-    data.tile_key = self.tile_key
-    data.base_offset_y = self.base_offset_y
-    data.additional_offset_y = self.additional_offset_y
-    data.offset_x = self.offset_x
-    data.offset_y = self.offset_y
+    data.tileKey = self.tileKey
+    data.baseOffsetY = self.baseOffsetY
+    data.additionalOffsetY = self.additionalOffsetY
+    data.offsetX = self.offsetX
+    data.offsetY = self.offsetY
     data.parent = _G.state:serializeObject(self.parent)
     return data
 end
-function Quarry_alias.static:deserialize(data)
+function QuarryAlias.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
     Structure.load(obj, data)
     obj.parent = _G.state:dereferenceObject(data.parent)
-    if data.tile_key then
-        obj.tile = quad_array[data.tile_key]
-        obj.tile_key = data.tile_key
+    if data.tileKey then
+        obj.tile = quadArray[data.tileKey]
+        obj.tileKey = data.tileKey
         obj:render()
     end
     return obj
@@ -421,22 +421,22 @@ function Quarry:initialize(gx, gy)
     Structure.initialize(self, gx, gy, "Quarry")
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 400
-    self.tile = quad_array[tiles + 1]
-    self.stone_quantity = 0
+    self.tile = quadArray[tiles + 1]
+    self.stoneQuantity = 0
     self.working = false
-    self.offset_x = 0
-    self.offset_y = -7 * 16 - 6
-    self.free_spots = 3
-    self.lift_worker = nil
-    self.pull_worker = nil
-    self.shape_worker = nil
-    self.lifter = Quarry_lifter:new(self.gx + 3, self.gy + 5, self, self.offset_x - 64 - 16)
+    self.offsetX = 0
+    self.offsetY = -7 * 16 - 6
+    self.freeSpots = 3
+    self.liftWorker = nil
+    self.pullWorker = nil
+    self.shapeWorker = nil
+    self.lifter = QuarryLifter:new(self.gx + 3, self.gy + 5, self, self.offsetX - 64 - 16)
     self.lifter:deactivate()
-    self.shaper = Quarry_shaper:new(self.gx + 1, self.gy + 5, self, self.offset_x - 64 - 16, self.offset_y)
+    self.shaper = QuarryShaper:new(self.gx + 1, self.gy + 5, self, self.offsetX - 64 - 16, self.offsetY)
     self.shaper:deactivate()
-    self.puller = Quarry_puller:new(self.gx + 4, self.gy + 2, self, self.offset_x - 64 - 16, self.offset_y)
+    self.puller = QuarryPuller:new(self.gx + 4, self.gy + 2, self, self.offsetX - 64 - 16, self.offsetY)
     self.puller:deactivate()
-    self.hook = Quarry_hook:new(self.gx + 2, self.gy + 5, self, self.offset_x - 64 - 16)
+    self.hook = QuarryHook:new(self.gx + 2, self.gy + 5, self, self.offsetX - 64 - 16)
 
     for xx = 0, 5 do
         for yy = 0, 5 do
@@ -445,121 +445,121 @@ function Quarry:initialize(gx, gy)
     end
     for xx = 0, 5 do
         for yy = 0, 5 do
-            _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.none)
+            _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrainBiome.none)
         end
     end
 
     for tile = 1, tiles do
-        local qur = Quarry_alias:new(quad_array[tile], self.gx, self.gy + (tiles - tile + 1), self,
-            -self.offset_y + 8 * (tiles - tile + 1))
-        qur.tile_key = tile
+        local qur = QuarryAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
+            -self.offsetY + 8 * (tiles - tile + 1))
+        qur.tileKey = tile
     end
 
     for tile = 1, tiles do
-        local qur = Quarry_alias:new(quad_array[tiles + 1 + tile], self.gx + tile, self.gy, self,
-            -self.offset_y + 8 * tile, 14)
-        qur.tile_key = tiles + 1 + tile
+        local qur = QuarryAlias:new(quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self,
+            -self.offsetY + 8 * tile, 14)
+        qur.tileKey = tiles + 1 + tile
     end
 
-    Quarry_alias:new(tile_quads["empty"], self.gx + 5, self.gy + 1, self, 12 + 8 * 4, 16)
-    Quarry_alias:new(tile_quads["empty"], self.gx + 5, self.gy + 2, self, 12 + 8 * 4, 16)
-    Quarry_alias:new(tile_quads["empty"], self.gx + 5, self.gy + 3, self, 12 + 8 * 4, 16)
-    Quarry_alias:new(tile_quads["empty"], self.gx + 5, self.gy + 4, self, 12 + 8 * 4, 16)
-    Quarry_alias:new(tile_quads["empty"], self.gx + 5, self.gy + 5, self, 12 + 8 * 4, 16)
-    Quarry_alias:new(tile_quads["empty"], self.gx + 1, self.gy + 5, self, 12 + 8 * 4, 16)
-    Quarry_alias:new(tile_quads["empty"], self.gx + 2, self.gy + 5, self, 12 + 8 * 4, 16)
-    Quarry_alias:new(tile_quads["empty"], self.gx + 3, self.gy + 5, self, 12 + 8 * 4, 16)
-    Quarry_alias:new(tile_quads["empty"], self.gx + 4, self.gy + 5, self, 12 + 8 * 4, 16)
+    QuarryAlias:new(tileQuads["empty"], self.gx + 5, self.gy + 1, self, 12 + 8 * 4, 16)
+    QuarryAlias:new(tileQuads["empty"], self.gx + 5, self.gy + 2, self, 12 + 8 * 4, 16)
+    QuarryAlias:new(tileQuads["empty"], self.gx + 5, self.gy + 3, self, 12 + 8 * 4, 16)
+    QuarryAlias:new(tileQuads["empty"], self.gx + 5, self.gy + 4, self, 12 + 8 * 4, 16)
+    QuarryAlias:new(tileQuads["empty"], self.gx + 5, self.gy + 5, self, 12 + 8 * 4, 16)
+    QuarryAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 5, self, 12 + 8 * 4, 16)
+    QuarryAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 5, self, 12 + 8 * 4, 16)
+    QuarryAlias:new(tileQuads["empty"], self.gx + 3, self.gy + 5, self, 12 + 8 * 4, 16)
+    QuarryAlias:new(tileQuads["empty"], self.gx + 4, self.gy + 5, self, 12 + 8 * 4, 16)
 
     Structure.render(self)
 end
 function Quarry:join(worker)
-    if self.free_spots == 3 then
-        self.lift_worker = worker
+    if self.freeSpots == 3 then
+        self.liftWorker = worker
         worker.workplace = self
-        self.free_spots = self.free_spots - 1
-    elseif self.free_spots == 2 then
-        self.pull_worker = worker
+        self.freeSpots = self.freeSpots - 1
+    elseif self.freeSpots == 2 then
+        self.pullWorker = worker
         worker.workplace = self
-        self.free_spots = self.free_spots - 1
-    elseif self.free_spots == 1 then
-        self.shape_worker = worker
+        self.freeSpots = self.freeSpots - 1
+    elseif self.freeSpots == 1 then
+        self.shapeWorker = worker
         worker.workplace = self
-        self.free_spots = self.free_spots - 1
+        self.freeSpots = self.freeSpots - 1
     end
 end
 function Quarry:work(worker)
-    if self.lift_worker == worker then
+    if self.liftWorker == worker then
         worker.state = "Working"
-        worker.tile = tile_quads["empty"]
+        worker.tile = tileQuads["empty"]
         worker.animated = false
         worker.gx = self.gx + 3
         worker.gy = self.gy + 2
-        worker:job_update()
+        worker:jobUpdate()
         self.lifter:start()
-    elseif self.pull_worker == worker then
+    elseif self.pullWorker == worker then
         worker.state = "Working"
-        worker.tile = tile_quads["empty"]
+        worker.tile = tileQuads["empty"]
         worker.animated = false
         worker.gx = self.gx + 4
         worker.gy = self.gy + 3
-        worker:job_update()
+        worker:jobUpdate()
         self.puller:start()
-        self.puller.tile = tile_quads["anim_quarry_pull (1)"]
-    elseif self.shape_worker == worker then
+        self.puller.tile = tileQuads["anim_quarry_pull (1)"]
+    elseif self.shapeWorker == worker then
         worker.state = "Working"
-        worker.tile = tile_quads["empty"]
+        worker.tile = tileQuads["empty"]
         worker.animated = false
         worker.gx = self.gx + 3
         worker.gy = self.gy + 4
         self.shaper:start()
-        worker:job_update()
-        self.shaper.tile = tile_quads["anim_quarry_cut (1)"]
+        worker:jobUpdate()
+        self.shaper.tile = tileQuads["anim_quarry_cut (1)"]
     end
-    if self.shape_worker and self.shape_worker.state == "Working" and not self.working and self.lift_worker.state ==
-        "Working" and self.pull_worker.state == "Working" then
+    if self.shapeWorker and self.shapeWorker.state == "Working" and not self.working and self.liftWorker.state ==
+        "Working" and self.pullWorker.state == "Working" then
         self.working = true
         self.lifter:activate()
     end
 end
-function Quarry:send_to_stockpile()
-    self.stone_quantity = 0
+function Quarry:sendToStockpile()
+    self.stoneQuantity = 0
     local i, o, cx, cy
-    self.lift_worker.state = "Go to stockpile"
-    self.lift_worker.animated = true
-    self.lift_worker.gx = self.gx + 6
-    self.lift_worker.gy = self.gy + 2
-    self.lift_worker.fx = (self.gx + 6) * 1000 + 500
-    self.lift_worker.fy = (self.gy + 2) * 1000 + 500
-    i = (self.lift_worker.gx) % (_G.chunk_width)
-    o = (self.lift_worker.gy) % (_G.chunk_width)
-    cx = math.floor(self.lift_worker.gx / _G.chunk_width)
-    cy = math.floor(self.lift_worker.gy / _G.chunk_width)
-    _G.addObjectAt(cx, cy, i, o, self.lift_worker)
+    self.liftWorker.state = "Go to stockpile"
+    self.liftWorker.animated = true
+    self.liftWorker.gx = self.gx + 6
+    self.liftWorker.gy = self.gy + 2
+    self.liftWorker.fx = (self.gx + 6) * 1000 + 500
+    self.liftWorker.fy = (self.gy + 2) * 1000 + 500
+    i = (self.liftWorker.gx) % (_G.chunkWidth)
+    o = (self.liftWorker.gy) % (_G.chunkWidth)
+    cx = math.floor(self.liftWorker.gx / _G.chunkWidth)
+    cy = math.floor(self.liftWorker.gy / _G.chunkWidth)
+    _G.addObjectAt(cx, cy, i, o, self.liftWorker)
 
-    self.pull_worker.state = "Go to stockpile"
-    self.pull_worker.animated = true
-    self.pull_worker.gx = self.gx + 5
-    self.pull_worker.gy = self.gy - 1
-    self.pull_worker.fx = (self.gx + 5) * 1000 + 500
-    self.pull_worker.fy = (self.gy - 1) * 1000 + 500
-    i = (self.pull_worker.gx) % (_G.chunk_width)
-    o = (self.pull_worker.gy) % (_G.chunk_width)
-    cx = math.floor(self.pull_worker.gx / _G.chunk_width)
-    cy = math.floor(self.pull_worker.gy / _G.chunk_width)
-    _G.addObjectAt(cx, cy, i, o, self.pull_worker)
+    self.pullWorker.state = "Go to stockpile"
+    self.pullWorker.animated = true
+    self.pullWorker.gx = self.gx + 5
+    self.pullWorker.gy = self.gy - 1
+    self.pullWorker.fx = (self.gx + 5) * 1000 + 500
+    self.pullWorker.fy = (self.gy - 1) * 1000 + 500
+    i = (self.pullWorker.gx) % (_G.chunkWidth)
+    o = (self.pullWorker.gy) % (_G.chunkWidth)
+    cx = math.floor(self.pullWorker.gx / _G.chunkWidth)
+    cy = math.floor(self.pullWorker.gy / _G.chunkWidth)
+    _G.addObjectAt(cx, cy, i, o, self.pullWorker)
 
-    self.shape_worker.state = "Go to stockpile"
-    self.shape_worker.animated = true
-    self.shape_worker.gx = self.gx + 1
-    self.shape_worker.gy = self.gy + 6
-    self.shape_worker.fx = (self.gx + 1) * 1000 + 500
-    self.shape_worker.fy = (self.gy + 6) * 1000 + 500
-    i = (self.shape_worker.gx) % (_G.chunk_width)
-    o = (self.shape_worker.gy) % (_G.chunk_width)
-    cx = math.floor(self.shape_worker.gx / _G.chunk_width)
-    cy = math.floor(self.shape_worker.gy / _G.chunk_width)
-    _G.addObjectAt(cx, cy, i, o, self.shape_worker)
+    self.shapeWorker.state = "Go to stockpile"
+    self.shapeWorker.animated = true
+    self.shapeWorker.gx = self.gx + 1
+    self.shapeWorker.gy = self.gy + 6
+    self.shapeWorker.fx = (self.gx + 1) * 1000 + 500
+    self.shapeWorker.fy = (self.gy + 6) * 1000 + 500
+    i = (self.shapeWorker.gx) % (_G.chunkWidth)
+    o = (self.shapeWorker.gy) % (_G.chunkWidth)
+    cx = math.floor(self.shapeWorker.gx / _G.chunkWidth)
+    cy = math.floor(self.shapeWorker.gy / _G.chunkWidth)
+    _G.addObjectAt(cx, cy, i, o, self.shapeWorker)
 
     self.lifter:deactivate()
     self.puller:deactivate()
@@ -570,49 +570,49 @@ function Quarry:load(data)
     Object.deserialize(self, data)
     Structure.load(self, data)
     self.health = data.health
-    self.stone_quantity = data.stone_quantity
+    self.stoneQuantity = data.stoneQuantity
     self.working = data.working
-    self.offset_x = data.offset_x
-    self.offset_y = data.offset_y
-    self.free_spots = data.free_spots
-    if data.lift_worker then
-        self.lift_worker = _G.state:dereferenceObject(data.lift_worker)
-        self.lift_worker.workplace = self
+    self.offsetX = data.offsetX
+    self.offsetY = data.offsetY
+    self.freeSpots = data.freeSpots
+    if data.liftWorker then
+        self.liftWorker = _G.state:dereferenceObject(data.liftWorker)
+        self.liftWorker.workplace = self
     end
-    if data.pull_worker then
-        self.pull_worker = _G.state:dereferenceObject(data.pull_worker)
-        self.pull_worker.workplace = self
+    if data.pullWorker then
+        self.pullWorker = _G.state:dereferenceObject(data.pullWorker)
+        self.pullWorker.workplace = self
     end
-    if data.shape_worker then
-        self.shape_worker = _G.state:dereferenceObject(data.shape_worker)
-        self.shape_worker.workplace = self
+    if data.shapeWorker then
+        self.shapeWorker = _G.state:dereferenceObject(data.shapeWorker)
+        self.shapeWorker.workplace = self
     end
-    self.tile = quad_array[tiles + 1]
+    self.tile = quadArray[tiles + 1]
     Structure.render(self)
 end
 function Quarry:serialize()
     local data = {}
-    local struct_data = Structure.serialize(self)
-    for k, v in pairs(struct_data) do
+    local structData = Structure.serialize(self)
+    for k, v in pairs(structData) do
         if type(v) ~= "function" and type(v) ~= "userdata" then
             data[k] = v
         end
     end
 
     data.health = self.health
-    data.stone_quantity = self.stone_quantity
+    data.stoneQuantity = self.stoneQuantity
     data.working = self.working
-    data.offset_x = self.offset_x
-    data.offset_y = self.offset_y
-    data.free_spots = self.free_spots
-    if self.lift_worker then
-        data.lift_worker = _G.state:serializeObject(self.lift_worker)
+    data.offsetX = self.offsetX
+    data.offsetY = self.offsetY
+    data.freeSpots = self.freeSpots
+    if self.liftWorker then
+        data.liftWorker = _G.state:serializeObject(self.liftWorker)
     end
-    if self.pull_worker then
-        data.pull_worker = _G.state:serializeObject(self.pull_worker)
+    if self.pullWorker then
+        data.pullWorker = _G.state:serializeObject(self.pullWorker)
     end
-    if self.shape_worker then
-        data.shape_worker = _G.state:serializeObject(self.shape_worker)
+    if self.shapeWorker then
+        data.shapeWorker = _G.state:serializeObject(self.shapeWorker)
     end
     return data
 end

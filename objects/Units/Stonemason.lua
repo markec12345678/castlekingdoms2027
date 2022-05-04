@@ -62,59 +62,59 @@ function Stonemason:initialize(gx, gy, type)
     self.workplace = nil
     self.state = 'Find a job'
     self.count = 1
-    self.offset_y = -10
-    self.offset_x = -5
-    self.eat_timer = 0
+    self.offsetY = -10
+    self.offsetX = -5
+    self.eatTimer = 0
     self.animated = true
     self.animation = anim.newAnimation(an[ANIM_WALKING_WEST], 10, nil, ANIM_WALKING_WEST)
 end
-function Stonemason:dir_sub_update()
-    if self.move_dir == "west" then
+function Stonemason:dirSubUpdate()
+    if self.moveDir == "west" then
         if self.state == "Going to stockpile" then
             self.animation = anim.newAnimation(an[ANIM_WALKING_STONE_WEST], 0.05, nil, ANIM_WALKING_STONE_WEST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_WEST], 0.05, nil, ANIM_WALKING_WEST)
         end
-    elseif self.move_dir == "southwest" then
+    elseif self.moveDir == "southwest" then
         if self.state == "Going to stockpile" then
             self.animation =
                 anim.newAnimation(an[ANIM_WALKING_STONE_SOUTHWEST], 0.05, nil, ANIM_WALKING_STONE_SOUTHWEST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_SOUTHWEST], 0.05, nil, ANIM_WALKING_SOUTHWEST)
         end
-    elseif self.move_dir == "northwest" then
+    elseif self.moveDir == "northwest" then
         if self.state == "Going to stockpile" then
             self.animation =
                 anim.newAnimation(an[ANIM_WALKING_STONE_NORTHWEST], 0.05, nil, ANIM_WALKING_STONE_NORTHWEST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_NORTHWEST], 0.05, nil, ANIM_WALKING_NORTHWEST)
         end
-    elseif self.move_dir == "north" then
+    elseif self.moveDir == "north" then
         if self.state == "Going to stockpile" then
             self.animation = anim.newAnimation(an[ANIM_WALKING_STONE_NORTH], 0.05, nil, ANIM_WALKING_STONE_NORTH)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_NORTH], 0.05, nil, ANIM_WALKING_NORTH)
         end
-    elseif self.move_dir == "south" then
+    elseif self.moveDir == "south" then
         if self.state == "Going to stockpile" then
             self.animation = anim.newAnimation(an[ANIM_WALKING_STONE_SOUTH], 0.05, nil, ANIM_WALKING_STONE_SOUTH)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_SOUTH], 0.05, nil, ANIM_WALKING_SOUTH)
         end
-    elseif self.move_dir == "east" then
+    elseif self.moveDir == "east" then
         if self.state == "Going to stockpile" then
             self.animation = anim.newAnimation(an[ANIM_WALKING_STONE_EAST], 0.05, nil, ANIM_WALKING_STONE_EAST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_EAST], 0.05, nil, ANIM_WALKING_EAST)
         end
-    elseif self.move_dir == "southeast" then
+    elseif self.moveDir == "southeast" then
         if self.state == "Going to stockpile" then
             self.animation =
                 anim.newAnimation(an[ANIM_WALKING_STONE_SOUTHEAST], 0.05, nil, ANIM_WALKING_STONE_SOUTHEAST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_SOUTHEAST], 0.05, nil, ANIM_WALKING_SOUTHEAST)
         end
-    elseif self.move_dir == "northeast" then
+    elseif self.moveDir == "northeast" then
         if self.state == "Going to stockpile" then
             self.animation =
                 anim.newAnimation(an[ANIM_WALKING_STONE_NORTHEAST], 0.05, nil, ANIM_WALKING_STONE_NORTHEAST)
@@ -124,78 +124,78 @@ function Stonemason:dir_sub_update()
     end
 end
 function Stonemason:update()
-    self.eat_timer = self.eat_timer + 1
-    if self.eat_timer > 3000 then
+    self.eatTimer = self.eatTimer + 1
+    if self.eatTimer > 3000 then
         _G.foodpile:take()
-        self.eat_timer = 0
+        self.eatTimer = 0
     end
-    if self.path_state == "Waiting for path" then
+    if self.pathState == "Waiting for path" then
         self:pathfind()
     elseif self.state ~= "No path to quarry" and self.state ~= "Working" then
         if self.state == "Find a job" then
-            _G.JobController:find_job(self, "Stonemason")
+            _G.JobController:findJob(self, "Stonemason")
         elseif self.state == "Go to stockpile" then
             if _G.stockpile then
                 self.state = "Going to stockpile"
-                local closest_node
+                local closestNode
                 local distance = math.huge
-                for _, v in ipairs(_G.stockpile.node_list) do
-                    local tmp = _G.manhattan_distance(v.gx, v.gy, self.gx, self.gy)
+                for _, v in ipairs(_G.stockpile.nodeList) do
+                    local tmp = _G.manhattanDistance(v.gx, v.gy, self.gx, self.gy)
                     if tmp < distance then
                         distance = tmp
-                        closest_node = v
+                        closestNode = v
                     end
                 end
-                if not closest_node then
+                if not closestNode then
                     print("Closest stockpile node not found")
                 else
-                    self:requestPath(closest_node.gx, closest_node.gy)
+                    self:requestPath(closestNode.gx, closestNode.gy)
                 end
-                self.move_dir = "none"
+                self.moveDir = "none"
             end
         elseif self.state == "Go to workplace" then
-            if self.workplace.lift_worker == self then
+            if self.workplace.liftWorker == self then
                 self:requestPath(self.workplace.gx + 6, self.workplace.gy + 3)
                 self.state = "Going to workplace"
-                self.move_dir = "none"
+                self.moveDir = "none"
 
-            elseif self.workplace.pull_worker == self then
+            elseif self.workplace.pullWorker == self then
                 self:requestPath(self.workplace.gx + 5, self.workplace.gy - 1)
                 self.state = "Going to workplace"
-                self.move_dir = "none"
+                self.moveDir = "none"
 
-            elseif self.workplace.shape_worker == self then
+            elseif self.workplace.shapeWorker == self then
                 self:requestPath(self.workplace.gx + 1, self.workplace.gy + 6)
                 self.state = "Going to workplace"
-                self.move_dir = "none"
+                self.moveDir = "none"
             end
-        elseif self.move_dir == "none" and self.state == "Going to workplace" then
-            self:update_direction()
-        elseif self.move_dir == "none" and self.state == "Going to stockpile" then
-            self:update_direction()
+        elseif self.moveDir == "none" and self.state == "Going to workplace" then
+            self:updateDirection()
+        elseif self.moveDir == "none" and self.state == "Going to stockpile" then
+            self:updateDirection()
         end
         if self.state == "Going to workplace" or self.state == "Going to stockpile" then
             self:move()
         end
-        if self.fx * 0.001 == self.waypoint_x and self.fy * 0.001 == self.waypoint_y and self.move_dir ~= "none" then
+        if self.fx * 0.001 == self.waypointX and self.fy * 0.001 == self.waypointY and self.moveDir ~= "none" then
             if self.state == "Going to workplace" then
-                if self:reached_path_end() then
+                if self:reachedPathEnd() then
                     self.workplace:work(self)
-                    self:clear_path()
+                    self:clearPath()
                     return
                 else
-                    self:set_next_waypoint()
+                    self:setNextWaypoint()
 
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to stockpile" then
-                if self:reached_path_end() then
+                if self:reachedPathEnd() then
                     _G.stockpile:store('stone')
                     self.state = "Go to workplace"
-                    self:clear_path()
+                    self:clearPath()
                     return
                 else
-                    self:set_next_waypoint()
+                    self:setNextWaypoint()
 
                 end
                 self.count = self.count + 1
@@ -210,16 +210,16 @@ end
 function Stonemason:load(data)
     Object.deserialize(self, data)
     Unit.load(self, data)
-    local an_data = data.animation
-    if an_data then
-        self.animation = anim.newAnimation(an[an_data.animation_identifier], 1, nil, an_data.animation_identifier)
-        self.animation:deserialize(an_data)
+    local anData = data.animation
+    if anData then
+        self.animation = anim.newAnimation(an[anData.animationIdentifier], 1, nil, anData.animationIdentifier)
+        self.animation:deserialize(anData)
     end
 end
 function Stonemason:serialize()
     local data = {}
-    local unit_data = Unit.serialize(self)
-    for k, v in pairs(unit_data) do
+    local unitData = Unit.serialize(self)
+    for k, v in pairs(unitData) do
         if type(v) ~= "function" and type(v) ~= "userdata" then
             data[k] = v
         end
@@ -228,9 +228,9 @@ function Stonemason:serialize()
         data.animation = self.animation:serialize()
     end
     data.state = self.state
-    data.eat_timer = self.eat_timer
-    data.offset_y = self.offset_y
-    data.offset_x = self.offset_x
+    data.eatTimer = self.eatTimer
+    data.offsetY = self.offsetY
+    data.offsetX = self.offsetX
     data.animated = self.animated
     data.count = self.count
     return data

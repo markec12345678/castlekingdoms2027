@@ -25,56 +25,56 @@ function _G.reverse(t)
     return t
 end
 
-function _G.getClassByName(class_name)
-    return _G.classes[class_name]
+function _G.getClassByName(className)
+    return _G.classes[className]
 end
 
-function _G.indexBuildingQuads(quad_string, trim_last, last_width_offset)
-    local tile_quads = require('objects.object_quads')
-    trim_last = trim_last or last_width_offset or false
-    last_width_offset = last_width_offset or 0
-    if trim_last and last_width_offset == 0 then
-        last_width_offset = 8
+function _G.indexBuildingQuads(quadString, trimLast, lastWidthOffset)
+    local tileQuads = require('objects.object_quads')
+    trimLast = trimLast or lastWidthOffset or false
+    lastWidthOffset = lastWidthOffset or 0
+    if trimLast and lastWidthOffset == 0 then
+        lastWidthOffset = 8
     end
     -- NOTE: Probably wont work for non-square buildings
-    local result_array = {}
-    local quad = tile_quads[quad_string]
+    local resultArray = {}
+    local quad = tileQuads[quadString]
     local x, y, w, h = quad:getViewport()
-    local total_tiles_wide = math.ceil(w / _G.tile_width)
-    local middle_count = 0
-    for i = 1, total_tiles_wide - 1 do
-        result_array[#result_array + 1] = love.graphics.newQuad(x + 16 * (i - 1), y, _G.tile_width / 2, h, _G.imageW,
+    local totalTilesWide = math.ceil(w / _G.tileWidth)
+    local middleCount = 0
+    for i = 1, totalTilesWide - 1 do
+        resultArray[#resultArray + 1] = love.graphics.newQuad(x + 16 * (i - 1), y, _G.tileWidth / 2, h, _G.imageW,
             _G.imageH)
-        middle_count = i
+        middleCount = i
     end
-    result_array[#result_array + 1] = love.graphics.newQuad(x + 16 * (middle_count), y, _G.tile_width, h, _G.imageW,
+    resultArray[#resultArray + 1] = love.graphics.newQuad(x + 16 * (middleCount), y, _G.tileWidth, h, _G.imageW,
         _G.imageH)
-    for i = middle_count + 2, middle_count + total_tiles_wide do
-        if trim_last and i == middle_count + total_tiles_wide then
-            result_array[#result_array + 1] = love.graphics.newQuad(x + 16 * (i), y,
-                _G.tile_width / 2 - last_width_offset, h, _G.imageW, _G.imageH)
+    for i = middleCount + 2, middleCount + totalTilesWide do
+        if trimLast and i == middleCount + totalTilesWide then
+            resultArray[#resultArray + 1] = love.graphics.newQuad(x + 16 * (i), y, _G.tileWidth / 2 - lastWidthOffset,
+                h, _G.imageW, _G.imageH)
         else
-            result_array[#result_array + 1] = love.graphics.newQuad(x + 16 * (i), y, _G.tile_width / 2, h, _G.imageW,
+            resultArray[#resultArray + 1] = love.graphics.newQuad(x + 16 * (i), y, _G.tileWidth / 2, h, _G.imageW,
                 _G.imageH)
         end
     end
 
-    return total_tiles_wide - 1, result_array
+    return totalTilesWide - 1, resultArray
 end
 
-function _G.indexQuads(string, end_amount, start, reverse)
-    local tile_quads = require('objects.object_quads')
+function _G.indexQuads(string, endAmount, start, reverse)
+    local tileQuads = require('objects.object_quads')
     start = start or 1
-    local temp_array = {}
-    for i = start, end_amount do
-        temp_array[#temp_array + 1] = tile_quads[string .. " (" .. tostring(i) .. ")"]
+    local tempArray = {}
+    for i = start, endAmount do
+        tempArray[#tempArray + 1] = tileQuads[string .. " (" .. tostring(i) .. ")"]
     end
     if reverse then
-        for i = 2, end_amount do
-            temp_array[#temp_array + 1] = tile_quads[string .. " (" .. tostring(end_amount - i) .. ")"]
+        for i = 2, endAmount do
+            tempArray[#tempArray + 1] = tileQuads[string .. " (" .. tostring(endAmount - i) .. ")"]
         end
     end
-    return temp_array
+    return tempArray
 end
 
 function _G.newAutotable(dim)
@@ -94,74 +94,74 @@ function _G.newAutotable(dim)
 end
 
 ----Tiles
-function _G.getFreeVertexFromTile(cx, cy, local_x, local_y, last_vertex_first)
-    last_vertex_first = last_vertex_first or false
-    local vert_id = _G.state.vertices_per_tile * (local_x + local_y * chunk_width) + 1
-    local chunk_vertices = _G.state.object_mesh_vert_id_map[cx][cy]
-    if last_vertex_first then
-        for i = 2, _G.state.vertices_per_tile - 1 do
-            if not chunk_vertices[vert_id + i] then
-                _G.state.object_mesh_vert_id_map[cx][cy][vert_id + i] = true
-                return vert_id + i
+function _G.getFreeVertexFromTile(cx, cy, localX, localY, lastVertexFirst)
+    lastVertexFirst = lastVertexFirst or false
+    local vertId = _G.state.verticesPerTile * (localX + localY * chunkWidth) + 1
+    local chunkVertices = _G.state.objectMeshVertIdMap[cx][cy]
+    if lastVertexFirst then
+        for i = 2, _G.state.verticesPerTile - 1 do
+            if not chunkVertices[vertId + i] then
+                _G.state.objectMeshVertIdMap[cx][cy][vertId + i] = true
+                return vertId + i
             end
         end
     else
-        for i = _G.state.vertices_per_tile - 1, 2, -1 do
-            if not chunk_vertices[vert_id + i] then
-                _G.state.object_mesh_vert_id_map[cx][cy][vert_id + i] = true
-                return vert_id + i
+        for i = _G.state.verticesPerTile - 1, 2, -1 do
+            if not chunkVertices[vertId + i] then
+                _G.state.objectMeshVertIdMap[cx][cy][vertId + i] = true
+                return vertId + i
             end
         end
     end
     return false
 end
 
-function _G.getTerrainVertex(cx, cy, local_x, local_y)
-    local vert_id = _G.state.vertices_per_tile * (local_x + local_y * chunk_width) + 2
-    _G.state.object_mesh_vert_id_map[cx][cy][vert_id] = true
-    return vert_id
+function _G.getTerrainVertex(cx, cy, localX, localY)
+    local vertId = _G.state.verticesPerTile * (localX + localY * chunkWidth) + 2
+    _G.state.objectMeshVertIdMap[cx][cy][vertId] = true
+    return vertId
 end
 
-function _G.getChevronVertex(cx, cy, local_x, local_y)
-    local vert_id = _G.state.vertices_per_tile * (local_x + local_y * chunk_width) + 1
-    _G.state.object_mesh_vert_id_map[cx][cy][vert_id] = true
-    return vert_id
+function _G.getChevronVertex(cx, cy, localX, localY)
+    local vertId = _G.state.verticesPerTile * (localX + localY * chunkWidth) + 1
+    _G.state.objectMeshVertIdMap[cx][cy][vertId] = true
+    return vertId
 end
 
-function _G.freeVertexFromTile(cx, cy, vert_id)
-    if not vert_id then
+function _G.freeVertexFromTile(cx, cy, vertId)
+    if not vertId then
         return
     end
-    chunk_vertices = _G.state.object_mesh_vert_id_map[cx][cy]
-    if chunk_vertices then
-        _G.state.object_mesh[cx][cy]:setVertex(vert_id)
-        chunk_vertices[vert_id] = false
+    chunkVertices = _G.state.objectMeshVertIdMap[cx][cy]
+    if chunkVertices then
+        _G.state.objectMesh[cx][cy]:setVertex(vertId)
+        chunkVertices[vertId] = false
     else
         return true
     end
 end
-_G.tile_width = 32
-_G.tile_height = 16
-_G.chunk_width = 64
-_G.chunk_height = 64
+_G.tileWidth = 32
+_G.tileHeight = 16
+_G.chunkWidth = 64
+_G.chunkHeight = 64
 -- UI
 _G.TOOLTIP_DELAY = 0.1
 _G.loaded = false
 ----Chunks
 _G.xchunk = 0
 _G.ychunk = 0
-_G.chunks_wide = 8
-_G.chunks_high = 8
-_G.current_chunk_x = 0
-_G.current_chunk_y = 0
+_G.chunksWide = 8
+_G.chunksHigh = 8
+_G.currentChunkX = 0
+_G.currentChunkY = 0
 _G.CenterX = 0
 _G.CenterY = 0
 ----Offset
 _G.IsoX = 0
 _G.IsoY = -1400
 ----View
-_G.scroll_speed = 10
-_G.window_width, _G.window_height = love.window.getMode()
+_G.scrollSpeed = 10
+_G.windowWidth, _G.windowHeight = love.window.getMode()
 ----Mouse
 _G.mx = 0
 _G.my = 0
@@ -174,40 +174,40 @@ _G.ScreenWidth, _G.ScreenHeight, _ = love.window.getMode()
 _G.channel = {}
 _G.channel.request = love.thread.getChannel("request")
 _G.channel.receive = love.thread.getChannel("receive")
-_G.channel.map_update = love.thread.getChannel("map_update")
+_G.channel.mapUpdate = love.thread.getChannel("mapUpdate")
 _G.channel2 = {}
-_G.channel2.map_update = love.thread.getChannel("map_update2")
+_G.channel2.mapUpdate = love.thread.getChannel("mapUpdate2")
 
-function _G.string.starts_with(str, start)
+function _G.string.startsWith(str, start)
     return str:sub(1, #start) == start
 end
 
-function _G.string.ends_with(str, ending)
+function _G.string.endsWith(str, ending)
     return ending == "" or str:sub(-#ending) == ending
 end
 
-function _G.play_sfx(obj, sfx)
+function _G.playSfx(obj, sfx)
     if type(sfx) == "table" then
         sfx = sfx[math.random(#sfx)]
     end
     sfx:setRelative(false)
-    sfx:setPosition((obj.x + (obj.cx - obj.cy) * _G.chunk_width * _G.tile_width * 0.5) / 100,
-        (obj.y + (obj.cx + obj.cy) * _G.chunk_height * _G.tile_height * 0.5) / 100, 4.1)
+    sfx:setPosition((obj.x + (obj.cx - obj.cy) * _G.chunkWidth * _G.tileWidth * 0.5) / 100,
+        (obj.y + (obj.cx + obj.cy) * _G.chunkHeight * _G.tileHeight * 0.5) / 100, 4.1)
     sfx:setPitch(1 + love.math.random(-10, 10) / 100)
     sfx:play()
 end
 
-function _G.manual_gc(time_budget, safetynet_megabytes, disable_otherwise)
-    local start_time = love.timer.getTime()
-    while love.timer.getTime() - start_time < time_budget do
+function _G.manualGc(timeBudget, safetynetMegabytes, disableOtherwise)
+    local startTime = love.timer.getTime()
+    while love.timer.getTime() - startTime < timeBudget do
         collectgarbage("step", 1)
     end
     -- safety net
-    if safetynet_megabytes and collectgarbage("count") / 1024 > safetynet_megabytes then
+    if safetynetMegabytes and collectgarbage("count") / 1024 > safetynetMegabytes then
         collectgarbage("collect")
     end
     -- don't collect gc outside this margin
-    if disable_otherwise then
+    if disableOtherwise then
         collectgarbage("stop")
     end
 end

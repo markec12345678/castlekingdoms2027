@@ -1,6 +1,6 @@
 local StockpileController = _G.class('StockpileController')
 
-local stockpile_fx = {
+local stockpileFx = {
     ["wood"] = {_G.fx["plank1"], _G.fx["plank2"], _G.fx["plank3"]},
     ["stone"] = {_G.fx["stckstone1"]},
     ["wheat"] = {_G.fx["stckwheat1"]},
@@ -16,22 +16,22 @@ function StockpileController:initialize()
         ["iron"] = {},
         ["flour"] = {}
     }
-    self.node_list = {}
+    self.nodeList = {}
 end
 function StockpileController:store(resource) -- TODO: add amount
-    if _G.state.not_full_stockpiles[resource] < 1 then
+    if _G.state.notFullStockpiles[resource] < 1 then
         for _, v in ipairs(self.list) do
             if v:store(resource) then
-                if stockpile_fx[resource] then
-                    _G.play_sfx(v, stockpile_fx[resource])
+                if stockpileFx[resource] then
+                    _G.playSfx(v, stockpileFx[resource])
                 end
                 break
             end
         end
     else
         self.resources[resource][#self.resources[resource]].id.parent:store(resource)
-        if stockpile_fx[resource] then
-            _G.play_sfx(self.resources[resource][#self.resources[resource]].id, stockpile_fx[resource])
+        if stockpileFx[resource] then
+            _G.playSfx(self.resources[resource][#self.resources[resource]].id, stockpileFx[resource])
         end
     end
 end
@@ -42,8 +42,8 @@ function StockpileController:take(resource, amount)
         if next(self.resources[resource]) == nil then
             return false
         else
-            local res_table = self.resources[resource]
-            res_table[#res_table].id.parent:take(resource, res_table[#res_table])
+            local resTable = self.resources[resource]
+            resTable[#resTable].id.parent:take(resource, resTable[#resTable])
         end
     end
     return true

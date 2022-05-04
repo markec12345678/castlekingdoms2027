@@ -1,36 +1,36 @@
-local _, _, tile_quads, _ = ...
+local _, _, tileQuads, _ = ...
 
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 
-local Rock_3x3_alias = _G.class('Rock_3x3_alias', Structure)
-Rock_3x3_alias.static.unserializable = true
-function Rock_3x3_alias:initialize(tile, gx, gy, parent, offset_y, offset_x)
+local Rock_3x3Alias = _G.class('Rock_3x3Alias', Structure)
+Rock_3x3Alias.static.unserializable = true
+function Rock_3x3Alias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     local mytype = "Static structure"
     Structure.initialize(self, gx, gy, mytype)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.parent = parent
     self.tile = tile
-    self.base_offset_y = offset_y or 0
-    self.additional_offset_y = 0
-    self.offset_x = offset_x or 0
-    self.offset_y = self.additional_offset_y - self.base_offset_y
+    self.baseOffsetY = offsetY or 0
+    self.additionalOffsetY = 0
+    self.offsetX = offsetX or 0
+    self.offsetY = self.additionalOffsetY - self.baseOffsetY
     Structure.render(self)
 end
 
 local Rock_3x3 = _G.class('Rock_3x3', Structure)
-function Rock_3x3:initialize(gx, gy, type, rock_variation)
+function Rock_3x3:initialize(gx, gy, type, rockVariation)
     type = type or "Rock_3x3"
     Structure.initialize(self, gx, gy, type)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 100
-    self.tile = tile_quads["empty"]
-    self.offset_x = 0
-    self.offset_y = 0
+    self.tile = tileQuads["empty"]
+    self.offsetX = 0
+    self.offsetY = 0
 
-    rock_variation = rock_variation or love.math.random(1, 16)
-    self.rock_variation = rock_variation
-    local tiles, quad_array = _G.indexBuildingQuads("rocks_3x3tile (" .. rock_variation .. ")", false, 3)
+    rockVariation = rockVariation or love.math.random(1, 16)
+    self.rockVariation = rockVariation
+    local tiles, quadArray = _G.indexBuildingQuads("rocks_3x3tile (" .. rockVariation .. ")", false, 3)
 
     for xx = 0, 2 do
         for yy = 0, 2 do
@@ -38,39 +38,39 @@ function Rock_3x3:initialize(gx, gy, type, rock_variation)
             _G.buildingheightmap[ccx][ccy][xxx][yyy] = 15
         end
     end
-    local _, _, _, center_tile_offset_y = quad_array[tiles + 1]:getViewport()
+    local _, _, _, centerTileOffsetY = quadArray[tiles + 1]:getViewport()
 
     for tile = 1, tiles do
-        Rock_3x3_alias:new(quad_array[tile], self.gx + tile - 1, self.gy + tiles, self,
-            center_tile_offset_y - 14 - 32 + 8 * tile)
+        Rock_3x3Alias:new(quadArray[tile], self.gx + tile - 1, self.gy + tiles, self,
+            centerTileOffsetY - 14 - 32 + 8 * tile)
     end
 
-    Rock_3x3_alias:new(quad_array[tiles + 1], self.gx + tiles, self.gy + tiles, self, center_tile_offset_y - 14)
+    Rock_3x3Alias:new(quadArray[tiles + 1], self.gx + tiles, self.gy + tiles, self, centerTileOffsetY - 14)
 
     for tile = 1, tiles do
-        Rock_3x3_alias:new(quad_array[tiles + 1 + tile], self.gx + tiles, self.gy + (tiles - tile), self,
-            center_tile_offset_y - 14 - 32 + 8 * (tiles - tile) + 8, 16)
+        Rock_3x3Alias:new(quadArray[tiles + 1 + tile], self.gx + tiles, self.gy + (tiles - tile), self,
+            centerTileOffsetY - 14 - 32 + 8 * (tiles - tile) + 8, 16)
     end
     Structure.render(self)
 end
 
 function Rock_3x3:serialize()
     local data = {}
-    local object_data = Object.serialize(self)
-    for k, v in pairs(object_data) do
+    local objectData = Object.serialize(self)
+    for k, v in pairs(objectData) do
         if type(v) ~= "function" and type(v) ~= "userdata" then
             data[k] = v
         end
     end
-    data.tile_key = self.tile_key
-    data.offset_y = self.offset_y
+    data.tileKey = self.tileKey
+    data.offsetY = self.offsetY
     data.health = self.health
-    data.rock_variation = self.rock_variation
+    data.rockVariation = self.rockVariation
     return data
 end
 
 function Rock_3x3.static:deserialize(data)
-    local obj = self:new(data.gx, data.gy, data.type, data.rock_variation)
+    local obj = self:new(data.gx, data.gy, data.type, data.rockVariation)
     Object.deserialize(obj, data)
     return obj
 end

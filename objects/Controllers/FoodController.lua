@@ -7,10 +7,10 @@ function FoodController:initialize()
         ["cheese"] = {}
     }
 
-    self.node_list = {}
+    self.nodeList = {}
 end
 function FoodController:store(food) -- TODO add amount
-    if _G.state.not_full_foods[food] < 1 then
+    if _G.state.notFullFoods[food] < 1 then
         for _, v in ipairs(self.list) do
             if v:store(food) then
                 break
@@ -21,18 +21,18 @@ function FoodController:store(food) -- TODO add amount
     end
 end
 function FoodController:take(food, amount)
-    local taken_food = 0
+    local takenFood = 0
     if not food then
-        for food_type, food_pile in pairs(self.food) do
+        for foodType, foodPile in pairs(self.food) do
             for _ = 1, (amount or 1) do
-                if taken_food == amount then
+                if takenFood == amount then
                     return
                 end
-                if next(food_pile) == nil then
+                if next(foodPile) == nil then
                     break
                 else
-                    taken_food = taken_food + 1
-                    food_pile[#food_pile].id.parent:take(food_type, food_pile[#food_pile])
+                    takenFood = takenFood + 1
+                    foodPile[#foodPile].id.parent:take(foodType, foodPile[#foodPile])
                 end
             end
         end
@@ -48,7 +48,7 @@ function FoodController:take(food, amount)
 end
 function FoodController:serialize()
     local data = {}
-    data.node_list = self.node_list
+    data.nodeList = self.nodeList
     local food = {}
     for foodtype, foodlist in pairs(self.food) do
         food[foodtype] = {}
@@ -63,17 +63,17 @@ function FoodController:serialize()
             end
         end
     end
-    local granary_list = {}
+    local granaryList = {}
     for _, v in ipairs(self.list) do
-        granary_list[#granary_list + 1] = _G.state:serializeObject(v)
+        granaryList[#granaryList + 1] = _G.state:serializeObject(v)
     end
-    data.granary_list = granary_list
-    data.raw_food = food
+    data.granaryList = granaryList
+    data.rawFood = food
     return data
 end
 function FoodController:deserialize(data)
-    self.node_list = data.node_list
-    for foodtype, foodlist in pairs(data.raw_food) do
+    self.nodeList = data.nodeList
+    for foodtype, foodlist in pairs(data.rawFood) do
         self.food[foodtype] = {}
         for i, foodpile in ipairs(foodlist) do
             self.food[foodtype][i] = {}
@@ -86,7 +86,7 @@ function FoodController:deserialize(data)
             end
         end
     end
-    for _, v in ipairs(data.granary_list) do
+    for _, v in ipairs(data.granaryList) do
         self.list[#self.list + 1] = _G.state:dereferenceObject(v)
     end
 end

@@ -1,8 +1,8 @@
-local object_image = ...
+local objectAtlas = ...
 local newAutotable = _G.newAutotable
 local ScreenToIsoX, ScreenToIsoY = _G.ScreenToIsoX, _G.ScreenToIsoY
-local chunk_width, chunk_height = _G.chunk_width, _G.chunk_height
-local tile_width, tile_height = _G.tile_width, _G.tile_height
+local chunkWidth, chunkHeight = _G.chunkWidth, _G.chunkHeight
+local tileWidth, tileHeight = _G.tileWidth, _G.tileHeight
 local love = _G.love
 local bit = _G.bit
 local prof = require("libraries.jprof")
@@ -27,75 +27,74 @@ end
 local press = location:new()
 ----Rows and columns
 ----Chunk 2D array
-local active_entities = newAutotable(1)
+local activeEntities = newAutotable(1)
 local object = _G.state.object
 ----Calculate center chunk
-local CenterX = math.round(ScreenToIsoX(_G.ScreenWidth / 2 - 16 + _G.state.view_xview,
-    _G.ScreenHeight / 2 - 8 + _G.state.view_yview));
-local CenterY = math.round(ScreenToIsoY(_G.ScreenWidth / 2 - 16 + _G.state.view_xview,
-    _G.ScreenHeight / 2 - 8 + _G.state.view_yview))
+local CenterX = math.round(ScreenToIsoX(_G.ScreenWidth / 2 - 16 + _G.state.viewXview,
+    _G.ScreenHeight / 2 - 8 + _G.state.viewYview));
+local CenterY = math.round(ScreenToIsoY(_G.ScreenWidth / 2 - 16 + _G.state.viewXview,
+    _G.ScreenHeight / 2 - 8 + _G.state.viewYview))
 ---------------------------------------
-_G.xchunk = math.floor(CenterX / (chunk_width))
-_G.ychunk = math.floor(CenterY / (chunk_width))
+_G.xchunk = math.floor(CenterX / (chunkWidth))
+_G.ychunk = math.floor(CenterY / (chunkWidth))
 ----Generate spriteBatch
-local object_batch = newAutotable(2)
-local shadow_batch = newAutotable(2)
+local objectBatch = newAutotable(2)
+local shadowBatch = newAutotable(2)
 -- local canvas = love.graphics.newCanvas()
-if not _G.test_mode then
-    object_image:setFilter('nearest', 'nearest')
+if not _G.testMode then
+    objectAtlas:setFilter('nearest', 'nearest')
 end
-local tile_quads = require('objects.object_quads')
+local tileQuads = require('objects.object_quads')
 
 --- NOTE Object classes START ---
 --- NOTE --------------------------
 --- NOTE --------------------------
-local Unit = love.filesystem.load('objects/Units/Unit.lua')(active_entities, object_batch)
+local Unit = love.filesystem.load('objects/Units/Unit.lua')(activeEntities, objectBatch)
 package.loaded['objects.Units.Unit'] = Unit
 
-local Tree = love.filesystem.load('objects/Environment/Tree.lua')(object_batch, active_entities, tile_quads, object)
-local PineTree = love.filesystem.load('objects/Environment/PineTree.lua')(object_batch, active_entities, tile_quads,
+local Tree = love.filesystem.load('objects/Environment/Tree.lua')(objectBatch, activeEntities, tileQuads, object)
+local PineTree = love.filesystem.load('objects/Environment/PineTree.lua')(objectBatch, activeEntities, tileQuads,
     object, Tree)
-local OakTree = love.filesystem.load('objects/Environment/OakTree.lua')(object_batch, active_entities, tile_quads,
-    object, Tree)
-local Shrub = love.filesystem.load('objects/Environment/Shrub.lua')(object_batch, active_entities, tile_quads, object)
-local Stone = love.filesystem.load('objects/Environment/Stone.lua')(object_batch, active_entities, tile_quads, object)
-local Iron = love.filesystem.load('objects/Environment/Iron.lua')(object_batch, active_entities, tile_quads, object)
-local Woodcutter = love.filesystem.load('objects/Units/Woodcutter.lua')(object, tile_quads)
-local Baker = love.filesystem.load('objects/Units/Baker.lua')(object, tile_quads)
-local Stonemason = love.filesystem.load('objects/Units/Stonemason.lua')(object, tile_quads)
-local Peasant = love.filesystem.load('objects/Units/Peasant.lua')(object, tile_quads)
-local OrchardFarmer = love.filesystem.load('objects/Units/OrchardFarmer.lua')(object, tile_quads)
-local WheatFarmer = love.filesystem.load('objects/Units/WheatFarmer.lua')(object, tile_quads)
-local Miner = love.filesystem.load('objects/Units/Miner.lua')(object, tile_quads)
-local Castle = love.filesystem.load('objects/Structures/Castle.lua')(object, tile_quads)
-local Stockpile = love.filesystem.load('objects/Structures/Stockpile.lua')(object, tile_quads, object_batch)
-local Granary = love.filesystem.load('objects/Structures/Granary.lua')(object, tile_quads, object_batch)
-local Quarry = love.filesystem.load('objects/Structures/Quarry.lua')(active_entities, object, tile_quads, object_batch)
-local Mine = love.filesystem.load('objects/Structures/Mine.lua')(active_entities, object, tile_quads, object_batch)
-local WoodcutterHut = love.filesystem.load('objects/Structures/WoodcutterHut.lua')(active_entities, object, tile_quads,
-    object_batch)
-local Windmill = love.filesystem.load('objects/Structures/Windmill.lua')(active_entities, object, tile_quads,
-    object_batch)
-local Bakery = love.filesystem.load('objects/Structures/Bakery.lua')(active_entities, object, tile_quads, object_batch)
-local House = love.filesystem.load('objects/Structures/House.lua')(active_entities, object, tile_quads, object_batch)
-local WoodenWall = love.filesystem.load('objects/Structures/WoodenWall.lua')(active_entities, object, tile_quads,
-    object_batch)
-local WoodenWallWalkable = love.filesystem.load('objects/Structures/WoodenWallWalkable.lua')(active_entities, object,
-    tile_quads, object_batch)
-local WoodenTower = love.filesystem.load('objects/Structures/WoodenTower.lua')(active_entities, object, tile_quads,
-    object_batch)
-local Rock_4x4 = love.filesystem.load('objects/Environment/Rock_4x4.lua')(active_entities, object, tile_quads,
-    object_batch)
-local Rock_3x3 = love.filesystem.load('objects/Environment/Rock_3x3.lua')(active_entities, object, tile_quads,
-    object_batch)
-local Rock_2x2 = love.filesystem.load('objects/Environment/Rock_2x2.lua')(active_entities, object, tile_quads,
-    object_batch)
-local Rock_1x1 = love.filesystem.load('objects/Environment/Rock_1x1.lua')(active_entities, object, tile_quads,
-    object_batch)
-local Campfire = love.filesystem.load('objects/Structures/Campfire.lua')(active_entities, tile_quads, object_batch)
-local Orchard = love.filesystem.load('objects/Structures/Orchard.lua')(active_entities, tile_quads, object_batch)
-local WheatFarm = love.filesystem.load('objects/Structures/WheatFarm.lua')(object, tile_quads, object_batch,
-    active_entities)
+local OakTree = love.filesystem.load('objects/Environment/OakTree.lua')(objectBatch, activeEntities, tileQuads, object,
+    Tree)
+local Shrub = love.filesystem.load('objects/Environment/Shrub.lua')(objectBatch, activeEntities, tileQuads, object)
+local Stone = love.filesystem.load('objects/Environment/Stone.lua')(objectBatch, activeEntities, tileQuads, object)
+local Iron = love.filesystem.load('objects/Environment/Iron.lua')(objectBatch, activeEntities, tileQuads, object)
+local Woodcutter = love.filesystem.load('objects/Units/Woodcutter.lua')(object, tileQuads)
+local Baker = love.filesystem.load('objects/Units/Baker.lua')(object, tileQuads)
+local Stonemason = love.filesystem.load('objects/Units/Stonemason.lua')(object, tileQuads)
+local Peasant = love.filesystem.load('objects/Units/Peasant.lua')(object, tileQuads)
+local OrchardFarmer = love.filesystem.load('objects/Units/OrchardFarmer.lua')(object, tileQuads)
+local WheatFarmer = love.filesystem.load('objects/Units/WheatFarmer.lua')(object, tileQuads)
+local Miner = love.filesystem.load('objects/Units/Miner.lua')(object, tileQuads)
+local Castle = love.filesystem.load('objects/Structures/Castle.lua')(object, tileQuads)
+local Stockpile = love.filesystem.load('objects/Structures/Stockpile.lua')(object, tileQuads, objectBatch)
+local Granary = love.filesystem.load('objects/Structures/Granary.lua')(object, tileQuads, objectBatch)
+local Quarry = love.filesystem.load('objects/Structures/Quarry.lua')(activeEntities, object, tileQuads, objectBatch)
+local Mine = love.filesystem.load('objects/Structures/Mine.lua')(activeEntities, object, tileQuads, objectBatch)
+local WoodcutterHut = love.filesystem.load('objects/Structures/WoodcutterHut.lua')(activeEntities, object, tileQuads,
+    objectBatch)
+local Windmill = love.filesystem.load('objects/Structures/Windmill.lua')(activeEntities, object, tileQuads, objectBatch)
+local Bakery = love.filesystem.load('objects/Structures/Bakery.lua')(activeEntities, object, tileQuads, objectBatch)
+local House = love.filesystem.load('objects/Structures/House.lua')(activeEntities, object, tileQuads, objectBatch)
+local WoodenWall = love.filesystem.load('objects/Structures/WoodenWall.lua')(activeEntities, object, tileQuads,
+    objectBatch)
+local WoodenWallWalkable = love.filesystem.load('objects/Structures/WoodenWallWalkable.lua')(activeEntities, object,
+    tileQuads, objectBatch)
+local WoodenTower = love.filesystem.load('objects/Structures/WoodenTower.lua')(activeEntities, object, tileQuads,
+    objectBatch)
+local Rock_4x4 = love.filesystem
+                     .load('objects/Environment/Rock_4x4.lua')(activeEntities, object, tileQuads, objectBatch)
+local Rock_3x3 = love.filesystem
+                     .load('objects/Environment/Rock_3x3.lua')(activeEntities, object, tileQuads, objectBatch)
+local Rock_2x2 = love.filesystem
+                     .load('objects/Environment/Rock_2x2.lua')(activeEntities, object, tileQuads, objectBatch)
+local Rock_1x1 = love.filesystem
+                     .load('objects/Environment/Rock_1x1.lua')(activeEntities, object, tileQuads, objectBatch)
+local Campfire = love.filesystem.load('objects/Structures/Campfire.lua')(activeEntities, tileQuads, objectBatch)
+local Orchard = love.filesystem.load('objects/Structures/Orchard.lua')(activeEntities, tileQuads, objectBatch)
+local WheatFarm = love.filesystem.load('objects/Structures/WheatFarm.lua')(object, tileQuads, objectBatch,
+    activeEntities)
 package.loaded['objects.Environment.Tree'] = Tree
 package.loaded['objects.Environment.PineTree'] = PineTree
 package.loaded['objects.Environment.OakTree'] = OakTree
@@ -134,83 +133,83 @@ _G.foodpile = require('objects.Controllers.FoodController')
 --- NOTE --------------------------
 --- NOTE Object classes END ---
 
-function addObjectAt(cx, cy, x, y, object_to_add)
+function addObjectAt(cx, cy, x, y, objectToAdd)
     if type(object[cx][cy][x][y]) ~= 'table' then
         object[cx][cy][x][y] = {}
     end
-    object[cx][cy][x][y][#object[cx][cy][x][y] + 1] = object_to_add
-    return object_to_add
+    object[cx][cy][x][y][#object[cx][cy][x][y] + 1] = objectToAdd
+    return objectToAdd
 end
 
-object_image:setWrap("clampzero")
+objectAtlas:setWrap("clampzero")
 
-function _G.removeObjectAt(cx, cy, x, y, object_to_remove)
+function _G.removeObjectAt(cx, cy, x, y, objectToRemove)
     if x > 63 or y > 63 then
         print((debug.traceback("Error: trying to remove out of bounds unit", 1):gsub("\n[^\n]+$", "")))
         love.event.quit()
     end
     if type(object[cx][cy][x][y]) == 'table' then
-        if object_to_remove then
-            for index, current_object in ipairs(object[cx][cy][x][y]) do
-                if current_object == object_to_remove then
+        if objectToRemove then
+            for index, currentObject in ipairs(object[cx][cy][x][y]) do
+                if currentObject == objectToRemove then
                     table.remove(object[cx][cy][x][y], index)
                     break
                 end
             end
         else
-            for _, current_object in ipairs(object[cx][cy][x][y]) do
-                current_object:destroy()
+            for _, currentObject in ipairs(object[cx][cy][x][y]) do
+                currentObject:destroy()
             end
             object[cx][cy][x][y] = {}
         end
     end
 end
 
-function _G.removeObjectFromClassAtGlobal(gx, gy, class_to_remove)
+function _G.removeObjectFromClassAtGlobal(gx, gy, classToRemove)
     local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(gx, gy)
     if x > 63 or y > 64 then
         print((debug.traceback("Error: trying to remove out of bounds unit", 1):gsub("\n[^\n]+$", "")))
         love.event.quit()
     end
     if type(object[cx][cy][x][y]) == 'table' then
-        for index, current_object in ipairs(object[cx][cy][x][y]) do
-            if current_object.class.name == class_to_remove or current_object.type == class_to_remove then
+        for index, currentObject in ipairs(object[cx][cy][x][y]) do
+            if currentObject.class.name == classToRemove or currentObject.type == classToRemove then
                 table.remove(object[cx][cy][x][y], index)
-                current_object:destroy()
+                currentObject:destroy()
                 break
             end
         end
     end
 end
 
-function objectFromTypeAt(cx, cy, x, y, obj_type)
+function objectFromTypeAt(cx, cy, x, y, objType)
     if type(object[cx][cy][x][y]) == 'table' then
-        for _, current_object in ipairs(object[cx][cy][x][y]) do
-            if (current_object.type and current_object.type == obj_type) or current_object.class.name == obj_type then
-                return current_object
+        for _, currentObject in ipairs(object[cx][cy][x][y]) do
+            if (currentObject.type and currentObject.type == objType) or currentObject.class.name == objType then
+                return currentObject
             end
         end
     end
     return false
 end
 
-function _G.isObjectAt(cx, cy, x, y, object_compared)
+function _G.isObjectAt(cx, cy, x, y, objectCompared)
     if type(object[cx][cy][x][y]) == 'table' then
-        for _, current_object in ipairs(object[cx][cy][x][y]) do
-            if current_object == object_compared then
-                return current_object
+        for _, currentObject in ipairs(object[cx][cy][x][y]) do
+            if currentObject == objectCompared then
+                return currentObject
             end
         end
     end
     return false
 end
 
-function _G.objectFromClassAtGlobal(gx, gy, obj_class)
+function _G.objectFromClassAtGlobal(gx, gy, objClass)
     local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(gx, gy)
     if type(object[cx][cy][x][y]) == 'table' then
-        for _, current_object in ipairs(object[cx][cy][x][y]) do
-            if current_object.class.name == obj_class then
-                return current_object
+        for _, currentObject in ipairs(object[cx][cy][x][y]) do
+            if currentObject.class.name == objClass then
+                return currentObject
             end
         end
     end
@@ -258,34 +257,34 @@ function objectAtGlobal(gx, gy)
 end
 
 function _G.allocateMesh(cx, cy)
-    local chunk_x = cx
-    local chunk_y = cy
+    local chunkX = cx
+    local chunkY = cy
     local treeverts = {{0, 0, 0, 0, 1.0, 1.0, 1.0, 1.0}, {1, 0, 1, 0, 1.0, 1.0, 1.0, 1.0},
                        {0, 1, 0, 1, 1.0, 1.0, 1.0, 1.0}, {1, 1, 1, 1, 1.0, 1.0, 1.0, 1.0}}
-    if object_batch[chunk_x][chunk_y] == nil then
-        object_batch[chunk_x][chunk_y] = love.graphics.newMesh(treeverts, "strip", "static")
+    if objectBatch[chunkX][chunkY] == nil then
+        objectBatch[chunkX][chunkY] = love.graphics.newMesh(treeverts, "strip", "static")
     end
     local instancemesh = love.graphics.newMesh({{"InstancePosition", "float", 2}, {"UVOffset", "float", 2},
                                                 {"ImageDim", "float", 2}, {"ImageShade", "float", 1},
                                                 {"ScaleX", "float", 1}},
-        chunk_width * chunk_height * _G.state.vertices_per_tile + 1000, nil, "dynamic")
-    _G.state.object_mesh[chunk_x][chunk_y] = instancemesh
-    object_batch[chunk_x][chunk_y]:setTexture(object_image)
-    object_batch[chunk_x][chunk_y]:attachAttribute("InstancePosition", instancemesh, "perinstance")
-    object_batch[chunk_x][chunk_y]:attachAttribute("UVOffset", instancemesh, "perinstance")
-    object_batch[chunk_x][chunk_y]:attachAttribute("ImageDim", instancemesh, "perinstance")
-    object_batch[chunk_x][chunk_y]:attachAttribute("ImageShade", instancemesh, "perinstance")
-    object_batch[chunk_x][chunk_y]:attachAttribute("ScaleX", instancemesh, "perinstance")
+        _G.chunkWidth * _G.chunkHeight * _G.state.verticesPerTile + 1000, nil, "dynamic")
+    _G.state.objectMesh[chunkX][chunkY] = instancemesh
+    objectBatch[chunkX][chunkY]:setTexture(objectAtlas)
+    objectBatch[chunkX][chunkY]:attachAttribute("InstancePosition", instancemesh, "perinstance")
+    objectBatch[chunkX][chunkY]:attachAttribute("UVOffset", instancemesh, "perinstance")
+    objectBatch[chunkX][chunkY]:attachAttribute("ImageDim", instancemesh, "perinstance")
+    objectBatch[chunkX][chunkY]:attachAttribute("ImageShade", instancemesh, "perinstance")
+    objectBatch[chunkX][chunkY]:attachAttribute("ScaleX", instancemesh, "perinstance")
 end
 
 function _G.genObjects(cx, cy)
-    for i = 0, chunk_width - 1, 1 do
-        for o = 0, chunk_height - 1, 1 do
-            local gx = chunk_width * cx + i
-            local gy = chunk_width * cy + o
-            local tree_generated = false
-            if _G.forest_gen[math.round((gx) / 8) + 1][math.round((gy) / 8) + 1] ~= false then
-                _G.terrainSetTileAt(gx, gy, _G.terrain_biome.scarce_grass)
+    for i = 0, chunkWidth - 1, 1 do
+        for o = 0, chunkHeight - 1, 1 do
+            local gx = chunkWidth * cx + i
+            local gy = chunkWidth * cy + o
+            local treeGenerated = false
+            if _G.forestGen[math.round((gx) / 8) + 1][math.round((gy) / 8) + 1] ~= false then
+                _G.terrainSetTileAt(gx, gy, _G.terrainBiome.scarceGrass)
                 local rand = math.random(5)
                 if rand ~= 3 then
                     goto continue
@@ -324,16 +323,16 @@ function _G.genObjects(cx, cy)
                     local tree = PineTree:new(gx, gy, "Pine tree")
                     tree.animation:gotoFrame(math.random(1, 20))
                 end
-                tree_generated = true
-            elseif not tree_generated then
+                treeGenerated = true
+            elseif not treeGenerated then
                 if objectAtGlobal(gx, gy - 1) then
                     goto continue
                 end
                 local chance = 0
                 for sx = -1, 1 do
                     for sy = -1, 1 do
-                        if _G.forest_gen[math.round((gx) / 8) + 1 + sx] and
-                            _G.forest_gen[math.round((gx) / 8) + 1 + sx][math.round((gy) / 8) + 1 + sy] == true then
+                        if _G.forestGen[math.round((gx) / 8) + 1 + sx] and
+                            _G.forestGen[math.round((gx) / 8) + 1 + sx][math.round((gy) / 8) + 1 + sy] == true then
                             chance = chance + 1
                         end
                     end
@@ -353,8 +352,8 @@ function _G.genObjects(cx, cy)
                 else
                     for sx = -2, 2 do
                         for sy = -2, 2 do
-                            if _G.forest_gen[math.round((gx) / 8) + 1 + sx] and
-                                _G.forest_gen[math.round((gx) / 8) + 1 + sx][math.round((gy) / 8) + 1 + sy] == true then
+                            if _G.forestGen[math.round((gx) / 8) + 1 + sx] and
+                                _G.forestGen[math.round((gx) / 8) + 1 + sx][math.round((gy) / 8) + 1 + sy] == true then
                                 chance = chance + 1
                             end
                         end
@@ -377,22 +376,22 @@ function _G.genObjects(cx, cy)
                     tree.animation:gotoFrame(math.random(1, 20))
                     goto continue
                 end
-                if not tree_generated and love.math.random(1000) == 4 then
+                if not treeGenerated and love.math.random(1000) == 4 then
                     local tree = PineTree:new(gx, gy, "Medium pine tree")
                     tree.animation:gotoFrame(math.random(1, 20))
-                    tree_generated = true
+                    treeGenerated = true
                 end
-                if not tree_generated and love.math.random(800) == 4 then
+                if not treeGenerated and love.math.random(800) == 4 then
                     local shrub = Shrub:new(gx, gy, "Short shrub")
                     shrub.animation:gotoFrame(math.random(1, 20))
                 end
             end
-            if not tree_generated and _G.stone_gen[math.round((gx) / 3) + 1][math.round((gy) / 3) + 1] ~= false then
+            if not treeGenerated and _G.stoneGen[math.round((gx) / 3) + 1][math.round((gy) / 3) + 1] ~= false then
                 local border = false
                 for lx = -1, 1, 1 do
                     for ly = -1, 1, 1 do
                         if not (lx == 0 and ly == 0) then
-                            if _G.stone_gen[math.round((gx + lx) / 3) + 1][math.round((gy + ly) / 3) + 1] == false then
+                            if _G.stoneGen[math.round((gx + lx) / 3) + 1][math.round((gy + ly) / 3) + 1] == false then
                                 border = true
                             end
                         end
@@ -412,12 +411,12 @@ function _G.genObjects(cx, cy)
                     end
                 end
             end
-            if not tree_generated and _G.iron_gen[math.round((gx) / 3) + 1][math.round((gy) / 3) + 1] ~= false then
+            if not treeGenerated and _G.ironGen[math.round((gx) / 3) + 1][math.round((gy) / 3) + 1] ~= false then
                 local border = false
                 for lx = -1, 1, 1 do
                     for ly = -1, 1, 1 do
                         if not (lx == 0 and ly == 0) then
-                            if _G.iron_gen[math.round((gx + lx) / 3) + 1][math.round((gy + ly) / 3) + 1] == false then
+                            if _G.ironGen[math.round((gx + lx) / 3) + 1][math.round((gy + ly) / 3) + 1] == false then
                                 border = true
                             end
                         end
@@ -443,15 +442,15 @@ function _G.genObjects(cx, cy)
 end
 
 local shader = love.graphics.newShader("shaders/main.glsl")
-local function draw_object()
-    local tile_start_x, tile_start_y, tile_end_x, tile_end_y = _G.state.top_left_chunk_x - 1, _G.state.top_left_chunk_y,
-        _G.state.bottom_right_chunk_x + 1, _G.state.bottom_right_chunk_y
+local function drawObject()
+    local tileStartX, tileStartY, tileEndX, tileEndY = _G.state.topLeftChunkX - 1, _G.state.topLeftChunkY,
+        _G.state.bottomRightChunkX + 1, _G.state.bottomRightChunkY
 
-    local firstRow = math.min(tile_start_x + tile_start_y, tile_end_x + tile_end_y)
-    local lastRow = math.max(tile_start_x + tile_start_y, tile_end_x + tile_end_y)
+    local firstRow = math.min(tileStartX + tileStartY, tileEndX + tileEndY)
+    local lastRow = math.max(tileStartX + tileStartY, tileEndX + tileEndY)
 
-    local firstColumn = math.min(tile_start_x - tile_start_y, tile_end_x - tile_end_y)
-    local lastColumn = math.max(tile_start_x - tile_start_y, tile_end_x - tile_end_y)
+    local firstColumn = math.min(tileStartX - tileStartY, tileEndX - tileEndY)
+    local lastColumn = math.max(tileStartX - tileStartY, tileEndX - tileEndY)
 
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.setShader(shader)
@@ -459,12 +458,12 @@ local function draw_object()
         local shift = bit.band(bit.bxor(row, firstColumn), 1)
         for column = firstColumn + shift, lastColumn, 2 do
             local xx, yy = bit.rshift(row + column, 1), bit.rshift(row - column, 1)
-            if object_batch[xx][yy] ~= nil then
-                love.graphics.drawInstanced(object_batch[xx][yy], _G.state.object_mesh[xx][yy]:getVertexCount(),
-                    -_G.state.view_xview * _G.state.scale_x + (xx * _G.state.scale_x - yy * _G.state.scale_x) *
-                        chunk_width * tile_width * 0.5,
-                    -_G.state.view_yview * _G.state.scale_x + (xx * _G.state.scale_x + yy * _G.state.scale_x) *
-                        chunk_height * tile_height * 0.5, 0, _G.state.scale_x, _G.state.scale_x)
+            if objectBatch[xx][yy] ~= nil then
+                love.graphics.drawInstanced(objectBatch[xx][yy], _G.state.objectMesh[xx][yy]:getVertexCount(),
+                    -_G.state.viewXview * _G.state.scaleX + (xx * _G.state.scaleX - yy * _G.state.scaleX) * chunkWidth *
+                        tileWidth * 0.5, -_G.state.viewYview * _G.state.scaleX +
+                        (xx * _G.state.scaleX + yy * _G.state.scaleX) * chunkHeight * tileHeight * 0.5, 0,
+                    _G.state.scaleX, _G.state.scaleX)
             end
         end
     end
@@ -475,10 +474,10 @@ end
 local function mousepressed(x, y, button)
     local mx, my = x, y
     press.gx, press.gy = _G.getTerrainTileOnMouse(mx, my)
-    press.cx = math.floor(press.gx / chunk_width)
-    press.cy = math.floor(press.gy / chunk_width)
-    press.x = (press.gx) % (chunk_width)
-    press.y = (press.gy) % (chunk_width)
+    press.cx = math.floor(press.gx / chunkWidth)
+    press.cy = math.floor(press.gy / chunkWidth)
+    press.x = (press.gx) % (chunkWidth)
+    press.y = (press.gy) % (chunkWidth)
     if button == 1 then
         _G.BuildController:mousepressed(mx, my)
     elseif button == 3 then
@@ -502,19 +501,19 @@ local function mousepressed(x, y, button)
             for _, ibj in pairs(insp) do
                 print(ibj, ibj.gx, ibj.gy)
                 print(inspect(ibj:serialize()))
-                --     print(ibj.type, ibj.vert_id, ibj.i, ibj.o, press.x, press.y, press.cx, press.cy)
-                --     local remove_all_metatables = function(item, path)
+                --     print(ibj.type, ibj.vertId, ibj.i, ibj.o, press.x, press.y, press.cx, press.cy)
+                --     local removeAllMetatables = function(item, path)
                 --         if path[#path] ~= inspect.METATABLE then
                 --             return item
                 --         end
                 --     end
                 --     print(inspect(ibj, {
                 --         depth = 2,
-                --         process = remove_all_metatables
+                --         process = removeAllMetatables
                 --     }))
-                --     -- print(ibj.type, ibj.x + (ibj.cx - ibj.cy) * chunk_width * tile_width * 0.5,
-                --     --     ibj.y + (ibj.cx + ibj.cy) * chunk_width * tile_height * 0.5)
-                --     -- print(ibj.type, (_G.state.view_xview) - 1920 / 2 - 100, (_G.state.view_yview) - 1080 / 2 - 100)
+                --     -- print(ibj.type, ibj.x + (ibj.cx - ibj.cy) * chunkWidth * tileWidth * 0.5,
+                --     --     ibj.y + (ibj.cx + ibj.cy) * chunkWidth * tileHeight * 0.5)
+                --     -- print(ibj.type, (_G.state.viewXview) - 1920 / 2 - 100, (_G.state.viewYview) - 1080 / 2 - 100)
             end
         end
     end
@@ -522,10 +521,10 @@ end
 
 local function preload(dt)
     -- Animates all the objects once so they don't pop in when scrolling
-    for i = 0, _G.chunks_wide - 1 do
-        for o = 0, _G.chunks_high - 1 do
-            if _G.state.chunk_objects[i][o] then
-                for _, obj in pairs(_G.state.chunk_objects[i][o]) do
+    for i = 0, _G.chunksWide - 1 do
+        for o = 0, _G.chunksHigh - 1 do
+            if _G.state.chunkObjects[i][o] then
+                for _, obj in pairs(_G.state.chunkObjects[i][o]) do
                     if obj.animated then
                         obj:animate(dt)
                     else
@@ -541,65 +540,65 @@ function _G.setWaterAt(gx, gy)
     _G.state.map:setWater(gx, gy)
 end
 
-local first_update = true
+local firstUpdate = true
 local function update(dt)
-    _G.JobController:make_worker()
+    _G.JobController:makeWorker()
     prof.push("CUL")
-    if first_update then
+    if firstUpdate then
         preload(dt)
-        first_update = false
+        firstUpdate = false
     end
     prof.pop("CUL")
     prof.push("AE")
-    _G.state.previous_top_left_chunk_x = _G.state.top_left_chunk_x
-    _G.state.wheat_season_counter = _G.state.wheat_season_counter + dt
-    if _G.state.wheat_season_counter > 5 then
-        _G.state.wheat_season_counter = 0
-        _G.state.wheat_growing_season = true
+    _G.state.previousTopLeftChunkX = _G.state.topLeftChunkX
+    _G.state.wheatSeasonCounter = _G.state.wheatSeasonCounter + dt
+    if _G.state.wheatSeasonCounter > 5 then
+        _G.state.wheatSeasonCounter = 0
+        _G.state.wheatGrowingSeason = true
     end
-    if _G.state.wheat_growing_season and _G.state.wheat_season_counter > 0.5 then
-        _G.state.wheat_growing_season = false
+    if _G.state.wheatGrowingSeason and _G.state.wheatSeasonCounter > 0.5 then
+        _G.state.wheatGrowingSeason = false
     end
-    local updated_chunks = _G.newAutotable(2)
-    local objects_to_be_deleted
-    local needs_to_be_deleted = false
-    for idx, obj in ipairs(active_entities) do
-        if obj.to_be_deleted then
-            if needs_to_be_deleted == false then
-                needs_to_be_deleted = true
-                objects_to_be_deleted = {}
+    local updatedChunks = _G.newAutotable(2)
+    local objectsToBeDeleted
+    local needsToBeDeleted = false
+    for idx, obj in ipairs(activeEntities) do
+        if obj.toBeDeleted then
+            if needsToBeDeleted == false then
+                needsToBeDeleted = true
+                objectsToBeDeleted = {}
             end
-            objects_to_be_deleted[idx] = true
+            objectsToBeDeleted[idx] = true
         else
             obj:animate(dt)
         end
     end
-    if needs_to_be_deleted then
-        active_entities = _G.arrayRemove(active_entities, function(t, i, j)
-            return not objects_to_be_deleted[i]
+    if needsToBeDeleted then
+        activeEntities = _G.arrayRemove(activeEntities, function(t, i, j)
+            return not objectsToBeDeleted[i]
         end)
     end
     prof.pop("AE")
 
     prof.push("UPDATE_CHUNK_OBJ")
-    local tile_start_x, tile_start_y, tile_end_x, tile_end_y = _G.state.top_left_chunk_x - 1, _G.state.top_left_chunk_y,
-        _G.state.bottom_right_chunk_x + 1, _G.state.bottom_right_chunk_y
+    local tileStartX, tileStartY, tileEndX, tileEndY = _G.state.topLeftChunkX - 1, _G.state.topLeftChunkY,
+        _G.state.bottomRightChunkX + 1, _G.state.bottomRightChunkY
 
-    local firstRow = math.min(tile_start_x + tile_start_y, tile_end_x + tile_end_y)
-    local lastRow = math.max(tile_start_x + tile_start_y, tile_end_x + tile_end_y)
+    local firstRow = math.min(tileStartX + tileStartY, tileEndX + tileEndY)
+    local lastRow = math.max(tileStartX + tileStartY, tileEndX + tileEndY)
 
-    local firstColumn = math.min(tile_start_x - tile_start_y, tile_end_x - tile_end_y)
-    local lastColumn = math.max(tile_start_x - tile_start_y, tile_end_x - tile_end_y)
+    local firstColumn = math.min(tileStartX - tileStartY, tileEndX - tileEndY)
+    local lastColumn = math.max(tileStartX - tileStartY, tileEndX - tileEndY)
 
     for row = firstRow, lastRow do
         local shift = bit.band(bit.bxor(row, firstColumn), 1)
         for column = firstColumn + shift, lastColumn, 2 do
             local xx, yy = bit.rshift(row + column, 1), bit.rshift(row - column, 1)
-            if updated_chunks[xx][yy] ~= true then
-                if _G.state.chunk_objects[xx][yy] then
-                    for _, obj in pairs(_G.state.chunk_objects[xx][yy]) do
+            if updatedChunks[xx][yy] ~= true then
+                if _G.state.chunkObjects[xx][yy] then
+                    for _, obj in pairs(_G.state.chunkObjects[xx][yy]) do
                         if obj.animated then
-                            if obj:is_visible_on_screen() then
+                            if obj:isVisibleOnScreen() then
                                 obj:animate(dt)
                             else
                                 obj:update(dt)
@@ -617,14 +616,14 @@ end
 
 local tableOfFunctions = {
     update = update,
-    draw = draw_object,
+    draw = drawObject,
     chunk = object[press.cx][press.cy],
     mousereleased = _G.mousereleased,
     mousepressed = mousepressed,
-    active = active_entities,
+    active = activeEntities,
     object = object,
-    batch = object_batch,
-    shadow = shadow_batch,
+    batch = objectBatch,
+    shadow = shadowBatch,
     addObjectAt = addObjectAt
 }
 return tableOfFunctions

@@ -4,10 +4,10 @@ local Object = require("objects.Object")
 local anim = _G.anim
 local indexQuads = _G.indexQuads
 
-local cutting_fx = {_G.fx["chop1 22k"], _G.fx["chop2 22k"], _G.fx["chop3 22k"], _G.fx["chop4 22k"]}
-local chopping_fx = {_G.fx["wood_chop_1"], _G.fx["wood_chop_2"], _G.fx["wood_chop_3"]}
-local footstep_fx = {_G.fx["footstep_grass_1"], _G.fx["footstep_grass_2"], _G.fx["footstep_grass_3"],
-                     _G.fx["footstep_grass_4"], _G.fx["footstep_grass_5"]}
+local cuttingFx = {_G.fx["chop1 22k"], _G.fx["chop2 22k"], _G.fx["chop3 22k"], _G.fx["chop4 22k"]}
+local choppingFx = {_G.fx["wood_chop_1"], _G.fx["wood_chop_2"], _G.fx["wood_chop_3"]}
+local footstepFx = {_G.fx["footstep_grass_1"], _G.fx["footstep_grass_2"], _G.fx["footstep_grass_3"],
+                    _G.fx["footstep_grass_4"], _G.fx["footstep_grass_5"]}
 
 local fr_walking_plank_east = indexQuads("body_woodcutter_walk_plank_e", 16)
 local fr_walking_plank_north = indexQuads("body_woodcutter_walk_plank_n", 16)
@@ -92,488 +92,484 @@ local an = {
 local Woodcutter = _G.class('Woodcutter', Unit)
 function Woodcutter:initialize(gx, gy, type)
     Unit.initialize(self, gx, gy, type)
-    local an_spd = 0.05
+    local anSpd = 0.05
     self.workplace = nil
-    self.an_walking_plank_west = anim.newAnimation(an[AN_WALKING_PLANK_WEST], an_spd, nil, AN_WALKING_PLANK_WEST)
-    self.an_walking_log_west = anim.newAnimation(an[AN_WALKING_LOG_WEST], an_spd, nil, AN_WALKING_LOG_WEST)
-    self.an_walking_west = anim.newAnimation(an[AN_WALKING_WEST], an_spd, nil, AN_WALKING_WEST)
-    self.an_walking_plank_southwest = anim.newAnimation(an[AN_WALKING_PLANK_SOUTHWEST], an_spd, nil,
+    self.anWalkingPlankWest = anim.newAnimation(an[AN_WALKING_PLANK_WEST], anSpd, nil, AN_WALKING_PLANK_WEST)
+    self.anWalkingLogWest = anim.newAnimation(an[AN_WALKING_LOG_WEST], anSpd, nil, AN_WALKING_LOG_WEST)
+    self.anWalkingWest = anim.newAnimation(an[AN_WALKING_WEST], anSpd, nil, AN_WALKING_WEST)
+    self.anWalkingPlankSouthwest = anim.newAnimation(an[AN_WALKING_PLANK_SOUTHWEST], anSpd, nil,
         AN_WALKING_PLANK_SOUTHWEST)
-    self.an_walking_log_southwest = anim.newAnimation(an[AN_WALKING_LOG_SOUTHWEST], an_spd, nil,
-        AN_WALKING_LOG_SOUTHWEST)
-    self.an_walking_southwest = anim.newAnimation(an[AN_WALKING_SOUTHWEST], an_spd, nil, AN_WALKING_SOUTHWEST)
-    self.an_walking_plank_northwest = anim.newAnimation(an[AN_WALKING_PLANK_NORTHWEST], an_spd, nil,
+    self.anWalkingLogSouthwest = anim.newAnimation(an[AN_WALKING_LOG_SOUTHWEST], anSpd, nil, AN_WALKING_LOG_SOUTHWEST)
+    self.anWalkingSouthwest = anim.newAnimation(an[AN_WALKING_SOUTHWEST], anSpd, nil, AN_WALKING_SOUTHWEST)
+    self.anWalkingPlankNorthwest = anim.newAnimation(an[AN_WALKING_PLANK_NORTHWEST], anSpd, nil,
         AN_WALKING_PLANK_NORTHWEST)
-    self.an_walking_log_northwest = anim.newAnimation(an[AN_WALKING_LOG_NORTHWEST], an_spd, nil,
-        AN_WALKING_LOG_NORTHWEST)
-    self.an_walking_northwest = anim.newAnimation(an[AN_WALKING_NORTHWEST], an_spd, nil, AN_WALKING_NORTHWEST)
-    self.an_walking_plank_north = anim.newAnimation(an[AN_WALKING_PLANK_NORTH], an_spd, nil, AN_WALKING_PLANK_NORTH)
-    self.an_walking_log_north = anim.newAnimation(an[AN_WALKING_LOG_NORTH], an_spd, nil, AN_WALKING_LOG_NORTH)
-    self.an_walking_north = anim.newAnimation(an[AN_WALKING_NORTH], an_spd, nil, AN_WALKING_NORTH)
-    self.an_walking_plank_south = anim.newAnimation(an[AN_WALKING_PLANK_SOUTH], an_spd, nil, AN_WALKING_PLANK_SOUTH)
-    self.an_walking_log_south = anim.newAnimation(an[AN_WALKING_LOG_SOUTH], an_spd, nil, AN_WALKING_LOG_SOUTH)
-    self.an_walking_south = anim.newAnimation(an[AN_WALKING_SOUTH], an_spd, nil, AN_WALKING_SOUTH)
-    self.an_walking_plank_east = anim.newAnimation(an[AN_WALKING_PLANK_EAST], an_spd, nil, AN_WALKING_PLANK_EAST)
-    self.an_walking_log_east = anim.newAnimation(an[AN_WALKING_LOG_EAST], an_spd, nil, AN_WALKING_LOG_EAST)
-    self.an_walking_east = anim.newAnimation(an[AN_WALKING_EAST], an_spd, nil, AN_WALKING_EAST)
-    self.an_walking_plank_southeast = anim.newAnimation(an[AN_WALKING_PLANK_SOUTHEAST], an_spd, nil,
+    self.anWalkingLogNorthwest = anim.newAnimation(an[AN_WALKING_LOG_NORTHWEST], anSpd, nil, AN_WALKING_LOG_NORTHWEST)
+    self.anWalkingNorthwest = anim.newAnimation(an[AN_WALKING_NORTHWEST], anSpd, nil, AN_WALKING_NORTHWEST)
+    self.anWalkingPlankNorth = anim.newAnimation(an[AN_WALKING_PLANK_NORTH], anSpd, nil, AN_WALKING_PLANK_NORTH)
+    self.anWalkingLogNorth = anim.newAnimation(an[AN_WALKING_LOG_NORTH], anSpd, nil, AN_WALKING_LOG_NORTH)
+    self.anWalkingNorth = anim.newAnimation(an[AN_WALKING_NORTH], anSpd, nil, AN_WALKING_NORTH)
+    self.anWalkingPlankSouth = anim.newAnimation(an[AN_WALKING_PLANK_SOUTH], anSpd, nil, AN_WALKING_PLANK_SOUTH)
+    self.anWalkingLogSouth = anim.newAnimation(an[AN_WALKING_LOG_SOUTH], anSpd, nil, AN_WALKING_LOG_SOUTH)
+    self.anWalkingSouth = anim.newAnimation(an[AN_WALKING_SOUTH], anSpd, nil, AN_WALKING_SOUTH)
+    self.anWalkingPlankEast = anim.newAnimation(an[AN_WALKING_PLANK_EAST], anSpd, nil, AN_WALKING_PLANK_EAST)
+    self.anWalkingLogEast = anim.newAnimation(an[AN_WALKING_LOG_EAST], anSpd, nil, AN_WALKING_LOG_EAST)
+    self.anWalkingEast = anim.newAnimation(an[AN_WALKING_EAST], anSpd, nil, AN_WALKING_EAST)
+    self.anWalkingPlankSoutheast = anim.newAnimation(an[AN_WALKING_PLANK_SOUTHEAST], anSpd, nil,
         AN_WALKING_PLANK_SOUTHEAST)
-    self.an_walking_log_southeast = anim.newAnimation(an[AN_WALKING_LOG_SOUTHEAST], an_spd, nil,
-        AN_WALKING_LOG_SOUTHEAST)
-    self.an_walking_southeast = anim.newAnimation(an[AN_WALKING_SOUTHEAST], an_spd, nil, AN_WALKING_SOUTHEAST)
-    self.an_walking_plank_northeast = anim.newAnimation(an[AN_WALKING_PLANK_NORTHEAST], an_spd, nil,
+    self.anWalkingLogSoutheast = anim.newAnimation(an[AN_WALKING_LOG_SOUTHEAST], anSpd, nil, AN_WALKING_LOG_SOUTHEAST)
+    self.anWalkingSoutheast = anim.newAnimation(an[AN_WALKING_SOUTHEAST], anSpd, nil, AN_WALKING_SOUTHEAST)
+    self.anWalkingPlankNortheast = anim.newAnimation(an[AN_WALKING_PLANK_NORTHEAST], anSpd, nil,
         AN_WALKING_PLANK_NORTHEAST)
-    self.an_walking_log_northeast = anim.newAnimation(an[AN_WALKING_LOG_NORTHEAST], an_spd, nil,
-        AN_WALKING_LOG_NORTHEAST)
-    self.an_walking_northeast = anim.newAnimation(an[AN_WALKING_NORTHEAST], an_spd, nil, AN_WALKING_NORTHEAST)
+    self.anWalkingLogNortheast = anim.newAnimation(an[AN_WALKING_LOG_NORTHEAST], anSpd, nil, AN_WALKING_LOG_NORTHEAST)
+    self.anWalkingNortheast = anim.newAnimation(an[AN_WALKING_NORTHEAST], anSpd, nil, AN_WALKING_NORTHEAST)
     self.state = 'Find a job'
     -- self.marked = 0
     self.count = 1
-    self.eat_timer = 0
-    self.offset_x = -5
-    self.offset_y = -10
-    self.store_timer = 0
-    self.target_tree = nil
-    self.animation = self.an_walking_west
+    self.eatTimer = 0
+    self.offsetX = -5
+    self.offsetY = -10
+    self.storeTimer = 0
+    self.targetTree = nil
+    self.animation = self.anWalkingWest
     self.cut = function()
-        self:cut_callback()
+        self:cutCallback()
     end
 end
 function Woodcutter:load(data)
     Object.deserialize(self, data)
     Unit.load(self, data)
     self.cut = function()
-        self:cut_callback()
+        self:cutCallback()
     end
-    local an_data = data.animation
-    if an_data then
+    local anData = data.animation
+    if anData then
         local callback
-        if an_data.animation_identifier == AN_CUTTING_NORTHEAST then
+        if anData.animationIdentifier == AN_CUTTING_NORTHEAST then
             callback = self.cut
         end
-        self.animation = anim.newAnimation(an[an_data.animation_identifier], 1, callback, an_data.animation_identifier)
-        self.animation:deserialize(an_data)
+        self.animation = anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
+        self.animation:deserialize(anData)
     end
-    self.an_walking_plank_west = anim.newAnimation(an[data.an_walking_plank_west.animation_identifier], 1, nil,
-        data.an_walking_plank_west.animation_identifier)
-    self.an_walking_plank_west:deserialize(data.an_walking_plank_west)
-    self.an_walking_log_west = anim.newAnimation(an[data.an_walking_log_west.animation_identifier], 1, nil,
-        data.an_walking_log_west.animation_identifier)
-    self.an_walking_log_west:deserialize(data.an_walking_log_west)
-    self.an_walking_west = anim.newAnimation(an[data.an_walking_west.animation_identifier], 1, nil,
-        data.an_walking_west.animation_identifier)
-    self.an_walking_west:deserialize(data.an_walking_west)
-    self.an_walking_plank_southwest = anim.newAnimation(an[data.an_walking_plank_southwest.animation_identifier], 1,
-        nil, data.an_walking_plank_southwest.animation_identifier)
-    self.an_walking_plank_southwest:deserialize(data.an_walking_plank_southwest)
-    self.an_walking_log_southwest = anim.newAnimation(an[data.an_walking_log_southwest.animation_identifier], 1, nil,
-        data.an_walking_log_southwest.animation_identifier)
-    self.an_walking_log_southwest:deserialize(data.an_walking_log_southwest)
-    self.an_walking_southwest = anim.newAnimation(an[data.an_walking_southwest.animation_identifier], 1, nil,
-        data.an_walking_southwest.animation_identifier)
-    self.an_walking_southwest:deserialize(data.an_walking_southwest)
-    self.an_walking_plank_northwest = anim.newAnimation(an[data.an_walking_plank_northwest.animation_identifier], 1,
-        nil, data.an_walking_plank_northwest.animation_identifier)
-    self.an_walking_plank_northwest:deserialize(data.an_walking_plank_northwest)
-    self.an_walking_log_northwest = anim.newAnimation(an[data.an_walking_log_northwest.animation_identifier], 1, nil,
-        data.an_walking_log_northwest.animation_identifier)
-    self.an_walking_log_northwest:deserialize(data.an_walking_log_northwest)
-    self.an_walking_northwest = anim.newAnimation(an[data.an_walking_northwest.animation_identifier], 1, nil,
-        data.an_walking_northwest.animation_identifier)
-    self.an_walking_northwest:deserialize(data.an_walking_northwest)
-    self.an_walking_plank_north = anim.newAnimation(an[data.an_walking_plank_north.animation_identifier], 1, nil,
-        data.an_walking_plank_north.animation_identifier)
-    self.an_walking_plank_north:deserialize(data.an_walking_plank_north)
-    self.an_walking_log_north = anim.newAnimation(an[data.an_walking_log_north.animation_identifier], 1, nil,
-        data.an_walking_log_north.animation_identifier)
-    self.an_walking_log_north:deserialize(data.an_walking_log_north)
-    self.an_walking_north = anim.newAnimation(an[data.an_walking_north.animation_identifier], 1, nil,
-        data.an_walking_north.animation_identifier)
-    self.an_walking_north:deserialize(data.an_walking_north)
-    self.an_walking_plank_south = anim.newAnimation(an[data.an_walking_plank_south.animation_identifier], 1, nil,
-        data.an_walking_plank_south.animation_identifier)
-    self.an_walking_plank_south:deserialize(data.an_walking_plank_south)
-    self.an_walking_log_south = anim.newAnimation(an[data.an_walking_log_south.animation_identifier], 1, nil,
-        data.an_walking_log_south.animation_identifier)
-    self.an_walking_log_south:deserialize(data.an_walking_log_south)
-    self.an_walking_south = anim.newAnimation(an[data.an_walking_south.animation_identifier], 1, nil,
-        data.an_walking_south.animation_identifier)
-    self.an_walking_south:deserialize(data.an_walking_south)
-    self.an_walking_plank_east = anim.newAnimation(an[data.an_walking_plank_east.animation_identifier], 1, nil,
-        data.an_walking_plank_east.animation_identifier)
-    self.an_walking_plank_east:deserialize(data.an_walking_plank_east)
-    self.an_walking_log_east = anim.newAnimation(an[data.an_walking_log_east.animation_identifier], 1, nil,
-        data.an_walking_log_east.animation_identifier)
-    self.an_walking_log_east:deserialize(data.an_walking_log_east)
-    self.an_walking_east = anim.newAnimation(an[data.an_walking_east.animation_identifier], 1, nil,
-        data.an_walking_east.animation_identifier)
-    self.an_walking_east:deserialize(data.an_walking_east)
-    self.an_walking_plank_southeast = anim.newAnimation(an[data.an_walking_plank_southeast.animation_identifier], 1,
-        nil, data.an_walking_plank_southeast.animation_identifier)
-    self.an_walking_plank_southeast:deserialize(data.an_walking_plank_southeast)
-    self.an_walking_log_southeast = anim.newAnimation(an[data.an_walking_log_southeast.animation_identifier], 1, nil,
-        data.an_walking_log_southeast.animation_identifier)
-    self.an_walking_log_southeast:deserialize(data.an_walking_log_southeast)
-    self.an_walking_southeast = anim.newAnimation(an[data.an_walking_southeast.animation_identifier], 1, nil,
-        data.an_walking_southeast.animation_identifier)
-    self.an_walking_southeast:deserialize(data.an_walking_southeast)
-    self.an_walking_plank_northeast = anim.newAnimation(an[data.an_walking_plank_northeast.animation_identifier], 1,
-        nil, data.an_walking_plank_northeast.animation_identifier)
-    self.an_walking_plank_northeast:deserialize(data.an_walking_plank_northeast)
-    self.an_walking_log_northeast = anim.newAnimation(an[data.an_walking_log_northeast.animation_identifier], 1, nil,
-        data.an_walking_log_northeast.animation_identifier)
-    self.an_walking_log_northeast:deserialize(data.an_walking_log_northeast)
-    self.an_walking_northeast = anim.newAnimation(an[data.an_walking_northeast.animation_identifier], 1, nil,
-        data.an_walking_northeast.animation_identifier)
-    self.an_walking_northeast:deserialize(data.an_walking_northeast)
-    if data.target_tree then
-        self.target_tree = _G.state:dereferenceObject(data.target_tree)
+    self.anWalkingPlankWest = anim.newAnimation(an[data.anWalkingPlankWest.animationIdentifier], 1, nil,
+        data.anWalkingPlankWest.animationIdentifier)
+    self.anWalkingPlankWest:deserialize(data.anWalkingPlankWest)
+    self.anWalkingLogWest = anim.newAnimation(an[data.anWalkingLogWest.animationIdentifier], 1, nil,
+        data.anWalkingLogWest.animationIdentifier)
+    self.anWalkingLogWest:deserialize(data.anWalkingLogWest)
+    self.anWalkingWest = anim.newAnimation(an[data.anWalkingWest.animationIdentifier], 1, nil,
+        data.anWalkingWest.animationIdentifier)
+    self.anWalkingWest:deserialize(data.anWalkingWest)
+    self.anWalkingPlankSouthwest = anim.newAnimation(an[data.anWalkingPlankSouthwest.animationIdentifier], 1, nil,
+        data.anWalkingPlankSouthwest.animationIdentifier)
+    self.anWalkingPlankSouthwest:deserialize(data.anWalkingPlankSouthwest)
+    self.anWalkingLogSouthwest = anim.newAnimation(an[data.anWalkingLogSouthwest.animationIdentifier], 1, nil,
+        data.anWalkingLogSouthwest.animationIdentifier)
+    self.anWalkingLogSouthwest:deserialize(data.anWalkingLogSouthwest)
+    self.anWalkingSouthwest = anim.newAnimation(an[data.anWalkingSouthwest.animationIdentifier], 1, nil,
+        data.anWalkingSouthwest.animationIdentifier)
+    self.anWalkingSouthwest:deserialize(data.anWalkingSouthwest)
+    self.anWalkingPlankNorthwest = anim.newAnimation(an[data.anWalkingPlankNorthwest.animationIdentifier], 1, nil,
+        data.anWalkingPlankNorthwest.animationIdentifier)
+    self.anWalkingPlankNorthwest:deserialize(data.anWalkingPlankNorthwest)
+    self.anWalkingLogNorthwest = anim.newAnimation(an[data.anWalkingLogNorthwest.animationIdentifier], 1, nil,
+        data.anWalkingLogNorthwest.animationIdentifier)
+    self.anWalkingLogNorthwest:deserialize(data.anWalkingLogNorthwest)
+    self.anWalkingNorthwest = anim.newAnimation(an[data.anWalkingNorthwest.animationIdentifier], 1, nil,
+        data.anWalkingNorthwest.animationIdentifier)
+    self.anWalkingNorthwest:deserialize(data.anWalkingNorthwest)
+    self.anWalkingPlankNorth = anim.newAnimation(an[data.anWalkingPlankNorth.animationIdentifier], 1, nil,
+        data.anWalkingPlankNorth.animationIdentifier)
+    self.anWalkingPlankNorth:deserialize(data.anWalkingPlankNorth)
+    self.anWalkingLogNorth = anim.newAnimation(an[data.anWalkingLogNorth.animationIdentifier], 1, nil,
+        data.anWalkingLogNorth.animationIdentifier)
+    self.anWalkingLogNorth:deserialize(data.anWalkingLogNorth)
+    self.anWalkingNorth = anim.newAnimation(an[data.anWalkingNorth.animationIdentifier], 1, nil,
+        data.anWalkingNorth.animationIdentifier)
+    self.anWalkingNorth:deserialize(data.anWalkingNorth)
+    self.anWalkingPlankSouth = anim.newAnimation(an[data.anWalkingPlankSouth.animationIdentifier], 1, nil,
+        data.anWalkingPlankSouth.animationIdentifier)
+    self.anWalkingPlankSouth:deserialize(data.anWalkingPlankSouth)
+    self.anWalkingLogSouth = anim.newAnimation(an[data.anWalkingLogSouth.animationIdentifier], 1, nil,
+        data.anWalkingLogSouth.animationIdentifier)
+    self.anWalkingLogSouth:deserialize(data.anWalkingLogSouth)
+    self.anWalkingSouth = anim.newAnimation(an[data.anWalkingSouth.animationIdentifier], 1, nil,
+        data.anWalkingSouth.animationIdentifier)
+    self.anWalkingSouth:deserialize(data.anWalkingSouth)
+    self.anWalkingPlankEast = anim.newAnimation(an[data.anWalkingPlankEast.animationIdentifier], 1, nil,
+        data.anWalkingPlankEast.animationIdentifier)
+    self.anWalkingPlankEast:deserialize(data.anWalkingPlankEast)
+    self.anWalkingLogEast = anim.newAnimation(an[data.anWalkingLogEast.animationIdentifier], 1, nil,
+        data.anWalkingLogEast.animationIdentifier)
+    self.anWalkingLogEast:deserialize(data.anWalkingLogEast)
+    self.anWalkingEast = anim.newAnimation(an[data.anWalkingEast.animationIdentifier], 1, nil,
+        data.anWalkingEast.animationIdentifier)
+    self.anWalkingEast:deserialize(data.anWalkingEast)
+    self.anWalkingPlankSoutheast = anim.newAnimation(an[data.anWalkingPlankSoutheast.animationIdentifier], 1, nil,
+        data.anWalkingPlankSoutheast.animationIdentifier)
+    self.anWalkingPlankSoutheast:deserialize(data.anWalkingPlankSoutheast)
+    self.anWalkingLogSoutheast = anim.newAnimation(an[data.anWalkingLogSoutheast.animationIdentifier], 1, nil,
+        data.anWalkingLogSoutheast.animationIdentifier)
+    self.anWalkingLogSoutheast:deserialize(data.anWalkingLogSoutheast)
+    self.anWalkingSoutheast = anim.newAnimation(an[data.anWalkingSoutheast.animationIdentifier], 1, nil,
+        data.anWalkingSoutheast.animationIdentifier)
+    self.anWalkingSoutheast:deserialize(data.anWalkingSoutheast)
+    self.anWalkingPlankNortheast = anim.newAnimation(an[data.anWalkingPlankNortheast.animationIdentifier], 1, nil,
+        data.anWalkingPlankNortheast.animationIdentifier)
+    self.anWalkingPlankNortheast:deserialize(data.anWalkingPlankNortheast)
+    self.anWalkingLogNortheast = anim.newAnimation(an[data.anWalkingLogNortheast.animationIdentifier], 1, nil,
+        data.anWalkingLogNortheast.animationIdentifier)
+    self.anWalkingLogNortheast:deserialize(data.anWalkingLogNortheast)
+    self.anWalkingNortheast = anim.newAnimation(an[data.anWalkingNortheast.animationIdentifier], 1, nil,
+        data.anWalkingNortheast.animationIdentifier)
+    self.anWalkingNortheast:deserialize(data.anWalkingNortheast)
+    if data.targetTree then
+        self.targetTree = _G.state:dereferenceObject(data.targetTree)
     end
 end
 function Woodcutter:serialize()
     local data = {}
-    local unit_data = Unit.serialize(self)
-    for k, v in pairs(unit_data) do
+    local unitData = Unit.serialize(self)
+    for k, v in pairs(unitData) do
         if type(v) ~= "function" and type(v) ~= "userdata" then
             data[k] = v
         end
     end
     -- self.marked = 0
-    data.an_walking_plank_west = self.an_walking_plank_west:serialize()
-    data.an_walking_log_west = self.an_walking_log_west:serialize()
-    data.an_walking_west = self.an_walking_west:serialize()
-    data.an_walking_plank_southwest = self.an_walking_plank_southwest:serialize()
-    data.an_walking_log_southwest = self.an_walking_log_southwest:serialize()
-    data.an_walking_southwest = self.an_walking_southwest:serialize()
-    data.an_walking_plank_northwest = self.an_walking_plank_northwest:serialize()
-    data.an_walking_log_northwest = self.an_walking_log_northwest:serialize()
-    data.an_walking_northwest = self.an_walking_northwest:serialize()
-    data.an_walking_plank_north = self.an_walking_plank_north:serialize()
-    data.an_walking_log_north = self.an_walking_log_north:serialize()
-    data.an_walking_north = self.an_walking_north:serialize()
-    data.an_walking_plank_south = self.an_walking_plank_south:serialize()
-    data.an_walking_log_south = self.an_walking_log_south:serialize()
-    data.an_walking_south = self.an_walking_south:serialize()
-    data.an_walking_plank_east = self.an_walking_plank_east:serialize()
-    data.an_walking_log_east = self.an_walking_log_east:serialize()
-    data.an_walking_east = self.an_walking_east:serialize()
-    data.an_walking_plank_southeast = self.an_walking_plank_southeast:serialize()
-    data.an_walking_log_southeast = self.an_walking_log_southeast:serialize()
-    data.an_walking_southeast = self.an_walking_southeast:serialize()
-    data.an_walking_plank_northeast = self.an_walking_plank_northeast:serialize()
-    data.an_walking_log_northeast = self.an_walking_log_northeast:serialize()
-    data.an_walking_northeast = self.an_walking_northeast:serialize()
+    data.anWalkingPlankWest = self.anWalkingPlankWest:serialize()
+    data.anWalkingLogWest = self.anWalkingLogWest:serialize()
+    data.anWalkingWest = self.anWalkingWest:serialize()
+    data.anWalkingPlankSouthwest = self.anWalkingPlankSouthwest:serialize()
+    data.anWalkingLogSouthwest = self.anWalkingLogSouthwest:serialize()
+    data.anWalkingSouthwest = self.anWalkingSouthwest:serialize()
+    data.anWalkingPlankNorthwest = self.anWalkingPlankNorthwest:serialize()
+    data.anWalkingLogNorthwest = self.anWalkingLogNorthwest:serialize()
+    data.anWalkingNorthwest = self.anWalkingNorthwest:serialize()
+    data.anWalkingPlankNorth = self.anWalkingPlankNorth:serialize()
+    data.anWalkingLogNorth = self.anWalkingLogNorth:serialize()
+    data.anWalkingNorth = self.anWalkingNorth:serialize()
+    data.anWalkingPlankSouth = self.anWalkingPlankSouth:serialize()
+    data.anWalkingLogSouth = self.anWalkingLogSouth:serialize()
+    data.anWalkingSouth = self.anWalkingSouth:serialize()
+    data.anWalkingPlankEast = self.anWalkingPlankEast:serialize()
+    data.anWalkingLogEast = self.anWalkingLogEast:serialize()
+    data.anWalkingEast = self.anWalkingEast:serialize()
+    data.anWalkingPlankSoutheast = self.anWalkingPlankSoutheast:serialize()
+    data.anWalkingLogSoutheast = self.anWalkingLogSoutheast:serialize()
+    data.anWalkingSoutheast = self.anWalkingSoutheast:serialize()
+    data.anWalkingPlankNortheast = self.anWalkingPlankNortheast:serialize()
+    data.anWalkingLogNortheast = self.anWalkingLogNortheast:serialize()
+    data.anWalkingNortheast = self.anWalkingNortheast:serialize()
     if self.animation then
         data.animation = self.animation:serialize()
     end
     data.state = self.state
     data.count = self.count
-    data.eat_timer = self.eat_timer
-    data.offset_x = self.offset_x
-    data.offset_y = self.offset_y
-    data.store_timer = self.store_timer
-    if self.target_tree then
-        data.target_tree = _G.state:serializeObject(self.target_tree)
+    data.eatTimer = self.eatTimer
+    data.offsetX = self.offsetX
+    data.offsetY = self.offsetY
+    data.storeTimer = self.storeTimer
+    if self.targetTree then
+        data.targetTree = _G.state:serializeObject(self.targetTree)
     end
     return data
 end
-function Woodcutter:cut_callback()
+function Woodcutter:cutCallback()
     if self.state == "Cutting down" then
-        local tree_progress
-        if self.target_tree.tree and self.target_tree.cuttable then
-            tree_progress = self.target_tree:cut()
-            if self.target_tree.chop or self.target_tree.falling then
-                _G.play_sfx(self, chopping_fx)
+        local treeProgress
+        if self.targetTree.tree and self.targetTree.cuttable then
+            treeProgress = self.targetTree:cut()
+            if self.targetTree.chop or self.targetTree.falling then
+                _G.playSfx(self, choppingFx)
             else
-                _G.play_sfx(self, cutting_fx)
+                _G.playSfx(self, cuttingFx)
             end
         else
             self.state = "Looking to chop tree"
-            self.move_dir = "none"
+            self.moveDir = "none"
         end
-        if tree_progress == 2 then
+        if treeProgress == 2 then
             self.animation:pause()
-            self.move_dir = "none"
+            self.moveDir = "none"
             self.count = 1
             self.state = "Going to workplace with wood"
             self:requestPath(self.workplace.gx + 1, self.workplace.gy + 3)
         end
     end
 end
-function Woodcutter:job_update()
+function Woodcutter:jobUpdate()
     _G.removeObjectAt(self.lrcx, self.lrcy, self.lrx, self.lry, self)
-    _G.freeVertexFromTile(self.cx, self.cy, self.vert_id)
+    _G.freeVertexFromTile(self.cx, self.cy, self.vertId)
     self.instancemesh = nil
     self.animation = nil
 end
-function Woodcutter:check_trees(cx, cy)
+function Woodcutter:checkTrees(cx, cy)
     local chunkx, chunky = cx or self.cx, cy or self.cy
-    local closest_object, closest_distance = nil, 10000000
-    if _G.state.chunk_objects[chunkx][chunky] then
-        for _, obj in pairs(_G.state.chunk_objects[chunkx][chunky]) do
+    local closestObject, closestDistance = nil, 10000000
+    if _G.state.chunkObjects[chunkx][chunky] then
+        for _, obj in pairs(_G.state.chunkObjects[chunkx][chunky]) do
             if (obj.type == 'Pine tree' or obj.type == "Small pine tree" or obj.type == "Medium pine tree" or obj.type ==
                 'Oak tree' or obj.type == "Small oak tree" or obj.type == "Medium oak tree") and obj.marked == false then
                 -- TODO: Fix magic numbers CRITICAL
                 if obj.gx > 0 and obj.gx < 2047 and obj.gy > 0 and obj.gy < 2047 then -- and _G.nodes[obj.gx][obj.gy+1].walkable == 0 then --fixme
-                    local dist = _G.manhattan_distance(self.gx, self.gy, obj.gx, obj.gy)
-                    if dist < closest_distance then
-                        closest_object = obj
-                        closest_distance = dist
+                    local dist = _G.manhattanDistance(self.gx, self.gy, obj.gx, obj.gy)
+                    if dist < closestDistance then
+                        closestObject = obj
+                        closestDistance = dist
                     end
                 end
             end
         end
     end
-    if not closest_object then
+    if not closestObject then
         return false, false
     else
-        return closest_object, closest_distance
+        return closestObject, closestDistance
     end
 end
-function Woodcutter:find_tree()
-    local closest_object, closest_distance = nil, 10000000
+function Woodcutter:findTree()
+    local closestObject, closestDistance = nil, 10000000
     local objt, disto
-    objt, disto = self:check_trees(self.cx, self.cy)
-    if disto and disto < closest_distance then
-        closest_object = objt
-        closest_distance = disto
+    objt, disto = self:checkTrees(self.cx, self.cy)
+    if disto and disto < closestDistance then
+        closestObject = objt
+        closestDistance = disto
     end
-    objt, disto = self:check_trees(self.cx + 1, self.cy)
-    if disto and disto < closest_distance then
-        closest_object = objt
-        closest_distance = disto
+    objt, disto = self:checkTrees(self.cx + 1, self.cy)
+    if disto and disto < closestDistance then
+        closestObject = objt
+        closestDistance = disto
     end
-    objt, disto = self:check_trees(self.cx + 1, self.cy + 1)
-    if disto and disto < closest_distance then
-        closest_object = objt
-        closest_distance = disto
+    objt, disto = self:checkTrees(self.cx + 1, self.cy + 1)
+    if disto and disto < closestDistance then
+        closestObject = objt
+        closestDistance = disto
     end
-    objt, disto = self:check_trees(self.cx + 1, self.cy - 1)
-    if disto and disto < closest_distance then
-        closest_object = objt
-        closest_distance = disto
+    objt, disto = self:checkTrees(self.cx + 1, self.cy - 1)
+    if disto and disto < closestDistance then
+        closestObject = objt
+        closestDistance = disto
     end
-    objt, disto = self:check_trees(self.cx - 1, self.cy + 1)
-    if disto and disto < closest_distance then
-        closest_object = objt
-        closest_distance = disto
+    objt, disto = self:checkTrees(self.cx - 1, self.cy + 1)
+    if disto and disto < closestDistance then
+        closestObject = objt
+        closestDistance = disto
     end
-    objt, disto = self:check_trees(self.cx - 1, self.cy)
-    if disto and disto < closest_distance then
-        closest_object = objt
-        closest_distance = disto
+    objt, disto = self:checkTrees(self.cx - 1, self.cy)
+    if disto and disto < closestDistance then
+        closestObject = objt
+        closestDistance = disto
     end
-    objt, disto = self:check_trees(self.cx - 1, self.cy - 1)
-    if disto and disto < closest_distance then
-        closest_object = objt
-        closest_distance = disto
+    objt, disto = self:checkTrees(self.cx - 1, self.cy - 1)
+    if disto and disto < closestDistance then
+        closestObject = objt
+        closestDistance = disto
     end
-    objt, disto = self:check_trees(self.cx, self.cy + 1)
-    if disto and disto < closest_distance then
-        closest_object = objt
-        closest_distance = disto
+    objt, disto = self:checkTrees(self.cx, self.cy + 1)
+    if disto and disto < closestDistance then
+        closestObject = objt
+        closestDistance = disto
     end
-    objt, disto = self:check_trees(self.cx, self.cy - 1)
+    objt, disto = self:checkTrees(self.cx, self.cy - 1)
 
     if objt and not _G.importantObjectAtGlobal(objt.gx, objt.gy + 1) then
-        if disto and disto < closest_distance then
-            closest_object = objt
+        if disto and disto < closestDistance then
+            closestObject = objt
         end
     end
-    if not closest_object then
+    if not closestObject then
         print("No trees nearby!")
         self.state = "No trees"
         -- TODO: Mark woodcutters hut as inactive
         return
     end
-    self.target_tree = closest_object
-    self.endx = closest_object.gx
-    self.endy = closest_object.gy + 1
+    self.targetTree = closestObject
+    self.endx = closestObject.gx
+    self.endy = closestObject.gy + 1
     if self.endx == self.gx and self.endy == self.gy then
         self.state = "Cutting down"
         self.animation = anim.newAnimation(an[AN_CUTTING_NORTHEAST], 0.08, self.cut, AN_CUTTING_NORTHEAST)
-        self:clear_path()
+        self:clearPath()
     else
         self:requestPath(self.endx, self.endy)
         self.state = "Going to tree"
     end
-    closest_object.marked = true
+    closestObject.marked = true
 end
-function Woodcutter:dir_sub_update()
-    if self.move_dir == "west" then
+function Woodcutter:dirSubUpdate()
+    if self.moveDir == "west" then
         if self.state == "Going to stockpile" then
-            self.animation = self.an_walking_plank_west
+            self.animation = self.anWalkingPlankWest
         elseif self.state == "Going to workplace with wood" then
-            self.animation = self.an_walking_log_west
+            self.animation = self.anWalkingLogWest
         else
-            self.animation = self.an_walking_west
+            self.animation = self.anWalkingWest
         end
-    elseif self.move_dir == "southwest" then
+    elseif self.moveDir == "southwest" then
         if self.state == "Going to stockpile" then
-            self.animation = self.an_walking_plank_southwest
+            self.animation = self.anWalkingPlankSouthwest
         elseif self.state == "Going to workplace with wood" then
-            self.animation = self.an_walking_log_southwest
+            self.animation = self.anWalkingLogSouthwest
         else
-            self.animation = self.an_walking_southwest
+            self.animation = self.anWalkingSouthwest
         end
-    elseif self.move_dir == "northwest" then
+    elseif self.moveDir == "northwest" then
         if self.state == "Going to stockpile" then
-            self.animation = self.an_walking_plank_northwest
+            self.animation = self.anWalkingPlankNorthwest
         elseif self.state == "Going to workplace with wood" then
-            self.animation = self.an_walking_log_northwest
+            self.animation = self.anWalkingLogNorthwest
         else
-            self.animation = self.an_walking_northwest
+            self.animation = self.anWalkingNorthwest
         end
-    elseif self.move_dir == "north" then
+    elseif self.moveDir == "north" then
         if self.state == "Going to stockpile" then
-            self.animation = self.an_walking_plank_north
+            self.animation = self.anWalkingPlankNorth
         elseif self.state == "Going to workplace with wood" then
-            self.animation = self.an_walking_log_north
+            self.animation = self.anWalkingLogNorth
         else
-            self.animation = self.an_walking_north
+            self.animation = self.anWalkingNorth
         end
-    elseif self.move_dir == "south" then
+    elseif self.moveDir == "south" then
         if self.state == "Going to stockpile" then
-            self.animation = self.an_walking_plank_south
+            self.animation = self.anWalkingPlankSouth
         elseif self.state == "Going to workplace with wood" then
-            self.animation = self.an_walking_log_south
+            self.animation = self.anWalkingLogSouth
         else
-            self.animation = self.an_walking_south
+            self.animation = self.anWalkingSouth
         end
-    elseif self.move_dir == "east" then
+    elseif self.moveDir == "east" then
         if self.state == "Going to stockpile" then
-            self.animation = self.an_walking_plank_east
+            self.animation = self.anWalkingPlankEast
         elseif self.state == "Going to workplace with wood" then
-            self.animation = self.an_walking_log_east
+            self.animation = self.anWalkingLogEast
         else
-            self.animation = self.an_walking_east
+            self.animation = self.anWalkingEast
         end
-    elseif self.move_dir == "southeast" then
+    elseif self.moveDir == "southeast" then
         if self.state == "Going to stockpile" then
-            self.animation = self.an_walking_plank_southeast
+            self.animation = self.anWalkingPlankSoutheast
         elseif self.state == "Going to workplace with wood" then
-            self.animation = self.an_walking_log_southeast
+            self.animation = self.anWalkingLogSoutheast
         else
-            self.animation = self.an_walking_southeast
+            self.animation = self.anWalkingSoutheast
         end
-    elseif self.move_dir == "northeast" then
+    elseif self.moveDir == "northeast" then
         if self.state == "Going to stockpile" then
-            self.animation = self.an_walking_plank_northeast
+            self.animation = self.anWalkingPlankNortheast
         elseif self.state == "Going to workplace with wood" then
-            self.animation = self.an_walking_log_northeast
+            self.animation = self.anWalkingLogNortheast
         else
-            self.animation = self.an_walking_northeast
+            self.animation = self.anWalkingNortheast
         end
     end
 end
 function Woodcutter:update()
-    self.eat_timer = self.eat_timer + 1
-    self.store_timer = self.store_timer + 1
-    if self.eat_timer > 3000 then
+    self.eatTimer = self.eatTimer + 1
+    self.storeTimer = self.storeTimer + 1
+    if self.eatTimer > 3000 then
         _G.foodpile:take()
-        self.eat_timer = 0
+        self.eatTimer = 0
     end
-    if self.path_state == "Waiting for path" then
+    if self.pathState == "Waiting for path" then
         self:pathfind()
     elseif self.state == "Find a job" then
-        _G.JobController:find_job(self, "Woodcutter")
-    elseif self.state == "Storing second plank" and self.store_timer > 10 then
-        self.store_timer = 0
+        _G.JobController:findJob(self, "Woodcutter")
+    elseif self.state == "Storing second plank" and self.storeTimer > 10 then
+        self.storeTimer = 0
         self.state = "Storing third plank"
         _G.stockpile:store('wood')
-    elseif self.state == "Storing third plank" and self.store_timer > 10 then
-        self.store_timer = 0
+    elseif self.state == "Storing third plank" and self.storeTimer > 10 then
+        self.storeTimer = 0
         _G.stockpile:store('wood')
         self.state = "Storing fourth plank"
-    elseif self.state == "Storing fourth plank" and self.store_timer > 10 then
-        self.store_timer = 0
+    elseif self.state == "Storing fourth plank" and self.storeTimer > 10 then
+        self.storeTimer = 0
         _G.stockpile:store('wood')
         self.animation:resume()
         self.state = "Go to workplace"
     elseif self.state == "Go to stockpile" then
         if _G.stockpile then
             self.state = "Going to stockpile"
-            local closest_node
+            local closestNode
             local distance = math.huge
-            for _, v in ipairs(_G.stockpile.node_list) do
-                local tmp = _G.manhattan_distance(v.gx, v.gy, self.gx, self.gy)
+            for _, v in ipairs(_G.stockpile.nodeList) do
+                local tmp = _G.manhattanDistance(v.gx, v.gy, self.gx, self.gy)
                 if tmp < distance then
                     distance = tmp
-                    closest_node = v
+                    closestNode = v
                 end
             end
-            if not closest_node then
+            if not closestNode then
                 print("Closest stockpile node not found")
             else
-                self:requestPath(closest_node.gx, closest_node.gy)
+                self:requestPath(closestNode.gx, closestNode.gy)
             end
-            self.move_dir = "none"
+            self.moveDir = "none"
         end
     elseif self.state ~= "No trees" then
         if self.state == "Looking to chop tree" then
-            self:find_tree()
+            self:findTree()
         elseif self.state == "Go to workplace" then
             self.gx, self.gy = math.round(self.gx), math.round(self.gy)
             self.fx, self.fy = self.gx * 1000 + 500, self.gy * 1000 + 500
             self:requestPath(self.workplace.gx + 1, self.workplace.gy + 3)
             self.state = "Going to workplace"
-            self.move_dir = "none"
+            self.moveDir = "none"
         elseif self.state == "Going to tree" or self.state == "Going to stockpile" or self.state == "Going to workplace" or
             self.state == "Going to workplace with wood" or self.state == "Going to waypoint" then
-            if self.move_dir == "none" then
-                self:update_direction()
-                self:dir_sub_update()
+            if self.moveDir == "none" then
+                self:updateDirection()
+                self:dirSubUpdate()
             end
             self:move()
         end
-        if self.fx * 0.001 == self.waypoint_x and self.fy * 0.001 == self.waypoint_y and self.move_dir ~= "none" then
+        if self.fx * 0.001 == self.waypointX and self.fy * 0.001 == self.waypointY and self.moveDir ~= "none" then
             if self.state == "Going to tree" then
-                if self:reached_path_end() then
+                if self:reachedPathEnd() then
                     self.state = "Cutting down"
                     self.animation = anim.newAnimation(an[AN_CUTTING_NORTHEAST], 0.08, self.cut, AN_CUTTING_NORTHEAST)
-                    self:clear_path()
+                    self:clearPath()
                     return
                 else
-                    self:set_next_waypoint()
+                    self:setNextWaypoint()
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to workplace with wood" then
-                if self:reached_path_end() then
+                if self:reachedPathEnd() then
                     self.workplace:work(self)
-                    self:clear_path()
+                    self:clearPath()
                     return
                 else
-                    self:set_next_waypoint()
+                    self:setNextWaypoint()
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to stockpile" then
-                if self:reached_path_end() then
+                if self:reachedPathEnd() then
                     _G.stockpile:store('wood')
                     self.state = "Storing second plank"
                     self.animation:pause()
-                    self.store_timer = 0
-                    self:clear_path()
+                    self.storeTimer = 0
+                    self:clearPath()
                     return
                 else
-                    self:set_next_waypoint()
+                    self:setNextWaypoint()
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to workplace" then
-                if self:reached_path_end() then
+                if self:reachedPathEnd() then
                     self.state = "Looking to chop tree"
-                    self:clear_path()
+                    self:clearPath()
                     return
                 else
-                    self:set_next_waypoint()
+                    self:setNextWaypoint()
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to waypoint" then
-                if self:reached_path_end() then
+                if self:reachedPathEnd() then
                     self.state = "none"
-                    self:clear_path()
+                    self:clearPath()
                     return
                 else
-                    self:set_next_waypoint()
+                    self:setNextWaypoint()
                 end
                 self.count = self.count + 1
             end
@@ -581,8 +577,8 @@ function Woodcutter:update()
     end
 end
 function Woodcutter:animate()
-    if self.move_dir ~= "none" and self.animation and (self.animation.position == 2 or self.animation.position == 10) then
-        _G.play_sfx(self, footstep_fx)
+    if self.moveDir ~= "none" and self.animation and (self.animation.position == 2 or self.animation.position == 10) then
+        _G.playSfx(self, footstepFx)
     end
     self:update()
     Unit.animate(self)

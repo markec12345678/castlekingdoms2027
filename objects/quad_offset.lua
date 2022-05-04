@@ -1,7 +1,7 @@
-if _G.test_mode then return {} end
+if _G.testMode then return {} end
 local tile_quads = require('objects.object_quads')
-_G.quad_offset = {}
-local quad_offset = _G.quad_offset
+_G.quadOffset = {}
+local quad_offset = _G.quadOffset
 local function extend_1()
 quad_offset[tile_quads["spearman_falling_e (1)"]] = {34,  33}
 quad_offset[tile_quads["spearman_falling_e (2)"]] = {29,  34}

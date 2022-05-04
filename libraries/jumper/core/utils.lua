@@ -100,7 +100,7 @@ if (...) then
                 _G.nodes[x][y].init = false
                 _G.nodes[x][y]._x = x
                 _G.nodes[x][y]._y = y
-                _G.nodes[x][y].walkable = _G.collision_map[x][y]
+                _G.nodes[x][y].walkable = _G.collisionMap[x][y]
             end
         end
         return _G.nodes, (min_x or 0), (max_x or 0), (min_y or 0), (max_y or 0)

@@ -11,25 +11,24 @@ if ACTION_BAR_USER_SCALE_W > 100 or ACTION_BAR_USER_SCALE_W < 5 then
 end
 
 local ActionBar = _G.class("ActionBar")
-ActionBar.static.action_bar_image = love.graphics.newImage('assets/ui/action_bar.png')
+ActionBar.static.actionBarImage = love.graphics.newImage('assets/ui/action_bar.png')
 function ActionBar:initialize()
     local element = loveframes.Create("image")
     element:SetState(states.STATE_INGAME_CONSTRUCTION)
-    element:SetImage(ActionBar.action_bar_image)
+    element:SetImage(ActionBar.actionBarImage)
     element:SetOffsetX(element:GetImageWidth() / 2)
-    local scale_1 = (w.percent[ACTION_BAR_USER_SCALE_W]) / ActionBar.action_bar_image:getWidth()
-    local scale_2 = (h.percent[ACTION_BAR_USER_SCALE_H]) / ActionBar.action_bar_image:getHeight()
+    local scale_1 = (w.percent[ACTION_BAR_USER_SCALE_W]) / ActionBar.actionBarImage:getWidth()
+    local scale_2 = (h.percent[ACTION_BAR_USER_SCALE_H]) / ActionBar.actionBarImage:getHeight()
     local scale = math.min(scale_1, scale_2)
     element:SetScale(scale, scale)
     element:SetPos(w.percent[50], h.percent[100] - element:GetImageHeight() * element:GetScaleY())
     self.element = element
     self.groups = {}
-    self.current_group = "main"
+    self.currentGroup = "main"
 end
-function ActionBar:activate_button(position)
-    local button
-    if self.groups[self.current_group] then
-        local button = self.groups[self.current_group][position]
+function ActionBar:activateButton(position)
+    if self.groups[self.currentGroup] then
+        local button = self.groups[self.currentGroup][position]
         if button then
             button:press()
         end
@@ -37,32 +36,32 @@ function ActionBar:activate_button(position)
 end
 function ActionBar:keypressed(key, scancode)
     if key == "1" then
-        self:activate_button(1)
+        self:activateButton(1)
     elseif key == "2" then
-        self:activate_button(2)
+        self:activateButton(2)
     elseif key == "3" then
-        self:activate_button(3)
+        self:activateButton(3)
     elseif key == "4" then
-        self:activate_button(4)
+        self:activateButton(4)
     elseif key == "5" then
-        self:activate_button(5)
+        self:activateButton(5)
     elseif key == "6" then
-        self:activate_button(6)
+        self:activateButton(6)
     elseif key == "7" then
-        self:activate_button(7)
+        self:activateButton(7)
     elseif key == "8" then
-        self:activate_button(8)
+        self:activateButton(8)
     elseif key == "9" then
-        self:activate_button(9)
+        self:activateButton(9)
     elseif key == "0" then
-        self:activate_button(10)
+        self:activateButton(10)
     elseif key == "-" then
-        self:activate_button(11)
+        self:activateButton(11)
     elseif key == "=" or key == "`" then
-        self:activate_button(12)
+        self:activateButton(12)
     end
 end
-function ActionBar:select_button(element)
+function ActionBar:selectButton(element)
     if not element.background.visible then
         error("trying to select an invisible button")
     end
@@ -71,23 +70,23 @@ function ActionBar:select_button(element)
     end
     element:select()
 end
-function ActionBar:register_group(name, list_of_elements)
+function ActionBar:registerGroup(name, listOfElements)
     self.groups[name] = {}
-    for _, v in ipairs(list_of_elements) do
+    for _, v in ipairs(listOfElements) do
         v.group = name
         self.groups[name][v.position] = v
     end
 end
-function ActionBar:hide_group(name)
+function ActionBar:hideGroup(name)
     for _, el in pairs(self.groups[name]) do
         el:hide()
     end
 end
-function ActionBar:show_group(name)
-    self.current_group = name
+function ActionBar:showGroup(name)
+    self.currentGroup = name
     for k, _ in pairs(self.groups) do
         if k ~= name then
-            self:hide_group(k)
+            self:hideGroup(k)
         end
     end
     if name then

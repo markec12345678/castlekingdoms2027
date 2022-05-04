@@ -1,4 +1,4 @@
-_G.imageW,_G.imageH = _G.object_image:getDimensions()
+_G.imageW,_G.imageH = _G.objectAtlas:getDimensions()
 local imageW, imageH = _G.imageW,_G.imageH
 local tile_quads = {}
 tile_quads["empty"] = love.graphics.newQuad(0, 0,0, 0, imageW,imageH)

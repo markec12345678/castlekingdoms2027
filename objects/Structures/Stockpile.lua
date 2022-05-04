@@ -1,15 +1,15 @@
-local _, tile_quads, _ = ...
+local _, tileQuads, _ = ...
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
-local tiles, quad_array = _G.indexBuildingQuads("stockpile")
+local tiles, quadArray = _G.indexBuildingQuads("stockpile")
 
-local last_quad = quad_array[#quad_array]
-local vx, vy, vw, vh = last_quad:getViewport()
+local lastQuad = quadArray[#quadArray]
+local vx, vy, vw, vh = lastQuad:getViewport()
 
 -- fix rendering issue
-local new_quad = love.graphics.newQuad(vx, vy, vw - 2, vh, _G.imageW, _G.imageH)
-quad_array[#quad_array] = new_quad
-local quad_map = {
+local newQuad = love.graphics.newQuad(vx, vy, vw - 2, vh, _G.imageW, _G.imageH)
+quadArray[#quadArray] = newQuad
+local quadMap = {
     ["wood"] = {},
     ["stone"] = {},
     ["wheat"] = {},
@@ -18,17 +18,17 @@ local quad_map = {
 }
 
 for i = 1, 48 do
-    quad_map["wood"][#quad_map["wood"] + 1] = tile_quads["wood_stockpile (" .. tostring(i) .. ")"]
-    quad_map["stone"][#quad_map["stone"] + 1] = tile_quads["stone_stockpile (" .. tostring(i) .. ")"]
-    quad_map["iron"][#quad_map["iron"] + 1] = tile_quads["iron_stockpile (" .. tostring(i) .. ")"]
+    quadMap["wood"][#quadMap["wood"] + 1] = tileQuads["wood_stockpile (" .. tostring(i) .. ")"]
+    quadMap["stone"][#quadMap["stone"] + 1] = tileQuads["stone_stockpile (" .. tostring(i) .. ")"]
+    quadMap["iron"][#quadMap["iron"] + 1] = tileQuads["iron_stockpile (" .. tostring(i) .. ")"]
 end
 
 for i = 1, 32 do
-    quad_map["wheat"][#quad_map["wheat"] + 1] = tile_quads["wheat_stockpile (" .. tostring(i) .. ")"]
-    quad_map["flour"][#quad_map["flour"] + 1] = tile_quads["flour_stockpile (" .. tostring(i) .. ")"]
+    quadMap["wheat"][#quadMap["wheat"] + 1] = tileQuads["wheat_stockpile (" .. tostring(i) .. ")"]
+    quadMap["flour"][#quadMap["flour"] + 1] = tileQuads["flour_stockpile (" .. tostring(i) .. ")"]
 end
 
-local pile_offset_y = {
+local pileOffsetY = {
     ["wood"] = {-2, -2, -2, -4, -4, -4, -4, -5, -5, -5, -5, -7, -7, -7, -7, -10, -10, -10, -10, -11, -11, -11, -11, -13,
                 -13, -13, -13, -15, -15, -15, -15, -17, -17, -17, -17, -20, -20, -20, -20, -21, -21, -21, -21, -23, -23,
                 -23, -23, -25},
@@ -44,58 +44,58 @@ local pile_offset_y = {
                  -13, -13, -13, -13, -13, -14, -15}
 }
 
-local max_quantity = {
+local maxQuantity = {
     ["wood"] = 48,
     ["stone"] = 48,
     ["wheat"] = 32,
     ["iron"] = 48,
     ["flour"] = 32
 }
-local Stockpile_alias = _G.class('Stockpile_alias', Structure)
-function Stockpile_alias:initialize(tile, gx, gy, parent, offset_y, offset_x, not_walkable)
+local StockpileAlias = _G.class('StockpileAlias', Structure)
+function StockpileAlias:initialize(tile, gx, gy, parent, offsetY, offsetX, notWalkable)
     Structure.initialize(self, gx, gy, "Stockpile alias")
-    if not_walkable then
+    if notWalkable then
         _G.state.map:setWalkable(self.gx, self.gy, 1)
     end
     self.parent = parent
     self.tile = tile
-    self.base_offset_y = offset_y or 0
-    self.additional_offset_y = 0
-    self.offset_x = offset_x or 0
-    self.offset_y = self.additional_offset_y - self.base_offset_y
-    for k, v in ipairs(_G.stockpile.node_list) do
+    self.baseOffsetY = offsetY or 0
+    self.additionalOffsetY = 0
+    self.offsetX = offsetX or 0
+    self.offsetY = self.additionalOffsetY - self.baseOffsetY
+    for k, v in ipairs(_G.stockpile.nodeList) do
         if v.gx == self.gx and v.gy == self.gy then
-            table.remove(_G.stockpile.node_list, k)
+            table.remove(_G.stockpile.nodeList, k)
             break
         end
     end
     Structure.render(self)
 end
-function Stockpile_alias:render()
+function StockpileAlias:render()
     Structure.render(self)
 end
-function Stockpile_alias:serialize()
+function StockpileAlias:serialize()
     local data = {}
-    local struct_data = Structure.serialize(self)
-    for k, v in pairs(struct_data) do
+    local structData = Structure.serialize(self)
+    for k, v in pairs(structData) do
         if type(v) ~= "function" and type(v) ~= "userdata" then
             data[k] = v
         end
     end
-    data.tile_key = self.tile_key
-    data.base_offset_y = self.base_offset_y
-    data.additional_offset_y = self.additional_offset_y
-    data.offset_x = self.offset_x
-    data.offset_y = self.offset_y
+    data.tileKey = self.tileKey
+    data.baseOffsetY = self.baseOffsetY
+    data.additionalOffsetY = self.additionalOffsetY
+    data.offsetX = self.offsetX
+    data.offsetY = self.offsetY
     return data
 end
-function Stockpile_alias.static:deserialize(data)
+function StockpileAlias.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
     Structure.load(obj, data)
-    if data.tile_key then
-        obj.tile = quad_array[data.tile_key]
-        obj.tile_key = data.tile_key
+    if data.tileKey then
+        obj.tile = quadArray[data.tileKey]
+        obj.tileKey = data.tileKey
         obj:render()
     end
     return obj
@@ -107,28 +107,28 @@ function Stockpile:initialize(gx, gy, type)
     Structure.initialize(self, gx, gy, type)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 1000
-    self.tile = quad_array[tiles + 1]
-    self.offset_x = 0
-    self.offset_y = -12
+    self.tile = quadArray[tiles + 1]
+    self.offsetX = 0
+    self.offsetY = -12
 
     for tile = 1, tiles do
-        local not_walkable = true
+        local notWalkable = true
         if tile == 2 then
-            not_walkable = false
+            notWalkable = false
         end
-        local stp = Stockpile_alias:new(quad_array[tile], self.gx, self.gy + (tiles - tile + 1), self,
-            -self.offset_y + 8 * (tiles - tile + 1), nil, not_walkable)
-        stp.tile_key = tile
+        local stp = StockpileAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
+            -self.offsetY + 8 * (tiles - tile + 1), nil, notWalkable)
+        stp.tileKey = tile
     end
 
     for tile = 1, tiles do
-        local not_walkable = true
+        local notWalkable = true
         if tile == 2 then
-            not_walkable = false
+            notWalkable = false
         end
-        local stp = Stockpile_alias:new(quad_array[tiles + 1 + tile], self.gx + tile, self.gy, self,
-            -self.offset_y + 8 * tile, 16, nil, not_walkable)
-        stp.tile_key = tiles + 1 + tile
+        local stp = StockpileAlias:new(quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self,
+            -self.offsetY + 8 * tile, 16, nil, notWalkable)
+        stp.tileKey = tiles + 1 + tile
     end
 
     for xx = -1, 5 do
@@ -136,22 +136,22 @@ function Stockpile:initialize(gx, gy, type)
             if xx ~= -1 and yy ~= -1 and xx ~= 5 and yy ~= 5 then
                 local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(self.gx + xx, self.gy + yy)
                 _G.buildingheightmap[ccx][ccy][xxx][yyy] = 12
-                _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.none)
+                _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrainBiome.none)
             else
-                _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrain_biome.dirt)
+                _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrainBiome.dirt)
             end
         end
     end
-    Stockpile_alias:new(tile_quads["empty"], self.gx + 4, self.gy + 4 - 1, self)
-    Stockpile_alias:new(tile_quads["empty"], self.gx + 4 - 1, self.gy + 4, self)
-    Stockpile_alias:new(tile_quads["empty"], self.gx + 4 - 1, self.gy + 4, self)
-    Stockpile_alias:new(tile_quads["empty"], self.gx + 3, self.gy + 1, self)
-    Stockpile_alias:new(tile_quads["empty"], self.gx + 1, self.gy + 3, self)
-    Stockpile_alias:new(tile_quads["empty"], self.gx + 3, self.gy + 3, self)
-    Stockpile_alias:new(tile_quads["empty"], self.gx + 1, self.gy + 1, self)
-    for tile_x = 0, tiles do
-        for tile_y = 0, tiles do
-            _G.state.map:setHeight(self.gx + tile_x, self.gy + tile_y, 10)
+    StockpileAlias:new(tileQuads["empty"], self.gx + 4, self.gy + 4 - 1, self)
+    StockpileAlias:new(tileQuads["empty"], self.gx + 4 - 1, self.gy + 4, self)
+    StockpileAlias:new(tileQuads["empty"], self.gx + 4 - 1, self.gy + 4, self)
+    StockpileAlias:new(tileQuads["empty"], self.gx + 3, self.gy + 1, self)
+    StockpileAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 3, self)
+    StockpileAlias:new(tileQuads["empty"], self.gx + 3, self.gy + 3, self)
+    StockpileAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 1, self)
+    for tileX = 0, tiles do
+        for tileY = 0, tiles do
+            _G.state.map:setHeight(self.gx + tileX, self.gy + tileY, 10)
         end
     end
 
@@ -184,23 +184,23 @@ function Stockpile:initialize(gx, gy, type)
         quantity = 0,
         index = 4
     }
-    self.stockpile[1].id = Stockpile_alias:new(tile_quads["empty"], self.gx + 1, self.gy + 1, self, 32 - 4, -16)
-    self.stockpile[2].id = Stockpile_alias:new(tile_quads["empty"], self.gx + 1, self.gy + 4, self, 32 - 4, -16)
-    self.stockpile[3].id = Stockpile_alias:new(tile_quads["empty"], self.gx + 4, self.gy + 1, self, 32 - 4, -16)
-    self.stockpile[4].id = Stockpile_alias:new(tile_quads["empty"], self.gx + 4, self.gy + 4, self, 32 - 4, -16)
-    table.insert(_G.stockpile.node_list, {
+    self.stockpile[1].id = StockpileAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 1, self, 32 - 4, -16)
+    self.stockpile[2].id = StockpileAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 4, self, 32 - 4, -16)
+    self.stockpile[3].id = StockpileAlias:new(tileQuads["empty"], self.gx + 4, self.gy + 1, self, 32 - 4, -16)
+    self.stockpile[4].id = StockpileAlias:new(tileQuads["empty"], self.gx + 4, self.gy + 4, self, 32 - 4, -16)
+    table.insert(_G.stockpile.nodeList, {
         gx = self.gx + 2,
         gy = self.gy + 5
     })
-    table.insert(_G.stockpile.node_list, {
+    table.insert(_G.stockpile.nodeList, {
         gx = self.gx - 1,
         gy = self.gy + 2
     })
-    table.insert(_G.stockpile.node_list, {
+    table.insert(_G.stockpile.nodeList, {
         gx = self.gx + 2,
         gy = self.gy - 1
     })
-    table.insert(_G.stockpile.node_list, {
+    table.insert(_G.stockpile.nodeList, {
         gx = self.gx + 5,
         gy = self.gy + 2
     })
@@ -210,26 +210,26 @@ function Stockpile:initialize(gx, gy, type)
 end
 function Stockpile:store(resource)
     for index = 1, 4 do
-        if self.stockpile[index].type == resource and self.stockpile[index].quantity < max_quantity[resource] then
+        if self.stockpile[index].type == resource and self.stockpile[index].quantity < maxQuantity[resource] then
             self.stockpile[index].quantity = self.stockpile[index].quantity + 1
             _G.state.resources[resource] = _G.state.resources[resource] + 1
-            self:update_stockpile(index)
+            self:updateStockpile(index)
             return true
         end
     end
     local found = false
     if not found then
         for index = 1, 4 do
-            local curr_pile = self.stockpile[index]
-            if curr_pile.empty then
-                curr_pile.empty = false
-                curr_pile.type = resource
-                curr_pile.quantity = 1
-                _G.state.not_full_stockpiles[curr_pile.type] = _G.state.not_full_stockpiles[curr_pile.type] + 1
+            local currPile = self.stockpile[index]
+            if currPile.empty then
+                currPile.empty = false
+                currPile.type = resource
+                currPile.quantity = 1
+                _G.state.notFullStockpiles[currPile.type] = _G.state.notFullStockpiles[currPile.type] + 1
                 _G.state.resources[resource] = _G.state.resources[resource] + 1
-                curr_pile.key = #_G.stockpile.resources[resource] + 1
-                _G.stockpile.resources[resource][curr_pile.key] = curr_pile
-                self:update_stockpile(index)
+                currPile.key = #_G.stockpile.resources[resource] + 1
+                _G.stockpile.resources[resource][currPile.key] = currPile
+                self:updateStockpile(index)
                 found = true
                 break
             end
@@ -243,25 +243,25 @@ function Stockpile:store(resource)
 end
 function Stockpile:take(resource, from)
     if from.type == resource and from.quantity > 0 then
-        if from.quantity == max_quantity[resource] then
-            _G.state.not_full_stockpiles[resource] = _G.state.not_full_stockpiles[resource] + 1
+        if from.quantity == maxQuantity[resource] then
+            _G.state.notFullStockpiles[resource] = _G.state.notFullStockpiles[resource] + 1
         end
         from.quantity = from.quantity - 1
         _G.state.resources[resource] = _G.state.resources[resource] - 1
-        self:update_stockpile(from)
+        self:updateStockpile(from)
         return true
     end
     for index = 1, 4 do
         if self.stockpile[index].type == resource and self.stockpile[index].quantity > 0 then
             self.stockpile[index].quantity = self.stockpile[index].quantity - 1
             _G.state.resources[resource] = _G.state.resources[resource] - 1
-            self:update_stockpile(index)
+            self:updateStockpile(index)
             return true
         end
     end
     return false
 end
-function Stockpile:update_stockpile(index)
+function Stockpile:updateStockpile(index)
     local pile
     if type(index) ~= "number" then
         pile = index
@@ -273,43 +273,43 @@ function Stockpile:update_stockpile(index)
     end
     if pile.quantity == 0 then
         table.remove(_G.stockpile.resources[pile.type], pile.key)
-        _G.state.not_full_stockpiles[pile.type] = _G.state.not_full_stockpiles[pile.type] - 1
+        _G.state.notFullStockpiles[pile.type] = _G.state.notFullStockpiles[pile.type] - 1
         pile.quantity = -1
         pile.type = nil
         pile.empty = true
-        pile.id.tile = tile_quads["empty"]
+        pile.id.tile = tileQuads["empty"]
         pile.id:render()
         return
     elseif pile.quantity < 0 then
-        pile.id.tile = tile_quads["empty"]
+        pile.id.tile = tileQuads["empty"]
         pile.id:render()
         return
     end
-    pile.id.tile = quad_map[pile.type][pile.quantity]
-    pile.id.additional_offset_y = pile_offset_y[pile.type][pile.quantity]
-    pile.id.offset_y = pile.id.additional_offset_y - pile.id.base_offset_y
+    pile.id.tile = quadMap[pile.type][pile.quantity]
+    pile.id.additionalOffsetY = pileOffsetY[pile.type][pile.quantity]
+    pile.id.offsetY = pile.id.additionalOffsetY - pile.id.baseOffsetY
     pile.id:render()
-    if pile.quantity == max_quantity[pile.type] then
-        _G.state.not_full_stockpiles[pile.type] = _G.state.not_full_stockpiles[pile.type] - 1
+    if pile.quantity == maxQuantity[pile.type] then
+        _G.state.notFullStockpiles[pile.type] = _G.state.notFullStockpiles[pile.type] - 1
     end
 end
 function Stockpile:load(data)
     Object.deserialize(self, data)
     Structure.load(self, data)
     -- TODO: Check if node list is free before assigning it
-    table.insert(_G.stockpile.node_list, {
+    table.insert(_G.stockpile.nodeList, {
         gx = self.gx + 2,
         gy = self.gy + 5
     })
-    table.insert(_G.stockpile.node_list, {
+    table.insert(_G.stockpile.nodeList, {
         gx = self.gx - 1,
         gy = self.gy + 2
     })
-    table.insert(_G.stockpile.node_list, {
+    table.insert(_G.stockpile.nodeList, {
         gx = self.gx + 2,
         gy = self.gy - 1
     })
-    table.insert(_G.stockpile.node_list, {
+    table.insert(_G.stockpile.nodeList, {
         gx = self.gx + 5,
         gy = self.gy + 2
     })
@@ -344,12 +344,12 @@ function Stockpile:load(data)
     }
 
     self.health = data.health
-    self.offset_x = data.offset_x
-    self.offset_y = data.offset_y
+    self.offsetX = data.offsetX
+    self.offsetY = data.offsetY
 
     _G.stockpile.list[(#_G.stockpile.list or 0) + 1] = self
 
-    for idx, v in ipairs(data.st_pile_raw) do
+    for idx, v in ipairs(data.stPileRaw) do
         for sk, sv in pairs(v) do
             if sk == "id" then
                 self.stockpile[idx][sk] = _G.state:dereferenceObject(sv)
@@ -366,32 +366,32 @@ function Stockpile:load(data)
             end
         end
     end
-    data.st_pile_raw = nil
-    self.tile = quad_array[tiles + 1]
+    data.stPileRaw = nil
+    self.tile = quadArray[tiles + 1]
     Structure.render(self)
     for idx, _ in ipairs(self.stockpile) do
-        self:update_stockpile(idx)
+        self:updateStockpile(idx)
     end
 end
 function Stockpile:serialize()
     local data = {}
-    local struct_data = Structure.serialize(self)
-    for k, v in pairs(struct_data) do
+    local structData = Structure.serialize(self)
+    for k, v in pairs(structData) do
         if type(v) ~= "function" and type(v) ~= "userdata" then
             data[k] = v
         end
     end
-    data.st_pile_raw = {}
+    data.stPileRaw = {}
     data.health = self.health
-    data.offset_x = self.offset_x
-    data.offset_y = self.offset_y
+    data.offsetX = self.offsetX
+    data.offsetY = self.offsetY
     for _, piles in ipairs(self.stockpile) do
-        data.st_pile_raw[#data.st_pile_raw + 1] = {}
+        data.stPileRaw[#data.stPileRaw + 1] = {}
         for sk, sv in pairs(piles) do
             if sk == "id" then
-                data.st_pile_raw[#data.st_pile_raw][sk] = _G.state:serializeObject(sv)
+                data.stPileRaw[#data.stPileRaw][sk] = _G.state:serializeObject(sv)
             else
-                data.st_pile_raw[#data.st_pile_raw][sk] = sv
+                data.stPileRaw[#data.stPileRaw][sk] = sv
             end
         end
     end

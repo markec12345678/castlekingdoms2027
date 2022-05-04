@@ -65,17 +65,17 @@ function OrchardFarmer:initialize(gx, gy, type)
     self.workplace = nil
     self.state = 'Find a job'
     self.count = 1
-    self.offset_y = -10
-    self.offset_x = -5
-    self.eat_timer = 0
+    self.offsetY = -10
+    self.offsetX = -5
+    self.eatTimer = 0
     self.animated = true
-    self.gather_loop_count = 0
+    self.gatherLoopCount = 0
     self.animation = anim.newAnimation(an[WALKING_WEST], 10, nil, WALKING_WEST)
 end
 function OrchardFarmer:serialize()
     local data = {}
-    local unit_data = Unit.serialize(self)
-    for k, v in pairs(unit_data) do
+    local unitData = Unit.serialize(self)
+    for k, v in pairs(unitData) do
         if type(v) ~= "function" and type(v) ~= "userdata" then
             data[k] = v
         end
@@ -84,72 +84,72 @@ function OrchardFarmer:serialize()
     data.state = self.state
     data.animated = self.animated
     data.count = self.count
-    data.eat_timer = self.eat_timer
-    data.offset_x = self.offset_x
-    data.offset_y = self.offset_y
-    data.gather_loop_count = self.gather_loop_count
+    data.eatTimer = self.eatTimer
+    data.offsetX = self.offsetX
+    data.offsetY = self.offsetY
+    data.gatherLoopCount = self.gatherLoopCount
     return data
 end
 function OrchardFarmer:load(data)
     Object.deserialize(self, data)
     Unit.load(self, data)
-    self.gather_loop_count = data.gather_loop_count or 0
-    local an_data = data.animation
-    if an_data then
+    self.gatherLoopCount = data.gatherLoopCount or 0
+    local anData = data.animation
+    if anData then
         local callback
-        if an_data.animation_identifier == GATHER_APPLES_EAST then
+        if anData.animationIdentifier == GATHER_APPLES_EAST then
             callback = function()
-                self:gather_callback()
+                self:gatherCallback()
             end
         end
-        self.animation = anim.newAnimation(an[an_data.animation_identifier], 1, callback, an_data.animation_identifier)
-        self.animation:deserialize(an_data)
+        self.animation = anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
+        self.animation:deserialize(anData)
     end
 end
-function OrchardFarmer:dir_sub_update()
-    if self.move_dir == "west" then
+function OrchardFarmer:dirSubUpdate()
+    if self.moveDir == "west" then
         if self.state == "Going to foodpile" or self.state == "Going to apple tree" then
             self.animation = anim.newAnimation(an[WALKING_APPLES_WEST], 0.05, nil, WALKING_APPLES_WEST)
         else
             self.animation = anim.newAnimation(an[WALKING_WEST], 0.05, nil, WALKING_WEST)
         end
-    elseif self.move_dir == "southwest" then
+    elseif self.moveDir == "southwest" then
         if self.state == "Going to foodpile" or self.state == "Going to apple tree" then
             self.animation = anim.newAnimation(an[WALKING_APPLES_SOUTHWEST], 0.05, nil, WALKING_APPLES_SOUTHWEST)
         else
             self.animation = anim.newAnimation(an[WALKING_SOUTHWEST], 0.05, nil, WALKING_SOUTHWEST)
         end
-    elseif self.move_dir == "northwest" then
+    elseif self.moveDir == "northwest" then
         if self.state == "Going to foodpile" or self.state == "Going to apple tree" then
             self.animation = anim.newAnimation(an[WALKING_APPLES_NORTHWEST], 0.05, nil, WALKING_APPLES_NORTHWEST)
         else
             self.animation = anim.newAnimation(an[WALKING_NORTHWEST], 0.05, nil, WALKING_NORTHWEST)
         end
-    elseif self.move_dir == "north" then
+    elseif self.moveDir == "north" then
         if self.state == "Going to foodpile" or self.state == "Going to apple tree" then
             self.animation = anim.newAnimation(an[WALKING_APPLES_NORTH], 0.05, nil, WALKING_APPLES_NORTH)
         else
             self.animation = anim.newAnimation(an[WALKING_NORTH], 0.05, nil, WALKING_NORTH)
         end
-    elseif self.move_dir == "south" then
+    elseif self.moveDir == "south" then
         if self.state == "Going to foodpile" or self.state == "Going to apple tree" then
             self.animation = anim.newAnimation(an[WALKING_APPLES_SOUTH], 0.05, nil, WALKING_APPLES_SOUTH)
         else
             self.animation = anim.newAnimation(an[WALKING_SOUTH], 0.05, nil, WALKING_SOUTH)
         end
-    elseif self.move_dir == "east" then
+    elseif self.moveDir == "east" then
         if self.state == "Going to foodpile" or self.state == "Going to apple tree" then
             self.animation = anim.newAnimation(an[WALKING_APPLES_EAST], 0.05, nil, WALKING_APPLES_EAST)
         else
             self.animation = anim.newAnimation(an[WALKING_EAST], 0.05, nil, WALKING_EAST)
         end
-    elseif self.move_dir == "southeast" then
+    elseif self.moveDir == "southeast" then
         if self.state == "Going to foodpile" or self.state == "Going to apple tree" then
             self.animation = anim.newAnimation(an[WALKING_APPLES_SOUTHEAST], 0.05, nil, WALKING_APPLES_SOUTHEAST)
         else
             self.animation = anim.newAnimation(an[WALKING_SOUTHEAST], 0.05, nil, WALKING_SOUTHEAST)
         end
-    elseif self.move_dir == "northeast" then
+    elseif self.moveDir == "northeast" then
         if self.state == "Going to foodpile" or self.state == "Going to apple tree" then
             self.animation = anim.newAnimation(an[WALKING_APPLES_NORTHEAST], 0.05, nil, WALKING_APPLES_NORTHEAST)
         else
@@ -157,82 +157,82 @@ function OrchardFarmer:dir_sub_update()
         end
     end
 end
-function OrchardFarmer:job_update()
+function OrchardFarmer:jobUpdate()
     _G.removeObjectAt(self.lrcx, self.lrcy, self.lrx, self.lry, self)
 end
-function OrchardFarmer:gather_callback()
-    self.gather_loop_count = self.gather_loop_count + 1
-    if self.gather_loop_count > 3 then
-        self.gather_loop_count = 0
+function OrchardFarmer:gatherCallback()
+    self.gatherLoopCount = self.gatherLoopCount + 1
+    if self.gatherLoopCount > 3 then
+        self.gatherLoopCount = 0
         self.workplace:work(self)
     end
 end
 function OrchardFarmer:update()
-    self.eat_timer = self.eat_timer + 1
-    if self.eat_timer > 3000 then
+    self.eatTimer = self.eatTimer + 1
+    if self.eatTimer > 3000 then
         _G.foodpile:take()
-        self.eat_timer = 0
+        self.eatTimer = 0
     end
-    if self.path_state == "Waiting for path" and self.state ~= "Working" then
+    if self.pathState == "Waiting for path" and self.state ~= "Working" then
         self:pathfind()
     elseif self.state ~= "No path to farm" then
         if self.state == "Find a job" then
-            _G.JobController:find_job(self, "OrchardFarmer")
+            _G.JobController:findJob(self, "OrchardFarmer")
         elseif self.state == "Go to foodpile" then
             if _G.foodpile then
                 self.state = "Going to foodpile"
-                local closest_node
+                local closestNode
                 local distance = math.huge
-                for _, v in ipairs(_G.foodpile.node_list) do
-                    local tmp = _G.manhattan_distance(v.gx, v.gy, self.gx, self.gy)
+                for _, v in ipairs(_G.foodpile.nodeList) do
+                    local tmp = _G.manhattanDistance(v.gx, v.gy, self.gx, self.gy)
                     if tmp < distance then
                         distance = tmp
-                        closest_node = v
+                        closestNode = v
                     end
                 end
-                self:clear_path()
+                self:clearPath()
                 self.animation:pause()
-                if not closest_node then
+                if not closestNode then
                     print("Closest foodpile node not found")
                 else
-                    print("Requesting path to ", closest_node.gx, closest_node.gy)
-                    self:requestPath(closest_node.gx, closest_node.gy)
+                    print("Requesting path to ", closestNode.gx, closestNode.gy)
+                    self:requestPath(closestNode.gx, closestNode.gy)
                 end
             end
         elseif self.state == "Go to workplace" then
             self:requestPath(self.workplace.gx - 1, self.workplace.gy - 1)
             self.state = "Going to workplace"
-            self.move_dir = "none"
-        elseif self.move_dir == "none" and self.state == "Going to workplace" then
-            self:update_direction()
-        elseif self.move_dir == "none" and self.state == "Going to foodpile" then
-            self:update_direction()
-        elseif self.move_dir == "none" and self.state == "Going to apple tree" then
-            self:update_direction()
+            self.moveDir = "none"
+        elseif self.moveDir == "none" and self.state == "Going to workplace" then
+            self:updateDirection()
+        elseif self.moveDir == "none" and self.state == "Going to foodpile" then
+            self:updateDirection()
+        elseif self.moveDir == "none" and self.state == "Going to apple tree" then
+            self:updateDirection()
         end
         if self.state == "Going to workplace" or self.state == "Going to foodpile" or self.state ==
             "Going to apple tree" then
             self:move()
         end
-        if self.fx * 0.001 == self.waypoint_x and self.fy * 0.001 == self.waypoint_y and self.move_dir ~= "none" then
+        if self.fx * 0.001 == self.waypointX and self.fy * 0.001 == self.waypointY and self.moveDir ~= "none" then
             if self.state == "Going to workplace" or self.state == "Going to apple tree" then
-                if self:reached_path_end() then
+                if self:reachedPathEnd() then
                     if self.state == "Going to apple tree" then
                         self.state = "Working"
                         self.animation = anim.newAnimation(an[GATHER_APPLES_EAST], 0.1, function()
-                            self:gather_callback()
+                            self:gatherCallback()
                         end, GATHER_APPLES_EAST)
                     else
                         self.workplace:work(self)
                     end
-                    self:clear_path()
+                    self:clearPath()
                     return
                 else
-                    self:set_next_waypoint()
+                    self:setNextWaypoint()
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to foodpile" then
-                if self:reached_path_end() then
+                if self:reachedPathEnd() then
                     _G.foodpile:store('apples')
                     _G.foodpile:store('apples')
                     _G.foodpile:store('apples')
@@ -242,10 +242,10 @@ function OrchardFarmer:update()
                     _G.foodpile:store('apples')
                     _G.foodpile:store('apples')
                     self.state = "Go to workplace"
-                    self:clear_path()
+                    self:clearPath()
                     return
                 else
-                    self:set_next_waypoint()
+                    self:setNextWaypoint()
                 end
                 self.count = self.count + 1
             end
