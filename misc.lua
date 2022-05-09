@@ -117,19 +117,19 @@ local function update()
         finalScrollSpeed = 5
     end
     if not _G.paused then
-        if love.keyboard.isDown("up") then
+        if love.keyboard.isDown("up") or love.keyboard.isDown("w") then
             _G.state.viewYview = _G.state.viewYview - finalScrollSpeed
             love.audio.setPosition((_G.state.viewXview) / 100, (_G.state.viewYview) / 100, getZFromZoom())
         end
-        if love.keyboard.isDown("down") then
+        if love.keyboard.isDown("down") or love.keyboard.isDown("s") then
             _G.state.viewYview = _G.state.viewYview + finalScrollSpeed
             love.audio.setPosition((_G.state.viewXview) / 100, (_G.state.viewYview) / 100, getZFromZoom())
         end
-        if love.keyboard.isDown("left") then
+        if love.keyboard.isDown("left") or love.keyboard.isDown("a") then
             _G.state.viewXview = _G.state.viewXview - finalScrollSpeed
             love.audio.setPosition((_G.state.viewXview) / 100, (_G.state.viewYview) / 100, getZFromZoom())
         end
-        if love.keyboard.isDown("right") then
+        if love.keyboard.isDown("right") or love.keyboard.isDown("d") then
             _G.state.viewXview = _G.state.viewXview + finalScrollSpeed
             love.audio.setPosition((_G.state.viewXview) / 100, (_G.state.viewYview) / 100, getZFromZoom())
         end
