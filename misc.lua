@@ -112,7 +112,7 @@ local function update()
     -- Right up to here ^
     currentChunkX = _G.xchunk;
     currentChunkY = _G.ychunk;
-    local finalScrollSpeed = scrollSpeed + ((1 - _G.state.scaleX) * 20)
+    local finalScrollSpeed = (scrollSpeed + ((1 - _G.state.scaleX) * 20)) * _G.dt
     if finalScrollSpeed < 5 then
         finalScrollSpeed = 5
     end
