@@ -17,7 +17,7 @@ function love.load()
         Gamestate.switch(mainMenu)
     end
     local loader = require('libraries.lily')
-    loader.newImage("assets/tiles/stronghold_assets_packed_v5.png"):onComplete(function(_, image)
+    loader.newImage("assets/tiles/stronghold_assets_packed_v5.dds"):onComplete(function(_, image)
         _G.objectAtlas = image
     end)
     local cursorImg = love.image.newImageData("assets/ui/cursor.png")
