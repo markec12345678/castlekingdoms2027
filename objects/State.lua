@@ -17,7 +17,7 @@ function State:initialize()
     self.chunkObjects = newAutotable(3)
     self.scaleX = 1
     self.viewXview = -100
-    self.viewYview = 4000
+    self.viewYview = 2000
     self.population = 0
     self.maxPopulation = 5
     -- TODO: Make the collision map dynamic

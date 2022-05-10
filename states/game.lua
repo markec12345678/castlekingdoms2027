@@ -27,6 +27,7 @@ local function delayedInit()
     local newGame = not (love.filesystem.getInfo and love.filesystem.getInfo("status.bin"))
     if newGame then
         terrain.genMap()
+        terrain.loadFernhaven()
         _G.BuildController:set("castle")
         _G.speechFx["place_a_keep"]:play()
     else

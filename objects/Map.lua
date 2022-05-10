@@ -48,6 +48,16 @@ function Map:setWater(gx, gy)
     end
 end
 
+function Map:removeWater(gx, gy)
+    for i = -1, 1 do
+        for o = -1, 1 do
+            _G.terrainSetTileAt(gx + i, gy + o, _G.terrainBiome.abundantGrass, _G.terrainBiome.seaBeach)
+            _G.terrainSetTileAt(gx + i, gy + o, _G.terrainBiome.abundantGrass, _G.terrainBiome.sea)
+            self.water[gx][gy] = false
+        end
+    end
+end
+
 function Map:isWaterAt(gx, gy)
     return self.water[gx][gy]
 end

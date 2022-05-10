@@ -283,6 +283,9 @@ function _G.genObjects(cx, cy)
             local gx = chunkWidth * cx + i
             local gy = chunkWidth * cy + o
             local treeGenerated = false
+            if _G.getWaterAt(gx, gy) then
+                goto continue
+            end
             if _G.forestGen[math.round((gx) / 8) + 1][math.round((gy) / 8) + 1] ~= false then
                 _G.terrainSetTileAt(gx, gy, _G.terrainBiome.scarceGrass)
                 local rand = math.random(5)
@@ -537,7 +540,15 @@ local function preload(dt)
 end
 
 function _G.setWaterAt(gx, gy)
-    _G.state.map:setWater(gx, gy)
+    return _G.state.map:setWater(gx, gy)
+end
+
+function _G.removeWaterAt(gx, gy)
+    return _G.state.map:removeWater(gx, gy)
+end
+
+function _G.getWaterAt(gx, gy)
+    return _G.state.map:isWaterAt(gx, gy)
 end
 
 local firstUpdate = true

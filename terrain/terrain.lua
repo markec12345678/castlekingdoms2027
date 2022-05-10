@@ -916,7 +916,6 @@ local function genTerrain(cx, cy)
             _G.scheduleTerrainUpdate(cx, cy, i, o)
         end
     end
-    _G.genObjects(cx, cy) -- TODO OPTIMIZE: move genObjects in this loop so we don't loop twice!
 end
 
 function _G.terrainSetTileAt(gx, gy, biome, from)
@@ -951,7 +950,7 @@ local function genForest()
         forestGen[x] = {}
         for y = 1, math.round((_G.chunksHigh * _G.chunkHeight) / 8) + 1 do
             local Value = love.math.random(0, 100)
-            if Value < 45 then
+            if Value < 41 then
                 forestGen[x][y] = true
             else
                 forestGen[x][y] = false
@@ -1119,7 +1118,6 @@ local function genMap()
     for i = 0, _G.chunksWide - 1 do
         for o = 0, _G.chunksHigh - 1 do -- usually both are 32 (jumper is set like that with magic numbers)
             genTerrain(i, o)
-            -- _G.status[i][o] = 2
         end
     end
 end
@@ -1135,6 +1133,15 @@ local function allocateSpriteBatches()
     end
 end
 
+local function loadFernhaven()
+    require("terrain.Maps.Fernhaven")
+    for i = 0, _G.chunksWide - 1 do
+        for o = 0, _G.chunksHigh - 1 do
+            _G.genObjects(i, o)
+        end
+    end
+end
+
 local tableOfFunctions = {
     update = update,
     mousepressed = function()
@@ -1142,6 +1149,7 @@ local tableOfFunctions = {
     batch = terrainBatch,
     genTerrain = genTerrain,
     genMap = genMap,
+    loadFernhaven = loadFernhaven, -- temporarily hardcorded this way
     allocateSpriteBatches = allocateSpriteBatches
 }
 return tableOfFunctions
