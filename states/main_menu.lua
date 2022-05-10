@@ -1,26 +1,28 @@
 local mainMenu = {}
-local Gamestate = require('libraries.gamestate')
-local game = require('states.game')
-local counter, stringLoop = 0, 1
-local loadingString = {'Loading', 'Loading.', 'Loading..', 'Loading...'}
+require('states.ui.init')
+local loveframes = require('libraries.loveframes')
+local states = require('states.ui.states')
 local renderLoadingScreen = require('states.ui.loading_screen')
 
+function mainMenu:enter()
+    loveframes.SetState(states.STATE_MAIN_MENU)
+end
+
 function mainMenu:update(dt)
-    counter = counter + 1
-    if counter >= 10 then
-        stringLoop = (stringLoop % 4) + 1
-        counter = 0
-    end
-    if love.keyboard.isDown("escape") then
-        love.event.quit()
-    end
-    if objectAtlas then
-        Gamestate.switch(game)
-    end
+    loveframes.update()
 end
 
 function mainMenu:draw()
-    renderLoadingScreen(loadingString[stringLoop])
+    renderLoadingScreen("")
+    loveframes.draw()
+end
+
+function mainMenu:mousepressed(x, y, button)
+    loveframes.mousepressed(x, y, button)
+end
+
+function mainMenu:mousereleased(x, y, button)
+    loveframes.mousereleased(x, y, button)
 end
 
 return mainMenu

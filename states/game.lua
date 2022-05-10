@@ -1,6 +1,5 @@
 local game = {}
 local loveframes = require('libraries.loveframes')
-require('states.ui.init')
 local ActionBar = require('states.ui.ActionBar')
 local states = require('states.ui.states')
 local core = require("misc")
@@ -70,14 +69,16 @@ function game:update(dt)
         prof.pop("pathfind")
         local error = thread:getError()
         assert(not error, error)
-        _G.loaded = true
+        if not _G.loaded then
+            loveframes.SetState(states.STATE_INGAME_CONSTRUCTION)
+            _G.loaded = true
+        end
     end
 end
 
 function game:enter()
     collectgarbage()
     collectgarbage()
-    loveframes.SetState(states.STATE_INGAME_CONSTRUCTION)
 end
 
 function game:draw()
@@ -107,6 +108,7 @@ function game:draw()
             end
         else
             renderLoadingScreen("Initialiazing...")
+            loveframes.draw()
         end
     end
 end

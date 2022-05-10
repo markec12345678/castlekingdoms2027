@@ -15,4 +15,5 @@ keybinds:SetPos(ab.frAction_1.x + ab.frAction_1.width - 14 * el.scalex,
     ab.frActionBar.y + ab.frActionBar.height - 3 * el.scalex)
 keybinds:SetScale(el.scalex)
 
+require('states.ui.main_menu.menu')
 require('states.ui.pause.menu')
