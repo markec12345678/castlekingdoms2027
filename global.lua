@@ -160,7 +160,7 @@ _G.CenterY = 0
 _G.IsoX = 0
 _G.IsoY = -1400
 ----View
-_G.scrollSpeed = 10
+_G.scrollSpeed = 700
 _G.windowWidth, _G.windowHeight = love.window.getMode()
 ----Mouse
 _G.mx = 0
