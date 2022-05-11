@@ -54,6 +54,8 @@ function Map:removeWater(gx, gy)
             _G.terrainSetTileAt(gx + i, gy + o, _G.terrainBiome.abundantGrass, _G.terrainBiome.seaBeach)
             _G.terrainSetTileAt(gx + i, gy + o, _G.terrainBiome.abundantGrass, _G.terrainBiome.sea)
             self.water[gx][gy] = false
+            -- TODO: Set tile as walkable only if it's not on a cliff
+            _G.state.map:setWalkable(gx + i, gy + o, 0)
         end
     end
 end
