@@ -20,7 +20,8 @@ local function renderLoadingScreen(loadingString)
     love.graphics.translate((love.graphics.getWidth() / 2), (love.graphics.getHeight() / 2))
     love.graphics.draw(background, -(background:getWidth() / 2) * bgScale, -(background:getHeight() / 2) * bgScale, nil,
         bgScale)
-    love.graphics.draw(logo, -(logo:getWidth() / 2) * logoScale, -(love.graphics.getHeight() / 2) + 50, nil, logoScale)
+    love.graphics.draw(logo, -(logo:getWidth() / 2) * logoScale, -(love.graphics.getHeight() / 2) + 50 * logoScale, nil,
+        logoScale)
     love.graphics.print(loadingString, textOffsetX, (love.graphics.getHeight() / 2) + textOffsetY)
     love.graphics.pop()
 end

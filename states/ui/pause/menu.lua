@@ -151,8 +151,8 @@ exit.OnMouseDown = function(self)
     self:SetImage(exitImageDown)
 end
 exit.OnClick = function(self)
-    local main_menu = require('states.main_menu')
-    Gamestate.switch(main_menu)
+    local menu = require('states.start_menu')
+    Gamestate.switch(menu)
 end
 exit.OnMouseExit = function(self)
     self:SetImage(exitImage)

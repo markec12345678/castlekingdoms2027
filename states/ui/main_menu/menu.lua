@@ -5,7 +5,6 @@ local base = require('states.ui.base')
 local states = require('states.ui.states')
 local w, h = base.w, base.h
 local MENU_SCALE = 50
-local SPACING = 20
 local backgroundImage = love.graphics.newImage("assets/ui/menu_flag.png")
 
 local menuBg = loveframes.Create("image")
@@ -14,7 +13,8 @@ menuBg:SetImage(backgroundImage)
 menuBg:SetOffsetX(menuBg:GetImageWidth() / 2)
 local scale = (h.percent[MENU_SCALE]) / backgroundImage:getHeight()
 menuBg:SetScale(scale, scale)
-menuBg:SetPos(w.percent[50], 152)
+menuBg:SetPos(w.percent[50], 146 * scale)
+local SPACING = 20 * scale
 
 local offsetX, offsetY = 76, 130
 local paddingRight, paddingBottom = 70, 150
@@ -42,6 +42,7 @@ newGame.OnMouseDown = function(self)
 end
 newGame.OnClick = function(self)
     Gamestate.switch(game)
+    loveframes.SetState() -- Undraw the menu while loading
 end
 newGame.OnMouseExit = function(self)
     self:SetImage(newGameImage)
