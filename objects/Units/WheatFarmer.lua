@@ -632,7 +632,7 @@ end
 function WheatFarmer:hoeLandCallback(state)
     local _, anim2, anim3 = self:hoeLandGetAnim()
     local function state_3Callback()
-        self.straightWalkSpeed = 2400 * 1
+        self.straightWalkSpeed = 2400
         self.diagonalWalkSpeed = self.straightWalkSpeed * 1.414
         self:updatePosition()
         self.animation:pause()
@@ -643,16 +643,16 @@ function WheatFarmer:hoeLandCallback(state)
         self:anchorWorkPosition()
         self:updatePosition()
         self.moveDir = "none"
-        self.animation = anim.newAnimation(an[anim2], 0.1 * 0.1, function()
+        self.animation = anim.newAnimation(an[anim2], 0.1, function()
             self.workplace:updateTiles(self.farmlandTiles)
-            self.animation = anim.newAnimation(an[anim3], 0.1 * 0.1, function()
+            self.animation = anim.newAnimation(an[anim3], 0.1, function()
                 state_3Callback()
             end, anim3)
         end, anim2)
     elseif state == 2 then
         self.workplace:updateTiles(self.farmlandTiles)
         _G.playSfx(self, hoeFx)
-        self.animation = anim.newAnimation(an[anim3], 0.1 * 0.1, function()
+        self.animation = anim.newAnimation(an[anim3], 0.1, function()
             state_3Callback()
         end, anim3)
     elseif state == 3 then
@@ -789,14 +789,14 @@ function WheatFarmer:hoeLand()
     self.animation:resume()
     self.waypointX, self.waypointY = futureWaypointX, futureWaypointY
     if skipWalking then
-        self.animation = anim.newAnimation(an[anim2], 0.1 * 0.1, function()
+        self.animation = anim.newAnimation(an[anim2], 0.1, function()
             self:hoeLandCallback(2)
         end, anim2)
     else
-        self.straightWalkSpeed = 1276.7 * 1
+        self.straightWalkSpeed = 1276.7
         self.diagonalWalkSpeed = self.straightWalkSpeed * 1.414 * 1
         self:updatePosition()
-        self.animation = anim.newAnimation(an[anim1], 0.1 * 0.1, function()
+        self.animation = anim.newAnimation(an[anim1], 0.1, function()
             self:hoeLandCallback(1)
         end, anim1)
     end
@@ -805,7 +805,7 @@ function WheatFarmer:seedLandCallback()
     self:anchorWorkPosition()
     self:updatePosition()
     self.moveDir = "none"
-    self.straightWalkSpeed = 40 * 60 * 10
+    self.straightWalkSpeed = 2400
     self.diagonalWalkSpeed = self.straightWalkSpeed * 1.414
     self.animation:pause()
     self.workplace:updateTiles(self.farmlandTiles)
@@ -859,9 +859,9 @@ function WheatFarmer:seedLand()
         self.workplace:work(self)
         self:clearPath()
     else
-        self.straightWalkSpeed = 638.4 * 10
+        self.straightWalkSpeed = 638.4
         self.diagonalWalkSpeed = self.straightWalkSpeed * 1.414
-        self.animation = anim.newAnimation(an[anim1], 0.1 * 0.1, function()
+        self.animation = anim.newAnimation(an[anim1], 0.1, function()
             self:seedLandCallback()
         end, anim1)
     end
@@ -978,7 +978,7 @@ function WheatFarmer:scytheLandCallback(state)
     local _, anim2, anim3, _, _, _ = self:scytheLandGetAnim()
     local function state_3Callback()
         self.moveDir = "none"
-        self.straightWalkSpeed = 40 * 60
+        self.straightWalkSpeed = 2400
         self.diagonalWalkSpeed = self.straightWalkSpeed * 1.414
         self.animation:pauseAtEnd()
         self.workplace:work(self)
