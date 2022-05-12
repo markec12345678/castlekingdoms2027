@@ -1,52 +1,81 @@
 local game = {}
 local loveframes = require('libraries.loveframes')
-require('states.ui.init')
 local ActionBar = require('states.ui.ActionBar')
 local states = require('states.ui.states')
 local core = require("misc")
 local thread, thread2, objects, terrain
 require("shaders.postshader")
 local renderLoadingScreen = require('states.ui.loading_screen')
-local initialized = 2
+local renderLoadingBar = require('states.ui.loading_bar')
+local initialized = false
+local loadState, progress = 1, 15
+
+local function updateProgress(prgs, lState)
+    progress = prgs or progress
+    loadState = lState or loadState
+    game:draw()
+    love.graphics.present()
+end
 
 local function delayedInit()
     local State = require('objects.State')
     _G.state = State:new()
+    updateProgress(20)
     objects = love.filesystem.load('objects/objects.lua')(objectAtlas)
     package.loaded['objects.objects'] = objects
     terrain = require('terrain.terrain')
+    updateProgress(30)
     _G.BuildController = love.filesystem.load("objects/Controllers/BuildController.lua")(
         package.loaded['objects.objects'].object, objectAtlas)
     _G.JobController = require('objects.Controllers.JobController')
+    updateProgress(35)
     ----Pathfinding setup
     thread = love.thread.newThread("libraries/pathfinding_thread.lua")
     thread:start("1")
     thread2 = love.thread.newThread("libraries/pathfinding_thread.lua")
     thread2:start("2")
+    updateProgress(40)
     _G.finder = require('objects.Controllers.PathController')
     local newGame = not (love.filesystem.getInfo and love.filesystem.getInfo("status.bin"))
     if newGame then
+        updateProgress(50, 2)
         terrain.genMap()
+        updateProgress(60, 3)
         terrain.loadFernhaven()
+        updateProgress(70)
         _G.BuildController:set("castle")
-        _G.speechFx["place_a_keep"]:play()
     else
         for cx = 0, _G.chunksWide - 1 do
             for cy = 0, _G.chunksHigh - 1 do
                 _G.allocateMesh(cx, cy)
             end
         end
+        updateProgress(70, 3)
         _G.state:load("status.bin")
     end
+    core.update()
+    updateProgress(80, 4)
+    objects.update(_G.dt)
+    updateProgress(90, 5)
+    terrain.update()
+    updateProgress(95)
+    _G.BuildController:update()
+    loveframes.update()
+    _G.finder:update()
+    updateProgress(100)
+    love.timer.sleep(0.4)
+    local error = thread:getError()
+    assert(not error, error)
+    loveframes.SetState(states.STATE_INGAME_CONSTRUCTION)
+    _G.loaded = true
+    _G.speechFx["place_a_keep"]:play()
 end
 
 function game:init()
 end
 
 function game:update(dt)
-    if initialized == 2 then
-        initialized = 1
-    elseif initialized == 1 then
+    if not initialized then
         initialized = true
         delayedInit()
     else
@@ -70,14 +99,12 @@ function game:update(dt)
         prof.pop("pathfind")
         local error = thread:getError()
         assert(not error, error)
-        _G.loaded = true
     end
 end
 
 function game:enter()
     collectgarbage()
     collectgarbage()
-    loveframes.SetState(states.STATE_INGAME_CONSTRUCTION)
 end
 
 function game:draw()
@@ -106,7 +133,9 @@ function game:draw()
                 love.postshader.draw()
             end
         else
-            renderLoadingScreen("Initialiazing...")
+            renderLoadingScreen("")
+            renderLoadingBar(loadState, progress)
+            loveframes.draw()
         end
     end
 end

@@ -1,0 +1,28 @@
+local startMenu = {}
+require('states.ui.init')
+local loveframes = require('libraries.loveframes')
+local states = require('states.ui.states')
+local renderLoadingScreen = require('states.ui.loading_screen')
+
+function startMenu:enter()
+    loveframes.SetState(states.STATE_MAIN_MENU)
+end
+
+function startMenu:update(dt)
+    loveframes.update()
+end
+
+function startMenu:draw()
+    renderLoadingScreen("")
+    loveframes.draw()
+end
+
+function startMenu:mousepressed(x, y, button)
+    loveframes.mousepressed(x, y, button)
+end
+
+function startMenu:mousereleased(x, y, button)
+    loveframes.mousereleased(x, y, button)
+end
+
+return startMenu

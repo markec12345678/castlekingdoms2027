@@ -1,6 +1,7 @@
 local states = {
-    STATE_INGAME_CONSTRUCTION = 1,
-    STATE_PAUSE_MENU = 2
+    STATE_MAIN_MENU = 1,
+    STATE_INGAME_CONSTRUCTION = 2,
+    STATE_PAUSE_MENU = 3
 }
 
 return states

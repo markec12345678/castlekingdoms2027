@@ -5,7 +5,7 @@ end
 require('global')
 local Gamestate = require('libraries.gamestate')
 
-local mainMenu = require('states.main_menu')
+local startMenu = require('states.start_menu')
 local test = require('states.test')
 
 function love.load()
@@ -14,7 +14,7 @@ function love.load()
         Gamestate.switch(test)
         return
     else
-        Gamestate.switch(mainMenu)
+        Gamestate.switch(startMenu)
     end
     local loader = require('libraries.lily')
     loader.newImage("assets/tiles/stronghold_assets_packed_v5.dds"):onComplete(function(_, image)

@@ -1,3 +1,4 @@
+local Gamestate = require('libraries.gamestate')
 local loveframes = require('libraries.loveframes')
 local states = require('states.ui.states')
 local base = require('states.ui.base')
@@ -150,7 +151,8 @@ exit.OnMouseDown = function(self)
     self:SetImage(exitImageDown)
 end
 exit.OnClick = function(self)
-    love.event.quit()
+    local menu = require('states.start_menu')
+    Gamestate.switch(menu)
 end
 exit.OnMouseExit = function(self)
     self:SetImage(exitImage)
