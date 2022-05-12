@@ -720,8 +720,8 @@ return function(loveframes)
 
     --[[---------------------------------------------------------
 	- func: RemoveClickBounds()
-	- desc: removes the collision detection boundary for the 
-			object 
+	- desc: removes the collision detection boundary for the
+			object
 --]] ---------------------------------------------------------
     function newobject:RemoveClickBounds()
 
@@ -795,8 +795,8 @@ return function(loveframes)
 
         local x = self.x
         local y = self.y
-        local width = self.width
-        local height = self.height
+        local width = self.width * (self.scalex or 1)
+        local height = self.height * (self.scaley or 1)
         if self.clickbounds then
             x, y, width, height = self.clickbounds.x, self.clickbounds.y, self.clickbounds.width,
                 self.clickbounds.height
@@ -1165,8 +1165,8 @@ return function(loveframes)
 
     --[[---------------------------------------------------------
 	- func: IsTopInternal()
-	- desc: returns true if the object is the top most 
-			internal in its parent's internals table or 
+	- desc: returns true if the object is the top most
+			internal in its parent's internals table or
 			false if not
 --]] ---------------------------------------------------------
     function newobject:IsTopInternal()
@@ -1185,7 +1185,7 @@ return function(loveframes)
 
     --[[---------------------------------------------------------
 	- func: IsInternal()
-	- desc: returns true if the object is internal or 
+	- desc: returns true if the object is internal or
 			false if not
 --]] ---------------------------------------------------------
     function newobject:IsInternal()
