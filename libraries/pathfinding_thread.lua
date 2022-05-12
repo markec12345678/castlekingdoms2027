@@ -1,5 +1,6 @@
 local id = ...
 local ffi = require('ffi')
+require("love.timer")
 ffi.cdef [[
         void *calloc(size_t nitems, size_t size);
         void free(void *ptr);
@@ -21,33 +22,54 @@ local finder = Pathfinder(grid, 'JPS', 0)
 local channel = {}
 channel.request = love.thread.getChannel("request")
 channel.receive = love.thread.getChannel("receive")
-channel.map_update = love.thread.getChannel("map_update" .. id)
+channel.mapUpdate = love.thread.getChannel("mapUpdate" .. id)
+
+local mapUpdate
+-- Wait for first map update
+mapUpdate = channel.mapUpdate:demand()
+_G.nodes[mapUpdate[1]][mapUpdate[2]].walkable = mapUpdate[3]
+-- We got first map update
+-- now wait for the channel to fill up
+-- with map updates while loading the map
+love.timer.sleep(0.5)
+-- We've probably got all the map updates
+-- so let's apply them before we start pathfinding
+repeat
+    mapUpdate = channel.mapUpdate:pop()
+    if mapUpdate then
+        _G.nodes[mapUpdate[1]][mapUpdate[2]].walkable = mapUpdate[3]
+    else
+        break
+    end
+until (not mapUpdate)
 
 while true do
-    local table = channel.request:demand()
-    local map_update
+    -- Wait while we get next path request, but timeout after 1 second
+    -- so we can check for map updates from time to time
+    local pathRequest = channel.request:demand(1)
     repeat
-        map_update = channel.map_update:pop()
-        if map_update then
-            _G.nodes[map_update[1]][map_update[2]].walkable = map_update[3]
+        mapUpdate = channel.mapUpdate:pop()
+        if mapUpdate then
+            _G.nodes[mapUpdate[1]][mapUpdate[2]].walkable = mapUpdate[3]
         else
             break
         end
-    until (not map_update)
-
-    local path = finder:getPath(table.sx, table.sy, table.ex, table.ey)
-    local path_to_send = {}
-    path_to_send.sx = table.sx
-    path_to_send.sy = table.sy
-    path_to_send.ex = table.ex
-    path_to_send.ey = table.ey
-    path_to_send.nodes = {}
-    if path then
-        path_to_send.found = true
-        for node, count in path:nodes() do
-            path_to_send.nodes[count] = {node._x, node._y}
+    until (not mapUpdate)
+    if pathRequest then
+        local path = finder:getPath(pathRequest.sx, pathRequest.sy, pathRequest.ex, pathRequest.ey)
+        local pathToSend = {}
+        pathToSend.sx = pathRequest.sx
+        pathToSend.sy = pathRequest.sy
+        pathToSend.ex = pathRequest.ex
+        pathToSend.ey = pathRequest.ey
+        pathToSend.nodes = {}
+        if path then
+            pathToSend.found = true
+            for node, count in path:nodes() do
+                pathToSend.nodes[count] = {node._x, node._y}
+            end
         end
-    end
 
-    channel.receive:push(bitser.dumps(path_to_send))
+        channel.receive:push(bitser.dumps(pathToSend))
+    end
 end
