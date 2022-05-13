@@ -2,26 +2,14 @@ local _, _ = ...
 local Unit = require("objects.Units.Unit")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
-local indexQuads = _G.indexQuads
 
-local fr_walking_east = indexQuads("body_peasant_walk_e", 16)
-local fr_walking_north = indexQuads("body_peasant_walk_n", 16)
-local fr_walking_northeast = indexQuads("body_peasant_walk_ne", 16)
-local fr_walking_northwest = indexQuads("body_peasant_walk_nw", 16)
-local fr_walking_south = indexQuads("body_peasant_walk_s", 16)
-local fr_walking_southeast = indexQuads("body_peasant_walk_se", 16)
-local fr_walking_southwest = indexQuads("body_peasant_walk_sw", 16)
-local fr_walking_west = indexQuads("body_peasant_walk_w", 16)
-local fr_bowing_north = indexQuads("body_peasant_bow_n", 6, nil, true)
+local fr = require("objects.Animations.Peasant")
 
-local fr_idle_east_2 = indexQuads("body_peasant_walk_e", 11, 10)
-local fr_idle_north_2 = indexQuads("body_peasant_walk_n", 11, 10)
-local fr_idle_northeast_2 = indexQuads("body_peasant_walk_ne", 11, 10)
-local fr_idle_northwest_2 = indexQuads("body_peasant_walk_nw", 11, 10)
-local fr_idle_south_2 = indexQuads("body_peasant_walk_s", 11, 10)
-local fr_idle_southeast_2 = indexQuads("body_peasant_walk_se", 11, 10)
-local fr_idle_southwest_2 = indexQuads("body_peasant_walk_sw", 11, 10)
-local fr_idle_west_2 = indexQuads("body_peasant_walk_w", 11, 10)
+local durations_idling_1 = {
+    ["1-10"] = 0.15,
+    ["11-14"] = 5,
+    ["15-23"] = 0.15
+}
 
 local AN_BOWING = "Bowing"
 local AN_BOWING_FOR_A_JOB = "Bowing for a job"
@@ -42,25 +30,79 @@ local AN_IDLE_EAST = "Idling east"
 local AN_IDLE_SOUTHEAST = "Idling southeast"
 local AN_IDLE_NORTHEAST = "Idling northeast"
 
+local AN_IDLE_WEST_1 = "Idling west 1"
+local AN_IDLE_SOUTHWEST_1 = "Idling southwest 1"
+local AN_IDLE_NORTHWEST_1 = "Idling northwest 1"
+local AN_IDLE_NORTH_1 = "Idling north 1"
+local AN_IDLE_SOUTH_1 = "Idling south 1"
+local AN_IDLE_EAST_1 = "Idling east 1"
+local AN_IDLE_SOUTHEAST_1 = "Idling southeast 1"
+local AN_IDLE_NORTHEAST_1 = "Idling northeast 1"
+
+local AN_IDLE_WEST_2 = "Idling west 2"
+local AN_IDLE_SOUTHWEST_2 = "Idling southwest 2"
+local AN_IDLE_NORTHWEST_2 = "Idling northwest 2"
+local AN_IDLE_NORTH_2 = "Idling north 2"
+local AN_IDLE_SOUTH_2 = "Idling south 2"
+local AN_IDLE_EAST_2 = "Idling east 2"
+local AN_IDLE_SOUTHEAST_2 = "Idling southeast 2"
+local AN_IDLE_NORTHEAST_2 = "Idling northeast 2"
+
+local AN_IDLE_WEST_3 = "Idling west 3"
+local AN_IDLE_SOUTHWEST_3 = "Idling southwest 3"
+local AN_IDLE_NORTHWEST_3 = "Idling northwest 3"
+local AN_IDLE_NORTH_3 = "Idling north 3"
+local AN_IDLE_SOUTH_3 = "Idling south 3"
+local AN_IDLE_EAST_3 = "Idling east 3"
+local AN_IDLE_SOUTHEAST_3 = "Idling southeast 3"
+local AN_IDLE_NORTHEAST_3 = "Idling northeast 3"
+
 local an = {
-    [AN_BOWING] = fr_bowing_north,
-    [AN_BOWING_FOR_A_JOB] = fr_bowing_north,
-    [AN_WALKING_WEST] = fr_walking_west,
-    [AN_WALKING_SOUTHWEST] = fr_walking_southwest,
-    [AN_WALKING_NORTHWEST] = fr_walking_northwest,
-    [AN_WALKING_NORTH] = fr_walking_north,
-    [AN_WALKING_SOUTH] = fr_walking_south,
-    [AN_WALKING_EAST] = fr_walking_east,
-    [AN_WALKING_SOUTHEAST] = fr_walking_southeast,
-    [AN_WALKING_NORTHEAST] = fr_walking_northeast,
-    [AN_IDLE_WEST] = fr_idle_west_2,
-    [AN_IDLE_SOUTHWEST] = fr_idle_southwest_2,
-    [AN_IDLE_NORTHWEST] = fr_idle_northwest_2,
-    [AN_IDLE_NORTH] = fr_idle_north_2,
-    [AN_IDLE_SOUTH] = fr_idle_south_2,
-    [AN_IDLE_EAST] = fr_idle_east_2,
-    [AN_IDLE_SOUTHEAST] = fr_idle_southeast_2,
-    [AN_IDLE_NORTHEAST] = fr_idle_northeast_2
+    [AN_BOWING] = fr.fr_bowing_north,
+    [AN_BOWING_FOR_A_JOB] = fr.fr_bowing_north,
+    [AN_WALKING_WEST] = fr.fr_walking_west,
+    [AN_WALKING_SOUTHWEST] = fr.fr_walking_southwest,
+    [AN_WALKING_NORTHWEST] = fr.fr_walking_northwest,
+    [AN_WALKING_NORTH] = fr.fr_walking_north,
+    [AN_WALKING_SOUTH] = fr.fr_walking_south,
+    [AN_WALKING_EAST] = fr.fr_walking_east,
+    [AN_WALKING_SOUTHEAST] = fr.fr_walking_southeast,
+    [AN_WALKING_NORTHEAST] = fr.fr_walking_northeast,
+    [AN_IDLE_WEST] = fr.fr_idle_west_2,
+    [AN_IDLE_SOUTHWEST] = fr.fr_idle_southwest_2,
+    [AN_IDLE_NORTHWEST] = fr.fr_idle_northwest_2,
+    [AN_IDLE_NORTH] = fr.fr_idle_north_2,
+    [AN_IDLE_SOUTH] = fr.fr_idle_south_2,
+    [AN_IDLE_EAST] = fr.fr_idle_east_2,
+    [AN_IDLE_SOUTHEAST] = fr.fr_idle_southeast_2,
+    [AN_IDLE_NORTHEAST] = fr.fr_idle_northeast_2,
+
+    [AN_IDLE_WEST_1] = fr.fr_idling_west_1,
+    [AN_IDLE_SOUTHWEST_1] = fr.fr_idling_southwest_1,
+    [AN_IDLE_NORTHWEST_1] = fr.fr_idling_northwest_1,
+    [AN_IDLE_NORTH_1] = fr.fr_idling_north_1,
+    [AN_IDLE_SOUTH_1] = fr.fr_idling_south_1,
+    [AN_IDLE_EAST_1] = fr.fr_idling_east_1,
+    [AN_IDLE_SOUTHEAST_1] = fr.fr_idling_southeast_1,
+    [AN_IDLE_NORTHEAST_1] = fr.fr_idling_northeast_1,
+
+    [AN_IDLE_WEST_2] = fr.fr_idling_west_2,
+    [AN_IDLE_SOUTHWEST_2] = fr.fr_idling_southwest_2,
+    [AN_IDLE_NORTHWEST_2] = fr.fr_idling_northwest_2,
+    [AN_IDLE_NORTH_2] = fr.fr_idling_north_2,
+    [AN_IDLE_SOUTH_2] = fr.fr_idling_south_2,
+    [AN_IDLE_EAST_2] = fr.fr_idling_east_2,
+    [AN_IDLE_SOUTHEAST_2] = fr.fr_idling_southeast_2,
+    [AN_IDLE_NORTHEAST_2] = fr.fr_idling_northeast_2,
+
+    [AN_IDLE_WEST_3] = fr.fr_idling_west_3,
+    [AN_IDLE_SOUTHWEST_3] = fr.fr_idling_southwest_3,
+    [AN_IDLE_NORTHWEST_3] = fr.fr_idling_northwest_3,
+    [AN_IDLE_NORTH_3] = fr.fr_idling_north_3,
+    [AN_IDLE_SOUTH_3] = fr.fr_idling_south_3,
+    [AN_IDLE_EAST_3] = fr.fr_idling_east_3,
+    [AN_IDLE_SOUTHEAST_3] = fr.fr_idling_southeast_3,
+    [AN_IDLE_NORTHEAST_3] = fr.fr_idling_northeast_3
 }
 
 local Peasant = _G.class('Peasant', Unit)
@@ -142,6 +184,74 @@ function Peasant:getAJob()
         self.tryTogetAJob = true
     end
 end
+function Peasant:chooseRandomIdleAnimation()
+    if self.state ~= "Waiting" then
+        return
+    end
+    local rand = love.math.random(3)
+    local callback = function()
+        self:chooseRandomIdleAnimation()
+    end
+    if rand == 1 then
+        if self.orientation == "west" then
+            self.animation = anim.newAnimation(an[AN_IDLE_WEST_1], durations_idling_1, callback, AN_IDLE_WEST_1)
+        elseif self.orientation == "southwest" then
+            self.animation = anim.newAnimation(an[AN_IDLE_SOUTHWEST_1], durations_idling_1, callback,
+                AN_IDLE_SOUTHWEST_1)
+        elseif self.orientation == "northwest" then
+            self.animation = anim.newAnimation(an[AN_IDLE_NORTHWEST_1], durations_idling_1, callback,
+                AN_IDLE_NORTHWEST_1)
+        elseif self.orientation == "north" then
+            self.animation = anim.newAnimation(an[AN_IDLE_NORTH_1], durations_idling_1, callback, AN_IDLE_NORTH_1)
+        elseif self.orientation == "south" then
+            self.animation = anim.newAnimation(an[AN_IDLE_SOUTH_1], durations_idling_1, callback, AN_IDLE_SOUTH_1)
+        elseif self.orientation == "east" then
+            self.animation = anim.newAnimation(an[AN_IDLE_EAST_1], durations_idling_1, callback, AN_IDLE_EAST_1)
+        elseif self.orientation == "southeast" then
+            self.animation = anim.newAnimation(an[AN_IDLE_SOUTHEAST_1], durations_idling_1, callback,
+                AN_IDLE_SOUTHEAST_1)
+        elseif self.orientation == "northeast" then
+            self.animation = anim.newAnimation(an[AN_IDLE_NORTHEAST_1], durations_idling_1, callback,
+                AN_IDLE_NORTHEAST_1)
+        end
+    elseif rand == 2 then
+        if self.orientation == "west" then
+            self.animation = anim.newAnimation(an[AN_IDLE_WEST_2], 0.15, callback, AN_IDLE_WEST_2)
+        elseif self.orientation == "southwest" then
+            self.animation = anim.newAnimation(an[AN_IDLE_SOUTHWEST_2], 0.15, callback, AN_IDLE_SOUTHWEST_2)
+        elseif self.orientation == "northwest" then
+            self.animation = anim.newAnimation(an[AN_IDLE_NORTHWEST_2], 0.15, callback, AN_IDLE_NORTHWEST_2)
+        elseif self.orientation == "north" then
+            self.animation = anim.newAnimation(an[AN_IDLE_NORTH_2], 0.15, callback, AN_IDLE_NORTH_2)
+        elseif self.orientation == "south" then
+            self.animation = anim.newAnimation(an[AN_IDLE_SOUTH_2], 0.15, callback, AN_IDLE_SOUTH_2)
+        elseif self.orientation == "east" then
+            self.animation = anim.newAnimation(an[AN_IDLE_EAST_2], 0.15, callback, AN_IDLE_EAST_2)
+        elseif self.orientation == "southeast" then
+            self.animation = anim.newAnimation(an[AN_IDLE_SOUTHEAST_2], 0.15, callback, AN_IDLE_SOUTHEAST_2)
+        elseif self.orientation == "northeast" then
+            self.animation = anim.newAnimation(an[AN_IDLE_NORTHEAST_2], 0.15, callback, AN_IDLE_NORTHEAST_2)
+        end
+    elseif rand == 3 then
+        if self.orientation == "west" then
+            self.animation = anim.newAnimation(an[AN_IDLE_WEST_3], 0.15, callback, AN_IDLE_WEST_3)
+        elseif self.orientation == "southwest" then
+            self.animation = anim.newAnimation(an[AN_IDLE_SOUTHWEST_3], 0.15, callback, AN_IDLE_SOUTHWEST_3)
+        elseif self.orientation == "northwest" then
+            self.animation = anim.newAnimation(an[AN_IDLE_NORTHWEST_3], 0.15, callback, AN_IDLE_NORTHWEST_3)
+        elseif self.orientation == "north" then
+            self.animation = anim.newAnimation(an[AN_IDLE_NORTH_3], 0.15, callback, AN_IDLE_NORTH_3)
+        elseif self.orientation == "south" then
+            self.animation = anim.newAnimation(an[AN_IDLE_SOUTH_3], 0.15, callback, AN_IDLE_SOUTH_3)
+        elseif self.orientation == "east" then
+            self.animation = anim.newAnimation(an[AN_IDLE_EAST_3], 0.15, callback, AN_IDLE_EAST_3)
+        elseif self.orientation == "southeast" then
+            self.animation = anim.newAnimation(an[AN_IDLE_SOUTHEAST_3], 0.15, callback, AN_IDLE_SOUTHEAST_3)
+        elseif self.orientation == "northeast" then
+            self.animation = anim.newAnimation(an[AN_IDLE_NORTHEAST_3], 0.15, callback, AN_IDLE_NORTHEAST_3)
+        end
+    end
+end
 function Peasant:update()
     if self.tryToGetAJob and self.state == "Waiting" then
         self:getAJob()
@@ -166,23 +276,7 @@ function Peasant:update()
                 self:clearPath()
                 if self.state == "Going to campfire" then
                     self.state = "Waiting"
-                    if self.orientation == "west" then
-                        self.animation = anim.newAnimation(an[AN_IDLE_WEST], 0.11, 'pauseAtEnd', AN_IDLE_WEST)
-                    elseif self.orientation == "southwest" then
-                        self.animation = anim.newAnimation(an[AN_IDLE_SOUTHWEST], 0.11, 'pauseAtEnd', AN_IDLE_SOUTHWEST)
-                    elseif self.orientation == "northwest" then
-                        self.animation = anim.newAnimation(an[AN_IDLE_NORTHWEST], 0.11, 'pauseAtEnd', AN_IDLE_NORTHWEST)
-                    elseif self.orientation == "north" then
-                        self.animation = anim.newAnimation(an[AN_IDLE_NORTH], 0.11, 'pauseAtEnd', AN_IDLE_NORTH)
-                    elseif self.orientation == "south" then
-                        self.animation = anim.newAnimation(an[AN_IDLE_SOUTH], 0.11, 'pauseAtEnd', AN_IDLE_SOUTH)
-                    elseif self.orientation == "east" then
-                        self.animation = anim.newAnimation(an[AN_IDLE_EAST], 0.11, 'pauseAtEnd', AN_IDLE_EAST)
-                    elseif self.orientation == "southeast" then
-                        self.animation = anim.newAnimation(an[AN_IDLE_SOUTHEAST], 0.11, 'pauseAtEnd', AN_IDLE_SOUTHEAST)
-                    elseif self.orientation == "northeast" then
-                        self.animation = anim.newAnimation(an[AN_IDLE_NORTHEAST], 0.11, 'pauseAtEnd', AN_IDLE_NORTHEAST)
-                    end
+                    self:chooseRandomIdleAnimation()
                 elseif self.state == "Going to door" then
                     self.state = "Getting a job"
                     self.animation = anim.newAnimation(an[AN_BOWING_FOR_A_JOB], 0.12, function()

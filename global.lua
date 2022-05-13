@@ -77,6 +77,14 @@ function _G.indexQuads(string, endAmount, start, reverse)
     return tempArray
 end
 
+function _G.addReverse(tempArray)
+    local endAmount = #tempArray
+    for i = endAmount, 2, -1 do
+        tempArray[#tempArray + 1] = tempArray[i]
+    end
+    return tempArray
+end
+
 function _G.newAutotable(dim)
     local MT = {}
     for i = 1, dim do
