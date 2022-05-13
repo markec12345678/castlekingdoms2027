@@ -1,4 +1,4 @@
-local tileQuads = require('objects.object_quads')
+local tileQuads = require("objects.object_quads")
 local ScreenToIsoX, ScreenToIsoY = _G.ScreenToIsoX, _G.ScreenToIsoY
 local tileWidth, tileHeight = _G.tileWidth, _G.tileHeight
 -- Terrain Initialize
@@ -656,13 +656,13 @@ local function tileShouldBeCliff(myGx, myGy)
     local myHeight = heightmap[cx][cy][i][o] or 0
     cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(myGx + 1, myGy)
     local tileLeftHeight = heightmap[cx][cy][i][o] or 0
-    if (myHeight - tileLeftHeight) > 8 then
+    if (myHeight - tileLeftHeight) > 13 then
         _G.state.map:setWalkable(myGx, myGy, 1)
         return true
     end
     cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(myGx, myGy + 1)
     local tileRightHeight = heightmap[cx][cy][i][o] or 0
-    if (myHeight - tileRightHeight) > 8 then
+    if (myHeight - tileRightHeight) > 13 then
         _G.state.map:setWalkable(myGx, myGy, 1)
         return true
     end
@@ -672,17 +672,17 @@ local function tileShouldBeCliff(myGx, myGy)
         return true
     end
     cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(myGx, myGy - 1)
-    if myHeight - (heightmap[cx][cy][i][o] or 0) > 8 then
+    if myHeight - (heightmap[cx][cy][i][o] or 0) > 13 then
         _G.state.map:setWalkable(myGx, myGy, 1)
         -- return true
     end
     cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(myGx - 1, myGy - 1)
-    if myHeight - (heightmap[cx][cy][i][o] or 0) > 8 then
+    if myHeight - (heightmap[cx][cy][i][o] or 0) > 13 then
         _G.state.map:setWalkable(myGx, myGy, 1)
         -- return true
     end
     cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(myGx - 1, myGy)
-    if myHeight - (heightmap[cx][cy][i][o] or 0) > 8 then
+    if myHeight - (heightmap[cx][cy][i][o] or 0) > 13 then
         _G.state.map:setWalkable(myGx, myGy, 1)
         -- return true
     end
@@ -704,7 +704,8 @@ local function refreshTerrain(chunkX, chunkY)
     for i = 0, chunkWidth - 1, 1 do
         for o = 0, chunkWidth - 1, 1 do
             local vertId = _G.getTerrainVertex(cx, cy, i, o)
-            local chevronId = _G.getChevronVertex(cx, cy, i, o)
+            local chevronLeftId = _G.getChevronVertexLeft(cx, cy, i, o)
+            local chevronRightId = _G.getChevronVertexRight(cx, cy, i, o)
             local instancemesh = _G.state.objectMesh[cx][cy]
             if terrain[cx][cy][i][o] ~= _G.terrainBiome.none or tertiaryTilesToUpdateInChunk[cx][cy][i] and
                 tertiaryTilesToUpdateInChunk[cx][cy][i][o] == true and terrain[cx][cy][i][o] ~= _G.terrainBiome.none then
@@ -764,7 +765,12 @@ local function refreshTerrain(chunkX, chunkY)
                 local isCliff = tileShouldBeCliff(gx, gy)
                 local cliffChevron
                 local tileOverriden = false
-                local hillChevronSunnySide, hillChevronNormal, hillChevronBase
+                local hillChevronBase
+
+                local hillChevronNormalLeft
+                local hillChevronNormalRight
+                local hillChevronSunnySideLeft
+                local hillChevronSunnySideRight
                 local lScale = 1.06666
                 if elevationOffsetY ~= 0 then
                     local num = tostring(math.min(math.floor(elevationOffsetY / 6), 15) + 1)
@@ -793,13 +799,21 @@ local function refreshTerrain(chunkX, chunkY)
                     end
                     hillChevronBase = "hill_chevron_" .. num .. " ("
                     hillTileSunnySide = hillTileBase .. sunnyRand .. ")"
-                    hillChevronSunnySide = hillChevronBase .. sunnyRand .. ")"
+                    local hillChevronSunnySide = hillChevronBase .. sunnyRand .. ")"
                     hillTileNormal = hillTileBase .. normalRand .. ")"
-                    hillChevronNormal = hillChevronBase .. normalRand .. ")"
+                    local hillChevronNormal = hillChevronBase .. normalRand .. ")"
                     hillTileNormal = tileQuads[hillTileNormal]
                     hillTileSunnySide = tileQuads[hillTileSunnySide]
+
                     hillChevronNormal = tileQuads[hillChevronNormal]
                     hillChevronSunnySide = tileQuads[hillChevronSunnySide]
+
+                    local x, y, w, h = hillChevronNormal:getViewport()
+                    hillChevronNormalLeft = love.graphics.newQuad(x, y, w / 2, h, _G.objectAtlas)
+                    hillChevronNormalRight = love.graphics.newQuad(x + w / 2, y, w / 2, h, _G.objectAtlas)
+                    x, y, w, h = hillChevronSunnySide:getViewport()
+                    hillChevronSunnySideLeft = love.graphics.newQuad(x, y, w / 2, h, _G.objectAtlas)
+                    hillChevronSunnySideRight = love.graphics.newQuad(x + w / 2, y, w / 2, h, _G.objectAtlas)
                     -- cliffChevron = tileQuads["rock_cliff (" .. tostring(love.math.random(1, 31)) .. ")"]
                     cliffChevron = tileQuads["rock_cliff (" .. tostring((i + o) % 31 + 1) .. ")"]
                 end
@@ -809,16 +823,23 @@ local function refreshTerrain(chunkX, chunkY)
                     if elevationOffsetY ~= 0 then
                         if isCliff then
                             local qx, qy, qw, qh = cliffChevron:getViewport()
-                            instancemesh:setVertex(chevronId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
-                                1 - shadowValue, lScale)
+                            instancemesh:setVertex(
+                                chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 1 - shadowValue,
+                                    lScale)
+                            instancemesh:setVertex(chevronRightId)
                         else
-                            local qx, qy, qw, qh = hillChevronNormal:getViewport()
-                            instancemesh:setVertex(chevronId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
-                                1 - shadowValue, lScale)
+                            local qx, qy, qw, qh = hillChevronNormalLeft:getViewport()
+                            instancemesh:setVertex(
+                                chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
+                                    1 - shadowValue - 0.01, lScale, 2)
+                            qx, qy, qw, qh = hillChevronNormalRight:getViewport()
+                            instancemesh:setVertex(
+                                chevronRightId, t[2] + qw, t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
+                                    1 - shadowValue - 0.12, lScale, 2)
                         end
                         local qx, qy, qw, qh = hillTileNormal:getViewport()
-                        instancemesh:setVertex(vertId, t[2], t[3] - elevationOffsetY * 2, qx, qy, qw, qh,
-                            1 - shadowValue, lScale)
+                        instancemesh:setVertex(
+                            vertId, t[2], t[3] - elevationOffsetY * 2, qx, qy, qw, qh, 1 - shadowValue, lScale)
                         tileOverriden = true
                     end
                     lightValue = maxShadow
@@ -828,27 +849,41 @@ local function refreshTerrain(chunkX, chunkY)
                         lightValue = 0.9 + math.min(lightModifier, 0.1)
                         if isCliff then
                             local qx, qy, qw, qh = cliffChevron:getViewport()
-                            instancemesh:setVertex(chevronId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
-                                0.9 + math.min(lightModifier, 0.1), lScale)
+                            instancemesh:setVertex(
+                                chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
+                                    0.9 + math.min(lightModifier, 0.1), lScale)
+                            instancemesh:setVertex(chevronRightId)
                         else
-                            local qx, qy, qw, qh = hillChevronSunnySide:getViewport()
-                            instancemesh:setVertex(chevronId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
-                                0.9 + math.min(lightModifier, 0.1), lScale)
+                            local qx, qy, qw, qh = hillChevronSunnySideLeft:getViewport()
+                            instancemesh:setVertex(
+                                chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
+                                    0.9 + math.min(lightModifier, 0.1) - 0.01, lScale, 2)
+                            qx, qy, qw, qh = hillChevronSunnySideRight:getViewport()
+                            instancemesh:setVertex(
+                                chevronRightId, t[2] + qw, t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
+                                    0.9 + math.min(lightModifier, 0.1) - 0.08, lScale, 2)
                         end
                         local qx, qy, qw, qh = hillTileSunnySide:getViewport()
-                        instancemesh:setVertex(vertId, t[2], t[3] - elevationOffsetY * 2, qx, qy, qw, qh,
-                            0.9 + math.min(lightModifier, 0.1), lScale)
+                        instancemesh:setVertex(
+                            vertId, t[2], t[3] - elevationOffsetY * 2, qx, qy, qw, qh,
+                                0.9 + math.min(lightModifier, 0.1), lScale)
                         tileOverriden = true
                     elseif elevationOffsetY ~= 0 then
                         lightValue = 1
                         if isCliff then
                             local qx, qy, qw, qh = cliffChevron:getViewport()
-                            instancemesh:setVertex(chevronId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 1,
-                                lScale)
+                            instancemesh:setVertex(
+                                chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 1, lScale)
+                            instancemesh:setVertex(chevronRightId)
                         else
-                            local qx, qy, qw, qh = hillChevronNormal:getViewport()
-                            instancemesh:setVertex(chevronId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 1,
-                                lScale)
+                            local qx, qy, qw, qh = hillChevronNormalLeft:getViewport()
+                            instancemesh:setVertex(
+                                chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 1 - 0.03, lScale,
+                                    2)
+                            qx, qy, qw, qh = hillChevronNormalRight:getViewport()
+                            instancemesh:setVertex(
+                                chevronRightId, t[2] + qw, t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 1 - 0.1,
+                                    lScale, 2)
                         end
                         local qx, qy, qw, qh = hillTileNormal:getViewport()
                         instancemesh:setVertex(vertId, t[2], t[3] - elevationOffsetY * 2, qx, qy, qw, qh, 1, lScale)
@@ -857,11 +892,13 @@ local function refreshTerrain(chunkX, chunkY)
                 end
                 if not skipMultiTile and not tileOverriden and t[1] then
                     local qx, qy, qw, qh = t[1]:getViewport()
-                    instancemesh:setVertex(vertId, t[2], t[3] - elevationOffsetY * 2, qx, qy, qw, qh, lightValue, lScale)
+                    instancemesh:setVertex(
+                        vertId, t[2], t[3] - elevationOffsetY * 2, qx, qy, qw, qh, lightValue, lScale)
                 end
             elseif terrain[cx][cy][i][o] == _G.terrainBiome.none then
                 instancemesh:setVertex(vertId)
-                instancemesh:setVertex(chevronId)
+                instancemesh:setVertex(chevronLeftId)
+                instancemesh:setVertex(chevronRightId)
             end
         end
     end
