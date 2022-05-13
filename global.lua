@@ -4,9 +4,9 @@ math.random()
 math.random()
 
 _G.classes = {}
-_G.anim = require('libraries.anim8')
-_G.class = require('libraries.middleclass')
-_G.inspect = require('libraries.inspect')
+_G.anim = require("libraries.anim8")
+_G.class = require("libraries.middleclass")
+_G.inspect = require("libraries.inspect")
 _G.ffi = require("ffi")
 _G.PROF_CAPTURE = false
 _G.prof = require("libraries.jprof")
@@ -30,7 +30,7 @@ function _G.getClassByName(className)
 end
 
 function _G.indexBuildingQuads(quadString, trimLast, lastWidthOffset)
-    local tileQuads = require('objects.object_quads')
+    local tileQuads = require("objects.object_quads")
     trimLast = trimLast or lastWidthOffset or false
     lastWidthOffset = lastWidthOffset or 0
     if trimLast and lastWidthOffset == 0 then
@@ -43,19 +43,19 @@ function _G.indexBuildingQuads(quadString, trimLast, lastWidthOffset)
     local totalTilesWide = math.ceil(w / _G.tileWidth)
     local middleCount = 0
     for i = 1, totalTilesWide - 1 do
-        resultArray[#resultArray + 1] = love.graphics.newQuad(x + 16 * (i - 1), y, _G.tileWidth / 2, h, _G.imageW,
-            _G.imageH)
+        resultArray[#resultArray + 1] = love.graphics.newQuad(
+            x + 16 * (i - 1), y, _G.tileWidth / 2, h, _G.imageW, _G.imageH)
         middleCount = i
     end
-    resultArray[#resultArray + 1] = love.graphics.newQuad(x + 16 * (middleCount), y, _G.tileWidth, h, _G.imageW,
-        _G.imageH)
+    resultArray[#resultArray + 1] = love.graphics.newQuad(
+        x + 16 * (middleCount), y, _G.tileWidth, h, _G.imageW, _G.imageH)
     for i = middleCount + 2, middleCount + totalTilesWide do
         if trimLast and i == middleCount + totalTilesWide then
-            resultArray[#resultArray + 1] = love.graphics.newQuad(x + 16 * (i), y, _G.tileWidth / 2 - lastWidthOffset,
-                h, _G.imageW, _G.imageH)
+            resultArray[#resultArray + 1] = love.graphics.newQuad(
+                x + 16 * (i), y, _G.tileWidth / 2 - lastWidthOffset, h, _G.imageW, _G.imageH)
         else
-            resultArray[#resultArray + 1] = love.graphics.newQuad(x + 16 * (i), y, _G.tileWidth / 2, h, _G.imageW,
-                _G.imageH)
+            resultArray[#resultArray + 1] = love.graphics.newQuad(
+                x + 16 * (i), y, _G.tileWidth / 2, h, _G.imageW, _G.imageH)
         end
     end
 
@@ -63,7 +63,7 @@ function _G.indexBuildingQuads(quadString, trimLast, lastWidthOffset)
 end
 
 function _G.indexQuads(string, endAmount, start, reverse)
-    local tileQuads = require('objects.object_quads')
+    local tileQuads = require("objects.object_quads")
     start = start or 1
     local tempArray = {}
     for i = start, endAmount do
@@ -107,14 +107,14 @@ function _G.getFreeVertexFromTile(cx, cy, localX, localY, lastVertexFirst)
     local vertId = _G.state.verticesPerTile * (localX + localY * chunkWidth) + 1
     local chunkVertices = _G.state.objectMeshVertIdMap[cx][cy]
     if lastVertexFirst then
-        for i = 2, _G.state.verticesPerTile - 1 do
+        for i = 3, _G.state.verticesPerTile - 1 do
             if not chunkVertices[vertId + i] then
                 _G.state.objectMeshVertIdMap[cx][cy][vertId + i] = true
                 return vertId + i
             end
         end
     else
-        for i = _G.state.verticesPerTile - 1, 2, -1 do
+        for i = _G.state.verticesPerTile - 1, 3, -1 do
             if not chunkVertices[vertId + i] then
                 _G.state.objectMeshVertIdMap[cx][cy][vertId + i] = true
                 return vertId + i
@@ -125,17 +125,22 @@ function _G.getFreeVertexFromTile(cx, cy, localX, localY, lastVertexFirst)
 end
 
 function _G.getTerrainVertex(cx, cy, localX, localY)
-    local vertId = _G.state.verticesPerTile * (localX + localY * chunkWidth) + 2
+    local vertId = _G.state.verticesPerTile * (localX + localY * chunkWidth) + 3
     _G.state.objectMeshVertIdMap[cx][cy][vertId] = true
     return vertId
 end
 
-function _G.getChevronVertex(cx, cy, localX, localY)
+function _G.getChevronVertexLeft(cx, cy, localX, localY)
     local vertId = _G.state.verticesPerTile * (localX + localY * chunkWidth) + 1
     _G.state.objectMeshVertIdMap[cx][cy][vertId] = true
     return vertId
 end
 
+function _G.getChevronVertexRight(cx, cy, localX, localY)
+    local vertId = _G.state.verticesPerTile * (localX + localY * chunkWidth) + 2
+    _G.state.objectMeshVertIdMap[cx][cy][vertId] = true
+    return vertId
+end
 function _G.freeVertexFromTile(cx, cy, vertId)
     if not vertId then
         return
@@ -199,8 +204,9 @@ function _G.playSfx(obj, sfx)
         sfx = sfx[math.random(#sfx)]
     end
     sfx:setRelative(false)
-    sfx:setPosition((obj.x + (obj.cx - obj.cy) * _G.chunkWidth * _G.tileWidth * 0.5) / 100,
-        (obj.y + (obj.cx + obj.cy) * _G.chunkHeight * _G.tileHeight * 0.5) / 100, 4.1)
+    sfx:setPosition(
+        (obj.x + (obj.cx - obj.cy) * _G.chunkWidth * _G.tileWidth * 0.5) / 100,
+            (obj.y + (obj.cx + obj.cy) * _G.chunkHeight * _G.tileHeight * 0.5) / 100, 4.1)
     sfx:setPitch(1 + love.math.random(-10, 10) / 100)
     sfx:play()
 end

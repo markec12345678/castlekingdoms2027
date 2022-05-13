@@ -1,6 +1,6 @@
-local bitser = require('libraries.bitser')
-local Map = require('objects.Map')
-local State = _G.class('State')
+local bitser = require("libraries.bitser")
+local Map = require("objects.Map")
+local State = _G.class("State")
 
 function State:initialize()
     self.serializedObjectIds = {}
@@ -15,7 +15,7 @@ function State:initialize()
     self.objectMeshVertIdMap = newAutotable(3)
     self.verticesPerTile = 6
     self.chunkObjects = newAutotable(3)
-    self.scaleX = 1
+    self.scaleX = 0.7
     self.viewXview = -100
     self.viewYview = 2000
     self.population = 0
@@ -23,11 +23,11 @@ function State:initialize()
     -- TODO: Make the collision map dynamic
     self.collisionMap = _G.ffi.new("unsigned char[2048][2048]", {})
     self.resources = {
-        ['wood'] = 0,
-        ['stone'] = 0,
-        ['iron'] = 0,
-        ['flour'] = 0,
-        ['wheat'] = 0
+        ["wood"] = 0,
+        ["stone"] = 0,
+        ["iron"] = 0,
+        ["flour"] = 0,
+        ["wheat"] = 0
     }
     self.food = {
         ["apples"] = 0,
@@ -91,8 +91,9 @@ function State:dereferenceObject(refObj)
             end
         end
     end
-    error("Couldn't dereference object:" .. tostring(self.rawObjectIds[ref]) .. " with ref obj:" ..
-              tostring(_G.inspect(refObj)))
+    error(
+        "Couldn't dereference object:" .. tostring(self.rawObjectIds[ref]) .. " with ref obj:" ..
+            tostring(_G.inspect(refObj)))
 end
 
 function State:serializeChunkObjects()
