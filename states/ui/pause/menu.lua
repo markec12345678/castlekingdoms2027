@@ -151,6 +151,7 @@ exit.OnMouseDown = function(self)
     self:SetImage(exitImageDown)
 end
 exit.OnClick = function(self)
+    loveframes.TogglePause()
     local menu = require('states.start_menu')
     Gamestate.switch(menu)
 end

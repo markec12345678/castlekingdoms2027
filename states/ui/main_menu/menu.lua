@@ -41,8 +41,8 @@ newGame.OnMouseDown = function(self)
     self:SetImage(newGameImageDown)
 end
 newGame.OnClick = function(self)
-    Gamestate.switch(game)
     loveframes.SetState() -- Undraw the menu while loading
+    Gamestate.switch(game)
 end
 newGame.OnMouseExit = function(self)
     self:SetImage(newGameImage)

@@ -105,6 +105,10 @@ end
 function game:enter()
     collectgarbage()
     collectgarbage()
+    if _G.loaded then
+        _G.paused = false
+        loveframes.SetState(states.STATE_INGAME_CONSTRUCTION)
+    end
 end
 
 function game:draw()
