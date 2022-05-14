@@ -1,4 +1,4 @@
-local Object = _G.class('Object')
+local Object = _G.class("Object")
 local chunkWidth, tileWidth = _G.chunkWidth, _G.tileWidth
 local chunkHeight, tileHeight = _G.chunkHeight, _G.tileHeight
 
@@ -13,6 +13,7 @@ function Object:initialize(gx, gy, type)
     self.gy = gy
     self.type = type
     self.toBeDeleted = false
+    self:calculateShadowValue()
 end
 function Object:isVisibleOnScreen()
     if not (self.x + (self.cx - self.cy) * chunkWidth * tileWidth * 0.5 < _G.TopLeftX or self.x + (self.cx - self.cy) *
@@ -48,7 +49,7 @@ function Object:render()
             error("Object did not receive Vertex for rendering, it should be of highest priority:" .. tostring(self))
         end
         self.instancemesh = _G.state.objectMesh[self.cx][self.cy]
-        self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, 1)
+        self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, self.shadowValue)
     end
 end
 function Object:renderAlias()
@@ -76,7 +77,7 @@ function Object:renderAlias()
             love.event.quit()
         end
         self.instancemesh = _G.state.objectMesh[self.cx][self.cy]
-        self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, 1)
+        self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, self.shadowValue)
     end
 end
 function Object:destroy()
@@ -87,7 +88,7 @@ function Object:destroy()
     _G.state.chunkObjects[self.cx][self.cy][self] = nil
 end
 function Object:updateVertex()
-    if _G.state.objectMesh then
+    if _G.state.objectMesh and self.tile then
         local offsetX, offsetY = 0, 0
         if _G.quadOffset[self.tile] then
             offsetX, offsetY = _G.quadOffset[self.tile][1] or 0, _G.quadOffset[self.tile][2] or 0
@@ -99,7 +100,26 @@ function Object:updateVertex()
         local x, y = self.x + (self.offsetX or 0) + offsetX, self.y + (self.offsetY or 0) + offsetY - elevationOffsetY
         local qx, qy, qw, qh = self.tile:getViewport()
         self.instancemesh = _G.state.objectMesh[self.cx][self.cy]
-        self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, 1)
+        self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, self.shadowValue)
+    end
+end
+function Object:calculateShadowValue()
+    local cx, cy, i, o = self.cx, self.cy, self.i, self.o
+    local elevationOffsetY = _G.state.map.heightmap[cx][cy][i][o] or 0
+    local elevationValue = 75 * elevationOffsetY / (40 + elevationOffsetY)
+    local shadowValue = _G.state.map.shadowmap[cx][cy][i][o] or 0
+    local isInShadow = shadowValue > elevationOffsetY or shadowValue > elevationValue
+    if isInShadow then
+        self.shadowValue = math.min((shadowValue - elevationValue) / 40, 0.6)
+        self.shadowValue = math.min(0.8, 1 - self.shadowValue)
+    else
+        self.shadowValue = 1
+    end
+end
+function Object:shadeFromTerrain()
+    self:calculateShadowValue()
+    if self.tile then
+        self:updateVertex()
     end
 end
 function Object:serialize()
@@ -114,6 +134,7 @@ function Object:serialize()
     data.gx = self.gx
     data.gy = self.gy
     data.type = self.type
+    data.shadowValue = self.shadowValue
     data.toBeDeleted = self.toBeDeleted
     data.className = self.class.name
     if self.class.unserializable then

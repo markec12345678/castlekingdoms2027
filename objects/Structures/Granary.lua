@@ -39,10 +39,10 @@ local maxQuantity = {
 local GranaryAlias = _G.class('GranaryAlias', Structure)
 function GranaryAlias:initialize(tile, gx, gy, parent, offsetY, offsetX, serializeParent)
     local mytype = "Static structure"
+    self.parent = parent
     Structure.initialize(self, gx, gy, mytype)
     self.serializeParent = not (serializeParent)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.parent = parent
     self.tile = tile
     self.baseOffsetY = offsetY or 0
     self.additionalOffsetY = 0

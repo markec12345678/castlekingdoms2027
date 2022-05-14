@@ -42,13 +42,13 @@ local an = {
     [ANIM_WINDMILL_FILLING] = frAnimWindmillFilling
 }
 
-local WindmillBlade = _G.class('WindmillBlade', Structure)
+local WindmillBlade = _G.class("WindmillBlade", Structure)
 function WindmillBlade:initialize(gx, gy, parent)
+    self.parent = parent
     Structure.initialize(self, gx, gy, "Windmill blade")
     self.tile = tileQuads["empty"]
     self.animated = true
     self.animation = anim.newAnimation(an[ANIM_WINDMILL_FAN], 0.11, nil, ANIM_WINDMILL_FAN)
-    self.parent = parent
     self.offsetX = -60
     self.offsetY = -274
 
@@ -88,17 +88,18 @@ function WindmillBlade:deactivate()
     self.animation:pause()
 end
 
-local WindmillFilling = _G.class('WindmillFilling', Structure)
+local WindmillFilling = _G.class("WindmillFilling", Structure)
 function WindmillFilling:initialize(gx, gy, parent)
+    self.parent = parent
     Structure.initialize(self, gx, gy, "Windmill filling animation")
     self.tile = tileQuads["empty"]
     self.animated = false
-    self.animation = anim.newAnimation(an[ANIM_WINDMILL_FILLING], 0.11, function()
-        self:fillingCallback()
-    end, ANIM_WINDMILL_FILLING)
+    self.animation = anim.newAnimation(
+        an[ANIM_WINDMILL_FILLING], 0.11, function()
+            self:fillingCallback()
+        end, ANIM_WINDMILL_FILLING)
     self.animation:pause()
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.parent = parent
     self.offsetX = -62
     self.offsetY = -201
 
@@ -159,13 +160,13 @@ function WindmillFilling.static:deserialize(data)
     return obj
 end
 
-local WindmillShadow = _G.class('WindmillShadow', Structure)
+local WindmillShadow = _G.class("WindmillShadow", Structure)
 function WindmillShadow:initialize(gx, gy, parent)
+    self.parent = parent
     Structure.initialize(self, gx, gy, "Windmill shadow")
     self.tile = tileQuads["empty"]
     self.animated = true
     self.animation = anim.newAnimation(an[ANIM_WINDMILL_OUTSIDE], 0.11, nil, ANIM_WINDMILL_OUTSIDE)
-    self.parent = parent
     self.offsetX = -46
     self.offsetY = -243
 
@@ -216,11 +217,11 @@ function WindmillShadow:deactivate()
     self.animation:pause()
 end
 
-local WindmillAlias = _G.class('WindmillAlias', Structure)
+local WindmillAlias = _G.class("WindmillAlias", Structure)
 function WindmillAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
+    self.parent = parent
     Structure.initialize(self, gx, gy, "Windmill alias")
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.parent = parent
     self.tile = tile
     self.baseOffsetY = offsetY or 0
     self.additionalOffsetY = 0
@@ -261,11 +262,11 @@ function WindmillAlias.static:deserialize(data)
     return obj
 end
 
-local Windmill = _G.class('Windmill', Structure)
+local Windmill = _G.class("Windmill", Structure)
 
 Windmill.static.WIDTH = 3
 Windmill.static.LENGTH = 3
-Windmill.static.HEIGHT = 17
+Windmill.static.HEIGHT = 20
 
 function Windmill:initialize(gx, gy, type)
     _G.JobController:add("Miller", self)
@@ -311,13 +312,13 @@ function Windmill:initialize(gx, gy, type)
         end
     end
     for tile = 1, tiles do
-        local wnd = WindmillAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
-            -self.offsetY + 8 * (tiles - tile + 1))
+        local wnd = WindmillAlias:new(
+            quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self, -self.offsetY + 8 * (tiles - tile + 1))
         wnd.tileKey = tile
     end
     for tile = 1, tiles do
-        local wnd = WindmillAlias:new(quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self,
-            -self.offsetY + 8 * tile, 16)
+        local wnd = WindmillAlias:new(
+            quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile, 16)
         wnd.tileKey = tiles + 1 + tile
     end
 

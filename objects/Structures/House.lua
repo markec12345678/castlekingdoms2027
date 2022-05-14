@@ -4,12 +4,12 @@ local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 
 local tiles, quadArray = _G.indexBuildingQuads("housing (1)", true)
-local HouseAlias = _G.class('HouseAlias', Structure)
+local HouseAlias = _G.class("HouseAlias", Structure)
 function HouseAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     local mytype = "Static structure"
+    self.parent = parent
     Structure.initialize(self, gx, gy, mytype)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.parent = parent
     self.tile = tile
     self.baseOffsetY = offsetY or 0
     self.additionalOffsetY = 0
@@ -52,7 +52,7 @@ function HouseAlias.static:deserialize(data)
     return obj
 end
 
-local House = _G.class('House', Structure)
+local House = _G.class("House", Structure)
 
 House.static.WIDTH = 4
 House.static.LENGTH = 4
@@ -66,13 +66,13 @@ function House:initialize(gx, gy)
     self.offsetX = 0
     self.offsetY = -39
     for tile = 1, tiles do
-        local hsl = HouseAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
-            -self.offsetY + 8 * (tiles - tile + 1))
+        local hsl = HouseAlias:new(
+            quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self, -self.offsetY + 8 * (tiles - tile + 1))
         hsl.tileKey = tile
     end
     for tile = 1, tiles do
-        local hsl = HouseAlias:new(quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile,
-            16)
+        local hsl = HouseAlias:new(
+            quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile, 16)
         hsl.tileKey = tiles + 1 + tile
     end
 

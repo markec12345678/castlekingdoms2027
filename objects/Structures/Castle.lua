@@ -6,31 +6,31 @@ local tiles, quadArray = _G.indexBuildingQuads("small_wooden_castle (1)")
 local tileCastleDoor1 = tileQuads["doors_bits (3)"]
 local tileCastleDoor2 = tileQuads["doors_bits (4)"]
 
-local CastleDoor = _G.class('CastleDoor', Structure)
+local CastleDoor = _G.class("CastleDoor", Structure)
 function CastleDoor:initialize(tile, gx, gy, parent, offsetY, offsetX)
     local mytype = "Static structure"
+    self.parent = parent
     Structure.initialize(self, gx, gy, mytype)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.parent = parent
     self.tile = tile
     self.offsetX = offsetX or 0
     self.offsetY = (offsetY or 0) + -67 + 16
     Structure.render(self)
 end
 
-local CastleAlias = _G.class('CastleAlias', Structure)
+local CastleAlias = _G.class("CastleAlias", Structure)
 function CastleAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     local mytype = "Static structure"
+    self.parent = parent
     Structure.initialize(self, gx, gy, mytype)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.parent = parent
     self.tile = tile
     self.offsetX = offsetX or 0
     self.offsetY = -(offsetY or 0)
     Structure.render(self)
 end
 
-local Castle = _G.class('Castle', Structure)
+local Castle = _G.class("Castle", Structure)
 
 Castle.static.WIDTH = 7
 Castle.static.LENGTH = 7
@@ -53,8 +53,9 @@ function Castle:initialize(gx, gy, type)
     CastleAlias:new(quadArray[tiles + 1], self.gx + tiles, self.gy + tiles, self, centerTileOffsetY - 16)
 
     for tile = 1, tiles do
-        CastleAlias:new(quadArray[tiles + 1 + tile], self.gx + tiles, self.gy + (tiles - tile + 1), self,
-            -self.offsetY + 8 * (tiles - tile + 1) + 48, 32)
+        CastleAlias:new(
+            quadArray[tiles + 1 + tile], self.gx + tiles, self.gy + (tiles - tile + 1), self,
+                -self.offsetY + 8 * (tiles - tile + 1) + 48, 32)
     end
 
     CastleDoor:new(tileCastleDoor1, self.gx + 2, self.gy + 7, self)

@@ -1,6 +1,6 @@
 local _, _, tileQuads, _, Tree = ...
 local anim = require("libraries.anim8")
-local Object = require('objects.Object')
+local Object = require("objects.Object")
 
 local STATIC_TRUNK = "Static Trunk"
 local ANIM_DEAD_STATIC = "Dead_Static"
@@ -34,7 +34,7 @@ local an = {
     [ANIM_VERY_SMALL_CHOP] = _G.indexQuads("tree_pine_very_small_falling", 7, 6)
 }
 
-local PineTree = _G.class('PineTree', Tree)
+local PineTree = _G.class("PineTree", Tree)
 function PineTree:initialize(gx, gy, type)
     type = type or "Pine tree"
     Tree.initialize(self, gx, gy, type)
@@ -77,8 +77,8 @@ function PineTree:initialize(gx, gy, type)
         self.cuttable = false
         self.animation = anim.newAnimation(an[ANIM_VERY_SMALL_STATIC], 0.09, nil, ANIM_VERY_SMALL_STATIC)
         self.chopAnimation = anim.newAnimation(an[ANIM_VERY_SMALL_CHOP], 0.1, nil, ANIM_VERY_SMALL_CHOP)
-        self.fallingAnimation = anim.newAnimation(an[ANIM_VERY_SMALL_FALLING], 0.13, self:cutDown(),
-            ANIM_VERY_SMALL_FALLING)
+        self.fallingAnimation = anim.newAnimation(
+            an[ANIM_VERY_SMALL_FALLING], 0.13, self:cutDown(), ANIM_VERY_SMALL_FALLING)
     elseif type == "Stump" then
         self.animation = anim.newAnimation(an[STATIC_TRUNK], 0.1, nil, STATIC_TRUNK)
         self.animation:pause()
@@ -88,6 +88,8 @@ function PineTree:initialize(gx, gy, type)
         self.type = "Stump"
         self.tile = self.trunkTile
         self:render()
+    else
+        error("invalid tree type: " .. tostring(type))
     end
 end
 function PineTree:load(data)
@@ -115,8 +117,8 @@ function PineTree:load(data)
             anData.animationIdentifier == ANIM_MEDIUM_FALLING or anData.animationIdentifier == ANIM_FALLING then
             callback = self:cutDown()
         end
-        self.fallingAnimation = anim.newAnimation(an[anData.animationIdentifier], 1, callback,
-            anData.animationIdentifier)
+        self.fallingAnimation = anim.newAnimation(
+            an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
         self.fallingAnimation:deserialize(anData)
     end
     self.trunkTile = tileQuads["tree_pine_trunk (1)"]

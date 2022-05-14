@@ -13,12 +13,12 @@ local farmlandTilesStage3 = {tileQuads["tile_farmland_stage_3 (1)"], tileQuads["
 local farmlandTilesStage4 = {tileQuads["tile_farmland_stage_4 (1)"], tileQuads["tile_farmland_stage_4 (2)"],
                              tileQuads["tile_farmland_stage_4 (3)"], tileQuads["tile_farmland_stage_4 (4)"]}
 local farmlandHayTile = tileQuads["tile_farmland_hay (1)"]
-local WheatFarmAlias = _G.class('WheatFarmAlias', Structure)
+local WheatFarmAlias = _G.class("WheatFarmAlias", Structure)
 function WheatFarmAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     local mytype = "Static structure"
+    self.parent = parent
     Structure.initialize(self, gx, gy, mytype)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.parent = parent
     self.tile = tile
     self.baseOffsetY = offsetY or 0
     self.additionalOffsetY = 0
@@ -61,15 +61,15 @@ function WheatFarmAlias.static:deserialize(data)
     return obj
 end
 
-local WheatFarmPlant = _G.class('WheatFarmPlant', Structure)
+local WheatFarmPlant = _G.class("WheatFarmPlant", Structure)
 function WheatFarmPlant:initialize(gx, gy, parent)
     local mytype = "Wheat Plant"
+    self.parent = parent
     Structure.initialize(self, gx, gy, mytype)
     self.animated = false
     self.isPlant = false
     self.state = -1
     self.hasWheatResource = false
-    self.parent = parent
     parent.availablePlantTiles = parent.availablePlantTiles + 1
     if parent.availablePlantTiles % 8 == 0 then
         self.isPlant = true
@@ -182,7 +182,7 @@ function WheatFarmPlant:setState(state)
     self:render()
 end
 
-local WheatFarm = _G.class('WheatFarm', Structure)
+local WheatFarm = _G.class("WheatFarm", Structure)
 
 WheatFarm.static.WIDTH = 3
 WheatFarm.static.LENGTH = 3
@@ -215,14 +215,14 @@ function WheatFarm:initialize(gx, gy, type)
     end
 
     for tile = 1, tiles do
-        local whf = WheatFarmAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
-            -self.offsetY + 8 * (tiles - tile + 1))
+        local whf = WheatFarmAlias:new(
+            quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self, -self.offsetY + 8 * (tiles - tile + 1))
         whf.tileKey = tile
     end
 
     for tile = 1, tiles do
-        local whf = WheatFarmAlias:new(quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self,
-            -self.offsetY + 8 * tile, 14)
+        local whf = WheatFarmAlias:new(
+            quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile, 14)
         whf.tileKey = tiles + 1 + tile
     end
     self.availablePlantTiles = 0

@@ -16,8 +16,9 @@ local an = {
     [ANIM_BREAD_STACK] = _G.indexQuads("anim_baker_bread", 4)
 }
 
-local BakeryBreadStack = _G.class('BakeryBreadStack', Structure)
+local BakeryBreadStack = _G.class("BakeryBreadStack", Structure)
 function BakeryBreadStack:initialize(gx, gy, parent)
+    self.parent = parent
     Structure.initialize(self, gx, gy, "Bakery bread stack")
     self.tile = tileQuads["empty"]
     self.animated = false
@@ -25,7 +26,6 @@ function BakeryBreadStack:initialize(gx, gy, parent)
     self.animation:pause()
     self.quantity = 0
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.parent = parent
     self.offsetX = -24
     self.offsetY = -94
 
@@ -94,15 +94,15 @@ function BakeryBreadStack:take()
     self.animation:gotoFrame(self.quantity)
 end
 
-local BakeryCooking = _G.class('BakeryCooking', Structure)
+local BakeryCooking = _G.class("BakeryCooking", Structure)
 function BakeryCooking:initialize(gx, gy, parent)
+    self.parent = parent
     Structure.initialize(self, gx, gy, "Bakery cooking")
     self.tile = tileQuads["empty"]
     self.animated = false
     self.animation = anim.newAnimation(an[ANIM_BAKING_BREAD], 0.11, self:bakeCallback_1(), ANIM_BAKING_BREAD)
     self.animation:pause()
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.parent = parent
     self.offsetX = -36
     self.offsetY = -88
 
@@ -148,8 +148,8 @@ function BakeryCooking:bakeCallback_1()
         else
             self.parent.stack:stack()
         end
-        self.animation = anim.newAnimation(an[ANIM_BAKING_BREAD_PART2], 0.11, self:bakeCallback_2(),
-            ANIM_BAKING_BREAD_PART2)
+        self.animation = anim.newAnimation(
+            an[ANIM_BAKING_BREAD_PART2], 0.11, self:bakeCallback_2(), ANIM_BAKING_BREAD_PART2)
     end
 end
 function BakeryCooking:bakeCallback_2()
@@ -180,12 +180,12 @@ function BakeryCooking:deactivate()
     self.animated = false
 end
 
-local BakeryAlias = _G.class('BakeryAlias', Structure)
+local BakeryAlias = _G.class("BakeryAlias", Structure)
 function BakeryAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     local mytype = "Static structure"
+    self.parent = parent
     Structure.initialize(self, gx, gy, mytype)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.parent = parent
     self.tile = tile
     self.baseOffsetY = offsetY or 0
     self.additionalOffsetY = 0
@@ -228,7 +228,7 @@ function BakeryAlias.static:deserialize(data)
     return obj
 end
 
-local Bakery = _G.class('Bakery', Structure)
+local Bakery = _G.class("Bakery", Structure)
 
 Bakery.static.WIDTH = 4
 Bakery.static.LENGTH = 4
@@ -261,13 +261,13 @@ function Bakery:initialize(gx, gy)
     end
     Structure:applyBuildingHeightMap(gx, gy, Bakery.WIDTH, Bakery.LENGTH, Bakery.HEIGHT)
     for tile = 1, tiles do
-        local bkr = BakeryAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
-            -self.offsetY + 8 * (tiles - tile + 1))
+        local bkr = BakeryAlias:new(
+            quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self, -self.offsetY + 8 * (tiles - tile + 1))
         bkr.tileKey = tile
     end
     for tile = 1, tiles do
-        local bkr = BakeryAlias:new(quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self,
-            -self.offsetY + 8 * tile, 16)
+        local bkr = BakeryAlias:new(
+            quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile, 16)
         bkr.tileKey = tiles + 1 + tile
     end
 

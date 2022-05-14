@@ -14,15 +14,15 @@ local an = {
     [ANIM_FLOAT_CIRCLE_RED] = _G.indexQuads("float_circle_green", 51)
 }
 
-local CampfireFloatPop = _G.class('CampfireFloatPop', Structure)
+local CampfireFloatPop = _G.class("CampfireFloatPop", Structure)
 function CampfireFloatPop:initialize(gx, gy)
     Structure.initialize(self, gx, gy, "Campfire float circle")
     self.animatedAlias = true
     self.animated = true
-    self.greenAnimation = anim.newAnimation(an[ANIM_FLOAT_CIRCLE_GREEN], 0.025, self:immigrantCallback(),
-        ANIM_FLOAT_CIRCLE_GREEN)
-    self.redAnimation = anim.newAnimation(an[ANIM_FLOAT_CIRCLE_GREEN], 0.025, self:emigrantCallback(),
-        ANIM_FLOAT_CIRCLE_GREEN)
+    self.greenAnimation = anim.newAnimation(
+        an[ANIM_FLOAT_CIRCLE_GREEN], 0.025, self:immigrantCallback(), ANIM_FLOAT_CIRCLE_GREEN)
+    self.redAnimation = anim.newAnimation(
+        an[ANIM_FLOAT_CIRCLE_GREEN], 0.025, self:emigrantCallback(), ANIM_FLOAT_CIRCLE_GREEN)
     self.offsetX = 7
     self.offsetY = -81
     self.animation = self.greenAnimation
@@ -91,15 +91,17 @@ function CampfireFloatPop.static:deserialize(data)
         if anData.animationIdentifier == ANIM_FLOAT_CIRCLE_GREEN then
             callback = obj:immigrantCallback()
         else
-            obj.redAnimation = _G.anim.newAnimation(an[data.redAnimation.animationIdentifier], 1,
-                obj:emigrantCallback(), data.redAnimation.animationIdentifier)
+            obj.redAnimation = _G.anim.newAnimation(
+                an[data.redAnimation.animationIdentifier], 1, obj:emigrantCallback(),
+                    data.redAnimation.animationIdentifier)
             obj.redAnimation:deserialize(data.redAnimation)
         end
         if anData.animationIdentifier == ANIM_FLOAT_CIRCLE_RED then
             callback = obj:emigrantCallback()
         else
-            obj.greenAnimation = _G.anim.newAnimation(an[data.greenAnimation.animationIdentifier], 1,
-                obj:immigrantCallback(), data.greenAnimation.animationIdentifier)
+            obj.greenAnimation = _G.anim.newAnimation(
+                an[data.greenAnimation.animationIdentifier], 1, obj:immigrantCallback(),
+                    data.greenAnimation.animationIdentifier)
             obj.greenAnimation:deserialize(data.greenAnimation)
         end
         obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
@@ -114,15 +116,15 @@ function CampfireFloatPop.static:deserialize(data)
     return obj
 end
 
-local CampfireAlias = _G.class('CampfireAlias', Structure)
+local CampfireAlias = _G.class("CampfireAlias", Structure)
 function CampfireAlias:initialize(gx, gy, parent, animatedAlias)
+    self.parent = parent
     Structure.initialize(self, gx, gy, "Campfire alias")
     self.animatedAlias = animatedAlias
     self.offsetX = 0
     self.offsetY = -16
     self.tile = tileQuads["empty"]
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.parent = parent
     parent:takeSpot(gx, gy)
 end
 function CampfireAlias:serialize()
@@ -168,7 +170,7 @@ function CampfireAlias.static:deserialize(data)
     return obj
 end
 
-local Campfire = _G.class('Campfire', Structure)
+local Campfire = _G.class("Campfire", Structure)
 function Campfire:initialize(gx, gy, type)
     Structure.initialize(self, gx, gy, type or "Campfire")
     _G.state.map:setWalkable(self.gx, self.gy, 1)

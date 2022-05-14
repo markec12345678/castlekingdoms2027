@@ -3,12 +3,12 @@ local _, _, tileQuads, _ = ...
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 
-local RockAlias = _G.class('RockAlias', Structure)
+local RockAlias = _G.class("RockAlias", Structure)
 function RockAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     local mytype = "Static structure"
+    self.parent = parent
     Structure.initialize(self, gx, gy, mytype)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.parent = parent
     self.tile = tile
     self.baseOffsetY = offsetY or 0
     self.additionalOffsetY = 0
@@ -17,7 +17,7 @@ function RockAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     Structure.render(self)
 end
 
-local Rock = _G.class('Rock', Structure)
+local Rock = _G.class("Rock", Structure)
 function Rock:initialize(gx, gy, type)
     type = type or "Rock"
     Structure.initialize(self, gx, gy, type)
@@ -27,8 +27,9 @@ function Rock:initialize(gx, gy, type)
     self.tile = tileQuads[self.tileKey]
     self.offsetX = 0
     local _, _, _, sh = self.tile:getViewport()
-    self.offsetY = -sh + 16
-    _G.buildingheightmap[self.cx][self.cy][self.i][self.o] = 15
+    self.offsetY = -sh + 14
+    _G.buildingheightmap[self.cx][self.cy][self.i][self.o] = 12
+    _G.scheduleTerrainUpdate(self.cx, self.cy, self.i, self.o)
     Structure.render(self)
 end
 
