@@ -720,6 +720,7 @@ local function refreshTerrain(chunkX, chunkY)
                 -- -- CHECK IF PREVIOUS TILE HAS THE SAME HEIGHT
                 local gx = chunkWidth * cx + i
                 local gy = chunkWidth * cy + o
+                local horizontal_x = math.floor(_G.IsoToScreenX(gx, gy) / (_G.tileWidth / 2))
                 local prevI = (gx - 1) % (chunkWidth)
                 local prevO = (gy + 1) % (chunkWidth)
                 local prevCx = math.floor((gx - 1) / chunkWidth)
@@ -809,8 +810,7 @@ local function refreshTerrain(chunkX, chunkY)
                     x, y, w, h = hillChevronSunnySide:getViewport()
                     hillChevronSunnySideLeft = love.graphics.newQuad(x, y, w / 2, h, _G.objectAtlas)
                     hillChevronSunnySideRight = love.graphics.newQuad(x + w / 2, y, w / 2, h, _G.objectAtlas)
-                    -- cliffChevron = tileQuads["rock_cliff (" .. tostring(love.math.random(1, 31)) .. ")"]
-                    cliffChevron = tileQuads["rock_cliff (" .. tostring((i + o) % 31 + 1) .. ")"]
+                    cliffChevron = tileQuads["rock_cliff (" .. tostring(horizontal_x % 31 + 1) .. ")"]
                 end
                 local lightValue = 1
                 if isInShadow then
