@@ -3,12 +3,12 @@ local tiles, quad_array = _G.indexBuildingQuads("wood_tower", false)
 
 local Structure = require("objects.Structure")
 
-local WoodenTowerAlias = _G.class('WoodenTowerAlias', Structure)
+local WoodenTowerAlias = _G.class("WoodenTowerAlias", Structure)
 function WoodenTowerAlias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     local mytype = "Static structure"
+    self.parent = parent
     Structure.initialize(self, gx, gy, mytype)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.parent = parent
     self.tile = tile
     self.base_offset_y = offset_y or 0
     self.additional_offset_y = 0
@@ -22,7 +22,7 @@ function WoodenTowerAlias:initialize(tile, gx, gy, parent, offset_y, offset_x)
     end
 end
 
-local WoodenTower = class('WoodenTower', Structure)
+local WoodenTower = class("WoodenTower", Structure)
 function WoodenTower:initialize(gx, gy, type)
     local mytype = "Walkable Wall"
     Structure.initialize(self, gx, gy, mytype)
@@ -34,8 +34,8 @@ function WoodenTower:initialize(gx, gy, type)
     self.offset_y = -64
 
     for tile = 1, tiles do
-        WoodenTowerAlias:new(quad_array[tile], self.gx, self.gy + (tiles - tile + 1), self,
-            -self.offset_y + 8 * (tiles - tile + 1))
+        WoodenTowerAlias:new(
+            quad_array[tile], self.gx, self.gy + (tiles - tile + 1), self, -self.offset_y + 8 * (tiles - tile + 1))
     end
     for tile = 1, tiles do
         WoodenTowerAlias:new(quad_array[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offset_y + 8 * tile, 16)

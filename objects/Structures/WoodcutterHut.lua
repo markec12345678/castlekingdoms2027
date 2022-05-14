@@ -21,9 +21,10 @@ local an = {
     [AN_HUT_PLANKS] = frPlankStack,
     [AN_HUT_LOGS] = frLogStack
 }
-local WoodcutterHutLogStack = _G.class('WoodcutterHutLogStack', Structure)
+local WoodcutterHutLogStack = _G.class("WoodcutterHutLogStack", Structure)
 function WoodcutterHutLogStack:initialize(gx, gy, parent)
     local mytype = "Animation"
+    self.parent = parent
     Structure.initialize(self, gx, gy, mytype)
     self.tile = tileQuads["empty"]
     self.animated = false
@@ -31,7 +32,6 @@ function WoodcutterHutLogStack:initialize(gx, gy, parent)
     self.animation:pause()
     self.quantity = 0
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.parent = parent
     self.offsetX = -51
     self.offsetY = -50
 
@@ -113,9 +113,10 @@ function WoodcutterHutLogStack:take()
     return true
 end
 
-local WoodcutterHutPlankStack = _G.class('WoodcutterHutPlankStack', Structure)
+local WoodcutterHutPlankStack = _G.class("WoodcutterHutPlankStack", Structure)
 function WoodcutterHutPlankStack:initialize(gx, gy, parent)
     local mytype = "Animation"
+    self.parent = parent
     Structure.initialize(self, gx, gy, mytype)
     self.tile = tileQuads["empty"]
     self.animated = false
@@ -123,7 +124,6 @@ function WoodcutterHutPlankStack:initialize(gx, gy, parent)
     self.animation:pause()
     self.quantity = 0
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.parent = parent
     self.offsetX = -23
     self.offsetY = -52
 
@@ -189,16 +189,16 @@ function WoodcutterHutPlankStack:take()
     self.animation:gotoFrame(self.quantity)
 end
 
-local WoodcutterHutSawing = _G.class('WoodcutterHutSawing', Structure)
+local WoodcutterHutSawing = _G.class("WoodcutterHutSawing", Structure)
 function WoodcutterHutSawing:initialize(gx, gy, parent)
     local mytype = "Animation"
+    self.parent = parent
     Structure.initialize(self, gx, gy, mytype)
     self.tile = tileQuads["empty"]
     self.animated = false
     self.animation = _G.anim.newAnimation(an[AN_HUT_SAWING], 0.11, nil, AN_HUT_SAWING)
     self.animation:pause()
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.parent = parent
     self.offsetX = -35
     self.offsetY = -44
     self:setCallback()
@@ -268,12 +268,12 @@ function WoodcutterHutSawing.static:deserialize(data)
     return obj
 end
 
-local WoodcutterHutAlias = _G.class('WoodcutterHutAlias', Structure)
+local WoodcutterHutAlias = _G.class("WoodcutterHutAlias", Structure)
 function WoodcutterHutAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     local mytype = "Static structure"
+    self.parent = parent
     Structure.initialize(self, gx, gy, mytype)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.parent = parent
     self.tile = tile
     self.baseOffsetY = offsetY or 0
     self.additionalOffsetY = 0
@@ -314,7 +314,7 @@ function WoodcutterHutAlias.static:deserialize(data)
     return obj
 end
 
-local WoodcutterHut = _G.class('WoodcutterHut', Structure)
+local WoodcutterHut = _G.class("WoodcutterHut", Structure)
 
 WoodcutterHut.static.WIDTH = 3
 WoodcutterHut.static.LENGTH = 3
@@ -363,13 +363,13 @@ function WoodcutterHut:initialize(gx, gy, type)
     Structure:applyBuildingHeightMap(gx, gy, WoodcutterHut.WIDTH, WoodcutterHut.LENGTH, WoodcutterHut.HEIGHT)
 
     for tile = 1, tiles do
-        local wht = WoodcutterHutAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
-            -self.offsetY + 8 * (tiles - tile + 1))
+        local wht = WoodcutterHutAlias:new(
+            quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self, -self.offsetY + 8 * (tiles - tile + 1))
         wht.tileKey = tile
     end
     for tile = 1, tiles do
-        local wht = WoodcutterHutAlias:new(quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self,
-            -self.offsetY + 8 * tile, 16)
+        local wht = WoodcutterHutAlias:new(
+            quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile, 16)
         wht.tileKey = tiles + 1 + tile
     end
 

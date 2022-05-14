@@ -18,12 +18,12 @@ local an = {
     [TREE_APPLES] = treeApple
 }
 
-local OrchardAlias = class('OrchardAlias', Structure)
+local OrchardAlias = class("OrchardAlias", Structure)
 function OrchardAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     local mytype = "Static structure"
+    self.parent = parent
     Structure.initialize(self, gx, gy, mytype)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.parent = parent
     self.tile = tile
     self.baseOffsetY = offsetY or 0
     self.additionalOffsetY = 0
@@ -66,16 +66,16 @@ function OrchardAlias.static:deserialize(data)
     return obj
 end
 
-local OrchardTree = class('OrchardTree', Structure)
+local OrchardTree = class("OrchardTree", Structure)
 function OrchardTree:initialize(gx, gy, parent, offsetY, offsetX)
     local mytype = "Static structure"
+    self.parent = parent
     Structure.initialize(self, gx, gy, mytype)
     self.animated = true
     self.animRaw = anim.newAnimation(an[TREE_EMPTY], 0.10, nil, TREE_EMPTY)
     self.animFull = anim.newAnimation(an[TREE_APPLES], 0.10, nil, TREE_APPLES)
     self.animation = self.animFull
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.parent = parent
     self.baseOffsetY = offsetY or 0
     self.additionalOffsetY = 0
     self.offsetX = offsetX or 0
@@ -146,7 +146,10 @@ function OrchardTree.static:deserialize(data)
     return obj
 end
 
-local Orchard = class('Orchard', Structure)
+local Orchard = class("Orchard", Structure)
+Orchard.static.WIDTH = 12
+Orchard.static.LENGTH = 12
+Orchard.static.HEIGHT = 19
 function Orchard:initialize(gx, gy, type)
     _G.JobController:add("OrchardFarmer", self)
     type = type or "Orchard"
@@ -172,14 +175,14 @@ function Orchard:initialize(gx, gy, type)
     end
 
     for tile = 1, tiles do
-        local ora = OrchardAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
-            -self.offsetY + 8 * (tiles - tile + 1))
+        local ora = OrchardAlias:new(
+            quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self, -self.offsetY + 8 * (tiles - tile + 1))
         ora.tileKey = tile
     end
 
     for tile = 1, tiles do
-        local ora = OrchardAlias:new(quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self,
-            -self.offsetY + 8 * tile, 14)
+        local ora = OrchardAlias:new(
+            quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile, 14)
         ora.tileKey = tiles + 1 + tile
     end
     local offsetX, offsetY = -64 - 8, 116

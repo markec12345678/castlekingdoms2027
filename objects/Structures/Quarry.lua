@@ -44,14 +44,14 @@ local an = {
     [ANIM_PULLER_PART2] = frPullerPart2
 }
 
-local QuarryLifter = _G.class('QuarryLifter', Structure)
+local QuarryLifter = _G.class("QuarryLifter", Structure)
 function QuarryLifter:initialize(gx, gy, parent)
     local mytype = "Lifter"
+    self.parent = parent
     Structure.initialize(self, gx, gy, mytype)
     self.animated = true
     self.animation = anim.newAnimation(an[ANIM_LIFTER_PART1], 0.10, self:lifterCallback_1(), ANIM_LIFTER_PART1)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.parent = parent
     self.offsetX = -2
     self.offsetY = -93
     table.insert(activeEntities, self)
@@ -140,15 +140,15 @@ function QuarryLifter:deactivate()
     self.animated = false
 end
 
-local QuarryHook = _G.class('QuarryHook', Structure)
+local QuarryHook = _G.class("QuarryHook", Structure)
 function QuarryHook:initialize(gx, gy, parent)
     local mytype = "Hook"
+    self.parent = parent
     Structure.initialize(self, gx, gy, mytype)
     self.animated = true
     self.animation = anim.newAnimation(an[ANIM_HOOK_PART1], 0.11, self:hookCallback_1(), ANIM_HOOK_PART1)
     self.animation:pause()
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.parent = parent
     self.offsetX = -2
     self.offsetY = -116
     table.insert(activeEntities, self)
@@ -208,15 +208,15 @@ function QuarryHook.static:deserialize(data)
     return obj
 end
 
-local QuarryShaper = _G.class('QuarryShaper', Structure)
+local QuarryShaper = _G.class("QuarryShaper", Structure)
 function QuarryShaper:initialize(gx, gy, parent)
     local mytype = "Shaper"
+    self.parent = parent
     Structure.initialize(self, gx, gy, mytype)
     self.animated = true
     self.animation = anim.newAnimation(an[ANIM_SHAPER], 0.05, self:shaperCallback(), ANIM_SHAPER)
     self.animation:pause()
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.parent = parent
     self.offsetX = -31
     self.offsetY = -79
     table.insert(activeEntities, self)
@@ -286,15 +286,15 @@ function QuarryShaper.static:deserialize(data)
     return obj
 end
 
-local QuarryPuller = _G.class('QuarryPuller', Structure)
+local QuarryPuller = _G.class("QuarryPuller", Structure)
 function QuarryPuller:initialize(gx, gy, parent, offsetX, offsetY)
     local mytype = "Puller"
+    self.parent = parent
     Structure.initialize(self, gx, gy, mytype)
     self.animated = true
     self.animation = anim.newAnimation(an[ANIM_PULLER_PART1], 0.11, self:pullerCallback_1(), ANIM_PULLER_PART1)
     self.animation:pause()
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.parent = parent
     self.offsetX = 92 + offsetX - 16 - 16
     self.offsetY = 58 + offsetY - 32 - 16
     table.insert(activeEntities, self)
@@ -368,11 +368,11 @@ function QuarryPuller.static:deserialize(data)
     return obj
 end
 
-local QuarryAlias = _G.class('QuarryAlias', Structure)
+local QuarryAlias = _G.class("QuarryAlias", Structure)
 function QuarryAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
+    self.parent = parent
     Structure.initialize(self, gx, gy, "Quarry alias")
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.parent = parent
     self.tile = tile
     self.baseOffsetY = offsetY or 0
     self.additionalOffsetY = 0
@@ -415,7 +415,10 @@ function QuarryAlias.static:deserialize(data)
     return obj
 end
 
-local Quarry = _G.class('Quarry', Structure)
+local Quarry = _G.class("Quarry", Structure)
+Quarry.static.WIDTH = 6
+Quarry.static.LENGTH = 6
+Quarry.static.HEIGHT = 16
 function Quarry:initialize(gx, gy)
     _G.JobController:add("Stonemason", self)
     Structure.initialize(self, gx, gy, "Quarry")
@@ -450,14 +453,14 @@ function Quarry:initialize(gx, gy)
     end
 
     for tile = 1, tiles do
-        local qur = QuarryAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
-            -self.offsetY + 8 * (tiles - tile + 1))
+        local qur = QuarryAlias:new(
+            quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self, -self.offsetY + 8 * (tiles - tile + 1))
         qur.tileKey = tile
     end
 
     for tile = 1, tiles do
-        local qur = QuarryAlias:new(quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self,
-            -self.offsetY + 8 * tile, 14)
+        local qur = QuarryAlias:new(
+            quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile, 14)
         qur.tileKey = tiles + 1 + tile
     end
 
@@ -471,6 +474,7 @@ function Quarry:initialize(gx, gy)
     QuarryAlias:new(tileQuads["empty"], self.gx + 3, self.gy + 5, self, 12 + 8 * 4, 16)
     QuarryAlias:new(tileQuads["empty"], self.gx + 4, self.gy + 5, self, 12 + 8 * 4, 16)
 
+    Structure:applyBuildingHeightMap(gx, gy, self.class.WIDTH, self.class.LENGTH, self.class.HEIGHT)
     Structure.render(self)
 end
 function Quarry:join(worker)

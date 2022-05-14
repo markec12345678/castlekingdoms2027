@@ -51,13 +51,13 @@ local maxQuantity = {
     ["iron"] = 48,
     ["flour"] = 32
 }
-local StockpileAlias = _G.class('StockpileAlias', Structure)
+local StockpileAlias = _G.class("StockpileAlias", Structure)
 function StockpileAlias:initialize(tile, gx, gy, parent, offsetY, offsetX, notWalkable)
+    self.parent = parent
     Structure.initialize(self, gx, gy, "Stockpile alias")
     if notWalkable then
         _G.state.map:setWalkable(self.gx, self.gy, 1)
     end
-    self.parent = parent
     self.tile = tile
     self.baseOffsetY = offsetY or 0
     self.additionalOffsetY = 0
@@ -101,7 +101,10 @@ function StockpileAlias.static:deserialize(data)
     return obj
 end
 
-local Stockpile = _G.class('Stockpile', Structure)
+local Stockpile = _G.class("Stockpile", Structure)
+Stockpile.static.WIDTH = 5
+Stockpile.static.LENGTH = 5
+Stockpile.static.HEIGHT = 12
 function Stockpile:initialize(gx, gy, type)
     type = type or "Stockpile"
     Structure.initialize(self, gx, gy, type)
@@ -116,8 +119,9 @@ function Stockpile:initialize(gx, gy, type)
         if tile == 2 then
             notWalkable = false
         end
-        local stp = StockpileAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
-            -self.offsetY + 8 * (tiles - tile + 1), nil, notWalkable)
+        local stp = StockpileAlias:new(
+            quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self, -self.offsetY + 8 * (tiles - tile + 1), nil,
+                notWalkable)
         stp.tileKey = tile
     end
 
@@ -126,8 +130,8 @@ function Stockpile:initialize(gx, gy, type)
         if tile == 2 then
             notWalkable = false
         end
-        local stp = StockpileAlias:new(quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self,
-            -self.offsetY + 8 * tile, 16, nil, notWalkable)
+        local stp = StockpileAlias:new(
+            quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile, 16, nil, notWalkable)
         stp.tileKey = tiles + 1 + tile
     end
 
@@ -135,7 +139,7 @@ function Stockpile:initialize(gx, gy, type)
         for yy = -1, 5 do
             if xx ~= -1 and yy ~= -1 and xx ~= 5 and yy ~= 5 then
                 local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(self.gx + xx, self.gy + yy)
-                _G.buildingheightmap[ccx][ccy][xxx][yyy] = 12
+                _G.buildingheightmap[ccx][ccy][xxx][yyy] = self.class.static.HEIGHT
                 _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrainBiome.none)
             else
                 _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrainBiome.dirt)
@@ -188,22 +192,26 @@ function Stockpile:initialize(gx, gy, type)
     self.stockpile[2].id = StockpileAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 4, self, 32 - 4, -16)
     self.stockpile[3].id = StockpileAlias:new(tileQuads["empty"], self.gx + 4, self.gy + 1, self, 32 - 4, -16)
     self.stockpile[4].id = StockpileAlias:new(tileQuads["empty"], self.gx + 4, self.gy + 4, self, 32 - 4, -16)
-    table.insert(_G.stockpile.nodeList, {
-        gx = self.gx + 2,
-        gy = self.gy + 5
-    })
-    table.insert(_G.stockpile.nodeList, {
-        gx = self.gx - 1,
-        gy = self.gy + 2
-    })
-    table.insert(_G.stockpile.nodeList, {
-        gx = self.gx + 2,
-        gy = self.gy - 1
-    })
-    table.insert(_G.stockpile.nodeList, {
-        gx = self.gx + 5,
-        gy = self.gy + 2
-    })
+    table.insert(
+        _G.stockpile.nodeList, {
+            gx = self.gx + 2,
+            gy = self.gy + 5
+        })
+    table.insert(
+        _G.stockpile.nodeList, {
+            gx = self.gx - 1,
+            gy = self.gy + 2
+        })
+    table.insert(
+        _G.stockpile.nodeList, {
+            gx = self.gx + 2,
+            gy = self.gy - 1
+        })
+    table.insert(
+        _G.stockpile.nodeList, {
+            gx = self.gx + 5,
+            gy = self.gy + 2
+        })
 
     _G.stockpile.list[(#_G.stockpile.list or 0) + 1] = self
     Structure.render(self)
@@ -297,22 +305,26 @@ function Stockpile:load(data)
     Object.deserialize(self, data)
     Structure.load(self, data)
     -- TODO: Check if node list is free before assigning it
-    table.insert(_G.stockpile.nodeList, {
-        gx = self.gx + 2,
-        gy = self.gy + 5
-    })
-    table.insert(_G.stockpile.nodeList, {
-        gx = self.gx - 1,
-        gy = self.gy + 2
-    })
-    table.insert(_G.stockpile.nodeList, {
-        gx = self.gx + 2,
-        gy = self.gy - 1
-    })
-    table.insert(_G.stockpile.nodeList, {
-        gx = self.gx + 5,
-        gy = self.gy + 2
-    })
+    table.insert(
+        _G.stockpile.nodeList, {
+            gx = self.gx + 2,
+            gy = self.gy + 5
+        })
+    table.insert(
+        _G.stockpile.nodeList, {
+            gx = self.gx - 1,
+            gy = self.gy + 2
+        })
+    table.insert(
+        _G.stockpile.nodeList, {
+            gx = self.gx + 2,
+            gy = self.gy - 1
+        })
+    table.insert(
+        _G.stockpile.nodeList, {
+            gx = self.gx + 5,
+            gy = self.gy + 2
+        })
     self.stockpile = {}
     self.stockpile[1] = {
         id = nil,

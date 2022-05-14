@@ -61,15 +61,15 @@ local an = {
     [ANIM_CHIMNEY_SMOKE] = frChimneySmoke
 }
 
-local MineGoingDown = _G.class('MineGoingDown', Structure)
+local MineGoingDown = _G.class("MineGoingDown", Structure)
 function MineGoingDown:initialize(gx, gy, parent, offsetX, offsetY)
+    self.parent = parent
     Structure.initialize(self, gx, gy, "Iron mine up/down")
     self.goingAnimOffsetX, self.goingAnimOffsetY = 13 + offsetX - 48, 6 + offsetY - 32 - 16
     self.tunnelAnimOffsetX, self.tunnelAnimOffsetY = 13 + offsetX - 48, -72
     self.animated = true
     self.animation = anim.newAnimation(an[ANIM_MINER_GOING_DOWN], 0.11, self:callback_1(), ANIM_MINER_GOING_DOWN)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.parent = parent
     self.offsetX = 13 + offsetX - 48
     self.offsetY = 6 + offsetY - 32 - 16
 
@@ -152,14 +152,14 @@ function MineGoingDown:deactivate()
     self.animated = false
 end
 
-local MinePuller = _G.class('MinePuller', Structure)
+local MinePuller = _G.class("MinePuller", Structure)
 function MinePuller:initialize(gx, gy, parent, offsetX, offsetY)
+    self.parent = parent
     Structure.initialize(self, gx, gy, "Mine puller")
     self.animated = true
     self.animation = anim.newAnimation(an[ANIM_MINER_PULLING], 0.11, self:pullCallback(), ANIM_MINER_PULLING)
     self.animation:pause()
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.parent = parent
     self.offsetX = 13 + offsetX + 32 + 32 - 48
     self.offsetY = -2 + offsetY - 32 + 8
 
@@ -221,15 +221,15 @@ function MinePuller:deactivate()
     end
     self.animated = false
 end
-local MineBucket = _G.class('MineBucket', Structure)
+local MineBucket = _G.class("MineBucket", Structure)
 function MineBucket:initialize(gx, gy, parent, offsetX, offsetY)
     local mytype = "Hook"
+    self.parent = parent
     Structure.initialize(self, gx, gy, mytype)
     self.animated = true
     self.animation = anim.newAnimation(an[ANIM_BUCKET], 0.19, nil, ANIM_BUCKET)
     self.animation:pause()
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.parent = parent
     self.offsetX = -3 + offsetX + 48 + 32 - 48
     self.offsetY = -8 + offsetY - 32
 
@@ -281,14 +281,14 @@ function MineBucket:deactivate()
     self.animated = false
 end
 
-local MinePourer = _G.class('MinePourer', Structure)
+local MinePourer = _G.class("MinePourer", Structure)
 function MinePourer:initialize(gx, gy, parent, offsetX, offsetY)
+    self.parent = parent
     Structure.initialize(self, gx, gy, "Mine pouring")
     self.animated = true
     self.animation = anim.newAnimation(an[ANIM_POURING], 0.11, self:pourCallback_1(), ANIM_POURING)
     self.animation:pause()
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.parent = parent
     self.offsetX = 13 + offsetX + 48 + 32 - 48
     self.offsetY = -13 + offsetY - 16
 
@@ -363,8 +363,9 @@ function MinePourer:deactivate()
     end
     self.animated = false
 end
-local MineCasting = _G.class('MineCasting', Structure)
+local MineCasting = _G.class("MineCasting", Structure)
 function MineCasting:initialize(gx, gy, parent, offsetX, offsetY)
+    self.parent = parent
     Structure.initialize(self, gx, gy, "Mine casting")
     self.castX, self.castY = 49 + offsetX - 16 - 48, 11 + offsetY - 64
     self.chimneyX, self.chimneyY = -15, -96
@@ -373,7 +374,6 @@ function MineCasting:initialize(gx, gy, parent, offsetX, offsetY)
     self.animation = anim.newAnimation(an[ANIM_CHIMNEY_GLOW], 0.11, self:castCallback_1(), ANIM_CHIMNEY_GLOW)
     self.animation:pause()
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.parent = parent
     self.offsetX, self.offsetY = self.chimneyX, self.chimneyY
 
     table.insert(activeEntities, self)
@@ -387,8 +387,8 @@ end
 function MineCasting:castCallback_2()
     return function()
         self.offsetX, self.offsetY = self.chimneyX, self.chimneyY
-        self.animation = anim.newAnimation(an[ANIM_REVERSE_CHIMNEY_GLOW], 0.11, self:castCallback_3(),
-            ANIM_REVERSE_CHIMNEY_GLOW)
+        self.animation = anim.newAnimation(
+            an[ANIM_REVERSE_CHIMNEY_GLOW], 0.11, self:castCallback_3(), ANIM_REVERSE_CHIMNEY_GLOW)
     end
 end
 function MineCasting:castCallback_3()
@@ -466,15 +466,15 @@ function MineCasting:deactivate()
     end
     self.animated = false
 end
-local MineStack = _G.class('MineStack', Structure)
+local MineStack = _G.class("MineStack", Structure)
 function MineStack:initialize(gx, gy, parent, offsetX, offsetY)
+    self.parent = parent
     Structure.initialize(self, gx, gy, "Mine stack")
     self.animated = true
     self.animation = anim.newAnimation(an[ANIM_STACK], 0.11, nil, ANIM_STACK)
     self.animation:pause()
     self.quantity = 0
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.parent = parent
     self.offsetX = 49 + offsetX - 16 - 48
     self.offsetY = 11 + offsetY - 32 - 8 + 3
 
@@ -539,11 +539,11 @@ function MineStack:take()
     end
     self.animation:gotoFrame(self.quantity)
 end
-local MineAlias = _G.class('MineAlias', Structure)
+local MineAlias = _G.class("MineAlias", Structure)
 function MineAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
+    self.parent = parent
     Structure.initialize(self, gx, gy, "Mine alias")
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.parent = parent
     self.tile = tile
     self.baseOffsetY = offsetY or 0
     self.additionalOffsetY = 0
@@ -586,7 +586,10 @@ function MineAlias.static:deserialize(data)
     return obj
 end
 
-local Mine = _G.class('Mine', Structure)
+local Mine = _G.class("Mine", Structure)
+Mine.static.WIDTH = 4
+Mine.static.LENGTH = 4
+Mine.static.HEIGHT = 16
 function Mine:initialize(gx, gy)
     _G.JobController:add("Miner", self)
     Structure.initialize(self, gx, gy, "Mine")
@@ -614,14 +617,14 @@ function Mine:initialize(gx, gy)
     self.stack:deactivate()
 
     for tile = 1, tiles do
-        local mni = MineAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
-            -self.offsetY + 8 * (tiles - tile + 1))
+        local mni = MineAlias:new(
+            quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self, -self.offsetY + 8 * (tiles - tile + 1))
         mni.tileKey = tile
     end
 
     for tile = 1, tiles do
-        local mni = MineAlias:new(quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile,
-            16)
+        local mni = MineAlias:new(
+            quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile, 16)
         mni.tileKey = tiles + 1 + tile
     end
 
@@ -634,6 +637,7 @@ function Mine:initialize(gx, gy)
 
     MineAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 3, self, 12 + 8 * 4, 16)
     MineAlias:new(tileQuads["empty"], self.gx + 3, self.gy + 1, self, 12 + 8 * 4, 16)
+    Structure:applyBuildingHeightMap(gx, gy, self.class.WIDTH, self.class.LENGTH, self.class.HEIGHT)
 
     self:render()
 end

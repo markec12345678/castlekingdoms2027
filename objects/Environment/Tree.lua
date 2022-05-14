@@ -4,9 +4,9 @@ local anim = require("libraries.anim8")
 
 local fallFx = {_G.fx["liltreefall"], _G.fx["bigtreefall1"], _G.fx["bigtreefall2"]}
 
-local quadOffset = require('objects.quad_offset')
+local quadOffset = require("objects.quad_offset")
 local STATIC_TRUNK = "Static Trunk"
-local Tree = _G.class('Tree', Object)
+local Tree = _G.class("Tree", Object)
 function Tree:initialize(gx, gy, type)
     Object.initialize(self, gx, gy, type)
     self.offsetY = self.offsetY or -166
@@ -46,6 +46,7 @@ function Tree:initialize(gx, gy, type)
     end
     _G.state.chunkObjects[self.cx][self.cy][self] = self
     _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
+    self:shadeFromTerrain()
 end
 function Tree:finish()
     -- Object was deleted by arrayRemove, so we need to readd it
@@ -95,12 +96,34 @@ function Tree:render()
         self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, 1)
     end
 end
+function Tree:calculateShadowValue()
+    local cx, cy, i, o = self.cx, self.cy, self.i, self.o
+    local elevationOffsetY = _G.state.map.heightmap[cx][cy][i][o] or 0
+    local elevationValue = 75 * elevationOffsetY / (40 + elevationOffsetY)
+    local shadowValue = _G.state.map.shadowmap[cx][cy][i][o] or 0
+    local thisTileheight = _G.buildingheightmap[cx][cy][i][o] or 0
+    if shadowValue < thisTileheight + elevationValue then
+        self.shadowValue = 1
+    else
+        shadowValue = math.min((shadowValue - elevationValue - thisTileheight) / 40, 0.6)
+        self.shadowValue = math.min(0.85, 1 - shadowValue)
+    end
+end
+function Tree:shadeFromTerrain()
+    self:calculateShadowValue()
+    if self.animation then
+        self:animate(_G.dt, true)
+    end
+end
 function Tree:update(dt)
     if self.falling then
         self:animate(dt)
     end
 end
 function Tree:animate(dt, forceUpdate)
+    if not self.animation then
+        return
+    end
     local updated, ticked = false, false
     if _G.state.scaleX > 0.6 then
         updated = self.animation:update(dt)
@@ -132,8 +155,9 @@ function Tree:animate(dt, forceUpdate)
             offsetX, offsetY = quadOffset[self.animation:getQuad()][1] or 0,
                 quadOffset[self.animation:getQuad()][2] or 0
         end
-        local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offsetX or 0) + offsetX,
-            self.y + (self.offsetY or 0) + offsetY - _G.state.map.walkingHeightmap[self.gx][self.gy])
+        local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(
+            self.x + (self.offsetX or 0) + offsetX,
+                self.y + (self.offsetY or 0) + offsetY - _G.state.map.walkingHeightmap[self.gx][self.gy])
 
         local elevationOffsetY = 0
         if _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] then
@@ -141,7 +165,7 @@ function Tree:animate(dt, forceUpdate)
         end
         y = y - elevationOffsetY
         local qx, qy, qw, qh = quad:getViewport()
-        self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, 1)
+        self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, self.shadowValue)
         return
     end
     if not self.instancemesh and _G.state.objectMesh then
@@ -151,8 +175,9 @@ function Tree:animate(dt, forceUpdate)
                 quadOffset[self.animation:getQuad()][2] or 0
         end
         local instancemesh = _G.state.objectMesh[self.cx][self.cy]
-        local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offsetX or 0) + offsetX,
-            self.y + (self.offsetY or 0) + offsetY - _G.state.map.walkingHeightmap[self.gx][self.gy])
+        local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(
+            self.x + (self.offsetX or 0) + offsetX,
+                self.y + (self.offsetY or 0) + offsetY - _G.state.map.walkingHeightmap[self.gx][self.gy])
         local elevationOffsetY = 0
         if _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] then
             elevationOffsetY = _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] * 2

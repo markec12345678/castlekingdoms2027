@@ -9,7 +9,7 @@ local secondaryTilesToUpdateInChunk = _G.newAutotable(4)
 local tertiaryTilesToUpdateInChunk = _G.newAutotable(4)
 local chunksSet = newAutotable(2)
 ----Chunk 2D array
--- Statuses:
+-- Statuses: (DEPRECATED)
 -- [1] loaded unsaved
 -- [2] unloaded - chunk exist on hard disk
 -- [3] loaded saved - chunk hasn't been changed so no need to save it
@@ -764,6 +764,9 @@ local function refreshTerrain(chunkX, chunkY)
                     t = {nil, _G.IsoX + (i - o) * tileWidth * 0.5, _G.IsoY + (i + o) * tileHeight * 0.5, 0, 1.06, 1.06}
                 end
                 local isCliff = tileShouldBeCliff(gx, gy)
+                local isIron = _G.objectFromClassAtGlobal(gx, gy, "Iron")
+                local isStone = _G.objectFromClassAtGlobal(gx, gy, "Stone")
+                local isTree = _G.objectFromClassAtGlobal(gx, gy, "PineTree")
                 local cliffChevron
                 local tileOverriden = false
                 local hillChevronBase
@@ -772,6 +775,8 @@ local function refreshTerrain(chunkX, chunkY)
                 local hillChevronNormalRight
                 local hillChevronSunnySideLeft
                 local hillChevronSunnySideRight
+                local hillChevronIronLeft
+                local hillChevronIronRight
                 local lScale = 1.06666
                 if elevationOffsetY ~= 0 then
                     local num = tostring(math.min(math.floor(elevationOffsetY / 6), 15) + 1)
@@ -804,13 +809,21 @@ local function refreshTerrain(chunkX, chunkY)
                     hillChevronNormal = tileQuads[hillChevronNormal]
                     hillChevronSunnySide = tileQuads[hillChevronSunnySide]
 
-                    local x, y, w, h = hillChevronNormal:getViewport()
-                    hillChevronNormalLeft = love.graphics.newQuad(x, y, w / 2, h, _G.objectAtlas)
-                    hillChevronNormalRight = love.graphics.newQuad(x + w / 2, y, w / 2, h, _G.objectAtlas)
-                    x, y, w, h = hillChevronSunnySide:getViewport()
-                    hillChevronSunnySideLeft = love.graphics.newQuad(x, y, w / 2, h, _G.objectAtlas)
-                    hillChevronSunnySideRight = love.graphics.newQuad(x + w / 2, y, w / 2, h, _G.objectAtlas)
                     cliffChevron = tileQuads["rock_cliff (" .. tostring(horizontal_x % 31 + 1) .. ")"]
+                    if isIron then
+                        local hillChevronIron = "hill_chevron_14 (" .. normalRand + 4 .. ")"
+                        hillChevronIron = tileQuads[hillChevronIron]
+                        local x, y, w, h = hillChevronIron:getViewport()
+                        hillChevronIronLeft = love.graphics.newQuad(x, y, w / 2, h, _G.objectAtlas)
+                        hillChevronIronRight = love.graphics.newQuad(x + w / 2, y, w / 2, h, _G.objectAtlas)
+                    else
+                        local x, y, w, h = hillChevronNormal:getViewport()
+                        hillChevronNormalLeft = love.graphics.newQuad(x, y, w / 2, h, _G.objectAtlas)
+                        hillChevronNormalRight = love.graphics.newQuad(x + w / 2, y, w / 2, h, _G.objectAtlas)
+                        x, y, w, h = hillChevronSunnySide:getViewport()
+                        hillChevronSunnySideLeft = love.graphics.newQuad(x, y, w / 2, h, _G.objectAtlas)
+                        hillChevronSunnySideRight = love.graphics.newQuad(x + w / 2, y, w / 2, h, _G.objectAtlas)
+                    end
                 end
                 local lightValue = 1
                 if isInShadow then
@@ -822,6 +835,15 @@ local function refreshTerrain(chunkX, chunkY)
                                 chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 1 - shadowValue,
                                     lScale)
                             instancemesh:setVertex(chevronRightId)
+                        elseif isIron then
+                            local qx, qy, qw, qh = hillChevronIronLeft:getViewport()
+                            instancemesh:setVertex(
+                                chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
+                                    1 - shadowValue - 0.01, lScale, 2)
+                            qx, qy, qw, qh = hillChevronIronRight:getViewport()
+                            instancemesh:setVertex(
+                                chevronRightId, t[2] + qw, t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
+                                    1 - shadowValue - 0.12, lScale, 2)
                         else
                             local qx, qy, qw, qh = hillChevronNormalLeft:getViewport()
                             instancemesh:setVertex(
@@ -848,6 +870,15 @@ local function refreshTerrain(chunkX, chunkY)
                                 chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
                                     0.9 + math.min(lightModifier, 0.1), lScale)
                             instancemesh:setVertex(chevronRightId)
+                        elseif isIron then
+                            local qx, qy, qw, qh = hillChevronIronLeft:getViewport()
+                            instancemesh:setVertex(
+                                chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
+                                    0.9 + math.min(lightModifier, 0.1) - 0.01, lScale, 2)
+                            qx, qy, qw, qh = hillChevronIronRight:getViewport()
+                            instancemesh:setVertex(
+                                chevronRightId, t[2] + qw, t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
+                                    0.9 + math.min(lightModifier, 0.1) - 0.08, lScale, 2)
                         else
                             local qx, qy, qw, qh = hillChevronSunnySideLeft:getViewport()
                             instancemesh:setVertex(
@@ -870,6 +901,15 @@ local function refreshTerrain(chunkX, chunkY)
                             instancemesh:setVertex(
                                 chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 1, lScale)
                             instancemesh:setVertex(chevronRightId)
+                        elseif isIron then
+                            local qx, qy, qw, qh = hillChevronIronLeft:getViewport()
+                            instancemesh:setVertex(
+                                chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 1 - 0.03, lScale,
+                                    2)
+                            qx, qy, qw, qh = hillChevronIronRight:getViewport()
+                            instancemesh:setVertex(
+                                chevronRightId, t[2] + qw, t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 1 - 0.1,
+                                    lScale, 2)
                         else
                             local qx, qy, qw, qh = hillChevronNormalLeft:getViewport()
                             instancemesh:setVertex(
@@ -884,6 +924,15 @@ local function refreshTerrain(chunkX, chunkY)
                         instancemesh:setVertex(vertId, t[2], t[3] - elevationOffsetY * 2, qx, qy, qw, qh, 1, lScale)
                         tileOverriden = true
                     end
+                end
+                if isIron and isInShadow then
+                    isIron:shadeFromTerrain()
+                end
+                if isStone and isInShadow then
+                    isStone:shadeFromTerrain()
+                end
+                if isTree and isInShadow then
+                    isTree:shadeFromTerrain()
                 end
                 if not skipMultiTile and not tileOverriden and t[1] then
                     local qx, qy, qw, qh = t[1]:getViewport()
