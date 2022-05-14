@@ -774,15 +774,11 @@ local function refreshTerrain(chunkX, chunkY)
                 local lScale = 1.06666
                 if elevationOffsetY ~= 0 then
                     local num = tostring(math.min(math.floor(elevationOffsetY / 6), 15) + 1)
-                    -- local sunnyRand = tostring(love.math.random(1, 4))
-                    -- local normalRand = tostring(love.math.random(5, 8))
-                    local sunnyRand = love.math.random(4, 8) + 4
-                    -- local normalRand = tostring((i + o) % 4 + 5)
-                    local normalRand = love.math.random(4, 8) + 4
+                    local rng = love.math.newRandomGenerator(i + o * 100)
+                    local sunnyRand = rng:random(1, 4) + 4
+                    local normalRand = rng:random(4, 8) + 4
                     if terrain[cx][cy][i][o] == _G.terrainBiome.scarceGrass then
-                        -- terrain[cx][cy][i][o] = _G.terrainBiome.abundantGrass
-                        -- normalRand = tostring((i + o + 1) % 16 + 1)
-                        normalRand = love.math.random(1, 16)
+                        normalRand = rng:random(1, 16)
                         if elevationOffsetY < 33 and elevationOffsetY > 10 then
                             hillTileBase = "mountain_grass_a_1x1 ("
                         elseif elevationOffsetY < 66 then
@@ -791,8 +787,7 @@ local function refreshTerrain(chunkX, chunkY)
                             hillTileBase = "mountain_grass_b_1x1 ("
                         else
                             hillTileBase = "hill_" .. num .. " ("
-                            normalRand = love.math.random(5, 8)
-                            -- normalRand = tostring((i + o) % 4 + 5)
+                            normalRand = rng:random(5, 8)
                         end
                     else
                         hillTileBase = "hill_" .. num .. " ("
@@ -1143,7 +1138,6 @@ local function genIron()
 
         ironUpdateCounter = ironUpdateCounter + 1
     until (ironUpdateCounter == ironUpdateLimit)
-    print("Iron in map", totalIron)
     return totalIron
 end
 
