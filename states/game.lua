@@ -1,12 +1,12 @@
 local game = {}
-local loveframes = require('libraries.loveframes')
-local ActionBar = require('states.ui.ActionBar')
-local states = require('states.ui.states')
+local loveframes = require("libraries.loveframes")
+local ActionBar = require("states.ui.ActionBar")
+local states = require("states.ui.states")
 local core = require("misc")
 local thread, thread2, objects, terrain
 require("shaders.postshader")
-local renderLoadingScreen = require('states.ui.loading_screen')
-local renderLoadingBar = require('states.ui.loading_bar')
+local renderLoadingScreen = require("states.ui.loading_screen")
+local renderLoadingBar = require("states.ui.loading_bar")
 local initialized = false
 local loadState, progress = 1, 15
 
@@ -18,16 +18,16 @@ local function updateProgress(prgs, lState)
 end
 
 local function delayedInit()
-    local State = require('objects.State')
+    local State = require("objects.State")
     _G.state = State:new()
     updateProgress(20)
-    objects = love.filesystem.load('objects/objects.lua')(objectAtlas)
-    package.loaded['objects.objects'] = objects
-    terrain = require('terrain.terrain')
+    objects = love.filesystem.load("objects/objects.lua")(objectAtlas)
+    package.loaded["objects.objects"] = objects
+    terrain = require("terrain.terrain")
     updateProgress(30)
     _G.BuildController = love.filesystem.load("objects/Controllers/BuildController.lua")(
-        package.loaded['objects.objects'].object, objectAtlas)
-    _G.JobController = require('objects.Controllers.JobController')
+        package.loaded["objects.objects"].object, objectAtlas)
+    _G.JobController = require("objects.Controllers.JobController")
     updateProgress(35)
     ----Pathfinding setup
     thread = love.thread.newThread("libraries/pathfinding_thread.lua")
@@ -35,7 +35,7 @@ local function delayedInit()
     thread2 = love.thread.newThread("libraries/pathfinding_thread.lua")
     thread2:start("2")
     updateProgress(40)
-    _G.finder = require('objects.Controllers.PathController')
+    _G.finder = require("objects.Controllers.PathController")
     local newGame = not (love.filesystem.getInfo and love.filesystem.getInfo("status.bin"))
     if newGame then
         updateProgress(50, 2)
@@ -62,6 +62,9 @@ local function delayedInit()
     _G.BuildController:update()
     loveframes.update()
     _G.finder:update()
+    updateProgress(97)
+    _G.state.map:forceRefresh()
+    terrain.update()
     updateProgress(100)
     love.timer.sleep(0.4)
     local error = thread:getError()
@@ -184,9 +187,9 @@ function game:keyreleased(key, scancode)
         if key == "v" then
             _G.foodpile:take()
         elseif key == "r" then
-            _G.foodpile:store('bread')
-            _G.foodpile:store('apples')
-            _G.foodpile:store('cheese')
+            _G.foodpile:store("bread")
+            _G.foodpile:store("apples")
+            _G.foodpile:store("cheese")
             print(_G.inspect(_G.food))
         elseif key == "f" then
             local fullscreen, _ = love.window.getFullscreen()
