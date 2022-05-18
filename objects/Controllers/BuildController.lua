@@ -1,20 +1,20 @@
 local _, objectAtlas = ...
 
-local tileQuads = require('objects.object_quads')
+local tileQuads = require("objects.object_quads")
 local image = love.graphics.newImage("assets/tiles/info_tiles_strip.png")
-local ActionBar = require('states.ui.ActionBar')
-local Castle = require('objects.Structures.Castle')
-local Stockpile = require('objects.Structures.Stockpile')
-local Granary = require('objects.Structures.Granary')
-local Quarry = require('objects.Structures.Quarry')
-local Mine = require('objects.Structures.Mine')
-local WoodcutterHut = require('objects.Structures.WoodcutterHut')
-local Campfire = require('objects.Structures.Campfire')
-local Orchard = require('objects.Structures.Orchard')
-local WheatFarm = require('objects.Structures.WheatFarm')
-local Windmill = require('objects.Structures.Windmill')
-local Bakery = require('objects.Structures.Bakery')
-local House = require('objects.Structures.House')
+local ActionBar = require("states.ui.ActionBar")
+local SaxonHall = require("objects.Structures.SaxonHall")
+local Stockpile = require("objects.Structures.Stockpile")
+local Granary = require("objects.Structures.Granary")
+local Quarry = require("objects.Structures.Quarry")
+local Mine = require("objects.Structures.Mine")
+local WoodcutterHut = require("objects.Structures.WoodcutterHut")
+local Campfire = require("objects.Structures.Campfire")
+local Orchard = require("objects.Structures.Orchard")
+local WheatFarm = require("objects.Structures.WheatFarm")
+local Windmill = require("objects.Structures.Windmill")
+local Bakery = require("objects.Structures.Bakery")
+local House = require("objects.Structures.House")
 
 local objectFromTypeAt = _G.objectFromTypeAt
 local chunkWidth = _G.chunkWidth
@@ -22,7 +22,7 @@ local tileWidth, tileHeight = _G.tileWidth, _G.tileHeight
 local IsoToScreenX, IsoToScreenY = _G.IsoToScreenX, _G.IsoToScreenY
 
 local building = {
-    ["castle"] = {
+    ["saxon_hall"] = {
         quad = tileQuads["small_wooden_castle (1)"],
         offsetY = 93,
         offsetX = 6 * 15 + 6,
@@ -32,7 +32,7 @@ local building = {
             ["wood"] = 50
         },
         build = function(self, gx, gy)
-            Castle:new(gx, gy)
+            SaxonHall:new(gx, gy)
             Campfire:new(gx + 2, gy + 10)
         end,
         specialRequirements = function(self, _, _)
@@ -332,7 +332,7 @@ local building = {
     }
 }
 
-local BuildController = _G.class('BuildController')
+local BuildController = _G.class("BuildController")
 function BuildController:initialize()
     self.width = 0
     self.height = 0
@@ -348,7 +348,7 @@ function BuildController:initialize()
     self.elevationOffsetY = 0
     self.canBuild = false
     self.previousCanBuild = false
-    self.building = "castle"
+    self.building = "saxon_hall"
     self.batch = love.graphics.newSpriteBatch(image)
     self.quads = {}
     self.cannotBuildBecauseSpecial = false
@@ -386,6 +386,9 @@ function BuildController:deserialize(data)
     end
 end
 function BuildController:set(type, callback)
+    if not building[type] then
+        error("want to build an unknown building: " .. tostring(type))
+    end
     self.onBuildCallback = callback
     self.building = type
     self.width, self.height = building[type].w, building[type].h
@@ -511,31 +514,31 @@ function BuildController:build(gx, gy)
                     return
                 end
             else
-                if self.building == 'castle' then
+                if self.building == "saxon_hall" then
                     building[self.building]:build(gx, gy)
-                    self:set('stockpile')
-                elseif self.building == 'stockpile' then
+                    self:set("stockpile")
+                elseif self.building == "stockpile" then
                     building[self.building]:build(gx, gy)
-                    self:set('granary')
+                    self:set("granary")
                     _G.speechFx["place_granary"]:play()
                     -- Starting resources
                     for _ = 1, 10 do
-                        _G.stockpile:store('wheat')
+                        _G.stockpile:store("wheat")
                     end
                     for _ = 1, 6 do
-                        _G.stockpile:store('flour')
+                        _G.stockpile:store("flour")
                     end
                     for _ = 1, 19 do
-                        _G.stockpile:store('stone')
+                        _G.stockpile:store("stone")
                     end
                     for _ = 1, 49 do
-                        _G.stockpile:store('wood')
+                        _G.stockpile:store("wood")
                     end
                 elseif self.building == "granary" then
                     building[self.building]:build(gx, gy)
                     -- Starting food
                     for _ = 1, 26 do
-                        _G.foodpile:store('bread')
+                        _G.foodpile:store("bread")
                     end
                     self.active = false
                     self.start = false

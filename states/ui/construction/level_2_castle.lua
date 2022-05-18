@@ -1,26 +1,29 @@
 local el, backButton = ...
 
-local states = require('states.ui.states')
-local ActionBarButton = require('states.ui.ActionBarButton')
-local ActionBar = require('states.ui.ActionBar')
+local states = require("states.ui.states")
+local ActionBarButton = require("states.ui.ActionBarButton")
+local ActionBar = require("states.ui.ActionBar")
 
-local castleButton = ActionBarButton:new(love.graphics.newImage('assets/ui/wooden_castle_ab.png'),
-    states.STATE_INGAME_CONSTRUCTION, 1)
+local castleButton = ActionBarButton:new(
+    love.graphics.newImage("assets/ui/wooden_castle_ab.png"), states.STATE_INGAME_CONSTRUCTION, 1)
 
-castleButton:setOnClick(function(self)
-    _G.BuildController:set("castle", function()
-        castleButton:unselect()
+castleButton:setOnClick(
+    function(self)
+        _G.BuildController:set(
+            "saxon_hall", function()
+                castleButton:unselect()
+            end)
+        ActionBar:selectButton(castleButton)
     end)
-    ActionBar:selectButton(castleButton)
-end)
-castleButton:setTooltip("Wooden castle", "Requires 50 Wood\nHas no purpose at the moment")
+castleButton:setTooltip("Saxon Hall", "Requires 50 Wood\nHas no purpose at the moment")
 
-local woodenWallButton = ActionBarButton:new(love.graphics.newImage('assets/ui/wooden_wall_ab.png'),
-    states.STATE_INGAME_CONSTRUCTION, 2, true, nil, true)
+local woodenWallButton = ActionBarButton:new(
+    love.graphics.newImage("assets/ui/wooden_wall_ab.png"), states.STATE_INGAME_CONSTRUCTION, 2, true, nil, true)
 woodenWallButton:setTooltip("Wooden wall", "Unimplemented")
 
-el.buttons.castleButton:setOnClick(function(self)
-    ActionBar:showGroup("castle")
-end)
+el.buttons.castleButton:setOnClick(
+    function(self)
+        ActionBar:showGroup("castle")
+    end)
 
 ActionBar:registerGroup("castle", {castleButton, woodenWallButton, backButton})

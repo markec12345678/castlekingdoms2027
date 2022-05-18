@@ -43,7 +43,7 @@ local function delayedInit()
         updateProgress(60, 3)
         terrain.loadFernhaven()
         updateProgress(70)
-        _G.BuildController:set("castle")
+        _G.BuildController:set("saxon_hall")
     else
         for cx = 0, _G.chunksWide - 1 do
             for cy = 0, _G.chunksHigh - 1 do
