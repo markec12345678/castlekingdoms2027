@@ -35,10 +35,12 @@ _G.terrainBiome = {
     beach = "beach",
     sea = "sea_deep",
     seaBeach = "sea_beach",
+    seaWalkable = "sea_walkable",
     abundantGrassStonesWhite = "land_stones_1_white_rock"
 }
 local terrain = _G.state.map.terrain
-local terrainBatch = newAutotable(2)
+_G.terrainBatch = newAutotable(2)
+local terrainBatch = _G.terrainBatch
 terrainBatch[0][0] = love.graphics.newSpriteBatch(terrainImage, chunkWidth * chunkHeight)
 
 local function checkMaxSizeBiome(biome, cx, cy, i, o, keysToSkip)
@@ -375,7 +377,7 @@ end
 local keysToSkip = newAutotable(4)
 
 local function multiTileCalculate(currentBiome, cx, cy, i, o)
-    local lScale = 1.06
+    local lScale = 1.0666
     local maxSize = checkMaxSizeBiome(currentBiome, cx, cy, i, o, keysToSkip)
     local upperBorder
     if maxSize == 1 then
@@ -389,11 +391,12 @@ local function multiTileCalculate(currentBiome, cx, cy, i, o)
     end
     if currentBiome == _G.terrainBiome.abundantGrassStonesWhite then
         upperBorder = 16
-    elseif currentBiome == _G.terrainBiome.sea then
+    elseif currentBiome == _G.terrainBiome.sea or currentBiome == _G.terrainBiome.seaWalkable then
         upperBorder = 8
     end
     local rand = love.math.random(1, upperBorder)
-    if currentBiome ~= _G.terrainBiome.abundantGrassStonesWhite and currentBiome ~= _G.terrainBiome.sea then
+    if currentBiome ~= _G.terrainBiome.abundantGrassStonesWhite and currentBiome ~= _G.terrainBiome.sea and currentBiome ~=
+        _G.terrainBiome.seaWalkable then
         local rand2 = love.math.random(1, upperBorder)
         local rand3 = love.math.random(1, upperBorder)
         rand = math.max(rand, rand2, rand3)
@@ -406,14 +409,26 @@ local function multiTileCalculate(currentBiome, cx, cy, i, o)
     if currentBiome == _G.terrainBiome.seaBeach then
         local gx = chunkWidth * cx + i
         local gy = chunkWidth * cy + o
-        local north = _G.getTerrainBiomeAt(gx, gy - 1) == _G.terrainBiome.sea
-        local south = _G.getTerrainBiomeAt(gx, gy + 1) == _G.terrainBiome.sea
-        local east = _G.getTerrainBiomeAt(gx + 1, gy) == _G.terrainBiome.sea
-        local west = _G.getTerrainBiomeAt(gx - 1, gy) == _G.terrainBiome.sea
-        local ne = _G.getTerrainBiomeAt(gx + 1, gy - 1) == _G.terrainBiome.sea
-        local nw = _G.getTerrainBiomeAt(gx - 1, gy - 1) == _G.terrainBiome.sea
-        local se = _G.getTerrainBiomeAt(gx + 1, gy + 1) == _G.terrainBiome.sea
-        local sw = _G.getTerrainBiomeAt(gx - 1, gy + 1) == _G.terrainBiome.sea
+        local north = _G.getTerrainBiomeAt(gx, gy - 1) == _G.terrainBiome.sea or _G.getTerrainBiomeAt(gx, gy - 1) ==
+                          _G.terrainBiome.seaWalkable
+        local south = _G.getTerrainBiomeAt(gx, gy + 1) == _G.terrainBiome.sea or _G.getTerrainBiomeAt(gx, gy + 1) ==
+                          _G.terrainBiome.seaWalkable
+        local east = _G.getTerrainBiomeAt(gx + 1, gy) == _G.terrainBiome.sea or _G.getTerrainBiomeAt(gx + 1, gy) ==
+                         _G.terrainBiome.seaWalkable
+        local west = _G.getTerrainBiomeAt(gx - 1, gy) == _G.terrainBiome.sea or _G.getTerrainBiomeAt(gx - 1, gy) ==
+                         _G.terrainBiome.seaWalkable
+        local ne =
+            _G.getTerrainBiomeAt(gx + 1, gy - 1) == _G.terrainBiome.sea or _G.getTerrainBiomeAt(gx + 1, gy - 1) ==
+                _G.terrainBiome.seaWalkable
+        local nw =
+            _G.getTerrainBiomeAt(gx - 1, gy - 1) == _G.terrainBiome.sea or _G.getTerrainBiomeAt(gx - 1, gy - 1) ==
+                _G.terrainBiome.seaWalkable
+        local se =
+            _G.getTerrainBiomeAt(gx + 1, gy + 1) == _G.terrainBiome.sea or _G.getTerrainBiomeAt(gx + 1, gy + 1) ==
+                _G.terrainBiome.seaWalkable
+        local sw =
+            _G.getTerrainBiomeAt(gx - 1, gy + 1) == _G.terrainBiome.sea or _G.getTerrainBiomeAt(gx - 1, gy + 1) ==
+                _G.terrainBiome.seaWalkable
         tileKey = "yellow_grass_1x1 (1)"
         if north then
             if east then
@@ -448,29 +463,32 @@ local function multiTileCalculate(currentBiome, cx, cy, i, o)
         if rand > 0 and rand <= 16 then
             tileKey = terrain[cx][cy][i][o] .. "_1x1 (" .. tostring(rand) .. ")"
             local _, _, _, lh = tileQuads[tileKey]:getViewport()
-            lOffsetY = 16 - lh
+            lOffsetY = lOffsetY + 16 - lh
         elseif rand > 16 and rand <= 20 then
             lOffsetX = -16 - 4
             multiTileTerrain(2, keysToSkip, cx, cy, i, o, currentBiome)
             tileKey = terrain[cx][cy][i][o] .. "_2x2 (" .. tostring(21 - rand) .. ")"
             local _, _, lw, lh = tileQuads[tileKey]:getViewport()
-            lOffsetY = 32 - lh
+            lOffsetY = lOffsetY + 32 - lh
             lOffsetX = lOffsetX + 62 - lw
         elseif rand > 20 and rand <= 24 then
             lOffsetX = -32
             multiTileTerrain(3, keysToSkip, cx, cy, i, o, currentBiome)
             tileKey = terrain[cx][cy][i][o] .. "_3x3 (" .. tostring(25 - rand) .. ")"
             local _, _, lw, lh = tileQuads[tileKey]:getViewport()
-            lOffsetY = 48 - lh
+            lOffsetY = lOffsetY + 48 - lh
             lOffsetX = lOffsetX + 94 - lw
         else
             lOffsetX = -32 - 16
             multiTileTerrain(4, keysToSkip, cx, cy, i, o, currentBiome)
             tileKey = terrain[cx][cy][i][o] .. "_4x4 (" .. tostring(29 - rand) .. ")"
             local _, _, lw, lh = tileQuads[tileKey]:getViewport()
-            lOffsetY = 64 - lh
+            lOffsetY = lOffsetY + 64 - lh
             lOffsetX = lOffsetX + 124 - lw
         end
+    end
+    if currentBiome == _G.terrainBiome.abundantGrass then
+        lOffsetY = lOffsetY + 1
     end
     if rand == 0 then
         terrainTile[cx][cy][i][o] = nil
@@ -480,7 +498,7 @@ local function multiTileCalculate(currentBiome, cx, cy, i, o)
     end
 end
 
-local function updateTerrain_2ndPass(chunkX, chunkY)
+local function updateTerrain2ndPass(chunkX, chunkY)
     local cx = chunkX or _G.currentChunkX
     local cy = chunkY or _G.currentChunkY
     for i = 0, chunkWidth - 1, 1 do
@@ -648,7 +666,7 @@ local function updateTerrain(chunkX, chunkY)
             end
         end
     end
-    updateTerrain_2ndPass(cx, cy)
+    updateTerrain2ndPass(cx, cy)
 end
 
 local function tileShouldBeCliff(myGx, myGy)
@@ -660,28 +678,28 @@ local function tileShouldBeCliff(myGx, myGy)
         _G.state.map:setWalkable(myGx, myGy, 1)
         return true
     end
-    cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(myGx, myGy + 1)
+
     local tileRightHeight = heightmap[cx][cy][i][o] or 0
     if (myHeight - tileRightHeight) > 13 then
         _G.state.map:setWalkable(myGx, myGy, 1)
         return true
     end
-    cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(myGx + 1, myGy + 1)
+
     if terrain[cx][cy] and terrain[cx][cy][i] and terrain[cx][cy][i][o] == _G.terrainBiome.none then
         _G.state.map:setWalkable(myGx, myGy, 1)
         return true
     end
-    cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(myGx, myGy - 1)
+
     if myHeight - (heightmap[cx][cy][i][o] or 0) > 13 then
         _G.state.map:setWalkable(myGx, myGy, 1)
         -- return true
     end
-    cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(myGx - 1, myGy - 1)
+
     if myHeight - (heightmap[cx][cy][i][o] or 0) > 13 then
         _G.state.map:setWalkable(myGx, myGy, 1)
         -- return true
     end
-    cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(myGx - 1, myGy)
+
     if myHeight - (heightmap[cx][cy][i][o] or 0) > 13 then
         _G.state.map:setWalkable(myGx, myGy, 1)
         -- return true
@@ -697,253 +715,241 @@ local function tileShouldBeCliff(myGx, myGy)
     end
 end
 
+function _G.refreshTile(cx, cy, i, o, force)
+    local vertId = _G.getTerrainVertex(cx, cy, i, o)
+    local chevronLeftId = _G.getChevronVertexLeft(cx, cy, i, o)
+    local chevronRightId = _G.getChevronVertexRight(cx, cy, i, o)
+    local instancemesh = _G.state.objectMesh[cx][cy]
+    if terrain[cx][cy][i][o] ~= _G.terrainBiome.none and tertiaryTilesToUpdateInChunk[cx][cy][i][o] == true and
+        terrain[cx][cy][i][o] ~= _G.terrainBiome.none or force then
+        instancemesh:setVertex(vertId)
+        local elevationOffsetY = heightmap[cx][cy][i][o] or 0
+        local elevationValue = 75 * elevationOffsetY / (40 + elevationOffsetY)
+        local shadowValue = shadowmap[cx][cy][i][o] or 0
+        local thisTileheight = tileheight[cx][cy][i][o] or 0
+        local isInShadow = shadowValue > elevationOffsetY or shadowValue > elevationValue
+        shadowValue = math.min((shadowValue - elevationValue) / 40, 0.6)
+
+        -- -- CHECK IF PREVIOUS TILE HAS THE SAME HEIGHT
+        local gx = chunkWidth * cx + i
+        local gy = chunkWidth * cy + o
+        local horizontalX = math.floor(_G.IsoToScreenX(gx, gy) / (_G.tileWidth / 2))
+        local prevI = (gx - 1) % (chunkWidth)
+        local prevO = (gy + 1) % (chunkWidth)
+        local prevCx = math.floor((gx - 1) / chunkWidth)
+        local prevCy = math.floor((gy + 1) / chunkWidth)
+
+        local prevHeight, prevShadow, prevTileheight
+        prevHeight = heightmap[prevCx][prevCy][prevI][prevO] or 0
+        prevShadow = shadowmap[prevCx][prevCy][prevI][prevO] or 0
+        prevTileheight = tileheight[prevCx][prevCy][prevI][prevO] or 0
+        local prevInShadow = prevShadow > prevHeight
+        if prevHeight <= elevationOffsetY and prevTileheight <= thisTileheight and not prevInShadow and shadowValue >
+            elevationValue then
+            isInShadow = false
+        end
+        if thisTileheight > 0 then
+            isInShadow = true
+        end
+
+        -- shadowValue = math.min((shadowValue - elevationValue / 40) / 40, 0.45) / 1.25
+        local tileHasSlope = false
+        local tilesWithSlope = 0
+        for xx = -1, 1 do
+            for yy = -1, 1 do
+                local pi = (gx + xx) % (chunkWidth)
+                local po = (gy + yy) % (chunkWidth)
+                local pcx = math.floor((gx + xx) / chunkWidth)
+                local pcy = math.floor((gy + yy) / chunkWidth)
+                if heightmap[pcx][pcy][pi][po] and heightmap[pcx][pcy][pi][po] ~= elevationOffsetY then
+                    tilesWithSlope = tilesWithSlope + 1
+                end
+            end
+        end
+        if tilesWithSlope > 5 then
+            tileHasSlope = true
+        end
+        local hillTileBase, hillTileSunnySide, hillTileNormal
+        local skipMultiTile = false
+        local t = terrainTile[cx][cy][i][o]
+        if not t or #t <= 0 then
+            skipMultiTile = true
+            t = {nil, _G.IsoX + (i - o) * tileWidth * 0.5, _G.IsoY + (i + o) * tileHeight * 0.5, 0, 1.06, 1.06}
+        end
+        local isCliff = tileShouldBeCliff(gx, gy)
+        local isIron = _G.objectFromClassAtGlobal(gx, gy, "Iron")
+        local isStone = _G.objectFromClassAtGlobal(gx, gy, "Stone")
+        local isTree = _G.objectFromClassAtGlobal(gx, gy, "PineTree")
+        local cliffChevron
+        local tileOverriden = false
+        local hillChevronBase
+
+        local hillChevronNormalLeft
+        local hillChevronNormalRight
+        local hillChevronSunnySideLeft
+        local hillChevronSunnySideRight
+        local hillChevronIronLeft
+        local hillChevronIronRight
+        local lScale = 1.06666
+        if elevationOffsetY ~= 0 then
+            local num = tostring(math.max(1, math.min(math.floor(elevationOffsetY / 6), 15) + 1))
+            local rng = love.math.newRandomGenerator(i + o * 100)
+            local sunnyRand = rng:random(1, 4) + 4
+            local normalRand = rng:random(4, 8) + 4
+            if terrain[cx][cy][i][o] == _G.terrainBiome.scarceGrass then
+                normalRand = rng:random(1, 16)
+                if elevationOffsetY < 33 and elevationOffsetY > 10 then
+                    hillTileBase = "mountain_grass_a_1x1 ("
+                elseif elevationOffsetY < 66 then
+                    hillTileBase = "mountain_grass_b_1x1 ("
+                elseif elevationOffsetY >= 66 then
+                    hillTileBase = "mountain_grass_b_1x1 ("
+                else
+                    hillTileBase = "hill_" .. num .. " ("
+                    normalRand = rng:random(5, 8)
+                end
+            else
+                hillTileBase = "hill_" .. num .. " ("
+            end
+            hillChevronBase = "hill_chevron_" .. num .. " ("
+            hillTileSunnySide = hillTileBase .. sunnyRand .. ")"
+            local hillChevronSunnySide = hillChevronBase .. sunnyRand .. ")"
+            hillTileNormal = hillTileBase .. normalRand .. ")"
+            local hillChevronNormal = hillChevronBase .. normalRand .. ")"
+            hillTileNormal = tileQuads[hillTileNormal]
+            hillTileSunnySide = tileQuads[hillTileSunnySide]
+
+            hillChevronNormal = tileQuads[hillChevronNormal]
+            hillChevronSunnySide = tileQuads[hillChevronSunnySide]
+
+            cliffChevron = tileQuads["rock_cliff (" .. tostring(horizontalX % 31 + 1) .. ")"]
+            if isIron then
+                local hillChevronIron = "hill_chevron_14 (" .. normalRand + 4 .. ")"
+                hillChevronIron = tileQuads[hillChevronIron]
+                local x, y, w, h = hillChevronIron:getViewport()
+                hillChevronIronLeft = love.graphics.newQuad(x, y, w / 2, h, _G.objectAtlas)
+                hillChevronIronRight = love.graphics.newQuad(x + w / 2, y, w / 2, h, _G.objectAtlas)
+            else
+                local x, y, w, h = hillChevronNormal:getViewport()
+                hillChevronNormalLeft = love.graphics.newQuad(x, y, w / 2, h, _G.objectAtlas)
+                hillChevronNormalRight = love.graphics.newQuad(x + w / 2, y, w / 2, h, _G.objectAtlas)
+                x, y, w, h = hillChevronSunnySide:getViewport()
+                hillChevronSunnySideLeft = love.graphics.newQuad(x, y, w / 2, h, _G.objectAtlas)
+                hillChevronSunnySideRight = love.graphics.newQuad(x + w / 2, y, w / 2, h, _G.objectAtlas)
+            end
+        end
+        local lightValue = 1
+        if isInShadow then
+            local maxShadow = math.min(0.9, 1 - shadowValue)
+            if elevationOffsetY ~= 0 then
+                if isCliff then
+                    local qx, qy, qw, qh = cliffChevron:getViewport()
+                    instancemesh:setVertex(chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
+                        1 - shadowValue, lScale)
+                    instancemesh:setVertex(chevronRightId)
+                elseif isIron then
+                    local qx, qy, qw, qh = hillChevronIronLeft:getViewport()
+                    instancemesh:setVertex(chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
+                        1 - shadowValue - 0.01, lScale, 2)
+                    qx, qy, qw, qh = hillChevronIronRight:getViewport()
+                    instancemesh:setVertex(chevronRightId, t[2] + qw, t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
+                        1 - shadowValue - 0.12, lScale, 2)
+                else
+                    local qx, qy, qw, qh = hillChevronNormalLeft:getViewport()
+                    instancemesh:setVertex(chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
+                        1 - shadowValue - 0.01, lScale, 2)
+                    qx, qy, qw, qh = hillChevronNormalRight:getViewport()
+                    instancemesh:setVertex(chevronRightId, t[2] + qw, t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
+                        1 - shadowValue - 0.12, lScale, 2)
+                end
+                local qx, qy, qw, qh = hillTileNormal:getViewport()
+                instancemesh:setVertex(vertId, t[2], t[3] - elevationOffsetY * 2, qx, qy, qw, qh, 1 - shadowValue,
+                    lScale)
+                tileOverriden = true
+            end
+            lightValue = maxShadow
+        else
+            local lightModifier = elevationOffsetY / 50
+            if lightModifier > 0 and tileHasSlope and elevationOffsetY ~= 0 then
+                lightValue = 0.9 + math.min(lightModifier, 0.1)
+                if isCliff then
+                    local qx, qy, qw, qh = cliffChevron:getViewport()
+                    instancemesh:setVertex(chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
+                        0.9 + math.min(lightModifier, 0.1), lScale)
+                    instancemesh:setVertex(chevronRightId)
+                elseif isIron then
+                    local qx, qy, qw, qh = hillChevronIronLeft:getViewport()
+                    instancemesh:setVertex(chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
+                        0.9 + math.min(lightModifier, 0.1) - 0.01, lScale, 2)
+                    qx, qy, qw, qh = hillChevronIronRight:getViewport()
+                    instancemesh:setVertex(chevronRightId, t[2] + qw, t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
+                        0.9 + math.min(lightModifier, 0.1) - 0.08, lScale, 2)
+                else
+                    local qx, qy, qw, qh = hillChevronSunnySideLeft:getViewport()
+                    instancemesh:setVertex(chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
+                        0.9 + math.min(lightModifier, 0.1) - 0.01, lScale, 2)
+                    qx, qy, qw, qh = hillChevronSunnySideRight:getViewport()
+                    instancemesh:setVertex(chevronRightId, t[2] + qw, t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
+                        0.9 + math.min(lightModifier, 0.1) - 0.08, lScale, 2)
+                end
+                local qx, qy, qw, qh = hillTileSunnySide:getViewport()
+                instancemesh:setVertex(vertId, t[2], t[3] - elevationOffsetY * 2, qx, qy, qw, qh,
+                    0.9 + math.min(lightModifier, 0.1), lScale)
+                tileOverriden = true
+            elseif elevationOffsetY ~= 0 then
+                lightValue = 1
+                if isCliff then
+                    local qx, qy, qw, qh = cliffChevron:getViewport()
+                    instancemesh:setVertex(chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 1,
+                        lScale)
+                    instancemesh:setVertex(chevronRightId)
+                elseif isIron then
+                    local qx, qy, qw, qh = hillChevronIronLeft:getViewport()
+                    instancemesh:setVertex(chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
+                        1 - 0.03, lScale, 2)
+                    qx, qy, qw, qh = hillChevronIronRight:getViewport()
+                    instancemesh:setVertex(chevronRightId, t[2] + qw, t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
+                        1 - 0.1, lScale, 2)
+                else
+                    local qx, qy, qw, qh = hillChevronNormalLeft:getViewport()
+                    instancemesh:setVertex(chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
+                        1 - 0.03, lScale, 2)
+                    qx, qy, qw, qh = hillChevronNormalRight:getViewport()
+                    instancemesh:setVertex(chevronRightId, t[2] + qw, t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
+                        1 - 0.1, lScale, 2)
+                end
+                local qx, qy, qw, qh = hillTileNormal:getViewport()
+                instancemesh:setVertex(vertId, t[2], t[3] - elevationOffsetY * 2, qx, qy, qw, qh, 1, lScale)
+                tileOverriden = true
+            end
+        end
+        if isIron and isInShadow then
+            isIron:shadeFromTerrain()
+        end
+        if isStone and isInShadow then
+            isStone:shadeFromTerrain()
+        end
+        if isTree and isInShadow then
+            isTree:shadeFromTerrain()
+        end
+        if not skipMultiTile and not tileOverriden and t[1] then
+            local qx, qy, qw, qh = t[1]:getViewport()
+            instancemesh:setVertex(vertId, t[2], t[3] - elevationOffsetY * 2, qx, qy, qw, qh, lightValue, lScale)
+        end
+    elseif terrain[cx][cy][i][o] == _G.terrainBiome.none then
+        instancemesh:setVertex(vertId)
+        instancemesh:setVertex(chevronLeftId)
+        instancemesh:setVertex(chevronRightId)
+    end
+end
+
 local function refreshTerrain(chunkX, chunkY)
     local cx = chunkX or _G.currentChunkX
     local cy = chunkY or _G.currentChunkY
     tilesToUpdateInChunk[cx][cy] = nil
     for i = 0, chunkWidth - 1, 1 do
         for o = 0, chunkWidth - 1, 1 do
-            local vertId = _G.getTerrainVertex(cx, cy, i, o)
-            local chevronLeftId = _G.getChevronVertexLeft(cx, cy, i, o)
-            local chevronRightId = _G.getChevronVertexRight(cx, cy, i, o)
-            local instancemesh = _G.state.objectMesh[cx][cy]
-            if terrain[cx][cy][i][o] ~= _G.terrainBiome.none or tertiaryTilesToUpdateInChunk[cx][cy][i] and
-                tertiaryTilesToUpdateInChunk[cx][cy][i][o] == true and terrain[cx][cy][i][o] ~= _G.terrainBiome.none then
-                instancemesh:setVertex(vertId)
-                local elevationOffsetY = heightmap[cx][cy][i][o] or 0
-                local elevationValue = 75 * elevationOffsetY / (40 + elevationOffsetY)
-                local shadowValue = shadowmap[cx][cy][i][o] or 0
-                local thisTileheight = tileheight[cx][cy][i][o] or 0
-                local isInShadow = shadowValue > elevationOffsetY or shadowValue > elevationValue
-                shadowValue = math.min((shadowValue - elevationValue) / 40, 0.6)
-
-                -- -- CHECK IF PREVIOUS TILE HAS THE SAME HEIGHT
-                local gx = chunkWidth * cx + i
-                local gy = chunkWidth * cy + o
-                local horizontal_x = math.floor(_G.IsoToScreenX(gx, gy) / (_G.tileWidth / 2))
-                local prevI = (gx - 1) % (chunkWidth)
-                local prevO = (gy + 1) % (chunkWidth)
-                local prevCx = math.floor((gx - 1) / chunkWidth)
-                local prevCy = math.floor((gy + 1) / chunkWidth)
-
-                local prevHeight, prevShadow, prevTileheight
-                prevHeight = heightmap[prevCx][prevCy][prevI][prevO] or 0
-                prevShadow = shadowmap[prevCx][prevCy][prevI][prevO] or 0
-                prevTileheight = tileheight[prevCx][prevCy][prevI][prevO] or 0
-                local prevInShadow = prevShadow > prevHeight
-                if prevHeight <= elevationOffsetY and prevTileheight <= thisTileheight and not prevInShadow and
-                    shadowValue > elevationValue then
-                    isInShadow = false
-                end
-                if thisTileheight > 0 then
-                    isInShadow = true
-                end
-
-                -- shadowValue = math.min((shadowValue - elevationValue / 40) / 40, 0.45) / 1.25
-                local tileHasSlope = false
-                local tilesWithSlope = 0
-                for xx = -1, 1 do
-                    for yy = -1, 1 do
-                        local pi = (gx + xx) % (chunkWidth)
-                        local po = (gy + yy) % (chunkWidth)
-                        local pcx = math.floor((gx + xx) / chunkWidth)
-                        local pcy = math.floor((gy + yy) / chunkWidth)
-                        if heightmap[pcx][pcy][pi][po] and heightmap[pcx][pcy][pi][po] ~= elevationOffsetY then
-                            tilesWithSlope = tilesWithSlope + 1
-                        end
-                    end
-                end
-                if tilesWithSlope > 5 then
-                    tileHasSlope = true
-                end
-                local hillTileBase, hillTileSunnySide, hillTileNormal
-                local skipMultiTile = false
-                local t = terrainTile[cx][cy][i][o]
-                if not t or #t <= 0 then
-                    skipMultiTile = true
-                    t = {nil, _G.IsoX + (i - o) * tileWidth * 0.5, _G.IsoY + (i + o) * tileHeight * 0.5, 0, 1.06, 1.06}
-                end
-                local isCliff = tileShouldBeCliff(gx, gy)
-                local isIron = _G.objectFromClassAtGlobal(gx, gy, "Iron")
-                local isStone = _G.objectFromClassAtGlobal(gx, gy, "Stone")
-                local isTree = _G.objectFromClassAtGlobal(gx, gy, "PineTree")
-                local cliffChevron
-                local tileOverriden = false
-                local hillChevronBase
-
-                local hillChevronNormalLeft
-                local hillChevronNormalRight
-                local hillChevronSunnySideLeft
-                local hillChevronSunnySideRight
-                local hillChevronIronLeft
-                local hillChevronIronRight
-                local lScale = 1.06666
-                if elevationOffsetY ~= 0 then
-                    local num = tostring(math.min(math.floor(elevationOffsetY / 6), 15) + 1)
-                    local rng = love.math.newRandomGenerator(i + o * 100)
-                    local sunnyRand = rng:random(1, 4) + 4
-                    local normalRand = rng:random(4, 8) + 4
-                    if terrain[cx][cy][i][o] == _G.terrainBiome.scarceGrass then
-                        normalRand = rng:random(1, 16)
-                        if elevationOffsetY < 33 and elevationOffsetY > 10 then
-                            hillTileBase = "mountain_grass_a_1x1 ("
-                        elseif elevationOffsetY < 66 then
-                            hillTileBase = "mountain_grass_b_1x1 ("
-                        elseif elevationOffsetY >= 66 then
-                            hillTileBase = "mountain_grass_b_1x1 ("
-                        else
-                            hillTileBase = "hill_" .. num .. " ("
-                            normalRand = rng:random(5, 8)
-                        end
-                    else
-                        hillTileBase = "hill_" .. num .. " ("
-                    end
-                    hillChevronBase = "hill_chevron_" .. num .. " ("
-                    hillTileSunnySide = hillTileBase .. sunnyRand .. ")"
-                    local hillChevronSunnySide = hillChevronBase .. sunnyRand .. ")"
-                    hillTileNormal = hillTileBase .. normalRand .. ")"
-                    local hillChevronNormal = hillChevronBase .. normalRand .. ")"
-                    hillTileNormal = tileQuads[hillTileNormal]
-                    hillTileSunnySide = tileQuads[hillTileSunnySide]
-
-                    hillChevronNormal = tileQuads[hillChevronNormal]
-                    hillChevronSunnySide = tileQuads[hillChevronSunnySide]
-
-                    cliffChevron = tileQuads["rock_cliff (" .. tostring(horizontal_x % 31 + 1) .. ")"]
-                    if isIron then
-                        local hillChevronIron = "hill_chevron_14 (" .. normalRand + 4 .. ")"
-                        hillChevronIron = tileQuads[hillChevronIron]
-                        local x, y, w, h = hillChevronIron:getViewport()
-                        hillChevronIronLeft = love.graphics.newQuad(x, y, w / 2, h, _G.objectAtlas)
-                        hillChevronIronRight = love.graphics.newQuad(x + w / 2, y, w / 2, h, _G.objectAtlas)
-                    else
-                        local x, y, w, h = hillChevronNormal:getViewport()
-                        hillChevronNormalLeft = love.graphics.newQuad(x, y, w / 2, h, _G.objectAtlas)
-                        hillChevronNormalRight = love.graphics.newQuad(x + w / 2, y, w / 2, h, _G.objectAtlas)
-                        x, y, w, h = hillChevronSunnySide:getViewport()
-                        hillChevronSunnySideLeft = love.graphics.newQuad(x, y, w / 2, h, _G.objectAtlas)
-                        hillChevronSunnySideRight = love.graphics.newQuad(x + w / 2, y, w / 2, h, _G.objectAtlas)
-                    end
-                end
-                local lightValue = 1
-                if isInShadow then
-                    local maxShadow = math.min(0.9, 1 - shadowValue)
-                    if elevationOffsetY ~= 0 then
-                        if isCliff then
-                            local qx, qy, qw, qh = cliffChevron:getViewport()
-                            instancemesh:setVertex(
-                                chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 1 - shadowValue,
-                                    lScale)
-                            instancemesh:setVertex(chevronRightId)
-                        elseif isIron then
-                            local qx, qy, qw, qh = hillChevronIronLeft:getViewport()
-                            instancemesh:setVertex(
-                                chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
-                                    1 - shadowValue - 0.01, lScale, 2)
-                            qx, qy, qw, qh = hillChevronIronRight:getViewport()
-                            instancemesh:setVertex(
-                                chevronRightId, t[2] + qw, t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
-                                    1 - shadowValue - 0.12, lScale, 2)
-                        else
-                            local qx, qy, qw, qh = hillChevronNormalLeft:getViewport()
-                            instancemesh:setVertex(
-                                chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
-                                    1 - shadowValue - 0.01, lScale, 2)
-                            qx, qy, qw, qh = hillChevronNormalRight:getViewport()
-                            instancemesh:setVertex(
-                                chevronRightId, t[2] + qw, t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
-                                    1 - shadowValue - 0.12, lScale, 2)
-                        end
-                        local qx, qy, qw, qh = hillTileNormal:getViewport()
-                        instancemesh:setVertex(
-                            vertId, t[2], t[3] - elevationOffsetY * 2, qx, qy, qw, qh, 1 - shadowValue, lScale)
-                        tileOverriden = true
-                    end
-                    lightValue = maxShadow
-                else
-                    local lightModifier = elevationOffsetY / 50
-                    if lightModifier > 0 and tileHasSlope and elevationOffsetY ~= 0 then
-                        lightValue = 0.9 + math.min(lightModifier, 0.1)
-                        if isCliff then
-                            local qx, qy, qw, qh = cliffChevron:getViewport()
-                            instancemesh:setVertex(
-                                chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
-                                    0.9 + math.min(lightModifier, 0.1), lScale)
-                            instancemesh:setVertex(chevronRightId)
-                        elseif isIron then
-                            local qx, qy, qw, qh = hillChevronIronLeft:getViewport()
-                            instancemesh:setVertex(
-                                chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
-                                    0.9 + math.min(lightModifier, 0.1) - 0.01, lScale, 2)
-                            qx, qy, qw, qh = hillChevronIronRight:getViewport()
-                            instancemesh:setVertex(
-                                chevronRightId, t[2] + qw, t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
-                                    0.9 + math.min(lightModifier, 0.1) - 0.08, lScale, 2)
-                        else
-                            local qx, qy, qw, qh = hillChevronSunnySideLeft:getViewport()
-                            instancemesh:setVertex(
-                                chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
-                                    0.9 + math.min(lightModifier, 0.1) - 0.01, lScale, 2)
-                            qx, qy, qw, qh = hillChevronSunnySideRight:getViewport()
-                            instancemesh:setVertex(
-                                chevronRightId, t[2] + qw, t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
-                                    0.9 + math.min(lightModifier, 0.1) - 0.08, lScale, 2)
-                        end
-                        local qx, qy, qw, qh = hillTileSunnySide:getViewport()
-                        instancemesh:setVertex(
-                            vertId, t[2], t[3] - elevationOffsetY * 2, qx, qy, qw, qh,
-                                0.9 + math.min(lightModifier, 0.1), lScale)
-                        tileOverriden = true
-                    elseif elevationOffsetY ~= 0 then
-                        lightValue = 1
-                        if isCliff then
-                            local qx, qy, qw, qh = cliffChevron:getViewport()
-                            instancemesh:setVertex(
-                                chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 1, lScale)
-                            instancemesh:setVertex(chevronRightId)
-                        elseif isIron then
-                            local qx, qy, qw, qh = hillChevronIronLeft:getViewport()
-                            instancemesh:setVertex(
-                                chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 1 - 0.03, lScale,
-                                    2)
-                            qx, qy, qw, qh = hillChevronIronRight:getViewport()
-                            instancemesh:setVertex(
-                                chevronRightId, t[2] + qw, t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 1 - 0.1,
-                                    lScale, 2)
-                        else
-                            local qx, qy, qw, qh = hillChevronNormalLeft:getViewport()
-                            instancemesh:setVertex(
-                                chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 1 - 0.03, lScale,
-                                    2)
-                            qx, qy, qw, qh = hillChevronNormalRight:getViewport()
-                            instancemesh:setVertex(
-                                chevronRightId, t[2] + qw, t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 1 - 0.1,
-                                    lScale, 2)
-                        end
-                        local qx, qy, qw, qh = hillTileNormal:getViewport()
-                        instancemesh:setVertex(vertId, t[2], t[3] - elevationOffsetY * 2, qx, qy, qw, qh, 1, lScale)
-                        tileOverriden = true
-                    end
-                end
-                if isIron and isInShadow then
-                    isIron:shadeFromTerrain()
-                end
-                if isStone and isInShadow then
-                    isStone:shadeFromTerrain()
-                end
-                if isTree and isInShadow then
-                    isTree:shadeFromTerrain()
-                end
-                if not skipMultiTile and not tileOverriden and t[1] then
-                    local qx, qy, qw, qh = t[1]:getViewport()
-                    instancemesh:setVertex(
-                        vertId, t[2], t[3] - elevationOffsetY * 2, qx, qy, qw, qh, lightValue, lScale)
-                end
-            elseif terrain[cx][cy][i][o] == _G.terrainBiome.none then
-                instancemesh:setVertex(vertId)
-                instancemesh:setVertex(chevronLeftId)
-                instancemesh:setVertex(chevronRightId)
-            end
+            _G.refreshTile(cx, cy, i, o)
         end
     end
     tertiaryTilesToUpdateInChunk[cx][cy] = nil

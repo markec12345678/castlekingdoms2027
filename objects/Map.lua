@@ -1,4 +1,4 @@
-local Map = _G.class('Map')
+local Map = _G.class("Map")
 
 function Map:initialize()
     self.heightmap = newAutotable(4)
@@ -7,6 +7,7 @@ function Map:initialize()
     self.terrainTile = newAutotable(4)
     self.terrain = newAutotable(2)
     self.water = newAutotable(2)
+    self.animatedTerrain = newAutotable(2)
     self.collisionMap = _G.ffi.new("unsigned char[2048][2048]", {})
     -- TODO: Make it dynamic
     self.walkingHeightmap = _G.ffi.new("unsigned short[2048][2048]", {})
@@ -46,6 +47,12 @@ function Map:setWater(gx, gy)
             end
         end
     end
+end
+
+function Map:setWalkableWater(gx, gy)
+    -- TODO: check if it's water first
+    _G.state.map:setWalkable(gx, gy, 0)
+    _G.terrainSetTileAt(gx, gy, _G.terrainBiome.seaWalkable, _G.terrainBiome.sea)
 end
 
 function Map:removeWater(gx, gy)

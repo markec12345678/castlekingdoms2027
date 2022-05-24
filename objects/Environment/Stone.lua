@@ -3,7 +3,7 @@ local Object = require("objects.Object")
 
 local tilesStone = _G.indexQuads("tile_destroyed_stone", 32)
 
-local Stone = _G.class('Stone', Object)
+local Stone = _G.class("Stone", Object)
 function Stone:initialize(gx, gy, type)
     Object.initialize(self, gx, gy, type)
     self.tileKey = love.math.random(1, 32)

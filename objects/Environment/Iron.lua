@@ -3,7 +3,7 @@ local Object = require("objects.Object")
 
 local tilesIron = _G.indexQuads("tile_land3_iron", 16)
 
-local Iron = _G.class('Iron', Object)
+local Iron = _G.class("Iron", Object)
 function Iron:initialize(gx, gy, type)
     Object.initialize(self, gx, gy, type)
     self.tile = tilesIron[love.math.random(1, 16)]

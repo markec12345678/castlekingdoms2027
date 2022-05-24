@@ -30,12 +30,10 @@ local press = location:new()
 local activeEntities = newAutotable(1)
 local object = _G.state.object
 ----Calculate center chunk
-local CenterX = math.round(
-    ScreenToIsoX(
-        _G.ScreenWidth / 2 - 16 + _G.state.viewXview, _G.ScreenHeight / 2 - 8 + _G.state.viewYview));
-local CenterY = math.round(
-    ScreenToIsoY(
-        _G.ScreenWidth / 2 - 16 + _G.state.viewXview, _G.ScreenHeight / 2 - 8 + _G.state.viewYview))
+local CenterX = math.round(ScreenToIsoX(_G.ScreenWidth / 2 - 16 + _G.state.viewXview,
+    _G.ScreenHeight / 2 - 8 + _G.state.viewYview));
+local CenterY = math.round(ScreenToIsoY(_G.ScreenWidth / 2 - 16 + _G.state.viewXview,
+    _G.ScreenHeight / 2 - 8 + _G.state.viewYview))
 ---------------------------------------
 _G.xchunk = math.floor(CenterX / (chunkWidth))
 _G.ychunk = math.floor(CenterY / (chunkWidth))
@@ -55,10 +53,10 @@ local Unit = love.filesystem.load("objects/Units/Unit.lua")(activeEntities, obje
 package.loaded["objects.Units.Unit"] = Unit
 
 local Tree = love.filesystem.load("objects/Environment/Tree.lua")(objectBatch, activeEntities, tileQuads, object)
-local PineTree = love.filesystem.load("objects/Environment/PineTree.lua")(
-    objectBatch, activeEntities, tileQuads, object, Tree)
-local OakTree = love.filesystem.load("objects/Environment/OakTree.lua")(
-    objectBatch, activeEntities, tileQuads, object, Tree)
+local PineTree = love.filesystem.load("objects/Environment/PineTree.lua")(objectBatch, activeEntities, tileQuads,
+    object, Tree)
+local OakTree = love.filesystem.load("objects/Environment/OakTree.lua")(objectBatch, activeEntities, tileQuads, object,
+    Tree)
 local Shrub = love.filesystem.load("objects/Environment/Shrub.lua")(objectBatch, activeEntities, tileQuads, object)
 local Stone = love.filesystem.load("objects/Environment/Stone.lua")(objectBatch, activeEntities, tileQuads, object)
 local Iron = love.filesystem.load("objects/Environment/Iron.lua")(objectBatch, activeEntities, tileQuads, object)
@@ -74,29 +72,29 @@ local Stockpile = love.filesystem.load("objects/Structures/Stockpile.lua")(objec
 local Granary = love.filesystem.load("objects/Structures/Granary.lua")(object, tileQuads, objectBatch)
 local Quarry = love.filesystem.load("objects/Structures/Quarry.lua")(activeEntities, object, tileQuads, objectBatch)
 local Mine = love.filesystem.load("objects/Structures/Mine.lua")(activeEntities, object, tileQuads, objectBatch)
-local WoodcutterHut = love.filesystem.load("objects/Structures/WoodcutterHut.lua")(
-    activeEntities, object, tileQuads, objectBatch)
+local WoodcutterHut = love.filesystem.load("objects/Structures/WoodcutterHut.lua")(activeEntities, object, tileQuads,
+    objectBatch)
 local Windmill = love.filesystem.load("objects/Structures/Windmill.lua")(activeEntities, object, tileQuads, objectBatch)
 local Bakery = love.filesystem.load("objects/Structures/Bakery.lua")(activeEntities, object, tileQuads, objectBatch)
 local House = love.filesystem.load("objects/Structures/House.lua")(activeEntities, object, tileQuads, objectBatch)
-local WoodenWall = love.filesystem.load("objects/Structures/WoodenWall.lua")(
-    activeEntities, object, tileQuads, objectBatch)
-local WoodenWallWalkable = love.filesystem.load("objects/Structures/WoodenWallWalkable.lua")(
-    activeEntities, object, tileQuads, objectBatch)
-local WoodenTower = love.filesystem.load("objects/Structures/WoodenTower.lua")(
-    activeEntities, object, tileQuads, objectBatch)
-local Rock_4x4 = love.filesystem.load("objects/Environment/Rock_4x4.lua")(
-    activeEntities, object, tileQuads, objectBatch)
-local Rock_3x3 = love.filesystem.load("objects/Environment/Rock_3x3.lua")(
-    activeEntities, object, tileQuads, objectBatch)
-local Rock_2x2 = love.filesystem.load("objects/Environment/Rock_2x2.lua")(
-    activeEntities, object, tileQuads, objectBatch)
-local Rock_1x1 = love.filesystem.load("objects/Environment/Rock_1x1.lua")(
-    activeEntities, object, tileQuads, objectBatch)
+local WoodenWall = love.filesystem.load("objects/Structures/WoodenWall.lua")(activeEntities, object, tileQuads,
+    objectBatch)
+local WoodenWallWalkable = love.filesystem.load("objects/Structures/WoodenWallWalkable.lua")(activeEntities, object,
+    tileQuads, objectBatch)
+local WoodenTower = love.filesystem.load("objects/Structures/WoodenTower.lua")(activeEntities, object, tileQuads,
+    objectBatch)
+local Rock_4x4 = love.filesystem
+                     .load("objects/Environment/Rock_4x4.lua")(activeEntities, object, tileQuads, objectBatch)
+local Rock_3x3 = love.filesystem
+                     .load("objects/Environment/Rock_3x3.lua")(activeEntities, object, tileQuads, objectBatch)
+local Rock_2x2 = love.filesystem
+                     .load("objects/Environment/Rock_2x2.lua")(activeEntities, object, tileQuads, objectBatch)
+local Rock_1x1 = love.filesystem
+                     .load("objects/Environment/Rock_1x1.lua")(activeEntities, object, tileQuads, objectBatch)
 local Campfire = love.filesystem.load("objects/Structures/Campfire.lua")(activeEntities, tileQuads, objectBatch)
 local Orchard = love.filesystem.load("objects/Structures/Orchard.lua")(activeEntities, tileQuads, objectBatch)
-local WheatFarm = love.filesystem.load("objects/Structures/WheatFarm.lua")(
-    object, tileQuads, objectBatch, activeEntities)
+local WheatFarm = love.filesystem.load("objects/Structures/WheatFarm.lua")(object, tileQuads, objectBatch,
+    activeEntities)
 package.loaded["objects.Environment.Tree"] = Tree
 package.loaded["objects.Environment.PineTree"] = PineTree
 package.loaded["objects.Environment.OakTree"] = OakTree
@@ -266,10 +264,10 @@ function _G.allocateMesh(cx, cy)
     if objectBatch[chunkX][chunkY] == nil then
         objectBatch[chunkX][chunkY] = love.graphics.newMesh(treeverts, "strip", "static")
     end
-    local instancemesh = love.graphics.newMesh(
-        {{"InstancePosition", "float", 2}, {"UVOffset", "float", 2}, {"ImageDim", "float", 2},
-         {"ImageShade", "float", 1}, {"Scale", "float", 2}},
-            _G.chunkWidth * _G.chunkHeight * _G.state.verticesPerTile + 1000, nil, "dynamic")
+    local instancemesh = love.graphics.newMesh({{"InstancePosition", "float", 2}, {"UVOffset", "float", 2},
+                                                {"ImageDim", "float", 2}, {"ImageShade", "float", 1},
+                                                {"Scale", "float", 2}},
+        _G.chunkWidth * _G.chunkHeight * _G.state.verticesPerTile + 1000, nil, "dynamic")
     _G.state.objectMesh[chunkX][chunkY] = instancemesh
     objectBatch[chunkX][chunkY]:setTexture(objectAtlas)
     objectBatch[chunkX][chunkY]:attachAttribute("InstancePosition", instancemesh, "perinstance")
@@ -464,11 +462,11 @@ local function drawObject()
         for column = firstColumn + shift, lastColumn, 2 do
             local xx, yy = bit.rshift(row + column, 1), bit.rshift(row - column, 1)
             if objectBatch[xx][yy] ~= nil then
-                love.graphics.drawInstanced(
-                    objectBatch[xx][yy], _G.state.objectMesh[xx][yy]:getVertexCount(), -_G.state.viewXview *
-                        _G.state.scaleX + (xx * _G.state.scaleX - yy * _G.state.scaleX) * chunkWidth * tileWidth * 0.5,
-                        -_G.state.viewYview * _G.state.scaleX + (xx * _G.state.scaleX + yy * _G.state.scaleX) *
-                            chunkHeight * tileHeight * 0.5, 0, _G.state.scaleX, _G.state.scaleX)
+                love.graphics.drawInstanced(objectBatch[xx][yy], _G.state.objectMesh[xx][yy]:getVertexCount(),
+                    -_G.state.viewXview * _G.state.scaleX + (xx * _G.state.scaleX - yy * _G.state.scaleX) * chunkWidth *
+                        tileWidth * 0.5, -_G.state.viewYview * _G.state.scaleX +
+                        (xx * _G.state.scaleX + yy * _G.state.scaleX) * chunkHeight * tileHeight * 0.5, 0,
+                    _G.state.scaleX, _G.state.scaleX)
             end
         end
     end
@@ -485,6 +483,8 @@ local function mousepressed(x, y, button)
     press.y = (press.gy) % (chunkWidth)
     if button == 1 then
         _G.BuildController:mousepressed(mx, my)
+    elseif button == 2 then
+        _G.state.map:setWalkableWater(press.gx, press.gy)
     elseif button == 3 then
         -- require("objects.Controllers.Ferdnhoven")
         -- _G.getTerrainTileOnMouse(mx, my)
@@ -587,10 +587,9 @@ local function update(dt)
         end
     end
     if needsToBeDeleted then
-        activeEntities = _G.arrayRemove(
-            activeEntities, function(t, i, j)
-                return not objectsToBeDeleted[i]
-            end)
+        activeEntities = _G.arrayRemove(activeEntities, function(t, i, j)
+            return not objectsToBeDeleted[i]
+        end)
     end
     prof.pop("AE")
 

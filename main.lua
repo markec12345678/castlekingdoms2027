@@ -1,12 +1,13 @@
 if _G.testMode then
-    require('libraries.love.love_graphics')
+    require("libraries.love.love_graphics")
 end
 
-require('global')
-local Gamestate = require('libraries.gamestate')
+require("global")
+local Gamestate = require("libraries.gamestate")
 
-local startMenu = require('states.start_menu')
-local test = require('states.test')
+local startMenu = require("states.start_menu")
+local game = require("states.game")
+local test = require("states.test")
 
 function love.load()
     Gamestate.registerEvents()
@@ -16,8 +17,8 @@ function love.load()
     else
         Gamestate.switch(startMenu)
     end
-    local loader = require('libraries.lily')
-    loader.newImage("assets/tiles/stronghold_assets_packed_v5.dds"):onComplete(function(_, image)
+    local loader = require("libraries.lily")
+    loader.newImage("assets/tiles/stronghold_assets_packed_v6-hd.dds"):onComplete(function(_, image)
         _G.objectAtlas = image
     end)
     local cursorImg = love.image.newImageData("assets/ui/cursor.png")
@@ -96,9 +97,7 @@ function love.run()
         prof.pop("update")
         prof.push("draw")
         if love.graphics and love.graphics.isActive() then
-            if _G.loaded then
-                love.graphics.clear(love.graphics.getBackgroundColor())
-            end
+            love.graphics.clear(love.graphics.getBackgroundColor())
             love.graphics.origin()
             if love.draw then
                 love.draw()
