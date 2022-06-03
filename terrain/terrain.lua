@@ -678,28 +678,28 @@ local function tileShouldBeCliff(myGx, myGy)
         _G.state.map:setWalkable(myGx, myGy, 1)
         return true
     end
-
+    cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(myGx, myGy + 1)
     local tileRightHeight = heightmap[cx][cy][i][o] or 0
     if (myHeight - tileRightHeight) > 13 then
         _G.state.map:setWalkable(myGx, myGy, 1)
         return true
     end
-
+    cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(myGx + 1, myGy + 1)
     if terrain[cx][cy] and terrain[cx][cy][i] and terrain[cx][cy][i][o] == _G.terrainBiome.none then
         _G.state.map:setWalkable(myGx, myGy, 1)
         return true
     end
-
+    cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(myGx, myGy - 1)
     if myHeight - (heightmap[cx][cy][i][o] or 0) > 13 then
         _G.state.map:setWalkable(myGx, myGy, 1)
         -- return true
     end
-
+    cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(myGx - 1, myGy - 1)
     if myHeight - (heightmap[cx][cy][i][o] or 0) > 13 then
         _G.state.map:setWalkable(myGx, myGy, 1)
         -- return true
     end
-
+    cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(myGx - 1, myGy)
     if myHeight - (heightmap[cx][cy][i][o] or 0) > 13 then
         _G.state.map:setWalkable(myGx, myGy, 1)
         -- return true
