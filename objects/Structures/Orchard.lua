@@ -171,18 +171,19 @@ function Orchard:initialize(gx, gy, type)
     for xx = 0, 2 do
         for yy = 0, 2 do
             _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrainBiome.none)
+            _G.state.map:setWalkable(self.gx + xx, self.gy + yy, 1)
         end
     end
 
     for tile = 1, tiles do
-        local ora = OrchardAlias:new(
-            quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self, -self.offsetY + 8 * (tiles - tile + 1))
+        local ora = OrchardAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
+            -self.offsetY + 8 * (tiles - tile + 1))
         ora.tileKey = tile
     end
 
     for tile = 1, tiles do
-        local ora = OrchardAlias:new(
-            quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile, 14)
+        local ora = OrchardAlias:new(quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self,
+            -self.offsetY + 8 * tile, 14)
         ora.tileKey = tiles + 1 + tile
     end
     local offsetX, offsetY = -64 - 8, 116

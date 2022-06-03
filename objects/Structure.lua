@@ -78,9 +78,8 @@ function Structure:animate(dt, forceUpdate)
                 _G.quadOffset[self.animation:getQuad()][2] or 0
         end
         local instancemesh = _G.state.objectMesh[self.cx][self.cy]
-        local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(
-            self.x + (self.offsetX or 0) + offsetX,
-                self.y + (self.offsetY or 0) + offsetY - _G.state.map.walkingHeightmap[self.gx][self.gy])
+        local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offsetX or 0) + offsetX,
+            self.y + (self.offsetY or 0) + offsetY - _G.state.map.walkingHeightmap[self.gx][self.gy])
         local elevationOffsetY = 0
         if _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] then
             elevationOffsetY = _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] * 2
@@ -100,9 +99,8 @@ function Structure:animate(dt, forceUpdate)
             offsetX, offsetY = _G.quadOffset[self.animation:getQuad()][1] or 0,
                 _G.quadOffset[self.animation:getQuad()][2] or 0
         end
-        local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(
-            self.x + (self.offsetX or 0) + offsetX,
-                self.y + (self.offsetY or 0) + offsetY - _G.state.map.walkingHeightmap[self.gx][self.gy])
+        local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offsetX or 0) + offsetX,
+            self.y + (self.offsetY or 0) + offsetY - _G.state.map.walkingHeightmap[self.gx][self.gy])
         local elevationOffsetY = 0
         if _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] then
             elevationOffsetY = _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] * 2
@@ -129,14 +127,14 @@ end
 function Structure.static:applyBuildingHeightMap(gx, gy, buildingWidth, buildingLength, buildingHeight, skipNoneBiome)
     for xx = 0, buildingWidth - 1 do
         for yy = 0, buildingLength - 1 do
-            local buildingTileCoordinateX = gx + xx
-            local buildingTileCoordinateY = gy + yy
+            local buildingX = gx + xx
+            local buildingY = gy + yy
             if not skipNoneBiome then
-                _G.terrainSetTileAt(buildingTileCoordinateX, buildingTileCoordinateY, _G.terrainBiome.none)
+                _G.terrainSetTileAt(buildingX, buildingY, _G.terrainBiome.none)
             end
-            local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(
-                buildingTileCoordinateX, buildingTileCoordinateY)
+            local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(buildingX, buildingY)
             _G.buildingheightmap[ccx][ccy][xxx][yyy] = buildingHeight
+            _G.state.map:setWalkable(buildingX, buildingY, 1)
         end
     end
 end

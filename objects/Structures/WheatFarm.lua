@@ -18,7 +18,6 @@ function WheatFarmAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     local mytype = "Static structure"
     self.parent = parent
     Structure.initialize(self, gx, gy, mytype)
-    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.tile = tile
     self.baseOffsetY = offsetY or 0
     self.additionalOffsetY = 0
@@ -192,7 +191,6 @@ function WheatFarm:initialize(gx, gy, type)
     _G.JobController:add("WheatFarmer", self)
     type = type or "Static structure"
     Structure.initialize(self, gx, gy, type)
-    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 400
     self.tile = quadArray[tiles + 1]
     self.stoneQuantity = 0
@@ -215,14 +213,14 @@ function WheatFarm:initialize(gx, gy, type)
     end
 
     for tile = 1, tiles do
-        local whf = WheatFarmAlias:new(
-            quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self, -self.offsetY + 8 * (tiles - tile + 1))
+        local whf = WheatFarmAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
+            -self.offsetY + 8 * (tiles - tile + 1))
         whf.tileKey = tile
     end
 
     for tile = 1, tiles do
-        local whf = WheatFarmAlias:new(
-            quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile, 14)
+        local whf = WheatFarmAlias:new(quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self,
+            -self.offsetY + 8 * tile, 14)
         whf.tileKey = tiles + 1 + tile
     end
     self.availablePlantTiles = 0

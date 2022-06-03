@@ -43,19 +43,19 @@ function _G.indexBuildingQuads(quadString, trimLast, lastWidthOffset)
     local totalTilesWide = math.ceil(w / _G.tileWidth)
     local middleCount = 0
     for i = 1, totalTilesWide - 1 do
-        resultArray[#resultArray + 1] = love.graphics.newQuad(
-            x + 16 * (i - 1), y, _G.tileWidth / 2, h, _G.imageW, _G.imageH)
+        resultArray[#resultArray + 1] = love.graphics.newQuad(x + 16 * (i - 1), y, _G.tileWidth / 2, h, _G.imageW,
+            _G.imageH)
         middleCount = i
     end
-    resultArray[#resultArray + 1] = love.graphics.newQuad(
-        x + 16 * (middleCount), y, _G.tileWidth, h, _G.imageW, _G.imageH)
+    resultArray[#resultArray + 1] = love.graphics.newQuad(x + 16 * (middleCount), y, _G.tileWidth, h, _G.imageW,
+        _G.imageH)
     for i = middleCount + 2, middleCount + totalTilesWide do
         if trimLast and i == middleCount + totalTilesWide then
-            resultArray[#resultArray + 1] = love.graphics.newQuad(
-                x + 16 * (i), y, _G.tileWidth / 2 - lastWidthOffset, h, _G.imageW, _G.imageH)
+            resultArray[#resultArray + 1] = love.graphics.newQuad(x + 16 * (i), y, _G.tileWidth / 2 - lastWidthOffset,
+                h, _G.imageW, _G.imageH)
         else
-            resultArray[#resultArray + 1] = love.graphics.newQuad(
-                x + 16 * (i), y, _G.tileWidth / 2, h, _G.imageW, _G.imageH)
+            resultArray[#resultArray + 1] = love.graphics.newQuad(x + 16 * (i), y, _G.tileWidth / 2, h, _G.imageW,
+                _G.imageH)
         end
     end
 
@@ -204,9 +204,8 @@ function _G.playSfx(obj, sfx)
         sfx = sfx[math.random(#sfx)]
     end
     sfx:setRelative(false)
-    sfx:setPosition(
-        (obj.x + (obj.cx - obj.cy) * _G.chunkWidth * _G.tileWidth * 0.5) / 100,
-            (obj.y + (obj.cx + obj.cy) * _G.chunkHeight * _G.tileHeight * 0.5) / 100, 4.1)
+    sfx:setPosition((obj.x + (obj.cx - obj.cy) * _G.chunkWidth * _G.tileWidth * 0.5) / 100,
+        (obj.y + (obj.cx + obj.cy) * _G.chunkHeight * _G.tileHeight * 0.5) / 100, 4.1)
     sfx:setPitch(1 + love.math.random(-10, 10) / 100)
     sfx:play()
 end
