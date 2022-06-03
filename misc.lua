@@ -92,27 +92,17 @@ local function update()
     _G.BottomRightY = BY
 
     ---------------------------------------
-    _G.xchunk = math.floor(CenterX / (chunkWidth));
-    _G.ychunk = math.floor(CenterY / (chunkWidth));
-    -- TODO: Make into a function
-    local MX, MY = 0, 0
-    MX = (MX - _G.ScreenWidth / 2) / _G.state.scaleX + _G.state.viewXview - 16
-    MY = (MY - _G.ScreenHeight / 2) / _G.state.scaleX + _G.state.viewYview - 8
-    local LocalX = math.round(ScreenToIsoX(MX, MY))
-    local LocalY = math.round(ScreenToIsoY(MX, MY))
-    _G.state.topLeftChunkX = math.floor(LocalX / chunkWidth)
-    _G.state.topLeftChunkY = math.floor(LocalY / chunkWidth)
-    MX, MY = love.graphics.getWidth(), love.graphics.getHeight()
-    MX = (MX - _G.ScreenWidth / 2) / _G.state.scaleX + _G.state.viewXview - 16
-    MY = (MY - _G.ScreenHeight / 2) / _G.state.scaleX + _G.state.viewYview - 8
-    LocalX = math.round(ScreenToIsoX(MX, MY))
-    LocalY = math.round(ScreenToIsoY(MX, MY))
-    _G.state.bottomRightChunkX = math.ceil(LocalX / chunkWidth)
-    _G.state.bottomRightChunkY = math.ceil(LocalY / chunkWidth)
-    -- Right up to here ^
-    currentChunkX = _G.xchunk;
-    currentChunkY = _G.ychunk;
-    local finalScrollSpeed = (scrollSpeed + ((1 - _G.state.scaleX) * 20)) * _G.dt
+    _G.xchunk = math.floor(CenterX / (_G.chunkWidth));
+    _G.ychunk = math.floor(CenterY / (_G.chunkWidth));
+    local GX, GY = _G.getTerrainTileOnMouse(-50, -50)
+    _G.state.topLeftChunkX = math.floor(GX / _G.chunkWidth)
+    _G.state.topLeftChunkY = math.floor(GY / _G.chunkWidth)
+    GX, GY = _G.getTerrainTileOnMouse(love.graphics.getWidth() + 50, love.graphics.getHeight() + 50)
+    _G.state.bottomRightChunkX = math.floor(GX / _G.chunkWidth)
+    _G.state.bottomRightChunkY = math.floor(GY / _G.chunkWidth)
+    _G.currentChunkX = _G.xchunk;
+    _G.currentChunkY = _G.ychunk;
+    local finalScrollSpeed = (_G.scrollSpeed + ((1 - _G.state.scaleX) * 20)) * _G.dt
     if finalScrollSpeed < 5 then
         finalScrollSpeed = 5
     end
@@ -136,7 +126,7 @@ local function update()
     end
 end
 
-function manhattanDistance(x1, y1, x2, y2)
+function _G.manhattanDistance(x1, y1, x2, y2)
     local dx = math.abs(x1 - x2)
     local dy = math.abs(y1 - y2)
     return (dx + dy)
