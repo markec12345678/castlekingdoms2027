@@ -105,11 +105,11 @@ local an = {
     [AN_IDLE_NORTHEAST_3] = fr.fr_idling_northeast_3
 }
 
-local Peasant = _G.class('Peasant', Unit)
+local Peasant = _G.class("Peasant", Unit)
 function Peasant:initialize(gx, gy, type)
     Unit.initialize(self, gx, gy, type)
     self.workplace = nil
-    self.state = 'Bowing'
+    self.state = "Bowing"
     self.marked = 0
     self.count = 1
     self.offsetY = -10
@@ -141,6 +141,10 @@ function Peasant:load(data)
         elseif anData.animationIdentifier == AN_BOWING_FOR_A_JOB then
             callback = function()
                 self:bowingJobCallback()
+            end
+        elseif string.find(anData.animationIdentifier, "Idling") then
+            callback = function()
+                self:chooseRandomIdleAnimation()
             end
         end
         self.animation = anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
