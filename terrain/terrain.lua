@@ -1227,6 +1227,7 @@ local function loadFernhaven()
             _G.genObjects(i, o)
         end
     end
+    _G.state.map.name = "Fernhaven"
 end
 
 local tableOfFunctions = {

@@ -1,6 +1,7 @@
 local Map = _G.class("Map")
 
 function Map:initialize()
+    self.name = "Plain"
     self.heightmap = newAutotable(4)
     self.shadowmap = newAutotable(4)
     self.buildingheightmap = newAutotable(4)
@@ -20,7 +21,7 @@ function Map:setWalkable(gx, gy, walkable)
         _G.channel2.mapUpdate:push({gx, gy, walkable})
         self.collisionMap[gx][gy] = walkable
     else
-        print("Trying to set out of bounds as walkable..", gx, gy)
+        -- print("Trying to set out of bounds as walkable..", gx, gy)
     end
 end
 

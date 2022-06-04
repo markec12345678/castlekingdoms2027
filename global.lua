@@ -3,6 +3,7 @@ math.random()
 math.random()
 math.random()
 
+_G.version = "0.3.1"
 _G.classes = {}
 _G.anim = require("libraries.anim8")
 _G.class = require("libraries.middleclass")
@@ -153,6 +154,7 @@ function _G.freeVertexFromTile(cx, cy, vertId)
         return true
     end
 end
+_G.SAVEGAME_DIR = "saves"
 _G.tileWidth = 32
 _G.tileHeight = 16
 _G.chunkWidth = 64
