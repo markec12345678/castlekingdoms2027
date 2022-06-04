@@ -9,6 +9,8 @@ local renderLoadingScreen = require("states.ui.loading_screen")
 local renderLoadingBar = require("states.ui.loading_bar")
 local initialized = false
 local loadState, progress = 1, 15
+local SaveManager = require("objects.Controllers.SaveManager")
+local savegame
 
 local function updateProgress(prgs, lState)
     progress = prgs or progress
@@ -36,7 +38,7 @@ local function delayedInit()
     thread2:start("2")
     updateProgress(40)
     _G.finder = require("objects.Controllers.PathController")
-    local newGame = not (love.filesystem.getInfo and love.filesystem.getInfo("status.bin"))
+    local newGame = not savegame
     if newGame then
         updateProgress(50, 2)
         terrain.genMap()
@@ -51,7 +53,7 @@ local function delayedInit()
             end
         end
         updateProgress(70, 3)
-        _G.state:load("status.bin")
+        SaveManager:load(savegame)
     end
     core.update()
     updateProgress(80, 4)
@@ -105,7 +107,8 @@ function game:update(dt)
     end
 end
 
-function game:enter()
+function game:enter(_, savegameName)
+    savegame = savegameName
     collectgarbage()
     collectgarbage()
     if _G.loaded then

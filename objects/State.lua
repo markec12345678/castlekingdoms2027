@@ -3,7 +3,8 @@ local Map = require("objects.Map")
 local State = _G.class("State")
 
 function State:initialize()
-    self.savename = "unnamed"
+    local SaveManager = require("objects.Controllers.SaveManager")
+    self.savename = SaveManager:getNextFreeName()
     self.serializedObjectIds = {}
     self.deserializedObjectIds = {}
     self.map = Map:new()
