@@ -3,6 +3,7 @@ local Map = require("objects.Map")
 local State = _G.class("State")
 
 function State:initialize()
+    self.savename = "unnamed"
     self.serializedObjectIds = {}
     self.deserializedObjectIds = {}
     self.map = Map:new()
@@ -91,9 +92,8 @@ function State:dereferenceObject(refObj)
             end
         end
     end
-    error(
-        "Couldn't dereference object:" .. tostring(self.rawObjectIds[ref]) .. " with ref obj:" ..
-            tostring(_G.inspect(refObj)))
+    error("Couldn't dereference object:" .. tostring(self.rawObjectIds[ref]) .. " with ref obj:" ..
+              tostring(_G.inspect(refObj)))
 end
 
 function State:serializeChunkObjects()
@@ -183,6 +183,13 @@ function State:serializeObjects()
 end
 
 function State:serialize()
+    local metadata = {
+        name = self.savename,
+        version = _G.version,
+        dateCreated = self.dateCreated or os.date("%Y-%m-%d %X"),
+        dateModified = os.date("%Y-%m-%d %X"),
+        mapName = self.map.name
+    }
     local data = {}
     self.serializedObjectIds = {}
     data.resources = self.resources
@@ -213,11 +220,13 @@ function State:serialize()
     data.population = self.population
     data.maxPopulation = self.maxPopulation
     data.map = self.map:serialize()
-    return data
+    data.savename = self.savename
+    return data, metadata
 end
 
 function State:load(filename)
     local load = bitser.loadLoveFile(filename)
+    self.savename = load.savename
     self.deserializedObjectCount = 0
     self.deserDebug = {}
     self.deserializedObjectIds = {}

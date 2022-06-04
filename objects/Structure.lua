@@ -10,7 +10,10 @@ function Structure:getAverageShadowValue()
     local gx, gy
     local width = self.class.static.WIDTH
     local length = self.class.static.LENGTH
-    if self.parent then
+    if parent then
+        if parent["_ref"] then
+            parent = _G.state:dereferenceObject(parent)
+        end
         gx, gy = parent.gx, parent.gy
         width, length = parent.class.static.WIDTH, parent.class.static.LENGTH
     else
@@ -23,7 +26,7 @@ function Structure:getAverageShadowValue()
             for y = 0, length do
                 local cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(gx + x, gy + y)
                 count = count + 1
-                totalShadow = totalShadow + _G.state.map.shadowmap[cx][cy][i][o] or 0
+                totalShadow = totalShadow + (_G.state.map.shadowmap[cx][cy][i][o] or 0)
                 cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(gx + x + 2, gy + y + 2)
                 _G.scheduleTerrainUpdate(cx, cy, i, o)
             end
@@ -35,6 +38,9 @@ end
 function Structure:calculateShadowValue()
     local cx, cy, i, o
     local parent = self.parent
+    if parent and parent["_ref"] then
+        parent = _G.state:dereferenceObject(parent)
+    end
     local thisTileheight = self.class.static.HEIGHT or (parent and parent.class.static.HEIGHT) or 0
     if self.parent then
         cx, cy, i, o = parent.cx, parent.cy, parent.i, parent.o

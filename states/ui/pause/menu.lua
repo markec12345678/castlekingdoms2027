@@ -1,7 +1,7 @@
-local Gamestate = require('libraries.gamestate')
-local loveframes = require('libraries.loveframes')
-local states = require('states.ui.states')
-local base = require('states.ui.base')
+local Gamestate = require("libraries.gamestate")
+local loveframes = require("libraries.loveframes")
+local states = require("states.ui.states")
+local base = require("states.ui.base")
 local bitser = require("libraries.bitser")
 local w, h = base.w, base.h
 local PAUSE_MENU_SCALE = 50
@@ -68,6 +68,7 @@ end
 local saveImage = love.graphics.newImage("assets/ui/button_save.png")
 local saveImageHover = love.graphics.newImage("assets/ui/button_save_hover.png")
 local saveImageDown = love.graphics.newImage("assets/ui/button_save_down.png")
+local SaveManager = require("objects.Controllers.SaveManager")
 local save = loveframes.Create("image")
 save:SetState(states.STATE_PAUSE_MENU)
 save:SetImage(saveImage)
@@ -81,9 +82,7 @@ save.OnMouseDown = function(self)
     self:SetImage(saveImageDown)
 end
 save.OnClick = function(self)
-    print("Saving game..")
-    local state = _G.state:save("status.bin")
-    bitser.dumpLoveFile("status.bin", state)
+    SaveManager:save()
     loveframes.TogglePause()
 end
 save.OnMouseExit = function(self)
@@ -152,7 +151,7 @@ exit.OnMouseDown = function(self)
 end
 exit.OnClick = function(self)
     loveframes.TogglePause()
-    local menu = require('states.start_menu')
+    local menu = require("states.start_menu")
     Gamestate.switch(menu)
 end
 exit.OnMouseExit = function(self)

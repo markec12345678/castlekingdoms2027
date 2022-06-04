@@ -4,12 +4,18 @@ end
 
 require("global")
 local Gamestate = require("libraries.gamestate")
+local SaveManager = require("objects.Controllers.SaveManager")
 
 local startMenu = require("states.start_menu")
 local game = require("states.game")
 local test = require("states.test")
 
 function love.load()
+    local success = love.filesystem.createDirectory("saves")
+    if not success then
+        error("couldn't create save directory")
+    end
+    SaveManager:getSaveFiles()
     Gamestate.registerEvents()
     if _G.testMode then
         Gamestate.switch(test)
