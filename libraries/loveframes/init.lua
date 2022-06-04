@@ -9,7 +9,7 @@ local loveframes = {}
 -- special require for loveframes specific modules
 loveframes.require = function(name)
     local ret = require(name)
-    if type(ret) == 'function' then
+    if type(ret) == "function" then
         return ret(loveframes)
     end
     return ret
@@ -61,11 +61,18 @@ elseif love.graphics.getHeight() >= 1440 and love.graphics.getWidth() >= 3840 th
     loveframes.basicfont = love.graphics.newFont(28)
     loveframes.basicfontsmall = love.graphics.newFont(26)
     loveframes.font_vera_bold = love.graphics.newFont("assets/fonts/VeraBd.ttf", 28)
+elseif love.graphics.getHeight() <= 720 and love.graphics.getWidth() <= 1280 then
+    loveframes.basicfont = love.graphics.newFont(10)
+    loveframes.basicfontsmall = love.graphics.newFont(8)
+    loveframes.font_vera_bold = love.graphics.newFont("assets/fonts/VeraBd.ttf", 10)
 else
     loveframes.basicfont = love.graphics.newFont(12)
     loveframes.basicfontsmall = love.graphics.newFont(10)
     loveframes.font_vera_bold = love.graphics.newFont("assets/fonts/VeraBd.ttf")
 end
+loveframes.basicfontHeight = loveframes.basicfont:getHeight()
+loveframes.basicfontsmallHeight = loveframes.basicfontsmall:getHeight()
+loveframes.font_vera_boldHeight = loveframes.font_vera_bold:getHeight()
 loveframes.collisions = {}
 
 -- install directory of the library

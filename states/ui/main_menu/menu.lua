@@ -1,8 +1,9 @@
-local Gamestate = require('libraries.gamestate')
-local loveframes = require('libraries.loveframes')
-local game = require('states.game')
-local base = require('states.ui.base')
-local states = require('states.ui.states')
+local Gamestate = require("libraries.gamestate")
+local SaveManager = require("objects.Controllers.SaveManager")
+local loveframes = require("libraries.loveframes")
+local game = require("states.game")
+local base = require("states.ui.base")
+local states = require("states.ui.states")
 local w, h = base.w, base.h
 local MENU_SCALE = 50
 local backgroundImage = love.graphics.newImage("assets/ui/menu_flag.png")
@@ -64,7 +65,8 @@ load.OnMouseDown = function(self)
     self:SetImage(loadImageDown)
 end
 load.OnClick = function(self)
-    print("loading not implemented fully")
+    loveframes.SetState(states.STATE_MAIN_MENU_LOAD_SAVE)
+    SaveManager:updateInterface()
 end
 load.OnMouseExit = function(self)
     self:SetImage(loadImage)

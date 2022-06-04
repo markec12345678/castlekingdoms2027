@@ -130,8 +130,9 @@ return function(loveframes)
                 if enabled then
                     if onclick then
                         onclick(self, x, y)
-                        if not self.visible then
-                            -- no longer visible, update hover automatically
+                        if not self.visible or self.state ~= loveframes.state then
+                            -- no longer visible or state has changed,
+                            -- update hover manually since the next :update won't be called
                             -- to prevent double click bug
                             self.hover = false
                         end
@@ -140,7 +141,6 @@ return function(loveframes)
                     end
                 end
             end
-
             self.down = false
             return false
         end
