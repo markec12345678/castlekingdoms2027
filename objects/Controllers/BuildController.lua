@@ -336,7 +336,7 @@ local BuildController = _G.class("BuildController")
 function BuildController:initialize()
     self.width = 0
     self.height = 0
-    self.active = false
+    self.active = true
     self.canAfford = true
     self.start = true
     self.gx = 0
@@ -467,7 +467,11 @@ function BuildController:update()
                                 type = 3
                             end
                         else
-                            type = 1
+                            if self.canBuild then
+                                type = 3
+                            else
+                                type = 1
+                            end
                         end
                         local elevationOffsetY = (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2
                         self.batch:add(self.quads[type], (xx - yy) * tileWidth * 0.5,
@@ -486,14 +490,16 @@ end
 function BuildController:mousepressed(x, y)
     local gx, gy = _G.getTerrainTileOnMouse(x, y)
     gx, gy = gx - math.floor(self.width / 2), gy - math.floor(self.height / 2)
-    if self.firstTerrainHeight then
+    local success = self:build(gx, gy)
+    if success and self.firstTerrainHeight then
         for xx = 0, self.width - 1 do
             for yy = 0, self.height - 1 do
-                _G.terrainSetHeight(xx + gx, yy + gy, self.firstTerrainHeight)
+                _G.terrainSetHeight(xx + gx, yy + gy, self.firstTerrainHeight / 2)
             end
         end
     end
-    return self:build(gx, gy)
+    self.firstTerrainHeight = nil
+    return success
 end
 function BuildController:build(gx, gy)
     if self.active and self.gx > 0 and self.gx < 2048 and self.gy > 0 and self.gy < 2048 then
@@ -518,17 +524,17 @@ function BuildController:build(gx, gy)
                     end
                     building[self.building]:build(gx, gy)
                     self.active = false
-                    self.firstTerrainHeight = nil
                     if self.onBuildCallback then
                         self.onBuildCallback()
                         self.onBuildCallback = nil
                     end
-                    return
+                    return true
                 end
             else
                 if self.building == "saxon_hall" then
                     building[self.building]:build(gx, gy)
                     self:set("stockpile")
+                    return true
                 elseif self.building == "stockpile" then
                     building[self.building]:build(gx, gy)
                     self:set("granary")
@@ -546,16 +552,17 @@ function BuildController:build(gx, gy)
                     for _ = 1, 49 do
                         _G.stockpile:store("wood")
                     end
+                    return true
                 elseif self.building == "granary" then
                     building[self.building]:build(gx, gy)
                     -- Starting food
                     for _ = 1, 26 do
                         _G.foodpile:store("bread")
                     end
-                    self.firstTerrainHeight = nil
                     self.active = false
                     self.start = false
                     ActionBar:showGroup("main")
+                    return true
                 end
             end
         else

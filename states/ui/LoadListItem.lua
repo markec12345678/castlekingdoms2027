@@ -96,6 +96,7 @@ function LoadListItem:initialize(position, state, frListItem, frColumnSaveName, 
     end
 end
 function LoadListItem:onClick()
+    _G.playSpeech("General_Loading")
     loveframes.SetState()
     Gamestate.switch(game, self.nameText:GetText())
 end

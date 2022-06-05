@@ -11,6 +11,7 @@ local initialized = false
 local loadState, progress = 1, 15
 local SaveManager = require("objects.Controllers.SaveManager")
 local savegame
+local playlist = require("sounds.music_playlist")
 
 local function updateProgress(prgs, lState)
     progress = prgs or progress
@@ -39,20 +40,17 @@ local function delayedInit()
     thread2:start("2")
     updateProgress(40)
     _G.finder = require("objects.Controllers.PathController")
-    local newGame = not savegame
-    if newGame then
-        updateProgress(50, 2)
-        terrain.genMap()
-        updateProgress(60, 3)
-        terrain.loadFernhaven()
+    _G.state.newGame = savegame == "map_Fernhaven"
+    for cx = 0, _G.chunksWide - 1 do
+        for cy = 0, _G.chunksHigh - 1 do
+            _G.allocateMesh(cx, cy)
+        end
+    end
+    if _G.state.newGame then
+        SaveManager:load(savegame)
         updateProgress(70)
         _G.BuildController:set("saxon_hall")
     else
-        for cx = 0, _G.chunksWide - 1 do
-            for cy = 0, _G.chunksHigh - 1 do
-                _G.allocateMesh(cx, cy)
-            end
-        end
         updateProgress(70, 3)
         SaveManager:load(savegame)
     end
@@ -74,7 +72,9 @@ local function delayedInit()
     assert(not error, error)
     loveframes.SetState(states.STATE_INGAME_CONSTRUCTION)
     _G.loaded = true
-    _G.playSpeech("place_a_keep")
+    if _G.state.newGame then
+        _G.playSpeech("place_a_keep")
+    end
 end
 
 function game:init()
@@ -106,6 +106,9 @@ function game:update(dt)
         prof.pop("pathfind")
         local error = thread:getError()
         assert(not error, error)
+        if not _G.BuildController.start then
+            playlist()
+        end
     end
 end
 
@@ -192,36 +195,29 @@ function game:wheelmoved(x, y)
 end
 
 function game:keyreleased(key, scancode)
-    if not _G.BuildController.start then
-        if key == "v" then
-            _G.foodpile:take()
-        elseif key == "r" then
-            _G.foodpile:store("bread")
-            _G.foodpile:store("apples")
-            _G.foodpile:store("cheese")
-            print(_G.inspect(_G.food))
-        elseif key == "f" then
-            local fullscreen, _ = love.window.getFullscreen()
-            if fullscreen then
-                love.window.setFullscreen(false)
-            else
-                love.window.setFullscreen(true)
-            end
-            -- Only temporary until UI for it is created
-        elseif key == "b" then
-            _G.BrushController:cycleObjects()
-        elseif key == "n" and _G.BrushController.active then
-            _G.BrushController:cycleShapes()
-        elseif (key == "+" or key == "kp+") and _G.BrushController.active then
-            _G.BrushController:sizeInc()
-        elseif (key == "-" or key == "kp-") and _G.BrushController.active then
-            _G.BrushController:sizeDec()
-        elseif key == "m" and _G.BrushController.active then
-            _G.BrushController:cycleDensity()
-        elseif key == "v" and _G.BrushController.active then
-            _G.BrushController:cycleType()
+    -- if not _G.BuildController.start then
+    if key == "f" then
+        local fullscreen, _ = love.window.getFullscreen()
+        if fullscreen then
+            love.window.setFullscreen(false)
+        else
+            love.window.setFullscreen(true)
         end
+        -- Only temporary until UI for it is created
+    elseif key == "b" then
+        _G.BrushController:cycleObjects()
+    elseif key == "n" and _G.BrushController.active then
+        _G.BrushController:cycleShapes()
+    elseif (key == "+" or key == "kp+") and _G.BrushController.active then
+        _G.BrushController:sizeInc()
+    elseif (key == "-" or key == "kp-") and _G.BrushController.active then
+        _G.BrushController:sizeDec()
+    elseif key == "m" and _G.BrushController.active then
+        _G.BrushController:cycleDensity()
+    elseif key == "v" and _G.BrushController.active then
+        _G.BrushController:cycleType()
     end
+    -- end
 end
 
 return game

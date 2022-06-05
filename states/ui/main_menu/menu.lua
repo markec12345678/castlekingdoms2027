@@ -42,8 +42,9 @@ newGame.OnMouseDown = function(self)
     self:SetImage(newGameImageDown)
 end
 newGame.OnClick = function(self)
+    _G.playSpeech("General_Loading")
     loveframes.SetState() -- Undraw the menu while loading
-    Gamestate.switch(game)
+    Gamestate.switch(game, SaveManager.defaultMap.name)
 end
 newGame.OnMouseExit = function(self)
     self:SetImage(newGameImage)

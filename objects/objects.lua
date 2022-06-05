@@ -239,6 +239,17 @@ function _G.importantObjectAt(cx, cy, x, y)
     end
 end
 
+function _G.shouldTileBeWalkable(gx, gy)
+    if _G.importantObjectAtGlobal(gx, gy) and
+        not (_G.objectFromClassAtGlobal(gx, gy, "Stone") or _G.objectFromClassAtGlobal(gx, gy, "Iron")) then
+        return false
+    end
+    if _G.state.map:isWaterAt(gx, gy) then
+        return false
+    end
+    return true
+end
+
 function _G.importantObjectAtGlobal(gx, gy)
     local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(gx, gy)
     if (type(object[cx][cy][x][y]) == "table" and next(object[cx][cy][x][y]) == nil) or not object[cx][cy][x][y] or

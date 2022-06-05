@@ -35,7 +35,7 @@ function BrushController:initialize()
     self.active = false
     self.pressed = false
     self.size = 5
-    self.type = brushType.Remove
+    self.type = brushType.PaintTerrainObjects
     self.brushObjectType = nil
     self.brushObject = nil
     self.shape = brushShapes.Square
@@ -54,8 +54,8 @@ function BrushController:cycleType()
         self.type = brushType.PaintTerrainObjects
         print("Delete Mode activated")
     elseif self.type == brushType.PaintTerrainObjects then
-       self.type = brushType.Remove
-       print("Paint mode activated")
+        self.type = brushType.Remove
+        print("Paint mode activated")
     end
 end
 
@@ -234,7 +234,7 @@ function BrushController:paintScattered()
                 if (love.math.random(0, 9999) % 3 == 0) then
                     if self:canPaint(LX + XX, LY + YY) and
                         not self:checkForObjectInRadius(LX + XX, LY + YY, self.density, self.brushObjectType) then
-                            self.brushObject:new(LX + XX, LY + YY)
+                        self.brushObject:new(LX + XX, LY + YY)
                     end
                 end
             end

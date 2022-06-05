@@ -230,6 +230,9 @@ scaleHandMusicVolume.Update = function(self)
         local rawValue = clamp(mx, min, max)
         self.value = (rawValue - scaleBarSound.x) / (max - scaleBarSound.x)
         _G.OPTIONS.MUSIC_VOLUME = self.value
+        if _G.CURRENT_MUSIC then
+            _G.CURRENT_MUSIC:setVolume(_G.OPTIONS.MUSIC_VOLUME)
+        end
         self:SetX(rawValue, true)
     end
 end

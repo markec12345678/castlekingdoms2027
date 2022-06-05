@@ -22,7 +22,7 @@ local Rock_3x3 = _G.class("Rock_3x3", Structure)
 Rock_3x3.static.WIDTH = 3
 Rock_3x3.static.LENGTH = 3
 Rock_3x3.static.HEIGHT = 15
-function Rock_3x3:initialize(gx, gy, type, rockVariation)
+function Rock_3x3:initialize(gx, gy, type)
     type = type or "Rock_3x3"
     Structure.initialize(self, gx, gy, type)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
@@ -30,25 +30,23 @@ function Rock_3x3:initialize(gx, gy, type, rockVariation)
     self.tile = tileQuads["empty"]
     self.offsetX = 0
     self.offsetY = 0
-
-    rockVariation = 16 + (rockVariation or love.math.random(1, 16))
-    self.rockVariation = rockVariation
+    local rockVariation = 16 + love.math.random(1, 16)
+    self.rockVariation = self.rockVariation or rockVariation
     local tiles, quadArray = _G.indexBuildingQuads("rocks_3x3tile (" .. rockVariation .. ")", false, 3)
 
     Structure:applyBuildingHeightMap(gx, gy, self.class.WIDTH, self.class.LENGTH, self.class.HEIGHT, true)
     local _, _, _, centerTileOffsetY = quadArray[tiles + 1]:getViewport()
 
     for tile = 1, tiles do
-        Rock_3x3Alias:new(
-            quadArray[tile], self.gx + tile - 1, self.gy + tiles, self, centerTileOffsetY - 16 - 32 + 8 * tile)
+        Rock_3x3Alias:new(quadArray[tile], self.gx + tile - 1, self.gy + tiles, self,
+            centerTileOffsetY - 16 - 32 + 8 * tile)
     end
 
     Rock_3x3Alias:new(quadArray[tiles + 1], self.gx + tiles, self.gy + tiles, self, centerTileOffsetY - 16)
 
     for tile = 1, tiles do
-        Rock_3x3Alias:new(
-            quadArray[tiles + 1 + tile], self.gx + tiles, self.gy + (tiles - tile), self,
-                centerTileOffsetY - 16 - 32 + 8 * (tiles - tile) + 8, 16)
+        Rock_3x3Alias:new(quadArray[tiles + 1 + tile], self.gx + tiles, self.gy + (tiles - tile), self,
+            centerTileOffsetY - 16 - 32 + 8 * (tiles - tile) + 8, 16)
     end
     Structure.render(self)
 end
@@ -69,7 +67,7 @@ function Rock_3x3:serialize()
 end
 
 function Rock_3x3.static:deserialize(data)
-    local obj = self:new(data.gx, data.gy, data.type, data.rockVariation)
+    local obj = self:new(data.gx, data.gy, data.type)
     Object.deserialize(obj, data)
     return obj
 end

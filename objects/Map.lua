@@ -1,7 +1,7 @@
 local Map = _G.class("Map")
 
 function Map:initialize()
-    self.name = "Plain"
+    self.name = "Fernhaven"
     self.heightmap = newAutotable(4)
     self.shadowmap = newAutotable(4)
     self.buildingheightmap = newAutotable(4)
@@ -210,12 +210,33 @@ function Map:deserializeBuildingHeightmap(data)
     end
 end
 
+function Map:serializeWater()
+    local data = {}
+    for x = 0, 2048 do
+        data[x] = {}
+        for y = 0, 2048 do
+            data[x][y] = self:isWaterAt(x, y)
+        end
+    end
+    return data
+end
+
+function Map:deserializeWater(data)
+    for x = 0, 2048 - 1 do
+        for y = 0, 2048 - 1 do
+            self.water[x][y] = data[x][y]
+        end
+    end
+    return data
+end
+
 function Map:serialize()
     local data = {}
     data.terrain = self:serializeTerrain()
     data.heightmap = self:serializeHeightmap()
     data.collision = self:serializeCollisionMap()
     data.buildingheightmap = self:serializeBuildingHeightmap()
+    data.water = self:serializeWater()
     return data
 end
 
@@ -224,6 +245,10 @@ function Map:deserialize(data)
     self:deserializeHeightmap(data.heightmap)
     self:deserializeCollisionMap(data.collision)
     self:deserializeBuildingHeightmap(data.buildingheightmap)
+    if data.water then -- TODO: remove after 0.3.1
+        self:deserializeWater(data.water)
+    end
+    return data
 end
 
 return Map

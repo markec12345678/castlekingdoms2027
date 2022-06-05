@@ -1,8 +1,8 @@
 local loadingScreen = {}
-local Gamestate = require('libraries.gamestate')
-local game = require('states.game')
-local renderLoadingScreen = require('states.ui.loading_screen')
-local renderLoadingBar = require('states.ui.loading_bar')
+local Gamestate = require("libraries.gamestate")
+local game = require("states.game")
+local renderLoadingScreen = require("states.ui.loading_screen")
+local renderLoadingBar = require("states.ui.loading_bar")
 
 function loadingScreen:update(dt)
     if love.keyboard.isDown("escape") then

@@ -1,10 +1,11 @@
 local bitser = require("libraries.bitser")
 local Map = require("objects.Map")
 local State = _G.class("State")
+local SaveManager = require("objects.Controllers.SaveManager")
 
 function State:initialize()
-    local SaveManager = require("objects.Controllers.SaveManager")
     self.savename = SaveManager:getNextFreeName()
+    self.newGame = true
     self.serializedObjectIds = {}
     self.deserializedObjectIds = {}
     self.map = Map:new()
@@ -189,14 +190,11 @@ function State:serialize()
         version = _G.version,
         dateCreated = self.dateCreated or os.date("%Y-%m-%d %X"),
         dateModified = os.date("%Y-%m-%d %X"),
-        mapName = self.map.name
+        mapName = self.map.name,
+        isMap = false
     }
     local data = {}
     self.serializedObjectIds = {}
-    data.resources = self.resources
-    data.food = self.food
-    data.notFullStockpiles = self.notFullStockpiles
-    data.notFullFoods = self.notFullFoods
     data.wheatSeasonCounter = self.wheatSeasonCounter
     data.wheatGrowingSeason = self.wheatGrowingSeason
     data.collisionMap = self.collisionMap
@@ -204,13 +202,19 @@ function State:serialize()
     data.topLeftChunkY = self.topLeftChunkY
     data.bottomRightChunkX = self.bottomRightChunkX
     data.bottomRightChunkY = self.bottomRightChunkY
+    data.offsetX, data.offsetY = _G.offsetX, _G.offsetY
+    -- if not _G.MAP_EDITOR then
+    data.resources = self.resources
+    data.food = self.food
+    data.notFullStockpiles = self.notFullStockpiles
+    data.notFullFoods = self.notFullFoods
     data.buildController = _G.BuildController:serialize()
     data.stockpileController = _G.stockpile:serialize()
     data.spawnPointX, data.spawnPointY = _G.spawnPointX, _G.spawnPointY
-    data.offsetX, data.offsetY = _G.offsetX, _G.offsetY
     data.campfire = _G.campfire:serialize()
     data.foodController = _G.foodpile:serialize()
     data.jobController = _G.JobController:serialize()
+    -- end
     data.verticesPerTile = self.verticesPerTile
     data.chunkObjects = self:serializeChunkObjects()
     data.object = self:serializeObjects()
@@ -228,14 +232,14 @@ end
 function State:load(filename)
     local load = bitser.loadLoveFile(filename)
     self.savename = load.savename
+    if self.savename == "map_Fernhaven" then
+        self.savename = SaveManager:getNextFreeName()
+    end
+    self.map:deserialize(load.map)
     self.deserializedObjectCount = 0
     self.deserDebug = {}
     self.deserializedObjectIds = {}
-    self.resources = load.resources
-    self.food = load.food
     self.rawObjectIds = load.serializedObjectIds
-    self.notFullStockpiles = load.notFullStockpiles
-    self.notFullFoods = load.notFullFoods
     self.wheatSeasonCounter = load.wheatSeasonCounter
     self.wheatGrowingSeason = load.wheatGrowingSeason
     self.collisionMap = load.collisionMap
@@ -246,25 +250,30 @@ function State:load(filename)
     self.verticesPerTile = load.verticesPerTile
     self.maxPopulation = load.maxPopulation
     self.population = load.population
-    _G.JobController:deserialize(load.jobController)
-    _G.BuildController:deserialize(load.buildController)
-    _G.foodpile:deserialize(load.foodController)
-    _G.spawnPointX, _G.spawnPointY = load.spawnPointX, load.spawnPointY
-    _G.offsetX, _G.offsetY = load.offsetX, load.offsetY
-    local campfireClass = _G.getClassByName(load.campfire.className)
-    if campfireClass then
-        campfireClass:deserialize(load.campfire)
-    else
-        print("Campfire is not deserialized")
-        love.quit()
+    if not self.newGame then
+        self.resources = load.resources
+        self.food = load.food
+        self.notFullStockpiles = load.notFullStockpiles
+        self.notFullFoods = load.notFullFoods
+        _G.JobController:deserialize(load.jobController)
+        _G.BuildController:deserialize(load.buildController)
+        _G.foodpile:deserialize(load.foodController)
+        _G.spawnPointX, _G.spawnPointY = load.spawnPointX, load.spawnPointY
+        local campfireClass = _G.getClassByName(load.campfire.className)
+        if campfireClass then
+            campfireClass:deserialize(load.campfire)
+        else
+            print("Campfire is not deserialized")
+            love.quit()
+        end
+        _G.stockpile:deserialize(load.stockpileController)
     end
-    _G.stockpile:deserialize(load.stockpileController)
+    _G.offsetX, _G.offsetY = load.offsetX, load.offsetY
     self:deserializeChunkObjects(load.chunkObjects)
     self.object = self:deserializeObjects(load.object)
     self.scaleX = load.scaleX
     self.viewXview = load.viewXview
     self.viewYview = load.viewYview
-    self.map:deserialize(load.map)
     self.map:forceRefresh()
     collectgarbage()
     -- print(inspect(self.deserDebug))

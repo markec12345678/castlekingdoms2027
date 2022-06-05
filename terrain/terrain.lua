@@ -377,6 +377,8 @@ end
 local keysToSkip = newAutotable(4)
 
 local function multiTileCalculate(currentBiome, cx, cy, i, o)
+    local gx = chunkWidth * cx + i
+    local gy = chunkWidth * cy + o
     local lScale = 1.0666
     local maxSize = checkMaxSizeBiome(currentBiome, cx, cy, i, o, keysToSkip)
     local upperBorder
@@ -391,7 +393,10 @@ local function multiTileCalculate(currentBiome, cx, cy, i, o)
     end
     if currentBiome == _G.terrainBiome.abundantGrassStonesWhite then
         upperBorder = 16
-    elseif currentBiome == _G.terrainBiome.sea or currentBiome == _G.terrainBiome.seaWalkable then
+    elseif currentBiome == _G.terrainBiome.sea then
+        upperBorder = 8
+        _G.state.map.water[gx][gy] = true -- TODO: remove after 0.3.1
+    elseif currentBiome == _G.terrainBiome.seaWalkable then
         upperBorder = 8
     end
     local rand = love.math.random(1, upperBorder)
@@ -407,8 +412,6 @@ local function multiTileCalculate(currentBiome, cx, cy, i, o)
     local tileKey
     local lOffsetX, lOffsetY = 0, 0
     if currentBiome == _G.terrainBiome.seaBeach then
-        local gx = chunkWidth * cx + i
-        local gy = chunkWidth * cy + o
         local north = _G.getTerrainBiomeAt(gx, gy - 1) == _G.terrainBiome.sea or _G.getTerrainBiomeAt(gx, gy - 1) ==
                           _G.terrainBiome.seaWalkable
         local south = _G.getTerrainBiomeAt(gx, gy + 1) == _G.terrainBiome.sea or _G.getTerrainBiomeAt(gx, gy + 1) ==
@@ -669,7 +672,7 @@ local function updateTerrain(chunkX, chunkY)
     updateTerrain2ndPass(cx, cy)
 end
 
-local function tileShouldBeCliff(myGx, myGy)
+local function tileShouldBeCliff(myGx, myGy, allDirections)
     local cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(myGx, myGy)
     local myHeight = heightmap[cx][cy][i][o] or 0
     cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(myGx + 1, myGy)
@@ -691,17 +694,23 @@ local function tileShouldBeCliff(myGx, myGy)
     cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(myGx, myGy - 1)
     if myHeight - (heightmap[cx][cy][i][o] or 0) > 13 then
         _G.state.map:setWalkable(myGx, myGy, 1)
-        -- return true
+        if allDirections then
+            return true
+        end
     end
     cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(myGx - 1, myGy - 1)
     if myHeight - (heightmap[cx][cy][i][o] or 0) > 13 then
         _G.state.map:setWalkable(myGx, myGy, 1)
-        -- return true
+        if allDirections then
+            return true
+        end
     end
     cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(myGx - 1, myGy)
     if myHeight - (heightmap[cx][cy][i][o] or 0) > 13 then
         _G.state.map:setWalkable(myGx, myGy, 1)
-        -- return true
+        if allDirections then
+            return true
+        end
     end
     local gx, gy = myGx + 1, myGy
     i = (gx) % (chunkWidth)
@@ -775,6 +784,13 @@ function _G.refreshTile(cx, cy, i, o, force)
             t = {nil, _G.IsoX + (i - o) * tileWidth * 0.5, _G.IsoY + (i + o) * tileHeight * 0.5, 0, 1.06, 1.06}
         end
         local isCliff = tileShouldBeCliff(gx, gy)
+        if not tileShouldBeCliff(gx, gy, true) then
+            if _G.shouldTileBeWalkable(gx, gy) and _G.state.map:getWalkable(gx, gy) == 1 then
+                _G.state.map:setWalkable(gx, gy, 0)
+            end
+            instancemesh:setVertex(chevronLeftId)
+            instancemesh:setVertex(chevronRightId)
+        end
         local isIron = _G.objectFromClassAtGlobal(gx, gy, "Iron")
         local isStone = _G.objectFromClassAtGlobal(gx, gy, "Stone")
         local isTree = _G.objectFromClassAtGlobal(gx, gy, "PineTree")
@@ -796,10 +812,8 @@ function _G.refreshTile(cx, cy, i, o, force)
             local normalRand = rng:random(4, 8) + 4
             if terrain[cx][cy][i][o] == _G.terrainBiome.scarceGrass then
                 normalRand = rng:random(1, 16)
-                if elevationOffsetY < 33 and elevationOffsetY > 10 then
+                if elevationOffsetY > 33 and elevationOffsetY < 66 then
                     hillTileBase = "mountain_grass_a_1x1 ("
-                elseif elevationOffsetY < 66 then
-                    hillTileBase = "mountain_grass_b_1x1 ("
                 elseif elevationOffsetY >= 66 then
                     hillTileBase = "mountain_grass_b_1x1 ("
                 else

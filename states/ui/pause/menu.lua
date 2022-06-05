@@ -82,6 +82,7 @@ save.OnMouseDown = function(self)
     self:SetImage(saveImageDown)
 end
 save.OnClick = function(self)
+    _G.playSpeech("General_Saving")
     SaveManager:save()
     loveframes.TogglePause()
 end

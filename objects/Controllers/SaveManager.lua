@@ -5,12 +5,16 @@ function SaveManager:initialize()
     self.savefiles = {}
     self.userInterface = {}
     self.lastNameIndex = 1
+    self.defaultMap = {}
 end
 function SaveManager:getSaveFiles()
     local files = love.filesystem.getDirectoryItems(_G.SAVEGAME_DIR)
     for _, file in ipairs(files) do
         if string.find(file, "_metadata.bin") then
             self.savefiles[#self.savefiles + 1] = bitser.loadLoveFile(_G.SAVEGAME_DIR .. "/" .. file)
+            if self.savefiles[#self.savefiles].isMap then
+                self.defaultMap = self.savefiles[#self.savefiles]
+            end
         end
     end
     print(string.format("Found %d save files", #self.savefiles))
@@ -29,12 +33,15 @@ function SaveManager:getNextFreeName()
     end
     for i = self.lastNameIndex, 1000 do
         local potentialName = string.format("savefile %d", i)
+        local found = false
         for _, v in ipairs(self.savefiles) do
-            print(potentialName)
-            if potentialName ~= v.name then
-                self.lastNameIndex = i
-                return potentialName
+            if potentialName == v.name then
+                found = true
             end
+        end
+        if not found then
+            self.lastNameIndex = i
+            return potentialName
         end
     end
 end
@@ -62,6 +69,13 @@ function SaveManager:save()
 end
 function SaveManager:load(name)
     local filename = string.format("%s/%s.bin", _G.SAVEGAME_DIR, name)
+    _G.state.newGame = false
+    for _, save in ipairs(self.savefiles) do
+        if save.name == name and save.isMap then
+            _G.state.newGame = true
+            break
+        end
+    end
     _G.state:load(filename)
 end
 function SaveManager:registerListItem(item, i)
@@ -76,6 +90,9 @@ function SaveManager:updateInterface()
     for index, savegame in ipairs(self.savefiles) do
         if index > 8 then
             -- TODO: add pagination
+            return
+        end
+        if savegame.isMap then
             return
         end
         self.userInterface[index]:setValues(savegame.name, savegame.mapName, savegame.dateModified, savegame.version)

@@ -58,9 +58,15 @@ local speech = {
     ["stockpile_full"] = love.audio.newSource("sounds/speech/stockpile_full.ogg", "static"),
     ["too_close_to_enemy"] = love.audio.newSource("sounds/speech/too_close_to_enemy.ogg", "static"),
     ["too_close_to_enemy_repair"] = love.audio.newSource("sounds/speech/too_close_to_enemy_repair.ogg", "static"),
-    ["wheat_farms_valley_floor"] = love.audio.newSource("sounds/speech/wheat_farms_valley_floor.ogg", "static")
+    ["wheat_farms_valley_floor"] = love.audio.newSource("sounds/speech/wheat_farms_valley_floor.ogg", "static"),
+    ["General_Saving"] = love.audio.newSource("sounds/speech/General_Saving.ogg", "static"),
+    ["General_Startgame"] = love.audio.newSource("sounds/speech/General_Startgame.ogg", "static"),
+    ["General_Loading"] = love.audio.newSource("sounds/speech/General_Loading.ogg", "static")
 
 }
+speech["General_Saving"]:setVolumeLimits(0, 0.8)
+speech["General_Startgame"]:setVolumeLimits(0, 0.8)
+speech["General_Loading"]:setVolumeLimits(0, 0.8)
 
 for _, sf in pairs(speech) do
     sf:setRelative(true)

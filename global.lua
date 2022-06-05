@@ -20,6 +20,8 @@ _G.prof = require("libraries.jprof")
 _G.prof.connect()
 _G.paused = false
 _G.MAX_FPS = 60
+_G.CURRENT_PLAYLIST_INDEX = 0
+_G.CURRENT_MUSIC = nil
 
 function _G.reverse(t)
     local n = #t
@@ -220,11 +222,13 @@ function _G.playSfx(obj, sfx)
     sfx:play()
 end
 
-function _G.playSpeech(SPEECH)
-    local SFX = _G.speechFx[SPEECH]
-    SFX:setVolume(_G.OPTIONS.SPEECH_VOLUME)
-    SFX:setPitch(1 + love.math.random(-5, 5) / 100)
-    SFX:play()
+function _G.playSpeech(speech)
+    local speechFx = require("sounds.speech")
+    local sfx = speechFx[speech]
+    local _, volumeLimit = sfx:getVolumeLimits()
+    sfx:setVolume(_G.OPTIONS.SPEECH_VOLUME * volumeLimit)
+    sfx:setPitch(1 + love.math.random(-5, 5) / 100)
+    sfx:play()
 end
 
 function _G.manualGc(timeBudget, safetynetMegabytes, disableOtherwise)

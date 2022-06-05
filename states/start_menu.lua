@@ -8,7 +8,14 @@ function startMenu:enter()
     loveframes.SetState(states.STATE_MAIN_MENU)
 end
 
+local framesFromStart = 0
 function startMenu:update(dt)
+    if framesFromStart < 30 then
+        framesFromStart = framesFromStart + 1
+        if framesFromStart == 30 then
+            _G.playSpeech("General_Startgame")
+        end
+    end
     loveframes.update()
 end
 
