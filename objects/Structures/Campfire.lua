@@ -19,10 +19,10 @@ function CampfireFloatPop:initialize(gx, gy)
     Structure.initialize(self, gx, gy, "Campfire float circle")
     self.animatedAlias = true
     self.animated = true
-    self.greenAnimation = anim.newAnimation(
-        an[ANIM_FLOAT_CIRCLE_GREEN], 0.025, self:immigrantCallback(), ANIM_FLOAT_CIRCLE_GREEN)
-    self.redAnimation = anim.newAnimation(
-        an[ANIM_FLOAT_CIRCLE_GREEN], 0.025, self:emigrantCallback(), ANIM_FLOAT_CIRCLE_GREEN)
+    self.greenAnimation = anim.newAnimation(an[ANIM_FLOAT_CIRCLE_GREEN], 0.025, self:immigrantCallback(),
+        ANIM_FLOAT_CIRCLE_GREEN)
+    self.redAnimation = anim.newAnimation(an[ANIM_FLOAT_CIRCLE_GREEN], 0.025, self:emigrantCallback(),
+        ANIM_FLOAT_CIRCLE_GREEN)
     self.offsetX = 7
     self.offsetY = -81
     self.animation = self.greenAnimation
@@ -50,8 +50,10 @@ function CampfireFloatPop:animate(dt)
     Structure.animate(self, dt, true)
 end
 function CampfireFloatPop:immigrantCallback()
+    local actionBar = require("states.ui.ActionBar")
     return function()
         _G.state.population = _G.state.population + 1
+        actionBar:updatePopulationCount()
         Peasant:new(_G.spawnPointX, _G.spawnPointY)
     end
 end
@@ -91,17 +93,15 @@ function CampfireFloatPop.static:deserialize(data)
         if anData.animationIdentifier == ANIM_FLOAT_CIRCLE_GREEN then
             callback = obj:immigrantCallback()
         else
-            obj.redAnimation = _G.anim.newAnimation(
-                an[data.redAnimation.animationIdentifier], 1, obj:emigrantCallback(),
-                    data.redAnimation.animationIdentifier)
+            obj.redAnimation = _G.anim.newAnimation(an[data.redAnimation.animationIdentifier], 1,
+                obj:emigrantCallback(), data.redAnimation.animationIdentifier)
             obj.redAnimation:deserialize(data.redAnimation)
         end
         if anData.animationIdentifier == ANIM_FLOAT_CIRCLE_RED then
             callback = obj:emigrantCallback()
         else
-            obj.greenAnimation = _G.anim.newAnimation(
-                an[data.greenAnimation.animationIdentifier], 1, obj:immigrantCallback(),
-                    data.greenAnimation.animationIdentifier)
+            obj.greenAnimation = _G.anim.newAnimation(an[data.greenAnimation.animationIdentifier], 1,
+                obj:immigrantCallback(), data.greenAnimation.animationIdentifier)
             obj.greenAnimation:deserialize(data.greenAnimation)
         end
         obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)

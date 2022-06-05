@@ -1,6 +1,6 @@
-local loveframes = require('libraries.loveframes')
-local states = require('states.ui.states')
-local base = require('states.ui.base')
+local loveframes = require("libraries.loveframes")
+local states = require("states.ui.states")
+local base = require("states.ui.base")
 local w, h = base.w, base.h
 
 local ACTION_BAR_USER_SCALE_W = 60
@@ -11,7 +11,7 @@ if ACTION_BAR_USER_SCALE_W > 100 or ACTION_BAR_USER_SCALE_W < 5 then
 end
 
 local ActionBar = _G.class("ActionBar")
-ActionBar.static.actionBarImage = love.graphics.newImage('assets/ui/action_bar.png')
+ActionBar.static.actionBarImage = love.graphics.newImage("assets/ui/action_bar.png")
 function ActionBar:initialize()
     local element = loveframes.Create("image")
     element:SetState(states.STATE_INGAME_CONSTRUCTION)
@@ -22,9 +22,32 @@ function ActionBar:initialize()
     local scale = math.min(scale_1, scale_2)
     element:SetScale(scale, scale)
     element:SetPos(w.percent[50], h.percent[100] - element:GetImageHeight() * element:GetScaleY())
+    local frPopulation = {
+        x = element:GetX() - element:GetOffsetX() * scale + 1017 * scale,
+        y = element:GetY() - element:GetOffsetY() * scale + 144 * scale,
+        width = (1053 - 1020) * scale,
+        height = (163 - 145) * scale
+    }
+    local populationText = loveframes.Create("text")
+    self.populationText = populationText
+    populationText:SetState(states.STATE_INGAME_CONSTRUCTION)
+    populationText:SetFont(loveframes.font_vera_italic_large)
+    populationText:SetPos(frPopulation.x, frPopulation.y)
+    populationText:SetText("")
+    populationText:SetShadowColor(240 / 255, 240 / 255, 224 / 255)
+    populationText:SetShadow(true)
     self.element = element
     self.groups = {}
     self.currentGroup = "main"
+end
+function ActionBar:updatePopulationCount()
+    local color = {176 / 255, 136 / 255, 80 / 255, 1}
+    if _G.state.population == _G.state.maxPopulation then
+        color = {204 / 255, 0, 0, 1}
+    end
+    self.populationText:SetText({{
+        color = color
+    }, _G.state.population .. "/" .. _G.state.maxPopulation})
 end
 function ActionBar:activateButton(position)
     if self.groups[self.currentGroup] then

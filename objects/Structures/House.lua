@@ -66,19 +66,21 @@ function House:initialize(gx, gy)
     self.offsetX = 0
     self.offsetY = -39
     for tile = 1, tiles do
-        local hsl = HouseAlias:new(
-            quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self, -self.offsetY + 8 * (tiles - tile + 1))
+        local hsl = HouseAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
+            -self.offsetY + 8 * (tiles - tile + 1))
         hsl.tileKey = tile
     end
     for tile = 1, tiles do
-        local hsl = HouseAlias:new(
-            quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile, 16)
+        local hsl = HouseAlias:new(quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile,
+            16)
         hsl.tileKey = tiles + 1 + tile
     end
 
     Structure:applyBuildingHeightMap(gx, gy, House.WIDTH, House.LENGTH, House.HEIGHT)
 
     _G.state.maxPopulation = _G.state.maxPopulation + 4
+    local actionBar = require("states.ui.ActionBar")
+    actionBar:updatePopulationCount()
 
     Structure.render(self)
 end
