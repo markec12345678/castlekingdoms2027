@@ -70,7 +70,7 @@ local building = {
             end
         end,
         onFailedSpecialRequirement = function()
-            _G.speechFx["adjacent_stockpile"]:play()
+            _G.playSpeech("adjacent_stockpile")
         end
     },
     ["granary"] = {
@@ -520,7 +520,7 @@ function BuildController:build(gx, gy)
                 elseif self.building == "stockpile" then
                     building[self.building]:build(gx, gy)
                     self:set("granary")
-                    _G.speechFx["place_granary"]:play()
+                    _G.playSpeech("place_granary")
                     -- Starting resources
                     for _ = 1, 10 do
                         _G.stockpile:store("wheat")
@@ -551,9 +551,9 @@ function BuildController:build(gx, gy)
             else
                 local sfxi = math.random(1, 2)
                 if sfxi == 1 then
-                    _G.speechFx["cannot_place_1"]:play()
+                    _G.playSpeech("cannot_place_1")
                 else
-                    _G.speechFx["cannot_place_2"]:play()
+                    _G.playSpeech("cannot_place_2")
                 end
             end
 

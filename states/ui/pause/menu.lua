@@ -105,7 +105,7 @@ options.OnMouseDown = function(self)
     self:SetImage(optionsImageDown)
 end
 options.OnClick = function(self)
-    print("click")
+    loveframes.SetState(states.STATE_SETTINGS)
 end
 options.OnMouseExit = function(self)
     self:SetImage(optionsImage)
