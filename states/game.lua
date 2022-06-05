@@ -27,6 +27,7 @@ local function delayedInit()
     package.loaded["objects.objects"] = objects
     terrain = require("terrain.terrain")
     updateProgress(30)
+    _G.BrushController = require("objects.Controllers.BrushController")
     _G.BuildController = love.filesystem.load("objects/Controllers/BuildController.lua")(
         package.loaded["objects.objects"].object, objectAtlas)
     _G.JobController = require("objects.Controllers.JobController")
@@ -95,6 +96,7 @@ function game:update(dt)
             prof.push("bcontr")
             _G.BuildController:update()
             prof.pop("bcontr")
+            _G.BrushController:update()
         end
         prof.push("ui")
         loveframes.update()
@@ -128,6 +130,7 @@ function game:draw()
             objects.draw()
             if not _G.paused then
                 _G.BuildController:draw()
+                _G.BrushController:draw()
             end
             love.graphics.pop()
             if _G.paused then
@@ -167,6 +170,7 @@ function game:mousepressed(x, y, button, istouch)
             _G.BuildController.onBuildCallback = nil
         end
     end
+    _G.BrushController:mousepressed(button)
 end
 
 function game:keypressed(key, scancode, isRepeat)
@@ -180,6 +184,7 @@ end
 function game:mousereleased(x, y, button, istouch)
     -- TODO: Check if event is consumed
     loveframes.mousereleased(x, y, button)
+    _G.BrushController:mousereleased(button)
 end
 
 function game:wheelmoved(x, y)
@@ -202,6 +207,19 @@ function game:keyreleased(key, scancode)
             else
                 love.window.setFullscreen(true)
             end
+            -- Only temporary until UI for it is created
+        elseif key == "b" then
+            _G.BrushController:cycleObjects()
+        elseif key == "n" and _G.BrushController.active then
+            _G.BrushController:cycleShapes()
+        elseif (key == "+" or key == "kp+") and _G.BrushController.active then
+            _G.BrushController:sizeInc()
+        elseif (key == "-" or key == "kp-") and _G.BrushController.active then
+            _G.BrushController:sizeDec()
+        elseif key == "m" and _G.BrushController.active then
+            _G.BrushController:cycleDensity()
+        elseif key == "v" and _G.BrushController.active then
+            _G.BrushController:cycleType()
         end
     end
 end

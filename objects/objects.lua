@@ -171,6 +171,10 @@ function _G.removeObjectFromClassAtGlobal(gx, gy, classToRemove)
         print((debug.traceback("Error: trying to remove out of bounds unit", 1):gsub("\n[^\n]+$", "")))
         love.event.quit()
     end
+    _G.scheduleTerrainUpdate(cx, cy, x, y)
+    _G.buildingheightmap[cx][cy][x][y] = 0
+    _G.shadowmap[cx][cy][x][y] = 0
+    _G.state.map:setWalkable(gx, gy, 0)
     if type(object[cx][cy][x][y]) == "table" then
         for index, currentObject in ipairs(object[cx][cy][x][y]) do
             if currentObject.class.name == classToRemove or currentObject.type == classToRemove then
