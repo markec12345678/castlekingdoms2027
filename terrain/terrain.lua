@@ -686,7 +686,6 @@ local function tileShouldBeCliff(myGx, myGy)
     end
     cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(myGx + 1, myGy + 1)
     if terrain[cx][cy] and terrain[cx][cy][i] and terrain[cx][cy][i][o] == _G.terrainBiome.none then
-        _G.state.map:setWalkable(myGx, myGy, 1)
         return true
     end
     cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(myGx, myGy - 1)
@@ -710,7 +709,6 @@ local function tileShouldBeCliff(myGx, myGy)
     cx = math.floor(gx / chunkWidth)
     cy = math.floor(gy / chunkWidth)
     if terrain[cx][cy] and terrain[cx][cy][i] and terrain[cx][cy][i][o] == _G.terrainBiome.none then
-        _G.state.map:setWalkable(myGx, myGy, 1)
         return true
     end
 end

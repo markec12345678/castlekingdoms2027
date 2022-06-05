@@ -424,25 +424,31 @@ function BuildController:update()
             if building[self.building].overrideRequirements then
                 building[self.building]:overrideRequirements(self)
             else
-                local fcx, fcy, fxx, fyy = _G.getLocalCoordinatesFromGlobal(self.gx + math.floor(self.width / 2),
-                    self.gy + math.floor(self.height / 2))
+                self.targetGX, self.targetGY = self.gx + math.floor(self.width / 2),
+                    self.gy + math.floor(self.height / 2)
+                local fcx, fcy, fxx, fyy = _G.getLocalCoordinatesFromGlobal(self.targetGX, self.targetGY)
                 local firstTerrainHeight = (_G.state.map.heightmap[fcx][fcy][fxx][fyy] or 0) * 2
+                self.firstTerrainHeight = firstTerrainHeight
+                local totalTerrainDifference = 0
                 for xx = 0, self.width - 1 do
                     for yy = 0, self.height - 1 do
                         local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
                         if _G.importantObjectAt(ccx, ccy, xxx, yyy) then
                             self.canBuild = false
-                            break
                         end
                         if firstTerrainHeight ~= (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 then
-                            self.canBuild = false
-                            break
+                            totalTerrainDifference = totalTerrainDifference +
+                                                         math.abs(
+                                    firstTerrainHeight - (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2)
                         end
                         if _G.state.map:isWaterAt(self.gx + xx, self.gy + yy) then
                             self.canBuild = false
-                            break
                         end
                     end
+                end
+                self.totalTerrainDifference = totalTerrainDifference
+                if self.totalTerrainDifference >= math.min(3 * self.width * self.height, 220) then
+                    self.canBuild = false
                 end
                 if not building[self.building]:specialRequirements(self.gx, self.gy) then
                     self.canBuild = false
@@ -454,9 +460,7 @@ function BuildController:update()
                 for xx = 0, self.width - 1 do
                     for yy = 0, self.height - 1 do
                         local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
-                        if not _G.importantObjectAt(ccx, ccy, xxx, yyy) and firstTerrainHeight ==
-                            (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 and
-                            not _G.state.map:isWaterAt(self.gx + xx, self.gy + yy) then
+                        if _G.state.map:getWalkable(xx + self.gx, yy + self.gy) == 1 then
                             if self.canBuild then
                                 type = 2
                             else
@@ -482,6 +486,13 @@ end
 function BuildController:mousepressed(x, y)
     local gx, gy = _G.getTerrainTileOnMouse(x, y)
     gx, gy = gx - math.floor(self.width / 2), gy - math.floor(self.height / 2)
+    if self.firstTerrainHeight then
+        for xx = 0, self.width - 1 do
+            for yy = 0, self.height - 1 do
+                _G.terrainSetHeight(xx + gx, yy + gy, self.firstTerrainHeight)
+            end
+        end
+    end
     return self:build(gx, gy)
 end
 function BuildController:build(gx, gy)
@@ -507,6 +518,7 @@ function BuildController:build(gx, gy)
                     end
                     building[self.building]:build(gx, gy)
                     self.active = false
+                    self.firstTerrainHeight = nil
                     if self.onBuildCallback then
                         self.onBuildCallback()
                         self.onBuildCallback = nil
@@ -540,6 +552,7 @@ function BuildController:build(gx, gy)
                     for _ = 1, 26 do
                         _G.foodpile:store("bread")
                     end
+                    self.firstTerrainHeight = nil
                     self.active = false
                     self.start = false
                     ActionBar:showGroup("main")

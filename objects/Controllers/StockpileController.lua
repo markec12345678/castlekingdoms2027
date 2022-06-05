@@ -62,23 +62,12 @@ function StockpileController:take(resource, amount)
     return true
 end
 function StockpileController:updateResourceCount()
-    local count = {}
-    for resource, stockpile in pairs(self.resources) do
-        if not count[resource] then
-            count[resource] = 0
-        end
-        if stockpile then
-            for _, node in ipairs(stockpile) do
-                count[resource] = count[resource] + node.quantity
-            end
-        end
-    end
-    local text = string.format("Wood: %d\nStone: %d\nIron: %d\nFlour: %d\nWheat: %d", count.wood, count.stone,
-        count.iron, count.flour, count.wheat)
+    local resources = _G.state.resources
+    local text = string.format("Wood: %d\nStone: %d\nIron: %d\nFlour: %d\nWheat: %d", resources["wood"],
+        resources["stone"], resources["iron"], resources["flour"], resources["wheat"])
     self.resourceText:SetText({{
         color = {240 / 255, 240 / 255, 224 / 255}
     }, text})
-    return count
 end
 function StockpileController:serialize()
     local data = {

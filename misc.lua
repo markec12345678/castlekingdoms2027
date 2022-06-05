@@ -156,21 +156,13 @@ local function draw()
         prevTileheight = _G.buildingheightmap[prevCx][prevCy][prevI][prevO] or 0
     end
     mx, my = love.mouse.getPosition()
-    -- love.graphics.print("\n MX:" .. mx .. "\n MY:" .. my .. "\n GlobalX: " .. LocalX .. "\n GlobalY: " .. LocalY ..
-    --                         "\n LocalX: " .. ((LocalX) % chunkWidth) .. "\n LocalY: " .. ((LocalY) % chunkWidth) ..
-    --                         "\n Scale: " .. _G.state.scaleX .. "\n Shadow stuff:" .. prevHeight .. " - " ..
-    --                         prevHeight_2 .. " : " .. prevShadow .. " - " .. prevTileheight .. "\n Garbage (kB): " ..
-    --                         collectgarbage('count') .. "\n Center chunk: [" .. xchunk .. "][" .. ychunk .. "]" ..
-    --                         "\n Current FPS: " .. tostring(love.timer.getFPS()) .. "\n Max FPS: " ..
-    --                         tostring(previousFrameTime) .. "\n Wood: " .. tostring(_G.state.resources['wood']) ..
-    --                         "\n Stone: " .. tostring(_G.state.resources['stone']) .. "\n Iron: " ..
-    --                         tostring(_G.state.resources['iron']), 0, 0)
+    love.graphics.print("FPS: " .. tostring(love.timer.getFPS()) .. "\nMax FPS: " .. tostring(_G.previousFrameTime), 10,
+        love.graphics.getHeight() - 40)
 end
 
 local tableOfFunctions = {
     update = update,
     scale = scale,
-    draw = draw,
-    getBuildingSelection = getBuildingSelection
+    draw = draw
 }
 return tableOfFunctions
