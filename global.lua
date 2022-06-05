@@ -3,6 +3,12 @@ math.random()
 math.random()
 math.random()
 
+_G.OPTIONS = {
+    SFX_VOLUME = 1,
+    SPEECH_VOLUME = 1,
+    MUSIC_VOLUME = 1
+}
+
 _G.version = "0.3.1"
 _G.classes = {}
 _G.anim = require("libraries.anim8")
@@ -205,11 +211,20 @@ function _G.playSfx(obj, sfx)
     if type(sfx) == "table" then
         sfx = sfx[math.random(#sfx)]
     end
+    local _, volumeLimit = sfx:getVolumeLimits()
+    sfx:setVolume(_G.OPTIONS.SFX_VOLUME * volumeLimit)
     sfx:setRelative(false)
     sfx:setPosition((obj.x + (obj.cx - obj.cy) * _G.chunkWidth * _G.tileWidth * 0.5) / 100,
         (obj.y + (obj.cx + obj.cy) * _G.chunkHeight * _G.tileHeight * 0.5) / 100, 4.1)
     sfx:setPitch(1 + love.math.random(-10, 10) / 100)
     sfx:play()
+end
+
+function _G.playSpeech(SPEECH)
+    local SFX = _G.speechFx[SPEECH]
+    SFX:setVolume(_G.OPTIONS.SPEECH_VOLUME)
+    SFX:setPitch(1 + love.math.random(-5, 5) / 100)
+    SFX:play()
 end
 
 function _G.manualGc(timeBudget, safetynetMegabytes, disableOtherwise)

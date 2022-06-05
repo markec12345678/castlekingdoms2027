@@ -73,7 +73,7 @@ local function delayedInit()
     assert(not error, error)
     loveframes.SetState(states.STATE_INGAME_CONSTRUCTION)
     _G.loaded = true
-    _G.speechFx["place_a_keep"]:play()
+    _G.playSpeech("place_a_keep")
 end
 
 function game:init()
@@ -171,7 +171,8 @@ end
 
 function game:keypressed(key, scancode, isRepeat)
     ActionBar:keypressed(key, scancode)
-    if key == "escape" then
+    if key == "escape" and
+        (loveframes.GetState() == states.STATE_PAUSE_MENU or loveframes.GetState() == states.STATE_INGAME_CONSTRUCTION) then
         loveframes.TogglePause()
     end
 end

@@ -120,6 +120,11 @@ end
 closeWindowButton.OnMouseDown = function(self)
     self:SetImage(closeWindowButtonImageDown)
 end
+closeWindowButton.Update = function(self)
+    if love.keyboard.isDown("escape") then
+        self:OnClick()
+    end
+end
 closeWindowButton.OnClick = function(self)
     loveframes.SetState(states.STATE_MAIN_MENU)
 end
