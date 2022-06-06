@@ -230,7 +230,7 @@ function State:serialize()
 end
 
 function State:load(filename)
-    local load = bitser.loadLoveFile(filename)
+    local load = bitser.loadLoveFile(string.lower(filename))
     self.savename = load.savename
     if self.savename == "map_Fernhaven" then
         self.savename = SaveManager:getNextFreeName()
