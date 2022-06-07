@@ -5,21 +5,27 @@ local ActionBar = require('states.ui.ActionBar')
 
 local castleButton = ActionBarButton:new(love.graphics.newImage('assets/ui/castle_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 1)
+castleButton:setTooltip("Castle", "Walls, Towers, Gates and everything else you need to defend your Stronghold.")
 
 local hammerButton = ActionBarButton:new(love.graphics.newImage('assets/ui/hammer_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 2)
+hammerButton:setTooltip("Industry", "Build mighty Industries to defeat your enemies ... or fill your pockets.")
 
 local appleButton = ActionBarButton:new(love.graphics.newImage('assets/ui/apple_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 3)
+appleButton:setTooltip("Farms", "Produce basic agricultural products.")
 
 local houseButton = ActionBarButton:new(love.graphics.newImage('assets/ui/house_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 4)
+houseButton:setTooltip("Civillian", "Houses and amenities for your citizens.")
 
 local shieldButton = ActionBarButton:new(love.graphics.newImage('assets/ui/shield_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 5, nil, nil, true)
+shieldButton:setTooltip("Military", "Raise mighty armies and build terrifying siege weapons to crush your enemies.")
 
 local sickleButton = ActionBarButton:new(love.graphics.newImage('assets/ui/sickle_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 6)
+sickleButton:setTooltip("Food Production", "Turn basic farm products into high quality goods.")
 
 ActionBar:registerGroup("main", {castleButton, hammerButton, appleButton, houseButton, shieldButton, sickleButton})
 
