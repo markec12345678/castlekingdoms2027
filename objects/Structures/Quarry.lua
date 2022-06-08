@@ -21,6 +21,7 @@ table.remove(frShaper, 2)
 
 local frPullerPart2 = _G.indexQuads("anim_quarry_pull", 42 + 20, 20)
 local frPullerPart1 = _G.indexQuads("anim_quarry_pull", 19)
+local frStack = _G.indexQuads("stone_stockpile", 48)
 
 local ANIM_LIFTER_PART1 = "lifter_part1"
 local ANIM_LIFTER_PART2 = "lifter_part2"
@@ -31,6 +32,7 @@ local ANIM_HOOK_PART2 = "hook_part2"
 local ANIM_SHAPER = "shaper"
 local ANIM_PULLER_PART1 = "puller_part1"
 local ANIM_PULLER_PART2 = "puller_part1"
+local ANIM_STACK = "stack"
 
 local an = {
     [ANIM_LIFTER_PART1] = frLifterPart1,
@@ -41,7 +43,8 @@ local an = {
     [ANIM_HOOK_PART2] = frHookPart2,
     [ANIM_SHAPER] = frShaper,
     [ANIM_PULLER_PART1] = frPullerPart1,
-    [ANIM_PULLER_PART2] = frPullerPart2
+    [ANIM_PULLER_PART2] = frPullerPart2,
+    [ANIM_STACK] = frStack
 }
 
 local QuarryLifter = _G.class("QuarryLifter", Structure)
@@ -226,8 +229,8 @@ function QuarryShaper:shaperCallback()
         self.parent.lifter:activate()
         self.animation:gotoFrame(1)
         self.animation:pause()
-        self.parent.stoneQuantity = self.parent.stoneQuantity + 1
-        if self.parent.stoneQuantity == 3 then
+        self.parent.stack:add()
+        if self.parent.stack.quantity == self.parent.stack.class.MAX_QUANTITY then
             self.parent:sendToStockpile()
         end
     end
@@ -368,6 +371,97 @@ function QuarryPuller.static:deserialize(data)
     return obj
 end
 
+local QuarryStack = _G.class("QuarryStack", Structure)
+QuarryStack.static.MAX_QUANTITY = 3
+function QuarryStack:initialize(gx, gy, parent, offsetX, offsetY)
+    local mytype = "Stack"
+    self.parent = parent
+    self.quantity = 0
+    Structure.initialize(self, gx, gy, mytype)
+    self.offsetX = offsetX
+    self.offsetY = offsetY
+    self.animated = true
+    self.animation = anim.newAnimation(an[ANIM_STACK], 0.11, nil, ANIM_STACK)
+    self.animation:pause()
+    table.insert(activeEntities, self)
+end
+
+function QuarryStack:animate(dt)
+    Structure.animate(self, dt, true)
+end
+
+function QuarryStack:add()
+    local newQuantity = self.quantity + 1
+    if newQuantity <= self.class.MAX_QUANTITY  then
+        self.quantity = newQuantity
+        if self.quantity == 1 then
+            self:activate()
+            return
+        end
+        self.animation:gotoFrame(self.quantity)
+    else
+        print("Quarry Stack is full!")
+    end
+end
+
+function QuarryStack:take()
+    self.quantity = self.quantity - 1
+    if self.quantity == 0 then
+        self:deactivate()
+        self.parent.unloading = false
+        return
+    end
+    self.animation:gotoFrame(self.quantity)
+end
+
+function QuarryStack:activate()
+    self.animated = true
+    self.animation:gotoFrame(1)
+    self.animation:pause()
+    self:animate()
+end
+
+function QuarryStack:deactivate()
+    self.animation:pause()
+    self.tile = tileQuads["empty"]
+    if self.instancemesh then
+        _G.freeVertexFromTile(self.cx, self.cy, self.vertId)
+        self.instancemesh = nil
+    end
+    self.animated = false
+end
+
+function QuarryStack:serialize()
+    local data = {}
+    local structData = Structure.serialize(self)
+    for k, v in pairs(structData) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
+    data.animation = self.animation:serialize()
+    data.animated = self.animated
+    data.offsetX = self.offsetX
+    data.offsetY = self.offsetY
+    data.quantity = self.quantity
+    data.parent = _G.state:serializeObject(self.parent)
+    return data
+end
+
+function QuarryStack.static:deserialize(data)
+    local obj = self:allocate()
+    Object.deserialize(obj, data)
+    Structure.load(obj, data)
+    obj.parent = _G.state:dereferenceObject(data.parent)
+    obj.parent.stack = obj
+    local anData = data.animation
+    obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, nil, anData.animationIdentifier)
+    obj.animation:deserialize(anData)
+    obj.quantity = data.quantity
+    table.insert(activeEntities, obj)
+    return obj
+end
+
 local QuarryAlias = _G.class("QuarryAlias", Structure)
 function QuarryAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     self.parent = parent
@@ -425,7 +519,6 @@ function Quarry:initialize(gx, gy)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 400
     self.tile = quadArray[tiles + 1]
-    self.stoneQuantity = 0
     self.working = false
     self.offsetX = 0
     self.offsetY = -7 * 16 - 6
@@ -440,6 +533,8 @@ function Quarry:initialize(gx, gy)
     self.puller = QuarryPuller:new(self.gx + 4, self.gy + 2, self, self.offsetX - 64 - 16, self.offsetY)
     self.puller:deactivate()
     self.hook = QuarryHook:new(self.gx + 2, self.gy + 5, self, self.offsetX - 64 - 16)
+    self.stack = QuarryStack:new(self.gx + 9, self.gy + 10, self, self.offsetX, self.offsetY)
+    self.stack:deactivate()
 
     for xx = 0, 5 do
         for yy = 0, 5 do
@@ -527,7 +622,9 @@ function Quarry:work(worker)
     end
 end
 function Quarry:sendToStockpile()
-    self.stoneQuantity = 0
+    self.stack:take()
+    self.stack:take()
+    self.stack:take()
     local i, o, cx, cy
     self.liftWorker.state = "Go to stockpile"
     self.liftWorker.animated = true
@@ -568,13 +665,13 @@ function Quarry:sendToStockpile()
     self.lifter:deactivate()
     self.puller:deactivate()
     self.shaper:deactivate()
+    self.stack:deactivate()
     self.working = false
 end
 function Quarry:load(data)
     Object.deserialize(self, data)
     Structure.load(self, data)
     self.health = data.health
-    self.stoneQuantity = data.stoneQuantity
     self.working = data.working
     self.offsetX = data.offsetX
     self.offsetY = data.offsetY
@@ -604,7 +701,6 @@ function Quarry:serialize()
     end
 
     data.health = self.health
-    data.stoneQuantity = self.stoneQuantity
     data.working = self.working
     data.offsetX = self.offsetX
     data.offsetY = self.offsetY
