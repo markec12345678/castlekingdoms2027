@@ -70,9 +70,9 @@ end
 
 local function update()
     ---------------------------------------
-    mx, my = love.mouse.getPosition();
-    mx = (mx - 16 - _G.ScreenWidth / 2) / _G.state.scaleX + _G.state.viewXview
-    my = (my - 8 - _G.ScreenHeight / 2) / _G.state.scaleX + _G.state.viewYview
+    local defMX, defMY = love.mouse.getPosition();
+    mx = (defMX - 16 - _G.ScreenWidth / 2) / _G.state.scaleX + _G.state.viewXview
+    my = (defMY - 8 - _G.ScreenHeight / 2) / _G.state.scaleX + _G.state.viewYview
     LocalX = math.round(ScreenToIsoX(mx, my))
     LocalY = math.round(ScreenToIsoY(mx, my))
     CenterX = math.round(ScreenToIsoX(_G.state.viewXview, _G.state.viewYview))
@@ -106,22 +106,30 @@ local function update()
     if finalScrollSpeed < 5 then
         finalScrollSpeed = 5
     end
+    local smoothModifier = finalScrollSpeed * 3
     if not _G.paused then
-        if love.keyboard.isDown("up") or love.keyboard.isDown("w") then
-            _G.state.viewYview = _G.state.viewYview - finalScrollSpeed
-            love.audio.setPosition((_G.state.viewXview) / 100, (_G.state.viewYview) / 100, getZFromZoom())
-        end
-        if love.keyboard.isDown("down") or love.keyboard.isDown("s") then
-            _G.state.viewYview = _G.state.viewYview + finalScrollSpeed
-            love.audio.setPosition((_G.state.viewXview) / 100, (_G.state.viewYview) / 100, getZFromZoom())
-        end
-        if love.keyboard.isDown("left") or love.keyboard.isDown("a") then
-            _G.state.viewXview = _G.state.viewXview - finalScrollSpeed
-            love.audio.setPosition((_G.state.viewXview) / 100, (_G.state.viewYview) / 100, getZFromZoom())
-        end
-        if love.keyboard.isDown("right") or love.keyboard.isDown("d") then
-            _G.state.viewXview = _G.state.viewXview + finalScrollSpeed
-            love.audio.setPosition((_G.state.viewXview) / 100, (_G.state.viewYview) / 100, getZFromZoom())
+        if love.mouse.isDown(2) then
+            distX = mx - _G.state.viewXview
+            distY = my - _G.state.viewYview
+            _G.state.viewXview = _G.state.viewXview + distX / smoothModifier
+            _G.state.viewYview = _G.state.viewYview + distY / smoothModifier
+        else
+            if love.keyboard.isDown("up") or love.keyboard.isDown("w") or defMY == 0 then
+                _G.state.viewYview = _G.state.viewYview - finalScrollSpeed
+                love.audio.setPosition((_G.state.viewXview) / 100, (_G.state.viewYview) / 100, getZFromZoom())
+            end
+            if love.keyboard.isDown("down") or love.keyboard.isDown("s") or defMY == _G.ScreenHeight - 1 then
+                _G.state.viewYview = _G.state.viewYview + finalScrollSpeed
+                love.audio.setPosition((_G.state.viewXview) / 100, (_G.state.viewYview) / 100, getZFromZoom())
+            end
+            if love.keyboard.isDown("left") or love.keyboard.isDown("a") or defMX == 0 then
+                _G.state.viewXview = _G.state.viewXview - finalScrollSpeed
+                love.audio.setPosition((_G.state.viewXview) / 100, (_G.state.viewYview) / 100, getZFromZoom())
+            end
+            if love.keyboard.isDown("right") or love.keyboard.isDown("d") or defMX == _G.ScreenWidth - 1 then
+                _G.state.viewXview = _G.state.viewXview + finalScrollSpeed
+                love.audio.setPosition((_G.state.viewXview) / 100, (_G.state.viewYview) / 100, getZFromZoom())
+            end
         end
     end
 end
