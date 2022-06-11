@@ -1,5 +1,6 @@
 local IsoX, IsoY = _G.IsoX, _G.IsoY
 local tileWidth, tileHeight = _G.tileWidth, _G.tileHeight
+require("libraries.CameraHandler")
 
 function ScreenToIsoX(globalX, globalY)
     return (((globalX - IsoX) / (tileWidth / 2)) + ((globalY - IsoY) / (tileHeight / 2))) / 2;
@@ -57,16 +58,7 @@ function _G.arrayRemove(t, fnKeep)
     return t
 end
 
-local function getZFromZoom()
-    local val = 1
-    local scale = _G.state.scaleX
-    if scale < 1 then
-        val = (1 - scale) * 50
-    elseif scale > 1 then
-        val = scale
-    end
-    return val
-end
+
 
 local function update()
     ---------------------------------------
@@ -102,36 +94,7 @@ local function update()
     _G.state.bottomRightChunkY = math.floor(GY / _G.chunkWidth)
     _G.currentChunkX = _G.xchunk;
     _G.currentChunkY = _G.ychunk;
-    local finalScrollSpeed = (_G.scrollSpeed + ((1 - _G.state.scaleX) * 20)) * _G.dt
-    if finalScrollSpeed < 5 then
-        finalScrollSpeed = 5
-    end
-    local smoothModifier = finalScrollSpeed * 3
-    if not _G.paused then
-        if love.mouse.isDown(2) then
-            distX = mx - _G.state.viewXview
-            distY = my - _G.state.viewYview
-            _G.state.viewXview = _G.state.viewXview + distX / smoothModifier
-            _G.state.viewYview = _G.state.viewYview + distY / smoothModifier
-        else
-            if love.keyboard.isDown("up") or love.keyboard.isDown("w") or defMY == 0 then
-                _G.state.viewYview = _G.state.viewYview - finalScrollSpeed
-                love.audio.setPosition((_G.state.viewXview) / 100, (_G.state.viewYview) / 100, getZFromZoom())
-            end
-            if love.keyboard.isDown("down") or love.keyboard.isDown("s") or defMY == _G.ScreenHeight - 1 then
-                _G.state.viewYview = _G.state.viewYview + finalScrollSpeed
-                love.audio.setPosition((_G.state.viewXview) / 100, (_G.state.viewYview) / 100, getZFromZoom())
-            end
-            if love.keyboard.isDown("left") or love.keyboard.isDown("a") or defMX == 0 then
-                _G.state.viewXview = _G.state.viewXview - finalScrollSpeed
-                love.audio.setPosition((_G.state.viewXview) / 100, (_G.state.viewYview) / 100, getZFromZoom())
-            end
-            if love.keyboard.isDown("right") or love.keyboard.isDown("d") or defMX == _G.ScreenWidth - 1 then
-                _G.state.viewXview = _G.state.viewXview + finalScrollSpeed
-                love.audio.setPosition((_G.state.viewXview) / 100, (_G.state.viewYview) / 100, getZFromZoom())
-            end
-        end
-    end
+    handleCamera()
 end
 
 function _G.manhattanDistance(x1, y1, x2, y2)
