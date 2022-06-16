@@ -1,6 +1,6 @@
 local IsoX, IsoY = _G.IsoX, _G.IsoY
 local tileWidth, tileHeight = _G.tileWidth, _G.tileHeight
-require("libraries.CameraHandler")
+local camera = require("objects.Controllers.CameraController")
 
 function ScreenToIsoX(globalX, globalY)
     return (((globalX - IsoX) / (tileWidth / 2)) + ((globalY - IsoY) / (tileHeight / 2))) / 2;
@@ -58,8 +58,6 @@ function _G.arrayRemove(t, fnKeep)
     return t
 end
 
-
-
 local function update()
     ---------------------------------------
     local defMX, defMY = love.mouse.getPosition();
@@ -92,9 +90,9 @@ local function update()
     GX, GY = _G.getTerrainTileOnMouse(love.graphics.getWidth() + 50, love.graphics.getHeight() + 50)
     _G.state.bottomRightChunkX = math.floor(GX / _G.chunkWidth)
     _G.state.bottomRightChunkY = math.floor(GY / _G.chunkWidth)
-    _G.currentChunkX = _G.xchunk;
-    _G.currentChunkY = _G.ychunk;
-    handleCamera()
+    _G.currentChunkX = _G.xchunk
+    _G.currentChunkY = _G.ychunk
+    camera.handleCamera()
 end
 
 function _G.manhattanDistance(x1, y1, x2, y2)
@@ -109,7 +107,7 @@ local function scale(y)
     elseif y < 0 and _G.state.scaleX > 0.3 then
         _G.state.scaleX = _G.state.scaleX - 0.1;
     end
-    love.audio.setPosition((_G.state.viewXview) / 100, (_G.state.viewYview) / 100, getZFromZoom())
+    love.audio.setPosition((_G.state.viewXview) / 100, (_G.state.viewYview) / 100, camera.getZFromZoom())
 end
 
 local function draw()
