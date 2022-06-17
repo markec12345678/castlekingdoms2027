@@ -64,6 +64,56 @@ local function handleOnMouseButtonDownCameraMovement(mx, my, smoothModifier)
     handleCameraMovement(_G.state.viewXview + distX / smoothModifier, _G.state.viewYview + distY / smoothModifier)
 end
 
+local panDirection = {
+    up    = "up",
+    down  = "down",
+    left  = "left",
+    right = "right",
+}
+
+local panDirectionToKeys = {
+    [panDirection.up]    = {"up",    "w"},
+    [panDirection.down]  = {"down",  "s"},
+    [panDirection.left]  = {"left",  "a"},
+    [panDirection.right] = {"right", "d"}
+}
+
+local panDirectionToMousePositions = {
+    [panDirection.up]    = {y = 0},
+    [panDirection.down]  = {y = _G.ScreenHeight - 1},
+    [panDirection.left]  = {x = 0},
+    [panDirection.right] = {x = _G.ScreenWidth - 1},
+}
+
+local function isAnyKeyDown(keys)
+    for _, key in pairs(keys) do
+        if love.keyboard.isDown(key) then
+            return true
+        end
+    end
+    return false
+end
+
+local function isMouseOnDirectionEdge(direction)
+    local mouseX, mouseY = love.mouse.getPosition()
+    if (direction == panDirection.up or
+        direction == panDirection.down)
+      and mouseY == panDirectionToMousePositions[direction].y then
+        return true
+    end
+    if (direction == panDirection.left or
+        direction == panDirection.right)
+      and mouseX == panDirectionToMousePositions[direction].x then
+        return true
+    end
+    return false
+end
+
+local function shouldPan(direction)
+    return isMouseOnDirectionEdge(direction)
+        or isAnyKeyDown(panDirectionToKeys[direction])
+end
+
 local function handleCamera()
     local defMX, defMY = love.mouse.getPosition()
     local mx = (defMX - 16 - _G.ScreenWidth / 2) / _G.state.scaleX + _G.state.viewXview
@@ -77,16 +127,16 @@ local function handleCamera()
         if love.mouse.isDown(2) then
             handleOnMouseButtonDownCameraMovement(mx, my, smoothModifier)
         else
-            if love.keyboard.isDown("up") or love.keyboard.isDown("w") or defMY == 0 then
+            if shouldPan(panDirection.up) then
                 handleCameraMovement(nil, _G.state.viewYview - finalScrollSpeed)
             end
-            if love.keyboard.isDown("down") or love.keyboard.isDown("s") or defMY == _G.ScreenHeight - 1 then
+            if shouldPan(panDirection.down) then
                 handleCameraMovement(nil, _G.state.viewYview + finalScrollSpeed)
             end
-            if love.keyboard.isDown("left") or love.keyboard.isDown("a") or defMX == 0 then
+            if shouldPan(panDirection.left) then
                 handleCameraMovement(_G.state.viewXview - finalScrollSpeed, nil)
             end
-            if love.keyboard.isDown("right") or love.keyboard.isDown("d") or defMX == _G.ScreenWidth - 1 then
+            if shouldPan(panDirection.right) then
                 handleCameraMovement(_G.state.viewXview + finalScrollSpeed, nil)
             end
             resetMousePositionIfNeeded()
