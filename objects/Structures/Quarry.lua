@@ -21,7 +21,7 @@ table.remove(frShaper, 2)
 
 local frPullerPart2 = _G.indexQuads("anim_quarry_pull", 42 + 20, 20)
 local frPullerPart1 = _G.indexQuads("anim_quarry_pull", 19)
-local frStack = _G.indexQuads("stone_stockpile", 48)
+local frStack = _G.indexQuads("small_stone_stack", 2)
 
 local ANIM_LIFTER_PART1 = "lifter_part1"
 local ANIM_LIFTER_PART2 = "lifter_part2"
@@ -373,13 +373,13 @@ end
 
 local QuarryStack = _G.class("QuarryStack", Structure)
 QuarryStack.static.MAX_QUANTITY = 3
-function QuarryStack:initialize(gx, gy, parent, offsetX, offsetY)
+function QuarryStack:initialize(gx, gy, parent)
     local mytype = "Stack"
     self.parent = parent
     self.quantity = 0
     Structure.initialize(self, gx, gy, mytype)
-    self.offsetX = offsetX
-    self.offsetY = offsetY
+    self.offsetX = 11
+    self.offsetY = -105
     self.animated = true
     self.animation = anim.newAnimation(an[ANIM_STACK], 0.11, nil, ANIM_STACK)
     self.animation:pause()
@@ -392,7 +392,7 @@ end
 
 function QuarryStack:add()
     local newQuantity = self.quantity + 1
-    if newQuantity <= self.class.MAX_QUANTITY  then
+    if newQuantity <= self.class.MAX_QUANTITY then
         self.quantity = newQuantity
         if self.quantity == 1 then
             self:activate()
@@ -441,8 +441,6 @@ function QuarryStack:serialize()
     end
     data.animation = self.animation:serialize()
     data.animated = self.animated
-    data.offsetX = self.offsetX
-    data.offsetY = self.offsetY
     data.quantity = self.quantity
     data.parent = _G.state:serializeObject(self.parent)
     return data
@@ -458,6 +456,8 @@ function QuarryStack.static:deserialize(data)
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, nil, anData.animationIdentifier)
     obj.animation:deserialize(anData)
     obj.quantity = data.quantity
+    obj.offsetX = 11
+    obj.offsetY = -105
     table.insert(activeEntities, obj)
     return obj
 end
@@ -533,7 +533,7 @@ function Quarry:initialize(gx, gy)
     self.puller = QuarryPuller:new(self.gx + 4, self.gy + 2, self, self.offsetX - 64 - 16, self.offsetY)
     self.puller:deactivate()
     self.hook = QuarryHook:new(self.gx + 2, self.gy + 5, self, self.offsetX - 64 - 16)
-    self.stack = QuarryStack:new(self.gx + 9, self.gy + 10, self, self.offsetX, self.offsetY)
+    self.stack = QuarryStack:new(self.gx + 9, self.gy + 10, self)
     self.stack:deactivate()
 
     for xx = 0, 5 do
@@ -548,14 +548,14 @@ function Quarry:initialize(gx, gy)
     end
 
     for tile = 1, tiles do
-        local qur = QuarryAlias:new(
-            quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self, -self.offsetY + 8 * (tiles - tile + 1))
+        local qur = QuarryAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
+            -self.offsetY + 8 * (tiles - tile + 1))
         qur.tileKey = tile
     end
 
     for tile = 1, tiles do
-        local qur = QuarryAlias:new(
-            quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile, 14)
+        local qur = QuarryAlias:new(quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self,
+            -self.offsetY + 8 * tile, 14)
         qur.tileKey = tiles + 1 + tile
     end
 
