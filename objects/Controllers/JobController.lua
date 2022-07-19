@@ -5,8 +5,9 @@ local WheatFarmer = require("objects.Units.WheatFarmer")
 local Miner = require("objects.Units.Miner")
 local Miller = require("objects.Units.Miller")
 local Baker = require("objects.Units.Baker")
+local OxHandler = require("objects.Units.OxHandler")
 
-local JobController = _G.class('JobController')
+local JobController = _G.class("JobController")
 function JobController:initialize()
     self:initializeWorkplaces()
     self.workers = 0
@@ -20,7 +21,8 @@ function JobController:initializeWorkplaces()
         ["OrchardFarmer"] = {},
         ["WheatFarmer"] = {},
         ["Miller"] = {},
-        ["Baker"] = {}
+        ["Baker"] = {},
+        ["OxHandler"] = {}
     }
 end
 function JobController:add(job, workplace)
@@ -60,6 +62,8 @@ function JobController:makeWorker()
                     worker = Miller:new(_G.spawnPointX, _G.spawnPointY, "Miller")
                 elseif job == "Baker" then
                     worker = Baker:new(_G.spawnPointX, _G.spawnPointY, "Baker")
+                elseif job == "OxHandler" then
+                    worker = OxHandler:new(_G.spawnPointX, _G.spawnPointY, "OxHandler")
                 end
                 workplace:join(worker)
                 worker.state = "Go to workplace"
