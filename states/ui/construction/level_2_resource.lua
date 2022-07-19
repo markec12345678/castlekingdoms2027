@@ -38,9 +38,14 @@ quarryButton:setOnClick(function(self)
 end)
 quarryButton:setTooltip("Quarry", "Requires 24 Wood\nProduces stone blocks from the ground resource")
 
-local oxButton = ActionBarButton:new(love.graphics.newImage('assets/ui/ox_ab.png'), states.STATE_INGAME_CONSTRUCTION, 4,
-    true, nil, true)
-oxButton:setTooltip("Ox", "Not implemented yet")
+local oxButton = ActionBarButton:new(love.graphics.newImage('assets/ui/ox_ab.png'), states.STATE_INGAME_CONSTRUCTION, 4, true)
+oxButton:setTooltip("Ox Tether (can only be placed near a quarry)", "5 Wood\nTransport stone from the quarry to the stockpile")
+oxButton:setOnClick(function(self)
+    _G.BuildController:set("ox_tether", function()
+        oxButton:unselect()
+    end)
+    ActionBar:selectButton(oxButton)
+end)
 
 local ironMine = ActionBarButton:new(love.graphics.newImage('assets/ui/iron_mine_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 5, true)

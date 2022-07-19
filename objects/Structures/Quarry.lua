@@ -128,6 +128,11 @@ function QuarryLifter:start()
     self.animation:pause()
     self:animate()
 end
+function QuarryLifter:stop()
+    self.animation:pause()
+    self.quantity = 0
+    self.animated = false
+end
 function QuarryLifter:activate()
     self.animated = true
     self.animation = anim.newAnimation(an[ANIM_LIFTER_PART1], 0.11, self:lifterCallback_1(), ANIM_LIFTER_PART1)
@@ -231,7 +236,11 @@ function QuarryShaper:shaperCallback()
         self.animation:pause()
         self.parent.stack:add()
         if self.parent.stack.quantity == self.parent.stack.class.MAX_QUANTITY then
-            self.parent:sendToStockpile()
+            if self.parent.isStandalone then
+                self.parent:sendToStockpile()
+            else
+                self.parent:stop()
+            end
         end
     end
 end
@@ -242,6 +251,11 @@ function QuarryShaper:start()
     self.animated = true
     self.animation:pause()
     self:animate()
+end
+function QuarryShaper:stop()
+    self.animation:pause()
+    self.quantity = 0
+    self.animated = false
 end
 function QuarryShaper:activate()
     self.animated = true
@@ -321,6 +335,11 @@ function QuarryPuller:start()
     self.animated = true
     self.animation:pause()
     self:animate()
+end
+function QuarryPuller:stop()
+    self.animation:pause()
+    self.quantity = 0
+    self.animated = false
 end
 function QuarryPuller:activate()
     self.animated = true
@@ -406,10 +425,14 @@ end
 
 function QuarryStack:take()
     self.quantity = self.quantity - 1
+    self.parent:start()
     if self.quantity == 0 then
         self:deactivate()
         self.parent.unloading = false
         return
+    end
+    if self.quantity < self.parent.stack.class.MAX_QUANTITY then
+        self.parent:start()
     end
     self.animation:gotoFrame(self.quantity)
 end
@@ -523,9 +546,11 @@ function Quarry:initialize(gx, gy)
     self.offsetX = 0
     self.offsetY = -7 * 16 - 6
     self.freeSpots = 3
+    self.assignedOxHandler = nil
     self.liftWorker = nil
     self.pullWorker = nil
     self.shapeWorker = nil
+    self.isStandalone = true
     self.lifter = QuarryLifter:new(self.gx + 3, self.gy + 5, self, self.offsetX - 64 - 16)
     self.lifter:deactivate()
     self.shaper = QuarryShaper:new(self.gx + 1, self.gy + 5, self, self.offsetX - 64 - 16, self.offsetY)
@@ -622,50 +647,70 @@ function Quarry:work(worker)
     end
 end
 function Quarry:sendToStockpile()
-    self.stack:take()
-    self.stack:take()
-    self.stack:take()
-    local i, o, cx, cy
-    self.liftWorker.state = "Go to stockpile"
-    self.liftWorker.animated = true
-    self.liftWorker.gx = self.gx + 6
-    self.liftWorker.gy = self.gy + 2
-    self.liftWorker.fx = (self.gx + 6) * 1000 + 500
-    self.liftWorker.fy = (self.gy + 2) * 1000 + 500
-    i = (self.liftWorker.gx) % (_G.chunkWidth)
-    o = (self.liftWorker.gy) % (_G.chunkWidth)
-    cx = math.floor(self.liftWorker.gx / _G.chunkWidth)
-    cy = math.floor(self.liftWorker.gy / _G.chunkWidth)
-    _G.addObjectAt(cx, cy, i, o, self.liftWorker)
+    if self.isStandalone then
+        self.stack:take()
+        self.stack:take()
+        self.stack:take()
+        local i, o, cx, cy
+        self.liftWorker.state = "Go to stockpile"
+        self.liftWorker.animated = true
+        self.liftWorker.gx = self.gx + 6
+        self.liftWorker.gy = self.gy + 2
+        self.liftWorker.fx = (self.gx + 6) * 1000 + 500
+        self.liftWorker.fy = (self.gy + 2) * 1000 + 500
+        i = (self.liftWorker.gx) % (_G.chunkWidth)
+        o = (self.liftWorker.gy) % (_G.chunkWidth)
+        cx = math.floor(self.liftWorker.gx / _G.chunkWidth)
+        cy = math.floor(self.liftWorker.gy / _G.chunkWidth)
+        _G.addObjectAt(cx, cy, i, o, self.liftWorker)
 
-    self.pullWorker.state = "Go to stockpile"
-    self.pullWorker.animated = true
-    self.pullWorker.gx = self.gx + 5
-    self.pullWorker.gy = self.gy - 1
-    self.pullWorker.fx = (self.gx + 5) * 1000 + 500
-    self.pullWorker.fy = (self.gy - 1) * 1000 + 500
-    i = (self.pullWorker.gx) % (_G.chunkWidth)
-    o = (self.pullWorker.gy) % (_G.chunkWidth)
-    cx = math.floor(self.pullWorker.gx / _G.chunkWidth)
-    cy = math.floor(self.pullWorker.gy / _G.chunkWidth)
-    _G.addObjectAt(cx, cy, i, o, self.pullWorker)
+        self.pullWorker.state = "Go to stockpile"
+        self.pullWorker.animated = true
+        self.pullWorker.gx = self.gx + 5
+        self.pullWorker.gy = self.gy - 1
+        self.pullWorker.fx = (self.gx + 5) * 1000 + 500
+        self.pullWorker.fy = (self.gy - 1) * 1000 + 500
+        i = (self.pullWorker.gx) % (_G.chunkWidth)
+        o = (self.pullWorker.gy) % (_G.chunkWidth)
+        cx = math.floor(self.pullWorker.gx / _G.chunkWidth)
+        cy = math.floor(self.pullWorker.gy / _G.chunkWidth)
+        _G.addObjectAt(cx, cy, i, o, self.pullWorker)
 
-    self.shapeWorker.state = "Go to stockpile"
-    self.shapeWorker.animated = true
-    self.shapeWorker.gx = self.gx + 1
-    self.shapeWorker.gy = self.gy + 6
-    self.shapeWorker.fx = (self.gx + 1) * 1000 + 500
-    self.shapeWorker.fy = (self.gy + 6) * 1000 + 500
-    i = (self.shapeWorker.gx) % (_G.chunkWidth)
-    o = (self.shapeWorker.gy) % (_G.chunkWidth)
-    cx = math.floor(self.shapeWorker.gx / _G.chunkWidth)
-    cy = math.floor(self.shapeWorker.gy / _G.chunkWidth)
-    _G.addObjectAt(cx, cy, i, o, self.shapeWorker)
+        self.shapeWorker.state = "Go to stockpile"
+        self.shapeWorker.animated = true
+        self.shapeWorker.gx = self.gx + 1
+        self.shapeWorker.gy = self.gy + 6
+        self.shapeWorker.fx = (self.gx + 1) * 1000 + 500
+        self.shapeWorker.fy = (self.gy + 6) * 1000 + 500
+        i = (self.shapeWorker.gx) % (_G.chunkWidth)
+        o = (self.shapeWorker.gy) % (_G.chunkWidth)
+        cx = math.floor(self.shapeWorker.gx / _G.chunkWidth)
+        cy = math.floor(self.shapeWorker.gy / _G.chunkWidth)
+        _G.addObjectAt(cx, cy, i, o, self.shapeWorker)
 
-    self.lifter:deactivate()
-    self.puller:deactivate()
-    self.shaper:deactivate()
-    self.stack:deactivate()
+        self.lifter:deactivate()
+        self.puller:deactivate()
+        self.shaper:deactivate()
+        self.stack:deactivate()
+        self.working = false
+    end
+end
+function Quarry:start()
+    if not self.working then
+        self.lifter:start()
+        self.puller:start()
+        self.shaper:start()
+        if self.shapeWorker and self.shapeWorker.state == "Working" and not self.working and self.liftWorker.state ==
+            "Working" and self.pullWorker.state == "Working" then
+            self.working = true
+            self.lifter:activate()
+        end
+    end
+end
+function Quarry:stop()
+    self.lifter:stop()
+    self.puller:stop()
+    self.shaper:stop()
     self.working = false
 end
 function Quarry:load(data)

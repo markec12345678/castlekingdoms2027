@@ -15,6 +15,7 @@ local WheatFarm = require("objects.Structures.WheatFarm")
 local Windmill = require("objects.Structures.Windmill")
 local Bakery = require("objects.Structures.Bakery")
 local House = require("objects.Structures.House")
+local OxTether = require("objects.Structures.OxTether")
 
 local objectFromTypeAt = _G.objectFromTypeAt
 local chunkWidth = _G.chunkWidth
@@ -328,6 +329,64 @@ local building = {
         end,
         specialRequirements = function(self, _, _)
             return true
+        end
+    },
+    ["ox_tether"] = {
+        quad = tileQuads["stone_ox_base (1)"],
+        offsetY = 26,
+        offsetX = 15,
+        w = 2,
+        h = 2,
+        cost = {
+            ["wood"] = 5
+        },
+        build = function(self, gx, gy)
+            OxTether:new(gx, gy)
+        end,
+        specialRequirements = function(self, gx, gy)
+            for x = gx - 25, gx + 25 do
+                for y = gy - 25, gy + 25 do
+                    if _G.objectFromClassAtGlobal(x, y, "Quarry") then
+                        return true
+                    end
+                end
+            end
+            return false
+        end,
+        overrideRequirements = function(self, ctrl)
+            local type
+            ctrl.batch:clear()
+            if not self:specialRequirements(ctrl.gx, ctrl.gy) then
+                ctrl.canBuild = false
+            end
+            for xx = 0, ctrl.width - 1 do
+                for yy = 0, ctrl.height - 1 do
+                    local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(xx + ctrl.gx, yy + ctrl.gy)
+                    if _G.objectFromClassAtGlobal(xx + ctrl.gx, yy + ctrl.gy, "Stone") then
+                        if ctrl.canBuild then
+                            type = 2
+                        else
+                            type = 4
+                        end
+                    elseif not _G.importantObjectAt(cx, cy, x, y) then
+                        if ctrl.canBuild then
+                            type = 2
+                        else
+                            type = 3
+                        end
+                    else
+                        type = 1
+                    end
+                    local elevationOffsetY = (_G.state.map.heightmap[cx][cy][x][y] or 0) * 2
+                    ctrl.batch:add(ctrl.quads[type], (xx - yy) * tileWidth * 0.5,
+                        (xx + yy) * tileHeight * 0.5 - elevationOffsetY, 0, 1, 1)
+                end
+            end
+            ctrl.batch:flush()
+            ctrl.previousGx = ctrl.gx
+            ctrl.previousGy = ctrl.gy
+            ctrl.previousCanBuild = ctrl.canBuild
+            ctrl.lastBuilding = ctrl.building
         end
     }
 }
