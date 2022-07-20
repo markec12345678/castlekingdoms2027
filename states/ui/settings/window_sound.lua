@@ -47,7 +47,12 @@ scaleBarSound:SetImage(scaleBarImage)
 scaleBarSound:SetScaleX(frScaleBar1.width / scaleBarSound:GetImageWidth())
 scaleBarSound:SetScaleY(frScaleBar1.height / scaleBarSound:GetImageHeight())
 scaleBarSound:SetPos(frScaleBar1.x, frScaleBar1.y)
-scaleBarSound.disablehover = true
+scaleBarSound.OnClick = function(self)
+    local mx, _ = love.mouse.getPosition()
+    self:OnSliderTrigger(mx)
+end
+scaleBarSound.OnSliderTrigger = function()
+end
 register(scaleBarSound)
 
 local scaleHandImage = love.graphics.newImage("assets/ui/scale_hand.png")
@@ -74,10 +79,17 @@ end
 scaleHandSoundVolume.OnClick = function(self)
     self.isHolding = false
 end
-scaleHandSoundVolume.Update = function(self)
+scaleHandSoundVolume.Update = function(self, overrideRawValue)
     if not love.mouse.isDown(1) and self.isHolding then
         self:SetImage(scaleHandImage)
         self.isHolding = false
+    elseif overrideRawValue then
+        local rawValue = overrideRawValue
+        local min, max = frScaleHand1.x, frScaleHand1.x + frScaleHand1.width - self:GetImageHeight() / 2
+        rawValue = clamp(rawValue, min, max)
+        self.value = (rawValue - scaleBarSound.x) / (max - scaleBarSound.x)
+        _G.OPTIONS.SFX_VOLUME = self.value
+        self:SetX(rawValue, true)
     elseif self.isHolding then
         local min, max = frScaleHand1.x, frScaleHand1.x + frScaleHand1.width - self:GetImageHeight() / 2
         local mx, _ = love.mouse.getPosition()
@@ -86,6 +98,9 @@ scaleHandSoundVolume.Update = function(self)
         _G.OPTIONS.SFX_VOLUME = self.value
         self:SetX(rawValue, true)
     end
+end
+scaleBarSound.OnSliderTrigger = function(self, rawValue)
+    scaleHandSoundVolume:Update(rawValue)
 end
 scaleHandSoundVolume.OnMouseExit = function(self)
     if not self.isHolding then
@@ -122,7 +137,12 @@ scaleBarSpeech:SetImage(scaleBarImage)
 scaleBarSpeech:SetScaleX(frScaleBar2.width / scaleBarSpeech:GetImageWidth())
 scaleBarSpeech:SetScaleY(frScaleBar2.height / scaleBarSpeech:GetImageHeight())
 scaleBarSpeech:SetPos(frScaleBar2.x, frScaleBar2.y)
-scaleBarSpeech.disablehover = true
+scaleBarSpeech.OnClick = function(self)
+    local mx, _ = love.mouse.getPosition()
+    self:OnSliderTrigger(mx)
+end
+scaleBarSpeech.OnSliderTrigger = function()
+end
 register(scaleBarSpeech)
 
 local frScaleHand2 = frames["frSettingsScaleHand_2"]
@@ -147,18 +167,28 @@ end
 scaleHandSpeechVolume.OnClick = function(self)
     self.isHolding = false
 end
-scaleHandSpeechVolume.Update = function(self)
+scaleHandSpeechVolume.Update = function(self, overrideRawValue)
     if not love.mouse.isDown(1) and self.isHolding then
         self:SetImage(scaleHandImage)
         self.isHolding = false
+    elseif overrideRawValue then
+        local rawValue = overrideRawValue
+        local min, max = frScaleBar2.x, frScaleBar2.x + frScaleBar2.width - self:GetImageHeight() / 2
+        rawValue = clamp(rawValue, min, max)
+        self.value = (rawValue - scaleBarSpeech.x) / (max - scaleBarSpeech.x)
+        _G.OPTIONS.SPEECH_VOLUME = self.value
+        self:SetX(rawValue, true)
     elseif self.isHolding then
-        local min, max = frScaleHand2.x, frScaleHand2.x + frScaleHand2.width - self:GetImageHeight() / 2
+        local min, max = frScaleBar2.x, frScaleBar2.x + frScaleBar2.width - self:GetImageHeight() / 2
         local mx, _ = love.mouse.getPosition()
         local rawValue = clamp(mx, min, max)
         self.value = (rawValue - scaleBarSpeech.x) / (max - scaleBarSpeech.x)
         _G.OPTIONS.SPEECH_VOLUME = self.value
         self:SetX(rawValue, true)
     end
+end
+scaleBarSpeech.OnSliderTrigger = function(self, rawValue)
+    scaleHandSpeechVolume:Update(rawValue)
 end
 scaleHandSpeechVolume.OnMouseExit = function(self)
     if not self.isHolding then
@@ -195,7 +225,12 @@ scaleBarMusic:SetImage(scaleBarImage)
 scaleBarMusic:SetScaleX(frScaleBar3.width / scaleBarMusic:GetImageWidth())
 scaleBarMusic:SetScaleY(frScaleBar3.height / scaleBarMusic:GetImageHeight())
 scaleBarMusic:SetPos(frScaleBar3.x, frScaleBar3.y)
-scaleBarMusic.disablehover = true
+scaleBarMusic.OnClick = function(self)
+    local mx, _ = love.mouse.getPosition()
+    self:OnSliderTrigger(mx)
+end
+scaleBarMusic.OnSliderTrigger = function()
+end
 register(scaleBarMusic)
 
 local frScaleHand3 = frames["frSettingsScaleHand_3"]
@@ -220,21 +255,34 @@ end
 scaleHandMusicVolume.OnClick = function(self)
     self.isHolding = false
 end
-scaleHandMusicVolume.Update = function(self)
+scaleHandMusicVolume.Update = function(self, overrideRawValue)
     if not love.mouse.isDown(1) and self.isHolding then
         self:SetImage(scaleHandImage)
         self.isHolding = false
+    elseif overrideRawValue then
+        local rawValue = overrideRawValue
+        local min, max = frScaleHand3.x, frScaleHand3.x + frScaleHand3.width - self:GetImageHeight() / 2
+        rawValue = clamp(rawValue, min, max)
+        self.value = (rawValue - scaleBarMusic.x) / (max - scaleBarMusic.x)
+        _G.OPTIONS.MUSIC_VOLUME = self.value
+        self:SetX(rawValue, true)
+        if _G.CURRENT_MUSIC then
+            _G.CURRENT_MUSIC:setVolume(_G.OPTIONS.MUSIC_VOLUME)
+        end
     elseif self.isHolding then
         local min, max = frScaleHand3.x, frScaleHand3.x + frScaleHand3.width - self:GetImageHeight() / 2
         local mx, _ = love.mouse.getPosition()
         local rawValue = clamp(mx, min, max)
-        self.value = (rawValue - scaleBarSound.x) / (max - scaleBarSound.x)
+        self.value = (rawValue - scaleBarMusic.x) / (max - scaleBarMusic.x)
         _G.OPTIONS.MUSIC_VOLUME = self.value
+        self:SetX(rawValue, true)
         if _G.CURRENT_MUSIC then
             _G.CURRENT_MUSIC:setVolume(_G.OPTIONS.MUSIC_VOLUME)
         end
-        self:SetX(rawValue, true)
     end
+end
+scaleBarMusic.OnSliderTrigger = function(self, rawValue)
+    scaleHandMusicVolume:Update(rawValue)
 end
 scaleHandMusicVolume.OnMouseExit = function(self)
     if not self.isHolding then
