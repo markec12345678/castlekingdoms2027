@@ -179,6 +179,7 @@ closeWindowButton.Update = function(self)
 end
 closeWindowButton.OnClick = function(self)
     local Gamestate = require("libraries.gamestate")
+    _G.configFile:save()
     if Gamestate.current() == require("states.start_menu") then
         loveframes.SetState(states.STATE_MAIN_MENU)
     elseif Gamestate.current() == require("states.game") then
