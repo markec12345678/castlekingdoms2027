@@ -4,9 +4,9 @@ math.random()
 math.random()
 
 _G.OPTIONS = {
-    SFX_VOLUME = 1,
-    SPEECH_VOLUME = 1,
-    MUSIC_VOLUME = 1
+    SFX_VOLUME = _G.config.sound.effects / 100,
+    SPEECH_VOLUME = _G.config.sound.speech / 100,
+    MUSIC_VOLUME = _G.config.sound.music / 100
 }
 
 _G.version = "0.3.1"
