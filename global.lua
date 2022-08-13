@@ -197,7 +197,7 @@ _G.ScreenWidth, _G.ScreenHeight, _ = love.window.getMode()
 _G.channel = {}
 _G.channel.request = love.thread.getChannel("request")
 _G.channel.receive = love.thread.getChannel("receive")
-_G.channel.mapUpdate = love.thread.getChannel("mapUpdate")
+_G.channel.mapUpdate = love.thread.getChannel("mapUpdate1")
 _G.channel2 = {}
 _G.channel2.mapUpdate = love.thread.getChannel("mapUpdate2")
 
