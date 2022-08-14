@@ -89,7 +89,6 @@ local Miller = _G.class('Miller', Unit)
 function Miller:initialize(gx, gy, type)
     Unit.initialize(self, gx, gy, type)
     self.state = 'Find a job'
-    self.eatTimer = 0
     self.waitTimer = 0
     self.offsetY = -10
     self.offsetX = -5
@@ -117,7 +116,6 @@ function Miller:serialize()
         data.animation = self.animation:serialize()
     end
     data.state = self.state
-    data.eatTimer = self.eatTimer
     data.waitTimer = self.waitTimer
     data.offsetY = self.offsetY
     data.offsetX = self.offsetX
@@ -202,11 +200,6 @@ function Miller:dirSubUpdate()
 end
 
 function Miller:update()
-    self.eatTimer = self.eatTimer + 1
-    if self.eatTimer > 3000 then
-        self.eatTimer = 0
-        _G.foodpile:take()
-    end
     self.waitTimer = self.waitTimer + _G.dt
     if self.waitTimer > 1 then
         self.waitTimer = 0

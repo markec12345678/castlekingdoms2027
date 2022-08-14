@@ -67,7 +67,6 @@ function OrchardFarmer:initialize(gx, gy, type)
     self.count = 1
     self.offsetY = -10
     self.offsetX = -5
-    self.eatTimer = 0
     self.animated = true
     self.gatherLoopCount = 0
     self.animation = anim.newAnimation(an[WALKING_WEST], 10, nil, WALKING_WEST)
@@ -84,7 +83,6 @@ function OrchardFarmer:serialize()
     data.state = self.state
     data.animated = self.animated
     data.count = self.count
-    data.eatTimer = self.eatTimer
     data.offsetX = self.offsetX
     data.offsetY = self.offsetY
     data.gatherLoopCount = self.gatherLoopCount
@@ -168,11 +166,6 @@ function OrchardFarmer:gatherCallback()
     end
 end
 function OrchardFarmer:update()
-    self.eatTimer = self.eatTimer + 1
-    if self.eatTimer > 3000 then
-        _G.foodpile:take()
-        self.eatTimer = 0
-    end
     if self.pathState == "Waiting for path" and self.state ~= "Working" then
         self:pathfind()
     elseif self.state ~= "No path to farm" then

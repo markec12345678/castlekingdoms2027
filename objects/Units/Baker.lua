@@ -62,7 +62,6 @@ local Baker = _G.class('Baker', Unit)
 function Baker:initialize(gx, gy, type)
     Unit.initialize(self, gx, gy, type)
     self.state = 'Find a job'
-    self.eatTimer = 0
     self.waitTimer = 0
     self.offsetY = -10
     self.offsetX = -5
@@ -147,12 +146,6 @@ function Baker:dirSubUpdate()
 end
 
 function Baker:update()
-    -- print(self.state, self.pathState)
-    self.eatTimer = self.eatTimer + 1
-    if self.eatTimer > 3000 then
-        _G.foodpile:take()
-        self.eatTimer = 0
-    end
     self.waitTimer = self.waitTimer + _G.dt
     if self.waitTimer > 1 then
         if self.state == "Waiting for flour" then
@@ -303,7 +296,6 @@ function Baker:serialize()
         data.animation = self.animation:serialize()
     end
     data.state = self.state
-    data.eatTimer = self.eatTimer
     data.waitTimer = self.waitTimer
     data.offsetY = self.offsetY
     data.offsetX = self.offsetX

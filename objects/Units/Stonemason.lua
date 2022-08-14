@@ -65,7 +65,6 @@ function Stonemason:initialize(gx, gy, type)
     self.count = 1
     self.offsetY = -10
     self.offsetX = -5
-    self.eatTimer = 0
     self.animated = true
     self.animation = anim.newAnimation(an[ANIM_WALKING_WEST], 10, nil, ANIM_WALKING_WEST)
 end
@@ -125,11 +124,6 @@ function Stonemason:dirSubUpdate()
     end
 end
 function Stonemason:update()
-    self.eatTimer = self.eatTimer + 1
-    if self.eatTimer > 3000 then
-        _G.foodpile:take()
-        self.eatTimer = 0
-    end
     if self.pathState == "Waiting for path" then
         self:pathfind()
     elseif self.state ~= "No path to quarry" and self.state ~= "Working" then
@@ -229,7 +223,6 @@ function Stonemason:serialize()
         data.animation = self.animation:serialize()
     end
     data.state = self.state
-    data.eatTimer = self.eatTimer
     data.offsetY = self.offsetY
     data.offsetX = self.offsetX
     data.animated = self.animated

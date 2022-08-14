@@ -95,8 +95,7 @@ local Campfire = love.filesystem.load("objects/Structures/Campfire.lua")(activeE
 local Orchard = love.filesystem.load("objects/Structures/Orchard.lua")(activeEntities, tileQuads, objectBatch)
 local WheatFarm = love.filesystem.load("objects/Structures/WheatFarm.lua")(object, tileQuads, objectBatch,
     activeEntities)
-local OxTether = love.filesystem.load("objects/Structures/OxTether.lua")(object, tileQuads, objectBatch,
-activeEntities)
+local OxTether = love.filesystem.load("objects/Structures/OxTether.lua")(object, tileQuads, objectBatch, activeEntities)
 
 package.loaded["objects.Environment.Tree"] = Tree
 package.loaded["objects.Environment.PineTree"] = PineTree
@@ -217,6 +216,18 @@ function _G.objectFromClassAtGlobal(gx, gy, objClass)
     if type(object[cx][cy][x][y]) == "table" then
         for _, currentObject in ipairs(object[cx][cy][x][y]) do
             if currentObject.class.name == objClass then
+                return currentObject
+            end
+        end
+    end
+    return false
+end
+
+function _G.objectFromSubclassAtGlobal(gx, gy, objClass)
+    local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(gx, gy)
+    if type(object[cx][cy][x][y]) == "table" then
+        for _, currentObject in ipairs(object[cx][cy][x][y]) do
+            if currentObject.class.isSubclassOf and currentObject.class:isSubclassOf(objClass) then
                 return currentObject
             end
         end
@@ -501,9 +512,21 @@ local function mousepressed(x, y, button)
     press.x = (press.gx) % (chunkWidth)
     press.y = (press.gy) % (chunkWidth)
     if button == 1 then
-        _G.BuildController:mousepressed(mx, my)
+        local Structure = require("objects.Structure")
+        local structure = _G.objectFromSubclassAtGlobal(press.gx, press.gy, Structure)
+        if structure and structure.onClick then
+            structure:onClick()
+        else
+            _G.BuildController:mousepressed(mx, my)
+        end
     elseif button == 2 then
         _G.state.map:setWalkableWater(press.gx, press.gy)
+        local loveframes = require("libraries.loveframes")
+        local states = require("states.ui.states")
+        if loveframes.GetState() == states.STATE_GRANARY then
+            local ActionBar = require("states.ui.ActionBar")
+            ActionBar:switchMode()
+        end
     elseif button == 3 then
         -- require("objects.Controllers.Ferdnhoven")
         -- _G.getTerrainTileOnMouse(mx, my)

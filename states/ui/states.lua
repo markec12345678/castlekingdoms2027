@@ -3,7 +3,8 @@ local states = {
     STATE_INGAME_CONSTRUCTION = 2,
     STATE_PAUSE_MENU = 3,
     STATE_MAIN_MENU_LOAD_SAVE = 4,
-    STATE_SETTINGS = 5
+    STATE_SETTINGS = 5,
+    STATE_GRANARY = 6
 }
 
 return states
