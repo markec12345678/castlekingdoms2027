@@ -12,6 +12,7 @@ end
 
 local ActionBar = _G.class("ActionBar")
 ActionBar.static.actionBarImage = love.graphics.newImage("assets/ui/action_bar.png")
+ActionBar.static.actionBarGranaryImage = love.graphics.newImage("assets/ui/action_bar_granary.png")
 function ActionBar:initialize()
     local element = loveframes.Create("image")
     element:SetState(states.STATE_INGAME_CONSTRUCTION)
@@ -39,6 +40,21 @@ function ActionBar:initialize()
     self.element = element
     self.groups = {}
     self.currentGroup = "main"
+end
+function ActionBar:switchMode(mode)
+    if mode == "granary" then
+        self:showGroup("granary")
+        loveframes.SetState(states.STATE_GRANARY)
+        self.populationText:SetState(states.STATE_GRANARY)
+        self.element:SetState(states.STATE_GRANARY)
+        self.element:SetImage(ActionBar.actionBarGranaryImage)
+    else
+        self:showGroup("main")
+        loveframes.SetState(states.STATE_INGAME_CONSTRUCTION)
+        self.populationText:SetState(states.STATE_INGAME_CONSTRUCTION)
+        self.element:SetState(states.STATE_INGAME_CONSTRUCTION)
+        self.element:SetImage(ActionBar.actionBarImage)
+    end
 end
 function ActionBar:updatePopulationCount()
     local color = {176 / 255, 136 / 255, 80 / 255, 1}

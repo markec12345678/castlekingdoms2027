@@ -114,7 +114,6 @@ function Peasant:initialize(gx, gy, type)
     self.count = 1
     self.offsetY = -10
     self.offsetX = -5
-    self.eatTimer = 0
     self.animated = true
     self.orientation = ""
     local bowingEnd = function(animation)
@@ -260,11 +259,6 @@ function Peasant:update()
     if self.tryToGetAJob and self.state == "Waiting" then
         self:getAJob()
     end
-    self.eatTimer = self.eatTimer + 1
-    if self.eatTimer > 3000 then
-        _G.foodpile:take()
-        self.eatTimer = 0
-    end
     if self.pathState == "Waiting for path" then
         self:pathfind()
     elseif self.state == "Going to campfire" then
@@ -321,7 +315,6 @@ function Peasant:serialize()
     data.count = self.count
     data.offsetY = self.offsetY
     data.offsetX = self.offsetX
-    data.eatTimer = self.eatTimer
     data.orientation = self.orientation
     data.animated = self.animated
     if self.animation then

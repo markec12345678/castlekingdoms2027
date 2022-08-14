@@ -36,7 +36,7 @@ local maxQuantity = {
     ["cheese"] = 16
 }
 
-local GranaryAlias = _G.class('GranaryAlias', Structure)
+local GranaryAlias = _G.class("GranaryAlias", Structure)
 function GranaryAlias:initialize(tile, gx, gy, parent, offsetY, offsetX, serializeParent)
     local mytype = "Static structure"
     self.parent = parent
@@ -55,6 +55,10 @@ function GranaryAlias:initialize(tile, gx, gy, parent, offsetY, offsetX, seriali
         end
     end
     Structure.render(self)
+end
+function GranaryAlias:onClick()
+    local ActionBar = require("states.ui.ActionBar")
+    ActionBar:switchMode("granary")
 end
 function GranaryAlias:serialize()
     local data = {}
@@ -90,7 +94,7 @@ function GranaryAlias.static:deserialize(data)
     return obj
 end
 
-local Granary = _G.class('Granary', Structure)
+local Granary = _G.class("Granary", Structure)
 
 Granary.static.WIDTH = 4
 Granary.static.LENGTH = 4
@@ -224,6 +228,10 @@ function Granary:initialize(gx, gy, type)
 
     _G.foodpile.list[(#_G.foodpile.list or 0) + 1] = self
     Structure.render(self)
+end
+function Granary:onClick()
+    local ActionBar = require("states.ui.ActionBar")
+    ActionBar:switchMode("granary")
 end
 function Granary:store(food)
     for index = 1, #self.foodpile do

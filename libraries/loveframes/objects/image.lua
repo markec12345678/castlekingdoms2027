@@ -228,6 +228,19 @@ return function(loveframes)
 
     end
 
+    function newobject:setTooltip(title, tooltipText)
+        if not self.tooltip then
+            local tooltip = loveframes.Create("tooltip")
+            tooltip:SetObject(self)
+            tooltip:SetState(self.state)
+            tooltip:SetPadding(10)
+            tooltip.visible = false
+            tooltip:SetText(tooltipText, title)
+            self.tooltip = tooltip
+        else
+            self.tooltip:SetText(tooltipText, title)
+        end
+    end
     --[[---------------------------------------------------------
 	- func: GetScaleX()
 	- desc: gets the object's x scale

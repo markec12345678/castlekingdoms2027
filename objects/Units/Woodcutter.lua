@@ -125,7 +125,6 @@ function Woodcutter:initialize(gx, gy, type)
     self.state = 'Find a job'
     -- self.marked = 0
     self.count = 1
-    self.eatTimer = 0
     self.offsetX = -5
     self.offsetY = -10
     self.storeTimer = 0
@@ -264,7 +263,6 @@ function Woodcutter:serialize()
     end
     data.state = self.state
     data.count = self.count
-    data.eatTimer = self.eatTimer
     data.offsetX = self.offsetX
     data.offsetY = self.offsetY
     data.storeTimer = self.storeTimer
@@ -463,12 +461,6 @@ function Woodcutter:dirSubUpdate()
     end
 end
 function Woodcutter:update()
-    self.eatTimer = self.eatTimer + 1
-    self.storeTimer = self.storeTimer + 1
-    if self.eatTimer > 3000 then
-        _G.foodpile:take()
-        self.eatTimer = 0
-    end
     if self.pathState == "Waiting for path" then
         self:pathfind()
     elseif self.state == "Find a job" then

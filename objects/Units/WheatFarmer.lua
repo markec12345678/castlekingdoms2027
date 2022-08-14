@@ -390,7 +390,6 @@ function WheatFarmer:initialize(gx, gy, type)
     self.farmlandTiles = {}
     self.offsetY = -10
     self.offsetX = -5
-    self.eatTimer = 0
     self.timr = 0
     self.animated = true
     self.animation = anim.newAnimation(an[AN.WALKING_WEST], 10, nil, AN.WALKING_WEST)
@@ -608,7 +607,6 @@ function WheatFarmer:serialize()
     end
     data.state = self.state
     data.count = self.count
-    data.eatTimer = self.eatTimer
     data.offsetX = self.offsetX
     data.offsetY = self.offsetY
     data.wheat = self.wheat
@@ -1027,11 +1025,6 @@ function WheatFarmer:scytheLand()
     end
 end
 function WheatFarmer:update()
-    self.eatTimer = self.eatTimer + 1
-    if self.eatTimer > 3000 then
-        _G.foodpile:take()
-        self.eatTimer = 0
-    end
     if self.pathState == "Waiting for path" and self.state ~= "Working" and self.state ~= "Resting" then
         self:pathfind()
     elseif self.state == "Working" and self.moveDir ~= "none" then

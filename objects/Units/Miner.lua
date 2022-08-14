@@ -45,7 +45,6 @@ local Miner = _G.class('Miner', Unit)
 function Miner:initialize(gx, gy, type)
     Unit.initialize(self, gx, gy, type)
     self.state = 'Find a job'
-    self.eatTimer = 0
     self.offsetY = -10
     self.offsetX = -5
     self.count = 1
@@ -105,11 +104,6 @@ function Miner:dirSubUpdate()
 end
 
 function Miner:update()
-    self.eatTimer = self.eatTimer + 1
-    if self.eatTimer > 3000 then
-        _G.foodpile:take()
-        self.eatTimer = 0
-    end
     if self.pathState == "Waiting for path" then
         self:pathfind()
     elseif self.state ~= "No path to workplace" and self.state ~= "Working" then
@@ -197,7 +191,6 @@ function Miner:serialize()
         data.animation = self.animation:serialize()
     end
     data.state = self.state
-    data.eatTimer = self.eatTimer
     data.offsetY = self.offsetY
     data.offsetX = self.offsetX
     data.count = self.count
