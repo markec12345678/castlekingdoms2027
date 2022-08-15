@@ -3,7 +3,8 @@ local ini = require("libraries.inifile")
 
 local defaultConfig = {
     general = {
-        attachConsole = true
+        attachConsole = true,
+        skipSplashScreen = false
     },
     video = {
         resolutionWidth = 0,
@@ -36,6 +37,12 @@ function ConfigFile:initialize()
     if type(self.config.general.attachConsole) ~= "boolean" then
         print("Config Paramenter general.attachConsole is invalid type or does not exist. Using default value.")
         self.config.general.attachConsole = defaultConfig.general.attachConsole
+        save = true
+    end
+
+    if type(self.config.general.skipSplashScreen) ~= "boolean" then
+        print("Config Paramenter general.skipSplashScreen is invalid type or does not exist. Using default value.")
+        self.config.general.skipSplashScreen = defaultConfig.general.skipSplashScreen
         save = true
     end
 

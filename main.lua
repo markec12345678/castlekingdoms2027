@@ -6,7 +6,7 @@ require("global")
 local Gamestate = require("libraries.gamestate")
 local SaveManager = require("objects.Controllers.SaveManager")
 
-local startMenu = require("states.start_menu")
+local splashscreen = require("states.splash_screen")
 local game = require("states.game")
 local test = require("states.test")
 
@@ -21,7 +21,7 @@ function love.load()
         Gamestate.switch(test)
         return
     else
-        Gamestate.switch(startMenu)
+        Gamestate.switch(splashscreen)
     end
     local loader = require("libraries.lily")
     loader.newImage("assets/tiles/stronghold_assets_packed_v6-hd.dds"):onComplete(function(_, image)
