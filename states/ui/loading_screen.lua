@@ -15,8 +15,9 @@ local bgScale = math.min(bgScaleX, bgScaleY)
 local logo = love.graphics.newImage('assets/other/sk_logo_medium.png')
 local logoScale = (ScreenHeight * (10 / 100)) / logo:getHeight()
 
-local function renderLoadingScreen(loadingString)
+local function renderLoadingScreen(loadingString, alpha)
     love.graphics.push()
+    love.graphics.setColor(255, 255, 255, alpha)
     love.graphics.translate((love.graphics.getWidth() / 2), (love.graphics.getHeight() / 2))
     love.graphics.draw(background, -(background:getWidth() / 2) * bgScale, -(background:getHeight() / 2) * bgScale, nil,
         bgScale)

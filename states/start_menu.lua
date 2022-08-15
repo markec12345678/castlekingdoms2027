@@ -4,12 +4,27 @@ local loveframes = require("libraries.loveframes")
 local states = require("states.ui.states")
 local renderLoadingScreen = require("states.ui.loading_screen")
 
+local startMenuFadeIn = 1.5
+local startMenuDisplay = 4
+
+local startMenuTimer = 0
+local startMenuAplha = 0
+
+
 function startMenu:enter()
     loveframes.SetState(states.STATE_MAIN_MENU)
 end
 
 local framesFromStart = 0
 function startMenu:update(dt)
+    startMenuTimer = startMenuTimer + dt
+    if 0 < startMenuTimer and startMenuTimer < startMenuFadeIn then 
+        startMenuAplha = startMenuTimer / startMenuFadeIn  
+    end
+    if startMenuFadeIn < startMenuTimer and startMenuTimer < startMenuDisplay then 
+        startMenuAplha = 1  
+    end
+
     if framesFromStart < 30 then
         framesFromStart = framesFromStart + 1
         if framesFromStart == 30 then
@@ -20,7 +35,7 @@ function startMenu:update(dt)
 end
 
 function startMenu:draw()
-    renderLoadingScreen("")
+    renderLoadingScreen("", startMenuAplha)
     loveframes.draw()
     love.graphics.print(_G.version, _G.ScreenWidth - love.graphics.getFont():getWidth(_G.version .. "----"),
         _G.ScreenHeight - love.graphics.getFont():getHeight() * 2)
