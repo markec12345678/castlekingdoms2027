@@ -1,12 +1,14 @@
+local config = require("config_file")
+
 math.randomseed(os.time())
 math.random()
 math.random()
 math.random()
 
 _G.OPTIONS = {
-    SFX_VOLUME = _G.config.sound.effects / 100,
-    SPEECH_VOLUME = _G.config.sound.speech / 100,
-    MUSIC_VOLUME = _G.config.sound.music / 100
+    SFX_VOLUME = config.sound.effects / 100,
+    SPEECH_VOLUME = config.sound.speech / 100,
+    MUSIC_VOLUME = config.sound.music / 100
 }
 
 _G.version = "0.3.1"
