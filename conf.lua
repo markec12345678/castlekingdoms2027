@@ -1,5 +1,3 @@
-local ConfigFile = require("ConfigFile")
-
 function love.conf(t)
     _G.testMode = false
     for ind, val in ipairs(_G.arg) do
@@ -12,34 +10,28 @@ function love.conf(t)
         end
     end
 
-    -- Set app identity so config gets put in the right directory (%appdata%\LOVE\StoneKingdoms\config.ini)
-    love.filesystem.setIdentity("StoneKingdoms")
- 
-    -- Create ConfigFile class
-    local ConfigFileInstance = ConfigFile:new();
-    _G.config = ConfigFileInstance.config
-    _G.configFile = ConfigFileInstance
+    local config = require("config_file").new()
 
     -- Apply config
     t.identity = "StoneKingdoms" -- The name of the save directory (string)
     t.version = "11.4" -- The LÖVE version this game was made for (string)
-    t.console = _G.config.general.attachConsole -- Attach a console (boolean, Windows only)
+    t.console = config.general.attachConsole -- Attach a console (boolean, Windows only)
     t.accelerometerjoystick = false -- Enable the accelerometer on iOS and Android by exposing it as a Joystick (boolean)
     t.externalstorage = false -- True to save files (and read from the save directory) in external storage on Android (boolean)
     t.gammacorrect = false -- Enable gamma-correct rendering, when supported by the system (boolean)
     t.window.title = "Stone Kingdoms" -- The window title (string)
     t.window.icon = nil -- Filepath to an image to use as the window's icon (string)
-    t.window.width = _G.config.video.resolutionWidth -- The window width (number)
-    t.window.height = _G.config.video.resolutionHeight -- The window height (number)
-    t.window.borderless = _G.config.video.borderless -- Remove all border visuals from the window (boolean)
+    t.window.width = config.video.resolutionWidth -- The window width (number)
+    t.window.height = config.video.resolutionHeight -- The window height (number)
+    t.window.borderless = config.video.borderless -- Remove all border visuals from the window (boolean)
     t.window.resizable = false -- Let the window be user-resizable (boolean)
     t.window.minwidth = 1 -- Minimum window width if the window is resizable (number)
     t.window.minheight = 1 -- Minimum window height if the window is resizable (number)
-    t.window.fullscreen = _G.config.video.fullscreen -- Enable fullscreen (boolean)
-    t.window.fullscreentype = _G.config.video.fullscreenType -- Choose between "desktop" fullscreen or "exclusive" fullscreen mode (string)
-    t.window.vsync = _G.config.video.vsync -- Enable vertical sync (boolean)
+    t.window.fullscreen = config.video.fullscreen -- Enable fullscreen (boolean)
+    t.window.fullscreentype = config.video.fullscreenType -- Choose between "desktop" fullscreen or "exclusive" fullscreen mode (string)
+    t.window.vsync = config.video.vsync -- Enable vertical sync (boolean)
     t.window.msaa = 1 -- The number of samples to use with multi-sampled antialiasing (number)
-    t.window.display = _G.config.video.display -- Index of the monitor to show the window in (number)
+    t.window.display = config.video.display -- Index of the monitor to show the window in (number)
     t.window.highdpi = false -- Enable high-dpi mode for the window on a Retina display (boolean)
     t.window.x = nil -- The x-coordinate of the window's position in the specified display (number)
     t.window.y = nil -- The y-coordinate of the window's position in the specified display (number)

@@ -2,6 +2,7 @@ local splashScreen = {}
 local one_ten_one = require("libraries.o-ten-one")
 local Gamestate = require("libraries.gamestate")
 local startMenu = require("states.start_menu")
+local config = require("config_file")
 
 local isOTenOne = false
 
@@ -31,7 +32,7 @@ function splashScreen:enter()
     -- on both dimensions
     skLogoScaleFactor = math.min(logoScaleX, logoScaleY)
 
-    if _G.config.general.skipSplashScreen then
+    if config.general.skipSplashScreen then
         splashScreen:finish()
     else
         isOTenOne = true

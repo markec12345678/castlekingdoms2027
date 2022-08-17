@@ -2,6 +2,7 @@ local settingsFrames = require("states.ui.settings.settings_frames")
 local frames, _ = settingsFrames[1], settingsFrames[2]
 local loveframes = require("libraries.loveframes")
 local states = require("states.ui.states")
+local config = require("config_file")
 
 local function clamp(x, min, max)
     return x < min and min or (x > max and max or x)
@@ -96,7 +97,7 @@ scaleHandSoundVolume.Update = function(self, overrideRawValue)
         local rawValue = clamp(mx, min, max)
         self.value = (rawValue - scaleBarSound.x) / (max - scaleBarSound.x)
         _G.OPTIONS.SFX_VOLUME = self.value
-        _G.config.sound.effects = self.value * 100
+        config.sound.effects = self.value * 100
         self:SetX(rawValue, true)
     end
 end
@@ -110,7 +111,7 @@ scaleHandSoundVolume.OnMouseExit = function(self)
 end
 
 local min, max = frScaleHand1.x, frScaleHand1.x + frScaleHand1.width - scaleHandSoundVolume:GetImageHeight() / 2
-scaleHandSoundVolume:SetX(clamp(frScaleBar1.x + (frScaleBar1.width * _G.config.sound.effects / 100), min, max))
+scaleHandSoundVolume:SetX(clamp(frScaleBar1.x + (frScaleBar1.width * config.sound.effects / 100), min, max))
 
 -- SPEECH VOLUME
 
@@ -188,7 +189,7 @@ scaleHandSpeechVolume.Update = function(self, overrideRawValue)
         local rawValue = clamp(mx, min, max)
         self.value = (rawValue - scaleBarSpeech.x) / (max - scaleBarSpeech.x)
         _G.OPTIONS.SPEECH_VOLUME = self.value
-        _G.config.sound.speech = self.value * 100
+        config.sound.speech = self.value * 100
         self:SetX(rawValue, true)
     end
 end
@@ -202,7 +203,7 @@ scaleHandSpeechVolume.OnMouseExit = function(self)
 end
 
 local min, max = frScaleHand2.x, frScaleHand2.x + frScaleHand2.width - scaleHandSpeechVolume:GetImageHeight() / 2
-scaleHandSpeechVolume:SetX(clamp(frScaleBar2.x + (frScaleBar2.width * _G.config.sound.speech / 100), min, max))
+scaleHandSpeechVolume:SetX(clamp(frScaleBar2.x + (frScaleBar2.width * config.sound.speech / 100), min, max))
 
 -- MUSIC VOLUME
 
@@ -283,7 +284,7 @@ scaleHandMusicVolume.Update = function(self, overrideRawValue)
         local rawValue = clamp(mx, min, max)
         self.value = (rawValue - scaleBarMusic.x) / (max - scaleBarMusic.x)
         _G.OPTIONS.MUSIC_VOLUME = self.value
-        _G.config.sound.music = self.value * 100
+        config.sound.music = self.value * 100
         self:SetX(rawValue, true)
         if _G.CURRENT_MUSIC then
             _G.CURRENT_MUSIC:setVolume(_G.OPTIONS.MUSIC_VOLUME)
@@ -300,7 +301,7 @@ scaleHandMusicVolume.OnMouseExit = function(self)
 end
 
 local min, max = frScaleHand3.x, frScaleHand3.x + frScaleHand3.width - scaleHandMusicVolume:GetImageHeight() / 2
-scaleHandMusicVolume:SetX(clamp(frScaleBar3.x + (frScaleBar3.width * _G.config.sound.music / 100), min ,max))
+scaleHandMusicVolume:SetX(clamp(frScaleBar3.x + (frScaleBar3.width * config.sound.music / 100), min ,max))
 
 return elements
 

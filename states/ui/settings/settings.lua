@@ -4,6 +4,7 @@ local SettingsWindow = require("states.ui.settings.SettingsWindow")
 local loveframes = require("libraries.loveframes")
 local base = require("states.ui.base")
 local states = require("states.ui.states")
+local config = require("config_file")
 local w, h = base.w, base.h
 
 local patternImage = love.graphics.newImage("assets/ui/pause_pattern.png")
@@ -179,7 +180,7 @@ closeWindowButton.Update = function(self)
 end
 closeWindowButton.OnClick = function(self)
     local Gamestate = require("libraries.gamestate")
-    _G.configFile:save()
+    config:save(config)
     if Gamestate.current() == require("states.start_menu") then
         loveframes.SetState(states.STATE_MAIN_MENU)
     elseif Gamestate.current() == require("states.game") then
