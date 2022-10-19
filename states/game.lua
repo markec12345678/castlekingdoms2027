@@ -33,6 +33,7 @@ local function delayedInit()
     _G.BuildController = love.filesystem.load("objects/Controllers/BuildController.lua")(
         package.loaded["objects.objects"].object, objectAtlas)
     _G.JobController = require("objects.Controllers.JobController")
+    _G.DebugView = require("objects.Controllers.DebugView")
     updateProgress(35)
     ----Pathfinding setup
     thread = love.thread.newThread("libraries/pathfinding_thread.lua")
@@ -97,6 +98,7 @@ function game:update(dt)
             prof.push("bcontr")
             _G.BuildController:update()
             prof.pop("bcontr")
+            _G.DebugView:update()
             _G.BrushController:update()
             _G.RationController:update()
         end
@@ -135,6 +137,7 @@ function game:draw()
             objects.draw()
             if not _G.paused then
                 _G.BuildController:draw()
+                _G.DebugView:draw()
                 _G.BrushController:draw()
             end
             love.graphics.pop()
@@ -183,6 +186,9 @@ function game:keypressed(key, scancode, isRepeat)
     if key == "escape" and
         (loveframes.GetState() == states.STATE_PAUSE_MENU or loveframes.GetState() == states.STATE_INGAME_CONSTRUCTION) then
         loveframes.TogglePause()
+    end
+    if key == "v" then
+        _G.DebugView:toggle()
     end
 end
 
