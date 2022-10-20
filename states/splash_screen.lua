@@ -16,7 +16,7 @@ local skFadeOut = 5.5
 local skTimer = 0
 local skAlpha = 0
 
-local splashScreenFont = love.graphics.newFont("assets/fonts/Vera.ttf", 24)
+local splashScreenFont = love.graphics.newFont("assets/fonts/IMMORTAL.ttf", 24)
 local fireflyNotice = "Assets, Music & Sound effects and Music provided at the courtesy of Firefly Studios Limited."
 local repoLink = "https://gitlab.com/stone-kingdoms/stone-kingdoms"
 

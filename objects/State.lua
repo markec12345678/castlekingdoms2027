@@ -21,15 +21,19 @@ function State:initialize()
     self.scaleX = 0.7
     self.viewXview = -100
     self.viewYview = 2000
+    self.gold = 1000
     self.population = 0
     self.maxPopulation = 5
     -- TODO: Make the collision map dynamic
     self.collisionMap = _G.ffi.new("unsigned char[2048][2048]", {})
     self.resources = {
         ["wood"] = 0,
+        ['hop'] = 0,
         ["stone"] = 0,
         ["iron"] = 0,
+        ["tar"] = 0,
         ["flour"] = 0,
+        ["ale"] = 0,
         ["wheat"] = 0
     }
     self.food = {
@@ -39,10 +43,13 @@ function State:initialize()
     }
     self.notFullStockpiles = {
         ["wood"] = 0,
+        ['hop'] = 0,
         ["stone"] = 0,
-        ["wheat"] = 0,
         ["iron"] = 0,
-        ["flour"] = 0
+        ["tar"] = 0,
+        ["flour"] = 0,
+        ["ale"] = 0,
+        ["wheat"] = 0
     }
     self.notFullFoods = {
         ["apples"] = 0,

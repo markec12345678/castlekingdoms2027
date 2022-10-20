@@ -380,11 +380,11 @@ local an = {
     [AN.IDLE_LOOP] = fr.idle_loop
 }
 
-local WheatFarmer = _G.class('WheatFarmer', Unit)
+local WheatFarmer = _G.class("WheatFarmer", Unit)
 function WheatFarmer:initialize(gx, gy, type)
     Unit.initialize(self, gx, gy, type)
     self.workplace = nil
-    self.state = 'Find a job'
+    self.state = "Find a job"
     self.marked = 0
     self.count = 1
     self.farmlandTiles = {}
@@ -610,7 +610,6 @@ function WheatFarmer:serialize()
     data.offsetX = self.offsetX
     data.offsetY = self.offsetY
     data.wheat = self.wheat
-    data.storeTimer = self.storeTimer
     local farmlandTilesRaw = {}
     for _, tile in ipairs(self.farmlandTiles) do
         if tile then
@@ -1123,13 +1122,13 @@ function WheatFarmer:update()
             elseif self.state == "Going to stockpile" then
                 if self:reachedPathEnd() then
                     if self.wheat > 0 then
-                        _G.stockpile:store('wheat')
+                        _G.stockpile:store("wheat")
                     end
                     if self.wheat > 1 then
-                        _G.stockpile:store('wheat')
+                        _G.stockpile:store("wheat")
                     end
                     if self.wheat > 2 then
-                        _G.stockpile:store('wheat')
+                        _G.stockpile:store("wheat")
                     end
                     self.wheat = 0
                     self.state = "Go to workplace"

@@ -461,6 +461,7 @@ function Woodcutter:dirSubUpdate()
     end
 end
 function Woodcutter:update()
+    self.storeTimer = self.storeTimer + 1
     if self.pathState == "Waiting for path" then
         self:pathfind()
     elseif self.state == "Find a job" then
