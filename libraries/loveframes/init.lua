@@ -55,6 +55,8 @@ loveframes.input_cursor_set = false
 loveframes.prevcursor = nil
 if love.graphics.getHeight() >= 1440 and love.graphics.getWidth() >= 2560 and love.graphics.getWidth() < 3840 then
     loveframes.basicfont = love.graphics.newFont(18)
+    loveframes.font_immortal = love.graphics.newFont("assets/fonts/IMMORTAL.ttf", 18)
+    loveframes.font_immortal_large = love.graphics.newFont("assets/fonts/IMMORTAL.ttf", 24)
     loveframes.basicfontsmall = love.graphics.newFont(16)
     loveframes.font_vera_bold = love.graphics.newFont("assets/fonts/VeraBd.ttf", 18)
     loveframes.font_vera_bold_large = love.graphics.newFont("assets/fonts/VeraBd.ttf", 24)
@@ -62,6 +64,8 @@ if love.graphics.getHeight() >= 1440 and love.graphics.getWidth() >= 2560 and lo
     loveframes.font_vera_italic_large = love.graphics.newFont("assets/fonts/VeraIt.ttf", 24)
 elseif love.graphics.getHeight() >= 1440 and love.graphics.getWidth() >= 3840 then
     loveframes.basicfont = love.graphics.newFont(28)
+    loveframes.font_immortal = love.graphics.newFont("assets/fonts/IMMORTAL.ttf", 28)
+    loveframes.font_immortal_large = love.graphics.newFont("assets/fonts/IMMORTAL.ttf", 36)
     loveframes.basicfontsmall = love.graphics.newFont(26)
     loveframes.font_vera_bold = love.graphics.newFont("assets/fonts/VeraBd.ttf", 28)
     loveframes.font_vera_bold_large = love.graphics.newFont("assets/fonts/VeraBd.ttf", 36)
@@ -69,6 +73,8 @@ elseif love.graphics.getHeight() >= 1440 and love.graphics.getWidth() >= 3840 th
     loveframes.font_vera_italic_large = love.graphics.newFont("assets/fonts/VeraIt.ttf", 36)
 elseif love.graphics.getHeight() <= 720 and love.graphics.getWidth() <= 1280 then
     loveframes.basicfont = love.graphics.newFont(10)
+    loveframes.font_immortal = love.graphics.newFont("assets/fonts/IMMORTAL.ttf", 10)
+    loveframes.font_immortal_large = love.graphics.newFont("assets/fonts/IMMORTAL.ttf", 16)
     loveframes.basicfontsmall = love.graphics.newFont(8)
     loveframes.font_vera_bold = love.graphics.newFont("assets/fonts/VeraBd.ttf", 10)
     loveframes.font_vera_bold_large = love.graphics.newFont("assets/fonts/VeraBd.ttf", 16)
@@ -76,6 +82,8 @@ elseif love.graphics.getHeight() <= 720 and love.graphics.getWidth() <= 1280 the
     loveframes.font_vera_italic_large = love.graphics.newFont("assets/fonts/VeraIt.ttf", 16)
 else
     loveframes.basicfont = love.graphics.newFont(12)
+    loveframes.font_immortal = love.graphics.newFont("assets/fonts/IMMORTAL.ttf", 12)
+    loveframes.font_immortal_large = love.graphics.newFont("assets/fonts/IMMORTAL.ttf", 18)
     loveframes.basicfontsmall = love.graphics.newFont(10)
     loveframes.font_vera_bold = love.graphics.newFont("assets/fonts/VeraBd.ttf")
     loveframes.font_vera_bold_large = love.graphics.newFont("assets/fonts/VeraBd.ttf", 18)

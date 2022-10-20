@@ -13,6 +13,7 @@ end
 local ActionBar = _G.class("ActionBar")
 ActionBar.static.actionBarImage = love.graphics.newImage("assets/ui/action_bar.png")
 ActionBar.static.actionBarGranaryImage = love.graphics.newImage("assets/ui/action_bar_granary.png")
+ActionBar.static.actionBarStockpileImage = love.graphics.newImage("assets/ui/action_bar_stockpile.png")
 function ActionBar:initialize()
     local element = loveframes.Create("image")
     element:SetState(states.STATE_INGAME_CONSTRUCTION)
@@ -29,6 +30,12 @@ function ActionBar:initialize()
         width = (1053 - 1020) * scale,
         height = (163 - 145) * scale
     }
+    local frGold= {
+        x = element:GetX() - element:GetOffsetX() * scale + 1019 * scale,
+        y = element:GetY() - element:GetOffsetY() * scale + 130 * scale,
+        width = (1053 - 1020) * scale,
+        height = (163 - 145) * scale
+    }
     local populationText = loveframes.Create("text")
     self.populationText = populationText
     populationText:SetState(states.STATE_INGAME_CONSTRUCTION)
@@ -37,6 +44,14 @@ function ActionBar:initialize()
     populationText:SetText("")
     populationText:SetShadowColor(240 / 255, 240 / 255, 224 / 255)
     populationText:SetShadow(true)
+    local goldText = loveframes.Create("text")
+    self.goldText = goldText
+    goldText:SetState(states.STATE_INGAME_CONSTRUCTION)
+    goldText:SetFont(loveframes.font_vera_italic)
+    goldText:SetPos(frGold.x, frGold.y)
+    goldText:SetText("")
+    goldText:SetShadowColor(240 / 255, 240 / 255, 224 / 255)
+    goldText:SetShadow(true)
     self.element = element
     self.groups = {}
     self.currentGroup = "main"
@@ -46,12 +61,21 @@ function ActionBar:switchMode(mode)
         self:showGroup("granary")
         loveframes.SetState(states.STATE_GRANARY)
         self.populationText:SetState(states.STATE_GRANARY)
+        self.goldText:SetState(states.STATE_GRANARY)
         self.element:SetState(states.STATE_GRANARY)
         self.element:SetImage(ActionBar.actionBarGranaryImage)
+    elseif mode == "stockpile" then
+        self:showGroup("stockpile")
+        loveframes.SetState(states.STATE_STOCKPILE)
+        self.populationText:SetState(states.STATE_STOCKPILE)
+        self.goldText:SetState(states.STATE_STOCKPILE)
+        self.element:SetState(states.STATE_STOCKPILE)
+        self.element:SetImage(ActionBar.actionBarStockpileImage)
     else
         self:showGroup("main")
         loveframes.SetState(states.STATE_INGAME_CONSTRUCTION)
         self.populationText:SetState(states.STATE_INGAME_CONSTRUCTION)
+        self.goldText:SetState(states.STATE_INGAME_CONSTRUCTION)
         self.element:SetState(states.STATE_INGAME_CONSTRUCTION)
         self.element:SetImage(ActionBar.actionBarImage)
     end
@@ -65,6 +89,16 @@ function ActionBar:updatePopulationCount()
         color = color
     }, _G.state.population .. "/" .. _G.state.maxPopulation})
 end
+function ActionBar:updateGoldCount()
+    local color = {176 / 255, 136 / 255, 80 / 255, 1}
+    if _G.state.gold == _G.state.gold then
+        color = {0, 255, 0, 1}
+    end
+    self.goldText:SetText({{
+        color = color
+    }, _G.state.gold})
+end
+
 function ActionBar:activateButton(position)
     if self.groups[self.currentGroup] then
         local button = self.groups[self.currentGroup][position]

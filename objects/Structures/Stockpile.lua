@@ -2,6 +2,7 @@ local _, tileQuads, _ = ...
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local tiles, quadArray = _G.indexBuildingQuads("stockpile")
+local actionBar = require("states.ui.ActionBar")
 
 local lastQuad = quadArray[#quadArray]
 local vx, vy, vw, vh = lastQuad:getViewport()
@@ -11,14 +12,18 @@ local newQuad = love.graphics.newQuad(vx, vy, vw - 2, vh, _G.imageW, _G.imageH)
 quadArray[#quadArray] = newQuad
 local quadMap = {
     ["wood"] = {},
+    ['hop'] = {},
     ["stone"] = {},
-    ["wheat"] = {},
     ["iron"] = {},
-    ["flour"] = {}
+    ["tar"] = {},
+    ["flour"] = {},
+    ["ale"] = {},
+    ["wheat"] = {}
 }
 
 for i = 1, 48 do
     quadMap["wood"][#quadMap["wood"] + 1] = tileQuads["wood_stockpile (" .. tostring(i) .. ")"]
+    quadMap["hop"][#quadMap["hop"] + 1] = tileQuads["hops_stockpile (" .. tostring(i) .. ")"]
     quadMap["stone"][#quadMap["stone"] + 1] = tileQuads["stone_stockpile (" .. tostring(i) .. ")"]
     quadMap["iron"][#quadMap["iron"] + 1] = tileQuads["iron_stockpile (" .. tostring(i) .. ")"]
 end
@@ -70,6 +75,10 @@ function StockpileAlias:initialize(tile, gx, gy, parent, offsetY, offsetX, notWa
         end
     end
     Structure.render(self)
+end
+function StockpileAlias:onClick()
+    local ActionBar = require("states.ui.ActionBar")
+    ActionBar:switchMode("stockpile")
 end
 function StockpileAlias:render()
     Structure.render(self)
@@ -216,6 +225,11 @@ function Stockpile:initialize(gx, gy, type)
     _G.stockpile.list[(#_G.stockpile.list or 0) + 1] = self
     Structure.render(self)
 end
+function Stockpile:onClick()
+    local ActionBar = require("states.ui.ActionBar")
+    ActionBar:switchMode("stockpile")
+end
+
 function Stockpile:store(resource)
     for index = 1, 4 do
         if self.stockpile[index].type == resource and self.stockpile[index].quantity < maxQuantity[resource] then
@@ -300,6 +314,7 @@ function Stockpile:updateStockpile(index)
     if pile.quantity == maxQuantity[pile.type] then
         _G.state.notFullStockpiles[pile.type] = _G.state.notFullStockpiles[pile.type] - 1
     end
+    actionBar:updateStockpileResourcesCount()
 end
 function Stockpile:load(data)
     Object.deserialize(self, data)
