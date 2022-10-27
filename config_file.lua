@@ -29,8 +29,8 @@ function config:save(config_in)
     config_save.general = config_in.general
     config_save.video = config_in.video
     config_save.sound = config_in.sound
-    
-    ini.save("config.ini", config_save) 
+
+    ini.save("config.ini", config_save)
 end
 
 function config:new()
@@ -104,7 +104,7 @@ function config:new()
         print("Config Paramenter soud.effects is invalid type or does not exist. Using default value.")
         config.sound.effects = defaultConfig.sound.effects
         save = true
-    elseif config.sound.effects > 100 or config.sound.effects < 1 then
+    elseif config.sound.effects > 100 or config.sound.effects < 0 then
         print("Config Paramenter sound.effects is out of range (must be betweeen 1 and 100). Using default value.")
         config.sound.effects = defaultConfig.sound.effects
         save = true
@@ -130,8 +130,15 @@ function config:new()
         save = true
     end
 
+    local dataConfig = {}
+    for k, v in pairs(config) do
+        if type(v) ~= "function" and type(v) ~= "nil" and type(v) ~= "userdata" then
+            dataConfig[k] = v
+        end
+    end
+
     if save then
-        ini.save("config.ini", config)
+        ini.save("config.ini", dataConfig)
     end
 
     return config
