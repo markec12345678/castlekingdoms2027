@@ -24,6 +24,7 @@ function location:new(o)
     self.__index = self
     return o
 end
+
 local press = location:new()
 ----Rows and columns
 ----Chunk 2D array
@@ -83,14 +84,10 @@ local WoodenWallWalkable = love.filesystem.load("objects/Structures/WoodenWallWa
     tileQuads, objectBatch)
 local WoodenTower = love.filesystem.load("objects/Structures/WoodenTower.lua")(activeEntities, object, tileQuads,
     objectBatch)
-local Rock_4x4 = love.filesystem
-                     .load("objects/Environment/Rock_4x4.lua")(activeEntities, object, tileQuads, objectBatch)
-local Rock_3x3 = love.filesystem
-                     .load("objects/Environment/Rock_3x3.lua")(activeEntities, object, tileQuads, objectBatch)
-local Rock_2x2 = love.filesystem
-                     .load("objects/Environment/Rock_2x2.lua")(activeEntities, object, tileQuads, objectBatch)
-local Rock_1x1 = love.filesystem
-                     .load("objects/Environment/Rock_1x1.lua")(activeEntities, object, tileQuads, objectBatch)
+local Rock_4x4 = love.filesystem.load("objects/Environment/Rock_4x4.lua")(activeEntities, object, tileQuads, objectBatch)
+local Rock_3x3 = love.filesystem.load("objects/Environment/Rock_3x3.lua")(activeEntities, object, tileQuads, objectBatch)
+local Rock_2x2 = love.filesystem.load("objects/Environment/Rock_2x2.lua")(activeEntities, object, tileQuads, objectBatch)
+local Rock_1x1 = love.filesystem.load("objects/Environment/Rock_1x1.lua")(activeEntities, object, tileQuads, objectBatch)
 local Campfire = love.filesystem.load("objects/Structures/Campfire.lua")(activeEntities, tileQuads, objectBatch)
 local Orchard = love.filesystem.load("objects/Structures/Orchard.lua")(activeEntities, tileQuads, objectBatch)
 local WheatFarm = love.filesystem.load("objects/Structures/WheatFarm.lua")(object, tileQuads, objectBatch,
@@ -290,13 +287,13 @@ function _G.allocateMesh(cx, cy)
     local chunkX = cx
     local chunkY = cy
     local treeverts = {{0, 0, 0, 0, 1.0, 1.0, 1.0, 1.0, 1.0}, {1, 0, 1, 0, 1.0, 1.0, 1.0, 1.0, 1.0},
-                       {0, 1, 0, 1, 1.0, 1.0, 1.0, 1.0, 1.0}, {1, 1, 1, 1, 1.0, 1.0, 1.0, 1.0, 1.0}}
+        {0, 1, 0, 1, 1.0, 1.0, 1.0, 1.0, 1.0}, {1, 1, 1, 1, 1.0, 1.0, 1.0, 1.0, 1.0}}
     if objectBatch[chunkX][chunkY] == nil then
         objectBatch[chunkX][chunkY] = love.graphics.newMesh(treeverts, "strip", "static")
     end
     local instancemesh = love.graphics.newMesh({{"InstancePosition", "float", 2}, {"UVOffset", "float", 2},
-                                                {"ImageDim", "float", 2}, {"ImageShade", "float", 1},
-                                                {"Scale", "float", 2}},
+        {"ImageDim", "float", 2}, {"ImageShade", "float", 1},
+        {"Scale", "float", 2}},
         _G.chunkWidth * _G.chunkHeight * _G.state.verticesPerTile + 1000, nil, "dynamic")
     _G.state.objectMesh[chunkX][chunkY] = instancemesh
     objectBatch[chunkX][chunkY]:setTexture(objectAtlas)
@@ -493,9 +490,10 @@ local function drawObject()
             local xx, yy = bit.rshift(row + column, 1), bit.rshift(row - column, 1)
             if objectBatch[xx][yy] ~= nil then
                 love.graphics.drawInstanced(objectBatch[xx][yy], _G.state.objectMesh[xx][yy]:getVertexCount(),
-                    -_G.state.viewXview * _G.state.scaleX + (xx * _G.state.scaleX - yy * _G.state.scaleX) * chunkWidth *
-                        tileWidth * 0.5, -_G.state.viewYview * _G.state.scaleX +
-                        (xx * _G.state.scaleX + yy * _G.state.scaleX) * chunkHeight * tileHeight * 0.5, 0,
+                    -_G.state.viewXview * _G.state.scaleX +
+                    (xx * _G.state.scaleX - yy * _G.state.scaleX) * chunkWidth *
+                    tileWidth * 0.5, -_G.state.viewYview * _G.state.scaleX +
+                    (xx * _G.state.scaleX + yy * _G.state.scaleX) * chunkHeight * tileHeight * 0.5, 0,
                     _G.state.scaleX, _G.state.scaleX)
             end
         end
@@ -515,7 +513,9 @@ local function mousepressed(x, y, button)
         local Structure = require("objects.Structure")
         local structure = _G.objectFromSubclassAtGlobal(press.gx, press.gy, Structure)
         if structure and structure.onClick then
-            structure:onClick()
+            if not _G.DestructionController.active then
+                structure:onClick()
+            end
         else
             _G.BuildController:mousepressed(mx, my)
         end

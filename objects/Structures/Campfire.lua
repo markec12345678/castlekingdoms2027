@@ -171,6 +171,7 @@ function CampfireAlias.static:deserialize(data)
 end
 
 local Campfire = _G.class("Campfire", Structure)
+Campfire.static.DESTRUCTIBLE = false
 function Campfire:initialize(gx, gy, type)
     Structure.initialize(self, gx, gy, type or "Campfire")
     _G.state.map:setWalkable(self.gx, self.gy, 1)
@@ -209,6 +210,7 @@ function Campfire:initialize(gx, gy, type)
     self.animatedAlias.tile = tileQuads[self.animatedAlias.tileKey]
     CampfireAlias:new(self.gx + 2, self.gy, self)
     CampfireAlias:new(self.gx + 2, self.gy + 1, self)
+    CampfireAlias:new(self.gx + 2, self.gy - 1, self)
     self:takeSpot(self.gx, self.gy)
     _G.campfire = self
     if _G.state.chunkObjects[self.animatedAlias.cx][self.animatedAlias.cy] == nil then

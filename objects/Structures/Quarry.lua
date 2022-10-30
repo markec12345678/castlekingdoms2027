@@ -4,6 +4,7 @@ local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
 local tiles, quadArray = _G.indexBuildingQuads("stone_quarry")
+local Stone = require("objects.Environment.Stone")
 
 local frLifterPart1 = _G.indexQuads("anim_quarry_lower", 17)
 local frLifterPart2 = _G.indexQuads("anim_quarry_lower", 20 + 18, 18)
@@ -404,11 +405,9 @@ function QuarryStack:initialize(gx, gy, parent)
     self.animation:pause()
     table.insert(activeEntities, self)
 end
-
 function QuarryStack:animate(dt)
     Structure.animate(self, dt, true)
 end
-
 function QuarryStack:add()
     local newQuantity = self.quantity + 1
     if newQuantity <= self.class.MAX_QUANTITY then
@@ -422,7 +421,6 @@ function QuarryStack:add()
         print("Quarry Stack is full!")
     end
 end
-
 function QuarryStack:take()
     self.quantity = self.quantity - 1
     self.parent:start()
@@ -436,14 +434,12 @@ function QuarryStack:take()
     end
     self.animation:gotoFrame(self.quantity)
 end
-
 function QuarryStack:activate()
     self.animated = true
     self.animation:gotoFrame(1)
     self.animation:pause()
     self:animate()
 end
-
 function QuarryStack:deactivate()
     self.animation:pause()
     self.tile = tileQuads["empty"]
@@ -453,7 +449,6 @@ function QuarryStack:deactivate()
     end
     self.animated = false
 end
-
 function QuarryStack:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -468,7 +463,6 @@ function QuarryStack:serialize()
     data.parent = _G.state:serializeObject(self.parent)
     return data
 end
-
 function QuarryStack.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -536,6 +530,8 @@ local Quarry = _G.class("Quarry", Structure)
 Quarry.static.WIDTH = 6
 Quarry.static.LENGTH = 6
 Quarry.static.HEIGHT = 16
+Quarry.static.ALIAS_NAME = "QuarryAlias"
+Quarry.static.DESTRUCTIBLE = true
 function Quarry:initialize(gx, gy)
     _G.JobController:add("Stonemason", self)
     Structure.initialize(self, gx, gy, "Quarry")
@@ -584,20 +580,87 @@ function Quarry:initialize(gx, gy)
         qur.tileKey = tiles + 1 + tile
     end
 
-    QuarryAlias:new(tileQuads["empty"], self.gx + 5, self.gy + 1, self, 12 + 8 * 4, 16)
-    QuarryAlias:new(tileQuads["empty"], self.gx + 5, self.gy + 2, self, 12 + 8 * 4, 16)
-    QuarryAlias:new(tileQuads["empty"], self.gx + 5, self.gy + 3, self, 12 + 8 * 4, 16)
-    QuarryAlias:new(tileQuads["empty"], self.gx + 5, self.gy + 4, self, 12 + 8 * 4, 16)
-    QuarryAlias:new(tileQuads["empty"], self.gx + 5, self.gy + 5, self, 12 + 8 * 4, 16)
-    QuarryAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 5, self, 12 + 8 * 4, 16)
-    QuarryAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 5, self, 12 + 8 * 4, 16)
-    QuarryAlias:new(tileQuads["empty"], self.gx + 3, self.gy + 5, self, 12 + 8 * 4, 16)
-    QuarryAlias:new(tileQuads["empty"], self.gx + 4, self.gy + 5, self, 12 + 8 * 4, 16)
+    for xx = 0, 4 do
+        for yy = 0, 4 do
+            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + gy, Structure) then
+                QuarryAlias:new(tileQuads["empty"], self.gx + xx, self.gy + yy, self, 12 + 8 * 4, 16)
+            end
+        end
+    end
 
     Structure:applyBuildingHeightMap(gx, gy, self.class.WIDTH, self.class.LENGTH, self.class.HEIGHT)
     Structure.render(self)
 end
+function Quarry:scanForTether(callingTether)
+    for x = self.gx - 25, self.gx + 25 do
+        for y = self.gy - 25, self.gy + 25 do
+            local tile = _G.objectFromClassAtGlobal(x, y, "OxTether")
+            if tile and tile ~= callingTether then
+                return true
+            end
+        end
+    end
+    return false
+end
+function Quarry:onTetherDestruction(callingTether)
+    if not self:scanForTether(callingTether) then
+        self.isStandalone = true
+    end
+end
+function Quarry:destroy()
+    Structure.destroy(self.stack)
+    self.stack.toBeDeleted = true
+
+    Structure.destroy(self.hook)
+    self.hook.toBeDeleted = true
+
+    Structure.destroy(self.lifter)
+    self.lifter.toBeDeleted = true
+
+    Structure.destroy(self.shaper)
+    self.shaper.toBeDeleted = true
+
+    Structure.destroy(self.puller)
+    self.puller.toBeDeleted = true
+
+    if self.liftWorker then
+        self.liftWorker:die()
+    end
+    if self.shapeWorker then
+        self.shapeWorker:die()
+    end
+    if self.pullWorker then
+        self.pullWorker:die()
+    end
+
+    for xx = 0, 4 do
+        for yy = 0, 4 do
+            _G.removeObjectFromClassAtGlobal(self.gx + xx, self.gy + yy, "QuarryAlias")
+        end
+    end
+    -- Set Terrain under Quarry back to stone
+    for xx = 0, 5 do
+        for yy = 0, 5 do
+            _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrainBiome.scarceGrass, nil, true)
+        end
+    end
+    for xx = 0, 5 do
+        for yy = 0, 5 do
+            Stone:new(self.gx + xx, self.gy + yy)
+        end
+    end
+
+    for i = 0, 12 do
+        _G.stockpile:store("wood")
+    end
+end
 function Quarry:join(worker)
+    if self.health == -1 then
+        _G.JobController:remove("Stonemason", self)
+        worker:die()
+        return
+    end
+
     if self.freeSpots == 3 then
         self.liftWorker = worker
         worker.workplace = self

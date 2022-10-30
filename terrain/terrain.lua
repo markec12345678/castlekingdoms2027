@@ -1018,7 +1018,7 @@ local function genTerrain(cx, cy)
     end
 end
 
-function _G.terrainSetTileAt(gx, gy, biome, from)
+function _G.terrainSetTileAt(gx, gy, biome, from, force)
     local cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(gx, gy)
     if _G.state.map.terrain[cx] and _G.state.map.terrain[cx][cy] then
         if from then
@@ -1027,7 +1027,7 @@ function _G.terrainSetTileAt(gx, gy, biome, from)
                 _G.scheduleTerrainUpdate(cx, cy, i, o)
             end
         else
-            if _G.state.map.terrain[cx][cy][i][o] ~= _G.terrainBiome.none then
+            if force or _G.state.map.terrain[cx][cy][i][o] ~= _G.terrainBiome.none then
                 _G.state.map.terrain[cx][cy][i][o] = biome
                 _G.scheduleTerrainUpdate(cx, cy, i, o)
             end

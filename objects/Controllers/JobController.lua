@@ -28,6 +28,13 @@ end
 function JobController:add(job, workplace)
     table.insert(self.list[job], workplace)
 end
+function JobController:remove(job, workplace)
+    for i = 1, #self.list[job] do
+        if self.list[job][i] == workplace then
+            table.remove(self.list[job], i)
+        end
+    end
+end
 function JobController:addAvailableWorker()
     self.workers = self.workers + 1
     self.requestedWorkers = self.requestedWorkers - 1

@@ -233,6 +233,8 @@ local Bakery = _G.class("Bakery", Structure)
 Bakery.static.WIDTH = 4
 Bakery.static.LENGTH = 4
 Bakery.static.HEIGHT = 17
+Bakery.static.ALIAS_NAME = "BakeryAlias"
+Bakery.static.DESTRUCTIBLE = true
 
 function Bakery:initialize(gx, gy)
     _G.JobController:add("Baker", self)
@@ -271,7 +273,32 @@ function Bakery:initialize(gx, gy)
         bkr.tileKey = tiles + 1 + tile
     end
 
+    BakeryAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 3, self, self.offsetX, self.offsetY)
+    BakeryAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 3, self, self.offsetX, self.offsetY)
+    BakeryAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 2, self, self.offsetX, self.offsetY)
+    BakeryAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 2, self, self.offsetX, self.offsetY)
+    BakeryAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 1, self, self.offsetX, self.offsetY)
+    BakeryAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 1, self, self.offsetX, self.offsetY)
+    BakeryAlias:new(tileQuads["empty"], self.gx + 3, self.gy + 1, self, self.offsetX, self.offsetY)
+
     Structure.render(self)
+end
+function Bakery:destroy()
+    if self.worker then
+        self.worker:die()
+    end
+    Structure.destroy(self.cookingObj)
+    self.cookingObj.toBeDeleted = true
+    Structure.destroy(self.stack)
+    self.stack.toBeDeleted = true
+
+    _G.stockpile:store("wood")
+    _G.stockpile:store("wood")
+    _G.stockpile:store("wood")
+    _G.stockpile:store("wood")
+    _G.stockpile:store("wood")
+    _G.stockpile:store("stone")
+    _G.stockpile:store("stone")
 end
 function Bakery:load(data)
     Object.deserialize(self, data)
@@ -279,8 +306,7 @@ function Bakery:load(data)
     if data.worker then
         self.worker = _G.state:dereferenceObject(data.worker)
         self.worker.workplace = self
-    end
-    self.tile = quadArray[tiles + 1]
+    end    self.tile = quadArray[tiles + 1]
     Structure.render(self)
 end
 function Bakery:serialize()
@@ -308,6 +334,11 @@ function Bakery.static:deserialize(data)
     return obj
 end
 function Bakery:join(worker)
+    if self.health == -1 then
+        _G.JobController:remove("Baker", self)
+        worker:die()
+        return
+    end
     if self.freeSpots == 1 then
         self.worker = worker
         self.worker.workplace = self

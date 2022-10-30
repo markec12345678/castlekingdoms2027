@@ -6,3 +6,7 @@ indent_size = 4
 charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
+
+[*.lua]
+keep_one_space_between_table_and_bracket = false
+max_line_length = 200

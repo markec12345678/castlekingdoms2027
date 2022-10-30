@@ -267,6 +267,8 @@ local Windmill = _G.class("Windmill", Structure)
 Windmill.static.WIDTH = 3
 Windmill.static.LENGTH = 3
 Windmill.static.HEIGHT = 20
+Windmill.static.ALIAS_NAME = "WindmillAlias"
+Windmill.static.DESTRUCTIBLE = true
 
 function Windmill:initialize(gx, gy, type)
     _G.JobController:add("Miller", self)
@@ -321,10 +323,38 @@ function Windmill:initialize(gx, gy, type)
             quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile, 16)
         wnd.tileKey = tiles + 1 + tile
     end
-
+    
+    WindmillAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 1, self, self.offsetX, self.offsetY)
+    WindmillAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 1, self, self.offsetX, self.offsetY)
+    WindmillAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 2, self, self.offsetX, self.offsetY)
+    
     _G.state.map:setWalkable(self.gx + 2, self.gy + 2, false)
     Structure.render(self)
 end
+function Windmill:destroy()
+    Structure.destroy(self.blade)
+    self.blade.toBeDeleted = true
+    Structure.destroy(self.bladeShadow)
+    self.bladeShadow.toBeDeleted = true
+    Structure.destroy(self.fillingFlour)
+    self.fillingFlour.toBeDeleted = true
+
+    if self.worker then
+        self.worker:die()
+    end
+    if self.worker2 then
+        self.worker2:die()
+    end
+    if self.worker3 then
+        self.worker3:die()
+    end
+    
+    _G.stockpile:store("wood")
+    _G.stockpile:store("wood")
+    _G.stockpile:store("wood")
+    _G.stockpile:store("wood")
+end
+
 function Windmill:load(data)
     Object.deserialize(self, data)
     Structure.load(self, data)
@@ -397,6 +427,11 @@ function Windmill.static:deserialize(data)
     return obj
 end
 function Windmill:join(worker)
+    if self.health == -1 then
+        _G.JobController:remove("Miller", self)
+        worker:die()
+        return
+    end
     if self.freeSpots == 3 then
         self.worker = worker
         self.worker.workplace = self

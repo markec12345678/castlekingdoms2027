@@ -99,6 +99,7 @@ local Granary = _G.class("Granary", Structure)
 Granary.static.WIDTH = 4
 Granary.static.LENGTH = 4
 Granary.static.HEIGHT = 17
+Granary.static.DESTRUCTIBLE = false
 
 function Granary:initialize(gx, gy, type)
     type = type or "Granary"

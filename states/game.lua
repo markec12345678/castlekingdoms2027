@@ -29,6 +29,7 @@ local function delayedInit()
     terrain = require("terrain.terrain")
     updateProgress(30)
     _G.BrushController = require("objects.Controllers.BrushController")
+    _G.DestructionController = require("objects.Controllers.DestructionController"):new()
     _G.RationController = require("objects.Controllers.RationController")
     _G.BuildController = love.filesystem.load("objects/Controllers/BuildController.lua")(
         package.loaded["objects.objects"].object, objectAtlas)
@@ -171,12 +172,15 @@ function game:mousepressed(x, y, button, istouch)
     if objects.mousepressed(x, y, button, istouch) then
         return
     end
-    if button == 2 and not _G.BuildController.start then
-        _G.BuildController.active = false
-        if _G.BuildController.onBuildCallback then
-            _G.BuildController.onBuildCallback()
-            _G.BuildController.onBuildCallback = nil
+    if button == 2 then
+        if not _G.BuildController.start then
+            _G.BuildController.active = false
+            if _G.BuildController.onBuildCallback then
+                _G.BuildController.onBuildCallback()
+                _G.BuildController.onBuildCallback = nil
+            end
         end
+        ActionBar:unselectAll()
     end
     _G.BrushController:mousepressed(button)
 end
@@ -186,6 +190,11 @@ function game:keypressed(key, scancode, isRepeat)
     if key == "escape" and
         (loveframes.GetState() == states.STATE_PAUSE_MENU or loveframes.GetState() == states.STATE_INGAME_CONSTRUCTION) then
         loveframes.TogglePause()
+        if _G.DestructionController.active then
+            -- unselect the demolish button
+            ActionBar:unselectAll()
+            _G.DestructionController:disable()
+        end
     end
     if key == "v" then
         _G.DebugView:toggle()
@@ -196,6 +205,7 @@ function game:mousereleased(x, y, button, istouch)
     -- TODO: Check if event is consumed
     loveframes.mousereleased(x, y, button)
     _G.BrushController:mousereleased(button)
+    _G.DestructionController:mousereleased(button, x, y)
 end
 
 function game:wheelmoved(x, y)
@@ -224,6 +234,8 @@ function game:keyreleased(key, scancode)
         _G.BrushController:cycleDensity()
     elseif key == "v" and _G.BrushController.active then
         _G.BrushController:cycleType()
+    elseif key == "delete" then
+        _G.DestructionController:toggle()
     end
     -- end
 end

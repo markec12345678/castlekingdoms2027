@@ -1,4 +1,4 @@
-local _, _, _, _ = ...
+local _, _, tileQuads, _ = ...
 
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
@@ -57,6 +57,8 @@ local House = _G.class("House", Structure)
 House.static.WIDTH = 4
 House.static.LENGTH = 4
 House.static.HEIGHT = 17
+House.static.ALIAS_NAME = "HouseAlias"
+House.static.DESTRUCTIBLE = true
 
 function House:initialize(gx, gy)
     Structure.initialize(self, gx, gy, "House")
@@ -76,6 +78,12 @@ function House:initialize(gx, gy)
         hsl.tileKey = tiles + 1 + tile
     end
 
+    for xx = 1, 3 do
+        for yy = 1, 3 do
+            HouseAlias:new(tileQuads["empty"], self.gx + xx, self.gy + yy, self, self.offsetX, self.offsetY)
+        end
+    end
+
     Structure:applyBuildingHeightMap(gx, gy, House.WIDTH, House.LENGTH, House.HEIGHT)
 
     _G.state.maxPopulation = _G.state.maxPopulation + 4
@@ -83,6 +91,11 @@ function House:initialize(gx, gy)
     actionBar:updatePopulationCount()
 
     Structure.render(self)
+end
+function House:destroy()
+    _G.state.maxPopulation = _G.state.maxPopulation - 4
+    _G.stockpile:store("wood")
+    _G.stockpile:store("wood")
 end
 function House:load(data)
     Object.deserialize(self, data)
