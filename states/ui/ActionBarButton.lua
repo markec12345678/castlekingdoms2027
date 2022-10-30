@@ -24,6 +24,7 @@ function ActionBarButton:initialize(image, state, position, bigFrameForeground, 
     if not state then
         error("state cannot be nil")
     end
+    self.onUnselect = function() end
     self.bigFrameForeground = bigFrameForeground or false
     self.onClick = onclick
     self.image = image
@@ -75,6 +76,7 @@ function ActionBarButton:initialize(image, state, position, bigFrameForeground, 
     self.background.visible = false
     self.foreground.visible = false
 end
+
 function ActionBarButton:setTooltip(title, tooltipText)
     if not self.tooltip then
         local tooltip = loveframes.Create("tooltip")
@@ -88,43 +90,60 @@ function ActionBarButton:setTooltip(title, tooltipText)
         self.tooltip:SetText(tooltipText, title)
     end
 end
+
 function ActionBarButton:hide()
+    self:unselect()
     self.background.visible = false
     self.foreground.visible = false
     self.background.hover = false
     self.foreground.hover = false
 end
+
 function ActionBarButton:show()
     self.background.visible = true
     self.foreground.visible = true
 end
+
 function ActionBarButton:setOnClick(callback)
     if not callback then
         error("OnClick callback is nil")
     end
     self.background.OnClick = callback
 end
+
 function ActionBarButton:press()
     if self.background.OnClick then
         self.background.OnClick()
     end
 end
+
 function ActionBarButton:onMouseEnter(element)
     if not self.selected and not self.disabled then
         element:SetImage(ActionBarButton.backgroundHoverImage)
         element:SetScale((self.frame.width) / element:GetImageWidth())
     end
 end
+
 function ActionBarButton:onMouseExit(element)
     if not self.selected and not self.disabled then
         element:SetImage(ActionBarButton.backgroundImage)
         element:SetScale((self.frame.width) / element:GetImageWidth())
     end
 end
+
+function ActionBarButton:setOnUnselect(callback)
+    if type(callback) ~= "function" then
+        error("onUnselect should be a function")
+    end
+    self.onUnselect = callback
+end
+
 function ActionBarButton:unselect()
     self.selected = false
+    self.onUnselect()
     self.background:SetImage(ActionBarButton.backgroundImage)
 end
+
 function ActionBarButton:select()
     self.selected = true
     self.background:SetImage(ActionBarButton.backgroundSelectedImage)

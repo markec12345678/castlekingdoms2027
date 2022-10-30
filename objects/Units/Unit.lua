@@ -42,6 +42,14 @@ function Unit:initialize(gx, gy, type, noPathState)
     table.insert(activeEntities, self)
     self:calculatePosition()
 end
+function Unit:die()
+    _G.state.population = _G.state.population - 1
+    self.toBeDeleted = true
+    _G.freeVertexFromTile(self.cx, self.cy, self.previousVertId)
+    self.animation = nil
+    _G.freeVertexFromTile(self.cx, self.cy, self.vertId)
+    _G.removeObjectAt(self.cx, self.cy, self.i, self.o, self)
+end
 function Unit:setNextWaypoint()
     self.waypointX = self.nd[self.count][1] + 0.5
     self.waypointY = self.nd[self.count][2] + 0.5

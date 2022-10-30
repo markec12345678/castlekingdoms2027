@@ -35,6 +35,7 @@ local SaxonHall = _G.class("SaxonHall", Structure)
 SaxonHall.static.WIDTH = 7
 SaxonHall.static.LENGTH = 7
 SaxonHall.static.HEIGHT = 23
+SaxonHall.static.DESTRUCTIBLE = false
 
 function SaxonHall:initialize(gx, gy, type)
     type = type or "SaxonHall (default)"
@@ -61,6 +62,14 @@ function SaxonHall:initialize(gx, gy, type)
     SaxonHallDoor:new(tileSaxonHallDoor1, self.gx + 2, self.gy + 7, self)
     SaxonHallDoor:new(tileSaxonHallDoor2, self.gx + 4, self.gy + 7, self)
     _G.spawnPointX, _G.spawnPointY = self.gx + 3, self.gy + 8
+
+    for xx = 0, 5 do 
+        for yy = 0, 5 do 
+            SaxonHallAlias:new(tileQuads["empty"], self.gx + xx, self.gy + yy, self)
+        end
+    end
+    SaxonHallAlias:new(tileQuads["empty"], self.gx + 6, self.gy, self)
+    SaxonHallAlias:new(tileQuads["empty"], self.gx, self.gy + 6, self)
 
     Structure:applyBuildingHeightMap(gx, gy, SaxonHall.WIDTH, SaxonHall.LENGTH, SaxonHall.HEIGHT)
     for xx = -2, 8 do

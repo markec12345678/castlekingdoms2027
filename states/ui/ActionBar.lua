@@ -56,7 +56,9 @@ function ActionBar:initialize()
     self.groups = {}
     self.currentGroup = "main"
 end
+
 function ActionBar:switchMode(mode)
+    self:unselectAll()
     if mode == "granary" then
         self:showGroup("granary")
         loveframes.SetState(states.STATE_GRANARY)
@@ -80,6 +82,7 @@ function ActionBar:switchMode(mode)
         self.element:SetImage(ActionBar.actionBarImage)
     end
 end
+
 function ActionBar:updatePopulationCount()
     local color = {176 / 255, 136 / 255, 80 / 255, 1}
     if _G.state.population == _G.state.maxPopulation then
@@ -107,6 +110,7 @@ function ActionBar:activateButton(position)
         end
     end
 end
+
 function ActionBar:keypressed(key, scancode)
     if key == "1" then
         self:activateButton(1)
@@ -134,15 +138,27 @@ function ActionBar:keypressed(key, scancode)
         self:activateButton(12)
     end
 end
+
+function ActionBar:unselectAll()
+    for _, group in pairs(self.groups) do
+        for _, el in pairs(group) do
+            el:unselect()
+        end
+    end
+end
+
 function ActionBar:selectButton(element)
     if not element.background.visible then
         error("trying to select an invisible button")
     end
-    for _, el in ipairs(self.groups[element.group]) do
-        el:unselect()
+    for _, el in pairs(self.groups[element.group]) do
+        if el ~= element then
+            el:unselect()
+        end
     end
     element:select()
 end
+
 function ActionBar:registerGroup(name, listOfElements)
     self.groups[name] = {}
     for _, v in ipairs(listOfElements) do
@@ -150,11 +166,13 @@ function ActionBar:registerGroup(name, listOfElements)
         self.groups[name][v.position] = v
     end
 end
+
 function ActionBar:hideGroup(name)
     for _, el in pairs(self.groups[name]) do
         el:hide()
     end
 end
+
 function ActionBar:showGroup(name)
     self.currentGroup = name
     for k, _ in pairs(self.groups) do
@@ -168,10 +186,13 @@ function ActionBar:showGroup(name)
         end
     end
 end
+
 function ActionBar:hide()
     self.element.visible = false
 end
+
 function ActionBar:show()
     self.element.visible = true
 end
+
 return ActionBar:new()

@@ -186,6 +186,8 @@ local WheatFarm = _G.class("WheatFarm", Structure)
 WheatFarm.static.WIDTH = 3
 WheatFarm.static.LENGTH = 3
 WheatFarm.static.HEIGHT = 14
+WheatFarm.static.ALIAS_NAME = "WheatFarmAlias"
+WheatFarm.static.DESTRUCTIBLE = true
 
 function WheatFarm:initialize(gx, gy, type)
     _G.JobController:add("WheatFarmer", self)
@@ -275,8 +277,33 @@ function WheatFarm:initialize(gx, gy, type)
     self.maxLandTiles = #self.landTiles
     self.processedTiles = 0
 
+    for xx = 1, 2 do
+        for yy = 1, 2 do
+            WheatFarmAlias:new(tileQuads["empty"], self.gx + xx, self.gy + yy, self, self.offsetX, self.offsetY)
+        end
+    end
+
     self.freeSpots = 1
     Structure.render(self)
+end
+function WheatFarm:destroy()
+    if self.wheatWorker then
+        self.wheatWorker:die()
+    end
+
+    for xx = -1, 13 do
+        for yy = -1, 13 do
+            local tile = _G.objectFromClassAtGlobal(self.gx + xx, self.gy + yy, "WheatFarmPlant")
+            if tile then
+                tile.state = -1
+                Structure.destroy(tile)
+                tile.toBeDeleted = true
+            end
+        end
+    end
+
+    _G.stockpile:store("wood")
+    _G.stockpile:store("wood")
 end
 function WheatFarm:load(data)
     Object.deserialize(self, data)
@@ -346,6 +373,11 @@ function WheatFarm.static:deserialize(data)
 end
 
 function WheatFarm:join(worker)
+    if self.health == -1 then
+        _G.JobController:remove("WheatFarmer", self)
+        worker:die()
+        return
+    end
     if self.freeSpots == 1 then
         self.wheatWorker = worker
         worker.workplace = self

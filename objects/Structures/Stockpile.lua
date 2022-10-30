@@ -114,6 +114,7 @@ local Stockpile = _G.class("Stockpile", Structure)
 Stockpile.static.WIDTH = 5
 Stockpile.static.LENGTH = 5
 Stockpile.static.HEIGHT = 12
+Stockpile.static.DESTRUCTIBLE = false
 function Stockpile:initialize(gx, gy, type)
     type = type or "Stockpile"
     Structure.initialize(self, gx, gy, type)
@@ -162,6 +163,13 @@ function Stockpile:initialize(gx, gy, type)
     StockpileAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 3, self)
     StockpileAlias:new(tileQuads["empty"], self.gx + 3, self.gy + 3, self)
     StockpileAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 1, self)
+    StockpileAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 1, self)
+    StockpileAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 2, self)
+    StockpileAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 2, self)
+    StockpileAlias:new(tileQuads["empty"], self.gx + 3, self.gy + 2, self)
+    StockpileAlias:new(tileQuads["empty"], self.gx + 4, self.gy + 2, self)
+    StockpileAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 3, self)
+    StockpileAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 4, self)
     for tileX = 0, tiles do
         for tileY = 0, tiles do
             _G.state.map:setHeight(self.gx + tileX, self.gy + tileY, 10)

@@ -2,6 +2,7 @@ local activeEntities, _, tileQuads, _ = ...
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
+local Iron = require("objects.Environment.Iron")
 
 local tiles, quadArray = _G.indexBuildingQuads("iron_mine")
 local frPouring = _G.indexQuads("anim_iron_miner_pour", 20)
@@ -590,6 +591,8 @@ local Mine = _G.class("Mine", Structure)
 Mine.static.WIDTH = 4
 Mine.static.LENGTH = 4
 Mine.static.HEIGHT = 16
+Mine.static.ALIAS_NAME = "MineAlias"
+Mine.static.DESTRUCTIBLE = true
 function Mine:initialize(gx, gy)
     _G.JobController:add("Miner", self)
     Structure.initialize(self, gx, gy, "Mine")
@@ -637,11 +640,52 @@ function Mine:initialize(gx, gy)
 
     MineAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 3, self, 12 + 8 * 4, 16)
     MineAlias:new(tileQuads["empty"], self.gx + 3, self.gy + 1, self, 12 + 8 * 4, 16)
+    MineAlias:new(tileQuads["empty"], self.gx - 1, self.gy + 1, self, 12 + 8 * 4, 16)
+    MineAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 2, self, 12 + 8 * 4, 16)
     Structure:applyBuildingHeightMap(gx, gy, self.class.WIDTH, self.class.LENGTH, self.class.HEIGHT)
 
     self:render()
 end
+function Mine:destroy()
+    if self.worker then
+        self.worker:die()
+    end
+    Structure.destroy(self.pourer)
+    self.pourer.toBeDeleted = true
+    Structure.destroy(self.goingDown)
+    self.goingDown.toBeDeleted = true
+    Structure.destroy(self.puller)
+    self.puller.toBeDeleted = true
+    Structure.destroy(self.bucket)
+    self.bucket.toBeDeleted = true
+    Structure.destroy(self.casting)
+    self.casting.toBeDeleted = true
+    Structure.destroy(self.stack)
+    self.stack.toBeDeleted = true
+
+    for xx = 0, 3 do
+        for yy = 0, 3 do
+            Iron:new(self.gx + xx, self.gy + yy)
+        end
+    end
+
+    _G.stockpile:store("wood")
+    _G.stockpile:store("wood")
+    _G.stockpile:store("wood")
+    _G.stockpile:store("wood")
+    _G.stockpile:store("wood")
+    _G.stockpile:store("stone")
+    _G.stockpile:store("stone")
+    _G.stockpile:store("stone")
+    _G.stockpile:store("stone")
+    _G.stockpile:store("stone")
+end
 function Mine:join(worker)
+    if self.health == -1 then
+        _G.JobController:remove("Miner", self)
+        worker:die()
+        return
+    end
     if self.freeSpots == 1 then
         self.worker = worker
         worker.workplace = self

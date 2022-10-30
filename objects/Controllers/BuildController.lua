@@ -416,6 +416,7 @@ function BuildController:initialize()
     self.quads[3] = love.graphics.newQuad(60, 0, 30, 16, image:getWidth(), image:getHeight())
     self.quads[4] = love.graphics.newQuad(90, 0, 30, 16, image:getWidth(), image:getHeight())
 end
+
 function BuildController:serialize()
     local data = {}
     data.width = self.width
@@ -436,6 +437,7 @@ function BuildController:serialize()
     data.cannotBuildBecauseSpecial = self.cannotBuildBecauseSpecial
     return data
 end
+
 function BuildController:deserialize(data)
     for k, v in pairs(data) do
         self[k] = v
@@ -444,7 +446,12 @@ function BuildController:deserialize(data)
         ActionBar:showGroup(nil)
     end
 end
+
 function BuildController:set(type, callback)
+    if _G.DestructionController.active then
+        _G.DestructionController:toggle()
+    end
+
     if not building[type] then
         error("want to build an unknown building: " .. tostring(type))
     end
@@ -461,6 +468,7 @@ function BuildController:set(type, callback)
     self.batch:flush()
     self.active = true
 end
+
 function BuildController:update()
     if self.active then
         if self.start and ActionBar.currentGroup ~= nil then
@@ -474,9 +482,9 @@ function BuildController:update()
         local type
         self.elevationOffsetY = (_G.state.map.heightmap[cx][cy][x][y] or 0) * 2
         self.FX = IsoToScreenX(LX, LY) - _G.state.viewXview - ((IsoToScreenX(LX, LY)) - _G.state.viewXview) *
-                      (1 - _G.state.scaleX)
+            (1 - _G.state.scaleX)
         self.FY = IsoToScreenY(LX, LY) - _G.state.viewYview - ((IsoToScreenY(LX, LY)) - _G.state.viewYview) *
-                      (1 - _G.state.scaleX)
+            (1 - _G.state.scaleX)
         -- No point to flush the batch everytime
         if self.lastBuilding ~= self.building or self.previousGx ~= self.gx or self.previousGx ~= self.gy then
             self.canBuild = true
@@ -497,7 +505,7 @@ function BuildController:update()
                         end
                         if firstTerrainHeight ~= (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 then
                             totalTerrainDifference = totalTerrainDifference +
-                                                         math.abs(
+                                math.abs(
                                     firstTerrainHeight - (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2)
                         end
                         if _G.state.map:isWaterAt(self.gx + xx, self.gy + yy) then
@@ -546,6 +554,7 @@ function BuildController:update()
         end
     end
 end
+
 function BuildController:mousepressed(x, y)
     local gx, gy = _G.getTerrainTileOnMouse(x, y)
     gx, gy = gx - math.floor(self.width / 2), gy - math.floor(self.height / 2)
@@ -560,6 +569,7 @@ function BuildController:mousepressed(x, y)
     self.firstTerrainHeight = nil
     return success
 end
+
 function BuildController:build(gx, gy)
     if self.active and self.gx > 0 and self.gx < 2048 and self.gy > 0 and self.gy < 2048 then
         if self.canBuild then
@@ -639,6 +649,7 @@ function BuildController:build(gx, gy)
         end
     end
 end
+
 function BuildController:draw()
     if self.active then
         love.graphics.setColor(1, 1, 1, 0.5)
@@ -646,7 +657,7 @@ function BuildController:draw()
         if self.canBuild then
             love.graphics.draw(objectAtlas, building[self.building].quad,
                 self.FX - building[self.building].offsetX * _G.state.scaleX, self.FY - self.elevationOffsetY *
-                    _G.state.scaleX - building[self.building].offsetY * _G.state.scaleX, 0, _G.state.scaleX)
+                _G.state.scaleX - building[self.building].offsetY * _G.state.scaleX, 0, _G.state.scaleX)
         end
         love.graphics.setColor(1, 1, 1, 1)
     end

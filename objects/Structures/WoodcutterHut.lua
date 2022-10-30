@@ -319,6 +319,8 @@ local WoodcutterHut = _G.class("WoodcutterHut", Structure)
 WoodcutterHut.static.WIDTH = 3
 WoodcutterHut.static.LENGTH = 3
 WoodcutterHut.static.HEIGHT = 14
+WoodcutterHut.static.ALIAS_NAME = "WoodcutterHutAlias"
+WoodcutterHut.static.DESTRUCTIBLE = true
 
 function WoodcutterHut:initialize(gx, gy, type)
     _G.JobController:add("Woodcutter", self)
@@ -373,9 +375,33 @@ function WoodcutterHut:initialize(gx, gy, type)
         wht.tileKey = tiles + 1 + tile
     end
 
+    WoodcutterHutAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 1, self, self.offsetX, self.offsetY)
+    WoodcutterHutAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 2, self, self.offsetX, self.offsetY)
+    WoodcutterHutAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 2, self, self.offsetX, self.offsetY)
+
     Structure.render(self)
 end
+function WoodcutterHut:destroy()
+    Structure.destroy(self.sawingObj)
+    self.sawingObj.toBeDeleted = true
+    Structure.destroy(self.stack)
+    self.stack.toBeDeleted = true
+    Structure.destroy(self.logStack)
+    self.logStack.toBeDeleted = true
+
+    if self.worker then
+        self.worker:die()
+    end
+
+    _G.stockpile:store("wood")
+    _G.stockpile:store("wood")
+end
 function WoodcutterHut:join(worker)
+    if self.health == -1 then
+        _G.JobController:remove("WoodCutter", self)
+        worker:die()
+        return
+    end
     if self.freeSpots == 1 then
         self.worker = worker
         self.worker.workplace = self

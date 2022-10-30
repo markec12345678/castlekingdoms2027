@@ -3,6 +3,7 @@ local _, _, _ = ...
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
+local tileQuads = require("objects.object_quads")
 
 local class = _G.class
 
@@ -150,6 +151,8 @@ local Orchard = class("Orchard", Structure)
 Orchard.static.WIDTH = 12
 Orchard.static.LENGTH = 12
 Orchard.static.HEIGHT = 19
+Orchard.static.ALIAS_NAME  = "OrchardAlias"
+Orchard.static.DESTRUCTIBLE = true
 function Orchard:initialize(gx, gy, type)
     _G.JobController:add("OrchardFarmer", self)
     type = type or "Orchard"
@@ -205,8 +208,46 @@ function Orchard:initialize(gx, gy, type)
         end
     end
 
+    for xx = 0, 11 do
+        for yy = 0, 11 do
+            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + gy, Structure) then
+                OrchardAlias:new(tileQuads["empty"], self.gx + xx, self.gy + yy, self)
+            end
+        end
+    end
+
     self.freeSpots = 1
     Structure.render(self)
+end
+function Orchard:destroy()
+    if self.appleWorker then
+        self.appleWorker:die()
+    end
+    Structure.destroy(self.tree1)
+    self.tree1.toBeDeleted = true
+    Structure.destroy(self.tree2)
+    self.tree2.toBeDeleted = true
+    Structure.destroy(self.tree3)
+    self.tree3.toBeDeleted = true
+    Structure.destroy(self.tree4)
+    self.tree4.toBeDeleted = true
+    Structure.destroy(self.tree5)
+    self.tree5.toBeDeleted = true
+    Structure.destroy(self.tree6)
+    self.tree6.toBeDeleted = true
+    Structure.destroy(self.tree7)
+    self.tree7.toBeDeleted = true
+    Structure.destroy(self.tree8)
+    self.tree8.toBeDeleted = true
+
+    for xx = 0, 11 do
+        for yy = 0, 11 do
+            _G.removeObjectFromClassAtGlobal(self.gx + xx, self.gy + yy, "OrchardAlias")
+        end
+    end
+
+    _G.stockpile:store("wood")
+    _G.stockpile:store("wood")
 end
 function Orchard:serialize()
     local data = {}
@@ -267,6 +308,11 @@ function Orchard.static:deserialize(data)
     return obj
 end
 function Orchard:join(worker)
+    if self.health == -1 then
+        _G.JobController:remove("OrchardFarmer", self)
+        worker:die()
+        return
+    end
     if self.freeSpots == 1 then
         self.appleWorker = worker
         worker.workplace = self

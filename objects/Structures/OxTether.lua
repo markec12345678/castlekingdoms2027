@@ -3,7 +3,54 @@ local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
 local OxUnit = require("objects.Units.Ox");
 
+local OxTetherAlias = _G.class("OxTetherAlias", Structure)
+function OxTetherAlias:initialize(gx, gy, parent, offsetY, offsetX)
+    local mytype = "Static structure"
+    self.parent = parent
+    Structure.initialize(self, gx, gy, mytype)
+    _G.state.map:setWalkable(self.gx, self.gy, 1)
+    self.tile = tileQuads["empty"]
+    self.baseOffsetY = offsetY or 0
+    self.additionalOffsetY = 0
+    self.offsetX = offsetX or 0
+    self.offsetY = self.additionalOffsetY - self.baseOffsetY
+    Structure.render(self)
+end
+function OxTetherAlias:serialize()
+    local data = {}
+    local structData = Structure.serialize(self)
+    for k, v in pairs(structData) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
+    data.tileKey = self.tileKey
+    data.baseOffsetY = self.baseOffsetY
+    data.additionalOffsetY = self.additionalOffsetY
+    data.offsetX = self.offsetX
+    data.offsetY = self.offsetY
+    data.parent = _G.state:serializeObject(self.parent)
+    return data
+end
+function OxTetherAlias.static:deserialize(data)
+    local obj = self:allocate()
+    Object.deserialize(obj, data)
+    Structure.load(obj, data)
+    obj.parent = _G.state:dereferenceObject(data.parent)
+    if data.tileKey then
+        obj.tile = quadArray[data.tileKey]
+        obj.tileKey = data.tileKey
+        obj:render()
+    end
+    return obj
+end
+
 local OxTether = _G.class("OxTether", Structure)
+OxTether.static.WIDTH = 2
+OxTether.static.LENGTH = 2
+OxTether.static.HEIGHT = 4
+OxTether.static.ALIAS_NAME = nil
+OxTether.static.DESTRUCTIBLE = true
 function OxTether:initialize(gx, gy)
     _G.JobController:add("OxHandler", self)
     Structure.initialize(self, gx, gy, "OxTether")
@@ -35,10 +82,35 @@ function OxTether:initialize(gx, gy)
         end
     end
 
-    Structure:applyBuildingHeightMap(gx, gy, 2, 2, 4)
+    OxTetherAlias:new(self.gx + 1, self.gy, self, self.offsetX, self.offsetY)
+    OxTetherAlias:new(self.gx, self.gy + 1, self, self.offsetX, self.offsetY)
+    OxTetherAlias:new(self.gx + 1, self.gy + 1, self, self.offsetX, self.offsetY)
+
+    Structure:applyBuildingHeightMap(gx, gy, self.class.WIDTH, self.class.HEIGHT, self.class.LENGTH)
     Structure.render(self)
 end
+function OxTether:destroy()
+    -- force all quarrys in range to scan for other tethers in range
+    -- and if necessary switch the quarry into standalone mode
+    for x = self.gx - 25, self.gx + 25 do
+        for y = self.gy - 25, self.gy + 25 do
+            local tile = _G.objectFromClassAtGlobal(x, y, "Quarry")
+            if tile then
+                tile:onTetherDestruction(self)
+            end
+        end
+    end
 
+    if self.oxWorker then
+        self.oxWorker:die()
+    end
+    if self.oxUnit then
+        self.oxUnit:die()
+    end
+
+    _G.stockpile:store("wood")
+    _G.stockpile:store("wood")
+end
 function OxTether:add(amount)
     if amount == nil then
         amount = 1
@@ -70,6 +142,12 @@ function OxTether:take(amount)
 end
 
 function OxTether:join(worker)
+    if self.health == -1 then
+        _G.JobController:remove("OxHandler", self)
+        worker:die()
+        return
+    end
+
     self.oxWorker = worker
     self.oxWorker.workplace = self
     self.freeSpots = 0
@@ -127,8 +205,6 @@ function OxTether:serialize()
     data.quantity = self.quantity
     if self.oxWorker then
         data.oxWorker = _G.state:serializeObject(self.oxWorker)
-    else
-        error("no ox worker")
     end
 
     return data
