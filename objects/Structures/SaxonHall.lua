@@ -24,6 +24,7 @@ function SaxonHallAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     self.parent = parent
     Structure.initialize(self, gx, gy, mytype)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
+    _G.state.keepX, _G.state.keepY = gx, gy
     self.tile = tile
     self.offsetX = offsetX or 0
     self.offsetY = -(offsetY or 0)
