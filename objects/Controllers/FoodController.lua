@@ -4,7 +4,8 @@ function FoodController:initialize()
     self.food = {
         ["apples"] = {},
         ["bread"] = {},
-        ["cheese"] = {}
+        ["cheese"] = {},
+        ["meat"] = {}
     }
 
     self.nodeList = {}

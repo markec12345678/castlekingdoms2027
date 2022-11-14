@@ -14,6 +14,8 @@ local ActionBar = _G.class("ActionBar")
 ActionBar.static.actionBarImage = love.graphics.newImage("assets/ui/action_bar.png")
 ActionBar.static.actionBarGranaryImage = love.graphics.newImage("assets/ui/action_bar_granary.png")
 ActionBar.static.actionBarStockpileImage = love.graphics.newImage("assets/ui/action_bar_stockpile.png")
+ActionBar.static.actionBarMarketImageMain = love.graphics.newImage("assets/ui/action_bar_market_main.png")
+ActionBar.static.actionBarMarketImage = love.graphics.newImage("assets/ui/action_bar_market.png")
 function ActionBar:initialize()
     local element = loveframes.Create("image")
     element:SetState(states.STATE_INGAME_CONSTRUCTION)
@@ -73,6 +75,27 @@ function ActionBar:switchMode(mode)
         self.goldText:SetState(states.STATE_STOCKPILE)
         self.element:SetState(states.STATE_STOCKPILE)
         self.element:SetImage(ActionBar.actionBarStockpileImage)
+    elseif mode == "house" then
+        self:showGroup("house")
+        loveframes.SetState(states.STATE_HOUSE)
+        self.populationText:SetState(states.STATE_HOUSE)
+        self.goldText:SetState(states.STATE_HOUSE)
+        self.element:SetState(states.STATE_HOUSE)
+        self.element:SetImage(ActionBar.actionBarGranaryImage)
+    elseif mode == "market" then
+        self:showGroup("market")
+        loveframes.SetState(states.STATE_MARKET_MAIN)
+        self.populationText:SetState(states.STATE_MARKET_MAIN)
+        self.goldText:SetState(states.STATE_MARKET_MAIN)
+        self.element:SetState(states.STATE_MARKET_MAIN)
+        self.element:SetImage(ActionBar.actionBarMarketImageMain)
+    elseif mode == "market_trade" then
+        self:showGroup("market_trade")
+        loveframes.SetState(states.STATE_MARKET)
+        self.populationText:SetState(states.STATE_MARKET)
+        self.goldText:SetState(states.STATE_MARKET)
+        self.element:SetState(states.STATE_MARKET)
+        self.element:SetImage(ActionBar.actionBarMarketImage)
     else
         self:showGroup("main")
         loveframes.SetState(states.STATE_INGAME_CONSTRUCTION)
@@ -94,9 +117,6 @@ function ActionBar:updatePopulationCount()
 end
 function ActionBar:updateGoldCount()
     local color = {176 / 255, 136 / 255, 80 / 255, 1}
-    if _G.state.gold == _G.state.gold then
-        color = {0, 255, 0, 1}
-    end
     self.goldText:SetText({{
         color = color
     }, _G.state.gold})

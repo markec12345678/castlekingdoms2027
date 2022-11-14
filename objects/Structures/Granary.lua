@@ -7,7 +7,8 @@ local tiles, quadArray = _G.indexBuildingQuads("granary (1)")
 local quadMap = {
     ["apples"] = {},
     ["bread"] = {},
-    ["cheese"] = {}
+    ["cheese"] = {},
+    ["meat"] = {}
 }
 
 for i = 1, 8 do
@@ -20,6 +21,7 @@ end
 
 for i = 1, 16 do
     quadMap["cheese"][#quadMap["cheese"] + 1] = tileQuads["cheese_goods (" .. tostring(i) .. ")"]
+    quadMap["meat"][#quadMap["meat"] + 1] = tileQuads["meat_goods (" .. tostring(i) .. ")"]
 end
 
 local offsetY = {
@@ -27,13 +29,15 @@ local offsetY = {
     ["bread"] = {0, -3, -7, -10, -14, -14, -14, -14, -14, -14, -14, -14, -18 + 4, -18 + 4, -18 + 4, -18 + 4, -21 + 4,
                  -24 + 4, -28 + 4, -31 + 4, -31 + 4, -31 + 4, -31 + 4, -31 + 4, -31 + 4, -31 + 4, -31 + 4, -31 + 4,
                  -31 + 4, -31 + 4, -31 + 4, -31 + 4},
-    ["cheese"] = {0, -3, -6, -12, -12, -12, -18, -18, -18, -24, -24, -24, -30, -30, -30, -33}
+    ["cheese"] = {0, -3, -6, -12, -12, -12, -18, -18, -18, -24, -24, -24, -30, -30, -30, -33},
+    ["meat"] = {0, -3, -6, -12, -12, -12, -18, -18, -18, -24, -24, -24, -30, -30, -30, -33}
 }
 
 local maxQuantity = {
     ["apples"] = 8,
     ["bread"] = 32,
-    ["cheese"] = 16
+    ["cheese"] = 16,
+    ["meat"] = 16
 }
 
 local GranaryAlias = _G.class("GranaryAlias", Structure)
