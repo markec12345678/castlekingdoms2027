@@ -10,7 +10,7 @@ castleButton:setOnClick(
     function(self)
         _G.BuildController:set(
             "saxon_hall", function()
-            castleButton:unselect()
+            castleButton:select()
         end)
         ActionBar:selectButton(castleButton)
     end)

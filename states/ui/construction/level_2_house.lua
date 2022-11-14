@@ -8,7 +8,7 @@ local hovelButton = ActionBarButton:new(love.graphics.newImage('assets/ui/hovel_
 
 hovelButton:setOnClick(function(self)
     _G.BuildController:set("house", function()
-        hovelButton:unselect()
+        hovelButton:select()
     end)
     ActionBar:selectButton(hovelButton)
 end)
