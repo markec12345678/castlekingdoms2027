@@ -232,6 +232,19 @@ function _G.objectFromSubclassAtGlobal(gx, gy, objClass)
     return false
 end
 
+function _G.allObjectsFromSubclassAtGlobal(gx, gy, objClass)
+    local data = {}
+    local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(gx, gy)
+    if type(object[cx][cy][x][y]) == "table" then
+        for _, currentObject in ipairs(object[cx][cy][x][y]) do
+            if currentObject.class.isSubclassOf and currentObject.class:isSubclassOf(objClass) then
+                data[#data + 1] = currentObject
+            end
+        end
+    end
+    return data
+end
+
 function objectAt(cx, cy, x, y)
     if (type(object[cx][cy][x][y]) == "table" and next(object[cx][cy][x][y]) == nil) or not object[cx][cy][x][y] or
         objectFromTypeAt(cx, cy, x, y, "Stump") then

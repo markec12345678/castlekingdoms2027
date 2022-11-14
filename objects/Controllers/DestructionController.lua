@@ -48,17 +48,14 @@ function DestructionController:mousereleased(button, mx, my)
             if structure.class.DESTRUCTIBLE == true then
                 Structure.destroy(structure)
                 -- Destroy all the Aliases of a Structure
-                local tiles = structure.class.WIDTH * structure.class.LENGTH
-                for tile = 1, tiles do
-                    local target = _G.objectFromClassAtGlobal(structure.gx, structure.gy + (tiles - tile + 1), structure.class.ALIAS_NAME)
-                    if target then
-                        target:destroy()
-                    end
-                end
-                for tile = 1, tiles do
-                    local target = _G.objectFromClassAtGlobal(structure.gx + tile, structure.gy, structure.class.ALIAS_NAME)
-                    if target then
-                        target:destroy()
+                for x = 0, structure.class.WIDTH - 1 do
+                    for y = 0, structure.class.HEIGHT - 1 do
+                        local targets = _G.allObjectsFromSubclassAtGlobal(structure.gx + x, structure.gy + y, Structure)
+                        for _, target in ipairs(targets) do
+                            if target == structure or target.parent == structure then
+                                target:destroy()
+                            end
+                        end
                     end
                 end
 
