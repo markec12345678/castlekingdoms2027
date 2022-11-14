@@ -36,6 +36,8 @@ local frMenu = {
 loveframes.TogglePause = function()
     if _G.paused then
         _G.paused = false
+        local ActionBar = require("states.ui.ActionBar")
+        ActionBar:switchMode()
         loveframes.SetState(states.STATE_INGAME_CONSTRUCTION)
     else
         _G.paused = true

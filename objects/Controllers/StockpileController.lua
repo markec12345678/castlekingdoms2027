@@ -13,10 +13,13 @@ function StockpileController:initialize()
     self.list = {}
     self.resources = {
         ["wood"] = {},
+        ['hop'] = {},
         ["stone"] = {},
-        ["wheat"] = {},
         ["iron"] = {},
-        ["flour"] = {}
+        ["tar"] = {},
+        ["flour"] = {},
+        ["ale"] = {},
+        ["wheat"] = {}
     }
     self.nodeList = {}
 
@@ -63,8 +66,8 @@ function StockpileController:take(resource, amount)
 end
 function StockpileController:updateResourceCount()
     local resources = _G.state.resources
-    local text = string.format("Wood: %d\nStone: %d\nIron: %d\nFlour: %d\nWheat: %d", resources["wood"],
-        resources["stone"], resources["iron"], resources["flour"], resources["wheat"])
+    local text = string.format("Wood: %d\nStone: %d\nIron: %d\nFlour: %d\nWheat: %d\nTar: %d\nAle: %d", resources["wood"],
+        resources["stone"], resources["iron"], resources["flour"], resources["wheat"], resources["tar"], resources["ale"])
     self.resourceText:SetText({{
         color = {240 / 255, 240 / 255, 224 / 255}
     }, text})

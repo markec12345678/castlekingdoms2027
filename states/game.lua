@@ -188,7 +188,13 @@ end
 function game:keypressed(key, scancode, isRepeat)
     ActionBar:keypressed(key, scancode)
     if key == "escape" and
-        (loveframes.GetState() == states.STATE_PAUSE_MENU or loveframes.GetState() == states.STATE_INGAME_CONSTRUCTION) then
+        (
+        loveframes.GetState() == states.STATE_PAUSE_MENU or
+            loveframes.GetState() == states.STATE_INGAME_CONSTRUCTION or
+            loveframes.GetState() == states.STATE_MARKET or
+            loveframes.GetState() == states.STATE_STOCKPILE or
+            loveframes.GetState() == states.STATE_MARKET_MAIN
+        ) then
         loveframes.TogglePause()
         if _G.DestructionController.active then
             -- unselect the demolish button

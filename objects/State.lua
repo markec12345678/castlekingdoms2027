@@ -37,9 +37,20 @@ function State:initialize()
         ["wheat"] = 0
     }
     self.food = {
+        ["meat"] = 0,
         ["apples"] = 0,
         ["bread"] = 0,
         ["cheese"] = 0
+    }
+    self.weapons = {
+        ["bow"] = 0,
+        ["crossbow"] = 0,
+        ["spear"] = 0,
+        ["sword"] = 0,
+        ["mace"] = 0,
+        ["leather_armor"] = 0,
+        ["pike"] = 0,
+        ["metal_armor"] = 0
     }
     self.notFullStockpiles = {
         ["wood"] = 0,
@@ -52,9 +63,20 @@ function State:initialize()
         ["wheat"] = 0
     }
     self.notFullFoods = {
+        ["meat"] = 0,
         ["apples"] = 0,
         ["bread"] = 0,
         ["cheese"] = 0
+    }
+    self.notFullArmoury = {
+        ["bow"] = 0,
+        ["crossbow"] = 0,
+        ["spear"] = 0,
+        ["sword"] = 0,
+        ["mace"] = 0,
+        ["leather_armor"] = 0,
+        ["pike"] = 0,
+        ["metal_armor"] = 0
     }
     self.wheatSeasonCounter = 0
     self.wheatGrowingSeason = false

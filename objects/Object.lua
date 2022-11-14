@@ -144,6 +144,7 @@ function Object:serialize()
         data.className ~= "BakeryAlias" and data.className ~= "BakeryAlias" and data.className ~= "WoodcutterHutAlias" and
         data.className ~= "OrchardAlias" and data.className ~= "GranaryAlias" and data.className ~= "WindmillAlias" and
         data.className ~= "HouseAlias" and data.className ~= "QuarryAlias" and data.className ~= "MineAlias" and
+        data.className ~= "MarketAlias" and
         string.find(data.className or tostring(self.class), "Alias") then
         return {}
     end

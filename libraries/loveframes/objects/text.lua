@@ -28,10 +28,10 @@ return function(loveframes)
         self.lines = 0
         self.formattedtext = {}
         self.original = {}
-        self.defaultcolor = {0, 0, 0, 1}
-        self.shadowcolor = {0, 0, 0, 1}
-        self.linkcolor = {0, .4, 1, 1}
-        self.linkhovercolor = {0, 0, 1, 1}
+        self.defaultcolor = { 0, 0, 0, 1 }
+        self.shadowcolor = { 0, 0, 0, 1 }
+        self.linkcolor = { 0, .4, 1, 1 }
+        self.linkhovercolor = { 0, 0, 1, 1 }
         self.ignorenewlines = false
         self.shadow = false
         self.linkcol = false
@@ -116,10 +116,14 @@ return function(loveframes)
         local parent = self.parent
         local base = loveframes.base
         local update = self.Update
-
-        self:CheckHover()
+        if not self.disablehover then
+            self:CheckHover()
+        end
 
         local hover = self.hover
+        if self.disablehover then
+            hover = false
+        end
         local linksenabled = self.linksenabled
         local linkcol = false
 
@@ -235,11 +239,11 @@ return function(loveframes)
         self.formattedtext = {}
 
         if dtype == "string" then
-            tdata = {t}
-            self.original = {t}
+            tdata = { t }
+            self.original = { t }
         elseif dtype == "number" then
-            tdata = {tostring(t)}
-            self.original = {tostring(t)}
+            tdata = { tostring(t) }
+            self.original = { tostring(t) }
         elseif dtype == "table" then
             tdata = t
             self.original = t
@@ -740,7 +744,7 @@ return function(loveframes)
 --]] ---------------------------------------------------------
     function newobject:SetShadowColor(r, g, b, a)
 
-        self.shadowcolor = {r, g, b, a}
+        self.shadowcolor = { r, g, b, a }
         return self
 
     end
@@ -761,7 +765,7 @@ return function(loveframes)
 --]] ---------------------------------------------------------
     function newobject:SetDefaultColor(r, g, b, a)
 
-        self.defaultcolor = {r, g, b, a}
+        self.defaultcolor = { r, g, b, a }
         return self
 
     end

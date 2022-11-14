@@ -5,7 +5,10 @@ local states = {
     STATE_MAIN_MENU_LOAD_SAVE = 4,
     STATE_SETTINGS = 5,
     STATE_GRANARY = 6,
-    STATE_STOCKPILE = 7
+    STATE_STOCKPILE = 7,
+    STATE_HOUSE = 8,
+    STATE_MARKET = 9,
+    STATE_MARKET_MAIN = 10
 }
 
 return states

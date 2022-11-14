@@ -26,7 +26,7 @@ return function(loveframes)
         self.sheary = 0
         self.internal = false
         self.image = nil
-        self.imagecolor = {1, 1, 1, 1}
+        self.imagecolor = { 1, 1, 1, 1 }
 
         self:SetDrawFunc()
     end
@@ -145,6 +145,7 @@ return function(loveframes)
             return false
         end
     end
+
     --[[---------------------------------------------------------
 	- func: SetImage(image)
 	- desc: sets the object's image
@@ -181,7 +182,7 @@ return function(loveframes)
 --]] ---------------------------------------------------------
     function newobject:SetColor(r, g, b, a)
 
-        self.imagecolor = {r, g, b, a}
+        self.imagecolor = { r, g, b, a }
         return self
 
     end
@@ -237,10 +238,13 @@ return function(loveframes)
             tooltip.visible = false
             tooltip:SetText(tooltipText, title)
             self.tooltip = tooltip
+            self.tooltip.disablehover = true
         else
             self.tooltip:SetText(tooltipText, title)
+            self.tooltip.disablehover = true
         end
     end
+
     --[[---------------------------------------------------------
 	- func: GetScaleX()
 	- desc: gets the object's x scale

@@ -23,7 +23,6 @@ local quadMap = {
 
 for i = 1, 48 do
     quadMap["wood"][#quadMap["wood"] + 1] = tileQuads["wood_stockpile (" .. tostring(i) .. ")"]
-    quadMap["hop"][#quadMap["hop"] + 1] = tileQuads["hops_stockpile (" .. tostring(i) .. ")"]
     quadMap["stone"][#quadMap["stone"] + 1] = tileQuads["stone_stockpile (" .. tostring(i) .. ")"]
     quadMap["iron"][#quadMap["iron"] + 1] = tileQuads["iron_stockpile (" .. tostring(i) .. ")"]
 end
@@ -31,6 +30,13 @@ end
 for i = 1, 32 do
     quadMap["wheat"][#quadMap["wheat"] + 1] = tileQuads["wheat_stockpile (" .. tostring(i) .. ")"]
     quadMap["flour"][#quadMap["flour"] + 1] = tileQuads["flour_stockpile (" .. tostring(i) .. ")"]
+end
+
+for i = 1, 16 do
+    quadMap["tar"][#quadMap["tar"] + 1] = tileQuads["pitch_stockpile (" .. tostring(i) .. ")"]
+    quadMap["ale"][#quadMap["ale"] + 1] = tileQuads["kegs_stockpile (" .. tostring(i) .. ")"]
+    quadMap["hop"][#quadMap["hop"] + 1] = tileQuads["hops_stockpile (" .. tostring(i) .. ")"]
+
 end
 
 local pileOffsetY = {
@@ -46,7 +52,13 @@ local pileOffsetY = {
                 -10, -15, -15, -15, -15, -15, -15, -15, -15, -15, -15, -15, -15, -19, -19, -19, -19, -19, -19, -19, -19,
                 -19, -19, -19, -19},
     ["flour"] = {-2, -2, -2, -2, -2, -2, -2, -3, -3, -3, -3, -3, -3, -3, -6, -6, -6, -6, -6, -6, -6, -6, -9, -13, -13,
-                 -13, -13, -13, -13, -13, -14, -15}
+                 -13, -13, -13, -13, -13, -14, -15},
+    ["tar"] = {-2, -2, -3, -3, -6, -6, -9, -9, -13,
+    -13, -13, -13, -13, -13, -14, -15},
+    ["ale"] = {-2, -2, -3, -3, -6, -6, -9, -9, -13,
+    -13, -13, -13, -13, -13, -14, -15},
+    ["hop"] = {-2, -2, -3, -3, -6, -6, -9, -9, -13,
+    -13, -13, -13, -13, -13, -14, -15}
 }
 
 local maxQuantity = {
@@ -54,7 +66,10 @@ local maxQuantity = {
     ["stone"] = 48,
     ["wheat"] = 32,
     ["iron"] = 48,
-    ["flour"] = 32
+    ["flour"] = 32,
+    ["hop"] = 16,
+    ["tar"] = 16,
+    ["ale"] = 16
 }
 local StockpileAlias = _G.class("StockpileAlias", Structure)
 function StockpileAlias:initialize(tile, gx, gy, parent, offsetY, offsetX, notWalkable)

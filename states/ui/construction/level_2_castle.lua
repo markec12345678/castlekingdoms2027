@@ -16,7 +16,8 @@ castleButton:setOnClick(
     end)
 castleButton:setTooltip("Saxon Hall", "Requires 50 Wood\nHas no purpose at the moment")
 
-local woodenWallButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_wall_ab.png"), states.STATE_INGAME_CONSTRUCTION, 2, true, nil, true)
+local woodenWallButton = ActionBarButton:new(
+    love.graphics.newImage("assets/ui/wooden_wall_ab.png"), states.STATE_INGAME_CONSTRUCTION, 2, false, nil, true)
 woodenWallButton:setTooltip("Wooden wall", "Unimplemented")
 
 el.buttons.castleButton:setOnClick(
@@ -24,4 +25,21 @@ el.buttons.castleButton:setOnClick(
         ActionBar:showGroup("castle")
     end)
 
-ActionBar:registerGroup("castle", {castleButton, woodenWallButton, backButton, destroyButton})
+local marketButton = ActionBarButton:new(love.graphics.newImage('assets/ui/market_ab.png'),
+    states.STATE_INGAME_CONSTRUCTION, 3, false)
+
+marketButton:setOnClick(function(self)
+    _G.BuildController:set("market", function()
+        marketButton:unselect()
+    end)
+    ActionBar:selectButton(marketButton)
+end)
+marketButton:setTooltip("Market", "Requires 15 Wood\nAllows you to trade your goods")
+
+el.buttons.castleButton:setOnClick(
+    function(self)
+        ActionBar:showGroup("castle")
+    end)
+
+
+ActionBar:registerGroup("castle", { castleButton, woodenWallButton, marketButton, backButton })

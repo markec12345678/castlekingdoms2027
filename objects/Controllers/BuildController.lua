@@ -15,6 +15,7 @@ local WheatFarm = require("objects.Structures.WheatFarm")
 local Windmill = require("objects.Structures.Windmill")
 local Bakery = require("objects.Structures.Bakery")
 local House = require("objects.Structures.House")
+local Market = require("objects.Structures.Market")
 local OxTether = require("objects.Structures.OxTether")
 
 local objectFromTypeAt = _G.objectFromTypeAt
@@ -326,6 +327,22 @@ local building = {
         },
         build = function(self, gx, gy)
             House:new(gx, gy)
+        end,
+        specialRequirements = function(self, _, _)
+            return true
+        end
+    },
+    ["market"] = {
+        quad = tileQuads["market"],
+        offsetX = 69 - 5,
+        offsetY = 194 - 105 + 6,
+        w = 5,
+        h = 5,
+        cost = {
+            ["wood"] = 15
+        },
+        build = function(self, gx, gy)
+            Market:new(gx, gy)
         end,
         specialRequirements = function(self, _, _)
             return true

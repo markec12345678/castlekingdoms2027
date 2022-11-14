@@ -25,17 +25,20 @@ return function(loveframes)
         self.followcursor = true
         self.followobject = false
         self.alwaysupdate = true
+        self.disablehover = true
         self.internals = {}
         self.hovered_time = 0
 
         -- create the object's title
         local textobject = loveframes.Create("text")
+        textobject.disablehover = true
         textobject:Remove()
         textobject.parent = self
         textobject:SetText(text or "")
         textobject:SetPos(10000, 0) -- textobject interferes with hover detection
         table.insert(self.internals, textobject)
         local titleobject = loveframes.Create("text")
+        titleobject.disablehover = true
         titleobject:Remove()
         titleobject.parent = self
         titleobject:setAsTitle()
@@ -202,6 +205,7 @@ return function(loveframes)
         self.height = textobject.height + titleobject.height + self.padding * 2
         return self
     end
+
     --[[---------------------------------------------------------
 	- func: GetText()
 	- desc: gets the tooltip's text
