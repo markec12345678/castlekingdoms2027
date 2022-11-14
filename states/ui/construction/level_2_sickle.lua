@@ -8,7 +8,7 @@ local windmillButton = ActionBarButton:new(love.graphics.newImage("assets/ui/win
 
 windmillButton:setOnClick(function(self)
     _G.BuildController:set("windmill", function()
-        windmillButton:unselect()
+        windmillButton:select()
     end)
     ActionBar:selectButton(windmillButton)
 end)
@@ -18,7 +18,7 @@ local bakeryButton = ActionBarButton:new(love.graphics.newImage("assets/ui/baker
 
 bakeryButton:setOnClick(function(self)
     _G.BuildController:set("bakery", function()
-        bakeryButton:unselect()
+        bakeryButton:select()
     end)
     ActionBar:selectButton(bakeryButton)
 end)

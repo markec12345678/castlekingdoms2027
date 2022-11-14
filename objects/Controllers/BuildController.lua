@@ -592,7 +592,6 @@ function BuildController:build(gx, gy)
                         end
                     end
                     building[self.building]:build(gx, gy)
-                    self.active = false
                     if self.onBuildCallback then
                         self.onBuildCallback()
                         self.onBuildCallback = nil

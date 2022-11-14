@@ -8,7 +8,7 @@ local stockpileButton = ActionBarButton:new(love.graphics.newImage('assets/ui/st
 
 stockpileButton:setOnClick(function(self)
     _G.BuildController:set("stockpile", function()
-        stockpileButton:unselect()
+        stockpileButton:select()
     end)
     ActionBar:selectButton(stockpileButton)
 end)
@@ -19,7 +19,7 @@ local woodcutterButton = ActionBarButton:new(love.graphics.newImage('assets/ui/w
 
 woodcutterButton:setOnClick(function(self)
     _G.BuildController:set("woodcutter_hut", function()
-        woodcutterButton:unselect()
+        woodcutterButton:select()
     end)
     ActionBar:selectButton(woodcutterButton)
 end)
@@ -29,7 +29,7 @@ local quarryButton = ActionBarButton:new(love.graphics.newImage('assets/ui/quarr
 
 quarryButton:setOnClick(function(self)
     _G.BuildController:set("quarry", function()
-        quarryButton:unselect()
+        quarryButton:select()
     end)
     ActionBar:selectButton(quarryButton)
 end)
@@ -40,7 +40,7 @@ local oxButton = ActionBarButton:new(love.graphics.newImage('assets/ui/ox_ab.png
 oxButton:setTooltip("Ox Tether (can only be placed near a quarry)", "5 Wood\nTransport stone from the quarry to the stockpile")
 oxButton:setOnClick(function(self)
     _G.BuildController:set("ox_tether", function()
-        oxButton:unselect()
+        oxButton:select()
     end)
     ActionBar:selectButton(oxButton)
 end)
@@ -49,7 +49,7 @@ local ironMine = ActionBarButton:new(love.graphics.newImage('assets/ui/iron_mine
 
 ironMine:setOnClick(function(self)
     _G.BuildController:set("iron_mine", function()
-        ironMine:unselect()
+        ironMine:select()
     end)
     ActionBar:selectButton(ironMine)
 end)
