@@ -10,7 +10,7 @@ local backButtonHover = love.graphics.newImage("assets/ui/goods/back_ab_market_h
 local backButtonA = ActionBarButton:new(love.graphics.newImage("assets/ui/goods/emptyIcon.png"), states.STATE_MARKET, 12)
 local backButton = loveframes.Create("image")
 
-local good = "good"
+local good
 local quantity = 5
 local price = 5
 local dynamicBuyTooltip = ""
@@ -18,7 +18,7 @@ local dynamicSellTooltip = ""
 
 backButton.OnClick = function(self)
     actionBar:switchMode("market")
-    good = ""
+    good = nil
 end
 
 local marketBuyButtonImage = love.graphics.newImage("assets/ui/market_Buy_Button.png")
@@ -185,7 +185,7 @@ local frBackButton = {
     width = IncButtonImage:getWidth() * scale,
     height = IncButtonImage:getHeight() * scale
 }
-local frBackButtonA = { --HACK
+local frBackButtonA = {--HACK
     x = framesActionBar.frFull.x + 1920 * scale,
     y = framesActionBar.frFull.y + 1080 * scale,
     width = 0,
@@ -633,16 +633,16 @@ DecButton.OnClick = function(self)
     -- TODO add sound
 
     if quantity > 5 then
-    quantity = quantity - 5
-    price = ((5 * quantity) / 5)
+        quantity = quantity - 5
+        price = ((5 * quantity) / 5)
 
-    priceText:SetText({{
-        color = {0, 0, 0, 1}
-    }, price})
+        priceText:SetText({{
+            color = {0, 0, 0, 1}
+        }, price})
 
-    quantityText:SetText({{
-        color = {0, 0, 0, 1}
-    }, quantity})
+        quantityText:SetText({{
+            color = {0, 0, 0, 1}
+        }, quantity})
 
     end
 end
@@ -722,17 +722,15 @@ marketSellButton.OnClick = function(self)
     local stockpileController = require("objects.Controllers.StockpileController")
     local quantity_temp;
 
-    if good ~= ""  then
-
-
-        if groupTypeMarket.name == 1 and  _G.state.food[good] >= quantity then
+    if good then
+        if groupTypeMarket.name == 1 and _G.state.food[good] >= quantity then
             _G.state.gold = _G.state.gold + ((5 * quantity) / 5)
             for _ = 1, quantity do
                 _G.foodpile:take(good)
             end
         end
 
-        if groupTypeMarket.name == 1 and _G.state.food[good] < 5  then
+        if groupTypeMarket.name == 1 and _G.state.food[good] < 5 then
             quantity_temp = _G.state.food[good]
             _G.state.gold = _G.state.gold + ((5 * quantity_temp) / 5)
             for _ = 1, quantity_temp do
@@ -740,14 +738,14 @@ marketSellButton.OnClick = function(self)
             end
         end
 
-        if groupTypeMarket.name == 2 and _G.state.resources[good] >= quantity  then
+        if groupTypeMarket.name == 2 and _G.state.resources[good] >= quantity then
             _G.state.gold = _G.state.gold + ((5 * quantity) / 5)
             for _ = 1, quantity do
                 _G.stockpile:take(good)
             end
         end
 
-        if groupTypeMarket.name == 2 and _G.state.resources[good] < 5  then
+        if groupTypeMarket.name == 2 and _G.state.resources[good] < 5 then
             quantity_temp = _G.state.resources[good]
             _G.state.gold = _G.state.gold + ((5 * quantity_temp) / 5)
             for _ = 1, quantity_temp do
