@@ -29,7 +29,7 @@ function DestructionController:disable()
     love.mouse.setCursor(self.cursor)
 end
 
--- Handles destruction of the main Strcutre, its aliases and reverting the terrain biome and setting the building health to -1.
+-- Handles destruction of the main Structure, its aliases and reverting the terrain biome and setting the building health to -1.
 -- Everything else (e.G. refunding, destruction of sub-buildings and respawning of resources (Iron, Stone))
 -- must be handled by the Strcutures destroy() function.
 function DestructionController:mousereleased(button, mx, my)
@@ -50,16 +50,15 @@ function DestructionController:mousereleased(button, mx, my)
                 -- Destroy all the Aliases of a Structure
                 local tiles = structure.class.WIDTH * structure.class.LENGTH
                 for tile = 1, tiles do
-                    if _G.objectFromClassAtGlobal(structure.gx, structure.gy + (tiles - tile + 1),
-                        structure.class.ALIAS_NAME) then
-                        _G.objectFromClassAtGlobal(structure.gx, structure.gy + (tiles - tile + 1),
-                            structure.class.ALIAS_NAME):destroy()
+                    local target = _G.objectFromClassAtGlobal(structure.gx, structure.gy + (tiles - tile + 1), structure.class.ALIAS_NAME)
+                    if target then
+                        target:destroy()
                     end
                 end
                 for tile = 1, tiles do
-                    if _G.objectFromClassAtGlobal(structure.gx + tile, structure.gy, structure.class.ALIAS_NAME) then
-                        _G.objectFromClassAtGlobal(structure.gx + tile, structure.gy, structure.class.ALIAS_NAME):
-                            destroy()
+                    local target = _G.objectFromClassAtGlobal(structure.gx + tile, structure.gy, structure.class.ALIAS_NAME)
+                    if target then
+                        target:destroy()
                     end
                 end
 
