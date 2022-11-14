@@ -37,6 +37,7 @@ function WoodcutterHutLogStack:initialize(gx, gy, parent)
 
     table.insert(activeEntities, self)
 end
+
 function WoodcutterHutLogStack:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -52,6 +53,7 @@ function WoodcutterHutLogStack:serialize()
     data.offsetY = self.offsetY
     return data
 end
+
 function WoodcutterHutLogStack.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -74,14 +76,17 @@ function WoodcutterHutLogStack.static:deserialize(data)
     table.insert(activeEntities, obj)
     return obj
 end
+
 function WoodcutterHutLogStack:stack()
     self.quantity = self.quantity + 1
     self.animation:gotoFrame(self.quantity)
     self:animate(_G.dt, true)
 end
+
 function WoodcutterHutLogStack:animate(dt)
     Structure.animate(self, dt, true)
 end
+
 function WoodcutterHutLogStack:activate()
     self.animated = true
     self.quantity = 1
@@ -89,6 +94,7 @@ function WoodcutterHutLogStack:activate()
     self.animation:pause()
     self:animate()
 end
+
 function WoodcutterHutLogStack:deactivate()
     self.animation:pause()
     self.quantity = 0
@@ -99,6 +105,7 @@ function WoodcutterHutLogStack:deactivate()
     end
     self.animated = false
 end
+
 function WoodcutterHutLogStack:take()
     if self.quantity == 0 then
         return false
@@ -129,6 +136,7 @@ function WoodcutterHutPlankStack:initialize(gx, gy, parent)
 
     table.insert(activeEntities, self)
 end
+
 function WoodcutterHutPlankStack:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -144,6 +152,7 @@ function WoodcutterHutPlankStack:serialize()
     data.offsetY = self.offsetY
     return data
 end
+
 function WoodcutterHutPlankStack.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -154,14 +163,17 @@ function WoodcutterHutPlankStack.static:deserialize(data)
     table.insert(activeEntities, obj)
     return obj
 end
+
 function WoodcutterHutPlankStack:stack()
     self.quantity = self.quantity + 1
     self.animation:gotoFrame(self.quantity)
     self:animate(_G.dt, true)
 end
+
 function WoodcutterHutPlankStack:animate(dt)
     Structure.animate(self, dt, true)
 end
+
 function WoodcutterHutPlankStack:activate()
     self.animated = true
     self.quantity = 1
@@ -169,6 +181,7 @@ function WoodcutterHutPlankStack:activate()
     self.animation:pause()
     self:animate()
 end
+
 function WoodcutterHutPlankStack:deactivate()
     self.animation:pause()
     self.quantity = 0
@@ -179,6 +192,7 @@ function WoodcutterHutPlankStack:deactivate()
     end
     self.animated = false
 end
+
 function WoodcutterHutPlankStack:take()
     self.quantity = self.quantity - 3
     if self.quantity == 0 then
@@ -205,6 +219,7 @@ function WoodcutterHutSawing:initialize(gx, gy, parent)
 
     table.insert(activeEntities, self)
 end
+
 function WoodcutterHutSawing:animate()
     if self.animation.position == 8 or self.animation.position == 21 then
         _G.playSfx(self, sawpullFx)
@@ -213,12 +228,14 @@ function WoodcutterHutSawing:animate()
     end
     Structure.animate(self, _G.dt, true)
 end
+
 function WoodcutterHutSawing:activate()
     self.animated = true
     self.animation:gotoFrame(1)
     self.animation:resume()
     self:animate(_G.dt)
 end
+
 function WoodcutterHutSawing:deactivate()
     self.animation:pause()
     self.tile = tileQuads["empty"]
@@ -228,6 +245,7 @@ function WoodcutterHutSawing:deactivate()
     end
     self.animated = false
 end
+
 function WoodcutterHutSawing:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -242,6 +260,7 @@ function WoodcutterHutSawing:serialize()
     data.offsetY = self.offsetY
     return data
 end
+
 function WoodcutterHutSawing:setCallback()
     local parent = self.parent
     self.animation.onLoop = function()
@@ -257,6 +276,7 @@ function WoodcutterHutSawing:setCallback()
         end
     end
 end
+
 function WoodcutterHutSawing.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -287,6 +307,7 @@ function WoodcutterHutAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     end
     Structure.render(self)
 end
+
 function WoodcutterHutAlias:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -302,6 +323,7 @@ function WoodcutterHutAlias:serialize()
     data.offsetY = self.offsetY
     return data
 end
+
 function WoodcutterHutAlias.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -381,6 +403,7 @@ function WoodcutterHut:initialize(gx, gy, type)
 
     Structure.render(self)
 end
+
 function WoodcutterHut:destroy()
     Structure.destroy(self.sawingObj)
     self.sawingObj.toBeDeleted = true
@@ -396,9 +419,10 @@ function WoodcutterHut:destroy()
     _G.stockpile:store("wood")
     _G.stockpile:store("wood")
 end
+
 function WoodcutterHut:join(worker)
     if self.health == -1 then
-        _G.JobController:remove("WoodCutter", self)
+        _G.JobController:remove("Woodcutter", self)
         worker:die()
         return
     end
@@ -408,6 +432,7 @@ function WoodcutterHut:join(worker)
         self.freeSpots = self.freeSpots - 1
     end
 end
+
 function WoodcutterHut:work(worker)
     self.logStack:activate()
     self.logStack:stack()
@@ -425,6 +450,7 @@ function WoodcutterHut:work(worker)
         self.sawingObj:activate()
     end
 end
+
 function WoodcutterHut:sendToStockpile()
     local i, o, cx, cy
     self.worker.state = "Go to stockpile"
@@ -441,6 +467,7 @@ function WoodcutterHut:sendToStockpile()
     self.stack:deactivate()
     self.working = false
 end
+
 function WoodcutterHut:load(data)
     Object.deserialize(self, data)
     Structure.load(self, data)
@@ -461,6 +488,7 @@ function WoodcutterHut:load(data)
     self.tile = quadArray[tiles + 1]
     Structure.render(self)
 end
+
 function WoodcutterHut:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -483,6 +511,7 @@ function WoodcutterHut:serialize()
     data.logStack = _G.state:serializeObject(self.logStack)
     return data
 end
+
 function WoodcutterHut.static:deserialize(data)
     local obj = self:allocate()
     obj:load(data)
