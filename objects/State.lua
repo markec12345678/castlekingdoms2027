@@ -80,6 +80,8 @@ function State:initialize()
     }
     self.wheatSeasonCounter = 0
     self.wheatGrowingSeason = false
+    self.keepX = 0
+    self.keepY = 0
 end
 
 function State:save()
