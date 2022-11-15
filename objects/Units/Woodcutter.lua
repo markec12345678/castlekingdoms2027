@@ -34,6 +34,7 @@ local fr_walking_southeast = indexQuads("body_woodcutter_walk_se", 16)
 local fr_walking_southwest = indexQuads("body_woodcutter_walk_sw", 16)
 local fr_walking_west = indexQuads("body_woodcutter_walk_w", 16)
 local fr_cutting_northeast = indexQuads("body_woodcutter_cut_ne", 12)
+local fr_idle = _G.indexQuads("body_woodcutter_flex", 24, nil, true)
 
 local AN_CUTTING_NORTHEAST = "Cutting northeast"
 local AN_WALKING_WEST = "Walking west"
@@ -60,6 +61,7 @@ local AN_WALKING_LOG_SOUTH = "Walking with log south"
 local AN_WALKING_LOG_EAST = "Walking with log east"
 local AN_WALKING_LOG_SOUTHEAST = "Walking with log southeast"
 local AN_WALKING_LOG_NORTHEAST = "Walking with log northeast"
+local AN_IDLE = "Idle"
 
 local an = {
     [AN_CUTTING_NORTHEAST] = fr_cutting_northeast,
@@ -86,7 +88,8 @@ local an = {
     [AN_WALKING_LOG_SOUTH] = fr_walking_log_south,
     [AN_WALKING_LOG_EAST] = fr_walking_log_east,
     [AN_WALKING_LOG_SOUTHEAST] = fr_walking_log_southeast,
-    [AN_WALKING_LOG_NORTHEAST] = fr_walking_log_northeast
+    [AN_WALKING_LOG_NORTHEAST] = fr_walking_log_northeast,
+    [AN_IDLE] = fr_idle
 }
 
 local Woodcutter = _G.class('Woodcutter', Unit)
@@ -376,6 +379,7 @@ function Woodcutter:findTree()
     end
     if not closestObject then
         print("No trees nearby!")
+        self.animation = _G.anim.newAnimation(an[AN_IDLE], 0.11, nil, AN_IDLE)
         self.state = "No trees"
         -- TODO: Mark woodcutters hut as inactive
         return
