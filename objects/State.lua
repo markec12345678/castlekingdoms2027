@@ -80,6 +80,7 @@ function State:initialize()
     }
     self.wheatSeasonCounter = 0
     self.wheatGrowingSeason = false
+    self.firstWoodCutterHut = true
     self.keepX = 0
     self.keepY = 0
 end

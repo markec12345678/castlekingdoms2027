@@ -594,6 +594,10 @@ function BuildController:build(gx, gy)
             if not self.start then
                 for resource, amount in pairs(building[self.building].cost) do
                     if _G.state.resources[resource] < amount then
+                        if self.building == "woodcutter_hut" and _G.state.firstWoodCutterHut then
+                            _G.state.firstWoodCutterHut = false
+                            break
+                        end
                         self.canAfford = false
                         print("Cannot afford building! Not enough " .. resource .. "!")
                         break
