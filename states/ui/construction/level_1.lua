@@ -28,7 +28,8 @@ destroyButton:setOnClick(function(self)
     local enabled = _G.DestructionController:toggle()
     if enabled then
         destroyButton:setTooltip("Exit Demolish Mode", "Exit demolish mode.")
-        ActionBar:selectButton(destroyButton)
+        ActionBar:unselectAll()
+        ActionBar:selectButton(destroyButton)        
     else
         ActionBar:unselectAll()
     end
@@ -49,6 +50,7 @@ backButton:setOnClick(function(self)
         if _G.BuildController.onBuildCallback then
             _G.BuildController.onBuildCallback()
             _G.BuildController.onBuildCallback = nil
+            ActionBar:unselectAll()
         end
     end
 end)
