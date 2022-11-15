@@ -46,7 +46,6 @@ function DestructionController:mousereleased(button, mx, my)
 
             -- check if structure is destructible
             if structure.class.DESTRUCTIBLE == true then
-                Structure.destroy(structure)
                 -- Destroy all the Aliases of a Structure
                 for x = 0, structure.class.WIDTH - 1 do
                     for y = 0, structure.class.HEIGHT - 1 do
@@ -54,17 +53,13 @@ function DestructionController:mousereleased(button, mx, my)
                         for _, target in ipairs(targets) do
                             if target == structure or target.parent == structure then
                                 target:destroy()
+                                Structure.destroy(target)
                             end
                         end
                     end
                 end
 
                 _G.playSfx(structure, _G.fx["buildingwreck_01"])
-
-                -- Call the Destructor of the Structure
-                structure:destroy()
-                -- Mark the Structure Instance to be deleted
-                structure.toBeDeleted = true
 
                 -- Set the Terrain under the Structure to scarce grass and remove shadows
                 for xx = -1, 3 do
