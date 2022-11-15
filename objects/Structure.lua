@@ -6,9 +6,11 @@ function Structure:initialize(gx, gy, type)
     _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
     self:calculateShadowValue()
 end
+
 function Structure:destroy()
     Object.destroy(self)
 end
+
 function Structure:getAverageShadowValue()
     local parent = self.parent
     local gx, gy
@@ -39,6 +41,7 @@ function Structure:getAverageShadowValue()
     end
     return 0
 end
+
 function Structure:calculateShadowValue()
     local cx, cy, i, o
     local parent = self.parent
@@ -62,6 +65,7 @@ function Structure:calculateShadowValue()
         self.shadowValue = math.min(0.825, 1 - shadowValue)
     end
 end
+
 function Structure:shadeFromTerrain()
     self:calculateShadowValue()
     if self.tile then
@@ -123,6 +127,7 @@ function Structure:animate(dt, forceUpdate)
         return
     end
 end
+
 function Structure:serialize()
     local data = {}
     local objectData = Object.serialize(self)

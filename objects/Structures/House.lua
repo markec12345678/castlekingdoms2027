@@ -23,6 +23,7 @@ function HouseAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     end
     Structure.render(self)
 end
+
 function HouseAlias:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -39,6 +40,7 @@ function HouseAlias:serialize()
     data.parent = _G.state:serializeObject(self.parent)
     return data
 end
+
 function HouseAlias.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -92,17 +94,20 @@ function House:initialize(gx, gy)
 
     Structure.render(self)
 end
+
 function House:destroy()
     _G.state.maxPopulation = _G.state.maxPopulation - 4
     _G.stockpile:store("wood")
     _G.stockpile:store("wood")
 end
+
 function House:load(data)
     Object.deserialize(self, data)
     Structure.load(self, data)
     self.tile = quadArray[tiles + 1]
     Structure.render(self)
 end
+
 function House:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -116,6 +121,7 @@ function House:serialize()
     data.offsetY = self.offsetY
     return data
 end
+
 function House.static:deserialize(data)
     local obj = self:allocate()
     obj:load(data)

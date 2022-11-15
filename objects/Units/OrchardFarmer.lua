@@ -2,6 +2,7 @@ local _, _ = ...
 local Unit = require("objects.Units.Unit")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
+local FOOD = require("objects.Enums.Food")
 
 local fr_walking_apples_east = _G.indexQuads("body_farmer_walk_apples_e", 16)
 local fr_walking_apples_north = _G.indexQuads("body_farmer_walk_apples_n", 16)
@@ -71,6 +72,7 @@ function OrchardFarmer:initialize(gx, gy, type)
     self.gatherLoopCount = 0
     self.animation = anim.newAnimation(an[WALKING_WEST], 10, nil, WALKING_WEST)
 end
+
 function OrchardFarmer:serialize()
     local data = {}
     local unitData = Unit.serialize(self)
@@ -88,6 +90,7 @@ function OrchardFarmer:serialize()
     data.gatherLoopCount = self.gatherLoopCount
     return data
 end
+
 function OrchardFarmer:load(data)
     Object.deserialize(self, data)
     Unit.load(self, data)
@@ -104,6 +107,7 @@ function OrchardFarmer:load(data)
         self.animation:deserialize(anData)
     end
 end
+
 function OrchardFarmer:dirSubUpdate()
     if self.moveDir == "west" then
         if self.state == "Going to foodpile" or self.state == "Going to apple tree" then
@@ -155,9 +159,11 @@ function OrchardFarmer:dirSubUpdate()
         end
     end
 end
+
 function OrchardFarmer:jobUpdate()
     _G.removeObjectAt(self.lrcx, self.lrcy, self.lrx, self.lry, self)
 end
+
 function OrchardFarmer:gatherCallback()
     self.gatherLoopCount = self.gatherLoopCount + 1
     if self.gatherLoopCount > 3 then
@@ -165,6 +171,7 @@ function OrchardFarmer:gatherCallback()
         self.workplace:work(self)
     end
 end
+
 function OrchardFarmer:update()
     if self.pathState == "Waiting for path" and self.state ~= "Working" then
         self:pathfind()
@@ -226,14 +233,14 @@ function OrchardFarmer:update()
                 self.count = self.count + 1
             elseif self.state == "Going to foodpile" then
                 if self:reachedPathEnd() then
-                    _G.foodpile:store('apples')
-                    _G.foodpile:store('apples')
-                    _G.foodpile:store('apples')
-                    _G.foodpile:store('apples')
-                    _G.foodpile:store('apples')
-                    _G.foodpile:store('apples')
-                    _G.foodpile:store('apples')
-                    _G.foodpile:store('apples')
+                    _G.foodpile:store(FOOD.apples)
+                    _G.foodpile:store(FOOD.apples)
+                    _G.foodpile:store(FOOD.apples)
+                    _G.foodpile:store(FOOD.apples)
+                    _G.foodpile:store(FOOD.apples)
+                    _G.foodpile:store(FOOD.apples)
+                    _G.foodpile:store(FOOD.apples)
+                    _G.foodpile:store(FOOD.apples)
                     self.state = "Go to workplace"
                     self:clearPath()
                     return
@@ -245,8 +252,10 @@ function OrchardFarmer:update()
         end
     end
 end
+
 function OrchardFarmer:animate()
     self:update()
     Unit.animate(self)
 end
+
 return OrchardFarmer

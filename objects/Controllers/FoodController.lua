@@ -1,15 +1,18 @@
 local FoodController = _G.class('FoodController')
+local FOOD_TYPE = require("objects.Enums.food_types")
+
 function FoodController:initialize()
     self.list = {}
     self.food = {
-        ["apples"] = {},
-        ["bread"] = {},
-        ["cheese"] = {},
-        ["meat"] = {}
+        [FOOD_TYPE.apples] = {},
+        [FOOD_TYPE.bread] = {},
+        [FOOD_TYPE.cheese] = {},
+        [FOOD_TYPE.meat] = {}
     }
 
     self.nodeList = {}
 end
+
 function FoodController:store(food) -- TODO add amount
     if _G.state.notFullFoods[food] < 1 then
         for _, v in ipairs(self.list) do
@@ -21,6 +24,7 @@ function FoodController:store(food) -- TODO add amount
         self.food[food][#self.food[food]].id.parent:store(food)
     end
 end
+
 function FoodController:take(food, amount)
     local takenFood = 0
     if not food then
@@ -47,6 +51,7 @@ function FoodController:take(food, amount)
         end
     end
 end
+
 function FoodController:serialize()
     local data = {}
     data.nodeList = self.nodeList
@@ -72,6 +77,7 @@ function FoodController:serialize()
     data.rawFood = food
     return data
 end
+
 function FoodController:deserialize(data)
     self.nodeList = data.nodeList
     for foodtype, foodlist in pairs(data.rawFood) do
@@ -91,4 +97,5 @@ function FoodController:deserialize(data)
         self.list[#self.list + 1] = _G.state:dereferenceObject(v)
     end
 end
+
 return FoodController:new()

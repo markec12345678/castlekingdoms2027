@@ -15,6 +15,7 @@ function Object:initialize(gx, gy, type)
     self.toBeDeleted = false
     self:calculateShadowValue()
 end
+
 function Object:isVisibleOnScreen()
     if not (self.x + (self.cx - self.cy) * chunkWidth * tileWidth * 0.5 < _G.TopLeftX or self.x + (self.cx - self.cy) *
         chunkWidth * tileWidth * 0.5 > _G.BottomRightX or self.y + (self.cx + self.cy) * chunkHeight * tileHeight * 0.5 <
@@ -23,8 +24,10 @@ function Object:isVisibleOnScreen()
     end
     return false
 end
+
 function Object:update()
 end
+
 function Object:render()
     if self.vertId then
         return self:updateVertex()
@@ -52,6 +55,7 @@ function Object:render()
         self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, self.shadowValue)
     end
 end
+
 function Object:renderAlias()
     if self.vertId then
         return self:updateVertex()
@@ -80,13 +84,16 @@ function Object:renderAlias()
         self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, self.shadowValue)
     end
 end
+
 function Object:destroy()
     if self.vertId then
         _G.freeVertexFromTile(self.cx, self.cy, self.vertId)
     end
     _G.removeObjectAt(self.cx, self.cy, self.i, self.o, self)
     _G.state.chunkObjects[self.cx][self.cy][self] = nil
+    self.toBeDeleted = true
 end
+
 function Object:updateVertex()
     if _G.state.objectMesh and self.tile then
         local offsetX, offsetY = 0, 0
@@ -103,6 +110,7 @@ function Object:updateVertex()
         self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, self.shadowValue)
     end
 end
+
 function Object:calculateShadowValue()
     local cx, cy, i, o = self.cx, self.cy, self.i, self.o
     local elevationOffsetY = _G.state.map.heightmap[cx][cy][i][o] or 0
@@ -116,12 +124,14 @@ function Object:calculateShadowValue()
         self.shadowValue = 1
     end
 end
+
 function Object:shadeFromTerrain()
     self:calculateShadowValue()
     if self.tile then
         self:updateVertex()
     end
 end
+
 function Object:serialize()
     local data = {}
     data.id = self.id
@@ -150,6 +160,7 @@ function Object:serialize()
     end
     return data
 end
+
 function Object.static.deserialize(self, load)
     for k, v in pairs(load) do
         if k ~= "id" then

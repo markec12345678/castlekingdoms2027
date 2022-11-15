@@ -2,6 +2,8 @@ local bitser = require("libraries.bitser")
 local Map = require("objects.Map")
 local State = _G.class("State")
 local SaveManager = require("objects.Controllers.SaveManager")
+local FOOD = require("objects.Enums.Food")
+
 
 function State:initialize()
     self.savename = SaveManager:getNextFreeName()
@@ -37,10 +39,10 @@ function State:initialize()
         ["wheat"] = 0
     }
     self.food = {
-        ["meat"] = 0,
-        ["apples"] = 0,
-        ["bread"] = 0,
-        ["cheese"] = 0
+        [FOOD.meat] = 0,
+        [FOOD.apples] = 0,
+        [FOOD.bread] = 0,
+        [FOOD.cheese] = 0
     }
     self.weapons = {
         ["bow"] = 0,
@@ -63,10 +65,10 @@ function State:initialize()
         ["wheat"] = 0
     }
     self.notFullFoods = {
-        ["meat"] = 0,
-        ["apples"] = 0,
-        ["bread"] = 0,
-        ["cheese"] = 0
+        [FOOD.meat] = 0,
+        [FOOD.apples] = 0,
+        [FOOD.bread] = 0,
+        [FOOD.cheese] = 0
     }
     self.notFullArmoury = {
         ["bow"] = 0,
@@ -126,7 +128,7 @@ function State:dereferenceObject(refObj)
         end
     end
     error("Couldn't dereference object:" .. tostring(self.rawObjectIds[ref]) .. " with ref obj:" ..
-              tostring(_G.inspect(refObj)))
+        tostring(_G.inspect(refObj)))
 end
 
 function State:serializeChunkObjects()
@@ -262,6 +264,9 @@ end
 
 function State:load(filename)
     local load = bitser.loadLoveFile(string.lower(filename))
+    if not load then
+        error("empty save file data")
+    end
     self.savename = load.savename
     if self.savename == "map_Fernhaven" then
         self.savename = SaveManager:getNextFreeName()
@@ -307,8 +312,6 @@ function State:load(filename)
     self.viewYview = load.viewYview
     self.map:forceRefresh()
     collectgarbage()
-    -- print(inspect(self.deserDebug))
-    -- print("TOTAL DESERIALIZED OBJECTS", self.deserializedObjectCount)
 end
 
 return State

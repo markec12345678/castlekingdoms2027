@@ -2,6 +2,7 @@ local _, _ = ...
 local Unit = require("objects.Units.Unit")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
+local FOOD = require("objects.Enums.Food")
 
 local ANIM_WALKING_EAST = "walking_east"
 local ANIM_WALKING_NORTH = "walking_north"
@@ -80,21 +81,17 @@ function Baker:dirSubUpdate()
         end
     elseif self.moveDir == "southwest" then
         if self.state == "Going to granary" then
-            self.animation =
-                anim.newAnimation(an[ANIM_WALKING_BREAD_SOUTHWEST], 0.05, nil, ANIM_WALKING_BREAD_SOUTHWEST)
+            self.animation = anim.newAnimation(an[ANIM_WALKING_BREAD_SOUTHWEST], 0.05, nil, ANIM_WALKING_BREAD_SOUTHWEST)
         elseif self.state == "Going to workplace with flour" then
-            self.animation =
-                anim.newAnimation(an[ANIM_WALKING_FLOUR_SOUTHWEST], 0.05, nil, ANIM_WALKING_FLOUR_SOUTHWEST)
+            self.animation = anim.newAnimation(an[ANIM_WALKING_FLOUR_SOUTHWEST], 0.05, nil, ANIM_WALKING_FLOUR_SOUTHWEST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_SOUTHWEST], 0.05, nil, ANIM_WALKING_SOUTHWEST)
         end
     elseif self.moveDir == "northwest" then
         if self.state == "Going to granary" then
-            self.animation =
-                anim.newAnimation(an[ANIM_WALKING_BREAD_NORTHWEST], 0.05, nil, ANIM_WALKING_BREAD_NORTHWEST)
+            self.animation = anim.newAnimation(an[ANIM_WALKING_BREAD_NORTHWEST], 0.05, nil, ANIM_WALKING_BREAD_NORTHWEST)
         elseif self.state == "Going to workplace with flour" then
-            self.animation =
-                anim.newAnimation(an[ANIM_WALKING_FLOUR_NORTHWEST], 0.05, nil, ANIM_WALKING_FLOUR_NORTHWEST)
+            self.animation = anim.newAnimation(an[ANIM_WALKING_FLOUR_NORTHWEST], 0.05, nil, ANIM_WALKING_FLOUR_NORTHWEST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_NORTHWEST], 0.05, nil, ANIM_WALKING_NORTHWEST)
         end
@@ -124,21 +121,17 @@ function Baker:dirSubUpdate()
         end
     elseif self.moveDir == "southeast" then
         if self.state == "Going to granary" then
-            self.animation =
-                anim.newAnimation(an[ANIM_WALKING_BREAD_SOUTHEAST], 0.05, nil, ANIM_WALKING_BREAD_SOUTHEAST)
+            self.animation = anim.newAnimation(an[ANIM_WALKING_BREAD_SOUTHEAST], 0.05, nil, ANIM_WALKING_BREAD_SOUTHEAST)
         elseif self.state == "Going to workplace with flour" then
-            self.animation =
-                anim.newAnimation(an[ANIM_WALKING_FLOUR_SOUTHEAST], 0.05, nil, ANIM_WALKING_FLOUR_SOUTHEAST)
+            self.animation = anim.newAnimation(an[ANIM_WALKING_FLOUR_SOUTHEAST], 0.05, nil, ANIM_WALKING_FLOUR_SOUTHEAST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_SOUTHEAST], 0.05, nil, ANIM_WALKING_SOUTHEAST)
         end
     elseif self.moveDir == "northeast" then
         if self.state == "Going to granary" then
-            self.animation =
-                anim.newAnimation(an[ANIM_WALKING_BREAD_NORTHEAST], 0.05, nil, ANIM_WALKING_BREAD_NORTHEAST)
+            self.animation = anim.newAnimation(an[ANIM_WALKING_BREAD_NORTHEAST], 0.05, nil, ANIM_WALKING_BREAD_NORTHEAST)
         elseif self.state == "Going to workplace with flour" then
-            self.animation =
-                anim.newAnimation(an[ANIM_WALKING_FLOUR_NORTHEAST], 0.05, nil, ANIM_WALKING_FLOUR_NORTHEAST)
+            self.animation = anim.newAnimation(an[ANIM_WALKING_FLOUR_NORTHEAST], 0.05, nil, ANIM_WALKING_FLOUR_NORTHEAST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_NORTHEAST], 0.05, nil, ANIM_WALKING_NORTHEAST)
         end
@@ -255,10 +248,10 @@ function Baker:update()
                 self.count = self.count + 1
             elseif self.state == "Going to granary" then
                 if self:reachedPathEnd() then
-                    _G.foodpile:store('bread')
-                    _G.foodpile:store('bread')
-                    _G.foodpile:store('bread')
-                    _G.foodpile:store('bread')
+                    _G.foodpile:store(FOOD.bread)
+                    _G.foodpile:store(FOOD.bread)
+                    _G.foodpile:store(FOOD.bread)
+                    _G.foodpile:store(FOOD.bread)
                     self.state = "Go to stockpile for flour"
                     self:clearPath()
                     return
@@ -271,10 +264,12 @@ function Baker:update()
         end
     end
 end
+
 function Baker:animate()
     self:update()
     Unit.animate(self)
 end
+
 function Baker:load(data)
     Object.deserialize(self, data)
     Unit.load(self, data)
@@ -284,6 +279,7 @@ function Baker:load(data)
         self.animation:deserialize(anData)
     end
 end
+
 function Baker:serialize()
     local data = {}
     local unitData = Unit.serialize(self)
@@ -302,4 +298,5 @@ function Baker:serialize()
     data.count = self.count
     return data
 end
+
 return Baker

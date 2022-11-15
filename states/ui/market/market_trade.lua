@@ -9,6 +9,7 @@ local backButtonImage = love.graphics.newImage("assets/ui/goods/back_ab_market.p
 local backButtonHover = love.graphics.newImage("assets/ui/goods/back_ab_market_hover.png")
 local backButtonA = ActionBarButton:new(love.graphics.newImage("assets/ui/goods/emptyIcon.png"), states.STATE_MARKET, 12)
 local backButton = loveframes.Create("image")
+local FOOD = require("objects.Enums.Food")
 
 local good
 local quantity = 5
@@ -448,7 +449,7 @@ meatIconButton.OnClick = function(self)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
 
     print("meat has been chosen")
-    good = "meat"
+    good = FOOD.meat
     print(good)
 end
 meatIconButton.OnMouseExit = function(self)
@@ -475,7 +476,7 @@ cheeseIconButton.OnClick = function(self)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
 
     print("cheese has been chosen")
-    good = "cheese"
+    good = FOOD.cheese
     print(good)
 end
 cheeseIconButton.OnMouseExit = function(self)
@@ -502,7 +503,7 @@ appleIconButton.OnClick = function(self)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
 
     print("apple has been chosen")
-    good = "apples"
+    good = FOOD.apples
     print(good)
 end
 appleIconButton.OnMouseExit = function(self)
@@ -526,7 +527,7 @@ breadIconButton.OnClick = function(self)
     -- TODO add sound
     bigIconTemplate:SetImage(breadIconBig)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
-    good = "bread"
+    good = FOOD.bread
 end
 breadIconButton.OnMouseExit = function(self)
     self:SetImage(breadIcon)

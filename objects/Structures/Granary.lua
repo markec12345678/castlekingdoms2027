@@ -3,41 +3,41 @@ local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 
 local tiles, quadArray = _G.indexBuildingQuads("granary (1)")
-
+local FOOD = require("objects.Enums.Food")
 local quadMap = {
-    ["apples"] = {},
-    ["bread"] = {},
-    ["cheese"] = {},
-    ["meat"] = {}
+    [FOOD.apples] = {},
+    [FOOD.bread] = {},
+    [FOOD.cheese] = {},
+    [FOOD.meat] = {}
 }
 
 for i = 1, 8 do
-    quadMap["apples"][#quadMap["apples"] + 1] = tileQuads["apple_goods (" .. tostring(i) .. ")"]
+    quadMap[FOOD.apples][#quadMap[FOOD.apples] + 1] = tileQuads["apple_goods (" .. tostring(i) .. ")"]
 end
 
 for i = 1, 32 do
-    quadMap["bread"][#quadMap["bread"] + 1] = tileQuads["bread_goods (" .. tostring(i) .. ")"]
+    quadMap[FOOD.bread][#quadMap[FOOD.bread] + 1] = tileQuads["bread_goods (" .. tostring(i) .. ")"]
 end
 
 for i = 1, 16 do
-    quadMap["cheese"][#quadMap["cheese"] + 1] = tileQuads["cheese_goods (" .. tostring(i) .. ")"]
-    quadMap["meat"][#quadMap["meat"] + 1] = tileQuads["meat_goods (" .. tostring(i) .. ")"]
+    quadMap[FOOD.cheese][#quadMap[FOOD.cheese] + 1] = tileQuads["cheese_goods (" .. tostring(i) .. ")"]
+    quadMap[FOOD.meat][#quadMap[FOOD.meat] + 1] = tileQuads["meat_goods (" .. tostring(i) .. ")"]
 end
 
 local offsetY = {
-    ["apples"] = {0, -1, -7, -11, -11, -16, -22, -23},
-    ["bread"] = {0, -3, -7, -10, -14, -14, -14, -14, -14, -14, -14, -14, -18 + 4, -18 + 4, -18 + 4, -18 + 4, -21 + 4,
-                 -24 + 4, -28 + 4, -31 + 4, -31 + 4, -31 + 4, -31 + 4, -31 + 4, -31 + 4, -31 + 4, -31 + 4, -31 + 4,
-                 -31 + 4, -31 + 4, -31 + 4, -31 + 4},
-    ["cheese"] = {0, -3, -6, -12, -12, -12, -18, -18, -18, -24, -24, -24, -30, -30, -30, -33},
-    ["meat"] = {0, -3, -6, -12, -12, -12, -18, -18, -18, -24, -24, -24, -30, -30, -30, -33}
+    [FOOD.apples] = {0, -1, -7, -11, -11, -16, -22, -23},
+    [FOOD.bread] = {0, -3, -7, -10, -14, -14, -14, -14, -14, -14, -14, -14, -18 + 4, -18 + 4, -18 + 4, -18 + 4, -21 + 4,
+        -24 + 4, -28 + 4, -31 + 4, -31 + 4, -31 + 4, -31 + 4, -31 + 4, -31 + 4, -31 + 4, -31 + 4, -31 + 4,
+        -31 + 4, -31 + 4, -31 + 4, -31 + 4},
+    [FOOD.cheese] = {0, -3, -6, -12, -12, -12, -18, -18, -18, -24, -24, -24, -30, -30, -30, -33},
+    [FOOD.meat] = {0, -3, -6, -12, -12, -12, -18, -18, -18, -24, -24, -24, -30, -30, -30, -33}
 }
 
 local maxQuantity = {
-    ["apples"] = 8,
-    ["bread"] = 32,
-    ["cheese"] = 16,
-    ["meat"] = 16
+    [FOOD.apples] = 8,
+    [FOOD.bread] = 32,
+    [FOOD.cheese] = 16,
+    [FOOD.meat] = 16
 }
 
 local GranaryAlias = _G.class("GranaryAlias", Structure)
@@ -60,10 +60,12 @@ function GranaryAlias:initialize(tile, gx, gy, parent, offsetY, offsetX, seriali
     end
     Structure.render(self)
 end
+
 function GranaryAlias:onClick()
     local ActionBar = require("states.ui.ActionBar")
     ActionBar:switchMode("granary")
 end
+
 function GranaryAlias:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -83,6 +85,7 @@ function GranaryAlias:serialize()
     data.offsetY = self.offsetY
     return data
 end
+
 function GranaryAlias.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -234,10 +237,12 @@ function Granary:initialize(gx, gy, type)
     _G.foodpile.list[(#_G.foodpile.list or 0) + 1] = self
     Structure.render(self)
 end
+
 function Granary:onClick()
     local ActionBar = require("states.ui.ActionBar")
     ActionBar:switchMode("granary")
 end
+
 function Granary:store(food)
     for index = 1, #self.foodpile do
         if self.foodpile[index].type == food and self.foodpile[index].quantity < maxQuantity[food] then
@@ -268,6 +273,7 @@ function Granary:store(food)
         return true
     end
 end
+
 function Granary:take(food, from)
     if from.type == food and from.quantity > 0 then
         if from.quantity == maxQuantity[food] then
@@ -288,6 +294,7 @@ function Granary:take(food, from)
     end
     return false
 end
+
 function Granary:updateFoodpile(index)
     local pile
     if type(index) ~= "number" then
@@ -343,6 +350,7 @@ function Granary:serialize()
     data.hoverAction = self.hoverAction
     return data
 end
+
 function Granary.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
