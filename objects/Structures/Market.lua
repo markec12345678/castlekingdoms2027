@@ -97,10 +97,6 @@ function Market:initialize(gx, gy)
     Structure.render(self)
 end
 
-function Market:destroy()
-    print("caleld marek dfestory")
-end
-
 function Market:onClick()
     local ActionBar = require("states.ui.ActionBar")
     ActionBar:switchMode("market")
