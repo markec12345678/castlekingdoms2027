@@ -263,7 +263,7 @@ function WheatFarm:initialize(gx, gy, type)
         table.insert(self.landTiles, {t1, t2})
     end
 
-    Structure:applyBuildingHeightMap(gx, gy, WheatFarm.WIDTH, WheatFarm.LENGTH, WheatFarm.HEIGHT)
+    self:applyBuildingHeightMap()
 
     table.insert(self.landTiles[1], WheatFarmPlant:new(self.gx + 0, self.gy + 3, self, true))
     table.insert(self.landTiles[1], WheatFarmPlant:new(self.gx + 2, self.gy + 3, self, true))

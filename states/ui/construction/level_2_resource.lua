@@ -59,6 +59,16 @@ el.buttons.hammerButton:setOnClick(function(self)
     ActionBar:showGroup("resource")
 end)
 
+local marketButton = ActionBarButton:new(love.graphics.newImage('assets/ui/market_ab.png'),
+    states.STATE_INGAME_CONSTRUCTION, 6, false)
+
+marketButton:setOnClick(function(self)
+    _G.BuildController:set("market", function()
+        marketButton:unselect()
+    end)
+    ActionBar:selectButton(marketButton)
+end)
+marketButton:setTooltip("Market", "Requires 15 Wood\nAllows you to trade your goods")
 
 ActionBar:registerGroup("resource",
-    {stockpileButton, woodcutterButton, quarryButton, oxButton, ironMine, backButton, destroyButton})
+    {stockpileButton, woodcutterButton, quarryButton, oxButton, ironMine, marketButton, backButton, destroyButton})

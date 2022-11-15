@@ -110,7 +110,7 @@ function Unit:animate()
         end
         y = y - elevationOffsetY * 2
         local qx, qy, qw, qh = quad:getViewport()
-        local shadowValue = _G.shadowmap[self.cx][self.cy][self.i][self.o] or 0
+        local shadowValue = _G.state.map.shadowmap[self.cx][self.cy][self.i][self.o] or 0
         local isInShadow = shadowValue > elevationOffsetY
         if isInShadow then
             shadowValue = math.min((shadowValue - elevationOffsetY) / 40, 0.6) / 1.25
@@ -147,7 +147,7 @@ function Unit:animate()
             self.needNewVertAsap = false
             self.vertId = newVert
             self.instancemesh = instancemesh
-            local shadowValue = _G.shadowmap[self.cx][self.cy][self.i][self.o] or 0
+            local shadowValue = _G.state.map.shadowmap[self.cx][self.cy][self.i][self.o] or 0
             local isInShadow = shadowValue > elevationOffsetY
             if isInShadow then
                 shadowValue = math.min((shadowValue - elevationOffsetY) / 40, 0.6) / 1.25
@@ -343,7 +343,7 @@ function Unit:updatePosition()
                 self.needNewVertAsap = false
                 self.instancemesh = _G.state.objectMesh[self.cx][self.cy]
                 self.vertData = {x, y, qx, qy, qw, qh, 1}
-                local shadowValue = _G.shadowmap[self.cx][self.cy][self.i][self.o] or 0
+                local shadowValue = _G.state.map.shadowmap[self.cx][self.cy][self.i][self.o] or 0
                 local elevationOffsetY = _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] or 0
                 local isInShadow = shadowValue > elevationOffsetY
                 if isInShadow then

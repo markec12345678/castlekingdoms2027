@@ -296,7 +296,7 @@ function Windmill:initialize(gx, gy, type)
     self.bladeShadow = WindmillShadow:new(self.gx, self.gy + 2, self)
     self.fillingFlour = WindmillFilling:new(self.gx + 1, self.gy + 2, self)
 
-    Structure:applyBuildingHeightMap(gx, gy, Windmill.WIDTH, Windmill.LENGTH, Windmill.HEIGHT)
+    self:applyBuildingHeightMap()
 
     for xx = -2, 4 do
         for yy = -2, 4 do

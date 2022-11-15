@@ -68,7 +68,7 @@ function DestructionController:mousereleased(button, mx, my)
                         local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(structure.gx + xx, structure.gy + yy)
                         _G.scheduleTerrainUpdate(cx, cy, x, y)
                         _G.buildingheightmap[cx][cy][x][y] = 0
-                        _G.shadowmap[cx][cy][x][y] = 0
+                        _G.state.map.shadowmap[cx][cy][x][y] = 0
                     end
                 end
             end

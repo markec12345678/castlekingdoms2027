@@ -173,7 +173,7 @@ function _G.removeObjectFromClassAtGlobal(gx, gy, classToRemove)
     end
     _G.scheduleTerrainUpdate(cx, cy, x, y)
     _G.buildingheightmap[cx][cy][x][y] = 0
-    _G.shadowmap[cx][cy][x][y] = 0
+    _G.state.map.shadowmap[cx][cy][x][y] = 0
     _G.state.map:setWalkable(gx, gy, 0)
     if type(object[cx][cy][x][y]) == "table" then
         for index, currentObject in ipairs(object[cx][cy][x][y]) do
@@ -526,7 +526,7 @@ local function mousepressed(x, y, button)
         local Structure = require("objects.Structure")
         local structure = _G.objectFromSubclassAtGlobal(press.gx, press.gy, Structure)
         if structure and structure.onClick then
-            if not _G.DestructionController.active then
+            if not _G.DestructionController.active and not _G.BuildController.start then
                 structure:onClick()
             end
         else

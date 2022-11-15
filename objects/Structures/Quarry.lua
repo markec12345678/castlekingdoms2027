@@ -588,7 +588,7 @@ function Quarry:initialize(gx, gy)
         end
     end
 
-    Structure:applyBuildingHeightMap(gx, gy, self.class.WIDTH, self.class.LENGTH, self.class.HEIGHT)
+    self:applyBuildingHeightMap()
     Structure.render(self)
 end
 function Quarry:scanForTether(callingTether)

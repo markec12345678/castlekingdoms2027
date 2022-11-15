@@ -60,11 +60,7 @@ end
 
 local function update()
     ---------------------------------------
-    local defMX, defMY = love.mouse.getPosition();
-    mx = (defMX - 16 - _G.ScreenWidth / 2) / _G.state.scaleX + _G.state.viewXview
-    my = (defMY - 8 - _G.ScreenHeight / 2) / _G.state.scaleX + _G.state.viewYview
-    LocalX = math.round(ScreenToIsoX(mx, my))
-    LocalY = math.round(ScreenToIsoY(mx, my))
+    local CenterX, CenterY
     CenterX = math.round(ScreenToIsoX(_G.state.viewXview, _G.state.viewYview))
     CenterY = math.round(ScreenToIsoY(_G.state.viewXview, _G.state.viewYview))
 
@@ -111,20 +107,6 @@ local function scale(y)
 end
 
 local function draw()
-    local gx, gy = LocalX, LocalY
-    local prevI = (gx - 1) % (chunkWidth)
-    local prevO = (gy + 1) % (chunkWidth)
-    local prevCx = math.floor((gx - 1) / chunkWidth)
-    local prevCy = math.floor((gy + 1) / chunkWidth)
-
-    local prevShadow, prevHeight, prevHeight_2, prevTileheight = 0, 0, 0, 0
-    if _G.state.map.terrain[prevCx] and _G.state.map.terrain[prevCx][prevCy] then
-        prevHeight = _G.state.map.heightmap[prevCx][prevCy][prevI][prevO] or 0
-        prevHeight_2 = 75 * prevHeight / (40 + prevHeight)
-        prevShadow = _G.shadowmap[prevCx][prevCy][prevI][prevO] or 0
-        prevTileheight = _G.buildingheightmap[prevCx][prevCy][prevI][prevO] or 0
-    end
-    mx, my = love.mouse.getPosition()
     love.graphics.print("FPS: " .. tostring(love.timer.getFPS()) .. "\nMax FPS: " .. tostring(_G.previousFrameTime), 10,
         love.graphics.getHeight() - 40)
 end

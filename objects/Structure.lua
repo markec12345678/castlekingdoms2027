@@ -139,19 +139,20 @@ function Structure:serialize()
     return data
 end
 
-function Structure.static:applyBuildingHeightMap(gx, gy, buildingWidth, buildingLength, buildingHeight, skipNoneBiome)
-    for xx = 0, buildingWidth - 1 do
-        for yy = 0, buildingLength - 1 do
-            local buildingX = gx + xx
-            local buildingY = gy + yy
+function Structure:applyBuildingHeightMap(skipNoneBiome)
+    for xx = 0, self.class.static.WIDTH - 1 do
+        for yy = 0, self.class.static.LENGTH - 1 do
+            local buildingX = self.gx + xx
+            local buildingY = self.gy + yy
             if not skipNoneBiome then
                 _G.terrainSetTileAt(buildingX, buildingY, _G.terrainBiome.none)
             end
             local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(buildingX, buildingY)
-            _G.buildingheightmap[ccx][ccy][xxx][yyy] = buildingHeight
+            _G.buildingheightmap[ccx][ccy][xxx][yyy] = self.class.static.HEIGHT
             _G.state.map:setWalkable(buildingX, buildingY, 1)
         end
     end
+    self:shadeFromTerrain()
 end
 
 function Structure:load(data)

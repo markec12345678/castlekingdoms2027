@@ -86,7 +86,7 @@ function OxTether:initialize(gx, gy)
     OxTetherAlias:new(self.gx, self.gy + 1, self, self.offsetX, self.offsetY)
     OxTetherAlias:new(self.gx + 1, self.gy + 1, self, self.offsetX, self.offsetY)
 
-    Structure:applyBuildingHeightMap(gx, gy, self.class.WIDTH, self.class.HEIGHT, self.class.LENGTH)
+    self:applyBuildingHeightMap()
     Structure.render(self)
 end
 function OxTether:destroy()

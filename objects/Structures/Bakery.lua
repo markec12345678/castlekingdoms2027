@@ -261,7 +261,7 @@ function Bakery:initialize(gx, gy)
             _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrainBiome.scarceGrass)
         end
     end
-    Structure:applyBuildingHeightMap(gx, gy, Bakery.WIDTH, Bakery.LENGTH, Bakery.HEIGHT)
+    self:applyBuildingHeightMap()
     for tile = 1, tiles do
         local bkr = BakeryAlias:new(
             quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self, -self.offsetY + 8 * (tiles - tile + 1))

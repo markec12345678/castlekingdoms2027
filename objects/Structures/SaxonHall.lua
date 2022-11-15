@@ -72,7 +72,7 @@ function SaxonHall:initialize(gx, gy, type)
     SaxonHallAlias:new(tileQuads["empty"], self.gx + 6, self.gy, self)
     SaxonHallAlias:new(tileQuads["empty"], self.gx, self.gy + 6, self)
 
-    Structure:applyBuildingHeightMap(gx, gy, SaxonHall.WIDTH, SaxonHall.LENGTH, SaxonHall.HEIGHT)
+    self:applyBuildingHeightMap()
     for xx = -2, 8 do
         for yy = -2, 8 do
             if yy == 7 or xx == 7 or xx == -1 or yy == -1 then

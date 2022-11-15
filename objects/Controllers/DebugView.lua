@@ -22,6 +22,7 @@ function DebugView:initialize()
     self.quads[3] = love.graphics.newQuad(60, 0, 30, 16, image:getWidth(), image:getHeight())
     self.quads[4] = love.graphics.newQuad(90, 0, 30, 16, image:getWidth(), image:getHeight())
 end
+
 function DebugView:toggle()
     if not self.active then
         self.focus = "objects"
@@ -37,6 +38,7 @@ function DebugView:toggle()
         return
     end
 end
+
 function DebugView:update()
     self.info = ""
     if self.active then
@@ -64,6 +66,18 @@ function DebugView:update()
             if _G.state.map:getWalkable(OX, OY) == 1 then
                 self.info = "(1) Not Walkable"
             end
+            local cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(OX, OY)
+            self.info = self.info .. "\n Shadow: " .. tostring(_G.state.map.shadowmap[cx][cy][i][o] or 0)
+            self.info = self.info .. "\n cx, cy, i, o: " .. cx .. ", " .. cy .. ", " .. i .. ", " .. o
+            self.info = self.info .. "\n gx, gy: " .. OX .. ", " .. OY
+            local val = -1
+
+            local Structure = require("objects.Structure")
+            local structure = _G.objectFromSubclassAtGlobal(OX, OY, Structure)
+            if structure then
+                val = structure:getAverageShadowValue()
+            end
+            self.info = self.info .. "\n" .. val
         end
 
         local LX, LY = OX - math.floor(self.width / 2), OY - math.floor(self.height / 2)
@@ -72,9 +86,9 @@ function DebugView:update()
         local type
         self.elevationOffsetY = (_G.state.map.heightmap[cx][cy][x][y] or 0) * 2
         self.FX = IsoToScreenX(LX, LY) - _G.state.viewXview - ((IsoToScreenX(LX, LY)) - _G.state.viewXview) *
-                      (1 - _G.state.scaleX)
+            (1 - _G.state.scaleX)
         self.FY = IsoToScreenY(LX, LY) - _G.state.viewYview - ((IsoToScreenY(LX, LY)) - _G.state.viewYview) *
-                      (1 - _G.state.scaleX)
+            (1 - _G.state.scaleX)
         -- No point to flush the batch everytime, only do it when the position changes
         if self.previousGx ~= self.gx or self.previousGx ~= self.gy then
             self.batch:clear()

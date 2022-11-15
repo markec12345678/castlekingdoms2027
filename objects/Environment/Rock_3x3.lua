@@ -33,8 +33,8 @@ function Rock_3x3:initialize(gx, gy, type)
     local rockVariation = 16 + love.math.random(1, 16)
     self.rockVariation = self.rockVariation or rockVariation
     local tiles, quadArray = _G.indexBuildingQuads("rocks_3x3tile (" .. rockVariation .. ")", false, 3)
-
-    Structure:applyBuildingHeightMap(gx, gy, self.class.WIDTH, self.class.LENGTH, self.class.HEIGHT, true)
+    
+    self:applyBuildingHeightMap(true)
     local _, _, _, centerTileOffsetY = quadArray[tiles + 1]:getViewport()
 
     for tile = 1, tiles do

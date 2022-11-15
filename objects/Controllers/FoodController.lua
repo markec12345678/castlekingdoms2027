@@ -1,13 +1,13 @@
 local FoodController = _G.class('FoodController')
-local FOOD_TYPE = require("objects.Enums.food_types")
+local FOOD = require("objects.Enums.Food")
 
 function FoodController:initialize()
     self.list = {}
     self.food = {
-        [FOOD_TYPE.apples] = {},
-        [FOOD_TYPE.bread] = {},
-        [FOOD_TYPE.cheese] = {},
-        [FOOD_TYPE.meat] = {}
+        [FOOD.apples] = {},
+        [FOOD.bread] = {},
+        [FOOD.cheese] = {},
+        [FOOD.meat] = {}
     }
 
     self.nodeList = {}
