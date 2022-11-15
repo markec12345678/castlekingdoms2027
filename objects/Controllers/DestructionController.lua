@@ -46,7 +46,6 @@ function DestructionController:mousereleased(button, mx, my)
 
             -- check if structure is destructible
             if structure.class.DESTRUCTIBLE == true then
-                Structure.destroy(structure)
                 -- Destroy all the Aliases of a Structure
                 for x = 0, structure.class.WIDTH - 1 do
                     for y = 0, structure.class.LENGTH - 1 do
@@ -55,8 +54,6 @@ function DestructionController:mousereleased(button, mx, my)
                             if target == structure or target.parent == structure then
                                 Structure.destroy(target)
                                 target:destroy()
-                            else
-                                print("wtf", target.class.name)
                             end
                         end
                     end
