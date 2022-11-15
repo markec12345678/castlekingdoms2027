@@ -25,13 +25,11 @@ local destroyButton = ActionBarButton:new(love.graphics.newImage("assets/ui/curs
 destroyButton:setTooltip("Demolish", "Enter demolish mode. Click on a building to destroy.")
 
 destroyButton:setOnClick(function(self)
+    ActionBar:unselectAll()
     local enabled = _G.DestructionController:toggle()
     if enabled then
         destroyButton:setTooltip("Exit Demolish Mode", "Exit demolish mode.")
-        ActionBar:unselectAll()
-        ActionBar:selectButton(destroyButton)        
-    else
-        ActionBar:unselectAll()
+        ActionBar:selectButton(destroyButton)
     end
 end)
 

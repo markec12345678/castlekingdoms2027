@@ -91,7 +91,7 @@ function Market:initialize(gx, gy)
     end
 
 
-    Structure:applyBuildingHeightMap(gx, gy, Market.WIDTH, Market.LENGTH, Market.HEIGHT)
+    self:applyBuildingHeightMap()
 
     Structure.render(self)
 end
