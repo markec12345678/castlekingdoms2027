@@ -63,6 +63,7 @@ local Market = _G.class("Market", Structure)
 Market.static.WIDTH = 5
 Market.static.LENGTH = 5
 Market.static.HEIGHT = 17
+Market.static.DESTRUCTIBLE = true
 
 function Market:initialize(gx, gy)
     Structure.initialize(self, gx, gy, "Market")
@@ -82,8 +83,8 @@ function Market:initialize(gx, gy)
         hsl.tileKey = tiles + 1 + tile
     end
     local tileQuads = require("objects.object_quads")
-    for xx = 0, Market.static.WIDTH do
-        for yy = 0, Market.static.LENGTH do
+    for xx = 0, Market.static.WIDTH - 1 do
+        for yy = 0, Market.static.LENGTH - 1 do
             if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + gy, Structure) then
                 MarketAlias:new(tileQuads["empty"], self.gx + xx, self.gy + yy, self, 0, 0)
             end
@@ -94,6 +95,10 @@ function Market:initialize(gx, gy)
     self:applyBuildingHeightMap()
 
     Structure.render(self)
+end
+
+function Market:destroy()
+    print("caleld marek dfestory")
 end
 
 function Market:onClick()

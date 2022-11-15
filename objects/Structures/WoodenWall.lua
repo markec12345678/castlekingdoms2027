@@ -4,10 +4,11 @@ local Structure = require("objects.Structure")
 local tiles = {tile_quads["tile_buildings_wood_wall (1)"], tile_quads["tile_buildings_wood_wall (2)"],
     tile_quads["tile_buildings_wood_wall (3)"], tile_quads["tile_buildings_wood_wall (4)"]}
 
-local WoodenWall = class('WoodenWall', Structure)
+local WoodenWall = _G.class('WoodenWall', Structure)
 WoodenWall.static.WIDTH = 1
 WoodenWall.static.LENGTH = 1
 WoodenWall.static.HEIGHT = 17
+WoodenWall.static.DESTRUCTIBLE = true
 function WoodenWall:initialize(gx, gy, type)
     local mytype = "Wall"
     Structure.initialize(self, gx, gy, mytype)

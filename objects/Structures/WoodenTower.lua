@@ -26,6 +26,7 @@ local WoodenTower = class("WoodenTower", Structure)
 WoodenTower.static.WIDTH = 2
 WoodenTower.static.LENGTH = 2
 WoodenTower.static.HEIGHT = 17
+WoodenTower.static.DESTRUCTIBLE = true
 function WoodenTower:initialize(gx, gy, type)
     local mytype = "Wooden Tower"
     Structure.initialize(self, gx, gy, mytype)
