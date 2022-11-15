@@ -86,7 +86,7 @@ function House:initialize(gx, gy)
         end
     end
 
-    Structure:applyBuildingHeightMap(gx, gy, House.WIDTH, House.LENGTH, House.HEIGHT)
+    self:applyBuildingHeightMap()
 
     _G.state.maxPopulation = _G.state.maxPopulation + 4
     local actionBar = require("states.ui.ActionBar")

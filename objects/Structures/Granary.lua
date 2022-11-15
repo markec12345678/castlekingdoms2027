@@ -189,7 +189,7 @@ function Granary:initialize(gx, gy, type)
         end
     end
 
-    Structure:applyBuildingHeightMap(gx, gy, Granary.WIDTH, Granary.LENGTH, Granary.HEIGHT)
+    self:applyBuildingHeightMap()
 
     for tile = 1, tiles do
         local gra = GranaryAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
@@ -202,11 +202,6 @@ function Granary:initialize(gx, gy, type)
             -self.offsetY + 8 * tile, 14)
         gra.tileKey = tiles + 1 + tile
     end
-    -- GranaryAlias:new(tileQuads["empty"], self.gx + 3, self.gy + 3, self, 0, 0)
-    -- GranaryAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 3, self, 0, 0)
-    -- GranaryAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 3, self, 0, 0)
-    -- GranaryAlias:new(tileQuads["empty"], self.gx + 3, self.gy + 2, self, 0, 0)
-    -- GranaryAlias:new(tileQuads["empty"], self.gx + 3, self.gy + 1, self, 0, 0)
 
     self.foodpile[1].id = GranaryAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 1, self, 32 - 4, 0, true)
     self.foodpile[2].id = GranaryAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 1, self, 32 - 4, 0, true)
@@ -316,10 +311,6 @@ function Granary:updateFoodpile(index)
     pile.id.additionalOffsetY = offsetY[pile.type][pile.quantity]
     pile.id.offsetY = pile.id.additionalOffsetY - pile.id.baseOffsetY
     pile.id:render()
-    -- if objectBatch[pile.id.cx][pile.id.cy] then
-    --     objectBatch[pile.id.cx][pile.id.cy]:set(pile.id.qid, pile.id.tile, pile.id.x + pile.id.offsetX,
-    --         pile.id.y + pile.id.offsetY)
-    -- end
     if pile.quantity == maxQuantity[pile.type] then
         _G.state.notFullFoods[pile.type] = _G.state.notFullFoods[pile.type] - 1
     end

@@ -1,6 +1,8 @@
 local _, objectAtlas = ...
 
 local tileQuads = require("objects.object_quads")
+local WoodenWall = require("objects.Structures.WoodenWall")
+local WoodenTower = require("objects.Structures.WoodenTower")
 local image = love.graphics.newImage("assets/tiles/info_tiles_strip.png")
 local ActionBar = require("states.ui.ActionBar")
 local SaxonHall = require("objects.Structures.SaxonHall")
@@ -245,6 +247,38 @@ local building = {
         },
         build = function(self, gx, gy)
             Orchard:new(gx, gy)
+        end,
+        specialRequirements = function(self, _, _)
+            return true
+        end
+    },
+    ["wooden_wall"] = {
+        quad = tileQuads["tile_buildings_wood_wall (1)"],
+        offsetX = 0,
+        offsetY = 112,
+        w = 1,
+        h = 1,
+        cost = {
+            ["wood"] = 1
+        },
+        build = function(self, gx, gy)
+            WoodenWall:new(gx, gy)
+        end,
+        specialRequirements = function(self, _, _)
+            return true
+        end
+    },
+    ["wooden_tower"] = {
+        quad = tileQuads["wood_tower"],
+        offsetX = 16,
+        offsetY = 112 - 64 + 32 - 16 + 3,
+        w = 2,
+        h = 2,
+        cost = {
+            ["wood"] = 1
+        },
+        build = function(self, gx, gy)
+            WoodenTower:new(gx, gy)
         end,
         specialRequirements = function(self, _, _)
             return true
@@ -573,18 +607,15 @@ function BuildController:update()
 end
 
 function BuildController:mousepressed(x, y)
-    local gx, gy = _G.getTerrainTileOnMouse(x, y)
-    gx, gy = gx - math.floor(self.width / 2), gy - math.floor(self.height / 2)
-    local success = self:build(gx, gy)
-    if success and self.firstTerrainHeight then
+    if self.canBuild and self.canAfford and self.firstTerrainHeight then
         for xx = 0, self.width - 1 do
             for yy = 0, self.height - 1 do
-                _G.terrainSetHeight(xx + gx, yy + gy, self.firstTerrainHeight / 2)
+                _G.terrainSetHeight(xx + self.gx, yy + self.gy, self.firstTerrainHeight / 2)
             end
         end
+        self.firstTerrainHeight = nil
     end
-    self.firstTerrainHeight = nil
-    return success
+    return self:build(self.gx, self.gy)
 end
 
 function BuildController:build(gx, gy)
@@ -661,7 +692,6 @@ function BuildController:build(gx, gy)
                     _G.playSpeech("cannot_place_2")
                 end
             end
-
         end
     end
 end

@@ -384,7 +384,7 @@ function WoodcutterHut:initialize(gx, gy, type)
     _G.terrainSetTileAt(self.gx + 1, self.gy + 4, _G.terrainBiome.scarceGrass)
     _G.terrainSetTileAt(self.gx + 2, self.gy + 4, _G.terrainBiome.scarceGrass)
 
-    Structure:applyBuildingHeightMap(gx, gy, WoodcutterHut.WIDTH, WoodcutterHut.LENGTH, WoodcutterHut.HEIGHT)
+    self:applyBuildingHeightMap()
 
     for tile = 1, tiles do
         local wht = WoodcutterHutAlias:new(

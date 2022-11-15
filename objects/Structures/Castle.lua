@@ -62,7 +62,7 @@ function Castle:initialize(gx, gy, type)
     CastleDoor:new(tileCastleDoor2, self.gx + 4, self.gy + 7, self)
     _G.spawnPointX, _G.spawnPointY = self.gx + 3, self.gy + 8
 
-    Structure:applyBuildingHeightMap(gx, gy, Castle.WIDTH, Castle.LENGTH, Castle.HEIGHT)
+    self:applyBuildingHeightMap()
     for xx = -2, 8 do
         for yy = -2, 8 do
             if yy == 7 or xx == 7 or xx == -1 or yy == -1 then
