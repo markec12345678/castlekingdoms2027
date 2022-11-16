@@ -212,7 +212,7 @@ function _G.objectFromClassAtGlobal(gx, gy, objClass)
     local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(gx, gy)
     if type(object[cx][cy][x][y]) == "table" then
         for _, currentObject in ipairs(object[cx][cy][x][y]) do
-            if currentObject.class.name == objClass then
+            if currentObject.class.name == objClass or currentObject.class == objClass then
                 return currentObject
             end
         end

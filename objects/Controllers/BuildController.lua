@@ -19,6 +19,7 @@ local Bakery = require("objects.Structures.Bakery")
 local House = require("objects.Structures.House")
 local Market = require("objects.Structures.Market")
 local OxTether = require("objects.Structures.OxTether")
+local WallController = require("objects.Controllers.WallController")
 
 local objectFromTypeAt = _G.objectFromTypeAt
 local chunkWidth = _G.chunkWidth
@@ -613,9 +614,32 @@ function BuildController:mousepressed(x, y)
                 _G.terrainSetHeight(xx + self.gx, yy + self.gy, self.firstTerrainHeight / 2)
             end
         end
+        if self.building == 'wooden_wall' then
+            WallController:build()
+        end
         self.firstTerrainHeight = nil
     end
     return self:build(self.gx, self.gy)
+end
+
+function BuildController:isBuildingAffordable(buildingKey, amountOfBuildings)
+    amountOfBuildings = amountOfBuildings or 1
+    for resource, amount in pairs(building[buildingKey].cost) do
+        if _G.state.resources[resource] < amount * amountOfBuildings then
+            if self.building == "woodcutter_hut" and _G.state.firstWoodCutterHut then
+                _G.state.firstWoodCutterHut = false
+                break
+            end
+            return false
+        end
+    end
+    return true
+end
+
+function BuildController:purchaseBuilding(buildingKey)
+    for resource, amount in pairs(building[buildingKey].cost) do
+        _G.stockpile:take(resource, amount)
+    end
 end
 
 function BuildController:build(gx, gy)
@@ -623,21 +647,9 @@ function BuildController:build(gx, gy)
         if self.canBuild then
             self.canAfford = true
             if not self.start then
-                for resource, amount in pairs(building[self.building].cost) do
-                    if _G.state.resources[resource] < amount then
-                        if self.building == "woodcutter_hut" and _G.state.firstWoodCutterHut then
-                            _G.state.firstWoodCutterHut = false
-                            break
-                        end
-                        self.canAfford = false
-                        print("Cannot afford building! Not enough " .. resource .. "!")
-                        break
-                    end
-                end
+                self.canAfford = self:isBuildingAffordable(self.building)
                 if self.canAfford then
-                    for resource, amount in pairs(building[self.building].cost) do
-                        _G.stockpile:take(resource, amount)
-                    end
+                    self:purchaseBuilding(self.building)
                     for xx = 0, building[self.building].w do
                         for yy = 0, building[self.building].h do
                             _G.removeObjectFromClassAtGlobal(gx + xx, gy + yy, "Shrub")
@@ -702,14 +714,18 @@ end
 
 function BuildController:draw()
     if self.active then
-        love.graphics.setColor(1, 1, 1, 0.5)
-        love.graphics.draw(self.batch, self.FX, self.FY, nil, _G.state.scaleX)
-        if self.canBuild then
-            love.graphics.draw(objectAtlas, building[self.building].quad,
-                self.FX - building[self.building].offsetX * _G.state.scaleX, self.FY - self.elevationOffsetY *
-                _G.state.scaleX - building[self.building].offsetY * _G.state.scaleX, 0, _G.state.scaleX)
+        if self.building == "wooden_wall" and WallController.clicked then
+            WallController:draw()
+        else
+            love.graphics.setColor(1, 1, 1, 0.5)
+            love.graphics.draw(self.batch, self.FX, self.FY, nil, _G.state.scaleX)
+            if self.canBuild then
+                love.graphics.draw(objectAtlas, building[self.building].quad,
+                    self.FX - building[self.building].offsetX * _G.state.scaleX, self.FY - self.elevationOffsetY *
+                    _G.state.scaleX - building[self.building].offsetY * _G.state.scaleX, 0, _G.state.scaleX)
+            end
+            love.graphics.setColor(1, 1, 1, 1)
         end
-        love.graphics.setColor(1, 1, 1, 1)
     end
 end
 
