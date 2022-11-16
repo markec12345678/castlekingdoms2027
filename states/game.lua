@@ -206,8 +206,8 @@ function game:keypressed(key, scancode, isRepeat)
         _G.DebugView:toggle()
     end
     if key == "h" then
-        _G.state.viewXview = _G.IsoToScreenX(_G.state.keepX,_G.state.keepY)
-        _G.state.viewYview = _G.IsoToScreenY(_G.state.keepX,_G.state.keepY)
+        _G.state.viewXview = _G.IsoToScreenX(_G.state.keepX, _G.state.keepY)
+        _G.state.viewYview = _G.IsoToScreenY(_G.state.keepX, _G.state.keepY)
     end
 end
 
