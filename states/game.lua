@@ -198,11 +198,16 @@ function game:keypressed(key, scancode, isRepeat)
     if key == "escape" then
         if (loveframes.GetState() == states.STATE_PAUSE_MENU or
             loveframes.GetState() == states.STATE_INGAME_CONSTRUCTION) then
-            loveframes.TogglePause()
+            if _G.BuildController.active and not _G.BuildController.start then
+                ActionBar:unselectAll()
+                _G.BuildController.active = false
+                return
+            end
             if _G.DestructionController.active then
                 -- unselect the demolish button
                 ActionBar:unselectAll()
                 _G.DestructionController:disable()
+                return
             end
         end
         if (loveframes.GetState() == states.STATE_MARKET or
@@ -211,7 +216,9 @@ function game:keypressed(key, scancode, isRepeat)
             loveframes.GetState() == states.STATE_MARKET_MAIN or
             loveframes.GetState() == states.STATE_MARKET) then
             ActionBar:switchMode()
+            return
         end
+        loveframes.TogglePause()
     end
     if key == "v" then
         _G.DebugView:toggle()
