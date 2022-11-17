@@ -92,11 +92,13 @@ function game:update(dt)
         core.update()
         prof.pop("core")
         if not _G.paused then
+            local HighlightView = require("objects.Controllers.HighlightView")
             prof.push("objects")
             objects.update(dt)
             prof.pop("objects")
             terrain.update()
             prof.push("bcontr")
+            HighlightView:update()
             _G.BuildController:update()
             prof.pop("bcontr")
             _G.DebugView:update()
@@ -130,6 +132,7 @@ end
 function game:draw()
     if not _G.testMode then
         if _G.loaded then
+            local HighlightView = require("objects.Controllers.HighlightView")
             if _G.state.scaleX >= 2.1 or _G.paused then
                 love.postshader.setBuffer("render")
             end
@@ -137,6 +140,7 @@ function game:draw()
             love.graphics.translate((love.graphics.getWidth() / 2), (love.graphics.getHeight() / 2))
             objects.draw()
             if not _G.paused then
+                HighlightView:draw()
                 _G.BuildController:draw()
                 _G.DebugView:draw()
                 _G.BrushController:draw()
@@ -191,19 +195,22 @@ end
 
 function game:keypressed(key, scancode, isRepeat)
     ActionBar:keypressed(key, scancode)
-    if key == "escape" and
-        (
-        loveframes.GetState() == states.STATE_PAUSE_MENU or
-            loveframes.GetState() == states.STATE_INGAME_CONSTRUCTION or
-            loveframes.GetState() == states.STATE_MARKET or
+    if key == "escape" then
+        if (loveframes.GetState() == states.STATE_PAUSE_MENU or
+            loveframes.GetState() == states.STATE_INGAME_CONSTRUCTION) then
+            loveframes.TogglePause()
+            if _G.DestructionController.active then
+                -- unselect the demolish button
+                ActionBar:unselectAll()
+                _G.DestructionController:disable()
+            end
+        end
+        if (loveframes.GetState() == states.STATE_MARKET or
             loveframes.GetState() == states.STATE_STOCKPILE or
-            loveframes.GetState() == states.STATE_MARKET_MAIN
-        ) then
-        loveframes.TogglePause()
-        if _G.DestructionController.active then
-            -- unselect the demolish button
-            ActionBar:unselectAll()
-            _G.DestructionController:disable()
+            loveframes.GetState() == states.STATE_GRANARY or
+            loveframes.GetState() == states.STATE_MARKET_MAIN or
+            loveframes.GetState() == states.STATE_MARKET) then
+            ActionBar:switchMode()
         end
     end
     if key == "v" then
