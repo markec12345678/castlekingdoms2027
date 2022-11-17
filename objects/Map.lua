@@ -245,9 +245,6 @@ function Map:deserialize(data)
     self:deserializeHeightmap(data.heightmap)
     self:deserializeCollisionMap(data.collision)
     self:deserializeBuildingHeightmap(data.buildingheightmap)
-    if data.water then -- TODO: remove after 0.3.1
-        self:deserializeWater(data.water)
-    end
     return data
 end
 

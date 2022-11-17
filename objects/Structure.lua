@@ -153,6 +153,7 @@ function Structure:applyBuildingHeightMap(skipNoneBiome)
         end
     end
     self:shadeFromTerrain()
+    self:render()
 end
 
 function Structure:load(data)

@@ -394,7 +394,6 @@ local function multiTileCalculate(currentBiome, cx, cy, i, o)
         upperBorder = 16
     elseif currentBiome == _G.terrainBiome.sea then
         upperBorder = 8
-        _G.state.map.water[gx][gy] = true -- TODO: remove after 0.3.1
     elseif currentBiome == _G.terrainBiome.seaWalkable then
         upperBorder = 8
     end

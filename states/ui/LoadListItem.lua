@@ -12,7 +12,7 @@ local deleteButtonImageDown = love.graphics.newImage("assets/ui/trash_can_dirty.
 
 local LoadListItem = _G.class("LoadListItem")
 function LoadListItem:initialize(position, state, frListItem, frColumnSaveName, frColumnMap, frColumnDate,
-    frColumnVersion, frDeleteButton)
+                                 frColumnVersion, frDeleteButton)
     if position < 1 or position > 8 then
         error("received invalid position argument for action bar: " .. tostring(position))
     end
@@ -67,7 +67,7 @@ function LoadListItem:initialize(position, state, frListItem, frColumnSaveName, 
     versionText:SetState(self.state)
     versionText:SetFont(loveframes.basicfont)
     versionText:SetPos(frColumnVersion.x, frColumnVersion.y)
-    versionText:SetText("0.3.1")
+    versionText:SetText("0.4.0")
     versionText:SetShadowColor(0.8, 0.8, 0.8, 1)
     versionText.visible = false
     local deleteButton = loveframes.Create("image")
@@ -95,11 +95,13 @@ function LoadListItem:initialize(position, state, frListItem, frColumnSaveName, 
         self.foreground:SetColor(0.6, 0.6, 0.6, 0.6)
     end
 end
+
 function LoadListItem:onClick()
     _G.playSpeech("General_Loading")
     loveframes.SetState()
     Gamestate.switch(game, self.nameText:GetText())
 end
+
 function LoadListItem:setValues(name, mapName, rawDateModified, version)
     self.nameText:SetText(name)
     self.mapText:SetText(mapName)
@@ -107,6 +109,7 @@ function LoadListItem:setValues(name, mapName, rawDateModified, version)
     self.dateText:SetText(dateModified)
     self.versionText:SetText(version)
 end
+
 function LoadListItem:hide()
     self.background.visible = false
     self.nameText.visible = false
@@ -115,6 +118,7 @@ function LoadListItem:hide()
     self.versionText.visible = false
     self.deleteButton.visible = false
 end
+
 function LoadListItem:show()
     self.background.visible = true
     self.nameText.visible = true

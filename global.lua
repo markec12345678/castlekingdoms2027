@@ -11,7 +11,7 @@ _G.OPTIONS = {
     MUSIC_VOLUME = config.sound.music / 100
 }
 
-_G.version = "0.3.1"
+_G.version = "0.4.0"
 _G.classes = {}
 _G.anim = require("libraries.anim8")
 _G.class = require("libraries.middleclass")
@@ -152,6 +152,7 @@ function _G.getChevronVertexRight(cx, cy, localX, localY)
     _G.state.objectMeshVertIdMap[cx][cy][vertId] = true
     return vertId
 end
+
 function _G.freeVertexFromTile(cx, cy, vertId)
     if not vertId then
         return
@@ -164,6 +165,7 @@ function _G.freeVertexFromTile(cx, cy, vertId)
         return true
     end
 end
+
 _G.SAVEGAME_DIR = "saves"
 _G.tileWidth = 32
 _G.tileHeight = 16
@@ -208,7 +210,7 @@ function _G.string.startsWith(str, start)
 end
 
 function _G.string.endsWith(str, ending)
-    return ending == "" or str:sub(-#ending) == ending
+    return ending == "" or str:sub(- #ending) == ending
 end
 
 function _G.playSfx(obj, sfx)
