@@ -618,8 +618,15 @@ function BuildController:mousepressed(x, y)
             WallController:build()
         end
         self.firstTerrainHeight = nil
+        if self.building == 'wooden_wall' then
+            return WallController:build()
+        end
     end
     return self:build(self.gx, self.gy)
+end
+
+function BuildController:getWoodCost(buildingKey, amountOfBuildings)
+    return building[buildingKey].cost["wood"] * amountOfBuildings
 end
 
 function BuildController:isBuildingAffordable(buildingKey, amountOfBuildings)
