@@ -1,13 +1,15 @@
-local _, _, _ = ...
 local bresenham = require('libraries.bresenham')
 local WoodenWall = require("objects.Structures.WoodenWall")
 local tileQuads = require("objects.object_quads")
+
+local woodIcon = love.graphics.newImage("assets/ui/goods/woodIcon.png")
 
 local WallController = _G.class("WallController")
 function WallController:initialize()
     self.clicked = false
     self.lastFinalGX = nil
     self.lastFinalGY = nil
+    self.buildingCount = 0
     self.quad = "tile_buildings_wood_wall (1)"
 end
 
@@ -40,31 +42,49 @@ function WallController:build()
     end
 end
 
+function WallController:drawMouse()
+    if not self.clicked then return end
+    local totalCost = _G.BuildController:getWoodCost("wooden_wall", self.buildingCount)
+    local mx, my = love.mouse.getPosition()
+    love.graphics.draw(woodIcon, mx + 30, my + 20, nil, 0.5)
+    if totalCost > _G.state.resources["wood"] then
+        love.graphics.setColor(1, 0.6, 0.6, 1)
+        love.graphics.print(totalCost .. " / " .. _G.state.resources["wood"], mx + 30 + 30, my + 20)
+    else
+        love.graphics.print(totalCost, mx + 30 + 30, my + 20)
+    end
+    love.graphics.setColor(1, 1, 1, 1)
+end
+
 function WallController:draw()
     if not self.clicked then
         return
     end
     local mx, my = love.mouse.getPosition()
     local igx, igy = _G.getTerrainTileOnMouse(mx, my)
-    local buildableCount = 1
+    self.buildingCount = 0
+    self.canAfford = false
     bresenham.los(self.initialGX, self.initialGY, igx, igy, function(gx, gy)
-        local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(gx, gy)
-        local elevationOffsetY = (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2
+        self.buildingCount = self.buildingCount + 1
+        local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(gx, gy)
+        local elevationOffsetY = (_G.state.map.heightmap[cx][cy][x][y] or 0) * 2
         local fx = IsoToScreenX(gx, gy) - _G.state.viewXview - ((IsoToScreenX(gx, gy)) - _G.state.viewXview) * (1 - _G.state.scaleX)
         local fy = IsoToScreenY(gx, gy) - _G.state.viewYview - ((IsoToScreenY(gx, gy)) - _G.state.viewYview) * (1 - _G.state.scaleX)
         local canAfford = true
-        if not _G.BuildController:isBuildingAffordable("wooden_wall", buildableCount) then
+        local sameWallAtPosition = _G.objectFromClassAtGlobal(gx, gy, WoodenWall)
+        if sameWallAtPosition then
+            self.buildingCount = self.buildingCount - 1
+            return true
+        end
+        if not _G.BuildController:isBuildingAffordable("wooden_wall", self.buildingCount) then
             canAfford = false
         end
-        buildableCount = buildableCount + 1
-        local sameWallAtPosition = _G.objectFromClassAtGlobal(gx, gy, WoodenWall)
         if _G.importantObjectAtGlobal(gx, gy) and not sameWallAtPosition then
             return false
         end
         if _G.state.map:isWaterAt(gx, gy) then
             return false
         end
-        if sameWallAtPosition then return true end
         if canAfford then
             love.graphics.draw(
                 _G.objectAtlas,
@@ -82,6 +102,7 @@ function WallController:draw()
                 0, _G.state.scaleX
             )
         end
+        self.canAfford = canAfford
         return true
     end)
 end

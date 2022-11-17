@@ -26,6 +26,10 @@ woodenWallButton:setOnClick(
         ActionBar:selectButton(woodenWallButton)
     end)
 woodenWallButton:setTooltip("Wooden Wall", "A defensive wall made from sharpened tree trunks")
+woodenWallButton:setOnUnselect(function()
+    local WallController = require("objects.Controllers.WallController")
+    WallController.clicked = false
+end)
 
 
 local woodenTowerButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_tower.png"), states.STATE_INGAME_CONSTRUCTION, 3, false, nil)

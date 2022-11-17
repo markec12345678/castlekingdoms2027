@@ -154,6 +154,10 @@ function game:draw()
             if _G.state.scaleX >= 2.1 or _G.paused then
                 love.postshader.draw()
             end
+            if not _G.paused then
+                local WallController = require("objects.Controllers.WallController")
+                WallController:drawMouse()
+            end
         else
             renderLoadingScreen("")
             renderLoadingBar(loadState, progress)
