@@ -614,9 +614,6 @@ function BuildController:mousepressed(x, y)
                 _G.terrainSetHeight(xx + self.gx, yy + self.gy, self.firstTerrainHeight / 2)
             end
         end
-        if self.building == 'wooden_wall' then
-            WallController:build()
-        end
         self.firstTerrainHeight = nil
         if self.building == 'wooden_wall' then
             return WallController:build()

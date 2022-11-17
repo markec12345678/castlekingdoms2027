@@ -19,11 +19,11 @@ castleButton:setTooltip("Saxon Hall", "Requires 50 Wood\nHas no purpose at the m
 local woodenWallButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_wall_ab.png"), states.STATE_INGAME_CONSTRUCTION, 2, true, nil)
 woodenWallButton:setOnClick(
     function(self)
+        ActionBar:selectButton(woodenWallButton)
         _G.BuildController:set(
             "wooden_wall", function()
             woodenWallButton:unselect()
         end)
-        ActionBar:selectButton(woodenWallButton)
     end)
 woodenWallButton:setTooltip("Wooden Wall", "A defensive wall made from sharpened tree trunks")
 woodenWallButton:setOnUnselect(function()
