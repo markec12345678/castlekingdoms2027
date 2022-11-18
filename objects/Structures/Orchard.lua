@@ -20,11 +20,13 @@ local an = {
 }
 
 local OrchardAlias = class("OrchardAlias", Structure)
-function OrchardAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
+function OrchardAlias:initialize(tile, gx, gy, parent, offsetY, offsetX, unwalkable)
     local mytype = "Static structure"
     self.parent = parent
     Structure.initialize(self, gx, gy, mytype)
-    _G.state.map:setWalkable(self.gx, self.gy, 1)
+    if unwalkable then
+        _G.state.map:setWalkable(self.gx, self.gy, 1)
+    end
     self.tile = tile
     self.baseOffsetY = offsetY or 0
     self.additionalOffsetY = 0
@@ -38,6 +40,7 @@ function OrchardAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     end
     Structure.render(self)
 end
+
 function OrchardAlias:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -54,6 +57,7 @@ function OrchardAlias:serialize()
     data.offsetY = self.offsetY
     return data
 end
+
 function OrchardAlias.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -104,6 +108,7 @@ function OrchardTree:initialize(gx, gy, parent, offsetY, offsetX)
     end
     _G.state.chunkObjects[self.cx][self.cy][self] = self
 end
+
 function OrchardTree:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -122,6 +127,7 @@ function OrchardTree:serialize()
     data.animated = self.animated
     return data
 end
+
 function OrchardTree.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -147,11 +153,11 @@ function OrchardTree.static:deserialize(data)
     return obj
 end
 
-local Orchard = class("Orchard", Structure)
-Orchard.static.WIDTH = 12
-Orchard.static.LENGTH = 12
-Orchard.static.HEIGHT = 19
-Orchard.static.ALIAS_NAME  = "OrchardAlias"
+local Orchard               = class("Orchard", Structure)
+Orchard.static.WIDTH        = 12
+Orchard.static.LENGTH       = 12
+Orchard.static.HEIGHT       = 19
+Orchard.static.ALIAS_NAME   = "OrchardAlias"
 Orchard.static.DESTRUCTIBLE = true
 function Orchard:initialize(gx, gy, type)
     _G.JobController:add("OrchardFarmer", self)
@@ -180,13 +186,13 @@ function Orchard:initialize(gx, gy, type)
 
     for tile = 1, tiles do
         local ora = OrchardAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
-            -self.offsetY + 8 * (tiles - tile + 1))
+            -self.offsetY + 8 * (tiles - tile + 1), nil, true)
         ora.tileKey = tile
     end
 
     for tile = 1, tiles do
         local ora = OrchardAlias:new(quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self,
-            -self.offsetY + 8 * tile, 14)
+            -self.offsetY + 8 * tile, 14, true)
         ora.tileKey = tiles + 1 + tile
     end
     local offsetX, offsetY = -64 - 8, 116
@@ -219,6 +225,7 @@ function Orchard:initialize(gx, gy, type)
     self.freeSpots = 1
     Structure.render(self)
 end
+
 function Orchard:destroy()
     if self.appleWorker then
         self.appleWorker:die()
@@ -249,6 +256,7 @@ function Orchard:destroy()
     _G.stockpile:store("wood")
     _G.stockpile:store("wood")
 end
+
 function Orchard:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -279,6 +287,7 @@ function Orchard:serialize()
     data.tree8 = _G.state:serializeObject(self.tree8)
     return data
 end
+
 function Orchard.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -307,6 +316,7 @@ function Orchard.static:deserialize(data)
     Structure.render(obj)
     return obj
 end
+
 function Orchard:join(worker)
     if self.health == -1 then
         _G.JobController:remove("OrchardFarmer", self)
@@ -319,6 +329,7 @@ function Orchard:join(worker)
         self.freeSpots = self.freeSpots - 1
     end
 end
+
 function Orchard:work(worker)
     if self.appleWorker == worker then
         self.appleWorker.state = "Working"
@@ -385,6 +396,7 @@ function Orchard:work(worker)
 
     end
 end
+
 function Orchard:sendToStockpile()
     self.appleWorker.state = "Go to foodpile"
     self.appleWorker:clearPath()

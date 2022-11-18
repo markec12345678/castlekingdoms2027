@@ -26,11 +26,19 @@ function HighlightView:update()
     local structure = _G.objectFromSubclassAtGlobal(OX, OY, Structure)
     self.leftCornerX = nil
     if not structure or string.find(structure.class.name, "Rock") then
+        if self.lastStructure ~= nil then
+            if self.lastStructure.hover and self.lastStructure.exitHover then
+                self.lastStructure:exitHover()
+            end
+        end
         self.lastStructure = nil
         self.points = nil
         return
     end
     structure = structure.parent or structure
+    if self.lastStructure and self.lastStructure.exitHover and self.lastStructure ~= structure then
+        self.lastStructure:exitHover()
+    end
     if not structure.onClick and not _G.DestructionController.active then return end
     if not structure.class.WIDTH then
         self.lastStructure = nil
@@ -45,6 +53,9 @@ function HighlightView:update()
     local RCX = structure.gx + structure.class.WIDTH - 1
     local RCY = structure.gy
     if self.lastStructure == structure and self.lastScale == _G.state.scaleX then return end
+    if not structure.hover and structure.enterHover then
+        structure:enterHover()
+    end
     self.lastScale = _G.state.scaleX
     self.lastStructure = structure
     self.points = {}
