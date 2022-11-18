@@ -248,6 +248,7 @@ function State:serialize()
     data.campfire = _G.campfire:serialize()
     data.foodController = _G.foodpile:serialize()
     data.jobController = _G.JobController:serialize()
+    data.taxController = _G.TaxController:serialize()
     -- end
     data.verticesPerTile = self.verticesPerTile
     data.chunkObjects = self:serializeChunkObjects()
@@ -293,6 +294,7 @@ function State:load(filename)
         self.notFullStockpiles = load.notFullStockpiles
         self.notFullFoods = load.notFullFoods
         _G.JobController:deserialize(load.jobController)
+        _G.TaxController:deserialize(load.taxController)
         _G.BuildController:deserialize(load.buildController)
         _G.foodpile:deserialize(load.foodController)
         _G.spawnPointX, _G.spawnPointY = load.spawnPointX, load.spawnPointY

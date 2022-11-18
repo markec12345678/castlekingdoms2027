@@ -8,7 +8,8 @@ local states = {
     STATE_STOCKPILE = 7,
     STATE_HOUSE = 8,
     STATE_MARKET = 9,
-    STATE_MARKET_MAIN = 10
+    STATE_MARKET_MAIN = 10,
+    STATE_KEEP_TAX = 11
 }
 
 return states
