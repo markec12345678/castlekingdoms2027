@@ -525,8 +525,9 @@ local function mousepressed(x, y, button)
     if button == 1 then
         local Structure = require("objects.Structure")
         local structure = _G.objectFromSubclassAtGlobal(press.gx, press.gy, Structure)
-        if structure and structure.onClick then
-            if not _G.DestructionController.active and not _G.BuildController.start then
+        if structure then
+            structure = structure.parent or structure
+            if structure.onClick and not _G.DestructionController.active and not _G.BuildController.start then
                 structure:onClick()
             end
         else

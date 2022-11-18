@@ -61,11 +61,6 @@ function GranaryAlias:initialize(tile, gx, gy, parent, offsetY, offsetX, seriali
     Structure.render(self)
 end
 
-function GranaryAlias:onClick()
-    local ActionBar = require("states.ui.ActionBar")
-    ActionBar:switchMode("granary")
-end
-
 function GranaryAlias:serialize()
     local data = {}
     local structData = Structure.serialize(self)

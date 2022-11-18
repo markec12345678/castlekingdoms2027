@@ -24,10 +24,6 @@ function MarketAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     Structure.render(self)
 end
 
-function MarketAlias:onClick()
-    self.parent.onClick()
-end
-
 function MarketAlias:serialize()
     local data = {}
     local structData = Structure.serialize(self)

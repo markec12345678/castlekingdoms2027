@@ -41,24 +41,24 @@ end
 
 local pileOffsetY = {
     ["wood"] = {-2, -2, -2, -4, -4, -4, -4, -5, -5, -5, -5, -7, -7, -7, -7, -10, -10, -10, -10, -11, -11, -11, -11, -13,
-                -13, -13, -13, -15, -15, -15, -15, -17, -17, -17, -17, -20, -20, -20, -20, -21, -21, -21, -21, -23, -23,
-                -23, -23, -25},
+        -13, -13, -13, -15, -15, -15, -15, -17, -17, -17, -17, -20, -20, -20, -20, -21, -21, -21, -21, -23, -23,
+        -23, -23, -25},
     ["stone"] = {-9, -9, -9, -9, -9, -9, -9, -9, -9, -18, -18, -18, -18, -18, -18, -18, -18, -18, -26, -26, -26, -26,
-                 -26, -26, -26, -26, -26, -35, -35, -35, -35, -35, -35, -35, -35, -35, -43, -43, -43, -43, -43, -43,
-                 -43, -43, -43, -47, -47, -47, -47},
+        -26, -26, -26, -26, -26, -35, -35, -35, -35, -35, -35, -35, -35, -35, -43, -43, -43, -43, -43, -43,
+        -43, -43, -43, -47, -47, -47, -47},
     ["wheat"] = {-14, -14, -14, -14, -17, -17, -17, -19, -19, -19, -19, -19, -19, -19, -19, -19, -28, -28, -28, -28,
-                 -31, -31, -31, -31, -31, -31, -31, -31, -33, -33, -35, -35},
+        -31, -31, -31, -31, -31, -31, -31, -31, -33, -33, -35, -35},
     ["iron"] = {-5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -10, -10, -10, -10, -10, -10, -10, -10, -10, -10, -10,
-                -10, -15, -15, -15, -15, -15, -15, -15, -15, -15, -15, -15, -15, -19, -19, -19, -19, -19, -19, -19, -19,
-                -19, -19, -19, -19},
+        -10, -15, -15, -15, -15, -15, -15, -15, -15, -15, -15, -15, -15, -19, -19, -19, -19, -19, -19, -19, -19,
+        -19, -19, -19, -19},
     ["flour"] = {-2, -2, -2, -2, -2, -2, -2, -3, -3, -3, -3, -3, -3, -3, -6, -6, -6, -6, -6, -6, -6, -6, -9, -13, -13,
-                 -13, -13, -13, -13, -13, -14, -15},
+        -13, -13, -13, -13, -13, -14, -15},
     ["tar"] = {-2, -2, -3, -3, -6, -6, -9, -9, -13,
-    -13, -13, -13, -13, -13, -14, -15},
+        -13, -13, -13, -13, -13, -14, -15},
     ["ale"] = {-2, -2, -3, -3, -6, -6, -9, -9, -13,
-    -13, -13, -13, -13, -13, -14, -15},
+        -13, -13, -13, -13, -13, -14, -15},
     ["hop"] = {-2, -2, -3, -3, -6, -6, -9, -9, -13,
-    -13, -13, -13, -13, -13, -14, -15}
+        -13, -13, -13, -13, -13, -14, -15}
 }
 
 local maxQuantity = {
@@ -91,13 +91,11 @@ function StockpileAlias:initialize(tile, gx, gy, parent, offsetY, offsetX, notWa
     end
     Structure.render(self)
 end
-function StockpileAlias:onClick()
-    local ActionBar = require("states.ui.ActionBar")
-    ActionBar:switchMode("stockpile")
-end
+
 function StockpileAlias:render()
     Structure.render(self)
 end
+
 function StockpileAlias:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -113,6 +111,7 @@ function StockpileAlias:serialize()
     data.offsetY = self.offsetY
     return data
 end
+
 function StockpileAlias.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -146,7 +145,7 @@ function Stockpile:initialize(gx, gy, type)
         end
         local stp = StockpileAlias:new(
             quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self, -self.offsetY + 8 * (tiles - tile + 1), nil,
-                notWalkable)
+            notWalkable)
         stp.tileKey = tile
     end
 
@@ -226,28 +225,29 @@ function Stockpile:initialize(gx, gy, type)
     self.stockpile[4].id = StockpileAlias:new(tileQuads["empty"], self.gx + 4, self.gy + 4, self, 32 - 4, -16)
     table.insert(
         _G.stockpile.nodeList, {
-            gx = self.gx + 2,
-            gy = self.gy + 5
-        })
+        gx = self.gx + 2,
+        gy = self.gy + 5
+    })
     table.insert(
         _G.stockpile.nodeList, {
-            gx = self.gx - 1,
-            gy = self.gy + 2
-        })
+        gx = self.gx - 1,
+        gy = self.gy + 2
+    })
     table.insert(
         _G.stockpile.nodeList, {
-            gx = self.gx + 2,
-            gy = self.gy - 1
-        })
+        gx = self.gx + 2,
+        gy = self.gy - 1
+    })
     table.insert(
         _G.stockpile.nodeList, {
-            gx = self.gx + 5,
-            gy = self.gy + 2
-        })
+        gx = self.gx + 5,
+        gy = self.gy + 2
+    })
 
     _G.stockpile.list[(#_G.stockpile.list or 0) + 1] = self
     Structure.render(self)
 end
+
 function Stockpile:onClick()
     local ActionBar = require("states.ui.ActionBar")
     ActionBar:switchMode("stockpile")
@@ -286,6 +286,7 @@ function Stockpile:store(resource)
         return true
     end
 end
+
 function Stockpile:take(resource, from)
     if from.type == resource and from.quantity > 0 then
         if from.quantity == maxQuantity[resource] then
@@ -306,6 +307,7 @@ function Stockpile:take(resource, from)
     end
     return false
 end
+
 function Stockpile:updateStockpile(index)
     local pile
     if type(index) ~= "number" then
@@ -339,30 +341,31 @@ function Stockpile:updateStockpile(index)
     end
     actionBar:updateStockpileResourcesCount()
 end
+
 function Stockpile:load(data)
     Object.deserialize(self, data)
     Structure.load(self, data)
     -- TODO: Check if node list is free before assigning it
     table.insert(
         _G.stockpile.nodeList, {
-            gx = self.gx + 2,
-            gy = self.gy + 5
-        })
+        gx = self.gx + 2,
+        gy = self.gy + 5
+    })
     table.insert(
         _G.stockpile.nodeList, {
-            gx = self.gx - 1,
-            gy = self.gy + 2
-        })
+        gx = self.gx - 1,
+        gy = self.gy + 2
+    })
     table.insert(
         _G.stockpile.nodeList, {
-            gx = self.gx + 2,
-            gy = self.gy - 1
-        })
+        gx = self.gx + 2,
+        gy = self.gy - 1
+    })
     table.insert(
         _G.stockpile.nodeList, {
-            gx = self.gx + 5,
-            gy = self.gy + 2
-        })
+        gx = self.gx + 5,
+        gy = self.gy + 2
+    })
     self.stockpile = {}
     self.stockpile[1] = {
         id = nil,
@@ -423,6 +426,7 @@ function Stockpile:load(data)
         self:updateStockpile(idx)
     end
 end
+
 function Stockpile:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -447,6 +451,7 @@ function Stockpile:serialize()
     end
     return data
 end
+
 function Stockpile.static:deserialize(data)
     local obj = self:allocate()
     obj:load(data)
