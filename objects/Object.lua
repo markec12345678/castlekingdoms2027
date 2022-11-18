@@ -49,7 +49,7 @@ function Object:render()
             self.vertId = newVert
             self.lastI, self.lastO = self.i, self.o
         else
-            error("Object did not receive Vertex for rendering, it should be of highest priority:" .. tostring(self))
+            error("Object did not receive Vertex for rendering, it should be of highest priority:" .. tostring(self) .. "\n coordinates: " .. tostring(self.gx) .. ", " .. tostring(self.gy))
         end
         self.instancemesh = _G.state.objectMesh[self.cx][self.cy]
         self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, self.shadowValue)

@@ -51,6 +51,7 @@ function Rock.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
     obj.tile = tileQuads[data.tileKey]
+    obj:shadeFromTerrain()
     Structure.render(obj)
     _G.addObjectAt(obj.cx, obj.cy, obj.i, obj.o, obj)
     return obj
