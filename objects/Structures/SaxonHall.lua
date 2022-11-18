@@ -84,6 +84,10 @@ function SaxonHall:initialize(gx, gy, type)
     end
     Structure.render(self)
 end
+function SaxonHall:onClick()
+    local ActionBar = require("states.ui.ActionBar")
+    ActionBar:switchMode("keep_tax")
+end
 function SaxonHall.static:deserialize(data)
     local obj = self:new(data.gx, data.gy, data.type)
     Object.deserialize(obj, data)
