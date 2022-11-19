@@ -43,10 +43,33 @@ woodenTowerButton:setOnClick(
     end)
 woodenTowerButton:setTooltip("Wooden Tower", "A wooden tower that is missing some stairs apparently")
 
+local woodenGateEastButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_gate_east.png"), states.STATE_INGAME_CONSTRUCTION, 4, false, nil)
+woodenGateEastButton:setOnClick(
+    function(self)
+        _G.BuildController:set(
+            "wooden_gate_east", function()
+            woodenGateEastButton:unselect()
+        end)
+        ActionBar:selectButton(woodenGateEastButton)
+    end)
+woodenGateEastButton:setTooltip("Wooden Gate", "A wooden gate that can let friendly units pass through")
+
+
+local woodenGateSouthButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_gate_south.png"), states.STATE_INGAME_CONSTRUCTION, 5, false, nil)
+woodenGateSouthButton:setOnClick(
+    function(self)
+        _G.BuildController:set(
+            "wooden_gate_south", function()
+            woodenGateSouthButton:unselect()
+        end)
+        ActionBar:selectButton(woodenGateSouthButton)
+    end)
+woodenGateSouthButton:setTooltip("Wooden Gate", "A wooden gate that can let friendly units pass through")
+
 
 el.buttons.castleButton:setOnClick(
     function(self)
         ActionBar:showGroup("castle")
     end)
 
-ActionBar:registerGroup("castle", {castleButton, woodenWallButton, woodenTowerButton, backButton, destroyButton})
+ActionBar:registerGroup("castle", {castleButton, woodenWallButton, woodenTowerButton, woodenGateEastButton, woodenGateSouthButton, backButton, destroyButton})

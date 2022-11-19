@@ -90,7 +90,7 @@ function DebugView:update()
         self.FY = IsoToScreenY(LX, LY) - _G.state.viewYview - ((IsoToScreenY(LX, LY)) - _G.state.viewYview) *
             (1 - _G.state.scaleX)
         -- No point to flush the batch everytime, only do it when the position changes
-        if self.previousGx ~= self.gx or self.previousGx ~= self.gy then
+        if self.previousGx ~= self.gx or self.previousGy ~= self.gy then
             self.batch:clear()
             for xx = 0, self.width - 1 do
                 for yy = 0, self.height - 1 do

@@ -33,7 +33,7 @@ function ActionBar:initialize()
         width = (1053 - 1020) * scale,
         height = (163 - 145) * scale
     }
-    local frGold= {
+    local frGold = {
         x = element:GetX() - element:GetOffsetX() * scale + 1019 * scale,
         y = element:GetY() - element:GetOffsetY() * scale + 130 * scale,
         width = (1053 - 1020) * scale,
@@ -62,6 +62,8 @@ end
 
 function ActionBar:switchMode(mode)
     self:unselectAll()
+    _G.BuildController.active = false
+    _G.DestructionController.active = false
     if mode == "granary" then
         self:showGroup("granary")
         loveframes.SetState(states.STATE_GRANARY)
@@ -123,6 +125,7 @@ function ActionBar:updatePopulationCount()
         color = color
     }, _G.state.population .. "/" .. _G.state.maxPopulation})
 end
+
 function ActionBar:updateGoldCount()
     local color = {176 / 255, 136 / 255, 80 / 255, 1}
     self.goldText:SetText({{

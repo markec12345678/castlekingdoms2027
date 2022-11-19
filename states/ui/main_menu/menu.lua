@@ -8,22 +8,16 @@ local w, h = base.w, base.h
 local MENU_SCALE = 50
 local backgroundImage = love.graphics.newImage("assets/ui/menu_flag.png")
 
-local menuBg = loveframes.Create("image")
-menuBg:SetState(states.STATE_MAIN_MENU)
-menuBg:SetImage(backgroundImage)
-menuBg:SetOffsetX(menuBg:GetImageWidth() / 2)
 local scale = (h.percent[MENU_SCALE]) / backgroundImage:getHeight()
-menuBg:SetScale(scale, scale)
-menuBg:SetPos(w.percent[50], 146 * scale)
 local SPACING = 20 * scale
 
 local offsetX, offsetY = 76, 130
 local paddingRight, paddingBottom = 70, 150
 local frMenu = {
-    x = offsetX * scale + menuBg.x - (menuBg:GetImageWidth() / 2) * scale,
-    y = offsetY * scale + menuBg.y,
-    width = menuBg:GetImageWidth() * scale - offsetX * scale - paddingRight * scale,
-    height = menuBg:GetImageHeight() * scale - offsetY * scale - paddingBottom * scale
+    x = offsetX * scale + w.percent[50] - (backgroundImage:getWidth() / 2) * scale,
+    y = offsetY * scale + 720 * scale,
+    width = backgroundImage:getWidth() * scale - offsetX * scale - paddingRight * scale,
+    height = backgroundImage:getHeight() * scale - offsetY * scale - paddingBottom * scale
 }
 
 local newGameImage = love.graphics.newImage("assets/ui/button_new_game.png")
