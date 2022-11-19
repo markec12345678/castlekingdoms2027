@@ -27,9 +27,9 @@ function ActionBar:initialize()
     local scale = math.min(scale_1, scale_2)
     element:SetScale(scale, scale)
     element:SetPos(w.percent[50], h.percent[100] - element:GetImageHeight() * element:GetScaleY())
-    local frPopulation = {
-        x = element:GetX() - element:GetOffsetX() * scale + 1017 * scale,
-        y = element:GetY() - element:GetOffsetY() * scale + 144 * scale,
+    local frPopularity = {
+        x = element:GetX() - element:GetOffsetX() * scale + 1039 * scale,
+        y = element:GetY() - element:GetOffsetY() * scale + 110 * scale,
         width = (1053 - 1020) * scale,
         height = (163 - 145) * scale
     }
@@ -39,14 +39,20 @@ function ActionBar:initialize()
         width = (1053 - 1020) * scale,
         height = (163 - 145) * scale
     }
-    local populationText = loveframes.Create("text")
-    self.populationText = populationText
-    populationText:SetState(states.STATE_INGAME_CONSTRUCTION)
-    populationText:SetFont(loveframes.font_vera_italic_large)
-    populationText:SetPos(frPopulation.x, frPopulation.y)
-    populationText:SetText("")
-    populationText:SetShadowColor(240 / 255, 240 / 255, 224 / 255)
-    populationText:SetShadow(true)
+    local frPopulation = {
+        x = element:GetX() - element:GetOffsetX() * scale + 1017 * scale,
+        y = element:GetY() - element:GetOffsetY() * scale + 144 * scale,
+        width = (1053 - 1020) * scale,
+        height = (163 - 145) * scale
+    }
+    local popularityText = loveframes.Create("text")
+    self.popularityText = popularityText
+    popularityText:SetState(states.STATE_INGAME_CONSTRUCTION)
+    popularityText:SetFont(loveframes.font_immortal_large)
+    popularityText:SetPos(frPopularity.x, frPopularity.y)
+    popularityText:SetText("")
+    popularityText:SetShadowColor(0, 0, 0)
+    popularityText:SetShadow(true)
     local goldText = loveframes.Create("text")
     self.goldText = goldText
     goldText:SetState(states.STATE_INGAME_CONSTRUCTION)
@@ -55,6 +61,14 @@ function ActionBar:initialize()
     goldText:SetText("")
     goldText:SetShadowColor(240 / 255, 240 / 255, 224 / 255)
     goldText:SetShadow(true)
+    local populationText = loveframes.Create("text")
+    self.populationText = populationText
+    populationText:SetState(states.STATE_INGAME_CONSTRUCTION)
+    populationText:SetFont(loveframes.font_vera_italic_large)
+    populationText:SetPos(frPopulation.x, frPopulation.y)
+    populationText:SetText("")
+    populationText:SetShadowColor(240 / 255, 240 / 255, 224 / 255)
+    populationText:SetShadow(true)
     self.element = element
     self.groups = {}
     self.currentGroup = "main"
@@ -67,6 +81,7 @@ function ActionBar:switchMode(mode)
     if mode == "granary" then
         self:showGroup("granary")
         loveframes.SetState(states.STATE_GRANARY)
+        self.popularityText:SetState(states.STATE_GRANARY)
         self.populationText:SetState(states.STATE_GRANARY)
         self.goldText:SetState(states.STATE_GRANARY)
         self.element:SetState(states.STATE_GRANARY)
@@ -74,6 +89,7 @@ function ActionBar:switchMode(mode)
     elseif mode == "stockpile" then
         self:showGroup("stockpile")
         loveframes.SetState(states.STATE_STOCKPILE)
+        self.popularityText:SetState(states.STATE_STOCKPILE)
         self.populationText:SetState(states.STATE_STOCKPILE)
         self.goldText:SetState(states.STATE_STOCKPILE)
         self.element:SetState(states.STATE_STOCKPILE)
@@ -81,6 +97,7 @@ function ActionBar:switchMode(mode)
     elseif mode == "house" then
         self:showGroup("house")
         loveframes.SetState(states.STATE_HOUSE)
+        self.popularityText:SetState(states.STATE_HOUSE)
         self.populationText:SetState(states.STATE_HOUSE)
         self.goldText:SetState(states.STATE_HOUSE)
         self.element:SetState(states.STATE_HOUSE)
@@ -88,6 +105,7 @@ function ActionBar:switchMode(mode)
     elseif mode == "market" then
         self:showGroup("market")
         loveframes.SetState(states.STATE_MARKET_MAIN)
+        self.popularityText:SetState(states.STATE_MARKET_MAIN)
         self.populationText:SetState(states.STATE_MARKET_MAIN)
         self.goldText:SetState(states.STATE_MARKET_MAIN)
         self.element:SetState(states.STATE_MARKET_MAIN)
@@ -95,6 +113,7 @@ function ActionBar:switchMode(mode)
     elseif mode == "market_trade" then
         self:showGroup("market_trade")
         loveframes.SetState(states.STATE_MARKET)
+        self.popularityText:SetState(states.STATE_MARKET)
         self.populationText:SetState(states.STATE_MARKET)
         self.goldText:SetState(states.STATE_MARKET)
         self.element:SetState(states.STATE_MARKET)
@@ -102,6 +121,7 @@ function ActionBar:switchMode(mode)
     elseif mode == "keep_tax" then
         self:showGroup("keep_tax")
         loveframes.SetState(states.STATE_KEEP_TAX)
+        self.popularityText:SetState(states.STATE_KEEP_TAX)
         self.populationText:SetState(states.STATE_KEEP_TAX)
         self.goldText:SetState(states.STATE_KEEP_TAX)
         self.element:SetState(states.STATE_KEEP_TAX)
@@ -109,6 +129,7 @@ function ActionBar:switchMode(mode)
     else
         self:showGroup("main")
         loveframes.SetState(states.STATE_INGAME_CONSTRUCTION)
+        self.popularityText:SetState(states.STATE_INGAME_CONSTRUCTION)
         self.populationText:SetState(states.STATE_INGAME_CONSTRUCTION)
         self.goldText:SetState(states.STATE_INGAME_CONSTRUCTION)
         self.element:SetState(states.STATE_INGAME_CONSTRUCTION)
@@ -116,6 +137,31 @@ function ActionBar:switchMode(mode)
     end
 end
 
+function ActionBar:updatePopularityCount()
+
+    local color
+    if _G.state.popularity == nil then
+        return;
+    end;
+
+    if _G.state.popularity == 50 then
+        color = {176 / 255, 136 / 255, 80 / 255, 1}
+    elseif _G.state.popularity > 50 then
+        color = {130 / 255, 220 / 255, 123 / 255, 1}
+    else
+        color = {200 / 255, 90 / 255, 90 / 255, 1}
+    end
+
+        self.popularityText:SetText({{
+            color = color
+        }, _G.state.popularity})
+end
+function ActionBar:updateGoldCount()
+    local color = {176 / 255, 136 / 255, 80 / 255, 1}
+    self.goldText:SetText({{
+        color = color
+    }, _G.state.gold})
+end
 function ActionBar:updatePopulationCount()
     local color = {176 / 255, 136 / 255, 80 / 255, 1}
     if _G.state.population == _G.state.maxPopulation then
@@ -124,13 +170,6 @@ function ActionBar:updatePopulationCount()
     self.populationText:SetText({{
         color = color
     }, _G.state.population .. "/" .. _G.state.maxPopulation})
-end
-
-function ActionBar:updateGoldCount()
-    local color = {176 / 255, 136 / 255, 80 / 255, 1}
-    self.goldText:SetText({{
-        color = color
-    }, _G.state.gold})
 end
 
 function ActionBar:activateButton(position)

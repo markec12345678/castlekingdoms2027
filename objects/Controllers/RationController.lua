@@ -7,11 +7,36 @@ RationController.static.RATION_LEVELS = {
     ExtraRations = 1.5,
     LargeRations = 2
 }
+RationController.static.MOOD_LEVELS = {
+    NoRationsMood = -8,
+    SmallRationsMood = -4,
+    NormalRationsMood = 0,
+    ExtraRationsMood = 4,
+    LargeRationsMood = 8
+}
 RationController.static.RATION_INTERVAL = 3000
 function RationController:initialize()
     self.rationLevel = self.class.RATION_LEVELS.NormalRations
     self.timer = 0
+    self.moodFoodFactor = self.class.MOOD_LEVELS.NormalRationsMood
     self.granaries = {}
+end
+
+function RationController:serialize()
+    local data = {}
+
+    data.rationLevel = self.rationLevel
+    data.timer = self.timer
+    data.moodFoodFactor = self.moodFoodFactor
+    data.granaries = self.granaries
+
+    return data
+end
+
+function RationController:deserialize(data)
+    for k, v in pairs(data) do
+        self[k] = v
+    end
 end
 
 function RationController:setRationLevel(level)
@@ -20,6 +45,14 @@ end
 
 function RationController:getRationLevel()
     return self.rationLevel
+end
+
+function RationController:setMoodLevel(level)
+    self.moodFoodFactor = self.class.MOOD_LEVELS[level]
+end
+
+function RationController:getMoodLevel()
+    return self.moodFoodFactor
 end
 
 -- Returns how much food will be taken at next ration handout
@@ -43,7 +76,6 @@ function RationController:update()
         self.timer = 0
     end
     for granary, timeLeft in pairs(self.granaries) do
-        print(timeLeft, timeLeft - love.timer.getDelta())
         self.granaries[granary] = timeLeft - love.timer.getDelta()
         if self.granaries[granary] <= 0 then
             granary:exitHover(true)

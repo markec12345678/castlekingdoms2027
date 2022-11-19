@@ -32,6 +32,7 @@ local function delayedInit()
     _G.DestructionController = require("objects.Controllers.DestructionController"):new()
     _G.RationController = require("objects.Controllers.RationController")
     _G.TaxController = require("objects.Controllers.TaxController")
+    _G.PopularityController = require("objects.Controllers.PopularityController")
     _G.BuildController = love.filesystem.load("objects/Controllers/BuildController.lua")(
         package.loaded["objects.objects"].object, objectAtlas)
     _G.JobController = require("objects.Controllers.JobController")
@@ -76,6 +77,7 @@ local function delayedInit()
     assert(not error, error)
     loveframes.SetState(states.STATE_INGAME_CONSTRUCTION)
     ActionBar:updateGoldCount()
+    ActionBar:updatePopularityCount()
     _G.loaded = true
     if _G.state.newGame then
         _G.playSpeech("place_a_keep")
@@ -107,6 +109,7 @@ function game:update(dt)
             _G.BrushController:update()
             _G.RationController:update()
             _G.TaxController:update()
+            _G.PopularityController:update()
         end
         prof.push("ui")
         loveframes.update()

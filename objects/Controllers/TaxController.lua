@@ -18,6 +18,7 @@ function TaxController:initialize()
     self.timer = 0
     self.taxText = "No Tax"
     self.goldFactor = 0
+    self.moodFactor = 0
     self.taxOption = 4
 end
 
@@ -28,6 +29,7 @@ function TaxController:serialize()
     data.timer = self.timer
     data.taxText = self.taxText
     data.goldFactor = self.goldFactor
+    data.moodFactor = self.moodFactor
     data.taxOption = self.taxOption
 
     return data
@@ -57,6 +59,10 @@ end
 -- Returns progress to next tax handout
 function TaxController:getTaxProgress()
     return math.round((self.timer * 100) / self.class.TAX_INTERVAL, 2)
+end
+
+function TaxController:getMoodFactor()
+    return self.moodFactor
 end
 
 function TaxController:update()
