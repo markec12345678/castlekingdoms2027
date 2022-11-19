@@ -2,6 +2,7 @@ local _, objectAtlas = ...
 
 local tileQuads = require("objects.object_quads")
 local WoodenWall = require("objects.Structures.WoodenWall")
+local WalkableWoodenWall = require("objects.Structures.WalkableWoodenWall")
 local WoodenTower = require("objects.Structures.WoodenTower")
 local image = love.graphics.newImage("assets/tiles/info_tiles_strip.png")
 local ActionBar = require("states.ui.ActionBar")
@@ -270,6 +271,22 @@ local building = {
             return true
         end
     },
+    ["walkable_wooden_wall"] = {
+        quad = tileQuads["wood_wall_walkable"],
+        offsetX = 0,
+        offsetY = 112 - 44,
+        w = 1,
+        h = 1,
+        cost = {
+            ["wood"] = 1
+        },
+        build = function(self, gx, gy)
+            WalkableWoodenWall:new(gx, gy)
+        end,
+        specialRequirements = function(self, _, _)
+            return true
+        end
+    },
     ["wooden_tower"] = {
         quad = tileQuads["wood_tower"],
         offsetX = 16,
@@ -316,7 +333,8 @@ local building = {
             for xx = 0, self.width - 1 do
                 for yy = 0, self.height - 1 do
                     local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
-                    if _G.importantObjectAt(ccx, ccy, xxx, yyy) and not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WoodenWall") then
+                    if _G.importantObjectAt(ccx, ccy, xxx, yyy) and not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WoodenWall") and
+                        not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WalkableWoodenWall") then
                         self.canBuild = false
                     end
                     if firstTerrainHeight ~= (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 then
@@ -399,7 +417,8 @@ local building = {
             for xx = 0, self.width - 1 do
                 for yy = 0, self.height - 1 do
                     local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
-                    if _G.importantObjectAt(ccx, ccy, xxx, yyy) and not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WoodenWall") then
+                    if _G.importantObjectAt(ccx, ccy, xxx, yyy) and not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WoodenWall") and
+                        not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WalkableWoodenWall") then
                         self.canBuild = false
                     end
                     if firstTerrainHeight ~= (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 then
@@ -674,6 +693,11 @@ function BuildController:set(type, callback)
     if not building[type] then
         error("want to build an unknown building: " .. tostring(type))
     end
+    if type == "walkable_wooden_wall" then
+        WallController:setWalkableWall()
+    elseif type == "wooden_wall" then
+        WallController:setWoodenWall()
+    end
     self.onBuildCallback = callback
     self.building = type
     self.width, self.height = building[type].w, building[type].h
@@ -782,7 +806,7 @@ function BuildController:mousepressed(x, y)
             end
         end
         self.firstTerrainHeight = nil
-        if self.building == 'wooden_wall' then
+        if self.building == "wooden_wall" or self.building == "walkable_wooden_wall" then
             return WallController:build()
         end
         return self:build(self.gx, self.gy)
@@ -890,7 +914,7 @@ end
 
 function BuildController:draw()
     if self.active then
-        if self.building == "wooden_wall" and WallController.clicked then
+        if (self.building == "wooden_wall" or self.building == "walkable_wooden_wall") and WallController.clicked then
             WallController:draw()
         else
             love.graphics.setColor(1, 1, 1, 0.5)

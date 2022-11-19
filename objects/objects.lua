@@ -80,7 +80,7 @@ local Bakery = love.filesystem.load("objects/Structures/Bakery.lua")(activeEntit
 local House = love.filesystem.load("objects/Structures/House.lua")(activeEntities, object, tileQuads, objectBatch)
 local WoodenWall = love.filesystem.load("objects/Structures/WoodenWall.lua")(activeEntities, object, tileQuads,
     objectBatch)
-local WoodenWallWalkable = love.filesystem.load("objects/Structures/WoodenWallWalkable.lua")(activeEntities, object,
+local WoodenWallWalkable = love.filesystem.load("objects/Structures/WalkableWoodenWall.lua")(activeEntities, object,
     tileQuads, objectBatch)
 local WoodenTower = love.filesystem.load("objects/Structures/WoodenTower.lua")(activeEntities, object, tileQuads,
     objectBatch)
@@ -121,7 +121,7 @@ package.loaded["objects.Structures.Windmill"] = Windmill
 package.loaded["objects.Structures.Bakery"] = Bakery
 package.loaded["objects.Structures.House"] = House
 package.loaded["objects.Structures.WoodenWall"] = WoodenWall
-package.loaded["objects.Structures.WoodenWallWalkable"] = WoodenWallWalkable
+package.loaded["objects.Structures.WalkableWoodenWall"] = WoodenWallWalkable
 package.loaded["objects.Structures.WoodenTower"] = WoodenTower
 package.loaded["objects.Structures.Campfire"] = Campfire
 package.loaded["objects.Structures.Orchard"] = Orchard

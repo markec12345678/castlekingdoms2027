@@ -32,7 +32,23 @@ woodenWallButton:setOnUnselect(function()
 end)
 
 
-local woodenTowerButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_tower.png"), states.STATE_INGAME_CONSTRUCTION, 3, false, nil)
+local walkableWoodenWallButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_wall_walkable_ab.png"), states.STATE_INGAME_CONSTRUCTION, 3, false, nil)
+walkableWoodenWallButton:setOnClick(
+    function(self)
+        ActionBar:selectButton(walkableWoodenWallButton)
+        _G.BuildController:set(
+            "walkable_wooden_wall", function()
+            walkableWoodenWallButton:unselect()
+        end)
+    end)
+walkableWoodenWallButton:setTooltip("Walkable Wooden Wall", "A defensive wall made that is walkable on the top")
+walkableWoodenWallButton:setOnUnselect(function()
+    local WallController = require("objects.Controllers.WallController")
+    WallController.clicked = false
+end)
+
+
+local woodenTowerButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_tower.png"), states.STATE_INGAME_CONSTRUCTION, 4, false, nil)
 woodenTowerButton:setOnClick(
     function(self)
         _G.BuildController:set(
@@ -43,7 +59,7 @@ woodenTowerButton:setOnClick(
     end)
 woodenTowerButton:setTooltip("Wooden Tower", "A wooden tower that is missing some stairs apparently")
 
-local woodenGateEastButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_gate_east.png"), states.STATE_INGAME_CONSTRUCTION, 4, false, nil)
+local woodenGateEastButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_gate_east.png"), states.STATE_INGAME_CONSTRUCTION, 5, false, nil)
 woodenGateEastButton:setOnClick(
     function(self)
         _G.BuildController:set(
@@ -55,7 +71,7 @@ woodenGateEastButton:setOnClick(
 woodenGateEastButton:setTooltip("Wooden Gate", "A wooden gate that can let friendly units pass through")
 
 
-local woodenGateSouthButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_gate_south.png"), states.STATE_INGAME_CONSTRUCTION, 5, false, nil)
+local woodenGateSouthButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_gate_south.png"), states.STATE_INGAME_CONSTRUCTION, 6, false, nil)
 woodenGateSouthButton:setOnClick(
     function(self)
         _G.BuildController:set(
@@ -72,4 +88,4 @@ el.buttons.castleButton:setOnClick(
         ActionBar:showGroup("castle")
     end)
 
-ActionBar:registerGroup("castle", {castleButton, woodenWallButton, woodenTowerButton, woodenGateEastButton, woodenGateSouthButton, backButton, destroyButton})
+ActionBar:registerGroup("castle", {castleButton, woodenWallButton, walkableWoodenWallButton, woodenTowerButton, woodenGateEastButton, woodenGateSouthButton, backButton, destroyButton})

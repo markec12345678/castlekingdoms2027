@@ -1,5 +1,6 @@
 local bresenham = require('libraries.bresenham')
 local WoodenWall = require("objects.Structures.WoodenWall")
+local WalkableWoodenWall = require("objects.Structures.WalkableWoodenWall")
 local tileQuads = require("objects.object_quads")
 
 local woodIcon = love.graphics.newImage("assets/ui/goods/woodIcon.png")
@@ -7,10 +8,24 @@ local woodIcon = love.graphics.newImage("assets/ui/goods/woodIcon.png")
 local WallController = _G.class("WallController")
 function WallController:initialize()
     self.clicked = false
+    self.walkable = false
     self.lastFinalGX = nil
     self.lastFinalGY = nil
     self.buildingCount = 0
+    self.offsetY = 112
     self.quad = "tile_buildings_wood_wall (1)"
+end
+
+function WallController:setWalkableWall()
+    self.walkable = true
+    self.quad = "wood_wall_walkable"
+    self.offsetY = 112 - 44
+end
+
+function WallController:setWoodenWall()
+    self.walkable = false
+    self.quad = "tile_buildings_wood_wall (1)"
+    self.offsetY = 112
 end
 
 function WallController:build()
@@ -23,7 +38,7 @@ function WallController:build()
         local finalMX, finalMY = love.mouse.getPosition()
         local finalGX, finalGY = _G.getTerrainTileOnMouse(finalMX, finalMY)
         bresenham.los(self.initialGX, self.initialGY, finalGX, finalGY, function(gx, gy)
-            local sameWallAtPosition = _G.objectFromClassAtGlobal(gx, gy, WoodenWall)
+            local sameWallAtPosition = _G.objectFromClassAtGlobal(gx, gy, WoodenWall) or _G.objectFromClassAtGlobal(gx, gy, WalkableWoodenWall)
             if sameWallAtPosition then return true end
             if _G.importantObjectAtGlobal(gx, gy) then
                 return false
@@ -31,12 +46,22 @@ function WallController:build()
             if _G.state.map:isWaterAt(gx, gy) then
                 return false
             end
-            if _G.BuildController:isBuildingAffordable("wooden_wall") then
-                _G.BuildController:purchaseBuilding("wooden_wall")
-                WoodenWall:new(gx, gy)
-                return true
+            if self.walkable then
+                if _G.BuildController:isBuildingAffordable("walkable_wooden_wall") then
+                    _G.BuildController:purchaseBuilding("walkable_wooden_wall")
+                    WalkableWoodenWall:new(gx, gy)
+                    return true
+                else
+                    return false
+                end
             else
-                return false
+                if _G.BuildController:isBuildingAffordable("wooden_wall") then
+                    _G.BuildController:purchaseBuilding("wooden_wall")
+                    WoodenWall:new(gx, gy)
+                    return true
+                else
+                    return false
+                end
             end
         end)
     end
@@ -71,13 +96,19 @@ function WallController:draw()
         local fx = IsoToScreenX(gx, gy) - _G.state.viewXview - ((IsoToScreenX(gx, gy)) - _G.state.viewXview) * (1 - _G.state.scaleX)
         local fy = IsoToScreenY(gx, gy) - _G.state.viewYview - ((IsoToScreenY(gx, gy)) - _G.state.viewYview) * (1 - _G.state.scaleX)
         local canAfford = true
-        local sameWallAtPosition = _G.objectFromClassAtGlobal(gx, gy, WoodenWall)
+        local sameWallAtPosition = _G.objectFromClassAtGlobal(gx, gy, WoodenWall) or _G.objectFromClassAtGlobal(gx, gy, WalkableWoodenWall)
         if sameWallAtPosition then
             self.buildingCount = self.buildingCount - 1
             return true
         end
-        if not _G.BuildController:isBuildingAffordable("wooden_wall", self.buildingCount) then
-            canAfford = false
+        if self.walkable then
+            if not _G.BuildController:isBuildingAffordable("walkable_wooden_wall", self.buildingCount) then
+                canAfford = false
+            end
+        else
+            if not _G.BuildController:isBuildingAffordable("wooden_wall", self.buildingCount) then
+                canAfford = false
+            end
         end
         if _G.importantObjectAtGlobal(gx, gy) and not sameWallAtPosition then
             return false
@@ -90,7 +121,7 @@ function WallController:draw()
                 _G.objectAtlas,
                 tileQuads[self.quad],
                 fx,
-                fy + (-elevationOffsetY - 112) * _G.state.scaleX,
+                fy + (-elevationOffsetY - self.offsetY) * _G.state.scaleX,
                 0, _G.state.scaleX
             )
         else
