@@ -267,6 +267,7 @@ local function SetTax(option)
     local moodImage = moodImageMapping[option]
     _G.TaxController:setTaxLevel(TaxController.taxText)
     _G.TaxController.goldFactor = goldFactorMapping[option]
+    _G.TaxController.moodFactor = moodMapping[option]
     _G.TaxController.taxOption = option
     Pointer:SetPos(frDynamicPosition[option].x + 8 * scale, frPointer.y)
     MoodImage:SetImage(moodImage)

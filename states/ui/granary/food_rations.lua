@@ -11,6 +11,10 @@ backButton:setOnClick(function(self)
 end)
 actionBar:registerGroup("granary", {backButton})
 
+local colorRed = {200 / 255, 90 / 255, 90 / 255, 1}
+local colorWhite = {1, 1, 1, 1}
+local colorGreen = {130 / 255, 220 / 255, 123 / 255, 1}
+
 local pointerHandButtonImage1 = love.graphics.newImage("assets/ui/hand_1.png")
 local pointerHandButtonImage2 = love.graphics.newImage("assets/ui/hand_2.png")
 local pointerHandButtonImage3 = love.graphics.newImage("assets/ui/hand_3.png")
@@ -29,6 +33,38 @@ pointerHand:SetScaleX(frPointerHand.width / pointerHand:GetImageWidth())
 pointerHand:SetScaleY(pointerHand:GetScaleX())
 pointerHand:SetPos(frPointerHand.x, frPointerHand.y)
 pointerHand.disablehover = true
+
+local frText = {
+    x = framesActionBar.frFull.x + 280 * scale,
+    y = framesActionBar.frFull.y + 145 * scale,
+    width = 50 * scale,
+    height = 20 * scale
+}
+local moodFoodGui = loveframes.Create("text")
+moodFoodGui:SetState(states.STATE_GRANARY)
+moodFoodGui:SetFont(loveframes.font_immortal_large)
+moodFoodGui:SetPos(frText.x, frText.y)
+moodFoodGui:SetText({{
+    color = {1, 1, 1, 1}
+}, "0"})
+moodFoodGui:SetShadowColor(0, 0, 0, 1)
+moodFoodGui:SetShadow(true)
+
+local moodNeutralImage = love.graphics.newImage("assets/ui/keep/mood_neutral.png")
+local moodNegativeImage = love.graphics.newImage("assets/ui/keep/mood_negative.png")
+local moodPositiveImage = love.graphics.newImage("assets/ui/keep/mood_positive.png")
+local frMood = {
+    x = frText.x - moodNeutralImage:getWidth() * 1.1 * scale,
+    y = frText.y,
+    width = moodNeutralImage:getWidth() * scale,
+    height = moodNeutralImage:getHeight() * scale
+}
+local MoodImage = loveframes.Create("image")
+MoodImage:SetState(states.STATE_GRANARY)
+MoodImage:SetImage(moodNeutralImage)
+MoodImage:SetScaleX(frMood.width / MoodImage:GetImageWidth())
+MoodImage:SetScaleY(MoodImage:GetScaleX())
+MoodImage:SetPos(frMood.x, frMood.y)
 
 local noRationButtonImage = love.graphics.newImage("assets/ui/no_ration.png")
 local noRationButtonImageHover = love.graphics.newImage("assets/ui/no_ration_hover.png")
@@ -56,6 +92,11 @@ noRationButton.OnClick = function(self)
     -- TODO add sound
     pointerHand:SetImage(pointerHandButtonImage1)
     _G.RationController:setRationLevel("NoRations")
+    _G.RationController:setMoodLevel("NoRationsMood")
+    MoodImage:SetImage(moodNegativeImage)
+    moodFoodGui:SetText({{
+        color = colorRed
+    }, _G.RationController:getMoodLevel()})
 end
 noRationButton.OnMouseExit = function(self)
     self:SetImage(noRationButtonImage)
@@ -87,6 +128,11 @@ halfRationButton.OnClick = function(self)
     -- TODO add sound
     pointerHand:SetImage(pointerHandButtonImage2)
     _G.RationController:setRationLevel("SmallRations")
+    _G.RationController:setMoodLevel("SmallRationsMood")
+    MoodImage:SetImage(moodNegativeImage)
+    moodFoodGui:SetText({{
+        color = colorRed
+    }, _G.RationController:getMoodLevel()})
 end
 halfRationButton.OnMouseExit = function(self)
     self:SetImage(halfRationButtonImage)
@@ -118,6 +164,11 @@ fullRationButton.OnClick = function(self)
     -- TODO add sound
     pointerHand:SetImage(pointerHandButtonImage3)
     _G.RationController:setRationLevel("NormalRations")
+    _G.RationController:setMoodLevel("NormalRationsMood")
+    MoodImage:SetImage(moodNeutralImage)
+    moodFoodGui:SetText({{
+        colorWhite
+    }, _G.RationController:getMoodLevel()})
 end
 fullRationButton.OnMouseExit = function(self)
     self:SetImage(fullRationButtonImage)
@@ -149,6 +200,11 @@ extraRationButton.OnClick = function(self)
     -- TODO add sound
     pointerHand:SetImage(pointerHandButtonImage4)
     _G.RationController:setRationLevel("ExtraRations")
+    _G.RationController:setMoodLevel("ExtraRationsMood")
+    MoodImage:SetImage(moodPositiveImage)
+    moodFoodGui:SetText({{
+        color = colorGreen
+    }, _G.RationController:getMoodLevel()})
 end
 extraRationButton.OnMouseExit = function(self)
     self:SetImage(extraRationButtonImage)
@@ -180,6 +236,11 @@ doubleRationButton.OnClick = function(self)
     -- TODO add sound
     pointerHand:SetImage(pointerHandButtonImage5)
     _G.RationController:setRationLevel("LargeRations")
+    _G.RationController:setMoodLevel("LargeRationsMood")
+    MoodImage:SetImage(moodPositiveImage)
+    moodFoodGui:SetText({{
+        color = colorGreen
+    }, _G.RationController:getMoodLevel()})
 end
 doubleRationButton.OnMouseExit = function(self)
     self:SetImage(doubleRationButtonImage)

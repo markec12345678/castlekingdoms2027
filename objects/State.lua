@@ -23,6 +23,7 @@ function State:initialize()
     self.scaleX = 0.7
     self.viewXview = -100
     self.viewYview = 2000
+    self.popularity = 50
     self.gold = 1000
     self.population = 0
     self.maxPopulation = 5
@@ -249,6 +250,8 @@ function State:serialize()
     data.foodController = _G.foodpile:serialize()
     data.jobController = _G.JobController:serialize()
     data.taxController = _G.TaxController:serialize()
+    data.rationController = _G.RationController:serialize()
+    data.popularityController = _G.PopularityController:serialize()
     -- end
     data.verticesPerTile = self.verticesPerTile
     data.chunkObjects = self:serializeChunkObjects()
@@ -259,6 +262,8 @@ function State:serialize()
     data.serializedObjectIds = self.serializedObjectIds
     data.population = self.population
     data.maxPopulation = self.maxPopulation
+    data.popularity = self.popularity
+    data.gold = self.gold
     data.map = self.map:serialize()
     data.savename = self.savename
     return data, metadata
@@ -293,8 +298,12 @@ function State:load(filename)
         self.food = load.food
         self.notFullStockpiles = load.notFullStockpiles
         self.notFullFoods = load.notFullFoods
+        self.popularity = load.popularity
+        self.gold = load.gold
         _G.JobController:deserialize(load.jobController)
         _G.TaxController:deserialize(load.taxController)
+        _G.RationController:deserialize(load.rationController)
+        _G.PopularityController:deserialize(load.popularityController)
         _G.BuildController:deserialize(load.buildController)
         _G.foodpile:deserialize(load.foodController)
         _G.spawnPointX, _G.spawnPointY = load.spawnPointX, load.spawnPointY
