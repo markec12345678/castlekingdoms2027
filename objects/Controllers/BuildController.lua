@@ -19,6 +19,7 @@ local Bakery = require("objects.Structures.Bakery")
 local House = require("objects.Structures.House")
 local Market = require("objects.Structures.Market")
 local OxTether = require("objects.Structures.OxTether")
+local WoodenGate = require("objects.Structures.WoodenGate")
 local WallController = require("objects.Controllers.WallController")
 
 local objectFromTypeAt = _G.objectFromTypeAt
@@ -285,6 +286,172 @@ local building = {
             return true
         end
     },
+    ["wooden_gate_east"] = {
+        quad = tileQuads["wooden_gate (1)"],
+        offsetX = 16 * 3 - 16,
+        offsetY = 140 - 48 + 7,
+        w = 3,
+        h = 3,
+        cost = {
+            ["wood"] = 4
+        },
+        build = function(self, gx, gy)
+            for x = 0, 2 do
+                for y = 0, 2 do
+                    _G.DestructionController:destroyAtLocation(gx + x, gy + y)
+                end
+            end
+            WoodenGate:new(gx, gy, "east")
+        end,
+        specialRequirements = function(self, _, _)
+            return true
+        end,
+        overrideRequirements = function(this, self)
+            self.targetGX, self.targetGY = self.gx + math.floor(self.width / 2),
+                self.gy + math.floor(self.height / 2)
+            local fcx, fcy, fxx, fyy = _G.getLocalCoordinatesFromGlobal(self.targetGX, self.targetGY)
+            local firstTerrainHeight = (_G.state.map.heightmap[fcx][fcy][fxx][fyy] or 0) * 2
+            self.firstTerrainHeight = firstTerrainHeight
+            local totalTerrainDifference = 0
+            for xx = 0, self.width - 1 do
+                for yy = 0, self.height - 1 do
+                    local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
+                    if _G.importantObjectAt(ccx, ccy, xxx, yyy) and not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WoodenWall") then
+                        self.canBuild = false
+                    end
+                    if firstTerrainHeight ~= (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 then
+                        totalTerrainDifference = totalTerrainDifference +
+                            math.abs(
+                                firstTerrainHeight - (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2)
+                    end
+                    if _G.state.map:isWaterAt(self.gx + xx, self.gy + yy) then
+                        self.canBuild = false
+                    end
+                end
+            end
+            self.totalTerrainDifference = totalTerrainDifference
+            if self.totalTerrainDifference >= math.min(3 * self.width * self.height, 220) then
+                self.canBuild = false
+            end
+            if not this:specialRequirements(self.gx, self.gy) then
+                self.canBuild = false
+                self.cannotBuildBecauseSpecial = true
+            else
+                self.cannotBuildBecauseSpecial = false
+            end
+            self.batch:clear()
+            local type
+            for xx = 0, self.width - 1 do
+                for yy = 0, self.height - 1 do
+                    local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
+                    if _G.state.map:getWalkable(xx + self.gx, yy + self.gy) == 1 then
+                        if self.canBuild then
+                            type = 2
+                        else
+                            type = 3
+                        end
+                    else
+                        if self.canBuild then
+                            type = 3
+                        else
+                            type = 1
+                        end
+                    end
+                    local elevationOffsetY = (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2
+                    self.batch:add(self.quads[type], (xx - yy) * tileWidth * 0.5,
+                        (xx + yy) * tileHeight * 0.5 - elevationOffsetY, 0, 1, 1)
+                end
+            end
+            self.batch:flush()
+            self.previousGx = self.gx
+            self.previousGy = self.gy
+            self.previousCanBuild = self.canBuild
+            self.lastBuilding = self.building
+        end
+    },
+    ["wooden_gate_south"] = {
+        quad = tileQuads["wooden_gate (2)"],
+        offsetX = 16 * 3 - 16,
+        offsetY = 140 - 48,
+        w = 3,
+        h = 3,
+        cost = {
+            ["wood"] = 4
+        },
+        build = function(self, gx, gy)
+            for x = 0, 2 do
+                for y = 0, 2 do
+                    _G.DestructionController:destroyAtLocation(gx + x, gy + y)
+                end
+            end
+            WoodenGate:new(gx, gy, "south")
+        end,
+        specialRequirements = function(self, _, _)
+            return true
+        end,
+        overrideRequirements = function(this, self)
+            self.targetGX, self.targetGY = self.gx + math.floor(self.width / 2),
+                self.gy + math.floor(self.height / 2)
+            local fcx, fcy, fxx, fyy = _G.getLocalCoordinatesFromGlobal(self.targetGX, self.targetGY)
+            local firstTerrainHeight = (_G.state.map.heightmap[fcx][fcy][fxx][fyy] or 0) * 2
+            self.firstTerrainHeight = firstTerrainHeight
+            local totalTerrainDifference = 0
+            for xx = 0, self.width - 1 do
+                for yy = 0, self.height - 1 do
+                    local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
+                    if _G.importantObjectAt(ccx, ccy, xxx, yyy) and not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WoodenWall") then
+                        self.canBuild = false
+                    end
+                    if firstTerrainHeight ~= (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 then
+                        totalTerrainDifference = totalTerrainDifference +
+                            math.abs(
+                                firstTerrainHeight - (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2)
+                    end
+                    if _G.state.map:isWaterAt(self.gx + xx, self.gy + yy) then
+                        self.canBuild = false
+                    end
+                end
+            end
+            self.totalTerrainDifference = totalTerrainDifference
+            if self.totalTerrainDifference >= math.min(3 * self.width * self.height, 220) then
+                self.canBuild = false
+            end
+            if not this:specialRequirements(self.gx, self.gy) then
+                self.canBuild = false
+                self.cannotBuildBecauseSpecial = true
+            else
+                self.cannotBuildBecauseSpecial = false
+            end
+            self.batch:clear()
+            local type
+            for xx = 0, self.width - 1 do
+                for yy = 0, self.height - 1 do
+                    local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
+                    if _G.state.map:getWalkable(xx + self.gx, yy + self.gy) == 1 then
+                        if self.canBuild then
+                            type = 2
+                        else
+                            type = 3
+                        end
+                    else
+                        if self.canBuild then
+                            type = 3
+                        else
+                            type = 1
+                        end
+                    end
+                    local elevationOffsetY = (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2
+                    self.batch:add(self.quads[type], (xx - yy) * tileWidth * 0.5,
+                        (xx + yy) * tileHeight * 0.5 - elevationOffsetY, 0, 1, 1)
+                end
+            end
+            self.batch:flush()
+            self.previousGx = self.gx
+            self.previousGy = self.gy
+            self.previousCanBuild = self.canBuild
+            self.lastBuilding = self.building
+        end
+    },
     ["wheat_farm"] = {
         quad = tileQuads["farm (2)"],
         offsetX = 32,
@@ -538,7 +705,7 @@ function BuildController:update()
         self.FY = IsoToScreenY(LX, LY) - _G.state.viewYview - ((IsoToScreenY(LX, LY)) - _G.state.viewYview) *
             (1 - _G.state.scaleX)
         -- No point to flush the batch everytime
-        if self.lastBuilding ~= self.building or self.previousGx ~= self.gx or self.previousGx ~= self.gy then
+        if self.lastBuilding ~= self.building or self.previousGx ~= self.gx or self.previousGy ~= self.gy then
             self.canBuild = true
             if building[self.building].overrideRequirements then
                 building[self.building]:overrideRequirements(self)
@@ -608,7 +775,7 @@ function BuildController:update()
 end
 
 function BuildController:mousepressed(x, y)
-    if self.canBuild and self.canAfford and self.firstTerrainHeight then
+    if self.active and self.canBuild and self.canAfford and self.firstTerrainHeight then
         for xx = 0, self.width - 1 do
             for yy = 0, self.height - 1 do
                 _G.terrainSetHeight(xx + self.gx, yy + self.gy, self.firstTerrainHeight / 2)
@@ -618,8 +785,8 @@ function BuildController:mousepressed(x, y)
         if self.building == 'wooden_wall' then
             return WallController:build()
         end
+        return self:build(self.gx, self.gy)
     end
-    return self:build(self.gx, self.gy)
 end
 
 function BuildController:getWoodCost(buildingKey, amountOfBuildings)
@@ -667,6 +834,11 @@ function BuildController:build(gx, gy)
                     return true
                 end
             else
+                for xx = 0, building[self.building].w do
+                    for yy = 0, building[self.building].h do
+                        _G.removeObjectFromClassAtGlobal(gx + xx, gy + yy, "Shrub")
+                    end
+                end
                 if self.building == "saxon_hall" then
                     building[self.building]:build(gx, gy)
                     self:set("stockpile")
@@ -725,8 +897,8 @@ function BuildController:draw()
             love.graphics.draw(self.batch, self.FX, self.FY, nil, _G.state.scaleX)
             if self.canBuild then
                 love.graphics.draw(objectAtlas, building[self.building].quad,
-                    self.FX - building[self.building].offsetX * _G.state.scaleX, self.FY - self.elevationOffsetY *
-                    _G.state.scaleX - building[self.building].offsetY * _G.state.scaleX, 0, _G.state.scaleX)
+                    self.FX - (building[self.building].offsetX) * _G.state.scaleX, self.FY - self.elevationOffsetY *
+                    _G.state.scaleX - (building[self.building].offsetY) * _G.state.scaleX, 0, _G.state.scaleX)
             end
             love.graphics.setColor(1, 1, 1, 1)
         end

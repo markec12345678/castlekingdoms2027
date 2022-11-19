@@ -4,7 +4,6 @@ local Structure = _G.class("Structure", Object)
 function Structure:initialize(gx, gy, type)
     Object.initialize(self, gx, gy, type)
     _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
-    self:calculateShadowValue()
 end
 
 function Structure:destroy()
@@ -139,7 +138,7 @@ function Structure:serialize()
     return data
 end
 
-function Structure:applyBuildingHeightMap(skipNoneBiome)
+function Structure:applyBuildingHeightMap(skipNoneBiome, skipWalkable)
     for xx = 0, self.class.static.WIDTH - 1 do
         for yy = 0, self.class.static.LENGTH - 1 do
             local buildingX = self.gx + xx
@@ -149,7 +148,9 @@ function Structure:applyBuildingHeightMap(skipNoneBiome)
             end
             local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(buildingX, buildingY)
             _G.buildingheightmap[ccx][ccy][xxx][yyy] = self.class.static.HEIGHT
-            _G.state.map:setWalkable(buildingX, buildingY, 1)
+            if not skipWalkable then
+                _G.state.map:setWalkable(buildingX, buildingY, 1)
+            end
         end
     end
     self:shadeFromTerrain()

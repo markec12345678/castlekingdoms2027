@@ -529,6 +529,8 @@ local function mousepressed(x, y, button)
             structure = structure.parent or structure
             if structure.onClick and not _G.DestructionController.active and not _G.BuildController.start then
                 structure:onClick()
+            else
+                _G.BuildController:mousepressed(mx, my)
             end
         else
             _G.BuildController:mousepressed(mx, my)

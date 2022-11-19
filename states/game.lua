@@ -186,6 +186,8 @@ function game:mousepressed(x, y, button, istouch)
     if button == 2 then
         if not _G.BuildController.start then
             _G.BuildController.active = false
+            local WallController = require("objects.Controllers.WallController")
+            WallController.clicked = false
             if _G.BuildController.onBuildCallback then
                 _G.BuildController.onBuildCallback()
                 _G.BuildController.onBuildCallback = nil

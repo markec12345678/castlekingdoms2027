@@ -1,5 +1,6 @@
 local _, _, tile_quads, _ = ...
 local Structure = require("objects.Structure")
+local Object = require("objects.Object")
 
 local tiles = {tile_quads["tile_buildings_wood_wall (1)"], tile_quads["tile_buildings_wood_wall (2)"],
     tile_quads["tile_buildings_wood_wall (3)"], tile_quads["tile_buildings_wood_wall (4)"]}
@@ -20,7 +21,25 @@ function WoodenWall:initialize(gx, gy, type)
     self.offsetY = -(sh - 16)
     _G.terrainSetTileAt(self.gx, self.gy, _G.terrainBiome.dirt, _G.terrainBiome.abundant_grass)
     self:applyBuildingHeightMap()
-    self:render()
+end
+
+function WoodenWall:serialize()
+    local data = {}
+    local objectData = Structure.serialize(self)
+    for k, v in pairs(objectData) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
+    data.health = self.health
+    return data
+end
+
+function WoodenWall.static:deserialize(data)
+    local obj = self:new(data.gx, data.gy, data.type)
+    Object.deserialize(obj, data)
+    obj.health = data.health
+    return obj
 end
 
 return WoodenWall

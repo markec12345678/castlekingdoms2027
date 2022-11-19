@@ -393,6 +393,7 @@ function Granary:enterHover(induced)
     if self.class.name == "Granary" then
         for tile = 1, tiles do
             local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tiles - tile + 1), GranaryAlias)
+            if not alias then return end
             alias.tile = quadArray[tile]
             alias.tileKey = tile
             alias:render()
@@ -400,6 +401,7 @@ function Granary:enterHover(induced)
 
         for tile = 1, tiles do
             local alias = _G.objectFromClassAtGlobal(self.gx + tile, self.gy, GranaryAlias)
+            if not alias then return end
             alias.tile = quadArray[tiles + 1 + tile]
             alias.tileKey = tiles + 1 + tile
             alias:render()
