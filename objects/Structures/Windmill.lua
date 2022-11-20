@@ -54,6 +54,7 @@ function WindmillBlade:initialize(gx, gy, parent)
 
     table.insert(activeEntities, self)
 end
+
 function WindmillBlade:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -68,6 +69,7 @@ function WindmillBlade:serialize()
     data.offsetY = self.offsetY
     return data
 end
+
 function WindmillBlade.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -78,12 +80,15 @@ function WindmillBlade.static:deserialize(data)
     table.insert(activeEntities, obj)
     return obj
 end
+
 function WindmillBlade:animate(dt)
     Structure.animate(self, dt, true)
 end
+
 function WindmillBlade:activate()
     self.animation:resume()
 end
+
 function WindmillBlade:deactivate()
     self.animation:pause()
 end
@@ -105,14 +110,17 @@ function WindmillFilling:initialize(gx, gy, parent)
 
     table.insert(activeEntities, self)
 end
+
 function WindmillFilling:fillingCallback()
     self.parent.bladeShadow:showOutside()
     self.parent:sendToStockpile()
     self:deactivate()
 end
+
 function WindmillFilling:animate(dt)
     Structure.animate(self, dt, true)
 end
+
 function WindmillFilling:activate()
     self.animated = true
     self.parent.bladeShadow:showInside()
@@ -120,6 +128,7 @@ function WindmillFilling:activate()
     self.animation:resume()
     self:animate(_G.dt)
 end
+
 function WindmillFilling:deactivate()
     self.animation:pause()
     self.tile = tileQuads["empty"]
@@ -129,6 +138,7 @@ function WindmillFilling:deactivate()
     end
     self.animated = false
 end
+
 function WindmillFilling:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -143,6 +153,7 @@ function WindmillFilling:serialize()
     data.offsetY = self.offsetY
     return data
 end
+
 function WindmillFilling.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -172,6 +183,7 @@ function WindmillShadow:initialize(gx, gy, parent)
 
     table.insert(activeEntities, self)
 end
+
 function WindmillShadow:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -186,6 +198,7 @@ function WindmillShadow:serialize()
     data.offsetY = self.offsetY
     return data
 end
+
 function WindmillShadow.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -196,23 +209,28 @@ function WindmillShadow.static:deserialize(data)
     table.insert(activeEntities, obj)
     return obj
 end
+
 function WindmillShadow:animate(dt)
     Structure.animate(self, dt, true)
 end
+
 function WindmillShadow:activate()
     self.animation:resume()
 end
+
 function WindmillShadow:showInside()
     local frame = self.animation.position
     self.animation = anim.newAnimation(an[ANIM_WINDMILL_INSIDE], 0.11, nil, ANIM_WINDMILL_INSIDE)
     self.animation:gotoFrame(frame)
 end
+
 function WindmillShadow:showOutside()
     local frame = self.animation.position
     self.animation = anim.newAnimation(an[ANIM_WINDMILL_OUTSIDE], 0.11, nil, ANIM_WINDMILL_OUTSIDE)
     self.animation:gotoFrame(frame)
     self:animate()
 end
+
 function WindmillShadow:deactivate()
     self.animation:pause()
 end
@@ -227,14 +245,9 @@ function WindmillAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     self.additionalOffsetY = 0
     self.offsetX = offsetX or 0
     self.offsetY = self.additionalOffsetY - self.baseOffsetY
-    for k, v in ipairs(_G.stockpile.nodeList) do
-        if v.gx == self.gx and v.gy == self.gy then
-            table.remove(_G.stockpile.nodeList, k)
-            break
-        end
-    end
     Structure.render(self)
 end
+
 function WindmillAlias:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -250,6 +263,7 @@ function WindmillAlias:serialize()
     data.offsetY = self.offsetY
     return data
 end
+
 function WindmillAlias.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -323,14 +337,15 @@ function Windmill:initialize(gx, gy, type)
             quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile, 16)
         wnd.tileKey = tiles + 1 + tile
     end
-    
+
     WindmillAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 1, self, self.offsetX, self.offsetY)
     WindmillAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 1, self, self.offsetX, self.offsetY)
     WindmillAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 2, self, self.offsetX, self.offsetY)
-    
+
     _G.state.map:setWalkable(self.gx + 2, self.gy + 2, false)
     Structure.render(self)
 end
+
 function Windmill:destroy()
     Structure.destroy(self.blade)
     self.blade.toBeDeleted = true
@@ -348,7 +363,7 @@ function Windmill:destroy()
     if self.worker3 then
         self.worker3:die()
     end
-    
+
     _G.stockpile:store("wood")
     _G.stockpile:store("wood")
     _G.stockpile:store("wood")
@@ -389,6 +404,7 @@ function Windmill:load(data)
     self.tile = quadArray[tiles + 1]
     Structure.render(self)
 end
+
 function Windmill:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -421,11 +437,13 @@ function Windmill:serialize()
     data.fillingFlour = _G.state:serializeObject(self.fillingFlour)
     return data
 end
+
 function Windmill.static:deserialize(data)
     local obj = self:allocate()
     obj:load(data)
     return obj
 end
+
 function Windmill:join(worker)
     if self.health == -1 then
         _G.JobController:remove("Miller", self)
@@ -446,6 +464,7 @@ function Windmill:join(worker)
         self.freeSpots = self.freeSpots - 1
     end
 end
+
 function Windmill:work(worker)
     if worker.state == "Going to workplace with wheat" then
         if not self.working then
@@ -523,6 +542,7 @@ function Windmill:work(worker)
         end
     end
 end
+
 function Windmill:sendToStockpile()
     local i, o, cx, cy
     self.worker.state = "Go to stockpile"

@@ -76,7 +76,9 @@ end
 
 function ActionBar:switchMode(mode)
     self:unselectAll()
-    _G.BuildController.active = false
+    if not _G.BuildController.start then
+        _G.BuildController.active = false
+    end
     _G.DestructionController.active = false
     if mode == "granary" then
         self:showGroup("granary")
@@ -141,8 +143,8 @@ function ActionBar:updatePopularityCount()
 
     local color
     if _G.state.popularity == nil then
-        return;
-    end;
+        return
+    end
 
     if _G.state.popularity == 50 then
         color = {176 / 255, 136 / 255, 80 / 255, 1}
@@ -152,16 +154,18 @@ function ActionBar:updatePopularityCount()
         color = {200 / 255, 90 / 255, 90 / 255, 1}
     end
 
-        self.popularityText:SetText({{
-            color = color
-        }, _G.state.popularity})
+    self.popularityText:SetText({{
+        color = color
+    }, _G.state.popularity})
 end
+
 function ActionBar:updateGoldCount()
     local color = {176 / 255, 136 / 255, 80 / 255, 1}
     self.goldText:SetText({{
         color = color
     }, _G.state.gold})
 end
+
 function ActionBar:updatePopulationCount()
     local color = {176 / 255, 136 / 255, 80 / 255, 1}
     if _G.state.population == _G.state.maxPopulation then

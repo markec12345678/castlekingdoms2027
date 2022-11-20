@@ -3,15 +3,15 @@ local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local tiles, quadArray = _G.indexBuildingQuads("farm (2)")
 local farmlandTilesStage0 = {tileQuads["tile_farmland_stage_0 (1)"], tileQuads["tile_farmland_stage_0 (2)"],
-                             tileQuads["tile_farmland_stage_0 (3)"], tileQuads["tile_farmland_stage_0 (4)"]}
+    tileQuads["tile_farmland_stage_0 (3)"], tileQuads["tile_farmland_stage_0 (4)"]}
 local farmlandTilesStage1 = {tileQuads["tile_farmland_stage_1 (1)"], tileQuads["tile_farmland_stage_1 (2)"],
-                             tileQuads["tile_farmland_stage_1 (3)"], tileQuads["tile_farmland_stage_1 (4)"]}
+    tileQuads["tile_farmland_stage_1 (3)"], tileQuads["tile_farmland_stage_1 (4)"]}
 local farmlandTilesStage2 = {tileQuads["tile_farmland_stage_2 (1)"], tileQuads["tile_farmland_stage_2 (2)"],
-                             tileQuads["tile_farmland_stage_2 (3)"], tileQuads["tile_farmland_stage_2 (4)"]}
+    tileQuads["tile_farmland_stage_2 (3)"], tileQuads["tile_farmland_stage_2 (4)"]}
 local farmlandTilesStage3 = {tileQuads["tile_farmland_stage_3 (1)"], tileQuads["tile_farmland_stage_3 (2)"],
-                             tileQuads["tile_farmland_stage_3 (3)"], tileQuads["tile_farmland_stage_3 (4)"]}
+    tileQuads["tile_farmland_stage_3 (3)"], tileQuads["tile_farmland_stage_3 (4)"]}
 local farmlandTilesStage4 = {tileQuads["tile_farmland_stage_4 (1)"], tileQuads["tile_farmland_stage_4 (2)"],
-                             tileQuads["tile_farmland_stage_4 (3)"], tileQuads["tile_farmland_stage_4 (4)"]}
+    tileQuads["tile_farmland_stage_4 (3)"], tileQuads["tile_farmland_stage_4 (4)"]}
 local farmlandHayTile = tileQuads["tile_farmland_hay (1)"]
 local WheatFarmAlias = _G.class("WheatFarmAlias", Structure)
 function WheatFarmAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
@@ -23,14 +23,9 @@ function WheatFarmAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     self.additionalOffsetY = 0
     self.offsetX = offsetX or 0
     self.offsetY = self.additionalOffsetY - self.baseOffsetY
-    for k, v in ipairs(_G.stockpile.nodeList) do
-        if v.gx == self.gx and v.gy == self.gy then
-            table.remove(_G.stockpile.nodeList, k)
-            break
-        end
-    end
     Structure.render(self)
 end
+
 function WheatFarmAlias:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -47,6 +42,7 @@ function WheatFarmAlias:serialize()
     data.offsetY = self.offsetY
     return data
 end
+
 function WheatFarmAlias.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -77,16 +73,11 @@ function WheatFarmPlant:initialize(gx, gy, parent)
     self.offsetY = 0
     self.tile = tileQuads["empty"]
     self.tileKey = "empty"
-    for k, v in ipairs(_G.stockpile.nodeList) do
-        if v.gx == self.gx and v.gy == self.gy then
-            table.remove(_G.stockpile.nodeList, k)
-            break
-        end
-    end
     self.wheatMatureCounter = 0
     self.startedGrowing = false
     table.insert(activeEntities, self)
 end
+
 function WheatFarmPlant:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -106,6 +97,7 @@ function WheatFarmPlant:serialize()
     data.startedGrowing = self.startedGrowing
     return data
 end
+
 function WheatFarmPlant.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -118,12 +110,15 @@ function WheatFarmPlant.static:deserialize(data)
     table.insert(activeEntities, obj)
     return obj
 end
+
 function WheatFarmPlant:render()
     Structure.render(self)
 end
+
 function WheatFarmPlant:animate(dt)
     self:update(dt)
 end
+
 function WheatFarmPlant:update(dt)
     dt = dt or _G.dt
     if self.state > 0 and self.state < 4 and self.parent.tilesSowed == self.parent.availablePlantTiles and
@@ -140,6 +135,7 @@ function WheatFarmPlant:update(dt)
         end
     end
 end
+
 function WheatFarmPlant:takeResource()
     if self.hasWheatResource then
         self:setState(0)
@@ -148,6 +144,7 @@ function WheatFarmPlant:takeResource()
     end
     return false
 end
+
 function WheatFarmPlant:setState(state)
     state = state or self.state
     local randomTile = love.math.random(1, 4)
@@ -286,6 +283,7 @@ function WheatFarm:initialize(gx, gy, type)
     self.freeSpots = 1
     Structure.render(self)
 end
+
 function WheatFarm:destroy()
     if self.wheatWorker then
         self.wheatWorker:die()
@@ -305,6 +303,7 @@ function WheatFarm:destroy()
     _G.stockpile:store("wood")
     _G.stockpile:store("wood")
 end
+
 function WheatFarm:load(data)
     Object.deserialize(self, data)
     Structure.load(self, data)
@@ -328,6 +327,7 @@ function WheatFarm:load(data)
     end
     Structure.render(self)
 end
+
 function WheatFarm:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -366,6 +366,7 @@ function WheatFarm:serialize()
     data.landTilesRaw = landTiles
     return data
 end
+
 function WheatFarm.static:deserialize(data)
     local obj = self:allocate()
     obj:load(data)
@@ -384,6 +385,7 @@ function WheatFarm:join(worker)
         self.freeSpots = self.freeSpots - 1
     end
 end
+
 function WheatFarm:updateTiles(farmlandTiles)
     for _, tile in ipairs(farmlandTiles) do
         if tile then
@@ -402,6 +404,7 @@ function WheatFarm:updateTiles(farmlandTiles)
         end
     end
 end
+
 function WheatFarm:fillResourceTiles()
     for _, tilePair in ipairs(self.landTiles) do
         for _, tile in ipairs(tilePair) do
@@ -411,6 +414,7 @@ function WheatFarm:fillResourceTiles()
         end
     end
 end
+
 function WheatFarm:getNextResourceTile()
     for _, tilePair in ipairs(self.landTiles) do
         for _, tile in ipairs(tilePair) do
@@ -421,6 +425,7 @@ function WheatFarm:getNextResourceTile()
     end
     return false
 end
+
 function WheatFarm:work(worker)
     if self.wheatWorker == worker then
         if self.wheatWorker.state ~= "Resting" then
@@ -544,6 +549,7 @@ function WheatFarm:work(worker)
         end
     end
 end
+
 function WheatFarm:sendToStockpile()
     self.wheatWorker.state = "Go to foodpile"
     self.wheatWorker.moveDir = "none"

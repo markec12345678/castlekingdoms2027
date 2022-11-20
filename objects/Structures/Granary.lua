@@ -54,12 +54,6 @@ function GranaryAlias:initialize(tile, gx, gy, parent, offsetY, offsetX, seriali
     self.additionalOffsetY = 0
     self.offsetX = offsetX or 0
     self.offsetY = self.additionalOffsetY - self.baseOffsetY
-    for k, v in ipairs(_G.foodpile.nodeList) do
-        if v.gx == self.gx and v.gy == self.gy then
-            table.remove(_G.foodpile.nodeList, k)
-            break
-        end
-    end
     Structure.render(self)
 end
 

@@ -60,6 +60,7 @@ function QuarryLifter:initialize(gx, gy, parent)
     self.offsetY = -93
     table.insert(activeEntities, self)
 end
+
 function QuarryLifter:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -75,6 +76,7 @@ function QuarryLifter:serialize()
     data.parent = _G.state:serializeObject(self.parent)
     return data
 end
+
 function QuarryLifter.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -97,6 +99,7 @@ function QuarryLifter.static:deserialize(data)
     table.insert(activeEntities, obj)
     return obj
 end
+
 function QuarryLifter:lifterCallback_1()
     return function()
         self.parent.puller:activate()
@@ -104,41 +107,49 @@ function QuarryLifter:lifterCallback_1()
         self.animation = anim.newAnimation(an[ANIM_LIFTER_PART2], 0.10, self:lifterCallback_2(), ANIM_LIFTER_PART2)
     end
 end
+
 function QuarryLifter:lifterCallback_2()
     return function()
         self.animation = anim.newAnimation(an[ANIM_LIFTER_PART3], 0.10, self:lifterCallback_3(), ANIM_LIFTER_PART3)
     end
 end
+
 function QuarryLifter:lifterCallback_3()
     return function()
         self.animation = anim.newAnimation(an[ANIM_LIFTER_PART4], 0.10, self:lifterCallback_4(), ANIM_LIFTER_PART4)
         self.animation:pause()
     end
 end
+
 function QuarryLifter:lifterCallback_4()
     return function()
         self.animation:gotoFrame(1)
     end
 end
+
 function QuarryLifter:animate(dt)
     Structure.animate(self, dt, true)
 end
+
 function QuarryLifter:start()
     self.animated = true
     self.animation = anim.newAnimation(an[ANIM_LIFTER_PART1], 0.11, self:lifterCallback_1(), ANIM_LIFTER_PART1)
     self.animation:pause()
     self:animate()
 end
+
 function QuarryLifter:stop()
     self.animation:pause()
     self.quantity = 0
     self.animated = false
 end
+
 function QuarryLifter:activate()
     self.animated = true
     self.animation = anim.newAnimation(an[ANIM_LIFTER_PART1], 0.11, self:lifterCallback_1(), ANIM_LIFTER_PART1)
     self:animate()
 end
+
 function QuarryLifter:deactivate()
     self.animation:pause()
     self.tile = tileQuads["empty"]
@@ -162,27 +173,32 @@ function QuarryHook:initialize(gx, gy, parent)
     self.offsetY = -116
     table.insert(activeEntities, self)
 end
+
 function QuarryHook:hookCallback_1()
     return function()
         self.parent.shaper:activate()
         self.animation = anim.newAnimation(an[ANIM_HOOK_PART2], 0.12, self:hookCallback_2(), ANIM_HOOK_PART2)
     end
 end
+
 function QuarryHook:hookCallback_2()
     return function()
         self.animation = anim.newAnimation(an[ANIM_HOOK_PART1], 0.11, self:hookCallback_1(), ANIM_HOOK_PART1)
         self.animation:pause()
     end
 end
+
 function QuarryHook:animate(dt)
     Structure.animate(self, dt, true)
 end
+
 function QuarryHook:activate()
     self.animated = true
     self.animation:gotoFrame(2)
     self.animation:resume()
     self:animate()
 end
+
 function QuarryHook:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -198,6 +214,7 @@ function QuarryHook:serialize()
     data.parent = _G.state:serializeObject(self.parent)
     return data
 end
+
 function QuarryHook.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -230,6 +247,7 @@ function QuarryShaper:initialize(gx, gy, parent)
     self.offsetY = -79
     table.insert(activeEntities, self)
 end
+
 function QuarryShaper:shaperCallback()
     return function()
         self.parent.lifter:activate()
@@ -245,24 +263,29 @@ function QuarryShaper:shaperCallback()
         end
     end
 end
+
 function QuarryShaper:animate(dt)
     Structure.animate(self, dt, true)
 end
+
 function QuarryShaper:start()
     self.animated = true
     self.animation:pause()
     self:animate()
 end
+
 function QuarryShaper:stop()
     self.animation:pause()
     self.quantity = 0
     self.animated = false
 end
+
 function QuarryShaper:activate()
     self.animated = true
     self.animation:resume()
     self:animate()
 end
+
 function QuarryShaper:deactivate()
     self.animation:pause()
     self.tile = tileQuads["empty"]
@@ -272,6 +295,7 @@ function QuarryShaper:deactivate()
     end
     self.animated = false
 end
+
 function QuarryShaper:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -287,6 +311,7 @@ function QuarryShaper:serialize()
     data.parent = _G.state:serializeObject(self.parent)
     return data
 end
+
 function QuarryShaper.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -317,11 +342,13 @@ function QuarryPuller:initialize(gx, gy, parent, offsetX, offsetY)
     self.offsetY = 58 + offsetY - 32 - 16
     table.insert(activeEntities, self)
 end
+
 function QuarryPuller:pullerCallback_1()
     return function()
         self.animation = anim.newAnimation(an[ANIM_PULLER_PART2], 0.11, self:pullerCallback_2(), ANIM_PULLER_PART2)
     end
 end
+
 function QuarryPuller:pullerCallback_2()
     return function()
         self.animation = anim.newAnimation(an[ANIM_PULLER_PART1], 0.11, self:pullerCallback_1(), ANIM_PULLER_PART1)
@@ -329,24 +356,29 @@ function QuarryPuller:pullerCallback_2()
         self.animation:pause()
     end
 end
+
 function QuarryPuller:animate(dt)
     Structure.animate(self, dt, true)
 end
+
 function QuarryPuller:start()
     self.animated = true
     self.animation:pause()
     self:animate()
 end
+
 function QuarryPuller:stop()
     self.animation:pause()
     self.quantity = 0
     self.animated = false
 end
+
 function QuarryPuller:activate()
     self.animated = true
     self.animation:resume()
     self:animate()
 end
+
 function QuarryPuller:deactivate()
     self.animation:pause()
     self.quantity = 0
@@ -357,6 +389,7 @@ function QuarryPuller:deactivate()
     end
     self.animated = false
 end
+
 function QuarryPuller:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -372,6 +405,7 @@ function QuarryPuller:serialize()
     data.parent = _G.state:serializeObject(self.parent)
     return data
 end
+
 function QuarryPuller.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -405,9 +439,11 @@ function QuarryStack:initialize(gx, gy, parent)
     self.animation:pause()
     table.insert(activeEntities, self)
 end
+
 function QuarryStack:animate(dt)
     Structure.animate(self, dt, true)
 end
+
 function QuarryStack:add()
     local newQuantity = self.quantity + 1
     if newQuantity <= self.class.MAX_QUANTITY then
@@ -421,6 +457,7 @@ function QuarryStack:add()
         print("Quarry Stack is full!")
     end
 end
+
 function QuarryStack:take()
     self.quantity = self.quantity - 1
     self.parent:start()
@@ -434,12 +471,14 @@ function QuarryStack:take()
     end
     self.animation:gotoFrame(self.quantity)
 end
+
 function QuarryStack:activate()
     self.animated = true
     self.animation:gotoFrame(1)
     self.animation:pause()
     self:animate()
 end
+
 function QuarryStack:deactivate()
     self.animation:pause()
     self.tile = tileQuads["empty"]
@@ -449,6 +488,7 @@ function QuarryStack:deactivate()
     end
     self.animated = false
 end
+
 function QuarryStack:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -463,6 +503,7 @@ function QuarryStack:serialize()
     data.parent = _G.state:serializeObject(self.parent)
     return data
 end
+
 function QuarryStack.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -489,14 +530,9 @@ function QuarryAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     self.additionalOffsetY = 0
     self.offsetX = offsetX or 0
     self.offsetY = self.additionalOffsetY - self.baseOffsetY
-    for k, v in ipairs(_G.stockpile.nodeList) do
-        if v.gx == self.gx and v.gy == self.gy then
-            table.remove(_G.stockpile.nodeList, k)
-            break
-        end
-    end
     Structure.render(self)
 end
+
 function QuarryAlias:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -513,6 +549,7 @@ function QuarryAlias:serialize()
     data.parent = _G.state:serializeObject(self.parent)
     return data
 end
+
 function QuarryAlias.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -591,6 +628,7 @@ function Quarry:initialize(gx, gy)
     self:applyBuildingHeightMap()
     Structure.render(self)
 end
+
 function Quarry:scanForTether(callingTether)
     for x = self.gx - 25, self.gx + 25 do
         for y = self.gy - 25, self.gy + 25 do
@@ -602,11 +640,13 @@ function Quarry:scanForTether(callingTether)
     end
     return false
 end
+
 function Quarry:onTetherDestruction(callingTether)
     if not self:scanForTether(callingTether) then
         self.isStandalone = true
     end
 end
+
 function Quarry:destroy()
     Structure.destroy(self.stack)
     self.stack.toBeDeleted = true
@@ -654,6 +694,7 @@ function Quarry:destroy()
         _G.stockpile:store("wood")
     end
 end
+
 function Quarry:join(worker)
     if self.health == -1 then
         _G.JobController:remove("Stonemason", self)
@@ -675,6 +716,7 @@ function Quarry:join(worker)
         self.freeSpots = self.freeSpots - 1
     end
 end
+
 function Quarry:work(worker)
     if self.liftWorker == worker then
         worker.state = "Working"
@@ -709,6 +751,7 @@ function Quarry:work(worker)
         self.lifter:activate()
     end
 end
+
 function Quarry:sendToStockpile()
     if self.isStandalone then
         self.stack:take()
@@ -758,6 +801,7 @@ function Quarry:sendToStockpile()
         self.working = false
     end
 end
+
 function Quarry:start()
     if not self.working then
         self.lifter:start()
@@ -770,12 +814,14 @@ function Quarry:start()
         end
     end
 end
+
 function Quarry:stop()
     self.lifter:stop()
     self.puller:stop()
     self.shaper:stop()
     self.working = false
 end
+
 function Quarry:load(data)
     Object.deserialize(self, data)
     Structure.load(self, data)
@@ -799,6 +845,7 @@ function Quarry:load(data)
     self.tile = quadArray[tiles + 1]
     Structure.render(self)
 end
+
 function Quarry:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -824,6 +871,7 @@ function Quarry:serialize()
     end
     return data
 end
+
 function Quarry.static:deserialize(data)
     local obj = self:allocate()
     obj:load(data)

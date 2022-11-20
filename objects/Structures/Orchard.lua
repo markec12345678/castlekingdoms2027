@@ -32,12 +32,6 @@ function OrchardAlias:initialize(tile, gx, gy, parent, offsetY, offsetX, unwalka
     self.additionalOffsetY = 0
     self.offsetX = offsetX or 0
     self.offsetY = self.additionalOffsetY - self.baseOffsetY
-    for k, v in ipairs(_G.stockpile.nodeList) do
-        if v.gx == self.gx and v.gy == self.gy then
-            table.remove(_G.stockpile.nodeList, k)
-            break
-        end
-    end
     Structure.render(self)
 end
 
@@ -95,12 +89,6 @@ function OrchardTree:initialize(gx, gy, parent, offsetY, offsetX)
                     _G.buildingheightmap[ccx][ccy][xxx][yyy] = 14
                 end
             end
-        end
-    end
-    for k, v in ipairs(_G.stockpile.nodeList) do
-        if v.gx == self.gx and v.gy == self.gy then
-            table.remove(_G.stockpile.nodeList, k)
-            break
         end
     end
     if _G.state.chunkObjects[self.cx][self.cy] == nil then

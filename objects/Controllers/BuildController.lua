@@ -28,6 +28,22 @@ local chunkWidth = _G.chunkWidth
 local tileWidth, tileHeight = _G.tileWidth, _G.tileHeight
 local IsoToScreenX, IsoToScreenY = _G.IsoToScreenX, _G.IsoToScreenY
 
+local function removeWhileIterating(t, fnKeep)
+    local j, n = 1, #t
+    for i = 1, n do
+        if (fnKeep(t, i, j)) then
+            if (i ~= j) then
+                t[j] = t[i]
+                t[i] = nil
+            end
+            j = j + 1
+        else
+            t[i] = nil
+        end
+    end
+    return t
+end
+
 local building = {
     ["saxon_hall"] = {
         quad = tileQuads["small_wooden_castle (1)"],
@@ -798,6 +814,20 @@ function BuildController:update()
     end
 end
 
+-- resource nodes are nodes to which the workers can pathfind
+-- in order to drop off their resources
+function BuildController:removeResourceNodes()
+    local w, h = building[self.building].w, building[self.building].h
+    for x = 0, w - 1 do
+        for y = 0, h - 1 do
+            removeWhileIterating(_G.stockpile.nodeList, function(t, i, j)
+                local node = t[i]
+                return not (node.gx == self.gx + x and node.gy == self.gy + y)
+            end)
+        end
+    end
+end
+
 function BuildController:mousepressed(x, y)
     if self.active and self.canBuild and self.canAfford and self.firstTerrainHeight then
         for xx = 0, self.width - 1 do
@@ -809,7 +839,11 @@ function BuildController:mousepressed(x, y)
         if self.building == "wooden_wall" or self.building == "walkable_wooden_wall" then
             return WallController:build()
         end
-        return self:build(self.gx, self.gy)
+        local built = self:build(self.gx, self.gy)
+        if built then
+            self:removeResourceNodes()
+        end
+        return built
     end
 end
 
