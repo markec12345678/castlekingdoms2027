@@ -932,6 +932,11 @@ function BuildController:build(gx, gy)
                     self.active = false
                     self.start = false
                     ActionBar:showGroup("main")
+                    _G.campfireFloatPop:immigrantCallback()()
+                    _G.campfireFloatPop:immigrantCallback()()
+                    _G.campfireFloatPop:immigrantCallback()()
+                    _G.campfireFloatPop:immigrantCallback()()
+                    _G.campfireFloatPop:immigrantCallback()()
                     return true
                 end
             end

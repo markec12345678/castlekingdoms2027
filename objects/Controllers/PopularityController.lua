@@ -2,11 +2,13 @@ local actionBar = require("states.ui.ActionBar")
 local RationController = require("objects.Controllers.RationController")
 
 local PopularityController = _G.class("PopularityController")
-PopularityController.static.POPULARITY_INTERVAL = 30
+PopularityController.static.POPULARITY_INTERVAL = 3
 function PopularityController:initialize()
     self.timer = 0
     self.moodFoodFactor = RationController.moodFactor
     self.moodTaxFactor = _G.TaxController.moodFactor
+    self.speedPopModifier = 2
+    self.previousSpeedPopModifier = 2
 end
 
 function PopularityController:serialize()
@@ -26,11 +28,22 @@ function PopularityController:deserialize(data)
 end
 
 function PopularityController:update()
+    if not _G.campfireFloatPop then return end
     self.timer = self.timer + love.timer.getDelta()
     if self.timer >= self.class.POPULARITY_INTERVAL then
         _G.state.popularity = 50 + _G.TaxController:getMoodFactor() + RationController:getMoodLevel()
         self.timer = 0
         actionBar:updatePopularityCount()
+        local x = _G.state.popularity
+        if _G.state.popularity >= 50 then
+            self.speedPopModifier = ((100 - x) / 25) * ((100 - x) / 25) * ((100 - x) / 25) * 0.08 + 0.09
+        else
+            self.speedPopModifier = ((x) / 50) * ((x) / 10) * 0.08 + 0.1
+        end
+        if self.previousSpeedPopModifier ~= self.speedPopModifier then
+            _G.campfireFloatPop:updateSpeed(self.speedPopModifier)
+        end
+        self.previousSpeedPopModifier = self.speedPopModifier
     end
 end
 

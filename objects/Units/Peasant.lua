@@ -126,6 +126,7 @@ function Peasant:initialize(gx, gy, type)
     self:requestPath(campX, campY)
     self.tryTogetAJob = false
 end
+
 function Peasant:load(data)
     Object.deserialize(self, data)
     Unit.load(self, data)
@@ -150,6 +151,7 @@ function Peasant:load(data)
         self.animation:deserialize(anData)
     end
 end
+
 function Peasant:dirSubUpdate()
     if self.moveDir == "west" then
         self.animation = anim.newAnimation(an[AN_WALKING_WEST], 0.05, nil, AN_WALKING_WEST)
@@ -169,9 +171,11 @@ function Peasant:dirSubUpdate()
         self.animation = anim.newAnimation(an[AN_WALKING_NORTHEAST], 0.05, nil, AN_WALKING_NORTHEAST)
     end
 end
+
 function Peasant:jobUpdate()
     _G.removeObjectAt(self.lrcx, self.lrcy, self.lrx, self.lry, self)
 end
+
 function Peasant:getAJob()
     if self.state == "Waiting" then
         if math.floor(self.gx) == _G.spawnPointX and math.floor(self.gy) == _G.spawnPointY then
@@ -187,6 +191,7 @@ function Peasant:getAJob()
         self.tryTogetAJob = true
     end
 end
+
 function Peasant:chooseRandomIdleAnimation()
     if self.state ~= "Waiting" then
         return
@@ -255,6 +260,7 @@ function Peasant:chooseRandomIdleAnimation()
         end
     end
 end
+
 function Peasant:update()
     if self.tryToGetAJob and self.state == "Waiting" then
         self:getAJob()
@@ -289,18 +295,25 @@ function Peasant:update()
         end
     end
 end
-function Peasant:bowingJobCallback()
+
+function Peasant:remove()
     self.toBeDeleted = true
     _G.freeVertexFromTile(self.cx, self.cy, self.previousVertId)
     self.animation = nil
     _G.freeVertexFromTile(self.cx, self.cy, self.vertId)
     _G.removeObjectAt(self.cx, self.cy, self.i, self.o, self)
-    _G.JobController:addAvailableWorker()
 end
+
+function Peasant:bowingJobCallback()
+    _G.JobController:addAvailableWorker()
+    self:remove()
+end
+
 function Peasant:animate()
     self:update()
     Unit.animate(self)
 end
+
 function Peasant:serialize()
     local data = {}
     local unitData = Unit.serialize(self)
