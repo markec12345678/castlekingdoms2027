@@ -12,7 +12,7 @@ TaxController.static.TAX_LEVELS = {
     ExtortionateTaxes = 1.4,
     DownrightCruelTaxes = 1.6
 }
-TaxController.static.TAX_INTERVAL = 3000
+TaxController.static.TAX_INTERVAL = 30
 function TaxController:initialize()
     self.taxLevel = self.class.TAX_LEVELS.NoTaxes
     self.timer = 0
@@ -67,7 +67,7 @@ end
 
 function TaxController:update()
     local elements = require("states.ui.keep.keep_tax")
-    self.timer = self.timer + 1 + love.timer.getDelta()
+    self.timer = self.timer + love.timer.getDelta()
     if _G.state.gold < (math.round(_G.state.population * self.goldFactor, 0) * -1) then
         _G.TaxController:setTaxLevel("NoTaxes")
         elements.SetTax(4)

@@ -13,6 +13,14 @@ function FoodController:initialize()
     self.nodeList = {}
 end
 
+function FoodController:foodsConsumed()
+    local foods = 0
+    for _, v in pairs(self.food) do
+        if next(v) then foods = foods + 1 end
+    end
+    return foods
+end
+
 function FoodController:store(food) -- TODO add amount
     if _G.state.notFullFoods[food] < 1 then
         for _, v in ipairs(self.list) do
@@ -28,14 +36,12 @@ end
 function FoodController:take(food, amount)
     local takenFood = 0
     if not food then
-        for foodType, foodPile in pairs(self.food) do
-            for _ = 1, (amount or 1) do
+        for _ = 1, (amount or 1) do
+            for foodType, foodPile in pairs(self.food) do
                 if takenFood == amount then
                     return
                 end
-                if next(foodPile) == nil then
-                    break
-                else
+                if next(foodPile) ~= nil then
                     takenFood = takenFood + 1
                     foodPile[#foodPile].id.parent:take(foodType, foodPile[#foodPile])
                 end

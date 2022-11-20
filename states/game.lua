@@ -12,6 +12,8 @@ local loadState, progress = 1, 15
 local SaveManager = require("objects.Controllers.SaveManager")
 local savegame
 local playlist = require("sounds.music_playlist")
+local RationController
+
 
 local function updateProgress(prgs, lState)
     progress = prgs or progress
@@ -30,7 +32,7 @@ local function delayedInit()
     updateProgress(30)
     _G.BrushController = require("objects.Controllers.BrushController")
     _G.DestructionController = require("objects.Controllers.DestructionController"):new()
-    _G.RationController = require("objects.Controllers.RationController")
+    RationController = require("objects.Controllers.RationController")
     _G.TaxController = require("objects.Controllers.TaxController")
     _G.PopularityController = require("objects.Controllers.PopularityController")
     _G.BuildController = love.filesystem.load("objects/Controllers/BuildController.lua")(
@@ -107,7 +109,7 @@ function game:update(dt)
             prof.pop("bcontr")
             _G.DebugView:update()
             _G.BrushController:update()
-            _G.RationController:update()
+            RationController:update()
             _G.TaxController:update()
             _G.PopularityController:update()
         end

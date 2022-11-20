@@ -50,6 +50,18 @@ function WallController:build()
                 if _G.BuildController:isBuildingAffordable("walkable_wooden_wall") then
                     _G.BuildController:purchaseBuilding("walkable_wooden_wall")
                     WalkableWoodenWall:new(gx, gy)
+                    for k, v in ipairs(_G.stockpile.nodeList) do
+                        if v.gx == gx and v.gy == gy then
+                            table.remove(_G.stockpile.nodeList, k)
+                            break
+                        end
+                    end
+                    for k, v in ipairs(_G.foodpile.nodeList) do
+                        if v.gx == gx and v.gy == gy then
+                            table.remove(_G.foodpile.nodeList, k)
+                            break
+                        end
+                    end
                     return true
                 else
                     return false
@@ -58,6 +70,18 @@ function WallController:build()
                 if _G.BuildController:isBuildingAffordable("wooden_wall") then
                     _G.BuildController:purchaseBuilding("wooden_wall")
                     WoodenWall:new(gx, gy)
+                    for k, v in ipairs(_G.stockpile.nodeList) do
+                        if v.gx == gx and v.gy == gy then
+                            table.remove(_G.stockpile.nodeList, k)
+                            break
+                        end
+                    end
+                    for k, v in ipairs(_G.foodpile.nodeList) do
+                        if v.gx == gx and v.gy == gy then
+                            table.remove(_G.foodpile.nodeList, k)
+                            break
+                        end
+                    end
                     return true
                 else
                     return false

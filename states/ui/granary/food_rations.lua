@@ -65,6 +65,17 @@ MoodImage:SetImage(moodNeutralImage)
 MoodImage:SetScaleX(frMood.width / MoodImage:GetImageWidth())
 MoodImage:SetScaleY(MoodImage:GetScaleX())
 MoodImage:SetPos(frMood.x, frMood.y)
+function MoodImage:SetPositiveMood()
+    self:SetImage(moodPositiveImage)
+end
+
+function MoodImage:SetNegativeMood()
+    self:SetImage(moodNegativeImage)
+end
+
+function MoodImage:SetNeutralMood()
+    self:SetImage(moodNeutralImage)
+end
 
 local noRationButtonImage = love.graphics.newImage("assets/ui/no_ration.png")
 local noRationButtonImageHover = love.graphics.newImage("assets/ui/no_ration_hover.png")
@@ -91,12 +102,8 @@ end
 noRationButton.OnClick = function(self)
     -- TODO add sound
     pointerHand:SetImage(pointerHandButtonImage1)
-    _G.RationController:setRationLevel("NoRations")
-    _G.RationController:setMoodLevel("NoRationsMood")
-    MoodImage:SetImage(moodNegativeImage)
-    moodFoodGui:SetText({{
-        color = colorRed
-    }, _G.RationController:getMoodLevel()})
+    local RationController = require("objects.Controllers.RationController")
+    RationController:setRationLevel("NoRations")
 end
 noRationButton.OnMouseExit = function(self)
     self:SetImage(noRationButtonImage)
@@ -127,12 +134,8 @@ end
 halfRationButton.OnClick = function(self)
     -- TODO add sound
     pointerHand:SetImage(pointerHandButtonImage2)
-    _G.RationController:setRationLevel("SmallRations")
-    _G.RationController:setMoodLevel("SmallRationsMood")
-    MoodImage:SetImage(moodNegativeImage)
-    moodFoodGui:SetText({{
-        color = colorRed
-    }, _G.RationController:getMoodLevel()})
+    local RationController = require("objects.Controllers.RationController")
+    RationController:setRationLevel("SmallRations")
 end
 halfRationButton.OnMouseExit = function(self)
     self:SetImage(halfRationButtonImage)
@@ -163,12 +166,8 @@ end
 fullRationButton.OnClick = function(self)
     -- TODO add sound
     pointerHand:SetImage(pointerHandButtonImage3)
-    _G.RationController:setRationLevel("NormalRations")
-    _G.RationController:setMoodLevel("NormalRationsMood")
-    MoodImage:SetImage(moodNeutralImage)
-    moodFoodGui:SetText({{
-        colorWhite
-    }, _G.RationController:getMoodLevel()})
+    local RationController = require("objects.Controllers.RationController")
+    RationController:setRationLevel("NormalRations")
 end
 fullRationButton.OnMouseExit = function(self)
     self:SetImage(fullRationButtonImage)
@@ -199,12 +198,8 @@ end
 extraRationButton.OnClick = function(self)
     -- TODO add sound
     pointerHand:SetImage(pointerHandButtonImage4)
-    _G.RationController:setRationLevel("ExtraRations")
-    _G.RationController:setMoodLevel("ExtraRationsMood")
-    MoodImage:SetImage(moodPositiveImage)
-    moodFoodGui:SetText({{
-        color = colorGreen
-    }, _G.RationController:getMoodLevel()})
+    local RationController = require("objects.Controllers.RationController")
+    RationController:setRationLevel("ExtraRations")
 end
 extraRationButton.OnMouseExit = function(self)
     self:SetImage(extraRationButtonImage)
@@ -235,13 +230,11 @@ end
 doubleRationButton.OnClick = function(self)
     -- TODO add sound
     pointerHand:SetImage(pointerHandButtonImage5)
-    _G.RationController:setRationLevel("LargeRations")
-    _G.RationController:setMoodLevel("LargeRationsMood")
-    MoodImage:SetImage(moodPositiveImage)
-    moodFoodGui:SetText({{
-        color = colorGreen
-    }, _G.RationController:getMoodLevel()})
+    local RationController = require("objects.Controllers.RationController")
+    RationController:setRationLevel("LargeRations")
 end
 doubleRationButton.OnMouseExit = function(self)
     self:SetImage(doubleRationButtonImage)
 end
+
+return {MoodImage, moodFoodGui}

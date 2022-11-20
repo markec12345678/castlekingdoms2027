@@ -1,10 +1,11 @@
 local actionBar = require("states.ui.ActionBar")
-local PopularityController = _G.class("PopularityController")
+local RationController = require("objects.Controllers.RationController")
 
-PopularityController.static.POPULARITY_INTERVAL = 3000
+local PopularityController = _G.class("PopularityController")
+PopularityController.static.POPULARITY_INTERVAL = 30
 function PopularityController:initialize()
     self.timer = 0
-    self.moodFoodFactor = _G.RationController.moodFactor
+    self.moodFoodFactor = RationController.moodFactor
     self.moodTaxFactor = _G.TaxController.moodFactor
 end
 
@@ -25,10 +26,9 @@ function PopularityController:deserialize(data)
 end
 
 function PopularityController:update()
-
-    self.timer = self.timer + 1 + love.timer.getDelta()
+    self.timer = self.timer + love.timer.getDelta()
     if self.timer >= self.class.POPULARITY_INTERVAL then
-        _G.state.popularity = 50 +  _G.TaxController:getMoodFactor() + _G.RationController:getMoodLevel()
+        _G.state.popularity = 50 + _G.TaxController:getMoodFactor() + RationController:getMoodLevel()
         self.timer = 0
         actionBar:updatePopularityCount()
     end

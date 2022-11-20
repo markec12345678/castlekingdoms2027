@@ -824,6 +824,10 @@ function BuildController:removeResourceNodes()
                 local node = t[i]
                 return not (node.gx == self.gx + x and node.gy == self.gy + y)
             end)
+            removeWhileIterating(_G.foodpile.nodeList, function(t, i, j)
+                local node = t[i]
+                return not (node.gx == self.gx + x and node.gy == self.gy + y)
+            end)
         end
     end
 end
