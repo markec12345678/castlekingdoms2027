@@ -11,44 +11,90 @@ local ANIM_FLOAT_CIRCLE_RED = "Peasants leaving float"
 local an = {
     [ANIM_CAMPFIRE_BURNING] = _G.indexQuads("campfire", 19, 2),
     [ANIM_FLOAT_CIRCLE_GREEN] = _G.indexQuads("float_circle_green", 51),
-    [ANIM_FLOAT_CIRCLE_RED] = _G.indexQuads("float_circle_green", 51)
+    [ANIM_FLOAT_CIRCLE_RED] = _G.indexQuads("float_circle_red", 51)
 }
+
 
 local CampfireFloatPop = _G.class("CampfireFloatPop", Structure)
 function CampfireFloatPop:initialize(gx, gy)
     Structure.initialize(self, gx, gy, "Campfire float circle")
     self.animatedAlias = true
     self.animated = true
-    self.greenAnimation = anim.newAnimation(an[ANIM_FLOAT_CIRCLE_GREEN], 0.025, self:immigrantCallback(),
+    local PopularityController = require("objects.Controllers.PopularityController")
+    self.greenAnimation = anim.newAnimation(an[ANIM_FLOAT_CIRCLE_GREEN], PopularityController.speedPopModifier, self:immigrantCallback(),
         ANIM_FLOAT_CIRCLE_GREEN)
-    self.redAnimation = anim.newAnimation(an[ANIM_FLOAT_CIRCLE_GREEN], 0.025, self:emigrantCallback(),
-        ANIM_FLOAT_CIRCLE_GREEN)
+    self.redAnimation = anim.newAnimation(an[ANIM_FLOAT_CIRCLE_RED], PopularityController.speedPopModifier, self:emigrantCallback(),
+        ANIM_FLOAT_CIRCLE_RED)
     self.offsetX = 7
     self.offsetY = -81
     self.animation = self.greenAnimation
     self.tile = tileQuads["empty"]
+    _G.campfireFloatPop = self
     table.insert(activeEntities, self)
 end
-function CampfireFloatPop:animate(dt)
-    local shouldAddPeasants = true
-    if _G.state.population >= _G.state.maxPopulation then
-        shouldAddPeasants = false
-        if self.animation == self.greenAnimation then
-            self.animation:pauseAtStart()
-        end
-    end
-    if _G.campfire and _G.campfire.peasants >= _G.campfire.maxPeasants then
-        shouldAddPeasants = false
+
+function CampfireFloatPop:updateSpeed(modifier)
+    if _G.state.popularity >= 50 then
+        local frame = 1
         if self.animation.animationIdentifier == ANIM_FLOAT_CIRCLE_GREEN then
-            self.animation:pauseAtStart()
+            frame = self.animation.position
         end
-    end
-    if shouldAddPeasants then
+        self.greenAnimation = anim.newAnimation(an[ANIM_FLOAT_CIRCLE_GREEN], modifier, self:immigrantCallback(),
+            ANIM_FLOAT_CIRCLE_GREEN)
         self.animation = self.greenAnimation
-        self.animation:resume()
+        self.animation:gotoFrame(frame)
+        self.animation:pause()
+    else
+        local frame = 1
+        if self.animation.animationIdentifier == ANIM_FLOAT_CIRCLE_RED then
+            frame = self.animation.position
+        end
+        self.redAnimation = anim.newAnimation(an[ANIM_FLOAT_CIRCLE_RED], modifier, self:emigrantCallback(),
+            ANIM_FLOAT_CIRCLE_RED)
+        self.animation = self.redAnimation
+        self.animation:gotoFrame(frame)
+        self.animation:pause()
+    end
+end
+
+function CampfireFloatPop:animate(dt)
+    if not _G.campfire then return end
+    if _G.state.popularity >= 50 then
+        local shouldAddPeasants = true
+        if _G.state.population >= _G.state.maxPopulation then
+            shouldAddPeasants = false
+            if self.animation.animationIdentifier == ANIM_FLOAT_CIRCLE_GREEN then
+                self.animation:pauseAtStart()
+            end
+        end
+        if _G.campfire.peasants >= _G.campfire.maxPeasants then
+            shouldAddPeasants = false
+            if self.animation.animationIdentifier == ANIM_FLOAT_CIRCLE_GREEN then
+                self.animation:pauseAtStart()
+            end
+        end
+        if shouldAddPeasants then
+            self.animation = self.greenAnimation
+            self.animation:resume()
+        end
+    else
+        local shouldRemovePeasants = true
+        if _G.campfire.peasants <= 0 then
+            shouldRemovePeasants = false
+            if self.animation.animationIdentifier == ANIM_FLOAT_CIRCLE_RED then
+                self.animation:pauseAtStart()
+            else
+                self.animation:pause()
+            end
+        end
+        if shouldRemovePeasants then
+            self.animation = self.redAnimation
+            self.animation:resume()
+        end
     end
     Structure.animate(self, dt, true)
 end
+
 function CampfireFloatPop:immigrantCallback()
     local actionBar = require("states.ui.ActionBar")
     return function()
@@ -57,11 +103,17 @@ function CampfireFloatPop:immigrantCallback()
         Peasant:new(_G.spawnPointX, _G.spawnPointY)
     end
 end
+
 function CampfireFloatPop:emigrantCallback()
+    local actionBar = require("states.ui.ActionBar")
     return function()
+        _G.state.population = _G.state.population - 1
+        actionBar:updatePopulationCount()
+        _G.campfire:makePeasantLeave()
         print("leaving the town")
     end
 end
+
 function CampfireFloatPop:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -83,6 +135,7 @@ function CampfireFloatPop:serialize()
     data.redAnimation = self.redAnimation:serialize()
     return data
 end
+
 function CampfireFloatPop.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -112,6 +165,7 @@ function CampfireFloatPop.static:deserialize(data)
             obj.greenAnimation = obj.animation
         end
     end
+    _G.campfireFloatPop = obj
     table.insert(activeEntities, obj)
     return obj
 end
@@ -127,6 +181,7 @@ function CampfireAlias:initialize(gx, gy, parent, animatedAlias)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     parent:takeSpot(gx, gy)
 end
+
 function CampfireAlias:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -150,6 +205,7 @@ function CampfireAlias:serialize()
     end
     return data
 end
+
 function CampfireAlias.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -220,9 +276,26 @@ function Campfire:initialize(gx, gy, type)
 
     Structure.render(self.animatedAlias)
 end
+
 function Campfire:update()
     return
 end
+
+function Campfire:makePeasantLeave()
+    for xx = -1, 3 do
+        for yy = -2, 3 do
+            if self.freeSpots[xx][yy] ~= true then
+                local peasant = self.freeSpots[xx][yy]
+                peasant:remove()
+                self.freeSpots[xx][yy] = true
+                self.peasants = self.peasants - 1
+                return true
+            end
+        end
+    end
+    return false
+end
+
 function Campfire:getNextFreeSpot(peasant)
     if not self.animated then
         self.animatedAlias.animated = true
@@ -240,6 +313,7 @@ function Campfire:getNextFreeSpot(peasant)
     end
     return false
 end
+
 function Campfire:getFreePeasant()
     for xx = -1, 3 do
         for yy = -2, 3 do
@@ -264,6 +338,7 @@ function Campfire:getFreePeasant()
     end
     return false
 end
+
 function Campfire:getPointingDirection(wx, wy)
     local fx, fy = self.gx, self.gy
     local angle = math.atan2(fy - wy, fx - wx)
@@ -294,14 +369,17 @@ function Campfire:getPointingDirection(wx, wy)
         return "northeast"
     end
 end
+
 function Campfire:freeSpot(gx, gy)
     local x, y = -(self.gx - gx), -(self.gy - gy)
     self.freeSpots[x][y] = true
 end
+
 function Campfire:takeSpot(gx, gy)
     local x, y = -(self.gx - gx), -(self.gy - gy)
     self.freeSpots[x][y] = false
 end
+
 function Campfire:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -340,11 +418,13 @@ function Campfire:serialize()
     data.freeSpots = freeSpots
     return data
 end
+
 function Campfire.static:deserialize(data)
     local obj = self:allocate()
     obj:load(data)
     return obj
 end
+
 function Campfire:load(data)
     Object.deserialize(self, data)
     Structure.load(self, data)
