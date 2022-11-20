@@ -76,6 +76,7 @@ function MineGoingDown:initialize(gx, gy, parent, offsetX, offsetY)
 
     table.insert(activeEntities, self)
 end
+
 function MineGoingDown:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -95,6 +96,7 @@ function MineGoingDown:serialize()
     data.parent = _G.state:serializeObject(self.parent)
     return data
 end
+
 function MineGoingDown.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -115,18 +117,21 @@ function MineGoingDown.static:deserialize(data)
     table.insert(activeEntities, obj)
     return obj
 end
+
 function MineGoingDown:callback_1()
     return function()
         self.offsetX, self.offsetY = self.tunnelAnimOffsetX, self.tunnelAnimOffsetY
         self.animation = anim.newAnimation(an[ANIM_TUNNEL_GLOW], 0.11, self:callback_2(), ANIM_TUNNEL_GLOW)
     end
 end
+
 function MineGoingDown:callback_2()
     return function()
         self.offsetX, self.offsetY = self.goingAnimOffsetX, self.goingAnimOffsetY
         self.animation = anim.newAnimation(an[ANIM_MINER_GOING_UP], 0.11, self:callback_3(), ANIM_MINER_GOING_UP)
     end
 end
+
 function MineGoingDown:callback_3()
     return function()
         self.animation:pause()
@@ -135,14 +140,17 @@ function MineGoingDown:callback_3()
         self.parent.bucket:activate()
     end
 end
+
 function MineGoingDown:animate(dt)
     Structure.animate(self, dt, true)
 end
+
 function MineGoingDown:activate()
     self.animated = true
     self.animation = anim.newAnimation(an[ANIM_MINER_GOING_DOWN], 0.11, self:callback_1(), ANIM_MINER_GOING_DOWN)
     self:animate()
 end
+
 function MineGoingDown:deactivate()
     self.animation:pause()
     self.tile = tileQuads["empty"]
@@ -166,6 +174,7 @@ function MinePuller:initialize(gx, gy, parent, offsetX, offsetY)
 
     table.insert(activeEntities, self)
 end
+
 function MinePuller:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -181,6 +190,7 @@ function MinePuller:serialize()
     data.parent = _G.state:serializeObject(self.parent)
     return data
 end
+
 function MinePuller.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -197,6 +207,7 @@ function MinePuller.static:deserialize(data)
     table.insert(activeEntities, obj)
     return obj
 end
+
 function MinePuller:pullCallback()
     return function()
         self.animation:pause()
@@ -205,14 +216,17 @@ function MinePuller:pullCallback()
         self.parent.bucket:deactivate()
     end
 end
+
 function MinePuller:animate(dt)
     Structure.animate(self, dt, true)
 end
+
 function MinePuller:activate()
     self.animated = true
     self.animation:resume()
     self:animate()
 end
+
 function MinePuller:deactivate()
     self.animation:pause()
     self.tile = tileQuads["empty"]
@@ -222,6 +236,7 @@ function MinePuller:deactivate()
     end
     self.animated = false
 end
+
 local MineBucket = _G.class("MineBucket", Structure)
 function MineBucket:initialize(gx, gy, parent, offsetX, offsetY)
     local mytype = "Hook"
@@ -236,6 +251,7 @@ function MineBucket:initialize(gx, gy, parent, offsetX, offsetY)
 
     table.insert(activeEntities, self)
 end
+
 function MineBucket:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -251,6 +267,7 @@ function MineBucket:serialize()
     data.parent = _G.state:serializeObject(self.parent)
     return data
 end
+
 function MineBucket.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -263,15 +280,18 @@ function MineBucket.static:deserialize(data)
     table.insert(activeEntities, obj)
     return obj
 end
+
 function MineBucket:animate(dt)
     Structure.animate(self, dt, true)
 end
+
 function MineBucket:activate()
     self.animated = true
     self.animation:gotoFrame(1)
     self.animation:resume()
     self:animate()
 end
+
 function MineBucket:deactivate()
     self.animation:pause()
     self.tile = tileQuads["empty"]
@@ -295,6 +315,7 @@ function MinePourer:initialize(gx, gy, parent, offsetX, offsetY)
 
     table.insert(activeEntities, self)
 end
+
 function MinePourer:pourCallback_1()
     return function()
         self.animation = anim.newAnimation(an[ANIM_POURING_2], 0.1, self:pourCallback_2(), ANIM_POURING_2)
@@ -307,11 +328,13 @@ function MinePourer:pourCallback_1()
         end
     end
 end
+
 function MinePourer:pourCallback_2()
     return function()
         self:deactivate()
     end
 end
+
 function MinePourer:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -327,6 +350,7 @@ function MinePourer:serialize()
     data.parent = _G.state:serializeObject(self.parent)
     return data
 end
+
 function MinePourer.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -345,9 +369,11 @@ function MinePourer.static:deserialize(data)
     table.insert(activeEntities, obj)
     return obj
 end
+
 function MinePourer:animate(dt)
     Structure.animate(self, dt, true)
 end
+
 function MinePourer:activate()
     self.animation = anim.newAnimation(an[ANIM_POURING], 0.11, self:pourCallback_1(), ANIM_POURING)
     self.animated = true
@@ -355,6 +381,7 @@ function MinePourer:activate()
     self.animation:resume()
     self:animate()
 end
+
 function MinePourer:deactivate()
     self.animation:pause()
     self.tile = tileQuads["empty"]
@@ -364,6 +391,7 @@ function MinePourer:deactivate()
     end
     self.animated = false
 end
+
 local MineCasting = _G.class("MineCasting", Structure)
 function MineCasting:initialize(gx, gy, parent, offsetX, offsetY)
     self.parent = parent
@@ -379,12 +407,14 @@ function MineCasting:initialize(gx, gy, parent, offsetX, offsetY)
 
     table.insert(activeEntities, self)
 end
+
 function MineCasting:castCallback_1()
     return function()
         self.offsetX, self.offsetY = self.smokeX, self.smokeY
         self.animation = anim.newAnimation(an[ANIM_CHIMNEY_SMOKE], 0.11, self:castCallback_2(), ANIM_CHIMNEY_SMOKE)
     end
 end
+
 function MineCasting:castCallback_2()
     return function()
         self.offsetX, self.offsetY = self.chimneyX, self.chimneyY
@@ -392,12 +422,14 @@ function MineCasting:castCallback_2()
             an[ANIM_REVERSE_CHIMNEY_GLOW], 0.11, self:castCallback_3(), ANIM_REVERSE_CHIMNEY_GLOW)
     end
 end
+
 function MineCasting:castCallback_3()
     return function()
         self.offsetX, self.offsetY = self.castX, self.castY
         self.animation = anim.newAnimation(an[ANIM_CASTING_IRON], 0.11, self:castCallback_4(), ANIM_CASTING_IRON)
     end
 end
+
 function MineCasting:castCallback_4()
     return function()
         if not self.parent.stack.animated then
@@ -409,6 +441,7 @@ function MineCasting:castCallback_4()
         self:deactivate()
     end
 end
+
 function MineCasting:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -427,6 +460,7 @@ function MineCasting:serialize()
     data.parent = _G.state:serializeObject(self.parent)
     return data
 end
+
 function MineCasting.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -449,15 +483,18 @@ function MineCasting.static:deserialize(data)
     table.insert(activeEntities, obj)
     return obj
 end
+
 function MineCasting:animate(dt)
     Structure.animate(self, dt, true)
 end
+
 function MineCasting:activate()
     self.animated = true
     self.animation:gotoFrame(1)
     self.animation:resume()
     self:animate()
 end
+
 function MineCasting:deactivate()
     self.animation:pause()
     self.tile = tileQuads["empty"]
@@ -467,6 +504,7 @@ function MineCasting:deactivate()
     end
     self.animated = false
 end
+
 local MineStack = _G.class("MineStack", Structure)
 function MineStack:initialize(gx, gy, parent, offsetX, offsetY)
     self.parent = parent
@@ -481,6 +519,7 @@ function MineStack:initialize(gx, gy, parent, offsetX, offsetY)
 
     table.insert(activeEntities, self)
 end
+
 function MineStack:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -497,6 +536,7 @@ function MineStack:serialize()
     data.parent = _G.state:serializeObject(self.parent)
     return data
 end
+
 function MineStack.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -509,19 +549,23 @@ function MineStack.static:deserialize(data)
     table.insert(activeEntities, obj)
     return obj
 end
+
 function MineStack:stack()
     self.quantity = self.quantity + 1
     self.animation:gotoFrame(self.quantity)
 end
+
 function MineStack:animate(dt)
     Structure.animate(self, dt, true)
 end
+
 function MineStack:activate()
     self.animated = true
     self.animation:gotoFrame(1)
     self.animation:pause()
     self:animate()
 end
+
 function MineStack:deactivate()
     self.animation:pause()
     self.tile = tileQuads["empty"]
@@ -531,6 +575,7 @@ function MineStack:deactivate()
     end
     self.animated = false
 end
+
 function MineStack:take()
     self.quantity = self.quantity - 1
     if self.quantity == 0 then
@@ -540,6 +585,7 @@ function MineStack:take()
     end
     self.animation:gotoFrame(self.quantity)
 end
+
 local MineAlias = _G.class("MineAlias", Structure)
 function MineAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     self.parent = parent
@@ -550,14 +596,9 @@ function MineAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     self.additionalOffsetY = 0
     self.offsetX = offsetX or 0
     self.offsetY = self.additionalOffsetY - self.baseOffsetY
-    for k, v in ipairs(_G.stockpile.nodeList) do
-        if v.gx == self.gx and v.gy == self.gy then
-            table.remove(_G.stockpile.nodeList, k)
-            break
-        end
-    end
     self:render()
 end
+
 function MineAlias:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -574,6 +615,7 @@ function MineAlias:serialize()
     data.parent = _G.state:serializeObject(self.parent)
     return data
 end
+
 function MineAlias.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -646,6 +688,7 @@ function Mine:initialize(gx, gy)
 
     self:render()
 end
+
 function Mine:destroy()
     if self.worker then
         self.worker:die()
@@ -680,6 +723,7 @@ function Mine:destroy()
     _G.stockpile:store("stone")
     _G.stockpile:store("stone")
 end
+
 function Mine:join(worker)
     if self.health == -1 then
         _G.JobController:remove("Miner", self)
@@ -692,6 +736,7 @@ function Mine:join(worker)
         self.freeSpots = self.freeSpots - 1
     end
 end
+
 function Mine:work(worker)
     if self.unloading then
         self.worker.state = "Go to stockpile"
@@ -710,6 +755,7 @@ function Mine:work(worker)
         self.goingDown:activate()
     end
 end
+
 function Mine:sendToStockpile()
     local i, o, cx, cy
     self.worker.state = "Go to stockpile"
@@ -727,6 +773,7 @@ function Mine:sendToStockpile()
     self.goingDown:deactivate()
     self.working = false
 end
+
 function Mine:load(data)
     Object.deserialize(self, data)
     Structure.load(self, data)
@@ -737,6 +784,7 @@ function Mine:load(data)
     self.tile = quadArray[tiles + 1]
     Structure.render(self)
 end
+
 function Mine:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -756,6 +804,7 @@ function Mine:serialize()
     end
     return data
 end
+
 function Mine.static:deserialize(data)
     local obj = self:allocate()
     obj:load(data)

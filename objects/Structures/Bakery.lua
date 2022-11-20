@@ -31,6 +31,7 @@ function BakeryBreadStack:initialize(gx, gy, parent)
 
     table.insert(activeEntities, self)
 end
+
 function BakeryBreadStack:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -47,6 +48,7 @@ function BakeryBreadStack:serialize()
     data.parent = _G.state:serializeObject(self.parent)
     return data
 end
+
 function BakeryBreadStack.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -59,14 +61,17 @@ function BakeryBreadStack.static:deserialize(data)
     table.insert(activeEntities, obj)
     return obj
 end
+
 function BakeryBreadStack:stack()
     self.quantity = self.quantity + 1
     self.animation:gotoFrame(self.quantity)
     self:animate(_G.dt, true)
 end
+
 function BakeryBreadStack:animate(dt)
     Structure.animate(self, dt, true)
 end
+
 function BakeryBreadStack:activate()
     self.animated = true
     self.quantity = 1
@@ -74,6 +79,7 @@ function BakeryBreadStack:activate()
     self.animation:pause()
     self:animate()
 end
+
 function BakeryBreadStack:deactivate()
     self.animation:pause()
     self.quantity = 0
@@ -84,6 +90,7 @@ function BakeryBreadStack:deactivate()
     end
     self.animated = false
 end
+
 function BakeryBreadStack:take()
     self.quantity = self.quantity - 4
     if self.quantity == 0 then
@@ -108,6 +115,7 @@ function BakeryCooking:initialize(gx, gy, parent)
 
     table.insert(activeEntities, self)
 end
+
 function BakeryCooking:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -123,6 +131,7 @@ function BakeryCooking:serialize()
     data.parent = _G.state:serializeObject(self.parent)
     return data
 end
+
 function BakeryCooking.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -141,6 +150,7 @@ function BakeryCooking.static:deserialize(data)
     table.insert(activeEntities, obj)
     return obj
 end
+
 function BakeryCooking:bakeCallback_1()
     return function()
         if not self.parent.stack.animated then
@@ -152,6 +162,7 @@ function BakeryCooking:bakeCallback_1()
             an[ANIM_BAKING_BREAD_PART2], 0.11, self:bakeCallback_2(), ANIM_BAKING_BREAD_PART2)
     end
 end
+
 function BakeryCooking:bakeCallback_2()
     return function()
         self.animation = anim.newAnimation(an[ANIM_BAKING_BREAD], 0.11, self:bakeCallback_1(), ANIM_BAKING_BREAD)
@@ -161,15 +172,18 @@ function BakeryCooking:bakeCallback_2()
         end
     end
 end
+
 function BakeryCooking:animate()
     Structure.animate(self, _G.dt, true)
 end
+
 function BakeryCooking:activate()
     self.animated = true
     self.animation:gotoFrame(1)
     self.animation:resume()
     self:animate(_G.dt)
 end
+
 function BakeryCooking:deactivate()
     self.animation:pause()
     self.tile = tileQuads["empty"]
@@ -191,14 +205,9 @@ function BakeryAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     self.additionalOffsetY = 0
     self.offsetX = offsetX or 0
     self.offsetY = self.additionalOffsetY - self.baseOffsetY
-    for k, v in ipairs(_G.stockpile.nodeList) do
-        if v.gx == self.gx and v.gy == self.gy then
-            table.remove(_G.stockpile.nodeList, k)
-            break
-        end
-    end
     Structure.render(self)
 end
+
 function BakeryAlias:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -215,6 +224,7 @@ function BakeryAlias:serialize()
     data.parent = _G.state:serializeObject(self.parent)
     return data
 end
+
 function BakeryAlias.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -283,6 +293,7 @@ function Bakery:initialize(gx, gy)
 
     Structure.render(self)
 end
+
 function Bakery:destroy()
     if self.worker then
         self.worker:die()
@@ -300,15 +311,18 @@ function Bakery:destroy()
     _G.stockpile:store("stone")
     _G.stockpile:store("stone")
 end
+
 function Bakery:load(data)
     Object.deserialize(self, data)
     Structure.load(self, data)
     if data.worker then
         self.worker = _G.state:dereferenceObject(data.worker)
         self.worker.workplace = self
-    end    self.tile = quadArray[tiles + 1]
+    end
+    self.tile = quadArray[tiles + 1]
     Structure.render(self)
 end
+
 function Bakery:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -328,11 +342,13 @@ function Bakery:serialize()
     end
     return data
 end
+
 function Bakery.static:deserialize(data)
     local obj = self:allocate()
     obj:load(data)
     return obj
 end
+
 function Bakery:join(worker)
     if self.health == -1 then
         _G.JobController:remove("Baker", self)
@@ -345,6 +361,7 @@ function Bakery:join(worker)
         self.freeSpots = self.freeSpots - 1
     end
 end
+
 function Bakery:work(worker)
     if self.worker.state == "Going to workplace with flour" then
         self.worker.state = "Working"
@@ -362,6 +379,7 @@ function Bakery:work(worker)
         end
     end
 end
+
 function Bakery:sendToStockpile()
     local i, o, cx, cy
     self.worker.state = "Go to granary"
