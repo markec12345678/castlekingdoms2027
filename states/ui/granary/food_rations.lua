@@ -77,7 +77,7 @@ local frNoRation = {
 }
 local noRationButton = loveframes.Create("image")
 noRationButton:SetState(states.STATE_GRANARY)
-noRationButton:setTooltip("No Rations", "No rations for each worker.\nDecreases their happiness by 4.")
+noRationButton:setTooltip("No Rations", "No rations for each worker.\nDecreases their happiness by 8.")
 noRationButton:SetImage(noRationButtonImage)
 noRationButton:SetScaleX(frNoRation.width / noRationButton:GetImageWidth())
 noRationButton:SetScaleY(noRationButton:GetScaleX())
@@ -113,7 +113,7 @@ local frHalfRation = {
 }
 local halfRationButton = loveframes.Create("image")
 halfRationButton:SetState(states.STATE_GRANARY)
-halfRationButton:setTooltip("Half Rations", "0.5x rations for each worker.\nDecreases their happiness by 2.")
+halfRationButton:setTooltip("Half Rations", "0.5x rations for each worker.\nDecreases their happiness by 4.")
 halfRationButton:SetImage(halfRationButtonImage)
 halfRationButton:SetScaleX(frHalfRation.width / halfRationButton:GetImageWidth())
 halfRationButton:SetScaleY(halfRationButton:GetScaleX())
@@ -185,7 +185,7 @@ local frExtraRation = {
 }
 local extraRationButton = loveframes.Create("image")
 extraRationButton:SetState(states.STATE_GRANARY)
-extraRationButton:setTooltip("Extra Rations", "1.5x rations for each worker.\nIncreases their happiness by 2.")
+extraRationButton:setTooltip("Extra Rations", "1.5x rations for each worker.\nIncreases their happiness by 4.")
 extraRationButton:SetImage(extraRationButtonImage)
 extraRationButton:SetScaleX(frExtraRation.width / extraRationButton:GetImageWidth())
 extraRationButton:SetScaleY(extraRationButton:GetScaleX())
@@ -221,7 +221,7 @@ local frDoubleRation = {
 }
 local doubleRationButton = loveframes.Create("image")
 doubleRationButton:SetState(states.STATE_GRANARY)
-doubleRationButton:setTooltip("Double Rations", "2x rations for each worker.\nIncreases their happiness by 4.")
+doubleRationButton:setTooltip("Double Rations", "2x rations for each worker.\nIncreases their happiness by 8.")
 doubleRationButton:SetImage(doubleRationButtonImage)
 doubleRationButton:SetScaleX(frDoubleRation.width / doubleRationButton:GetImageWidth())
 doubleRationButton:SetScaleY(doubleRationButton:GetScaleX())
