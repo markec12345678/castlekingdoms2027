@@ -1,5 +1,7 @@
+---@class Map
+---@field new fun():Map
+---@overload fun():Map
 local Map = _G.class("Map")
-
 function Map:initialize()
     self.name = "Fernhaven"
     self.heightmap = newAutotable(4)
@@ -14,6 +16,10 @@ function Map:initialize()
     self.walkingHeightmap = _G.ffi.new("unsigned short[2048][2048]", {})
 end
 
+---@param gx number
+---@param gy number
+---@param walkable number 0 for walkable, 1 for unwalkable
+---@return nil
 function Map:setWalkable(gx, gy, walkable)
     walkable = walkable or 0
     if gx >= 0 and gx < 2048 and gy >= 0 and gy < 2048 then
@@ -25,10 +31,15 @@ function Map:setWalkable(gx, gy, walkable)
     end
 end
 
+-- returns whether the tile is walkable
+---@param gx number
+---@param gy number
+---@return number
 function Map:getWalkable(gx, gy)
     if gx >= 1 and gx < 2048 and gy >= 0 and gy < 2048 then
         return self.collisionMap[gx][gy]
     end
+    return 1
 end
 
 function Map:setHeight(gx, gy, height)

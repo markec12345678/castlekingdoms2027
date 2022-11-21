@@ -1,10 +1,13 @@
 local bitser = require("libraries.bitser")
 local Map = require("objects.Map")
-local State = _G.class("State")
 local SaveManager = require("objects.Controllers.SaveManager")
 local FOOD = require("objects.Enums.Food")
 
-
+---@class State
+---@field new fun():State
+---@field map Map
+---@overload fun():State
+local State = _G.class("State")
 function State:initialize()
     self.savename = SaveManager:getNextFreeName()
     self.newGame = true

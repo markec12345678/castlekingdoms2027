@@ -112,6 +112,15 @@ function WheatFarmPlant.static:deserialize(data)
 end
 
 function WheatFarmPlant:render()
+    local elevationOffsetY = _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] or 0
+    local shadowValue = _G.state.map.shadowmap[self.cx][self.cy][self.i][self.o] or 0
+    local isInShadow = shadowValue > elevationOffsetY
+    if isInShadow then
+        shadowValue = math.min((shadowValue - elevationOffsetY) / 40, 0.6) / 1.25
+    else
+        shadowValue = 0
+    end
+    self.shadowValue = 1 - shadowValue / 1.5
     Structure.render(self)
 end
 

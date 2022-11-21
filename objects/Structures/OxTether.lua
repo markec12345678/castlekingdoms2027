@@ -16,6 +16,7 @@ function OxTetherAlias:initialize(gx, gy, parent, offsetY, offsetX)
     self.offsetY = self.additionalOffsetY - self.baseOffsetY
     Structure.render(self)
 end
+
 function OxTetherAlias:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -32,6 +33,7 @@ function OxTetherAlias:serialize()
     data.parent = _G.state:serializeObject(self.parent)
     return data
 end
+
 function OxTetherAlias.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
@@ -55,7 +57,7 @@ function OxTether:initialize(gx, gy)
     _G.JobController:add("OxHandler", self)
     Structure.initialize(self, gx, gy, "OxTether")
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.tile = tileQuads["stone_ox_base (1)"]
+    self.tile = tileQuads["stone_oax_base (1)"]
     self.health = 50
     self.offsetX = -15
     self.offsetY = -26
@@ -89,6 +91,7 @@ function OxTether:initialize(gx, gy)
     self:applyBuildingHeightMap()
     Structure.render(self)
 end
+
 function OxTether:destroy()
     -- force all quarrys in range to scan for other tethers in range
     -- and if necessary switch the quarry into standalone mode
@@ -111,6 +114,7 @@ function OxTether:destroy()
     _G.stockpile:store("wood")
     _G.stockpile:store("wood")
 end
+
 function OxTether:add(amount)
     if amount == nil then
         amount = 1
@@ -158,7 +162,7 @@ function OxTether:work(worker)
 end
 
 function OxTether:update()
-    self.tile = tileQuads["stone_ox_base (" .. self.quantity + 1 .. ")"]
+    self.tile = tileQuads["stone_oax_base (" .. self.quantity + 1 .. ")"]
     Structure.render(self)
 end
 
@@ -177,7 +181,7 @@ function OxTether:load(data)
         self.worker = self.oxWorker
         self.oxWorker.workplace = self
     end
-    self.tile = tileQuads["stone_ox_base (1)"]
+    self.tile = tileQuads["stone_oax_base (1)"]
     self:update()
 end
 

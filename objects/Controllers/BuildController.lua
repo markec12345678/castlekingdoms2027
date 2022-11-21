@@ -586,7 +586,7 @@ local building = {
         end
     },
     ["ox_tether"] = {
-        quad = tileQuads["stone_ox_base (1)"],
+        quad = tileQuads["stone_oax_base (1)"],
         offsetY = 26,
         offsetX = 15,
         w = 2,
@@ -745,16 +745,16 @@ function BuildController:update()
         self.FY = IsoToScreenY(LX, LY) - _G.state.viewYview - ((IsoToScreenY(LX, LY)) - _G.state.viewYview) *
             (1 - _G.state.scaleX)
         -- No point to flush the batch everytime
-        if self.lastBuilding ~= self.building or self.previousGx ~= self.gx or self.previousGy ~= self.gy then
+        if self.lastBuilding ~= self.building or self.previousGx ~= self.gx or self.previousGy ~= self.gy or not self.firstTerrainHeight then
             self.canBuild = true
+            self.targetGX, self.targetGY = self.gx + math.floor(self.width / 2),
+                self.gy + math.floor(self.height / 2)
+            local fcx, fcy, fxx, fyy = _G.getLocalCoordinatesFromGlobal(self.targetGX, self.targetGY)
+            local firstTerrainHeight = (_G.state.map.heightmap[fcx][fcy][fxx][fyy] or 0) * 2
+            self.firstTerrainHeight = firstTerrainHeight
             if building[self.building].overrideRequirements then
                 building[self.building]:overrideRequirements(self)
             else
-                self.targetGX, self.targetGY = self.gx + math.floor(self.width / 2),
-                    self.gy + math.floor(self.height / 2)
-                local fcx, fcy, fxx, fyy = _G.getLocalCoordinatesFromGlobal(self.targetGX, self.targetGY)
-                local firstTerrainHeight = (_G.state.map.heightmap[fcx][fcy][fxx][fyy] or 0) * 2
-                self.firstTerrainHeight = firstTerrainHeight
                 local totalTerrainDifference = 0
                 for xx = 0, self.width - 1 do
                     for yy = 0, self.height - 1 do
@@ -833,7 +833,7 @@ function BuildController:removeResourceNodes()
 end
 
 function BuildController:mousepressed(x, y)
-    if self.active and self.canBuild and self.canAfford and self.firstTerrainHeight then
+    if self.active and self.canBuild and self.firstTerrainHeight then
         for xx = 0, self.width - 1 do
             for yy = 0, self.height - 1 do
                 _G.terrainSetHeight(xx + self.gx, yy + self.gy, self.firstTerrainHeight / 2)

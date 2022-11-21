@@ -682,11 +682,8 @@ function Mine:initialize(gx, gy)
 
     MineAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 3, self, 12 + 8 * 4, 16)
     MineAlias:new(tileQuads["empty"], self.gx + 3, self.gy + 1, self, 12 + 8 * 4, 16)
-    MineAlias:new(tileQuads["empty"], self.gx - 1, self.gy + 1, self, 12 + 8 * 4, 16)
     MineAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 2, self, 12 + 8 * 4, 16)
     self:applyBuildingHeightMap()
-
-    self:render()
 end
 
 function Mine:destroy()
