@@ -5,10 +5,10 @@ local indexQuads = _G.indexQuads
 local anim = _G.anim
 
 local harvestFx = {_G.fx["harvest_01"], _G.fx["harvest_02"], _G.fx["harvest_03"], _G.fx["harvest_04"],
-                   _G.fx["harvest_05"], _G.fx["harvest_06"]}
+    _G.fx["harvest_05"], _G.fx["harvest_06"]}
 
 local hoeFx = {_G.fx["hoe_01"], _G.fx["hoe_02"], _G.fx["hoe_03"], _G.fx["hoe_04"], _G.fx["hoe_05"], _G.fx["hoe_06"],
-               _G.fx["hoe_07"]}
+    _G.fx["hoe_07"]}
 
 local fr = {
     walking_apples_east = indexQuads("body_farmer_walk_apples_e", 16),
@@ -395,6 +395,7 @@ function WheatFarmer:initialize(gx, gy, type)
     self.animation = anim.newAnimation(an[AN.WALKING_WEST], 10, nil, AN.WALKING_WEST)
     self.wheat = 0
 end
+
 function WheatFarmer:dirSubUpdate()
     if self.state == "Working" then
         return
@@ -465,15 +466,18 @@ function WheatFarmer:dirSubUpdate()
         end
     end
 end
+
 function WheatFarmer:jobUpdate()
     _G.removeObjectAt(self.lrcx, self.lrcy, self.lrx, self.lry, self)
 end
+
 function WheatFarmer:anchorWorkPosition()
     self.fx = self.waypointX * 1000
     self.fy = self.waypointY * 1000
     self.gy = math.round(self.fx * 0.001)
     self.gy = math.round(self.fy * 0.001)
 end
+
 function WheatFarmer:load(data)
     Object.deserialize(self, data)
     Unit.load(self, data)
@@ -594,6 +598,7 @@ function WheatFarmer:load(data)
         self:requestPath(self.endx, self.endy)
     end
 end
+
 function WheatFarmer:serialize()
     local data = {}
     local unitData = Unit.serialize(self)
@@ -626,6 +631,7 @@ function WheatFarmer:serialize()
     end
     return data
 end
+
 function WheatFarmer:hoeLandCallback(state)
     local _, anim2, anim3 = self:hoeLandGetAnim()
     local function state_3Callback()
@@ -636,21 +642,24 @@ function WheatFarmer:hoeLandCallback(state)
         self.workplace:work(self)
         self:clearPath()
     end
+
     if state == 1 then
         self:anchorWorkPosition()
         self:updatePosition()
         self.moveDir = "none"
         self.animation = anim.newAnimation(an[anim2], 0.1, function()
             self.workplace:updateTiles(self.farmlandTiles)
-            self.animation = anim.newAnimation(an[anim3], 0.1, function()
+            self.animation = anim.newAnimation(an[anim3], 0.1, function(self)
                 state_3Callback()
+                self:pauseAtEnd()
             end, anim3)
         end, anim2)
     elseif state == 2 then
         self.workplace:updateTiles(self.farmlandTiles)
         _G.playSfx(self, hoeFx)
-        self.animation = anim.newAnimation(an[anim3], 0.1, function()
+        self.animation = anim.newAnimation(an[anim3], 0.1, function(self)
             state_3Callback()
+            self:pauseAtEnd()
         end, anim3)
     elseif state == 3 then
         state_3Callback()
@@ -658,6 +667,7 @@ function WheatFarmer:hoeLandCallback(state)
         error("Received unknown state for hoe_land: " .. tostring(state))
     end
 end
+
 function WheatFarmer:hoeLandGetAnim()
     local anim1, anim2, anim3
     if self.state == "Working" then
@@ -725,6 +735,7 @@ function WheatFarmer:hoeLandGetAnim()
     end
     return anim1, anim2, anim3
 end
+
 function WheatFarmer:hoeLandPreprocess()
     local anim1, anim2, anim3, skipWalking
     local futureWaypointX, futureWaypointY = self.gx, self.gy
@@ -778,6 +789,7 @@ function WheatFarmer:hoeLandPreprocess()
     end
     return anim1, anim2, anim3, skipWalking, futureWaypointX, futureWaypointY
 end
+
 function WheatFarmer:hoeLand()
     local anim1, anim2, _, skipWalking, futureWaypointX, futureWaypointY = self:hoeLandPreprocess()
     self.state = "Working"
@@ -798,6 +810,7 @@ function WheatFarmer:hoeLand()
         end, anim1)
     end
 end
+
 function WheatFarmer:seedLandCallback()
     self:anchorWorkPosition()
     self:updatePosition()
@@ -809,6 +822,7 @@ function WheatFarmer:seedLandCallback()
     self.workplace:work(self)
     self:clearPath()
 end
+
 function WheatFarmer:seedLand()
     local anim1, skipWalking
     local futureWaypointX, futureWaypointY = self.gx, self.gy
@@ -863,6 +877,7 @@ function WheatFarmer:seedLand()
         end, anim1)
     end
 end
+
 function WheatFarmer:scytheLandGetAnim()
     local anim1, anim2, anim3
     if self.state == "Working" then
@@ -918,6 +933,7 @@ function WheatFarmer:scytheLandGetAnim()
     end
     return anim1, anim2, anim3
 end
+
 function WheatFarmer:scytheLandPreprocess()
     local anim1, anim2, anim3, skipWalking
     local futureWaypointX, futureWaypointY = self.gx, self.gy
@@ -971,6 +987,7 @@ function WheatFarmer:scytheLandPreprocess()
     end
     return anim1, anim2, anim3, skipWalking, futureWaypointX, futureWaypointY
 end
+
 function WheatFarmer:scytheLandCallback(state)
     local _, anim2, anim3, _, _, _ = self:scytheLandGetAnim()
     local function state_3Callback()
@@ -981,6 +998,7 @@ function WheatFarmer:scytheLandCallback(state)
         self.workplace:work(self)
         self:clearPath()
     end
+
     if state == 1 then
         self:anchorWorkPosition()
         self:updatePosition()
@@ -1004,6 +1022,7 @@ function WheatFarmer:scytheLandCallback(state)
         error("Received unknown state for hoe_land: " .. tostring(state))
     end
 end
+
 function WheatFarmer:scytheLand()
     local anim1, anim2, _, skipWalking, futureWaypointX, futureWaypointY = self:scytheLandPreprocess()
     self.state = "Working"
@@ -1023,6 +1042,7 @@ function WheatFarmer:scytheLand()
         end, anim1)
     end
 end
+
 function WheatFarmer:update()
     if self.pathState == "Waiting for path" and self.state ~= "Working" and self.state ~= "Resting" then
         self:pathfind()
@@ -1143,8 +1163,10 @@ function WheatFarmer:update()
         end
     end
 end
+
 function WheatFarmer:animate()
     self:update()
     Unit.animate(self)
 end
+
 return WheatFarmer

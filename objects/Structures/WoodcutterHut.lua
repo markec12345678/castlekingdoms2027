@@ -396,7 +396,9 @@ function WoodcutterHut:initialize(gx, gy, type)
     WoodcutterHutAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 2, self, self.offsetX, self.offsetY)
     WoodcutterHutAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 2, self, self.offsetX, self.offsetY)
 
-    Structure.render(self)
+    _G.state.map:setWalkable(self.gx, self.gy + 2, 0)
+    _G.state.map:setWalkable(self.gx + 1, self.gy + 2, 0)
+    _G.state.map:setWalkable(self.gx + 2, self.gy + 2, 0)
 end
 
 function WoodcutterHut:destroy()

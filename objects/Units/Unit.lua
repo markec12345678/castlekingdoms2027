@@ -42,6 +42,7 @@ function Unit:initialize(gx, gy, type, noPathState)
     table.insert(activeEntities, self)
     self:calculatePosition()
 end
+
 function Unit:die()
     _G.state.population = _G.state.population - 1
     self.toBeDeleted = true
@@ -50,17 +51,20 @@ function Unit:die()
     _G.freeVertexFromTile(self.cx, self.cy, self.vertId)
     _G.removeObjectAt(self.cx, self.cy, self.i, self.o, self)
 end
+
 function Unit:setNextWaypoint()
     self.waypointX = self.nd[self.count][1] + 0.5
     self.waypointY = self.nd[self.count][2] + 0.5
     self.moveDir = "none"
 end
+
 function Unit:isPositionAt(px, py)
     if self.gx - 0.5 == px and self.gy - 0.5 == py then
         return true
     end
     return false
 end
+
 function Unit:animate()
     if self == nil or self.animation == nil then
         return -- nothing to animatedAlias
@@ -102,7 +106,7 @@ function Unit:animate()
         end
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offsetX or 0) + offsetX,
             self.y + (self.offsetY or 0) + offsetY -
-                _G.state.map.walkingHeightmap[math.round(self.gx)][math.round(self.gy)])
+            _G.state.map.walkingHeightmap[math.round(self.gx)][math.round(self.gy)])
 
         local elevationOffsetY = 0
         if _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] then
@@ -130,7 +134,7 @@ function Unit:animate()
         local instancemesh = _G.state.objectMesh[self.cx][self.cy]
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offsetX or 0) + offsetX,
             self.y + (self.offsetY or 0) + offsetY -
-                _G.state.map.walkingHeightmap[math.round(self.gx)][math.round(self.gy)])
+            _G.state.map.walkingHeightmap[math.round(self.gx)][math.round(self.gy)])
 
         local elevationOffsetY = 0
         if _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] then
@@ -162,6 +166,7 @@ function Unit:animate()
         end
     end
 end
+
 function Unit:requestPath(xx, yy)
     if type(xx) ~= "number" then
         error("Wrong type for request path xx: " .. tostring(xx))
@@ -176,6 +181,7 @@ function Unit:requestPath(xx, yy)
     self.endy = yy
     self.pathState = "Waiting for path"
 end
+
 function Unit:reachedPathEnd()
     if self.nd[1] == nil then
         if self.gx == self.nd[0][1] + 0.5 and self.gy == self.nd[0][2] + 0.5 then
@@ -195,6 +201,7 @@ function Unit:reachedPathEnd()
     end
     return false
 end
+
 function Unit:pathfind()
     if self.endx >= _G.chunksWide * _G.chunkWidth or self.endy >= _G.chunksHigh * _G.chunkHeight or self.endx < 0 or
         self.endy < 0 then
@@ -239,16 +246,19 @@ function Unit:pathfind()
         end
     end
 end
+
 function Unit:calculatePosition()
     self.x = IsoX + ((self.fx * 0.001) % _G.chunkWidth - (self.fy * 0.001) % _G.chunkWidth) * tileWidth * 0.5 -
-                 self.unitOffsetX
+        self.unitOffsetX
     self.y = IsoY + ((self.fx * 0.001) % _G.chunkWidth + (self.fy * 0.001) % _G.chunkWidth) * tileHeight * 0.5 -
-                 self.unitOffsetY
+        self.unitOffsetY
     self.lastX, self.lastY = self.x, self.y
 end
+
 function Unit:updateDirection()
     local wx = self.waypointX
     local wy = self.waypointY
+    if not wx or not wy then return end
     local angle = math.atan2(wy - (self.fy * 0.001), wx - (self.fx * 0.001))
     if angle < 0 then
         angle = angle + 2 * math.pi
@@ -259,7 +269,7 @@ function Unit:updateDirection()
     if angle < 0 then
         angle = 360 + angle
     end
-    if (angle >= 135 + 22 and angle <= 225 - 22) then -- direction is west 
+    if (angle >= 135 + 22 and angle <= 225 - 22) then -- direction is west
         self.moveDir = "west"
         if self.previousDir ~= "west" then
             self:updatePosition()
@@ -310,6 +320,7 @@ function Unit:updateDirection()
     end
     self.previousDir = self.moveDir
 end
+
 function Unit:updatePosition()
     self.previousCx, self.previousCy = self.cx, self.cy
     self.gx, self.gy = self.fx * 0.001, self.fy * 0.001
@@ -335,7 +346,7 @@ function Unit:updatePosition()
         if self.animation then
             local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(
                 self.x + (self.offsetX or 0) + _G.offsetX, self.y + (self.offsetY or 0) + _G.offsetY -
-                    _G.state.map.walkingHeightmap[math.floor(self.gx)][math.floor(self.gy)])
+                _G.state.map.walkingHeightmap[math.floor(self.gx)][math.floor(self.gy)])
             local qx, qy, qw, qh = quad:getViewport()
             local newVert = _G.getFreeVertexFromTile(self.cx, self.cy, self.i, self.o)
             if newVert then
@@ -362,7 +373,8 @@ function Unit:updatePosition()
         end
     end
     self.lrcx, self.lrcy, self.lrx, self.lry = self.cx, self.cy, xx, yy
-    if self.originalx ~= math.floor(self.gx % _G.chunkWidth) or self.originaly ~= math.floor(self.gy % _G.chunkWidth) then
+    local newGX, newGY = math.floor(self.gx % _G.chunkWidth), math.floor(self.gy % _G.chunkWidth)
+    if self.originalx ~= newGX or self.originaly ~= newGY then
         _G.addObjectAt(self.cx, self.cy, xx, yy, self)
         for idx, _ in ipairs(self.locationsCx) do
             _G.removeObjectAt(self.locationsCx[idx], self.locationsCy[idx], self.locationsI[idx], self.locationsO[idx],
@@ -372,12 +384,58 @@ function Unit:updatePosition()
         self.locationsCy = {self.cy}
         self.locationsI = {xx}
         self.locationsO = {yy}
-        self.originalx = math.floor(self.gx % _G.chunkWidth)
-        self.originaly = math.floor(self.gy % _G.chunkWidth)
+        self.originalx = newGX
+        self.originaly = newGY
+        self:updateDirection()
+
+        local cgx, cgy = math.floor(self.gx), math.floor(self.gy)
+        if self.moveDir == "west" then
+            if _G.state.map:getWalkable(cgx - 1, cgy) == 1 then
+                self.pathState = "Need to repath"
+            end
+        elseif self.moveDir == "south" then
+            if _G.state.map:getWalkable(cgx, cgy + 1) == 1 then
+                self.pathState = "Need to repath"
+            end
+        elseif self.moveDir == "north" then
+            if _G.state.map:getWalkable(cgx, cgy - 1) == 1 then
+                self.pathState = "Need to repath"
+            end
+        elseif self.moveDir == "east" then
+            if _G.state.map:getWalkable(cgx + 1, cgy) == 1 then
+                self.pathState = "Need to repath"
+            end
+        elseif self.moveDir == "northwest" then
+            if _G.state.map:getWalkable(cgx - 1, cgy - 1) == 1 then
+                self.pathState = "Need to repath"
+            end
+        elseif self.moveDir == "northeast" then
+            if _G.state.map:getWalkable(cgx + 1, cgy - 1) == 1 then
+                self.pathState = "Need to repath"
+            end
+        elseif self.moveDir == "southwest" then
+            if _G.state.map:getWalkable(cgx - 1, cgy + 1) == 1 then
+                self.pathState = "Need to repath"
+            end
+        elseif self.moveDir == "southeast" then
+            if _G.state.map:getWalkable(cgx + 1, cgy + 1) == 1 then
+                self.pathState = "Need to repath"
+            end
+        end
+        if self.pathState == "Need to repath" then
+            self:requestPath(self.endx, self.endy)
+            self.pathState = "Waiting for path"
+            self.moveDir = "none"
+        end
+        self.needNewVertAsap = true
     end
     self:calculatePosition()
 end
+
 function Unit:move()
+    if self.pathState ~= "Found" then
+        return
+    end
     if not self.hasMoveDir then
         self:dirSubUpdate()
         self.hasMoveDir = true
@@ -387,21 +445,25 @@ function Unit:move()
         if self.fx < self.waypointX * 1000 then
             self.fx = self.waypointX * 1000
         end
+
     elseif self.moveDir == "south" then
         self.fy = self.fy + _G.dt * self.straightWalkSpeed
         if self.fy > self.waypointY * 1000 then
             self.fy = self.waypointY * 1000
         end
+
     elseif self.moveDir == "north" then
         self.fy = self.fy - _G.dt * self.straightWalkSpeed
         if self.fy < self.waypointY * 1000 then
             self.fy = self.waypointY * 1000
         end
+
     elseif self.moveDir == "east" then
         self.fx = self.fx + _G.dt * self.straightWalkSpeed
         if self.fx > self.waypointX * 1000 then
             self.fx = self.waypointX * 1000
         end
+
     elseif self.moveDir == "northwest" then
         self.fx = self.fx - _G.dt * self.diagonalWalkSpeed
         self.fy = self.fy - _G.dt * self.diagonalWalkSpeed
@@ -411,6 +473,7 @@ function Unit:move()
         if self.fy < self.waypointY * 1000 then
             self.fy = self.waypointY * 1000
         end
+
     elseif self.moveDir == "northeast" then
         self.fx = self.fx + _G.dt * self.diagonalWalkSpeed
         self.fy = self.fy - _G.dt * self.diagonalWalkSpeed
@@ -420,6 +483,7 @@ function Unit:move()
         if self.fy < self.waypointY * 1000 then
             self.fy = self.waypointY * 1000
         end
+
     elseif self.moveDir == "southwest" then
         self.fx = self.fx - _G.dt * self.diagonalWalkSpeed
         self.fy = self.fy + _G.dt * self.diagonalWalkSpeed
@@ -429,6 +493,7 @@ function Unit:move()
         if self.fy > self.waypointY * 1000 then
             self.fy = self.waypointY * 1000
         end
+
     elseif self.moveDir == "southeast" then
         self.fx = self.fx + _G.dt * self.diagonalWalkSpeed
         self.fy = self.fy + _G.dt * self.diagonalWalkSpeed
@@ -438,9 +503,11 @@ function Unit:move()
         if self.fy > self.waypointY * 1000 then
             self.fy = self.waypointY * 1000
         end
+
     end
     self:updatePosition()
 end
+
 function Unit:jobUpdate()
     _G.removeObjectAt(self.lrcx, self.lrcy, self.lrx, self.lry, self)
     _G.freeVertexFromTile(self.cx, self.cy, self.vertId)
@@ -448,6 +515,7 @@ function Unit:jobUpdate()
     self.instancemesh = nil
     self.animation = nil
 end
+
 function Unit:serialize()
     local data = {}
     local objectData = Object.serialize(self)
@@ -490,6 +558,7 @@ function Unit:serialize()
     data.lrcx, data.lrcy, data.lrx, data.lry = self.lrcx, self.lrcy, self.lrx, self.lry
     return data
 end
+
 function Unit.static:deserialize(data)
     local object = _G.getClassByName(data.className)
     data.needNewVertAsap = true
@@ -501,6 +570,7 @@ function Unit.static:deserialize(data)
     obj:load(data)
     return obj
 end
+
 function Unit:clearPath()
     self.nd = {}
     self.waypointX, self.waypointY = nil, nil
@@ -508,6 +578,7 @@ function Unit:clearPath()
     self.moveDir = "none"
     self.count = 1
 end
+
 function Unit:load(_)
     _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
     table.insert(self.locationsCx, self.cx)
