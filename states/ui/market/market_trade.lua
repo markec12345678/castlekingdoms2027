@@ -680,7 +680,7 @@ marketBuyButton.OnClick = function(self)
     -- TODO add sound
     local stockpileController = require("objects.Controllers.StockpileController")
 
-    if good ~= "" and _G.state.gold >= price then
+    if good and good ~= "" and _G.state.gold >= price then
 
         if groupTypeMarket.name == 1 then
             _G.state.gold = _G.state.gold - ((5 * quantity) / 5)
