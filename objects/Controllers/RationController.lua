@@ -21,7 +21,7 @@ RationController.static.MOOD_LEVELS = {
     LargeRations = 8
 }
 RationController.static.FOOD_DIVERSITY = {
-    0, 1, 2, 3, 5
+    0, 0, 1, 3, 5
 }
 RationController.static.RATION_INTERVAL = 30
 function RationController:initialize()
@@ -62,7 +62,7 @@ function RationController:getRationLevel()
 end
 
 function RationController:getMoodLevel()
-    if self.consumedFoodsMood == 0 or self.rationLevel == self.class.RATION_LEVELS.NoRations then
+    if self.previousConsumedFoods == 0 or self.rationLevel == self.class.RATION_LEVELS.NoRations then
         return self.class.MOOD_LEVELS.NoRations
     end
     return self.moodFoodFactor + self.consumedFoodsMood
