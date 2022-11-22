@@ -112,6 +112,7 @@ function game:update(dt)
             RationController:update()
             _G.TaxController:update()
             _G.PopularityController:update()
+            _G.DestructionController:update()
         end
         prof.push("ui")
         loveframes.update()
@@ -243,7 +244,6 @@ function game:mousereleased(x, y, button, istouch)
     -- TODO: Check if event is consumed
     loveframes.mousereleased(x, y, button)
     _G.BrushController:mousereleased(button)
-    _G.DestructionController:mousereleased(button, x, y)
 end
 
 function game:wheelmoved(x, y)
