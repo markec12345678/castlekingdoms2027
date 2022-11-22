@@ -7,6 +7,8 @@ function DestructionController:initialize()
     self.destructionCursor = love.mouse.newCursor(self.destructionCursorImg, 1, 1)
     self.cursorImg = love.image.newImageData("assets/ui/cursor.png")
     self.cursor = love.mouse.newCursor(self.cursorImg, 2, 2)
+    self.prevGX = 0
+    self.prevGY = 0
 end
 
 function DestructionController:toggle()
@@ -22,6 +24,19 @@ function DestructionController:toggle()
         love.mouse.setCursor(self.cursor)
     end
     return self.active
+end
+
+function DestructionController:update()
+    if _G.DestructionController.active and love.mouse.isDown(1) then
+        local mx, my = love.mouse.getPosition()
+        local gx, gy = _G.getTerrainTileOnMouse(mx, my)
+        if self.prevGX ~= gx and self.prevGY ~= gy then
+            _G.DestructionController:destroyAtLocation(gx, gy)
+            self.prevGX, self.prevGY = gx, gy
+        end
+    else
+        self.prevGX, self.prevGY = 0, 0
+    end
 end
 
 function DestructionController:disable()
@@ -67,16 +82,6 @@ function DestructionController:destroyAtLocation(gx, gy)
                 end
             end
         end
-    end
-end
-
--- Handles destruction of the main Structure, its aliases and reverting the terrain biome and setting the building health to -1.
--- Everything else (e.G. refunding, destruction of sub-buildings and respawning of resources (Iron, Stone))
--- must be handled by the Strcutures destroy() function.
-function DestructionController:mousereleased(button, mx, my)
-    if self.active and button == 1 then
-        local gx, gy = _G.getTerrainTileOnMouse(mx, my)
-        self:destroyAtLocation(gx, gy)
     end
 end
 
