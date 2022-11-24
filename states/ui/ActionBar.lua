@@ -34,41 +34,35 @@ function ActionBar:initialize()
         height = (163 - 145) * scale
     }
     local frGold = {
-        x = element:GetX() - element:GetOffsetX() * scale + 1019 * scale,
-        y = element:GetY() - element:GetOffsetY() * scale + 130 * scale,
+        x = element:GetX() - element:GetOffsetX() * scale + 1018 * scale,
+        y = element:GetY() - element:GetOffsetY() * scale + 133 * scale,
         width = (1053 - 1020) * scale,
         height = (163 - 145) * scale
     }
     local frPopulation = {
-        x = element:GetX() - element:GetOffsetX() * scale + 1017 * scale,
-        y = element:GetY() - element:GetOffsetY() * scale + 144 * scale,
+        x = element:GetX() - element:GetOffsetX() * scale + 1021 * scale,
+        y = element:GetY() - element:GetOffsetY() * scale + 149 * scale,
         width = (1053 - 1020) * scale,
         height = (163 - 145) * scale
     }
     local popularityText = loveframes.Create("text")
     self.popularityText = popularityText
     popularityText:SetState(states.STATE_INGAME_CONSTRUCTION)
-    popularityText:SetFont(loveframes.font_immortal_large)
+    popularityText:SetFont(loveframes.slanted_big_green)
     popularityText:SetPos(frPopularity.x, frPopularity.y)
     popularityText:SetText("")
-    popularityText:SetShadowColor(0, 0, 0)
-    popularityText:SetShadow(true)
     local goldText = loveframes.Create("text")
     self.goldText = goldText
     goldText:SetState(states.STATE_INGAME_CONSTRUCTION)
-    goldText:SetFont(loveframes.font_vera_italic)
+    goldText:SetFont(loveframes.slanted_xsmall_green)
     goldText:SetPos(frGold.x, frGold.y)
     goldText:SetText("")
-    goldText:SetShadowColor(240 / 255, 240 / 255, 224 / 255)
-    goldText:SetShadow(true)
     local populationText = loveframes.Create("text")
     self.populationText = populationText
     populationText:SetState(states.STATE_INGAME_CONSTRUCTION)
-    populationText:SetFont(loveframes.font_vera_italic_large)
+    populationText:SetFont(loveframes.slanted_small_green)
     populationText:SetPos(frPopulation.x, frPopulation.y)
     populationText:SetText("")
-    populationText:SetShadowColor(240 / 255, 240 / 255, 224 / 255)
-    populationText:SetShadow(true)
     self.element = element
     self.groups = {}
     self.currentGroup = "main"
@@ -146,34 +140,40 @@ function ActionBar:updatePopularityCount()
         return
     end
 
-    if _G.state.popularity == 50 then
-        color = {176 / 255, 136 / 255, 80 / 255, 1}
-    elseif _G.state.popularity > 50 then
-        color = {130 / 255, 220 / 255, 123 / 255, 1}
+    if _G.state.popularity >= 50 then
+        self.popularityText:SetFont(loveframes.slanted_big_green)
     else
-        color = {200 / 255, 90 / 255, 90 / 255, 1}
+        self.popularityText:SetFont(loveframes.slanted_big_red)
     end
 
-    self.popularityText:SetText({{
-        color = color
-    }, _G.state.popularity})
+    self.popularityText:SetText(_G.state.popularity)
 end
 
 function ActionBar:updateGoldCount()
-    local color = {176 / 255, 136 / 255, 80 / 255, 1}
-    self.goldText:SetText({{
-        color = color
-    }, _G.state.gold})
+    if _G.state.gold >= 10 then
+        self.goldText:SetFont(loveframes.slanted_xsmall_green)
+    else
+        self.goldText:SetFont(loveframes.slanted_xsmall_red)
+    end
+    -- Poor man's right align
+    if _G.state.gold >= 1000 then
+        self.goldText:SetText(_G.state.gold)
+    elseif _G.state.gold >= 100 then
+        self.goldText:SetText(" " .. _G.state.gold)
+    elseif _G.state.gold >= 10 then
+        self.goldText:SetText("  " .. _G.state.gold)
+    elseif _G.state.gold >= 0 then
+        self.goldText:SetText("   " .. _G.state.gold)
+    end
 end
 
 function ActionBar:updatePopulationCount()
-    local color = {176 / 255, 136 / 255, 80 / 255, 1}
     if _G.state.population == _G.state.maxPopulation then
-        color = {204 / 255, 0, 0, 1}
+        self.populationText:SetFont(loveframes.slanted_small_red)
+    else
+        self.populationText:SetFont(loveframes.slanted_small_green)
     end
-    self.populationText:SetText({{
-        color = color
-    }, _G.state.population .. "/" .. _G.state.maxPopulation})
+    self.populationText:SetText(_G.state.population .. "/" .. _G.state.maxPopulation)
 end
 
 function ActionBar:activateButton(position)

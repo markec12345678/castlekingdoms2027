@@ -53,6 +53,14 @@ loveframes.dragobject = false
 loveframes.hover = false
 loveframes.input_cursor_set = false
 loveframes.prevcursor = nil
+loveframes.slanted_big_green = love.graphics.newImageFont("assets/fonts/slanted_big_green.png", "019/2345678", -4)
+loveframes.slanted_big_red = love.graphics.newImageFont("assets/fonts/slanted_big_red.png", "019/2345678", -4)
+loveframes.slanted_medium_green = love.graphics.newImageFont("assets/fonts/slanted_medium_green.png", "01/23456789 ", -3)
+loveframes.slanted_medium_red = love.graphics.newImageFont("assets/fonts/slanted_medium_red.png", "01/23456789 ", -3)
+loveframes.slanted_small_green = love.graphics.newImageFont("assets/fonts/slanted_small_green.png", "01/23456789 ", -3)
+loveframes.slanted_small_red = love.graphics.newImageFont("assets/fonts/slanted_small_red.png", "01/23456789 ", -3)
+loveframes.slanted_xsmall_green = love.graphics.newImageFont("assets/fonts/slanted_xsmall_green.png", "01/23456789 ", -1)
+loveframes.slanted_xsmall_red = love.graphics.newImageFont("assets/fonts/slanted_xsmall_red.png", "01/23456789 ", -1)
 if love.graphics.getHeight() >= 1440 and love.graphics.getWidth() >= 2560 and love.graphics.getWidth() < 3840 then
     loveframes.basicfont = love.graphics.newFont(18)
     loveframes.font_immortal = love.graphics.newFont("assets/fonts/IMMORTAL.ttf", 18)
