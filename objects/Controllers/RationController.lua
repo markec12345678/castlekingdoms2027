@@ -1,8 +1,8 @@
 local FoodController = require("objects.Controllers.FoodController")
 
-local colorRed = { 200 / 255, 90 / 255, 90 / 255, 1 }
-local colorWhite = { 1, 1, 1, 1 }
-local colorGreen = { 130 / 255, 220 / 255, 123 / 255, 1 }
+local colorRed = {200 / 255, 90 / 255, 90 / 255, 1}
+local colorWhite = {1, 1, 1, 1}
+local colorGreen = {130 / 255, 220 / 255, 123 / 255, 1}
 
 local moodImage, moodText = unpack(require("states.ui.granary.food_rations"))
 local RationController = _G.class("RationController")
@@ -30,7 +30,7 @@ function RationController:initialize()
     self.moodFoodFactor = self.class.MOOD_LEVELS.NormalRations
     self.granaries = {}
     self.previousConsumedFoods = 1
-    self.consumedFoodsMood = 1
+    self.consumedFoodsMood = 0
 end
 
 function RationController:serialize()
@@ -87,19 +87,19 @@ function RationController:updateUI()
     local moodLevel = self:getMoodLevel()
     if moodLevel == 0 then
         moodImage:SetNeutralMood()
-        moodText:SetText({ {
+        moodText:SetText({{
             color = colorWhite
-        }, moodLevel })
+        }, moodLevel})
     elseif moodLevel > 0 then
         moodImage:SetPositiveMood()
-        moodText:SetText({ {
+        moodText:SetText({{
             color = colorGreen
-        }, moodLevel })
+        }, moodLevel})
     elseif moodLevel < 0 then
         moodImage:SetNegativeMood()
-        moodText:SetText({ {
+        moodText:SetText({{
             color = colorRed
-        }, moodLevel })
+        }, moodLevel})
     end
 end
 

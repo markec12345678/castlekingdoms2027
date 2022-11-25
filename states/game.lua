@@ -109,11 +109,13 @@ function game:update(dt)
             prof.pop("bcontr")
             _G.DebugView:update()
             _G.BrushController:update()
-            RationController:update()
-            _G.TaxController:update()
-            _G.PopularityController:update()
-            _G.ScribeController:update()
-            _G.DestructionController:update()
+            if not _G.BuildController.start then
+                RationController:update()
+                _G.TaxController:update()
+                _G.PopularityController:update()
+                _G.ScribeController:update()
+                _G.DestructionController:update()
+            end
         end
         prof.push("ui")
         loveframes.update()
