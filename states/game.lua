@@ -211,6 +211,22 @@ end
 
 function game:keypressed(key, scancode, isRepeat)
     ActionBar:keypressed(key, scancode)
+    if key == "+" or key == "kp+" then
+        if _G.speedModifier == 0.5 then
+            _G.speedModifier = _G.speedModifier + 0.5
+        elseif _G.speedModifier < 10 then
+            _G.speedModifier = _G.speedModifier + 1
+        end
+    end
+    if key == "=" then
+        _G.speedModifier = 1
+    end
+    if key == "-" or key == "kp-" then
+        _G.speedModifier = _G.speedModifier - 0.5
+        if _G.speedModifier < 0.5 then
+            _G.speedModifier = 0.5
+        end
+    end
     if key == "escape" then
         if (loveframes.GetState() == states.STATE_PAUSE_MENU or
             loveframes.GetState() == states.STATE_INGAME_CONSTRUCTION) then

@@ -74,15 +74,16 @@ function love.run()
         nextTime = nextTime + 1 / _G.MAX_FPS
         if love.timer then
             love.timer.step()
-            dt = love.timer.getDelta()
-            if dt > 0.5 and consecutiveLargeDts < 3 then
+            _G.dt = love.timer.getDelta()
+            if _G.dt > 0.5 and consecutiveLargeDts < 3 then
                 -- We prefer the game to slow down on large short spikes
                 -- so the units don't teleport around
-                dt = 0.016
+                _G.dt = 0.016
                 consecutiveLargeDts = consecutiveLargeDts + 1
-            elseif dt <= 0.5 then
+            elseif _G.dt <= 0.5 then
                 consecutiveLargeDts = 0
             end
+            _G.dt = _G.dt * _G.speedModifier
         end
         if _G.paused then
             _G.dt = 0
@@ -98,7 +99,7 @@ function love.run()
         prof.push("frame")
         prof.push("update")
         if love.update then
-            love.update(dt)
+            love.update(_G.dt)
         end -- will pass 0 if love.timer is disabled
         prof.pop("update")
         prof.push("draw")

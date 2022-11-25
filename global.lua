@@ -24,6 +24,7 @@ _G.paused = false
 _G.MAX_FPS = 60
 _G.CURRENT_PLAYLIST_INDEX = 0
 _G.CURRENT_MUSIC = nil
+_G.speedModifier = 1
 
 function _G.reverse(t)
     local n = #t
