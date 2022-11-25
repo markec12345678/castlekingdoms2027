@@ -14,7 +14,6 @@ local savegame
 local playlist = require("sounds.music_playlist")
 local RationController
 
-
 local function updateProgress(prgs, lState)
     progress = prgs or progress
     loadState = lState or loadState
@@ -35,6 +34,7 @@ local function delayedInit()
     RationController = require("objects.Controllers.RationController")
     _G.TaxController = require("objects.Controllers.TaxController")
     _G.PopularityController = require("objects.Controllers.PopularityController")
+    _G.ScribeController = require("objects.Controllers.ScribeController")
     _G.BuildController = love.filesystem.load("objects/Controllers/BuildController.lua")(
         package.loaded["objects.objects"].object, objectAtlas)
     _G.JobController = require("objects.Controllers.JobController")
@@ -112,6 +112,7 @@ function game:update(dt)
             RationController:update()
             _G.TaxController:update()
             _G.PopularityController:update()
+            _G.ScribeController:update()
             _G.DestructionController:update()
         end
         prof.push("ui")
@@ -153,6 +154,7 @@ function game:draw()
                 _G.BuildController:draw()
                 _G.DebugView:draw()
                 _G.BrushController:draw()
+
             end
             love.graphics.pop()
             if _G.paused then
@@ -164,6 +166,9 @@ function game:draw()
             prof.push("ui_draw")
             loveframes.draw()
             prof.pop("ui_draw")
+            if not _G.paused then
+                _G.ScribeController:draw()
+            end
             if _G.state.scaleX >= 2.1 or _G.paused then
                 love.postshader.draw()
             end
