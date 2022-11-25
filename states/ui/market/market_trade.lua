@@ -695,8 +695,6 @@ marketBuyButton.OnClick = function(self)
                 _G.stockpile:store(good)
             end
         end
-
-        stockpileController:updateResourceCount()
         actionBar:updateStockpileResourcesCount()
         actionBar:updateGoldCount()
     end
@@ -753,8 +751,6 @@ marketSellButton.OnClick = function(self)
                 _G.stockpile:take(good)
             end
         end
-
-        stockpileController:updateResourceCount()
         actionBar:updateStockpileResourcesCount()
         actionBar:updateGoldCount()
     end

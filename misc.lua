@@ -107,8 +107,12 @@ local function scale(y)
 end
 
 local function draw()
-    love.graphics.print("FPS: " .. tostring(love.timer.getFPS()) .. "\nMax FPS: " .. tostring(_G.previousFrameTime), 10,
-        love.graphics.getHeight() - 40)
+    if _G.speedModifier ~= 1 then
+        love.graphics.print("Speed Modifier: " .. tostring(_G.speedModifier) .. "x", 10,
+            10)
+    end
+    love.graphics.print("FPS: " .. tostring(love.timer.getFPS()), 10,
+        love.graphics.getHeight() - 30)
 end
 
 local tableOfFunctions = {

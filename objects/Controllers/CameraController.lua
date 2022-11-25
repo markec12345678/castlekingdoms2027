@@ -72,9 +72,9 @@ local panDirection = {
 }
 
 local panDirectionToKeys = {
-    [panDirection.up]    = {"up",    "w"},
-    [panDirection.down]  = {"down",  "s"},
-    [panDirection.left]  = {"left",  "a"},
+    [panDirection.up]    = {"up", "w"},
+    [panDirection.down]  = {"down", "s"},
+    [panDirection.left]  = {"left", "a"},
     [panDirection.right] = {"right", "d"}
 }
 
@@ -98,12 +98,12 @@ local function isMouseOnDirectionEdge(direction)
     local mouseX, mouseY = love.mouse.getPosition()
     if (direction == panDirection.up or
         direction == panDirection.down)
-      and mouseY == panDirectionToMousePositions[direction].y then
+        and mouseY == panDirectionToMousePositions[direction].y then
         return true
     end
     if (direction == panDirection.left or
         direction == panDirection.right)
-      and mouseX == panDirectionToMousePositions[direction].x then
+        and mouseX == panDirectionToMousePositions[direction].x then
         return true
     end
     return false
@@ -118,7 +118,7 @@ local function handleCamera()
     local defMX, defMY = love.mouse.getPosition()
     local mx = (defMX - 16 - _G.ScreenWidth / 2) / _G.state.scaleX + _G.state.viewXview
     local my = (defMY - 8 - _G.ScreenHeight / 2) / _G.state.scaleX + _G.state.viewYview
-    local finalScrollSpeed = (_G.scrollSpeed + ((1 - _G.state.scaleX) * 20)) * _G.dt
+    local finalScrollSpeed = (_G.scrollSpeed + ((1 - _G.state.scaleX) * 20)) * _G.dt / _G.speedModifier
     if finalScrollSpeed < 5 then
         finalScrollSpeed = 5
     end

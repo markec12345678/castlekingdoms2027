@@ -7,7 +7,7 @@ local indexQuads = _G.indexQuads
 local cuttingFx = {_G.fx["chop1 22k"], _G.fx["chop2 22k"], _G.fx["chop3 22k"], _G.fx["chop4 22k"]}
 local choppingFx = {_G.fx["wood_chop_1"], _G.fx["wood_chop_2"], _G.fx["wood_chop_3"]}
 local footstepFx = {_G.fx["footstep_grass_1"], _G.fx["footstep_grass_2"], _G.fx["footstep_grass_3"],
-                    _G.fx["footstep_grass_4"], _G.fx["footstep_grass_5"]}
+    _G.fx["footstep_grass_4"], _G.fx["footstep_grass_5"]}
 
 local fr_walking_plank_east = indexQuads("body_woodcutter_walk_plank_e", 16)
 local fr_walking_plank_north = indexQuads("body_woodcutter_walk_plank_n", 16)
@@ -137,6 +137,7 @@ function Woodcutter:initialize(gx, gy, type)
         self:cutCallback()
     end
 end
+
 function Woodcutter:load(data)
     Object.deserialize(self, data)
     Unit.load(self, data)
@@ -228,6 +229,7 @@ function Woodcutter:load(data)
         self.targetTree = _G.state:dereferenceObject(data.targetTree)
     end
 end
+
 function Woodcutter:serialize()
     local data = {}
     local unitData = Unit.serialize(self)
@@ -274,6 +276,7 @@ function Woodcutter:serialize()
     end
     return data
 end
+
 function Woodcutter:cutCallback()
     if self.state == "Cutting down" then
         local treeProgress
@@ -297,12 +300,14 @@ function Woodcutter:cutCallback()
         end
     end
 end
+
 function Woodcutter:jobUpdate()
     _G.removeObjectAt(self.lrcx, self.lrcy, self.lrx, self.lry, self)
     _G.freeVertexFromTile(self.cx, self.cy, self.vertId)
     self.instancemesh = nil
     self.animation = nil
 end
+
 function Woodcutter:checkTrees(cx, cy)
     local chunkx, chunky = cx or self.cx, cy or self.cy
     local closestObject, closestDistance = nil, 10000000
@@ -327,6 +332,7 @@ function Woodcutter:checkTrees(cx, cy)
         return closestObject, closestDistance
     end
 end
+
 function Woodcutter:findTree()
     local closestObject, closestDistance = nil, 10000000
     local objt, disto
@@ -397,6 +403,7 @@ function Woodcutter:findTree()
     end
     closestObject.marked = true
 end
+
 function Woodcutter:dirSubUpdate()
     if self.moveDir == "west" then
         if self.state == "Going to stockpile" then
@@ -464,21 +471,22 @@ function Woodcutter:dirSubUpdate()
         end
     end
 end
+
 function Woodcutter:update()
-    self.storeTimer = self.storeTimer + 1
+    self.storeTimer = self.storeTimer + _G.dt
     if self.pathState == "Waiting for path" then
         self:pathfind()
     elseif self.state == "Find a job" then
         _G.JobController:findJob(self, "Woodcutter")
-    elseif self.state == "Storing second plank" and self.storeTimer > 10 then
+    elseif self.state == "Storing second plank" and self.storeTimer > 0.3 then
         self.storeTimer = 0
         self.state = "Storing third plank"
         _G.stockpile:store('wood')
-    elseif self.state == "Storing third plank" and self.storeTimer > 10 then
+    elseif self.state == "Storing third plank" and self.storeTimer > 0.3 then
         self.storeTimer = 0
         _G.stockpile:store('wood')
         self.state = "Storing fourth plank"
-    elseif self.state == "Storing fourth plank" and self.storeTimer > 10 then
+    elseif self.state == "Storing fourth plank" and self.storeTimer > 0.3 then
         self.storeTimer = 0
         _G.stockpile:store('wood')
         self.animation:resume()
@@ -573,6 +581,7 @@ function Woodcutter:update()
         end
     end
 end
+
 function Woodcutter:animate()
     if self.moveDir ~= "none" and self.animation and (self.animation.position == 2 or self.animation.position == 10) then
         _G.playSfx(self, footstepFx)
@@ -580,4 +589,5 @@ function Woodcutter:animate()
     self:update()
     Unit.animate(self)
 end
+
 return Woodcutter
