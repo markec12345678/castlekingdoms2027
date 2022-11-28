@@ -33,6 +33,8 @@ function Unit:initialize(gx, gy, type, noPathState)
     self.locationsCy = {}
     self.locationsI = {}
     self.locationsO = {}
+    self.unstuckTimer = 0
+    self.waitingForPathTimer = 0
     self.lrcx, self.lrcy, self.lrx, self.lry = 0, 0, 0, 0
     _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
     table.insert(self.locationsCx, self.cx)
@@ -66,6 +68,16 @@ function Unit:isPositionAt(px, py)
 end
 
 function Unit:animate()
+    if self.pathState == "Waiting for path" then
+        self.waitingForPathTimer = self.waitingForPathTimer + _G.dt
+        if self.waitingForPathTimer > 5 then
+            self.pathState = "none"
+            self.waitingForPathTimer = 0
+            self.state, _ = string.gsub(self.state, "Going", "Go")
+        end
+    else
+        self.waitingForPathTimer = 0
+    end
     if self == nil or self.animation == nil then
         return -- nothing to animatedAlias
     end
@@ -444,24 +456,28 @@ function Unit:move()
         self.fx = self.fx - _G.dt * self.straightWalkSpeed
         if self.fx < self.waypointX * 1000 then
             self.fx = self.waypointX * 1000
+            self.fy = self.waypointY * 1000
         end
 
     elseif self.moveDir == "south" then
         self.fy = self.fy + _G.dt * self.straightWalkSpeed
         if self.fy > self.waypointY * 1000 then
             self.fy = self.waypointY * 1000
+            self.fx = self.waypointX * 1000
         end
 
     elseif self.moveDir == "north" then
         self.fy = self.fy - _G.dt * self.straightWalkSpeed
         if self.fy < self.waypointY * 1000 then
             self.fy = self.waypointY * 1000
+            self.fx = self.waypointX * 1000
         end
 
     elseif self.moveDir == "east" then
         self.fx = self.fx + _G.dt * self.straightWalkSpeed
         if self.fx > self.waypointX * 1000 then
             self.fx = self.waypointX * 1000
+            self.fy = self.waypointY * 1000
         end
 
     elseif self.moveDir == "northwest" then
@@ -503,7 +519,13 @@ function Unit:move()
         if self.fy > self.waypointY * 1000 then
             self.fy = self.waypointY * 1000
         end
-
+    else
+        self.unstuckTimer = self.unstuckTimer + _G.dt
+        if self.unstuckTimer > 10 then
+            self.fx = self.waypointX * 1000
+            self.fy = self.waypointY * 1000
+            self.unstuckTimer = 0
+        end
     end
     self:updatePosition()
 end
@@ -567,6 +589,8 @@ function Unit.static:deserialize(data)
     if not obj.eatTimer then
         obj.eatTimer = 0
     end
+    obj.unstuckTimer = 0
+    obj.waitingForPathTimer = 0
     obj:load(data)
     return obj
 end

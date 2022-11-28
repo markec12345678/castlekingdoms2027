@@ -29,7 +29,7 @@ end
 
 function PopularityController:update()
     if not _G.campfireFloatPop then return end
-    self.timer = self.timer + love.timer.getDelta()
+    self.timer = self.timer + _G.dt
     if self.timer >= self.class.POPULARITY_INTERVAL then
         _G.state.popularity = 50 + _G.TaxController:getMoodFactor() + RationController:getMoodLevel()
         self.timer = 0

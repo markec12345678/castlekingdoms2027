@@ -67,7 +67,7 @@ end
 
 function TaxController:update()
     local elements = require("states.ui.keep.keep_tax")
-    self.timer = self.timer + love.timer.getDelta()
+    self.timer = self.timer + _G.dt
     if _G.state.gold < (math.round(_G.state.population * self.goldFactor, 0) * -1) then
         _G.TaxController:setTaxLevel("NoTaxes")
         elements.SetTax(4)

@@ -68,6 +68,16 @@ function Stonemason:initialize(gx, gy, type)
     self.animated = true
     self.animation = anim.newAnimation(an[ANIM_WALKING_WEST], 10, nil, ANIM_WALKING_WEST)
 end
+
+function Stonemason:setIdle()
+    if self.animation.animationIdentifier == ANIM_WALKING_EAST then
+        return
+    end
+    self.animation = anim.newAnimation(an[ANIM_WALKING_EAST], 0.05, nil, ANIM_WALKING_EAST)
+    Unit.animate(self)
+    self.animation:pause()
+end
+
 function Stonemason:dirSubUpdate()
     if self.moveDir == "west" then
         if self.state == "Going to stockpile" or self.state == "Going to workplace with stone" then
@@ -78,14 +88,14 @@ function Stonemason:dirSubUpdate()
     elseif self.moveDir == "southwest" then
         if self.state == "Going to stockpile" or self.state == "Going to workplace with stone" then
             self.animation =
-                anim.newAnimation(an[ANIM_WALKING_STONE_SOUTHWEST], 0.05, nil, ANIM_WALKING_STONE_SOUTHWEST)
+            anim.newAnimation(an[ANIM_WALKING_STONE_SOUTHWEST], 0.05, nil, ANIM_WALKING_STONE_SOUTHWEST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_SOUTHWEST], 0.05, nil, ANIM_WALKING_SOUTHWEST)
         end
     elseif self.moveDir == "northwest" then
         if self.state == "Going to stockpile" or self.state == "Going to workplace with stone" then
             self.animation =
-                anim.newAnimation(an[ANIM_WALKING_STONE_NORTHWEST], 0.05, nil, ANIM_WALKING_STONE_NORTHWEST)
+            anim.newAnimation(an[ANIM_WALKING_STONE_NORTHWEST], 0.05, nil, ANIM_WALKING_STONE_NORTHWEST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_NORTHWEST], 0.05, nil, ANIM_WALKING_NORTHWEST)
         end
@@ -110,19 +120,20 @@ function Stonemason:dirSubUpdate()
     elseif self.moveDir == "southeast" then
         if self.state == "Going to stockpile" or self.state == "Going to workplace with stone" then
             self.animation =
-                anim.newAnimation(an[ANIM_WALKING_STONE_SOUTHEAST], 0.05, nil, ANIM_WALKING_STONE_SOUTHEAST)
+            anim.newAnimation(an[ANIM_WALKING_STONE_SOUTHEAST], 0.05, nil, ANIM_WALKING_STONE_SOUTHEAST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_SOUTHEAST], 0.05, nil, ANIM_WALKING_SOUTHEAST)
         end
     elseif self.moveDir == "northeast" then
         if self.state == "Going to stockpile" or self.state == "Going to workplace with stone" then
             self.animation =
-                anim.newAnimation(an[ANIM_WALKING_STONE_NORTHEAST], 0.05, nil, ANIM_WALKING_STONE_NORTHEAST)
+            anim.newAnimation(an[ANIM_WALKING_STONE_NORTHEAST], 0.05, nil, ANIM_WALKING_STONE_NORTHEAST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_NORTHEAST], 0.05, nil, ANIM_WALKING_NORTHEAST)
         end
     end
 end
+
 function Stonemason:update()
     if self.pathState == "Waiting for path" then
         self:pathfind()
@@ -198,10 +209,12 @@ function Stonemason:update()
         end
     end
 end
+
 function Stonemason:animate()
     self:update()
     Unit.animate(self)
 end
+
 function Stonemason:load(data)
     Object.deserialize(self, data)
     Unit.load(self, data)
@@ -211,6 +224,7 @@ function Stonemason:load(data)
         self.animation:deserialize(anData)
     end
 end
+
 function Stonemason:serialize()
     local data = {}
     local unitData = Unit.serialize(self)
@@ -229,4 +243,5 @@ function Stonemason:serialize()
     data.count = self.count
     return data
 end
+
 return Stonemason

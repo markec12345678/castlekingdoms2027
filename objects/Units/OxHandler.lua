@@ -2,6 +2,7 @@ local Object = require("objects.Object")
 local Stonemason = require("objects.Units.Stonemason")
 local Unit = require("objects.Units.Unit")
 local anim = require("libraries.anim8")
+local Structure = require("objects.Structure")
 
 local an = Stonemason.static.animations
 
@@ -25,24 +26,28 @@ function OxHandler:update()
         self.state = "Going to workplace with stone"
         self.moveDir = "none"
     elseif self.state == "Go to quarry" then
+        self:setIdle()
         if self.workplace.quantity < 8 then
-            for x = self.workplace.gx - 25, self.workplace.gx + 25 do
-                for y = self.workplace.gy - 25, self.workplace.gy + 25 do
-                    if _G.objectFromClassAtGlobal(x, y, "Quarry") then
-                        self.targetQuarry = _G.objectFromClassAtGlobal(x, y, "Quarry")
+            for x = self.workplace.gx - 25, self.workplace.gx + 25, 5 do
+                for y = self.workplace.gy - 25, self.workplace.gy + 25, 5 do
+                    local str = _G.objectFromSubclassAtGlobal(x, y, Structure)
+                    if not str then goto continue end
+                    str = str.parent or str
+                    if str.class.name == "Quarry" then
+                        self.targetQuarry = str
                         if self.targetQuarry.stack.quantity > 0 and self.targetQuarry.assignedOxHandler == nil then
                             self.targetQuarry.assignedOxHandler = self
-                            self:requestPath(x + 6, y + 3)
+                            self:requestPath(str.gx + 6, str.gy + 3)
                             self.state = "Going to quarry"
                             self.moveDir = "none"
                             self.animation:resume()
                             return
                         end
                     end
+                    ::continue::
                 end
             end
         end
-        self.state = "Go to workplace"
     elseif self.moveDir == "none" and self.state == "Going to workplace" then
         self:updateDirection()
     elseif self.moveDir == "none" and self.state == "Going to quarry" then

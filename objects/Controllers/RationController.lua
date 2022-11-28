@@ -108,7 +108,7 @@ function RationController:setGranaryToFadeOut(granary)
 end
 
 function RationController:update()
-    self.timer = self.timer + love.timer.getDelta()
+    self.timer = self.timer + _G.dt
     local consumedFoods = FoodController:foodsConsumed()
     if self.timer >= self.class.RATION_INTERVAL then
         _G.foodpile:take(nil, math.round(_G.state.population * self.rationLevel, 0))

@@ -132,7 +132,7 @@ function State:dereferenceObject(refObj)
             end
         end
     end
-    error("Couldn't dereference object:" .. tostring(self.rawObjectIds[ref]) .. " with ref obj:" ..
+    error("Did you miss to add the Alias in the Object class exclusion list?\n" .. "Couldn't dereference object:" .. tostring(self.rawObjectIds[ref]) .. " with ref obj:" ..
         tostring(_G.inspect(refObj)))
 end
 

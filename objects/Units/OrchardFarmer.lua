@@ -195,12 +195,12 @@ function OrchardFarmer:update()
                 if not closestNode then
                     print("Closest foodpile node not found")
                 else
-                    print("Requesting path to ", closestNode.gx, closestNode.gy)
+                    -- print("Requesting path to ", closestNode.gx, closestNode.gy)
                     self:requestPath(closestNode.gx, closestNode.gy)
                 end
             end
         elseif self.state == "Go to workplace" then
-            self:requestPath(self.workplace.gx - 1, self.workplace.gy - 1)
+            self:requestPath(self.workplace.gx + 1, self.workplace.gy + 3)
             self.state = "Going to workplace"
             self.moveDir = "none"
         elseif self.moveDir == "none" and self.state == "Going to workplace" then
