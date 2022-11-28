@@ -124,10 +124,9 @@ function OxTether:add(amount)
         print("Cannot add more than 8 Stone to Tether stack")
         return
     end
+    self.quantity = newQuantity
     if newQuantity == 8 then
         self.oxUnit:sendToStockpile()
-    else
-        self.quantity = newQuantity
     end
     self:update()
 end

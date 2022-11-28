@@ -202,10 +202,12 @@ function Ox:update()
                 self.moveDir = "north"
                 self:dirSubUpdate()
                 self:clearPath()
+                if self.workplace.quantity == 8 then
+                    self:sendToStockpile()
+                end
                 return
             else
                 self:setNextWaypoint()
-
             end
             self.count = self.count + 1
         elseif self.state == "Going to stockpile" then
@@ -226,8 +228,11 @@ function Ox:update()
 end
 
 function Ox:sendToStockpile()
-    self.workplace.quantity = 0
-    self.state = "Go to stockpile"
+    if self.state == "Idle" then
+        self.workplace.quantity = 0
+        self.state = "Go to stockpile"
+        self.workplace:update()
+    end
 end
 
 function Ox:animate()

@@ -26,6 +26,7 @@ function OxHandler:update()
         self.moveDir = "none"
     elseif self.state == "Go to quarry" then
         if self.workplace.quantity < 8 then
+            self.animation:resume()
             for x = self.workplace.gx - 25, self.workplace.gx + 25 do
                 for y = self.workplace.gy - 25, self.workplace.gy + 25 do
                     if _G.objectFromClassAtGlobal(x, y, "Quarry") then
@@ -41,6 +42,8 @@ function OxHandler:update()
                     end
                 end
             end
+        else
+            self.animation:pause()
         end
         self.state = "Go to workplace"
     elseif self.moveDir == "none" and self.state == "Going to workplace" then
