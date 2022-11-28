@@ -3,13 +3,35 @@ local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
 local OxUnit = require("objects.Units.Ox");
 
+local _, quadArrayEast1 = _G.indexBuildingQuads("stone_oax_base (1)")
+local _, quadArrayEast2 = _G.indexBuildingQuads("stone_oax_base (2)")
+local _, quadArrayEast3 = _G.indexBuildingQuads("stone_oax_base (3)")
+local _, quadArrayEast4 = _G.indexBuildingQuads("stone_oax_base (4)")
+local _, quadArrayEast5 = _G.indexBuildingQuads("stone_oax_base (5)")
+local _, quadArrayEast6 = _G.indexBuildingQuads("stone_oax_base (6)")
+local _, quadArrayEast7 = _G.indexBuildingQuads("stone_oax_base (7)")
+local _, quadArrayEast8 = _G.indexBuildingQuads("stone_oax_base (8)")
+local tilesEast, quadArrayEast9 = _G.indexBuildingQuads("stone_oax_base (9)")
+
+
+local buildingQuads = {
+    quadArrayEast1,
+    quadArrayEast2,
+    quadArrayEast3,
+    quadArrayEast4,
+    quadArrayEast5,
+    quadArrayEast6,
+    quadArrayEast7,
+    quadArrayEast8,
+    quadArrayEast9,
+}
+
 local OxTetherAlias = _G.class("OxTetherAlias", Structure)
-function OxTetherAlias:initialize(gx, gy, parent, offsetY, offsetX)
-    local mytype = "Static structure"
+function OxTetherAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     self.parent = parent
-    Structure.initialize(self, gx, gy, mytype)
+    Structure.initialize(self, gx, gy)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.tile = tileQuads["empty"]
+    self.tile = tile or tileQuads["empty"]
     self.baseOffsetY = offsetY or 0
     self.additionalOffsetY = 0
     self.offsetX = offsetX or 0
@@ -40,7 +62,7 @@ function OxTetherAlias.static:deserialize(data)
     Structure.load(obj, data)
     obj.parent = _G.state:dereferenceObject(data.parent)
     if data.tileKey then
-        obj.tile = quadArray[data.tileKey]
+        obj.tile = buildingQuads[1][data.tileKey]
         obj.tileKey = data.tileKey
         obj:render()
     end
@@ -57,23 +79,40 @@ function OxTether:initialize(gx, gy)
     _G.JobController:add("OxHandler", self)
     Structure.initialize(self, gx, gy, "OxTether")
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.tile = tileQuads["stone_oax_base (1)"]
+    self.tile = buildingQuads[1][tilesEast + 1]
     self.health = 50
-    self.offsetX = -15
+    self.offsetX = 0
     self.offsetY = -26
     self.freeSpots = 1
-    self.oxUnit = OxUnit:new(gx + 1, gy + 3, self)
+    self.oxUnit = OxUnit:new(gx + 5, gy + 7, self)
     self.oxWorker = nil
     self.quantity = 0
 
-    for x = gx - 25, gx + 25 do
-        for y = gy - 25, gy + 25 do
-            local quarry = _G.objectFromClassAtGlobal(x, y, "Quarry")
-            if quarry then
-                quarry.isStandalone = false
+    for x = gx - 25, gx + 25, 5 do
+        for y = gy - 25, gy + 25, 5 do
+            local str = _G.objectFromSubclassAtGlobal(x, y, Structure)
+            if str then
+                str = str.parent or str
+                if str.class.name == "Quarry" then
+                    str.isStandalone = false
+                end
+                break
             end
         end
     end
+
+    for tile = 1, tilesEast do
+        local whf = OxTetherAlias:new(buildingQuads[1][tile], self.gx, self.gy + (tilesEast - tile + 1), self,
+            -self.offsetY + 8 * (tilesEast - tile + 1))
+        whf.tileKey = tile
+    end
+
+    for tile = 1, tilesEast do
+        local whf = OxTetherAlias:new(buildingQuads[1][tilesEast + 1 + tile], self.gx + tile, self.gy, self,
+            -self.offsetY + 8 * tile, 14)
+        whf.tileKey = tilesEast + 1 + tile
+    end
+
 
     for xx = -1, 2 do
         for yy = -1, 2 do
@@ -84,12 +123,9 @@ function OxTether:initialize(gx, gy)
         end
     end
 
-    OxTetherAlias:new(self.gx + 1, self.gy, self, self.offsetX, self.offsetY)
-    OxTetherAlias:new(self.gx, self.gy + 1, self, self.offsetX, self.offsetY)
-    OxTetherAlias:new(self.gx + 1, self.gy + 1, self, self.offsetX, self.offsetY)
+    OxTetherAlias:new(nil, self.gx + 1, self.gy + 1, self, self.offsetX, self.offsetY)
 
     self:applyBuildingHeightMap()
-    Structure.render(self)
 end
 
 function OxTether:destroy()
@@ -161,7 +197,19 @@ function OxTether:work(worker)
 end
 
 function OxTether:update()
-    self.tile = tileQuads["stone_oax_base (" .. self.quantity + 1 .. ")"]
+    self.tile = buildingQuads[self.quantity + 1][2]
+    local obj1 = _G.objectFromClassAtGlobal(self.gx, self.gy + 1, OxTetherAlias)
+    if obj1 then
+        obj1.tilekey = 1
+        obj1.tile = buildingQuads[self.quantity + 1][obj1.tilekey]
+        obj1:render()
+    end
+    local obj2 = _G.objectFromClassAtGlobal(self.gx + 1, self.gy, OxTetherAlias)
+    if obj2 then
+        obj2.tilekey = 3
+        obj2.tile = buildingQuads[self.quantity + 1][obj2.tilekey]
+        obj2:render()
+    end
     Structure.render(self)
 end
 
@@ -180,8 +228,8 @@ function OxTether:load(data)
         self.worker = self.oxWorker
         self.oxWorker.workplace = self
     end
-    self.tile = tileQuads["stone_oax_base (1)"]
-    self:update()
+    self.tile = buildingQuads[self.quantity + 1][2]
+    self:render()
 end
 
 function OxTether.static:deserialize(data)

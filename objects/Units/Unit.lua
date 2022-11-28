@@ -34,6 +34,7 @@ function Unit:initialize(gx, gy, type, noPathState)
     self.locationsI = {}
     self.locationsO = {}
     self.unstuckTimer = 0
+    self.waitingForPathTimer = 0
     self.lrcx, self.lrcy, self.lrx, self.lry = 0, 0, 0, 0
     _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
     table.insert(self.locationsCx, self.cx)
@@ -67,6 +68,16 @@ function Unit:isPositionAt(px, py)
 end
 
 function Unit:animate()
+    if self.pathState == "Waiting for path" then
+        self.waitingForPathTimer = self.waitingForPathTimer + _G.dt
+        if self.waitingForPathTimer > 5 then
+            self.pathState = "none"
+            self.waitingForPathTimer = 0
+            self.state, _ = string.gsub(self.state, "Going", "Go")
+        end
+    else
+        self.waitingForPathTimer = 0
+    end
     if self == nil or self.animation == nil then
         return -- nothing to animatedAlias
     end
@@ -579,6 +590,7 @@ function Unit.static:deserialize(data)
         obj.eatTimer = 0
     end
     obj.unstuckTimer = 0
+    obj.waitingForPathTimer = 0
     obj:load(data)
     return obj
 end
