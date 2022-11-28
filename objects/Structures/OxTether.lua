@@ -84,7 +84,7 @@ function OxTether:initialize(gx, gy)
     self.offsetX = 0
     self.offsetY = -26
     self.freeSpots = 1
-    self.oxUnit = OxUnit:new(gx + 5, gy + 7, self)
+    self.oxUnit = OxUnit:new(gx + 1, gy + 3, self)
     self.oxWorker = nil
     self.quantity = 0
 
