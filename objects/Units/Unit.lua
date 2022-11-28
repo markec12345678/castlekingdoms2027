@@ -503,7 +503,13 @@ function Unit:move()
         if self.fy > self.waypointY * 1000 then
             self.fy = self.waypointY * 1000
         end
-
+    else
+        self.unstuckTimer = self.unstuckTimer + _G.dt
+        if self.unstuckTimer > 10 then
+            self.fx = self.waypointX * 1000
+            self.fy = self.waypointY * 1000
+            self.unstuckTimer = 0
+        end
     end
     self:updatePosition()
 end
