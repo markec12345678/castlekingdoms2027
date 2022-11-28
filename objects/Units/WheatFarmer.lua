@@ -496,7 +496,6 @@ function WheatFarmer:load(data)
     local anData = data.animation
     if anData then
         local animId = anData.animationIdentifier
-        self.animationIdentifier = animId
         local seedLandAnimations = {
             [AN.GATHER_PLANTING_SOUTH] = true,
             [AN.GATHER_PLANTING_NORTH] = true,
@@ -672,23 +671,23 @@ function WheatFarmer:hoeLandGetAnim()
     local anim1, anim2, anim3
     if self.state == "Working" then
         if self.moveDir == nil or self.moveDir == "none" then
-            if string.find(self.animationIdentifier, "South") then
+            if string.find(self.animation.animationIdentifier, "South") then
                 anim1 = AN.GATHER_WALK_HOE_SOUTH
                 anim2 = AN.GATHER_HOE_SOUTH
                 anim3 = AN.GATHER_HOE_PART2_SOUTH
-            elseif string.find(self.animationIdentifier, "North") then
+            elseif string.find(self.animation.animationIdentifier, "North") then
                 anim1 = AN.GATHER_WALK_HOE_NORTH
                 anim2 = AN.GATHER_HOE_NORTH
                 anim3 = AN.GATHER_HOE_PART2_NORTH
-            elseif string.find(self.animationIdentifier, "East") then
+            elseif string.find(self.animation.animationIdentifier, "East") then
                 anim1 = AN.GATHER_WALK_HOE_EAST
                 anim2 = AN.GATHER_HOE_EAST
                 anim3 = AN.GATHER_HOE_PART2_EAST
-            elseif string.find(self.animationIdentifier, "Northeast") then
+            elseif string.find(self.animation.animationIdentifier, "Northeast") then
                 anim1 = AN.GATHER_WALK_HOE_NORTHEAST
                 anim2 = AN.GATHER_WALK_HOE_NORTHEAST
                 anim3 = AN.GATHER_HOE_PART2_NORTHEAST
-            elseif string.find(self.animationIdentifier, "Southeast") then
+            elseif string.find(self.animation.animationIdentifier, "Southeast") then
                 anim1 = AN.GATHER_WALK_HOE_SOUTHEAST
                 anim2 = AN.GATHER_HOE_SOUTHEAST
                 anim3 = AN.GATHER_HOE_PART2_SOUTHEAST
@@ -882,23 +881,23 @@ function WheatFarmer:scytheLandGetAnim()
     local anim1, anim2, anim3
     if self.state == "Working" then
         if self.moveDir == nil or self.moveDir == "none" then
-            if string.find(self.animationIdentifier, "South") then
+            if string.find(self.animation.animationIdentifier, "South") then
                 anim1 = AN.GATHER_MOVING_SCYTHE_1_SOUTH
                 anim2 = AN.GATHER_MOVING_SCYTHE_2_SOUTH
                 anim3 = AN.GATHER_MOVING_SCYTHE_3_SOUTH
-            elseif string.find(self.animationIdentifier, "North") then
+            elseif string.find(self.animation.animationIdentifier, "North") then
                 anim1 = AN.GATHER_MOVING_SCYTHE_1_NORTH
                 anim2 = AN.GATHER_MOVING_SCYTHE_2_NORTH
                 anim3 = AN.GATHER_MOVING_SCYTHE_3_NORTH
-            elseif string.find(self.animationIdentifier, "East") then
+            elseif string.find(self.animation.animationIdentifier, "East") then
                 anim1 = AN.GATHER_MOVING_SCYTHE_1_EAST
                 anim2 = AN.GATHER_MOVING_SCYTHE_2_EAST
                 anim3 = AN.GATHER_MOVING_SCYTHE_3_EAST
-            elseif string.find(self.animationIdentifier, "Northeast") then
+            elseif string.find(self.animation.animationIdentifier, "Northeast") then
                 anim1 = AN.GATHER_MOVING_SCYTHE_1_NORTHEAST
                 anim2 = AN.GATHER_MOVING_SCYTHE_2_NORTHEAST
                 anim3 = AN.GATHER_MOVING_SCYTHE_3_NORTHEAST
-            elseif string.find(self.animationIdentifier, "Southeast") then
+            elseif string.find(self.animation.animationIdentifier, "Southeast") then
                 anim1 = AN.GATHER_MOVING_SCYTHE_1_SOUTHEAST
                 anim2 = AN.GATHER_MOVING_SCYTHE_2_SOUTHEAST
                 anim3 = AN.GATHER_MOVING_SCYTHE_3_SOUTHEAST
