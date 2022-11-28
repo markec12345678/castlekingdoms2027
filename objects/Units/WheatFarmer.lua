@@ -472,6 +472,9 @@ function WheatFarmer:jobUpdate()
 end
 
 function WheatFarmer:anchorWorkPosition()
+    if not self.waypointX or not self.waypointY then
+        return
+    end
     self.fx = self.waypointX * 1000
     self.fy = self.waypointY * 1000
     self.gy = math.round(self.fx * 0.001)
