@@ -511,12 +511,12 @@ function Woodcutter:update()
             self.moveDir = "none"
         end
     elseif self.state ~= "No trees" then
-        if self.state == "Looking to chop tree" then
+        if self.state == "Looking to chop tree" or self.state == "Go to tree" then
             self:findTree()
         elseif self.state == "Go to workplace" then
             self.gx, self.gy = math.round(self.gx), math.round(self.gy)
             self.fx, self.fy = self.gx * 1000 + 500, self.gy * 1000 + 500
-            self:requestPath(self.workplace.gx + 1, self.workplace.gy + 3)
+            self:requestPath(self.workplace.gx + 1, self.workplace.gy + 2)
             self.state = "Going to workplace"
             self.moveDir = "none"
         elseif self.state == "Going to tree" or self.state == "Going to stockpile" or self.state == "Going to workplace" or

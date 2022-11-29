@@ -883,8 +883,8 @@ function BuildController:build(gx, gy)
                 self.canAfford = self:isBuildingAffordable(self.building)
                 if self.canAfford then
                     self:purchaseBuilding(self.building)
-                    for xx = 0, building[self.building].w do
-                        for yy = 0, building[self.building].h do
+                    for xx = 0, building[self.building].w - 1 do
+                        for yy = 0, building[self.building].h - 1 do
                             _G.removeObjectFromClassAtGlobal(gx + xx, gy + yy, "Shrub")
                         end
                     end
@@ -896,8 +896,8 @@ function BuildController:build(gx, gy)
                     return true
                 end
             else
-                for xx = 0, building[self.building].w do
-                    for yy = 0, building[self.building].h do
+                for xx = 0, building[self.building].w - 1 do
+                    for yy = 0, building[self.building].h - 1 do
                         _G.removeObjectFromClassAtGlobal(gx + xx, gy + yy, "Shrub")
                     end
                 end

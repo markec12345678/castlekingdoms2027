@@ -70,14 +70,6 @@ function DebugView:update()
             self.info = self.info .. "\n Shadow: " .. tostring(_G.state.map.shadowmap[cx][cy][i][o] or 0)
             self.info = self.info .. "\n cx, cy, i, o: " .. cx .. ", " .. cy .. ", " .. i .. ", " .. o
             self.info = self.info .. "\n gx, gy: " .. OX .. ", " .. OY
-            local val = -1
-
-            local Structure = require("objects.Structure")
-            local structure = _G.objectFromSubclassAtGlobal(OX, OY, Structure)
-            if structure then
-                val = structure:getAverageShadowValue()
-            end
-            self.info = self.info .. "\n" .. val
         end
 
         local LX, LY = OX - math.floor(self.width / 2), OY - math.floor(self.height / 2)

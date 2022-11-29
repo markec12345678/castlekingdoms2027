@@ -48,6 +48,7 @@ function Tree:initialize(gx, gy, type)
     _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
     self:shadeFromTerrain()
 end
+
 function Tree:finish()
     -- Object was deleted by arrayRemove, so we need to readd it
     _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
@@ -73,6 +74,7 @@ function Tree:finish()
         end
     end
 end
+
 function Tree:cutDown()
     return function()
         self.toBeDeleted = true
@@ -80,8 +82,10 @@ function Tree:cutDown()
         self.chop = true
         self.animation = self.chopAnimation
         self.animation:pause()
+        self:destroy()
     end
 end
+
 function Tree:render()
     if not self.instancemesh then
         self:animate()
@@ -96,6 +100,7 @@ function Tree:render()
         self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, 1)
     end
 end
+
 function Tree:calculateShadowValue()
     local cx, cy, i, o = self.cx, self.cy, self.i, self.o
     local elevationOffsetY = _G.state.map.heightmap[cx][cy][i][o] or 0
@@ -109,17 +114,20 @@ function Tree:calculateShadowValue()
         self.shadowValue = math.min(0.85, 1 - shadowValue)
     end
 end
+
 function Tree:shadeFromTerrain()
     self:calculateShadowValue()
     if self.animation then
         self:animate(_G.dt, true)
     end
 end
+
 function Tree:update(dt)
     if self.falling then
         self:animate(dt)
     end
 end
+
 function Tree:animate(dt, forceUpdate)
     if not self.animation then
         return
@@ -157,7 +165,7 @@ function Tree:animate(dt, forceUpdate)
         end
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(
             self.x + (self.offsetX or 0) + offsetX,
-                self.y + (self.offsetY or 0) + offsetY - _G.state.map.walkingHeightmap[self.gx][self.gy])
+            self.y + (self.offsetY or 0) + offsetY - _G.state.map.walkingHeightmap[self.gx][self.gy])
 
         local elevationOffsetY = 0
         if _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] then
@@ -177,7 +185,7 @@ function Tree:animate(dt, forceUpdate)
         local instancemesh = _G.state.objectMesh[self.cx][self.cy]
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(
             self.x + (self.offsetX or 0) + offsetX,
-                self.y + (self.offsetY or 0) + offsetY - _G.state.map.walkingHeightmap[self.gx][self.gy])
+            self.y + (self.offsetY or 0) + offsetY - _G.state.map.walkingHeightmap[self.gx][self.gy])
         local elevationOffsetY = 0
         if _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] then
             elevationOffsetY = _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] * 2
@@ -191,6 +199,7 @@ function Tree:animate(dt, forceUpdate)
         end
     end
 end
+
 function Tree:cut()
     if self.health > 0 then
         self.offsetX = self.baseOffsetX + 4
@@ -226,6 +235,7 @@ function Tree:cut()
         end
     end
 end
+
 function Tree:serialize()
     local data = {}
     local objectData = Object.serialize(self)
@@ -251,6 +261,7 @@ function Tree:serialize()
     data.chunkKey = self.chunkKey
     return data
 end
+
 function Tree:load(data)
     Object.initialize(self, data.gx, data.gy, data.type)
     if _G.state.chunkObjects[self.cx][self.cy] == nil then
@@ -259,10 +270,32 @@ function Tree:load(data)
     _G.state.chunkObjects[self.cx][self.cy][self] = self
     _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
 end
+
 function Tree.static:deserialize(data)
     local obj = self:new(data.gx, data.gy, data.type)
     Object.deserialize(obj, data)
     return obj
+end
+
+function Tree:destroy()
+    local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(self.gx - 1, self.gy + 1)
+    _G.scheduleTerrainUpdate(cx, cy, x, y)
+    cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(self.gx, self.gy)
+    _G.scheduleTerrainUpdate(cx, cy, x, y)
+
+    for xx = -1, 1 do
+        for yy = -1, 1 do
+            if not ((xx == -1 and yy == -1) or (xx == 1 and yy == 1) or (xx == -1 and yy == 1) or (xx == 1 and yy == -1)) then
+                local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(self.gx + xx, self.gy + yy)
+                if xx == 0 and yy == 0 then
+                    _G.buildingheightmap[ccx][ccy][xxx][yyy] = 0
+                else
+                    _G.buildingheightmap[ccx][ccy][xxx][yyy] = 0
+                end
+            end
+        end
+    end
+    _G.state.map.shadowmap[cx][cy][x][y] = 0
 end
 
 return Tree

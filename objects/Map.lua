@@ -22,6 +22,7 @@ end
 ---@return nil
 function Map:setWalkable(gx, gy, walkable)
     walkable = walkable or 0
+    if walkable == self:getWalkable(gx, gy) then return end
     if gx >= 0 and gx < 2048 and gy >= 0 and gy < 2048 then
         _G.channel.mapUpdate:push({gx, gy, walkable})
         _G.channel2.mapUpdate:push({gx, gy, walkable})
@@ -233,9 +234,14 @@ function Map:serializeWater()
 end
 
 function Map:deserializeWater(data)
+    if not data then return end
     for x = 0, 2048 - 1 do
-        for y = 0, 2048 - 1 do
-            self.water[x][y] = data[x][y]
+        if data[x] then
+            for y = 0, 2048 - 1 do
+                if data[x][y] then
+                    self.water[x][y] = data[x][y]
+                end
+            end
         end
     end
     return data
@@ -256,6 +262,7 @@ function Map:deserialize(data)
     self:deserializeHeightmap(data.heightmap)
     self:deserializeCollisionMap(data.collision)
     self:deserializeBuildingHeightmap(data.buildingheightmap)
+    self:deserializeWater(data.water)
     return data
 end
 
