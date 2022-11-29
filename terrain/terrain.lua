@@ -18,7 +18,6 @@ local chunksSet = newAutotable(2)
 ----Generate spriteBatch
 local terrainImage = _G.objectAtlas
 local heightmap = _G.state.map.heightmap
-_G.state.map.shadowmap = _G.state.map.shadowmap
 _G.buildingheightmap = _G.state.map.buildingheightmap
 local tileheight = _G.buildingheightmap
 local terrainTile = _G.state.map.terrainTile
@@ -354,6 +353,14 @@ function _G.scheduleTerrainUpdate(cx, cy, i, o)
     end
 end
 
+function _G.scheduleTightTerrainUpdate(cx, cy, i, o)
+    tertiaryTilesToUpdateInChunk[cx][cy][i][o] = true
+    if not chunksSet[cx][cy] then
+        chunksToUpdate[#chunksToUpdate + 1] = {cx, cy}
+        chunksSet[cx][cy] = true
+    end
+end
+
 function _G.terrainElevateTileAt(gx, gy)
     local cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(gx, gy)
     if _G.state.map.terrain[cx] and _G.state.map.terrain[cx][cy] then
@@ -542,6 +549,9 @@ local function updateTerrain(chunkX, chunkY)
     terrainBatch[chunkX][chunkY]:clear()
     for i = 0, chunkWidth - 1, 1 do
         for o = 0, chunkWidth - 1, 1 do
+            if not tilesToUpdateInChunk[cx][cy][i][o] and not tertiaryTilesToUpdateInChunk[cx][cy][i][o] then
+                goto endFirstPass
+            end
             local gx = chunkWidth * cx + i
             local gy = chunkWidth * cy + o
             local totalHeight = 0
@@ -558,10 +568,7 @@ local function updateTerrain(chunkX, chunkY)
                     end
                 end
             end
-            local prevI = (gx - 1) % (chunkWidth)
-            local prevO = (gy + 1) % (chunkWidth)
-            local prevCx = math.floor((gx - 1) / chunkWidth)
-            local prevCy = math.floor((gy + 1) / chunkWidth)
+            local prevCx, prevCy, prevI, prevO = _G.getLocalCoordinatesFromGlobal(gx - 1, gy + 1)
 
             local prevHeight, prevShadow, prevTileheight = 0, 0, 0
             if _G.state.map.terrain[prevCx] and _G.state.map.terrain[prevCx][prevCy] then
@@ -570,7 +577,16 @@ local function updateTerrain(chunkX, chunkY)
                 prevShadow = _G.state.map.shadowmap[prevCx][prevCy][prevI][prevO] or 0
                 prevTileheight = tileheight[prevCx][prevCy][prevI][prevO] or 0
             end
+            local lastShadow = _G.state.map.shadowmap[cx][cy][i][o]
             _G.state.map.shadowmap[cx][cy][i][o] = math.max(math.max(prevHeight + prevTileheight, prevShadow) - 3.5, 0)
+            if not _G.BuildController.start and lastShadow ~= _G.state.map.shadowmap[cx][cy][i][o] then
+                local cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(gx + 1, gy - 1)
+                if cx < chunksWide and cy < chunksHigh and cx >= 0 and cy >= 0 then
+                    if not _G.BuildController.start then
+                        _G.scheduleTightTerrainUpdate(cx, cy, i, o)
+                    end
+                end
+            end
 
             local prev1I = (gx - 1) % (chunkWidth)
             local prev1O = (gy) % (chunkWidth)
@@ -647,6 +663,7 @@ local function updateTerrain(chunkX, chunkY)
                 multiTileCalculate(currentBiome, cx, cy, i, o)
             end
             ::continue::
+            tilesToUpdateInChunk[cx][cy][i][o] = nil
             if _G.state.map.shadowmap[cx][cy][i][o] and _G.state.map.shadowmap[cx][cy][i][o] > 0 and terrain[cx][cy] then
                 local currentBiome = terrain[cx][cy][i][o]
                 local multiTileOrigin
@@ -665,6 +682,7 @@ local function updateTerrain(chunkX, chunkY)
                     end
                 end
             end
+            ::endFirstPass::
         end
     end
     updateTerrain2ndPass(cx, cy)
@@ -959,7 +977,7 @@ local function refreshTerrain(chunkX, chunkY)
     tilesToUpdateInChunk[cx][cy] = nil
     for i = 0, chunkWidth - 1, 1 do
         for o = 0, chunkWidth - 1, 1 do
-            _G.refreshTile(cx, cy, i, o)
+            _G.refreshTile(cx, cy, o, i)
         end
     end
     tertiaryTilesToUpdateInChunk[cx][cy] = nil

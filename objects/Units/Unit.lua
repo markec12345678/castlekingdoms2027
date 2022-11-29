@@ -69,7 +69,7 @@ end
 
 function Unit:animate()
     if self.pathState == "Waiting for path" then
-        self.waitingForPathTimer = self.waitingForPathTimer + _G.dt
+        self.waitingForPathTimer = self.waitingForPathTimer + love.timer.getDelta()
         if self.waitingForPathTimer > 5 then
             self.pathState = "none"
             self.waitingForPathTimer = 0
