@@ -5,6 +5,7 @@ local Object = require("objects.Object")
 local anim = require("libraries.anim8")
 local tiles, quadArray = _G.indexBuildingQuads("stone_quarry")
 local Stone = require("objects.Environment.Stone")
+local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
 
 local frLifterPart1 = _G.indexQuads("anim_quarry_lower", 17)
 local frLifterPart2 = _G.indexQuads("anim_quarry_lower", 20 + 18, 18)
@@ -627,6 +628,8 @@ function Quarry:initialize(gx, gy)
 
     self:applyBuildingHeightMap()
     Structure.render(self)
+
+    self.float = NotEnoughWorkersFloat:new(self.gx + self.class.WIDTH - 1, self.gy + self.class.LENGTH - 1, 3, -200)
 end
 
 function Quarry:scanForTether(callingTether)
@@ -714,6 +717,9 @@ function Quarry:join(worker)
         self.shapeWorker = worker
         worker.workplace = self
         self.freeSpots = self.freeSpots - 1
+    end
+    if self.freeSpots == 0 then
+        self.float:deactivate()
     end
 end
 

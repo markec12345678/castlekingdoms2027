@@ -1,6 +1,8 @@
 local _, tileQuads, _, activeEntities = ...
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
+local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
+
 local tiles, quadArray = _G.indexBuildingQuads("farm (2)")
 local farmlandTilesStage0 = {tileQuads["tile_farmland_stage_0 (1)"], tileQuads["tile_farmland_stage_0 (2)"],
     tileQuads["tile_farmland_stage_0 (3)"], tileQuads["tile_farmland_stage_0 (4)"]}
@@ -291,6 +293,8 @@ function WheatFarm:initialize(gx, gy, type)
 
     self.freeSpots = 1
     Structure.render(self)
+
+    self.float = NotEnoughWorkersFloat:new(self.gx + self.class.WIDTH - 1, self.gy + self.class.LENGTH - 1, 4, -120)
 end
 
 function WheatFarm:destroy()
@@ -392,6 +396,9 @@ function WheatFarm:join(worker)
         self.wheatWorker = worker
         worker.workplace = self
         self.freeSpots = self.freeSpots - 1
+    end
+    if self.freeSpots == 0 then
+        self.float:deactivate()
     end
 end
 

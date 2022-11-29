@@ -2,6 +2,7 @@ local Object = require("objects.Object")
 local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
 local OxUnit = require("objects.Units.Ox");
+local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
 
 local _, quadArrayEast1 = _G.indexBuildingQuads("stone_oax_base (1)")
 local _, quadArrayEast2 = _G.indexBuildingQuads("stone_oax_base (2)")
@@ -126,6 +127,8 @@ function OxTether:initialize(gx, gy)
     OxTetherAlias:new(nil, self.gx + 1, self.gy + 1, self, self.offsetX, self.offsetY)
 
     self:applyBuildingHeightMap()
+
+    self.float = NotEnoughWorkersFloat:new(self.gx + self.class.WIDTH - 1, self.gy + self.class.LENGTH - 1, -1, -80)
 end
 
 function OxTether:destroy()
@@ -190,6 +193,10 @@ function OxTether:join(worker)
     self.oxWorker = worker
     self.oxWorker.workplace = self
     self.freeSpots = 0
+
+    if self.freeSpots == 0 then
+        self.float:deactivate()
+    end
 end
 
 function OxTether:work(worker)

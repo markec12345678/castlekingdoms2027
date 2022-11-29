@@ -4,6 +4,7 @@ local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
 local tileQuads = require("objects.object_quads")
+local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
 
 local class = _G.class
 
@@ -212,6 +213,8 @@ function Orchard:initialize(gx, gy, type)
 
     self.freeSpots = 1
     Structure.render(self)
+
+    self.float = NotEnoughWorkersFloat:new(self.gx + self.class.WIDTH - 1, self.gy + self.class.LENGTH - 1, 2, -260)
 end
 
 function Orchard:destroy()
@@ -315,6 +318,9 @@ function Orchard:join(worker)
         self.appleWorker = worker
         worker.workplace = self
         self.freeSpots = self.freeSpots - 1
+    end
+    if self.freeSpots == 0 then
+        self.float:deactivate()
     end
 end
 

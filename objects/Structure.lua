@@ -129,9 +129,12 @@ end
 
 function Structure:serialize()
     local data = {}
+    if self.float then
+        data.float = _G.state:serializeObject(self.float)
+    end
     local objectData = Object.serialize(self)
     for k, v in pairs(objectData) do
-        if type(v) ~= "function" and type(v) ~= "userdata" then
+        if type(v) ~= "function" and type(v) ~= "userdata" and k ~= "float" then
             data[k] = v
         end
     end
@@ -159,6 +162,10 @@ end
 
 function Structure:load(data)
     Object.initialize(self, data.gx, data.gy, data.type)
+    if data.float then
+        self.float = _G.state:dereferenceObject(data.float)
+        data.float = nil
+    end
     _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
 end
 

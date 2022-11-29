@@ -1,6 +1,7 @@
 local activeEntities, _, tileQuads, _ = ...
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
+local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
 
 local tiles, quadArray = _G.indexBuildingQuads("woodcutter_hut", true)
 
@@ -399,6 +400,8 @@ function WoodcutterHut:initialize(gx, gy, type)
     _G.state.map:setWalkable(self.gx, self.gy + 2, 0)
     _G.state.map:setWalkable(self.gx + 1, self.gy + 2, 0)
     _G.state.map:setWalkable(self.gx + 2, self.gy + 2, 0)
+
+    self.float = NotEnoughWorkersFloat:new(self.gx, self.gy, 8, -64)
 end
 
 function WoodcutterHut:destroy()
@@ -427,6 +430,9 @@ function WoodcutterHut:join(worker)
         self.worker = worker
         self.worker.workplace = self
         self.freeSpots = self.freeSpots - 1
+    end
+    if self.freeSpots == 0 then
+        self.float:deactivate()
     end
 end
 
