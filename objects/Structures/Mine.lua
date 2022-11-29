@@ -3,6 +3,7 @@ local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
 local Iron = require("objects.Environment.Iron")
+local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
 
 local tiles, quadArray = _G.indexBuildingQuads("iron_mine")
 local frPouring = _G.indexQuads("anim_iron_miner_pour", 20)
@@ -684,6 +685,8 @@ function Mine:initialize(gx, gy)
     MineAlias:new(tileQuads["empty"], self.gx + 3, self.gy + 1, self, 12 + 8 * 4, 16)
     MineAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 2, self, 12 + 8 * 4, 16)
     self:applyBuildingHeightMap()
+
+    self.float = NotEnoughWorkersFloat:new(self.gx + self.class.WIDTH - 1, self.gy + self.class.LENGTH - 1, 7, -112)
 end
 
 function Mine:destroy()
@@ -731,6 +734,9 @@ function Mine:join(worker)
         self.worker = worker
         worker.workplace = self
         self.freeSpots = self.freeSpots - 1
+    end
+    if self.freeSpots == 0 then
+        self.float:deactivate()
     end
 end
 

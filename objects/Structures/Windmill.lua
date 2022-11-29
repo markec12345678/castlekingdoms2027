@@ -3,6 +3,7 @@ local activeEntities, _, tileQuads, _ = ...
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
+local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
 
 local tiles, quadArray = _G.indexBuildingQuads("windmill_whole", nil, 2)
 
@@ -344,6 +345,8 @@ function Windmill:initialize(gx, gy, type)
 
     _G.state.map:setWalkable(self.gx + 2, self.gy + 2, false)
     Structure.render(self)
+
+    self.float = NotEnoughWorkersFloat:new(self.gx + self.class.WIDTH - 1, self.gy + self.class.LENGTH - 1, 1, -280)
 end
 
 function Windmill:destroy()
@@ -462,6 +465,9 @@ function Windmill:join(worker)
         self.worker3 = worker
         self.worker3.workplace = self
         self.freeSpots = self.freeSpots - 1
+    end
+    if self.freeSpots == 0 then
+        self.float:deactivate()
     end
 end
 

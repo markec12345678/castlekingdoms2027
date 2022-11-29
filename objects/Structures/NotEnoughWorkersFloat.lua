@@ -1,0 +1,60 @@
+local activeEntities, tileQuads = ...
+local anim = require("libraries.anim8")
+local Structure = require("objects.Structure")
+local Object = require("objects.Object")
+
+local frames = _G.indexQuads("float_inaccessible", 16)
+
+local NotEnoughWorkersFloat = _G.class("NotEnoughWorkersFloat", Object)
+function NotEnoughWorkersFloat:initialize(gx, gy, offsetX, offsetY)
+    Object.initialize(self, gx, gy)
+    _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
+    self.animated = true
+    self.offsetX = offsetX
+    self.offsetY = offsetY
+    self.animation = anim.newAnimation(frames, 0.065, nil, "NotEnoughWorkersFloat")
+    self.tile = tileQuads["float_inaccessible (1)"]
+    table.insert(activeEntities, self)
+end
+
+function NotEnoughWorkersFloat:deactivate()
+    self.animation:pause()
+    self.animated = false
+    if self.instancemesh then
+        _G.freeVertexFromTile(self.cx, self.cy, self.vertId)
+        self.instancemesh = nil
+    end
+end
+
+function NotEnoughWorkersFloat:activate()
+    self.animation:resume()
+    self.animated = true
+    self.needNewVertAsap = true
+end
+
+function NotEnoughWorkersFloat:animate(dt)
+    Structure.animate(self, dt, true)
+end
+
+function NotEnoughWorkersFloat:serialize()
+    local data = {
+        animated = self.animated,
+        offsetX = self.offsetX,
+        offsetY = self.offsetY,
+    }
+    local objectData = Object.serialize(self)
+    for k, v in pairs(objectData) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
+    return data
+end
+
+function NotEnoughWorkersFloat.static:deserialize(load)
+    local obj = NotEnoughWorkersFloat:new(load.gx, load.gy, load.offsetX, load.offsetY)
+    obj.animated = load.animated
+    return obj
+end
+
+return NotEnoughWorkersFloat

@@ -53,6 +53,9 @@ local tileQuads = require("objects.object_quads")
 local Unit = love.filesystem.load("objects/Units/Unit.lua")(activeEntities, objectBatch)
 package.loaded["objects.Units.Unit"] = Unit
 
+local NotEnoughWorkersFloat = love.filesystem.load("objects/Structures/NotEnoughWorkersFloat.lua")(activeEntities, tileQuads)
+package.loaded["objects.Structures.NotEnoughWorkersFloat"] = NotEnoughWorkersFloat
+
 local Tree = love.filesystem.load("objects/Environment/Tree.lua")(objectBatch, activeEntities, tileQuads, object)
 local PineTree = love.filesystem.load("objects/Environment/PineTree.lua")(objectBatch, activeEntities, tileQuads,
     object, Tree)

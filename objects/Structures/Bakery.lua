@@ -3,6 +3,7 @@ local activeEntities, _, tileQuads, _ = ...
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
+local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
 
 local tiles, quadArray = _G.indexBuildingQuads("bakery_workshop (18)", true)
 
@@ -291,6 +292,8 @@ function Bakery:initialize(gx, gy)
     BakeryAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 1, self, self.offsetX, self.offsetY)
     BakeryAlias:new(tileQuads["empty"], self.gx + 3, self.gy + 1, self, self.offsetX, self.offsetY)
 
+    self.float = NotEnoughWorkersFloat:new(self.gx + self.class.WIDTH - 1, self.gy + self.class.LENGTH - 1, 7, -112)
+
     Structure.render(self)
 end
 
@@ -359,6 +362,9 @@ function Bakery:join(worker)
         self.worker = worker
         self.worker.workplace = self
         self.freeSpots = self.freeSpots - 1
+    end
+    if self.freeSpots == 0 then
+        self.float:deactivate()
     end
 end
 

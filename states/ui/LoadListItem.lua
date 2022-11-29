@@ -48,6 +48,7 @@ function LoadListItem:initialize(position, state, frListItem, frColumnSaveName, 
     nameText:SetPos(frColumnSaveName.x, frColumnSaveName.y)
     nameText:SetText("Milano")
     nameText:SetShadowColor(0.8, 0.8, 0.8, 1)
+    nameText.disablehover = true
     local mapText = loveframes.Create("text")
     self.mapText = mapText
     mapText:SetState(self.state)
@@ -55,6 +56,7 @@ function LoadListItem:initialize(position, state, frListItem, frColumnSaveName, 
     mapText:SetPos(frColumnMap.x, frColumnMap.y)
     mapText:SetText("Fernhaven")
     mapText:SetShadowColor(0.8, 0.8, 0.8, 1)
+    mapText.disablehover = true
     local dateText = loveframes.Create("text")
     self.dateText = dateText
     dateText:SetState(self.state)
@@ -62,6 +64,7 @@ function LoadListItem:initialize(position, state, frListItem, frColumnSaveName, 
     dateText:SetPos(frColumnDate.x, frColumnDate.y)
     dateText:SetText("2022-06-04\n  14:47:00")
     dateText:SetShadowColor(0.8, 0.8, 0.8, 1)
+    dateText.disablehover = true
     local versionText = loveframes.Create("text")
     self.versionText = versionText
     versionText:SetState(self.state)
@@ -70,6 +73,7 @@ function LoadListItem:initialize(position, state, frListItem, frColumnSaveName, 
     versionText:SetText("0.4.0")
     versionText:SetShadowColor(0.8, 0.8, 0.8, 1)
     versionText.visible = false
+    versionText.disablehover = true
     local deleteButton = loveframes.Create("image")
     self.deleteButton = deleteButton
     deleteButton:SetState(self.state)
@@ -84,7 +88,6 @@ function LoadListItem:initialize(position, state, frListItem, frColumnSaveName, 
         this:SetImage(deleteButtonImageDown)
     end
     deleteButton.OnClick = function(this)
-        print("deleting")
         SaveManager:delete(self.nameText:GetText())
     end
     deleteButton.OnMouseExit = function(this)
