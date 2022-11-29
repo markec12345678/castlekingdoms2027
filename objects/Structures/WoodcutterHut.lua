@@ -32,7 +32,6 @@ function WoodcutterHutLogStack:initialize(gx, gy, parent)
     self.animation = _G.anim.newAnimation(an[AN_HUT_LOGS], 0.11, nil, AN_HUT_LOGS)
     self.animation:pause()
     self.quantity = 0
-    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.offsetX = -51
     self.offsetY = -50
 
@@ -131,7 +130,6 @@ function WoodcutterHutPlankStack:initialize(gx, gy, parent)
     self.animation = _G.anim.newAnimation(an[AN_HUT_PLANKS], 0.11, nil, AN_HUT_PLANKS)
     self.animation:pause()
     self.quantity = 0
-    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.offsetX = -23
     self.offsetY = -52
 
@@ -213,7 +211,6 @@ function WoodcutterHutSawing:initialize(gx, gy, parent)
     self.animated = false
     self.animation = _G.anim.newAnimation(an[AN_HUT_SAWING], 0.11, nil, AN_HUT_SAWING)
     self.animation:pause()
-    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.offsetX = -35
     self.offsetY = -44
     self:setCallback()
@@ -294,7 +291,6 @@ function WoodcutterHutAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     local mytype = "Static structure"
     self.parent = parent
     Structure.initialize(self, gx, gy, mytype)
-    _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.tile = tile
     self.baseOffsetY = offsetY or 0
     self.additionalOffsetY = 0
@@ -380,7 +376,7 @@ function WoodcutterHut:initialize(gx, gy, type)
     _G.terrainSetTileAt(self.gx + 1, self.gy + 4, _G.terrainBiome.scarceGrass)
     _G.terrainSetTileAt(self.gx + 2, self.gy + 4, _G.terrainBiome.scarceGrass)
 
-    self:applyBuildingHeightMap()
+    self:applyBuildingHeightMap(nil, true)
 
     for tile = 1, tiles do
         local wht = WoodcutterHutAlias:new(
@@ -393,13 +389,17 @@ function WoodcutterHut:initialize(gx, gy, type)
         wht.tileKey = tiles + 1 + tile
     end
 
+    for x = 0, self.class.WIDTH - 1 do
+        for y = 0, self.class.LENGTH - 1 do
+            if y ~= 2 then
+                _G.state.map:setWalkable(self.gx + x, self.gy + y, 1)
+            end
+        end
+    end
+
     WoodcutterHutAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 1, self, self.offsetX, self.offsetY)
     WoodcutterHutAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 2, self, self.offsetX, self.offsetY)
     WoodcutterHutAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 2, self, self.offsetX, self.offsetY)
-
-    _G.state.map:setWalkable(self.gx, self.gy + 2, 0)
-    _G.state.map:setWalkable(self.gx + 1, self.gy + 2, 0)
-    _G.state.map:setWalkable(self.gx + 2, self.gy + 2, 0)
 
     self.float = NotEnoughWorkersFloat:new(self.gx, self.gy, 8, -64)
 end
@@ -459,9 +459,9 @@ function WoodcutterHut:sendToStockpile()
     self.worker.state = "Go to stockpile"
     self.worker.animated = true
     self.worker.gx = self.gx + 1
-    self.worker.gy = self.gy + 3
+    self.worker.gy = self.gy + 2
     self.worker.fx = (self.gx + 1) * 1000 + 500
-    self.worker.fy = (self.gy + 3) * 1000 + 500
+    self.worker.fy = (self.gy + 2) * 1000 + 500
     i = (self.worker.gx) % (_G.chunkWidth)
     o = (self.worker.gy) % (_G.chunkWidth)
     cx = math.floor(self.worker.gx / _G.chunkWidth)

@@ -296,7 +296,7 @@ function Woodcutter:cutCallback()
             self.moveDir = "none"
             self.count = 1
             self.state = "Going to workplace with wood"
-            self:requestPath(self.workplace.gx + 1, self.workplace.gy + 3)
+            self:requestPath(self.workplace.gx + 1, self.workplace.gy + 2, function() self:onNoPathToWorkplace() end)
         end
     end
 end
@@ -387,21 +387,23 @@ function Woodcutter:findTree()
         print("No trees nearby!")
         self.animation = _G.anim.newAnimation(an[AN_IDLE], 0.11, nil, AN_IDLE)
         self.state = "No trees"
-        -- TODO: Mark woodcutters hut as inactive
+        self:onNoPathToWorkplace()
         return
     end
     self.targetTree = closestObject
+    self.targetTree.marked = true
     self.endx = closestObject.gx
     self.endy = closestObject.gy + 1
     if self.endx == self.gx and self.endy == self.gy then
         self.state = "Cutting down"
         self.animation = anim.newAnimation(an[AN_CUTTING_NORTHEAST], 0.08, self.cut, AN_CUTTING_NORTHEAST)
         self:clearPath()
+        return
     else
-        self:requestPath(self.endx, self.endy)
         self.state = "Going to tree"
+        self:requestPath(self.endx, self.endy, function() self:onNoPathToTree() end)
+        return
     end
-    closestObject.marked = true
 end
 
 function Woodcutter:dirSubUpdate()
@@ -472,10 +474,32 @@ function Woodcutter:dirSubUpdate()
     end
 end
 
+function Woodcutter:onNoPathToWorkplace()
+    self.workplace.float:activate()
+    local Peasant = require("objects.Units.Peasant")
+    self.toBeDeleted = true
+    _G.freeVertexFromTile(self.cx, self.cy, self.previousVertId)
+    self.animation = nil
+    _G.freeVertexFromTile(self.cx, self.cy, self.vertId)
+    _G.removeObjectAt(self.cx, self.cy, self.i, self.o, self)
+    if _G.campfire.peasants < _G.campfire.maxPeasants then
+        Peasant:new(_G.spawnPointX, _G.spawnPointY)
+    end
+end
+
+function Woodcutter:onNoPathToTree()
+    self.state = "Looking to chop tree"
+    self:clearPath()
+    self:findTree()
+end
+
 function Woodcutter:update()
     self.storeTimer = self.storeTimer + _G.dt
     if self.pathState == "Waiting for path" then
         self:pathfind()
+        if self.animation and self.animation.animationIdentifier ~= AN_IDLE then
+            self.animation = _G.anim.newAnimation(an[AN_IDLE], 0.11, nil, AN_IDLE)
+        end
     elseif self.state == "Find a job" then
         _G.JobController:findJob(self, "Woodcutter")
     elseif self.state == "Storing second plank" and self.storeTimer > 0.3 then
@@ -505,8 +529,9 @@ function Woodcutter:update()
             end
             if not closestNode then
                 print("Closest stockpile node not found")
+                self:onNoPathToWorkplace()
             else
-                self:requestPath(closestNode.gx, closestNode.gy)
+                self:requestPath(closestNode.gx, closestNode.gy, function() self:onNoPathToWorkplace() end)
             end
             self.moveDir = "none"
         end
@@ -516,7 +541,7 @@ function Woodcutter:update()
         elseif self.state == "Go to workplace" then
             self.gx, self.gy = math.round(self.gx), math.round(self.gy)
             self.fx, self.fy = self.gx * 1000 + 500, self.gy * 1000 + 500
-            self:requestPath(self.workplace.gx + 1, self.workplace.gy + 2)
+            self:requestPath(self.workplace.gx + 1, self.workplace.gy + 2, function() self:onNoPathToWorkplace() end)
             self.state = "Going to workplace"
             self.moveDir = "none"
         elseif self.state == "Going to tree" or self.state == "Going to stockpile" or self.state == "Going to workplace" or

@@ -2,7 +2,7 @@ local activeEntities, objectBatch = ...
 local Object = require('objects.Object')
 
 local Unit = _G.class('Unit', Object)
-function Unit:initialize(gx, gy, type, noPathState)
+function Unit:initialize(gx, gy, type)
     Object.initialize(self, gx, gy, type)
     self.endx = 0
     self.endy = 0
@@ -27,7 +27,7 @@ function Unit:initialize(gx, gy, type, noPathState)
     self.moveDir = "none"
     self.previousDir = "none"
     self.animated = true
-    self.noPathState = noPathState or "No path"
+    self.setNoPathOnNextUpdate = false
     self.needNewVertAsap = false
     self.locationsCx = {}
     self.locationsCy = {}
@@ -71,9 +71,14 @@ function Unit:animate()
     if self.pathState == "Waiting for path" then
         self.waitingForPathTimer = self.waitingForPathTimer + love.timer.getDelta()
         if self.waitingForPathTimer > 5 then
-            self.pathState = "none"
-            self.waitingForPathTimer = 0
-            self.state, _ = string.gsub(self.state, "Going", "Go")
+            if self.noPathCallback then
+                self.noPathCallback()
+                self.noPathCallback = nil
+            else
+                self.pathState = "none"
+                self.waitingForPathTimer = 0
+                self.state, _ = string.gsub(self.state, "Going", "Go")
+            end
         end
     else
         self.waitingForPathTimer = 0
@@ -179,19 +184,25 @@ function Unit:animate()
     end
 end
 
-function Unit:requestPath(xx, yy)
+function Unit:requestPath(xx, yy, noPathCallback)
     if type(xx) ~= "number" then
         error("Wrong type for request path xx: " .. tostring(xx))
     end
     if type(yy) ~= "number" then
         error("Wrong type for request path yy: " .. tostring(yy))
     end
+    self.noPathCallback = noPathCallback
     self.startx, self.starty = math.floor(self.gx), math.floor(self.gy)
-    _G.finder:requestPath(self.startx, self.starty, xx, yy)
     self.hasMoveDir = false
     self.endx = xx
     self.endy = yy
-    self.pathState = "Waiting for path"
+    if _G.state.map:getWalkable(xx, yy) == 1 then
+        self.setNoPathOnNextUpdate = true
+        self.pathState = "Waiting for path"
+    else
+        _G.finder:requestPath(self.startx, self.starty, xx, yy)
+        self.pathState = "Waiting for path"
+    end
 end
 
 function Unit:reachedPathEnd()
@@ -215,11 +226,21 @@ function Unit:reachedPathEnd()
 end
 
 function Unit:pathfind()
+    if self.setNoPathOnNextUpdate or self.pathState == "No path" then
+        self.setNoPathOnNextUpdate = false
+        self.pathState = "No path"
+        if self.noPathCallback then
+            self.noPathCallback()
+            self.noPathCallback = nil
+        end
+    end
     if self.endx >= _G.chunksWide * _G.chunkWidth or self.endy >= _G.chunksHigh * _G.chunkHeight or self.endx < 0 or
         self.endy < 0 then
+        if self.noPathCallback then
+            self.noPathCallback()
+            self.noPathCallback = nil
+        end
         self.pathState = "No path"
-        self.state = self.noPathState
-        print("AVOIDED DISASTER, TODO: RETURN RESULT")
         return
     end
     if not self.startx or not self.starty or not self.endx or not self.endy then
@@ -254,7 +275,10 @@ function Unit:pathfind()
         elseif self.path == 2 then
             self.pathState = "No path"
             print("No path found", self.state)
-            self.state = self.noPathState
+            if self.noPathCallback then
+                self.noPathCallback()
+                self.noPathCallback = nil
+            end
         end
     end
 end
@@ -571,7 +595,6 @@ function Unit:serialize()
     data.moveDir = self.moveDir
     data.previousDir = self.previousDir
     data.animated = self.animated
-    data.noPathState = self.noPathState
     data.needNewVertAsap = self.needNewVertAsap
     data.locationsCx = self.locationsCx
     data.locationsCy = self.locationsCy

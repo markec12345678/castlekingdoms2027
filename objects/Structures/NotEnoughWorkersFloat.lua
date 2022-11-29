@@ -33,7 +33,7 @@ function NotEnoughWorkersFloat:activate()
 end
 
 function NotEnoughWorkersFloat:animate(dt)
-    Structure.animate(self, dt, true)
+    Structure.animate(self, love.timer.getDelta(), true)
 end
 
 function NotEnoughWorkersFloat:serialize()
