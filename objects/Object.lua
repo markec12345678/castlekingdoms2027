@@ -119,7 +119,7 @@ function Object:calculateShadowValue()
     local isInShadow = shadowValue > elevationOffsetY or shadowValue > elevationValue
     if isInShadow then
         self.shadowValue = math.min((shadowValue - elevationValue) / 40, 0.6)
-        self.shadowValue = math.min(0.8, 1 - self.shadowValue)
+        self.shadowValue = math.max(0.8, 1 - self.shadowValue)
     else
         self.shadowValue = 1
     end
