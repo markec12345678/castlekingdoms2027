@@ -58,6 +58,11 @@ function Tree:finish()
     self.animated = false -- mark for removal from list
     self.type = "Stump"
     self.tile = self.trunkTile
+    if self.trunkOffsetY and self.trunkOffsetX then
+        self.offsetY = self.trunkOffsetY
+        self.offsetX = self.trunkOffsetX
+    end
+
     self:render()
     for xx = -1, 1 do
         for yy = -1, 1 do

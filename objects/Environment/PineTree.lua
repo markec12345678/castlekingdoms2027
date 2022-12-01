@@ -92,6 +92,7 @@ function PineTree:initialize(gx, gy, type)
         error("invalid tree type: " .. tostring(type))
     end
 end
+
 function PineTree:load(data)
     Object.deserialize(self, data)
     Tree.load(self, data)
@@ -127,6 +128,7 @@ function PineTree:load(data)
         self:render()
     end
 end
+
 function PineTree:serialize()
     local data = {}
     local treeData = Tree.serialize(self)
