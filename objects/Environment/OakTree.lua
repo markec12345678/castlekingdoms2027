@@ -28,12 +28,14 @@ function OakTree:initialize(gx, gy, type)
     self.baseOffsetX = -73
     self.offsetX = self.baseOffsetX
     self.trunkTile = tileQuads["tree_oak_trunk (1)"]
+    self.trunkOffsetY = -166 + 10
+    self.trunkOffsetX = -41 - 20
 
     if type == "Oak tree" then
         self.health = 10
         self.animation = anim.newAnimation(frStatic, 0.1)
         self.chopAnimation = anim.newAnimation(frChop, 0.1)
-        self.fallingAnimation = anim.newAnimation(frFalling, 0.13, self.cutDown)
+        self.fallingAnimation = anim.newAnimation(frFalling, 0.13, self:cutDown())
         for xx = -1, 1 do
             for yy = -1, 1 do
                 _G.terrainSetTileAt(gx + xx, gy + yy, _G.terrainBiome.dirt)
@@ -47,7 +49,7 @@ function OakTree:initialize(gx, gy, type)
         self.health = 6
         self.animation = anim.newAnimation(frMediumStatic, 0.1)
         self.chopAnimation = anim.newAnimation(frMediumChop, 0.1)
-        self.fallingAnimation = anim.newAnimation(frMediumFalling, 0.13, self.cutDown)
+        self.fallingAnimation = anim.newAnimation(frMediumFalling, 0.13, self:cutDown())
         for xx = -1, 1 do
             for yy = -1, 1 do
                 _G.terrainSetTileAt(gx + xx, gy + yy, _G.terrainBiome.dirt)
@@ -57,13 +59,13 @@ function OakTree:initialize(gx, gy, type)
         self.health = 3
         self.animation = anim.newAnimation(frSmallStatic, 0.1)
         self.chopAnimation = anim.newAnimation(frSmallChop, 0.1)
-        self.fallingAnimation = anim.newAnimation(frSmallFalling, 0.13, self.cutDown)
+        self.fallingAnimation = anim.newAnimation(frSmallFalling, 0.13, self:cutDown())
     elseif type == "Very small oak tree" then
         self.health = 2
         self.cuttable = true
         self.animation = anim.newAnimation(frVerySmallStatic, 0.1)
         self.chopAnimation = anim.newAnimation(frVerySmallChop, 0.1)
-        self.fallingAnimation = anim.newAnimation(frVerySmallFalling, 0.13, self.cutDown)
+        self.fallingAnimation = anim.newAnimation(frVerySmallFalling, 0.13, self:cutDown())
     end
 end
 
