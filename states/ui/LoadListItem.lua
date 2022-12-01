@@ -111,6 +111,13 @@ function LoadListItem:setValues(name, mapName, rawDateModified, version)
     local dateModified = rawDateModified:gsub(" ", "\n  ")
     self.dateText:SetText(dateModified)
     self.versionText:SetText(version)
+    if version ~= "0.4.0" then
+        self.versionText:SetText({{
+            color = {204 / 255, 51 / 255, 0, 1}
+        }, version})
+    else
+        self.versionText:SetText(version)
+    end
 end
 
 function LoadListItem:hide()
