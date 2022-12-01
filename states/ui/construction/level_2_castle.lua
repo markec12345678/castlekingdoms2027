@@ -3,18 +3,42 @@ local el, backButton, destroyButton = ...
 local states = require("states.ui.states")
 local ActionBarButton = require("states.ui.ActionBarButton")
 local ActionBar = require("states.ui.ActionBar")
-
-local castleButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_castle_ab.png"), states.STATE_INGAME_CONSTRUCTION, 1, false, nil)
+local keepImage = love.graphics.newImage("assets/ui/keep_ab.png")
+local fortressImage = love.graphics.newImage("assets/ui/fortress_ab.png")
+local strongholdImage = love.graphics.newImage("assets/ui/stronghold_ab.png")
+local castleButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_keep_ab.png"), states.STATE_INGAME_CONSTRUCTION, 1, false, nil)
 
 castleButton:setOnClick(
-    function(self)
-        _G.BuildController:set(
-            "saxon_hall", function()
-            castleButton:unselect()
-        end)
-        ActionBar:selectButton(castleButton)
+    function()
+        local upgraded = _G.BuildController:upgradeKeep(2)
+        if upgraded then
+            castleButton:setImage(keepImage)
+            castleButton:setTooltip("Keep", "Requires 100 Stone and 50 Wood")
+            castleButton:setOnClick(
+                function()
+                    local upgraded = _G.BuildController:upgradeKeep(3)
+                    if upgraded then
+                        castleButton:setImage(fortressImage)
+                        castleButton:setTooltip("Fortress", "Requires 200 Stone")
+                        castleButton:setOnClick(
+                            function()
+                                local upgraded = _G.BuildController:upgradeKeep(4)
+                                if upgraded then
+                                    castleButton:setImage(strongholdImage)
+                                    castleButton:setTooltip("Stronghold", "Not implemented yet (It's too big!)")
+                                    castleButton.disabled = true
+                                    castleButton.foreground.disablehover = true
+                                    castleButton.foreground:SetColor(0.6, 0.6, 0.6, 0.6)
+                                    castleButton:setOnClick(function() end)
+                                end
+                            end
+                        )
+                    end
+                end
+            )
+        end
     end)
-castleButton:setTooltip("Saxon Hall", "Requires 50 Wood\nHas no purpose at the moment")
+castleButton:setTooltip("WoodenKeep", "Requires 50 Wood")
 
 local woodenWallButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_wall_ab.png"), states.STATE_INGAME_CONSTRUCTION, 2, true, nil)
 woodenWallButton:setOnClick(

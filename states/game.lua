@@ -106,7 +106,6 @@ function game:update(dt)
             prof.push("bcontr")
             HighlightView:update()
             _G.BuildController:update()
-            prof.pop("bcontr")
             _G.DebugView:update()
             _G.BrushController:update()
             if not _G.BuildController.start then
@@ -116,6 +115,7 @@ function game:update(dt)
                 _G.ScribeController:update()
                 _G.DestructionController:update()
             end
+            prof.pop("bcontr")
         end
         prof.push("ui")
         loveframes.update()

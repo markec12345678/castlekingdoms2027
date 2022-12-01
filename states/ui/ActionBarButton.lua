@@ -77,6 +77,18 @@ function ActionBarButton:initialize(image, state, position, bigFrameForeground, 
     self.foreground.visible = false
 end
 
+function ActionBarButton:setImage(image)
+    self.foreground:SetImage(image):SetOffsetX(
+        image:getWidth() / 2):SetOffsetY(image:getHeight() / 2)
+    if (self.foregroundFrame.width) / self.foreground:GetImageWidth() < (self.foregroundFrame.height) /
+        self.foreground:GetImageHeight() then
+        self.foreground:SetScale((self.foregroundFrame.width) / self.foreground:GetImageWidth())
+    else
+        self.foreground:SetScale((self.foregroundFrame.height) / self.foreground:GetImageHeight())
+    end
+    self.image = image
+end
+
 function ActionBarButton:setTooltip(title, tooltipText)
     if not self.tooltip then
         local tooltip = loveframes.Create("tooltip")

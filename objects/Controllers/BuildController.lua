@@ -62,6 +62,22 @@ local building = {
             return true
         end
     },
+    ["wooden_keep"] = {
+        cost = {
+            ["wood"] = 50
+        },
+    },
+    ["keep"] = {
+        cost = {
+            ["wood"] = 50,
+            ["stone"] = 100
+        },
+    },
+    ["fortress"] = {
+        cost = {
+            ["stone"] = 200
+        },
+    },
     ["stockpile"] = {
         quad = tileQuads["stockpile"],
         offsetX = 64,
@@ -726,6 +742,40 @@ function BuildController:set(type, callback)
     end
     self.batch:flush()
     self.active = true
+end
+
+function BuildController:upgradeKeep(level)
+    if level == 2 and self:isBuildingAffordable("wooden_keep") then
+        self:purchaseBuilding("wooden_keep")
+        _G.DestructionController:destroyAtLocation(_G.state.keepX + 2, _G.state.keepY + 7, true, true)
+        _G.DestructionController:destroyAtLocation(_G.state.keepX + 4, _G.state.keepY + 7, true, true)
+        _G.DestructionController:destroyAtLocation(_G.state.keepX, _G.state.keepY, true)
+        local WoodenKeep = require("objects.Structures.WoodenKeep")
+        WoodenKeep:new(_G.state.keepX, _G.state.keepY)
+        return true
+    elseif level == 3 and self:isBuildingAffordable("keep") then
+        self:purchaseBuilding("keep")
+        _G.DestructionController:destroyAtLocation(_G.state.keepX + 2, _G.state.keepY + 7, true, true)
+        _G.DestructionController:destroyAtLocation(_G.state.keepX + 4, _G.state.keepY + 7, true, true)
+        _G.DestructionController:destroyAtLocation(_G.state.keepX, _G.state.keepY, true)
+        local Keep = require("objects.Structures.Keep")
+        Keep:new(_G.state.keepX, _G.state.keepY)
+        return true
+    elseif level == 4 and self:isBuildingAffordable("fortress") then
+        self:purchaseBuilding("fortress")
+        _G.DestructionController:destroyAtLocation(_G.state.keepX + 2, _G.state.keepY + 7, true, true)
+        _G.DestructionController:destroyAtLocation(_G.state.keepX + 4, _G.state.keepY + 7, true, true)
+        _G.DestructionController:destroyAtLocation(_G.state.keepX, _G.state.keepY, true)
+        -- the new keep is bigger, so destroy neighbour objects
+        -- this is a temporary solution
+        _G.DestructionController:destroyAtLocation(_G.state.keepX - 1, _G.state.keepY, true)
+        _G.DestructionController:destroyAtLocation(_G.state.keepX - 1, _G.state.keepY - 1, true)
+        _G.DestructionController:destroyAtLocation(_G.state.keepX, _G.state.keepY - 1, true)
+        _G.DestructionController:destroyAtLocation(_G.state.keepX, _G.state.keepY - 2, true)
+        local Fortress = require("objects.Structures.Fortress")
+        Fortress:new(_G.state.keepX - 1, _G.state.keepY - 2)
+        return true
+    end
 end
 
 function BuildController:update()
