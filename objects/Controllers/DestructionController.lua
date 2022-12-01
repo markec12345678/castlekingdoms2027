@@ -44,41 +44,57 @@ function DestructionController:disable()
     love.mouse.setCursor(self.cursor)
 end
 
-function DestructionController:destroyAtLocation(gx, gy)
+function DestructionController:destroyAtLocation(gx, gy, force, targetAlias)
     local structure = _G.objectFromSubclassAtGlobal(gx, gy, Structure)
     if structure then
         -- Get the base Structure
-        structure = structure.parent or structure
+        if not targetAlias then
+            structure = structure.parent or structure
+        end
 
         if (structure.health) then
             structure.health = -1
         end
 
         -- check if structure is destructible
-        if structure.class.DESTRUCTIBLE == true then
-            -- Destroy all the Aliases of a Structure
-            for x = 0, structure.class.WIDTH - 1 do
-                for y = 0, structure.class.LENGTH - 1 do
-                    local targets = _G.allObjectsFromSubclassAtGlobal(structure.gx + x, structure.gy + y, Structure)
-                    for _, target in ipairs(targets) do
-                        if target == structure or target.parent == structure then
-                            Structure.destroy(target)
-                            target:destroy()
+        if structure.class.DESTRUCTIBLE or force then
+            if targetAlias then
+                local targets = _G.allObjectsFromSubclassAtGlobal(structure.gx, structure.gy, Structure)
+                for _, target in ipairs(targets) do
+                    if target == structure or target.parent == structure then
+                        Structure.destroy(target)
+                        target:destroy()
+                    end
+                end
+                _G.terrainSetTileAt(structure.gx, structure.gy, _G.terrainBiome.scarceGrass, nil, true)
+                local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(structure.gx, structure.gy)
+                _G.scheduleTerrainUpdate(cx, cy, x, y)
+                _G.buildingheightmap[cx][cy][x][y] = 0
+                _G.state.map.shadowmap[cx][cy][x][y] = 0
+            else
+                -- Destroy all the Aliases of a Structure
+                for x = 0, structure.class.WIDTH - 1 do
+                    for y = 0, structure.class.LENGTH - 1 do
+                        local targets = _G.allObjectsFromSubclassAtGlobal(structure.gx + x, structure.gy + y, Structure)
+                        for _, target in ipairs(targets) do
+                            if target == structure or target.parent == structure then
+                                Structure.destroy(target)
+                                target:destroy()
+                            end
                         end
                     end
                 end
-            end
 
-            _G.playSfx(structure, _G.fx["buildingwreck_01"])
-
-            -- Set the Terrain under the Structure to scarce grass and remove shadows
-            for xx = 0, structure.class.WIDTH - 1 do
-                for yy = 0, structure.class.LENGTH - 1 do
-                    _G.terrainSetTileAt(structure.gx + xx, structure.gy + yy, _G.terrainBiome.scarceGrass, nil, true)
-                    local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(structure.gx + xx, structure.gy + yy)
-                    _G.scheduleTerrainUpdate(cx, cy, x, y)
-                    _G.buildingheightmap[cx][cy][x][y] = 0
-                    _G.state.map.shadowmap[cx][cy][x][y] = 0
+                _G.playSfx(structure, _G.fx["buildingwreck_01"])
+                -- Set the Terrain under the Structure to scarce grass and remove shadows
+                for xx = 0, structure.class.WIDTH - 1 do
+                    for yy = 0, structure.class.LENGTH - 1 do
+                        _G.terrainSetTileAt(structure.gx + xx, structure.gy + yy, _G.terrainBiome.scarceGrass, nil, true)
+                        local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(structure.gx + xx, structure.gy + yy)
+                        _G.scheduleTerrainUpdate(cx, cy, x, y)
+                        _G.buildingheightmap[cx][cy][x][y] = 0
+                        _G.state.map.shadowmap[cx][cy][x][y] = 0
+                    end
                 end
             end
         end

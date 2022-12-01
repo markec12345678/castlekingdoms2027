@@ -87,14 +87,14 @@ scaleHandSoundVolume.Update = function(self, overrideRawValue)
     elseif overrideRawValue then
         local rawValue = overrideRawValue
         local min, max = frScaleHand1.x, frScaleHand1.x + frScaleHand1.width - self:GetImageHeight() / 2
-        rawValue = clamp(rawValue, min+5, max+10)
+        rawValue = clamp(rawValue, min, max)
         self.value = (rawValue - scaleBarSound.x) / (max - scaleBarSound.x)
         _G.OPTIONS.SFX_VOLUME = self.value
         self:SetX(rawValue, true)
     elseif self.isHolding then
         local min, max = frScaleHand1.x, frScaleHand1.x + frScaleHand1.width - self:GetImageHeight() / 2
         local mx, _ = love.mouse.getPosition()
-        local rawValue = clamp(mx, min+5, max+10)
+        local rawValue = clamp(mx, min, max)
         self.value = (rawValue - scaleBarSound.x) / (max - scaleBarSound.x)
         _G.OPTIONS.SFX_VOLUME = self.value
         config.sound.effects = self.value * 100
@@ -179,14 +179,14 @@ scaleHandSpeechVolume.Update = function(self, overrideRawValue)
     elseif overrideRawValue then
         local rawValue = overrideRawValue
         local min, max = frScaleBar2.x, frScaleBar2.x + frScaleBar2.width - self:GetImageHeight() / 2
-        rawValue = clamp(rawValue, min + 5, max + 10)
+        rawValue = clamp(rawValue, min, max)
         self.value = (rawValue - scaleBarSpeech.x) / (max - scaleBarSpeech.x)
         _G.OPTIONS.SPEECH_VOLUME = self.value
         self:SetX(rawValue, true)
     elseif self.isHolding then
         local min, max = frScaleBar2.x, frScaleBar2.x + frScaleBar2.width - self:GetImageHeight() / 2
         local mx, _ = love.mouse.getPosition()
-        local rawValue = clamp(mx, min + 5, max + 10)
+        local rawValue = clamp(mx, min, max)
         self.value = (rawValue - scaleBarSpeech.x) / (max - scaleBarSpeech.x)
         _G.OPTIONS.SPEECH_VOLUME = self.value
         config.sound.speech = self.value * 100
@@ -271,7 +271,7 @@ scaleHandMusicVolume.Update = function(self, overrideRawValue)
     elseif overrideRawValue then
         local rawValue = overrideRawValue
         local min, max = frScaleHand3.x, frScaleHand3.x + frScaleHand3.width - self:GetImageHeight() / 2
-        rawValue = clamp(rawValue, min + 5, max + 10)
+        rawValue = clamp(rawValue, min, max)
         self.value = (rawValue - scaleBarMusic.x) / (max - scaleBarMusic.x)
         _G.OPTIONS.MUSIC_VOLUME = self.value
         self:SetX(rawValue, true)
@@ -281,7 +281,7 @@ scaleHandMusicVolume.Update = function(self, overrideRawValue)
     elseif self.isHolding then
         local min, max = frScaleHand3.x, frScaleHand3.x + frScaleHand3.width - self:GetImageHeight() / 2
         local mx, _ = love.mouse.getPosition()
-        local rawValue = clamp(mx, min + 5, max + 10)
+        local rawValue = clamp(mx, min, max)
         self.value = (rawValue - scaleBarMusic.x) / (max - scaleBarMusic.x)
         _G.OPTIONS.MUSIC_VOLUME = self.value
         config.sound.music = self.value * 100
@@ -301,7 +301,6 @@ scaleHandMusicVolume.OnMouseExit = function(self)
 end
 
 local min, max = frScaleHand3.x, frScaleHand3.x + frScaleHand3.width - scaleHandMusicVolume:GetImageHeight() / 2
-scaleHandMusicVolume:SetX(clamp(frScaleBar3.x + (frScaleBar3.width * config.sound.music / 100), min ,max))
+scaleHandMusicVolume:SetX(clamp(frScaleBar3.x + (frScaleBar3.width * config.sound.music / 100), min, max))
 
 return elements
-
