@@ -10,7 +10,7 @@ function love.conf(t)
         end
     end
 
-    local config = require("config_file").new()
+    local config = require("config_file")
 
     -- Apply config
     t.identity = "StoneKingdoms" -- The name of the save directory (string)

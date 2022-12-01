@@ -1,5 +1,7 @@
 local tempMX, tempMY = 0, 0
 local mouseDeadZoneValX, mouseDeadZoneValY = 0, 0
+local config = require("config_file")
+
 
 local function getZFromZoom()
     local val = 1
@@ -72,11 +74,25 @@ local panDirection = {
 }
 
 local panDirectionToKeys = {
-    [panDirection.up]    = {"up", "w"},
-    [panDirection.down]  = {"down", "s"},
-    [panDirection.left]  = {"left", "a"},
-    [panDirection.right] = {"right", "d"}
+    [panDirection.up]    = {},
+    [panDirection.down]  = {},
+    [panDirection.left]  = {},
+    [panDirection.right] = {}
 }
+
+if config.camera.panCameraWithWASD then
+    table.insert(panDirectionToKeys[panDirection.up], "w")
+    table.insert(panDirectionToKeys[panDirection.down], "s")
+    table.insert(panDirectionToKeys[panDirection.left], "a")
+    table.insert(panDirectionToKeys[panDirection.right], "d")
+end
+
+if config.camera.panCameraWithArrowKeys then
+    table.insert(panDirectionToKeys[panDirection.up], "up")
+    table.insert(panDirectionToKeys[panDirection.down], "down")
+    table.insert(panDirectionToKeys[panDirection.left], "left")
+    table.insert(panDirectionToKeys[panDirection.right], "right")
+end
 
 local panDirectionToMousePositions = {
     [panDirection.up]    = {y = 0},
@@ -95,6 +111,7 @@ local function isAnyKeyDown(keys)
 end
 
 local function isMouseOnDirectionEdge(direction)
+    if not config.camera.moveMouseToEdgesToPan then return end
     local mouseX, mouseY = love.mouse.getPosition()
     if (direction == panDirection.up or
         direction == panDirection.down)
@@ -124,7 +141,7 @@ local function handleCamera()
     end
     local smoothModifier = finalScrollSpeed * 3
     if not _G.paused then
-        if love.mouse.isDown(2) then
+        if love.mouse.isDown(2) and config.camera.holdRightButtonToPan then
             handleOnMouseButtonDownCameraMovement(mx, my, smoothModifier)
         else
             if shouldPan(panDirection.up) then

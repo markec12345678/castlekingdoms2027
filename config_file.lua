@@ -1,5 +1,15 @@
 local ini = require("libraries.inifile")
 
+local function shallowCopy(t, seen)
+    if type(t) ~= 'table' then return t end
+    if seen and seen[t] then return seen[t] end
+    local s = seen or {}
+    local res = setmetatable({}, getmetatable(t))
+    s[t] = res
+    for k, v in pairs(t) do res[shallowCopy(k, s)] = shallowCopy(v, s) end
+    return res
+end
+
 local defaultConfig = {
     general = {
         attachConsole = true,
@@ -18,6 +28,12 @@ local defaultConfig = {
         effects = 100,
         speech = 100,
         music = 100
+    },
+    camera = {
+        holdRightButtonToPan = true,
+        moveMouseToEdgesToPan = true,
+        panCameraWithWASD = true,
+        panCameraWithArrowKeys = true
     }
 }
 
@@ -26,9 +42,11 @@ local config = {}
 function config:save(config_in)
     -- Only get the relevent sections from config
     local config_save = {}
-    config_save.general = config_in.general
-    config_save.video = config_in.video
-    config_save.sound = config_in.sound
+    for k, v in pairs(config_in) do
+        if type(v) == "table" then
+            config_save[k] = v
+        end
+    end
 
     ini.save("config.ini", config_save)
 end
@@ -42,90 +60,97 @@ function config:new()
         print("config.ini not found! creating it...")
         ini.save("config.ini", defaultConfig)
     end
-    local configFile = ini.parse("config.ini")
+    local configFile = shallowCopy(defaultConfig)
+    local configFileValues = ini.parse("config.ini")
+    for groupKey, group in pairs(configFileValues) do
+        configFile[groupKey] = group
+        for k, v in pairs(group) do
+            configFile[groupKey][k] = v
+        end
+    end
 
     -- Transfer configFile sections into config
-    config.general = configFile.general
-    config.video = configFile.video
-    config.sound = configFile.sound
+    for k, v in pairs(configFile) do
+        config[k] = v
+    end
 
     -- Check the config parameters
     local save = false
     if type(config.general.attachConsole) ~= "boolean" then
-        print("Config Paramenter general.attachConsole is invalid type or does not exist. Using default value.")
+        print("Config Parameter general.attachConsole is invalid type or does not exist. Using default value.")
         config.general.attachConsole = defaultConfig.general.attachConsole
         save = true
     end
 
     if type(config.video.resolutionHeight) ~= "number" or config.video.resolutionHeight < 0 then
-        print("Config Paramenter video.resolutionHeight is invalid type or does not exist. Using default value.")
+        print("Config Parameter video.resolutionHeight is invalid type or does not exist. Using default value.")
         config.video.resolutionHeight = defaultConfig.video.resolutionHeight
         save = true
     end
 
     if type(config.video.resolutionWidth) ~= "number" or config.video.resolutionWidth < 0 then
-        print("Config Paramenter video.resolutionWidth is invalid type or does not exist. Using default value.")
+        print("Config Parameter video.resolutionWidth is invalid type or does not exist. Using default value.")
         config.video.resolutionHeight = defaultConfig.video.resolutionHeight
         save = true
     end
 
     if type(config.video.vsync) ~= "boolean" then
-        print("Config Paramenter video.vsync is invalid type or does not exist. Using default value.")
+        print("Config Parameter video.vsync is invalid type or does not exist. Using default value.")
         config.video.vsync = defaultConfig.video.vsync
         save = true
     end
 
     if type(config.video.fullscreen) ~= "boolean" then
-        print("Config Paramenter video.fullscreen is invalid type or does not exist. Using default value.")
+        print("Config Parameter video.fullscreen is invalid type or does not exist. Using default value.")
         config.video.fullscreen = defaultConfig.video.fullscreen
         save = true
     end
 
     if type(config.video.borderless) ~= "boolean" then
-        print("Config Paramenter video.borderless is invalid type or does not exist. Using default value.")
+        print("Config Parameter video.borderless is invalid type or does not exist. Using default value.")
         config.video.borderless = defaultConfig.video.borderless
         save = true
     end
 
     if type(config.video.display) ~= "number" then
-        print("Config Paramenter video.display is invalid type or does not exist. Using default value.")
+        print("Config Parameter video.display is invalid type or does not exist. Using default value.")
         config.video.display = defaultConfig.video.display
         save = true
     end
 
     if type(config.video.fullscreenType) ~= "string" or
         (config.video.fullscreenType ~= "desktop" and config.video.fullscreenType ~= "exclusive") then
-        print("Config Paramenter video.fullscreenType is invalid type or does not exist. Using default value.")
+        print("Config Parameter video.fullscreenType is invalid type or does not exist. Using default value.")
         config.video.fullscreenType = defaultConfig.video.fullscreenType
         save = true
     end
 
     if type(config.sound.effects) ~= "number" then
-        print("Config Paramenter soud.effects is invalid type or does not exist. Using default value.")
+        print("Config Parameter soud.effects is invalid type or does not exist. Using default value.")
         config.sound.effects = defaultConfig.sound.effects
         save = true
     elseif config.sound.effects > 100 or config.sound.effects < 0 then
-        print("Config Paramenter sound.effects is out of range (must be betweeen 1 and 100). Using default value.")
+        print("Config Parameter sound.effects is out of range (must be betweeen 1 and 100). Using default value.")
         config.sound.effects = defaultConfig.sound.effects
         save = true
     end
 
     if type(config.sound.music) ~= "number" then
-        print("Config Paramenter soud.music is invalid type or does not exist. Using default value.")
+        print("Config Parameter soud.music is invalid type or does not exist. Using default value.")
         config.sound.music = defaultConfig.sound.music
         save = true
     elseif config.sound.music > 100 or config.sound.music < 0 then
-        print("Config Paramenter sound.music is out of range (must be betweeen 1 and 100). Using default value.")
+        print("Config Parameter sound.music is out of range (must be betweeen 1 and 100). Using default value.")
         config.sound.music = defaultConfig.sound.music
         save = true
     end
 
     if type(config.sound.speech) ~= "number" then
-        print("Config Paramenter soud.speech is invalid type or does not exist. Using default value.")
+        print("Config Parameter soud.speech is invalid type or does not exist. Using default value.")
         config.sound.speech = defaultConfig.sound.speech
         save = true
     elseif config.sound.speech > 100 or config.sound.speech < 0 then
-        print("Config Paramenter sound.speech is out of range (must be betweeen 1 and 100). Using default value.")
+        print("Config Parameter sound.speech is out of range (must be betweeen 1 and 100). Using default value.")
         config.sound.speech = defaultConfig.sound.speech
         save = true
     end
