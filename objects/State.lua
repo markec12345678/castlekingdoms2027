@@ -248,8 +248,10 @@ function State:serialize()
     data.notFullFoods = self.notFullFoods
     data.buildController = _G.BuildController:serialize()
     data.stockpileController = _G.stockpile:serialize()
-    data.spawnPointX, data.spawnPointY = _G.spawnPointX, _G.spawnPointY
-    data.campfire = _G.campfire:serialize()
+    if not _G.BuildController.start then
+        data.spawnPointX, data.spawnPointY = _G.spawnPointX, _G.spawnPointY
+        data.campfire = _G.campfire:serialize()
+    end
     data.foodController = _G.foodpile:serialize()
     data.jobController = _G.JobController:serialize()
     data.taxController = _G.TaxController:serialize()
