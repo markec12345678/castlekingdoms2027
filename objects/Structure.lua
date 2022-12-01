@@ -32,8 +32,6 @@ function Structure:getAverageShadowValue()
                 local cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(gx + x, gy + y)
                 count = count + 1
                 totalShadow = totalShadow + (_G.state.map.shadowmap[cx][cy][i][o] or 0)
-                cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(gx + x + 2, gy + y + 2)
-                _G.scheduleTerrainUpdate(cx, cy, i, o)
             end
         end
         return totalShadow / count
@@ -65,12 +63,21 @@ function Structure:calculateShadowValue()
     end
 end
 
+function Structure:shadeFromTerrainSingleTile()
+    Object.calculateShadowValue(self)
+    if self.tile then
+        self:render()
+    elseif self.animation then
+        self:animate(_G.dt, true)
+    end
+end
+
 function Structure:shadeFromTerrain()
     self:calculateShadowValue()
     if self.tile then
         self:render()
     elseif self.animation then
-        self.animate(_G.dt, true)
+        self:animate(_G.dt, true)
     end
 end
 

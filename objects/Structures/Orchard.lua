@@ -96,6 +96,7 @@ function OrchardTree:initialize(gx, gy, parent, offsetY, offsetX)
         _G.state.chunkObjects[self.cx][self.cy] = {}
     end
     _G.state.chunkObjects[self.cx][self.cy][self] = self
+    self:shadeFromTerrainSingleTile()
 end
 
 function OrchardTree:serialize()
@@ -183,6 +184,22 @@ function Orchard:initialize(gx, gy, type)
         local ora = OrchardAlias:new(quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self,
             -self.offsetY + 8 * tile, 14, true)
         ora.tileKey = tiles + 1 + tile
+    end
+
+    for tile = 1, tiles do
+        if not _G.objectFromClassAtGlobal(self.gx + tile - 1, self.gy + 2, OrchardAlias) then
+            local ora = OrchardAlias:new(quadArray[tile], self.gx + tile - 1, self.gy + 2, self,
+                self.offsetY - 8 - 8 * tile)
+            ora.tileKey = tile
+        end
+    end
+
+    for tile = 1, tiles do
+        if not _G.objectFromClassAtGlobal(self.gx + 2, self.gy - tile + 2, OrchardAlias) then
+            local ora = OrchardAlias:new(quadArray[tiles + 1 + tile], self.gx + 2, self.gy - tile + 2, self,
+                self.offsetY - 8 - 8 * (tiles - tile + 1), 16)
+            ora.tileKey = tiles + 1 + tile
+        end
     end
     local offsetX, offsetY = -64 - 8, 116
     self.tree1 = OrchardTree:new(self.gx + 1, self.gy + 6, self, offsetY, offsetX)
