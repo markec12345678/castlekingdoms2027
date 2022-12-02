@@ -149,6 +149,7 @@ function OxTether:destroy()
     if self.oxUnit then
         self.oxUnit:die()
     end
+    self.float:destroy()
 
     _G.stockpile:store("wood")
     _G.stockpile:store("wood")

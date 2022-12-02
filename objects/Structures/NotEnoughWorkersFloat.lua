@@ -26,6 +26,10 @@ function NotEnoughWorkersFloat:deactivate()
     end
 end
 
+function NotEnoughWorkersFloat:destroy()
+    Object.destroy(self)
+end
+
 function NotEnoughWorkersFloat:activate()
     self.animation:resume()
     self.animated = true

@@ -411,6 +411,7 @@ function WoodcutterHut:destroy()
     self.stack.toBeDeleted = true
     Structure.destroy(self.logStack)
     self.logStack.toBeDeleted = true
+    self.float:destroy()
 
     if self.worker then
         self.worker:die()

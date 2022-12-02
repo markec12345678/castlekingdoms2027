@@ -301,6 +301,7 @@ function Bakery:destroy()
     if self.worker then
         self.worker:die()
     end
+    self.float:destroy()
     Structure.destroy(self.cookingObj)
     self.cookingObj.toBeDeleted = true
     Structure.destroy(self.stack)

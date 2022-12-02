@@ -356,6 +356,7 @@ function Windmill:destroy()
     self.bladeShadow.toBeDeleted = true
     Structure.destroy(self.fillingFlour)
     self.fillingFlour.toBeDeleted = true
+    self.float:destroy()
 
     if self.worker then
         self.worker:die()
