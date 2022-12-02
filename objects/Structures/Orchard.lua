@@ -238,6 +238,7 @@ function Orchard:destroy()
     if self.appleWorker then
         self.appleWorker:die()
     end
+    self.float:destroy()
     Structure.destroy(self.tree1)
     self.tree1.toBeDeleted = true
     Structure.destroy(self.tree2)

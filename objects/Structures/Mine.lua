@@ -693,6 +693,7 @@ function Mine:destroy()
     if self.worker then
         self.worker:die()
     end
+    self.float:destroy()
     Structure.destroy(self.pourer)
     self.pourer.toBeDeleted = true
     Structure.destroy(self.goingDown)

@@ -301,6 +301,7 @@ function WheatFarm:destroy()
     if self.wheatWorker then
         self.wheatWorker:die()
     end
+    self.float:destroy()
 
     for xx = -1, 13 do
         for yy = -1, 13 do

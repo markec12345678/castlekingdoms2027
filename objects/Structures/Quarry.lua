@@ -651,6 +651,7 @@ function Quarry:onTetherDestruction(callingTether)
 end
 
 function Quarry:destroy()
+    self.float:destroy()
     Structure.destroy(self.stack)
     self.stack.toBeDeleted = true
 
