@@ -227,6 +227,16 @@ function _G.playSfx(obj, sfx)
     sfx:play()
 end
 
+function _G.playInterfaceSfx(sfx)
+    if type(sfx) == "table" then
+        sfx = sfx[math.random(#sfx)]
+    end
+    local _, volumeLimit = sfx:getVolumeLimits()
+    sfx:setVolume(_G.OPTIONS.SFX_VOLUME * volumeLimit)
+    sfx:setPitch(1 + love.math.random(-10, 10) / 100)
+    sfx:play()
+end
+
 function _G.playSpeech(speech)
     local speechFx = require("sounds.speech")
     local sfx = speechFx[speech]
