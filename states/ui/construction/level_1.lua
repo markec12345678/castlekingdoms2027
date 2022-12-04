@@ -66,8 +66,30 @@ local elements = {
     parentScale = ab.frFull.scale
 }
 
-package.loaded["states.ui.construction.level_2_castle"] = love.filesystem.load("states/ui/construction/level_2_castle.lua")(elements, backButton, destroyButton)
-package.loaded["states.ui.construction.level_2_farms"] = love.filesystem.load("states/ui/construction/level_2_farms.lua")(elements, backButton, destroyButton)
-package.loaded["states.ui.construction.level_2_resource"] = love.filesystem.load("states/ui/construction/level_2_resource.lua")(elements, backButton, destroyButton)
-package.loaded["states.ui.construction.level_2_house"] = love.filesystem.load("states/ui/construction/level_2_house.lua")(elements, backButton, destroyButton)
-package.loaded["states.ui.construction.level_2_sickle"] = love.filesystem.load("states/ui/construction/level_2_sickle.lua")(elements, backButton, destroyButton)
+--- @type fun(buildingIndex: string): string
+local function getCostAndType(buildingIndex)
+    local buildings = require("objects.buildings")
+    local c = buildings.getCost(buildingIndex);
+    local costAndType = ""
+    local costtype = ""
+    local first = true
+    if c then
+        for type, quantity in pairs(c) do
+            print(type, quantity)
+            if first then
+                costtype = costtype .. quantity .. " " .. type
+                first = false
+            else
+                costtype = costtype .. ", " .. quantity .. " " .. type
+            end
+        end
+        costAndType = "Requires " .. costtype
+    end
+    return costAndType
+end
+
+package.loaded["states.ui.construction.level_2_castle"] = love.filesystem.load("states/ui/construction/level_2_castle.lua")(elements, backButton, destroyButton, getCostAndType)
+package.loaded["states.ui.construction.level_2_farms"] = love.filesystem.load("states/ui/construction/level_2_farms.lua")(elements, backButton, destroyButton, getCostAndType)
+package.loaded["states.ui.construction.level_2_resource"] = love.filesystem.load("states/ui/construction/level_2_resource.lua")(elements, backButton, destroyButton, getCostAndType)
+package.loaded["states.ui.construction.level_2_house"] = love.filesystem.load("states/ui/construction/level_2_house.lua")(elements, backButton, destroyButton, getCostAndType)
+package.loaded["states.ui.construction.level_2_sickle"] = love.filesystem.load("states/ui/construction/level_2_sickle.lua")(elements, backButton, destroyButton, getCostAndType)
