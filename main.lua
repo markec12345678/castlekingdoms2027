@@ -7,7 +7,6 @@ local Gamestate = require("libraries.gamestate")
 local SaveManager = require("objects.Controllers.SaveManager")
 
 local splashscreen = require("states.splash_screen")
-local game = require("states.game")
 local test = require("states.test")
 
 function love.load()
