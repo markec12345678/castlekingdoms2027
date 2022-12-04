@@ -25,11 +25,12 @@ function FoodController:store(food) -- TODO add amount
     if _G.state.notFullFoods[food] < 1 then
         for _, v in ipairs(self.list) do
             if v:store(food) then
-                break
+                return true
             end
         end
     else
         self.food[food][#self.food[food]].id.parent:store(food)
+        return true
     end
 end
 

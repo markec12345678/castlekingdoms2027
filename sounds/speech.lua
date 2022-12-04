@@ -52,6 +52,7 @@ local speech = {
     ["hop_farms_need_valley_floor"] = love.audio.newSource("sounds/speech/hop_farms_need_valley_floor.ogg", "static"),
     ["iron_mine_needs_iron_ore"] = love.audio.newSource("sounds/speech/iron_mine_needs_iron_ore.ogg", "static"),
     ["not_enough_workers"] = love.audio.newSource("sounds/speech/not_enough_workers.ogg", "static"),
+    ["not_enough_goods"] = love.audio.newSource("sounds/speech/not_enough_goods.ogg", "static"),
     ["pitch_needs_oil"] = love.audio.newSource("sounds/speech/pitch_needs_oil.ogg", "static"),
     ["place_a_keep"] = love.audio.newSource("sounds/speech/place_a_keep.ogg", "static"),
     ["place_granary"] = love.audio.newSource("sounds/speech/place_granary.ogg", "static"),

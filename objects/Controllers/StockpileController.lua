@@ -29,7 +29,7 @@ function StockpileController:store(resource) -- TODO: add amount
                 if stockpileFx[resource] then
                     _G.playSfx(v, stockpileFx[resource])
                 end
-                break
+                return true
             end
         end
     else
@@ -37,6 +37,7 @@ function StockpileController:store(resource) -- TODO: add amount
         if stockpileFx[resource] then
             _G.playSfx(self.resources[resource][#self.resources[resource]].id, stockpileFx[resource])
         end
+        return true
     end
 end
 

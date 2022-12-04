@@ -683,16 +683,30 @@ marketBuyButton.OnClick = function(self)
     if good and good ~= "" and _G.state.gold >= price then
 
         if groupTypeMarket.name == 1 then
-            _G.state.gold = _G.state.gold - ((5 * quantity) / 5)
-            for _ = 1, quantity do
-                _G.foodpile:store(good)
+            if _G.foodpile:store(good) then
+                for _ = 1, quantity - 1 do
+                    if _G.foodpile:store(good) then
+                        _G.state.gold = _G.state.gold - 1
+                    end
+                end
+                _G.state.gold = _G.state.gold - 1
+                _G.playInterfaceSfx(_G.fx["drawbridge_control"])
+            else
+                _G.playSpeech("granary_full")
             end
         end
 
         if groupTypeMarket.name == 2 then
-            _G.state.gold = _G.state.gold - ((5 * quantity) / 5)
-            for _ = 1, quantity do
-                _G.stockpile:store(good)
+            if _G.stockpile:store(good) then
+                for _ = 1, quantity - 1 do
+                    if _G.stockpile:store(good) then
+                        _G.state.gold = _G.state.gold - 1
+                    end
+                end
+                _G.state.gold = _G.state.gold - 1
+                _G.playInterfaceSfx(_G.fx["drawbridge_control"])
+            else
+                _G.playSpeech("stockpile_full")
             end
         end
         actionBar:updateStockpileResourcesCount()
@@ -722,35 +736,46 @@ marketSellButton.OnClick = function(self)
     local quantity_temp;
 
     if good then
+        if _G.state.resources[good] == 0 or _G.state.food[good] == 0 then
+            _G.playSpeech("not_enough_goods")
+            return
+        end
         if groupTypeMarket.name == 1 and _G.state.food[good] >= quantity then
-            _G.state.gold = _G.state.gold + ((5 * quantity) / 5)
             for _ = 1, quantity do
                 _G.foodpile:take(good)
+                _G.state.gold = _G.state.gold + 1
             end
+            _G.playInterfaceSfx(_G.fx["drawbridge_control"])
         end
 
-        if groupTypeMarket.name == 1 and _G.state.food[good] < 5 then
+        if groupTypeMarket.name == 1 and _G.state.food[good] < quantity then
             quantity_temp = _G.state.food[good]
-            _G.state.gold = _G.state.gold + ((5 * quantity_temp) / 5)
             for _ = 1, quantity_temp do
                 _G.foodpile:take(good)
+                _G.state.gold = _G.state.gold + 1
             end
+            _G.playInterfaceSfx(_G.fx["drawbridge_control"])
         end
 
         if groupTypeMarket.name == 2 and _G.state.resources[good] >= quantity then
-            _G.state.gold = _G.state.gold + ((5 * quantity) / 5)
             for _ = 1, quantity do
-                _G.stockpile:take(good)
+                if _G.stockpile:take(good) then
+                    _G.state.gold = _G.state.gold + 1
+                end
             end
+            _G.playInterfaceSfx(_G.fx["drawbridge_control"])
         end
 
         if groupTypeMarket.name == 2 and _G.state.resources[good] < 5 then
             quantity_temp = _G.state.resources[good]
-            _G.state.gold = _G.state.gold + ((5 * quantity_temp) / 5)
             for _ = 1, quantity_temp do
-                _G.stockpile:take(good)
+                if _G.stockpile:take(good) then
+                    _G.state.gold = _G.state.gold + 1
+                end
             end
+            _G.playInterfaceSfx(_G.fx["drawbridge_control"])
         end
+
         actionBar:updateStockpileResourcesCount()
         actionBar:updateGoldCount()
     end
