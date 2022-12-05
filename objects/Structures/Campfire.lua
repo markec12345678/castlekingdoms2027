@@ -284,7 +284,7 @@ end
 function Campfire:makePeasantLeave()
     for xx = -1, 3 do
         for yy = -2, 3 do
-            if self.freeSpots[xx][yy] ~= true then
+            if self.freeSpots[xx][yy] ~= true and type(self.freeSpots[xx][yy]) == "table" then
                 local peasant = self.freeSpots[xx][yy]
                 peasant:remove()
                 self.freeSpots[xx][yy] = true
