@@ -16,13 +16,14 @@ local Bakery = require("objects.Structures.Bakery")
 local House = require("objects.Structures.House")
 local Market = require("objects.Structures.Market")
 local OxTether = require("objects.Structures.OxTether")
-local WoodenGate = require("objects.Structures.WoodenGate")
+local WoodenGateEast = require("objects.Structures.WoodenGateEast")
+local WoodenGateSouth = require("objects.Structures.WoodenGateSouth")
 
 local objectFromTypeAt = _G.objectFromTypeAt
 local chunkWidth = _G.chunkWidth
 
 local buildings = {
-    ["saxon_hall"] = {
+    [SaxonHall.name] = {
         quad = tileQuads["small_wooden_castle (1)"],
         offsetY = 93,
         offsetX = 6 * 15 + 6,
@@ -55,7 +56,7 @@ local buildings = {
             ["stone"] = 200
         },
     },
-    ["stockpile"] = {
+    [Stockpile.name] = {
         quad = tileQuads["stockpile"],
         offsetX = 64,
         offsetY = 12,
@@ -89,7 +90,7 @@ local buildings = {
             _G.playSpeech("adjacent_stockpile")
         end
     },
-    ["granary"] = {
+    [Granary.name] = {
         quad = tileQuads["granary (1)"],
         offsetX = 3 * 15 + 3,
         offsetY = 62 + 16,
@@ -119,7 +120,7 @@ local buildings = {
             end
         end
     },
-    ["quarry"] = {
+    [Quarry.name] = {
         quad = tileQuads["stone_quarry"],
         offsetX = 64 + 16,
         offsetY = 7 * 16 + 6,
@@ -183,7 +184,7 @@ local buildings = {
             ctrl.lastBuilding = ctrl.building
         end
     },
-    ["iron_mine"] = {
+    [Mine.name] = {
         quad = tileQuads["iron_mine"],
         offsetX = 48,
         offsetY = 64 - 16 - 4,
@@ -248,7 +249,7 @@ local buildings = {
             ctrl.lastBuilding = ctrl.building
         end
     },
-    ["orchard"] = {
+    [Orchard.name] = {
         quad = tileQuads["farm (3)"],
         offsetX = 32,
         offsetY = 48 + 6,
@@ -264,7 +265,7 @@ local buildings = {
             return true
         end
     },
-    ["wooden_wall"] = {
+    [WoodenWall.name] = {
         quad = tileQuads["tile_buildings_wood_wall (1)"],
         offsetX = 0,
         offsetY = 112,
@@ -280,7 +281,7 @@ local buildings = {
             return true
         end
     },
-    ["walkable_wooden_wall"] = {
+    [WalkableWoodenWall.name] = {
         quad = tileQuads["wood_wall_walkable"],
         offsetX = 0,
         offsetY = 112 - 44,
@@ -296,7 +297,7 @@ local buildings = {
             return true
         end
     },
-    ["wooden_tower"] = {
+    [WoodenTower.name] = {
         quad = tileQuads["wood_tower"],
         offsetX = 16,
         offsetY = 112 - 64 + 32 - 16 + 3,
@@ -312,7 +313,7 @@ local buildings = {
             return true
         end
     },
-    ["wooden_gate_east"] = {
+    [WoodenGateEast.name] = {
         quad = tileQuads["wooden_gate (1)"],
         offsetX = 16 * 3 - 16,
         offsetY = 140 - 48 + 7,
@@ -327,7 +328,7 @@ local buildings = {
                     _G.DestructionController:destroyAtLocation(gx + x, gy + y)
                 end
             end
-            WoodenGate:new(gx, gy, "east")
+            WoodenGateEast:new(gx, gy, "east")
         end,
         specialRequirements = function(self, _, _)
             return true
@@ -396,7 +397,7 @@ local buildings = {
             self.lastBuilding = self.building
         end
     },
-    ["wooden_gate_south"] = {
+    [WoodenGateSouth.name] = {
         quad = tileQuads["wooden_gate (2)"],
         offsetX = 16 * 3 - 16,
         offsetY = 140 - 48,
@@ -411,7 +412,7 @@ local buildings = {
                     _G.DestructionController:destroyAtLocation(gx + x, gy + y)
                 end
             end
-            WoodenGate:new(gx, gy, "south")
+            WoodenGateSouth:new(gx, gy, "south")
         end,
         specialRequirements = function(self, _, _)
             return true
@@ -480,7 +481,7 @@ local buildings = {
             self.lastBuilding = self.building
         end
     },
-    ["wheat_farm"] = {
+    [WheatFarm.name] = {
         quad = tileQuads["farm (2)"],
         offsetX = 32,
         offsetY = 64 + 6 + 8,
@@ -496,7 +497,7 @@ local buildings = {
             return true
         end
     },
-    ["woodcutter_hut"] = {
+    [WoodcutterHut.name] = {
         quad = tileQuads["woodcutter_hut"],
         offsetX = 32,
         offsetY = 32,
@@ -513,7 +514,7 @@ local buildings = {
             return true
         end
     },
-    ["windmill"] = {
+    [Windmill.name] = {
         quad = tileQuads["windmill_whole"],
         offsetX = 32,
         offsetY = 243 - 48,
@@ -529,7 +530,7 @@ local buildings = {
             return true
         end
     },
-    ["bakery"] = {
+    [Bakery.name] = {
         quad = tileQuads["bakery_workshop (18)"],
         offsetX = 48,
         offsetY = 131 - 64,
@@ -546,7 +547,7 @@ local buildings = {
             return true
         end
     },
-    ["house"] = {
+    [House.name] = {
         quad = tileQuads["housing (1)"],
         offsetX = 48,
         offsetY = 135 - 32 - 64,
@@ -562,7 +563,7 @@ local buildings = {
             return true
         end
     },
-    ["market"] = {
+    [Market.name] = {
         quad = tileQuads["market"],
         offsetX = 69 - 5,
         offsetY = 194 - 105 + 6,
@@ -578,7 +579,7 @@ local buildings = {
             return true
         end
     },
-    ["ox_tether"] = {
+    [OxTether.name] = {
         quad = tileQuads["stone_oax_base (1)"],
         offsetY = 26,
         offsetX = 15,

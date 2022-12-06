@@ -9,7 +9,7 @@ local stockpileButton = ActionBarButton:new(love.graphics.newImage('assets/ui/st
 
 
 stockpileButton:setOnClick(function(self)
-    _G.BuildController:set("stockpile", function()
+    _G.BuildController:set("Stockpile", function()
         stockpileButton:select()
     end)
     ActionBar:selectButton(stockpileButton)
@@ -20,7 +20,7 @@ local woodcutterButton = ActionBarButton:new(love.graphics.newImage('assets/ui/w
     states.STATE_INGAME_CONSTRUCTION, 2, true)
 
 woodcutterButton:setOnClick(function(self)
-    _G.BuildController:set("woodcutter_hut", function()
+    _G.BuildController:set("WoodcutterHut", function()
         woodcutterButton:select()
     end)
     ActionBar:selectButton(woodcutterButton)
@@ -31,7 +31,7 @@ local quarryButton = ActionBarButton:new(love.graphics.newImage('assets/ui/quarr
     states.STATE_INGAME_CONSTRUCTION, 3, true)
 
 quarryButton:setOnClick(function(self)
-    _G.BuildController:set("quarry", function()
+    _G.BuildController:set("Quarry", function()
         quarryButton:select()
     end)
     ActionBar:selectButton(quarryButton)
@@ -42,7 +42,7 @@ local oxButton = ActionBarButton:new(love.graphics.newImage('assets/ui/ox_ab.png
     true)
 
 oxButton:setOnClick(function(self)
-    _G.BuildController:set("ox_tether", function()
+    _G.BuildController:set("OxTether", function()
         oxButton:select()
     end)
     ActionBar:selectButton(oxButton)
@@ -52,7 +52,7 @@ local ironMine = ActionBarButton:new(love.graphics.newImage('assets/ui/iron_mine
     states.STATE_INGAME_CONSTRUCTION, 5, true)
 
 ironMine:setOnClick(function(self)
-    _G.BuildController:set("iron_mine", function()
+    _G.BuildController:set("Mine", function()
         ironMine:select()
     end)
     ActionBar:selectButton(ironMine)
@@ -62,7 +62,7 @@ local marketButton = ActionBarButton:new(love.graphics.newImage('assets/ui/marke
     states.STATE_INGAME_CONSTRUCTION, 6, false)
 
 marketButton:setOnClick(function(self)
-    _G.BuildController:set("market", function()
+    _G.BuildController:set("Market", function()
         marketButton:unselect()
     end)
     ActionBar:selectButton(marketButton)
@@ -70,14 +70,14 @@ end)
 
 local function displayTooltips()
     woodcutterButton:setTooltip("Woodcutter's Hut",
-        getCostAndType("woodcutter_hut") .. "\nCuts down nearby trees to produce wood")
+        getCostAndType("WoodcutterHut") .. "\nCuts down nearby trees to produce wood")
     oxButton:setTooltip("Ox Tether (can only be placed near a quarry)",
-        getCostAndType("ox_tether") .. "\nTransport stone from the quarry to the stockpile")
-    quarryButton:setTooltip("Quarry", getCostAndType("stockpile") .. "\nProduces stone blocks from the ground resource")
+        getCostAndType("OxTether") .. "\nTransport stone from the quarry to the stockpile")
+    quarryButton:setTooltip("Quarry", getCostAndType("Stockpile") .. "\nProduces stone blocks from the ground resource")
     stockpileButton:setTooltip("Stockpile",
-        getCostAndType("stockpile") .. "\nIncreases resource capacity\nMust be placed adjacent to a stockpile")
-    ironMine:setTooltip("Iron Mine", getCostAndType("iron_mine") .. "\nProduces iron ingots from ground iron ore")
-    marketButton:setTooltip("Market", getCostAndType("market") .. "\nAllows you to trade your goods")
+        getCostAndType("Stockpile") .. "\nIncreases resource capacity\nMust be placed adjacent to a stockpile")
+    ironMine:setTooltip("Iron Mine", getCostAndType("Mine") .. "\nProduces iron ingots from ground iron ore")
+    marketButton:setTooltip("Market", getCostAndType("Market") .. "\nAllows you to trade your goods")
 end
 
 el.buttons.hammerButton:setOnClick(function(self)

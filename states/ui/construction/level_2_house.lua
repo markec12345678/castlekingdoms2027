@@ -8,14 +8,14 @@ local hovelButton = ActionBarButton:new(love.graphics.newImage('assets/ui/hovel_
     states.STATE_INGAME_CONSTRUCTION, 1, true)
 
 hovelButton:setOnClick(function(self)
-    _G.BuildController:set("house", function()
+    _G.BuildController:set("House", function()
         hovelButton:select()
     end)
     ActionBar:selectButton(hovelButton)
 end)
 
 local function displayTooltips()
-    hovelButton:setTooltip("Hovel", getCostAndType("house") .. "\nIncreases maximum population limit")
+    hovelButton:setTooltip("Hovel", getCostAndType("House") .. "\nIncreases maximum population limit")
 end
 
 el.buttons.houseButton:setOnClick(function(self)

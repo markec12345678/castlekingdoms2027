@@ -48,7 +48,7 @@ woodenWallButton:setOnClick(
     function(self)
         ActionBar:selectButton(woodenWallButton)
         _G.BuildController:set(
-            "wooden_wall", function()
+            "WoodenWall", function()
             woodenWallButton:unselect()
         end)
     end)
@@ -65,7 +65,7 @@ walkableWoodenWallButton:setOnClick(
     function(self)
         ActionBar:selectButton(walkableWoodenWallButton)
         _G.BuildController:set(
-            "walkable_wooden_wall", function()
+            "WalkableWoodenWall", function()
             walkableWoodenWallButton:unselect()
         end)
     end)
@@ -80,7 +80,7 @@ local woodenTowerButton = ActionBarButton:new(love.graphics.newImage("assets/ui/
 woodenTowerButton:setOnClick(
     function(self)
         _G.BuildController:set(
-            "wooden_tower", function()
+            "WoodenTower", function()
             woodenTowerButton:unselect()
         end)
         ActionBar:selectButton(woodenTowerButton)
@@ -91,7 +91,7 @@ local woodenGateEastButton = ActionBarButton:new(love.graphics.newImage("assets/
 woodenGateEastButton:setOnClick(
     function(self)
         _G.BuildController:set(
-            "wooden_gate_east", function()
+            "WoodenGateEast", function()
             woodenGateEastButton:unselect()
         end)
         ActionBar:selectButton(woodenGateEastButton)
@@ -102,7 +102,7 @@ local woodenGateSouthButton = ActionBarButton:new(love.graphics.newImage("assets
 woodenGateSouthButton:setOnClick(
     function(self)
         _G.BuildController:set(
-            "wooden_gate_south", function()
+            "WoodenGateSouth", function()
             woodenGateSouthButton:unselect()
         end)
         ActionBar:selectButton(woodenGateSouthButton)
@@ -111,15 +111,15 @@ woodenGateSouthButton:setOnClick(
 local function displayTooltips()
     castleButton:setTooltip("WoodenKeep", getCostAndType("wooden_keep"))
     walkableWoodenWallButton:setTooltip("Walkable Wooden Wall",
-        getCostAndType("walkable_wooden_wall") .. "\nA defensive wall made that is walkable on the top")
+        getCostAndType("WalkableWoodenWall") .. "\nA defensive wall made that is walkable on the top")
     woodenTowerButton:setTooltip("Wooden Tower",
-        getCostAndType("wooden_tower") .. "\nA wooden tower that is missing some stairs apparently")
+        getCostAndType("WoodenTower") .. "\nA wooden tower that is missing some stairs apparently")
     woodenGateEastButton:setTooltip("Wooden Gate",
-        getCostAndType("wooden_gate_east") .. "\nA wooden gate that can let friendly units pass through")
+        getCostAndType("WoodenGateEast") .. "\nA wooden gate that can let friendly units pass through")
     woodenGateSouthButton:setTooltip("Wooden Gate",
-        getCostAndType("wooden_gate_south") .. "\nA wooden gate that can let friendly units pass through")
+        getCostAndType("WoodenGateSouth") .. "\nA wooden gate that can let friendly units pass through")
     woodenWallButton:setTooltip("Wooden Wall",
-        getCostAndType("wooden_wall") .. "\nA defensive wall made from sharpened tree trunks")
+        getCostAndType("WoodenWall") .. "\nA defensive wall made from sharpened tree trunks")
 end
 
 el.buttons.castleButton:setOnClick(

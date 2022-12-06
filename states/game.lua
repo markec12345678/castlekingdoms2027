@@ -56,7 +56,7 @@ local function delayedInit()
     if _G.state.newGame then
         SaveManager:load(savegame)
         updateProgress(70)
-        _G.BuildController:set("saxon_hall")
+        _G.BuildController:set("SaxonHall")
     else
         updateProgress(70, 3)
         SaveManager:load(savegame)

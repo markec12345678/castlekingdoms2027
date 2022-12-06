@@ -1,5 +1,4 @@
 local _, objectAtlas = ...
-
 local image = love.graphics.newImage("assets/tiles/info_tiles_strip.png")
 local ActionBar = require("states.ui.ActionBar")
 local WallController = require("objects.Controllers.WallController")
@@ -41,7 +40,7 @@ function BuildController:initialize()
     self.elevationOffsetY = 0
     self.canBuild = false
     self.previousCanBuild = false
-    self.building = "saxon_hall"
+    self.building = "SaxonHall"
     self.batch = love.graphics.newSpriteBatch(image)
     self.quads = {}
     self.cannotBuildBecauseSpecial = false
@@ -89,9 +88,9 @@ function BuildController:set(type, callback)
     if not building[type] then
         error("want to build an unknown building: " .. tostring(type))
     end
-    if type == "walkable_wooden_wall" then
+    if type == "WalkableWoodenWall" then
         WallController:setWalkableWall()
-    elseif type == "wooden_wall" then
+    elseif type == "WoodenWall" then
         WallController:setWoodenWall()
     end
     self.onBuildCallback = callback
@@ -254,7 +253,7 @@ function BuildController:mousepressed(x, y)
             end
         end
         self.firstTerrainHeight = nil
-        if self.building == "wooden_wall" or self.building == "walkable_wooden_wall" then
+        if self.building == "WoodenWall" or self.building == "WalkableWoodenWall" then
             return WallController:build()
         end
         local built = self:build(self.gx, self.gy)
@@ -277,7 +276,7 @@ function BuildController:isBuildingAffordable(buildingKey, amountOfBuildings)
     amountOfBuildings = amountOfBuildings or 1
     for resource, amount in pairs(building[buildingKey].cost) do
         if _G.state.resources[resource] < amount * amountOfBuildings then
-            if self.building == "woodcutter_hut" and _G.state.firstWoodCutterHut then
+            if self.building == "WoodcuttersHut" and _G.state.firstWoodCutterHut then
                 _G.state.firstWoodCutterHut = false
                 break
             end
@@ -319,13 +318,13 @@ function BuildController:build(gx, gy)
                         _G.removeObjectFromClassAtGlobal(gx + xx, gy + yy, "Shrub")
                     end
                 end
-                if self.building == "saxon_hall" then
+                if self.building == "SaxonHall" then
                     building[self.building]:build(gx, gy)
-                    self:set("stockpile")
+                    self:set("Stockpile")
                     return true
-                elseif self.building == "stockpile" then
+                elseif self.building == "Stockpile" then
                     building[self.building]:build(gx, gy)
-                    self:set("granary")
+                    self:set("Granary")
                     _G.playSpeech("place_granary")
                     -- Starting resources
                     for _ = 1, 10 do
@@ -341,7 +340,7 @@ function BuildController:build(gx, gy)
                         _G.stockpile:store("wood")
                     end
                     return true
-                elseif self.building == "granary" then
+                elseif self.building == "Granary" then
                     building[self.building]:build(gx, gy)
                     -- Starting food
                     for _ = 1, 26 do
@@ -375,7 +374,7 @@ end
 
 function BuildController:draw()
     if self.active then
-        if (self.building == "wooden_wall" or self.building == "walkable_wooden_wall") and WallController.clicked then
+        if (self.building == "WoodenWall" or self.building == "WalkableWoodenWall") and WallController.clicked then
             WallController:draw()
         else
             love.graphics.setColor(1, 1, 1, 0.5)
