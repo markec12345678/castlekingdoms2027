@@ -47,8 +47,8 @@ function WallController:build()
                 return false
             end
             if self.walkable then
-                if _G.BuildController:isBuildingAffordable("walkable_wooden_wall") then
-                    _G.BuildController:purchaseBuilding("walkable_wooden_wall")
+                if _G.BuildController:isBuildingAffordable("WalkableWoodenWall") then
+                    _G.BuildController:purchaseBuilding("WalkableWoodenWall")
                     WalkableWoodenWall:new(gx, gy)
                     for k, v in ipairs(_G.stockpile.nodeList) do
                         if v.gx == gx and v.gy == gy then
@@ -67,8 +67,8 @@ function WallController:build()
                     return false
                 end
             else
-                if _G.BuildController:isBuildingAffordable("wooden_wall") then
-                    _G.BuildController:purchaseBuilding("wooden_wall")
+                if _G.BuildController:isBuildingAffordable("WoodenWall") then
+                    _G.BuildController:purchaseBuilding("WoodenWall")
                     WoodenWall:new(gx, gy)
                     for k, v in ipairs(_G.stockpile.nodeList) do
                         if v.gx == gx and v.gy == gy then
@@ -93,7 +93,7 @@ end
 
 function WallController:drawMouse()
     if not self.clicked then return end
-    local totalCost = _G.BuildController:getWoodCost("wooden_wall", self.buildingCount)
+    local totalCost = _G.BuildController:getWoodCost("WoodenWall", self.buildingCount)
     local mx, my = love.mouse.getPosition()
     love.graphics.draw(woodIcon, mx + 30, my + 20, nil, 0.5)
     if totalCost > _G.state.resources["wood"] then
@@ -126,11 +126,11 @@ function WallController:draw()
             return true
         end
         if self.walkable then
-            if not _G.BuildController:isBuildingAffordable("walkable_wooden_wall", self.buildingCount) then
+            if not _G.BuildController:isBuildingAffordable("WalkableWoodenWall", self.buildingCount) then
                 canAfford = false
             end
         else
-            if not _G.BuildController:isBuildingAffordable("wooden_wall", self.buildingCount) then
+            if not _G.BuildController:isBuildingAffordable("WoodenWall", self.buildingCount) then
                 canAfford = false
             end
         end

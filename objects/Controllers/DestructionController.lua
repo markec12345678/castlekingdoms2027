@@ -78,6 +78,16 @@ function DestructionController:destroyAtLocation(gx, gy, force, targetAlias)
                         local targets = _G.allObjectsFromSubclassAtGlobal(structure.gx + x, structure.gy + y, Structure)
                         for _, target in ipairs(targets) do
                             if target == structure or target.parent == structure then
+                                local buildings = require("objects.buildings")
+                                local building = buildings[target.class.name]
+                                if building then
+                                    local cost = buildings[target.class.name].cost
+                                    if cost then
+                                        for t, q in pairs(cost) do
+                                            _G.stockpile:store(t, q/2)
+                                        end
+                                    end
+                                end
                                 Structure.destroy(target)
                                 target:destroy()
                             end

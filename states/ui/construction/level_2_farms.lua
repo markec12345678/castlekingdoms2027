@@ -8,7 +8,7 @@ local granaryButton = ActionBarButton:new(love.graphics.newImage('assets/ui/gran
     states.STATE_INGAME_CONSTRUCTION, 1, true)
 
 granaryButton:setOnClick(function(self)
-    _G.BuildController:set("granary", function()
+    _G.BuildController:set("Granary", function()
         granaryButton:select()
     end)
     ActionBar:selectButton(granaryButton)
@@ -20,7 +20,7 @@ local hunterButton = ActionBarButton:new(love.graphics.newImage('assets/ui/hunte
 local appleFarmButton = ActionBarButton:new(love.graphics.newImage('assets/ui/apple_farm_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 3, true)
 appleFarmButton:setOnClick(function(self)
-    _G.BuildController:set("orchard", function()
+    _G.BuildController:set("Orchard", function()
         appleFarmButton:select()
     end)
     ActionBar:selectButton(appleFarmButton)
@@ -32,7 +32,7 @@ local cheeseFarmButton = ActionBarButton:new(love.graphics.newImage('assets/ui/c
 local wheatFarmButton = ActionBarButton:new(love.graphics.newImage('assets/ui/wheat_farm_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 5, true)
 wheatFarmButton:setOnClick(function(self)
-    _G.BuildController:set("wheat_farm", function()
+    _G.BuildController:set("WheatFarm", function()
         wheatFarmButton:select()
     end)
     ActionBar:selectButton(wheatFarmButton)
@@ -42,12 +42,12 @@ local hopsFarmButton = ActionBarButton:new(love.graphics.newImage('assets/ui/hop
     states.STATE_INGAME_CONSTRUCTION, 6, true, nil, true)
 
 local function displayTooltips()
-    granaryButton:setTooltip("Granary", getCostAndType("granary") .. "\nIncreases food capacity")
+    granaryButton:setTooltip("Granary", getCostAndType("Granary") .. "\nIncreases food capacity")
     hunterButton:setTooltip("Hunter's hut", "Not implemented yet")
-    appleFarmButton:setTooltip("Orchard", getCostAndType("orchard") .. "\nProduces apples")
+    appleFarmButton:setTooltip("Orchard", getCostAndType("Orchard") .. "\nProduces apples")
     cheeseFarmButton:setTooltip("Dairy farm", "Not implemented yet")
     wheatFarmButton:setTooltip("Wheat farm",
-        getCostAndType("orchard") .. "\nProduces wheat which can be processed into flour")
+        getCostAndType("WheatFarm") .. "\nProduces wheat which can be processed into flour")
     hopsFarmButton:setTooltip("Hops farm", "Not implemented yet")
 end
 

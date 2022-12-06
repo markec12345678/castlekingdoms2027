@@ -8,7 +8,7 @@ local windmillButton = ActionBarButton:new(love.graphics.newImage("assets/ui/win
     states.STATE_INGAME_CONSTRUCTION, 1, true)
 
 windmillButton:setOnClick(function(self)
-    _G.BuildController:set("windmill", function()
+    _G.BuildController:set("Windmill", function()
         windmillButton:select()
     end)
     ActionBar:selectButton(windmillButton)
@@ -18,15 +18,15 @@ local bakeryButton = ActionBarButton:new(love.graphics.newImage("assets/ui/baker
     states.STATE_INGAME_CONSTRUCTION, 2, true)
 
 bakeryButton:setOnClick(function(self)
-    _G.BuildController:set("bakery", function()
+    _G.BuildController:set("Bakery", function()
         bakeryButton:select()
     end)
     ActionBar:selectButton(bakeryButton)
 end)
 
 local function displayTooltips()
-    windmillButton:setTooltip("Windmill", getCostAndType("windmill") .. "\nProcesses wheat into flour")
-    bakeryButton:setTooltip("Bakery", getCostAndType("bakery") .. "\nProcesses flour into bread")
+    windmillButton:setTooltip("Windmill", getCostAndType("Windmill") .. "\nProcesses wheat into flour")
+    bakeryButton:setTooltip("Bakery", getCostAndType("Bakery") .. "\nProcesses flour into bread")
 end
 
 el.buttons.sickleButton:setOnClick(function(self)
