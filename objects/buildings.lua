@@ -18,6 +18,7 @@ local Market = require("objects.Structures.Market")
 local OxTether = require("objects.Structures.OxTether")
 local WoodenGateEast = require("objects.Structures.WoodenGateEast")
 local WoodenGateSouth = require("objects.Structures.WoodenGateSouth")
+local Inn = require("objects.Structures.Inn")
 
 local objectFromTypeAt = _G.objectFromTypeAt
 local chunkWidth = _G.chunkWidth
@@ -343,7 +344,8 @@ local buildings = {
             for xx = 0, self.width - 1 do
                 for yy = 0, self.height - 1 do
                     local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
-                    if _G.importantObjectAt(ccx, ccy, xxx, yyy) and not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WoodenWall") and
+                    if _G.importantObjectAt(ccx, ccy, xxx, yyy) and
+                        not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WoodenWall") and
                         not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WalkableWoodenWall") then
                         self.canBuild = false
                     end
@@ -427,7 +429,8 @@ local buildings = {
             for xx = 0, self.width - 1 do
                 for yy = 0, self.height - 1 do
                     local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
-                    if _G.importantObjectAt(ccx, ccy, xxx, yyy) and not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WoodenWall") and
+                    if _G.importantObjectAt(ccx, ccy, xxx, yyy) and
+                        not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WoodenWall") and
                         not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WalkableWoodenWall") then
                         self.canBuild = false
                     end
@@ -574,6 +577,22 @@ local buildings = {
         },
         build = function(self, gx, gy)
             Market:new(gx, gy)
+        end,
+        specialRequirements = function(self, _, _)
+            return true
+        end
+    },
+    [Inn.name] = {
+        quad = tileQuads["inn"],
+        offsetX = 64,
+        offsetY = 90,
+        w = 5,
+        h = 5,
+        cost = {
+            ["wood"] = 15
+        },
+        build = function(self, gx, gy)
+            Inn:new(gx, gy)
         end,
         specialRequirements = function(self, _, _)
             return true
