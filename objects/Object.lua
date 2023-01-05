@@ -17,9 +17,11 @@ function Object:initialize(gx, gy, type)
 end
 
 function Object:isVisibleOnScreen()
-    if not (self.x + (self.cx - self.cy) * chunkWidth * tileWidth * 0.5 < _G.TopLeftX or self.x + (self.cx - self.cy) *
-        chunkWidth * tileWidth * 0.5 > _G.BottomRightX or self.y + (self.cx + self.cy) * chunkHeight * tileHeight * 0.5 <
-        _G.TopLeftY or self.y + (self.cx + self.cy) * chunkHeight * tileHeight * 0.5 > _G.BottomRightY) then
+    if not
+        (self.x + (self.cx - self.cy) * chunkWidth * tileWidth * 0.5 < _G.TopLeftX or self.x + (self.cx - self.cy) *
+            chunkWidth * tileWidth * 0.5 > _G.BottomRightX or
+            self.y + (self.cx + self.cy) * chunkHeight * tileHeight * 0.5 <
+            _G.TopLeftY or self.y + (self.cx + self.cy) * chunkHeight * tileHeight * 0.5 > _G.BottomRightY) then
         return true
     end
     return false
@@ -49,7 +51,8 @@ function Object:render()
             self.vertId = newVert
             self.lastI, self.lastO = self.i, self.o
         else
-            error("Object did not receive Vertex for rendering, it should be of highest priority:" .. tostring(self) .. "\n coordinates: " .. tostring(self.gx) .. ", " .. tostring(self.gy))
+            error("Object did not receive Vertex for rendering, it should be of highest priority:" ..
+                tostring(self) .. "\n coordinates: " .. tostring(self.gx) .. ", " .. tostring(self.gy))
         end
         self.instancemesh = _G.state.objectMesh[self.cx][self.cy]
         self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, self.shadowValue)
@@ -150,11 +153,14 @@ function Object:serialize()
     if self.class.unserializable then
         return {}
     end
-    if data.className ~= "StockpileAlias" and data.className ~= "CampfireAlias" and data.className ~= "WheatFarmAlias" and
-        data.className ~= "BakeryAlias" and data.className ~= "BakeryAlias" and data.className ~= "WoodcutterHutAlias" and
+    if data.className ~= "StockpileAlias" and data.className ~= "CampfireAlias" and data.className ~= "WheatFarmAlias"
+        and
+        data.className ~= "BakeryAlias" and data.className ~= "BakeryAlias" and data.className ~= "BreweryAlias" and
+        data.className ~= "BreweryAlias" and data.className ~= "WoodcutterHutAlias" and
         data.className ~= "OrchardAlias" and data.className ~= "GranaryAlias" and data.className ~= "WindmillAlias" and
         data.className ~= "HouseAlias" and data.className ~= "QuarryAlias" and data.className ~= "MineAlias" and data.className ~= "ArmouryAlias" and
-        data.className ~= "MarketAlias" and data.className ~= "WoodenGateAlias" and data.className ~= "OxTetherAlias" and data.className ~= "WoodenTowerAlias" and
+        data.className ~= "MarketAlias" and data.className ~= "WoodenGateAlias" and data.className ~= "OxTetherAlias" and
+        data.className ~= "WoodenTowerAlias" and
         string.find(data.className or tostring(self.class), "Alias") then
         return {}
     end

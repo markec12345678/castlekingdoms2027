@@ -53,7 +53,8 @@ local tileQuads = require("objects.object_quads")
 local Unit = love.filesystem.load("objects/Units/Unit.lua")(activeEntities, objectBatch)
 package.loaded["objects.Units.Unit"] = Unit
 
-local NotEnoughWorkersFloat = love.filesystem.load("objects/Structures/NotEnoughWorkersFloat.lua")(activeEntities, tileQuads)
+local NotEnoughWorkersFloat = love.filesystem.load("objects/Structures/NotEnoughWorkersFloat.lua")(activeEntities,
+    tileQuads)
 package.loaded["objects.Structures.NotEnoughWorkersFloat"] = NotEnoughWorkersFloat
 
 local Tree = love.filesystem.load("objects/Environment/Tree.lua")(objectBatch, activeEntities, tileQuads, object)
@@ -82,6 +83,7 @@ local WoodcutterHut = love.filesystem.load("objects/Structures/WoodcutterHut.lua
     objectBatch)
 local Windmill = love.filesystem.load("objects/Structures/Windmill.lua")(activeEntities, object, tileQuads, objectBatch)
 local Bakery = love.filesystem.load("objects/Structures/Bakery.lua")(activeEntities, object, tileQuads, objectBatch)
+local Brewery = love.filesystem.load("objects/Structures/Brewery.lua")(activeEntities, object, tileQuads, objectBatch)
 local House = love.filesystem.load("objects/Structures/House.lua")(activeEntities, object, tileQuads, objectBatch)
 local WoodenWall = love.filesystem.load("objects/Structures/WoodenWall.lua")(activeEntities, object, tileQuads,
     objectBatch)
@@ -124,6 +126,7 @@ package.loaded["objects.Structures.Mine"] = Mine
 package.loaded["objects.Structures.WoodcutterHut"] = WoodcutterHut
 package.loaded["objects.Structures.Windmill"] = Windmill
 package.loaded["objects.Structures.Bakery"] = Bakery
+package.loaded["objects.Structures.Brewery"] = Brewery
 package.loaded["objects.Structures.House"] = House
 package.loaded["objects.Structures.WoodenWall"] = WoodenWall
 package.loaded["objects.Structures.WalkableWoodenWall"] = WoodenWallWalkable
@@ -302,14 +305,14 @@ end
 function _G.allocateMesh(cx, cy)
     local chunkX = cx
     local chunkY = cy
-    local treeverts = {{0, 0, 0, 0, 1.0, 1.0, 1.0, 1.0, 1.0}, {1, 0, 1, 0, 1.0, 1.0, 1.0, 1.0, 1.0},
-        {0, 1, 0, 1, 1.0, 1.0, 1.0, 1.0, 1.0}, {1, 1, 1, 1, 1.0, 1.0, 1.0, 1.0, 1.0}}
+    local treeverts = { { 0, 0, 0, 0, 1.0, 1.0, 1.0, 1.0, 1.0 }, { 1, 0, 1, 0, 1.0, 1.0, 1.0, 1.0, 1.0 },
+        { 0, 1, 0, 1, 1.0, 1.0, 1.0, 1.0, 1.0 }, { 1, 1, 1, 1, 1.0, 1.0, 1.0, 1.0, 1.0 } }
     if objectBatch[chunkX][chunkY] == nil then
         objectBatch[chunkX][chunkY] = love.graphics.newMesh(treeverts, "strip", "static")
     end
-    local instancemesh = love.graphics.newMesh({{"InstancePosition", "float", 2}, {"UVOffset", "float", 2},
-        {"ImageDim", "float", 2}, {"ImageShade", "float", 1},
-        {"Scale", "float", 2}},
+    local instancemesh = love.graphics.newMesh({ { "InstancePosition", "float", 2 }, { "UVOffset", "float", 2 },
+        { "ImageDim", "float", 2 }, { "ImageShade", "float", 1 },
+        { "Scale", "float", 2 } },
         _G.chunkWidth * _G.chunkHeight * _G.state.verticesPerTile + 1000, nil, "dynamic")
     _G.state.objectMesh[chunkX][chunkY] = instancemesh
     objectBatch[chunkX][chunkY]:setTexture(objectAtlas)
