@@ -19,6 +19,7 @@ local OxTether = require("objects.Structures.OxTether")
 local WoodenGateEast = require("objects.Structures.WoodenGateEast")
 local WoodenGateSouth = require("objects.Structures.WoodenGateSouth")
 local Inn = require("objects.Structures.Inn")
+local Brewery = require("objects.Structures.Brewery")
 local Armoury = require("objects.Structures.Armoury")
 
 local objectFromTypeAt = _G.objectFromTypeAt
@@ -629,6 +630,22 @@ local buildings = {
         },
         build = function(self, gx, gy)
             Inn:new(gx, gy)
+        end,
+        specialRequirements = function(self, _, _)
+            return true
+        end
+    },
+    [Brewery.name] = {
+        quad = tileQuads["beer_workshop (18)"],
+        offsetX = 48,
+        offsetY = 131 - 64,
+        w = 4,
+        h = 4,
+        cost = {
+            ["wood"] = 10
+        },
+        build = function(self, gx, gy)
+            Brewery:new(gx, gy)
         end,
         specialRequirements = function(self, _, _)
             return true

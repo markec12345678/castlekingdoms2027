@@ -5,6 +5,7 @@ local WheatFarmer = require("objects.Units.WheatFarmer")
 local Miner = require("objects.Units.Miner")
 local Miller = require("objects.Units.Miller")
 local Baker = require("objects.Units.Baker")
+local Brewer = require("objects.Units.Brewer")
 local OxHandler = require("objects.Units.OxHandler")
 
 local JobController = _G.class("JobController")
@@ -22,6 +23,7 @@ function JobController:initializeWorkplaces()
         ["WheatFarmer"] = {},
         ["Miller"] = {},
         ["Baker"] = {},
+        ["Brewer"] = {},
         ["OxHandler"] = {}
     }
 end
@@ -69,6 +71,8 @@ function JobController:makeWorker()
                     worker = Miller:new(_G.spawnPointX, _G.spawnPointY, "Miller")
                 elseif job == "Baker" then
                     worker = Baker:new(_G.spawnPointX, _G.spawnPointY, "Baker")
+                elseif job == "Brewer" then
+                    worker = Brewer:new(_G.spawnPointX, _G.spawnPointY, "Brewer")
                 elseif job == "OxHandler" then
                     worker = OxHandler:new(_G.spawnPointX, _G.spawnPointY, "OxHandler")
                 end
