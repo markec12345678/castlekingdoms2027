@@ -108,6 +108,17 @@ woodenGateSouthButton:setOnClick(
         ActionBar:selectButton(woodenGateSouthButton)
     end)
 
+-- TODO: move to shield category
+local armouryButton = ActionBarButton:new(love.graphics.newImage("assets/ui/armoury_arms_ab.png"), states.STATE_INGAME_CONSTRUCTION, 7, true, nil)
+armouryButton:setOnClick(
+    function(self)
+        _G.BuildController:set(
+            "Armoury", function()
+            armouryButton:unselect()
+        end)
+        ActionBar:selectButton(armouryButton)
+    end)
+
 local function displayTooltips()
     castleButton:setTooltip("WoodenKeep", getCostAndType("wooden_keep"))
     walkableWoodenWallButton:setTooltip("Walkable Wooden Wall",
@@ -120,6 +131,8 @@ local function displayTooltips()
         getCostAndType("WoodenGateSouth") .. "\nA wooden gate that can let friendly units pass through")
     woodenWallButton:setTooltip("Wooden Wall",
         getCostAndType("WoodenWall") .. "\nA defensive wall made from sharpened tree trunks")
+    armouryButton:setTooltip("Armoury",
+        getCostAndType("Armoury") .. "\nWeapons and armour is stored here, which is used by troops from the barracks upon recruitment")
 end
 
 el.buttons.castleButton:setOnClick(
@@ -130,4 +143,4 @@ el.buttons.castleButton:setOnClick(
 
 ActionBar:registerGroup("castle",
     {castleButton, woodenWallButton, walkableWoodenWallButton, woodenTowerButton, woodenGateEastButton,
-        woodenGateSouthButton, backButton, destroyButton})
+        woodenGateSouthButton, armouryButton, backButton, destroyButton})

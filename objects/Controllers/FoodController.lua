@@ -3,12 +3,11 @@ local FOOD = require("objects.Enums.Food")
 
 function FoodController:initialize()
     self.list = {}
-    self.food = {
-        [FOOD.apples] = {},
-        [FOOD.bread] = {},
-        [FOOD.cheese] = {},
-        [FOOD.meat] = {}
-    }
+    self.food = {}
+
+    for _, v in pairs(FOOD) do
+        self.food[v] = {}
+    end
 
     self.nodeList = {}
 end

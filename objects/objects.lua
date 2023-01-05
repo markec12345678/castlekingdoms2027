@@ -74,6 +74,8 @@ local Miner = love.filesystem.load("objects/Units/Miner.lua")(object, tileQuads)
 local SaxonHall = love.filesystem.load("objects/Structures/SaxonHall.lua")(object, tileQuads)
 local Stockpile = love.filesystem.load("objects/Structures/Stockpile.lua")(object, tileQuads, objectBatch)
 local Granary = love.filesystem.load("objects/Structures/Granary.lua")(object, tileQuads, objectBatch)
+local Armoury = love.filesystem.load("objects/Structures/Armoury.lua")(tileQuads)
+package.loaded["objects.Structures.Armoury"] = Armoury
 local Quarry = love.filesystem.load("objects/Structures/Quarry.lua")(activeEntities, object, tileQuads, objectBatch)
 local Mine = love.filesystem.load("objects/Structures/Mine.lua")(activeEntities, object, tileQuads, objectBatch)
 local WoodcutterHut = love.filesystem.load("objects/Structures/WoodcutterHut.lua")(activeEntities, object, tileQuads,
@@ -132,6 +134,7 @@ package.loaded["objects.Structures.WheatFarm"] = WheatFarm
 package.loaded["objects.Structures.OxTether"] = OxTether
 _G.stockpile = require("objects.Controllers.StockpileController")
 _G.foodpile = require("objects.Controllers.FoodController")
+_G.weaponpile = require("objects.Controllers.WeaponController")
 --- NOTE --------------------------
 --- NOTE --------------------------
 --- NOTE Object classes END ---

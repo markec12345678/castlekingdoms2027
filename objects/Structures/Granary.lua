@@ -108,71 +108,17 @@ function Granary:initialize(gx, gy, type)
     self.offsetX = 0
     self.offsetY = -64 - 14
 
-    self.hoverAction = true
     self.foodpile = {}
-    self.foodpile[1] = {
-        id = nil,
-        empty = true,
-        type = nil,
-        quantity = 0,
-        index = 1
-    }
-    self.foodpile[2] = {
-        id = nil,
-        empty = true,
-        type = nil,
-        quantity = 0,
-        index = 2
-    }
-    self.foodpile[3] = {
-        id = nil,
-        empty = true,
-        type = nil,
-        quantity = 0,
-        index = 3
-    }
-    self.foodpile[4] = {
-        id = nil,
-        empty = true,
-        type = nil,
-        quantity = 0,
-        index = 4
-    }
-    self.foodpile[5] = {
-        id = nil,
-        empty = true,
-        type = nil,
-        quantity = 0,
-        index = 5
-    }
-    self.foodpile[6] = {
-        id = nil,
-        empty = true,
-        type = nil,
-        quantity = 0,
-        index = 6
-    }
-    self.foodpile[7] = {
-        id = nil,
-        empty = true,
-        type = nil,
-        quantity = 0,
-        index = 7
-    }
-    self.foodpile[8] = {
-        id = nil,
-        empty = true,
-        type = nil,
-        quantity = 0,
-        index = 8
-    }
-    self.foodpile[9] = {
-        id = nil,
-        empty = true,
-        type = nil,
-        quantity = 0,
-        index = 9
-    }
+    for i = 1, 9 do
+        self.foodpile[i] = {
+            id = nil,
+            empty = true,
+            type = nil,
+            quantity = 0,
+            index = i
+        }
+    end
+
 
     for xx = -1, 4 do
         for yy = -1, 4 do
@@ -347,7 +293,6 @@ function Granary:serialize()
     data.health = self.health
     data.offsetX = self.offsetX
     data.offsetY = self.offsetY
-    data.hoverAction = self.hoverAction
     return data
 end
 
@@ -384,26 +329,24 @@ function Granary:enterHover(induced)
         local RationController = require("objects.Controllers.RationController")
         RationController:setGranaryToFadeOut(self)
     end
-    if self.class.name == "Granary" then
-        for tile = 1, tiles do
-            local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tiles - tile + 1), GranaryAlias)
-            if not alias then return end
-            alias.tile = quadArray[tile]
-            alias.tileKey = tile
-            alias:render()
-        end
-
-        for tile = 1, tiles do
-            local alias = _G.objectFromClassAtGlobal(self.gx + tile, self.gy, GranaryAlias)
-            if not alias then return end
-            alias.tile = quadArray[tiles + 1 + tile]
-            alias.tileKey = tiles + 1 + tile
-            alias:render()
-        end
-        self.tile = quadArray[tiles + 1]
-        self:render()
-        self:showFoodpiles()
+    for tile = 1, tiles do
+        local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tiles - tile + 1), GranaryAlias)
+        if not alias then return end
+        alias.tile = quadArray[tile]
+        alias.tileKey = tile
+        alias:render()
     end
+
+    for tile = 1, tiles do
+        local alias = _G.objectFromClassAtGlobal(self.gx + tile, self.gy, GranaryAlias)
+        if not alias then return end
+        alias.tile = quadArray[tiles + 1 + tile]
+        alias.tileKey = tiles + 1 + tile
+        alias:render()
+    end
+    self.tile = quadArray[tiles + 1]
+    self:render()
+    self:showFoodpiles()
 end
 
 function Granary:exitHover(induced)
@@ -414,24 +357,22 @@ function Granary:exitHover(induced)
         if self.hover then return end
     end
     self.hover = false
-    if self.class.name == "Granary" then
-        for tile = 1, tilesExt do
-            local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tilesExt - tile + 1), GranaryAlias)
-            alias.tile = quadArrayExt[tile]
-            alias.tileKey = tile
-            alias:render()
-        end
-
-        for tile = 1, tilesExt do
-            local alias = _G.objectFromClassAtGlobal(self.gx + tile, self.gy, GranaryAlias)
-            alias.tile = quadArrayExt[tilesExt + 1 + tile]
-            alias.tileKey = tilesExt + 1 + tile
-            alias:render()
-        end
-        self.tile = quadArrayExt[tilesExt + 1]
-        self:render()
-        self:hideFoodpiles()
+    for tile = 1, tilesExt do
+        local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tilesExt - tile + 1), GranaryAlias)
+        alias.tile = quadArrayExt[tile]
+        alias.tileKey = tile
+        alias:render()
     end
+
+    for tile = 1, tilesExt do
+        local alias = _G.objectFromClassAtGlobal(self.gx + tile, self.gy, GranaryAlias)
+        alias.tile = quadArrayExt[tilesExt + 1 + tile]
+        alias.tileKey = tilesExt + 1 + tile
+        alias:render()
+    end
+    self.tile = quadArrayExt[tilesExt + 1]
+    self:render()
+    self:hideFoodpiles()
 end
 
 return Granary

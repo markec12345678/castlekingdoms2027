@@ -237,7 +237,6 @@ function Campfire:initialize(gx, gy, type)
     self.offsetY = 0
     self.animated = false
     self.peasants = 0
-    self.hoverAction = true
     self.maxPeasants = 20
     self.freeSpots = _G.newAutotable(2)
 
@@ -393,7 +392,6 @@ function Campfire:serialize()
     data.animated = self.animated
     data.peasants = self.peasants
     data.maxPeasants = self.maxPeasants
-    data.hoverAction = self.hoverAction
     data.health = self.health
     local freeSpots = {}
     for xx = -3, 5 do
