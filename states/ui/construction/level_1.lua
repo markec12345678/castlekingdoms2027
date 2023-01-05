@@ -75,7 +75,6 @@ local function getCostAndType(buildingIndex)
     local first = true
     if c then
         for type, quantity in pairs(c) do
-            print(type, quantity)
             if first then
                 costtype = costtype .. quantity .. " " .. type
                 first = false

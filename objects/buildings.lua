@@ -19,6 +19,7 @@ local OxTether = require("objects.Structures.OxTether")
 local WoodenGateEast = require("objects.Structures.WoodenGateEast")
 local WoodenGateSouth = require("objects.Structures.WoodenGateSouth")
 local Inn = require("objects.Structures.Inn")
+local Armoury = require("objects.Structures.Armoury")
 
 local objectFromTypeAt = _G.objectFromTypeAt
 local chunkWidth = _G.chunkWidth
@@ -298,6 +299,7 @@ local buildings = {
             return true
         end
     },
+
     [WoodenTower.name] = {
         quad = tileQuads["wood_tower"],
         offsetX = 16,
@@ -312,6 +314,40 @@ local buildings = {
         end,
         specialRequirements = function(self, _, _)
             return true
+        end
+    },
+    [Armoury.name] = {
+        quad = tileQuads["armory (2)"],
+        offsetX = 48,
+        offsetY = 90,
+        w = 4,
+        h = 4,
+        cost = {
+            ["wood"] = 10
+        },
+        build = function(self, gx, gy)
+            if _G.state.firstArmoury then
+                _G.state.firstArmoury = false
+            end
+            Armoury:new(gx, gy)
+        end,
+        specialRequirements = function(self, gx, gy)
+            if _G.state.firstArmoury then
+                return true
+            end
+            local i, o, cxx, cyy
+            for w = gx - 1, self.w + gx do
+                for h = gy - 1, self.h + gy do
+                    i = (w) % (chunkWidth)
+                    o = (h) % (chunkWidth)
+                    cxx = math.floor(w / chunkWidth)
+                    cyy = math.floor(h / chunkWidth)
+                    if objectFromTypeAt(cxx, cyy, i, o, "Armoury") or
+                        objectFromTypeAt(cxx, cyy, i, o, "ArmouryAlias") then
+                        return true
+                    end
+                end
+            end
         end
     },
     [WoodenGateEast.name] = {

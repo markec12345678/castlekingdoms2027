@@ -2,6 +2,7 @@ local bitser = require("libraries.bitser")
 local Map = require("objects.Map")
 local SaveManager = require("objects.Controllers.SaveManager")
 local FOOD = require("objects.Enums.Food")
+local WEAPON = require("objects.Enums.Weapon")
 
 ---@class State
 ---@field new fun():State
@@ -48,16 +49,6 @@ function State:initialize()
         [FOOD.bread] = 0,
         [FOOD.cheese] = 0
     }
-    self.weapons = {
-        ["bow"] = 0,
-        ["crossbow"] = 0,
-        ["spear"] = 0,
-        ["sword"] = 0,
-        ["mace"] = 0,
-        ["leather_armor"] = 0,
-        ["pike"] = 0,
-        ["metal_armor"] = 0
-    }
     self.notFullStockpiles = {
         ["wood"] = 0,
         ['hop'] = 0,
@@ -74,19 +65,16 @@ function State:initialize()
         [FOOD.bread] = 0,
         [FOOD.cheese] = 0
     }
-    self.notFullArmoury = {
-        ["bow"] = 0,
-        ["crossbow"] = 0,
-        ["spear"] = 0,
-        ["sword"] = 0,
-        ["mace"] = 0,
-        ["leather_armor"] = 0,
-        ["pike"] = 0,
-        ["metal_armor"] = 0
-    }
+    self.notFullArmoury = {}
+    self.weapons = {}
+    for _, v in pairs(WEAPON) do
+        self.notFullArmoury[v] = 0
+        self.weapons[v] = 0
+    end
     self.wheatSeasonCounter = 0
     self.wheatGrowingSeason = false
     self.firstWoodCutterHut = true
+    self.firstArmoury = true
     self.keepX = 0
     self.keepY = 0
 end
@@ -253,6 +241,7 @@ function State:serialize()
         data.campfire = _G.campfire:serialize()
     end
     data.foodController = _G.foodpile:serialize()
+    data.weaponController = _G.weaponpile:serialize()
     data.jobController = _G.JobController:serialize()
     data.taxController = _G.TaxController:serialize()
     local RationController = require("objects.Controllers.RationController")
@@ -313,6 +302,9 @@ function State:load(filename)
         _G.PopularityController:deserialize(load.popularityController)
         _G.BuildController:deserialize(load.buildController)
         _G.foodpile:deserialize(load.foodController)
+        if load.weaponController then
+            _G.weaponpile:deserialize(load.weaponController)
+        end
         _G.spawnPointX, _G.spawnPointY = load.spawnPointX, load.spawnPointY
         local campfireClass = _G.getClassByName(load.campfire.className)
         if campfireClass then

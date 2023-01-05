@@ -1,4 +1,3 @@
--- enum as strings so they're easily debuggable
 ---@enum food
 local FOOD = {
     apples = "apples",
