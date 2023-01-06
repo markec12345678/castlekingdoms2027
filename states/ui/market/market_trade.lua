@@ -10,6 +10,7 @@ local backButtonHover = love.graphics.newImage("assets/ui/goods/back_ab_market_h
 local backButtonA = ActionBarButton:new(love.graphics.newImage("assets/ui/goods/emptyIcon.png"), states.STATE_MARKET, 12)
 local backButton = loveframes.Create("image")
 local FOOD = require("objects.Enums.Food")
+local WEAPON = require("objects.Enums.Weapon")
 
 local good
 local quantity = 5
@@ -21,6 +22,22 @@ backButton.OnClick = function(self)
     actionBar:switchMode("market")
     good = nil
 end
+
+--QUICK TAB ICONS
+local materialButtonImage = love.graphics.newImage("assets/ui/goods/hammer_button_normal.png")
+local materialButtonHoverImage = love.graphics.newImage("assets/ui/goods/hammer_button_hover.png")
+local materialButtonClickedImage = love.graphics.newImage("assets/ui/goods/hammer_button_clicked.png")
+local foodButtonImage = love.graphics.newImage("assets/ui/goods/apple_button_normal.png")
+local foodButtonHoverImage = love.graphics.newImage("assets/ui/goods/apple_button_hover.png")
+local foodButtonClickedImage = love.graphics.newImage("assets/ui/goods/apple_button_clicked.png")
+local weaponButtonImage = love.graphics.newImage("assets/ui/goods/shield_button_normal.png")
+local weaponButtonHoverImage = love.graphics.newImage("assets/ui/goods/shield_button_hover.png")
+local weaponButtonClickedImage = love.graphics.newImage("assets/ui/goods/shield_button_clicked.png")
+--AUTO TRADE ICONS
+local autoTradeOnImage = love.graphics.newImage("assets/ui/goods/auto_button_clicked.png")
+local autoTradeOffImage = love.graphics.newImage("assets/ui/goods/auto_button_normal.png")
+local autoTradeDeleteOnImage = love.graphics.newImage("assets/ui/goods/delete_button_clicked.png")
+local autoTradeDeleteOffImage = love.graphics.newImage("assets/ui/goods/delete_button_normal.png")
 
 local marketBuyButtonImage = love.graphics.newImage("assets/ui/market_Buy_Button.png")
 local marketBuyButtonHoverImage = love.graphics.newImage("assets/ui/market_Buy_Button_Hover.png")
@@ -60,6 +77,23 @@ local meatIconBig = love.graphics.newImage("assets/ui/goods/meatIconBig.png")
 local cheeseIconBig = love.graphics.newImage("assets/ui/goods/cheeseIconBig.png")
 local appleIconBig = love.graphics.newImage("assets/ui/goods/appleIconBig.png")
 local breadIconBig = love.graphics.newImage("assets/ui/goods/breadIconBig.png")
+-- WEAPON ICONS
+local bowIcon = love.graphics.newImage("assets/ui/goods/bowIcon.png")
+local bowIconBig = love.graphics.newImage("assets/ui/goods/bowIconBig.png")
+local spearIcon = love.graphics.newImage("assets/ui/goods/spearIcon.png")
+local spearIconBig = love.graphics.newImage("assets/ui/goods/spearIconBig.png")
+local crossbowIcon = love.graphics.newImage("assets/ui/goods/crossbowIcon.png")
+local crossbowIconBig = love.graphics.newImage("assets/ui/goods/crossbowIconBig.png")
+local pikeIcon = love.graphics.newImage("assets/ui/goods/pikeIcon.png")
+local pikeIconBig = love.graphics.newImage("assets/ui/goods/pikeIconBig.png")
+local swordIcon = love.graphics.newImage("assets/ui/goods/swordIcon.png")
+local swordIconBig = love.graphics.newImage("assets/ui/goods/swordIconBig.png")
+local maceIcon = love.graphics.newImage("assets/ui/goods/maceIcon.png")
+local maceIconBig = love.graphics.newImage("assets/ui/goods/maceIconBig.png")
+local leatherIcon = love.graphics.newImage("assets/ui/goods/leatherIcon.png")
+local leatherIconBig = love.graphics.newImage("assets/ui/goods/leatherIconBig.png")
+local armorIcon = love.graphics.newImage("assets/ui/goods/armorIcon.png")
+local armorIconBig = love.graphics.newImage("assets/ui/goods/armorIconBig.png")
 
 local emptyIconBig = love.graphics.newImage("assets/ui/goods/emptyIconBig.png")
 
@@ -143,6 +177,55 @@ local frBreadButton = {
     width = breadIcon:getWidth() * scale,
     height = breadIcon:getHeight() * scale
 }
+-- WEAPON ICONS
+local frBowButton = {
+    x = framesActionBar.frFull.x + 140 * scale,
+    y = framesActionBar.frFull.y + 120 * scale,
+    width = bowIcon:getWidth() * scale,
+    height = bowIcon:getHeight() * scale
+}
+local frSpearButton = {
+    x = framesActionBar.frFull.x + 190 * scale,
+    y = framesActionBar.frFull.y + 120 * scale,
+    width = spearIcon:getWidth() * scale,
+    height = spearIcon:getHeight() * scale
+}
+local frMaceButton = {
+    x = framesActionBar.frFull.x + 250 * scale,
+    y = framesActionBar.frFull.y + 115 * scale,
+    width = maceIcon:getWidth() * scale,
+    height = maceIcon:getHeight() * scale
+}
+local frCrossbowButton = {
+    x = framesActionBar.frFull.x + 290 * scale,
+    y = framesActionBar.frFull.y + 115 * scale,
+    width = crossbowIcon:getWidth() * scale,
+    height = crossbowIcon:getHeight() * scale
+}
+local frPikeButton = {
+    x = framesActionBar.frFull.x + 340 * scale,
+    y = framesActionBar.frFull.y + 120 * scale,
+    width = pikeIcon:getWidth() * scale,
+    height = pikeIcon:getHeight() * scale
+}
+local frSwordButton = {
+    x = framesActionBar.frFull.x + 390 * scale,
+    y = framesActionBar.frFull.y + 120 * scale,
+    width = swordIcon:getWidth() * scale,
+    height = swordIcon:getHeight() * scale
+}
+local frLetherButton = {
+    x = framesActionBar.frFull.x + 450 * scale,
+    y = framesActionBar.frFull.y + 115 * scale,
+    width = leatherIcon:getWidth() * scale,
+    height = leatherIcon:getHeight() * scale
+}
+local frArmourButton = {
+    x = framesActionBar.frFull.x + 510 * scale,
+    y = framesActionBar.frFull.y + 115 * scale,
+    width = armorIcon:getWidth() * scale,
+    height = armorIcon:getHeight() * scale
+}
 
 local frBuyButton = {
     x = framesActionBar.frFull.x + 683 * scale,
@@ -180,17 +263,53 @@ local frQuantity = {
     width = 50 * scale,
     height = 20 * scale
 }
+local frStock = {
+    x = framesActionBar.frFull.x + 650 * scale,
+    y = framesActionBar.frFull.y + 120 * scale,
+    width = 50 * scale,
+    height = 20 * scale
+}
 local frBackButton = {
     x = framesActionBar.frFull.x + 140 * scale,
     y = framesActionBar.frFull.y + 155 * scale,
     width = IncButtonImage:getWidth() * scale,
     height = IncButtonImage:getHeight() * scale
 }
-local frBackButtonA = {--HACK
+local frBackButtonA = { --HACK
     x = framesActionBar.frFull.x + 1920 * scale,
     y = framesActionBar.frFull.y + 1080 * scale,
     width = 0,
     height = 0
+}
+local frAutoTrade = {
+    x = framesActionBar.frFull.x + 962 * scale,
+    y = framesActionBar.frFull.y + 60 * scale,
+    width = autoTradeOnImage:getWidth() * scale,
+    height = autoTradeOnImage:getWidth() * scale
+}
+local frAutoTradeDelete = {
+    x = framesActionBar.frFull.x + 928 * scale,
+    y = framesActionBar.frFull.y + 60 * scale,
+    width = autoTradeDeleteOnImage:getWidth() * scale,
+    height = autoTradeDeleteOnImage:getWidth() * scale
+}
+local frMaterial = {
+    x = framesActionBar.frFull.x + 124 * scale,
+    y = framesActionBar.frFull.y + 60 * scale,
+    width = materialButtonImage:getWidth() * scale,
+    height = materialButtonImage:getWidth() * scale
+}
+local frFood = {
+    x = framesActionBar.frFull.x + 160 * scale,
+    y = framesActionBar.frFull.y + 60 * scale,
+    width = materialButtonImage:getWidth() * scale,
+    height = materialButtonImage:getWidth() * scale
+}
+local frWeapon = {
+    x = framesActionBar.frFull.x + 198 * scale,
+    y = framesActionBar.frFull.y + 60 * scale,
+    width = foodButtonImage:getWidth() * scale,
+    height = foodButtonImage:getWidth() * scale
 }
 
 backButtonA.background:SetPos(frBackButtonA.x, frBackButtonA.y)
@@ -216,19 +335,45 @@ local priceText = loveframes.Create("text")
 priceText:SetState(states.STATE_MARKET)
 priceText:SetFont(loveframes.font_vera_italic)
 priceText:SetPos(frGold.x, frGold.y)
-priceText:SetText({{
-    color = {0, 0, 0, 1}
-}, "5"})
+priceText:SetText({ {
+    color = { 0, 0, 0, 1 }
+}, "5" })
 priceText:SetShadow(false)
 
 local quantityText = loveframes.Create("text")
 quantityText:SetState(states.STATE_MARKET)
 quantityText:SetFont(loveframes.font_vera_italic)
 quantityText:SetPos(frQuantity.x, frQuantity.y)
-quantityText:SetText({{
-    color = {0, 0, 0, 1}
-}, "5"})
+quantityText:SetText({ {
+    color = { 0, 0, 0, 1 }
+}, "5" })
 quantityText:SetShadow(false)
+
+local currentStock = loveframes.Create("text")
+currentStock:SetState(states.STATE_MARKET)
+currentStock:SetFont(loveframes.font_vera_italic) --TODO add font_times_new_normal_large
+currentStock:SetPos(frStock.x, frStock.y)
+currentStock:SetText({ {
+    color = { 0, 0, 0, 1 }
+}, "" })
+currentStock:SetShadow(false)
+local function DisplayCurrentStock(itemGroup)
+    if itemGroup == 1 then
+        currentStock:SetText({ {
+            color = { 0, 0, 0, 1 }
+        }, _G.state.food[good] })
+    end
+    if itemGroup == 2 then
+        currentStock:SetText({ {
+            color = { 0, 0, 0, 1 }
+        }, _G.state.resources[good] })
+    end
+    if itemGroup == 3 then
+        currentStock:SetText({ {
+            color = { 0, 0, 0, 1 }
+        }, _G.state.weapons[good] })
+    end
+end
 
 local bigIconTemplate = loveframes.Create("image")
 bigIconTemplate:SetState(states.STATE_MARKET)
@@ -255,6 +400,7 @@ woodIconButton.OnClick = function(self)
     bigIconTemplate:SetImage(woodIconBig)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
     good = "wood"
+    DisplayCurrentStock(2)
 end
 
 -- STONE ICON BUTTON
@@ -276,6 +422,7 @@ stoneIconButton.OnClick = function(self)
     bigIconTemplate:SetImage(stoneIconBig)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
     good = "stone"
+    DisplayCurrentStock(2)
 end
 woodIconButton.OnMouseExit = function(self)
     self:SetImage(woodIcon)
@@ -300,6 +447,7 @@ wheatIconButton.OnClick = function(self)
     bigIconTemplate:SetImage(wheatIconBig)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
     good = "wheat"
+    DisplayCurrentStock(2)
 end
 wheatIconButton.OnMouseExit = function(self)
     self:SetImage(wheatIcon)
@@ -324,6 +472,7 @@ tarIconButton.OnClick = function(self)
     bigIconTemplate:SetImage(tarIconBig)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
     good = "tar"
+    DisplayCurrentStock(2)
 end
 tarIconButton.OnMouseExit = function(self)
     self:SetImage(tarIcon)
@@ -348,6 +497,7 @@ aleIconButton.OnClick = function(self)
     bigIconTemplate:SetImage(aleIconBig)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
     good = "ale"
+    DisplayCurrentStock(2)
 end
 aleIconButton.OnMouseExit = function(self)
     self:SetImage(aleIcon)
@@ -372,7 +522,7 @@ ironIconButton.OnClick = function(self)
     bigIconTemplate:SetImage(ironIconBig)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
     good = "iron"
-    print("iron")
+    DisplayCurrentStock(2)
 end
 ironIconButton.OnMouseExit = function(self)
     self:SetImage(ironIcon)
@@ -397,6 +547,7 @@ hopIconButton.OnClick = function(self)
     bigIconTemplate:SetImage(hopIconBig)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
     good = "hop"
+    DisplayCurrentStock(2)
 end
 hopIconButton.OnMouseExit = function(self)
     self:SetImage(hopIcon)
@@ -420,10 +571,8 @@ flourIconButton.OnClick = function(self)
 
     bigIconTemplate:SetImage(flourIconBig)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
-
-    print("flour has been chosen")
     good = "flour"
-    print(good)
+    DisplayCurrentStock(2)
 end
 flourIconButton.OnMouseExit = function(self)
     self:SetImage(flourIcon)
@@ -448,9 +597,8 @@ meatIconButton.OnClick = function(self)
     bigIconTemplate:SetImage(meatIconBig)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
 
-    print("meat has been chosen")
     good = FOOD.meat
-    print(good)
+    DisplayCurrentStock(1)
 end
 meatIconButton.OnMouseExit = function(self)
     self:SetImage(meatIcon)
@@ -475,9 +623,8 @@ cheeseIconButton.OnClick = function(self)
     bigIconTemplate:SetImage(cheeseIconBig)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
 
-    print("cheese has been chosen")
     good = FOOD.cheese
-    print(good)
+    DisplayCurrentStock(1)
 end
 cheeseIconButton.OnMouseExit = function(self)
     self:SetImage(cheeseIcon)
@@ -502,9 +649,8 @@ appleIconButton.OnClick = function(self)
     bigIconTemplate:SetImage(appleIconBig)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
 
-    print("apple has been chosen")
     good = FOOD.apples
-    print(good)
+    DisplayCurrentStock(1)
 end
 appleIconButton.OnMouseExit = function(self)
     self:SetImage(appleIcon)
@@ -528,61 +674,355 @@ breadIconButton.OnClick = function(self)
     bigIconTemplate:SetImage(breadIconBig)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
     good = FOOD.bread
+    DisplayCurrentStock(1)
 end
 breadIconButton.OnMouseExit = function(self)
     self:SetImage(breadIcon)
 end
+-- WEAPON BUTTONS
+-- BOW ICON BUTTON
+local bowIconButton = loveframes.Create("image")
+bowIconButton:SetState(states.STATE_MARKET)
+bowIconButton:SetImage(bowIcon)
+bowIconButton:SetScaleX(frBowButton.width / bowIconButton:GetImageWidth())
+bowIconButton:SetScaleY(bowIconButton:GetScaleX())
+bowIconButton:SetPos(frBowButton.x, frBowButton.y)
+bowIconButton.OnMouseEnter = function(self)
+    self:SetImage(bowIcon) -- TODO HOVER BUTTON
+end
+bowIconButton.OnMouseDown = function(self)
+    self:SetImage(bowIcon) -- TODO DOWN BUTTON
+end
+bowIconButton.OnClick = function(self)
+    -- TODO add sound
+
+    bigIconTemplate:SetImage(bowIconBig)
+    bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
+
+    good = WEAPON.bow
+    DisplayCurrentStock(3)
+end
+bowIconButton.OnMouseExit = function(self)
+    self:SetImage(bowIcon)
+end
+-- CROSSBOW ICON BUTTON
+local crossbowIconButton = loveframes.Create("image")
+crossbowIconButton:SetState(states.STATE_MARKET)
+crossbowIconButton:SetImage(crossbowIcon)
+crossbowIconButton:SetScaleX(frCrossbowButton.width / crossbowIconButton:GetImageWidth())
+crossbowIconButton:SetScaleY(crossbowIconButton:GetScaleX())
+crossbowIconButton:SetPos(frCrossbowButton.x, frCrossbowButton.y)
+crossbowIconButton.OnMouseEnter = function(self)
+    self:SetImage(crossbowIcon) -- TODO HOVER BUTTON
+end
+crossbowIconButton.OnMouseDown = function(self)
+    self:SetImage(crossbowIcon) -- TODO DOWN BUTTON
+end
+crossbowIconButton.OnClick = function(self)
+    -- TODO add sound
+
+    bigIconTemplate:SetImage(crossbowIconBig)
+    bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
+
+    good = WEAPON.crossbow
+    DisplayCurrentStock(3)
+end
+crossbowIconButton.OnMouseExit = function(self)
+    self:SetImage(crossbowIcon)
+end
+-- SPEAR ICON BUTTON
+local spearIconButton = loveframes.Create("image")
+spearIconButton:SetState(states.STATE_MARKET)
+spearIconButton:SetImage(spearIcon)
+spearIconButton:SetScaleX(frSpearButton.width / spearIconButton:GetImageWidth())
+spearIconButton:SetScaleY(spearIconButton:GetScaleX())
+spearIconButton:SetPos(frSpearButton.x, frSpearButton.y)
+spearIconButton.OnMouseEnter = function(self)
+    self:SetImage(spearIcon) -- TODO HOVER BUTTON
+end
+spearIconButton.OnMouseDown = function(self)
+    self:SetImage(spearIcon) -- TODO DOWN BUTTON
+end
+spearIconButton.OnClick = function(self)
+    -- TODO add sound
+
+    bigIconTemplate:SetImage(spearIconBig)
+    bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
+
+    good = WEAPON.spear
+    DisplayCurrentStock(3)
+end
+spearIconButton.OnMouseExit = function(self)
+    self:SetImage(spearIcon)
+end
+-- MACE ICON BUTTON
+local maceIconButton = loveframes.Create("image")
+maceIconButton:SetState(states.STATE_MARKET)
+maceIconButton:SetImage(maceIcon)
+maceIconButton:SetScaleX(frMaceButton.width / maceIconButton:GetImageWidth())
+maceIconButton:SetScaleY(maceIconButton:GetScaleX())
+maceIconButton:SetPos(frMaceButton.x, frMaceButton.y)
+maceIconButton.OnMouseEnter = function(self)
+    self:SetImage(maceIcon) -- TODO HOVER BUTTON
+end
+maceIconButton.OnMouseDown = function(self)
+    self:SetImage(maceIcon) -- TODO DOWN BUTTON
+end
+maceIconButton.OnClick = function(self)
+    -- TODO add sound
+
+    bigIconTemplate:SetImage(maceIconBig)
+    bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
+
+    good = WEAPON.mace
+    DisplayCurrentStock(3)
+end
+maceIconButton.OnMouseExit = function(self)
+    self:SetImage(maceIcon)
+end
+-- SWORD ICON BUTTON
+local swordIconButton = loveframes.Create("image")
+swordIconButton:SetState(states.STATE_MARKET)
+swordIconButton:SetImage(swordIcon)
+swordIconButton:SetScaleX(frSwordButton.width / swordIconButton:GetImageWidth())
+swordIconButton:SetScaleY(swordIconButton:GetScaleX())
+swordIconButton:SetPos(frSwordButton.x, frSwordButton.y)
+swordIconButton.OnMouseEnter = function(self)
+    self:SetImage(swordIcon) -- TODO HOVER BUTTON
+end
+swordIconButton.OnMouseDown = function(self)
+    self:SetImage(swordIcon) -- TODO DOWN BUTTON
+end
+swordIconButton.OnClick = function(self)
+    -- TODO add sound
+
+    bigIconTemplate:SetImage(swordIconBig)
+    bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
+
+    good = WEAPON.sword
+    DisplayCurrentStock(3)
+end
+swordIconButton.OnMouseExit = function(self)
+    self:SetImage(swordIcon)
+end
+-- PIKE ICON BUTTON
+local pikeIconButton = loveframes.Create("image")
+pikeIconButton:SetState(states.STATE_MARKET)
+pikeIconButton:SetImage(pikeIcon)
+pikeIconButton:SetScaleX(frPikeButton.width / pikeIconButton:GetImageWidth())
+pikeIconButton:SetScaleY(pikeIconButton:GetScaleX())
+pikeIconButton:SetPos(frPikeButton.x, frPikeButton.y)
+pikeIconButton.OnMouseEnter = function(self)
+    self:SetImage(pikeIcon) -- TODO HOVER BUTTON
+end
+pikeIconButton.OnMouseDown = function(self)
+    self:SetImage(pikeIcon) -- TODO DOWN BUTTON
+end
+pikeIconButton.OnClick = function(self)
+    -- TODO add sound
+
+    bigIconTemplate:SetImage(pikeIconBig)
+    bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
+
+    good = WEAPON.pike
+    DisplayCurrentStock(3)
+end
+pikeIconButton.OnMouseExit = function(self)
+    self:SetImage(pikeIcon)
+end
+-- LETHER ICON BUTTON
+local leatherIconButton = loveframes.Create("image")
+leatherIconButton:SetState(states.STATE_MARKET)
+leatherIconButton:SetImage(leatherIcon)
+leatherIconButton:SetScaleX(frLetherButton.width / leatherIconButton:GetImageWidth())
+leatherIconButton:SetScaleY(leatherIconButton:GetScaleX())
+leatherIconButton:SetPos(frLetherButton.x, frLetherButton.y)
+leatherIconButton.OnMouseEnter = function(self)
+    self:SetImage(leatherIcon) -- TODO HOVER BUTTON
+end
+leatherIconButton.OnMouseDown = function(self)
+    self:SetImage(leatherIcon) -- TODO DOWN BUTTON
+end
+leatherIconButton.OnClick = function(self)
+    -- TODO add sound
+
+    bigIconTemplate:SetImage(leatherIconBig)
+    bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
+
+    good = WEAPON.leatherArmor
+    DisplayCurrentStock(3)
+end
+leatherIconButton.OnMouseExit = function(self)
+    self:SetImage(leatherIcon)
+end
+-- ARMOUR ICON BUTTON
+local armourIconButton = loveframes.Create("image")
+armourIconButton:SetState(states.STATE_MARKET)
+armourIconButton:SetImage(armorIcon)
+armourIconButton:SetScaleX(frArmourButton.width / armourIconButton:GetImageWidth())
+armourIconButton:SetScaleY(armourIconButton:GetScaleX())
+armourIconButton:SetPos(frArmourButton.x, frArmourButton.y)
+armourIconButton.OnMouseEnter = function(self)
+    self:SetImage(armorIcon) -- TODO HOVER BUTTON
+end
+armourIconButton.OnMouseDown = function(self)
+    self:SetImage(armorIcon) -- TODO DOWN BUTTON
+end
+armourIconButton.OnClick = function(self)
+    -- TODO add sound
+
+    bigIconTemplate:SetImage(armorIconBig)
+    bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
+
+    good = WEAPON.shield
+    DisplayCurrentStock(3)
+end
+armourIconButton.OnMouseExit = function(self)
+    self:SetImage(armorIcon)
+end
+
+-- QUICK TAB ICONS
+local foodButton = loveframes.Create("image")
+local materialButton = loveframes.Create("image")
+local weaponButton = loveframes.Create("image")
+
+local function DisplayFoodIcons(option)
+    option = (option ~= false)
+    meatIconButton:SetVisible(option)
+    cheeseIconButton:SetVisible(option)
+    appleIconButton:SetVisible(option)
+    breadIconButton:SetVisible(option)
+end
+
+local function DisplayMaterialIcons(option)
+    option = (option ~= false)
+    woodIconButton:SetVisible(option)
+    stoneIconButton:SetVisible(option)
+    wheatIconButton:SetVisible(option)
+    tarIconButton:SetVisible(option)
+    aleIconButton:SetVisible(option)
+    ironIconButton:SetVisible(option)
+    hopIconButton:SetVisible(option)
+    flourIconButton:SetVisible(option)
+end
+
+local function DisplayWeaponIcons(option)
+    option = (option ~= false)
+    bowIconButton:SetVisible(option)
+    crossbowIconButton:SetVisible(option)
+    maceIconButton:SetVisible(option)
+    pikeIconButton:SetVisible(option)
+    spearIconButton:SetVisible(option)
+    leatherIconButton:SetVisible(option)
+    swordIconButton:SetVisible(option)
+    armourIconButton:SetVisible(false) -- TODO FALSE SINCE THERE IS NO SPRITES
+end
 
 local function switchTradeGroup(groupType)
     if groupType == 1 then
-        woodIconButton:SetVisible(false)
-        stoneIconButton:SetVisible(false)
-        wheatIconButton:SetVisible(false)
-        tarIconButton:SetVisible(false)
-        aleIconButton:SetVisible(false)
-        ironIconButton:SetVisible(false)
-        hopIconButton:SetVisible(false)
-        flourIconButton:SetVisible(false)
-
-        meatIconButton:SetVisible(true)
-        cheeseIconButton:SetVisible(true)
-        appleIconButton:SetVisible(true)
-        breadIconButton:SetVisible(true)
+        currentStock:SetText("")
+        DisplayFoodIcons(true)
+        DisplayMaterialIcons(false)
+        DisplayWeaponIcons(false)
+        foodButton:SetImage(foodButtonClickedImage)
+        materialButton:SetImage(materialButtonImage)
+        weaponButton:SetImage(weaponButtonImage)
         bigIconTemplate:SetImage(emptyIconBig)
     elseif groupType == 2 then
-        woodIconButton:SetVisible(true)
-        stoneIconButton:SetVisible(true)
-        wheatIconButton:SetVisible(true)
-        tarIconButton:SetVisible(true)
-        aleIconButton:SetVisible(true)
-        ironIconButton:SetVisible(true)
-        hopIconButton:SetVisible(true)
-        flourIconButton:SetVisible(true)
-
-        meatIconButton:SetVisible(false)
-        cheeseIconButton:SetVisible(false)
-        appleIconButton:SetVisible(false)
-        breadIconButton:SetVisible(false)
+        currentStock:SetText("")
+        DisplayFoodIcons(false)
+        DisplayMaterialIcons(true)
+        DisplayWeaponIcons(false)
+        foodButton:SetImage(foodButtonImage)
+        materialButton:SetImage(materialButtonClickedImage)
+        weaponButton:SetImage(weaponButtonImage)
         bigIconTemplate:SetImage(emptyIconBig)
     elseif groupType == 3 then
-        woodIconButton:SetVisible(false)
-        stoneIconButton:SetVisible(false)
-        wheatIconButton:SetVisible(false)
-        tarIconButton:SetVisible(false)
-        aleIconButton:SetVisible(false)
-        ironIconButton:SetVisible(false)
-        hopIconButton:SetVisible(false)
-        flourIconButton:SetVisible(false)
-
-        meatIconButton:SetVisible(false)
-        cheeseIconButton:SetVisible(false)
-        appleIconButton:SetVisible(false)
-        breadIconButton:SetVisible(false)
+        currentStock:SetText("")
+        DisplayFoodIcons(false)
+        DisplayMaterialIcons(false)
+        DisplayWeaponIcons(true)
+        foodButton:SetImage(foodButtonImage)
+        materialButton:SetImage(materialButtonImage)
+        weaponButton:SetImage(weaponButtonClickedImage)
         bigIconTemplate:SetImage(emptyIconBig)
     end
 end
 
-actionBar:registerGroup("market_trade", {backButtonA})
+materialButton:SetState(states.STATE_MARKET)
+materialButton:SetImage(materialButtonImage)
+materialButton:SetScaleX(frMaterial.width / materialButton:GetImageWidth())
+materialButton:SetScaleY(materialButton:GetScaleX())
+materialButton:SetPos(frMaterial.x, frMaterial.y)
+materialButton.OnMouseEnter = function(self)
+    self:SetImage(materialButtonHoverImage)
+end
+materialButton.OnClick = function(self)
+    self:SetImage(materialButtonClickedImage)
+    foodButton:SetImage(foodButtonImage)
+    weaponButton:SetImage(weaponButtonImage)
+    switchTradeGroup(2)
+    groupTypeMarket.name = 2
+end
+materialButton.OnMouseExit = function(self)
+    if groupTypeMarket.name == 2 then
+        self:SetImage(materialButtonClickedImage)
+        foodButton:SetImage(foodButtonImage)
+        weaponButton:SetImage(weaponButtonImage)
+    else
+        self:SetImage(materialButtonImage)
+    end
+end
+foodButton:SetState(states.STATE_MARKET)
+foodButton:SetImage(foodButtonImage)
+foodButton:SetScaleX(frFood.width / foodButton:GetImageWidth())
+foodButton:SetScaleY(foodButton:GetScaleX())
+foodButton:SetPos(frFood.x, frFood.y)
+foodButton.OnMouseEnter = function(self)
+    self:SetImage(foodButtonHoverImage)
+end
+foodButton.OnClick = function(self)
+    self:SetImage(foodButtonClickedImage)
+    materialButton:SetImage(materialButtonImage)
+    weaponButton:SetImage(weaponButtonImage)
+    switchTradeGroup(1)
+    groupTypeMarket.name = 1
+end
+foodButton.OnMouseExit = function(self)
+    if groupTypeMarket.name == 1 then
+        self:SetImage(foodButtonClickedImage)
+        materialButton:SetImage(materialButtonImage)
+        weaponButton:SetImage(weaponButtonImage)
+    else
+        self:SetImage(foodButtonImage)
+    end
+end
+weaponButton:SetState(states.STATE_MARKET)
+weaponButton:SetImage(weaponButtonImage)
+weaponButton:SetScaleX(frWeapon.width / weaponButton:GetImageWidth())
+weaponButton:SetScaleY(foodButton:GetScaleX())
+weaponButton:SetPos(frWeapon.x, frWeapon.y)
+weaponButton.OnMouseEnter = function(self)
+    self:SetImage(weaponButtonHoverImage)
+end
+weaponButton.OnClick = function(self)
+    self:SetImage(weaponButtonClickedImage)
+    foodButton:SetImage(foodButtonImage)
+    materialButton:SetImage(materialButtonImage)
+    switchTradeGroup(3)
+    groupTypeMarket.name = 3
+end
+weaponButton.OnMouseExit = function(self)
+    if groupTypeMarket.name == 3 then
+        self:SetImage(weaponButtonClickedImage)
+        foodButton:SetImage(foodButtonImage)
+        materialButton:SetImage(materialButtonImage)
+    else
+        self:SetImage(weaponButtonImage)
+    end
+end
+
+actionBar:registerGroup("market_trade", { backButtonA })
 
 local IncButton = loveframes.Create("image")
 IncButton:SetState(states.STATE_MARKET)
@@ -603,13 +1043,13 @@ IncButton.OnClick = function(self)
     quantity = quantity + 5
     price = ((5 * quantity) / 5)
 
-    priceText:SetText({{
-        color = {0, 0, 0, 1}
-    }, price})
+    priceText:SetText({ {
+        color = { 0, 0, 0, 1 }
+    }, price })
 
-    quantityText:SetText({{
-        color = {0, 0, 0, 1}
-    }, quantity})
+    quantityText:SetText({ {
+        color = { 0, 0, 0, 1 }
+    }, quantity })
 
 end
 
@@ -637,13 +1077,13 @@ DecButton.OnClick = function(self)
         quantity = quantity - 5
         price = ((5 * quantity) / 5)
 
-        priceText:SetText({{
-            color = {0, 0, 0, 1}
-        }, price})
+        priceText:SetText({ {
+            color = { 0, 0, 0, 1 }
+        }, price })
 
-        quantityText:SetText({{
-            color = {0, 0, 0, 1}
-        }, quantity})
+        quantityText:SetText({ {
+            color = { 0, 0, 0, 1 }
+        }, quantity })
 
     end
 end
@@ -709,6 +1149,21 @@ marketBuyButton.OnClick = function(self)
                 _G.playSpeech("stockpile_full")
             end
         end
+
+        if groupTypeMarket.name == 3 then
+            if _G.weaponpile:store(good) then
+                for _ = 1, quantity - 1 do
+                    if _G.weaponpile:store(good) then
+                        _G.state.gold = _G.state.gold - 1
+                    end
+                end
+                _G.state.gold = _G.state.gold - 1
+                _G.playInterfaceSfx(_G.fx["drawbridge_control"])
+            else
+                _G.playSpeech("stockpile_full") -- TODO ARMOUR SOUND
+            end
+        end
+        DisplayCurrentStock(groupTypeMarket.name)
         actionBar:updateStockpileResourcesCount()
         actionBar:updateGoldCount()
     end
@@ -776,6 +1231,25 @@ marketSellButton.OnClick = function(self)
             _G.playInterfaceSfx(_G.fx["drawbridge_control"])
         end
 
+        if groupTypeMarket.name == 3 and _G.state.weapons[good] >= quantity then
+            for _ = 1, quantity do
+                if _G.weaponpile:take(good) then
+                    _G.state.gold = _G.state.gold + 1
+                end
+            end
+            _G.playInterfaceSfx(_G.fx["drawbridge_control"])
+        end
+
+        if groupTypeMarket.name == 3 and _G.state.weapons[good] < 5 then
+            quantity_temp = _G.state.weapons[good]
+            for _ = 1, quantity_temp do
+                if _G.weaponpile:take(good) then
+                    _G.state.gold = _G.state.gold + 1
+                end
+            end
+            _G.playInterfaceSfx(_G.fx["drawbridge_control"])
+        end
+        DisplayCurrentStock(groupTypeMarket.name)
         actionBar:updateStockpileResourcesCount()
         actionBar:updateGoldCount()
     end

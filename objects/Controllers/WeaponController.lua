@@ -16,25 +16,24 @@ function WeaponController:store(weapon) -- TODO add amount
     if _G.state.notFullArmoury[weapon] < 1 then
         for _, v in ipairs(self.list) do
             if v:store(weapon) then
-                break
+                return true
             end
         end
     else
         self.weapons[weapon][#self.weapons[weapon]].id.parent:store(weapon)
+        return true
     end
 end
 
 function WeaponController:take(weapon, amount)
     local takenWeapon = 0
     if not weapon then
-        for weaponType, weaponPile in pairs(self.weapons) do
-            for _ = 1, (amount or 1) do
+        for _ = 1, (amount or 1) do
+            for weaponType, weaponPile in pairs(self.weapons) do
                 if takenWeapon == amount then
                     return
                 end
-                if next(weaponPile) == nil then
-                    break
-                else
+                if next(weaponPile) ~= nil then
                     takenWeapon = takenWeapon + 1
                     weaponPile[#weaponPile].id.parent:take(weaponType, weaponPile[#weaponPile])
                 end
