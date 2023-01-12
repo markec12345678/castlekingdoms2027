@@ -19,6 +19,11 @@ local OxTether = require("objects.Structures.OxTether")
 local WoodenGateEast = require("objects.Structures.WoodenGateEast")
 local WoodenGateSouth = require("objects.Structures.WoodenGateSouth")
 local Inn = require("objects.Structures.Inn")
+local Barracks = require("objects.Structures.Barracks")
+local ArcheryTarget = require("objects.Structures.ArcheryTarget")
+local MeleeTarget = require("objects.Structures.MeleeTarget")
+local WoodPole = require("objects.Structures.WoodPole")
+local Armorer = require("objects.Structures.Armorer")
 local Brewery = require("objects.Structures.Brewery")
 local Armoury = require("objects.Structures.Armoury")
 
@@ -630,6 +635,42 @@ local buildings = {
         },
         build = function(self, gx, gy)
             Inn:new(gx, gy)
+        end,
+        specialRequirements = function(self, _, _)
+            return true
+        end
+    },
+    [Barracks.name] = {
+        quad = tileQuads["barracks (1)"],
+        offsetX = 64,
+        offsetY = 70,
+        w = 10,
+        h = 10,
+        cost = {
+            ["wood"] = 15
+        },
+        build = function(self, gx, gy)
+            Barracks:new(gx, gy)
+            ArcheryTarget:new(gx + 7, gy + 7)
+            MeleeTarget:new(gx + 2, gy + 7)
+            WoodPole:new(gx + 7, gy + 2)
+        end,
+        specialRequirements = function(self, _, _)
+            return true
+        end
+    },
+    [Armorer.name] = {
+        quad = tileQuads["armourer_workshop (18)"],
+        offsetX = 48,
+        offsetY = 52,
+        w = 4,
+        h = 4,
+        cost = {
+            ["wood"] = 10,
+            ["gold"] = 100
+        },
+        build = function(self, gx, gy)
+            Armorer:new(gx, gy)
         end,
         specialRequirements = function(self, _, _)
             return true

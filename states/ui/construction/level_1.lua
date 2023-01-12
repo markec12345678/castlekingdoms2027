@@ -15,7 +15,7 @@ appleButton:setTooltip("Farms", "Produce basic agricultural products.")
 local houseButton = ActionBarButton:new(love.graphics.newImage("assets/ui/house_ab.png"), states.STATE_INGAME_CONSTRUCTION, 4)
 houseButton:setTooltip("Civillian", "Houses and amenities for your citizens.")
 
-local shieldButton = ActionBarButton:new(love.graphics.newImage("assets/ui/shield_ab.png"), states.STATE_INGAME_CONSTRUCTION, 5, nil, nil, true)
+local shieldButton = ActionBarButton:new(love.graphics.newImage("assets/ui/shield_ab.png"), states.STATE_INGAME_CONSTRUCTION, 5)
 shieldButton:setTooltip("Military", "Raise mighty armies and build terrifying siege weapons to crush your enemies.")
 
 local sickleButton = ActionBarButton:new(love.graphics.newImage("assets/ui/sickle_ab.png"), states.STATE_INGAME_CONSTRUCTION, 6)
@@ -92,3 +92,4 @@ package.loaded["states.ui.construction.level_2_farms"] = love.filesystem.load("s
 package.loaded["states.ui.construction.level_2_resource"] = love.filesystem.load("states/ui/construction/level_2_resource.lua")(elements, backButton, destroyButton, getCostAndType)
 package.loaded["states.ui.construction.level_2_house"] = love.filesystem.load("states/ui/construction/level_2_house.lua")(elements, backButton, destroyButton, getCostAndType)
 package.loaded["states.ui.construction.level_2_sickle"] = love.filesystem.load("states/ui/construction/level_2_sickle.lua")(elements, backButton, destroyButton, getCostAndType)
+package.loaded["states.ui.construction.level_2_shield"] = love.filesystem.load("states/ui/construction/level_2_shield.lua")(elements, backButton, destroyButton, getCostAndType)
