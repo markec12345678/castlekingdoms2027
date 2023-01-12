@@ -20,12 +20,16 @@ local leftButtonImageHover = love.graphics.newImage("assets/ui/keep/left_keep_bu
 local rightButtonImage = love.graphics.newImage("assets/ui/keep/right_keep_button.png")
 local rightButtonImageHover = love.graphics.newImage("assets/ui/keep/right_keep_button_hover.png")
 
+local keepTickOn = love.graphics.newImage("assets/ui/keep/keepTickOn.png")
+local keepTickOff = love.graphics.newImage("assets/ui/keep/keepTickOff.png")
+
 local moodNeutralImage = love.graphics.newImage("assets/ui/keep/mood_neutral.png")
 local moodNegativeImage = love.graphics.newImage("assets/ui/keep/mood_negative.png")
 local moodPositiveImage = love.graphics.newImage("assets/ui/keep/mood_positive.png")
 local TaxController = require("objects.Controllers.TaxController")
 TaxController.taxText = "No Tax";
 local currentOption = 4;
+local TickIsClicked = false;
 
 local PointerPositions = {}
 -- TEXT                    MOOD   GOLD
@@ -132,6 +136,12 @@ local frTextRight = {
     width = 160 * scale,
     height = 20 * scale
 }
+local frTextTick = {
+    x = framesActionBar.frFull.x + 740 * scale,
+    y = framesActionBar.frFull.y + 162 * scale,
+    width = 160 * scale,
+    height = 17 * scale
+}
 local frMood = {
     x = frText.x - moodNeutralImage:getWidth() * 1.1 * scale,
     y = frText.y,
@@ -149,6 +159,12 @@ local frGold = {
     y = framesActionBar.frFull.y + 155 * scale,
     width = 50 * scale,
     height = 20 * scale
+}
+local frTick = {
+    x = framesActionBar.frFull.x + 705 * scale,
+    y = framesActionBar.frFull.y + 140 * scale,
+    width = keepTickOff:getWidth() * scale,
+    height = keepTickOff:getHeight() * scale
 }
 local taxTextGui = loveframes.Create("text")
 taxTextGui:SetState(states.STATE_KEEP_TAX)
@@ -191,6 +207,17 @@ goldText:SetText({{
 goldText:SetShadowColor(0.8, 0.8, 0.8, 1)
 goldText:SetShadow(true)
 group["gold"] = goldText
+
+local tickText = loveframes.Create("text")
+tickText:SetState(states.STATE_KEEP_TAX)
+tickText:SetFont(loveframes.font_immortal_large)
+tickText:SetPos(frTextTick.x, frTextTick.y)
+tickText:SetText({{
+    color = {0, 0, 0, 1}
+}, "Auto Tax"})
+tickText:SetShadowColor(0.8, 0.8, 0.8, 1)
+tickText:SetMaxWidth(frTextTick.width)
+tickText:SetShadow(true)
 
 local MoodImage = loveframes.Create("image")
 MoodImage:SetState(states.STATE_KEEP_TAX)
@@ -269,6 +296,7 @@ local function SetTax(option)
     _G.TaxController.goldFactor = goldFactorMapping[option]
     _G.TaxController.moodFactor = moodMapping[option]
     _G.TaxController.taxOption = option
+    _G.TaxController.autoTax = TickIsClicked
     Pointer:SetPos(frDynamicPosition[option].x + 8 * scale, frPointer.y)
     MoodImage:SetImage(moodImage)
     taxTextGui:SetText({{
@@ -345,6 +373,22 @@ for i, v in ipairs(frDynamicPosition) do
     PointerPositions[i] = PointerInstance
 end
 
+local TickButton = loveframes.Create("image")
+TickButton:SetState(states.STATE_KEEP_TAX)
+TickButton:SetImage(keepTickOff)
+TickButton:SetScaleX(frTick.width / TickButton:GetImageWidth())
+TickButton:SetScaleY(TickButton:GetScaleX())
+TickButton:SetPos(frTick.x, frTick.y)
 
+TickButton.OnClick = function(self)
+    if TickIsClicked then
+        TickButton:SetImage(keepTickOff)
+        TickIsClicked = false
+    else
+        TickButton:SetImage(keepTickOn)
+        TickIsClicked = true
+    end
+    _G.TaxController.autoTax = TickIsClicked
+end
 
 return group
