@@ -20,6 +20,7 @@ function TaxController:initialize()
     self.goldFactor = 0
     self.moodFactor = 0
     self.taxOption = 4
+    self.autoTax = false
 end
 
 function TaxController:serialize()
@@ -31,6 +32,7 @@ function TaxController:serialize()
     data.goldFactor = self.goldFactor
     data.moodFactor = self.moodFactor
     data.taxOption = self.taxOption
+    data.autoTax = self.autoTax
 
     return data
 end
@@ -75,15 +77,45 @@ function TaxController:update()
     if self.timer >= self.class.TAX_INTERVAL then
         _G.state.gold = _G.state.gold + math.round(_G.state.population * self.goldFactor, 0)
         self.timer = 0
-        elements.tax:SetText({{
-            color = {0, 0, 0, 1}
-        }, self.taxText})
-        elements.population:SetText({{
-            color = {0, 0, 0, 1}
-        }, _G.state.population})
-        elements.gold:SetText({{
-            color = {0, 0, 0, 1}
-        }, math.round(_G.state.population * self.goldFactor, 0)})
+        elements.tax:SetText({ {
+            color = { 0, 0, 0, 1 }
+        }, self.taxText })
+        elements.population:SetText({ {
+            color = { 0, 0, 0, 1 }
+        }, _G.state.population })
+        elements.gold:SetText({ {
+            color = { 0, 0, 0, 1 }
+        }, math.round(_G.state.population * self.goldFactor, 0) })
+        if _G.TaxController.autoTax then
+            if _G.state.popularity >= 66 then
+                _G.TaxController:setTaxLevel("Downright Cruel Taxes")
+                elements.SetTax(10)
+            end
+            if _G.state.popularity >= 62 and _G.state.popularity < 66 then
+                _G.TaxController:setTaxLevel("Extortionate Taxes")
+                elements.SetTax(9)
+            end
+            if _G.state.popularity >= 58 and _G.state.popularity < 62 then
+                _G.TaxController:setTaxLevel("Mean Taxes")
+                elements.SetTax(8)
+            end
+            if _G.state.popularity >= 56 and _G.state.popularity < 58 then
+                _G.TaxController:setTaxLevel("High Taxes")
+                elements.SetTax(7)
+            end
+            if _G.state.popularity >= 54 and _G.state.popularity < 56 then
+                _G.TaxController:setTaxLevel("Average Taxes")
+                elements.SetTax(6)
+            end
+            if _G.state.popularity >= 52 and _G.state.popularity < 54 then
+                _G.TaxController:setTaxLevel("Low Taxes")
+                elements.SetTax(5)
+            end
+            if _G.state.popularity < 50 then
+                _G.TaxController:setTaxLevel("No Taxes")
+                elements.SetTax(4)
+            end
+        end
         actionBar:updateGoldCount()
     end
 end
