@@ -288,7 +288,12 @@ end
 
 function BuildController:purchaseBuilding(buildingKey)
     for resource, amount in pairs(building[buildingKey].cost) do
-        _G.stockpile:take(resource, amount)
+        if resource == "gold" then
+            _G.state.gold = _G.state.gold - amount
+            ActionBar:updateGoldCount()
+        else
+            _G.stockpile:take(resource, amount)
+        end
     end
 end
 

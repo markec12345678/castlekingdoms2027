@@ -1,4 +1,5 @@
 local Structure = require("objects.Structure")
+local ActionBar = require("states.ui.ActionBar")
 
 local DestructionController = _G.class("Destruction Controller")
 function DestructionController:initialize()
@@ -84,7 +85,14 @@ function DestructionController:destroyAtLocation(gx, gy, force, targetAlias)
                                     local cost = buildings[target.class.name].cost
                                     if cost then
                                         for t, q in pairs(cost) do
-                                            _G.stockpile:store(t, q/2)
+                                            if t == "gold" then
+                                                _G.state.gold = _G.state.gold + q/2
+                                                ActionBar:updateGoldCount()
+                                            else
+                                                for i=1, q/2 do
+                                                    _G.stockpile:store(t, 1)   
+                                                end
+                                            end
                                         end
                                     end
                                 end

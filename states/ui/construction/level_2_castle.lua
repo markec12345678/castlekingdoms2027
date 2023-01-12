@@ -107,16 +107,15 @@ woodenGateSouthButton:setOnClick(
         end)
         ActionBar:selectButton(woodenGateSouthButton)
     end)
-
--- TODO: move to shield category
-local armouryButton = ActionBarButton:new(love.graphics.newImage("assets/ui/armoury_arms_ab.png"), states.STATE_INGAME_CONSTRUCTION, 7, true, nil)
-armouryButton:setOnClick(
+local barracksButton = ActionBarButton:new(love.graphics.newImage("assets/ui/barracks_ab.png"),
+    states.STATE_INGAME_CONSTRUCTION, 7, false, nil)
+barracksButton:setOnClick(
     function(self)
         _G.BuildController:set(
-            "Armoury", function()
-            armouryButton:unselect()
+            "Barracks", function()
+            barracksButton:unselect()
         end)
-        ActionBar:selectButton(armouryButton)
+        ActionBar:selectButton(barracksButton)
     end)
 
 local function displayTooltips()
@@ -131,8 +130,8 @@ local function displayTooltips()
         getCostAndType("WoodenGateSouth") .. "\nA wooden gate that can let friendly units pass through")
     woodenWallButton:setTooltip("Wooden Wall",
         getCostAndType("WoodenWall") .. "\nA defensive wall made from sharpened tree trunks")
-    armouryButton:setTooltip("Armoury",
-        getCostAndType("Armoury") .. "\nWeapons and armour is stored here, which is used by troops from the barracks upon recruitment")
+    barracksButton:setTooltip("Barracks",
+        getCostAndType("Barracks") .. "\nA building allowing you to recruit units")
 end
 
 el.buttons.castleButton:setOnClick(
@@ -143,4 +142,4 @@ el.buttons.castleButton:setOnClick(
 
 ActionBar:registerGroup("castle",
     {castleButton, woodenWallButton, walkableWoodenWallButton, woodenTowerButton, woodenGateEastButton,
-        woodenGateSouthButton, armouryButton, backButton, destroyButton})
+        woodenGateSouthButton, barracksButton, backButton, destroyButton})
