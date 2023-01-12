@@ -30,6 +30,9 @@ local ANIM_WALKING_BREAD_SOUTH = "walking_bread_south"
 local ANIM_WALKING_BREAD_SOUTHEAST = "walking_bread_southeast"
 local ANIM_WALKING_BREAD_SOUTHWEST = "walking_bread_southwest"
 local ANIM_WALKING_BREAD_WEST = "walking_bread_west"
+--idle
+local ANIM_IDLE = "idle"
+local ANIM_IDLE_STATIC = "idle_static"
 
 local an = {
     [ANIM_WALKING_EAST] = _G.indexQuads("body_baker_walk_e", 16),
@@ -55,7 +58,9 @@ local an = {
     [ANIM_WALKING_BREAD_SOUTH] = _G.indexQuads("body_baker_walk_bread_s", 16),
     [ANIM_WALKING_BREAD_SOUTHEAST] = _G.indexQuads("body_baker_walk_bread_se", 16),
     [ANIM_WALKING_BREAD_SOUTHWEST] = _G.indexQuads("body_baker_walk_bread_sw", 16),
-    [ANIM_WALKING_BREAD_WEST] = _G.indexQuads("body_baker_walk_bread_w", 16)
+    [ANIM_WALKING_BREAD_WEST] = _G.indexQuads("body_baker_walk_bread_w", 16),
+    [ANIM_IDLE] = _G.addReverse(_G.indexQuads("body_baker_idle", 21)),
+    [ANIM_IDLE_STATIC] = _G.indexQuads("body_baker_idle", 1)
 }
 
 local Baker = _G.class('Baker', Unit)
@@ -235,6 +240,7 @@ function Baker:update()
                     local gotResource = _G.stockpile:take('flour')
                     if not gotResource then
                         self.state = "Waiting for flour"
+                        self.animation = anim.newAnimation(an[ANIM_IDLE], 0.15, nil, ANIM_IDLE)
                         return
                     else
                         self.state = "Go to workplace with flour"
