@@ -620,7 +620,7 @@ function Quarry:initialize(gx, gy)
 
     for xx = 0, 4 do
         for yy = 0, 4 do
-            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + gy, Structure) then
+            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + yy, Structure) then
                 QuarryAlias:new(tileQuads["empty"], self.gx + xx, self.gy + yy, self, 12 + 8 * 4, 16)
             end
         end

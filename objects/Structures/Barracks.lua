@@ -73,11 +73,11 @@ function Barracks:initialize(gx, gy)
     local tileQuads = require("objects.object_quads")
     for xx = 0, Barracks.static.WIDTH - 1 do
         for yy = 0, Barracks.static.LENGTH - 1 do
-            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + gy, Structure) then
+            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + yy, Structure) then
                 BarracksAlias:new(tileQuads["empty"], self.gx + xx, self.gy + yy, self, 0, 0)
             end
         end
-    end 
+    end
     for xx = -1, 10 do
         for yy = -1, 10 do
             _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrainBiome.scarceGrass)
@@ -116,6 +116,12 @@ function Barracks.static:deserialize(data)
     local obj = self:allocate()
     obj:load(data)
     return obj
+end
+
+function Barracks:destroy()
+    _G.DestructionController:destroyAtLocation(self.gx + 7, self.gy + 7, false, true)
+    _G.DestructionController:destroyAtLocation(self.gx + 2, self.gy + 7, false, true)
+    _G.DestructionController:destroyAtLocation(self.gx + 7, self.gy + 2, false, true)
 end
 
 return Barracks

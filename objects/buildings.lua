@@ -650,10 +650,13 @@ local buildings = {
             ["wood"] = 15
         },
         build = function(self, gx, gy)
-            Barracks:new(gx, gy)
-            ArcheryTarget:new(gx + 7, gy + 7)
-            MeleeTarget:new(gx + 2, gy + 7)
-            WoodPole:new(gx + 7, gy + 2)
+            local barracks = Barracks:new(gx, gy)
+            local archery = ArcheryTarget:new(gx + 7, gy + 7)
+            local melee = MeleeTarget:new(gx + 2, gy + 7)
+            local pole = WoodPole:new(gx + 7, gy + 2)
+            archery.parent = barracks
+            melee.parent = barracks
+            pole.parent = barracks
         end,
         specialRequirements = function(self, _, _)
             return true
