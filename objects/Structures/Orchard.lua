@@ -222,7 +222,7 @@ function Orchard:initialize(gx, gy, type)
 
     for xx = 0, 11 do
         for yy = 0, 11 do
-            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + gy, Structure) then
+            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + yy, Structure) then
                 OrchardAlias:new(tileQuads["empty"], self.gx + xx, self.gy + yy, self)
             end
         end

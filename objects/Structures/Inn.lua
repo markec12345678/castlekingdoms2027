@@ -75,7 +75,7 @@ function Inn:initialize(gx, gy)
     local tileQuads = require("objects.object_quads")
     for xx = 0, Inn.static.WIDTH - 1 do
         for yy = 0, Inn.static.LENGTH - 1 do
-            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + gy, Structure) then
+            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + yy, Structure) then
                 InnAlias:new(tileQuads["empty"], self.gx + xx, self.gy + yy, self, 0, 0)
             end
         end
