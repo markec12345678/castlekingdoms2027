@@ -13,6 +13,7 @@ local SaveManager = require("objects.Controllers.SaveManager")
 local savegame
 local playlist = require("sounds.music_playlist")
 local RationController
+local ArmouryUI = require("states.ui.armoury.armoury_ui")
 
 local function updateProgress(prgs, lState)
     progress = prgs or progress
@@ -114,6 +115,9 @@ function game:update(dt)
                 _G.PopularityController:update()
                 _G.ScribeController:update()
                 _G.DestructionController:update()
+                if (loveframes.GetState() == states.STATE_ARMOURY) then
+                    ArmouryUI.DisplayCurrentStock()
+                end
             end
             prof.pop("bcontr")
         end
@@ -248,7 +252,7 @@ function game:keypressed(key, scancode, isRepeat)
             loveframes.GetState() == states.STATE_STOCKPILE or
             loveframes.GetState() == states.STATE_GRANARY or
             loveframes.GetState() == states.STATE_MARKET_MAIN or
-            loveframes.GetState() == states.STATE_MARKET) then
+            loveframes.GetState() == states.STATE_ARMOURY) then
             ActionBar:switchMode()
             return
         end
