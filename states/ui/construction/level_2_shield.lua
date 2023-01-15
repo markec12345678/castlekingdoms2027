@@ -14,7 +14,8 @@ armorerButton:setOnClick(function(self)
 end)
 
 
-local armouryButton = ActionBarButton:new(love.graphics.newImage("assets/ui/armoury_arms_ab.png"), states.STATE_INGAME_CONSTRUCTION, 2, true, nil)
+local armouryButton = ActionBarButton:new(love.graphics.newImage("assets/ui/armoury_arms_ab.png"),
+    states.STATE_INGAME_CONSTRUCTION, 2, true, nil)
 armouryButton:setOnClick(
     function(self)
         _G.BuildController:set(
@@ -24,11 +25,25 @@ armouryButton:setOnClick(
         ActionBar:selectButton(armouryButton)
     end)
 
+local fletcherButton = ActionBarButton:new(love.graphics.newImage("assets/ui/fletcher_ab.png"),
+    states.STATE_INGAME_CONSTRUCTION, 3, true, nil)
+fletcherButton:setOnClick(
+    function(self)
+        _G.BuildController:set(
+            "FletcherWorkshop", function()
+            fletcherButton:unselect()
+        end)
+        ActionBar:selectButton(fletcherButton)
+    end)
 
 local function displayTooltips()
     armorerButton:setTooltip("Armorer", getCostAndType("Armorer") .. "\nMakes armor from iron")
     armouryButton:setTooltip("Armoury",
-        getCostAndType("Armoury") .. "\nWeapons and armour is stored here, which is used by troops from the barracks upon recruitment")
+        getCostAndType("Armoury") ..
+        "\nWeapons and armour is stored here, which is used by troops from the barracks upon recruitment")
+    fletcherButton:setTooltip("FletcherWorkshop",
+        getCostAndType("FletcherWorkshop") ..
+        "\nProduces bows and crossbows from wood")
 end
 
 el.buttons.shieldButton:setOnClick(function(self)
@@ -37,4 +52,4 @@ el.buttons.shieldButton:setOnClick(function(self)
 end)
 
 
-ActionBar:registerGroup("shield", {armorerButton, armouryButton, backButton, destroyButton})
+ActionBar:registerGroup("shield", { armorerButton, armouryButton, fletcherButton, backButton, destroyButton })
