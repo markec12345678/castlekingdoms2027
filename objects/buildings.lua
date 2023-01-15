@@ -26,6 +26,7 @@ local WoodPole = require("objects.Structures.WoodPole")
 local Armorer = require("objects.Structures.Armorer")
 local Brewery = require("objects.Structures.Brewery")
 local Armoury = require("objects.Structures.Armoury")
+local FletcherWorkshop = require("objects.Structures.Fletcher")
 
 local objectFromTypeAt = _G.objectFromTypeAt
 local chunkWidth = _G.chunkWidth
@@ -664,7 +665,7 @@ local buildings = {
     },
     [Armorer.name] = {
         quad = tileQuads["armourer_workshop (18)"],
-        offsetX = 48,
+        offsetX = 49,
         offsetY = 52,
         w = 4,
         h = 4,
@@ -674,6 +675,23 @@ local buildings = {
         },
         build = function(self, gx, gy)
             Armorer:new(gx, gy)
+        end,
+        specialRequirements = function(self, _, _)
+            return true
+        end
+    },
+    [FletcherWorkshop.name] = {
+        quad = tileQuads["fletcher_workshop (18)"],
+        offsetX = 49 - 1,
+        offsetY = 52 - 5,
+        w = 4,
+        h = 4,
+        cost = {
+            ["wood"] = 10,
+            ["gold"] = 100
+        },
+        build = function(self, gx, gy)
+            FletcherWorkshop:new(gx, gy)
         end,
         specialRequirements = function(self, _, _)
             return true
