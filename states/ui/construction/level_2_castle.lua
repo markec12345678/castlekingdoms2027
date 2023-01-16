@@ -119,7 +119,7 @@ barracksButton:setOnClick(
     end)
 
 local function displayTooltips()
-    castleButton:setTooltip("WoodenKeep", getCostAndType("wooden_keep"))
+    castleButton:setTooltip("WoodenKeep", getCostAndType("WoodenKeep"))
     walkableWoodenWallButton:setTooltip("Walkable Wooden Wall",
         getCostAndType("WalkableWoodenWall") .. "\nA defensive wall made that is walkable on the top")
     woodenTowerButton:setTooltip("Wooden Tower",

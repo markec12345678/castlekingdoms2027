@@ -108,24 +108,24 @@ function BuildController:set(type, callback)
 end
 
 function BuildController:upgradeKeep(level)
-    if level == 2 and self:isBuildingAffordable("wooden_keep") then
-        self:purchaseBuilding("wooden_keep")
+    if level == 2 and self:isBuildingAffordable("WoodenKeep") then
+        self:purchaseBuilding("WoodenKeep")
         _G.DestructionController:destroyAtLocation(_G.state.keepX + 2, _G.state.keepY + 7, true, true)
         _G.DestructionController:destroyAtLocation(_G.state.keepX + 4, _G.state.keepY + 7, true, true)
         _G.DestructionController:destroyAtLocation(_G.state.keepX, _G.state.keepY, true)
         local WoodenKeep = require("objects.Structures.WoodenKeep")
         WoodenKeep:new(_G.state.keepX, _G.state.keepY)
         return true
-    elseif level == 3 and self:isBuildingAffordable("keep") then
-        self:purchaseBuilding("keep")
+    elseif level == 3 and self:isBuildingAffordable("Keep") then
+        self:purchaseBuilding("Keep")
         _G.DestructionController:destroyAtLocation(_G.state.keepX + 2, _G.state.keepY + 7, true, true)
         _G.DestructionController:destroyAtLocation(_G.state.keepX + 4, _G.state.keepY + 7, true, true)
         _G.DestructionController:destroyAtLocation(_G.state.keepX, _G.state.keepY, true)
         local Keep = require("objects.Structures.Keep")
         Keep:new(_G.state.keepX, _G.state.keepY)
         return true
-    elseif level == 4 and self:isBuildingAffordable("fortress") then
-        self:purchaseBuilding("fortress")
+    elseif level == 4 and self:isBuildingAffordable("Fortress") then
+        self:purchaseBuilding("Fortress")
         _G.DestructionController:destroyAtLocation(_G.state.keepX + 2, _G.state.keepY + 7, true, true)
         _G.DestructionController:destroyAtLocation(_G.state.keepX + 4, _G.state.keepY + 7, true, true)
         _G.DestructionController:destroyAtLocation(_G.state.keepX, _G.state.keepY, true)
