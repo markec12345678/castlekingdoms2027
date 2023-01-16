@@ -39,6 +39,7 @@ local function delayedInit()
     _G.BuildController = love.filesystem.load("objects/Controllers/BuildController.lua")(
         package.loaded["objects.objects"].object, objectAtlas)
     _G.JobController = require("objects.Controllers.JobController")
+    _G.BuildingManager = require("objects.Controllers.BuildingManager")
     _G.DebugView = require("objects.Controllers.DebugView")
     updateProgress(35)
     ----Pathfinding setup

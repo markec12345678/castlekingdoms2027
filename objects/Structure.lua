@@ -1,5 +1,9 @@
 local Object = require("objects.Object")
 
+---@class Structure : Object
+---@field animation table
+---@field animated boolean
+---@field tile userdata
 local Structure = _G.class("Structure", Object)
 function Structure:initialize(gx, gy, type)
     Object.initialize(self, gx, gy, type)
@@ -46,7 +50,7 @@ function Structure:calculateShadowValue()
         parent = _G.state:dereferenceObject(parent)
     end
     local thisTileheight = self.class.static.HEIGHT or (parent and parent.class.static.HEIGHT) or 0
-    if self.parent then
+    if parent then
         cx, cy, i, o = parent.cx, parent.cy, parent.i, parent.o
     else
         cx, cy, i, o = self.cx, self.cy, self.i, self.o

@@ -27,6 +27,9 @@ local Armorer = require("objects.Structures.Armorer")
 local Brewery = require("objects.Structures.Brewery")
 local Armoury = require("objects.Structures.Armoury")
 local FletcherWorkshop = require("objects.Structures.Fletcher")
+local WoodenKeep = require("objects.Structures.WoodenKeep")
+local Keep = require("objects.Structures.Keep")
+local Fortress = require("objects.Structures.Fortress")
 
 local objectFromTypeAt = _G.objectFromTypeAt
 local chunkWidth = _G.chunkWidth
@@ -49,18 +52,18 @@ local buildings = {
             return true
         end
     },
-    ["wooden_keep"] = {
+    [WoodenKeep.name] = {
         cost = {
             ["wood"] = 50
         },
     },
-    ["keep"] = {
+    [Keep.name] = {
         cost = {
             ["wood"] = 50,
             ["stone"] = 100
         },
     },
-    ["fortress"] = {
+    [Fortress.name] = {
         cost = {
             ["stone"] = 200
         },
