@@ -1,3 +1,12 @@
+---@class Object
+---@field parent Object|nil
+---@field class {name: string}
+---@field cx integer chunk x position
+---@field cy integer chunk y position
+---@field i integer local to chunk x position
+---@field o integer local to chunk y position
+---@field id integer unique identifier of the instance
+---@field static table static class table
 local Object = _G.class("Object")
 local chunkWidth, tileWidth = _G.chunkWidth, _G.tileWidth
 local chunkHeight, tileHeight = _G.chunkHeight, _G.tileHeight

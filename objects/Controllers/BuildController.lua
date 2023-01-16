@@ -311,6 +311,8 @@ function BuildController:build(gx, gy)
                         end
                     end
                     building[self.building]:build(gx, gy)
+                    local builtBuilding = _G.objectFromClassAtGlobal(gx, gy, self.building)
+                    _G.BuildingManager:add(builtBuilding)
                     if self.onBuildCallback then
                         self.onBuildCallback()
                         self.onBuildCallback = nil
@@ -325,10 +327,14 @@ function BuildController:build(gx, gy)
                 end
                 if self.building == "SaxonHall" then
                     building[self.building]:build(gx, gy)
+                    local builtBuilding = _G.objectFromClassAtGlobal(gx, gy, self.building)
+                    _G.BuildingManager:add(builtBuilding)
                     self:set("Stockpile")
                     return true
                 elseif self.building == "Stockpile" then
                     building[self.building]:build(gx, gy)
+                    local builtBuilding = _G.objectFromClassAtGlobal(gx, gy, self.building)
+                    _G.BuildingManager:add(builtBuilding)
                     self:set("Granary")
                     _G.playSpeech("place_granary")
                     -- Starting resources
@@ -347,6 +353,8 @@ function BuildController:build(gx, gy)
                     return true
                 elseif self.building == "Granary" then
                     building[self.building]:build(gx, gy)
+                    local builtBuilding = _G.objectFromClassAtGlobal(gx, gy, self.building)
+                    _G.BuildingManager:add(builtBuilding)
                     -- Starting food
                     for _ = 1, 26 do
                         _G.foodpile:store("bread")

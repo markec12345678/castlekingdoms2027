@@ -86,11 +86,11 @@ function DestructionController:destroyAtLocation(gx, gy, force, targetAlias)
                                     if cost then
                                         for t, q in pairs(cost) do
                                             if t == "gold" then
-                                                _G.state.gold = _G.state.gold + q/2
+                                                _G.state.gold = _G.state.gold + q / 2
                                                 ActionBar:updateGoldCount()
                                             else
-                                                for i=1, q/2 do
-                                                    _G.stockpile:store(t, 1)   
+                                                for i = 1, q / 2 do
+                                                    _G.stockpile:store(t, 1)
                                                 end
                                             end
                                         end
@@ -98,6 +98,7 @@ function DestructionController:destroyAtLocation(gx, gy, force, targetAlias)
                                 end
                                 Structure.destroy(target)
                                 target:destroy()
+                                _G.BuildingManager:remove(structure)
                             end
                         end
                     end

@@ -49,7 +49,8 @@ function WallController:build()
             if self.walkable then
                 if _G.BuildController:isBuildingAffordable("WalkableWoodenWall") then
                     _G.BuildController:purchaseBuilding("WalkableWoodenWall")
-                    WalkableWoodenWall:new(gx, gy)
+                    local builtBuilding = WalkableWoodenWall:new(gx, gy)
+                    _G.BuildingManager:add(builtBuilding)
                     for k, v in ipairs(_G.stockpile.nodeList) do
                         if v.gx == gx and v.gy == gy then
                             table.remove(_G.stockpile.nodeList, k)
@@ -69,7 +70,8 @@ function WallController:build()
             else
                 if _G.BuildController:isBuildingAffordable("WoodenWall") then
                     _G.BuildController:purchaseBuilding("WoodenWall")
-                    WoodenWall:new(gx, gy)
+                    local builtBuilding = WoodenWall:new(gx, gy)
+                    _G.BuildingManager:add(builtBuilding)
                     for k, v in ipairs(_G.stockpile.nodeList) do
                         if v.gx == gx and v.gy == gy then
                             table.remove(_G.stockpile.nodeList, k)
