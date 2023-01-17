@@ -194,7 +194,8 @@ function Armoury:store(weapon)
             self.weaponpile[index].empty = false
             self.weaponpile[index].type = weapon
             self.weaponpile[index].quantity = 1
-            _G.state.notFullArmoury[self.weaponpile[index].type] = _G.state.notFullArmoury[self.weaponpile[index].type] + 1
+            _G.state.notFullArmoury[self.weaponpile[index].type] = _G.state.notFullArmoury[self.weaponpile[index].type] +
+                1
             _G.state.weapons[weapon] = _G.state.weapons[weapon] + 1
             self.weaponpile[index].key = #_G.weaponpile.weapons[weapon] + 1
             _G.weaponpile.weapons[weapon][self.weaponpile[index].key] = self.weaponpile[index]
@@ -334,57 +335,60 @@ function Armoury.static:deserialize(data)
 end
 
 function Armoury:enterHover(induced)
-    if not induced then
-        self.hover = true
-    end
-    for tile = 1, tiles do
-        local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tiles - tile + 1), ArmouryAlias)
-        if not alias then return end
-        alias.tile = quadArray[tile]
-        alias.tileKey = tile
-        alias:render()
-    end
-
-    for tile = 1, tiles do
-        local alias = _G.objectFromClassAtGlobal(self.gx + tile, self.gy, ArmouryAlias)
-        if not alias then return end
-        alias.tile = quadArray[tiles + 1 + tile]
-        alias.tileKey = tiles + 1 + tile
-        alias:render()
-    end
-    self.tile = quadArray[tiles + 1]
-    self:render()
-    self:showWeaponPiles()
-end
-
-function Armoury:exitHover(induced)
-    if induced then
-        -- was triggered by a timer
-        -- so check if the user is actually hovering
-        -- on it
-        if self.hover then return end
-    end
-    self.hover = false
-    for tile = 1, tilesExt do
-        local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tilesExt - tile + 1), ArmouryAlias)
-        if alias then
-            alias.tile = quadArrayExt[tile]
+    local armories = _G.BuildingManager:getPlayerBuildings(Armoury)
+    for _, v in pairs(armories) do
+        if not induced then
+            v.hover = true
+        end
+        for tile = 1, tiles do
+            local alias = _G.objectFromClassAtGlobal(v.gx, v.gy + (tiles - tile + 1), ArmouryAlias)
+            if not alias then return end
+            alias.tile = quadArray[tile]
             alias.tileKey = tile
             alias:render()
         end
-    end
 
-    for tile = 1, tilesExt do
-        local alias = _G.objectFromClassAtGlobal(self.gx + tile, self.gy, ArmouryAlias)
-        if alias then
-            alias.tile = quadArrayExt[tilesExt + 1 + tile]
-            alias.tileKey = tilesExt + 1 + tile
+        for tile = 1, tiles do
+            local alias = _G.objectFromClassAtGlobal(v.gx + tile, v.gy, ArmouryAlias)
+            if not alias then return end
+            alias.tile = quadArray[tiles + 1 + tile]
+            alias.tileKey = tiles + 1 + tile
             alias:render()
         end
+        v.tile = quadArray[tiles + 1]
+        v:render()
+        v:showWeaponPiles()
     end
-    self.tile = quadArrayExt[tilesExt + 1]
-    self:render()
-    self:hideWeaponPiles()
+end
+
+function Armoury:exitHover(induced)
+    local armories = _G.BuildingManager:getPlayerBuildings(Armoury)
+    for _, v in pairs(armories) do
+        if induced then
+            if v.hover then return end
+        end
+        v.hover = false
+        for tile = 1, tilesExt do
+            local alias = _G.objectFromClassAtGlobal(v.gx, v.gy + (tilesExt - tile + 1), ArmouryAlias)
+            if alias then
+                alias.tile = quadArrayExt[tile]
+                alias.tileKey = tile
+                alias:render()
+            end
+        end
+
+        for tile = 1, tilesExt do
+            local alias = _G.objectFromClassAtGlobal(v.gx + tile, v.gy, ArmouryAlias)
+            if alias then
+                alias.tile = quadArrayExt[tilesExt + 1 + tile]
+                alias.tileKey = tilesExt + 1 + tile
+                alias:render()
+            end
+        end
+        v.tile = quadArrayExt[tilesExt + 1]
+        v:render()
+        v:hideWeaponPiles()
+    end
 end
 
 return Armoury
