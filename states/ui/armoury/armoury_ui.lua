@@ -132,11 +132,25 @@ currentStockArmor:SetText({ {
     color = { 0, 0, 0, 1 }
 }, "0" }) -- TODO ARMOUR DOESNT EXIST
 currentStockArmor:SetShadow(false)
-
+local noMarketInfo = loveframes.Create("text")
+noMarketInfo:SetState(states.STATE_ARMOURY)
+noMarketInfo:SetFont(loveframes.font_vera_italic) --TODO add font_times_new_normal_large
+noMarketInfo:SetSize(50, 20)
+noMarketInfo:SetVisible(false)
+noMarketInfo:SetPos(frBowButton.x - 100 + (frBowButton.width / 2), frBowButton.y)
+noMarketInfo:SetText({ {
+    color = { 0, 0, 0, 1 }
+}, "Build a market to trade!" })
+noMarketInfo:SetShadow(false)
 function SwitchToTheMarket()
-    actionBar:switchMode("market_trade")
-    switchTradeGroup(3)
-    group.name = 3
+    if _G.BuildingManager:count("Market") >= 1 then
+        actionBar:switchMode("market_trade")
+        switchTradeGroup(3)
+        group.name = 3
+        noMarketInfo:SetVisible(false)
+    else
+        noMarketInfo:SetVisible(true)
+    end
 end
 
 function group.DisplayCurrentStock()
