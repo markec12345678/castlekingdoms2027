@@ -27,12 +27,13 @@ for i = 1, 16 do
 end
 
 local offsetY = {
-    [FOOD.apples] = {0, -1, -7, -11, -11, -16, -22, -23},
-    [FOOD.bread] = {0, -3, -7, -10, -14, -14, -14, -14, -14, -14, -14, -14, -18 + 4, -18 + 4, -18 + 4, -18 + 4, -21 + 4,
+    [FOOD.apples] = { 0, -1, -7, -11, -11, -16, -22, -23 },
+    [FOOD.bread] = { 0, -3, -7, -10, -14, -14, -14, -14, -14, -14, -14, -14, -18 + 4, -18 + 4, -18 + 4, -18 + 4, -21 + 4,
         -24 + 4, -28 + 4, -31 + 4, -31 + 4, -31 + 4, -31 + 4, -31 + 4, -31 + 4, -31 + 4, -31 + 4, -31 + 4,
-        -31 + 4, -31 + 4, -31 + 4, -31 + 4},
-    [FOOD.cheese] = {0, -3, -6, -12, -12, -12, -18, -18, -18, -24, -24, -24, -30, -30, -30, -33},
-    [FOOD.meat] = {-51, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62}
+        -31 + 4, -31 + 4, -31 + 4, -31 + 4 },
+    [FOOD.cheese] = { 0, -3, -6, -12, -12, -12, -18, -18, -18, -24, -24, -24, -30, -30, -30, -33 },
+    [FOOD.meat] = { -51, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62,
+        7 - 62, 7 - 62, 7 - 62 }
 }
 
 local maxQuantity = {
@@ -323,56 +324,59 @@ function Granary.static:deserialize(data)
 end
 
 function Granary:enterHover(induced)
-    if not induced then
-        self.hover = true
-    else
-        local RationController = require("objects.Controllers.RationController")
-        RationController:setGranaryToFadeOut(self)
-    end
-    for tile = 1, tiles do
-        local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tiles - tile + 1), GranaryAlias)
-        if not alias then return end
-        alias.tile = quadArray[tile]
-        alias.tileKey = tile
-        alias:render()
-    end
+    local granaries = _G.BuildingManager:getPlayerBuildings(Granary)
+    for _, v in pairs(granaries) do
+        if not induced then
+            v.hover = true
+        else
+            local RationController = require("objects.Controllers.RationController")
+            RationController:setGranaryToFadeOut(v)
+        end
+        for tile = 1, tiles do
+            local alias = _G.objectFromClassAtGlobal(v.gx, v.gy + (tiles - tile + 1), GranaryAlias)
+            if not alias then return end
+            alias.tile = quadArray[tile]
+            alias.tileKey = tile
+            alias:render()
+        end
 
-    for tile = 1, tiles do
-        local alias = _G.objectFromClassAtGlobal(self.gx + tile, self.gy, GranaryAlias)
-        if not alias then return end
-        alias.tile = quadArray[tiles + 1 + tile]
-        alias.tileKey = tiles + 1 + tile
-        alias:render()
+        for tile = 1, tiles do
+            local alias = _G.objectFromClassAtGlobal(v.gx + tile, v.gy, GranaryAlias)
+            if not alias then return end
+            alias.tile = quadArray[tiles + 1 + tile]
+            alias.tileKey = tiles + 1 + tile
+            alias:render()
+        end
+        v.tile = quadArray[tiles + 1]
+        v:render()
+        v:showFoodpiles()
     end
-    self.tile = quadArray[tiles + 1]
-    self:render()
-    self:showFoodpiles()
 end
 
 function Granary:exitHover(induced)
-    if induced then
-        -- was triggered by a timer
-        -- so check if the user is actually hovering
-        -- on it
-        if self.hover then return end
-    end
-    self.hover = false
-    for tile = 1, tilesExt do
-        local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tilesExt - tile + 1), GranaryAlias)
-        alias.tile = quadArrayExt[tile]
-        alias.tileKey = tile
-        alias:render()
-    end
+    local granaries = _G.BuildingManager:getPlayerBuildings(Granary)
+    for _, v in pairs(granaries) do
+        if induced then
+            if v.hover then return end
+        end
+        v.hover = false
+        for tile = 1, tilesExt do
+            local alias = _G.objectFromClassAtGlobal(v.gx, v.gy + (tilesExt - tile + 1), GranaryAlias)
+            alias.tile = quadArrayExt[tile]
+            alias.tileKey = tile
+            alias:render()
+        end
 
-    for tile = 1, tilesExt do
-        local alias = _G.objectFromClassAtGlobal(self.gx + tile, self.gy, GranaryAlias)
-        alias.tile = quadArrayExt[tilesExt + 1 + tile]
-        alias.tileKey = tilesExt + 1 + tile
-        alias:render()
+        for tile = 1, tilesExt do
+            local alias = _G.objectFromClassAtGlobal(v.gx + tile, v.gy, GranaryAlias)
+            alias.tile = quadArrayExt[tilesExt + 1 + tile]
+            alias.tileKey = tilesExt + 1 + tile
+            alias:render()
+        end
+        v.tile = quadArrayExt[tilesExt + 1]
+        v:render()
+        v:hideFoodpiles()
     end
-    self.tile = quadArrayExt[tilesExt + 1]
-    self:render()
-    self:hideFoodpiles()
 end
 
 return Granary
