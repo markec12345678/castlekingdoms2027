@@ -5,7 +5,8 @@ local Object = require("objects.Object")
 local anim = require("libraries.anim8")
 local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
 
-local tiles, quadArray = _G.indexBuildingQuads("bakery_workshop (18)", true)
+local tiles, quadArray = _G.indexBuildingQuads("bakery_workshop (9)")
+local tilesExt, quadArrayExt = _G.indexBuildingQuads("bakery_workshop (18)")
 
 local ANIM_BAKING_BREAD = "Baking_Bread"
 local ANIM_BAKING_BREAD_PART2 = "Baking_Bread_Part2"
@@ -353,6 +354,58 @@ function Bakery.static:deserialize(data)
     return obj
 end
 
+function Bakery:enterHover(induced)
+    if not induced then
+        self.hover = true
+    end
+    for tile = 1, tiles do
+        local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tiles - tile + 1), BakeryAlias)
+        if not alias then return end
+        alias.tile = quadArray[tile]
+        alias.tileKey = tile
+        alias:render()
+    end
+
+    for tile = 1, tiles do
+        local alias = _G.objectFromClassAtGlobal(self.gx + tile, self.gy, BakeryAlias)
+        if not alias then return end
+        alias.tile = quadArray[tiles + 1 + tile]
+        alias.tileKey = tiles + 1 + tile
+        alias:render()
+    end
+    self.tile = quadArray[tiles + 1]
+    self:render()
+end
+
+function Bakery:exitHover(induced)
+    if induced then
+        -- was triggered by a timer
+        -- so check if the user is actually hovering
+        -- on it
+        if self.hover then return end
+    end
+    self.hover = false
+    for tile = 1, tilesExt do
+        local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tilesExt - tile + 1), BakeryAlias)
+        if alias then
+            alias.tile = quadArrayExt[tile]
+            alias.tileKey = tile
+            alias:render()
+        end
+    end
+
+    for tile = 1, tilesExt do
+        local alias = _G.objectFromClassAtGlobal(self.gx + tile, self.gy, BakeryAlias)
+        if alias then
+            alias.tile = quadArrayExt[tilesExt + 1 + tile]
+            alias.tileKey = tilesExt + 1 + tile
+            alias:render()
+        end
+    end
+    self.tile = quadArrayExt[tilesExt + 1]
+    self:render()
+end
+
 function Bakery:join(worker)
     if self.health == -1 then
         _G.JobController:remove("Baker", self)
@@ -385,6 +438,10 @@ function Bakery:work(worker)
             self.worker.state = "Go to stockpile for flour"
         end
     end
+    if self.worker.state == "Working" then
+        self:enterHover(true)
+        self:exitHover(false)
+    end
 end
 
 function Bakery:sendToStockpile()
@@ -404,6 +461,8 @@ function Bakery:sendToStockpile()
     self.worker.needNewVertAsap = true
     self.cookingObj:deactivate()
     self.stack:take()
+    self:enterHover(false)
+    self:exitHover(true)
 end
 
 return Bakery
