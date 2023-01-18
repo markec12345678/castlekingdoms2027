@@ -5,7 +5,8 @@ local Object = require("objects.Object")
 local anim = require("libraries.anim8")
 local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
 
-local tiles, quadArray = _G.indexBuildingQuads("fletcher_workshop (18)", true)
+local tiles, quadArray = _G.indexBuildingQuads("fletcher_workshop (9)")
+local tilesExt, quadArrayExt = _G.indexBuildingQuads("fletcher_workshop (18)")
 
 local ANIM_CRAFTING_BOW = "Crafting_Bow"
 local ANIM_CRAFTING_BOW_PART2 = "Crafting_Bow_Part2"
@@ -196,11 +197,6 @@ function FletcherWorkshop:initialize(gx, gy)
     self:applyBuildingHeightMap()
 end
 
-function FletcherWorkshop:onClick()
-    local ActionBar = require("states.ui.ActionBar")
-    --ActionBar:switchMode("fletcher")
-end
-
 function FletcherWorkshop:destroy()
     if self.worker then
         self.worker:die()
@@ -247,6 +243,55 @@ function FletcherWorkshop.static:deserialize(data)
     return obj
 end
 
+function FletcherWorkshop:enterHover(induced)
+    if not induced then
+        self.hover = true
+    end
+    for tile = 1, tiles do
+        local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tiles - tile + 1), FletcherAlias)
+        if not alias then return end
+        alias.tile = quadArray[tile]
+        alias.tileKey = tile
+        alias:render()
+    end
+
+    for tile = 1, tiles do
+        local alias = _G.objectFromClassAtGlobal(self.gx + tile, self.gy, FletcherAlias)
+        if not alias then return end
+        alias.tile = quadArray[tiles + 1 + tile]
+        alias.tileKey = tiles + 1 + tile
+        alias:render()
+    end
+    self.tile = quadArray[tiles + 1]
+    self:render()
+end
+
+function FletcherWorkshop:exitHover(induced)
+    if induced then
+        if self.hover then return end
+    end
+    self.hover = false
+    for tile = 1, tilesExt do
+        local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tilesExt - tile + 1), FletcherAlias)
+        if alias then
+            alias.tile = quadArrayExt[tile]
+            alias.tileKey = tile
+            alias:render()
+        end
+    end
+
+    for tile = 1, tilesExt do
+        local alias = _G.objectFromClassAtGlobal(self.gx + tile, self.gy, FletcherAlias)
+        if alias then
+            alias.tile = quadArrayExt[tilesExt + 1 + tile]
+            alias.tileKey = tilesExt + 1 + tile
+            alias:render()
+        end
+    end
+    self.tile = quadArrayExt[tilesExt + 1]
+    self:render()
+end
+
 function FletcherWorkshop:join(worker)
     if self.health == -1 then
         _G.JobController:remove("Fletcher", self)
@@ -279,6 +324,10 @@ function FletcherWorkshop:work(worker)
             self.worker.state = "Go to stockpile for WOOD"
         end
     end
+    if self.worker.state == "Working" then
+        self:enterHover(true)
+        self:exitHover(false)
+    end
 end
 
 function FletcherWorkshop:sendToStockpile()
@@ -297,6 +346,8 @@ function FletcherWorkshop:sendToStockpile()
     self.working = false
     self.worker.needNewVertAsap = true
     self.cookingObj:deactivate()
+    self:enterHover(false)
+    self:exitHover(true)
 end
 
 return FletcherWorkshop
