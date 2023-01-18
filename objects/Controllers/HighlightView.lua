@@ -36,7 +36,7 @@ function HighlightView:update()
         return
     end
     structure = structure.parent or structure
-    if self.lastStructure and self.lastStructure.exitHover and self.lastStructure ~= structure then
+    if self.lastStructure and self.lastStructure.exitHover and self.lastStructure ~= structure and not _G.DestructionController.active then
         self.lastStructure:exitHover()
     end
     if not structure.onClick and not _G.DestructionController.active then return end
@@ -53,7 +53,7 @@ function HighlightView:update()
     local RCX = structure.gx + structure.class.WIDTH - 1
     local RCY = structure.gy
     if self.lastStructure == structure and self.lastScale == _G.state.scaleX then return end
-    if not structure.hover and structure.enterHover then
+    if not structure.hover and structure.enterHover and not _G.DestructionController.active then
         structure:enterHover()
     end
     self.lastScale = _G.state.scaleX
