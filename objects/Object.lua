@@ -40,6 +40,7 @@ function Object:update()
 end
 
 function Object:render()
+    if self.toBeDeleted then return end
     if self.vertId then
         return self:updateVertex()
     end
