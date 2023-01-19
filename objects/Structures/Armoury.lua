@@ -20,7 +20,7 @@ for i = 1, 16 do
     quadMap[WEAPON.mace][#quadMap[WEAPON.mace] + 1] = tileQuads["mace_goods (" .. tostring(i) .. ")"]
     quadMap[WEAPON.sword][#quadMap[WEAPON.sword] + 1] = tileQuads["sword_goods (" .. tostring(i) .. ")"]
     quadMap[WEAPON.leatherArmor][#quadMap[WEAPON.leatherArmor] + 1] = tileQuads["leather_goods (" .. tostring(i) .. ")"]
-    -- quadMap[WEAPON.shield][#quadMap[WEAPON.shield] + 1] = tileQuads["shield_goods (" .. tostring(i) .. ")"]
+    quadMap[WEAPON.shield][#quadMap[WEAPON.shield] + 1] = tileQuads["shield_goods (" .. tostring(i) .. ")"]
 end
 
 local goodsOffsetY = {
