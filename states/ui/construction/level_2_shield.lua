@@ -36,6 +36,17 @@ fletcherButton:setOnClick(
         ActionBar:selectButton(fletcherButton)
     end)
 
+    local blacksmithButton = ActionBarButton:new(love.graphics.newImage("assets/ui/blacksmith_ab.png"),
+    states.STATE_INGAME_CONSTRUCTION, 4)
+    blacksmithButton:setOnClick(
+    function(self)
+        _G.BuildController:set(
+            "BlacksmithWorkshop", function()
+                blacksmithButton:unselect()
+        end)
+        ActionBar:selectButton(blacksmithButton)
+    end)
+
 local function displayTooltips()
     armorerButton:setTooltip("Armorer", getCostAndType("Armorer") .. "\nMakes armor from iron")
     armouryButton:setTooltip("Armoury",
@@ -44,6 +55,7 @@ local function displayTooltips()
     fletcherButton:setTooltip("FletcherWorkshop",
         getCostAndType("FletcherWorkshop") ..
         "\nProduces bows and crossbows from wood")
+    blacksmithButton:setTooltip("BlacksmithWorkshop", getCostAndType("BlacksmithWorkshop") .. "\nProduces swords and maces from iron")
 end
 
 el.buttons.shieldButton:setOnClick(function(self)
@@ -52,4 +64,4 @@ el.buttons.shieldButton:setOnClick(function(self)
 end)
 
 
-ActionBar:registerGroup("shield", { armorerButton, armouryButton, fletcherButton, backButton, destroyButton })
+ActionBar:registerGroup("shield", { armorerButton, armouryButton, fletcherButton, blacksmithButton, backButton, destroyButton })
