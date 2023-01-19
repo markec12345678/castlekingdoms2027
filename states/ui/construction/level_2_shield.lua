@@ -4,18 +4,8 @@ local states = require("states.ui.states")
 local ActionBarButton = require("states.ui.ActionBarButton")
 local ActionBar = require("states.ui.ActionBar")
 
-local armorerButton = ActionBarButton:new(love.graphics.newImage("assets/ui/armorer_ab.png"),
-    states.STATE_INGAME_CONSTRUCTION, 1, true)
-armorerButton:setOnClick(function(self)
-    _G.BuildController:set("Armorer", function()
-        armorerButton:select()
-    end)
-    ActionBar:selectButton(armorerButton)
-end)
-
-
 local armouryButton = ActionBarButton:new(love.graphics.newImage("assets/ui/armoury_arms_ab.png"),
-    states.STATE_INGAME_CONSTRUCTION, 2, true, nil)
+    states.STATE_INGAME_CONSTRUCTION, 1, true, nil)
 armouryButton:setOnClick(
     function(self)
         _G.BuildController:set(
@@ -24,6 +14,16 @@ armouryButton:setOnClick(
         end)
         ActionBar:selectButton(armouryButton)
     end)
+
+local armorerButton = ActionBarButton:new(love.graphics.newImage("assets/ui/armorer_ab.png"),
+    states.STATE_INGAME_CONSTRUCTION, 2, false)
+armorerButton:setOnClick(function(self)
+    _G.BuildController:set("Armorer", function()
+        armorerButton:select()
+    end)
+    ActionBar:selectButton(armorerButton)
+end)
+
 
 local fletcherButton = ActionBarButton:new(love.graphics.newImage("assets/ui/fletcher_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 3, true, nil)
@@ -36,13 +36,13 @@ fletcherButton:setOnClick(
         ActionBar:selectButton(fletcherButton)
     end)
 
-    local blacksmithButton = ActionBarButton:new(love.graphics.newImage("assets/ui/blacksmith_ab.png"),
-    states.STATE_INGAME_CONSTRUCTION, 4)
-    blacksmithButton:setOnClick(
+local blacksmithButton = ActionBarButton:new(love.graphics.newImage("assets/ui/blacksmith_ab.png"),
+    states.STATE_INGAME_CONSTRUCTION, 4, true)
+blacksmithButton:setOnClick(
     function(self)
         _G.BuildController:set(
             "BlacksmithWorkshop", function()
-                blacksmithButton:unselect()
+            blacksmithButton:unselect()
         end)
         ActionBar:selectButton(blacksmithButton)
     end)
@@ -64,4 +64,4 @@ el.buttons.shieldButton:setOnClick(function(self)
 end)
 
 
-ActionBar:registerGroup("shield", { armorerButton, armouryButton, fletcherButton, blacksmithButton, backButton, destroyButton })
+ActionBar:registerGroup("shield", {armorerButton, armouryButton, fletcherButton, blacksmithButton, backButton, destroyButton})
