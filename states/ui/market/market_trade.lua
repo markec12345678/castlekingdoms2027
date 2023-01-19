@@ -915,7 +915,7 @@ local function DisplayWeaponIcons(option)
     spearIconButton:SetVisible(option)
     leatherIconButton:SetVisible(option)
     swordIconButton:SetVisible(option)
-    armourIconButton:SetVisible(false) -- TODO FALSE SINCE THERE IS NO SPRITES
+    armourIconButton:SetVisible(option)
 end
 
 local function switchTradeGroup(groupType)
