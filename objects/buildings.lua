@@ -27,6 +27,7 @@ local Armorer = require("objects.Structures.Armorer")
 local Brewery = require("objects.Structures.Brewery")
 local Armoury = require("objects.Structures.Armoury")
 local FletcherWorkshop = require("objects.Structures.Fletcher")
+local BlacksmithWorkshop = require("objects.Structures.Blacksmith")
 local WoodenKeep = require("objects.Structures.WoodenKeep")
 local Keep = require("objects.Structures.Keep")
 local Fortress = require("objects.Structures.Fortress")
@@ -695,6 +696,23 @@ local buildings = {
         },
         build = function(self, gx, gy)
             FletcherWorkshop:new(gx, gy)
+        end,
+        specialRequirements = function(self, _, _)
+            return true
+        end
+    },
+    [BlacksmithWorkshop.name] = {
+        quad = tileQuads["blacksmith_workshop (9)"],
+        offsetX = 49,
+        offsetY = 62,
+        w = 4,
+        h = 4,
+        cost = {
+            ["wood"] = 10,
+            ["gold"] = 100
+        },
+        build = function(self, gx, gy)
+            BlacksmithWorkshop:new(gx, gy)
         end,
         specialRequirements = function(self, _, _)
             return true
