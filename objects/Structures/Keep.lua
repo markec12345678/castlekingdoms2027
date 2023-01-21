@@ -35,6 +35,7 @@ Keep.static.WIDTH = 7
 Keep.static.LENGTH = 7
 Keep.static.HEIGHT = 25
 Keep.static.DESTRUCTIBLE = false
+Keep.static.HOVERTEXT = "Click to manage taxes"
 function Keep:initialize(gx, gy, type)
     type = type or "Keep (default)"
     Structure.initialize(self, gx, gy, type)

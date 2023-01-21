@@ -35,6 +35,7 @@ Fortress.static.WIDTH = 9
 Fortress.static.LENGTH = 9
 Fortress.static.HEIGHT = 32
 Fortress.static.DESTRUCTIBLE = false
+Fortress.static.HOVERTEXT = "Click to manage taxes"
 function Fortress:initialize(gx, gy, type)
     type = type or "Fortress (default)"
     Structure.initialize(self, gx, gy, type)

@@ -127,6 +127,7 @@ Stockpile.static.WIDTH = 5
 Stockpile.static.LENGTH = 5
 Stockpile.static.HEIGHT = 12
 Stockpile.static.DESTRUCTIBLE = false
+Stockpile.static.HOVERTEXT = "Click to manage resources"
 function Stockpile:initialize(gx, gy, type)
     type = type or "Stockpile"
     Structure.initialize(self, gx, gy, type)

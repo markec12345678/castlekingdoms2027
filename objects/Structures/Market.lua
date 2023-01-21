@@ -54,6 +54,7 @@ Market.static.WIDTH = 5
 Market.static.LENGTH = 5
 Market.static.HEIGHT = 17
 Market.static.DESTRUCTIBLE = true
+Market.static.HOVERTEXT = "Click to trade resources"
 
 function Market:initialize(gx, gy)
     Structure.initialize(self, gx, gy, "Market")

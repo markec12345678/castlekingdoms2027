@@ -36,6 +36,7 @@ SaxonHall.static.WIDTH = 7
 SaxonHall.static.LENGTH = 7
 SaxonHall.static.HEIGHT = 23
 SaxonHall.static.DESTRUCTIBLE = false
+SaxonHall.static.HOVERTEXT = "Click to manage taxes"
 
 function SaxonHall:initialize(gx, gy, type)
     type = type or "SaxonHall (default)"
