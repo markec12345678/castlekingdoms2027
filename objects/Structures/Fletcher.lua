@@ -1,22 +1,26 @@
 local activeEntities, _, tileQuads, _ = ...
 
+local WEAPON = require("objects.Enums.Weapon")
+
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
 local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
 
-local tiles, quadArray = _G.indexBuildingQuads("fletcher_workshop (9)")
-local tilesExt, quadArrayExt = _G.indexBuildingQuads("fletcher_workshop (18)")
+local crossbowIconButton, bowIconButton = unpack(require("states.ui.workshops.fletcher.fletcher_ui"))
+
+local tiles, quadArray = _G.indexBuildingQuads("fletcher_workshop (18)")
+local tilesExt, quadArrayExt = _G.indexBuildingQuads("fletcher_workshop (9)")
 
 local ANIM_CRAFTING_BOW = "Crafting_Bow"
-local ANIM_CRAFTING_BOW_PART2 = "Crafting_Bow_Part2"
+local ANIM_CRAFTING_CROSSBOW = "Crafting_CrossBow"
 
 local an = {
-    [ANIM_CRAFTING_BOW] = _G.indexQuads("fletcher_bow", 36),
-    [ANIM_CRAFTING_BOW_PART2] = _G.indexQuads("fletcher_bow", 36, 1),
-    --[ANIM_CRAFTING_CROSSBOW_PART2] = _G.indexQuads("fletcher_crossbow", 36),
+    [ANIM_CRAFTING_BOW] = _G.addReverse(_G.indexQuads("fletcher_bow", 31)),
+    [ANIM_CRAFTING_CROSSBOW] = _G.addReverse(_G.indexQuads("fletcher_crossbow", 36)),
 }
 
+local targetFletcher
 local BowCrafting = _G.class("BowCrafting", Structure)
 function BowCrafting:initialize(gx, gy, parent)
     self.parent = parent
@@ -43,6 +47,7 @@ function BowCrafting:serialize()
     end
     data.animation = self.animation:serialize()
     data.animated = self.animated
+    data.weaponType = self.weaponType
     data.craftingCycle = self.craftingCycle
     data.offsetX = self.offsetX
     data.offsetY = self.offsetY
@@ -60,33 +65,11 @@ function BowCrafting.static:deserialize(data)
     local anData = data.animation
     if anData.animationIdentifier == ANIM_CRAFTING_BOW then
         callback = obj:craftCallback_1()
-    elseif anData.animationIdentifier == ANIM_CRAFTING_BOW_PART2 then
-        callback = obj:craftCallback_2()
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
     table.insert(activeEntities, obj)
     return obj
-end
-
-function BowCrafting:craftCallback_1()
-    return function()
-        self.craftingCycle = self.craftingCycle + 1
-        self.animation = anim.newAnimation(
-            an[ANIM_CRAFTING_BOW_PART2], 0.11, self:craftCallback_2(), ANIM_CRAFTING_BOW_PART2)
-    end
-end
-
-function BowCrafting:craftCallback_2()
-    return function()
-        self.animation = anim.newAnimation(an[ANIM_CRAFTING_BOW], 0.11, self:craftCallback_1(), ANIM_CRAFTING_BOW)
-
-        if self.craftingCycle == 6 then
-            self.parent:sendToStockpile()
-            self.craftingCycle = 0
-            self:deactivate()
-        end
-    end
 end
 
 function BowCrafting:animate()
@@ -95,8 +78,13 @@ end
 
 function BowCrafting:activate()
     self.animated = true
-    self.animation:gotoFrame(1)
-    self.animation:resume()
+    if self.parent.weaponType == WEAPON.bow then
+        self.animation = anim.newAnimation(an[ANIM_CRAFTING_BOW], 0.11, self:craftCallback_1(), ANIM_CRAFTING_BOW)
+    end
+    if self.parent.weaponType == WEAPON.crossbow then
+        self.animation = anim.newAnimation(an[ANIM_CRAFTING_CROSSBOW], 0.11, self:craftCallback_1(),
+            ANIM_CRAFTING_CROSSBOW)
+    end
     self:animate(_G.dt)
 end
 
@@ -171,6 +159,7 @@ function FletcherWorkshop:initialize(gx, gy)
     self.unloading = false
     self.offsetX = 0
     self.offsetY = -48
+    self.weaponType = WEAPON.bow
     self.freeSpots = 1
     self.worker = nil
     self.cookingObj = BowCrafting:new(self.gx + 3, self.gy + 2, self)
@@ -195,6 +184,34 @@ function FletcherWorkshop:initialize(gx, gy)
     end
     self.float = NotEnoughWorkersFloat:new(self.gx + self.class.WIDTH - 1, self.gy + self.class.LENGTH - 1, 7, -112)
     self:applyBuildingHeightMap()
+end
+
+function FletcherWorkshop:onClick()
+    targetFletcher = self
+    crossbowIconButton.visible = true
+    local x, y = love.mouse.getPosition()
+    crossbowIconButton:SetPos(x - 50, y + 50)
+    bowIconButton.visible = true
+    bowIconButton:SetPos(x, y + 50)
+end
+
+function BowCrafting:craftCallback_1()
+    return function()
+        if self.parent.weaponType == WEAPON.bow then
+            self.animation = anim.newAnimation(an[ANIM_CRAFTING_BOW], 0.11, self:craftCallback_1(), ANIM_CRAFTING_BOW)
+        end
+        if self.parent.weaponType == WEAPON.crossbow then
+            self.animation = anim.newAnimation(an[ANIM_CRAFTING_CROSSBOW], 0.11, self:craftCallback_1(),
+                ANIM_CRAFTING_CROSSBOW)
+        end
+        if self.craftingCycle == 6 then
+            self.parent:sendToStockpile()
+            self.craftingCycle = 0
+            self:deactivate()
+        else
+            self.craftingCycle = self.craftingCycle + 1
+        end
+    end
 end
 
 function FletcherWorkshop:destroy()
@@ -227,6 +244,7 @@ function FletcherWorkshop:serialize()
     end
     data.health = self.health
     data.working = self.working
+    data.weaponType = self.weaponType
     data.unloading = self.unloading
     data.offsetX = self.offsetX
     data.offsetY = self.offsetY
@@ -243,10 +261,32 @@ function FletcherWorkshop.static:deserialize(data)
     return obj
 end
 
-function FletcherWorkshop:enterHover(induced)
-    if not induced then
-        self.hover = true
+function FletcherWorkshop:setWeapon(weapon)
+    self.weaponType = weapon
+end
+
+function FletcherWorkshop:getWeapon()
+    return self.weaponType
+end
+
+bowIconButton.OnClick = function(self)
+    if targetFletcher then
+        targetFletcher:setWeapon(WEAPON.bow)
     end
+    bowIconButton.visible = false
+    crossbowIconButton.visible = false
+end
+
+crossbowIconButton.OnClick = function(self)
+    if targetFletcher then
+        targetFletcher:setWeapon(WEAPON.crossbow)
+    end
+    bowIconButton.visible = false
+    crossbowIconButton.visible = false
+end
+
+function FletcherWorkshop:enterHover(induced)
+    self.hover = true
     for tile = 1, tiles do
         local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tiles - tile + 1), FletcherAlias)
         if not alias then return end
@@ -267,10 +307,9 @@ function FletcherWorkshop:enterHover(induced)
 end
 
 function FletcherWorkshop:exitHover(induced)
-    if induced then
-        if self.hover then return end
-    end
-    self.hover = false
+    if induced or not self.cookingObj.animated then
+        self.hover = false
+    else return end
     for tile = 1, tilesExt do
         local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tilesExt - tile + 1), FletcherAlias)
         if alias then
@@ -326,13 +365,13 @@ function FletcherWorkshop:work(worker)
     end
     if self.worker.state == "Working" then
         self:enterHover(true)
-        self:exitHover(false)
     end
 end
 
 function FletcherWorkshop:sendToStockpile()
     local i, o, cx, cy
     self.worker.state = "Go to armoury"
+    self.worker.weaponType = self.weaponType
     self.worker.animated = true
     self.worker.gx = self.gx + 1
     self.worker.gy = self.gy + 4
@@ -346,7 +385,6 @@ function FletcherWorkshop:sendToStockpile()
     self.working = false
     self.worker.needNewVertAsap = true
     self.cookingObj:deactivate()
-    self:enterHover(false)
     self:exitHover(true)
 end
 
