@@ -96,6 +96,7 @@ function Fletcher:initialize(gx, gy, type)
     Unit.initialize(self, gx, gy, type)
     self.state = 'Find a job'
     self.waitTimer = 0
+    self.weaponType = WEAPON.bow
     self.offsetY = -10
     self.offsetX = -5
     self.count = 1
@@ -104,64 +105,87 @@ end
 
 function Fletcher:dirSubUpdate()
     if self.moveDir == "west" then
-        if self.state == "Going to armoury" then
+        if self.state == "Going to armoury" and self.weaponType == WEAPON.bow then
             self.animation = anim.newAnimation(an[ANIM_WALKING_BOW_WEST], 0.05, nil, ANIM_WALKING_BOW_WEST)
+        elseif self.state == "Going to armoury" and self.weaponType == WEAPON.crossbow then
+            self.animation = anim.newAnimation(an[ANIM_WALKING_CROSSBOW_WEST], 0.05, nil, ANIM_WALKING_CROSSBOW_WEST)
         elseif self.state == "Going to workplace with WOOD" then
             self.animation = anim.newAnimation(an[ANIM_WALKING_WOOD_WEST], 0.05, nil, ANIM_WALKING_WOOD_WEST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_WEST], 0.05, nil, ANIM_WALKING_WEST)
         end
     elseif self.moveDir == "southwest" then
-        if self.state == "Going to armoury" then
+        if self.state == "Going to armoury" and self.weaponType == WEAPON.bow then
             self.animation = anim.newAnimation(an[ANIM_WALKING_BOW_SOUTHWEST], 0.05, nil, ANIM_WALKING_BOW_SOUTHWEST)
+        elseif self.state == "Going to armoury" and self.weaponType == WEAPON.crossbow then
+            self.animation = anim.newAnimation(an[ANIM_WALKING_CROSSBOW_SOUTHWEST], 0.05, nil,
+                ANIM_WALKING_CROSSBOW_SOUTHWEST)
         elseif self.state == "Going to workplace with WOOD" then
             self.animation = anim.newAnimation(an[ANIM_WALKING_WOOD_SOUTHWEST], 0.05, nil, ANIM_WALKING_WOOD_SOUTHWEST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_SOUTHWEST], 0.05, nil, ANIM_WALKING_SOUTHWEST)
         end
     elseif self.moveDir == "northwest" then
-        if self.state == "Going to armoury" then
+        if self.state == "Going to armoury" and self.weaponType == WEAPON.bow then
             self.animation = anim.newAnimation(an[ANIM_WALKING_BOW_NORTHWEST], 0.05, nil, ANIM_WALKING_BOW_NORTHWEST)
+        elseif self.state == "Going to armoury" and self.weaponType == WEAPON.crossbow then
+            self.animation = anim.newAnimation(an[ANIM_WALKING_CROSSBOW_NORTHWEST], 0.05, nil,
+                ANIM_WALKING_CROSSBOW_NORTHWEST)
         elseif self.state == "Going to workplace with WOOD" then
             self.animation = anim.newAnimation(an[ANIM_WALKING_WOOD_NORTHWEST], 0.05, nil, ANIM_WALKING_WOOD_NORTHWEST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_NORTHWEST], 0.05, nil, ANIM_WALKING_NORTHWEST)
         end
     elseif self.moveDir == "north" then
-        if self.state == "Going to armoury" then
+        if self.state == "Going to armoury" and self.weaponType == WEAPON.bow then
             self.animation = anim.newAnimation(an[ANIM_WALKING_BOW_NORTH], 0.05, nil, ANIM_WALKING_BOW_NORTH)
+        elseif self.state == "Going to armoury" and self.weaponType == WEAPON.crossbow then
+            self.animation = anim.newAnimation(an[ANIM_WALKING_BOW_NORTH], 0.05, nil,
+                ANIM_WALKING_BOW_NORTH)
         elseif self.state == "Going to workplace with WOOD" then
             self.animation = anim.newAnimation(an[ANIM_WALKING_WOOD_NORTH], 0.05, nil, ANIM_WALKING_WOOD_NORTH)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_NORTH], 0.05, nil, ANIM_WALKING_NORTH)
         end
     elseif self.moveDir == "south" then
-        if self.state == "Going to armoury" then
+        if self.state == "Going to armoury" and self.weaponType == WEAPON.bow then
             self.animation = anim.newAnimation(an[ANIM_WALKING_BOW_SOUTH], 0.05, nil, ANIM_WALKING_BOW_SOUTH)
+        elseif self.state == "Going to armoury" and self.weaponType == WEAPON.crossbow then
+            self.animation = anim.newAnimation(an[ANIM_WALKING_BOW_SOUTH], 0.05, nil,
+                ANIM_WALKING_BOW_SOUTH)
         elseif self.state == "Going to workplace with WOOD" then
             self.animation = anim.newAnimation(an[ANIM_WALKING_WOOD_SOUTH], 0.05, nil, ANIM_WALKING_WOOD_SOUTH)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_SOUTH], 0.05, nil, ANIM_WALKING_SOUTH)
         end
     elseif self.moveDir == "east" then
-        if self.state == "Going to armoury" then
+        if self.state == "Going to armoury" and self.weaponType == WEAPON.bow then
             self.animation = anim.newAnimation(an[ANIM_WALKING_BOW_EAST], 0.05, nil, ANIM_WALKING_BOW_EAST)
+        elseif self.state == "Going to armoury" and self.weaponType == WEAPON.crossbow then
+            self.animation = anim.newAnimation(an[ANIM_WALKING_CROSSBOW_EAST], 0.05, nil,
+                ANIM_WALKING_CROSSBOW_EAST)
         elseif self.state == "Going to workplace with WOOD" then
             self.animation = anim.newAnimation(an[ANIM_WALKING_WOOD_EAST], 0.05, nil, ANIM_WALKING_WOOD_EAST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_EAST], 0.05, nil, ANIM_WALKING_EAST)
         end
     elseif self.moveDir == "southeast" then
-        if self.state == "Going to armoury" then
+        if self.state == "Going to armoury" and self.weaponType == WEAPON.bow then
             self.animation = anim.newAnimation(an[ANIM_WALKING_BOW_SOUTHEAST], 0.05, nil, ANIM_WALKING_BOW_SOUTHEAST)
+        elseif self.state == "Going to armoury" and self.weaponType == WEAPON.crossbow then
+            self.animation = anim.newAnimation(an[ANIM_WALKING_CROSSBOW_SOUTHEAST], 0.05, nil,
+                ANIM_WALKING_CROSSBOW_SOUTHEAST)
         elseif self.state == "Going to workplace with WOOD" then
             self.animation = anim.newAnimation(an[ANIM_WALKING_WOOD_SOUTHEAST], 0.05, nil, ANIM_WALKING_WOOD_SOUTHEAST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_SOUTHEAST], 0.05, nil, ANIM_WALKING_SOUTHEAST)
         end
     elseif self.moveDir == "northeast" then
-        if self.state == "Going to armoury" then
+        if self.state == "Going to armoury" and self.weaponType == WEAPON.bow then
             self.animation = anim.newAnimation(an[ANIM_WALKING_BOW_NORTHEAST], 0.05, nil, ANIM_WALKING_BOW_NORTHEAST)
+        elseif self.state == "Going to armoury" and self.weaponType == WEAPON.crossbow then
+            self.animation = anim.newAnimation(an[ANIM_WALKING_CROSSBOW_NORTHEAST], 0.05, nil,
+                ANIM_WALKING_CROSSBOW_NORTHEAST)
         elseif self.state == "Going to workplace with WOOD" then
             self.animation = anim.newAnimation(an[ANIM_WALKING_WOOD_NORTHEAST], 0.05, nil, ANIM_WALKING_WOOD_NORTHEAST)
         else
@@ -282,7 +306,11 @@ function Fletcher:update()
                 self.count = self.count + 1
             elseif self.state == "Going to armoury" then
                 if self:reachedPathEnd() then
-                    _G.weaponpile:store(WEAPON.bow)
+                    if self.weaponType == WEAPON.bow then
+                        _G.weaponpile:store(WEAPON.bow)
+                    else
+                        _G.weaponpile:store(WEAPON.crossbow)
+                    end
                     self.state = "Go to stockpile for WOOD"
                     self:clearPath()
                     return
@@ -324,6 +352,7 @@ function Fletcher:serialize()
     end
     data.state = self.state
     data.waitTimer = self.waitTimer
+    data.weaponType = self.weaponType
     data.offsetY = self.offsetY
     data.offsetX = self.offsetX
     data.count = self.count
