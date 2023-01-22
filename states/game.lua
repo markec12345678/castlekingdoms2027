@@ -218,6 +218,12 @@ end
 
 function game:keypressed(key, scancode, isRepeat)
     ActionBar:keypressed(key, scancode)
+    -- Screenshot
+    if key == "f12" then
+        local filename = string.format("%s_%d.png", _G.version, os.time())
+        love.graphics.captureScreenshot(filename)
+        print(string.format("Screenshot [%s] saved in [%s]", filename, love.filesystem.getSaveDirectory()))
+    end
     if key == "+" or key == "kp+" then
         if _G.speedModifier == 0.5 then
             _G.speedModifier = _G.speedModifier + 0.5
