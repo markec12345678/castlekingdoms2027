@@ -303,6 +303,8 @@ function BlacksmithWorkshop:destroy()
     Structure.destroy(self.anvilCrafting)
     self.swordCrafting.toBeDeleted = true
     self.anvilCrafting.toBeDeleted = true
+
+    Structure.destroy(self)
 end
 
 function BlacksmithWorkshop:load(data)

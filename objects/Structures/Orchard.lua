@@ -264,6 +264,8 @@ function Orchard:destroy()
 
     _G.stockpile:store("wood")
     _G.stockpile:store("wood")
+
+    Structure.destroy(self)
 end
 
 function Orchard:serialize()

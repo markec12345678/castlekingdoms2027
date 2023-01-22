@@ -122,6 +122,8 @@ function Barracks:destroy()
     _G.DestructionController:destroyAtLocation(self.gx + 7, self.gy + 7, false, true)
     _G.DestructionController:destroyAtLocation(self.gx + 2, self.gy + 7, false, true)
     _G.DestructionController:destroyAtLocation(self.gx + 7, self.gy + 2, false, true)
+
+    Structure.destroy(self)
 end
 
 return Barracks

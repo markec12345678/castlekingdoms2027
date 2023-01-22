@@ -697,6 +697,8 @@ function Quarry:destroy()
     for i = 0, 12 do
         _G.stockpile:store("wood")
     end
+
+    Structure.destroy(self)
 end
 
 function Quarry:join(worker)

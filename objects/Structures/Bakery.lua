@@ -315,6 +315,8 @@ function Bakery:destroy()
     _G.stockpile:store("wood")
     _G.stockpile:store("stone")
     _G.stockpile:store("stone")
+
+    Structure.destroy(self)
 end
 
 function Bakery:load(data)

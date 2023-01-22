@@ -63,7 +63,6 @@ function DestructionController:destroyAtLocation(gx, gy, force, targetAlias)
                 local targets = _G.allObjectsFromSubclassAtGlobal(structure.gx, structure.gy, Structure)
                 for _, target in ipairs(targets) do
                     if target == structure or target.parent == structure then
-                        Structure.destroy(target)
                         target:destroy()
                     end
                 end
@@ -96,7 +95,6 @@ function DestructionController:destroyAtLocation(gx, gy, force, targetAlias)
                                         end
                                     end
                                 end
-                                Structure.destroy(target)
                                 target:destroy()
                                 _G.BuildingManager:remove(structure)
                             end
