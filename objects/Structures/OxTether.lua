@@ -153,6 +153,8 @@ function OxTether:destroy()
 
     _G.stockpile:store("wood")
     _G.stockpile:store("wood")
+
+    Structure.destroy(self)
 end
 
 function OxTether:add(amount)

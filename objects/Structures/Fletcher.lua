@@ -221,6 +221,8 @@ function FletcherWorkshop:destroy()
     self.float:destroy()
     Structure.destroy(self.cookingObj)
     self.cookingObj.toBeDeleted = true
+
+    Structure.destroy(self)
 end
 
 function FletcherWorkshop:load(data)

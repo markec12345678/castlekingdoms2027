@@ -419,6 +419,8 @@ function WoodcutterHut:destroy()
 
     _G.stockpile:store("wood")
     _G.stockpile:store("wood")
+
+    Structure.destroy(self)
 end
 
 function WoodcutterHut:join(worker)

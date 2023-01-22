@@ -316,6 +316,8 @@ function WheatFarm:destroy()
 
     _G.stockpile:store("wood")
     _G.stockpile:store("wood")
+
+    Structure.destroy(self)
 end
 
 function WheatFarm:load(data)
