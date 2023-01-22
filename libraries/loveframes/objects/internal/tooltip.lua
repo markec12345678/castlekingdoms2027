@@ -60,7 +60,8 @@ return function(loveframes)
 --]] ---------------------------------------------------------
     function newobject:update(dt)
 
-        local state = loveframes.state
+        self.state = self.object and self.object.state or loveframes.states
+        local state = self.state
         local selfstate = self.state
 
         if state ~= selfstate then
@@ -105,7 +106,7 @@ return function(loveframes)
                 self.hovered_time = 0
                 self.visible = false
             end
-            if self.hovered_time >= _G.TOOLTIP_DELAY then
+            if self.hovered_time >= _G.TOOLTIP_DELAY and object.visible and not object.disablehover then
                 self.visible = true
                 local top = self:IsTopInternal()
                 local followcursor = self.followcursor

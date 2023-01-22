@@ -26,7 +26,7 @@ return function(loveframes)
         self.sheary = 0
         self.internal = false
         self.image = nil
-        self.imagecolor = { 1, 1, 1, 1 }
+        self.imagecolor = {1, 1, 1, 1}
 
         self:SetDrawFunc()
     end
@@ -182,7 +182,7 @@ return function(loveframes)
 --]] ---------------------------------------------------------
     function newobject:SetColor(r, g, b, a)
 
-        self.imagecolor = { r, g, b, a }
+        self.imagecolor = {r, g, b, a}
         return self
 
     end
@@ -236,6 +236,7 @@ return function(loveframes)
             tooltip:SetState(self.state)
             tooltip:SetPadding(10)
             tooltip.visible = false
+            tooltip.object = self
             tooltip:SetText(tooltipText, title)
             self.tooltip = tooltip
             self.tooltip.disablehover = true

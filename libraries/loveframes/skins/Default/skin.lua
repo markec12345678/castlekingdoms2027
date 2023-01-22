@@ -306,7 +306,7 @@ return function(loveframes)
 	- desc: draws the image object
 --]] ---------------------------------------------------------
     function skin.image(object)
-
+        if not object.image then return end
         local skin = object:GetSkin()
         local x = object:GetX()
         local y = object:GetY()

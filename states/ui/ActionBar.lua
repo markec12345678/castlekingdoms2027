@@ -74,6 +74,7 @@ function ActionBar:switchMode(mode)
     if not _G.BuildController.start then
         _G.BuildController.active = false
     end
+    local buildingHover = require("states.ui.building_tooltip")
     _G.DestructionController.active = false
     if mode == "granary" then
         self:showGroup("granary")
@@ -83,6 +84,7 @@ function ActionBar:switchMode(mode)
         self.goldText:SetState(states.STATE_GRANARY)
         self.element:SetState(states.STATE_GRANARY)
         self.element:SetImage(ActionBar.actionBarGranaryImage)
+        buildingHover:SetState(states.STATE_GRANARY)
     elseif mode == "stockpile" then
         self:showGroup("stockpile")
         loveframes.SetState(states.STATE_STOCKPILE)
@@ -91,6 +93,7 @@ function ActionBar:switchMode(mode)
         self.goldText:SetState(states.STATE_STOCKPILE)
         self.element:SetState(states.STATE_STOCKPILE)
         self.element:SetImage(ActionBar.actionBarStockpileImage)
+        buildingHover:SetState(states.STATE_STOCKPILE)
     elseif mode == "house" then
         self:showGroup("house")
         loveframes.SetState(states.STATE_HOUSE)
@@ -99,6 +102,7 @@ function ActionBar:switchMode(mode)
         self.goldText:SetState(states.STATE_HOUSE)
         self.element:SetState(states.STATE_HOUSE)
         self.element:SetImage(ActionBar.actionBarGranaryImage)
+        buildingHover:SetState(states.STATE_HOUSE)
     elseif mode == "market" then
         self:showGroup("market")
         loveframes.SetState(states.STATE_MARKET_MAIN)
@@ -107,6 +111,7 @@ function ActionBar:switchMode(mode)
         self.goldText:SetState(states.STATE_MARKET_MAIN)
         self.element:SetState(states.STATE_MARKET_MAIN)
         self.element:SetImage(ActionBar.actionBarMarketImageMain)
+        buildingHover:SetState(states.STATE_MARKET_MAIN)
     elseif mode == "market_trade" then
         self:showGroup("market_trade")
         loveframes.SetState(states.STATE_MARKET)
@@ -115,6 +120,7 @@ function ActionBar:switchMode(mode)
         self.goldText:SetState(states.STATE_MARKET)
         self.element:SetState(states.STATE_MARKET)
         self.element:SetImage(ActionBar.actionBarMarketImage)
+        buildingHover:SetState(states.STATE_MARKET)
     elseif mode == "keep_tax" then
         self:showGroup("keep_tax")
         loveframes.SetState(states.STATE_KEEP_TAX)
@@ -123,6 +129,7 @@ function ActionBar:switchMode(mode)
         self.goldText:SetState(states.STATE_KEEP_TAX)
         self.element:SetState(states.STATE_KEEP_TAX)
         self.element:SetImage(ActionBar.actionBarKeepTaxImage)
+        buildingHover:SetState(states.STATE_KEEP_TAX)
     elseif mode == "armoury" then
         self:showGroup("armoury")
         loveframes.SetState(states.STATE_ARMOURY)
@@ -131,6 +138,7 @@ function ActionBar:switchMode(mode)
         self.goldText:SetState(states.STATE_ARMOURY)
         self.element:SetState(states.STATE_ARMOURY)
         self.element:SetImage(ActionBar.actionBarArmouryImage)
+        buildingHover:SetState(states.STATE_ARMOURY)
     else
         self:showGroup("main")
         loveframes.SetState(states.STATE_INGAME_CONSTRUCTION)
@@ -139,6 +147,7 @@ function ActionBar:switchMode(mode)
         self.goldText:SetState(states.STATE_INGAME_CONSTRUCTION)
         self.element:SetState(states.STATE_INGAME_CONSTRUCTION)
         self.element:SetImage(ActionBar.actionBarImage)
+        buildingHover:SetState(states.STATE_INGAME_CONSTRUCTION)
     end
 end
 
