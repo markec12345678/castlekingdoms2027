@@ -11,6 +11,7 @@ local initialized = false
 local loadState, progress = 1, 15
 local SaveManager = require("objects.Controllers.SaveManager")
 local keybindManager = require("objects.Controllers.KeybindManager")
+local EVENT = require("objects.Enums.KeyEvents")
 local savegame
 local playlist = require("sounds.music_playlist")
 local RationController
@@ -220,29 +221,27 @@ end
 function game:keypressed(key, scancode, isRepeat)
     ActionBar:keypressed(key, scancode)
 
-    -- Screenshot
-    if key == keybindManager:returnKey("screenshotKey") then
+    local event = keybindManager:getEventForKeypress(key)
+
+    if event == EVENT.Screenshot then
+        -- Screenshot
         local filename = string.format("%s_%d.png", _G.version, os.time())
         love.graphics.captureScreenshot(filename)
         print(string.format("Screenshot [%s] saved in [%s]", filename, love.filesystem.getSaveDirectory()))
-    end
-    if key == keybindManager:returnKey("increaseGameSpeedKey") then
+    elseif event == EVENT.IncreaseGameSpeed then
         if _G.speedModifier == 0.5 then
             _G.speedModifier = _G.speedModifier + 0.5
         elseif _G.speedModifier < 10 then
             _G.speedModifier = _G.speedModifier + 1
         end
-    end
-    if key == keybindManager:returnKey("normalizeGameSpeedKey") then
+    elseif event == EVENT.NormalizeGameSpeed then
         _G.speedModifier = 1
-    end
-    if key == keybindManager:returnKey("decreaseGameSpeedKey") then
+    elseif event == EVENT.DecreaseGameSpeed then
         _G.speedModifier = _G.speedModifier - 0.5
         if _G.speedModifier < 0.5 then
             _G.speedModifier = 0.5
         end
-    end
-    if key == keybindManager:returnKey("escapeKey") then
+    elseif event == EVENT.Escape then
         if (loveframes.GetState() == states.STATE_PAUSE_MENU or
             loveframes.GetState() == states.STATE_INGAME_CONSTRUCTION) then
             if _G.BuildController.active and not _G.BuildController.start then
@@ -266,11 +265,9 @@ function game:keypressed(key, scancode, isRepeat)
             return
         end
         loveframes.TogglePause()
-    end
-    if key == "v" then
+    elseif event == EVENT.ToggleDebugView then
         _G.DebugView:toggle()
-    end
-    if key == "h" then
+    elseif event == EVENT.CenterViewToKeep then
         _G.state.viewXview = _G.IsoToScreenX(_G.state.keepX, _G.state.keepY)
         _G.state.viewYview = _G.IsoToScreenY(_G.state.keepX, _G.state.keepY)
     end
