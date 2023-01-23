@@ -10,6 +10,7 @@ local renderLoadingBar = require("states.ui.loading_bar")
 local initialized = false
 local loadState, progress = 1, 15
 local SaveManager = require("objects.Controllers.SaveManager")
+local keybindManager = require("objects.Controllers.KeybindManager")
 local savegame
 local playlist = require("sounds.music_playlist")
 local RationController
@@ -218,29 +219,30 @@ end
 
 function game:keypressed(key, scancode, isRepeat)
     ActionBar:keypressed(key, scancode)
+
     -- Screenshot
-    if key == "f12" then
+    if key == keybindManager:returnKey("screenshotKey") then
         local filename = string.format("%s_%d.png", _G.version, os.time())
         love.graphics.captureScreenshot(filename)
         print(string.format("Screenshot [%s] saved in [%s]", filename, love.filesystem.getSaveDirectory()))
     end
-    if key == "+" or key == "kp+" then
+    if key == keybindManager:returnKey("increaseGameSpeedKey") then
         if _G.speedModifier == 0.5 then
             _G.speedModifier = _G.speedModifier + 0.5
         elseif _G.speedModifier < 10 then
             _G.speedModifier = _G.speedModifier + 1
         end
     end
-    if key == "=" then
+    if key == keybindManager:returnKey("normalizeGameSpeedKey") then
         _G.speedModifier = 1
     end
-    if key == "-" or key == "kp-" then
+    if key == keybindManager:returnKey("decreaseGameSpeedKey") then
         _G.speedModifier = _G.speedModifier - 0.5
         if _G.speedModifier < 0.5 then
             _G.speedModifier = 0.5
         end
     end
-    if key == "escape" then
+    if key == keybindManager:returnKey("escapeKey") then
         if (loveframes.GetState() == states.STATE_PAUSE_MENU or
             loveframes.GetState() == states.STATE_INGAME_CONSTRUCTION) then
             if _G.BuildController.active and not _G.BuildController.start then

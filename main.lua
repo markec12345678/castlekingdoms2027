@@ -5,7 +5,7 @@ end
 require("global")
 local Gamestate = require("libraries.gamestate")
 local SaveManager = require("objects.Controllers.SaveManager")
-
+local KeybindManager = require("objects.Controllers.KeybindManager")
 local splashscreen = require("states.splash_screen")
 local test = require("states.test")
 
@@ -32,6 +32,7 @@ function love.load()
     _G.fx = require("sounds.fx")
     require("sounds.fx_volume")
     _G.speechFx = require("sounds.speech")
+    KeybindManager:loadKeybinds()
 end
 
 function love.quit()
