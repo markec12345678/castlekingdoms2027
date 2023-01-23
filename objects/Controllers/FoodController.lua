@@ -1,6 +1,7 @@
 local FoodController = _G.class('FoodController')
 local FOOD = require("objects.Enums.Food")
 
+---Initializes the Food Controller by assigning variables.
 function FoodController:initialize()
     self.list = {}
     self.food = {}
@@ -12,6 +13,8 @@ function FoodController:initialize()
     self.nodeList = {}
 end
 
+---Counts the amount of food consumed and returns that value.
+---@return number foods returns the amount of food consumed.
 function FoodController:foodsConsumed()
     local foods = 0
     for _, v in pairs(self.food) do
@@ -20,6 +23,8 @@ function FoodController:foodsConsumed()
     return foods
 end
 
+---Stores food inside the granary if it isn't full.
+---@param food string name of the food.
 function FoodController:store(food) -- TODO add amount
     if _G.state.notFullFoods[food] < 1 then
         for _, v in ipairs(self.list) do
@@ -33,6 +38,9 @@ function FoodController:store(food) -- TODO add amount
     end
 end
 
+---Takes food from the foodpile.
+---@param food? string Food type. If not provided, takes one at random.
+---@param amount? number Amount of food taken. If not provided, takes only one food.
 function FoodController:take(food, amount)
     local takenFood = 0
     if not food then
