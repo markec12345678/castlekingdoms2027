@@ -23,6 +23,7 @@
 assets/
 oc_assets/
 temp/
+
 # Logs and databases #
 ######################
 *.log
@@ -41,3 +42,7 @@ Thumbs.db
 .vscode/settings.json
 assets/
 *.love
+
+# IDE #
+#######
+.vscode
