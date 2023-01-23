@@ -2,6 +2,8 @@ local Structure = require("objects.Structure")
 local ActionBar = require("states.ui.ActionBar")
 
 local DestructionController = _G.class("Destruction Controller")
+
+---Initializes the Destruction Controller by assigning variables. Sets it to not active by default.
 function DestructionController:initialize()
     self.active = false
     self.destructionCursorImg = love.image.newImageData("assets/ui/cursor_destroy.png")
@@ -12,6 +14,8 @@ function DestructionController:initialize()
     self.prevGY = 0
 end
 
+---Toggles between deleting and not deleting.
+---@return boolean self.active whether destruction mode is active or not.
 function DestructionController:toggle()
     self.active = not self.active
     if (self.active) then
@@ -27,6 +31,7 @@ function DestructionController:toggle()
     return self.active
 end
 
+---Checks if the player is currently trying to delete something, then tries to delete the object.
 function DestructionController:update()
     if _G.DestructionController.active and love.mouse.isDown(1) then
         local mx, my = love.mouse.getPosition()
@@ -40,11 +45,17 @@ function DestructionController:update()
     end
 end
 
+---Disables the Destruction Controller.
 function DestructionController:disable()
     self.active = false
     love.mouse.setCursor(self.cursor)
 end
 
+---Destroy an object at a given location.
+---@param gx number X coordinate of the structure.
+---@param gy number Y coordinate of the structure.
+---@param force boolean ignores the static class variable DESTRUCTIBLE.
+---@param targetAlias boolean doesn't destroy the parent structure, but only the alias at that specific spot.
 function DestructionController:destroyAtLocation(gx, gy, force, targetAlias)
     local structure = _G.objectFromSubclassAtGlobal(gx, gy, Structure)
     if structure then
