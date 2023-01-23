@@ -7,28 +7,30 @@ local Object = require("objects.Object")
 local anim = require("libraries.anim8")
 local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
 
-local crossbowIconButton, bowIconButton = unpack(require("states.ui.workshops.workshops_ui"))
+local _, _, pikeIconButton, spearIconButton = unpack(require("states.ui.workshops.workshops_ui"))
 
-local tiles, quadArray = _G.indexBuildingQuads("fletcher_workshop (18)")
-local tilesExt, quadArrayExt = _G.indexBuildingQuads("fletcher_workshop (9)")
+local tiles, quadArray = _G.indexBuildingQuads("poleturner_workshop (18)")
+local tilesExt, quadArrayExt = _G.indexBuildingQuads("poleturner_workshop (9)")
 
-local ANIM_CRAFTING_BOW = "Crafting_Bow"
-local ANIM_CRAFTING_CROSSBOW = "Crafting_CrossBow"
+local ANIM_CRAFTING_PIKE_PART1 = "Crafting_Pike_part1"
+local ANIM_CRAFTING_SPEAR = "Crafting_Spear"
+local ANIM_CRAFTING_PIKE = "Crafting_Pike"
 
 local an = {
-    [ANIM_CRAFTING_BOW] = _G.addReverse(_G.indexQuads("fletcher_bow", 31)),
-    [ANIM_CRAFTING_CROSSBOW] = _G.addReverse(_G.indexQuads("fletcher_crossbow", 36)),
+    [ANIM_CRAFTING_PIKE_PART1] = _G.indexQuads("anim_poleturner", 61),
+    [ANIM_CRAFTING_SPEAR] = _G.addReverse(_G.indexQuads("anim_poleturner_2", 33)),
+    [ANIM_CRAFTING_PIKE] = _G.addReverse(_G.indexQuads("anim_poleturner_3", 33)),
 }
 
-local targetFletcher
-local BowCrafting = _G.class("BowCrafting", Structure)
-function BowCrafting:initialize(gx, gy, parent)
+local targetPoleturner
+local SpearCrafting = _G.class("SpearCrafting", Structure)
+function SpearCrafting:initialize(gx, gy, parent)
     self.parent = parent
-    Structure.initialize(self, gx, gy, "Bow crafting")
+    Structure.initialize(self, gx, gy, "Spear crafting")
     self.tile = tileQuads["empty"]
     self.animated = false
     self.craftingCycle = 0
-    self.animation = anim.newAnimation(an[ANIM_CRAFTING_BOW], 0.11, self:craftCallback_1(), ANIM_CRAFTING_BOW)
+    self.animation = anim.newAnimation(an[ANIM_CRAFTING_SPEAR], 0.11, self:craftCallback_1(), ANIM_CRAFTING_SPEAR)
     self.animation:pause()
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.offsetX = -51
@@ -37,7 +39,7 @@ function BowCrafting:initialize(gx, gy, parent)
     table.insert(activeEntities, self)
 end
 
-function BowCrafting:serialize()
+function SpearCrafting:serialize()
     local data = {}
     local structData = Structure.serialize(self)
     for k, v in pairs(structData) do
@@ -55,7 +57,7 @@ function BowCrafting:serialize()
     return data
 end
 
-function BowCrafting.static:deserialize(data)
+function SpearCrafting.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
     Structure.load(obj, data)
@@ -63,8 +65,10 @@ function BowCrafting.static:deserialize(data)
     obj.parent.cookingObj = obj
     local callback
     local anData = data.animation
-    if anData.animationIdentifier == ANIM_CRAFTING_BOW then
+    if anData.animationIdentifier == ANIM_CRAFTING_SPEAR then
         callback = obj:craftCallback_1()
+    elseif anData.animationIdentifier == ANIM_CRAFTING_PIKE_PART1 then
+        callback = obj:craftCallback_2()
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
@@ -72,23 +76,23 @@ function BowCrafting.static:deserialize(data)
     return obj
 end
 
-function BowCrafting:animate()
+function SpearCrafting:animate()
     Structure.animate(self, _G.dt, true)
 end
 
-function BowCrafting:activate()
+function SpearCrafting:activate()
     self.animated = true
-    if self.parent.weaponType == WEAPON.bow then
-        self.animation = anim.newAnimation(an[ANIM_CRAFTING_BOW], 0.11, self:craftCallback_1(), ANIM_CRAFTING_BOW)
+    if self.parent.weaponType == WEAPON.spear then
+        self.animation = anim.newAnimation(an[ANIM_CRAFTING_SPEAR], 0.11, self:craftCallback_1(), ANIM_CRAFTING_SPEAR)
     end
-    if self.parent.weaponType == WEAPON.crossbow then
-        self.animation = anim.newAnimation(an[ANIM_CRAFTING_CROSSBOW], 0.11, self:craftCallback_1(),
-            ANIM_CRAFTING_CROSSBOW)
+    if self.parent.weaponType == WEAPON.pike then
+        self.animation = anim.newAnimation(an[ANIM_CRAFTING_PIKE], 0.11, self:craftCallback_1(),
+            ANIM_CRAFTING_PIKE)
     end
     self:animate(_G.dt)
 end
 
-function BowCrafting:deactivate()
+function SpearCrafting:deactivate()
     self.animation:pause()
     self.tile = tileQuads["empty"]
     if self.instancemesh then
@@ -98,8 +102,8 @@ function BowCrafting:deactivate()
     self.animated = false
 end
 
-local FletcherAlias = _G.class("FletcherAlias", Structure)
-function FletcherAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
+local PoleturnerAlias = _G.class("PoleturnerAlias", Structure)
+function PoleturnerAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     local mytype = "Static structure"
     self.parent = parent
     Structure.initialize(self, gx, gy, mytype)
@@ -112,7 +116,7 @@ function FletcherAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     Structure.render(self)
 end
 
-function FletcherAlias:serialize()
+function PoleturnerAlias:serialize()
     local data = {}
     local structData = Structure.serialize(self)
     for k, v in pairs(structData) do
@@ -129,7 +133,7 @@ function FletcherAlias:serialize()
     return data
 end
 
-function FletcherAlias.static:deserialize(data)
+function PoleturnerAlias.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
     Structure.load(obj, data)
@@ -142,43 +146,43 @@ function FletcherAlias.static:deserialize(data)
     return obj
 end
 
-local FletcherWorkshop = _G.class("FletcherWorkshop", Structure)
+local PoleturnerWorkshop = _G.class("PoleturnerWorkshop", Structure)
 
-FletcherWorkshop.static.WIDTH = 4
-FletcherWorkshop.static.LENGTH = 4
-FletcherWorkshop.static.HEIGHT = 17
-FletcherWorkshop.static.DESTRUCTIBLE = true
+PoleturnerWorkshop.static.WIDTH = 4
+PoleturnerWorkshop.static.LENGTH = 4
+PoleturnerWorkshop.static.HEIGHT = 17
+PoleturnerWorkshop.static.DESTRUCTIBLE = true
 
-function FletcherWorkshop:initialize(gx, gy)
-    _G.JobController:add("Fletcher", self)
-    Structure.initialize(self, gx, gy, "FletcherWorkshop")
+function PoleturnerWorkshop:initialize(gx, gy)
+    _G.JobController:add("Poleturner", self)
+    Structure.initialize(self, gx, gy, "PoleturnerWorkshop")
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 200
     self.tile = quadArray[tiles + 1]
     self.working = false
     self.unloading = false
     self.offsetX = 0
-    self.offsetY = -48
-    self.weaponType = WEAPON.bow
+    self.offsetY = -44
+    self.weaponType = WEAPON.spear
     self.freeSpots = 1
     self.worker = nil
-    self.cookingObj = BowCrafting:new(self.gx + 3, self.gy + 2, self)
+    self.cookingObj = SpearCrafting:new(self.gx + 3, self.gy + 2, self)
     for tile = 1, tiles do
-        local hsl = FletcherAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
+        local hsl = PoleturnerAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
             -self.offsetY + 8 * (tiles - tile + 1))
         hsl.tileKey = tile
     end
     for tile = 1, tiles do
-        local hsl = FletcherAlias:new(quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self,
+        local hsl = PoleturnerAlias:new(quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self,
             -self.offsetY + 8 * tile
             , 16)
         hsl.tileKey = tiles + 1 + tile
     end
     local tileQuads = require("objects.object_quads")
-    for xx = 0, FletcherWorkshop.static.WIDTH - 1 do
-        for yy = 0, FletcherWorkshop.static.LENGTH - 1 do
+    for xx = 0, PoleturnerWorkshop.static.WIDTH - 1 do
+        for yy = 0, PoleturnerWorkshop.static.LENGTH - 1 do
             if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + gy, Structure) then
-                FletcherAlias:new(tileQuads["empty"], self.gx + xx, self.gy + yy, self, 0, 0)
+                PoleturnerAlias:new(tileQuads["empty"], self.gx + xx, self.gy + yy, self, 0, 0)
             end
         end
     end
@@ -186,35 +190,46 @@ function FletcherWorkshop:initialize(gx, gy)
     self:applyBuildingHeightMap()
 end
 
-function FletcherWorkshop:onClick()
-    targetFletcher = self
-    crossbowIconButton.visible = true
+function PoleturnerWorkshop:onClick()
+    targetPoleturner = self
+    pikeIconButton.visible = true
     local x, y = love.mouse.getPosition()
-    crossbowIconButton:SetPos(x - 50, y + 50)
-    bowIconButton.visible = true
-    bowIconButton:SetPos(x, y + 50)
+    pikeIconButton:SetPos(x - 50, y + 50)
+    spearIconButton.visible = true
+    spearIconButton:SetPos(x, y + 50)
 end
 
-function BowCrafting:craftCallback_1()
+function SpearCrafting:craftCallback_1()
     return function()
-        if self.parent.weaponType == WEAPON.bow then
-            self.animation = anim.newAnimation(an[ANIM_CRAFTING_BOW], 0.11, self:craftCallback_1(), ANIM_CRAFTING_BOW)
+        self.craftingCycle = self.craftingCycle + 1
+        if self.parent.weaponType == WEAPON.spear then
+            self.animation = anim.newAnimation(an[ANIM_CRAFTING_SPEAR], 0.11, self:craftCallback_1(), ANIM_CRAFTING_SPEAR)
+            if self.craftingCycle == 6 then
+                self.parent:sendToStockpile()
+                self.craftingCycle = 0
+                self:deactivate()
+            end
         end
-        if self.parent.weaponType == WEAPON.crossbow then
-            self.animation = anim.newAnimation(an[ANIM_CRAFTING_CROSSBOW], 0.11, self:craftCallback_1(),
-                ANIM_CRAFTING_CROSSBOW)
-        end
-        if self.craftingCycle == 6 then
-            self.parent:sendToStockpile()
-            self.craftingCycle = 0
-            self:deactivate()
-        else
-            self.craftingCycle = self.craftingCycle + 1
+        if self.parent.weaponType == WEAPON.pike then
+            self.animation = anim.newAnimation(an[ANIM_CRAFTING_PIKE], 0.11, self:craftCallback_1(),
+                ANIM_CRAFTING_PIKE)
+            if self.craftingCycle == 8 then
+                self.animation = anim.newAnimation(an[ANIM_CRAFTING_PIKE_PART1], 0.11, self:craftCallback_2(),
+                    ANIM_CRAFTING_PIKE_PART1)
+            end
         end
     end
 end
 
-function FletcherWorkshop:destroy()
+function SpearCrafting:craftCallback_2()
+    return function()
+        self.parent:sendToStockpile()
+        self.craftingCycle = 0
+        self:deactivate()
+    end
+end
+
+function PoleturnerWorkshop:destroy()
     if self.worker then
         self.worker:die()
     end
@@ -225,7 +240,7 @@ function FletcherWorkshop:destroy()
     Structure.destroy(self)
 end
 
-function FletcherWorkshop:load(data)
+function PoleturnerWorkshop:load(data)
     Object.deserialize(self, data)
     Structure.load(self, data)
     if data.worker then
@@ -236,7 +251,7 @@ function FletcherWorkshop:load(data)
     Structure.render(self)
 end
 
-function FletcherWorkshop:serialize()
+function PoleturnerWorkshop:serialize()
     local data = {}
     local structData = Structure.serialize(self)
     for k, v in pairs(structData) do
@@ -257,40 +272,40 @@ function FletcherWorkshop:serialize()
     return data
 end
 
-function FletcherWorkshop.static:deserialize(data)
+function PoleturnerWorkshop.static:deserialize(data)
     local obj = self:allocate()
     obj:load(data)
     return obj
 end
 
-function FletcherWorkshop:setWeapon(weapon)
+function PoleturnerWorkshop:setWeapon(weapon)
     self.weaponType = weapon
 end
 
-function FletcherWorkshop:getWeapon()
+function PoleturnerWorkshop:getWeapon()
     return self.weaponType
 end
 
-bowIconButton.OnClick = function(self)
-    if targetFletcher then
-        targetFletcher:setWeapon(WEAPON.bow)
+spearIconButton.OnClick = function(self)
+    if targetPoleturner then
+        targetPoleturner:setWeapon(WEAPON.spear)
     end
-    bowIconButton.visible = false
-    crossbowIconButton.visible = false
+    spearIconButton.visible = false
+    pikeIconButton.visible = false
 end
 
-crossbowIconButton.OnClick = function(self)
-    if targetFletcher then
-        targetFletcher:setWeapon(WEAPON.crossbow)
+pikeIconButton.OnClick = function(self)
+    if targetPoleturner then
+        targetPoleturner:setWeapon(WEAPON.pike)
     end
-    bowIconButton.visible = false
-    crossbowIconButton.visible = false
+    spearIconButton.visible = false
+    pikeIconButton.visible = false
 end
 
-function FletcherWorkshop:enterHover(induced)
+function PoleturnerWorkshop:enterHover(induced)
     self.hover = true
     for tile = 1, tiles do
-        local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tiles - tile + 1), FletcherAlias)
+        local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tiles - tile + 1), PoleturnerAlias)
         if not alias then return end
         alias.tile = quadArray[tile]
         alias.tileKey = tile
@@ -298,7 +313,7 @@ function FletcherWorkshop:enterHover(induced)
     end
 
     for tile = 1, tiles do
-        local alias = _G.objectFromClassAtGlobal(self.gx + tile, self.gy, FletcherAlias)
+        local alias = _G.objectFromClassAtGlobal(self.gx + tile, self.gy, PoleturnerAlias)
         if not alias then return end
         alias.tile = quadArray[tiles + 1 + tile]
         alias.tileKey = tiles + 1 + tile
@@ -308,12 +323,12 @@ function FletcherWorkshop:enterHover(induced)
     self:render()
 end
 
-function FletcherWorkshop:exitHover(induced)
+function PoleturnerWorkshop:exitHover(induced)
     if induced or not self.cookingObj.animated then
         self.hover = false
     else return end
     for tile = 1, tilesExt do
-        local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tilesExt - tile + 1), FletcherAlias)
+        local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tilesExt - tile + 1), PoleturnerAlias)
         if alias then
             alias.tile = quadArrayExt[tile]
             alias.tileKey = tile
@@ -322,7 +337,7 @@ function FletcherWorkshop:exitHover(induced)
     end
 
     for tile = 1, tilesExt do
-        local alias = _G.objectFromClassAtGlobal(self.gx + tile, self.gy, FletcherAlias)
+        local alias = _G.objectFromClassAtGlobal(self.gx + tile, self.gy, PoleturnerAlias)
         if alias then
             alias.tile = quadArrayExt[tilesExt + 1 + tile]
             alias.tileKey = tilesExt + 1 + tile
@@ -333,9 +348,9 @@ function FletcherWorkshop:exitHover(induced)
     self:render()
 end
 
-function FletcherWorkshop:join(worker)
+function PoleturnerWorkshop:join(worker)
     if self.health == -1 then
-        _G.JobController:remove("Fletcher", self)
+        _G.JobController:remove("Poleturner", self)
         worker:die()
         return
     end
@@ -349,7 +364,7 @@ function FletcherWorkshop:join(worker)
     end
 end
 
-function FletcherWorkshop:work(worker)
+function PoleturnerWorkshop:work(worker)
     if self.worker.state == "Going to workplace with WOOD" then
         self.worker.state = "Working"
         self.working = true
@@ -370,7 +385,7 @@ function FletcherWorkshop:work(worker)
     end
 end
 
-function FletcherWorkshop:sendToStockpile()
+function PoleturnerWorkshop:sendToStockpile()
     local i, o, cx, cy
     self.worker.state = "Go to armoury"
     self.worker.weaponType = self.weaponType
@@ -390,4 +405,4 @@ function FletcherWorkshop:sendToStockpile()
     self:exitHover(true)
 end
 
-return FletcherWorkshop
+return PoleturnerWorkshop
