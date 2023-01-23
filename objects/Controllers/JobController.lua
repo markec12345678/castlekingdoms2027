@@ -6,6 +6,7 @@ local Miner = require("objects.Units.Miner")
 local Miller = require("objects.Units.Miller")
 local Baker = require("objects.Units.Baker")
 local Fletcher = require("objects.Units.Fletcher")
+local Poleturner = require("objects.Units.Poleturner")
 local Armourer = require("objects.Units.Armourer")
 local Blacksmith = require("objects.Units.Blacksmith")
 local Brewer = require("objects.Units.Brewer")
@@ -17,6 +18,7 @@ function JobController:initialize()
     self.workers = 0
     self.requestedWorkers = 0
 end
+
 function JobController:initializeWorkplaces()
     self.list = {
         ["Stonemason"] = {},
@@ -27,15 +29,18 @@ function JobController:initializeWorkplaces()
         ["Miller"] = {},
         ["Baker"] = {},
         ["Fletcher"] = {},
+        ["Poleturner"] = {},
         ["Armourer"] = {},
         ["Blacksmith"] = {},
         ["Brewer"] = {},
         ["OxHandler"] = {}
     }
 end
+
 function JobController:add(job, workplace)
     table.insert(self.list[job], workplace)
 end
+
 function JobController:remove(job, workplace)
     for i = 1, #self.list[job] do
         if self.list[job][i] == workplace then
@@ -43,10 +48,12 @@ function JobController:remove(job, workplace)
         end
     end
 end
+
 function JobController:addAvailableWorker()
     self.workers = self.workers + 1
     self.requestedWorkers = self.requestedWorkers - 1
 end
+
 function JobController:makeWorker()
     for job, workplaces in pairs(self.list) do
         for _, workplace in pairs(workplaces) do
@@ -79,6 +86,8 @@ function JobController:makeWorker()
                     worker = Baker:new(_G.spawnPointX, _G.spawnPointY, "Baker")
                 elseif job == "Fletcher" then
                     worker = Fletcher:new(_G.spawnPointX, _G.spawnPointY, "Fletcher")
+                elseif job == "Poleturner" then
+                    worker = Poleturner:new(_G.spawnPointX, _G.spawnPointY, "Poleturner")
                 elseif job == "Armourer" then
                     worker = Armourer:new(_G.spawnPointX, _G.spawnPointY, "Armourer")
                 elseif job == "Blacksmith" then
@@ -95,6 +104,7 @@ function JobController:makeWorker()
         end
     end
 end
+
 function JobController:serialize()
     local data = {}
     local ls = {}
@@ -109,6 +119,7 @@ function JobController:serialize()
     data.requestedWorkers = self.requestedWorkers
     return data
 end
+
 function JobController:deserialize(data)
     self:initializeWorkplaces()
     self.workers = data.workers
@@ -119,4 +130,5 @@ function JobController:deserialize(data)
         end
     end
 end
+
 return JobController:new()

@@ -266,7 +266,7 @@ function BlacksmithWorkshop:initialize(gx, gy)
     self.working = false
     self.unloading = false
     self.offsetX = 0
-    self.offsetY = -62
+    self.offsetY = -64
     self.freeSpots = 1
     self.worker = nil
     self.swordCrafting = SwordCrafting:new(self.gx + 3, self.gy + 2, self)

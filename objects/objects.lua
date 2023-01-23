@@ -68,6 +68,7 @@ local Iron = love.filesystem.load("objects/Environment/Iron.lua")(objectBatch, a
 local Woodcutter = love.filesystem.load("objects/Units/Woodcutter.lua")(object, tileQuads)
 local Baker = love.filesystem.load("objects/Units/Baker.lua")(object, tileQuads)
 local Fletcher = love.filesystem.load("objects/Units/Fletcher.lua")(object, tileQuads)
+local Poleturner = love.filesystem.load("objects/Units/Poleturner.lua")(object, tileQuads)
 local Blacksmith = love.filesystem.load("objects/Units/Blacksmith.lua")(object, tileQuads)
 local Stonemason = love.filesystem.load("objects/Units/Stonemason.lua")(object, tileQuads)
 local Peasant = love.filesystem.load("objects/Units/Peasant.lua")(object, tileQuads)
@@ -85,9 +86,13 @@ local WoodcutterHut = love.filesystem.load("objects/Structures/WoodcutterHut.lua
     objectBatch)
 local Windmill = love.filesystem.load("objects/Structures/Windmill.lua")(activeEntities, object, tileQuads, objectBatch)
 local Bakery = love.filesystem.load("objects/Structures/Bakery.lua")(activeEntities, object, tileQuads, objectBatch)
-local FletcherWorkshop = love.filesystem.load("objects/Structures/Fletcher.lua")(activeEntities, object, tileQuads, objectBatch)
+local FletcherWorkshop = love.filesystem.load("objects/Structures/Fletcher.lua")(activeEntities, object, tileQuads,
+    objectBatch)
+local PoleturnerWorkshop = love.filesystem.load("objects/Structures/Poleturner.lua")(activeEntities, object, tileQuads,
+    objectBatch)
 local Armorer = love.filesystem.load("objects/Structures/Armorer.lua")(activeEntities, object, tileQuads, objectBatch)
-local BlacksmithWorkshop = love.filesystem.load("objects/Structures/Blacksmith.lua")(activeEntities, object, tileQuads, objectBatch)
+local BlacksmithWorkshop = love.filesystem.load("objects/Structures/Blacksmith.lua")(activeEntities, object, tileQuads,
+    objectBatch)
 local Brewery = love.filesystem.load("objects/Structures/Brewery.lua")(activeEntities, object, tileQuads, objectBatch)
 local House = love.filesystem.load("objects/Structures/House.lua")(activeEntities, object, tileQuads, objectBatch)
 local WoodenWall = love.filesystem.load("objects/Structures/WoodenWall.lua")(activeEntities, object, tileQuads,
@@ -119,6 +124,7 @@ package.loaded["objects.Environment.Rock_1x1"] = Rock_1x1
 package.loaded["objects.Units.Woodcutter"] = Woodcutter
 package.loaded["objects.Units.Baker"] = Baker
 package.loaded["objects.Units.Fletcher"] = Fletcher
+package.loaded["objects.Units.Poleturner"] = Poleturner
 package.loaded["objects.Units.Blacksmith"] = Blacksmith
 package.loaded["objects.Units.Stonemason"] = Stonemason
 package.loaded["objects.Units.Peasant"] = Peasant
@@ -134,6 +140,7 @@ package.loaded["objects.Structures.WoodcutterHut"] = WoodcutterHut
 package.loaded["objects.Structures.Windmill"] = Windmill
 package.loaded["objects.Structures.Bakery"] = Bakery
 package.loaded["objects.Structures.Fletcher"] = FletcherWorkshop
+package.loaded["objects.Structures.Poleturner"] = PoleturnerWorkshop
 package.loaded["objects.Structures.Armorer"] = Armorer
 package.loaded["objects.Structures.Blacksmith"] = BlacksmithWorkshop
 package.loaded["objects.Structures.Brewery"] = Brewery
@@ -316,14 +323,14 @@ end
 function _G.allocateMesh(cx, cy)
     local chunkX = cx
     local chunkY = cy
-    local treeverts = {{0, 0, 0, 0, 1.0, 1.0, 1.0, 1.0, 1.0}, {1, 0, 1, 0, 1.0, 1.0, 1.0, 1.0, 1.0},
-        {0, 1, 0, 1, 1.0, 1.0, 1.0, 1.0, 1.0}, {1, 1, 1, 1, 1.0, 1.0, 1.0, 1.0, 1.0}}
+    local treeverts = { { 0, 0, 0, 0, 1.0, 1.0, 1.0, 1.0, 1.0 }, { 1, 0, 1, 0, 1.0, 1.0, 1.0, 1.0, 1.0 },
+        { 0, 1, 0, 1, 1.0, 1.0, 1.0, 1.0, 1.0 }, { 1, 1, 1, 1, 1.0, 1.0, 1.0, 1.0, 1.0 } }
     if objectBatch[chunkX][chunkY] == nil then
         objectBatch[chunkX][chunkY] = love.graphics.newMesh(treeverts, "strip", "static")
     end
-    local instancemesh = love.graphics.newMesh({{"InstancePosition", "float", 2}, {"UVOffset", "float", 2},
-        {"ImageDim", "float", 2}, {"ImageShade", "float", 1},
-        {"Scale", "float", 2}},
+    local instancemesh = love.graphics.newMesh({ { "InstancePosition", "float", 2 }, { "UVOffset", "float", 2 },
+        { "ImageDim", "float", 2 }, { "ImageShade", "float", 1 },
+        { "Scale", "float", 2 } },
         _G.chunkWidth * _G.chunkHeight * _G.state.verticesPerTile + 1000, nil, "dynamic")
     _G.state.objectMesh[chunkX][chunkY] = instancemesh
     objectBatch[chunkX][chunkY]:setTexture(objectAtlas)
