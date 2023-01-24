@@ -159,6 +159,13 @@ _G.weaponpile = require("objects.Controllers.WeaponController")
 --- NOTE --------------------------
 --- NOTE Object classes END ---
 
+--- Add an object at a location and add it to a table.
+---@param cx number X position in Chunk.
+---@param cy number Y position in Chunk.
+---@param x number local X position in Chunk 0-63
+---@param y number local Y position in Chunk 0-63
+---@param objectToAdd Object Object to add.
+---@return Object
 function addObjectAt(cx, cy, x, y, objectToAdd)
     if type(object[cx][cy][x][y]) ~= "table" then
         object[cx][cy][x][y] = {}
@@ -169,11 +176,18 @@ end
 
 objectAtlas:setWrap("clampzero")
 
+--- Add an object at a location and add it to a table.
+---@param cx number X position in Chunk.
+---@param cy number Y position in Chunk.
+---@param x number local X position in Chunk 0-63
+---@param y number local Y position in Chunk 0-63
+---@param objectToRemove? Object If provided: Removes that specific object from the tile. If nil: Remove all objects from the tile.
 function _G.removeObjectAt(cx, cy, x, y, objectToRemove)
     if x > 63 or y > 63 then
         print((debug.traceback("Error: trying to remove out of bounds unit", 1):gsub("\n[^\n]+$", "")))
         love.event.quit()
     end
+    -- If objectToRemove, then remove only that object from the specified tile.
     if type(object[cx][cy][x][y]) == "table" then
         if objectToRemove then
             for index, currentObject in ipairs(object[cx][cy][x][y]) do
@@ -182,6 +196,7 @@ function _G.removeObjectAt(cx, cy, x, y, objectToRemove)
                     break
                 end
             end
+        -- If nil, then remove all objects from the specified tile.
         else
             for _, currentObject in ipairs(object[cx][cy][x][y]) do
                 currentObject:destroy()
@@ -191,6 +206,10 @@ function _G.removeObjectAt(cx, cy, x, y, objectToRemove)
     end
 end
 
+--- Remove a class from a Global position.
+---@param gx number Global X coordinate.
+---@param gy number Global Y coordinate.
+---@param classToRemove string|table Name of the Class to remove.
 function _G.removeObjectFromClassAtGlobal(gx, gy, classToRemove)
     local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(gx, gy)
     if x > 63 or y > 64 then
@@ -209,6 +228,12 @@ function _G.removeObjectFromClassAtGlobal(gx, gy, classToRemove)
     end
 end
 
+--- Returns the currentObject if it is of the given type.
+---@param cx number X position in Chunk.
+---@param cy number Y position in Chunk.
+---@param x number local X position in Chunk 0-63
+---@param y number local Y position in Chunk 0-63
+---@param objType string Name of the Type.
 function objectFromTypeAt(cx, cy, x, y, objType)
     if type(object[cx][cy][x][y]) == "table" then
         for _, currentObject in ipairs(object[cx][cy][x][y]) do
@@ -220,6 +245,12 @@ function objectFromTypeAt(cx, cy, x, y, objType)
     return false
 end
 
+--- Returns the currentObject if it is of the given type.
+---@param cx number X position in Chunk.
+---@param cy number Y position in Chunk.
+---@param x number local X position in Chunk 0-63
+---@param y number local Y position in Chunk 0-63
+---@param objectCompared Object Object to compare.
 function _G.isObjectAt(cx, cy, x, y, objectCompared)
     if type(object[cx][cy][x][y]) == "table" then
         for _, currentObject in ipairs(object[cx][cy][x][y]) do
@@ -231,6 +262,10 @@ function _G.isObjectAt(cx, cy, x, y, objectCompared)
     return false
 end
 
+--- Returns the currentObject if it is a table.
+---@param gx number Global X coordinate.
+---@param gy number Global Y coordinate.
+---@param objClass string Name of the object's class.
 ---@return boolean|Object
 function _G.objectFromClassAtGlobal(gx, gy, objClass)
     local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(gx, gy)
@@ -244,6 +279,11 @@ function _G.objectFromClassAtGlobal(gx, gy, objClass)
     return false
 end
 
+--- Returns the currentObject if it is a table.
+---@param gx number Global X coordinate.
+---@param gy number Global Y coordinate.
+---@param objClass string Name of the object's class.
+---@return Object|false
 function _G.objectFromSubclassAtGlobal(gx, gy, objClass)
     local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(gx, gy)
     if type(object[cx][cy][x][y]) == "table" then
@@ -256,6 +296,11 @@ function _G.objectFromSubclassAtGlobal(gx, gy, objClass)
     return false
 end
 
+--- Returns the currentObject if it is a table.
+---@param gx number Global X coordinate.
+---@param gy number Global Y coordinate.
+---@param objClass string Name of the object's class.
+---@return Object[]
 function _G.allObjectsFromSubclassAtGlobal(gx, gy, objClass)
     local data = {}
     local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(gx, gy)
@@ -269,6 +314,12 @@ function _G.allObjectsFromSubclassAtGlobal(gx, gy, objClass)
     return data
 end
 
+---Returns whether something is an object at a given location.
+---@param cx number X position in Chunk.
+---@param cy number Y position in Chunk.
+---@param x number local X position in Chunk 0-63
+---@param y number local Y position in Chunk 0-63
+---@return boolean
 function objectAt(cx, cy, x, y)
     if (type(object[cx][cy][x][y]) == "table" and next(object[cx][cy][x][y]) == nil) or not object[cx][cy][x][y] or
         objectFromTypeAt(cx, cy, x, y, "Stump") then
