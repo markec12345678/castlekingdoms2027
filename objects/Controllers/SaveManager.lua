@@ -7,11 +7,12 @@ function SaveManager:initialize()
     self.lastNameIndex = 1
     self.defaultMap = {}
 end
+
 function SaveManager:getSaveFiles()
     local files = love.filesystem.getDirectoryItems(_G.SAVEGAME_DIR)
     for _, file in ipairs(files) do
         if string.find(file, "_metadata.bin") then
-            self.savefiles[#self.savefiles + 1] = bitser.loadLoveFile(_G.SAVEGAME_DIR .. "/" .. file)
+            self.savefiles[#self.savefiles + 1] = bitser.loadLoveFile(_G.SAVEGAME_DIR .. "/" .. file, false)
             if self.savefiles[#self.savefiles].isMap then
                 self.defaultMap = self.savefiles[#self.savefiles]
             end
@@ -20,6 +21,7 @@ function SaveManager:getSaveFiles()
     print(string.format("Found %d save files", #self.savefiles))
     self:sortByDate()
 end
+
 function SaveManager:sortByDate()
     table.sort(self.savefiles, function(save1, save2)
         local date1 = save1.dateModified:gsub("-", ""):gsub(":", ""):gsub(" ", "")
@@ -27,6 +29,7 @@ function SaveManager:sortByDate()
         return date1 > date2
     end)
 end
+
 function SaveManager:getNextFreeName()
     if #self.savefiles == 0 then
         return "savefile 1"
@@ -45,6 +48,7 @@ function SaveManager:getNextFreeName()
         end
     end
 end
+
 function SaveManager:delete(name)
     local idxToRemove
     for index, save in ipairs(self.savefiles) do
@@ -58,29 +62,35 @@ function SaveManager:delete(name)
     table.remove(self.savefiles, idxToRemove)
     self:updateInterface()
 end
+
 function SaveManager:save()
     local state, metastate = _G.state:save()
     self.savefiles[#self.savefiles + 1] = metastate
     local savename = string.format("%s/%s.bin", _G.SAVEGAME_DIR, string.lower(metastate.name))
     local savenameMeta = string.format("%s/%s_metadata.bin", _G.SAVEGAME_DIR, string.lower(metastate.name))
     bitser.dumpLoveFile(savename, state)
-    bitser.dumpLoveFile(savenameMeta, metastate)
+    bitser.dumpLoveFile(savenameMeta, metastate, true)
     self:sortByDate()
 end
+
 function SaveManager:load(name)
     local filename = string.format("%s/%s.bin", _G.SAVEGAME_DIR, name)
     _G.state.newGame = false
     for _, save in ipairs(self.savefiles) do
-        if save.name == name and save.isMap then
-            _G.state.newGame = true
-            break
+        if save.name == name then
+            if save.isMap then
+                _G.state.newGame = true
+            end
+            _G.state:load(filename, save.compressed)
+            return
         end
     end
-    _G.state:load(filename)
 end
+
 function SaveManager:registerListItem(item, i)
     self.userInterface[i] = item
 end
+
 function SaveManager:updateInterface()
     for i = 1, 8 do
         if self.userInterface[i] then
@@ -100,4 +110,5 @@ function SaveManager:updateInterface()
     end
 
 end
+
 return SaveManager:new()
