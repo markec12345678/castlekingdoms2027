@@ -1,164 +1,348 @@
 local loveframes = require("libraries.loveframes")
 local states = require("states.ui.states")
-local ab = require("states.ui.action_bar_frames")
+local framesActionBar = require("states.ui.action_bar_frames")
 local actionBar = require("states.ui.ActionBar")
 local scale = actionBar.element.scalex
 
+local group = {}
+
+local switchTradeGroup = require("states.ui.market.market_trade")
 local ActionBarButton = require("states.ui.ActionBarButton")
 local backButton = ActionBarButton:new(love.graphics.newImage("assets/ui/back_ab.png"), states.STATE_STOCKPILE, 12)
-local StockpileGoodsImage = love.graphics.newImage("assets/ui/action_bar_stockpile.png")
 backButton:setOnClick(function(self)
     actionBar:switchMode()
 end)
 actionBar:registerGroup("stockpile", {backButton})
 
-local frWood = {
-    x = ab.frFull.x + 365 * scale,
-    y = ab.frFull.y + 165 * scale,
-    width = StockpileGoodsImage:getWidth() * scale,
-    height = StockpileGoodsImage:getWidth() * scale
+local woodIconNormal = love.graphics.newImage("assets/ui/goods/woodIcon.png")
+local woodIconHover = love.graphics.newImage("assets/ui/goods/woodIconHover.png")
+local stoneIconNormal = love.graphics.newImage("assets/ui/goods/stoneIcon.png")
+local stoneIconHover = love.graphics.newImage("assets/ui/goods/stoneIconHover.png")
+local wheatIconNormal = love.graphics.newImage("assets/ui/goods/wheatIcon.png")
+local wheatIconHover = love.graphics.newImage("assets/ui/goods/wheatIconHover.png")
+local tarIconNormal = love.graphics.newImage("assets/ui/goods/tarIcon.png")
+local tarIconHover = love.graphics.newImage("assets/ui/goods/tarIconHover.png")
+local aleIconNormal = love.graphics.newImage("assets/ui/goods/aleIcon.png")
+local aleIconHover = love.graphics.newImage("assets/ui/goods/aleIconHover.png")
+local ironIconNormal = love.graphics.newImage("assets/ui/goods/ironIcon.png")
+local ironIconHover = love.graphics.newImage("assets/ui/goods/ironIconHover.png")
+local hopIconNormal = love.graphics.newImage("assets/ui/goods/hopIcon.png")
+local hopIconHover = love.graphics.newImage("assets/ui/goods/hopIconHover.png")
+local flourIconNormal = love.graphics.newImage("assets/ui/goods/flourIcon.png")
+local flourIconHover = love.graphics.newImage("assets/ui/goods/flourIconHover.png")
+
+local frWoodButton = {
+    x = framesActionBar.frFull.x + 366 * scale,
+    y = framesActionBar.frFull.y + 114 * scale,
+    width = woodIconNormal:getWidth() * scale,
+    height = woodIconNormal:getHeight() * scale
 }
-local frStone = {
-    x = ab.frFull.x + 435 * scale,
-    y = ab.frFull.y + 165 * scale,
-    width = StockpileGoodsImage:getWidth() * scale,
-    height = StockpileGoodsImage:getWidth() * scale
+
+local frStoneButton = {
+    x = framesActionBar.frFull.x + 426 * scale,
+    y = framesActionBar.frFull.y + 116 * scale,
+    width = stoneIconNormal:getWidth() * scale,
+    height = stoneIconNormal:getHeight() * scale
 }
-local frWheat = {
-    x = ab.frFull.x + 504 * scale,
-    y = ab.frFull.y + 165 * scale,
-    width = StockpileGoodsImage:getWidth() * scale,
-    height = StockpileGoodsImage:getWidth() * scale
+
+local frWheatButton = {
+    x = framesActionBar.frFull.x + 481 * scale,
+    y = framesActionBar.frFull.y + 109 * scale,
+    width = wheatIconNormal:getWidth() * scale,
+    height = wheatIconNormal:getHeight() * scale
 }
-local frTar = {
-    x = ab.frFull.x + 572 * scale,
-    y = ab.frFull.y + 165 * scale,
-    width = StockpileGoodsImage:getWidth() * scale,
-    height = StockpileGoodsImage:getWidth() * scale
+
+local frTarButton = {
+    x = framesActionBar.frFull.x + 514 * scale,
+    y = framesActionBar.frFull.y + 112 * scale,
+    width = tarIconNormal:getWidth() * scale,
+    height = tarIconNormal:getHeight() * scale
 }
-local frAle = {
-    x = ab.frFull.x + 642 * scale,
-    y = ab.frFull.y + 165 * scale,
-    width = StockpileGoodsImage:getWidth() * scale,
-    height = StockpileGoodsImage:getWidth() * scale
+
+local frAleButton = {
+    x = framesActionBar.frFull.x + 564 * scale,
+    y = framesActionBar.frFull.y + 117 * scale,
+    width = aleIconNormal:getWidth() * scale,
+    height = aleIconNormal:getHeight() * scale
 }
-local frIron = {
-    x = ab.frFull.x + 713 * scale,
-    y = ab.frFull.y + 165 * scale,
-    width = StockpileGoodsImage:getWidth() * scale,
-    height = StockpileGoodsImage:getWidth() * scale
+
+local frIronButton = {
+    x = framesActionBar.frFull.x + 609 * scale,
+    y = framesActionBar.frFull.y + 116 * scale,
+    width = ironIconNormal:getWidth() * scale,
+    height = ironIconNormal:getHeight() * scale
 }
-local frHop = {
-    x = ab.frFull.x + 782 * scale,
-    y = ab.frFull.y + 165 * scale,
-    width = StockpileGoodsImage:getWidth() * scale,
-    height = StockpileGoodsImage:getWidth() * scale
+
+local frHopButton = {
+    x = framesActionBar.frFull.x + 669 * scale,
+    y = framesActionBar.frFull.y + 119 * scale,
+    width = hopIconNormal:getWidth() * scale,
+    height = hopIconNormal:getHeight() * scale
 }
-local frFlour = {
-    x = ab.frFull.x + 852 * scale,
-    y = ab.frFull.y + 165 * scale,
-    width = StockpileGoodsImage:getWidth() * scale,
-    height = StockpileGoodsImage:getWidth() * scale
+
+local frFlourButton = {
+    x = framesActionBar.frFull.x + 722 * scale,
+    y = framesActionBar.frFull.y + 112 * scale,
+    width = flourIconNormal:getWidth() * scale,
+    height = flourIconNormal:getHeight() * scale
 }
-local shadowColorR, shadowColorG, shadowColorB = (135 / 255) - 0.2, (112 / 255) - 0.2, (94 / 255) - 0.2
 
-local woodCountText = loveframes.Create("text")
-woodCountText:SetPos(frWood.x, frWood.y)
-woodCountText:SetState(states.STATE_STOCKPILE)
-woodCountText:SetFont(loveframes.font_immortal_large)
-woodCountText:SetShadowColor(shadowColorR, shadowColorG, shadowColorB)
-woodCountText:SetShadow(true)
+local currentStockWood = loveframes.Create("text")
+currentStockWood:SetState(states.STATE_STOCKPILE)
+currentStockWood:SetFont(loveframes.font_immortal_large)
+currentStockWood:SetPos(frWoodButton.x - 10 + (frWoodButton.width / 2), frWoodButton.y + 51 * scale)
+currentStockWood:SetShadow(false)
 
-local hopCountText = loveframes.Create("text")
-hopCountText:SetPos(frHop.x, frHop.y)
-hopCountText:SetState(states.STATE_STOCKPILE)
-hopCountText:SetFont(loveframes.font_immortal_large)
-hopCountText:SetShadowColor(shadowColorR, shadowColorG, shadowColorB)
-hopCountText:SetShadow(true)
+local currentStockStone = loveframes.Create("text")
+currentStockStone:SetState(states.STATE_STOCKPILE)
+currentStockStone:SetFont(loveframes.font_immortal_large)
+currentStockStone:SetPos(frStoneButton.x - 9 + (frStoneButton.width / 2), frStoneButton.y + 49 * scale)
+currentStockStone:SetShadow(false)
 
-local stoneCountText = loveframes.Create("text")
-stoneCountText:SetPos(frStone.x, frStone.y)
-stoneCountText:SetState(states.STATE_STOCKPILE)
-stoneCountText:SetFont(loveframes.font_immortal_large)
-stoneCountText:SetShadowColor(shadowColorR, shadowColorG, shadowColorB)
-stoneCountText:SetShadow(true)
+local currentStockWheat = loveframes.Create("text")
+currentStockWheat:SetState(states.STATE_STOCKPILE)
+currentStockWheat:SetFont(loveframes.font_immortal_large)
+currentStockWheat:SetPos(frWheatButton.x - 10 + (frWheatButton.width / 2), frWheatButton.y + 55 * scale)
+currentStockWheat:SetShadow(false)
 
-local ironCountText = loveframes.Create("text")
-ironCountText:SetPos(frIron.x, frIron.y)
-ironCountText:SetState(states.STATE_STOCKPILE)
-ironCountText:SetFont(loveframes.font_immortal_large)
-ironCountText:SetShadowColor(shadowColorR, shadowColorG, shadowColorB)
-ironCountText:SetShadow(true)
+local currentStockTar = loveframes.Create("text")
+currentStockTar:SetState(states.STATE_STOCKPILE)
+currentStockTar:SetFont(loveframes.font_immortal_large)
+currentStockTar:SetPos(frTarButton.x - 7 + (frTarButton.width / 2), frTarButton.y + 53 * scale)
+currentStockTar:SetShadow(false)
 
-local tarCountText = loveframes.Create("text")
-tarCountText:SetPos(frTar.x, frTar.y)
-tarCountText:SetState(states.STATE_STOCKPILE)
-tarCountText:SetFont(loveframes.font_immortal_large)
-tarCountText:SetShadowColor(shadowColorR, shadowColorG, shadowColorB)
-tarCountText:SetShadow(true)
+local currentStockAle = loveframes.Create("text")
+currentStockAle:SetState(states.STATE_STOCKPILE)
+currentStockAle:SetFont(loveframes.font_immortal_large)
+currentStockAle:SetPos(frAleButton.x - 7 + (frAleButton.width / 2), frAleButton.y + 47 * scale)
+currentStockAle:SetShadow(false)
 
-local wheatCountText = loveframes.Create("text")
-wheatCountText:SetPos(frWheat.x, frWheat.y)
-wheatCountText:SetState(states.STATE_STOCKPILE)
-wheatCountText:SetFont(loveframes.font_immortal_large)
-wheatCountText:SetShadowColor(shadowColorR, shadowColorG, shadowColorB)
-wheatCountText:SetShadow(true)
+local currentStockIron = loveframes.Create("text")
+currentStockIron:SetState(states.STATE_STOCKPILE)
+currentStockIron:SetFont(loveframes.font_immortal_large)
+currentStockIron:SetPos(frIronButton.x - 7 + (frIronButton.width / 2), frIronButton.y + 48 * scale)
+currentStockIron:SetShadow(false)
 
-local aleCountText = loveframes.Create("text")
-aleCountText:SetPos(frAle.x, frAle.y)
-aleCountText:SetState(states.STATE_STOCKPILE)
-aleCountText:SetFont(loveframes.font_immortal_large)
-aleCountText:SetShadowColor(shadowColorR, shadowColorG, shadowColorB)
-aleCountText:SetShadow(true)
+local currentStockHop = loveframes.Create("text")
+currentStockHop:SetState(states.STATE_STOCKPILE)
+currentStockHop:SetFont(loveframes.font_immortal_large)
+currentStockHop:SetPos(frHopButton.x - 6 + (frHopButton.width / 2), frHopButton.y + 45 * scale)
+currentStockHop:SetShadow(false)
 
-local flourCountText = loveframes.Create("text")
-flourCountText:SetPos(frFlour.x, frFlour.y)
-flourCountText:SetState(states.STATE_STOCKPILE)
-flourCountText:SetFont(loveframes.font_immortal_large)
-flourCountText:SetShadowColor(shadowColorR, shadowColorG, shadowColorB)
-flourCountText:SetShadow(true)
+local currentStockFlour = loveframes.Create("text")
+currentStockFlour:SetState(states.STATE_STOCKPILE)
+currentStockFlour:SetFont(loveframes.font_immortal_large)
+currentStockFlour:SetPos(frFlourButton.x - 8 + (frFlourButton.width / 2), frFlourButton.y + 52 * scale)
+currentStockFlour:SetShadow(false)
 
-function actionBar:updateStockpileResourcesCount()
-    local color = {(135 / 255) + 0.2, (112 / 255) + 0.2, (94 / 255) + 0.2, 1}
+local noMarketInfo = loveframes.Create("text")
+noMarketInfo:SetState(states.STATE_STOCKPILE)
+noMarketInfo:SetFont(loveframes.font_vera_italic)
+noMarketInfo:SetSize(50, 20)
+noMarketInfo:SetVisible(false)
+noMarketInfo:SetPos(frWoodButton.x - 100 + (frWoodButton.width / 2), frWoodButton.y)
+noMarketInfo:SetText({{
+    color = {0, 0, 0, 1}
+}, "Build a market to trade!"})
+noMarketInfo:SetShadow(false)
+function SwitchToTheMarket()
+    if _G.BuildingManager:count("Market") >= 1 then
+        actionBar:switchMode("market_trade")
+        switchTradeGroup(2)
+        group.name = 2
+        noMarketInfo:SetVisible(false)
+    else
+        noMarketInfo:SetVisible(true)
+    end
+end
 
-    woodCountText:SetText({{
-        color = color
+function group:DisplayCurrentStock()
+    
+    currentStockWood:SetText({{
+        color = {0, 0, 0, 1}
     }, _G.state.resources["wood"]})
-    woodCountText:SetPos(frWood.x - woodCountText.font:getWidth(_G.state.resources["wood"]) / 2, frWood.y)
-
-    hopCountText:SetText({{
-        color = color
-    }, _G.state.resources["hop"]})
-    hopCountText:SetPos(frHop.x - hopCountText.font:getWidth(_G.state.resources["hop"]) / 2, frHop.y)
-
-    stoneCountText:SetText({{
-        color = color
+    currentStockStone:SetText({{
+        color = {0, 0, 0, 1}
     }, _G.state.resources["stone"]})
-    stoneCountText:SetPos(frStone.x - stoneCountText.font:getWidth(_G.state.resources["stone"]) / 2, frStone.y)
-
-    ironCountText:SetText({{
-        color = color
-    }, _G.state.resources["iron"]})
-    ironCountText:SetPos(frIron.x - ironCountText.font:getWidth(_G.state.resources["iron"]) / 2, frIron.y)
-
-    tarCountText:SetText({{
-        color = color
-    }, _G.state.resources["tar"]})
-    tarCountText:SetPos(frTar.x - tarCountText.font:getWidth(_G.state.resources["tar"]) / 2, frTar.y)
-
-    wheatCountText:SetText({{
-        color = color
+    currentStockWheat:SetText({{
+        color = {0, 0, 0, 1}
     }, _G.state.resources["wheat"]})
-    wheatCountText:SetPos(frWheat.x - wheatCountText.font:getWidth(_G.state.resources["wheat"]) / 2, frWheat.y)
-
-    aleCountText:SetText({{
-        color = color
+    currentStockTar:SetText({{
+        color = {0, 0, 0, 1}
+    }, _G.state.resources["tar"]})
+    currentStockAle:SetText({{
+        color = {0, 0, 0, 1}
     }, _G.state.resources["ale"]})
-    aleCountText:SetPos(frAle.x - aleCountText.font:getWidth(_G.state.resources["ale"]) / 2, frAle.y)
-
-    flourCountText:SetText({{
-        color = color
+    currentStockIron:SetText({{
+        color = {0, 0, 0, 1}
+    }, _G.state.resources["iron"]})
+    currentStockHop:SetText({{
+        color = {0, 0, 0, 1}
+    }, _G.state.resources["hop"]})
+    currentStockFlour:SetText({{
+        color = {0, 0, 0, 1}
     }, _G.state.resources["flour"]})
-    flourCountText:SetPos(frFlour.x - flourCountText.font:getWidth(_G.state.resources["flour"]) / 2, frFlour.y)
 
 end
+-- wood button
+local woodIconButton = loveframes.Create("image")
+woodIconButton:SetState(states.STATE_STOCKPILE)
+woodIconButton:SetImage(woodIconNormal)
+woodIconButton:SetScaleX(frWoodButton.width / woodIconButton:GetImageWidth())
+woodIconButton:SetScaleY(woodIconButton:GetScaleX())
+woodIconButton:SetPos(frWoodButton.x, frWoodButton.y)
+woodIconButton.OnMouseEnter = function(self)
+    self:SetImage(woodIconHover)
+end
+woodIconButton.OnMouseDown = function(self)
+    self:SetImage(woodIconNormal)
+end
+woodIconButton.OnClick = function(self)
+    group.good = "wood"
+    SwitchToTheMarket()
+end
+woodIconButton.OnMouseExit = function(self)
+    self:SetImage(woodIconNormal)
+end
+-- stone button
+local stoneIconButton = loveframes.Create("image")
+stoneIconButton:SetState(states.STATE_STOCKPILE)
+stoneIconButton:SetImage(stoneIconNormal)
+stoneIconButton:SetScaleX(frStoneButton.width / stoneIconButton:GetImageWidth())
+stoneIconButton:SetScaleY(stoneIconButton:GetScaleX())
+stoneIconButton:SetPos(frStoneButton.x, frStoneButton.y)
+stoneIconButton.OnMouseEnter = function(self)
+    self:SetImage(stoneIconHover)
+end
+stoneIconButton.OnMouseDown = function(self)
+    self:SetImage(stoneIconNormal)
+end
+stoneIconButton.OnClick = function(self)
+    group.good = "stone"
+    SwitchToTheMarket()
+end
+stoneIconButton.OnMouseExit = function(self)
+    self:SetImage(stoneIconNormal)
+end
+-- wheat button
+local wheatIconButton = loveframes.Create("image")
+wheatIconButton:SetState(states.STATE_STOCKPILE)
+wheatIconButton:SetImage(wheatIconNormal)
+wheatIconButton:SetScaleX(frWheatButton.width / wheatIconButton:GetImageWidth())
+wheatIconButton:SetScaleY(wheatIconButton:GetScaleX())
+wheatIconButton:SetPos(frWheatButton.x, frWheatButton.y)
+wheatIconButton.OnMouseEnter = function(self)
+    self:SetImage(wheatIconHover)
+end
+wheatIconButton.OnMouseDown = function(self)
+    self:SetImage(wheatIconNormal)
+end
+wheatIconButton.OnClick = function(self)
+    group.good = "wheat"
+    SwitchToTheMarket()
+end
+wheatIconButton.OnMouseExit = function(self)
+    self:SetImage(wheatIconNormal)
+end
+-- tar button
+local tarIconButton = loveframes.Create("image")
+tarIconButton:SetState(states.STATE_STOCKPILE)
+tarIconButton:SetImage(tarIconNormal)
+tarIconButton:SetScaleX(frTarButton.width / tarIconButton:GetImageWidth())
+tarIconButton:SetScaleY(tarIconButton:GetScaleX())
+tarIconButton:SetPos(frTarButton.x, frTarButton.y)
+tarIconButton.OnMouseEnter = function(self)
+    self:SetImage(tarIconHover)
+end
+tarIconButton.OnMouseDown = function(self)
+    self:SetImage(tarIconNormal)
+end
+tarIconButton.OnClick = function(self)
+    group.good = "tar"
+    SwitchToTheMarket()
+end
+tarIconButton.OnMouseExit = function(self)
+    self:SetImage(tarIconNormal)
+end
+-- ale button
+local aleIconButton = loveframes.Create("image")
+aleIconButton:SetState(states.STATE_STOCKPILE)
+aleIconButton:SetImage(aleIconNormal)
+aleIconButton:SetScaleX(frAleButton.width / aleIconButton:GetImageWidth())
+aleIconButton:SetScaleY(aleIconButton:GetScaleX())
+aleIconButton:SetPos(frAleButton.x, frAleButton.y)
+aleIconButton.OnMouseEnter = function(self)
+    self:SetImage(aleIconHover)
+end
+aleIconButton.OnMouseDown = function(self)
+    self:SetImage(aleIconNormal)
+end
+aleIconButton.OnClick = function(self)
+    group.good = "ale"
+    SwitchToTheMarket()
+end
+aleIconButton.OnMouseExit = function(self)
+    self:SetImage(aleIconNormal)
+end
+-- iron button
+local ironIconButton = loveframes.Create("image")
+ironIconButton:SetState(states.STATE_STOCKPILE)
+ironIconButton:SetImage(ironIconNormal)
+ironIconButton:SetScaleX(frIronButton.width / ironIconButton:GetImageWidth())
+ironIconButton:SetScaleY(ironIconButton:GetScaleX())
+ironIconButton:SetPos(frIronButton.x, frIronButton.y)
+ironIconButton.OnMouseEnter = function(self)
+    self:SetImage(ironIconHover)
+end
+ironIconButton.OnMouseDown = function(self)
+    self:SetImage(ironIconNormal)
+end
+ironIconButton.OnClick = function(self)
+    group.good = "iron"
+    SwitchToTheMarket()
+end
+ironIconButton.OnMouseExit = function(self)
+    self:SetImage(ironIconNormal)
+end
+-- hop button
+local hopIconButton = loveframes.Create("image")
+hopIconButton:SetState(states.STATE_STOCKPILE)
+hopIconButton:SetImage(hopIconNormal)
+hopIconButton:SetScaleX(frHopButton.width / hopIconButton:GetImageWidth())
+hopIconButton:SetScaleY(hopIconButton:GetScaleX())
+hopIconButton:SetPos(frHopButton.x, frHopButton.y)
+hopIconButton.OnMouseEnter = function(self)
+    self:SetImage(hopIconHover)
+end
+hopIconButton.OnMouseDown = function(self)
+    self:SetImage(hopIconNormal)
+end
+hopIconButton.OnClick = function(self)
+    group.good = "hop"
+    SwitchToTheMarket()
+end
+hopIconButton.OnMouseExit = function(self)
+    self:SetImage(hopIconNormal)
+end
+-- flour button
+local flourIconButton = loveframes.Create("image")
+flourIconButton:SetState(states.STATE_STOCKPILE)
+flourIconButton:SetImage(flourIconNormal)
+flourIconButton:SetScaleX(frFlourButton.width / flourIconButton:GetImageWidth())
+flourIconButton:SetScaleY(flourIconButton:GetScaleX())
+flourIconButton:SetPos(frFlourButton.x, frFlourButton.y)
+flourIconButton.OnMouseEnter = function(self)
+    self:SetImage(flourIconHover)
+end
+flourIconButton.OnMouseDown = function(self)
+    self:SetImage(flourIconNormal)
+end
+flourIconButton.OnClick = function(self)
+    group.good = "flour"
+    SwitchToTheMarket()
+end
+flourIconButton.OnMouseExit = function(self)
+    self:SetImage(flourIconNormal)
+end
+
+return group
