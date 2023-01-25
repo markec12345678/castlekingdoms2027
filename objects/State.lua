@@ -218,6 +218,7 @@ function State:serialize()
         dateCreated = self.dateCreated or os.date("%Y-%m-%d %X"),
         dateModified = os.date("%Y-%m-%d %X"),
         mapName = self.map.name,
+        compressed = true,
         isMap = false
     }
     local data = {}
@@ -265,8 +266,8 @@ function State:serialize()
     return data, metadata
 end
 
-function State:load(filename)
-    local load = bitser.loadLoveFile(string.lower(filename))
+function State:load(filename, decompress)
+    local load = bitser.loadLoveFile(string.lower(filename), decompress)
     if not load then
         error("empty save file data")
     end

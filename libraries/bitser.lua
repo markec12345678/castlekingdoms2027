@@ -12,7 +12,8 @@ ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
 WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-]] local VERSION = '1.1'
+]]
+local VERSION = '1.1'
 
 local floor = math.floor
 local pairs = pairs
@@ -189,10 +190,10 @@ local function write_table(value, seen)
     local classkey
     local metatable = getmetatable(value)
     local classname = (class_name_registry[value.class] -- MiddleClass
-    or class_name_registry[value.__baseclass] -- SECL
-    or class_name_registry[metatable] -- hump.class
-    or class_name_registry[value.__class__] -- Slither
-    or class_name_registry[value.__class]) -- Moonscript class
+        or class_name_registry[value.__baseclass] -- SECL
+        or class_name_registry[metatable] -- hump.class
+        or class_name_registry[value.__class__] -- Slither
+        or class_name_registry[value.__class]) -- Moonscript class
     if classname then
         classkey = classkey_registry[classname]
         Buffer_write_byte(242)
@@ -421,12 +422,21 @@ return {
         serialize(value)
         return ffi.string(buf, buf_pos)
     end,
-    dumpLoveFile = function(fname, value)
+    dumpLoveFile = function(fname, value, nocompress)
         serialize(value)
-        assert(love.filesystem.write(fname, ffi.string(buf, buf_pos)))
+        local data = ffi.string(buf, buf_pos)
+        if nocompress then
+            assert(love.filesystem.write(fname, data))
+        else
+            local compressedData = love.data.compress("string", "lz4", data)
+            assert(love.filesystem.write(fname, compressedData))
+        end
     end,
-    loadLoveFile = function(fname)
+    loadLoveFile = function(fname, decompress)
         local serializedData, error = love.filesystem.newFileData(fname)
+        if decompress then
+            serializedData = love.data.decompress("data", "lz4", serializedData)
+        end
         assert(serializedData, error)
         Buffer_newDataReader(serializedData:getPointer(), serializedData:getSize())
         local value = deserialize_value({})
