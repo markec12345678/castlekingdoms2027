@@ -1,7 +1,10 @@
 local tempMX, tempMY = 0, 0
+-- CamSpeed for making the deltatime movement faster.
+local CamSpeed = 120
 local mouseDeadZoneValX, mouseDeadZoneValY = 0, 0
 local config = require("config_file")
-
+local keybindManager = require("objects.Controllers.KeybindManager")
+local EVENT = require("objects.Enums.KeyEvents")
 local workshopWeaponChoosers = require("states.ui.workshops.workshops_ui")
 
 local function getZFromZoom()
@@ -85,18 +88,11 @@ local panDirectionToKeys = {
     [panDirection.right] = {}
 }
 
-if config.camera.panCameraWithWASD then
-    table.insert(panDirectionToKeys[panDirection.up], "w")
-    table.insert(panDirectionToKeys[panDirection.down], "s")
-    table.insert(panDirectionToKeys[panDirection.left], "a")
-    table.insert(panDirectionToKeys[panDirection.right], "d")
-end
-
-if config.camera.panCameraWithArrowKeys then
-    table.insert(panDirectionToKeys[panDirection.up], "up")
-    table.insert(panDirectionToKeys[panDirection.down], "down")
-    table.insert(panDirectionToKeys[panDirection.left], "left")
-    table.insert(panDirectionToKeys[panDirection.right], "right")
+if keybindManager then
+    table.insert(panDirectionToKeys[panDirection.up], keybindManager.keybinds.CamUp )
+    table.insert(panDirectionToKeys[panDirection.down], keybindManager.keybinds.CamDown)
+    table.insert(panDirectionToKeys[panDirection.left], keybindManager.keybinds.CamLeft)
+    table.insert(panDirectionToKeys[panDirection.right], keybindManager.keybinds.CamRight)
 end
 
 local panDirectionToMousePositions = {
@@ -106,6 +102,9 @@ local panDirectionToMousePositions = {
     [panDirection.right] = {x = _G.ScreenWidth - 1},
 }
 
+--- Check if a certain table of keys are pressed, then returns true if a key is pressed from that table.
+---@param keys table Key table to check.
+---@return boolean Return if the Camera should pan or not.
 local function isAnyKeyDown(keys)
     for _, key in pairs(keys) do
         if love.keyboard.isDown(key) then
@@ -115,9 +114,13 @@ local function isAnyKeyDown(keys)
     return false
 end
 
+--- Check if the Mouse is on the edge of the screen.
+---@param direction string Name of the pan direction. (up, down, left, right)
+---@return boolean|nil Return if the Camera should pan or not.
 local function isMouseOnDirectionEdge(direction)
     if not config.camera.moveMouseToEdgesToPan then return end
     local mouseX, mouseY = love.mouse.getPosition()
+    -- Right click unaffected by changes in the next if statement.
     if (direction == panDirection.up or
         direction == panDirection.down)
         and mouseY == panDirectionToMousePositions[direction].y then
@@ -131,15 +134,21 @@ local function isMouseOnDirectionEdge(direction)
     return false
 end
 
+--- Check and return if the Camera is supposed to pan (Either through keys or by having the mouse at the edge of the screen.).
+---@param direction string Name of the pan direction. (up, down, left, right)
+---@return boolean
 local function shouldPan(direction)
     return isMouseOnDirectionEdge(direction)
         or isAnyKeyDown(panDirectionToKeys[direction])
 end
 
+---Handles and moves the camera depending on what is supposed to pan.
 local function handleCamera()
+    -- Right click affected.
     local defMX, defMY = love.mouse.getPosition()
-    local mx = (defMX - 16 - _G.ScreenWidth / 2) / _G.state.scaleX + _G.state.viewXview
-    local my = (defMY - 8 - _G.ScreenHeight / 2) / _G.state.scaleX + _G.state.viewYview
+    -- Multiply with deltatime for consistent camera movement across all framerates.
+    local mx = (defMX - 16 - _G.ScreenWidth / 2) * (dt * CamSpeed / 3) / _G.state.scaleX + _G.state.viewXview
+    local my = (defMY - 8 - _G.ScreenHeight / 2) * (dt * CamSpeed / 3) / _G.state.scaleX + _G.state.viewYview
     local finalScrollSpeed = (_G.scrollSpeed + ((1 - _G.state.scaleX) * 20)) * _G.dt / _G.speedModifier
     if finalScrollSpeed < 5 then
         finalScrollSpeed = 5
@@ -149,17 +158,20 @@ local function handleCamera()
         if love.mouse.isDown(2) and config.camera.holdRightButtonToPan then
             handleOnMouseButtonDownCameraMovement(mx, my, smoothModifier)
         else
+            -- Multiply with deltatime for consistent camera movement across all framerates.
+            -- Only applies to Key movement and when the mouse is on the edge of the screen.
+            -- Right click is not affected by this.
             if shouldPan(panDirection.up) then
-                handleCameraMovement(nil, _G.state.viewYview - finalScrollSpeed)
+                handleCameraMovement(nil, _G.state.viewYview  - (finalScrollSpeed * dt * CamSpeed))
             end
             if shouldPan(panDirection.down) then
-                handleCameraMovement(nil, _G.state.viewYview + finalScrollSpeed)
+                handleCameraMovement(nil, _G.state.viewYview + (finalScrollSpeed * dt * CamSpeed))
             end
             if shouldPan(panDirection.left) then
-                handleCameraMovement(_G.state.viewXview - finalScrollSpeed, nil)
+                handleCameraMovement(_G.state.viewXview - (finalScrollSpeed * dt * CamSpeed), nil)
             end
             if shouldPan(panDirection.right) then
-                handleCameraMovement(_G.state.viewXview + finalScrollSpeed, nil)
+                handleCameraMovement(_G.state.viewXview + (finalScrollSpeed * dt * CamSpeed), nil)
             end
             resetMousePositionIfNeeded()
         end
