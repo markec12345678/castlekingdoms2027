@@ -77,7 +77,6 @@ local an = {
     [ANIM_WALKING_MACE_SOUTHEAST] = _G.indexQuads("body_blacksmith_walk_mace_se", 16),
     [ANIM_WALKING_MACE_SOUTHWEST] = _G.indexQuads("body_blacksmith_walk_mace_sw", 16),
     [ANIM_WALKING_MACE_WEST] = _G.indexQuads("body_blacksmith_walk_mace_w", 16),
-    [ANIM_WALKING_SWORD_EAST] = _G.indexQuads("body_blacksmith_walk_sword_e", 16),
 
     [ANIM_IDLE] = _G.indexQuads("body_blacksmith_idle", 16),
     [ANIM_IDLE_STATIC] = _G.indexQuads("body_blacksmith_idle", 1)
@@ -89,6 +88,7 @@ function Blacksmith:initialize(gx, gy, type)
     Unit.initialize(self, gx, gy, type)
     self.state = 'Find a job'
     self.waitTimer = 0
+    self.weaponType = WEAPON.sword
     self.offsetY = -10
     self.offsetX = -5
     self.count = 1
@@ -97,64 +97,80 @@ end
 
 function Blacksmith:dirSubUpdate()
     if self.moveDir == "west" then
-        if self.state == "Going to armoury" then
+        if self.state == "Going to armoury" and self.weaponType == WEAPON.sword then
             self.animation = anim.newAnimation(an[ANIM_WALKING_SWORD_WEST], 0.05, nil, ANIM_WALKING_SWORD_WEST)
+        elseif self.state == "Going to armoury" and self.weaponType == WEAPON.mace then
+            self.animation = anim.newAnimation(an[ANIM_WALKING_MACE_WEST], 0.05, nil, ANIM_WALKING_MACE_WEST)
         elseif self.state == "Going to workplace with INGOT" then
             self.animation = anim.newAnimation(an[ANIM_WALKING_INGOT_WEST], 0.05, nil, ANIM_WALKING_INGOT_WEST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_WEST], 0.05, nil, ANIM_WALKING_WEST)
         end
     elseif self.moveDir == "southwest" then
-        if self.state == "Going to armoury" then
+        if self.state == "Going to armoury" and self.weaponType == WEAPON.sword then
             self.animation = anim.newAnimation(an[ANIM_WALKING_SWORD_SOUTHWEST], 0.05, nil, ANIM_WALKING_SWORD_SOUTHWEST)
+        elseif self.state == "Going to armoury" and self.weaponType == WEAPON.mace then
+            self.animation = anim.newAnimation(an[ANIM_WALKING_MACE_SOUTHWEST], 0.05, nil, ANIM_WALKING_MACE_SOUTHWEST)
         elseif self.state == "Going to workplace with INGOT" then
             self.animation = anim.newAnimation(an[ANIM_WALKING_INGOT_SOUTHWEST], 0.05, nil, ANIM_WALKING_INGOT_SOUTHWEST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_SOUTHWEST], 0.05, nil, ANIM_WALKING_SOUTHWEST)
         end
     elseif self.moveDir == "northwest" then
-        if self.state == "Going to armoury" then
+        if self.state == "Going to armoury" and self.weaponType == WEAPON.sword then
             self.animation = anim.newAnimation(an[ANIM_WALKING_SWORD_NORTHWEST], 0.05, nil, ANIM_WALKING_SWORD_NORTHWEST)
+        elseif self.state == "Going to armoury" and self.weaponType == WEAPON.mace then
+            self.animation = anim.newAnimation(an[ANIM_WALKING_MACE_NORTHWEST], 0.05, nil, ANIM_WALKING_MACE_NORTHWEST)
         elseif self.state == "Going to workplace with INGOT" then
             self.animation = anim.newAnimation(an[ANIM_WALKING_INGOT_NORTHWEST], 0.05, nil, ANIM_WALKING_INGOT_NORTHWEST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_NORTHWEST], 0.05, nil, ANIM_WALKING_NORTHWEST)
         end
     elseif self.moveDir == "north" then
-        if self.state == "Going to armoury" then
+        if self.state == "Going to armoury" and self.weaponType == WEAPON.sword then
             self.animation = anim.newAnimation(an[ANIM_WALKING_SWORD_NORTH], 0.05, nil, ANIM_WALKING_SWORD_NORTH)
+        elseif self.state == "Going to armoury" and self.weaponType == WEAPON.mace then
+            self.animation = anim.newAnimation(an[ANIM_WALKING_MACE_NORTH], 0.05, nil, ANIM_WALKING_MACE_NORTH)
         elseif self.state == "Going to workplace with INGOT" then
             self.animation = anim.newAnimation(an[ANIM_WALKING_INGOT_NORTH], 0.05, nil, ANIM_WALKING_INGOT_NORTH)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_NORTH], 0.05, nil, ANIM_WALKING_NORTH)
         end
     elseif self.moveDir == "south" then
-        if self.state == "Going to armoury" then
+        if self.state == "Going to armoury" and self.weaponType == WEAPON.sword then
             self.animation = anim.newAnimation(an[ANIM_WALKING_SWORD_SOUTH], 0.05, nil, ANIM_WALKING_SWORD_SOUTH)
+        elseif self.state == "Going to armoury" and self.weaponType == WEAPON.mace then
+            self.animation = anim.newAnimation(an[ANIM_WALKING_MACE_SOUTH], 0.05, nil, ANIM_WALKING_MACE_SOUTH)
         elseif self.state == "Going to workplace with INGOT" then
             self.animation = anim.newAnimation(an[ANIM_WALKING_INGOT_SOUTH], 0.05, nil, ANIM_WALKING_INGOT_SOUTH)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_SOUTH], 0.05, nil, ANIM_WALKING_SOUTH)
         end
     elseif self.moveDir == "east" then
-        if self.state == "Going to armoury" then
+        if self.state == "Going to armoury" and self.weaponType == WEAPON.sword then
             self.animation = anim.newAnimation(an[ANIM_WALKING_SWORD_EAST], 0.05, nil, ANIM_WALKING_SWORD_EAST)
+        elseif self.state == "Going to armoury" and self.weaponType == WEAPON.mace then
+            self.animation = anim.newAnimation(an[ANIM_WALKING_MACE_EAST], 0.05, nil, ANIM_WALKING_MACE_EAST)
         elseif self.state == "Going to workplace with INGOT" then
             self.animation = anim.newAnimation(an[ANIM_WALKING_INGOT_EAST], 0.05, nil, ANIM_WALKING_INGOT_EAST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_EAST], 0.05, nil, ANIM_WALKING_EAST)
         end
     elseif self.moveDir == "southeast" then
-        if self.state == "Going to armoury" then
+        if self.state == "Going to armoury" and self.weaponType == WEAPON.sword then
             self.animation = anim.newAnimation(an[ANIM_WALKING_SWORD_SOUTHEAST], 0.05, nil, ANIM_WALKING_SWORD_SOUTHEAST)
+        elseif self.state == "Going to armoury" and self.weaponType == WEAPON.mace then
+            self.animation = anim.newAnimation(an[ANIM_WALKING_MACE_SOUTHEAST], 0.05, nil, ANIM_WALKING_MACE_SOUTHEAST)
         elseif self.state == "Going to workplace with INGOT" then
             self.animation = anim.newAnimation(an[ANIM_WALKING_INGOT_SOUTHEAST], 0.05, nil, ANIM_WALKING_INGOT_SOUTHEAST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_SOUTHEAST], 0.05, nil, ANIM_WALKING_SOUTHEAST)
         end
     elseif self.moveDir == "northeast" then
-        if self.state == "Going to armoury" then
+        if self.state == "Going to armoury" and self.weaponType == WEAPON.sword then
             self.animation = anim.newAnimation(an[ANIM_WALKING_SWORD_NORTHEAST], 0.05, nil, ANIM_WALKING_SWORD_NORTHEAST)
+        elseif self.state == "Going to armoury" and self.weaponType == WEAPON.mace then
+            self.animation = anim.newAnimation(an[ANIM_WALKING_MACE_NORTHEAST], 0.05, nil, ANIM_WALKING_MACE_NORTHEAST)
         elseif self.state == "Going to workplace with INGOT" then
             self.animation = anim.newAnimation(an[ANIM_WALKING_INGOT_NORTHEAST], 0.05, nil, ANIM_WALKING_INGOT_NORTHEAST)
         else
@@ -183,7 +199,7 @@ function Blacksmith:update()
         self:pathfind()
     elseif self.state ~= "No path to workplace" and self.state ~= "Working" then
         if self.state == "Find a job" then
-            _G.JobController:findJob(self, "blacksmith")
+            _G.JobController:findJob(self, "Blacksmith")
         elseif self.state == "Go to armoury" or self.state == "Wait" then
             if next(_G.weaponpile.nodeList) ~= nil then
                 self.state = "Going to armoury"
@@ -275,7 +291,11 @@ function Blacksmith:update()
                 self.count = self.count + 1
             elseif self.state == "Going to armoury" then
                 if self:reachedPathEnd() then
-                    _G.weaponpile:store(WEAPON.sword)
+                    if self.weaponType == WEAPON.sword then
+                        _G.weaponpile:store(WEAPON.sword)
+                    else
+                        _G.weaponpile:store(WEAPON.mace)
+                    end
                     self.state = "Go to stockpile for INGOT"
                     self:clearPath()
                     return
@@ -317,6 +337,7 @@ function Blacksmith:serialize()
     end
     data.state = self.state
     data.waitTimer = self.waitTimer
+    data.weaponType = self.weaponType
     data.offsetY = self.offsetY
     data.offsetX = self.offsetX
     data.count = self.count

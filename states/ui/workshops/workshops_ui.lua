@@ -12,6 +12,10 @@ local spearIconHover = love.graphics.newImage("assets/ui/workshops/spearIconHove
 local pikeIconNormal = love.graphics.newImage("assets/ui/workshops/pikeIconNormal.png")
 local pikeIconHover = love.graphics.newImage("assets/ui/workshops/pikeIconHover.png")
 
+local swordIconNormal = love.graphics.newImage("assets/ui/workshops/swordIconNormal.png")
+local swordIconHover = love.graphics.newImage("assets/ui/workshops/swordIconHover.png")
+local maceIconNormal = love.graphics.newImage("assets/ui/workshops/maceIconNormal.png")
+local maceIconHover = love.graphics.newImage("assets/ui/workshops/maceIconHover.png")
 
 local frBowButton = {
     x = 500 * scale,
@@ -28,6 +32,8 @@ local frCrossbowButton = {
 
 local crossbowIconButton = loveframes.Create("image")
 local bowIconButton = loveframes.Create("image")
+local swordIconButton = loveframes.Create("image")
+local maceIconButton = loveframes.Create("image")
 bowIconButton.visible = false
 bowIconButton:SetState(states.STATE_INGAME_CONSTRUCTION)
 bowIconButton:SetImage(bowIconNormal)
@@ -101,5 +107,37 @@ end
 pikeIconButton.OnMouseExit = function(self)
     self:SetImage(pikeIconNormal)
 end
+swordIconButton.visible = false
+swordIconButton:SetState(states.STATE_INGAME_CONSTRUCTION)
+swordIconButton:SetImage(swordIconNormal)
+swordIconButton:SetScaleX(frBowButton.width / swordIconButton:GetImageWidth())
+swordIconButton:SetScaleY(swordIconButton:GetScaleX())
+swordIconButton:SetPos(frBowButton.x, frBowButton.y)
+swordIconButton.OnMouseEnter = function(self)
+    self:SetImage(swordIconHover)
+end
 
-return { crossbowIconButton, bowIconButton, pikeIconButton, spearIconButton }
+swordIconButton.OnMouseDown = function(self)
+    self:SetImage(swordIconHover)
+end
+
+swordIconButton.OnMouseExit = function(self)
+    self:SetImage(swordIconNormal)
+end
+maceIconButton.visible = false
+maceIconButton:SetState(states.STATE_INGAME_CONSTRUCTION)
+maceIconButton:SetImage(maceIconNormal)
+maceIconButton:SetScaleX(frCrossbowButton.width / maceIconButton:GetImageWidth())
+maceIconButton:SetScaleY(maceIconButton:GetScaleX())
+maceIconButton:SetPos(frCrossbowButton.x, frCrossbowButton.y)
+maceIconButton.OnMouseEnter = function(self)
+    self:SetImage(maceIconHover)
+end
+maceIconButton.OnMouseDown = function(self)
+    self:SetImage(maceIconHover)
+end
+maceIconButton.OnMouseExit = function(self)
+    self:SetImage(maceIconNormal)
+end
+
+return { crossbowIconButton, bowIconButton, pikeIconButton, spearIconButton, swordIconButton, maceIconButton }

@@ -1,23 +1,25 @@
 local activeEntities, _, tileQuads, _ = ...
 
+local WEAPON = require("objects.Enums.Weapon")
+
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
 local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
 
-local tiles, quadArray = _G.indexBuildingQuads("blacksmith_workshop (9)")
-local tilesExt, quadArrayExt = _G.indexBuildingQuads("blacksmith_workshop (18)")
+local _, _, _, _, swordIconButton, maceIconButton = unpack(require("states.ui.workshops.workshops_ui"))
+
+local tiles, quadArray = _G.indexBuildingQuads("blacksmith_workshop (18)")
+local tilesExt, quadArrayExt = _G.indexBuildingQuads("blacksmith_workshop (9)")
 
 local ANIM_CRAFTING_SWORD = "Crafting_SWORD"
-local ANIM_CRAFTING_SWORD_PART2 = "Crafting_SWORD_Part2"
 local ANIM_CRAFTING_ANVIL = "Crafting_ANVIL"
-local ANIM_CRAFTING_ANVIL_PART2 = "Crafting_ANVIL_Part2"
+local ANIM_CRAFTING_MACE = "Crafting_MACE"
 
 local an = {
-    [ANIM_CRAFTING_SWORD] = _G.indexQuads("blacksmith_workshop_anim_forge", 24),
-    [ANIM_CRAFTING_SWORD_PART2] = _G.indexQuads("blacksmith_workshop_anim_forge", 24, 1),
-    [ANIM_CRAFTING_ANVIL] = _G.indexQuads("blacksmith_workshop_anim_anvil", 86),
-    [ANIM_CRAFTING_ANVIL_PART2] = _G.indexQuads("blacksmith_workshop_anim_anvil", 86, 1)
+    [ANIM_CRAFTING_SWORD] = _G.indexQuads("blacksmith_workshop_anim_anvil", 86),
+    [ANIM_CRAFTING_ANVIL] = _G.indexQuads("blacksmith_workshop_anim_forge", 24),
+    [ANIM_CRAFTING_MACE] = _G.indexQuads("blacksmith_workshop_anim_mace", 89)
 }
 
 local AnvilCrafting = _G.class("AnvilCrafting", Structure)
@@ -27,11 +29,11 @@ function AnvilCrafting:initialize(gx, gy, parent)
     self.tile = tileQuads["empty"]
     self.animated = false
     self.craftingCycle = 0
-    self.animation = anim.newAnimation(an[ANIM_CRAFTING_ANVIL], 0.11, self:craftCallback_1(), ANIM_CRAFTING_ANVIL_PART2)
+    self.animation = anim.newAnimation(an[ANIM_CRAFTING_ANVIL], 0.05, self:craftCallback_1(), ANIM_CRAFTING_ANVIL)
     self.animation:pause()
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.offsetX = -51
-    self.offsetY = -77 - 16
+    self.offsetY = -77
 
     table.insert(activeEntities, self)
 end
@@ -59,11 +61,10 @@ function AnvilCrafting.static:deserialize(data)
     Structure.load(obj, data)
     obj.parent = _G.state:dereferenceObject(data.parent)
     obj.parent.swordCrafting = obj
-    local callback
     local anData = data.animation
     if anData.animationIdentifier == ANIM_CRAFTING_ANVIL then
         callback = obj:craftCallback_1()
-    elseif anData.animationIdentifier == ANIM_CRAFTING_ANVIL_PART2 then
+    elseif anData.animationIdentifier == ANIM_CRAFTING_ANVIL then
         callback = obj:craftCallback_2()
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
@@ -76,19 +77,13 @@ function AnvilCrafting:craftCallback_1()
     return function()
         self.craftingCycle = self.craftingCycle + 1
         self.animation = anim.newAnimation(
-            an[ANIM_CRAFTING_ANVIL_PART2], 0.11, self:craftCallback_2(), ANIM_CRAFTING_ANVIL_PART2)
+            an[ANIM_CRAFTING_ANVIL], 0.11, self:craftCallback_2(), ANIM_CRAFTING_ANVIL)
     end
 end
 
 function AnvilCrafting:craftCallback_2()
     return function()
         self.animation = anim.newAnimation(an[ANIM_CRAFTING_ANVIL], 0.11, self:craftCallback_1(), ANIM_CRAFTING_ANVIL)
-
-        if self.craftingCycle == 6 then
-            self.parent:sendToStockpile()
-            self.craftingCycle = 0
-            self:deactivate()
-        end
     end
 end
 
@@ -113,6 +108,7 @@ function AnvilCrafting:deactivate()
     self.animated = false
 end
 
+local targetBlacksmith
 local SwordCrafting = _G.class("SwordCrafting", Structure)
 function SwordCrafting:initialize(gx, gy, parent)
     self.parent = parent
@@ -120,11 +116,11 @@ function SwordCrafting:initialize(gx, gy, parent)
     self.tile = tileQuads["empty"]
     self.animated = false
     self.craftingCycle = 0
-    self.animation = anim.newAnimation(an[ANIM_CRAFTING_SWORD], 0.11, self:craftCallback_1(), ANIM_CRAFTING_SWORD_PART2)
+    self.animation = anim.newAnimation(an[ANIM_CRAFTING_SWORD], 0.11, self:craftCallback_1(), ANIM_CRAFTING_SWORD)
     self.animation:pause()
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.offsetX = -51
-    self.offsetY = -77
+    self.offsetY = -77 - 18
 
     table.insert(activeEntities, self)
 end
@@ -139,6 +135,7 @@ function SwordCrafting:serialize()
     end
     data.animation = self.animation:serialize()
     data.animated = self.animated
+    data.weaponType = self.weaponType
     data.craftingCycle = self.craftingCycle
     data.offsetX = self.offsetX
     data.offsetY = self.offsetY
@@ -156,7 +153,7 @@ function SwordCrafting.static:deserialize(data)
     local anData = data.animation
     if anData.animationIdentifier == ANIM_CRAFTING_SWORD then
         callback = obj:craftCallback_1()
-    elseif anData.animationIdentifier == ANIM_CRAFTING_SWORD_PART2 then
+    elseif anData.animationIdentifier == ANIM_CRAFTING_MACE then
         callback = obj:craftCallback_2()
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
@@ -165,34 +162,19 @@ function SwordCrafting.static:deserialize(data)
     return obj
 end
 
-function SwordCrafting:craftCallback_1()
-    return function()
-        self.craftingCycle = self.craftingCycle + 1
-        self.animation = anim.newAnimation(
-            an[ANIM_CRAFTING_SWORD_PART2], 0.11, self:craftCallback_2(), ANIM_CRAFTING_SWORD_PART2)
-    end
-end
-
-function SwordCrafting:craftCallback_2()
-    return function()
-        self.animation = anim.newAnimation(an[ANIM_CRAFTING_SWORD], 0.11, self:craftCallback_1(), ANIM_CRAFTING_SWORD)
-
-        if self.craftingCycle == 6 then
-            self.parent:sendToStockpile()
-            self.craftingCycle = 0
-            self:deactivate()
-        end
-    end
-end
-
 function SwordCrafting:animate()
     Structure.animate(self, _G.dt, true)
 end
 
 function SwordCrafting:activate()
     self.animated = true
-    self.animation:gotoFrame(1)
-    self.animation:resume()
+    if self.parent.weaponType == WEAPON.sword then
+        self.animation = anim.newAnimation(an[ANIM_CRAFTING_SWORD], 0.11, self:craftCallback_1(), ANIM_CRAFTING_SWORD)
+    end
+    if self.parent.weaponType == WEAPON.mace then
+        self.animation = anim.newAnimation(an[ANIM_CRAFTING_MACE], 0.11, self:craftCallback_1(),
+            ANIM_CRAFTING_MACE)
+    end
     self:animate(_G.dt)
 end
 
@@ -267,10 +249,11 @@ function BlacksmithWorkshop:initialize(gx, gy)
     self.unloading = false
     self.offsetX = 0
     self.offsetY = -64
+    self.weaponType = WEAPON.sword
     self.freeSpots = 1
     self.worker = nil
-    self.swordCrafting = SwordCrafting:new(self.gx + 3, self.gy + 2, self)
-    self.anvilCrafting = AnvilCrafting:new(self.gx + 4, self.gy + 3, self)
+    self.anvilCrafting = AnvilCrafting:new(self.gx + 3, self.gy + 2, self)
+    self.swordCrafting = SwordCrafting:new(self.gx + 4, self.gy + 3, self)
     for tile = 1, tiles do
         local hsl = BlacksmithAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
             -self.offsetY + 8 * (tiles - tile + 1))
@@ -292,6 +275,39 @@ function BlacksmithWorkshop:initialize(gx, gy)
     end
     self.float = NotEnoughWorkersFloat:new(self.gx + self.class.WIDTH - 1, self.gy + self.class.LENGTH - 1, 7, -112)
     self:applyBuildingHeightMap()
+end
+
+function BlacksmithWorkshop:onClick()
+    targetBlacksmith = self
+    swordIconButton.visible = true
+    local x, y = love.mouse.getPosition()
+    swordIconButton:SetPos(x - 50, y + 50)
+    maceIconButton.visible = true
+    maceIconButton:SetPos(x, y + 50)
+    maceIconButton.visible = true
+end
+
+function SwordCrafting:craftCallback_1()
+    return function()
+        self.craftingCycle = self.craftingCycle + 1
+        if self.parent.weaponType == WEAPON.sword then
+            self.animation = anim.newAnimation(an[ANIM_CRAFTING_SWORD], 0.11, self:craftCallback_1(), ANIM_CRAFTING_SWORD)
+            if self.craftingCycle == 6 then
+                self.parent:sendToStockpile()
+                self.craftingCycle = 0
+                self:deactivate()
+            end
+        end
+        if self.parent.weaponType == WEAPON.mace then
+            self.animation = anim.newAnimation(an[ANIM_CRAFTING_MACE], 0.11, self:craftCallback_1(),
+                ANIM_CRAFTING_MACE)
+            if self.craftingCycle == 6 then
+                self.parent:sendToStockpile()
+                self.craftingCycle = 0
+                self:deactivate()
+            end
+        end
+    end
 end
 
 function BlacksmithWorkshop:destroy()
@@ -328,6 +344,7 @@ function BlacksmithWorkshop:serialize()
     end
     data.health = self.health
     data.working = self.working
+    data.weaponType = self.weaponType
     data.unloading = self.unloading
     data.offsetX = self.offsetX
     data.offsetY = self.offsetY
@@ -344,6 +361,30 @@ function BlacksmithWorkshop.static:deserialize(data)
     return obj
 end
 
+function BlacksmithWorkshop:setWeapon(weapon)
+    self.weaponType = weapon
+end
+
+function BlacksmithWorkshop:getWeapon()
+    return self.weaponType
+end
+
+swordIconButton.OnClick = function(self)
+    if targetBlacksmith then
+        targetBlacksmith:setWeapon(WEAPON.sword)
+    end
+    swordIconButton.visible = false
+    maceIconButton.visible = false
+end
+
+maceIconButton.OnClick = function(self)
+    if targetBlacksmith then
+        targetBlacksmith:setWeapon(WEAPON.mace)
+    end
+    swordIconButton.visible = false
+    maceIconButton.visible = false
+end
+
 function BlacksmithWorkshop:join(worker)
     if self.health == -1 then
         _G.JobController:remove("Blacksmith", self)
@@ -355,15 +396,12 @@ function BlacksmithWorkshop:join(worker)
         self.worker.workplace = self
         self.freeSpots = self.freeSpots - 1
     end
-    if self.freeSpots == 0 then
-        self.float:deactivate()
-    end
+    swordIconButton.visible = false
+    maceIconButton.visible = false
 end
 
 function BlacksmithWorkshop:enterHover(induced)
-    if not induced then
-        self.hover = true
-    end
+    self.hover = true
     for tile = 1, tiles do
         local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tiles - tile + 1), BlacksmithAlias)
         if not alias then return end
@@ -384,10 +422,9 @@ function BlacksmithWorkshop:enterHover(induced)
 end
 
 function BlacksmithWorkshop:exitHover(induced)
-    if induced then
-        if self.hover then return end
-    end
-    self.hover = false
+    if induced or not self.swordCrafting.animated then
+        self.hover = false
+    else return end
     for tile = 1, tilesExt do
         local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tilesExt - tile + 1), BlacksmithAlias)
         if alias then
@@ -409,6 +446,22 @@ function BlacksmithWorkshop:exitHover(induced)
     self:render()
 end
 
+function BlacksmithWorkshop:join(worker)
+    if self.health == -1 then
+        _G.JobController:remove("Blacksmith", self)
+        worker:die()
+        return
+    end
+    if self.freeSpots == 1 then
+        self.worker = worker
+        self.worker.workplace = self
+        self.freeSpots = self.freeSpots - 1
+    end
+    if self.freeSpots == 0 then
+        self.float:deactivate()
+    end
+end
+
 function BlacksmithWorkshop:work(worker)
     if self.worker.state == "Going to workplace with INGOT" then
         self.worker.state = "Working"
@@ -418,8 +471,8 @@ function BlacksmithWorkshop:work(worker)
         worker.gx = self.gx + 1
         worker.gy = self.gy + 2
         worker:jobUpdate()
-        self.swordCrafting:activate()
         self.anvilCrafting:activate()
+        self.swordCrafting:activate()
     else
         self.worker.state = "Working"
         if not self.working and self.worker.state == "Working" then
@@ -428,13 +481,13 @@ function BlacksmithWorkshop:work(worker)
     end
     if self.worker.state == "Working" then
         self:enterHover(true)
-        self:exitHover(false)
     end
 end
 
 function BlacksmithWorkshop:sendToStockpile()
     local i, o, cx, cy
     self.worker.state = "Go to armoury"
+    self.worker.weaponType = self.weaponType
     self.worker.animated = true
     self.worker.gx = self.gx + 1
     self.worker.gy = self.gy + 4
@@ -449,7 +502,6 @@ function BlacksmithWorkshop:sendToStockpile()
     self.worker.needNewVertAsap = true
     self.swordCrafting:deactivate()
     self.anvilCrafting:deactivate()
-    self:enterHover(false)
     self:exitHover(true)
 end
 

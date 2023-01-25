@@ -720,7 +720,7 @@ local buildings = {
     },
     [BlacksmithWorkshop.name] = {
         quad = tileQuads["blacksmith_workshop (9)"],
-        offsetX = 48,
+        offsetX = 49,
         offsetY = 64,
         w = 4,
         h = 4,
