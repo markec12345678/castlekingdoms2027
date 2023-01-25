@@ -2,6 +2,7 @@ local tempMX, tempMY = 0, 0
 local mouseDeadZoneValX, mouseDeadZoneValY = 0, 0
 local config = require("config_file")
 
+local workshopWeaponChoosers = require("states.ui.workshops.workshops_ui")
 
 local function getZFromZoom()
     local val = 1
@@ -38,6 +39,10 @@ local function isMouseInDeadZone(posX, posY)
 end
 
 local function handleCameraMovement(posX, posY)
+    -- Hide weapon choose UI when camera is moved
+    for _, button in ipairs(workshopWeaponChoosers) do
+        button.visible = false
+    end
     if posX ~= nil then
         _G.state.viewXview = posX
     end
