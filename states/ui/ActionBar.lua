@@ -13,7 +13,7 @@ end
 local ActionBar = _G.class("ActionBar")
 ActionBar.static.actionBarImage = love.graphics.newImage("assets/ui/action_bar.png")
 ActionBar.static.actionBarGranaryImage = love.graphics.newImage("assets/ui/action_bar_granary.png")
-ActionBar.static.actionBarStockpileImage = love.graphics.newImage("assets/ui/action_bar_stockpile.png")
+ActionBar.static.actionBarStockpileImage = love.graphics.newImage("assets/ui/action_bar_market_main.png")
 ActionBar.static.actionBarMarketImageMain = love.graphics.newImage("assets/ui/action_bar_market_main.png")
 ActionBar.static.actionBarMarketImage = love.graphics.newImage("assets/ui/action_bar_market.png")
 ActionBar.static.actionBarArmouryImage = love.graphics.newImage("assets/ui/action_bar_armoury.png")
