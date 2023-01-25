@@ -156,7 +156,7 @@ function SwitchToTheMarket()
     end
 end
 
-function group:DisplayCurrentStock()
+function actionBar:updateStockpileResourcesCount()
     
     currentStockWood:SetText({{
         color = {0, 0, 0, 1}

@@ -293,13 +293,13 @@ local frAutoTradeDelete = {
     width = autoTradeDeleteOnImage:getWidth() * scale,
     height = autoTradeDeleteOnImage:getWidth() * scale
 }
-local frMaterial = {
+local frFood = {
     x = framesActionBar.frFull.x + 124 * scale,
     y = framesActionBar.frFull.y + 60 * scale,
     width = materialButtonImage:getWidth() * scale,
     height = materialButtonImage:getWidth() * scale
 }
-local frFood = {
+local frMaterial = {
     x = framesActionBar.frFull.x + 160 * scale,
     y = framesActionBar.frFull.y + 60 * scale,
     width = materialButtonImage:getWidth() * scale,

@@ -16,7 +16,6 @@ local savegame
 local playlist = require("sounds.music_playlist")
 local RationController
 local ArmouryUI = require("states.ui.armoury.armoury_ui")
-local StockpileUI = require("states.ui.stockpile.stockpile_goods")
 
 local function updateProgress(prgs, lState)
     progress = prgs or progress
@@ -121,9 +120,6 @@ function game:update(dt)
                 _G.DestructionController:update()
                 if (loveframes.GetState() == states.STATE_ARMOURY) then
                     ArmouryUI.DisplayCurrentStock()
-                end
-                if (loveframes.GetState() == states.STATE_STOCKPILE) then
-                    StockpileUI.DisplayCurrentStock()
                 end
             end
             prof.pop("bcontr")
