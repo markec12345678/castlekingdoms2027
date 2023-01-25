@@ -338,6 +338,7 @@ function Stockpile:updateStockpile(index)
     if pile.quantity == maxQuantity[pile.type] then
         _G.state.notFullStockpiles[pile.type] = _G.state.notFullStockpiles[pile.type] - 1
     end
+    actionBar:updateStockpileResourcesCount()
 end
 
 function Stockpile:load(data)
