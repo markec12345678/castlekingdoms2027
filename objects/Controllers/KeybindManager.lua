@@ -10,27 +10,34 @@ function KeybindManager:initialize()
         [EVENT.NormalizeGameSpeed] = {"="},
         [EVENT.DecreaseGameSpeed]  = {"-", "kp-"},
         [EVENT.Screenshot]         = {"f12"},
-        [EVENT.Escape]             = {"escape"}
+        [EVENT.Escape]             = {"escape"},
+        [EVENT.CamUp]              = {"w", "up"},
+        [EVENT.CamLeft]            = {"a", "left"},
+        [EVENT.CamDown]            = {"s", "down"},
+        [EVENT.CamRight]           = {"d", "right"}
     }
 end
 
 --How to use:
--- 1. Add your desired keybind to the above list like this:
--- [EVENT.GenericNameHere] = {"key", "alternativekey"}
+-- 1. Add your desired keybind to the above table like this:
+-- [EVENT.GenericNameHere] = {"key", "alternativekey"},
 
--- 2. Require the KeybindManager in your script.
+-- 2. Add your desired keybind to \objects\Enums\KeyEvents script in it's table like this:
+-- GenericNameHere   = "GenericNameHere",
+
+-- 3. Require the KeybindManager in your script.
 -- local keybindManager = require("objects.Controllers.KeybindManager")
 
--- 3. Require the KeyEvents in your script.
+-- 4. Require the KeyEvents in your script.
 -- local EVENT = require("objects.Enums.KeyEvents")
 
--- 3. Add this line of code in a keypressed() callback.
+-- 5. Add this line of code in a keypressed() callback.
 -- local event = keybindManager:getEventForKeypress(key)
 
--- 4. Utilize your keybind in if statements.
+-- 6. Utilize your keybind in if statements.
 -- if event == EVENT.GenericNameHere
 
--- 5. Done.
+-- 7. Done.
 
 
 --- Assigns a key to a certain Keybind.
