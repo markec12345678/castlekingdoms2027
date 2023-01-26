@@ -66,6 +66,9 @@ local function displayTooltips()
     fletcherButton:setTooltip("FletcherWorkshop",
         getCostAndType("FletcherWorkshop") ..
         "\nProduces bows and crossbows from wood")
+    poleturnerButton:setTooltip("PoleturnerWorkshop",
+        getCostAndType("PoleturnerWorkshop") ..
+        "\nProduces spears and pikes from wood")
     blacksmithButton:setTooltip("BlacksmithWorkshop",
         getCostAndType("BlacksmithWorkshop") .. "\nProduces swords and maces from iron")
 end

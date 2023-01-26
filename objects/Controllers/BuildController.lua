@@ -5,6 +5,7 @@ local WallController = require("objects.Controllers.WallController")
 
 local tileWidth, tileHeight = _G.tileWidth, _G.tileHeight
 local IsoToScreenX, IsoToScreenY = _G.IsoToScreenX, _G.IsoToScreenY
+local warningTooltip = require("states.ui.warning_tooltip")
 
 local building = require("objects.buildings")
 
@@ -48,6 +49,11 @@ function BuildController:initialize()
     self.quads[2] = love.graphics.newQuad(30, 0, 30, 16, image:getWidth(), image:getHeight())
     self.quads[3] = love.graphics.newQuad(60, 0, 30, 16, image:getWidth(), image:getHeight())
     self.quads[4] = love.graphics.newQuad(90, 0, 30, 16, image:getWidth(), image:getHeight())
+end
+
+function BuildController:disable()
+    self.active = false
+    warningTooltip:HideTooltip()
 end
 
 function BuildController:serialize()
@@ -194,6 +200,10 @@ function BuildController:update()
                     self.cannotBuildBecauseSpecial = true
                 else
                     self.cannotBuildBecauseSpecial = false
+                    warningTooltip:HideTooltip()
+                end
+                if not self.start and not self:isBuildingAffordable(self.building) then
+                    warningTooltip:ShowTooltip("Not enough resources!")
                 end
                 self.batch:clear()
                 for xx = 0, self.width - 1 do

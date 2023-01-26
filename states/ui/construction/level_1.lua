@@ -44,7 +44,7 @@ local backButton = ActionBarButton:new(love.graphics.newImage("assets/ui/back_ab
 backButton:setOnClick(function(self)
     ActionBar:showGroup("main")
     if not _G.BuildController.start then
-        _G.BuildController.active = false
+        _G.BuildController:disable()
         if _G.BuildController.onBuildCallback then
             _G.BuildController.onBuildCallback()
             _G.BuildController.onBuildCallback = nil

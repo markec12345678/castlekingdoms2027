@@ -38,7 +38,8 @@ function HighlightView:update()
         return
     end
     structure = structure.parent or structure
-    if self.lastStructure and self.lastStructure.exitHover and self.lastStructure ~= structure and not _G.DestructionController.active then
+    if self.lastStructure and self.lastStructure.exitHover and self.lastStructure ~= structure and
+        not _G.DestructionController.active then
         self.lastStructure:exitHover()
         buildingTooltip:HideTooltip()
     end

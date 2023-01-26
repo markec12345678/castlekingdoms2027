@@ -205,7 +205,7 @@ function game:mousepressed(x, y, button, istouch)
     end
     if button == 2 then
         if not _G.BuildController.start then
-            _G.BuildController.active = false
+            _G.BuildController:disable()
             local WallController = require("objects.Controllers.WallController")
             WallController.clicked = false
             if _G.BuildController.onBuildCallback then
@@ -246,7 +246,7 @@ function game:keypressed(key, scancode, isRepeat)
             loveframes.GetState() == states.STATE_INGAME_CONSTRUCTION) then
             if _G.BuildController.active and not _G.BuildController.start then
                 ActionBar:unselectAll()
-                _G.BuildController.active = false
+                _G.BuildController:disable()
                 return
             end
             if _G.DestructionController.active then
