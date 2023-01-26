@@ -51,6 +51,22 @@ function _G.arrayRemove(t, fnKeep)
             end
             j = j + 1
         else
+            t[i] = nil
+        end
+    end
+    return t
+end
+
+function _G.removeFromObjectsArray(t, fnKeep)
+    local j, n = 1, #t
+    for i = 1, n do
+        if (fnKeep(t, i, j)) then
+            if (i ~= j) then
+                t[j] = t[i]
+                t[i] = nil
+            end
+            j = j + 1
+        else
             _G.removeObjectAt(t[i].cx, t[i].cy, t[i].i, t[i].o, t[i])
             t[i] = nil
         end

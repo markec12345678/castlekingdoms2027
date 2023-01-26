@@ -196,7 +196,7 @@ function _G.removeObjectAt(cx, cy, x, y, objectToRemove)
                     break
                 end
             end
-        -- If nil, then remove all objects from the specified tile.
+            -- If nil, then remove all objects from the specified tile.
         else
             for _, currentObject in ipairs(object[cx][cy][x][y]) do
                 currentObject:destroy()
@@ -374,14 +374,14 @@ end
 function _G.allocateMesh(cx, cy)
     local chunkX = cx
     local chunkY = cy
-    local treeverts = { { 0, 0, 0, 0, 1.0, 1.0, 1.0, 1.0, 1.0 }, { 1, 0, 1, 0, 1.0, 1.0, 1.0, 1.0, 1.0 },
-        { 0, 1, 0, 1, 1.0, 1.0, 1.0, 1.0, 1.0 }, { 1, 1, 1, 1, 1.0, 1.0, 1.0, 1.0, 1.0 } }
+    local treeverts = {{0, 0, 0, 0, 1.0, 1.0, 1.0, 1.0, 1.0}, {1, 0, 1, 0, 1.0, 1.0, 1.0, 1.0, 1.0},
+        {0, 1, 0, 1, 1.0, 1.0, 1.0, 1.0, 1.0}, {1, 1, 1, 1, 1.0, 1.0, 1.0, 1.0, 1.0}}
     if objectBatch[chunkX][chunkY] == nil then
         objectBatch[chunkX][chunkY] = love.graphics.newMesh(treeverts, "strip", "static")
     end
-    local instancemesh = love.graphics.newMesh({ { "InstancePosition", "float", 2 }, { "UVOffset", "float", 2 },
-        { "ImageDim", "float", 2 }, { "ImageShade", "float", 1 },
-        { "Scale", "float", 2 } },
+    local instancemesh = love.graphics.newMesh({{"InstancePosition", "float", 2}, {"UVOffset", "float", 2},
+        {"ImageDim", "float", 2}, {"ImageShade", "float", 1},
+        {"Scale", "float", 2}},
         _G.chunkWidth * _G.chunkHeight * _G.state.verticesPerTile + 1000, nil, "dynamic")
     _G.state.objectMesh[chunkX][chunkY] = instancemesh
     objectBatch[chunkX][chunkY]:setTexture(objectAtlas)
@@ -720,7 +720,7 @@ local function update(dt)
         end
     end
     if needsToBeDeleted then
-        activeEntities = _G.arrayRemove(activeEntities, function(t, i, j)
+        activeEntities = _G.removeFromObjectsArray(activeEntities, function(t, i, j)
             return not objectsToBeDeleted[i]
         end)
     end

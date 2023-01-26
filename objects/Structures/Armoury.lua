@@ -174,6 +174,17 @@ function Armoury:initialize(gx, gy)
     self:applyBuildingHeightMap()
 end
 
+function Armoury:destroy()
+    _G.arrayRemove(_G.weaponpile.nodeList, function(t, i, j)
+        local pile = _G.weaponpile.nodeList[i]
+        return not (pile.gx == self.gx + 4 and pile.gy == self.gy + 4)
+            and not (pile.gx == self.gx - 1 and pile.gy == self.gy + 4)
+            and not (pile.gx == self.gx + 4 and pile.gy == self.gy - 1)
+            and not (pile.gx == self.gx - 1 and pile.gy == self.gy - 1)
+    end)
+    Structure.destroy(self)
+end
+
 function Armoury:onClick()
     local ActionBar = require("states.ui.ActionBar")
     ActionBar:switchMode("armoury")

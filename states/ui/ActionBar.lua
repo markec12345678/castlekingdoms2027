@@ -72,7 +72,7 @@ end
 function ActionBar:switchMode(mode)
     self:unselectAll()
     if not _G.BuildController.start then
-        _G.BuildController.active = false
+        _G.BuildController:disable()
     end
     local buildingHover = require("states.ui.building_tooltip")
     _G.DestructionController.active = false

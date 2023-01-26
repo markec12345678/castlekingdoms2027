@@ -172,6 +172,17 @@ function Granary:initialize(gx, gy, type)
     Structure.render(self)
 end
 
+function Granary:destroy()
+    _G.arrayRemove(_G.foodpile.nodeList, function(t, i, j)
+        local pile = _G.foodpile.nodeList[i]
+        return not (pile.gx == self.gx + 4 and pile.gy == self.gy + 4)
+            and not (pile.gx == self.gx - 1 and pile.gy == self.gy + 4)
+            and not (pile.gx == self.gx + 4 and pile.gy == self.gy - 1)
+            and not (pile.gx == self.gx - 1 and pile.gy == self.gy - 1)
+    end)
+    Structure.destroy(self)
+end
+
 function Granary:onClick()
     local ActionBar = require("states.ui.ActionBar")
     ActionBar:switchMode("granary")

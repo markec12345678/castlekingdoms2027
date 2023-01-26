@@ -33,6 +33,8 @@ local WoodenKeep = require("objects.Structures.WoodenKeep")
 local Keep = require("objects.Structures.Keep")
 local Fortress = require("objects.Structures.Fortress")
 
+local warningTooltip = require("states.ui.warning_tooltip")
+
 local objectFromTypeAt = _G.objectFromTypeAt
 local chunkWidth = _G.chunkWidth
 
@@ -99,6 +101,7 @@ local buildings = {
                     end
                 end
             end
+            warningTooltip:ShowTooltip("Needs to placed adjacent to a stockpile!")
         end,
         onFailedSpecialRequirement = function()
             _G.playSpeech("adjacent_stockpile")
@@ -132,6 +135,7 @@ local buildings = {
                     end
                 end
             end
+            warningTooltip:ShowTooltip("Needs to placed adjacent to a granary!")
         end
     },
     [Quarry.name] = {
@@ -154,6 +158,7 @@ local buildings = {
                     end
                 end
             end
+            warningTooltip:ShowTooltip("Needs to placed on top of stone!")
         end,
         overrideRequirements = function(self, ctrl)
             local type
@@ -166,6 +171,8 @@ local buildings = {
             end
             if not self:specialRequirements(ctrl.gx, ctrl.gy) then
                 ctrl.canBuild = false
+            else
+                warningTooltip:HideTooltip()
             end
             ctrl.batch:clear()
             for xx = 0, ctrl.width - 1 do
@@ -219,6 +226,7 @@ local buildings = {
                     end
                 end
             end
+            warningTooltip:ShowTooltip("Needs to placed on top of iron ore!")
         end,
         overrideRequirements = function(self, ctrl)
             local type
@@ -231,6 +239,8 @@ local buildings = {
             end
             if not self:specialRequirements(ctrl.gx, ctrl.gy) then
                 ctrl.canBuild = false
+            else
+                warningTooltip:HideTooltip()
             end
             ctrl.batch:clear()
             for xx = 0, ctrl.width - 1 do
@@ -343,6 +353,9 @@ local buildings = {
             Armoury:new(gx, gy)
         end,
         specialRequirements = function(self, gx, gy)
+            if _G.BuildingManager:count("Armoury") == 0 then
+                _G.state.firstArmoury = true
+            end
             if _G.state.firstArmoury then
                 return true
             end
@@ -359,6 +372,7 @@ local buildings = {
                     end
                 end
             end
+            warningTooltip:ShowTooltip("Needs to placed adjacent to an armory!")
         end
     },
     [WoodenGateEast.name] = {
@@ -681,7 +695,11 @@ local buildings = {
             Armorer:new(gx, gy)
         end,
         specialRequirements = function(self, _, _)
-            return true
+            if _G.BuildingManager:count("Armoury") >= 1 then
+                return true
+            else
+                warningTooltip:ShowTooltip("You need an armoury to build this!")
+            end
         end
     },
     [FletcherWorkshop.name] = {
@@ -698,7 +716,11 @@ local buildings = {
             FletcherWorkshop:new(gx, gy)
         end,
         specialRequirements = function(self, _, _)
-            return true
+            if _G.BuildingManager:count("Armoury") >= 1 then
+                return true
+            else
+                warningTooltip:ShowTooltip("You need an armoury to build this!")
+            end
         end
     },
     [PoleturnerWorkshop.name] = {
@@ -715,7 +737,11 @@ local buildings = {
             PoleturnerWorkshop:new(gx, gy)
         end,
         specialRequirements = function(self, _, _)
-            return true
+            if _G.BuildingManager:count("Armoury") >= 1 then
+                return true
+            else
+                warningTooltip:ShowTooltip("You need an armoury to build this!")
+            end
         end
     },
     [BlacksmithWorkshop.name] = {
@@ -732,7 +758,11 @@ local buildings = {
             BlacksmithWorkshop:new(gx, gy)
         end,
         specialRequirements = function(self, _, _)
-            return true
+            if _G.BuildingManager:count("Armoury") >= 1 then
+                return true
+            else
+                warningTooltip:ShowTooltip("You need an armoury to build this!")
+            end
         end
     },
     [Brewery.name] = {
