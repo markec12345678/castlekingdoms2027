@@ -102,9 +102,21 @@ end
 function KeybindManager:loadKeybinds()
     if love.filesystem.getInfo("keybinds.json") then
         local loadedKeybinds = json.decode(love.filesystem.read("keybinds.json"))
+        -- Check for missing keybindings
+        local incomplete = false
+        for key, value in pairs(self.keybinds) do
+            if not loadedKeybinds[key] then
+                print("Keybinds incomplete, added missing keybindings for", key)
+                incomplete = true
+                loadedKeybinds[key] = value
+            end
+        end
         if self:validateKeybindsTable(loadedKeybinds) then
             self.keybinds = loadedKeybinds
             print("Found a valid keybind file!")
+            if incomplete then
+                self:saveKeybinds()
+            end
         else
             print("Found keybinds, but they are not valid. Falling back to defaults.")
             self:saveKeybinds()
