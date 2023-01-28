@@ -1,35 +1,49 @@
-![](assets/other/sk_logo_medium.png)
+<div align="center">
+  <img alt="Stone Kingdoms" src="assets/other/sk_logo_medium.png"/>
+</div>
 
-## Stone Kingdoms
+<div align="center">
+  <a href="https://stonekingdoms.itch.io/stone-kingdoms-rts">
+    <img height="48" alt="Download on Itch" src="https://static.itch.io/images/badge.svg"/>
+  </a>
+  <a href="https://flathub.org/apps/details/io.gitlab.stone_kingdoms.StoneKingdoms">
+    <img height="48" alt="Download on Flathub" src="https://flathub.org/assets/badges/flathub-badge-en.svg"/>
+  </a>
+</div>
 
-A real-time strategy game built with LÖVE 11.4 and written in LuaJIT.
+<br/>
 
-### Latest release
+<div align="center">
+  <img src="assets/other/screenshot_1.jpg" alt="Screenshot"/>
+</div>
 
-The latest playable release is available on [itch.io](https://stonekingdoms.itch.io/stone-kingdoms-rts)
+<br/>
 
-### Prerequisites for development
+Open source fan remake of the famous Stronghold from Firefly Studios
+
+Experience the thrill of medieval castle building and destruction in our
+isometric, open source strategy game - a modern remake of Firefly Studios'
+classic Stronghold. Immerse yourself in a world of strategy and tactical
+decision making as you design and defend your own castles in medieval Europe.
+
+## Prerequisites for development
 1. Install [Git Large File Storage](https://git-lfs.github.com/)
 2. Install LÖVE 11.4 from the [official website](https://love2d.org/)
 
-### Install from source
+## Install from source
 
 1. Download the repository from [here](https://gitlab.com/kaylemaster/stone-kingdoms/-/archive/master/stone-kingdoms-master.zip) or clone via git
 2. Open terminal or command line in the directory where `main.lua` is located
 3. Run `love .` and play!
 
-### Screenshots
-![](assets/other/screenshot_1.jpg)
-
-### Links
+## Links
 * [Discord server](https://discord.gg/PRh8SPZxEf)
 
-### How to contribute
+## How to contribute
 Contact Kayle in the discord server for more instructions.
 We can use help in the programming, design and game balance department.
 
-### License
----
+## License
 
 Stone Kingdoms is licensed under Apache 2.0 License. See LICENSE.md for more details.
 
