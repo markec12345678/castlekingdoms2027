@@ -11,6 +11,7 @@ function KeybindManager:initialize()
         [EVENT.DecreaseGameSpeed]  = {"-", "kp-"},
         [EVENT.Screenshot]         = {"f12"},
         [EVENT.Escape]             = {"escape"},
+        [EVENT.ToggleDebugView]    = {"v"},
         [EVENT.CamUp]              = {"w", "up"},
         [EVENT.CamLeft]            = {"a", "left"},
         [EVENT.CamDown]            = {"s", "down"},
