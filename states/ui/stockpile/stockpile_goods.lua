@@ -89,49 +89,49 @@ local frFlourButton = {
 
 local currentStockWood = loveframes.Create("text")
 currentStockWood:SetState(states.STATE_STOCKPILE)
-currentStockWood:SetFont(loveframes.font_immortal_large)
+currentStockWood:SetFont(loveframes.font_times_new_normal_large)
 currentStockWood:SetPos(frWoodButton.x - 10 + (frWoodButton.width / 2), frWoodButton.y + 51 * scale)
 currentStockWood:SetShadow(false)
 
 local currentStockStone = loveframes.Create("text")
 currentStockStone:SetState(states.STATE_STOCKPILE)
-currentStockStone:SetFont(loveframes.font_immortal_large)
+currentStockStone:SetFont(loveframes.font_times_new_normal_large)
 currentStockStone:SetPos(frStoneButton.x - 9 + (frStoneButton.width / 2), frStoneButton.y + 49 * scale)
 currentStockStone:SetShadow(false)
 
 local currentStockWheat = loveframes.Create("text")
 currentStockWheat:SetState(states.STATE_STOCKPILE)
-currentStockWheat:SetFont(loveframes.font_immortal_large)
+currentStockWheat:SetFont(loveframes.font_times_new_normal_large)
 currentStockWheat:SetPos(frWheatButton.x - 10 + (frWheatButton.width / 2), frWheatButton.y + 55 * scale)
 currentStockWheat:SetShadow(false)
 
 local currentStockTar = loveframes.Create("text")
 currentStockTar:SetState(states.STATE_STOCKPILE)
-currentStockTar:SetFont(loveframes.font_immortal_large)
+currentStockTar:SetFont(loveframes.font_times_new_normal_large)
 currentStockTar:SetPos(frTarButton.x - 7 + (frTarButton.width / 2), frTarButton.y + 53 * scale)
 currentStockTar:SetShadow(false)
 
 local currentStockAle = loveframes.Create("text")
 currentStockAle:SetState(states.STATE_STOCKPILE)
-currentStockAle:SetFont(loveframes.font_immortal_large)
+currentStockAle:SetFont(loveframes.font_times_new_normal_large)
 currentStockAle:SetPos(frAleButton.x - 7 + (frAleButton.width / 2), frAleButton.y + 47 * scale)
 currentStockAle:SetShadow(false)
 
 local currentStockIron = loveframes.Create("text")
 currentStockIron:SetState(states.STATE_STOCKPILE)
-currentStockIron:SetFont(loveframes.font_immortal_large)
+currentStockIron:SetFont(loveframes.font_times_new_normal_large)
 currentStockIron:SetPos(frIronButton.x - 7 + (frIronButton.width / 2), frIronButton.y + 48 * scale)
 currentStockIron:SetShadow(false)
 
 local currentStockHop = loveframes.Create("text")
 currentStockHop:SetState(states.STATE_STOCKPILE)
-currentStockHop:SetFont(loveframes.font_immortal_large)
+currentStockHop:SetFont(loveframes.font_times_new_normal_large)
 currentStockHop:SetPos(frHopButton.x - 6 + (frHopButton.width / 2), frHopButton.y + 45 * scale)
 currentStockHop:SetShadow(false)
 
 local currentStockFlour = loveframes.Create("text")
 currentStockFlour:SetState(states.STATE_STOCKPILE)
-currentStockFlour:SetFont(loveframes.font_immortal_large)
+currentStockFlour:SetFont(loveframes.font_times_new_normal_large)
 currentStockFlour:SetPos(frFlourButton.x - 8 + (frFlourButton.width / 2), frFlourButton.y + 52 * scale)
 currentStockFlour:SetShadow(false)
 
@@ -157,7 +157,7 @@ function SwitchToTheMarket()
 end
 
 function actionBar:updateStockpileResourcesCount()
-    
+
     currentStockWood:SetText({{
         color = {0, 0, 0, 1}
     }, _G.state.resources["wood"]})
@@ -184,6 +184,7 @@ function actionBar:updateStockpileResourcesCount()
     }, _G.state.resources["flour"]})
 
 end
+
 -- wood button
 local woodIconButton = loveframes.Create("image")
 woodIconButton:SetState(states.STATE_STOCKPILE)
