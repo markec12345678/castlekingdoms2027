@@ -118,20 +118,33 @@ barracksButton:setOnClick(
         ActionBar:selectButton(barracksButton)
     end)
 
+local stoneBarracksButton = ActionBarButton:new(love.graphics.newImage("assets/ui/stoneBarracks_ab.png"),
+    states.STATE_INGAME_CONSTRUCTION, 8, false, nil)
+stoneBarracksButton:setOnClick(
+    function(self)
+        _G.BuildController:set(
+            "StoneBarracks", function()
+            stoneBarracksButton:unselect()
+        end)
+        ActionBar:selectButton(stoneBarracksButton)
+    end)
+
 local function displayTooltips()
     castleButton:setTooltip("WoodenKeep", getCostAndType("WoodenKeep"))
     walkableWoodenWallButton:setTooltip("Walkable Wooden Wall",
-        getCostAndType("WalkableWoodenWall") .. "\nA defensive wall made that is walkable on the top")
+        getCostAndType("WalkableWoodenWall") .. "\nA defensive wall made that is walkable on the top.")
     woodenTowerButton:setTooltip("Wooden Tower",
-        getCostAndType("WoodenTower") .. "\nA wooden tower that is missing some stairs apparently")
+        getCostAndType("WoodenTower") .. "\nA wooden tower that is missing some stairs apparently.")
     woodenGateEastButton:setTooltip("Wooden Gate",
-        getCostAndType("WoodenGateEast") .. "\nA wooden gate that can let friendly units pass through")
+        getCostAndType("WoodenGateEast") .. "\nA wooden gate that can let friendly units pass through.")
     woodenGateSouthButton:setTooltip("Wooden Gate",
-        getCostAndType("WoodenGateSouth") .. "\nA wooden gate that can let friendly units pass through")
+        getCostAndType("WoodenGateSouth") .. "\nA wooden gate that can let friendly units pass through.")
     woodenWallButton:setTooltip("Wooden Wall",
-        getCostAndType("WoodenWall") .. "\nA defensive wall made from sharpened tree trunks")
+        getCostAndType("WoodenWall") .. "\nA defensive wall made from sharpened tree trunks.")
     barracksButton:setTooltip("Barracks",
-        getCostAndType("Barracks") .. "\nA building allowing you to recruit units")
+        getCostAndType("Barracks") .. "\nA building allowing you to recruit units.")
+    stoneBarracksButton:setTooltip("StoneBarracks",
+        getCostAndType("StoneBarracks") .. "\nA building allowing you to recruit units.")
 end
 
 el.buttons.castleButton:setOnClick(
@@ -142,4 +155,4 @@ el.buttons.castleButton:setOnClick(
 
 ActionBar:registerGroup("castle",
     {castleButton, woodenWallButton, walkableWoodenWallButton, woodenTowerButton, woodenGateEastButton,
-        woodenGateSouthButton, barracksButton, backButton, destroyButton})
+        woodenGateSouthButton, barracksButton, stoneBarracksButton, backButton, destroyButton})

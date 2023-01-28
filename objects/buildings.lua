@@ -20,6 +20,7 @@ local WoodenGateEast = require("objects.Structures.WoodenGateEast")
 local WoodenGateSouth = require("objects.Structures.WoodenGateSouth")
 local Inn = require("objects.Structures.Inn")
 local Barracks = require("objects.Structures.Barracks")
+local StoneBarracks = require("objects.Structures.StoneBarracks")
 local ArcheryTarget = require("objects.Structures.ArcheryTarget")
 local MeleeTarget = require("objects.Structures.MeleeTarget")
 local WoodPole = require("objects.Structures.WoodPole")
@@ -662,7 +663,7 @@ local buildings = {
     [Barracks.name] = {
         quad = tileQuads["barracks (1)"],
         offsetX = 64,
-        offsetY = 70,
+        offsetY = 69,
         w = 10,
         h = 10,
         cost = {
@@ -676,6 +677,28 @@ local buildings = {
             archery.parent = barracks
             melee.parent = barracks
             pole.parent = barracks
+        end,
+        specialRequirements = function(self, _, _)
+            return true
+        end
+    },
+    [StoneBarracks.name] = {
+        quad = tileQuads["barracks (2)"],
+        offsetX = 64,
+        offsetY = 80,
+        w = 10,
+        h = 10,
+        cost = {
+            ["stone"] = 15
+        },
+        build = function(self, gx, gy)
+            local stonebarracks = StoneBarracks:new(gx, gy)
+            local archery = ArcheryTarget:new(gx + 7, gy + 7)
+            local melee = MeleeTarget:new(gx + 2, gy + 7)
+            local pole = WoodPole:new(gx + 7, gy + 2)
+            archery.parent = stonebarracks
+            melee.parent = stonebarracks
+            pole.parent = stonebarracks
         end,
         specialRequirements = function(self, _, _)
             return true
