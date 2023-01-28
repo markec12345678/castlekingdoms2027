@@ -1,0 +1,76 @@
+local TimeController = _G.class("TimeController")
+local actionBar = require("states.ui.ActionBar")
+TimeController.static.TIME_MONTHS = {
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+}
+TimeController.static.TIME_INTERVAL = 30
+function TimeController:initialize()
+    self.timer = 0
+    self.currentMonth = self.class.TIME_MONTHS[1]
+    self.month = 1
+    self.year = 1000
+end
+
+function TimeController:serialize()
+    local data = {}
+
+    data.timer = self.timer
+    data.currentMonth = self.currentMonth
+    data.month = self.month
+    data.year = self.year
+
+    return data
+end
+
+function TimeController:deserialize(data)
+    for k, v in pairs(data) do
+        self[k] = v
+    end
+end
+
+function TimeController:setMonth(month)
+    self.month = month
+end
+
+function TimeController:setCurrentMonth(month)
+    self.currentMonth = self.class.TIME_MONTHS[month]
+end
+
+function TimeController:setCurrentYear(year)
+    self.year = year
+end
+
+function TimeController:getCurrentMonth()
+    return self.currentMonth
+end
+
+function TimeController:getCurrentYear()
+    return self.year
+end
+
+function TimeController:update()
+    self.timer = self.timer + _G.dt
+    if self.timer >= self.class.TIME_INTERVAL then
+        self:setMonth(self.month + 1)
+        self:setCurrentMonth(self.month)
+        if self.month == 13 then
+            self:setCurrentMonth(1)
+            self:setMonth(1)
+            self:setCurrentYear(self.year + 1)
+        end
+        self.timer = 0
+    end
+end
+
+return TimeController:new()

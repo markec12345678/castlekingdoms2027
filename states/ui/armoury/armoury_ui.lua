@@ -84,49 +84,49 @@ local frArmourButton = {
 
 local currentStockBow = loveframes.Create("text")
 currentStockBow:SetState(states.STATE_ARMOURY)
-currentStockBow:SetFont(loveframes.font_vera_italic) --TODO add font_times_new_normal_large
+currentStockBow:SetFont(loveframes.font_times_new_normal_large)
 currentStockBow:SetPos(frBowButton.x + (frBowButton.width / 2), frBowButton.y + 48)
 currentStockBow:SetShadow(false)
 
 local currentStockSpear = loveframes.Create("text")
 currentStockSpear:SetState(states.STATE_ARMOURY)
-currentStockSpear:SetFont(loveframes.font_vera_italic) --TODO add font_times_new_normal_large
+currentStockSpear:SetFont(loveframes.font_times_new_normal_large)
 currentStockSpear:SetPos(frSpearButton.x + (frSpearButton.width / 2), frSpearButton.y + 48)
 currentStockSpear:SetShadow(false)
 
 local currentStockMace = loveframes.Create("text")
 currentStockMace:SetState(states.STATE_ARMOURY)
-currentStockMace:SetFont(loveframes.font_vera_italic) --TODO add font_times_new_normal_large
+currentStockMace:SetFont(loveframes.font_times_new_normal_large)
 currentStockMace:SetPos(frMaceButton.x + (frMaceButton.width / 2), frMaceButton.y + 48)
 currentStockMace:SetShadow(false)
 
 local currentStockCrossbow = loveframes.Create("text")
 currentStockCrossbow:SetState(states.STATE_ARMOURY)
-currentStockCrossbow:SetFont(loveframes.font_vera_italic) --TODO add font_times_new_normal_large
+currentStockCrossbow:SetFont(loveframes.font_times_new_normal_large)
 currentStockCrossbow:SetPos(frCrossbowButton.x + (frCrossbowButton.width / 2), frCrossbowButton.y + 48)
 currentStockCrossbow:SetShadow(false)
 
 local currentStockPike = loveframes.Create("text")
 currentStockPike:SetState(states.STATE_ARMOURY)
-currentStockPike:SetFont(loveframes.font_vera_italic) --TODO add font_times_new_normal_large
+currentStockPike:SetFont(loveframes.font_times_new_normal_large)
 currentStockPike:SetPos(frPikeButton.x + (frPikeButton.width / 2), frPikeButton.y + 48)
 currentStockPike:SetShadow(false)
 
 local currentStockSword = loveframes.Create("text")
 currentStockSword:SetState(states.STATE_ARMOURY)
-currentStockSword:SetFont(loveframes.font_vera_italic) --TODO add font_times_new_normal_large
+currentStockSword:SetFont(loveframes.font_times_new_normal_large)
 currentStockSword:SetPos(frSwordButton.x + (frSwordButton.width / 2), frSwordButton.y + 48)
 currentStockSword:SetShadow(false)
 
 local currentStockLeather = loveframes.Create("text")
 currentStockLeather:SetState(states.STATE_ARMOURY)
-currentStockLeather:SetFont(loveframes.font_vera_italic) --TODO add font_times_new_normal_large
+currentStockLeather:SetFont(loveframes.font_times_new_normal_large)
 currentStockLeather:SetPos(frLetherButton.x + (frLetherButton.width / 2), frLetherButton.y + 48)
 currentStockLeather:SetShadow(false)
 
 local currentStockArmor = loveframes.Create("text")
 currentStockArmor:SetState(states.STATE_ARMOURY)
-currentStockArmor:SetFont(loveframes.font_vera_italic) --TODO add font_times_new_normal_large
+currentStockArmor:SetFont(loveframes.font_times_new_normal_large)
 currentStockArmor:SetPos(frArmourButton.x + (frArmourButton.width / 2), frArmourButton.y + 48)
 currentStockArmor:SetText({{
     color = {0, 0, 0, 1}
@@ -134,7 +134,7 @@ currentStockArmor:SetText({{
 currentStockArmor:SetShadow(false)
 local noMarketInfo = loveframes.Create("text")
 noMarketInfo:SetState(states.STATE_ARMOURY)
-noMarketInfo:SetFont(loveframes.font_vera_italic) --TODO add font_times_new_normal_large
+noMarketInfo:SetFont(loveframes.font_times_new_normal_large)
 noMarketInfo:SetSize(50, 20)
 noMarketInfo:SetVisible(false)
 noMarketInfo:SetPos(frBowButton.x - 100 + (frBowButton.width / 2), frBowButton.y)

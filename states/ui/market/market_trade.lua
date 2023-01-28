@@ -275,7 +275,7 @@ local frBackButton = {
     width = IncButtonImage:getWidth() * scale,
     height = IncButtonImage:getHeight() * scale
 }
-local frBackButtonA = { --HACK
+local frBackButtonA = {--HACK
     x = framesActionBar.frFull.x + 1920 * scale,
     y = framesActionBar.frFull.y + 1080 * scale,
     width = 0,
@@ -333,45 +333,45 @@ end
 
 local priceText = loveframes.Create("text")
 priceText:SetState(states.STATE_MARKET)
-priceText:SetFont(loveframes.font_vera_italic)
+priceText:SetFont(loveframes.font_times_new_normal_large)
 priceText:SetPos(frGold.x, frGold.y)
-priceText:SetText({ {
-    color = { 0, 0, 0, 1 }
-}, "5" })
+priceText:SetText({{
+    color = {0, 0, 0, 1}
+}, "5"})
 priceText:SetShadow(false)
 
 local quantityText = loveframes.Create("text")
 quantityText:SetState(states.STATE_MARKET)
-quantityText:SetFont(loveframes.font_vera_italic)
+quantityText:SetFont(loveframes.font_times_new_normal_large)
 quantityText:SetPos(frQuantity.x, frQuantity.y)
-quantityText:SetText({ {
-    color = { 0, 0, 0, 1 }
-}, "5" })
+quantityText:SetText({{
+    color = {0, 0, 0, 1}
+}, "5"})
 quantityText:SetShadow(false)
 
 local currentStock = loveframes.Create("text")
 currentStock:SetState(states.STATE_MARKET)
-currentStock:SetFont(loveframes.font_vera_italic) --TODO add font_times_new_normal_large
+currentStock:SetFont(loveframes.font_times_new_normal_large)
 currentStock:SetPos(frStock.x, frStock.y)
-currentStock:SetText({ {
-    color = { 0, 0, 0, 1 }
-}, "" })
+currentStock:SetText({{
+    color = {0, 0, 0, 1}
+}, ""})
 currentStock:SetShadow(false)
 local function DisplayCurrentStock(itemGroup)
     if itemGroup == 1 then
-        currentStock:SetText({ {
-            color = { 0, 0, 0, 1 }
-        }, _G.state.food[good] })
+        currentStock:SetText({{
+            color = {0, 0, 0, 1}
+        }, _G.state.food[good]})
     end
     if itemGroup == 2 then
-        currentStock:SetText({ {
-            color = { 0, 0, 0, 1 }
-        }, _G.state.resources[good] })
+        currentStock:SetText({{
+            color = {0, 0, 0, 1}
+        }, _G.state.resources[good]})
     end
     if itemGroup == 3 then
-        currentStock:SetText({ {
-            color = { 0, 0, 0, 1 }
-        }, _G.state.weapons[good] })
+        currentStock:SetText({{
+            color = {0, 0, 0, 1}
+        }, _G.state.weapons[good]})
     end
 end
 
@@ -1022,7 +1022,7 @@ weaponButton.OnMouseExit = function(self)
     end
 end
 
-actionBar:registerGroup("market_trade", { backButtonA })
+actionBar:registerGroup("market_trade", {backButtonA})
 
 local IncButton = loveframes.Create("image")
 IncButton:SetState(states.STATE_MARKET)
@@ -1043,13 +1043,13 @@ IncButton.OnClick = function(self)
     quantity = quantity + 5
     price = ((5 * quantity) / 5)
 
-    priceText:SetText({ {
-        color = { 0, 0, 0, 1 }
-    }, price })
+    priceText:SetText({{
+        color = {0, 0, 0, 1}
+    }, price})
 
-    quantityText:SetText({ {
-        color = { 0, 0, 0, 1 }
-    }, quantity })
+    quantityText:SetText({{
+        color = {0, 0, 0, 1}
+    }, quantity})
 
 end
 
@@ -1077,13 +1077,13 @@ DecButton.OnClick = function(self)
         quantity = quantity - 5
         price = ((5 * quantity) / 5)
 
-        priceText:SetText({ {
-            color = { 0, 0, 0, 1 }
-        }, price })
+        priceText:SetText({{
+            color = {0, 0, 0, 1}
+        }, price})
 
-        quantityText:SetText({ {
-            color = { 0, 0, 0, 1 }
-        }, quantity })
+        quantityText:SetText({{
+            color = {0, 0, 0, 1}
+        }, quantity})
 
     end
 end

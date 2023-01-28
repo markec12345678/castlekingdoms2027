@@ -1,5 +1,6 @@
 local IsoX, IsoY = _G.IsoX, _G.IsoY
 local tileWidth, tileHeight = _G.tileWidth, _G.tileHeight
+local loveframes = require("libraries.loveframes")
 local camera = require("objects.Controllers.CameraController")
 
 function ScreenToIsoX(globalX, globalY)
@@ -129,6 +130,9 @@ local function draw()
     end
     love.graphics.print("FPS: " .. tostring(love.timer.getFPS()), 10,
         love.graphics.getHeight() - 30)
+    love.graphics.print(tostring(_G.TimeController:getCurrentMonth()) .. " " .. tostring(_G.TimeController:getCurrentYear()), loveframes.font_times_new_normal_large_48,
+        (love.graphics.getWidth() / 2) -
+        60, 10, 0, 1, 1)
 end
 
 local tableOfFunctions = {
