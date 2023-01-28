@@ -160,18 +160,19 @@ local function handleCamera()
         else
             -- Multiply with deltatime for consistent camera movement across all framerates.
             -- Only applies to Key movement and when the mouse is on the edge of the screen.
+            -- dt / _G.speedModifier means that the Camera speed is no longer dependent on the Game's speed multiplier.
             -- Right click is not affected by this.
             if shouldPan(panDirection.up) then
-                handleCameraMovement(nil, _G.state.viewYview  - (finalScrollSpeed * dt * CamSpeed))
+                handleCameraMovement(nil, _G.state.viewYview  - (finalScrollSpeed * (dt / _G.speedModifier) * CamSpeed))
             end
             if shouldPan(panDirection.down) then
-                handleCameraMovement(nil, _G.state.viewYview + (finalScrollSpeed * dt * CamSpeed))
+                handleCameraMovement(nil, _G.state.viewYview + (finalScrollSpeed * (dt / _G.speedModifier) * CamSpeed))
             end
             if shouldPan(panDirection.left) then
-                handleCameraMovement(_G.state.viewXview - (finalScrollSpeed * dt * CamSpeed), nil)
+                handleCameraMovement(_G.state.viewXview - (finalScrollSpeed * (dt / _G.speedModifier) * CamSpeed), nil)
             end
             if shouldPan(panDirection.right) then
-                handleCameraMovement(_G.state.viewXview + (finalScrollSpeed * dt * CamSpeed), nil)
+                handleCameraMovement(_G.state.viewXview + (finalScrollSpeed * (dt / _G.speedModifier) * CamSpeed), nil)
             end
             resetMousePositionIfNeeded()
         end
