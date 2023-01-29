@@ -1,5 +1,5 @@
 local _, _ = ...
-local Unit = require("objects.Units.Unit")
+local Worker = require("objects.Units.Worker")
 local Object = require("objects.Object")
 local indexQuads = _G.indexQuads
 local anim = _G.anim
@@ -60,49 +60,6 @@ local fr = {
     gather_hoe_part2_northwest = indexQuads("body_farmer_hoe_nw", 16, 13),
     gather_hoe_part2_southeast = indexQuads("body_farmer_hoe_se", 16, 13),
     gather_hoe_part2_southwest = indexQuads("body_farmer_hoe_sw", 16, 13),
-    -- moving with scythe
-    gather_moving_scythe_1_north = indexQuads("body_farmer_mow_scythe_n", 6),
-    gather_moving_scythe_1_west = indexQuads("body_farmer_mow_scythe_w", 6),
-    gather_moving_scythe_1_south = indexQuads("body_farmer_mow_scythe_s", 6),
-    gather_moving_scythe_1_east = indexQuads("body_farmer_mow_scythe_e", 6),
-    gather_moving_scythe_1_northeast = indexQuads("body_farmer_mow_scythe_ne", 6),
-    gather_moving_scythe_1_northwest = indexQuads("body_farmer_mow_scythe_nw", 6),
-    gather_moving_scythe_1_southeast = indexQuads("body_farmer_mow_scythe_se", 6),
-    gather_moving_scythe_1_southwest = indexQuads("body_farmer_mow_scythe_sw", 6),
-    -- moving with scythe
-    gather_moving_scythe_2_north = indexQuads("body_farmer_mow_scythe_n", 9, 7),
-    gather_moving_scythe_2_west = indexQuads("body_farmer_mow_scythe_w", 9, 7),
-    gather_moving_scythe_2_south = indexQuads("body_farmer_mow_scythe_s", 9, 7),
-    gather_moving_scythe_2_east = indexQuads("body_farmer_mow_scythe_e", 9, 7),
-    gather_moving_scythe_2_northeast = indexQuads("body_farmer_mow_scythe_ne", 9, 7),
-    gather_moving_scythe_2_northwest = indexQuads("body_farmer_mow_scythe_nw", 9, 7),
-    gather_moving_scythe_2_southeast = indexQuads("body_farmer_mow_scythe_se", 9, 7),
-    gather_moving_scythe_2_southwest = indexQuads("body_farmer_mow_scythe_sw", 9, 7),
-    -- moving with scythe
-    gather_moving_scythe_3_north = indexQuads("body_farmer_mow_scythe_n", 16, 10),
-    gather_moving_scythe_3_west = indexQuads("body_farmer_mow_scythe_w", 16, 10),
-    gather_moving_scythe_3_south = indexQuads("body_farmer_mow_scythe_s", 16, 10),
-    gather_moving_scythe_3_east = indexQuads("body_farmer_mow_scythe_e", 16, 10),
-    gather_moving_scythe_3_northeast = indexQuads("body_farmer_mow_scythe_ne", 16, 10),
-    gather_moving_scythe_3_northwest = indexQuads("body_farmer_mow_scythe_nw", 16, 10),
-    gather_moving_scythe_3_southeast = indexQuads("body_farmer_mow_scythe_se", 16, 10),
-    gather_moving_scythe_3_southwest = indexQuads("body_farmer_mow_scythe_sw", 16, 10),
-    -- mowing scythe
-    gather_scythe_north = indexQuads("body_farmer_mow_scythe_n", 8),
-    gather_scythe_west = indexQuads("body_farmer_mow_scythe_w", 8),
-    gather_scythe_south = indexQuads("body_farmer_mow_scythe_s", 8),
-    gather_scythe_northeast = indexQuads("body_farmer_mow_scythe_ne", 8),
-    gather_scythe_northwest = indexQuads("body_farmer_mow_scythe_nw", 8),
-    gather_scythe_southeast = indexQuads("body_farmer_mow_scythe_se", 8),
-    gather_scythe_southwest = indexQuads("body_farmer_mow_scythe_sw", 8),
-    -- walking scythe
-    gather_walk_scythe_north = indexQuads("body_farmer_walk_scythe_n", 16),
-    gather_walk_scythe_west = indexQuads("body_farmer_walk_scythe_w", 16),
-    gather_walk_scythe_south = indexQuads("body_farmer_walk_scythe_s", 16),
-    gather_walk_scythe_northeast = indexQuads("body_farmer_walk_scythe_ne", 16),
-    gather_walk_scythe_northwest = indexQuads("body_farmer_walk_scythe_nw", 16),
-    gather_walk_scythe_southeast = indexQuads("body_farmer_walk_scythe_se", 16),
-    gather_walk_scythe_southwest = indexQuads("body_farmer_walk_scythe_sw", 16),
     -- earthing
     gather_earthing_north = indexQuads("body_farmer_earth_n", 8),
     gather_earthing_west = indexQuads("body_farmer_earth_w", 8),
@@ -184,49 +141,6 @@ local AN = {
     GATHER_HOE_PART2_NORTHWEST = "Gather_Hoe_Part2_Northwest",
     GATHER_HOE_PART2_SOUTHEAST = "Gather_Hoe_Part2_Southeast",
     GATHER_HOE_PART2_SOUTHWEST = "Gather_Hoe_Part2_Southwest",
-    -- moving with scythe
-    GATHER_MOVING_SCYTHE_1_NORTH = "Gather_Moving_Scythe_1_North",
-    GATHER_MOVING_SCYTHE_1_WEST = "Gather_Moving_Scythe_1_West",
-    GATHER_MOVING_SCYTHE_1_SOUTH = "Gather_Moving_Scythe_1_South",
-    GATHER_MOVING_SCYTHE_1_EAST = "Gather_Moving_Scythe_1_East",
-    GATHER_MOVING_SCYTHE_1_NORTHEAST = "Gather_Moving_Scythe_1_Northeast",
-    GATHER_MOVING_SCYTHE_1_NORTHWEST = "Gather_Moving_Scythe_1_Northwest",
-    GATHER_MOVING_SCYTHE_1_SOUTHEAST = "Gather_Moving_Scythe_1_Southeast",
-    GATHER_MOVING_SCYTHE_1_SOUTHWEST = "Gather_Moving_Scythe_1_Southwest",
-    -- moving with scythe
-    GATHER_MOVING_SCYTHE_2_NORTH = "Gather_Moving_Scythe_2_North",
-    GATHER_MOVING_SCYTHE_2_WEST = "Gather_Moving_Scythe_2_West",
-    GATHER_MOVING_SCYTHE_2_SOUTH = "Gather_Moving_Scythe_2_South",
-    GATHER_MOVING_SCYTHE_2_EAST = "Gather_Moving_Scythe_2_East",
-    GATHER_MOVING_SCYTHE_2_NORTHEAST = "Gather_Moving_Scythe_2_Northeast",
-    GATHER_MOVING_SCYTHE_2_NORTHWEST = "Gather_Moving_Scythe_2_Northwest",
-    GATHER_MOVING_SCYTHE_2_SOUTHEAST = "Gather_Moving_Scythe_2_Southeast",
-    GATHER_MOVING_SCYTHE_2_SOUTHWEST = "Gather_Moving_Scythe_2_Southwest",
-    -- moving with scythe
-    GATHER_MOVING_SCYTHE_3_NORTH = "Gather_Moving_Scythe_3_North",
-    GATHER_MOVING_SCYTHE_3_WEST = "Gather_Moving_Scythe_3_West",
-    GATHER_MOVING_SCYTHE_3_SOUTH = "Gather_Moving_Scythe_3_South",
-    GATHER_MOVING_SCYTHE_3_EAST = "Gather_Moving_Scythe_3_East",
-    GATHER_MOVING_SCYTHE_3_NORTHEAST = "Gather_Moving_Scythe_3_Northeast",
-    GATHER_MOVING_SCYTHE_3_NORTHWEST = "Gather_Moving_Scythe_3_Northwest",
-    GATHER_MOVING_SCYTHE_3_SOUTHEAST = "Gather_Moving_Scythe_3_Southeast",
-    GATHER_MOVING_SCYTHE_3_SOUTHWEST = "Gather_Moving_Scythe_3_Southwest",
-    -- mowing scythe
-    GATHER_SCYTHE_NORTH = "Gather_Scythe_North",
-    GATHER_SCYTHE_WEST = "Gather_Scythe_West",
-    GATHER_SCYTHE_SOUTH = "Gather_Scythe_South",
-    GATHER_SCYTHE_NORTHEAST = "Gather_Scythe_Northeast",
-    GATHER_SCYTHE_NORTHWEST = "Gather_Scythe_Northwest",
-    GATHER_SCYTHE_SOUTHEAST = "Gather_Scythe_Southeast",
-    GATHER_SCYTHE_SOUTHWEST = "Gather_Scythe_Southwest",
-    -- walking scythe
-    GATHER_WALK_SCYTHE_NORTH = "Gather_Walk_Scythe_North",
-    GATHER_WALK_SCYTHE_WEST = "Gather_Walk_Scythe_West",
-    GATHER_WALK_SCYTHE_SOUTH = "Gather_Walk_Scythe_South",
-    GATHER_WALK_SCYTHE_NORTHEAST = "Gather_Walk_Scythe_Northeast",
-    GATHER_WALK_SCYTHE_NORTHWEST = "Gather_Walk_Scythe_Northwest",
-    GATHER_WALK_SCYTHE_SOUTHEAST = "Gather_Walk_Scythe_Southeast",
-    GATHER_WALK_SCYTHE_SOUTHWEST = "Gather_Walk_Scythe_Southwest",
     -- earthing
     GATHER_EARTHING_NORTH = "Gather_Earthing_North",
     GATHER_EARTHING_WEST = "Gather_Earthing_West",
@@ -307,49 +221,6 @@ local an = {
     [AN.GATHER_HOE_PART2_NORTHWEST] = fr.gather_hoe_part2_northwest,
     [AN.GATHER_HOE_PART2_SOUTHEAST] = fr.gather_hoe_part2_southeast,
     [AN.GATHER_HOE_PART2_SOUTHWEST] = fr.gather_hoe_part2_southwest,
-    -- moving with scythe
-    [AN.GATHER_MOVING_SCYTHE_1_NORTH] = fr.gather_moving_scythe_1_north,
-    [AN.GATHER_MOVING_SCYTHE_1_WEST] = fr.gather_moving_scythe_1_west,
-    [AN.GATHER_MOVING_SCYTHE_1_SOUTH] = fr.gather_moving_scythe_1_south,
-    [AN.GATHER_MOVING_SCYTHE_1_EAST] = fr.gather_moving_scythe_1_east,
-    [AN.GATHER_MOVING_SCYTHE_1_NORTHEAST] = fr.gather_moving_scythe_1_northeast,
-    [AN.GATHER_MOVING_SCYTHE_1_NORTHWEST] = fr.gather_moving_scythe_1_northwest,
-    [AN.GATHER_MOVING_SCYTHE_1_SOUTHEAST] = fr.gather_moving_scythe_1_southeast,
-    [AN.GATHER_MOVING_SCYTHE_1_SOUTHWEST] = fr.gather_moving_scythe_1_southwest,
-    -- moving with scythe
-    [AN.GATHER_MOVING_SCYTHE_2_NORTH] = fr.gather_moving_scythe_2_north,
-    [AN.GATHER_MOVING_SCYTHE_2_WEST] = fr.gather_moving_scythe_2_west,
-    [AN.GATHER_MOVING_SCYTHE_2_SOUTH] = fr.gather_moving_scythe_2_south,
-    [AN.GATHER_MOVING_SCYTHE_2_EAST] = fr.gather_moving_scythe_2_east,
-    [AN.GATHER_MOVING_SCYTHE_2_NORTHEAST] = fr.gather_moving_scythe_2_northeast,
-    [AN.GATHER_MOVING_SCYTHE_2_NORTHWEST] = fr.gather_moving_scythe_2_northwest,
-    [AN.GATHER_MOVING_SCYTHE_2_SOUTHEAST] = fr.gather_moving_scythe_2_southeast,
-    [AN.GATHER_MOVING_SCYTHE_2_SOUTHWEST] = fr.gather_moving_scythe_2_southwest,
-    -- moving with scythe
-    [AN.GATHER_MOVING_SCYTHE_3_NORTH] = fr.gather_moving_scythe_3_north,
-    [AN.GATHER_MOVING_SCYTHE_3_WEST] = fr.gather_moving_scythe_3_west,
-    [AN.GATHER_MOVING_SCYTHE_3_SOUTH] = fr.gather_moving_scythe_3_south,
-    [AN.GATHER_MOVING_SCYTHE_3_EAST] = fr.gather_moving_scythe_3_east,
-    [AN.GATHER_MOVING_SCYTHE_3_NORTHEAST] = fr.gather_moving_scythe_3_northeast,
-    [AN.GATHER_MOVING_SCYTHE_3_NORTHWEST] = fr.gather_moving_scythe_3_northwest,
-    [AN.GATHER_MOVING_SCYTHE_3_SOUTHEAST] = fr.gather_moving_scythe_3_southeast,
-    [AN.GATHER_MOVING_SCYTHE_3_SOUTHWEST] = fr.gather_moving_scythe_3_southwest,
-    -- mowing scythe
-    [AN.GATHER_SCYTHE_NORTH] = fr.gather_scythe_north,
-    [AN.GATHER_SCYTHE_WEST] = fr.gather_scythe_west,
-    [AN.GATHER_SCYTHE_SOUTH] = fr.gather_scythe_south,
-    [AN.GATHER_SCYTHE_NORTHEAST] = fr.gather_scythe_northeast,
-    [AN.GATHER_SCYTHE_NORTHWEST] = fr.gather_scythe_northwest,
-    [AN.GATHER_SCYTHE_SOUTHEAST] = fr.gather_scythe_southeast,
-    [AN.GATHER_SCYTHE_SOUTHWEST] = fr.gather_scythe_southwest,
-    -- walking scythe
-    [AN.GATHER_WALK_SCYTHE_NORTH] = fr.gather_walk_scythe_north,
-    [AN.GATHER_WALK_SCYTHE_WEST] = fr.gather_walk_scythe_west,
-    [AN.GATHER_WALK_SCYTHE_SOUTH] = fr.gather_walk_scythe_south,
-    [AN.GATHER_WALK_SCYTHE_NORTHEAST] = fr.gather_walk_scythe_northeast,
-    [AN.GATHER_WALK_SCYTHE_NORTHWEST] = fr.gather_walk_scythe_northwest,
-    [AN.GATHER_WALK_SCYTHE_SOUTHEAST] = fr.gather_walk_scythe_southeast,
-    [AN.GATHER_WALK_SCYTHE_SOUTHWEST] = fr.gather_walk_scythe_southwest,
     -- earthing
     [AN.GATHER_EARTHING_NORTH] = fr.gather_earthing_north,
     [AN.GATHER_EARTHING_WEST] = fr.gather_earthing_west,
@@ -380,10 +251,10 @@ local an = {
     [AN.IDLE_LOOP] = fr.idle_loop
 }
 
-local HopsFarmer = _G.class("HopsFarmer", Unit)
+local HopsFarmer = _G.class("HopsFarmer", Worker)
 function HopsFarmer:initialize(gx, gy, type)
-    Unit.initialize(self, gx, gy, type)
-    self.workplace = nilHopsFarmer
+    Worker.initialize(self, gx, gy, type)
+    self.workplace = nil
     self.state = "Find a job"
     self.marked = 0
     self.count = 1
@@ -483,7 +354,7 @@ end
 
 function HopsFarmer:load(data)
     Object.deserialize(self, data)
-    Unit.load(self, data)
+    Worker.load(self, data)
     local farmlandTiles = {}
     data.farmlandTiles = data.farmlandTiles or {}
     for _, ftile in ipairs(data.farmlandTiles) do
@@ -553,45 +424,6 @@ function HopsFarmer:load(data)
                 self:hoeLandCallback(3)
             end
         end
-        local scytheLandAnimations_1 = {
-            [AN.GATHER_MOVING_SCYTHE_1_SOUTH] = true,
-            [AN.GATHER_MOVING_SCYTHE_1_NORTH] = true,
-            [AN.GATHER_MOVING_SCYTHE_1_EAST] = true,
-            [AN.GATHER_MOVING_SCYTHE_1_NORTHEAST] = true,
-            [AN.GATHER_MOVING_SCYTHE_1_SOUTHEAST] = true
-        }
-        if scytheLandAnimations_1[animId] then
-            -- scythe land sequence 3
-            callback = function()
-                self:scytheLandCallback(1)
-            end
-        end
-        local scytheLandAnimations_2 = {
-            [AN.GATHER_MOVING_SCYTHE_2_SOUTH] = true,
-            [AN.GATHER_MOVING_SCYTHE_2_NORTH] = true,
-            [AN.GATHER_MOVING_SCYTHE_2_EAST] = true,
-            [AN.GATHER_MOVING_SCYTHE_2_NORTHEAST] = true,
-            [AN.GATHER_MOVING_SCYTHE_2_SOUTHEAST] = true
-        }
-        if scytheLandAnimations_2[animId] then
-            -- scythe land sequence 3
-            callback = function()
-                self:scytheLandCallback(2)
-            end
-        end
-        local scytheLandAnimations_3 = {
-            [AN.GATHER_MOVING_SCYTHE_3_SOUTH] = true,
-            [AN.GATHER_MOVING_SCYTHE_3_NORTH] = true,
-            [AN.GATHER_MOVING_SCYTHE_3_EAST] = true,
-            [AN.GATHER_MOVING_SCYTHE_3_NORTHEAST] = true,
-            [AN.GATHER_MOVING_SCYTHE_3_SOUTHEAST] = true
-        }
-        if scytheLandAnimations_3[animId] then
-            -- scythe land sequence 3
-            callback = function()
-                self:scytheLandCallback(3)
-            end
-        end
         self.animation = anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
         self.animation:deserialize(anData)
     end
@@ -604,7 +436,7 @@ end
 
 function HopsFarmer:serialize()
     local data = {}
-    local unitData = Unit.serialize(self)
+    local unitData = Worker.serialize(self)
     for k, v in pairs(unitData) do
         if type(v) ~= "function" and type(v) ~= "userdata" then
             data[k] = v
@@ -882,171 +714,6 @@ function HopsFarmer:seedLand()
     end
 end
 
-function HopsFarmer:scytheLandGetAnim()
-    local anim1, anim2, anim3
-    if self.state == "Working" then
-        if self.moveDir == nil or self.moveDir == "none" then
-            if string.find(self.animation.animationIdentifier, "South") then
-                anim1 = AN.GATHER_MOVING_SCYTHE_1_SOUTH
-                anim2 = AN.GATHER_MOVING_SCYTHE_2_SOUTH
-                anim3 = AN.GATHER_MOVING_SCYTHE_3_SOUTH
-            elseif string.find(self.animation.animationIdentifier, "North") then
-                anim1 = AN.GATHER_MOVING_SCYTHE_1_NORTH
-                anim2 = AN.GATHER_MOVING_SCYTHE_2_NORTH
-                anim3 = AN.GATHER_MOVING_SCYTHE_3_NORTH
-            elseif string.find(self.animation.animationIdentifier, "East") then
-                anim1 = AN.GATHER_MOVING_SCYTHE_1_EAST
-                anim2 = AN.GATHER_MOVING_SCYTHE_2_EAST
-                anim3 = AN.GATHER_MOVING_SCYTHE_3_EAST
-            elseif string.find(self.animation.animationIdentifier, "Northeast") then
-                anim1 = AN.GATHER_MOVING_SCYTHE_1_NORTHEAST
-                anim2 = AN.GATHER_MOVING_SCYTHE_2_NORTHEAST
-                anim3 = AN.GATHER_MOVING_SCYTHE_3_NORTHEAST
-            elseif string.find(self.animation.animationIdentifier, "Southeast") then
-                anim1 = AN.GATHER_MOVING_SCYTHE_1_SOUTHEAST
-                anim2 = AN.GATHER_MOVING_SCYTHE_2_SOUTHEAST
-                anim3 = AN.GATHER_MOVING_SCYTHE_3_SOUTHEAST
-            end
-        elseif self.moveDir == "south" then
-            anim1 = AN.GATHER_MOVING_SCYTHE_1_SOUTH
-            anim2 = AN.GATHER_MOVING_SCYTHE_2_SOUTH
-            anim3 = AN.GATHER_MOVING_SCYTHE_3_SOUTH
-        elseif self.moveDir == "north" then
-            anim1 = AN.GATHER_MOVING_SCYTHE_1_NORTH
-            anim2 = AN.GATHER_MOVING_SCYTHE_2_NORTH
-            anim3 = AN.GATHER_MOVING_SCYTHE_3_NORTH
-        elseif self.moveDir == "east" then
-            anim1 = AN.GATHER_MOVING_SCYTHE_1_EAST
-            anim2 = AN.GATHER_MOVING_SCYTHE_2_EAST
-            anim3 = AN.GATHER_MOVING_SCYTHE_3_EAST
-        elseif self.moveDir == "northeast" then
-            anim1 = AN.GATHER_MOVING_SCYTHE_1_NORTHEAST
-            anim2 = AN.GATHER_MOVING_SCYTHE_2_NORTHEAST
-            anim3 = AN.GATHER_MOVING_SCYTHE_3_NORTHEAST
-            if self.currentTile and self:isPositionAt(self.currentTile.gx - 1, self.currentTile.gy + 2) then
-                anim2 = AN.GATHER_HOE_NORTH
-                anim3 = AN.GATHER_HOE_PART2_NORTH
-            end
-        elseif self.moveDir == "southeast" then
-            anim1 = AN.GATHER_MOVING_SCYTHE_1_SOUTHEAST
-            anim2 = AN.GATHER_MOVING_SCYTHE_2_SOUTHEAST
-            anim3 = AN.GATHER_MOVING_SCYTHE_3_SOUTHEAST
-        end
-    else
-        anim1, anim2, anim3, _, _, _ = self:scytheLandPreprocess()
-    end
-    return anim1, anim2, anim3
-end
-
-function HopsFarmer:scytheLandPreprocess()
-    local anim1, anim2, anim3, skipWalking
-    local futureWaypointX, futureWaypointY = self.gx, self.gy
-    if self.state == "Going to scythe the land from south" or self.state == "Going to scythe the land from north" then
-        skipWalking = true
-    end
-    if self.state == "Scythe walking to southern tile" or self.state == "Going to scythe the land from north" then
-        self.moveDir = "south"
-        anim1 = AN.GATHER_MOVING_SCYTHE_1_SOUTH
-        anim2 = AN.GATHER_MOVING_SCYTHE_2_SOUTH
-        anim3 = AN.GATHER_MOVING_SCYTHE_3_SOUTH
-        futureWaypointY = self.gy + 1
-    elseif self.state == "Scythe walking to northern tile" or self.state == "Going to scythe the land from south" then
-        self.moveDir = "north"
-        anim1 = AN.GATHER_MOVING_SCYTHE_1_NORTH
-        anim2 = AN.GATHER_MOVING_SCYTHE_2_NORTH
-        anim3 = AN.GATHER_MOVING_SCYTHE_3_NORTH
-        futureWaypointY = self.gy - 1
-    elseif self.state == "Scythe walking to eastern tile" or self.state == "Going to scythe the land from east" then
-        self.moveDir = "east"
-        anim1 = AN.GATHER_MOVING_SCYTHE_1_EAST
-        anim2 = AN.GATHER_MOVING_SCYTHE_2_EAST
-        anim3 = AN.GATHER_MOVING_SCYTHE_3_EAST
-        futureWaypointX = self.gx + 1
-    elseif self.state == "Scythe walking to northeastern tile" then
-        self.moveDir = "northeast"
-        anim1 = AN.GATHER_MOVING_SCYTHE_1_NORTHEAST
-        anim2 = AN.GATHER_MOVING_SCYTHE_2_NORTHEAST
-        anim3 = AN.GATHER_MOVING_SCYTHE_3_NORTHEAST
-        futureWaypointX = self.gx + 1
-        futureWaypointY = self.gy - 1
-        if self.currentTile and self:isPositionAt(self.currentTile.gx - 1, self.currentTile.gy + 1) then
-            skipWalking = true
-            futureWaypointX = self.gx
-            futureWaypointY = self.gy
-        elseif self.currentTile and self:isPositionAt(self.currentTile.gx - 2, self.currentTile.gy + 1) then
-            skipWalking = true
-            futureWaypointX = self.gx
-            futureWaypointY = self.gy
-        elseif self.currentTile and self:isPositionAt(self.currentTile.gx - 1, self.currentTile.gy + 2) then
-            anim2 = AN.GATHER_MOVING_SCYTHE_2_NORTH
-            anim3 = AN.GATHER_MOVING_SCYTHE_3_NORTH
-        end
-    elseif self.state == "Scythe walking to southeastern tile" then
-        self.moveDir = "southeast"
-        anim1 = AN.GATHER_MOVING_SCYTHE_1_SOUTHEAST
-        anim2 = AN.GATHER_MOVING_SCYTHE_2_SOUTHEAST
-        anim3 = AN.GATHER_MOVING_SCYTHE_3_SOUTHEAST
-        futureWaypointX = self.gx + 1
-        futureWaypointY = self.gy + 1
-    end
-    return anim1, anim2, anim3, skipWalking, futureWaypointX, futureWaypointY
-end
-
-function HopsFarmer:scytheLandCallback(state)
-    local _, anim2, anim3, _, _, _ = self:scytheLandGetAnim()
-    local function state_3Callback()
-        self.moveDir = "none"
-        self.straightWalkSpeed = 2400
-        self.diagonalWalkSpeed = self.straightWalkSpeed * 1.414
-        self.animation:pauseAtEnd()
-        self.workplace:work(self)
-        self:clearPath()
-    end
-
-    if state == 1 then
-        self:anchorWorkPosition()
-        self:updatePosition()
-        self.moveDir = "none"
-        self.animation = anim.newAnimation(an[anim2], 0.1, function()
-            self.workplace:updateTiles(self.farmlandTiles)
-            _G.playSfx(self, harvestFx)
-            self.animation = anim.newAnimation(an[anim3], 0.1, function()
-                state_3Callback()
-            end, anim3)
-        end, anim2)
-    elseif state == 2 then
-        self.workplace:updateTiles(self.farmlandTiles)
-        _G.playSfx(self, harvestFx)
-        self.animation = anim.newAnimation(an[anim3], 0.1, function()
-            state_3Callback()
-        end, anim3)
-    elseif state == 3 then
-        state_3Callback()
-    else
-        error("Received unknown state for hoe_land: " .. tostring(state))
-    end
-end
-
-function HopsFarmer:scytheLand()
-    local anim1, anim2, _, skipWalking, futureWaypointX, futureWaypointY = self:scytheLandPreprocess()
-    self.state = "Working"
-    self.hasMoveDir = true
-    self.straightWalkSpeed = 0
-    self.animation:resume()
-    self.waypointX, self.waypointY = futureWaypointX, futureWaypointY
-    if skipWalking then
-        self.animation = anim.newAnimation(an[anim2], 0.1, function()
-            self:scytheLandCallback(2)
-        end, anim2)
-    else
-        self.straightWalkSpeed = 1715.26586621
-        self.diagonalWalkSpeed = self.straightWalkSpeed * 1.414
-        self.animation = anim.newAnimation(an[anim1], 0.1, function()
-            self:scytheLandCallback(1)
-        end, anim1)
-    end
-end
-
 function HopsFarmer:update()
     if self.pathState == "Waiting for path" and self.state ~= "Working" and self.state ~= "Resting" then
         self:pathfind()
@@ -1097,15 +764,10 @@ function HopsFarmer:update()
             self.state == "Seed walking to eastern tile" or self.state == "Seed walking to southeastern tile" or
             self.state == "Seed walking to northeastern tile" then
             self:seedLand()
-        elseif self.state == "Scythe walking to southern tile" or self.state == "Scythe walking to northern tile" or
-            self.state == "Scythe walking to eastern tile" or self.state == "Scythe walking to southeastern tile" or
-            self.state == "Scythe walking to northeastern tile" then
-            self:scytheLand()
         elseif self.fx * 0.001 == self.waypointX and self.fy * 0.001 == self.waypointY and self.moveDir ~= "none" then
             if self.state == "Going to workplace" or self.state == "Going to hoe the land from south" or self.state ==
                 "Going to hoe the land from north" or self.state == "Going to seed the land from south" or self.state ==
-                "Going to seed the land from north" or self.state == "Going to scythe the land from north" or self.state ==
-                "Going to scythe the land from south" then
+                "Going to seed the land from north" then
                 if self:reachedPathEnd() then
                     if self.state == "Going to hoe the land from south" or self.state ==
                         "Going to hoe the land from north" then
@@ -1113,9 +775,6 @@ function HopsFarmer:update()
                     elseif self.state == "Going to seed the land from south" or self.state ==
                         "Going to seed the land from north" then
                         self:seedLand()
-                    elseif self.state == "Going to scythe the land from south" or self.state ==
-                        "Going to scythe the land from north" then
-                        self:scytheLand()
                     else
                         self.workplace:work(self)
                         self:clearPath()
@@ -1162,7 +821,7 @@ end
 
 function HopsFarmer:animate()
     self:update()
-    Unit.animate(self)
+    Worker.animate(self)
 end
 
 return HopsFarmer

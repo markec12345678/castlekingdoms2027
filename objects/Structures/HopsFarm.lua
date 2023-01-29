@@ -350,7 +350,7 @@ end
 
 function HopsFarm:destroy()
     if self.hopsWorker then
-        self.hopsWorker:die()
+        self.hopsWorker:quitJob()
     end
     self.float:destroy()
 
