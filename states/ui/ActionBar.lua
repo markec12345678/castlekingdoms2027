@@ -67,6 +67,7 @@ function ActionBar:initialize()
     self.element = element
     self.groups = {}
     self.currentGroup = "main"
+    self.hasSelectedButton = false
 end
 
 function ActionBar:switchMode(mode)
@@ -237,6 +238,7 @@ function ActionBar:unselectAll()
             el:unselect()
         end
     end
+    self.hasSelectedButton = false
 end
 
 function ActionBar:selectButton(element)
@@ -249,6 +251,7 @@ function ActionBar:selectButton(element)
         end
     end
     element:select()
+    self.hasSelectedButton = true
 end
 
 function ActionBar:registerGroup(name, listOfElements)
