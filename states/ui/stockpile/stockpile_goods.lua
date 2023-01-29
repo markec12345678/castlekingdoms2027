@@ -6,7 +6,6 @@ local scale = actionBar.element.scalex
 
 local group = {}
 
-local switchTradeGroup = unpack(require("states.ui.market.market_trade"))
 local ActionBarButton = require("states.ui.ActionBarButton")
 local backButton = ActionBarButton:new(love.graphics.newImage("assets/ui/back_ab.png"), states.STATE_STOCKPILE, 12)
 backButton:setOnClick(function(self)
@@ -145,8 +144,9 @@ noMarketInfo:SetText({ {
     color = { 0, 0, 0, 1 }
 }, "Build a market to trade!" })
 noMarketInfo:SetShadow(false)
-function SwitchToTheMarket()
+local function SwitchToTheMarket()
     if _G.BuildingManager:count("Market") >= 1 then
+        local switchTradeGroup = unpack(require("states.ui.market.market_trade"))
         actionBar:switchMode("market_trade")
         switchTradeGroup(2)
         group.name = 2
