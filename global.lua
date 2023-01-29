@@ -174,6 +174,7 @@ _G.chunkWidth = 64
 _G.chunkHeight = 64
 -- UI
 _G.TOOLTIP_DELAY = 0.1
+-- Whether the game has loaded into the map
 _G.loaded = false
 ----Chunks
 _G.xchunk = 0

@@ -148,7 +148,7 @@ function BuildController:upgradeKeep(level)
 end
 
 function BuildController:update()
-    if self.active then
+    if self.active and _G.loaded then
         if self.start and ActionBar.currentGroup ~= nil then
             ActionBar:showGroup(nil)
         end
