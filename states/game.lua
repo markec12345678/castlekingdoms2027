@@ -222,7 +222,11 @@ function game:mousepressed(x, y, button, istouch)
                 _G.BuildController.onBuildCallback = nil
             end
         end
-        ActionBar:unselectAll()
+        if loveframes.GetState() ~= states.STATE_INGAME_CONSTRUCTION or not ActionBar.hasSelectedButton then
+            ActionBar:switchMode()
+        else
+            ActionBar:unselectAll()
+        end
     end
     _G.BrushController:mousepressed(button)
 end
@@ -273,6 +277,7 @@ function game:keypressed(key, scancode, isRepeat)
             loveframes.GetState() == states.STATE_STOCKPILE or
             loveframes.GetState() == states.STATE_GRANARY or
             loveframes.GetState() == states.STATE_MARKET_MAIN or
+            loveframes.GetState() == states.STATE_KEEP_TAX or
             loveframes.GetState() == states.STATE_ARMOURY) then
             ActionBar:switchMode()
             return
