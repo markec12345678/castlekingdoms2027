@@ -201,9 +201,11 @@ function game:draw()
 end
 
 function game:mousepressed(x, y, button, istouch)
+    if not _G.loaded then return end
     if loveframes.mousepressed(x, y, button) then
         return
     end
+    if _G.paused then return end
     if terrain.mousepressed(x, y, button, istouch) then
         return
     end
