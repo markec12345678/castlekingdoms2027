@@ -547,9 +547,9 @@ local buildings = {
         end
     },
     [WheatFarm.name] = {
-        quad = tileQuads["farm (2)"],
+        quad = tileQuads["farm (1)"],
         offsetX = 32,
-        offsetY = 64 + 6 + 8,
+        offsetY = 40 + 6 + 8,
         w = 12,
         h = 12,
         cost = {
