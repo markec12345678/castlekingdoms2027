@@ -10,6 +10,7 @@ local Mine = require("objects.Structures.Mine")
 local WoodcutterHut = require("objects.Structures.WoodcutterHut")
 local Campfire = require("objects.Structures.Campfire")
 local Orchard = require("objects.Structures.Orchard")
+local Chapel = require("objects.Structures.Chapel")
 local WheatFarm = require("objects.Structures.WheatFarm")
 local Windmill = require("objects.Structures.Windmill")
 local Bakery = require("objects.Structures.Bakery")
@@ -272,6 +273,23 @@ local buildings = {
             ctrl.previousGy = ctrl.gy
             ctrl.previousCanBuild = ctrl.canBuild
             ctrl.lastBuilding = ctrl.building
+        end
+    },
+    [Chapel.name] = {
+        quad = tileQuads["church_small"],
+        offsetX = 70 + 10,
+        offsetY = 95 - 10,
+        w = 6,
+        h = 6,
+        cost = {
+            ["stone"] = 10,
+            ["gold"] = 100,
+        },
+        build = function(self, gx, gy)
+            Chapel:new(gx, gy)
+        end,
+        specialRequirements = function(self, _, _)
+            return true
         end
     },
     [Orchard.name] = {

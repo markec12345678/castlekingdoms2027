@@ -107,6 +107,7 @@ local Rock_2x2 = love.filesystem.load("objects/Environment/Rock_2x2.lua")(active
 local Rock_1x1 = love.filesystem.load("objects/Environment/Rock_1x1.lua")(activeEntities, object, tileQuads, objectBatch)
 local Campfire = love.filesystem.load("objects/Structures/Campfire.lua")(activeEntities, tileQuads, objectBatch)
 local Orchard = love.filesystem.load("objects/Structures/Orchard.lua")(activeEntities, tileQuads, objectBatch)
+local Chapel = love.filesystem.load("objects/Structures/Chapel.lua")(activeEntities, tileQuads, objectBatch)
 local WheatFarm = love.filesystem.load("objects/Structures/WheatFarm.lua")(object, tileQuads, objectBatch,
     activeEntities)
 local OxTether = love.filesystem.load("objects/Structures/OxTether.lua")(object, tileQuads, objectBatch, activeEntities)
@@ -150,6 +151,7 @@ package.loaded["objects.Structures.WalkableWoodenWall"] = WoodenWallWalkable
 package.loaded["objects.Structures.WoodenTower"] = WoodenTower
 package.loaded["objects.Structures.Campfire"] = Campfire
 package.loaded["objects.Structures.Orchard"] = Orchard
+package.loaded["objects.Structures.Chapel"] = Chapel
 package.loaded["objects.Structures.WheatFarm"] = WheatFarm
 package.loaded["objects.Structures.OxTether"] = OxTether
 _G.stockpile = require("objects.Controllers.StockpileController")
