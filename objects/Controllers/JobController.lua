@@ -2,6 +2,7 @@ local Woodcutter = require("objects.Units.Woodcutter")
 local Stonemason = require("objects.Units.Stonemason")
 local OrchardFarmer = require("objects.Units.OrchardFarmer")
 local WheatFarmer = require("objects.Units.WheatFarmer")
+local HopsFarmer = require("objects.Units.HopsFarmer")
 local Miner = require("objects.Units.Miner")
 local Miller = require("objects.Units.Miller")
 local Baker = require("objects.Units.Baker")
@@ -26,6 +27,7 @@ function JobController:initializeWorkplaces()
         ["Miner"] = {},
         ["OrchardFarmer"] = {},
         ["WheatFarmer"] = {},
+        ["HopsFarmer"] = {},
         ["Miller"] = {},
         ["Baker"] = {},
         ["Fletcher"] = {},
@@ -69,34 +71,9 @@ function JobController:makeWorker()
                     return
                 end
                 self.workers = self.workers - 1
-                local worker
-                if job == "Stonemason" then
-                    worker = Stonemason:new(_G.spawnPointX, _G.spawnPointY, "Stonemason")
-                elseif job == "Miner" then
-                    worker = Miner:new(_G.spawnPointX, _G.spawnPointY, "Miner")
-                elseif job == "OrchardFarmer" then
-                    worker = OrchardFarmer:new(_G.spawnPointX, _G.spawnPointY, "OrchardFarmer")
-                elseif job == "WheatFarmer" then
-                    worker = WheatFarmer:new(_G.spawnPointX, _G.spawnPointY, "WheatFarmer")
-                elseif job == "Woodcutter" then
-                    worker = Woodcutter:new(_G.spawnPointX, _G.spawnPointY, "Woodcutter")
-                elseif job == "Miller" then
-                    worker = Miller:new(_G.spawnPointX, _G.spawnPointY, "Miller")
-                elseif job == "Baker" then
-                    worker = Baker:new(_G.spawnPointX, _G.spawnPointY, "Baker")
-                elseif job == "Fletcher" then
-                    worker = Fletcher:new(_G.spawnPointX, _G.spawnPointY, "Fletcher")
-                elseif job == "Poleturner" then
-                    worker = Poleturner:new(_G.spawnPointX, _G.spawnPointY, "Poleturner")
-                elseif job == "Armourer" then
-                    worker = Armourer:new(_G.spawnPointX, _G.spawnPointY, "Armourer")
-                elseif job == "Blacksmith" then
-                    worker = Blacksmith:new(_G.spawnPointX, _G.spawnPointY, "Blacksmith")
-                elseif job == "Brewer" then
-                    worker = Brewer:new(_G.spawnPointX, _G.spawnPointY, "Brewer")
-                elseif job == "OxHandler" then
-                    worker = OxHandler:new(_G.spawnPointX, _G.spawnPointY, "OxHandler")
-                end
+                local workerClass = _G.getClassByName(job)
+                local worker = workerClass:new(_G.spawnPointX, _G.spawnPointY, job)
+
                 workplace:join(worker)
                 worker.state = "Go to workplace"
                 break

@@ -74,6 +74,7 @@ local Stonemason = love.filesystem.load("objects/Units/Stonemason.lua")(object, 
 local Peasant = love.filesystem.load("objects/Units/Peasant.lua")(object, tileQuads)
 local OrchardFarmer = love.filesystem.load("objects/Units/OrchardFarmer.lua")(object, tileQuads)
 local WheatFarmer = love.filesystem.load("objects/Units/WheatFarmer.lua")(object, tileQuads)
+local HopsFarmer = love.filesystem.load("objects/Units/HopsFarmer.lua")(object, tileQuads)
 local Miner = love.filesystem.load("objects/Units/Miner.lua")(object, tileQuads)
 local SaxonHall = love.filesystem.load("objects/Structures/SaxonHall.lua")(object, tileQuads)
 local Stockpile = love.filesystem.load("objects/Structures/Stockpile.lua")(object, tileQuads, objectBatch)
@@ -110,6 +111,8 @@ local Orchard = love.filesystem.load("objects/Structures/Orchard.lua")(activeEnt
 local Chapel = love.filesystem.load("objects/Structures/Chapel.lua")(activeEntities, tileQuads, objectBatch)
 local WheatFarm = love.filesystem.load("objects/Structures/WheatFarm.lua")(object, tileQuads, objectBatch,
     activeEntities)
+local HopsFarm = love.filesystem.load("objects/Structures/HopsFarm.lua")(object, tileQuads, objectBatch,
+activeEntities)
 local OxTether = love.filesystem.load("objects/Structures/OxTether.lua")(object, tileQuads, objectBatch, activeEntities)
 
 package.loaded["objects.Environment.Tree"] = Tree
@@ -131,6 +134,7 @@ package.loaded["objects.Units.Stonemason"] = Stonemason
 package.loaded["objects.Units.Peasant"] = Peasant
 package.loaded["objects.Units.OrchardFarmer"] = OrchardFarmer
 package.loaded["objects.Units.WheatFarmer"] = WheatFarmer
+package.loaded["objects.Units.HopsFarmer"] = HopsFarmer
 package.loaded["objects.Units.Miner"] = Miner
 package.loaded["objects.Structures.SaxonHall"] = SaxonHall
 package.loaded["objects.Structures.Stockpile"] = Stockpile
@@ -153,6 +157,7 @@ package.loaded["objects.Structures.Campfire"] = Campfire
 package.loaded["objects.Structures.Orchard"] = Orchard
 package.loaded["objects.Structures.Chapel"] = Chapel
 package.loaded["objects.Structures.WheatFarm"] = WheatFarm
+package.loaded["objects.Structures.HopsFarm"] = HopsFarm
 package.loaded["objects.Structures.OxTether"] = OxTether
 _G.stockpile = require("objects.Controllers.StockpileController")
 _G.foodpile = require("objects.Controllers.FoodController")
@@ -706,6 +711,15 @@ local function update(dt)
     end
     if _G.state.wheatGrowingSeason and _G.state.wheatSeasonCounter > 0.5 then
         _G.state.wheatGrowingSeason = false
+    end
+
+    _G.state.hopsSeasonCounter = _G.state.hopsSeasonCounter + dt
+    if _G.state.hopsSeasonCounter > 5 then
+        _G.state.hopsSeasonCounter = 0
+        _G.state.hopsGrowingSeason = true
+    end
+    if _G.state.hopsGrowingSeason and _G.state.hopsSeasonCounter > 0.5 then
+        _G.state.hopsGrowingSeason = false
     end
     local updatedChunks = _G.newAutotable(2)
     local objectsToBeDeleted

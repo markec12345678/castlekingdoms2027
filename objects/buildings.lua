@@ -12,6 +12,7 @@ local Campfire = require("objects.Structures.Campfire")
 local Orchard = require("objects.Structures.Orchard")
 local Chapel = require("objects.Structures.Chapel")
 local WheatFarm = require("objects.Structures.WheatFarm")
+local HopsFarm = require("objects.Structures.HopsFarm")
 local Windmill = require("objects.Structures.Windmill")
 local Bakery = require("objects.Structures.Bakery")
 local House = require("objects.Structures.House")
@@ -571,10 +572,26 @@ local buildings = {
         w = 12,
         h = 12,
         cost = {
-            ["wood"] = 4
+            ["wood"] = 5
         },
         build = function(self, gx, gy)
             WheatFarm:new(gx, gy)
+        end,
+        specialRequirements = function(self, _, _)
+            return true
+        end
+    },
+    [HopsFarm.name] = {
+        quad = tileQuads["farm (2)"],
+        offsetX = 32,
+        offsetY = 64 + 6 + 8,
+        w = 12,
+        h = 12,
+        cost = {
+            ["wood"] = 10
+        },
+        build = function(self, gx, gy)
+            HopsFarm:new(gx, gy)
         end,
         specialRequirements = function(self, _, _)
             return true

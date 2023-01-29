@@ -110,7 +110,6 @@ function CampfireFloatPop:emigrantCallback()
         _G.state.population = _G.state.population - 1
         actionBar:updatePopulationCount()
         _G.campfire:makePeasantLeave()
-        print("leaving the town")
     end
 end
 
