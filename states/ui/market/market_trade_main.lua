@@ -55,7 +55,7 @@ foodIconButton.OnMouseDown = function(self)
 end
 foodIconButton.OnClick = function(self)
     actionBar:switchMode("market_trade")
-    local switchTradeGroup = require("states.ui.market.market_trade")
+    local switchTradeGroup = unpack(require("states.ui.market.market_trade"))
     switchTradeGroup(1)
     group.name = 1
 end
@@ -77,7 +77,7 @@ materialIconButton.OnMouseDown = function(self)
 end
 materialIconButton.OnClick = function(self)
     actionBar:switchMode("market_trade")
-    local switchTradeGroup = require("states.ui.market.market_trade")
+    local switchTradeGroup = unpack(require("states.ui.market.market_trade"))
     switchTradeGroup(2)
     group.name = 2
 end
@@ -99,7 +99,7 @@ weaponsIconButton.OnMouseDown = function(self)
 end
 weaponsIconButton.OnClick = function(self)
     actionBar:switchMode("market_trade")
-    local switchTradeGroup = require("states.ui.market.market_trade")
+    local switchTradeGroup = unpack(require("states.ui.market.market_trade"))
     switchTradeGroup(3)
     group.name = 3
 end

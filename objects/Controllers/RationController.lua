@@ -1,8 +1,8 @@
 local FoodController = require("objects.Controllers.FoodController")
 
-local colorRed = {200 / 255, 90 / 255, 90 / 255, 1}
-local colorWhite = {1, 1, 1, 1}
-local colorGreen = {130 / 255, 220 / 255, 123 / 255, 1}
+local colorRed = { 200 / 255, 90 / 255, 90 / 255, 1 }
+local colorWhite = { 1, 1, 1, 1 }
+local colorGreen = { 130 / 255, 220 / 255, 123 / 255, 1 }
 
 local moodImage, moodText = unpack(require("states.ui.granary.food_rations"))
 local RationController = _G.class("RationController")
@@ -87,19 +87,19 @@ function RationController:updateUI()
     local moodLevel = self:getMoodLevel()
     if moodLevel == 0 then
         moodImage:SetNeutralMood()
-        moodText:SetText({{
+        moodText:SetText({ {
             color = colorWhite
-        }, moodLevel})
+        }, moodLevel })
     elseif moodLevel > 0 then
         moodImage:SetPositiveMood()
-        moodText:SetText({{
+        moodText:SetText({ {
             color = colorGreen
-        }, moodLevel})
+        }, moodLevel })
     elseif moodLevel < 0 then
         moodImage:SetNegativeMood()
-        moodText:SetText({{
+        moodText:SetText({ {
             color = colorRed
-        }, moodLevel})
+        }, moodLevel })
     end
 end
 
@@ -114,7 +114,6 @@ function RationController:update()
         _G.foodpile:take(nil, math.round(_G.state.population * self.rationLevel, 0))
         if self.previousConsumedFoods ~= consumedFoods then
             self.consumedFoodsMood = self.class.FOOD_DIVERSITY[consumedFoods + 1]
-            self:updateUI()
         end
         self.timer = 0
         self.previousConsumedFoods = consumedFoods
@@ -126,6 +125,7 @@ function RationController:update()
             self.granaries[granary] = nil
         end
     end
+    self:updateUI()
 end
 
 return RationController:new()

@@ -7,13 +7,13 @@ local WEAPON = require("objects.Enums.Weapon")
 
 local group = {}
 
-local switchTradeGroup = require("states.ui.market.market_trade")
+local switchTradeGroup = unpack(require("states.ui.market.market_trade"))
 local ActionBarButton = require("states.ui.ActionBarButton")
 local backButton = ActionBarButton:new(love.graphics.newImage("assets/ui/back_ab.png"), states.STATE_ARMOURY, 12)
 backButton:setOnClick(function(self)
     actionBar:switchMode()
 end)
-actionBar:registerGroup("armoury", {backButton})
+actionBar:registerGroup("armoury", { backButton })
 
 local bowIconNormal = love.graphics.newImage("assets/ui/armoury/bowIconNormal.png")
 local bowIconHover = love.graphics.newImage("assets/ui/armoury/bowIconHover.png")
@@ -128,9 +128,9 @@ local currentStockArmor = loveframes.Create("text")
 currentStockArmor:SetState(states.STATE_ARMOURY)
 currentStockArmor:SetFont(loveframes.font_times_new_normal_large)
 currentStockArmor:SetPos(frArmourButton.x + (frArmourButton.width / 2), frArmourButton.y + 48)
-currentStockArmor:SetText({{
-    color = {0, 0, 0, 1}
-}, "0"}) -- TODO ARMOUR DOESNT EXIST
+currentStockArmor:SetText({ {
+    color = { 0, 0, 0, 1 }
+}, "0" }) -- TODO ARMOUR DOESNT EXIST
 currentStockArmor:SetShadow(false)
 local noMarketInfo = loveframes.Create("text")
 noMarketInfo:SetState(states.STATE_ARMOURY)
@@ -138,9 +138,9 @@ noMarketInfo:SetFont(loveframes.font_times_new_normal_large)
 noMarketInfo:SetSize(50, 20)
 noMarketInfo:SetVisible(false)
 noMarketInfo:SetPos(frBowButton.x - 100 + (frBowButton.width / 2), frBowButton.y)
-noMarketInfo:SetText({{
-    color = {0, 0, 0, 1}
-}, "Build a market to trade!"})
+noMarketInfo:SetText({ {
+    color = { 0, 0, 0, 1 }
+}, "Build a market to trade!" })
 noMarketInfo:SetShadow(false)
 function SwitchToTheMarket()
     if _G.BuildingManager:count("Market") >= 1 then
@@ -155,27 +155,27 @@ end
 
 function group.DisplayCurrentStock()
 
-    currentStockLeather:SetText({{
-        color = {0, 0, 0, 1}
-    }, _G.state.weapons[WEAPON.leatherArmor]})
-    currentStockSword:SetText({{
-        color = {0, 0, 0, 1}
-    }, _G.state.weapons[WEAPON.sword]})
-    currentStockPike:SetText({{
-        color = {0, 0, 0, 1}
-    }, _G.state.weapons[WEAPON.pike]})
-    currentStockCrossbow:SetText({{
-        color = {0, 0, 0, 1}
-    }, _G.state.weapons[WEAPON.crossbow]})
-    currentStockMace:SetText({{
-        color = {0, 0, 0, 1}
-    }, _G.state.weapons[WEAPON.mace]})
-    currentStockSpear:SetText({{
-        color = {0, 0, 0, 1}
-    }, _G.state.weapons[WEAPON.spear]})
-    currentStockBow:SetText({{
-        color = {0, 0, 0, 1}
-    }, _G.state.weapons[WEAPON.bow]})
+    currentStockLeather:SetText({ {
+        color = { 0, 0, 0, 1 }
+    }, _G.state.weapons[WEAPON.leatherArmor] })
+    currentStockSword:SetText({ {
+        color = { 0, 0, 0, 1 }
+    }, _G.state.weapons[WEAPON.sword] })
+    currentStockPike:SetText({ {
+        color = { 0, 0, 0, 1 }
+    }, _G.state.weapons[WEAPON.pike] })
+    currentStockCrossbow:SetText({ {
+        color = { 0, 0, 0, 1 }
+    }, _G.state.weapons[WEAPON.crossbow] })
+    currentStockMace:SetText({ {
+        color = { 0, 0, 0, 1 }
+    }, _G.state.weapons[WEAPON.mace] })
+    currentStockSpear:SetText({ {
+        color = { 0, 0, 0, 1 }
+    }, _G.state.weapons[WEAPON.spear] })
+    currentStockBow:SetText({ {
+        color = { 0, 0, 0, 1 }
+    }, _G.state.weapons[WEAPON.bow] })
 
 end
 
