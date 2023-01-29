@@ -75,7 +75,7 @@ function TaxController:update()
         elements.SetTax(4)
     end
     if self.timer >= self.class.TAX_INTERVAL then
-        _G.state.gold = _G.state.gold + math.round((_G.state.population - _G.state.peasants) * self.goldFactor, 0)
+        _G.state.gold = _G.state.gold + math.round((_G.state.population - _G.campfire.peasants) * self.goldFactor, 0)
         self.timer = 0
         elements.tax:SetText({{
             color = {0, 0, 0, 1}

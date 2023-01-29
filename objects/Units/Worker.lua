@@ -13,13 +13,13 @@ function Worker:quitJob()
     _G.freeVertexFromTile(self.cx, self.cy, self.vertId)
     _G.removeObjectAt(self.cx, self.cy, self.i, self.o, self)
     -- Spawn a new Peasant and skip bow animation
-    local peasant = Peasant:new(self.gx, self.gy, true)
-    peasant.pathState = "Waiting for path"
     if _G.campfire.peasants >= _G.campfire.maxPeasants then
+        local peasant = Peasant:new(self.gx, self.gy, true)
         peasant.state = "Leaving town"
         peasant:requestPath(_G.spawnPointX, _G.spawnPointY)
         _G.state.population = _G.state.population - 1
     else
+        local peasant = Peasant:new(self.gx, self.gy)
         peasant.state = "Going to campfire"
     end
     local actionBar = require("states.ui.ActionBar")
