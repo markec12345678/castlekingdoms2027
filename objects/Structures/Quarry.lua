@@ -668,13 +668,13 @@ function Quarry:destroy()
     self.puller.toBeDeleted = true
 
     if self.liftWorker then
-        self.liftWorker:die()
+        self.liftWorker:quitJob()
     end
     if self.shapeWorker then
-        self.shapeWorker:die()
+        self.shapeWorker:quitJob()
     end
     if self.pullWorker then
-        self.pullWorker:die()
+        self.pullWorker:quitJob()
     end
 
     for xx = 0, 4 do
@@ -704,7 +704,7 @@ end
 function Quarry:join(worker)
     if self.health == -1 then
         _G.JobController:remove("Stonemason", self)
-        worker:die()
+        worker:quitJob()
         return
     end
 

@@ -312,7 +312,7 @@ end
 
 function BlacksmithWorkshop:destroy()
     if self.worker then
-        self.worker:die()
+        self.worker:quitJob()
     end
     self.float:destroy()
     Structure.destroy(self.swordCrafting)
@@ -388,7 +388,7 @@ end
 function BlacksmithWorkshop:join(worker)
     if self.health == -1 then
         _G.JobController:remove("Blacksmith", self)
-        worker:die()
+        worker:quitJob()
         return
     end
     if self.freeSpots == 1 then
@@ -449,7 +449,7 @@ end
 function BlacksmithWorkshop:join(worker)
     if self.health == -1 then
         _G.JobController:remove("Blacksmith", self)
-        worker:die()
+        worker:quitJob()
         return
     end
     if self.freeSpots == 1 then

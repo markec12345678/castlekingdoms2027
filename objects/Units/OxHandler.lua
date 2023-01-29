@@ -1,6 +1,6 @@
 local Object = require("objects.Object")
 local Stonemason = require("objects.Units.Stonemason")
-local Unit = require("objects.Units.Unit")
+local Worker = require("objects.Units.Worker")
 local anim = require("libraries.anim8")
 local Structure = require("objects.Structure")
 
@@ -104,7 +104,7 @@ end
 
 function OxHandler:load(data)
     Object.deserialize(self, data)
-    Unit.load(self, data)
+    Worker.load(self, data)
     local anData = data.animation
     if anData then
         self.animation = anim.newAnimation(an[anData.animationIdentifier], 1, nil, anData.animationIdentifier)
@@ -123,7 +123,7 @@ end
 
 function OxHandler:serialize()
     local data = {}
-    local unitData = Unit.serialize(self)
+    local unitData = Worker.serialize(self)
     for k, v in pairs(unitData) do
         if type(v) ~= "function" and type(v) ~= "userdata" then
             data[k] = v

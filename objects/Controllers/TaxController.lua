@@ -75,17 +75,17 @@ function TaxController:update()
         elements.SetTax(4)
     end
     if self.timer >= self.class.TAX_INTERVAL then
-        _G.state.gold = _G.state.gold + math.round(_G.state.population * self.goldFactor, 0)
+        _G.state.gold = _G.state.gold + math.round((_G.state.population - _G.state.peasants) * self.goldFactor, 0)
         self.timer = 0
-        elements.tax:SetText({ {
-            color = { 0, 0, 0, 1 }
-        }, self.taxText })
-        elements.population:SetText({ {
-            color = { 0, 0, 0, 1 }
-        }, _G.state.population })
-        elements.gold:SetText({ {
-            color = { 0, 0, 0, 1 }
-        }, math.round(_G.state.population * self.goldFactor, 0) })
+        elements.tax:SetText({{
+            color = {0, 0, 0, 1}
+        }, self.taxText})
+        elements.population:SetText({{
+            color = {0, 0, 0, 1}
+        }, _G.state.population})
+        elements.gold:SetText({{
+            color = {0, 0, 0, 1}
+        }, math.round(_G.state.population * self.goldFactor, 0)})
         if _G.TaxController.autoTax then
             if _G.state.popularity >= 66 then
                 _G.TaxController:setTaxLevel("Downright Cruel Taxes")

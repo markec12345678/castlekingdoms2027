@@ -1,5 +1,5 @@
 local _, _ = ...
-local Unit = require("objects.Units.Unit")
+local Worker = require("objects.Units.Worker")
 local Object = require("objects.Object")
 local indexQuads = _G.indexQuads
 local anim = _G.anim
@@ -380,9 +380,9 @@ local an = {
     [AN.IDLE_LOOP] = fr.idle_loop
 }
 
-local WheatFarmer = _G.class("WheatFarmer", Unit)
+local WheatFarmer = _G.class("WheatFarmer", Worker)
 function WheatFarmer:initialize(gx, gy, type)
-    Unit.initialize(self, gx, gy, type)
+    Worker.initialize(self, gx, gy, type)
     self.workplace = nil
     self.state = "Find a job"
     self.marked = 0
@@ -483,7 +483,7 @@ end
 
 function WheatFarmer:load(data)
     Object.deserialize(self, data)
-    Unit.load(self, data)
+    Worker.load(self, data)
     local farmlandTiles = {}
     for _, ftile in ipairs(data.farmlandTiles) do
         if ftile == false then
@@ -603,7 +603,7 @@ end
 
 function WheatFarmer:serialize()
     local data = {}
-    local unitData = Unit.serialize(self)
+    local unitData = Worker.serialize(self)
     for k, v in pairs(unitData) do
         if type(v) ~= "function" and type(v) ~= "userdata" then
             data[k] = v
@@ -1168,7 +1168,7 @@ end
 
 function WheatFarmer:animate()
     self:update()
-    Unit.animate(self)
+    Worker.animate(self)
 end
 
 return WheatFarmer

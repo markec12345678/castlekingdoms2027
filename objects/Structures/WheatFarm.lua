@@ -299,7 +299,7 @@ end
 
 function WheatFarm:destroy()
     if self.wheatWorker then
-        self.wheatWorker:die()
+        self.wheatWorker:quitJob()
     end
     self.float:destroy()
 
@@ -392,7 +392,7 @@ end
 function WheatFarm:join(worker)
     if self.health == -1 then
         _G.JobController:remove("WheatFarmer", self)
-        worker:die()
+        worker:quitJob()
         return
     end
     if self.freeSpots == 1 then

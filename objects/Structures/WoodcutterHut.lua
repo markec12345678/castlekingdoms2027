@@ -414,7 +414,7 @@ function WoodcutterHut:destroy()
     self.float:destroy()
 
     if self.worker then
-        self.worker:die()
+        self.worker:quitJob()
     end
 
     _G.stockpile:store("wood")
@@ -426,7 +426,7 @@ end
 function WoodcutterHut:join(worker)
     if self.health == -1 then
         _G.JobController:remove("Woodcutter", self)
-        worker:die()
+        worker:quitJob()
         return
     end
     if self.freeSpots == 1 then

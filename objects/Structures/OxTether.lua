@@ -144,10 +144,10 @@ function OxTether:destroy()
     end
 
     if self.oxWorker then
-        self.oxWorker:die()
+        self.oxWorker:quitJob()
     end
     if self.oxUnit then
-        self.oxUnit:die()
+        self.oxUnit:quitJob()
     end
     self.float:destroy()
 
@@ -189,7 +189,7 @@ end
 function OxTether:join(worker)
     if self.health == -1 then
         _G.JobController:remove("OxHandler", self)
-        worker:die()
+        worker:quitJob()
         return
     end
 

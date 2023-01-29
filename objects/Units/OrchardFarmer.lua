@@ -1,5 +1,5 @@
 local _, _ = ...
-local Unit = require("objects.Units.Unit")
+local Worker = require("objects.Units.Worker")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
 local FOOD = require("objects.Enums.Food")
@@ -60,9 +60,9 @@ local an = {
     [GATHER_APPLES_EAST] = fr_gather_apples_east
 }
 
-local OrchardFarmer = _G.class('OrchardFarmer', Unit)
+local OrchardFarmer = _G.class('OrchardFarmer', Worker)
 function OrchardFarmer:initialize(gx, gy, type)
-    Unit.initialize(self, gx, gy, type)
+    Worker.initialize(self, gx, gy, type)
     self.workplace = nil
     self.state = 'Find a job'
     self.count = 1
@@ -75,7 +75,7 @@ end
 
 function OrchardFarmer:serialize()
     local data = {}
-    local unitData = Unit.serialize(self)
+    local unitData = Worker.serialize(self)
     for k, v in pairs(unitData) do
         if type(v) ~= "function" and type(v) ~= "userdata" then
             data[k] = v
@@ -93,7 +93,7 @@ end
 
 function OrchardFarmer:load(data)
     Object.deserialize(self, data)
-    Unit.load(self, data)
+    Worker.load(self, data)
     self.gatherLoopCount = data.gatherLoopCount or 0
     local anData = data.animation
     if anData then
@@ -255,7 +255,7 @@ end
 
 function OrchardFarmer:animate()
     self:update()
-    Unit.animate(self)
+    Worker.animate(self)
 end
 
 return OrchardFarmer

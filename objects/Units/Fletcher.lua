@@ -1,5 +1,5 @@
 local _, _ = ...
-local Unit = require("objects.Units.Unit")
+local Worker = require("objects.Units.Worker")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
 local WEAPON = require("objects.Enums.Weapon")
@@ -90,10 +90,10 @@ local an = {
     [ANIM_IDLE_STATIC] = _G.indexQuads("body_fletcher_idle", 1)
 }
 
-local Fletcher = _G.class('Fletcher', Unit)
+local Fletcher = _G.class('Fletcher', Worker)
 
 function Fletcher:initialize(gx, gy, type)
-    Unit.initialize(self, gx, gy, type)
+    Worker.initialize(self, gx, gy, type)
     self.state = 'Find a job'
     self.waitTimer = 0
     self.weaponType = WEAPON.bow
@@ -326,12 +326,12 @@ end
 
 function Fletcher:animate()
     self:update()
-    Unit.animate(self)
+    Worker.animate(self)
 end
 
 function Fletcher:load(data)
     Object.deserialize(self, data)
-    Unit.load(self, data)
+    Worker.load(self, data)
     local anData = data.animation
     if anData then
         self.animation = anim.newAnimation(an[anData.animationIdentifier], 1, nil, anData.animationIdentifier)
@@ -341,7 +341,7 @@ end
 
 function Fletcher:serialize()
     local data = {}
-    local unitData = Unit.serialize(self)
+    local unitData = Worker.serialize(self)
     for k, v in pairs(unitData) do
         if type(v) ~= "function" and type(v) ~= "userdata" then
             data[k] = v

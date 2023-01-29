@@ -1,8 +1,8 @@
 local _, _ = ...
-local Unit = require("objects.Units.Unit")
 local Object = require("objects.Object")
 local anim = _G.anim
 local indexQuads = _G.indexQuads
+local Worker = require("objects.Units.Worker")
 
 local cuttingFx = {_G.fx["chop1 22k"], _G.fx["chop2 22k"], _G.fx["chop3 22k"], _G.fx["chop4 22k"]}
 local choppingFx = {_G.fx["wood_chop_1"], _G.fx["wood_chop_2"], _G.fx["wood_chop_3"]}
@@ -92,9 +92,9 @@ local an = {
     [AN_IDLE] = fr_idle
 }
 
-local Woodcutter = _G.class('Woodcutter', Unit)
+local Woodcutter = _G.class('Woodcutter', Worker)
 function Woodcutter:initialize(gx, gy, type)
-    Unit.initialize(self, gx, gy, type)
+    Worker.initialize(self, gx, gy, type)
     local anSpd = 0.05
     self.workplace = nil
     self.anWalkingPlankWest = anim.newAnimation(an[AN_WALKING_PLANK_WEST], anSpd, nil, AN_WALKING_PLANK_WEST)
@@ -140,7 +140,7 @@ end
 
 function Woodcutter:load(data)
     Object.deserialize(self, data)
-    Unit.load(self, data)
+    Worker.load(self, data)
     self.cut = function()
         self:cutCallback()
     end
@@ -232,7 +232,7 @@ end
 
 function Woodcutter:serialize()
     local data = {}
-    local unitData = Unit.serialize(self)
+    local unitData = Worker.serialize(self)
     for k, v in pairs(unitData) do
         if type(v) ~= "function" and type(v) ~= "userdata" then
             data[k] = v
@@ -612,7 +612,7 @@ function Woodcutter:animate()
         _G.playSfx(self, footstepFx)
     end
     self:update()
-    Unit.animate(self)
+    Worker.animate(self)
 end
 
 return Woodcutter

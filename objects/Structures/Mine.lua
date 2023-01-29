@@ -691,7 +691,7 @@ end
 
 function Mine:destroy()
     if self.worker then
-        self.worker:die()
+        self.worker:quitJob()
     end
     self.float:destroy()
     Structure.destroy(self.pourer)
@@ -730,7 +730,7 @@ end
 function Mine:join(worker)
     if self.health == -1 then
         _G.JobController:remove("Miner", self)
-        worker:die()
+        worker:quitJob()
         return
     end
     if self.freeSpots == 1 then

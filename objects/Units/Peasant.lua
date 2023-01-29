@@ -106,7 +106,7 @@ local an = {
 }
 
 local Peasant = _G.class("Peasant", Unit)
-function Peasant:initialize(gx, gy, type)
+function Peasant:initialize(gx, gy, quitting)
     Unit.initialize(self, gx, gy, type)
     self.workplace = nil
     self.state = "Bowing"
@@ -116,14 +116,16 @@ function Peasant:initialize(gx, gy, type)
     self.offsetX = -5
     self.animated = true
     self.orientation = ""
-    local bowingEnd = function(animation)
-        animation:pause()
-        self.state = "Going to campfire"
+    if not quitting then
+        local bowingEnd = function(animation)
+            animation:pause()
+            self.state = "Going to campfire"
+        end
+        self.animation = anim.newAnimation(an[AN_BOWING], 0.12, bowingEnd, AN_BOWING)
+        local campX, campY, orientation = _G.campfire:getNextFreeSpot(self)
+        self.orientation = orientation
+        self:requestPath(campX, campY)
     end
-    self.animation = anim.newAnimation(an[AN_BOWING], 0.12, bowingEnd, AN_BOWING)
-    local campX, campY, orientation = _G.campfire:getNextFreeSpot(self)
-    self.orientation = orientation
-    self:requestPath(campX, campY)
     self.tryTogetAJob = false
 end
 
@@ -273,9 +275,12 @@ function Peasant:update()
     elseif self.state == "Going to door" then
         self:updateDirection()
         self:move()
+    elseif self.state == "Leaving town" then
+        self:updateDirection()
+        self:move()
     end
     if self.fx * 0.001 == self.waypointX and self.fy * 0.001 == self.waypointY and self.moveDir ~= "none" then
-        if self.state == "Going to campfire" or self.state == "Going to door" then
+        if self.state == "Going to campfire" or self.state == "Going to door" or self.state == "Leaving town" then
             if self:reachedPathEnd() then
                 self:clearPath()
                 if self.state == "Going to campfire" then
@@ -286,6 +291,8 @@ function Peasant:update()
                     self.animation = anim.newAnimation(an[AN_BOWING_FOR_A_JOB], 0.12, function()
                         self:bowingJobCallback()
                     end, AN_BOWING_FOR_A_JOB)
+                elseif self.state == "Leaving town" then
+                    self:remove()
                 end
                 return
             else
