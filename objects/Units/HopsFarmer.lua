@@ -1,5 +1,5 @@
 local _, _ = ...
-local Worker = require("objects.Units.Worker")
+local Unit = require("objects.Units.Unit")
 local Object = require("objects.Object")
 local indexQuads = _G.indexQuads
 local anim = _G.anim
@@ -19,14 +19,14 @@ local fr = {
     walking_apples_northwest = indexQuads("body_farmer_walk_apples_nw", 16),
     walking_apples_southeast = indexQuads("body_farmer_walk_apples_se", 16),
     walking_apples_southwest = indexQuads("body_farmer_walk_apples_sw", 16),
-    walking_wheat_east = indexQuads("body_farmer_walk_wheat_e", 16),
-    walking_wheat_north = indexQuads("body_farmer_walk_wheat_n", 16),
-    walking_wheat_west = indexQuads("body_farmer_walk_wheat_w", 16),
-    walking_wheat_south = indexQuads("body_farmer_walk_wheat_s", 16),
-    walking_wheat_northeast = indexQuads("body_farmer_walk_wheat_ne", 16),
-    walking_wheat_northwest = indexQuads("body_farmer_walk_wheat_nw", 16),
-    walking_wheat_southeast = indexQuads("body_farmer_walk_wheat_se", 16),
-    walking_wheat_southwest = indexQuads("body_farmer_walk_wheat_sw", 16),
+    walking_hops_east = indexQuads("body_farmer_walk_hops_e", 16),
+    walking_hops_north = indexQuads("body_farmer_walk_hops_n", 16),
+    walking_hops_west = indexQuads("body_farmer_walk_hops_w", 16),
+    walking_hops_south = indexQuads("body_farmer_walk_hops_s", 16),
+    walking_hops_northeast = indexQuads("body_farmer_walk_hops_ne", 16),
+    walking_hops_northwest = indexQuads("body_farmer_walk_hops_nw", 16),
+    walking_hops_southeast = indexQuads("body_farmer_walk_hops_se", 16),
+    walking_hops_southwest = indexQuads("body_farmer_walk_hops_sw", 16),
     walking_east = indexQuads("body_farmer_walk_e", 16),
     walking_north = indexQuads("body_farmer_walk_n", 16),
     walking_northeast = indexQuads("body_farmer_walk_ne", 16),
@@ -120,14 +120,14 @@ local fr = {
     gather_planting_northwest = indexQuads("body_farmer_seed_nw", 16),
     gather_planting_southeast = indexQuads("body_farmer_seed_se", 16),
     gather_planting_southwest = indexQuads("body_farmer_seed_sw", 16),
-    -- walk wheat
-    gather_walk_wheat_north = indexQuads("body_farmer_walk_wheat_n", 16),
-    gather_walk_wheat_west = indexQuads("body_farmer_walk_wheat_w", 16),
-    gather_walk_wheat_south = indexQuads("body_farmer_walk_wheat_s", 16),
-    gather_walk_wheat_northeast = indexQuads("body_farmer_walk_wheat_ne", 16),
-    gather_walk_wheat_northwest = indexQuads("body_farmer_walk_wheat_nw", 16),
-    gather_walk_wheat_southeast = indexQuads("body_farmer_walk_wheat_se", 16),
-    gather_walk_wheat_southwest = indexQuads("body_farmer_walk_wheat_sw", 16),
+    -- walk hops
+    gather_walk_hops_north = indexQuads("body_farmer_walk_hops_n", 16),
+    gather_walk_hops_west = indexQuads("body_farmer_walk_hops_w", 16),
+    gather_walk_hops_south = indexQuads("body_farmer_walk_hops_s", 16),
+    gather_walk_hops_northeast = indexQuads("body_farmer_walk_hops_ne", 16),
+    gather_walk_hops_northwest = indexQuads("body_farmer_walk_hops_nw", 16),
+    gather_walk_hops_southeast = indexQuads("body_farmer_walk_hops_se", 16),
+    gather_walk_hops_southwest = indexQuads("body_farmer_walk_hops_sw", 16),
     -- idle
 
     idle = indexQuads("body_farmer_idle", 16),
@@ -143,14 +143,14 @@ local AN = {
     WALKING_APPLES_NORTHWEST = "Walking_Apples_Northwest",
     WALKING_APPLES_SOUTHEAST = "Walking_Apples_Southeast",
     WALKING_APPLES_SOUTHWEST = "Walking_Apples_Southwest",
-    WALKING_WHEAT_EAST = "Walking_Wheat_East",
-    WALKING_WHEAT_NORTH = "Walking_Wheat_North",
-    WALKING_WHEAT_WEST = "Walking_Wheat_West",
-    WALKING_WHEAT_SOUTH = "Walking_Wheat_South",
-    WALKING_WHEAT_NORTHEAST = "Walking_Wheat_Northeast",
-    WALKING_WHEAT_NORTHWEST = "Walking_Wheat_Northwest",
-    WALKING_WHEAT_SOUTHEAST = "Walking_Wheat_Southeast",
-    WALKING_WHEAT_SOUTHWEST = "Walking_Wheat_Southwest",
+    WALKING_WHEAT_EAST = "Walking_Hops_East",
+    WALKING_WHEAT_NORTH = "Walking_Hops_North",
+    WALKING_WHEAT_WEST = "Walking_Hops_West",
+    WALKING_WHEAT_SOUTH = "Walking_Hops_South",
+    WALKING_WHEAT_NORTHEAST = "Walking_Hops_Northeast",
+    WALKING_WHEAT_NORTHWEST = "Walking_Hops_Northwest",
+    WALKING_WHEAT_SOUTHEAST = "Walking_Hops_Southeast",
+    WALKING_WHEAT_SOUTHWEST = "Walking_Hops_Southwest",
     WALKING_EAST = "Walking_East",
     WALKING_NORTH = "Walking_North",
     WALKING_NORTHEAST = "Walking_Northeast",
@@ -244,14 +244,14 @@ local AN = {
     GATHER_PLANTING_NORTHWEST = "Gather_Planting_Northwest",
     GATHER_PLANTING_SOUTHEAST = "Gather_Planting_Southeast",
     GATHER_PLANTING_SOUTHWEST = "Gather_Planting_Southwest",
-    -- walk wheat
-    GATHER_WALK_WHEAT_NORTH = "Gather_Walk_Wheat_North",
-    GATHER_WALK_WHEAT_WEST = "Gather_Walk_Wheat_West",
-    GATHER_WALK_WHEAT_SOUTH = "Gather_Walk_Wheat_South",
-    GATHER_WALK_WHEAT_NORTHEAST = "Gather_Walk_Wheat_Northeast",
-    GATHER_WALK_WHEAT_NORTHWEST = "Gather_Walk_Wheat_Northwest",
-    GATHER_WALK_WHEAT_SOUTHEAST = "Gather_Walk_Wheat_Southeast",
-    GATHER_WALK_WHEAT_SOUTHWEST = "Gather_Walk_Wheat_Southwest",
+    -- walk hops
+    GATHER_WALK_WHEAT_NORTH = "Gather_Walk_Hops_North",
+    GATHER_WALK_WHEAT_WEST = "Gather_Walk_Hops_West",
+    GATHER_WALK_WHEAT_SOUTH = "Gather_Walk_Hops_South",
+    GATHER_WALK_WHEAT_NORTHEAST = "Gather_Walk_Hops_Northeast",
+    GATHER_WALK_WHEAT_NORTHWEST = "Gather_Walk_Hops_Northwest",
+    GATHER_WALK_WHEAT_SOUTHEAST = "Gather_Walk_Hops_Southeast",
+    GATHER_WALK_WHEAT_SOUTHWEST = "Gather_Walk_Hops_Southwest",
     -- idle
     IDLE = "Idle",
     IDLE_LOOP = "Idle_Loop"
@@ -266,14 +266,14 @@ local an = {
     [AN.WALKING_APPLES_NORTHWEST] = fr.walking_apples_northwest,
     [AN.WALKING_APPLES_SOUTHEAST] = fr.walking_apples_southeast,
     [AN.WALKING_APPLES_SOUTHWEST] = fr.walking_apples_southwest,
-    [AN.WALKING_WHEAT_EAST] = fr.walking_wheat_east,
-    [AN.WALKING_WHEAT_NORTH] = fr.walking_wheat_north,
-    [AN.WALKING_WHEAT_WEST] = fr.walking_wheat_west,
-    [AN.WALKING_WHEAT_SOUTH] = fr.walking_wheat_south,
-    [AN.WALKING_WHEAT_NORTHEAST] = fr.walking_wheat_northeast,
-    [AN.WALKING_WHEAT_NORTHWEST] = fr.walking_wheat_northwest,
-    [AN.WALKING_WHEAT_SOUTHEAST] = fr.walking_wheat_southeast,
-    [AN.WALKING_WHEAT_SOUTHWEST] = fr.walking_wheat_southwest,
+    [AN.WALKING_WHEAT_EAST] = fr.walking_hops_east,
+    [AN.WALKING_WHEAT_NORTH] = fr.walking_hops_north,
+    [AN.WALKING_WHEAT_WEST] = fr.walking_hops_west,
+    [AN.WALKING_WHEAT_SOUTH] = fr.walking_hops_south,
+    [AN.WALKING_WHEAT_NORTHEAST] = fr.walking_hops_northeast,
+    [AN.WALKING_WHEAT_NORTHWEST] = fr.walking_hops_northwest,
+    [AN.WALKING_WHEAT_SOUTHEAST] = fr.walking_hops_southeast,
+    [AN.WALKING_WHEAT_SOUTHWEST] = fr.walking_hops_southwest,
     [AN.WALKING_EAST] = fr.walking_east,
     [AN.WALKING_NORTH] = fr.walking_north,
     [AN.WALKING_NORTHEAST] = fr.walking_northeast,
@@ -367,23 +367,23 @@ local an = {
     [AN.GATHER_PLANTING_NORTHWEST] = fr.gather_planting_northwest,
     [AN.GATHER_PLANTING_SOUTHEAST] = fr.gather_planting_southeast,
     [AN.GATHER_PLANTING_SOUTHWEST] = fr.gather_planting_southwest,
-    -- walk wheat
-    [AN.GATHER_WALK_WHEAT_NORTH] = fr.gather_walk_wheat_north,
-    [AN.GATHER_WALK_WHEAT_WEST] = fr.gather_walk_wheat_west,
-    [AN.GATHER_WALK_WHEAT_SOUTH] = fr.gather_walk_wheat_south,
-    [AN.GATHER_WALK_WHEAT_NORTHEAST] = fr.gather_walk_wheat_northeast,
-    [AN.GATHER_WALK_WHEAT_NORTHWEST] = fr.gather_walk_wheat_northwest,
-    [AN.GATHER_WALK_WHEAT_SOUTHEAST] = fr.gather_walk_wheat_southeast,
-    [AN.GATHER_WALK_WHEAT_SOUTHWEST] = fr.gather_walk_wheat_southwest,
+    -- walk hops
+    [AN.GATHER_WALK_WHEAT_NORTH] = fr.gather_walk_hops_north,
+    [AN.GATHER_WALK_WHEAT_WEST] = fr.gather_walk_hops_west,
+    [AN.GATHER_WALK_WHEAT_SOUTH] = fr.gather_walk_hops_south,
+    [AN.GATHER_WALK_WHEAT_NORTHEAST] = fr.gather_walk_hops_northeast,
+    [AN.GATHER_WALK_WHEAT_NORTHWEST] = fr.gather_walk_hops_northwest,
+    [AN.GATHER_WALK_WHEAT_SOUTHEAST] = fr.gather_walk_hops_southeast,
+    [AN.GATHER_WALK_WHEAT_SOUTHWEST] = fr.gather_walk_hops_southwest,
     -- idle
     [AN.IDLE] = fr.idle,
     [AN.IDLE_LOOP] = fr.idle_loop
 }
 
-local WheatFarmer = _G.class("WheatFarmer", Worker)
-function WheatFarmer:initialize(gx, gy, type)
-    Worker.initialize(self, gx, gy, type)
-    self.workplace = nil
+local HopsFarmer = _G.class("HopsFarmer", Unit)
+function HopsFarmer:initialize(gx, gy, type)
+    Unit.initialize(self, gx, gy, type)
+    self.workplace = nilHopsFarmer
     self.state = "Find a job"
     self.marked = 0
     self.count = 1
@@ -393,15 +393,15 @@ function WheatFarmer:initialize(gx, gy, type)
     self.timr = 0
     self.animated = true
     self.animation = anim.newAnimation(an[AN.WALKING_WEST], 10, nil, AN.WALKING_WEST)
-    self.wheat = 0
+    self.hops = 0
 end
 
-function WheatFarmer:dirSubUpdate()
+function HopsFarmer:dirSubUpdate()
     if self.state == "Working" then
         return
     end
     if self.moveDir == "west" then
-        if self.state == "Going to stockpile" or (self.state == "Going to pick up wheat" and self.wheat > 0) then
+        if self.state == "Going to stockpile" or (self.state == "Going to pick up hops" and self.hops > 0) then
             self.animation = anim.newAnimation(an[AN.WALKING_WHEAT_WEST], 0.05, nil, AN.WALKING_WHEAT_WEST)
         elseif self.state == "Going to seed the land" then
             self.animation = anim.newAnimation(an[AN.WALKING_APPLES_WEST], 0.05, nil, AN.WALKING_APPLES_WEST)
@@ -409,7 +409,7 @@ function WheatFarmer:dirSubUpdate()
             self.animation = anim.newAnimation(an[AN.WALKING_WEST], 0.05, nil, AN.WALKING_WEST)
         end
     elseif self.moveDir == "southwest" then
-        if self.state == "Going to stockpile" or (self.state == "Going to pick up wheat" and self.wheat > 0) then
+        if self.state == "Going to stockpile" or (self.state == "Going to pick up hops" and self.hops > 0) then
             self.animation = anim.newAnimation(an[AN.WALKING_WHEAT_SOUTHWEST], 0.05, nil, AN.WALKING_WHEAT_SOUTHWEST)
         elseif self.state == "Going to seed the land" then
             self.animation = anim.newAnimation(an[AN.WALKING_APPLES_SOUTHWEST], 0.05, nil, AN.WALKING_APPLES_SOUTHWEST)
@@ -417,7 +417,7 @@ function WheatFarmer:dirSubUpdate()
             self.animation = anim.newAnimation(an[AN.WALKING_SOUTHWEST], 0.05, nil, AN.WALKING_SOUTHWEST)
         end
     elseif self.moveDir == "northwest" then
-        if self.state == "Going to stockpile" or (self.state == "Going to pick up wheat" and self.wheat > 0) then
+        if self.state == "Going to stockpile" or (self.state == "Going to pick up hops" and self.hops > 0) then
             self.animation = anim.newAnimation(an[AN.WALKING_WHEAT_NORTHWEST], 0.05, nil, AN.WALKING_WHEAT_NORTHWEST)
         elseif self.state == "Going to seed the land" then
             self.animation = anim.newAnimation(an[AN.WALKING_APPLES_NORTHWEST], 0.05, nil, AN.WALKING_APPLES_NORTHWEST)
@@ -425,7 +425,7 @@ function WheatFarmer:dirSubUpdate()
             self.animation = anim.newAnimation(an[AN.WALKING_NORTHWEST], 0.05, nil, AN.WALKING_NORTHWEST)
         end
     elseif self.moveDir == "north" then
-        if self.state == "Going to stockpile" or (self.state == "Going to pick up wheat" and self.wheat > 0) then
+        if self.state == "Going to stockpile" or (self.state == "Going to pick up hops" and self.hops > 0) then
             self.animation = anim.newAnimation(an[AN.WALKING_WHEAT_NORTH], 0.05, nil, AN.WALKING_WHEAT_NORTH)
         elseif self.state == "Going to seed the land" then
             self.animation = anim.newAnimation(an[AN.WALKING_APPLES_NORTH], 0.05, nil, AN.WALKING_APPLES_NORTH)
@@ -433,7 +433,7 @@ function WheatFarmer:dirSubUpdate()
             self.animation = anim.newAnimation(an[AN.WALKING_NORTH], 0.05, nil, AN.WALKING_NORTH)
         end
     elseif self.moveDir == "south" then
-        if self.state == "Going to stockpile" or (self.state == "Going to pick up wheat" and self.wheat > 0) then
+        if self.state == "Going to stockpile" or (self.state == "Going to pick up hops" and self.hops > 0) then
             self.animation = anim.newAnimation(an[AN.WALKING_WHEAT_SOUTH], 0.05, nil, AN.WALKING_WHEAT_SOUTH)
         elseif self.state == "Going to seed the land" then
             self.animation = anim.newAnimation(an[AN.WALKING_APPLES_SOUTH], 0.05, nil, AN.WALKING_APPLES_SOUTH)
@@ -441,7 +441,7 @@ function WheatFarmer:dirSubUpdate()
             self.animation = anim.newAnimation(an[AN.WALKING_SOUTH], 0.05, nil, AN.WALKING_SOUTH)
         end
     elseif self.moveDir == "east" then
-        if self.state == "Going to stockpile" or (self.state == "Going to pick up wheat" and self.wheat > 0) then
+        if self.state == "Going to stockpile" or (self.state == "Going to pick up hops" and self.hops > 0) then
             self.animation = anim.newAnimation(an[AN.WALKING_WHEAT_EAST], 0.05, nil, AN.WALKING_WHEAT_EAST)
         elseif self.state == "Going to seed the land" then
             self.animation = anim.newAnimation(an[AN.WALKING_APPLES_EAST], 0.05, nil, AN.WALKING_APPLES_EAST)
@@ -449,7 +449,7 @@ function WheatFarmer:dirSubUpdate()
             self.animation = anim.newAnimation(an[AN.WALKING_EAST], 0.05, nil, AN.WALKING_EAST)
         end
     elseif self.moveDir == "southeast" then
-        if self.state == "Going to stockpile" or (self.state == "Going to pick up wheat" and self.wheat > 0) then
+        if self.state == "Going to stockpile" or (self.state == "Going to pick up hops" and self.hops > 0) then
             self.animation = anim.newAnimation(an[AN.WALKING_WHEAT_SOUTHEAST], 0.05, nil, AN.WALKING_WHEAT_SOUTHEAST)
         elseif self.state == "Going to seed the land" then
             self.animation = anim.newAnimation(an[AN.WALKING_APPLES_SOUTHEAST], 0.05, nil, AN.WALKING_APPLES_SOUTHEAST)
@@ -457,7 +457,7 @@ function WheatFarmer:dirSubUpdate()
             self.animation = anim.newAnimation(an[AN.WALKING_SOUTHEAST], 0.05, nil, AN.WALKING_SOUTHEAST)
         end
     elseif self.moveDir == "northeast" then
-        if self.state == "Going to stockpile" or (self.state == "Going to pick up wheat" and self.wheat > 0) then
+        if self.state == "Going to stockpile" or (self.state == "Going to pick up hops" and self.hops > 0) then
             self.animation = anim.newAnimation(an[AN.WALKING_WHEAT_NORTHEAST], 0.05, nil, AN.WALKING_WHEAT_NORTHEAST)
         elseif self.state == "Going to seed the land" then
             self.animation = anim.newAnimation(an[AN.WALKING_APPLES_NORTHEAST], 0.05, nil, AN.WALKING_APPLES_NORTHEAST)
@@ -467,11 +467,11 @@ function WheatFarmer:dirSubUpdate()
     end
 end
 
-function WheatFarmer:jobUpdate()
+function HopsFarmer:jobUpdate()
     _G.removeObjectAt(self.lrcx, self.lrcy, self.lrx, self.lry, self)
 end
 
-function WheatFarmer:anchorWorkPosition()
+function HopsFarmer:anchorWorkPosition()
     if not self.waypointX or not self.waypointY then
         return
     end
@@ -481,10 +481,11 @@ function WheatFarmer:anchorWorkPosition()
     self.gy = math.round(self.fy * 0.001)
 end
 
-function WheatFarmer:load(data)
+function HopsFarmer:load(data)
     Object.deserialize(self, data)
-    Worker.load(self, data)
+    Unit.load(self, data)
     local farmlandTiles = {}
+    data.farmlandTiles = data.farmlandTiles or {}
     for _, ftile in ipairs(data.farmlandTiles) do
         if ftile == false then
             farmlandTiles[#farmlandTiles + 1] = ftile
@@ -601,9 +602,9 @@ function WheatFarmer:load(data)
     end
 end
 
-function WheatFarmer:serialize()
+function HopsFarmer:serialize()
     local data = {}
-    local unitData = Worker.serialize(self)
+    local unitData = Unit.serialize(self)
     for k, v in pairs(unitData) do
         if type(v) ~= "function" and type(v) ~= "userdata" then
             data[k] = v
@@ -616,7 +617,7 @@ function WheatFarmer:serialize()
     data.count = self.count
     data.offsetX = self.offsetX
     data.offsetY = self.offsetY
-    data.wheat = self.wheat
+    data.hops = self.hops
     local farmlandTilesRaw = {}
     for _, tile in ipairs(self.farmlandTiles) do
         if tile then
@@ -634,7 +635,7 @@ function WheatFarmer:serialize()
     return data
 end
 
-function WheatFarmer:hoeLandCallback(state)
+function HopsFarmer:hoeLandCallback(state)
     local _, anim2, anim3 = self:hoeLandGetAnim()
     local function state_3Callback()
         self.straightWalkSpeed = 2400
@@ -671,7 +672,7 @@ function WheatFarmer:hoeLandCallback(state)
     end
 end
 
-function WheatFarmer:hoeLandGetAnim()
+function HopsFarmer:hoeLandGetAnim()
     local anim1, anim2, anim3
     if self.state == "Working" then
         if self.moveDir == nil or self.moveDir == "none" then
@@ -739,7 +740,7 @@ function WheatFarmer:hoeLandGetAnim()
     return anim1, anim2, anim3
 end
 
-function WheatFarmer:hoeLandPreprocess()
+function HopsFarmer:hoeLandPreprocess()
     local anim1, anim2, anim3, skipWalking
     local futureWaypointX, futureWaypointY = self.gx, self.gy
     if self.state == "Going to hoe the land from south" or self.state == "Going to hoe the land from north" then
@@ -793,7 +794,7 @@ function WheatFarmer:hoeLandPreprocess()
     return anim1, anim2, anim3, skipWalking, futureWaypointX, futureWaypointY
 end
 
-function WheatFarmer:hoeLand()
+function HopsFarmer:hoeLand()
     local anim1, anim2, _, skipWalking, futureWaypointX, futureWaypointY = self:hoeLandPreprocess()
     self.state = "Working"
     self.hasMoveDir = true
@@ -814,7 +815,7 @@ function WheatFarmer:hoeLand()
     end
 end
 
-function WheatFarmer:seedLandCallback()
+function HopsFarmer:seedLandCallback()
     self:anchorWorkPosition()
     self:updatePosition()
     self.moveDir = "none"
@@ -826,7 +827,7 @@ function WheatFarmer:seedLandCallback()
     self:clearPath()
 end
 
-function WheatFarmer:seedLand()
+function HopsFarmer:seedLand()
     local anim1, skipWalking
     local futureWaypointX, futureWaypointY = self.gx, self.gy
     if self.state == "Going to seed the land from south" or self.state == "Going to seed the land from north" then
@@ -881,7 +882,7 @@ function WheatFarmer:seedLand()
     end
 end
 
-function WheatFarmer:scytheLandGetAnim()
+function HopsFarmer:scytheLandGetAnim()
     local anim1, anim2, anim3
     if self.state == "Working" then
         if self.moveDir == nil or self.moveDir == "none" then
@@ -937,7 +938,7 @@ function WheatFarmer:scytheLandGetAnim()
     return anim1, anim2, anim3
 end
 
-function WheatFarmer:scytheLandPreprocess()
+function HopsFarmer:scytheLandPreprocess()
     local anim1, anim2, anim3, skipWalking
     local futureWaypointX, futureWaypointY = self.gx, self.gy
     if self.state == "Going to scythe the land from south" or self.state == "Going to scythe the land from north" then
@@ -991,7 +992,7 @@ function WheatFarmer:scytheLandPreprocess()
     return anim1, anim2, anim3, skipWalking, futureWaypointX, futureWaypointY
 end
 
-function WheatFarmer:scytheLandCallback(state)
+function HopsFarmer:scytheLandCallback(state)
     local _, anim2, anim3, _, _, _ = self:scytheLandGetAnim()
     local function state_3Callback()
         self.moveDir = "none"
@@ -1026,7 +1027,7 @@ function WheatFarmer:scytheLandCallback(state)
     end
 end
 
-function WheatFarmer:scytheLand()
+function HopsFarmer:scytheLand()
     local anim1, anim2, _, skipWalking, futureWaypointX, futureWaypointY = self:scytheLandPreprocess()
     self.state = "Working"
     self.hasMoveDir = true
@@ -1046,7 +1047,7 @@ function WheatFarmer:scytheLand()
     end
 end
 
-function WheatFarmer:update()
+function HopsFarmer:update()
     if self.pathState == "Waiting for path" and self.state ~= "Working" and self.state ~= "Resting" then
         self:pathfind()
     elseif self.state == "Working" and self.moveDir ~= "none" then
@@ -1058,7 +1059,7 @@ function WheatFarmer:update()
         self.workplace:work(self)
     elseif self.state ~= "No path to farm" then
         if self.state == "Find a job" then
-            _G.JobController:findJob(self, "WheatFarmer")
+            _G.JobController:findJob(self, "HopsFarmer")
         elseif self.state == "Go to stockpile" then
             if _G.stockpile then
                 self.state = "Going to stockpile"
@@ -1126,11 +1127,11 @@ function WheatFarmer:update()
 
                 end
                 self.count = self.count + 1
-            elseif self.state == "Going to pick up wheat" then
+            elseif self.state == "Going to pick up hops" then
                 if self:reachedPathEnd() then
                     self.resourceTile:takeResource()
-                    self.wheat = self.wheat + 1
-                    if self.wheat < 3 then
+                    self.hops = self.hops + 1
+                    if self.hops < 8 then
                         self.workplace:work(self)
                         self:clearPath()
                     else
@@ -1144,16 +1145,8 @@ function WheatFarmer:update()
                 self.count = self.count + 1
             elseif self.state == "Going to stockpile" then
                 if self:reachedPathEnd() then
-                    if self.wheat > 0 then
-                        _G.stockpile:store("wheat")
-                    end
-                    if self.wheat > 1 then
-                        _G.stockpile:store("wheat")
-                    end
-                    if self.wheat > 2 then
-                        _G.stockpile:store("wheat")
-                    end
-                    self.wheat = 0
+                    _G.stockpile:store("hop")
+                    self.hops = 0
                     self.state = "Go to workplace"
                     self:clearPath()
                     return
@@ -1167,9 +1160,9 @@ function WheatFarmer:update()
     end
 end
 
-function WheatFarmer:animate()
+function HopsFarmer:animate()
     self:update()
-    Worker.animate(self)
+    Unit.animate(self)
 end
 
-return WheatFarmer
+return HopsFarmer

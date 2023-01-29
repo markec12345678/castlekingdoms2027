@@ -174,6 +174,7 @@ function Object:serialize()
         data.className ~= "ChapelAlias" and
         data.className ~= "BarracksAlias" and data.className ~= "StoneBarracksAlias" and
         data.className ~= "ArcheryTargetAlias" and
+        data.className ~= "HopsFarmAlias" and
         data.className ~= "MeleeTargetAlias" and data.className ~= "WoodPoleAlias" and
         data.className ~= "ArmorerAlias" and data.className ~= "ArmouryAlias" and data.className ~= "FletcherAlias" and
         data.className ~= "BlacksmithAlias" and

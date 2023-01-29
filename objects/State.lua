@@ -74,6 +74,8 @@ function State:initialize()
     end
     self.wheatSeasonCounter = 0
     self.wheatGrowingSeason = false
+    self.hopsSeasonCounter = 0
+    self.hopsGrowingSeason = false
     self.firstWoodCutterHut = true
     self.firstArmoury = true
     self.keepX = 0
@@ -225,6 +227,8 @@ function State:serialize()
     self.serializedObjectIds = {}
     data.wheatSeasonCounter = self.wheatSeasonCounter
     data.wheatGrowingSeason = self.wheatGrowingSeason
+    data.hopsSeasonCounter = self.hopsSeasonCounter
+    data.hopsGrowingSeason = self.hopsGrowingSeason
     data.collisionMap = self.collisionMap
     data.topLeftChunkX = self.topLeftChunkX
     data.topLeftChunkY = self.topLeftChunkY
@@ -282,6 +286,8 @@ function State:load(filename, decompress)
     self.rawObjectIds = load.serializedObjectIds
     self.wheatSeasonCounter = load.wheatSeasonCounter
     self.wheatGrowingSeason = load.wheatGrowingSeason
+    self.hopsSeasonCounter = load.hopsSeasonCounter or 0
+    self.hopsGrowingSeason = load.hopsGrowingSeason
     self.collisionMap = load.collisionMap
     self.topLeftChunkX = load.topLeftChunkX
     self.topLeftChunkY = load.topLeftChunkY
