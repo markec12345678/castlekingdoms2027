@@ -6,13 +6,13 @@ local scale = actionBar.element.scalex
 
 local group = {}
 
-local switchTradeGroup = require("states.ui.market.market_trade")
+local switchTradeGroup = unpack(require("states.ui.market.market_trade"))
 local ActionBarButton = require("states.ui.ActionBarButton")
 local backButton = ActionBarButton:new(love.graphics.newImage("assets/ui/back_ab.png"), states.STATE_STOCKPILE, 12)
 backButton:setOnClick(function(self)
     actionBar:switchMode()
 end)
-actionBar:registerGroup("stockpile", {backButton})
+actionBar:registerGroup("stockpile", { backButton })
 
 local woodIconNormal = love.graphics.newImage("assets/ui/goods/woodIcon.png")
 local woodIconHover = love.graphics.newImage("assets/ui/goods/woodIconHover.png")
@@ -141,9 +141,9 @@ noMarketInfo:SetFont(loveframes.font_vera_italic)
 noMarketInfo:SetSize(50, 20)
 noMarketInfo:SetVisible(false)
 noMarketInfo:SetPos(frWoodButton.x - 100 + (frWoodButton.width / 2), frWoodButton.y)
-noMarketInfo:SetText({{
-    color = {0, 0, 0, 1}
-}, "Build a market to trade!"})
+noMarketInfo:SetText({ {
+    color = { 0, 0, 0, 1 }
+}, "Build a market to trade!" })
 noMarketInfo:SetShadow(false)
 function SwitchToTheMarket()
     if _G.BuildingManager:count("Market") >= 1 then
@@ -158,30 +158,30 @@ end
 
 function actionBar:updateStockpileResourcesCount()
 
-    currentStockWood:SetText({{
-        color = {0, 0, 0, 1}
-    }, _G.state.resources["wood"]})
-    currentStockStone:SetText({{
-        color = {0, 0, 0, 1}
-    }, _G.state.resources["stone"]})
-    currentStockWheat:SetText({{
-        color = {0, 0, 0, 1}
-    }, _G.state.resources["wheat"]})
-    currentStockTar:SetText({{
-        color = {0, 0, 0, 1}
-    }, _G.state.resources["tar"]})
-    currentStockAle:SetText({{
-        color = {0, 0, 0, 1}
-    }, _G.state.resources["ale"]})
-    currentStockIron:SetText({{
-        color = {0, 0, 0, 1}
-    }, _G.state.resources["iron"]})
-    currentStockHop:SetText({{
-        color = {0, 0, 0, 1}
-    }, _G.state.resources["hop"]})
-    currentStockFlour:SetText({{
-        color = {0, 0, 0, 1}
-    }, _G.state.resources["flour"]})
+    currentStockWood:SetText({ {
+        color = { 0, 0, 0, 1 }
+    }, _G.state.resources["wood"] })
+    currentStockStone:SetText({ {
+        color = { 0, 0, 0, 1 }
+    }, _G.state.resources["stone"] })
+    currentStockWheat:SetText({ {
+        color = { 0, 0, 0, 1 }
+    }, _G.state.resources["wheat"] })
+    currentStockTar:SetText({ {
+        color = { 0, 0, 0, 1 }
+    }, _G.state.resources["tar"] })
+    currentStockAle:SetText({ {
+        color = { 0, 0, 0, 1 }
+    }, _G.state.resources["ale"] })
+    currentStockIron:SetText({ {
+        color = { 0, 0, 0, 1 }
+    }, _G.state.resources["iron"] })
+    currentStockHop:SetText({ {
+        color = { 0, 0, 0, 1 }
+    }, _G.state.resources["hop"] })
+    currentStockFlour:SetText({ {
+        color = { 0, 0, 0, 1 }
+    }, _G.state.resources["flour"] })
 
 end
 

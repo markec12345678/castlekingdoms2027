@@ -275,7 +275,7 @@ local frBackButton = {
     width = IncButtonImage:getWidth() * scale,
     height = IncButtonImage:getHeight() * scale
 }
-local frBackButtonA = {--HACK
+local frBackButtonA = { --HACK
     x = framesActionBar.frFull.x + 1920 * scale,
     y = framesActionBar.frFull.y + 1080 * scale,
     width = 0,
@@ -335,43 +335,43 @@ local priceText = loveframes.Create("text")
 priceText:SetState(states.STATE_MARKET)
 priceText:SetFont(loveframes.font_times_new_normal_large)
 priceText:SetPos(frGold.x, frGold.y)
-priceText:SetText({{
-    color = {0, 0, 0, 1}
-}, "5"})
+priceText:SetText({ {
+    color = { 0, 0, 0, 1 }
+}, "5" })
 priceText:SetShadow(false)
 
 local quantityText = loveframes.Create("text")
 quantityText:SetState(states.STATE_MARKET)
 quantityText:SetFont(loveframes.font_times_new_normal_large)
 quantityText:SetPos(frQuantity.x, frQuantity.y)
-quantityText:SetText({{
-    color = {0, 0, 0, 1}
-}, "5"})
+quantityText:SetText({ {
+    color = { 0, 0, 0, 1 }
+}, "5" })
 quantityText:SetShadow(false)
 
 local currentStock = loveframes.Create("text")
 currentStock:SetState(states.STATE_MARKET)
 currentStock:SetFont(loveframes.font_times_new_normal_large)
 currentStock:SetPos(frStock.x, frStock.y)
-currentStock:SetText({{
-    color = {0, 0, 0, 1}
-}, ""})
+currentStock:SetText({ {
+    color = { 0, 0, 0, 1 }
+}, "" })
 currentStock:SetShadow(false)
-local function DisplayCurrentStock(itemGroup)
+function DisplayCurrentStock(itemGroup)
     if itemGroup == 1 then
-        currentStock:SetText({{
-            color = {0, 0, 0, 1}
-        }, _G.state.food[good]})
+        currentStock:SetText({ {
+            color = { 0, 0, 0, 1 }
+        }, _G.state.food[good] })
     end
     if itemGroup == 2 then
-        currentStock:SetText({{
-            color = {0, 0, 0, 1}
-        }, _G.state.resources[good]})
+        currentStock:SetText({ {
+            color = { 0, 0, 0, 1 }
+        }, _G.state.resources[good] })
     end
     if itemGroup == 3 then
-        currentStock:SetText({{
-            color = {0, 0, 0, 1}
-        }, _G.state.weapons[good]})
+        currentStock:SetText({ {
+            color = { 0, 0, 0, 1 }
+        }, _G.state.weapons[good] })
     end
 end
 
@@ -1022,7 +1022,7 @@ weaponButton.OnMouseExit = function(self)
     end
 end
 
-actionBar:registerGroup("market_trade", {backButtonA})
+actionBar:registerGroup("market_trade", { backButtonA })
 
 local IncButton = loveframes.Create("image")
 IncButton:SetState(states.STATE_MARKET)
@@ -1043,13 +1043,13 @@ IncButton.OnClick = function(self)
     quantity = quantity + 5
     price = ((5 * quantity) / 5)
 
-    priceText:SetText({{
-        color = {0, 0, 0, 1}
-    }, price})
+    priceText:SetText({ {
+        color = { 0, 0, 0, 1 }
+    }, price })
 
-    quantityText:SetText({{
-        color = {0, 0, 0, 1}
-    }, quantity})
+    quantityText:SetText({ {
+        color = { 0, 0, 0, 1 }
+    }, quantity })
 
 end
 
@@ -1077,13 +1077,13 @@ DecButton.OnClick = function(self)
         quantity = quantity - 5
         price = ((5 * quantity) / 5)
 
-        priceText:SetText({{
-            color = {0, 0, 0, 1}
-        }, price})
+        priceText:SetText({ {
+            color = { 0, 0, 0, 1 }
+        }, price })
 
-        quantityText:SetText({{
-            color = {0, 0, 0, 1}
-        }, quantity})
+        quantityText:SetText({ {
+            color = { 0, 0, 0, 1 }
+        }, quantity })
 
     end
 end
@@ -1118,8 +1118,6 @@ marketBuyButton.OnMouseDown = function(self)
 end
 marketBuyButton.OnClick = function(self)
     -- TODO add sound
-    local stockpileController = require("objects.Controllers.StockpileController")
-
     if good and good ~= "" and _G.state.gold >= price then
 
         if groupTypeMarket.name == 1 then
@@ -1187,67 +1185,66 @@ marketSellButton.OnMouseDown = function(self)
 end
 marketSellButton.OnClick = function(self)
     -- TODO add sound
-    local stockpileController = require("objects.Controllers.StockpileController")
     local quantity_temp;
-
     if good then
         if _G.state.resources[good] == 0 or _G.state.food[good] == 0 then
             _G.playSpeech("not_enough_goods")
             return
         end
-        if groupTypeMarket.name == 1 and _G.state.food[good] >= quantity then
-            for _ = 1, quantity do
-                _G.foodpile:take(good)
-                _G.state.gold = _G.state.gold + 1
-            end
-            _G.playInterfaceSfx(_G.fx["drawbridge_control"])
-        end
 
-        if groupTypeMarket.name == 1 and _G.state.food[good] < quantity then
-            quantity_temp = _G.state.food[good]
-            for _ = 1, quantity_temp do
-                _G.foodpile:take(good)
-                _G.state.gold = _G.state.gold + 1
-            end
-            _G.playInterfaceSfx(_G.fx["drawbridge_control"])
-        end
-
-        if groupTypeMarket.name == 2 and _G.state.resources[good] >= quantity then
-            for _ = 1, quantity do
-                if _G.stockpile:take(good) then
+        if groupTypeMarket.name == 1 then
+            if _G.state.food[good] < 5 then
+                quantity_temp = _G.state.food[good]
+                for _ = 1, quantity_temp do
+                    _G.foodpile:take(good)
                     _G.state.gold = _G.state.gold + 1
                 end
-            end
-            _G.playInterfaceSfx(_G.fx["drawbridge_control"])
-        end
-
-        if groupTypeMarket.name == 2 and _G.state.resources[good] < 5 then
-            quantity_temp = _G.state.resources[good]
-            for _ = 1, quantity_temp do
-                if _G.stockpile:take(good) then
+                _G.playInterfaceSfx(_G.fx["drawbridge_control"])
+            elseif _G.state.food[good] >= quantity then
+                for _ = 1, quantity do
+                    _G.foodpile:take(good)
                     _G.state.gold = _G.state.gold + 1
                 end
+                _G.playInterfaceSfx(_G.fx["drawbridge_control"])
             end
-            _G.playInterfaceSfx(_G.fx["drawbridge_control"])
         end
 
-        if groupTypeMarket.name == 3 and _G.state.weapons[good] >= quantity then
-            for _ = 1, quantity do
-                if _G.weaponpile:take(good) then
-                    _G.state.gold = _G.state.gold + 1
+        if groupTypeMarket.name == 2 then
+            if _G.state.resources[good] >= quantity then
+                for _ = 1, quantity do
+                    if _G.stockpile:take(good) then
+                        _G.state.gold = _G.state.gold + 1
+                    end
                 end
+                _G.playInterfaceSfx(_G.fx["drawbridge_control"])
+            elseif _G.state.resources[good] < 5 then
+                quantity_temp = _G.state.resources[good]
+                for _ = 1, quantity_temp do
+                    if _G.stockpile:take(good) then
+                        _G.state.gold = _G.state.gold + 1
+                    end
+                end
+                _G.playInterfaceSfx(_G.fx["drawbridge_control"])
             end
-            _G.playInterfaceSfx(_G.fx["drawbridge_control"])
         end
 
-        if groupTypeMarket.name == 3 and _G.state.weapons[good] < 5 then
-            quantity_temp = _G.state.weapons[good]
-            for _ = 1, quantity_temp do
-                if _G.weaponpile:take(good) then
-                    _G.state.gold = _G.state.gold + 1
+        if groupTypeMarket.name == 3 then
+            if _G.state.weapons[good] >= quantity then
+                for _ = 1, quantity do
+                    if _G.weaponpile:take(good) then
+                        _G.state.gold = _G.state.gold + 1
+                    end
                 end
+                _G.playInterfaceSfx(_G.fx["drawbridge_control"])
+            elseif _G.state.weapons[good] < 5 then
+                quantity_temp = _G.state.weapons[good]
+                for _ = 1, quantity_temp do
+                    if _G.weaponpile:take(good) then
+                        _G.state.gold = _G.state.gold + 1
+                    end
+                end
+                _G.playInterfaceSfx(_G.fx["drawbridge_control"])
             end
-            _G.playInterfaceSfx(_G.fx["drawbridge_control"])
         end
         DisplayCurrentStock(groupTypeMarket.name)
         actionBar:updateStockpileResourcesCount()
@@ -1258,4 +1255,4 @@ marketSellButton.OnMouseExit = function(self)
     self:SetImage(marketSellButtonImage)
 end
 
-return switchTradeGroup
+return { switchTradeGroup, DisplayCurrentStock }
