@@ -3,7 +3,7 @@ local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
 
-local tiles, quadArray = _G.indexBuildingQuads("farm (2)")
+local tiles, quadArray = _G.indexBuildingQuads("farm (1)")
 local farmlandTilesStage0 = {tileQuads["tile_farmland_stage_0 (1)"], tileQuads["tile_farmland_stage_0 (2)"],
     tileQuads["tile_farmland_stage_0 (3)"], tileQuads["tile_farmland_stage_0 (4)"]}
 local farmlandTilesStage1 = {tileQuads["tile_farmland_stage_1 (1)"], tileQuads["tile_farmland_stage_1 (2)"],
@@ -206,7 +206,7 @@ function WheatFarm:initialize(gx, gy, type)
     self.stoneQuantity = 0
     self.working = false
     self.offsetX = 0
-    self.offsetY = -64 - 6 - 8
+    self.offsetY = -40 - 6 - 8
 
     self.state = 0
 
