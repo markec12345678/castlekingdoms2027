@@ -20,6 +20,7 @@ _G.ffi = require("ffi")
 _G.PROF_CAPTURE = false
 _G.prof = require("libraries.jprof")
 _G.prof.connect()
+-- Whether the game is currently paused
 _G.paused = false
 _G.MAX_FPS = 60
 _G.CURRENT_PLAYLIST_INDEX = 0

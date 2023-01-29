@@ -256,7 +256,7 @@ function BuildController:removeResourceNodes()
 end
 
 function BuildController:mousepressed(x, y)
-    if self.active and self.canBuild and self.firstTerrainHeight then
+    if not _G.paused and self.active and self.canBuild and self.firstTerrainHeight then
         for xx = 0, self.width - 1 do
             for yy = 0, self.height - 1 do
                 _G.terrainSetHeight(xx + self.gx, yy + self.gy, self.firstTerrainHeight / 2)
