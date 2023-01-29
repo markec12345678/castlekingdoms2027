@@ -179,20 +179,26 @@ function BuildController:update()
                     for yy = 0, self.height - 1 do
                         local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
                         if _G.importantObjectAt(ccx, ccy, xxx, yyy) then
+                            warningTooltip:ShowTooltip("There is an obstacle in the way!")
                             self.canBuild = false
                         end
-                        if firstTerrainHeight ~= (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 then
-                            totalTerrainDifference = totalTerrainDifference +
-                                math.abs(
-                                    firstTerrainHeight - (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2)
+                        local terrainDiff = math.abs(firstTerrainHeight - (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2)
+                        if terrainDiff >= 28 then
+                            -- height difference is too drastic
+                            warningTooltip:ShowTooltip("Cannot build on cliffs!")
+                            self.canBuild = false
+                        elseif firstTerrainHeight ~= (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 then
+                            totalTerrainDifference = totalTerrainDifference + terrainDiff
                         end
                         if _G.state.map:isWaterAt(self.gx + xx, self.gy + yy) then
+                            warningTooltip:ShowTooltip("Cannot build on top of water!")
                             self.canBuild = false
                         end
                     end
                 end
                 self.totalTerrainDifference = totalTerrainDifference
                 if self.totalTerrainDifference >= math.min(3 * self.width * self.height, 220) then
+                    warningTooltip:ShowTooltip("Cannot build on too much uneven terrain!")
                     self.canBuild = false
                 end
                 if not building[self.building]:specialRequirements(self.gx, self.gy) then
@@ -200,9 +206,9 @@ function BuildController:update()
                     self.cannotBuildBecauseSpecial = true
                 else
                     self.cannotBuildBecauseSpecial = false
-                    warningTooltip:HideTooltip()
                 end
                 if not self.start and not self:isBuildingAffordable(self.building) then
+                    self.canBuild = false
                     warningTooltip:ShowTooltip("Not enough resources!")
                 end
                 self.batch:clear()
@@ -226,6 +232,9 @@ function BuildController:update()
                         self.batch:add(self.quads[type], (xx - yy) * tileWidth * 0.5,
                             (xx + yy) * tileHeight * 0.5 - elevationOffsetY, 0, 1, 1)
                     end
+                end
+                if self.canBuild then
+                    warningTooltip:HideTooltip()
                 end
                 self.batch:flush()
                 self.previousGx = self.gx
