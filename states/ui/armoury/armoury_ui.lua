@@ -7,7 +7,6 @@ local WEAPON = require("objects.Enums.Weapon")
 
 local group = {}
 
-local switchTradeGroup = unpack(require("states.ui.market.market_trade"))
 local ActionBarButton = require("states.ui.ActionBarButton")
 local backButton = ActionBarButton:new(love.graphics.newImage("assets/ui/back_ab.png"), states.STATE_ARMOURY, 12)
 backButton:setOnClick(function(self)
@@ -142,8 +141,9 @@ noMarketInfo:SetText({ {
     color = { 0, 0, 0, 1 }
 }, "Build a market to trade!" })
 noMarketInfo:SetShadow(false)
-function SwitchToTheMarket()
+local function SwitchToTheMarket()
     if _G.BuildingManager:count("Market") >= 1 then
+        local switchTradeGroup = unpack(require("states.ui.market.market_trade"))
         actionBar:switchMode("market_trade")
         switchTradeGroup(3)
         group.name = 3
@@ -155,6 +155,9 @@ end
 
 function group.DisplayCurrentStock()
 
+    currentStockArmor:SetText({ {
+        color = { 0, 0, 0, 1 }
+    }, _G.state.weapons[WEAPON.shield] })
     currentStockLeather:SetText({ {
         color = { 0, 0, 0, 1 }
     }, _G.state.weapons[WEAPON.leatherArmor] })

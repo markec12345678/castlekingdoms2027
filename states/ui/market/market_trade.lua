@@ -918,7 +918,45 @@ local function DisplayWeaponIcons(option)
     armourIconButton:SetVisible(option)
 end
 
+local function SetBigIcon(g)
+    if g == "wood" then
+        bigIconTemplate:SetImage(woodIconBig)
+    elseif g == "stone" then
+        bigIconTemplate:SetImage(stoneIconBig)
+    elseif g == "hop" then
+        bigIconTemplate:SetImage(hopIconBig)
+    elseif g == "iron" then
+        bigIconTemplate:SetImage(ironIconBig)
+    elseif g == "tar" then
+        bigIconTemplate:SetImage(tarIconBig)
+    elseif g == "ale" then
+        bigIconTemplate:SetImage(aleIconBig)
+    elseif g == "wheat" then
+        bigIconTemplate:SetImage(wheatIconBig)
+    elseif g == "flour" then
+        bigIconTemplate:SetImage(flourIconBig)
+    elseif g == WEAPON.bow then
+        bigIconTemplate:SetImage(bowIconBig)
+    elseif g == WEAPON.spear then
+        bigIconTemplate:SetImage(spearIconBig)
+    elseif g == WEAPON.pike then
+        bigIconTemplate:SetImage(pikeIconBig)
+    elseif g == WEAPON.crossbow then
+        bigIconTemplate:SetImage(crossbowIconBig)
+    elseif g == WEAPON.mace then
+        bigIconTemplate:SetImage(maceIconBig)
+    elseif g == WEAPON.sword then
+        bigIconTemplate:SetImage(swordIconBig)
+    elseif g == WEAPON.leatherArmor then
+        bigIconTemplate:SetImage(leatherIconBig)
+    elseif g == WEAPON.shield then
+        bigIconTemplate:SetImage(armorIconBig)
+    end
+end
+
 local function switchTradeGroup(groupType)
+    local groupTypeStockpile = require("states.ui.stockpile.stockpile_goods")
+    local groupTypeAromury = require("states.ui.armoury.armoury_ui")
     if groupType == 1 then
         currentStock:SetText("")
         DisplayFoodIcons(true)
@@ -928,6 +966,7 @@ local function switchTradeGroup(groupType)
         materialButton:SetImage(materialButtonImage)
         weaponButton:SetImage(weaponButtonImage)
         bigIconTemplate:SetImage(emptyIconBig)
+        groupTypeMarket.name = 1
     elseif groupType == 2 then
         currentStock:SetText("")
         DisplayFoodIcons(false)
@@ -936,7 +975,14 @@ local function switchTradeGroup(groupType)
         foodButton:SetImage(foodButtonImage)
         materialButton:SetImage(materialButtonClickedImage)
         weaponButton:SetImage(weaponButtonImage)
-        bigIconTemplate:SetImage(emptyIconBig)
+        groupTypeMarket.name = 2
+        if groupTypeStockpile.good ~= nil then
+            good = groupTypeStockpile.good
+            SetBigIcon(good)
+            DisplayCurrentStock(2)
+        else
+            bigIconTemplate:SetImage(emptyIconBig)
+        end
     elseif groupType == 3 then
         currentStock:SetText("")
         DisplayFoodIcons(false)
@@ -945,7 +991,14 @@ local function switchTradeGroup(groupType)
         foodButton:SetImage(foodButtonImage)
         materialButton:SetImage(materialButtonImage)
         weaponButton:SetImage(weaponButtonClickedImage)
-        bigIconTemplate:SetImage(emptyIconBig)
+        groupTypeMarket.name = 3
+        if groupTypeAromury.good ~= nil then
+            good = groupTypeAromury.good
+            SetBigIcon(good)
+            DisplayCurrentStock(3)
+        else
+            bigIconTemplate:SetImage(emptyIconBig)
+        end
     end
 end
 
