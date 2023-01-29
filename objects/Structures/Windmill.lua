@@ -359,13 +359,13 @@ function Windmill:destroy()
     self.float:destroy()
 
     if self.worker then
-        self.worker:die()
+        self.worker:quitJob()
     end
     if self.worker2 then
-        self.worker2:die()
+        self.worker2:quitJob()
     end
     if self.worker3 then
-        self.worker3:die()
+        self.worker3:quitJob()
     end
 
     _G.stockpile:store("wood")
@@ -453,7 +453,7 @@ end
 function Windmill:join(worker)
     if self.health == -1 then
         _G.JobController:remove("Miller", self)
-        worker:die()
+        worker:quitJob()
         return
     end
     if self.freeSpots == 3 then

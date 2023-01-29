@@ -231,7 +231,7 @@ end
 
 function PoleturnerWorkshop:destroy()
     if self.worker then
-        self.worker:die()
+        self.worker:quitJob()
     end
     self.float:destroy()
     Structure.destroy(self.cookingObj)
@@ -351,7 +351,7 @@ end
 function PoleturnerWorkshop:join(worker)
     if self.health == -1 then
         _G.JobController:remove("Poleturner", self)
-        worker:die()
+        worker:quitJob()
         return
     end
     if self.freeSpots == 1 then

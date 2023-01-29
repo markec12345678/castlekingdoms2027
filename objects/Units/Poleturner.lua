@@ -1,5 +1,5 @@
 local _, _ = ...
-local Unit = require("objects.Units.Unit")
+local Worker = require("objects.Units.Worker")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
 local WEAPON = require("objects.Enums.Weapon")
@@ -89,10 +89,10 @@ local an = {
     [ANIM_IDLE] = _G.addReverse(_G.indexQuads("body_poleturner_idle", 16)),
 }
 
-local Poleturner = _G.class('Poleturner', Unit)
+local Poleturner = _G.class('Poleturner', Worker)
 
 function Poleturner:initialize(gx, gy, type)
-    Unit.initialize(self, gx, gy, type)
+    Worker.initialize(self, gx, gy, type)
     self.state = 'Find a job'
     self.waitTimer = 0
     self.weaponType = WEAPON.spear
@@ -325,12 +325,12 @@ end
 
 function Poleturner:animate()
     self:update()
-    Unit.animate(self)
+    Worker.animate(self)
 end
 
 function Poleturner:load(data)
     Object.deserialize(self, data)
-    Unit.load(self, data)
+    Worker.load(self, data)
     local anData = data.animation
     if anData then
         self.animation = anim.newAnimation(an[anData.animationIdentifier], 1, nil, anData.animationIdentifier)
@@ -340,7 +340,7 @@ end
 
 function Poleturner:serialize()
     local data = {}
-    local unitData = Unit.serialize(self)
+    local unitData = Worker.serialize(self)
     for k, v in pairs(unitData) do
         if type(v) ~= "function" and type(v) ~= "userdata" then
             data[k] = v

@@ -300,7 +300,7 @@ end
 
 function Bakery:destroy()
     if self.worker then
-        self.worker:die()
+        self.worker:quitJob()
     end
     self.float:destroy()
     Structure.destroy(self.cookingObj)
@@ -411,7 +411,7 @@ end
 function Bakery:join(worker)
     if self.health == -1 then
         _G.JobController:remove("Baker", self)
-        worker:die()
+        worker:quitJob()
         return
     end
     if self.freeSpots == 1 then

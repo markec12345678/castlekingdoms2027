@@ -236,7 +236,7 @@ end
 
 function Orchard:destroy()
     if self.appleWorker then
-        self.appleWorker:die()
+        self.appleWorker:quitJob()
     end
     self.float:destroy()
     Structure.destroy(self.tree1)
@@ -331,7 +331,7 @@ end
 function Orchard:join(worker)
     if self.health == -1 then
         _G.JobController:remove("OrchardFarmer", self)
-        worker:die()
+        worker:quitJob()
         return
     end
     if self.freeSpots == 1 then

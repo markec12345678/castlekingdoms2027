@@ -1,6 +1,6 @@
 local _, _ = ...
 
-local Unit = require("objects.Units.Unit")
+local Worker = require("objects.Units.Worker")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
 
@@ -56,10 +56,10 @@ local an = {
     [ANIM_WALKING_SOUTHWEST] = fr_walking_southwest,
     [ANIM_WALKING_WEST] = fr_walking_west
 }
-local Stonemason = _G.class("Stonemason", Unit)
+local Stonemason = _G.class("Stonemason", Worker)
 Stonemason.static.animations = an
 function Stonemason:initialize(gx, gy, type)
-    Unit.initialize(self, gx, gy, type)
+    Worker.initialize(self, gx, gy, type)
     self.workplace = nil
     self.state = "Find a job"
     self.count = 1
@@ -74,7 +74,7 @@ function Stonemason:setIdle()
         return
     end
     self.animation = anim.newAnimation(an[ANIM_WALKING_EAST], 0.05, nil, ANIM_WALKING_EAST)
-    Unit.animate(self)
+    Worker.animate(self)
     self.animation:pause()
 end
 
@@ -212,12 +212,12 @@ end
 
 function Stonemason:animate()
     self:update()
-    Unit.animate(self)
+    Worker.animate(self)
 end
 
 function Stonemason:load(data)
     Object.deserialize(self, data)
-    Unit.load(self, data)
+    Worker.load(self, data)
     local anData = data.animation
     if anData then
         self.animation = anim.newAnimation(an[anData.animationIdentifier], 1, nil, anData.animationIdentifier)
@@ -227,7 +227,7 @@ end
 
 function Stonemason:serialize()
     local data = {}
-    local unitData = Unit.serialize(self)
+    local unitData = Worker.serialize(self)
     for k, v in pairs(unitData) do
         if type(v) ~= "function" and type(v) ~= "userdata" then
             data[k] = v
