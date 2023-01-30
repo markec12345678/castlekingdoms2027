@@ -191,7 +191,7 @@ function Armoury:destroy()
         local pile = self.weaponpile[i]
         if pile.type then
             _G.state.weapons[pile.type] = _G.state.weapons[pile.type] - pile.quantity
-            if pile.quantity <= maxQuantity[pile.type] then
+            if pile.quantity < maxQuantity[pile.type] then
                 _G.state.notFullArmoury[pile.type] = _G.state.notFullArmoury[pile.type] - 1
             end
             if pile.quantity > 0 then
