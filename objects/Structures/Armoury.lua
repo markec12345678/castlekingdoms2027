@@ -177,11 +177,31 @@ end
 function Armoury:destroy()
     _G.arrayRemove(_G.weaponpile.nodeList, function(t, i, j)
         local pile = _G.weaponpile.nodeList[i]
-        return not (pile.gx == self.gx + 4 and pile.gy == self.gy + 4)
+        local keepElement = not (pile.gx == self.gx + 4 and pile.gy == self.gy + 4)
             and not (pile.gx == self.gx - 1 and pile.gy == self.gy + 4)
             and not (pile.gx == self.gx + 4 and pile.gy == self.gy - 1)
             and not (pile.gx == self.gx - 1 and pile.gy == self.gy - 1)
+        return keepElement
     end)
+    _G.arrayRemove(_G.weaponpile.list, function(t, i, j)
+        local armoury = _G.weaponpile.list[i]
+        return armoury ~= self
+    end)
+    for i = 1, 4 do
+        local pile = self.weaponpile[i]
+        if pile.type then
+            _G.state.weapons[pile.type] = _G.state.weapons[pile.type] - pile.quantity
+            if pile.quantity <= maxQuantity[pile.type] then
+                _G.state.notFullArmoury[pile.type] = _G.state.notFullArmoury[pile.type] - 1
+            end
+            if pile.quantity > 0 then
+                table.remove(_G.weaponpile.weapons[pile.type], pile.key)
+            end
+        end
+    end
+    if _G.BuildingManager:count(self.class) == 1 then
+        _G.state.firstArmoury = true
+    end
     Structure.destroy(self)
 end
 
