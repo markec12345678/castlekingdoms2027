@@ -1,3 +1,8 @@
+-- https://stackoverflow.com/a/65066145/5037799
+if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
+    require("lldebugger").start()
+end
+
 if _G.testMode then
     require("libraries.love.love_graphics")
 end
