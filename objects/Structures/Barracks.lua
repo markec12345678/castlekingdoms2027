@@ -52,6 +52,7 @@ Barracks.static.WIDTH = 5
 Barracks.static.LENGTH = 5
 Barracks.static.HEIGHT = 17
 Barracks.static.DESTRUCTIBLE = true
+Barracks.static.HOVERTEXT = "Click to recruit units"
 
 function Barracks:initialize(gx, gy)
     Structure.initialize(self, gx, gy, "Barracks")
@@ -88,7 +89,7 @@ end
 
 function Barracks:onClick()
     local ActionBar = require("states.ui.ActionBar")
-    -- TODO: ActionBar:switchMode("Barracks")
+    ActionBar:switchMode("barracks")
 end
 
 function Barracks:load(data)

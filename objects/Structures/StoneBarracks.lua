@@ -52,6 +52,7 @@ StoneBarracks.static.WIDTH = 5
 StoneBarracks.static.LENGTH = 5
 StoneBarracks.static.HEIGHT = 17
 StoneBarracks.static.DESTRUCTIBLE = true
+StoneBarracks.static.HOVERTEXT = "Click to recruit units"
 
 function StoneBarracks:initialize(gx, gy)
     Structure.initialize(self, gx, gy, "StoneBarracks")
@@ -88,7 +89,7 @@ end
 
 function StoneBarracks:onClick()
     local ActionBar = require("states.ui.ActionBar")
-    -- TODO: ActionBar:switchMode("Barracks")
+    ActionBar:switchMode("barracks")
 end
 
 function StoneBarracks:load(data)
