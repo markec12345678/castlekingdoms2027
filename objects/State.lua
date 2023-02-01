@@ -3,6 +3,7 @@ local Map = require("objects.Map")
 local SaveManager = require("objects.Controllers.SaveManager")
 local FOOD = require("objects.Enums.Food")
 local WEAPON = require("objects.Enums.Weapon")
+local warningTooltip = require("states.ui.warning_tooltip")
 
 ---@class State
 ---@field new fun():State
@@ -123,7 +124,8 @@ function State:dereferenceObject(refObj)
             end
         end
     end
-    error("Did you miss to add the Alias in the Object class exclusion list?\n" .. "Couldn't dereference object:" .. tostring(self.rawObjectIds[ref]) .. " with ref obj:" ..
+    error("Did you miss to add the Alias in the Object class exclusion list?\n" ..
+        "Couldn't dereference object:" .. tostring(self.rawObjectIds[ref]) .. " with ref obj:" ..
         tostring(_G.inspect(refObj)))
 end
 
@@ -238,8 +240,10 @@ function State:serialize()
     -- if not _G.MAP_EDITOR then
     data.resources = self.resources
     data.food = self.food
+    data.weapons = self.weapons
     data.notFullStockpiles = self.notFullStockpiles
     data.notFullFoods = self.notFullFoods
+    data.notFullArmoury = self.notFullArmoury
     data.buildController = _G.BuildController:serialize()
     data.stockpileController = _G.stockpile:serialize()
     if not _G.BuildController.start then
@@ -250,6 +254,8 @@ function State:serialize()
     data.weaponController = _G.weaponpile:serialize()
     data.jobController = _G.JobController:serialize()
     data.taxController = _G.TaxController:serialize()
+    data.timeController = _G.TimeController:serialize()
+    data.buildingManager = _G.BuildingManager:serialize()
     local RationController = require("objects.Controllers.RationController")
     data.rationController = RationController:serialize()
     data.popularityController = _G.PopularityController:serialize()
@@ -299,8 +305,10 @@ function State:load(filename, decompress)
     if not self.newGame then
         self.resources = load.resources
         self.food = load.food
+        self.weapons = load.weapons
         self.notFullStockpiles = load.notFullStockpiles
         self.notFullFoods = load.notFullFoods
+        self.notFullArmoury = load.notFullArmoury
         self.popularity = load.popularity
         self.gold = load.gold
         _G.JobController:deserialize(load.jobController)
@@ -309,7 +317,9 @@ function State:load(filename, decompress)
         RationController:deserialize(load.rationController)
         _G.PopularityController:deserialize(load.popularityController)
         _G.BuildController:deserialize(load.buildController)
+        _G.BuildingManager:deserialize(load.buildingManager)
         _G.foodpile:deserialize(load.foodController)
+        _G.TimeController:deserialize(load.timeController)
         if load.weaponController then
             _G.weaponpile:deserialize(load.weaponController)
         end
@@ -322,6 +332,7 @@ function State:load(filename, decompress)
             love.quit()
         end
         _G.stockpile:deserialize(load.stockpileController)
+        warningTooltip:HideTooltip()
     end
     _G.offsetX, _G.offsetY = load.offsetX, load.offsetY
     self:deserializeChunkObjects(load.chunkObjects)

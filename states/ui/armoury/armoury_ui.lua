@@ -133,7 +133,7 @@ currentStockArmor:SetText({ {
 currentStockArmor:SetShadow(false)
 local noMarketInfo = loveframes.Create("text")
 noMarketInfo:SetState(states.STATE_ARMOURY)
-noMarketInfo:SetFont(loveframes.font_times_new_normal_large)
+noMarketInfo:SetFont(loveframes.font_vera_italic)
 noMarketInfo:SetSize(50, 20)
 noMarketInfo:SetVisible(false)
 noMarketInfo:SetPos(frBowButton.x - 100 + (frBowButton.width / 2), frBowButton.y)
