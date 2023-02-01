@@ -12,6 +12,10 @@ for _, v in pairs(WEAPON) do
     quadMap[v] = {}
 end
 
+local armouryFx = {
+    ["weapons"] = {_G.fx["stckweap2"],},
+}
+
 for i = 1, 16 do
     quadMap[WEAPON.bow][#quadMap[WEAPON.bow] + 1] = tileQuads["bow_goods (" .. tostring(i) .. ")"]
     quadMap[WEAPON.crossbow][#quadMap[WEAPON.crossbow] + 1] = tileQuads["crossbow_goods (" .. tostring(i) .. ")"]
@@ -216,6 +220,7 @@ function Armoury:store(weapon)
             self.weaponpile[index].quantity = self.weaponpile[index].quantity + 1
             _G.state.weapons[weapon] = _G.state.weapons[weapon] + 1
             self:updateWeaponPile(index)
+            _G.playSfx(self, armouryFx["weapons"])
             return true
         end
     end
@@ -232,6 +237,7 @@ function Armoury:store(weapon)
             _G.weaponpile.weapons[weapon][self.weaponpile[index].key] = self.weaponpile[index]
             self:updateWeaponPile(index)
             found = true
+            _G.playSfx(self, armouryFx["weapons"])
             break
         end
     end
