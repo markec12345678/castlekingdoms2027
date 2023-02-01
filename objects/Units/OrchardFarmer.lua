@@ -237,10 +237,6 @@ function OrchardFarmer:update()
                     _G.foodpile:store(FOOD.apples)
                     _G.foodpile:store(FOOD.apples)
                     _G.foodpile:store(FOOD.apples)
-                    _G.foodpile:store(FOOD.apples)
-                    _G.foodpile:store(FOOD.apples)
-                    _G.foodpile:store(FOOD.apples)
-                    _G.foodpile:store(FOOD.apples)
                     self.state = "Go to workplace"
                     self:clearPath()
                     return
