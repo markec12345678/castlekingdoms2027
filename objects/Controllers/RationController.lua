@@ -1,4 +1,5 @@
 local FoodController = require("objects.Controllers.FoodController")
+local FOOD = require("objects.Enums.Food")
 
 local colorRed = {200 / 255, 90 / 255, 90 / 255, 1}
 local colorWhite = {1, 1, 1, 1}
@@ -6,6 +7,16 @@ local colorGreen = {130 / 255, 220 / 255, 123 / 255, 1}
 
 local moodImage, moodText = unpack(require("states.ui.granary.food_rations"))
 local RationController = _G.class("RationController")
+
+local counter = 100
+local integerToFoodType = {}
+local gameFoodsCount = 0
+local curFood = 1
+for _,v in pairs(FOOD) do
+    gameFoodsCount = gameFoodsCount + 1
+    integerToFoodType[gameFoodsCount] = v
+end
+
 RationController.static.RATION_LEVELS = {
     NoRations = 0,
     SmallRations = 0.5,
@@ -41,7 +52,6 @@ function RationController:serialize()
     data.moodFoodFactor = self.moodFoodFactor
     data.previousConsumedFoods = self.previousConsumedFoods
     data.consumedFoodsMood = self.consumedFoodsMood
-
     return data
 end
 
@@ -108,16 +118,57 @@ function RationController:setGranaryToFadeOut(granary)
 end
 
 function RationController:update()
-    self.timer = self.timer + _G.dt
     local consumedFoods = FoodController:foodsConsumed()
-    if self.timer >= self.class.RATION_INTERVAL then
-        _G.foodpile:take(nil, math.round((_G.state.population - _G.campfire.peasants) * self.rationLevel, 0))
+    local ateFood = false
+
+    --Scaling with population (Temporary solution for balancing.)
+    local multiplier
+    if _G.state.population <= 5 then
+        multiplier = 1.2
+    elseif _G.state.population >= 20 then
+        multiplier = 0.95
+    else
+        multiplier = 1.05
+    end
+    -- Count the timer to deltatime multiplied by the amount of people, temporary multiplier and the ration level.
+    self.timer = (self.timer + (_G.dt * _G.state.population * multiplier) * self.rationLevel)
+    -- If the timer reaches 100, initiate eating of 1 food.
+    if self.timer >= counter then
+        local loopTime = 1
+        -- Ration loop, checks if food is available and then eats it. Otherwise break and no food available.
+        while ateFood == false do
+            local foodType = integerToFoodType[curFood]
+            if _G.state.food[foodType] > 0 then
+                _G.foodpile:take(foodType, 1)
+                ateFood = true
+            else
+                -- No food found, check next food.
+                curFood = curFood + 1
+                if curFood >= gameFoodsCount + 1  then
+                    curFood = 1
+                end
+            end
+            -- If there has been more than the amount of foods in the game loops,
+            -- exit the loop since there is no food available.
+            if loopTime > gameFoodsCount then
+                break
+            end
+            loopTime = loopTime + 1
+        end
+        curFood = curFood + 1
+        if curFood >= gameFoodsCount + 1 then
+            curFood = 1
+        end
+
+        -- TODO: Change it to only add a food variety bonus after having ate actual foods.
         if self.previousConsumedFoods ~= consumedFoods then
             self.consumedFoodsMood = self.class.FOOD_DIVERSITY[consumedFoods + 1]
         end
+
         self.timer = 0
         self.previousConsumedFoods = consumedFoods
     end
+
     for granary, timeLeft in pairs(self.granaries) do
         self.granaries[granary] = timeLeft - love.timer.getDelta()
         if self.granaries[granary] <= 0 then
