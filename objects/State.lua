@@ -33,7 +33,6 @@ function State:initialize()
     self.population = 0
     self.maxPopulation = 5
     -- TODO: Make the collision map dynamic
-    self.collisionMap = _G.ffi.new("unsigned char[2048][2048]", {})
     self.resources = {
         ["wood"] = 0,
         ['hop'] = 0,
@@ -231,7 +230,6 @@ function State:serialize()
     data.wheatGrowingSeason = self.wheatGrowingSeason
     data.hopsSeasonCounter = self.hopsSeasonCounter
     data.hopsGrowingSeason = self.hopsGrowingSeason
-    data.collisionMap = self.collisionMap
     data.topLeftChunkX = self.topLeftChunkX
     data.topLeftChunkY = self.topLeftChunkY
     data.bottomRightChunkX = self.bottomRightChunkX
@@ -294,7 +292,6 @@ function State:load(filename, decompress)
     self.wheatGrowingSeason = load.wheatGrowingSeason
     self.hopsSeasonCounter = load.hopsSeasonCounter or 0
     self.hopsGrowingSeason = load.hopsGrowingSeason
-    self.collisionMap = load.collisionMap
     self.topLeftChunkX = load.topLeftChunkX
     self.topLeftChunkY = load.topLeftChunkY
     self.bottomRightChunkX = load.bottomRightChunkX

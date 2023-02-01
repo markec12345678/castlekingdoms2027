@@ -4,6 +4,7 @@ local PathController = _G.class('PathController')
 function PathController:initialize()
     self.paths = newAutotable(4)
 end
+
 function PathController:requestPath(startx, starty, endx, endy)
     _G.channel.request:push({
         sx = startx,
@@ -12,6 +13,7 @@ function PathController:requestPath(startx, starty, endx, endy)
         ey = endy
     })
 end
+
 function PathController:update()
     local table
     repeat
@@ -28,6 +30,7 @@ function PathController:update()
         end
     until (not table)
 end
+
 function PathController:getPath(startx, starty, endx, endy)
     if self.paths[startx][starty][endx][endy] then
         if self.paths[startx][starty][endx][endy] == 1 then
@@ -40,4 +43,5 @@ function PathController:getPath(startx, starty, endx, endy)
     end
     return false
 end
+
 return PathController:new()

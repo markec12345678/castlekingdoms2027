@@ -37,7 +37,7 @@ end
 ---@param gy number
 ---@return number
 function Map:getWalkable(gx, gy)
-    if gx >= 1 and gx < 2048 and gy >= 0 and gy < 2048 then
+    if gx >= 0 and gx < 2048 and gy >= 0 and gy < 2048 then
         return self.collisionMap[gx][gy]
     end
     return 1

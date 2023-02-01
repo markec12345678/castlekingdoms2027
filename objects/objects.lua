@@ -112,7 +112,7 @@ local Chapel = love.filesystem.load("objects/Structures/Chapel.lua")(activeEntit
 local WheatFarm = love.filesystem.load("objects/Structures/WheatFarm.lua")(object, tileQuads, objectBatch,
     activeEntities)
 local HopsFarm = love.filesystem.load("objects/Structures/HopsFarm.lua")(object, tileQuads, objectBatch,
-activeEntities)
+    activeEntities)
 local OxTether = love.filesystem.load("objects/Structures/OxTether.lua")(object, tileQuads, objectBatch, activeEntities)
 
 package.loaded["objects.Environment.Tree"] = Tree
@@ -190,7 +190,10 @@ objectAtlas:setWrap("clampzero")
 ---@param y number local Y position in Chunk 0-63
 ---@param objectToRemove? Object If provided: Removes that specific object from the tile. If nil: Remove all objects from the tile.
 function _G.removeObjectAt(cx, cy, x, y, objectToRemove)
+    x = math.floor(x)
+    y = math.floor(y)
     if x > 63 or y > 63 then
+        print("Trying to remove at position", cx, cy, x, y)
         print((debug.traceback("Error: trying to remove out of bounds unit", 1):gsub("\n[^\n]+$", "")))
         love.event.quit()
     end
@@ -220,7 +223,8 @@ end
 function _G.removeObjectFromClassAtGlobal(gx, gy, classToRemove)
     local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(gx, gy)
     if x > 63 or y > 64 then
-        print((debug.traceback("Error: trying to remove out of bounds unit", 1):gsub("\n[^\n]+$", "")))
+        print("Trying to remove at position", cx, cy, x, y)
+        print((debug.traceback("Error: global trying to remove out of bounds unit", 1):gsub("\n[^\n]+$", "")))
         love.event.quit()
     end
     if type(object[cx][cy][x][y]) == "table" then
