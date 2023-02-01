@@ -147,7 +147,7 @@ function OxTether:destroy()
         self.oxWorker:quitJob()
     end
     if self.oxUnit then
-        self.oxUnit:quitJob()
+        self.oxUnit:die()
     end
     self.float:destroy()
 
