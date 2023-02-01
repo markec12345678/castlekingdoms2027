@@ -2,9 +2,13 @@ local StockpileController = _G.class("StockpileController")
 
 local stockpileFx = {
     ["wood"] = {_G.fx["plank1"], _G.fx["plank2"], _G.fx["plank3"]},
+    ['hop'] = {_G.fx["stckhops1"]},
     ["stone"] = {_G.fx["stckstone1"]},
-    ["wheat"] = {_G.fx["stckwheat1"]},
-    ["iron"] = {_G.fx["stckiron2"]}
+    ["iron"] = {_G.fx["stckiron2"]},
+    ["tar"] = {_G.fx["stckpitch2"]},
+    ["flour"] = {_G.fx["stckfood1"]},
+    ["ale"] = {_G.fx["stckale1"]},
+    ["wheat"] = {_G.fx["stckwheat1"]}
 }
 
 function StockpileController:initialize()
