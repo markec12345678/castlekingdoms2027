@@ -4,7 +4,6 @@ math.randomseed(os.time())
 math.random()
 math.random()
 math.random()
-
 _G.OPTIONS = {
     SFX_VOLUME = config.sound.effects / 100,
     SPEECH_VOLUME = config.sound.speech / 100,
@@ -216,6 +215,9 @@ function _G.string.endsWith(str, ending)
     return ending == "" or str:sub(- #ending) == ending
 end
 
+--- Play a sound from the origin of an object.
+--- @param obj table
+--- @param sfx table
 function _G.playSfx(obj, sfx)
     if type(sfx) == "table" then
         sfx = sfx[math.random(#sfx)]
@@ -229,13 +231,17 @@ function _G.playSfx(obj, sfx)
     sfx:play()
 end
 
-function _G.playInterfaceSfx(sfx)
+--- Play a sound through UI
+--- @param sfx table
+--- @param pitchNum? number
+function _G.playInterfaceSfx(sfx, pitchNum)
     if type(sfx) == "table" then
         sfx = sfx[math.random(#sfx)]
     end
     local _, volumeLimit = sfx:getVolumeLimits()
     sfx:setVolume(_G.OPTIONS.SFX_VOLUME * volumeLimit)
-    sfx:setPitch(1 + love.math.random(-10, 10) / 100)
+    sfx:setPitch(pitchNum or (1 + love.math.random(-10, 10) / 100))
+    sfx:setRelative(true)
     sfx:play()
 end
 

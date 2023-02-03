@@ -9,7 +9,6 @@ local strongholdImage = love.graphics.newImage("assets/ui/stronghold_ab.png")
 local castleButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_keep_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 1, false, nil)
 
-
 castleButton:setOnClick(
     function()
         local upgraded = _G.BuildController:upgradeKeep(2)
@@ -107,6 +106,7 @@ woodenGateSouthButton:setOnClick(
         end)
         ActionBar:selectButton(woodenGateSouthButton)
     end)
+
 local barracksButton = ActionBarButton:new(love.graphics.newImage("assets/ui/barracks_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 7, false, nil)
 barracksButton:setOnClick(
@@ -149,7 +149,7 @@ end
 
 el.buttons.castleButton:setOnClick(
     function(self)
-        ActionBar:showGroup("castle")
+        ActionBar:showGroup("castle", _G.fx["metpush7"])
         displayTooltips()
     end)
 

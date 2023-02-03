@@ -19,6 +19,7 @@ ActionBar.static.actionBarMarketImage = love.graphics.newImage("assets/ui/action
 ActionBar.static.actionBarArmouryImage = love.graphics.newImage("assets/ui/action_bar_armoury.png")
 ActionBar.static.actionBarKeepTaxImage = love.graphics.newImage("assets/ui/action_bar_keep_tax_main.png")
 ActionBar.static.actionBarBarracksImage = love.graphics.newImage("assets/ui/action_bar_barracks.png")
+
 function ActionBar:initialize()
     local element = loveframes.Create("image")
     element:SetState(states.STATE_INGAME_CONSTRUCTION)
@@ -262,6 +263,7 @@ function ActionBar:selectButton(element)
     end
     element:select()
     self.hasSelectedButton = true
+    _G.playInterfaceSfx(_G.fx["woodpush2"], 1)
 end
 
 function ActionBar:registerGroup(name, listOfElements)
@@ -278,7 +280,10 @@ function ActionBar:hideGroup(name)
     end
 end
 
-function ActionBar:showGroup(name)
+function ActionBar:showGroup(name, playSound)
+    if playSound then
+        _G.playInterfaceSfx(playSound, 1)
+    end
     self.currentGroup = name
     for k, _ in pairs(self.groups) do
         if k ~= name then

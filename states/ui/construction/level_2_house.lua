@@ -33,7 +33,7 @@ local function displayTooltips()
 end
 
 el.buttons.houseButton:setOnClick(function(self)
-    ActionBar:showGroup("house")
+    ActionBar:showGroup("house", _G.fx["metpush13"])
     displayTooltips()
 end)
 

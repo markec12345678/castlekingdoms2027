@@ -52,7 +52,7 @@ local function displayTooltips()
 end
 
 el.buttons.sickleButton:setOnClick(function(self)
-    ActionBar:showGroup("sickle")
+    ActionBar:showGroup("sickle", _G.fx["metpush5"])
     displayTooltips()
 end)
 
