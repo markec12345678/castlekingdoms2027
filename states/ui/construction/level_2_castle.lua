@@ -129,6 +129,28 @@ stoneBarracksButton:setOnClick(
         ActionBar:selectButton(stoneBarracksButton)
     end)
 
+local engineersGuildButton = ActionBarButton:new(love.graphics.newImage("assets/ui/engineersGuild_ab.png"),
+    states.STATE_INGAME_CONSTRUCTION, 9, false, nil)
+engineersGuildButton:setOnClick(
+    function(self)
+        _G.BuildController:set(
+            "EngineersGuild", function()
+            engineersGuildButton:unselect()
+        end)
+        ActionBar:selectButton(engineersGuildButton)
+    end)
+
+local tunnelersGuildButton = ActionBarButton:new(love.graphics.newImage("assets/ui/tunnelersGuild_ab.png"),
+    states.STATE_INGAME_CONSTRUCTION, 10, false, nil)
+tunnelersGuildButton:setOnClick(
+    function(self)
+        _G.BuildController:set(
+            "TunnelersGuild", function()
+            tunnelersGuildButton:unselect()
+        end)
+        ActionBar:selectButton(tunnelersGuildButton)
+    end)
+
 local function displayTooltips()
     castleButton:setTooltip("WoodenKeep", getCostAndType("WoodenKeep"))
     walkableWoodenWallButton:setTooltip("Walkable Wooden Wall",
@@ -145,6 +167,10 @@ local function displayTooltips()
         getCostAndType("Barracks") .. "\nA building allowing you to recruit units.")
     stoneBarracksButton:setTooltip("StoneBarracks",
         getCostAndType("StoneBarracks") .. "\nA building allowing you to recruit units.")
+    engineersGuildButton:setTooltip("EngineersGuild",
+        getCostAndType("EngineersGuild") .. "\nA building allowing you to recruit siege units.")
+    tunnelersGuildButton:setTooltip("TunnelersGuild",
+        getCostAndType("TunnelersGuild") .. "\nA building allowing you to recruit tunnelers.")
 end
 
 el.buttons.castleButton:setOnClick(
@@ -154,5 +180,6 @@ el.buttons.castleButton:setOnClick(
     end)
 
 ActionBar:registerGroup("castle",
-    {castleButton, woodenWallButton, walkableWoodenWallButton, woodenTowerButton, woodenGateEastButton,
-        woodenGateSouthButton, barracksButton, stoneBarracksButton, backButton, destroyButton})
+    { castleButton, woodenWallButton, walkableWoodenWallButton, woodenTowerButton, woodenGateEastButton,
+        woodenGateSouthButton, barracksButton, stoneBarracksButton, engineersGuildButton, tunnelersGuildButton,
+        backButton, destroyButton })

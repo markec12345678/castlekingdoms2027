@@ -19,6 +19,7 @@ local groupTypeMarket = require("states.ui.market.market_trade_main")
 local ArmouryUI = require("states.ui.armoury.armoury_ui")
 local _, MarketUI = unpack(require("states.ui.market.market_trade"))
 local BarracksUI = require("states.ui.barracks.units_recruitment")
+local GuildsUI = require("states.ui.guilds.guild_ui")
 
 local function updateProgress(prgs, lState)
     progress = prgs or progress
@@ -131,6 +132,9 @@ function game:update(dt)
                 end
                 if (loveframes.GetState() == states.STATE_BARRACKS) then
                     BarracksUI.DisplayCurrentStock()
+                end
+                if (loveframes.GetState() == states.STATE_GUILDS) then
+                    GuildsUI.DisplayButtons()
                 end
             end
             prof.pop("bcontr")
