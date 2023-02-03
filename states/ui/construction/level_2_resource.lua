@@ -81,7 +81,7 @@ local function displayTooltips()
 end
 
 el.buttons.hammerButton:setOnClick(function(self)
-    ActionBar:showGroup("resource")
+    ActionBar:showGroup("resource", _G.fx["metpush12"])
     displayTooltips()
 end)
 

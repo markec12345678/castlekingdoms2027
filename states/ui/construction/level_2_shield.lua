@@ -74,7 +74,7 @@ local function displayTooltips()
 end
 
 el.buttons.shieldButton:setOnClick(function(self)
-    ActionBar:showGroup("shield")
+    ActionBar:showGroup("shield", _G.fx["metpush1"])
     displayTooltips()
 end)
 

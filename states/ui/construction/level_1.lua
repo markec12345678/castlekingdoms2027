@@ -13,7 +13,7 @@ local appleButton = ActionBarButton:new(love.graphics.newImage("assets/ui/apple_
 appleButton:setTooltip("Farms", "Produce basic agricultural products.")
 
 local houseButton = ActionBarButton:new(love.graphics.newImage("assets/ui/house_ab.png"), states.STATE_INGAME_CONSTRUCTION, 4)
-houseButton:setTooltip("Civillian", "Houses and amenities for your citizens.")
+houseButton:setTooltip("Civilian", "Houses and amenities for your citizens.")
 
 local shieldButton = ActionBarButton:new(love.graphics.newImage("assets/ui/shield_ab.png"), states.STATE_INGAME_CONSTRUCTION, 5)
 shieldButton:setTooltip("Military", "Raise mighty armies and build terrifying siege weapons to crush your enemies.")
@@ -23,7 +23,6 @@ sickleButton:setTooltip("Food Production", "Turn basic farm products into high q
 
 local destroyButton = ActionBarButton:new(love.graphics.newImage("assets/ui/cursor_destroy.png"), states.STATE_INGAME_CONSTRUCTION, 11)
 destroyButton:setTooltip("Demolish", "Enter demolish mode. Click on a building to destroy.")
-
 destroyButton:setOnClick(function(self)
     ActionBar:unselectAll()
     local enabled = _G.DestructionController:toggle()

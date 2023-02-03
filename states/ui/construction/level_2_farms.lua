@@ -58,7 +58,7 @@ local function displayTooltips()
 end
 
 el.buttons.appleButton:setOnClick(function(self)
-    ActionBar:showGroup("farms")
+    ActionBar:showGroup("farms", _G.fx["metpush15"])
     displayTooltips()
 end)
 
