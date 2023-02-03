@@ -11,7 +11,8 @@ local states = {
     STATE_MARKET_MAIN = 10,
     STATE_KEEP_TAX = 11,
     STATE_ARMOURY = 12,
-    STATE_BARRACKS = 13
+    STATE_BARRACKS = 13,
+    STATE_GUILDS = 14
 }
 
 return states

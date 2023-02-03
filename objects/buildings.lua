@@ -35,6 +35,8 @@ local BlacksmithWorkshop = require("objects.Structures.Blacksmith")
 local WoodenKeep = require("objects.Structures.WoodenKeep")
 local Keep = require("objects.Structures.Keep")
 local Fortress = require("objects.Structures.Fortress")
+local EngineersGuild = require("objects.Structures.EngineersGuild")
+local TunnelersGuild = require("objects.Structures.TunnelersGuild")
 
 local warningTooltip = require("states.ui.warning_tooltip")
 
@@ -734,6 +736,40 @@ local buildings = {
             archery.parent = stonebarracks
             melee.parent = stonebarracks
             pole.parent = stonebarracks
+        end,
+        specialRequirements = function(self, _, _)
+            return true
+        end
+    },
+    [EngineersGuild.name] = {
+        quad = tileQuads["siege_building (1)"],
+        offsetX = 64,
+        offsetY = 59,
+        w = 5,
+        h = 10,
+        cost = {
+            ["wood"] = 10,
+            ["gold"] = 100
+        },
+        build = function(self, gx, gy)
+            EngineersGuild:new(gx, gy)
+        end,
+        specialRequirements = function(self, _, _)
+            return true
+        end
+    },
+    [TunnelersGuild.name] = {
+        quad = tileQuads["siege_building (2)"],
+        offsetX = 64,
+        offsetY = 59,
+        w = 5,
+        h = 10,
+        cost = {
+            ["wood"] = 10,
+            ["gold"] = 100
+        },
+        build = function(self, gx, gy)
+            TunnelersGuild:new(gx, gy)
         end,
         specialRequirements = function(self, _, _)
             return true
