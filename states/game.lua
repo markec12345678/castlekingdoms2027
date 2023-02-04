@@ -98,6 +98,8 @@ end
 function game:init()
 end
 
+local scrolledAmountWithinShortPeriod = 0
+local scrollCountDown = 0.05
 function game:update(dt)
     if not initialized then
         initialized = true
@@ -105,6 +107,12 @@ function game:update(dt)
     else
         prof.push("core")
         core.update()
+        if scrollCountDown > 0 then
+            scrollCountDown = scrollCountDown - love.timer.getDelta()
+        elseif scrollCountDown < 0 then
+            scrollCountDown = 0
+            core.scale(scrolledAmountWithinShortPeriod)
+        end
         prof.pop("core")
         if not _G.paused then
             local HighlightView = require("objects.Controllers.HighlightView")
@@ -306,7 +314,12 @@ function game:mousereleased(x, y, button, istouch)
 end
 
 function game:wheelmoved(x, y)
-    core.scale(y)
+    if scrollCountDown == 0 then
+        scrollCountDown = 0.05
+        scrolledAmountWithinShortPeriod = y
+    else
+        scrolledAmountWithinShortPeriod = scrolledAmountWithinShortPeriod + y
+    end
 end
 
 function game:keyreleased(key, scancode)

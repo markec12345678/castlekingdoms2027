@@ -44,11 +44,11 @@ local function isMouseInDeadZone(posX, posY)
     -- Check if the mouse is within the deadzone, if it exits the deadzone move the camera.
     -- If the mouse has exited the deadzone,
     -- make outsideDeadZone true so that if the mouse goes back into the deadzone the camera doesn't stop moving.
-    if (posX > mouseDeadZoneValX + 5 or posX < mouseDeadZoneValX - 5) or outsideDeadZone  then
+    if (posX > mouseDeadZoneValX + 5 or posX < mouseDeadZoneValX - 5) or outsideDeadZone then
         outsideDeadZone = true
         return false
     end
-    if (posY > mouseDeadZoneValY + 5 or posY < mouseDeadZoneValY - 5) or outsideDeadZone  then
+    if (posY > mouseDeadZoneValY + 5 or posY < mouseDeadZoneValY - 5) or outsideDeadZone then
         outsideDeadZone = true
         return false
     end
@@ -103,7 +103,7 @@ local panDirectionToKeys = {
 }
 
 if keybindManager then
-    table.insert(panDirectionToKeys[panDirection.up], keybindManager.keybinds.CamUp )
+    table.insert(panDirectionToKeys[panDirection.up], keybindManager.keybinds.CamUp)
     table.insert(panDirectionToKeys[panDirection.down], keybindManager.keybinds.CamDown)
     table.insert(panDirectionToKeys[panDirection.left], keybindManager.keybinds.CamLeft)
     table.insert(panDirectionToKeys[panDirection.right], keybindManager.keybinds.CamRight)
@@ -183,16 +183,16 @@ local function handleCamera()
             -- dt / _G.speedModifier means that the Camera speed is no longer dependent on the Game's speed multiplier.
             -- Right click is not affected by this.
             if shouldPan(panDirection.up) then
-                handleCameraMovement(nil, _G.state.viewYview  - (finalScrollSpeed * (dt / _G.speedModifier) * CamSpeed))
+                handleCameraMovement(nil, _G.state.viewYview - (finalScrollSpeed * 1.2))
             end
             if shouldPan(panDirection.down) then
-                handleCameraMovement(nil, _G.state.viewYview + (finalScrollSpeed * (dt / _G.speedModifier) * CamSpeed))
+                handleCameraMovement(nil, _G.state.viewYview + (finalScrollSpeed * 1.2))
             end
             if shouldPan(panDirection.left) then
-                handleCameraMovement(_G.state.viewXview - (finalScrollSpeed * (dt / _G.speedModifier) * CamSpeed), nil)
+                handleCameraMovement(_G.state.viewXview - (finalScrollSpeed * 1.2), nil)
             end
             if shouldPan(panDirection.right) then
-                handleCameraMovement(_G.state.viewXview + (finalScrollSpeed * (dt / _G.speedModifier) * CamSpeed), nil)
+                handleCameraMovement(_G.state.viewXview + (finalScrollSpeed * 1.2), nil)
             end
             resetMousePositionIfNeeded()
         end

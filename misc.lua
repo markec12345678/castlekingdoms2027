@@ -2,6 +2,7 @@ local IsoX, IsoY = _G.IsoX, _G.IsoY
 local tileWidth, tileHeight = _G.tileWidth, _G.tileHeight
 local loveframes = require("libraries.loveframes")
 local camera = require("objects.Controllers.CameraController")
+local easingFunctions = require("libraries.easing")
 
 function ScreenToIsoX(globalX, globalY)
     return (((globalX - IsoX) / (tileWidth / 2)) + ((globalY - IsoY) / (tileHeight / 2))) / 2;
@@ -75,7 +76,19 @@ function _G.removeFromObjectsArray(t, fnKeep)
     return t
 end
 
+local startScale = 1
+local targetScale = 1
+local easeTimer = 0
+
 local function update()
+    if startScale ~= targetScale then
+        easeTimer = easeTimer + _G.dt
+        if easeTimer > 0.2 then
+            easeTimer = 0.2
+            startScale = targetScale
+        end
+        _G.state.scaleX = easingFunctions.outCubic(easeTimer, startScale, targetScale - startScale, 0.2)
+    end
     ---------------------------------------
     local CenterX, CenterY
     CenterX = math.round(ScreenToIsoX(_G.state.viewXview, _G.state.viewYview))
@@ -115,10 +128,35 @@ function _G.manhattanDistance(x1, y1, x2, y2)
 end
 
 local function scale(y)
+    startScale = _G.state.scaleX
     if y > 0 and _G.state.scaleX < 4 then
-        _G.state.scaleX = _G.state.scaleX + 0.1;
+        easeTimer = 0
+        if _G.state.scaleX >= 1 then
+            targetScale = _G.state.scaleX + 0.25 * math.abs(y)
+        elseif _G.state.scaleX >= 2 then
+            targetScale = _G.state.scaleX + 0.5 * math.abs(y)
+        elseif _G.state.scaleX >= 3 then
+            targetScale = _G.state.scaleX + 1 * math.abs(y)
+        else
+            targetScale = _G.state.scaleX + 0.1 * math.abs(y)
+        end
+        if targetScale > 4 then
+            targetScale = 4
+        end
     elseif y < 0 and _G.state.scaleX > 0.3 then
-        _G.state.scaleX = _G.state.scaleX - 0.1;
+        easeTimer = 0
+        if _G.state.scaleX >= 1 then
+            targetScale = _G.state.scaleX - 0.25 * math.abs(y)
+        elseif _G.state.scaleX >= 2 then
+            targetScale = _G.state.scaleX - 0.5 * math.abs(y)
+        elseif _G.state.scaleX >= 3 then
+            targetScale = _G.state.scaleX - 1 * math.abs(y)
+        else
+            targetScale = _G.state.scaleX - 0.1 * math.abs(y)
+        end
+        if targetScale < 0.3 then
+            targetScale = 0.3
+        end
     end
     love.audio.setPosition((_G.state.viewXview) / 100, (_G.state.viewYview) / 100, camera.getZFromZoom())
 end
