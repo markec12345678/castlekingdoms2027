@@ -7,7 +7,6 @@ if _G.testMode then
     require("libraries.love.love_graphics")
 end
 
-love.graphics.setBackgroundColor(26 / 255, 26 / 255, 26 / 255, 1)
 require("global")
 local Gamestate = require("libraries.gamestate")
 local SaveManager = require("objects.Controllers.SaveManager")

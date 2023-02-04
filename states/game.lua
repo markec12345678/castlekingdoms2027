@@ -162,6 +162,7 @@ function game:update(dt)
 end
 
 function game:enter(_, savegameName)
+    love.graphics.setBackgroundColor(26 / 255, 26 / 255, 26 / 255, 1)
     savegame = savegameName
     collectgarbage()
     collectgarbage()
