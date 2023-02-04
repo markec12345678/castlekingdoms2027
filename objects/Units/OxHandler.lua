@@ -88,6 +88,7 @@ function OxHandler:update()
             if self:reachedPathEnd() then
                 self.workplace:add()
                 self.workplace:work(self)
+                self:animate()
                 self:clearPath()
                 return
             else
