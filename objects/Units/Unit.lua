@@ -206,6 +206,7 @@ function Unit:requestPath(xx, yy, noPathCallback)
 end
 
 function Unit:reachedPathEnd()
+    if self.pathState ~= "Found" then return nil end
     if self.nd[1] == nil then
         if self.gx == self.nd[0][1] + 0.5 and self.gy == self.nd[0][2] + 0.5 then
             if self.chosenOne then
@@ -426,8 +427,15 @@ function Unit:updatePosition()
         self:calculatePosition()
         self:updateDirection()
 
+        if self.waypointX and math.floor(self.waypointX) == math.floor(self.gx) and math.floor(self.waypointY) == math.floor(self.gy) and self:reachedPathEnd() == false then
+            if #self.nd > self.count then
+                self:setNextWaypoint()
+                self.count = self.count + 1
+            end
+        end
+
         local cgx, cgy = math.floor(self.gx), math.floor(self.gy)
-        if self.waypointX and math.floor(self.waypointX) ~= math.floor(self.gx) and math.floor(self.waypointY) ~= math.floor(self.gy) then
+        if self.waypointX and not (math.floor(self.waypointX) == math.floor(self.gx) and math.floor(self.waypointY) == math.floor(self.gy)) then
             if self.moveDir == "west" then
                 if _G.state.map:getWalkable(cgx - 1, cgy) == 1 then
                     self.pathState = "Need to repath"

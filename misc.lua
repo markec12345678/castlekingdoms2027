@@ -82,7 +82,7 @@ local easeTimer = 0
 
 local function update()
     if startScale ~= targetScale then
-        easeTimer = easeTimer + _G.dt
+        easeTimer = easeTimer + love.timer.getDelta()
         if easeTimer > 0.2 then
             easeTimer = 0.2
             startScale = targetScale
