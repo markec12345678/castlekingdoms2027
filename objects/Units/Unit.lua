@@ -206,7 +206,7 @@ function Unit:requestPath(xx, yy, noPathCallback)
 end
 
 function Unit:reachedPathEnd()
-    if self.pathState ~= "Found" then return nil end
+    if self.pathState ~= "Found" or not self.nd[0] then return nil end
     if self.nd[1] == nil then
         if self.gx == self.nd[0][1] + 0.5 and self.gy == self.nd[0][2] + 0.5 then
             if self.chosenOne then
