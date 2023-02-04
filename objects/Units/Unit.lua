@@ -291,63 +291,64 @@ function Unit:calculatePosition()
     self.lastX, self.lastY = self.x, self.y
 end
 
+local function isValueAroundDegrees(value, within)
+    if value >= within - 22 and value <= within + 22 then
+        return true
+    end
+end
+
 function Unit:updateDirection()
     local wx = self.waypointX
     local wy = self.waypointY
     if not wx or not wy then return end
-    local angle = math.atan2(wy - (self.fy * 0.001), wx - (self.fx * 0.001))
+    local angle = math.atan2(wy - self.gy, wx - self.gx)
+    angle = math.round(math.deg(angle) + 90)
     if angle < 0 then
-        angle = angle + 2 * math.pi
+        angle = angle + 360
     end
-    angle = angle * (180 / math.pi)
-    angle = math.round(angle)
-
-    if angle < 0 then
-        angle = 360 + angle
-    end
-    if (angle >= 135 + 22 and angle <= 225 - 22) then -- direction is west
+    if isValueAroundDegrees(angle, 270) then -- direction is west
         self.moveDir = "west"
         if self.previousDir ~= "west" then
             self:updatePosition()
             self:dirSubUpdate()
         end
-    elseif (angle > 135 - 22 and angle < 135 + 22) then -- direction is southwest
+    elseif isValueAroundDegrees(angle, 225) then -- direction is southwest
         self.moveDir = "southwest"
         if self.previousDir ~= "southwest" then
             self:updatePosition()
             self:dirSubUpdate()
         end
-    elseif (angle > 225 - 22 and angle < 225 + 22) then -- direction is northwest
+    elseif isValueAroundDegrees(angle, 315) then -- direction is northwest
         self.moveDir = "northwest"
         if self.previousDir ~= "northwest" then
             self:updatePosition()
             self:dirSubUpdate()
         end
-    elseif (angle >= 225 + 22 and angle <= 315 - 22) then -- direction is north
+    elseif isValueAroundDegrees(angle, 0) or isValueAroundDegrees(angle, 360) then -- direction is north
         self.moveDir = "north"
         if self.previousDir ~= "north" then
             self:updatePosition()
             self:dirSubUpdate()
         end
-    elseif (angle >= 45 + 22 and angle <= 135 - 22) then -- direction is south
+    elseif isValueAroundDegrees(angle, 180) then -- direction is south
         self.moveDir = "south"
         if self.previousDir ~= "south" then
             self:updatePosition()
             self:dirSubUpdate()
         end
-    elseif ((angle >= 315 + 22 and angle <= 359) or (angle >= 0 and angle <= 45 - 22)) then -- direction is east
+    elseif isValueAroundDegrees(angle, 90) then -- direction is east
         self.moveDir = "east"
         if self.previousDir ~= "east" then
             self:updatePosition()
             self:dirSubUpdate()
         end
-    elseif (angle > 45 - 22 and angle < 45 + 22) then -- direction is southeast
+    elseif isValueAroundDegrees(angle, 135) then -- direction is southeast
         self.moveDir = "southeast"
         if self.previousDir ~= "southeast" then
             self:updatePosition()
             self:dirSubUpdate()
         end
-    elseif (angle > 315 - 22 and angle < 315 + 22) then -- direction is northeast
+    elseif isValueAroundDegrees(angle, 45) then -- direction is northeast
         self.moveDir = "northeast"
         if self.previousDir ~= "northeast" then
             self:updatePosition()
@@ -422,50 +423,54 @@ function Unit:updatePosition()
         self.locationsO = {yy}
         self.originalx = newGX
         self.originaly = newGY
+        self:calculatePosition()
         self:updateDirection()
 
         local cgx, cgy = math.floor(self.gx), math.floor(self.gy)
-        if self.moveDir == "west" then
-            if _G.state.map:getWalkable(cgx - 1, cgy) == 1 then
-                self.pathState = "Need to repath"
+        if self.waypointX and math.floor(self.waypointX) ~= math.floor(self.gx) and math.floor(self.waypointY) ~= math.floor(self.gy) then
+            if self.moveDir == "west" then
+                if _G.state.map:getWalkable(cgx - 1, cgy) == 1 then
+                    self.pathState = "Need to repath"
+                end
+            elseif self.moveDir == "south" then
+                if _G.state.map:getWalkable(cgx, cgy + 1) == 1 then
+                    self.pathState = "Need to repath"
+                end
+            elseif self.moveDir == "north" then
+                if _G.state.map:getWalkable(cgx, cgy - 1) == 1 then
+                    self.pathState = "Need to repath"
+                end
+            elseif self.moveDir == "east" then
+                if _G.state.map:getWalkable(cgx + 1, cgy) == 1 then
+                    self.pathState = "Need to repath"
+                end
+            elseif self.moveDir == "northwest" then
+                if _G.state.map:getWalkable(cgx - 1, cgy - 1) == 1 then
+                    self.pathState = "Need to repath"
+                end
+            elseif self.moveDir == "northeast" then
+                if _G.state.map:getWalkable(cgx + 1, cgy - 1) == 1 then
+                    self.pathState = "Need to repath"
+                end
+            elseif self.moveDir == "southwest" then
+                if _G.state.map:getWalkable(cgx - 1, cgy + 1) == 1 then
+                    self.pathState = "Need to repath"
+                end
+            elseif self.moveDir == "southeast" then
+                if _G.state.map:getWalkable(cgx + 1, cgy + 1) == 1 then
+                    self.pathState = "Need to repath"
+                end
             end
-        elseif self.moveDir == "south" then
-            if _G.state.map:getWalkable(cgx, cgy + 1) == 1 then
-                self.pathState = "Need to repath"
+            if self.pathState == "Need to repath" then
+                self:requestPath(self.endx, self.endy)
+                self.pathState = "Waiting for path"
+                self.moveDir = "none"
             end
-        elseif self.moveDir == "north" then
-            if _G.state.map:getWalkable(cgx, cgy - 1) == 1 then
-                self.pathState = "Need to repath"
-            end
-        elseif self.moveDir == "east" then
-            if _G.state.map:getWalkable(cgx + 1, cgy) == 1 then
-                self.pathState = "Need to repath"
-            end
-        elseif self.moveDir == "northwest" then
-            if _G.state.map:getWalkable(cgx - 1, cgy - 1) == 1 then
-                self.pathState = "Need to repath"
-            end
-        elseif self.moveDir == "northeast" then
-            if _G.state.map:getWalkable(cgx + 1, cgy - 1) == 1 then
-                self.pathState = "Need to repath"
-            end
-        elseif self.moveDir == "southwest" then
-            if _G.state.map:getWalkable(cgx - 1, cgy + 1) == 1 then
-                self.pathState = "Need to repath"
-            end
-        elseif self.moveDir == "southeast" then
-            if _G.state.map:getWalkable(cgx + 1, cgy + 1) == 1 then
-                self.pathState = "Need to repath"
-            end
-        end
-        if self.pathState == "Need to repath" then
-            self:requestPath(self.endx, self.endy)
-            self.pathState = "Waiting for path"
-            self.moveDir = "none"
         end
         self.needNewVertAsap = true
+    else
+        self:calculatePosition()
     end
-    self:calculatePosition()
 end
 
 function Unit:move()

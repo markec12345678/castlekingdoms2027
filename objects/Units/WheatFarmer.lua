@@ -485,14 +485,16 @@ function WheatFarmer:load(data)
     Object.deserialize(self, data)
     Worker.load(self, data)
     local farmlandTiles = {}
-    for _, ftile in ipairs(data.farmlandTiles) do
-        if ftile == false then
-            farmlandTiles[#farmlandTiles + 1] = ftile
-        else
-            farmlandTiles[#farmlandTiles + 1] = _G.state:dereferenceObject(ftile)
+    if data.farmlandTiles then
+        for _, ftile in ipairs(data.farmlandTiles) do
+            if ftile == false then
+                farmlandTiles[#farmlandTiles + 1] = ftile
+            else
+                farmlandTiles[#farmlandTiles + 1] = _G.state:dereferenceObject(ftile)
+            end
         end
+        self.farmlandTiles = farmlandTiles
     end
-    self.farmlandTiles = farmlandTiles
     if data.resourceTile then
         self.resourceTile = _G.state:dereferenceObject(data.resourceTile)
     end
