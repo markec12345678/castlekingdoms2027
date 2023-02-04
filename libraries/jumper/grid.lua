@@ -34,7 +34,7 @@ if (...) then
     } --[[S]] , {
         x = 0,
         y = -1
-    } --[[N]] }
+    } --[[N]]}
 
     -- Offsets for diagonal moves
     local diagonalOffsets = {{
@@ -49,7 +49,7 @@ if (...) then
     } --[[SW]] , {
         x = 1,
         y = 1
-    } --[[SE]] }
+    } --[[SE]]}
 
     --- The `Grid` class.<br/>
     -- This class is callable.
@@ -201,6 +201,19 @@ if (...) then
                 neighbours[#neighbours + 1] = n
             end
         end
+        -- local diagonalOffsets = {{
+        --     x = -1,
+        --     y = -1
+        -- } --[[NW]] , {
+        --     x = 1,
+        --     y = -1
+        -- }, --[[NE]] {
+        --     x = -1,
+        --     y = 1
+        -- } --[[SW]] , {
+        --     x = 1,
+        --     y = 1
+        -- } --[[SE]] }
         for i = 1, #diagonalOffsets do
             local n = self:getNodeAt(node._x + diagonalOffsets[i].x, node._y + diagonalOffsets[i].y)
             -- TODO:
@@ -210,7 +223,7 @@ if (...) then
                 local skipThisNode = false
                 local n1 = self:getNodeAt(node._x + diagonalOffsets[i].x, node._y)
                 local n2 = self:getNodeAt(node._x, node._y + diagonalOffsets[i].y)
-                if (n1 and n2) and not n1.walkable == 0 and not n2.walkable == 0 then
+                if (n1 and n2) and (not n1.walkable == 0 or not n2.walkable == 0) then
                     skipThisNode = true
                 end
                 if not skipThisNode then
@@ -372,7 +385,7 @@ if (...) then
         local newGrid = {}
         newGrid._map = map
         newGrid._nodes, newGrid._min_x, newGrid._max_x, newGrid._min_y, newGrid._max_y =
-            Utils.arrayToNodes(newGrid._map)
+        Utils.arrayToNodes(newGrid._map)
         newGrid._width = (newGrid._max_x - newGrid._min_x) + 1
         newGrid._height = (newGrid._max_y - newGrid._min_y) + 1
         newGrid._isAnnotated = {}
