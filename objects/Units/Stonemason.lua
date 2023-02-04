@@ -70,11 +70,10 @@ function Stonemason:initialize(gx, gy, type)
 end
 
 function Stonemason:setIdle()
-    if self.animation.animationIdentifier == ANIM_WALKING_EAST then
-        return
+    if self.animation.animationIdentifier ~= ANIM_WALKING_EAST then
+        self.animation = anim.newAnimation(an[ANIM_WALKING_EAST], 0.05, nil, ANIM_WALKING_EAST)
+        Worker.animate(self)
     end
-    self.animation = anim.newAnimation(an[ANIM_WALKING_EAST], 0.05, nil, ANIM_WALKING_EAST)
-    Worker.animate(self)
     self.animation:pause()
 end
 
@@ -191,7 +190,6 @@ function Stonemason:update()
                     return
                 else
                     self:setNextWaypoint()
-
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to stockpile" then
