@@ -170,8 +170,8 @@ end
 function Map:forceRefresh()
     for cx = 0, _G.chunksWide - 1 do
         for cy = 0, _G.chunksHigh - 1 do
-            for i = 0, _G.chunkWidth - 1, 1 do
-                for o = 0, _G.chunkWidth - 1, 1 do
+            for i = 0, _G.chunkWidth - 1, 4 do
+                for o = 0, _G.chunkWidth - 1, 4 do
                     _G.scheduleTerrainUpdate(cx, cy, i, o)
                 end
             end
