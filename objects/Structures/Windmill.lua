@@ -17,6 +17,8 @@ local ANIM_WINDMILL_OUTSIDE = "anim_windmill_outside"
 local ANIM_WINDMILL_INSIDE = "anim_windmill_inside"
 local ANIM_WINDMILL_FILLING = "anim_windmill_filling"
 
+local occupied = false
+
 local tempAnim = {_G.unpack(frWindmillFan)}
 for _ = 1, 2 do
     for _, v in ipairs(tempAnim) do
@@ -100,6 +102,7 @@ function WindmillFilling:initialize(gx, gy, parent)
     Structure.initialize(self, gx, gy, "Windmill filling animation")
     self.tile = tileQuads["empty"]
     self.animated = false
+    self.timesLooped = 0
     self.animation = anim.newAnimation(
         an[ANIM_WINDMILL_FILLING], 0.11, function()
             self:fillingCallback()
@@ -113,9 +116,13 @@ function WindmillFilling:initialize(gx, gy, parent)
 end
 
 function WindmillFilling:fillingCallback()
-    self.parent.bladeShadow:showOutside()
-    self.parent:sendToStockpile()
-    self:deactivate()
+    self.timesLooped = self.timesLooped + 1
+    if self.timesLooped > 4 then
+        self.timesLooped = 0
+        self.parent.bladeShadow:showOutside()
+        self.parent:sendToStockpile()
+        self:deactivate()
+    end
 end
 
 function WindmillFilling:animate(dt)
@@ -148,6 +155,7 @@ function WindmillFilling:serialize()
             data[k] = v
         end
     end
+    data.timesLooped = self.timesLooped
     data.animation = self.animation:serialize()
     data.animated = self.animated
     data.offsetX = self.offsetX
@@ -298,7 +306,6 @@ function Windmill:initialize(gx, gy, type)
     local _, _, _, lh = self.tile:getViewport()
     self.offsetY = 48 - lh
 
-    self.wheat = 0
     self.freeSpots = 3
     self.worker = nil
     self.worker2 = nil
@@ -384,7 +391,6 @@ function Windmill:load(data)
     self.unloading = data.unloading
     self.offsetX = data.offsetX
     self.offsetY = data.offsetY
-    self.wheat = data.wheat
     self.freeSpots = data.freeSpots
     if data.worker then
         self.worker = _G.state:dereferenceObject(data.worker)
@@ -424,7 +430,6 @@ function Windmill:serialize()
     data.unloading = self.unloading
     data.offsetX = self.offsetX
     data.offsetY = self.offsetY
-    data.wheat = self.wheat
     data.freeSpots = self.freeSpots
     if self.worker then
         data.worker = _G.state:serializeObject(self.worker)
@@ -475,39 +480,9 @@ function Windmill:join(worker)
 end
 
 function Windmill:work(worker)
-    if worker.state == "Going to workplace with wheat" then
+    if worker.state == "Going to workplace with wheat" or worker.state == "Waiting for work" then
         if not self.working then
-            self.wheat = self.wheat + 1
-            if worker == self.worker3 or worker == self.worker2 then
-                worker.state = "Waiting for work"
-                return
-            else
-                if self.wheat >= 3 then
-                    if not self.working then
-                        worker.state = "Working"
-                        self.working = true
-                        worker.tile = tileQuads["empty"]
-                        worker.animated = false
-                        worker.gx = self.gx + 1
-                        worker.gy = self.gy + 2
-                        worker:clearPath()
-                        worker:jobUpdate()
-                        self.fillingFlour:activate()
-                        self.wheat = self.wheat - 3
-                        self.bladeShadow:showInside()
-                        self.worker2Delivered, self.worker3Delivered = false, false
-                        -- else
-                        --     self.worker.state = "Waiting for work"
-                    end
-                else
-                    worker.state = "Waiting for work"
-                end
-            end
-        end
-    else
-        -- self.worker.state = "Waiting for work"
-        -- worker.state = "Waiting for work"
-        if worker == self.worker and self.wheat == 3 then
+            self.worker = worker
             worker.state = "Working"
             self.working = true
             worker.tile = tileQuads["empty"]
@@ -516,44 +491,20 @@ function Windmill:work(worker)
             worker.gy = self.gy + 2
             worker:clearPath()
             worker:jobUpdate()
-            self.wheat = self.wheat - 3
-            self.worker2Delivered, self.worker3Delivered = false, false
             self.fillingFlour:activate()
             self.bladeShadow:showInside()
         else
-            if worker == self.worker3 and self.wheat < 4 then
-                worker.state = "Go to stockpile for wheat"
-                worker:clearPath()
-            end
-            if worker == self.worker2 and self.wheat < 4 then
-                worker.state = "Go to stockpile for wheat"
-                worker:clearPath()
-            end
-            if worker == self.worker and not self.workerDelivered then
-                if self.wheat >= 3 then
-                    worker.state = "Working"
-                    self.working = true
-                    worker.tile = tileQuads["empty"]
-                    worker.animated = false
-                    worker.gx = self.gx + 1
-                    worker.gy = self.gy + 2
-                    worker:clearPath()
-                    worker:jobUpdate()
-                    self.wheat = self.wheat - 3
-                    self.worker2Delivered, self.worker3Delivered = false, false
-                    self.fillingFlour:activate()
-                    self.bladeShadow:showInside()
-                elseif not self.workerDelivered then
-                    worker.state = "Go to stockpile for wheat"
-                    worker:clearPath()
-                end
-            end
+            worker.state = "Waiting for work"
+            worker.animation:pause()
         end
+    elseif worker.state == "Going to workplace" then
+        worker.state = "Go to stockpile for wheat"
     end
 end
 
 function Windmill:sendToStockpile()
     local i, o, cx, cy
+    self.working = false
     self.worker.state = "Go to stockpile"
     self.worker.animated = true
     self.worker.gx = self.gx + 1
