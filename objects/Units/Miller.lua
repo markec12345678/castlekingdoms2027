@@ -95,6 +95,7 @@ function Miller:initialize(gx, gy, type)
     self.count = 1
     self.animation = anim.newAnimation(an[ANIM_WALKING_WEST], 10, nil, ANIM_WALKING_WEST)
 end
+
 function Miller:load(data)
     Object.deserialize(self, data)
     Worker.load(self, data)
@@ -104,6 +105,7 @@ function Miller:load(data)
         self.animation:deserialize(anData)
     end
 end
+
 function Miller:serialize()
     local data = {}
     local unitData = Worker.serialize(self)
@@ -135,20 +137,20 @@ function Miller:dirSubUpdate()
     elseif self.moveDir == "southwest" then
         if self.state == "Going to stockpile" then
             self.animation =
-                anim.newAnimation(an[ANIM_WALKING_FLOUR_SOUTHWEST], 0.05, nil, ANIM_WALKING_FLOUR_SOUTHWEST)
+            anim.newAnimation(an[ANIM_WALKING_FLOUR_SOUTHWEST], 0.05, nil, ANIM_WALKING_FLOUR_SOUTHWEST)
         elseif self.state == "Going to workplace with wheat" then
             self.animation =
-                anim.newAnimation(an[ANIM_WALKING_WHEAT_SOUTHWEST], 0.05, nil, ANIM_WALKING_WHEAT_SOUTHWEST)
+            anim.newAnimation(an[ANIM_WALKING_WHEAT_SOUTHWEST], 0.05, nil, ANIM_WALKING_WHEAT_SOUTHWEST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_SOUTHWEST], 0.05, nil, ANIM_WALKING_SOUTHWEST)
         end
     elseif self.moveDir == "northwest" then
         if self.state == "Going to stockpile" then
             self.animation =
-                anim.newAnimation(an[ANIM_WALKING_FLOUR_NORTHWEST], 0.05, nil, ANIM_WALKING_FLOUR_NORTHWEST)
+            anim.newAnimation(an[ANIM_WALKING_FLOUR_NORTHWEST], 0.05, nil, ANIM_WALKING_FLOUR_NORTHWEST)
         elseif self.state == "Going to workplace with wheat" then
             self.animation =
-                anim.newAnimation(an[ANIM_WALKING_WHEAT_NORTHWEST], 0.05, nil, ANIM_WALKING_WHEAT_NORTHWEST)
+            anim.newAnimation(an[ANIM_WALKING_WHEAT_NORTHWEST], 0.05, nil, ANIM_WALKING_WHEAT_NORTHWEST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_NORTHWEST], 0.05, nil, ANIM_WALKING_NORTHWEST)
         end
@@ -179,20 +181,20 @@ function Miller:dirSubUpdate()
     elseif self.moveDir == "southeast" then
         if self.state == "Going to stockpile" then
             self.animation =
-                anim.newAnimation(an[ANIM_WALKING_FLOUR_SOUTHEAST], 0.05, nil, ANIM_WALKING_FLOUR_SOUTHEAST)
+            anim.newAnimation(an[ANIM_WALKING_FLOUR_SOUTHEAST], 0.05, nil, ANIM_WALKING_FLOUR_SOUTHEAST)
         elseif self.state == "Going to workplace with wheat" then
             self.animation =
-                anim.newAnimation(an[ANIM_WALKING_WHEAT_SOUTHEAST], 0.05, nil, ANIM_WALKING_WHEAT_SOUTHEAST)
+            anim.newAnimation(an[ANIM_WALKING_WHEAT_SOUTHEAST], 0.05, nil, ANIM_WALKING_WHEAT_SOUTHEAST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_SOUTHEAST], 0.05, nil, ANIM_WALKING_SOUTHEAST)
         end
     elseif self.moveDir == "northeast" then
         if self.state == "Going to stockpile" then
             self.animation =
-                anim.newAnimation(an[ANIM_WALKING_FLOUR_NORTHEAST], 0.05, nil, ANIM_WALKING_FLOUR_NORTHEAST)
+            anim.newAnimation(an[ANIM_WALKING_FLOUR_NORTHEAST], 0.05, nil, ANIM_WALKING_FLOUR_NORTHEAST)
         elseif self.state == "Going to workplace with wheat" then
             self.animation =
-                anim.newAnimation(an[ANIM_WALKING_WHEAT_NORTHEAST], 0.05, nil, ANIM_WALKING_WHEAT_NORTHEAST)
+            anim.newAnimation(an[ANIM_WALKING_WHEAT_NORTHEAST], 0.05, nil, ANIM_WALKING_WHEAT_NORTHEAST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_NORTHEAST], 0.05, nil, ANIM_WALKING_NORTHEAST)
         end
@@ -201,9 +203,9 @@ end
 
 function Miller:update()
     self.waitTimer = self.waitTimer + _G.dt
-    if self.waitTimer > 1 then
-        self.waitTimer = 0
-        if self.state == "Waiting for wheat" then
+    if self.state == "Waiting for wheat" then
+        if self.waitTimer > 1 then
+            self.waitTimer = 0
             self.waitTimer = 0
             local gotResource = _G.stockpile:take('wheat')
             if not gotResource then
@@ -289,6 +291,9 @@ function Miller:update()
                     local gotResource = _G.stockpile:take('wheat')
                     if not gotResource then
                         self.state = "Waiting for wheat"
+                        self:dirSubUpdate()
+                        self:animate()
+                        self.animation:pause()
                         return
                     else
                         self.state = "Go to workplace with wheat"
