@@ -15,7 +15,19 @@ function KeybindManager:initialize()
         [EVENT.CamUp]              = {"w", "up"},
         [EVENT.CamLeft]            = {"a", "left"},
         [EVENT.CamDown]            = {"s", "down"},
-        [EVENT.CamRight]           = {"d", "right"}
+        [EVENT.CamRight]           = {"d", "right"},
+        [EVENT.ActionBar1]         = {"1"},
+        [EVENT.ActionBar2]         = {"2"},
+        [EVENT.ActionBar3]         = {"3"},
+        [EVENT.ActionBar4]         = {"4"},
+        [EVENT.ActionBar5]         = {"5"},
+        [EVENT.ActionBar6]         = {"6"},
+        [EVENT.ActionBar7]         = {"7"},
+        [EVENT.ActionBar8]         = {"8"},
+        [EVENT.ActionBar9]         = {"9"},
+        [EVENT.ActionBar10]         = {"0"},
+        [EVENT.ActionBar11]         = {"-"},
+        [EVENT.ActionBar12]         = {"="}
     }
 end
 

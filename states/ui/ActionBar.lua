@@ -1,6 +1,8 @@
 local loveframes = require("libraries.loveframes")
 local states = require("states.ui.states")
 local base = require("states.ui.base")
+local keybindManager = require("objects.Controllers.KeybindManager")
+local EVENT = require("objects.Enums.KeyEvents")
 local w, h = base.w, base.h
 
 local ACTION_BAR_USER_SCALE_W = 60
@@ -225,29 +227,30 @@ function ActionBar:activateButton(position)
 end
 
 function ActionBar:keypressed(key, scancode)
-    if key == "1" then
+    local event = keybindManager:getEventForKeypress(key)
+    if event == EVENT.ActionBar1 then
         self:activateButton(1)
-    elseif key == "2" then
+    elseif event == EVENT.ActionBar2 then
         self:activateButton(2)
-    elseif key == "3" then
+    elseif event == EVENT.ActionBar3 then
         self:activateButton(3)
-    elseif key == "4" then
+    elseif event == EVENT.ActionBar4 then
         self:activateButton(4)
-    elseif key == "5" then
+    elseif event == EVENT.ActionBar5 then
         self:activateButton(5)
-    elseif key == "6" then
+    elseif event == EVENT.ActionBar6 then
         self:activateButton(6)
-    elseif key == "7" then
+    elseif event == EVENT.ActionBar7 then
         self:activateButton(7)
-    elseif key == "8" then
+    elseif event == EVENT.ActionBar8 then
         self:activateButton(8)
-    elseif key == "9" then
+    elseif event == EVENT.ActionBar9 then
         self:activateButton(9)
-    elseif key == "0" then
+    elseif event == EVENT.ActionBar10 then
         self:activateButton(10)
-    elseif key == "-" then
+    elseif event == EVENT.ActionBar11 then
         self:activateButton(11)
-    elseif key == "=" or key == "`" then
+    elseif event == EVENT.ActionBar12 then
         self:activateButton(12)
     end
 end
