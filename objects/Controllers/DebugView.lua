@@ -81,36 +81,33 @@ function DebugView:update()
             (1 - _G.state.scaleX)
         self.FY = IsoToScreenY(LX, LY) - _G.state.viewYview - ((IsoToScreenY(LX, LY)) - _G.state.viewYview) *
             (1 - _G.state.scaleX)
-        -- No point to flush the batch everytime, only do it when the position changes
-        if self.previousGx ~= self.gx or self.previousGy ~= self.gy then
-            self.batch:clear()
-            for xx = 0, self.width - 1 do
-                for yy = 0, self.height - 1 do
-                    local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
-                    if self.focus == "objects" then
-                        if _G.importantObjectAtGlobal(xx + self.gx, yy + self.gy) then
-                            type = 1
-                        else
-                            type = 2
-                        end
-                        if objectOnMouse and objectOnMouse.cx == ccx and objectOnMouse.cy == ccy and objectOnMouse.i ==
-                            xxx and objectOnMouse.o == yyy then
-                            type = 4
-                        end
-                    elseif self.focus == "pathfinding" then
-                        if _G.state.map:getWalkable(xx + self.gx, yy + self.gy) == 1 then
-                            type = 1
-                        else
-                            type = 2
-                        end
-                        if xx + self.gx == OX and yy + self.gy == OY then
-                            type = 4
-                        end
+        self.batch:clear()
+        for xx = 0, self.width - 1 do
+            for yy = 0, self.height - 1 do
+                local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
+                if self.focus == "objects" then
+                    if _G.importantObjectAtGlobal(xx + self.gx, yy + self.gy) then
+                        type = 1
+                    else
+                        type = 2
                     end
-                    local elevationOffsetY = (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2
-                    self.batch:add(self.quads[type], (xx - yy) * tileWidth * 0.5,
-                        (xx + yy) * tileHeight * 0.5 - elevationOffsetY, 0, 1, 1)
+                    if objectOnMouse and objectOnMouse.cx == ccx and objectOnMouse.cy == ccy and objectOnMouse.i ==
+                        xxx and objectOnMouse.o == yyy then
+                        type = 4
+                    end
+                elseif self.focus == "pathfinding" then
+                    if _G.state.map:getWalkable(xx + self.gx, yy + self.gy) == 1 then
+                        type = 1
+                    else
+                        type = 2
+                    end
+                    if xx + self.gx == OX and yy + self.gy == OY then
+                        type = 4
+                    end
                 end
+                local elevationOffsetY = (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2
+                self.batch:add(self.quads[type], (xx - yy) * tileWidth * 0.5,
+                    (xx + yy) * tileHeight * 0.5 - elevationOffsetY, 0, 1, 1)
             end
             self.batch:flush()
             self.previousGx = self.gx

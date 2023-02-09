@@ -207,7 +207,6 @@ function Unit:requestPath(xx, yy, noPathCallback)
 end
 
 function Unit:reachedPathEnd()
-    if self.pathState ~= "Found" or not self.nd[0] then return nil end
     if self.nd[1] == nil then
         if self.gx == self.nd[0][1] + 0.5 and self.gy == self.nd[0][2] + 0.5 then
             if self.chosenOne then
@@ -293,64 +292,63 @@ function Unit:calculatePosition()
     self.lastX, self.lastY = self.x, self.y
 end
 
-local function isValueAroundDegrees(value, within)
-    if value >= within - 22 and value <= within + 22 then
-        return true
-    end
-end
-
 function Unit:updateDirection()
     local wx = self.waypointX
     local wy = self.waypointY
     if not wx or not wy then return end
-    local angle = math.atan2(math.floor(wy) - math.floor(self.gy), math.floor(wx) - math.floor(self.gx))
-    angle = math.round(math.deg(angle) + 90)
+    local angle = math.atan2(wy - (self.fy * 0.001), wx - (self.fx * 0.001))
     if angle < 0 then
-        angle = angle + 360
+        angle = angle + 2 * math.pi
     end
-    if isValueAroundDegrees(angle, 270) then -- direction is west
+    angle = angle * (180 / math.pi)
+    angle = math.round(angle)
+
+    if angle < 0 then
+        angle = 360 + angle
+    end
+    if (angle >= 135 + 22 and angle <= 225 - 22) then -- direction is west
         self.moveDir = "west"
         if self.previousDir ~= "west" then
             self:updatePosition()
             self:dirSubUpdate()
         end
-    elseif isValueAroundDegrees(angle, 225) then -- direction is southwest
+    elseif (angle > 135 - 22 and angle < 135 + 22) then -- direction is southwest
         self.moveDir = "southwest"
         if self.previousDir ~= "southwest" then
             self:updatePosition()
             self:dirSubUpdate()
         end
-    elseif isValueAroundDegrees(angle, 315) then -- direction is northwest
+    elseif (angle > 225 - 22 and angle < 225 + 22) then -- direction is northwest
         self.moveDir = "northwest"
         if self.previousDir ~= "northwest" then
             self:updatePosition()
             self:dirSubUpdate()
         end
-    elseif isValueAroundDegrees(angle, 0) or isValueAroundDegrees(angle, 360) then -- direction is north
+    elseif (angle >= 225 + 22 and angle <= 315 - 22) then -- direction is north
         self.moveDir = "north"
         if self.previousDir ~= "north" then
             self:updatePosition()
             self:dirSubUpdate()
         end
-    elseif isValueAroundDegrees(angle, 180) then -- direction is south
+    elseif (angle >= 45 + 22 and angle <= 135 - 22) then -- direction is south
         self.moveDir = "south"
         if self.previousDir ~= "south" then
             self:updatePosition()
             self:dirSubUpdate()
         end
-    elseif isValueAroundDegrees(angle, 90) then -- direction is east
+    elseif ((angle >= 315 + 22 and angle <= 359) or (angle >= 0 and angle <= 45 - 22)) then -- direction is east
         self.moveDir = "east"
         if self.previousDir ~= "east" then
             self:updatePosition()
             self:dirSubUpdate()
         end
-    elseif isValueAroundDegrees(angle, 135) then -- direction is southeast
+    elseif (angle > 45 - 22 and angle < 45 + 22) then -- direction is southeast
         self.moveDir = "southeast"
         if self.previousDir ~= "southeast" then
             self:updatePosition()
             self:dirSubUpdate()
         end
-    elseif isValueAroundDegrees(angle, 45) then -- direction is northeast
+    elseif (angle > 315 - 22 and angle < 315 + 22) then -- direction is northeast
         self.moveDir = "northeast"
         if self.previousDir ~= "northeast" then
             self:updatePosition()
@@ -585,7 +583,6 @@ function Unit:updatePosition()
         self.originalgx = math.floor(self.gx)
         self.originalgy = math.floor(self.gy)
 
-        self:integrityCheck()
         self.needNewVertAsap = true
     else
         if self.checkIntegrity then
