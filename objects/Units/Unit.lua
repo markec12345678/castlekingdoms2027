@@ -35,7 +35,6 @@ function Unit:initialize(gx, gy, type)
     self.locationsO = {}
     self.unstuckTimer = 0
     self.waitingForPathTimer = 0
-    self.toRepathDistance = 0
     self.lrcx, self.lrcy, self.lrx, self.lry = 0, 0, 0, 0
     _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
     table.insert(self.locationsCx, self.cx)
@@ -71,7 +70,7 @@ end
 function Unit:animate()
     if self.pathState == "Waiting for path" then
         self.waitingForPathTimer = self.waitingForPathTimer + love.timer.getDelta()
-        if self.waitingForPathTimer > 50000 then
+        if self.waitingForPathTimer > 5 then
             if self.noPathCallback then
                 self.noPathCallback()
                 self.noPathCallback = nil
@@ -358,81 +357,9 @@ function Unit:updateDirection()
     self.previousDir = self.moveDir
 end
 
-function Unit:integrityCheck()
-    self.checkIntegrity = false
-    self:calculatePosition()
-
-    if self.waypointX and math.floor(self.waypointX) == math.floor(self.gx) and math.floor(self.waypointY) == math.floor(self.gy) and self:reachedPathEnd() == false then
-        if #self.nd > self.count then
-            self:setNextWaypoint()
-            self.count = self.count + 1
-        end
-    end
-    self:updateDirection()
-    local cgx, cgy = math.floor(self.gx), math.floor(self.gy)
-    if self.moveDir == "west" then
-        if _G.state.map:getWalkable(cgx - 1, cgy) == 1 then
-            self.pathState = "Need to repath"
-        end
-    elseif self.moveDir == "south" then
-        if _G.state.map:getWalkable(cgx, cgy + 1) == 1 then
-            self.pathState = "Need to repath"
-        end
-    elseif self.moveDir == "north" then
-        if _G.state.map:getWalkable(cgx, cgy - 1) == 1 then
-            self.pathState = "Need to repath"
-        end
-    elseif self.moveDir == "east" then
-        if _G.state.map:getWalkable(cgx + 1, cgy) == 1 then
-            self.pathState = "Need to repath"
-        end
-    elseif self.moveDir == "northwest" then
-        if _G.state.map:getWalkable(cgx - 1, cgy - 1) == 1 then
-            self.pathState = "Need to repath"
-        end
-    elseif self.moveDir == "northeast" then
-        if _G.state.map:getWalkable(cgx + 1, cgy - 1) == 1 then
-            self.pathState = "Need to repath"
-        end
-    elseif self.moveDir == "southwest" then
-        if _G.state.map:getWalkable(cgx - 1, cgy + 1) == 1 then
-            self.pathState = "Need to repath"
-        end
-    elseif self.moveDir == "southeast" then
-        if _G.state.map:getWalkable(cgx + 1, cgy + 1) == 1 then
-            self.pathState = "Need to repath"
-        end
-    end
-    if self.pathState == "Need to repath" or self.checkIntegrity then
-        if _G.state.map:getWalkable(cgx, cgy) == 1 then
-            local futureFX = (self.waypointX) * 1000 + 500
-            local futureFY = (self.waypointY) * 1000 + 500
-            self.fx = futureFX
-            self.fy = futureFY
-            self.pathState = "Found"
-            self.gx, self.gy = self.fx * 0.001, self.fy * 0.001
-        else
-            if self.toRepathDistance == 0 then
-                self.toRepathDistance = 0.2
-            end
-            if self.toRepathDistance < 0 then
-                self.pathState = "Waiting for path"
-                self:requestPath(self.endx, self.endy)
-                self.moveDir = "none"
-            else
-                self.pathState = "Found"
-            end
-        end
-    end
-end
-
 function Unit:updatePosition()
     self.previousCx, self.previousCy = self.cx, self.cy
     self.gx, self.gy = self.fx * 0.001, self.fy * 0.001
-    if not self.originalgx or not self.originalgy then
-        self.originalgx = math.floor(self.gx)
-        self.originalgy = math.floor(self.gy)
-    end
     self.cx, self.cy = math.floor(math.floor(self.gx) / _G.chunkWidth), math.floor(math.floor(self.gy) / _G.chunkWidth)
     local xx, yy = math.floor((self.gx) % (_G.chunkWidth)), math.floor((self.gy) % (_G.chunkWidth))
     self.lastI, self.lastO = self.i, self.o
@@ -482,93 +409,8 @@ function Unit:updatePosition()
         end
     end
     self.lrcx, self.lrcy, self.lrx, self.lry = self.cx, self.cy, xx, yy
-    local realGX, realGY = math.floor(self.gx), math.floor(self.gy)
     local newGX, newGY = math.floor(self.gx % _G.chunkWidth), math.floor(self.gy % _G.chunkWidth)
-    if self.originalgx ~= realGX or self.originalgy ~= realGY then
-        self.checkIntegrity = true
-        if _G.state.map:getWalkable(realGX, realGY) == 1 then
-            if self.moveDir == "northwest" then
-                if self.originalgx - realGX ~= 1 or self.originalgy - realGY ~= 1 then
-                    local futureFX = (self.originalgx - 1) * 1000 + 999
-                    local futureFY = (self.originalgy - 1) * 1000 + 999
-                    self.fx = futureFX
-                    self.fy = futureFY
-                    self.gx, self.gy = self.fx * 0.001, self.fy * 0.001
-                    xx, yy = math.floor((self.gx) % (_G.chunkWidth)), math.floor((self.gy) % (_G.chunkWidth))
-                end
-            elseif self.moveDir == "north" then
-                if self.originalgx - realGX ~= 0 or self.originalgy - realGY ~= 1 then
-                    local futureFX = (self.originalgx - 1) * 1000 + 500
-                    local futureFY = (self.originalgy) * 1000 + 999
-                    self.fx = futureFX
-                    self.fy = futureFY
-                    self.gx, self.gy = self.fx * 0.001, self.fy * 0.001
-                    xx, yy = math.floor((self.gx) % (_G.chunkWidth)), math.floor((self.gy) % (_G.chunkWidth))
-                end
-            elseif self.moveDir == "west" then
-                if self.originalgx - realGX ~= 1 or realGY - self.originalgy ~= 0 then
-                    local futureFX = (self.originalgx - 1) * 1000 + 999
-                    local futureFY = (self.originalgy) * 1000 + 500
-                    self.fx = futureFX
-                    self.fy = futureFY
-                    self.gx, self.gy = self.fx * 0.001, self.fy * 0.001
-                    xx, yy = math.floor((self.gx) % (_G.chunkWidth)), math.floor((self.gy) % (_G.chunkWidth))
-                end
-            elseif self.moveDir == "east" then
-                if realGX - self.originalgx ~= 1 or realGY - self.originalgy ~= 0 then
-                    local futureFX = (self.originalgx + 1) * 1000
-                    local futureFY = (self.originalgy) * 1000 + 500
-                    self.fx = futureFX
-                    self.fy = futureFY
-                    self.gx, self.gy = self.fx * 0.001, self.fy * 0.001
-                    xx, yy = math.floor((self.gx) % (_G.chunkWidth)), math.floor((self.gy) % (_G.chunkWidth))
-                end
-            elseif self.moveDir == "south" then
-                if self.originalgx - realGX ~= 0 or realGY - self.originalgy ~= 1 then
-                    local futureFX = (self.originalgx + 1) * 1000 + 500
-                    local futureFY = (self.originalgy) * 1000
-                    self.fx = futureFX
-                    self.fy = futureFY
-                    self.gx, self.gy = self.fx * 0.001, self.fy * 0.001
-                    xx, yy = math.floor((self.gx) % (_G.chunkWidth)), math.floor((self.gy) % (_G.chunkWidth))
-                end
-            elseif self.moveDir == "northeast" then
-                if realGX - self.originalgx ~= 1 or self.originalgy - realGY ~= 1 then
-                    local futureFX = (self.originalgx + 1) * 1000
-                    local futureFY = (self.originalgy - 1) * 1000 + 999
-                    self.fx = futureFX
-                    self.fy = futureFY
-                    self.gx, self.gy = self.fx * 0.001, self.fy * 0.001
-                    xx, yy = math.floor((self.gx) % (_G.chunkWidth)), math.floor((self.gy) % (_G.chunkWidth))
-                end
-            elseif self.moveDir == "southeast" then
-                if realGX - self.originalgx ~= 1 or realGY - self.originalgy ~= 1 then
-                    local futureFX = (self.originalgx + 1) * 1000
-                    local futureFY = (self.originalgy + 1) * 1000
-                    self.fx = futureFX
-                    self.fy = futureFY
-                    self.gx, self.gy = self.fx * 0.001, self.fy * 0.001
-                    xx, yy = math.floor((self.gx) % (_G.chunkWidth)), math.floor((self.gy) % (_G.chunkWidth))
-                end
-            elseif self.moveDir == "southwest" then
-                if self.originalgx - realGX ~= 1 or realGY - self.originalgy ~= 1 then
-                    local futureFX = (self.originalgx - 1) * 1000 + 999
-                    local futureFY = (self.originalgy + 1) * 1000
-                    self.fx = futureFX
-                    self.fy = futureFY
-                    self.gx, self.gy = self.fx * 0.001, self.fy * 0.001
-                    xx, yy = math.floor((self.gx) % (_G.chunkWidth)), math.floor((self.gy) % (_G.chunkWidth))
-                end
-            end
-            if _G.state.map:getWalkable(math.floor(self.gx), math.floor(self.gy)) == 1 then
-                local futureFX = (self.waypointX) * 1000 + 500
-                local futureFY = (self.waypointY) * 1000 + 500
-                self.fx = futureFX
-                self.fy = futureFY
-                self.gx, self.gy = self.fx * 0.001, self.fy * 0.001
-                xx, yy = math.floor((self.gx) % (_G.chunkWidth)), math.floor((self.gy) % (_G.chunkWidth))
-            end
-        end
+    if self.originalx ~= newGX or self.originaly ~= newGY then
         _G.addObjectAt(self.cx, self.cy, xx, yy, self)
         for idx, _ in ipairs(self.locationsCx) do
             _G.removeObjectAt(self.locationsCx[idx], self.locationsCy[idx], self.locationsI[idx], self.locationsO[idx],
@@ -580,25 +422,15 @@ function Unit:updatePosition()
         self.locationsO = {yy}
         self.originalx = newGX
         self.originaly = newGY
-        self.originalgx = math.floor(self.gx)
-        self.originalgy = math.floor(self.gy)
+        self:updateDirection()
+
 
         self.needNewVertAsap = true
-    else
-        if self.checkIntegrity then
-            self:integrityCheck()
-        end
-        self:calculatePosition()
     end
+    self:calculatePosition()
 end
 
 function Unit:move()
-    if self.toRepathDistance > 0 then
-        self.toRepathDistance = self.toRepathDistance - _G.dt
-        if self.toRepathDistance < 0 then
-            self:integrityCheck()
-        end
-    end
     if self.pathState ~= "Found" then
         return
     end
@@ -744,7 +576,6 @@ function Unit.static:deserialize(data)
     end
     obj.unstuckTimer = 0
     obj.waitingForPathTimer = 0
-    obj.toRepathDistance = 0
     obj:load(data)
     return obj
 end
