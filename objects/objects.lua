@@ -766,8 +766,6 @@ local function update(dt)
                         if obj.animated then
                             if obj:isVisibleOnScreen() then
                                 obj:animate(dt)
-                            else
-                                obj:update(dt)
                             end
                         else
                             obj:update(dt)
