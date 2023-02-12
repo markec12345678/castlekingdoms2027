@@ -308,14 +308,6 @@ function Bakery:destroy()
     Structure.destroy(self.stack)
     self.stack.toBeDeleted = true
 
-    _G.stockpile:store("wood")
-    _G.stockpile:store("wood")
-    _G.stockpile:store("wood")
-    _G.stockpile:store("wood")
-    _G.stockpile:store("wood")
-    _G.stockpile:store("stone")
-    _G.stockpile:store("stone")
-
     Structure.destroy(self)
 end
 

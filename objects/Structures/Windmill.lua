@@ -375,11 +375,6 @@ function Windmill:destroy()
         self.worker3:quitJob()
     end
 
-    _G.stockpile:store("wood")
-    _G.stockpile:store("wood")
-    _G.stockpile:store("wood")
-    _G.stockpile:store("wood")
-
     Structure.destroy(self)
 end
 
