@@ -62,7 +62,7 @@ function Market:initialize(gx, gy)
     self.health = 200
     self.tile = quadArray[tiles + 1]
     self.offsetX = 0
-    self.offsetY = -45 * 2
+    self.offsetY = -47.5 * 2
     for tile = 1, tiles do
         local hsl = MarketAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
             -self.offsetY + 8 * (tiles - tile + 1))
