@@ -73,7 +73,7 @@ local function displayTooltips()
         getCostAndType("WoodcutterHut") .. "\nCuts down nearby trees to produce wood")
     oxButton:setTooltip("Ox Tether (can only be placed near a quarry)",
         getCostAndType("OxTether") .. "\nTransport stone from the quarry to the stockpile")
-    quarryButton:setTooltip("Quarry", getCostAndType("Stockpile") .. "\nProduces stone blocks from the ground resource")
+    quarryButton:setTooltip("Quarry", getCostAndType("Quarry") .. "\nProduces stone blocks from the ground resource")
     stockpileButton:setTooltip("Stockpile",
         getCostAndType("Stockpile") .. "\nIncreases resource capacity\nMust be placed adjacent to a stockpile")
     ironMine:setTooltip("Iron Mine", getCostAndType("Mine") .. "\nProduces iron ingots from ground iron ore")

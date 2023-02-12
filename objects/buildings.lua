@@ -84,7 +84,7 @@ local buildings = {
         w = 5,
         h = 5,
         cost = {
-            ["stone"] = 4
+            ["stone"] = 5
         },
         build = function(self, gx, gy)
             Stockpile:new(gx, gy)
@@ -150,7 +150,7 @@ local buildings = {
         w = 6,
         h = 6,
         cost = {
-            ["wood"] = 24
+            ["wood"] = 20
         },
         build = function(self, gx, gy)
             Quarry:new(gx, gy)
@@ -217,8 +217,7 @@ local buildings = {
         w = 4,
         h = 4,
         cost = {
-            ["wood"] = 10,
-            ["stone"] = 10
+            ["wood"] = 20
         },
         build = function(self, gx, gy)
             Mine:new(gx, gy)
@@ -302,7 +301,7 @@ local buildings = {
         w = 12,
         h = 12,
         cost = {
-            ["wood"] = 3
+            ["wood"] = 5
         },
         build = function(self, gx, gy)
             Orchard:new(gx, gy)
@@ -350,7 +349,7 @@ local buildings = {
         w = 2,
         h = 2,
         cost = {
-            ["wood"] = 1
+            ["wood"] = 5
         },
         build = function(self, gx, gy)
             WoodenTower:new(gx, gy)
@@ -404,7 +403,7 @@ local buildings = {
         w = 3,
         h = 3,
         cost = {
-            ["wood"] = 4
+            ["wood"] = 10
         },
         build = function(self, gx, gy)
             for x = 0, 2 do
@@ -489,7 +488,7 @@ local buildings = {
         w = 3,
         h = 3,
         cost = {
-            ["wood"] = 4
+            ["wood"] = 10
         },
         build = function(self, gx, gy)
             for x = 0, 2 do
@@ -574,7 +573,7 @@ local buildings = {
         w = 12,
         h = 12,
         cost = {
-            ["wood"] = 5
+            ["wood"] = 15
         },
         build = function(self, gx, gy)
             WheatFarm:new(gx, gy)
@@ -590,7 +589,7 @@ local buildings = {
         w = 12,
         h = 12,
         cost = {
-            ["wood"] = 10
+            ["wood"] = 15
         },
         build = function(self, gx, gy)
             HopsFarm:new(gx, gy)
@@ -623,7 +622,7 @@ local buildings = {
         w = 3,
         h = 3,
         cost = {
-            ["wood"] = 8
+            ["wood"] = 10
         },
         build = function(self, gx, gy)
             Windmill:new(gx, gy)
@@ -639,8 +638,7 @@ local buildings = {
         w = 4,
         h = 4,
         cost = {
-            ["wood"] = 10,
-            ["stone"] = 2
+            ["wood"] = 10
         },
         build = function(self, gx, gy)
             Bakery:new(gx, gy)
@@ -656,7 +654,7 @@ local buildings = {
         w = 4,
         h = 4,
         cost = {
-            ["wood"] = 3
+            ["wood"] = 5
         },
         build = function(self, gx, gy)
             House:new(gx, gy)
@@ -688,7 +686,8 @@ local buildings = {
         w = 5,
         h = 5,
         cost = {
-            ["wood"] = 15
+            ["wood"] = 15,
+            ["gold"] = 100
         },
         build = function(self, gx, gy)
             Inn:new(gx, gy)
@@ -782,7 +781,7 @@ local buildings = {
         w = 4,
         h = 4,
         cost = {
-            ["wood"] = 10,
+            ["wood"] = 20,
             ["gold"] = 100
         },
         build = function(self, gx, gy)
@@ -845,8 +844,8 @@ local buildings = {
         w = 4,
         h = 4,
         cost = {
-            ["wood"] = 10,
-            ["gold"] = 100
+            ["wood"] = 20,
+            ["gold"] = 200
         },
         build = function(self, gx, gy)
             BlacksmithWorkshop:new(gx, gy)
