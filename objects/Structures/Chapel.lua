@@ -95,6 +95,7 @@ function Chapel:destroy()
     if self.worker then
         self.worker:die()
     end
+    Structure.destroy(self)
 end
 
 function Chapel:onClick()
