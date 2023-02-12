@@ -156,58 +156,104 @@ local buildings = {
             Quarry:new(gx, gy)
         end,
         specialRequirements = function(self, gx, gy)
+            local totalTiles = 0
+            local tilesWithStone = 0
             for w = gx, self.w + gx do
                 for h = gy, self.h + gy do
+                    totalTiles = totalTiles + 1
                     if _G.objectFromClassAtGlobal(w, h, "Stone") then
-                        return true
+                        tilesWithStone = tilesWithStone + 1
                     end
                 end
+            end
+            -- if 80% of the tiles are stone, allow construction
+            if tilesWithStone / totalTiles >= 0.8 then
+                return true
             end
             warningTooltip:ShowTooltip("Needs to placed on top of stone!")
         end,
-        overrideRequirements = function(self, ctrl)
-            local type
-            for xx = 0, ctrl.width - 1 do
-                for yy = 0, ctrl.height - 1 do
-                    if not _G.objectFromClassAtGlobal(xx + ctrl.gx, yy + ctrl.gy, "Stone") then
-                        ctrl.canBuild = false
+        overrideRequirements = function(this, self)
+            self.targetGX, self.targetGY = self.gx + math.floor(self.width / 2),
+                self.gy + math.floor(self.height / 2)
+            local fcx, fcy, fxx, fyy = _G.getLocalCoordinatesFromGlobal(self.targetGX, self.targetGY)
+            local firstTerrainHeight = (_G.state.map.heightmap[fcx][fcy][fxx][fyy] or 0) * 2
+            self.firstTerrainHeight = firstTerrainHeight
+            local totalTerrainDifference = 0
+            for xx = 0, self.width - 1 do
+                for yy = 0, self.height - 1 do
+                    if _G.objectFromSubclassAtGlobal(xx + self.gx, yy + self.gy, "Unit") then
+                        self.canBuild = false
+                        warningTooltip:ShowTooltip("There are units in the way!")
+                        break
+                    elseif _G.objectFromSubclassAtGlobal(xx + self.gx, yy + self.gy, "Structure") then
+                        self.canBuild = false
+                        warningTooltip:ShowTooltip("There are structures in the way!")
+                        break
+                    end
+                    local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
+                    if firstTerrainHeight ~= (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 then
+                        totalTerrainDifference = totalTerrainDifference +
+                            math.abs(
+                                firstTerrainHeight - (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2)
+                    end
+                    if _G.state.map:isWaterAt(self.gx + xx, self.gy + yy) then
+                        self.canBuild = false
+                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        break
+                    end
+                    if _G.getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
+                        self.canBuild = false
+                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        break
                     end
                 end
             end
-            if not self:specialRequirements(ctrl.gx, ctrl.gy) then
-                ctrl.canBuild = false
-            else
-                warningTooltip:HideTooltip()
+            self.totalTerrainDifference = totalTerrainDifference
+            if self.totalTerrainDifference >= math.min(3 * self.width * self.height, 220) then
+                self.canBuild = false
+                warningTooltip:ShowTooltip("Terrain is too uneven!")
             end
-            ctrl.batch:clear()
-            for xx = 0, ctrl.width - 1 do
-                for yy = 0, ctrl.height - 1 do
-                    local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(xx + ctrl.gx, yy + ctrl.gy)
-                    if _G.objectFromClassAtGlobal(xx + ctrl.gx, yy + ctrl.gy, "Stone") then
-                        if ctrl.canBuild then
-                            type = 2
-                        else
-                            type = 4
-                        end
-                    elseif not _G.importantObjectAt(cx, cy, x, y) then
-                        if ctrl.canBuild then
+            if not this:specialRequirements(self.gx, self.gy) then
+                self.canBuild = false
+                self.cannotBuildBecauseSpecial = true
+            else
+                self.cannotBuildBecauseSpecial = false
+            end
+            if not self.start and not self:isBuildingAffordable(self.building) then
+                self.canBuild = false
+                warningTooltip:ShowTooltip("Not enough resources!")
+            end
+            self.batch:clear()
+            local type
+            for xx = 0, self.width - 1 do
+                for yy = 0, self.height - 1 do
+                    local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
+                    if _G.state.map:getWalkable(xx + self.gx, yy + self.gy) == 1 then
+                        if self.canBuild then
                             type = 2
                         else
                             type = 3
                         end
                     else
-                        type = 1
+                        if self.canBuild then
+                            type = 3
+                        else
+                            type = 1
+                        end
                     end
-                    local elevationOffsetY = (_G.state.map.heightmap[cx][cy][x][y] or 0) * 2
-                    ctrl.batch:add(ctrl.quads[type], (xx - yy) * tileWidth * 0.5,
+                    local elevationOffsetY = (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2
+                    self.batch:add(self.quads[type], (xx - yy) * tileWidth * 0.5,
                         (xx + yy) * tileHeight * 0.5 - elevationOffsetY, 0, 1, 1)
                 end
             end
-            ctrl.batch:flush()
-            ctrl.previousGx = ctrl.gx
-            ctrl.previousGy = ctrl.gy
-            ctrl.previousCanBuild = ctrl.canBuild
-            ctrl.lastBuilding = ctrl.building
+            if self.canBuild then
+                warningTooltip:HideTooltip()
+            end
+            self.batch:flush()
+            self.previousGx = self.gx
+            self.previousGy = self.gy
+            self.previousCanBuild = self.canBuild
+            self.lastBuilding = self.building
         end
     },
     [Mine.name] = {
@@ -233,49 +279,88 @@ local buildings = {
             end
             warningTooltip:ShowTooltip("Needs to placed on top of iron ore!")
         end,
-        overrideRequirements = function(self, ctrl)
-            local type
-            for xx = 0, ctrl.width - 1 do
-                for yy = 0, ctrl.height - 1 do
-                    if not _G.objectFromClassAtGlobal(xx + ctrl.gx, yy + ctrl.gy, "Iron") then
-                        ctrl.canBuild = false
+        overrideRequirements = function(this, self)
+            self.targetGX, self.targetGY = self.gx + math.floor(self.width / 2),
+                self.gy + math.floor(self.height / 2)
+            local fcx, fcy, fxx, fyy = _G.getLocalCoordinatesFromGlobal(self.targetGX, self.targetGY)
+            local firstTerrainHeight = (_G.state.map.heightmap[fcx][fcy][fxx][fyy] or 0) * 2
+            self.firstTerrainHeight = firstTerrainHeight
+            local totalTerrainDifference = 0
+            for xx = 0, self.width - 1 do
+                for yy = 0, self.height - 1 do
+                    if _G.objectFromSubclassAtGlobal(xx + self.gx, yy + self.gy, "Unit") then
+                        self.canBuild = false
+                        warningTooltip:ShowTooltip("There are units in the way!")
+                        break
+                    elseif _G.objectFromSubclassAtGlobal(xx + self.gx, yy + self.gy, "Structure") then
+                        self.canBuild = false
+                        warningTooltip:ShowTooltip("There are structures in the way!")
+                        break
+                    end
+                    local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
+                    if firstTerrainHeight ~= (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 then
+                        totalTerrainDifference = totalTerrainDifference +
+                            math.abs(
+                                firstTerrainHeight - (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2)
+                    end
+                    if _G.state.map:isWaterAt(self.gx + xx, self.gy + yy) then
+                        self.canBuild = false
+                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        break
+                    end
+                    if _G.getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
+                        self.canBuild = false
+                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        break
                     end
                 end
             end
-            if not self:specialRequirements(ctrl.gx, ctrl.gy) then
-                ctrl.canBuild = false
-            else
-                warningTooltip:HideTooltip()
+            self.totalTerrainDifference = totalTerrainDifference
+            if self.totalTerrainDifference >= math.min(3 * self.width * self.height, 220) then
+                self.canBuild = false
+                warningTooltip:ShowTooltip("Terrain is too uneven!")
             end
-            ctrl.batch:clear()
-            for xx = 0, ctrl.width - 1 do
-                for yy = 0, ctrl.height - 1 do
-                    local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(xx + ctrl.gx, yy + ctrl.gy)
-                    if _G.objectFromClassAtGlobal(xx + ctrl.gx, yy + ctrl.gy, "Iron") then
-                        if ctrl.canBuild then
-                            type = 2
-                        else
-                            type = 4
-                        end
-                    elseif not _G.importantObjectAt(cx, cy, x, y) then
-                        if ctrl.canBuild then
+            if not this:specialRequirements(self.gx, self.gy) then
+                self.canBuild = false
+                self.cannotBuildBecauseSpecial = true
+            else
+                self.cannotBuildBecauseSpecial = false
+            end
+            if not self.start and not self:isBuildingAffordable(self.building) then
+                self.canBuild = false
+                warningTooltip:ShowTooltip("Not enough resources!")
+            end
+            self.batch:clear()
+            local type
+            for xx = 0, self.width - 1 do
+                for yy = 0, self.height - 1 do
+                    local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
+                    if _G.state.map:getWalkable(xx + self.gx, yy + self.gy) == 1 then
+                        if self.canBuild then
                             type = 2
                         else
                             type = 3
                         end
                     else
-                        type = 1
+                        if self.canBuild then
+                            type = 3
+                        else
+                            type = 1
+                        end
                     end
-                    local elevationOffsetY = (_G.state.map.heightmap[cx][cy][x][y] or 0) * 2
-                    ctrl.batch:add(ctrl.quads[type], (xx - yy) * tileWidth * 0.5,
+                    local elevationOffsetY = (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2
+                    self.batch:add(self.quads[type], (xx - yy) * tileWidth * 0.5,
                         (xx + yy) * tileHeight * 0.5 - elevationOffsetY, 0, 1, 1)
                 end
             end
-            ctrl.batch:flush()
-            ctrl.previousGx = ctrl.gx
-            ctrl.previousGy = ctrl.gy
-            ctrl.previousCanBuild = ctrl.canBuild
-            ctrl.lastBuilding = ctrl.building
+            if self.canBuild then
+                warningTooltip:HideTooltip()
+            end
+            self.batch:flush()
+            self.previousGx = self.gx
+            self.previousGy = self.gy
+            self.previousCanBuild = self.canBuild
+            self.lastBuilding = self.building
         end
     },
     [Chapel.name] = {
@@ -431,6 +516,8 @@ local buildings = {
                         not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WoodenWall") and
                         not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WalkableWoodenWall") then
                         self.canBuild = false
+                        warningTooltip:ShowTooltip("There are obstacles in the way!")
+                        break
                     end
                     if firstTerrainHeight ~= (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 then
                         totalTerrainDifference = totalTerrainDifference +
@@ -439,18 +526,30 @@ local buildings = {
                     end
                     if _G.state.map:isWaterAt(self.gx + xx, self.gy + yy) then
                         self.canBuild = false
+                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        break
+                    end
+                    if _G.getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
+                        self.canBuild = false
+                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        break
                     end
                 end
             end
             self.totalTerrainDifference = totalTerrainDifference
             if self.totalTerrainDifference >= math.min(3 * self.width * self.height, 220) then
                 self.canBuild = false
+                warningTooltip:ShowTooltip("Terrain is too uneven!")
             end
             if not this:specialRequirements(self.gx, self.gy) then
                 self.canBuild = false
                 self.cannotBuildBecauseSpecial = true
             else
                 self.cannotBuildBecauseSpecial = false
+            end
+            if not self.start and not self:isBuildingAffordable(self.building) then
+                self.canBuild = false
+                warningTooltip:ShowTooltip("Not enough resources!")
             end
             self.batch:clear()
             local type
@@ -474,6 +573,9 @@ local buildings = {
                     self.batch:add(self.quads[type], (xx - yy) * tileWidth * 0.5,
                         (xx + yy) * tileHeight * 0.5 - elevationOffsetY, 0, 1, 1)
                 end
+            end
+            if self.canBuild then
+                warningTooltip:HideTooltip()
             end
             self.batch:flush()
             self.previousGx = self.gx
@@ -516,6 +618,8 @@ local buildings = {
                         not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WoodenWall") and
                         not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WalkableWoodenWall") then
                         self.canBuild = false
+                        warningTooltip:ShowTooltip("There are obstacles in the way!")
+                        break
                     end
                     if firstTerrainHeight ~= (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 then
                         totalTerrainDifference = totalTerrainDifference +
@@ -524,18 +628,30 @@ local buildings = {
                     end
                     if _G.state.map:isWaterAt(self.gx + xx, self.gy + yy) then
                         self.canBuild = false
+                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        break
+                    end
+                    if _G.getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
+                        self.canBuild = false
+                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        break
                     end
                 end
             end
             self.totalTerrainDifference = totalTerrainDifference
             if self.totalTerrainDifference >= math.min(3 * self.width * self.height, 220) then
                 self.canBuild = false
+                warningTooltip:ShowTooltip("Terrain is too uneven!")
             end
             if not this:specialRequirements(self.gx, self.gy) then
                 self.canBuild = false
                 self.cannotBuildBecauseSpecial = true
             else
                 self.cannotBuildBecauseSpecial = false
+            end
+            if not self.start and not self:isBuildingAffordable(self.building) then
+                self.canBuild = false
+                warningTooltip:ShowTooltip("Not enough resources!")
             end
             self.batch:clear()
             local type
@@ -559,6 +675,9 @@ local buildings = {
                     self.batch:add(self.quads[type], (xx - yy) * tileWidth * 0.5,
                         (xx + yy) * tileHeight * 0.5 - elevationOffsetY, 0, 1, 1)
                 end
+            end
+            if self.canBuild then
+                warningTooltip:HideTooltip()
             end
             self.batch:flush()
             self.previousGx = self.gx
@@ -897,40 +1016,85 @@ local buildings = {
             end
             return false
         end,
-        overrideRequirements = function(self, ctrl)
-            local type
-            ctrl.batch:clear()
-            if not self:specialRequirements(ctrl.gx, ctrl.gy) then
-                ctrl.canBuild = false
+        overrideRequirements = function(this, self)
+            self.targetGX, self.targetGY = self.gx + math.floor(self.width / 2),
+                self.gy + math.floor(self.height / 2)
+            local fcx, fcy, fxx, fyy = _G.getLocalCoordinatesFromGlobal(self.targetGX, self.targetGY)
+            local firstTerrainHeight = (_G.state.map.heightmap[fcx][fcy][fxx][fyy] or 0) * 2
+            self.firstTerrainHeight = firstTerrainHeight
+            local totalTerrainDifference = 0
+            for xx = 0, self.width - 1 do
+                for yy = 0, self.height - 1 do
+                    local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
+                    if _G.importantObjectAt(ccx, ccy, xxx, yyy) then
+                        self.canBuild = false
+                        warningTooltip:ShowTooltip("There are obstacles in the way!")
+                        break
+                    end
+                    if firstTerrainHeight ~= (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 then
+                        totalTerrainDifference = totalTerrainDifference +
+                            math.abs(
+                                firstTerrainHeight - (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2)
+                    end
+                    if _G.state.map:isWaterAt(self.gx + xx, self.gy + yy) then
+                        self.canBuild = false
+                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        break
+                    end
+                    if _G.getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
+                        self.canBuild = false
+                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        break
+                    end
+                end
             end
-            for xx = 0, ctrl.width - 1 do
-                for yy = 0, ctrl.height - 1 do
-                    local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(xx + ctrl.gx, yy + ctrl.gy)
-                    if _G.objectFromClassAtGlobal(xx + ctrl.gx, yy + ctrl.gy, "Stone") then
-                        if ctrl.canBuild then
-                            type = 2
-                        else
-                            type = 4
-                        end
-                    elseif not _G.importantObjectAt(cx, cy, x, y) then
-                        if ctrl.canBuild then
+            self.totalTerrainDifference = totalTerrainDifference
+            if self.totalTerrainDifference >= math.min(3 * self.width * self.height, 220) then
+                self.canBuild = false
+                warningTooltip:ShowTooltip("Terrain is too uneven!")
+            end
+            if not this:specialRequirements(self.gx, self.gy) then
+                self.canBuild = false
+                self.cannotBuildBecauseSpecial = true
+                warningTooltip:ShowTooltip("Needs to be placed close to an existing quarry!")
+            else
+                self.cannotBuildBecauseSpecial = false
+            end
+            if not self.start and not self:isBuildingAffordable(self.building) then
+                self.canBuild = false
+                warningTooltip:ShowTooltip("Not enough resources!")
+            end
+            self.batch:clear()
+            local type
+            for xx = 0, self.width - 1 do
+                for yy = 0, self.height - 1 do
+                    local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
+                    if _G.state.map:getWalkable(xx + self.gx, yy + self.gy) == 1 then
+                        if self.canBuild then
                             type = 2
                         else
                             type = 3
                         end
                     else
-                        type = 1
+                        if self.canBuild then
+                            type = 3
+                        else
+                            type = 1
+                        end
                     end
-                    local elevationOffsetY = (_G.state.map.heightmap[cx][cy][x][y] or 0) * 2
-                    ctrl.batch:add(ctrl.quads[type], (xx - yy) * tileWidth * 0.5,
+                    local elevationOffsetY = (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2
+                    self.batch:add(self.quads[type], (xx - yy) * tileWidth * 0.5,
                         (xx + yy) * tileHeight * 0.5 - elevationOffsetY, 0, 1, 1)
                 end
             end
-            ctrl.batch:flush()
-            ctrl.previousGx = ctrl.gx
-            ctrl.previousGy = ctrl.gy
-            ctrl.previousCanBuild = ctrl.canBuild
-            ctrl.lastBuilding = ctrl.building
+            if self.canBuild then
+                warningTooltip:HideTooltip()
+            end
+            self.batch:flush()
+            self.previousGx = self.gx
+            self.previousGy = self.gy
+            self.previousCanBuild = self.canBuild
+            self.lastBuilding = self.building
         end
     }
 }
