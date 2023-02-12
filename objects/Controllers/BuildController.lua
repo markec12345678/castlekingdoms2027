@@ -181,18 +181,26 @@ function BuildController:update()
                         if _G.importantObjectAt(ccx, ccy, xxx, yyy) then
                             warningTooltip:ShowTooltip("There is an obstacle in the way!")
                             self.canBuild = false
+                            break
                         end
                         local terrainDiff = math.abs(firstTerrainHeight - (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2)
                         if terrainDiff >= 28 then
                             -- height difference is too drastic
                             warningTooltip:ShowTooltip("Cannot build on cliffs!")
                             self.canBuild = false
+                            break
                         elseif firstTerrainHeight ~= (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 then
                             totalTerrainDifference = totalTerrainDifference + terrainDiff
                         end
                         if _G.state.map:isWaterAt(self.gx + xx, self.gy + yy) then
                             warningTooltip:ShowTooltip("Cannot build on top of water!")
                             self.canBuild = false
+                            break
+                        end
+                        if _G.getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
+                            self.canBuild = false
+                            warningTooltip:ShowTooltip("Cannot build on top of water!")
+                            break
                         end
                     end
                 end

@@ -79,6 +79,7 @@ local an = {
     [WALK_STONE_SOUTHEAST] = fr_walk_stone_se,
     [WALK_STONE_SOUTHWEST] = fr_walk_stone_sw
 }
+local idleDurations = {["1-5"] = 0.12, ["6-8"] = 0.3, ["9-12"] = 0.12, ["13-14"] = 2}
 
 local Ox = _G.class("Ox", Unit)
 function Ox:initialize(gx, gy, parent)
@@ -90,7 +91,7 @@ function Ox:initialize(gx, gy, parent)
     self.offsetX = -5
     -- TODO: add custom idle animation cycle
     self.animated = true
-    self.animation = anim.newAnimation(an[IDLE_NORTH], 0.12, nil, IDLE_NORTH)
+    self.animation = anim.newAnimation(an[IDLE_NORTH], idleDurations, nil, IDLE_NORTH)
 end
 
 function Ox:dirSubUpdate()
@@ -98,7 +99,7 @@ function Ox:dirSubUpdate()
         if self.state == "Going to stockpile" then
             self.animation = anim.newAnimation(an[WALK_STONE_WEST], 0.05, nil, WALK_STONE_WEST)
         elseif self.state == "Idle" then
-            self.animation = anim.newAnimation(an[IDLE_WEST], 0.12, nil, IDLE_WEST)
+            self.animation = anim.newAnimation(an[IDLE_WEST], idleDurations, nil, IDLE_WEST)
         else
             self.animation = anim.newAnimation(an[WALK_WEST], 0.05, nil, WALK_WEST)
         end
@@ -106,7 +107,7 @@ function Ox:dirSubUpdate()
         if self.state == "Going to stockpile" then
             self.animation = anim.newAnimation(an[WALK_STONE_SOUTHWEST], 0.05, nil, WALK_STONE_SOUTHWEST)
         elseif self.state == "Idle" then
-            self.animation = anim.newAnimation(an[IDLE_SOUTHWEST], 0.12, nil, IDLE_SOUTHWEST)
+            self.animation = anim.newAnimation(an[IDLE_SOUTHWEST], idleDurations, nil, IDLE_SOUTHWEST)
         else
             self.animation = anim.newAnimation(an[WALK_SOUTHWEST], 0.05, nil, WALK_SOUTHWEST)
         end
@@ -114,7 +115,7 @@ function Ox:dirSubUpdate()
         if self.state == "Going to stockpile" then
             self.animation = anim.newAnimation(an[WALK_STONE_NORTHWEST], 0.05, nil, WALK_STONE_NORTHWEST)
         elseif self.state == "Idle" then
-            self.animation = anim.newAnimation(an[IDLE_NORTHWEST], 0.12, nil, IDLE_NORTHWEST)
+            self.animation = anim.newAnimation(an[IDLE_NORTHWEST], idleDurations, nil, IDLE_NORTHWEST)
         else
             self.animation = anim.newAnimation(an[WALK_NORTHWEST], 0.05, nil, WALK_NORTHWEST)
         end
@@ -122,7 +123,7 @@ function Ox:dirSubUpdate()
         if self.state == "Going to stockpile" then
             self.animation = anim.newAnimation(an[WALK_STONE_NORTH], 0.05, nil, WALK_STONE_NORTH)
         elseif self.state == "Idle" then
-            self.animation = anim.newAnimation(an[IDLE_NORTH], 0.12, nil, IDLE_NORTH)
+            self.animation = anim.newAnimation(an[IDLE_NORTH], idleDurations, nil, IDLE_NORTH)
         else
             self.animation = anim.newAnimation(an[WALK_NORTH], 0.05, nil, WALK_NORTH)
         end
@@ -130,7 +131,7 @@ function Ox:dirSubUpdate()
         if self.state == "Going to stockpile" then
             self.animation = anim.newAnimation(an[WALK_STONE_SOUTH], 0.05, nil, WALK_STONE_SOUTH)
         elseif self.state == "Idle" then
-            self.animation = anim.newAnimation(an[IDLE_SOUTH], 0.12, nil, IDLE_SOUTH)
+            self.animation = anim.newAnimation(an[IDLE_SOUTH], idleDurations, nil, IDLE_SOUTH)
         else
             self.animation = anim.newAnimation(an[WALK_SOUTH], 0.05, nil, WALK_SOUTH)
         end
@@ -138,7 +139,7 @@ function Ox:dirSubUpdate()
         if self.state == "Going to stockpile" then
             self.animation = anim.newAnimation(an[WALK_STONE_EAST], 0.05, nil, WALK_STONE_EAST)
         elseif self.state == "Idle" then
-            self.animation = anim.newAnimation(an[IDLE_EAST], 0.12, nil, IDLE_EAST)
+            self.animation = anim.newAnimation(an[IDLE_EAST], idleDurations, nil, IDLE_EAST)
         else
             self.animation = anim.newAnimation(an[WALK_EAST], 0.05, nil, WALK_EAST)
         end
@@ -146,7 +147,7 @@ function Ox:dirSubUpdate()
         if self.state == "Going to stockpile" then
             self.animation = anim.newAnimation(an[WALK_STONE_SOUTHEAST], 0.05, nil, WALK_STONE_SOUTHEAST)
         elseif self.state == "Idle" then
-            self.animation = anim.newAnimation(an[IDLE_SOUTHEAST], 0.12, nil, IDLE_SOUTHEAST)
+            self.animation = anim.newAnimation(an[IDLE_SOUTHEAST], idleDurations, nil, IDLE_SOUTHEAST)
         else
             self.animation = anim.newAnimation(an[WALK_SOUTHEAST], 0.05, nil, WALK_SOUTHEAST)
         end
@@ -154,7 +155,7 @@ function Ox:dirSubUpdate()
         if self.state == "Going to stockpile" then
             self.animation = anim.newAnimation(an[WALK_STONE_NORTHEAST], 0.05, nil, WALK_STONE_NORTHEAST)
         elseif self.state == "Idle" then
-            self.animation = anim.newAnimation(an[IDLE_NORTHEAST], 0.12, nil, IDLE_NORTHEAST)
+            self.animation = anim.newAnimation(an[IDLE_NORTHEAST], idleDurations, nil, IDLE_NORTHEAST)
         else
             self.animation = anim.newAnimation(an[WALK_NORTHEAST], 0.05, nil, WALK_NORTHEAST)
         end

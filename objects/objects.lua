@@ -293,9 +293,13 @@ end
 --- Returns the currentObject if it is a table.
 ---@param gx number Global X coordinate.
 ---@param gy number Global Y coordinate.
----@param objClass string Name of the object's class.
+---@param objClass table|string Class or name of the object's class.
 ---@return Object|false
 function _G.objectFromSubclassAtGlobal(gx, gy, objClass)
+    if type(objClass) == "string" then
+        objClass = _G.getClassByName(objClass)
+        if not objClass then error(string.format("invalid class name: %s", objClass)) end
+    end
     local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(gx, gy)
     if type(object[cx][cy][x][y]) == "table" then
         for _, currentObject in ipairs(object[cx][cy][x][y]) do
