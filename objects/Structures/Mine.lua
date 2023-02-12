@@ -713,17 +713,6 @@ function Mine:destroy()
         end
     end
 
-    _G.stockpile:store("wood")
-    _G.stockpile:store("wood")
-    _G.stockpile:store("wood")
-    _G.stockpile:store("wood")
-    _G.stockpile:store("wood")
-    _G.stockpile:store("stone")
-    _G.stockpile:store("stone")
-    _G.stockpile:store("stone")
-    _G.stockpile:store("stone")
-    _G.stockpile:store("stone")
-
     Structure.destroy(self)
 end
 

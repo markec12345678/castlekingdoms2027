@@ -694,10 +694,6 @@ function Quarry:destroy()
         end
     end
 
-    for i = 0, 12 do
-        _G.stockpile:store("wood")
-    end
-
     Structure.destroy(self)
 end
 

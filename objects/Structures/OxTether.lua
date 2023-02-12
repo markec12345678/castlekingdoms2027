@@ -151,9 +151,6 @@ function OxTether:destroy()
     end
     self.float:destroy()
 
-    _G.stockpile:store("wood")
-    _G.stockpile:store("wood")
-
     Structure.destroy(self)
 end
 

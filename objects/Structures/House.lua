@@ -91,8 +91,6 @@ end
 
 function House:destroy()
     _G.state.maxPopulation = _G.state.maxPopulation - 4
-    _G.stockpile:store("wood")
-    _G.stockpile:store("wood")
 
     Structure.destroy(self)
 end
