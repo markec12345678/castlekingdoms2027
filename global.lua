@@ -218,12 +218,14 @@ end
 --- Play a sound from the origin of an object.
 --- @param obj table
 --- @param sfx table
-function _G.playSfx(obj, sfx)
+--- @param vol? number Number between 0 and 1 for fine tuning
+function _G.playSfx(obj, sfx, vol)
+    vol = vol or 1
     if type(sfx) == "table" then
         sfx = sfx[math.random(#sfx)]
     end
     local _, volumeLimit = sfx:getVolumeLimits()
-    sfx:setVolume(_G.OPTIONS.SFX_VOLUME * volumeLimit)
+    sfx:setVolume(_G.OPTIONS.SFX_VOLUME * volumeLimit * vol)
     sfx:setRelative(false)
     sfx:setPosition((obj.x + (obj.cx - obj.cy) * _G.chunkWidth * _G.tileWidth * 0.5) / 100,
         (obj.y + (obj.cx + obj.cy) * _G.chunkHeight * _G.tileHeight * 0.5) / 100, 4.1)
