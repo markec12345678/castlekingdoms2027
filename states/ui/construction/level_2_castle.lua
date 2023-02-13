@@ -14,13 +14,13 @@ castleButton:setOnClick(
         local upgraded = _G.BuildController:upgradeKeep(2)
         if upgraded then
             castleButton:setImage(keepImage)
-            castleButton:setTooltip("Keep", getCostAndType("keep"))
+            castleButton:setTooltip("Keep", getCostAndType("Keep"))
             castleButton:setOnClick(
                 function()
                     local upgraded = _G.BuildController:upgradeKeep(3)
                     if upgraded then
                         castleButton:setImage(fortressImage)
-                        castleButton:setTooltip("Fortress", getCostAndType("fortress"))
+                        castleButton:setTooltip("Fortress", getCostAndType("Fortress"))
                         castleButton:setOnClick(
                             function()
                                 local upgraded = _G.BuildController:upgradeKeep(4)
