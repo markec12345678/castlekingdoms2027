@@ -14,6 +14,10 @@ local an = {
     [ANIM_FLOAT_CIRCLE_RED] = _G.indexQuads("float_circle_red", 51)
 }
 
+local campfireFx = {
+    ["fire"] = {_G.fx["fireloop1"],
+        _G.fx["fireloop2"]}
+}
 
 local CampfireFloatPop = _G.class("CampfireFloatPop", Structure)
 function CampfireFloatPop:initialize(gx, gy)
@@ -93,6 +97,7 @@ function CampfireFloatPop:animate(dt)
         end
     end
     Structure.animate(self, dt, true)
+    _G.playSfx(self, campfireFx["fire"], 0.8)
 end
 
 function CampfireFloatPop:immigrantCallback()
