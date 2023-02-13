@@ -289,6 +289,10 @@ function game:keypressed(key, scancode, isRepeat)
                 _G.DestructionController:disable()
                 return
             end
+            if ActionBar.currentGroup ~= "main" then
+                ActionBar:showGroup("main")
+                return
+            end
         end
         if (loveframes.GetState() == states.STATE_MARKET or
             loveframes.GetState() == states.STATE_STOCKPILE or
