@@ -18,9 +18,19 @@ local ANIM_CRAFTING_PIKE = "Crafting_Pike"
 
 local an = {
     [ANIM_CRAFTING_PIKE_PART1] = _G.indexQuads("anim_poleturner", 61),
-    [ANIM_CRAFTING_SPEAR] = _G.addReverse(_G.indexQuads("anim_poleturner_2", 33)),
-    [ANIM_CRAFTING_PIKE] = _G.addReverse(_G.indexQuads("anim_poleturner_3", 33)),
+    [ANIM_CRAFTING_SPEAR] = _G.addReverse(_G.indexQuads("anim_poleturner_3", 33)),
+    [ANIM_CRAFTING_PIKE] = _G.addReverse(_G.indexQuads("anim_poleturner_2", 33)),
 }
+
+local poleturnerFx = {
+    ["spear"] = {_G.fx["pole_turn1"],
+        _G.fx["pole_turn2"],
+        _G.fx["pole_turn3"]},
+    ["halberd"] = {_G.fx["pole_grind2"],
+        _G.fx["pole_grind3"],
+        _G.fx["pole_grind6"]}
+}
+
 
 local targetPoleturner
 local SpearCrafting = _G.class("SpearCrafting", Structure)
@@ -83,10 +93,12 @@ end
 function SpearCrafting:activate()
     self.animated = true
     if self.parent.weaponType == WEAPON.spear then
-        self.animation = anim.newAnimation(an[ANIM_CRAFTING_SPEAR], 0.11, self:craftCallback_1(), ANIM_CRAFTING_SPEAR)
+        _G.playSfx(self, poleturnerFx["spear"])
+        self.animation = anim.newAnimation(an[ANIM_CRAFTING_SPEAR], 0.08, self:craftCallback_1(), ANIM_CRAFTING_SPEAR)
     end
     if self.parent.weaponType == WEAPON.pike then
-        self.animation = anim.newAnimation(an[ANIM_CRAFTING_PIKE], 0.11, self:craftCallback_1(),
+        _G.playSfx(self, poleturnerFx["halberd"])
+        self.animation = anim.newAnimation(an[ANIM_CRAFTING_PIKE], 0.08, self:craftCallback_1(),
             ANIM_CRAFTING_PIKE)
     end
     self:animate(_G.dt)
@@ -203,18 +215,24 @@ function SpearCrafting:craftCallback_1()
     return function()
         self.craftingCycle = self.craftingCycle + 1
         if self.parent.weaponType == WEAPON.spear then
-            self.animation = anim.newAnimation(an[ANIM_CRAFTING_SPEAR], 0.11, self:craftCallback_1(), ANIM_CRAFTING_SPEAR)
+            self.animation = anim.newAnimation(an[ANIM_CRAFTING_SPEAR], 0.08, self:craftCallback_1(), ANIM_CRAFTING_SPEAR)
             if self.craftingCycle == 6 then
                 self.parent:sendToStockpile()
                 self.craftingCycle = 0
                 self:deactivate()
+            else
+                _G.playSfx(self, poleturnerFx["spear"])
             end
         end
+        -- TODO: Fix Halberd to first put on the blade before grinding it.
         if self.parent.weaponType == WEAPON.pike then
-            self.animation = anim.newAnimation(an[ANIM_CRAFTING_PIKE], 0.11, self:craftCallback_1(),
+            if self.craftingCycle == 4 then
+                _G.playSfx(self, poleturnerFx["halberd"])
+            end
+            self.animation = anim.newAnimation(an[ANIM_CRAFTING_PIKE], 0.08, self:craftCallback_1(),
                 ANIM_CRAFTING_PIKE)
             if self.craftingCycle == 8 then
-                self.animation = anim.newAnimation(an[ANIM_CRAFTING_PIKE_PART1], 0.11, self:craftCallback_2(),
+                self.animation = anim.newAnimation(an[ANIM_CRAFTING_PIKE_PART1], 0.08, self:craftCallback_2(),
                     ANIM_CRAFTING_PIKE_PART1)
             end
         end
