@@ -31,6 +31,20 @@ local function reverseTable(t)
     return reversed
 end
 
+local ironFx = {
+    ["pull"] = {_G.fx["iron_pull5"],
+                _G.fx["iron_pull6"],
+                _G.fx["iron_pull7"]},
+    ["strain"] = {_G.fx["iron_straining1"],
+                _G.fx["iron_straining2"],
+                _G.fx["iron_straining3"]},
+    ["irondump"] = {_G.fx["iron_dump1"],
+                    _G.fx["iron_dump2"],},
+    ["ironcook"] = {_G.fx["iron_boil1"]},
+    ["ironpour"] = {_G.fx["iron_pour1"],
+                    _G.fx["iron_pour2"],},
+}
+
 local frChimneyGlow = _G.indexQuads("anim_iron_miner_chimney_glow", 8, nil)
 local frReverseChimneyGlow = reverseTable(frChimneyGlow)
 local frChimneySmoke = _G.indexQuads("anim_iron_miner_smoke", 28)
@@ -123,6 +137,7 @@ function MineGoingDown:callback_1()
     return function()
         self.offsetX, self.offsetY = self.tunnelAnimOffsetX, self.tunnelAnimOffsetY
         self.animation = anim.newAnimation(an[ANIM_TUNNEL_GLOW], 0.11, self:callback_2(), ANIM_TUNNEL_GLOW)
+        -- no sound
     end
 end
 
@@ -130,6 +145,7 @@ function MineGoingDown:callback_2()
     return function()
         self.offsetX, self.offsetY = self.goingAnimOffsetX, self.goingAnimOffsetY
         self.animation = anim.newAnimation(an[ANIM_MINER_GOING_UP], 0.11, self:callback_3(), ANIM_MINER_GOING_UP)
+        -- no sound
     end
 end
 
@@ -139,6 +155,10 @@ function MineGoingDown:callback_3()
         self:deactivate()
         self.parent.puller:activate()
         self.parent.bucket:activate()
+
+        local wait = 100
+        local temp = 0
+        _G.playSfx(self,ironFx["pull"])
     end
 end
 
@@ -380,6 +400,7 @@ function MinePourer:activate()
     self.animated = true
     self.animation:gotoFrame(1)
     self.animation:resume()
+    _G.playSfx(self,ironFx["strain"])
     self:animate()
 end
 
@@ -409,13 +430,16 @@ function MineCasting:initialize(gx, gy, parent, offsetX, offsetY)
     table.insert(activeEntities, self)
 end
 
+--- Animation: Chimney Smoke
 function MineCasting:castCallback_1()
     return function()
         self.offsetX, self.offsetY = self.smokeX, self.smokeY
         self.animation = anim.newAnimation(an[ANIM_CHIMNEY_SMOKE], 0.11, self:castCallback_2(), ANIM_CHIMNEY_SMOKE)
+        _G.playSfx(self,ironFx["ironcook"])
     end
 end
 
+--- Animation: Pour Iron 1
 function MineCasting:castCallback_2()
     return function()
         self.offsetX, self.offsetY = self.chimneyX, self.chimneyY
@@ -424,13 +448,16 @@ function MineCasting:castCallback_2()
     end
 end
 
+--- Animation: Pour Iron 2
 function MineCasting:castCallback_3()
     return function()
         self.offsetX, self.offsetY = self.castX, self.castY
         self.animation = anim.newAnimation(an[ANIM_CASTING_IRON], 0.11, self:castCallback_4(), ANIM_CASTING_IRON)
+        _G.playSfx(self,ironFx["ironpour"])
     end
 end
 
+--- Animation: Place Iron
 function MineCasting:castCallback_4()
     return function()
         if not self.parent.stack.animated then
@@ -490,6 +517,7 @@ function MineCasting:animate(dt)
 end
 
 function MineCasting:activate()
+    _G.playSfx(self,ironFx["irondump"])
     self.animated = true
     self.animation:gotoFrame(1)
     self.animation:resume()
