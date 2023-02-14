@@ -36,6 +36,19 @@ local ANIM_PULLER_PART1 = "puller_part1"
 local ANIM_PULLER_PART2 = "puller_part1"
 local ANIM_STACK = "stack"
 
+local quarryFx = {
+    ["levering1"] = {_G.fx["pryer_lever1"]},
+    ["levering2"] = {_G.fx["pryer_lever2"]},
+    ["levering3"] = {_G.fx["pryer_lever3"]},
+    ["pullermove"] = {_G.fx["puller_strain"]},
+    ["pullerretract"] = {_G.fx["puller_return"]},
+    ["pullerimpact"] = {_G.fx["puller_impact"]},
+    ["masonhit"] = {_G.fx["mason_chip1"], _G.fx["mason_chip2"], _G.fx["mason_chip3"]},
+    ["masoncrumble"] = {_G.fx["mason_crumble1"],
+        _G.fx["mason_crumble2"]}
+}
+
+
 local an = {
     [ANIM_LIFTER_PART1] = frLifterPart1,
     [ANIM_LIFTER_PART2] = frLifterPart2,
@@ -103,6 +116,7 @@ end
 
 function QuarryLifter:lifterCallback_1()
     return function()
+        _G.playSfx(self, quarryFx["levering1"])
         self.parent.puller:activate()
         self.parent.hook:activate()
         self.animation = anim.newAnimation(an[ANIM_LIFTER_PART2], 0.10, self:lifterCallback_2(), ANIM_LIFTER_PART2)
@@ -111,12 +125,16 @@ end
 
 function QuarryLifter:lifterCallback_2()
     return function()
+        _G.playSfx(self, quarryFx["pullermove"])
+        _G.playSfx(self, quarryFx["levering2"])
         self.animation = anim.newAnimation(an[ANIM_LIFTER_PART3], 0.10, self:lifterCallback_3(), ANIM_LIFTER_PART3)
     end
 end
 
 function QuarryLifter:lifterCallback_3()
     return function()
+        _G.playSfx(self, quarryFx["pullerretract"])
+        _G.playSfx(self, quarryFx["pullerimpact"])
         self.animation = anim.newAnimation(an[ANIM_LIFTER_PART4], 0.10, self:lifterCallback_4(), ANIM_LIFTER_PART4)
         self.animation:pause()
     end
@@ -266,7 +284,20 @@ function QuarryShaper:shaperCallback()
 end
 
 function QuarryShaper:animate(dt)
+    local prevPosition = self.animation.position
     Structure.animate(self, dt, true)
+    local newPosition = self.animation.position
+    if self.animation.status == "playing" and prevPosition ~= newPosition then
+        if (self.animation.position == 43 or (prevPosition < 43 and newPosition > 43)) or
+            (self.animation.position == 75 or (prevPosition < 75 and newPosition > 75)) or
+            (self.animation.position == 107 or (prevPosition < 107 and newPosition > 107)) then
+            _G.playSfx(self, quarryFx["masoncrumble"])
+        elseif (self.animation.position == 43 - 7 or (prevPosition < 43 - 7 and newPosition > 43 - 7)) or
+            (self.animation.position == 75 - 6 or (prevPosition < 75 - 6 and newPosition > 75 - 6)) or
+            (self.animation.position == 107 - 7 or (prevPosition < 107 - 7 and newPosition > 107 - 7)) then
+            _G.playSfx(self, quarryFx["masonhit"])
+        end
+    end
 end
 
 function QuarryShaper:start()
@@ -346,6 +377,7 @@ end
 
 function QuarryPuller:pullerCallback_1()
     return function()
+        _G.playSfx(self, quarryFx["levering3"])
         self.animation = anim.newAnimation(an[ANIM_PULLER_PART2], 0.11, self:pullerCallback_2(), ANIM_PULLER_PART2)
     end
 end

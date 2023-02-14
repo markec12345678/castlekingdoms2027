@@ -225,6 +225,7 @@ function _G.playSfx(obj, sfx, vol)
         sfx = sfx[math.random(#sfx)]
     end
     local _, volumeLimit = sfx:getVolumeLimits()
+    sfx:clone()
     sfx:setVolume(_G.OPTIONS.SFX_VOLUME * volumeLimit * vol)
     sfx:setRelative(false)
     sfx:setPosition((obj.x + (obj.cx - obj.cy) * _G.chunkWidth * _G.tileWidth * 0.5) / 100,
