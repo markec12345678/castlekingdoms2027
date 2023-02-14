@@ -65,10 +65,6 @@ function ArmouryAlias:initialize(tile, gx, gy, parent, offsetY, offsetX, seriali
     self:render()
 end
 
-function ArmouryAlias:onClick()
-    self.parent.onClick()
-end
-
 function ArmouryAlias:serialize()
     local data = {}
     local structData = Structure.serialize(self)

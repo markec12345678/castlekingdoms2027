@@ -5,8 +5,8 @@ local Object = require("objects.Object")
 local anim = require("libraries.anim8")
 local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
 
-local tiles, quadArray = _G.indexBuildingQuads("armourer_workshop (9)")
-local tilesExt, quadArrayExt = _G.indexBuildingQuads("armourer_workshop (18)")
+local tiles, quadArray = _G.indexBuildingQuads("armourer_workshop (18)")
+local tilesExt, quadArrayExt = _G.indexBuildingQuads("armourer_workshop (9)")
 
 local ANIM_CRAFTING_SHIELD = "Crafting_Shield"
 
@@ -72,7 +72,7 @@ function ShieldCrafting:craftCallback_1()
             self.parent:sendToStockpile()
             self.craftingCycle = 0
             self:deactivate()
-        else 
+        else
             self.craftingCycle = self.craftingCycle + 1
         end
     end
@@ -233,10 +233,12 @@ function Armorer.static:deserialize(data)
     return obj
 end
 
-function Armorer:enterHover(induced)
-    if not induced then
-        self.hover = true
-    end
+function Armorer:onClick()
+    -- empty, just needed to trigger the inside view
+end
+
+function Armorer:enterHover()
+    self.hover = true
     for tile = 1, tiles do
         local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tiles - tile + 1), ArmorerAlias)
         if not alias then return end
@@ -257,10 +259,9 @@ function Armorer:enterHover(induced)
 end
 
 function Armorer:exitHover(induced)
-    if induced then
-        if self.hover then return end
-    end
-    self.hover = false
+    if induced or not self.cookingObj.animated then
+        self.hover = false
+    else return end
     for tile = 1, tilesExt do
         local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tilesExt - tile + 1), ArmorerAlias)
         if alias then
@@ -315,8 +316,7 @@ function Armorer:work(worker)
         end
     end
     if self.worker.state == "Working" then
-        self:enterHover(true)
-        self:exitHover(false)
+        self:enterHover()
     end
 end
 
@@ -336,7 +336,6 @@ function Armorer:sendToStockpile()
     self.working = false
     self.worker.needNewVertAsap = true
     self.cookingObj:deactivate()
-    self:enterHover(false)
     self:exitHover(true)
 end
 
