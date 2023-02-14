@@ -97,8 +97,7 @@ function SpearCrafting:activate()
         self.animation = anim.newAnimation(an[ANIM_CRAFTING_SPEAR], 0.08, self:craftCallback_1(), ANIM_CRAFTING_SPEAR)
     end
     if self.parent.weaponType == WEAPON.pike then
-        _G.playSfx(self, poleturnerFx["halberd"])
-        self.animation = anim.newAnimation(an[ANIM_CRAFTING_PIKE], 0.08, self:craftCallback_1(),
+        self.animation = anim.newAnimation(an[ANIM_CRAFTING_PIKE_PART1], 0.08, self:craftCallback_1(),
             ANIM_CRAFTING_PIKE)
     end
     self:animate(_G.dt)
@@ -224,15 +223,14 @@ function SpearCrafting:craftCallback_1()
                 _G.playSfx(self, poleturnerFx["spear"])
             end
         end
-        -- TODO: Fix Halberd to first put on the blade before grinding it.
         if self.parent.weaponType == WEAPON.pike then
-            if self.craftingCycle == 4 then
+            if self.craftingCycle == 1 or self.craftingCycle == 4 then
                 _G.playSfx(self, poleturnerFx["halberd"])
             end
             self.animation = anim.newAnimation(an[ANIM_CRAFTING_PIKE], 0.08, self:craftCallback_1(),
                 ANIM_CRAFTING_PIKE)
             if self.craftingCycle == 8 then
-                self.animation = anim.newAnimation(an[ANIM_CRAFTING_PIKE_PART1], 0.08, self:craftCallback_2(),
+                self.animation = anim.newAnimation(an[ANIM_CRAFTING_PIKE], 0.08, self:craftCallback_2(),
                     ANIM_CRAFTING_PIKE_PART1)
             end
         end
