@@ -19,6 +19,9 @@ local campfireFx = {
         _G.fx["fireloop2"]}
 }
 
+local timerFX = 0
+local randomFX = 8
+
 local CampfireFloatPop = _G.class("CampfireFloatPop", Structure)
 function CampfireFloatPop:initialize(gx, gy)
     Structure.initialize(self, gx, gy, "Campfire float circle")
@@ -97,7 +100,13 @@ function CampfireFloatPop:animate(dt)
         end
     end
     Structure.animate(self, dt, true)
-    _G.playSfx(self, campfireFx["fire"], 0.8)
+
+    timerFX = timerFX + (_G.dt / _G.speedModifier)
+    if timerFX > randomFX and _G.state.population > 0 then
+        _G.playSfx(self, campfireFx["fire"])
+        timerFX = 0
+        randomFX = math.random(6, 9)
+    end
 end
 
 function CampfireFloatPop:immigrantCallback()
