@@ -298,9 +298,6 @@ function WheatFarm:initialize(gx, gy, type)
 end
 
 function WheatFarm:destroy()
-    if self.wheatWorker then
-        self.wheatWorker:quitJob()
-    end
     self.float:destroy()
 
     for xx = -1, 13 do
@@ -315,6 +312,9 @@ function WheatFarm:destroy()
     end
 
     Structure.destroy(self)
+    if self.wheatWorker then
+        self.wheatWorker:quitJob()
+    end
 end
 
 function WheatFarm:load(data)

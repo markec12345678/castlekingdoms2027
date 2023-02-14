@@ -16,6 +16,7 @@ function DebugView:initialize()
     self.batch = love.graphics.newSpriteBatch(image)
     self.quads = {}
     self.info = ""
+    self.lineCount = 0
     self.lastObject = nil
     self.quads[1] = love.graphics.newQuad(0, 0, 30, 16, image:getWidth(), image:getHeight())
     self.quads[2] = love.graphics.newQuad(30, 0, 30, 16, image:getWidth(), image:getHeight())
@@ -57,10 +58,19 @@ function DebugView:update()
 
             if objectOnMouse then
                 self.info = ("[%s]\n"):format(objectOnMouse.class.name)
-                for k, v in pairs(objectOnMouse) do
-                    self.info = self.info .. ("\t%s: %s\n"):format(k, v)
+                local keys = {}
+                for k, _ in pairs(objectOnMouse) do
+                    keys[#keys + 1] = k
                 end
+                table.sort(keys)
+                for _, k in ipairs(keys) do
+                    if type(objectOnMouse[k]) ~= "table" and type(objectOnMouse[k]) ~= "userdata" then
+                        self.info = self.info .. ("\t%s: %s\n"):format(k, objectOnMouse[k])
+                    end
+                end
+                self.info = self.info .. "tables and userdata are not shown"
             end
+            _, self.lineCount = self.info:gsub("\n", "\n")
         elseif self.focus == "pathfinding" then
             self.info = "(0) Walkable"
             if _G.state.map:getWalkable(OX, OY) == 1 then
@@ -70,6 +80,7 @@ function DebugView:update()
             self.info = self.info .. "\n Shadow: " .. tostring(_G.state.map.shadowmap[cx][cy][i][o] or 0)
             self.info = self.info .. "\n cx, cy, i, o: " .. cx .. ", " .. cy .. ", " .. i .. ", " .. o
             self.info = self.info .. "\n gx, gy: " .. OX .. ", " .. OY
+            _, self.lineCount = self.info:gsub("\n", "\n")
         end
 
         local LX, LY = OX - math.floor(self.width / 2), OY - math.floor(self.height / 2)
@@ -120,11 +131,14 @@ function DebugView:draw()
     if self.active then
         love.graphics.setColor(1, 1, 1, 0.3)
         love.graphics.draw(self.batch, self.FX, self.FY, nil, _G.state.scaleX)
-        love.graphics.setColor(1, 1, 1, 1)
         local MX, MY = love.mouse.getPosition()
         if self.info then
+            love.graphics.setColor(0, 0, 0, 0.5)
+            love.graphics.rectangle("fill", MX + 30 - love.graphics.getWidth() / 2, MY - love.graphics.getHeight() / 2, 200, self.lineCount * 18)
+            love.graphics.setColor(1, 1, 1, 1)
             love.graphics.print(self.info, MX + 30 - love.graphics.getWidth() / 2, MY - love.graphics.getHeight() / 2)
         end
+        love.graphics.setColor(1, 1, 1, 1)
     end
 end
 

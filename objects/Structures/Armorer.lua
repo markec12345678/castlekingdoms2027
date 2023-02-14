@@ -72,7 +72,7 @@ function ShieldCrafting:craftCallback_1()
             self.parent:sendToStockpile()
             self.craftingCycle = 0
             self:deactivate()
-        else 
+        else
             self.craftingCycle = self.craftingCycle + 1
         end
     end
@@ -186,14 +186,14 @@ function Armorer:initialize(gx, gy)
 end
 
 function Armorer:destroy()
-    if self.worker then
-        self.worker:quitJob()
-    end
     self.float:destroy()
     Structure.destroy(self.cookingObj)
     self.cookingObj.toBeDeleted = true
 
     Structure.destroy(self)
+    if self.worker then
+        self.worker:quitJob()
+    end
 end
 
 function Armorer:load(data)

@@ -15,20 +15,20 @@ function PathController:requestPath(startx, starty, endx, endy)
 end
 
 function PathController:update()
-    local table
+    local pathdata
     repeat
-        table = _G.channel.receive:pop()
-        if table then
-            table = bitser.loads(table)
-            if not table.found then
-                self.paths[table.sx][table.sy][table.ex][table.ey] = 1
+        pathdata = _G.channel.receive:pop()
+        if pathdata then
+            pathdata = bitser.loads(pathdata)
+            if not pathdata.found then
+                self.paths[pathdata.sx][pathdata.sy][pathdata.ex][pathdata.ey] = 1
             else
-                self.paths[table.sx][table.sy][table.ex][table.ey] = table.nodes
+                self.paths[pathdata.sx][pathdata.sy][pathdata.ex][pathdata.ey] = pathdata.nodes
             end
         else
             break
         end
-    until (not table)
+    until (not pathdata)
 end
 
 function PathController:getPath(startx, starty, endx, endy)

@@ -413,11 +413,11 @@ function WoodcutterHut:destroy()
     self.logStack.toBeDeleted = true
     self.float:destroy()
 
+    Structure.destroy(self)
+
     if self.worker then
         self.worker:quitJob()
     end
-
-    Structure.destroy(self)
 end
 
 function WoodcutterHut:join(worker)

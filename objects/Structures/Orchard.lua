@@ -235,9 +235,6 @@ function Orchard:initialize(gx, gy, type)
 end
 
 function Orchard:destroy()
-    if self.appleWorker then
-        self.appleWorker:quitJob()
-    end
     self.float:destroy()
     Structure.destroy(self.tree1)
     self.tree1.toBeDeleted = true
@@ -263,6 +260,9 @@ function Orchard:destroy()
     end
 
     Structure.destroy(self)
+    if self.appleWorker then
+        self.appleWorker:quitJob()
+    end
 end
 
 function Orchard:serialize()

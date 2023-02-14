@@ -299,9 +299,6 @@ function Bakery:initialize(gx, gy)
 end
 
 function Bakery:destroy()
-    if self.worker then
-        self.worker:quitJob()
-    end
     self.float:destroy()
     Structure.destroy(self.cookingObj)
     self.cookingObj.toBeDeleted = true
@@ -309,6 +306,9 @@ function Bakery:destroy()
     self.stack.toBeDeleted = true
 
     Structure.destroy(self)
+    if self.worker then
+        self.worker:quitJob()
+    end
 end
 
 function Bakery:load(data)

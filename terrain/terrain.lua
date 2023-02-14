@@ -688,7 +688,7 @@ local function updateTerrain(chunkX, chunkY)
     updateTerrain2ndPass(cx, cy)
 end
 
-local function tileShouldBeCliff(myGx, myGy, allDirections)
+function _G.tileShouldBeCliff(myGx, myGy, allDirections)
     local cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(myGx, myGy)
     local myHeight = heightmap[cx][cy][i][o] or 0
     cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(myGx + 1, myGy)

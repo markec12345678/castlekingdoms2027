@@ -355,8 +355,10 @@ function _G.importantObjectAt(cx, cy, x, y)
 end
 
 function _G.shouldTileBeWalkable(gx, gy)
-    if _G.importantObjectAtGlobal(gx, gy) and
-        not (_G.objectFromClassAtGlobal(gx, gy, "Stone") or _G.objectFromClassAtGlobal(gx, gy, "Iron")) then
+    if _G.objectFromSubclassAtGlobal(gx, gy, "Structure") then
+        return false
+    end
+    if _G.objectFromSubclassAtGlobal(gx, gy, "Tree") then
         return false
     end
     if _G.state.map:isWaterAt(gx, gy) then

@@ -311,9 +311,6 @@ function SwordCrafting:craftCallback_1()
 end
 
 function BlacksmithWorkshop:destroy()
-    if self.worker then
-        self.worker:quitJob()
-    end
     self.float:destroy()
     Structure.destroy(self.swordCrafting)
     Structure.destroy(self.anvilCrafting)
@@ -321,6 +318,9 @@ function BlacksmithWorkshop:destroy()
     self.anvilCrafting.toBeDeleted = true
 
     Structure.destroy(self)
+    if self.worker then
+        self.worker:quitJob()
+    end
 end
 
 function BlacksmithWorkshop:load(data)

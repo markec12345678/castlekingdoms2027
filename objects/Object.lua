@@ -1,6 +1,6 @@
 ---@class Object
 ---@field parent Object|nil
----@field class {name: string}
+---@field class {name: string, WIDTH: integer, LENGTH: integer, DESTRUCTIBLE: boolean, HOVERTEXT: string}
 ---@field cx integer chunk x position
 ---@field cy integer chunk y position
 ---@field i integer local to chunk x position

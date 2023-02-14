@@ -83,6 +83,16 @@ function DestructionController:destroyAtLocation(gx, gy, force, targetAlias)
                 _G.buildingheightmap[cx][cy][x][y] = 0
                 _G.state.map.shadowmap[cx][cy][x][y] = 0
             else
+                -- Set the Terrain under the Structure to scarce grass and remove shadows
+                for xx = 0, structure.class.WIDTH - 1 do
+                    for yy = 0, structure.class.LENGTH - 1 do
+                        _G.terrainSetTileAt(structure.gx + xx, structure.gy + yy, _G.terrainBiome.scarceGrass, nil, true)
+                        local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(structure.gx + xx, structure.gy + yy)
+                        self:revertWalkability(structure.gx, structure.gy)
+                        _G.buildingheightmap[cx][cy][x][y] = 0
+                        _G.state.map.shadowmap[cx][cy][x][y] = 0
+                    end
+                end
                 -- Destroy all the Aliases of a Structure
                 for x = 0, structure.class.WIDTH - 1 do
                     for y = 0, structure.class.LENGTH - 1 do
@@ -114,17 +124,18 @@ function DestructionController:destroyAtLocation(gx, gy, force, targetAlias)
                 end
 
                 _G.playSfx(structure, _G.fx["buildingwreck_01"])
-                -- Set the Terrain under the Structure to scarce grass and remove shadows
-                for xx = 0, structure.class.WIDTH - 1 do
-                    for yy = 0, structure.class.LENGTH - 1 do
-                        _G.terrainSetTileAt(structure.gx + xx, structure.gy + yy, _G.terrainBiome.scarceGrass, nil, true)
-                        local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(structure.gx + xx, structure.gy + yy)
-                        _G.scheduleTerrainUpdate(cx, cy, x, y)
-                        _G.buildingheightmap[cx][cy][x][y] = 0
-                        _G.state.map.shadowmap[cx][cy][x][y] = 0
-                    end
-                end
             end
+        end
+    end
+end
+
+-- reverts the terrain to walkable after destruction
+---@param gx number X coordinate.
+---@param gy number Y coordinate.
+function DestructionController:revertWalkability(gx, gy)
+    if not _G.tileShouldBeCliff(gx, gy, true) then
+        if _G.shouldTileBeWalkable(gx, gy) and _G.state.map:getWalkable(gx, gy) == 1 then
+            _G.state.map:setWalkable(gx, gy, 0)
         end
     end
 end
