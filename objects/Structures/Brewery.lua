@@ -211,14 +211,14 @@ function Brewery:initialize(gx, gy)
 end
 
 function Brewery:destroy()
-    if self.worker then
-        self.worker:quitJob()
-    end
     self.float:destroy()
     Structure.destroy(self.cookingObj)
     self.cookingObj.toBeDeleted = true
 
     Structure.destroy(self)
+    if self.worker then
+        self.worker:quitJob()
+    end
 end
 
 function Brewery:load(data)

@@ -699,16 +699,6 @@ function Quarry:destroy()
     Structure.destroy(self.puller)
     self.puller.toBeDeleted = true
 
-    if self.liftWorker then
-        self.liftWorker:quitJob()
-    end
-    if self.shapeWorker then
-        self.shapeWorker:quitJob()
-    end
-    if self.pullWorker then
-        self.pullWorker:quitJob()
-    end
-
     for xx = 0, 4 do
         for yy = 0, 4 do
             _G.removeObjectFromClassAtGlobal(self.gx + xx, self.gy + yy, "QuarryAlias")
@@ -727,6 +717,16 @@ function Quarry:destroy()
     end
 
     Structure.destroy(self)
+
+    if self.liftWorker then
+        self.liftWorker:quitJob()
+    end
+    if self.shapeWorker then
+        self.shapeWorker:quitJob()
+    end
+    if self.pullWorker then
+        self.pullWorker:quitJob()
+    end
 end
 
 function Quarry:join(worker)

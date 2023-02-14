@@ -349,9 +349,6 @@ function HopsFarm:initialize(gx, gy, type)
 end
 
 function HopsFarm:destroy()
-    if self.hopsWorker then
-        self.hopsWorker:quitJob()
-    end
     self.float:destroy()
 
     for xx = -1, 13 do
@@ -366,6 +363,9 @@ function HopsFarm:destroy()
     end
 
     Structure.destroy(self)
+    if self.hopsWorker then
+        self.hopsWorker:quitJob()
+    end
 end
 
 function HopsFarm:load(data)

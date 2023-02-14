@@ -56,6 +56,32 @@ while true do
         end
     until (not mapUpdate)
     if pathRequest then
+        -- Check if start or end node is walkable
+        if _G.nodes[pathRequest.sx][pathRequest.sy].walkable == 1 or _G.nodes[pathRequest.ex][pathRequest.ey].walkable == 1 then
+            -- it's not walkable, we're probably missing updates from the main thread!
+            love.timer.sleep(0.1)
+            -- fetch all updates
+            repeat
+                mapUpdate = channel.mapUpdate:pop()
+                if mapUpdate then
+                    _G.nodes[mapUpdate[1]][mapUpdate[2]].walkable = mapUpdate[3]
+                else
+                    break
+                end
+            until (not mapUpdate)
+            -- check again
+            if _G.nodes[pathRequest.sx][pathRequest.sy].walkable == 1 or _G.nodes[pathRequest.ex][pathRequest.ey].walkable == 1 then
+                -- still unwalkable, don't bother pathfinding
+                local noPathFound = {}
+                noPathFound.sx = pathRequest.sx
+                noPathFound.sy = pathRequest.sy
+                noPathFound.ex = pathRequest.ex
+                noPathFound.ey = pathRequest.ey
+                noPathFound.found = false
+                channel.receive:push(bitser.dumps(noPathFound))
+                goto continue
+            end
+        end
         local path = finder:getPath(pathRequest.sx, pathRequest.sy, pathRequest.ex, pathRequest.ey)
         local pathToSend = {}
         pathToSend.sx = pathRequest.sx
@@ -71,5 +97,6 @@ while true do
         end
 
         channel.receive:push(bitser.dumps(pathToSend))
+        ::continue::
     end
 end

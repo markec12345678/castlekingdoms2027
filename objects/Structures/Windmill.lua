@@ -365,6 +365,7 @@ function Windmill:destroy()
     self.fillingFlour.toBeDeleted = true
     self.float:destroy()
 
+    Structure.destroy(self)
     if self.worker then
         self.worker:quitJob()
     end
@@ -375,7 +376,6 @@ function Windmill:destroy()
         self.worker3:quitJob()
     end
 
-    Structure.destroy(self)
 end
 
 function Windmill:load(data)

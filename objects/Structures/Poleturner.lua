@@ -246,14 +246,14 @@ function SpearCrafting:craftCallback_2()
 end
 
 function PoleturnerWorkshop:destroy()
-    if self.worker then
-        self.worker:quitJob()
-    end
     self.float:destroy()
     Structure.destroy(self.cookingObj)
     self.cookingObj.toBeDeleted = true
 
     Structure.destroy(self)
+    if self.worker then
+        self.worker:quitJob()
+    end
 end
 
 function PoleturnerWorkshop:load(data)

@@ -142,16 +142,16 @@ function OxTether:destroy()
             end
         end
     end
-
-    if self.oxWorker then
-        self.oxWorker:quitJob()
-    end
     if self.oxUnit then
         self.oxUnit:die()
     end
     self.float:destroy()
 
     Structure.destroy(self)
+
+    if self.oxWorker then
+        self.oxWorker:quitJob()
+    end
 end
 
 function OxTether:add(amount)
