@@ -5,6 +5,7 @@ stages:
 image: ubuntu
 
 test:
+  coverage: '/Total\s+\d+\s+\d+\s+(\d+(?:.\d+)?)/'
   tags:
     - saas-linux-medium-amd64
   stage: test

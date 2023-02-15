@@ -11,6 +11,17 @@
   </a>
 </div>
 
+
+<div align="center">
+  <a href="https://gitlab.com/stone-kingdoms/stone-kingdoms/-/commits/master">
+    <img alt="pipeline status" src="https://gitlab.com/stone-kingdoms/stone-kingdoms/badges/master/pipeline.svg" />
+  </a> 
+  <a href="https://gitlab.com/stone-kingdoms/stone-kingdoms/-/commits/master">
+    <img alt="coverage report" src="https://gitlab.com/stone-kingdoms/stone-kingdoms/badges/master/coverage.svg" />
+  </a> 
+</div>
+
+
 <br/>
 
 <div align="center">
