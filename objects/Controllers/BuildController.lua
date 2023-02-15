@@ -356,6 +356,11 @@ function BuildController:build(gx, gy)
                     building[self.building]:build(gx, gy)
                     local builtBuilding = _G.objectFromClassAtGlobal(gx, gy, self.building)
                     _G.BuildingManager:add(builtBuilding)
+                    _G.campfireFloatPop:immigrantCallback()()
+                    _G.campfireFloatPop:immigrantCallback()()
+                    _G.campfireFloatPop:immigrantCallback()()
+                    _G.campfireFloatPop:immigrantCallback()()
+                    _G.campfireFloatPop:immigrantCallback()()
                     self:set("Stockpile")
                     return true
                 elseif self.building == "Stockpile" then
@@ -389,11 +394,6 @@ function BuildController:build(gx, gy)
                     self.active = false
                     self.start = false
                     ActionBar:showGroup("main")
-                    _G.campfireFloatPop:immigrantCallback()()
-                    _G.campfireFloatPop:immigrantCallback()()
-                    _G.campfireFloatPop:immigrantCallback()()
-                    _G.campfireFloatPop:immigrantCallback()()
-                    _G.campfireFloatPop:immigrantCallback()()
                     return true
                 end
             end
