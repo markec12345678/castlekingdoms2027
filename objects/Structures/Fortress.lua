@@ -86,7 +86,7 @@ end
 
 function Fortress:onClick()
     local ActionBar = require("states.ui.ActionBar")
-    ActionBar:switchMode("Fortress_tax")
+    ActionBar:switchMode("keep_tax")
 end
 
 function Fortress.static:deserialize(data)
