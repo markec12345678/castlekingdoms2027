@@ -18,6 +18,16 @@ local an = {
     [ANIM_BREAD_STACK] = _G.indexQuads("anim_baker_bread", 4)
 }
 
+local bakeryFx = {
+    ["ShoveBig"] = {_G.fx["bakebig1"],
+                _G.fx["bakebig4"],
+                _G.fx["bakebig5"]},
+    ["ShoveSmall"] = {_G.fx["bakesmall2"],
+                _G.fx["bakesmall3"],
+                _G.fx["bakesmall4"],
+                _G.fx["bakesmall5"]}
+}
+
 local BakeryBreadStack = _G.class("BakeryBreadStack", Structure)
 function BakeryBreadStack:initialize(gx, gy, parent)
     self.parent = parent
@@ -176,7 +186,18 @@ function BakeryCooking:bakeCallback_2()
 end
 
 function BakeryCooking:animate()
+    local prevPosition = self.animation.position
     Structure.animate(self, _G.dt, true)
+    local newPosition = self.animation.position
+    if self.animation.status == "playing" and self.animation.animationIdentifier == ANIM_BAKING_BREAD then
+        if (self.animation.position == 8 or (prevPosition < 8 and newPosition > 8)) then
+                _G.playSfx(self, bakeryFx["ShoveSmall"])
+        elseif (self.animation.position == 22 or (prevPosition < 22 and newPosition > 22)) then
+            _G.playSfx(self, bakeryFx["ShoveBig"])
+        elseif (self.animation.position == 53 or (prevPosition < 53 and newPosition > 53)) then
+            _G.playSfx(self, bakeryFx["ShoveSmall"])
+        end
+    end
 end
 
 function BakeryCooking:activate()
