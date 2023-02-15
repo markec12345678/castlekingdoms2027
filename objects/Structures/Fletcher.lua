@@ -20,6 +20,13 @@ local an = {
     [ANIM_CRAFTING_CROSSBOW] = _G.addReverse(_G.indexQuads("fletcher_crossbow", 36)),
 }
 
+local fletcherFx = {
+    ["fletch"] = {_G.fx["fletch23"],
+                _G.fx["fletch24"],
+                _G.fx["fletch25"]}
+}
+
+
 local targetFletcher
 local BowCrafting = _G.class("BowCrafting", Structure)
 function BowCrafting:initialize(gx, gy, parent)
@@ -73,7 +80,14 @@ function BowCrafting.static:deserialize(data)
 end
 
 function BowCrafting:animate()
+    local prevPosition = self.animation.position
     Structure.animate(self, _G.dt, true)
+    local newPosition = self.animation.position
+    if self.animation.status == "playing" and self.animation.animationIdentifier == ANIM_CRAFTING_BOW and prevPosition ~= newPosition then
+        if (self.animation.position == 50 or (prevPosition < 50 and newPosition > 50)) then
+            _G.playSfx(self, fletcherFx["fletch"])
+        end
+    end
 end
 
 function BowCrafting:activate()
