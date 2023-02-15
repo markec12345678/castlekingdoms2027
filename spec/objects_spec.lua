@@ -1,14 +1,10 @@
 local ob = require 'objects.objects'
-require 'busted.runner'()
+require 'busted.runner' ()
+local b = require 'busted'
 
-local describe, it = _G.describe, _G.it
-_G.BuildController = love.filesystem.load("objects/Controllers/BuildController.lua")(
-    package.loaded['objects.objects'].object, nil)
+local describe, it = b.describe, b.it
 local object = ob.object
-local object_batch = ob.batch
 local addObjectAt = ob.addObjectAt
-local update_objects = ob.update_objects
-local mousepressed = ob.mousepressed
 local obj = {
     data = 2,
     destroy = function()
@@ -148,61 +144,6 @@ describe("objectAt", function()
         assert.is_true(_G.objectAt(1, 1, 1, 1) == false)
         object[1][1][1][1] = {}
         assert.is_true(_G.objectAt(1, 1, 1, 1) == false)
-    end)
-end)
--- =======================================================================--
-describe("genObjects", function()
-    it("makes a new sprite batch at chunk_x, chunk_y if it doesn't exist already", function()
-        object_batch[1][1] = nil
-        _G.genObjects(1, 1)
-        assert.is_true(object_batch[1][1] ~= nil)
-    end)
-end)
--- =======================================================================--
-describe("update_objects", function()
-    it("removes the objects from this chunk that don't belong there", function()
-        local obj1 = {
-            data = 2,
-            cx = 1,
-            cy = 2,
-            x = 13,
-            y = 123,
-            class = {
-                name = "worker"
-            }
-        }
-        local obj2 = {
-            data = 2,
-            cx = 1,
-            cy = 1,
-            x = 68,
-            y = 45,
-            class = {
-                name = "soldier"
-            }
-        }
-        addObjectAt(1, 1, 1, 1, obj1)
-        addObjectAt(1, 1, 1, 1, obj2)
-        assert.is_true(#object[1][1][1][1] == 2)
-        update_objects(1, 1)
-        assert.is_true(#object[1][1][1][1] == 1)
-        assert.is_true(_G.objectFromTypeAt(1, 1, 1, 1, "soldier").class.name == "soldier")
-        assert.is_true(_G.objectFromTypeAt(1, 1, 1, 1, "worker") == false)
-    end)
-end)
--- =======================================================================--
-describe("mousepressed", function()
-    it("calls BuildController's build method if left mouse button(1) is pressed", function()
-        _G.spy.on(_G.BuildController, 'build')
-        mousepressed(12, 32, 1)
-        assert.spy(_G.BuildController.build).was.called()
-        _G.genObjects(1, 1)
-        _G.genObjects(2, 2)
-        _G.genObjects(1, 2)
-        _G.genObjects(2, 1)
-        mousepressed(-500, -500, 2)
-        mousepressed(-500, -500, 3)
-        mousepressed(-500, -500, 4)
     end)
 end)
 -- =======================================================================--

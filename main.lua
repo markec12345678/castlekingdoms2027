@@ -4,7 +4,7 @@ if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
 end
 
 if _G.testMode then
-    require("libraries.love.love_graphics")
+    require("spec.love-mocks")
 end
 
 require("global")
@@ -22,6 +22,7 @@ function love.load()
     SaveManager:getSaveFiles()
     Gamestate.registerEvents()
     if _G.testMode then
+        _G.objectAtlas = love.graphics.newImage("assets/tiles/stronghold_assets_packed_v7-hd.dds")
         Gamestate.switch(test)
         return
     else
