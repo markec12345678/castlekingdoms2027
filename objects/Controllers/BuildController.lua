@@ -285,6 +285,7 @@ function BuildController:mousepressed(x, y)
         end
         local built = self:build(self.gx, self.gy)
         if built then
+            _G.playInterfaceSfx({_G.fx["building_place"], _G.fx["building_place_v2"]})
             self:removeResourceNodes()
         end
         return built
