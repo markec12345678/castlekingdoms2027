@@ -17,7 +17,16 @@ local ANIM_WINDMILL_OUTSIDE = "anim_windmill_outside"
 local ANIM_WINDMILL_INSIDE = "anim_windmill_inside"
 local ANIM_WINDMILL_FILLING = "anim_windmill_filling"
 
-local occupied = false
+local windmillFx = {
+    _G.fx["windmill-interior-old-mill-big-1"],
+    _G.fx["windmill-interior-old-mill-big-2"],
+    _G.fx["windmill-interior-old-mill-big-3"],
+    _G.fx["windmill-interior-old-mill-big-4"],
+    _G.fx["windmill-interior-old-mill-big-5"],
+    _G.fx["windmill-interior-old-mill-big-6"],
+    _G.fx["windmill-interior-old-mill-big-7"],
+    _G.fx["windmill-interior-old-mill-big-8"],
+}
 
 local tempAnim = {_G.unpack(frWindmillFan)}
 for _ = 1, 2 do
@@ -122,6 +131,10 @@ function WindmillFilling:fillingCallback()
         self.parent.bladeShadow:showOutside()
         self.parent:sendToStockpile()
         self:deactivate()
+    else
+        if self.timesLooped % 2 == 0 then
+            _G.playSfx(self, windmillFx)
+        end
     end
 end
 
@@ -487,6 +500,7 @@ function Windmill:work(worker)
             worker:clearPath()
             worker:jobUpdate()
             self.fillingFlour:activate()
+            _G.playSfx(self, windmillFx)
             self.bladeShadow:showInside()
         else
             worker.state = "Waiting for work"
