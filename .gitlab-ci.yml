@@ -4,13 +4,15 @@ stages:
 
 image: ubuntu
 
-cache:
-  key: ${CI_COMMIT_REF_SLUG}
-
-run: 
+test:
+  tags:
+    - saas-linux-medium-amd64
   stage: test
-  when: never
-  script:
+  before_script:
+    - echo $CI_PROJECT_DIR
+    - export APT_DIR=$CI_PROJECT_DIR/.apt && export APT_STATE_LISTS=$APT_DIR/lists && export APT_CACHE_ARCHIVES=$APT_DIR/archives
+    - printf "dir::state::lists    ${APT_STATE_LISTS};\ndir::cache::archives    ${APT_CACHE_ARCHIVES};\n" > /etc/apt/apt.conf
+    - mkdir -p "${APT_STATE_LISTS}/partial" && mkdir -p "${APT_CACHE_ARCHIVES}/partial"
     - apt-get update
     - apt-get install -y gnupg2
     - apt-get install -y lsb-release
@@ -18,20 +20,9 @@ run:
     - echo "deb-src http://ppa.launchpad.net/bartbes/love-stable/ubuntu $(lsb_release -cs) main" | tee -a /etc/apt/sources.list
     - apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F192197F81992645
     - apt-get update
-    - apt-get install --assume-yes zip
+    - apt-get install --assume-yes zip git libmodplug1 libmpg123-0 libogg0 libopenal1 libphysfs1 libsdl2-2.0-0 libluajit-5.1-2 libtheora0 libvorbisfile3 libfreetype6 love
+  script:
     - zip -9 -r test.love .
-    - apt-get install --assume-yes git
-    - apt-get install --assume-yes libmodplug1
-    - apt-get install --assume-yes libmpg123-0
-    - apt-get install --assume-yes libogg0
-    - apt-get install --assume-yes libopenal1
-    - apt-get install --assume-yes libphysfs1
-    - apt-get install --assume-yes libsdl2-2.0-0
-    - apt-get install --assume-yes libluajit-5.1-2
-    - apt-get install --assume-yes libtheora0
-    - apt-get install --assume-yes libvorbisfile3
-    - apt-get install --assume-yes libfreetype6
-    - apt-get install --assume-yes love
     - cat /usr/bin/love test.love > testbuild
     - chmod a+x ./testbuild
     - DEBIAN_FRONTEND=noninteractive apt-get install --assume-yes luarocks
@@ -45,16 +36,20 @@ run:
     - luarocks install luassert
     - luarocks install lua-term
     - luarocks install penlight
-    - luarocks install mediator_lua  
-    - ls 
+    - luarocks install mediator_lua
+    - ls
     - rm -r busted
-    - rm -r libraries 
-    - rm -r spec 
+    - rm -r libraries
+    - rm -r spec
     - rm -r objects/object_quads.lua
+    - rm -r objects/quad_offset.lua
+    - rm -r terrain/Maps/Fernhaven.lua
+    - rm -r sounds/fx_volume.lua
     - RES=$(./testbuild --verbose --coverage --test) || { echo "$RES"; exit 1; }
-    - luacov-console 
-    - luacov-console -s && echo "$RES"   
-    
+    - luacov-console
+    - luacov-console -s && echo "$RES"
+
+publish:
   stage: package
   when: manual
   script:
