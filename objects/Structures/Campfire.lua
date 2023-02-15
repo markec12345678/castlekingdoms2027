@@ -30,8 +30,10 @@ function CampfireFloatPop:initialize(gx, gy)
     local PopularityController = require("objects.Controllers.PopularityController")
     self.greenAnimation = anim.newAnimation(an[ANIM_FLOAT_CIRCLE_GREEN], PopularityController.speedPopModifier, self:immigrantCallback(),
         ANIM_FLOAT_CIRCLE_GREEN)
+    self.greenAnimation:pause()
     self.redAnimation = anim.newAnimation(an[ANIM_FLOAT_CIRCLE_RED], PopularityController.speedPopModifier, self:emigrantCallback(),
         ANIM_FLOAT_CIRCLE_RED)
+    self.redAnimation:pause()
     self.offsetX = 7
     self.offsetY = -81
     self.animation = self.greenAnimation
