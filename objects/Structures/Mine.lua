@@ -392,7 +392,14 @@ function MinePourer.static:deserialize(data)
 end
 
 function MinePourer:animate(dt)
+    local prevPosition = self.animation.position
     Structure.animate(self, dt, true)
+    local newPosition = self.animation.position
+    if self.animation.status == "playing" and self.animation.animationIdentifier == ANIM_POURING and prevPosition ~= newPosition then
+        if (self.animation.position == 13 or (prevPosition < 13 and newPosition > 13)) then
+            _G.playSfx(self,ironFx["irondump"])
+        end
+    end
 end
 
 function MinePourer:activate()
@@ -517,7 +524,6 @@ function MineCasting:animate(dt)
 end
 
 function MineCasting:activate()
-    _G.playSfx(self,ironFx["irondump"])
     self.animated = true
     self.animation:gotoFrame(1)
     self.animation:resume()
