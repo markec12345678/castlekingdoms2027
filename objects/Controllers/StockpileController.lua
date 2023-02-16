@@ -31,7 +31,7 @@ function StockpileController:store(resource) -- TODO: add amount
         for _, v in ipairs(self.list) do
             if v:store(resource) then
                 if stockpileFx[resource] then
-                    _G.playSfx(v, stockpileFx[resource])
+                    _G.playSfx(v, stockpileFx[resource], true)
                 end
                 return true
             end
@@ -39,7 +39,7 @@ function StockpileController:store(resource) -- TODO: add amount
     else
         self.resources[resource][#self.resources[resource]].id.parent:store(resource)
         if stockpileFx[resource] then
-            _G.playSfx(self.resources[resource][#self.resources[resource]].id, stockpileFx[resource])
+            _G.playSfx(self.resources[resource][#self.resources[resource]].id, stockpileFx[resource], true)
         end
         return true
     end
