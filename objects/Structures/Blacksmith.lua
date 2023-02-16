@@ -22,6 +22,27 @@ local an = {
     [ANIM_CRAFTING_MACE] = _G.indexQuads("blacksmith_workshop_anim_mace", 89)
 }
 
+local blacksmithFx = {
+    ["bonk"] = {_G.fx["bs_anvil1"],
+                _G.fx["bs_anvil2"],
+                _G.fx["bs_anvil3"],
+                _G.fx["bs_anvil4"],
+                _G.fx["bs_anvil5"]},
+    ["cooling"] = {_G.fx["bs_cooling2"],
+                _G.fx["bs_cooling3"]},
+    ["file"] = {_G.fx["bs_file9"],
+                _G.fx["bs_file10"],
+                _G.fx["bs_file12"],
+                _G.fx["bs_file13"]},
+    ["open"] = {_G.fx["bs_open4"]},
+    ["pour"] = {_G.fx["bs_pour3"],
+                _G.fx["bs_pour4"]},
+    ["bellow"] = {_G.fx["bs_bellow1"],
+                _G.fx["bs_bellow3"],
+                _G.fx["bs_bellow4"]},
+}
+
+
 local AnvilCrafting = _G.class("AnvilCrafting", Structure)
 function AnvilCrafting:initialize(gx, gy, parent)
     self.parent = parent
@@ -163,7 +184,34 @@ function SwordCrafting.static:deserialize(data)
 end
 
 function SwordCrafting:animate()
+    local prevPosition = self.animation.position
     Structure.animate(self, _G.dt, true)
+    local newPosition = self.animation.position
+    if self.animation.status == "playing" and prevPosition ~= newPosition then
+        if self.animation.animationIdentifier == ANIM_CRAFTING_SWORD then
+            if (self.animation.position == 8 or (prevPosition < 8 and newPosition > 8)) then
+                _G.playSfx(self, blacksmithFx["bonk"])
+            elseif (self.animation.position == 18 or (prevPosition < 18 and newPosition > 18)) then
+                _G.playSfx(self, blacksmithFx["bonk"])
+            elseif (self.animation.position == 28 or (prevPosition < 28 and newPosition > 28)) then
+                _G.playSfx(self, blacksmithFx["bonk"])
+            elseif (self.animation.position == 48 or (prevPosition < 48 and newPosition > 48)) then
+                _G.playSfx(self, blacksmithFx["bellow"])
+            elseif (self.animation.position == 74 or (prevPosition < 74 and newPosition > 74)) and self.craftingCycle == 5 then
+                _G.playSfx(self, blacksmithFx["cooling"])
+            end
+        elseif self.animation.animationIdentifier == ANIM_CRAFTING_MACE then
+            if (self.animation.position == 2 or (prevPosition < 2 and newPosition > 2)) then
+                _G.playSfx(self, blacksmithFx["bellow"])
+            elseif (self.animation.position == 23 or (prevPosition < 23 and newPosition > 23)) then
+                _G.playSfx(self, blacksmithFx["pour"])
+            elseif (self.animation.position == 51 or (prevPosition < 51 and newPosition > 51)) then
+                _G.playSfx(self, blacksmithFx["open"])
+            elseif (self.animation.position == 70 or (prevPosition < 70 and newPosition > 70)) then
+                _G.playSfx(self, blacksmithFx["file"])
+            end
+        end
+    end
 end
 
 function SwordCrafting:activate()
