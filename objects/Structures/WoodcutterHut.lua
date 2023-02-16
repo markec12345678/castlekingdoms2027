@@ -219,12 +219,16 @@ function WoodcutterHutSawing:initialize(gx, gy, parent)
 end
 
 function WoodcutterHutSawing:animate()
-    if self.animation.position == 8 or self.animation.position == 21 then
-        _G.playSfx(self, sawpullFx)
-    elseif self.animation.position == 13 or self.animation.position == 26 then
-        _G.playSfx(self, sawpushFx)
-    end
+    local prevPosition = self.animation.position
     Structure.animate(self, _G.dt, true)
+    local newPosition = self.animation.position
+    if prevPosition ~= newPosition then
+        if self.animation.position == 8 or self.animation.position == 21 then
+            _G.playSfx(self, sawpullFx, true)
+        elseif self.animation.position == 13 or self.animation.position == 26 then
+            _G.playSfx(self, sawpushFx, true)
+        end
+    end
 end
 
 function WoodcutterHutSawing:activate()

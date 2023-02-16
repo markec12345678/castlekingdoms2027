@@ -198,7 +198,7 @@ function Granary:store(food)
             self.foodpile[index].quantity = self.foodpile[index].quantity + 1
             _G.state.food[food] = _G.state.food[food] + 1
             self:updateFoodpile(index)
-            _G.playSfx(self, granaryFx["food"])
+            _G.playSfx(self, granaryFx["food"], true)
             return true
         end
     end
@@ -213,7 +213,7 @@ function Granary:store(food)
             self.foodpile[index].key = #_G.foodpile.food[food] + 1
             _G.foodpile.food[food][self.foodpile[index].key] = self.foodpile[index]
             self:updateFoodpile(index)
-            _G.playSfx(self, granaryFx["food"])
+            _G.playSfx(self, granaryFx["food"], true)
             found = true
             break
         end
