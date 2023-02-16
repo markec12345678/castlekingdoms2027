@@ -22,6 +22,7 @@ local an = {
     [AN_HUT_PLANKS] = frPlankStack,
     [AN_HUT_LOGS] = frLogStack
 }
+
 local WoodcutterHutLogStack = _G.class("WoodcutterHutLogStack", Structure)
 function WoodcutterHutLogStack:initialize(gx, gy, parent)
     local mytype = "Animation"
