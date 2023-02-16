@@ -14,6 +14,14 @@ local an = {
     [ANIM_CRAFTING_SHIELD] = _G.addReverse(_G.indexQuads("armourer_anim", 15)),
 }
 
+local armourerFx = {
+    ["bonk"] = {_G.fx["armourhit_01"],
+        _G.fx["armourhit_02"],
+        _G.fx["armourhit_03"],
+        _G.fx["armourhit_04"],
+        _G.fx["armourhit_05"]}
+}
+
 local ShieldCrafting = _G.class("ShieldCrafting", Structure)
 function ShieldCrafting:initialize(gx, gy, parent)
     self.parent = parent
@@ -79,7 +87,16 @@ function ShieldCrafting:craftCallback_1()
 end
 
 function ShieldCrafting:animate()
+    local prevPosition = self.animation.position
     Structure.animate(self, _G.dt, true)
+    local newPosition = self.animation.position
+    if self.animation.status == "playing" and self.animation.animationIdentifier == ANIM_CRAFTING_SHIELD and prevPosition ~= newPosition then
+        if (self.animation.position == 6 or (prevPosition < 6 and newPosition > 6)) then
+            _G.playSfx(self, armourerFx["bonk"])
+        elseif (self.animation.position == 23 or (prevPosition < 23 and newPosition > 23)) then
+            _G.playSfx(self, armourerFx["bonk"])
+        end
+    end
 end
 
 function ShieldCrafting:activate()
