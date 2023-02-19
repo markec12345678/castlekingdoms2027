@@ -4,7 +4,8 @@ local Object = require("objects.Object")
 local anim = require("libraries.anim8")
 local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
 
-local tiles, quadArray = _G.indexBuildingQuads("beer_workshop (18)", true)
+local tilesExt, quadArrayExt = _G.indexBuildingQuads("beer_workshop (9)")
+local tiles, quadArray = _G.indexBuildingQuads("beer_workshop (18)")
 
 local ANIM_BREWING_BEER = "Brewing_Beer"
 local ANIM_BREWING_BEER_PART2 = "Brewing_Beer_Part2"
@@ -185,7 +186,7 @@ function Brewery:initialize(gx, gy)
             _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrainBiome.scarceGrass)
         end
     end
-    self:applyBuildingHeightMap()
+
     for tile = 1, tiles do
         local bkr = BreweryAlias:new(
             quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self, -self.offsetY + 8 * (tiles - tile + 1))
@@ -206,8 +207,8 @@ function Brewery:initialize(gx, gy)
     BreweryAlias:new(tileQuads["empty"], self.gx + 3, self.gy + 1, self, self.offsetX, self.offsetY)
 
     self.float = NotEnoughWorkersFloat:new(self.gx + self.class.WIDTH - 1, self.gy + self.class.LENGTH - 1, 7, -112)
-
-    Structure.render(self)
+    self:exitHover(true)
+    self:applyBuildingHeightMap()
 end
 
 function Brewery:destroy()
@@ -274,6 +275,56 @@ function Brewery:join(worker)
     end
 end
 
+function Brewery:enterHover(induced)
+    self.hover = true
+
+    for tile = 1, tiles do
+        local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tiles - tile + 1), BreweryAlias)
+        if not alias then return end
+        alias.tile = quadArray[tile]
+        alias.tileKey = tile
+        alias:render()
+    end
+
+    for tile = 1, tiles do
+        local alias = _G.objectFromClassAtGlobal(self.gx + tile, self.gy, BreweryAlias)
+        if not alias then return end
+        alias.tile = quadArray[tiles + 1 + tile]
+        alias.tileKey = tiles + 1 + tile
+        alias:render()
+    end
+
+    self.tile = quadArray[tiles + 1]
+    self:render()
+end
+
+function Brewery:exitHover(induced)
+    if induced or not self.cookingObj.animated then
+        self.hover = false
+    else return end
+
+    for tile = 1, tilesExt do
+        local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tilesExt - tile + 1), BreweryAlias)
+        if alias then
+            alias.tile = quadArrayExt[tile]
+            alias.tileKey = tile
+            alias:render()
+        end
+    end
+
+    for tile = 1, tilesExt do
+        local alias = _G.objectFromClassAtGlobal(self.gx + tile, self.gy, BreweryAlias)
+        if alias then
+            alias.tile = quadArrayExt[tilesExt + 1 + tile]
+            alias.tileKey = tilesExt + 1 + tile
+            alias:render()
+        end
+    end
+
+    self.tile = quadArrayExt[tilesExt + 1]
+    self:render()
+end
+
 function Brewery:work(worker)
     if self.worker.state == "Going to workplace with hops" then
         self.worker.state = "Working"
@@ -284,8 +335,10 @@ function Brewery:work(worker)
         worker.gy = self.gy + 2
         worker:jobUpdate()
         self.cookingObj:activate()
+        self:enterHover(true)
     else
         self.worker.state = "Working"
+
         if not self.working and self.worker.state == "Working" then
             self.worker.state = "Go to stockpile for hops"
         end
@@ -308,6 +361,7 @@ function Brewery:sendToStockpile()
     self.worker.needNewVertAsap = true
     self.workerDelivered = false
     self.cookingObj:deactivate()
+    self:exitHover(true)
 end
 
 return Brewery
