@@ -1181,7 +1181,7 @@ marketBuyButton.OnClick = function(self)
                     end
                 end
                 _G.state.gold = _G.state.gold - 1
-                _G.playInterfaceSfx(_G.fx["drawbridge_control"])
+                _G.playInterfaceSfx(_G.fx["drawbridge_control"], nil, true)
             else
                 _G.playSpeech("granary_full")
             end
@@ -1195,7 +1195,7 @@ marketBuyButton.OnClick = function(self)
                     end
                 end
                 _G.state.gold = _G.state.gold - 1
-                _G.playInterfaceSfx(_G.fx["drawbridge_control"])
+                _G.playInterfaceSfx(_G.fx["drawbridge_control"], nil, true)
             else
                 _G.playSpeech("stockpile_full")
             end
@@ -1209,9 +1209,9 @@ marketBuyButton.OnClick = function(self)
                     end
                 end
                 _G.state.gold = _G.state.gold - 1
-                _G.playInterfaceSfx(_G.fx["drawbridge_control"])
+                _G.playInterfaceSfx(_G.fx["drawbridge_control"], nil, true)
             else
-                _G.playSpeech("stockpile_full") -- TODO ARMOUR SOUND
+                _G.playSpeech("armory_full")
             end
         end
         DisplayCurrentStock(groupTypeMarket.name)
@@ -1252,13 +1252,13 @@ marketSellButton.OnClick = function(self)
                     _G.foodpile:take(good)
                     _G.state.gold = _G.state.gold + 1
                 end
-                _G.playInterfaceSfx(_G.fx["drawbridge_control"])
+                _G.playInterfaceSfx(_G.fx["drawbridge_control"], nil, true)
             elseif _G.state.food[good] >= quantity then
                 for _ = 1, quantity do
                     _G.foodpile:take(good)
                     _G.state.gold = _G.state.gold + 1
                 end
-                _G.playInterfaceSfx(_G.fx["drawbridge_control"])
+                _G.playInterfaceSfx(_G.fx["drawbridge_control"], nil, true)
             end
         end
 
@@ -1269,7 +1269,7 @@ marketSellButton.OnClick = function(self)
                         _G.state.gold = _G.state.gold + 1
                     end
                 end
-                _G.playInterfaceSfx(_G.fx["drawbridge_control"])
+                _G.playInterfaceSfx(_G.fx["drawbridge_control"], nil, true)
             elseif _G.state.resources[good] < 5 then
                 quantity_temp = _G.state.resources[good]
                 for _ = 1, quantity_temp do
@@ -1277,7 +1277,7 @@ marketSellButton.OnClick = function(self)
                         _G.state.gold = _G.state.gold + 1
                     end
                 end
-                _G.playInterfaceSfx(_G.fx["drawbridge_control"])
+                _G.playInterfaceSfx(_G.fx["drawbridge_control"], nil, true)
             end
         end
 
@@ -1288,7 +1288,7 @@ marketSellButton.OnClick = function(self)
                         _G.state.gold = _G.state.gold + 1
                     end
                 end
-                _G.playInterfaceSfx(_G.fx["drawbridge_control"])
+                _G.playInterfaceSfx(_G.fx["drawbridge_control"], nil, true)
             elseif _G.state.weapons[good] < 5 then
                 quantity_temp = _G.state.weapons[good]
                 for _ = 1, quantity_temp do
@@ -1296,7 +1296,7 @@ marketSellButton.OnClick = function(self)
                         _G.state.gold = _G.state.gold + 1
                     end
                 end
-                _G.playInterfaceSfx(_G.fx["drawbridge_control"])
+                _G.playInterfaceSfx(_G.fx["drawbridge_control"], nil, true)
             end
         end
         DisplayCurrentStock(groupTypeMarket.name)
