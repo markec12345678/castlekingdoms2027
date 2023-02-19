@@ -28,7 +28,7 @@ end)
 
 
 local function displayTooltips()
-    hovelButton:setTooltip("Hovel", getCostAndType("House") .. "\nIncreases maximum population limit")
+    hovelButton:setTooltip("Hovel", getCostAndType("House") .. "\nIncreases maximum population limit.")
     chapelButton:setTooltip("Chapel", getCostAndType("Chapel") .. "\nIncrease your popularity with religion. Currently not functional.")
 end
 
