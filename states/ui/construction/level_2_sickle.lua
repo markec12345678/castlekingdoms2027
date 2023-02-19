@@ -45,10 +45,10 @@ breweryButton:setOnClick(function(self)
 end)
 
 local function displayTooltips()
-    windmillButton:setTooltip("Windmill", getCostAndType("Windmill") .. "\nProcesses wheat into flour")
-    bakeryButton:setTooltip("Bakery", getCostAndType("Bakery") .. "\nProcesses flour into bread")
-    breweryButton:setTooltip("Brewery", getCostAndType("Brewery") .. "\nProcesses hops into ale")
-    innButton:setTooltip("Inn", getCostAndType("Inn") .. "\nDistributes ale")
+    windmillButton:setTooltip("Windmill", getCostAndType("Windmill") .. "\nProcesses wheat into flour.")
+    bakeryButton:setTooltip("Bakery", getCostAndType("Bakery") .. "\nProcesses flour into bread.")
+    breweryButton:setTooltip("Brewery", getCostAndType("Brewery") .. "\nProcesses hops into ale.")
+    innButton:setTooltip("Inn", getCostAndType("Inn") .. "\nDistributes ale.")
 end
 
 el.buttons.sickleButton:setOnClick(function(self)

@@ -58,8 +58,11 @@ ironMine:setOnClick(function(self)
     ActionBar:selectButton(ironMine)
 end)
 
+local pitchRigButton = ActionBarButton:new(love.graphics.newImage('assets/ui/pitch_rig_ab.png'),
+    states.STATE_INGAME_CONSTRUCTION, 6, true, nil, true)
+
 local marketButton = ActionBarButton:new(love.graphics.newImage('assets/ui/market_ab.png'),
-    states.STATE_INGAME_CONSTRUCTION, 6, false)
+    states.STATE_INGAME_CONSTRUCTION, 7, false)
 
 marketButton:setOnClick(function(self)
     _G.BuildController:set("Market", function()
@@ -70,14 +73,15 @@ end)
 
 local function displayTooltips()
     woodcutterButton:setTooltip("Woodcutter's Hut",
-        getCostAndType("WoodcutterHut") .. "\nCuts down nearby trees to produce wood")
-    oxButton:setTooltip("Ox Tether (can only be placed near a quarry)",
-        getCostAndType("OxTether") .. "\nTransport stone from the quarry to the stockpile")
-    quarryButton:setTooltip("Quarry", getCostAndType("Quarry") .. "\nProduces stone blocks from the ground resource")
+        getCostAndType("WoodcutterHut") .. "\nCuts down nearby trees to produce wood.")
+    oxButton:setTooltip("Ox Tether (can only be placed near a quarry).",
+        getCostAndType("OxTether") .. "\nTransport stone from the quarry to the stockpile.")
+    quarryButton:setTooltip("Quarry", getCostAndType("Quarry") .. "\nProduces stone blocks from the ground resource.")
     stockpileButton:setTooltip("Stockpile",
-        getCostAndType("Stockpile") .. "\nIncreases resource capacity\nMust be placed adjacent to a stockpile")
-    ironMine:setTooltip("Iron Mine", getCostAndType("Mine") .. "\nProduces iron ingots from ground iron ore")
-    marketButton:setTooltip("Market", getCostAndType("Market") .. "\nAllows you to trade your goods")
+        getCostAndType("Stockpile") .. "\nIncreases resource capacity\nMust be placed adjacent to a stockpile.")
+    ironMine:setTooltip("Iron Mine", getCostAndType("Mine") .. "\nProduces iron ingots from ground iron ore.")
+    pitchRigButton:setTooltip("Pitch Rig", "Not implemented yet.")
+    marketButton:setTooltip("Market", getCostAndType("Market") .. "\nAllows you to trade your goods.")
 end
 
 el.buttons.hammerButton:setOnClick(function(self)
@@ -86,4 +90,4 @@ el.buttons.hammerButton:setOnClick(function(self)
 end)
 
 ActionBar:registerGroup("resource",
-    {stockpileButton, woodcutterButton, quarryButton, oxButton, ironMine, marketButton, backButton, destroyButton})
+    {stockpileButton, woodcutterButton, quarryButton, oxButton, ironMine, pitchRigButton, marketButton, backButton, destroyButton})

@@ -15,18 +15,8 @@ armouryButton:setOnClick(
         ActionBar:selectButton(armouryButton)
     end)
 
-local armorerButton = ActionBarButton:new(love.graphics.newImage("assets/ui/armorer_ab.png"),
-    states.STATE_INGAME_CONSTRUCTION, 2, false)
-armorerButton:setOnClick(function(self)
-    _G.BuildController:set("Armorer", function()
-        armorerButton:select()
-    end)
-    ActionBar:selectButton(armorerButton)
-end)
-
-
 local fletcherButton = ActionBarButton:new(love.graphics.newImage("assets/ui/fletcher_ab.png"),
-    states.STATE_INGAME_CONSTRUCTION, 3, true, nil)
+    states.STATE_INGAME_CONSTRUCTION, 2, true, nil)
 fletcherButton:setOnClick(
     function(self)
         _G.BuildController:set(
@@ -37,7 +27,7 @@ fletcherButton:setOnClick(
     end)
 
 local poleturnerButton = ActionBarButton:new(love.graphics.newImage("assets/ui/poleturner_ab.png"),
-    states.STATE_INGAME_CONSTRUCTION, 4, true, nil)
+    states.STATE_INGAME_CONSTRUCTION, 3, true, nil)
 poleturnerButton:setOnClick(
     function(self)
         _G.BuildController:set(
@@ -48,7 +38,7 @@ poleturnerButton:setOnClick(
     end)
 
 local blacksmithButton = ActionBarButton:new(love.graphics.newImage("assets/ui/blacksmith_ab.png"),
-    states.STATE_INGAME_CONSTRUCTION, 5, true)
+    states.STATE_INGAME_CONSTRUCTION, 4, true)
 blacksmithButton:setOnClick(
     function(self)
         _G.BuildController:set(
@@ -58,19 +48,28 @@ blacksmithButton:setOnClick(
         ActionBar:selectButton(blacksmithButton)
     end)
 
+local armorerButton = ActionBarButton:new(love.graphics.newImage("assets/ui/armorer_ab.png"),
+    states.STATE_INGAME_CONSTRUCTION, 5, false)
+armorerButton:setOnClick(function(self)
+    _G.BuildController:set("Armorer", function()
+        armorerButton:select()
+    end)
+    ActionBar:selectButton(armorerButton)
+end)
+
 local function displayTooltips()
-    armorerButton:setTooltip("Armorer", getCostAndType("Armorer") .. "\nMakes armor from iron")
     armouryButton:setTooltip("Armoury",
         getCostAndType("Armoury") ..
-        "\nWeapons and armour is stored here, which is used by troops from the barracks upon recruitment")
+        "\nWeapons and armour is stored here, which is used by troops from the barracks upon recruitment.")
     fletcherButton:setTooltip("FletcherWorkshop",
         getCostAndType("FletcherWorkshop") ..
-        "\nProduces bows and crossbows from wood")
+        "\nProduces bows and crossbows from wood.")
     poleturnerButton:setTooltip("PoleturnerWorkshop",
         getCostAndType("PoleturnerWorkshop") ..
-        "\nProduces spears and pikes from wood")
+        "\nProduces spears and pikes from wood.")
     blacksmithButton:setTooltip("BlacksmithWorkshop",
-        getCostAndType("BlacksmithWorkshop") .. "\nProduces swords and maces from iron")
+        getCostAndType("BlacksmithWorkshop") .. "\nProduces swords and maces from iron.")
+    armorerButton:setTooltip("Armourer", getCostAndType("Armorer") .. "\nMakes armor from iron.")
 end
 
 el.buttons.shieldButton:setOnClick(function(self)
@@ -80,4 +79,4 @@ end)
 
 
 ActionBar:registerGroup("shield",
-    { armorerButton, armouryButton, fletcherButton, poleturnerButton, blacksmithButton, backButton, destroyButton })
+    { armouryButton, fletcherButton, poleturnerButton, blacksmithButton, armorerButton, backButton, destroyButton })
