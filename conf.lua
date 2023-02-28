@@ -1,5 +1,16 @@
+function tobool(v)
+    return v and ( (type(v)=="number") and (v==1) or ( (type(v)=="string") and (v=="true") ) )
+end
+
 function love.conf(t)
     _G.testMode = false
+    local config = require("config_file")
+    local resolutionWidth = config.video.resolutionWidth
+    local resolutionHeight = config.video.resolutionHeight
+    local fullscreen = config.video.fullscreen
+    local resizable = config.video.resizable
+    local borderless = config.video.borderless
+
     for ind, val in ipairs(_G.arg) do
         if val == "--test" then
             _G.testMode = true
@@ -7,10 +18,16 @@ function love.conf(t)
             break
         elseif val == "new" then
             love.filesystem.remove("status.bin")
+        elseif val == "--resolution" then
+            resolutionWidth = tonumber(_G.arg[ind+1])
+            resolutionHeight = tonumber(_G.arg[ind+2])
+        elseif val == "--fullscreen" then
+            fullscreen = tobool(_G.arg[ind+1])
+            borderless = fullscreen
+        elseif val == "--resize" then
+            resizable = tobool(_G.arg[ind+1])
         end
     end
-
-    local config = require("config_file")
 
     -- Apply config
     t.identity = "StoneKingdoms" -- The name of the save directory (string)
@@ -21,13 +38,13 @@ function love.conf(t)
     t.gammacorrect = false -- Enable gamma-correct rendering, when supported by the system (boolean)
     t.window.title = "Stone Kingdoms" -- The window title (string)
     t.window.icon = nil -- Filepath to an image to use as the window's icon (string)
-    t.window.width = config.video.resolutionWidth -- The window width (number)
-    t.window.height = config.video.resolutionHeight -- The window height (number)
-    t.window.borderless = config.video.borderless -- Remove all border visuals from the window (boolean)
-    t.window.resizable = false -- Let the window be user-resizable (boolean)
+    t.window.width = resolutionWidth -- The window width (number)
+    t.window.height = resolutionHeight -- The window height (number)
+    t.window.borderless = borderless -- Remove all border visuals from the window (boolean)
+    t.window.resizable = resizable -- Let the window be user-resizable (boolean)
     t.window.minwidth = 1 -- Minimum window width if the window is resizable (number)
     t.window.minheight = 1 -- Minimum window height if the window is resizable (number)
-    t.window.fullscreen = config.video.fullscreen -- Enable fullscreen (boolean)
+    t.window.fullscreen = fullscreen -- config.video.fullscreen -- Enable fullscreen (boolean)
     t.window.fullscreentype = config.video.fullscreenType -- Choose between "desktop" fullscreen or "exclusive" fullscreen mode (string)
     t.window.vsync = config.video.vsync -- Enable vertical sync (boolean)
     t.window.msaa = 1 -- The number of samples to use with multi-sampled antialiasing (number)
