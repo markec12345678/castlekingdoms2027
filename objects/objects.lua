@@ -75,6 +75,7 @@ local Peasant = love.filesystem.load("objects/Units/Peasant.lua")(object, tileQu
 local OrchardFarmer = love.filesystem.load("objects/Units/OrchardFarmer.lua")(object, tileQuads)
 local WheatFarmer = love.filesystem.load("objects/Units/WheatFarmer.lua")(object, tileQuads)
 local HopsFarmer = love.filesystem.load("objects/Units/HopsFarmer.lua")(object, tileQuads)
+local DairyFarmer = love.filesystem.load("objects/Units/DairyFarmer.lua")(object, tileQuads)
 local Miner = love.filesystem.load("objects/Units/Miner.lua")(object, tileQuads)
 local SaxonHall = love.filesystem.load("objects/Structures/SaxonHall.lua")(object, tileQuads)
 local Stockpile = love.filesystem.load("objects/Structures/Stockpile.lua")(object, tileQuads, objectBatch)
@@ -113,6 +114,7 @@ local WheatFarm = love.filesystem.load("objects/Structures/WheatFarm.lua")(objec
     activeEntities)
 local HopsFarm = love.filesystem.load("objects/Structures/HopsFarm.lua")(object, tileQuads, objectBatch,
     activeEntities)
+local DairyFarm = love.filesystem.load("objects/Structures/DairyFarm.lua")(activeEntities, object, tileQuads, objectBatch)
 local OxTether = love.filesystem.load("objects/Structures/OxTether.lua")(object, tileQuads, objectBatch, activeEntities)
 
 package.loaded["objects.Environment.Tree"] = Tree
@@ -135,6 +137,7 @@ package.loaded["objects.Units.Peasant"] = Peasant
 package.loaded["objects.Units.OrchardFarmer"] = OrchardFarmer
 package.loaded["objects.Units.WheatFarmer"] = WheatFarmer
 package.loaded["objects.Units.HopsFarmer"] = HopsFarmer
+package.loaded["objects.Units.DairyFarmer"] = DairyFarmer
 package.loaded["objects.Units.Miner"] = Miner
 package.loaded["objects.Structures.SaxonHall"] = SaxonHall
 package.loaded["objects.Structures.Stockpile"] = Stockpile
@@ -158,6 +161,7 @@ package.loaded["objects.Structures.Orchard"] = Orchard
 package.loaded["objects.Structures.Chapel"] = Chapel
 package.loaded["objects.Structures.WheatFarm"] = WheatFarm
 package.loaded["objects.Structures.HopsFarm"] = HopsFarm
+package.loaded["objects.Structures.DairyFarm"] = DairyFarm
 package.loaded["objects.Structures.OxTether"] = OxTether
 _G.stockpile = require("objects.Controllers.StockpileController")
 _G.foodpile = require("objects.Controllers.FoodController")
@@ -219,7 +223,7 @@ end
 --- Remove a class from a Global position.
 ---@param gx number Global X coordinate.
 ---@param gy number Global Y coordinate.
----@param classToRemove string|table Name of the Class to remove.
+---@param classToRemove string|table Name of the class to remove or the class itself.
 function _G.removeObjectFromClassAtGlobal(gx, gy, classToRemove)
     local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(gx, gy)
     if x > 63 or y > 64 then
@@ -245,7 +249,7 @@ end
 ---@param x number local X position in Chunk 0-63
 ---@param y number local Y position in Chunk 0-63
 ---@param objType string Name of the Type.
-function objectFromTypeAt(cx, cy, x, y, objType)
+function _G.objectFromTypeAt(cx, cy, x, y, objType)
     if type(object[cx][cy][x][y]) == "table" then
         for _, currentObject in ipairs(object[cx][cy][x][y]) do
             if (currentObject.type and currentObject.type == objType) or currentObject.class.name == objType then
@@ -276,7 +280,7 @@ end
 --- Returns the currentObject if it is a table.
 ---@param gx number Global X coordinate.
 ---@param gy number Global Y coordinate.
----@param objClass string Name of the object's class.
+---@param objClass string|table Name of the object's class or the class itself.
 ---@return boolean|Object
 function _G.objectFromClassAtGlobal(gx, gy, objClass)
     local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(gx, gy)
@@ -314,7 +318,7 @@ end
 --- Returns the currentObject if it is a table.
 ---@param gx number Global X coordinate.
 ---@param gy number Global Y coordinate.
----@param objClass string Name of the object's class.
+---@param objClass table The object's class.
 ---@return Object[]
 function _G.allObjectsFromSubclassAtGlobal(gx, gy, objClass)
     local data = {}

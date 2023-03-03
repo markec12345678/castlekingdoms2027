@@ -3,6 +3,7 @@ local Stonemason = require("objects.Units.Stonemason")
 local OrchardFarmer = require("objects.Units.OrchardFarmer")
 local WheatFarmer = require("objects.Units.WheatFarmer")
 local HopsFarmer = require("objects.Units.HopsFarmer")
+local DairyFarmer = require("objects.Units.DairyFarmer")
 local Miner = require("objects.Units.Miner")
 local Miller = require("objects.Units.Miller")
 local Baker = require("objects.Units.Baker")
@@ -28,6 +29,7 @@ function JobController:initializeWorkplaces()
         ["OrchardFarmer"] = {},
         ["WheatFarmer"] = {},
         ["HopsFarmer"] = {},
+        ["DairyFarmer"] = {},
         ["Miller"] = {},
         ["Baker"] = {},
         ["Fletcher"] = {},
