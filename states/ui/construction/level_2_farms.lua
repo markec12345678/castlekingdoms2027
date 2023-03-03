@@ -27,7 +27,13 @@ appleFarmButton:setOnClick(function(self)
 end)
 
 local cheeseFarmButton = ActionBarButton:new(love.graphics.newImage('assets/ui/cheese_farm_ab.png'),
-    states.STATE_INGAME_CONSTRUCTION, 4, true, nil, true)
+    states.STATE_INGAME_CONSTRUCTION, 4, true)
+cheeseFarmButton:setOnClick(function(self)
+    _G.BuildController:set("DairyFarm", function()
+        cheeseFarmButton:select()
+    end)
+    ActionBar:selectButton(cheeseFarmButton)
+end)
 
 local wheatFarmButton = ActionBarButton:new(love.graphics.newImage('assets/ui/wheat_farm_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 5, true)
@@ -54,7 +60,8 @@ local function displayTooltips()
     cheeseFarmButton:setTooltip("Dairy farm", "Not implemented yet.")
     wheatFarmButton:setTooltip("Wheat farm",
         getCostAndType("WheatFarm") .. "\nProduces wheat which can be processed into flour.")
-    hopsFarmButton:setTooltip("Hops farm", getCostAndType("HopsFarm") .. "\nProduces hops which can be processed into ale.")
+    hopsFarmButton:setTooltip("Hops farm",
+        getCostAndType("HopsFarm") .. "\nProduces hops which can be processed into ale.")
 end
 
 el.buttons.appleButton:setOnClick(function(self)
@@ -63,5 +70,5 @@ el.buttons.appleButton:setOnClick(function(self)
 end)
 
 ActionBar:registerGroup("farms",
-    {hunterButton, appleFarmButton, cheeseFarmButton, wheatFarmButton, hopsFarmButton, granaryButton, backButton,
-        destroyButton})
+    { hunterButton, appleFarmButton, cheeseFarmButton, wheatFarmButton, hopsFarmButton, granaryButton, backButton,
+        destroyButton })
