@@ -127,7 +127,11 @@ function love.run()
         end
         love.graphics.present()
         prof.pop("draw")
+        if _G.debugMode then
+            prof.push("lurker")
+            lurker.update()
+            prof.pop("lurker")
+        end
         prof.pop("frame")
-        lurker.update()
     end
 end

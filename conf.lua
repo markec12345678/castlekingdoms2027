@@ -1,5 +1,5 @@
-function tobool(v)
-    return v and ( (type(v)=="number") and (v==1) or ( (type(v)=="string") and (v=="true") ) )
+local function tobool(v)
+    return v and ((type(v) == "number") and (v == 1) or ((type(v) == "string") and (v == "true")))
 end
 
 function love.conf(t)
@@ -16,16 +16,18 @@ function love.conf(t)
             _G.testMode = true
             table.remove(_G.arg, ind)
             break
+        elseif val == "--debug" then
+            _G.debugMode = true
         elseif val == "new" then
             love.filesystem.remove("status.bin")
         elseif val == "--resolution" then
-            resolutionWidth = tonumber(_G.arg[ind+1])
-            resolutionHeight = tonumber(_G.arg[ind+2])
+            resolutionWidth = tonumber(_G.arg[ind + 1])
+            resolutionHeight = tonumber(_G.arg[ind + 2])
         elseif val == "--fullscreen" then
-            fullscreen = tobool(_G.arg[ind+1])
+            fullscreen = tobool(_G.arg[ind + 1])
             borderless = fullscreen
         elseif val == "--resize" then
-            resizable = tobool(_G.arg[ind+1])
+            resizable = tobool(_G.arg[ind + 1])
         end
     end
 
