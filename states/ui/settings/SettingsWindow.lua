@@ -30,7 +30,7 @@ function SettingsWindow:initialize()
             }, "Edit or add new keyboard hotkeys and shortcuts.\n", {
                 color = warningColor
             }, "Not yet implemented"},
-            elements = require("states.ui.settings.window_graphics") or {}
+            elements = require("states.ui.settings.window_hotkeys") or {}
         },
         video = {
             title = "VIDEO SETTINGS",
@@ -39,7 +39,7 @@ function SettingsWindow:initialize()
             }, "Change fullscreen settings, window resolution and toggle VSync.\n", {
                 color = warningColor
             }, "Not yet implemented"},
-            elements = require("states.ui.settings.window_graphics") or {}
+            elements = require("states.ui.settings.window_video") or {}
         },
         interface = {
             title = "INTERFACE SETTINGS",
@@ -48,7 +48,7 @@ function SettingsWindow:initialize()
             }, "Toggle interface elements and modify their scale.\n", {
                 color = warningColor
             }, "Not yet implemented"},
-            elements = require("states.ui.settings.window_graphics") or {}
+            elements = require("states.ui.settings.window_interface") or {}
         }
     }
 end
