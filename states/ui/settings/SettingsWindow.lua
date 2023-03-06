@@ -20,9 +20,7 @@ function SettingsWindow:initialize()
             title = "GRAPHIC SETTINGS",
             description = {{
                 color = descriptionColor
-            }, "Modify rendering quality, chunk size and toggle animations in order to balance performance.\n", {
-                color = warningColor
-            }, "Not yet implemented"},
+            }, "Modify rendering quality, chunk size and toggle animations in order to balance performance.\n"},
             elements = require("states.ui.settings.window_graphics") or {}
         },
         hotkeys = {
