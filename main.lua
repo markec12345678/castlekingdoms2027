@@ -13,6 +13,7 @@ local SaveManager = require("objects.Controllers.SaveManager")
 local KeybindManager = require("objects.Controllers.KeybindManager")
 local splashscreen = require("states.splash_screen")
 local test = require("states.test")
+local lurker = require("lurker")
 
 function love.load()
     local success = love.filesystem.createDirectory("saves")
@@ -127,5 +128,6 @@ function love.run()
         love.graphics.present()
         prof.pop("draw")
         prof.pop("frame")
+        lurker.update()
     end
 end
