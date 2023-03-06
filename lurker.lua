@@ -69,7 +69,6 @@ function lurker.listdir(path, recursive, skipdotfiles)
     local t = {}
     for _, f in pairs(lume.map(dir(path), fullpath)) do
         if love.filesystem.getRealDirectory(f) == love.filesystem.getSource() and (not skipdotfiles or not f:match("/%.[^/]*$")) then
-            count = count + 1
             if recursive and isdir(f) then
                 t = lume.concat(t, lurker.listdir(f, true, true))
             else
