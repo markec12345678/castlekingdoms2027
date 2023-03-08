@@ -28,9 +28,9 @@ end
 function Object:isVisibleOnScreen()
     if not
         (self.x + (self.cx - self.cy) * chunkWidth * tileWidth * 0.5 < _G.TopLeftX or self.x + (self.cx - self.cy) *
-            chunkWidth * tileWidth * 0.5 > _G.BottomRightX or
-            self.y + (self.cx + self.cy) * chunkHeight * tileHeight * 0.5 <
-            _G.TopLeftY or self.y + (self.cx + self.cy) * chunkHeight * tileHeight * 0.5 > _G.BottomRightY) then
+        chunkWidth * tileWidth * 0.5 > _G.BottomRightX or
+        self.y + (self.cx + self.cy) * chunkHeight * tileHeight * 0.5 <
+        _G.TopLeftY or self.y + (self.cx + self.cy) * chunkHeight * tileHeight * 0.5 > _G.BottomRightY) then
         return true
     end
     return false
@@ -62,7 +62,7 @@ function Object:render()
             self.lastI, self.lastO = self.i, self.o
         else
             error("Object did not receive Vertex for rendering, it should be of highest priority:" ..
-                tostring(self) .. "\n coordinates: " .. tostring(self.gx) .. ", " .. tostring(self.gy))
+            tostring(self) .. "\n coordinates: " .. tostring(self.gx) .. ", " .. tostring(self.gy))
         end
         self.instancemesh = _G.state.objectMesh[self.cx][self.cy]
         self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, self.shadowValue)
@@ -170,7 +170,10 @@ function Object:serialize()
         data.className ~= "OrchardAlias" and data.className ~= "GranaryAlias" and data.className ~= "WindmillAlias" and
         data.className ~= "HouseAlias" and data.className ~= "QuarryAlias" and data.className ~= "MineAlias" and
         data.className ~= "MarketAlias" and data.className ~= "WoodenGateAlias" and data.className ~= "OxTetherAlias" and
-        data.className ~= "WoodenTowerAlias" and
+        data.className ~= "WoodenTowerAlias" and data.className ~= "PerimeterTowerAlias" and data.className ~= "DefenseTowerAlias" and
+        data.className ~= "SquareTowerAlias" and data.className ~= "RoundTowerAlias" and
+        data.className ~= "StoneGateEastAlias" and data.className ~= "StoneGateEastAlias" and
+        data.className ~= "StoneGateEastBigAlias" and data.className ~= "StoneGateSouthBigAlias" and
         data.className ~= "ChapelAlias" and
         data.className ~= "BarracksAlias" and data.className ~= "StoneBarracksAlias" and
         data.className ~= "ArcheryTargetAlias" and

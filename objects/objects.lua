@@ -103,6 +103,15 @@ local WoodenWallWalkable = love.filesystem.load("objects/Structures/WalkableWood
     tileQuads, objectBatch)
 local WoodenTower = love.filesystem.load("objects/Structures/WoodenTower.lua")(activeEntities, object, tileQuads,
     objectBatch)
+local PerimeterTower = love.filesystem.load("objects/Structures/PerimeterTower.lua")(activeEntities, object, tileQuads,
+    objectBatch)
+local DefenseTower = love.filesystem.load("objects/Structures/DefenseTower.lua")(activeEntities, object, tileQuads,
+    objectBatch)
+local SquareTower = love.filesystem.load("objects/Structures/SquareTower.lua")(activeEntities, object, tileQuads,
+    objectBatch)
+local RoundTower = love.filesystem.load("objects/Structures/RoundTower.lua")(activeEntities, object, tileQuads,
+    objectBatch)
+
 local Rock_4x4 = love.filesystem.load("objects/Environment/Rock_4x4.lua")(activeEntities, object, tileQuads, objectBatch)
 local Rock_3x3 = love.filesystem.load("objects/Environment/Rock_3x3.lua")(activeEntities, object, tileQuads, objectBatch)
 local Rock_2x2 = love.filesystem.load("objects/Environment/Rock_2x2.lua")(activeEntities, object, tileQuads, objectBatch)
@@ -156,6 +165,10 @@ package.loaded["objects.Structures.House"] = House
 package.loaded["objects.Structures.WoodenWall"] = WoodenWall
 package.loaded["objects.Structures.WalkableWoodenWall"] = WoodenWallWalkable
 package.loaded["objects.Structures.WoodenTower"] = WoodenTower
+package.loaded["objects.Structures.PerimeterTower"] = PerimeterTower
+package.loaded["objects.Structures.DefenseTower"] = DefenseTower
+package.loaded["objects.Structures.SquareTower"] = SquareTower
+package.loaded["objects.Structures.RoundTower"] = RoundTower
 package.loaded["objects.Structures.Campfire"] = Campfire
 package.loaded["objects.Structures.Orchard"] = Orchard
 package.loaded["objects.Structures.Chapel"] = Chapel
@@ -395,14 +408,14 @@ end
 function _G.allocateMesh(cx, cy)
     local chunkX = cx
     local chunkY = cy
-    local treeverts = {{0, 0, 0, 0, 1.0, 1.0, 1.0, 1.0, 1.0}, {1, 0, 1, 0, 1.0, 1.0, 1.0, 1.0, 1.0},
-        {0, 1, 0, 1, 1.0, 1.0, 1.0, 1.0, 1.0}, {1, 1, 1, 1, 1.0, 1.0, 1.0, 1.0, 1.0}}
+    local treeverts = { { 0, 0, 0, 0, 1.0, 1.0, 1.0, 1.0, 1.0 }, { 1, 0, 1, 0, 1.0, 1.0, 1.0, 1.0, 1.0 },
+        { 0, 1, 0, 1, 1.0, 1.0, 1.0, 1.0, 1.0 }, { 1, 1, 1, 1, 1.0, 1.0, 1.0, 1.0, 1.0 } }
     if objectBatch[chunkX][chunkY] == nil then
         objectBatch[chunkX][chunkY] = love.graphics.newMesh(treeverts, "strip", "static")
     end
-    local instancemesh = love.graphics.newMesh({{"InstancePosition", "float", 2}, {"UVOffset", "float", 2},
-        {"ImageDim", "float", 2}, {"ImageShade", "float", 1},
-        {"Scale", "float", 2}},
+    local instancemesh = love.graphics.newMesh({ { "InstancePosition", "float", 2 }, { "UVOffset", "float", 2 },
+        { "ImageDim",         "float", 2 }, { "ImageShade", "float", 1 },
+        { "Scale", "float", 2 } },
         _G.chunkWidth * _G.chunkHeight * _G.state.verticesPerTile + 1000, nil, "dynamic")
     _G.state.objectMesh[chunkX][chunkY] = instancemesh
     objectBatch[chunkX][chunkY]:setTexture(objectAtlas)
@@ -602,7 +615,7 @@ local function drawObject()
                     -_G.state.viewXview * _G.state.scaleX +
                     (xx * _G.state.scaleX - yy * _G.state.scaleX) * chunkWidth *
                     tileWidth * 0.5, -_G.state.viewYview * _G.state.scaleX +
-                    (xx * _G.state.scaleX + yy * _G.state.scaleX) * chunkHeight * tileHeight * 0.5, 0,
+                (xx * _G.state.scaleX + yy * _G.state.scaleX) * chunkHeight * tileHeight * 0.5, 0,
                     _G.state.scaleX, _G.state.scaleX)
             end
         end
