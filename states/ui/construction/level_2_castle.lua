@@ -30,7 +30,8 @@ castleButton:setOnClick(
                                     castleButton.disabled = true
                                     castleButton.foreground.disablehover = true
                                     castleButton.foreground:SetColor(0.6, 0.6, 0.6, 0.6)
-                                    castleButton:setOnClick(function() end)
+                                    castleButton:setOnClick(function()
+                                    end)
                                 end
                             end
                         )
@@ -41,128 +42,52 @@ castleButton:setOnClick(
     end)
 --castleButton:setTooltip("WoodenKeep", "Requires 50 Wood")
 
-local woodenWallButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_wall_ab.png"),
-    states.STATE_INGAME_CONSTRUCTION, 2, true, nil)
-woodenWallButton:setOnClick(
-    function(self)
-        ActionBar:selectButton(woodenWallButton)
-        _G.BuildController:set(
-            "WoodenWall", function()
-            woodenWallButton:unselect()
-        end)
-    end)
-
-woodenWallButton:setOnUnselect(function()
-    local WallController = require("objects.Controllers.WallController")
-    WallController.clicked = false
-end)
-
-
-local walkableWoodenWallButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_wall_walkable_ab.png"),
-    states.STATE_INGAME_CONSTRUCTION, 3, false, nil)
-walkableWoodenWallButton:setOnClick(
-    function(self)
-        ActionBar:selectButton(walkableWoodenWallButton)
-        _G.BuildController:set(
-            "WalkableWoodenWall", function()
-            walkableWoodenWallButton:unselect()
-        end)
-    end)
-walkableWoodenWallButton:setOnUnselect(function()
-    local WallController = require("objects.Controllers.WallController")
-    WallController.clicked = false
-end)
-
-
-local woodenTowerButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_tower.png"),
-    states.STATE_INGAME_CONSTRUCTION, 4, false, nil)
-woodenTowerButton:setOnClick(
-    function(self)
-        _G.BuildController:set(
-            "WoodenTower", function()
-            woodenTowerButton:unselect()
-        end)
-        ActionBar:selectButton(woodenTowerButton)
-    end)
-
-local woodenGateEastButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_gate_east.png"),
-    states.STATE_INGAME_CONSTRUCTION, 5, false, nil)
-woodenGateEastButton:setOnClick(
-    function(self)
-        _G.BuildController:set(
-            "WoodenGateEast", function()
-            woodenGateEastButton:unselect()
-        end)
-        ActionBar:selectButton(woodenGateEastButton)
-    end)
-
-local woodenGateSouthButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_gate_south.png"),
-    states.STATE_INGAME_CONSTRUCTION, 6, false, nil)
-woodenGateSouthButton:setOnClick(
-    function(self)
-        _G.BuildController:set(
-            "WoodenGateSouth", function()
-            woodenGateSouthButton:unselect()
-        end)
-        ActionBar:selectButton(woodenGateSouthButton)
-    end)
-
 local barracksButton = ActionBarButton:new(love.graphics.newImage("assets/ui/barracks_ab.png"),
-    states.STATE_INGAME_CONSTRUCTION, 7, false, nil)
+    states.STATE_INGAME_CONSTRUCTION, 4, false, nil)
 barracksButton:setOnClick(
     function(self)
         _G.BuildController:set(
             "Barracks", function()
-            barracksButton:unselect()
-        end)
+                barracksButton:unselect()
+            end)
         ActionBar:selectButton(barracksButton)
     end)
 
 local stoneBarracksButton = ActionBarButton:new(love.graphics.newImage("assets/ui/stoneBarracks_ab.png"),
-    states.STATE_INGAME_CONSTRUCTION, 8, false, nil)
+    states.STATE_INGAME_CONSTRUCTION, 5, false, nil)
 stoneBarracksButton:setOnClick(
     function(self)
         _G.BuildController:set(
             "StoneBarracks", function()
-            stoneBarracksButton:unselect()
-        end)
+                stoneBarracksButton:unselect()
+            end)
         ActionBar:selectButton(stoneBarracksButton)
     end)
 
 local engineersGuildButton = ActionBarButton:new(love.graphics.newImage("assets/ui/engineersGuild_ab.png"),
-    states.STATE_INGAME_CONSTRUCTION, 9, false, nil)
+    states.STATE_INGAME_CONSTRUCTION, 6, false, nil)
 engineersGuildButton:setOnClick(
     function(self)
         _G.BuildController:set(
             "EngineersGuild", function()
-            engineersGuildButton:unselect()
-        end)
+                engineersGuildButton:unselect()
+            end)
         ActionBar:selectButton(engineersGuildButton)
     end)
 
 local tunnelersGuildButton = ActionBarButton:new(love.graphics.newImage("assets/ui/tunnelersGuild_ab.png"),
-    states.STATE_INGAME_CONSTRUCTION, 10, false, nil)
+    states.STATE_INGAME_CONSTRUCTION, 7, false, nil)
 tunnelersGuildButton:setOnClick(
     function(self)
         _G.BuildController:set(
             "TunnelersGuild", function()
-            tunnelersGuildButton:unselect()
-        end)
+                tunnelersGuildButton:unselect()
+            end)
         ActionBar:selectButton(tunnelersGuildButton)
     end)
 
 local function displayTooltips()
     castleButton:setTooltip("WoodenKeep", getCostAndType("WoodenKeep"))
-    walkableWoodenWallButton:setTooltip("Walkable Wooden Wall",
-        getCostAndType("WalkableWoodenWall") .. "\nA defensive wall made that is walkable on the top.")
-    woodenTowerButton:setTooltip("Wooden Tower",
-        getCostAndType("WoodenTower") .. "\nA wooden tower that is missing some stairs apparently.")
-    woodenGateEastButton:setTooltip("Wooden Gate",
-        getCostAndType("WoodenGateEast") .. "\nA wooden gate that can let friendly units pass through.")
-    woodenGateSouthButton:setTooltip("Wooden Gate",
-        getCostAndType("WoodenGateSouth") .. "\nA wooden gate that can let friendly units pass through.")
-    woodenWallButton:setTooltip("Wooden Wall",
-        getCostAndType("WoodenWall") .. "\nA defensive wall made from sharpened tree trunks.")
     barracksButton:setTooltip("Barracks",
         getCostAndType("Barracks") .. "\nA building allowing you to recruit units.")
     stoneBarracksButton:setTooltip("StoneBarracks",
@@ -179,7 +104,35 @@ el.buttons.castleButton:setOnClick(
         displayTooltips()
     end)
 
+local woodenBuildings = ActionBarButton:new(love.graphics.newImage('assets/ui/wooden_wall_ab.png'),
+    states.STATE_INGAME_CONSTRUCTION, 2, true)
+woodenBuildings:setTooltip("Wooden Structures", "Towers, gates and walls.")
+
+woodenBuildings:setOnClick(function(self)
+    ActionBar:showGroup("woodenBuildings")
+end)
+
+local stoneBuildings = ActionBarButton:new(love.graphics.newImage('assets/ui/stone_wall_ab.png'),
+    states.STATE_INGAME_CONSTRUCTION, 3, true)
+stoneBuildings:setTooltip("Stone Structures", "Towers, gates and walls.")
+
+stoneBuildings:setOnClick(function(self)
+    ActionBar:showGroup("stoneBuildings")
+end)
+
+local elements = {
+    buttons = {
+        stoneBuildings = stoneBuildings,
+        woodenBuildings = woodenBuildings
+    },
+}
+
+
 ActionBar:registerGroup("castle",
-    { castleButton, woodenWallButton, walkableWoodenWallButton, woodenTowerButton, woodenGateEastButton,
-        woodenGateSouthButton, barracksButton, stoneBarracksButton, engineersGuildButton, tunnelersGuildButton,
-        backButton, destroyButton })
+    { castleButton, woodenBuildings, stoneBuildings, barracksButton, stoneBarracksButton, engineersGuildButton,
+        tunnelersGuildButton, backButton, destroyButton })
+
+package.loaded["states.ui.construction.level_3_castleWood"] = love.filesystem.load(
+        "states/ui/construction/level_3_castleWood.lua")(elements, backButton, destroyButton, getCostAndType)
+package.loaded["states.ui.construction.level_3_castleStone"] = love.filesystem.load(
+        "states/ui/construction/level_3_castleStone.lua")(elements, backButton, destroyButton, getCostAndType)
