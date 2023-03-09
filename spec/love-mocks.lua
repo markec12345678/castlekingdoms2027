@@ -124,6 +124,7 @@ love.graphics = {
 love.window = {
     getMode = function() return 1920, 1080, true end,
     setFullscreen = function() return end,
+    getFullscreenModes = function(a) return {{width = 1920, height = 1080}} end
 }
 
 love.audio = {
