@@ -143,7 +143,7 @@ function OxTether:destroy()
         end
     end
     if self.oxUnit then
-        self.oxUnit:die()
+        self.oxUnit:destroy()
     end
     self.float:destroy()
 
