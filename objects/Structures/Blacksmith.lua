@@ -369,6 +369,8 @@ function BlacksmithWorkshop:destroy()
     if self.worker then
         self.worker:quitJob()
     end
+    maceIconButton.visible = false
+    swordIconButton.visible = false
 end
 
 function BlacksmithWorkshop:load(data)
@@ -428,21 +430,6 @@ end
 maceIconButton.OnClick = function(self)
     if targetBlacksmith then
         targetBlacksmith:setWeapon(WEAPON.mace)
-    end
-    swordIconButton.visible = false
-    maceIconButton.visible = false
-end
-
-function BlacksmithWorkshop:join(worker)
-    if self.health == -1 then
-        _G.JobController:remove("Blacksmith", self)
-        worker:quitJob()
-        return
-    end
-    if self.freeSpots == 1 then
-        self.worker = worker
-        self.worker.workplace = self
-        self.freeSpots = self.freeSpots - 1
     end
     swordIconButton.visible = false
     maceIconButton.visible = false

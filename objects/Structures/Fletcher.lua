@@ -237,6 +237,8 @@ function FletcherWorkshop:destroy()
     if self.worker then
         self.worker:quitJob()
     end
+    bowIconButton.visible = false
+    crossbowIconButton.visible = false
 end
 
 function FletcherWorkshop:load(data)

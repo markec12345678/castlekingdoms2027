@@ -1,6 +1,8 @@
 local loveframes = require("libraries.loveframes")
 local actionBar = require("states.ui.ActionBar")
 local states = require("states.ui.states")
+local EVENT = require("objects.Enums.KeyEvents")
+
 local scale = actionBar.element.scalex
 local bowIconNormal = love.graphics.newImage("assets/ui/workshops/bowIconNormal.png")
 local bowIconHover = love.graphics.newImage("assets/ui/workshops/bowIconHover.png")
@@ -140,4 +142,15 @@ maceIconButton.OnMouseExit = function(self)
     self:SetImage(maceIconNormal)
 end
 
-return { crossbowIconButton, bowIconButton, pikeIconButton, spearIconButton, swordIconButton, maceIconButton }
+local CheckTooltip = function()
+    if love.mouse.isDown(EVENT.RightClick) or love.keyboard.isDown(string.lower(EVENT.Escape))  then
+        crossbowIconButton.visible = false
+        bowIconButton.visible = false
+        pikeIconButton.visible = false
+        spearIconButton.visible = false
+        swordIconButton.visible = false
+        maceIconButton.visible = false
+    end
+end
+
+return { crossbowIconButton, bowIconButton, pikeIconButton, spearIconButton, swordIconButton, maceIconButton, CheckTooltip = CheckTooltip }

@@ -254,6 +254,8 @@ function PoleturnerWorkshop:destroy()
     if self.worker then
         self.worker:quitJob()
     end
+    spearIconButton.visible = false
+    pikeIconButton.visible = false
 end
 
 function PoleturnerWorkshop:load(data)

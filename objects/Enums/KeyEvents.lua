@@ -22,8 +22,9 @@ local EVENTS = {
     ActionBar9         = "ActionBar9",
     ActionBar10         = "ActionBar10",
     ActionBar11         = "ActionBar11",
-    ActionBar12         = "ActionBar12"
-
+    ActionBar12         = "ActionBar12",
+    RightClick          =  2,
+    LeftClick           =  1
 }
 
 return EVENTS
