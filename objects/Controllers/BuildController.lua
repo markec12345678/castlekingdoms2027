@@ -304,8 +304,7 @@ function BuildController:isBuildingAffordable(buildingKey, amountOfBuildings)
     amountOfBuildings = amountOfBuildings or 1
     for resource, amount in pairs(building[buildingKey].cost) do
         if _G.state.resources[resource] < amount * amountOfBuildings then
-            if self.building == "WoodcuttersHut" and _G.state.firstWoodCutterHut then
-                _G.state.firstWoodCutterHut = false
+            if self.building == "WoodcutterHut" and _G.state.firstWoodCutterHut then
                 break
             end
             return false
