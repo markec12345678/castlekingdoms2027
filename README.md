@@ -11,14 +11,16 @@
   </a>
 </div>
 
-
 <div align="center">
   <a href="https://gitlab.com/stone-kingdoms/stone-kingdoms/-/commits/master">
     <img alt="pipeline status" src="https://gitlab.com/stone-kingdoms/stone-kingdoms/badges/master/pipeline.svg" />
-  </a> 
+  </a>
   <a href="https://gitlab.com/stone-kingdoms/stone-kingdoms/-/commits/master">
     <img alt="coverage report" src="https://gitlab.com/stone-kingdoms/stone-kingdoms/badges/master/coverage.svg" />
-  </a> 
+  </a>
+  <a href="https://discord.gg/PRh8SPZxEf">
+    <img alt="discord server" src="https://img.shields.io/discord/409340503767777281" />
+  </a>
 </div>
 
 
@@ -46,9 +48,6 @@ decision making as you design and defend your own castles in medieval Europe.
 1. Download the repository from [here](https://gitlab.com/kaylemaster/stone-kingdoms/-/archive/master/stone-kingdoms-master.zip) or clone via git
 2. Open terminal or command line in the directory where `main.lua` is located
 3. Run `love .` and play!
-
-## Links
-* [Discord server](https://discord.gg/PRh8SPZxEf)
 
 ## How to contribute
 Contact Kayle in the discord server for more instructions.
