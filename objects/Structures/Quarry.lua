@@ -602,7 +602,7 @@ Quarry.static.LENGTH = 6
 Quarry.static.HEIGHT = 16
 Quarry.static.ALIAS_NAME = "QuarryAlias"
 Quarry.static.DESTRUCTIBLE = true
-function Quarry:initialize(gx, gy)
+function Quarry:initialize(gx, gy, stones)
     _G.JobController:add("Stonemason", self)
     Structure.initialize(self, gx, gy, "Quarry")
     _G.state.map:setWalkable(self.gx, self.gy, 1)
@@ -626,7 +626,7 @@ function Quarry:initialize(gx, gy)
     self.hook = QuarryHook:new(self.gx + 2, self.gy + 5, self, self.offsetX - 64 - 16)
     self.stack = QuarryStack:new(self.gx + 9, self.gy + 10, self)
     self.stack:deactivate()
-
+    self.stones = stones
     for xx = 0, 5 do
         for yy = 0, 5 do
             _G.removeObjectFromClassAtGlobal(self.gx + xx, self.gy + yy, "Stone")
@@ -712,7 +712,11 @@ function Quarry:destroy()
     end
     for xx = 0, 5 do
         for yy = 0, 5 do
-            Stone:new(self.gx + xx, self.gy + yy)
+            for i, stonesTable in ipairs(self.stones) do
+                if stonesTable.x == xx and stonesTable.y == yy then
+                    Stone:new(self.gx + xx, self.gy + yy)
+                end
+            end
         end
     end
 
@@ -897,6 +901,7 @@ function Quarry:serialize()
     data.offsetX = self.offsetX
     data.offsetY = self.offsetY
     data.freeSpots = self.freeSpots
+    data.stones = self.stones
     if self.liftWorker then
         data.liftWorker = _G.state:serializeObject(self.liftWorker)
     end

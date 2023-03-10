@@ -670,7 +670,7 @@ Mine.static.LENGTH = 4
 Mine.static.HEIGHT = 16
 Mine.static.ALIAS_NAME = "MineAlias"
 Mine.static.DESTRUCTIBLE = true
-function Mine:initialize(gx, gy)
+function Mine:initialize(gx, gy, irons)
     _G.JobController:add("Miner", self)
     Structure.initialize(self, gx, gy, "Mine")
     _G.state.map:setWalkable(self.gx, self.gy, 1)
@@ -682,6 +682,7 @@ function Mine:initialize(gx, gy)
     self.offsetY = -64 + 16 + 4
     self.freeSpots = 1
     self.worker = nil
+    self.irons = irons
 
     self.pourer = MinePourer:new(self.gx + 1, self.gy + 1, self, self.offsetX - 64 - 16, self.offsetY)
     self.pourer:deactivate()
@@ -743,7 +744,11 @@ function Mine:destroy()
 
     for xx = 0, 3 do
         for yy = 0, 3 do
-            Iron:new(self.gx + xx, self.gy + yy)
+            for i, ironTable in ipairs(self.irons) do
+                if ironTable.x == xx and ironTable.y == yy then
+                    Iron:new(self.gx + xx, self.gy + yy)
+                end
+            end
         end
     end
 
@@ -828,6 +833,7 @@ function Mine:serialize()
     data.offsetX = self.offsetX
     data.offsetY = self.offsetY
     data.freeSpots = self.freeSpots
+    data.irons = self.irons
     if self.worker then
         data.worker = _G.state:serializeObject(self.worker)
     end

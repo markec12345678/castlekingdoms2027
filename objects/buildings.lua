@@ -162,7 +162,16 @@ local buildings = {
             ["wood"] = 20
         },
         build = function(self, gx, gy)
-            Quarry:new(gx, gy)
+            local stoneObjects = {}
+            for xx = 0, 4 do
+                for yy = 0, 4 do
+                    if _G.objectFromClassAtGlobal(gx + xx, gy + yy, "Stone") then
+                        local xyTable = { x = xx, y = yy}
+                        table.insert(stoneObjects, xyTable)
+                    end
+                end
+            end
+            Quarry:new(gx, gy, stoneObjects)
         end,
         specialRequirements = function(self, gx, gy)
             local totalTiles = 0
@@ -275,7 +284,16 @@ local buildings = {
             ["wood"] = 20
         },
         build = function(self, gx, gy)
-            Mine:new(gx, gy)
+            local ironObjects = {}
+            for xx = 0, 3 do
+                for yy = 0, 3 do
+                    if _G.objectFromClassAtGlobal(gx + xx, gy + yy, "Iron") then
+                        local xyTable = { x = xx, y = yy}
+                        table.insert(ironObjects, xyTable)
+                    end
+                end
+            end
+            Mine:new(gx, gy, ironObjects)
         end,
         specialRequirements = function(self, gx, gy)
             for w = gx, self.w + gx do
