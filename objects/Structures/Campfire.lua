@@ -259,6 +259,8 @@ function Campfire:initialize(gx, gy, type)
         for yy = -1, 5 do
             self.freeSpots[xx][yy] = true
             _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrainBiome.dirt)
+            CampfireAlias:new(self.gx + xx, self.gy + yy, self)
+            _G.state.map:setWalkable(self.gx + xx, self.gy + yy, 0)
         end
     end
     for xx = -2, 4 do
