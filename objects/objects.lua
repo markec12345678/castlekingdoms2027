@@ -119,6 +119,8 @@ local Rock_1x1 = love.filesystem.load("objects/Environment/Rock_1x1.lua")(active
 local Campfire = love.filesystem.load("objects/Structures/Campfire.lua")(activeEntities, tileQuads, objectBatch)
 local Orchard = love.filesystem.load("objects/Structures/Orchard.lua")(activeEntities, tileQuads, objectBatch)
 local Chapel = love.filesystem.load("objects/Structures/Chapel.lua")(activeEntities, tileQuads, objectBatch)
+local Church = love.filesystem.load("objects/Structures/Church.lua")(activeEntities, tileQuads, objectBatch)
+local Cathedral = love.filesystem.load("objects/Structures/Cathedral.lua")(activeEntities, tileQuads, objectBatch)
 local WheatFarm = love.filesystem.load("objects/Structures/WheatFarm.lua")(object, tileQuads, objectBatch,
     activeEntities)
 local HopsFarm = love.filesystem.load("objects/Structures/HopsFarm.lua")(object, tileQuads, objectBatch,
@@ -172,6 +174,8 @@ package.loaded["objects.Structures.RoundTower"] = RoundTower
 package.loaded["objects.Structures.Campfire"] = Campfire
 package.loaded["objects.Structures.Orchard"] = Orchard
 package.loaded["objects.Structures.Chapel"] = Chapel
+package.loaded["objects.Structures.Church"] = Church
+package.loaded["objects.Structures.Cathedral"] = Cathedral
 package.loaded["objects.Structures.WheatFarm"] = WheatFarm
 package.loaded["objects.Structures.HopsFarm"] = HopsFarm
 package.loaded["objects.Structures.DairyFarm"] = DairyFarm
@@ -414,8 +418,8 @@ function _G.allocateMesh(cx, cy)
         objectBatch[chunkX][chunkY] = love.graphics.newMesh(treeverts, "strip", "static")
     end
     local instancemesh = love.graphics.newMesh({ { "InstancePosition", "float", 2 }, { "UVOffset", "float", 2 },
-        { "ImageDim",         "float", 2 }, { "ImageShade", "float", 1 },
-        { "Scale", "float", 2 } },
+            { "ImageDim",         "float", 2 }, { "ImageShade", "float", 1 },
+            { "Scale", "float", 2 } },
         _G.chunkWidth * _G.chunkHeight * _G.state.verticesPerTile + 1000, nil, "dynamic")
     _G.state.objectMesh[chunkX][chunkY] = instancemesh
     objectBatch[chunkX][chunkY]:setTexture(objectAtlas)
@@ -615,7 +619,7 @@ local function drawObject()
                     -_G.state.viewXview * _G.state.scaleX +
                     (xx * _G.state.scaleX - yy * _G.state.scaleX) * chunkWidth *
                     tileWidth * 0.5, -_G.state.viewYview * _G.state.scaleX +
-                (xx * _G.state.scaleX + yy * _G.state.scaleX) * chunkHeight * tileHeight * 0.5, 0,
+                    (xx * _G.state.scaleX + yy * _G.state.scaleX) * chunkHeight * tileHeight * 0.5, 0,
                     _G.state.scaleX, _G.state.scaleX)
             end
         end

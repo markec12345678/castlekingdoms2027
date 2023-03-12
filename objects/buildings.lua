@@ -11,6 +11,8 @@ local WoodcutterHut = require("objects.Structures.WoodcutterHut")
 local Campfire = require("objects.Structures.Campfire")
 local Orchard = require("objects.Structures.Orchard")
 local Chapel = require("objects.Structures.Chapel")
+local Church = require("objects.Structures.Church")
+local Cathedral = require("objects.Structures.Cathedral")
 local WheatFarm = require("objects.Structures.WheatFarm")
 local DairyFarm = require("objects.Structures.DairyFarm")
 local HopsFarm = require("objects.Structures.HopsFarm")
@@ -166,7 +168,7 @@ local buildings = {
             for xx = 0, 4 do
                 for yy = 0, 4 do
                     if _G.objectFromClassAtGlobal(gx + xx, gy + yy, "Stone") then
-                        local xyTable = { x = xx, y = yy}
+                        local xyTable = { x = xx, y = yy }
                         table.insert(stoneObjects, xyTable)
                     end
                 end
@@ -288,7 +290,7 @@ local buildings = {
             for xx = 0, 3 do
                 for yy = 0, 3 do
                     if _G.objectFromClassAtGlobal(gx + xx, gy + yy, "Iron") then
-                        local xyTable = { x = xx, y = yy}
+                        local xyTable = { x = xx, y = yy }
                         table.insert(ironObjects, xyTable)
                     end
                 end
@@ -401,6 +403,40 @@ local buildings = {
         },
         build = function(self, gx, gy)
             Chapel:new(gx, gy)
+        end,
+        specialRequirements = function(self, _, _)
+            return true
+        end
+    },
+    [Church.name] = {
+        quad = tileQuads["church_medium"],
+        offsetX = 128,
+        offsetY = 148,
+        w = 9,
+        h = 9,
+        cost = {
+            ["stone"] = 30,
+            ["gold"] = 100,
+        },
+        build = function(self, gx, gy)
+            Church:new(gx, gy)
+        end,
+        specialRequirements = function(self, _, _)
+            return true
+        end
+    },
+    [Cathedral.name] = {
+        quad = tileQuads["church_large"],
+        offsetX = 190,
+        offsetY = 193,
+        w = 13,
+        h = 13,
+        cost = {
+            ["stone"] = 50,
+            ["gold"] = 100,
+        },
+        build = function(self, gx, gy)
+            Cathedral:new(gx, gy)
         end,
         specialRequirements = function(self, _, _)
             return true
