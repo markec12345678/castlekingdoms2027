@@ -119,10 +119,10 @@ return function(loveframes)
         local children = self.children
         if children then
             for k, v in ipairs(children) do
-                consumed = v:mousepressed(x, y, button) or consumed
-                -- if v.stop_propagation == true then
-                --     return
-                -- end
+                if v.hover then
+                    consumed = v:mousepressed(x, y, button) or consumed
+                end
+                if consumed then break end
             end
         end
         return consumed
@@ -144,7 +144,10 @@ return function(loveframes)
         local children = self.children
         if children then
             for k, v in ipairs(children) do
-                consumed = v:mousereleased(x, y, button) or consumed
+                if v.hover then
+                    consumed = v:mousereleased(x, y, button) or consumed
+                end
+                if consumed then break end
             end
         end
 
