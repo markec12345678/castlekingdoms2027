@@ -115,7 +115,7 @@ function HighlightView:update()
 end
 
 function HighlightView:draw()
-    if self.points and next(self.points) then
+    if self.points and next(self.points) and self.lastScale == _G.state.scaleX then
         local points = self:handleViewScroll()
         if _G.DestructionController.active then
             love.graphics.setLineWidth(3)
