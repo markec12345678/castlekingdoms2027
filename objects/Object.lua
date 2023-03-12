@@ -62,7 +62,7 @@ function Object:render()
             self.lastI, self.lastO = self.i, self.o
         else
             error("Object did not receive Vertex for rendering, it should be of highest priority:" ..
-            tostring(self) .. "\n coordinates: " .. tostring(self.gx) .. ", " .. tostring(self.gy))
+                tostring(self) .. "\n coordinates: " .. tostring(self.gx) .. ", " .. tostring(self.gy))
         end
         self.instancemesh = _G.state.objectMesh[self.cx][self.cy]
         self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, self.shadowValue)
@@ -174,7 +174,7 @@ function Object:serialize()
         data.className ~= "SquareTowerAlias" and data.className ~= "RoundTowerAlias" and
         data.className ~= "StoneGateEastAlias" and data.className ~= "StoneGateEastAlias" and
         data.className ~= "StoneGateEastBigAlias" and data.className ~= "StoneGateSouthBigAlias" and
-        data.className ~= "ChapelAlias" and
+        data.className ~= "ChapelAlias" and data.className ~= "ChurchAlias" and data.className ~= "CathedralAlias" and
         data.className ~= "BarracksAlias" and data.className ~= "StoneBarracksAlias" and
         data.className ~= "ArcheryTargetAlias" and
         data.className ~= "HopsFarmAlias" and
