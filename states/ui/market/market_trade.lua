@@ -11,16 +11,20 @@ local backButtonA = ActionBarButton:new(love.graphics.newImage("assets/ui/goods/
 local backButton = loveframes.Create("image")
 local FOOD = require("objects.Enums.Food")
 local WEAPON = require("objects.Enums.Weapon")
+local goodsPrice = require("objects.Enums.goodsPrices")
 
 local good
+local goodPrice
 local quantity = 5
 local price = 5
 local dynamicBuyTooltip = ""
 local dynamicSellTooltip = ""
+local setButtonVisibility
 
 backButton.OnClick = function(self)
     actionBar:switchMode("market")
     good = nil
+    setButtonVisibility(false)
 end
 
 --QUICK TAB ICONS
@@ -48,6 +52,9 @@ local IncButtonImage = love.graphics.newImage("assets/ui/goods/tradeIncButton.pn
 local DecButtonImage = love.graphics.newImage("assets/ui/goods/tradeDecButton.png")
 local IncButtonImageHover = love.graphics.newImage("assets/ui/goods/tradeIncButtonHover.png")
 local DecButtonImageHover = love.graphics.newImage("assets/ui/goods/tradeDecButtonHover.png")
+
+local ScalesIcon = love.graphics.newImage("assets/ui/goods/scalesIcon.png")
+local GoldIcon = love.graphics.newImage("assets/ui/goods/goldIcon.png")
 
 -- GOODS ICONS
 local woodIcon = love.graphics.newImage("assets/ui/goods/woodIcon.png")
@@ -240,16 +247,32 @@ local frSellButton = {
     height = marketSellButtonImage:getHeight() * scale
 }
 local frIncButton = {
-    x = framesActionBar.frFull.x + 890 * scale,
+    -- x = framesActionBar.frFull.x + 890 * scale,
+    x = framesActionBar.frFull.x + 816 * scale,
     y = framesActionBar.frFull.y + 112 * scale,
     width = IncButtonImage:getWidth() * scale,
     height = IncButtonImage:getHeight() * scale
 }
 local frDecButton = {
-    x = framesActionBar.frFull.x + 890 * scale,
+    -- x = framesActionBar.frFull.x + 890 * scale,
+    x = framesActionBar.frFull.x + 816 * scale,
     y = framesActionBar.frFull.y + 152 * scale,
     width = DecButtonImage:getWidth() * scale,
     height = DecButtonImage:getHeight() * scale
+}
+local frGoldIcon = {
+    -- x = framesActionBar.frFull.x + 826 * scale,
+    x = framesActionBar.frFull.x + 870 * scale,
+    y = framesActionBar.frFull.y + 120 * scale,
+    width = GoldIcon:getWidth() * scale,
+    height = GoldIcon:getHeight() * scale
+}
+local frScalesIcon = {
+    -- x = framesActionBar.frFull.x + 818 * scale,
+    x = framesActionBar.frFull.x + 862 * scale,
+    y = framesActionBar.frFull.y + 140 * scale,
+    width = ScalesIcon:getWidth() * scale,
+    height = ScalesIcon:getHeight() * scale
 }
 local frGold = {
     x = framesActionBar.frFull.x + 930 * scale,
@@ -275,7 +298,8 @@ local frBackButton = {
     width = IncButtonImage:getWidth() * scale,
     height = IncButtonImage:getHeight() * scale
 }
-local frBackButtonA = { --HACK
+local frBackButtonA = {
+    --HACK
     x = framesActionBar.frFull.x + 1920 * scale,
     y = framesActionBar.frFull.y + 1080 * scale,
     width = 0,
@@ -339,6 +363,7 @@ priceText:SetText({ {
     color = { 0, 0, 0, 1 }
 }, "5" })
 priceText:SetShadow(false)
+priceText.visible = false
 
 local quantityText = loveframes.Create("text")
 quantityText:SetState(states.STATE_MARKET)
@@ -348,6 +373,7 @@ quantityText:SetText({ {
     color = { 0, 0, 0, 1 }
 }, "5" })
 quantityText:SetShadow(false)
+quantityText.visible = false
 
 local currentStock = loveframes.Create("text")
 currentStock:SetState(states.STATE_MARKET)
@@ -357,6 +383,8 @@ currentStock:SetText({ {
     color = { 0, 0, 0, 1 }
 }, "" })
 currentStock:SetShadow(false)
+currentStock.visible = false
+
 function DisplayCurrentStock(itemGroup)
     if itemGroup == 1 then
         currentStock:SetText({ {
@@ -373,6 +401,13 @@ function DisplayCurrentStock(itemGroup)
             color = { 0, 0, 0, 1 }
         }, _G.state.weapons[good] })
     end
+end
+
+local function reloadPrice()
+    priceText:SetText({ {
+        color = { 0, 0, 0, 1 }
+    }, (goodPrice * 5) * quantity / 5 })
+    setButtonVisibility(true)
 end
 
 local bigIconTemplate = loveframes.Create("image")
@@ -400,7 +435,9 @@ woodIconButton.OnClick = function(self)
     bigIconTemplate:SetImage(woodIconBig)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
     good = "wood"
+    goodPrice = goodsPrice.wood.gold
     DisplayCurrentStock(2)
+    reloadPrice()
 end
 
 -- STONE ICON BUTTON
@@ -422,7 +459,9 @@ stoneIconButton.OnClick = function(self)
     bigIconTemplate:SetImage(stoneIconBig)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
     good = "stone"
+    goodPrice = goodsPrice.stone.gold
     DisplayCurrentStock(2)
+    reloadPrice()
 end
 woodIconButton.OnMouseExit = function(self)
     self:SetImage(woodIcon)
@@ -447,7 +486,9 @@ wheatIconButton.OnClick = function(self)
     bigIconTemplate:SetImage(wheatIconBig)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
     good = "wheat"
+    goodPrice = goodsPrice.wheat.gold
     DisplayCurrentStock(2)
+    reloadPrice()
 end
 wheatIconButton.OnMouseExit = function(self)
     self:SetImage(wheatIcon)
@@ -472,7 +513,9 @@ tarIconButton.OnClick = function(self)
     bigIconTemplate:SetImage(tarIconBig)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
     good = "tar"
+    goodPrice = goodsPrice.tar.gold
     DisplayCurrentStock(2)
+    reloadPrice()
 end
 tarIconButton.OnMouseExit = function(self)
     self:SetImage(tarIcon)
@@ -497,7 +540,9 @@ aleIconButton.OnClick = function(self)
     bigIconTemplate:SetImage(aleIconBig)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
     good = "ale"
+    goodPrice = goodsPrice.ale.gold
     DisplayCurrentStock(2)
+    reloadPrice()
 end
 aleIconButton.OnMouseExit = function(self)
     self:SetImage(aleIcon)
@@ -522,7 +567,9 @@ ironIconButton.OnClick = function(self)
     bigIconTemplate:SetImage(ironIconBig)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
     good = "iron"
+    goodPrice = goodsPrice.iron.gold
     DisplayCurrentStock(2)
+    reloadPrice()
 end
 ironIconButton.OnMouseExit = function(self)
     self:SetImage(ironIcon)
@@ -547,7 +594,9 @@ hopIconButton.OnClick = function(self)
     bigIconTemplate:SetImage(hopIconBig)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
     good = "hop"
+    goodPrice = goodsPrice.hops.gold
     DisplayCurrentStock(2)
+    reloadPrice()
 end
 hopIconButton.OnMouseExit = function(self)
     self:SetImage(hopIcon)
@@ -572,7 +621,9 @@ flourIconButton.OnClick = function(self)
     bigIconTemplate:SetImage(flourIconBig)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
     good = "flour"
+    goodPrice = goodsPrice.flour.gold
     DisplayCurrentStock(2)
+    reloadPrice()
 end
 flourIconButton.OnMouseExit = function(self)
     self:SetImage(flourIcon)
@@ -598,7 +649,9 @@ meatIconButton.OnClick = function(self)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
 
     good = FOOD.meat
+    goodPrice = goodsPrice.meat.gold
     DisplayCurrentStock(1)
+    reloadPrice()
 end
 meatIconButton.OnMouseExit = function(self)
     self:SetImage(meatIcon)
@@ -624,7 +677,9 @@ cheeseIconButton.OnClick = function(self)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
 
     good = FOOD.cheese
+    goodPrice = goodsPrice.cheese.gold
     DisplayCurrentStock(1)
+    reloadPrice()
 end
 cheeseIconButton.OnMouseExit = function(self)
     self:SetImage(cheeseIcon)
@@ -650,7 +705,9 @@ appleIconButton.OnClick = function(self)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
 
     good = FOOD.apples
+    goodPrice = goodsPrice.apples.gold
     DisplayCurrentStock(1)
+    reloadPrice()
 end
 appleIconButton.OnMouseExit = function(self)
     self:SetImage(appleIcon)
@@ -674,7 +731,9 @@ breadIconButton.OnClick = function(self)
     bigIconTemplate:SetImage(breadIconBig)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
     good = FOOD.bread
+    goodPrice = goodsPrice.bread.gold
     DisplayCurrentStock(1)
+    reloadPrice()
 end
 breadIconButton.OnMouseExit = function(self)
     self:SetImage(breadIcon)
@@ -700,7 +759,9 @@ bowIconButton.OnClick = function(self)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
 
     good = WEAPON.bow
+    goodPrice = goodsPrice.bow.gold
     DisplayCurrentStock(3)
+    reloadPrice()
 end
 bowIconButton.OnMouseExit = function(self)
     self:SetImage(bowIcon)
@@ -725,7 +786,9 @@ crossbowIconButton.OnClick = function(self)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
 
     good = WEAPON.crossbow
+    goodPrice = goodsPrice.crossbow.gold
     DisplayCurrentStock(3)
+    reloadPrice()
 end
 crossbowIconButton.OnMouseExit = function(self)
     self:SetImage(crossbowIcon)
@@ -750,7 +813,9 @@ spearIconButton.OnClick = function(self)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
 
     good = WEAPON.spear
+    goodPrice = goodsPrice.spear.gold
     DisplayCurrentStock(3)
+    reloadPrice()
 end
 spearIconButton.OnMouseExit = function(self)
     self:SetImage(spearIcon)
@@ -775,7 +840,9 @@ maceIconButton.OnClick = function(self)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
 
     good = WEAPON.mace
+    goodPrice = goodsPrice.mace.gold
     DisplayCurrentStock(3)
+    reloadPrice()
 end
 maceIconButton.OnMouseExit = function(self)
     self:SetImage(maceIcon)
@@ -800,7 +867,9 @@ swordIconButton.OnClick = function(self)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
 
     good = WEAPON.sword
+    goodPrice = goodsPrice.sword.gold
     DisplayCurrentStock(3)
+    reloadPrice()
 end
 swordIconButton.OnMouseExit = function(self)
     self:SetImage(swordIcon)
@@ -825,7 +894,9 @@ pikeIconButton.OnClick = function(self)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
 
     good = WEAPON.pike
+    goodPrice = goodsPrice.pike.gold
     DisplayCurrentStock(3)
+    reloadPrice()
 end
 pikeIconButton.OnMouseExit = function(self)
     self:SetImage(pikeIcon)
@@ -850,7 +921,9 @@ leatherIconButton.OnClick = function(self)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
 
     good = WEAPON.leatherArmor
+    goodPrice = goodsPrice.leatherArmor.gold
     DisplayCurrentStock(3)
+    reloadPrice()
 end
 leatherIconButton.OnMouseExit = function(self)
     self:SetImage(leatherIcon)
@@ -875,7 +948,9 @@ armourIconButton.OnClick = function(self)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
 
     good = WEAPON.shield
+    goodPrice = goodsPrice.shield.gold
     DisplayCurrentStock(3)
+    reloadPrice()
 end
 armourIconButton.OnMouseExit = function(self)
     self:SetImage(armorIcon)
@@ -967,6 +1042,8 @@ local function switchTradeGroup(groupType)
         weaponButton:SetImage(weaponButtonImage)
         bigIconTemplate:SetImage(emptyIconBig)
         groupTypeMarket.name = 1
+        bigIconTemplate:SetImage(emptyIconBig)
+        setButtonVisibility(false)
     elseif groupType == 2 then
         currentStock:SetText("")
         DisplayFoodIcons(false)
@@ -980,8 +1057,10 @@ local function switchTradeGroup(groupType)
             good = groupTypeStockpile.good
             SetBigIcon(good)
             DisplayCurrentStock(2)
+            setButtonVisibility(true)
         else
             bigIconTemplate:SetImage(emptyIconBig)
+            setButtonVisibility(false)
         end
     elseif groupType == 3 then
         currentStock:SetText("")
@@ -996,8 +1075,10 @@ local function switchTradeGroup(groupType)
             good = groupTypeAromury.good
             SetBigIcon(good)
             DisplayCurrentStock(3)
+            setButtonVisibility(true)
         else
             bigIconTemplate:SetImage(emptyIconBig)
+            setButtonVisibility(false)
         end
     end
 end
@@ -1077,6 +1158,22 @@ end
 
 actionBar:registerGroup("market_trade", { backButtonA })
 
+local GoldIconButton = loveframes.Create("image")
+GoldIconButton:SetState(states.STATE_MARKET)
+GoldIconButton:SetImage(GoldIcon)
+GoldIconButton:SetScaleX(frGoldIcon.width / GoldIconButton:GetImageWidth())
+GoldIconButton:SetScaleY(GoldIconButton:GetScaleX())
+GoldIconButton:SetPos(frGoldIcon.x, frGoldIcon.y)
+GoldIconButton.visible = false
+
+local ScalesIconButton = loveframes.Create("image")
+ScalesIconButton:SetState(states.STATE_MARKET)
+ScalesIconButton:SetImage(ScalesIcon)
+ScalesIconButton:SetScaleX(frScalesIcon.width / ScalesIconButton:GetImageWidth())
+ScalesIconButton:SetScaleY(ScalesIconButton:GetScaleX())
+ScalesIconButton:SetPos(frScalesIcon.x, frScalesIcon.y)
+ScalesIconButton.visible = false
+
 local IncButton = loveframes.Create("image")
 IncButton:SetState(states.STATE_MARKET)
 IncButton:setTooltip("Increase quantity of items you want to trade by 5")
@@ -1094,7 +1191,7 @@ IncButton.OnClick = function(self)
     -- TODO add sound
 
     quantity = quantity + 5
-    price = ((5 * quantity) / 5)
+    price = ((goodPrice * 5) * quantity) / 5
 
     priceText:SetText({ {
         color = { 0, 0, 0, 1 }
@@ -1103,9 +1200,8 @@ IncButton.OnClick = function(self)
     quantityText:SetText({ {
         color = { 0, 0, 0, 1 }
     }, quantity })
-
 end
-
+IncButton.visible = false
 IncButton.OnMouseExit = function(self)
     self:SetImage(IncButtonImage)
 end
@@ -1128,7 +1224,7 @@ DecButton.OnClick = function(self)
 
     if quantity > 5 then
         quantity = quantity - 5
-        price = ((5 * quantity) / 5)
+        price = ((goodPrice * 5) * quantity) / 5
 
         priceText:SetText({ {
             color = { 0, 0, 0, 1 }
@@ -1137,10 +1233,9 @@ DecButton.OnClick = function(self)
         quantityText:SetText({ {
             color = { 0, 0, 0, 1 }
         }, quantity })
-
     end
 end
-
+DecButton.visible = false
 DecButton.OnMouseExit = function(self)
     self:SetImage(DecButtonImage)
 end
@@ -1166,21 +1261,21 @@ marketBuyButton.OnMouseEnter = function(self)
     self:SetImage(marketBuyButtonHoverImage)
     UpdateTooltip()
 end
+marketBuyButton.visible = false
 marketBuyButton.OnMouseDown = function(self)
     self:SetImage(marketBuyButtonHoverImage) -- TODO DOWN BUTTON
 end
 marketBuyButton.OnClick = function(self)
     -- TODO add sound
     if good and good ~= "" and _G.state.gold >= price then
-
         if groupTypeMarket.name == 1 then
             if _G.foodpile:store(good) then
                 for _ = 1, quantity - 1 do
                     if _G.foodpile:store(good) then
-                        _G.state.gold = _G.state.gold - 1
+                        _G.state.gold = _G.state.gold - (price / quantity)
                     end
                 end
-                _G.state.gold = _G.state.gold - 1
+                _G.state.gold = _G.state.gold - (price / quantity)
                 _G.playInterfaceSfx(_G.fx["drawbridge_control"], nil, true)
             else
                 _G.playSpeech("granary_full")
@@ -1191,10 +1286,10 @@ marketBuyButton.OnClick = function(self)
             if _G.stockpile:store(good) then
                 for _ = 1, quantity - 1 do
                     if _G.stockpile:store(good) then
-                        _G.state.gold = _G.state.gold - 1
+                        _G.state.gold = _G.state.gold - (price / quantity)
                     end
                 end
-                _G.state.gold = _G.state.gold - 1
+                _G.state.gold = _G.state.gold - (price / quantity)
                 _G.playInterfaceSfx(_G.fx["drawbridge_control"], nil, true)
             else
                 _G.playSpeech("stockpile_full")
@@ -1205,10 +1300,10 @@ marketBuyButton.OnClick = function(self)
             if _G.weaponpile:store(good) then
                 for _ = 1, quantity - 1 do
                     if _G.weaponpile:store(good) then
-                        _G.state.gold = _G.state.gold - 1
+                        _G.state.gold = _G.state.gold - (price / quantity)
                     end
                 end
-                _G.state.gold = _G.state.gold - 1
+                _G.state.gold = _G.state.gold - (price / quantity)
                 _G.playInterfaceSfx(_G.fx["drawbridge_control"], nil, true)
             else
                 _G.playSpeech("armory_full")
@@ -1233,6 +1328,7 @@ marketSellButton.OnMouseEnter = function(self)
     self:SetImage(marketSellButtonHoverImage)
     UpdateTooltip()
 end
+marketSellButton.visible = false
 marketSellButton.OnMouseDown = function(self)
     self:SetImage(marketSellButtonHoverImage) -- TODO DOWN BUTTON
 end
@@ -1250,13 +1346,13 @@ marketSellButton.OnClick = function(self)
                 quantity_temp = _G.state.food[good]
                 for _ = 1, quantity_temp do
                     _G.foodpile:take(good)
-                    _G.state.gold = _G.state.gold + 1
+                    _G.state.gold = _G.state.gold + (price / (quantity * 2))
                 end
                 _G.playInterfaceSfx(_G.fx["drawbridge_control"], nil, true)
             elseif _G.state.food[good] >= quantity then
                 for _ = 1, quantity do
                     _G.foodpile:take(good)
-                    _G.state.gold = _G.state.gold + 1
+                    _G.state.gold = _G.state.gold + (price / (quantity * 2))
                 end
                 _G.playInterfaceSfx(_G.fx["drawbridge_control"], nil, true)
             end
@@ -1266,7 +1362,7 @@ marketSellButton.OnClick = function(self)
             if _G.state.resources[good] >= quantity then
                 for _ = 1, quantity do
                     if _G.stockpile:take(good) then
-                        _G.state.gold = _G.state.gold + 1
+                        _G.state.gold = _G.state.gold + (price / (quantity * 2))
                     end
                 end
                 _G.playInterfaceSfx(_G.fx["drawbridge_control"], nil, true)
@@ -1274,7 +1370,7 @@ marketSellButton.OnClick = function(self)
                 quantity_temp = _G.state.resources[good]
                 for _ = 1, quantity_temp do
                     if _G.stockpile:take(good) then
-                        _G.state.gold = _G.state.gold + 1
+                        _G.state.gold = _G.state.gold + (price / (quantity * 2))
                     end
                 end
                 _G.playInterfaceSfx(_G.fx["drawbridge_control"], nil, true)
@@ -1285,7 +1381,7 @@ marketSellButton.OnClick = function(self)
             if _G.state.weapons[good] >= quantity then
                 for _ = 1, quantity do
                     if _G.weaponpile:take(good) then
-                        _G.state.gold = _G.state.gold + 1
+                        _G.state.gold = _G.state.gold + (price / (quantity * 2))
                     end
                 end
                 _G.playInterfaceSfx(_G.fx["drawbridge_control"], nil, true)
@@ -1293,7 +1389,7 @@ marketSellButton.OnClick = function(self)
                 quantity_temp = _G.state.weapons[good]
                 for _ = 1, quantity_temp do
                     if _G.weaponpile:take(good) then
-                        _G.state.gold = _G.state.gold + 1
+                        _G.state.gold = _G.state.gold + (price / (quantity * 2))
                     end
                 end
                 _G.playInterfaceSfx(_G.fx["drawbridge_control"], nil, true)
@@ -1306,6 +1402,19 @@ marketSellButton.OnClick = function(self)
 end
 marketSellButton.OnMouseExit = function(self)
     self:SetImage(marketSellButtonImage)
+end
+
+function setButtonVisibility(visible)
+    if good == nil then visible = false end
+    marketBuyButton.visible = visible
+    marketSellButton.visible = visible
+    IncButton.visible = visible
+    DecButton.visible = visible
+    quantityText.visible = visible
+    priceText.visible = visible
+    GoldIconButton.visible = visible
+    ScalesIconButton.visible = visible
+    currentStock.visible = visible
 end
 
 return { switchTradeGroup, DisplayCurrentStock }
