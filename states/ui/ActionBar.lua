@@ -292,6 +292,10 @@ function ActionBar:hideGroup(name)
     end
 end
 
+function ActionBar:getCurrentGroup()
+    return self.currentGroup
+end
+
 function ActionBar:showGroup(name, playSound)
     if playSound then
         _G.playInterfaceSfx(playSound, 1)

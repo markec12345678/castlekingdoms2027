@@ -3,6 +3,7 @@ local el, backButton, destroyButton, getCostAndType = ...
 local states = require("states.ui.states")
 local ActionBarButton = require("states.ui.ActionBarButton")
 local ActionBar = require("states.ui.ActionBar")
+local Events = require("objects.Enums.Events")
 
 local armouryButton = ActionBarButton:new(love.graphics.newImage("assets/ui/armoury_arms_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 1, true, nil)
@@ -58,19 +59,26 @@ armorerButton:setOnClick(function(self)
 end)
 
 local function displayTooltips()
-    armouryButton:setTooltip("Armoury",
-        getCostAndType("Armoury") ..
-        "\nWeapons and armour is stored here, which is used by troops from the barracks upon recruitment.")
-    fletcherButton:setTooltip("FletcherWorkshop",
-        getCostAndType("FletcherWorkshop") ..
-        "\nProduces bows and crossbows from wood.")
-    poleturnerButton:setTooltip("PoleturnerWorkshop",
-        getCostAndType("PoleturnerWorkshop") ..
-        "\nProduces spears and pikes from wood.")
-    blacksmithButton:setTooltip("BlacksmithWorkshop",
-        getCostAndType("BlacksmithWorkshop") .. "\nProduces swords and maces from iron.")
-    armorerButton:setTooltip("Armourer", getCostAndType("Armorer") .. "\nMakes armor from iron.")
+    if ActionBar:getCurrentGroup() ~= "shield" then return end
+    local buildings = {
+        {button = armouryButton, name = "Armoury", description = "\nWeapons and armour is stored here, which is used by troops from the barracks upon recruitment."},
+        {button = fletcherButton, name = "FletcherWorkshop", description = "\nProduces bows and crossbows from wood."},
+        {button = poleturnerButton, name = "PoleturnerWorkshop", description = "\nProduces spears and pikes from wood."},
+        {button = blacksmithButton, name = "BlacksmithWorkshop", description = "\nProduces swords and maces from iron."},
+        {button = armorerButton, name = "Armorer", description = "\nMakes armor from iron."}
+    }
+
+    for _, building in ipairs(buildings) do
+        local table = getCostAndType(building.name)
+        building.button:setTooltip(building.name, table.costAndType .. building.description)
+        if not table.affordable then
+            building.button.tooltip:SetText({{color = {1, 0, 0, 1}}, table.costAndType}, building.name)
+        end
+    end
 end
+
+_G.bus.on(Events.OnResourceStore, displayTooltips)
+_G.bus.on(Events.OnResourceTake, displayTooltips)
 
 el.buttons.shieldButton:setOnClick(function(self)
     ActionBar:showGroup("shield", _G.fx["metpush1"])
@@ -79,4 +87,4 @@ end)
 
 
 ActionBar:registerGroup("shield",
-    { armouryButton, fletcherButton, poleturnerButton, blacksmithButton, armorerButton, backButton, destroyButton })
+    {armouryButton, fletcherButton, poleturnerButton, blacksmithButton, armorerButton, backButton, destroyButton})

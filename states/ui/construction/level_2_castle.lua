@@ -3,6 +3,7 @@ local el, backButton, destroyButton, getCostAndType = ...
 local states = require("states.ui.states")
 local ActionBarButton = require("states.ui.ActionBarButton")
 local ActionBar = require("states.ui.ActionBar")
+local Events = require("objects.Enums.Events")
 local keepImage = love.graphics.newImage("assets/ui/keep_ab.png")
 local fortressImage = love.graphics.newImage("assets/ui/fortress_ab.png")
 local strongholdImage = love.graphics.newImage("assets/ui/stronghold_ab.png")
@@ -48,8 +49,8 @@ barracksButton:setOnClick(
     function(self)
         _G.BuildController:set(
             "Barracks", function()
-                barracksButton:unselect()
-            end)
+            barracksButton:unselect()
+        end)
         ActionBar:selectButton(barracksButton)
     end)
 
@@ -59,8 +60,8 @@ stoneBarracksButton:setOnClick(
     function(self)
         _G.BuildController:set(
             "StoneBarracks", function()
-                stoneBarracksButton:unselect()
-            end)
+            stoneBarracksButton:unselect()
+        end)
         ActionBar:selectButton(stoneBarracksButton)
     end)
 
@@ -70,8 +71,8 @@ engineersGuildButton:setOnClick(
     function(self)
         _G.BuildController:set(
             "EngineersGuild", function()
-                engineersGuildButton:unselect()
-            end)
+            engineersGuildButton:unselect()
+        end)
         ActionBar:selectButton(engineersGuildButton)
     end)
 
@@ -81,22 +82,32 @@ tunnelersGuildButton:setOnClick(
     function(self)
         _G.BuildController:set(
             "TunnelersGuild", function()
-                tunnelersGuildButton:unselect()
-            end)
+            tunnelersGuildButton:unselect()
+        end)
         ActionBar:selectButton(tunnelersGuildButton)
     end)
 
 local function displayTooltips()
-    castleButton:setTooltip("WoodenKeep", getCostAndType("WoodenKeep"))
-    barracksButton:setTooltip("Barracks",
-        getCostAndType("Barracks") .. "\nA building allowing you to recruit units.")
-    stoneBarracksButton:setTooltip("StoneBarracks",
-        getCostAndType("StoneBarracks") .. "\nA building allowing you to recruit units.")
-    engineersGuildButton:setTooltip("EngineersGuild",
-        getCostAndType("EngineersGuild") .. "\nA building allowing you to recruit siege units.")
-    tunnelersGuildButton:setTooltip("TunnelersGuild",
-        getCostAndType("TunnelersGuild") .. "\nA building allowing you to recruit tunnelers.")
+    if ActionBar:getCurrentGroup() ~= "castle" then return end
+    local buildings = {
+        {button = castleButton, name = "WoodenKeep", description = ""},
+        {button = barracksButton, name = "Barracks", description = "\nA building allowing you to recruit units."},
+        {button = stoneBarracksButton, name = "StoneBarracks", description = "\nA building allowing you to recruit units."},
+        {button = engineersGuildButton, name = "EngineersGuild", description = "\nA building allowing you to recruit siege units."},
+        {button = tunnelersGuildButton, name = "TunnelersGuild", description = "\nA building allowing you to recruit tunnelers."}
+    }
+
+    for _, building in ipairs(buildings) do
+        local table = getCostAndType(building.name)
+        building.button:setTooltip(building.name, table.costAndType .. building.description)
+        if not table.affordable then
+            building.button.tooltip:SetText({{color = {1, 0, 0, 1}}, table.costAndType}, building.name)
+        end
+    end
 end
+
+_G.bus.on(Events.OnResourceStore, displayTooltips)
+_G.bus.on(Events.OnResourceTake, displayTooltips)
 
 el.buttons.castleButton:setOnClick(
     function(self)
@@ -129,10 +140,10 @@ local elements = {
 
 
 ActionBar:registerGroup("castle",
-    { castleButton, woodenBuildings, stoneBuildings, barracksButton, stoneBarracksButton, engineersGuildButton,
-        tunnelersGuildButton, backButton, destroyButton })
+    {castleButton, woodenBuildings, stoneBuildings, barracksButton, stoneBarracksButton, engineersGuildButton,
+        tunnelersGuildButton, backButton, destroyButton})
 
 package.loaded["states.ui.construction.level_3_castleWood"] = love.filesystem.load(
-        "states/ui/construction/level_3_castleWood.lua")(elements, backButton, destroyButton, getCostAndType)
+    "states/ui/construction/level_3_castleWood.lua")(elements, backButton, destroyButton, getCostAndType)
 package.loaded["states.ui.construction.level_3_castleStone"] = love.filesystem.load(
-        "states/ui/construction/level_3_castleStone.lua")(elements, backButton, destroyButton, getCostAndType)
+    "states/ui/construction/level_3_castleStone.lua")(elements, backButton, destroyButton, getCostAndType)

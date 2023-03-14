@@ -3,6 +3,7 @@ local el, backButton, destroyButton, getCostAndType = ...
 local states = require('states.ui.states')
 local ActionBarButton = require('states.ui.ActionBarButton')
 local ActionBar = require('states.ui.ActionBar')
+local Events = require('objects.Enums.Events')
 
 local granaryButton = ActionBarButton:new(love.graphics.newImage('assets/ui/granary_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 1, true)
@@ -53,16 +54,30 @@ hopsFarmButton:setOnClick(function(self)
     ActionBar:selectButton(hopsFarmButton)
 end)
 
+
+
 local function displayTooltips()
-    granaryButton:setTooltip("Granary", getCostAndType("Granary") .. "\nIncreases food capacity.")
+    if ActionBar:getCurrentGroup() ~= "farms" then return end
+    local buildings = {
+        {button = granaryButton, name = "Granary", description = "\nIncreases food capacity."},
+        {button = appleFarmButton, name = "Orchard", description = "\nProduces apples."},
+        {button = wheatFarmButton, name = "WheatFarm", description = "\nProduces wheat which can be processed into flour."},
+        {button = hopsFarmButton, name = "HopsFarm", description = "\nProduces hops which can be processed into ale."}
+    }
+
+    for _, building in ipairs(buildings) do
+        local table = getCostAndType(building.name)
+        building.button:setTooltip(building.name, table.costAndType .. building.description)
+        if not table.affordable then
+            building.button.tooltip:SetText({{color = {1, 0, 0, 1}}, table.costAndType}, building.name)
+        end
+    end
     hunterButton:setTooltip("Hunter's hut", "Not implemented yet.")
-    appleFarmButton:setTooltip("Orchard", getCostAndType("Orchard") .. "\nProduces apples.")
     cheeseFarmButton:setTooltip("Dairy farm", "Not implemented yet.")
-    wheatFarmButton:setTooltip("Wheat farm",
-        getCostAndType("WheatFarm") .. "\nProduces wheat which can be processed into flour.")
-    hopsFarmButton:setTooltip("Hops farm",
-        getCostAndType("HopsFarm") .. "\nProduces hops which can be processed into ale.")
 end
+
+_G.bus.on(Events.OnResourceStore, displayTooltips)
+_G.bus.on(Events.OnResourceTake, displayTooltips)
 
 el.buttons.appleButton:setOnClick(function(self)
     ActionBar:showGroup("farms", _G.fx["metpush15"])
@@ -70,5 +85,5 @@ el.buttons.appleButton:setOnClick(function(self)
 end)
 
 ActionBar:registerGroup("farms",
-    { hunterButton, appleFarmButton, cheeseFarmButton, wheatFarmButton, hopsFarmButton, granaryButton, backButton,
-        destroyButton })
+    {hunterButton, appleFarmButton, cheeseFarmButton, wheatFarmButton, hopsFarmButton, granaryButton, backButton,
+        destroyButton})
