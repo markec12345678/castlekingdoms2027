@@ -6,8 +6,6 @@ local Worker = require("objects.Units.Worker")
 
 local cuttingFx = {_G.fx["chop1 22k"], _G.fx["chop2 22k"], _G.fx["chop3 22k"], _G.fx["chop4 22k"]}
 local choppingFx = {_G.fx["wood_chop_1"], _G.fx["wood_chop_2"], _G.fx["wood_chop_3"]}
-local footstepFx = {_G.fx["footstep_grass_1"], _G.fx["footstep_grass_2"], _G.fx["footstep_grass_3"],
-    _G.fx["footstep_grass_4"], _G.fx["footstep_grass_5"]}
 
 local fr_walking_plank_east = indexQuads("body_woodcutter_walk_plank_e", 16)
 local fr_walking_plank_north = indexQuads("body_woodcutter_walk_plank_n", 16)
@@ -608,9 +606,6 @@ function Woodcutter:update()
 end
 
 function Woodcutter:animate()
-    if self.moveDir ~= "none" and self.animation and (self.animation.position == 2 or self.animation.position == 10) then
-        _G.playSfx(self, footstepFx)
-    end
     self:update()
     Worker.animate(self)
 end

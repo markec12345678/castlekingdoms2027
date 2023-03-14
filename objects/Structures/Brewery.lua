@@ -17,6 +17,15 @@ local an = {
     [ANIM_BEER_STACK] = _G.indexQuads("anim_brewer", 1)
 }
 
+local breweryFx = {
+    ["Stir"] = {_G.fx["stir1"],
+        _G.fx["stir2"],
+        _G.fx["stir3"],
+        _G.fx["stir4"],
+        _G.fx["stir5"],
+        _G.fx["stir6"]}
+}
+
 local BreweryCooking = _G.class("BreweryCooking", Structure)
 function BreweryCooking:initialize(gx, gy, parent)
     self.parent = parent
@@ -91,6 +100,10 @@ end
 
 function BreweryCooking:animate()
     Structure.animate(self, _G.dt, true)
+    if self.animation.status == "playing" and (self.animation.animationIdentifier == ANIM_BREWING_BEER
+        or self.animation.animationIdentifier == ANIM_BREWING_BEER_PART2) and self.animation.position == 1 then
+        _G.playSfx(self, breweryFx["Stir"])
+    end
 end
 
 function BreweryCooking:activate()

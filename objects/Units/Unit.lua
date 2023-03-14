@@ -1,6 +1,9 @@
 local activeEntities, objectBatch = ...
 local Object = require('objects.Object')
 
+local footstepFx = {_G.fx["footstep_grass_1"], _G.fx["footstep_grass_2"], _G.fx["footstep_grass_3"],
+    _G.fx["footstep_grass_4"], _G.fx["footstep_grass_5"]}
+
 local Unit = _G.class('Unit', Object)
 function Unit:initialize(gx, gy, type)
     Object.initialize(self, gx, gy, type)
@@ -68,6 +71,9 @@ function Unit:isPositionAt(px, py)
 end
 
 function Unit:animate()
+    if self.moveDir ~= "none" and self.animation and (self.animation.position == 2 or self.animation.position == 10) then
+        _G.playSfx(self, footstepFx)
+    end
     if self.pathState == "Waiting for path" then
         self.waitingForPathTimer = self.waitingForPathTimer + love.timer.getDelta()
         if self.waitingForPathTimer > 5 then
