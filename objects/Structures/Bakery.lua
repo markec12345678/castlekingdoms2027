@@ -5,8 +5,8 @@ local Object = require("objects.Object")
 local anim = require("libraries.anim8")
 local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
 
-local tiles, quadArray = _G.indexBuildingQuads("bakery_workshop (9)")
-local tilesExt, quadArrayExt = _G.indexBuildingQuads("bakery_workshop (18)")
+local tilesExt, quadArrayExt = _G.indexBuildingQuads("bakery_workshop (9)")
+local tiles, quadArray = _G.indexBuildingQuads("bakery_workshop (18)")
 
 local ANIM_BAKING_BREAD = "Baking_Bread"
 local ANIM_BAKING_BREAD_PART2 = "Baking_Bread_Part2"
@@ -370,9 +370,7 @@ function Bakery.static:deserialize(data)
 end
 
 function Bakery:enterHover(induced)
-    if not induced then
-        self.hover = true
-    end
+    self.hover = true
     for tile = 1, tiles do
         local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tiles - tile + 1), BakeryAlias)
         if not alias then return end
@@ -393,13 +391,9 @@ function Bakery:enterHover(induced)
 end
 
 function Bakery:exitHover(induced)
-    if induced then
-        -- was triggered by a timer
-        -- so check if the user is actually hovering
-        -- on it
-        if self.hover then return end
-    end
-    self.hover = false
+    if induced or not self.cookingObj.animated then
+        self.hover = false
+    else return end
     for tile = 1, tilesExt do
         local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tilesExt - tile + 1), BakeryAlias)
         if alias then
@@ -435,6 +429,10 @@ function Bakery:join(worker)
     if self.freeSpots == 0 then
         self.float:deactivate()
     end
+end
+
+function Bakery:onClick()
+
 end
 
 function Bakery:work(worker)

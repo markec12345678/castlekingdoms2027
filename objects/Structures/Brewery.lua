@@ -235,6 +235,10 @@ function Brewery:destroy()
     end
 end
 
+function Brewery:onClick()
+
+end
+
 function Brewery:load(data)
     Object.deserialize(self, data)
     Structure.load(self, data)
