@@ -15,7 +15,7 @@ function WalkableWoodenWall:initialize(gx, gy)
     self.offsetX = 0
     local _, _, _, sh = self.tile:getViewport()
     self.offsetY = -(sh - 16)
-    self:applyBuildingHeightMap()
+    self:applyBuildingHeightMap(true)
 end
 
 function WalkableWoodenWall:serialize()
