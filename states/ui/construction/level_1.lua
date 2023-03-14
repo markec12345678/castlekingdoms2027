@@ -69,21 +69,26 @@ local elements = {
 local function getCostAndType(buildingIndex)
     local buildings = require("objects.buildings")
     local c = buildings.getCost(buildingIndex);
-    local costAndType = ""
     local costtype = ""
     local first = true
+    local affordable = true
+    local costTypeAndAffordable = {}
     if c then
         for type, quantity in pairs(c) do
             if first then
-                costtype = costtype .. quantity .. " " .. type
+                costtype = costtype .. quantity .. "(" .. _G.state.resources[type] .. ") " .. type
                 first = false
             else
-                costtype = costtype .. ", " .. quantity .. " " .. type
+                costtype = costtype .. ",\n" .. quantity .. " (" .. _G.state.resources[type] .. ") " .. type
+            end
+            if quantity > _G.state.resources[type] then
+                affordable = false
             end
         end
-        costAndType = "Requires " .. costtype
+        costTypeAndAffordable.costAndType = costtype
+        costTypeAndAffordable.affordable = affordable
     end
-    return costAndType
+    return costTypeAndAffordable
 end
 
 package.loaded["states.ui.construction.level_2_castle"] = love.filesystem.load("states/ui/construction/level_2_castle.lua")(elements, backButton, destroyButton, getCostAndType)

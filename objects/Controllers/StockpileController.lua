@@ -1,3 +1,5 @@
+local Events = require "objects.Enums.Events"
+local Resources = require "objects.Enums.Resources"
 local StockpileController = _G.class("StockpileController")
 
 local stockpileFx = {
@@ -33,6 +35,7 @@ function StockpileController:store(resource) -- TODO: add amount
                 if stockpileFx[resource] then
                     _G.playSfx(v, stockpileFx[resource], true)
                 end
+                _G.bus.emit(Events.OnResourceStore, Resources[resource])
                 return true
             end
         end
@@ -41,6 +44,7 @@ function StockpileController:store(resource) -- TODO: add amount
         if stockpileFx[resource] then
             _G.playSfx(self.resources[resource][#self.resources[resource]].id, stockpileFx[resource], true)
         end
+        _G.bus.emit(Events.OnResourceStore, Resources[resource])
         return true
     end
 end
@@ -54,6 +58,7 @@ function StockpileController:take(resource, amount)
         else
             local resTable = self.resources[resource]
             resTable[#resTable].id.parent:take(resource, resTable[#resTable])
+            _G.bus.emit(Events.OnResourceTake, Resources[resource])
         end
     end
     return true

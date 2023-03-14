@@ -3,6 +3,7 @@ local el, backButton, destroyButton, getCostAndType = ...
 local states = require("states.ui.states")
 local ActionBarButton = require("states.ui.ActionBarButton")
 local ActionBar = require("states.ui.ActionBar")
+local Events = require("objects.Enums.Events")
 
 local windmillButton = ActionBarButton:new(love.graphics.newImage("assets/ui/windmill_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 1, true)
@@ -45,11 +46,25 @@ breweryButton:setOnClick(function(self)
 end)
 
 local function displayTooltips()
-    windmillButton:setTooltip("Windmill", getCostAndType("Windmill") .. "\nProcesses wheat into flour.")
-    bakeryButton:setTooltip("Bakery", getCostAndType("Bakery") .. "\nProcesses flour into bread.")
-    breweryButton:setTooltip("Brewery", getCostAndType("Brewery") .. "\nProcesses hops into ale.")
-    innButton:setTooltip("Inn", getCostAndType("Inn") .. "\nDistributes ale.")
+    if ActionBar:getCurrentGroup() ~= "sickle" then return end
+    local buildings = {
+        {button = windmillButton, name = "Windmill", description = "\nProcesses wheat into flour."},
+        {button = bakeryButton, name = "Bakery", description = "\nProcesses flour into bread."},
+        {button = breweryButton, name = "Brewery", description = "\nProcesses hops into ale."},
+        {button = innButton, name = "Inn", description = "\nDistributes ale."}
+    }
+
+    for _, building in ipairs(buildings) do
+        local table = getCostAndType(building.name)
+        building.button:setTooltip(building.name, table.costAndType .. building.description)
+        if not table.affordable then
+            building.button.tooltip:SetText({{color = {1, 0, 0, 1}}, table.costAndType}, building.name)
+        end
+    end
 end
+
+_G.bus.on(Events.OnResourceStore, displayTooltips)
+_G.bus.on(Events.OnResourceTake, displayTooltips)
 
 el.buttons.sickleButton:setOnClick(function(self)
     ActionBar:showGroup("sickle", _G.fx["metpush5"])
@@ -57,4 +72,4 @@ el.buttons.sickleButton:setOnClick(function(self)
 end)
 
 
-ActionBar:registerGroup("sickle", { windmillButton, bakeryButton, innButton, breweryButton, backButton, destroyButton })
+ActionBar:registerGroup("sickle", {windmillButton, bakeryButton, innButton, breweryButton, backButton, destroyButton})

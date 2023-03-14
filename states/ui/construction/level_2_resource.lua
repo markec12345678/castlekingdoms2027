@@ -3,6 +3,7 @@ local el, backButton, destroyButton, getCostAndType = ...
 local states = require('states.ui.states')
 local ActionBarButton = require('states.ui.ActionBarButton')
 local ActionBar = require('states.ui.ActionBar')
+local Events = require('objects.Enums.Events')
 
 local stockpileButton = ActionBarButton:new(love.graphics.newImage('assets/ui/stockpile_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 1, true)
@@ -72,17 +73,27 @@ marketButton:setOnClick(function(self)
 end)
 
 local function displayTooltips()
-    woodcutterButton:setTooltip("Woodcutter's Hut",
-        getCostAndType("WoodcutterHut") .. "\nCuts down nearby trees to produce wood.")
-    oxButton:setTooltip("Ox Tether (can only be placed near a quarry).",
-        getCostAndType("OxTether") .. "\nTransport stone from the quarry to the stockpile.")
-    quarryButton:setTooltip("Quarry", getCostAndType("Quarry") .. "\nProduces stone blocks from the ground resource.")
-    stockpileButton:setTooltip("Stockpile",
-        getCostAndType("Stockpile") .. "\nIncreases resource capacity\nMust be placed adjacent to a stockpile.")
-    ironMine:setTooltip("Iron Mine", getCostAndType("Mine") .. "\nProduces iron ingots from ground iron ore.")
+    if ActionBar:getCurrentGroup() ~= "resource" then return end
+    local buildings = {
+        {button = woodcutterButton, name = "WoodcutterHut", description = "\nCuts down nearby trees to produce wood."},
+        {button = oxButton, name = "OxTether", description = "\nTransport stone from the quarry to the stockpile."},
+        {button = quarryButton, name = "Quarry", description = "\nProduces stone blocks from the ground resource."},
+        {button = stockpileButton, name = "Stockpile", description = "\nIncreases resource capacity\nMust be placed adjacent to a stockpile."},
+        {button = ironMine, name = "Mine", description = "\nProduces iron ingots from ground iron ore."},
+        {button = marketButton, name = "Market", description = "\nAllows you to trade your goods."}
+    }
+    for _, building in ipairs(buildings) do
+        local table = getCostAndType(building.name)
+        building.button:setTooltip(building.name, table.costAndType .. building.description)
+        if not table.affordable then
+            building.button.tooltip:SetText({{color = {1, 0, 0, 1}}, table.costAndType}, building.name)
+        end
+    end
     pitchRigButton:setTooltip("Pitch Rig", "Not implemented yet.")
-    marketButton:setTooltip("Market", getCostAndType("Market") .. "\nAllows you to trade your goods.")
 end
+
+_G.bus.on(Events.OnResourceStore, displayTooltips)
+_G.bus.on(Events.OnResourceTake, displayTooltips)
 
 el.buttons.hammerButton:setOnClick(function(self)
     ActionBar:showGroup("resource", _G.fx["metpush12"])
