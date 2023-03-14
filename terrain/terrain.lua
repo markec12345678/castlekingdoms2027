@@ -983,11 +983,23 @@ local function refreshTerrain(chunkX, chunkY)
     tertiaryTilesToUpdateInChunk[cx][cy] = nil
 end
 
+local function getStructureOffset(gx, gy)
+    local structureOffset = 0
+    if not _G.BuildController.active or _G.DestructionController.active then
+        local structure = _G.objectFromSubclassAtGlobal(gx, gy, "Structure")
+        if structure then
+            structure = structure.parent or structure
+            structureOffset = structure.offsetY or 0
+        end
+    end
+    return structureOffset
+end
+
 function _G.getTerrainTileOnMouse(mx, my)
     local MX, MY, rMX, rMY
     rMX = (mx - _G.ScreenWidth / 2) / _G.state.scaleX + _G.state.viewXview - 16
     rMY = (my - _G.ScreenHeight / 2) / _G.state.scaleX + _G.state.viewYview
-    local maxTiles = 20
+    local maxTiles = 30
     local offsetY
     local LocalX = math.round(ScreenToIsoX(rMX, rMY))
     local LocalY = math.round(ScreenToIsoY(rMX, rMY))
@@ -1007,7 +1019,8 @@ function _G.getTerrainTileOnMouse(mx, my)
         if not t or #t <= 0 then
             t = {nil, _G.IsoX + (i - o) * tileWidth * 0.5, _G.IsoY + (i + o) * tileHeight * 0.5, 0, 1.06, 1.06}
         end
-        local recty = t[3] - elevationOffsetY + cyOffset
+        local structureOffset = getStructureOffset(gx, gy)
+        local recty = t[3] - elevationOffsetY + cyOffset + structureOffset
         if rMY >= recty then
             lastValidGx, lastValidGy = gx, gy
         end
@@ -1265,6 +1278,7 @@ local tableOfFunctions = {
     end,
     batch = terrainBatch,
     genTerrain = genTerrain,
+    getStructureOffset = getStructureOffset,
     genMap = genMap,
     loadFernhaven = loadFernhaven, -- temporarily hardcorded this way
     allocateSpriteBatches = allocateSpriteBatches

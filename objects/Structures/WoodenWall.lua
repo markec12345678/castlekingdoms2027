@@ -20,7 +20,7 @@ function WoodenWall:initialize(gx, gy, type)
     local _, _, _, sh = self.tile:getViewport()
     self.offsetY = -(sh - 16)
     _G.terrainSetTileAt(self.gx, self.gy, _G.terrainBiome.dirt, _G.terrainBiome.abundant_grass)
-    self:applyBuildingHeightMap()
+    self:applyBuildingHeightMap(true)
 end
 
 function WoodenWall:serialize()
