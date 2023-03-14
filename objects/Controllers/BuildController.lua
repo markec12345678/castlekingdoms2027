@@ -394,6 +394,7 @@ function BuildController:build(gx, gy)
                     self.active = false
                     self.start = false
                     ActionBar:showGroup("main")
+                    _G.state.firstBuildings = false
                     return true
                 end
             end

@@ -78,6 +78,7 @@ function State:initialize()
     self.hopsGrowingSeason = false
     self.firstWoodCutterHut = true
     self.firstArmoury = true
+    self.firstBuildings = true
     self.keepX = 0
     self.keepY = 0
 end

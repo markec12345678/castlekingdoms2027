@@ -280,6 +280,19 @@ function game:keypressed(key, scancode, isRepeat)
             _G.speedModifier = 0.5
         end
     elseif event == EVENT.Escape then
+        if _G.state.firstBuildings then
+            if loveframes.GetState() ~= states.STATE_PAUSE_MENU then
+                loveframes.SetState(states.STATE_PAUSE_MENU)
+                loveframes.TogglePause()
+                ActionBar:showGroup("main")
+                return
+            end
+            if loveframes.GetState() == states.STATE_INGAME_CONSTRUCTION then
+                loveframes.SetState(states.STATE_INGAME_CONSTRUCTION)
+                loveframes.TogglePause()
+                return
+            end
+        end
         if (loveframes.GetState() == states.STATE_PAUSE_MENU or
             loveframes.GetState() == states.STATE_INGAME_CONSTRUCTION) then
             if _G.BuildController.active and not _G.BuildController.start then
