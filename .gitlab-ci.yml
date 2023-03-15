@@ -23,7 +23,7 @@ test:
     - apt-get update
     - apt-get install --assume-yes zip git libmodplug1 libmpg123-0 libogg0 libopenal1 libphysfs1 libsdl2-2.0-0 libluajit-5.1-2 libtheora0 libvorbisfile3 libfreetype6 love
   script:
-    - zip -9 -r test.love .
+    - zip -0 -r test.love . -x '*.git*'
     - cat /usr/bin/love test.love > testbuild
     - chmod a+x ./testbuild
     - DEBIAN_FRONTEND=noninteractive apt-get install --assume-yes luarocks
@@ -40,7 +40,10 @@ test:
     - luarocks install mediator_lua
     - ls
     - rm -r busted
+    - mv libraries/eventbus.lua eventbus.lua
     - rm -r libraries
+    - mkdir libraries
+    - mv eventbus.lua libraries/eventbus.lua
     - rm -r spec
     - rm -r objects/object_quads.lua
     - rm -r objects/quad_offset.lua
