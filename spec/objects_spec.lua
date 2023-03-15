@@ -10,6 +10,7 @@ local obj = {
     destroy = function()
     end
 }
+require("spec.eventbus_spec")
 -- =======================================================================--
 describe("addObjectAt", function()
     it("creates a table at the index, if it doesn't exist already", function()

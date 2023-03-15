@@ -47,12 +47,9 @@ function M.new()
         if type(event) ~= "number" then error('Invalid event name, did you call the function with : instead of . ?') end
         local eventHandlers = handlers[event]
         if not eventHandlers then return end
-        local count = 0
         for _, handler in pairs(eventHandlers) do
-            count = count + 1
             handler(...)
         end
-        print(count)
     end
 
     return bus
