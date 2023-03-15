@@ -156,6 +156,7 @@ function SwordCrafting:serialize()
     end
     data.animation = self.animation:serialize()
     data.animated = self.animated
+    data.nextWeapon = self.nextWeapon
     data.weaponType = self.weaponType
     data.craftingCycle = self.craftingCycle
     data.offsetX = self.offsetX
@@ -216,6 +217,7 @@ end
 
 function SwordCrafting:activate()
     self.animated = true
+    self.parent:setWeapon(self.parent.nextWeapon)
     if self.parent.weaponType == WEAPON.sword then
         self.animation = anim.newAnimation(an[ANIM_CRAFTING_SWORD], 0.11, self:craftCallback_1(), ANIM_CRAFTING_SWORD)
     end
@@ -298,6 +300,7 @@ function BlacksmithWorkshop:initialize(gx, gy)
     self.offsetX = 0
     self.offsetY = -64
     self.weaponType = WEAPON.sword
+    self.nextWeapon = self.weaponType
     self.freeSpots = 1
     self.worker = nil
     self.anvilCrafting = AnvilCrafting:new(self.gx + 3, self.gy + 2, self)
@@ -421,7 +424,7 @@ end
 
 swordIconButton.OnClick = function(self)
     if targetBlacksmith then
-        targetBlacksmith:setWeapon(WEAPON.sword)
+        targetBlacksmith.nextWeapon = WEAPON.sword
     end
     swordIconButton.visible = false
     maceIconButton.visible = false
@@ -429,7 +432,7 @@ end
 
 maceIconButton.OnClick = function(self)
     if targetBlacksmith then
-        targetBlacksmith:setWeapon(WEAPON.mace)
+        targetBlacksmith.nextWeapon = WEAPON.mace
     end
     swordIconButton.visible = false
     maceIconButton.visible = false
