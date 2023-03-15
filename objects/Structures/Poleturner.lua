@@ -59,6 +59,7 @@ function SpearCrafting:serialize()
     end
     data.animation = self.animation:serialize()
     data.animated = self.animated
+    data.nextWeapon = self.nextWeapon
     data.weaponType = self.weaponType
     data.craftingCycle = self.craftingCycle
     data.offsetX = self.offsetX
@@ -92,6 +93,7 @@ end
 
 function SpearCrafting:activate()
     self.animated = true
+    self.parent:setWeapon(self.parent.nextWeapon)
     if self.parent.weaponType == WEAPON.spear then
         _G.playSfx(self, poleturnerFx["spear"])
         self.animation = anim.newAnimation(an[ANIM_CRAFTING_SPEAR], 0.08, self:craftCallback_1(), ANIM_CRAFTING_SPEAR)
@@ -175,6 +177,7 @@ function PoleturnerWorkshop:initialize(gx, gy)
     self.offsetX = 0
     self.offsetY = -44
     self.weaponType = WEAPON.spear
+    self.nextWeapon = self.weaponType
     self.freeSpots = 1
     self.worker = nil
     self.cookingObj = SpearCrafting:new(self.gx + 3, self.gy + 2, self)
@@ -306,7 +309,7 @@ end
 
 spearIconButton.OnClick = function(self)
     if targetPoleturner then
-        targetPoleturner:setWeapon(WEAPON.spear)
+        targetPoleturner.nextWeapon = WEAPON.spear
     end
     spearIconButton.visible = false
     pikeIconButton.visible = false
@@ -314,7 +317,7 @@ end
 
 pikeIconButton.OnClick = function(self)
     if targetPoleturner then
-        targetPoleturner:setWeapon(WEAPON.pike)
+        targetPoleturner.nextWeapon = WEAPON.pike
     end
     spearIconButton.visible = false
     pikeIconButton.visible = false

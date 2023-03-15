@@ -26,7 +26,6 @@ local fletcherFx = {
                 _G.fx["fletch25"]}
 }
 
-
 local targetFletcher
 local BowCrafting = _G.class("BowCrafting", Structure)
 function BowCrafting:initialize(gx, gy, parent)
@@ -92,6 +91,7 @@ end
 
 function BowCrafting:activate()
     self.animated = true
+    self.parent:setWeapon(self.parent.nextWeapon)
     if self.parent.weaponType == WEAPON.bow then
         self.animation = anim.newAnimation(an[ANIM_CRAFTING_BOW], 0.11, self:craftCallback_1(), ANIM_CRAFTING_BOW)
     end
@@ -174,6 +174,7 @@ function FletcherWorkshop:initialize(gx, gy)
     self.offsetX = 0
     self.offsetY = -48
     self.weaponType = WEAPON.bow
+    self.nextWeapon = self.weaponType
     self.freeSpots = 1
     self.worker = nil
     self.cookingObj = BowCrafting:new(self.gx + 3, self.gy + 2, self)
@@ -262,6 +263,7 @@ function FletcherWorkshop:serialize()
     end
     data.health = self.health
     data.working = self.working
+    data.nextWeapon = self.nextWeapon
     data.weaponType = self.weaponType
     data.unloading = self.unloading
     data.offsetX = self.offsetX
@@ -289,7 +291,7 @@ end
 
 bowIconButton.OnClick = function(self)
     if targetFletcher then
-        targetFletcher:setWeapon(WEAPON.bow)
+        targetFletcher.nextWeapon = WEAPON.bow
     end
     bowIconButton.visible = false
     crossbowIconButton.visible = false
@@ -297,7 +299,7 @@ end
 
 crossbowIconButton.OnClick = function(self)
     if targetFletcher then
-        targetFletcher:setWeapon(WEAPON.crossbow)
+        targetFletcher.nextWeapon = WEAPON.crossbow
     end
     bowIconButton.visible = false
     crossbowIconButton.visible = false
