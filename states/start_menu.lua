@@ -18,11 +18,11 @@ end
 local framesFromStart = 0
 function startMenu:update(dt)
     startMenuTimer = startMenuTimer + dt
-    if 0 < startMenuTimer and startMenuTimer < startMenuFadeIn then 
-        startMenuAplha = startMenuTimer / startMenuFadeIn  
+    if 0 < startMenuTimer and startMenuTimer < startMenuFadeIn then
+        startMenuAplha = startMenuTimer / startMenuFadeIn
     end
-    if startMenuFadeIn < startMenuTimer and startMenuTimer < startMenuDisplay then 
-        startMenuAplha = 1  
+    if startMenuFadeIn < startMenuTimer and startMenuTimer < startMenuDisplay then
+        startMenuAplha = 1
     end
 
     if framesFromStart < 30 then

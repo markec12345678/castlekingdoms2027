@@ -11,6 +11,7 @@ local backButtonA = ActionBarButton:new(love.graphics.newImage("assets/ui/goods/
 local backButton = loveframes.Create("image")
 local FOOD = require("objects.Enums.Food")
 local WEAPON = require("objects.Enums.Weapon")
+local Events = require "objects.Enums.Events"
 local goodsPrice = require("objects.Enums.goodsPrices")
 
 local good
@@ -1245,7 +1246,7 @@ local marketSellButton = loveframes.Create("image")
 
 local function UpdateTooltip()
     dynamicBuyTooltip = ("Buy '%d' pieces of %s for '%d' gold"):format(quantity, good, price)
-    dynamicSellTooltip = ("Sell '%d' pieces of %s for '%d' gold"):format(quantity, good, price)
+    dynamicSellTooltip = ("Sell '%d' pieces of %s for '%d' gold"):format(quantity, good, price / 2)
 
     marketBuyButton:setTooltip(dynamicBuyTooltip)
     marketSellButton:setTooltip(dynamicSellTooltip)
@@ -1267,6 +1268,7 @@ marketBuyButton.OnMouseDown = function(self)
 end
 marketBuyButton.OnClick = function(self)
     -- TODO add sound
+    local goldBeforeTrade = _G.state.gold
     if good and good ~= "" and _G.state.gold >= price then
         if groupTypeMarket.name == 1 then
             if _G.foodpile:store(good) then
@@ -1309,6 +1311,9 @@ marketBuyButton.OnClick = function(self)
                 _G.playSpeech("armory_full")
             end
         end
+
+        _G.bus.emit(Events.OnMarketBuy, quantity, good)
+        _G.bus.emit(Events.OnGoldChanged, goldBeforeTrade, _G.state.gold)
         DisplayCurrentStock(groupTypeMarket.name)
         actionBar:updateStockpileResourcesCount()
         actionBar:updateGoldCount()
@@ -1334,9 +1339,10 @@ marketSellButton.OnMouseDown = function(self)
 end
 marketSellButton.OnClick = function(self)
     -- TODO add sound
-    local quantity_temp;
+    local goldBeforeTrade = _G.state.gold
+    local quantity_temp = quantity
     if good then
-        if _G.state.resources[good] == 0 or _G.state.food[good] == 0 then
+        if _G.state.resources[good] == 0 or _G.state.food[good] == 0 or _G.state.weapons[good] == 0 then
             _G.playSpeech("not_enough_goods")
             return
         end
@@ -1395,6 +1401,8 @@ marketSellButton.OnClick = function(self)
                 _G.playInterfaceSfx(_G.fx["drawbridge_control"], nil, true)
             end
         end
+        _G.bus.emit(Events.OnMarketSell, quantity_temp, good)
+        _G.bus.emit(Events.OnGoldChanged, goldBeforeTrade, _G.state.gold)
         DisplayCurrentStock(groupTypeMarket.name)
         actionBar:updateStockpileResourcesCount()
         actionBar:updateGoldCount()
