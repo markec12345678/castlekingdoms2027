@@ -1,0 +1,79 @@
+local tileQuads = require("objects.object_quads")
+local Structure = require("objects.Structure")
+local Object = require("objects.Object")
+
+local SmallPondAlias = _G.class("SmallPondAlias", Structure)
+function SmallPondAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
+    Structure.initialize(self, gx, gy, "SmallPondAlias")
+    self.tile = tile
+    self.parent = parent
+    self.offsetX = offsetX
+    self.offsetY = offsetY
+    self:render()
+end
+
+local SmallPond = _G.class("SmallPond", Structure)
+SmallPond.static.WIDTH = 5
+SmallPond.static.LENGTH = 5
+SmallPond.static.HEIGHT = 0
+SmallPond.static.ALIAS_NAME = "SmallPondAlias"
+SmallPond.static.DESTRUCTIBLE = true
+function SmallPond:initialize(gx, gy, currentSprite)
+    Structure.initialize(self, gx, gy, "SmallPond")
+    local tileKey = "tile_buildings_ponds (" .. currentSprite .. ")"
+    local tiles, quadArray = _G.indexBuildingQuads(tileKey)
+    self.currentSprite = currentSprite
+    self.tile = tileQuads["empty"]
+    self.offsetY = -74
+
+    for tile = 1, tiles do
+        SmallPondAlias:new(quadArray[tile], self.gx + tile - 1, self.gy + tiles, self,
+            self.offsetY + 24 + 16 - 8 * tile)
+    end
+
+    SmallPondAlias:new(quadArray[tiles + 1], self.gx + tiles, self.gy + tiles, self, self.offsetY)
+
+    for tile = 1, tiles do
+        SmallPondAlias:new(quadArray[tiles + 1 + tile], self.gx + tiles, self.gy + (tiles - tile), self,
+            self.offsetY + 24 - 9 + 1 + 16 - 8 * (tiles - tile), 16)
+    end
+
+    for xx = -1, 4 do
+        for yy = -1, 4 do
+            _G.terrainSetTileAt(gx + xx, gy + yy, _G.terrainBiome.scarceGrass)
+        end
+    end
+
+    for xx = 0, self.class.WIDTH - 1 do
+        for yy = 0, self.class.LENGTH - 1 do
+            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + yy, "Structure") then
+                SmallPondAlias:new(tileQuads["empty"], self.gx + xx, self.gy + yy, self, 0, 0)
+            end
+        end
+    end
+    self:applyBuildingHeightMap()
+end
+
+function SmallPond:destroy()
+    Structure.destroy(self)
+end
+
+function SmallPond:serialize()
+    local data = {}
+    local structData = Structure.serialize(self)
+    for k, v in pairs(structData) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
+    data.currentSprite = self.currentSprite
+    return data
+end
+
+function SmallPond.static:deserialize(data)
+    local obj = self:new(data.gx, data.gy, data.currentSprite)
+    Object.deserialize(obj, data)
+    return obj
+end
+
+return SmallPond

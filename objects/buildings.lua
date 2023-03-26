@@ -38,6 +38,12 @@ local BlacksmithWorkshop = require("objects.Structures.Blacksmith")
 local WoodenKeep = require("objects.Structures.WoodenKeep")
 local Keep = require("objects.Structures.Keep")
 local Fortress = require("objects.Structures.Fortress")
+local Maypole = require("objects.Structures.Maypole")
+local SmallPond = require("objects.Structures.SmallPond")
+local LargePond = require("objects.Structures.LargePond")
+local SmallGarden = require("objects.Structures.SmallGarden")
+local MediumGarden = require("objects.Structures.MediumGarden")
+local LargeGarden = require("objects.Structures.LargeGarden")
 local EngineersGuild = require("objects.Structures.EngineersGuild")
 local TunnelersGuild = require("objects.Structures.TunnelersGuild")
 local PerimeterTower = require("objects.Structures.PerimeterTower")
@@ -1645,6 +1651,178 @@ local buildings = {
             self.previousGy = self.gy
             self.previousCanBuild = self.canBuild
             self.lastBuilding = self.building
+        end
+    },
+    ["Maypole"] = {
+        quad = tileQuads["anim_maypole_full (1)"],
+        w = 3,
+        h = 3,
+        offsetX = 32,
+        offsetY = 50,
+        cost = {
+            ["wood"] = 2,
+            ["gold"] = 30
+        },
+        build = function(self, gx, gy)
+            Maypole:new(gx, gy)
+        end,
+        specialRequirements = function(self, _, _)
+            return true
+        end
+    },
+    ["SmallPond"] = {
+        sprites = {
+            {
+                quad = tileQuads["tile_buildings_ponds (1)"],
+                offsetX = 62,
+                offsetY = 9
+            },
+            {
+                quad = tileQuads["tile_buildings_ponds (2)"],
+                offsetX = 62,
+                offsetY = 9
+            }
+        },
+        w = 5,
+        h = 5,
+        cost = {
+            ["gold"] = 30
+        },
+        build = function(self, gx, gy, currentSprite)
+            SmallPond:new(gx, gy, currentSprite)
+        end,
+        specialRequirements = function(self, _, _)
+            return true
+        end
+    },
+    ["LargePond"] = {
+        sprites = {
+            {
+                quad = tileQuads["tile_buildings_ponds (3)"],
+                offsetX = 78,
+                offsetY = 0
+            },
+            {
+                quad = tileQuads["tile_buildings_ponds (4)"],
+                offsetX = 78,
+                offsetY = 0
+            }
+        },
+        w = 6,
+        h = 6,
+        cost = {
+            ["gold"] = 30
+        },
+        build = function(self, gx, gy, currentSprite)
+            LargePond:new(gx, gy, currentSprite)
+        end,
+        specialRequirements = function(self, _, _)
+            return true
+        end
+    },
+    ["SmallGarden"] = {
+        sprites = {
+            {
+                quad = tileQuads["tile_buildings_gardens (1)"],
+                offsetX = 16,
+                offsetY = 20
+            },
+            {
+                quad = tileQuads["tile_buildings_gardens (2)"],
+                offsetX = 16,
+                offsetY = 4
+            },
+            {
+                quad = tileQuads["tile_buildings_gardens (3)"],
+                offsetX = 16,
+                offsetY = 2
+            },
+            {
+                quad = tileQuads["tile_buildings_gardens (4)"],
+                offsetX = 16,
+                offsetY = 2
+            },
+            {
+                quad = tileQuads["tile_buildings_gardens (5)"],
+                offsetX = 16,
+                offsetY = 2
+            },
+            {
+                quad = tileQuads["tile_buildings_gardens (6)"],
+                offsetX = 16,
+                offsetY = 2
+            }
+        },
+        w = 2,
+        h = 2,
+        cost = {
+            ["gold"] = 30
+        },
+        build = function(self, gx, gy, currentSprite)
+            SmallGarden:new(gx, gy, currentSprite)
+        end,
+        specialRequirements = function(self, _, _)
+            return true
+        end
+    },
+    ["MediumGarden"] = {
+        sprites = {
+            {
+                quad = tileQuads["tile_buildings_gardens (7)"],
+                offsetX = 32,
+                offsetY = 20
+            },
+            {
+                quad = tileQuads["tile_buildings_gardens (8)"],
+                offsetX = 32,
+                offsetY = 12
+            },
+            {
+                quad = tileQuads["tile_buildings_gardens (9)"],
+                offsetX = 32,
+                offsetY = 4
+            }
+        },
+        w = 3,
+        h = 3,
+        cost = {
+            ["gold"] = 30
+        },
+        build = function(self, gx, gy, currentSprite)
+            MediumGarden:new(gx, gy, currentSprite)
+        end,
+        specialRequirements = function(self, _, _)
+            return true
+        end
+    },
+    ["LargeGarden"] = {
+        sprites = {
+            {
+                quad = tileQuads["tile_buildings_gardens (10)"],
+                offsetX = 48,
+                offsetY = 18
+            },
+            {
+                quad = tileQuads["tile_buildings_gardens (11)"],
+                offsetX = 48,
+                offsetY = 4
+            },
+            {
+                quad = tileQuads["tile_buildings_gardens (12)"],
+                offsetX = 48,
+                offsetY = 8
+            }
+        },
+        w = 4,
+        h = 4,
+        cost = {
+            ["gold"] = 30
+        },
+        build = function(self, gx, gy, currentSprite)
+            LargeGarden:new(gx, gy, currentSprite)
+        end,
+        specialRequirements = function(self, _, _)
+            return true
         end
     }
 }

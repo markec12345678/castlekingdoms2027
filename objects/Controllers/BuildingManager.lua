@@ -48,6 +48,18 @@ function BuildingManager:getPlayerBuildings(buildingClass)
     return list
 end
 
+---@return integer positiveBuildings count of player owned positive buildings
+function BuildingManager:getCountOfPositiveBuildings()
+    local count = 0
+    count = count + #self:getPlayerBuildings("LargeGarden")
+    count = count + #self:getPlayerBuildings("MediumGarden")
+    count = count + #self:getPlayerBuildings("SmallGarden")
+    count = count + #self:getPlayerBuildings("SmallPond")
+    count = count + #self:getPlayerBuildings("LargePond")
+    count = count + #self:getPlayerBuildings("Maypole")
+    return count
+end
+
 ---@param buildingClass {name: string}|string
 ---@return integer count total count of a specific building class
 function BuildingManager:count(buildingClass)

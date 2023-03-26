@@ -53,7 +53,7 @@ function _G.indexBuildingQuads(quadString, trimLast, lastWidthOffset)
     local resultArray = {}
     local quad = tileQuads[quadString]
     local x, y, w, h = quad:getViewport()
-    local totalTilesWide = math.ceil(w / _G.tileWidth)
+    local totalTilesWide = math.ceil((w - lastWidthOffset) / _G.tileWidth)
     local middleCount = 0
     for i = 1, totalTilesWide - 1 do
         resultArray[#resultArray + 1] = love.graphics.newQuad(x + 16 * (i - 1), y, _G.tileWidth / 2, h, _G.imageW,

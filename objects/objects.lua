@@ -127,6 +127,12 @@ local HopsFarm = love.filesystem.load("objects/Structures/HopsFarm.lua")(object,
     activeEntities)
 local DairyFarm = love.filesystem.load("objects/Structures/DairyFarm.lua")(activeEntities, object, tileQuads, objectBatch)
 local OxTether = love.filesystem.load("objects/Structures/OxTether.lua")(object, tileQuads, objectBatch, activeEntities)
+local Maypole = love.filesystem.load("objects/Structures/Maypole.lua")(activeEntities, tileQuads)
+local SmallPond = love.filesystem.load("objects/Structures/SmallPond.lua")(activeEntities, tileQuads)
+local LargePond = love.filesystem.load("objects/Structures/LargePond.lua")(activeEntities, tileQuads)
+local SmallGarden = love.filesystem.load("objects/Structures/SmallGarden.lua")(activeEntities, tileQuads)
+local MediumGarden = love.filesystem.load("objects/Structures/MediumGarden.lua")(activeEntities, tileQuads)
+local LargeGarden = love.filesystem.load("objects/Structures/LargeGarden.lua")(activeEntities, tileQuads)
 
 package.loaded["objects.Environment.Tree"] = Tree
 package.loaded["objects.Environment.PineTree"] = PineTree
@@ -180,6 +186,12 @@ package.loaded["objects.Structures.WheatFarm"] = WheatFarm
 package.loaded["objects.Structures.HopsFarm"] = HopsFarm
 package.loaded["objects.Structures.DairyFarm"] = DairyFarm
 package.loaded["objects.Structures.OxTether"] = OxTether
+package.loaded["objects.Structures.Maypole"] = Maypole
+package.loaded["objects.Structures.SmallPond"] = SmallPond
+package.loaded["objects.Structures.LargePond"] = LargePond
+package.loaded["objects.Structures.SmallGarden"] = SmallGarden
+package.loaded["objects.Structures.MediumGarden"] = MediumGarden
+package.loaded["objects.Structures.LargeGarden"] = LargeGarden
 _G.stockpile = require("objects.Controllers.StockpileController")
 _G.foodpile = require("objects.Controllers.FoodController")
 _G.weaponpile = require("objects.Controllers.WeaponController")

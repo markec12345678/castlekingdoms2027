@@ -27,11 +27,22 @@ function PopularityController:deserialize(data)
     end
 end
 
+function PopularityController:calculatePositiveBuildingPopularity()
+    local positiveBuildingFactor = _G.BuildingManager:getCountOfPositiveBuildings() - (math.ceil(_G.state.population / 16) - 1)
+    if positiveBuildingFactor > 5 then
+        positiveBuildingFactor = 5
+    elseif positiveBuildingFactor < 0 then
+        positiveBuildingFactor = 0
+    end
+    return positiveBuildingFactor
+end
+
 function PopularityController:update()
+    self:calculatePositiveBuildingPopularity()
     if not _G.campfireFloatPop then return end
     self.timer = self.timer + _G.dt
     if self.timer >= self.class.POPULARITY_INTERVAL then
-        _G.state.popularity = 50 + _G.TaxController:getMoodFactor() + RationController:getMoodLevel()
+        _G.state.popularity = 50 + _G.TaxController:getMoodFactor() + RationController:getMoodLevel() + self:calculatePositiveBuildingPopularity()
         self.timer = 0
         actionBar:updatePopularityCount()
         local x = _G.state.popularity
