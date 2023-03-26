@@ -1,5 +1,6 @@
 local FoodController = _G.class('FoodController')
 local FOOD = require("objects.Enums.Food")
+local Events = require("objects.Enums.Events")
 
 ---Initializes the Food Controller by assigning variables.
 function FoodController:initialize()
@@ -29,11 +30,13 @@ function FoodController:store(food) -- TODO add amount
     if _G.state.notFullFoods[food] < 1 then
         for _, v in ipairs(self.list) do
             if v:store(food) then
+                _G.bus.emit(Events.OnFoodStore, FOOD[food])
                 return true
             end
         end
     else
         self.food[food][#self.food[food]].id.parent:store(food)
+        _G.bus.emit(Events.OnFoodStore, FOOD[food])
         return true
     end
 end
@@ -52,6 +55,7 @@ function FoodController:take(food, amount)
                 if next(foodPile) ~= nil then
                     takenFood = takenFood + 1
                     foodPile[#foodPile].id.parent:take(foodType, foodPile[#foodPile])
+                    _G.bus.emit(Events.OnFoodTake, FOOD[food])
                 end
             end
         end

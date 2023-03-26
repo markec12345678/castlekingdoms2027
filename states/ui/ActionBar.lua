@@ -4,6 +4,7 @@ local base = require("states.ui.base")
 local keybindManager = require("objects.Controllers.KeybindManager")
 local EVENT = require("objects.Enums.KeyEvents")
 local w, h = base.w, base.h
+local Events = require "objects.Enums.Events"
 
 local ACTION_BAR_USER_SCALE_W = 60
 local ACTION_BAR_USER_SCALE_H = 20
@@ -176,7 +177,6 @@ function ActionBar:switchMode(mode)
 end
 
 function ActionBar:updatePopularityCount()
-
     local color
     if _G.state.popularity == nil then
         return
@@ -210,6 +210,9 @@ function ActionBar:updateGoldCount()
 end
 
 function ActionBar:updatePopulationCount()
+    if _G.debugMode then
+        _G.bus.on(Events.OnPopulationChange, print)
+    end
     if _G.state.population == _G.state.maxPopulation then
         self.populationText:SetFont(loveframes.slanted_small_red)
     else

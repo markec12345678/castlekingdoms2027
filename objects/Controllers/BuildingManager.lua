@@ -1,4 +1,5 @@
 local buildings = require("objects.buildings")
+local Events = require "objects.Enums.Events"
 
 ---@class BuildingManager
 ---@field private buildings table<string, table<integer, Object>>
@@ -15,6 +16,7 @@ end
 ---@param building Object
 function BuildingManager:add(building)
     self.buildings[building.class.name][building.id] = building
+    _G.bus.emit(Events.OnBuildingPlaced, building.class.name, building.gx, building.gy)
 end
 
 ---prints how many of each buildings exist
@@ -31,6 +33,7 @@ end
 function BuildingManager:remove(building)
     if self.buildings[building.class.name] and self.buildings[building.class.name][building.id] then
         self.buildings[building.class.name][building.id] = nil
+        _G.bus.emit(Events.OnBuildingDestroyed, building.class.name)
         return true
     end
     return false

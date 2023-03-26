@@ -11,7 +11,7 @@ local backButton = ActionBarButton:new(love.graphics.newImage("assets/ui/back_ab
 backButton:setOnClick(function(self)
     actionBar:switchMode()
 end)
-actionBar:registerGroup("keep_tax", {backButton})
+actionBar:registerGroup("keep_tax", { backButton })
 
 local emptyImage = love.graphics.newImage("assets/ui/keep/empty_tax_button.png")
 local pointerImage = love.graphics.newImage("assets/ui/keep/pointer_keep.png")
@@ -170,9 +170,9 @@ local taxTextGui = loveframes.Create("text")
 taxTextGui:SetState(states.STATE_KEEP_TAX)
 taxTextGui:SetFont(loveframes.font_immortal_large)
 taxTextGui:SetPos(frText.x, frText.y)
-taxTextGui:SetText({{
-    color = {0, 0, 0, 1}
-}, "0"})
+taxTextGui:SetText({ {
+    color = { 0, 0, 0, 1 }
+}, "0" })
 taxTextGui:SetShadowColor(0, 0, 0, 1)
 taxTextGui:SetShadow(true)
 
@@ -180,9 +180,9 @@ local taxTextGuiRight = loveframes.Create("text")
 taxTextGuiRight:SetState(states.STATE_KEEP_TAX)
 taxTextGuiRight:SetFont(loveframes.font_immortal_large)
 taxTextGuiRight:SetPos(frTextRight.x, frTextRight.y)
-taxTextGuiRight:SetText({{
-    color = {0, 0, 0, 1}
-}, TaxController.taxText})
+taxTextGuiRight:SetText({ {
+    color = { 0, 0, 0, 1 }
+}, TaxController.taxText })
 taxTextGuiRight:SetMaxWidth(frTextRight.width)
 taxTextGuiRight:SetShadowColor(0.8, 0.8, 0.8, 1)
 taxTextGuiRight:SetShadow(true)
@@ -192,7 +192,7 @@ local populationText = loveframes.Create("text")
 populationText:SetState(states.STATE_KEEP_TAX)
 populationText:SetFont(loveframes.font_immortal_large)
 populationText:SetPos(frPopulation.x, frPopulation.y)
-populationText:SetText("")
+populationText:SetText("0")
 populationText:SetShadowColor(0.8, 0.8, 0.8, 1)
 populationText:SetShadow(true)
 group["population"] = populationText
@@ -201,9 +201,9 @@ local goldText = loveframes.Create("text")
 goldText:SetState(states.STATE_KEEP_TAX)
 goldText:SetFont(loveframes.font_immortal_large)
 goldText:SetPos(frGold.x, frGold.y)
-goldText:SetText({{
-    color = {0, 0, 0, 1}
-}, "0"})
+goldText:SetText({ {
+    color = { 0, 0, 0, 1 }
+}, "0" })
 goldText:SetShadowColor(0.8, 0.8, 0.8, 1)
 goldText:SetShadow(true)
 group["gold"] = goldText
@@ -212,9 +212,9 @@ local tickText = loveframes.Create("text")
 tickText:SetState(states.STATE_KEEP_TAX)
 tickText:SetFont(loveframes.font_immortal_large)
 tickText:SetPos(frTextTick.x, frTextTick.y)
-tickText:SetText({{
-    color = {0, 0, 0, 1}
-}, "Auto Tax"})
+tickText:SetText({ {
+    color = { 0, 0, 0, 1 }
+}, "Auto Tax" })
 tickText:SetShadowColor(0.8, 0.8, 0.8, 1)
 tickText:SetMaxWidth(frTextTick.width)
 tickText:SetShadow(true)
@@ -282,14 +282,14 @@ local moodImageMapping = {
     moodNegativeImage,
 }
 local function SetTax(option)
-    local color = {0, 0, 0, 1}
+    local color = { 0, 0, 0, 1 }
 
     TaxController.taxText = taxMapping[option]
     local moodText = moodMapping[option]
     if moodText < 0 then
-        color = {200 / 255, 90 / 255, 90 / 255, 1}
+        color = { 200 / 255, 90 / 255, 90 / 255, 1 }
     elseif moodText > 0 then
-        color = {130 / 255, 220 / 255, 123 / 255, 1}
+        color = { 130 / 255, 220 / 255, 123 / 255, 1 }
     end
     local moodImage = moodImageMapping[option]
     _G.TaxController:setTaxLevel(TaxController.taxText)
@@ -299,18 +299,18 @@ local function SetTax(option)
     _G.TaxController.autoTax = TickIsClicked
     Pointer:SetPos(frDynamicPosition[option].x + 8 * scale, frPointer.y)
     MoodImage:SetImage(moodImage)
-    taxTextGui:SetText({{
+    taxTextGui:SetText({ {
         color = color
-    }, moodText})
-    taxTextGuiRight:SetText({{
-        color = {0, 0, 0, 1}
-    }, TaxController.taxText})
-    populationText:SetText({{
-        color = {0, 0, 0, 1}
-    }, _G.state.population})
-    goldText:SetText({{
-        color = {0, 0, 0, 1}
-    }, math.round(_G.state.population * TaxController.goldFactor, 0)})
+    }, moodText })
+    taxTextGuiRight:SetText({ {
+        color = { 0, 0, 0, 1 }
+    }, TaxController.taxText })
+    populationText:SetText({ {
+        color = { 0, 0, 0, 1 }
+    }, TaxController:getWorkers() })
+    goldText:SetText({ {
+        color = { 0, 0, 0, 1 }
+    }, math.round((_G.state.population - _G.campfire.peasants) * TaxController.goldFactor, 0) })
     currentOption = option
     if option < 4 and _G.state.gold < (math.round(_G.state.population * TaxController.goldFactor, 0) * -1) then
         SetTax(4)

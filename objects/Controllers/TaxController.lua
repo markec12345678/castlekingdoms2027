@@ -1,5 +1,6 @@
 local actionBar = require("states.ui.ActionBar")
 local TaxController = _G.class("TaxController")
+local Events = require "objects.Enums.Events"
 TaxController.static.TAX_LEVELS = {
     GenerousBribe = -1.0,
     LargeBribe = -0.8,
@@ -67,7 +68,12 @@ function TaxController:getMoodFactor()
     return self.moodFactor
 end
 
+function TaxController:getWorkers()
+    return _G.state.population - _G.campfire.peasants
+end
+
 function TaxController:update()
+    local goldBeforeTax = _G.state.gold
     local elements = require("states.ui.keep.keep_tax")
     self.timer = self.timer + _G.dt
     if _G.state.gold < (math.round(_G.state.population * self.goldFactor, 0) * -1) then
@@ -75,17 +81,17 @@ function TaxController:update()
         elements.SetTax(4)
     end
     if self.timer >= self.class.TAX_INTERVAL then
-        _G.state.gold = _G.state.gold + math.round((_G.state.population - _G.campfire.peasants) * self.goldFactor, 0)
+        _G.state.gold = _G.state.gold + math.round((_G.TaxController:getWorkers()) * self.goldFactor, 0)
         self.timer = 0
-        elements.tax:SetText({{
-            color = {0, 0, 0, 1}
-        }, self.taxText})
-        elements.population:SetText({{
-            color = {0, 0, 0, 1}
-        }, _G.state.population})
-        elements.gold:SetText({{
-            color = {0, 0, 0, 1}
-        }, math.round(_G.state.population * self.goldFactor, 0)})
+        elements.tax:SetText({ {
+            color = { 0, 0, 0, 1 }
+        }, self.taxText })
+        elements.population:SetText({ {
+            color = { 0, 0, 0, 1 }
+        }, _G.state.population })
+        elements.gold:SetText({ {
+            color = { 0, 0, 0, 1 }
+        }, math.round((_G.TaxController:getWorkers()) * self.goldFactor, 0) })
         if _G.TaxController.autoTax then
             if _G.state.popularity >= 66 then
                 _G.TaxController:setTaxLevel("Downright Cruel Taxes")
@@ -116,6 +122,9 @@ function TaxController:update()
                 elements.SetTax(4)
             end
         end
+        _G.bus.emit(Events.OnTaxCollected, self.moodFactor, self.goldFactor,
+            math.round((_G.TaxController:getWorkers()) * self.goldFactor, 0))
+        _G.bus.emit(Events.OnGoldChanged, goldBeforeTax, _G.state.gold)
         actionBar:updateGoldCount()
     end
 end

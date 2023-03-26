@@ -1,5 +1,6 @@
 local WeaponController = _G.class('WeaponController')
 local WEAPON = require("objects.Enums.Weapon")
+local Events = require("objects.Enums.Events")
 
 function WeaponController:initialize()
     self.list = {}
@@ -16,11 +17,13 @@ function WeaponController:store(weapon) -- TODO add amount
     if _G.state.notFullArmoury[weapon] < 1 then
         for _, v in ipairs(self.list) do
             if v:store(weapon) then
+                _G.bus.emit(Events.OnWeaponStore, WEAPON[weapon])
                 return true
             end
         end
     else
         self.weapons[weapon][#self.weapons[weapon]].id.parent:store(weapon)
+        _G.bus.emit(Events.OnWeaponStore, WEAPON[weapon])
         return true
     end
 end
@@ -36,6 +39,7 @@ function WeaponController:take(weapon, amount)
                 if next(weaponPile) ~= nil then
                     takenWeapon = takenWeapon + 1
                     weaponPile[#weaponPile].id.parent:take(weaponType, weaponPile[#weaponPile])
+                    _G.bus.emit(Events.OnWeaponTake, WEAPON[weapon])
                 end
             end
         end
@@ -44,7 +48,8 @@ function WeaponController:take(weapon, amount)
             if next(self.weapons[weapon]) == nil then
                 break
             else
-                self.weapons[weapon][#self.weapons[weapon]].id.parent:take(weapon, self.weapons[weapon][#self.weapons[weapon]])
+                self.weapons[weapon][#self.weapons[weapon]].id.parent:take(weapon,
+                self.weapons[weapon][#self.weapons[weapon]])
             end
         end
     end

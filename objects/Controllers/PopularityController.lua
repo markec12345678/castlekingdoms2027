@@ -1,5 +1,6 @@
 local actionBar = require("states.ui.ActionBar")
 local RationController = require("objects.Controllers.RationController")
+local Events = require "objects.Enums.Events"
 
 local PopularityController = _G.class("PopularityController")
 PopularityController.static.POPULARITY_INTERVAL = 3
@@ -39,10 +40,12 @@ end
 
 function PopularityController:update()
     self:calculatePositiveBuildingPopularity()
+    local popularityOldValue = _G.state.popularity
     if not _G.campfireFloatPop then return end
     self.timer = self.timer + _G.dt
     if self.timer >= self.class.POPULARITY_INTERVAL then
-        _G.state.popularity = 50 + _G.TaxController:getMoodFactor() + RationController:getMoodLevel() + self:calculatePositiveBuildingPopularity()
+        _G.state.popularity = 50 + _G.TaxController:getMoodFactor() + RationController:getMoodLevel()
+        _G.bus.emit(Events.OnPopulationChange, popularityOldValue, _G.state.popularity)
         self.timer = 0
         actionBar:updatePopularityCount()
         local x = _G.state.popularity

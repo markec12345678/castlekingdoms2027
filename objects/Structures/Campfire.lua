@@ -3,6 +3,7 @@ local anim = require("libraries.anim8")
 local Structure = require("objects.Structure")
 local Peasant = require("objects.Units.Peasant")
 local Object = require("objects.Object")
+local Events = require "objects.Enums.Events"
 
 local ANIM_CAMPFIRE_BURNING = "Campfire burning"
 local ANIM_FLOAT_CIRCLE_GREEN = "Peasants coming float"
@@ -15,8 +16,8 @@ local an = {
 }
 
 local campfireFx = {
-    ["fire"] = {_G.fx["fireloop1"],
-        _G.fx["fireloop2"]}
+    ["fire"] = { _G.fx["fireloop1"],
+        _G.fx["fireloop2"] }
 }
 
 local timerFX = 0
@@ -113,19 +114,23 @@ end
 
 function CampfireFloatPop:immigrantCallback()
     local actionBar = require("states.ui.ActionBar")
+    local oldPopulationValue = _G.state.population
     return function()
         _G.state.population = _G.state.population + 1
         actionBar:updatePopulationCount()
         Peasant:new(_G.spawnPointX, _G.spawnPointY)
+        _G.bus.emit(Events.OnPopulationChange, oldPopulationValue, _G.state.population)
     end
 end
 
 function CampfireFloatPop:emigrantCallback()
     local actionBar = require("states.ui.ActionBar")
+    local oldPopulationValue = _G.state.population
     return function()
         _G.state.population = _G.state.population - 1
         actionBar:updatePopulationCount()
         _G.campfire:makePeasantLeave()
+        _G.bus.emit(Events.OnPopulationChange, oldPopulationValue, _G.state.population)
     end
 end
 
@@ -367,21 +372,21 @@ function Campfire:getPointingDirection(wx, wy)
     if angle < 0 then
         angle = 360 + angle
     end
-    if (angle >= 135 + 22 and angle <= 225 - 22) then -- direction is west
+    if (angle >= 135 + 22 and angle <= 225 - 22) then                                       -- direction is west
         return "west"
-    elseif (angle > 135 - 22 and angle < 135 + 22) then -- direction is southwest
+    elseif (angle > 135 - 22 and angle < 135 + 22) then                                     -- direction is southwest
         return "southwest"
-    elseif (angle > 225 - 22 and angle < 225 + 22) then -- direction is northwest
+    elseif (angle > 225 - 22 and angle < 225 + 22) then                                     -- direction is northwest
         return "northwest"
-    elseif (angle >= 225 + 22 and angle <= 315 - 22) then -- direction is north
+    elseif (angle >= 225 + 22 and angle <= 315 - 22) then                                   -- direction is north
         return "north"
-    elseif (angle >= 45 + 22 and angle <= 135 - 22) then -- direction is south
+    elseif (angle >= 45 + 22 and angle <= 135 - 22) then                                    -- direction is south
         return "south"
     elseif ((angle >= 315 + 22 and angle <= 359) or (angle >= 0 and angle <= 45 - 22)) then -- direction is east
         return "east"
-    elseif (angle > 45 - 22 and angle < 45 + 22) then -- direction is southeast
+    elseif (angle > 45 - 22 and angle < 45 + 22) then                                       -- direction is southeast
         return "southeast"
-    elseif (angle > 315 - 22 and angle < 315 + 22) then -- direction is northeast
+    elseif (angle > 315 - 22 and angle < 315 + 22) then                                     -- direction is northeast
         return "northeast"
     end
 end
