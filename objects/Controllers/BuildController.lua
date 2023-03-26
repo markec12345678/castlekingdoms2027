@@ -49,6 +49,9 @@ function BuildController:initialize()
     self.quads[2] = love.graphics.newQuad(30, 0, 30, 16, image:getWidth(), image:getHeight())
     self.quads[3] = love.graphics.newQuad(60, 0, 30, 16, image:getWidth(), image:getHeight())
     self.quads[4] = love.graphics.newQuad(90, 0, 30, 16, image:getWidth(), image:getHeight())
+    self.isMultispriteBuilding = false
+    self.multispriteSwitchTimer = 0
+    self.currentSprite = 1
 end
 
 function BuildController:disable()
@@ -101,6 +104,13 @@ function BuildController:set(type, callback)
     end
     self.onBuildCallback = callback
     self.building = type
+    if buildingheightmap[type].quads ~= nil and building[type].quad == nil then
+        self.multispriteSwitchTimer = 0
+        self.isMultispriteBuilding = 1
+        self.currentSprite = 1
+    else
+        self.isMultispriteBuilding = false
+    end
     self.width, self.height = building[type].w, building[type].h
     self.batch:clear()
     for x = 0, self.width - 1 do
@@ -151,6 +161,17 @@ function BuildController:update()
     if self.active and _G.loaded then
         if self.start and ActionBar.currentGroup ~= nil then
             ActionBar:showGroup(nil)
+        end
+        if self.isMultispriteBuilding then
+            self.multispriteSwitchTimer = self.multispriteSwitchTimer + _G.dt
+            if self.multispriteSwitchTimer >= 1 then
+                if self.currentSprite == #building[self.building].sprites then
+                    self.currentSprite = 1
+                else
+                    self.currentSprite = self.currentSprite + 1
+                end
+                self.multispriteSwitchTimer = 0
+            end
         end
         local MX, MY = love.mouse.getPosition()
         local LX, LY = _G.getTerrainTileOnMouse(MX, MY)
@@ -337,7 +358,16 @@ function BuildController:build(gx, gy)
                             _G.removeObjectFromClassAtGlobal(gx + xx, gy + yy, "Shrub")
                         end
                     end
-                    building[self.building]:build(gx, gy)
+                    print(gx, gy, self.gx, self.gy)
+                    if self.isMultispriteBuilding then
+                        building[self.building]:build(gx, gy, self.currentSprite)
+                    else
+                        building[self.building]:build(gx, gy)
+                    end
+                    if self.onBuildCallback then
+                        self.onBuildCallback()
+                        self.onBuildCallback = nil
+                    end
                     local builtBuilding = _G.objectFromClassAtGlobal(gx, gy, self.building)
                     _G.BuildingManager:add(builtBuilding)
                     if self.onBuildCallback then
@@ -420,10 +450,20 @@ function BuildController:draw()
         else
             love.graphics.setColor(1, 1, 1, 0.5)
             love.graphics.draw(self.batch, self.FX, self.FY, nil, _G.state.scaleX)
+            local quad = building[self.building].quad
+            local offsetX, offsetY
+            if self.isMultispriteBuilding then
+                quad = building[self.building].sprites[self.currentSprite].quad
+                offsetX = building[self.building].sprites[self.currentSprite].offsetX
+                offsetY = building[self.building].sprites[self.currentSprite].offsetY
+            else
+                offsetX = building[self.building].offsetX
+                offsetY = building[self.building].offsetY
+            end
             if self.canBuild then
-                love.graphics.draw(objectAtlas, building[self.building].quad,
-                    self.FX - (building[self.building].offsetX) * _G.state.scaleX, self.FY - self.elevationOffsetY *
-                    _G.state.scaleX - (building[self.building].offsetY) * _G.state.scaleX, 0, _G.state.scaleX)
+                love.graphics.draw(objectAtlas, quad,
+                    self.FX - (offsetX) * _G.state.scaleX, self.FY - self.elevationOffsetY *
+                    _G.state.scaleX - (offsetY) * _G.state.scaleX, 0, _G.state.scaleX)
             end
             love.graphics.setColor(1, 1, 1, 1)
         end

@@ -32,6 +32,7 @@ function State:initialize()
     self.gold = 1000
     self.population = 0
     self.maxPopulation = 5
+    self.postitiveBuildings = 0
     -- TODO: Make the collision map dynamic
     self.resources = {
         ["wood"] = 0,
@@ -272,6 +273,7 @@ function State:serialize()
     data.gold = self.gold
     data.map = self.map:serialize()
     data.savename = self.savename
+    data.postitiveBuildings = self.postitiveBuildings
     return data, metadata
 end
 
@@ -309,6 +311,7 @@ function State:load(filename, decompress)
         self.notFullArmoury = load.notFullArmoury
         self.popularity = load.popularity
         self.gold = load.gold
+        self.postitiveBuildings = load.postitiveBuildings
         _G.JobController:deserialize(load.jobController)
         _G.TaxController:deserialize(load.taxController)
         local RationController = require("objects.Controllers.RationController")
