@@ -72,6 +72,7 @@ function ActionBar:initialize()
     self.groups = {}
     self.currentGroup = "main"
     self.hasSelectedButton = false
+    self.callback = {}
 end
 
 function ActionBar:switchMode(mode)
@@ -278,8 +279,10 @@ function ActionBar:selectButton(element)
     _G.playInterfaceSfx(_G.fx["woodpush2"], 1)
 end
 
-function ActionBar:registerGroup(name, listOfElements)
+function ActionBar:registerGroup(name, listOfElements, callback)
+    if callback and type(callback) ~= "function" then error("expected function as a parameter, not " .. type(callback)) end
     self.groups[name] = {}
+    self.callback[name] = callback
     for _, v in ipairs(listOfElements) do
         v.group = name
         self.groups[name][v.position] = v
@@ -301,6 +304,9 @@ function ActionBar:showGroup(name, playSound)
         _G.playInterfaceSfx(playSound, 1)
     end
     self.currentGroup = name
+    if self.callback[name] then
+        self.callback[name]()
+    end
     for k, _ in pairs(self.groups) do
         if k ~= name then
             self:hideGroup(k)

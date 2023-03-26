@@ -83,14 +83,14 @@ largeGardenButton:setOnClick(
 )
 
 local function displayTooltips()
-    if ActionBar:getCurrentGroup() ~= "woodenBuildings" then return end
+    if ActionBar:getCurrentGroup() ~= "positiveBuildings" then return end
     local buildings = {
         {button = maypoleButton, name = "Maypole", description = "\nA tall wooden pole, around which a maypole dance often takes place."},
-        {button = smallPondButton, name = "Small Pond", description = "\nA small pond."},
-        {button = largePondButton, name = "Large Pond", description = "\nA large pond."},
-        {button = smallGardenButton, name = "Small Garden", description = "\nA small garden."},
-        {button = mediumGardenButton, name = "Medium Garden", description = "\nA medium-sized garden."},
-        {button = largeGardenButton, name = "Large Garden", description = "\nA large garden."}
+        {button = smallPondButton, name = "SmallPond", description = "\nA small pond."},
+        {button = largePondButton, name = "LargePond", description = "\nA large pond."},
+        {button = smallGardenButton, name = "SmallGarden", description = "\nA small garden."},
+        {button = mediumGardenButton, name = "MediumGarden", description = "\nA medium-sized garden."},
+        {button = largeGardenButton, name = "LargeGarden", description = "\nA large garden."}
     }
     for _, building in ipairs(buildings) do
         local table = getCostAndType(building.name)
@@ -105,4 +105,4 @@ local Events = require("objects.Enums.Events")
 _G.bus.on(Events.OnResourceStore, displayTooltips)
 _G.bus.on(Events.OnResourceTake, displayTooltips)
 
-ActionBar:registerGroup("positiveBuildings", {maypoleButton, smallPondButton, largePondButton, smallGardenButton, mediumGardenButton, largeGardenButton, backButton, destroyButton})
+ActionBar:registerGroup("positiveBuildings", {maypoleButton, smallPondButton, largePondButton, smallGardenButton, mediumGardenButton, largeGardenButton, backButton, destroyButton}, displayTooltips)
