@@ -45,9 +45,11 @@ function PopularityController:update()
     self.timer = self.timer + _G.dt
     if self.timer >= self.class.POPULARITY_INTERVAL then
         _G.state.popularity = 50 + _G.TaxController:getMoodFactor() + RationController:getMoodLevel()
-        _G.bus.emit(Events.OnPopulationChange, popularityOldValue, _G.state.popularity)
+        if popularityOldValue ~= _G.state.popularity then
+            _G.bus.emit(Events.OnPopulationChange, popularityOldValue, _G.state.popularity)
+            actionBar:updatePopularityCount()
+        end
         self.timer = 0
-        actionBar:updatePopularityCount()
         local x = _G.state.popularity
         if _G.state.popularity >= 50 then
             self.speedPopModifier = ((100 - x) / 25) * ((100 - x) / 25) * ((100 - x) / 25) * 0.08 + 0.09
