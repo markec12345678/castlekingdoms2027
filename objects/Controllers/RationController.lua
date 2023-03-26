@@ -12,7 +12,7 @@ local counter = 100
 local integerToFoodType = {}
 local gameFoodsCount = 0
 local curFood = 1
-for _,v in pairs(FOOD) do
+for _, v in pairs(FOOD) do
     gameFoodsCount = gameFoodsCount + 1
     integerToFoodType[gameFoodsCount] = v
 end
@@ -77,7 +77,7 @@ function RationController:getRationLevel()
 end
 
 function RationController:getMoodLevel()
-    if self.previousConsumedFoods == 0 or self.rationLevel == self.class.RATION_LEVELS.NoRations then
+    if (self.previousConsumedFoods == 0 and _G.state.population > 0) or self.rationLevel == self.class.RATION_LEVELS.NoRations then
         return self.class.MOOD_LEVELS.NoRations
     end
     return self.moodFoodFactor + self.consumedFoodsMood
@@ -144,7 +144,7 @@ function RationController:update()
             else
                 -- No food found, check next food.
                 curFood = curFood + 1
-                if curFood >= gameFoodsCount + 1  then
+                if curFood >= gameFoodsCount + 1 then
                     curFood = 1
                 end
             end
