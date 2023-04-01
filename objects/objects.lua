@@ -76,11 +76,14 @@ local OrchardFarmer = love.filesystem.load("objects/Units/OrchardFarmer.lua")(ob
 local WheatFarmer = love.filesystem.load("objects/Units/WheatFarmer.lua")(object, tileQuads)
 local HopsFarmer = love.filesystem.load("objects/Units/HopsFarmer.lua")(object, tileQuads)
 local DairyFarmer = love.filesystem.load("objects/Units/DairyFarmer.lua")(object, tileQuads)
+local Chicken = love.filesystem.load("objects/Units/Chicken.lua")(object, tileQuads)
+local ChickensGroup = love.filesystem.load("objects/Structures/ChickensGroup.lua")(activeEntities, object, tileQuads)
 local Miner = love.filesystem.load("objects/Units/Miner.lua")(object, tileQuads)
 local SaxonHall = love.filesystem.load("objects/Structures/SaxonHall.lua")(object, tileQuads)
 local Stockpile = love.filesystem.load("objects/Structures/Stockpile.lua")(object, tileQuads, objectBatch)
 local Granary = love.filesystem.load("objects/Structures/Granary.lua")(object, tileQuads, objectBatch)
 local Armoury = love.filesystem.load("objects/Structures/Armoury.lua")(tileQuads)
+
 package.loaded["objects.Structures.Armoury"] = Armoury
 local Quarry = love.filesystem.load("objects/Structures/Quarry.lua")(activeEntities, object, tileQuads, objectBatch)
 local Mine = love.filesystem.load("objects/Structures/Mine.lua")(activeEntities, object, tileQuads, objectBatch)
@@ -155,7 +158,9 @@ package.loaded["objects.Units.OrchardFarmer"] = OrchardFarmer
 package.loaded["objects.Units.WheatFarmer"] = WheatFarmer
 package.loaded["objects.Units.HopsFarmer"] = HopsFarmer
 package.loaded["objects.Units.DairyFarmer"] = DairyFarmer
+package.loaded["objects.Units.Chicken"] = Chicken
 package.loaded["objects.Units.Miner"] = Miner
+package.loaded["objects.Structures.ChickensGroup"] = ChickensGroup
 package.loaded["objects.Structures.SaxonHall"] = SaxonHall
 package.loaded["objects.Structures.Stockpile"] = Stockpile
 package.loaded["objects.Structures.Granary"] = Granary
@@ -740,6 +745,14 @@ end
 
 function _G.getWaterAt(gx, gy)
     return _G.state.map:isWaterAt(gx, gy)
+end
+
+function _G.registerActivity(obj)
+    table.insert(activeEntities, obj)
+end
+
+function _G.unregisterActivity(obj)
+    table.remove(activeEntities, obj)
 end
 
 local firstUpdate = true

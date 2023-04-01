@@ -136,6 +136,10 @@ function Unit:animate()
             elevationOffsetY = _G.state.map.heightmap[self.cx][self.cy][self.i][self.o]
         end
         y = y - elevationOffsetY * 2
+        if (not quad) then
+            print("quad is nill", self, self.vertId)
+            return
+        end
         local qx, qy, qw, qh = quad:getViewport()
         local shadowValue = _G.state.map.shadowmap[self.cx][self.cy][self.i][self.o] or 0
         local isInShadow = shadowValue > elevationOffsetY
