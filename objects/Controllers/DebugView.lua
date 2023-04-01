@@ -139,6 +139,9 @@ function DebugView:draw()
             love.graphics.print(self.info, MX + 30 - love.graphics.getWidth() / 2, MY - love.graphics.getHeight() / 2)
         end
         love.graphics.setColor(1, 1, 1, 1)
+        if self.lastObject and self.lastObject.debugDrawPath then
+            self.lastObject:debugDrawPath()
+        end
     end
 end
 

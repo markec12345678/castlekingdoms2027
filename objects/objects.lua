@@ -7,6 +7,9 @@ local love = _G.love
 local bit = _G.bit
 local prof = require("libraries.jprof")
 local inspect = require("libraries.inspect")
+local console = require("libraries.console")
+local showPaths = false
+console.addCommand("togglePaths", function() showPaths = not showPaths end, "Show units paths")
 -- Declarations
 ----Library setup
 -- local bitser = require("libraries.bitser")
@@ -646,6 +649,14 @@ local function drawObject()
     end
     love.graphics.setShader()
     love.graphics.setColor(1, 1, 1, 1)
+
+    if showPaths then
+        for _, obj in ipairs(activeEntities) do
+            if obj:isVisibleOnScreen() then
+                if obj.debugDrawPath then obj:debugDrawPath() end
+            end
+        end
+    end
 end
 
 local function mousepressed(x, y, button)
