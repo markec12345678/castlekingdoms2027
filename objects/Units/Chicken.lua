@@ -3,6 +3,8 @@ local Unit = require("objects.Units.Unit")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
 
+local chickenFx = {_G.fx["chicflap_01"],_G.fx["chicflap_02"],_G.fx["chicflap_03"],_G.fx["chicflap_04"]}
+
 -- walk
 local ANIM_WALKING_EAST = "walking_east"
 local ANIM_WALKING_NORTH = "walking_north"
@@ -102,6 +104,7 @@ function Chicken:startFlying(facingDir)
     end
 
     self.animation = anim.newAnimation(an[ANIM_FLY], flyinggDurations, callback, ANIM_FLY)
+    _G.playSfx(self, chickenFx, true)
 end
 
 function Chicken:dirSubUpdate()

@@ -180,7 +180,6 @@ function Unit:animate()
         end
         y = y - elevationOffsetY * 2
         if (not quad) then
-            print("quad is nill", self, self.vertId)
             return
         end
         local qx, qy, qw, qh = quad:getViewport()
