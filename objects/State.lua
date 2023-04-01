@@ -312,6 +312,14 @@ function State:load(filename, decompress)
         self.popularity = load.popularity
         self.gold = load.gold
         self.postitiveBuildings = load.postitiveBuildings
+        _G.spawnPointX, _G.spawnPointY = load.spawnPointX, load.spawnPointY
+        local campfireClass = _G.getClassByName(load.campfire.className)
+        if campfireClass then
+            campfireClass:deserialize(load.campfire)
+        else
+            print("Campfire is not deserialized")
+            love.quit()
+        end
         _G.JobController:deserialize(load.jobController)
         _G.TaxController:deserialize(load.taxController)
         local RationController = require("objects.Controllers.RationController")
@@ -323,14 +331,6 @@ function State:load(filename, decompress)
         _G.TimeController:deserialize(load.timeController)
         if load.weaponController then
             _G.weaponpile:deserialize(load.weaponController)
-        end
-        _G.spawnPointX, _G.spawnPointY = load.spawnPointX, load.spawnPointY
-        local campfireClass = _G.getClassByName(load.campfire.className)
-        if campfireClass then
-            campfireClass:deserialize(load.campfire)
-        else
-            print("Campfire is not deserialized")
-            love.quit()
         end
         _G.stockpile:deserialize(load.stockpileController)
         warningTooltip:HideTooltip()
