@@ -21,6 +21,7 @@ local _, MarketUI = unpack(require("states.ui.market.market_trade"))
 local BarracksUI = require("states.ui.barracks.units_recruitment")
 local GuildsUI = require("states.ui.guilds.guild_ui")
 local WorkshopsUI = require("states.ui.workshops.workshops_ui")
+local console = require "libraries.console"
 
 local function updateProgress(prgs, lState)
     progress = prgs or progress
@@ -213,6 +214,7 @@ function game:draw()
                 local WallController = require("objects.Controllers.WallController")
                 WallController:drawMouse()
             end
+            console.draw()
         else
             renderLoadingScreen("")
             renderLoadingBar(loadState, progress)
@@ -252,7 +254,15 @@ function game:mousepressed(x, y, button, istouch)
     _G.BrushController:mousepressed(button)
 end
 
+function game:textinput(text)
+    console.textinput(text)
+end
+
 function game:keypressed(key, scancode, isRepeat)
+    if console.isEnabled() then
+        console.keypressed(key, scancode, isRepeat)
+        return
+    end
     ActionBar:keypressed(key, scancode)
 
     local event = keybindManager:getEventForKeypress(key)
@@ -345,6 +355,9 @@ function game:wheelmoved(x, y)
 end
 
 function game:keyreleased(key, scancode)
+    if console.isEnabled() then
+        return
+    end
     -- if not _G.BuildController.start then
     if key == "f" then
         local fullscreen, _ = love.window.getFullscreen()

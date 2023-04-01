@@ -6,8 +6,10 @@ local config = require("config_file")
 local keybindManager = require("objects.Controllers.KeybindManager")
 local EVENT = require("objects.Enums.KeyEvents")
 local workshopWeaponChoosers = require("states.ui.workshops.workshops_ui")
+local console = require("libraries.console")
 local panning = false
 local outsideDeadZone = false
+
 local function getZFromZoom()
     local val = 1
     local scale = _G.state.scaleX
@@ -120,6 +122,7 @@ local panDirectionToMousePositions = {
 ---@param keys table Key table to check.
 ---@return boolean Return if the Camera should pan or not.
 local function isAnyKeyDown(keys)
+    if console.isEnabled() then return false end
     for _, key in pairs(keys) do
         if love.keyboard.isDown(key) then
             return true
