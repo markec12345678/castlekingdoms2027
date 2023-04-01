@@ -65,6 +65,10 @@ function Object:render()
                 tostring(self) .. "\n coordinates: " .. tostring(self.gx) .. ", " .. tostring(self.gy))
         end
         self.instancemesh = _G.state.objectMesh[self.cx][self.cy]
+        if (not self.instancemesh) then
+            error("Object haveno instance mesh " .. tostring(self) .. "\n coordinates: " .. tostring(self.gx) .. ", " .. tostring(self.gy) )
+        end
+
         self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, self.shadowValue)
     end
 end

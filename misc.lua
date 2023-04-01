@@ -28,6 +28,15 @@ function _G.ogIsoToScreenY(xx, yy)
     return ((xx + yy) * tileHeight / 2);
 end
 
+function _G.isChunkCoordinateInsideMap(cx, cy)
+    return (cx >= 0) and (cy >= 0) and (cx < _G.chunksWide) and (cy < _G.chunksWide)
+end
+
+function _G.isGlobalCoordInsideMap(gx, gy)
+    local cx, cy, _x, _y = _G.getLocalCoordinatesFromGlobal(gx, gy)
+    return _G.isChunkCoordinateInsideMap(cx, cy)
+end
+
 function _G.getLocalCoordinatesFromGlobal(gx, gy)
     local cx = math.floor(gx / _G.chunkWidth)
     local cy = math.floor(gy / _G.chunkWidth)

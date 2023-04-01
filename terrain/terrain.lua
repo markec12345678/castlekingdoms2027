@@ -339,6 +339,10 @@ end
 
 local chunksToUpdate = {}
 function _G.scheduleTerrainUpdate(cx, cy, i, o)
+    if (not _G.isChunkCoordinateInsideMap(cx, cy)) then
+        return
+    end
+
     tilesToUpdateInChunk[cx][cy][i][o] = true
     tertiaryTilesToUpdateInChunk[cx][cy][i][o] = true
     for x = -4, 4 do
@@ -543,6 +547,11 @@ local emptyTable = newAutotable(4)
 local function updateTerrain(chunkX, chunkY)
     local cx = chunkX or _G.currentChunkX
     local cy = chunkY or _G.currentChunkY
+    if (not _G.isGlobalCoordInsideMap(cx, cy)) then
+        print((debug.traceback("Error: trying to updateTerrain outside map", 1):gsub("\n[^\n]+$", "")))
+        return
+    end
+
     if terrainBatch[chunkX][chunkY] == nil then
         terrainBatch[chunkX][chunkY] = love.graphics.newSpriteBatch(terrainImage, chunkWidth * chunkHeight)
     end
@@ -974,6 +983,11 @@ end
 local function refreshTerrain(chunkX, chunkY)
     local cx = chunkX or _G.currentChunkX
     local cy = chunkY or _G.currentChunkY
+    if (not _G.isGlobalCoordInsideMap(cx, cy)) then
+        print((debug.traceback("Error: trying to refreshTerrain outside map", 1):gsub("\n[^\n]+$", "")))
+        return
+    end
+
     tilesToUpdateInChunk[cx][cy] = nil
     for i = 0, chunkWidth - 1, 1 do
         for o = 0, chunkWidth - 1, 1 do

@@ -271,6 +271,12 @@ function BuildController:update()
                 self.previousCanBuild = self.canBuild
                 self.lastBuilding = self.building
             end
+            if (self.gx < 0 or self.gy < 0
+                or self.gx + self.width > _G.chunkWidth * _G.chunksWide
+                or self.gy + self.height > _G.chunkHeight * _G.chunksHigh) then
+                self.canBuild = false
+                warningTooltip:ShowTooltip("Cannot build outside of map bounds!")
+            end
         end
     end
 end
@@ -377,6 +383,8 @@ function BuildController:build(gx, gy)
                     return true
                 end
             else
+                local buildingWidth = building[self.building].w - 1
+                local buildingHeight = building[self.building].h - 1
                 for xx = 0, building[self.building].w - 1 do
                     for yy = 0, building[self.building].h - 1 do
                         _G.removeObjectFromClassAtGlobal(gx + xx, gy + yy, "Shrub")
