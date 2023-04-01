@@ -758,12 +758,12 @@ function _G.getWaterAt(gx, gy)
     return _G.state.map:isWaterAt(gx, gy)
 end
 
-function _G.registerActivity(obj)
+function _G.registerActiveEntity(obj)
     table.insert(activeEntities, obj)
 end
 
-function _G.unregisterActivity(obj)
-    table.remove(activeEntities, obj)
+function _G.unregisterActiveEntity(obj)
+    obj.toBeDeleted = true
 end
 
 local firstUpdate = true

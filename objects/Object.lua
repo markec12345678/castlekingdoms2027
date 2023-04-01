@@ -25,6 +25,10 @@ function Object:initialize(gx, gy, type)
     self:calculateShadowValue()
 end
 
+function Object:registerAsActiveEntity()
+    _G.registerActiveEntity(self)
+end
+
 function Object:isVisibleOnScreen()
     if not
         (self.x + (self.cx - self.cy) * chunkWidth * tileWidth * 0.5 < _G.TopLeftX or self.x + (self.cx - self.cy) *

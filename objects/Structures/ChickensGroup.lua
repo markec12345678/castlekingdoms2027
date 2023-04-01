@@ -19,7 +19,7 @@ function ChickensGroup:initialize(gx, gy, parent)
     self.offsetX = -51
     self.offsetY = -87
 
-    _G.registerActivity(self)
+    self:registerAsActiveEntity()
 end
 
 function ChickensGroup:serialize()
@@ -63,7 +63,7 @@ function ChickensGroup.static:deserialize(data)
         obj.chickenThree = _G.state:dereferenceObject(data.chickenThree)
     end
     obj.parent.chickens = obj
-    _G.registerActiveEntity(obj)
+    obj:registerAsActiveEntity()
     return obj
 end
 
