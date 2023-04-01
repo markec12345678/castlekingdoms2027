@@ -2,7 +2,7 @@ local _, objectAtlas = ...
 local image = love.graphics.newImage("assets/tiles/info_tiles_strip.png")
 local ActionBar = require("states.ui.ActionBar")
 local WallController = require("objects.Controllers.WallController")
-
+local console = require("libraries.console")
 local tileWidth, tileHeight = _G.tileWidth, _G.tileHeight
 local IsoToScreenX, IsoToScreenY = _G.IsoToScreenX, _G.IsoToScreenY
 local warningTooltip = require("states.ui.warning_tooltip")
@@ -52,6 +52,7 @@ function BuildController:initialize()
     self.isMultispriteBuilding = false
     self.multispriteSwitchTimer = 0
     self.currentSprite = 1
+    self.freeBuildings = false
 end
 
 function BuildController:disable()
@@ -327,7 +328,13 @@ function BuildController:getBuildingCost(key)
     return building[key].cost;
 end
 
+function BuildController:toggleFreeBuildings()
+    self.freeBuildings = not self.freeBuildings
+    if self.freeBuildings then print("Buildings are now free.") else print("Buildings now require resources.") end
+end
+
 function BuildController:isBuildingAffordable(buildingKey, amountOfBuildings)
+    if self.freeBuildings then return true end
     amountOfBuildings = amountOfBuildings or 1
     for resource, amount in pairs(building[buildingKey].cost) do
         if _G.state.resources[resource] < amount * amountOfBuildings then
@@ -341,6 +348,7 @@ function BuildController:isBuildingAffordable(buildingKey, amountOfBuildings)
 end
 
 function BuildController:purchaseBuilding(buildingKey)
+    if self.freeBuildings then return true end
     for resource, amount in pairs(building[buildingKey].cost) do
         if resource == "gold" then
             _G.state.gold = _G.state.gold - amount
@@ -364,7 +372,6 @@ function BuildController:build(gx, gy)
                             _G.removeObjectFromClassAtGlobal(gx + xx, gy + yy, "Shrub")
                         end
                     end
-                    print(gx, gy, self.gx, self.gy)
                     if self.isMultispriteBuilding then
                         building[self.building]:build(gx, gy, self.currentSprite)
                     else
@@ -478,4 +485,6 @@ function BuildController:draw()
     end
 end
 
-return BuildController:new()
+local instance = BuildController:new()
+console.addCommand("freeBuildings", function() instance:toggleFreeBuildings() end, "Toggle whether buildings cost resources.")
+return instance

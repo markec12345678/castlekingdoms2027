@@ -1,18 +1,4 @@
-local Woodcutter = require("objects.Units.Woodcutter")
-local Stonemason = require("objects.Units.Stonemason")
-local OrchardFarmer = require("objects.Units.OrchardFarmer")
-local WheatFarmer = require("objects.Units.WheatFarmer")
-local HopsFarmer = require("objects.Units.HopsFarmer")
-local DairyFarmer = require("objects.Units.DairyFarmer")
-local Miner = require("objects.Units.Miner")
-local Miller = require("objects.Units.Miller")
-local Baker = require("objects.Units.Baker")
-local Fletcher = require("objects.Units.Fletcher")
-local Poleturner = require("objects.Units.Poleturner")
-local Armourer = require("objects.Units.Armourer")
-local Blacksmith = require("objects.Units.Blacksmith")
-local Brewer = require("objects.Units.Brewer")
-local OxHandler = require("objects.Units.OxHandler")
+local console = require("libraries.console")
 
 local JobController = _G.class("JobController")
 function JobController:initialize()
@@ -39,6 +25,7 @@ function JobController:initializeWorkplaces()
         ["Brewer"] = {},
         ["OxHandler"] = {}
     }
+    self.unlimitedWorkers = false
 end
 
 function JobController:add(job, workplace)
@@ -53,6 +40,15 @@ function JobController:remove(job, workplace)
     end
 end
 
+function JobController:toggleUnlimitedWorkers()
+    self.unlimitedWorkers = not self.unlimitedWorkers
+    if self.unlimitedWorkers then 
+        print("No longer waiting for peasants to fill worker pool.") 
+    else 
+        print("Peasants now work almost normally. Bugs are to be expected.") 
+    end
+end
+
 function JobController:addAvailableWorker()
     self.workers = self.workers + 1
     self.requestedWorkers = self.requestedWorkers - 1
@@ -62,15 +58,17 @@ function JobController:makeWorker()
     for job, workplaces in pairs(self.list) do
         for _, workplace in pairs(workplaces) do
             if workplace.freeSpots > 0 then
-                if self.workers == 0 then
-                    if self.requestedWorkers == 0 then
-                        local peasant = _G.campfire:getFreePeasant()
-                        if peasant then
-                            peasant:getAJob()
-                            self.requestedWorkers = self.requestedWorkers + 1
+                if not self.unlimitedWorkers then
+                    if self.workers == 0 then
+                        if self.requestedWorkers == 0 then
+                            local peasant = _G.campfire:getFreePeasant()
+                            if peasant then
+                                peasant:getAJob()
+                                self.requestedWorkers = self.requestedWorkers + 1
+                            end
                         end
+                        return
                     end
-                    return
                 end
                 self.workers = self.workers - 1
                 local workerClass = _G.getClassByName(job)
@@ -110,4 +108,6 @@ function JobController:deserialize(data)
     end
 end
 
-return JobController:new()
+local instance = JobController:new()
+console.addCommand("unlimitedWorkers", function() instance:toggleUnlimitedWorkers() end, "Directly spawn workers without waiting for peasants.")
+return instance
