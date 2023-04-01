@@ -329,6 +329,9 @@ end
 ---@param objClass table|string Class or name of the object's class.
 ---@return Object|false
 function _G.objectFromSubclassAtGlobal(gx, gy, objClass)
+    if (not _G.isGlobalCoordInsideMap(gx, gy)) then
+        return false
+    end
     if type(objClass) == "string" then
         objClass = _G.getClassByName(objClass)
         if not objClass then error(string.format("invalid class name: %s", objClass)) end
@@ -649,6 +652,9 @@ local function mousepressed(x, y, button)
     press.y = (press.gy) % (chunkWidth)
     if button == 1 then
         local Structure = require("objects.Structure")
+        if (not _G.isGlobalCoordInsideMap(press.gx, press.gy)) then
+            return
+        end
         local structure = _G.objectFromSubclassAtGlobal(press.gx, press.gy, Structure)
         if structure then
             structure = structure.parent or structure
