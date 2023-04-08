@@ -16,6 +16,7 @@ hovelButton:setOnClick(function(self)
     ActionBar:selectButton(hovelButton)
 end)
 
+-- PositiveBuilding
 local positiveBuildingButton = ActionBarButton:new(love.graphics.newImage('assets/ui/large_garden_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 2, true)
 positiveBuildingButton:setTooltip("Good Things", "Gardens, Statues and Entertainment to increse your popularity.")
@@ -42,6 +43,7 @@ churchButton:setOnClick(function(self)
     ActionBar:selectButton(churchButton)
 end)
 
+-- Cathedral
 local cathedralButton = ActionBarButton:new(love.graphics.newImage('assets/ui/cathedral_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 5, true)
 
@@ -50,6 +52,16 @@ cathedralButton:setOnClick(function(self)
         cathedralButton:select()
     end)
     ActionBar:selectButton(cathedralButton)
+end)
+
+-- Apothecary
+local apothecaryButton = ActionBarButton:new(love.graphics.newImage('assets/ui/apothecary_ab.png'), states.STATE_INGAME_CONSTRUCTION, 6, true)
+
+apothecaryButton:setOnClick(function(self)
+    _G.BuildController:set("Apothecary", function()
+        apothecaryButton:select()
+    end)
+    ActionBar:selectButton(apothecaryButton)
 end)
 
 
@@ -84,6 +96,6 @@ positiveBuildingButton:setOnClick(function(self)
     ActionBar:showGroup("positiveBuildings")
 end)
 
-ActionBar:registerGroup("house", {hovelButton, positiveBuildingButton, chapelButton, churchButton, cathedralButton, backButton, destroyButton})
+ActionBar:registerGroup("house", {hovelButton, positiveBuildingButton, chapelButton, churchButton, cathedralButton, apothecaryButton, backButton, destroyButton})
 
 package.loaded["states.ui.construction.level_3_positive_buildings"] = love.filesystem.load("states/ui/construction/level_3_positive_buildings.lua")(el, backButton, destroyButton, getCostAndType)
