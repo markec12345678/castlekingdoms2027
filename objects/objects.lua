@@ -139,6 +139,7 @@ local LargePond = love.filesystem.load("objects/Structures/LargePond.lua")(activ
 local SmallGarden = love.filesystem.load("objects/Structures/SmallGarden.lua")(activeEntities, tileQuads)
 local MediumGarden = love.filesystem.load("objects/Structures/MediumGarden.lua")(activeEntities, tileQuads)
 local LargeGarden = love.filesystem.load("objects/Structures/LargeGarden.lua")(activeEntities, tileQuads)
+local Apothecary = love.filesystem.load("objects/Structures/Apothecary.lua")(activeEntities, tileQuads, objectBatch)
 
 package.loaded["objects.Environment.Tree"] = Tree
 package.loaded["objects.Environment.PineTree"] = PineTree
@@ -194,7 +195,7 @@ package.loaded["objects.Structures.WheatFarm"] = WheatFarm
 package.loaded["objects.Structures.HopsFarm"] = HopsFarm
 package.loaded["objects.Structures.DairyFarm"] = DairyFarm
 package.loaded["objects.Structures.OxTether"] = OxTether
-package.loaded["objects.Structures.Maypole"] = Maypole
+package.loaded["objects.Structures.Apothecary"] = Apothecary
 package.loaded["objects.Structures.SmallPond"] = SmallPond
 package.loaded["objects.Structures.LargePond"] = LargePond
 package.loaded["objects.Structures.SmallGarden"] = SmallGarden
