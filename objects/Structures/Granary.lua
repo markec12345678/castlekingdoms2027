@@ -113,6 +113,7 @@ function Granary:initialize(gx, gy, type)
     self.tile = quadArray[tiles + 1]
     self.offsetX = 0
     self.offsetY = -64 - 14
+    _G.state.granaryX, _G.state.granaryY = gx, gy
 
     self.foodpile = {}
     for i = 1, 9 do
@@ -124,7 +125,6 @@ function Granary:initialize(gx, gy, type)
             index = i
         }
     end
-
 
     for xx = -1, 4 do
         for yy = -1, 4 do

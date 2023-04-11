@@ -7,6 +7,7 @@ local EVENTS = {
     Escape             = "Escape",
     ToggleDebugView    = "ToggleDebugView",
     CenterViewToKeep   = "CenterViewToKeep",
+    CenterViewToGranary = "CenterViewToGranary",
     CamUp              = "CamUp",
     CamLeft            = "CamLeft",
     CamDown            = "CamDown",
