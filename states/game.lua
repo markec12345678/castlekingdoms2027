@@ -336,6 +336,9 @@ function game:keypressed(key, scancode, isRepeat)
     elseif event == EVENT.CenterViewToKeep then
         _G.state.viewXview = _G.IsoToScreenX(_G.state.keepX, _G.state.keepY)
         _G.state.viewYview = _G.IsoToScreenY(_G.state.keepX, _G.state.keepY)
+    elseif event == EVENT.CenterViewToGranary then
+        _G.state.viewXview = _G.IsoToScreenX(_G.state.granaryX, _G.state.granaryY)
+        _G.state.viewYview = _G.IsoToScreenY(_G.state.granaryX, _G.state.granaryY)
     end
 end
 

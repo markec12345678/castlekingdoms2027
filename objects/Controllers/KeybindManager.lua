@@ -13,6 +13,7 @@ function KeybindManager:initialize()
         [EVENT.Escape]             = {"escape"},
         [EVENT.ToggleDebugView]    = {"v"},
         [EVENT.CenterViewToKeep]   = {"h"},
+        [EVENT.CenterViewToGranary] = {"g"},
         [EVENT.CamUp]              = {"w", "up"},
         [EVENT.CamLeft]            = {"a", "left"},
         [EVENT.CamDown]            = {"s", "down"},
@@ -26,9 +27,9 @@ function KeybindManager:initialize()
         [EVENT.ActionBar7]         = {"7"},
         [EVENT.ActionBar8]         = {"8"},
         [EVENT.ActionBar9]         = {"9"},
-        [EVENT.ActionBar10]         = {"0"},
-        [EVENT.ActionBar11]         = {"-"},
-        [EVENT.ActionBar12]         = {"="}
+        [EVENT.ActionBar10]        = {"0"},
+        [EVENT.ActionBar11]        = {"-"},
+        [EVENT.ActionBar12]        = {"="}
     }
 end
 
