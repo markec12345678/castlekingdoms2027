@@ -763,8 +763,15 @@ function _G.registerActiveEntity(obj)
     table.insert(activeEntities, obj)
 end
 
-function _G.unregisterActiveEntity(obj)
-    obj.toBeDeleted = true
+function _G.registerAnimatedEntity(obj)
+    if _G.state.chunkObjects[obj.cx][obj.cy] == nil then
+        _G.state.chunkObjects[obj.cx][obj.cy] = {}
+    end
+    _G.state.chunkObjects[obj.cx][obj.cy][obj] = obj
+end
+
+function _G.unregisterAnimatedEntity(obj)
+    _G.state.chunkObjects[obj.cx][obj.cy][obj] = nil
 end
 
 local firstUpdate = true
