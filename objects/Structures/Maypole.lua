@@ -1,7 +1,17 @@
+local activeEntities, _, _ = ...
+
 local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
+local Maypole = _G.class("Maypole", Structure)
 
+local ANIM_EMPTY = "Empty"
+local ANIM_FULL = "Full"
+
+local an = {
+    [ANIM_EMPTY] = _G.indexQuads("anim_maypole_empty", 20),
+    [ANIM_FULL] = _G.indexQuads("anim_maypole_full", 32),
+}
 
 local MaypoleAlias = _G.class("MaypoleAlias", Structure)
 function MaypoleAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
@@ -13,7 +23,22 @@ function MaypoleAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     self:render()
 end
 
-local Maypole = _G.class("Maypole", Structure)
+local MaypolePillar = _G.class("MaypolePillar", Structure)
+function MaypolePillar:initialize(gx, gy, parent)
+    Structure.initialize(self, gx, gy, "MaypolePillar")
+    self.tile = tileQuads["empty"]
+    self.parent = parent
+    self.offsetX = 32
+    self.offsetY = -74
+    self.animated = true
+    self.animation = anim.newAnimation(an[ANIM_FULL], 0.11, self:animCallback(), ANIM_FULL)
+    self:render()
+    _G.registerAnimatedEntity(self)
+end
+
+function MaypolePillar:animCallback()
+end
+
 Maypole.static.WIDTH = 3
 Maypole.static.LENGTH = 3
 Maypole.static.HEIGHT = 0
@@ -22,24 +47,12 @@ Maypole.static.DESTRUCTIBLE = true
 function Maypole:initialize(gx, gy)
     Structure.initialize(self, gx, gy, "Maypole")
     local tileKey = "anim_maypole_full (1)"
-    local tiles, quadArray = _G.indexBuildingQuads(tileKey, false, 3)
     self.tile = tileQuads["empty"]
     self.offsetY = -96 + 16
+    self.animated = true
 
-    for tile = 1, tiles do
-        MaypoleAlias:new(quadArray[tile], self.gx + tile - 1, self.gy + tiles, self,
-            self.offsetY + 24 - 8 * tile)
-    end
-
-    MaypoleAlias:new(quadArray[tiles + 1], self.gx + tiles, self.gy + tiles, self, self.offsetY)
-
-    for tile = 1, tiles do
-        MaypoleAlias:new(quadArray[tiles + 1 + tile], self.gx + tiles, self.gy + (tiles - tile), self,
-            self.offsetY + 24 - 9 + 1 - 8 * (tiles - tile), 16)
-    end
-
-    for xx = -1, 3 do
-        for yy = -1, 3 do
+    for xx = -2, 4 do
+        for yy = -2, 4 do
             _G.terrainSetTileAt(gx + xx, gy + yy, _G.terrainBiome.scarceGrass)
         end
     end
@@ -51,6 +64,8 @@ function Maypole:initialize(gx, gy)
             end
         end
     end
+
+    self.pillar = MaypolePillar:new(self.gx, self.gy + self.class.LENGTH + 1, self)
 
     self:applyBuildingHeightMap(true)
 end
