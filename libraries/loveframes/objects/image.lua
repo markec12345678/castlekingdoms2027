@@ -25,6 +25,8 @@ return function(loveframes)
         self.shearx = 0
         self.sheary = 0
         self.internal = false
+        self.enabled = true
+        self.clickable = true
         self.image = nil
         self.imagecolor = {1, 1, 1, 1}
 
@@ -87,8 +89,8 @@ return function(loveframes)
             end
 
             local hover = self.hover
-            local clickable = self.clickable or true
-            local enabled = self.enabled or true
+            local clickable = self.clickable
+            local enabled = self.enabled
             local onclick = self.OnClick
 
             if hover and clickable and button == 1 then
@@ -122,8 +124,8 @@ return function(loveframes)
             end
 
             local hover = self.hover
-            local clickable = self.clickable or true
-            local enabled = self.enabled or true
+            local clickable = self.clickable
+            local enabled = self.enabled
             local onclick = self.OnClick
 
             if hover and clickable and button == 1 then

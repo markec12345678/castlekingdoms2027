@@ -1,0 +1,147 @@
+local MissionController = _G.class('MissionController')
+local FOOD = require("objects.Enums.Food")
+local RESOURCES = require("objects.Enums.Resources")
+local WEAPON = require("objects.Enums.Weapon")
+local TimeController = require("objects.Controllers.TimeController")
+local mission
+function MissionController:initialize()
+    self.name = ""            --name or id of the mission
+    self.description = ""     -- description of the mission
+    self.goals = {}           -- goals of the mission
+    self.lockedBuildings = {} --turns off designated buildings
+
+    self.lockedTradeFood = {} --turns off designated resources from market/trading
+    self.lockedTradeResources = {}
+    self.lockedTradeWeapons = {}
+
+    self.lockedProductionWeapons = {} --turns off designated weapons from production f.e crossbows
+    self.timeLimit = 1                -- if 0 there is no limit
+    self.startDate = TimeController:setCurrentDate(1, 1000)
+    self.goalsList = ""
+    self.startPopularity = 50
+    self.startGold = 1000
+    self.youWin = false
+    self.startPopulation = 0
+    self.startResources = {
+        [RESOURCES.wood] = 0,
+        [RESOURCES.hop] = 0,
+        [RESOURCES.stone] = 0,
+        [RESOURCES.iron] = 0,
+        [RESOURCES.tar] = 0,
+        [RESOURCES.flour] = 0,
+        [RESOURCES.ale] = 0,
+        [RESOURCES.wheat] = 0,
+    }
+    self.startFood = {
+        [FOOD.meat] = 0,
+        [FOOD.apples] = 0,
+        [FOOD.bread] = 0,
+        [FOOD.cheese] = 0
+    }
+    self.startWeapon = {
+        [WEAPON.bow] = 0,
+        [WEAPON.crossbow] = 0,
+        [WEAPON.spear] = 0,
+        [WEAPON.pike] = 0,
+        [WEAPON.mace] = 0,
+        [WEAPON.sword] = 0,
+        [WEAPON.leatherArmor] = 0,
+        [WEAPON.shield] = 0
+    }
+    self.startAnimals = {
+        -- type and count of the animals
+        -- spawn using designated XY or using areas placed in the editor or map/text file
+
+    };
+    self.startBuildings = {
+        -- type and coords of the designated buildings to be placed on the map
+        -- spawn using designated XY or using areas placed in the editor or map/text file
+    };
+end
+
+function MissionController:setMissionState(name)
+    name = name or "mission1"
+    mission = require("saves.Missions." .. name)
+    _G.state.gold = mission.startGold
+    self.goals = mission.goals
+    self.timeLimit = mission.startDate + mission.timeLimit
+    self.startResources = mission.startResources
+    self.startFood = mission.startFood
+    self.lockedTradeResources = mission.lockedTradeResources
+    self.lockedTradeFood = mission.lockedTradeFood
+    self.lockedTradeWeapons = mission.lockedTradeWeapons
+    self.lockedBuildings = mission.lockedBuildings
+end
+
+function MissionController:setGoods()
+    for key, value in pairs(self.startResources) do
+        for _ = 1, value do
+            _G.stockpile:store(key)
+        end
+    end
+end
+
+function MissionController:setFood()
+    for key, value in pairs(self.startFood) do
+        for _ = 1, value do
+            _G.foodpile:store(key)
+        end
+    end
+end
+
+function MissionController:getLockedTradeResources()
+    return self.lockedTradeResources
+end
+
+function MissionController:getLockedTradeFood()
+    return self.lockedTradeFood
+end
+
+function MissionController:getLockedTradeWeapons()
+    return self.lockedTradeWeapons
+end
+
+function MissionController:getLockedBuildings()
+    return self.lockedBuildings
+end
+
+function MissionController:Display()
+    if self.youWin == false and _G.state.missionNr ~= "." then
+        self.goalsList = "Tasks: "
+
+        for key, value in pairs(self.goals) do
+            if key and value["taskValue"] >= _G.state[value["resourceType"]][value["taskResource"]] then
+                value["taskDone"] = false
+            else
+                value["taskDone"] = true
+            end
+            if value["taskDone"] == false then
+                self.goalsList = self.goalsList
+                    .. "\n" ..
+                    value["taskText"] ..
+                    _G.state[value["resourceType"]][value["taskResource"]] .. " / " .. value["taskValue"]
+            else
+                self.goalsList = self.goalsList
+                    .. "\n" ..
+                    value["taskText"] .. "Done"
+            end
+        end
+
+        self.goalsList = self.goalsList .. "\n" ..
+            "Time Left : " .. tostring(self.timeLimit - TimeController:getCurrentYear()) .. " years"
+
+        for key, value in pairs(self.goals) do
+            if value["taskDone"] == false then
+                self.youWin = false;
+                break;
+            end
+            self.youWin = true;
+        end
+    end
+
+    if self.youWin then
+        self.goalsList = "VICTORY!"
+    end
+end
+
+return MissionController:new()

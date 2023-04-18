@@ -15,10 +15,10 @@ ActionBarButton.static.backgroundClear = imgAbBackgroundClear
 _G.fx = require("sounds.fx")
 local ButtonFx = {
     ["BuildHover"] = {
-    _G.fx["woodrollover2"],
-    _G.fx["woodrollover3"],
-    _G.fx["woodrollover7"],
-    _G.fx["woodrollover8"],
+        _G.fx["woodrollover2"],
+        _G.fx["woodrollover3"],
+        _G.fx["woodrollover7"],
+        _G.fx["woodrollover8"],
     },
     -- TODO: add special hover sounds for submenus
     ["CastleHover"] = {_G.fx["metrollover3a"],},
@@ -87,6 +87,7 @@ function ActionBarButton:initialize(image, state, position, bigFrameForeground, 
     else
         self.foreground:SetScale((self.foregroundFrame.height) / self.foreground:GetImageHeight())
     end
+    self.foreground.enabled = not self.disabled
     if self.disabled then
         self.foreground:SetColor(0.6, 0.6, 0.6, 0.6)
     end

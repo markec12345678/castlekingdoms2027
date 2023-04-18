@@ -28,7 +28,7 @@ castleButton:setOnClick(
                                 if upgraded then
                                     castleButton:setImage(strongholdImage)
                                     castleButton:setTooltip("Stronghold", "Not implemented yet (It's too big!)")
-                                    castleButton.disabled = true
+                                    castleButton.enabled = true
                                     castleButton.foreground.disablehover = true
                                     castleButton.foreground:SetColor(0.6, 0.6, 0.6, 0.6)
                                     castleButton:setOnClick(function()
@@ -87,6 +87,22 @@ tunnelersGuildButton:setOnClick(
         ActionBar:selectButton(tunnelersGuildButton)
     end)
 
+local woodenBuildings = ActionBarButton:new(love.graphics.newImage('assets/ui/wooden_wall_ab.png'),
+    states.STATE_INGAME_CONSTRUCTION, 2, true)
+woodenBuildings:setTooltip("Wooden Structures", "Towers, gates and walls.")
+
+woodenBuildings:setOnClick(function(self)
+    ActionBar:showGroup("woodenBuildings")
+end)
+
+local stoneBuildings = ActionBarButton:new(love.graphics.newImage('assets/ui/stone_wall_ab.png'),
+    states.STATE_INGAME_CONSTRUCTION, 3, true)
+stoneBuildings:setTooltip("Stone Structures", "Towers, gates and walls.")
+
+stoneBuildings:setOnClick(function(self)
+    ActionBar:showGroup("stoneBuildings")
+end)
+
 local function displayTooltips()
     if ActionBar:getCurrentGroup() ~= "castle" then return end
     local buildings = {
@@ -104,6 +120,27 @@ local function displayTooltips()
             building.button.tooltip:SetText({{color = {1, 0, 0, 1}}, table.costAndType}, building.name)
         end
     end
+    local lockedList = _G.MissionController:getLockedBuildings()
+    local buttonList = {
+        castle = castleButton,
+        woodenBuildings = woodenBuildings,
+        stoneBuildings = stoneBuildings,
+        woodenbarracks = barracksButton,
+        stoneBarracks = stoneBarracksButton,
+        engineersGuild = engineersGuildButton,
+        tunnelersGuild = tunnelersGuildButton
+    }
+    if lockedList ~= nil then
+        for _, value in ipairs(lockedList) do
+            local button = buttonList[value]
+            if button then
+                button.disabled = true
+                button.background.enabled = not button.disabled
+                button.foreground:SetColor(0.6, 0.6, 0.6, 0.6)
+                button:setTooltip("Not available in this mission")
+            end
+        end
+    end
 end
 
 _G.bus.on(Events.OnResourceStore, displayTooltips)
@@ -114,22 +151,6 @@ el.buttons.castleButton:setOnClick(
         ActionBar:showGroup("castle", _G.fx["metpush7"])
         displayTooltips()
     end)
-
-local woodenBuildings = ActionBarButton:new(love.graphics.newImage('assets/ui/wooden_wall_ab.png'),
-    states.STATE_INGAME_CONSTRUCTION, 2, true)
-woodenBuildings:setTooltip("Wooden Structures", "Towers, gates and walls.")
-
-woodenBuildings:setOnClick(function(self)
-    ActionBar:showGroup("woodenBuildings")
-end)
-
-local stoneBuildings = ActionBarButton:new(love.graphics.newImage('assets/ui/stone_wall_ab.png'),
-    states.STATE_INGAME_CONSTRUCTION, 3, true)
-stoneBuildings:setTooltip("Stone Structures", "Towers, gates and walls.")
-
-stoneBuildings:setOnClick(function(self)
-    ActionBar:showGroup("stoneBuildings")
-end)
 
 local elements = {
     buttons = {

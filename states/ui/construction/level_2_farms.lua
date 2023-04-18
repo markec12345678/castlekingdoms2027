@@ -61,7 +61,13 @@ local function displayTooltips()
     local buildings = {
         {button = granaryButton, name = "Granary", description = "\nIncreases food capacity."},
         {button = appleFarmButton, name = "Orchard", description = "\nProduces apples."},
-        {button = wheatFarmButton, name = "WheatFarm", description = "\nProduces wheat which can be processed into flour."},
+        {
+            button = wheatFarmButton,
+            name = "WheatFarm",
+            description =
+            "\nProduces wheat which can be processed into flour."
+        },
+        {button = cheeseFarmButton, name = "DairyFarm", description = "\nProduces cheese."},
         {button = hopsFarmButton, name = "HopsFarm", description = "\nProduces hops which can be processed into ale."}
     }
 
@@ -73,7 +79,26 @@ local function displayTooltips()
         end
     end
     hunterButton:setTooltip("Hunter's hut", "Not implemented yet.")
-    cheeseFarmButton:setTooltip("Dairy farm", "Not implemented yet.")
+    local lockedList = _G.MissionController:getLockedBuildings()
+    local buttonList = {
+        hunter = hunterButton,
+        appleFarm = appleFarmButton,
+        dairyFarm = cheeseFarmButton,
+        wheatFarm = wheatFarmButton,
+        hopsFarm = hopsFarmButton,
+        granary = granaryButton
+    }
+    if lockedList ~= nil then
+        for _, value in ipairs(lockedList) do
+            local button = buttonList[value]
+            if button then
+                button.disabled = true
+                button.background.enabled = not button.disabled
+                button.foreground:SetColor(0.6, 0.6, 0.6, 0.6)
+                button:setTooltip("Not available in this mission")
+            end
+        end
+    end
 end
 
 _G.bus.on(Events.OnResourceStore, displayTooltips)

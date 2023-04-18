@@ -43,6 +43,7 @@ local function delayedInit()
     RationController = require("objects.Controllers.RationController")
     _G.TaxController = require("objects.Controllers.TaxController")
     _G.TimeController = require("objects.Controllers.TimeController")
+    _G.MissionController = require("objects.Controllers.MissionController")
     _G.PopularityController = require("objects.Controllers.PopularityController")
     _G.ScribeController = require("objects.Controllers.ScribeController")
     _G.BuildController = love.filesystem.load("objects/Controllers/BuildController.lua")(
@@ -88,6 +89,9 @@ local function delayedInit()
     love.timer.sleep(0.4)
     local error = thread:getError()
     assert(not error, error)
+    if _G.state.missionNr ~= "." then
+        _G.MissionController:setMissionState(_G.state.missionNr)
+    end
     loveframes.SetState(states.STATE_INGAME_CONSTRUCTION)
     ActionBar:updateGoldCount()
     ActionBar:updatePopularityCount()
@@ -134,6 +138,7 @@ function game:update(dt)
                 _G.PopularityController:update()
                 _G.ScribeController:update()
                 _G.DestructionController:update()
+                _G.MissionStart = true
                 if (loveframes.GetState() == states.STATE_ARMOURY) then
                     ArmouryUI.DisplayCurrentStock()
                 end
@@ -192,7 +197,6 @@ function game:draw()
                 _G.BuildController:draw()
                 _G.DebugView:draw()
                 _G.BrushController:draw()
-
             end
             love.graphics.pop()
             if _G.paused then

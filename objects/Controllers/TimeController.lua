@@ -59,6 +59,12 @@ function TimeController:getCurrentYear()
     return self.year
 end
 
+function TimeController:setCurrentDate(month, year)
+    self:setCurrentMonth(month)
+    self:setCurrentYear(year)
+    return self.year
+end
+
 function TimeController:update()
     self.timer = self.timer + _G.dt
     if self.timer >= self.class.TIME_INTERVAL then
