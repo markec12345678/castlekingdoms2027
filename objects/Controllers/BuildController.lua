@@ -205,7 +205,8 @@ function BuildController:update()
                             self.canBuild = false
                             break
                         end
-                        local terrainDiff = math.abs(firstTerrainHeight - (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2)
+                        local terrainDiff = math.abs(firstTerrainHeight -
+                            (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2)
                         if terrainDiff >= 28 then
                             -- height difference is too drastic
                             warningTooltip:ShowTooltip("Cannot build on cliffs!")
@@ -313,7 +314,7 @@ function BuildController:mousepressed(x, y)
         end
         local built = self:build(self.gx, self.gy)
         if built then
-            _G.playInterfaceSfx({_G.fx["building_place"], _G.fx["building_place_v2"]})
+            _G.playInterfaceSfx({ _G.fx["building_place"], _G.fx["building_place_v2"] })
             self:removeResourceNodes()
         end
         return built
@@ -415,17 +416,21 @@ function BuildController:build(gx, gy)
                     self:set("Granary")
                     _G.playSpeech("place_granary")
                     -- Starting resources
-                    for _ = 1, 10 do
-                        _G.stockpile:store("wheat")
-                    end
-                    for _ = 1, 6 do
-                        _G.stockpile:store("flour")
-                    end
-                    for _ = 1, 19 do
-                        _G.stockpile:store("stone")
-                    end
-                    for _ = 1, 49 do
-                        _G.stockpile:store("wood")
+                    if _G.state.missionNr ~= "." then
+                        _G.MissionController:setGoods()
+                    else
+                        for _ = 1, 10 do
+                            _G.stockpile:store("wheat")
+                        end
+                        for _ = 1, 6 do
+                            _G.stockpile:store("flour")
+                        end
+                        for _ = 1, 19 do
+                            _G.stockpile:store("stone")
+                        end
+                        for _ = 1, 49 do
+                            _G.stockpile:store("wood")
+                        end
                     end
                     return true
                 elseif self.building == "Granary" then
@@ -433,8 +438,12 @@ function BuildController:build(gx, gy)
                     local builtBuilding = _G.objectFromClassAtGlobal(gx, gy, self.building)
                     _G.BuildingManager:add(builtBuilding)
                     -- Starting food
-                    for _ = 1, 26 do
-                        _G.foodpile:store("bread")
+                    if _G.state.missionNr ~= "." then
+                        _G.MissionController:setFood()
+                    else
+                        for _ = 1, 26 do
+                            _G.foodpile:store("bread")
+                        end
                     end
                     self.active = false
                     self.start = false

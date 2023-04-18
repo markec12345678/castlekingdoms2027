@@ -33,6 +33,11 @@ function State:initialize()
     self.population = 0
     self.maxPopulation = 5
     self.postitiveBuildings = 0
+    for _, val in ipairs(_G.arg) do
+        if val ~= "." or val ~= "--debug" then
+            self.missionNr = val
+        end
+    end
     -- TODO: Make the collision map dynamic
     self.resources = {
         ["wood"] = 0,

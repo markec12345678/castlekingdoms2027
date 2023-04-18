@@ -69,9 +69,15 @@ local function displayTooltips()
     if ActionBar:getCurrentGroup() ~= "house" then return end
     local buildings = {
         {button = hovelButton, name = "House", description = "\nIncreases maximum population limit."},
-        {button = chapelButton, name = "Chapel", description = "\nIncrease your popularity with religion. Currently not functional."},
-        {button = churchButton, name = "Church", description = "\nIncrease your popularity with religion. Currently not functional."},
-        {button = cathedralButton, name = "Cathedral", description = "\nIncrease your popularity with religion. Currently not functional."}
+        {button = chapelButton, name = "Chapel",
+            description =
+            "\nIncrease your popularity with religion. Currently not functional."},
+        {button = churchButton, name = "Church",
+            description =
+            "\nIncrease your popularity with religion. Currently not functional."},
+        {button = cathedralButton, name = "Cathedral",
+            description =
+            "\nIncrease your popularity with religion. Currently not functional."}
     }
 
     for _, building in ipairs(buildings) do
@@ -79,6 +85,25 @@ local function displayTooltips()
         building.button:setTooltip(building.name, table.costAndType .. building.description)
         if not table.affordable then
             building.button.tooltip:SetText({{color = {1, 0, 0, 1}}, table.costAndType}, building.name)
+        end
+    end
+    local lockedList = _G.MissionController:getLockedBuildings()
+    local buttonList = {
+        hovel = hovelButton,
+        positiveBuildings = positiveBuildingButton,
+        chapel = chapelButton,
+        church = churchButton,
+        cathedral = cathedralButton,
+    }
+    if lockedList ~= nil then
+        for _, value in ipairs(lockedList) do
+            local button = buttonList[value]
+            if button then
+                button.disabled = true
+                button.background.enabled = not button.disabled
+                button.foreground:SetColor(0.6, 0.6, 0.6, 0.6)
+                button:setTooltip("Not available in this mission")
+            end
         end
     end
 end
@@ -96,6 +121,8 @@ positiveBuildingButton:setOnClick(function(self)
     ActionBar:showGroup("positiveBuildings")
 end)
 
-ActionBar:registerGroup("house", {hovelButton, positiveBuildingButton, chapelButton, churchButton, cathedralButton, apothecaryButton, backButton, destroyButton})
+ActionBar:registerGroup("house",
+    {hovelButton, positiveBuildingButton, chapelButton, churchButton, cathedralButton, apothecaryButton, backButton, destroyButton})
 
-package.loaded["states.ui.construction.level_3_positive_buildings"] = love.filesystem.load("states/ui/construction/level_3_positive_buildings.lua")(el, backButton, destroyButton, getCostAndType)
+package.loaded["states.ui.construction.level_3_positive_buildings"] = love.filesystem.load(
+    "states/ui/construction/level_3_positive_buildings.lua")(el, backButton, destroyButton, getCostAndType)

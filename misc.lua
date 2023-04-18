@@ -171,6 +171,9 @@ local function scale(y)
 end
 
 local function draw()
+    if _G.MissionStart then
+        _G.MissionController:Display()
+    end
     if _G.speedModifier ~= 1 then
         love.graphics.print("Speed Modifier: " .. tostring(_G.speedModifier) .. "x", 10,
             10)
@@ -180,6 +183,10 @@ local function draw()
     love.graphics.print(tostring(_G.TimeController:getCurrentMonth()) .. " " .. tostring(_G.TimeController:getCurrentYear()), loveframes.font_times_new_normal_large_48,
         (love.graphics.getWidth() / 2) -
         60, 10, 0, 1, 1)
+    love.graphics.print(
+        tostring(_G.MissionController.goalsList), loveframes.font_times_new_normal_large,
+        (love.graphics.getWidth() / 2) +
+        (love.graphics.getWidth() / 2) - 300, 10, 0, 1, 1)
 end
 
 local tableOfFunctions = {

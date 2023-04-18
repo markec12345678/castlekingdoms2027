@@ -962,36 +962,87 @@ local foodButton = loveframes.Create("image")
 local materialButton = loveframes.Create("image")
 local weaponButton = loveframes.Create("image")
 
+local materialButtons = {
+    wood = woodIconButton,
+    stone = stoneIconButton,
+    wheat = wheatIconButton,
+    tar = tarIconButton,
+    ale = aleIconButton,
+    iron = ironIconButton,
+    hop = hopIconButton,
+    flour = flourIconButton
+}
+
+local weaponButtons = {
+    bow = bowIconButton,
+    crossbow = crossbowIconButton,
+    mace = maceIconButton,
+    pike = pikeIconButton,
+    spear = spearIconButton,
+    leather = leatherIconButton,
+    sword = swordIconButton,
+    shield = armourIconButton
+}
+
+local foodButtons = {
+    meat = meatIconButton,
+    cheese = cheeseIconButton,
+    apple = appleIconButton,
+    bread = breadIconButton
+}
+
 local function DisplayFoodIcons(option)
+    local foodList = _G.MissionController:getLockedTradeFood()
     option = (option ~= false)
-    meatIconButton:SetVisible(option)
-    cheeseIconButton:SetVisible(option)
-    appleIconButton:SetVisible(option)
-    breadIconButton:SetVisible(option)
+    for _, button in pairs(foodButtons) do
+        button:SetVisible(option)
+    end
+
+    if foodList ~= nil then
+        for _, value in ipairs(foodList) do
+            local button = foodButtons[value]
+            if button then
+                button.disablehover = true
+                button:SetColor(1, 1, 1, 0.5)
+            end
+        end
+    end
 end
 
 local function DisplayMaterialIcons(option)
+    local materialList = _G.MissionController:getLockedTradeResources()
     option = (option ~= false)
-    woodIconButton:SetVisible(option)
-    stoneIconButton:SetVisible(option)
-    wheatIconButton:SetVisible(option)
-    tarIconButton:SetVisible(option)
-    aleIconButton:SetVisible(option)
-    ironIconButton:SetVisible(option)
-    hopIconButton:SetVisible(option)
-    flourIconButton:SetVisible(option)
+    for _, button in pairs(materialButtons) do
+        button:SetVisible(option)
+    end
+
+    if materialList ~= nil then
+        for _, value in ipairs(materialList) do
+            local button = materialButtons[value]
+            if button then
+                button.disablehover = true
+                button:SetColor(1, 1, 1, 0.5)
+            end
+        end
+    end
 end
 
 local function DisplayWeaponIcons(option)
+    local weaponList = _G.MissionController:getLockedTradeWeapons()
     option = (option ~= false)
-    bowIconButton:SetVisible(option)
-    crossbowIconButton:SetVisible(option)
-    maceIconButton:SetVisible(option)
-    pikeIconButton:SetVisible(option)
-    spearIconButton:SetVisible(option)
-    leatherIconButton:SetVisible(option)
-    swordIconButton:SetVisible(option)
-    armourIconButton:SetVisible(option)
+    for _, button in pairs(weaponButtons) do
+        button:SetVisible(option)
+    end
+
+    if weaponList ~= nil then
+        for _, value in ipairs(weaponList) do
+            local button = weaponButtons[value]
+            if button then
+                button.disablehover = true
+                button:SetColor(1, 1, 1, 0.5)
+            end
+        end
+    end
 end
 
 local function SetBigIcon(g)

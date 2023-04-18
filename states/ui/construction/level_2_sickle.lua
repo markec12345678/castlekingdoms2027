@@ -61,6 +61,24 @@ local function displayTooltips()
             building.button.tooltip:SetText({{color = {1, 0, 0, 1}}, table.costAndType}, building.name)
         end
     end
+    local lockedList = _G.MissionController:getLockedBuildings()
+    local buttonList = {
+        windmill = windmillButton,
+        bakery = bakeryButton,
+        inn = innButton,
+        brewery = breweryButton
+    }
+    if lockedList ~= nil then
+        for _, value in ipairs(lockedList) do
+            local button = buttonList[value]
+            if button then
+                button.disabled = true
+                button.background.enabled = not button.disabled
+                button.foreground:SetColor(0.6, 0.6, 0.6, 0.6)
+                button:setTooltip("Not available in this mission")
+            end
+        end
+    end
 end
 
 _G.bus.on(Events.OnResourceStore, displayTooltips)

@@ -61,8 +61,18 @@ end)
 local function displayTooltips()
     if ActionBar:getCurrentGroup() ~= "shield" then return end
     local buildings = {
-        {button = armouryButton, name = "Armoury", description = "\nWeapons and armour is stored here, which is used by troops from the barracks upon recruitment."},
-        {button = fletcherButton, name = "FletcherWorkshop", description = "\nProduces bows and crossbows from wood."},
+        {
+            button = armouryButton,
+            name = "Armoury",
+            description =
+            "\nWeapons and armour is stored here, which is used by troops from the barracks upon recruitment."
+        },
+        {
+            button = fletcherButton,
+            name = "FletcherWorkshop",
+            description =
+            "\nProduces bows and crossbows from wood."
+        },
         {button = poleturnerButton, name = "PoleturnerWorkshop", description = "\nProduces spears and pikes from wood."},
         {button = blacksmithButton, name = "BlacksmithWorkshop", description = "\nProduces swords and maces from iron."},
         {button = armorerButton, name = "Armorer", description = "\nMakes armor from iron."}
@@ -73,6 +83,25 @@ local function displayTooltips()
         building.button:setTooltip(building.name, table.costAndType .. building.description)
         if not table.affordable then
             building.button.tooltip:SetText({{color = {1, 0, 0, 1}}, table.costAndType}, building.name)
+        end
+    end
+    local lockedList = _G.MissionController:getLockedBuildings()
+    local buttonList = {
+        armoury = armouryButton,
+        fletcherWorkshop = fletcherButton,
+        poleturnerWorkshop = poleturnerButton,
+        blacksmithWorkshop = blacksmithButton,
+        armorerWorkshop = armorerButton,
+    }
+    if lockedList ~= nil then
+        for _, value in ipairs(lockedList) do
+            local button = buttonList[value]
+            if button then
+                button.disabled = true
+                button.background.enabled = not button.disabled
+                button.foreground:SetColor(0.6, 0.6, 0.6, 0.6)
+                button:setTooltip("Not available in this mission")
+            end
         end
     end
 end
