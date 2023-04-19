@@ -69,6 +69,7 @@ local Shrub = love.filesystem.load("objects/Environment/Shrub.lua")(objectBatch,
 local Stone = love.filesystem.load("objects/Environment/Stone.lua")(objectBatch, activeEntities, tileQuads, object)
 local Iron = love.filesystem.load("objects/Environment/Iron.lua")(objectBatch, activeEntities, tileQuads, object)
 local Woodcutter = love.filesystem.load("objects/Units/Woodcutter.lua")(object, tileQuads)
+local OxHandler = love.filesystem.load("objects/Units/OxHandler.lua")(object, tileQuads)
 local Baker = love.filesystem.load("objects/Units/Baker.lua")(object, tileQuads)
 local Fletcher = love.filesystem.load("objects/Units/Fletcher.lua")(object, tileQuads)
 local Poleturner = love.filesystem.load("objects/Units/Poleturner.lua")(object, tileQuads)
@@ -152,6 +153,7 @@ package.loaded["objects.Environment.Rock_3x3"] = Rock_3x3
 package.loaded["objects.Environment.Rock_2x2"] = Rock_2x2
 package.loaded["objects.Environment.Rock_1x1"] = Rock_1x1
 package.loaded["objects.Units.Woodcutter"] = Woodcutter
+package.loaded["objects.Units.OxHandler"] = OxHandler
 package.loaded["objects.Units.Baker"] = Baker
 package.loaded["objects.Units.Fletcher"] = Fletcher
 package.loaded["objects.Units.Poleturner"] = Poleturner
@@ -436,14 +438,14 @@ end
 function _G.allocateMesh(cx, cy)
     local chunkX = cx
     local chunkY = cy
-    local treeverts = { { 0, 0, 0, 0, 1.0, 1.0, 1.0, 1.0, 1.0 }, { 1, 0, 1, 0, 1.0, 1.0, 1.0, 1.0, 1.0 },
-        { 0, 1, 0, 1, 1.0, 1.0, 1.0, 1.0, 1.0 }, { 1, 1, 1, 1, 1.0, 1.0, 1.0, 1.0, 1.0 } }
+    local treeverts = {{0, 0, 0, 0, 1.0, 1.0, 1.0, 1.0, 1.0}, {1, 0, 1, 0, 1.0, 1.0, 1.0, 1.0, 1.0},
+        {0, 1, 0, 1, 1.0, 1.0, 1.0, 1.0, 1.0}, {1, 1, 1, 1, 1.0, 1.0, 1.0, 1.0, 1.0}}
     if objectBatch[chunkX][chunkY] == nil then
         objectBatch[chunkX][chunkY] = love.graphics.newMesh(treeverts, "strip", "static")
     end
-    local instancemesh = love.graphics.newMesh({ { "InstancePosition", "float", 2 }, { "UVOffset", "float", 2 },
-            { "ImageDim",         "float", 2 }, { "ImageShade", "float", 1 },
-            { "Scale", "float", 2 } },
+    local instancemesh = love.graphics.newMesh({{"InstancePosition", "float", 2}, {"UVOffset", "float", 2},
+        {"ImageDim", "float", 2}, {"ImageShade", "float", 1},
+        {"Scale", "float", 2}},
         _G.chunkWidth * _G.chunkHeight * _G.state.verticesPerTile + 1000, nil, "dynamic")
     _G.state.objectMesh[chunkX][chunkY] = instancemesh
     objectBatch[chunkX][chunkY]:setTexture(objectAtlas)

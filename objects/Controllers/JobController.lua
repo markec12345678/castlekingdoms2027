@@ -42,10 +42,10 @@ end
 
 function JobController:toggleUnlimitedWorkers()
     self.unlimitedWorkers = not self.unlimitedWorkers
-    if self.unlimitedWorkers then 
-        print("No longer waiting for peasants to fill worker pool.") 
-    else 
-        print("Peasants now work almost normally. Bugs are to be expected.") 
+    if self.unlimitedWorkers then
+        print("No longer waiting for peasants to fill worker pool.")
+    else
+        print("Peasants now work almost normally. Bugs are to be expected.")
     end
 end
 
