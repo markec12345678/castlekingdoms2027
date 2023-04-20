@@ -283,8 +283,7 @@ function console.draw()
 
   -- Fill the background color.
   love.graphics.setColor(unpack(console.BACKGROUND_COLOR))
-  love.graphics.rectangle('fill', 0, 0, love.graphics.getWidth(),
-    love.graphics.getHeight())
+  love.graphics.rectangle('fill', 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
 
   love.graphics.setColor(255, 255, 255, 255)
   love.graphics.setFont(console.FONT)
@@ -379,10 +378,10 @@ function console.textinput(input)
   command:insert(input)
 end
 
-function console.execute(command)
+function console.execute(command, params)
   -- If this is a builtin command, execute it and return immediately.
   if console.COMMANDS[command] then
-    console.COMMANDS[command]()
+    console.COMMANDS[command](params)
     return
   end
 
@@ -396,7 +395,7 @@ function console.execute(command)
 
   if chunk then
     setfenv(chunk, console.ENV)
-    local values = { pcall(chunk) }
+    local values = { pcall(chunk, params) }
     if values[1] then
       table.remove(values, 1)
       print(console.INSPECT_FUNCTION(unpack(values)))
@@ -411,6 +410,14 @@ function console.execute(command)
   else
     console.colorprint({console.ERROR_COLOR, error})
   end
+end
+
+local function split(s, delimiter)
+    local result = {};
+    for match in (s..delimiter):gmatch("(.-)"..delimiter) do
+        table.insert(result, match);
+    end
+    return result;
 end
 
 function console.keypressed(key, scancode, isrepeat)
@@ -446,7 +453,8 @@ function console.keypressed(key, scancode, isrepeat)
 
   elseif key == "return" then
     console.addHistory(command.text)
-    console.execute(command.text)
+    local s = split(command.text, " ")
+    console.execute(s[1], s[2])
     command:clear()
 
   elseif key == "tab" then
