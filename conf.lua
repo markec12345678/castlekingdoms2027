@@ -4,6 +4,7 @@ end
 
 function love.conf(t)
     _G.testMode = false
+    _G.args = {}
     local config = require("config_file")
     local resolutionWidth = config.video.resolutionWidth
     local resolutionHeight = config.video.resolutionHeight
@@ -28,6 +29,8 @@ function love.conf(t)
             borderless = fullscreen
         elseif val == "--resize" then
             resizable = tobool(_G.arg[ind + 1])
+        elseif val == "--mission" then
+            _G.args.mission = _G.arg[ind + 1]
         end
     end
 
