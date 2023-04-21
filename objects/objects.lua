@@ -61,10 +61,8 @@ local NotEnoughWorkersFloat = love.filesystem.load("objects/Structures/NotEnough
 package.loaded["objects.Structures.NotEnoughWorkersFloat"] = NotEnoughWorkersFloat
 
 local Tree = love.filesystem.load("objects/Environment/Tree.lua")(objectBatch, activeEntities, tileQuads, object)
-local PineTree = love.filesystem.load("objects/Environment/PineTree.lua")(objectBatch, activeEntities, tileQuads,
-    object, Tree)
-local OakTree = love.filesystem.load("objects/Environment/OakTree.lua")(objectBatch, activeEntities, tileQuads, object,
-    Tree)
+local PineTree = love.filesystem.load("objects/Environment/PineTree.lua")(objectBatch, activeEntities, tileQuads, object, Tree)
+local OakTree = love.filesystem.load("objects/Environment/OakTree.lua")(objectBatch, activeEntities, tileQuads, object, Tree)
 local Shrub = love.filesystem.load("objects/Environment/Shrub.lua")(objectBatch, activeEntities, tileQuads, object)
 local Stone = love.filesystem.load("objects/Environment/Stone.lua")(objectBatch, activeEntities, tileQuads, object)
 local Iron = love.filesystem.load("objects/Environment/Iron.lua")(objectBatch, activeEntities, tileQuads, object)

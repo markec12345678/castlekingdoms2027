@@ -378,6 +378,11 @@ function _G.terrainElevateTileAt(gx, gy)
     end
 end
 
+function _G.terrainGetHeight(gx, gy)
+    local cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(gx, gy)
+    return heightmap[cx][cy][i][o]
+end
+
 function _G.terrainSetHeight(gx, gy, value)
     local cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(gx, gy)
     heightmap[cx][cy][i][o] = value
@@ -409,8 +414,7 @@ local function multiTileCalculate(currentBiome, cx, cy, i, o)
         upperBorder = 8
     end
     local rand = love.math.random(1, upperBorder)
-    if currentBiome ~= _G.terrainBiome.abundantGrassStonesWhite and currentBiome ~= _G.terrainBiome.sea and currentBiome ~=
-        _G.terrainBiome.seaWalkable then
+    if currentBiome ~= _G.terrainBiome.abundantGrassStonesWhite and currentBiome ~= _G.terrainBiome.sea and currentBiome ~= _G.terrainBiome.seaWalkable then
         local rand2 = love.math.random(1, upperBorder)
         local rand3 = love.math.random(1, upperBorder)
         rand = math.max(rand, rand2, rand3)
@@ -421,26 +425,14 @@ local function multiTileCalculate(currentBiome, cx, cy, i, o)
     local tileKey
     local lOffsetX, lOffsetY = 0, 0
     if currentBiome == _G.terrainBiome.seaBeach then
-        local north = _G.getTerrainBiomeAt(gx, gy - 1) == _G.terrainBiome.sea or _G.getTerrainBiomeAt(gx, gy - 1) ==
-            _G.terrainBiome.seaWalkable
-        local south = _G.getTerrainBiomeAt(gx, gy + 1) == _G.terrainBiome.sea or _G.getTerrainBiomeAt(gx, gy + 1) ==
-            _G.terrainBiome.seaWalkable
-        local east = _G.getTerrainBiomeAt(gx + 1, gy) == _G.terrainBiome.sea or _G.getTerrainBiomeAt(gx + 1, gy) ==
-            _G.terrainBiome.seaWalkable
-        local west = _G.getTerrainBiomeAt(gx - 1, gy) == _G.terrainBiome.sea or _G.getTerrainBiomeAt(gx - 1, gy) ==
-            _G.terrainBiome.seaWalkable
-        local ne =
-        _G.getTerrainBiomeAt(gx + 1, gy - 1) == _G.terrainBiome.sea or _G.getTerrainBiomeAt(gx + 1, gy - 1) ==
-            _G.terrainBiome.seaWalkable
-        local nw =
-        _G.getTerrainBiomeAt(gx - 1, gy - 1) == _G.terrainBiome.sea or _G.getTerrainBiomeAt(gx - 1, gy - 1) ==
-            _G.terrainBiome.seaWalkable
-        local se =
-        _G.getTerrainBiomeAt(gx + 1, gy + 1) == _G.terrainBiome.sea or _G.getTerrainBiomeAt(gx + 1, gy + 1) ==
-            _G.terrainBiome.seaWalkable
-        local sw =
-        _G.getTerrainBiomeAt(gx - 1, gy + 1) == _G.terrainBiome.sea or _G.getTerrainBiomeAt(gx - 1, gy + 1) ==
-            _G.terrainBiome.seaWalkable
+        local north = _G.getTerrainBiomeAt(gx, gy - 1) == _G.terrainBiome.sea or _G.getTerrainBiomeAt(gx, gy - 1) == _G.terrainBiome.seaWalkable
+        local south = _G.getTerrainBiomeAt(gx, gy + 1) == _G.terrainBiome.sea or _G.getTerrainBiomeAt(gx, gy + 1) == _G.terrainBiome.seaWalkable
+        local east = _G.getTerrainBiomeAt(gx + 1, gy) == _G.terrainBiome.sea or _G.getTerrainBiomeAt(gx + 1, gy) == _G.terrainBiome.seaWalkable
+        local west = _G.getTerrainBiomeAt(gx - 1, gy) == _G.terrainBiome.sea or _G.getTerrainBiomeAt(gx - 1, gy) == _G.terrainBiome.seaWalkable
+        local ne = _G.getTerrainBiomeAt(gx + 1, gy - 1) == _G.terrainBiome.sea or _G.getTerrainBiomeAt(gx + 1, gy - 1) == _G.terrainBiome.seaWalkable
+        local nw = _G.getTerrainBiomeAt(gx - 1, gy - 1) == _G.terrainBiome.sea or _G.getTerrainBiomeAt(gx - 1, gy - 1) == _G.terrainBiome.seaWalkable
+        local se = _G.getTerrainBiomeAt(gx + 1, gy + 1) == _G.terrainBiome.sea or _G.getTerrainBiomeAt(gx + 1, gy + 1) == _G.terrainBiome.seaWalkable
+        local sw = _G.getTerrainBiomeAt(gx - 1, gy + 1) == _G.terrainBiome.sea or _G.getTerrainBiomeAt(gx - 1, gy + 1) == _G.terrainBiome.seaWalkable
         tileKey = "yellow_grass_1x1 (1)"
         if north then
             if east then
@@ -752,6 +744,7 @@ function _G.refreshTile(cx, cy, i, o, force)
     local chevronLeftId = _G.getChevronVertexLeft(cx, cy, i, o)
     local chevronRightId = _G.getChevronVertexRight(cx, cy, i, o)
     local instancemesh = _G.state.objectMesh[cx][cy]
+
     if terrain[cx][cy][i][o] ~= _G.terrainBiome.none and tertiaryTilesToUpdateInChunk[cx][cy][i][o] == true and
         terrain[cx][cy][i][o] ~= _G.terrainBiome.none or force then
         instancemesh:setVertex(vertId)
@@ -819,6 +812,7 @@ function _G.refreshTile(cx, cy, i, o, force)
         local isIron = _G.objectFromClassAtGlobal(gx, gy, "Iron")
         local isStone = _G.objectFromClassAtGlobal(gx, gy, "Stone")
         local isTree = _G.objectFromClassAtGlobal(gx, gy, "PineTree")
+        local isWater = _G.getWaterAt(gx, gy)
         local cliffChevron
         local tileOverriden = false
         local hillChevronBase
@@ -853,6 +847,10 @@ function _G.refreshTile(cx, cy, i, o, force)
             local hillChevronSunnySide = hillChevronBase .. sunnyRand .. ")"
             hillTileNormal = hillTileBase .. normalRand .. ")"
             local hillChevronNormal = hillChevronBase .. normalRand .. ")"
+            if isWater then
+                hillTileNormal = "sea_deep_1x1 (" .. love.math.random(1, 8) .. ")"
+            end
+
             hillTileNormal = tileQuads[hillTileNormal]
             hillTileSunnySide = tileQuads[hillTileSunnySide]
 
@@ -881,16 +879,13 @@ function _G.refreshTile(cx, cy, i, o, force)
             if elevationOffsetY ~= 0 then
                 if isCliff then
                     local qx, qy, qw, qh = cliffChevron:getViewport()
-                    instancemesh:setVertex(chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
-                        1 - shadowValue, lScale)
+                    instancemesh:setVertex(chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 1 - shadowValue, lScale)
                     instancemesh:setVertex(chevronRightId)
                 elseif isIron then
                     local qx, qy, qw, qh = hillChevronIronLeft:getViewport()
-                    instancemesh:setVertex(chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
-                        1 - shadowValue - 0.01, lScale, 2)
+                    instancemesh:setVertex(chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 1 - shadowValue - 0.01, lScale, 2)
                     qx, qy, qw, qh = hillChevronIronRight:getViewport()
-                    instancemesh:setVertex(chevronRightId, t[2] + qw, t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
-                        1 - shadowValue - 0.12, lScale, 2)
+                    instancemesh:setVertex(chevronRightId, t[2] + qw, t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 1 - shadowValue - 0.12, lScale, 2)
                 else
                     local qx, qy, qw, qh = hillChevronNormalLeft:getViewport()
                     instancemesh:setVertex(chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
@@ -916,11 +911,9 @@ function _G.refreshTile(cx, cy, i, o, force)
                     instancemesh:setVertex(chevronRightId)
                 elseif isIron then
                     local qx, qy, qw, qh = hillChevronIronLeft:getViewport()
-                    instancemesh:setVertex(chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
-                        0.9 + math.min(lightModifier, 0.1) - 0.01, lScale, 2)
+                    instancemesh:setVertex(chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 0.9 + math.min(lightModifier, 0.1) - 0.01, lScale, 2)
                     qx, qy, qw, qh = hillChevronIronRight:getViewport()
-                    instancemesh:setVertex(chevronRightId, t[2] + qw, t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
-                        0.9 + math.min(lightModifier, 0.1) - 0.08, lScale, 2)
+                    instancemesh:setVertex(chevronRightId, t[2] + qw, t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 0.9 + math.min(lightModifier, 0.1) - 0.08, lScale, 2)
                 else
                     local qx, qy, qw, qh = hillChevronSunnySideLeft:getViewport()
                     instancemesh:setVertex(chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
@@ -937,23 +930,18 @@ function _G.refreshTile(cx, cy, i, o, force)
                 lightValue = 1
                 if isCliff then
                     local qx, qy, qw, qh = cliffChevron:getViewport()
-                    instancemesh:setVertex(chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 1,
-                        lScale)
+                    instancemesh:setVertex(chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 1, lScale)
                     instancemesh:setVertex(chevronRightId)
                 elseif isIron then
                     local qx, qy, qw, qh = hillChevronIronLeft:getViewport()
-                    instancemesh:setVertex(chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
-                        1 - 0.03, lScale, 2)
+                    instancemesh:setVertex(chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 1 - 0.03, lScale, 2)
                     qx, qy, qw, qh = hillChevronIronRight:getViewport()
-                    instancemesh:setVertex(chevronRightId, t[2] + qw, t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
-                        1 - 0.1, lScale, 2)
+                    instancemesh:setVertex(chevronRightId, t[2] + qw, t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 1 - 0.1, lScale, 2)
                 else
                     local qx, qy, qw, qh = hillChevronNormalLeft:getViewport()
-                    instancemesh:setVertex(chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
-                        1 - 0.03, lScale, 2)
+                    instancemesh:setVertex(chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 1 - 0.03, lScale, 2)
                     qx, qy, qw, qh = hillChevronNormalRight:getViewport()
-                    instancemesh:setVertex(chevronRightId, t[2] + qw, t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
-                        1 - 0.1, lScale, 2)
+                    instancemesh:setVertex(chevronRightId, t[2] + qw, t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 1 - 0.1, lScale, 2)
                 end
                 local qx, qy, qw, qh = hillTileNormal:getViewport()
                 instancemesh:setVertex(vertId, t[2], t[3] - elevationOffsetY * 2, qx, qy, qw, qh, 1, lScale)

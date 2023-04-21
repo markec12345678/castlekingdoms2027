@@ -1,13 +1,15 @@
 local brushType = {
     ["Remove"] = 1,
-    ["PaintTerrainObjects"] = 2
+    ["PaintTerrainObjects"] = 2,
+    ["Count"] = 3
 }
 local brushObjects = {
     ["Stone"] = require("objects.Environment.Stone"),
     ["Iron"] = require("objects.Environment.Iron"),
     ["OakTree"] = require("objects.Environment.OakTree"),
     ["PineTree"] = require("objects.Environment.PineTree"),
-    ["Shrub"] = require("objects.Environment.Shrub")
+    ["Shrub"] = require("objects.Environment.Shrub"),
+    ["Grass"] = require("objects.Environment.Grass"),
 }
 
 local brushShapes = {
@@ -28,8 +30,13 @@ local brushDensity = {
 }
 
 local image = love.graphics.newImage("assets/tiles/info_tiles_strip.png")
+local console = require("libraries.console")
 
 local BrushController = _G.class("BrushController")
+BrushController.FONT_SIZE = 12
+BrushController.FONT = love.graphics.newFont(BrushController.FONT_SIZE)
+BrushController.BACKGROUND_COLOR = {0, 0, 0, 0.4}
+BrushController.TEXT_COLOR = {1, 1, 1, 1}
 function BrushController:initialize()
     self.maxSize = 10
     self.active = false
@@ -50,11 +57,13 @@ function BrushController:setType(type)
 end
 
 function BrushController:cycleType()
+    self.type = self.type + 1
+    if (self.type >= brushType.Count) then
+        self.type = brushType.Remove
+    end
     if self.type == brushType.Remove then
-        self.type = brushType.PaintTerrainObjects
         print("Delete Mode activated")
     elseif self.type == brushType.PaintTerrainObjects then
-        self.type = brushType.Remove
         print("Paint mode activated")
     end
 end
@@ -62,34 +71,65 @@ end
 function BrushController:setObject(object)
     self.brushObjectType = object
     self.brushObject = brushObjects[object]
-    if self.brushObject == brushObjects.OakTree or self.brushObject == brushObjects.PineTree or self.brushObject ==
-        brushObjects.Shrub then
+    if (self.brushObject == brushObjects.OakTree)
+            or (self.brushObject == brushObjects.PineTree)
+            or (self.brushObject == brushObjects.Shrub) then
         self.mode = brushMode.Scattered
     else
         self.mode = brushMode.Solid
     end
 end
 
-function BrushController:cycleObjects()
+function BrushController:toggleBuilding()
     if not self.active then
         self.active = true
         self:setObject("Stone")
         print("Brush Mode: Stone")
-    elseif self.brushObjectType == "Stone" then
-        self:setObject("Iron")
-        print("Brush Mode: Iron")
-    elseif self.brushObjectType == "Iron" then
-        self:setObject("OakTree")
-        print("Brush Mode: OakTree")
-    elseif self.brushObjectType == "OakTree" then
-        self:setObject("PineTree")
-        print("Brush Mode: PineTree")
-    elseif self.brushObjectType == "PineTree" then
-        self:setObject("Shrub")
-        print("Brush Mode: Shrub")
-    elseif self.brushObjectType == "Shrub" then
+    else
         self.active = false
         print("Brush Mode: Deactivated")
+    end
+end
+
+function BrushController:activated()
+    return self.active
+end
+
+function BrushController:keyReleased(key)
+    if not love.keyboard.isDown( "lalt" ) then
+        return
+    end
+
+    if key == "n" then
+        self:cycleShapes()
+    elseif (key == "=" or key == "+" or key == "kp+") then
+        self:sizeInc()
+    elseif (key == "-" or key == "kp-") then
+        self:sizeDec()
+    elseif (key == "m") then
+        self:cycleDensity()
+    elseif (key == "v") then
+        self:cycleType()
+    elseif (key == "s") then
+        self:setObject("Stone")
+        print("Brush Mode: Stone")
+    elseif (key == "i") then
+        self:setObject("Iron")
+        print("Brush Mode: Iron")
+    elseif (key == "o") then
+        self:setObject("OakTree")
+        print("Brush Mode: OakTree")
+    elseif (key == "g") then
+        self:setObject("Grass")
+        self.grassBiome = _G.terrainBiome.dirt
+        self.grassType = _G.terrainBiome.abundantGrass
+        print("Brush Mode: Grass")
+    elseif (key == "p") then
+        self:setObject("PineTree")
+        print("Brush Mode: PineTree")
+    elseif (key == "h") then
+        self:setObject("Shrub")
+        print("Brush Mode: Shrub")
     end
 end
 
@@ -108,7 +148,7 @@ function BrushController:cycleShapes()
 end
 
 function BrushController:setSize(size)
-    if size > 0 and size <= self.maxSize then
+    if size >= 0 and size <= self.maxSize then
         self.size = size
     end
 end
@@ -181,6 +221,10 @@ function BrushController:paintSolid()
                     _G.removeObjectFromClassAtGlobal(LX + XX, LY + YY, "OakTree")
                     _G.removeObjectFromClassAtGlobal(LX + XX, LY + YY, "PineTree")
                     _G.removeObjectFromClassAtGlobal(LX + XX, LY + YY, "Shrub")
+                elseif self.type == brushType.PaintTerrainObjects and (self.brushObject.name == "Grass") then
+                    if self:canPaint(XX + LX, LY + YY) then
+                        self.brushObject:place(LX + XX, LY + YY, self.grassBiome, self.grassType)
+                    end
                 elseif self.type == brushType.PaintTerrainObjects then
                     if self:canPaint(XX + LX, LY + YY) then
                         self.brushObject:new(LX + XX, LY + YY)
@@ -198,6 +242,10 @@ function BrushController:paintSolid()
                         _G.removeObjectFromClassAtGlobal(XX, YY, "OakTree")
                         _G.removeObjectFromClassAtGlobal(XX, YY, "PineTree")
                         _G.removeObjectFromClassAtGlobal(XX, YY, "Shrub")
+                    elseif self.type == brushType.PaintTerrainObjects and (self.brushObject.name == "Grass") then
+                        if self:canPaint(XX + LX, LY + YY) then
+                            self.brushObject:place(LX + XX, LY + YY, self.grassBiome, self.grassType)
+                        end
                     elseif self.type == brushType.PaintTerrainObjects then
                         if self:canPaint(LX + XX, LY + YY) then
                             self.brushObject:new(LX + XX, LY + YY)
@@ -265,10 +313,8 @@ function BrushController:update()
             end
         end
         local LX, LY = self:getMouseTilePosition()
-        self.BatchX = _G.IsoToScreenX(LX, LY) - _G.state.viewXview - ((_G.IsoToScreenX(LX, LY)) - _G.state.viewXview) *
-                          (1 - _G.state.scaleX)
-        self.BatchY = _G.IsoToScreenY(LX, LY) - _G.state.viewYview - ((_G.IsoToScreenY(LX, LY)) - _G.state.viewYview) *
-                          (1 - _G.state.scaleX)
+        self.BatchX = _G.IsoToScreenX(LX, LY) - _G.state.viewXview - ((_G.IsoToScreenX(LX, LY)) - _G.state.viewXview) * (1 - _G.state.scaleX)
+        self.BatchY = _G.IsoToScreenY(LX, LY) - _G.state.viewYview - ((_G.IsoToScreenY(LX, LY)) - _G.state.viewYview) * (1 - _G.state.scaleX)
         self.batch:clear()
         if self.shape == brushShapes.Square then
             for XX = 0, self.size do
@@ -281,8 +327,7 @@ function BrushController:update()
                     end
                     local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(GX, GY)
                     local elevationOffsetY = (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2
-                    self.batch:add(self.quad, (XX - YY) * _G.tileWidth * 0.5,
-                        (XX + YY) * _G.tileHeight * 0.5 - elevationOffsetY, 0, 1, 1)
+                    self.batch:add(self.quad, (XX - YY) * _G.tileWidth * 0.5, (XX + YY) * _G.tileHeight * 0.5 - elevationOffsetY, 0, 1, 1)
                 end
             end
         elseif self.shape == brushShapes.Circle then
@@ -297,8 +342,7 @@ function BrushController:update()
                         end
                         local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(XX, YY)
                         local elevationOffsetY = (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2
-                        self.batch:add(self.quad, (GX - GY) * _G.tileWidth * 0.5,
-                            (GX + GY) * _G.tileHeight * 0.5 - elevationOffsetY, 0, 1, 1)
+                        self.batch:add(self.quad, (GX - GY) * _G.tileWidth * 0.5, (GX + GY) * _G.tileHeight * 0.5 - elevationOffsetY, 0, 1, 1)
                     end
                 end
             end
@@ -307,10 +351,38 @@ function BrushController:update()
 end
 
 function BrushController:draw()
+    if not self.active then
+        return
+    end
+
     local LX, LY = self:getMouseTilePosition()
-    if self.active and not self:isOutOfBounds(LX, LY) then
+    if not self:isOutOfBounds(LX, LY) then
         love.graphics.draw(self.batch, self.BatchX, self.BatchY, nil, _G.state.scaleX)
     end
+
+    local x = -love.graphics.getWidth() / 2
+    local y = -love.graphics.getHeight() / 2
+    love.graphics.setColor(unpack(BrushController.BACKGROUND_COLOR))
+    love.graphics.rectangle('fill', x, y, 200, 400)
+
+    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.setFont(BrushController.FONT)
+
+    love.graphics.printf("Brush Mode: " .. self.brushObjectType, x + 5, y + 5, 200, "left")
+    love.graphics.printf("Brush Size: " .. tostring(self.size + 1), x + 5, y + 25, 200, "left")
+    if (self.type == brushType.Remove) then
+        love.graphics.printf("Paint Mode: Delete", x + 5, y + 45, 200, "left")
+    else
+        love.graphics.printf("Paint Mode: Paint", x + 5, y + 45, 200, "left")
+    end
+    love.graphics.printf("Alt + g: Grass", x + 5, y + 65, 200, "left")
+    love.graphics.printf("Alt + v: Remove/Paint", x + 5, y + 85, 200, "left")
+    love.graphics.printf("Alt + s: Stone", x + 5, y + 105, 200, "left")
+    love.graphics.printf("Alt + o: OakTree", x + 5, y + 125, 200, "left")
+    love.graphics.printf("Alt + p: PineTree", x + 5, y + 145, 200, "left")
+    love.graphics.printf("Alt + h: Shrub", x + 5, y + 165, 200, "left")
+    love.graphics.printf("Alt + i: Iron", x + 5, y + 205, 200, "left")
+    love.graphics.printf("Alt + -/+: Dec/Inc Size", x + 5, y + 225, 200, "left")
 end
 
 function BrushController:mousepressed(button)
@@ -324,5 +396,31 @@ function BrushController:mousereleased(button)
         _G.BrushController.pressed = false
     end
 end
+
+function BrushController:debug_info()
+    local result = ""
+    if self.type == brushType.Remove then
+        result = "Delete Mode"
+    elseif self.type == brushType.PaintTerrainObjects then
+        result = "Paint Mode"
+    end
+
+    return result
+end
+
+console.addCommand("brush", function(params)
+    if (params == "grass") then
+        _G.BrushController:setObject("Grass")
+        _G.BrushController.grassBiome = _G.terrainBiome.dirt
+        _G.BrushController.grassType = _G.terrainBiome.abundantGrass
+        print("Brush Mode: Grass")
+    elseif (params == "delete") then
+        _G.BrushController.type = brushType.Remove
+        print("Paint Mode: Delete")
+    end
+
+    return true
+end, "Works with map")
+
 
 return BrushController:new()

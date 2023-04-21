@@ -22,6 +22,7 @@ local BarracksUI = require("states.ui.barracks.units_recruitment")
 local GuildsUI = require("states.ui.guilds.guild_ui")
 local WorkshopsUI = require("states.ui.workshops.workshops_ui")
 local console = require "libraries.console"
+local State = require("objects.State")
 
 local function updateProgress(prgs, lState)
     progress = prgs or progress
@@ -31,7 +32,6 @@ local function updateProgress(prgs, lState)
 end
 
 local function delayedInit()
-    local State = require("objects.State")
     _G.state = State:new()
     updateProgress(20)
     objects = love.filesystem.load("objects/objects.lua")(objectAtlas)
@@ -375,19 +375,13 @@ function game:keyreleased(key, scancode)
         end
         -- Only temporary until UI for it is created
     elseif key == "b" then
-        _G.BrushController:cycleObjects()
-    elseif key == "n" and _G.BrushController.active then
-        _G.BrushController:cycleShapes()
-    elseif (key == "+" or key == "kp+") and _G.BrushController.active then
-        _G.BrushController:sizeInc()
-    elseif (key == "-" or key == "kp-") and _G.BrushController.active then
-        _G.BrushController:sizeDec()
-    elseif key == "m" and _G.BrushController.active then
-        _G.BrushController:cycleDensity()
-    elseif key == "v" and _G.BrushController.active then
-        _G.BrushController:cycleType()
+        _G.BrushController:toggleBuilding()
     elseif key == "delete" then
         _G.DestructionController:toggle()
+    end
+
+    if _G.BrushController:activated() then
+        _G.BrushController:keyReleased(key)
     end
     -- end
 end

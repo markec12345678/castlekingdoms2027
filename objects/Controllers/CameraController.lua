@@ -138,14 +138,12 @@ local function isMouseOnDirectionEdge(direction)
     if not config.camera.moveMouseToEdgesToPan then return end
     local mouseX, mouseY = love.mouse.getPosition()
     -- Right click unaffected by changes in the next if statement.
-    if (direction == panDirection.up or
-        direction == panDirection.down)
-        and mouseY == panDirectionToMousePositions[direction].y then
+    if (direction == panDirection.up or direction == panDirection.down)
+        and (mouseY == panDirectionToMousePositions[direction].y) then
         return true
     end
-    if (direction == panDirection.left or
-        direction == panDirection.right)
-        and mouseX == panDirectionToMousePositions[direction].x then
+    if (direction == panDirection.left or direction == panDirection.right)
+        and (mouseX == panDirectionToMousePositions[direction].x) then
         return true
     end
     return false
@@ -185,6 +183,10 @@ local function handleCamera()
             -- Multiply with deltatime for consistent camera movement across all framerates.
             -- dt / _G.speedModifier means that the Camera speed is no longer dependent on the Game's speed multiplier.
             -- Right click is not affected by this.
+            if (love.keyboard.isDown( "lalt" )) then
+                return
+            end
+
             if shouldPan(panDirection.up) then
                 handleCameraMovement(nil, _G.state.viewYview - (finalScrollSpeed * 1.2))
             end
