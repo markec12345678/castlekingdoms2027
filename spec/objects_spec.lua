@@ -3,7 +3,7 @@ require 'busted.runner' ()
 local b = require 'busted'
 
 local describe, it = b.describe, b.it
-local object = ob.object
+local object = _G.state.object
 local addObjectAt = ob.addObjectAt
 local obj = {
     data = 2,
