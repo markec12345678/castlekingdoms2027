@@ -1,5 +1,3 @@
-local _, _, _, _ = ...
-
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")

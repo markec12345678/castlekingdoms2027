@@ -1,4 +1,3 @@
-local _, _ = ...
 local Worker = require("objects.Units.Worker")
 local Object = require("objects.Object")
 local indexQuads = _G.indexQuads

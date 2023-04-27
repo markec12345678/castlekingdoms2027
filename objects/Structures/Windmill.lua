@@ -1,5 +1,4 @@
-local activeEntities, _, tileQuads, _ = ...
-
+local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
@@ -64,7 +63,7 @@ function WindmillBlade:initialize(gx, gy, parent)
     self.offsetX = -60
     self.offsetY = -274
 
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
 end
 
 function WindmillBlade:serialize()
@@ -89,7 +88,7 @@ function WindmillBlade.static:deserialize(data)
     local anData = data.animation
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, nil, anData.animationIdentifier)
     obj.animation:deserialize(anData)
-    table.insert(activeEntities, obj)
+
     return obj
 end
 
@@ -121,7 +120,7 @@ function WindmillFilling:initialize(gx, gy, parent)
     self.offsetX = -62
     self.offsetY = -201
 
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
 end
 
 function WindmillFilling:fillingCallback()
@@ -189,7 +188,7 @@ function WindmillFilling.static:deserialize(data)
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
-    table.insert(activeEntities, obj)
+
     return obj
 end
 
@@ -203,7 +202,7 @@ function WindmillShadow:initialize(gx, gy, parent)
     self.offsetX = -46
     self.offsetY = -243
 
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
 end
 
 function WindmillShadow:serialize()
@@ -228,7 +227,7 @@ function WindmillShadow.static:deserialize(data)
     local anData = data.animation
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, nil, anData.animationIdentifier)
     obj.animation:deserialize(anData)
-    table.insert(activeEntities, obj)
+
     return obj
 end
 
@@ -363,7 +362,7 @@ function Windmill:initialize(gx, gy, type)
     WindmillAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 1, self, self.offsetX, self.offsetY)
     WindmillAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 2, self, self.offsetX, self.offsetY)
 
-    _G.state.map:setWalkable(self.gx + 2, self.gy + 2, false)
+    _G.state.map:setWalkable(self.gx + 2, self.gy + 2, 0)
     Structure.render(self)
 
     self.float = NotEnoughWorkersFloat:new(self.gx + self.class.WIDTH - 1, self.gy + self.class.LENGTH - 1, 1, -280)

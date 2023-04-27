@@ -1,5 +1,4 @@
-local _, _, tileQuads, _ = ...
-
+local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 
@@ -33,7 +32,7 @@ function Rock_3x3:initialize(gx, gy, type)
     local rockVariation = 16 + love.math.random(1, 16)
     self.rockVariation = self.rockVariation or rockVariation
     local tiles, quadArray = _G.indexBuildingQuads("rocks_3x3tile (" .. rockVariation .. ")", false, 3)
-    
+
     self:applyBuildingHeightMap(true)
     local _, _, _, centerTileOffsetY = quadArray[tiles + 1]:getViewport()
 

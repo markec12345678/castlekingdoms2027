@@ -1,7 +1,5 @@
-local activeEntities, _, tileQuads, _ = ...
-
+local tileQuads = require("objects.object_quads")
 local WEAPON = require("objects.Enums.Weapon")
-
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
@@ -46,7 +44,7 @@ function SpearCrafting:initialize(gx, gy, parent)
     self.offsetX = -51
     self.offsetY = -77
 
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
 end
 
 function SpearCrafting:serialize()
@@ -83,7 +81,7 @@ function SpearCrafting.static:deserialize(data)
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
-    table.insert(activeEntities, obj)
+
     return obj
 end
 
@@ -102,7 +100,7 @@ function SpearCrafting:activate()
         self.animation = anim.newAnimation(an[ANIM_CRAFTING_PIKE_PART1], 0.08, self:craftCallback_1(),
             ANIM_CRAFTING_PIKE)
     end
-    self:animate(_G.dt)
+    self:animate()
 end
 
 function SpearCrafting:deactivate()

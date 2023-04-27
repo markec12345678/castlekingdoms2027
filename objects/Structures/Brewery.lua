@@ -1,4 +1,4 @@
-local activeEntities, _, tileQuads, _ = ...
+local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
@@ -39,7 +39,7 @@ function BreweryCooking:initialize(gx, gy, parent)
     self.offsetX = -51
     self.offsetY = -77
 
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
 end
 
 function BreweryCooking:serialize()
@@ -74,7 +74,7 @@ function BreweryCooking.static:deserialize(data)
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
-    table.insert(activeEntities, obj)
+
     return obj
 end
 
@@ -110,7 +110,7 @@ function BreweryCooking:activate()
     self.animated = true
     self.animation:gotoFrame(1)
     self.animation:resume()
-    self:animate(_G.dt)
+    self:animate()
 end
 
 function BreweryCooking:deactivate()

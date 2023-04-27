@@ -1,7 +1,5 @@
-local _, _, _, _ = ...
 local tiles, quadArray = _G.indexBuildingQuads("wood_tower", false)
 local Object = require("objects.Object")
-
 local Structure = require("objects.Structure")
 
 local WoodenTowerAlias = _G.class("WoodenTowerAlias", Structure)

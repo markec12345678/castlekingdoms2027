@@ -1,5 +1,4 @@
-local activeEntities, _, tileQuads, _ = ...
-
+local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
@@ -35,7 +34,7 @@ function CheeseCrafting:initialize(gx, gy, parent)
     self.offsetX = -51
     self.offsetY = -87
 
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
 end
 
 function CheeseCrafting:serialize()
@@ -68,7 +67,7 @@ function CheeseCrafting.static:deserialize(data)
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
-    table.insert(activeEntities, obj)
+
     return obj
 end
 
@@ -79,7 +78,7 @@ end
 function CheeseCrafting:activate()
     self.animated = true
     self.animation = anim.newAnimation(an[ANIM_FERMENT], 0.11, self:craftCallback_1(), ANIM_FERMENT)
-    self:animate(_G.dt)
+    self:animate()
 end
 
 function CheeseCrafting:deactivate()
@@ -106,7 +105,7 @@ function CowMilking:initialize(gx, gy, parent)
     self.offsetX = -51
     self.offsetY = -87
 
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
 end
 
 function CowMilking:serialize()
@@ -139,7 +138,7 @@ function CowMilking.static:deserialize(data)
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
-    table.insert(activeEntities, obj)
+
     return obj
 end
 
@@ -150,7 +149,7 @@ end
 function CowMilking:activate()
     self.animated = true
     self.animation = anim.newAnimation(an[ANIM_COWHEAD], 0.11, self:craftCallback_1(), ANIM_COWHEAD)
-    self:animate(_G.dt)
+    self:animate()
 end
 
 function CowMilking:deactivate()
@@ -177,7 +176,7 @@ function CowMilkingFarmer:initialize(gx, gy, parent)
     self.offsetX = -51
     self.offsetY = -87
 
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
 end
 
 function CowMilkingFarmer:serialize()
@@ -210,7 +209,7 @@ function CowMilkingFarmer.static:deserialize(data)
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
-    table.insert(activeEntities, obj)
+
     return obj
 end
 
@@ -221,7 +220,7 @@ end
 function CowMilkingFarmer:activate()
     self.animated = true
     self.animation = anim.newAnimation(an[ANIM_MIL], 0.11, self:craftCallback_1(), ANIM_MIL)
-    self:animate(_G.dt)
+    self:animate()
 end
 
 function CowMilkingFarmer:deactivate()
@@ -251,7 +250,7 @@ function CowBreeding:initialize(gx, gy, parent)
     self.offsetX = -51
     self.offsetY = -87
 
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
 end
 
 function CowBreeding:serialize()
@@ -303,7 +302,7 @@ function CowBreeding.static:deserialize(data)
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
-    table.insert(activeEntities, obj)
+
     return obj
 end
 
@@ -314,7 +313,7 @@ end
 function CowBreeding:activate()
     self.animated = true
     self.animation = anim.newAnimation(an[ANIM_BABYCOW], 0.11, self:craftCallback_1(), ANIM_BABYCOW)
-    self:animate(_G.dt)
+    self:animate()
 end
 
 function CowBreeding:deactivate()
@@ -695,7 +694,7 @@ function DairyFarm:destroy()
     for xx = -1, 9 do
         for yy = -1, 9 do
             local tile = _G.objectFromClassAtGlobal(self.gx + xx, self.gy + yy, "DairyFarmAlias")
-            if tile then
+            if type(tile) ~= "boolean" then
                 tile.state = -1
                 Structure.destroy(tile)
                 tile.toBeDeleted = true

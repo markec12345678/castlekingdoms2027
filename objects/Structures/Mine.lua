@@ -1,4 +1,4 @@
-local activeEntities, _, tileQuads, _ = ...
+local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
@@ -33,16 +33,16 @@ end
 
 local ironFx = {
     ["pull"] = {_G.fx["iron_pull5"],
-                _G.fx["iron_pull6"],
-                _G.fx["iron_pull7"]},
+        _G.fx["iron_pull6"],
+        _G.fx["iron_pull7"]},
     ["strain"] = {_G.fx["iron_straining1"],
-                _G.fx["iron_straining2"],
-                _G.fx["iron_straining3"]},
+        _G.fx["iron_straining2"],
+        _G.fx["iron_straining3"]},
     ["irondump"] = {_G.fx["iron_dump1"],
-                    _G.fx["iron_dump2"],},
+        _G.fx["iron_dump2"],},
     ["ironcook"] = {_G.fx["iron_boil1"]},
     ["ironpour"] = {_G.fx["iron_pour1"],
-                    _G.fx["iron_pour2"],},
+        _G.fx["iron_pour2"],},
 }
 
 local frChimneyGlow = _G.indexQuads("anim_iron_miner_chimney_glow", 8, nil)
@@ -89,7 +89,7 @@ function MineGoingDown:initialize(gx, gy, parent, offsetX, offsetY)
     self.offsetX = 13 + offsetX - 48
     self.offsetY = 6 + offsetY - 32 - 16
 
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
 end
 
 function MineGoingDown:serialize()
@@ -129,7 +129,7 @@ function MineGoingDown.static:deserialize(data)
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
-    table.insert(activeEntities, obj)
+
     return obj
 end
 
@@ -158,7 +158,7 @@ function MineGoingDown:callback_3()
 
         local wait = 100
         local temp = 0
-        _G.playSfx(self,ironFx["pull"])
+        _G.playSfx(self, ironFx["pull"])
     end
 end
 
@@ -193,7 +193,7 @@ function MinePuller:initialize(gx, gy, parent, offsetX, offsetY)
     self.offsetX = 13 + offsetX + 32 + 32 - 48
     self.offsetY = -2 + offsetY - 32 + 8
 
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
 end
 
 function MinePuller:serialize()
@@ -225,7 +225,7 @@ function MinePuller.static:deserialize(data)
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
-    table.insert(activeEntities, obj)
+
     return obj
 end
 
@@ -270,7 +270,7 @@ function MineBucket:initialize(gx, gy, parent, offsetX, offsetY)
     self.offsetX = -3 + offsetX + 48 + 32 - 48
     self.offsetY = -8 + offsetY - 32
 
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
 end
 
 function MineBucket:serialize()
@@ -298,7 +298,7 @@ function MineBucket.static:deserialize(data)
     local anData = data.animation
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, nil, anData.animationIdentifier)
     obj.animation:deserialize(anData)
-    table.insert(activeEntities, obj)
+
     return obj
 end
 
@@ -334,7 +334,7 @@ function MinePourer:initialize(gx, gy, parent, offsetX, offsetY)
     self.offsetX = 13 + offsetX + 48 + 32 - 48
     self.offsetY = -13 + offsetY - 16
 
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
 end
 
 function MinePourer:pourCallback_1()
@@ -387,7 +387,7 @@ function MinePourer.static:deserialize(data)
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
-    table.insert(activeEntities, obj)
+
     return obj
 end
 
@@ -397,7 +397,7 @@ function MinePourer:animate(dt)
     local newPosition = self.animation.position
     if self.animation.status == "playing" and self.animation.animationIdentifier == ANIM_POURING and prevPosition ~= newPosition then
         if (self.animation.position == 13 or (prevPosition < 13 and newPosition > 13)) then
-            _G.playSfx(self,ironFx["irondump"])
+            _G.playSfx(self, ironFx["irondump"])
         end
     end
 end
@@ -407,7 +407,7 @@ function MinePourer:activate()
     self.animated = true
     self.animation:gotoFrame(1)
     self.animation:resume()
-    _G.playSfx(self,ironFx["strain"])
+    _G.playSfx(self, ironFx["strain"])
     self:animate()
 end
 
@@ -434,7 +434,7 @@ function MineCasting:initialize(gx, gy, parent, offsetX, offsetY)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.offsetX, self.offsetY = self.chimneyX, self.chimneyY
 
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
 end
 
 --- Animation: Chimney Smoke
@@ -442,7 +442,7 @@ function MineCasting:castCallback_1()
     return function()
         self.offsetX, self.offsetY = self.smokeX, self.smokeY
         self.animation = anim.newAnimation(an[ANIM_CHIMNEY_SMOKE], 0.11, self:castCallback_2(), ANIM_CHIMNEY_SMOKE)
-        _G.playSfx(self,ironFx["ironcook"])
+        _G.playSfx(self, ironFx["ironcook"])
     end
 end
 
@@ -460,7 +460,7 @@ function MineCasting:castCallback_3()
     return function()
         self.offsetX, self.offsetY = self.castX, self.castY
         self.animation = anim.newAnimation(an[ANIM_CASTING_IRON], 0.11, self:castCallback_4(), ANIM_CASTING_IRON)
-        _G.playSfx(self,ironFx["ironpour"])
+        _G.playSfx(self, ironFx["ironpour"])
     end
 end
 
@@ -515,7 +515,7 @@ function MineCasting.static:deserialize(data)
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
-    table.insert(activeEntities, obj)
+
     return obj
 end
 
@@ -552,7 +552,7 @@ function MineStack:initialize(gx, gy, parent, offsetX, offsetY)
     self.offsetX = 49 + offsetX - 16 - 48
     self.offsetY = 11 + offsetY - 32 - 8 + 3
 
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
 end
 
 function MineStack:serialize()
@@ -581,7 +581,7 @@ function MineStack.static:deserialize(data)
     local anData = data.animation
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, nil, anData.animationIdentifier)
     obj.animation:deserialize(anData)
-    table.insert(activeEntities, obj)
+
     return obj
 end
 

@@ -1,4 +1,4 @@
-local activeEntities, _, tileQuads, _ = ...
+local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
@@ -36,7 +36,7 @@ function WoodcutterHutLogStack:initialize(gx, gy, parent)
     self.offsetX = -51
     self.offsetY = -50
 
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
 end
 
 function WoodcutterHutLogStack:serialize()
@@ -74,14 +74,14 @@ function WoodcutterHutLogStack.static:deserialize(data)
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
-    table.insert(activeEntities, obj)
+
     return obj
 end
 
 function WoodcutterHutLogStack:stack()
     self.quantity = self.quantity + 1
     self.animation:gotoFrame(self.quantity)
-    self:animate(_G.dt, true)
+    self:animate(_G.dt)
 end
 
 function WoodcutterHutLogStack:animate(dt)
@@ -117,7 +117,7 @@ function WoodcutterHutLogStack:take()
         return true
     end
     self.animation:gotoFrame(self.quantity)
-    self:animate(_G.dt, true)
+    self:animate(_G.dt)
     return true
 end
 
@@ -134,7 +134,7 @@ function WoodcutterHutPlankStack:initialize(gx, gy, parent)
     self.offsetX = -23
     self.offsetY = -52
 
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
 end
 
 function WoodcutterHutPlankStack:serialize()
@@ -160,14 +160,14 @@ function WoodcutterHutPlankStack.static:deserialize(data)
     local anData = data.animation
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, nil, anData.animationIdentifier)
     obj.animation:deserialize(anData)
-    table.insert(activeEntities, obj)
+
     return obj
 end
 
 function WoodcutterHutPlankStack:stack()
     self.quantity = self.quantity + 1
     self.animation:gotoFrame(self.quantity)
-    self:animate(_G.dt, true)
+    self:animate(_G.dt)
 end
 
 function WoodcutterHutPlankStack:animate(dt)
@@ -216,7 +216,7 @@ function WoodcutterHutSawing:initialize(gx, gy, parent)
     self.offsetY = -44
     self:setCallback()
 
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
 end
 
 function WoodcutterHutSawing:animate()
@@ -236,7 +236,7 @@ function WoodcutterHutSawing:activate()
     self.animated = true
     self.animation:gotoFrame(1)
     self.animation:resume()
-    self:animate(_G.dt)
+    self:animate()
 end
 
 function WoodcutterHutSawing:deactivate()
@@ -287,7 +287,7 @@ function WoodcutterHutSawing.static:deserialize(data)
     local anData = data.animation
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, nil, anData.animationIdentifier)
     obj.animation:deserialize(anData)
-    table.insert(activeEntities, obj)
+
     return obj
 end
 

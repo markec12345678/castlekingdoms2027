@@ -1,4 +1,4 @@
-local _, tileQuads, _, activeEntities = ...
+local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
@@ -75,7 +75,7 @@ function HopsFarmPlant:initialize(gx, gy, parent, isPlant)
     self.tileKey = "empty"
     self.hopsMatureCounter = 0
     self.startedGrowing = false
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
 end
 
 function HopsFarmPlant:serialize()
@@ -107,7 +107,7 @@ function HopsFarmPlant.static:deserialize(data)
         obj.tileKey = data.tileKey
         obj:render()
     end
-    table.insert(activeEntities, obj)
+
     return obj
 end
 
@@ -354,7 +354,7 @@ function HopsFarm:destroy()
     for xx = -1, 13 do
         for yy = -1, 13 do
             local tile = _G.objectFromClassAtGlobal(self.gx + xx, self.gy + yy, "HopsFarmPlant")
-            if tile then
+            if type(tile) ~= "boolean" then
                 tile.state = -1
                 Structure.destroy(tile)
                 tile.toBeDeleted = true

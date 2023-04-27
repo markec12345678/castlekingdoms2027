@@ -1,5 +1,4 @@
-local activeEntities, _, tileQuads, _ = ...
-
+local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
@@ -20,12 +19,12 @@ local an = {
 
 local bakeryFx = {
     ["ShoveBig"] = {_G.fx["bakebig1"],
-                _G.fx["bakebig4"],
-                _G.fx["bakebig5"]},
+        _G.fx["bakebig4"],
+        _G.fx["bakebig5"]},
     ["ShoveSmall"] = {_G.fx["bakesmall2"],
-                _G.fx["bakesmall3"],
-                _G.fx["bakesmall4"],
-                _G.fx["bakesmall5"]}
+        _G.fx["bakesmall3"],
+        _G.fx["bakesmall4"],
+        _G.fx["bakesmall5"]}
 }
 
 local BakeryBreadStack = _G.class("BakeryBreadStack", Structure)
@@ -41,7 +40,7 @@ function BakeryBreadStack:initialize(gx, gy, parent)
     self.offsetX = -24
     self.offsetY = -94
 
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
 end
 
 function BakeryBreadStack:serialize()
@@ -70,14 +69,14 @@ function BakeryBreadStack.static:deserialize(data)
     local anData = data.animation
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, nil, anData.animationIdentifier)
     obj.animation:deserialize(anData)
-    table.insert(activeEntities, obj)
+
     return obj
 end
 
 function BakeryBreadStack:stack()
     self.quantity = self.quantity + 1
     self.animation:gotoFrame(self.quantity)
-    self:animate(_G.dt, true)
+    self:animate(_G.dt)
 end
 
 function BakeryBreadStack:animate(dt)
@@ -125,7 +124,7 @@ function BakeryCooking:initialize(gx, gy, parent)
     self.offsetX = -36
     self.offsetY = -88
 
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
 end
 
 function BakeryCooking:serialize()
@@ -159,7 +158,7 @@ function BakeryCooking.static:deserialize(data)
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
-    table.insert(activeEntities, obj)
+
     return obj
 end
 
@@ -191,7 +190,7 @@ function BakeryCooking:animate()
     local newPosition = self.animation.position
     if self.animation.status == "playing" and self.animation.animationIdentifier == ANIM_BAKING_BREAD then
         if (self.animation.position == 8 or (prevPosition < 8 and newPosition > 8)) then
-                _G.playSfx(self, bakeryFx["ShoveSmall"])
+            _G.playSfx(self, bakeryFx["ShoveSmall"])
         elseif (self.animation.position == 22 or (prevPosition < 22 and newPosition > 22)) then
             _G.playSfx(self, bakeryFx["ShoveBig"])
         elseif (self.animation.position == 53 or (prevPosition < 53 and newPosition > 53)) then
@@ -204,7 +203,7 @@ function BakeryCooking:activate()
     self.animated = true
     self.animation:gotoFrame(1)
     self.animation:resume()
-    self:animate(_G.dt)
+    self:animate()
 end
 
 function BakeryCooking:deactivate()

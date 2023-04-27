@@ -1,4 +1,3 @@
-local _, _ = ...
 local Object = require("objects.Object")
 local anim = _G.anim
 local indexQuads = _G.indexQuads
@@ -131,22 +130,16 @@ function Woodcutter:initialize(gx, gy, type)
     self.storeTimer = 0
     self.targetTree = nil
     self.animation = self.anWalkingWest
-    self.cut = function()
-        self:cutCallback()
-    end
 end
 
 function Woodcutter:load(data)
     Object.deserialize(self, data)
     Worker.load(self, data)
-    self.cut = function()
-        self:cutCallback()
-    end
     local anData = data.animation
     if anData then
         local callback
         if anData.animationIdentifier == AN_CUTTING_NORTHEAST then
-            callback = self.cut
+            callback = function() self:cutCallback() end
         end
         self.animation = anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
         self.animation:deserialize(anData)
@@ -334,6 +327,7 @@ end
 function Woodcutter:findTree()
     local closestObject, closestDistance = nil, 10000000
     local objt, disto
+    ---@cast disto number
     objt, disto = self:checkTrees(self.cx, self.cy)
     if disto and disto < closestDistance then
         closestObject = objt
@@ -394,7 +388,7 @@ function Woodcutter:findTree()
     self.endy = closestObject.gy + 1
     if self.endx == self.gx and self.endy == self.gy then
         self.state = "Cutting down"
-        self.animation = anim.newAnimation(an[AN_CUTTING_NORTHEAST], 0.08, self.cut, AN_CUTTING_NORTHEAST)
+        self.animation = anim.newAnimation(an[AN_CUTTING_NORTHEAST], 0.08, function() self:cutCallback() end, AN_CUTTING_NORTHEAST)
         self:clearPath()
         return
     else
@@ -554,7 +548,7 @@ function Woodcutter:update()
             if self.state == "Going to tree" then
                 if self:reachedPathEnd() then
                     self.state = "Cutting down"
-                    self.animation = anim.newAnimation(an[AN_CUTTING_NORTHEAST], 0.08, self.cut, AN_CUTTING_NORTHEAST)
+                    self.animation = anim.newAnimation(an[AN_CUTTING_NORTHEAST], 0.08, function() self:cutCallback() end, AN_CUTTING_NORTHEAST)
                     self:clearPath()
                     return
                 else

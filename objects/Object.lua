@@ -1,12 +1,16 @@
 ---@class Object
 ---@field parent Object|nil
----@field class {name: string, WIDTH: integer, LENGTH: integer, DESTRUCTIBLE: boolean, HOVERTEXT: string}
+---@field class {name: string, WIDTH: integer, HEIGHT: integer, LENGTH: integer, DESTRUCTIBLE: boolean, HOVERTEXT: string, unserializable: boolean}
 ---@field cx integer chunk x position
 ---@field cy integer chunk y position
 ---@field i integer local to chunk x position
 ---@field o integer local to chunk y position
 ---@field id integer unique identifier of the instance
 ---@field static table static class table
+---@field tile userdata the tile quad if the object is a static building
+---@field offsetY number Y offset of the sprite
+---@field offsetX number X offset of the sprite
+---@field deserialize fun(object:table, data:table)
 local Object = _G.class("Object")
 local chunkWidth, tileWidth = _G.chunkWidth, _G.tileWidth
 local chunkHeight, tileHeight = _G.chunkHeight, _G.tileHeight
@@ -26,15 +30,15 @@ function Object:initialize(gx, gy, type)
 end
 
 function Object:registerAsActiveEntity()
-    _G.registerActiveEntity(self)
+    table.insert(_G.state.activeEntities, self)
 end
 
 function Object:isVisibleOnScreen()
     if not
         (self.x + (self.cx - self.cy) * chunkWidth * tileWidth * 0.5 < _G.TopLeftX or self.x + (self.cx - self.cy) *
-        chunkWidth * tileWidth * 0.5 > _G.BottomRightX or
-        self.y + (self.cx + self.cy) * chunkHeight * tileHeight * 0.5 <
-        _G.TopLeftY or self.y + (self.cx + self.cy) * chunkHeight * tileHeight * 0.5 > _G.BottomRightY) then
+            chunkWidth * tileWidth * 0.5 > _G.BottomRightX or
+            self.y + (self.cx + self.cy) * chunkHeight * tileHeight * 0.5 <
+            _G.TopLeftY or self.y + (self.cx + self.cy) * chunkHeight * tileHeight * 0.5 > _G.BottomRightY) then
         return true
     end
     return false
@@ -70,7 +74,7 @@ function Object:render()
         end
         self.instancemesh = _G.state.objectMesh[self.cx][self.cy]
         if (not self.instancemesh) then
-            error("Object haveno instance mesh " .. tostring(self) .. "\n coordinates: " .. tostring(self.gx) .. ", " .. tostring(self.gy) )
+            error("Object haveno instance mesh " .. tostring(self) .. "\n coordinates: " .. tostring(self.gx) .. ", " .. tostring(self.gy))
         end
 
         self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, self.shadowValue)

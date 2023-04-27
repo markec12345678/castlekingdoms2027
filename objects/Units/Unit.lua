@@ -1,4 +1,3 @@
-local activeEntities, objectBatch = ...
 local Object = require('objects.Object')
 
 local footstepFx = {_G.fx["footstep_grass_1"], _G.fx["footstep_grass_2"], _G.fx["footstep_grass_3"],
@@ -38,14 +37,14 @@ function Unit:initialize(gx, gy, type)
     self.locationsO = {}
     self.unstuckTimer = 0
     self.waitingForPathTimer = 0
-    self.debugColor = {love.math.random(),love.math.random(),love.math.random(), 0.6}
+    self.debugColor = {love.math.random(), love.math.random(), love.math.random(), 0.6}
     self.lrcx, self.lrcy, self.lrx, self.lry = 0, 0, 0, 0
     _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
     table.insert(self.locationsCx, self.cx)
     table.insert(self.locationsCy, self.cy)
     table.insert(self.locationsI, self.i)
     table.insert(self.locationsO, self.o)
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
     self:calculatePosition()
 end
 
@@ -67,7 +66,7 @@ end
 function Unit:debugDrawPath()
     if not self.waypointX then return end
     local prevX, prevY = self.gx, self.gy
-    for idx,v in pairs(self.nd) do
+    for idx, v in pairs(self.nd) do
         if not v then break end
         if not v[1] then break end
         if not v[2] then break end
@@ -82,21 +81,21 @@ function Unit:debugDrawPath()
             local nextElevationOffsetY = (_G.state.map.heightmap[cx][cy][x][y] or 0) * 2
             love.graphics.setColor(self.debugColor)
             love.graphics.setLineWidth(3)
-            love.graphics.circle("fill",IsoToScreenX(prevX, prevY) - ((IsoToScreenX(prevX, prevY))) *
-            (1 - _G.state.scaleX) + (_G.tileWidth / 2) * _G.state.scaleX- _G.state.viewXview * _G.state.scaleX,
-            IsoToScreenY(prevX, prevY) - ((IsoToScreenY(prevX, prevY))) *
-            (1 - _G.state.scaleX) + _G.tileHeight * _G.state.scaleX - prevElevationOffsetY * _G.state.scaleX - _G.state.viewYview * _G.state.scaleX, 5 * _G.state.scaleX)
-            love.graphics.circle("fill",IsoToScreenX(nextX, nextY) - ((IsoToScreenX(nextX, nextY))) *
-            (1 - _G.state.scaleX) + (_G.tileWidth / 2) * _G.state.scaleX- _G.state.viewXview * _G.state.scaleX,
-            IsoToScreenY(nextX, nextY) - ((IsoToScreenY(nextX, nextY))) *
-            (1 - _G.state.scaleX) + _G.tileHeight * _G.state.scaleX - nextElevationOffsetY * _G.state.scaleX - _G.state.viewYview * _G.state.scaleX, 6 * _G.state.scaleX)
+            love.graphics.circle("fill", IsoToScreenX(prevX, prevY) - ((IsoToScreenX(prevX, prevY))) *
+                (1 - _G.state.scaleX) + (_G.tileWidth / 2) * _G.state.scaleX - _G.state.viewXview * _G.state.scaleX,
+                IsoToScreenY(prevX, prevY) - ((IsoToScreenY(prevX, prevY))) *
+                (1 - _G.state.scaleX) + _G.tileHeight * _G.state.scaleX - prevElevationOffsetY * _G.state.scaleX - _G.state.viewYview * _G.state.scaleX, 5 * _G.state.scaleX)
+            love.graphics.circle("fill", IsoToScreenX(nextX, nextY) - ((IsoToScreenX(nextX, nextY))) *
+                (1 - _G.state.scaleX) + (_G.tileWidth / 2) * _G.state.scaleX - _G.state.viewXview * _G.state.scaleX,
+                IsoToScreenY(nextX, nextY) - ((IsoToScreenY(nextX, nextY))) *
+                (1 - _G.state.scaleX) + _G.tileHeight * _G.state.scaleX - nextElevationOffsetY * _G.state.scaleX - _G.state.viewYview * _G.state.scaleX, 6 * _G.state.scaleX)
             love.graphics.line(
                 IsoToScreenX(prevX, prevY) - ((IsoToScreenX(prevX, prevY))) *
                 (1 - _G.state.scaleX) + (_G.tileWidth / 2) * _G.state.scaleX - _G.state.viewXview * _G.state.scaleX,
                 IsoToScreenY(prevX, prevY) - ((IsoToScreenY(prevX, prevY))) *
                 (1 - _G.state.scaleX) + _G.tileHeight * _G.state.scaleX - prevElevationOffsetY * _G.state.scaleX - _G.state.viewYview * _G.state.scaleX,
                 IsoToScreenX(nextX, nextY) - ((IsoToScreenX(nextX, nextY))) *
-                (1 - _G.state.scaleX) + (_G.tileWidth / 2) * _G.state.scaleX- _G.state.viewXview * _G.state.scaleX,
+                (1 - _G.state.scaleX) + (_G.tileWidth / 2) * _G.state.scaleX - _G.state.viewXview * _G.state.scaleX,
                 IsoToScreenY(nextX, nextY) - ((IsoToScreenY(nextX, nextY))) *
                 (1 - _G.state.scaleX) + _G.tileHeight * _G.state.scaleX - nextElevationOffsetY * _G.state.scaleX - _G.state.viewYview * _G.state.scaleX
             )
@@ -646,7 +645,7 @@ function Unit:load(_)
     table.insert(self.locationsCy, self.cy)
     table.insert(self.locationsI, self.i)
     table.insert(self.locationsO, self.o)
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
     self:calculatePosition()
 end
 

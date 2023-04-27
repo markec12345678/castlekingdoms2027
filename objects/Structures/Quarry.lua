@@ -1,5 +1,4 @@
-local activeEntities, _, tileQuads, _ = ...
-
+local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
@@ -72,7 +71,7 @@ function QuarryLifter:initialize(gx, gy, parent)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.offsetX = -2
     self.offsetY = -93
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
 end
 
 function QuarryLifter:serialize()
@@ -110,7 +109,7 @@ function QuarryLifter.static:deserialize(data)
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
-    table.insert(activeEntities, obj)
+
     return obj
 end
 
@@ -190,7 +189,7 @@ function QuarryHook:initialize(gx, gy, parent)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.offsetX = -2
     self.offsetY = -116
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
 end
 
 function QuarryHook:hookCallback_1()
@@ -249,7 +248,7 @@ function QuarryHook.static:deserialize(data)
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
-    table.insert(activeEntities, obj)
+
     return obj
 end
 
@@ -264,7 +263,7 @@ function QuarryShaper:initialize(gx, gy, parent)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.offsetX = -31
     self.offsetY = -79
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
 end
 
 function QuarryShaper:shaperCallback()
@@ -357,7 +356,7 @@ function QuarryShaper.static:deserialize(data)
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
-    table.insert(activeEntities, obj)
+
     return obj
 end
 
@@ -372,7 +371,7 @@ function QuarryPuller:initialize(gx, gy, parent, offsetX, offsetY)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.offsetX = 92 + offsetX - 16 - 16
     self.offsetY = 58 + offsetY - 32 - 16
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
 end
 
 function QuarryPuller:pullerCallback_1()
@@ -454,7 +453,7 @@ function QuarryPuller.static:deserialize(data)
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
-    table.insert(activeEntities, obj)
+
     return obj
 end
 
@@ -470,7 +469,7 @@ function QuarryStack:initialize(gx, gy, parent)
     self.animated = true
     self.animation = anim.newAnimation(an[ANIM_STACK], 0.11, nil, ANIM_STACK)
     self.animation:pause()
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
 end
 
 function QuarryStack:animate(dt)
@@ -549,7 +548,7 @@ function QuarryStack.static:deserialize(data)
     obj.quantity = data.quantity
     obj.offsetX = 11
     obj.offsetY = -105
-    table.insert(activeEntities, obj)
+
     return obj
 end
 
@@ -596,6 +595,7 @@ function QuarryAlias.static:deserialize(data)
     return obj
 end
 
+---@class Quarry : Structure
 local Quarry = _G.class("Quarry", Structure)
 Quarry.static.WIDTH = 6
 Quarry.static.LENGTH = 6

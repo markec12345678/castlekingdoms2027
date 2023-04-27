@@ -1,4 +1,4 @@
-local activeEntities, tileQuads = ...
+local tileQuads = require("objects.object_quads")
 local anim = require("libraries.anim8")
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
@@ -14,7 +14,7 @@ function NotEnoughWorkersFloat:initialize(gx, gy, offsetX, offsetY)
     self.offsetY = offsetY
     self.animation = anim.newAnimation(frames, 0.065, nil, "NotEnoughWorkersFloat")
     self.tile = tileQuads["float_inaccessible (1)"]
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
 end
 
 function NotEnoughWorkersFloat:deactivate()
