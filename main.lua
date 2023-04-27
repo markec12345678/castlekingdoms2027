@@ -11,7 +11,6 @@ require("global")
 local Gamestate = require("libraries.gamestate")
 local SaveManager = require("objects.Controllers.SaveManager")
 local KeybindManager = require("objects.Controllers.KeybindManager")
-local splashscreen = require("states.splash_screen")
 local test = require("states.test")
 local lurker = require("lurker")
 
@@ -22,11 +21,13 @@ function love.load()
     end
     SaveManager:getSaveFiles()
     Gamestate.registerEvents()
+    _G.fx = require("sounds.fx")
     if _G.testMode then
         _G.objectAtlas = love.graphics.newImage("assets/tiles/stronghold_assets_packed_v7-hd.dds")
         Gamestate.switch(test)
         return
     else
+        local splashscreen = require("states.splash_screen")
         Gamestate.switch(splashscreen)
     end
     local loader = require("libraries.lily")
@@ -36,7 +37,6 @@ function love.load()
     local cursorImg = love.image.newImageData("assets/ui/cursor.png")
     local cursor = love.mouse.newCursor(cursorImg, 2, 2)
     love.mouse.setCursor(cursor)
-    _G.fx = require("sounds.fx")
     require("sounds.fx_volume")
     _G.speechFx = require("sounds.speech")
     KeybindManager:loadKeybinds()

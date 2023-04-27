@@ -48,31 +48,34 @@ function Map:setHeight(gx, gy, height)
 end
 
 function Map:setWater(gx, gy)
+    local Terrain = require("terrain.terrain")
     local pgx, pgy = gx, gy
     for i = -1, 1 do
         for o = -1, 1 do
             if i == 1 or i == -1 or o == 1 or o == -1 then
-                _G.terrainSetTileAt(pgx + i, pgy + o, _G.terrainBiome.seaBeach, _G.terrainBiome.abundantGrass)
+                Terrain:terrainSetTileAt(pgx + i, pgy + o, _G.terrainBiome.seaBeach, _G.terrainBiome.abundantGrass)
             else
                 _G.state.map:setWalkable(pgx + i, pgy + o, 1)
                 self.water[gx][gy] = true
-                _G.terrainSetTileAt(pgx + i, pgy + o, _G.terrainBiome.sea)
+                Terrain:terrainSetTileAt(pgx + i, pgy + o, _G.terrainBiome.sea)
             end
         end
     end
 end
 
 function Map:setWalkableWater(gx, gy)
+    local Terrain = require("terrain.terrain")
     -- TODO: check if it's water first
     _G.state.map:setWalkable(gx, gy, 0)
-    _G.terrainSetTileAt(gx, gy, _G.terrainBiome.seaWalkable, _G.terrainBiome.sea)
+    Terrain:terrainSetTileAt(gx, gy, _G.terrainBiome.seaWalkable, _G.terrainBiome.sea)
 end
 
 function Map:removeWater(gx, gy)
+    local Terrain = require("terrain.terrain")
     for i = -1, 1 do
         for o = -1, 1 do
-            _G.terrainSetTileAt(gx + i, gy + o, _G.terrainBiome.abundantGrass, _G.terrainBiome.seaBeach)
-            _G.terrainSetTileAt(gx + i, gy + o, _G.terrainBiome.abundantGrass, _G.terrainBiome.sea)
+            Terrain:terrainSetTileAt(gx + i, gy + o, _G.terrainBiome.abundantGrass, _G.terrainBiome.seaBeach)
+            Terrain:terrainSetTileAt(gx + i, gy + o, _G.terrainBiome.abundantGrass, _G.terrainBiome.sea)
             self.water[gx][gy] = false
             -- TODO: Set tile as walkable only if it's not on a cliff
             _G.state.map:setWalkable(gx + i, gy + o, 0)
@@ -168,11 +171,12 @@ function Map:deserializeCollisionMap(data)
 end
 
 function Map:forceRefresh()
+    local Terrain = require("terrain.terrain")
     for cx = 0, _G.chunksWide - 1 do
         for cy = 0, _G.chunksHigh - 1 do
             for i = 0, _G.chunkWidth - 1, 4 do
                 for o = 0, _G.chunkWidth - 1, 4 do
-                    _G.scheduleTerrainUpdate(cx, cy, i, o)
+                    Terrain:scheduleTerrainUpdate(cx, cy, i, o)
                 end
             end
         end

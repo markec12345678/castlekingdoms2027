@@ -31,9 +31,9 @@ function Tree:initialize(gx, gy, type)
             if not ((xx == -1 and yy == -1) or (xx == 1 and yy == 1) or (xx == -1 and yy == 1) or (xx == 1 and yy == -1)) then
                 local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(self.gx + xx, self.gy + yy)
                 if xx == 0 and yy == 0 then
-                    _G.buildingheightmap[ccx][ccy][xxx][yyy] = 19
+                    _G.state.map.buildingheightmap[ccx][ccy][xxx][yyy] = 19
                 else
-                    _G.buildingheightmap[ccx][ccy][xxx][yyy] = 14
+                    _G.state.map.buildingheightmap[ccx][ccy][xxx][yyy] = 14
                 end
             end
         end
@@ -73,7 +73,7 @@ function Tree:finish()
         for yy = -1, 1 do
             if not ((xx == -1 and yy == -1) or (xx == 1 and yy == 1) or (xx == -1 and yy == 1) or (xx == 1 and yy == -1)) then
                 local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(self.gx + xx, self.gy + yy)
-                _G.buildingheightmap[ccx][ccy][xxx][yyy] = 0
+                _G.state.map.buildingheightmap[ccx][ccy][xxx][yyy] = 0
                 -- TODO: Force a shadow refresh here
             end
         end
@@ -111,7 +111,7 @@ function Tree:calculateShadowValue()
     local elevationOffsetY = _G.state.map.heightmap[cx][cy][i][o] or 0
     local elevationValue = 75 * elevationOffsetY / (40 + elevationOffsetY)
     local shadowValue = _G.state.map.shadowmap[cx][cy][i][o] or 0
-    local thisTileheight = _G.buildingheightmap[cx][cy][i][o] or 0
+    local thisTileheight = _G.state.map.buildingheightmap[cx][cy][i][o] or 0
     if shadowValue < thisTileheight + elevationValue then
         self.shadowValue = 1
     else
@@ -284,18 +284,19 @@ end
 
 function Tree:destroy()
     local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(self.gx - 1, self.gy + 1)
-    _G.scheduleTerrainUpdate(cx, cy, x, y)
+    local Terrain = require("terrain.terrain")
+    Terrain:scheduleTerrainUpdate(cx, cy, x, y)
     cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(self.gx, self.gy)
-    _G.scheduleTerrainUpdate(cx, cy, x, y)
+    Terrain:scheduleTerrainUpdate(cx, cy, x, y)
 
     for xx = -1, 1 do
         for yy = -1, 1 do
             if not ((xx == -1 and yy == -1) or (xx == 1 and yy == 1) or (xx == -1 and yy == 1) or (xx == 1 and yy == -1)) then
                 local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(self.gx + xx, self.gy + yy)
                 if xx == 0 and yy == 0 then
-                    _G.buildingheightmap[ccx][ccy][xxx][yyy] = 0
+                    _G.state.map.buildingheightmap[ccx][ccy][xxx][yyy] = 0
                 else
-                    _G.buildingheightmap[ccx][ccy][xxx][yyy] = 0
+                    _G.state.map.buildingheightmap[ccx][ccy][xxx][yyy] = 0
                 end
             end
         end

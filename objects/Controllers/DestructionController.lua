@@ -58,6 +58,7 @@ end
 ---@param force boolean ignores the static class variable DESTRUCTIBLE.
 ---@param targetAlias boolean doesn't destroy the parent structure, but only the alias at that specific spot.
 function DestructionController:destroyAtLocation(gx, gy, force, targetAlias)
+    local Terrain = require("terrain.terrain")
     local structure = _G.objectFromSubclassAtGlobal(gx, gy, Structure)
     if structure then
         -- Get the base Structure
@@ -78,19 +79,19 @@ function DestructionController:destroyAtLocation(gx, gy, force, targetAlias)
                         target:destroy()
                     end
                 end
-                _G.terrainSetTileAt(structure.gx, structure.gy, _G.terrainBiome.scarceGrass, nil, true)
+                Terrain:terrainSetTileAt(structure.gx, structure.gy, _G.terrainBiome.scarceGrass, nil, true)
                 local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(structure.gx, structure.gy)
-                _G.scheduleTerrainUpdate(cx, cy, x, y)
-                _G.buildingheightmap[cx][cy][x][y] = 0
+                Terrain:scheduleTerrainUpdate(cx, cy, x, y)
+                _G.state.map.buildingheightmap[cx][cy][x][y] = 0
                 _G.state.map.shadowmap[cx][cy][x][y] = 0
             else
                 -- Set the Terrain under the Structure to scarce grass and remove shadows
                 for xx = 0, structure.class.WIDTH - 1 do
                     for yy = 0, structure.class.LENGTH - 1 do
-                        _G.terrainSetTileAt(structure.gx + xx, structure.gy + yy, _G.terrainBiome.scarceGrass, nil, true)
+                        Terrain:terrainSetTileAt(structure.gx + xx, structure.gy + yy, _G.terrainBiome.scarceGrass, nil, true)
                         local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(structure.gx + xx, structure.gy + yy)
                         self:revertWalkability(structure.gx, structure.gy)
-                        _G.buildingheightmap[cx][cy][x][y] = 0
+                        _G.state.map.buildingheightmap[cx][cy][x][y] = 0
                         _G.state.map.shadowmap[cx][cy][x][y] = 0
                     end
                 end
@@ -107,11 +108,11 @@ function DestructionController:destroyAtLocation(gx, gy, force, targetAlias)
                                     if cost then
                                         for t, q in pairs(cost) do
                                             if t == "gold" then
-                                                _G.state.gold = _G.state.gold + q/2
+                                                _G.state.gold = _G.state.gold + q / 2
                                                 ActionBar:updateGoldCount()
                                             else
-                                                for i=1, q/2 do
-                                                    _G.stockpile:store(t, 1)   
+                                                for i = 1, q / 2 do
+                                                    _G.stockpile:store(t, 1)
                                                 end
                                             end
 
@@ -135,7 +136,8 @@ end
 ---@param gx number X coordinate.
 ---@param gy number Y coordinate.
 function DestructionController:revertWalkability(gx, gy)
-    if not _G.tileShouldBeCliff(gx, gy, true) then
+    local Terrain = require("terrain.terrain")
+    if not Terrain:tileShouldBeCliff(gx, gy, true) then
         if _G.shouldTileBeWalkable(gx, gy) and _G.state.map:getWalkable(gx, gy) == 1 then
             _G.state.map:setWalkable(gx, gy, 0)
         end

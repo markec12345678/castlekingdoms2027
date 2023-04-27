@@ -85,9 +85,9 @@ function OrchardTree:initialize(gx, gy, parent, offsetY, offsetX)
             if not ((xx == -1 and yy == -1) or (xx == 1 and yy == 1) or (xx == -1 and yy == 1) or (xx == 1 and yy == -1)) then
                 local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(self.gx + xx, self.gy + yy)
                 if xx == 0 and yy == 0 then
-                    _G.buildingheightmap[ccx][ccy][xxx][yyy] = 17
+                    _G.state.map.buildingheightmap[ccx][ccy][xxx][yyy] = 17
                 else
-                    _G.buildingheightmap[ccx][ccy][xxx][yyy] = 14
+                    _G.state.map.buildingheightmap[ccx][ccy][xxx][yyy] = 14
                 end
             end
         end
@@ -216,7 +216,7 @@ function Orchard:initialize(gx, gy, type)
     for xx = 0, 2 do
         for yy = 0, 2 do
             local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(self.gx + xx, self.gy + yy)
-            _G.buildingheightmap[ccx][ccy][xxx][yyy] = 15
+            _G.state.map.buildingheightmap[ccx][ccy][xxx][yyy] = 15
         end
     end
 

@@ -105,7 +105,7 @@ function BuildController:set(type, callback)
     end
     self.onBuildCallback = callback
     self.building = type
-    if buildingheightmap[type].quads ~= nil and building[type].quad == nil then
+    if _G.state.map.buildingheightmap[type].quads ~= nil and building[type].quad == nil then
         self.multispriteSwitchTimer = 0
         self.isMultispriteBuilding = 1
         self.currentSprite = 1
@@ -185,6 +185,7 @@ function BuildController:update()
             (1 - _G.state.scaleX)
         self.FY = IsoToScreenY(LX, LY) - _G.state.viewYview - ((IsoToScreenY(LX, LY)) - _G.state.viewYview) *
             (1 - _G.state.scaleX)
+        local Terrain = require("terrain.terrain")
         -- No point to flush the batch everytime
         if self.lastBuilding ~= self.building or self.previousGx ~= self.gx or self.previousGy ~= self.gy or not self.firstTerrainHeight then
             self.canBuild = true
@@ -220,7 +221,7 @@ function BuildController:update()
                             self.canBuild = false
                             break
                         end
-                        if _G.getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
+                        if Terrain:getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
                             self.canBuild = false
                             warningTooltip:ShowTooltip("Cannot build on top of water!")
                             break
@@ -302,10 +303,11 @@ function BuildController:removeResourceNodes()
 end
 
 function BuildController:mousepressed(x, y)
+    local Terrain = require("terrain.terrain")
     if not _G.paused and self.active and self.canBuild and self.firstTerrainHeight then
         for xx = 0, self.width - 1 do
             for yy = 0, self.height - 1 do
-                _G.terrainSetHeight(xx + self.gx, yy + self.gy, self.firstTerrainHeight / 2)
+                Terrain:terrainSetHeight(xx + self.gx, yy + self.gy, self.firstTerrainHeight / 2)
             end
         end
         self.firstTerrainHeight = nil
@@ -314,7 +316,7 @@ function BuildController:mousepressed(x, y)
         end
         local built = self:build(self.gx, self.gy)
         if built then
-            _G.playInterfaceSfx({ _G.fx["building_place"], _G.fx["building_place_v2"] })
+            _G.playInterfaceSfx({_G.fx["building_place"], _G.fx["building_place_v2"]})
             self:removeResourceNodes()
         end
         return built
@@ -361,6 +363,7 @@ function BuildController:purchaseBuilding(buildingKey)
 end
 
 function BuildController:build(gx, gy)
+    local Terrain = require("terrain.terrain")
     if self.active and self.gx > 0 and self.gx < 2048 and self.gy > 0 and self.gy < 2048 then
         if self.canBuild then
             self.canAfford = true

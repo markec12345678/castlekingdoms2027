@@ -28,8 +28,7 @@ function Rock:initialize(gx, gy, type)
     self.offsetX = 0
     local _, _, _, sh = self.tile:getViewport()
     self.offsetY = -sh + 14
-    _G.buildingheightmap[self.cx][self.cy][self.i][self.o] = 12
-    _G.scheduleTerrainUpdate(self.cx, self.cy, self.i, self.o)
+    _G.state.map.buildingheightmap[self.cx][self.cy][self.i][self.o] = 12
     Structure.render(self)
 end
 

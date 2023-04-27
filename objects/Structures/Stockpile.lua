@@ -203,7 +203,7 @@ function Stockpile:initialize(gx, gy, type)
         for yy = -1, 5 do
             if xx ~= -1 and yy ~= -1 and xx ~= 5 and yy ~= 5 then
                 local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(self.gx + xx, self.gy + yy)
-                _G.buildingheightmap[ccx][ccy][xxx][yyy] = self.class.static.HEIGHT
+                _G.state.map.buildingheightmap[ccx][ccy][xxx][yyy] = self.class.static.HEIGHT
                 _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrainBiome.none)
             else
                 _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrainBiome.dirt)

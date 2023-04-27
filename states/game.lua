@@ -3,7 +3,9 @@ local loveframes = require("libraries.loveframes")
 local ActionBar = require("states.ui.ActionBar")
 local states = require("states.ui.states")
 local core = require("misc")
-local thread, thread2, objects, terrain
+local thread, thread2, objects
+---@type Terrain
+local Terrain
 require("shaders.postshader")
 local renderLoadingScreen = require("states.ui.loading_screen")
 local renderLoadingBar = require("states.ui.loading_bar")
@@ -36,7 +38,7 @@ local function delayedInit()
     updateProgress(20)
     objects = love.filesystem.load("objects/objects.lua")(objectAtlas)
     package.loaded["objects.objects"] = objects
-    terrain = require("terrain.terrain")
+    Terrain = require("terrain.terrain")
     updateProgress(30)
     _G.BrushController = require("objects.Controllers.BrushController")
     _G.DestructionController = require("objects.Controllers.DestructionController"):new()
@@ -77,14 +79,14 @@ local function delayedInit()
     updateProgress(80, 4)
     objects.update(_G.dt)
     updateProgress(90, 5)
-    terrain.update()
+    Terrain:update()
     updateProgress(95)
     _G.BuildController:update()
     loveframes.update()
     _G.finder:update()
     updateProgress(97)
     _G.state.map:forceRefresh()
-    terrain.update()
+    Terrain:update()
     updateProgress(100)
     love.timer.sleep(0.4)
     local error = thread:getError()
@@ -125,7 +127,7 @@ function game:update(dt)
             prof.push("objects")
             objects.update(dt)
             prof.pop("objects")
-            terrain.update()
+            Terrain:update()
             prof.push("bcontr")
             HighlightView:update()
             _G.BuildController:update()
@@ -233,9 +235,6 @@ function game:mousepressed(x, y, button, istouch)
         return
     end
     if _G.paused then return end
-    if terrain.mousepressed(x, y, button, istouch) then
-        return
-    end
     if objects.mousepressed(x, y, button, istouch) then
         return
     end
