@@ -4,7 +4,7 @@ local b = require 'busted'
 
 local describe, it = b.describe, b.it
 local object = _G.state.object
-local addObjectAt = _g.addObjectAt
+local addObjectAt = _G.addObjectAt
 local obj = {
     data = 2,
     destroy = function()
