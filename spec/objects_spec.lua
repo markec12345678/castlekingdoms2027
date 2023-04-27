@@ -1,10 +1,10 @@
-local ob = require 'objects.objects'
+require 'objects.objects'
 require 'busted.runner' ()
 local b = require 'busted'
 
 local describe, it = b.describe, b.it
 local object = _G.state.object
-local addObjectAt = ob.addObjectAt
+local addObjectAt = _g.addObjectAt
 local obj = {
     data = 2,
     destroy = function()
