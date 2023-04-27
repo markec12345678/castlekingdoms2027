@@ -61,9 +61,6 @@ function location:new(o)
 end
 
 local press = location:new()
-----Rows and columns
-----Chunk 2D array
-local object = _G.state.object
 ----Calculate center chunk
 local CenterX = math.round(ScreenToIsoX(_G.ScreenWidth / 2 - 16 + _G.state.viewXview,
     _G.ScreenHeight / 2 - 8 + _G.state.viewYview));
@@ -88,29 +85,29 @@ _G.weaponpile = require("objects.Controllers.WeaponController")
 --- NOTE --------------------------
 --- NOTE Object classes END ---
 
---- Add an object at a location and add it to a table.
+--- Add an _G.state.object at a location and add it to a table.
 ---@param cx number X position in Chunk.
 ---@param cy number Y position in Chunk.
 ---@param x number local X position in Chunk 0-63
 ---@param y number local Y position in Chunk 0-63
 ---@param objectToAdd Object Object to add.
 ---@return Object
-function addObjectAt(cx, cy, x, y, objectToAdd)
-    if type(object[cx][cy][x][y]) ~= "table" then
-        object[cx][cy][x][y] = {}
+function _G.addObjectAt(cx, cy, x, y, objectToAdd)
+    if type(_G.state.object[cx][cy][x][y]) ~= "table" then
+        _G.state.object[cx][cy][x][y] = {}
     end
-    object[cx][cy][x][y][#object[cx][cy][x][y] + 1] = objectToAdd
+    _G.state.object[cx][cy][x][y][#_G.state.object[cx][cy][x][y] + 1] = objectToAdd
     return objectToAdd
 end
 
 objectAtlas:setWrap("clampzero")
 
---- Add an object at a location and add it to a table.
+--- Add an _G.state.object at a location and add it to a table.
 ---@param cx number X position in Chunk.
 ---@param cy number Y position in Chunk.
 ---@param x number local X position in Chunk 0-63
 ---@param y number local Y position in Chunk 0-63
----@param objectToRemove? Object If provided: Removes that specific object from the tile. If nil: Remove all objects from the tile.
+---@param objectToRemove? Object If provided: Removes that specific _G.state.object from the tile. If nil: Remove all objects from the tile.
 function _G.removeObjectAt(cx, cy, x, y, objectToRemove)
     x = math.floor(x)
     y = math.floor(y)
@@ -119,21 +116,21 @@ function _G.removeObjectAt(cx, cy, x, y, objectToRemove)
         print((debug.traceback("Error: trying to remove out of bounds unit", 1):gsub("\n[^\n]+$", "")))
         love.event.quit()
     end
-    -- If objectToRemove, then remove only that object from the specified tile.
-    if type(object[cx][cy][x][y]) == "table" then
+    -- If objectToRemove, then remove only that _G.state.object from the specified tile.
+    if type(_G.state.object[cx][cy][x][y]) == "table" then
         if objectToRemove then
-            for index, currentObject in ipairs(object[cx][cy][x][y]) do
+            for index, currentObject in ipairs(_G.state.object[cx][cy][x][y]) do
                 if currentObject == objectToRemove then
-                    table.remove(object[cx][cy][x][y], index)
+                    table.remove(_G.state.object[cx][cy][x][y], index)
                     break
                 end
             end
             -- If nil, then remove all objects from the specified tile.
         else
-            for _, currentObject in ipairs(object[cx][cy][x][y]) do
+            for _, currentObject in ipairs(_G.state.object[cx][cy][x][y]) do
                 currentObject:destroy()
             end
-            object[cx][cy][x][y] = {}
+            _G.state.object[cx][cy][x][y] = {}
         end
     end
 end
@@ -149,11 +146,11 @@ function _G.removeObjectFromClassAtGlobal(gx, gy, classToRemove)
         print((debug.traceback("Error: global trying to remove out of bounds unit", 1):gsub("\n[^\n]+$", "")))
         love.event.quit()
     end
-    if type(object[cx][cy][x][y]) == "table" then
-        for index, currentObject in ipairs(object[cx][cy][x][y]) do
+    if type(_G.state.object[cx][cy][x][y]) == "table" then
+        for index, currentObject in ipairs(_G.state.object[cx][cy][x][y]) do
             if currentObject.class.name == classToRemove or currentObject.type == classToRemove then
                 _G.state.map:setWalkable(gx, gy, 0)
-                table.remove(object[cx][cy][x][y], index)
+                table.remove(_G.state.object[cx][cy][x][y], index)
                 currentObject:destroy()
                 break
             end
@@ -168,8 +165,8 @@ end
 ---@param y number local Y position in Chunk 0-63
 ---@param objType string Name of the Type.
 function _G.objectFromTypeAt(cx, cy, x, y, objType)
-    if type(object[cx][cy][x][y]) == "table" then
-        for _, currentObject in ipairs(object[cx][cy][x][y]) do
+    if type(_G.state.object[cx][cy][x][y]) == "table" then
+        for _, currentObject in ipairs(_G.state.object[cx][cy][x][y]) do
             if (currentObject.type and currentObject.type == objType) or currentObject.class.name == objType then
                 return currentObject
             end
@@ -185,8 +182,8 @@ end
 ---@param y number local Y position in Chunk 0-63
 ---@param objectCompared Object Object to compare.
 function _G.isObjectAt(cx, cy, x, y, objectCompared)
-    if type(object[cx][cy][x][y]) == "table" then
-        for _, currentObject in ipairs(object[cx][cy][x][y]) do
+    if type(_G.state.object[cx][cy][x][y]) == "table" then
+        for _, currentObject in ipairs(_G.state.object[cx][cy][x][y]) do
             if currentObject == objectCompared then
                 return currentObject
             end
@@ -198,12 +195,12 @@ end
 --- Returns the currentObject if it is a table.
 ---@param gx number Global X coordinate.
 ---@param gy number Global Y coordinate.
----@param objClass string|table Name of the object's class or the class itself.
+---@param objClass string|table Name of the _G.state.object's class or the class itself.
 ---@return boolean|Object
 function _G.objectFromClassAtGlobal(gx, gy, objClass)
     local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(gx, gy)
-    if type(object[cx][cy][x][y]) == "table" then
-        for _, currentObject in ipairs(object[cx][cy][x][y]) do
+    if type(_G.state.object[cx][cy][x][y]) == "table" then
+        for _, currentObject in ipairs(_G.state.object[cx][cy][x][y]) do
             if currentObject.class.name == objClass or currentObject.class == objClass then
                 return currentObject
             end
@@ -215,7 +212,7 @@ end
 --- Returns the currentObject if it is a table.
 ---@param gx number Global X coordinate.
 ---@param gy number Global Y coordinate.
----@param objClass table|string Class or name of the object's class.
+---@param objClass table|string Class or name of the _G.state.object's class.
 ---@return Object|false
 function _G.objectFromSubclassAtGlobal(gx, gy, objClass)
     if (not _G.isGlobalCoordInsideMap(gx, gy)) then
@@ -226,8 +223,8 @@ function _G.objectFromSubclassAtGlobal(gx, gy, objClass)
         if not objClass then error(string.format("invalid class name: %s", objClass)) end
     end
     local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(gx, gy)
-    if type(object[cx][cy][x][y]) == "table" then
-        for _, currentObject in ipairs(object[cx][cy][x][y]) do
+    if type(_G.state.object[cx][cy][x][y]) == "table" then
+        for _, currentObject in ipairs(_G.state.object[cx][cy][x][y]) do
             if currentObject.class.isSubclassOf and currentObject.class:isSubclassOf(objClass) then
                 return currentObject
             end
@@ -239,13 +236,13 @@ end
 --- Returns the currentObject if it is a table.
 ---@param gx number Global X coordinate.
 ---@param gy number Global Y coordinate.
----@param objClass table The object's class.
+---@param objClass table The _G.state.object's class.
 ---@return Object[]
 function _G.allObjectsFromSubclassAtGlobal(gx, gy, objClass)
     local data = {}
     local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(gx, gy)
-    if type(object[cx][cy][x][y]) == "table" then
-        for _, currentObject in ipairs(object[cx][cy][x][y]) do
+    if type(_G.state.object[cx][cy][x][y]) == "table" then
+        for _, currentObject in ipairs(_G.state.object[cx][cy][x][y]) do
             if currentObject.class.isSubclassOf and currentObject.class:isSubclassOf(objClass) then
                 data[#data + 1] = currentObject
             end
@@ -254,14 +251,14 @@ function _G.allObjectsFromSubclassAtGlobal(gx, gy, objClass)
     return data
 end
 
----Returns whether something is an object at a given location.
+---Returns whether something is an _G.state.object at a given location.
 ---@param cx number X position in Chunk.
 ---@param cy number Y position in Chunk.
 ---@param x number local X position in Chunk 0-63
 ---@param y number local Y position in Chunk 0-63
 ---@return boolean
-function objectAt(cx, cy, x, y)
-    if (type(object[cx][cy][x][y]) == "table" and next(object[cx][cy][x][y]) == nil) or not object[cx][cy][x][y] or
+function _G.objectAt(cx, cy, x, y)
+    if (type(_G.state.object[cx][cy][x][y]) == "table" and next(_G.state.object[cx][cy][x][y]) == nil) or not _G.state.object[cx][cy][x][y] or
         objectFromTypeAt(cx, cy, x, y, "Stump") then
         return false
     else
@@ -270,7 +267,7 @@ function objectAt(cx, cy, x, y)
 end
 
 function _G.importantObjectAt(cx, cy, x, y)
-    if (type(object[cx][cy][x][y]) == "table" and next(object[cx][cy][x][y]) == nil) or not object[cx][cy][x][y] or
+    if (type(_G.state.object[cx][cy][x][y]) == "table" and next(_G.state.object[cx][cy][x][y]) == nil) or not _G.state.object[cx][cy][x][y] or
         objectFromTypeAt(cx, cy, x, y, "Stump") or objectFromTypeAt(cx, cy, x, y, "Tall shrub") or
         objectFromTypeAt(cx, cy, x, y, "Short shrub") then
         return false
@@ -294,7 +291,7 @@ end
 
 function _G.importantObjectAtGlobal(gx, gy)
     local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(gx, gy)
-    if (type(object[cx][cy][x][y]) == "table" and next(object[cx][cy][x][y]) == nil) or not object[cx][cy][x][y] or
+    if (type(_G.state.object[cx][cy][x][y]) == "table" and next(_G.state.object[cx][cy][x][y]) == nil) or not _G.state.object[cx][cy][x][y] or
         objectFromTypeAt(cx, cy, x, y, "Stump") or objectFromTypeAt(cx, cy, x, y, "Tall shrub") or
         objectFromTypeAt(cx, cy, x, y, "Short shrub") then
         return false
@@ -303,9 +300,9 @@ function _G.importantObjectAtGlobal(gx, gy)
     end
 end
 
-function objectAtGlobal(gx, gy)
+function _G.objectAtGlobal(gx, gy)
     local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(gx, gy)
-    if (type(object[cx][cy][x][y]) == "table" and next(object[cx][cy][x][y]) == nil) or not object[cx][cy][x][y] or
+    if (type(_G.state.object[cx][cy][x][y]) == "table" and next(_G.state.object[cx][cy][x][y]) == nil) or not _G.state.object[cx][cy][x][y] or
         objectFromTypeAt(cx, cy, x, y, "Stump") then
         return false
     else
@@ -585,28 +582,6 @@ local function mousepressed(x, y, button)
                 Rock_4x4:new(press.gx, press.gy)
             end
         end
-
-        local insp = object[press.cx][press.cy][press.x][press.y]
-        if insp then
-            print("____________")
-            for _, ibj in pairs(insp) do
-                print(ibj, ibj.gx, ibj.gy)
-                print(inspect(ibj:serialize()))
-                --     print(ibj.type, ibj.vertId, ibj.i, ibj.o, press.x, press.y, press.cx, press.cy)
-                --     local removeAllMetatables = function(item, path)
-                --         if path[#path] ~= inspect.METATABLE then
-                --             return item
-                --         end
-                --     end
-                --     print(inspect(ibj, {
-                --         depth = 2,
-                --         process = removeAllMetatables
-                --     }))
-                --     -- print(ibj.type, ibj.x + (ibj.cx - ibj.cy) * chunkWidth * tileWidth * 0.5,
-                --     --     ibj.y + (ibj.cx + ibj.cy) * chunkWidth * tileHeight * 0.5)
-                --     -- print(ibj.type, (_G.state.viewXview) - 1920 / 2 - 100, (_G.state.viewYview) - 1080 / 2 - 100)
-            end
-        end
     end
 end
 
@@ -734,12 +709,8 @@ end
 local tableOfFunctions = {
     update = update,
     draw = drawObject,
-    chunk = object[press.cx][press.cy],
+    chunk = _G.state.object[press.cx][press.cy],
     mousepressed = mousepressed,
     active = _G.state.activeEntities,
-    object = object,
-    batch = objectBatch,
-    shadow = shadowBatch,
-    addObjectAt = addObjectAt
 }
 return tableOfFunctions

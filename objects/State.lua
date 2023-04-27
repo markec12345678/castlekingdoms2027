@@ -32,7 +32,7 @@ function State:initialize()
     self.gold = 1000
     self.population = 0
     self.maxPopulation = 5
-    self.activeEntities = newAutotable(1)
+    self.activeEntities = {}
     self.postitiveBuildings = 0
     self.missionNr = _G.args.missionNr
     -- TODO: Make the collision map dynamic
@@ -171,6 +171,22 @@ function State:deserializeChunkObjects(loadData)
     return self.chunkObjects
 end
 
+function State:serializeActiveEntities()
+    local data = {}
+    for _, obj in ipairs(self.activeEntities) do
+        print(obj)
+        data[#data + 1] = self:serializeObject(obj)
+    end
+    return data
+end
+
+function State:deserializeActiveEntities(data)
+    for _, obj in ipairs(data) do
+        _G.state.activeEntities[#_G.state.activeEntities + 1] = self:dereferenceObject(obj)
+    end
+    return _G.state.activeEntities
+end
+
 function State:deserializeObjects(data)
     for cx = 0, _G.chunksWide - 1 do
         for cy = 0, _G.chunksHigh - 1 do
@@ -230,6 +246,7 @@ function State:serialize()
     }
     local data = {}
     self.serializedObjectIds = {}
+    data.activeEntities = self:serializeActiveEntities()
     data.wheatSeasonCounter = self.wheatSeasonCounter
     data.wheatGrowingSeason = self.wheatGrowingSeason
     data.hopsSeasonCounter = self.hopsSeasonCounter
@@ -304,6 +321,9 @@ function State:load(filename, decompress)
     self.verticesPerTile = load.verticesPerTile
     self.maxPopulation = load.maxPopulation
     self.population = load.population
+    if load.activeEntities then
+        self:deserializeActiveEntities(load.activeEntities)
+    end
     if not self.newGame then
         self.resources = load.resources
         self.food = load.food
