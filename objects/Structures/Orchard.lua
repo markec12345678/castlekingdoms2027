@@ -1,5 +1,3 @@
-local _, _, _ = ...
-
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
