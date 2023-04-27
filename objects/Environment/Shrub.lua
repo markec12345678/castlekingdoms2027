@@ -37,8 +37,9 @@ function Shrub:initialize(gx, gy, type)
     end
     _G.state.chunkObjects[self.cx][self.cy][self] = self
     _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
-    _G.buildingheightmap[self.cx][self.cy][self.i - 1][self.o] = 13.5
+    _G.state.map.buildingheightmap[self.cx][self.cy][self.i - 1][self.o] = 13.5
 end
+
 function Shrub:animate()
     local updated = false
     if _G.state.scaleX > 0.6 then
@@ -86,6 +87,7 @@ function Shrub:animate()
         self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, 1)
     end
 end
+
 function Shrub:cut()
     if self.health > 0 then
         self.offsetX = self.baseOffsetX + 4
@@ -95,6 +97,7 @@ function Shrub:cut()
         self:destroy()
     end
 end
+
 function Shrub:serialize()
     local data = {}
     local objectData = Object.serialize(self)
@@ -115,6 +118,7 @@ function Shrub:serialize()
     data.chunkKey = self.chunkKey
     return data
 end
+
 function Shrub.static:deserialize(data)
     local obj = self:new(data.gx, data.gy, data.type)
     Object.deserialize(obj, data)

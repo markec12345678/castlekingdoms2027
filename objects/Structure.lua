@@ -161,7 +161,7 @@ function Structure:applyBuildingHeightMap(skipNoneBiome, skipWalkable)
                 _G.terrainSetTileAt(buildingX, buildingY, _G.terrainBiome.none)
             end
             local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(buildingX, buildingY)
-            _G.buildingheightmap[ccx][ccy][xxx][yyy] = self.class.static.HEIGHT
+            _G.state.map.buildingheightmap[ccx][ccy][xxx][yyy] = self.class.static.HEIGHT
             if not skipWalkable then
                 _G.state.map:setWalkable(buildingX, buildingY, 1)
             end
