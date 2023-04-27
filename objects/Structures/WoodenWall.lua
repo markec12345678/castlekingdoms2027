@@ -1,9 +1,9 @@
-local _, _, tile_quads, _ = ...
+local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 
-local tiles = {tile_quads["tile_buildings_wood_wall (1)"], tile_quads["tile_buildings_wood_wall (2)"],
-    tile_quads["tile_buildings_wood_wall (3)"], tile_quads["tile_buildings_wood_wall (4)"]}
+local tiles = {tileQuads["tile_buildings_wood_wall (1)"], tileQuads["tile_buildings_wood_wall (2)"],
+    tileQuads["tile_buildings_wood_wall (3)"], tileQuads["tile_buildings_wood_wall (4)"]}
 
 local WoodenWall = _G.class('WoodenWall', Structure)
 WoodenWall.static.WIDTH = 1

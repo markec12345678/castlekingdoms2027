@@ -1,6 +1,4 @@
-local _, _, _, _ = ...
 local Object = require("objects.Object")
-
 local quadOffset = require('objects.quad_offset')
 local frShrub_1 = _G.indexQuads("tree_shrub1", 25, nil, true)
 local frShrub_2 = _G.indexQuads("tree_shrub2", 25, nil, true)

@@ -1,4 +1,4 @@
-local _, tileQuads = ...
+local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 
@@ -55,7 +55,7 @@ function Castle:initialize(gx, gy, type)
     for tile = 1, tiles do
         CastleAlias:new(
             quadArray[tiles + 1 + tile], self.gx + tiles, self.gy + (tiles - tile + 1), self,
-                -self.offsetY + 8 * (tiles - tile + 1) + 48, 32)
+            -self.offsetY + 8 * (tiles - tile + 1) + 48, 32)
     end
 
     CastleDoor:new(tileCastleDoor1, self.gx + 2, self.gy + 7, self)
@@ -74,6 +74,7 @@ function Castle:initialize(gx, gy, type)
     end
     Structure.render(self)
 end
+
 function Castle.static:deserialize(data)
     local obj = self:new(data.gx, data.gy, data.type)
     Object.deserialize(obj, data)

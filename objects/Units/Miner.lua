@@ -1,5 +1,3 @@
-local _, _ = ...
-
 local Worker = require("objects.Units.Worker")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
@@ -166,10 +164,12 @@ function Miner:update()
         end
     end
 end
+
 function Miner:animate()
     self:update()
     Worker.animate(self)
 end
+
 function Miner:load(data)
     Object.deserialize(self, data)
     Worker.load(self, data)
@@ -179,6 +179,7 @@ function Miner:load(data)
         self.animation:deserialize(anData)
     end
 end
+
 function Miner:serialize()
     local data = {}
     local unitData = Worker.serialize(self)

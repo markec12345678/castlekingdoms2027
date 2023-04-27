@@ -1,12 +1,9 @@
-local activeEntities, _, tileQuads, _ = ...
-
+local tileQuads = require("objects.object_quads")
 local WEAPON = require("objects.Enums.Weapon")
-
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
 local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
-
 local _, _, _, _, swordIconButton, maceIconButton = unpack(require("states.ui.workshops.workshops_ui"))
 
 local tiles, quadArray = _G.indexBuildingQuads("blacksmith_workshop (18)")
@@ -24,22 +21,22 @@ local an = {
 
 local blacksmithFx = {
     ["bonk"] = {_G.fx["bs_anvil1"],
-                _G.fx["bs_anvil2"],
-                _G.fx["bs_anvil3"],
-                _G.fx["bs_anvil4"],
-                _G.fx["bs_anvil5"]},
+        _G.fx["bs_anvil2"],
+        _G.fx["bs_anvil3"],
+        _G.fx["bs_anvil4"],
+        _G.fx["bs_anvil5"]},
     ["cooling"] = {_G.fx["bs_cooling2"],
-                _G.fx["bs_cooling3"]},
+        _G.fx["bs_cooling3"]},
     ["file"] = {_G.fx["bs_file9"],
-                _G.fx["bs_file10"],
-                _G.fx["bs_file12"],
-                _G.fx["bs_file13"]},
+        _G.fx["bs_file10"],
+        _G.fx["bs_file12"],
+        _G.fx["bs_file13"]},
     ["open"] = {_G.fx["bs_open4"]},
     ["pour"] = {_G.fx["bs_pour3"],
-                _G.fx["bs_pour4"]},
+        _G.fx["bs_pour4"]},
     ["bellow"] = {_G.fx["bs_bellow1"],
-                _G.fx["bs_bellow3"],
-                _G.fx["bs_bellow4"]},
+        _G.fx["bs_bellow3"],
+        _G.fx["bs_bellow4"]},
 }
 
 
@@ -56,7 +53,7 @@ function AnvilCrafting:initialize(gx, gy, parent)
     self.offsetX = -51
     self.offsetY = -77
 
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
 end
 
 function AnvilCrafting:serialize()
@@ -83,6 +80,7 @@ function AnvilCrafting.static:deserialize(data)
     obj.parent = _G.state:dereferenceObject(data.parent)
     obj.parent.swordCrafting = obj
     local anData = data.animation
+    local callback = function() end
     if anData.animationIdentifier == ANIM_CRAFTING_ANVIL then
         callback = obj:craftCallback_1()
     elseif anData.animationIdentifier == ANIM_CRAFTING_ANVIL then
@@ -90,7 +88,7 @@ function AnvilCrafting.static:deserialize(data)
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
-    table.insert(activeEntities, obj)
+
     return obj
 end
 
@@ -116,7 +114,7 @@ function AnvilCrafting:activate()
     self.animated = true
     self.animation:gotoFrame(1)
     self.animation:resume()
-    self:animate(_G.dt)
+    self:animate()
 end
 
 function AnvilCrafting:deactivate()
@@ -143,7 +141,7 @@ function SwordCrafting:initialize(gx, gy, parent)
     self.offsetX = -51
     self.offsetY = -77 - 18
 
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
 end
 
 function SwordCrafting:serialize()
@@ -180,7 +178,7 @@ function SwordCrafting.static:deserialize(data)
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
-    table.insert(activeEntities, obj)
+
     return obj
 end
 
@@ -225,7 +223,7 @@ function SwordCrafting:activate()
         self.animation = anim.newAnimation(an[ANIM_CRAFTING_MACE], 0.11, self:craftCallback_1(),
             ANIM_CRAFTING_MACE)
     end
-    self:animate(_G.dt)
+    self:animate()
 end
 
 function SwordCrafting:deactivate()

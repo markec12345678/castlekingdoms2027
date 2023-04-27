@@ -137,7 +137,8 @@ function OxTether:destroy()
     for x = self.gx - 25, self.gx + 25 do
         for y = self.gy - 25, self.gy + 25 do
             local tile = _G.objectFromClassAtGlobal(x, y, "Quarry")
-            if tile then
+            ---@cast tile Quarry
+            if type(tile) ~= "boolean" then
                 tile:onTetherDestruction(self)
             end
         end

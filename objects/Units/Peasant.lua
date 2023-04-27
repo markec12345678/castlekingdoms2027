@@ -1,8 +1,6 @@
-local _, _ = ...
 local Unit = require("objects.Units.Unit")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
-
 local fr = require("objects.Animations.Peasant")
 
 local durations_idling_1 = {

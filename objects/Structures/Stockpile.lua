@@ -1,4 +1,4 @@
-local _, tileQuads, _ = ...
+local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local tiles, quadArray = _G.indexBuildingQuads("stockpile")

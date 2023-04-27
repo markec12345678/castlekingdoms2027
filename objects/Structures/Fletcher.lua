@@ -1,7 +1,5 @@
-local activeEntities, _, tileQuads, _ = ...
-
+local tileQuads = require("objects.object_quads")
 local WEAPON = require("objects.Enums.Weapon")
-
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
@@ -22,8 +20,8 @@ local an = {
 
 local fletcherFx = {
     ["fletch"] = {_G.fx["fletch23"],
-                _G.fx["fletch24"],
-                _G.fx["fletch25"]}
+        _G.fx["fletch24"],
+        _G.fx["fletch25"]}
 }
 
 local targetFletcher
@@ -40,7 +38,7 @@ function BowCrafting:initialize(gx, gy, parent)
     self.offsetX = -51
     self.offsetY = -77
 
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
 end
 
 function BowCrafting:serialize()
@@ -74,7 +72,7 @@ function BowCrafting.static:deserialize(data)
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
-    table.insert(activeEntities, obj)
+
     return obj
 end
 
@@ -99,7 +97,7 @@ function BowCrafting:activate()
         self.animation = anim.newAnimation(an[ANIM_CRAFTING_CROSSBOW], 0.11, self:craftCallback_1(),
             ANIM_CRAFTING_CROSSBOW)
     end
-    self:animate(_G.dt)
+    self:animate()
 end
 
 function BowCrafting:deactivate()

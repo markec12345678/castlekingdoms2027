@@ -1,5 +1,3 @@
-local activeEntities, _, _ = ...
-
 local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")

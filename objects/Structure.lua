@@ -3,6 +3,7 @@ local Object = require("objects.Object")
 ---@class Structure : Object
 ---@field animation table
 ---@field animated boolean
+---@field onClick function onClick function, if declared will enable hovertext tooltip
 ---@field tile userdata
 local Structure = _G.class("Structure", Object)
 function Structure:initialize(gx, gy, type)
@@ -10,6 +11,7 @@ function Structure:initialize(gx, gy, type)
     _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
 end
 
+---@param self Object|Structure
 function Structure:destroy()
     Object.destroy(self)
 end
@@ -17,14 +19,14 @@ end
 function Structure:getAverageShadowValue()
     local parent = self.parent
     local gx, gy
-    local width = self.class.static.WIDTH
-    local length = self.class.static.LENGTH
+    local width = self.class.WIDTH
+    local length = self.class.LENGTH
     if parent then
         if parent["_ref"] then
             parent = _G.state:dereferenceObject(parent)
         end
         gx, gy = parent.gx, parent.gy
-        width, length = parent.class.static.WIDTH, parent.class.static.LENGTH
+        width, length = parent.class.WIDTH, parent.class.LENGTH
     else
         gx, gy = self.gx, self.gy
     end
@@ -49,7 +51,7 @@ function Structure:calculateShadowValue()
     if parent and parent["_ref"] then
         parent = _G.state:dereferenceObject(parent)
     end
-    local thisTileheight = self.class.static.HEIGHT or (parent and parent.class.static.HEIGHT) or 0
+    local thisTileheight = self.class.HEIGHT or (parent and parent.class.HEIGHT) or 0
     if parent then
         cx, cy, i, o = parent.cx, parent.cy, parent.i, parent.o
     else
@@ -153,15 +155,15 @@ function Structure:serialize()
 end
 
 function Structure:applyBuildingHeightMap(skipNoneBiome, skipWalkable)
-    for xx = 0, self.class.static.WIDTH - 1 do
-        for yy = 0, self.class.static.LENGTH - 1 do
+    for xx = 0, self.class.WIDTH - 1 do
+        for yy = 0, self.class.LENGTH - 1 do
             local buildingX = self.gx + xx
             local buildingY = self.gy + yy
             if not skipNoneBiome then
                 _G.terrainSetTileAt(buildingX, buildingY, _G.terrainBiome.none)
             end
             local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(buildingX, buildingY)
-            _G.state.map.buildingheightmap[ccx][ccy][xxx][yyy] = self.class.static.HEIGHT
+            _G.state.map.buildingheightmap[ccx][ccy][xxx][yyy] = self.class.HEIGHT
             if not skipWalkable then
                 _G.state.map:setWalkable(buildingX, buildingY, 1)
             end

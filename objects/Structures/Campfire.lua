@@ -1,4 +1,4 @@
-local activeEntities, tileQuads, _ = ...
+local tileQuads = require("objects.object_quads")
 local anim = require("libraries.anim8")
 local Structure = require("objects.Structure")
 local Peasant = require("objects.Units.Peasant")
@@ -16,8 +16,8 @@ local an = {
 }
 
 local campfireFx = {
-    ["fire"] = { _G.fx["fireloop1"],
-        _G.fx["fireloop2"] }
+    ["fire"] = {_G.fx["fireloop1"],
+        _G.fx["fireloop2"]}
 }
 
 local timerFX = 0
@@ -40,7 +40,7 @@ function CampfireFloatPop:initialize(gx, gy)
     self.animation = self.greenAnimation
     self.tile = tileQuads["empty"]
     _G.campfireFloatPop = self
-    table.insert(activeEntities, self)
+    self:registerAsActiveEntity()
 end
 
 function CampfireFloatPop:updateSpeed(modifier)
@@ -186,7 +186,7 @@ function CampfireFloatPop.static:deserialize(data)
         end
     end
     _G.campfireFloatPop = obj
-    table.insert(activeEntities, obj)
+
     return obj
 end
 
@@ -372,21 +372,21 @@ function Campfire:getPointingDirection(wx, wy)
     if angle < 0 then
         angle = 360 + angle
     end
-    if (angle >= 135 + 22 and angle <= 225 - 22) then                                       -- direction is west
+    if (angle >= 135 + 22 and angle <= 225 - 22) then -- direction is west
         return "west"
-    elseif (angle > 135 - 22 and angle < 135 + 22) then                                     -- direction is southwest
+    elseif (angle > 135 - 22 and angle < 135 + 22) then -- direction is southwest
         return "southwest"
-    elseif (angle > 225 - 22 and angle < 225 + 22) then                                     -- direction is northwest
+    elseif (angle > 225 - 22 and angle < 225 + 22) then -- direction is northwest
         return "northwest"
-    elseif (angle >= 225 + 22 and angle <= 315 - 22) then                                   -- direction is north
+    elseif (angle >= 225 + 22 and angle <= 315 - 22) then -- direction is north
         return "north"
-    elseif (angle >= 45 + 22 and angle <= 135 - 22) then                                    -- direction is south
+    elseif (angle >= 45 + 22 and angle <= 135 - 22) then -- direction is south
         return "south"
     elseif ((angle >= 315 + 22 and angle <= 359) or (angle >= 0 and angle <= 45 - 22)) then -- direction is east
         return "east"
-    elseif (angle > 45 - 22 and angle < 45 + 22) then                                       -- direction is southeast
+    elseif (angle > 45 - 22 and angle < 45 + 22) then -- direction is southeast
         return "southeast"
-    elseif (angle > 315 - 22 and angle < 315 + 22) then                                     -- direction is northeast
+    elseif (angle > 315 - 22 and angle < 315 + 22) then -- direction is northeast
         return "northeast"
     end
 end

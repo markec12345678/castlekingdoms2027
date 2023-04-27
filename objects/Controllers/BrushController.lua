@@ -72,8 +72,8 @@ function BrushController:setObject(object)
     self.brushObjectType = object
     self.brushObject = brushObjects[object]
     if (self.brushObject == brushObjects.OakTree)
-            or (self.brushObject == brushObjects.PineTree)
-            or (self.brushObject == brushObjects.Shrub) then
+        or (self.brushObject == brushObjects.PineTree)
+        or (self.brushObject == brushObjects.Shrub) then
         self.mode = brushMode.Scattered
     else
         self.mode = brushMode.Solid
@@ -96,7 +96,7 @@ function BrushController:activated()
 end
 
 function BrushController:keyReleased(key)
-    if not love.keyboard.isDown( "lalt" ) then
+    if not love.keyboard.isDown("lalt") then
         return
     end
 

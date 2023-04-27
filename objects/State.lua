@@ -32,6 +32,7 @@ function State:initialize()
     self.gold = 1000
     self.population = 0
     self.maxPopulation = 5
+    self.activeEntities = newAutotable(1)
     self.postitiveBuildings = 0
     self.missionNr = _G.args.missionNr
     -- TODO: Make the collision map dynamic

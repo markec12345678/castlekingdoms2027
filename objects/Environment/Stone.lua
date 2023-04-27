@@ -1,6 +1,4 @@
-local _, _, _, _ = ...
 local Object = require("objects.Object")
-
 local tilesStone = _G.indexQuads("tile_destroyed_stone", 32)
 
 local Stone = _G.class("Stone", Object)

@@ -157,7 +157,7 @@ local function parseDurations(durations, frameCount)
 
     if #result < frameCount then
         error("The durations table has length of " .. tostring(#result) .. ", but it should be >= " ..
-                  tostring(frameCount))
+            tostring(frameCount))
     end
 
     return result
@@ -278,7 +278,7 @@ end
 
 function Animation:update(dt)
     if self.status ~= "playing" then
-        return
+        return false
     end
 
     self.timer = self.timer + dt
@@ -293,6 +293,7 @@ function Animation:update(dt)
     if self.position ~= prev_pos then
         return true
     end
+    return false
 end
 
 function Animation:pause()
@@ -363,6 +364,7 @@ end
 function Animation:getTotalFrames()
     return #self.frames
 end
+
 -----------------------------------------------------------
 
 anim8.newGrid = newGrid

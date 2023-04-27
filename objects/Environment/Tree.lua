@@ -1,6 +1,6 @@
-local _, activeEntities, tileQuads, _ = ...
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
+local tileQuads = require("objects.object_quads")
 
 local fallFx = {_G.fx["liltreefall"], _G.fx["bigtreefall1"], _G.fx["bigtreefall2"]}
 
@@ -10,7 +10,7 @@ local Tree = _G.class("Tree", Object)
 function Tree:initialize(gx, gy, type)
     Object.initialize(self, gx, gy, type)
     self.offsetY = self.offsetY or -166
-    self.baseOffsetX = self.baseOffsetX or -3 - 38
+    self.baseOffsetX = self.baseOffsetX or (-3 - 38)
     self.offsetX = self.baseOffsetX
     self.falling = false
     self.chop = false
@@ -221,7 +221,7 @@ function Tree:cut()
             _G.playSfx(self, fallFx)
             self.falling = true
             -- We need to animate the falling even if the chunk isn't in the view
-            table.insert(activeEntities, self)
+            self:registerAsActiveEntity()
             if (self.cx > _G.currentChunkX + 1) or (self.cx < _G.currentChunkX - 1) or (self.cy > _G.currentChunkY + 1) or
                 (self.cy < _G.currentChunkY - 1) then
                 self.chop = true

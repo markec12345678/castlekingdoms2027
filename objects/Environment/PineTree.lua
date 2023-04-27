@@ -1,4 +1,5 @@
-local _, _, tileQuads, _, Tree = ...
+local Tree = require("objects.Environment.Tree")
+local tileQuads = require("objects.object_quads")
 local anim = require("libraries.anim8")
 local Object = require("objects.Object")
 

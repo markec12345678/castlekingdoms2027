@@ -1,4 +1,3 @@
-local _, _, _, _ = ...
 local tiles, quadArray = _G.indexBuildingQuads("small_tower (1)", false)
 local Object = require("objects.Object")
 

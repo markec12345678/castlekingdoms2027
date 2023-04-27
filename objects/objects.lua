@@ -10,9 +10,41 @@ local inspect = require("libraries.inspect")
 local console = require("libraries.console")
 local showPaths = false
 console.addCommand("togglePaths", function() showPaths = not showPaths end, "Show units paths")
--- Declarations
-----Library setup
--- local bitser = require("libraries.bitser")
+
+local function recursiveLoadModules(folder, fileTree)
+    local filesTable = love.filesystem.getDirectoryItems(folder)
+    for _, v in ipairs(filesTable) do
+        local file = folder .. "/" .. v
+        local info = love.filesystem.getInfo(folder .. "/" .. v)
+        if info then
+            if info.type == "file" then
+                local extension = file:match("^.+(%..+)$")
+                if extension == ".lua" then
+                    local filename = file:gsub("%.lua", "")
+                    local filename = filename:gsub("/", ".")
+                    require(filename)
+                end
+            elseif info.type == "directory" then
+                fileTree = recursiveLoadModules(file, fileTree)
+            end
+        end
+    end
+    return fileTree
+end
+
+recursiveLoadModules("objects/Units", "")
+recursiveLoadModules("objects/Structures", "")
+recursiveLoadModules("objects/Environment", "")
+
+local PineTree = require("objects.Environment.PineTree")
+local Shrub = require("objects.Environment.Shrub")
+local Stone = require("objects.Environment.Stone")
+local Iron = require("objects.Environment.Iron")
+local Rock_4x4 = require("objects.Environment.Rock_4x4")
+local Rock_3x3 = require("objects.Environment.Rock_3x3")
+local Rock_2x2 = require("objects.Environment.Rock_2x2")
+local Rock_1x1 = require("objects.Environment.Rock_1x1")
+
 local location = {
     gx = 0,
     gy = 0,
@@ -31,7 +63,6 @@ end
 local press = location:new()
 ----Rows and columns
 ----Chunk 2D array
-local activeEntities = newAutotable(1)
 local object = _G.state.object
 ----Calculate center chunk
 local CenterX = math.round(ScreenToIsoX(_G.ScreenWidth / 2 - 16 + _G.state.viewXview,
@@ -48,159 +79,8 @@ local shadowBatch = newAutotable(2)
 if not _G.testMode then
     objectAtlas:setFilter("nearest", "nearest")
 end
-local tileQuads = require("objects.object_quads")
 
---- NOTE Object classes START ---
---- NOTE --------------------------
---- NOTE --------------------------
-local Unit = love.filesystem.load("objects/Units/Unit.lua")(activeEntities, objectBatch)
-package.loaded["objects.Units.Unit"] = Unit
 
-local NotEnoughWorkersFloat = love.filesystem.load("objects/Structures/NotEnoughWorkersFloat.lua")(activeEntities,
-    tileQuads)
-package.loaded["objects.Structures.NotEnoughWorkersFloat"] = NotEnoughWorkersFloat
-
-local Tree = love.filesystem.load("objects/Environment/Tree.lua")(objectBatch, activeEntities, tileQuads, object)
-local PineTree = love.filesystem.load("objects/Environment/PineTree.lua")(objectBatch, activeEntities, tileQuads, object, Tree)
-local OakTree = love.filesystem.load("objects/Environment/OakTree.lua")(objectBatch, activeEntities, tileQuads, object, Tree)
-local Shrub = love.filesystem.load("objects/Environment/Shrub.lua")(objectBatch, activeEntities, tileQuads, object)
-local Stone = love.filesystem.load("objects/Environment/Stone.lua")(objectBatch, activeEntities, tileQuads, object)
-local Iron = love.filesystem.load("objects/Environment/Iron.lua")(objectBatch, activeEntities, tileQuads, object)
-local Woodcutter = love.filesystem.load("objects/Units/Woodcutter.lua")(object, tileQuads)
-local OxHandler = love.filesystem.load("objects/Units/OxHandler.lua")(object, tileQuads)
-local Baker = love.filesystem.load("objects/Units/Baker.lua")(object, tileQuads)
-local Fletcher = love.filesystem.load("objects/Units/Fletcher.lua")(object, tileQuads)
-local Poleturner = love.filesystem.load("objects/Units/Poleturner.lua")(object, tileQuads)
-local Blacksmith = love.filesystem.load("objects/Units/Blacksmith.lua")(object, tileQuads)
-local Stonemason = love.filesystem.load("objects/Units/Stonemason.lua")(object, tileQuads)
-local Peasant = love.filesystem.load("objects/Units/Peasant.lua")(object, tileQuads)
-local OrchardFarmer = love.filesystem.load("objects/Units/OrchardFarmer.lua")(object, tileQuads)
-local WheatFarmer = love.filesystem.load("objects/Units/WheatFarmer.lua")(object, tileQuads)
-local HopsFarmer = love.filesystem.load("objects/Units/HopsFarmer.lua")(object, tileQuads)
-local DairyFarmer = love.filesystem.load("objects/Units/DairyFarmer.lua")(object, tileQuads)
-local Chicken = love.filesystem.load("objects/Units/Chicken.lua")(object, tileQuads)
-local ChickensGroup = love.filesystem.load("objects/Structures/ChickensGroup.lua")(activeEntities, object, tileQuads)
-local Miner = love.filesystem.load("objects/Units/Miner.lua")(object, tileQuads)
-local SaxonHall = love.filesystem.load("objects/Structures/SaxonHall.lua")(object, tileQuads)
-local Stockpile = love.filesystem.load("objects/Structures/Stockpile.lua")(object, tileQuads, objectBatch)
-local Granary = love.filesystem.load("objects/Structures/Granary.lua")(object, tileQuads, objectBatch)
-local Armoury = love.filesystem.load("objects/Structures/Armoury.lua")(tileQuads)
-
-package.loaded["objects.Structures.Armoury"] = Armoury
-local Quarry = love.filesystem.load("objects/Structures/Quarry.lua")(activeEntities, object, tileQuads, objectBatch)
-local Mine = love.filesystem.load("objects/Structures/Mine.lua")(activeEntities, object, tileQuads, objectBatch)
-local WoodcutterHut = love.filesystem.load("objects/Structures/WoodcutterHut.lua")(activeEntities, object, tileQuads,
-    objectBatch)
-local Windmill = love.filesystem.load("objects/Structures/Windmill.lua")(activeEntities, object, tileQuads, objectBatch)
-local Bakery = love.filesystem.load("objects/Structures/Bakery.lua")(activeEntities, object, tileQuads, objectBatch)
-local FletcherWorkshop = love.filesystem.load("objects/Structures/Fletcher.lua")(activeEntities, object, tileQuads,
-    objectBatch)
-local PoleturnerWorkshop = love.filesystem.load("objects/Structures/Poleturner.lua")(activeEntities, object, tileQuads,
-    objectBatch)
-local Armorer = love.filesystem.load("objects/Structures/Armorer.lua")(activeEntities, object, tileQuads, objectBatch)
-local BlacksmithWorkshop = love.filesystem.load("objects/Structures/Blacksmith.lua")(activeEntities, object, tileQuads,
-    objectBatch)
-local Brewery = love.filesystem.load("objects/Structures/Brewery.lua")(activeEntities, object, tileQuads, objectBatch)
-local House = love.filesystem.load("objects/Structures/House.lua")(activeEntities, object, tileQuads, objectBatch)
-local WoodenWall = love.filesystem.load("objects/Structures/WoodenWall.lua")(activeEntities, object, tileQuads,
-    objectBatch)
-local WoodenWallWalkable = love.filesystem.load("objects/Structures/WalkableWoodenWall.lua")(activeEntities, object,
-    tileQuads, objectBatch)
-local WoodenTower = love.filesystem.load("objects/Structures/WoodenTower.lua")(activeEntities, object, tileQuads,
-    objectBatch)
-local PerimeterTower = love.filesystem.load("objects/Structures/PerimeterTower.lua")(activeEntities, object, tileQuads,
-    objectBatch)
-local DefenseTower = love.filesystem.load("objects/Structures/DefenseTower.lua")(activeEntities, object, tileQuads,
-    objectBatch)
-local SquareTower = love.filesystem.load("objects/Structures/SquareTower.lua")(activeEntities, object, tileQuads,
-    objectBatch)
-local RoundTower = love.filesystem.load("objects/Structures/RoundTower.lua")(activeEntities, object, tileQuads,
-    objectBatch)
-
-local Rock_4x4 = love.filesystem.load("objects/Environment/Rock_4x4.lua")(activeEntities, object, tileQuads, objectBatch)
-local Rock_3x3 = love.filesystem.load("objects/Environment/Rock_3x3.lua")(activeEntities, object, tileQuads, objectBatch)
-local Rock_2x2 = love.filesystem.load("objects/Environment/Rock_2x2.lua")(activeEntities, object, tileQuads, objectBatch)
-local Rock_1x1 = love.filesystem.load("objects/Environment/Rock_1x1.lua")(activeEntities, object, tileQuads, objectBatch)
-local Campfire = love.filesystem.load("objects/Structures/Campfire.lua")(activeEntities, tileQuads, objectBatch)
-local Orchard = love.filesystem.load("objects/Structures/Orchard.lua")(activeEntities, tileQuads, objectBatch)
-local Chapel = love.filesystem.load("objects/Structures/Chapel.lua")(activeEntities, tileQuads, objectBatch)
-local Church = love.filesystem.load("objects/Structures/Church.lua")(activeEntities, tileQuads, objectBatch)
-local Cathedral = love.filesystem.load("objects/Structures/Cathedral.lua")(activeEntities, tileQuads, objectBatch)
-local WheatFarm = love.filesystem.load("objects/Structures/WheatFarm.lua")(object, tileQuads, objectBatch,
-    activeEntities)
-local HopsFarm = love.filesystem.load("objects/Structures/HopsFarm.lua")(object, tileQuads, objectBatch,
-    activeEntities)
-local DairyFarm = love.filesystem.load("objects/Structures/DairyFarm.lua")(activeEntities, object, tileQuads, objectBatch)
-local OxTether = love.filesystem.load("objects/Structures/OxTether.lua")(object, tileQuads, objectBatch, activeEntities)
-local Maypole = love.filesystem.load("objects/Structures/Maypole.lua")(activeEntities, tileQuads)
-local SmallPond = love.filesystem.load("objects/Structures/SmallPond.lua")(activeEntities, tileQuads)
-local LargePond = love.filesystem.load("objects/Structures/LargePond.lua")(activeEntities, tileQuads)
-local SmallGarden = love.filesystem.load("objects/Structures/SmallGarden.lua")(activeEntities, tileQuads)
-local MediumGarden = love.filesystem.load("objects/Structures/MediumGarden.lua")(activeEntities, tileQuads)
-local LargeGarden = love.filesystem.load("objects/Structures/LargeGarden.lua")(activeEntities, tileQuads)
-local Apothecary = love.filesystem.load("objects/Structures/Apothecary.lua")(activeEntities, tileQuads, objectBatch)
-
-package.loaded["objects.Environment.Tree"] = Tree
-package.loaded["objects.Environment.PineTree"] = PineTree
-package.loaded["objects.Environment.OakTree"] = OakTree
-package.loaded["objects.Environment.Shrub"] = Shrub
-package.loaded["objects.Environment.Stone"] = Stone
-package.loaded["objects.Environment.Iron"] = Iron
-package.loaded["objects.Environment.Rock_4x4"] = Rock_4x4
-package.loaded["objects.Environment.Rock_3x3"] = Rock_3x3
-package.loaded["objects.Environment.Rock_2x2"] = Rock_2x2
-package.loaded["objects.Environment.Rock_1x1"] = Rock_1x1
-package.loaded["objects.Units.Woodcutter"] = Woodcutter
-package.loaded["objects.Units.OxHandler"] = OxHandler
-package.loaded["objects.Units.Baker"] = Baker
-package.loaded["objects.Units.Fletcher"] = Fletcher
-package.loaded["objects.Units.Poleturner"] = Poleturner
-package.loaded["objects.Units.Blacksmith"] = Blacksmith
-package.loaded["objects.Units.Stonemason"] = Stonemason
-package.loaded["objects.Units.Peasant"] = Peasant
-package.loaded["objects.Units.OrchardFarmer"] = OrchardFarmer
-package.loaded["objects.Units.WheatFarmer"] = WheatFarmer
-package.loaded["objects.Units.HopsFarmer"] = HopsFarmer
-package.loaded["objects.Units.DairyFarmer"] = DairyFarmer
-package.loaded["objects.Units.Chicken"] = Chicken
-package.loaded["objects.Units.Miner"] = Miner
-package.loaded["objects.Structures.ChickensGroup"] = ChickensGroup
-package.loaded["objects.Structures.SaxonHall"] = SaxonHall
-package.loaded["objects.Structures.Stockpile"] = Stockpile
-package.loaded["objects.Structures.Granary"] = Granary
-package.loaded["objects.Structures.Quarry"] = Quarry
-package.loaded["objects.Structures.Mine"] = Mine
-package.loaded["objects.Structures.WoodcutterHut"] = WoodcutterHut
-package.loaded["objects.Structures.Windmill"] = Windmill
-package.loaded["objects.Structures.Bakery"] = Bakery
-package.loaded["objects.Structures.Fletcher"] = FletcherWorkshop
-package.loaded["objects.Structures.Poleturner"] = PoleturnerWorkshop
-package.loaded["objects.Structures.Armorer"] = Armorer
-package.loaded["objects.Structures.Blacksmith"] = BlacksmithWorkshop
-package.loaded["objects.Structures.Brewery"] = Brewery
-package.loaded["objects.Structures.House"] = House
-package.loaded["objects.Structures.WoodenWall"] = WoodenWall
-package.loaded["objects.Structures.WalkableWoodenWall"] = WoodenWallWalkable
-package.loaded["objects.Structures.WoodenTower"] = WoodenTower
-package.loaded["objects.Structures.PerimeterTower"] = PerimeterTower
-package.loaded["objects.Structures.DefenseTower"] = DefenseTower
-package.loaded["objects.Structures.SquareTower"] = SquareTower
-package.loaded["objects.Structures.RoundTower"] = RoundTower
-package.loaded["objects.Structures.Campfire"] = Campfire
-package.loaded["objects.Structures.Orchard"] = Orchard
-package.loaded["objects.Structures.Chapel"] = Chapel
-package.loaded["objects.Structures.Church"] = Church
-package.loaded["objects.Structures.Cathedral"] = Cathedral
-package.loaded["objects.Structures.WheatFarm"] = WheatFarm
-package.loaded["objects.Structures.HopsFarm"] = HopsFarm
-package.loaded["objects.Structures.DairyFarm"] = DairyFarm
-package.loaded["objects.Structures.OxTether"] = OxTether
-package.loaded["objects.Structures.Apothecary"] = Apothecary
-package.loaded["objects.Structures.SmallPond"] = SmallPond
-package.loaded["objects.Structures.LargePond"] = LargePond
-package.loaded["objects.Structures.SmallGarden"] = SmallGarden
-package.loaded["objects.Structures.MediumGarden"] = MediumGarden
-package.loaded["objects.Structures.LargeGarden"] = LargeGarden
 _G.stockpile = require("objects.Controllers.StockpileController")
 _G.foodpile = require("objects.Controllers.FoodController")
 _G.weaponpile = require("objects.Controllers.WeaponController")
@@ -652,7 +532,7 @@ local function drawObject()
     love.graphics.setColor(1, 1, 1, 1)
 
     if showPaths then
-        for _, obj in ipairs(activeEntities) do
+        for _, obj in ipairs(_G.state.activeEntities) do
             if obj:isVisibleOnScreen() then
                 if obj.debugDrawPath then obj:debugDrawPath() end
             end
@@ -759,10 +639,6 @@ function _G.getWaterAt(gx, gy)
     return _G.state.map:isWaterAt(gx, gy)
 end
 
-function _G.registerActiveEntity(obj)
-    table.insert(activeEntities, obj)
-end
-
 function _G.registerAnimatedEntity(obj)
     if _G.state.chunkObjects[obj.cx][obj.cy] == nil then
         _G.state.chunkObjects[obj.cx][obj.cy] = {}
@@ -805,7 +681,7 @@ local function update(dt)
     local updatedChunks = _G.newAutotable(2)
     local objectsToBeDeleted
     local needsToBeDeleted = false
-    for idx, obj in ipairs(activeEntities) do
+    for idx, obj in ipairs(_G.state.activeEntities) do
         if obj.toBeDeleted then
             if needsToBeDeleted == false then
                 needsToBeDeleted = true
@@ -817,7 +693,7 @@ local function update(dt)
         end
     end
     if needsToBeDeleted then
-        activeEntities = _G.removeFromObjectsArray(activeEntities, function(t, i, j)
+        _G.state.activeEntities = _G.removeFromObjectsArray(_G.state.activeEntities, function(t, i, j)
             return not objectsToBeDeleted[i]
         end)
     end
@@ -859,9 +735,8 @@ local tableOfFunctions = {
     update = update,
     draw = drawObject,
     chunk = object[press.cx][press.cy],
-    mousereleased = _G.mousereleased,
     mousepressed = mousepressed,
-    active = activeEntities,
+    active = _G.state.activeEntities,
     object = object,
     batch = objectBatch,
     shadow = shadowBatch,
