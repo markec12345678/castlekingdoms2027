@@ -11,6 +11,7 @@ local obj = {
     end
 }
 require("spec.eventbus_spec")
+require("spec.woodcutter_spec")
 -- =======================================================================--
 describe("addObjectAt", function()
     it("creates a table at the index, if it doesn't exist already", function()
