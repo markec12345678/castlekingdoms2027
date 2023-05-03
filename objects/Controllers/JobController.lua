@@ -1,5 +1,6 @@
 local console = require("libraries.console")
 
+---@class JobController
 local JobController = _G.class("JobController")
 function JobController:initialize()
     self:initializeWorkplaces()
@@ -76,7 +77,7 @@ function JobController:makeWorker()
 
                 workplace:join(worker)
                 worker.state = "Go to workplace"
-                break
+                return worker
             end
         end
     end
