@@ -2,7 +2,7 @@ local Object = require("objects.Object")
 local anim = require("libraries.anim8")
 local tileQuads = require("objects.object_quads")
 
-local fallFx = {_G.fx["liltreefall"], _G.fx["bigtreefall1"], _G.fx["bigtreefall2"]}
+local fallFx = { _G.fx["liltreefall"], _G.fx["bigtreefall1"], _G.fx["bigtreefall2"] }
 
 local quadOffset = require("objects.quad_offset")
 local STATIC_TRUNK = "Static Trunk"
@@ -38,7 +38,7 @@ function Tree:initialize(gx, gy, type)
             end
         end
     end
-    if self.gx < 2048 and self.gx >= 0 and self.gy < 2048 and self.gy >= 0 then
+    if self.gx < 512 and self.gx >= 0 and self.gy < 512 and self.gy >= 0 then
         _G.state.map:setWalkable(self.gx, self.gy, 1)
     end
     if _G.state.chunkObjects[self.cx][self.cy] == nil then
@@ -52,7 +52,7 @@ end
 function Tree:finish()
     -- Object was deleted by arrayRemove, so we need to readd it
     _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
-    self.animation = anim.newAnimation({self.trunkTile}, 0.1, nil, STATIC_TRUNK)
+    self.animation = anim.newAnimation({ self.trunkTile }, 0.1, nil, STATIC_TRUNK)
     self.animation:pause()
     self.stump = true
     self.animated = false -- mark for removal from list
@@ -284,10 +284,9 @@ end
 
 function Tree:destroy()
     local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(self.gx - 1, self.gy + 1)
-    local Terrain = require("terrain.terrain")
-    Terrain:scheduleTerrainUpdate(cx, cy, x, y)
+    _G.state.Terrain:scheduleTerrainUpdate(cx, cy, x, y)
     cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(self.gx, self.gy)
-    Terrain:scheduleTerrainUpdate(cx, cy, x, y)
+    _G.state.Terrain:scheduleTerrainUpdate(cx, cy, x, y)
 
     for xx = -1, 1 do
         for yy = -1, 1 do

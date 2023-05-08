@@ -160,7 +160,7 @@ function _G.freeVertexFromTile(cx, cy, vertId)
     if not vertId then
         return
     end
-    chunkVertices = _G.state.objectMeshVertIdMap[cx][cy]
+    local chunkVertices = _G.state.objectMeshVertIdMap[cx][cy]
     if chunkVertices then
         _G.state.objectMesh[cx][cy]:setVertex(vertId)
         chunkVertices[vertId] = false

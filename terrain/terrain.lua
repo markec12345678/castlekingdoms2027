@@ -299,11 +299,11 @@ function Terrain:multiTileTerrain(size, cx, cy, i, o, biome)
         ["cx"] = cx,
         ["cy"] = cy
     }
-    self.keysToSkip[cx][cy][i + 1][o] = {i, o}
+    self.keysToSkip[cx][cy][i + 1][o] = { i, o }
     self.terrainTile[cx][cy][i + 1][o] = nil
-    self.keysToSkip[cx][cy][i + 1][o + 1] = {i, o}
+    self.keysToSkip[cx][cy][i + 1][o + 1] = { i, o }
     self.terrainTile[cx][cy][i + 1][o + 1] = nil
-    self.keysToSkip[cx][cy][i][o + 1] = {i, o}
+    self.keysToSkip[cx][cy][i][o + 1] = { i, o }
     self.terrainTile[cx][cy][i][o + 1] = nil
     if size >= 3 then
         self.terrainTile[cx][cy][i][o] = nil
@@ -315,15 +315,15 @@ function Terrain:multiTileTerrain(size, cx, cy, i, o, biome)
             ["cx"] = cx,
             ["cy"] = cy
         }
-        self.keysToSkip[cx][cy][i + 2][o] = {i, o}
+        self.keysToSkip[cx][cy][i + 2][o] = { i, o }
         self.terrainTile[cx][cy][i + 2][o] = nil
-        self.keysToSkip[cx][cy][i + 2][o + 1] = {i, o}
+        self.keysToSkip[cx][cy][i + 2][o + 1] = { i, o }
         self.terrainTile[cx][cy][i + 2][o + 1] = nil
-        self.keysToSkip[cx][cy][i + 2][o + 2] = {i, o}
+        self.keysToSkip[cx][cy][i + 2][o + 2] = { i, o }
         self.terrainTile[cx][cy][i + 2][o + 2] = nil
-        self.keysToSkip[cx][cy][i][o + 2] = {i, o}
+        self.keysToSkip[cx][cy][i][o + 2] = { i, o }
         self.terrainTile[cx][cy][i][o + 2] = nil
-        self.keysToSkip[cx][cy][i + 1][o + 2] = {i, o}
+        self.keysToSkip[cx][cy][i + 1][o + 2] = { i, o }
         self.terrainTile[cx][cy][i + 1][o + 2] = nil
     end
     if size >= 4 then
@@ -336,19 +336,19 @@ function Terrain:multiTileTerrain(size, cx, cy, i, o, biome)
             ["cx"] = cx,
             ["cy"] = cy
         }
-        self.keysToSkip[cx][cy][i + 3][o] = {i, o}
+        self.keysToSkip[cx][cy][i + 3][o] = { i, o }
         self.terrainTile[cx][cy][i + 3][o] = nil
-        self.keysToSkip[cx][cy][i + 3][o + 1] = {i, o}
+        self.keysToSkip[cx][cy][i + 3][o + 1] = { i, o }
         self.terrainTile[cx][cy][i + 3][o + 1] = nil
-        self.keysToSkip[cx][cy][i + 3][o + 2] = {i, o}
+        self.keysToSkip[cx][cy][i + 3][o + 2] = { i, o }
         self.terrainTile[cx][cy][i + 3][o + 2] = nil
-        self.keysToSkip[cx][cy][i + 3][o + 3] = {i, o}
+        self.keysToSkip[cx][cy][i + 3][o + 3] = { i, o }
         self.terrainTile[cx][cy][i + 3][o + 3] = nil
-        self.keysToSkip[cx][cy][i][o + 3] = {i, o}
+        self.keysToSkip[cx][cy][i][o + 3] = { i, o }
         self.terrainTile[cx][cy][i][o + 3] = nil
-        self.keysToSkip[cx][cy][i + 1][o + 3] = {i, o}
+        self.keysToSkip[cx][cy][i + 1][o + 3] = { i, o }
         self.terrainTile[cx][cy][i + 1][o + 3] = nil
-        self.keysToSkip[cx][cy][i + 2][o + 3] = {i, o}
+        self.keysToSkip[cx][cy][i + 2][o + 3] = { i, o }
         self.terrainTile[cx][cy][i + 2][o + 3] = nil
     end
 end
@@ -374,7 +374,7 @@ function Terrain:scheduleTerrainUpdate(cx, cy, i, o)
         end
     end
     if not self.chunksSet[cx][cy] then
-        chunksToUpdate[#chunksToUpdate + 1] = {cx, cy}
+        chunksToUpdate[#chunksToUpdate + 1] = { cx, cy }
         self.chunksSet[cx][cy] = true
     end
 end
@@ -389,7 +389,7 @@ end
 function Terrain:scheduleTightTerrainUpdate(cx, cy, i, o)
     self.tertiaryTilesToUpdateInChunk[cx][cy][i][o] = true
     if not self.chunksSet[cx][cy] then
-        chunksToUpdate[#chunksToUpdate + 1] = {cx, cy}
+        chunksToUpdate[#chunksToUpdate + 1] = { cx, cy }
         self.chunksSet[cx][cy] = true
     end
 end
@@ -541,8 +541,8 @@ function Terrain:multiTileCalculate(currentBiome, cx, cy, i, o)
     if rand == 0 then
         self.terrainTile[cx][cy][i][o] = nil
     else
-        self.terrainTile[cx][cy][i][o] = {tileQuads[tileKey], _G.IsoX + (i - o) * tileWidth * 0.5 + lOffsetX,
-            _G.IsoY + (i + o) * tileHeight * 0.5 + lOffsetY, 0, lScale, lScale}
+        self.terrainTile[cx][cy][i][o] = { tileQuads[tileKey], _G.IsoX + (i - o) * tileWidth * 0.5 + lOffsetX,
+            _G.IsoY + (i + o) * tileHeight * 0.5 + lOffsetY, 0, lScale, lScale }
     end
 end
 
@@ -575,7 +575,6 @@ function Terrain:updateTerrain2ndPass(chunkX, chunkY)
                     goto endMultiTile
                 end
                 self:multiTileCalculate(currentBiome, cx, cy, i, o)
-
             end
             ::endMultiTile::
         end
@@ -862,7 +861,7 @@ function Terrain:refreshTile(cx, cy, i, o, force)
         local t = self.terrainTile[cx][cy][i][o]
         if not t or #t <= 0 then
             skipMultiTile = true
-            t = {nil, _G.IsoX + (i - o) * tileWidth * 0.5, _G.IsoY + (i + o) * tileHeight * 0.5, 0, 1.06, 1.06}
+            t = { nil, _G.IsoX + (i - o) * tileWidth * 0.5, _G.IsoY + (i + o) * tileHeight * 0.5, 0, 1.06, 1.06 }
         end
         local isCliff = self:tileShouldBeCliff(gx, gy)
         if not self:tileShouldBeCliff(gx, gy, true) then
@@ -1004,14 +1003,14 @@ function Terrain:refreshTile(cx, cy, i, o, force)
                 elseif isIron then
                     local qx, qy, qw, qh = hillChevronIronLeft:getViewport()
                     instancemesh:setVertex(chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 1 - 0.03
-                        , lScale, 2)
+                    , lScale, 2)
                     qx, qy, qw, qh = hillChevronIronRight:getViewport()
                     instancemesh:setVertex(chevronRightId, t[2] + qw, t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
                         1 - 0.1, lScale, 2)
                 else
                     local qx, qy, qw, qh = hillChevronNormalLeft:getViewport()
                     instancemesh:setVertex(chevronLeftId, t[2], t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh, 1 - 0.03
-                        , lScale, 2)
+                    , lScale, 2)
                     qx, qy, qw, qh = hillChevronNormalRight:getViewport()
                     instancemesh:setVertex(chevronRightId, t[2] + qw, t[3] - elevationOffsetY * 2 + 8, qx, qy, qw, qh,
                         1 - 0.1, lScale, 2)
@@ -1103,7 +1102,7 @@ function Terrain:getTerrainTileOnMouse(mx, my)
         local t = self.terrainTile[cx][cy][i][o]
         local cyOffset = (cx + cy) * chunkHeight * tileHeight * 0.5
         if not t or #t <= 0 then
-            t = {nil, _G.IsoX + (i - o) * tileWidth * 0.5, _G.IsoY + (i + o) * tileHeight * 0.5, 0, 1.06, 1.06}
+            t = { nil, _G.IsoX + (i - o) * tileWidth * 0.5, _G.IsoY + (i + o) * tileHeight * 0.5, 0, 1.06, 1.06 }
         end
         local structureOffset = getStructureOffset(gx, gy)
         local recty = t[3] - elevationOffsetY + cyOffset + structureOffset
@@ -1124,7 +1123,7 @@ function Terrain:update()
 end
 
 function Terrain:genTerrain(cx, cy)
-    _G.allocateMesh(cx, cy)
+    -- _G.allocateMesh(cx, cy)
     self.terrain[cx][cy] = newAutotable(2)
     for i = 0, chunkWidth - 1, 1 do
         for o = 0, chunkHeight - 1, 1 do
@@ -1337,26 +1336,4 @@ function Terrain:genMap()
     end
 end
 
--- local function loadFernhaven()
---     require("terrain.Maps.Fernhaven")
---     for i = 0, _G.chunksWide - 1 do
---         for o = 0, _G.chunksHigh - 1 do
---             _G.genObjects(i, o)
---         end
---     end
---     self.state.map.name = "Fernhaven"
--- end
-
----@type Terrain
-local ter = Terrain:new(_G.state)
-function _G.getTerrainTileOnMouse(mx, my)
-    return ter:getTerrainTileOnMouse(mx, my)
-
-end
-
-function _G.terrainSetTileAt(gx, gy, biome, from, force)
-    return ter:terrainSetTileAt(gx, gy, biome, from, force)
-
-end
-
-return ter
+return Terrain

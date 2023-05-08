@@ -133,8 +133,8 @@ load.OnMouseDown = function(self)
     self:SetImage(loadImageDown)
 end
 load.OnClick = function(self)
-    print("loading not implemented fully")
-    loveframes.TogglePause()
+    loveframes.SetState(states.STATE_MAIN_MENU_LOAD_SAVE)
+    SaveManager:updateInterface(true)
 end
 load.OnMouseExit = function(self)
     self:SetImage(loadImage)
@@ -157,6 +157,7 @@ exit.OnMouseDown = function(self)
 end
 exit.OnClick = function(self)
     loveframes.TogglePause()
+    if _G.state then _G.state:destroy() end
     local menu = require("states.start_menu")
     Gamestate.switch(menu)
 end

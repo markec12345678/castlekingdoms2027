@@ -1,6 +1,5 @@
 -- Various utilities for Jumper top-level modules
 if (...) then
-
     -- Dependencies
 
     local ffi = require('ffi')
@@ -88,7 +87,7 @@ if (...) then
 
     -- Converts an array to a set of nodes
     local function arrayToNodes(map)
-        local mapw, maph = 2048, 2048
+        local mapw, maph = 512, 512
         local min_x, max_x = 0, mapw - 1
         local min_y, max_y = 0, maph - 1
         _G.nodes = ffi.cast("node **", ffi.C.calloc(mapw, ffi.sizeof("node*")))
@@ -174,5 +173,4 @@ if (...) then
         drAround = drAround,
         traceBackPath = traceBackPath
     }
-
 end

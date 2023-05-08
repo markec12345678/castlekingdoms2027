@@ -176,7 +176,7 @@ local buildings = {
             for xx = 0, 4 do
                 for yy = 0, 4 do
                     if _G.objectFromClassAtGlobal(gx + xx, gy + yy, "Stone") then
-                        local xyTable = {x = xx, y = yy}
+                        local xyTable = { x = xx, y = yy }
                         table.insert(stoneObjects, xyTable)
                     end
                 end
@@ -201,7 +201,6 @@ local buildings = {
             warningTooltip:ShowTooltip("Needs to placed on top of stone!")
         end,
         overrideRequirements = function(this, self)
-            local Terrain = require("terrain.terrain")
             self.targetGX, self.targetGY = self.gx + math.floor(self.width / 2),
                 self.gy + math.floor(self.height / 2)
             local fcx, fcy, fxx, fyy = _G.getLocalCoordinatesFromGlobal(self.targetGX, self.targetGY)
@@ -230,7 +229,7 @@ local buildings = {
                         warningTooltip:ShowTooltip("Cannot build on top of water!")
                         break
                     end
-                    if Terrain:getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
+                    if _G.state.Terrain:getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
                         self.canBuild = false
                         warningTooltip:ShowTooltip("Cannot build on top of water!")
                         break
@@ -299,7 +298,7 @@ local buildings = {
             for xx = 0, 3 do
                 for yy = 0, 3 do
                     if _G.objectFromClassAtGlobal(gx + xx, gy + yy, "Iron") then
-                        local xyTable = {x = xx, y = yy}
+                        local xyTable = { x = xx, y = yy }
                         table.insert(ironObjects, xyTable)
                     end
                 end
@@ -345,8 +344,7 @@ local buildings = {
                         warningTooltip:ShowTooltip("Cannot build on top of water!")
                         break
                     end
-                    local Terrain = require("terrain.terrain")
-                    if Terrain:getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
+                    if _G.state.Terrain:getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
                         self.canBuild = false
                         warningTooltip:ShowTooltip("Cannot build on top of water!")
                         break
@@ -681,8 +679,7 @@ local buildings = {
                         warningTooltip:ShowTooltip("Cannot build on top of water!")
                         break
                     end
-                    local Terrain = require("terrain.terrain")
-                    if Terrain:getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
+                    if _G.state.Terrain:getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
                         self.canBuild = false
                         warningTooltip:ShowTooltip("Cannot build on top of water!")
                         break
@@ -784,8 +781,7 @@ local buildings = {
                         warningTooltip:ShowTooltip("Cannot build on top of water!")
                         break
                     end
-                    local Terrain = require("terrain.terrain")
-                    if Terrain:getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
+                    if _G.state.Terrain:getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
                         self.canBuild = false
                         warningTooltip:ShowTooltip("Cannot build on top of water!")
                         break
@@ -887,8 +883,7 @@ local buildings = {
                         warningTooltip:ShowTooltip("Cannot build on top of water!")
                         break
                     end
-                    local Terrain = require("terrain.terrain")
-                    if Terrain:getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
+                    if _G.state.Terrain:getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
                         self.canBuild = false
                         warningTooltip:ShowTooltip("Cannot build on top of water!")
                         break
@@ -990,8 +985,7 @@ local buildings = {
                         warningTooltip:ShowTooltip("Cannot build on top of water!")
                         break
                     end
-                    local Terrain = require("terrain.terrain")
-                    if Terrain:getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
+                    if _G.state.Terrain:getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
                         self.canBuild = false
                         warningTooltip:ShowTooltip("Cannot build on top of water!")
                         break
@@ -1093,8 +1087,7 @@ local buildings = {
                         warningTooltip:ShowTooltip("Cannot build on top of water!")
                         break
                     end
-                    local Terrain = require("terrain.terrain")
-                    if Terrain:getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
+                    if _G.state.Terrain:getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
                         self.canBuild = false
                         warningTooltip:ShowTooltip("Cannot build on top of water!")
                         break
@@ -1196,8 +1189,7 @@ local buildings = {
                         warningTooltip:ShowTooltip("Cannot build on top of water!")
                         break
                     end
-                    local Terrain = require("terrain.terrain")
-                    if Terrain:getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
+                    if _G.state.Terrain:getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
                         self.canBuild = false
                         warningTooltip:ShowTooltip("Cannot build on top of water!")
                         break
@@ -1623,8 +1615,7 @@ local buildings = {
                         warningTooltip:ShowTooltip("Cannot build on top of water!")
                         break
                     end
-                    local Terrain = require("terrain.terrain")
-                    if Terrain:getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
+                    if _G.state.Terrain:getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
                         self.canBuild = false
                         warningTooltip:ShowTooltip("Cannot build on top of water!")
                         break

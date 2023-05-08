@@ -101,6 +101,10 @@ end
 
 function LoadListItem:onClick()
     _G.playSpeech("General_Loading")
+    _G.loaded = false
+    local State = require("objects.State")
+    _G.state = State:new()
+    if _G.state then _G.state.initialized = false end
     loveframes.SetState()
     Gamestate.switch(game, self.nameText:GetText())
 end
@@ -112,9 +116,9 @@ function LoadListItem:setValues(name, mapName, rawDateModified, version)
     self.dateText:SetText(dateModified)
     self.versionText:SetText(version)
     if version ~= "0.5.0-dev" then
-        self.versionText:SetText({{
-            color = {204 / 255, 51 / 255, 0, 1}
-        }, version})
+        self.versionText:SetText({ {
+            color = { 204 / 255, 51 / 255, 0, 1 }
+        }, version })
     else
         self.versionText:SetText(version)
     end

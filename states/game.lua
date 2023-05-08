@@ -9,7 +9,6 @@ local Terrain
 require("shaders.postshader")
 local renderLoadingScreen = require("states.ui.loading_screen")
 local renderLoadingBar = require("states.ui.loading_bar")
-local initialized = false
 local loadState, progress = 1, 15
 local SaveManager = require("objects.Controllers.SaveManager")
 local keybindManager = require("objects.Controllers.KeybindManager")
@@ -24,7 +23,6 @@ local BarracksUI = require("states.ui.barracks.units_recruitment")
 local GuildsUI = require("states.ui.guilds.guild_ui")
 local WorkshopsUI = require("states.ui.workshops.workshops_ui")
 local console = require "libraries.console"
-local State = require("objects.State")
 
 local function updateProgress(prgs, lState)
     progress = prgs or progress
@@ -34,11 +32,9 @@ local function updateProgress(prgs, lState)
 end
 
 local function delayedInit()
-    _G.state = State:new()
     updateProgress(20)
     objects = love.filesystem.load("objects/objects.lua")(objectAtlas)
     package.loaded["objects.objects"] = objects
-    Terrain = require("terrain.terrain")
     updateProgress(30)
     _G.BrushController = require("objects.Controllers.BrushController")
     _G.DestructionController = require("objects.Controllers.DestructionController"):new()
@@ -55,18 +51,9 @@ local function delayedInit()
     _G.DebugView = require("objects.Controllers.DebugView")
     updateProgress(35)
     ----Pathfinding setup
-    thread = love.thread.newThread("libraries/pathfinding_thread.lua")
-    thread:start("1")
-    thread2 = love.thread.newThread("libraries/pathfinding_thread.lua")
-    thread2:start("2")
     updateProgress(40)
     _G.finder = require("objects.Controllers.PathController")
     _G.state.newGame = savegame == "map_Fernhaven"
-    for cx = 0, _G.chunksWide - 1 do
-        for cy = 0, _G.chunksHigh - 1 do
-            _G.allocateMesh(cx, cy)
-        end
-    end
     if _G.state.newGame then
         SaveManager:load(savegame)
         updateProgress(70)
@@ -79,18 +66,16 @@ local function delayedInit()
     updateProgress(80, 4)
     objects.update(_G.dt)
     updateProgress(90, 5)
-    Terrain:update()
+    _G.state.Terrain:update()
     updateProgress(95)
     _G.BuildController:update()
     loveframes.update()
     _G.finder:update()
     updateProgress(97)
     _G.state.map:forceRefresh()
-    Terrain:update()
+    _G.state.Terrain:update()
     updateProgress(100)
     love.timer.sleep(0.4)
-    local error = thread:getError()
-    assert(not error, error)
     if _G.state.missionNr ~= "." then
         _G.MissionController:setMissionState(_G.state.missionNr)
     end
@@ -109,9 +94,9 @@ end
 local scrolledAmountWithinShortPeriod = 0
 local scrollCountDown = 0.05
 function game:update(dt)
-    if not initialized then
-        initialized = true
+    if (not _G.state or not _G.state.initialized) then
         delayedInit()
+        _G.state.initialized = true
     else
         prof.push("core")
         core.update()
@@ -127,7 +112,7 @@ function game:update(dt)
             prof.push("objects")
             objects.update(dt)
             prof.pop("objects")
-            Terrain:update()
+            _G.state.Terrain:update()
             prof.push("bcontr")
             HighlightView:update()
             _G.BuildController:update()
@@ -165,7 +150,9 @@ function game:update(dt)
         prof.push("pathfind")
         _G.finder:update()
         prof.pop("pathfind")
-        local error = thread:getError()
+        local error = _G.state.thread:getError()
+        assert(not error, error)
+        error = _G.state.thread2:getError()
         assert(not error, error)
         if not _G.BuildController.start then
             playlist()
@@ -307,7 +294,7 @@ function game:keypressed(key, scancode, isRepeat)
             end
         end
         if (loveframes.GetState() == states.STATE_PAUSE_MENU or
-            loveframes.GetState() == states.STATE_INGAME_CONSTRUCTION) then
+                loveframes.GetState() == states.STATE_INGAME_CONSTRUCTION) then
             if _G.BuildController.active and not _G.BuildController.start then
                 ActionBar:unselectAll()
                 _G.BuildController:disable()
@@ -325,11 +312,11 @@ function game:keypressed(key, scancode, isRepeat)
             end
         end
         if (loveframes.GetState() == states.STATE_MARKET or
-            loveframes.GetState() == states.STATE_STOCKPILE or
-            loveframes.GetState() == states.STATE_GRANARY or
-            loveframes.GetState() == states.STATE_MARKET_MAIN or
-            loveframes.GetState() == states.STATE_KEEP_TAX or
-            loveframes.GetState() == states.STATE_ARMOURY) then
+                loveframes.GetState() == states.STATE_STOCKPILE or
+                loveframes.GetState() == states.STATE_GRANARY or
+                loveframes.GetState() == states.STATE_MARKET_MAIN or
+                loveframes.GetState() == states.STATE_KEEP_TAX or
+                loveframes.GetState() == states.STATE_ARMOURY) then
             ActionBar:switchMode()
             return
         end

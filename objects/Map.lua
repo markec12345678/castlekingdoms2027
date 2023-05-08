@@ -11,9 +11,9 @@ function Map:initialize()
     self.terrain = newAutotable(2)
     self.water = newAutotable(2)
     self.animatedTerrain = newAutotable(2)
-    self.collisionMap = _G.ffi.new("unsigned char[2048][2048]", {})
+    self.collisionMap = _G.ffi.new("unsigned char[512][512]", {})
     -- TODO: Make it dynamic
-    self.walkingHeightmap = _G.ffi.new("unsigned short[2048][2048]", {})
+    self.walkingHeightmap = _G.ffi.new("unsigned short[512][512]", {})
 end
 
 ---@param gx number
@@ -23,9 +23,9 @@ end
 function Map:setWalkable(gx, gy, walkable)
     walkable = walkable or 0
     if walkable == self:getWalkable(gx, gy) then return end
-    if gx >= 0 and gx < 2048 and gy >= 0 and gy < 2048 then
-        _G.channel.mapUpdate:push({gx, gy, walkable})
-        _G.channel2.mapUpdate:push({gx, gy, walkable})
+    if gx >= 0 and gx < 512 and gy >= 0 and gy < 512 then
+        _G.channel.mapUpdate:push({ gx, gy, walkable })
+        _G.channel2.mapUpdate:push({ gx, gy, walkable })
         self.collisionMap[gx][gy] = walkable
     else
         -- print("Trying to set out of bounds as walkable..", gx, gy)
@@ -37,7 +37,7 @@ end
 ---@param gy number
 ---@return number
 function Map:getWalkable(gx, gy)
-    if gx >= 0 and gx < 2048 and gy >= 0 and gy < 2048 then
+    if gx >= 0 and gx < 512 and gy >= 0 and gy < 512 then
         return self.collisionMap[gx][gy]
     end
     return 1
@@ -48,34 +48,31 @@ function Map:setHeight(gx, gy, height)
 end
 
 function Map:setWater(gx, gy)
-    local Terrain = require("terrain.terrain")
     local pgx, pgy = gx, gy
     for i = -1, 1 do
         for o = -1, 1 do
             if i == 1 or i == -1 or o == 1 or o == -1 then
-                Terrain:terrainSetTileAt(pgx + i, pgy + o, _G.terrainBiome.seaBeach, _G.terrainBiome.abundantGrass)
+                _G.state.Terrain:terrainSetTileAt(pgx + i, pgy + o, _G.terrainBiome.seaBeach, _G.terrainBiome.abundantGrass)
             else
                 _G.state.map:setWalkable(pgx + i, pgy + o, 1)
                 self.water[gx][gy] = true
-                Terrain:terrainSetTileAt(pgx + i, pgy + o, _G.terrainBiome.sea)
+                _G.state.Terrain:terrainSetTileAt(pgx + i, pgy + o, _G.terrainBiome.sea)
             end
         end
     end
 end
 
 function Map:setWalkableWater(gx, gy)
-    local Terrain = require("terrain.terrain")
     -- TODO: check if it's water first
     _G.state.map:setWalkable(gx, gy, 0)
-    Terrain:terrainSetTileAt(gx, gy, _G.terrainBiome.seaWalkable, _G.terrainBiome.sea)
+    _G.state.Terrain:terrainSetTileAt(gx, gy, _G.terrainBiome.seaWalkable, _G.terrainBiome.sea)
 end
 
 function Map:removeWater(gx, gy)
-    local Terrain = require("terrain.terrain")
     for i = -1, 1 do
         for o = -1, 1 do
-            Terrain:terrainSetTileAt(gx + i, gy + o, _G.terrainBiome.abundantGrass, _G.terrainBiome.seaBeach)
-            Terrain:terrainSetTileAt(gx + i, gy + o, _G.terrainBiome.abundantGrass, _G.terrainBiome.sea)
+            _G.state.Terrain:terrainSetTileAt(gx + i, gy + o, _G.terrainBiome.abundantGrass, _G.terrainBiome.seaBeach)
+            _G.state.Terrain:terrainSetTileAt(gx + i, gy + o, _G.terrainBiome.abundantGrass, _G.terrainBiome.sea)
             self.water[gx][gy] = false
             -- TODO: Set tile as walkable only if it's not on a cliff
             _G.state.map:setWalkable(gx + i, gy + o, 0)
@@ -152,9 +149,9 @@ end
 
 function Map:serializeCollisionMap()
     local data = {}
-    for x = 0, 2048 do
+    for x = 0, 512 do
         data[x] = {}
-        for y = 0, 2048 do
+        for y = 0, 512 do
             data[x][y] = self:getWalkable(x, y)
         end
     end
@@ -162,8 +159,8 @@ function Map:serializeCollisionMap()
 end
 
 function Map:deserializeCollisionMap(data)
-    for x = 0, 2048 - 1 do
-        for y = 0, 2048 - 1 do
+    for x = 0, 512 - 1 do
+        for y = 0, 512 - 1 do
             self:setWalkable(x, y, data[x][y])
         end
     end
@@ -171,12 +168,11 @@ function Map:deserializeCollisionMap(data)
 end
 
 function Map:forceRefresh()
-    local Terrain = require("terrain.terrain")
     for cx = 0, _G.chunksWide - 1 do
         for cy = 0, _G.chunksHigh - 1 do
             for i = 0, _G.chunkWidth - 1, 4 do
                 for o = 0, _G.chunkWidth - 1, 4 do
-                    Terrain:scheduleTerrainUpdate(cx, cy, i, o)
+                    _G.state.Terrain:scheduleTerrainUpdate(cx, cy, i, o)
                 end
             end
         end
@@ -228,9 +224,9 @@ end
 
 function Map:serializeWater()
     local data = {}
-    for x = 0, 2048 do
+    for x = 0, 512 do
         data[x] = {}
-        for y = 0, 2048 do
+        for y = 0, 512 do
             data[x][y] = self:isWaterAt(x, y)
         end
     end
@@ -239,9 +235,9 @@ end
 
 function Map:deserializeWater(data)
     if not data then return end
-    for x = 0, 2048 - 1 do
+    for x = 0, 512 - 1 do
         if data[x] then
-            for y = 0, 2048 - 1 do
+            for y = 0, 512 - 1 do
                 if data[x][y] then
                     self.water[x][y] = data[x][y]
                 end
