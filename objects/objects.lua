@@ -70,8 +70,6 @@ local CenterY = math.round(ScreenToIsoY(_G.ScreenWidth / 2 - 16 + _G.state.viewX
 _G.xchunk = math.floor(CenterX / (chunkWidth))
 _G.ychunk = math.floor(CenterY / (chunkWidth))
 ----Generate spriteBatch
-local objectBatch = newAutotable(2)
-local shadowBatch = newAutotable(2)
 -- local canvas = love.graphics.newCanvas()
 if not _G.testMode then
     objectAtlas:setFilter("nearest", "nearest")
@@ -310,27 +308,6 @@ function _G.objectAtGlobal(gx, gy)
     end
 end
 
-function _G.allocateMesh(cx, cy)
-    local chunkX = cx
-    local chunkY = cy
-    local treeverts = {{0, 0, 0, 0, 1.0, 1.0, 1.0, 1.0, 1.0}, {1, 0, 1, 0, 1.0, 1.0, 1.0, 1.0, 1.0},
-        {0, 1, 0, 1, 1.0, 1.0, 1.0, 1.0, 1.0}, {1, 1, 1, 1, 1.0, 1.0, 1.0, 1.0, 1.0}}
-    if objectBatch[chunkX][chunkY] == nil then
-        objectBatch[chunkX][chunkY] = love.graphics.newMesh(treeverts, "strip", "static")
-    end
-    local instancemesh = love.graphics.newMesh({{"InstancePosition", "float", 2}, {"UVOffset", "float", 2},
-        {"ImageDim", "float", 2}, {"ImageShade", "float", 1},
-        {"Scale", "float", 2}},
-        _G.chunkWidth * _G.chunkHeight * _G.state.verticesPerTile + 1000, nil, "dynamic")
-    _G.state.objectMesh[chunkX][chunkY] = instancemesh
-    objectBatch[chunkX][chunkY]:setTexture(objectAtlas)
-    objectBatch[chunkX][chunkY]:attachAttribute("InstancePosition", instancemesh, "perinstance")
-    objectBatch[chunkX][chunkY]:attachAttribute("UVOffset", instancemesh, "perinstance")
-    objectBatch[chunkX][chunkY]:attachAttribute("ImageDim", instancemesh, "perinstance")
-    objectBatch[chunkX][chunkY]:attachAttribute("ImageShade", instancemesh, "perinstance")
-    objectBatch[chunkX][chunkY]:attachAttribute("Scale", instancemesh, "perinstance")
-end
-
 function _G.genObjects(cx, cy)
     for i = 0, chunkWidth - 1, 1 do
         for o = 0, chunkHeight - 1, 1 do
@@ -515,8 +492,8 @@ local function drawObject()
         local shift = bit.band(bit.bxor(row, firstColumn), 1)
         for column = firstColumn + shift, lastColumn, 2 do
             local xx, yy = bit.rshift(row + column, 1), bit.rshift(row - column, 1)
-            if objectBatch[xx][yy] ~= nil then
-                love.graphics.drawInstanced(objectBatch[xx][yy], _G.state.objectMesh[xx][yy]:getVertexCount(),
+            if _G.state.objectBatch[xx][yy] ~= nil then
+                love.graphics.drawInstanced(_G.state.objectBatch[xx][yy], _G.state.objectMesh[xx][yy]:getVertexCount(),
                     -_G.state.viewXview * _G.state.scaleX +
                     (xx * _G.state.scaleX - yy * _G.state.scaleX) * chunkWidth *
                     tileWidth * 0.5, -_G.state.viewYview * _G.state.scaleX +

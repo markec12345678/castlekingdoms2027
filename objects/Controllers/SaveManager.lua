@@ -1,4 +1,5 @@
 local bitser = require("libraries.bitser")
+local loveframes = require("libraries.loveframes")
 
 local SaveManager = _G.class("SaveManager")
 function SaveManager:initialize()
@@ -6,6 +7,7 @@ function SaveManager:initialize()
     self.userInterface = {}
     self.lastNameIndex = 1
     self.defaultMap = {}
+    self.fromPauseMenu = false
 end
 
 function SaveManager:getSaveFiles()
@@ -81,6 +83,12 @@ function SaveManager:load(name)
             if save.isMap then
                 _G.state.newGame = true
             end
+            if self.fromPauseMenu then
+                loveframes.TogglePause()
+                if _G.state then _G.state:destroy() end
+                loveframes.SetState()
+                collectgarbage()
+            end
             _G.state:load(filename, save.compressed)
             return
         end
@@ -91,7 +99,8 @@ function SaveManager:registerListItem(item, i)
     self.userInterface[i] = item
 end
 
-function SaveManager:updateInterface()
+function SaveManager:updateInterface(fromPauseMenu)
+    self.fromPauseMenu = fromPauseMenu
     for i = 1, 8 do
         if self.userInterface[i] then
             self.userInterface[i]:hide()
@@ -108,7 +117,6 @@ function SaveManager:updateInterface()
         self.userInterface[index]:setValues(savegame.name, savegame.mapName, savegame.dateModified, savegame.version)
         self.userInterface[index]:show()
     end
-
 end
 
 return SaveManager:new()

@@ -35,8 +35,8 @@ local console = require("libraries.console")
 local BrushController = _G.class("BrushController")
 BrushController.FONT_SIZE = 12
 BrushController.FONT = love.graphics.newFont(BrushController.FONT_SIZE)
-BrushController.BACKGROUND_COLOR = {0, 0, 0, 0.4}
-BrushController.TEXT_COLOR = {1, 1, 1, 1}
+BrushController.BACKGROUND_COLOR = { 0, 0, 0, 0.4 }
+BrushController.TEXT_COLOR = { 1, 1, 1, 1 }
 function BrushController:initialize()
     self.maxSize = 10
     self.active = false

@@ -11,8 +11,14 @@ local warningTooltip = require("states.ui.warning_tooltip")
 ---@overload fun():State
 local State = _G.class("State")
 function State:initialize()
+    self.thread = love.thread.newThread("libraries/pathfinding_thread.lua")
+    self.thread:start("1", 512)
+    self.thread2 = love.thread.newThread("libraries/pathfinding_thread.lua")
+    self.thread2:start("2", 512)
+    self.initialized = false
     self.savename = SaveManager:getNextFreeName()
     self.newGame = true
+    self.objectBatch = newAutotable(2)
     self.serializedObjectIds = {}
     self.deserializedObjectIds = {}
     self.map = Map:new()
@@ -84,6 +90,72 @@ function State:initialize()
     self.firstBuildings = true
     self.keepX = 0
     self.keepY = 0
+    self:allocateMeshes()
+    local Terrain = require("terrain.terrain")
+    self.Terrain = Terrain:new(self)
+    function _G.getTerrainTileOnMouse(mx, my)
+        return self.Terrain:getTerrainTileOnMouse(mx, my)
+    end
+
+    function _G.terrainSetTileAt(gx, gy, biome, from, force)
+        return self.Terrain:terrainSetTileAt(gx, gy, biome, from, force)
+    end
+end
+
+function State:destroy()
+    local mapUpdate
+    repeat mapUpdate = _G.channel.mapUpdate:pop() until (not mapUpdate)
+    repeat mapUpdate = _G.channel2.mapUpdate:pop() until (not mapUpdate)
+    _G.channel.mapUpdate:pop()
+    _G.channel2.mapUpdate:pop()
+    love.thread.getChannel("stop1"):push(true)
+    love.thread.getChannel("stop2"):push(true)
+    _G.BrushController:initialize()
+    _G.BuildController:initialize()
+    _G.BuildingManager:initialize()
+    _G.DestructionController:initialize()
+    _G.DebugView:initialize()
+    local RationController = require("objects.Controllers.RationController")
+    RationController:initialize()
+    _G.TaxController:initialize()
+    _G.TimeController:initialize()
+    _G.MissionController:initialize()
+    _G.PopularityController:initialize()
+    _G.ScribeController:initialize()
+    _G.JobController:initialize()
+    _G.stockpile:initialize()  --stockpileController
+    _G.foodpile:initialize()   -- foodController
+    _G.weaponpile:initialize() --WeaponController
+end
+
+function State:allocateMeshes()
+    for cx = 0, _G.chunksWide - 1 do
+        for cy = 0, _G.chunksHigh - 1 do
+            self:allocateMesh(cx, cy)
+        end
+    end
+end
+
+---@private
+function State:allocateMesh(cx, cy)
+    local chunkX = cx
+    local chunkY = cy
+    local treeverts = { { 0, 0, 0, 0, 1.0, 1.0, 1.0, 1.0, 1.0 }, { 1, 0, 1, 0, 1.0, 1.0, 1.0, 1.0, 1.0 },
+        { 0, 1, 0, 1, 1.0, 1.0, 1.0, 1.0, 1.0 }, { 1, 1, 1, 1, 1.0, 1.0, 1.0, 1.0, 1.0 } }
+    if self.objectBatch[chunkX][chunkY] == nil then
+        self.objectBatch[chunkX][chunkY] = love.graphics.newMesh(treeverts, "strip", "static")
+    end
+    local instancemesh = love.graphics.newMesh({ { "InstancePosition", "float", 2 }, { "UVOffset", "float", 2 },
+            { "ImageDim",         "float", 2 }, { "ImageShade", "float", 1 },
+            { "Scale", "float", 2 } },
+        _G.chunkWidth * _G.chunkHeight * self.verticesPerTile + 1000, nil, "dynamic")
+    self.objectMesh[chunkX][chunkY] = instancemesh
+    self.objectBatch[chunkX][chunkY]:setTexture(objectAtlas)
+    self.objectBatch[chunkX][chunkY]:attachAttribute("InstancePosition", instancemesh, "perinstance")
+    self.objectBatch[chunkX][chunkY]:attachAttribute("UVOffset", instancemesh, "perinstance")
+    self.objectBatch[chunkX][chunkY]:attachAttribute("ImageDim", instancemesh, "perinstance")
+    self.objectBatch[chunkX][chunkY]:attachAttribute("ImageShade", instancemesh, "perinstance")
+    self.objectBatch[chunkX][chunkY]:attachAttribute("Scale", instancemesh, "perinstance")
 end
 
 function State:save()
@@ -174,7 +246,6 @@ end
 function State:serializeActiveEntities()
     local data = {}
     for _, obj in ipairs(self.activeEntities) do
-        print(obj)
         data[#data + 1] = self:serializeObject(obj)
     end
     return data
@@ -246,6 +317,9 @@ function State:serialize()
     }
     local data = {}
     self.serializedObjectIds = {}
+    data.firstWoodCutterHut = self.firstWoodCutterHut
+    data.firstArmoury = self.firstArmoury
+    data.firstBuildings = self.firstBuildings
     data.activeEntities = self:serializeActiveEntities()
     data.wheatSeasonCounter = self.wheatSeasonCounter
     data.wheatGrowingSeason = self.wheatGrowingSeason
@@ -309,6 +383,9 @@ function State:load(filename, decompress)
     self.deserializedObjectCount = 0
     self.deserDebug = {}
     self.deserializedObjectIds = {}
+    self.firstWoodCutterHut = load.firstWoodCutterHut
+    self.firstArmoury = load.firstArmoury
+    self.firstBuildings = load.firstBuildings
     self.rawObjectIds = load.serializedObjectIds
     self.wheatSeasonCounter = load.wheatSeasonCounter
     self.wheatGrowingSeason = load.wheatGrowingSeason
@@ -365,6 +442,8 @@ function State:load(filename, decompress)
     self.viewYview = load.viewYview
     self.map:forceRefresh()
     collectgarbage()
+    _G.channel.mapUpdate:push("final")
+    _G.channel2.mapUpdate:push("final")
 end
 
 return State

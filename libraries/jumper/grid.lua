@@ -127,7 +127,7 @@ if (...) then
 
     function Grid:isWalkableAt(x, y, walkable, clearance)
         -- TODO: MAP COORDS kaylemaster
-        if x >= 2048 or x < 0 or y >= 2048 or y < 0 then
+        if x >= 512 or x < 0 or y >= 512 or y < 0 then
             return false
         end -- print("Not walkable"..x.."|"..y)
         -- print("Walkable"..x.."|"..y.." :".. self._nodes[x][y].walkable)
@@ -196,7 +196,7 @@ if (...) then
         local neighbours = {}
         for i = 1, #straightOffsets do
             local n = self:getNodeAt(node._x + straightOffsets[i].x, node._y + straightOffsets[i].y)
-            if (node._x + straightOffsets[i].x) < 2048 and (node._y + straightOffsets[i].y) < 2048 and
+            if (node._x + straightOffsets[i].x) < 512 and (node._y + straightOffsets[i].y) < 512 and
                 (node._x + straightOffsets[i].x) > 0 and (node._y + straightOffsets[i].y) > 0 and n.walkable == 0 then
                 neighbours[#neighbours + 1] = n
             end
@@ -204,8 +204,8 @@ if (...) then
         for i = 1, #diagonalOffsets do
             local n = self:getNodeAt(node._x + diagonalOffsets[i].x, node._y + diagonalOffsets[i].y)
             -- TODO:
-            -- FIXME MAGIC NUMBERS 2048
-            if (node._x + diagonalOffsets[i].x) < 2048 and (node._y + diagonalOffsets[i].y) < 2048 and
+            -- FIXME MAGIC NUMBERS 512
+            if (node._x + diagonalOffsets[i].x) < 512 and (node._y + diagonalOffsets[i].y) < 512 and
                 (node._x + diagonalOffsets[i].x) > 0 and (node._y + diagonalOffsets[i].y) > 0 and node.walkable == 0 then
                 local skipThisNode = false
                 local n1 = self:getNodeAt(node._x + diagonalOffsets[i].x, node._y)
@@ -402,7 +402,7 @@ if (...) then
     -- Gets the node at location <x,y> on a preprocessed grid
     function PreProcessGrid:getNodeAt(x, y)
         -- TODO: Map fix kaylemaster
-        if (x < 2048 and x >= 0) and y < 2048 and y >= 0 then
+        if (x < 512 and x >= 0) and y < 512 and y >= 0 then
             return self._nodes[x][y]
         else
             return false

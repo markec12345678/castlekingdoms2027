@@ -29,22 +29,16 @@ function test:enter()
     _G.DebugView = require("objects.Controllers.DebugView")
     ----Pathfinding setup
     thread = love.thread.newThread("libraries/pathfinding_thread.lua")
-    thread:start("1")
+    thread:start("1", 512)
     thread2 = love.thread.newThread("libraries/pathfinding_thread.lua")
-    thread2:start("2")
+    thread2:start("2", 512)
     _G.finder = require("objects.Controllers.PathController")
     _G.state.newGame = savegame == "map_Fernhaven"
-    for cx = 0, _G.chunksWide - 1 do
-        for cy = 0, _G.chunksHigh - 1 do
-            _G.allocateMesh(cx, cy)
-        end
-    end
     if _G.state.newGame then
         SaveManager:load(savegame)
 
         _G.BuildController:set("SaxonHall")
     else
-
         SaveManager:load(savegame)
     end
     core.update()

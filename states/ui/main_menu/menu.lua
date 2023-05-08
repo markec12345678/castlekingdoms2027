@@ -37,6 +37,10 @@ newGame.OnMouseDown = function(self)
 end
 newGame.OnClick = function(self)
     _G.playSpeech("General_Loading")
+    _G.loaded = false
+    local State = require("objects.State")
+    _G.state = State:new()
+    if _G.state then _G.state.initialized = false end
     loveframes.SetState() -- Undraw the menu while loading
     Gamestate.switch(game, SaveManager.defaultMap.name)
 end
