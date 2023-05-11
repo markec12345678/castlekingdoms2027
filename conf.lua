@@ -29,8 +29,8 @@ function love.conf(t)
             borderless = fullscreen
         elseif val == "--resize" then
             resizable = tobool(_G.arg[ind + 1])
-        elseif val == "--mission" then
-            _G.args.mission = _G.arg[ind + 1]
+        else
+            _G.args.missionNr = val
         end
     end
 

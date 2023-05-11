@@ -3,6 +3,7 @@ local FOOD = require("objects.Enums.Food")
 local RESOURCES = require("objects.Enums.Resources")
 local WEAPON = require("objects.Enums.Weapon")
 local TimeController = require("objects.Controllers.TimeController")
+local Events = require("objects.Enums.Events")
 local mission
 function MissionController:initialize()
     self.name = ""            --name or id of the mission
@@ -16,6 +17,7 @@ function MissionController:initialize()
 
     self.lockedProductionWeapons = {} --turns off designated weapons from production f.e crossbows
     self.timeLimit = 1                -- if 0 there is no limit
+    self.NoTimeLimit = false
     self.startDate = TimeController:setCurrentDate(1, 1000)
     self.goalsList = ""
     self.startPopularity = 50
@@ -64,7 +66,12 @@ function MissionController:setMissionState(name)
     mission = require("saves.Missions." .. name)
     _G.state.gold = mission.startGold
     self.goals = mission.goals
-    self.timeLimit = mission.startDate + mission.timeLimit
+    if mission.timeLimit > 0 then
+        self.timeLimit = mission.startDate + mission.timeLimit
+    else
+        self.timeLimit = 0
+        self.NoTimeLimit = true
+    end
     self.startResources = mission.startResources
     self.startFood = mission.startFood
     self.lockedTradeResources = mission.lockedTradeResources
@@ -110,25 +117,65 @@ function MissionController:Display()
         self.goalsList = "Tasks: "
 
         for key, value in pairs(self.goals) do
-            if key and value["taskValue"] >= _G.state[value["resourceType"]][value["taskResource"]] then
-                value["taskDone"] = false
-            else
-                value["taskDone"] = true
+            if value["resourceType"] ~= "buildings" and value["resourceType"] ~= "gold" then
+                if key and value["taskValue"] >= _G.state[value["resourceType"]][value["taskResource"]] then
+                    value["taskDone"] = false
+                else
+                    value["taskDone"] = true
+                end
+                if value["taskDone"] == false then
+                    self.goalsList = self.goalsList
+                        .. "\n" ..
+                        value["taskText"] ..
+                        _G.state[value["resourceType"]][value["taskResource"]] .. " / " .. value["taskValue"]
+                else
+                    self.goalsList = self.goalsList
+                        .. "\n" ..
+                        value["taskText"] .. "Done"
+                end
             end
-            if value["taskDone"] == false then
-                self.goalsList = self.goalsList
-                    .. "\n" ..
-                    value["taskText"] ..
-                    _G.state[value["resourceType"]][value["taskResource"]] .. " / " .. value["taskValue"]
-            else
-                self.goalsList = self.goalsList
-                    .. "\n" ..
-                    value["taskText"] .. "Done"
+            if value["resourceType"] == "gold" then
+                if value["taskValue"] >= _G.state.gold then
+                    value["taskDone"] = false
+                else
+                    value["taskDone"] = true
+                end
+                if value["taskDone"] == false then
+                    self.goalsList = self.goalsList
+                        .. "\n" ..
+                        value["taskText"] ..
+                        _G.state.gold .. " / " .. value["taskValue"]
+                else
+                    self.goalsList = self.goalsList
+                        .. "\n" ..
+                        value["taskText"] .. "Done"
+                end
+            end
+            if value["resourceType"] == "buildings" then
+                if _G.BuildingManager:count(value["taskResource"]) ~= nil then
+                    if BuildingManager:count(value["taskResource"]) == value["taskValue"] and value["taskDone"] == false then
+                        value["taskDone"] = true
+                        self.goalsList = self.goalsList ..
+                            "\n" ..
+                            "Build: " ..
+                            value["taskResource"] ..
+                            ":" .. "Done"
+                    else
+                        value["taskDone"] = false
+                        self.goalsList = self.goalsList ..
+                            "\n" ..
+                            "Build: " ..
+                            value["taskResource"] ..
+                            ": " ..
+                            tostring(BuildingManager:count(value["taskResource"])) .. " / " .. value["taskValue"]
+                    end
+                end
             end
         end
-
-        self.goalsList = self.goalsList .. "\n" ..
-            "Time Left : " .. tostring(self.timeLimit - TimeController:getCurrentYear()) .. " years"
+        if (self.timeLimit) > 0 and self.NoTimeLimit == false then
+            self.goalsList = self.goalsList .. "\n" ..
+                "Time Left : " .. tostring(self.timeLimit - TimeController:getCurrentYear()) .. " years"
+        end
 
         for key, value in pairs(self.goals) do
             if value["taskDone"] == false then
@@ -141,6 +188,9 @@ function MissionController:Display()
 
     if self.youWin then
         self.goalsList = "VICTORY!"
+    end
+    if self.timeLimit - TimeController:getCurrentYear() <= 0 and self.NoTimeLimit == false then
+        self.goalsList = "DEFEATED!"
     end
 end
 
