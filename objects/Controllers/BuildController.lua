@@ -416,7 +416,7 @@ function BuildController:build(gx, gy)
                     self:set("Granary")
                     _G.playSpeech("place_granary")
                     -- Starting resources
-                    if _G.state.missionNr ~= "." then
+                    if _G.state.missionNr then
                         _G.MissionController:setGoods()
                     else
                         for _ = 1, 10 do
@@ -438,7 +438,7 @@ function BuildController:build(gx, gy)
                     local builtBuilding = _G.objectFromClassAtGlobal(gx, gy, self.building)
                     _G.BuildingManager:add(builtBuilding)
                     -- Starting food
-                    if _G.state.missionNr ~= "." then
+                    if _G.state.missionNr then
                         _G.MissionController:setFood()
                     else
                         for _ = 1, 26 do

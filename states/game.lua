@@ -76,7 +76,7 @@ local function delayedInit()
     _G.state.Terrain:update()
     updateProgress(100)
     love.timer.sleep(0.4)
-    if _G.state.missionNr ~= "." then
+    if _G.state.missionNr then
         _G.MissionController:setMissionState(_G.state.missionNr)
     end
     loveframes.SetState(states.STATE_INGAME_CONSTRUCTION)

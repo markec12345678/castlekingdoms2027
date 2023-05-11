@@ -5,8 +5,12 @@ local WEAPON = require("objects.Enums.Weapon")
 local TimeController = require("objects.Controllers.TimeController")
 
 function Mission:initialize()
-    self.name = ""            --name or id of the mission
-    self.description = ""     -- description of the mission
+    self.name = "Faith in Architecture" --name or id of the mission
+    self.description = [[
+        In this mission, you will need to focus on constructing a grand cathedral to serve as the centerpiece of your kingdom's religious and cultural life. Your objective is to build a cathedral within the next 10 years.
+
+        Keep in mind that your success in this mission will depend on your ability to manage a complex construction project and balance your resources effectively. You will need to make strategic decisions and manage your time carefully to ensure the completion of your cathedral within the allotted timeframe. Good luck!
+    ]]                        -- description of the mission
     self.goals = {}           -- goals of the mission
     self.lockedBuildings = {} --turns off designated buildings
     self.lockedTradeList = {} --turns off designated resources from market/trading

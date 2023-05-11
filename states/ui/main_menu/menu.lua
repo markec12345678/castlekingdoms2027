@@ -20,32 +20,41 @@ local frMenu = {
     height = backgroundImage:getHeight() * scale - offsetY * scale - paddingBottom * scale
 }
 
-local newGameImage = love.graphics.newImage("assets/ui/button_new_game.png")
-local newGameImageHover = love.graphics.newImage("assets/ui/button_new_game_hover.png")
-local newGameImageDown = love.graphics.newImage("assets/ui/button_new_game_down.png")
-local newGame = loveframes.Create("image")
-newGame:SetState(states.STATE_MAIN_MENU)
-newGame:SetImage(newGameImage)
-newGame:SetScaleX(frMenu.width / newGame:GetImageWidth())
-newGame:SetScaleY(newGame:GetScaleX())
-newGame:SetPos(frMenu.x, frMenu.y)
-newGame.OnMouseEnter = function(self)
-    self:SetImage(newGameImageHover)
+
+local freebuildButtonImage = love.graphics.newImage("assets/ui/freebuild_button.png")
+local freebuildButtonImageHover = love.graphics.newImage("assets/ui/freebuild_hover_button.png")
+local freebuildButton = loveframes.Create("image")
+freebuildButton:SetState(states.STATE_MAIN_MENU)
+freebuildButton:SetImage(freebuildButtonImage)
+freebuildButton:SetScaleX(frMenu.width / freebuildButton:GetImageWidth())
+freebuildButton:SetScaleY(freebuildButton:GetScaleX())
+freebuildButton:SetPos(frMenu.x, frMenu.y - freebuildButtonImage:getHeight() * freebuildButton:GetScaleX() - SPACING)
+freebuildButton.OnMouseEnter = function(self)
+    self:SetImage(freebuildButtonImageHover)
 end
-newGame.OnMouseDown = function(self)
-    self:SetImage(newGameImageDown)
+freebuildButton.OnClick = function(self)
+    loveframes.SetState(states.STATE_FREE_BUILD_WINDOW)
 end
-newGame.OnClick = function(self)
-    _G.playSpeech("General_Loading")
-    _G.loaded = false
-    local State = require("objects.State")
-    _G.state = State:new()
-    if _G.state then _G.state.initialized = false end
-    loveframes.SetState() -- Undraw the menu while loading
-    Gamestate.switch(game, SaveManager.defaultMap.name)
+freebuildButton.OnMouseExit = function(self)
+    self:SetImage(freebuildButtonImage)
 end
-newGame.OnMouseExit = function(self)
-    self:SetImage(newGameImage)
+
+local campaignButtonImage = love.graphics.newImage("assets/ui/campaign_button.png")
+local campaignButtonImageHover = love.graphics.newImage("assets/ui/campaign_hover_button.png")
+local campaignButton = loveframes.Create("image")
+campaignButton:SetState(states.STATE_MAIN_MENU)
+campaignButton:SetImage(campaignButtonImage)
+campaignButton:SetScaleX(frMenu.width / campaignButton:GetImageWidth())
+campaignButton:SetScaleY(campaignButton:GetScaleX())
+campaignButton:SetPos(frMenu.x, frMenu.y)
+campaignButton.OnMouseEnter = function(self)
+    self:SetImage(campaignButtonImageHover)
+end
+campaignButton.OnClick = function(self)
+    loveframes.SetState(states.STATE_ECONOMIC_MISSION_PICKER)
+end
+campaignButton.OnMouseExit = function(self)
+    self:SetImage(campaignButtonImage)
 end
 
 local loadImage = love.graphics.newImage("assets/ui/button_load.png")

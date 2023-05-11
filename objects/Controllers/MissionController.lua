@@ -113,7 +113,7 @@ function MissionController:getLockedBuildings()
 end
 
 function MissionController:Display()
-    if self.youWin == false and _G.state.missionNr ~= "." then
+    if self.youWin == false and _G.state.missionNr then
         self.goalsList = "Tasks: "
 
         for key, value in pairs(self.goals) do

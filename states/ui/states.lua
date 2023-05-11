@@ -12,7 +12,9 @@ local states = {
     STATE_KEEP_TAX = 11,
     STATE_ARMOURY = 12,
     STATE_BARRACKS = 13,
-    STATE_GUILDS = 14
+    STATE_GUILDS = 14,
+    STATE_FREE_BUILD_WINDOW = 15,
+    STATE_ECONOMIC_MISSION_PICKER = 16
 }
 
 return states
