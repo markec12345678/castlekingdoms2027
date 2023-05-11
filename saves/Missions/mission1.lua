@@ -5,19 +5,19 @@ local WEAPON = require("objects.Enums.Weapon")
 local TimeController = require("objects.Controllers.TimeController")
 
 function Mission:initialize()
-    self.name = ""            --name or id of the mission
-    self.description = ""     -- description of the mission
-    self.goals = {}           -- goals of the mission
+    self.name = ""        --name or id of the mission
+    self.description = "" -- description of the mission
+    self.goals = {}       -- goals of the mission
     self.lockedBuildings = {
-        "market",
-        "ironMine"
+        "ironMine",
+        "market"
     } --turns off designated buildings
     self.lockedTradeResources = {
         "wood",
         "stone"
     }
     self.lockedWeapons = {} --turns off designated weapons from production f.e crossbows
-    self.timeLimit = 5      -- if 0 there is no limit
+    self.timeLimit = 0      -- if 0 there is no limit
     self.startDate = TimeController:setCurrentDate(1, 1000)
     self.goalsList = ""
     self.startPopularity = 50
@@ -72,6 +72,13 @@ function Mission:initialize()
         ["taskResource"] = RESOURCES.stone,
         ["taskDone"] = false,
         ["resourceType"] = "resources",
+    }
+    self.goals["Quest3"] = {
+        ["taskText"] = "Build: ",
+        ["taskValue"] = 5,
+        ["taskResource"] = "WoodcutterHut",
+        ["taskDone"] = false,
+        ["resourceType"] = "buildings"
     }
 end
 

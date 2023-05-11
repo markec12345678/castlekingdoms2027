@@ -307,7 +307,7 @@ function game:keypressed(key, scancode, isRepeat)
             end
         end
         if (loveframes.GetState() == states.STATE_PAUSE_MENU or
-            loveframes.GetState() == states.STATE_INGAME_CONSTRUCTION) then
+                loveframes.GetState() == states.STATE_INGAME_CONSTRUCTION) then
             if _G.BuildController.active and not _G.BuildController.start then
                 ActionBar:unselectAll()
                 _G.BuildController:disable()
@@ -325,11 +325,11 @@ function game:keypressed(key, scancode, isRepeat)
             end
         end
         if (loveframes.GetState() == states.STATE_MARKET or
-            loveframes.GetState() == states.STATE_STOCKPILE or
-            loveframes.GetState() == states.STATE_GRANARY or
-            loveframes.GetState() == states.STATE_MARKET_MAIN or
-            loveframes.GetState() == states.STATE_KEEP_TAX or
-            loveframes.GetState() == states.STATE_ARMOURY) then
+                loveframes.GetState() == states.STATE_STOCKPILE or
+                loveframes.GetState() == states.STATE_GRANARY or
+                loveframes.GetState() == states.STATE_MARKET_MAIN or
+                loveframes.GetState() == states.STATE_KEEP_TAX or
+                loveframes.GetState() == states.STATE_ARMOURY) then
             ActionBar:switchMode()
             return
         end
