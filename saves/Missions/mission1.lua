@@ -5,9 +5,13 @@ local WEAPON = require("objects.Enums.Weapon")
 local TimeController = require("objects.Controllers.TimeController")
 
 function Mission:initialize()
-    self.name = ""        --name or id of the mission
-    self.description = "" -- description of the mission
-    self.goals = {}       -- goals of the mission
+    self.name = "Timber and Stone" --name or id of the mission
+    self.description = [[
+    In this mission, you will need to focus on gathering resources to develop your kingdom's infrastructure. Your objective is to collect 50 units of wood and 20 units of stone within the next 5 years.
+
+    To achieve this, you will need to establish a network of woodcutter's huts and quarries to extract these resources from the surrounding environment. This may involve the construction of stockpiles to store your resources.
+    ]]
+    self.goals = {} -- goals of the mission
     self.lockedBuildings = {
         "ironMine",
         "market"

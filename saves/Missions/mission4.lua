@@ -5,10 +5,16 @@ local WEAPON = require("objects.Enums.Weapon")
 local TimeController = require("objects.Controllers.TimeController")
 
 function Mission:initialize()
-    self.name = ""        --name or id of the mission
-    self.description = "" -- description of the mission
-    self.goals = {}       -- goals of the mission
-    self.timeLimit = 0    -- if 0 there is no limit
+    self.name = "The Kingdom's Fortune" --name or id of the mission
+    self.description = [[
+        In this mission, your goal is to accumulate a substantial amount of wealth by acquiring 5000 units of gold. Unlike previous missions, there is no time limit on this objective, so you will have the freedom to pursue your goals at your own pace.
+
+        To achieve this, you will need to develop a strong economy by building and managing workshops, investing in trade and commerce, and making strategic financial decisions.
+
+        Keep in mind that your success in this mission will depend on your ability to make wise investments and manage your finances carefully. You will need to balance your resources and take calculated risks to ensure the prosperity of your kingdom. Good luck!
+    ]]                 -- description of the mission
+    self.goals = {}    -- goals of the mission
+    self.timeLimit = 0 -- if 0 there is no limit
     self.startDate = TimeController:setCurrentDate(7, 762)
     self.goalsList = ""
     self.startPopularity = 50
@@ -33,7 +39,7 @@ function Mission:initialize()
     self.goals["Quest1"] = {
         ["taskText"] = "Acquire Gold: ",
         ["taskValue"] = 5000,
-        ["taskResource"] = _G.state.gold,
+        ["taskResource"] = "gold",
         ["taskDone"] = false,
         ["resourceType"] = "gold"
     }

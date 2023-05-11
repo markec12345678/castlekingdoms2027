@@ -5,8 +5,14 @@ local WEAPON = require("objects.Enums.Weapon")
 local TimeController = require("objects.Controllers.TimeController")
 
 function Mission:initialize()
-    self.name = ""            --name or id of the mission
-    self.description = ""     -- description of the mission
+    self.name = "Arms Race" --name or id of the mission
+    self.description = [[
+        In this mission, you will need to focus on developing a strong military to defend your kingdom against potential threats. Your objective is to produce 40 units each of bows, spears, maces, and armor within the next 20 years.
+
+        To achieve this, you will need to establish a robust metalworking industry to craft high-quality weapons and armor. This may involve the construction of blacksmiths, workshops, and mines, as well as the recruitment of skilled craftsmen.
+
+        Keep in mind that your success in this mission will depend on your ability to balance your resources and prioritize your goals. You will need to carefully manage your finances and make strategic decisions to ensure the safety and security of your kingdom. Good luck!
+    ]]
     self.goals = {}           -- goals of the mission
     self.lockedTradeFood = {} --turns off designated resources from market/trading
     self.lockedTradeResources = { "iron" }

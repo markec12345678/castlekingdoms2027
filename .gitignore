@@ -19,8 +19,6 @@
 *.rar
 *.tar
 *.zip
-*.png
-assets/
 oc_assets/
 temp/
 
@@ -40,7 +38,6 @@ temp/
 ehthumbs.db
 Thumbs.db
 .vscode/settings.json
-assets/
 *.love
 
 # IDE #

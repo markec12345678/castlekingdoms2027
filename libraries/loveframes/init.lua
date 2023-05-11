@@ -1,7 +1,8 @@
 --[[------------------------------------------------
 	-- Love Frames - A GUI library for LOVE --
 	-- Copyright (c) 2012-2014 Kenny Shields --
---]] ------------------------------------------------
+--]]
+------------------------------------------------
 local path = ...
 
 local loveframes = {}
@@ -63,6 +64,7 @@ loveframes.slanted_xsmall_green = love.graphics.newImageFont("assets/fonts/slant
 loveframes.slanted_xsmall_red = love.graphics.newImageFont("assets/fonts/slanted_xsmall_red.png", "01/23456789 ", -1)
 if love.graphics.getHeight() >= 1440 and love.graphics.getWidth() >= 2560 and love.graphics.getWidth() < 3840 then
     loveframes.basicfont = love.graphics.newFont(18)
+    loveframes.basicfontmedium = love.graphics.newFont(20)
     loveframes.font_immortal = love.graphics.newFont("assets/fonts/IMMORTAL.ttf", 18)
     loveframes.font_immortal_large = love.graphics.newFont("assets/fonts/IMMORTAL.ttf", 24)
     loveframes.font_times_new_normal = love.graphics.newFont("assets/fonts/TimesNewNormal.ttf", 18)
@@ -76,6 +78,7 @@ if love.graphics.getHeight() >= 1440 and love.graphics.getWidth() >= 2560 and lo
     loveframes.font_vera_italic_large = love.graphics.newFont("assets/fonts/VeraIt.ttf", 24)
 elseif love.graphics.getHeight() >= 1440 and love.graphics.getWidth() >= 3840 then
     loveframes.basicfont = love.graphics.newFont(28)
+    loveframes.basicfontmedium = love.graphics.newFont(30)
     loveframes.font_immortal = love.graphics.newFont("assets/fonts/IMMORTAL.ttf", 28)
     loveframes.font_immortal_large = love.graphics.newFont("assets/fonts/IMMORTAL.ttf", 36)
     loveframes.font_times_new_normal = love.graphics.newFont("assets/fonts/TimesNewNormal.ttf", 28)
@@ -89,6 +92,7 @@ elseif love.graphics.getHeight() >= 1440 and love.graphics.getWidth() >= 3840 th
     loveframes.font_vera_italic_large = love.graphics.newFont("assets/fonts/VeraIt.ttf", 36)
 elseif love.graphics.getHeight() <= 720 and love.graphics.getWidth() <= 1280 then
     loveframes.basicfont = love.graphics.newFont(10)
+    loveframes.basicfontmedium = love.graphics.newFont(12)
     loveframes.font_immortal = love.graphics.newFont("assets/fonts/IMMORTAL.ttf", 10)
     loveframes.font_immortal_large = love.graphics.newFont("assets/fonts/IMMORTAL.ttf", 16)
     loveframes.font_times_new_normal = love.graphics.newFont("assets/fonts/TimesNewNormal.ttf", 10)
@@ -102,6 +106,7 @@ elseif love.graphics.getHeight() <= 720 and love.graphics.getWidth() <= 1280 the
     loveframes.font_vera_italic_large = love.graphics.newFont("assets/fonts/VeraIt.ttf", 16)
 else
     loveframes.basicfont = love.graphics.newFont(12)
+    loveframes.basicfontmedium = love.graphics.newFont(14)
     loveframes.font_immortal = love.graphics.newFont("assets/fonts/IMMORTAL.ttf", 12)
     loveframes.font_immortal_large = love.graphics.newFont("assets/fonts/IMMORTAL.ttf", 18)
     loveframes.font_times_new_normal = love.graphics.newFont("assets/fonts/TimesNewNormal.ttf", 12)
@@ -132,9 +137,9 @@ love.keyboard.setKeyRepeat(true)
 --[[---------------------------------------------------------
 	- func: update(deltatime)
 	- desc: updates all library objects
---]] ---------------------------------------------------------
+--]]
+---------------------------------------------------------
 function loveframes.update(dt)
-
     local base = loveframes.base
     local input_cursor_set = loveframes.input_cursor_set
 
@@ -176,43 +181,43 @@ function loveframes.update(dt)
                             love.mouse.setCursor(sizenwse)
                         end
                     elseif loveframes.BoundingBox(hoverobject.x + hoverobject.width - 5, mx,
-                        hoverobject.y + hoverobject.height - 5, my, 5, 1, 5, 1) then
+                            hoverobject.y + hoverobject.height - 5, my, 5, 1, 5, 1) then
                         local sizenwse = love.mouse.getSystemCursor("sizenwse")
                         if curcursor ~= sizenwse then
                             love.mouse.setCursor(sizenwse)
                         end
                     elseif loveframes.BoundingBox(hoverobject.x + hoverobject.width - 5, mx, hoverobject.y, my, 5, 1, 5,
-                        1) then
+                            1) then
                         local sizenesw = love.mouse.getSystemCursor("sizenesw")
                         if curcursor ~= sizenesw then
                             love.mouse.setCursor(sizenesw)
                         end
                     elseif loveframes.BoundingBox(hoverobject.x, mx, hoverobject.y + hoverobject.height - 5, my, 5, 1,
-                        5, 1) then
+                            5, 1) then
                         local sizenesw = love.mouse.getSystemCursor("sizenesw")
                         if curcursor ~= sizenesw then
                             love.mouse.setCursor(sizenesw)
                         end
                     elseif loveframes.BoundingBox(hoverobject.x + 5, mx, hoverobject.y, my, hoverobject.width - 10, 1,
-                        2, 1) then
+                            2, 1) then
                         local sizens = love.mouse.getSystemCursor("sizens")
                         if curcursor ~= sizens then
                             love.mouse.setCursor(sizens)
                         end
                     elseif loveframes.BoundingBox(hoverobject.x + 5, mx, hoverobject.y + hoverobject.height - 2, my,
-                        hoverobject.width - 10, 1, 2, 1) then
+                            hoverobject.width - 10, 1, 2, 1) then
                         local sizens = love.mouse.getSystemCursor("sizens")
                         if curcursor ~= sizens then
                             love.mouse.setCursor(sizens)
                         end
                     elseif loveframes.BoundingBox(hoverobject.x, mx, hoverobject.y + 5, my, 2, 1,
-                        hoverobject.height - 10, 1) then
+                            hoverobject.height - 10, 1) then
                         local sizewe = love.mouse.getSystemCursor("sizewe")
                         if curcursor ~= sizewe then
                             love.mouse.setCursor(sizewe)
                         end
                     elseif loveframes.BoundingBox(hoverobject.x + hoverobject.width - 2, mx, hoverobject.y + 5, my, 2,
-                        1, hoverobject.height - 10, 1) then
+                            1, hoverobject.height - 10, 1) then
                         local sizewe = love.mouse.getSystemCursor("sizewe")
                         if curcursor ~= sizewe then
                             love.mouse.setCursor(sizewe)
@@ -249,15 +254,14 @@ function loveframes.update(dt)
 
     loveframes.collisions = {}
     base:update(dt)
-
 end
 
 --[[---------------------------------------------------------
 	- func: draw()
 	- desc: draws all library objects
---]] ---------------------------------------------------------
+--]]
+---------------------------------------------------------
 function loveframes.draw()
-
     local base = loveframes.base
     local r, g, b, a = love.graphics.getColor()
     local font = love.graphics.getFont()
@@ -275,15 +279,14 @@ function loveframes.draw()
     if font then
         love.graphics.setFont(font)
     end
-
 end
 
 --[[---------------------------------------------------------
 	- func: mousepressed(x, y, button)
 	- desc: called when the player presses a mouse button
---]] ---------------------------------------------------------
+--]]
+---------------------------------------------------------
 function loveframes.mousepressed(x, y, button)
-
     local base = loveframes.base
     local consumed = base:mousepressed(x, y, button)
 
@@ -305,15 +308,14 @@ function loveframes.mousepressed(x, y, button)
         end
     end
     return consumed
-
 end
 
 --[[---------------------------------------------------------
 	- func: mousereleased(x, y, button)
 	- desc: called when the player releases a mouse button
---]] ---------------------------------------------------------
+--]]
+---------------------------------------------------------
 function loveframes.mousereleased(x, y, button)
-
     local base = loveframes.base
     local consumed = base:mousereleased(x, y, button)
 
@@ -323,51 +325,46 @@ function loveframes.mousereleased(x, y, button)
         loveframes.selectedobject = false
     end
     return consumed
-
 end
 
 --[[---------------------------------------------------------
 	- func: wheelmoved(x, y)
 	- desc: called when the player moves a mouse wheel
---]] ---------------------------------------------------------
+--]]
+---------------------------------------------------------
 function loveframes.wheelmoved(x, y)
-
     local base = loveframes.base
     base:wheelmoved(x, y)
-
 end
 
 --[[---------------------------------------------------------
 	- func: keypressed(key, isrepeat)
 	- desc: called when the player presses a key
---]] ---------------------------------------------------------
+--]]
+---------------------------------------------------------
 function loveframes.keypressed(key, isrepeat)
-
     local base = loveframes.base
     base:keypressed(key, isrepeat)
-
 end
 
 --[[---------------------------------------------------------
 	- func: keyreleased(key)
 	- desc: called when the player releases a key
---]] ---------------------------------------------------------
+--]]
+---------------------------------------------------------
 function loveframes.keyreleased(key)
-
     local base = loveframes.base
     base:keyreleased(key)
-
 end
 
 --[[---------------------------------------------------------
 	- func: textinput(text)
 	- desc: called when the user inputs text
---]] ---------------------------------------------------------
+--]]
+---------------------------------------------------------
 function loveframes.textinput(text)
-
     local base = loveframes.base
     base:textinput(text)
-
 end
 
 loveframes.LoadObjects(dir .. "/objects")

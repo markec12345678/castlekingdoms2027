@@ -161,8 +161,10 @@ return function(loveframes)
             self.image = image
         end
 
-        self.width = self.image:getWidth()
-        self.height = self.image:getHeight()
+        if self.image then
+            self.width = self.image:getWidth()
+            self.height = self.image:getHeight()
+        end
 
         return self
 
