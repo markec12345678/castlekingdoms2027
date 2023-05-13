@@ -4,6 +4,7 @@ local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
 local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
+local SmokeLoop = require("objects.Structures.SmokeLoop")
 local _, _, _, _, swordIconButton, maceIconButton = unpack(require("states.ui.workshops.workshops_ui"))
 
 local tiles, quadArray = _G.indexBuildingQuads("blacksmith_workshop (18)")
@@ -323,6 +324,8 @@ function BlacksmithWorkshop:initialize(gx, gy)
         end
     end
     self.float = NotEnoughWorkersFloat:new(self.gx + self.class.WIDTH - 1, self.gy + self.class.LENGTH - 1, 7, -112)
+    self.smoke = SmokeLoop:new(self.gx, self.gy, 0, -86)
+    self.smoke:deactivate()
     self:applyBuildingHeightMap()
 end
 
@@ -361,6 +364,7 @@ end
 
 function BlacksmithWorkshop:destroy()
     self.float:destroy()
+    self.smoke:destroy()
     Structure.destroy(self.swordCrafting)
     Structure.destroy(self.anvilCrafting)
     self.swordCrafting.toBeDeleted = true
@@ -381,6 +385,9 @@ function BlacksmithWorkshop:load(data)
         self.worker = _G.state:dereferenceObject(data.worker)
         self.worker.workplace = self
     end
+    if data.smoke then
+        self.smoke = _G.state:dereferenceObject(data.smoke)
+    end
     self.tile = quadArray[tiles + 1]
     Structure.render(self)
 end
@@ -400,6 +407,9 @@ function BlacksmithWorkshop:serialize()
     data.offsetX = self.offsetX
     data.offsetY = self.offsetY
     data.freeSpots = self.freeSpots
+    if self.smoke then
+        data.smoke = _G.state:serializeObject(self.smoke)
+    end
     if self.worker then
         data.worker = _G.state:serializeObject(self.worker)
     end
@@ -495,6 +505,7 @@ function BlacksmithWorkshop:join(worker)
     end
     if self.freeSpots == 0 then
         self.float:deactivate()
+        self.smoke:activate()
     end
 end
 
