@@ -147,6 +147,27 @@ function Map:serializeBuildingHeightmap()
     return data
 end
 
+function Map:serializeShadowmap()
+    local data = {}
+    for cx = 0, _G.chunksWide - 1 do
+        data[cx] = {}
+        if self.shadowmap[cx] then
+            for cy = 0, _G.chunksHigh - 1 do
+                if self.shadowmap[cx][cy] then
+                    data[cx][cy] = {}
+                    for i = 0, _G.chunkWidth - 1, 1 do
+                        data[cx][cy][i] = {}
+                        for o = 0, _G.chunkWidth - 1, 1 do
+                            data[cx][cy][i][o] = self.shadowmap[cx][cy][i][o]
+                        end
+                    end
+                end
+            end
+        end
+    end
+    return data
+end
+
 function Map:serializeCollisionMap()
     local data = {}
     for x = 0, 512 do
@@ -222,6 +243,20 @@ function Map:deserializeBuildingHeightmap(data)
     end
 end
 
+function Map:deserializeShadowmap(data)
+    for cx = 0, _G.chunksWide - 1 do
+        for cy = 0, _G.chunksHigh - 1 do
+            for i = 0, _G.chunkWidth - 1, 1 do
+                for o = 0, _G.chunkWidth - 1, 1 do
+                    if data[cx] and data[cx][cy] and data[cx][cy][i] and data[cx][cy][i][o] then
+                        self.shadowmap[cx][cy][i][o] = data[cx][cy][i][o]
+                    end
+                end
+            end
+        end
+    end
+end
+
 function Map:serializeWater()
     local data = {}
     for x = 0, 512 do
@@ -254,6 +289,7 @@ function Map:serialize()
     data.collision = self:serializeCollisionMap()
     data.buildingheightmap = self:serializeBuildingHeightmap()
     data.water = self:serializeWater()
+    data.shadowmap = self:serializeShadowmap()
     return data
 end
 
@@ -263,6 +299,9 @@ function Map:deserialize(data)
     self:deserializeCollisionMap(data.collision)
     self:deserializeBuildingHeightmap(data.buildingheightmap)
     self:deserializeWater(data.water)
+    if data.shadowmap then
+        self:deserializeShadowmap(data.shadowmap)
+    end
     return data
 end
 

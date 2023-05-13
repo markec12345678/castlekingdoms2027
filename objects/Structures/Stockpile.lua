@@ -178,6 +178,22 @@ function Stockpile:initialize(gx, gy, type)
     self.offsetX = 0
     self.offsetY = -12
 
+    self.aliases = {
+        StockpileAlias:new(tileQuads["empty"], self.gx + 4, self.gy + 4 - 1, self),
+        StockpileAlias:new(tileQuads["empty"], self.gx + 4 - 1, self.gy + 4, self),
+        StockpileAlias:new(tileQuads["empty"], self.gx + 4 - 1, self.gy + 4, self),
+        StockpileAlias:new(tileQuads["empty"], self.gx + 3, self.gy + 1, self),
+        StockpileAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 3, self),
+        StockpileAlias:new(tileQuads["empty"], self.gx + 3, self.gy + 3, self),
+        StockpileAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 1, self),
+        StockpileAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 1, self),
+        StockpileAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 2, self),
+        StockpileAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 2, self),
+        StockpileAlias:new(tileQuads["empty"], self.gx + 3, self.gy + 2, self),
+        StockpileAlias:new(tileQuads["empty"], self.gx + 4, self.gy + 2, self),
+        StockpileAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 3, self),
+        StockpileAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 4, self),
+    }
     for tile = 1, tiles do
         local notWalkable = true
         if tile == 2 then
@@ -187,6 +203,7 @@ function Stockpile:initialize(gx, gy, type)
             quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self, -self.offsetY + 8 * (tiles - tile + 1), nil,
             notWalkable)
         stp.tileKey = tile
+        self.aliases[#self.aliases+1] = stp
     end
 
     for tile = 1, tiles do
@@ -197,6 +214,7 @@ function Stockpile:initialize(gx, gy, type)
         local stp = StockpileAlias:new(
             quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile, 16, nil, notWalkable)
         stp.tileKey = tiles + 1 + tile
+        self.aliases[#self.aliases+1] = stp
     end
 
     for xx = -1, 5 do
@@ -210,20 +228,6 @@ function Stockpile:initialize(gx, gy, type)
             end
         end
     end
-    StockpileAlias:new(tileQuads["empty"], self.gx + 4, self.gy + 4 - 1, self)
-    StockpileAlias:new(tileQuads["empty"], self.gx + 4 - 1, self.gy + 4, self)
-    StockpileAlias:new(tileQuads["empty"], self.gx + 4 - 1, self.gy + 4, self)
-    StockpileAlias:new(tileQuads["empty"], self.gx + 3, self.gy + 1, self)
-    StockpileAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 3, self)
-    StockpileAlias:new(tileQuads["empty"], self.gx + 3, self.gy + 3, self)
-    StockpileAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 1, self)
-    StockpileAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 1, self)
-    StockpileAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 2, self)
-    StockpileAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 2, self)
-    StockpileAlias:new(tileQuads["empty"], self.gx + 3, self.gy + 2, self)
-    StockpileAlias:new(tileQuads["empty"], self.gx + 4, self.gy + 2, self)
-    StockpileAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 3, self)
-    StockpileAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 4, self)
     for tileX = 0, tiles do
         for tileY = 0, tiles do
             _G.state.map:setHeight(self.gx + tileX, self.gy + tileY, 10)
@@ -459,7 +463,12 @@ function Stockpile:load(data)
             end
         end
     end
+    self.aliases = {}
     data.stPileRaw = nil
+    for i,v in ipairs(data.aliases) do
+        self.aliases[i] = _G.state:dereferenceObject(v)
+        self.aliases[i].parent = self
+    end
     self.tile = quadArray[tiles + 1]
     Structure.render(self)
     for idx, _ in ipairs(self.stockpile) do
@@ -488,6 +497,10 @@ function Stockpile:serialize()
                 data.stPileRaw[#data.stPileRaw][sk] = sv
             end
         end
+    end
+    data.aliases = {}
+    for i,v in ipairs(self.aliases) do
+        data.aliases[i] = _G.state:serializeObject(v)
     end
     return data
 end

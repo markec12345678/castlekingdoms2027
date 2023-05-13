@@ -154,6 +154,22 @@ function Structure:serialize()
     return data
 end
 
+function Structure:shadeWithAliases()
+    for xx = 0, self.class.WIDTH - 1 do
+        for yy = 0, self.class.LENGTH - 1 do
+            local buildingX = self.gx + xx
+            local buildingY = self.gy + yy
+            local buildings = _G.allObjectsFromSubclassAtGlobal(buildingX, buildingY, Object)
+            for i,v in ipairs(buildings) do
+                if v.parent == self and v.tile then
+                    v.shadowValue = self.shadowValue
+                    v:render()
+                end
+            end            
+        end
+    end
+end
+
 function Structure:applyBuildingHeightMap(skipNoneBiome, skipWalkable)
     for xx = 0, self.class.WIDTH - 1 do
         for yy = 0, self.class.LENGTH - 1 do

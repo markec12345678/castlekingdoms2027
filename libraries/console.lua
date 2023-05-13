@@ -172,7 +172,10 @@ local normal_print = print
 _G.print = function(...)
   normal_print(...) -- Call original print function.
   local args = {...}
-  local line = table.concat(map({...}, tostring), "\t")
+  local success, temp = pcall(map, {...}, tostring)
+  if not success then return end
+  local success, line = pcall(table.concat, temp, "\t")
+  if not success then return end
   push(lines, line)
 
   while #lines > console.MAX_LINES do
