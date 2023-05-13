@@ -62,6 +62,7 @@ function MissionController:initialize()
 end
 
 function MissionController:setMissionState(name)
+    print(name)
     name = name or "mission1"
     mission = require("saves.Missions." .. name)
     _G.state.gold = mission.startGold

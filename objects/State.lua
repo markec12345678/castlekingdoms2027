@@ -40,7 +40,7 @@ function State:initialize()
     self.maxPopulation = 5
     self.activeEntities = {}
     self.postitiveBuildings = 0
-    self.missionNr = _G.args.missionNr
+    self.missionNr = nil
     -- TODO: Make the collision map dynamic
     self.resources = {
         ["wood"] = 0,
