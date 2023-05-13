@@ -3,6 +3,7 @@ local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
 local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
+local SmokeLoop = require("objects.Structures.SmokeLoop")
 
 local tilesExt, quadArrayExt = _G.indexBuildingQuads("bakery_workshop (9)")
 local tiles, quadArray = _G.indexBuildingQuads("bakery_workshop (18)")
@@ -314,12 +315,14 @@ function Bakery:initialize(gx, gy)
     BakeryAlias:new(tileQuads["empty"], self.gx + 3, self.gy + 1, self, self.offsetX, self.offsetY)
 
     self.float = NotEnoughWorkersFloat:new(self.gx + self.class.WIDTH - 1, self.gy + self.class.LENGTH - 1, 7, -112)
-
+    self.smoke = SmokeLoop:new(self.gx, self.gy, -4, -93)
+    self.smoke:deactivate()
     Structure.render(self)
 end
 
 function Bakery:destroy()
     self.float:destroy()
+    self.smoke:destroy()
     Structure.destroy(self.cookingObj)
     self.cookingObj.toBeDeleted = true
     Structure.destroy(self.stack)
@@ -337,6 +340,9 @@ function Bakery:load(data)
     if data.worker then
         self.worker = _G.state:dereferenceObject(data.worker)
         self.worker.workplace = self
+    end
+    if data.smoke then
+        self.smoke = _G.state:dereferenceObject(data.smoke)
     end
     self.tile = quadArray[tiles + 1]
     Structure.render(self)
@@ -358,6 +364,9 @@ function Bakery:serialize()
     data.freeSpots = self.freeSpots
     if self.worker then
         data.worker = _G.state:serializeObject(self.worker)
+    end
+    if self.smoke then
+        data.smoke = _G.state:serializeObject(self.smoke)
     end
     return data
 end
@@ -427,6 +436,7 @@ function Bakery:join(worker)
     end
     if self.freeSpots == 0 then
         self.float:deactivate()
+        self.smoke:activate()
     end
 end
 

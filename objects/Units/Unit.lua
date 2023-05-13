@@ -645,7 +645,6 @@ function Unit:load(_)
     table.insert(self.locationsCy, self.cy)
     table.insert(self.locationsI, self.i)
     table.insert(self.locationsO, self.o)
-    self:registerAsActiveEntity()
     self:calculatePosition()
 end
 
