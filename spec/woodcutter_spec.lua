@@ -1,9 +1,11 @@
 local b = require 'busted'
 local assert = require 'luassert'
 local spy = require 'luassert.spy'
+local bitser = require("libraries.bitser")
 
 local describe, it = b.describe, b.it
 local WoodcutterHut = require("objects.Structures.WoodcutterHut")
+local Structure = require("objects.Structure")
 local PineTree = require("objects.Environment.PineTree")
 
 -- =======================================================================--
@@ -25,6 +27,43 @@ describe("woodcutter hut", function()
         worker = _G.JobController:makeWorker()
         assert.is_true(hut.worker ~= nil)
         assert.are.same(hut.worker, worker)
+    end)
+    local serial
+    describe("serialization", function()
+        _G.state.rawObjectIds = {}
+        _G.state.deserializedObjectCount = 0
+        _G.state.deserDebug = {}
+        it("should serialize", function()
+            local data = hut:serialize()
+            serial = bitser.dumps(data)
+            for xx = 0, hut.class.WIDTH - 1 do
+                for yy = 0, hut.class.LENGTH - 1 do
+                    local buildingX = hut.gx + xx
+                    local buildingY = hut.gy + yy
+                    local objects = _G.allObjectsFromSubclassAtGlobal(buildingX, buildingY, Structure)
+                    for i,v in ipairs(objects) do
+                        local ref = _G.state:serializeObject(v)
+                        _G.state.rawObjectIds[ref._ref] = v:serialize()   
+                    end
+                end
+            end
+        end)
+        it("worker should serialize", function()
+            local ref = _G.state:serializeObject(worker)
+            _G.state.rawObjectIds[ref._ref] = worker:serialize()
+        end)
+        it("float should serialize", function()
+            local ref = _G.state:serializeObject(hut.float)
+            _G.state.rawObjectIds[ref._ref] = hut.float:serialize()
+        end)
+        it("should deserialize", function()
+            local obj = bitser.loads(serial)
+            assert.is_true(obj ~= nil)
+            assert.are.same(WoodcutterHut.name, obj.className)
+            local object = _G.getClassByName(obj.className)
+            assert.is_true(object ~= nil)
+            hut = object:deserialize(obj)
+        end)
     end)
     describe("worker", function()
         it("will go to workplace", function()
