@@ -62,7 +62,6 @@ function MissionController:initialize()
 end
 
 function MissionController:setMissionState(name)
-    print(name)
     name = name or "mission1"
     mission = require("saves.Missions." .. name)
     _G.state.gold = mission.startGold
@@ -114,7 +113,8 @@ function MissionController:getLockedBuildings()
 end
 
 function MissionController:Display()
-    if self.youWin == false and _G.state.missionNr then
+    if not _G.state.missionNr then return end
+    if self.youWin == false then
         self.goalsList = "Tasks: "
 
         for key, value in pairs(self.goals) do

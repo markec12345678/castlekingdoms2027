@@ -10,39 +10,6 @@ local strongholdImage = love.graphics.newImage("assets/ui/stronghold_ab.png")
 local castleButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_keep_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 1, false, nil)
 
-castleButton:setOnClick(
-    function()
-        local upgraded = _G.BuildController:upgradeKeep(2)
-        if upgraded then
-            castleButton:setImage(keepImage)
-            castleButton:setTooltip("Keep", getCostAndType("Keep"))
-            castleButton:setOnClick(
-                function()
-                    local upgraded = _G.BuildController:upgradeKeep(3)
-                    if upgraded then
-                        castleButton:setImage(fortressImage)
-                        castleButton:setTooltip("Fortress", getCostAndType("Fortress"))
-                        castleButton:setOnClick(
-                            function()
-                                local upgraded = _G.BuildController:upgradeKeep(4)
-                                if upgraded then
-                                    castleButton:setImage(strongholdImage)
-                                    castleButton:setTooltip("Stronghold", "Not implemented yet (It's too big!)")
-                                    castleButton.enabled = true
-                                    castleButton.foreground.disablehover = true
-                                    castleButton.foreground:SetColor(0.6, 0.6, 0.6, 0.6)
-                                    castleButton:setOnClick(function()
-                                    end)
-                                end
-                            end
-                        )
-                    end
-                end
-            )
-        end
-    end)
---castleButton:setTooltip("WoodenKeep", "Requires 50 Wood")
-
 local barracksButton = ActionBarButton:new(love.graphics.newImage("assets/ui/barracks_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 4, false, nil)
 barracksButton:setOnClick(
@@ -103,15 +70,17 @@ stoneBuildings:setOnClick(function(self)
     ActionBar:showGroup("stoneBuildings")
 end)
 
+
+local buildings = {
+    {button = castleButton, name = "WoodenKeep", description = "\nUpgrade your Saxon hall to a Wooden keep"},
+    {button = barracksButton, name = "Barracks", description = "\nA building allowing you to recruit units."},
+    {button = stoneBarracksButton, name = "StoneBarracks", description = "\nA building allowing you to recruit units."},
+    {button = engineersGuildButton, name = "EngineersGuild", description = "\nA building allowing you to recruit siege units."},
+    {button = tunnelersGuildButton, name = "TunnelersGuild", description = "\nA building allowing you to recruit tunnelers."}
+}
+
 local function displayTooltips()
     if ActionBar:getCurrentGroup() ~= "castle" then return end
-    local buildings = {
-        {button = castleButton, name = "WoodenKeep", description = ""},
-        {button = barracksButton, name = "Barracks", description = "\nA building allowing you to recruit units."},
-        {button = stoneBarracksButton, name = "StoneBarracks", description = "\nA building allowing you to recruit units."},
-        {button = engineersGuildButton, name = "EngineersGuild", description = "\nA building allowing you to recruit siege units."},
-        {button = tunnelersGuildButton, name = "TunnelersGuild", description = "\nA building allowing you to recruit tunnelers."}
-    }
 
     for _, building in ipairs(buildings) do
         local table = getCostAndType(building.name)
@@ -142,6 +111,44 @@ local function displayTooltips()
         end
     end
 end
+
+castleButton:setOnClick(
+    function()
+        local upgraded = _G.BuildController:upgradeKeep(2)
+        if upgraded then
+            castleButton:setImage(keepImage)
+            buildings[1].name = "Keep"
+            buildings[1].description = "Upgrade your Wooden Keep to a Stone Keep"
+            displayTooltips()
+            castleButton:setOnClick(
+                function()
+                    local upgraded = _G.BuildController:upgradeKeep(3)
+                    if upgraded then
+                        castleButton:setImage(fortressImage)
+                        buildings[1].name = "Fortress"
+                        buildings[1].description = "Upgrade your Stone Keep to a Fortress"
+                        displayTooltips()
+                        castleButton:setOnClick(
+                            function()
+                                local upgraded = _G.BuildController:upgradeKeep(4)
+                                if upgraded then
+                                    castleButton:setImage(strongholdImage)
+                                    buildings[1].name = "Stronghold"
+                                    buildings[1].description = "Upgrade your Fortress to a Stronghold (unsupported)"
+                                    displayTooltips()
+                                    castleButton.enabled = true
+                                    castleButton.foreground.disablehover = true
+                                    castleButton.foreground:SetColor(0.6, 0.6, 0.6, 0.6)
+                                    castleButton:setOnClick(function()
+                                    end)
+                                end
+                            end
+                        )
+                    end
+                end
+            )
+        end
+    end)
 
 _G.bus.on(Events.OnResourceStore, displayTooltips)
 _G.bus.on(Events.OnResourceTake, displayTooltips)
