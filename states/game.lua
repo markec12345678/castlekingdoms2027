@@ -86,6 +86,8 @@ local function delayedInit()
     if _G.state.newGame then
         _G.playSpeech("place_a_keep")
     end
+    _G.paused = false
+    loveframes.SetState(states.STATE_INGAME_CONSTRUCTION)
 end
 
 function game:init()
