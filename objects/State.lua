@@ -305,6 +305,15 @@ function State:serializeObjects()
     return data
 end
 
+function State:shadeBuildings()
+    local BuildingManager = require("objects.Controllers.BuildingManager")
+    for _, v in pairs(BuildingManager.buildings) do
+        for _, sv in pairs(v) do
+            sv:shadeWithAliases()
+        end
+    end
+end
+
 function State:serialize()
     local metadata = {
         name = self.savename,

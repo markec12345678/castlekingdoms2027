@@ -82,6 +82,7 @@ local function delayedInit()
     loveframes.SetState(states.STATE_INGAME_CONSTRUCTION)
     ActionBar:updateGoldCount()
     ActionBar:updatePopularityCount()
+    _G.state:shadeBuildings()
     _G.loaded = true
     if _G.state.newGame then
         _G.playSpeech("place_a_keep")
