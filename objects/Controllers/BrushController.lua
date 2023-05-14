@@ -9,7 +9,6 @@ local brushObjects = {
     ["OakTree"] = require("objects.Environment.OakTree"),
     ["PineTree"] = require("objects.Environment.PineTree"),
     ["Shrub"] = require("objects.Environment.Shrub"),
-    ["Grass"] = require("objects.Environment.Grass"),
 }
 
 local brushShapes = {
@@ -119,11 +118,6 @@ function BrushController:keyReleased(key)
     elseif (key == "o") then
         self:setObject("OakTree")
         print("Brush Mode: OakTree")
-    elseif (key == "g") then
-        self:setObject("Grass")
-        self.grassBiome = _G.terrainBiome.dirt
-        self.grassType = _G.terrainBiome.abundantGrass
-        print("Brush Mode: Grass")
     elseif (key == "p") then
         self:setObject("PineTree")
         print("Brush Mode: PineTree")
@@ -221,10 +215,6 @@ function BrushController:paintSolid()
                     _G.removeObjectFromClassAtGlobal(LX + XX, LY + YY, "OakTree")
                     _G.removeObjectFromClassAtGlobal(LX + XX, LY + YY, "PineTree")
                     _G.removeObjectFromClassAtGlobal(LX + XX, LY + YY, "Shrub")
-                elseif self.type == brushType.PaintTerrainObjects and (self.brushObject.name == "Grass") then
-                    if self:canPaint(XX + LX, LY + YY) then
-                        self.brushObject:place(LX + XX, LY + YY, self.grassBiome, self.grassType)
-                    end
                 elseif self.type == brushType.PaintTerrainObjects then
                     if self:canPaint(XX + LX, LY + YY) then
                         self.brushObject:new(LX + XX, LY + YY)
@@ -242,10 +232,6 @@ function BrushController:paintSolid()
                         _G.removeObjectFromClassAtGlobal(XX, YY, "OakTree")
                         _G.removeObjectFromClassAtGlobal(XX, YY, "PineTree")
                         _G.removeObjectFromClassAtGlobal(XX, YY, "Shrub")
-                    elseif self.type == brushType.PaintTerrainObjects and (self.brushObject.name == "Grass") then
-                        if self:canPaint(XX + LX, LY + YY) then
-                            self.brushObject:place(LX + XX, LY + YY, self.grassBiome, self.grassType)
-                        end
                     elseif self.type == brushType.PaintTerrainObjects then
                         if self:canPaint(LX + XX, LY + YY) then
                             self.brushObject:new(LX + XX, LY + YY)
@@ -375,7 +361,6 @@ function BrushController:draw()
     else
         love.graphics.printf("Paint Mode: Paint", x + 5, y + 45, 200, "left")
     end
-    love.graphics.printf("Alt + g: Grass", x + 5, y + 65, 200, "left")
     love.graphics.printf("Alt + v: Remove/Paint", x + 5, y + 85, 200, "left")
     love.graphics.printf("Alt + s: Stone", x + 5, y + 105, 200, "left")
     love.graphics.printf("Alt + o: OakTree", x + 5, y + 125, 200, "left")
@@ -409,12 +394,7 @@ function BrushController:debug_info()
 end
 
 console.addCommand("brush", function(params)
-    if (params == "grass") then
-        _G.BrushController:setObject("Grass")
-        _G.BrushController.grassBiome = _G.terrainBiome.dirt
-        _G.BrushController.grassType = _G.terrainBiome.abundantGrass
-        print("Brush Mode: Grass")
-    elseif (params == "delete") then
+    if (params == "delete") then
         _G.BrushController.type = brushType.Remove
         print("Paint Mode: Delete")
     end
