@@ -36,15 +36,15 @@ local ANIM_PULLER_PART2 = "puller_part1"
 local ANIM_STACK = "stack"
 
 local quarryFx = {
-    ["levering1"] = {_G.fx["pryer_lever1"]},
-    ["levering2"] = {_G.fx["pryer_lever2"]},
-    ["levering3"] = {_G.fx["pryer_lever3"]},
-    ["pullermove"] = {_G.fx["puller_strain"]},
-    ["pullerretract"] = {_G.fx["puller_return"]},
-    ["pullerimpact"] = {_G.fx["puller_impact"]},
-    ["masonhit"] = {_G.fx["mason_chip1"], _G.fx["mason_chip2"], _G.fx["mason_chip3"]},
-    ["masoncrumble"] = {_G.fx["mason_crumble1"],
-        _G.fx["mason_crumble2"]}
+    ["levering1"] = { _G.fx["pryer_lever1"] },
+    ["levering2"] = { _G.fx["pryer_lever2"] },
+    ["levering3"] = { _G.fx["pryer_lever3"] },
+    ["pullermove"] = { _G.fx["puller_strain"] },
+    ["pullerretract"] = { _G.fx["puller_return"] },
+    ["pullerimpact"] = { _G.fx["puller_impact"] },
+    ["masonhit"] = { _G.fx["mason_chip1"], _G.fx["mason_chip2"], _G.fx["mason_chip3"] },
+    ["masoncrumble"] = { _G.fx["mason_crumble1"],
+        _G.fx["mason_crumble2"] }
 }
 
 
@@ -273,7 +273,7 @@ function QuarryShaper:shaperCallback()
         self.animation:pause()
         self.parent.stack:add()
         if self.parent.stack.quantity == self.parent.stack.class.MAX_QUANTITY then
-            if self.parent.isStandalone then
+            if self.parent.assignedOxHandler == nil then
                 self.parent:sendToStockpile()
             else
                 self.parent:stop()
@@ -794,7 +794,7 @@ function Quarry:work(worker)
 end
 
 function Quarry:sendToStockpile()
-    if self.isStandalone then
+    if self.assignedOxHandler == nil then
         self.stack:take()
         self.stack:take()
         self.stack:take()
