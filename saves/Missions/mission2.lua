@@ -2,7 +2,6 @@ local Mission = _G.class('Mission')
 local FOOD = require("objects.Enums.Food")
 local RESOURCES = require("objects.Enums.Resources")
 local WEAPON = require("objects.Enums.Weapon")
-local TimeController = require("objects.Controllers.TimeController")
 
 function Mission:initialize()
     self.name = "Arms Race" --name or id of the mission
@@ -22,7 +21,7 @@ function Mission:initialize()
         "mace",
         "shield" }
     self.timeLimit = 20 -- if 0 there is no limit
-    self.startDate = TimeController:setCurrentDate(1, 1000)
+    self.startDate = { month = 1, year = 1000 }
     self.goalsList = ""
     self.startPopularity = 50
     self.startGold = 0

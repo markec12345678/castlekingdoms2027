@@ -2,9 +2,9 @@ local Mission = _G.class('Mission')
 local FOOD = require("objects.Enums.Food")
 local RESOURCES = require("objects.Enums.Resources")
 local WEAPON = require("objects.Enums.Weapon")
-local TimeController = require("objects.Controllers.TimeController")
 
 function Mission:initialize()
+    self.locked = false
     self.name = "Timber and Stone" --name or id of the mission
     self.description = [[
     In this mission, you will need to focus on gathering resources to develop your kingdom's infrastructure. Your objective is to collect 50 units of wood and 20 units of stone within the next 5 years.
@@ -22,7 +22,7 @@ function Mission:initialize()
     }
     self.lockedWeapons = {} --turns off designated weapons from production f.e crossbows
     self.timeLimit = 0      -- if 0 there is no limit
-    self.startDate = TimeController:setCurrentDate(1, 1000)
+    self.startDate = { month = 1, year = 1000 }
     self.goalsList = ""
     self.startPopularity = 50
     self.startGold = 1000

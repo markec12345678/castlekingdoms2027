@@ -4,8 +4,15 @@ local RESOURCES = require("objects.Enums.Resources")
 local WEAPON = require("objects.Enums.Weapon")
 local TimeController = require("objects.Controllers.TimeController")
 local Events = require("objects.Enums.Events")
+local bitser = require("libraries.bitser")
+local path = "CampaignData.bin"
+
+local missionNumber
 local mission
+local missionsCompletedLoaded = { false, false, false, false, false }
+local saved = false
 function MissionController:initialize()
+    self.locked = false
     self.name = ""            --name or id of the mission
     self.description = ""     -- description of the mission
     self.goals = {}           -- goals of the mission
@@ -63,11 +70,16 @@ end
 
 function MissionController:setMissionState(name)
     name = name or "mission1"
+    self.missionName = name
     mission = require("saves.Missions." .. name)
+    missionNumber = tonumber(name:gsub("%D", ""))
+    print("Mission number: " .. missionNumber)
     _G.state.gold = mission.startGold
     self.goals = mission.goals
+    self.startDate = mission.startDate.year
+    TimeController:setCurrentDate(mission.startDate.month, mission.startDate.year)
     if mission.timeLimit > 0 then
-        self.timeLimit = mission.startDate + mission.timeLimit
+        self.timeLimit = mission.startDate.year + mission.timeLimit
     else
         self.timeLimit = 0
         self.NoTimeLimit = true
@@ -188,7 +200,30 @@ function MissionController:Display()
     end
 
     if self.youWin then
-        self.goalsList = "VICTORY!"
+        self.goalsList = "VICTORY!" .. "\n" ..
+            "keep playing or get back" .. "\n" .. "to the menu to play" .. "\n" .. "the next mission"
+
+        if saved == false then
+            if love.filesystem.getInfo(path) ~= nil then
+                local campaignDataLoaded = bitser.loadLoveFile(path)
+                local currentMissionLoaded = campaignDataLoaded.currentMission
+                missionsCompletedLoaded = campaignDataLoaded.missionsCompleted
+                print("Current mission:", currentMissionLoaded)
+                print("Finished missions:", unpack(missionsCompletedLoaded))
+            else
+                print("No campaign progress yet!")
+            end
+            missionsCompletedLoaded[missionNumber + 1] = true
+            print("Loaded missions :", unpack(missionsCompletedLoaded))
+            local campaignData = {
+                currentMission = self.missionName,
+                missionsCompleted = missionsCompletedLoaded,
+            }
+            bitser.dumpLoveFile(path, campaignData, true)
+            print("Campaign data saved successfully.")
+            saved = true
+            _G.bus.emit(Events.OnMissionCompleted, self.missionName)
+        end
     end
     if self.timeLimit - TimeController:getCurrentYear() <= 0 and self.NoTimeLimit == false then
         self.goalsList = "DEFEATED!"

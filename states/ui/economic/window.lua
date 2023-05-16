@@ -4,6 +4,19 @@ local loveframes = require("libraries.loveframes")
 local base = require("states.ui.base")
 local states = require("states.ui.states")
 local config = require("config_file")
+local Events = require("objects.Enums.Events")
+
+local bitser = require("libraries.bitser")
+local path = "CampaignData.bin"
+local missionsCompleted = { true, false, false, false, false }
+
+if love.filesystem.getInfo(path) ~= nil then
+    local campaignDataLoaded = bitser.loadLoveFile(path)
+    local currentMissionLoaded = campaignDataLoaded.currentMission
+    missionsCompleted = campaignDataLoaded.missionsCompleted
+    print("Current mission:", currentMissionLoaded)
+    print("Finished missions:", unpack(missionsCompleted))
+end
 
 local windowTitleText = loveframes.Create("text")
 windowTitleText:SetState(states.STATE_ECONOMIC_MISSION_PICKER)
@@ -60,6 +73,12 @@ local callback = function(element)
         if element ~= item then item:unselect() end
     end
 end
+
+_G.bus.on(Events.OnMissionCompleted, function(name)
+    local missionNumber = tonumber(name:gsub("%D", ""))
+    mapList[missionNumber + 1].unlocked = true
+end)
+
 local mission1 = require("saves.Missions.mission1")
 mapList[#mapList + 1] =
     MissionListButton:new(
@@ -75,7 +94,8 @@ mapList[#mapList + 1] =
         },
         buttonStart,
         titleText,
-        descriptionText
+        descriptionText,
+        true
     )
 local mission2 = require("saves.Missions.mission2")
 mapList[#mapList + 1] = MissionListButton:new(
@@ -90,7 +110,8 @@ mapList[#mapList + 1] = MissionListButton:new(
     },
     buttonStart,
     titleText,
-    descriptionText
+    descriptionText,
+    missionsCompleted[2]
 )
 local mission3 = require("saves.Missions.mission3")
 mapList[#mapList + 1] = MissionListButton:new(
@@ -105,7 +126,8 @@ mapList[#mapList + 1] = MissionListButton:new(
     },
     buttonStart,
     titleText,
-    descriptionText
+    descriptionText,
+    missionsCompleted[3]
 )
 local mission4 = require("saves.Missions.mission4")
 mapList[#mapList + 1] = MissionListButton:new(
@@ -120,7 +142,8 @@ mapList[#mapList + 1] = MissionListButton:new(
     },
     buttonStart,
     titleText,
-    descriptionText
+    descriptionText,
+    missionsCompleted[4]
 )
 local mission5 = require("saves.Missions.mission5")
 mapList[#mapList + 1] = MissionListButton:new(
@@ -135,7 +158,8 @@ mapList[#mapList + 1] = MissionListButton:new(
     },
     buttonStart,
     titleText,
-    descriptionText
+    descriptionText,
+    missionsCompleted[5]
 )
 
 

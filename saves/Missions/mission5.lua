@@ -2,7 +2,6 @@ local Mission = _G.class('Mission')
 local FOOD = require("objects.Enums.Food")
 local RESOURCES = require("objects.Enums.Resources")
 local WEAPON = require("objects.Enums.Weapon")
-local TimeController = require("objects.Controllers.TimeController")
 
 function Mission:initialize()
     self.name = "Faith in Architecture" --name or id of the mission
@@ -17,7 +16,7 @@ function Mission:initialize()
     self.lockedWeapons = {}   --turns off designated weapons from production f.e crossbows
     self.timeLimit = 10       -- if 0 there is no limit
     self.NoTimeLimit = false
-    self.startDate = TimeController:setCurrentDate(9, 1017)
+    self.startDate = { month = 9, year = 1017 }
     self.goalsList = ""
     self.startPopularity = 50
     self.startGold = 0

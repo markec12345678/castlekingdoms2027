@@ -36,11 +36,10 @@ for i = 1, 16 do
     quadMap["tar"][#quadMap["tar"] + 1] = tileQuads["pitch_stockpile (" .. tostring(i) .. ")"]
     quadMap["ale"][#quadMap["ale"] + 1] = tileQuads["kegs_stockpile (" .. tostring(i) .. ")"]
     quadMap["hop"][#quadMap["hop"] + 1] = tileQuads["hops_stockpile (" .. tostring(i) .. ")"]
-
 end
 
 local pileOffsetY = {
-    ["wood"] = {-2, -2, -2, -4, -4,
+    ["wood"] = { -2, -2, -2, -4, -4,
         -4, -4, -5, -5, -5,
         -5, -7, -7, -7, -7,
         -10, -10, -10, -10, -11,
@@ -51,7 +50,7 @@ local pileOffsetY = {
         -21, -21, -21, -23, -23,
         -23, -23, -25
     },
-    ["stone"] = {-9, -9, -9, -9, -9,
+    ["stone"] = { -9, -9, -9, -9, -9,
         -9, -9, -9, -9, -18,
         -18, -18, -18, -18, -18,
         -18, -18, -18, -26, -26,
@@ -62,7 +61,7 @@ local pileOffsetY = {
         -43, -43, -43, -43, -47,
         -47, -47, -47
     },
-    ["wheat"] = {-14, -14, -14, -14, -17,
+    ["wheat"] = { -14, -14, -14, -14, -17,
         -17, -17, -19, -19, -19,
         -19, -19, -19, -19, -19,
         -19, -28, -28, -28, -28,
@@ -70,7 +69,7 @@ local pileOffsetY = {
         -31, -31, -31, -33, -33,
         -35, -35
     },
-    ["iron"] = {-5, -5, -5, -5, -5,
+    ["iron"] = { -5, -5, -5, -5, -5,
         -5, -5, -5, -5, -5,
         -5, -5, -10, -10, -10,
         -10, -10, -10, -10, -10,
@@ -81,7 +80,7 @@ local pileOffsetY = {
         -19, -19, -19, -19, -19,
         -19, -19, -19
     },
-    ["flour"] = {-2, -2, -2, -2, -2,
+    ["flour"] = { -2, -2, -2, -2, -2,
         -2, -2, -3, -3, -3,
         -3, -3, -3, -3, -6,
         -6, -6, -6, -6, -6,
@@ -89,17 +88,17 @@ local pileOffsetY = {
         -13, -13, -13, -13, -13,
         -14, -15
     },
-    ["tar"] = {-12, -12, -12, -12, -12,
+    ["tar"] = { -12, -12, -12, -12, -12,
         -12, -12, -12, -12, -17,
         -17, -17, -17, -19, -22,
         -29
     },
-    ["ale"] = {-16, -16, -16, -16, -16,
+    ["ale"] = { -16, -16, -16, -16, -16,
         -16, -16, -16, -16, -20,
         -20, -20, -20, -21, -30,
         -30
     },
-    ["hop"] = {-11, -11, -11, -11, -11,
+    ["hop"] = { -11, -11, -11, -11, -11,
         -11, -11, -11, -11, -14,
         -14, -14, -14, -14, -20,
         -20
@@ -203,7 +202,7 @@ function Stockpile:initialize(gx, gy, type)
             quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self, -self.offsetY + 8 * (tiles - tile + 1), nil,
             notWalkable)
         stp.tileKey = tile
-        self.aliases[#self.aliases+1] = stp
+        self.aliases[#self.aliases + 1] = stp
     end
 
     for tile = 1, tiles do
@@ -214,7 +213,7 @@ function Stockpile:initialize(gx, gy, type)
         local stp = StockpileAlias:new(
             quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile, 16, nil, notWalkable)
         stp.tileKey = tiles + 1 + tile
-        self.aliases[#self.aliases+1] = stp
+        self.aliases[#self.aliases + 1] = stp
     end
 
     for xx = -1, 5 do
@@ -269,24 +268,9 @@ function Stockpile:initialize(gx, gy, type)
     self.stockpile[4].id = StockpileAlias:new(tileQuads["empty"], self.gx + 4, self.gy + 4, self, 32 - 4, -16)
     table.insert(
         _G.stockpile.nodeList, {
-        gx = self.gx + 2,
-        gy = self.gy + 5
-    })
-    table.insert(
-        _G.stockpile.nodeList, {
-        gx = self.gx - 1,
-        gy = self.gy + 2
-    })
-    table.insert(
-        _G.stockpile.nodeList, {
-        gx = self.gx + 2,
-        gy = self.gy - 1
-    })
-    table.insert(
-        _G.stockpile.nodeList, {
-        gx = self.gx + 5,
-        gy = self.gy + 2
-    })
+            gx = self.gx + 2,
+            gy = self.gy + 2
+        })
 
     _G.stockpile.list[(#_G.stockpile.list or 0) + 1] = self
     Structure.render(self)
@@ -392,24 +376,9 @@ function Stockpile:load(data)
     -- TODO: Check if node list is free before assigning it
     table.insert(
         _G.stockpile.nodeList, {
-        gx = self.gx + 2,
-        gy = self.gy + 5
-    })
-    table.insert(
-        _G.stockpile.nodeList, {
-        gx = self.gx - 1,
-        gy = self.gy + 2
-    })
-    table.insert(
-        _G.stockpile.nodeList, {
-        gx = self.gx + 2,
-        gy = self.gy - 1
-    })
-    table.insert(
-        _G.stockpile.nodeList, {
-        gx = self.gx + 5,
-        gy = self.gy + 2
-    })
+            gx = self.gx + 2,
+            gy = self.gy + 2
+        })
     self.stockpile = {}
     self.stockpile[1] = {
         id = nil,
@@ -459,13 +428,13 @@ function Stockpile:load(data)
             if type(_G.stockpile.resources[v.type]) == "table" then
                 _G.stockpile.resources[v.type][#_G.stockpile.resources[v.type] + 1] = self.stockpile[idx]
             else
-                _G.stockpile.resources[v.type] = {self.stockpile[idx]}
+                _G.stockpile.resources[v.type] = { self.stockpile[idx] }
             end
         end
     end
     self.aliases = {}
     data.stPileRaw = nil
-    for i,v in ipairs(data.aliases) do
+    for i, v in ipairs(data.aliases) do
         self.aliases[i] = _G.state:dereferenceObject(v)
         self.aliases[i].parent = self
     end
@@ -499,7 +468,7 @@ function Stockpile:serialize()
         end
     end
     data.aliases = {}
-    for i,v in ipairs(self.aliases) do
+    for i, v in ipairs(self.aliases) do
         data.aliases[i] = _G.state:serializeObject(v)
     end
     return data

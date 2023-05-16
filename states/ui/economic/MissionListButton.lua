@@ -1,12 +1,14 @@
 local loveframes = require("libraries.loveframes")
 local freebuildFrames = require("states.ui.freebuild.frames")
 local frames, scale = freebuildFrames[1], freebuildFrames[2]
+local Events = require("objects.Enums.Events")
 
 local listImageHover = love.graphics.newImage("assets/ui/freebuild/hover.png")
 local listImageSelected = love.graphics.newImage("assets/ui/freebuild/selected.png")
 
 local MapListItem = _G.class("MapListItem")
-function MapListItem:initialize(position, missionNumber, onSelectCallback, state, frListItem, missionData, startButton, titleText, descriptionText, mapPreview)
+function MapListItem:initialize(position, missionNumber, onSelectCallback, state, frListItem, missionData, startButton,
+                                titleText, descriptionText, unlocked, mapPreview)
     if position < 1 or position > 12 then
         error("received invalid position argument for action bar: " .. tostring(position))
     end
@@ -38,6 +40,7 @@ function MapListItem:initialize(position, missionNumber, onSelectCallback, state
     self.descriptionText = descriptionText
     self.mapPreview = mapPreview
     self.onSelectCallback = onSelectCallback
+    self.unlocked = unlocked
 
     local list = loveframes.Create("image")
     list:SetState(state)
@@ -47,15 +50,18 @@ function MapListItem:initialize(position, missionNumber, onSelectCallback, state
     list:SetImage()
     list:SetPos(frListItem.x, frListItem.y)
     list.OnMouseEnter = function(this)
-        if not self.selected then
+        if not self.selected and self.unlocked == true then
             list:SetImage(listImageHover)
             self.nameText:SetX(self.nameTextOriginalX + 10)
             self.nameText:SetText({ { color = { 0.35 + 0.5, 0.3 + 0.5, 0.2 + 0.5 } }, self.nameText:GetText() })
         end
     end
     list.OnClick = function(this)
-        self:onClick()
+        if self.unlocked == true then
+            self:onClick()
+        end
     end
+    _G.bus.on(Events.OnMissionCompleted, list.OnClick)
     list.OnMouseExit = function(this)
         if not self.selected then
             self:unselect()
@@ -74,13 +80,18 @@ function MapListItem:initialize(position, missionNumber, onSelectCallback, state
     nameText.disablehover = true
     self.nameText = nameText
     self.nameTextOriginalX = nameText:GetX()
+    if self.unlocked == false then
+        self.nameText:SetText({ { color = { 0.41, 0.41, 0.41 } }, missionData.name })
+    end
 end
 
 function MapListItem:unselect()
     self.selected = false
     self.background:SetImage()
     self.nameText:SetX(self.nameTextOriginalX)
-    self.nameText:SetText(self.nameText:GetText()) -- gets rid of color
+    if self.unlocked == true then
+        self.nameText:SetText(self.nameText:GetText()) -- gets rid of color
+    end
 end
 
 function MapListItem:onClick()
