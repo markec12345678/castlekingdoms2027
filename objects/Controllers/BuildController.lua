@@ -289,10 +289,6 @@ function BuildController:removeResourceNodes()
     local w, h = building[self.building].w, building[self.building].h
     for x = 0, w - 1 do
         for y = 0, h - 1 do
-            removeWhileIterating(_G.stockpile.nodeList, function(t, i, j)
-                local node = t[i]
-                return not (node.gx == self.gx + x and node.gy == self.gy + y)
-            end)
             removeWhileIterating(_G.foodpile.nodeList, function(t, i, j)
                 local node = t[i]
                 return not (node.gx == self.gx + x and node.gy == self.gy + y)

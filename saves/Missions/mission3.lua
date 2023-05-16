@@ -1,7 +1,6 @@
 local Mission = _G.class('Mission')
 local FOOD = require("objects.Enums.Food")
 local RESOURCES = require("objects.Enums.Resources")
-local TimeController = require("objects.Controllers.TimeController")
 
 function Mission:initialize()
     self.name = "Feast or famine"
@@ -14,8 +13,8 @@ function Mission:initialize()
 
     Keep in mind that your success in this mission will depend on your ability to balance your resources and prioritize your goals. You will need to carefully manage your finances and make strategic decisions to ensure the prosperity of your kingdom. Good luck!
     ]]
-    self.startDate = TimeController:setCurrentDate(5, 1140)
     self.timeLimit = 20
+    self.startDate = { month = 5, year = 1140 }
     self.startGold = 1000
     self.goals = {}
     self.startResources = {

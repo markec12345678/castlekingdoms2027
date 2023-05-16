@@ -12,7 +12,8 @@ local EVENTS = {
     OnFoodStore = 10,
     OnFoodTake = 11,
     OnBuildingPlaced = 12,
-    OnBuildingDestroyed = 13
+    OnBuildingDestroyed = 13,
+    OnMissionCompleted = 14
 }
 
 return EVENTS
