@@ -37,7 +37,7 @@ destroyButton:setOnUnselect(function(self)
     _G.DestructionController:disable()
 end)
 
-ActionBar:registerGroup("main", {castleButton, hammerButton, appleButton, houseButton, shieldButton, sickleButton, destroyButton})
+ActionBar:registerGroup("main", { castleButton, hammerButton, appleButton, houseButton, shieldButton, sickleButton, destroyButton })
 
 local backButton = ActionBarButton:new(love.graphics.newImage("assets/ui/back_ab.png"), states.STATE_INGAME_CONSTRUCTION, 12)
 backButton:setOnClick(function(self)
@@ -68,7 +68,7 @@ local elements = {
 --- @type fun(buildingIndex: string): string
 local function getCostAndType(buildingIndex)
     local buildings = require("objects.buildings")
-    local c = buildings.getCost(buildingIndex);
+    local c = buildings[buildingIndex].cost;
     local costtype = ""
     local first = true
     local affordable = true

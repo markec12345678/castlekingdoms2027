@@ -57,6 +57,8 @@ local StoneGateSouth = require("objects.Structures.StoneGateSouth")
 local StoneGateEastBig = require("objects.Structures.StoneGateEastBig")
 local StoneGateSouthBig = require("objects.Structures.StoneGateSouthBig")
 
+local Lord = require("objects.Units.Lord")
+
 local warningTooltip = require("states.ui.warning_tooltip")
 
 local objectFromTypeAt = _G.objectFromTypeAt
@@ -75,6 +77,7 @@ local buildings = {
         build = function(self, gx, gy)
             SaxonHall:new(gx, gy)
             Campfire:new(gx + 2, gy + 10)
+            Lord:new(gx + 2, gy + 8)
         end,
         specialRequirements = function(self, _, _)
             return true
@@ -1844,9 +1847,5 @@ local buildings = {
         end
     }
 }
-
-function buildings.getCost(building)
-    return buildings[building].cost
-end
 
 return buildings
