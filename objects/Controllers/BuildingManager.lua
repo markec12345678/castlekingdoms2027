@@ -88,6 +88,54 @@ function BuildingManager:serialize()
     return data
 end
 
+---Builds an indexed list of all buildings that are managed by the building manager.
+---@return table buildingList   list of all active buildings
+function BuildingManager:listAllActiveBuildings(withoutWalls)
+    local buildingList = {}
+    for type, typeBuildings in pairs(self.buildings) do
+        if not (withoutWalls and (type == "WalkableWoodenWall" or type == "WoodenWall")) then
+            for key, building in pairs(typeBuildings) do
+                table.insert(buildingList, building)
+            end
+        end
+    end
+    return buildingList
+end
+
+--- As the name suggests, returns a random key, value pair of any of the table's properties
+---@param table table table to choose a key from
+---@return any k the randomly chosen key
+---@return any v the randomly chosen value at that key
+local function getRandomTableKey(table)
+    local function tableLength(T)
+        local count = 0
+        for k, v in pairs(T) do
+            count = count + 1
+        end
+        return count
+    end
+
+    local keyCount = tableLength(table)
+    local randomKey = math.random(1, keyCount)
+
+    local i = 0
+    for k, v in pairs(table) do
+        i = i + 1
+        if i == randomKey then
+            return k, v
+        end
+    end
+end
+
+---chooses at random a placed building and returns its object
+---@return table randomBuilding the randomly chosen building object
+function BuildingManager:getRandomBuilding()
+    local buildingsToChooseFrom = _G.BuildingManager:listAllActiveBuildings(true)
+    local _, randomBuilding = getRandomTableKey(buildingsToChooseFrom)
+
+    return randomBuilding
+end
+
 function BuildingManager:deserialize(data)
     for _, v in ipairs(data.rawlist) do
         local building = _G.state:dereferenceObject(v)
