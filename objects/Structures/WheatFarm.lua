@@ -4,16 +4,16 @@ local Object = require("objects.Object")
 local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
 
 local tiles, quadArray = _G.indexBuildingQuads("farm (1)")
-local farmlandTilesStage0 = {tileQuads["tile_farmland_stage_0 (1)"], tileQuads["tile_farmland_stage_0 (2)"],
-    tileQuads["tile_farmland_stage_0 (3)"], tileQuads["tile_farmland_stage_0 (4)"]}
-local farmlandTilesStage1 = {tileQuads["tile_farmland_stage_1 (1)"], tileQuads["tile_farmland_stage_1 (2)"],
-    tileQuads["tile_farmland_stage_1 (3)"], tileQuads["tile_farmland_stage_1 (4)"]}
-local farmlandTilesStage2 = {tileQuads["tile_farmland_stage_2 (1)"], tileQuads["tile_farmland_stage_2 (2)"],
-    tileQuads["tile_farmland_stage_2 (3)"], tileQuads["tile_farmland_stage_2 (4)"]}
-local farmlandTilesStage3 = {tileQuads["tile_farmland_stage_3 (1)"], tileQuads["tile_farmland_stage_3 (2)"],
-    tileQuads["tile_farmland_stage_3 (3)"], tileQuads["tile_farmland_stage_3 (4)"]}
-local farmlandTilesStage4 = {tileQuads["tile_farmland_stage_4 (1)"], tileQuads["tile_farmland_stage_4 (2)"],
-    tileQuads["tile_farmland_stage_4 (3)"], tileQuads["tile_farmland_stage_4 (4)"]}
+local farmlandTilesStage0 = { tileQuads["tile_farmland_stage_0 (1)"], tileQuads["tile_farmland_stage_0 (2)"],
+    tileQuads["tile_farmland_stage_0 (3)"], tileQuads["tile_farmland_stage_0 (4)"] }
+local farmlandTilesStage1 = { tileQuads["tile_farmland_stage_1 (1)"], tileQuads["tile_farmland_stage_1 (2)"],
+    tileQuads["tile_farmland_stage_1 (3)"], tileQuads["tile_farmland_stage_1 (4)"] }
+local farmlandTilesStage2 = { tileQuads["tile_farmland_stage_2 (1)"], tileQuads["tile_farmland_stage_2 (2)"],
+    tileQuads["tile_farmland_stage_2 (3)"], tileQuads["tile_farmland_stage_2 (4)"] }
+local farmlandTilesStage3 = { tileQuads["tile_farmland_stage_3 (1)"], tileQuads["tile_farmland_stage_3 (2)"],
+    tileQuads["tile_farmland_stage_3 (3)"], tileQuads["tile_farmland_stage_3 (4)"] }
+local farmlandTilesStage4 = { tileQuads["tile_farmland_stage_4 (1)"], tileQuads["tile_farmland_stage_4 (2)"],
+    tileQuads["tile_farmland_stage_4 (3)"], tileQuads["tile_farmland_stage_4 (4)"] }
 local farmlandHayTile = tileQuads["tile_farmland_hay (1)"]
 local WheatFarmAlias = _G.class("WheatFarmAlias", Structure)
 function WheatFarmAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
@@ -77,7 +77,6 @@ function WheatFarmPlant:initialize(gx, gy, parent)
     self.tileKey = "empty"
     self.wheatMatureCounter = 0
     self.startedGrowing = false
-    self:registerAsActiveEntity()
 end
 
 function WheatFarmPlant:serialize()
@@ -239,7 +238,7 @@ function WheatFarm:initialize(gx, gy, type)
     for y = 4, 11 do
         t1 = WheatFarmPlant:new(self.gx + 0, self.gy + y, self, true)
         t2 = WheatFarmPlant:new(self.gx + 1, self.gy + y, self, true)
-        table.insert(self.landTiles, {t1, t2})
+        table.insert(self.landTiles, { t1, t2 })
     end
 
     for y = 11, 0, -1 do
@@ -248,27 +247,27 @@ function WheatFarm:initialize(gx, gy, type)
             t1 = WheatFarmPlant:new(self.gx + 2, self.gy + y, self, true)
         end
         t2 = WheatFarmPlant:new(self.gx + 3, self.gy + y, self, true)
-        table.insert(self.landTiles, {t1, t2})
+        table.insert(self.landTiles, { t1, t2 })
     end
     for y = 0, 11 do
         t1 = WheatFarmPlant:new(self.gx + 4, self.gy + y, self, true)
         t2 = WheatFarmPlant:new(self.gx + 5, self.gy + y, self, true)
-        table.insert(self.landTiles, {t1, t2})
+        table.insert(self.landTiles, { t1, t2 })
     end
     for y = 11, 0, -1 do
         t1 = WheatFarmPlant:new(self.gx + 6, self.gy + y, self, true)
         t2 = WheatFarmPlant:new(self.gx + 7, self.gy + y, self, true)
-        table.insert(self.landTiles, {t1, t2})
+        table.insert(self.landTiles, { t1, t2 })
     end
     for y = 0, 11 do
         t1 = WheatFarmPlant:new(self.gx + 8, self.gy + y, self, true)
         t2 = WheatFarmPlant:new(self.gx + 9, self.gy + y, self, true)
-        table.insert(self.landTiles, {t1, t2})
+        table.insert(self.landTiles, { t1, t2 })
     end
     for y = 11, 0, -1 do
         t1 = WheatFarmPlant:new(self.gx + 10, self.gy + y, self, true)
         t2 = WheatFarmPlant:new(self.gx + 11, self.gy + y, self, true)
-        table.insert(self.landTiles, {t1, t2})
+        table.insert(self.landTiles, { t1, t2 })
     end
 
     self:applyBuildingHeightMap()
@@ -295,6 +294,19 @@ function WheatFarm:initialize(gx, gy, type)
     Structure.render(self)
 
     self.float = NotEnoughWorkersFloat:new(self.gx + self.class.WIDTH - 1, self.gy + self.class.LENGTH - 1, 4, -120)
+
+    self:registerAsActiveEntity()
+end
+
+function WheatFarm:animate(dt)
+    if self.state ~= 2 then return end
+    for _, ltiles in ipairs(self.landTiles) do
+        for _, stile in ipairs(ltiles) do
+            if stile then
+                stile:update(dt)
+            end
+        end
+    end
 end
 
 function WheatFarm:destroy()
