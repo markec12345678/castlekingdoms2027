@@ -68,7 +68,10 @@ local elements = {
 --- @type fun(buildingIndex: string): string
 local function getCostAndType(buildingIndex)
     local buildings = require("objects.buildings")
-    local c = buildings[buildingIndex].cost;
+    if buildingIndex == "Stronghold" then
+        return { costAndType = "" }
+    end
+    local c = buildings[buildingIndex].cost
     local costtype = ""
     local first = true
     local affordable = true
