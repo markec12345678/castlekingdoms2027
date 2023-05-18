@@ -116,11 +116,11 @@ function _G.newAutotable(dim)
 end
 
 ----Tiles
-function _G.getFreeVertexFromTile(cx, cy, localX, localY, lastVertexFirst)
-    lastVertexFirst = lastVertexFirst or false
+function _G.getFreeVertexFromTile(cx, cy, localX, localY, isStructure)
+    isStructure = isStructure or false
     local vertId = _G.state.verticesPerTile * (localX + localY * chunkWidth) + 1
     local chunkVertices = _G.state.objectMeshVertIdMap[cx][cy]
-    if lastVertexFirst then
+    if isStructure then
         for i = 3, _G.state.verticesPerTile - 1 do
             if not chunkVertices[vertId + i] then
                 _G.state.objectMeshVertIdMap[cx][cy][vertId + i] = true
@@ -128,7 +128,7 @@ function _G.getFreeVertexFromTile(cx, cy, localX, localY, lastVertexFirst)
             end
         end
     else
-        for i = _G.state.verticesPerTile - 1, 3, -1 do
+        for i = _G.state.verticesPerTile - 1, 4, -1 do
             if not chunkVertices[vertId + i] then
                 _G.state.objectMeshVertIdMap[cx][cy][vertId + i] = true
                 return vertId + i
