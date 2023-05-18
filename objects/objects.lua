@@ -7,6 +7,7 @@ local love = _G.love
 local bit = _G.bit
 local prof = require("libraries.jprof")
 local inspect = require("libraries.inspect")
+local Object = require("objects.Object")
 local console = require("libraries.console")
 local showPaths = false
 console.addCommand("togglePaths", function() showPaths = not showPaths end, "Show units paths")
@@ -150,6 +151,7 @@ function _G.removeObjectFromClassAtGlobal(gx, gy, classToRemove)
                 _G.state.map:setWalkable(gx, gy, 0)
                 table.remove(_G.state.object[cx][cy][x][y], index)
                 currentObject:destroy()
+                Object.destroy(currentObject) --TODO: only here because of pine tree abusing the :destroy method
                 break
             end
         end

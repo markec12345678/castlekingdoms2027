@@ -367,6 +367,10 @@ function BuildController:build(gx, gy)
                     for xx = 0, building[self.building].w - 1 do
                         for yy = 0, building[self.building].h - 1 do
                             _G.removeObjectFromClassAtGlobal(gx + xx, gy + yy, "Shrub")
+                            local potentialStump = _G.objectFromSubclassAtGlobal(gx + xx, gy + yy, "Tree")
+                            if potentialStump and potentialStump.stump then
+                                _G.removeObjectFromClassAtGlobal(gx + xx, gy + yy, potentialStump.class.name)
+                            end
                         end
                     end
                     if self.isMultispriteBuilding then
@@ -387,8 +391,6 @@ function BuildController:build(gx, gy)
                     return true
                 end
             else
-                local buildingWidth = building[self.building].w - 1
-                local buildingHeight = building[self.building].h - 1
                 for xx = 0, building[self.building].w - 1 do
                     for yy = 0, building[self.building].h - 1 do
                         _G.removeObjectFromClassAtGlobal(gx + xx, gy + yy, "Shrub")
