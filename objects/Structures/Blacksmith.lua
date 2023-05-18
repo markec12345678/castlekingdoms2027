@@ -172,11 +172,7 @@ function SwordCrafting.static:deserialize(data)
     obj.parent.swordCrafting = obj
     local callback
     local anData = data.animation
-    if anData.animationIdentifier == ANIM_CRAFTING_SWORD then
-        callback = obj:craftCallback_1()
-    elseif anData.animationIdentifier == ANIM_CRAFTING_MACE then
-        callback = obj:craftCallback_2()
-    end
+    callback = obj:craftCallback_1()
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
 
