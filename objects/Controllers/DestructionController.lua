@@ -84,19 +84,15 @@ function DestructionController:destroyAtLocation(gx, gy, force, targetAlias)
                 _G.state.map.buildingheightmap[cx][cy][x][y] = 0
                 _G.state.map.shadowmap[cx][cy][x][y] = 0
             else
-                -- Set the Terrain under the Structure to scarce grass and remove shadows
-                for xx = 0, structure.class.WIDTH - 1 do
-                    for yy = 0, structure.class.LENGTH - 1 do
-                        _G.state.Terrain:terrainSetTileAt(structure.gx + xx, structure.gy + yy, _G.terrainBiome.scarceGrass, nil, true)
-                        local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(structure.gx + xx, structure.gy + yy)
-                        self:revertWalkability(structure.gx, structure.gy)
-                        _G.state.map.buildingheightmap[cx][cy][x][y] = 0
-                        _G.state.map.shadowmap[cx][cy][x][y] = 0
-                    end
-                end
-                -- Destroy all the Aliases of a Structure
                 for x = 0, structure.class.WIDTH - 1 do
                     for y = 0, structure.class.LENGTH - 1 do
+                        -- Set the Terrain under the Structure to scarce grass and remove shadows
+                        _G.state.Terrain:terrainSetTileAt(structure.gx + x, structure.gy + y, _G.terrainBiome.scarceGrass, nil, true)
+                        local cx, cy, xx, yy = _G.getLocalCoordinatesFromGlobal(structure.gx + x, structure.gy + y)
+                        self:revertWalkability(structure.gx, structure.gy)
+                        _G.state.map.buildingheightmap[cx][cy][xx][yy] = 0
+                        _G.state.map.shadowmap[cx][cy][xx][yy] = 0
+                        -- Destroy all the Aliases of a Structure
                         local targets = _G.allObjectsFromSubclassAtGlobal(structure.gx + x, structure.gy + y, Structure)
                         for _, target in ipairs(targets) do
                             if target == structure or target.parent == structure then

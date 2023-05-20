@@ -39,6 +39,7 @@ function State:initialize()
     self.population = 0
     self.maxPopulation = 5
     self.activeEntities = {}
+    self.lazyReferences = {}
     self.postitiveBuildings = 0
     self.missionNr = nil
     -- TODO: Make the collision map dynamic
@@ -202,6 +203,21 @@ function State:dereferenceObject(refObj)
     error("Did you miss to add the Alias in the Object class exclusion list?\n" ..
         "Couldn't dereference object:" .. tostring(self.rawObjectIds[ref]) .. " with ref obj:" ..
         tostring(_G.inspect(refObj)))
+end
+
+---Is used to dereference where there's a chance of circular dependency
+function State:lazyDereferenceObject(refObj, target, targetKey, callback)
+    self.lazyReferences[#self.lazyReferences + 1] = { refObj, target, targetKey, callback }
+end
+
+---@private
+function State:processLazyReferences()
+    for _, v in ipairs(self.lazyReferences) do
+        local refObj, target, targetKey, callback = v[1], v[2], v[3], v[4]
+        target[targetKey] = self:dereferenceObject(refObj)
+        if callback then callback(target) end
+    end
+    self.lazyReferences = {}
 end
 
 function State:serializeChunkObjects()
@@ -446,6 +462,7 @@ function State:load(filename, decompress)
     _G.offsetX, _G.offsetY = load.offsetX, load.offsetY
     self:deserializeChunkObjects(load.chunkObjects)
     self.object = self:deserializeObjects(load.object)
+    _G.state:processLazyReferences()
     self.scaleX = load.scaleX
     self.viewXview = load.viewXview
     self.viewYview = load.viewYview

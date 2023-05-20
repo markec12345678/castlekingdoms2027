@@ -355,15 +355,7 @@ function game:keyreleased(key, scancode)
         return
     end
     -- if not _G.BuildController.start then
-    if key == "f" then
-        local fullscreen, _ = love.window.getFullscreen()
-        if fullscreen then
-            love.window.setFullscreen(false)
-        else
-            love.window.setFullscreen(true)
-        end
-        -- Only temporary until UI for it is created
-    elseif key == "b" then
+    if key == "b" then
         _G.BrushController:toggleBuilding()
     elseif key == "delete" then
         _G.DestructionController:toggle()
