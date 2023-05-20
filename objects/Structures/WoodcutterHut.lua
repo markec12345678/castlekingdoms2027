@@ -5,9 +5,9 @@ local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat"
 
 local tiles, quadArray = _G.indexBuildingQuads("woodcutter_hut", true)
 
-local sawpullFx = {_G.fx["sawpull1 22k"], _G.fx["sawpull2 22k"], _G.fx["sawpull3 22k"]}
+local sawpullFx = { _G.fx["sawpull1 22k"], _G.fx["sawpull2 22k"], _G.fx["sawpull3 22k"] }
 
-local sawpushFx = {_G.fx["sawpush1 22k"], _G.fx["sawpush2 22k"], _G.fx["sawpush3 22k"]}
+local sawpushFx = { _G.fx["sawpush1 22k"], _G.fx["sawpush2 22k"], _G.fx["sawpush3 22k"] }
 
 local frWoodcutterSawing = _G.indexQuads("anim_woodcutter_saw", 19, nil, true)
 local frPlankStack = _G.indexQuads("anim_woodcutter_planks", 3)
@@ -47,6 +47,7 @@ function WoodcutterHutLogStack:serialize()
             data[k] = v
         end
     end
+    data.parent = _G.state:serializeObject(self.parent)
     data.animation = self.animation:serialize()
     data.animated = self.animated
     data.quantity = self.quantity
@@ -72,6 +73,8 @@ function WoodcutterHutLogStack.static:deserialize(data)
             obj:deactivate()
         end
     end
+    obj.parent = _G.state:dereferenceObject(data.parent)
+    obj.parent.logStack = obj
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
 
@@ -145,6 +148,7 @@ function WoodcutterHutPlankStack:serialize()
             data[k] = v
         end
     end
+    data.parent = _G.state:serializeObject(self.parent)
     data.animation = self.animation:serialize()
     data.animated = self.animated
     data.quantity = self.quantity
@@ -158,6 +162,8 @@ function WoodcutterHutPlankStack.static:deserialize(data)
     Object.deserialize(obj, data)
     Structure.load(obj, data)
     local anData = data.animation
+    obj.parent = _G.state:dereferenceObject(data.parent)
+    obj.parent.stack = obj
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, nil, anData.animationIdentifier)
     obj.animation:deserialize(anData)
 
@@ -257,6 +263,7 @@ function WoodcutterHutSawing:serialize()
             data[k] = v
         end
     end
+    data.parent = _G.state:serializeObject(self.parent)
     data.animation = self.animation:serialize()
     data.animated = self.animated
     data.offsetX = self.offsetX
@@ -285,6 +292,10 @@ function WoodcutterHutSawing.static:deserialize(data)
     Object.deserialize(obj, data)
     Structure.load(obj, data)
     local anData = data.animation
+
+    obj.parent = _G.state:dereferenceObject(data.parent)
+    obj.parent.sawingObj = obj
+    obj:setCallback()
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, nil, anData.animationIdentifier)
     obj.animation:deserialize(anData)
 
@@ -312,6 +323,7 @@ function WoodcutterHutAlias:serialize()
             data[k] = v
         end
     end
+    data.parent = _G.state:serializeObject(self.parent)
     data.tileKey = self.tileKey
     data.baseOffsetY = self.baseOffsetY
     data.additionalOffsetY = self.additionalOffsetY
@@ -324,6 +336,7 @@ function WoodcutterHutAlias.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
     Structure.load(obj, data)
+    obj.parent = _G.state:dereferenceObject(data.parent)
     if data.tileKey then
         obj.tile = quadArray[data.tileKey]
         obj.tileKey = data.tileKey
@@ -483,13 +496,6 @@ function WoodcutterHut:load(data)
         self.worker = _G.state:dereferenceObject(data.worker)
         self.worker.workplace = self
     end
-    self.stack = _G.state:dereferenceObject(data.stack)
-    self.stack.parent = self
-    self.sawingObj = _G.state:dereferenceObject(data.sawingObj)
-    self.sawingObj.parent = self
-    self.sawingObj:setCallback()
-    self.logStack = _G.state:dereferenceObject(data.logStack)
-    self.logStack.parent = self
     self.health = data.health
     self.offsetX = data.offsetX
     self.offsetY = data.offsetY
@@ -514,9 +520,6 @@ function WoodcutterHut:serialize()
     if self.worker then
         data.worker = _G.state:serializeObject(self.worker)
     end
-    data.stack = _G.state:serializeObject(self.stack)
-    data.sawingObj = _G.state:serializeObject(self.sawingObj)
-    data.logStack = _G.state:serializeObject(self.logStack)
     return data
 end
 

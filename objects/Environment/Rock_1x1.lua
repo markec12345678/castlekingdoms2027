@@ -2,20 +2,6 @@ local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 
-local RockAlias = _G.class("RockAlias", Structure)
-function RockAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
-    local mytype = "Static structure"
-    self.parent = parent
-    Structure.initialize(self, gx, gy, mytype)
-    _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.tile = tile
-    self.baseOffsetY = offsetY or 0
-    self.additionalOffsetY = 0
-    self.offsetX = offsetX or 0
-    self.offsetY = self.additionalOffsetY - self.baseOffsetY
-    Structure.render(self)
-end
-
 local Rock = _G.class("Rock", Structure)
 function Rock:initialize(gx, gy, type)
     type = type or "Rock"
