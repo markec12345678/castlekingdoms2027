@@ -35,6 +35,10 @@ function DebugView:toggle()
         return
     end
     if self.focus == "pathfinding" then
+        self.focus = "units"
+        return
+    end
+    if self.focus == "units" then
         self.active = false
         return
     end
@@ -46,8 +50,13 @@ function DebugView:update()
         local MX, MY = love.mouse.getPosition()
         local OX, OY = _G.getTerrainTileOnMouse(MX, MY)
         local objectOnMouse
-        if self.focus == "objects" then
-            objectOnMouse = _G.objectFromSubclassAtGlobal(OX, OY, Object)
+        if self.focus == "objects" or self.focus == "units" then
+            if self.focus == "units" then
+                local Unit = require("objects.Units.Unit")
+                objectOnMouse = _G.objectFromSubclassAtGlobal(OX, OY, Unit)
+            else
+                objectOnMouse = _G.objectFromSubclassAtGlobal(OX, OY, Object)
+            end
             if objectOnMouse then
                 self.lastObject = objectOnMouse
             elseif self.lastObject then
@@ -98,6 +107,17 @@ function DebugView:update()
                 local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
                 if self.focus == "objects" then
                     if _G.importantObjectAtGlobal(xx + self.gx, yy + self.gy) then
+                        type = 1
+                    else
+                        type = 2
+                    end
+                    if objectOnMouse and objectOnMouse.cx == ccx and objectOnMouse.cy == ccy and objectOnMouse.i ==
+                        xxx and objectOnMouse.o == yyy then
+                        type = 4
+                    end
+                elseif self.focus == "units" then
+                    local Unit = require("objects.Units.Unit")
+                    if _G.objectFromSubclassAtGlobal(xx + self.gx, yy + self.gy, Unit) then
                         type = 1
                     else
                         type = 2

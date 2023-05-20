@@ -1052,6 +1052,10 @@ function WheatFarmer:update()
         self:pathfind()
     elseif self.state == "Working" and self.moveDir ~= "none" then
         self:move(true)
+    elseif self.state == "Go to pick up wheat" then
+        self.state = "Going to pick up wheat"
+        self:clearPath()
+        self:requestPath(self.resourceTile.gx, self.resourceTile.gy)
     elseif self.state == "Go to rest" then
         self.animation = anim.newAnimation(an[AN.IDLE], 0.1, "pauseAtEnd", AN.IDLE)
         self.state = "Resting"
@@ -1124,7 +1128,6 @@ function WheatFarmer:update()
                     return
                 else
                     self:setNextWaypoint()
-
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to pick up wheat" then
@@ -1160,7 +1163,6 @@ function WheatFarmer:update()
                     return
                 else
                     self:setNextWaypoint()
-
                 end
                 self.count = self.count + 1
             end
