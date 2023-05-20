@@ -627,6 +627,7 @@ function Unit.static:deserialize(data)
     end
     obj.unstuckTimer = 0
     obj.waitingForPathTimer = 0
+    obj.debugColor = { love.math.random(), love.math.random(), love.math.random(), 0.6 }
     obj:load(data)
     return obj
 end
