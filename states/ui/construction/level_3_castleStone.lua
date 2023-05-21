@@ -11,8 +11,8 @@ perimeterTowerButton:setOnClick(
     function(self)
         _G.BuildController:set(
             "PerimeterTower", function()
-            perimeterTowerButton:unselect()
-        end)
+                perimeterTowerButton:unselect()
+            end)
         ActionBar:selectButton(perimeterTowerButton)
     end)
 
@@ -22,8 +22,8 @@ defenseTowerButton:setOnClick(
     function(self)
         _G.BuildController:set(
             "DefenseTower", function()
-            defenseTowerButton:unselect()
-        end)
+                defenseTowerButton:unselect()
+            end)
         ActionBar:selectButton(defenseTowerButton)
     end)
 local squareTowerButton = ActionBarButton:new(love.graphics.newImage("assets/ui/square_tower_ab.png"),
@@ -32,8 +32,8 @@ squareTowerButton:setOnClick(
     function(self)
         _G.BuildController:set(
             "SquareTower", function()
-            squareTowerButton:unselect()
-        end)
+                squareTowerButton:unselect()
+            end)
         ActionBar:selectButton(squareTowerButton)
     end)
 local roundTowerButton = ActionBarButton:new(love.graphics.newImage("assets/ui/round_tower_ab.png"),
@@ -42,8 +42,8 @@ roundTowerButton:setOnClick(
     function(self)
         _G.BuildController:set(
             "RoundTower", function()
-            roundTowerButton:unselect()
-        end)
+                roundTowerButton:unselect()
+            end)
         ActionBar:selectButton(roundTowerButton)
     end)
 
@@ -53,8 +53,8 @@ stoneGateEastButton:setOnClick(
     function(self)
         _G.BuildController:set(
             "StoneGateEast", function()
-            stoneGateEastButton:unselect()
-        end)
+                stoneGateEastButton:unselect()
+            end)
         ActionBar:selectButton(stoneGateEastButton)
     end)
 
@@ -64,8 +64,8 @@ stoneGateSouthButton:setOnClick(
     function(self)
         _G.BuildController:set(
             "StoneGateSouth", function()
-            stoneGateSouthButton:unselect()
-        end)
+                stoneGateSouthButton:unselect()
+            end)
         ActionBar:selectButton(stoneGateSouthButton)
     end)
 
@@ -75,8 +75,8 @@ stoneGateEastBigButton:setOnClick(
     function(self)
         _G.BuildController:set(
             "StoneGateBigEast", function()
-            stoneGateEastBigButton:unselect()
-        end)
+                stoneGateEastBigButton:unselect()
+            end)
         ActionBar:selectButton(stoneGateEastBigButton)
     end)
 
@@ -86,35 +86,33 @@ stoneGateSouthBigButton:setOnClick(
     function(self)
         _G.BuildController:set(
             "StoneGateBigSouth", function()
-            stoneGateSouthBigButton:unselect()
-        end)
+                stoneGateSouthBigButton:unselect()
+            end)
         ActionBar:selectButton(stoneGateSouthBigButton)
     end)
 
 local function displayTooltips()
     if ActionBar:getCurrentGroup() ~= "stoneBuildings" then return end
     local buildings = {
-        {button = perimeterTowerButton, name = "PerimeterTower", description = "\nA small perimeter tower - good for the observation."},
-        {button = defenseTowerButton, name = "DefenseTower", description = "\nA defense tower made for defense."},
-        {button = squareTowerButton, name = "SquareTower", description = "\nCrucial for your castle - you can place war machines on the top."},
-        {button = roundTowerButton, name = "RoundTower", description = "\nThe strongest tower - you can place war machines on the top."},
-        {button = stoneGateSouthButton, name = "StoneGateSouth", description = "\nA stone gate that can let friendly units pass through."},
-        {button = stoneGateEastButton, name = "StoneGateEast", description = "\nA stone gate that can let friendly units pass through."},
-        {button = stoneGateEastBigButton, name = "StoneGateBigEast", description = "\nA strong stone gate that can let friendly units pass through."},
-        {button = stoneGateSouthBigButton, name = "StoneGateBigSouth", description = "\nA strong stone gate that can let friendly units pass through."}
+        { button = perimeterTowerButton,    name = "PerimeterTower",    description = "A small perimeter tower - good for the observation." },
+        { button = defenseTowerButton,      name = "DefenseTower",      description = "A defense tower made for defense." },
+        { button = squareTowerButton,       name = "SquareTower",       description = "Crucial for your castle - you can place war machines on the top." },
+        { button = roundTowerButton,        name = "RoundTower",        description = "The strongest tower - you can place war machines on the top." },
+        { button = stoneGateSouthButton,    name = "StoneGateSouth",    description = "A stone gate that can let friendly units pass through." },
+        { button = stoneGateEastButton,     name = "StoneGateEast",     description = "A stone gate that can let friendly units pass through." },
+        { button = stoneGateEastBigButton,  name = "StoneGateBigEast",  description = "A strong stone gate that can let friendly units pass through." },
+        { button = stoneGateSouthBigButton, name = "StoneGateBigSouth", description = "A strong stone gate that can let friendly units pass through." }
     }
 
     for _, building in ipairs(buildings) do
-        local table = getCostAndType(building.name)
-        building.button:setTooltip(building.name, table.costAndType .. building.description)
-        if not table.affordable then
-            building.button.tooltip:SetText({{color = {1, 0, 0, 1}}, table.costAndType}, building.name)
-        end
+        local tooltipText = getCostAndType(building.name, building.description)
+        building.button:setTooltip(building.name, tooltipText)
     end
 end
 
 _G.bus.on(Events.OnResourceStore, displayTooltips)
 _G.bus.on(Events.OnResourceTake, displayTooltips)
+_G.bus.on(Events.OnGoldChanged, displayTooltips)
 
 el.buttons.stoneBuildings:setOnClick(function(self)
     ActionBar:showGroup("stoneBuildings", _G.fx["metpush15"])
@@ -122,6 +120,6 @@ el.buttons.stoneBuildings:setOnClick(function(self)
 end)
 
 ActionBar:registerGroup("stoneBuildings",
-    {perimeterTowerButton, defenseTowerButton, squareTowerButton, roundTowerButton, stoneGateEastButton,
+    { perimeterTowerButton, defenseTowerButton, squareTowerButton, roundTowerButton, stoneGateEastButton,
         stoneGateSouthButton, stoneGateEastBigButton, stoneGateSouthBigButton, backButton,
-        destroyButton})
+        destroyButton })

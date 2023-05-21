@@ -68,24 +68,36 @@ end)
 local function displayTooltips()
     if ActionBar:getCurrentGroup() ~= "house" then return end
     local buildings = {
-        {button = hovelButton, name = "House", description = "\nIncreases maximum population limit."},
-        {button = chapelButton, name = "Chapel",
+        { button = hovelButton, name = "House", description = "Increases maximum population limit." },
+        {
+            button = chapelButton,
+            name = "Chapel",
             description =
-            "\nIncrease your popularity with religion. Currently not functional."},
-        {button = churchButton, name = "Church",
+            "Increase your popularity with religion. Currently not functional."
+        },
+        {
+            button = churchButton,
+            name = "Church",
             description =
-            "\nIncrease your popularity with religion. Currently not functional."},
-        {button = cathedralButton, name = "Cathedral",
+            "Increase your popularity with religion. Currently not functional."
+        },
+        {
+            button = cathedralButton,
+            name = "Cathedral",
             description =
-            "\nIncrease your popularity with religion. Currently not functional."}
+            "Increase your popularity with religion. Currently not functional."
+        },
+        {
+            button = apothecaryButton,
+            name = "Apothecary",
+            description =
+            "Currently not functional."
+        }
     }
 
     for _, building in ipairs(buildings) do
-        local table = getCostAndType(building.name)
-        building.button:setTooltip(building.name, table.costAndType .. building.description)
-        if not table.affordable then
-            building.button.tooltip:SetText({{color = {1, 0, 0, 1}}, table.costAndType}, building.name)
-        end
+        local tooltipText = getCostAndType(building.name, building.description)
+        building.button:setTooltip(building.name, tooltipText)
     end
     local lockedList = _G.MissionController:getLockedBuildings()
     local buttonList = {
@@ -110,6 +122,7 @@ end
 
 _G.bus.on(Events.OnResourceStore, displayTooltips)
 _G.bus.on(Events.OnResourceTake, displayTooltips)
+_G.bus.on(Events.OnGoldChanged, displayTooltips)
 
 el.buttons.houseButton:setOnClick(function(self)
     ActionBar:showGroup("house", _G.fx["metpush13"])
@@ -122,7 +135,7 @@ positiveBuildingButton:setOnClick(function(self)
 end)
 
 ActionBar:registerGroup("house",
-    {hovelButton, positiveBuildingButton, chapelButton, churchButton, cathedralButton, apothecaryButton, backButton, destroyButton})
+    { hovelButton, positiveBuildingButton, chapelButton, churchButton, cathedralButton, apothecaryButton, backButton, destroyButton })
 
 package.loaded["states.ui.construction.level_3_positive_buildings"] = love.filesystem.load(
     "states/ui/construction/level_3_positive_buildings.lua")(el, backButton, destroyButton, getCostAndType)

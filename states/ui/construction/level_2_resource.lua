@@ -74,34 +74,31 @@ end)
 local function displayTooltips()
     if ActionBar:getCurrentGroup() ~= "resource" then return end
     local buildings = {
-        {button = woodcutterButton, name = "WoodcutterHut", description = "\nCuts down nearby trees to produce wood."},
+        { button = woodcutterButton, name = "WoodcutterHut", description = "Cuts down nearby trees to produce wood." },
         {
             button = oxButton,
             name = "OxTether",
             description =
-            "\nTransport stone from the quarry to the stockpile."
+            "Transport stone from the quarry to the stockpile."
         },
         {
             button = quarryButton,
             name = "Quarry",
             description =
-            "\nProduces stone blocks from the ground resource."
+            "Produces stone blocks from the ground resource."
         },
         {
             button = stockpileButton,
             name = "Stockpile",
             description =
-            "\nIncreases resource capacity\nMust be placed adjacent to a stockpile."
+            "Increases resource capacity.\nMust be placed adjacent to a stockpile."
         },
-        {button = ironMine, name = "Mine", description = "\nProduces iron ingots from ground iron ore."},
-        {button = marketButton, name = "Market", description = "\nAllows you to trade your goods."}
+        { button = ironMine,         name = "Mine",          description = "Produces iron ingots from ground iron ore." },
+        { button = marketButton,     name = "Market",        description = "Allows you to trade your goods." }
     }
     for _, building in ipairs(buildings) do
-        local table = getCostAndType(building.name)
-        building.button:setTooltip(building.name, table.costAndType .. building.description)
-        if not table.affordable then
-            building.button.tooltip:SetText({{color = {1, 0, 0, 1}}, table.costAndType}, building.name)
-        end
+        local tooltipText = getCostAndType(building.name, building.description)
+        building.button:setTooltip(building.name, tooltipText)
     end
     local lockedList = _G.MissionController:getLockedBuildings()
     local buttonList = {
@@ -129,11 +126,12 @@ end
 
 _G.bus.on(Events.OnResourceStore, displayTooltips)
 _G.bus.on(Events.OnResourceTake, displayTooltips)
+_G.bus.on(Events.OnGoldChanged, displayTooltips)
 
 el.buttons.hammerButton:setOnClick(function(self)
     ActionBar:showGroup("resource", _G.fx["metpush12"])
     displayTooltips()
 end)
 ActionBar:registerGroup("resource",
-    {stockpileButton, woodcutterButton, quarryButton, oxButton, ironMine, pitchRigButton, marketButton, backButton,
-        destroyButton})
+    { stockpileButton, woodcutterButton, quarryButton, oxButton, ironMine, pitchRigButton, marketButton, backButton,
+        destroyButton })

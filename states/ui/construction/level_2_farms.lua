@@ -59,24 +59,20 @@ end)
 local function displayTooltips()
     if ActionBar:getCurrentGroup() ~= "farms" then return end
     local buildings = {
-        {button = granaryButton, name = "Granary", description = "\nIncreases food capacity."},
-        {button = appleFarmButton, name = "Orchard", description = "\nProduces apples."},
+        { button = granaryButton,   name = "Granary", description = "Increases food capacity." },
+        { button = appleFarmButton, name = "Orchard", description = "Produces apples." },
         {
             button = wheatFarmButton,
             name = "WheatFarm",
-            description =
-            "\nProduces wheat which can be processed into flour."
+            description = "Produces wheat which can be processed into flour."
         },
-        {button = cheeseFarmButton, name = "DairyFarm", description = "\nProduces cheese."},
-        {button = hopsFarmButton, name = "HopsFarm", description = "\nProduces hops which can be processed into ale."}
+        { button = cheeseFarmButton, name = "DairyFarm", description = "Produces cheese." },
+        { button = hopsFarmButton,   name = "HopsFarm",  description = "Produces hops which can be processed into ale." }
     }
 
     for _, building in ipairs(buildings) do
-        local table = getCostAndType(building.name)
-        building.button:setTooltip(building.name, table.costAndType .. building.description)
-        if not table.affordable then
-            building.button.tooltip:SetText({{color = {1, 0, 0, 1}}, table.costAndType}, building.name)
-        end
+        local tooltipText = getCostAndType(building.name, building.description)
+        building.button:setTooltip(building.name, tooltipText)
     end
     hunterButton:setTooltip("Hunter's hut", "Not implemented yet.")
     local lockedList = _G.MissionController:getLockedBuildings()
@@ -103,6 +99,7 @@ end
 
 _G.bus.on(Events.OnResourceStore, displayTooltips)
 _G.bus.on(Events.OnResourceTake, displayTooltips)
+_G.bus.on(Events.OnGoldChanged, displayTooltips)
 
 el.buttons.appleButton:setOnClick(function(self)
     ActionBar:showGroup("farms", _G.fx["metpush15"])
@@ -110,5 +107,5 @@ el.buttons.appleButton:setOnClick(function(self)
 end)
 
 ActionBar:registerGroup("farms",
-    {hunterButton, appleFarmButton, cheeseFarmButton, wheatFarmButton, hopsFarmButton, granaryButton, backButton,
-        destroyButton})
+    { hunterButton, appleFarmButton, cheeseFarmButton, wheatFarmButton, hopsFarmButton, granaryButton, backButton,
+        destroyButton })

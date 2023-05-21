@@ -51,8 +51,7 @@ function State:initialize()
         ["tar"] = 0,
         ["flour"] = 0,
         ["ale"] = 0,
-        ["wheat"] = 0,
-        ["gold"] = self.gold
+        ["wheat"] = 0
     }
     self.food = {
         [FOOD.meat] = 0,
