@@ -53,6 +53,7 @@ function BuildController:initialize()
     self.multispriteSwitchTimer = 0
     self.currentSprite = 1
     self.freeBuildings = false
+    self.resourceSound = ""
 end
 
 function BuildController:disable()
@@ -297,7 +298,35 @@ function BuildController:removeResourceNodes()
     end
 end
 
+local function resourceRequestSound(resource)
+    local randomNumber = math.random(1, 5)
+    if resource == "wood" then
+        local filename = "Resource_Need_Wood_" .. randomNumber
+        _G.playSpeech(filename)
+    end
+    if resource == "stone" then
+        local filename = "Resource_Need_Stone_" .. randomNumber
+        _G.playSpeech(filename)
+    end
+    if resource == "gold" then
+        local filename = "Resource_Need_Gold_" .. randomNumber
+        _G.playSpeech(filename)
+    end
+    if resource == "iron" then
+        local filename = "Resource_Need_Iron_" .. randomNumber
+        _G.playSpeech(filename)
+    end
+    if resource == "tar" then
+        local filename = "Resource_Need_Pitch_" .. randomNumber
+        _G.playSpeech(filename)
+    end
+end
+
 function BuildController:mousepressed(x, y)
+    if self.resourceSound ~= nil and self.canBuild == false and self.active and self.firstTerrainHeight then
+        resourceRequestSound(self.resourceSound)
+        self.resourceSound = nil
+    end
     if not _G.paused and self.active and self.canBuild and self.firstTerrainHeight then
         for xx = 0, self.width - 1 do
             for yy = 0, self.height - 1 do
@@ -313,6 +342,7 @@ function BuildController:mousepressed(x, y)
             _G.playInterfaceSfx({ _G.fx["building_place"], _G.fx["building_place_v2"] })
             self:removeResourceNodes()
         end
+        self.resourceSound = nil
         return built
     end
 end
@@ -334,10 +364,16 @@ function BuildController:isBuildingAffordable(buildingKey, amountOfBuildings)
     if self.freeBuildings then return true end
     amountOfBuildings = amountOfBuildings or 1
     for resource, amount in pairs(building[buildingKey].cost) do
-        if _G.state.resources[resource] < amount * amountOfBuildings then
-            if self.building == "WoodcutterHut" and _G.state.firstWoodCutterHut then
-                break
+        if resource == "gold" then
+            if _G.state.gold < amount * amountOfBuildings then
+                self.resourceSound = resource
+                return false
             end
+        elseif _G.state.resources[resource] < amount * amountOfBuildings then
+            if self.building == "WoodcutterHut" and _G.BuildingManager:count("WoodcutterHut") == 0 then
+                return true
+            end
+            self.resourceSound = resource
             return false
         end
     end
@@ -351,7 +387,11 @@ function BuildController:purchaseBuilding(buildingKey)
             _G.state.gold = _G.state.gold - amount
             ActionBar:updateGoldCount()
         else
-            _G.stockpile:take(resource, amount)
+            if _G.BuildingManager:count("WoodcutterHut") == 0 and buildingKey == "WoodcutterHut" then
+                _G.stockpile:take(resource, 0)
+            else
+                _G.stockpile:take(resource, amount)
+            end
         end
     end
 end
@@ -493,5 +533,6 @@ function BuildController:draw()
 end
 
 local instance = BuildController:new()
-console.addCommand("freeBuildings", function() instance:toggleFreeBuildings() end, "Toggle whether buildings cost resources.")
+console.addCommand("freeBuildings", function() instance:toggleFreeBuildings() end,
+    "Toggle whether buildings cost resources.")
 return instance

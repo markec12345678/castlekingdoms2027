@@ -12,8 +12,8 @@ woodenWallButton:setOnClick(
         ActionBar:selectButton(woodenWallButton)
         _G.BuildController:set(
             "WoodenWall", function()
-            woodenWallButton:unselect()
-        end)
+                woodenWallButton:unselect()
+            end)
     end)
 
 woodenWallButton:setOnUnselect(function()
@@ -29,8 +29,8 @@ walkableWoodenWallButton:setOnClick(
         ActionBar:selectButton(walkableWoodenWallButton)
         _G.BuildController:set(
             "WalkableWoodenWall", function()
-            walkableWoodenWallButton:unselect()
-        end)
+                walkableWoodenWallButton:unselect()
+            end)
     end)
 walkableWoodenWallButton:setOnUnselect(function()
     local WallController = require("objects.Controllers.WallController")
@@ -43,8 +43,8 @@ woodenTowerButton:setOnClick(
     function(self)
         _G.BuildController:set(
             "WoodenTower", function()
-            woodenTowerButton:unselect()
-        end)
+                woodenTowerButton:unselect()
+            end)
         ActionBar:selectButton(woodenTowerButton)
     end)
 
@@ -54,8 +54,8 @@ woodenGateEastButton:setOnClick(
     function(self)
         _G.BuildController:set(
             "WoodenGateEast", function()
-            woodenGateEastButton:unselect()
-        end)
+                woodenGateEastButton:unselect()
+            end)
         ActionBar:selectButton(woodenGateEastButton)
     end)
 
@@ -65,31 +65,29 @@ woodenGateSouthButton:setOnClick(
     function(self)
         _G.BuildController:set(
             "WoodenGateSouth", function()
-            woodenGateSouthButton:unselect()
-        end)
+                woodenGateSouthButton:unselect()
+            end)
         ActionBar:selectButton(woodenGateSouthButton)
     end)
 
 local function displayTooltips()
     if ActionBar:getCurrentGroup() ~= "woodenBuildings" then return end
     local buildings = {
-        {button = walkableWoodenWallButton, name = "WalkableWoodenWall", description = "\nA defensive wall made that is walkable on the top."},
-        {button = woodenTowerButton, name = "WoodenTower", description = "\nA wooden tower that is missing some stairs apparently."},
-        {button = woodenGateEastButton, name = "WoodenGateEast", description = "\nA wooden gate that can let friendly units pass through."},
-        {button = woodenGateSouthButton, name = "WoodenGateSouth", description = "\nA wooden gate that can let friendly units pass through."},
-        {button = woodenWallButton, name = "WoodenWall", description = "\nA defensive wall made from sharpened tree trunks."}
+        { button = walkableWoodenWallButton, name = "WalkableWoodenWall", description = "A defensive wall made that is walkable on the top." },
+        { button = woodenTowerButton,        name = "WoodenTower",        description = "A wooden tower that is missing some stairs apparently." },
+        { button = woodenGateEastButton,     name = "WoodenGateEast",     description = "A wooden gate that can let friendly units pass through." },
+        { button = woodenGateSouthButton,    name = "WoodenGateSouth",    description = "A wooden gate that can let friendly units pass through." },
+        { button = woodenWallButton,         name = "WoodenWall",         description = "A defensive wall made from sharpened tree trunks." }
     }
     for _, building in ipairs(buildings) do
-        local table = getCostAndType(building.name)
-        building.button:setTooltip(building.name, table.costAndType .. building.description)
-        if not table.affordable then
-            building.button.tooltip:SetText({{color = {1, 0, 0, 1}}, table.costAndType}, building.name)
-        end
+        local tooltipText = getCostAndType(building.name, building.description)
+        building.button:setTooltip(building.name, tooltipText)
     end
 end
 
 _G.bus.on(Events.OnResourceStore, displayTooltips)
 _G.bus.on(Events.OnResourceTake, displayTooltips)
+_G.bus.on(Events.OnGoldChanged, displayTooltips)
 
 el.buttons.woodenBuildings:setOnClick(function(self)
     ActionBar:showGroup("woodenBuildings", _G.fx["metpush15"])
@@ -98,5 +96,5 @@ end)
 
 
 ActionBar:registerGroup("woodenBuildings",
-    {woodenWallButton, walkableWoodenWallButton, woodenTowerButton, woodenGateEastButton,
-        woodenGateSouthButton, backButton, destroyButton})
+    { woodenWallButton, walkableWoodenWallButton, woodenTowerButton, woodenGateEastButton,
+        woodenGateSouthButton, backButton, destroyButton })

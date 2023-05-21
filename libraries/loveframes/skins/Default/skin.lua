@@ -33,7 +33,7 @@ return function(loveframes)
     skin.controls.color_fore3 = color "101010"
     skin.controls.color_active = color "6298b3" -- some blue
     skin.controls.color_tooltip_bright = color "cba262"
-    skin.controls.color_tooltip_dark = color "ab9a91"
+    skin.controls.color_tooltip_dark = color "ccb8ad"
 
     -- Directives
     skin.directives = {}
@@ -941,7 +941,7 @@ return function(loveframes)
         local width = object:GetWidth()
         local height = object:GetHeight()
 
-        love.graphics.setColor(39 / 255, 33 / 255, 30 / 255)
+        love.graphics.setColor(39 / 255, 33 / 255, 30 / 255, 0.8)
         love.graphics.rectangle("fill", x, y, width, height)
         love.graphics.setColor(118 / 255, 100 / 255, 89 / 255, 1)
         love.graphics.rectangle("line", x - 1, y - 1, width + 2, height + 2)

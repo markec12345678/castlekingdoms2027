@@ -10,8 +10,8 @@ maypoleButton:setOnClick(
     function(self)
         _G.BuildController:set(
             "Maypole", function()
-            maypoleButton:unselect()
-        end
+                maypoleButton:unselect()
+            end
         )
         ActionBar:selectButton(maypoleButton)
     end
@@ -23,8 +23,8 @@ smallPondButton:setOnClick(
     function(self)
         _G.BuildController:set(
             "SmallPond", function()
-            smallPondButton:unselect()
-        end
+                smallPondButton:unselect()
+            end
         )
         ActionBar:selectButton(smallPondButton)
     end
@@ -36,8 +36,8 @@ largePondButton:setOnClick(
     function(self)
         _G.BuildController:set(
             "LargePond", function()
-            largePondButton:unselect()
-        end
+                largePondButton:unselect()
+            end
         )
         ActionBar:selectButton(largePondButton)
     end
@@ -49,8 +49,8 @@ smallGardenButton:setOnClick(
     function(self)
         _G.BuildController:set(
             "SmallGarden", function()
-            smallGardenButton:unselect()
-        end
+                smallGardenButton:unselect()
+            end
         )
         ActionBar:selectButton(smallGardenButton)
     end
@@ -62,8 +62,8 @@ mediumGardenButton:setOnClick(
     function(self)
         _G.BuildController:set(
             "MediumGarden", function()
-            mediumGardenButton:unselect()
-        end
+                mediumGardenButton:unselect()
+            end
         )
         ActionBar:selectButton(mediumGardenButton)
     end
@@ -75,8 +75,8 @@ largeGardenButton:setOnClick(
     function(self)
         _G.BuildController:set(
             "LargeGarden", function()
-            largeGardenButton:unselect()
-        end
+                largeGardenButton:unselect()
+            end
         )
         ActionBar:selectButton(largeGardenButton)
     end
@@ -85,24 +85,22 @@ largeGardenButton:setOnClick(
 local function displayTooltips()
     if ActionBar:getCurrentGroup() ~= "positiveBuildings" then return end
     local buildings = {
-        {button = maypoleButton, name = "Maypole", description = "\nA tall wooden pole, around which a maypole dance often takes place."},
-        {button = smallPondButton, name = "SmallPond", description = "\nA small pond."},
-        {button = largePondButton, name = "LargePond", description = "\nA large pond."},
-        {button = smallGardenButton, name = "SmallGarden", description = "\nA small garden."},
-        {button = mediumGardenButton, name = "MediumGarden", description = "\nA medium-sized garden."},
-        {button = largeGardenButton, name = "LargeGarden", description = "\nA large garden."}
+        { button = maypoleButton,      name = "Maypole",      description = "A tall wooden pole, around which a maypole dance often takes place." },
+        { button = smallPondButton,    name = "SmallPond",    description = "A small pond." },
+        { button = largePondButton,    name = "LargePond",    description = "A large pond." },
+        { button = smallGardenButton,  name = "SmallGarden",  description = "A small garden." },
+        { button = mediumGardenButton, name = "MediumGarden", description = "A medium-sized garden." },
+        { button = largeGardenButton,  name = "LargeGarden",  description = "A large garden." }
     }
     for _, building in ipairs(buildings) do
-        local table = getCostAndType(building.name)
-        building.button:setTooltip(building.name, table.costAndType .. building.description)
-        if not table.affordable then
-            building.button.tooltip:SetText({{color = {1, 0, 0, 1}}, table.costAndType}, building.name)
-        end
+        local tooltipText = getCostAndType(building.name, building.description)
+        building.button:setTooltip(building.name, tooltipText)
     end
 end
 
 local Events = require("objects.Enums.Events")
 _G.bus.on(Events.OnResourceStore, displayTooltips)
 _G.bus.on(Events.OnResourceTake, displayTooltips)
+_G.bus.on(Events.OnGoldChanged, displayTooltips)
 
-ActionBar:registerGroup("positiveBuildings", {maypoleButton, smallPondButton, largePondButton, smallGardenButton, mediumGardenButton, largeGardenButton, backButton, destroyButton}, displayTooltips)
+ActionBar:registerGroup("positiveBuildings", { maypoleButton, smallPondButton, largePondButton, smallGardenButton, mediumGardenButton, largeGardenButton, backButton, destroyButton }, displayTooltips)

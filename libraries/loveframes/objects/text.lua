@@ -462,7 +462,7 @@ return function(loveframes)
         end
 
         if maxw > 0 then
-            self.width = maxw
+            self.width = math.min(textwidth, maxw)
         else
             self.width = textwidth
         end

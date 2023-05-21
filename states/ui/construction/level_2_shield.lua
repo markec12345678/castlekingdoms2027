@@ -11,8 +11,8 @@ armouryButton:setOnClick(
     function(self)
         _G.BuildController:set(
             "Armoury", function()
-            armouryButton:unselect()
-        end)
+                armouryButton:unselect()
+            end)
         ActionBar:selectButton(armouryButton)
     end)
 
@@ -22,8 +22,8 @@ fletcherButton:setOnClick(
     function(self)
         _G.BuildController:set(
             "FletcherWorkshop", function()
-            fletcherButton:unselect()
-        end)
+                fletcherButton:unselect()
+            end)
         ActionBar:selectButton(fletcherButton)
     end)
 
@@ -33,8 +33,8 @@ poleturnerButton:setOnClick(
     function(self)
         _G.BuildController:set(
             "PoleturnerWorkshop", function()
-            poleturnerButton:unselect()
-        end)
+                poleturnerButton:unselect()
+            end)
         ActionBar:selectButton(poleturnerButton)
     end)
 
@@ -44,8 +44,8 @@ blacksmithButton:setOnClick(
     function(self)
         _G.BuildController:set(
             "BlacksmithWorkshop", function()
-            blacksmithButton:unselect()
-        end)
+                blacksmithButton:unselect()
+            end)
         ActionBar:selectButton(blacksmithButton)
     end)
 
@@ -65,25 +65,22 @@ local function displayTooltips()
             button = armouryButton,
             name = "Armoury",
             description =
-            "\nWeapons and armour is stored here, which is used by troops from the barracks upon recruitment."
+            "Weapons and armour is stored here, which is used by troops from the barracks upon recruitment."
         },
         {
             button = fletcherButton,
             name = "FletcherWorkshop",
             description =
-            "\nProduces bows and crossbows from wood."
+            "Produces bows and crossbows from wood."
         },
-        {button = poleturnerButton, name = "PoleturnerWorkshop", description = "\nProduces spears and pikes from wood."},
-        {button = blacksmithButton, name = "BlacksmithWorkshop", description = "\nProduces swords and maces from iron."},
-        {button = armorerButton, name = "Armorer", description = "\nMakes armor from iron."}
+        { button = poleturnerButton, name = "PoleturnerWorkshop", description = "Produces spears and pikes from wood." },
+        { button = blacksmithButton, name = "BlacksmithWorkshop", description = "Produces swords and maces from iron." },
+        { button = armorerButton,    name = "Armorer",            description = "Makes armor from iron." }
     }
 
     for _, building in ipairs(buildings) do
-        local table = getCostAndType(building.name)
-        building.button:setTooltip(building.name, table.costAndType .. building.description)
-        if not table.affordable then
-            building.button.tooltip:SetText({{color = {1, 0, 0, 1}}, table.costAndType}, building.name)
-        end
+        local tooltipText = getCostAndType(building.name, building.description)
+        building.button:setTooltip(building.name, tooltipText)
     end
     local lockedList = _G.MissionController:getLockedBuildings()
     local buttonList = {
@@ -108,6 +105,7 @@ end
 
 _G.bus.on(Events.OnResourceStore, displayTooltips)
 _G.bus.on(Events.OnResourceTake, displayTooltips)
+_G.bus.on(Events.OnGoldChanged, displayTooltips)
 
 el.buttons.shieldButton:setOnClick(function(self)
     ActionBar:showGroup("shield", _G.fx["metpush1"])
@@ -116,4 +114,4 @@ end)
 
 
 ActionBar:registerGroup("shield",
-    {armouryButton, fletcherButton, poleturnerButton, blacksmithButton, armorerButton, backButton, destroyButton})
+    { armouryButton, fletcherButton, poleturnerButton, blacksmithButton, armorerButton, backButton, destroyButton })

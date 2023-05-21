@@ -30,8 +30,11 @@ return function(loveframes)
         self.hovered_time = 0
 
         -- create the object's title
+        local screenWidth = love.graphics.getWidth()
+        local scale = math.max(screenWidth / 5, 200)
         local textobject = loveframes.Create("text")
         textobject.disablehover = true
+        textobject:SetMaxWidth(scale)
         textobject:Remove()
         textobject.parent = self
         textobject:SetText(text or "")
@@ -85,7 +88,7 @@ return function(loveframes)
         local object = self.object
         local update = self.Update
 
-        self.width = textobject.width + titleobject.width + padding * 2
+        self.width = math.max(textobject:GetWidth(), titleobject.width) + padding * 2
         self.height = textobject.height + titleobject.height + padding * 2
 
         if object then

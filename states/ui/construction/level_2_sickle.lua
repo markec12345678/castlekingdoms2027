@@ -48,18 +48,15 @@ end)
 local function displayTooltips()
     if ActionBar:getCurrentGroup() ~= "sickle" then return end
     local buildings = {
-        {button = windmillButton, name = "Windmill", description = "\nProcesses wheat into flour."},
-        {button = bakeryButton, name = "Bakery", description = "\nProcesses flour into bread."},
-        {button = breweryButton, name = "Brewery", description = "\nProcesses hops into ale."},
-        {button = innButton, name = "Inn", description = "\nDistributes ale."}
+        { button = windmillButton, name = "Windmill", description = "Processes wheat into flour." },
+        { button = bakeryButton,   name = "Bakery",   description = "Processes flour into bread." },
+        { button = breweryButton,  name = "Brewery",  description = "Processes hops into ale." },
+        { button = innButton,      name = "Inn",      description = "Distributes ale." }
     }
 
     for _, building in ipairs(buildings) do
-        local table = getCostAndType(building.name)
-        building.button:setTooltip(building.name, table.costAndType .. building.description)
-        if not table.affordable then
-            building.button.tooltip:SetText({{color = {1, 0, 0, 1}}, table.costAndType}, building.name)
-        end
+        local tooltipText = getCostAndType(building.name, building.description)
+        building.button:setTooltip(building.name, tooltipText)
     end
     local lockedList = _G.MissionController:getLockedBuildings()
     local buttonList = {
@@ -83,6 +80,7 @@ end
 
 _G.bus.on(Events.OnResourceStore, displayTooltips)
 _G.bus.on(Events.OnResourceTake, displayTooltips)
+_G.bus.on(Events.OnGoldChanged, displayTooltips)
 
 el.buttons.sickleButton:setOnClick(function(self)
     ActionBar:showGroup("sickle", _G.fx["metpush5"])
@@ -90,4 +88,4 @@ el.buttons.sickleButton:setOnClick(function(self)
 end)
 
 
-ActionBar:registerGroup("sickle", {windmillButton, bakeryButton, innButton, breweryButton, backButton, destroyButton})
+ActionBar:registerGroup("sickle", { windmillButton, bakeryButton, innButton, breweryButton, backButton, destroyButton })
