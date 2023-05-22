@@ -107,9 +107,17 @@ local function displayTooltips()
         quarry = quarryButton,
         ox = oxButton,
         ironMine = ironMine,
-        pitchRig = pitchRigButton,
+        --pitchRig = pitchRigButton, NOT IMPLEMENTED YET
         market = marketButton
     }
+    for enabledButton, _ in pairs(buttonList) do
+        local button = buttonList[enabledButton]
+        if button then
+            button.disabled = false
+            button.background.enabled = not button.disabled
+            button.foreground:SetColor(1, 1, 1, 1)
+        end
+    end
     if lockedList ~= nil then
         for _, value in ipairs(lockedList) do
             local button = buttonList[value]

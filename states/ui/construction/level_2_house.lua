@@ -55,7 +55,8 @@ cathedralButton:setOnClick(function(self)
 end)
 
 -- Apothecary
-local apothecaryButton = ActionBarButton:new(love.graphics.newImage('assets/ui/apothecary_ab.png'), states.STATE_INGAME_CONSTRUCTION, 6, true)
+local apothecaryButton = ActionBarButton:new(love.graphics.newImage('assets/ui/apothecary_ab.png'),
+    states.STATE_INGAME_CONSTRUCTION, 6, true)
 
 apothecaryButton:setOnClick(function(self)
     _G.BuildController:set("Apothecary", function()
@@ -107,6 +108,14 @@ local function displayTooltips()
         church = churchButton,
         cathedral = cathedralButton,
     }
+    for enabledButton, _ in pairs(buttonList) do
+        local button = buttonList[enabledButton]
+        if button then
+            button.disabled = false
+            button.background.enabled = not button.disabled
+            button.foreground:SetColor(1, 1, 1, 1)
+        end
+    end
     if lockedList ~= nil then
         for _, value in ipairs(lockedList) do
             local button = buttonList[value]
@@ -135,7 +144,8 @@ positiveBuildingButton:setOnClick(function(self)
 end)
 
 ActionBar:registerGroup("house",
-    { hovelButton, positiveBuildingButton, chapelButton, churchButton, cathedralButton, apothecaryButton, backButton, destroyButton })
+    { hovelButton, positiveBuildingButton, chapelButton, churchButton, cathedralButton, apothecaryButton, backButton,
+        destroyButton })
 
 package.loaded["states.ui.construction.level_3_positive_buildings"] = love.filesystem.load(
     "states/ui/construction/level_3_positive_buildings.lua")(el, backButton, destroyButton, getCostAndType)

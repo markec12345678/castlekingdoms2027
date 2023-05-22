@@ -65,6 +65,14 @@ local function displayTooltips()
         inn = innButton,
         brewery = breweryButton
     }
+    for enabledButton, _ in pairs(buttonList) do
+        local button = buttonList[enabledButton]
+        if button then
+            button.disabled = false
+            button.background.enabled = not button.disabled
+            button.foreground:SetColor(1, 1, 1, 1)
+        end
+    end
     if lockedList ~= nil then
         for _, value in ipairs(lockedList) do
             local button = buttonList[value]
