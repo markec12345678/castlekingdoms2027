@@ -21,12 +21,12 @@ local ButtonFx = {
         _G.fx["woodrollover8"],
     },
     -- TODO: add special hover sounds for submenus
-    ["CastleHover"] = {_G.fx["metrollover3a"],},
-    ["ResourcesHover"] = {_G.fx["metrollover13"],},
-    ["FarmsHover"] = {_G.fx["metrollover2"],},
-    ["HouseHover"] = {_G.fx["metrollover15"],},
-    ["ShieldHover"] = {_G.fx["metrollover12"],},
-    ["SickleHover"] = {_G.fx["metrollover4"],},
+    ["CastleHover"] = { _G.fx["metrollover3a"], },
+    ["ResourcesHover"] = { _G.fx["metrollover13"], },
+    ["FarmsHover"] = { _G.fx["metrollover2"], },
+    ["HouseHover"] = { _G.fx["metrollover15"], },
+    ["ShieldHover"] = { _G.fx["metrollover12"], },
+    ["SickleHover"] = { _G.fx["metrollover4"], },
 }
 
 function ActionBarButton:initialize(image, state, position, bigFrameForeground, onclick, disabled)
@@ -42,7 +42,8 @@ function ActionBarButton:initialize(image, state, position, bigFrameForeground, 
     if not state then
         error("state cannot be nil")
     end
-    self.onUnselect = function() end
+    self.onUnselect = function()
+    end
     self.bigFrameForeground = bigFrameForeground or false
     self.onClick = onclick
     self.image = image
@@ -94,6 +95,21 @@ function ActionBarButton:initialize(image, state, position, bigFrameForeground, 
     -- hidden by default
     self.background.visible = false
     self.foreground.visible = false
+end
+
+function ActionBarButton:disable(tooltipText)
+    self.disabled = true
+    self.background.enabled = false
+    self.foreground:SetColor(0.6, 0.6, 0.6, 0.6)
+    if tooltipText then
+        self:setTooltip(tooltipText)
+    end
+end
+
+function ActionBarButton:enable()
+    self.disabled = false
+    self.background.enabled = true
+    self.foreground:SetColor(1, 1, 1, 1)
 end
 
 function ActionBarButton:setImage(image)

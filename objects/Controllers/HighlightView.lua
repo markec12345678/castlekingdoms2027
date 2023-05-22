@@ -111,7 +111,6 @@ function HighlightView:update()
         self.points[#self.points + 1] = IsoToScreenY(RCX, RCY) - ((IsoToScreenY(RCX, RCY))) *
             (1 - _G.state.scaleX) + (_G.tileHeight / 2) * _G.state.scaleX - elevationOffsetY * _G.state.scaleX
     end
-
 end
 
 function HighlightView:draw()

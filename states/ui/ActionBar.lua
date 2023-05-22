@@ -165,7 +165,11 @@ function ActionBar:switchMode(mode)
         self.element:SetImage(ActionBar.actionBarArmouryImage)
         buildingHover:SetState(states.STATE_GUILDS)
     else
-        self:showGroup("main")
+        if _G.state.firstBuildings then
+            self:showGroup("start")
+        else
+            self:showGroup("main")
+        end
         loveframes.SetState(states.STATE_INGAME_CONSTRUCTION)
         self.popularityText:SetState(states.STATE_INGAME_CONSTRUCTION)
         self.populationText:SetState(states.STATE_INGAME_CONSTRUCTION)

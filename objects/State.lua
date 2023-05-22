@@ -408,8 +408,11 @@ function State:load(filename, decompress)
     self.deserDebug = {}
     self.deserializedObjectIds = {}
     self.firstWoodCutterHut = load.firstWoodCutterHut
+    if load.firstWoodCutterHut == nil then self.firstWoodCutterHut = true end
     self.firstArmoury = load.firstArmoury
+    if load.firstArmoury == nil then self.firstArmoury = true end
     self.firstBuildings = load.firstBuildings
+    if load.firstBuildings == nil then self.firstBuildings = true end
     self.rawObjectIds = load.serializedObjectIds
     self.wheatSeasonCounter = load.wheatSeasonCounter
     self.wheatGrowingSeason = load.wheatGrowingSeason

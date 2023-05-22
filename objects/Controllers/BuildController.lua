@@ -29,9 +29,9 @@ local BuildController = _G.class("BuildController")
 function BuildController:initialize()
     self.width = 0
     self.height = 0
-    self.active = true
+    self.active = false
     self.canAfford = true
-    self.start = true
+    self.start = false
     self.gx = 0
     self.gy = 0
     self.FX = 0
@@ -41,7 +41,7 @@ function BuildController:initialize()
     self.elevationOffsetY = 0
     self.canBuild = false
     self.previousCanBuild = false
-    self.building = "SaxonHall"
+    self.building = ""
     self.batch = love.graphics.newSpriteBatch(image)
     self.quads = {}
     self.cannotBuildBecauseSpecial = false
@@ -161,8 +161,8 @@ end
 
 function BuildController:update()
     if self.active and _G.loaded then
-        if self.start and ActionBar.currentGroup ~= nil then
-            ActionBar:showGroup(nil)
+        if self.start and ActionBar.currentGroup ~= "start" then
+            ActionBar:showGroup("start")
         end
         if self.isMultispriteBuilding then
             self.multispriteSwitchTimer = self.multispriteSwitchTimer + _G.dt
@@ -436,6 +436,7 @@ function BuildController:build(gx, gy)
                         _G.removeObjectFromClassAtGlobal(gx + xx, gy + yy, "Shrub")
                     end
                 end
+                local startButtons = require("states.ui.construction.level_1_new_game")
                 if self.building == "SaxonHall" then
                     building[self.building]:build(gx, gy)
                     local builtBuilding = _G.objectFromClassAtGlobal(gx, gy, self.building)
@@ -445,13 +446,16 @@ function BuildController:build(gx, gy)
                     _G.campfireFloatPop:immigrantCallback()()
                     _G.campfireFloatPop:immigrantCallback()()
                     _G.campfireFloatPop:immigrantCallback()()
-                    self:set("Stockpile")
+                    self:disable()
+                    ActionBar:unselectAll()
+                    startButtons.castleButton:disable()
+                    startButtons.stockpileButton:enable()
+                    startButtons.granaryButton:enable()
                     return true
                 elseif self.building == "Stockpile" then
                     building[self.building]:build(gx, gy)
                     local builtBuilding = _G.objectFromClassAtGlobal(gx, gy, self.building)
                     _G.BuildingManager:add(builtBuilding)
-                    self:set("Granary")
                     _G.playSpeech("place_granary")
                     -- Starting resources
                     if _G.state.missionNr then
@@ -470,6 +474,9 @@ function BuildController:build(gx, gy)
                             _G.stockpile:store("wood")
                         end
                     end
+                    self:disable()
+                    ActionBar:unselectAll()
+                    startButtons.stockpileButton:disable()
                     return true
                 elseif self.building == "Granary" then
                     building[self.building]:build(gx, gy)
@@ -485,6 +492,7 @@ function BuildController:build(gx, gy)
                     end
                     self.active = false
                     self.start = false
+                    startButtons.granaryButton:disable()
                     ActionBar:showGroup("main")
                     _G.state.firstBuildings = false
                     return true
