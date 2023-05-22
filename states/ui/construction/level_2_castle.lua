@@ -75,12 +75,8 @@ local buildings = {
     { button = castleButton,         name = "WoodenKeep",     description = "Upgrade your Saxon hall to a Wooden keep" },
     { button = barracksButton,       name = "Barracks",       description = "A building allowing you to recruit units." },
     { button = stoneBarracksButton,  name = "StoneBarracks",  description = "A building allowing you to recruit units." },
-    { button = engineersGuildButton, name = "EngineersGuild",
-                                                                  description =
-        "A building allowing you to recruit siege units." },
-    { button = tunnelersGuildButton, name = "TunnelersGuild",
-                                                                  description =
-        "A building allowing you to recruit tunnelers." }
+    { button = engineersGuildButton, name = "EngineersGuild", description = "A building allowing you to recruit siege units." },
+    { button = tunnelersGuildButton, name = "TunnelersGuild", description = "A building allowing you to recruit tunnelers." }
 }
 
 local function displayTooltips()
@@ -115,10 +111,7 @@ local function displayTooltips()
         for _, value in ipairs(lockedList) do
             local button = buttonList[value]
             if button then
-                button.disabled = true
-                button.background.enabled = not button.disabled
-                button.foreground:SetColor(0.6, 0.6, 0.6, 0.6)
-                button:setTooltip("Not available in this mission")
+                button:disable("Not available in this mission")
             end
         end
     end

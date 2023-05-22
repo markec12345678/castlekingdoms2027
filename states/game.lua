@@ -57,7 +57,6 @@ local function delayedInit()
     if _G.state.newGame then
         SaveManager:load(savegame)
         updateProgress(70)
-        _G.BuildController:set("SaxonHall")
     else
         updateProgress(70, 3)
         SaveManager:load(savegame)
@@ -86,6 +85,14 @@ local function delayedInit()
     _G.loaded = true
     if _G.state.newGame then
         _G.playSpeech("place_a_keep")
+        _G.BuildController.start = true
+        ActionBar:showGroup("start")
+        local buttons = require("states.ui.construction.level_1_new_game")
+        buttons.castleButton:enable()
+        buttons.stockpileButton:disable()
+        buttons.granaryButton:disable()
+    else
+        ActionBar:showGroup("main")
     end
     _G.paused = false
     loveframes.SetState(states.STATE_INGAME_CONSTRUCTION)
@@ -121,8 +128,8 @@ function game:update(dt)
             _G.BuildController:update()
             _G.DebugView:update()
             _G.BrushController:update()
-            _G.TimeController:update()
             if not _G.BuildController.start then
+                _G.TimeController:update()
                 RationController:update()
                 _G.TaxController:update()
                 _G.PopularityController:update()
@@ -238,7 +245,7 @@ function game:mousepressed(x, y, button, istouch)
                 _G.BuildController.onBuildCallback = nil
             end
         end
-        if loveframes.GetState() ~= states.STATE_INGAME_CONSTRUCTION or not ActionBar.hasSelectedButton then
+        if not _G.BuildController.start and (loveframes.GetState() ~= states.STATE_INGAME_CONSTRUCTION or not ActionBar.hasSelectedButton) then
             ActionBar:switchMode()
         else
             ActionBar:unselectAll()
@@ -287,7 +294,7 @@ function game:keypressed(key, scancode, isRepeat)
             if loveframes.GetState() ~= states.STATE_PAUSE_MENU then
                 loveframes.SetState(states.STATE_PAUSE_MENU)
                 loveframes.TogglePause()
-                ActionBar:showGroup("main")
+                ActionBar:showGroup("start")
                 return
             end
             if loveframes.GetState() == states.STATE_INGAME_CONSTRUCTION then
@@ -295,8 +302,7 @@ function game:keypressed(key, scancode, isRepeat)
                 loveframes.TogglePause()
                 return
             end
-        end
-        if (loveframes.GetState() == states.STATE_PAUSE_MENU or
+        elseif (loveframes.GetState() == states.STATE_PAUSE_MENU or
                 loveframes.GetState() == states.STATE_INGAME_CONSTRUCTION) then
             if _G.BuildController.active and not _G.BuildController.start then
                 ActionBar:unselectAll()
@@ -310,11 +316,12 @@ function game:keypressed(key, scancode, isRepeat)
                 return
             end
             if ActionBar.currentGroup ~= "main" then
-                ActionBar:showGroup("main")
+                if not _G.BuildController.start then
+                    ActionBar:showGroup("main")
+                end
                 return
             end
-        end
-        if (loveframes.GetState() == states.STATE_MARKET or
+        elseif (loveframes.GetState() == states.STATE_MARKET or
                 loveframes.GetState() == states.STATE_STOCKPILE or
                 loveframes.GetState() == states.STATE_GRANARY or
                 loveframes.GetState() == states.STATE_MARKET_MAIN or

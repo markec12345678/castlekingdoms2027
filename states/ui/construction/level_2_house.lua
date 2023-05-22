@@ -120,10 +120,7 @@ local function displayTooltips()
         for _, value in ipairs(lockedList) do
             local button = buttonList[value]
             if button then
-                button.disabled = true
-                button.background.enabled = not button.disabled
-                button.foreground:SetColor(0.6, 0.6, 0.6, 0.6)
-                button:setTooltip("Not available in this mission")
+                button:disable("Not available in this mission")
             end
         end
     end
@@ -144,8 +141,7 @@ positiveBuildingButton:setOnClick(function(self)
 end)
 
 ActionBar:registerGroup("house",
-    { hovelButton, positiveBuildingButton, chapelButton, churchButton, cathedralButton, apothecaryButton, backButton,
-        destroyButton })
+    { hovelButton, positiveBuildingButton, chapelButton, churchButton, cathedralButton, apothecaryButton, backButton, destroyButton })
 
 package.loaded["states.ui.construction.level_3_positive_buildings"] = love.filesystem.load(
     "states/ui/construction/level_3_positive_buildings.lua")(el, backButton, destroyButton, getCostAndType)

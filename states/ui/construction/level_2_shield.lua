@@ -102,10 +102,7 @@ local function displayTooltips()
         for _, value in ipairs(lockedList) do
             local button = buttonList[value]
             if button then
-                button.disabled = true
-                button.background.enabled = not button.disabled
-                button.foreground:SetColor(0.6, 0.6, 0.6, 0.6)
-                button:setTooltip("Not available in this mission")
+                button:disable("Not available in this mission")
             end
         end
     end

@@ -25,4 +25,6 @@ function buildingHover.HideTooltip(self)
     self.tooltip.visible = false
 end
 
+buildingHover:HideTooltip()
+
 return buildingHover

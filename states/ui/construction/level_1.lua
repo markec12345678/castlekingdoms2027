@@ -61,7 +61,6 @@ backButton:setOnClick(function(self)
     end
 end)
 
-ActionBar:showGroup("main")
 local elements = {
     buttons = {
         castleButton = castleButton,

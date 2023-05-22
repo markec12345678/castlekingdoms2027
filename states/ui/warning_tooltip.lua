@@ -1,7 +1,7 @@
 local loveframes = require("libraries.loveframes")
 local states = require("states.ui.states")
 local w, h = love.graphics.getDimensions()
-local colorRed = {200 / 255, 90 / 255, 90 / 255, 1}
+local colorRed = { 200 / 255, 90 / 255, 90 / 255, 1 }
 
 local warningTooltip = loveframes.Create("image")
 warningTooltip:SetState(states.STATE_INGAME_CONSTRUCTION)
@@ -12,9 +12,9 @@ warningTooltip.tooltip.visible = false
 
 function warningTooltip.ShowTooltip(self, text)
     if self.tooltip.visible and text == self.rawtext then return end
-    self:setTooltip({{
+    self:setTooltip({ {
         color = colorRed
-    }, text})
+    }, text })
     self.disablehover = false
     self.rawtext = text
     self.visible = true
@@ -27,5 +27,7 @@ function warningTooltip.HideTooltip(self)
     self.visible = false
     self.tooltip.visible = false
 end
+
+warningTooltip:HideTooltip()
 
 return warningTooltip
