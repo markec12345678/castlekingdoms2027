@@ -11,7 +11,7 @@
 -- as a global
 local lume = rawget(_G, "lume") or require((...):gsub("[^/.\\]+$", "lume"))
 
-local lurker = {_version = "1.0.2"}
+local lurker = { _version = "1.0.2" }
 
 
 local dir = love.filesystem.enumerate or love.filesystem.getDirectoryItems
@@ -41,10 +41,11 @@ local lovecallbacknames = {
 
 
 function lurker.init()
-    lurker.print("Initing lurker")
     lurker.path = "."
-    lurker.preswap = function() end
-    lurker.postswap = function() end
+    lurker.preswap = function()
+    end
+    lurker.postswap = function()
+    end
     lurker.interval = 1
     lurker.protected = true
     lurker.quiet = false
@@ -82,7 +83,7 @@ end
 function lurker.initwrappers()
     for _, v in pairs(lovecallbacknames) do
         lurker.funcwrappers[v] = function(...)
-            local args = {...}
+            local args = { ... }
             xpcall(function()
                 return lurker.lovefuncs[v] and lurker.lovefuncs[v](unpack(args))
             end, lurker.onerror)
@@ -111,7 +112,8 @@ function lurker.onerror(e, nostacktrace)
 
     -- Set up callbacks
     for _, v in pairs(lovecallbacknames) do
-        love[v] = function() end
+        love[v] = function()
+        end
     end
 
     love.update = lurker.update
@@ -125,13 +127,13 @@ function lurker.onerror(e, nostacktrace)
 
     local stacktrace = nostacktrace and "" or
         lume.trim((debug.traceback("", 2):gsub("\t", "")))
-    local msg = lume.format("{1}\n\n{2}", {e, stacktrace})
+    local msg = lume.format("{1}\n\n{2}", { e, stacktrace })
     local colors = {
-        {lume.color("#1e1e2c", 256)},
-        {lume.color("#f0a3a3", 256)},
-        {lume.color("#92b5b0", 256)},
-        {lume.color("#66666a", 256)},
-        {lume.color("#cdcdcd", 256)},
+        { lume.color("#1e1e2c", 256) },
+        { lume.color("#f0a3a3", 256) },
+        { lume.color("#92b5b0", 256) },
+        { lume.color("#66666a", 256) },
+        { lume.color("#cdcdcd", 256) },
     }
     love.graphics.reset()
     love.graphics.setFont(love.graphics.newFont(12))
@@ -216,21 +218,21 @@ function lurker.resetfile(f)
 end
 
 function lurker.hotswapfile(f)
-    lurker.print("Hotswapping '{1}'...", {f})
+    lurker.print("Hotswapping '{1}'...", { f })
     if lurker.state == "error" then
         lurker.exiterrorstate()
     end
     if lurker.preswap(f) then
-        lurker.print("Hotswap of '{1}' aborted by preswap", {f})
+        lurker.print("Hotswap of '{1}' aborted by preswap", { f })
         lurker.resetfile(f)
         return
     end
     local modname = lurker.modname(f)
     local t, ok, err = lume.time(lume.hotswap, modname)
     if ok then
-        lurker.print("Swapped '{1}' in {2} secs", {f, t})
+        lurker.print("Swapped '{1}' in {2} secs", { f, t })
     else
-        lurker.print("Failed to swap '{1}' : {2}", {f, err})
+        lurker.print("Failed to swap '{1}' : {2}", { f, err })
         if not lurker.quiet and lurker.protected then
             lurker.lasterrorfile = f
             lurker.onerror(err, true)

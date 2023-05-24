@@ -206,15 +206,11 @@ function MissionController:Display()
         if saved == false then
             if love.filesystem.getInfo(path) ~= nil then
                 local campaignDataLoaded = bitser.loadLoveFile(path)
-                local currentMissionLoaded = campaignDataLoaded.currentMission
                 missionsCompletedLoaded = campaignDataLoaded.missionsCompleted
-                print("Current mission:", currentMissionLoaded)
-                print("Finished missions:", unpack(missionsCompletedLoaded))
             else
                 print("No campaign progress yet!")
             end
             missionsCompletedLoaded[missionNumber + 1] = true
-            print("Loaded missions :", unpack(missionsCompletedLoaded))
             local campaignData = {
                 currentMission = self.missionName,
                 missionsCompleted = missionsCompletedLoaded,
