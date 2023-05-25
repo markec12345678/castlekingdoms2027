@@ -35,14 +35,14 @@ function Mission:initialize()
     }
     self.goals["Quest1"] = {
         ["taskText"] = "Produce Apples: ",
-        ["taskValue"] = 250,
+        ["taskValue"] = 150,
         ["taskResource"] = FOOD.apples,
         ["taskDone"] = false,
         ["resourceType"] = "food"
     }
     self.goals["Quest2"] = {
         ["taskText"] = "Produce Cheese: ",
-        ["taskValue"] = 200,
+        ["taskValue"] = 100,
         ["taskResource"] = FOOD.cheese,
         ["taskDone"] = false,
         ["resourceType"] = "food"
@@ -56,7 +56,7 @@ function Mission:initialize()
     }
     self.goals["Quest4"] = {
         ["taskText"] = "Produce Bread: ",
-        ["taskValue"] = 250,
+        ["taskValue"] = 150,
         ["taskResource"] = FOOD.bread,
         ["taskDone"] = false,
         ["resourceType"] = "food"

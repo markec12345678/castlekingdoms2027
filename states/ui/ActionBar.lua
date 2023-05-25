@@ -228,7 +228,7 @@ end
 function ActionBar:activateButton(position)
     if self.groups[self.currentGroup] then
         local button = self.groups[self.currentGroup][position]
-        if button then
+        if button and not button.disabled then
             button:press()
         end
     end

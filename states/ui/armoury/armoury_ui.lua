@@ -142,19 +142,34 @@ noMarketInfo:SetText({ {
 }, "Build a market to trade!" })
 noMarketInfo:SetShadow(false)
 local function SwitchToTheMarket()
+    noMarketInfo:SetVisible(false)
     if _G.BuildingManager:count("Market") >= 1 then
         local switchTradeGroup = unpack(require("states.ui.market.market_trade"))
+        local weaponList = _G.MissionController:getLockedTradeWeapons()
+        if weaponList ~= nil then
+            for _, value in pairs(weaponList) do
+                if WEAPON[value] == group.good then
+                    noMarketInfo:SetText({ {
+                        color = { 0, 0, 0, 1 }
+                    }, "You can't trade that!" })
+                    noMarketInfo:SetVisible(true)
+                    return;
+                end
+            end
+        end
         actionBar:switchMode("market_trade")
         switchTradeGroup(3)
         group.name = 3
         noMarketInfo:SetVisible(false)
     else
+        noMarketInfo:SetText({ {
+            color = { 0, 0, 0, 1 }
+        }, "Build a market to trade!" })
         noMarketInfo:SetVisible(true)
     end
 end
 
 function group.DisplayCurrentStock()
-
     currentStockArmor:SetText({ {
         color = { 0, 0, 0, 1 }
     }, _G.state.weapons[WEAPON.shield] })
@@ -179,7 +194,6 @@ function group.DisplayCurrentStock()
     currentStockBow:SetText({ {
         color = { 0, 0, 0, 1 }
     }, _G.state.weapons[WEAPON.bow] })
-
 end
 
 local bowIconButton = loveframes.Create("image")

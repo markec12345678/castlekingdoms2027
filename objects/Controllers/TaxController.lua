@@ -1,6 +1,7 @@
 local actionBar = require("states.ui.ActionBar")
 local TaxController = _G.class("TaxController")
 local Events = require "objects.Enums.Events"
+local goldAfterTax
 TaxController.static.TAX_LEVELS = {
     GenerousBribe = -1.0,
     LargeBribe = -0.8,
@@ -81,7 +82,9 @@ function TaxController:update()
         elements.SetTax(4)
     end
     if self.timer >= self.class.TAX_INTERVAL then
-        _G.state.gold = _G.state.gold + math.round((_G.TaxController:getWorkers()) * self.goldFactor, 0)
+        if self.goldFactor ~= 0 then
+            _G.state.gold = _G.state.gold + math.round((_G.TaxController:getWorkers()) * self.goldFactor, 0)
+        end
         self.timer = 0
         elements.tax:SetText({ {
             color = { 0, 0, 0, 1 }
@@ -122,10 +125,13 @@ function TaxController:update()
                 elements.SetTax(4)
             end
         end
-        _G.bus.emit(Events.OnTaxCollected, self.moodFactor, self.goldFactor,
-            math.round((_G.TaxController:getWorkers()) * self.goldFactor, 0))
-        _G.bus.emit(Events.OnGoldChanged, goldBeforeTax, _G.state.gold)
-        actionBar:updateGoldCount()
+        goldAfterTax = _G.state.gold
+        if goldBeforeTax ~= goldAfterTax then
+            _G.bus.emit(Events.OnTaxCollected, self.moodFactor, self.goldFactor,
+                math.round((_G.TaxController:getWorkers()) * self.goldFactor, 0))
+            _G.bus.emit(Events.OnGoldChanged, goldBeforeTax, _G.state.gold)
+            actionBar:updateGoldCount()
+        end
     end
 end
 

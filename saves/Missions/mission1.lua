@@ -21,7 +21,7 @@ function Mission:initialize()
         "stone"
     }
     self.lockedWeapons = {} --turns off designated weapons from production f.e crossbows
-    self.timeLimit = 0      -- if 0 there is no limit
+    self.timeLimit = 5      -- if 0 there is no limit
     self.startDate = { month = 1, year = 1000 }
     self.goalsList = ""
     self.startPopularity = 50

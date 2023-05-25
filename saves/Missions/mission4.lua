@@ -36,11 +36,18 @@ function Mission:initialize()
         [FOOD.cheese] = 0
     }
     self.goals["Quest1"] = {
-        ["taskText"] = "Acquire Gold: ",
-        ["taskValue"] = 5000,
+        ["taskText"] = "Acquire Gold from tax: ",
+        ["taskValue"] = 3000,
         ["taskResource"] = "gold",
         ["taskDone"] = false,
-        ["resourceType"] = "gold"
+        ["resourceType"] = "goldTax"
+    }
+    self.goals["Quest2"] = {
+        ["taskText"] = "Acquire Gold from trade: ",
+        ["taskValue"] = 2000,
+        ["taskResource"] = "gold",
+        ["taskDone"] = false,
+        ["resourceType"] = "goldTrade"
     }
 end
 

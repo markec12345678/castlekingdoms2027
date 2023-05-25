@@ -61,6 +61,7 @@ backButton:setOnClick(function(self)
     end
 end)
 
+ActionBar:showGroup("main")
 local elements = {
     buttons = {
         castleButton = castleButton,
@@ -90,19 +91,18 @@ local function getCostAndType(buildingIndex, buildingDescription)
         for type, quantity in pairs(c) do
             if (type == "gold" and quantity > _G.state.gold) or (type ~= "gold" and quantity > _G.state.resources[type]) then
                 affordable = false
+            else
+                affordable = true
             end
             if not first then
                 fullText[#fullText + 1] = "\n"
             end
             first = false
-            if not affordable then
-                if type == "gold" then
-                    costtype = " • " .. quantity .. " (" .. _G.state.gold .. ") " .. type
-                else
-                    costtype = " • " .. quantity .. " (" .. _G.state.resources[type] .. ") " .. type
-                end
+            if type == "gold" then
+                costtype = " • " .. quantity .. " (" .. _G.state.gold .. ") " .. type
             else
-                costtype = " • " .. quantity .. " " .. type
+                costtype = " • " ..
+                    quantity .. " (" .. _G.state.resources[type] .. ") " .. type
             end
             if not affordable then
                 fullText[#fullText + 1] = { color = { 1, 0, 0, 1 } }
