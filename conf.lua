@@ -1,3 +1,8 @@
+if jit.arch == "arm64" then
+    print("Detected ARM processor, turning off JIT")
+    jit.off()
+end
+
 local function tobool(v)
     return v and ((type(v) == "number") and (v == 1) or ((type(v) == "string") and (v == "true")))
 end
