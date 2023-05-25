@@ -10,6 +10,8 @@ local path = "CampaignData.bin"
 local missionNumber
 local mission
 local missionsCompletedLoaded = { false, false, false, false, false }
+local goldFromTax = 0
+local goldFromTrade = 0
 local saved = false
 function MissionController:initialize()
     self.locked = false
@@ -28,6 +30,8 @@ function MissionController:initialize()
     self.startDate = TimeController:setCurrentDate(1, 1000)
     self.goalsList = ""
     self.startPopularity = 50
+    self.goldFromTax = 0
+    self.goldFromTrade = 0
     self.startGold = 1000
     self.youWin = false
     self.startPopulation = 0
@@ -90,6 +94,7 @@ function MissionController:setMissionState(name)
     self.lockedTradeFood = mission.lockedTradeFood
     self.lockedTradeWeapons = mission.lockedTradeWeapons
     self.lockedBuildings = mission.lockedBuildings
+    saved = false
 end
 
 function MissionController:setGoods()
@@ -124,13 +129,20 @@ function MissionController:getLockedBuildings()
     return self.lockedBuildings
 end
 
+_G.bus.on(Events.OnMarketSell, function(quantity_temp, good, goldBeforeTrade, goldAfterTrade)
+    goldFromTrade = goldFromTrade + (goldAfterTrade - goldBeforeTrade)
+end)
+
+_G.bus.on(Events.OnTaxCollected, function(moodFactor, goldFactor, taxAmount)
+    goldFromTax = goldFromTax + taxAmount
+end)
+
 function MissionController:Display()
     if not _G.state.missionNr then return end
     if self.youWin == false then
         self.goalsList = "Tasks: "
-
         for key, value in pairs(self.goals) do
-            if value["resourceType"] ~= "buildings" and value["resourceType"] ~= "gold" then
+            if value["resourceType"] ~= "buildings" and value["resourceType"] ~= "gold" and value["resourceType"] ~= "goldTax" and value["resourceType"] ~= "goldTrade" then
                 if key and value["taskValue"] >= _G.state[value["resourceType"]][value["taskResource"]] then
                     value["taskDone"] = false
                 else
@@ -164,9 +176,45 @@ function MissionController:Display()
                         value["taskText"] .. "Done"
                 end
             end
+            if value["resourceType"] == "goldTax" then
+                self.goldFromTax = goldFromTax
+                if value["taskValue"] >= self.goldFromTax then
+                    value["taskDone"] = false
+                else
+                    value["taskDone"] = true
+                end
+                if value["taskDone"] == false then
+                    self.goalsList = self.goalsList
+                        .. "\n" ..
+                        value["taskText"] ..
+                        self.goldFromTax .. " / " .. value["taskValue"]
+                else
+                    self.goalsList = self.goalsList
+                        .. "\n" ..
+                        value["taskText"] .. "Done"
+                end
+            end
+            if value["resourceType"] == "goldTrade" then
+                self.goldFromTrade = goldFromTrade
+                if value["taskValue"] >= self.goldFromTrade then
+                    value["taskDone"] = false
+                else
+                    value["taskDone"] = true
+                end
+                if value["taskDone"] == false then
+                    self.goalsList = self.goalsList
+                        .. "\n" ..
+                        value["taskText"] ..
+                        self.goldFromTrade .. " / " .. value["taskValue"]
+                else
+                    self.goalsList = self.goalsList
+                        .. "\n" ..
+                        value["taskText"] .. "Done"
+                end
+            end
             if value["resourceType"] == "buildings" then
                 if _G.BuildingManager:count(value["taskResource"]) ~= nil then
-                    if BuildingManager:count(value["taskResource"]) == value["taskValue"] and value["taskDone"] == false then
+                    if BuildingManager:count(value["taskResource"]) >= value["taskValue"] and value["taskDone"] == false then
                         value["taskDone"] = true
                         self.goalsList = self.goalsList ..
                             "\n" ..

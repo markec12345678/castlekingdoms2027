@@ -450,7 +450,7 @@ function BuildController:build(gx, gy)
                     ActionBar:unselectAll()
                     startButtons.castleButton:disable()
                     startButtons.stockpileButton:enable()
-                    startButtons.granaryButton:enable()
+                    startButtons.granaryButton:disable()
                     return true
                 elseif self.building == "Stockpile" then
                     building[self.building]:build(gx, gy)
@@ -477,6 +477,7 @@ function BuildController:build(gx, gy)
                     self:disable()
                     ActionBar:unselectAll()
                     startButtons.stockpileButton:disable()
+                    startButtons.granaryButton:enable()
                     return true
                 elseif self.building == "Granary" then
                     building[self.building]:build(gx, gy)

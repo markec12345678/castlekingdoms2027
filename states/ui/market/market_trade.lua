@@ -405,6 +405,7 @@ function DisplayCurrentStock(itemGroup)
 end
 
 local function reloadPrice()
+    price = ((goodPrice * 5) * quantity) / 5
     priceText:SetText({ {
         color = { 0, 0, 0, 1 }
     }, (goodPrice * 5) * quantity / 5 })
@@ -1452,7 +1453,8 @@ marketSellButton.OnClick = function(self)
                 _G.playInterfaceSfx(_G.fx["drawbridge_control"], nil, true)
             end
         end
-        _G.bus.emit(Events.OnMarketSell, quantity_temp, good)
+        local goldAfterTrade = _G.state.gold
+        _G.bus.emit(Events.OnMarketSell, quantity_temp, good, goldBeforeTrade, goldAfterTrade)
         _G.bus.emit(Events.OnGoldChanged, goldBeforeTrade, _G.state.gold)
         DisplayCurrentStock(groupTypeMarket.name)
         actionBar:updateStockpileResourcesCount()

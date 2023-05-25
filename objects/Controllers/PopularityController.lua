@@ -39,12 +39,11 @@ function PopularityController:calculatePositiveBuildingPopularity()
 end
 
 function PopularityController:update()
-    self:calculatePositiveBuildingPopularity()
     local popularityOldValue = _G.state.popularity
     if not _G.campfireFloatPop then return end
     self.timer = self.timer + _G.dt
     if self.timer >= self.class.POPULARITY_INTERVAL then
-        _G.state.popularity = 50 + _G.TaxController:getMoodFactor() + RationController:getMoodLevel()
+        _G.state.popularity = 50 + _G.TaxController:getMoodFactor() + RationController:getMoodLevel() + math.floor(self:calculatePositiveBuildingPopularity())
         if popularityOldValue ~= _G.state.popularity then
             _G.bus.emit(Events.OnPopulationChange, popularityOldValue, _G.state.popularity)
             actionBar:updatePopularityCount()
