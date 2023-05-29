@@ -672,6 +672,11 @@ local buildings = {
                         warningTooltip:ShowTooltip("There are obstacles in the way!")
                         break
                     end
+                    if _G.isWithinKeepUpgradeRadius(xx + self.gx, yy + self.gy) then
+                        warningTooltip:ShowTooltip("Too close to the keep!")
+                        self.canBuild = false
+                        break
+                    end
                     if firstTerrainHeight ~= (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 then
                         totalTerrainDifference = totalTerrainDifference +
                             math.abs(
@@ -772,6 +777,11 @@ local buildings = {
                         not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WalkableWoodenWall") then
                         self.canBuild = false
                         warningTooltip:ShowTooltip("There are obstacles in the way!")
+                        break
+                    end
+                    if _G.isWithinKeepUpgradeRadius(xx + self.gx, yy + self.gy) then
+                        warningTooltip:ShowTooltip("Too close to the keep!")
+                        self.canBuild = false
                         break
                     end
                     if firstTerrainHeight ~= (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 then
@@ -876,6 +886,11 @@ local buildings = {
                         warningTooltip:ShowTooltip("There are obstacles in the way!")
                         break
                     end
+                    if _G.isWithinKeepUpgradeRadius(xx + self.gx, yy + self.gy) then
+                        warningTooltip:ShowTooltip("Too close to the keep!")
+                        self.canBuild = false
+                        break
+                    end
                     if firstTerrainHeight ~= (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 then
                         totalTerrainDifference = totalTerrainDifference +
                             math.abs(
@@ -976,6 +991,11 @@ local buildings = {
                         not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WalkableWoodenWall") then
                         self.canBuild = false
                         warningTooltip:ShowTooltip("There are obstacles in the way!")
+                        break
+                    end
+                    if _G.isWithinKeepUpgradeRadius(xx + self.gx, yy + self.gy) then
+                        warningTooltip:ShowTooltip("Too close to the keep!")
+                        self.canBuild = false
                         break
                     end
                     if firstTerrainHeight ~= (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 then
@@ -1080,6 +1100,11 @@ local buildings = {
                         warningTooltip:ShowTooltip("There are obstacles in the way!")
                         break
                     end
+                    if _G.isWithinKeepUpgradeRadius(xx + self.gx, yy + self.gy) then
+                        warningTooltip:ShowTooltip("Too close to the keep!")
+                        self.canBuild = false
+                        break
+                    end
                     if firstTerrainHeight ~= (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 then
                         totalTerrainDifference = totalTerrainDifference +
                             math.abs(
@@ -1180,6 +1205,11 @@ local buildings = {
                         not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WalkableWoodenWall") then
                         self.canBuild = false
                         warningTooltip:ShowTooltip("There are obstacles in the way!")
+                        break
+                    end
+                    if _G.isWithinKeepUpgradeRadius(xx + self.gx, yy + self.gy) then
+                        warningTooltip:ShowTooltip("Too close to the keep!")
+                        self.canBuild = false
                         break
                     end
                     if firstTerrainHeight ~= (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 then
@@ -1606,6 +1636,11 @@ local buildings = {
                     if _G.importantObjectAt(ccx, ccy, xxx, yyy) then
                         self.canBuild = false
                         warningTooltip:ShowTooltip("There are obstacles in the way!")
+                        break
+                    end
+                    if _G.isWithinKeepUpgradeRadius(xx + self.gx, yy + self.gy) then
+                        warningTooltip:ShowTooltip("Too close to the keep!")
+                        self.canBuild = false
                         break
                     end
                     if firstTerrainHeight ~= (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 then

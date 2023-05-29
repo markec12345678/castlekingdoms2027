@@ -206,6 +206,11 @@ function BuildController:update()
                             self.canBuild = false
                             break
                         end
+                        if _G.isWithinKeepUpgradeRadius(xx + self.gx, yy + self.gy) then
+                            warningTooltip:ShowTooltip("Too close to the keep!")
+                            self.canBuild = false
+                            break
+                        end
                         local terrainDiff = math.abs(firstTerrainHeight -
                             (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2)
                         if terrainDiff >= 28 then
