@@ -276,6 +276,25 @@ function _G.importantObjectAt(cx, cy, x, y)
     end
 end
 
+function _G.isWithinKeepUpgradeRadius(gx, gy)
+    for xx = -3, 3 do
+        for yy = -3, 3 do
+            if not (gx + xx < 0 or gy + yy < 0
+                    or gx + xx > _G.chunkWidth * _G.chunksWide
+                    or gy + yy > _G.chunkHeight * _G.chunksHigh) then
+                local structure = _G.objectFromSubclassAtGlobal(gx + xx, gy + yy, "Structure")
+                if structure then
+                    structure = structure.parent or structure
+                    if structure.class.name == "SaxonHall" or structure.class.name == "Keep" or structure.class.name == "WoodenKeep" or structure.class.name == "Fortress" then
+                        return true
+                    end
+                end
+            end
+        end
+    end
+    return false
+end
+
 function _G.shouldTileBeWalkable(gx, gy)
     if _G.objectFromSubclassAtGlobal(gx, gy, "Structure") then
         return false
