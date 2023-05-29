@@ -16,10 +16,10 @@ vec4 position(mat4 transform_projection, vec4 vertex_position)
     imgdim = ImageDim;
     imgshd = ImageShade;
     imgscale = Scale;
-    if (imgscale.x == 0) {
+    if (abs(imgscale.x) < 0.0001) {
         imgscale.x = 1.0;
     }
-    if (imgscale.y == 0) {
+    if (abs(imgscale.y) < 0.0001) {
         imgscale.y = 1.0;
     }
     vertex_position.xy *= ImageDim;
