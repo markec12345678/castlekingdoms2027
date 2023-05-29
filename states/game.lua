@@ -83,6 +83,7 @@ local function delayedInit()
     ActionBar:updatePopularityCount()
     _G.state:shadeBuildings()
     _G.loaded = true
+    _G.speedModifier = 1
     if _G.state.newGame then
         _G.playSpeech("place_a_keep")
         _G.BuildController.start = true

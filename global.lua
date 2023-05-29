@@ -229,6 +229,7 @@ function _G.playSfx(obj, sfx, disallowMultipleSources)
     if not disallowMultipleSources then
         sfx = sfx:clone()
     end
+    sfx:setVolume(_G.OPTIONS.SFX_VOLUME * volumeLimit)
     sfx:setRelative(false)
     sfx:setPosition((obj.x + (obj.cx - obj.cy) * _G.chunkWidth * _G.tileWidth * 0.5) / 100,
         (obj.y + (obj.cx + obj.cy) * _G.chunkHeight * _G.tileHeight * 0.5) / 100, 4.1)
