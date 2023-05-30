@@ -7,7 +7,6 @@
   <summary>Open source Stronghold fan remake</summary>
 
   <description>
-    <p>Open source fan remake of the famous Stronghold from Firefly Studios</p>
     <p>
       Experience the thrill of medieval castle building and destruction in our
       isometric, open source strategy game - a modern remake of Firefly Studios'
@@ -33,6 +32,21 @@
   <url type="help">https://discord.gg/PRh8SPZxEf</url>
 
   <releases>
+    <release version="0.5.0" date="2023-05-30">
+      <description>
+        <p>This release contains many new features and bug fixes to make the experience more thrilling.</p>
+        <p>Here are some of the changes in this version:</p>
+        <ul>
+          <li>New Buildings: Dairy Farm, Hops Farm, Brewery, Inn, Armory, and more.</li>
+          <li>Campaign Mode: Engage in missions with objectives.</li>
+          <li>Auto Tax Feature: Automatic taxation based on population happiness.</li>
+          <li>Miscellaneous Enhancements: Smoother camera zoom, more sound effects, tooltips for built buildings, bug fixes, and optimizations.</li>
+        </ul>
+      </description>
+
+      <url>https://gitlab.com/stone-kingdoms/stone-kingdoms/-/blob/master/CHANGELOG.md#anchor-050</url>
+    </release>
+
     <release version="0.4.0" date="2022-12-01">
       <description>
         <p>First release of Stone Kingdoms on Flathub</p>
