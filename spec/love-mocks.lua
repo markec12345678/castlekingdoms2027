@@ -50,7 +50,7 @@ love.graphics = {
     draw = function() end,
     flushBatch = function() end,
     newQuad = function(...)
-        return setmetatable({...}, Quadmt)
+        return setmetatable({ ... }, Quadmt)
     end,
     newImage = function(filename)
         if type(filename) ~= "string" then error("love.graphics.newImage expects a string, but got a " .. filename) end
@@ -70,7 +70,8 @@ love.graphics = {
     pop = function() end,
     scale = function() end,
     isActive = function() return false end,
-    newMesh = function() return {
+    newMesh = function()
+        return {
             attachAttribute = function() end,
             detachAttribute = function() end,
             flush = function() end,
@@ -124,7 +125,7 @@ love.graphics = {
 love.window = {
     getMode = function() return 1920, 1080, true end,
     setFullscreen = function() return end,
-    getFullscreenModes = function(a) return {{width = 1920, height = 1080}} end
+    getFullscreenModes = function(a) return { { width = 1920, height = 1080 } } end
 }
 
 love.audio = {
@@ -144,8 +145,10 @@ love.audio = {
     getVolume = function() return 100 end,
     isEffectsSupported = function() end,
     newQueueableSource = function() end,
-    newSource = function() return {
+    newSource = function()
+        return {
             setVolumeLimits = function(a) end,
+            getVolumeLimits = function(a) end,
             play = function() end,
             setRelative = function(a) end,
             setPosition = function(a) end,

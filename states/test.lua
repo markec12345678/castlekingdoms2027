@@ -20,6 +20,7 @@ function test:enter()
     RationController = require("objects.Controllers.RationController")
     _G.TaxController = require("objects.Controllers.TaxController")
     _G.TimeController = require("objects.Controllers.TimeController")
+    _G.MissionController = require("objects.Controllers.MissionController")
     _G.PopularityController = require("objects.Controllers.PopularityController")
     _G.ScribeController = require("objects.Controllers.ScribeController")
     _G.BuildController = love.filesystem.load("objects/Controllers/BuildController.lua")(
@@ -56,7 +57,11 @@ function test:enter()
     if _G.state.newGame then
         _G.playSpeech("place_a_keep")
     end
-
+    _G.playSfx = function() end
+    _G.playInterfaceSfx = function() end
+    _G.playSpeech = function() end
+    _G.channel.mapUpdate:push("final")
+    _G.channel2.mapUpdate:push("final")
     require('spec.objects_spec')
     love.event.quit(0)
 end
