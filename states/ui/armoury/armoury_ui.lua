@@ -153,6 +153,7 @@ local function SwitchToTheMarket()
                         color = { 0, 0, 0, 1 }
                     }, "You can't trade that!" })
                     noMarketInfo:SetVisible(true)
+                    group.good = nil
                     return;
                 end
             end
