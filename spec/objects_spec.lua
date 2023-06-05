@@ -2,7 +2,8 @@ require 'objects.objects'
 require 'busted.runner' ()
 local b = require 'busted'
 
-local describe, it = b.describe, b.it
+local describe, it, setup, teardown = b.describe, b.it, b.setup, b.teardown
+local State = require("objects.State")
 local object = _G.state.object
 local addObjectAt = _G.addObjectAt
 local obj = {
@@ -12,8 +13,16 @@ local obj = {
 }
 require("spec.eventbus_spec")
 require("spec.woodcutter_spec")
+require("spec.orchard_spec")
 -- =======================================================================--
 describe("addObjectAt", function()
+    setup(function()
+        _G.state = State:new()
+        object = _G.state.object
+    end)
+    teardown(function()
+        _G.state:destroy()
+    end)
     it("creates a table at the index, if it doesn't exist already", function()
         object[1][1][1][1] = nil
         addObjectAt(1, 1, 1, 1, obj)
@@ -27,6 +36,13 @@ describe("addObjectAt", function()
 end)
 -- =======================================================================--
 describe("removeObjectAt", function()
+    setup(function()
+        _G.state = State:new()
+        object = _G.state.object
+    end)
+    teardown(function()
+        _G.state:destroy()
+    end)
     describe("removes the object at the index if object_to_remove is not specified", function()
         it("leaves an empty table at the index if there are no more objects", function()
             object[1][1][1][1] = nil
@@ -54,6 +70,13 @@ describe("removeObjectAt", function()
 end)
 -- =======================================================================--
 describe("isObjectAt", function()
+    setup(function()
+        _G.state = State:new()
+        object = _G.state.object
+    end)
+    teardown(function()
+        _G.state:destroy()
+    end)
     it("returns the compared object if it is in this object index", function()
         object[1][1][1][1] = nil
         local obj1 = {
@@ -84,6 +107,13 @@ describe("isObjectAt", function()
 end)
 -- =======================================================================--
 describe("objectFromTypeAt", function()
+    setup(function()
+        _G.state = State:new()
+        object = _G.state.object
+    end)
+    teardown(function()
+        _G.state:destroy()
+    end)
     it("returns an object of the same type if it's in the object index", function()
         object[1][1][1][1] = nil
         local obj1 = {
@@ -123,6 +153,13 @@ describe("objectFromTypeAt", function()
 end)
 -- =======================================================================--
 describe("objectAt", function()
+    setup(function()
+        _G.state = State:new()
+        object = _G.state.object
+    end)
+    teardown(function()
+        _G.state:destroy()
+    end)
     it("returns true if there are objects in this object index", function()
         object[1][1][1][1] = nil
         local obj1 = {

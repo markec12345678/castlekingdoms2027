@@ -141,11 +141,11 @@ function OrchardTree.static:deserialize(data)
     return obj
 end
 
-local Orchard               = class("Orchard", Structure)
-Orchard.static.WIDTH        = 12
-Orchard.static.LENGTH       = 12
-Orchard.static.HEIGHT       = 19
-Orchard.static.ALIAS_NAME   = "OrchardAlias"
+local Orchard = class("Orchard", Structure)
+Orchard.static.WIDTH = 12
+Orchard.static.LENGTH = 12
+Orchard.static.HEIGHT = 19
+Orchard.static.ALIAS_NAME = "OrchardAlias"
 Orchard.static.DESTRUCTIBLE = true
 function Orchard:initialize(gx, gy, type)
     _G.JobController:add("OrchardFarmer", self)
@@ -402,7 +402,6 @@ function Orchard:work(worker)
             self:sendToStockpile()
             self.state = 0
         end
-
     end
 end
 

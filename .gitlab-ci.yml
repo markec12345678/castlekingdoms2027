@@ -38,6 +38,7 @@ test:
     - luarocks install lua-term
     - luarocks install penlight
     - luarocks install mediator_lua
+    - luarocks install luacov-cobertura
     - ls
     - rm -r busted
     - mv libraries/eventbus.lua eventbus.lua
@@ -50,8 +51,14 @@ test:
     - rm -r terrain/Maps/Fernhaven.lua
     - rm -r sounds/fx_volume.lua
     - RES=$(./testbuild --verbose --coverage --test) || { echo "$RES"; exit 1; }
+    - luacov-cobertura -o coverage_report.xml
     - luacov-console
     - luacov-console -s && echo "$RES"
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage_report.xml
 
 publish:
   stage: package

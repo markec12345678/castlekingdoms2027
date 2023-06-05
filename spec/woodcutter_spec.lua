@@ -3,7 +3,8 @@ local assert = require 'luassert'
 local spy = require 'luassert.spy'
 local bitser = require("libraries.bitser")
 
-local describe, it = b.describe, b.it
+local describe, it, setup, teardown = b.describe, b.it, b.setup, b.teardown
+local State = require("objects.State")
 local WoodcutterHut = require("objects.Structures.WoodcutterHut")
 local Structure = require("objects.Structure")
 local PineTree = require("objects.Environment.PineTree")
@@ -12,6 +13,14 @@ local PineTree = require("objects.Environment.PineTree")
 describe("woodcutter hut", function()
     local hut, worker
     _G.campfire = { peasants = 0, maxPeasants = 0 }
+    setup(function()
+        _G.state = State:new()
+        _G.channel.mapUpdate:push("final")
+        _G.channel2.mapUpdate:push("final")
+    end)
+    teardown(function()
+        _G.state:destroy()
+    end)
     it("places a woodcutter on the map", function()
         hut = WoodcutterHut:new(10, 10)
         assert:set_parameter("TableFormatLevel", 0)
@@ -41,9 +50,9 @@ describe("woodcutter hut", function()
                     local buildingX = hut.gx + xx
                     local buildingY = hut.gy + yy
                     local objects = _G.allObjectsFromSubclassAtGlobal(buildingX, buildingY, Structure)
-                    for i,v in ipairs(objects) do
+                    for i, v in ipairs(objects) do
                         local ref = _G.state:serializeObject(v)
-                        _G.state.rawObjectIds[ref._ref] = v:serialize()   
+                        _G.state.rawObjectIds[ref._ref] = v:serialize()
                     end
                 end
             end
