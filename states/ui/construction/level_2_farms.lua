@@ -54,25 +54,26 @@ hopsFarmButton:setOnClick(function(self)
     ActionBar:selectButton(hopsFarmButton)
 end)
 
-
+local buildings = {
+    { button = granaryButton,    name = "Granary",   description = "Increases food capacity.",                          tier = 1 },
+    { button = appleFarmButton,  name = "Orchard",   description = "Produces apples.",                                  tier = 1 },
+    { button = wheatFarmButton,  name = "WheatFarm", description = "Produces wheat which can be processed into flour.", tier = 3 },
+    { button = cheeseFarmButton, name = "DairyFarm", description = "Produces cheese.",                                  tier = 2 },
+    { button = hopsFarmButton,   name = "HopsFarm",  description = "Produces hops which can be processed into ale.",    tier = 3 }
+}
 
 local function displayTooltips()
     if ActionBar:getCurrentGroup() ~= "farms" then return end
-    local buildings = {
-        { button = granaryButton,   name = "Granary", description = "Increases food capacity." },
-        { button = appleFarmButton, name = "Orchard", description = "Produces apples." },
-        {
-            button = wheatFarmButton,
-            name = "WheatFarm",
-            description = "Produces wheat which can be processed into flour."
-        },
-        { button = cheeseFarmButton, name = "DairyFarm", description = "Produces cheese." },
-        { button = hopsFarmButton,   name = "HopsFarm",  description = "Produces hops which can be processed into ale." }
-    }
 
     for _, building in ipairs(buildings) do
         local tooltipText = getCostAndType(building.name, building.description)
         building.button:setTooltip(building.name, tooltipText)
+        if building.tier <= _G.state.tier then
+            building.button:enable()
+        else
+            building.button:disable()
+            building.button:setTooltip("You need to upgrade your keep to build this")
+        end
     end
     hunterButton:setTooltip("Hunter's hut", "Not implemented yet.")
     local lockedList = _G.MissionController:getLockedBuildings()
@@ -84,14 +85,7 @@ local function displayTooltips()
         hopsFarm = hopsFarmButton,
         granary = granaryButton
     }
-    for enabledButton, _ in pairs(buttonList) do
-        local button = buttonList[enabledButton]
-        if button then
-            button.disabled = false
-            button.background.enabled = not button.disabled
-            button.foreground:SetColor(1, 1, 1, 1)
-        end
-    end
+    
     if lockedList ~= nil then
         for _, value in ipairs(lockedList) do
             local button = buttonList[value]
@@ -105,6 +99,7 @@ end
 _G.bus.on(Events.OnResourceStore, displayTooltips)
 _G.bus.on(Events.OnResourceTake, displayTooltips)
 _G.bus.on(Events.OnGoldChanged, displayTooltips)
+_G.bus.on(Events.OnTierUpgraded, displayTooltips)
 
 el.buttons.appleButton:setOnClick(function(self)
     ActionBar:showGroup("farms", _G.fx["metpush15"])

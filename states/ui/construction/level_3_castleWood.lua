@@ -70,24 +70,32 @@ woodenGateSouthButton:setOnClick(
         ActionBar:selectButton(woodenGateSouthButton)
     end)
 
+local buildings = {
+    { button = walkableWoodenWallButton, name = "WalkableWoodenWall", description = "A defensive wall made that is walkable on the top.",      tier = 1 },
+    { button = woodenTowerButton,        name = "WoodenTower",        description = "A wooden tower that is missing some stairs apparently.",  tier = 1 },
+    { button = woodenGateEastButton,     name = "WoodenGateEast",     description = "A wooden gate that can let friendly units pass through.", tier = 1 },
+    { button = woodenGateSouthButton,    name = "WoodenGateSouth",    description = "A wooden gate that can let friendly units pass through.", tier = 1 },
+    { button = woodenWallButton,         name = "WoodenWall",         description = "A defensive wall made from sharpened tree trunks.",       tier = 1 }
+}
+
 local function displayTooltips()
     if ActionBar:getCurrentGroup() ~= "woodenBuildings" then return end
-    local buildings = {
-        { button = walkableWoodenWallButton, name = "WalkableWoodenWall", description = "A defensive wall made that is walkable on the top." },
-        { button = woodenTowerButton,        name = "WoodenTower",        description = "A wooden tower that is missing some stairs apparently." },
-        { button = woodenGateEastButton,     name = "WoodenGateEast",     description = "A wooden gate that can let friendly units pass through." },
-        { button = woodenGateSouthButton,    name = "WoodenGateSouth",    description = "A wooden gate that can let friendly units pass through." },
-        { button = woodenWallButton,         name = "WoodenWall",         description = "A defensive wall made from sharpened tree trunks." }
-    }
     for _, building in ipairs(buildings) do
         local tooltipText = getCostAndType(building.name, building.description)
         building.button:setTooltip(building.name, tooltipText)
+        if building.tier <= _G.state.tier then
+            building.button:enable()
+        else
+            building.button:disable()
+            building.button:setTooltip("You need to upgrade your keep to build this")
+        end
     end
 end
 
 _G.bus.on(Events.OnResourceStore, displayTooltips)
 _G.bus.on(Events.OnResourceTake, displayTooltips)
 _G.bus.on(Events.OnGoldChanged, displayTooltips)
+_G.bus.on(Events.OnTierUpgraded, displayTooltips)
 
 el.buttons.woodenBuildings:setOnClick(function(self)
     ActionBar:showGroup("woodenBuildings", _G.fx["metpush15"])

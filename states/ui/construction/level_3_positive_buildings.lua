@@ -83,19 +83,26 @@ largeGardenButton:setOnClick(
     end
 )
 
+local buildings = {
+    { button = maypoleButton,      name = "Maypole",      description = "A tall wooden pole, around which a maypole dance often takes place. Temporarily disabled.", tier = 4 },
+    { button = smallPondButton,    name = "SmallPond",    description = "A small pond.",                                                                             tier = 4 },
+    { button = largePondButton,    name = "LargePond",    description = "A large pond.",                                                                             tier = 4 },
+    { button = smallGardenButton,  name = "SmallGarden",  description = "A small garden.",                                                                           tier = 4 },
+    { button = mediumGardenButton, name = "MediumGarden", description = "A medium-sized garden.",                                                                    tier = 4 },
+    { button = largeGardenButton,  name = "LargeGarden",  description = "A large garden.",                                                                           tier = 4 }
+}
+
 local function displayTooltips()
-    if ActionBar:getCurrentGroup() ~= "positiveBuildings" then return end
-    local buildings = {
-        { button = maypoleButton,      name = "Maypole",      description = "A tall wooden pole, around which a maypole dance often takes place. Temporarily disabled." },
-        { button = smallPondButton,    name = "SmallPond",    description = "A small pond." },
-        { button = largePondButton,    name = "LargePond",    description = "A large pond." },
-        { button = smallGardenButton,  name = "SmallGarden",  description = "A small garden." },
-        { button = mediumGardenButton, name = "MediumGarden", description = "A medium-sized garden." },
-        { button = largeGardenButton,  name = "LargeGarden",  description = "A large garden." }
-    }
+    if ActionBar:getCurrentGroup() ~= "positiveBuildings" then return end 
     for _, building in ipairs(buildings) do
         local tooltipText = getCostAndType(building.name, building.description)
         building.button:setTooltip(building.name, tooltipText)
+        if building.tier <= _G.state.tier then
+            building.button:enable()
+        else
+            building.button:disable()
+            building.button:setTooltip("You need to upgrade your keep to build this")
+        end
     end
 end
 
@@ -103,5 +110,6 @@ local Events = require("objects.Enums.Events")
 _G.bus.on(Events.OnResourceStore, displayTooltips)
 _G.bus.on(Events.OnResourceTake, displayTooltips)
 _G.bus.on(Events.OnGoldChanged, displayTooltips)
+_G.bus.on(Events.OnTierUpgraded, displayTooltips)
 
 ActionBar:registerGroup("positiveBuildings", { maypoleButton, smallPondButton, largePondButton, smallGardenButton, mediumGardenButton, largeGardenButton, backButton, destroyButton }, displayTooltips)

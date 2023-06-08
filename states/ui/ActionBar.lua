@@ -213,6 +213,11 @@ function ActionBar:updateGoldCount()
     end
 end
 
+function ActionBar:unlockTier(level)
+    _G.state.tier = level
+    _G.bus.emit(Events.OnTierUpgraded, level)
+end
+
 function ActionBar:updatePopulationCount()
     if _G.debugMode then
         _G.bus.on(Events.OnPopulationChange, print)
