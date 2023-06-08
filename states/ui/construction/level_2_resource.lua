@@ -71,34 +71,44 @@ marketButton:setOnClick(function(self)
     ActionBar:selectButton(marketButton)
 end)
 
+local buildings = {
+    { button = woodcutterButton, name = "WoodcutterHut", description = "Cuts down nearby trees to produce wood.",    tier = 1 },
+    {
+        button = oxButton,
+        name = "OxTether",
+        description =
+        "Transport stone from the quarry to the stockpile.",
+        tier = 2
+    },
+    {
+        button = quarryButton,
+        name = "Quarry",
+        description =
+        "Produces stone blocks from the ground resource.",
+        tier = 2
+    },
+    {
+        button = stockpileButton,
+        name = "Stockpile",
+        description =
+        "Increases resource capacity.\nMust be placed adjacent to a stockpile.",
+        tier = 1
+    },
+    { button = ironMine,         name = "Mine",          description = "Produces iron ingots from ground iron ore.", tier = 3 },
+    { button = marketButton,     name = "Market",        description = "Allows you to trade your goods.",            tier = 1 }
+}
+
 local function displayTooltips()
     if ActionBar:getCurrentGroup() ~= "resource" then return end
-    local buildings = {
-        { button = woodcutterButton, name = "WoodcutterHut", description = "Cuts down nearby trees to produce wood." },
-        {
-            button = oxButton,
-            name = "OxTether",
-            description =
-            "Transport stone from the quarry to the stockpile."
-        },
-        {
-            button = quarryButton,
-            name = "Quarry",
-            description =
-            "Produces stone blocks from the ground resource."
-        },
-        {
-            button = stockpileButton,
-            name = "Stockpile",
-            description =
-            "Increases resource capacity.\nMust be placed adjacent to a stockpile."
-        },
-        { button = ironMine,         name = "Mine",          description = "Produces iron ingots from ground iron ore." },
-        { button = marketButton,     name = "Market",        description = "Allows you to trade your goods." }
-    }
     for _, building in ipairs(buildings) do
         local tooltipText = getCostAndType(building.name, building.description)
         building.button:setTooltip(building.name, tooltipText)
+        if building.tier <= _G.state.tier then
+            building.button:enable()
+        else
+            building.button:disable()
+            building.button:setTooltip("You need to upgrade your keep to build this")
+        end
     end
     local lockedList = _G.MissionController:getLockedBuildings()
     local buttonList = {
@@ -110,14 +120,7 @@ local function displayTooltips()
         --pitchRig = pitchRigButton, NOT IMPLEMENTED YET
         market = marketButton
     }
-    for enabledButton, _ in pairs(buttonList) do
-        local button = buttonList[enabledButton]
-        if button then
-            button.disabled = false
-            button.background.enabled = not button.disabled
-            button.foreground:SetColor(1, 1, 1, 1)
-        end
-    end
+
     if lockedList ~= nil then
         for _, value in ipairs(lockedList) do
             local button = buttonList[value]
@@ -132,6 +135,7 @@ end
 _G.bus.on(Events.OnResourceStore, displayTooltips)
 _G.bus.on(Events.OnResourceTake, displayTooltips)
 _G.bus.on(Events.OnGoldChanged, displayTooltips)
+_G.bus.on(Events.OnTierUpgraded, displayTooltips)
 
 el.buttons.hammerButton:setOnClick(function(self)
     ActionBar:showGroup("resource", _G.fx["metpush12"])

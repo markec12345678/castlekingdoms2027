@@ -11,6 +11,7 @@ local warningTooltip = require("states.ui.warning_tooltip")
 ---@overload fun():State
 local State = _G.class("State")
 function State:initialize()
+    self.tier = 1
     self.thread = love.thread.newThread("libraries/pathfinding_thread.lua")
     self.thread:start("1", 512)
     self.thread2 = love.thread.newThread("libraries/pathfinding_thread.lua")
@@ -341,6 +342,7 @@ function State:serialize()
     }
     local data = {}
     self.serializedObjectIds = {}
+    data.tier = self.tier
     data.firstWoodCutterHut = self.firstWoodCutterHut
     data.firstArmoury = self.firstArmoury
     data.firstBuildings = self.firstBuildings
@@ -425,6 +427,7 @@ function State:load(filename, decompress)
     self.verticesPerTile = load.verticesPerTile
     self.maxPopulation = load.maxPopulation
     self.population = load.population
+    self.tier = load.tier or 1
     if load.activeEntities then
         self:deserializeActiveEntities(load.activeEntities)
     end

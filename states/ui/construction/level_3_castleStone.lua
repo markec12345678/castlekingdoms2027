@@ -91,28 +91,35 @@ stoneGateSouthBigButton:setOnClick(
         ActionBar:selectButton(stoneGateSouthBigButton)
     end)
 
+local buildings = {
+    { button = perimeterTowerButton,    name = "PerimeterTower",    description = "A small perimeter tower - good for the observation.",              tier = 3 },
+    { button = defenseTowerButton,      name = "DefenseTower",      description = "A defense tower made for defense.",                                tier = 3 },
+    { button = squareTowerButton,       name = "SquareTower",       description = "Crucial for your castle - you can place war machines on the top.", tier = 4 },
+    { button = roundTowerButton,        name = "RoundTower",        description = "The strongest tower - you can place war machines on the top.",     tier = 4 },
+    { button = stoneGateSouthButton,    name = "StoneGateSouth",    description = "A stone gate that can let friendly units pass through.",           tier = 3 },
+    { button = stoneGateEastButton,     name = "StoneGateEast",     description = "A stone gate that can let friendly units pass through.",           tier = 3 },
+    { button = stoneGateEastBigButton,  name = "StoneGateBigEast",  description = "A strong stone gate that can let friendly units pass through.",    tier = 4 },
+    { button = stoneGateSouthBigButton, name = "StoneGateBigSouth", description = "A strong stone gate that can let friendly units pass through.",    tier = 4 }
+}
+
 local function displayTooltips()
     if ActionBar:getCurrentGroup() ~= "stoneBuildings" then return end
-    local buildings = {
-        { button = perimeterTowerButton,    name = "PerimeterTower",    description = "A small perimeter tower - good for the observation." },
-        { button = defenseTowerButton,      name = "DefenseTower",      description = "A defense tower made for defense." },
-        { button = squareTowerButton,       name = "SquareTower",       description = "Crucial for your castle - you can place war machines on the top." },
-        { button = roundTowerButton,        name = "RoundTower",        description = "The strongest tower - you can place war machines on the top." },
-        { button = stoneGateSouthButton,    name = "StoneGateSouth",    description = "A stone gate that can let friendly units pass through." },
-        { button = stoneGateEastButton,     name = "StoneGateEast",     description = "A stone gate that can let friendly units pass through." },
-        { button = stoneGateEastBigButton,  name = "StoneGateBigEast",  description = "A strong stone gate that can let friendly units pass through." },
-        { button = stoneGateSouthBigButton, name = "StoneGateBigSouth", description = "A strong stone gate that can let friendly units pass through." }
-    }
-
     for _, building in ipairs(buildings) do
         local tooltipText = getCostAndType(building.name, building.description)
         building.button:setTooltip(building.name, tooltipText)
+        if building.tier <= _G.state.tier then
+            building.button:enable()
+        else
+            building.button:disable()
+            building.button:setTooltip("You need to upgrade your keep to build this")
+        end
     end
 end
 
 _G.bus.on(Events.OnResourceStore, displayTooltips)
 _G.bus.on(Events.OnResourceTake, displayTooltips)
 _G.bus.on(Events.OnGoldChanged, displayTooltips)
+_G.bus.on(Events.OnTierUpgraded, displayTooltips)
 
 el.buttons.stoneBuildings:setOnClick(function(self)
     ActionBar:showGroup("stoneBuildings", _G.fx["metpush15"])

@@ -65,40 +65,50 @@ apothecaryButton:setOnClick(function(self)
     ActionBar:selectButton(apothecaryButton)
 end)
 
+local buildings = {
+    { button = hovelButton, name = "House", description = "Increases maximum population limit.", tier = 1 },
+    {
+        button = chapelButton,
+        name = "Chapel",
+        description =
+        "Increase your popularity with religion. Currently not functional.",
+        tier = 2
+    },
+    {
+        button = churchButton,
+        name = "Church",
+        description =
+        "Increase your popularity with religion. Currently not functional.",
+        tier = 3
+    },
+    {
+        button = cathedralButton,
+        name = "Cathedral",
+        description =
+        "Increase your popularity with religion. Currently not functional.",
+        tier = 4
+    },
+    {
+        button = apothecaryButton,
+        name = "Apothecary",
+        description =
+        "Currently not functional.",
+        tier = 4
+    }
+}
 
 local function displayTooltips()
     if ActionBar:getCurrentGroup() ~= "house" then return end
-    local buildings = {
-        { button = hovelButton, name = "House", description = "Increases maximum population limit." },
-        {
-            button = chapelButton,
-            name = "Chapel",
-            description =
-            "Increase your popularity with religion. Currently not functional."
-        },
-        {
-            button = churchButton,
-            name = "Church",
-            description =
-            "Increase your popularity with religion. Currently not functional."
-        },
-        {
-            button = cathedralButton,
-            name = "Cathedral",
-            description =
-            "Increase your popularity with religion. Currently not functional."
-        },
-        {
-            button = apothecaryButton,
-            name = "Apothecary",
-            description =
-            "Currently not functional."
-        }
-    }
 
     for _, building in ipairs(buildings) do
         local tooltipText = getCostAndType(building.name, building.description)
         building.button:setTooltip(building.name, tooltipText)
+        if building.tier <= _G.state.tier then
+            building.button:enable()
+        else
+            building.button:disable()
+            building.button:setTooltip("You need to upgrade your keep to build this")
+        end
     end
     local lockedList = _G.MissionController:getLockedBuildings()
     local buttonList = {
@@ -108,14 +118,7 @@ local function displayTooltips()
         church = churchButton,
         cathedral = cathedralButton,
     }
-    for enabledButton, _ in pairs(buttonList) do
-        local button = buttonList[enabledButton]
-        if button then
-            button.disabled = false
-            button.background.enabled = not button.disabled
-            button.foreground:SetColor(1, 1, 1, 1)
-        end
-    end
+
     if lockedList ~= nil then
         for _, value in ipairs(lockedList) do
             local button = buttonList[value]
@@ -129,6 +132,7 @@ end
 _G.bus.on(Events.OnResourceStore, displayTooltips)
 _G.bus.on(Events.OnResourceTake, displayTooltips)
 _G.bus.on(Events.OnGoldChanged, displayTooltips)
+_G.bus.on(Events.OnTierUpgraded, displayTooltips)
 
 el.buttons.houseButton:setOnClick(function(self)
     ActionBar:showGroup("house", _G.fx["metpush13"])

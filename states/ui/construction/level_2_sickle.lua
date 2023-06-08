@@ -45,18 +45,24 @@ breweryButton:setOnClick(function(self)
     ActionBar:selectButton(breweryButton)
 end)
 
+local buildings = {
+    { button = windmillButton, name = "Windmill", description = "Processes wheat into flour.", tier = 3 },
+    { button = bakeryButton,   name = "Bakery",   description = "Processes flour into bread.", tier = 3 },
+    { button = breweryButton,  name = "Brewery",  description = "Processes hops into ale.",    tier = 3 },
+    { button = innButton,      name = "Inn",      description = "Distributes ale.",            tier = 3 }
+}
+
 local function displayTooltips()
     if ActionBar:getCurrentGroup() ~= "sickle" then return end
-    local buildings = {
-        { button = windmillButton, name = "Windmill", description = "Processes wheat into flour." },
-        { button = bakeryButton,   name = "Bakery",   description = "Processes flour into bread." },
-        { button = breweryButton,  name = "Brewery",  description = "Processes hops into ale." },
-        { button = innButton,      name = "Inn",      description = "Distributes ale." }
-    }
-
     for _, building in ipairs(buildings) do
         local tooltipText = getCostAndType(building.name, building.description)
         building.button:setTooltip(building.name, tooltipText)
+        if building.tier <= _G.state.tier then
+            building.button:enable()
+        else
+            building.button:disable()
+            building.button:setTooltip("You need to upgrade your keep to build this")
+        end
     end
     local lockedList = _G.MissionController:getLockedBuildings()
     local buttonList = {
@@ -65,14 +71,7 @@ local function displayTooltips()
         inn = innButton,
         brewery = breweryButton
     }
-    for enabledButton, _ in pairs(buttonList) do
-        local button = buttonList[enabledButton]
-        if button then
-            button.disabled = false
-            button.background.enabled = not button.disabled
-            button.foreground:SetColor(1, 1, 1, 1)
-        end
-    end
+
     if lockedList ~= nil then
         for _, value in ipairs(lockedList) do
             local button = buttonList[value]
@@ -86,6 +85,7 @@ end
 _G.bus.on(Events.OnResourceStore, displayTooltips)
 _G.bus.on(Events.OnResourceTake, displayTooltips)
 _G.bus.on(Events.OnGoldChanged, displayTooltips)
+_G.bus.on(Events.OnTierUpgraded, displayTooltips)
 
 el.buttons.sickleButton:setOnClick(function(self)
     ActionBar:showGroup("sickle", _G.fx["metpush5"])

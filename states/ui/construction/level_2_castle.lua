@@ -9,7 +9,7 @@ local fortressImage = love.graphics.newImage("assets/ui/fortress_ab.png")
 local strongholdImage = love.graphics.newImage("assets/ui/stronghold_ab.png")
 local castleButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_keep_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 1, false, nil)
-
+local tierLevel = 1
 local barracksButton = ActionBarButton:new(love.graphics.newImage("assets/ui/barracks_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 4, false, nil)
 barracksButton:setOnClick(
@@ -72,11 +72,11 @@ end)
 
 
 local buildings = {
-    { button = castleButton,         name = "WoodenKeep",     description = "Upgrade your Saxon hall to a Wooden keep" },
-    { button = barracksButton,       name = "Barracks",       description = "A building allowing you to recruit units." },
-    { button = stoneBarracksButton,  name = "StoneBarracks",  description = "A building allowing you to recruit units." },
-    { button = engineersGuildButton, name = "EngineersGuild", description = "A building allowing you to recruit siege units." },
-    { button = tunnelersGuildButton, name = "TunnelersGuild", description = "A building allowing you to recruit tunnelers." }
+    { button = castleButton,         name = "WoodenKeep",     description = "Upgrade your Saxon hall to a Wooden keep",        tier = 1 },
+    { button = barracksButton,       name = "Barracks",       description = "A building allowing you to recruit units.",       tier = 2 },
+    { button = stoneBarracksButton,  name = "StoneBarracks",  description = "A building allowing you to recruit units.",       tier = 3 },
+    { button = engineersGuildButton, name = "EngineersGuild", description = "A building allowing you to recruit siege units.", tier = 4 },
+    { button = tunnelersGuildButton, name = "TunnelersGuild", description = "A building allowing you to recruit tunnelers.",   tier = 4 }
 }
 
 local function displayTooltips()
@@ -85,9 +85,12 @@ local function displayTooltips()
     for _, building in ipairs(buildings) do
         local tooltipText = getCostAndType(building.name, building.description)
         building.button:setTooltip(building.name, tooltipText)
-        -- if not table.affordable then
-        --     building.button.tooltip:SetText({{color = {1, 0, 0, 1}}, table.costAndType}, building.name)
-        -- end
+        if building.tier <= _G.state.tier then
+            building.button:enable()
+        else
+            building.button:disable()
+            building.button:setTooltip("You need to upgrade your keep to build this")
+        end
     end
     local lockedList = _G.MissionController:getLockedBuildings()
     local buttonList = {
@@ -97,16 +100,9 @@ local function displayTooltips()
         woodenbarracks = barracksButton,
         stoneBarracks = stoneBarracksButton,
         engineersGuild = engineersGuildButton,
-        tunnelersGuild = tunnelersGuildButton
+        tunnelersGuild = tunnelersGuildButton,
     }
-    for enabledButton, _ in pairs(buttonList) do
-        local button = buttonList[enabledButton]
-        if button then
-            button.disabled = false
-            button.background.enabled = not button.disabled
-            button.foreground:SetColor(1, 1, 1, 1)
-        end
-    end
+
     if lockedList ~= nil then
         for _, value in ipairs(lockedList) do
             local button = buttonList[value]
@@ -125,6 +121,7 @@ castleButton:setOnClick(
             buildings[1].name = "Keep"
             buildings[1].description = "Upgrade your Wooden Keep to a Stone Keep"
             displayTooltips()
+            ActionBar:unlockTier(2)
             castleButton:setOnClick(
                 function()
                     local upgraded = _G.BuildController:upgradeKeep(3)
@@ -133,6 +130,7 @@ castleButton:setOnClick(
                         buildings[1].name = "Fortress"
                         buildings[1].description = "Upgrade your Stone Keep to a Fortress"
                         displayTooltips()
+                        ActionBar:unlockTier(3)
                         castleButton:setOnClick(
                             function()
                                 local upgraded = _G.BuildController:upgradeKeep(4)
@@ -141,6 +139,7 @@ castleButton:setOnClick(
                                     buildings[1].name = "Stronghold"
                                     buildings[1].description = "Upgrade your Fortress to a Stronghold (unsupported)"
                                     displayTooltips()
+                                    ActionBar:unlockTier(4)
                                     castleButton.enabled = true
                                     castleButton.foreground.disablehover = true
                                     castleButton.foreground:SetColor(0.6, 0.6, 0.6, 0.6)
@@ -158,6 +157,7 @@ castleButton:setOnClick(
 _G.bus.on(Events.OnResourceStore, displayTooltips)
 _G.bus.on(Events.OnResourceTake, displayTooltips)
 _G.bus.on(Events.OnGoldChanged, displayTooltips)
+_G.bus.on(Events.OnTierUpgraded, displayTooltips)
 
 el.buttons.castleButton:setOnClick(
     function(self)
