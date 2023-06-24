@@ -9,6 +9,8 @@ local brushObjects = {
     ["OakTree"] = require("objects.Environment.OakTree"),
     ["PineTree"] = require("objects.Environment.PineTree"),
     ["Shrub"] = require("objects.Environment.Shrub"),
+    ["BirchTree"] = require("objects.Environment.BirchTree"),
+    ["ChestnutTree"] = require("objects.Environment.ChestnutTree")
 }
 
 local brushShapes = {
@@ -72,7 +74,9 @@ function BrushController:setObject(object)
     self.brushObject = brushObjects[object]
     if (self.brushObject == brushObjects.OakTree)
         or (self.brushObject == brushObjects.PineTree)
-        or (self.brushObject == brushObjects.Shrub) then
+        or (self.brushObject == brushObjects.Shrub)
+        or (self.brushObject == brushObjects.BirchTree)
+        or (self.brushObject == brushObjects.ChestnutTree) then
         self.mode = brushMode.Scattered
     else
         self.mode = brushMode.Solid
@@ -124,6 +128,12 @@ function BrushController:keyReleased(key)
     elseif (key == "h") then
         self:setObject("Shrub")
         print("Brush Mode: Shrub")
+    elseif (key == "j") then
+        self:setObject("BirchTree")
+        print("Brush Mode: BirchTree")
+    elseif (key == "k") then
+        self:setObject("ChestnutTree")
+        print("Brush Mode: ChestnutTree")
     end
 end
 
@@ -214,6 +224,8 @@ function BrushController:paintSolid()
                     _G.removeObjectFromClassAtGlobal(LX + XX, LY + YY, "Iron")
                     _G.removeObjectFromClassAtGlobal(LX + XX, LY + YY, "OakTree")
                     _G.removeObjectFromClassAtGlobal(LX + XX, LY + YY, "PineTree")
+                    _G.removeObjectFromClassAtGlobal(LX + XX, LY + YY, "BirchTree")
+                    _G.removeObjectFromClassAtGlobal(LX + XX, LY + YY, "ChestnutTree")
                     _G.removeObjectFromClassAtGlobal(LX + XX, LY + YY, "Shrub")
                 elseif self.type == brushType.PaintTerrainObjects then
                     if self:canPaint(XX + LX, LY + YY) then
@@ -231,6 +243,8 @@ function BrushController:paintSolid()
                         _G.removeObjectFromClassAtGlobal(XX, YY, "Iron")
                         _G.removeObjectFromClassAtGlobal(XX, YY, "OakTree")
                         _G.removeObjectFromClassAtGlobal(XX, YY, "PineTree")
+                        _G.removeObjectFromClassAtGlobal(XX, YY, "BirchTree")
+                        _G.removeObjectFromClassAtGlobal(XX, YY, "ChestnutTree")
                         _G.removeObjectFromClassAtGlobal(XX, YY, "Shrub")
                     elseif self.type == brushType.PaintTerrainObjects then
                         if self:canPaint(LX + XX, LY + YY) then
@@ -365,9 +379,11 @@ function BrushController:draw()
     love.graphics.printf("Alt + s: Stone", x + 5, y + 105, 200, "left")
     love.graphics.printf("Alt + o: OakTree", x + 5, y + 125, 200, "left")
     love.graphics.printf("Alt + p: PineTree", x + 5, y + 145, 200, "left")
-    love.graphics.printf("Alt + h: Shrub", x + 5, y + 165, 200, "left")
-    love.graphics.printf("Alt + i: Iron", x + 5, y + 205, 200, "left")
-    love.graphics.printf("Alt + -/+: Dec/Inc Size", x + 5, y + 225, 200, "left")
+    love.graphics.printf("Alt + j: BirchTree", x + 5, y + 165, 200, "left")
+    love.graphics.printf("Alt + k: Chestnut", x + 5, y + 185, 200, "left")
+    love.graphics.printf("Alt + h: Shrub", x + 5, y + 205, 200, "left")
+    love.graphics.printf("Alt + i: Iron", x + 5, y + 225, 200, "left")
+    love.graphics.printf("Alt + -/+: Dec/Inc Size", x + 5, y + 250, 200, "left")
 end
 
 function BrushController:mousepressed(button)

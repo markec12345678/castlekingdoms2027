@@ -305,7 +305,7 @@ function Woodcutter:checkTrees(cx, cy)
     if _G.state.chunkObjects[chunkx][chunky] then
         for _, obj in pairs(_G.state.chunkObjects[chunkx][chunky]) do
             if (obj.type == 'Pine tree' or obj.type == "Small pine tree" or obj.type == "Medium pine tree" or obj.type ==
-                'Oak tree' or obj.type == "Small oak tree" or obj.type == "Medium oak tree") and obj.marked == false then
+                    'Oak tree' or obj.type == "Small oak tree" or obj.type == "Medium oak tree") or obj.type == "Chestnut tree" or obj.type == "Birch tree" and obj.marked == false then
                 -- TODO: Fix magic numbers CRITICAL
                 if obj.gx > 0 and obj.gx < 2047 and obj.gy > 0 and obj.gy < 2047 then -- and _G.nodes[obj.gx][obj.gy+1].walkable == 0 then --fixme
                     local dist = _G.manhattanDistance(self.gx, self.gy, obj.gx, obj.gy)
