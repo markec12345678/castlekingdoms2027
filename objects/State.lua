@@ -86,9 +86,6 @@ function State:initialize()
     self.wheatGrowingSeason = false
     self.hopsSeasonCounter = 0
     self.hopsGrowingSeason = false
-    self.firstWoodCutterHut = true
-    self.firstArmoury = true
-    self.firstBuildings = true
     self.keepX = 0
     self.keepY = 0
     self:allocateMeshes()
@@ -343,9 +340,6 @@ function State:serialize()
     local data = {}
     self.serializedObjectIds = {}
     data.tier = self.tier
-    data.firstWoodCutterHut = self.firstWoodCutterHut
-    data.firstArmoury = self.firstArmoury
-    data.firstBuildings = self.firstBuildings
     data.activeEntities = self:serializeActiveEntities()
     data.wheatSeasonCounter = self.wheatSeasonCounter
     data.wheatGrowingSeason = self.wheatGrowingSeason
@@ -409,12 +403,6 @@ function State:load(filename, decompress)
     self.deserializedObjectCount = 0
     self.deserDebug = {}
     self.deserializedObjectIds = {}
-    self.firstWoodCutterHut = load.firstWoodCutterHut
-    if load.firstWoodCutterHut == nil then self.firstWoodCutterHut = true end
-    self.firstArmoury = load.firstArmoury
-    if load.firstArmoury == nil then self.firstArmoury = true end
-    self.firstBuildings = load.firstBuildings
-    if load.firstBuildings == nil then self.firstBuildings = true end
     self.rawObjectIds = load.serializedObjectIds
     self.wheatSeasonCounter = load.wheatSeasonCounter
     self.wheatGrowingSeason = load.wheatGrowingSeason

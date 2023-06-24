@@ -291,7 +291,7 @@ function game:keypressed(key, scancode, isRepeat)
             _G.speedModifier = 0.5
         end
     elseif event == EVENT.Escape then
-        if _G.state.firstBuildings then
+        if _G.BuildController.start then
             if loveframes.GetState() ~= states.STATE_PAUSE_MENU then
                 loveframes.SetState(states.STATE_PAUSE_MENU)
                 loveframes.TogglePause()

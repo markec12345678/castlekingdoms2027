@@ -165,7 +165,7 @@ function ActionBar:switchMode(mode)
         self.element:SetImage(ActionBar.actionBarArmouryImage)
         buildingHover:SetState(states.STATE_GUILDS)
     else
-        if _G.state.firstBuildings then
+        if _G.BuildController.start  then
             self:showGroup("start")
         else
             self:showGroup("main")

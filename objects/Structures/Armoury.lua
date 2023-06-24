@@ -198,9 +198,6 @@ function Armoury:destroy()
             end
         end
     end
-    if _G.BuildingManager:count(self.class) == 1 then
-        _G.state.firstArmoury = true
-    end
     Structure.destroy(self)
 end
 
