@@ -501,7 +501,6 @@ function BuildController:build(gx, gy)
                     self.start = false
                     startButtons.granaryButton:disable()
                     ActionBar:showGroup("main")
-                    _G.state.firstBuildings = false
                     return true
                 end
             end

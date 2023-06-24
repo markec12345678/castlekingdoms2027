@@ -607,16 +607,10 @@ local buildings = {
             ["wood"] = 10
         },
         build = function(self, gx, gy)
-            if _G.state.firstArmoury then
-                _G.state.firstArmoury = false
-            end
             Armoury:new(gx, gy)
         end,
         specialRequirements = function(self, gx, gy)
             if _G.BuildingManager:count("Armoury") == 0 then
-                _G.state.firstArmoury = true
-            end
-            if _G.state.firstArmoury then
                 return true
             end
             local i, o, cxx, cyy

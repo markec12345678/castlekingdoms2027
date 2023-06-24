@@ -358,7 +358,6 @@ function WoodcutterHut:initialize(gx, gy, type)
     type = type or "Woodcutter hut"
     Structure.initialize(self, gx, gy, type)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    _G.state.firstWoodCutterHut = false
     self.health = 400
     self.tile = quadArray[tiles + 1]
     self.working = false
