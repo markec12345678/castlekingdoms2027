@@ -4,9 +4,9 @@ local Object = require("objects.Object")
 local actionBar = require("states.ui.ActionBar")
 local Events = require("objects.Enums.Events")
 
-local tiles, quadArray = _G.indexBuildingQuads("housing (1)", true)
-local HouseAlias = _G.class("HouseAlias", Structure)
-function HouseAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
+local tiles, quadArray = _G.indexBuildingQuads("housing (2)", true)
+local FlatAlias = _G.class("FlatAlias", Structure)
+function FlatAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     local mytype = "Static structure"
     self.parent = parent
     Structure.initialize(self, gx, gy, mytype)
@@ -19,7 +19,7 @@ function HouseAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     Structure.render(self)
 end
 
-function HouseAlias:serialize()
+function FlatAlias:serialize()
     local data = {}
     local structData = Structure.serialize(self)
     for k, v in pairs(structData) do
@@ -36,7 +36,7 @@ function HouseAlias:serialize()
     return data
 end
 
-function HouseAlias.static:deserialize(data)
+function FlatAlias.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
     Structure.load(obj, data)
@@ -49,59 +49,60 @@ function HouseAlias.static:deserialize(data)
     return obj
 end
 
-local House = _G.class("House", Structure)
+local Flat = _G.class("Flat", Structure)
 
-House.static.WIDTH = 4
-House.static.LENGTH = 4
-House.static.HEIGHT = 17
-House.static.ALIAS_NAME = "HouseAlias"
-House.static.DESTRUCTIBLE = true
+Flat.static.WIDTH = 4
+Flat.static.LENGTH = 4
+Flat.static.HEIGHT = 17
+Flat.static.ALIAS_NAME = "FlatAlias"
+Flat.static.DESTRUCTIBLE = true
 
-function House:initialize(gx, gy)
-    Structure.initialize(self, gx, gy, "House")
+function Flat:initialize(gx, gy)
+    Structure.initialize(self, gx, gy, "Flat")
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 200
-    self.tile = quadArray[tiles + 1]
     self.offsetX = 0
-    self.offsetY = -39
-    self.tier = 1
+    self.offsetY = -52
+    self.tier = 2
     self.clickedHouseX = gx
     self.clickedHouseY = gy
+    self.tile = quadArray[tiles + 1]
     for tile = 1, tiles do
-        local hsl = HouseAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
+        local hsl = FlatAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
             -self.offsetY + 8 * (tiles - tile + 1))
         hsl.tileKey = tile
     end
     for tile = 1, tiles do
-        local hsl = HouseAlias:new(quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile,
+        local hsl = FlatAlias:new(quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self,
+            -self.offsetY + 8 * tile,
             16)
         hsl.tileKey = tiles + 1 + tile
     end
 
     for xx = 1, 3 do
         for yy = 1, 3 do
-            HouseAlias:new(tileQuads["empty"], self.gx + xx, self.gy + yy, self, self.offsetX, self.offsetY)
+            FlatAlias:new(tileQuads["empty"], self.gx + xx, self.gy + yy, self, self.offsetX, self.offsetY)
         end
     end
-
     self:applyBuildingHeightMap()
     actionBar:updatePopulationCount()
+
     Structure.render(self)
 end
 
-function House:destroy()
+function Flat:destroy()
     actionBar:updatePopulationCount()
     Structure.destroy(self)
 end
 
-function House:load(data)
+function Flat:load(data)
     Object.deserialize(self, data)
     Structure.load(self, data)
     self.tile = quadArray[tiles + 1]
     Structure.render(self)
 end
 
-function House:serialize()
+function Flat:serialize()
     local data = {}
     local structData = Structure.serialize(self)
     for k, v in pairs(structData) do
@@ -118,33 +119,33 @@ function House:serialize()
     return data
 end
 
-function House.static:deserialize(data)
+function Flat.static:deserialize(data)
     local obj = self:allocate()
     obj:load(data)
     return obj
 end
 
 local targetHouse
-function House:upgradeHouseOne(clickedHouseX, clickedHouseY)
+function Flat:upgradeHouse(clickedHouseX, clickedHouseY)
     for xx = -1, 6 do
         for yy = -1, 6 do
             _G.DestructionController:destroyAtLocation(clickedHouseX + xx, clickedHouseY + yy, true, true)
         end
     end
     _G.BuildingManager:remove(targetHouse)
-    _G.BuildController:build(clickedHouseX, clickedHouseY, "Flat")
+    _G.BuildController:build(clickedHouseX, clickedHouseY, "Residence")
     actionBar:updatePopulationCount()
 end
 
 local X
 local Y
-local _, _, _, _, _, _, upgradeIconButton = unpack(require("states.ui.workshops.workshops_ui"))
-function House:onClick()
+local _, _, _, _, _, _, _, UpgradeIcon = unpack(require("states.ui.workshops.workshops_ui"))
+function Flat:onClick()
     targetHouse = self
-    if _G.state.tier >= 2 then
-        -- upgradeIconButton.visible = true
+    if _G.state.tier >= 3 then
+        -- UpgradeIcon.visible = true
         -- local x, y = love.mouse.getPosition()
-        -- upgradeIconButton:SetPos(x - 50, y + 50)
+        -- UpgradeIcon:SetPos(x - 50, y + 50)
         X = self.clickedHouseX
         Y = self.clickedHouseY
     end
@@ -153,14 +154,14 @@ function House:onClick()
     ActionBar:switchMode("house")
 end
 
-upgradeIconButton.OnClick = function(self)
+UpgradeIcon.OnClick = function(self)
     if targetHouse then
-        if _G.state.tier >= 2 and _G.BuildController:isBuildingAffordable("Flat") then
-            _G.BuildController:purchaseBuilding("Flat")
-            House:upgradeHouseOne(X, Y)
+        if _G.state.tier >= 3 and _G.BuildController:isBuildingAffordable("Residence") then
+            _G.BuildController:purchaseBuilding("Residence")
+            Flat:upgradeHouse(X, Y)
         end
     end
-    upgradeIconButton.visible = false
+    UpgradeIcon.visible = false
 end
 
-return House
+return Flat

@@ -74,7 +74,8 @@ function Object:render()
         end
         self.instancemesh = _G.state.objectMesh[self.cx][self.cy]
         if (not self.instancemesh) then
-            error("Object haveno instance mesh " .. tostring(self) .. "\n coordinates: " .. tostring(self.gx) .. ", " .. tostring(self.gy))
+            error("Object haveno instance mesh " ..
+                tostring(self) .. "\n coordinates: " .. tostring(self.gx) .. ", " .. tostring(self.gy))
         end
 
         self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, self.shadowValue)
@@ -195,6 +196,9 @@ function Object:serialize()
         data.className ~= "BlacksmithAlias" and
         data.className ~= "EngineersGuildAlias" and data.className ~= "TunnelersGuildAlias" and
         data.className ~= "DairyFarmAlias" and
+        data.className ~= "FlatAlias" and
+        data.className ~= "ResidenceAlias" and
+        data.className ~= "BigResidenceAlias" and
         string.find(data.className or tostring(self.class), "Alias") then
         return {}
     end
