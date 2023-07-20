@@ -6,6 +6,7 @@ local console = require("libraries.console")
 local tileWidth, tileHeight = _G.tileWidth, _G.tileHeight
 local IsoToScreenX, IsoToScreenY = _G.IsoToScreenX, _G.IsoToScreenY
 local warningTooltip = require("states.ui.warning_tooltip")
+local tileQuads = require("objects.object_quads")
 
 local building = require("objects.buildings")
 
@@ -401,8 +402,9 @@ function BuildController:purchaseBuilding(buildingKey)
     end
 end
 
-function BuildController:build(gx, gy)
-    if self.active and self.gx > 0 and self.gx < 512 and self.gy > 0 and self.gy < 512 then
+function BuildController:build(gx, gy, b)
+    self.building = b or self.building
+    if (self.active or b ~= nil) and self.gx > 0 and self.gx < 512 and self.gy > 0 and self.gy < 512 then
         if self.canBuild then
             self.canAfford = true
             if not self.start then

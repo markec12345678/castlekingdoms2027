@@ -17,6 +17,12 @@ end
 function BuildingManager:add(building)
     self.buildings[building.class.name][building.id] = building
     _G.bus.emit(Events.OnBuildingPlaced, building.class.name, building.gx, building.gy)
+    if building.class.name == "House" or
+        building.class.name == "Flat" or
+        building.class.name == "Residence" or
+        building.class.name == "BigResidence" then
+        _G.bus.emit(Events.OnMaxPopChanged, building.class.name, building.gx, building.gy)
+    end
 end
 
 ---prints how many of each buildings exist
@@ -34,6 +40,12 @@ function BuildingManager:remove(building)
     if self.buildings[building.class.name] and self.buildings[building.class.name][building.id] then
         self.buildings[building.class.name][building.id] = nil
         _G.bus.emit(Events.OnBuildingDestroyed, building.class.name)
+        if building.class.name == "House" or
+            building.class.name == "Flat" or
+            building.class.name == "Residence" or
+            building.class.name == "BigResidence" then
+            _G.bus.emit(Events.OnMaxPopChanged, building.class.name, building.gx, building.gy)
+        end
         return true
     end
     return false

@@ -14,7 +14,9 @@ local EVENTS = {
     OnBuildingPlaced = 12,
     OnBuildingDestroyed = 13,
     OnMissionCompleted = 14,
-    OnTierUpgraded = 15
+    OnTierUpgraded = 15,
+    OnHouseUpgraded = 16,
+    OnMaxPopChanged = 17
 }
 
 return EVENTS

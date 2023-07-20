@@ -19,6 +19,9 @@ local swordIconHover = love.graphics.newImage("assets/ui/workshops/swordIconHove
 local maceIconNormal = love.graphics.newImage("assets/ui/workshops/maceIconNormal.png")
 local maceIconHover = love.graphics.newImage("assets/ui/workshops/maceIconHover.png")
 
+local upgradeIconNormal = love.graphics.newImage("assets/ui/workshops/upgradeIconNormal.png")
+local upgradeIconHover = love.graphics.newImage("assets/ui/workshops/upgradeIconHover.png")
+
 local frBowButton = {
     x = 500 * scale,
     y = 500 * scale,
@@ -36,6 +39,8 @@ local crossbowIconButton = loveframes.Create("image")
 local bowIconButton = loveframes.Create("image")
 local swordIconButton = loveframes.Create("image")
 local maceIconButton = loveframes.Create("image")
+local upgradeIconButton = loveframes.Create("image")
+local upgradeHouseButton = loveframes.Create("image")
 bowIconButton.visible = false
 bowIconButton:SetState(states.STATE_INGAME_CONSTRUCTION)
 bowIconButton:SetImage(bowIconNormal)
@@ -142,15 +147,59 @@ maceIconButton.OnMouseExit = function(self)
     self:SetImage(maceIconNormal)
 end
 
+upgradeIconButton.visible = false
+upgradeIconButton:SetState(states.STATE_INGAME_CONSTRUCTION)
+upgradeIconButton:SetImage(upgradeIconNormal)
+upgradeIconButton:SetScaleX(frCrossbowButton.width / upgradeIconButton:GetImageWidth())
+upgradeIconButton:SetScaleY(upgradeIconButton:GetScaleX())
+upgradeIconButton:SetPos(frCrossbowButton.x, frCrossbowButton.y)
+upgradeIconButton.OnMouseEnter = function(self)
+    self:SetImage(upgradeIconHover)
+end
+upgradeIconButton.OnMouseDown = function(self)
+    self:SetImage(upgradeIconHover)
+end
+upgradeIconButton.OnMouseExit = function(self)
+    self:SetImage(upgradeIconNormal)
+end
+
+upgradeHouseButton.visible = false
+upgradeHouseButton:SetState(states.STATE_INGAME_CONSTRUCTION)
+upgradeHouseButton:SetImage(upgradeIconNormal)
+upgradeHouseButton:SetScaleX(frCrossbowButton.width / upgradeHouseButton:GetImageWidth())
+upgradeHouseButton:SetScaleY(upgradeHouseButton:GetScaleX())
+upgradeHouseButton:SetPos(frCrossbowButton.x, frCrossbowButton.y)
+upgradeHouseButton.OnMouseEnter = function(self)
+    self:SetImage(upgradeIconHover)
+end
+upgradeHouseButton.OnMouseDown = function(self)
+    self:SetImage(upgradeIconHover)
+end
+upgradeHouseButton.OnMouseExit = function(self)
+    self:SetImage(upgradeIconNormal)
+end
+
 local CheckTooltip = function()
-    if love.mouse.isDown(EVENT.RightClick) or love.keyboard.isDown(string.lower(EVENT.Escape))  then
+    if love.mouse.isDown(EVENT.RightClick) or love.keyboard.isDown(string.lower(EVENT.Escape)) then
         crossbowIconButton.visible = false
         bowIconButton.visible = false
         pikeIconButton.visible = false
         spearIconButton.visible = false
         swordIconButton.visible = false
         maceIconButton.visible = false
+        upgradeIconButton.visible = false
+        upgradeHouseButton.visible = false
     end
 end
 
-return { crossbowIconButton, bowIconButton, pikeIconButton, spearIconButton, swordIconButton, maceIconButton, CheckTooltip = CheckTooltip }
+return {
+    crossbowIconButton,
+    bowIconButton,
+    pikeIconButton,
+    spearIconButton,
+    swordIconButton,
+    maceIconButton,
+    upgradeIconButton,
+    upgradeHouseButton,
+    CheckTooltip = CheckTooltip
+}

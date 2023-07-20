@@ -21,6 +21,9 @@ local HopsFarm = require("objects.Structures.HopsFarm")
 local Windmill = require("objects.Structures.Windmill")
 local Bakery = require("objects.Structures.Bakery")
 local House = require("objects.Structures.House")
+local Flat = require("objects.Structures.Flat")
+local Residence = require("objects.Structures.Residence")
+local BigResidence = require("objects.Structures.BigResidence")
 local Market = require("objects.Structures.Market")
 local OxTether = require("objects.Structures.OxTether")
 local WoodenGateEast = require("objects.Structures.WoodenGateEast")
@@ -1379,6 +1382,54 @@ local buildings = {
         },
         build = function(self, gx, gy)
             House:new(gx, gy)
+        end,
+        specialRequirements = function(self, _, _)
+            return true
+        end
+    },
+    [Flat.name] = {
+        quad = tileQuads["housing (2)"],
+        offsetX = 48,
+        offsetY = 52,
+        w = 4,
+        h = 4,
+        cost = {
+            ["wood"] = 10
+        },
+        build = function(self, gx, gy)
+            Flat:new(gx, gy)
+        end,
+        specialRequirements = function(self, _, _)
+            return true
+        end
+    },
+    [Residence.name] = {
+        quad = tileQuads["housing (5)"],
+        offsetX = 48,
+        offsetY = 52,
+        w = 4,
+        h = 4,
+        cost = {
+            ["wood"] = 15
+        },
+        build = function(self, gx, gy)
+            Residence:new(gx, gy)
+        end,
+        specialRequirements = function(self, _, _)
+            return true
+        end
+    },
+    [BigResidence.name] = {
+        quad = tileQuads["house_big (1)"],
+        offsetX = 48,
+        offsetY = 80,
+        w = 4,
+        h = 4,
+        cost = {
+            ["wood"] = 20
+        },
+        build = function(self, gx, gy)
+            BigResidence:new(gx, gy)
         end,
         specialRequirements = function(self, _, _)
             return true

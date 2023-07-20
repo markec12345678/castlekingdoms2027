@@ -8,13 +8,7 @@ local Events = require('objects.Enums.Events')
 -- Hovel
 local hovelButton = ActionBarButton:new(love.graphics.newImage('assets/ui/hovel_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 1, true)
-
-hovelButton:setOnClick(function(self)
-    _G.BuildController:set("House", function()
-        hovelButton:select()
-    end)
-    ActionBar:selectButton(hovelButton)
-end)
+hovelButton:setTooltip("Houses", "Houses to increase your population")
 
 -- PositiveBuilding
 local positiveBuildingButton = ActionBarButton:new(love.graphics.newImage('assets/ui/large_garden_ab.png'),
@@ -66,7 +60,6 @@ apothecaryButton:setOnClick(function(self)
 end)
 
 local buildings = {
-    { button = hovelButton, name = "House", description = "Increases maximum population limit.", tier = 1 },
     {
         button = chapelButton,
         name = "Chapel",
@@ -112,7 +105,7 @@ local function displayTooltips()
     end
     local lockedList = _G.MissionController:getLockedBuildings()
     local buttonList = {
-        hovel = hovelButton,
+        houses = hovelButton,
         positiveBuildings = positiveBuildingButton,
         chapel = chapelButton,
         church = churchButton,
@@ -139,13 +132,26 @@ el.buttons.houseButton:setOnClick(function(self)
     displayTooltips()
 end)
 
+hovelButton:setOnClick(function(self)
+    ActionBar:showGroup("houses")
+end)
 
 positiveBuildingButton:setOnClick(function(self)
     ActionBar:showGroup("positiveBuildings")
 end)
 
+local elements = {
+    buttons = {
+        hovelButton = hovelButton,
+        positiveBuildingButton = positiveBuildingButton
+    },
+}
+
 ActionBar:registerGroup("house",
-    { hovelButton, positiveBuildingButton, chapelButton, churchButton, cathedralButton, apothecaryButton, backButton, destroyButton })
+    { hovelButton, positiveBuildingButton, chapelButton, churchButton, cathedralButton, apothecaryButton, backButton,
+        destroyButton })
 
 package.loaded["states.ui.construction.level_3_positive_buildings"] = love.filesystem.load(
-    "states/ui/construction/level_3_positive_buildings.lua")(el, backButton, destroyButton, getCostAndType)
+    "states/ui/construction/level_3_positive_buildings.lua")(elements, backButton, destroyButton, getCostAndType)
+package.loaded["states.ui.construction.level_3_house"] = love.filesystem.load(
+    "states/ui/construction/level_3_house.lua")(elements, backButton, destroyButton, getCostAndType)

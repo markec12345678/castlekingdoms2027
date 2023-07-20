@@ -22,6 +22,7 @@ ActionBar.static.actionBarMarketImage = love.graphics.newImage("assets/ui/action
 ActionBar.static.actionBarArmouryImage = love.graphics.newImage("assets/ui/action_bar_armoury.png")
 ActionBar.static.actionBarKeepTaxImage = love.graphics.newImage("assets/ui/action_bar_keep_tax_main.png")
 ActionBar.static.actionBarBarracksImage = love.graphics.newImage("assets/ui/action_bar_barracks.png")
+ActionBar.static.actionBarHouseImage = love.graphics.newImage("assets/ui/action_bar_house.png")
 
 function ActionBar:initialize()
     local element = loveframes.Create("image")
@@ -108,7 +109,7 @@ function ActionBar:switchMode(mode)
         self.populationText:SetState(states.STATE_HOUSE)
         self.goldText:SetState(states.STATE_HOUSE)
         self.element:SetState(states.STATE_HOUSE)
-        self.element:SetImage(ActionBar.actionBarGranaryImage)
+        self.element:SetImage(ActionBar.actionBarHouseImage)
         buildingHover:SetState(states.STATE_HOUSE)
     elseif mode == "market" then
         self:showGroup("market")
