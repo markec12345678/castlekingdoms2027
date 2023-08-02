@@ -183,6 +183,8 @@ function Object:serialize()
         data.className ~= "OrchardAlias" and data.className ~= "GranaryAlias" and data.className ~= "WindmillAlias" and
         data.className ~= "HouseAlias" and data.className ~= "QuarryAlias" and data.className ~= "MineAlias" and
         data.className ~= "MarketAlias" and data.className ~= "WoodenGateAlias" and data.className ~= "OxTetherAlias" and
+        data.className ~= "WoodenPerimeterTowerAlias" and data.className ~= "WoodenDefenseTowerAlias" and
+        data.className ~= "WoodenGateEastBigAlias" and data.className ~= "WoodenGateSouthBigAlias" and
         data.className ~= "WoodenTowerAlias" and data.className ~= "PerimeterTowerAlias" and data.className ~= "DefenseTowerAlias" and
         data.className ~= "SquareTowerAlias" and data.className ~= "RoundTowerAlias" and
         data.className ~= "StoneGateEastAlias" and data.className ~= "StoneGateEastAlias" and

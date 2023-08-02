@@ -5,7 +5,7 @@ local ActionBarButton = require("states.ui.ActionBarButton")
 local ActionBar = require("states.ui.ActionBar")
 local Events = require("objects.Enums.Events")
 
-local woodenWallButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_wall_ab.png"),
+local woodenWallButton = ActionBarButton:new(love.graphics.newImage("assets/ui/fortifications/wooden/wooden_wall_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 1, true, nil)
 woodenWallButton:setOnClick(
     function(self)
@@ -22,7 +22,7 @@ woodenWallButton:setOnUnselect(function()
 end)
 
 
-local walkableWoodenWallButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_wall_walkable_ab.png"),
+local walkableWoodenWallButton = ActionBarButton:new(love.graphics.newImage("assets/ui/fortifications/wooden/wooden_wall_walkable_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 2, false, nil)
 walkableWoodenWallButton:setOnClick(
     function(self)
@@ -37,7 +37,7 @@ walkableWoodenWallButton:setOnUnselect(function()
     WallController.clicked = false
 end)
 
-local woodenTowerButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_tower.png"),
+local woodenTowerButton = ActionBarButton:new(love.graphics.newImage("assets/ui/fortifications/wooden/wooden_tower.png"),
     states.STATE_INGAME_CONSTRUCTION, 3, false, nil)
 woodenTowerButton:setOnClick(
     function(self)
@@ -48,8 +48,30 @@ woodenTowerButton:setOnClick(
         ActionBar:selectButton(woodenTowerButton)
     end)
 
-local woodenGateEastButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_gate_east.png"),
+local woodenPermimeterTowerButton = ActionBarButton:new(love.graphics.newImage("assets/ui/fortifications/wooden/wooden_perimeter_tower.png"),
     states.STATE_INGAME_CONSTRUCTION, 4, false, nil)
+    woodenPermimeterTowerButton:setOnClick(
+    function(self)
+        _G.BuildController:set(
+            "WoodenPerimeterTower", function()
+                woodenPermimeterTowerButton:unselect()
+            end)
+        ActionBar:selectButton(woodenPermimeterTowerButton)
+    end)
+
+local woodenDefenseTowerButton = ActionBarButton:new(love.graphics.newImage("assets/ui/fortifications/wooden/wooden_defense_tower.png"),
+    states.STATE_INGAME_CONSTRUCTION, 5, false, nil)
+    woodenDefenseTowerButton:setOnClick(
+    function(self)
+        _G.BuildController:set(
+            "WoodenDefenseTower", function()
+                woodenDefenseTowerButton:unselect()
+            end)
+        ActionBar:selectButton(woodenDefenseTowerButton)
+    end)
+
+local woodenGateEastButton = ActionBarButton:new(love.graphics.newImage("assets/ui/fortifications/wooden/wooden_gate_east.png"),
+    states.STATE_INGAME_CONSTRUCTION, 6, false, nil)
 woodenGateEastButton:setOnClick(
     function(self)
         _G.BuildController:set(
@@ -59,8 +81,8 @@ woodenGateEastButton:setOnClick(
         ActionBar:selectButton(woodenGateEastButton)
     end)
 
-local woodenGateSouthButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_gate_south.png"),
-    states.STATE_INGAME_CONSTRUCTION, 5, false, nil)
+local woodenGateSouthButton = ActionBarButton:new(love.graphics.newImage("assets/ui/fortifications/wooden/wooden_gate_south.png"),
+    states.STATE_INGAME_CONSTRUCTION, 7, false, nil)
 woodenGateSouthButton:setOnClick(
     function(self)
         _G.BuildController:set(
@@ -70,12 +92,38 @@ woodenGateSouthButton:setOnClick(
         ActionBar:selectButton(woodenGateSouthButton)
     end)
 
+local woodenGateEastBigButton = ActionBarButton:new(love.graphics.newImage("assets/ui/fortifications/wooden/wooden_gate_east_big.png"),
+    states.STATE_INGAME_CONSTRUCTION, 8, false, nil)
+    woodenGateEastBigButton:setOnClick(
+    function(self)
+        _G.BuildController:set(
+            "WoodenGateEastBig", function()
+                woodenGateEastBigButton:unselect()
+            end)
+        ActionBar:selectButton(woodenGateEastBigButton)
+    end)
+
+local woodenGateSouthBigButton = ActionBarButton:new(love.graphics.newImage("assets/ui/fortifications/wooden/wooden_gate_south_big.png"),
+    states.STATE_INGAME_CONSTRUCTION, 9, false, nil)
+    woodenGateSouthBigButton:setOnClick(
+    function(self)
+        _G.BuildController:set(
+            "WoodenGateSouthBig", function()
+                woodenGateSouthBigButton:unselect()
+            end)
+        ActionBar:selectButton(woodenGateSouthBigButton)
+    end)
+
 local buildings = {
-    { button = walkableWoodenWallButton, name = "WalkableWoodenWall", description = "A defensive wall made that is walkable on the top.",      tier = 1 },
-    { button = woodenTowerButton,        name = "WoodenTower",        description = "A wooden tower that is missing some stairs apparently.",  tier = 1 },
-    { button = woodenGateEastButton,     name = "WoodenGateEast",     description = "A wooden gate that can let friendly units pass through.", tier = 1 },
-    { button = woodenGateSouthButton,    name = "WoodenGateSouth",    description = "A wooden gate that can let friendly units pass through.", tier = 1 },
-    { button = woodenWallButton,         name = "WoodenWall",         description = "A defensive wall made from sharpened tree trunks.",       tier = 1 }
+    { button = walkableWoodenWallButton,    name = "WalkableWoodenWall",    description = "A defensive wall made that is walkable on the top.",      tier = 1 },
+    { button = woodenTowerButton,           name = "WoodenTower",           description = "A wooden tower that is missing some stairs apparently.",  tier = 1 },
+    { button = woodenGateEastButton,        name = "WoodenGateEast",        description = "A wooden gate that can let friendly units pass through.", tier = 1 },
+    { button = woodenGateSouthButton,       name = "WoodenGateSouth",       description = "A wooden gate that can let friendly units pass through.", tier = 1 },
+    { button = woodenGateEastBigButton,     name = "WoodenGateEastBig",     description = "A wooden gate that can let friendly units pass through.", tier = 1 },
+    { button = woodenGateSouthBigButton,    name = "WoodenGateSouthBig",    description = "A wooden gate that can let friendly units pass through.", tier = 1 },
+    { button = woodenPermimeterTowerButton, name = "WoodenPerimeterTower",  description = "A wooden tower that is missing some stairs apparently.",  tier = 1 },
+    { button = woodenDefenseTowerButton,    name = "WoodenDefenseTower",    description = "A wooden tower that is missing some stairs apparently.",  tier = 1 },
+    { button = woodenWallButton,            name = "WoodenWall",            description = "A defensive wall made from sharpened tree trunks.",       tier = 1 }
 }
 
 local function displayTooltips()
@@ -105,4 +153,4 @@ end)
 
 ActionBar:registerGroup("woodenBuildings",
     { woodenWallButton, walkableWoodenWallButton, woodenTowerButton, woodenGateEastButton,
-        woodenGateSouthButton, backButton, destroyButton })
+        woodenGateSouthButton, woodenGateEastBigButton,  woodenGateSouthBigButton, woodenPermimeterTowerButton, woodenDefenseTowerButton, backButton, destroyButton })
