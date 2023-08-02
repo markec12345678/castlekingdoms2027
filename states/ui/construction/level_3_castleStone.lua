@@ -5,7 +5,7 @@ local ActionBarButton = require("states.ui.ActionBarButton")
 local ActionBar = require("states.ui.ActionBar")
 local Events = require("objects.Enums.Events")
 
-local perimeterTowerButton = ActionBarButton:new(love.graphics.newImage("assets/ui/perimeter_tower_ab.png"),
+local perimeterTowerButton = ActionBarButton:new(love.graphics.newImage("assets/ui/fortifications/stone/perimeter_tower_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 3, false, nil)
 perimeterTowerButton:setOnClick(
     function(self)
@@ -16,7 +16,7 @@ perimeterTowerButton:setOnClick(
         ActionBar:selectButton(perimeterTowerButton)
     end)
 
-local defenseTowerButton = ActionBarButton:new(love.graphics.newImage("assets/ui/defense_tower_ab.png"),
+local defenseTowerButton = ActionBarButton:new(love.graphics.newImage("assets/ui/fortifications/stone/defense_tower_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 4, false, nil)
 defenseTowerButton:setOnClick(
     function(self)
@@ -26,7 +26,7 @@ defenseTowerButton:setOnClick(
             end)
         ActionBar:selectButton(defenseTowerButton)
     end)
-local squareTowerButton = ActionBarButton:new(love.graphics.newImage("assets/ui/square_tower_ab.png"),
+local squareTowerButton = ActionBarButton:new(love.graphics.newImage("assets/ui/fortifications/stone/square_tower_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 5, false, nil)
 squareTowerButton:setOnClick(
     function(self)
@@ -36,7 +36,7 @@ squareTowerButton:setOnClick(
             end)
         ActionBar:selectButton(squareTowerButton)
     end)
-local roundTowerButton = ActionBarButton:new(love.graphics.newImage("assets/ui/round_tower_ab.png"),
+local roundTowerButton = ActionBarButton:new(love.graphics.newImage("assets/ui/fortifications/stone/round_tower_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 6, false, nil)
 roundTowerButton:setOnClick(
     function(self)
@@ -47,7 +47,7 @@ roundTowerButton:setOnClick(
         ActionBar:selectButton(roundTowerButton)
     end)
 
-local stoneGateEastButton = ActionBarButton:new(love.graphics.newImage("assets/ui/stone_gate_east_ab.png"),
+local stoneGateEastButton = ActionBarButton:new(love.graphics.newImage("assets/ui/fortifications/stone/stone_gate_east_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 7, false, nil)
 stoneGateEastButton:setOnClick(
     function(self)
@@ -58,7 +58,7 @@ stoneGateEastButton:setOnClick(
         ActionBar:selectButton(stoneGateEastButton)
     end)
 
-local stoneGateSouthButton = ActionBarButton:new(love.graphics.newImage("assets/ui/stone_gate_south_ab.png"),
+local stoneGateSouthButton = ActionBarButton:new(love.graphics.newImage("assets/ui/fortifications/stone/stone_gate_south_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 8, false, nil)
 stoneGateSouthButton:setOnClick(
     function(self)
@@ -69,7 +69,7 @@ stoneGateSouthButton:setOnClick(
         ActionBar:selectButton(stoneGateSouthButton)
     end)
 
-local stoneGateEastBigButton = ActionBarButton:new(love.graphics.newImage("assets/ui/stone_gate_big_east_ab.png"),
+local stoneGateEastBigButton = ActionBarButton:new(love.graphics.newImage("assets/ui/fortifications/stone/stone_gate_big_east_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 9, false, nil)
 stoneGateEastBigButton:setOnClick(
     function(self)
@@ -80,7 +80,7 @@ stoneGateEastBigButton:setOnClick(
         ActionBar:selectButton(stoneGateEastBigButton)
     end)
 
-local stoneGateSouthBigButton = ActionBarButton:new(love.graphics.newImage("assets/ui/stone_gate_big_south_ab.png"),
+local stoneGateSouthBigButton = ActionBarButton:new(love.graphics.newImage("assets/ui/fortifications/stone/stone_gate_big_south_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 10, false, nil)
 stoneGateSouthBigButton:setOnClick(
     function(self)

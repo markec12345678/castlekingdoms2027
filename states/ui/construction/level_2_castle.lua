@@ -54,7 +54,7 @@ tunnelersGuildButton:setOnClick(
         ActionBar:selectButton(tunnelersGuildButton)
     end)
 
-local woodenBuildings = ActionBarButton:new(love.graphics.newImage('assets/ui/wooden_wall_ab.png'),
+local woodenBuildings = ActionBarButton:new(love.graphics.newImage('assets/ui/fortifications/wooden/wooden_wall_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 2, true)
 woodenBuildings:setTooltip("Wooden Structures", "Towers, gates and walls.")
 
@@ -62,7 +62,7 @@ woodenBuildings:setOnClick(function(self)
     ActionBar:showGroup("woodenBuildings")
 end)
 
-local stoneBuildings = ActionBarButton:new(love.graphics.newImage('assets/ui/stone_wall_ab.png'),
+local stoneBuildings = ActionBarButton:new(love.graphics.newImage('assets/ui/fortifications/stone/stone_wall_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 3, true)
 stoneBuildings:setTooltip("Stone Structures", "Towers, gates and walls.")
 
