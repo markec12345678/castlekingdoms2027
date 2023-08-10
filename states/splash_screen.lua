@@ -17,7 +17,8 @@ local skTimer = 0
 local skAlpha = 0
 
 local splashScreenFont = love.graphics.newFont("assets/fonts/IMMORTAL.ttf", 24)
-local fireflyNotice = "Assets, Music & Sound effects and Music provided at the courtesy of Firefly Studios Limited."
+local fireflyNotice =
+"Assets, Music & Sound effects provided at the courtesy of Firefly Studios Limited.\n Features additional art by Lord Steinhauer, Monsterfish and Zarentreuer Lenin\n    Thanks to UCP team and Project Reconquista for technical support."
 local repoLink = "https://gitlab.com/stone-kingdoms/stone-kingdoms"
 
 function splashScreen:enter()
@@ -37,7 +38,7 @@ function splashScreen:enter()
     else
         isOTenOne = true
         splashScreen.splash = one_ten_one({
-            background = {0, 0, 0},
+            background = { 0, 0, 0 },
             delay_after = 0.5
         })
         splashScreen.splash.onDone = function()
@@ -77,10 +78,10 @@ function splashScreen:draw()
         love.graphics.draw(skLogo, skLogoX, skLogoY, 0, skLogoScaleFactor, skLogoScaleFactor)
 
         local fireflyNoticeX = (love.graphics.getWidth() / 2) - (splashScreenFont:getWidth(fireflyNotice) / 2)
-        local fireflyNoticeY = love.graphics.getHeight() - (love.graphics.getHeight() / 6)
+        local fireflyNoticeY = love.graphics.getHeight() - (love.graphics.getHeight() / 5)
         love.graphics.print(fireflyNotice, splashScreenFont, fireflyNoticeX, fireflyNoticeY, 0)
         local repoLinkX = (love.graphics.getWidth() / 2) - (splashScreenFont:getWidth(repoLink) / 2)
-        local repoLinkY = fireflyNoticeY + splashScreenFont:getHeight() * 2
+        local repoLinkY = fireflyNoticeY + splashScreenFont:getHeight() * 3
         love.graphics.print(repoLink, splashScreenFont, repoLinkX, repoLinkY, 0)
     end
 end
