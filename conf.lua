@@ -34,6 +34,8 @@ function love.conf(t)
             borderless = fullscreen
         elseif val == "--resize" then
             resizable = tobool(_G.arg[ind + 1])
+        elseif val == "--pol" or "--POL" then
+            _G.currentLang = "POL"
         end
     end
 

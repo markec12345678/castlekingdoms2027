@@ -11,6 +11,7 @@ require("global")
 local Gamestate = require("libraries.gamestate")
 local SaveManager = require("objects.Controllers.SaveManager")
 local KeybindManager = require("objects.Controllers.KeybindManager")
+local LanguageController = require("objects.Controllers.LanguageController")
 local test = require("states.test")
 local lurker = require("lurker")
 
@@ -21,6 +22,8 @@ function love.load()
     end
     SaveManager:getSaveFiles()
     Gamestate.registerEvents()
+    LanguageController:initialize()
+    LanguageController:loadLanguage()
     _G.fx = require("sounds.fx")
     if _G.testMode then
         _G.objectAtlas = love.graphics.newImage("assets/tiles/stronghold_assets_packed_v8-hd.dds")
