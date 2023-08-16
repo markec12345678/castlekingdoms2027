@@ -460,7 +460,8 @@ Parser.parseTextBlock = function(self, sep)
             result = result .. string_trim(newtoken.raw, "\n")
         end
     end
-    return result
+    local res, _ = string.gsub(result, "\\n", "\n")
+    return res
 end
 
 Parser.parseHash = function(self, hash)

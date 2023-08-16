@@ -8,10 +8,10 @@ if _G.testMode then
 end
 
 require("global")
+local LanguageController = require("objects.Controllers.LanguageController")
 local Gamestate = require("libraries.gamestate")
 local SaveManager = require("objects.Controllers.SaveManager")
 local KeybindManager = require("objects.Controllers.KeybindManager")
-local LanguageController = require("objects.Controllers.LanguageController")
 local test = require("states.test")
 local lurker = require("lurker")
 

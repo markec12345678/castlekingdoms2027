@@ -2,14 +2,11 @@ local Mission = _G.class('Mission')
 local FOOD = require("objects.Enums.Food")
 local RESOURCES = require("objects.Enums.Resources")
 local WEAPON = require("objects.Enums.Weapon")
+local SID = require("objects.Controllers.LanguageController").lines
 
 function Mission:initialize()
-    self.name = "Faith in Architecture" --name or id of the mission
-    self.description = [[
-        In this mission, you will need to focus on constructing a grand cathedral to serve as the centerpiece of your kingdom's religious and cultural life. Your objective is to build a cathedral within the next 10 years.
-
-        Keep in mind that your success in this mission will depend on your ability to manage a complex construction project and balance your resources effectively. You will need to make strategic decisions and manage your time carefully to ensure the completion of your cathedral within the allotted timeframe. Good luck!
-    ]]                        -- description of the mission
+    self.name = SID.mission5.name
+    self.description = SID.mission5.desc
     self.goals = {}           -- goals of the mission
     self.lockedBuildings = {} --turns off designated buildings
     self.lockedTradeList = {} --turns off designated resources from market/trading

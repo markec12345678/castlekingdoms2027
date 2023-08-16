@@ -1,13 +1,41 @@
+mission1:
+    name: Timber and Stone
+    desc: |
+      In this mission, you will need to focus on gathering resources to develop your kingdom's infrastructure.
+      Your objective is to collect 50 units of wood and 20 units of stone within the next 5 years.\n
+      To achieve this, you will need to establish a network of woodcutter's huts and quarries to extract these resources from the surrounding environment.
+      This may involve the construction of stockpiles to store your resources.
+mission2:
+    name: Arms Race
+    desc: |
+      In this mission, you will need to focus on developing a strong military to defend your kingdom against potential threats.
+      Your objective is to produce 40 units each of bows, spears, maces, and armor within the next 20 years.\n
+      To achieve this, you will need to establish a robust metalworking industry to craft high-quality weapons and armor.
+      This may involve the construction of blacksmiths, workshops, and mines, as well as the recruitment of skilled craftsmen.\n
+      Keep in mind that your success in this mission will depend on your ability to balance your resources and prioritize your goals.
+      You will need to carefully manage your finances and make strategic decisions to ensure the safety and security of your kingdom. Good luck!
 mission3:
     name: Feast or famine
     desc: |
       In this mission, you will need to focus on food production to sustain your growing population. Your goal is to produce 250 units of bread,
       100 units of meat,
-      200 units of cheese, and 250 units of apples within the next 20 years.
-
-      To achieve this, you will need to develop a robust agriculture system to grow crops and raise livestock. This will require the construction of farms, mills, and pastures, as well as the recruitment of skilled laborers.
-
-      In addition to food production, you will also need to consider the storage and distribution of these resources. This may involve building granaries and markets to store and sell your products.
-
+      200 units of cheese, and 250 units of apples within the next 20 years.\n
+      To achieve this, you will need to develop a robust agriculture system to grow crops and raise livestock. This will require the construction of farms, mills, and pastures, as well as the recruitment of skilled laborers.\n
+      In addition to food production, you will also need to consider the storage and distribution of these resources. This may involve building granaries and markets to store and sell your products.\n
       Keep in mind that your success in this mission will depend on your ability to balance your resources and prioritize your goals. You will need to carefully manage your finances and make strategic decisions to ensure the prosperity of your kingdom. Good luck!
+mission4:
+    name: The Kingdom's Fortune
+    desc: |
+      In this mission, your goal is to accumulate a substantial amount of wealth by acquiring 5000 units of gold.
+      Unlike previous missions, there is no time limit on this objective, so you will have the freedom to pursue your goals at your own pace.\n
+      To achieve this, you will need to develop a strong economy by building and managing workshops, investing in trade and commerce, and making strategic financial decisions.\n
+      Keep in mind that your success in this mission will depend on your ability to make wise investments and manage your finances carefully.
+      You will need to balance your resources and take calculated risks to ensure the prosperity of your kingdom. Good luck!
+mission5:
+    name: Faith in Architecture
+    desc: |
+      In this mission, you will need to focus on constructing a grand cathedral to serve as the centerpiece of your kingdom's religious and cultural life.
+      Your objective is to build a cathedral within the next 10 years.\n
+      Keep in mind that your success in this mission will depend on your ability to manage a complex construction project and balance your resources effectively.
+      You will need to make strategic decisions and manage your time carefully to ensure the completion of your cathedral within the allotted timeframe. Good luck!
 

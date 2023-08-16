@@ -10,6 +10,7 @@ end
 function love.conf(t)
     _G.testMode = false
     _G.args = {}
+    _G.currentLang = "ENG"
     local config = require("config_file")
     local resolutionWidth = config.video.resolutionWidth
     local resolutionHeight = config.video.resolutionHeight

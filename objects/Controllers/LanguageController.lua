@@ -10,6 +10,7 @@ local function readAll(file)
 end
 
 local function loadTranslations(folder)
+    ---@type { ENG: table }
     local translations = {}
     local filesTable = love.filesystem.getDirectoryItems(folder)
     for _, v in ipairs(filesTable) do
@@ -27,8 +28,21 @@ local function loadTranslations(folder)
             end
         end
     end
+
+
     local english = readAll("locale/source/strings.yaml")
     translations["ENG"] = yaml.eval(english)
+    local mt = {}
+    function mt.__index(self, index)
+        -- fallback to english translations if none are found
+        return rawget(translations["ENG"], index)
+    end
+
+    for k, v in pairs(translations) do
+        if k ~= "ENG" then
+            setmetatable(v, mt)
+        end
+    end
     return translations
 end
 

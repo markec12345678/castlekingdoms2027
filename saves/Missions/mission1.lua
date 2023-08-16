@@ -2,15 +2,12 @@ local Mission = _G.class('Mission')
 local FOOD = require("objects.Enums.Food")
 local RESOURCES = require("objects.Enums.Resources")
 local WEAPON = require("objects.Enums.Weapon")
+local SID = require("objects.Controllers.LanguageController").lines
 
 function Mission:initialize()
     self.locked = false
-    self.name = "Timber and Stone" --name or id of the mission
-    self.description = [[
-    In this mission, you will need to focus on gathering resources to develop your kingdom's infrastructure. Your objective is to collect 50 units of wood and 20 units of stone within the next 5 years.
-
-    To achieve this, you will need to establish a network of woodcutter's huts and quarries to extract these resources from the surrounding environment. This may involve the construction of stockpiles to store your resources.
-    ]]
+    self.name = SID.mission1.name
+    self.description = SID.mission1.desc
     self.goals = {} -- goals of the mission
     self.lockedBuildings = {
         "ironMine",
