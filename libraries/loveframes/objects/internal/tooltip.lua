@@ -1,7 +1,8 @@
 --[[------------------------------------------------
 	-- Love Frames - A GUI library for LOVE --
 	-- Copyright (c) 2012-2014 Kenny Shields --
---]] ------------------------------------------------
+--]]
+------------------------------------------------
 return function(loveframes)
     ---------- module start ----------
 
@@ -11,7 +12,8 @@ return function(loveframes)
     --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: initializes the object
---]] ---------------------------------------------------------
+--]]
+    ---------------------------------------------------------
     function newobject:initialize(object, text, title_text)
         self.type = "tooltip"
         self.parent = loveframes.base
@@ -60,9 +62,9 @@ return function(loveframes)
     --[[---------------------------------------------------------
 	- func: update(deltatime)
 	- desc: updates the object
---]] ---------------------------------------------------------
+--]]
+    ---------------------------------------------------------
     function newobject:update(dt)
-
         self.state = self.object and self.object.state or loveframes.states
         local state = self.state
         local selfstate = self.state
@@ -144,62 +146,57 @@ return function(loveframes)
         if update then
             update(self, dt)
         end
-
     end
 
     --[[---------------------------------------------------------
 	- func: SetFollowCursor(bool)
 	- desc: sets whether or not the tooltip should follow the
 			cursor
---]] ---------------------------------------------------------
+--]]
+    ---------------------------------------------------------
     function newobject:SetFollowCursor(bool)
-
         self.followcursor = bool
         return self
-
     end
 
     --[[---------------------------------------------------------
 	- func: GetFollowCursor()
 	- desc: gets whether or not the tooltip should follow the
 			cursor
---]] ---------------------------------------------------------
+--]]
+    ---------------------------------------------------------
     function newobject:GetFollowCursor()
-
         return self.followcursor
-
     end
 
     --[[---------------------------------------------------------
 	- func: SetObject(object)
 	- desc: sets the tooltip's object
---]] ---------------------------------------------------------
+--]]
+    ---------------------------------------------------------
     function newobject:SetObject(object)
-
         self.object = object
         self.x = object.x
         self.y = object.y
 
         return self
-
     end
 
     --[[---------------------------------------------------------
 	- func: GetObject()
 	- desc: gets the tooltip's object
---]] ---------------------------------------------------------
+--]]
+    ---------------------------------------------------------
     function newobject:GetObject()
-
         return self.object
-
     end
 
     --[[---------------------------------------------------------
 	- func: SetText(text)
 	- desc: sets the tooltip's text
---]] ---------------------------------------------------------
+--]]
+    ---------------------------------------------------------
     function newobject:SetText(text, title)
-
         local internals = self.internals
         local textobject = internals[1]
         local titleobject = internals[2]
@@ -213,165 +210,151 @@ return function(loveframes)
     --[[---------------------------------------------------------
 	- func: GetText()
 	- desc: gets the tooltip's text
---]] ---------------------------------------------------------
+--]]
+    ---------------------------------------------------------
     function newobject:GetText()
-
         local internals = self.internals
         local textobject = internals[1]
         local text = textobject:GetText()
 
         return text
-
     end
 
     --[[---------------------------------------------------------
 	- func: SetTextMaxWidth(text)
 	- desc: sets the tooltip's text max width
---]] ---------------------------------------------------------
+--]]
+    ---------------------------------------------------------
     function newobject:SetTextMaxWidth(width)
-
         local internals = self.internals
         local textobject = internals[1]
 
         textobject:SetMaxWidth(width)
         return self
-
     end
 
     --[[---------------------------------------------------------
 	- func: SetOffsetX(xoffset)
 	- desc: sets the tooltip's x offset
---]] ---------------------------------------------------------
+--]]
+    ---------------------------------------------------------
     function newobject:SetOffsetX(xoffset)
-
         self.xoffset = xoffset
         return self
-
     end
 
     --[[---------------------------------------------------------
 	- func: GetOffsetX()
 	- desc: gets the tooltip's x offset
---]] ---------------------------------------------------------
+--]]
+    ---------------------------------------------------------
     function newobject:GetOffsetX()
-
         return self.xoffset
-
     end
 
     --[[---------------------------------------------------------
 	- func: SetOffsetY(yoffset)
 	- desc: sets the tooltip's y offset
---]] ---------------------------------------------------------
+--]]
+    ---------------------------------------------------------
     function newobject:SetOffsetY(yoffset)
-
         self.yoffset = yoffset
         return self
-
     end
 
     --[[---------------------------------------------------------
 	- func: GetOffsetY()
 	- desc: gets the tooltip's y offset
---]] ---------------------------------------------------------
+--]]
+    ---------------------------------------------------------
     function newobject:GetOffsetY()
-
         return self.yoffset
-
     end
 
     --[[---------------------------------------------------------
 	- func: SetOffsets(xoffset, yoffset)
 	- desc: sets the tooltip's x and y offset
---]] ---------------------------------------------------------
+--]]
+    ---------------------------------------------------------
     function newobject:SetOffsets(xoffset, yoffset)
-
         self.xoffset = xoffset
         self.yoffset = yoffset
 
         return self
-
     end
 
     --[[---------------------------------------------------------
 	- func: GetOffsets()
 	- desc: gets the tooltip's x and y offset
---]] ---------------------------------------------------------
+--]]
+    ---------------------------------------------------------
     function newobject:GetOffsets()
-
         return self.xoffset, self.yoffset
-
     end
 
     --[[---------------------------------------------------------
 	- func: SetPadding(padding)
 	- desc: sets the tooltip's padding
---]] ---------------------------------------------------------
+--]]
+    ---------------------------------------------------------
     function newobject:SetPadding(padding)
-
         self.padding = padding
         return self
-
     end
 
     --[[---------------------------------------------------------
 	- func: GetPadding()
 	- desc: gets the tooltip's padding
---]] ---------------------------------------------------------
+--]]
+    ---------------------------------------------------------
     function newobject:GetPadding()
-
         return self.padding
-
     end
 
     --[[---------------------------------------------------------
 	- func: SetFont(font)
 	- desc: sets the tooltip's font
---]] ---------------------------------------------------------
+--]]
+    ---------------------------------------------------------
     function newobject:SetFont(font)
-
         local internals = self.internals
         local textobject = internals[1]
 
         textobject:SetFont(font)
         return self
-
     end
 
     --[[---------------------------------------------------------
 	- func: GetFont()
 	- desc: gets the tooltip's font
---]] ---------------------------------------------------------
+--]]
+    ---------------------------------------------------------
     function newobject:GetFont()
-
         local internals = self.internals
         local textobject = internals[1]
 
         return textobject:GetFont()
-
     end
 
     --[[---------------------------------------------------------
 	- func: SetFollowObject(bool)
 	- desc: sets whether or not the tooltip should follow
 			its assigned object
---]] ---------------------------------------------------------
+--]]
+    ---------------------------------------------------------
     function newobject:SetFollowObject(bool)
-
         self.followobject = bool
         return self
-
     end
 
     --[[---------------------------------------------------------
 	- func: GetFollowObject()
 	- desc: gets whether or not the tooltip should follow
 			its assigned object
---]] ---------------------------------------------------------
+--]]
+    ---------------------------------------------------------
     function newobject:GetFollowObject()
-
         return self.followobject
-
     end
 
     ---------- module end ----------
