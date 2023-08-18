@@ -80,7 +80,9 @@ function OrchardFarmer:serialize()
             data[k] = v
         end
     end
-    data.animation = self.animation:serialize()
+    if self.animation then
+        data.animation = self.animation:serialize()
+    end
     data.state = self.state
     data.animated = self.animated
     data.count = self.count
