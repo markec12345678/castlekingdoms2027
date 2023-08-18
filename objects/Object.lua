@@ -178,6 +178,7 @@ function Object:serialize()
     end
     if data.className ~= "StockpileAlias" and data.className ~= "CampfireAlias" and data.className ~= "WheatFarmAlias"
         and
+        data.className ~= "InnAlias" and
         data.className ~= "BakeryAlias" and data.className ~= "BakeryAlias" and data.className ~= "BreweryAlias" and
         data.className ~= "BreweryAlias" and data.className ~= "WoodcutterHutAlias" and
         data.className ~= "OrchardAlias" and data.className ~= "GranaryAlias" and data.className ~= "WindmillAlias" and
