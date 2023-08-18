@@ -143,9 +143,6 @@ local _, _, _, _, _, _, _, UpgradeIcon = unpack(require("states.ui.workshops.wor
 function Flat:onClick()
     targetHouse = self
     if _G.state.tier >= 3 then
-        -- UpgradeIcon.visible = true
-        -- local x, y = love.mouse.getPosition()
-        -- UpgradeIcon:SetPos(x - 50, y + 50)
         X = self.clickedHouseX
         Y = self.clickedHouseY
     end

@@ -107,7 +107,7 @@ upgradeButton.OnClick = function(self)
     if targetHouse == 3 and lockButton == false then
         if _G.state.tier >= 4 and _G.BuildController:isBuildingAffordable("BigResidence") then
             _G.BuildController:purchaseBuilding("BigResidence")
-            Residence:upgradeHouseOne(X, Y)
+            Residence:upgradeHouse(X, Y)
             actionBar:switchMode()
         end
         --PLAY SOUND "NOT ENOUGH WOOD"
