@@ -138,14 +138,26 @@ local function isMouseOnDirectionEdge(direction)
     if not config.camera.moveMouseToEdgesToPan then return end
     local mouseX, mouseY = love.mouse.getPosition()
     -- Right click unaffected by changes in the next if statement.
-    if (direction == panDirection.up or direction == panDirection.down)
-        and (mouseY == panDirectionToMousePositions[direction].y) then
+    local width, height = love.graphics.getDimensions()
+    local maxX, maxY = _G.getTerrainTileOnMouse(width / 2, height / 2)
+    if (direction == panDirection.up)
+        and (mouseY == panDirectionToMousePositions[direction].y) and maxX > 0 and maxY > 0 then
         return true
     end
-    if (direction == panDirection.left or direction == panDirection.right)
-        and (mouseX == panDirectionToMousePositions[direction].x) then
+    if (direction == panDirection.down)
+        and (mouseY == panDirectionToMousePositions[direction].y) and maxY < 512 then
         return true
     end
+
+    if (direction == panDirection.left)
+        and (mouseX == panDirectionToMousePositions[direction].x) and maxX > 0 then
+        return true
+    end
+    if (direction == panDirection.right)
+        and (mouseX == panDirectionToMousePositions[direction].x) and maxX < 512 then
+        return true
+    end
+
     return false
 end
 
@@ -186,17 +198,18 @@ local function handleCamera()
             if (love.keyboard.isDown( "lalt" )) then
                 return
             end
-
-            if shouldPan(panDirection.up) then
+            local width, height = love.graphics.getDimensions()
+            local maxX, maxY = _G.getTerrainTileOnMouse(width / 2, height / 2)
+            if shouldPan(panDirection.up) and maxX > 0 and maxY > 0 then
                 handleCameraMovement(nil, _G.state.viewYview - (finalScrollSpeed * 1.2))
             end
-            if shouldPan(panDirection.down) then
+            if shouldPan(panDirection.down) and maxY < 512  then
                 handleCameraMovement(nil, _G.state.viewYview + (finalScrollSpeed * 1.2))
             end
-            if shouldPan(panDirection.left) then
+            if shouldPan(panDirection.left) and maxX > 0 then
                 handleCameraMovement(_G.state.viewXview - (finalScrollSpeed * 1.2), nil)
             end
-            if shouldPan(panDirection.right) then
+            if shouldPan(panDirection.right) and maxX < 512 then
                 handleCameraMovement(_G.state.viewXview + (finalScrollSpeed * 1.2), nil)
             end
             resetMousePositionIfNeeded()
