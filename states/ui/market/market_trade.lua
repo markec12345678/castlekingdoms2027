@@ -412,6 +412,11 @@ local function reloadPrice()
     setButtonVisibility(true)
 end
 
+ _G.bus.on(Events.OnItemClicked, function(goodPriceStockpile)
+        goodPrice = goodsPrice[goodPriceStockpile].gold
+        reloadPrice()
+end)
+
 local bigIconTemplate = loveframes.Create("image")
 bigIconTemplate:SetState(states.STATE_MARKET)
 bigIconTemplate:SetImage(emptyIconBig)
