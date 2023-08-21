@@ -86,21 +86,29 @@ local function handleOnMouseButtonDownCameraMovement(mx, my, smoothModifier)
         -- no movement needed
         return
     end
+
     local distX, distY = mx - _G.state.viewXview, my - _G.state.viewYview
-    handleCameraMovement(_G.state.viewXview + distX / smoothModifier, _G.state.viewYview + distY / smoothModifier)
+    local width, height = love.graphics.getDimensions()
+    local mapSizeX = _G.chunksWide * _G.chunkWidth
+    local mapSizeY = _G.chunksHigh * _G.chunkHeight
+    local maxX, maxY = _G.getTerrainTileOnMouse((width / 2) + distX / smoothModifier, (height / 2) + distY / smoothModifier, true)
+    if (maxX >= 0 and maxX < mapSizeX)
+        and (maxY >= 0 and maxY < mapSizeY) then
+        handleCameraMovement(_G.state.viewXview + distX / smoothModifier, _G.state.viewYview + distY / smoothModifier)
+    end
 end
 
 local panDirection = {
-    up    = "up",
-    down  = "down",
-    left  = "left",
+    up = "up",
+    down = "down",
+    left = "left",
     right = "right",
 }
 
 local panDirectionToKeys = {
-    [panDirection.up]    = {},
-    [panDirection.down]  = {},
-    [panDirection.left]  = {},
+    [panDirection.up] = {},
+    [panDirection.down] = {},
+    [panDirection.left] = {},
     [panDirection.right] = {}
 }
 
@@ -112,10 +120,10 @@ if keybindManager then
 end
 
 local panDirectionToMousePositions = {
-    [panDirection.up]    = {y = 0},
-    [panDirection.down]  = {y = _G.ScreenHeight - 1},
-    [panDirection.left]  = {x = 0},
-    [panDirection.right] = {x = _G.ScreenWidth - 1},
+    [panDirection.up] = { y = 0 },
+    [panDirection.down] = { y = _G.ScreenHeight - 1 },
+    [panDirection.left] = { x = 0 },
+    [panDirection.right] = { x = _G.ScreenWidth - 1 },
 }
 
 --- Check if a certain table of keys are pressed, then returns true if a key is pressed from that table.
@@ -135,17 +143,31 @@ end
 ---@param direction string Name of the pan direction. (up, down, left, right)
 ---@return boolean|nil Return if the Camera should pan or not.
 local function isMouseOnDirectionEdge(direction)
+    local mapSizeX = _G.chunksWide * _G.chunkWidth
+    local mapSizeY = _G.chunksHigh * _G.chunkHeight
     if not config.camera.moveMouseToEdgesToPan then return end
     local mouseX, mouseY = love.mouse.getPosition()
     -- Right click unaffected by changes in the next if statement.
-    if (direction == panDirection.up or direction == panDirection.down)
-        and (mouseY == panDirectionToMousePositions[direction].y) then
+    local width, height = love.graphics.getDimensions()
+    local maxX, maxY = _G.getTerrainTileOnMouse(width / 2, height / 2, true)
+    if (direction == panDirection.up)
+        and (mouseY == panDirectionToMousePositions[direction].y) and maxX > 0 and maxY > 0 then
         return true
     end
-    if (direction == panDirection.left or direction == panDirection.right)
-        and (mouseX == panDirectionToMousePositions[direction].x) then
+    if (direction == panDirection.down)
+        and (mouseY == panDirectionToMousePositions[direction].y) and maxY < mapSizeY and maxX < mapSizeX then
         return true
     end
+
+    if (direction == panDirection.left)
+        and (mouseX == panDirectionToMousePositions[direction].x) and maxX > 0 and maxY < mapSizeY then
+        return true
+    end
+    if (direction == panDirection.right)
+        and (mouseX == panDirectionToMousePositions[direction].x) and maxX < mapSizeX and maxY > 0 then
+        return true
+    end
+
     return false
 end
 
@@ -159,6 +181,10 @@ end
 
 ---Handles and moves the camera depending on what is supposed to pan.
 local function handleCamera()
+    local mapSizeX = _G.chunksWide * _G.chunkWidth
+    local mapSizeY = _G.chunksHigh * _G.chunkHeight
+    local width, height = love.graphics.getDimensions()
+    local maxX, maxY = _G.getTerrainTileOnMouse(width / 2, height / 2, true)
     -- Right click affected.
     local defMX, defMY = love.mouse.getPosition()
     -- Multiply with deltatime for consistent camera movement across all framerates.
@@ -169,10 +195,10 @@ local function handleCamera()
     if finalScrollSpeed < 5 then
         finalScrollSpeed = 5
     end
-
     local smoothModifier = finalScrollSpeed * 3
     if not _G.paused then
-        if love.mouse.isDown(2) and config.camera.holdRightButtonToPan then
+        if love.mouse.isDown(2) and config.camera.holdRightButtonToPan and (maxX >= 0 and maxX < mapSizeX)
+            and (maxY >= 0 and maxY < mapSizeY) then
             -- Only applies to Right Click panning.
             handleOnMouseButtonDownCameraMovement(mx, my, smoothModifier)
         else
@@ -183,20 +209,19 @@ local function handleCamera()
             -- Multiply with deltatime for consistent camera movement across all framerates.
             -- dt / _G.speedModifier means that the Camera speed is no longer dependent on the Game's speed multiplier.
             -- Right click is not affected by this.
-            if (love.keyboard.isDown( "lalt" )) then
+            if (love.keyboard.isDown("lalt")) then
                 return
             end
-
-            if shouldPan(panDirection.up) then
+            if shouldPan(panDirection.up) and maxX > 0 and maxY > 0 then
                 handleCameraMovement(nil, _G.state.viewYview - (finalScrollSpeed * 1.2))
             end
-            if shouldPan(panDirection.down) then
+            if shouldPan(panDirection.down) and maxY < mapSizeY and maxX < mapSizeX then
                 handleCameraMovement(nil, _G.state.viewYview + (finalScrollSpeed * 1.2))
             end
-            if shouldPan(panDirection.left) then
+            if shouldPan(panDirection.left) and maxX > 0 and maxY < mapSizeY then
                 handleCameraMovement(_G.state.viewXview - (finalScrollSpeed * 1.2), nil)
             end
-            if shouldPan(panDirection.right) then
+            if shouldPan(panDirection.right) and maxX < mapSizeX and maxY > 0 then
                 handleCameraMovement(_G.state.viewXview + (finalScrollSpeed * 1.2), nil)
             end
             resetMousePositionIfNeeded()

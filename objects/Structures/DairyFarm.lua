@@ -385,7 +385,6 @@ function DairyFarmAlias.static:deserialize(data)
 end
 
 local tileQuads = require("objects.object_quads")
-local ChickensGroup = require("objects.Structures.ChickensGroup")
 local DairyFarm = _G.class("DairyFarm", Structure)
 
 DairyFarm.static.WIDTH = 3
@@ -402,7 +401,6 @@ function DairyFarm:initialize(gx, gy)
     self.working = false
     self.unloading = false
     self.cowCounter = 0
-    self.chickenCounter = 0
     self.offsetX = 0
     self.offsetY = -48 - 6
     self.freeSpots = 1
@@ -412,7 +410,6 @@ function DairyFarm:initialize(gx, gy)
     self.cowMilkingFarmer = CowMilkingFarmer:new(self.gx + 3, self.gy + 2, self)
     self.cowBreed = CowBreeding:new(self.gx + 3, self.gy + 2, self)
 
-    self.chickens = ChickensGroup:new(self.gx + 1, self.gy + 1, self)
     for tile = 1, tiles do
         local hsl = DairyFarmAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
             -self.offsetY + 8 * (tiles - tile + 1))

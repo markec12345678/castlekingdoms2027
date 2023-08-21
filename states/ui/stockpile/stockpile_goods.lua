@@ -3,6 +3,7 @@ local states = require("states.ui.states")
 local framesActionBar = require("states.ui.action_bar_frames")
 local actionBar = require("states.ui.ActionBar")
 local scale = actionBar.element.scalex
+local Events = require "objects.Enums.Events"
 
 local group = {}
 
@@ -161,6 +162,7 @@ local function SwitchToTheMarket()
                 end
             end
         end
+        _G.bus.emit(Events.OnItemClicked, group.good)
         actionBar:switchMode("market_trade")
         switchTradeGroup(2)
         group.name = 2

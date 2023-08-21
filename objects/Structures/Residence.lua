@@ -140,6 +140,7 @@ end
 
 local X
 local Y
+local _, _, _, _, _, _, _, UpgradeIcon = unpack(require("states.ui.workshops.workshops_ui"))
 function Residence:onClick()
     targetHouse = self
     if _G.state.tier >= 4 then
@@ -149,6 +150,16 @@ function Residence:onClick()
     _G.bus.emit(Events.OnHouseUpgraded, self.tier, X, Y)
     local ActionBar = require("states.ui.ActionBar")
     ActionBar:switchMode("house")
+end
+
+UpgradeIcon.OnClick = function(self)
+    if targetHouse then
+        if _G.state.tier >= 4 and _G.BuildController:isBuildingAffordable("BigResidence") then
+            _G.BuildController:purchaseBuilding("BigResidence")
+            Residence:upgradeHouse(X, Y)
+        end
+    end
+    UpgradeIcon.visible = false
 end
 
 return Residence
