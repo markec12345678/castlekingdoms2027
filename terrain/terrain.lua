@@ -1079,8 +1079,9 @@ end
 --- Handles elevation calculation.
 ---@param mx integer Mouse X
 ---@param my integer Mouse Y
+---@param ignoreElevation? boolean Whether to get the tile a 0 ground level
 ---@return integer gx, integer gy
-function Terrain:getTerrainTileOnMouse(mx, my)
+function Terrain:getTerrainTileOnMouse(mx, my, ignoreElevation)
     local MX, MY, rMX, rMY
     rMX = (mx - _G.ScreenWidth / 2) / self.state.scaleX + self.state.viewXview - 16
     rMY = (my - _G.ScreenHeight / 2) / self.state.scaleX + self.state.viewYview
@@ -1088,6 +1089,7 @@ function Terrain:getTerrainTileOnMouse(mx, my)
     local offsetY
     local LocalX = math.round(ScreenToIsoX(rMX, rMY))
     local LocalY = math.round(ScreenToIsoY(rMX, rMY))
+    if ignoreElevation then return LocalX, LocalY end
     local lastValidGx, lastValidGy = LocalX, LocalY
     for tilesIterated = 0, maxTiles do
         offsetY = tilesIterated * 8

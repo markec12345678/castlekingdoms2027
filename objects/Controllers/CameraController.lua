@@ -9,8 +9,6 @@ local workshopWeaponChoosers = require("states.ui.workshops.workshops_ui")
 local console = require("libraries.console")
 local panning = false
 local outsideDeadZone = false
-local mapSizeX = _G.chunksWide*_G.chunkWidth
-local mapSizeY = _G.chunksHigh*_G.chunkHeight
 
 local function getZFromZoom()
     local val = 1
@@ -88,21 +86,29 @@ local function handleOnMouseButtonDownCameraMovement(mx, my, smoothModifier)
         -- no movement needed
         return
     end
+
     local distX, distY = mx - _G.state.viewXview, my - _G.state.viewYview
-    handleCameraMovement(_G.state.viewXview + distX / smoothModifier, _G.state.viewYview + distY / smoothModifier)
+    local width, height = love.graphics.getDimensions()
+    local mapSizeX = _G.chunksWide * _G.chunkWidth
+    local mapSizeY = _G.chunksHigh * _G.chunkHeight
+    local maxX, maxY = _G.getTerrainTileOnMouse((width / 2) + distX / smoothModifier, (height / 2) + distY / smoothModifier, true)
+    if (maxX >= 0 and maxX < mapSizeX)
+        and (maxY >= 0 and maxY < mapSizeY) then
+        handleCameraMovement(_G.state.viewXview + distX / smoothModifier, _G.state.viewYview + distY / smoothModifier)
+    end
 end
 
 local panDirection = {
-    up    = "up",
-    down  = "down",
-    left  = "left",
+    up = "up",
+    down = "down",
+    left = "left",
     right = "right",
 }
 
 local panDirectionToKeys = {
-    [panDirection.up]    = {},
-    [panDirection.down]  = {},
-    [panDirection.left]  = {},
+    [panDirection.up] = {},
+    [panDirection.down] = {},
+    [panDirection.left] = {},
     [panDirection.right] = {}
 }
 
@@ -114,10 +120,10 @@ if keybindManager then
 end
 
 local panDirectionToMousePositions = {
-    [panDirection.up]    = {y = 0},
-    [panDirection.down]  = {y = _G.ScreenHeight - 1},
-    [panDirection.left]  = {x = 0},
-    [panDirection.right] = {x = _G.ScreenWidth - 1},
+    [panDirection.up] = { y = 0 },
+    [panDirection.down] = { y = _G.ScreenHeight - 1 },
+    [panDirection.left] = { x = 0 },
+    [panDirection.right] = { x = _G.ScreenWidth - 1 },
 }
 
 --- Check if a certain table of keys are pressed, then returns true if a key is pressed from that table.
@@ -137,11 +143,13 @@ end
 ---@param direction string Name of the pan direction. (up, down, left, right)
 ---@return boolean|nil Return if the Camera should pan or not.
 local function isMouseOnDirectionEdge(direction)
+    local mapSizeX = _G.chunksWide * _G.chunkWidth
+    local mapSizeY = _G.chunksHigh * _G.chunkHeight
     if not config.camera.moveMouseToEdgesToPan then return end
     local mouseX, mouseY = love.mouse.getPosition()
     -- Right click unaffected by changes in the next if statement.
     local width, height = love.graphics.getDimensions()
-    local maxX, maxY = _G.getTerrainTileOnMouse(width / 2, height / 2)
+    local maxX, maxY = _G.getTerrainTileOnMouse(width / 2, height / 2, true)
     if (direction == panDirection.up)
         and (mouseY == panDirectionToMousePositions[direction].y) and maxX > 0 and maxY > 0 then
         return true
@@ -173,8 +181,10 @@ end
 
 ---Handles and moves the camera depending on what is supposed to pan.
 local function handleCamera()
+    local mapSizeX = _G.chunksWide * _G.chunkWidth
+    local mapSizeY = _G.chunksHigh * _G.chunkHeight
     local width, height = love.graphics.getDimensions()
-    local maxX, maxY = _G.getTerrainTileOnMouse(width / 2, height / 2)
+    local maxX, maxY = _G.getTerrainTileOnMouse(width / 2, height / 2, true)
     -- Right click affected.
     local defMX, defMY = love.mouse.getPosition()
     -- Multiply with deltatime for consistent camera movement across all framerates.
@@ -187,8 +197,8 @@ local function handleCamera()
     end
     local smoothModifier = finalScrollSpeed * 3
     if not _G.paused then
-        if love.mouse.isDown(2) and config.camera.holdRightButtonToPan and (maxX > 0 and maxX  < mapSizeX)
-        and (maxY> 0 and maxY < mapSizeY) then
+        if love.mouse.isDown(2) and config.camera.holdRightButtonToPan and (maxX >= 0 and maxX < mapSizeX)
+            and (maxY >= 0 and maxY < mapSizeY) then
             -- Only applies to Right Click panning.
             handleOnMouseButtonDownCameraMovement(mx, my, smoothModifier)
         else
@@ -199,7 +209,7 @@ local function handleCamera()
             -- Multiply with deltatime for consistent camera movement across all framerates.
             -- dt / _G.speedModifier means that the Camera speed is no longer dependent on the Game's speed multiplier.
             -- Right click is not affected by this.
-            if (love.keyboard.isDown( "lalt" )) then
+            if (love.keyboard.isDown("lalt")) then
                 return
             end
             if shouldPan(panDirection.up) and maxX > 0 and maxY > 0 then

@@ -91,8 +91,8 @@ function State:initialize()
     self:allocateMeshes()
     local Terrain = require("terrain.terrain")
     self.Terrain = Terrain:new(self)
-    function _G.getTerrainTileOnMouse(mx, my)
-        return self.Terrain:getTerrainTileOnMouse(mx, my)
+    function _G.getTerrainTileOnMouse(mx, my, ignoreElevation)
+        return self.Terrain:getTerrainTileOnMouse(mx, my, ignoreElevation)
     end
 
     function _G.terrainSetTileAt(gx, gy, biome, from, force)
