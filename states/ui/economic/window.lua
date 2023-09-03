@@ -76,7 +76,9 @@ end
 
 _G.bus.on(Events.OnMissionCompleted, function(name)
     local missionNumber = tonumber(name:gsub("%D", ""))
+    if missionNumber ~= 5 then
     mapList[missionNumber + 1].unlocked = true
+    end
 end)
 
 local mission1 = require("saves.Missions.mission1")
