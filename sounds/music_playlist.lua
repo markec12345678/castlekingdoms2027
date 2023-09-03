@@ -1,6 +1,7 @@
 local music = require("sounds.music")
-local playlist = {music["stainedglass"], music["Mattsjig"], music["sadtimes"], music["the maiden"],
-                  music["twomandolins"], music["underanoldtree"], music["castlejam"]}
+
+-- TODO: pick mood dynamically
+local playlist = music["peaceful"];
 
 local function shuffle(x)
     for i = #x, 2, -1 do
@@ -12,6 +13,11 @@ end
 shuffle(playlist)
 
 return function()
+    -- handle empty playlist
+    if(#playlist == 0) then
+        return
+    end
+
     if not _G.CURRENT_MUSIC or not _G.CURRENT_MUSIC:isPlaying() then
         _G.CURRENT_PLAYLIST_INDEX = _G.CURRENT_PLAYLIST_INDEX + 1
         if _G.CURRENT_PLAYLIST_INDEX > #playlist then
