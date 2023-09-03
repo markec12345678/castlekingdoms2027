@@ -68,6 +68,38 @@ function Maypole:initialize(gx, gy)
     self:applyBuildingHeightMap(true)
 end
 
+function MaypolePillar:serialize()
+    local data = {}
+    local structData = Structure.serialize(self)
+    for k, v in pairs(structData) do
+        if type(v) ~= "function" and type(v) ~= "userdata" then
+            data[k] = v
+        end
+    end
+    data.animation = self.animation:serialize()
+    data.animated = self.animated
+    data.offsetX = self.offsetX
+    data.offsetY = self.offsetY
+    data.parent = _G.state:serializeObject(self.parent)
+    return data
+end
+
+function MaypolePillar.static:deserialize(data)
+    local obj = self:allocate()
+    Object.deserialize(obj, data)
+    Structure.load(obj, data)
+    obj.parent = _G.state:dereferenceObject(data.parent)
+    local callback
+    local anData = data.animation
+    if anData.animationIdentifier == ANIM_FULL then
+        callback = obj:animCallback()
+    end
+    obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
+    obj.animation:deserialize(anData)
+
+    return obj
+end
+
 function Maypole:destroy()
     Structure.destroy(self)
 end
@@ -80,6 +112,9 @@ function Maypole:serialize()
             data[k] = v
         end
     end
+    data.offsetX = self.offsetX
+    data.offsetY = self.offsetY
+    data.animated = self.animated
     return data
 end
 

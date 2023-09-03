@@ -7,16 +7,16 @@ local ActionBar = require('states.ui.ActionBar')
 local maypoleButton = ActionBarButton:new(love.graphics.newImage("assets/ui/maypole_ab.png"), states.STATE_INGAME_CONSTRUCTION, 1, false, nil)
 maypoleButton:setTooltip("Maypole", "Requires 2 wood and 30 gold.")
 maypoleButton:disable()
--- maypoleButton:setOnClick(
---     function(self)
---         _G.BuildController:set(
---             "Maypole", function()
---                 maypoleButton:unselect()
---             end
---         )
---         ActionBar:selectButton(maypoleButton)
---     end
--- )
+maypoleButton:setOnClick(
+    function(self)
+        _G.BuildController:set(
+            "Maypole", function()
+                maypoleButton:unselect()
+            end
+        )
+        ActionBar:selectButton(maypoleButton)
+    end
+)
 
 local smallPondButton = ActionBarButton:new(love.graphics.newImage("assets/ui/small_pond_ab.png"), states.STATE_INGAME_CONSTRUCTION, 2, false, nil)
 smallPondButton:setTooltip("Small Pond", "Requires 30 gold.")
