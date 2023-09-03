@@ -20,6 +20,11 @@
 
 * In-game sound fx and speech fx are property of Firefly Studios.
 
+## Music
+
+* Original OST is property of Firefly Studios.
+* Extended soundtrack was made by Alexander Nakarada, Kevin MacLeod & Random Mind. See `/sounds/music` for full attribution & licensing info.
+
 ## Freepik & flatikon
 
 * [Sickle icons created by Mayor Icons - Flaticon](https://www.flaticon.com/free-icons/sickle)
