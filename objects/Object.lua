@@ -176,32 +176,61 @@ function Object:serialize()
     if self.class.unserializable then
         return {}
     end
-    if data.className ~= "StockpileAlias" and data.className ~= "CampfireAlias" and data.className ~= "WheatFarmAlias"
-        and
-        data.className ~= "InnAlias" and
-        data.className ~= "BakeryAlias" and data.className ~= "BakeryAlias" and data.className ~= "BreweryAlias" and
-        data.className ~= "BreweryAlias" and data.className ~= "WoodcutterHutAlias" and
-        data.className ~= "OrchardAlias" and data.className ~= "GranaryAlias" and data.className ~= "WindmillAlias" and
-        data.className ~= "HouseAlias" and data.className ~= "QuarryAlias" and data.className ~= "MineAlias" and
-        data.className ~= "MarketAlias" and data.className ~= "WoodenGateAlias" and data.className ~= "OxTetherAlias" and
-        data.className ~= "WoodenPerimeterTowerAlias" and data.className ~= "WoodenDefenseTowerAlias" and
-        data.className ~= "WoodenGateEastBigAlias" and data.className ~= "WoodenGateSouthBigAlias" and
-        data.className ~= "WoodenTowerAlias" and data.className ~= "PerimeterTowerAlias" and data.className ~= "DefenseTowerAlias" and
-        data.className ~= "SquareTowerAlias" and data.className ~= "RoundTowerAlias" and
-        data.className ~= "StoneGateEastAlias" and data.className ~= "StoneGateEastAlias" and
-        data.className ~= "StoneGateEastBigAlias" and data.className ~= "StoneGateSouthBigAlias" and
-        data.className ~= "ChapelAlias" and data.className ~= "ChurchAlias" and data.className ~= "CathedralAlias" and
-        data.className ~= "BarracksAlias" and data.className ~= "StoneBarracksAlias" and
-        data.className ~= "ArcheryTargetAlias" and
-        data.className ~= "HopsFarmAlias" and
-        data.className ~= "MeleeTargetAlias" and data.className ~= "WoodPoleAlias" and
-        data.className ~= "ArmorerAlias" and data.className ~= "ArmouryAlias" and data.className ~= "FletcherAlias" and
-        data.className ~= "BlacksmithAlias" and
-        data.className ~= "EngineersGuildAlias" and data.className ~= "TunnelersGuildAlias" and
-        data.className ~= "DairyFarmAlias" and
-        data.className ~= "FlatAlias" and
-        data.className ~= "ResidenceAlias" and
-        data.className ~= "BigResidenceAlias" and
+    if data.className ~= "ApothecaryAlias" and
+    data.className ~= "ArcheryTargetAlias" and
+    data.className ~= "ArmorerAlias" and
+    data.className ~= "ArmouryAlias" and
+    data.className ~= "BakeryAlias" and
+    data.className ~= "BarracksAlias" and
+    data.className ~= "BigResidenceAlias" and
+    data.className ~= "BlacksmithAlias" and
+    data.className ~= "BreweryAlias" and
+    data.className ~= "CampfireAlias" and
+    data.className ~= "CathedralAlias" and
+    data.className ~= "ChapelAlias" and
+    data.className ~= "ChurchAlias" and
+    data.className ~= "DairyFarmAlias" and
+    data.className ~= "DefenseTowerAlias" and
+    data.className ~= "EngineersGuildAlias" and
+    data.className ~= "FlatAlias" and
+    data.className ~= "FletcherAlias" and
+    data.className ~= "GranaryAlias" and
+    data.className ~= "HopsFarmAlias" and
+    data.className ~= "HouseAlias" and
+    data.className ~= "InnAlias" and
+    data.className ~= "LargeGardenAlias" and
+    data.className ~= "LargePondAlias" and
+    data.className ~= "MarketAlias" and
+    data.className ~= "MaypoleAlias" and
+    data.className ~= "MediumGardenAlias" and
+    data.className ~= "MeleeTargetAlias" and
+    data.className ~= "MineAlias" and
+    data.className ~= "OrchardAlias" and
+    data.className ~= "OxTetherAlias" and
+    data.className ~= "PerimeterTowerAlias" and
+    data.className ~= "PoleturnerAlias" and
+    data.className ~= "QuarryAlias" and
+    data.className ~= "ResidenceAlias" and
+    data.className ~= "RoundTowerAlias" and
+    data.className ~= "SmallGardenAlias" and
+    data.className ~= "SmallPondAlias" and
+    data.className ~= "SquareTowerAlias" and
+    data.className ~= "StockpileAlias" and
+    data.className ~= "StoneBarracksAlias" and
+    data.className ~= "StoneGateEastAlias" and
+    data.className ~= "StoneGateEastAlias" and
+    data.className ~= "StoneGateEastBigAlias" and
+    data.className ~= "StoneGateSouthBigAlias" and
+    data.className ~= "TunnelersGuildAlias" and
+    data.className ~= "WheatFarmAlias" and
+    data.className ~= "WoodPoleAlias" and
+    data.className ~= "WoodcutterHutAlias" and
+    data.className ~= "WoodenDefenseTowerAlias" and
+    data.className ~= "WoodenGateAlias" and
+    data.className ~= "WoodenGateEastBigAlias" and
+    data.className ~= "WoodenGateSouthBigAlias" and
+    data.className ~= "WoodenPerimeterTowerAlias" and
+    data.className ~= "WoodenTowerAlias" and
         string.find(data.className or tostring(self.class), "Alias") then
         return {}
     end
