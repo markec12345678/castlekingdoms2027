@@ -153,6 +153,7 @@ textUpgrade:SetText({ {
 }, "UPGRADE" })
 textUpgrade:SetShadowColor(0, 0, 0, 1)
 textUpgrade:SetShadow(true)
+textUpgrade:SetClickBounds(0,0,0,0) -- the text is not clickable; the button bellow is.
 
 local frTextCost = {
     x = framesActionBar.frFull.x + 705 * scale,
