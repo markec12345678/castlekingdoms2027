@@ -285,6 +285,11 @@ function _G.isWithinKeepUpgradeRadius(gx, gy)
                 local structure = _G.objectFromSubclassAtGlobal(gx + xx, gy + yy, "Structure")
                 if structure then
                     structure = structure.parent or structure
+
+                    if not structure.class then
+                        return false
+                    end
+
                     if structure.class.name == "SaxonHall" or structure.class.name == "Keep" or structure.class.name == "WoodenKeep" or structure.class.name == "Fortress" then
                         return true
                     end
