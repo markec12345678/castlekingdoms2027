@@ -15,6 +15,9 @@ local KeybindManager = require("objects.Controllers.KeybindManager")
 local test = require("states.test")
 local lurker = require("lurker")
 
+--extend native error handler
+require("objects.Controllers.ErrorHandler")
+
 function love.load()
     local success = love.filesystem.createDirectory("saves")
     if not success then
