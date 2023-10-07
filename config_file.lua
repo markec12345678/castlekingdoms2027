@@ -65,9 +65,13 @@ function config:new()
     local configFile = shallowCopy(defaultConfig)
     local configFileValues = ini.parse("config.ini")
     for groupKey, group in pairs(configFileValues) do
-        configFile[groupKey] = group
+        if not configFile[groupKey] then
+            configFile[groupKey] = group
+        end
         for k, v in pairs(group) do
-            configFile[groupKey][k] = v
+            if type(v) ~= "function" then
+                configFile[groupKey][k] = v
+            end
         end
     end
 
