@@ -75,6 +75,12 @@ function TimeController:update()
             self:setMonth(1)
             self:setCurrentYear(self.year + 1)
         end
+
+        -- Dispatch in-game time changed event
+        local Events = require "objects.Enums.Events"
+        _G.bus.emit(Events.OnInGameTimeChanged, self.year, self.month)
+
+        -- Reset timer
         self.timer = 0
     end
 end

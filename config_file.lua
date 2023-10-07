@@ -13,7 +13,9 @@ end
 local defaultConfig = {
     general = {
         attachConsole = true,
-        skipSplashScreen = false
+        skipSplashScreen = false,
+        autosaveInterval = -1,
+        autosaveCrashBackup = true
     },
     video = {
         resolutionWidth = 0,
