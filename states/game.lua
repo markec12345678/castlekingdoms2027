@@ -276,7 +276,7 @@ function game:keypressed(key, scancode, isRepeat)
     elseif event == EVENT.IncreaseGameSpeed then
         if _G.speedModifier == 0.5 then
             _G.speedModifier = _G.speedModifier + 0.5
-        elseif _G.speedModifier < 1000 then
+        elseif _G.speedModifier < 10 then
             _G.speedModifier = _G.speedModifier + 1
         end
     elseif event == EVENT.NormalizeGameSpeed then
