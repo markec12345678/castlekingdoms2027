@@ -1,41 +1,329 @@
 mission1:
-  name: Timber and Stone
+  name: Legname e Pietra
   desc: |
-    In this mission, you will need to focus on gathering resources to develop your kingdom's infrastructure.
-    Your objective is to collect 50 units of wood and 20 units of stone within the next 5 years.\n
-    To achieve this, you will need to establish a network of woodcutter's huts and quarries to extract these resources from the surrounding environment.
-    This may involve the construction of stockpiles to store your resources.
+    In questa missione, dovrai concentrarti sulla raccolta di risorse per sviluppare l'infrastruttura del tuo regno.
+    Il tuo obiettivo è quello di raccogliere 50 unità di legno e 20 unità di pietra entro i prossimi 5 anni.\n
+    Per raggiungere questo obiettivo, sarà necessario istituire una rete di capanne dei taglialegna e cave per estrarre queste risorse dall'ambiente circostante.
+    Potresti anche necessitare della costruzione di magazzini per conservare le tue risorse.
 mission2:
-  name: Arms Race
+  name: Corsa alle Armi
   desc: |
-    In this mission, you will need to focus on developing a strong military to defend your kingdom against potential threats.
-    Your objective is to produce 40 units each of bows, spears, maces, and armor within the next 20 years.\n
-    To achieve this, you will need to establish a robust metalworking industry to craft high-quality weapons and armor.
-    This may involve the construction of blacksmiths, workshops, and mines, as well as the recruitment of skilled craftsmen.\n
-    Keep in mind that your success in this mission will depend on your ability to balance your resources and prioritize your goals.
-    You will need to carefully manage your finances and make strategic decisions to ensure the safety and security of your kingdom. Good luck!
+    In questa missione, dovrai concentrarti sullo sviluppo di un forte esercito per difendere il tuo regno dalle potenziali minacce.
+    Il tuo obiettivo è quello di produrre 40 unità ciascuno di archi, lance, mazze e armature entro i prossimi 20 anni.\n
+    Per raggiungere questo obiettivo, dovrai stabilire una robusta industria di lavorazione dei metalli per produrre armi e armature di alta qualità.
+    Ciò può comportare la costruzione di fabbri, armaioli e miniere, nonché il reclutamento di lavoratori qualificati.\n
+    Ricordati che il tuo successo in questa missione dipenderà dalla tua capacità di bilanciare le tue risorse e di dare priorità ai tuoi obiettivi.
+    Dovrai gestire attentamente le tue finanze e prendere decisioni strategiche per garantire la sicurezza del tuo regno. Buona fortuna!
 mission3:
-  name: Feast or famine
+  name: Tutto o Niente
   desc: |
-    In this mission, you will need to focus on food production to sustain your growing population. Your goal is to produce 250 units of bread,
-    100 units of meat,
-    200 units of cheese, and 250 units of apples within the next 20 years.\n
-    To achieve this, you will need to develop a robust agriculture system to grow crops and raise livestock. This will require the construction of farms, mills, and pastures, as well as the recruitment of skilled laborers.\n
-    In addition to food production, you will also need to consider the storage and distribution of these resources. This may involve building granaries and markets to store and sell your products.\n
-    Keep in mind that your success in this mission will depend on your ability to balance your resources and prioritize your goals. You will need to carefully manage your finances and make strategic decisions to ensure the prosperity of your kingdom. Good luck!
+    In questa missione, dovrai concentrarti sulla produzione di cibo per sostenere la tua crescente popolazione. Il tuo obiettivo è quello di produrre 250 unità di pane,
+    100 unità di carne,
+    200 unità di formaggio e 250 unità di mele nei prossimi 20 anni.\n
+    Per raggiungere questo obiettivo, è necessario sviluppare un robusto sistema agricolo per coltivare il raccolto e allevare il bestiame. Ciò richiederà la costruzione di fattorie, mulini e pascoli, nonché il reclutamento di lavoratori qualificati.\n
+    Oltre alla produzione alimentare, dovrai anche considerare la conservazione e la distribuzione di queste risorse. Questo può comportare la costruzione di granai e mercati per immagazzinare e vendere i vostri prodotti.\n
+    Tieni presente che il tuo successo in questa missione dipenderà dalla tua capacità di bilanciare le tue risorse e di dare priorità ai tuoi obiettivi. Dovrai gestire attentamente le tue finanze e prendere decisioni strategiche per garantire la prosperità del tuo regno. Buona fortuna!
 mission4:
-  name: The Kingdom's Fortune
+  name: Il Patrimonio del Regno
   desc: |
-    In this mission, your goal is to accumulate a substantial amount of wealth by acquiring 5000 units of gold.
-    Unlike previous missions, there is no time limit on this objective, so you will have the freedom to pursue your goals at your own pace.\n
-    To achieve this, you will need to develop a strong economy by building and managing workshops, investing in trade and commerce, and making strategic financial decisions.\n
-    Keep in mind that your success in this mission will depend on your ability to make wise investments and manage your finances carefully.
-    You will need to balance your resources and take calculated risks to ensure the prosperity of your kingdom. Good luck!
+    In questa missione, il tuo obiettivo è quello di accumulare una notevole quantità di ricchezza acquisendo 5000 unità d'oro.
+    A differenza delle missioni precedenti, non vi è alcun limite di tempo, così avrai la libertà di perseguire i tuoi obiettivi secondo il tuo ritmo.\n
+    Per raggiungere questo obiettivo, dovrai sviluppare un'economia forte, costruendo e gestendo botteghe, investendo nel commercio e prendendo decisioni finanziarie strategiche.\n
+    Ricordati che il tuo successo in questa missione dipenderà dalla tua capacità di effettuare investimenti saggi e gestire le proprie finanze con attenzione.
+    Dovrai bilanciare le tue risorse e considerare i rischi calcolati per garantire la prosperità del tuo regno. Buona fortuna!
 mission5:
-  name: Faith in Architecture
+  name: Fede Nell'Architettura
   desc: |
-    In this mission, you will need to focus on constructing a grand cathedral to serve as the centerpiece of your kingdom's religious and cultural life.
-    Your objective is to build a cathedral within the next 10 years.\n
-    Keep in mind that your success in this mission will depend on your ability to manage a complex construction project and balance your resources effectively.
-    You will need to make strategic decisions and manage your time carefully to ensure the completion of your cathedral within the allotted timeframe. Good luck!
-
+    In questa missione, dovrai concentrarti sulla costruzione di una grande cattedrale per servire come fulcro della vita religiosa e culturale del tuo regno.
+    Il tuo obiettivo è quello di costruire una cattedrale entro i prossimi 10 anni.\n
+    Ricordati che il tuo successo in questa missione dipenderà dalla tua capacità di gestire un complesso progetto di costruzione e di bilanciare le tue risorse in modo efficace.
+    Dovrai prendere decisioni strategiche e gestire attentamente il tuo tempo per garantire il completamento della tua cattedrale entro i tempi previsti. Buona fortuna!
+groups:
+  castle:
+    name: Castle
+    description: Walls, Towers, Gates and everything else you need to defend your Stronghold.
+  industry:
+    name: Industry
+    description: Build mighty Industries to defeat your enemies ... or fill your pockets.
+  apple:
+    name: Farms
+    description: Produce basic agricultural products.
+  house:
+    name: Civilian
+    description: Houses and amenities for your citizens.
+  shield:
+    name: Military
+    description: Raise mighty armies and build terrifying siege weapons to crush your enemies.
+  sickle:
+    name: Food Production
+    description: Turn basic farm products into high quality goods.
+  destroy:
+    name: Demolish
+    description: Enter demolish mode. Click on a building to destroy.
+    exitTooltip: Exit Demolish Mode
+buildings:
+  granary:
+    name: Granary
+    description: The granary is where you store your kingdom's food reserves.
+  orchard:
+    name: Orchard
+    description: Produces apples.
+  wheatFarm:
+    name: Wheat Farm
+    description: Produces wheat which can be processed into flour.
+  dairyFarm:
+    name: Dairy Farm
+    description: Produces cheese.
+  hopsFarm:
+    name: Hops Farm
+    description: Produces hops which can be processed into ale.
+  castle:
+    name: Saxon Hall
+    description: Your Saxon hall is the center of your castle.
+  stockpile:
+    name: Stockpile
+    description: |
+      Increases resource capacity.\nMust be placed adjacent to a stockpile.
+  woodenKeep:
+    name: Wooden Keep
+    description: Upgrade your Saxon hall to a Wooden keep
+  barracks:
+    name: Barracks
+    description: A building allowing you to recruit units.
+  stoneBarracks:
+    name: Stone Barracks
+    description: A building allowing you to recruit units.
+  engineersGuild:
+    name: Engineers Guild
+    description: A building allowing you to recruit siege units.
+  tunnelersGuild:
+    name: Tunnelers Guild
+    description: A building allowing you to recruit tunnelers.
+  chapel:
+    name: Chapel
+    description: Increase your popularity with religion. Currently not functional.
+  church:
+    name: Church
+    description: Increase your popularity with religion. Currently not functional.
+  cathedral:
+    name: Cathedral
+    description: Increase your popularity with religion. Currently not functional.
+  apothecary:
+    name: Apothecary
+    description: Currently not functional.
+  woodcutter:
+    name: Woodcutter Hut
+    description: Cuts down nearby trees to produce wood.
+  ironMine:
+    name: Mine
+    description: Produces iron ingots from ground iron ore.
+  market:
+    name: Market
+    description: Allows you to trade your goods.
+  ox:
+    name: Ox Tether
+    description: Transport stone from the quarry to the stockpile.
+  quarry:
+    name: Quarry
+    description: Produces stone blocks from the ground resource.
+  armoury:
+    name: Armoury
+    description: Weapons and armour is stored here, which is used by troops from the barracks upon recruitment.
+  fletcher:
+    name: Fletcher Workshop
+    description: Produces bows and crossbows from wood.
+  poleturner:
+    name: Poleturner Workshop
+    description: Produces spears and pikes from wood.
+  blacksmith:
+    name: Blacksmith Workshop
+    description: Produces swords and maces from iron.
+  armorer:
+    name: Armorer
+    description: Makes armor from iron.
+  windmill:
+    name: Windmill
+    description: Processes wheat into flour.
+  bakery:
+    name: Bakery
+    description: Processes flour into bread.
+  brewery:
+    name: Brewery
+    description: Processes hops into ale.
+  inn:
+    name: Inn
+    description: Distributes ale.
+  perimeterTower:
+    name: Perimeter Tower
+    description: A small perimeter tower - good for the observation.
+  defenseTower:
+    name: Defense Tower
+    description: A defense tower made for defense.
+  squareTower:
+    name: Square Tower
+    description: Crucial for your castle - you can place war machines on the top.
+  roundTower:
+    name: Round Tower
+    description: The strongest tower - you can place war machines on the top.
+  stoneGateSouth:
+    name: Stone Gate South
+    description: A stone gate that can let friendly units pass through.
+  stoneGateEast:
+    name: Stone Gate East
+    description: A stone gate that can let friendly units pass through.
+  stoneGateEastBig:
+    name: Stone Gate Big East
+    description: A strong stone gate that can let friendly units pass through.
+  stoneGateSouthBig:
+    name: Stone Gate Big South
+    description: A strong stone gate that can let friendly units pass through.
+  walkableWoodenWall:
+    name: Walkable WoodenWall
+    description: A defensive wall made that is walkable on the top.
+  woodenTower:
+    name: Wooden Tower
+    description: A wooden tower that is missing some stairs apparently.
+  woodenGateEast:
+    name: Wooden Gate East
+    description: A wooden gate that can let friendly units pass through.
+  woodenGateSouth:
+    name: Wooden Gate South
+    description: A wooden gate that can let friendly units pass through.
+  woodenGateEastBig:
+    name: Big Wooden Gate East
+    description: A wooden gate that can let friendly units pass through.
+  woodenGateSouthBig:
+    name: Big Wooden Gate South
+    description: A wooden gate that can let friendly units pass through.
+  woodenPermimeterTower:
+    name: Wooden Perimeter Tower
+    description: A wooden tower that is missing some stairs apparently.
+  woodenDefenseTower:
+    name: Wooden Defense Tower
+    description: A wooden tower that is missing some stairs apparently.
+  woodenWall:
+    name: Wooden Wall
+    description: A defensive wall made from sharpened tree trunks.
+  hovel:
+    name: House
+    description: A small hut - gives shelter to 4 people.
+  flat:
+    name: Flat
+    description: A small, cosy flat - gives shelter to 8 people
+  residence:
+    name: Residence
+    description: A nice and elegant house - gives shelter to 12 peole.
+  bigResidence:
+    name: Big Residence
+    description: A big residence - gives shelter to 16 people
+  maypole:
+    name: Maypole
+    description: A tall wooden pole, around which a maypole dance often takes place. Temporarily disabled.
+  smallPond:
+    name: Small Pond
+    description: A small pond.
+  largePond:
+    name: Large Pond
+    description: A large pond.
+  smallGarden:
+    name: Small Garden
+    description: A small garden.
+  mediumGarden:
+    name: Medium Garden
+    description: A medium-sized garden.
+  largeGarden:
+    name: Large Garden
+    description: A large garden.
+freebuild:
+  fernhaven:
+    name: Fernhaven
+    description: Build a new castle on the ruins of an ancient city.
+  grasslands:
+    name: Grasslands
+    description: |
+      Some plain grasslands.\nThis map doesn't really exist yet (placeholder), so it will load Fernhaven.
+rations:
+  no:
+    name: No Rations
+    description: |
+      No rations for each worker.\nDecreases their happiness by 8.
+  half:
+    name: Half Rations
+    description: |
+      0.5x rations for each worker.\nDecreases their happiness by 4.
+  full:
+    name: Full Rations
+    description: |
+      Normal rations for each worker.
+  extra:
+    name: Extra Rations
+    description: |
+      1.5x rations for each worker.\nIncreases their happiness by 4.
+  double:
+    name: Double Rations
+    description: |
+      2x rations for each worker.\nIncreases their happiness by 8.
+houses:
+  upgradeButton: UPGRADE
+  description: Offers shelter to %s people
+taxes:
+  no: No Tax
+  auto: Auto Tax
+  generousBribe: Generous Bribe
+  largeBribe: Large Bribe
+  smallBribe: Small Bribe
+  low: Low Taxes
+  avg: Average Taxes
+  high: High Taxes
+  mean: Mean Taxes
+  extra: Extortionate Taxes
+  downrightCruel: Downright Cruel Taxes
+settings:
+  categories:
+    sound:
+      title: SOUND LEVELS
+      description: Here you can change the sound levels of sound effects or speech to your liking.
+    graphics:
+      title: GRAPHIC SETTINGS
+      description: |
+        Modify rendering quality, chunk size and toggle animations in order to balance performance.\n
+    hotkeys:
+      title: KEYBOARD HOTKEYS & SHORTCUTS
+      description: |
+        Edit or add new keyboard hotkeys and shortcuts.\n
+    video:
+      title: VIDEO SETTINGS
+      description: |
+        Change fullscreen settings, window resolution and toggle VSync.\n
+    interface:
+      title: INTERFACE SETTINGS
+      description: |
+        Toggle interface elements and modify their scale.\n
+recruitment:
+  archer: Archer
+  spearman: Spearman
+  maceman: Maceman
+  crossbowman: Crossbowman
+  pikeman: Pikeman
+  swordsman: Swordsman
+  knight: Knight
+objects:
+  hoverText:
+    barracks: Click to recruit units
+    dairyFarm: Click to recruit units
+    engineersGuild: Click to recruit siege units
+    fortress: Click to manage taxes
+    granary: Click to manage food rations
+    keep: Click to manage taxes
+    market: Click to trade resources
+    saxonHall: Click to manage taxes
+    stockpile: Click to manage resources
+    stoneBarracks: Click to recruit units
+    tunnelersGuild: Click to recruit siege units
+    woodenKeep: Click to manage taxes
+tips:
+  upgradeKeep: You need to upgrade your keep to build this
+  notAvailableInMission: Not available in this mission
+  buildMarket: Build a market to trade!
+  cantTrade: You can't trade that!
+gold: gold
