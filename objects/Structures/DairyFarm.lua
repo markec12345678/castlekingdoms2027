@@ -4,6 +4,7 @@ local Object = require("objects.Object")
 local anim = require("libraries.anim8")
 local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
 local Cow = require("objects.Units.Cow")
+local SID = require("objects.Controllers.LanguageController").lines
 
 local tiles, quadArray = _G.indexBuildingQuads("farm (4)")
 
@@ -391,7 +392,7 @@ DairyFarm.static.WIDTH = 3
 DairyFarm.static.LENGTH = 3
 DairyFarm.static.HEIGHT = 17
 DairyFarm.static.DESTRUCTIBLE = true
-DairyFarm.static.HOVERTEXT = "Click to recruit units"
+DairyFarm.static.HOVERTEXT = SID.objects.hoverText.dairyFarm
 function DairyFarm:initialize(gx, gy)
     _G.JobController:add("DairyFarmer", self)
     Structure.initialize(self, gx, gy, "DairyFarm")

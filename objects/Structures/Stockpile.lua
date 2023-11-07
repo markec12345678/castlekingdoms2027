@@ -3,6 +3,7 @@ local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local tiles, quadArray = _G.indexBuildingQuads("stockpile")
 local actionBar = require("states.ui.ActionBar")
+local SID = require("objects.Controllers.LanguageController").lines
 
 local lastQuad = quadArray[#quadArray]
 local vx, vy, vw, vh = lastQuad:getViewport()
@@ -167,7 +168,7 @@ Stockpile.static.WIDTH = 5
 Stockpile.static.LENGTH = 5
 Stockpile.static.HEIGHT = 12
 Stockpile.static.DESTRUCTIBLE = false
-Stockpile.static.HOVERTEXT = "Click to manage resources"
+Stockpile.static.HOVERTEXT = SID.objects.hoverText.stockpile
 function Stockpile:initialize(gx, gy, type)
     type = type or "Stockpile"
     Structure.initialize(self, gx, gy, type)

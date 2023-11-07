@@ -1,11 +1,11 @@
-local el, backButton, destroyButton, getCostAndType = ...
+local el, backButton, destroyButton, setBuildingsTooltips = ...
 
 local states = require('states.ui.states')
 local ActionBarButton = require('states.ui.ActionBarButton')
 local ActionBar = require('states.ui.ActionBar')
+local SID = require("objects.Controllers.LanguageController").lines
 
 local maypoleButton = ActionBarButton:new(love.graphics.newImage("assets/ui/maypole_ab.png"), states.STATE_INGAME_CONSTRUCTION, 1, false, nil)
-maypoleButton:setTooltip("Maypole", "Requires 2 wood and 30 gold.")
 maypoleButton:disable()
 maypoleButton:setOnClick(
     function(self)
@@ -19,7 +19,6 @@ maypoleButton:setOnClick(
 )
 
 local smallPondButton = ActionBarButton:new(love.graphics.newImage("assets/ui/small_pond_ab.png"), states.STATE_INGAME_CONSTRUCTION, 2, false, nil)
-smallPondButton:setTooltip("Small Pond", "Requires 30 gold.")
 smallPondButton:setOnClick(
     function(self)
         _G.BuildController:set(
@@ -32,7 +31,6 @@ smallPondButton:setOnClick(
 )
 
 local largePondButton = ActionBarButton:new(love.graphics.newImage("assets/ui/large_pond_ab.png"), states.STATE_INGAME_CONSTRUCTION, 3, false, nil)
-largePondButton:setTooltip("Large Pond", "Requires 30 gold.")
 largePondButton:setOnClick(
     function(self)
         _G.BuildController:set(
@@ -45,7 +43,6 @@ largePondButton:setOnClick(
 )
 
 local smallGardenButton = ActionBarButton:new(love.graphics.newImage("assets/ui/small_garden_ab.png"), states.STATE_INGAME_CONSTRUCTION, 4, false, nil)
-smallGardenButton:setTooltip("Small Garden", "Requires 30 gold.")
 smallGardenButton:setOnClick(
     function(self)
         _G.BuildController:set(
@@ -58,7 +55,6 @@ smallGardenButton:setOnClick(
 )
 
 local mediumGardenButton = ActionBarButton:new(love.graphics.newImage("assets/ui/medium_garden_ab.png"), states.STATE_INGAME_CONSTRUCTION, 5, false, nil)
-mediumGardenButton:setTooltip("Medium Garden", "Requires 30 gold.")
 mediumGardenButton:setOnClick(
     function(self)
         _G.BuildController:set(
@@ -71,7 +67,6 @@ mediumGardenButton:setOnClick(
 )
 
 local largeGardenButton = ActionBarButton:new(love.graphics.newImage("assets/ui/large_garden_ab.png"), states.STATE_INGAME_CONSTRUCTION, 6, false, nil)
-largeGardenButton:setTooltip("Large Garden", "Requires 30 gold.")
 largeGardenButton:setOnClick(
     function(self)
         _G.BuildController:set(
@@ -84,26 +79,18 @@ largeGardenButton:setOnClick(
 )
 
 local buildings = {
-    { button = maypoleButton,      name = "Maypole",      description = "A tall wooden pole, around which a maypole dance often takes place. Temporarily disabled.", tier = 4 },
-    { button = smallPondButton,    name = "SmallPond",    description = "A small pond.",                                                                             tier = 4 },
-    { button = largePondButton,    name = "LargePond",    description = "A large pond.",                                                                             tier = 4 },
-    { button = smallGardenButton,  name = "SmallGarden",  description = "A small garden.",                                                                           tier = 4 },
-    { button = mediumGardenButton, name = "MediumGarden", description = "A medium-sized garden.",                                                                    tier = 4 },
-    { button = largeGardenButton,  name = "LargeGarden",  description = "A large garden.",                                                                           tier = 4 }
+    { button = maypoleButton,      name = SID.buildings.maypole.name,      description = SID.buildings.maypole.description,      tier = 4 },
+    { button = smallPondButton,    name = SID.buildings.smallPond.name,    description = SID.buildings.smallPond.description,    tier = 4 },
+    { button = largePondButton,    name = SID.buildings.largePond.name,    description = SID.buildings.largePond.description,    tier = 4 },
+    { button = smallGardenButton,  name = SID.buildings.smallGarden.name,  description = SID.buildings.smallGarden.description,  tier = 4 },
+    { button = mediumGardenButton, name = SID.buildings.mediumGarden.name, description = SID.buildings.mediumGarden.description, tier = 4 },
+    { button = largeGardenButton,  name = SID.buildings.largeGarden.name,  description = SID.buildings.largeGarden.description,  tier = 4 }
 }
 
 local function displayTooltips()
-    if ActionBar:getCurrentGroup() ~= "positiveBuildings" then return end 
-    for _, building in ipairs(buildings) do
-        local tooltipText = getCostAndType(building.name, building.description)
-        building.button:setTooltip(building.name, tooltipText)
-        if building.tier <= _G.state.tier then
-            building.button:enable()
-        else
-            building.button:disable()
-            building.button:setTooltip("You need to upgrade your keep to build this")
-        end
-    end
+    if ActionBar:getCurrentGroup() ~= "positiveBuildings" then return end
+
+    setBuildingsTooltips(buildings)
 end
 
 local Events = require("objects.Enums.Events")

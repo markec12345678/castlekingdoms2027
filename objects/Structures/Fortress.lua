@@ -1,6 +1,7 @@
 local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
+local SID = require("objects.Controllers.LanguageController").lines
 
 local tiles, quadArray = _G.indexBuildingQuads("medium_stone_castle (1)")
 local tileFortressDoor1 = tileQuads["doors_bits (9)"]
@@ -35,7 +36,7 @@ Fortress.static.WIDTH = 9
 Fortress.static.LENGTH = 9
 Fortress.static.HEIGHT = 32
 Fortress.static.DESTRUCTIBLE = false
-Fortress.static.HOVERTEXT = "Click to manage taxes"
+Fortress.static.HOVERTEXT = SID.objects.hoverText.fortress
 function Fortress:initialize(gx, gy, type)
     type = type or "Fortress (default)"
     Structure.initialize(self, gx, gy, type)

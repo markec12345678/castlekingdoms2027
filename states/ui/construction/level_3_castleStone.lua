@@ -1,9 +1,10 @@
-local el, backButton, destroyButton, getCostAndType = ...
+local el, backButton, destroyButton, setBuildingsTooltips = ...
 
 local states = require("states.ui.states")
 local ActionBarButton = require("states.ui.ActionBarButton")
 local ActionBar = require("states.ui.ActionBar")
 local Events = require("objects.Enums.Events")
+local SID = require("objects.Controllers.LanguageController").lines
 
 local perimeterTowerButton = ActionBarButton:new(love.graphics.newImage("assets/ui/fortifications/stone/perimeter_tower_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 3, false, nil)
@@ -92,28 +93,20 @@ stoneGateSouthBigButton:setOnClick(
     end)
 
 local buildings = {
-    { button = perimeterTowerButton,    name = "PerimeterTower",    description = "A small perimeter tower - good for the observation.",              tier = 3 },
-    { button = defenseTowerButton,      name = "DefenseTower",      description = "A defense tower made for defense.",                                tier = 3 },
-    { button = squareTowerButton,       name = "SquareTower",       description = "Crucial for your castle - you can place war machines on the top.", tier = 4 },
-    { button = roundTowerButton,        name = "RoundTower",        description = "The strongest tower - you can place war machines on the top.",     tier = 4 },
-    { button = stoneGateSouthButton,    name = "StoneGateSouth",    description = "A stone gate that can let friendly units pass through.",           tier = 3 },
-    { button = stoneGateEastButton,     name = "StoneGateEast",     description = "A stone gate that can let friendly units pass through.",           tier = 3 },
-    { button = stoneGateEastBigButton,  name = "StoneGateBigEast",  description = "A strong stone gate that can let friendly units pass through.",    tier = 4 },
-    { button = stoneGateSouthBigButton, name = "StoneGateBigSouth", description = "A strong stone gate that can let friendly units pass through.",    tier = 4 }
+    { button = perimeterTowerButton,    name = SID.buildings.perimeterTower.name,    description = SID.buildings.perimeterTower.description,    tier = 3 },
+    { button = defenseTowerButton,      name = SID.buildings.defenseTower.name,      description = SID.buildings.defenseTower.description,      tier = 3 },
+    { button = squareTowerButton,       name = SID.buildings.squareTower.name,       description = SID.buildings.squareTower.description,       tier = 4 },
+    { button = roundTowerButton,        name = SID.buildings.roundTower.name,        description = SID.buildings.roundTower.description,        tier = 4 },
+    { button = stoneGateSouthButton,    name = SID.buildings.stoneGateSouth.name,    description = SID.buildings.stoneGateSouth.description,    tier = 3 },
+    { button = stoneGateEastButton,     name = SID.buildings.stoneGateEast.name,     description = SID.buildings.stoneGateEast.description,     tier = 3 },
+    { button = stoneGateEastBigButton,  name = SID.buildings.stoneGateEastBig.name,  description = SID.buildings.stoneGateEastBig.description,  tier = 4 },
+    { button = stoneGateSouthBigButton, name = SID.buildings.stoneGateSouthBig.name, description = SID.buildings.stoneGateSouthBig.description, tier = 4 }
 }
 
 local function displayTooltips()
     if ActionBar:getCurrentGroup() ~= "stoneBuildings" then return end
-    for _, building in ipairs(buildings) do
-        local tooltipText = getCostAndType(building.name, building.description)
-        building.button:setTooltip(building.name, tooltipText)
-        if building.tier <= _G.state.tier then
-            building.button:enable()
-        else
-            building.button:disable()
-            building.button:setTooltip("You need to upgrade your keep to build this")
-        end
-    end
+
+    setBuildingsTooltips(buildings)
 end
 
 _G.bus.on(Events.OnResourceStore, displayTooltips)

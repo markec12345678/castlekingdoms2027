@@ -1,5 +1,6 @@
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
+local SID = require("objects.Controllers.LanguageController").lines
 
 local tiles, quadArray = _G.indexBuildingQuads("siege_building (1)", true)
 local EngineersGuildAlias = _G.class("EngineersGuildAlias", Structure)
@@ -52,7 +53,7 @@ EngineersGuild.static.WIDTH = 5
 EngineersGuild.static.LENGTH = 5
 EngineersGuild.static.HEIGHT = 17
 EngineersGuild.static.DESTRUCTIBLE = true
-EngineersGuild.static.HOVERTEXT = "Click to recruit siege units"
+EngineersGuild.static.HOVERTEXT = SID.objects.hoverText.engineersGuild
 
 function EngineersGuild:initialize(gx, gy)
     Structure.initialize(self, gx, gy, "EngineersGuild")

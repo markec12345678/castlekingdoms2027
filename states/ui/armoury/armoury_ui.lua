@@ -4,6 +4,7 @@ local framesActionBar = require("states.ui.action_bar_frames")
 local actionBar = require("states.ui.ActionBar")
 local scale = actionBar.element.scalex
 local WEAPON = require("objects.Enums.Weapon")
+local SID = require("objects.Controllers.LanguageController").lines
 
 local group = {}
 
@@ -139,7 +140,7 @@ noMarketInfo:SetVisible(false)
 noMarketInfo:SetPos(frBowButton.x - 100 + (frBowButton.width / 2), frBowButton.y)
 noMarketInfo:SetText({ {
     color = { 0, 0, 0, 1 }
-}, "Build a market to trade!" })
+}, SID.tips.buildMarket })
 noMarketInfo:SetShadow(false)
 local function SwitchToTheMarket()
     noMarketInfo:SetVisible(false)
@@ -151,7 +152,7 @@ local function SwitchToTheMarket()
                 if WEAPON[value] == group.good then
                     noMarketInfo:SetText({ {
                         color = { 0, 0, 0, 1 }
-                    }, "You can't trade that!" })
+                    }, SID.tips.cantTrade })
                     noMarketInfo:SetVisible(true)
                     group.good = nil
                     return;
@@ -165,7 +166,7 @@ local function SwitchToTheMarket()
     else
         noMarketInfo:SetText({ {
             color = { 0, 0, 0, 1 }
-        }, "Build a market to trade!" })
+        }, SID.tips.buildMarket })
         noMarketInfo:SetVisible(true)
     end
 end

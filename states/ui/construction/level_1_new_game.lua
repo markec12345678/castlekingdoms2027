@@ -1,6 +1,7 @@
 local states = require("states.ui.states")
 local ActionBarButton = require("states.ui.ActionBarButton")
 local ActionBar = require("states.ui.ActionBar")
+local SID = require("objects.Controllers.LanguageController").lines
 
 local castleButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_castle_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 1, true, nil)
@@ -33,9 +34,9 @@ granaryButton:setOnClick(function(self)
 end)
 
 local buildings = {
-    { button = castleButton,    name = "SaxonHall", description = "Your Saxon hall is the center of your castle." },
-    { button = stockpileButton, name = "Stockpile", description = "The stockpile holds your construction resources." },
-    { button = granaryButton,   name = "Granary",   description = "The granary is where you store your kingdom's food reserves." }
+    { button = castleButton,    name = SID.buildings.castle.name,    description = SID.buildings.castle.description },
+    { button = stockpileButton, name = SID.buildings.stockpile.name, description = SID.buildings.stockpile.description },
+    { button = granaryButton,   name = SID.buildings.granary.name,   description = SID.buildings.granary.description }
 }
 
 for _, building in ipairs(buildings) do

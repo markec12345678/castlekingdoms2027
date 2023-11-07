@@ -4,6 +4,7 @@ local loveframes = require("libraries.loveframes")
 local base = require("states.ui.base")
 local states = require("states.ui.states")
 local config = require("config_file")
+local SID = require("objects.Controllers.LanguageController").lines
 
 local windowTitleText = loveframes.Create("text")
 windowTitleText:SetState(states.STATE_FREE_BUILD_WINDOW)
@@ -73,8 +74,8 @@ mapList[#mapList + 1] =
         frames.frListItem_1,
         -- TODO: load the description and image from the map metadata
         {
-            name = "Fernhaven",
-            description = "Build a new castle on the ruins of an ancient city.",
+            name = SID.freebuild.fernhaven.name, 
+            description = SID.freebuild.fernhaven.description,
             preview = love.graphics.newImage("saves/fernhaven_preview.png")
         },
         buttonStart,
@@ -88,8 +89,8 @@ mapList[#mapList + 1] = MapListItem:new(
     states.STATE_FREE_BUILD_WINDOW,
     frames.frListItem_2,
     {
-        name = "Grasslands",
-        description = "Some plain grasslands.\nThis map doesn't really exist (placeholder), so it will load Fernhaven.",
+        name = SID.freebuild.grasslands.name,
+        description = SID.freebuild.grasslands.description,
         preview = love.graphics.newImage("saves/grasslands_preview.png")
     },
     buttonStart,

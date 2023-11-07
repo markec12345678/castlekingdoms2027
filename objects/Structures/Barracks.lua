@@ -1,5 +1,6 @@
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
+local SID = require("objects.Controllers.LanguageController").lines
 
 local tiles, quadArray = _G.indexBuildingQuads("barracks (1)", true)
 local BarracksAlias = _G.class("BarracksAlias", Structure)
@@ -52,7 +53,7 @@ Barracks.static.WIDTH = 5
 Barracks.static.LENGTH = 5
 Barracks.static.HEIGHT = 17
 Barracks.static.DESTRUCTIBLE = true
-Barracks.static.HOVERTEXT = "Click to recruit units"
+Barracks.static.HOVERTEXT = SID.objects.hoverText.barracks
 
 function Barracks:initialize(gx, gy)
     Structure.initialize(self, gx, gy, "Barracks")
@@ -68,7 +69,7 @@ function Barracks:initialize(gx, gy)
     end
     for tile = 1, tiles do
         local hsl = BarracksAlias:new(quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile
-            , 16)
+        , 16)
         hsl.tileKey = tiles + 1 + tile
     end
     local tileQuads = require("objects.object_quads")

@@ -1,15 +1,16 @@
-local el, backButton, destroyButton, getCostAndType = ...
+local el, backButton, destroyButton, setBuildingsTooltips, disableUnavailableButtons = ...
 
 local states = require("states.ui.states")
 local ActionBarButton = require("states.ui.ActionBarButton")
 local ActionBar = require("states.ui.ActionBar")
 local Events = require("objects.Enums.Events")
+local SID = require("objects.Controllers.LanguageController").lines
+
 local keepImage = love.graphics.newImage("assets/ui/keep_ab.png")
 local fortressImage = love.graphics.newImage("assets/ui/fortress_ab.png")
 local strongholdImage = love.graphics.newImage("assets/ui/stronghold_ab.png")
 local castleButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_keep_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 1, false, nil)
-local tierLevel = 1
 local barracksButton = ActionBarButton:new(love.graphics.newImage("assets/ui/barracks_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 4, false, nil)
 barracksButton:setOnClick(
@@ -72,27 +73,18 @@ end)
 
 
 local buildings = {
-    { button = castleButton,         name = "WoodenKeep",     description = "Upgrade your Saxon hall to a Wooden keep",        tier = 1 },
-    { button = barracksButton,       name = "Barracks",       description = "A building allowing you to recruit units.",       tier = 2 },
-    { button = stoneBarracksButton,  name = "StoneBarracks",  description = "A building allowing you to recruit units.",       tier = 3 },
-    { button = engineersGuildButton, name = "EngineersGuild", description = "A building allowing you to recruit siege units.", tier = 4 },
-    { button = tunnelersGuildButton, name = "TunnelersGuild", description = "A building allowing you to recruit tunnelers.",   tier = 4 }
+    { button = castleButton,         name = SID.buildings.woodenKeep.name,     description = SID.buildings.woodenKeep.description,     tier = 1 },
+    { button = barracksButton,       name = SID.buildings.barracks.name,       description = SID.buildings.barracks.description,       tier = 2 },
+    { button = stoneBarracksButton,  name = SID.buildings.stoneBarracks.name,  description = SID.buildings.stoneBarracks.description,  tier = 3 },
+    { button = engineersGuildButton, name = SID.buildings.engineersGuild.name, description = SID.buildings.engineersGuild.description, tier = 4 },
+    { button = tunnelersGuildButton, name = SID.buildings.tunnelersGuild.name, description = SID.buildings.tunnelersGuild.description, tier = 4 }
 }
 
 local function displayTooltips()
     if ActionBar:getCurrentGroup() ~= "castle" then return end
 
-    for _, building in ipairs(buildings) do
-        local tooltipText = getCostAndType(building.name, building.description)
-        building.button:setTooltip(building.name, tooltipText)
-        if building.tier <= _G.state.tier then
-            building.button:enable()
-        else
-            building.button:disable()
-            building.button:setTooltip("You need to upgrade your keep to build this")
-        end
-    end
-    local lockedList = _G.MissionController:getLockedBuildings()
+    setBuildingsTooltips(buildings)
+
     local buttonList = {
         castle = castleButton,
         woodenBuildings = woodenBuildings,
@@ -103,14 +95,7 @@ local function displayTooltips()
         tunnelersGuild = tunnelersGuildButton,
     }
 
-    if lockedList ~= nil then
-        for _, value in ipairs(lockedList) do
-            local button = buttonList[value]
-            if button then
-                button:disable("Not available in this mission")
-            end
-        end
-    end
+    disableUnavailableButtons(buttonList)
 end
 
 castleButton:setOnClick(
@@ -178,6 +163,6 @@ ActionBar:registerGroup("castle",
         tunnelersGuildButton, backButton, destroyButton })
 
 package.loaded["states.ui.construction.level_3_castleWood"] = love.filesystem.load(
-    "states/ui/construction/level_3_castleWood.lua")(elements, backButton, destroyButton, getCostAndType)
+    "states/ui/construction/level_3_castleWood.lua")(elements, backButton, destroyButton, setBuildingsTooltips)
 package.loaded["states.ui.construction.level_3_castleStone"] = love.filesystem.load(
-    "states/ui/construction/level_3_castleStone.lua")(elements, backButton, destroyButton, getCostAndType)
+    "states/ui/construction/level_3_castleStone.lua")(elements, backButton, destroyButton, setBuildingsTooltips)

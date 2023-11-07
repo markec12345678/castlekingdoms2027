@@ -1,9 +1,10 @@
-local el, backButton, destroyButton, getCostAndType = ...
+local el, backButton, destroyButton, setBuildingsTooltips = ...
 
 local states = require("states.ui.states")
 local ActionBarButton = require("states.ui.ActionBarButton")
 local ActionBar = require("states.ui.ActionBar")
 local Events = require("objects.Enums.Events")
+local SID = require("objects.Controllers.LanguageController").lines
 
 local HovelButton = ActionBarButton:new(love.graphics.newImage("assets/ui/hovel_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 1, true, nil)
@@ -52,48 +53,16 @@ BigResidenceButton:setOnClick(
     end)
 
 local buildings = {
-    {
-        button = HovelButton,
-        name = "House",
-        description =
-        "A small hut - gives shelter to 4 people.",
-        tier = 1
-    },
-    {
-        button = FlatButton,
-        name = "Flat",
-        description =
-        "A small, cosy flat - gives shelter to 8 people",
-        tier = 2
-    },
-    {
-        button = ResidenceButton,
-        name = "Residence",
-        description =
-        "A nice and elegant house - gives shelter to 12 peole.",
-        tier = 3
-    },
-    {
-        button = BigResidenceButton,
-        name = "BigResidence",
-        description =
-        "A big residence - gives shelter to 16 people",
-        tier = 4
-    },
+    { button = HovelButton,        name = SID.buildings.hovel.name,        description = SID.buildings.hovel.description,        tier = 1 },
+    { button = FlatButton,         name = SID.buildings.flat.name,         description = SID.buildings.flat.description,         tier = 2 },
+    { button = ResidenceButton,    name = SID.buildings.residence.name,    description = SID.buildings.residence.description,    tier = 3 },
+    { button = BigResidenceButton, name = SID.buildings.bigResidence.name, description = SID.buildings.bigResidence.description, tier = 4 },
 }
 
 local function displayTooltips()
     if ActionBar:getCurrentGroup() ~= "houses" then return end
-    for _, building in ipairs(buildings) do
-        local tooltipText = getCostAndType(building.name, building.description)
-        building.button:setTooltip(building.name, tooltipText)
-        if building.tier <= _G.state.tier then
-            building.button:enable()
-        else
-            building.button:disable()
-            building.button:setTooltip("You need to upgrade your keep to build this")
-        end
-    end
+
+    setBuildingsTooltips(buildings)
 end
 
 el.buttons.hovelButton:setOnClick(function(self)

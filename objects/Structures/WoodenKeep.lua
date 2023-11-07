@@ -1,6 +1,7 @@
 local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
+local SID = require("objects.Controllers.LanguageController").lines
 
 local tiles, quadArray = _G.indexBuildingQuads("medium_wooden_castle (1)")
 local tileWoodenKeepDoor1 = tileQuads["doors_bits (3)"]
@@ -35,7 +36,7 @@ WoodenKeep.static.WIDTH = 7
 WoodenKeep.static.LENGTH = 7
 WoodenKeep.static.HEIGHT = 27
 WoodenKeep.static.DESTRUCTIBLE = false
-WoodenKeep.static.HOVERTEXT = "Click to manage taxes"
+WoodenKeep.static.HOVERTEXT = SID.objects.hoverText.woodenKeep
 function WoodenKeep:initialize(gx, gy, type)
     type = type or "WoodenKeep (default)"
     Structure.initialize(self, gx, gy, type)

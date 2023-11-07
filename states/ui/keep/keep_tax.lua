@@ -2,6 +2,7 @@ local loveframes = require("libraries.loveframes")
 local states = require("states.ui.states")
 local framesActionBar = require("states.ui.action_bar_frames")
 local actionBar = require("states.ui.ActionBar")
+local SID = require("objects.Controllers.LanguageController").lines
 local scale = actionBar.element.scalex
 
 local group = {}
@@ -27,7 +28,7 @@ local moodNeutralImage = love.graphics.newImage("assets/ui/keep/mood_neutral.png
 local moodNegativeImage = love.graphics.newImage("assets/ui/keep/mood_negative.png")
 local moodPositiveImage = love.graphics.newImage("assets/ui/keep/mood_positive.png")
 local TaxController = require("objects.Controllers.TaxController")
-TaxController.taxText = "No Tax";
+TaxController.taxText = SID.taxes.no;
 local currentOption = 4;
 local TickIsClicked = false;
 
@@ -214,7 +215,7 @@ tickText:SetFont(loveframes.font_immortal_large)
 tickText:SetPos(frTextTick.x, frTextTick.y)
 tickText:SetText({ {
     color = { 0, 0, 0, 1 }
-}, "Auto Tax" })
+}, SID.taxes.auto })
 tickText:SetShadowColor(0.8, 0.8, 0.8, 1)
 tickText:SetMaxWidth(frTextTick.width)
 tickText:SetShadow(true)
@@ -234,16 +235,16 @@ Pointer:SetScaleY(Pointer:GetScaleX())
 Pointer:SetPos(frDynamicPosition[4].x + 8 * scale, frPointer.y)
 
 local taxMapping = {
-    "Generous Bribe",
-    "Large Bribe",
-    "Small Bribe",
-    "No Taxes",
-    "Low Taxes",
-    "Average Taxes",
-    "High Taxes",
-    "Mean Taxes",
-    "Extortionate Taxes",
-    "Downright Cruel Taxes",
+    SID.taxes.generousBribe,
+    SID.taxes.largeBribe,
+    SID.taxes.smallBribe,
+    SID.taxes.no,
+    SID.taxes.low,
+    SID.taxes.avg,
+    SID.taxes.high,
+    SID.taxes.mean,
+    SID.taxes.extra,
+    SID.taxes.downrightCruel,
 }
 local moodMapping = {
     7,
@@ -281,23 +282,23 @@ local moodImageMapping = {
     moodNegativeImage,
     moodNegativeImage,
 }
-local function SetTax(option)
+local function SetTax(optionIndex)
     local color = { 0, 0, 0, 1 }
 
-    TaxController.taxText = taxMapping[option]
-    local moodText = moodMapping[option]
+    TaxController.taxText = taxMapping[optionIndex]
+    local moodText = moodMapping[optionIndex]
     if moodText < 0 then
         color = { 200 / 255, 90 / 255, 90 / 255, 1 }
     elseif moodText > 0 then
         color = { 130 / 255, 220 / 255, 123 / 255, 1 }
     end
-    local moodImage = moodImageMapping[option]
+    local moodImage = moodImageMapping[optionIndex]
     _G.TaxController:setTaxLevel(TaxController.taxText)
-    _G.TaxController.goldFactor = goldFactorMapping[option]
-    _G.TaxController.moodFactor = moodMapping[option]
-    _G.TaxController.taxOption = option
+    _G.TaxController.goldFactor = goldFactorMapping[optionIndex]
+    _G.TaxController.moodFactor = moodMapping[optionIndex]
+    _G.TaxController.taxOption = optionIndex
     _G.TaxController.autoTax = TickIsClicked
-    Pointer:SetPos(frDynamicPosition[option].x + 8 * scale, frPointer.y)
+    Pointer:SetPos(frDynamicPosition[optionIndex].x + 8 * scale, frPointer.y)
     MoodImage:SetImage(moodImage)
     taxTextGui:SetText({ {
         color = color
@@ -311,8 +312,8 @@ local function SetTax(option)
     goldText:SetText({ {
         color = { 0, 0, 0, 1 }
     }, math.round((_G.state.population - _G.campfire.peasants) * TaxController.goldFactor, 0) })
-    currentOption = option
-    if option < 4 and _G.state.gold < (math.round(_G.state.population * TaxController.goldFactor, 0) * -1) then
+    currentOption = optionIndex
+    if optionIndex < 4 and _G.state.gold < (math.round(_G.state.population * TaxController.goldFactor, 0) * -1) then
         SetTax(4)
         currentOption = 4
     end
