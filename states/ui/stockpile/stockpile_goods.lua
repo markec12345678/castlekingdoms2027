@@ -4,6 +4,7 @@ local framesActionBar = require("states.ui.action_bar_frames")
 local actionBar = require("states.ui.ActionBar")
 local scale = actionBar.element.scalex
 local Events = require "objects.Enums.Events"
+local SID = require("objects.Controllers.LanguageController").lines
 
 local group = {}
 
@@ -143,7 +144,7 @@ noMarketInfo:SetVisible(false)
 noMarketInfo:SetPos(frWoodButton.x - 100 + (frWoodButton.width / 2), frWoodButton.y)
 noMarketInfo:SetText({ {
     color = { 0, 0, 0, 1 }
-}, "Build a market to trade!" })
+}, SID.tips.buildMarket })
 noMarketInfo:SetShadow(false)
 local function SwitchToTheMarket()
     noMarketInfo:SetVisible(false)
@@ -155,7 +156,7 @@ local function SwitchToTheMarket()
                 if value == group.good then
                     noMarketInfo:SetText({ {
                         color = { 0, 0, 0, 1 }
-                    }, "You can't trade that!" })
+                    }, SID.tips.cantTrade })
                     noMarketInfo:SetVisible(true)
                     group.good = nil
                     return;
@@ -170,7 +171,7 @@ local function SwitchToTheMarket()
     else
         noMarketInfo:SetText({ {
             color = { 0, 0, 0, 1 }
-        }, "Build a market to trade!" })
+        }, SID.tips.buildMarket })
         noMarketInfo:SetVisible(true)
     end
 end

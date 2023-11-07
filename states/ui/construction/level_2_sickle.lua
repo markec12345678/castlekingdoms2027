@@ -1,9 +1,10 @@
-local el, backButton, destroyButton, getCostAndType = ...
+local el, backButton, destroyButton, setBuildingsTooltips, disableUnavailableButtons = ...
 
 local states = require("states.ui.states")
 local ActionBarButton = require("states.ui.ActionBarButton")
 local ActionBar = require("states.ui.ActionBar")
 local Events = require("objects.Enums.Events")
+local SID = require("objects.Controllers.LanguageController").lines
 
 local windmillButton = ActionBarButton:new(love.graphics.newImage("assets/ui/windmill_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 1, true)
@@ -46,25 +47,17 @@ breweryButton:setOnClick(function(self)
 end)
 
 local buildings = {
-    { button = windmillButton, name = "Windmill", description = "Processes wheat into flour.", tier = 3 },
-    { button = bakeryButton,   name = "Bakery",   description = "Processes flour into bread.", tier = 3 },
-    { button = breweryButton,  name = "Brewery",  description = "Processes hops into ale.",    tier = 3 },
-    { button = innButton,      name = "Inn",      description = "Distributes ale.",            tier = 3 }
+    { button = windmillButton, name = SID.buildings.windmill.name, description = SID.buildings.windmill.description, tier = 3 },
+    { button = bakeryButton,   name = SID.buildings.bakery.name,   description = SID.buildings.bakery.description,   tier = 3 },
+    { button = breweryButton,  name = SID.buildings.brewery.name,  description = SID.buildings.brewery.description,  tier = 3 },
+    { button = innButton,      name = SID.buildings.inn.name,      description = SID.buildings.inn.description,      tier = 3 }
 }
 
 local function displayTooltips()
     if ActionBar:getCurrentGroup() ~= "sickle" then return end
-    for _, building in ipairs(buildings) do
-        local tooltipText = getCostAndType(building.name, building.description)
-        building.button:setTooltip(building.name, tooltipText)
-        if building.tier <= _G.state.tier then
-            building.button:enable()
-        else
-            building.button:disable()
-            building.button:setTooltip("You need to upgrade your keep to build this")
-        end
-    end
-    local lockedList = _G.MissionController:getLockedBuildings()
+
+    setBuildingsTooltips(buildings)
+
     local buttonList = {
         windmill = windmillButton,
         bakery = bakeryButton,
@@ -72,14 +65,7 @@ local function displayTooltips()
         brewery = breweryButton
     }
 
-    if lockedList ~= nil then
-        for _, value in ipairs(lockedList) do
-            local button = buttonList[value]
-            if button then
-                button:disable("Not available in this mission")
-            end
-        end
-    end
+    disableUnavailableButtons(buttonList)
 end
 
 _G.bus.on(Events.OnResourceStore, displayTooltips)

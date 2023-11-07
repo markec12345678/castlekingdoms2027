@@ -1,9 +1,10 @@
-local el, backButton, destroyButton, getCostAndType = ...
+local el, backButton, destroyButton, setBuildingsTooltips, disableUnavailableButtons = ...
 
 local states = require('states.ui.states')
 local ActionBarButton = require('states.ui.ActionBarButton')
 local ActionBar = require('states.ui.ActionBar')
 local Events = require('objects.Enums.Events')
+local SID = require("objects.Controllers.LanguageController").lines
 
 local granaryButton = ActionBarButton:new(love.graphics.newImage('assets/ui/granary_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 1, true)
@@ -55,28 +56,19 @@ hopsFarmButton:setOnClick(function(self)
 end)
 
 local buildings = {
-    { button = granaryButton,    name = "Granary",   description = "Increases food capacity.",                          tier = 1 },
-    { button = appleFarmButton,  name = "Orchard",   description = "Produces apples.",                                  tier = 1 },
-    { button = wheatFarmButton,  name = "WheatFarm", description = "Produces wheat which can be processed into flour.", tier = 3 },
-    { button = cheeseFarmButton, name = "DairyFarm", description = "Produces cheese.",                                  tier = 2 },
-    { button = hopsFarmButton,   name = "HopsFarm",  description = "Produces hops which can be processed into ale.",    tier = 3 }
+    { button = granaryButton,    name = SID.buildings.granary.name,   description = SID.buildings.granary.description,   tier = 1 },
+    { button = appleFarmButton,  name = SID.buildings.orchard.name,   description = SID.buildings.orchard.description,   tier = 1 },
+    { button = wheatFarmButton,  name = SID.buildings.wheatFarm.name, description = SID.buildings.wheatFarm.description, tier = 3 },
+    { button = cheeseFarmButton, name = SID.buildings.dairyFarm.name, description = SID.buildings.dairyFarm.description, tier = 2 },
+    { button = hopsFarmButton,   name = SID.buildings.hopsFarm.name,  description = SID.buildings.hopsFarm.description,  tier = 3 }
 }
 
 local function displayTooltips()
     if ActionBar:getCurrentGroup() ~= "farms" then return end
 
-    for _, building in ipairs(buildings) do
-        local tooltipText = getCostAndType(building.name, building.description)
-        building.button:setTooltip(building.name, tooltipText)
-        if building.tier <= _G.state.tier then
-            building.button:enable()
-        else
-            building.button:disable()
-            building.button:setTooltip("You need to upgrade your keep to build this")
-        end
-    end
+    setBuildingsTooltips(buildings)
+
     hunterButton:setTooltip("Hunter's hut", "Not implemented yet.")
-    local lockedList = _G.MissionController:getLockedBuildings()
     local buttonList = {
         --hunter = hunterButton, NOT IMPLEMENTED YET
         appleFarm = appleFarmButton,
@@ -85,15 +77,8 @@ local function displayTooltips()
         hopsFarm = hopsFarmButton,
         granary = granaryButton
     }
-    
-    if lockedList ~= nil then
-        for _, value in ipairs(lockedList) do
-            local button = buttonList[value]
-            if button then
-                button:disable("Not available in this mission")
-            end
-        end
-    end
+
+    disableUnavailableButtons(buttonList)
 end
 
 _G.bus.on(Events.OnResourceStore, displayTooltips)

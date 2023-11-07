@@ -1,9 +1,10 @@
-local el, backButton, destroyButton, getCostAndType = ...
+local el, backButton, destroyButton, setBuildingsTooltips, disableUnavailableButtons = ...
 
 local states = require('states.ui.states')
 local ActionBarButton = require('states.ui.ActionBarButton')
 local ActionBar = require('states.ui.ActionBar')
 local Events = require('objects.Enums.Events')
+local SID = require("objects.Controllers.LanguageController").lines
 
 -- Hovel
 local hovelButton = ActionBarButton:new(love.graphics.newImage('assets/ui/hovel_ab.png'),
@@ -62,30 +63,26 @@ end)
 local buildings = {
     {
         button = chapelButton,
-        name = "Chapel",
-        description =
-        "Increase your popularity with religion. Currently not functional.",
+        name = SID.buildings.chapel.name,
+        description = SID.buildings.chapel.description,
         tier = 2
     },
     {
         button = churchButton,
-        name = "Church",
-        description =
-        "Increase your popularity with religion. Currently not functional.",
+        name = SID.buildings.church.name,
+        description = SID.buildings.church.description,
         tier = 3
     },
     {
         button = cathedralButton,
-        name = "Cathedral",
-        description =
-        "Increase your popularity with religion. Currently not functional.",
+        name = SID.buildings.cathedral.name,
+        description = SID.buildings.cathedral.description,
         tier = 4
     },
     {
         button = apothecaryButton,
-        name = "Apothecary",
-        description =
-        "Currently not functional.",
+        name = SID.buildings.apothecary.name,
+        description = SID.buildings.apothecary.description,
         tier = 4
     }
 }
@@ -93,17 +90,8 @@ local buildings = {
 local function displayTooltips()
     if ActionBar:getCurrentGroup() ~= "house" then return end
 
-    for _, building in ipairs(buildings) do
-        local tooltipText = getCostAndType(building.name, building.description)
-        building.button:setTooltip(building.name, tooltipText)
-        if building.tier <= _G.state.tier then
-            building.button:enable()
-        else
-            building.button:disable()
-            building.button:setTooltip("You need to upgrade your keep to build this")
-        end
-    end
-    local lockedList = _G.MissionController:getLockedBuildings()
+    setBuildingsTooltips(buildings)
+
     local buttonList = {
         houses = hovelButton,
         positiveBuildings = positiveBuildingButton,
@@ -112,14 +100,7 @@ local function displayTooltips()
         cathedral = cathedralButton,
     }
 
-    if lockedList ~= nil then
-        for _, value in ipairs(lockedList) do
-            local button = buttonList[value]
-            if button then
-                button:disable("Not available in this mission")
-            end
-        end
-    end
+    disableUnavailableButtons(buttonList)
 end
 
 _G.bus.on(Events.OnResourceStore, displayTooltips)
@@ -152,6 +133,6 @@ ActionBar:registerGroup("house",
         destroyButton })
 
 package.loaded["states.ui.construction.level_3_positive_buildings"] = love.filesystem.load(
-    "states/ui/construction/level_3_positive_buildings.lua")(elements, backButton, destroyButton, getCostAndType)
+    "states/ui/construction/level_3_positive_buildings.lua")(elements, backButton, destroyButton, setBuildingsTooltips)
 package.loaded["states.ui.construction.level_3_house"] = love.filesystem.load(
-    "states/ui/construction/level_3_house.lua")(elements, backButton, destroyButton, getCostAndType)
+    "states/ui/construction/level_3_house.lua")(elements, backButton, destroyButton, setBuildingsTooltips)

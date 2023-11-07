@@ -2,45 +2,46 @@ local states = require("states.ui.states")
 local ab = require("states.ui.action_bar_frames")
 local ActionBarButton = require("states.ui.ActionBarButton")
 local ActionBar = require("states.ui.ActionBar")
+local SID = require("objects.Controllers.LanguageController").lines
 
 local castleButton = ActionBarButton:new(love.graphics.newImage("assets/ui/castle_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 1)
-castleButton:setTooltip("Castle", "Walls, Towers, Gates and everything else you need to defend your Stronghold.")
+castleButton:setTooltip(SID.groups.castle.name, SID.groups.castle.description)
 
 local hammerButton = ActionBarButton:new(love.graphics.newImage("assets/ui/hammer_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 2)
-hammerButton:setTooltip("Industry", "Build mighty Industries to defeat your enemies ... or fill your pockets.")
+hammerButton:setTooltip(SID.groups.industry.name, SID.groups.industry.description)
 
 local appleButton = ActionBarButton:new(love.graphics.newImage("assets/ui/apple_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 3)
-appleButton:setTooltip("Farms", "Produce basic agricultural products.")
+appleButton:setTooltip(SID.groups.apple.name, SID.groups.apple.description)
 
 local houseButton = ActionBarButton:new(love.graphics.newImage("assets/ui/house_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 4)
-houseButton:setTooltip("Civilian", "Houses and amenities for your citizens.")
+houseButton:setTooltip(SID.groups.house.name, SID.groups.house.description)
 
 local shieldButton = ActionBarButton:new(love.graphics.newImage("assets/ui/shield_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 5)
-shieldButton:setTooltip("Military", "Raise mighty armies and build terrifying siege weapons to crush your enemies.")
+shieldButton:setTooltip(SID.groups.shield.name, SID.groups.shield.description)
 
 local sickleButton = ActionBarButton:new(love.graphics.newImage("assets/ui/sickle_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 6)
-sickleButton:setTooltip("Food Production", "Turn basic farm products into high quality goods.")
+shieldButton:setTooltip(SID.groups.sickle.name, SID.groups.sickle.description)
 
 local destroyButton = ActionBarButton:new(love.graphics.newImage("assets/ui/cursor_destroy.png"),
     states.STATE_INGAME_CONSTRUCTION, 11)
-destroyButton:setTooltip("Demolish", "Enter demolish mode. Click on a building to destroy.")
+destroyButton:setTooltip(SID.groups.destroy.name, SID.groups.destroy.description)
 destroyButton:setOnClick(function(self)
     ActionBar:unselectAll()
     local enabled = _G.DestructionController:toggle()
     if enabled then
-        destroyButton:setTooltip("Exit Demolish Mode", "Exit demolish mode.")
+        destroyButton:setTooltip(SID.groups.destroy.exitTooltip, SID.groups.destroy.exitTooltip)
         ActionBar:selectButton(destroyButton)
     end
 end)
 
 destroyButton:setOnUnselect(function(self)
-    destroyButton:setTooltip("Demolish Mode", "Enter demolish mode. Click on a building to destroy.")
+    destroyButton:setTooltip(SID.groups.destroy.name, SID.groups.destroy.description)
     _G.DestructionController:disable()
 end)
 
@@ -117,15 +118,48 @@ local function getCostAndType(buildingIndex, buildingDescription)
     return ""
 end
 
+---@class Building
+---@field button ActionBarButton
+---@field name string
+---@field tier number
+---@field desription string
+---@param buildings table<number, Building>
+local function setBuildingsTooltips(buildings)
+    for _, building in ipairs(buildings) do
+        local tooltipText = getCostAndType(building.name, building.description)
+        building.button:setTooltip(building.name, tooltipText)
+        if building.tier <= _G.state.tier then
+            building.button:enable()
+        else
+            building.button:disable()
+            building.button:setTooltip(SID.tips.upgradeKeep)
+        end
+    end
+end
+
+---@param buttonList table<string, ActionBarButton>
+local function disableUnavailableButtons(buttonList)
+    local lockedList = _G.MissionController:getLockedBuildings()
+
+    if lockedList ~= nil then
+        for _, value in ipairs(lockedList) do
+            local button = buttonList[value]
+            if button then
+                button:disable(SID.tips.notAvailableInMission)
+            end
+        end
+    end
+end
+
 package.loaded["states.ui.construction.level_2_castle"] = love.filesystem.load(
-    "states/ui/construction/level_2_castle.lua")(elements, backButton, destroyButton, getCostAndType)
+    "states/ui/construction/level_2_castle.lua")(elements, backButton, destroyButton, setBuildingsTooltips, disableUnavailableButtons)
 package.loaded["states.ui.construction.level_2_farms"] = love.filesystem.load("states/ui/construction/level_2_farms.lua")(
-    elements, backButton, destroyButton, getCostAndType)
+    elements, backButton, destroyButton, setBuildingsTooltips, disableUnavailableButtons)
 package.loaded["states.ui.construction.level_2_resource"] = love.filesystem.load(
-    "states/ui/construction/level_2_resource.lua")(elements, backButton, destroyButton, getCostAndType)
+    "states/ui/construction/level_2_resource.lua")(elements, backButton, destroyButton, setBuildingsTooltips, disableUnavailableButtons)
 package.loaded["states.ui.construction.level_2_house"] = love.filesystem.load("states/ui/construction/level_2_house.lua")(
-    elements, backButton, destroyButton, getCostAndType)
+    elements, backButton, destroyButton, setBuildingsTooltips, disableUnavailableButtons)
 package.loaded["states.ui.construction.level_2_sickle"] = love.filesystem.load(
-    "states/ui/construction/level_2_sickle.lua")(elements, backButton, destroyButton, getCostAndType)
+    "states/ui/construction/level_2_sickle.lua")(elements, backButton, destroyButton, setBuildingsTooltips, disableUnavailableButtons)
 package.loaded["states.ui.construction.level_2_shield"] = love.filesystem.load(
-    "states/ui/construction/level_2_shield.lua")(elements, backButton, destroyButton, getCostAndType)
+    "states/ui/construction/level_2_shield.lua")(elements, backButton, destroyButton, setBuildingsTooltips, disableUnavailableButtons)

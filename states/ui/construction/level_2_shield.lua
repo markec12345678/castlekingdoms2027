@@ -1,9 +1,10 @@
-local el, backButton, destroyButton, getCostAndType = ...
+local el, backButton, destroyButton, setBuildingsTooltips, disableUnavailableButtons = ...
 
 local states = require("states.ui.states")
 local ActionBarButton = require("states.ui.ActionBarButton")
 local ActionBar = require("states.ui.ActionBar")
 local Events = require("objects.Enums.Events")
+local SID = require("objects.Controllers.LanguageController").lines
 
 local armouryButton = ActionBarButton:new(love.graphics.newImage("assets/ui/armoury_arms_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 1, true, nil)
@@ -59,38 +60,18 @@ armorerButton:setOnClick(function(self)
 end)
 
 local buildings = {
-    {
-        button = armouryButton,
-        name = "Armoury",
-        description =
-        "Weapons and armour is stored here, which is used by troops from the barracks upon recruitment.",
-        tier = 2
-    },
-    {
-        button = fletcherButton,
-        name = "FletcherWorkshop",
-        description =
-        "Produces bows and crossbows from wood.",
-        tier = 2
-    },
-    { button = poleturnerButton, name = "PoleturnerWorkshop", description = "Produces spears and pikes from wood.", tier = 2 },
-    { button = blacksmithButton, name = "BlacksmithWorkshop", description = "Produces swords and maces from iron.", tier = 3 },
-    { button = armorerButton,    name = "Armorer",            description = "Makes armor from iron.",               tier = 3 }
+    { button = armouryButton,    name = SID.buildings.armoury.name,    description = SID.buildings.armoury.description,    tier = 2 },
+    { button = fletcherButton,   name = SID.buildings.fletcher.name,   description = SID.buildings.fletcher.description,   tier = 2 },
+    { button = poleturnerButton, name = SID.buildings.poleturner.name, description = SID.buildings.poleturner.description, tier = 2 },
+    { button = blacksmithButton, name = SID.buildings.blacksmith.name, description = SID.buildings.blacksmith.description, tier = 3 },
+    { button = armorerButton,    name = SID.buildings.armorer.name,    description = SID.buildings.armorer.description,    tier = 3 }
 }
 
 local function displayTooltips()
     if ActionBar:getCurrentGroup() ~= "shield" then return end
-    for _, building in ipairs(buildings) do
-        local tooltipText = getCostAndType(building.name, building.description)
-        building.button:setTooltip(building.name, tooltipText)
-        if building.tier <= _G.state.tier then
-            building.button:enable()
-        else
-            building.button:disable()
-            building.button:setTooltip("You need to upgrade your keep to build this")
-        end
-    end
-    local lockedList = _G.MissionController:getLockedBuildings()
+
+    setBuildingsTooltips(buildings)
+
     local buttonList = {
         armoury = armouryButton,
         fletcherWorkshop = fletcherButton,
@@ -99,14 +80,7 @@ local function displayTooltips()
         armorerWorkshop = armorerButton,
     }
 
-    if lockedList ~= nil then
-        for _, value in ipairs(lockedList) do
-            local button = buttonList[value]
-            if button then
-                button:disable("Not available in this mission")
-            end
-        end
-    end
+    disableUnavailableButtons(buttonList)
 end
 
 _G.bus.on(Events.OnResourceStore, displayTooltips)

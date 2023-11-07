@@ -3,17 +3,18 @@ local states = require("states.ui.states")
 local framesActionBar = require("states.ui.action_bar_frames")
 local actionBar = require("states.ui.ActionBar")
 local scale = actionBar.element.scalex
+local SID = require("objects.Controllers.LanguageController").lines
 
 local ActionBarButton = require("states.ui.ActionBarButton")
 local backButton = ActionBarButton:new(love.graphics.newImage("assets/ui/back_ab.png"), states.STATE_GRANARY, 12)
 backButton:setOnClick(function(self)
     actionBar:switchMode()
 end)
-actionBar:registerGroup("granary", {backButton})
+actionBar:registerGroup("granary", { backButton })
 
-local colorRed = {200 / 255, 90 / 255, 90 / 255, 1}
-local colorWhite = {1, 1, 1, 1}
-local colorGreen = {130 / 255, 220 / 255, 123 / 255, 1}
+local colorRed = { 200 / 255, 90 / 255, 90 / 255, 1 }
+local colorWhite = { 1, 1, 1, 1 }
+local colorGreen = { 130 / 255, 220 / 255, 123 / 255, 1 }
 
 local pointerHandButtonImage1 = love.graphics.newImage("assets/ui/hand_1.png")
 local pointerHandButtonImage2 = love.graphics.newImage("assets/ui/hand_2.png")
@@ -44,9 +45,9 @@ local moodFoodGui = loveframes.Create("text")
 moodFoodGui:SetState(states.STATE_GRANARY)
 moodFoodGui:SetFont(loveframes.font_immortal_large)
 moodFoodGui:SetPos(frText.x, frText.y)
-moodFoodGui:SetText({{
-    color = {1, 1, 1, 1}
-}, "0"})
+moodFoodGui:SetText({ {
+    color = { 1, 1, 1, 1 }
+}, "0" })
 moodFoodGui:SetShadowColor(0, 0, 0, 1)
 moodFoodGui:SetShadow(true)
 
@@ -88,7 +89,7 @@ local frNoRation = {
 }
 local noRationButton = loveframes.Create("image")
 noRationButton:SetState(states.STATE_GRANARY)
-noRationButton:setTooltip("No Rations", "No rations for each worker.\nDecreases their happiness by 8.")
+noRationButton:setTooltip(SID.rations.no.name, SID.rations.no.description)
 noRationButton:SetImage(noRationButtonImage)
 noRationButton:SetScaleX(frNoRation.width / noRationButton:GetImageWidth())
 noRationButton:SetScaleY(noRationButton:GetScaleX())
@@ -120,7 +121,7 @@ local frHalfRation = {
 }
 local halfRationButton = loveframes.Create("image")
 halfRationButton:SetState(states.STATE_GRANARY)
-halfRationButton:setTooltip("Half Rations", "0.5x rations for each worker.\nDecreases their happiness by 4.")
+halfRationButton:setTooltip(SID.rations.half.name, SID.rations.half.description)
 halfRationButton:SetImage(halfRationButtonImage)
 halfRationButton:SetScaleX(frHalfRation.width / halfRationButton:GetImageWidth())
 halfRationButton:SetScaleY(halfRationButton:GetScaleX())
@@ -152,7 +153,7 @@ local frFullRation = {
 }
 local fullRationButton = loveframes.Create("image")
 fullRationButton:SetState(states.STATE_GRANARY)
-fullRationButton:setTooltip("Full Rations", "Normal rations for each worker.")
+fullRationButton:setTooltip(SID.rations.full.name, SID.rations.full.description)
 fullRationButton:SetImage(fullRationButtonImage)
 fullRationButton:SetScaleX(frFullRation.width / fullRationButton:GetImageWidth())
 fullRationButton:SetScaleY(fullRationButton:GetScaleX())
@@ -184,7 +185,7 @@ local frExtraRation = {
 }
 local extraRationButton = loveframes.Create("image")
 extraRationButton:SetState(states.STATE_GRANARY)
-extraRationButton:setTooltip("Extra Rations", "1.5x rations for each worker.\nIncreases their happiness by 4.")
+extraRationButton:setTooltip(SID.rations.extra.name, SID.rations.extra.description)
 extraRationButton:SetImage(extraRationButtonImage)
 extraRationButton:SetScaleX(frExtraRation.width / extraRationButton:GetImageWidth())
 extraRationButton:SetScaleY(extraRationButton:GetScaleX())
@@ -216,7 +217,7 @@ local frDoubleRation = {
 }
 local doubleRationButton = loveframes.Create("image")
 doubleRationButton:SetState(states.STATE_GRANARY)
-doubleRationButton:setTooltip("Double Rations", "2x rations for each worker.\nIncreases their happiness by 8.")
+doubleRationButton:setTooltip(SID.rations.double.name, SID.rations.double.description)
 doubleRationButton:SetImage(doubleRationButtonImage)
 doubleRationButton:SetScaleX(frDoubleRation.width / doubleRationButton:GetImageWidth())
 doubleRationButton:SetScaleY(doubleRationButton:GetScaleX())
@@ -237,4 +238,4 @@ doubleRationButton.OnMouseExit = function(self)
     self:SetImage(doubleRationButtonImage)
 end
 
-return {MoodImage, moodFoodGui}
+return { MoodImage, moodFoodGui }

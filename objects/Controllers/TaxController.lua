@@ -1,24 +1,39 @@
 local actionBar = require("states.ui.ActionBar")
 local TaxController = _G.class("TaxController")
 local Events = require "objects.Enums.Events"
+local SID = require("objects.Controllers.LanguageController").lines
 local goldAfterTax
+
+local TAXES = {
+    GenerousBribe = "GenerousBribe",
+    LargeBribe = "LargeBribe",
+    SmallBribe = "SmallBribe",
+    NoTaxes = "NoTaxes",
+    LowTaxes = "LowTaxes",
+    AverageTaxes = "AverageTaxes",
+    HighTaxes = "HighTaxes",
+    MeanTaxes = "MeanTaxes",
+    ExtortionateTaxes = "ExtortionateTaxes",
+    DownrightCruelTaxes = "DownrightCruelTaxes",
+}
+
 TaxController.static.TAX_LEVELS = {
-    GenerousBribe = -1.0,
-    LargeBribe = -0.8,
-    SmallBribe = -0.6,
-    NoTaxes = 0,
-    LowTaxes = 0.6,
-    AverageTaxes = 0.8,
-    HighTaxes = 1.0,
-    MeanTaxes = 1.2,
-    ExtortionateTaxes = 1.4,
-    DownrightCruelTaxes = 1.6
+    [TAXES.GenerousBribe] = -1.0,
+    [TAXES.LargeBribe] = -0.8,
+    [TAXES.SmallBribe] = -0.6,
+    [TAXES.NoTaxes] = 0,
+    [TAXES.LowTaxes] = 0.6,
+    [TAXES.AverageTaxes] = 0.8,
+    [TAXES.HighTaxes] = 1.0,
+    [TAXES.MeanTaxes] = 1.2,
+    [TAXES.ExtortionateTaxes] = 1.4,
+    [TAXES.DownrightCruelTaxes] = 1.6
 }
 TaxController.static.TAX_INTERVAL = 30
 function TaxController:initialize()
     self.taxLevel = self.class.TAX_LEVELS.NoTaxes
     self.timer = 0
-    self.taxText = "No Tax"
+    self.taxText = SID.taxes.no
     self.goldFactor = 0
     self.moodFactor = 0
     self.taxOption = 4
@@ -78,7 +93,7 @@ function TaxController:update()
     local elements = require("states.ui.keep.keep_tax")
     self.timer = self.timer + _G.dt
     if _G.state.gold < (math.round(_G.state.population * self.goldFactor, 0) * -1) then
-        _G.TaxController:setTaxLevel("NoTaxes")
+        _G.TaxController:setTaxLevel(TAXES.NoTaxes)
         elements.SetTax(4)
     end
     if self.timer >= self.class.TAX_INTERVAL then
@@ -97,31 +112,31 @@ function TaxController:update()
         }, math.round((_G.TaxController:getWorkers()) * self.goldFactor, 0) })
         if _G.TaxController.autoTax then
             if _G.state.popularity >= 66 then
-                _G.TaxController:setTaxLevel("Downright Cruel Taxes")
+                _G.TaxController:setTaxLevel(TAXES.DownrightCruelTaxes)
                 elements.SetTax(10)
             end
             if _G.state.popularity >= 62 and _G.state.popularity < 66 then
-                _G.TaxController:setTaxLevel("Extortionate Taxes")
+                _G.TaxController:setTaxLevel(TAXES.ExtortionateTaxes)
                 elements.SetTax(9)
             end
             if _G.state.popularity >= 58 and _G.state.popularity < 62 then
-                _G.TaxController:setTaxLevel("Mean Taxes")
+                _G.TaxController:setTaxLevel(TAXES.MeanTaxes)
                 elements.SetTax(8)
             end
             if _G.state.popularity >= 56 and _G.state.popularity < 58 then
-                _G.TaxController:setTaxLevel("High Taxes")
+                _G.TaxController:setTaxLevel(TAXES.HighTaxes)
                 elements.SetTax(7)
             end
             if _G.state.popularity >= 54 and _G.state.popularity < 56 then
-                _G.TaxController:setTaxLevel("Average Taxes")
+                _G.TaxController:setTaxLevel(TAXES.AverageTaxes)
                 elements.SetTax(6)
             end
             if _G.state.popularity >= 52 and _G.state.popularity < 54 then
-                _G.TaxController:setTaxLevel("Low Taxes")
+                _G.TaxController:setTaxLevel(TAXES.LowTaxes)
                 elements.SetTax(5)
             end
             if _G.state.popularity < 50 then
-                _G.TaxController:setTaxLevel("No Taxes")
+                _G.TaxController:setTaxLevel(TAXES.NoTaxes)
                 elements.SetTax(4)
             end
         end

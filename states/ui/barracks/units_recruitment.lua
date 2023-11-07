@@ -1,4 +1,3 @@
-
 --                    BARRACKS UI
 
 -- Knights are unfinished, waiting for stables and horses
@@ -9,6 +8,7 @@ local framesActionBar = require("states.ui.action_bar_frames")
 local actionBar = require("states.ui.ActionBar")
 local scale = actionBar.element.scalex
 local WEAPON = require("objects.Enums.Weapon")
+local SID = require("objects.Controllers.LanguageController").lines
 
 local group = {}
 
@@ -323,10 +323,10 @@ archerIconButton.OnMouseEnter = function(self)
     goldIcon:SetVisible(true)
     currentCost:SetText({ {
         color = { 0.99, 0.96, 0.78, 1 }
-    }, "12 gold" })
+    }, "12 " .. SID.gold })
     currentName:SetText({ {
         color = { 0.99, 0.96, 0.78, 1 }
-    }, "Archer" })
+    }, SID.recruitment.archer })
 end
 archerIconButton.OnMouseDown = function(self)
     hoverIcon:SetPos(frBowButton.x + 5, frBowButton.y + 6)
@@ -334,10 +334,10 @@ archerIconButton.OnMouseDown = function(self)
     goldIcon:SetVisible(true)
     currentCost:SetText({ {
         color = { 0.99, 0.96, 0.78, 1 }
-    }, "12 gold" })
+    }, "12 " .. SID.gold })
     currentName:SetText({ {
         color = { 0.99, 0.96, 0.78, 1 }
-    }, "Archer" })
+    }, SID.recruitment.archer })
 end
 archerIconButton.OnClick = function(self)
     -- create archer unit
@@ -364,10 +364,10 @@ spearmanIconButton.OnMouseEnter = function(self)
     goldIcon:SetVisible(true)
     currentCost:SetText({ {
         color = { 0.99, 0.96, 0.78, 1 }
-    }, "8 gold" })
+    }, "8 " .. SID.gold })
     currentName:SetText({ {
         color = { 0.99, 0.96, 0.78, 1 }
-    }, "Spearman" })
+    }, SID.recruitment.spearman })
 end
 spearmanIconButton.OnMouseDown = function(self)
     hoverIcon:SetPos(frSpearButton.x + 5, frSpearButton.y + 6)
@@ -375,10 +375,10 @@ spearmanIconButton.OnMouseDown = function(self)
     goldIcon:SetVisible(true)
     currentCost:SetText({ {
         color = { 0.99, 0.96, 0.78, 1 }
-    }, "8 gold" })
+    }, "8 " .. SID.gold })
     currentName:SetText({ {
         color = { 0.99, 0.96, 0.78, 1 }
-    }, "Spearman" })
+    }, SID.recruitment.spearman })
 end
 spearmanIconButton.OnClick = function(self)
     -- create spearman unit
@@ -407,10 +407,10 @@ macemanIconButton.OnMouseEnter = function(self)
     goldIcon:SetVisible(true)
     currentCost:SetText({ {
         color = { 0.99, 0.96, 0.78, 1 }
-    }, "20 gold" })
+    }, "20 " .. SID.gold })
     currentName:SetText({ {
         color = { 0.99, 0.96, 0.78, 1 }
-    }, "Maceman" })
+    }, SID.recruitment.maceman })
 end
 macemanIconButton.OnMouseDown = function(self)
     hoverIcon:SetPos(frMaceButton.x + 5, frMaceButton.y + 6)
@@ -420,10 +420,10 @@ macemanIconButton.OnMouseDown = function(self)
     goldIcon:SetVisible(true)
     currentCost:SetText({ {
         color = { 0.99, 0.96, 0.78, 1 }
-    }, "20 gold" })
+    }, "20 " .. SID.gold })
     currentName:SetText({ {
         color = { 0.99, 0.96, 0.78, 1 }
-    }, "Maceman" })
+    }, SID.recruitment.maceman })
 end
 macemanIconButton.OnClick = function(self)
     -- create maceman unit
@@ -453,10 +453,10 @@ crossbowmanIconButton.OnMouseEnter = function(self)
     goldIcon:SetVisible(true)
     currentCost:SetText({ {
         color = { 0.99, 0.96, 0.78, 1 }
-    }, "20 gold" })
+    }, "20 " .. SID.gold })
     currentName:SetText({ {
         color = { 0.99, 0.96, 0.78, 1 }
-    }, "Crossbowman" })
+    }, SID.recruitment.crossbowman })
 end
 crossbowmanIconButton.OnMouseDown = function(self)
     hoverIcon:SetPos(frCrossbowButton.x, frCrossbowButton.y + 6)
@@ -466,10 +466,10 @@ crossbowmanIconButton.OnMouseDown = function(self)
     goldIcon:SetVisible(true)
     currentCost:SetText({ {
         color = { 0.99, 0.96, 0.78, 1 }
-    }, "20 gold" })
+    }, "20 " .. SID.gold })
     currentName:SetText({ {
         color = { 0.99, 0.96, 0.78, 1 }
-    }, "Crossbowman" })
+    }, SID.recruitment.crossbowman })
 end
 crossbowmanIconButton.OnClick = function(self)
     -- create crossbowman unit
@@ -499,10 +499,10 @@ pikemanIconButton.OnMouseEnter = function(self)
     goldIcon:SetVisible(true)
     currentCost:SetText({ {
         color = { 0.99, 0.96, 0.78, 1 }
-    }, "20 gold" })
+    }, "20 " .. SID.gold })
     currentName:SetText({ {
         color = { 0.99, 0.96, 0.78, 1 }
-    }, "Pikeman" })
+    }, SID.recruitment.pikeman })
 end
 pikemanIconButton.OnMouseDown = function(self)
     hoverIcon:SetPos(frPikeButton.x + 5, frPikeButton.y + 6)
@@ -512,10 +512,10 @@ pikemanIconButton.OnMouseDown = function(self)
     goldIcon:SetVisible(true)
     currentCost:SetText({ {
         color = { 0.99, 0.96, 0.78, 1 }
-    }, "20 gold" })
+    }, "20 " .. SID.gold })
     currentName:SetText({ {
         color = { 0.99, 0.96, 0.78, 1 }
-    }, "Pikeman" })
+    }, SID.recruitment.pikeman })
 end
 pikemanIconButton.OnClick = function(self)
     -- create pikeman unit
@@ -545,10 +545,10 @@ swordsmanIconButton.OnMouseEnter = function(self)
     goldIcon:SetVisible(true)
     currentCost:SetText({ {
         color = { 0.99, 0.96, 0.78, 1 }
-    }, "40 gold" })
+    }, "40 " .. SID.gold })
     currentName:SetText({ {
         color = { 0.99, 0.96, 0.78, 1 }
-    }, "Swordsman" })
+    }, SID.recruitment.swordsman })
 end
 swordsmanIconButton.OnMouseDown = function(self)
     hoverIcon:SetPos(frSwordButton.x + 1, frSwordButton.y + 6)
@@ -558,10 +558,10 @@ swordsmanIconButton.OnMouseDown = function(self)
     goldIcon:SetVisible(true)
     currentCost:SetText({ {
         color = { 0.99, 0.96, 0.78, 1 }
-    }, "40 gold" })
+    }, "40 " .. SID.gold })
     currentName:SetText({ {
         color = { 0.99, 0.96, 0.78, 1 }
-    }, "Swordsman" })
+    }, SID.recruitment.swordsman })
 end
 swordsmanIconButton.OnClick = function(self)
     -- create swordsman unit
@@ -593,10 +593,10 @@ knightIconButton.OnMouseEnter = function(self)
     goldIcon:SetVisible(true)
     currentCost:SetText({ {
         color = { 0.99, 0.96, 0.78, 1 }
-    }, "40 gold" })
+    }, "40 " .. SID.gold })
     currentName:SetText({ {
         color = { 0.99, 0.96, 0.78, 1 }
-    }, "Knight" })
+    }, SID.recruitment.knight })
 end
 knightIconButton.OnMouseDown = function(self)
     hoverIcon:SetPos(frSwordButton.x + 1, frPikeButton.y + 6)
@@ -608,10 +608,10 @@ knightIconButton.OnMouseDown = function(self)
     goldIcon:SetVisible(true)
     currentCost:SetText({ {
         color = { 0.99, 0.96, 0.78, 1 }
-    }, "40 gold" })
+    }, "40 " .. SID.gold })
     currentName:SetText({ {
         color = { 0.99, 0.96, 0.78, 1 }
-    }, "Knight" })
+    }, SID.recruitment.knight })
 end
 knightIconButton.OnClick = function(self)
     -- create knight unit
@@ -631,7 +631,6 @@ end
 
 
 function group.DisplayCurrentStock()
-
     if _G.state.weapons[WEAPON.leatherArmor] > 0 then
         leatherIconButton:SetImage(leatherIconAvailable)
     else
@@ -730,7 +729,6 @@ function group.DisplayCurrentStock()
     currentStockHorse:SetText({ {
         color = { 0, 0, 0, 1 }
     }, "0" }) -- HORSE YET TO BE IMPLEMENTED
-
 end
 
 currentStockPeasants:SetState(states.STATE_BARRACKS)

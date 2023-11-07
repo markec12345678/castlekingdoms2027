@@ -1,9 +1,10 @@
-local el, backButton, destroyButton, getCostAndType = ...
+local el, backButton, destroyButton, setBuildingsTooltips, disableUnavailableButtons = ...
 
 local states = require('states.ui.states')
 local ActionBarButton = require('states.ui.ActionBarButton')
 local ActionBar = require('states.ui.ActionBar')
 local Events = require('objects.Enums.Events')
+local SID = require("objects.Controllers.LanguageController").lines
 
 local stockpileButton = ActionBarButton:new(love.graphics.newImage('assets/ui/stockpile_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 1, true)
@@ -48,14 +49,14 @@ oxButton:setOnClick(function(self)
     ActionBar:selectButton(oxButton)
 end)
 
-local ironMine = ActionBarButton:new(love.graphics.newImage('assets/ui/iron_mine_ab.png'),
+local ironMineButton = ActionBarButton:new(love.graphics.newImage('assets/ui/iron_mine_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 5, true)
 
-ironMine:setOnClick(function(self)
+ironMineButton:setOnClick(function(self)
     _G.BuildController:set("Mine", function()
-        ironMine:select()
+        ironMineButton:select()
     end)
-    ActionBar:selectButton(ironMine)
+    ActionBar:selectButton(ironMineButton)
 end)
 
 local pitchRigButton = ActionBarButton:new(love.graphics.newImage('assets/ui/pitch_rig_ab.png'),
@@ -72,63 +73,30 @@ marketButton:setOnClick(function(self)
 end)
 
 local buildings = {
-    { button = woodcutterButton, name = "WoodcutterHut", description = "Cuts down nearby trees to produce wood.",    tier = 1 },
-    {
-        button = oxButton,
-        name = "OxTether",
-        description =
-        "Transport stone from the quarry to the stockpile.",
-        tier = 2
-    },
-    {
-        button = quarryButton,
-        name = "Quarry",
-        description =
-        "Produces stone blocks from the ground resource.",
-        tier = 2
-    },
-    {
-        button = stockpileButton,
-        name = "Stockpile",
-        description =
-        "Increases resource capacity.\nMust be placed adjacent to a stockpile.",
-        tier = 1
-    },
-    { button = ironMine,         name = "Mine",          description = "Produces iron ingots from ground iron ore.", tier = 3 },
-    { button = marketButton,     name = "Market",        description = "Allows you to trade your goods.",            tier = 1 }
+    { button = woodcutterButton, name = SID.buildings.woodcutter.name, description = SID.buildings.woodcutter.description, tier = 1 },
+    { button = oxButton,         name = SID.buildings.ox.name,         description = SID.buildings.ox.description,         tier = 2 },
+    { button = quarryButton,     name = SID.buildings.quarry.name,     description = SID.buildings.quarry.description,     tier = 2 },
+    { button = stockpileButton,  name = SID.buildings.stockpile.name,  description = SID.buildings.stockpile.description,  tier = 1 },
+    { button = ironMineButton,   name = SID.buildings.ironMine.name,   description = SID.buildings.ironMine.description,   tier = 3 },
+    { button = marketButton,     name = SID.buildings.market.name,     description = SID.buildings.market.description,     tier = 1 }
 }
 
 local function displayTooltips()
     if ActionBar:getCurrentGroup() ~= "resource" then return end
-    for _, building in ipairs(buildings) do
-        local tooltipText = getCostAndType(building.name, building.description)
-        building.button:setTooltip(building.name, tooltipText)
-        if building.tier <= _G.state.tier then
-            building.button:enable()
-        else
-            building.button:disable()
-            building.button:setTooltip("You need to upgrade your keep to build this")
-        end
-    end
-    local lockedList = _G.MissionController:getLockedBuildings()
+
+    setBuildingsTooltips(buildings)
+
     local buttonList = {
         stockpile = stockpileButton,
         woodcutter = woodcutterButton,
         quarry = quarryButton,
         ox = oxButton,
-        ironMine = ironMine,
+        ironMine = ironMineButton,
         --pitchRig = pitchRigButton, NOT IMPLEMENTED YET
         market = marketButton
     }
 
-    if lockedList ~= nil then
-        for _, value in ipairs(lockedList) do
-            local button = buttonList[value]
-            if button then
-                button:disable("Not available in this mission")
-            end
-        end
-    end
+    disableUnavailableButtons(buttonList)
     pitchRigButton:setTooltip("Pitch Rig", "Not implemented yet.")
 end
 
@@ -142,5 +110,5 @@ el.buttons.hammerButton:setOnClick(function(self)
     displayTooltips()
 end)
 ActionBar:registerGroup("resource",
-    { stockpileButton, woodcutterButton, quarryButton, oxButton, ironMine, pitchRigButton, marketButton, backButton,
+    { stockpileButton, woodcutterButton, quarryButton, oxButton, ironMineButton, pitchRigButton, marketButton, backButton,
         destroyButton })

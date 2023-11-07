@@ -4,7 +4,7 @@ local framesActionBar = require("states.ui.action_bar_frames")
 local actionBar = require("states.ui.ActionBar")
 local scale = actionBar.element.scalex
 local Events = require("objects.Enums.Events")
-
+local SID = require("objects.Controllers.LanguageController").lines
 
 local ActionBarButton = require("states.ui.ActionBarButton")
 local backButton = ActionBarButton:new(love.graphics.newImage("assets/ui/back_ab.png"), states.STATE_HOUSE, 12)
@@ -67,10 +67,10 @@ _G.bus.on(Events.OnHouseUpgraded, function(tier, x, y)
     end
     textUpgrade:SetText({ {
         color = { 0, 0, 0, 1 }
-    }, "UPGRADE" })
+    }, SID.houses.upgradeButton })
     textAcomodation:SetText({ {
         color = { 0, 0, 0, 1 }
-    }, "Offers shelter to " .. acomodationNumber .. " people" })
+    }, string.format(SID.houses.description, acomodationNumber) })
     textUpgradePop:SetText({ {
         color = { 0, 0, 0, 1 }
     }, acomodationNumber + 4 })
@@ -150,10 +150,10 @@ textUpgrade:SetFont(loveframes.font_immortal_large)
 textUpgrade:SetPos(frTextUpgrade.x, frTextUpgrade.y)
 textUpgrade:SetText({ {
     color = { 0, 0, 0, 1 }
-}, "UPGRADE" })
+}, SID.houses.upgradeButton })
 textUpgrade:SetShadowColor(0, 0, 0, 1)
 textUpgrade:SetShadow(true)
-textUpgrade:SetClickBounds(0,0,0,0) -- the text is not clickable; the button bellow is.
+textUpgrade:SetClickBounds(0, 0, 0, 0) -- the text is not clickable; the button bellow is.
 
 local frTextCost = {
     x = framesActionBar.frFull.x + 705 * scale,
@@ -199,7 +199,7 @@ textAcomodation:SetFont(loveframes.font_immortal_large)
 textAcomodation:SetPos(frAcomodationText.x, frAcomodationText.y)
 textAcomodation:SetText({ {
     color = { 0, 0, 0, 1 }
-}, "Offers shelter to " .. acomodationNumber .. " people" })
+}, string.format(SID.houses.description, acomodationNumber) })
 textAcomodation:SetShadowColor(0, 0, 0, 1)
 textAcomodation:SetShadow(true)
 
