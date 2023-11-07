@@ -2,6 +2,7 @@ local _, _, _, _ = ...
 
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
+local SID = require("objects.Controllers.LanguageController").lines
 
 local tiles, quadArray = _G.indexBuildingQuads("market", true)
 local MarketAlias = _G.class("MarketAlias", Structure)
@@ -54,7 +55,7 @@ Market.static.WIDTH = 5
 Market.static.LENGTH = 5
 Market.static.HEIGHT = 17
 Market.static.DESTRUCTIBLE = true
-Market.static.HOVERTEXT = "Click to trade resources"
+Market.static.HOVERTEXT = SID.objects.hoverText.market
 
 function Market:initialize(gx, gy)
     Structure.initialize(self, gx, gy, "Market")
@@ -70,7 +71,7 @@ function Market:initialize(gx, gy)
     end
     for tile = 1, tiles do
         local hsl = MarketAlias:new(quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile
-            , 16)
+        , 16)
         hsl.tileKey = tiles + 1 + tile
     end
     local tileQuads = require("objects.object_quads")

@@ -1,6 +1,7 @@
 local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
+local SID = require("objects.Controllers.LanguageController").lines
 
 local tiles, quadArray = _G.indexBuildingQuads("small_wooden_castle (1)")
 local tileSaxonHallDoor1 = tileQuads["doors_bits (3)"]
@@ -36,7 +37,7 @@ SaxonHall.static.WIDTH = 7
 SaxonHall.static.LENGTH = 7
 SaxonHall.static.HEIGHT = 23
 SaxonHall.static.DESTRUCTIBLE = false
-SaxonHall.static.HOVERTEXT = "Click to manage taxes"
+SaxonHall.static.HOVERTEXT = SID.objects.hoverText.saxonHall
 
 function SaxonHall:initialize(gx, gy, type)
     type = type or "SaxonHall (default)"

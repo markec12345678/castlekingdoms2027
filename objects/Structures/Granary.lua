@@ -1,6 +1,7 @@
 local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
+local SID = require("objects.Controllers.LanguageController").lines
 
 local tiles, quadArray = _G.indexBuildingQuads("granary (1)")
 local tilesExt, quadArrayExt = _G.indexBuildingQuads("granary (2)")
@@ -14,7 +15,7 @@ local quadMap = {
 }
 
 local granaryFx = {
-    ["food"] = {_G.fx["stckfood1"],},
+    ["food"] = { _G.fx["stckfood1"], },
 }
 
 for i = 1, 8 do
@@ -31,13 +32,13 @@ for i = 1, 16 do
 end
 
 local offsetY = {
-    [FOOD.apples] = {0, -1, -7, -11, -11, -16, -22, -23},
-    [FOOD.bread] = {0, -3, -7, -10, -14, -14, -14, -14, -14, -14, -14, -14, -18 + 4, -18 + 4, -18 + 4, -18 + 4, -21 + 4,
+    [FOOD.apples] = { 0, -1, -7, -11, -11, -16, -22, -23 },
+    [FOOD.bread] = { 0, -3, -7, -10, -14, -14, -14, -14, -14, -14, -14, -14, -18 + 4, -18 + 4, -18 + 4, -18 + 4, -21 + 4,
         -24 + 4, -28 + 4, -31 + 4, -31 + 4, -31 + 4, -31 + 4, -31 + 4, -31 + 4, -31 + 4, -31 + 4, -31 + 4,
-        -31 + 4, -31 + 4, -31 + 4, -31 + 4},
-    [FOOD.cheese] = {0, -3, -6, -12, -12, -12, -18, -18, -18, -24, -24, -24, -30, -30, -30, -33},
-    [FOOD.meat] = {-51, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62,
-        7 - 62, 7 - 62, 7 - 62}
+        -31 + 4, -31 + 4, -31 + 4, -31 + 4 },
+    [FOOD.cheese] = { 0, -3, -6, -12, -12, -12, -18, -18, -18, -24, -24, -24, -30, -30, -30, -33 },
+    [FOOD.meat] = { -51, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62, 7 - 62,
+        7 - 62, 7 - 62, 7 - 62 }
 }
 
 local maxQuantity = {
@@ -103,7 +104,7 @@ Granary.static.WIDTH = 4
 Granary.static.LENGTH = 4
 Granary.static.HEIGHT = 17
 Granary.static.DESTRUCTIBLE = false
-Granary.static.HOVERTEXT = "Click to manage food rations"
+Granary.static.HOVERTEXT = SID.objects.hoverText.granary
 
 function Granary:initialize(gx, gy, type)
     type = type or "Granary"

@@ -313,6 +313,20 @@ recruitment:
     pikeman: Pikeman
     swordsman: Swordsman
     knight: Knight
+objects:
+    hoverText:
+        barracks: Click to recruit units
+        dairyFarm: Click to recruit units
+        engineersGuild: Click to recruit siege units
+        fortress: Click to manage taxes
+        granary: Click to manage food rations
+        keep: Click to manage taxes
+        market: Click to trade resources
+        saxonHall: Click to manage taxes
+        stockpile: Click to manage resources
+        stoneBarracks: Click to recruit units
+        tunnelersGuild: Click to recruit siege units
+        woodenKeep: Click to manage taxes
 tips:
     upgradeKeep: You need to upgrade your keep to build this
     notAvailableInMission: Not available in this mission

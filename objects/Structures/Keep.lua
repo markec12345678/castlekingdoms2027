@@ -1,6 +1,7 @@
 local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
+local SID = require("objects.Controllers.LanguageController").lines
 
 local tiles, quadArray = _G.indexBuildingQuads("small_stone_castle (1)")
 local tileKeepDoor1 = tileQuads["doors_bits (1)"]
@@ -35,7 +36,7 @@ Keep.static.WIDTH = 7
 Keep.static.LENGTH = 7
 Keep.static.HEIGHT = 25
 Keep.static.DESTRUCTIBLE = false
-Keep.static.HOVERTEXT = "Click to manage taxes"
+Keep.static.HOVERTEXT = SID.objects.hoverText.keep
 function Keep:initialize(gx, gy, type)
     type = type or "Keep (default)"
     Structure.initialize(self, gx, gy, type)
