@@ -60,11 +60,11 @@ armorerButton:setOnClick(function(self)
 end)
 
 local buildings = {
-    { button = armouryButton,    name = SID.buildings.armoury.name,    description = SID.buildings.armoury.description,    tier = 2 },
-    { button = fletcherButton,   name = SID.buildings.fletcher.name,   description = SID.buildings.fletcher.description,   tier = 2 },
-    { button = poleturnerButton, name = SID.buildings.poleturner.name, description = SID.buildings.poleturner.description, tier = 2 },
-    { button = blacksmithButton, name = SID.buildings.blacksmith.name, description = SID.buildings.blacksmith.description, tier = 3 },
-    { button = armorerButton,    name = SID.buildings.armorer.name,    description = SID.buildings.armorer.description,    tier = 3 }
+    { button = armouryButton,    id = "Armoury",            name = SID.buildings.armoury.name,    description = SID.buildings.armoury.description,    tier = 2 },
+    { button = fletcherButton,   id = "FletcherWorkshop",   name = SID.buildings.fletcher.name,   description = SID.buildings.fletcher.description,   tier = 2 },
+    { button = poleturnerButton, id = "PoleturnerWorkshop", name = SID.buildings.poleturner.name, description = SID.buildings.poleturner.description, tier = 2 },
+    { button = blacksmithButton, id = "BlacksmithWorkshop", name = SID.buildings.blacksmith.name, description = SID.buildings.blacksmith.description, tier = 3 },
+    { button = armorerButton,    id = "Armorer",            name = SID.buildings.armorer.name,    description = SID.buildings.armorer.description,    tier = 3 }
 }
 
 local function displayTooltips()

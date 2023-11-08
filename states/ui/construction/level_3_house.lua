@@ -53,10 +53,10 @@ BigResidenceButton:setOnClick(
     end)
 
 local buildings = {
-    { button = HovelButton,        name = SID.buildings.hovel.name,        description = SID.buildings.hovel.description,        tier = 1 },
-    { button = FlatButton,         name = SID.buildings.flat.name,         description = SID.buildings.flat.description,         tier = 2 },
-    { button = ResidenceButton,    name = SID.buildings.residence.name,    description = SID.buildings.residence.description,    tier = 3 },
-    { button = BigResidenceButton, name = SID.buildings.bigResidence.name, description = SID.buildings.bigResidence.description, tier = 4 },
+    { button = HovelButton,        id = "House",        name = SID.buildings.hovel.name,        description = SID.buildings.hovel.description,        tier = 1 },
+    { button = FlatButton,         id = "Flat",         name = SID.buildings.flat.name,         description = SID.buildings.flat.description,         tier = 2 },
+    { button = ResidenceButton,    id = "Residence",    name = SID.buildings.residence.name,    description = SID.buildings.residence.description,    tier = 3 },
+    { button = BigResidenceButton, id = "BigResidence", name = SID.buildings.bigResidence.name, description = SID.buildings.bigResidence.description, tier = 4 },
 }
 
 local function displayTooltips()

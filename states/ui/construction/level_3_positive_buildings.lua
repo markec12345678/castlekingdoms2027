@@ -79,12 +79,12 @@ largeGardenButton:setOnClick(
 )
 
 local buildings = {
-    { button = maypoleButton,      name = SID.buildings.maypole.name,      description = SID.buildings.maypole.description,      tier = 4 },
-    { button = smallPondButton,    name = SID.buildings.smallPond.name,    description = SID.buildings.smallPond.description,    tier = 4 },
-    { button = largePondButton,    name = SID.buildings.largePond.name,    description = SID.buildings.largePond.description,    tier = 4 },
-    { button = smallGardenButton,  name = SID.buildings.smallGarden.name,  description = SID.buildings.smallGarden.description,  tier = 4 },
-    { button = mediumGardenButton, name = SID.buildings.mediumGarden.name, description = SID.buildings.mediumGarden.description, tier = 4 },
-    { button = largeGardenButton,  name = SID.buildings.largeGarden.name,  description = SID.buildings.largeGarden.description,  tier = 4 }
+    { button = maypoleButton,      id = "Maypole",      name = SID.buildings.maypole.name,      description = SID.buildings.maypole.description,      tier = 4 },
+    { button = smallPondButton,    id = "SmallPond",    name = SID.buildings.smallPond.name,    description = SID.buildings.smallPond.description,    tier = 4 },
+    { button = largePondButton,    id = "LargePond",    name = SID.buildings.largePond.name,    description = SID.buildings.largePond.description,    tier = 4 },
+    { button = smallGardenButton,  id = "SmallGarden",  name = SID.buildings.smallGarden.name,  description = SID.buildings.smallGarden.description,  tier = 4 },
+    { button = mediumGardenButton, id = "MediumGarden", name = SID.buildings.mediumGarden.name, description = SID.buildings.mediumGarden.description, tier = 4 },
+    { button = largeGardenButton,  id = "LargeGarden",  name = SID.buildings.largeGarden.name,  description = SID.buildings.largeGarden.description,  tier = 4 }
 }
 
 local function displayTooltips()

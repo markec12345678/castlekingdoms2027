@@ -61,30 +61,10 @@ apothecaryButton:setOnClick(function(self)
 end)
 
 local buildings = {
-    {
-        button = chapelButton,
-        name = SID.buildings.chapel.name,
-        description = SID.buildings.chapel.description,
-        tier = 2
-    },
-    {
-        button = churchButton,
-        name = SID.buildings.church.name,
-        description = SID.buildings.church.description,
-        tier = 3
-    },
-    {
-        button = cathedralButton,
-        name = SID.buildings.cathedral.name,
-        description = SID.buildings.cathedral.description,
-        tier = 4
-    },
-    {
-        button = apothecaryButton,
-        name = SID.buildings.apothecary.name,
-        description = SID.buildings.apothecary.description,
-        tier = 4
-    }
+    { button = chapelButton,     id = "Chapel",     name = SID.buildings.chapel.name,     description = SID.buildings.chapel.description,     tier = 2 },
+    { button = churchButton,     id = "Church",     name = SID.buildings.church.name,     description = SID.buildings.church.description,     tier = 3 },
+    { button = cathedralButton,  id = "Cathedral",  name = SID.buildings.cathedral.name,  description = SID.buildings.cathedral.description,  tier = 4 },
+    { button = apothecaryButton, id = "Apothecary", name = SID.buildings.apothecary.name, description = SID.buildings.apothecary.description, tier = 4 }
 }
 
 local function displayTooltips()
