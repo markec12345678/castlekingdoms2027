@@ -73,11 +73,11 @@ end)
 
 
 local buildings = {
-    { button = castleButton,         name = SID.buildings.woodenKeep.name,     description = SID.buildings.woodenKeep.description,     tier = 1 },
-    { button = barracksButton,       name = SID.buildings.barracks.name,       description = SID.buildings.barracks.description,       tier = 2 },
-    { button = stoneBarracksButton,  name = SID.buildings.stoneBarracks.name,  description = SID.buildings.stoneBarracks.description,  tier = 3 },
-    { button = engineersGuildButton, name = SID.buildings.engineersGuild.name, description = SID.buildings.engineersGuild.description, tier = 4 },
-    { button = tunnelersGuildButton, name = SID.buildings.tunnelersGuild.name, description = SID.buildings.tunnelersGuild.description, tier = 4 }
+    { button = castleButton,         id = "WoodenKeep",     name = SID.buildings.woodenKeep.name,     description = SID.buildings.woodenKeep.description,     tier = 1 },
+    { button = barracksButton,       id = "Barracks",       name = SID.buildings.barracks.name,       description = SID.buildings.barracks.description,       tier = 2 },
+    { button = stoneBarracksButton,  id = "StoneBarracks",  name = SID.buildings.stoneBarracks.name,  description = SID.buildings.stoneBarracks.description,  tier = 3 },
+    { button = engineersGuildButton, id = "EngineersGuild", name = SID.buildings.engineersGuild.name, description = SID.buildings.engineersGuild.description, tier = 4 },
+    { button = tunnelersGuildButton, id = "TunnelersGuild", name = SID.buildings.tunnelersGuild.name, description = SID.buildings.tunnelersGuild.description, tier = 4 }
 }
 
 local function displayTooltips()

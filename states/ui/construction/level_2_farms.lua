@@ -56,11 +56,11 @@ hopsFarmButton:setOnClick(function(self)
 end)
 
 local buildings = {
-    { button = granaryButton,    name = SID.buildings.granary.name,   description = SID.buildings.granary.description,   tier = 1 },
-    { button = appleFarmButton,  name = SID.buildings.orchard.name,   description = SID.buildings.orchard.description,   tier = 1 },
-    { button = wheatFarmButton,  name = SID.buildings.wheatFarm.name, description = SID.buildings.wheatFarm.description, tier = 3 },
-    { button = cheeseFarmButton, name = SID.buildings.dairyFarm.name, description = SID.buildings.dairyFarm.description, tier = 2 },
-    { button = hopsFarmButton,   name = SID.buildings.hopsFarm.name,  description = SID.buildings.hopsFarm.description,  tier = 3 }
+    { button = granaryButton,    id = "Granary",   name = SID.buildings.granary.name,   description = SID.buildings.granary.description,   tier = 1 },
+    { button = appleFarmButton,  id = "Orchard",   name = SID.buildings.orchard.name,   description = SID.buildings.orchard.description,   tier = 1 },
+    { button = wheatFarmButton,  id = "WheatFarm", name = SID.buildings.wheatFarm.name, description = SID.buildings.wheatFarm.description, tier = 3 },
+    { button = cheeseFarmButton, id = "DairyFarm", name = SID.buildings.dairyFarm.name, description = SID.buildings.dairyFarm.description, tier = 2 },
+    { button = hopsFarmButton,   id = "HopsFarm",  name = SID.buildings.hopsFarm.name,  description = SID.buildings.hopsFarm.description,  tier = 3 }
 }
 
 local function displayTooltips()

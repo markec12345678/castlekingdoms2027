@@ -93,14 +93,14 @@ stoneGateSouthBigButton:setOnClick(
     end)
 
 local buildings = {
-    { button = perimeterTowerButton,    name = SID.buildings.perimeterTower.name,    description = SID.buildings.perimeterTower.description,    tier = 3 },
-    { button = defenseTowerButton,      name = SID.buildings.defenseTower.name,      description = SID.buildings.defenseTower.description,      tier = 3 },
-    { button = squareTowerButton,       name = SID.buildings.squareTower.name,       description = SID.buildings.squareTower.description,       tier = 4 },
-    { button = roundTowerButton,        name = SID.buildings.roundTower.name,        description = SID.buildings.roundTower.description,        tier = 4 },
-    { button = stoneGateSouthButton,    name = SID.buildings.stoneGateSouth.name,    description = SID.buildings.stoneGateSouth.description,    tier = 3 },
-    { button = stoneGateEastButton,     name = SID.buildings.stoneGateEast.name,     description = SID.buildings.stoneGateEast.description,     tier = 3 },
-    { button = stoneGateEastBigButton,  name = SID.buildings.stoneGateEastBig.name,  description = SID.buildings.stoneGateEastBig.description,  tier = 4 },
-    { button = stoneGateSouthBigButton, name = SID.buildings.stoneGateSouthBig.name, description = SID.buildings.stoneGateSouthBig.description, tier = 4 }
+    { button = perimeterTowerButton,    id = "PerimeterTower",    name = SID.buildings.perimeterTower.name,    description = SID.buildings.perimeterTower.description,    tier = 3 },
+    { button = defenseTowerButton,      id = "DefenseTower",      name = SID.buildings.defenseTower.name,      description = SID.buildings.defenseTower.description,      tier = 3 },
+    { button = squareTowerButton,       id = "SquareTower",       name = SID.buildings.squareTower.name,       description = SID.buildings.squareTower.description,       tier = 4 },
+    { button = roundTowerButton,        id = "RoundTower",        name = SID.buildings.roundTower.name,        description = SID.buildings.roundTower.description,        tier = 4 },
+    { button = stoneGateSouthButton,    id = "StoneGateSouth",    name = SID.buildings.stoneGateSouth.name,    description = SID.buildings.stoneGateSouth.description,    tier = 3 },
+    { button = stoneGateEastButton,     id = "StoneGateEast",     name = SID.buildings.stoneGateEast.name,     description = SID.buildings.stoneGateEast.description,     tier = 3 },
+    { button = stoneGateEastBigButton,  id = "StoneGateBigEast",  name = SID.buildings.stoneGateEastBig.name,  description = SID.buildings.stoneGateEastBig.description,  tier = 4 },
+    { button = stoneGateSouthBigButton, id = "StoneGateBigSouth", name = SID.buildings.stoneGateSouthBig.name, description = SID.buildings.stoneGateSouthBig.description, tier = 4 }
 }
 
 local function displayTooltips()

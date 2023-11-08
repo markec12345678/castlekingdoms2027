@@ -78,12 +78,12 @@ local elements = {
 ---@param buildingIndex string
 ---@param buildingDescription string
 ---@return table|string
-local function getCostAndType(buildingIndex, buildingDescription)
+local function getCostAndType(buildId, buildingDescription)
     local buildings = require("objects.buildings")
-    if buildingIndex == "Stronghold" then
+    if buildId == "Stronghold" then
         return "Not supported yet"
     end
-    local c = buildings[buildingIndex].cost
+    local c = buildings[buildId].cost
     local costtype = ""
     local fullText = { buildingDescription, "\n" }
     local affordable = true
@@ -120,13 +120,15 @@ end
 
 ---@class Building
 ---@field button ActionBarButton
+---@field id string|nil
 ---@field name string
+---@field description string
 ---@field tier number
 ---@field desription string
 ---@param buildings table<number, Building>
 local function setBuildingsTooltips(buildings)
     for _, building in ipairs(buildings) do
-        local tooltipText = getCostAndType(building.name, building.description)
+        local tooltipText = getCostAndType(building.id or building.name, building.description)
         building.button:setTooltip(building.name, tooltipText)
         if building.tier <= _G.state.tier then
             building.button:enable()

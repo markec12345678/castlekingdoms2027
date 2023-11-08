@@ -47,10 +47,10 @@ breweryButton:setOnClick(function(self)
 end)
 
 local buildings = {
-    { button = windmillButton, name = SID.buildings.windmill.name, description = SID.buildings.windmill.description, tier = 3 },
-    { button = bakeryButton,   name = SID.buildings.bakery.name,   description = SID.buildings.bakery.description,   tier = 3 },
-    { button = breweryButton,  name = SID.buildings.brewery.name,  description = SID.buildings.brewery.description,  tier = 3 },
-    { button = innButton,      name = SID.buildings.inn.name,      description = SID.buildings.inn.description,      tier = 3 }
+    { button = windmillButton, id = "Windmill", name = SID.buildings.windmill.name, description = SID.buildings.windmill.description, tier = 3 },
+    { button = bakeryButton,   id = "Bakery",   name = SID.buildings.bakery.name,   description = SID.buildings.bakery.description,   tier = 3 },
+    { button = breweryButton,  id = "Brewery",  name = SID.buildings.brewery.name,  description = SID.buildings.brewery.description,  tier = 3 },
+    { button = innButton,      id = "Inn",      name = SID.buildings.inn.name,      description = SID.buildings.inn.description,      tier = 3 }
 }
 
 local function displayTooltips()

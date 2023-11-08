@@ -116,15 +116,15 @@ woodenGateSouthBigButton:setOnClick(
     end)
 
 local buildings = {
-    { button = walkableWoodenWallButton,    name = SID.buildings.walkableWoodenWall.name,    description = SID.buildings.walkableWoodenWall.description,    tier = 1 },
-    { button = woodenTowerButton,           name = SID.buildings.woodenTower.name,           description = SID.buildings.woodenTower.description,           tier = 1 },
-    { button = woodenGateEastButton,        name = SID.buildings.woodenGateEast.name,        description = SID.buildings.woodenGateEast.description,        tier = 1 },
-    { button = woodenGateSouthButton,       name = SID.buildings.woodenGateSouth.name,       description = SID.buildings.woodenGateSouth.description,       tier = 1 },
-    { button = woodenGateEastBigButton,     name = SID.buildings.woodenGateEastBig.name,     description = SID.buildings.woodenGateEastBig.description,     tier = 1 },
-    { button = woodenGateSouthBigButton,    name = SID.buildings.woodenGateSouthBig.name,    description = SID.buildings.woodenGateSouthBig.description,    tier = 1 },
-    { button = woodenPermimeterTowerButton, name = SID.buildings.woodenPermimeterTower.name, description = SID.buildings.woodenPermimeterTower.description, tier = 1 },
-    { button = woodenDefenseTowerButton,    name = SID.buildings.woodenDefenseTower.name,    description = SID.buildings.woodenDefenseTower.description,    tier = 1 },
-    { button = woodenWallButton,            name = SID.buildings.woodenWall.name,            description = SID.buildings.woodenWall.description,            tier = 1 }
+    { button = walkableWoodenWallButton,    id = "WalkableWoodenWall",   name = SID.buildings.walkableWoodenWall.name,    description = SID.buildings.walkableWoodenWall.description,    tier = 1 },
+    { button = woodenTowerButton,           id = "WoodenTower",          name = SID.buildings.woodenTower.name,           description = SID.buildings.woodenTower.description,           tier = 1 },
+    { button = woodenGateEastButton,        id = "WoodenGateEast",       name = SID.buildings.woodenGateEast.name,        description = SID.buildings.woodenGateEast.description,        tier = 1 },
+    { button = woodenGateSouthButton,       id = "WoodenGateSouth",      name = SID.buildings.woodenGateSouth.name,       description = SID.buildings.woodenGateSouth.description,       tier = 1 },
+    { button = woodenGateEastBigButton,     id = "WoodenGateEastBig",    name = SID.buildings.woodenGateEastBig.name,     description = SID.buildings.woodenGateEastBig.description,     tier = 1 },
+    { button = woodenGateSouthBigButton,    id = "WoodenGateSouthBig",   name = SID.buildings.woodenGateSouthBig.name,    description = SID.buildings.woodenGateSouthBig.description,    tier = 1 },
+    { button = woodenPermimeterTowerButton, id = "WoodenPerimeterTower", name = SID.buildings.woodenPermimeterTower.name, description = SID.buildings.woodenPermimeterTower.description, tier = 1 },
+    { button = woodenDefenseTowerButton,    id = "WoodenDefenseTower",   name = SID.buildings.woodenDefenseTower.name,    description = SID.buildings.woodenDefenseTower.description,    tier = 1 },
+    { button = woodenWallButton,            id = "WoodenWall",           name = SID.buildings.woodenWall.name,            description = SID.buildings.woodenWall.description,            tier = 1 }
 }
 
 local function displayTooltips()

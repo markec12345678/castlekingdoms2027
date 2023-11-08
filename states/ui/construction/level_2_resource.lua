@@ -73,12 +73,12 @@ marketButton:setOnClick(function(self)
 end)
 
 local buildings = {
-    { button = woodcutterButton, name = SID.buildings.woodcutter.name, description = SID.buildings.woodcutter.description, tier = 1 },
-    { button = oxButton,         name = SID.buildings.ox.name,         description = SID.buildings.ox.description,         tier = 2 },
-    { button = quarryButton,     name = SID.buildings.quarry.name,     description = SID.buildings.quarry.description,     tier = 2 },
-    { button = stockpileButton,  name = SID.buildings.stockpile.name,  description = SID.buildings.stockpile.description,  tier = 1 },
-    { button = ironMineButton,   name = SID.buildings.ironMine.name,   description = SID.buildings.ironMine.description,   tier = 3 },
-    { button = marketButton,     name = SID.buildings.market.name,     description = SID.buildings.market.description,     tier = 1 }
+    { button = woodcutterButton, id = "WoodcutterHut", name = SID.buildings.woodcutter.name, description = SID.buildings.woodcutter.description, tier = 1 },
+    { button = oxButton,         id = "OxTether",      name = SID.buildings.ox.name,         description = SID.buildings.ox.description,         tier = 2 },
+    { button = quarryButton,     id = "Quarry",        name = SID.buildings.quarry.name,     description = SID.buildings.quarry.description,     tier = 2 },
+    { button = stockpileButton,  id = "Stockpile",     name = SID.buildings.stockpile.name,  description = SID.buildings.stockpile.description,  tier = 1 },
+    { button = ironMineButton,   id = "Mine",          name = SID.buildings.ironMine.name,   description = SID.buildings.ironMine.description,   tier = 3 },
+    { button = marketButton,     id = "Market",        name = SID.buildings.market.name,     description = SID.buildings.market.description,     tier = 1 }
 }
 
 local function displayTooltips()
