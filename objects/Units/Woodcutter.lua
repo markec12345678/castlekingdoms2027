@@ -271,7 +271,7 @@ end
 function Woodcutter:cutCallback()
     if self.state == "Cutting down" then
         local treeProgress
-        if self.targetTree.tree and self.targetTree.cuttable then
+        if self.targetTree.tree and self.targetTree.cuttable and self.targetTree.type ~= "Stump" then
             treeProgress = self.targetTree:cut()
             if self.targetTree.chop or self.targetTree.falling then
                 _G.playSfx(self, choppingFx)
