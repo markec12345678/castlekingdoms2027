@@ -38,6 +38,7 @@ SaxonHall.static.LENGTH = 7
 SaxonHall.static.HEIGHT = 23
 SaxonHall.static.DESTRUCTIBLE = false
 SaxonHall.static.HOVERTEXT = SID.objects.hoverText.saxonHall
+SaxonHall.static.NAMEINDEX = "castle"
 
 function SaxonHall:initialize(gx, gy, type)
     type = type or "SaxonHall (default)"
