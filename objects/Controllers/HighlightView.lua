@@ -1,4 +1,5 @@
 local IsoToScreenX, IsoToScreenY = _G.IsoToScreenX, _G.IsoToScreenY
+local SID = require("objects.Controllers.LanguageController").lines
 
 local HighlightView = _G.class("HighlightView")
 function HighlightView:initialize()
@@ -64,7 +65,9 @@ function HighlightView:update()
     if not structure.hover and structure.enterHover and not _G.DestructionController.active then
         structure:enterHover()
     end
-    buildingTooltip:ShowTooltip(structure.class.name, structure.class.HOVERTEXT)
+    local buildingStringIndex = structure.class.NAMEINDEX
+    local buildingName = SID.buildings[buildingStringIndex] and SID.buildings[buildingStringIndex].name or structure.class.name
+    buildingTooltip:ShowTooltip(buildingName, structure.class.HOVERTEXT)
     self.lastScale = _G.state.scaleX
     self.lastStructure = structure
     self.points = {}

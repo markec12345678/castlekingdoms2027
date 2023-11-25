@@ -47,7 +47,7 @@ local function loadTranslations(folder)
 end
 
 function LanguageController:initialize()
-    self.translations = { LANG.POL, LANG.ENG }
+    self.translations = { LANG.POL, LANG.POR, LANG.ENG }
     self.allTranslations = loadTranslations("locale")
     self.currentLanguage = _G.currentLang or "ENG"
     self.lines = self.allTranslations[self.currentLanguage]

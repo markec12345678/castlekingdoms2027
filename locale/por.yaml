@@ -1,329 +1,315 @@
 mission1:
-  name: Timber and Stone
+  name: Madeira e Pedra
   desc: |
-    In this mission, you will need to focus on gathering resources to develop your kingdom's infrastructure.
-    Your objective is to collect 50 units of wood and 20 units of stone within the next 5 years.\n
-    To achieve this, you will need to establish a network of woodcutter's huts and quarries to extract these resources from the surrounding environment.
-    This may involve the construction of stockpiles to store your resources.
+    Nesta missão, você precisará se concentrar na coleta de recursos para desenvolver a infraestrutura do seu Reino. Seu objetivo é coletar 50 unidades de madeira e 20 unidades de pedra nos próximos 5 anos.\n Para conseguir isso, você terá que criar uma rede de cabanas de lenhador e pedreiras para extrair esses recursos do ambiente circundante. Isso pode envolver a construção de depósitos para guardar seus recursos.
 mission2:
-  name: Arms Race
+  name: Corrida Armamentista
   desc: |
-    In this mission, you will need to focus on developing a strong military to defend your kingdom against potential threats.
-    Your objective is to produce 40 units each of bows, spears, maces, and armor within the next 20 years.\n
-    To achieve this, you will need to establish a robust metalworking industry to craft high-quality weapons and armor.
-    This may involve the construction of blacksmiths, workshops, and mines, as well as the recruitment of skilled craftsmen.\n
-    Keep in mind that your success in this mission will depend on your ability to balance your resources and prioritize your goals.
-    You will need to carefully manage your finances and make strategic decisions to ensure the safety and security of your kingdom. Good luck!
+    Nesta missão, você precisará se concentrar no desenvolvimento de um exército forte para defender seu reino contra ameaças potenciais. Seu objetivo é produzir 40 unidades de arcos, lanças, maças e armaduras nos próximos 20 anos.\n Para conseguir isso, você precisará estabelecer uma indústria metalúrgica robusta para fabricar armas e armaduras de alta qualidade. Isso pode envolver a construção de ferreiros, oficinas e minas, bem como o recrutamento de artesãos qualificados.\n Tenha em mente que o seu sucesso nesta missão dependerá da sua capacidade de equilibrar os seus recursos e priorizar os seus objetivos. Você precisará gerenciar cuidadosamente suas finanças e tomar decisões estratégicas para garantir a segurança de seu reino. Boa sorte!
 mission3:
-  name: Feast or famine
+  name: Banquete ou fome
   desc: |
-    In this mission, you will need to focus on food production to sustain your growing population. Your goal is to produce 250 units of bread,
-    100 units of meat,
-    200 units of cheese, and 250 units of apples within the next 20 years.\n
-    To achieve this, you will need to develop a robust agriculture system to grow crops and raise livestock. This will require the construction of farms, mills, and pastures, as well as the recruitment of skilled laborers.\n
-    In addition to food production, you will also need to consider the storage and distribution of these resources. This may involve building granaries and markets to store and sell your products.\n
-    Keep in mind that your success in this mission will depend on your ability to balance your resources and prioritize your goals. You will need to carefully manage your finances and make strategic decisions to ensure the prosperity of your kingdom. Good luck!
+    Nesta missão, você precisará se concentrar na produção de alimentos para sustentar a sua população crescente. Sua meta é produzir 250 unidades de pão, 100 unidades de carne, 200 unidades de queijo e 250 unidades de maçã nos próximos 20 anos.\n Para o conseguir, terá de desenvolver um sistema agrícola robusto para cultivar culturas e criar gado. Isto exigirá a construção de fazendas, moinhos e pastagens, bem como o recrutamento de trabalhadores qualificados.\n Além da produção de alimentos, será necessário considerar também o armazenamento e a distribuição desses recursos. Isso pode envolver a construção de celeiros e mercados para armazenar e vender os seus produtos.\n Tenha em mente que o seu sucesso nesta missão dependerá da sua capacidade de equilibrar seus recursos e priorizar seus objetivos. Você precisará administrar cuidadosamente suas finanças e tomar decisões estratégicas para garantir a prosperidade de seu reino. Boa sorte!
 mission4:
-  name: The Kingdom's Fortune
+  name: A Fortuna do Reino
   desc: |
-    In this mission, your goal is to accumulate a substantial amount of wealth by acquiring 5000 units of gold.
-    Unlike previous missions, there is no time limit on this objective, so you will have the freedom to pursue your goals at your own pace.\n
-    To achieve this, you will need to develop a strong economy by building and managing workshops, investing in trade and commerce, and making strategic financial decisions.\n
-    Keep in mind that your success in this mission will depend on your ability to make wise investments and manage your finances carefully.
-    You will need to balance your resources and take calculated risks to ensure the prosperity of your kingdom. Good luck!
+    Nesta missão, seu objetivo é acumular uma quantidade substancial de riqueza adquirindo 5000 unidades de ouro. Ao contrário das missões anteriores, não há um limite de tempo para este objetivo, portanto, terá a liberdade de atingir seus objetivos no seu próprio ritmo.\n
+    Para conseguir isso, você precisará desenvolver uma economia forte construindo e gerenciando oficinas, investindo em negociação e comércio e tomando decisões financeiras estratégicas.\n
+    Tenha em mente que o seu sucesso nesta missão dependerá da sua capacidade de fazer investimentos sábios e gerenciar suas finanças com cuidado.
+    Você precisará equilibrar seus recursos e assumir riscos calculados para garantir a prosperidade do seu reino. Boa sorte!
 mission5:
-  name: Faith in Architecture
+  name: Fé na Arquitetura
   desc: |
-    In this mission, you will need to focus on constructing a grand cathedral to serve as the centerpiece of your kingdom's religious and cultural life.
-    Your objective is to build a cathedral within the next 10 years.\n
-    Keep in mind that your success in this mission will depend on your ability to manage a complex construction project and balance your resources effectively.
-    You will need to make strategic decisions and manage your time carefully to ensure the completion of your cathedral within the allotted timeframe. Good luck!
+    Nesta missão, você precisará focar em construir uma grande catedral para servir como peça central da vida religiosa e cultural do seu Reino.
+    Seu objetivo é construir uma catedral dentro dos próximos 10 anos.\n
+    Tenha em mente que o seu sucesso nesta missão dependerá da sua capacidade de gerenciar um projeto complexo de construção e equilibrar seus recursos de forma eficaz.
+    Você precisará tomar decisões estratégicas e gerir o seu tempo com cuidado para garantir a conclusão da sua catedral dentro do período de tempo definido. Boa Sorte!
 groups:
   castle:
-    name: Castle
-    description: Walls, Towers, Gates and everything else you need to defend your Stronghold.
+    name: Castelo
+    description: Muralhas, Torres, Portões e tudo o mais que você precisa para defender sua Fortaleza.
   industry:
-    name: Industry
-    description: Build mighty Industries to defeat your enemies ... or fill your pockets.
+    name: Indústria
+    description: Construa poderosas indústrias para derrotar seus inimigos... ou encha seus bolsos.
   apple:
-    name: Farms
-    description: Produce basic agricultural products.
+    name: Fazendas
+    description: Produza produtos agrícolas básicos.
   house:
-    name: Civilian
-    description: Houses and amenities for your citizens.
+    name: Cidadão
+    description: Casas e serviços para vossos cidadãos.
   shield:
-    name: Military
-    description: Raise mighty armies and build terrifying siege weapons to crush your enemies.
+    name: Força Militar
+    description: Crie poderosos exércitos e construa armas de cerco aterradoras para esmagar seus inimigos.
   sickle:
-    name: Food Production
-    description: Turn basic farm products into high quality goods.
+    name: Produção de Alimentos
+    description: Transforme produtos agrícolas básicos em mercadorias de alta qualidade.
   destroy:
-    name: Demolish
-    description: Enter demolish mode. Click on a building to destroy.
-    exitTooltip: Exit Demolish Mode
+    name: Demolir
+    description: Entre no modo de demolição. Clique em um edifício para destruir.
+    exitTooltip: Sair do Modo Demolição
 buildings:
   granary:
-    name: Granary
-    description: The granary is where you store your kingdom's food reserves.
+    name: Celeiro
+    description: O celeiro é onde você armazena as reservas de comida do seu reino.
   orchard:
-    name: Orchard
-    description: Produces apples.
+    name: Pomar
+    description: Produz maçãs.
   wheatFarm:
-    name: Wheat Farm
-    description: Produces wheat which can be processed into flour.
+    name: Plantação de Trigo
+    description: Produz trigo que pode ser transformado em farinha.
   dairyFarm:
-    name: Dairy Farm
-    description: Produces cheese.
+    name: Fazenda Leiteira
+    description: Produz queijo.
   hopsFarm:
-    name: Hops Farm
-    description: Produces hops which can be processed into ale.
+    name: Plantação de Lúpulo
+    description: Produz lúpulo que pode ser transformado em cerveja.
   castle:
-    name: Saxon Hall
-    description: Your Saxon hall is the center of your castle.
+    name: Salão Saxão
+    description: Seu Salão Saxão é o centro do seu castelo.
   stockpile:
-    name: Stockpile
+    name: Estoque
     description: |
-      Increases resource capacity.\nMust be placed adjacent to a stockpile.
+      Aumenta a capacidade de armazenagem.\n Precisa ser colocado próximo ao depósito.
   woodenKeep:
-    name: Wooden Keep
-    description: Upgrade your Saxon hall to a Wooden keep
+    name: Forte de madeira
+    description: Aprimore seu Salão Saxão para um Forte de Madeira
   barracks:
-    name: Barracks
-    description: A building allowing you to recruit units.
+    name: Alojamento
+    description: Um edifício que lhe permite recrutar tropas.
   stoneBarracks:
-    name: Stone Barracks
-    description: A building allowing you to recruit units.
+    name: Alojamento de Pedra
+    description: Um edifício que lhe permite recrutar tropas.
   engineersGuild:
-    name: Engineers Guild
-    description: A building allowing you to recruit siege units.
+    name: Guilda dos Engenheiros
+    description: Um edifício que lhe permite recrutar engenheiros capazes de construir equipamentos de cerco.
   tunnelersGuild:
-    name: Tunnelers Guild
-    description: A building allowing you to recruit tunnelers.
+    name: Guilda dos Cavadores de Túneis
+    description: Um edifício que lhe permite recrutar cavadores de túneis.
   chapel:
-    name: Chapel
-    description: Increase your popularity with religion. Currently not functional.
+    name: Capela
+    description: Aumente sua popularidade com religião. Atualmente não funcional.
   church:
-    name: Church
-    description: Increase your popularity with religion. Currently not functional.
+    name: Igreja
+    description: Aumente sua popularidade com religião. Atualmente não funcional.
   cathedral:
-    name: Cathedral
-    description: Increase your popularity with religion. Currently not functional.
+    name: Catedral
+    description: Aumente sua popularidade com religião. Atualmente não funcional.
   apothecary:
-    name: Apothecary
-    description: Currently not functional.
+    name: Curandeiro
+    description: Atualmente não funcional.
   woodcutter:
-    name: Woodcutter Hut
-    description: Cuts down nearby trees to produce wood.
+    name: Cabana do Lenhador
+    description: Produz madeira de árvores cortadas nas proximidades.
   ironMine:
-    name: Mine
-    description: Produces iron ingots from ground iron ore.
+    name: Mina de Ferro
+    description: Produz barras de ferro a partir de depósitos de ferro bruto encontrados no solo.
   market:
-    name: Market
-    description: Allows you to trade your goods.
+    name: Mercado
+    description: Permite que você negocie suas mercadorias.
   ox:
-    name: Ox Tether
-    description: Transport stone from the quarry to the stockpile.
+    name: Parelha de Bois
+    description: Transporte pedra da pedreira para o depósito.
   quarry:
-    name: Quarry
-    description: Produces stone blocks from the ground resource.
+    name: Pedreira
+    description: Produz blocos de pedra de depósitos encontrados no solo.
   armoury:
-    name: Armoury
-    description: Weapons and armour is stored here, which is used by troops from the barracks upon recruitment.
+    name: Arsenal
+    description: As armas e armaduras são armazenadas aqui. São usadas pelas tropas do alojamento para o recrutamento.
   fletcher:
-    name: Fletcher Workshop
-    description: Produces bows and crossbows from wood.
+    name: Oficina do Arqueiro
+    description: Produz arcos e bestas a partir de madeira.
   poleturner:
-    name: Poleturner Workshop
-    description: Produces spears and pikes from wood.
+    name: Oficina do Lanceiro
+    description: Produz lanças e piques a partir de madeira.
   blacksmith:
-    name: Blacksmith Workshop
-    description: Produces swords and maces from iron.
+    name: Oficina do Ferreiro
+    description: Produz espadas e maças de ferro.
   armorer:
-    name: Armorer
-    description: Makes armor from iron.
+    name: Oficina do Armeiro
+    description: Faz armaduras de ferro.
   windmill:
-    name: Windmill
-    description: Processes wheat into flour.
+    name: Moinho
+    description: Processa trigo em farinha.
   bakery:
-    name: Bakery
-    description: Processes flour into bread.
+    name: Padaria
+    description: Usa farinha para fazer pão.
   brewery:
-    name: Brewery
-    description: Processes hops into ale.
+    name: Cervejaria
+    description: Usa lúpulo para fazer cerveja.
   inn:
-    name: Inn
-    description: Distributes ale.
+    name: Taverna
+    description: Distribui cerveja.
   perimeterTower:
-    name: Perimeter Tower
-    description: A small perimeter tower - good for the observation.
+    name: Torre de Perímetro
+    description: Uma pequena torre de perímetro — boa para observação.
   defenseTower:
-    name: Defense Tower
-    description: A defense tower made for defense.
+    name: Torre de Defesa
+    description: Uma torre média de defesa, feita para defesa.
   squareTower:
-    name: Square Tower
-    description: Crucial for your castle - you can place war machines on the top.
+    name: Torre Quadrada
+    description: Crucial para o seu castelo — você pode colocar máquinas de guerra no topo.
   roundTower:
-    name: Round Tower
-    description: The strongest tower - you can place war machines on the top.
+    name: Torre Redonda
+    description: A torre mais forte — pode-se colocar máquinas de guerra no topo.
   stoneGateSouth:
-    name: Stone Gate South
-    description: A stone gate that can let friendly units pass through.
+    name: Portão de Pedra sul
+    description: Um portão de pedra que permite que unidades amigas passem.
   stoneGateEast:
-    name: Stone Gate East
-    description: A stone gate that can let friendly units pass through.
+    name: Portão de Pedra leste
+    description: Um portão de pedra que permite que unidades amigas passem.
   stoneGateEastBig:
-    name: Stone Gate Big East
-    description: A strong stone gate that can let friendly units pass through.
+    name: Portão de Pedra Grande leste
+    description: Um portão de pedra que permite que unidades amigas passem.
   stoneGateSouthBig:
-    name: Stone Gate Big South
-    description: A strong stone gate that can let friendly units pass through.
+    name: Portão de Pedra Grande sul
+    description: Um portão de pedra que permite que unidades amigas passem.
   walkableWoodenWall:
-    name: Walkable WoodenWall
-    description: A defensive wall made that is walkable on the top.
+    name: Passarela de Madeira
+    description: Um andaime junto a muralha de madeira que permite o posicionamento de tropas.
   woodenTower:
-    name: Wooden Tower
-    description: A wooden tower that is missing some stairs apparently.
+    name: Torre de madeira
+    description: Uma torre de madeira que aparenta ter alguns degraus faltando.
   woodenGateEast:
-    name: Wooden Gate East
-    description: A wooden gate that can let friendly units pass through.
+    name: Portão de Madeira leste
+    description: Um portão de madeira que permite que unidades amigas passem.
   woodenGateSouth:
-    name: Wooden Gate South
-    description: A wooden gate that can let friendly units pass through.
+    name: Portão de Madeira sul
+    description: Um portão de madeira que permite que unidades amigas passem.
   woodenGateEastBig:
-    name: Big Wooden Gate East
-    description: A wooden gate that can let friendly units pass through.
+    name: Grande Portão de Madeira leste
+    description: Um portão de madeira que permite que unidades amigas passem.
   woodenGateSouthBig:
-    name: Big Wooden Gate South
-    description: A wooden gate that can let friendly units pass through.
+    name: Grande Portão de Madeira sul
+    description: Um portão de madeira que permite que unidades amigas passem.
   woodenPermimeterTower:
-    name: Wooden Perimeter Tower
-    description: A wooden tower that is missing some stairs apparently.
+    name: Torre de Perímetro de Madeira
+    description: Uma torre de madeira que aparenta ter alguns degraus faltando.
   woodenDefenseTower:
-    name: Wooden Defense Tower
-    description: A wooden tower that is missing some stairs apparently.
+    name: Torre de Defesa de Madeira
+    description: Uma torre de madeira que aparenta ter alguns degraus faltando.
   woodenWall:
-    name: Wooden Wall
-    description: A defensive wall made from sharpened tree trunks.
+    name: Muralha de Madeira
+    description: Uma muralha defensiva feita de troncos de árvores afiadas.
   hovel:
-    name: House
-    description: A small hut - gives shelter to 4 people.
+    name: Casa
+    description: Uma pequena cabana que abriga 4 pessoas.
   flat:
-    name: Flat
-    description: A small, cosy flat - gives shelter to 8 people
+    name: Apartamento
+    description: Um apartamento pequeno e confortável que abriga 8 pessoas
   residence:
-    name: Residence
-    description: A nice and elegant house - gives shelter to 12 peole.
+    name: Residência
+    description: Uma bela e elegante casa que abriga 12 pessoas.
   bigResidence:
-    name: Big Residence
-    description: A big residence - gives shelter to 16 people
+    name: Residência Grande
+    description: Uma grande residência que abriga 16 pessoas
   maypole:
-    name: Maypole
-    description: A tall wooden pole, around which a maypole dance often takes place. Temporarily disabled.
+    name: Mastro Decorado
+    description: Um poste de madeira alto, em torno do qual ocorre uma dança majestosa. Temporariamente desabilitado.
   smallPond:
-    name: Small Pond
-    description: A small pond.
+    name: Lago Pequeno
+    description: Uma pequena lagoa.
   largePond:
-    name: Large Pond
-    description: A large pond.
+    name: Lago Grande
+    description: Uma grande lagoa.
   smallGarden:
-    name: Small Garden
-    description: A small garden.
+    name: Jardim Pequeno
+    description: Um pequeno jardim.
   mediumGarden:
-    name: Medium Garden
-    description: A medium-sized garden.
+    name: Jardim Médio
+    description: Um jardim de tamanho médio.
   largeGarden:
-    name: Large Garden
-    description: A large garden.
+    name: Grande Jardim
+    description: Um grande jardim.
 freebuild:
   fernhaven:
-    name: Fernhaven
-    description: Build a new castle on the ruins of an ancient city.
+    name: Refúgio da Samambaia
+    description: Construa um novo castelo nas ruínas de uma cidade antiga.
   grasslands:
-    name: Grasslands
+    name: Pradarias
     description: |
-      Some plain grasslands.\nThis map doesn't really exist yet (placeholder), so it will load Fernhaven.
+      Algumas pradarias planas.\nEste mapa ainda não existe (espaço reservado), então ele vai carregar Fernhaven.
 rations:
   no:
-    name: No Rations
+    name: Sem Rações
     description: |
-      No rations for each worker.\nDecreases their happiness by 8.
+      Sem rações para os trabalhadores.\nDiminui a felicidade em 8.
   half:
-    name: Half Rations
+    name: Meia Ração
     description: |
-      0.5x rations for each worker.\nDecreases their happiness by 4.
+      0.5x rações para os trabalhadores. \nDiminui a felicidade em 4.
   full:
-    name: Full Rations
+    name: Rações Completas
     description: |
-      Normal rations for each worker.
+      Rações normais para os trabalhador.
   extra:
-    name: Extra Rations
+    name: Rações Extras
     description: |
-      1.5x rations for each worker.\nIncreases their happiness by 4.
+      1.5x rações para os trabalhadores. \nAumenta a felicidade em 4.
   double:
-    name: Double Rations
+    name: Rações Duplas
     description: |
-      2x rations for each worker.\nIncreases their happiness by 8.
+      2x rações para os trabalhadores. \nAumenta a felicidade em 8.
 houses:
-  upgradeButton: UPGRADE
-  description: Offers shelter to %s people
+  upgradeButton: MELHORAR
+  description: Oferece abrigo para %s pessoas
 taxes:
-  no: No Tax
-  auto: Auto Tax
-  generousBribe: Generous Bribe
-  largeBribe: Large Bribe
-  smallBribe: Small Bribe
-  low: Low Taxes
-  avg: Average Taxes
-  high: High Taxes
-  mean: Mean Taxes
-  extra: Extortionate Taxes
-  downrightCruel: Downright Cruel Taxes
+  no: Sem imposto
+  auto: Imposto Automático
+  generousBribe: Suborno Generoso
+  largeBribe: Suborno Grande
+  smallBribe: Suborno Pequeno
+  low: Impostos Baixos
+  avg: Impostos Médios
+  high: Impostos Elevados
+  mean: Impostos Absurdos
+  extra: Impostos Extorsivos
+  downrightCruel: Impostos Simplesmente Cruéis
 settings:
   categories:
     sound:
-      title: SOUND LEVELS
-      description: Here you can change the sound levels of sound effects or speech to your liking.
+      title: NÍVEIS DE SOM
+      description: Aqui você pode mudar o volume dos efeitos sonoros ou conversas ao seu gosto.
     graphics:
-      title: GRAPHIC SETTINGS
+      title: CONFIGURAÇÕES GRÁFICAS
       description: |
-        Modify rendering quality, chunk size and toggle animations in order to balance performance.\n
+        Modifique a qualidade de renderização, tamanho de chunk e alterne as animações para equilibrar o desempenho.\n
     hotkeys:
-      title: KEYBOARD HOTKEYS & SHORTCUTS
+      title: CONTROLES  E ATALHOS DO TECLADO
       description: |
-        Edit or add new keyboard hotkeys and shortcuts.\n
+        Edite ou adicione novos controles e atalhos de teclado.\n
     video:
-      title: VIDEO SETTINGS
+      title: CONFIGURAÇÕES DE VÍDEO
       description: |
-        Change fullscreen settings, window resolution and toggle VSync.\n
+        Alterar configurações de tela cheia, resolução da janela e alternar o VSync.\n
     interface:
-      title: INTERFACE SETTINGS
+      title: CONFIGURAÇÕES DE INTERFACE
       description: |
-        Toggle interface elements and modify their scale.\n
+        Alterna os elementos da interface e modifique sua escala.\n
 recruitment:
-  archer: Archer
-  spearman: Spearman
-  maceman: Maceman
-  crossbowman: Crossbowman
-  pikeman: Pikeman
-  swordsman: Swordsman
-  knight: Knight
+  archer: Arqueiro
+  spearman: Lanceiro
+  maceman: Maceiro
+  crossbowman: Besteiro
+  pikeman: Piqueiro
+  swordsman: Espadachim
+  knight: Cavaleiro
 objects:
   hoverText:
-    barracks: Click to recruit units
-    dairyFarm: Click to recruit units
-    engineersGuild: Click to recruit siege units
-    fortress: Click to manage taxes
-    granary: Click to manage food rations
-    keep: Click to manage taxes
-    market: Click to trade resources
-    saxonHall: Click to manage taxes
-    stockpile: Click to manage resources
-    stoneBarracks: Click to recruit units
-    tunnelersGuild: Click to recruit siege units
-    woodenKeep: Click to manage taxes
+    barracks: Clique para recrutar tropas
+    dairyFarm: Clique para recrutar tropas
+    engineersGuild: Clique para recrutar equipamentos de cerco
+    fortress: Clique para gerenciar os impostos
+    granary: Clique para gerenciar as rações
+    keep: Clique para gerenciar os impostos
+    market: Clique para negociar recursos
+    saxonHall: Clique para gerenciar impostos
+    stockpile: Clique para gerenciar recursos
+    stoneBarracks: Clique para recrutar tropas
+    tunnelersGuild: Clique para recrutar equipamentos de cerco
+    woodenKeep: Clique para gerenciar os impostos
 tips:
-  upgradeKeep: You need to upgrade your keep to build this
-  notAvailableInMission: Not available in this mission
-  buildMarket: Build a market to trade!
-  cantTrade: You can't trade that!
-gold: gold
+  upgradeKeep: Você precisa melhorar o seu forte para construir isso
+  notAvailableInMission: Indisponível nesta missão
+  buildMarket: Construa um mercado para negociar!
+  cantTrade: Você não pode negociar isso!
+gold: ouro
