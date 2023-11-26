@@ -97,7 +97,7 @@ local function displayTooltips()
     }
 
     disableUnavailableButtons(buttonList)
-    pitchRigButton:setTooltip("Pitch Rig", "Not implemented yet.")
+    pitchRigButton:setTooltip("Pitch Rig", SID.tips.warning.notImplemented)
 end
 
 _G.bus.on(Events.OnResourceStore, displayTooltips)

@@ -67,6 +67,7 @@ local StoneGateSouthBig = require("objects.Structures.StoneGateSouthBig")
 local Lord = require("objects.Units.Lord")
 
 local warningTooltip = require("states.ui.warning_tooltip")
+local SID = require("objects.Controllers.LanguageController").lines
 
 local objectFromTypeAt = _G.objectFromTypeAt
 local chunkWidth = _G.chunkWidth
@@ -135,7 +136,7 @@ local buildings = {
                     end
                 end
             end
-            warningTooltip:ShowTooltip("Needs to placed adjacent to a stockpile!")
+            warningTooltip:ShowTooltip(SID.tips.warning.adjacentStockpile)
         end,
         onFailedSpecialRequirement = function()
             _G.playSpeech("adjacent_stockpile")
@@ -169,7 +170,7 @@ local buildings = {
                     end
                 end
             end
-            warningTooltip:ShowTooltip("Needs to placed adjacent to a granary!")
+            warningTooltip:ShowTooltip(SID.tips.warning.adjacentGranary)
         end
     },
     [Quarry.name] = {
@@ -208,7 +209,7 @@ local buildings = {
             if tilesWithStone / totalTiles >= 0.8 then
                 return true
             end
-            warningTooltip:ShowTooltip("Needs to placed on top of stone!")
+            warningTooltip:ShowTooltip(SID.tips.warning.onTopOfStone)
         end,
         overrideRequirements = function(this, self)
             self.targetGX, self.targetGY = self.gx + math.floor(self.width / 2),
@@ -221,11 +222,11 @@ local buildings = {
                 for yy = 0, self.height - 1 do
                     if _G.objectFromSubclassAtGlobal(xx + self.gx, yy + self.gy, "Unit") then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("There are units in the way!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.unitsInTheWay)
                         break
                     elseif _G.objectFromSubclassAtGlobal(xx + self.gx, yy + self.gy, "Structure") then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("There are structures in the way!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.structuresInTheWay)
                         break
                     end
                     local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
@@ -236,12 +237,12 @@ local buildings = {
                     end
                     if _G.state.map:isWaterAt(self.gx + xx, self.gy + yy) then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.water)
                         break
                     end
                     if _G.state.Terrain:getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.water)
                         break
                     end
                 end
@@ -249,7 +250,7 @@ local buildings = {
             self.totalTerrainDifference = totalTerrainDifference
             if self.totalTerrainDifference >= math.min(3 * self.width * self.height, 220) then
                 self.canBuild = false
-                warningTooltip:ShowTooltip("Terrain is too uneven!")
+                warningTooltip:ShowTooltip(SID.tips.warning.unevenTerrain)
             end
             if not this:specialRequirements(self.gx, self.gy) then
                 self.canBuild = false
@@ -259,7 +260,7 @@ local buildings = {
             end
             if not self.start and not self:isBuildingAffordable(self.building) then
                 self.canBuild = false
-                warningTooltip:ShowTooltip("Not enough resources!")
+                warningTooltip:ShowTooltip(SID.tips.warning.notEnoughResources)
             end
             self.batch:clear()
             local type
@@ -323,7 +324,7 @@ local buildings = {
                     end
                 end
             end
-            warningTooltip:ShowTooltip("Needs to placed on top of iron ore!")
+            warningTooltip:ShowTooltip(SID.tips.warning.onTopOfIron)
         end,
         overrideRequirements = function(this, self)
             self.targetGX, self.targetGY = self.gx + math.floor(self.width / 2),
@@ -336,11 +337,11 @@ local buildings = {
                 for yy = 0, self.height - 1 do
                     if _G.objectFromSubclassAtGlobal(xx + self.gx, yy + self.gy, "Unit") then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("There are units in the way!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.unitsInTheWay)
                         break
                     elseif _G.objectFromSubclassAtGlobal(xx + self.gx, yy + self.gy, "Structure") then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("There are structures in the way!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.structuresInTheWay)
                         break
                     end
                     local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
@@ -351,12 +352,12 @@ local buildings = {
                     end
                     if _G.state.map:isWaterAt(self.gx + xx, self.gy + yy) then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.water)
                         break
                     end
                     if _G.state.Terrain:getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.water)
                         break
                     end
                 end
@@ -364,7 +365,7 @@ local buildings = {
             self.totalTerrainDifference = totalTerrainDifference
             if self.totalTerrainDifference >= math.min(3 * self.width * self.height, 220) then
                 self.canBuild = false
-                warningTooltip:ShowTooltip("Terrain is too uneven!")
+                warningTooltip:ShowTooltip(SID.tips.warning.unevenTerrain)
             end
             if not this:specialRequirements(self.gx, self.gy) then
                 self.canBuild = false
@@ -374,7 +375,7 @@ local buildings = {
             end
             if not self.start and not self:isBuildingAffordable(self.building) then
                 self.canBuild = false
-                warningTooltip:ShowTooltip("Not enough resources!")
+                warningTooltip:ShowTooltip(SID.tips.warning.notEnoughResources)
             end
             self.batch:clear()
             local type
@@ -665,7 +666,7 @@ local buildings = {
                     end
                 end
             end
-            warningTooltip:ShowTooltip("Needs to placed adjacent to an armory!")
+            warningTooltip:ShowTooltip(SID.tips.warning.adjacentArmoury)
         end
     },
     [WoodenGateEast.name] = {
@@ -702,11 +703,11 @@ local buildings = {
                         not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WoodenWall") and
                         not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WalkableWoodenWall") then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("There are obstacles in the way!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.obstacle)
                         break
                     end
                     if _G.isWithinKeepUpgradeRadius(xx + self.gx, yy + self.gy) then
-                        warningTooltip:ShowTooltip("Too close to the keep!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.tooCloseToKeep)
                         self.canBuild = false
                         break
                     end
@@ -717,12 +718,12 @@ local buildings = {
                     end
                     if _G.state.map:isWaterAt(self.gx + xx, self.gy + yy) then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.water)
                         break
                     end
                     if _G.state.Terrain:getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.water)
                         break
                     end
                 end
@@ -730,7 +731,7 @@ local buildings = {
             self.totalTerrainDifference = totalTerrainDifference
             if self.totalTerrainDifference >= math.min(3 * self.width * self.height, 220) then
                 self.canBuild = false
-                warningTooltip:ShowTooltip("Terrain is too uneven!")
+                warningTooltip:ShowTooltip(SID.tips.warning.unevenTerrain)
             end
             if not this:specialRequirements(self.gx, self.gy) then
                 self.canBuild = false
@@ -740,7 +741,7 @@ local buildings = {
             end
             if not self.start and not self:isBuildingAffordable(self.building) then
                 self.canBuild = false
-                warningTooltip:ShowTooltip("Not enough resources!")
+                warningTooltip:ShowTooltip(SID.tips.warning.notEnoughResources)
             end
             self.batch:clear()
             local type
@@ -809,11 +810,11 @@ local buildings = {
                         not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WoodenWall") and
                         not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WalkableWoodenWall") then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("There are obstacles in the way!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.obstacle)
                         break
                     end
                     if _G.isWithinKeepUpgradeRadius(xx + self.gx, yy + self.gy) then
-                        warningTooltip:ShowTooltip("Too close to the keep!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.tooCloseToKeep)
                         self.canBuild = false
                         break
                     end
@@ -824,12 +825,12 @@ local buildings = {
                     end
                     if _G.state.map:isWaterAt(self.gx + xx, self.gy + yy) then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.water)
                         break
                     end
                     if _G.state.Terrain:getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.water)
                         break
                     end
                 end
@@ -837,7 +838,7 @@ local buildings = {
             self.totalTerrainDifference = totalTerrainDifference
             if self.totalTerrainDifference >= math.min(3 * self.width * self.height, 220) then
                 self.canBuild = false
-                warningTooltip:ShowTooltip("Terrain is too uneven!")
+                warningTooltip:ShowTooltip(SID.tips.warning.unevenTerrain)
             end
             if not this:specialRequirements(self.gx, self.gy) then
                 self.canBuild = false
@@ -847,7 +848,7 @@ local buildings = {
             end
             if not self.start and not self:isBuildingAffordable(self.building) then
                 self.canBuild = false
-                warningTooltip:ShowTooltip("Not enough resources!")
+                warningTooltip:ShowTooltip(SID.tips.warning.notEnoughResources)
             end
             self.batch:clear()
             local type
@@ -916,11 +917,11 @@ local buildings = {
                         not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WoodenWall") and
                         not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WalkableWoodenWall") then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("There are obstacles in the way!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.obstacle)
                         break
                     end
                     if _G.isWithinKeepUpgradeRadius(xx + self.gx, yy + self.gy) then
-                        warningTooltip:ShowTooltip("Too close to the keep!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.tooCloseToKeep)
                         self.canBuild = false
                         break
                     end
@@ -931,12 +932,12 @@ local buildings = {
                     end
                     if _G.state.map:isWaterAt(self.gx + xx, self.gy + yy) then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.water)
                         break
                     end
                     if _G.state.Terrain:getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.water)
                         break
                     end
                 end
@@ -944,7 +945,7 @@ local buildings = {
             self.totalTerrainDifference = totalTerrainDifference
             if self.totalTerrainDifference >= math.min(3 * self.width * self.height, 220) then
                 self.canBuild = false
-                warningTooltip:ShowTooltip("Terrain is too uneven!")
+                warningTooltip:ShowTooltip(SID.tips.warning.unevenTerrain)
             end
             if not this:specialRequirements(self.gx, self.gy) then
                 self.canBuild = false
@@ -954,7 +955,7 @@ local buildings = {
             end
             if not self.start and not self:isBuildingAffordable(self.building) then
                 self.canBuild = false
-                warningTooltip:ShowTooltip("Not enough resources!")
+                warningTooltip:ShowTooltip(SID.tips.warning.notEnoughResources)
             end
             self.batch:clear()
             local type
@@ -1023,11 +1024,11 @@ local buildings = {
                         not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WoodenWall") and
                         not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WalkableWoodenWall") then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("There are obstacles in the way!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.obstacle)
                         break
                     end
                     if _G.isWithinKeepUpgradeRadius(xx + self.gx, yy + self.gy) then
-                        warningTooltip:ShowTooltip("Too close to the keep!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.tooCloseToKeep)
                         self.canBuild = false
                         break
                     end
@@ -1038,12 +1039,12 @@ local buildings = {
                     end
                     if _G.state.map:isWaterAt(self.gx + xx, self.gy + yy) then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.water)
                         break
                     end
                     if _G.state.Terrain:getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.water)
                         break
                     end
                 end
@@ -1051,7 +1052,7 @@ local buildings = {
             self.totalTerrainDifference = totalTerrainDifference
             if self.totalTerrainDifference >= math.min(3 * self.width * self.height, 220) then
                 self.canBuild = false
-                warningTooltip:ShowTooltip("Terrain is too uneven!")
+                warningTooltip:ShowTooltip(SID.tips.warning.unevenTerrain)
             end
             if not this:specialRequirements(self.gx, self.gy) then
                 self.canBuild = false
@@ -1061,7 +1062,7 @@ local buildings = {
             end
             if not self.start and not self:isBuildingAffordable(self.building) then
                 self.canBuild = false
-                warningTooltip:ShowTooltip("Not enough resources!")
+                warningTooltip:ShowTooltip(SID.tips.warning.notEnoughResources)
             end
             self.batch:clear()
             local type
@@ -1130,11 +1131,11 @@ local buildings = {
                         not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WoodenWall") and
                         not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WalkableWoodenWall") then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("There are obstacles in the way!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.obstacle)
                         break
                     end
                     if _G.isWithinKeepUpgradeRadius(xx + self.gx, yy + self.gy) then
-                        warningTooltip:ShowTooltip("Too close to the keep!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.tooCloseToKeep)
                         self.canBuild = false
                         break
                     end
@@ -1145,12 +1146,12 @@ local buildings = {
                     end
                     if _G.state.map:isWaterAt(self.gx + xx, self.gy + yy) then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.water)
                         break
                     end
                     if _G.state.Terrain:getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.water)
                         break
                     end
                 end
@@ -1158,7 +1159,7 @@ local buildings = {
             self.totalTerrainDifference = totalTerrainDifference
             if self.totalTerrainDifference >= math.min(3 * self.width * self.height, 220) then
                 self.canBuild = false
-                warningTooltip:ShowTooltip("Terrain is too uneven!")
+                warningTooltip:ShowTooltip(SID.tips.warning.unevenTerrain)
             end
             if not this:specialRequirements(self.gx, self.gy) then
                 self.canBuild = false
@@ -1168,7 +1169,7 @@ local buildings = {
             end
             if not self.start and not self:isBuildingAffordable(self.building) then
                 self.canBuild = false
-                warningTooltip:ShowTooltip("Not enough resources!")
+                warningTooltip:ShowTooltip(SID.tips.warning.notEnoughResources)
             end
             self.batch:clear()
             local type
@@ -1237,11 +1238,11 @@ local buildings = {
                         not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WoodenWall") and
                         not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WalkableWoodenWall") then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("There are obstacles in the way!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.obstacle)
                         break
                     end
                     if _G.isWithinKeepUpgradeRadius(xx + self.gx, yy + self.gy) then
-                        warningTooltip:ShowTooltip("Too close to the keep!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.tooCloseToKeep)
                         self.canBuild = false
                         break
                     end
@@ -1252,12 +1253,12 @@ local buildings = {
                     end
                     if _G.state.map:isWaterAt(self.gx + xx, self.gy + yy) then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.water)
                         break
                     end
                     if _G.state.Terrain:getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.water)
                         break
                     end
                 end
@@ -1265,7 +1266,7 @@ local buildings = {
             self.totalTerrainDifference = totalTerrainDifference
             if self.totalTerrainDifference >= math.min(3 * self.width * self.height, 220) then
                 self.canBuild = false
-                warningTooltip:ShowTooltip("Terrain is too uneven!")
+                warningTooltip:ShowTooltip(SID.tips.warning.unevenTerrain)
             end
             if not this:specialRequirements(self.gx, self.gy) then
                 self.canBuild = false
@@ -1275,7 +1276,7 @@ local buildings = {
             end
             if not self.start and not self:isBuildingAffordable(self.building) then
                 self.canBuild = false
-                warningTooltip:ShowTooltip("Not enough resources!")
+                warningTooltip:ShowTooltip(SID.tips.warning.notEnoughResources)
             end
             self.batch:clear()
             local type
@@ -1344,11 +1345,11 @@ local buildings = {
                         not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WoodenWall") and
                         not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WalkableWoodenWall") then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("There are obstacles in the way!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.obstacle)
                         break
                     end
                     if _G.isWithinKeepUpgradeRadius(xx + self.gx, yy + self.gy) then
-                        warningTooltip:ShowTooltip("Too close to the keep!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.tooCloseToKeep)
                         self.canBuild = false
                         break
                     end
@@ -1359,12 +1360,12 @@ local buildings = {
                     end
                     if _G.state.map:isWaterAt(self.gx + xx, self.gy + yy) then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.water)
                         break
                     end
                     if _G.state.Terrain:getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.water)
                         break
                     end
                 end
@@ -1372,7 +1373,7 @@ local buildings = {
             self.totalTerrainDifference = totalTerrainDifference
             if self.totalTerrainDifference >= math.min(3 * self.width * self.height, 220) then
                 self.canBuild = false
-                warningTooltip:ShowTooltip("Terrain is too uneven!")
+                warningTooltip:ShowTooltip(SID.tips.warning.unevenTerrain)
             end
             if not this:specialRequirements(self.gx, self.gy) then
                 self.canBuild = false
@@ -1382,7 +1383,7 @@ local buildings = {
             end
             if not self.start and not self:isBuildingAffordable(self.building) then
                 self.canBuild = false
-                warningTooltip:ShowTooltip("Not enough resources!")
+                warningTooltip:ShowTooltip(SID.tips.warning.notEnoughResources)
             end
             self.batch:clear()
             local type
@@ -1451,11 +1452,11 @@ local buildings = {
                         not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WoodenWall") and
                         not _G.objectFromClassAtGlobal(xx + self.gx, yy + self.gy, "WalkableWoodenWall") then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("There are obstacles in the way!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.obstacle)
                         break
                     end
                     if _G.isWithinKeepUpgradeRadius(xx + self.gx, yy + self.gy) then
-                        warningTooltip:ShowTooltip("Too close to the keep!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.tooCloseToKeep)
                         self.canBuild = false
                         break
                     end
@@ -1466,12 +1467,12 @@ local buildings = {
                     end
                     if _G.state.map:isWaterAt(self.gx + xx, self.gy + yy) then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.water)
                         break
                     end
                     if _G.state.Terrain:getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.water)
                         break
                     end
                 end
@@ -1479,7 +1480,7 @@ local buildings = {
             self.totalTerrainDifference = totalTerrainDifference
             if self.totalTerrainDifference >= math.min(3 * self.width * self.height, 220) then
                 self.canBuild = false
-                warningTooltip:ShowTooltip("Terrain is too uneven!")
+                warningTooltip:ShowTooltip(SID.tips.warning.unevenTerrain)
             end
             if not this:specialRequirements(self.gx, self.gy) then
                 self.canBuild = false
@@ -1489,7 +1490,7 @@ local buildings = {
             end
             if not self.start and not self:isBuildingAffordable(self.building) then
                 self.canBuild = false
-                warningTooltip:ShowTooltip("Not enough resources!")
+                warningTooltip:ShowTooltip(SID.tips.warning.notEnoughResources)
             end
             self.batch:clear()
             local type
@@ -1813,7 +1814,7 @@ local buildings = {
             if _G.BuildingManager:count("Armoury") >= 1 then
                 return true
             else
-                warningTooltip:ShowTooltip("You need an armoury to build this!")
+                warningTooltip:ShowTooltip(SID.tips.warning.needArmoury)
             end
         end
     },
@@ -1834,7 +1835,7 @@ local buildings = {
             if _G.BuildingManager:count("Armoury") >= 1 then
                 return true
             else
-                warningTooltip:ShowTooltip("You need an armoury to build this!")
+                warningTooltip:ShowTooltip(SID.tips.warning.needArmoury)
             end
         end
     },
@@ -1855,7 +1856,7 @@ local buildings = {
             if _G.BuildingManager:count("Armoury") >= 1 then
                 return true
             else
-                warningTooltip:ShowTooltip("You need an armoury to build this!")
+                warningTooltip:ShowTooltip(SID.tips.warning.needArmoury)
             end
         end
     },
@@ -1876,7 +1877,7 @@ local buildings = {
             if _G.BuildingManager:count("Armoury") >= 1 then
                 return true
             else
-                warningTooltip:ShowTooltip("You need an armoury to build this!")
+                warningTooltip:ShowTooltip(SID.tips.warning.needArmoury)
             end
         end
     },
@@ -1930,11 +1931,11 @@ local buildings = {
                     local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
                     if _G.importantObjectAt(ccx, ccy, xxx, yyy) then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("There are obstacles in the way!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.obstacle)
                         break
                     end
                     if _G.isWithinKeepUpgradeRadius(xx + self.gx, yy + self.gy) then
-                        warningTooltip:ShowTooltip("Too close to the keep!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.tooCloseToKeep)
                         self.canBuild = false
                         break
                     end
@@ -1945,12 +1946,12 @@ local buildings = {
                     end
                     if _G.state.map:isWaterAt(self.gx + xx, self.gy + yy) then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.water)
                         break
                     end
                     if _G.state.Terrain:getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
                         self.canBuild = false
-                        warningTooltip:ShowTooltip("Cannot build on top of water!")
+                        warningTooltip:ShowTooltip(SID.tips.warning.water)
                         break
                     end
                 end
@@ -1958,18 +1959,18 @@ local buildings = {
             self.totalTerrainDifference = totalTerrainDifference
             if self.totalTerrainDifference >= math.min(3 * self.width * self.height, 220) then
                 self.canBuild = false
-                warningTooltip:ShowTooltip("Terrain is too uneven!")
+                warningTooltip:ShowTooltip(SID.tips.warning.unevenTerrain)
             end
             if not this:specialRequirements(self.gx, self.gy) then
                 self.canBuild = false
                 self.cannotBuildBecauseSpecial = true
-                warningTooltip:ShowTooltip("Needs to be placed close to an existing quarry!")
+                warningTooltip:ShowTooltip(SID.tips.warning.closeToQuarry)
             else
                 self.cannotBuildBecauseSpecial = false
             end
             if not self.start and not self:isBuildingAffordable(self.building) then
                 self.canBuild = false
-                warningTooltip:ShowTooltip("Not enough resources!")
+                warningTooltip:ShowTooltip(SID.tips.warning.notEnoughResources)
             end
             self.batch:clear()
             local type

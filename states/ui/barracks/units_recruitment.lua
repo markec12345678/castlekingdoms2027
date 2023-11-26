@@ -701,7 +701,7 @@ function group.DisplayCurrentStock()
 
     currentStockPeasants:SetText({ {
         color = { 0.99, 0.96, 0.78, 1 }
-    }, "Available peasants: " .. _G.campfire.peasants })
+    }, SID.recruitment.availablePeasants .. ": " .. _G.campfire.peasants })
     currentStockBow:SetText({ {
         color = { 0, 0, 0, 1 }
     }, _G.state.weapons[WEAPON.bow] })

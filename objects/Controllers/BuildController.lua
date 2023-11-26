@@ -6,7 +6,7 @@ local console = require("libraries.console")
 local tileWidth, tileHeight = _G.tileWidth, _G.tileHeight
 local IsoToScreenX, IsoToScreenY = _G.IsoToScreenX, _G.IsoToScreenY
 local warningTooltip = require("states.ui.warning_tooltip")
-local tileQuads = require("objects.object_quads")
+local SID = require("objects.Controllers.LanguageController").lines
 
 local building = require("objects.buildings")
 
@@ -203,12 +203,12 @@ function BuildController:update()
                     for yy = 0, self.height - 1 do
                         local ccx, ccy, xxx, yyy = _G.getLocalCoordinatesFromGlobal(xx + self.gx, yy + self.gy)
                         if _G.importantObjectAt(ccx, ccy, xxx, yyy) then
-                            warningTooltip:ShowTooltip("There is an obstacle in the way!")
+                            warningTooltip:ShowTooltip(SID.tips.warning.obstacle)
                             self.canBuild = false
                             break
                         end
                         if _G.isWithinKeepUpgradeRadius(xx + self.gx, yy + self.gy) then
-                            warningTooltip:ShowTooltip("Too close to the keep!")
+                            warningTooltip:ShowTooltip(SID.tips.warning.tooCloseToKeep)
                             self.canBuild = false
                             break
                         end
@@ -216,27 +216,27 @@ function BuildController:update()
                             (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2)
                         if terrainDiff >= 28 then
                             -- height difference is too drastic
-                            warningTooltip:ShowTooltip("Cannot build on cliffs!")
+                            warningTooltip:ShowTooltip(SID.tips.warning.cliffs)
                             self.canBuild = false
                             break
                         elseif firstTerrainHeight ~= (_G.state.map.heightmap[ccx][ccy][xxx][yyy] or 0) * 2 then
                             totalTerrainDifference = totalTerrainDifference + terrainDiff
                         end
                         if _G.state.map:isWaterAt(self.gx + xx, self.gy + yy) then
-                            warningTooltip:ShowTooltip("Cannot build on top of water!")
+                            warningTooltip:ShowTooltip(SID.tips.warning.water)
                             self.canBuild = false
                             break
                         end
                         if _G.state.Terrain:getTerrainBiomeAt(self.gx + xx, self.gy + yy) == _G.terrainBiome.seaWalkable then
                             self.canBuild = false
-                            warningTooltip:ShowTooltip("Cannot build on top of water!")
+                            warningTooltip:ShowTooltip(SID.tips.warning.water)
                             break
                         end
                     end
                 end
                 self.totalTerrainDifference = totalTerrainDifference
                 if self.totalTerrainDifference >= math.min(3 * self.width * self.height, 220) then
-                    warningTooltip:ShowTooltip("Cannot build on too much uneven terrain!")
+                    warningTooltip:ShowTooltip(SID.tips.warning.unevenTerrain)
                     self.canBuild = false
                 end
                 if not building[self.building]:specialRequirements(self.gx, self.gy) then
@@ -247,7 +247,7 @@ function BuildController:update()
                 end
                 if not self.start and not self:isBuildingAffordable(self.building) then
                     self.canBuild = false
-                    warningTooltip:ShowTooltip("Not enough resources!")
+                    warningTooltip:ShowTooltip(SID.tips.warning.notEnoughResources)
                 end
                 self.batch:clear()
                 for xx = 0, self.width - 1 do
@@ -284,7 +284,7 @@ function BuildController:update()
                     or self.gx + self.width > _G.chunkWidth * _G.chunksWide
                     or self.gy + self.height > _G.chunkHeight * _G.chunksHigh) then
                 self.canBuild = false
-                warningTooltip:ShowTooltip("Cannot build outside of map bounds!")
+                warningTooltip:ShowTooltip(SID.tips.warning.outOfBounds)
             end
         end
     end

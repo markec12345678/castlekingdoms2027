@@ -14,6 +14,7 @@ local FOOD = require("objects.Enums.Food")
 local WEAPON = require("objects.Enums.Weapon")
 local Events = require "objects.Enums.Events"
 local goodsPrice = require("objects.Enums.goodsPrices")
+local SID = require("objects.Controllers.LanguageController").lines
 
 local good = nil
 local goodPrice
@@ -1235,7 +1236,7 @@ ScalesIconButton.visible = false
 
 local IncButton = loveframes.Create("image")
 IncButton:SetState(states.STATE_MARKET)
-IncButton:setTooltip("Increase quantity of items you want to trade by 5")
+IncButton:setTooltip(SID.tips.increaseTradeQuantity)
 IncButton:SetImage(IncButtonImage)
 IncButton:SetScaleX(frIncButton.width / IncButton:GetImageWidth())
 IncButton:SetScaleY(IncButton:GetScaleX())
@@ -1267,7 +1268,7 @@ end
 
 local DecButton = loveframes.Create("image")
 DecButton:SetState(states.STATE_MARKET)
-DecButton:setTooltip("Decrease quantity of items you want to trade by 5")
+DecButton:setTooltip(SID.tips.decreaseTradeQuantity)
 DecButton:SetImage(DecButtonImage)
 DecButton:SetScaleX(frDecButton.width / DecButton:GetImageWidth())
 DecButton:SetScaleY(DecButton:GetScaleX())

@@ -68,7 +68,7 @@ local function displayTooltips()
 
     setBuildingsTooltips(buildings)
 
-    hunterButton:setTooltip("Hunter's hut", "Not implemented yet.")
+    hunterButton:setTooltip(SID.buildings.hunterHut, SID.tips.warning.notImplemented)
     local buttonList = {
         --hunter = hunterButton, NOT IMPLEMENTED YET
         appleFarm = appleFarmButton,
