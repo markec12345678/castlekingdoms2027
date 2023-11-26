@@ -20,6 +20,6 @@ goodsPrice["pike"] = { gold = 36, quantity = 1 }
 goodsPrice["leatherArmor"] = { gold = 25, quantity = 1 }
 goodsPrice["shield"] = { gold = 58, quantity = 1 }
 goodsPrice["ale"] = { gold = 20, quantity = 1 }
-goodsPrice["hops"] = { gold = 15, quantity = 1 }
+goodsPrice["hop"] = { gold = 15, quantity = 1 }
 
 return goodsPrice
