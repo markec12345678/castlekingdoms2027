@@ -163,7 +163,7 @@ local function SwitchToTheMarket()
                 end
             end
         end
-        _G.bus.emit(Events.OnItemClicked, group.good)
+        _G.bus.emit(Events.OnMarketResourceClicked, group.good)
         actionBar:switchMode("market_trade")
         switchTradeGroup(2)
         group.name = 2

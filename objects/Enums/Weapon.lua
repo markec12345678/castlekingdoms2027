@@ -6,7 +6,7 @@ local WEAPON = {
     pike = "pike",
     mace = "mace",
     sword = "sword",
-    leatherArmor = "leather armor",
+    leatherArmor = "leatherArmor",
     shield = "shield",
 }
 

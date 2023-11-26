@@ -9,12 +9,13 @@ local backButtonImage = love.graphics.newImage("assets/ui/goods/back_ab_market.p
 local backButtonHover = love.graphics.newImage("assets/ui/goods/back_ab_market_hover.png")
 local backButtonA = ActionBarButton:new(love.graphics.newImage("assets/ui/goods/emptyIcon.png"), states.STATE_MARKET, 12)
 local backButton = loveframes.Create("image")
+local RESOURCES = require("objects.Enums.Resources")
 local FOOD = require("objects.Enums.Food")
 local WEAPON = require("objects.Enums.Weapon")
 local Events = require "objects.Enums.Events"
 local goodsPrice = require("objects.Enums.goodsPrices")
 
-local good
+local good = nil
 local goodPrice
 local quantity = 5
 local price = 5
@@ -412,9 +413,9 @@ local function reloadPrice()
     setButtonVisibility(true)
 end
 
- _G.bus.on(Events.OnItemClicked, function(goodPriceStockpile)
-        goodPrice = goodsPrice[goodPriceStockpile].gold
-        reloadPrice()
+_G.bus.on(Events.OnMarketResourceClicked, function(goodPriceStockpile)
+    goodPrice = goodsPrice[goodPriceStockpile].gold
+    reloadPrice()
 end)
 
 local bigIconTemplate = loveframes.Create("image")
@@ -441,10 +442,10 @@ woodIconButton.OnClick = function(self)
     -- TODO add sound
     bigIconTemplate:SetImage(woodIconBig)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
-    good = "wood"
+    good = RESOURCES.wood
     goodPrice = goodsPrice.wood.gold
     DisplayCurrentStock(2)
-    reloadPrice()
+    _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 
 -- STONE ICON BUTTON
@@ -465,10 +466,10 @@ stoneIconButton.OnClick = function(self)
 
     bigIconTemplate:SetImage(stoneIconBig)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
-    good = "stone"
+    good = RESOURCES.stone
     goodPrice = goodsPrice.stone.gold
     DisplayCurrentStock(2)
-    reloadPrice()
+    _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 woodIconButton.OnMouseExit = function(self)
     self:SetImage(woodIcon)
@@ -492,10 +493,10 @@ wheatIconButton.OnClick = function(self)
 
     bigIconTemplate:SetImage(wheatIconBig)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
-    good = "wheat"
+    good = RESOURCES.wheat
     goodPrice = goodsPrice.wheat.gold
     DisplayCurrentStock(2)
-    reloadPrice()
+    _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 wheatIconButton.OnMouseExit = function(self)
     self:SetImage(wheatIcon)
@@ -519,10 +520,10 @@ tarIconButton.OnClick = function(self)
 
     bigIconTemplate:SetImage(tarIconBig)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
-    good = "tar"
+    good = RESOURCES.tar
     goodPrice = goodsPrice.tar.gold
     DisplayCurrentStock(2)
-    reloadPrice()
+    _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 tarIconButton.OnMouseExit = function(self)
     self:SetImage(tarIcon)
@@ -546,10 +547,10 @@ aleIconButton.OnClick = function(self)
 
     bigIconTemplate:SetImage(aleIconBig)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
-    good = "ale"
+    good = RESOURCES.ale
     goodPrice = goodsPrice.ale.gold
     DisplayCurrentStock(2)
-    reloadPrice()
+    _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 aleIconButton.OnMouseExit = function(self)
     self:SetImage(aleIcon)
@@ -573,10 +574,10 @@ ironIconButton.OnClick = function(self)
 
     bigIconTemplate:SetImage(ironIconBig)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
-    good = "iron"
+    good = RESOURCES.iron
     goodPrice = goodsPrice.iron.gold
     DisplayCurrentStock(2)
-    reloadPrice()
+    _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 ironIconButton.OnMouseExit = function(self)
     self:SetImage(ironIcon)
@@ -600,10 +601,10 @@ hopIconButton.OnClick = function(self)
 
     bigIconTemplate:SetImage(hopIconBig)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
-    good = "hop"
-    goodPrice = goodsPrice.hops.gold
+    good = RESOURCES.hop
+    goodPrice = goodsPrice.hop.gold
     DisplayCurrentStock(2)
-    reloadPrice()
+    _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 hopIconButton.OnMouseExit = function(self)
     self:SetImage(hopIcon)
@@ -627,10 +628,10 @@ flourIconButton.OnClick = function(self)
 
     bigIconTemplate:SetImage(flourIconBig)
     bigIconTemplate:SetPos(frBigButton.x, frBigButton.y)
-    good = "flour"
+    good = RESOURCES.flour
     goodPrice = goodsPrice.flour.gold
     DisplayCurrentStock(2)
-    reloadPrice()
+    _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 flourIconButton.OnMouseExit = function(self)
     self:SetImage(flourIcon)
@@ -658,7 +659,7 @@ meatIconButton.OnClick = function(self)
     good = FOOD.meat
     goodPrice = goodsPrice.meat.gold
     DisplayCurrentStock(1)
-    reloadPrice()
+    _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 meatIconButton.OnMouseExit = function(self)
     self:SetImage(meatIcon)
@@ -686,7 +687,7 @@ cheeseIconButton.OnClick = function(self)
     good = FOOD.cheese
     goodPrice = goodsPrice.cheese.gold
     DisplayCurrentStock(1)
-    reloadPrice()
+    _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 cheeseIconButton.OnMouseExit = function(self)
     self:SetImage(cheeseIcon)
@@ -714,7 +715,7 @@ appleIconButton.OnClick = function(self)
     good = FOOD.apples
     goodPrice = goodsPrice.apples.gold
     DisplayCurrentStock(1)
-    reloadPrice()
+    _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 appleIconButton.OnMouseExit = function(self)
     self:SetImage(appleIcon)
@@ -740,7 +741,7 @@ breadIconButton.OnClick = function(self)
     good = FOOD.bread
     goodPrice = goodsPrice.bread.gold
     DisplayCurrentStock(1)
-    reloadPrice()
+    _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 breadIconButton.OnMouseExit = function(self)
     self:SetImage(breadIcon)
@@ -768,7 +769,7 @@ bowIconButton.OnClick = function(self)
     good = WEAPON.bow
     goodPrice = goodsPrice.bow.gold
     DisplayCurrentStock(3)
-    reloadPrice()
+    _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 bowIconButton.OnMouseExit = function(self)
     self:SetImage(bowIcon)
@@ -795,7 +796,7 @@ crossbowIconButton.OnClick = function(self)
     good = WEAPON.crossbow
     goodPrice = goodsPrice.crossbow.gold
     DisplayCurrentStock(3)
-    reloadPrice()
+    _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 crossbowIconButton.OnMouseExit = function(self)
     self:SetImage(crossbowIcon)
@@ -822,7 +823,7 @@ spearIconButton.OnClick = function(self)
     good = WEAPON.spear
     goodPrice = goodsPrice.spear.gold
     DisplayCurrentStock(3)
-    reloadPrice()
+    _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 spearIconButton.OnMouseExit = function(self)
     self:SetImage(spearIcon)
@@ -849,7 +850,7 @@ maceIconButton.OnClick = function(self)
     good = WEAPON.mace
     goodPrice = goodsPrice.mace.gold
     DisplayCurrentStock(3)
-    reloadPrice()
+    _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 maceIconButton.OnMouseExit = function(self)
     self:SetImage(maceIcon)
@@ -876,7 +877,7 @@ swordIconButton.OnClick = function(self)
     good = WEAPON.sword
     goodPrice = goodsPrice.sword.gold
     DisplayCurrentStock(3)
-    reloadPrice()
+    _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 swordIconButton.OnMouseExit = function(self)
     self:SetImage(swordIcon)
@@ -903,7 +904,7 @@ pikeIconButton.OnClick = function(self)
     good = WEAPON.pike
     goodPrice = goodsPrice.pike.gold
     DisplayCurrentStock(3)
-    reloadPrice()
+    _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 pikeIconButton.OnMouseExit = function(self)
     self:SetImage(pikeIcon)
@@ -930,7 +931,7 @@ leatherIconButton.OnClick = function(self)
     good = WEAPON.leatherArmor
     goodPrice = goodsPrice.leatherArmor.gold
     DisplayCurrentStock(3)
-    reloadPrice()
+    _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 leatherIconButton.OnMouseExit = function(self)
     self:SetImage(leatherIcon)
@@ -957,7 +958,7 @@ armourIconButton.OnClick = function(self)
     good = WEAPON.shield
     goodPrice = goodsPrice.shield.gold
     DisplayCurrentStock(3)
-    reloadPrice()
+    _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 armourIconButton.OnMouseExit = function(self)
     self:SetImage(armorIcon)
@@ -1052,21 +1053,21 @@ local function DisplayWeaponIcons(option)
 end
 
 local function SetBigIcon(g)
-    if g == "wood" then
+    if g == RESOURCES.wood then
         bigIconTemplate:SetImage(woodIconBig)
-    elseif g == "stone" then
+    elseif g == RESOURCES.stone then
         bigIconTemplate:SetImage(stoneIconBig)
-    elseif g == "hop" then
+    elseif g == RESOURCES.hop then
         bigIconTemplate:SetImage(hopIconBig)
-    elseif g == "iron" then
+    elseif g == RESOURCES.iron then
         bigIconTemplate:SetImage(ironIconBig)
-    elseif g == "tar" then
+    elseif g == RESOURCES.tar then
         bigIconTemplate:SetImage(tarIconBig)
-    elseif g == "ale" then
+    elseif g == RESOURCES.ale then
         bigIconTemplate:SetImage(aleIconBig)
-    elseif g == "wheat" then
+    elseif g == RESOURCES.wheat then
         bigIconTemplate:SetImage(wheatIconBig)
-    elseif g == "flour" then
+    elseif g == RESOURCES.flour then
         bigIconTemplate:SetImage(flourIconBig)
     elseif g == WEAPON.bow then
         bigIconTemplate:SetImage(bowIconBig)
@@ -1368,7 +1369,6 @@ marketBuyButton.OnClick = function(self)
                 _G.playSpeech("armory_full")
             end
         end
-
         _G.bus.emit(Events.OnMarketBuy, quantity, good)
         _G.bus.emit(Events.OnGoldChanged, goldBeforeTrade, _G.state.gold)
         DisplayCurrentStock(groupTypeMarket.name)
@@ -1441,8 +1441,10 @@ marketSellButton.OnClick = function(self)
         end
 
         if groupTypeMarket.name == 3 then
+            print("Weapon sell: " .. good .. " " .. quantity .. " for " .. price)
             if _G.state.weapons[good] >= quantity then
                 for _ = 1, quantity do
+                    _G.state.gold = _G.state.gold + (price / (quantity * 2)) -- TEMPORARY HACK
                     if _G.weaponpile:take(good) then
                         _G.state.gold = _G.state.gold + (price / (quantity * 2))
                     end
@@ -1451,6 +1453,7 @@ marketSellButton.OnClick = function(self)
             elseif _G.state.weapons[good] < 5 then
                 quantity_temp = _G.state.weapons[good]
                 for _ = 1, quantity_temp do
+                    _G.state.gold = _G.state.gold + (price / (quantity * 2)) -- TEMPORARY HACK
                     if _G.weaponpile:take(good) then
                         _G.state.gold = _G.state.gold + (price / (quantity * 2))
                     end
