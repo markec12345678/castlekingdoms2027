@@ -9,12 +9,12 @@ local SID = require("objects.Controllers.LanguageController").lines
 -- Hovel
 local hovelButton = ActionBarButton:new(love.graphics.newImage('assets/ui/hovel_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 1, true)
-hovelButton:setTooltip("Houses", "Houses to increase your population")
+hovelButton:setTooltip(SID.groups.houses.name, SID.groups.houses.description)
 
 -- PositiveBuilding
 local positiveBuildingButton = ActionBarButton:new(love.graphics.newImage('assets/ui/large_garden_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 2, true)
-positiveBuildingButton:setTooltip("Good Things", "Gardens, Statues and Entertainment to increse your popularity.")
+positiveBuildingButton:setTooltip(SID.groups.goodThings.name, SID.groups.goodThings.description)
 
 -- Chapel
 local chapelButton = ActionBarButton:new(love.graphics.newImage('assets/ui/chapel_ab.png'),

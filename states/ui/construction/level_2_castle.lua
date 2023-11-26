@@ -57,7 +57,7 @@ tunnelersGuildButton:setOnClick(
 
 local woodenBuildings = ActionBarButton:new(love.graphics.newImage('assets/ui/fortifications/wooden/wooden_wall_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 2, true)
-woodenBuildings:setTooltip("Wooden Structures", "Towers, gates and walls.")
+woodenBuildings:setTooltip(SID.tips.actionBar.woodenStructures.title, SID.tips.actionBar.woodenStructures.title.desc)
 
 woodenBuildings:setOnClick(function(self)
     ActionBar:showGroup("woodenBuildings")
@@ -65,7 +65,7 @@ end)
 
 local stoneBuildings = ActionBarButton:new(love.graphics.newImage('assets/ui/fortifications/stone/stone_wall_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 3, true)
-stoneBuildings:setTooltip("Stone Structures", "Towers, gates and walls.")
+woodenBuildings:setTooltip(SID.tips.actionBar.stoneStructures.title, SID.tips.actionBar.stoneStructures.title.desc)
 
 stoneBuildings:setOnClick(function(self)
     ActionBar:showGroup("stoneBuildings")
@@ -103,8 +103,8 @@ castleButton:setOnClick(
         local upgraded = _G.BuildController:upgradeKeep(2)
         if upgraded then
             castleButton:setImage(keepImage)
-            buildings[1].name = "Keep"
-            buildings[1].description = "Upgrade your Wooden Keep to a Stone Keep"
+            buildings[1].name = SID.buildings.keep.name
+            buildings[1].description = SID.buildings.keep.description
             displayTooltips()
             ActionBar:unlockTier(2)
             castleButton:setOnClick(
@@ -112,8 +112,8 @@ castleButton:setOnClick(
                     local upgraded = _G.BuildController:upgradeKeep(3)
                     if upgraded then
                         castleButton:setImage(fortressImage)
-                        buildings[1].name = "Fortress"
-                        buildings[1].description = "Upgrade your Stone Keep to a Fortress"
+                        buildings[1].name = SID.buildings.fortress.name
+                        buildings[1].description = SID.buildings.fortress.description
                         displayTooltips()
                         ActionBar:unlockTier(3)
                         castleButton:setOnClick(
@@ -121,8 +121,8 @@ castleButton:setOnClick(
                                 local upgraded = _G.BuildController:upgradeKeep(4)
                                 if upgraded then
                                     castleButton:setImage(strongholdImage)
-                                    buildings[1].name = "Stronghold"
-                                    buildings[1].description = "Upgrade your Fortress to a Stronghold (unsupported)"
+                                    buildings[1].name = SID.buildings.stronghold.name
+                                    buildings[1].description = SID.buildings.stronghold.description
                                     displayTooltips()
                                     ActionBar:unlockTier(4)
                                     castleButton.enabled = true

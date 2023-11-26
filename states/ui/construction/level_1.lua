@@ -100,10 +100,10 @@ local function getCostAndType(buildId, buildingDescription)
             end
             first = false
             if type == "gold" then
-                costtype = " • " .. quantity .. " (" .. _G.state.gold .. ") " .. type
+                costtype = " • " .. quantity .. " (" .. _G.state.gold .. ") " .. (SID[type] or type)
             else
                 costtype = " • " ..
-                    quantity .. " (" .. _G.state.resources[type] .. ") " .. type
+                    quantity .. " (" .. _G.state.resources[type] .. ") " .. (SID[type] or type)
             end
             if not affordable then
                 fullText[#fullText + 1] = { color = { 1, 0, 0, 1 } }
