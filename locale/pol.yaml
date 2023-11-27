@@ -59,7 +59,16 @@ groups:
     name: Demolish
     description: Enter demolish mode. Click on a building to destroy.
     exitTooltip: Exit Demolish Mode
+  houses:
+    name: Houses
+    description: Houses to increase your population limit.
+  goodThings:
+    name: Good things
+    description: Gardens, statues and entertainment to increase your popularity.
 buildings:
+  hunterHut:
+    name: Hunter's hut
+    description: Hunts deer in the environment for meat.
   granary:
     name: Granary
     description: The granary is where you store your kingdom's food reserves.
@@ -85,6 +94,15 @@ buildings:
   woodenKeep:
     name: Wooden Keep
     description: Upgrade your Saxon hall to a Wooden keep
+  keep:
+    name: Keep
+    description: Upgrade your Wooden keep to a Stone keep
+  fortress:
+    name: Fortress
+    description: Upgrade your Stone keep to a Fortress
+  stronghold:
+    name: Stronghold
+    description: Upgrade your Fortress to a Stronghold (not supported yet)
   barracks:
     name: Barracks
     description: A building allowing you to recruit units.
@@ -305,10 +323,10 @@ recruitment:
   pikeman: Pikeman
   swordsman: Swordsman
   knight: Knight
+  availablePeasants: Available peasants
 objects:
   hoverText:
     barracks: Click to recruit units
-    dairyFarm: Click to recruit units
     engineersGuild: Click to recruit siege units
     fortress: Click to manage taxes
     granary: Click to manage food rations
@@ -317,11 +335,45 @@ objects:
     saxonHall: Click to manage taxes
     stockpile: Click to manage resources
     stoneBarracks: Click to recruit units
-    tunnelersGuild: Click to recruit siege units
-    woodenKeep: Click to manage taxes
+    tunnelersGuild: Click to recruit tunnelers
 tips:
   upgradeKeep: You need to upgrade your keep to build this
   notAvailableInMission: Not available in this mission
   buildMarket: Build a market to trade!
   cantTrade: You can't trade that!
+  notImplemented: Not implemented yet.
+  increaseTradeQuantity: Increase quantity of items you want to trade by 5
+  decreaseTradeQuantity: Decrease quantity of items you want to trade by 5
+  actionBar:
+    woodenStructures:
+      title: Wooden Structures
+      description: Towers, gates and walls.
+    stoneStructures:
+      title: Stone Structures
+      description: Stronger towers, gates and walls.
+  warning:
+    obstacle: There is an obstacle in the way!
+    tooCloseToKeep: Too close to the keep!
+    cliffs: Cannot build on cliffs!
+    water: Cannot build on top of water!
+    unevenTerrain: Cannot build on too uneven terrain!
+    notEnoughResources: Not enough resources!
+    outOfBounds: Cannot build outside of map bounds!
+    adjacentStockpile: Needs to placed adjacent to a stockpile!
+    adjacentGranary: Needs to placed adjacent to a granary!
+    adjacentArmoury: Needs to placed adjacent to an armoury!
+    onTopOfStone: Needs to placed on top of stone!
+    onTopOfIron: Needs to placed on top of iron ore!
+    unitsInTheWay: There are units in the way!
+    structuresInTheWay: There are structures in the way!
+    needArmoury: You need an armoury to build this!
+    closeToQuarry: Needs to be placed close to an existing quarry!
 gold: gold
+wood: wood
+stone: stone
+wheat: wheat
+iron: iron
+flour: flour
+hop: hops
+tar: pitch
+ale: ale
