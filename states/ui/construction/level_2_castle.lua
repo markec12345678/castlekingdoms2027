@@ -65,7 +65,7 @@ end)
 
 local stoneBuildings = ActionBarButton:new(love.graphics.newImage('assets/ui/fortifications/stone/stone_wall_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 3, true)
-woodenBuildings:setTooltip(SID.tips.actionBar.stoneStructures.title, SID.tips.actionBar.stoneStructures.title.desc)
+stoneBuildings:setTooltip(SID.tips.actionBar.stoneStructures.title, SID.tips.actionBar.stoneStructures.title.desc)
 
 stoneBuildings:setOnClick(function(self)
     ActionBar:showGroup("stoneBuildings")

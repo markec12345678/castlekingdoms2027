@@ -36,7 +36,7 @@ WoodenKeep.static.WIDTH = 7
 WoodenKeep.static.LENGTH = 7
 WoodenKeep.static.HEIGHT = 27
 WoodenKeep.static.DESTRUCTIBLE = false
-WoodenKeep.static.HOVERTEXT = SID.objects.hoverText.woodenKeep
+WoodenKeep.static.HOVERTEXT = SID.objects.hoverText.keep
 function WoodenKeep:initialize(gx, gy, type)
     type = type or "WoodenKeep (default)"
     Structure.initialize(self, gx, gy, type)

@@ -335,7 +335,6 @@ recruitment:
 objects:
     hoverText:
         barracks: Click to recruit units
-        dairyFarm: Click to recruit units
         engineersGuild: Click to recruit siege units
         fortress: Click to manage taxes
         granary: Click to manage food rations
@@ -344,8 +343,7 @@ objects:
         saxonHall: Click to manage taxes
         stockpile: Click to manage resources
         stoneBarracks: Click to recruit units
-        tunnelersGuild: Click to recruit siege units
-        woodenKeep: Click to manage taxes
+        tunnelersGuild: Click to recruit tunnelers
 tips:
     upgradeKeep: You need to upgrade your keep to build this
     notAvailableInMission: Not available in this mission
@@ -385,5 +383,5 @@ wheat: wheat
 iron: iron
 flour: flour
 hop: hops
-tar: tar
+tar: pitch
 ale: ale
