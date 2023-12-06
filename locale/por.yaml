@@ -323,7 +323,7 @@ objects:
     saxonHall: Clique para gerenciar impostos
     stockpile: Clique para gerenciar recursos
     stoneBarracks: Clique para recrutar tropas
-    tunnelersGuild: Click to recruit tunnelers
+    tunnelersGuild: Clique para recrutar cavadores de túneis
 tips:
   upgradeKeep: Você precisa melhorar o seu forte para construir isso
   notAvailableInMission: Indisponível nesta missão
@@ -363,5 +363,5 @@ wheat: trigo
 iron: ferro
 flour: farinha
 hop: lúpulo
-tar: pitch
+tar: piche
 ale: cerveja
