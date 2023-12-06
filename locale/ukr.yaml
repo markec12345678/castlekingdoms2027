@@ -40,7 +40,7 @@ mission5:
     You will need to make strategic decisions and manage your time carefully to ensure the completion of your cathedral within the allotted timeframe. Good luck!
 groups:
   castle:
-    name: Castle
+    name: Замок
     description: Walls, Towers, Gates and everything else you need to defend your Stronghold.
   industry:
     name: Industry
@@ -62,7 +62,7 @@ groups:
     description: Enter demolish mode. Click on a building to destroy.
     exitTooltip: Exit Demolish Mode
   houses:
-    name: Houses
+    name: Будинки
     description: Houses to increase your population limit.
   goodThings:
     name: Good things
@@ -72,16 +72,16 @@ buildings:
     name: Hunter's hut
     description: Hunts deer in the environment for meat.
   granary:
-    name: Granary
+    name: Комора
     description: The granary is where you store your kingdom's food reserves.
   orchard:
-    name: Orchard
+    name: Сад
     description: Produces apples.
   wheatFarm:
     name: Wheat Farm
     description: Produces wheat which can be processed into flour.
   dairyFarm:
-    name: Dairy Farm
+    name: Молочна ферма
     description: Produces cheese.
   hopsFarm:
     name: Hops Farm
@@ -100,7 +100,7 @@ buildings:
     name: Keep
     description: Upgrade your Wooden keep to a Stone keep
   fortress:
-    name: Fortress
+    name: Фортеця
     description: Upgrade your Stone keep to a Fortress
   stronghold:
     name: Stronghold
