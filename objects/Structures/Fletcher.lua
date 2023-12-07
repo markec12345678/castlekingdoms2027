@@ -228,6 +228,7 @@ function BowCrafting:craftCallback_1()
 end
 
 function FletcherWorkshop:destroy()
+    _G.JobController:remove("Fletcher", self)
     self.float:destroy()
     Structure.destroy(self.cookingObj)
     self.cookingObj.toBeDeleted = true

@@ -328,6 +328,7 @@ function Bakery:destroy()
     Structure.destroy(self.stack)
     self.stack.toBeDeleted = true
 
+    _G.JobController:remove("Baker", self)
     Structure.destroy(self)
     if self.worker then
         self.worker:quitJob()

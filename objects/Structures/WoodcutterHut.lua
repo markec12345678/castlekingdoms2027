@@ -422,6 +422,7 @@ function WoodcutterHut:initialize(gx, gy, type)
 end
 
 function WoodcutterHut:destroy()
+    _G.JobController:remove("Woodcutter", self)
     Structure.destroy(self.sawingObj)
     self.sawingObj.toBeDeleted = true
     Structure.destroy(self.stack)

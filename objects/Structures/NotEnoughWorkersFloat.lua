@@ -29,6 +29,7 @@ function NotEnoughWorkersFloat:deactivate()
 end
 
 function NotEnoughWorkersFloat:destroy()
+    self.toBeDeleted = true
     Object.destroy(self)
 end
 

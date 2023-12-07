@@ -683,6 +683,7 @@ function Quarry:onTetherDestruction(callingTether)
 end
 
 function Quarry:destroy()
+    _G.JobController:remove("Stonemason", self)
     self.float:destroy()
     Structure.destroy(self.stack)
     self.stack.toBeDeleted = true

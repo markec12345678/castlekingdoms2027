@@ -209,6 +209,7 @@ function Object:serialize()
     data.className ~= "OxTetherAlias" and
     data.className ~= "PerimeterTowerAlias" and
     data.className ~= "PoleturnerAlias" and
+    data.className ~= "PitchRigAlias" and
     data.className ~= "QuarryAlias" and
     data.className ~= "ResidenceAlias" and
     data.className ~= "RoundTowerAlias" and

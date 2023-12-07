@@ -132,6 +132,7 @@ function OxTether:initialize(gx, gy)
 end
 
 function OxTether:destroy()
+    _G.JobController:remove("OxHandler", self)
     -- force all quarrys in range to scan for other tethers in range
     -- and if necessary switch the quarry into standalone mode
     for x = self.gx - 25, self.gx + 25 do

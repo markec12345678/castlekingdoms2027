@@ -369,6 +369,7 @@ function Windmill:initialize(gx, gy, type)
 end
 
 function Windmill:destroy()
+    _G.JobController:remove("Miller", self)
     Structure.destroy(self.blade)
     self.blade.toBeDeleted = true
     Structure.destroy(self.bladeShadow)
@@ -387,7 +388,6 @@ function Windmill:destroy()
     if self.worker3 then
         self.worker3:quitJob()
     end
-
 end
 
 function Windmill:load(data)

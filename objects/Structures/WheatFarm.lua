@@ -310,6 +310,7 @@ function WheatFarm:animate(dt)
 end
 
 function WheatFarm:destroy()
+    _G.JobController:remove("WheatFarmer", self)
     self.float:destroy()
 
     for xx = -1, 13 do

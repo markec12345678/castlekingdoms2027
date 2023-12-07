@@ -362,6 +362,8 @@ function HopsFarm:destroy()
         end
     end
 
+    _G.JobController:remove("HopsFarmer", self)
+
     Structure.destroy(self)
     if self.hopsWorker then
         self.hopsWorker:quitJob()

@@ -63,6 +63,7 @@ local StoneGateEast = require("objects.Structures.StoneGateEast")
 local StoneGateSouth = require("objects.Structures.StoneGateSouth")
 local StoneGateEastBig = require("objects.Structures.StoneGateEastBig")
 local StoneGateSouthBig = require("objects.Structures.StoneGateSouthBig")
+local PitchRig = require("objects.Structures.PitchRig")
 
 local Lord = require("objects.Units.Lord")
 
@@ -2142,6 +2143,22 @@ local buildings = {
         },
         build = function(self, gx, gy, currentSprite)
             MediumGarden:new(gx, gy, currentSprite)
+        end,
+        specialRequirements = function(self, _, _)
+            return true
+        end
+    },
+    [PitchRig.name] = {
+        quad = tileQuads["pitch"],
+        offsetX = 49,
+        offsetY = 11,
+        w = 4,
+        h = 4,
+        cost = {
+            ["wood"] = 10,
+        },
+        build = function(self, gx, gy)
+            PitchRig:new(gx, gy)
         end,
         specialRequirements = function(self, _, _)
             return true

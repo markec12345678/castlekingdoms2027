@@ -233,6 +233,7 @@ function Orchard:initialize(gx, gy, type)
 end
 
 function Orchard:destroy()
+    _G.JobController:remove("OrchardFarmer", self)
     self.float:destroy()
     Structure.destroy(self.tree1)
     self.tree1.toBeDeleted = true
