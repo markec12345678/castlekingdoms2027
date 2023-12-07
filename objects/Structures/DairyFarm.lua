@@ -666,6 +666,7 @@ function DairyFarm:sendToStockpile()
 end
 
 function DairyFarm:destroy()
+    _G.JobController:remove("DairyFarmer", self)
     if self.worker then
         self.worker:quitJob()
     end

@@ -206,6 +206,7 @@ function Armorer:destroy()
     Structure.destroy(self.cookingObj)
     self.cookingObj.toBeDeleted = true
 
+    _G.JobController:remove("Armourer", self)
     Structure.destroy(self)
     if self.worker then
         self.worker:quitJob()

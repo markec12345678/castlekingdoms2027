@@ -367,6 +367,7 @@ function BlacksmithWorkshop:destroy()
     self.anvilCrafting.toBeDeleted = true
 
     Structure.destroy(self)
+    _G.JobController:remove("Blacksmith", self)
     if self.worker then
         self.worker:quitJob()
     end

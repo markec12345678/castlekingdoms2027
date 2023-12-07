@@ -177,6 +177,9 @@ buildings:
     inn:
         name: Inn
         description: Distributes ale.
+    pitchRig:
+        name: Pitch Rig
+        description: Small platform to collect pitch from the swamp.
     perimeterTower:
         name: Perimeter Tower
         description: A small perimeter tower - good for the observation.

@@ -247,6 +247,7 @@ function SpearCrafting:craftCallback_2()
 end
 
 function PoleturnerWorkshop:destroy()
+    _G.JobController:remove("Poleturner", self)
     self.float:destroy()
     Structure.destroy(self.cookingObj)
     self.cookingObj.toBeDeleted = true

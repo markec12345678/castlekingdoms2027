@@ -60,7 +60,14 @@ ironMineButton:setOnClick(function(self)
 end)
 
 local pitchRigButton = ActionBarButton:new(love.graphics.newImage('assets/ui/pitch_rig_ab.png'),
-    states.STATE_INGAME_CONSTRUCTION, 6, true, nil, true)
+    states.STATE_INGAME_CONSTRUCTION, 6, true)
+
+    pitchRigButton:setOnClick(function(self)
+        _G.BuildController:set("PitchRig", function()
+            pitchRigButton:unselect()
+        end)
+        ActionBar:selectButton(pitchRigButton)
+    end)
 
 local marketButton = ActionBarButton:new(love.graphics.newImage('assets/ui/market_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 7, false)
@@ -78,7 +85,8 @@ local buildings = {
     { button = quarryButton,     id = "Quarry",        name = SID.buildings.quarry.name,     description = SID.buildings.quarry.description,     tier = 2 },
     { button = stockpileButton,  id = "Stockpile",     name = SID.buildings.stockpile.name,  description = SID.buildings.stockpile.description,  tier = 1 },
     { button = ironMineButton,   id = "Mine",          name = SID.buildings.ironMine.name,   description = SID.buildings.ironMine.description,   tier = 3 },
-    { button = marketButton,     id = "Market",        name = SID.buildings.market.name,     description = SID.buildings.market.description,     tier = 1 }
+    { button = marketButton,     id = "Market",        name = SID.buildings.market.name,     description = SID.buildings.market.description,     tier = 1 },
+    { button = pitchRigButton,   id = "PitchRig",      name = SID.buildings.pitchRig.name,   description = SID.buildings.pitchRig.description,   tier = 1 },
 }
 
 local function displayTooltips()
@@ -92,12 +100,11 @@ local function displayTooltips()
         quarry = quarryButton,
         ox = oxButton,
         ironMine = ironMineButton,
-        --pitchRig = pitchRigButton, NOT IMPLEMENTED YET
+        pitchRig = pitchRigButton,
         market = marketButton
     }
 
     disableUnavailableButtons(buttonList)
-    pitchRigButton:setTooltip("Pitch Rig", SID.tips.warning.notImplemented)
 end
 
 _G.bus.on(Events.OnResourceStore, displayTooltips)

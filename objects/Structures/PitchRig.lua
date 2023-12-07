@@ -4,45 +4,32 @@ local Object = require("objects.Object")
 local anim = require("libraries.anim8")
 local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
 
-local tilesExt, quadArrayExt = _G.indexBuildingQuads("beer_workshop (9)")
-local tiles, quadArray = _G.indexBuildingQuads("beer_workshop (18)")
+local tiles, quadArray = _G.indexBuildingQuads("pitch")
 
-local ANIM_BREWING_BEER = "Brewing_Beer"
-local ANIM_BREWING_BEER_PART2 = "Brewing_Beer_Part2"
-local ANIM_BEER_STACK = "Beer_Stack"
+local ANIM_COLLECTING_PITCH = "Collecting_pitch"
 
 local an = {
-    [ANIM_BREWING_BEER] = _G.indexQuads("anim_brewer", 1),
-    [ANIM_BREWING_BEER_PART2] = _G.indexQuads("anim_brewer", 48, 1),
-    [ANIM_BEER_STACK] = _G.indexQuads("anim_brewer", 1)
+    [ANIM_COLLECTING_PITCH] = _G.indexQuads("anim_pitch_dugout", 48),
 }
 
-local breweryFx = {
-    ["Stir"] = {_G.fx["stir1"],
-        _G.fx["stir2"],
-        _G.fx["stir3"],
-        _G.fx["stir4"],
-        _G.fx["stir5"],
-        _G.fx["stir6"]}
-}
+local PitchRigFx = {} --TBD
 
-local BreweryCooking = _G.class("BreweryCooking", Structure)
-function BreweryCooking:initialize(gx, gy, parent)
+local PitchRigCooking = _G.class("PitchRigCooking", Structure)
+function PitchRigCooking:initialize(gx, gy, parent)
     self.parent = parent
-    Structure.initialize(self, gx, gy, "Brewery cooking")
+    Structure.initialize(self, gx, gy, "PitchRig cooking")
     self.tile = tileQuads["empty"]
     self.animated = false
     self.brewingCycle = 0
-    self.animation = anim.newAnimation(an[ANIM_BREWING_BEER], 0.11, self:brewCallback_1(), ANIM_BREWING_BEER)
-    self.animation:pause()
+    self.animation = anim.newAnimation(an[ANIM_COLLECTING_PITCH], 0.11, self:brewCallback_1(), ANIM_COLLECTING_PITCH)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.offsetX = -51
-    self.offsetY = -77
+    self.offsetX = -58
+    self.offsetY = -72
 
     self:registerAsActiveEntity()
 end
 
-function BreweryCooking:serialize()
+function PitchRigCooking:serialize()
     local data = {}
     local structData = Structure.serialize(self)
     for k, v in pairs(structData) do
@@ -59,7 +46,7 @@ function BreweryCooking:serialize()
     return data
 end
 
-function BreweryCooking.static:deserialize(data)
+function PitchRigCooking.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
     Structure.load(obj, data)
@@ -67,10 +54,8 @@ function BreweryCooking.static:deserialize(data)
     obj.parent.cookingObj = obj
     local callback
     local anData = data.animation
-    if anData.animationIdentifier == ANIM_BREWING_BEER then
+    if anData.animationIdentifier == ANIM_COLLECTING_PITCH then
         callback = obj:brewCallback_1()
-    elseif anData.animationIdentifier == ANIM_BREWING_BEER_PART2 then
-        callback = obj:brewCallback_2()
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
@@ -78,43 +63,23 @@ function BreweryCooking.static:deserialize(data)
     return obj
 end
 
-function BreweryCooking:brewCallback_1()
+function PitchRigCooking:brewCallback_1()
     return function()
-        self.brewingCycle = self.brewingCycle + 1
-        self.animation = anim.newAnimation(
-            an[ANIM_BREWING_BEER_PART2], 0.11, self:brewCallback_2(), ANIM_BREWING_BEER_PART2)
+        self.parent:sendToStockpile()
+        self:deactivate()
     end
 end
 
-function BreweryCooking:brewCallback_2()
-    return function()
-        self.animation = anim.newAnimation(an[ANIM_BREWING_BEER], 0.11, self:brewCallback_1(), ANIM_BREWING_BEER)
-
-        if self.brewingCycle == 6 then
-            self.parent:sendToStockpile()
-            self.brewingCycle = 0
-            self:deactivate()
-        end
-    end
-end
-
-function BreweryCooking:animate()
+function PitchRigCooking:animate()
     Structure.animate(self, _G.dt, true)
-    if self.animation.status == "playing" and (self.animation.animationIdentifier == ANIM_BREWING_BEER
-        or self.animation.animationIdentifier == ANIM_BREWING_BEER_PART2) and self.animation.position == 1 then
-        _G.playSfx(self, breweryFx["Stir"])
-    end
 end
 
-function BreweryCooking:activate()
+function PitchRigCooking:activate()
     self.animated = true
-    self.animation:gotoFrame(1)
-    self.animation:resume()
     self:animate()
 end
 
-function BreweryCooking:deactivate()
-    self.animation:pause()
+function PitchRigCooking:deactivate()
     self.tile = tileQuads["empty"]
     if self.instancemesh then
         _G.freeVertexFromTile(self.cx, self.cy, self.vertId)
@@ -123,8 +88,8 @@ function BreweryCooking:deactivate()
     self.animated = false
 end
 
-local BreweryAlias = _G.class("BreweryAlias", Structure)
-function BreweryAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
+local PitchRigAlias = _G.class("PitchRigAlias", Structure)
+function PitchRigAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     local mytype = "Static structure"
     self.parent = parent
     Structure.initialize(self, gx, gy, mytype)
@@ -137,7 +102,7 @@ function BreweryAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     Structure.render(self)
 end
 
-function BreweryAlias:serialize()
+function PitchRigAlias:serialize()
     local data = {}
     local structData = Structure.serialize(self)
     for k, v in pairs(structData) do
@@ -154,7 +119,7 @@ function BreweryAlias:serialize()
     return data
 end
 
-function BreweryAlias.static:deserialize(data)
+function PitchRigAlias.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
     Structure.load(obj, data)
@@ -167,27 +132,27 @@ function BreweryAlias.static:deserialize(data)
     return obj
 end
 
-local Brewery = _G.class("Brewery", Structure)
+local PitchRig = _G.class("PitchRig", Structure)
 
-Brewery.static.WIDTH = 4
-Brewery.static.LENGTH = 4
-Brewery.static.HEIGHT = 17
-Brewery.static.ALIAS_NAME = "BreweryAlias"
-Brewery.static.DESTRUCTIBLE = true
+PitchRig.static.WIDTH = 4
+PitchRig.static.LENGTH = 4
+PitchRig.static.HEIGHT = 17
+PitchRig.static.ALIAS_NAME = "PitchRigAlias"
+PitchRig.static.DESTRUCTIBLE = true
 
-function Brewery:initialize(gx, gy)
-    _G.JobController:add("Brewer", self)
-    Structure.initialize(self, gx, gy, "Brewery")
+function PitchRig:initialize(gx, gy)
+    _G.JobController:add("Pitcher", self)
+    Structure.initialize(self, gx, gy, "PitchRig")
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 400
     self.tile = quadArray[tiles + 1]
     self.working = false
     self.unloading = false
     self.offsetX = 0
-    self.offsetY = 64 - 131
+    self.offsetY = -11
     self.freeSpots = 1
     self.worker = nil
-    self.cookingObj = BreweryCooking:new(self.gx + 3, self.gy + 2, self)
+    self.cookingObj = PitchRigCooking:new(self.gx + 3, self.gy + 2, self)
 
     for xx = -2, 5 do
         for yy = -2, 5 do
@@ -201,46 +166,45 @@ function Brewery:initialize(gx, gy)
     end
 
     for tile = 1, tiles do
-        local bkr = BreweryAlias:new(
+        local bkr = PitchRigAlias:new(
             quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self, -self.offsetY + 8 * (tiles - tile + 1))
         bkr.tileKey = tile
     end
     for tile = 1, tiles do
-        local bkr = BreweryAlias:new(
+        local bkr = PitchRigAlias:new(
             quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile, 16)
         bkr.tileKey = tiles + 1 + tile
     end
 
-    BreweryAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 3, self, self.offsetX, self.offsetY)
-    BreweryAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 3, self, self.offsetX, self.offsetY)
-    BreweryAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 2, self, self.offsetX, self.offsetY)
-    BreweryAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 2, self, self.offsetX, self.offsetY)
-    BreweryAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 1, self, self.offsetX, self.offsetY)
-    BreweryAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 1, self, self.offsetX, self.offsetY)
-    BreweryAlias:new(tileQuads["empty"], self.gx + 3, self.gy + 1, self, self.offsetX, self.offsetY)
+    PitchRigAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 3, self, self.offsetX, self.offsetY)
+    PitchRigAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 3, self, self.offsetX, self.offsetY)
+    PitchRigAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 2, self, self.offsetX, self.offsetY)
+    PitchRigAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 2, self, self.offsetX, self.offsetY)
+    PitchRigAlias:new(tileQuads["empty"], self.gx + 1, self.gy + 1, self, self.offsetX, self.offsetY)
+    PitchRigAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 1, self, self.offsetX, self.offsetY)
+    PitchRigAlias:new(tileQuads["empty"], self.gx + 3, self.gy + 1, self, self.offsetX, self.offsetY)
 
     self.float = NotEnoughWorkersFloat:new(self.gx + self.class.WIDTH - 1, self.gy + self.class.LENGTH - 1, 7, -112)
-    self:exitHover(true)
     self:applyBuildingHeightMap()
 end
 
-function Brewery:destroy()
+function PitchRig:destroy()
     self.float:destroy()
     Structure.destroy(self.cookingObj)
     self.cookingObj.toBeDeleted = true
 
+    _G.JobController:remove("Pitcher", self)
     Structure.destroy(self)
-    _G.JobController:remove("Brewer", self)
     if self.worker then
         self.worker:quitJob()
     end
 end
 
-function Brewery:onClick()
-
+function PitchRig:onClick()
+--
 end
 
-function Brewery:load(data)
+function PitchRig:load(data)
     Object.deserialize(self, data)
     Structure.load(self, data)
     if data.worker then
@@ -251,7 +215,7 @@ function Brewery:load(data)
     Structure.render(self)
 end
 
-function Brewery:serialize()
+function PitchRig:serialize()
     local data = {}
     local structData = Structure.serialize(self)
     for k, v in pairs(structData) do
@@ -271,15 +235,15 @@ function Brewery:serialize()
     return data
 end
 
-function Brewery.static:deserialize(data)
+function PitchRig.static:deserialize(data)
     local obj = self:allocate()
     obj:load(data)
     return obj
 end
 
-function Brewery:join(worker)
+function PitchRig:join(worker)
     if self.health == -1 then
-        _G.JobController:remove("Brewer", self)
+        _G.JobController:remove("Pitcher", self)
         worker:quitJob()
         return
     end
@@ -293,58 +257,8 @@ function Brewery:join(worker)
     end
 end
 
-function Brewery:enterHover(induced)
-    self.hover = true
-
-    for tile = 1, tiles do
-        local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tiles - tile + 1), BreweryAlias)
-        if not alias then return end
-        alias.tile = quadArray[tile]
-        alias.tileKey = tile
-        alias:render()
-    end
-
-    for tile = 1, tiles do
-        local alias = _G.objectFromClassAtGlobal(self.gx + tile, self.gy, BreweryAlias)
-        if not alias then return end
-        alias.tile = quadArray[tiles + 1 + tile]
-        alias.tileKey = tiles + 1 + tile
-        alias:render()
-    end
-
-    self.tile = quadArray[tiles + 1]
-    self:render()
-end
-
-function Brewery:exitHover(induced)
-    if induced or not self.cookingObj.animated then
-        self.hover = false
-    else return end
-
-    for tile = 1, tilesExt do
-        local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tilesExt - tile + 1), BreweryAlias)
-        if alias then
-            alias.tile = quadArrayExt[tile]
-            alias.tileKey = tile
-            alias:render()
-        end
-    end
-
-    for tile = 1, tilesExt do
-        local alias = _G.objectFromClassAtGlobal(self.gx + tile, self.gy, BreweryAlias)
-        if alias then
-            alias.tile = quadArrayExt[tilesExt + 1 + tile]
-            alias.tileKey = tilesExt + 1 + tile
-            alias:render()
-        end
-    end
-
-    self.tile = quadArrayExt[tilesExt + 1]
-    self:render()
-end
-
-function Brewery:work(worker)
-    if self.worker.state == "Going to workplace with hops" then
+function PitchRig:work(worker)
+    if self.worker.state == "Going to workplace" then
         self.worker.state = "Working"
         self.working = true
         worker.tile = tileQuads["empty"]
@@ -353,17 +267,12 @@ function Brewery:work(worker)
         worker.gy = self.gy + 2
         worker:jobUpdate()
         self.cookingObj:activate()
-        self:enterHover(true)
     else
         self.worker.state = "Working"
-
-        if not self.working and self.worker.state == "Working" then
-            self.worker.state = "Go to stockpile for hops"
-        end
     end
 end
 
-function Brewery:sendToStockpile()
+function PitchRig:sendToStockpile()
     local i, o, cx, cy
     self.worker.state = "Go to stockpile"
     self.worker.animated = true
@@ -379,7 +288,6 @@ function Brewery:sendToStockpile()
     self.worker.needNewVertAsap = true
     self.workerDelivered = false
     self.cookingObj:deactivate()
-    self:exitHover(true)
 end
 
-return Brewery
+return PitchRig
