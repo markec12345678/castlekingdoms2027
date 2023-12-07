@@ -1,3 +1,4 @@
+local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
@@ -55,8 +56,8 @@ Chapel.static.HEIGHT = 17
 Chapel.static.DESTRUCTIBLE = true
 
 function Chapel:initialize(gx, gy)
+    _G.JobController:add("Priest", self)
     Structure.initialize(self, gx, gy, "Chapel")
-    self.animated = false
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 50
     self.tile = quadArray[tiles + 1]
@@ -72,10 +73,9 @@ function Chapel:initialize(gx, gy)
     end
     for tile = 1, tiles do
         local hsl = ChapelAlias:new(quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile
-            , 16)
+        , 16)
         hsl.tileKey = tiles + 1 + tile
     end
-    local tileQuads = require("objects.object_quads")
     for xx = 0, Chapel.static.WIDTH - 1 do
         for yy = 0, Chapel.static.LENGTH - 1 do
             if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + yy, Structure) then
@@ -96,13 +96,35 @@ function Chapel:destroy()
     Structure.destroy(self)
 end
 
-function Chapel:onClick()
-    local ActionBar = require("states.ui.ActionBar")
+function Chapel:work(worker)
+    worker.gx = self.gx + 3
+    worker.gy = self.gy + 6
+    worker:jobUpdate()
+end
+
+function Chapel:join(worker)
+    if self.health == -1 then
+        _G.JobController:remove("Priest", self)
+        worker:quitJob()
+        return
+    end
+    if self.freeSpots == 1 then
+        self.worker = worker
+        worker.workplace = self
+        self.freeSpots = self.freeSpots - 1
+    end
+    if self.freeSpots == 0 then
+        self.float:deactivate()
+    end
 end
 
 function Chapel:load(data)
     Object.deserialize(self, data)
     Structure.load(self, data)
+    if data.worker then
+        self.worker = _G.state:dereferenceObject(data.worker)
+        self.worker.workplace = self
+    end
     self.tile = quadArray[tiles + 1]
     Structure.render(self)
 end

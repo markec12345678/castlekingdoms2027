@@ -75,6 +75,17 @@ function BuildingManager:getCountOfPositiveBuildings()
     return count
 end
 
+---@return table listOfBuildings list of all player owned buildings
+function BuildingManager:getAllPlayerBuildings()
+    local list = {}
+    for _, buildingList in pairs(self.buildings) do
+        for _, building in pairs(buildingList) do
+                list[#list + 1] = building
+        end
+    end
+    return list
+end
+
 ---@param buildingClass {name: string}|string
 ---@return integer count total count of a specific building class
 function BuildingManager:count(buildingClass)
