@@ -2,6 +2,7 @@ local _, _, _, _ = ...
 
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
+local Drunkard = require("objects.Units.Drunkard")
 
 local tiles, quadArray = _G.indexBuildingQuads("inn", true)
 local InnAlias = _G.class("InnAlias", Structure)
@@ -62,6 +63,7 @@ function Inn:initialize(gx, gy)
     self.tile = quadArray[tiles + 1]
     self.offsetX = 0
     self.offsetY = -90
+    self.drunkard = Drunkard:new(gx + 3, gy + Inn.static.WIDTH, self)
     for tile = 1, tiles do
         local hsl = InnAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
             -self.offsetY + 8 * (tiles - tile + 1))
@@ -83,6 +85,13 @@ function Inn:initialize(gx, gy)
     self:applyBuildingHeightMap()
 end
 
+function Inn:destroy()
+    if self.drunkard then
+        self.drunkard.inn = nil
+    end
+    Structure.destroy(self)
+end
+
 function Inn:onClick()
     local ActionBar = require("states.ui.ActionBar")
     --ActionBar:switchMode("inn")
@@ -93,6 +102,10 @@ function Inn:load(data)
     Structure.load(self, data)
     self.tile = quadArray[tiles + 1]
     Structure.render(self)
+    if data.drunkard then
+        self.drunkard = _G.state:dereferenceObject(data.drunkard)
+        self.drunkard.inn = self
+    end
 end
 
 function Inn:serialize()
@@ -106,6 +119,10 @@ function Inn:serialize()
     data.health = self.health
     data.offsetX = self.offsetX
     data.offsetY = self.offsetY
+    if self.drunkard then
+        data.drunkard = _G.state:serializeObject(self.drunkard)
+    end
+
     return data
 end
 
