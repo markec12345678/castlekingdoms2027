@@ -21,7 +21,6 @@ function Soldier:initialize(gx, gy, type)
     if not gx then
         error("No free spots at barracks for soldier?")
     end
-    print(gx, gy, self.state)
     self:requestPath(gx, gy)
 end
 
