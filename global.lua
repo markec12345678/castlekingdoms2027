@@ -28,6 +28,13 @@ _G.CURRENT_MUSIC = nil
 _G.speedModifier = 1
 _G.quadOffset = {}
 
+local raven = require "libraries.raven"
+_G.rvn = raven.new {
+    sender = require("libraries.raven.senders.luasocket").new {
+        dsn = love.data.decode("string", "base64", "aHR0cHM6Ly8xNjVhODc2MzExZTAxZjNlNGEwNjBmNzgwOWU3NTU2ZUBvNDUwNjAxNjMyODQ1MDA0OC5pbmdlc3Quc2VudHJ5LmlvLzQ1MDYwMTYzMzUzMzEzMjg="),
+    },
+}
+
 function _G.reverse(t)
     local n = #t
     local i = 1

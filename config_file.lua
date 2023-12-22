@@ -15,7 +15,8 @@ local defaultConfig = {
         attachConsole = true,
         skipSplashScreen = false,
         autosaveInterval = -1,
-        autosaveCrashBackup = true
+        autosaveCrashBackup = true,
+        enableSentry = true,
     },
     video = {
         resolutionWidth = 0,
@@ -81,84 +82,34 @@ function config:new()
     end
 
     -- Check the config parameters
-    local save = false
-    if type(config.general.attachConsole) ~= "boolean" then
-        print("Config Parameter general.attachConsole is invalid type or does not exist. Using default value.")
-        config.general.attachConsole = defaultConfig.general.attachConsole
-        save = true
-    end
-
-    if type(config.video.resolutionHeight) ~= "number" or config.video.resolutionHeight < 0 then
-        print("Config Parameter video.resolutionHeight is invalid type or does not exist. Using default value.")
-        config.video.resolutionHeight = defaultConfig.video.resolutionHeight
-        save = true
-    end
-
-    if type(config.video.resolutionWidth) ~= "number" or config.video.resolutionWidth < 0 then
-        print("Config Parameter video.resolutionWidth is invalid type or does not exist. Using default value.")
-        config.video.resolutionHeight = defaultConfig.video.resolutionHeight
-        save = true
-    end
-
-    if type(config.video.vsync) ~= "boolean" then
-        print("Config Parameter video.vsync is invalid type or does not exist. Using default value.")
-        config.video.vsync = defaultConfig.video.vsync
-        save = true
-    end
-
-    if type(config.video.fullscreen) ~= "boolean" then
-        print("Config Parameter video.fullscreen is invalid type or does not exist. Using default value.")
-        config.video.fullscreen = defaultConfig.video.fullscreen
-        save = true
-    end
-
-    if type(config.video.borderless) ~= "boolean" then
-        print("Config Parameter video.borderless is invalid type or does not exist. Using default value.")
-        config.video.borderless = defaultConfig.video.borderless
-        save = true
-    end
-
-    if type(config.video.display) ~= "number" then
-        print("Config Parameter video.display is invalid type or does not exist. Using default value.")
-        config.video.display = defaultConfig.video.display
-        save = true
-    end
-
     if type(config.video.fullscreenType) ~= "string" or
         (config.video.fullscreenType ~= "desktop" and config.video.fullscreenType ~= "exclusive") then
         print("Config Parameter video.fullscreenType is invalid type or does not exist. Using default value.")
         config.video.fullscreenType = defaultConfig.video.fullscreenType
-        save = true
     end
 
     if type(config.sound.effects) ~= "number" then
         print("Config Parameter soud.effects is invalid type or does not exist. Using default value.")
         config.sound.effects = defaultConfig.sound.effects
-        save = true
     elseif config.sound.effects > 100 or config.sound.effects < 0 then
         print("Config Parameter sound.effects is out of range (must be betweeen 1 and 100). Using default value.")
         config.sound.effects = defaultConfig.sound.effects
-        save = true
     end
 
     if type(config.sound.music) ~= "number" then
         print("Config Parameter soud.music is invalid type or does not exist. Using default value.")
         config.sound.music = defaultConfig.sound.music
-        save = true
     elseif config.sound.music > 100 or config.sound.music < 0 then
         print("Config Parameter sound.music is out of range (must be betweeen 1 and 100). Using default value.")
         config.sound.music = defaultConfig.sound.music
-        save = true
     end
 
     if type(config.sound.speech) ~= "number" then
         print("Config Parameter soud.speech is invalid type or does not exist. Using default value.")
         config.sound.speech = defaultConfig.sound.speech
-        save = true
     elseif config.sound.speech > 100 or config.sound.speech < 0 then
         print("Config Parameter sound.speech is out of range (must be betweeen 1 and 100). Using default value.")
         config.sound.speech = defaultConfig.sound.speech
-        save = true
     end
 
     local dataConfig = {}
@@ -168,9 +119,7 @@ function config:new()
         end
     end
 
-    if save then
-        ini.save("config.ini", dataConfig)
-    end
+    ini.save("config.ini", dataConfig)
 
     return config
 end

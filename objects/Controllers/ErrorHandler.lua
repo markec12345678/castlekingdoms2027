@@ -4,18 +4,26 @@
 local utf8 = require("utf8")
 
 local function error_printer(msg, layer)
-    print((debug.traceback("Error: " .. tostring(msg), 1+(layer or 1)):gsub("\n[^\n]+$", "")))
+    print((debug.traceback("Error: " .. tostring(msg), 1 + (layer or 1)):gsub("\n[^\n]+$", "")))
 end
 
 function love.errorhandler(msg)
     -- Log the error
+    local config = require("config_file")
     msg = tostring(msg)
+    if _G.rvn and config.general.enableSentry then
+        local id, err = _G.rvn:captureException({ {
+            ["type"] = msg,
+        } })
+        if not id then
+            print(err)
+        end
+    end
 
     error_printer(msg, 2)
 
     -- Try to backup latest autosave
-    local config = require("config_file")
-    if(config.general.autosaveCrashBackup or false) then
+    if (config.general.autosaveCrashBackup or false) then
         local SaveManager = require("objects.Controllers.SaveManager")
         SaveManager:copy('autosave', 'autosave error backup ' .. os.date("%Y-%m-%d %H-%M-%S"))
     end
@@ -43,7 +51,7 @@ function love.errorhandler(msg)
     end
     if love.joystick then
         -- Stop all joystick vibrations.
-        for i,v in ipairs(love.joystick.getJoysticks()) do
+        for i, v in ipairs(love.joystick.getJoysticks()) do
             v:setVibration()
         end
     end
@@ -90,7 +98,7 @@ function love.errorhandler(msg)
     local function draw()
         if not love.graphics.isActive() then return end
         local pos = 70
-        love.graphics.clear(89/255, 157/255, 220/255)
+        love.graphics.clear(89 / 255, 157 / 255, 220 / 255)
         love.graphics.printf(p, pos, pos, love.graphics.getWidth() - pos)
         love.graphics.present()
     end
@@ -119,11 +127,11 @@ function love.errorhandler(msg)
             elseif e == "touchpressed" then
                 local name = love.window.getTitle()
                 if #name == 0 or name == "Untitled" then name = "Game" end
-                local buttons = {"OK", "Cancel"}
+                local buttons = { "OK", "Cancel" }
                 if love.system then
                     buttons[3] = "Copy to clipboard"
                 end
-                local pressed = love.window.showMessageBox("Quit "..name.."?", "", buttons)
+                local pressed = love.window.showMessageBox("Quit " .. name .. "?", "", buttons)
                 if pressed == 1 then
                     return 1
                 elseif pressed == 3 then
@@ -138,5 +146,4 @@ function love.errorhandler(msg)
             love.timer.sleep(0.1)
         end
     end
-
 end
