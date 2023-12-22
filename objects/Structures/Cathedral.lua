@@ -61,7 +61,7 @@ function Cathedral:initialize(gx, gy)
     self.health = 50
     self.tile = quadArray[tiles + 1]
     self.offsetX = 0
-    self.offsetY = -195
+    self.offsetY = -194
     self.freeSpots = 1
     self.worker = nil
 
@@ -72,7 +72,7 @@ function Cathedral:initialize(gx, gy)
     end
     for tile = 1, tiles do
         local hsl = CathedralAlias:new(quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile
-            , 16)
+        , 16)
         hsl.tileKey = tiles + 1 + tile
     end
     local tileQuads = require("objects.object_quads")
@@ -88,9 +88,48 @@ function Cathedral:initialize(gx, gy)
             _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrainBiome.scarceGrass)
         end
     end
+    self.freeSpots = _G.newAutotable(2)
+    for xx = 1, 17 do
+        for yy = 14, 17 do
+            self.freeSpots[xx][yy] = _G.state.map:isWalkable(xx, yy)
+        end
+    end
     self:applyBuildingHeightMap()
 
     self.float = NotEnoughWorkersFloat:new(self.gx, self.gy, 0, -64)
+end
+
+function Cathedral:freeAllSpots()
+    for xx = 1, 17 do
+        for yy = 14, 17 do
+            self.freeSpots[xx][yy] = _G.state.map:isWalkable(xx, yy)
+        end
+    end
+end
+
+function Cathedral:anyFreeSpots()
+    for xx = 1, 17 do
+        for yy = 14, 17 do
+            if self.freeSpots[xx][yy] == true then
+                return true
+            end
+        end
+    end
+    return false
+end
+
+function Cathedral:getNextFreeSpot(soldier)
+    for xx = 1, 17 do
+        for yy = 14, 17 do
+            if self.freeSpots[xx][yy] == true then
+                self.freeSpots[xx][yy] = soldier
+                _G.soldiers = _G.soldiers + 1
+                return self.gx + xx, self.gy + yy, "south"
+            end
+        end
+    end
+    self:freeAllSpots()
+    return self:getNextFreeSpot(soldier)
 end
 
 function Cathedral:destroy()
@@ -103,6 +142,8 @@ end
 
 function Cathedral:onClick()
     local ActionBar = require("states.ui.ActionBar")
+    ActionBar:switchMode("cathedral")
+    _G.selectedRecruitLocation = self
 end
 
 function Cathedral:load(data)

@@ -43,6 +43,13 @@ function Map:getWalkable(gx, gy)
     return 1
 end
 
+function Map:isWalkable(gx, gy)
+    if gx >= 0 and gx < 512 and gy >= 0 and gy < 512 then
+        return self.collisionMap[gx][gy] == 0
+    end
+    return false
+end
+
 function Map:setHeight(gx, gy, height)
     self.walkingHeightmap[gx][gy] = height
 end

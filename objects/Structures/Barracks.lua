@@ -85,12 +85,52 @@ function Barracks:initialize(gx, gy)
             _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrainBiome.scarceGrass)
         end
     end
+    self.freeSpots = _G.newAutotable(2)
+    for xx = 0, 9 do
+        for yy = 0, 9 do
+            if not (xx < 5 and yy < 5) and not (xx == 7 and yy == 2) and not (xx == 2 and yy == 7) and not (xx == 7 and yy == 7) then
+                self.freeSpots[xx][yy] = _G.state.map:isWalkable(xx, yy)
+                _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrainBiome.scarceGrass)
+            end
+        end
+    end
     self:applyBuildingHeightMap()
+end
+
+function Barracks:anyFreeSpots()
+    return true
+end
+
+function Barracks:freeAllSpots()
+    for xx = 0, 9 do
+        for yy = 0, 9 do
+            if not (xx < 5 and yy < 5) and not (xx == 7 and yy == 2) and not (xx == 2 and yy == 7) and not (xx == 7 and yy == 7) then
+                self.freeSpots[xx][yy] = _G.state.map:isWalkable(xx, yy)
+            end
+        end
+    end
+end
+
+function Barracks:getNextFreeSpot(soldier)
+    for xx = 0, 9 do
+        for yy = 0, 9 do
+            if not (xx < 5 and yy < 5) and not (xx == 7 and yy == 2) and not (xx == 2 and yy == 7) and not (xx == 7 and yy == 7) then
+                if self.freeSpots[xx][yy] == true then
+                    self.freeSpots[xx][yy] = soldier
+                    _G.soldiers = _G.soldiers + 1
+                    return self.gx + xx, self.gy + yy, "south"
+                end
+            end
+        end
+    end
+    self:freeAllSpots()
+    return self:getNextFreeSpot(soldier)
 end
 
 function Barracks:onClick()
     local ActionBar = require("states.ui.ActionBar")
     ActionBar:switchMode("barracks")
+    _G.selectedRecruitLocation = self
 end
 
 function Barracks:load(data)

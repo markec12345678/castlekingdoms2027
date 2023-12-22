@@ -23,6 +23,7 @@ ActionBar.static.actionBarArmouryImage = love.graphics.newImage("assets/ui/actio
 ActionBar.static.actionBarKeepTaxImage = love.graphics.newImage("assets/ui/action_bar_keep_tax_main.png")
 ActionBar.static.actionBarBarracksImage = love.graphics.newImage("assets/ui/action_bar_barracks.png")
 ActionBar.static.actionBarHouseImage = love.graphics.newImage("assets/ui/action_bar_house.png")
+ActionBar.static.actionBarUnits = love.graphics.newImage("assets/ui/action_bar_units.png")
 
 function ActionBar:initialize()
     local element = loveframes.Create("image")
@@ -165,6 +166,24 @@ function ActionBar:switchMode(mode)
         self.element:SetState(states.STATE_GUILDS)
         self.element:SetImage(ActionBar.actionBarArmouryImage)
         buildingHover:SetState(states.STATE_GUILDS)
+    elseif mode == "unitsUI" then
+        self:showGroup("unitsUI")
+        loveframes.SetState(states.STATE_UNITS)
+        self.popularityText:SetState(states.STATE_UNITS)
+        self.populationText:SetState(states.STATE_UNITS)
+        self.goldText:SetState(states.STATE_UNITS)
+        self.element:SetState(states.STATE_UNITS)
+        self.element:SetImage(ActionBar.actionBarUnits)
+        buildingHover:SetState(states.STATE_UNITS)
+    elseif mode == "cathedral" then
+        self:showGroup("cathedral")
+        loveframes.SetState(states.STATE_CATHEDRAL)
+        self.popularityText:SetState(states.STATE_CATHEDRAL)
+        self.populationText:SetState(states.STATE_CATHEDRAL)
+        self.goldText:SetState(states.STATE_CATHEDRAL)
+        self.element:SetState(states.STATE_CATHEDRAL)
+        self.element:SetImage(ActionBar.actionBarArmouryImage)
+        buildingHover:SetState(states.STATE_CATHEDRAL)
     else
         if _G.BuildController.start  then
             self:showGroup("start")

@@ -27,6 +27,7 @@ _G.CURRENT_PLAYLIST_INDEX = 0
 _G.CURRENT_MUSIC = nil
 _G.speedModifier = 1
 _G.quadOffset = {}
+_G.soldiers = 0
 
 local raven = require "libraries.raven"
 _G.rvn = raven.new {

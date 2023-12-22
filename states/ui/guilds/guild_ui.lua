@@ -25,6 +25,11 @@ local tunIconHover = love.graphics.newImage("assets/ui/guilds/tun_icon_hover.png
 local ladIconDisable = love.graphics.newImage("assets/ui/guilds/lad_icon_disable.png")
 local engIconDisable = love.graphics.newImage("assets/ui/guilds/eng_icon_disable.png")
 local tunIconDisable = love.graphics.newImage("assets/ui/guilds/tun_icon_disable.png")
+local goldIconNormal = love.graphics.newImage("assets/ui/barracks/goldIcon.png")
+local goldIcon = loveframes.Create("image")
+local currentCost = loveframes.Create("text")
+local currentStockPeasants = loveframes.Create("text")
+local currentName = loveframes.Create("text")
 
 local frLadButton = {
     x = framesActionBar.frFull.x + 350 * scale,
@@ -55,12 +60,28 @@ ladIconButton:SetPos(frLadButton.x, frLadButton.y)
 ladIconButton.OnMouseEnter = function(self)
     if ladButtonEnable then
         ladIconButton:SetImage(ladIconHover)
+        currentCost:SetText({ {
+            color = { 0.99, 0.96, 0.78, 1 }
+        }, "12 gold" })
+        currentName:SetText({ {
+            color = { 0.99, 0.96, 0.78, 1 }
+        }, "Ladderman" })
     end
+end
+
+ladIconButton.OnClick = function(self)
+    _G.JobController:makeSoldier("Ladderman")
 end
 
 ladIconButton.OnMouseExit = function(self)
     if ladButtonEnable then
         ladIconButton:SetImage(ladIcon)
+        currentCost:SetText({ {
+            color = { 0.99, 0.96, 0.78, 1 }
+        }, "" })
+        currentName:SetText({ {
+            color = { 0.99, 0.96, 0.78, 1 }
+        }, "" })
     end
 end
 
@@ -74,12 +95,28 @@ engIconButton:SetPos(frEngButton.x, frEngButton.y)
 engIconButton.OnMouseEnter = function(self)
     if engButtonEnable then
         engIconButton:SetImage(engIconHover)
+        currentCost:SetText({ {
+            color = { 0.99, 0.96, 0.78, 1 }
+        }, "12 gold" })
+        currentName:SetText({ {
+            color = { 0.99, 0.96, 0.78, 1 }
+        }, "Engineer" })
     end
+end
+
+engIconButton.OnClick = function(self)
+    _G.JobController:makeSoldier("Engineer")
 end
 
 engIconButton.OnMouseExit = function(self)
     if engButtonEnable then
         engIconButton:SetImage(engIcon)
+        currentCost:SetText({ {
+            color = { 0.99, 0.96, 0.78, 1 }
+        }, "" })
+        currentName:SetText({ {
+            color = { 0.99, 0.96, 0.78, 1 }
+        }, "" })
     end
 end
 
@@ -92,13 +129,31 @@ tunIconButton:SetPos(frTunButton.x, frTunButton.y)
 
 tunIconButton.OnMouseEnter = function(self)
     if tunButtonEnable then
-        tunIconButton:SetImage(tunIconHover)
+        if tunButtonEnable then
+            tunIconButton:SetImage(tunIconHover)
+            currentCost:SetText({ {
+                color = { 0.99, 0.96, 0.78, 1 }
+            }, "12 gold" })
+            currentName:SetText({ {
+                color = { 0.99, 0.96, 0.78, 1 }
+            }, "Digger" })
+        end
     end
+end
+
+tunIconButton.OnClick = function(self)
+    _G.JobController:makeSoldier("Digger")
 end
 
 tunIconButton.OnMouseExit = function(self)
     if tunButtonEnable then
         tunIconButton:SetImage(tunIcon)
+        currentCost:SetText({ {
+            color = { 0.99, 0.96, 0.78, 1 }
+        }, "" })
+        currentName:SetText({ {
+            color = { 0.99, 0.96, 0.78, 1 }
+        }, "" })
     end
 end
 

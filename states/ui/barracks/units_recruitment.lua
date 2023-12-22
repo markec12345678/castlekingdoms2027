@@ -340,7 +340,13 @@ archerIconButton.OnMouseDown = function(self)
     }, SID.recruitment.archer })
 end
 archerIconButton.OnClick = function(self)
-    -- create archer unit
+    if _G.state.weapons[WEAPON.bow] > 0 and _G.state.gold > 12 then
+        _G.weaponpile:take(WEAPON.bow)
+        _G.state.gold = _G.state.gold - 12
+        local ActionBar = require("states.ui.ActionBar")
+        ActionBar:updateGoldCount()
+        _G.JobController:makeSoldier("Archer")
+    end
 end
 archerIconButton.OnMouseExit = function(self)
     hoverIcon:SetVisible(false)
@@ -381,7 +387,13 @@ spearmanIconButton.OnMouseDown = function(self)
     }, SID.recruitment.spearman })
 end
 spearmanIconButton.OnClick = function(self)
-    -- create spearman unit
+    if _G.state.weapons[WEAPON.spear] > 0 and _G.state.gold > 8 then
+        _G.weaponpile:take(WEAPON.spear)
+        _G.state.gold = _G.state.gold - 8
+        local ActionBar = require("states.ui.ActionBar")
+        ActionBar:updateGoldCount()
+        _G.JobController:makeSoldier("Spearman")
+    end
 end
 spearmanIconButton.OnMouseExit = function(self)
     hoverIcon:SetVisible(false)
@@ -426,7 +438,14 @@ macemanIconButton.OnMouseDown = function(self)
     }, SID.recruitment.maceman })
 end
 macemanIconButton.OnClick = function(self)
-    -- create maceman unit
+    if _G.state.weapons[WEAPON.mace] > 0 and _G.state.weapons[WEAPON.leatherArmor] > 0 and _G.state.gold > 20 then
+        _G.weaponpile:take(WEAPON.mace)
+        _G.weaponpile:take(WEAPON.leatherArmor)
+        _G.state.gold = _G.state.gold - 20
+        local ActionBar = require("states.ui.ActionBar")
+        ActionBar:updateGoldCount()
+        _G.JobController:makeSoldier("Maceman")
+    end
 end
 macemanIconButton.OnMouseExit = function(self)
     hoverIcon:SetVisible(false)
@@ -472,7 +491,14 @@ crossbowmanIconButton.OnMouseDown = function(self)
     }, SID.recruitment.crossbowman })
 end
 crossbowmanIconButton.OnClick = function(self)
-    -- create crossbowman unit
+    if _G.state.weapons[WEAPON.crossbow] > 0 and _G.state.weapons[WEAPON.leatherArmor] > 0 and _G.state.gold > 20 then
+        _G.weaponpile:take(WEAPON.crossbow)
+        _G.weaponpile:take(WEAPON.leatherArmor)
+        _G.state.gold = _G.state.gold - 20
+        local ActionBar = require("states.ui.ActionBar")
+        ActionBar:updateGoldCount()
+        _G.JobController:makeSoldier("Crossbowman")
+    end
 end
 crossbowmanIconButton.OnMouseExit = function(self)
     hoverIcon:SetVisible(false)
@@ -518,7 +544,14 @@ pikemanIconButton.OnMouseDown = function(self)
     }, SID.recruitment.pikeman })
 end
 pikemanIconButton.OnClick = function(self)
-    -- create pikeman unit
+    if _G.state.weapons[WEAPON.pike] > 0 and _G.state.weapons[WEAPON.leatherArmor] > 0 and _G.state.gold > 20 then
+        _G.weaponpile:take(WEAPON.pike)
+        _G.weaponpile:take(WEAPON.leatherArmor)
+        _G.state.gold = _G.state.gold - 20
+        local ActionBar = require("states.ui.ActionBar")
+        ActionBar:updateGoldCount()
+        _G.JobController:makeSoldier("Pikeman")
+    end
 end
 pikemanIconButton.OnMouseExit = function(self)
     hoverIcon:SetVisible(false)
@@ -564,7 +597,14 @@ swordsmanIconButton.OnMouseDown = function(self)
     }, SID.recruitment.swordsman })
 end
 swordsmanIconButton.OnClick = function(self)
-    -- create swordsman unit
+    if _G.state.weapons[WEAPON.shield] > 0 and _G.state.weapons[WEAPON.sword] > 0 and _G.state.gold > 40 then
+        _G.weaponpile:take(WEAPON.shield)
+        _G.weaponpile:take(WEAPON.sword)
+        _G.state.gold = _G.state.gold - 40
+        local ActionBar = require("states.ui.ActionBar")
+        ActionBar:updateGoldCount()
+        _G.JobController:makeSoldier("Swordsman")
+    end
 end
 swordsmanIconButton.OnMouseExit = function(self)
     hoverIcon:SetVisible(false)

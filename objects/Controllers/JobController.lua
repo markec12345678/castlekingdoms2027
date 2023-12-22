@@ -85,6 +85,32 @@ function JobController:makeWorker()
     end
 end
 
+function JobController:makeSoldier(class)
+    if not _G.selectedRecruitLocation then return end
+    local soldierClass
+    if type(class) == "string" then
+        soldierClass = _G.getClassByName(class)
+        if not soldierClass then error("soldier class '" .. class .. "' doesn't exist") end
+    elseif type(class) == "table" then
+        soldierClass = class
+    else
+        error("unexpected soldier class, expected Class|String, got '" .. type(class) .. "'")
+    end
+    if self.unlimitedWorkers then
+        soldierClass:new(_G.spawnPointX, _G.spawnPointY)
+        return true
+    else
+        local peasant = _G.campfire:getFreePeasant()
+        if peasant then
+            self.workers = self.workers - 1
+            peasant:enlist(soldierClass)
+            return true
+        else
+            return false
+        end
+    end
+end
+
 function JobController:serialize()
     local data = {}
     local ls = {}

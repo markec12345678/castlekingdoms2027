@@ -86,12 +86,52 @@ function EngineersGuild:initialize(gx, gy)
             _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrainBiome.scarceGrass)
         end
     end
+    self.freeSpots = _G.newAutotable(2)
+    for xx = 1, 9 do
+        for yy = 5, 9 do
+            self.freeSpots[xx][yy] = _G.state.map:isWalkable(xx, yy)
+        end
+    end
     self:applyBuildingHeightMap()
+end
+
+function EngineersGuild:freeAllSpots()
+    for xx = 1, 9 do
+        for yy = 5, 9 do
+            self.freeSpots[xx][yy] = _G.state.map:isWalkable(xx, yy)
+        end
+    end
+end
+
+function EngineersGuild:anyFreeSpots()
+    for xx = 1, 9 do
+        for yy = 5, 9 do
+            if self.freeSpots[xx][yy] == true then
+                return true
+            end
+        end
+    end
+    return false
+end
+
+function EngineersGuild:getNextFreeSpot(soldier)
+    for xx = 1, 9 do
+        for yy = 5, 9 do
+            if self.freeSpots[xx][yy] == true then
+                self.freeSpots[xx][yy] = soldier
+                _G.soldiers = _G.soldiers + 1
+                return self.gx + xx, self.gy + yy, "south"
+            end
+        end
+    end
+    self:freeAllSpots()
+    return self:getNextFreeSpot(soldier)
 end
 
 function EngineersGuild:onClick()
     local ActionBar = require("states.ui.ActionBar")
     ActionBar:switchMode("guilds")
+    _G.selectedRecruitLocation = self
 end
 
 function EngineersGuild:load(data)
