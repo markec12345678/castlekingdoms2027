@@ -22,6 +22,7 @@ local _, MarketUI = unpack(require("states.ui.market.market_trade"))
 local BarracksUI = require("states.ui.barracks.units_recruitment")
 local GuildsUI = require("states.ui.guilds.guild_ui")
 local WorkshopsUI = require("states.ui.workshops.workshops_ui")
+local UnitsUI = require("states.ui.units.units_control")
 local console = require "libraries.console"
 
 local function updateProgress(prgs, lState)
@@ -48,6 +49,7 @@ local function delayedInit()
         package.loaded["objects.objects"].object, objectAtlas)
     _G.JobController = require("objects.Controllers.JobController")
     _G.BuildingManager = require("objects.Controllers.BuildingManager")
+    _G.Commander = require("objects.Controllers.Commander")
     _G.DebugView = require("objects.Controllers.DebugView")
     updateProgress(35)
     ----Pathfinding setup
@@ -198,6 +200,7 @@ function game:draw()
                 _G.DebugView:draw()
                 _G.BrushController:draw()
             end
+            _G.Commander:draw()
             love.graphics.pop()
             if _G.paused then
                 love.postshader.addTiltshift(12)
@@ -214,6 +217,7 @@ function game:draw()
             if _G.state.scaleX >= 2.1 or _G.paused then
                 love.postshader.draw()
             end
+            _G.Commander:drawMouse()
             if not _G.paused then
                 local WallController = require("objects.Controllers.WallController")
                 WallController:drawMouse()
@@ -236,6 +240,9 @@ function game:mousepressed(x, y, button, istouch)
     if objects.mousepressed(x, y, button, istouch) then
         return
     end
+    if _G.Commander:mousepressed(x, y, button) then
+        return
+    end
     if button == 2 then
         if not _G.BuildController.start then
             _G.BuildController:disable()
@@ -247,7 +254,9 @@ function game:mousepressed(x, y, button, istouch)
             end
         end
         if not _G.BuildController.start and (loveframes.GetState() ~= states.STATE_INGAME_CONSTRUCTION or not ActionBar.hasSelectedButton) then
-            ActionBar:switchMode()
+            if #_G.Commander.selectedUnits <= 1 then
+                ActionBar:switchMode()
+            end
         else
             ActionBar:unselectAll()
         end
@@ -327,7 +336,8 @@ function game:keypressed(key, scancode, isRepeat)
                 loveframes.GetState() == states.STATE_GRANARY or
                 loveframes.GetState() == states.STATE_MARKET_MAIN or
                 loveframes.GetState() == states.STATE_KEEP_TAX or
-                loveframes.GetState() == states.STATE_ARMOURY) then
+                loveframes.GetState() == states.STATE_ARMOURY or
+                loveframes.GetState() == states.STATE_UNITS) then
             ActionBar:switchMode()
             return
         end
@@ -345,6 +355,9 @@ end
 
 function game:mousereleased(x, y, button, istouch)
     -- TODO: Check if event is consumed
+    if _G.Commander:mousereleased(x, y, button) then
+        return
+    end
     loveframes.mousereleased(x, y, button)
     _G.BrushController:mousereleased(button)
 end

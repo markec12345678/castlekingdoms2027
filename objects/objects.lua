@@ -553,6 +553,8 @@ local function mousepressed(x, y, button)
             return
         end
         local structure = _G.objectFromSubclassAtGlobal(press.gx, press.gy, Structure)
+        local Unit = require("objects.Units.Unit")
+        local unit = _G.objectFromSubclassAtGlobal(press.gx, press.gy, Unit)
         if structure then
             structure = structure.parent or structure
             if structure.onClick and not _G.DestructionController.active and not _G.BuildController.start then
@@ -560,16 +562,32 @@ local function mousepressed(x, y, button)
             else
                 _G.BuildController:mousepressed(mx, my)
             end
+        elseif unit and unit.onClick then
+            local ActionBar = require("states.ui.ActionBar")
+            if _G.selectedUnit ~= nil then
+                 _G.selectedUnitUI = _G.selectedUnit.type --TEMPORARY SOLUTION IT WOULD BE NICE TO HANDLE IT WITH AN EVENT
+                print(_G.selectedUnitUI)
+                end
+            ActionBar:switchMode("unitsUI")
+            if not unit.onClick then
+                print("clicked on it, but no onClick")
+            else
+                unit:onClick()
+            end
         else
             _G.BuildController:mousepressed(mx, my)
         end
     elseif button == 2 then
-        _G.state.map:setWalkableWater(press.gx, press.gy)
-        local loveframes = require("libraries.loveframes")
-        local states = require("states.ui.states")
-        if loveframes.GetState() == states.STATE_GRANARY then
-            local ActionBar = require("states.ui.ActionBar")
-            ActionBar:switchMode()
+        if _G.selectedUnit then
+            _G.selectedUnit:gotoUserWaypoint(press.gx, press.gy)
+        else
+            _G.state.map:setWalkableWater(press.gx, press.gy)
+            local loveframes = require("libraries.loveframes")
+            local states = require("states.ui.states")
+            if loveframes.GetState() == states.STATE_GRANARY then
+                local ActionBar = require("states.ui.ActionBar")
+                ActionBar:switchMode()
+            end
         end
     elseif button == 3 then
         -- require("objects.Controllers.Ferdnhoven")

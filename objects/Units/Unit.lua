@@ -1,8 +1,10 @@
 local Object = require('objects.Object')
 
-local footstepFx = {_G.fx["footstep_grass_1"], _G.fx["footstep_grass_2"], _G.fx["footstep_grass_3"],
-    _G.fx["footstep_grass_4"], _G.fx["footstep_grass_5"]}
+local footstepFx = { _G.fx["footstep_grass_1"], _G.fx["footstep_grass_2"], _G.fx["footstep_grass_3"],
+    _G.fx["footstep_grass_4"], _G.fx["footstep_grass_5"] }
 
+---@class Unit
+---@field parent Object
 local Unit = _G.class('Unit', Object)
 function Unit:initialize(gx, gy, type)
     Object.initialize(self, gx, gy, type)
@@ -26,6 +28,7 @@ function Unit:initialize(gx, gy, type)
     self.nd = {}
     self.path = 0
     self.pathState = "none"
+    self.waitingForPathMaxTime = 5
     self.moveDir = "none"
     self.previousDir = "none"
     self.animated = true
@@ -37,7 +40,7 @@ function Unit:initialize(gx, gy, type)
     self.locationsO = {}
     self.unstuckTimer = 0
     self.waitingForPathTimer = 0
-    self.debugColor = {love.math.random(), love.math.random(), love.math.random(), 0.6}
+    self.debugColor = { love.math.random(), love.math.random(), love.math.random(), 0.6 }
     self.lrcx, self.lrcy, self.lrx, self.lry = 0, 0, 0, 0
     _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
     table.insert(self.locationsCx, self.cx)
@@ -118,7 +121,7 @@ function Unit:animate()
     end
     if self.pathState == "Waiting for path" then
         self.waitingForPathTimer = self.waitingForPathTimer + love.timer.getDelta()
-        if self.waitingForPathTimer > 5 then
+        if self.waitingForPathTimer > self.waitingForPathMaxTime then
             if self.noPathCallback then
                 self.noPathCallback()
                 self.noPathCallback = nil
@@ -244,15 +247,33 @@ function Unit:requestPath(xx, yy, noPathCallback)
     end
     self.noPathCallback = noPathCallback
     self.startx, self.starty = math.floor(self.gx), math.floor(self.gy)
+    if _G.state.map:getWalkable(self.startx, self.starty) ~= 0 then
+        for x = -1, 1 do
+            for y = -1, 1 do
+                if x ~= 0 and y ~= 0 then
+                    local newgx, newgy = self.startx + x, self.starty + y
+                    if _G.state.map:getWalkable(newgx, newgy) == 0 then
+                        self.fx, self.fy = newgx * 1000, newgy * 1000
+                        self.startx, self.starty = math.floor(self.gx), math.floor(self.gy)
+                        self:updatePosition()
+                        goto foundWalkable
+                    end
+                end
+            end
+        end
+    end
+    ::foundWalkable::
     self.hasMoveDir = false
     self.endx = xx
     self.endy = yy
     if _G.state.map:getWalkable(xx, yy) == 1 then
         self.setNoPathOnNextUpdate = true
         self.pathState = "Waiting for path"
+        return false
     else
         _G.finder:requestPath(self.startx, self.starty, xx, yy)
         self.pathState = "Waiting for path"
+        return true
     end
 end
 
@@ -422,10 +443,10 @@ function Unit:updatePosition()
                 _G.removeObjectAt(self.locationsCx[idx], self.locationsCy[idx], self.locationsI[idx],
                     self.locationsO[idx], self)
             end
-            self.locationsCx = {self.cx}
-            self.locationsCy = {self.cy}
-            self.locationsI = {xx}
-            self.locationsO = {yy}
+            self.locationsCx = { self.cx }
+            self.locationsCy = { self.cy }
+            self.locationsI = { xx }
+            self.locationsO = { yy }
         end
         _G.freeVertexFromTile(self.previousCx, self.previousCy, self.vertId)
         self.vertId = nil
@@ -440,7 +461,7 @@ function Unit:updatePosition()
                 self.vertId = newVert
                 self.needNewVertAsap = false
                 self.instancemesh = _G.state.objectMesh[self.cx][self.cy]
-                self.vertData = {x, y, qx, qy, qw, qh, 1}
+                self.vertData = { x, y, qx, qy, qw, qh, 1 }
                 local shadowValue = _G.state.map.shadowmap[self.cx][self.cy][self.i][self.o] or 0
                 local elevationOffsetY = _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] or 0
                 local isInShadow = shadowValue > elevationOffsetY
@@ -467,10 +488,10 @@ function Unit:updatePosition()
             _G.removeObjectAt(self.locationsCx[idx], self.locationsCy[idx], self.locationsI[idx], self.locationsO[idx],
                 self)
         end
-        self.locationsCx = {self.cx}
-        self.locationsCy = {self.cy}
-        self.locationsI = {xx}
-        self.locationsO = {yy}
+        self.locationsCx = { self.cx }
+        self.locationsCy = { self.cy }
+        self.locationsI = { xx }
+        self.locationsO = { yy }
         self.originalx = newGX
         self.originaly = newGY
         self:updateDirection()
@@ -495,28 +516,24 @@ function Unit:move()
             self.fx = self.waypointX * 1000
             self.fy = self.waypointY * 1000
         end
-
     elseif self.moveDir == "south" then
         self.fy = self.fy + _G.dt * self.straightWalkSpeed
         if self.fy > self.waypointY * 1000 then
             self.fy = self.waypointY * 1000
             self.fx = self.waypointX * 1000
         end
-
     elseif self.moveDir == "north" then
         self.fy = self.fy - _G.dt * self.straightWalkSpeed
         if self.fy < self.waypointY * 1000 then
             self.fy = self.waypointY * 1000
             self.fx = self.waypointX * 1000
         end
-
     elseif self.moveDir == "east" then
         self.fx = self.fx + _G.dt * self.straightWalkSpeed
         if self.fx > self.waypointX * 1000 then
             self.fx = self.waypointX * 1000
             self.fy = self.waypointY * 1000
         end
-
     elseif self.moveDir == "northwest" then
         self.fx = self.fx - _G.dt * self.diagonalWalkSpeed
         self.fy = self.fy - _G.dt * self.diagonalWalkSpeed
@@ -526,7 +543,6 @@ function Unit:move()
         if self.fy < self.waypointY * 1000 then
             self.fy = self.waypointY * 1000
         end
-
     elseif self.moveDir == "northeast" then
         self.fx = self.fx + _G.dt * self.diagonalWalkSpeed
         self.fy = self.fy - _G.dt * self.diagonalWalkSpeed
@@ -536,7 +552,6 @@ function Unit:move()
         if self.fy < self.waypointY * 1000 then
             self.fy = self.waypointY * 1000
         end
-
     elseif self.moveDir == "southwest" then
         self.fx = self.fx - _G.dt * self.diagonalWalkSpeed
         self.fy = self.fy + _G.dt * self.diagonalWalkSpeed
@@ -546,7 +561,6 @@ function Unit:move()
         if self.fy > self.waypointY * 1000 then
             self.fy = self.waypointY * 1000
         end
-
     elseif self.moveDir == "southeast" then
         self.fx = self.fx + _G.dt * self.diagonalWalkSpeed
         self.fy = self.fy + _G.dt * self.diagonalWalkSpeed

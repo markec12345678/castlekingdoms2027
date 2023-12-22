@@ -192,6 +192,15 @@ function Peasant:getAJob()
     end
 end
 
+function Peasant:enlist(soldierClass)
+    -- override callback to become a soldier instead of a worker
+    self.bowingJobCallback = function(self)
+        soldierClass:new(_G.spawnPointX, _G.spawnPointY)
+        self:remove()
+    end
+    self:getAJob()
+end
+
 function Peasant:chooseRandomIdleAnimation()
     if self.state ~= "Waiting" then
         return

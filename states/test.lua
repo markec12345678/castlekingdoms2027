@@ -28,6 +28,7 @@ function test:enter()
     _G.JobController = require("objects.Controllers.JobController")
     _G.BuildingManager = require("objects.Controllers.BuildingManager")
     _G.DebugView = require("objects.Controllers.DebugView")
+    _G.Commander = require("objects.Controllers.Commander")
     ----Pathfinding setup
     thread = love.thread.newThread("libraries/pathfinding_thread.lua")
     thread:start("1", 512)
@@ -57,9 +58,12 @@ function test:enter()
     if _G.state.newGame then
         _G.playSpeech("place_a_keep")
     end
-    _G.playSfx = function() end
-    _G.playInterfaceSfx = function() end
-    _G.playSpeech = function() end
+    _G.playSfx = function()
+    end
+    _G.playInterfaceSfx = function()
+    end
+    _G.playSpeech = function()
+    end
     _G.channel.mapUpdate:push("final")
     _G.channel2.mapUpdate:push("final")
     require('spec.objects_spec')

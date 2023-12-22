@@ -18,7 +18,9 @@ local EVENTS = {
     OnHouseUpgraded = 16,
     OnMaxPopChanged = 17,
     OnMarketResourceClicked = 18,
-    OnInGameTimeChanged = 19
+    OnInGameTimeChanged = 19,
+    OnUnitsSelected = 20,
+    OnUnitsDeselected = 21,
 }
 
 return EVENTS

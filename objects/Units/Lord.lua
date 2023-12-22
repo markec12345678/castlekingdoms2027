@@ -7,14 +7,12 @@ local an = require("objects.Animations.Lord")
 local Lord = _G.class("Lord", Unit)
 
 function Lord:initialize(gx, gy)
-    math.randomseed(os.time())
     Unit.initialize(self, gx, gy, type)
     self.state = "Going to keep"
     self.count = 1
     self.offsetY = -5 - 8
     self.offsetX = -8
     self.animated = true
-    self.orientation = ""
     self.pathState = "No path"
     self.swordOut = false
 end
@@ -193,14 +191,6 @@ function Lord:doIdle(idle_count, direction)
     self.animation = self:getDirectionalAnimation("body_lord_idle_stand", idle_frame_delay, doActionCallback, direction)
 end
 
-function Lord:remove()
-    self.toBeDeleted = true
-    _G.freeVertexFromTile(self.cx, self.cy, self.previousVertId)
-    self.animation = nil
-    _G.freeVertexFromTile(self.cx, self.cy, self.vertId)
-    _G.removeObjectAt(self.cx, self.cy, self.i, self.o, self)
-end
-
 function Lord:animate()
     self:update()
     Unit.animate(self)
@@ -218,7 +208,6 @@ function Lord:serialize()
     data.count = self.count
     data.offsetY = self.offsetY
     data.offsetX = self.offsetX
-    data.orientation = self.orientation
     data.animated = self.animated
     if self.animation then
         data.animation = self.animation:serialize()
