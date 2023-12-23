@@ -19,10 +19,10 @@ local os = love.system.getOS()
 local ogpath = love.filesystem.getCRequirePath()
 if os == "Windows" then
     love.filesystem.setCRequirePath("libraries/windows/??")
-    https = require("https")
-    -- elseif os == "Linux" then
-    --     love.filesystem.setCRequirePath("libraries/linux/??")
-    --     https = require("https")
+    ok, val = pcall(require, "https")
+    if ok then
+        https = val
+    end
 else
     print("os is not windows, not sending sentry requests")
 end
