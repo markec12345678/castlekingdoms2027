@@ -28,22 +28,26 @@ local function loadTranslations(folder)
             end
         end
     end
+    local content = readAll("locale/source/strings.yaml")
+    translations["ENG"] = yaml.eval(content)
+    translations["base"] = yaml.eval(content)
 
+    return translations
+end
 
-    local english = readAll("locale/source/strings.yaml")
-    translations["ENG"] = yaml.eval(english)
-    local mt = {}
-    function mt.__index(self, index)
-        -- fallback to english translations if none are found
-        return rawget(translations["ENG"], index)
-    end
-
-    for k, v in pairs(translations) do
-        if k ~= "ENG" then
-            setmetatable(v, mt)
+local function tableMerge(t1, t2)
+    for k,v in pairs(t2) do
+        if type(v) == "table" then
+            if type(t1[k] or false) == "table" then
+                tableMerge(t1[k] or {}, t2[k] or {})
+            else
+                t1[k] = v
+            end
+        else
+            t1[k] = v
         end
     end
-    return translations
+    return t1
 end
 
 function LanguageController:initialize()
@@ -60,7 +64,8 @@ end
 function LanguageController:loadLanguage()
     langFile = self.allTranslations[self.currentLanguage]
     if not langFile then error("missing translations for", self.currentLanguage) end
-    self.lines = langFile
+
+    self.lines = tableMerge(self.allTranslations["base"], langFile)
 end
 
 return LanguageController
