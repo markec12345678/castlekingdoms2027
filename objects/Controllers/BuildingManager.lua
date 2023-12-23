@@ -86,6 +86,20 @@ function BuildingManager:getAllPlayerBuildings()
     return list
 end
 
+---@return table listOfBuildings list of all nearby buildings from the targetBuilding
+function BuildingManager:getAllNerbyBuildings(targetBuilding, radius)
+    local list = {}
+    for _, buildingList in pairs(self.buildings) do
+        for _, building in pairs(buildingList) do
+            local dist = _G.manhattanDistance(targetBuilding.gx, targetBuilding.gy, building.gx, building.gy)
+            if dist < radius then
+                list[#list + 1] = building
+            end
+        end
+    end
+    return list
+end
+
 ---@param buildingClass {name: string}|string
 ---@return integer count total count of a specific building class
 function BuildingManager:count(buildingClass)
