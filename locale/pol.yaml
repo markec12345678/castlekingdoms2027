@@ -169,6 +169,9 @@ buildings:
   inn:
     name: Karczma
     description: Dostarcza piwo dla mieszkańców.
+  pitchRig:
+    name: Pitch Rig
+    description: Small platform to collect pitch from the swamp.
   perimeterTower:
     name: Wieża Obserwacyjna
     description: Mała wieża obserwacyjna, dobra do obserwacji.
