@@ -1,28 +1,26 @@
 mission1:
-  name: Timber and Stone
+  name: Hout en Steen
   desc: |
-    In this mission, you will need to focus on gathering resources to develop your kingdom's infrastructure.
-    Your objective is to collect 50 units of wood and 20 units of stone within the next 5 years.\n
-    To achieve this, you will need to establish a network of woodcutter's huts and quarries to extract these resources from the surrounding environment.
-    This may involve the construction of stockpiles to store your resources.
+    Tijdens deze missie, ligt de focus op het verzamelen van grondstoffen om jouw koninkrijk verder te ontwikkelen. 
+    Het doel is om binnen 5 jaar minimaal 50 eenheden hout en 20 eenheden steen te verzamelen.\n
+    Om dit te bereiken, moet je een netwerk van houthakkers en steengroeven opzetten om deze eenheden uit de omgeving te verzamelen.
+    Denk eraan dat je mogelijk extra voorraden moet bouwen om deze grondstoffen op te slaan.
 mission2:
-  name: Arms Race
+  name: Wapenwedloop
   desc: |
-    In this mission, you will need to focus on developing a strong military to defend your kingdom against potential threats.
-    Your objective is to produce 40 units each of bows, spears, maces, and armor within the next 20 years.\n
-    To achieve this, you will need to establish a robust metalworking industry to craft high-quality weapons and armor.
-    This may involve the construction of blacksmiths, workshops, and mines, as well as the recruitment of skilled craftsmen.\n
-    Keep in mind that your success in this mission will depend on your ability to balance your resources and prioritize your goals.
-    You will need to carefully manage your finances and make strategic decisions to ensure the safety and security of your kingdom. Good luck!
+    Tijdens deze missie, ligt de focus op het ontwikkelen van een sterk leger om jouw koninkrijk te verdedigen.
+    Het doel is om binnen 20 jaar minimaal 40 eenheden aan bogen, speren, knotsen en pantsers te produceren.\n
+    Om dit te bereiken, moet je een metaalindustrie opzetten die van hoogwaardige kwaliteit wapens en pantsers kan maken.
+    Denk hierbij aan het bouwen van ijzersmeden, werkplaatsen en steen- en ijzergroeven, maar ook aan het werven van ambachtslieden.\n
+    Het succes van deze missie hangt af van jouw vaardigheden om de grondstoffen te beheren tot het stellen van de juiste doelen.
+    Je zult je financiën zorgvuldig moeten beheren en strategische beslissingen moeten nemen om de veiligheid van jouw koninkrijk te garanderen. Veel succes!
 mission3:
-  name: Feast or famine
+  name: Feest of Hongersnood
   desc: |
-    In this mission, you will need to focus on food production to sustain your growing population. Your goal is to produce 250 units of bread,
-    100 units of meat,
-    200 units of cheese, and 250 units of apples within the next 20 years.\n
-    To achieve this, you will need to develop a robust agriculture system to grow crops and raise livestock. This will require the construction of farms, mills, and pastures, as well as the recruitment of skilled laborers.\n
-    In addition to food production, you will also need to consider the storage and distribution of these resources. This may involve building granaries and markets to store and sell your products.\n
-    Keep in mind that your success in this mission will depend on your ability to balance your resources and prioritize your goals. You will need to carefully manage your finances and make strategic decisions to ensure the prosperity of your kingdom. Good luck!
+    Tijdens deze missie, ligt de focus op het produceren van voldoende voedsel waarmee je je groeiende bevolking in stand houdt. Het doel is om 250 eenheden aan brood, 100 eenheden aan vlees, 200 eenheden aan kaas en 250 eenheden aan appels to produceren binnen 20 jaar.\n
+    Om dit te bereiken, moet je een landbouwsysteem opzetten dat bestaat uit het houden van vee en het verbouwen van gewassen. Dit vereist het bouwen van boederijen, molen en weilande, maar ook het aannemen arbeiders.\n
+    Daarnaast moet je ook nadenken over de opslag en distributie van al het voedsel. Hiervoor is het mogelijk dat je extra graanschuren voor meer opslag moet bouwen of een markt om producten te verkopen.\n
+    Het succes van deze missie hangt af van jouw vaardigheden om de middelen die je hebt te beheren tot het stellen van de juiste doelen. Je zult met de middelen moeten werken die je hebt en belangrijke beslissingen moeten maken, zodat de welvaart van je koninkrijk is verzekerd. Veel succes!
 mission4:
   name: The Kingdom's Fortune
   desc: |
@@ -171,6 +169,9 @@ buildings:
   inn:
     name: Inn
     description: Distributes ale.
+  pitchRig:
+    name: Pitch Rig
+    description: Small platform to collect pitch from the swamp.
   perimeterTower:
     name: Perimeter Tower
     description: A small perimeter tower - good for the observation.

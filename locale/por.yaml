@@ -157,6 +157,9 @@ buildings:
   inn:
     name: Taverna
     description: Distribui cerveja.
+  pitchRig:
+    name: Poço de Piche
+    description: Pequena plataforma para coletar piche em pântanos.
   perimeterTower:
     name: Torre de Perímetro de Pedra
     description: Uma torre pequena de perímetro feita de pedra — boa para observação.
