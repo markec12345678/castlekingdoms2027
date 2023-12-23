@@ -10,6 +10,7 @@ local savegame
 _G.dt = 0.016
 
 function test:enter()
+    _G.updateKeepUpgradeButton = function() end
     local State = require("objects.State")
     _G.state = State:new()
     objects = love.filesystem.load("objects/objects.lua")(objectAtlas)
