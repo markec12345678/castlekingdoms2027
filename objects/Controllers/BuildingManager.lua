@@ -80,14 +80,14 @@ function BuildingManager:getAllPlayerBuildings()
     local list = {}
     for _, buildingList in pairs(self.buildings) do
         for _, building in pairs(buildingList) do
-                list[#list + 1] = building
+            list[#list + 1] = building
         end
     end
     return list
 end
 
 ---@return table listOfBuildings list of all nearby buildings from the targetBuilding
-function BuildingManager:getAllNerbyBuildings(targetBuilding, radius)
+function BuildingManager:getAllNearbyBuildings(targetBuilding, radius)
     local list = {}
     for _, buildingList in pairs(self.buildings) do
         for _, building in pairs(buildingList) do

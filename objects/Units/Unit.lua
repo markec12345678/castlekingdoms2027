@@ -339,6 +339,10 @@ function Unit:pathfind()
                 end
             end
             self.count = 1
+            if not self.nd[0] then
+                self.pathState = "No path"
+                return false
+            end
             self.waypointX = self.nd[0][1] + 0.5
             self.waypointY = self.nd[0][2] + 0.5
             self.moveDir = "none"
