@@ -121,7 +121,7 @@ function Unit:animate()
     end
     if self.pathState == "Waiting for path" then
         self.waitingForPathTimer = self.waitingForPathTimer + love.timer.getDelta()
-        if self.waitingForPathTimer > self.waitingForPathMaxTime then
+        if self.waitingForPathTimer > self.waitingForPathMaxTime or 10 then
             if self.noPathCallback then
                 self.noPathCallback()
                 self.noPathCallback = nil
