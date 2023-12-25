@@ -185,7 +185,7 @@ function ActionBar:switchMode(mode)
         self.element:SetImage(ActionBar.actionBarArmouryImage)
         buildingHover:SetState(states.STATE_CATHEDRAL)
     else
-        if _G.BuildController.start  then
+        if _G.BuildController.start then
             self:showGroup("start")
         else
             self:showGroup("main")
@@ -222,14 +222,15 @@ function ActionBar:updateGoldCount()
         self.goldText:SetFont(loveframes.slanted_xsmall_red)
     end
     -- Poor man's right align
+    local roundGold = math.floor(_G.state.gold)
     if _G.state.gold >= 1000 then
-        self.goldText:SetText(_G.state.gold)
+        self.goldText:SetText(roundGold)
     elseif _G.state.gold >= 100 then
-        self.goldText:SetText(" " .. _G.state.gold)
+        self.goldText:SetText(" " .. roundGold)
     elseif _G.state.gold >= 10 then
-        self.goldText:SetText("  " .. _G.state.gold)
+        self.goldText:SetText("  " .. roundGold)
     elseif _G.state.gold >= 0 then
-        self.goldText:SetText("   " .. _G.state.gold)
+        self.goldText:SetText("   " .. roundGold)
     end
 end
 
