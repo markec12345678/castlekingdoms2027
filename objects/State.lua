@@ -98,6 +98,13 @@ function State:initialize()
     function _G.terrainSetTileAt(gx, gy, biome, from, force)
         return self.Terrain:terrainSetTileAt(gx, gy, biome, from, force)
     end
+
+    self:updateKeepUpgradeButton()
+end
+
+---@private
+function State:updateKeepUpgradeButton()
+    _G.updateKeepUpgradeButton(self.tier)
 end
 
 function State:destroy()
@@ -464,6 +471,7 @@ function State:load(filename, decompress)
     collectgarbage()
     _G.channel.mapUpdate:push("final")
     _G.channel2.mapUpdate:push("final")
+    self:updateKeepUpgradeButton()
 end
 
 return State
