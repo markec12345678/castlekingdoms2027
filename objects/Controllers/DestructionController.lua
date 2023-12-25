@@ -57,7 +57,7 @@ end
 ---@param gy number Y coordinate of the structure.
 ---@param force boolean ignores the static class variable DESTRUCTIBLE.
 ---@param targetAlias boolean doesn't destroy the parent structure, but only the alias at that specific spot.
-function DestructionController:destroyAtLocation(gx, gy, force, targetAlias)
+function DestructionController:destroyAtLocation(gx, gy, force, targetAlias, noRefund)
     local structure = _G.objectFromSubclassAtGlobal(gx, gy, Structure)
     if structure then
         -- Get the base Structure
@@ -98,7 +98,7 @@ function DestructionController:destroyAtLocation(gx, gy, force, targetAlias)
                             if target == structure or target.parent == structure then
                                 local buildings = require("objects.buildings")
                                 local building = buildings[target.class.name]
-                                if building then
+                                if building and not noRefund then
                                     local cost = buildings[target.class.name].cost
                                     if cost then
                                         for t, q in pairs(cost) do
