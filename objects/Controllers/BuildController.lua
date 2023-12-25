@@ -129,25 +129,25 @@ end
 function BuildController:upgradeKeep(level)
     if level == 2 and self:isBuildingAffordable("WoodenKeep") then
         self:purchaseBuilding("WoodenKeep")
-        _G.DestructionController:destroyAtLocation(_G.state.keepX + 2, _G.state.keepY + 7, true, true)
-        _G.DestructionController:destroyAtLocation(_G.state.keepX + 4, _G.state.keepY + 7, true, true)
-        _G.DestructionController:destroyAtLocation(_G.state.keepX, _G.state.keepY, true)
+        _G.DestructionController:destroyAtLocation(_G.state.keepX + 2, _G.state.keepY + 7, true, true, true)
+        _G.DestructionController:destroyAtLocation(_G.state.keepX + 4, _G.state.keepY + 7, true, true, true)
+        _G.DestructionController:destroyAtLocation(_G.state.keepX, _G.state.keepY, true, nil, true)
         local WoodenKeep = require("objects.Structures.WoodenKeep")
         WoodenKeep:new(_G.state.keepX, _G.state.keepY)
         return true
     elseif level == 3 and self:isBuildingAffordable("Keep") then
         self:purchaseBuilding("Keep")
-        _G.DestructionController:destroyAtLocation(_G.state.keepX + 2, _G.state.keepY + 7, true, true)
-        _G.DestructionController:destroyAtLocation(_G.state.keepX + 4, _G.state.keepY + 7, true, true)
-        _G.DestructionController:destroyAtLocation(_G.state.keepX, _G.state.keepY, true)
+        _G.DestructionController:destroyAtLocation(_G.state.keepX + 2, _G.state.keepY + 7, true, true, true)
+        _G.DestructionController:destroyAtLocation(_G.state.keepX + 4, _G.state.keepY + 7, true, true, true)
+        _G.DestructionController:destroyAtLocation(_G.state.keepX, _G.state.keepY, true, nil, true)
         local Keep = require("objects.Structures.Keep")
         Keep:new(_G.state.keepX, _G.state.keepY)
         return true
     elseif level == 4 and self:isBuildingAffordable("Fortress") then
         self:purchaseBuilding("Fortress")
-        _G.DestructionController:destroyAtLocation(_G.state.keepX + 2, _G.state.keepY + 7, true, true)
-        _G.DestructionController:destroyAtLocation(_G.state.keepX + 4, _G.state.keepY + 7, true, true)
-        _G.DestructionController:destroyAtLocation(_G.state.keepX, _G.state.keepY, true)
+        _G.DestructionController:destroyAtLocation(_G.state.keepX + 2, _G.state.keepY + 7, true, true, true)
+        _G.DestructionController:destroyAtLocation(_G.state.keepX + 4, _G.state.keepY + 7, true, true, true)
+        _G.DestructionController:destroyAtLocation(_G.state.keepX, _G.state.keepY, true, nil, true)
         -- the new keep is bigger, so destroy neighbour objects
         -- this is a temporary solution
         _G.DestructionController:destroyAtLocation(_G.state.keepX - 1, _G.state.keepY, true)
