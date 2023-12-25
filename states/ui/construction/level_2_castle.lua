@@ -6,9 +6,6 @@ local ActionBar = require("states.ui.ActionBar")
 local Events = require("objects.Enums.Events")
 local SID = require("objects.Controllers.LanguageController").lines
 
-local keepImage = love.graphics.newImage("assets/ui/keep_ab.png")
-local fortressImage = love.graphics.newImage("assets/ui/fortress_ab.png")
-local strongholdImage = love.graphics.newImage("assets/ui/stronghold_ab.png")
 local castleButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_keep_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 1, false, nil)
 local barracksButton = ActionBarButton:new(love.graphics.newImage("assets/ui/barracks_ab.png"),
@@ -98,47 +95,6 @@ local function displayTooltips()
     disableUnavailableButtons(buttonList)
 end
 
-castleButton:setOnClick(
-    function()
-        local upgraded = _G.BuildController:upgradeKeep(2)
-        if upgraded then
-            castleButton:setImage(keepImage)
-            buildings[1].name = SID.buildings.keep.name
-            buildings[1].description = SID.buildings.keep.description
-            displayTooltips()
-            ActionBar:unlockTier(2)
-            castleButton:setOnClick(
-                function()
-                    local upgraded = _G.BuildController:upgradeKeep(3)
-                    if upgraded then
-                        castleButton:setImage(fortressImage)
-                        buildings[1].name = SID.buildings.fortress.name
-                        buildings[1].description = SID.buildings.fortress.description
-                        displayTooltips()
-                        ActionBar:unlockTier(3)
-                        castleButton:setOnClick(
-                            function()
-                                local upgraded = _G.BuildController:upgradeKeep(4)
-                                if upgraded then
-                                    castleButton:setImage(strongholdImage)
-                                    buildings[1].name = SID.buildings.stronghold.name
-                                    buildings[1].description = SID.buildings.stronghold.description
-                                    displayTooltips()
-                                    ActionBar:unlockTier(4)
-                                    castleButton.enabled = true
-                                    castleButton.foreground.disablehover = true
-                                    castleButton.foreground:SetColor(0.6, 0.6, 0.6, 0.6)
-                                    castleButton:setOnClick(function()
-                                    end)
-                                end
-                            end
-                        )
-                    end
-                end
-            )
-        end
-    end)
-
 _G.bus.on(Events.OnResourceStore, displayTooltips)
 _G.bus.on(Events.OnResourceTake, displayTooltips)
 _G.bus.on(Events.OnGoldChanged, displayTooltips)
@@ -166,3 +122,128 @@ package.loaded["states.ui.construction.level_3_castleWood"] = love.filesystem.lo
     "states/ui/construction/level_3_castleWood.lua")(elements, backButton, destroyButton, setBuildingsTooltips)
 package.loaded["states.ui.construction.level_3_castleStone"] = love.filesystem.load(
     "states/ui/construction/level_3_castleStone.lua")(elements, backButton, destroyButton, setBuildingsTooltips)
+
+local keepImage = love.graphics.newImage("assets/ui/keep_ab.png")
+local fortressImage = love.graphics.newImage("assets/ui/fortress_ab.png")
+local strongholdImage = love.graphics.newImage("assets/ui/stronghold_ab.png")
+local woodenImage = love.graphics.newImage("assets/ui/wooden_keep_ab.png")
+
+function _G.updateKeepUpgradeButton(tier)
+    if tier == 1 then
+        buildings[1].id = "WoodenKeep"
+        buildings[1].name = SID.buildings.woodenKeep.name
+        buildings[1].description = SID.buildings.woodenKeep.description
+        castleButton:setImage(woodenImage)
+        castleButton:setOnClick(
+            function()
+                local upgraded = _G.BuildController:upgradeKeep(2)
+                if upgraded then
+                    castleButton:setImage(keepImage)
+                    buildings[1].id = "Keep"
+                    buildings[1].name = SID.buildings.keep.name
+                    buildings[1].description = SID.buildings.keep.description
+                    displayTooltips()
+                    ActionBar:unlockTier(2)
+                    castleButton:setOnClick(
+                        function()
+                            local upgraded = _G.BuildController:upgradeKeep(3)
+                            if upgraded then
+                                castleButton:setImage(fortressImage)
+                                buildings[1].id = "Fortress"
+                                buildings[1].name = SID.buildings.fortress.name
+                                buildings[1].description = SID.buildings.fortress.description
+                                displayTooltips()
+                                ActionBar:unlockTier(3)
+                                castleButton:setOnClick(
+                                    function()
+                                        local upgraded = _G.BuildController:upgradeKeep(4)
+                                        if upgraded then
+                                            castleButton:setImage(strongholdImage)
+                                            buildings[1].id = "Stronghold"
+                                            buildings[1].name = SID.buildings.stronghold.name
+                                            buildings[1].description = SID.buildings.stronghold.description
+                                            displayTooltips()
+                                            ActionBar:unlockTier(4)
+                                            castleButton.enabled = true
+                                            castleButton.foreground.disablehover = true
+                                            castleButton.foreground:SetColor(0.6, 0.6, 0.6, 0.6)
+                                            castleButton:setOnClick(function()
+                                            end)
+                                        end
+                                    end
+                                )
+                            end
+                        end
+                    )
+                end
+            end
+        )
+    elseif tier == 2 then
+        castleButton:setImage(keepImage)
+        buildings[1].id = "Keep"
+        buildings[1].name = SID.buildings.keep.name
+        buildings[1].description = SID.buildings.keep.description
+        castleButton:setOnClick(
+            function()
+                local upgraded = _G.BuildController:upgradeKeep(3)
+                if upgraded then
+                    castleButton:setImage(fortressImage)
+                    buildings[1].id = "Fortress"
+                    buildings[1].name = SID.buildings.fortress.name
+                    buildings[1].description = SID.buildings.fortress.description
+                    displayTooltips()
+                    ActionBar:unlockTier(3)
+                    castleButton:setOnClick(
+                        function()
+                            local upgraded = _G.BuildController:upgradeKeep(4)
+                            if upgraded then
+                                castleButton:setImage(strongholdImage)
+                                buildings[1].id = "Stronghold"
+                                buildings[1].name = SID.buildings.stronghold.name
+                                buildings[1].description = SID.buildings.stronghold.description
+                                displayTooltips()
+                                ActionBar:unlockTier(4)
+                                castleButton.enabled = true
+                                castleButton.foreground.disablehover = true
+                                castleButton.foreground:SetColor(0.6, 0.6, 0.6, 0.6)
+                                castleButton:setOnClick(function()
+                                end)
+                            end
+                        end
+                    )
+                end
+            end
+        )
+    elseif tier == 3 then
+        castleButton:setImage(fortressImage)
+        buildings[1].id = "Fortress"
+        buildings[1].name = SID.buildings.fortress.name
+        buildings[1].description = SID.buildings.fortress.description
+        castleButton:setOnClick(
+            function()
+                local upgraded = _G.BuildController:upgradeKeep(4)
+                if upgraded then
+                    castleButton:setImage(strongholdImage)
+                    buildings[1].id = "Stronghold"
+                    buildings[1].name = SID.buildings.stronghold.name
+                    buildings[1].description = SID.buildings.stronghold.description
+                    displayTooltips()
+                    ActionBar:unlockTier(4)
+                    castleButton.enabled = true
+                    castleButton.foreground.disablehover = true
+                    castleButton.foreground:SetColor(0.6, 0.6, 0.6, 0.6)
+                    castleButton:setOnClick(function()
+                    end)
+                end
+            end
+        )
+    elseif tier == 4 then
+        castleButton:setImage(strongholdImage)
+        buildings[1].id = "Stronghold"
+        buildings[1].name = SID.buildings.stronghold.name
+        buildings[1].description = SID.buildings.stronghold.description
+        castleButton:setOnClick(function() end)
+    end
+end
+
+return castleButton, buildings, displayTooltips
