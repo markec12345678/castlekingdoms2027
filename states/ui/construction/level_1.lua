@@ -26,7 +26,7 @@ shieldButton:setTooltip(SID.groups.shield.name, SID.groups.shield.description)
 
 local sickleButton = ActionBarButton:new(love.graphics.newImage("assets/ui/sickle_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 6)
-shieldButton:setTooltip(SID.groups.sickle.name, SID.groups.sickle.description)
+sickleButton:setTooltip(SID.groups.sickle.name, SID.groups.sickle.description)
 
 local destroyButton = ActionBarButton:new(love.graphics.newImage("assets/ui/cursor_destroy.png"),
     states.STATE_INGAME_CONSTRUCTION, 11)
