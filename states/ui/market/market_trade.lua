@@ -1445,7 +1445,6 @@ marketSellButton.OnClick = function(self)
             print("Weapon sell: " .. good .. " " .. quantity .. " for " .. price)
             if _G.state.weapons[good] >= quantity then
                 for _ = 1, quantity do
-                    _G.state.gold = _G.state.gold + (price / (quantity * 2)) -- TEMPORARY HACK
                     if _G.weaponpile:take(good) then
                         _G.state.gold = _G.state.gold + (price / (quantity * 2))
                     end
@@ -1454,7 +1453,6 @@ marketSellButton.OnClick = function(self)
             elseif _G.state.weapons[good] < 5 then
                 quantity_temp = _G.state.weapons[good]
                 for _ = 1, quantity_temp do
-                    _G.state.gold = _G.state.gold + (price / (quantity * 2)) -- TEMPORARY HACK
                     if _G.weaponpile:take(good) then
                         _G.state.gold = _G.state.gold + (price / (quantity * 2))
                     end

@@ -29,30 +29,15 @@ function WeaponController:store(weapon) -- TODO add amount
 end
 
 function WeaponController:take(weapon, amount)
-    local takenWeapon = 0
-    if not weapon then
-        for _ = 1, (amount or 1) do
-            for weaponType, weaponPile in pairs(self.weapons) do
-                if takenWeapon == amount then
-                    return
-                end
-                if next(weaponPile) ~= nil then
-                    takenWeapon = takenWeapon + 1
-                    weaponPile[#weaponPile].id.parent:take(weaponType, weaponPile[#weaponPile])
-                    _G.bus.emit(Events.OnWeaponTake, WEAPON[weapon])
-                end
-            end
-        end
-    else
-        for _ = 1, (amount or 1) do
-            if next(self.weapons[weapon]) == nil then
-                break
-            else
-                self.weapons[weapon][#self.weapons[weapon]].id.parent:take(weapon,
+    for _ = 1, (amount or 1) do
+        if next(self.weapons[weapon]) == nil then
+            return false
+        else
+            self.weapons[weapon][#self.weapons[weapon]].id.parent:take(weapon,
                 self.weapons[weapon][#self.weapons[weapon]])
-            end
         end
     end
+    return true
 end
 
 function WeaponController:serialize()
