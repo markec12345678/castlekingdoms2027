@@ -20,7 +20,7 @@ end
 function DestructionController:toggle()
     self.active = not self.active
     if (self.active) then
-        love.mouse.setCursor(self.destructionCursor);
+        love.mouse.setCursor(self.destructionCursor)
         _G.BuildController:disable()
         if _G.BuildController.onBuildCallback then
             _G.BuildController.onBuildCallback()

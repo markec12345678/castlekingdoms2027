@@ -491,10 +491,14 @@ function BlacksmithWorkshop:exitHover(induced)
     self:render()
 end
 
-function BlacksmithWorkshop:leave()
+function BlacksmithWorkshop:leave(sleepInsteadOfLeaving)
     if self.worker then
         _G.JobController:add("Blacksmith", self)
-        self.worker:leaveVillage()
+        if sleepInsteadOfLeaving then
+            self.worker:quitJob()
+        else
+            self.worker:leaveVillage()
+        end
         self.worker = nil
         self.freeSpots = 1
         self.float:activate()

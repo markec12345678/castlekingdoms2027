@@ -270,7 +270,7 @@ function BrushController:checkForObjectInRadius(X, Y, R, object)
 end
 
 function BrushController:paintScattered()
-    local LX, LY = self:getMouseTilePosition();
+    local LX, LY = self:getMouseTilePosition()
 
     if self:isOutOfBounds(LX, LY) then
         return

@@ -219,10 +219,14 @@ function Apothecary:sendToHeal()
     self:exitHover(true)
 end
 
-function Apothecary:leave()
+function Apothecary:leave(sleepInsteadOfLeaving)
     if self.worker then
         _G.JobController:add("Healer", self)
-        self.worker:leaveVillage()
+        if sleepInsteadOfLeaving then
+            self.worker:quitJob()
+        else
+            self.worker:leaveVillage()
+        end
         self.worker = nil
         self.freeSpots = 1
         self.float:activate()

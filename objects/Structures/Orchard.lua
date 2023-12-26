@@ -324,10 +324,14 @@ function Orchard.static:deserialize(data)
     return obj
 end
 
-function Orchard:leave()
+function Orchard:leave(sleepInsteadOfLeaving)
     if self.appleWorker then
         _G.JobController:add("OrchardFarmer", self)
-        self.appleWorker:leaveVillage()
+        if sleepInsteadOfLeaving then
+            self.appleWorker:quitJob()
+        else
+            self.appleWorker:leaveVillage()
+        end
         self.appleWorker = nil
         self.freeSpots = 1
         self.state = 0

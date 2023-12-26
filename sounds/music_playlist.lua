@@ -1,7 +1,7 @@
 local music = require("sounds.music")
 
 -- TODO: pick mood dynamically
-local playlist = music["peaceful"];
+local playlist = music["peaceful"]
 
 local function shuffle(x)
     for i = #x, 2, -1 do
@@ -14,7 +14,7 @@ shuffle(playlist)
 
 return function()
     -- handle empty playlist
-    if(#playlist == 0) then
+    if (#playlist == 0) then
         return
     end
 

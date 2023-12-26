@@ -1,6 +1,6 @@
 -- TODO: load variables from user settings / options
-local strongholdOstEnabled = true;
-local extendedSoundtrackEnabled = true;
+local strongholdOstEnabled = true
+local extendedSoundtrackEnabled = true
 
 -- define mood structure
 local music = {

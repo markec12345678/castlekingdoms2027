@@ -159,7 +159,7 @@ local function SwitchToTheMarket()
                     }, SID.tips.cantTrade })
                     noMarketInfo:SetVisible(true)
                     group.good = nil
-                    return;
+                    return
                 end
             end
         end

@@ -415,10 +415,14 @@ function WheatFarm:reset()
     end
 end
 
-function WheatFarm:leave()
+function WheatFarm:leave(sleepInsteadOfLeaving)
     if self.wheatWorker then
         _G.JobController:add("WheatFarmer", self)
-        self.wheatWorker:leaveVillage()
+        if sleepInsteadOfLeaving then
+            self.wheatWorker:quitJob()
+        else
+            self.wheatWorker:leaveVillage()
+        end
         self.wheatWorker = nil
         self.freeSpots = 1
         self.float:activate()

@@ -5,27 +5,27 @@ local camera = require("objects.Controllers.CameraController")
 local easingFunctions = require("libraries.easing")
 
 function ScreenToIsoX(globalX, globalY)
-    return (((globalX - IsoX) / (tileWidth / 2)) + ((globalY - IsoY) / (tileHeight / 2))) / 2;
+    return (((globalX - IsoX) / (tileWidth / 2)) + ((globalY - IsoY) / (tileHeight / 2))) / 2
 end
 
 function ScreenToIsoY(globalX, globalY)
-    return (((globalY - IsoY) / (tileHeight / 2)) - ((globalX - IsoX) / (tileWidth / 2))) / 2;
+    return (((globalY - IsoY) / (tileHeight / 2)) - ((globalX - IsoX) / (tileWidth / 2))) / 2
 end
 
 function _G.IsoToScreenX(xx, yy)
-    return IsoX + ((xx - yy) * tileWidth / 2);
+    return IsoX + ((xx - yy) * tileWidth / 2)
 end
 
 function _G.IsoToScreenY(xx, yy)
-    return IsoY + ((xx + yy) * tileHeight / 2);
+    return IsoY + ((xx + yy) * tileHeight / 2)
 end
 
 function _G.ogIsoToScreenX(xx, yy)
-    return ((xx - yy) * tileWidth / 2);
+    return ((xx - yy) * tileWidth / 2)
 end
 
 function _G.ogIsoToScreenY(xx, yy)
-    return ((xx + yy) * tileHeight / 2);
+    return ((xx + yy) * tileHeight / 2)
 end
 
 function _G.isChunkCoordinateInsideMap(cx, cy)
@@ -117,8 +117,8 @@ local function update()
     _G.BottomRightY = BY
 
     ---------------------------------------
-    _G.xchunk = math.floor(CenterX / (_G.chunkWidth));
-    _G.ychunk = math.floor(CenterY / (_G.chunkWidth));
+    _G.xchunk = math.floor(CenterX / (_G.chunkWidth))
+    _G.ychunk = math.floor(CenterY / (_G.chunkWidth))
     local GX, GY = _G.getTerrainTileOnMouse(-50, -50)
     _G.state.topLeftChunkX = math.floor(GX / _G.chunkWidth)
     _G.state.topLeftChunkY = math.floor(GY / _G.chunkWidth)

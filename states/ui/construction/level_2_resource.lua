@@ -62,12 +62,12 @@ end)
 local pitchRigButton = ActionBarButton:new(love.graphics.newImage('assets/ui/pitch_rig_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 6, true)
 
-    pitchRigButton:setOnClick(function(self)
-        _G.BuildController:set("PitchRig", function()
-            pitchRigButton:unselect()
-        end)
-        ActionBar:selectButton(pitchRigButton)
+pitchRigButton:setOnClick(function(self)
+    _G.BuildController:set("PitchRig", function()
+        pitchRigButton:unselect()
     end)
+    ActionBar:selectButton(pitchRigButton)
+end)
 
 local marketButton = ActionBarButton:new(love.graphics.newImage('assets/ui/market_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 7, false)

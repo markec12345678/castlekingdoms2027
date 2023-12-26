@@ -1,7 +1,7 @@
 local Object = require("objects.Object")
 local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
-local OxUnit = require("objects.Units.Ox");
+local OxUnit = require("objects.Units.Ox")
 local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
 
 local _, quadArrayEast1 = _G.indexBuildingQuads("stone_oax_base (1)")
@@ -185,10 +185,14 @@ function OxTether:take(amount)
     self:update()
 end
 
-function OxTether:leave()
+function OxTether:leave(sleepInsteadOfLeaving)
     if self.oxWorker then
         _G.JobController:add("OxHandler", self)
-        self.oxWorker:leaveVillage()
+        if sleepInsteadOfLeaving then
+            self.oxWorker:quitJob()
+        else
+            self.oxWorker:leaveVillage()
+        end
         self.oxWorker = nil
         self.freeSpots = 1
         self.float:activate()

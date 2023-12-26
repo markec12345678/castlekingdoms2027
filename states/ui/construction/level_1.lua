@@ -28,6 +28,24 @@ local sickleButton = ActionBarButton:new(love.graphics.newImage("assets/ui/sickl
     states.STATE_INGAME_CONSTRUCTION, 6)
 sickleButton:setTooltip(SID.groups.sickle.name, SID.groups.sickle.description)
 
+local sleepButton = ActionBarButton:new(love.graphics.newImage("assets/ui/sleepButton.png"),
+    states.STATE_INGAME_CONSTRUCTION, 10)
+sleepButton:setTooltip("Sleep", "Enter sleep mode. Click on a building to halt production.")
+sleepButton:setOnClick(function(self)
+    ActionBar:unselectAll()
+    local enabled = _G.SleepController:toggle()
+    if enabled then
+        sleepButton:setTooltip("Exit Sleep Mode", "Exit sleep mode.")
+        ActionBar:selectButton(sleepButton)
+    end
+end)
+
+sleepButton:setOnUnselect(function(self)
+    sleepButton:setTooltip("Sleep", "Exit sleep mode.")
+    _G.SleepController:disable()
+end)
+
+
 local destroyButton = ActionBarButton:new(love.graphics.newImage("assets/ui/cursor_destroy.png"),
     states.STATE_INGAME_CONSTRUCTION, 11)
 destroyButton:setTooltip(SID.groups.destroy.name, SID.groups.destroy.description)
@@ -46,7 +64,7 @@ destroyButton:setOnUnselect(function(self)
 end)
 
 ActionBar:registerGroup("main",
-    { castleButton, hammerButton, appleButton, houseButton, shieldButton, sickleButton, destroyButton })
+    { castleButton, hammerButton, appleButton, houseButton, shieldButton, sickleButton, sleepButton, destroyButton })
 
 local backButton = ActionBarButton:new(love.graphics.newImage("assets/ui/back_ab.png"), states.STATE_INGAME_CONSTRUCTION,
     12)
@@ -154,14 +172,14 @@ local function disableUnavailableButtons(buttonList)
 end
 
 package.loaded["states.ui.construction.level_2_castle"] = love.filesystem.load(
-    "states/ui/construction/level_2_castle.lua")(elements, backButton, destroyButton, setBuildingsTooltips, disableUnavailableButtons)
+    "states/ui/construction/level_2_castle.lua")(elements, backButton, destroyButton, setBuildingsTooltips, disableUnavailableButtons, sleepButton)
 package.loaded["states.ui.construction.level_2_farms"] = love.filesystem.load("states/ui/construction/level_2_farms.lua")(
-    elements, backButton, destroyButton, setBuildingsTooltips, disableUnavailableButtons)
+    elements, backButton, destroyButton, setBuildingsTooltips, disableUnavailableButtons, sleepButton)
 package.loaded["states.ui.construction.level_2_resource"] = love.filesystem.load(
-    "states/ui/construction/level_2_resource.lua")(elements, backButton, destroyButton, setBuildingsTooltips, disableUnavailableButtons)
+    "states/ui/construction/level_2_resource.lua")(elements, backButton, destroyButton, setBuildingsTooltips, disableUnavailableButtons, sleepButton)
 package.loaded["states.ui.construction.level_2_house"] = love.filesystem.load("states/ui/construction/level_2_house.lua")(
-    elements, backButton, destroyButton, setBuildingsTooltips, disableUnavailableButtons)
+    elements, backButton, destroyButton, setBuildingsTooltips, disableUnavailableButtons, sleepButton)
 package.loaded["states.ui.construction.level_2_sickle"] = love.filesystem.load(
-    "states/ui/construction/level_2_sickle.lua")(elements, backButton, destroyButton, setBuildingsTooltips, disableUnavailableButtons)
+    "states/ui/construction/level_2_sickle.lua")(elements, backButton, destroyButton, setBuildingsTooltips, disableUnavailableButtons, sleepButton)
 package.loaded["states.ui.construction.level_2_shield"] = love.filesystem.load(
-    "states/ui/construction/level_2_shield.lua")(elements, backButton, destroyButton, setBuildingsTooltips, disableUnavailableButtons)
+    "states/ui/construction/level_2_shield.lua")(elements, backButton, destroyButton, setBuildingsTooltips, disableUnavailableButtons, sleepButton)

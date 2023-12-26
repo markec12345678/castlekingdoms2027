@@ -51,11 +51,11 @@ function Mission:initialize()
         -- type and count of the animals
         -- spawn using designated XY or using areas placed in the editor or map/text file
 
-    };
+    }
     self.startBuildings = {
         -- type and coords of the designated buildings to be placed on the map
         -- spawn using designated XY or using areas placed in the editor or map/text file
-    };
+    }
 
     self.goals["Quest1"] = {
         ["taskText"] = "Produce Bow: ",
