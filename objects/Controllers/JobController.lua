@@ -61,7 +61,7 @@ end
 function JobController:makeWorker()
     for job, workplaces in pairs(self.list) do
         for _, workplace in pairs(workplaces) do
-            if workplace.freeSpots > 0 then
+            if workplace.freeSpots > 0 and not workplace.sleeping then
                 if not self.unlimitedWorkers then
                     if self.workers == 0 then
                         if self.requestedWorkers == 0 then

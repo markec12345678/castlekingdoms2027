@@ -358,7 +358,7 @@ function BuildController:getWoodCost(buildingKey, amountOfBuildings)
 end
 
 function BuildController:getBuildingCost(key)
-    return building[key].cost;
+    return building[key].cost
 end
 
 function BuildController:toggleFreeBuildings()

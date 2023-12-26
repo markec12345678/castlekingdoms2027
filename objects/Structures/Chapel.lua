@@ -102,10 +102,14 @@ function Chapel:work(worker)
     worker:jobUpdate()
 end
 
-function Chapel:leave()
+function Chapel:leave(sleepInsteadOfLeaving)
     if self.worker then
         _G.JobController:add("Priest", self)
-        self.worker:leaveVillage()
+        if sleepInsteadOfLeaving then
+            self.worker:quitJob()
+        else
+            self.worker:leaveVillage()
+        end
         self.worker = nil
         self.freeSpots = 1
         self.float:activate()

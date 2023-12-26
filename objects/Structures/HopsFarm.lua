@@ -439,11 +439,15 @@ function HopsFarm.static:deserialize(data)
     return obj
 end
 
-function HopsFarm:leave()
+function HopsFarm:leave(sleepInsteadOfLeaving)
     if self.hopsWorker then
         _G.JobController:add("HopsFarmer", self)
         self:reset()
-        self.hopsWorker:leaveVillage()
+        if sleepInsteadOfLeaving then
+            self.hopsWorker:quitJob()
+        else
+            self.hopsWorker:leaveVillage()
+        end
         self.hopsWorker = nil
         self.freeSpots = 1
         self.float:activate()

@@ -64,7 +64,7 @@ end
 local press = location:new()
 ----Calculate center chunk
 local CenterX = math.round(ScreenToIsoX(_G.ScreenWidth / 2 - 16 + _G.state.viewXview,
-    _G.ScreenHeight / 2 - 8 + _G.state.viewYview));
+    _G.ScreenHeight / 2 - 8 + _G.state.viewYview))
 local CenterY = math.round(ScreenToIsoY(_G.ScreenWidth / 2 - 16 + _G.state.viewXview,
     _G.ScreenHeight / 2 - 8 + _G.state.viewYview))
 ---------------------------------------
@@ -565,9 +565,9 @@ local function mousepressed(x, y, button)
         elseif unit and unit.onClick then
             local ActionBar = require("states.ui.ActionBar")
             if _G.selectedUnit ~= nil then
-                 _G.selectedUnitUI = _G.selectedUnit.type --TEMPORARY SOLUTION IT WOULD BE NICE TO HANDLE IT WITH AN EVENT
+                _G.selectedUnitUI = _G.selectedUnit.type  --TEMPORARY SOLUTION IT WOULD BE NICE TO HANDLE IT WITH AN EVENT
                 print(_G.selectedUnitUI)
-                end
+            end
             ActionBar:switchMode("unitsUI")
             if not unit.onClick then
                 print("clicked on it, but no onClick")

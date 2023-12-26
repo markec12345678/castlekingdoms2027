@@ -65,11 +65,11 @@ function MissionController:initialize()
         -- type and count of the animals
         -- spawn using designated XY or using areas placed in the editor or map/text file
 
-    };
+    }
     self.startBuildings = {
         -- type and coords of the designated buildings to be placed on the map
         -- spawn using designated XY or using areas placed in the editor or map/text file
-    };
+    }
 end
 
 function MissionController:setMissionState(name)
@@ -240,10 +240,10 @@ function MissionController:Display()
 
         for key, value in pairs(self.goals) do
             if value["taskDone"] == false then
-                self.youWin = false;
-                break;
+                self.youWin = false
+                break
             end
-            self.youWin = true;
+            self.youWin = true
         end
     end
 

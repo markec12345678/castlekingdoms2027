@@ -28,9 +28,9 @@ local moodNeutralImage = love.graphics.newImage("assets/ui/keep/mood_neutral.png
 local moodNegativeImage = love.graphics.newImage("assets/ui/keep/mood_negative.png")
 local moodPositiveImage = love.graphics.newImage("assets/ui/keep/mood_positive.png")
 local TaxController = require("objects.Controllers.TaxController")
-TaxController.taxText = SID.taxes.no;
-local currentOption = 4;
-local TickIsClicked = false;
+TaxController.taxText = SID.taxes.no
+local currentOption = 4
+local TickIsClicked = false
 
 local PointerPositions = {}
 -- TEXT                    MOOD   GOLD

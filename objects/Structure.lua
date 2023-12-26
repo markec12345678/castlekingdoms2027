@@ -8,6 +8,7 @@ local Object = require("objects.Object")
 local Structure = _G.class("Structure", Object)
 function Structure:initialize(gx, gy, type)
     Object.initialize(self, gx, gy, type)
+    self.sleeping = false
     _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
 end
 
@@ -151,6 +152,9 @@ function Structure:serialize()
             data[k] = v
         end
     end
+    if data.className then
+        data.sleeping = self.sleeping
+    end
     return data
 end
 
@@ -160,12 +164,12 @@ function Structure:shadeWithAliases()
             local buildingX = self.gx + xx
             local buildingY = self.gy + yy
             local buildings = _G.allObjectsFromSubclassAtGlobal(buildingX, buildingY, Object)
-            for i,v in ipairs(buildings) do
+            for i, v in ipairs(buildings) do
                 if v.parent == self and v.tile then
                     v.shadowValue = self.shadowValue
                     v:render()
                 end
-            end            
+            end
         end
     end
 end

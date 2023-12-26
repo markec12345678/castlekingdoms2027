@@ -734,11 +734,14 @@ function Quarry:destroy()
     end
 end
 
-function Quarry:leave()
+function Quarry:leave(sleepInsteadOfLeaving)
+    -- TODO: sleeping will get rid of three peasants
+    -- the peasants can't walk back because they spawn in an unwalkable place
+    -- kind of unfortunate
     if self.liftWorker then
         self.lifter:deactivate()
         _G.JobController:add("Stonemason", self)
-        self.liftWorker:leaveVillage(treu)
+        self.liftWorker:leaveVillage(true)
         self.liftWorker = nil
     elseif self.pullWorker then
         self.puller:deactivate()
