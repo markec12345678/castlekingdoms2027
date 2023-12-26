@@ -611,6 +611,19 @@ function DairyFarm.static:deserialize(data)
     return obj
 end
 
+function DairyFarm:leave()
+    if self.worker then
+        _G.JobController:add("DairyFarmer", self)
+        self.worker:leaveVillage()
+        self.worker = nil
+        self.freeSpots = 1
+        self.float:activate()
+        self.cowMilking:deactivate()
+        self.cowMilkingFarmer:deactivate()
+        return true
+    end
+end
+
 function DairyFarm:join(worker)
     if self.health == -1 then
         _G.JobController:remove("DairyFarmer", self)

@@ -19,8 +19,8 @@ local ANIM_VERY_SMALL_FALLING = "Very_Small_Falling"
 local ANIM_VERY_SMALL_CHOP = "Very_Small_Chop"
 
 local an = {
-    [STATIC_TRUNK] = {tileQuads["tree_pine_trunk (1)"]},
-    [ANIM_DEAD_STATIC] = {tileQuads["tree_pine_dead (1)"]},
+    [STATIC_TRUNK] = { tileQuads["tree_pine_trunk (1)"] },
+    [ANIM_DEAD_STATIC] = { tileQuads["tree_pine_dead (1)"] },
     [ANIM_STATIC] = _G.indexQuads("tree_pine_large", 25, nil, true),
     [ANIM_FALLING] = _G.indexQuads("tree_pine_large_falling", 7),
     [ANIM_CHOP] = _G.indexQuads("tree_pine_large_falling", 10, 7),

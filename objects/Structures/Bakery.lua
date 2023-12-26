@@ -19,13 +19,13 @@ local an = {
 }
 
 local bakeryFx = {
-    ["ShoveBig"] = {_G.fx["bakebig1"],
+    ["ShoveBig"] = { _G.fx["bakebig1"],
         _G.fx["bakebig4"],
-        _G.fx["bakebig5"]},
-    ["ShoveSmall"] = {_G.fx["bakesmall2"],
+        _G.fx["bakebig5"] },
+    ["ShoveSmall"] = { _G.fx["bakesmall2"],
         _G.fx["bakesmall3"],
         _G.fx["bakesmall4"],
-        _G.fx["bakesmall5"]}
+        _G.fx["bakesmall5"] }
 }
 
 local BakeryBreadStack = _G.class("BakeryBreadStack", Structure)
@@ -402,7 +402,9 @@ end
 function Bakery:exitHover(induced)
     if induced or not self.cookingObj.animated then
         self.hover = false
-    else return end
+    else
+        return
+    end
     for tile = 1, tilesExt do
         local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tilesExt - tile + 1), BakeryAlias)
         if alias then
@@ -422,6 +424,18 @@ function Bakery:exitHover(induced)
     end
     self.tile = quadArrayExt[tilesExt + 1]
     self:render()
+end
+
+function Bakery:leave()
+    if self.worker then
+        _G.JobController:add("Baker", self)
+        self.worker:leaveVillage()
+        self.worker = nil
+        self.freeSpots = 1
+        self.float:activate()
+        self.cookingObj:deactivate()
+        return true
+    end
 end
 
 function Bakery:join(worker)

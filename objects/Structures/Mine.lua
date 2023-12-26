@@ -15,7 +15,7 @@ local frMinerPulling = _G.indexQuads("anim_iron_miner_rope", 12)
 local frStack = _G.indexQuads("anim_iron_miner_stack", 8)
 -- extra 2 loops on this animation
 local frTunnelGlow = _G.indexQuads("anim_iron_miner_glow", 8, nil, true)
-local tempAnim = {_G.unpack(frTunnelGlow)}
+local tempAnim = { _G.unpack(frTunnelGlow) }
 for _ = 1, 2 do
     for _, v in ipairs(tempAnim) do
         table.insert(frTunnelGlow, v)
@@ -32,17 +32,17 @@ local function reverseTable(t)
 end
 
 local ironFx = {
-    ["pull"] = {_G.fx["iron_pull5"],
+    ["pull"] = { _G.fx["iron_pull5"],
         _G.fx["iron_pull6"],
-        _G.fx["iron_pull7"]},
-    ["strain"] = {_G.fx["iron_straining1"],
+        _G.fx["iron_pull7"] },
+    ["strain"] = { _G.fx["iron_straining1"],
         _G.fx["iron_straining2"],
-        _G.fx["iron_straining3"]},
-    ["irondump"] = {_G.fx["iron_dump1"],
-        _G.fx["iron_dump2"],},
-    ["ironcook"] = {_G.fx["iron_boil1"]},
-    ["ironpour"] = {_G.fx["iron_pour1"],
-        _G.fx["iron_pour2"],},
+        _G.fx["iron_straining3"] },
+    ["irondump"] = { _G.fx["iron_dump1"],
+        _G.fx["iron_dump2"], },
+    ["ironcook"] = { _G.fx["iron_boil1"] },
+    ["ironpour"] = { _G.fx["iron_pour1"],
+        _G.fx["iron_pour2"], },
 }
 
 local frChimneyGlow = _G.indexQuads("anim_iron_miner_chimney_glow", 8, nil)
@@ -64,7 +64,7 @@ local ANIM_CHIMNEY_SMOKE = "Chimney_Smoke"
 
 local an = {
     [ANIM_POURING] = frPouring,
-    [ANIM_POURING_2] = {tileQuads["anim_iron_miner_pour (20)"]},
+    [ANIM_POURING_2] = { tileQuads["anim_iron_miner_pour (20)"] },
     [ANIM_BUCKET] = frBucket,
     [ANIM_CASTING_IRON] = frCastingIron,
     [ANIM_MINER_GOING_DOWN] = frMinerGoingDown,
@@ -602,6 +602,7 @@ function MineStack:activate()
 end
 
 function MineStack:deactivate()
+    self.quantity = 0
     self.animation:pause()
     self.tile = tileQuads["empty"]
     if self.instancemesh then
@@ -753,6 +754,23 @@ function Mine:destroy()
     end
 
     Structure.destroy(self)
+end
+
+function Mine:leave()
+    if self.worker then
+        _G.JobController:add("Miner", self)
+        self.worker:leaveVillage()
+        self.worker = nil
+        self.freeSpots = 1
+        self.float:activate()
+        self.pourer:deactivate()
+        self.goingDown:deactivate()
+        self.puller:deactivate()
+        self.bucket:deactivate()
+        self.casting:deactivate()
+        self.stack:deactivate()
+        return true
+    end
 end
 
 function Mine:join(worker)

@@ -27,4 +27,22 @@ function Worker:quitJob()
     self.toBeDeleted = true
 end
 
+function Worker:leaveVillage(disappear)
+    -- Delete the current Worker
+    _G.freeVertexFromTile(self.cx, self.cy, self.previousVertId)
+    self.animation = nil
+    _G.freeVertexFromTile(self.cx, self.cy, self.vertId)
+    _G.removeObjectAt(self.cx, self.cy, self.i, self.o, self)
+    if not disappear then
+        -- Spawn a new Peasant and skip bow animation
+        local peasant = Peasant:new(self.gx, self.gy, true)
+        peasant.state = "Leaving town"
+        peasant:requestPath(_G.spawnPointX, _G.spawnPointY) -- TODO: go to sign post instead
+    end
+    _G.state.population = _G.state.population - 1
+    local actionBar = require("states.ui.ActionBar")
+    actionBar:updatePopulationCount()
+    self.toBeDeleted = true
+end
+
 return Worker

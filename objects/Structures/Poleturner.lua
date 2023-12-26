@@ -21,12 +21,12 @@ local an = {
 }
 
 local poleturnerFx = {
-    ["spear"] = {_G.fx["pole_turn1"],
+    ["spear"] = { _G.fx["pole_turn1"],
         _G.fx["pole_turn2"],
-        _G.fx["pole_turn3"]},
-    ["halberd"] = {_G.fx["pole_grind2"],
+        _G.fx["pole_turn3"] },
+    ["halberd"] = { _G.fx["pole_grind2"],
         _G.fx["pole_grind3"],
-        _G.fx["pole_grind6"]}
+        _G.fx["pole_grind6"] }
 }
 
 
@@ -346,7 +346,9 @@ end
 function PoleturnerWorkshop:exitHover(induced)
     if induced or not self.cookingObj.animated then
         self.hover = false
-    else return end
+    else
+        return
+    end
     for tile = 1, tilesExt do
         local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tilesExt - tile + 1), PoleturnerAlias)
         if alias then
@@ -366,6 +368,18 @@ function PoleturnerWorkshop:exitHover(induced)
     end
     self.tile = quadArrayExt[tilesExt + 1]
     self:render()
+end
+
+function PoleturnerWorkshop:leave()
+    if self.worker then
+        _G.JobController:add("Poleturner", self)
+        self.worker:leaveVillage()
+        self.worker = nil
+        self.freeSpots = 1
+        self.float:activate()
+        self.cookingObj:deactivate()
+        return true
+    end
 end
 
 function PoleturnerWorkshop:join(worker)

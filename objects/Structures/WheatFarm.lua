@@ -79,6 +79,15 @@ function WheatFarmPlant:initialize(gx, gy, parent)
     self.startedGrowing = false
 end
 
+function WheatFarmPlant:reset()
+    self.tile = tileQuads["empty"]
+    self.tileKey = "empty"
+    self.wheatMatureCounter = 0
+    self.startedGrowing = false
+    self.state = -1
+    self:render()
+end
+
 function WheatFarmPlant:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -202,8 +211,6 @@ function WheatFarm:initialize(gx, gy, type)
     Structure.initialize(self, gx, gy, type)
     self.health = 400
     self.tile = quadArray[tiles + 1]
-    self.stoneQuantity = 0
-    self.working = false
     self.offsetX = 0
     self.offsetY = -40 - 6 - 8
 
@@ -277,10 +284,6 @@ function WheatFarm:initialize(gx, gy, type)
     table.insert(self.landTiles[1], WheatFarmPlant:new(self.gx + 1, self.gy + 3, self, true))
     self.tilesSowed = 0
     self.tilesFullyGrown = 0
-    -- WheatFarmPlant:new(self.gx + 0, self.gy + 3, self)
-    -- WheatFarmPlant:new(self.gx + 2, self.gy + 3, self)
-    -- WheatFarmPlant:new(self.gx + 1, self.gy + 3, self)
-    -- WheatFarmPlant:new(self.gx + 3, self.gy + 3, self)
     self.maxLandTiles = #self.landTiles
     self.processedTiles = 0
 
@@ -364,8 +367,6 @@ function WheatFarm:serialize()
     end
     data.availablePlantTiles = self.availablePlantTiles
     data.health = self.health
-    data.stoneQuantity = self.stoneQuantity
-    data.working = self.working
     data.offsetX = self.offsetX
     data.offsetY = self.offsetY
     data.maxLandTiles = self.maxLandTiles
@@ -397,6 +398,33 @@ function WheatFarm.static:deserialize(data)
     local obj = self:allocate()
     obj:load(data)
     return obj
+end
+
+function WheatFarm:reset()
+    self.tilesSowed = 0
+    self.tilesFullyGrown = 0
+    self.processedTiles = 0
+    self.state = 0
+
+    for _, tilePair in ipairs(self.landTiles) do
+        for _, tile in ipairs(tilePair) do
+            if tile then
+                tile:reset()
+            end
+        end
+    end
+end
+
+function WheatFarm:leave()
+    if self.wheatWorker then
+        _G.JobController:add("WheatFarmer", self)
+        self.wheatWorker:leaveVillage()
+        self.wheatWorker = nil
+        self.freeSpots = 1
+        self.float:activate()
+        self:reset()
+        return true
+    end
 end
 
 function WheatFarm:join(worker)
@@ -582,7 +610,6 @@ end
 function WheatFarm:sendToStockpile()
     self.wheatWorker.state = "Go to foodpile"
     self.wheatWorker.moveDir = "none"
-    self.working = false
 end
 
 return WheatFarm

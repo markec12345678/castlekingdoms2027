@@ -17,7 +17,7 @@ local an = {
 }
 
 local apothecaryFx = {
---TBD
+    --TBD
 }
 
 local ApothecaryCooking = _G.class("ApothecaryCooking", Structure)
@@ -77,9 +77,9 @@ function ApothecaryCooking:brewCallback_1()
         self.animation = anim.newAnimation(
             an[ANIM_PREPERING_MEDICINE], 0.11, self:brewCallback_1(), ANIM_PREPERING_MEDICINE)
         if self.brewingCycle == 3 then
-                self.brewingCycle = 0
-                self.parent:sendToHeal()
-                self:deactivate()
+            self.brewingCycle = 0
+            self.parent:sendToHeal()
+            self:deactivate()
         end
     end
 end
@@ -219,6 +219,18 @@ function Apothecary:sendToHeal()
     self:exitHover(true)
 end
 
+function Apothecary:leave()
+    if self.worker then
+        _G.JobController:add("Healer", self)
+        self.worker:leaveVillage()
+        self.worker = nil
+        self.freeSpots = 1
+        self.float:activate()
+        self.cookingObj:deactivate()
+        return true
+    end
+end
+
 function Apothecary:join(worker)
     if self.health == -1 then
         _G.JobController:remove("Healer", self)
@@ -234,7 +246,6 @@ function Apothecary:join(worker)
         self.float:deactivate()
     end
 end
-
 
 function Apothecary:enterHover(induced)
     self.hover = true
@@ -262,7 +273,9 @@ end
 function Apothecary:exitHover(induced)
     if induced or not self.cookingObj.animated then
         self.hover = false
-    else return end
+    else
+        return
+    end
 
     for tile = 1, tilesExt do
         local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tilesExt - tile + 1), ApothecaryAlias)

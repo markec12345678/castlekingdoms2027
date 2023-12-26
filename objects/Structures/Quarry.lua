@@ -734,6 +734,34 @@ function Quarry:destroy()
     end
 end
 
+function Quarry:leave()
+    if self.liftWorker then
+        self.lifter:deactivate()
+        _G.JobController:add("Stonemason", self)
+        self.liftWorker:leaveVillage(treu)
+        self.liftWorker = nil
+    elseif self.pullWorker then
+        self.puller:deactivate()
+        _G.JobController:add("Stonemason", self)
+        self.pullWorker:leaveVillage(true)
+        self.pullWorker = nil
+    elseif self.shapeWorker then
+        self.shaper:deactivate()
+        _G.JobController:add("Stonemason", self)
+        self.shapeWorker:leaveVillage(true)
+        self.shapeWorker = nil
+    else
+        return
+    end
+    self.lifter:stop()
+    self.puller:stop()
+    self.shaper:stop()
+    self.working = false
+    self.freeSpots = self.freeSpots + 1
+    self.float:activate()
+    return true
+end
+
 function Quarry:join(worker)
     if self.health == -1 then
         _G.JobController:remove("Stonemason", self)

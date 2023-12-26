@@ -4,14 +4,14 @@ local Object = require("objects.Object")
 local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
 
 local tiles, quadArray = _G.indexBuildingQuads("farm (2)")
-local farmlandTilesStage0 = {tileQuads["tile_farmland_hops_1 (1)"], tileQuads["tile_farmland_hops_2 (1)"]}
-local farmlandTilesStage1 = {tileQuads["tile_farmland_hops_1 (2)"], tileQuads["tile_farmland_hops_2 (2)"]}
-local farmlandTilesStage2 = {tileQuads["tile_farmland_hops_1 (3)"], tileQuads["tile_farmland_hops_2 (3)"]}
-local farmlandTilesStage3 = {tileQuads["tile_farmland_hops_1 (4)"], tileQuads["tile_farmland_hops_2 (4)"]}
-local farmlandTilesStage4 = {tileQuads["tile_farmland_hops_1 (5)"], tileQuads["tile_farmland_hops_2 (5)"]}
-local farmlandTilesStage5 = {tileQuads["tile_farmland_hops_1 (6)"], tileQuads["tile_farmland_hops_2 (6)"]}
-local farmlandTilesStage6 = {tileQuads["tile_farmland_hops_1 (7)"], tileQuads["tile_farmland_hops_2 (7)"]}
-local farmlandTilesStage7 = {tileQuads["tile_farmland_hops_1 (8)"], tileQuads["tile_farmland_hops_2 (8)"]}
+local farmlandTilesStage0 = { tileQuads["tile_farmland_hops_1 (1)"], tileQuads["tile_farmland_hops_2 (1)"] }
+local farmlandTilesStage1 = { tileQuads["tile_farmland_hops_1 (2)"], tileQuads["tile_farmland_hops_2 (2)"] }
+local farmlandTilesStage2 = { tileQuads["tile_farmland_hops_1 (3)"], tileQuads["tile_farmland_hops_2 (3)"] }
+local farmlandTilesStage3 = { tileQuads["tile_farmland_hops_1 (4)"], tileQuads["tile_farmland_hops_2 (4)"] }
+local farmlandTilesStage4 = { tileQuads["tile_farmland_hops_1 (5)"], tileQuads["tile_farmland_hops_2 (5)"] }
+local farmlandTilesStage5 = { tileQuads["tile_farmland_hops_1 (6)"], tileQuads["tile_farmland_hops_2 (6)"] }
+local farmlandTilesStage6 = { tileQuads["tile_farmland_hops_1 (7)"], tileQuads["tile_farmland_hops_2 (7)"] }
+local farmlandTilesStage7 = { tileQuads["tile_farmland_hops_1 (8)"], tileQuads["tile_farmland_hops_2 (8)"] }
 
 local HopsFarmAlias = _G.class("HopsFarmAlias", Structure)
 function HopsFarmAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
@@ -78,6 +78,14 @@ function HopsFarmPlant:initialize(gx, gy, parent, isPlant)
     self:registerAsActiveEntity()
 end
 
+function HopsFarmPlant:reset()
+    self.state = -1
+    self.hasHopsResource = false
+    self.tile = tileQuads["empty"]
+    self.tileKey = "empty"
+    self:render()
+end
+
 function HopsFarmPlant:serialize()
     local data = {}
     local structData = Structure.serialize(self)
@@ -130,7 +138,7 @@ end
 
 function HopsFarmPlant:update(dt)
     dt = dt or _G.dt
-    if self.state > 0 and self.state < 7 and self.parent.tilesSowed >= self.parent.availablePlantTiles and
+    if self.state > 0 and self.state < 7 and ((self.parent.tilesSowed >= self.parent.availablePlantTiles) or self.parent.state == 2) and
         (_G.state.hopsGrowingSeason or self.startedGrowing) then
         self.startedGrowing = true
         self.hopsMatureCounter = self.hopsMatureCounter + dt
@@ -209,8 +217,6 @@ function HopsFarm:initialize(gx, gy, type)
     Structure.initialize(self, gx, gy, type)
     self.health = 400
     self.tile = quadArray[tiles + 1]
-    self.stoneQuantity = 0
-    self.working = false
     self.offsetX = 0
     self.offsetY = -64 - 6 - 8
 
@@ -252,7 +258,7 @@ function HopsFarm:initialize(gx, gy, type)
             t1 = HopsFarmPlant:new(self.gx + 0, self.gy + y, self, false)
             t2 = HopsFarmPlant:new(self.gx + 1, self.gy + y, self, false)
         end
-        table.insert(self.landTiles, {t1, t2})
+        table.insert(self.landTiles, { t1, t2 })
     end
 
     everySecond = false
@@ -270,7 +276,7 @@ function HopsFarm:initialize(gx, gy, type)
             end
             t2 = HopsFarmPlant:new(self.gx + 3, self.gy + y, self, false)
         end
-        table.insert(self.landTiles, {t1, t2})
+        table.insert(self.landTiles, { t1, t2 })
     end
 
     everySecond = true
@@ -283,7 +289,7 @@ function HopsFarm:initialize(gx, gy, type)
             t1 = HopsFarmPlant:new(self.gx + 4, self.gy + y, self, false)
             t2 = HopsFarmPlant:new(self.gx + 5, self.gy + y, self, false)
         end
-        table.insert(self.landTiles, {t1, t2})
+        table.insert(self.landTiles, { t1, t2 })
     end
 
     everySecond = false
@@ -296,7 +302,7 @@ function HopsFarm:initialize(gx, gy, type)
             t1 = HopsFarmPlant:new(self.gx + 6, self.gy + y, self, false)
             t2 = HopsFarmPlant:new(self.gx + 7, self.gy + y, self, false)
         end
-        table.insert(self.landTiles, {t1, t2})
+        table.insert(self.landTiles, { t1, t2 })
     end
 
     everySecond = true
@@ -309,7 +315,7 @@ function HopsFarm:initialize(gx, gy, type)
             t1 = HopsFarmPlant:new(self.gx + 8, self.gy + y, self, false)
             t2 = HopsFarmPlant:new(self.gx + 9, self.gy + y, self, false)
         end
-        table.insert(self.landTiles, {t1, t2})
+        table.insert(self.landTiles, { t1, t2 })
     end
 
     everySecond = false
@@ -322,17 +328,13 @@ function HopsFarm:initialize(gx, gy, type)
             t1 = HopsFarmPlant:new(self.gx + 10, self.gy + y, self, false)
             t2 = HopsFarmPlant:new(self.gx + 11, self.gy + y, self, false)
         end
-        table.insert(self.landTiles, {t1, t2})
+        table.insert(self.landTiles, { t1, t2 })
     end
 
     self:applyBuildingHeightMap()
 
     self.tilesSowed = 0
     self.tilesFullyGrown = 0
-    -- HopsFarmPlant:new(self.gx + 0, self.gy + 3, self)
-    -- HopsFarmPlant:new(self.gx + 2, self.gy + 3, self)
-    -- HopsFarmPlant:new(self.gx + 1, self.gy + 3, self)
-    -- HopsFarmPlant:new(self.gx + 3, self.gy + 3, self)
     self.maxLandTiles = #self.landTiles
     self.processedTiles = 0
 
@@ -404,8 +406,6 @@ function HopsFarm:serialize()
     end
     data.availablePlantTiles = self.availablePlantTiles
     data.health = self.health
-    data.stoneQuantity = self.stoneQuantity
-    data.working = self.working
     data.offsetX = self.offsetX
     data.offsetY = self.offsetY
     data.maxLandTiles = self.maxLandTiles
@@ -437,6 +437,18 @@ function HopsFarm.static:deserialize(data)
     local obj = self:allocate()
     obj:load(data)
     return obj
+end
+
+function HopsFarm:leave()
+    if self.hopsWorker then
+        _G.JobController:add("HopsFarmer", self)
+        self:reset()
+        self.hopsWorker:leaveVillage()
+        self.hopsWorker = nil
+        self.freeSpots = 1
+        self.float:activate()
+        return true
+    end
 end
 
 function HopsFarm:join(worker)
@@ -471,6 +483,20 @@ function HopsFarm:updateTiles(farmlandTiles)
                 else
                     tile:setState(0)
                 end
+            end
+        end
+    end
+end
+
+function HopsFarm:reset()
+    self.tilesSowed = 0
+    self.tilesFullyGrown = 0
+    self.processedTiles = 0
+    self.state = 0
+    for _, tilePair in ipairs(self.landTiles) do
+        for _, tile in ipairs(tilePair) do
+            if tile and tile.isPlant then
+                tile:reset()
             end
         end
     end
@@ -596,7 +622,6 @@ end
 function HopsFarm:sendToStockpile()
     self.hopsWorker.state = "Go to foodpile"
     self.hopsWorker.moveDir = "none"
-    self.working = false
 end
 
 return HopsFarm

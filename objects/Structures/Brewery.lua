@@ -18,12 +18,12 @@ local an = {
 }
 
 local breweryFx = {
-    ["Stir"] = {_G.fx["stir1"],
+    ["Stir"] = { _G.fx["stir1"],
         _G.fx["stir2"],
         _G.fx["stir3"],
         _G.fx["stir4"],
         _G.fx["stir5"],
-        _G.fx["stir6"]}
+        _G.fx["stir6"] }
 }
 
 local BreweryCooking = _G.class("BreweryCooking", Structure)
@@ -101,7 +101,7 @@ end
 function BreweryCooking:animate()
     Structure.animate(self, _G.dt, true)
     if self.animation.status == "playing" and (self.animation.animationIdentifier == ANIM_BREWING_BEER
-        or self.animation.animationIdentifier == ANIM_BREWING_BEER_PART2) and self.animation.position == 1 then
+            or self.animation.animationIdentifier == ANIM_BREWING_BEER_PART2) and self.animation.position == 1 then
         _G.playSfx(self, breweryFx["Stir"])
     end
 end
@@ -277,6 +277,18 @@ function Brewery.static:deserialize(data)
     return obj
 end
 
+function Brewery:leave()
+    if self.worker then
+        _G.JobController:add("Brewer", self)
+        self.worker:leaveVillage()
+        self.worker = nil
+        self.freeSpots = 1
+        self.float:activate()
+        self.cookingObj:deactivate()
+        return true
+    end
+end
+
 function Brewery:join(worker)
     if self.health == -1 then
         _G.JobController:remove("Brewer", self)
@@ -319,7 +331,9 @@ end
 function Brewery:exitHover(induced)
     if induced or not self.cookingObj.animated then
         self.hover = false
-    else return end
+    else
+        return
+    end
 
     for tile = 1, tilesExt do
         local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tilesExt - tile + 1), BreweryAlias)

@@ -91,19 +91,8 @@ function CampfireFloatPop:animate(dt)
             self.animation:resume()
         end
     else
-        local shouldRemovePeasants = true
-        if _G.campfire.peasants <= 0 then
-            shouldRemovePeasants = false
-            if self.animation.animationIdentifier == ANIM_FLOAT_CIRCLE_RED then
-                self.animation:pauseAtStart()
-            else
-                self.animation:pause()
-            end
-        end
-        if shouldRemovePeasants then
-            self.animation = self.redAnimation
-            self.animation:resume()
-        end
+        self.animation = self.redAnimation
+        self.animation:resume()
     end
     Structure.animate(self, dt, true)
 
@@ -132,7 +121,10 @@ function CampfireFloatPop:emigrantCallback()
     return function()
         _G.state.population = _G.state.population - 1
         actionBar:updatePopulationCount()
-        _G.campfire:makePeasantLeave()
+        local peasantLeft = _G.campfire:makePeasantLeave()
+        if not peasantLeft then
+            _G.BuildingManager:makeWorkerLeave()
+        end
         _G.bus.emit(Events.OnPopulationChange, oldPopulationValue, _G.state.population)
     end
 end
