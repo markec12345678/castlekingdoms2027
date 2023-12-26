@@ -3,8 +3,8 @@ local anim = _G.anim
 local indexQuads = _G.indexQuads
 local Worker = require("objects.Units.Worker")
 
-local cuttingFx = {_G.fx["chop1 22k"], _G.fx["chop2 22k"], _G.fx["chop3 22k"], _G.fx["chop4 22k"]}
-local choppingFx = {_G.fx["wood_chop_1"], _G.fx["wood_chop_2"], _G.fx["wood_chop_3"]}
+local cuttingFx = { _G.fx["chop1 22k"], _G.fx["chop2 22k"], _G.fx["chop3 22k"], _G.fx["chop4 22k"] }
+local choppingFx = { _G.fx["wood_chop_1"], _G.fx["wood_chop_2"], _G.fx["wood_chop_3"] }
 
 local fr_walking_plank_east = indexQuads("body_woodcutter_walk_plank_e", 16)
 local fr_walking_plank_north = indexQuads("body_woodcutter_walk_plank_n", 16)
@@ -300,12 +300,12 @@ function Woodcutter:jobUpdate()
 end
 
 function Woodcutter:checkTrees(cx, cy)
+    local Tree = require("objects.Environment.Tree")
     local chunkx, chunky = cx or self.cx, cy or self.cy
     local closestObject, closestDistance = nil, 10000000
     if _G.state.chunkObjects[chunkx][chunky] then
         for _, obj in pairs(_G.state.chunkObjects[chunkx][chunky]) do
-            if (obj.type == 'Pine tree' or obj.type == "Small pine tree" or obj.type == "Medium pine tree" or obj.type ==
-                    'Oak tree' or obj.type == "Small oak tree" or obj.type == "Medium oak tree") or obj.type == "Chestnut tree" or obj.type == "Birch tree" and obj.marked == false then
+            if obj.class:isSubclassOf(Tree) and obj.cuttable and not self.stump and not obj.marked then
                 -- TODO: Fix magic numbers CRITICAL
                 if obj.gx > 0 and obj.gx < 2047 and obj.gy > 0 and obj.gy < 2047 then -- and _G.nodes[obj.gx][obj.gy+1].walkable == 0 then --fixme
                     local dist = _G.manhattanDistance(self.gx, self.gy, obj.gx, obj.gy)
