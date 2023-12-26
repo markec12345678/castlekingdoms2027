@@ -438,7 +438,20 @@ function WoodcutterHut:destroy()
     end
 end
 
+function WoodcutterHut:leave()
+    if self.worker then
+        _G.JobController:add("Woodcutter", self)
+        self.worker:leaveVillage()
+        self.worker = nil
+        self.freeSpots = 1
+        self.float:activate()
+        self.sawingObj:deactivate()
+    end
+end
+
 function WoodcutterHut:join(worker)
+    self.logStack:deactivate()
+    self.stack:deactivate()
     if self.health == -1 then
         _G.JobController:remove("Woodcutter", self)
         worker:quitJob()

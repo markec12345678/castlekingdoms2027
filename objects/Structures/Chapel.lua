@@ -102,6 +102,17 @@ function Chapel:work(worker)
     worker:jobUpdate()
 end
 
+function Chapel:leave()
+    if self.worker then
+        _G.JobController:add("Priest", self)
+        self.worker:leaveVillage()
+        self.worker = nil
+        self.freeSpots = 1
+        self.float:activate()
+        return true
+    end
+end
+
 function Chapel:join(worker)
     if self.health == -1 then
         _G.JobController:remove("Priest", self)

@@ -324,6 +324,18 @@ function Orchard.static:deserialize(data)
     return obj
 end
 
+function Orchard:leave()
+    if self.appleWorker then
+        _G.JobController:add("OrchardFarmer", self)
+        self.appleWorker:leaveVillage()
+        self.appleWorker = nil
+        self.freeSpots = 1
+        self.state = 0
+        self.float:activate()
+        return true
+    end
+end
+
 function Orchard:join(worker)
     if self.health == -1 then
         _G.JobController:remove("OrchardFarmer", self)

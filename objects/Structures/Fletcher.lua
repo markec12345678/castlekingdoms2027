@@ -19,9 +19,9 @@ local an = {
 }
 
 local fletcherFx = {
-    ["fletch"] = {_G.fx["fletch23"],
+    ["fletch"] = { _G.fx["fletch23"],
         _G.fx["fletch24"],
-        _G.fx["fletch25"]}
+        _G.fx["fletch25"] }
 }
 
 local targetFletcher
@@ -328,7 +328,9 @@ end
 function FletcherWorkshop:exitHover(induced)
     if induced or not self.cookingObj.animated then
         self.hover = false
-    else return end
+    else
+        return
+    end
     for tile = 1, tilesExt do
         local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tilesExt - tile + 1), FletcherAlias)
         if alias then
@@ -348,6 +350,18 @@ function FletcherWorkshop:exitHover(induced)
     end
     self.tile = quadArrayExt[tilesExt + 1]
     self:render()
+end
+
+function FletcherWorkshop:leave()
+    if self.worker then
+        _G.JobController:add("Fletcher", self)
+        self.worker:leaveVillage()
+        self.worker = nil
+        self.freeSpots = 1
+        self.float:activate()
+        self.cookingObj:deactivate()
+        return true
+    end
 end
 
 function FletcherWorkshop:join(worker)

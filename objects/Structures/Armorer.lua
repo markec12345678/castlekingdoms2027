@@ -14,11 +14,11 @@ local an = {
 }
 
 local armourerFx = {
-    ["bonk"] = {_G.fx["armourhit_01"],
+    ["bonk"] = { _G.fx["armourhit_01"],
         _G.fx["armourhit_02"],
         _G.fx["armourhit_03"],
         _G.fx["armourhit_04"],
-        _G.fx["armourhit_05"]}
+        _G.fx["armourhit_05"] }
 }
 
 local ShieldCrafting = _G.class("ShieldCrafting", Structure)
@@ -186,7 +186,7 @@ function Armorer:initialize(gx, gy)
     end
     for tile = 1, tiles do
         local hsl = ArmorerAlias:new(quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile
-            , 16)
+        , 16)
         hsl.tileKey = tiles + 1 + tile
     end
     local tileQuads = require("objects.object_quads")
@@ -278,7 +278,9 @@ end
 function Armorer:exitHover(induced)
     if induced or not self.cookingObj.animated then
         self.hover = false
-    else return end
+    else
+        return
+    end
     for tile = 1, tilesExt do
         local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tilesExt - tile + 1), ArmorerAlias)
         if alias then
@@ -298,6 +300,18 @@ function Armorer:exitHover(induced)
     end
     self.tile = quadArrayExt[tilesExt + 1]
     self:render()
+end
+
+function Armorer:leave()
+    if self.worker then
+        _G.JobController:add("Armourer", self)
+        self.worker:leaveVillage()
+        self.worker = nil
+        self.freeSpots = 1
+        self.float:activate()
+        self.cookingObj:deactivate()
+        return true
+    end
 end
 
 function Armorer:join(worker)

@@ -185,6 +185,17 @@ function OxTether:take(amount)
     self:update()
 end
 
+function OxTether:leave()
+    if self.oxWorker then
+        _G.JobController:add("OxHandler", self)
+        self.oxWorker:leaveVillage()
+        self.oxWorker = nil
+        self.freeSpots = 1
+        self.float:activate()
+        return true
+    end
+end
+
 function OxTether:join(worker)
     if self.health == -1 then
         _G.JobController:remove("OxHandler", self)

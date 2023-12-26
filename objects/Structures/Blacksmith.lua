@@ -21,23 +21,23 @@ local an = {
 }
 
 local blacksmithFx = {
-    ["bonk"] = {_G.fx["bs_anvil1"],
+    ["bonk"] = { _G.fx["bs_anvil1"],
         _G.fx["bs_anvil2"],
         _G.fx["bs_anvil3"],
         _G.fx["bs_anvil4"],
-        _G.fx["bs_anvil5"]},
-    ["cooling"] = {_G.fx["bs_cooling2"],
-        _G.fx["bs_cooling3"]},
-    ["file"] = {_G.fx["bs_file9"],
+        _G.fx["bs_anvil5"] },
+    ["cooling"] = { _G.fx["bs_cooling2"],
+        _G.fx["bs_cooling3"] },
+    ["file"] = { _G.fx["bs_file9"],
         _G.fx["bs_file10"],
         _G.fx["bs_file12"],
-        _G.fx["bs_file13"]},
-    ["open"] = {_G.fx["bs_open4"]},
-    ["pour"] = {_G.fx["bs_pour3"],
-        _G.fx["bs_pour4"]},
-    ["bellow"] = {_G.fx["bs_bellow1"],
+        _G.fx["bs_file13"] },
+    ["open"] = { _G.fx["bs_open4"] },
+    ["pour"] = { _G.fx["bs_pour3"],
+        _G.fx["bs_pour4"] },
+    ["bellow"] = { _G.fx["bs_bellow1"],
         _G.fx["bs_bellow3"],
-        _G.fx["bs_bellow4"]},
+        _G.fx["bs_bellow4"] },
 }
 
 
@@ -467,7 +467,9 @@ end
 function BlacksmithWorkshop:exitHover(induced)
     if induced or not self.swordCrafting.animated then
         self.hover = false
-    else return end
+    else
+        return
+    end
     for tile = 1, tilesExt do
         local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tilesExt - tile + 1), BlacksmithAlias)
         if alias then
@@ -487,6 +489,19 @@ function BlacksmithWorkshop:exitHover(induced)
     end
     self.tile = quadArrayExt[tilesExt + 1]
     self:render()
+end
+
+function BlacksmithWorkshop:leave()
+    if self.worker then
+        _G.JobController:add("Blacksmith", self)
+        self.worker:leaveVillage()
+        self.worker = nil
+        self.freeSpots = 1
+        self.float:activate()
+        self.anvilCrafting:deactivate()
+        self.swordCrafting:deactivate()
+        return true
+    end
 end
 
 function BlacksmithWorkshop:join(worker)

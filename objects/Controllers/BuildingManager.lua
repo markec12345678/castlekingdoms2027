@@ -100,6 +100,21 @@ function BuildingManager:getAllNearbyBuildings(targetBuilding, radius)
     return list
 end
 
+---@return boolean workerHasLeft whether a worker has left a workplace
+function BuildingManager:makeWorkerLeave()
+    for _, buildingList in pairs(self.buildings) do
+        for _, building in pairs(buildingList) do
+            if building.leave then
+                local left = building:leave()
+                if left then
+                    return true
+                end
+            end
+        end
+    end
+    return false
+end
+
 ---@param buildingClass {name: string}|string
 ---@return integer count total count of a specific building class
 function BuildingManager:count(buildingClass)

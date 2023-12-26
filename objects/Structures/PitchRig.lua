@@ -201,7 +201,7 @@ function PitchRig:destroy()
 end
 
 function PitchRig:onClick()
---
+    --
 end
 
 function PitchRig:load(data)
@@ -239,6 +239,18 @@ function PitchRig.static:deserialize(data)
     local obj = self:allocate()
     obj:load(data)
     return obj
+end
+
+function PitchRig:leave()
+    if self.worker then
+        _G.JobController:add("OxHandler", self)
+        self.worker:leaveVillage()
+        self.worker = nil
+        self.freeSpots = 1
+        self.float:activate()
+        self.cookingObj:deactivate()
+        return true
+    end
 end
 
 function PitchRig:join(worker)
