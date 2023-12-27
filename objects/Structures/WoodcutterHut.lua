@@ -450,6 +450,7 @@ function WoodcutterHut:leave(sleepInsteadOfLeaving)
         self.freeSpots = 1
         self.float:activate()
         self.sawingObj:deactivate()
+        return true
     end
 end
 

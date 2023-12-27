@@ -43,7 +43,7 @@ function PopularityController:deserialize(data)
 end
 
 function PopularityController:calculatePositiveBuildingPopularity()
-    local positiveBuildingFactor = _G.BuildingManager:getCountOfPositiveBuildings() - (math.ceil(_G.state.population / 16) - 1)
+    local positiveBuildingFactor = _G.BuildingManager:getCountOfPositiveBuildings() - math.abs((math.ceil(_G.state.population / 16) - 1))
     if positiveBuildingFactor > 5 then
         positiveBuildingFactor = 5
     elseif positiveBuildingFactor < 0 then
