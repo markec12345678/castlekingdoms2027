@@ -47,25 +47,28 @@ function CampfireFloatPop:initialize(gx, gy)
 end
 
 function CampfireFloatPop:updateSpeed(modifier)
+    local prevWasGreen = self.animation.animationIdentifier == ANIM_FLOAT_CIRCLE_GREEN
     if _G.state.popularity >= 50 then
-        local frame = 1
-        if self.animation.animationIdentifier == ANIM_FLOAT_CIRCLE_GREEN then
-            frame = self.animation.position
-        end
+        local frame = self.animation.position
         self.greenAnimation = anim.newAnimation(an[ANIM_FLOAT_CIRCLE_GREEN], modifier, self:immigrantCallback(),
             ANIM_FLOAT_CIRCLE_GREEN)
         self.animation = self.greenAnimation
-        self.animation:gotoFrame(frame)
+        if prevWasGreen then
+            self.animation:gotoFrame(frame)
+        else
+            self.animation:gotoFrame(51 - frame)
+        end
         self.animation:pause()
     else
-        local frame = 1
-        if self.animation.animationIdentifier == ANIM_FLOAT_CIRCLE_RED then
-            frame = self.animation.position
-        end
+        local frame = self.animation.position
         self.redAnimation = anim.newAnimation(an[ANIM_FLOAT_CIRCLE_RED], modifier, self:emigrantCallback(),
             ANIM_FLOAT_CIRCLE_RED)
         self.animation = self.redAnimation
-        self.animation:gotoFrame(frame)
+        if not prevWasGreen then
+            self.animation:gotoFrame(frame)
+        else
+            self.animation:gotoFrame(51 - frame)
+        end
         self.animation:pause()
     end
 end
@@ -77,13 +80,13 @@ function CampfireFloatPop:animate(dt)
         if _G.state.population >= _G.state.maxPopulation then
             shouldAddPeasants = false
             if self.animation.animationIdentifier == ANIM_FLOAT_CIRCLE_GREEN then
-                self.animation:pauseAtStart()
+                self.animation:pause()
             end
         end
         if _G.campfire.peasants >= _G.campfire.maxPeasants then
             shouldAddPeasants = false
             if self.animation.animationIdentifier == ANIM_FLOAT_CIRCLE_GREEN then
-                self.animation:pauseAtStart()
+                self.animation:pause()
             end
         end
         if shouldAddPeasants then
