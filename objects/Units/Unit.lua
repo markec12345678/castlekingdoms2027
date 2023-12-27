@@ -28,7 +28,7 @@ function Unit:initialize(gx, gy, type)
     self.nd = {}
     self.path = 0
     self.pathState = "none"
-    self.waitingForPathMaxTime = 5
+    self.waitingForPathMaxTime = 30
     self.moveDir = "none"
     self.previousDir = "none"
     self.animated = true
@@ -121,7 +121,7 @@ function Unit:animate()
     end
     if self.pathState == "Waiting for path" then
         self.waitingForPathTimer = self.waitingForPathTimer + love.timer.getDelta()
-        if self.waitingForPathTimer > (self.waitingForPathMaxTime or 10) then
+        if self.waitingForPathTimer > (self.waitingForPathMaxTime or 30) then
             if self.noPathCallback then
                 self.noPathCallback()
                 self.noPathCallback = nil
@@ -659,7 +659,6 @@ function Unit:clearPath()
 end
 
 function Unit:load(_)
-    _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
     table.insert(self.locationsCx, self.cx)
     table.insert(self.locationsCy, self.cy)
     table.insert(self.locationsI, self.i)
