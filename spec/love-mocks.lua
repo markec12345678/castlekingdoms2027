@@ -58,6 +58,11 @@ love.graphics = {
         if not fileExists then error("trying to load file: " .. tostring(filename) .. " but it doesn't exist") end
         return font
     end,
+    newText = function()
+        return {
+            getWidth = function() return 100 end
+        }
+    end,
     newShader = function() return {} end,
     newFont = function() return font end,
     newImageFont = function() return font end,

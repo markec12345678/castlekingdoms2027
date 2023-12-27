@@ -47,7 +47,7 @@ return function(loveframes)
         titleobject:Remove()
         titleobject.parent = self
         titleobject:setAsTitle()
-        titleobject:SetFont(loveframes.font_vera_bold)
+        titleobject:SetFont(loveframes.font_vera_bold_medium)
         titleobject:SetText(title_text or "")
         titleobject:SetPos(10000, 0) -- textobject interferes with hover detection
         table.insert(self.internals, titleobject)
@@ -90,7 +90,7 @@ return function(loveframes)
         local object = self.object
         local update = self.Update
 
-        self.width = math.max(textobject:GetWidth(), titleobject.width) + padding * 2
+        self.width = self.maxw or math.max(textobject:GetWidth(), titleobject.width) + padding * 2
         self.height = textobject.height + titleobject.height + padding * 2
 
         if object then

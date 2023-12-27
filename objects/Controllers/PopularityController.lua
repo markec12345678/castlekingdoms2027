@@ -2,6 +2,10 @@ local actionBar = require("states.ui.ActionBar")
 local RationController = require("objects.Controllers.RationController")
 local Events = require "objects.Enums.Events"
 
+local function clamp(x, min, max)
+    return x < min and min or (x > max and max or x)
+end
+
 local PopularityController = _G.class("PopularityController")
 PopularityController.static.POPULARITY_INTERVAL = 3
 function PopularityController:initialize()
@@ -10,6 +14,11 @@ function PopularityController:initialize()
     self.moodTaxFactor = _G.TaxController.moodFactor
     self.speedPopModifier = 2
     self.previousSpeedPopModifier = 2
+    self.effects = {
+        tax = 0,
+        rations = 0,
+        positiveBuildings = 0
+    }
 end
 
 function PopularityController:serialize()
@@ -26,6 +35,11 @@ function PopularityController:deserialize(data)
     for k, v in pairs(data) do
         self[k] = v
     end
+    self.effects = {
+        tax = 0,
+        rations = 0,
+        positiveBuildings = 0
+    }
 end
 
 function PopularityController:calculatePositiveBuildingPopularity()
@@ -43,7 +57,12 @@ function PopularityController:update()
     if not _G.campfireFloatPop then return end
     self.timer = self.timer + _G.dt
     if self.timer >= self.class.POPULARITY_INTERVAL then
-        _G.state.popularity = 50 + _G.TaxController:getMoodFactor() + RationController:getMoodLevel() + math.floor(self:calculatePositiveBuildingPopularity())
+        local tax, rations, positiveBuildings = _G.TaxController:getMoodFactor(), RationController:getMoodLevel(), math.floor(self:calculatePositiveBuildingPopularity())
+        local rate = tax + rations + positiveBuildings
+        self.effects["tax"] = tax
+        self.effects["rations"] = rations
+        self.effects["positiveBuildings"] = positiveBuildings
+        _G.state.popularity = clamp(_G.state.popularity + rate, 0, 100)
         if popularityOldValue ~= _G.state.popularity then
             _G.bus.emit(Events.OnPopulationChange, popularityOldValue, _G.state.popularity)
             actionBar:updatePopularityCount()
