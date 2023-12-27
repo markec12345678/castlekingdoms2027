@@ -211,6 +211,47 @@ function ActionBar:updatePopularityCount()
     else
         self.popularityText:SetFont(loveframes.slanted_big_red)
     end
+    local effects = _G.PopularityController.effects
+    local neutral, bad, good = { color = { 0.305 + 0.5, 0.29 + 0.5, 0.125 + 0.5, 1 } }, { color = { 0.79, 0, 0, 1 } }, { color = { 0, 0.89, 0, 1 } }
+    local taxColor, rationColor, fearColor, totalColor
+    if effects.tax < 0 then
+        taxColor = bad
+    elseif effects.tax == 0 then
+        taxColor = neutral
+    elseif effects.tax > 0 then
+        taxColor = good
+    end
+    if effects.rations < 0 then
+        rationColor = bad
+    elseif effects.rations == 0 then
+        rationColor = neutral
+    elseif effects.rations > 0 then
+        rationColor = good
+    end
+    if effects.positiveBuildings < 0 then
+        fearColor = bad
+    elseif effects.positiveBuildings == 0 then
+        fearColor = neutral
+    elseif effects.positiveBuildings > 0 then
+        fearColor = good
+    end
+    local total = effects.tax + effects.rations + effects.positiveBuildings
+    if total < 0 then
+        totalColor = bad
+    elseif total == 0 then
+        totalColor = neutral
+    elseif total > 0 then
+        totalColor = good
+        total = "+" .. tostring(total)
+    end
+    local tooltip = {
+        taxColor, ("\tTaxes: %d\n"):format(effects.tax),
+        rationColor, ("\tRations: %d\n"):format(effects.rations),
+        fearColor, ("\tFear factor: %d\n"):format(effects.positiveBuildings),
+        totalColor, ("\n\tTotal: %s"):format(tostring(total)),
+    }
+
+    self.popularityText:setTooltip("Popularity", tooltip)
 
     self.popularityText:SetText(_G.state.popularity)
 end
