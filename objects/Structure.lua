@@ -199,7 +199,6 @@ function Structure:load(data)
         self.float = _G.state:dereferenceObject(data.float)
         data.float = nil
     end
-    _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
 end
 
 return Structure

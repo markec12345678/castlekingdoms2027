@@ -287,7 +287,7 @@ function State:deserializeObjects(data)
                     if data[cx][cy][i][o] then
                         for _, obj in pairs(data[cx][cy][i][o]) do
                             if obj and next(obj) then
-                                self:dereferenceObject(obj)
+                                _G.addObjectAt(cx, cy, i, o, self:dereferenceObject(obj))
                             end
                         end
                     end

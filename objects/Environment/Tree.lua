@@ -57,6 +57,7 @@ function Tree:finish()
     self.stump = true
     self.animated = false -- mark for removal from list
     self.type = "Stump"
+    _G.state.map:setWalkable(self.gx, self.gy, 0)
     self.tile = self.trunkTile
     if self.trunkOffsetY and self.trunkOffsetX then
         self.offsetY = self.trunkOffsetY
@@ -269,11 +270,6 @@ end
 
 function Tree:load(data)
     Object.initialize(self, data.gx, data.gy, data.type)
-    if _G.state.chunkObjects[self.cx][self.cy] == nil then
-        _G.state.chunkObjects[self.cx][self.cy] = {}
-    end
-    _G.state.chunkObjects[self.cx][self.cy][self] = self
-    _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
 end
 
 function Tree.static:deserialize(data)

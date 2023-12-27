@@ -46,6 +46,7 @@ end
 
 function DebugView:update()
     self.info = ""
+    local Structure = require("objects.Structure")
     if self.active then
         local MX, MY = love.mouse.getPosition()
         local OX, OY = _G.getTerrainTileOnMouse(MX, MY)
@@ -55,7 +56,10 @@ function DebugView:update()
                 local Unit = require("objects.Units.Unit")
                 objectOnMouse = _G.objectFromSubclassAtGlobal(OX, OY, Unit)
             else
-                objectOnMouse = _G.objectFromSubclassAtGlobal(OX, OY, Object)
+                objectOnMouse = _G.objectFromSubclassAtGlobal(OX, OY, Structure)
+                if not objectOnMouse then
+                    objectOnMouse = _G.objectFromSubclassAtGlobal(OX, OY, Object)
+                end
             end
             if objectOnMouse then
                 self.lastObject = objectOnMouse
@@ -75,6 +79,14 @@ function DebugView:update()
                 for _, k in ipairs(keys) do
                     if type(objectOnMouse[k]) ~= "table" and type(objectOnMouse[k]) ~= "userdata" then
                         self.info = self.info .. ("\t%s: %s\n"):format(k, objectOnMouse[k])
+                    end
+                    if k == "worker" and objectOnMouse.worker then
+                        self.info = self.info .. "Worker:\n"
+                        for sk, sv in pairs(objectOnMouse.worker) do
+                            if type(sv) ~= "table" and type(sv) ~= "userdata" then
+                                self.info = self.info .. ("\t\t%s: %s\n"):format(sk, sv)
+                            end
+                        end
                     end
                 end
                 self.info = self.info .. "tables and userdata are not shown"

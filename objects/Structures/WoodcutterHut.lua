@@ -295,8 +295,8 @@ function WoodcutterHutSawing.static:deserialize(data)
 
     obj.parent = _G.state:dereferenceObject(data.parent)
     obj.parent.sawingObj = obj
-    obj:setCallback()
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, nil, anData.animationIdentifier)
+    obj:setCallback()
     obj.animation:deserialize(anData)
 
     return obj
