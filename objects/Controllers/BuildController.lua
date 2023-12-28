@@ -3,6 +3,7 @@ local image = love.graphics.newImage("assets/tiles/info_tiles_strip.png")
 local ActionBar = require("states.ui.ActionBar")
 local WallController = require("objects.Controllers.WallController")
 local console = require("libraries.console")
+local RESOURCES = require("objects.Enums.Resources")
 local tileWidth, tileHeight = _G.tileWidth, _G.tileHeight
 local IsoToScreenX, IsoToScreenY = _G.IsoToScreenX, _G.IsoToScreenY
 local warningTooltip = require("states.ui.warning_tooltip")
@@ -364,6 +365,21 @@ end
 function BuildController:toggleFreeBuildings()
     self.freeBuildings = not self.freeBuildings
     if self.freeBuildings then print("Buildings are now free.") else print("Buildings now require resources.") end
+end
+
+local woodCostForHouseUpgrade = 5
+function BuildController:isHouseUpgradeAffordable()
+    if self.freeBuildings then return true end
+    if _G.state.resources[RESOURCES.wood] < woodCostForHouseUpgrade then
+        self.resourceSound = RESOURCES.wood
+        return false
+    end
+    return true
+end
+
+function BuildController:purchaseHouseUpgrade()
+    if self.freeBuildings then return true end
+    _G.stockpile:take(RESOURCES.wood, woodCostForHouseUpgrade)
 end
 
 function BuildController:isBuildingAffordable(buildingKey, amountOfBuildings)

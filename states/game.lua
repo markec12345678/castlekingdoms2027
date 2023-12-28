@@ -271,6 +271,10 @@ function game:textinput(text)
 end
 
 function game:keypressed(key, scancode, isRepeat)
+    if love.keyboard.isScancodeDown("`") and love.keyboard.isScancodeDown("lshift") then
+        console:toggleEnable()
+        return
+    end
     if console.isEnabled() then
         console.keypressed(key, scancode, isRepeat)
         return

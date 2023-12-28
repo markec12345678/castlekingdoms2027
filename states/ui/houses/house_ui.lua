@@ -1,15 +1,15 @@
 local loveframes = require("libraries.loveframes")
 local states = require("states.ui.states")
 local framesActionBar = require("states.ui.action_bar_frames")
-local actionBar = require("states.ui.ActionBar")
-local scale = actionBar.element.scalex
+local ActionBar = require("states.ui.ActionBar")
+local scale = ActionBar.element.scalex
 local Events = require("objects.Enums.Events")
 local SID = require("objects.Controllers.LanguageController").lines
 
 local ActionBarButton = require("states.ui.ActionBarButton")
 local backButton = ActionBarButton:new(love.graphics.newImage("assets/ui/back_ab.png"), states.STATE_HOUSE, 12)
 backButton:setOnClick(function(self)
-    actionBar:switchMode()
+    ActionBar:switchMode()
 end)
 
 local upgradeIconNormal = love.graphics.newImage("assets/ui/house/upgradeIconNormal.png")
@@ -37,9 +37,7 @@ local frUpgradeButton = {
     height = upgradeIconNormal:getHeight() * scale
 }
 
-local X
-local targetHouse
-local Y
+local targetHouse, house, X, Y
 local acomodationNumber = 4
 local lockButton
 local textUpgradeCost = loveframes.Create("text")
@@ -48,22 +46,25 @@ local textAcomodation = loveframes.Create("text")
 local upgradeButton = loveframes.Create("image")
 local textUpgrade = loveframes.Create("text")
 
-_G.bus.on(Events.OnHouseUpgraded, function(tier, x, y)
+_G.bus.on(Events.UpgradeHouse, function(tier, obj)
     targetHouse = tier
-    X = x
-    Y = y
+    house = obj
     acomodationNumber = 4 * tier
     if tier == 1 then
         sketchIcon:SetImage(hovelSketchImage)
+        sketchIcon:SetScale(frSketch.width / sketchIcon:GetImageHeight())
     end
     if tier == 2 then
         sketchIcon:SetImage(flatSketchImage)
+        sketchIcon:SetScale(frSketch.width / sketchIcon:GetImageHeight())
     end
     if tier == 3 then
         sketchIcon:SetImage(residenceSketchImage)
+        sketchIcon:SetScale(frSketch.width / sketchIcon:GetImageHeight())
     end
     if tier == 4 then
         sketchIcon:SetImage(bigresidenceSketchImage)
+        sketchIcon:SetScale(frSketch.width / sketchIcon:GetImageHeight())
     end
     textUpgrade:SetText({ {
         color = { 0, 0, 0, 1 }
@@ -76,13 +77,24 @@ _G.bus.on(Events.OnHouseUpgraded, function(tier, x, y)
     }, acomodationNumber + 4 })
     textUpgradeCost:SetText({ {
         color = { 0, 0, 0, 1 }
-    }, (acomodationNumber + 1) * 2 })
-    if tier >= _G.state.tier then
+    }, 5 })
+    if tier + 1 > _G.state.tier then
         lockButton = true
         upgradeButton:SetImage(upgradeIconLocked)
     else
         lockButton = false
         upgradeButton:SetImage(upgradeIconNormal)
+    end
+    if tier == 4 then
+        upgradeButton.visible = false
+        textUpgradeCost.visible = false
+        textUpgradePop.visible = false
+        textUpgrade.visible = false
+    else
+        upgradeButton.visible = true
+        textUpgradeCost.visible = true
+        textUpgradePop.visible = true
+        textUpgrade.visible = true
     end
 end)
 
@@ -98,38 +110,39 @@ upgradeButton.OnMouseEnter = function(self)
 end
 
 upgradeButton.OnClick = function(self)
-    local House = require("objects.Structures.House")
+    if lockButton then return end
     local Flat = require("objects.Structures.Flat")
     local Residence = require("objects.Structures.Residence")
     local BigResidence = require("objects.Structures.BigResidence")
-    -- BIG RESIDENCE
-    -- RESIDENCE
-    if targetHouse == 3 and lockButton == false then
-        if _G.state.tier >= 4 and _G.BuildController:isBuildingAffordable("BigResidence") then
-            _G.BuildController:purchaseBuilding("BigResidence")
-            Residence:upgradeHouse(X, Y)
-            actionBar:switchMode()
+    if targetHouse == 3 then
+        -- RESIDENCE
+        if _G.state.tier >= 4 and _G.BuildController:isHouseUpgradeAffordable() then
+            _G.BuildController:purchaseHouseUpgrade()
+            _G.DestructionController:destroyAtLocation(house.gx, house.gy, nil, nil, true)
+            local newHouse = BigResidence:new(house.gx, house.gy)
+            _G.bus.emit(Events.UpgradeHouse, 4, newHouse)
+            ActionBar:switchMode("max_house")
         end
-        --PLAY SOUND "NOT ENOUGH WOOD"
-    end
-    -- FLAT
-    if targetHouse == 2 and lockButton == false then
-        if _G.state.tier >= 3 and _G.BuildController:isBuildingAffordable("Residence") then
-            _G.BuildController:purchaseBuilding("Residence")
-            Flat:upgradeHouse(X, Y)
-            actionBar:switchMode()
+    elseif targetHouse == 2 then
+        -- FLAT
+        if _G.state.tier >= 3 and _G.BuildController:isHouseUpgradeAffordable() then
+            _G.BuildController:purchaseHouseUpgrade()
+            _G.DestructionController:destroyAtLocation(house.gx, house.gy, nil, nil, true)
+            local newHouse = Residence:new(house.gx, house.gy)
+            _G.bus.emit(Events.UpgradeHouse, 3, newHouse)
         end
-        --PLAY SOUND "NOT ENOUGH WOOD"
-    end
-    -- HOVEL
-    if targetHouse == 1 and lockButton == false then
-        if _G.state.tier >= 2 and _G.BuildController:isBuildingAffordable("Flat") then
-            _G.BuildController:purchaseBuilding("Flat")
-            actionBar:switchMode()
-            House:upgradeHouseOne(X, Y)
+    elseif targetHouse == 1 then
+        -- HOVEL
+        if _G.state.tier >= 2 and _G.BuildController:isHouseUpgradeAffordable() then
+            _G.BuildController:purchaseHouseUpgrade()
+            _G.DestructionController:destroyAtLocation(house.gx, house.gy, nil, nil, true)
+            local newHouse = Flat:new(house.gx, house.gy)
+            _G.bus.emit(Events.UpgradeHouse, 2, newHouse)
         end
-        --PLAY SOUND "NOT ENOUGH WOOD"
+    else
+        return
     end
+    ActionBar:updatePopulationCount()
 end
 
 upgradeButton.OnMouseExit = function(self)

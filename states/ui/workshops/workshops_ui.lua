@@ -200,6 +200,6 @@ return {
     swordIconButton,
     maceIconButton,
     upgradeIconButton,
-    upgradeHouseButton,
+    upgradeHouseButton = upgradeHouseButton,
     CheckTooltip = CheckTooltip
 }

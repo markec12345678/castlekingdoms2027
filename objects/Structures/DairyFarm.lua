@@ -707,8 +707,8 @@ function DairyFarm:destroy()
         self.cowBreed.cowThree:die()
     end
 
-    for xx = -1, 9 do
-        for yy = -1, 9 do
+    for xx = 0, 9 do
+        for yy = 0, 9 do
             local tile = _G.objectFromClassAtGlobal(self.gx + xx, self.gy + yy, "DairyFarmAlias")
             if type(tile) ~= "boolean" then
                 tile.state = -1

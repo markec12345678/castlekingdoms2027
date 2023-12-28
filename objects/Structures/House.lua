@@ -1,7 +1,7 @@
 local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
-local actionBar = require("states.ui.ActionBar")
+local ActionBar = require("states.ui.ActionBar")
 local Events = require("objects.Enums.Events")
 
 local tiles, quadArray = _G.indexBuildingQuads("housing (1)", true)
@@ -64,9 +64,6 @@ function House:initialize(gx, gy)
     self.tile = quadArray[tiles + 1]
     self.offsetX = 0
     self.offsetY = -39
-    self.tier = 1
-    self.clickedHouseX = gx
-    self.clickedHouseY = gy
     for tile = 1, tiles do
         local hsl = HouseAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
             -self.offsetY + 8 * (tiles - tile + 1))
@@ -85,12 +82,12 @@ function House:initialize(gx, gy)
     end
 
     self:applyBuildingHeightMap()
-    actionBar:updatePopulationCount()
+    ActionBar:updatePopulationCount()
     Structure.render(self)
 end
 
 function House:destroy()
-    actionBar:updatePopulationCount()
+    ActionBar:updatePopulationCount()
     Structure.destroy(self)
 end
 
@@ -113,8 +110,6 @@ function House:serialize()
     data.offsetX = self.offsetX
     data.offsetY = self.offsetY
     data.tier = self.tier
-    data.clickedHouseX = self.clickedHouseX
-    data.clickedHouseY = self.clickedHouseY
     return data
 end
 
@@ -124,43 +119,9 @@ function House.static:deserialize(data)
     return obj
 end
 
-local targetHouse
-function House:upgradeHouseOne(clickedHouseX, clickedHouseY)
-    for xx = -1, 6 do
-        for yy = -1, 6 do
-            _G.DestructionController:destroyAtLocation(clickedHouseX + xx, clickedHouseY + yy, true, true)
-        end
-    end
-    _G.BuildingManager:remove(targetHouse)
-    _G.BuildController:build(clickedHouseX, clickedHouseY, "Flat")
-    actionBar:updatePopulationCount()
-end
-
-local X
-local Y
-local _, _, _, _, _, _, upgradeIconButton = unpack(require("states.ui.workshops.workshops_ui"))
 function House:onClick()
-    targetHouse = self
-    if _G.state.tier >= 2 then
-        -- upgradeIconButton.visible = true
-        -- local x, y = love.mouse.getPosition()
-        -- upgradeIconButton:SetPos(x - 50, y + 50)
-        X = self.clickedHouseX
-        Y = self.clickedHouseY
-    end
-    _G.bus.emit(Events.OnHouseUpgraded, self.tier, X, Y)
-    local ActionBar = require("states.ui.ActionBar")
     ActionBar:switchMode("house")
-end
-
-upgradeIconButton.OnClick = function(self)
-    if targetHouse then
-        if _G.state.tier >= 2 and _G.BuildController:isBuildingAffordable("Flat") then
-            _G.BuildController:purchaseBuilding("Flat")
-            House:upgradeHouseOne(X, Y)
-        end
-    end
-    upgradeIconButton.visible = false
+    _G.bus.emit(Events.UpgradeHouse, 1, self)
 end
 
 return House
