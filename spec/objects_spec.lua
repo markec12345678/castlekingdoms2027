@@ -14,6 +14,7 @@ local obj = {
 require("spec.eventbus_spec")
 require("spec.woodcutter_spec")
 require("spec.orchard_spec")
+require("spec.house_upgrade_spec")
 -- =======================================================================--
 describe("addObjectAt", function()
     setup(function()

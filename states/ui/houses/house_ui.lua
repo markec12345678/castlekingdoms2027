@@ -223,3 +223,5 @@ sketchIcon:SetState(states.STATE_HOUSE)
 sketchIcon:SetPos(frSketch.x, frSketch.y)
 sketchIcon:SetScaleX(frSketch.width / sketchIcon:GetImageWidth())
 sketchIcon:SetScaleY(sketchIcon:GetScaleX())
+
+return upgradeButton
