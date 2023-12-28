@@ -1,7 +1,7 @@
 local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
-local actionBar = require("states.ui.ActionBar")
+local ActionBar = require("states.ui.ActionBar")
 local Events = require("objects.Enums.Events")
 
 local tiles, quadArray = _G.indexBuildingQuads("housing (2)", true)
@@ -85,13 +85,13 @@ function Flat:initialize(gx, gy)
         end
     end
     self:applyBuildingHeightMap()
-    actionBar:updatePopulationCount()
+    ActionBar:updatePopulationCount()
 
     Structure.render(self)
 end
 
 function Flat:destroy()
-    actionBar:updatePopulationCount()
+    ActionBar:updatePopulationCount()
     Structure.destroy(self)
 end
 
@@ -125,40 +125,9 @@ function Flat.static:deserialize(data)
     return obj
 end
 
-local targetHouse
-function Flat:upgradeHouse(clickedHouseX, clickedHouseY)
-    for xx = -1, 6 do
-        for yy = -1, 6 do
-            _G.DestructionController:destroyAtLocation(clickedHouseX + xx, clickedHouseY + yy, true, true)
-        end
-    end
-    _G.BuildingManager:remove(targetHouse)
-    _G.BuildController:build(clickedHouseX, clickedHouseY, "Residence")
-    actionBar:updatePopulationCount()
-end
-
-local X
-local Y
-local _, _, _, _, _, _, _, UpgradeIcon = unpack(require("states.ui.workshops.workshops_ui"))
 function Flat:onClick()
-    targetHouse = self
-    if _G.state.tier >= 3 then
-        X = self.clickedHouseX
-        Y = self.clickedHouseY
-    end
-    _G.bus.emit(Events.OnHouseUpgraded, self.tier, X, Y)
-    local ActionBar = require("states.ui.ActionBar")
     ActionBar:switchMode("house")
-end
-
-UpgradeIcon.OnClick = function(self)
-    if targetHouse then
-        if _G.state.tier >= 3 and _G.BuildController:isBuildingAffordable("Residence") then
-            _G.BuildController:purchaseBuilding("Residence")
-            Flat:upgradeHouse(X, Y)
-        end
-    end
-    UpgradeIcon.visible = false
+    _G.bus.emit(Events.UpgradeHouse, 2, self)
 end
 
 return Flat

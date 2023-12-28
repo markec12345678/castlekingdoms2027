@@ -23,6 +23,7 @@ ActionBar.static.actionBarArmouryImage = love.graphics.newImage("assets/ui/actio
 ActionBar.static.actionBarKeepTaxImage = love.graphics.newImage("assets/ui/action_bar_keep_tax_main.png")
 ActionBar.static.actionBarBarracksImage = love.graphics.newImage("assets/ui/action_bar_barracks.png")
 ActionBar.static.actionBarHouseImage = love.graphics.newImage("assets/ui/action_bar_house.png")
+ActionBar.static.actionBarHouseMaxLevelImage = ActionBar.static.actionBarArmouryImage
 ActionBar.static.actionBarUnits = love.graphics.newImage("assets/ui/action_bar_units.png")
 
 function ActionBar:initialize()
@@ -103,14 +104,18 @@ function ActionBar:switchMode(mode)
         self.element:SetState(states.STATE_STOCKPILE)
         self.element:SetImage(ActionBar.actionBarStockpileImage)
         buildingHover:SetState(states.STATE_STOCKPILE)
-    elseif mode == "house" then
+    elseif mode == "house" or mode == "max_house" then
         self:showGroup("house")
         loveframes.SetState(states.STATE_HOUSE)
         self.popularityText:SetState(states.STATE_HOUSE)
         self.populationText:SetState(states.STATE_HOUSE)
         self.goldText:SetState(states.STATE_HOUSE)
         self.element:SetState(states.STATE_HOUSE)
-        self.element:SetImage(ActionBar.actionBarHouseImage)
+        if mode == "house" then
+            self.element:SetImage(ActionBar.actionBarHouseImage)
+        else
+            self.element:SetImage(ActionBar.actionBarHouseMaxLevelImage)
+        end
         buildingHover:SetState(states.STATE_HOUSE)
     elseif mode == "market" then
         self:showGroup("market")
