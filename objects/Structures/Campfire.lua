@@ -149,8 +149,12 @@ function CampfireFloatPop:serialize()
     if self.animation then
         data.animation = self.animation:serialize()
     end
-    data.greenAnimation = self.greenAnimation:serialize()
-    data.redAnimation = self.redAnimation:serialize()
+    if self.greenAnimation then
+        data.greenAnimation = self.greenAnimation:serialize()
+    end
+    if self.redAnimation then
+        data.redAnimation = self.redAnimation:serialize()
+    end
     return data
 end
 
