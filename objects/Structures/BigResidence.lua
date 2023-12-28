@@ -63,10 +63,6 @@ function BigResidence:initialize(gx, gy)
     self.health = 200
     self.offsetX = 0
     self.offsetY = -80
-    self.tier = 4
-    self.clickedHouseX = gx
-    self.clickedHouseY = gy
-    self.tierOneUpgraded = false
     self.tile = quadArray[tiles + 1]
     for tile = 1, tiles do
         local hsl = BigResidenceAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
@@ -114,9 +110,6 @@ function BigResidence:serialize()
     data.health = self.health
     data.offsetX = self.offsetX
     data.offsetY = self.offsetY
-    data.tier = self.tier
-    data.clickedHouseX = self.clickedHouseX
-    data.clickedHouseY = self.clickedHouseY
     return data
 end
 

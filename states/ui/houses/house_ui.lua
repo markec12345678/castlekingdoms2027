@@ -120,6 +120,7 @@ upgradeButton.OnClick = function(self)
             _G.BuildController:purchaseHouseUpgrade()
             _G.DestructionController:destroyAtLocation(house.gx, house.gy, nil, nil, true)
             local newHouse = BigResidence:new(house.gx, house.gy)
+            _G.BuildingManager:add(newHouse)
             _G.bus.emit(Events.UpgradeHouse, 4, newHouse)
             ActionBar:switchMode("max_house")
         end
@@ -129,6 +130,7 @@ upgradeButton.OnClick = function(self)
             _G.BuildController:purchaseHouseUpgrade()
             _G.DestructionController:destroyAtLocation(house.gx, house.gy, nil, nil, true)
             local newHouse = Residence:new(house.gx, house.gy)
+            _G.BuildingManager:add(newHouse)
             _G.bus.emit(Events.UpgradeHouse, 3, newHouse)
         end
     elseif targetHouse == 1 then
@@ -137,6 +139,7 @@ upgradeButton.OnClick = function(self)
             _G.BuildController:purchaseHouseUpgrade()
             _G.DestructionController:destroyAtLocation(house.gx, house.gy, nil, nil, true)
             local newHouse = Flat:new(house.gx, house.gy)
+            _G.BuildingManager:add(newHouse)
             _G.bus.emit(Events.UpgradeHouse, 2, newHouse)
         end
     else

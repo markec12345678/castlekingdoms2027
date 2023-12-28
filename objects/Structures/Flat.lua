@@ -63,9 +63,6 @@ function Flat:initialize(gx, gy)
     self.health = 200
     self.offsetX = 0
     self.offsetY = -52
-    self.tier = 2
-    self.clickedHouseX = gx
-    self.clickedHouseY = gy
     self.tile = quadArray[tiles + 1]
     for tile = 1, tiles do
         local hsl = FlatAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
@@ -113,9 +110,6 @@ function Flat:serialize()
     data.health = self.health
     data.offsetX = self.offsetX
     data.offsetY = self.offsetY
-    data.tier = self.tier
-    data.clickedHouseX = self.clickedHouseX
-    data.clickedHouseY = self.clickedHouseY
     return data
 end
 

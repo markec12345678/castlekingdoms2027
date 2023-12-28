@@ -63,10 +63,6 @@ function Residence:initialize(gx, gy)
     self.health = 200
     self.offsetX = 0
     self.offsetY = -52
-    self.tier = 3
-    self.clickedHouseX = gx
-    self.clickedHouseY = gy
-    self.tierOneUpgraded = false
     self.tile = quadArray[tiles + 1]
     for tile = 1, tiles do
         local hsl = ResidenceAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
@@ -114,9 +110,6 @@ function Residence:serialize()
     data.health = self.health
     data.offsetX = self.offsetX
     data.offsetY = self.offsetY
-    data.tier = self.tier
-    data.clickedHouseX = self.clickedHouseX
-    data.clickedHouseY = self.clickedHouseY
     return data
 end
 
