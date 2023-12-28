@@ -1,7 +1,6 @@
 local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
-local ActionBar = require("states.ui.ActionBar")
 local Events = require("objects.Enums.Events")
 
 local tiles, quadArray = _G.indexBuildingQuads("housing (1)", true)
@@ -82,11 +81,13 @@ function House:initialize(gx, gy)
     end
 
     self:applyBuildingHeightMap()
+    local ActionBar = require("states.ui.ActionBar")
     ActionBar:updatePopulationCount()
     Structure.render(self)
 end
 
 function House:destroy()
+    local ActionBar = require("states.ui.ActionBar")
     ActionBar:updatePopulationCount()
     Structure.destroy(self)
 end
@@ -120,6 +121,7 @@ function House.static:deserialize(data)
 end
 
 function House:onClick()
+    local ActionBar = require("states.ui.ActionBar")
     ActionBar:switchMode("house")
     _G.bus.emit(Events.UpgradeHouse, 1, self)
 end
