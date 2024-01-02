@@ -179,7 +179,13 @@ function BakeryCooking:bakeCallback_2()
     return function()
         self.animation = anim.newAnimation(an[ANIM_BAKING_BREAD], 0.11, self:bakeCallback_1(), ANIM_BAKING_BREAD)
         if self.parent.stack.quantity == 4 then
-            self.parent:sendToStockpile()
+            self.parent:findExitPointTo("Granary", function(found, path)
+                if found then
+                    self.parent:sendToStockpile()
+                else
+                    print("No path found to granary!")
+                end
+            end)
             self:deactivate()
         end
     end
@@ -317,6 +323,7 @@ function Bakery:initialize(gx, gy)
     self.float = NotEnoughWorkersFloat:new(self.gx + self.class.WIDTH - 1, self.gy + self.class.LENGTH - 1, 7, -112)
     self.smoke = SmokeLoop:new(self.gx, self.gy, -4, -93)
     self.smoke:deactivate()
+    self:setSpawnPoint(self.gx + 1, self.gy + 4)
     Structure.render(self)
 end
 
@@ -489,14 +496,18 @@ function Bakery:sendToStockpile()
     local i, o, cx, cy
     self.worker.state = "Go to granary"
     self.worker.animated = true
-    self.worker.gx = self.gx + 1
-    self.worker.gy = self.gy + 4
+    self.worker.gx = self.spawnpointGX
+    self.worker.gy = self.spawnpointGY
     self.worker.fx = self.worker.gx * 1000 + 500
     self.worker.fy = self.worker.gy * 1000 + 500
     i = (self.worker.gx) % (_G.chunkWidth)
     o = (self.worker.gy) % (_G.chunkWidth)
     cx = math.floor(self.worker.gx / _G.chunkWidth)
     cy = math.floor(self.worker.gy / _G.chunkWidth)
+    table.insert(self.worker.locationsCx, cx)
+    table.insert(self.worker.locationsCy, cy)
+    table.insert(self.worker.locationsI, i)
+    table.insert(self.worker.locationsO, o)
     _G.addObjectAt(cx, cy, i, o, self.worker)
     self.working = false
     self.worker.needNewVertAsap = true

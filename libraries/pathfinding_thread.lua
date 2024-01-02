@@ -38,6 +38,8 @@ while true do
     end
 end
 
+local backupMapUpdates = {}
+
 while true do
     if channel.stop:pop() then
         -- Free the memory from the pathfinding nodes
@@ -59,47 +61,135 @@ while true do
         end
     until (not mapUpdate)
     if pathRequest then
-        -- Check if start or end node is walkable
-        if _G.nodes[pathRequest.sx][pathRequest.sy].walkable == 1 or _G.nodes[pathRequest.ex][pathRequest.ey].walkable == 1 then
-            -- it's not walkable, we're probably missing updates from the main thread!
-            love.timer.sleep(0.1)
-            -- fetch all updates
-            repeat
-                mapUpdate = channel.mapUpdate:pop()
-                if mapUpdate then
-                    _G.nodes[mapUpdate[1]][mapUpdate[2]].walkable = mapUpdate[3]
-                else
-                    break
-                end
-            until (not mapUpdate)
-            -- check again
-            if _G.nodes[pathRequest.sx][pathRequest.sy].walkable == 1 or _G.nodes[pathRequest.ex][pathRequest.ey].walkable == 1 then
-                -- still unwalkable, don't bother pathfinding
-                local noPathFound = {}
-                noPathFound.sx = pathRequest.sx
-                noPathFound.sy = pathRequest.sy
-                noPathFound.ex = pathRequest.ex
-                noPathFound.ey = pathRequest.ey
-                noPathFound.found = false
-                channel.receive:push(bitser.dumps(noPathFound))
-                goto continue
+        if pathRequest.endNodes and #pathRequest.endNodes == 1 then
+            -- Only one valid end node, use regular search
+            pathRequest.ex = pathRequest.endNodes[1].x
+            pathRequest.ey = pathRequest.endNodes[1].y
+            pathRequest.endNodes = nil
+        end
+        if pathRequest.walkableNodes then
+            -- Temporarily set these nodes to walkable
+            -- remember them so we can revert this
+            for _, v in ipairs(pathRequest.walkableNodes) do
+                backupMapUpdates[#backupMapUpdates + 1] = { v[1], v[2], _G.nodes[v[1]][v[2]].walkable }
+                _G.nodes[v[1]][v[2]].walkable = 0
             end
         end
-        local path = finder:getPath(pathRequest.sx, pathRequest.sy, pathRequest.ex, pathRequest.ey)
-        local pathToSend = {}
-        pathToSend.sx = pathRequest.sx
-        pathToSend.sy = pathRequest.sy
-        pathToSend.ex = pathRequest.ex
-        pathToSend.ey = pathRequest.ey
-        pathToSend.nodes = {}
-        if path then
-            pathToSend.found = true
-            for node, count in path:nodes() do
-                pathToSend.nodes[count] = { node._x, node._y }
+        if pathRequest.endNodes then
+            local path = finder:getPath(pathRequest.sx, pathRequest.sy, pathRequest.endNodes, nil, nil, true)
+            if path and path.found and pathRequest.walkableNodes then
+                path = path:fill()
             end
+            local pathToSend = {}
+            pathToSend.sx = pathRequest.sx
+            pathToSend.sy = pathRequest.sy
+            if pathRequest.uuid then
+                pathToSend.uuid = pathRequest.uuid
+            end
+            pathToSend.nodes = {}
+            local offsetCount = 0
+            local exitedLocalBuilding = false
+            if path then
+                pathToSend.found = true
+                for node, count in path:nodes() do
+                    if not exitedLocalBuilding and pathRequest.walkableNodes then
+                        local isInside = false
+                        for _, wn in ipairs(pathRequest.walkableNodes) do
+                            if node._x == wn[1] and node._y == wn[2] then
+                                isInside = true
+                            end
+                        end
+                        if not isInside then
+                            exitedLocalBuilding = true
+                            pathToSend.nodes[count - offsetCount] = { node._x, node._y }
+                        else
+                            offsetCount = offsetCount + 1
+                        end
+                    else
+                        pathToSend.nodes[count - offsetCount] = { node._x, node._y }
+                    end
+                end
+            end
+            pathToSend.ex = pathRequest.endNodes[1].x
+            pathToSend.ey = pathRequest.endNodes[1].y
+
+            channel.receive:push(bitser.dumps(pathToSend))
+        else -- single goal pathfinding request
+            -- Check if start or end node is walkable
+            if _G.nodes[pathRequest.sx][pathRequest.sy].walkable == 1 or _G.nodes[pathRequest.ex][pathRequest.ey].walkable == 1 then
+                -- it's not walkable, we're probably missing updates from the main thread!
+                love.timer.sleep(0.005)
+                -- fetch all updates
+                repeat
+                    mapUpdate = channel.mapUpdate:pop()
+                    if mapUpdate then
+                        _G.nodes[mapUpdate[1]][mapUpdate[2]].walkable = mapUpdate[3]
+                    else
+                        break
+                    end
+                until (not mapUpdate)
+                -- check again
+                if _G.nodes[pathRequest.sx][pathRequest.sy].walkable == 1 or _G.nodes[pathRequest.ex][pathRequest.ey].walkable == 1 then
+                    -- still unwalkable, don't bother pathfinding
+                    local noPathFound = {}
+                    noPathFound.sx = pathRequest.sx
+                    noPathFound.sy = pathRequest.sy
+                    noPathFound.ex = pathRequest.ex
+                    noPathFound.ey = pathRequest.ey
+                    if pathRequest.uuid then
+                        noPathFound.uuid = pathRequest.uuid
+                    end
+                    noPathFound.found = false
+                    channel.receive:push(bitser.dumps(noPathFound))
+                    goto continue
+                end
+            end
+            local path = finder:getPath(pathRequest.sx, pathRequest.sy, pathRequest.ex, pathRequest.ey)
+            if path and path.found and pathRequest.walkableNodes then
+                path = path:fill()
+            end
+            local pathToSend = {}
+            pathToSend.sx = pathRequest.sx
+            pathToSend.sy = pathRequest.sy
+            pathToSend.ex = pathRequest.ex
+            pathToSend.ey = pathRequest.ey
+            if pathRequest.uuid then
+                pathToSend.uuid = pathRequest.uuid
+            end
+            pathToSend.nodes = {}
+            local offsetCount = 0
+            local exitedLocalBuilding = false
+            if path then
+                pathToSend.found = true
+                for node, count in path:nodes() do
+                    if not exitedLocalBuilding and pathRequest.walkableNodes then
+                        local isInside = false
+                        for _, wn in ipairs(pathRequest.walkableNodes) do
+                            if node._x == wn[1] and node._y == wn[2] then
+                                isInside = true
+                            end
+                        end
+                        if not isInside then
+                            exitedLocalBuilding = true
+                        else
+                            offsetCount = offsetCount + 1
+                        end
+                    else
+                        pathToSend.nodes[count - offsetCount] = { node._x, node._y }
+                    end
+                end
+            end
+
+            channel.receive:push(bitser.dumps(pathToSend))
+            ::continue::
         end
 
-        channel.receive:push(bitser.dumps(pathToSend))
-        ::continue::
+        -- revert overriden walkable tiles back to normal
+        if next(backupMapUpdates) then
+            for _, v in ipairs(backupMapUpdates) do
+                _G.nodes[v[1]][v[2]].walkable = v[3]
+            end
+            backupMapUpdates = {}
+        end
     end
 end

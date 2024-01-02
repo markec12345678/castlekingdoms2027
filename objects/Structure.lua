@@ -158,6 +158,86 @@ function Structure:serialize()
     return data
 end
 
+function Structure:findExitPointTo(structure, foundCallback)
+    local entryPoints = {}
+    if structure == "Stockpile" then
+        for _, v in ipairs(_G.stockpile.nodeList) do
+            entryPoints[#entryPoints + 1] = { x = v.gx, y = v.gy }
+        end
+        if not next(entryPoints) then
+            -- TODO: Stockpile is unreachable, do something about it!
+            foundCallback(false)
+            return
+        end
+    elseif structure == "Granary" then
+        for _, v in ipairs(_G.foodpile.nodeList) do
+            entryPoints[#entryPoints + 1] = { x = v.gx, y = v.gy }
+        end
+        if not next(entryPoints) then
+            -- TODO: Granary is unreachable, do something about it!
+            foundCallback(false)
+            return
+        end
+    else
+        entryPoints = structure:getEntryPoints()
+    end
+    _G.finder:requestPathToMultipleGoalsWithWalkableTargetArea(
+        self.gx + math.ceil(self.class.WIDTH / 2),
+        self.gy + math.ceil(self.class.LENGTH / 2),
+        entryPoints,
+        self:getStructureAreaPoints(),
+        function(path)
+            if path then
+                self:setSpawnPoint(path[1][1], path[1][2])
+                foundCallback(true, path)
+            else
+                self:setSpawnPoint(-1, -1)
+                foundCallback(false)
+            end
+        end
+    )
+end
+
+---@private
+function Structure:getStructureAreaPoints()
+    local area = {}
+    for x = 0, self.class.WIDTH - 1 do
+        for y = 0, self.class.LENGTH - 1 do
+            area[#area + 1] = { self.gx + x, self.gy + y }
+        end
+    end
+    return area
+end
+
+function Structure:getEntryPoints()
+    local endNodes = {}
+    for x = -1, self.class.WIDTH do
+        if x ~= -1 then
+            if _G.state.map:isWalkable(x + self.gx, self.gy - 1) then
+                endNodes[#endNodes + 1] = { x = x + self.gx, y = self.gy - 1 }
+            end
+        end
+        if x ~= self.class.WIDTH then
+            if _G.state.map:isWalkable(x + self.gx, self.gy + self.class.LENGTH) then
+                endNodes[#endNodes + 1] = { x = x + self.gx, y = self.gy + self.class.LENGTH }
+            end
+        end
+    end
+    for y = -1, self.class.LENGTH do
+        if y ~= -1 then
+            if _G.state.map:isWalkable(self.gx - 1, y + self.gy) then
+                endNodes[#endNodes + 1] = { x = self.gx - 1, y = y + self.gy }
+            end
+        end
+        if y ~= self.class.LENGTH then
+            if _G.state.map:isWalkable(self.gx + self.class.WIDTH, y + self.gy) then
+                endNodes[#endNodes + 1] = { x = self.gx + self.class.WIDTH, y = y + self.gy }
+            end
+        end
+    end
+    return endNodes
+end
+
 function Structure:shadeWithAliases()
     for xx = 0, self.class.WIDTH - 1 do
         for yy = 0, self.class.LENGTH - 1 do
@@ -172,6 +252,10 @@ function Structure:shadeWithAliases()
             end
         end
     end
+end
+
+function Structure:setSpawnPoint(gx, gy)
+    self.spawnpointGX, self.spawnpointGY = gx, gy
 end
 
 function Structure:applyBuildingHeightMap(skipNoneBiome, skipWalkable)
