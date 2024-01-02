@@ -206,7 +206,7 @@ function Baker:update()
                 self.moveDir = "none"
             end
         elseif self.state == "Go to workplace" or self.state == "Go to workplace with flour" then
-            self:requestPath(self.workplace.gx, self.workplace.gy + 4)
+            self:requestPathToStructure(self.workplace)
             if self.state == "Go to workplace with flour" then
                 self.state = "Going to workplace with flour"
             else
@@ -220,7 +220,7 @@ function Baker:update()
             self:dirSubUpdate()
         end
         if (self.state == "Going to workplace" or self.state == "Going to granary" or self.state ==
-            "Going to workplace with flour" or self.state == "Going to stockpile for flour") then
+                "Going to workplace with flour" or self.state == "Going to stockpile for flour") then
             self:move()
         end
         if self.fx * 0.001 == self.waypointX and self.fy * 0.001 == self.waypointY and self.moveDir ~= "none" then
@@ -231,7 +231,6 @@ function Baker:update()
                     return
                 else
                     self:setNextWaypoint()
-
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to stockpile for flour" then
@@ -248,7 +247,6 @@ function Baker:update()
                     end
                 else
                     self:setNextWaypoint()
-
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to granary" then
@@ -262,7 +260,6 @@ function Baker:update()
                     return
                 else
                     self:setNextWaypoint()
-
                 end
                 self.count = self.count + 1
             end

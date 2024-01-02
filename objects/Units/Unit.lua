@@ -277,6 +277,44 @@ function Unit:requestPath(xx, yy, noPathCallback)
     end
 end
 
+function Unit:requestPathToStructure(structure, noPathCallback)
+    -- this assumes the building is a rectangle
+    local endNodes = structure:getEntryPoints()
+    self:requestPathToMultipleGoals(endNodes, noPathCallback)
+end
+
+function Unit:requestPathToMultipleGoals(goals, noPathCallback)
+    self.noPathCallback = noPathCallback
+    if not next(goals) then
+        self.setNoPathOnNextUpdate = true
+        self.pathState = "Waiting for path"
+        return false
+    end
+    self.startx, self.starty = math.floor(self.gx), math.floor(self.gy)
+    if _G.state.map:getWalkable(self.startx, self.starty) ~= 0 then
+        for x = -1, 1 do
+            for y = -1, 1 do
+                if x ~= 0 and y ~= 0 then
+                    local newgx, newgy = self.startx + x, self.starty + y
+                    if _G.state.map:getWalkable(newgx, newgy) == 0 then
+                        self.fx, self.fy = newgx * 1000, newgy * 1000
+                        self.startx, self.starty = math.floor(self.gx), math.floor(self.gy)
+                        self:updatePosition()
+                        goto foundWalkable
+                    end
+                end
+            end
+        end
+    end
+    ::foundWalkable::
+    self.hasMoveDir = false
+    self.endx = goals[1].x
+    self.endy = goals[1].y
+    _G.finder:requestPathToMultipleGoals(self.startx, self.starty, goals)
+    self.pathState = "Waiting for path"
+    return true
+end
+
 function Unit:reachedPathEnd()
     if self.nd[1] == nil then
         if self.gx == self.nd[0][1] + 0.5 and self.gy == self.nd[0][2] + 0.5 then
