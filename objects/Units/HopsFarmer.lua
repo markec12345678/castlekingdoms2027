@@ -3,11 +3,11 @@ local Object = require("objects.Object")
 local indexQuads = _G.indexQuads
 local anim = _G.anim
 
-local harvestFx = {_G.fx["harvest_01"], _G.fx["harvest_02"], _G.fx["harvest_03"], _G.fx["harvest_04"],
-    _G.fx["harvest_05"], _G.fx["harvest_06"]}
+local harvestFx = { _G.fx["harvest_01"], _G.fx["harvest_02"], _G.fx["harvest_03"], _G.fx["harvest_04"],
+    _G.fx["harvest_05"], _G.fx["harvest_06"] }
 
-local hoeFx = {_G.fx["hoe_01"], _G.fx["hoe_02"], _G.fx["hoe_03"], _G.fx["hoe_04"], _G.fx["hoe_05"], _G.fx["hoe_06"],
-    _G.fx["hoe_07"]}
+local hoeFx = { _G.fx["hoe_01"], _G.fx["hoe_02"], _G.fx["hoe_03"], _G.fx["hoe_04"], _G.fx["hoe_05"], _G.fx["hoe_06"],
+    _G.fx["hoe_07"] }
 
 local fr = {
     walking_apples_east = indexQuads("body_farmer_walk_apples_e", 16),
@@ -763,7 +763,7 @@ function HopsFarmer:update()
             self.state == "Seed walking to eastern tile" or self.state == "Seed walking to southeastern tile" or
             self.state == "Seed walking to northeastern tile" then
             self:seedLand()
-        elseif self.fx * 0.001 == self.waypointX and self.fy * 0.001 == self.waypointY and self.moveDir ~= "none" then
+        elseif self:reachedWaypoint() then
             if self.state == "Going to workplace" or self.state == "Going to hoe the land from south" or self.state ==
                 "Going to hoe the land from north" or self.state == "Going to seed the land from south" or self.state ==
                 "Going to seed the land from north" then
@@ -782,7 +782,6 @@ function HopsFarmer:update()
                     return
                 else
                     self:setNextWaypoint()
-
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to pick up hops" then
@@ -810,7 +809,6 @@ function HopsFarmer:update()
                     return
                 else
                     self:setNextWaypoint()
-
                 end
                 self.count = self.count + 1
             end

@@ -612,7 +612,7 @@ function WheatFarm:work(worker)
 end
 
 function WheatFarm:sendToStockpile()
-    self.wheatWorker.state = "Go to foodpile"
+    self.wheatWorker.state = "Go to granary"
     self.wheatWorker.moveDir = "none"
 end
 

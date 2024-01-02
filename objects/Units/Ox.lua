@@ -79,7 +79,7 @@ local an = {
     [WALK_STONE_SOUTHEAST] = fr_walk_stone_se,
     [WALK_STONE_SOUTHWEST] = fr_walk_stone_sw
 }
-local idleDurations = {["1-5"] = 0.12, ["6-8"] = 0.3, ["9-12"] = 0.12, ["13-14"] = 2}
+local idleDurations = { ["1-5"] = 0.12, ["6-8"] = 0.3, ["9-12"] = 0.12, ["13-14"] = 2 }
 
 local Ox = _G.class("Ox", Unit)
 function Ox:initialize(gx, gy, parent)
@@ -196,7 +196,7 @@ function Ox:update()
     if self.state == "Going to stockpile" or self.state == "Going to workplace" then
         self:move()
     end
-    if self.fx * 0.001 == self.waypointX and self.fy * 0.001 == self.waypointY and self.moveDir ~= "none" then
+    if self:reachedWaypoint() then
         if self.state == "Going to workplace" then
             if self:reachedPathEnd() then
                 self.state = "Idle"
@@ -221,7 +221,6 @@ function Ox:update()
                 return
             else
                 self:setNextWaypoint()
-
             end
             self.count = self.count + 1
         end

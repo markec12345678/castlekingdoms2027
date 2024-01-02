@@ -85,14 +85,14 @@ function Stonemason:dirSubUpdate()
     elseif self.moveDir == "southwest" then
         if self.state == "Going to stockpile" or self.state == "Going to workplace with stone" then
             self.animation =
-            anim.newAnimation(an[ANIM_WALKING_STONE_SOUTHWEST], 0.05, nil, ANIM_WALKING_STONE_SOUTHWEST)
+                anim.newAnimation(an[ANIM_WALKING_STONE_SOUTHWEST], 0.05, nil, ANIM_WALKING_STONE_SOUTHWEST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_SOUTHWEST], 0.05, nil, ANIM_WALKING_SOUTHWEST)
         end
     elseif self.moveDir == "northwest" then
         if self.state == "Going to stockpile" or self.state == "Going to workplace with stone" then
             self.animation =
-            anim.newAnimation(an[ANIM_WALKING_STONE_NORTHWEST], 0.05, nil, ANIM_WALKING_STONE_NORTHWEST)
+                anim.newAnimation(an[ANIM_WALKING_STONE_NORTHWEST], 0.05, nil, ANIM_WALKING_STONE_NORTHWEST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_NORTHWEST], 0.05, nil, ANIM_WALKING_NORTHWEST)
         end
@@ -117,14 +117,14 @@ function Stonemason:dirSubUpdate()
     elseif self.moveDir == "southeast" then
         if self.state == "Going to stockpile" or self.state == "Going to workplace with stone" then
             self.animation =
-            anim.newAnimation(an[ANIM_WALKING_STONE_SOUTHEAST], 0.05, nil, ANIM_WALKING_STONE_SOUTHEAST)
+                anim.newAnimation(an[ANIM_WALKING_STONE_SOUTHEAST], 0.05, nil, ANIM_WALKING_STONE_SOUTHEAST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_SOUTHEAST], 0.05, nil, ANIM_WALKING_SOUTHEAST)
         end
     elseif self.moveDir == "northeast" then
         if self.state == "Going to stockpile" or self.state == "Going to workplace with stone" then
             self.animation =
-            anim.newAnimation(an[ANIM_WALKING_STONE_NORTHEAST], 0.05, nil, ANIM_WALKING_STONE_NORTHEAST)
+                anim.newAnimation(an[ANIM_WALKING_STONE_NORTHEAST], 0.05, nil, ANIM_WALKING_STONE_NORTHEAST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_NORTHEAST], 0.05, nil, ANIM_WALKING_NORTHEAST)
         end
@@ -158,17 +158,15 @@ function Stonemason:update()
             end
         elseif self.state == "Go to workplace" then
             if self.workplace.liftWorker == self then
-                self:requestPath(self.workplace.gx + 6, self.workplace.gy + 3)
+                self:requestPathToStructure(self.workplace)
                 self.state = "Going to workplace"
                 self.moveDir = "none"
-
             elseif self.workplace.pullWorker == self then
-                self:requestPath(self.workplace.gx + 5, self.workplace.gy - 1)
+                self:requestPathToStructure(self.workplace)
                 self.state = "Going to workplace"
                 self.moveDir = "none"
-
             elseif self.workplace.shapeWorker == self then
-                self:requestPath(self.workplace.gx + 1, self.workplace.gy + 6)
+                self:requestPathToStructure(self.workplace)
                 self.state = "Going to workplace"
                 self.moveDir = "none"
             end
@@ -180,7 +178,7 @@ function Stonemason:update()
         if self.state == "Going to workplace" or self.state == "Going to stockpile" then
             self:move()
         end
-        if self.fx * 0.001 == self.waypointX and self.fy * 0.001 == self.waypointY and self.moveDir ~= "none" then
+        if self:reachedWaypoint() then
             if self.state == "Going to workplace" then
                 if self:reachedPathEnd() then
                     self.workplace:work(self)
@@ -198,7 +196,6 @@ function Stonemason:update()
                     return
                 else
                     self:setNextWaypoint()
-
                 end
                 self.count = self.count + 1
             end

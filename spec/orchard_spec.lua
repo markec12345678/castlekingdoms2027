@@ -104,7 +104,7 @@ describe("orchard", function()
             assert.is_true(farmStates[7], "went to 8th apple tree")
             assert.is_true(farmStates[8], "went to 9th apple tree")
             assert.are.same(0, farm.state)
-            assert.are.same("Go to foodpile", worker.state)
+            assert.are.same("Go to granary", worker.state)
         end)
         local Granary = require("objects.Structures.Granary")
         Granary:new(30, 30)
@@ -112,7 +112,7 @@ describe("orchard", function()
             repeat
                 _G.finder:update()
                 worker:animate()
-            until worker.state ~= "Go to foodpile" and worker.state ~= "Going to foodpile"
+            until worker.state ~= "Go to granary" and worker.state ~= "Going to foodpile"
             assert.are.same("Go to workplace", worker.state)
             assert.are.same(_G.state.food["apples"], 4, "expected to store 4 apples, but got " .. _G.state.food["apples"] .. " instead")
         end)

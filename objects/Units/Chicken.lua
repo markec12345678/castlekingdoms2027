@@ -2,7 +2,7 @@ local Unit = require("objects.Units.Unit")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
 
-local chickenFx = {_G.fx["chicflap_01"], _G.fx["chicflap_02"], _G.fx["chicflap_03"], _G.fx["chicflap_04"]}
+local chickenFx = { _G.fx["chicflap_01"], _G.fx["chicflap_02"], _G.fx["chicflap_03"], _G.fx["chicflap_04"] }
 
 -- walk
 local ANIM_WALKING_EAST = "walking_east"
@@ -69,8 +69,8 @@ function Chicken:initialize(gx, gy, type, anchor)
     self.anchor = anchor
 end
 
-local eatingDurations = {["1-118"] = 0.09}
-local flyinggDurations = {["1-32"] = 0.09}
+local eatingDurations = { ["1-118"] = 0.09 }
+local flyinggDurations = { ["1-32"] = 0.09 }
 
 function Chicken:startEating(facingDir)
     self.state = "Eating"
@@ -189,7 +189,7 @@ function Chicken:update()
     if self.moveDir == "none" then
         self.moveDir = "east"
     end
-    if self.fx * 0.001 == self.waypointX and self.fy * 0.001 == self.waypointY and self.moveDir ~= "none" then
+    if self:reachedWaypoint() then
         if self.state == "Going to random waypoint" then
             if self:reachedPathEnd() then
                 -- Randomly decide whether to eat or sit

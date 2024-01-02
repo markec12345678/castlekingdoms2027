@@ -158,6 +158,26 @@ function Structure:serialize()
     return data
 end
 
+function Structure:respawnWorker(worker, state)
+    worker.state = state
+    worker.animated = true
+    worker.gx = self.spawnpointGX
+    worker.gy = self.spawnpointGY
+    worker.fx = worker.gx * 1000 + 500
+    worker.fy = worker.gy * 1000 + 500
+    local cx, cy, i, o
+    i = (worker.gx) % (_G.chunkWidth)
+    o = (worker.gy) % (_G.chunkWidth)
+    cx = math.floor(worker.gx / _G.chunkWidth)
+    cy = math.floor(worker.gy / _G.chunkWidth)
+    worker.locationsCx = { cx }
+    worker.locationsCy = { cy }
+    worker.locationsI = { i }
+    worker.locationsO = { o }
+    _G.addObjectAt(cx, cy, i, o, worker)
+    worker.needNewVertAsap = true
+end
+
 function Structure:findExitPointTo(structure, foundCallback)
     local entryPoints = {}
     if structure == "Stockpile" then
@@ -171,6 +191,15 @@ function Structure:findExitPointTo(structure, foundCallback)
         end
     elseif structure == "Granary" then
         for _, v in ipairs(_G.foodpile.nodeList) do
+            entryPoints[#entryPoints + 1] = { x = v.gx, y = v.gy }
+        end
+        if not next(entryPoints) then
+            -- TODO: Granary is unreachable, do something about it!
+            foundCallback(false)
+            return
+        end
+    elseif structure == "Armoury" then
+        for _, v in ipairs(_G.weaponpile.nodeList) do
             entryPoints[#entryPoints + 1] = { x = v.gx, y = v.gy }
         end
         if not next(entryPoints) then

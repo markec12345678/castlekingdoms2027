@@ -139,7 +139,7 @@ function DairyFarmer:update()
             _G.JobController:findJob(self, "DairyFarmer")
         elseif self.state == "Waiting" then
             self.workplace:work(self)
-        elseif self.state == "Go to foodpile" or self.state == "Wait" then
+        elseif self.state == "Go to granary" or self.state == "Wait" then
             if next(_G.foodpile.nodeList) ~= nil then
                 self.state = "Going to foodpile"
                 local closestNode
@@ -171,7 +171,7 @@ function DairyFarmer:update()
         if (self.state == "Going to workplace" or self.state == "Going to foodpile") then
             self:move()
         end
-        if self.fx * 0.001 == self.waypointX and self.fy * 0.001 == self.waypointY and self.moveDir ~= "none" then
+        if self:reachedWaypoint() then
             if self.state == "Going to workplace" then
                 if self:reachedPathEnd() then
                     self.workplace:work(self)

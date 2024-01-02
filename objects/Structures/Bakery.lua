@@ -181,7 +181,7 @@ function BakeryCooking:bakeCallback_2()
         if self.parent.stack.quantity == 4 then
             self.parent:findExitPointTo("Granary", function(found, path)
                 if found then
-                    self.parent:sendToStockpile()
+                    self.parent:sendToGranary()
                 else
                     print("No path found to granary!")
                 end
@@ -492,25 +492,9 @@ function Bakery:work(worker)
     end
 end
 
-function Bakery:sendToStockpile()
-    local i, o, cx, cy
-    self.worker.state = "Go to granary"
-    self.worker.animated = true
-    self.worker.gx = self.spawnpointGX
-    self.worker.gy = self.spawnpointGY
-    self.worker.fx = self.worker.gx * 1000 + 500
-    self.worker.fy = self.worker.gy * 1000 + 500
-    i = (self.worker.gx) % (_G.chunkWidth)
-    o = (self.worker.gy) % (_G.chunkWidth)
-    cx = math.floor(self.worker.gx / _G.chunkWidth)
-    cy = math.floor(self.worker.gy / _G.chunkWidth)
-    table.insert(self.worker.locationsCx, cx)
-    table.insert(self.worker.locationsCy, cy)
-    table.insert(self.worker.locationsI, i)
-    table.insert(self.worker.locationsO, o)
-    _G.addObjectAt(cx, cy, i, o, self.worker)
+function Bakery:sendToGranary()
+    self:respawnWorker(self.worker, "Go to granary")
     self.working = false
-    self.worker.needNewVertAsap = true
     self.cookingObj:deactivate()
     self.stack:take()
     self:enterHover(false)

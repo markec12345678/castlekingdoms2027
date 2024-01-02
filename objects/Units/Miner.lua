@@ -127,7 +127,7 @@ function Miner:update()
                 self.moveDir = "none"
             end
         elseif self.state == "Go to workplace" then
-            self:requestPath(self.workplace.gx - 1, self.workplace.gy + 1)
+            self:requestPathToStructure(self.workplace)
             self.state = "Going to workplace"
             self.moveDir = "none"
         elseif self.moveDir == "none" and self.state == "Going to workplace" then
@@ -140,7 +140,7 @@ function Miner:update()
         if self.state == "Going to workplace" or self.state == "Going to stockpile" then
             self:move()
         end
-        if self.fx * 0.001 == self.waypointX and self.fy * 0.001 == self.waypointY and self.moveDir ~= "none" then
+        if self:reachedWaypoint() then
             if self.state == "Going to workplace" then
                 if self:reachedPathEnd() then
                     self.workplace:work(self)

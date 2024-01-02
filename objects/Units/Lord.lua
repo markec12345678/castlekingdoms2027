@@ -156,14 +156,11 @@ function Lord:update()
         self:move()
     end
 
-    local finishedCurrentWaypoint = self.fx * 0.001 == self.waypointX and self.fy * 0.001 == self.waypointY and self.moveDir ~= "none"
-    if finishedCurrentWaypoint then
-        local finishedEntirePath = self:reachedPathEnd()
-        if finishedEntirePath then
+    if self:reachedWaypoint() then
+        if self:reachedPathEnd() then
             self:clearPath()
             self.state = "Idle"
-            local d = getRandomDirection()
-            self:doIdle(0, d)
+            self:doIdle(0, getRandomDirection())
             return
         else
             self:setNextWaypoint()

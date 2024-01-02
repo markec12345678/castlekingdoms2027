@@ -69,7 +69,13 @@ function WoodcutterHutLogStack.static:deserialize(data)
         end
         local tookLog = obj.parent.logStack:take()
         if not tookLog then
-            obj.parent:sendToStockpile()
+            self.parent:findExitPointTo("Stockpile", function(found, path)
+                if found then
+                    self.parent:sendToStockpile()
+                else
+                    print("No path found to stockpile!")
+                end
+            end)
             obj:deactivate()
         end
     end
@@ -281,7 +287,13 @@ function WoodcutterHutSawing:setCallback()
         end
         local tookLog = parent.logStack:take()
         if not tookLog then
-            parent:sendToStockpile()
+            parent:findExitPointTo("Stockpile", function(found, path)
+                if found then
+                    parent:sendToStockpile()
+                else
+                    print("No path found to stockpile!")
+                end
+            end)
             self:deactivate()
         end
     end
@@ -491,18 +503,7 @@ function WoodcutterHut:work(worker)
 end
 
 function WoodcutterHut:sendToStockpile()
-    local i, o, cx, cy
-    self.worker.state = "Go to stockpile"
-    self.worker.animated = true
-    self.worker.gx = self.gx + 1
-    self.worker.gy = self.gy + 2
-    self.worker.fx = (self.gx + 1) * 1000 + 500
-    self.worker.fy = (self.gy + 2) * 1000 + 500
-    i = (self.worker.gx) % (_G.chunkWidth)
-    o = (self.worker.gy) % (_G.chunkWidth)
-    cx = math.floor(self.worker.gx / _G.chunkWidth)
-    cy = math.floor(self.worker.gy / _G.chunkWidth)
-    _G.addObjectAt(cx, cy, i, o, self.worker)
+    self:respawnWorker(self.liftWorker, "Go to stockpile")
     self.stack:deactivate()
     self.working = false
 end

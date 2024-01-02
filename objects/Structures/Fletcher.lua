@@ -64,7 +64,7 @@ function BowCrafting.static:deserialize(data)
     Object.deserialize(obj, data)
     Structure.load(obj, data)
     obj.parent = _G.state:dereferenceObject(data.parent)
-    obj.parent.cookingObj = obj
+    obj.parent.bowCrafting = obj
     local callback
     local anData = data.animation
     if anData.animationIdentifier == ANIM_CRAFTING_BOW then
@@ -175,7 +175,7 @@ function FletcherWorkshop:initialize(gx, gy)
     self.nextWeapon = self.weaponType
     self.freeSpots = 1
     self.worker = nil
-    self.cookingObj = BowCrafting:new(self.gx + 3, self.gy + 2, self)
+    self.bowCrafting = BowCrafting:new(self.gx + 3, self.gy + 2, self)
     for tile = 1, tiles do
         local hsl = FletcherAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
             -self.offsetY + 8 * (tiles - tile + 1))
@@ -218,7 +218,13 @@ function BowCrafting:craftCallback_1()
                 ANIM_CRAFTING_CROSSBOW)
         end
         if self.craftingCycle == 6 then
-            self.parent:sendToStockpile()
+            self.parent:findExitPointTo("Armoury", function(found, path)
+                if found then
+                    self.parent:sendToArmoury()
+                else
+                    print("No path found to armoury!")
+                end
+            end)
             self.craftingCycle = 0
             self:deactivate()
         else
@@ -230,8 +236,8 @@ end
 function FletcherWorkshop:destroy()
     _G.JobController:remove("Fletcher", self)
     self.float:destroy()
-    Structure.destroy(self.cookingObj)
-    self.cookingObj.toBeDeleted = true
+    Structure.destroy(self.bowCrafting)
+    self.bowCrafting.toBeDeleted = true
 
     Structure.destroy(self)
     if self.worker then
@@ -326,7 +332,7 @@ function FletcherWorkshop:enterHover(induced)
 end
 
 function FletcherWorkshop:exitHover(induced)
-    if induced or not self.cookingObj.animated then
+    if induced or not self.bowCrafting.animated then
         self.hover = false
     else
         return
@@ -363,7 +369,7 @@ function FletcherWorkshop:leave(sleepInsteadOfLeaving)
         self.worker = nil
         self.freeSpots = 1
         self.float:activate()
-        self.cookingObj:deactivate()
+        self.bowCrafting:deactivate()
         return true
     end
 end
@@ -393,7 +399,7 @@ function FletcherWorkshop:work(worker)
         worker.gx = self.gx + 1
         worker.gy = self.gy + 2
         worker:jobUpdate()
-        self.cookingObj:activate()
+        self.bowCrafting:activate()
     else
         self.worker.state = "Working"
         if not self.working and self.worker.state == "Working" then
@@ -405,23 +411,11 @@ function FletcherWorkshop:work(worker)
     end
 end
 
-function FletcherWorkshop:sendToStockpile()
-    local i, o, cx, cy
-    self.worker.state = "Go to armoury"
+function FletcherWorkshop:sendToArmoury()
+    self:respawnWorker(self.worker, "Go to armoury")
     self.worker.weaponType = self.weaponType
-    self.worker.animated = true
-    self.worker.gx = self.gx + 1
-    self.worker.gy = self.gy + 4
-    self.worker.fx = self.worker.gx * 1000 + 500
-    self.worker.fy = self.worker.gy * 1000 + 500
-    i = (self.worker.gx) % (_G.chunkWidth)
-    o = (self.worker.gy) % (_G.chunkWidth)
-    cx = math.floor(self.worker.gx / _G.chunkWidth)
-    cy = math.floor(self.worker.gy / _G.chunkWidth)
-    _G.addObjectAt(cx, cy, i, o, self.worker)
     self.working = false
-    self.worker.needNewVertAsap = true
-    self.cookingObj:deactivate()
+    self.bowCrafting:deactivate()
     self:exitHover(true)
 end
 

@@ -91,7 +91,13 @@ function BreweryCooking:brewCallback_2()
         self.animation = anim.newAnimation(an[ANIM_BREWING_BEER], 0.11, self:brewCallback_1(), ANIM_BREWING_BEER)
 
         if self.brewingCycle == 6 then
-            self.parent:sendToStockpile()
+            self.parent:findExitPointTo("Stockpile", function(found, path)
+                if found then
+                    self.parent:sendToStockpile()
+                else
+                    print("No path found to stockpile!")
+                end
+            end)
             self.brewingCycle = 0
             self:deactivate()
         end
@@ -382,20 +388,8 @@ function Brewery:work(worker)
 end
 
 function Brewery:sendToStockpile()
-    local i, o, cx, cy
-    self.worker.state = "Go to stockpile"
-    self.worker.animated = true
-    self.worker.gx = self.gx + 1
-    self.worker.gy = self.gy + 4
-    self.worker.fx = (self.gx + 1) * 1000 + 500
-    self.worker.fy = (self.gy + 4) * 1000 + 500
-    i = (self.worker.gx) % (_G.chunkWidth)
-    o = (self.worker.gy) % (_G.chunkWidth)
-    cx = math.floor(self.worker.gx / _G.chunkWidth)
-    cy = math.floor(self.worker.gy / _G.chunkWidth)
+    self:respawnWorker(self.worker, "Go to stockpile")
     self.working = false
-    self.worker.needNewVertAsap = true
-    self.workerDelivered = false
     self.cookingObj:deactivate()
     self:exitHover(true)
 end

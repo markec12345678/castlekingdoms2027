@@ -83,16 +83,16 @@ end
 
 function Healer:getRandomBuildingInArea()
     local buildings = _G.BuildingManager:getAllNearbyBuildings(self.workplace, SEARCH_RADIUS)
-        for _, building in ipairs(buildings) do
+    for _, building in ipairs(buildings) do
         if building.class.name ~= "Stockpile" then
-                table.insert(self.buildingsInArea, building)
+            table.insert(self.buildingsInArea, building)
         end
     end
 end
 
 function Healer:healCallback()
     if self.state == "healing" or (self.state == "Going to heal" and self.waypointX == nil) then
-        if  #self.buildingsInArea > 1 then
+        if #self.buildingsInArea > 1 then
             print("Number of buildings to heal ", #self.buildingsInArea)
             self.state = "Looking to heal"
             self.moveDir = "none"
@@ -101,7 +101,7 @@ function Healer:healCallback()
             self.animation:pause()
             self.moveDir = "none"
             self.state = "Going to workplace"
-            self:requestPath(self.workplace.gx + 3, self.workplace.gy + 6, function() self:onNoPathToWorkplace() end)
+            self:requestPathToStructure(self.workplace, function() self:onNoPathToWorkplace() end)
             self.buildingsInArea = {}
         end
     end
@@ -197,7 +197,7 @@ function Healer:update()
         if self.state == "Looking to heal" then
             self:findStructures()
         elseif self.state == "Go to workplace" then
-            self:requestPath(self.workplace.gx + 3, self.workplace.gy + 6, function() self:onNoPathToWorkplace() end)
+            self:requestPathToStructure(self.workplace, function() self:onNoPathToWorkplace() end)
             self.state = "Going to workplace"
             self.moveDir = "none"
         elseif self.state == "Going to heal" or self.state == "Going to workplace" or self.state == "Going to waypoint" then

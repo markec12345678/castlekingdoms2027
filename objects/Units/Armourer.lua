@@ -208,7 +208,7 @@ function Armourer:update()
                 self.moveDir = "none"
             end
         elseif self.state == "Go to workplace" or self.state == "Go to workplace with IRON" then
-            self:requestPath(self.workplace.gx, self.workplace.gy + 4)
+            self:requestPathToStructure(self.workplace)
             if self.state == "Go to workplace with IRON" then
                 self.state = "Going to workplace with IRON"
             else
@@ -222,10 +222,10 @@ function Armourer:update()
             self:dirSubUpdate()
         end
         if (self.state == "Going to workplace" or self.state == "Going to armoury" or self.state ==
-            "Going to workplace with IRON" or self.state == "Going to stockpile for IRON") then
+                "Going to workplace with IRON" or self.state == "Going to stockpile for IRON") then
             self:move()
         end
-        if self.fx * 0.001 == self.waypointX and self.fy * 0.001 == self.waypointY and self.moveDir ~= "none" then
+        if self:reachedWaypoint() then
             if self.state == "Going to workplace" or self.state == "Going to workplace with IRON" then
                 if self:reachedPathEnd() then
                     self.workplace:work(self)
@@ -233,7 +233,6 @@ function Armourer:update()
                     return
                 else
                     self:setNextWaypoint()
-
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to stockpile for IRON" then
@@ -250,7 +249,6 @@ function Armourer:update()
                     end
                 else
                     self:setNextWaypoint()
-
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to armoury" then
@@ -261,7 +259,6 @@ function Armourer:update()
                     return
                 else
                     self:setNextWaypoint()
-
                 end
                 self.count = self.count + 1
             end

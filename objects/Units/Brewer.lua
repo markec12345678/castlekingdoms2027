@@ -218,13 +218,7 @@ function Brewer:update()
                 self.moveDir = "none"
             end
         elseif self.state == "Go to workplace" or self.state == "Go to workplace with hops" then
-            if self.workplace.worker == self then
-                self:requestPath(self.workplace.gx, self.workplace.gy + 4)
-            elseif self.workplace.worker2 == self then
-                self:requestPath(self.workplace.gx + 1, self.workplace.gy + 4)
-            else
-                self:requestPath(self.workplace.gx + 2, self.workplace.gy + 4)
-            end
+            self:requestPathToStructure(self.workplace)
             if self.state == "Go to workplace with hops" then
                 self.state = "Going to workplace with hops"
             else
@@ -239,7 +233,7 @@ function Brewer:update()
             self:dirSubUpdate()
         end
         if (self.state == "Going to workplace" or self.state == "Going to stockpile" or self.state ==
-            "Going to workplace with hops" or self.state == "Going to stockpile for hops") then
+                "Going to workplace with hops" or self.state == "Going to stockpile for hops") then
             self:move()
         end
         if self.fx * 0.001 == self.waypointX and self.fy * 0.001 == self.waypointY and self.moveDir ~= "none" then
@@ -249,7 +243,6 @@ function Brewer:update()
                     return
                 else
                     self:setNextWaypoint()
-
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to stockpile for hops" or self.state == "Going to stockpile" then
@@ -268,7 +261,6 @@ function Brewer:update()
                     end
                 else
                     self:setNextWaypoint()
-
                 end
                 self.count = self.count + 1
             end
