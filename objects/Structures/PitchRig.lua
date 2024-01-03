@@ -65,7 +65,13 @@ end
 
 function PitchRigCooking:brewCallback_1()
     return function()
-        self.parent:sendToStockpile()
+        self.parent:findExitPointTo("Stockpile", function(found, path)
+            if found then
+                self.parent:sendToStockpile()
+            else
+                print("No path found to stockpile!")
+            end
+        end)
         self:deactivate()
     end
 end
@@ -289,20 +295,9 @@ function PitchRig:work(worker)
 end
 
 function PitchRig:sendToStockpile()
-    local i, o, cx, cy
-    self.worker.state = "Go to stockpile"
-    self.worker.animated = true
-    self.worker.gx = self.gx + 1
-    self.worker.gy = self.gy + 4
-    self.worker.fx = (self.gx + 1) * 1000 + 500
-    self.worker.fy = (self.gy + 4) * 1000 + 500
-    i = (self.worker.gx) % (_G.chunkWidth)
-    o = (self.worker.gy) % (_G.chunkWidth)
-    cx = math.floor(self.worker.gx / _G.chunkWidth)
-    cy = math.floor(self.worker.gy / _G.chunkWidth)
+    self:respawnWorker(self.worker, "Go to stockpile")
     self.working = false
     self.worker.needNewVertAsap = true
-    self.workerDelivered = false
     self.cookingObj:deactivate()
 end
 

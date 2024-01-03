@@ -37,7 +37,7 @@ function OxHandler:update()
                         self.targetQuarry = str
                         if self.targetQuarry.stack.quantity > 0 and self.targetQuarry.assignedOxHandler == nil then
                             self.targetQuarry.assignedOxHandler = self
-                            self:requestPath(str.gx + 6, str.gy + 3)
+                            self:requestPathToStructure(str)
                             self.state = "Going to quarry"
                             self.moveDir = "none"
                             self.animation:resume()
@@ -58,7 +58,7 @@ function OxHandler:update()
         "Going to workplace with stone" then
         self:move()
     end
-    if self.fx * 0.001 == self.waypointX and self.fy * 0.001 == self.waypointY and self.moveDir ~= "none" then
+    if self:reachedWaypoint() then
         if self.state == "Going to workplace" then
             if self:reachedPathEnd() then
                 self.workplace:work(self)

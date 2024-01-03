@@ -624,7 +624,7 @@ function HopsFarm:work(worker)
 end
 
 function HopsFarm:sendToStockpile()
-    self.hopsWorker.state = "Go to foodpile"
+    self.hopsWorker.state = "Go to granary"
     self.hopsWorker.moveDir = "none"
 end
 

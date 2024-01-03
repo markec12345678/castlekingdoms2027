@@ -345,7 +345,13 @@ function MinePourer:pourCallback_1()
             self.parent.goingDown:activate()
         else
             self.parent.unloading = true
-            self.parent:sendToStockpile()
+            self.parent:findExitPointTo("Stockpile", function(found, path)
+                if found then
+                    self.parent:sendToStockpile()
+                else
+                    print("No path found to stockpile!")
+                end
+            end)
         end
     end
 end
@@ -813,18 +819,7 @@ function Mine:work(worker)
 end
 
 function Mine:sendToStockpile()
-    local i, o, cx, cy
-    self.worker.state = "Go to stockpile"
-    self.worker.animated = true
-    self.worker.gx = self.gx - 1
-    self.worker.gy = self.gy + 1
-    self.worker.fx = (self.gx - 1) * 1000 + 500
-    self.worker.fy = (self.gy + 1) * 1000 + 500
-    i = (self.worker.gx) % (_G.chunkWidth)
-    o = (self.worker.gy) % (_G.chunkWidth)
-    cx = math.floor(self.worker.gx / _G.chunkWidth)
-    cy = math.floor(self.worker.gy / _G.chunkWidth)
-    _G.addObjectAt(cx, cy, i, o, self.worker)
+    self:respawnWorker(self.worker, "Go to stockpile")
     self.stack:take()
     self.goingDown:deactivate()
     self.working = false

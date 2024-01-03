@@ -1081,7 +1081,7 @@ end
 ---@param my integer Mouse Y
 ---@param ignoreElevation? boolean Whether to get the tile a 0 ground level
 ---@return integer gx, integer gy
-function Terrain:getTerrainTileOnMouse(mx, my, ignoreElevation)
+function Terrain:getTerrainTileOnMouse(mx, my, ignoreElevation, ignoreStructureOffset)
     local MX, MY, rMX, rMY
     rMX = (mx - _G.ScreenWidth / 2) / self.state.scaleX + self.state.viewXview - 16
     rMY = (my - _G.ScreenHeight / 2) / self.state.scaleX + self.state.viewYview
@@ -1107,6 +1107,7 @@ function Terrain:getTerrainTileOnMouse(mx, my, ignoreElevation)
             t = { nil, _G.IsoX + (i - o) * tileWidth * 0.5, _G.IsoY + (i + o) * tileHeight * 0.5, 0, 1.06, 1.06 }
         end
         local structureOffset = getStructureOffset(gx, gy)
+        if ignoreStructureOffset then ignoreStructureOffset = 0 end
         local recty = t[3] - elevationOffsetY + cyOffset + structureOffset
         if rMY >= recty then
             lastValidGx, lastValidGy = gx, gy

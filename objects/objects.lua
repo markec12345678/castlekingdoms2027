@@ -196,7 +196,7 @@ end
 ---@param gx number Global X coordinate.
 ---@param gy number Global Y coordinate.
 ---@param objClass string|table Name of the _G.state.object's class or the class itself.
----@return boolean|Object
+---@return false|Object
 function _G.objectFromClassAtGlobal(gx, gy, objClass)
     local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(gx, gy)
     if type(_G.state.object[cx][cy][x][y]) == "table" then
@@ -565,7 +565,7 @@ local function mousepressed(x, y, button)
         elseif unit and unit.onClick then
             local ActionBar = require("states.ui.ActionBar")
             if _G.selectedUnit ~= nil then
-                _G.selectedUnitUI = _G.selectedUnit.type  --TEMPORARY SOLUTION IT WOULD BE NICE TO HANDLE IT WITH AN EVENT
+                _G.selectedUnitUI = _G.selectedUnit.type --TEMPORARY SOLUTION IT WOULD BE NICE TO HANDLE IT WITH AN EVENT
                 print(_G.selectedUnitUI)
             end
             ActionBar:switchMode("unitsUI")

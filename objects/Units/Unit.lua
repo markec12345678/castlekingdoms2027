@@ -315,6 +315,10 @@ function Unit:requestPathToMultipleGoals(goals, noPathCallback)
     return true
 end
 
+function Unit:reachedWaypoint()
+    return self.fx * 0.001 == self.waypointX and self.fy * 0.001 == self.waypointY and self.moveDir ~= "none"
+end
+
 function Unit:reachedPathEnd()
     if self.nd[1] == nil then
         if self.gx == self.nd[0][1] + 0.5 and self.gy == self.nd[0][2] + 0.5 then
@@ -387,8 +391,16 @@ function Unit:pathfind()
             self.pathState = "Found"
             return true
         elseif self.path == 2 then
+            -- The end point that the unit reached was unwalkable,
+            -- so he was shifted to the nearest walkable position
+            -- reset pathfinder with new position
+            if self.startx ~= math.floor(self.gx) and self.starty ~= math.floor(self.gy) then
+                self.startx = math.floor(self.gx)
+                self.starty = math.floor(self.gy)
+                self:requestPath(self.endx, self.endy, self.noPathCallback)
+                return
+            end
             self.pathState = "No path"
-            print("No path found", self.state)
             if self.noPathCallback then
                 self.noPathCallback()
                 self.noPathCallback = nil

@@ -27,19 +27,19 @@ local windmillFx = {
     _G.fx["windmill-interior-old-mill-big-8"],
 }
 
-local tempAnim = {_G.unpack(frWindmillFan)}
+local tempAnim = { _G.unpack(frWindmillFan) }
 for _ = 1, 2 do
     for _, v in ipairs(tempAnim) do
         table.insert(frWindmillFan, v)
     end
 end
-tempAnim = {_G.unpack(frAnimWindmillOutside)}
+tempAnim = { _G.unpack(frAnimWindmillOutside) }
 for _ = 1, 2 do
     for _, v in ipairs(tempAnim) do
         table.insert(frAnimWindmillOutside, v)
     end
 end
-tempAnim = {_G.unpack(frAnimWindmillInside)}
+tempAnim = { _G.unpack(frAnimWindmillInside) }
 for _ = 1, 2 do
     for _, v in ipairs(tempAnim) do
         table.insert(frAnimWindmillInside, v)
@@ -128,7 +128,13 @@ function WindmillFilling:fillingCallback()
     if self.timesLooped > 4 then
         self.timesLooped = 0
         self.parent.bladeShadow:showOutside()
-        self.parent:sendToStockpile()
+        self.parent:findExitPointTo("Stockpile", function(found, path)
+            if found then
+                self.parent:sendToStockpile()
+            else
+                print("No path found to stockpile!")
+            end
+        end)
         self:deactivate()
     else
         if self.timesLooped % 2 == 0 then
@@ -322,9 +328,6 @@ function Windmill:initialize(gx, gy, type)
     self.worker = nil
     self.worker2 = nil
     self.worker3 = nil
-    self.workerDelivered = false
-    self.worker2Delivered = false
-    self.worker3Delivered = false
 
     self.blade = WindmillBlade:new(self.gx, self.gy + 2, self)
     self.bladeShadow = WindmillShadow:new(self.gx, self.gy + 2, self)
@@ -411,9 +414,6 @@ function Windmill:load(data)
         self.worker3 = _G.state:dereferenceObject(data.worker3)
         self.worker3.workplace = self
     end
-    self.workerDelivered = data.workerDelivered
-    self.worker2Delivered = data.worker2Delivered
-    self.worker3Delivered = data.worker3Delivered
     self.blade = _G.state:dereferenceObject(data.blade)
     self.blade.parent = self
     self.bladeShadow = _G.state:dereferenceObject(data.bladeShadow)
@@ -447,9 +447,6 @@ function Windmill:serialize()
     if self.worker3 then
         data.worker3 = _G.state:serializeObject(self.worker3)
     end
-    data.workerDelivered = self.workerDelivered
-    data.worker2Delivered = self.worker2Delivered
-    data.worker3Delivered = self.worker3Delivered
     data.blade = _G.state:serializeObject(self.blade)
     data.bladeShadow = _G.state:serializeObject(self.bladeShadow)
     data.fillingFlour = _G.state:serializeObject(self.fillingFlour)
@@ -511,21 +508,8 @@ function Windmill:work(worker)
 end
 
 function Windmill:sendToStockpile()
-    local i, o, cx, cy
+    self:respawnWorker(self.worker, "Go to stockpile")
     self.working = false
-    self.worker.state = "Go to stockpile"
-    self.worker.animated = true
-    self.worker.gx = self.gx + 1
-    self.worker.gy = self.gy + 4
-    self.worker.fx = (self.gx + 1) * 1000 + 500
-    self.worker.fy = (self.gy + 4) * 1000 + 500
-    i = (self.worker.gx) % (_G.chunkWidth)
-    o = (self.worker.gy) % (_G.chunkWidth)
-    cx = math.floor(self.worker.gx / _G.chunkWidth)
-    cy = math.floor(self.worker.gy / _G.chunkWidth)
-    _G.addObjectAt(cx, cy, i, o, self.worker)
-    self.working = false
-    self.workerDelivered = false
 end
 
 return Windmill

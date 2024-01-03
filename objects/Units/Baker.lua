@@ -223,7 +223,7 @@ function Baker:update()
                 "Going to workplace with flour" or self.state == "Going to stockpile for flour") then
             self:move()
         end
-        if self.fx * 0.001 == self.waypointX and self.fy * 0.001 == self.waypointY and self.moveDir ~= "none" then
+        if self:reachedWaypoint() then
             if self.state == "Going to workplace" or self.state == "Going to workplace with flour" then
                 if self:reachedPathEnd() then
                     self.workplace:work(self)

@@ -49,7 +49,7 @@ function DebugView:update()
     local Structure = require("objects.Structure")
     if self.active then
         local MX, MY = love.mouse.getPosition()
-        local OX, OY = _G.getTerrainTileOnMouse(MX, MY)
+        local OX, OY = _G.getTerrainTileOnMouse(MX, MY, nil, true)
         local objectOnMouse
         if self.focus == "objects" or self.focus == "units" then
             if self.focus == "units" then

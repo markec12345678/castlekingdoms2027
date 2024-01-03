@@ -416,14 +416,14 @@ function Orchard:work(worker)
             self.state = 8
         elseif self.state == 8 then
             self.tree8.animation = self.tree8.animRaw
-            self:sendToStockpile()
+            self:sendToGranary()
             self.state = 0
         end
     end
 end
 
-function Orchard:sendToStockpile()
-    self.appleWorker.state = "Go to foodpile"
+function Orchard:sendToGranary()
+    self.appleWorker.state = "Go to granary"
     self.appleWorker:clearPath()
     self.working = false
 end

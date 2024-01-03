@@ -59,7 +59,7 @@ function ShieldCrafting.static:deserialize(data)
     Object.deserialize(obj, data)
     Structure.load(obj, data)
     obj.parent = _G.state:dereferenceObject(data.parent)
-    obj.parent.cookingObj = obj
+    obj.parent.shieldCrafting = obj
     local callback
     local anData = data.animation
     if anData.animationIdentifier == ANIM_CRAFTING_SHIELD then
@@ -76,7 +76,13 @@ function ShieldCrafting:craftCallback_1()
         self.animation = anim.newAnimation(an[ANIM_CRAFTING_SHIELD], 0.11, self:craftCallback_1(), ANIM_CRAFTING_SHIELD)
 
         if self.craftingCycle == 6 then
-            self.parent:sendToStockpile()
+            self.parent:findExitPointTo("Armoury", function(found, path)
+                if found then
+                    self.parent:sendToArmoury()
+                else
+                    print("No path found to armoury!")
+                end
+            end)
             self.craftingCycle = 0
             self:deactivate()
         else
@@ -178,7 +184,7 @@ function Armorer:initialize(gx, gy)
     self.offsetY = -52
     self.freeSpots = 1
     self.worker = nil
-    self.cookingObj = ShieldCrafting:new(self.gx + 3, self.gy + 2, self)
+    self.shieldCrafting = ShieldCrafting:new(self.gx + 3, self.gy + 2, self)
     for tile = 1, tiles do
         local hsl = ArmorerAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
             -self.offsetY + 8 * (tiles - tile + 1))
@@ -203,8 +209,8 @@ end
 
 function Armorer:destroy()
     self.float:destroy()
-    Structure.destroy(self.cookingObj)
-    self.cookingObj.toBeDeleted = true
+    Structure.destroy(self.shieldCrafting)
+    self.shieldCrafting.toBeDeleted = true
 
     _G.JobController:remove("Armourer", self)
     Structure.destroy(self)
@@ -276,7 +282,7 @@ function Armorer:enterHover()
 end
 
 function Armorer:exitHover(induced)
-    if induced or not self.cookingObj.animated then
+    if induced or not self.shieldCrafting.animated then
         self.hover = false
     else
         return
@@ -313,7 +319,7 @@ function Armorer:leave(sleepInsteadOfLeaving)
         self.worker = nil
         self.freeSpots = 1
         self.float:activate()
-        self.cookingObj:deactivate()
+        self.shieldCrafting:deactivate()
         return true
     end
 end
@@ -343,7 +349,7 @@ function Armorer:work(worker)
         worker.gx = self.gx + 1
         worker.gy = self.gy + 2
         worker:jobUpdate()
-        self.cookingObj:activate()
+        self.shieldCrafting:activate()
     else
         self.worker.state = "Working"
         if not self.working and self.worker.state == "Working" then
@@ -355,22 +361,10 @@ function Armorer:work(worker)
     end
 end
 
-function Armorer:sendToStockpile()
-    local i, o, cx, cy
-    self.worker.state = "Go to armoury"
-    self.worker.animated = true
-    self.worker.gx = self.gx + 1
-    self.worker.gy = self.gy + 4
-    self.worker.fx = self.worker.gx * 1000 + 500
-    self.worker.fy = self.worker.gy * 1000 + 500
-    i = (self.worker.gx) % (_G.chunkWidth)
-    o = (self.worker.gy) % (_G.chunkWidth)
-    cx = math.floor(self.worker.gx / _G.chunkWidth)
-    cy = math.floor(self.worker.gy / _G.chunkWidth)
-    _G.addObjectAt(cx, cy, i, o, self.worker)
+function Armorer:sendToArmoury()
+    self:respawnWorker(self.worker, "Go to armoury")
     self.working = false
-    self.worker.needNewVertAsap = true
-    self.cookingObj:deactivate()
+    self.shieldCrafting:deactivate()
     self:exitHover(true)
 end
 

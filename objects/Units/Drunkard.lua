@@ -110,7 +110,7 @@ function Drunkard:initialize(gx, gy, inn)
     self.count = 1
     self.waitingTimer = 0
     self.lifeTimer = 0
-    self.inn = inn 
+    self.inn = inn
     self.straightWalkSpeed = math.floor(self.straightWalkSpeed * 0.4)
     self.diagonalWalkSpeed = math.floor(self.diagonalWalkSpeed * 0.4)
     self.animation = anim.newAnimation(an[IDLE_DRUNKARD_SOUTH], 0.11, nil, IDLE_DRUNKARD_SOUTH)
@@ -137,7 +137,7 @@ function Drunkard:update()
             self.animation = _G.anim.newAnimation(an[IDLE_DRUNKARD_SOUTH], 0.11, nil, IDLE_DRUNKARD_SOUTH)
         end
     elseif self.pathState == "No path" then
-          self:startWandering()
+        self:startWandering()
     else
         if self.state == "Wander" then
             self:startWandering()
@@ -148,21 +148,21 @@ function Drunkard:update()
             end
             self:move()
         elseif self.state == "Standing" then
-           self.waitingTimer = self.waitingTimer + _G.dt
-           if self.waitingTimer > STANDING_TIME then
+            self.waitingTimer = self.waitingTimer + _G.dt
+            if self.waitingTimer > STANDING_TIME then
                 self.state = "Wander"
                 self.waitingTimer = 0
-           end
+            end
         elseif self.state == "Sitting" then
-           self.waitingTimer = self.waitingTimer + _G.dt
-           if self.waitingTimer > SITTING_TIME then
+            self.waitingTimer = self.waitingTimer + _G.dt
+            if self.waitingTimer > SITTING_TIME then
                 self.state = "Standing up"
-                self.animation = anim.newAnimation(an[STANDUP_DRUNKARD], 0.20, function () self:standupFinished() end, STANDUP_DRUNKARD)
+                self.animation = anim.newAnimation(an[STANDUP_DRUNKARD], 0.20, function() self:standupFinished() end, STANDUP_DRUNKARD)
                 self.waitingTimer = 0
-           end
+            end
         elseif self.state == "Waiting for respawn" then
-           self.waitingTimer = self.waitingTimer + _G.dt
-           if self.waitingTimer > RESPAWN_TIME then
+            self.waitingTimer = self.waitingTimer + _G.dt
+            if self.waitingTimer > RESPAWN_TIME then
                 if self.inn then
                     self.state = "Wander"
                     self.animation = anim.newAnimation(an[IDLE_DRUNKARD_SOUTH], 0.11, nil, IDLE_DRUNKARD_SOUTH)
@@ -172,9 +172,9 @@ function Drunkard:update()
                 else
                     self:die()
                 end
-           end
+            end
         end
-        if self.fx * 0.001 == self.waypointX and self.fy * 0.001 == self.waypointY and self.moveDir ~= "none" then
+        if self:reachedWaypoint() then
             if self.state == "Wandering" then
                 if self:reachedPathEnd() then
                     self:chooseNextTask()
@@ -189,10 +189,10 @@ function Drunkard:update()
 end
 
 function Drunkard:chooseNextTask()
-    local number = math.random(1,10)
+    local number = math.random(1, 10)
     if number == 10 then
         self.state = "Sitting"
-        self.animation = anim.newAnimation(an[FALLING_DRUNKARD], 0.11, function () self:drinkLoop() end, FALLING_DRUNKARD)
+        self.animation = anim.newAnimation(an[FALLING_DRUNKARD], 0.11, function() self:drinkLoop() end, FALLING_DRUNKARD)
     elseif number == 9 or number == 8 then
         self.state = "Standing"
         self:dirSubUpdate()
@@ -203,15 +203,15 @@ function Drunkard:chooseNextTask()
 end
 
 function Drunkard:getRandomWaypoint()
-    for i=1,20 do
+    for i = 1, 20 do
         local targetX = self.gx + math.random(-3, 3)
-        local targetY = self.gy + math.random(-3, 3) 
+        local targetY = self.gy + math.random(-3, 3)
         if _G.state.map:getWalkable(targetX, targetY) == 0 then
             return targetX, targetY
         end
     end
 
-    return -1, -1 
+    return -1, -1
 end
 
 local function getRandomDirection(notDirection)
@@ -228,66 +228,66 @@ local function getRandomDirection(notDirection)
 end
 
 function Drunkard:startWandering()
-        local targetX, targetY = self:getRandomWaypoint()
-        if (targetX == -1) then
-            self.state = "Standing"
-            self.waitingTimer = 0
-            self.moveDir = getRandomDirection()
-            self:dirSubUpdate()
-            return
-        end
+    local targetX, targetY = self:getRandomWaypoint()
+    if (targetX == -1) then
+        self.state = "Standing"
+        self.waitingTimer = 0
+        self.moveDir = getRandomDirection()
+        self:dirSubUpdate()
+        return
+    end
 
-        self:clearPath()
-        self:requestPath(targetX, targetY)
-        self.state = "Wandering"
+    self:clearPath()
+    self:requestPath(targetX, targetY)
+    self.state = "Wandering"
 end
 
 function Drunkard:dirSubUpdate()
     if self.moveDir == "west" then
         if self.state == "Standing" then
-            self.animation = anim.newAnimation(an[IDLE_DRUNKARD_WEST], IDLE_ANIMATION_FRAME_TIME, function () self:idleLoop() end, IDLE_DRUNKARD_WEST)
+            self.animation = anim.newAnimation(an[IDLE_DRUNKARD_WEST], IDLE_ANIMATION_FRAME_TIME, function() self:idleLoop() end, IDLE_DRUNKARD_WEST)
         else
             self.animation = anim.newAnimation(an[WALKING_DRUNKARD_WEST], 0.16, nil, WALKING_DRUNKARD_WEST)
         end
     elseif self.moveDir == "southwest" then
         if self.state == "Standing" then
-            self.animation = anim.newAnimation(an[IDLE_DRUNKARD_SOUTHWEST], IDLE_ANIMATION_FRAME_TIME, function () self:idleLoop() end, IDLE_DRUNKARD_SOUTHWEST)
+            self.animation = anim.newAnimation(an[IDLE_DRUNKARD_SOUTHWEST], IDLE_ANIMATION_FRAME_TIME, function() self:idleLoop() end, IDLE_DRUNKARD_SOUTHWEST)
         else
             self.animation = anim.newAnimation(an[WALKING_DRUNKARD_SOUTHWEST], 0.16, nil, WALKING_DRUNKARD_SOUTHWEST)
         end
     elseif self.moveDir == "northwest" then
         if self.state == "Standing" then
-            self.animation = anim.newAnimation(an[IDLE_DRUNKARD_NORTHWEST], IDLE_ANIMATION_FRAME_TIME, function () self:idleLoop() end, IDLE_DRUNKARD_NORTHWEST)
+            self.animation = anim.newAnimation(an[IDLE_DRUNKARD_NORTHWEST], IDLE_ANIMATION_FRAME_TIME, function() self:idleLoop() end, IDLE_DRUNKARD_NORTHWEST)
         else
             self.animation = anim.newAnimation(an[WALKING_DRUNKARD_NORTHWEST], 0.16, nil, WALKING_DRUNKARD_NORTHWEST)
         end
     elseif self.moveDir == "north" then
         if self.state == "Standing" then
-            self.animation = anim.newAnimation(an[IDLE_DRUNKARD_NORTH], IDLE_ANIMATION_FRAME_TIME, function () self:idleLoop() end, IDLE_DRUNKARD_NORTH)
+            self.animation = anim.newAnimation(an[IDLE_DRUNKARD_NORTH], IDLE_ANIMATION_FRAME_TIME, function() self:idleLoop() end, IDLE_DRUNKARD_NORTH)
         else
             self.animation = anim.newAnimation(an[WALKING_DRUNKARD_NORTH], 0.16, nil, WALKING_DRUNKARD_NORTH)
         end
     elseif self.moveDir == "south" then
         if self.state == "Standing" then
-            self.animation = anim.newAnimation(an[IDLE_DRUNKARD_SOUTH], IDLE_ANIMATION_FRAME_TIME, function () self:idleLoop() end, IDLE_DRUNKARD_SOUTH)
+            self.animation = anim.newAnimation(an[IDLE_DRUNKARD_SOUTH], IDLE_ANIMATION_FRAME_TIME, function() self:idleLoop() end, IDLE_DRUNKARD_SOUTH)
         else
             self.animation = anim.newAnimation(an[WALKING_DRUNKARD_SOUTH], 0.16, nil, WALKING_DRUNKARD_SOUTH)
         end
     elseif self.moveDir == "east" then
         if self.state == "Standing" then
-            self.animation = anim.newAnimation(an[IDLE_DRUNKARD_EAST], IDLE_ANIMATION_FRAME_TIME, function () self:idleLoop() end, IDLE_DRUNKARD_EAST)
+            self.animation = anim.newAnimation(an[IDLE_DRUNKARD_EAST], IDLE_ANIMATION_FRAME_TIME, function() self:idleLoop() end, IDLE_DRUNKARD_EAST)
         else
             self.animation = anim.newAnimation(an[WALKING_DRUNKARD_EAST], 0.16, nil, WALKING_DRUNKARD_EAST)
         end
     elseif self.moveDir == "southeast" then
         if self.state == "Standing" then
-            self.animation = anim.newAnimation(an[IDLE_DRUNKARD_SOUTHEAST], IDLE_ANIMATION_FRAME_TIME, function () self:idleLoop() end, IDLE_DRUNKARD_SOUTHEAST)
+            self.animation = anim.newAnimation(an[IDLE_DRUNKARD_SOUTHEAST], IDLE_ANIMATION_FRAME_TIME, function() self:idleLoop() end, IDLE_DRUNKARD_SOUTHEAST)
         else
             self.animation = anim.newAnimation(an[WALKING_DRUNKARD_SOUTHEAST], 0.16, nil, WALKING_DRUNKARD_SOUTHEAST)
         end
     elseif self.moveDir == "northeast" then
         if self.state == "Standing" then
-            self.animation = anim.newAnimation(an[IDLE_DRUNKARD_NORTHEAST], IDLE_ANIMATION_FRAME_TIME, function () self:idleLoop() end, IDLE_DRUNKARD_NORTHEAST)
+            self.animation = anim.newAnimation(an[IDLE_DRUNKARD_NORTHEAST], IDLE_ANIMATION_FRAME_TIME, function() self:idleLoop() end, IDLE_DRUNKARD_NORTHEAST)
         else
             self.animation = anim.newAnimation(an[WALKING_DRUNKARD_NORTHEAST], 0.16, nil, WALKING_DRUNKARD_NORTHEAST)
         end
@@ -297,21 +297,21 @@ end
 function Drunkard:idleLoop()
     if self.state == "Standing" then
         if self.animation.animationIdentifier == IDLE_DRUNKARD_WEST then
-                self.animation = anim.newAnimation(an[IDLE_LOOP_DRUNKARD_WEST], IDLE_ANIMATION_FRAME_TIME, nil, IDLE_LOOP_DRUNKARD_WEST)
+            self.animation = anim.newAnimation(an[IDLE_LOOP_DRUNKARD_WEST], IDLE_ANIMATION_FRAME_TIME, nil, IDLE_LOOP_DRUNKARD_WEST)
         elseif self.animation.animationIdentifier == IDLE_DRUNKARD_SOUTHWEST then
-                self.animation = anim.newAnimation(an[IDLE_LOOP_DRUNKARD_SOUTHWEST], IDLE_ANIMATION_FRAME_TIME, nil, IDLE_LOOP_DRUNKARD_SOUTHWEST)
+            self.animation = anim.newAnimation(an[IDLE_LOOP_DRUNKARD_SOUTHWEST], IDLE_ANIMATION_FRAME_TIME, nil, IDLE_LOOP_DRUNKARD_SOUTHWEST)
         elseif self.animation.animationIdentifier == IDLE_DRUNKARD_NORTHWEST then
-                self.animation = anim.newAnimation(an[IDLE_LOOP_DRUNKARD_NORTHWEST], IDLE_ANIMATION_FRAME_TIME, nil, IDLE_LOOP_DRUNKARD_NORTHWEST)
+            self.animation = anim.newAnimation(an[IDLE_LOOP_DRUNKARD_NORTHWEST], IDLE_ANIMATION_FRAME_TIME, nil, IDLE_LOOP_DRUNKARD_NORTHWEST)
         elseif self.animation.animationIdentifier == IDLE_DRUNKARD_NORTH then
-                self.animation = anim.newAnimation(an[IDLE_LOOP_DRUNKARD_NORTH], IDLE_ANIMATION_FRAME_TIME, nil, IDLE_LOOP_DRUNKARD_NORTH)
+            self.animation = anim.newAnimation(an[IDLE_LOOP_DRUNKARD_NORTH], IDLE_ANIMATION_FRAME_TIME, nil, IDLE_LOOP_DRUNKARD_NORTH)
         elseif self.animation.animationIdentifier == IDLE_DRUNKARD_SOUTH then
-                self.animation = anim.newAnimation(an[IDLE_LOOP_DRUNKARD_SOUTH], IDLE_ANIMATION_FRAME_TIME, nil, IDLE_LOOP_DRUNKARD_SOUTH)
+            self.animation = anim.newAnimation(an[IDLE_LOOP_DRUNKARD_SOUTH], IDLE_ANIMATION_FRAME_TIME, nil, IDLE_LOOP_DRUNKARD_SOUTH)
         elseif self.animation.animationIdentifier == IDLE_DRUNKARD_EAST then
-                self.animation = anim.newAnimation(an[IDLE_LOOP_DRUNKARD_EAST], IDLE_ANIMATION_FRAME_TIME, nil, IDLE_LOOP_DRUNKARD_EAST)
+            self.animation = anim.newAnimation(an[IDLE_LOOP_DRUNKARD_EAST], IDLE_ANIMATION_FRAME_TIME, nil, IDLE_LOOP_DRUNKARD_EAST)
         elseif self.animation.animationIdentifier == IDLE_DRUNKARD_SOUTHEAST then
-                self.animation = anim.newAnimation(an[IDLE_LOOP_DRUNKARD_SOUTHEAST], IDLE_ANIMATION_FRAME_TIME, nil, IDLE_LOOP_DRUNKARD_SOUTHEAST)
+            self.animation = anim.newAnimation(an[IDLE_LOOP_DRUNKARD_SOUTHEAST], IDLE_ANIMATION_FRAME_TIME, nil, IDLE_LOOP_DRUNKARD_SOUTHEAST)
         elseif self.animation.animationIdentifier == IDLE_DRUNKARD_NORTHEAST then
-                self.animation = anim.newAnimation(an[IDLE_LOOP_DRUNKARD_NORTHEAST], IDLE_ANIMATION_FRAME_TIME, nil, IDLE_LOOP_DRUNKARD_NORTHEAST)
+            self.animation = anim.newAnimation(an[IDLE_LOOP_DRUNKARD_NORTHEAST], IDLE_ANIMATION_FRAME_TIME, nil, IDLE_LOOP_DRUNKARD_NORTHEAST)
         end
     end
 end
@@ -319,9 +319,9 @@ end
 function Drunkard:drinkLoop()
     if self.state == "Sitting" then
         if self.animation.animationIdentifier == DRINK1_DRUNKARD then
-                self.animation = anim.newAnimation(an[DRINK2_DRUNKARD], 0.11, function () self:drinkLoop() end, DRINK2_DRUNKARD)
+            self.animation = anim.newAnimation(an[DRINK2_DRUNKARD], 0.11, function() self:drinkLoop() end, DRINK2_DRUNKARD)
         elseif self.animation.animationIdentifier == FALLING_DRUNKARD or self.animation.animationIdentifier == DRINK2_DRUNKARD then
-                self.animation = anim.newAnimation(an[DRINK1_DRUNKARD], 0.11, function () self:drinkLoop() end, DRINK1_DRUNKARD)
+            self.animation = anim.newAnimation(an[DRINK1_DRUNKARD], 0.11, function() self:drinkLoop() end, DRINK1_DRUNKARD)
         end
     end
 end

@@ -81,7 +81,8 @@ function AnvilCrafting.static:deserialize(data)
     obj.parent = _G.state:dereferenceObject(data.parent)
     obj.parent.swordCrafting = obj
     local anData = data.animation
-    local callback = function() end
+    local callback = function()
+    end
     if anData.animationIdentifier == ANIM_CRAFTING_ANVIL then
         callback = obj:craftCallback_1()
     elseif anData.animationIdentifier == ANIM_CRAFTING_ANVIL then
@@ -139,8 +140,8 @@ function SwordCrafting:initialize(gx, gy, parent)
     self.animation = anim.newAnimation(an[ANIM_CRAFTING_SWORD], 0.11, self:craftCallback_1(), ANIM_CRAFTING_SWORD)
     self.animation:pause()
     _G.state.map:setWalkable(self.gx, self.gy, 1)
-    self.offsetX = -51
-    self.offsetY = -77 - 18
+    self.offsetX = -51 + 16
+    self.offsetY = -77 - 18 + 8
 
     self:registerAsActiveEntity()
 end
@@ -299,7 +300,7 @@ function BlacksmithWorkshop:initialize(gx, gy)
     self.freeSpots = 1
     self.worker = nil
     self.anvilCrafting = AnvilCrafting:new(self.gx + 3, self.gy + 2, self)
-    self.swordCrafting = SwordCrafting:new(self.gx + 4, self.gy + 3, self)
+    self.swordCrafting = SwordCrafting:new(self.gx + 3, self.gy + 3, self)
     for tile = 1, tiles do
         local hsl = BlacksmithAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
             -self.offsetY + 8 * (tiles - tile + 1))
@@ -341,7 +342,13 @@ function SwordCrafting:craftCallback_1()
         if self.parent.weaponType == WEAPON.sword then
             self.animation = anim.newAnimation(an[ANIM_CRAFTING_SWORD], 0.11, self:craftCallback_1(), ANIM_CRAFTING_SWORD)
             if self.craftingCycle == 6 then
-                self.parent:sendToStockpile()
+                self.parent:findExitPointTo("Armoury", function(found, path)
+                    if found then
+                        self.parent:sendToArmoury()
+                    else
+                        print("No path found to armoury!")
+                    end
+                end)
                 self.craftingCycle = 0
                 self:deactivate()
             end
@@ -350,7 +357,13 @@ function SwordCrafting:craftCallback_1()
             self.animation = anim.newAnimation(an[ANIM_CRAFTING_MACE], 0.11, self:craftCallback_1(),
                 ANIM_CRAFTING_MACE)
             if self.craftingCycle == 6 then
-                self.parent:sendToStockpile()
+                self.parent:findExitPointTo("Armoury", function(found, path)
+                    if found then
+                        self.parent:sendToArmoury()
+                    else
+                        print("No path found to armoury!")
+                    end
+                end)
                 self.craftingCycle = 0
                 self:deactivate()
             end
@@ -547,22 +560,9 @@ function BlacksmithWorkshop:work(worker)
     end
 end
 
-function BlacksmithWorkshop:sendToStockpile()
-    local i, o, cx, cy
-    self.worker.state = "Go to armoury"
-    self.worker.weaponType = self.weaponType
-    self.worker.animated = true
-    self.worker.gx = self.gx + 1
-    self.worker.gy = self.gy + 4
-    self.worker.fx = self.worker.gx * 1000 + 500
-    self.worker.fy = self.worker.gy * 1000 + 500
-    i = (self.worker.gx) % (_G.chunkWidth)
-    o = (self.worker.gy) % (_G.chunkWidth)
-    cx = math.floor(self.worker.gx / _G.chunkWidth)
-    cy = math.floor(self.worker.gy / _G.chunkWidth)
-    _G.addObjectAt(cx, cy, i, o, self.worker)
+function BlacksmithWorkshop:sendToArmoury()
+    self:respawnWorker(self.worker, "Go to armoury")
     self.working = false
-    self.worker.needNewVertAsap = true
     self.swordCrafting:deactivate()
     self.anvilCrafting:deactivate()
     self:exitHover(true)

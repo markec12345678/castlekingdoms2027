@@ -60,7 +60,7 @@ function CheeseCrafting.static:deserialize(data)
     Object.deserialize(obj, data)
     Structure.load(obj, data)
     obj.parent = _G.state:dereferenceObject(data.parent)
-    obj.parent.cookingObj = obj
+    obj.parent.cheeseCrafting = obj
     local callback
     local anData = data.animation
     if anData.animationIdentifier == ANIM_FERMENT then
@@ -357,9 +357,6 @@ function DairyFarmAlias:serialize()
     data.offsetY = self.offsetY
     data.parent = _G.state:serializeObject(self.parent)
     data.freeSpots = self.freeSpots
-    if self.dairyWorker then
-        data.dairyWorker = _G.state:serializeObject(self.dairyWorker)
-    end
     return data
 end
 
@@ -367,10 +364,6 @@ function DairyFarmAlias.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
     Structure.load(obj, data)
-    if data.dairyWorker then
-        self.dairyWorker = _G.state:dereferenceObject(data.dairyWorker)
-        self.dairyWorker.workplace = self
-    end
     obj.parent = _G.state:dereferenceObject(data.parent)
     if data.tileKey then
         if type(data.tileKey) == "number" then
@@ -406,7 +399,7 @@ function DairyFarm:initialize(gx, gy)
     self.offsetY = -48 - 6
     self.freeSpots = 1
     self.worker = nil
-    self.cookingObj = CheeseCrafting:new(self.gx + 3, self.gy + 2, self)
+    self.cheeseCrafting = CheeseCrafting:new(self.gx + 3, self.gy + 2, self)
     self.cowMilking = CowMilking:new(self.gx + 3, self.gy + 2, self)
     self.cowMilkingFarmer = CowMilkingFarmer:new(self.gx + 3, self.gy + 2, self)
     self.cowBreed = CowBreeding:new(self.gx + 3, self.gy + 2, self)
@@ -533,7 +526,7 @@ function CowMilkingFarmer:craftCallback_1()
                 self.craftingCycle = 0
                 self:deactivate()
                 self.parent.cowMilking:deactivate()
-                self.parent.cookingObj:activate()
+                self.parent.cheeseCrafting:activate()
             end
         end
     end
@@ -541,7 +534,13 @@ end
 
 function CheeseCrafting:craftCallback_1()
     return function()
-        self.parent:sendToStockpile()
+        self.parent:findExitPointTo("Granary", function(found, path)
+            if found then
+                self.parent:sendToGranary()
+            else
+                print("No path found to granary!")
+            end
+        end)
         self:deactivate()
     end
 end
@@ -657,27 +656,15 @@ function DairyFarm:work(worker)
         self.cowMilking:activate()
         self.cowMilkingFarmer:activate()
     elseif not self.working and worker.state == "Working" then
-        worker.state = "Go to foodpile"
+        worker.state = "Go to granary"
     end
 end
 
-function DairyFarm:sendToStockpile()
-    local i, o, cx, cy
-    self.worker.state = "Go to foodpile"
-    self.worker.animated = true
-    self.worker.gx = self.gx + 1
-    self.worker.gy = self.gy + 4
-    self.worker.fx = self.worker.gx * 1000 + 500
-    self.worker.fy = self.worker.gy * 1000 + 500
-    i = (self.worker.gx) % (_G.chunkWidth)
-    o = (self.worker.gy) % (_G.chunkWidth)
-    cx = math.floor(self.worker.gx / _G.chunkWidth)
-    cy = math.floor(self.worker.gy / _G.chunkWidth)
-    _G.addObjectAt(cx, cy, i, o, self.worker)
+function DairyFarm:sendToGranary()
+    self:respawnWorker(self.worker, "Go to granary")
     self.working = false
-    self.worker.needNewVertAsap = true
     self.cowBreed:deactivate()
-    self.cookingObj:deactivate()
+    self.cheeseCrafting:deactivate()
     self.cowMilking:deactivate()
     self.cowMilkingFarmer:deactivate()
 end
@@ -688,8 +675,8 @@ function DairyFarm:destroy()
         self.worker:quitJob()
     end
     self.float:destroy()
-    Structure.destroy(self.cookingObj)
-    self.cookingObj.toBeDeleted = true
+    Structure.destroy(self.cheeseCrafting)
+    self.cheeseCrafting.toBeDeleted = true
     Structure.destroy(self.cowMilking)
     self.cowMilking.toBeDeleted = true
     Structure.destroy(self.cowMilkingFarmer)

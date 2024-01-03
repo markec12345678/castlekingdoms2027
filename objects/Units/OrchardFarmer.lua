@@ -179,7 +179,7 @@ function OrchardFarmer:update()
     elseif self.state ~= "No path to farm" then
         if self.state == "Find a job" then
             _G.JobController:findJob(self, "OrchardFarmer")
-        elseif self.state == "Go to foodpile" then
+        elseif self.state == "Go to granary" then
             if _G.foodpile then
                 self.state = "Going to foodpile"
                 local closestNode
@@ -215,7 +215,7 @@ function OrchardFarmer:update()
             "Going to apple tree" then
             self:move()
         end
-        if self.fx * 0.001 == self.waypointX and self.fy * 0.001 == self.waypointY and self.moveDir ~= "none" then
+        if self:reachedWaypoint() then
             if self.state == "Going to workplace" or self.state == "Going to apple tree" then
                 if self:reachedPathEnd() then
                     if self.state == "Going to apple tree" then

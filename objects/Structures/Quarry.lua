@@ -274,7 +274,13 @@ function QuarryShaper:shaperCallback()
         self.parent.stack:add()
         if self.parent.stack.quantity == self.parent.stack.class.MAX_QUANTITY then
             if self.parent.assignedOxHandler == nil then
-                self.parent:sendToStockpile()
+                self.parent:findExitPointTo("Stockpile", function(found, path)
+                    if found then
+                        self.parent:sendToStockpile()
+                    else
+                        print("No path found to stockpile!")
+                    end
+                end)
             else
                 self.parent:stop()
             end
@@ -830,42 +836,10 @@ function Quarry:sendToStockpile()
         self.stack:take()
         self.stack:take()
         self.stack:take()
-        local i, o, cx, cy
-        self.liftWorker.state = "Go to stockpile"
-        self.liftWorker.animated = true
-        self.liftWorker.gx = self.gx + 6
-        self.liftWorker.gy = self.gy + 2
-        self.liftWorker.fx = (self.gx + 6) * 1000 + 500
-        self.liftWorker.fy = (self.gy + 2) * 1000 + 500
-        i = (self.liftWorker.gx) % (_G.chunkWidth)
-        o = (self.liftWorker.gy) % (_G.chunkWidth)
-        cx = math.floor(self.liftWorker.gx / _G.chunkWidth)
-        cy = math.floor(self.liftWorker.gy / _G.chunkWidth)
-        _G.addObjectAt(cx, cy, i, o, self.liftWorker)
 
-        self.pullWorker.state = "Go to stockpile"
-        self.pullWorker.animated = true
-        self.pullWorker.gx = self.gx + 5
-        self.pullWorker.gy = self.gy - 1
-        self.pullWorker.fx = (self.gx + 5) * 1000 + 500
-        self.pullWorker.fy = (self.gy - 1) * 1000 + 500
-        i = (self.pullWorker.gx) % (_G.chunkWidth)
-        o = (self.pullWorker.gy) % (_G.chunkWidth)
-        cx = math.floor(self.pullWorker.gx / _G.chunkWidth)
-        cy = math.floor(self.pullWorker.gy / _G.chunkWidth)
-        _G.addObjectAt(cx, cy, i, o, self.pullWorker)
-
-        self.shapeWorker.state = "Go to stockpile"
-        self.shapeWorker.animated = true
-        self.shapeWorker.gx = self.gx + 1
-        self.shapeWorker.gy = self.gy + 6
-        self.shapeWorker.fx = (self.gx + 1) * 1000 + 500
-        self.shapeWorker.fy = (self.gy + 6) * 1000 + 500
-        i = (self.shapeWorker.gx) % (_G.chunkWidth)
-        o = (self.shapeWorker.gy) % (_G.chunkWidth)
-        cx = math.floor(self.shapeWorker.gx / _G.chunkWidth)
-        cy = math.floor(self.shapeWorker.gy / _G.chunkWidth)
-        _G.addObjectAt(cx, cy, i, o, self.shapeWorker)
+        self:respawnWorker(self.liftWorker, "Go to stockpile")
+        self:respawnWorker(self.pullWorker, "Go to stockpile")
+        self:respawnWorker(self.shapeWorker, "Go to stockpile")
 
         self.lifter:deactivate()
         self.puller:deactivate()

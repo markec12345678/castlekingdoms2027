@@ -95,14 +95,14 @@ function Pitcher:dirSubUpdate()
     elseif self.moveDir == "southwest" then
         if self.state == "Going to stockpile" then
             self.animation =
-            anim.newAnimation(an[ANIM_WALKING_PITCH_SOUTHWEST], 0.05, nil, ANIM_WALKING_PITCH_SOUTHWEST)
+                anim.newAnimation(an[ANIM_WALKING_PITCH_SOUTHWEST], 0.05, nil, ANIM_WALKING_PITCH_SOUTHWEST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_SOUTHWEST], 0.05, nil, ANIM_WALKING_SOUTHWEST)
         end
     elseif self.moveDir == "northwest" then
         if self.state == "Going to stockpile" then
             self.animation =
-            anim.newAnimation(an[ANIM_WALKING_PITCH_NORTHWEST], 0.05, nil, ANIM_WALKING_PITCH_NORTHWEST)
+                anim.newAnimation(an[ANIM_WALKING_PITCH_NORTHWEST], 0.05, nil, ANIM_WALKING_PITCH_NORTHWEST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_NORTHWEST], 0.05, nil, ANIM_WALKING_NORTHWEST)
         end
@@ -127,14 +127,14 @@ function Pitcher:dirSubUpdate()
     elseif self.moveDir == "southeast" then
         if self.state == "Going to stockpile" then
             self.animation =
-            anim.newAnimation(an[ANIM_WALKING_PITCH_SOUTHEAST], 0.05, nil, ANIM_WALKING_PITCH_SOUTHEAST)
+                anim.newAnimation(an[ANIM_WALKING_PITCH_SOUTHEAST], 0.05, nil, ANIM_WALKING_PITCH_SOUTHEAST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_SOUTHEAST], 0.05, nil, ANIM_WALKING_SOUTHEAST)
         end
     elseif self.moveDir == "northeast" then
         if self.state == "Going to stockpile" then
             self.animation =
-            anim.newAnimation(an[ANIM_WALKING_PITCH_NORTHEAST], 0.05, nil, ANIM_WALKING_PITCH_NORTHEAST)
+                anim.newAnimation(an[ANIM_WALKING_PITCH_NORTHEAST], 0.05, nil, ANIM_WALKING_PITCH_NORTHEAST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_NORTHEAST], 0.05, nil, ANIM_WALKING_NORTHEAST)
         end
@@ -180,13 +180,7 @@ function Pitcher:update()
                 self.moveDir = "none"
             end
         elseif self.state == "Go to workplace" then
-            if self.workplace.worker == self then
-                self:requestPath(self.workplace.gx, self.workplace.gy + 4)
-            elseif self.workplace.worker2 == self then
-                self:requestPath(self.workplace.gx + 1, self.workplace.gy + 4)
-            else
-                self:requestPath(self.workplace.gx + 2, self.workplace.gy + 4)
-            end
+            self:requestPathToStructure(self.workplace)
             self.state = "Going to workplace"
             self.moveDir = "none"
             return
@@ -198,14 +192,13 @@ function Pitcher:update()
         if (self.state == "Going to workplace" or self.state == "Going to stockpile") then
             self:move()
         end
-        if self.fx * 0.001 == self.waypointX and self.fy * 0.001 == self.waypointY and self.moveDir ~= "none" then
+        if self:reachedWaypoint() then
             if self.state == "Going to workplace" then
                 if self:reachedPathEnd() then
                     self.workplace:work(self)
                     return
                 else
                     self:setNextWaypoint()
-
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to stockpile" then

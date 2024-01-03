@@ -137,20 +137,20 @@ function Miller:dirSubUpdate()
     elseif self.moveDir == "southwest" then
         if self.state == "Going to stockpile" then
             self.animation =
-            anim.newAnimation(an[ANIM_WALKING_FLOUR_SOUTHWEST], 0.05, nil, ANIM_WALKING_FLOUR_SOUTHWEST)
+                anim.newAnimation(an[ANIM_WALKING_FLOUR_SOUTHWEST], 0.05, nil, ANIM_WALKING_FLOUR_SOUTHWEST)
         elseif self.state == "Going to workplace with wheat" then
             self.animation =
-            anim.newAnimation(an[ANIM_WALKING_WHEAT_SOUTHWEST], 0.05, nil, ANIM_WALKING_WHEAT_SOUTHWEST)
+                anim.newAnimation(an[ANIM_WALKING_WHEAT_SOUTHWEST], 0.05, nil, ANIM_WALKING_WHEAT_SOUTHWEST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_SOUTHWEST], 0.05, nil, ANIM_WALKING_SOUTHWEST)
         end
     elseif self.moveDir == "northwest" then
         if self.state == "Going to stockpile" then
             self.animation =
-            anim.newAnimation(an[ANIM_WALKING_FLOUR_NORTHWEST], 0.05, nil, ANIM_WALKING_FLOUR_NORTHWEST)
+                anim.newAnimation(an[ANIM_WALKING_FLOUR_NORTHWEST], 0.05, nil, ANIM_WALKING_FLOUR_NORTHWEST)
         elseif self.state == "Going to workplace with wheat" then
             self.animation =
-            anim.newAnimation(an[ANIM_WALKING_WHEAT_NORTHWEST], 0.05, nil, ANIM_WALKING_WHEAT_NORTHWEST)
+                anim.newAnimation(an[ANIM_WALKING_WHEAT_NORTHWEST], 0.05, nil, ANIM_WALKING_WHEAT_NORTHWEST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_NORTHWEST], 0.05, nil, ANIM_WALKING_NORTHWEST)
         end
@@ -181,20 +181,20 @@ function Miller:dirSubUpdate()
     elseif self.moveDir == "southeast" then
         if self.state == "Going to stockpile" then
             self.animation =
-            anim.newAnimation(an[ANIM_WALKING_FLOUR_SOUTHEAST], 0.05, nil, ANIM_WALKING_FLOUR_SOUTHEAST)
+                anim.newAnimation(an[ANIM_WALKING_FLOUR_SOUTHEAST], 0.05, nil, ANIM_WALKING_FLOUR_SOUTHEAST)
         elseif self.state == "Going to workplace with wheat" then
             self.animation =
-            anim.newAnimation(an[ANIM_WALKING_WHEAT_SOUTHEAST], 0.05, nil, ANIM_WALKING_WHEAT_SOUTHEAST)
+                anim.newAnimation(an[ANIM_WALKING_WHEAT_SOUTHEAST], 0.05, nil, ANIM_WALKING_WHEAT_SOUTHEAST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_SOUTHEAST], 0.05, nil, ANIM_WALKING_SOUTHEAST)
         end
     elseif self.moveDir == "northeast" then
         if self.state == "Going to stockpile" then
             self.animation =
-            anim.newAnimation(an[ANIM_WALKING_FLOUR_NORTHEAST], 0.05, nil, ANIM_WALKING_FLOUR_NORTHEAST)
+                anim.newAnimation(an[ANIM_WALKING_FLOUR_NORTHEAST], 0.05, nil, ANIM_WALKING_FLOUR_NORTHEAST)
         elseif self.state == "Going to workplace with wheat" then
             self.animation =
-            anim.newAnimation(an[ANIM_WALKING_WHEAT_NORTHEAST], 0.05, nil, ANIM_WALKING_WHEAT_NORTHEAST)
+                anim.newAnimation(an[ANIM_WALKING_WHEAT_NORTHEAST], 0.05, nil, ANIM_WALKING_WHEAT_NORTHEAST)
         else
             self.animation = anim.newAnimation(an[ANIM_WALKING_NORTHEAST], 0.05, nil, ANIM_WALKING_NORTHEAST)
         end
@@ -249,13 +249,7 @@ function Miller:update()
                 self.moveDir = "none"
             end
         elseif self.state == "Go to workplace" or self.state == "Go to workplace with wheat" then
-            if self.workplace.worker == self then
-                self:requestPath(self.workplace.gx, self.workplace.gy + 4)
-            elseif self.workplace.worker2 == self then
-                self:requestPath(self.workplace.gx + 1, self.workplace.gy + 4)
-            else
-                self:requestPath(self.workplace.gx + 2, self.workplace.gy + 4)
-            end
+            self:requestPathToStructure(self.workplace)
             if self.state == "Go to workplace with wheat" then
                 self.state = "Going to workplace with wheat"
             else
@@ -270,17 +264,16 @@ function Miller:update()
             self:dirSubUpdate()
         end
         if (self.state == "Going to workplace" or self.state == "Going to stockpile" or self.state ==
-            "Going to workplace with wheat" or self.state == "Going to stockpile for wheat") then
+                "Going to workplace with wheat" or self.state == "Going to stockpile for wheat") then
             self:move()
         end
-        if self.fx * 0.001 == self.waypointX and self.fy * 0.001 == self.waypointY and self.moveDir ~= "none" then
+        if self:reachedWaypoint() then
             if self.state == "Going to workplace" or self.state == "Going to workplace with wheat" then
                 if self:reachedPathEnd() then
                     self.workplace:work(self)
                     return
                 else
                     self:setNextWaypoint()
-
                 end
                 self.count = self.count + 1
             elseif self.state == "Going to stockpile for wheat" or self.state == "Going to stockpile" then
@@ -302,7 +295,6 @@ function Miller:update()
                     end
                 else
                     self:setNextWaypoint()
-
                 end
                 self.count = self.count + 1
             end

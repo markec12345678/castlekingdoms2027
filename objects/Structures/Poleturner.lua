@@ -71,7 +71,7 @@ function SpearCrafting.static:deserialize(data)
     Object.deserialize(obj, data)
     Structure.load(obj, data)
     obj.parent = _G.state:dereferenceObject(data.parent)
-    obj.parent.cookingObj = obj
+    obj.parent.spearCrafting = obj
     local callback
     local anData = data.animation
     if anData.animationIdentifier == ANIM_CRAFTING_SPEAR then
@@ -178,7 +178,7 @@ function PoleturnerWorkshop:initialize(gx, gy)
     self.nextWeapon = self.weaponType
     self.freeSpots = 1
     self.worker = nil
-    self.cookingObj = SpearCrafting:new(self.gx + 3, self.gy + 2, self)
+    self.spearCrafting = SpearCrafting:new(self.gx + 3, self.gy + 2, self)
     for tile = 1, tiles do
         local hsl = PoleturnerAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
             -self.offsetY + 8 * (tiles - tile + 1))
@@ -217,7 +217,13 @@ function SpearCrafting:craftCallback_1()
         if self.parent.weaponType == WEAPON.spear then
             self.animation = anim.newAnimation(an[ANIM_CRAFTING_SPEAR], 0.08, self:craftCallback_1(), ANIM_CRAFTING_SPEAR)
             if self.craftingCycle == 6 then
-                self.parent:sendToStockpile()
+                self.parent:findExitPointTo("Armoury", function(found, path)
+                    if found then
+                        self.parent:sendToArmoury()
+                    else
+                        print("No path found to armoury!")
+                    end
+                end)
                 self.craftingCycle = 0
                 self:deactivate()
             else
@@ -240,7 +246,13 @@ end
 
 function SpearCrafting:craftCallback_2()
     return function()
-        self.parent:sendToStockpile()
+        self.parent:findExitPointTo("Armoury", function(found, path)
+            if found then
+                self.parent:sendToArmoury()
+            else
+                print("No path found to armoury!")
+            end
+        end)
         self.craftingCycle = 0
         self:deactivate()
     end
@@ -249,8 +261,8 @@ end
 function PoleturnerWorkshop:destroy()
     _G.JobController:remove("Poleturner", self)
     self.float:destroy()
-    Structure.destroy(self.cookingObj)
-    self.cookingObj.toBeDeleted = true
+    Structure.destroy(self.spearCrafting)
+    self.spearCrafting.toBeDeleted = true
 
     Structure.destroy(self)
     if self.worker then
@@ -344,7 +356,7 @@ function PoleturnerWorkshop:enterHover(induced)
 end
 
 function PoleturnerWorkshop:exitHover(induced)
-    if induced or not self.cookingObj.animated then
+    if induced or not self.spearCrafting.animated then
         self.hover = false
     else
         return
@@ -381,7 +393,7 @@ function PoleturnerWorkshop:leave(sleepInsteadOfLeaving)
         self.worker = nil
         self.freeSpots = 1
         self.float:activate()
-        self.cookingObj:deactivate()
+        self.spearCrafting:deactivate()
         return true
     end
 end
@@ -411,7 +423,7 @@ function PoleturnerWorkshop:work(worker)
         worker.gx = self.gx + 1
         worker.gy = self.gy + 2
         worker:jobUpdate()
-        self.cookingObj:activate()
+        self.spearCrafting:activate()
     else
         self.worker.state = "Working"
         if not self.working and self.worker.state == "Working" then
@@ -423,23 +435,10 @@ function PoleturnerWorkshop:work(worker)
     end
 end
 
-function PoleturnerWorkshop:sendToStockpile()
-    local i, o, cx, cy
-    self.worker.state = "Go to armoury"
-    self.worker.weaponType = self.weaponType
-    self.worker.animated = true
-    self.worker.gx = self.gx + 1
-    self.worker.gy = self.gy + 4
-    self.worker.fx = self.worker.gx * 1000 + 500
-    self.worker.fy = self.worker.gy * 1000 + 500
-    i = (self.worker.gx) % (_G.chunkWidth)
-    o = (self.worker.gy) % (_G.chunkWidth)
-    cx = math.floor(self.worker.gx / _G.chunkWidth)
-    cy = math.floor(self.worker.gy / _G.chunkWidth)
-    _G.addObjectAt(cx, cy, i, o, self.worker)
+function PoleturnerWorkshop:sendToArmoury()
+    self:respawnWorker(self.worker, "Go to armoury")
     self.working = false
-    self.worker.needNewVertAsap = true
-    self.cookingObj:deactivate()
+    self.spearCrafting:deactivate()
     self:exitHover(true)
 end
 

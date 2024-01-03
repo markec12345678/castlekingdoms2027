@@ -287,7 +287,7 @@ function Woodcutter:cutCallback()
             self.moveDir = "none"
             self.count = 1
             self.state = "Going to workplace with wood"
-            self:requestPath(self.workplace.gx + 1, self.workplace.gy + 2, function() self:onNoPathToWorkplace() end)
+            self:requestPathToStructure(self.workplace, function() self:onNoPathToWorkplace() end)
         end
     end
 end
@@ -533,7 +533,7 @@ function Woodcutter:update()
         elseif self.state == "Go to workplace" then
             self.gx, self.gy = math.round(self.gx), math.round(self.gy)
             self.fx, self.fy = self.gx * 1000 + 500, self.gy * 1000 + 500
-            self:requestPath(self.workplace.gx + 1, self.workplace.gy + 2, function() self:onNoPathToWorkplace() end)
+            self:requestPathToStructure(self.workplace, function() self:onNoPathToWorkplace() end)
             self.state = "Going to workplace"
             self.moveDir = "none"
         elseif self.state == "Going to tree" or self.state == "Going to stockpile" or self.state == "Going to workplace" or
@@ -544,7 +544,7 @@ function Woodcutter:update()
             end
             self:move()
         end
-        if self.fx * 0.001 == self.waypointX and self.fy * 0.001 == self.waypointY and self.moveDir ~= "none" then
+        if self:reachedWaypoint() then
             if self.state == "Going to tree" then
                 if self:reachedPathEnd() then
                     self.state = "Cutting down"

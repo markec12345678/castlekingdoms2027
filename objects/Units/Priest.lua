@@ -212,7 +212,7 @@ function Priest:update()
             end
             self:move()
         end
-        if self.fx * 0.001 == self.waypointX and self.fy * 0.001 == self.waypointY and self.moveDir ~= "none" then
+        if self:reachedWaypoint() then
             if self.state == "Going to bless" then
                 if self:reachedPathEnd() then
                     self.state = "Blessing"
