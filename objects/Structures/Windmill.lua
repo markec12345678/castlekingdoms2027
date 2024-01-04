@@ -128,19 +128,23 @@ function WindmillFilling:fillingCallback()
     if self.timesLooped > 4 then
         self.timesLooped = 0
         self.parent.bladeShadow:showOutside()
-        self.parent:findExitPointTo("Stockpile", function(found, path)
-            if found then
-                self.parent:sendToStockpile()
-            else
-                print("No path found to stockpile!")
-            end
-        end)
+        self:findWorkerExitPointAndSendToStockpile()
         self:deactivate()
     else
         if self.timesLooped % 2 == 0 then
             _G.playSfx(self, windmillFx)
         end
     end
+end
+
+function WindmillFilling:findWorkerExitPointAndSendToStockpile()
+    self.parent:findExitPointTo("Stockpile", function(found, path)
+        if found then
+            self.parent:sendToStockpile()
+        else
+            print("No path found to stockpile!")
+        end
+    end)
 end
 
 function WindmillFilling:animate(dt)
@@ -194,6 +198,9 @@ function WindmillFilling.static:deserialize(data)
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
+    if obj.parent.restoreExitPoint then
+        obj:findWorkerExitPointAndSendToStockpile()
+    end
 
     return obj
 end

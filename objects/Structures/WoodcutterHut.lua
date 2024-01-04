@@ -69,13 +69,7 @@ function WoodcutterHutLogStack.static:deserialize(data)
         end
         local tookLog = obj.parent.logStack:take()
         if not tookLog then
-            self.parent:findExitPointTo("Stockpile", function(found, path)
-                if found then
-                    self.parent:sendToStockpile()
-                else
-                    print("No path found to stockpile!")
-                end
-            end)
+            obj:findWorkerExitPointAndSendToStockpile()
             obj:deactivate()
         end
     end
@@ -83,8 +77,21 @@ function WoodcutterHutLogStack.static:deserialize(data)
     obj.parent.logStack = obj
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
+    if obj.parent.restoreExitPoint then
+        obj:findWorkerExitPointAndSendToStockpile()
+    end
 
     return obj
+end
+
+function WoodcutterHutLogStack:findWorkerExitPointAndSendToStockpile()
+    self.parent:findExitPointTo("Stockpile", function(found, path)
+        if found then
+            self.parent:sendToStockpile()
+        else
+            print("No path found to stockpile!")
+        end
+    end)
 end
 
 function WoodcutterHutLogStack:stack()
@@ -287,16 +294,20 @@ function WoodcutterHutSawing:setCallback()
         end
         local tookLog = parent.logStack:take()
         if not tookLog then
-            parent:findExitPointTo("Stockpile", function(found, path)
-                if found then
-                    parent:sendToStockpile()
-                else
-                    print("No path found to stockpile!")
-                end
-            end)
+            self:findWorkerExitPointAndSendToStockpile()
             self:deactivate()
         end
     end
+end
+
+function WoodcutterHutSawing:findWorkerExitPointAndSendToStockpile()
+    self.parent:findExitPointTo("Stockpile", function(found, path)
+        if found then
+            self.parent:sendToStockpile()
+        else
+            print("No path found to stockpile!")
+        end
+    end)
 end
 
 function WoodcutterHutSawing.static:deserialize(data)
@@ -310,6 +321,9 @@ function WoodcutterHutSawing.static:deserialize(data)
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, nil, anData.animationIdentifier)
     obj:setCallback()
     obj.animation:deserialize(anData)
+    if obj.parent.restoreExitPoint then
+        obj:findWorkerExitPointAndSendToStockpile()
+    end
 
     return obj
 end

@@ -159,6 +159,9 @@ function BakeryCooking.static:deserialize(data)
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
+    if obj.parent.restoreExitPoint then
+        obj:findWorkerExitPointAndSendToGranary()
+    end
 
     return obj
 end
@@ -179,16 +182,20 @@ function BakeryCooking:bakeCallback_2()
     return function()
         self.animation = anim.newAnimation(an[ANIM_BAKING_BREAD], 0.11, self:bakeCallback_1(), ANIM_BAKING_BREAD)
         if self.parent.stack.quantity == 4 then
-            self.parent:findExitPointTo("Granary", function(found, path)
-                if found then
-                    self.parent:sendToGranary()
-                else
-                    print("No path found to granary!")
-                end
-            end)
+            self:findWorkerExitPointAndSendToGranary()
             self:deactivate()
         end
     end
+end
+
+function BakeryCooking:findWorkerExitPointAndSendToGranary()
+    self.parent:findExitPointTo("Granary", function(found, path)
+        if found then
+            self.parent:sendToGranary()
+        else
+            print("No path found to granary!")
+        end
+    end)
 end
 
 function BakeryCooking:animate()

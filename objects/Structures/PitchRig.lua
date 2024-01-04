@@ -59,21 +59,28 @@ function PitchRigCooking.static:deserialize(data)
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
+    if obj.parent.restoreExitPoint then
+        obj:findWorkerExitPointAndSendToStockpile()
+    end
 
     return obj
 end
 
 function PitchRigCooking:brewCallback_1()
     return function()
-        self.parent:findExitPointTo("Stockpile", function(found, path)
-            if found then
-                self.parent:sendToStockpile()
-            else
-                print("No path found to stockpile!")
-            end
-        end)
+        self:findWorkerExitPointAndSendToStockpile()
         self:deactivate()
     end
+end
+
+function PitchRigCooking:findWorkerExitPointAndSendToStockpile()
+    self.parent:findExitPointTo("Stockpile", function(found, path)
+        if found then
+            self.parent:sendToStockpile()
+        else
+            print("No path found to stockpile!")
+        end
+    end)
 end
 
 function PitchRigCooking:animate()

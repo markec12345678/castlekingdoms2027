@@ -9,6 +9,7 @@ local Structure = _G.class("Structure", Object)
 function Structure:initialize(gx, gy, type)
     Object.initialize(self, gx, gy, type)
     self.sleeping = false
+    self.restoreExitPoint = false
     _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
 end
 
@@ -154,6 +155,7 @@ function Structure:serialize()
     end
     if data.className then
         data.sleeping = self.sleeping
+        data.restoreExitPoint = self.restoreExitPoint
     end
     return data
 end
@@ -210,6 +212,7 @@ function Structure:findExitPointTo(structure, foundCallback)
     else
         entryPoints = structure:getEntryPoints()
     end
+    self.restoreExitPoint = true
     _G.finder:requestPathToMultipleGoalsWithWalkableTargetArea(
         self.gx + math.ceil(self.class.WIDTH / 2),
         self.gy + math.ceil(self.class.LENGTH / 2),
@@ -223,6 +226,7 @@ function Structure:findExitPointTo(structure, foundCallback)
                 self:setSpawnPoint(-1, -1)
                 foundCallback(false)
             end
+            self.restoreExitPoint = false
         end
     )
 end

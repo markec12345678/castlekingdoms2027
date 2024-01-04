@@ -81,6 +81,9 @@ function SpearCrafting.static:deserialize(data)
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
+    if obj.parent.restoreExitPoint then
+        obj:findWorkerExitPointAndSendToArmoury()
+    end
 
     return obj
 end
@@ -217,13 +220,7 @@ function SpearCrafting:craftCallback_1()
         if self.parent.weaponType == WEAPON.spear then
             self.animation = anim.newAnimation(an[ANIM_CRAFTING_SPEAR], 0.08, self:craftCallback_1(), ANIM_CRAFTING_SPEAR)
             if self.craftingCycle == 6 then
-                self.parent:findExitPointTo("Armoury", function(found, path)
-                    if found then
-                        self.parent:sendToArmoury()
-                    else
-                        print("No path found to armoury!")
-                    end
-                end)
+                self:findWorkerExitPointAndSendToArmoury()
                 self.craftingCycle = 0
                 self:deactivate()
             else
@@ -246,16 +243,20 @@ end
 
 function SpearCrafting:craftCallback_2()
     return function()
-        self.parent:findExitPointTo("Armoury", function(found, path)
-            if found then
-                self.parent:sendToArmoury()
-            else
-                print("No path found to armoury!")
-            end
-        end)
+        self:findWorkerExitPointAndSendToArmoury()
         self.craftingCycle = 0
         self:deactivate()
     end
+end
+
+function SpearCrafting:findWorkerExitPointAndSendToArmoury()
+    self.parent:findExitPointTo("Armoury", function(found, path)
+        if found then
+            self.parent:sendToArmoury()
+        else
+            print("No path found to armoury!")
+        end
+    end)
 end
 
 function PoleturnerWorkshop:destroy()

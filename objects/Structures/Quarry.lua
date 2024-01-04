@@ -274,18 +274,22 @@ function QuarryShaper:shaperCallback()
         self.parent.stack:add()
         if self.parent.stack.quantity == self.parent.stack.class.MAX_QUANTITY then
             if self.parent.assignedOxHandler == nil then
-                self.parent:findExitPointTo("Stockpile", function(found, path)
-                    if found then
-                        self.parent:sendToStockpile()
-                    else
-                        print("No path found to stockpile!")
-                    end
-                end)
+                self:findWorkerExitPointAndSendToStockpile()
             else
                 self.parent:stop()
             end
         end
     end
+end
+
+function QuarryShaper:findWorkerExitPointAndSendToStockpile()
+    self.parent:findExitPointTo("Stockpile", function(found, path)
+        if found then
+            self.parent:sendToStockpile()
+        else
+            print("No path found to stockpile!")
+        end
+    end)
 end
 
 function QuarryShaper:animate(dt)
@@ -362,6 +366,9 @@ function QuarryShaper.static:deserialize(data)
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
+    if obj.parent.restoreExitPoint then
+        obj:findWorkerExitPointAndSendToStockpile()
+    end
 
     return obj
 end
