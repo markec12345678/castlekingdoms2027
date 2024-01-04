@@ -72,6 +72,9 @@ function BowCrafting.static:deserialize(data)
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
+    if obj.parent.restoreExitPoint then
+        obj:findWorkerExitPointAndSendToArmoury()
+    end
 
     return obj
 end
@@ -218,19 +221,23 @@ function BowCrafting:craftCallback_1()
                 ANIM_CRAFTING_CROSSBOW)
         end
         if self.craftingCycle == 6 then
-            self.parent:findExitPointTo("Armoury", function(found, path)
-                if found then
-                    self.parent:sendToArmoury()
-                else
-                    print("No path found to armoury!")
-                end
-            end)
+            self:findWorkerExitPointAndSendToArmoury()
             self.craftingCycle = 0
             self:deactivate()
         else
             self.craftingCycle = self.craftingCycle + 1
         end
     end
+end
+
+function BowCrafting:findWorkerExitPointAndSendToArmoury()
+    self.parent:findExitPointTo("Armoury", function(found, path)
+        if found then
+            self.parent:sendToArmoury()
+        else
+            print("No path found to armoury!")
+        end
+    end)
 end
 
 function FletcherWorkshop:destroy()

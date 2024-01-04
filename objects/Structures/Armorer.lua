@@ -67,6 +67,9 @@ function ShieldCrafting.static:deserialize(data)
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
+    if obj.parent.restoreExitPoint then
+        obj:findWorkerExitPointAndSendToArmoury()
+    end
 
     return obj
 end
@@ -74,21 +77,24 @@ end
 function ShieldCrafting:craftCallback_1()
     return function()
         self.animation = anim.newAnimation(an[ANIM_CRAFTING_SHIELD], 0.11, self:craftCallback_1(), ANIM_CRAFTING_SHIELD)
-
         if self.craftingCycle == 6 then
-            self.parent:findExitPointTo("Armoury", function(found, path)
-                if found then
-                    self.parent:sendToArmoury()
-                else
-                    print("No path found to armoury!")
-                end
-            end)
+            self:findWorkerExitPointAndSendToArmoury()
             self.craftingCycle = 0
             self:deactivate()
         else
             self.craftingCycle = self.craftingCycle + 1
         end
     end
+end
+
+function ShieldCrafting:findWorkerExitPointAndSendToArmoury()
+    self.parent:findExitPointTo("Armoury", function(found, path)
+        if found then
+            self.parent:sendToArmoury()
+        else
+            print("No path found to armoury!")
+        end
+    end)
 end
 
 function ShieldCrafting:animate()

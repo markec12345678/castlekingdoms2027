@@ -345,15 +345,19 @@ function MinePourer:pourCallback_1()
             self.parent.goingDown:activate()
         else
             self.parent.unloading = true
-            self.parent:findExitPointTo("Stockpile", function(found, path)
-                if found then
-                    self.parent:sendToStockpile()
-                else
-                    print("No path found to stockpile!")
-                end
-            end)
+            self:findWorkerExitPointAndSendToStockpile()
         end
     end
+end
+
+function MinePourer:findWorkerExitPointAndSendToStockpile()
+    self.parent:findExitPointTo("Stockpile", function(found, path)
+        if found then
+            self.parent:sendToStockpile()
+        else
+            print("No path found to stockpile!")
+        end
+    end)
 end
 
 function MinePourer:pourCallback_2()
@@ -393,6 +397,9 @@ function MinePourer.static:deserialize(data)
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
+    if obj.parent.restoreExitPoint then
+        obj:findWorkerExitPointAndSendToStockpile()
+    end
 
     return obj
 end

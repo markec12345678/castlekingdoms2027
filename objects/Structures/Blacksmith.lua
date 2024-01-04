@@ -176,6 +176,9 @@ function SwordCrafting.static:deserialize(data)
     callback = obj:craftCallback_1()
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
+    if obj.parent.restoreExitPoint then
+        obj:findWorkerExitPointAndSendToArmoury()
+    end
 
     return obj
 end
@@ -342,13 +345,7 @@ function SwordCrafting:craftCallback_1()
         if self.parent.weaponType == WEAPON.sword then
             self.animation = anim.newAnimation(an[ANIM_CRAFTING_SWORD], 0.11, self:craftCallback_1(), ANIM_CRAFTING_SWORD)
             if self.craftingCycle == 6 then
-                self.parent:findExitPointTo("Armoury", function(found, path)
-                    if found then
-                        self.parent:sendToArmoury()
-                    else
-                        print("No path found to armoury!")
-                    end
-                end)
+                self:findWorkerExitPointAndSendToArmoury()
                 self.craftingCycle = 0
                 self:deactivate()
             end
@@ -357,18 +354,22 @@ function SwordCrafting:craftCallback_1()
             self.animation = anim.newAnimation(an[ANIM_CRAFTING_MACE], 0.11, self:craftCallback_1(),
                 ANIM_CRAFTING_MACE)
             if self.craftingCycle == 6 then
-                self.parent:findExitPointTo("Armoury", function(found, path)
-                    if found then
-                        self.parent:sendToArmoury()
-                    else
-                        print("No path found to armoury!")
-                    end
-                end)
+                self:findWorkerExitPointAndSendToArmoury()
                 self.craftingCycle = 0
                 self:deactivate()
             end
         end
     end
+end
+
+function SwordCrafting:findWorkerExitPointAndSendToArmoury()
+    self.parent:findExitPointTo("Armoury", function(found, path)
+        if found then
+            self.parent:sendToArmoury()
+        else
+            print("No path found to armoury!")
+        end
+    end)
 end
 
 function BlacksmithWorkshop:destroy()

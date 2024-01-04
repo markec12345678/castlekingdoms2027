@@ -74,6 +74,9 @@ function BreweryCooking.static:deserialize(data)
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
+    if obj.parent.restoreExitPoint then
+        obj:findWorkerExitPointAndSendToStockpile()
+    end
 
     return obj
 end
@@ -91,17 +94,21 @@ function BreweryCooking:brewCallback_2()
         self.animation = anim.newAnimation(an[ANIM_BREWING_BEER], 0.11, self:brewCallback_1(), ANIM_BREWING_BEER)
 
         if self.brewingCycle == 6 then
-            self.parent:findExitPointTo("Stockpile", function(found, path)
-                if found then
-                    self.parent:sendToStockpile()
-                else
-                    print("No path found to stockpile!")
-                end
-            end)
+            self:findWorkerExitPointAndSendToStockpile()
             self.brewingCycle = 0
             self:deactivate()
         end
     end
+end
+
+function BreweryCooking:findWorkerExitPointAndSendToStockpile()
+    self.parent:findExitPointTo("Stockpile", function(found, path)
+        if found then
+            self.parent:sendToStockpile()
+        else
+            print("No path found to stockpile!")
+        end
+    end)
 end
 
 function BreweryCooking:animate()
