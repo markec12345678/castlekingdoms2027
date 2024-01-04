@@ -560,6 +560,9 @@ function Unit:move()
     if self.pathState ~= "Found" then
         return
     end
+    if not (self.waypointX and self.waypointY) then
+        return
+    end
     if not self.hasMoveDir then
         self:dirSubUpdate()
         self.hasMoveDir = true
