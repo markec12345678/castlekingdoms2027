@@ -445,6 +445,134 @@ function WoodcutterHut:initialize(gx, gy, type)
     WoodcutterHutAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 2, self, self.offsetX, self.offsetY)
 
     self.float = NotEnoughWorkersFloat:new(self.gx, self.gy, 8, -64)
+    self.getNextTree = coroutine.wrap(function()
+        local trees = self:findNearestTreesViaFloodfill()
+        for i = 1, #trees do
+            local obj = trees[i]
+            if obj.cuttable and not self.stump and not obj.marked then
+                coroutine.yield(obj)
+            end
+            trees[i] = nil
+        end
+        while true do
+            coroutine.yield(false)
+        end
+    end)
+end
+
+---returns true if the position is within map bounds
+---@param gx integer The global X tile position
+---@param gy integer The global Y tile position
+---@return boolean isInBounds
+---@private
+function WoodcutterHut:isInBounds(gx, gy)
+    if (gx < 0 or gy < 0
+            or gx > _G.chunkWidth * _G.chunksWide
+            or gy > _G.chunkHeight * _G.chunksHigh) then
+        return false
+    end
+    return true
+end
+
+function WoodcutterHut:findNearestTreesViaFloodfill()
+    local x, y = self.gx, self.gy
+    local Tree = require("objects.Environment.Tree")
+    local queue = require("libraries.queue")
+    local stack = queue:new()
+    local visited = newAutotable(2)
+    local trees = {}
+    local maxTiles = 10000
+    stack:push({ x, y })
+    visited[x][y] = true
+    while #stack > 0 or maxTiles > 0 do
+        local p = stack:pop()
+        if not p then return trees end
+        x, y = p[1], p[2]
+        _G.terrainSetTileAt(x, y, _G.terrainBiome.beach, nil, true)
+        local tree = objectFromSubclassAtGlobal(x + 1, y, Tree)
+        if tree then
+            trees[#trees + 1] = tree
+        end
+        tree = objectFromSubclassAtGlobal(x - 1, y, Tree)
+        if tree then
+            trees[#trees + 1] = tree
+        end
+        tree = objectFromSubclassAtGlobal(x, y + 1, Tree)
+        if tree then
+            trees[#trees + 1] = tree
+        end
+        tree = objectFromSubclassAtGlobal(x, y - 1, Tree)
+        if tree then
+            trees[#trees + 1] = tree
+        end
+        -- TODO: fix diagonals
+        -- tree = objectFromSubclassAtGlobal(x + 1, y - 1, Tree)
+        -- if tree then
+        --     trees[#trees + 1] = tree
+        -- end
+        -- tree = objectFromSubclassAtGlobal(x - 1, y - 1, Tree)
+        -- if tree then
+        --     trees[#trees + 1] = tree
+        -- end
+        -- tree = objectFromSubclassAtGlobal(x + 1, y + 1, Tree)
+        -- if tree then
+        --     trees[#trees + 1] = tree
+        -- end
+        -- tree = objectFromSubclassAtGlobal(x - 1, y + 1, Tree)
+        -- if tree then
+        --     trees[#trees + 1] = tree
+        -- end
+        if self:isInBounds(x + 1, y) and not visited[x + 1][y] and _G.state.map:getWalkable(x + 1, y) == 0 then
+            stack:push({ x + 1, y })
+            visited[x + 1][y] = true
+            maxTiles = maxTiles - 1
+            if maxTiles == 0 then return trees end
+        end
+        if self:isInBounds(x - 1, y) and not visited[x - 1][y] and _G.state.map:getWalkable(x - 1, y) == 0 then
+            stack:push({ x - 1, y })
+            visited[x - 1][y] = true
+            maxTiles = maxTiles - 1
+            if maxTiles == 0 then return trees end
+        end
+        if self:isInBounds(x, y + 1) and not visited[x][y + 1] and _G.state.map:getWalkable(x, y + 1) == 0 then
+            stack:push({ x, y + 1 })
+            visited[x][y + 1] = true
+            maxTiles = maxTiles - 1
+            if maxTiles == 0 then return trees end
+        end
+        if self:isInBounds(x, y - 1) and not visited[x][y - 1] and _G.state.map:getWalkable(x, y - 1) == 0 then
+            stack:push({ x, y - 1 })
+            visited[x][y - 1] = true
+            maxTiles = maxTiles - 1
+            if maxTiles == 0 then return trees end
+        end
+        -- TODO: fix diagonals
+        -- if self:isInBounds(x, y - 1) and not visited[x + 1][y - 1] and _G.state.map:getWalkable(x + 1, y - 1) == 0 then
+        --     stack:push({ x + 1, y - 1 })
+        --     visited[x + 1][y - 1] = true
+        --     maxTiles = maxTiles - 1
+        --     if maxTiles == 0 then return trees end
+        -- end
+        -- if self:isInBounds(x, y - 1) and not visited[x - 1][y - 1] and _G.state.map:getWalkable(x - 1, y - 1) == 0 then
+        --     stack:push({ x - 1, y - 1 })
+        --     visited[x - 1][y - 1] = true
+        --     maxTiles = maxTiles - 1
+        --     if maxTiles == 0 then return trees end
+        -- end
+        -- if self:isInBounds(x + 1, y + 1) and not visited[x + 1][y + 1] and _G.state.map:getWalkable(x + 1, y + 1) == 0 then
+        --     stack:push({ x + 1, y + 1 })
+        --     visited[x + 1][y + 1] = true
+        --     maxTiles = maxTiles - 1
+        --     if maxTiles == 0 then return trees end
+        -- end
+        -- if self:isInBounds(x - 1, y + 1) and not visited[x - 1][y + 1] and _G.state.map:getWalkable(x - 1, y + 1) == 0 then
+        --     stack:push({ x - 1, y + 1 })
+        --     visited[x - 1][y + 1] = true
+        --     maxTiles = maxTiles - 1
+        --     if maxTiles == 0 then return trees end
+        -- end
+    end
+    return trees
 end
 
 function WoodcutterHut:destroy()
@@ -517,7 +645,7 @@ function WoodcutterHut:work(worker)
 end
 
 function WoodcutterHut:sendToStockpile()
-    self:respawnWorker(self.liftWorker, "Go to stockpile")
+    self:respawnWorker(self.worker, "Go to stockpile")
     self.stack:deactivate()
     self.working = false
 end
@@ -533,6 +661,18 @@ function WoodcutterHut:load(data)
     self.offsetX = data.offsetX
     self.offsetY = data.offsetY
     self.tile = quadArray[tiles + 1]
+    self.getNextTree = coroutine.wrap(function()
+        local trees = self:findNearestTreesViaFloodfill()
+        for i = 1, #trees do
+            local obj = trees[i]
+            if obj.cuttable and not self.stump and not obj.marked then
+                coroutine.yield(obj)
+            end
+        end
+        while true do
+            coroutine.yield(false)
+        end
+    end)
     Structure.render(self)
 end
 

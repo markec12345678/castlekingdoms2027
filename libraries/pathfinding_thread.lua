@@ -171,6 +171,7 @@ while true do
                         end
                         if not isInside then
                             exitedLocalBuilding = true
+                            pathToSend.nodes[count - offsetCount] = { node._x, node._y }
                         else
                             offsetCount = offsetCount + 1
                         end
