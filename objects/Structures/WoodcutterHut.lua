@@ -488,7 +488,6 @@ function WoodcutterHut:findNearestTreesViaFloodfill()
         local p = stack:pop()
         if not p then return trees end
         x, y = p[1], p[2]
-        _G.terrainSetTileAt(x, y, _G.terrainBiome.beach, nil, true)
         local tree = objectFromSubclassAtGlobal(x + 1, y, Tree)
         if tree then
             trees[#trees + 1] = tree
