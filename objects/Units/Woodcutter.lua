@@ -325,67 +325,17 @@ function Woodcutter:checkTrees(cx, cy)
 end
 
 function Woodcutter:findTree()
-    local closestObject, closestDistance = nil, 10000000
-    local objt, disto
-    ---@cast disto number
-    objt, disto = self:checkTrees(self.cx, self.cy)
-    if disto and disto < closestDistance then
-        closestObject = objt
-        closestDistance = disto
-    end
-    objt, disto = self:checkTrees(self.cx + 1, self.cy)
-    if disto and disto < closestDistance then
-        closestObject = objt
-        closestDistance = disto
-    end
-    objt, disto = self:checkTrees(self.cx + 1, self.cy + 1)
-    if disto and disto < closestDistance then
-        closestObject = objt
-        closestDistance = disto
-    end
-    objt, disto = self:checkTrees(self.cx + 1, self.cy - 1)
-    if disto and disto < closestDistance then
-        closestObject = objt
-        closestDistance = disto
-    end
-    objt, disto = self:checkTrees(self.cx - 1, self.cy + 1)
-    if disto and disto < closestDistance then
-        closestObject = objt
-        closestDistance = disto
-    end
-    objt, disto = self:checkTrees(self.cx - 1, self.cy)
-    if disto and disto < closestDistance then
-        closestObject = objt
-        closestDistance = disto
-    end
-    objt, disto = self:checkTrees(self.cx - 1, self.cy - 1)
-    if disto and disto < closestDistance then
-        closestObject = objt
-        closestDistance = disto
-    end
-    objt, disto = self:checkTrees(self.cx, self.cy + 1)
-    if disto and disto < closestDistance then
-        closestObject = objt
-        closestDistance = disto
-    end
-    objt, disto = self:checkTrees(self.cx, self.cy - 1)
-
-    if objt and not _G.importantObjectAtGlobal(objt.gx, objt.gy + 1) then
-        if disto and disto < closestDistance then
-            closestObject = objt
-        end
-    end
-    if not closestObject then
-        print("No trees nearby!")
-        self.animation = _G.anim.newAnimation(an[AN_IDLE], 0.11, nil, AN_IDLE)
+    local tree = self.workplace:getNextTree()
+    if not tree then
         self.state = "No trees"
+        self.animation = _G.anim.newAnimation(an[AN_IDLE], 0.11, nil, AN_IDLE)
         self:onNoPathToWorkplace()
         return
     end
-    self.targetTree = closestObject
+    self.targetTree = tree
     self.targetTree.marked = true
-    self.endx = closestObject.gx
-    self.endy = closestObject.gy + 1
+    self.endx = tree.gx
+    self.endy = tree.gy + 1
     if self.endx == self.gx and self.endy == self.gy then
         self.state = "Cutting down"
         self.animation = anim.newAnimation(an[AN_CUTTING_NORTHEAST], 0.08, function() self:cutCallback() end, AN_CUTTING_NORTHEAST)
@@ -506,7 +456,7 @@ function Woodcutter:update()
         self.storeTimer = 0
         _G.stockpile:store('wood')
         self.animation:resume()
-        self.state = "Go to workplace"
+        self.state = "Looking to chop tree"
     elseif self.state == "Go to stockpile" then
         if _G.stockpile then
             self.state = "Going to stockpile"
