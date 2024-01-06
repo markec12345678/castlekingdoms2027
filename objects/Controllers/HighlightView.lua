@@ -48,6 +48,7 @@ function HighlightView:update()
         buildingTooltip:HideTooltip()
         return
     end
+    if not structure or not structure.class then return end
     if not structure.class.WIDTH then
         self.lastStructure = nil
         self.points = nil
