@@ -250,6 +250,8 @@ function Unit:requestPath(xx, yy, noPathCallback)
     self.startx, self.starty = math.floor(self.gx), math.floor(self.gy)
     if self.startx == xx and self.starty == yy then
         self.pathState = "Found"
+        self.endx = xx
+        self.endy = yy
         self.waypointX = self.startx
         self.waypointY = self.starty
         self.fx = self.waypointX * 1000
@@ -330,6 +332,7 @@ function Unit:reachedWaypoint()
 end
 
 function Unit:reachedPathEnd()
+    if self.startx == self.endx and self.starty == self.endy then return true end
     if not self.path then
         self.pathState = "none"
         self.waitingForPathTimer = 0
