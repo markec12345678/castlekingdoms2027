@@ -108,6 +108,7 @@ function Structure:animate(dt, forceUpdate)
         local instancemesh = _G.state.objectMesh[self.cx][self.cy]
         local quad, x, y, _, _, _, _, _, _, _ = self.animation:getFrameInfo(self.x + (self.offsetX or 0) + offsetX,
             self.y + (self.offsetY or 0) + offsetY - _G.state.map.walkingHeightmap[self.gx][self.gy])
+        if not quad then return end
         local elevationOffsetY = 0
         if _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] then
             elevationOffsetY = _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] * 2
