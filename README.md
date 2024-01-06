@@ -16,7 +16,7 @@
     <img alt="pipeline status" src="https://gitlab.com/stone-kingdoms/stone-kingdoms/badges/master/pipeline.svg" />
   </a>
   <a href="https://gitlab.com/stone-kingdoms/stone-kingdoms/-/commits/master">
-    <img alt="coverage report" src="https://gitlab.com/stone-kingdoms/stone-kingdoms/badges/master/coverage.svg" />
+    <img alt="coverage report" src="https://gitlab.com/stone-kingdoms/stone-kingdoms/badges/master/coverage.svg?min_medium=25&min_acceptable=40&min_good=65" />
   </a>
   <a href="https://discord.gg/PRh8SPZxEf">
     <img alt="discord server" src="https://img.shields.io/discord/409340503767777281" />
