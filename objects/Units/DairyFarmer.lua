@@ -80,49 +80,49 @@ end
 
 function DairyFarmer:dirSubUpdate()
     if self.moveDir == "west" then
-        if self.state == "Going to foodpile" then
+        if self.state == "Going to granary" then
             self.animation = anim.newAnimation(an[WALKING_cheese_WEST], 0.05, nil, WALKING_cheese_WEST)
         else
             self.animation = anim.newAnimation(an[WALKING_WEST], 0.05, nil, WALKING_WEST)
         end
     elseif self.moveDir == "southwest" then
-        if self.state == "Going to foodpile" then
+        if self.state == "Going to granary" then
             self.animation = anim.newAnimation(an[WALKING_cheese_SOUTHWEST], 0.05, nil, WALKING_cheese_SOUTHWEST)
         else
             self.animation = anim.newAnimation(an[WALKING_SOUTHWEST], 0.05, nil, WALKING_SOUTHWEST)
         end
     elseif self.moveDir == "northwest" then
-        if self.state == "Going to foodpile" then
+        if self.state == "Going to granary" then
             self.animation = anim.newAnimation(an[WALKING_cheese_NORTHWEST], 0.05, nil, WALKING_cheese_NORTHWEST)
         else
             self.animation = anim.newAnimation(an[WALKING_NORTHWEST], 0.05, nil, WALKING_NORTHWEST)
         end
     elseif self.moveDir == "north" then
-        if self.state == "Going to foodpile" then
+        if self.state == "Going to granary" then
             self.animation = anim.newAnimation(an[WALKING_cheese_NORTH], 0.05, nil, WALKING_cheese_NORTH)
         else
             self.animation = anim.newAnimation(an[WALKING_NORTH], 0.05, nil, WALKING_NORTH)
         end
     elseif self.moveDir == "south" then
-        if self.state == "Going to foodpile" then
+        if self.state == "Going to granary" then
             self.animation = anim.newAnimation(an[WALKING_cheese_SOUTH], 0.05, nil, WALKING_cheese_SOUTH)
         else
             self.animation = anim.newAnimation(an[WALKING_SOUTH], 0.05, nil, WALKING_SOUTH)
         end
     elseif self.moveDir == "east" then
-        if self.state == "Going to foodpile" then
+        if self.state == "Going to granary" then
             self.animation = anim.newAnimation(an[WALKING_cheese_EAST], 0.05, nil, WALKING_cheese_EAST)
         else
             self.animation = anim.newAnimation(an[WALKING_EAST], 0.05, nil, WALKING_EAST)
         end
     elseif self.moveDir == "southeast" then
-        if self.state == "Going to foodpile" then
+        if self.state == "Going to granary" then
             self.animation = anim.newAnimation(an[WALKING_cheese_SOUTHEAST], 0.05, nil, WALKING_cheese_SOUTHEAST)
         else
             self.animation = anim.newAnimation(an[WALKING_SOUTHEAST], 0.05, nil, WALKING_SOUTHEAST)
         end
     elseif self.moveDir == "northeast" then
-        if self.state == "Going to foodpile" then
+        if self.state == "Going to granary" then
             self.animation = anim.newAnimation(an[WALKING_cheese_NORTHEAST], 0.05, nil, WALKING_cheese_NORTHEAST)
         else
             self.animation = anim.newAnimation(an[WALKING_NORTHEAST], 0.05, nil, WALKING_NORTHEAST)
@@ -141,7 +141,7 @@ function DairyFarmer:update()
             self.workplace:work(self)
         elseif self.state == "Go to granary" or self.state == "Wait" then
             if next(_G.foodpile.nodeList) ~= nil then
-                self.state = "Going to foodpile"
+                self.state = "Going to granary"
                 local closestNode
                 local distance = math.huge
                 for _, v in ipairs(_G.foodpile.nodeList) do
@@ -164,11 +164,11 @@ function DairyFarmer:update()
             self.state = "Going to workplace"
             self.moveDir = "none"
         elseif self.moveDir == "none" and
-            (self.state == "Going to workplace" or self.state == "Going to foodpile") then
+            (self.state == "Going to workplace" or self.state == "Going to granary") then
             self:updateDirection()
             self:dirSubUpdate()
         end
-        if (self.state == "Going to workplace" or self.state == "Going to foodpile") then
+        if (self.state == "Going to workplace" or self.state == "Going to granary") then
             self:move()
         end
         if self:reachedWaypoint() then
@@ -184,7 +184,7 @@ function DairyFarmer:update()
                     self:setNextWaypoint()
                 end
                 self.count = self.count + 1
-            elseif self.state == "Going to foodpile" then
+            elseif self.state == "Going to granary" then
                 if self:reachedPathEnd() then
                     _G.foodpile:store(FOOD.cheese)
                     self.state = "Go to workplace"
