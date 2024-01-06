@@ -117,12 +117,9 @@ local maxQuantity = {
     ["ale"] = 16
 }
 local StockpileAlias = _G.class("StockpileAlias", Structure)
-function StockpileAlias:initialize(tile, gx, gy, parent, offsetY, offsetX, notWalkable)
+function StockpileAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     self.parent = parent
     Structure.initialize(self, gx, gy, "Stockpile alias")
-    if notWalkable then
-        _G.state.map:setWalkable(self.gx, self.gy, 1)
-    end
     self.tile = tile
     self.baseOffsetY = offsetY or 0
     self.additionalOffsetY = 0
@@ -173,6 +170,24 @@ function Stockpile:initialize(gx, gy, type)
     type = type or "Stockpile"
     Structure.initialize(self, gx, gy, type)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
+    _G.state.map:setWalkable(self.gx + 1, self.gy, 1)
+    _G.state.map:setWalkable(self.gx + 1, self.gy + 1, 1)
+    _G.state.map:setWalkable(self.gx, self.gy + 1, 1)
+
+    _G.state.map:setWalkable(self.gx + 3, self.gy, 1)
+    _G.state.map:setWalkable(self.gx + 3 + 1, self.gy, 1)
+    _G.state.map:setWalkable(self.gx + 3 + 1, self.gy + 1, 1)
+    _G.state.map:setWalkable(self.gx + 3, self.gy + 1, 1)
+
+    _G.state.map:setWalkable(self.gx + 3, self.gy + 3, 1)
+    _G.state.map:setWalkable(self.gx + 3 + 1, self.gy + 3, 1)
+    _G.state.map:setWalkable(self.gx + 3 + 1, self.gy + 3 + 1, 1)
+    _G.state.map:setWalkable(self.gx + 3, self.gy + 3 + 1, 1)
+
+    _G.state.map:setWalkable(self.gx, self.gy + 3, 1)
+    _G.state.map:setWalkable(self.gx + 1, self.gy + 3, 1)
+    _G.state.map:setWalkable(self.gx + 1, self.gy + 3 + 1, 1)
+    _G.state.map:setWalkable(self.gx, self.gy + 3 + 1, 1)
     self.health = 1000
     self.tile = quadArray[tiles + 1]
     self.offsetX = 0
@@ -195,24 +210,15 @@ function Stockpile:initialize(gx, gy, type)
         StockpileAlias:new(tileQuads["empty"], self.gx + 2, self.gy + 4, self),
     }
     for tile = 1, tiles do
-        local notWalkable = true
-        if tile == 2 then
-            notWalkable = false
-        end
         local stp = StockpileAlias:new(
-            quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self, -self.offsetY + 8 * (tiles - tile + 1), nil,
-            notWalkable)
+            quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self, -self.offsetY + 8 * (tiles - tile + 1), nil)
         stp.tileKey = tile
         self.aliases[#self.aliases + 1] = stp
     end
 
     for tile = 1, tiles do
-        local notWalkable = true
-        if tile == 2 then
-            notWalkable = false
-        end
         local stp = StockpileAlias:new(
-            quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile, 16, nil, notWalkable)
+            quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile, 16, nil)
         stp.tileKey = tiles + 1 + tile
         self.aliases[#self.aliases + 1] = stp
     end
