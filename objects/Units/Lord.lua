@@ -142,6 +142,10 @@ function Lord:update()
     elseif self.pathState == "No path" then
         local targetX, targetY = self:getRandomWaypoint(5, _G.BuildingManager:getRandomBuilding())
         self:requestPath(targetX, targetY)
+    elseif self.state == "Go to keep" then
+        self:clearPath()
+        self:requestPath(_G.spawnPointX, _G.spawnPointY)
+        self.state = "Wander"
     elseif self.state == "Going to keep" then
         self:updateDirection()
         self:move()
