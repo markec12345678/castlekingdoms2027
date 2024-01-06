@@ -285,6 +285,20 @@ taxes:
   mean: Impostos Absurdos
   extra: Impostos Extorsivos
   downrightCruel: Impostos Simplesmente Cruéis
+popularityText:
+  total: Total
+  rations: Rations
+  taxes: Taxes
+  fearFactor: Fear factor
+  crowding: Crowding
+  religion: Religion
+  aleCoverage: Ale Coverage
+  enclosedKeep: Keep Enclosed
+  openKeep: Open Keep
+  popularity: Popularity
+  inTheComingMonth: "In the coming month"
+  typesOfFoodConsumed: "%d types of food consumed"
+  foodInGranary: "%d food in granary"
 settings:
   categories:
     sound:
