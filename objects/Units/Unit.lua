@@ -61,6 +61,7 @@ function Unit:die()
 end
 
 function Unit:setNextWaypoint()
+    if not self.path then return end
     self.waypointX = self.nd[self.count][1] + 0.5
     self.waypointY = self.nd[self.count][2] + 0.5
     self.moveDir = "none"
@@ -247,6 +248,15 @@ function Unit:requestPath(xx, yy, noPathCallback)
     end
     self.noPathCallback = noPathCallback
     self.startx, self.starty = math.floor(self.gx), math.floor(self.gy)
+    if self.startx == xx and self.starty == yy then
+        self.pathState = "Found"
+        self.waypointX = self.startx
+        self.waypointY = self.starty
+        self.fx = self.waypointX * 1000
+        self.fy = self.waypointY * 1000
+        self.moveDir = "north"
+        return
+    end
     if _G.state.map:getWalkable(self.startx, self.starty) ~= 0 then
         for x = -1, 1 do
             for y = -1, 1 do
@@ -320,6 +330,12 @@ function Unit:reachedWaypoint()
 end
 
 function Unit:reachedPathEnd()
+    if not self.path then
+        self.pathState = "none"
+        self.waitingForPathTimer = 0
+        self.state, _ = string.gsub(self.state, "Going", "Go")
+        return
+    end
     if self.nd[1] == nil then
         if self.gx == self.nd[0][1] + 0.5 and self.gy == self.nd[0][2] + 0.5 then
             if self.chosenOne then
