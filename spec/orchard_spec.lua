@@ -112,7 +112,7 @@ describe("orchard", function()
             repeat
                 _G.finder:update()
                 worker:animate()
-            until worker.state ~= "Go to granary" and worker.state ~= "Going to foodpile"
+            until worker.state ~= "Go to granary" and worker.state ~= "Going to granary"
             assert.are.same("Go to workplace", worker.state)
             assert.are.same(_G.state.food["apples"], 4, "expected to store 4 apples, but got " .. _G.state.food["apples"] .. " instead")
         end)
