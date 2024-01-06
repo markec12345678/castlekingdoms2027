@@ -51,7 +51,7 @@ local function createFrame(self, x, y)
 end
 
 local function getGridKey(...)
-    return table.concat({...}, '-')
+    return table.concat({ ... }, '-')
 end
 
 local function getOrCreateFrame(self, x, y)
@@ -78,7 +78,7 @@ local function parseInterval(str)
 end
 
 function Grid:getFrames(...)
-    local result, args = {}, {...}
+    local result, args = {}, { ... }
     local minx, maxx, stepx, miny, maxy, stepy
 
     for i = 1, #args, 2 do
@@ -164,7 +164,7 @@ local function parseDurations(durations, frameCount)
 end
 
 local function parseIntervals(durations)
-    local result, time = {0}, 0
+    local result, time = { 0 }, 0
     for i = 1, #durations do
         time = time + durations[i]
         result[i + 1] = time
@@ -281,7 +281,7 @@ function Animation:update(dt)
         return false
     end
 
-    self.timer = self.timer + dt
+    self.timer = (self.timer or 0) + dt
     local loops = math.floor(self.timer / self.totalDuration)
     if loops ~= 0 then
         self.timer = self.timer - self.totalDuration * loops
@@ -302,7 +302,7 @@ end
 
 function Animation:gotoFrame(position)
     self.position = position
-    self.timer = self.intervals[self.position]
+    self.timer = self.intervals[self.position] or 0
 end
 
 function Animation:getQuad()
