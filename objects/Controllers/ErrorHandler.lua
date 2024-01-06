@@ -11,7 +11,7 @@ function love.errorhandler(msg)
     -- Log the error
     local config = require("config_file")
     msg = tostring(msg)
-    if _G.rvn and config.general.enableSentry then
+    if _G.rvn and config.general.enableSentry and not _G.testMode then
         local id, err = _G.rvn:captureException({ {
             ["type"] = msg,
         } })

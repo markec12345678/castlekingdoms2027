@@ -3,7 +3,7 @@ local WEAPON = require("objects.Enums.Weapon")
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
-local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
+local NotEnoughWorkersFloat = require("objects.Floats.NotEnoughWorkersFloat")
 
 local _, _, pikeIconButton, spearIconButton = unpack(require("states.ui.workshops.workshops_ui"))
 

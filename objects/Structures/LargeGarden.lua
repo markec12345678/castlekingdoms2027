@@ -19,6 +19,7 @@ LargeGarden.static.HEIGHT = 0
 LargeGarden.static.ALIAS_NAME = "LargeGardenAlias"
 LargeGarden.static.DESTRUCTIBLE = true
 function LargeGarden:initialize(gx, gy, currentSprite)
+    currentSprite = currentSprite or 1
     Structure.initialize(self, gx, gy, "LargeGarden")
     local tileKey = "tile_buildings_gardens (" .. currentSprite + 9 .. ")"
     local tiles, quadArray = _G.indexBuildingQuads(tileKey, true)

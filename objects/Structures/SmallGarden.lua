@@ -19,6 +19,7 @@ SmallGarden.static.HEIGHT = 0
 SmallGarden.static.ALIAS_NAME = "SmallGardenAlias"
 SmallGarden.static.DESTRUCTIBLE = true
 function SmallGarden:initialize(gx, gy, currentSprite)
+    currentSprite = currentSprite or 1
     Structure.initialize(self, gx, gy, "SmallGarden")
     local tileKey = "tile_buildings_gardens (" .. currentSprite .. ")"
     local tiles, quadArray = _G.indexBuildingQuads(tileKey, true)

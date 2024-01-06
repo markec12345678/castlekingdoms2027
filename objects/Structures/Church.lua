@@ -1,6 +1,6 @@
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
-local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
+local NotEnoughWorkersFloat = require("objects.Floats.NotEnoughWorkersFloat")
 
 local tiles, quadArray = _G.indexBuildingQuads("church_medium", true)
 local ChurchAlias = _G.class("ChurchAlias", Structure)
@@ -72,7 +72,7 @@ function Church:initialize(gx, gy)
     end
     for tile = 1, tiles do
         local hsl = ChurchAlias:new(quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile
-            , 16)
+        , 16)
         hsl.tileKey = tiles + 1 + tile
     end
     local tileQuads = require("objects.object_quads")

@@ -2,7 +2,7 @@ local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
-local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
+local NotEnoughWorkersFloat = require("objects.Floats.NotEnoughWorkersFloat")
 
 local tiles, quadArray = _G.indexBuildingQuads("windmill_whole", nil, 2)
 
@@ -198,9 +198,6 @@ function WindmillFilling.static:deserialize(data)
     end
     obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
     obj.animation:deserialize(anData)
-    if obj.parent.restoreExitPoint then
-        obj:findWorkerExitPointAndSendToStockpile()
-    end
 
     return obj
 end
@@ -428,6 +425,9 @@ function Windmill:load(data)
     self.fillingFlour = _G.state:dereferenceObject(data.fillingFlour)
     self.fillingFlour.parent = self
     self.tile = quadArray[tiles + 1]
+    if self.restoreExitPoint then
+        self.fillingFlour:findWorkerExitPointAndSendToStockpile()
+    end
     Structure.render(self)
 end
 

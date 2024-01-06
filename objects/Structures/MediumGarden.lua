@@ -19,6 +19,7 @@ MediumGarden.static.HEIGHT = 0
 MediumGarden.static.ALIAS_NAME = "MediumGardenAlias"
 MediumGarden.static.DESTRUCTIBLE = true
 function MediumGarden:initialize(gx, gy, currentSprite)
+    currentSprite = currentSprite or 1
     Structure.initialize(self, gx, gy, "MediumGarden")
     local tileKey = "tile_buildings_gardens (" .. currentSprite + 6 .. ")"
     local tiles, quadArray = _G.indexBuildingQuads(tileKey)

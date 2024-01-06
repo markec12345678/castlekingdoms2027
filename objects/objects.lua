@@ -12,7 +12,8 @@ local console = require("libraries.console")
 local showPaths = false
 console.addCommand("togglePaths", function() showPaths = not showPaths end, "Show units paths")
 
-local function recursiveLoadModules(folder, fileTree)
+function _G.recursiveLoadModules(folder, fileTree, modules)
+    modules = modules or {}
     local filesTable = love.filesystem.getDirectoryItems(folder)
     for _, v in ipairs(filesTable) do
         local file = folder .. "/" .. v
@@ -23,19 +24,19 @@ local function recursiveLoadModules(folder, fileTree)
                 if extension == ".lua" then
                     local filename = file:gsub("%.lua", "")
                     local filename = filename:gsub("/", ".")
-                    require(filename)
+                    modules[filename] = require(filename)
                 end
             elseif info.type == "directory" then
-                fileTree = recursiveLoadModules(file, fileTree)
+                fileTree = recursiveLoadModules(file, fileTree, modules)
             end
         end
     end
     return fileTree
 end
 
-recursiveLoadModules("objects/Units", "")
-recursiveLoadModules("objects/Structures", "")
-recursiveLoadModules("objects/Environment", "")
+_G.recursiveLoadModules("objects/Units", "")
+_G.recursiveLoadModules("objects/Structures", "")
+_G.recursiveLoadModules("objects/Environment", "")
 
 local PineTree = require("objects.Environment.PineTree")
 local Shrub = require("objects.Environment.Shrub")
@@ -244,6 +245,23 @@ function _G.allObjectsFromSubclassAtGlobal(gx, gy, objClass)
     if type(_G.state.object[cx][cy][x][y]) == "table" then
         for _, currentObject in ipairs(_G.state.object[cx][cy][x][y]) do
             if currentObject.class.isSubclassOf and currentObject.class:isSubclassOf(objClass) then
+                data[#data + 1] = currentObject
+            end
+        end
+    end
+    return data
+end
+
+--- Returns the currentObject if it is a table.
+---@param gx number Global X coordinate.
+---@param gy number Global Y coordinate.
+---@return Object[]
+function _G.allObjectsAtGlobal(gx, gy)
+    local data = {}
+    local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(gx, gy)
+    if type(_G.state.object[cx][cy][x][y]) == "table" then
+        for _, currentObject in ipairs(_G.state.object[cx][cy][x][y]) do
+            if currentObject then
                 data[#data + 1] = currentObject
             end
         end
