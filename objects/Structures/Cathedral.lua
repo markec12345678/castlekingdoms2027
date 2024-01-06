@@ -1,6 +1,6 @@
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
-local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
+local NotEnoughWorkersFloat = require("objects.Floats.NotEnoughWorkersFloat")
 
 local tiles, quadArray = _G.indexBuildingQuads("church_large", true)
 local CathedralAlias = _G.class("CathedralAlias", Structure)
@@ -88,10 +88,10 @@ function Cathedral:initialize(gx, gy)
             _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrainBiome.scarceGrass)
         end
     end
-    self.freeSpots = _G.newAutotable(2)
+    self.freeArmySpots = _G.newAutotable(2)
     for xx = 1, 17 do
         for yy = 14, 17 do
-            self.freeSpots[xx][yy] = _G.state.map:isWalkable(xx, yy)
+            self.freeArmySpots[xx][yy] = _G.state.map:isWalkable(xx, yy)
         end
     end
     self:applyBuildingHeightMap()
@@ -102,15 +102,15 @@ end
 function Cathedral:freeAllSpots()
     for xx = 1, 17 do
         for yy = 14, 17 do
-            self.freeSpots[xx][yy] = _G.state.map:isWalkable(xx, yy)
+            self.freeArmySpots[xx][yy] = _G.state.map:isWalkable(xx, yy)
         end
     end
 end
 
-function Cathedral:anyFreeSpots()
+function Cathedral:anyFreeArmySpots()
     for xx = 1, 17 do
         for yy = 14, 17 do
-            if self.freeSpots[xx][yy] == true then
+            if self.freeArmySpots[xx][yy] == true then
                 return true
             end
         end
@@ -121,8 +121,8 @@ end
 function Cathedral:getNextFreeSpot(soldier)
     for xx = 1, 17 do
         for yy = 14, 17 do
-            if self.freeSpots[xx][yy] == true then
-                self.freeSpots[xx][yy] = soldier
+            if self.freeArmySpots[xx][yy] == true then
+                self.freeArmySpots[xx][yy] = soldier
                 _G.soldiers = _G.soldiers + 1
                 return self.gx + xx, self.gy + yy, "south"
             end

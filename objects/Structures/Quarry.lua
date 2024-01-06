@@ -4,7 +4,7 @@ local Object = require("objects.Object")
 local anim = require("libraries.anim8")
 local tiles, quadArray = _G.indexBuildingQuads("stone_quarry")
 local Stone = require("objects.Environment.Stone")
-local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
+local NotEnoughWorkersFloat = require("objects.Floats.NotEnoughWorkersFloat")
 
 local frLifterPart1 = _G.indexQuads("anim_quarry_lower", 17)
 local frLifterPart2 = _G.indexQuads("anim_quarry_lower", 20 + 18, 18)
@@ -616,6 +616,7 @@ Quarry.static.HEIGHT = 16
 Quarry.static.ALIAS_NAME = "QuarryAlias"
 Quarry.static.DESTRUCTIBLE = true
 function Quarry:initialize(gx, gy, stones)
+    stones = stones or {}
     _G.JobController:add("Stonemason", self)
     Structure.initialize(self, gx, gy, "Quarry")
     _G.state.map:setWalkable(self.gx, self.gy, 1)

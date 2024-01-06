@@ -1,7 +1,7 @@
 local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
-local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
+local NotEnoughWorkersFloat = require("objects.Floats.NotEnoughWorkersFloat")
 
 local tiles, quadArray = _G.indexBuildingQuads("farm (1)")
 local farmlandTilesStage0 = { tileQuads["tile_farmland_stage_0 (1)"], tileQuads["tile_farmland_stage_0 (2)"],
@@ -201,6 +201,8 @@ local WheatFarm = _G.class("WheatFarm", Structure)
 
 WheatFarm.static.WIDTH = 3
 WheatFarm.static.LENGTH = 3
+WheatFarm.static.EFFECTIVE_WIDTH = 12
+WheatFarm.static.EFFECTIVE_LENGTH = 12
 WheatFarm.static.HEIGHT = 14
 WheatFarm.static.ALIAS_NAME = "WheatFarmAlias"
 WheatFarm.static.DESTRUCTIBLE = true

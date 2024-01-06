@@ -19,6 +19,7 @@ SmallPond.static.HEIGHT = 0
 SmallPond.static.ALIAS_NAME = "SmallPondAlias"
 SmallPond.static.DESTRUCTIBLE = true
 function SmallPond:initialize(gx, gy, currentSprite)
+    currentSprite = currentSprite or 1
     Structure.initialize(self, gx, gy, "SmallPond")
     local tileKey = "tile_buildings_ponds (" .. currentSprite .. ")"
     local tiles, quadArray = _G.indexBuildingQuads(tileKey)

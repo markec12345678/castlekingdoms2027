@@ -2,7 +2,7 @@ local Object = require("objects.Object")
 local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
 local OxUnit = require("objects.Units.Ox")
-local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
+local NotEnoughWorkersFloat = require("objects.Floats.NotEnoughWorkersFloat")
 
 local _, quadArrayEast1 = _G.indexBuildingQuads("stone_oax_base (1)")
 local _, quadArrayEast2 = _G.indexBuildingQuads("stone_oax_base (2)")
@@ -73,6 +73,8 @@ end
 local OxTether = _G.class("OxTether", Structure)
 OxTether.static.WIDTH = 2
 OxTether.static.LENGTH = 2
+OxTether.static.EFFECTIVE_WIDTH = 2
+OxTether.static.EFFECTIVE_LENGTH = 4
 OxTether.static.HEIGHT = 4
 OxTether.static.ALIAS_NAME = nil
 OxTether.static.DESTRUCTIBLE = true

@@ -2,7 +2,7 @@ local tileQuads = require("objects.object_quads")
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
-local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
+local NotEnoughWorkersFloat = require("objects.Floats.NotEnoughWorkersFloat")
 
 local tiles, quadArray = _G.indexBuildingQuads("pitch")
 

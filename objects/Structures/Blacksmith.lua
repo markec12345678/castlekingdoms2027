@@ -3,8 +3,8 @@ local WEAPON = require("objects.Enums.Weapon")
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
-local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
-local SmokeLoop = require("objects.Structures.SmokeLoop")
+local NotEnoughWorkersFloat = require("objects.Floats.NotEnoughWorkersFloat")
+local SmokeLoop = require("objects.Floats.SmokeLoop")
 local _, _, _, _, swordIconButton, maceIconButton = unpack(require("states.ui.workshops.workshops_ui"))
 
 local tiles, quadArray = _G.indexBuildingQuads("blacksmith_workshop (18)")
@@ -79,7 +79,7 @@ function AnvilCrafting.static:deserialize(data)
     Object.deserialize(obj, data)
     Structure.load(obj, data)
     obj.parent = _G.state:dereferenceObject(data.parent)
-    obj.parent.swordCrafting = obj
+    obj.parent.anvilCrafting = obj
     local anData = data.animation
     local callback = function()
     end

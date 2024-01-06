@@ -3,7 +3,7 @@ local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
 local Iron = require("objects.Environment.Iron")
-local NotEnoughWorkersFloat = require("objects.Structures.NotEnoughWorkersFloat")
+local NotEnoughWorkersFloat = require("objects.Floats.NotEnoughWorkersFloat")
 
 local tiles, quadArray = _G.indexBuildingQuads("iron_mine")
 local frPouring = _G.indexQuads("anim_iron_miner_pour", 20)
@@ -696,7 +696,7 @@ function Mine:initialize(gx, gy, irons)
     self.offsetY = -64 + 16 + 4
     self.freeSpots = 1
     self.worker = nil
-    self.irons = irons
+    self.irons = irons or {}
 
     self.pourer = MinePourer:new(self.gx + 1, self.gy + 1, self, self.offsetX - 64 - 16, self.offsetY)
     self.pourer:deactivate()
