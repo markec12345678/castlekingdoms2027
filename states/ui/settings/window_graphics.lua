@@ -77,7 +77,7 @@ local function addResolutionsBackground()
     widgets:registerElement(label)
 end
 
-local function addResoltionButton(w, h, text, xboffset, xscale, yscale, cb)
+local function addResolutionButton(w, h, text, xboffset, xscale, yscale, cb)
     local button = {
         back = nil,
         label = nil
@@ -119,7 +119,7 @@ local function addResolutionsButtons()
     local buttonHeight = config.buttonImage:getHeight()
 
     local xboffset = 10 + buttonWidth * 0.3
-    widgets.resolution.buttons.next = addResoltionButton(buttonWidth, buttonHeight, ">", xboffset, 0.3, 0.7, function (self)
+    widgets.resolution.buttons.next = addResolutionButton(buttonWidth, buttonHeight, ">", xboffset, 0.3, 0.7, function (self)
         if currentResolutionIndex == 1 then
             return
         end
@@ -133,13 +133,13 @@ local function addResolutionsButtons()
     xboffset = xboffset + buttonWidth * 0.7
     local currentResolution = resolutions[currentResolutionIndex]
     local text = tostring(currentResolution.width).."x"..tostring(currentResolution.height)
-    widgets.resolution.buttons.current = addResoltionButton(buttonWidth, buttonHeight, text, xboffset, 0.7, 0.7, function (self)
+    widgets.resolution.buttons.current = addResolutionButton(buttonWidth, buttonHeight, text, xboffset, 0.7, 0.7, function (self)
         local currentResolution = resolutions[currentResolutionIndex]
         love.window.setMode(currentResolution.width, currentResolution.height)
     end)
 
     xboffset = xboffset + buttonWidth * 0.3
-    widgets.resolution.buttons.prev = addResoltionButton(buttonWidth, buttonHeight, "<", xboffset, 0.3, 0.7, function (self)
+    widgets.resolution.buttons.prev = addResolutionButton(buttonWidth, buttonHeight, "<", xboffset, 0.3, 0.7, function (self)
         if currentResolutionIndex == #resolutions then
             return
         end
