@@ -102,6 +102,7 @@ end
 function LoadListItem:onClick()
     _G.playSpeech("General_Loading")
     _G.loaded = false
+    if _G.state then _G.state:destroy() end
     local State = require("objects.State")
     _G.state = State:new()
     if _G.state then _G.state.initialized = false end

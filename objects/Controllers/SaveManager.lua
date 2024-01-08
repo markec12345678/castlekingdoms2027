@@ -167,9 +167,7 @@ function SaveManager:load(name)
             end
             if self.fromPauseMenu then
                 loveframes.TogglePause()
-                if _G.state then _G.state:destroy() end
                 loveframes.SetState()
-                collectgarbage()
             end
             _G.state:load(filename, save.compressed)
             return
