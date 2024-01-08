@@ -1,5 +1,6 @@
 local id, mapWidth = ...
 local ffi = require('ffi')
+
 require("love.timer")
 ffi.cdef [[
         void *calloc(size_t nitems, size_t size);
@@ -47,7 +48,7 @@ while true do
             ffi.C.free(_G.nodes[i])
         end
         ffi.C.free(_G.nodes)
-        return
+        break
     end
     -- Wait while we get next path request, but timeout after 1 second
     -- so we can check for map updates from time to time

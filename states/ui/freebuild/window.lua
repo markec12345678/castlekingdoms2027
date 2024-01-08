@@ -28,6 +28,7 @@ end
 buttonStart.OnClick = function(self)
     _G.playSpeech("General_Loading")
     _G.loaded = false
+    if _G.state then _G.state:destroy() end
     local State = require("objects.State")
     _G.state = State:new()
     if _G.state then _G.state.initialized = false end
@@ -74,7 +75,7 @@ mapList[#mapList + 1] =
         frames.frListItem_1,
         -- TODO: load the description and image from the map metadata
         {
-            name = SID.freebuild.fernhaven.name, 
+            name = SID.freebuild.fernhaven.name,
             description = SID.freebuild.fernhaven.description,
             preview = love.graphics.newImage("saves/fernhaven_preview.png")
         },

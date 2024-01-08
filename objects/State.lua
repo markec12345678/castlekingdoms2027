@@ -11,6 +11,7 @@ local warningTooltip = require("states.ui.warning_tooltip")
 ---@overload fun():State
 local State = _G.class("State")
 function State:initialize()
+    self:cleanupPathfindingThreads()
     self.tier = 1
     self.thread = love.thread.newThread("libraries/pathfinding_thread.lua")
     self.thread:start("1", 512)
@@ -103,6 +104,30 @@ function State:initialize()
 end
 
 ---@private
+function State:cleanupPathfindingThreads()
+    if _G.state and _G.state.thread then
+        love.thread.getChannel("stop1"):push(true)
+        love.thread.getChannel("stop2"):push(true)
+        if not _G.testMode then -- don't run in tests because it will run forever
+            while love.thread.getChannel("stop1"):getCount() > 1 and _G.state.thread:isRunning() do
+                -- spin cycle to wait
+                love.timer.sleep(0.1)
+            end
+            while love.thread.getChannel("stop2"):getCount() > 1 and _G.state.thread2:isRunning() do
+                -- spin cycle to wait
+                love.timer.sleep(0.1)
+            end
+        end
+        love.thread.getChannel("stop1"):clear()
+        love.thread.getChannel("stop2"):clear()
+        _G.channel.request:clear()
+        _G.channel.receive:clear()
+        _G.channel.mapUpdate:clear()
+        _G.channel2.mapUpdate:clear()
+    end
+end
+
+---@private
 function State:updateKeepUpgradeButton()
     _G.updateKeepUpgradeButton(self.tier)
 end
@@ -132,6 +157,7 @@ function State:destroy()
     _G.stockpile:initialize()  --stockpileController
     _G.foodpile:initialize()   -- foodController
     _G.weaponpile:initialize() --WeaponController
+    collectgarbage()
 end
 
 function State:allocateMeshes()

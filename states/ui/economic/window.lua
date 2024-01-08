@@ -40,6 +40,7 @@ end
 buttonStart.OnClick = function(self)
     _G.playSpeech("General_Loading")
     _G.loaded = false
+    if _G.state then _G.state:destroy() end
     local State = require("objects.State")
     _G.state = State:new()
     _G.state.missionNr = buttonStart.missionNumber
@@ -77,7 +78,7 @@ end
 _G.bus.on(Events.OnMissionCompleted, function(name)
     local missionNumber = tonumber(name:gsub("%D", ""))
     if missionNumber ~= 5 then
-    mapList[missionNumber + 1].unlocked = true
+        mapList[missionNumber + 1].unlocked = true
     end
 end)
 
