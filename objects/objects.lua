@@ -113,8 +113,7 @@ function _G.removeObjectAt(cx, cy, x, y, objectToRemove)
     y = math.floor(y)
     if x > 63 or y > 63 then
         print("Trying to remove at position", cx, cy, x, y)
-        print((debug.traceback("Error: trying to remove out of bounds unit", 1):gsub("\n[^\n]+$", "")))
-        love.event.quit()
+        error((debug.traceback("Error: trying to remove out of bounds unit", 1):gsub("\n[^\n]+$", "")))
     end
     -- If objectToRemove, then remove only that _G.state.object from the specified tile.
     if type(_G.state.object[cx][cy][x][y]) == "table" then
@@ -143,8 +142,7 @@ function _G.removeObjectFromClassAtGlobal(gx, gy, classToRemove)
     local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(gx, gy)
     if x > 63 or y > 64 then
         print("Trying to remove at position", cx, cy, x, y)
-        print((debug.traceback("Error: global trying to remove out of bounds unit", 1):gsub("\n[^\n]+$", "")))
-        love.event.quit()
+        error((debug.traceback("Error: global trying to remove out of bounds unit", 1):gsub("\n[^\n]+$", "")))
     end
     if type(_G.state.object[cx][cy][x][y]) == "table" then
         for index, currentObject in ipairs(_G.state.object[cx][cy][x][y]) do

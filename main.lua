@@ -40,6 +40,7 @@ function love.load()
     loader.newImage("assets/tiles/stronghold_assets_packed_v8-hd.dds"):onComplete(function(_, image)
         _G.objectAtlas = image
     end)
+    loader.quit()
     local cursorImg = love.image.newImageData("assets/ui/cursor.png")
     local cursor = love.mouse.newCursor(cursorImg, 2, 2)
     love.mouse.setCursor(cursor)
@@ -71,16 +72,18 @@ function love.run()
     -- Main loop time.
     local nextTime = 0
 
-    while true do
+    return function()
         -- Process events.
-        love.event.pump()
-        for name, a, b, c, d, e, f in love.event.poll() do
-            if name == "quit" then
-                if not love.quit or not love.quit() then
-                    return a
+        if love.event then
+            love.event.pump()
+            for name, a, b, c, d, e, f in love.event.poll() do
+                if name == "quit" then
+                    if not love.quit or not love.quit() then
+                        return a
+                    end
                 end
+                love.handlers[name](a, b, c, d, e, f)
             end
-            love.handlers[name](a, b, c, d, e, f)
         end
 
         -- Update dt, as we'll be passing it to update
@@ -131,7 +134,9 @@ function love.run()
         else
             _G.manualGc(nextTime - curTime, nil, true)
         end
-        love.graphics.present()
+        if love.graphics then
+            love.graphics.present()
+        end
         prof.pop("draw")
         if _G.debugMode then
             prof.push("lurker")

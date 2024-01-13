@@ -121,7 +121,7 @@ function lurker.onerror(e, nostacktrace)
     love.keypressed = function(k)
         if k == "escape" then
             lurker.print("Exiting...")
-            love.event.quit()
+            love.event.quit("quit", 0)
         end
     end
 

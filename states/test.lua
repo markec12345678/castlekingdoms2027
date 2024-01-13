@@ -10,7 +10,8 @@ local savegame
 _G.dt = 0.016
 
 function test:enter()
-    _G.updateKeepUpgradeButton = function() end
+    _G.updateKeepUpgradeButton = function()
+    end
     local State = require("objects.State")
     _G.state = State:new()
     objects = love.filesystem.load("objects/objects.lua")(objectAtlas)
@@ -68,7 +69,7 @@ function test:enter()
     _G.channel.mapUpdate:push("final")
     _G.channel2.mapUpdate:push("final")
     require('spec.objects_spec')
-    love.event.quit(0)
+    love.event.quit("quit", 0)
 end
 
 return test

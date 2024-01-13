@@ -118,7 +118,7 @@ exit.OnMouseDown = function(self)
     self:SetImage(exitImageDown)
 end
 exit.OnClick = function(self)
-    love.event.quit()
+    love.event.quit("quit", 0)
 end
 exit.OnMouseExit = function(self)
     self:SetImage(exitImage)
