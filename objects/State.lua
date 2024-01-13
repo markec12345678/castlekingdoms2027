@@ -103,7 +103,6 @@ function State:initialize()
     self:updateKeepUpgradeButton()
 end
 
----@private
 function State:cleanupPathfindingThreads()
     if _G.state and _G.state.thread then
         love.thread.getChannel("stop1"):push(true)
@@ -140,6 +139,7 @@ function State:destroy()
     _G.channel2.mapUpdate:pop()
     love.thread.getChannel("stop1"):push(true)
     love.thread.getChannel("stop2"):push(true)
+    self:cleanupPathfindingThreads()
     _G.BrushController:initialize()
     _G.BuildController:initialize()
     _G.BuildingManager:initialize()

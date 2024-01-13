@@ -14,6 +14,7 @@ local SaveManager = require("objects.Controllers.SaveManager")
 local KeybindManager = require("objects.Controllers.KeybindManager")
 local test = require("states.test")
 local lurker = require("lurker")
+local loader = require("libraries.lily")
 
 --extend native error handler
 require("objects.Controllers.ErrorHandler")
@@ -36,7 +37,6 @@ function love.load()
         local splashscreen = require("states.splash_screen")
         Gamestate.switch(splashscreen)
     end
-    local loader = require("libraries.lily")
     loader.newImage("assets/tiles/stronghold_assets_packed_v8-hd.dds"):onComplete(function(_, image)
         _G.objectAtlas = image
         loader.quit()
@@ -50,7 +50,11 @@ function love.load()
 end
 
 function love.quit()
-    return true
+    loader.quit()
+    if _G.state then
+        _G.state:cleanupPathfindingThreads()
+    end
+    love.event.quit("quit", 0)
 end
 
 local cnt = 0

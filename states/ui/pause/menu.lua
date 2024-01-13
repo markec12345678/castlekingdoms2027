@@ -78,11 +78,11 @@ save:SetScaleX(frMenu.width / save:GetImageWidth())
 save:SetScaleY(save:GetScaleX())
 save:SetPos(frMenu.x, frMenu.y + saveImage:getHeight() * save:GetScaleX() + 2 * 10 * save:GetScaleX())
 save.OnMouseEnter = function(self)
-    if _G.BuildController.start  then return end
+    if _G.BuildController.start then return end
     self:SetImage(saveImageHover)
 end
 save.OnMouseDown = function(self)
-    if _G.BuildController.start  then return end
+    if _G.BuildController.start then return end
     self:SetImage(saveImageDown)
 end
 save.OnClick = function(self)

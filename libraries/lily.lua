@@ -43,8 +43,8 @@ local lily = {
 
 -- List of excluded modules to be loaded (doesn't make sense to be async)
 -- PS: "event" module will be always loaded regardless.
-local excludedModules = {"event", "joystick", "keyboard", "math", "mouse", "physics", "system", "timer", "touch",
-                         "window"}
+local excludedModules = { "event", "joystick", "keyboard", "math", "mouse", "physics", "system", "timer", "touch",
+    "window" }
 -- List all loaded LOVE modules using hidden "love._modules" table
 for name in pairs(love._modules) do
     local f = false
@@ -93,9 +93,9 @@ elseif os.execute() == 1 then
     end
     -- Fallback to single core (discouraged, it will perform same as love-loader)
 end
--- Limit CPU to 4. Imagine how many threads will be created when
+-- Limit CPU to 1. Imagine how many threads will be created when
 -- someone runs this in threadripper.
-amountOfCPU = math.min(amountOfCPU, 4)
+amountOfCPU = math.min(amountOfCPU, 1)
 
 -- Dummy channel used to signal main thread that there's error
 local errorChannel = love.thread.newChannel()
@@ -189,6 +189,7 @@ multiObjectMethod.loaded = lilyObjectMethod.complete
 function multiObjectMethod.error(userdata, lilyIndex, errorMessage, source)
     error(errorMessage .. "\n" .. source)
 end
+
 -- On complete function (noop)
 multiObjectMethod.complete = lilyObjectMethod.complete
 -- Internal function for child lilies error handler
@@ -286,7 +287,7 @@ local function lilyEventHandler(reqID, v1, v2)
         else
             -- "v2" is returned values
             -- Call main thread handler for specified request type
-            local values = {pcall(lily.handlers[lilyObject.requestType], lilyObject, unpack(v2))}
+            local values = { pcall(lily.handlers[lilyObject.requestType], lilyObject, unpack(v2)) }
             -- If values[1] is false then there's error
             if not (values[1]) then
                 lilyObject.error(lilyObject.userdata, values[2])
@@ -434,7 +435,7 @@ local function newLilyFunction(requestType, handlerFunc)
         -- Initialize
         local this = setmetatable({}, lilyObjectMeta)
         local reqID = createReqID()
-        local args = {...}
+        local args = { ... }
         -- Values
         this.requestType = requestType
         this.done = false
@@ -443,7 +444,7 @@ local function newLilyFunction(requestType, handlerFunc)
 
         -- Push task
         -- See structure in lily_thread.lua
-        local treq = {reqID, requestType, #args}
+        local treq = { reqID, requestType, #args }
         -- Push arguments
         for i = 1, #args do
             treq[i + 3] = args[i]
@@ -497,7 +498,7 @@ if love.graphics then
             for i = 1, #values do
                 v[i] = values[i][1]
             end
-            this.values = {f(v, udata[2])}
+            this.values = { f(v, udata[2]) }
             this.complete(this.userdata, unpack(this.values))
         end
     end
@@ -514,7 +515,7 @@ if love.graphics then
                     -- List of mipmaps
                     error("Nested table (mipmaps) is not supported at the moment")
                 else
-                    multiCount[#multiCount + 1] = {lily.newImageData, v, setting}
+                    multiCount[#multiCount + 1] = { lily.newImageData, v, setting }
                 end
             end
             -- Check count
@@ -529,7 +530,7 @@ if love.graphics then
             this.done = false
             this.values = nil
 
-            this.multi = lily.loadMulti(multiCount):setUserData({this, setting}):onComplete(defCompleteFunction)
+            this.multi = lily.loadMulti(multiCount):setUserData({ this, setting }):onComplete(defCompleteFunction)
                 :onError(defMultiToSingleError)
             -- Return
             return this
@@ -557,7 +558,7 @@ if love.graphics then
                         -- List of mipmaps
                         error("Nested table (mipmaps) is not supported at the moment")
                     else
-                        multiCount[#multiCount + 1] = {lily.newImage, v, setting}
+                        multiCount[#multiCount + 1] = { lily.newImage, v, setting }
                     end
                 end
                 -- Are you specify tons of "Image" objects?
@@ -579,10 +580,10 @@ if love.graphics then
                 -- Insert to request table
                 lily.request[reqID] = this
                 -- Create and push new task
-                local treq = {reqID, "newImage", 2, layers, setting}
+                local treq = { reqID, "newImage", 2, layers, setting }
                 lily.taskChannel:push(treq)
             else
-                this.multi = lily.loadMulti(multiCount):setUserData({this, setting}):onComplete(defNewCubeImageMulti)
+                this.multi = lily.loadMulti(multiCount):setUserData({ this, setting }):onComplete(defNewCubeImageMulti)
                     :onError(defMultiToSingleError)
             end
             -- Return
@@ -640,7 +641,7 @@ function lily.loadMulti(tabdecl)
             error("Invalid lily function at index #" .. i)
         end
 
-        local lilyobj = func(unpack(tab, 2)):setUserData({i, this}):onComplete(multiObjectOnLoaded):onError(
+        local lilyobj = func(unpack(tab, 2)):setUserData({ i, this }):onComplete(multiObjectOnLoaded):onError(
             multiObjectChildErrorHandler)
 
         this.lilies[#this.lilies + 1] = lilyobj
