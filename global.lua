@@ -5,6 +5,7 @@ math.random()
 math.random()
 math.random()
 _G.OPTIONS = {
+    MASTER_VOLUME = config.sound.master / 100,
     SFX_VOLUME = config.sound.effects / 100,
     SPEECH_VOLUME = config.sound.speech / 100,
     MUSIC_VOLUME = config.sound.music / 100
@@ -237,7 +238,7 @@ function _G.playSfx(obj, sfx, disallowMultipleSources)
     if not disallowMultipleSources then
         sfx = sfx:clone()
     end
-    sfx:setVolume(_G.OPTIONS.SFX_VOLUME * volumeLimit)
+    sfx:setVolume((_G.OPTIONS.SFX_VOLUME * volumeLimit) * _G.OPTIONS.MASTER_VOLUME)
     sfx:setRelative(false)
     sfx:setPosition((obj.x + (obj.cx - obj.cy) * _G.chunkWidth * _G.tileWidth * 0.5) / 100,
         (obj.y + (obj.cx + obj.cy) * _G.chunkHeight * _G.tileHeight * 0.5) / 100, 4.1)
@@ -257,7 +258,7 @@ function _G.playInterfaceSfx(sfx, pitchNum, disallowMultipleSources)
     if not disallowMultipleSources then
         sfx = sfx:clone()
     end
-    sfx:setVolume(_G.OPTIONS.SFX_VOLUME * volumeLimit)
+    sfx:setVolume((_G.OPTIONS.SFX_VOLUME * volumeLimit) * _G.OPTIONS.MASTER_VOLUME)
     sfx:setPitch(pitchNum or (1 + love.math.random(-10, 10) / 100))
     sfx:setRelative(true)
     sfx:play()
@@ -267,7 +268,7 @@ function _G.playSpeech(speech)
     local speechFx = require("sounds.speech")
     local sfx = speechFx[speech]
     local _, volumeLimit = sfx:getVolumeLimits()
-    sfx:setVolume(_G.OPTIONS.SPEECH_VOLUME * volumeLimit)
+    sfx:setVolume((_G.OPTIONS.SPEECH_VOLUME * volumeLimit) * _G.OPTIONS.MASTER_VOLUME)
     sfx:setPitch(1 + love.math.random(-5, 5) / 100)
     sfx:play()
 end

@@ -12,17 +12,19 @@ end
 function SettingsWindow:initialize()
     self.category = {
         sound = {
-            title = SID.settings.categories.title,
+            title = SID.settings.categories.sound.title,
             description = { {
                 color = descriptionColor
-            }, SID.settings.categories.description },
+            }, SID.settings.categories.sound.description },
             elements = require("states.ui.settings.window_sound") or {}
         },
         graphics = {
             title = SID.settings.categories.graphics.title,
             description = { {
                 color = descriptionColor
-            }, SID.settings.categories.graphics },
+            }, SID.settings.categories.graphics.description, {
+                color = warningColor
+            }, "Not yet implemented" },
             elements = require("states.ui.settings.window_graphics") or {}
         },
         hotkeys = {

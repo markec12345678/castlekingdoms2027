@@ -28,6 +28,7 @@ local defaultConfig = {
         fullscreenType = "desktop"
     },
     sound = {
+        master = 100,
         effects = 100,
         speech = 100,
         music = 100
