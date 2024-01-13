@@ -3,6 +3,7 @@ require("states.ui.init")
 local loveframes = require("libraries.loveframes")
 local states = require("states.ui.states")
 local renderLoadingScreen = require("states.ui.loading_screen")
+local playlist = require("sounds.music_playlist")
 
 local startMenuFadeIn = 1.5
 local startMenuDisplay = 4
@@ -13,6 +14,7 @@ local startMenuAplha = 0
 
 function startMenu:enter()
     loveframes.SetState(states.STATE_MAIN_MENU)
+    playlist("menu")
 end
 
 local framesFromStart = 0

@@ -9,6 +9,9 @@ widgets.addSlider(elements, 1, "Master volume", config.sound.master, true, funct
     config.sound.master = volume * 100
     _G.OPTIONS.MASTER_VOLUME = volume
     config:save(config)
+    if _G.CURRENT_MUSIC and _G.CURRENT_MUSIC:isPlaying() then
+        _G.CURRENT_MUSIC:setVolume(_G.OPTIONS.MUSIC_VOLUME * _G.OPTIONS.MASTER_VOLUME)
+    end
 end)
 
 -- MUSIC VOLUME
@@ -17,6 +20,9 @@ widgets.addSlider(elements, 2, "Music volume", config.sound.music, true, functio
     config.sound.music = volume * 100
     _G.OPTIONS.MUSIC_VOLUME = volume
     config:save(config)
+    if _G.CURRENT_MUSIC and _G.CURRENT_MUSIC:isPlaying() then
+        _G.CURRENT_MUSIC:setVolume(_G.OPTIONS.MUSIC_VOLUME * _G.OPTIONS.MASTER_VOLUME)
+    end
 end)
 
 -- SOUND EFFECTS VOLUME

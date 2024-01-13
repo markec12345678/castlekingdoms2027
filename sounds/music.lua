@@ -4,12 +4,15 @@ local extendedSoundtrackEnabled = true
 
 -- define mood structure
 local music = {
+    ["menu"] = {},
     ["peaceful"] = {},
     ["combat"] = {}
 }
 
 -- Stronghold OST
 if strongholdOstEnabled then
+    table.insert(music["menu"], love.audio.newSource("sounds/music/stronghold_ost/01 The Chant.mp3", "stream"))
+
     table.insert(music["peaceful"], love.audio.newSource("sounds/music/stronghold_ost/02 Appy Times.mp3", "stream"))
     table.insert(music["peaceful"], love.audio.newSource("sounds/music/stronghold_ost/03 Castle Jam.mp3", "stream"))
     table.insert(music["peaceful"], love.audio.newSource("sounds/music/stronghold_ost/08 Matt's Jig.mp3", "stream"))
