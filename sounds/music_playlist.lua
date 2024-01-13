@@ -23,7 +23,7 @@ return function()
         if _G.CURRENT_PLAYLIST_INDEX > #playlist then
             _G.CURRENT_PLAYLIST_INDEX = 1
         end
-        playlist[_G.CURRENT_PLAYLIST_INDEX]:setVolume(_G.OPTIONS.MUSIC_VOLUME)
+        playlist[_G.CURRENT_PLAYLIST_INDEX]:setVolume(_G.OPTIONS.MUSIC_VOLUME * _G.OPTIONS.MASTER_VOLUME)
         playlist[_G.CURRENT_PLAYLIST_INDEX]:play()
         _G.CURRENT_MUSIC = playlist[_G.CURRENT_PLAYLIST_INDEX]
     end
