@@ -832,8 +832,8 @@ function Quarry:work(worker)
         worker:jobUpdate()
         self.shaper.tile = tileQuads["anim_quarry_cut (1)"]
     end
-    if self.shapeWorker and self.shapeWorker.state == "Working" and not self.working and self.liftWorker.state ==
-        "Working" and self.pullWorker.state == "Working" then
+    if self.shapeWorker and self.shapeWorker.state == "Working" and not self.working and self.liftWorker and self.liftWorker.state ==
+        "Working" and self.pullWorker and self.pullWorker.state == "Working" then
         self.working = true
         self.lifter:activate()
     end
