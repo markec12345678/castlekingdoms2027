@@ -78,7 +78,7 @@ function Object:render()
                 tostring(self) .. "\n coordinates: " .. tostring(self.gx) .. ", " .. tostring(self.gy))
         end
 
-        self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, self.shadowValue)
+        self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, self.shadowValue, self.lScale or 1)
     end
 end
 
@@ -107,7 +107,7 @@ function Object:renderAlias()
             return
         end
         self.instancemesh = _G.state.objectMesh[self.cx][self.cy]
-        self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, self.shadowValue)
+        self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, self.shadowValue, self.lScale or 1)
     end
 end
 
@@ -133,7 +133,7 @@ function Object:updateVertex()
         local x, y = self.x + (self.offsetX or 0) + offsetX, self.y + (self.offsetY or 0) + offsetY - elevationOffsetY
         local qx, qy, qw, qh = self.tile:getViewport()
         self.instancemesh = _G.state.objectMesh[self.cx][self.cy]
-        self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, self.shadowValue)
+        self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, self.shadowValue, self.lScale or 1)
     end
 end
 

@@ -775,7 +775,7 @@ function Quarry:leave(sleepInsteadOfLeaving)
     self.shaper:stop()
     self.working = false
     self.freeSpots = self.freeSpots + 1
-    self.float:activate()
+    self.float:activate(sleepInsteadOfLeaving)
     return true
 end
 

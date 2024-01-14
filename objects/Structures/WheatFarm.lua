@@ -427,7 +427,7 @@ function WheatFarm:leave(sleepInsteadOfLeaving)
         end
         self.wheatWorker = nil
         self.freeSpots = 1
-        self.float:activate()
+        self.float:activate(sleepInsteadOfLeaving)
         self:reset()
         return true
     end

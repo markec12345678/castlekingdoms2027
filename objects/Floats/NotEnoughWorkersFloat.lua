@@ -4,15 +4,19 @@ local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 
 local frames = _G.indexQuads("float_inaccessible", 16)
+local sleepFrames = _G.indexQuads("sleep_float", 8)
 
 local NotEnoughWorkersFloat = _G.class("NotEnoughWorkersFloat", Object)
 function NotEnoughWorkersFloat:initialize(gx, gy, offsetX, offsetY, isDeserialized)
     Object.initialize(self, gx, gy)
     _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
     self.animated = true
+    self.baseOffsetX, self.baseOffsetY = offsetX, offsetY
     self.offsetX = offsetX
     self.offsetY = offsetY
-    self.animation = anim.newAnimation(frames, 0.065, nil, "NotEnoughWorkersFloat")
+    self.workersAnimation = anim.newAnimation(frames, 0.065, nil, "NotEnoughWorkersFloat")
+    self.sleepAnimation = anim.newAnimation(sleepFrames, 0.065, nil, "SleepFloat")
+    self.animation = self.workersAnimation
     self.tile = tileQuads["float_inaccessible (1)"]
     if not isDeserialized then
         self:registerAsActiveEntity()
@@ -33,7 +37,14 @@ function NotEnoughWorkersFloat:destroy()
     Object.destroy(self)
 end
 
-function NotEnoughWorkersFloat:activate()
+function NotEnoughWorkersFloat:activate(sleep)
+    if sleep then
+        self.animation = self.sleepAnimation
+        self.offsetX, self.offsetY = self.baseOffsetX - 60, self.baseOffsetY - 30
+    else
+        self.offsetX, self.offsetY = self.baseOffsetX, self.baseOffsetY
+        self.animation = self.workersAnimation
+    end
     self.animation:resume()
     self.animated = true
     self.needNewVertAsap = true

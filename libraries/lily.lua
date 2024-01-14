@@ -22,6 +22,7 @@
 -- 2. When you're handling "quit" event and you integrate Lily into
 --    your `love.run` loop, call `lily.quit` before `return`.
 -- Need love module
+if _G.testMode then return end
 local love = require("love")
 assert(love._version >= "11.0", "Lily v3.x require at least LOVE 11.0")
 -- Need love.event and love.thread
