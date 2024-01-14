@@ -452,7 +452,7 @@ function HopsFarm:leave(sleepInsteadOfLeaving)
         end
         self.hopsWorker = nil
         self.freeSpots = 1
-        self.float:activate()
+        self.float:activate(sleepInsteadOfLeaving)
         return true
     end
 end

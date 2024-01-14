@@ -450,7 +450,7 @@ function Bakery:leave(sleepInsteadOfLeaving)
         end
         self.worker = nil
         self.freeSpots = 1
-        self.float:activate()
+        self.float:activate(sleepInsteadOfLeaving)
         self.cookingObj:deactivate()
         return true
     end

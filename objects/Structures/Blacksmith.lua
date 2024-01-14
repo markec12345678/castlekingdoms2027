@@ -515,7 +515,7 @@ function BlacksmithWorkshop:leave(sleepInsteadOfLeaving)
         end
         self.worker = nil
         self.freeSpots = 1
-        self.float:activate()
+        self.float:activate(sleepInsteadOfLeaving)
         self.anvilCrafting:deactivate()
         self.swordCrafting:deactivate()
         return true

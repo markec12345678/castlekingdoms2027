@@ -72,6 +72,7 @@ love.graphics = {
     push = function() end,
     translate = function() end,
     setBackgroundColor = function() end,
+    getTextureTypes = function() end,
     pop = function() end,
     scale = function() end,
     isActive = function() return false end,

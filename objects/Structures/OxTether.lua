@@ -197,7 +197,7 @@ function OxTether:leave(sleepInsteadOfLeaving)
         end
         self.oxWorker = nil
         self.freeSpots = 1
-        self.float:activate()
+        self.float:activate(sleepInsteadOfLeaving)
         return true
     end
 end

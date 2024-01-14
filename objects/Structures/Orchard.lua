@@ -335,7 +335,7 @@ function Orchard:leave(sleepInsteadOfLeaving)
         self.appleWorker = nil
         self.freeSpots = 1
         self.state = 0
-        self.float:activate()
+        self.float:activate(sleepInsteadOfLeaving)
         return true
     end
 end
