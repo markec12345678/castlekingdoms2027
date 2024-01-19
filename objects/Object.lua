@@ -232,6 +232,7 @@ function Object:serialize()
         data.className ~= "WoodenGateSouthBigAlias" and
         data.className ~= "WoodenPerimeterTowerAlias" and
         data.className ~= "WoodenTowerAlias" and
+        data.className ~= "WindmillAlias" and
         string.find(data.className or tostring(self.class), "Alias") then
         return {}
     end

@@ -17,7 +17,7 @@ ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFT
 --
 
 local console = {}
-
+local utf8 = require("utf8")
 -- Utilty functions for manipulating tables.
 local function map(tbl, f)
     local t = {}
@@ -374,6 +374,7 @@ function console.completion(partial)
 end
 
 function console.textinput(input)
+    if utf8.codepoint(input) >= 128 then return end
     -- Use the "~" key to enable / disable the console.
     if input == "~" then
         return
