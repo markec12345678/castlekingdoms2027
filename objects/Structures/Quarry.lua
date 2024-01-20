@@ -862,8 +862,8 @@ function Quarry:start()
         self.lifter:start()
         self.puller:start()
         self.shaper:start()
-        if self.shapeWorker and self.shapeWorker.state == "Working" and not self.working and self.liftWorker.state ==
-            "Working" and self.pullWorker.state == "Working" then
+        if self.shapeWorker and self.shapeWorker.state == "Working" and not self.working and self.liftWorker and self.liftWorker.state ==
+            "Working" and self.pullWorker and self.pullWorker.state == "Working" then
             self.working = true
             self.lifter:activate()
         end
