@@ -299,18 +299,18 @@ taxes:
   downrightCruel: Okrutne Podatki
 popularityText:
   total: Total
-  rations: Rations
-  taxes: Taxes
-  fearFactor: Fear factor
+  rations: Racje
+  taxes: Podatki
+  fearFactor: Współczynnik strachu
   crowding: Crowding
-  religion: Religion
+  religion: Religia
   aleCoverage: Ale Coverage
   enclosedKeep: Keep Enclosed
   openKeep: Open Keep
-  popularity: Popularity
-  inTheComingMonth: "In the coming month"
-  typesOfFoodConsumed: "%d types of food consumed"
-  foodInGranary: "%d food in granary"
+  popularity: Popularność
+  inTheComingMonth: "W nadchodzącym miesiącu"
+  typesOfFoodConsumed: "%d rodzajów spożywanego jedzenia"
+  foodInGranary: "%d jedzenia w spichlerzu"
 settings:
   categories:
     sound:
