@@ -354,8 +354,7 @@ archerIconButton.OnMouseDown = function(self)
     }, SID.recruitment.archer })
 end
 archerIconButton.OnClick = function(self)
-    local peasantAvailable = hasAvailablePeasants()
-    if _G.state.weapons[WEAPON.bow] > 0 and _G.state.gold > 12 and peasantAvailable then
+    if _G.state.weapons[WEAPON.bow] > 0 and _G.state.gold > 12 and hasAvailablePeasants() then
         _G.weaponpile:take(WEAPON.bow)
         _G.state.gold = _G.state.gold - 12
         local ActionBar = require("states.ui.ActionBar")
@@ -406,8 +405,7 @@ spearmanIconButton.OnMouseDown = function(self)
     }, SID.recruitment.spearman })
 end
 spearmanIconButton.OnClick = function(self)
-    local peasantAvailable = hasAvailablePeasants()
-    if _G.state.weapons[WEAPON.spear] > 0 and _G.state.gold > 8 and peasantAvailable then
+    if _G.state.weapons[WEAPON.spear] > 0 and _G.state.gold > 8 and hasAvailablePeasants() then
         _G.weaponpile:take(WEAPON.spear)
         _G.state.gold = _G.state.gold - 8
         local ActionBar = require("states.ui.ActionBar")
@@ -462,8 +460,7 @@ macemanIconButton.OnMouseDown = function(self)
     }, SID.recruitment.maceman })
 end
 macemanIconButton.OnClick = function(self)
-    local peasantAvailable = hasAvailablePeasants()
-    if _G.state.weapons[WEAPON.mace] > 0 and _G.state.weapons[WEAPON.leatherArmor] > 0 and _G.state.gold > 20 and peasantAvailable then
+    if _G.state.weapons[WEAPON.mace] > 0 and _G.state.weapons[WEAPON.leatherArmor] > 0 and _G.state.gold > 20 and hasAvailablePeasants() then
         _G.weaponpile:take(WEAPON.mace)
         _G.weaponpile:take(WEAPON.leatherArmor)
         _G.state.gold = _G.state.gold - 20
@@ -520,8 +517,7 @@ crossbowmanIconButton.OnMouseDown = function(self)
     }, SID.recruitment.crossbowman })
 end
 crossbowmanIconButton.OnClick = function(self)
-    local peasantAvailable = hasAvailablePeasants()
-    if _G.state.weapons[WEAPON.crossbow] > 0 and _G.state.weapons[WEAPON.leatherArmor] > 0 and _G.state.gold > 20 and peasantAvailable then
+    if _G.state.weapons[WEAPON.crossbow] > 0 and _G.state.weapons[WEAPON.leatherArmor] > 0 and _G.state.gold > 20 and hasAvailablePeasants() then
         _G.weaponpile:take(WEAPON.crossbow)
         _G.weaponpile:take(WEAPON.leatherArmor)
         _G.state.gold = _G.state.gold - 20
@@ -578,8 +574,7 @@ pikemanIconButton.OnMouseDown = function(self)
     }, SID.recruitment.pikeman })
 end
 pikemanIconButton.OnClick = function(self)
-    local peasantAvailable = hasAvailablePeasants()
-    if _G.state.weapons[WEAPON.pike] > 0 and _G.state.weapons[WEAPON.leatherArmor] > 0 and _G.state.gold > 20 and peasantAvailable then
+    if _G.state.weapons[WEAPON.pike] > 0 and _G.state.weapons[WEAPON.leatherArmor] > 0 and _G.state.gold > 20 and hasAvailablePeasants() then
         _G.weaponpile:take(WEAPON.pike)
         _G.weaponpile:take(WEAPON.leatherArmor)
         _G.state.gold = _G.state.gold - 20
@@ -636,8 +631,7 @@ swordsmanIconButton.OnMouseDown = function(self)
     }, SID.recruitment.swordsman })
 end
 swordsmanIconButton.OnClick = function(self)
-    local peasantAvailable = hasAvailablePeasants()
-    if _G.state.weapons[WEAPON.shield] > 0 and _G.state.weapons[WEAPON.sword] > 0 and _G.state.gold > 40 and peasantAvailable then
+    if _G.state.weapons[WEAPON.shield] > 0 and _G.state.weapons[WEAPON.sword] > 0 and _G.state.gold > 40 and hasAvailablePeasants() then
         _G.weaponpile:take(WEAPON.shield)
         _G.weaponpile:take(WEAPON.sword)
         _G.state.gold = _G.state.gold - 40
