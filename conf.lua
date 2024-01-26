@@ -10,13 +10,17 @@ end
 function love.conf(t)
     _G.testMode = false
     _G.args = {}
-    _G.currentLang = "ENG"
     local config = require("config_file")
     local resolutionWidth = config.video.resolutionWidth
     local resolutionHeight = config.video.resolutionHeight
     local fullscreen = config.video.fullscreen
     local resizable = config.video.resizable
     local borderless = config.video.borderless
+    local language = config.general.language
+
+    if not language then
+        language = "ENG"
+    end
 
     for ind, val in ipairs(_G.arg) do
         if val == "--test" then
@@ -36,11 +40,13 @@ function love.conf(t)
         elseif val == "--resize" then
             resizable = tobool(_G.arg[ind + 1])
         elseif val == "--pol" or val == "--POL" then
-            _G.currentLang = "POL"
+            language = "POL"
         elseif val == "--por" or val == "--POR" then
-            _G.currentLang = "POR"
+            language = "POR"
         end
     end
+    
+    _G.currentLang = language
 
     -- Apply config
     t.identity = "StoneKingdoms"             -- The name of the save directory (string)

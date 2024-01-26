@@ -152,6 +152,17 @@ function TunnelersGuild:serialize()
     data.health = self.health
     data.offsetX = self.offsetX
     data.offsetY = self.offsetY
+    local freeSpots = {}
+    for xx = 1, 9 do
+        freeSpots[xx] = {}
+        for yy = 5, 9 do
+            freeSpots[xx][yy] = self.freeSpots[xx][yy]
+            if freeSpots[xx][yy] and type(freeSpots[xx][yy]) ~= "boolean" then
+                freeSpots[xx][yy] = _G.state:serializeObject(freeSpots[xx][yy])
+            end
+        end
+    end
+    data.freeSpots = freeSpots
     return data
 end
 

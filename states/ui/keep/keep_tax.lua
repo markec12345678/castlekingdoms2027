@@ -45,6 +45,8 @@ local PointerPositions = {}
 -- "Extortionate Taxes"    -12     1.4
 -- "Downright Cruel Taxes" -16     1.6
 
+-- Taxes_Rate + speechSamples[index]
+local speechSamples = { 1, 1, 2, 3, 4, 4, 5, 6, 7, 8 }
 local frLeftButton = {
     x = framesActionBar.frFull.x + 410 * scale,
     y = framesActionBar.frFull.y + 115 * scale,
@@ -235,17 +237,18 @@ Pointer:SetScaleY(Pointer:GetScaleX())
 Pointer:SetPos(frDynamicPosition[4].x + 8 * scale, frPointer.y)
 
 local taxMapping = {
-    SID.taxes.generousBribe,
-    SID.taxes.largeBribe,
-    SID.taxes.smallBribe,
-    SID.taxes.no,
-    SID.taxes.low,
-    SID.taxes.avg,
-    SID.taxes.high,
-    SID.taxes.mean,
-    SID.taxes.extra,
-    SID.taxes.downrightCruel,
+    "GenerousBribe",
+    "LargeBribe",
+    "SmallBribe",
+    "NoTaxes",
+    "LowTaxes",
+    "AverageTaxes",
+    "HighTaxes",
+    "MeanTaxes",
+    "ExtortionateTaxes",
+    "DownrightCruelTaxes"
 }
+
 local moodMapping = {
     7,
     5,
@@ -285,7 +288,6 @@ local moodImageMapping = {
 local function SetTax(optionIndex)
     local color = { 0, 0, 0, 1 }
 
-    TaxController.taxText = taxMapping[optionIndex]
     local moodText = moodMapping[optionIndex]
     if moodText < 0 then
         color = { 200 / 255, 90 / 255, 90 / 255, 1 }
@@ -293,7 +295,7 @@ local function SetTax(optionIndex)
         color = { 130 / 255, 220 / 255, 123 / 255, 1 }
     end
     local moodImage = moodImageMapping[optionIndex]
-    _G.TaxController:setTaxLevel(TaxController.taxText)
+    _G.TaxController:setTaxLevel(taxMapping[optionIndex])
     _G.TaxController.goldFactor = goldFactorMapping[optionIndex]
     _G.TaxController.moodFactor = moodMapping[optionIndex]
     _G.TaxController.taxOption = optionIndex
@@ -370,6 +372,7 @@ for i, v in ipairs(frDynamicPosition) do
     PointerInstance.OnClick = function(self)
         Pointer:SetPos(v.x + 8 * scale, frPointer.y)
         SetTax(i)
+        _G.playSpeech("Taxes_Rate" .. speechSamples[i])
     end
     PointerPositions[i] = PointerInstance
 end
