@@ -172,6 +172,9 @@ local buildings = {
                 end
             end
             warningTooltip:ShowTooltip(SID.tips.warning.adjacentGranary)
+        end,
+        onFailedSpecialRequirement = function()
+            _G.playSpeech("adjacent_granary")
         end
     },
     [Quarry.name] = {
@@ -326,6 +329,9 @@ local buildings = {
                 end
             end
             warningTooltip:ShowTooltip(SID.tips.warning.onTopOfIron)
+        end,
+        onFailedSpecialRequirement = function()
+            _G.playSpeech("iron_mine_needs_iron_ore")
         end,
         overrideRequirements = function(this, self)
             self.targetGX, self.targetGY = self.gx + math.floor(self.width / 2),
@@ -668,6 +674,9 @@ local buildings = {
                 end
             end
             warningTooltip:ShowTooltip(SID.tips.warning.adjacentArmoury)
+        end,
+        onFailedSpecialRequirement = function()
+            _G.playSpeech("adjacent_armory")
         end
     },
     [WoodenGateEast.name] = {
