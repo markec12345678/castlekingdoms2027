@@ -327,10 +327,22 @@ settings:
         sound:
             title: SOUND LEVELS
             description: Here you can change the sound levels of sound effects or speech to your liking.
+            items:
+                masterVolume: Master volume
+                musicVolume: Music volume
+                soundVolume: Sound volume
+                speechVolume: Speech volume
         graphics:
             title: GRAPHIC SETTINGS
             description: |
                 Modify rendering quality, chunk size and toggle animations in order to balance performance.\n
+            items:
+                fullScreen: Full Screen
+                borderless: Borderless
+                vsync: VSync
+                resolution: Resolution
+                display: Display
+                apply: Apply
         hotkeys:
             title: KEYBOARD HOTKEYS & SHORTCUTS
             description: |

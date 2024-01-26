@@ -15,11 +15,40 @@ local KeybindManager = require("objects.Controllers.KeybindManager")
 local test = require("states.test")
 local lurker = require("lurker")
 local loader = require("libraries.lily")
+local config = require("config_file")
 
 --extend native error handler
 require("objects.Controllers.ErrorHandler")
 
 function love.load()
+    local function getAvailableResolutions()
+        local result = {}
+        local modes = love.window.getFullscreenModes(config.video.display)
+        for i, mode in ipairs(modes) do
+            result[#result + 1] = mode
+        end
+        return result
+    end
+
+    local function isResolutonSupported(resolutions)
+        local resolutionW, resolutionH = config.video.resolutionWidth, config.video.resolutionHeight
+        for i, r in ipairs(resolutions) do
+            if (r.width == resolutionW and r.height == resolutionH) then
+                return true
+            end
+        end
+    
+        return false
+    end
+
+    local supportedResolutions = getAvailableResolutions()
+    if not isResolutonSupported(supportedResolutions) then
+        local maxResolution = supportedResolutions[1]
+        config.video.resolutionWidth, config.video.resolutionHeight = maxResolution.width, maxResolution.height
+        config:save(config)
+        love.event.quit("restart")
+    end
+
     local success = love.filesystem.createDirectory("saves")
     if not success then
         error("couldn't create save directory")

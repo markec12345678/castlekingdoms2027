@@ -169,7 +169,14 @@ function game:update(dt)
         assert(not error, error)
         error = _G.state.thread2:getError()
         assert(not error, error)
-        if not _G.BuildController.start then
+        -- Stop playing main menu music at game start
+        if _G.BuildController.start then
+            if _G.CURRENT_MUSIC and _G.CURRENT_MUSIC:isPlaying() then
+                love.audio.stop(_G.CURRENT_MUSIC)
+                _G.CURRENT_MUSIC = nil
+                _G.CURRENT_PLAYLIST_INDEX = 0
+            end
+        else
             playlist()
         end
     end
