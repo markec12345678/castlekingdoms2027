@@ -1,12 +1,12 @@
 mission1:
-  name: Timber and Stone
+  name: Holz und Stein
   desc: |
     In this mission, you will need to focus on gathering resources to develop your kingdom's infrastructure.
     Your objective is to collect 50 units of wood and 20 units of stone within the next 5 years.\n
     To achieve this, you will need to establish a network of woodcutter's huts and quarries to extract these resources from the surrounding environment.
     This may involve the construction of stockpiles to store your resources.
 mission2:
-  name: Arms Race
+  name: Wettrüsten
   desc: |
     In this mission, you will need to focus on developing a strong military to defend your kingdom against potential threats.
     Your objective is to produce 40 units each of bows, spears, maces, and armor within the next 20 years.\n
@@ -69,35 +69,35 @@ groups:
     description: Gardens, statues and entertainment to increase your popularity.
 buildings:
   hunterHut:
-    name: Hunter's hut
-    description: Hunts deer in the environment for meat.
+    name: Jagdhütte
+    description: Jagd Hirsche in der Umgebung für Fleisch.
   granary:
     name: Granary
     description: The granary is where you store your kingdom's food reserves.
   orchard:
-    name: Orchard
-    description: Produces apples.
+    name: Obstplantage
+    description: Produziert Äpfel.
   wheatFarm:
-    name: Wheat Farm
-    description: Produces wheat which can be processed into flour.
+    name: Weizenfarm
+    description: Erzeugt Weizen, der zu Mehl verarbeitet werden kann.
   dairyFarm:
-    name: Dairy Farm
-    description: Produces cheese.
+    name: Rinder-Farm
+    description: Erzeugt Käse.
   hopsFarm:
-    name: Hops Farm
-    description: Produces hops which can be processed into ale.
+    name: Hopfen Farm
+    description: Erzeugt Hopfen, der zu Bier verarbeitet werden kann.
   castle:
     name: Saxon Hall
     description: Your Saxon hall is the center of your castle.
   stockpile:
     name: Stockpile
     description: |
-      Increases resource capacity.\nMust be placed adjacent to a stockpile.
+      Erhöht die Ressourcenkapazität.\n Muss an ein Vorratslager angrenzend gebaut werden.
   woodenKeep:
-    name: Wooden Keep
+    name: Hölzerner Bergfried
     description: Upgrade your Saxon hall to a Wooden keep
   keep:
-    name: Keep
+    name: Bergfried
     description: Upgrade your Wooden keep to a Stone keep
   fortress:
     name: Fortress
@@ -124,19 +124,19 @@ buildings:
     name: Church
     description: Increase your popularity with religion. Currently not functional.
   cathedral:
-    name: Cathedral
+    name: Kathedrale
     description: Increase your popularity with religion. Currently not functional.
   apothecary:
-    name: Apothecary
+    name: Apotheke
     description: Currently not functional.
   woodcutter:
-    name: Woodcutter Hut
+    name: Holzfällerhütte
     description: Cuts down nearby trees to produce wood.
   ironMine:
-    name: Mine
+    name: Bergwerk
     description: Produces iron ingots from ground iron ore.
   market:
-    name: Market
+    name: Markt
     description: Allows you to trade your goods.
   ox:
     name: Ox Tether

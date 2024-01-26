@@ -287,18 +287,18 @@ taxes:
   downrightCruel: Impostos Simplesmente Cruéis
 popularityText:
   total: Total
-  rations: Rations
-  taxes: Taxes
-  fearFactor: Fear factor
-  crowding: Crowding
-  religion: Religion
-  aleCoverage: Ale Coverage
-  enclosedKeep: Keep Enclosed
-  openKeep: Open Keep
-  popularity: Popularity
-  inTheComingMonth: "In the coming month"
-  typesOfFoodConsumed: "%d types of food consumed"
-  foodInGranary: "%d food in granary"
+  rations: Rações
+  taxes: Impostos
+  fearFactor: Fator de medo
+  crowding: Aglomeração
+  religion: Religião
+  aleCoverage: Cobertura da Cerveja
+  enclosedKeep: Fortaleza Fechada
+  openKeep: Fortaleza Aberta
+  popularity: Popularidade
+  inTheComingMonth: "No próximo mês"
+  typesOfFoodConsumed: " %d  tipos de alimentos consumidos"
+  foodInGranary: "%d de alimento no celeiro"
 settings:
   categories:
     sound:
