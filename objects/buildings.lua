@@ -64,6 +64,7 @@ local StoneGateSouth = require("objects.Structures.StoneGateSouth")
 local StoneGateEastBig = require("objects.Structures.StoneGateEastBig")
 local StoneGateSouthBig = require("objects.Structures.StoneGateSouthBig")
 local PitchRig = require("objects.Structures.PitchRig")
+local Stable = require("objects.Structures.Stable")
 
 local Lord = require("objects.Units.Lord")
 
@@ -1893,6 +1894,22 @@ local buildings = {
         },
         build = function(self, gx, gy)
             Brewery:new(gx, gy)
+        end,
+        specialRequirements = function(self, _, _)
+            return true
+        end
+    },
+    [Stable.name] = {
+        quad = tileQuads["stable"],
+        offsetX = 79,
+        offsetY = 58,
+        w = 6,
+        h = 6,
+        cost = {
+            ["wood"] = 20
+        },
+        build = function(self, gx, gy)
+            Stable:new(gx, gy)
         end,
         specialRequirements = function(self, _, _)
             return true

@@ -261,6 +261,9 @@ buildings:
     largeGarden:
         name: Large Garden
         description: A large garden.
+    stable:
+        name: Stable
+        descriptin: Produces horses
 freebuild:
     fernhaven:
         name: Fernhaven
