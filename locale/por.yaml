@@ -241,6 +241,9 @@ buildings:
   largeGarden:
     name: Grande Jardim
     description: Um grande jardim.
+  stable:
+    name: Stable
+    descriptin: Produces horses
 freebuild:
   fernhaven:
     name: Refúgio da Samambaia
@@ -302,24 +305,42 @@ popularityText:
 settings:
   categories:
     sound:
+      button: Sound
       title: NÍVEIS DE SOM
       description: Aqui você pode mudar o volume dos efeitos sonoros ou conversas ao seu gosto.
+      items:
+        masterVolume: Master volume
+        musicVolume: Music volume
+        soundVolume: Sound volume
+        speechVolume: Speech volume
     graphics:
+      button: Graphics
       title: CONFIGURAÇÕES GRÁFICAS
       description: |
         Modifique a qualidade de renderização, tamanho de chunk e alterne as animações para equilibrar o desempenho.\n
+      items:
+        fullScreen: Full Screen
+        borderless: Borderless
+        vsync: VSync
+        resolution: Resolution
+        display: Display
+        apply: Apply
     hotkeys:
+      button: Hotkeys
       title: CONTROLES  E ATALHOS DO TECLADO
       description: |
         Edite ou adicione novos controles e atalhos de teclado.\n
     video:
+      button: Video
       title: CONFIGURAÇÕES DE VÍDEO
       description: |
         Alterar configurações de tela cheia, resolução da janela e alternar o VSync.\n
     interface:
+      button: Interface
       title: CONFIGURAÇÕES DE INTERFACE
       description: |
         Alterna os elementos da interface e modifique sua escala.\n
+  apply: Apply
 recruitment:
   archer: Arqueiro
   spearman: Lanceiro
@@ -373,6 +394,21 @@ tips:
     structuresInTheWay: Há estruturas no caminho!
     needArmoury: Você precisa de um arsenal para construir isso!
     closeToQuarry: Precisa ser colocado perto de uma pedreira existente!
+ui:
+  mainMenu:
+    freebuild: Freebuild
+    campaign: Campaign
+    load: Load
+    options: Options
+    exit: Exit
+  campaign:
+    economicMissions: Economic Missions
+  load:
+    title: Load Game
+    saveName: Save name
+    map: Map
+    dateSaved: Date saved
+    version: Version
 gold: ouro
 wood: madeira
 stone: pedra
