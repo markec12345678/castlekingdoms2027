@@ -22,9 +22,7 @@ function SettingsWindow:initialize()
             title = SID.settings.categories.graphics.title,
             description = { {
                 color = descriptionColor
-            }, SID.settings.categories.graphics.description, {
-                color = warningColor
-            }, "Not yet implemented" },
+            }, SID.settings.categories.graphics.description },
             elements = require("states.ui.settings.window_graphics") or {}
         },
         hotkeys = {
@@ -35,15 +33,6 @@ function SettingsWindow:initialize()
                 color = warningColor
             }, "Not yet implemented" },
             elements = require("states.ui.settings.window_hotkeys") or {}
-        },
-        video = {
-            title = SID.settings.categories.video.title,
-            description = { {
-                color = descriptionColor
-            }, SID.settings.categories.video.description, {
-                color = warningColor
-            }, "Not yet implemented" },
-            elements = require("states.ui.settings.window_video") or {}
         },
         interface = {
             title = SID.settings.categories.interface.title,

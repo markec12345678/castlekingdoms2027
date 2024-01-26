@@ -103,29 +103,6 @@ hotkeysButton.OnMouseExit = function(self)
     self:SetImage(hotkeysButtonImage)
 end
 
-local frVideo = frames["frListItem_4"]
-local videoButtonImage = love.graphics.newImage("assets/ui/video_button.png")
-local videoButtonImageHover = love.graphics.newImage("assets/ui/settings_element_hover.png")
-local videoButtonImageDown = love.graphics.newImage("assets/ui/video_button.png")
-local videoButton = loveframes.Create("image")
-videoButton:SetState(states.STATE_SETTINGS)
-videoButton:SetImage(videoButtonImage)
-videoButton:SetScaleX(frVideo.width / videoButton:GetImageWidth())
-videoButton:SetScaleY(videoButton:GetScaleX())
-videoButton:SetPos(frVideo.x, frVideo.y)
-videoButton.OnMouseEnter = function(self)
-    self:SetImage(videoButtonImageHover)
-end
-videoButton.OnMouseDown = function(self)
-    self:SetImage(videoButtonImageDown)
-end
-videoButton.OnClick = function(self)
-    SettingsWindow:switch("video")
-end
-videoButton.OnMouseExit = function(self)
-    self:SetImage(videoButtonImage)
-end
-
 local frInterface = frames["frListItem_5"]
 local interfaceButtonImage = love.graphics.newImage("assets/ui/interface_button.png")
 local interfaceButtonImageHover = love.graphics.newImage("assets/ui/settings_element_hover.png")

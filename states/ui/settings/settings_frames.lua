@@ -77,7 +77,7 @@ local HORIZONTAL_MARGIN = 20
 local IMG_SCALE_HEIGHT = 19
 local IMG_HAND_HEIGHT = 30
 
-local SETTINGS_ITEM_COUNT = 5
+local SETTINGS_ITEM_COUNT = 6
 for i = 1, SETTINGS_ITEM_COUNT do
     local frItem = {
         x = frSubWindow.x,
