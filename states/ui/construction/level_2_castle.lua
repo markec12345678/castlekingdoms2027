@@ -52,6 +52,17 @@ tunnelersGuildButton:setOnClick(
         ActionBar:selectButton(tunnelersGuildButton)
     end)
 
+local stableButton = ActionBarButton:new(love.graphics.newImage("assets/ui/stable_ab.png"),
+    states.STATE_INGAME_CONSTRUCTION, 8, false, nil)
+stableButton:setOnClick(
+    function(self)
+        _G.BuildController:set(
+            "Stable", function()
+                stableButton:unselect()
+            end)
+        ActionBar:selectButton(stableButton)
+    end)
+
 local woodenBuildings = ActionBarButton:new(love.graphics.newImage('assets/ui/fortifications/wooden/wooden_wall_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 2, true)
 woodenBuildings:setTooltip(SID.tips.actionBar.woodenStructures.title, SID.tips.actionBar.woodenStructures.title.desc)
@@ -74,7 +85,9 @@ local buildings = {
     { button = barracksButton,       id = "Barracks",       name = SID.buildings.barracks.name,       description = SID.buildings.barracks.description,       tier = 2 },
     { button = stoneBarracksButton,  id = "StoneBarracks",  name = SID.buildings.stoneBarracks.name,  description = SID.buildings.stoneBarracks.description,  tier = 3 },
     { button = engineersGuildButton, id = "EngineersGuild", name = SID.buildings.engineersGuild.name, description = SID.buildings.engineersGuild.description, tier = 4 },
-    { button = tunnelersGuildButton, id = "TunnelersGuild", name = SID.buildings.tunnelersGuild.name, description = SID.buildings.tunnelersGuild.description, tier = 4 }
+    { button = tunnelersGuildButton, id = "TunnelersGuild", name = SID.buildings.tunnelersGuild.name, description = SID.buildings.tunnelersGuild.description, tier = 4 },
+    { button = stableButton,         id = "Stable",         name = SID.buildings.stable.name,         description = SID.buildings.stable.description,         tier = 3 }
+
 }
 
 local function displayTooltips()
@@ -90,6 +103,7 @@ local function displayTooltips()
         stoneBarracks = stoneBarracksButton,
         engineersGuild = engineersGuildButton,
         tunnelersGuild = tunnelersGuildButton,
+        stable = stableButton,
     }
 
     disableUnavailableButtons(buttonList)
@@ -116,7 +130,7 @@ local elements = {
 
 ActionBar:registerGroup("castle",
     { castleButton, woodenBuildings, stoneBuildings, barracksButton, stoneBarracksButton, engineersGuildButton,
-        tunnelersGuildButton, backButton, destroyButton })
+        tunnelersGuildButton, stableButton, backButton, destroyButton })
 
 package.loaded["states.ui.construction.level_3_castleWood"] = love.filesystem.load(
     "states/ui/construction/level_3_castleWood.lua")(elements, backButton, destroyButton, setBuildingsTooltips)
@@ -242,7 +256,8 @@ function _G.updateKeepUpgradeButton(tier)
         buildings[1].id = "Stronghold"
         buildings[1].name = SID.buildings.stronghold.name
         buildings[1].description = SID.buildings.stronghold.description
-        castleButton:setOnClick(function() end)
+        castleButton:setOnClick(function()
+        end)
     end
 end
 
