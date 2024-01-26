@@ -333,24 +333,38 @@ function BuildController:mousepressed(x, y)
     if self.resourceSound ~= nil and self.canBuild == false and self.active and self.firstTerrainHeight then
         resourceRequestSound(self.resourceSound)
         self.resourceSound = nil
+        return
     end
-    if not _G.paused and self.active and self.canBuild and self.firstTerrainHeight then
-        for xx = 0, self.width - 1 do
-            for yy = 0, self.height - 1 do
-                _G.state.Terrain:terrainSetHeight(xx + self.gx, yy + self.gy, self.firstTerrainHeight / 2)
+    if not _G.paused and self.active and self.firstTerrainHeight then
+        if self.canBuild then
+            for xx = 0, self.width - 1 do
+                for yy = 0, self.height - 1 do
+                    _G.state.Terrain:terrainSetHeight(xx + self.gx, yy + self.gy, self.firstTerrainHeight / 2)
+                end
+            end
+            self.firstTerrainHeight = nil
+            if self.building == "WoodenWall" or self.building == "WalkableWoodenWall" then
+                return WallController:build()
+            end
+            local built = self:build(self.gx, self.gy)
+            if built then
+                _G.playInterfaceSfx({ _G.fx["building_place"], _G.fx["building_place_v2"] })
+                self:removeResourceNodes()
+            end
+            self.resourceSound = nil
+            return built
+        else
+            if self.cannotBuildBecauseSpecial and building[self.building].onFailedSpecialRequirement then
+                building[self.building]:onFailedSpecialRequirement()
+            else
+                local sfxi = math.random(1, 2)
+                if sfxi == 1 then
+                    _G.playSpeech("cannot_place_1")
+                else
+                    _G.playSpeech("cannot_place_2")
+                end
             end
         end
-        self.firstTerrainHeight = nil
-        if self.building == "WoodenWall" or self.building == "WalkableWoodenWall" then
-            return WallController:build()
-        end
-        local built = self:build(self.gx, self.gy)
-        if built then
-            _G.playInterfaceSfx({ _G.fx["building_place"], _G.fx["building_place_v2"] })
-            self:removeResourceNodes()
-        end
-        self.resourceSound = nil
-        return built
     end
 end
 
@@ -520,17 +534,6 @@ function BuildController:build(gx, gy, b)
                     startButtons.granaryButton:disable()
                     ActionBar:showGroup("main")
                     return true
-                end
-            end
-        else
-            if self.cannotBuildBecauseSpecial and building[self.building].onFailedSpecialRequirement then
-                building[self.building]:onFailedSpecialRequirement()
-            else
-                local sfxi = math.random(1, 2)
-                if sfxi == 1 then
-                    _G.playSpeech("cannot_place_1")
-                else
-                    _G.playSpeech("cannot_place_2")
                 end
             end
         end
