@@ -5,6 +5,22 @@ local actionBar = require("states.ui.ActionBar")
 local scale = actionBar.element.scalex
 local SID = require("objects.Controllers.LanguageController").lines
 
+local speechSamples = {
+    NoRations = "None",
+    SmallRations = "Half",
+    NormalRations = "Normal",
+    ExtraRations = "Extra",
+    LargeRations = "Double"
+}
+
+local pointerImages = {
+    NoRations = love.graphics.newImage("assets/ui/hand_1.png"),
+    SmallRations = love.graphics.newImage("assets/ui/hand_2.png"),
+    NormalRations = love.graphics.newImage("assets/ui/hand_3.png"),
+    ExtraRations = love.graphics.newImage("assets/ui/hand_4.png"),
+    LargeRations = love.graphics.newImage("assets/ui/hand_5.png")
+}
+
 local ActionBarButton = require("states.ui.ActionBarButton")
 local backButton = ActionBarButton:new(love.graphics.newImage("assets/ui/back_ab.png"), states.STATE_GRANARY, 12)
 backButton:setOnClick(function(self)
@@ -16,24 +32,26 @@ local colorRed = { 200 / 255, 90 / 255, 90 / 255, 1 }
 local colorWhite = { 1, 1, 1, 1 }
 local colorGreen = { 130 / 255, 220 / 255, 123 / 255, 1 }
 
-local pointerHandButtonImage1 = love.graphics.newImage("assets/ui/hand_1.png")
-local pointerHandButtonImage2 = love.graphics.newImage("assets/ui/hand_2.png")
-local pointerHandButtonImage3 = love.graphics.newImage("assets/ui/hand_3.png")
-local pointerHandButtonImage4 = love.graphics.newImage("assets/ui/hand_4.png")
-local pointerHandButtonImage5 = love.graphics.newImage("assets/ui/hand_5.png")
 local frPointerHand = {
     x = framesActionBar["frFull"].x + 593 * scale,
     y = framesActionBar["frFull"].y + 148 * scale,
-    width = pointerHandButtonImage1:getWidth() * scale,
-    height = pointerHandButtonImage1:getHeight() * scale
+    width = pointerImages["NoRations"]:getWidth() * scale,
+    height = pointerImages["NoRations"]:getHeight() * scale
 }
 local pointerHand = loveframes.Create("image")
 pointerHand:SetState(states.STATE_GRANARY)
-pointerHand:SetImage(pointerHandButtonImage3)
+pointerHand:SetImage(pointerImages["NormalRations"])
 pointerHand:SetScaleX(frPointerHand.width / pointerHand:GetImageWidth())
 pointerHand:SetScaleY(pointerHand:GetScaleX())
 pointerHand:SetPos(frPointerHand.x, frPointerHand.y)
 pointerHand.disablehover = true
+
+function setRations(level)
+    pointerHand:SetImage(pointerImages[level])
+    local RationController = require("objects.Controllers.RationController")
+    RationController:setRationLevel(level)
+    _G.playSpeech("Food_" .. speechSamples[level])
+end
 
 local frText = {
     x = framesActionBar.frFull.x + 280 * scale,
@@ -101,10 +119,7 @@ noRationButton.OnMouseDown = function(self)
     self:SetImage(noRationButtonImageDown)
 end
 noRationButton.OnClick = function(self)
-    -- TODO add sound
-    pointerHand:SetImage(pointerHandButtonImage1)
-    local RationController = require("objects.Controllers.RationController")
-    RationController:setRationLevel("NoRations")
+    setRations("NoRations")
 end
 noRationButton.OnMouseExit = function(self)
     self:SetImage(noRationButtonImage)
@@ -133,10 +148,7 @@ halfRationButton.OnMouseDown = function(self)
     self:SetImage(halfRationButtonImageDown)
 end
 halfRationButton.OnClick = function(self)
-    -- TODO add sound
-    pointerHand:SetImage(pointerHandButtonImage2)
-    local RationController = require("objects.Controllers.RationController")
-    RationController:setRationLevel("SmallRations")
+    setRations("SmallRations")
 end
 halfRationButton.OnMouseExit = function(self)
     self:SetImage(halfRationButtonImage)
@@ -165,10 +177,7 @@ fullRationButton.OnMouseDown = function(self)
     self:SetImage(fullRationButtonImageDown)
 end
 fullRationButton.OnClick = function(self)
-    -- TODO add sound
-    pointerHand:SetImage(pointerHandButtonImage3)
-    local RationController = require("objects.Controllers.RationController")
-    RationController:setRationLevel("NormalRations")
+    setRations("NormalRations")
 end
 fullRationButton.OnMouseExit = function(self)
     self:SetImage(fullRationButtonImage)
@@ -197,10 +206,7 @@ extraRationButton.OnMouseDown = function(self)
     self:SetImage(extraRationButtonImageDown)
 end
 extraRationButton.OnClick = function(self)
-    -- TODO add sound
-    pointerHand:SetImage(pointerHandButtonImage4)
-    local RationController = require("objects.Controllers.RationController")
-    RationController:setRationLevel("ExtraRations")
+    setRations("ExtraRations")
 end
 extraRationButton.OnMouseExit = function(self)
     self:SetImage(extraRationButtonImage)
@@ -229,10 +235,7 @@ doubleRationButton.OnMouseDown = function(self)
     self:SetImage(doubleRationButtonImageDown)
 end
 doubleRationButton.OnClick = function(self)
-    -- TODO add sound
-    pointerHand:SetImage(pointerHandButtonImage5)
-    local RationController = require("objects.Controllers.RationController")
-    RationController:setRationLevel("LargeRations")
+    setRations("LargeRations")
 end
 doubleRationButton.OnMouseExit = function(self)
     self:SetImage(doubleRationButtonImage)

@@ -12,12 +12,18 @@ local SID = require("objects.Controllers.LanguageController").lines
 
 local group = {}
 
+local previouslyRecruitedType = nil
+
 local ActionBarButton = require("states.ui.ActionBarButton")
 local backButton = ActionBarButton:new(love.graphics.newImage("assets/ui/back_ab.png"), states.STATE_BARRACKS, 12)
 backButton:setOnClick(function(self)
     actionBar:switchMode()
 end)
 actionBar:registerGroup("barracks", { backButton })
+
+local function hasAvailablePeasants()
+    return _G.JobController.unlimitedWorkers or _G.campfire.peasants > 0
+end
 
 local archerIconAvailable = love.graphics.newImage("assets/ui/barracks/archerIconAvailable.png")
 local archerIconNotAvailable = love.graphics.newImage("assets/ui/barracks/archerIconNotAvailable.png")
@@ -312,6 +318,14 @@ local currentCost = loveframes.Create("text")
 local currentStockPeasants = loveframes.Create("text")
 local currentName = loveframes.Create("text")
 
+local function makeSoldier(soldierType)
+    _G.JobController:makeSoldier(soldierType)
+    if previouslyRecruitedType ~= soldierType then
+        _G.playSpeech(soldierType .. "_Ready")
+    end
+    previouslyRecruitedType = soldierType
+end
+
 archerIconButton:SetState(states.STATE_BARRACKS)
 archerIconButton:SetImage(archerIconNotAvailable)
 archerIconButton:SetScaleX(frArcherButton.width / archerIconButton:GetImageWidth())
@@ -340,12 +354,17 @@ archerIconButton.OnMouseDown = function(self)
     }, SID.recruitment.archer })
 end
 archerIconButton.OnClick = function(self)
-    if _G.state.weapons[WEAPON.bow] > 0 and _G.state.gold > 12 then
+    local peasantAvailable = hasAvailablePeasants()
+    if _G.state.weapons[WEAPON.bow] > 0 and _G.state.gold > 12 and peasantAvailable then
         _G.weaponpile:take(WEAPON.bow)
         _G.state.gold = _G.state.gold - 12
         local ActionBar = require("states.ui.ActionBar")
         ActionBar:updateGoldCount()
-        _G.JobController:makeSoldier("Archer")
+        makeSoldier("Archer")
+    elseif _G.state.weapons[WEAPON.bow] == 0 then
+        _G.playSpeech("weapons_needed")
+    elseif not peasantAvailable then
+        _G.playSpeech("recruits_needed")
     end
 end
 archerIconButton.OnMouseExit = function(self)
@@ -387,12 +406,17 @@ spearmanIconButton.OnMouseDown = function(self)
     }, SID.recruitment.spearman })
 end
 spearmanIconButton.OnClick = function(self)
-    if _G.state.weapons[WEAPON.spear] > 0 and _G.state.gold > 8 then
+    local peasantAvailable = hasAvailablePeasants()
+    if _G.state.weapons[WEAPON.spear] > 0 and _G.state.gold > 8 and peasantAvailable then
         _G.weaponpile:take(WEAPON.spear)
         _G.state.gold = _G.state.gold - 8
         local ActionBar = require("states.ui.ActionBar")
         ActionBar:updateGoldCount()
-        _G.JobController:makeSoldier("Spearman")
+        makeSoldier("Spearman")
+    elseif _G.state.weapons[WEAPON.spear] == 0 then
+        _G.playSpeech("weapons_needed")
+    elseif not peasantAvailable then
+        _G.playSpeech("recruits_needed")
     end
 end
 spearmanIconButton.OnMouseExit = function(self)
@@ -438,13 +462,18 @@ macemanIconButton.OnMouseDown = function(self)
     }, SID.recruitment.maceman })
 end
 macemanIconButton.OnClick = function(self)
-    if _G.state.weapons[WEAPON.mace] > 0 and _G.state.weapons[WEAPON.leatherArmor] > 0 and _G.state.gold > 20 then
+    local peasantAvailable = hasAvailablePeasants()
+    if _G.state.weapons[WEAPON.mace] > 0 and _G.state.weapons[WEAPON.leatherArmor] > 0 and _G.state.gold > 20 and peasantAvailable then
         _G.weaponpile:take(WEAPON.mace)
         _G.weaponpile:take(WEAPON.leatherArmor)
         _G.state.gold = _G.state.gold - 20
         local ActionBar = require("states.ui.ActionBar")
         ActionBar:updateGoldCount()
-        _G.JobController:makeSoldier("Maceman")
+        makeSoldier("Maceman")
+    elseif _G.state.weapons[WEAPON.mace] == 0 or _G.state.weapons[WEAPON.leatherArmor] == 0 then
+        _G.playSpeech("weapons_needed")
+    elseif not peasantAvailable then
+        _G.playSpeech("recruits_needed")
     end
 end
 macemanIconButton.OnMouseExit = function(self)
@@ -491,13 +520,18 @@ crossbowmanIconButton.OnMouseDown = function(self)
     }, SID.recruitment.crossbowman })
 end
 crossbowmanIconButton.OnClick = function(self)
-    if _G.state.weapons[WEAPON.crossbow] > 0 and _G.state.weapons[WEAPON.leatherArmor] > 0 and _G.state.gold > 20 then
+    local peasantAvailable = hasAvailablePeasants()
+    if _G.state.weapons[WEAPON.crossbow] > 0 and _G.state.weapons[WEAPON.leatherArmor] > 0 and _G.state.gold > 20 and peasantAvailable then
         _G.weaponpile:take(WEAPON.crossbow)
         _G.weaponpile:take(WEAPON.leatherArmor)
         _G.state.gold = _G.state.gold - 20
         local ActionBar = require("states.ui.ActionBar")
         ActionBar:updateGoldCount()
-        _G.JobController:makeSoldier("Crossbowman")
+        makeSoldier("Crossbowman")
+    elseif _G.state.weapons[WEAPON.crossbow] == 0 or _G.state.weapons[WEAPON.leatherArmor] == 0 then
+        _G.playSpeech("weapons_needed")
+    elseif not peasantAvailable then
+        _G.playSpeech("recruits_needed")
     end
 end
 crossbowmanIconButton.OnMouseExit = function(self)
@@ -544,13 +578,18 @@ pikemanIconButton.OnMouseDown = function(self)
     }, SID.recruitment.pikeman })
 end
 pikemanIconButton.OnClick = function(self)
-    if _G.state.weapons[WEAPON.pike] > 0 and _G.state.weapons[WEAPON.leatherArmor] > 0 and _G.state.gold > 20 then
+    local peasantAvailable = hasAvailablePeasants()
+    if _G.state.weapons[WEAPON.pike] > 0 and _G.state.weapons[WEAPON.leatherArmor] > 0 and _G.state.gold > 20 and peasantAvailable then
         _G.weaponpile:take(WEAPON.pike)
         _G.weaponpile:take(WEAPON.leatherArmor)
         _G.state.gold = _G.state.gold - 20
         local ActionBar = require("states.ui.ActionBar")
         ActionBar:updateGoldCount()
-        _G.JobController:makeSoldier("Pikeman")
+        makeSoldier("Pikeman")
+    elseif _G.state.weapons[WEAPON.pike] == 0 or _G.state.weapons[WEAPON.leatherArmor] == 0 then
+        _G.playSpeech("weapons_needed")
+    elseif not peasantAvailable then
+        _G.playSpeech("recruits_needed")
     end
 end
 pikemanIconButton.OnMouseExit = function(self)
@@ -597,13 +636,18 @@ swordsmanIconButton.OnMouseDown = function(self)
     }, SID.recruitment.swordsman })
 end
 swordsmanIconButton.OnClick = function(self)
-    if _G.state.weapons[WEAPON.shield] > 0 and _G.state.weapons[WEAPON.sword] > 0 and _G.state.gold > 40 then
+    local peasantAvailable = hasAvailablePeasants()
+    if _G.state.weapons[WEAPON.shield] > 0 and _G.state.weapons[WEAPON.sword] > 0 and _G.state.gold > 40 and peasantAvailable then
         _G.weaponpile:take(WEAPON.shield)
         _G.weaponpile:take(WEAPON.sword)
         _G.state.gold = _G.state.gold - 40
         local ActionBar = require("states.ui.ActionBar")
         ActionBar:updateGoldCount()
-        _G.JobController:makeSoldier("Swordsman")
+        makeSoldier("Swordsman")
+    elseif _G.state.weapons[WEAPON.shield] == 0 or _G.state.weapons[WEAPON.sword] == 0 then
+        _G.playSpeech("weapons_needed")
+    elseif not peasantAvailable then
+        _G.playSpeech("recruits_needed")
     end
 end
 swordsmanIconButton.OnMouseExit = function(self)
@@ -671,6 +715,8 @@ end
 
 
 function group.DisplayCurrentStock()
+    local peasantAvailable = hasAvailablePeasants()
+
     if _G.state.weapons[WEAPON.leatherArmor] > 0 then
         leatherIconButton:SetImage(leatherIconAvailable)
     else
@@ -703,35 +749,43 @@ function group.DisplayCurrentStock()
     end
 
     if _G.state.weapons[WEAPON.bow] > 0 then
-        archerIconButton:SetImage(archerIconAvailable)
+        if peasantAvailable then
+            archerIconButton:SetImage(archerIconAvailable)
+        else
+            archerIconButton:SetImage(archerIconNotAvailable)
+        end
         bowIconButton:SetImage(bowIconAvailable)
     else
         archerIconButton:SetImage(archerIconNotAvailable)
         bowIconButton:SetImage(bowIconNormal)
     end
     if _G.state.weapons[WEAPON.spear] > 0 then
-        spearmanIconButton:SetImage(spearmanIconAvailable)
+        if peasantAvailable then
+            spearmanIconButton:SetImage(spearmanIconAvailable)
+        else
+            spearmanIconButton:SetImage(spearmanIconNotAvailable)
+        end
         spearIconButton:SetImage(spearIconAvailable)
     else
         spearmanIconButton:SetImage(spearmanIconNotAvailable)
         spearIconButton:SetImage(spearIconNormal)
     end
-    if _G.state.weapons[WEAPON.mace] > 0 and _G.state.weapons[WEAPON.leatherArmor] > 0 then
+    if _G.state.weapons[WEAPON.mace] > 0 and _G.state.weapons[WEAPON.leatherArmor] > 0 and peasantAvailable then
         macemanIconButton:SetImage(macemanIconAvailable)
     else
         macemanIconButton:SetImage(macemanIconNotAvailable)
     end
-    if _G.state.weapons[WEAPON.crossbow] > 0 and _G.state.weapons[WEAPON.leatherArmor] > 0 then
+    if _G.state.weapons[WEAPON.crossbow] > 0 and _G.state.weapons[WEAPON.leatherArmor] > 0 and peasantAvailable then
         crossbowmanIconButton:SetImage(crossbowmanIconAvailable)
     else
         crossbowmanIconButton:SetImage(crossbowmanIconNotAvailable)
     end
-    if _G.state.weapons[WEAPON.pike] > 0 and _G.state.weapons[WEAPON.shield] > 0 then
+    if _G.state.weapons[WEAPON.pike] > 0 and _G.state.weapons[WEAPON.shield] > 0 and peasantAvailable then
         pikemanIconButton:SetImage(pikemanIconAvailable)
     else
         pikemanIconButton:SetImage(pikemanIconNotAvailable)
     end
-    if _G.state.weapons[WEAPON.sword] > 0 and _G.state.weapons[WEAPON.shield] > 0 then
+    if _G.state.weapons[WEAPON.sword] > 0 and _G.state.weapons[WEAPON.shield] > 0 and peasantAvailable then
         swordsmanIconButton:SetImage(swordsmanIconAvailable)
     else
         swordsmanIconButton:SetImage(swordsmanIconNotAvailable)

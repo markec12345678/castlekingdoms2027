@@ -4,17 +4,19 @@ local Events = require "objects.Enums.Events"
 local SID = require("objects.Controllers.LanguageController").lines
 local goldAfterTax
 
-local TAXES = {
-    GenerousBribe = "GenerousBribe",
-    LargeBribe = "LargeBribe",
-    SmallBribe = "SmallBribe",
-    NoTaxes = "NoTaxes",
-    LowTaxes = "LowTaxes",
-    AverageTaxes = "AverageTaxes",
-    HighTaxes = "HighTaxes",
-    MeanTaxes = "MeanTaxes",
-    ExtortionateTaxes = "ExtortionateTaxes",
-    DownrightCruelTaxes = "DownrightCruelTaxes",
+local TAXES = require("objects.Enums.Taxes")
+
+local taxMapping = {
+    [TAXES.GenerousBribe] = SID.taxes.generousBribe,
+    [TAXES.LargeBribe] = SID.taxes.largeBribe,
+    [TAXES.SmallBribe] = SID.taxes.smallBribe,
+    [TAXES.NoTaxes] = SID.taxes.no,
+    [TAXES.LowTaxes] = SID.taxes.low,
+    [TAXES.AverageTaxes] = SID.taxes.avg,
+    [TAXES.HighTaxes] = SID.taxes.high,
+    [TAXES.MeanTaxes] = SID.taxes.mean,
+    [TAXES.ExtortionateTaxes] = SID.taxes.extra,
+    [TAXES.DownrightCruelTaxes] = SID.taxes.downrightCruel,
 }
 
 TaxController.static.TAX_LEVELS = {
@@ -64,6 +66,7 @@ end
 
 function TaxController:setTaxLevel(level)
     self.taxLevel = self.class.TAX_LEVELS[level]
+    self.taxText = taxMapping[level]
 end
 
 function TaxController:getTaxLevel()

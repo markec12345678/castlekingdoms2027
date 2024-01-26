@@ -325,6 +325,7 @@ popularityText:
 settings:
     categories:
         sound:
+            button: Sound
             title: SOUND LEVELS
             description: Here you can change the sound levels of sound effects or speech to your liking.
             items:
@@ -333,6 +334,7 @@ settings:
                 soundVolume: Sound volume
                 speechVolume: Speech volume
         graphics:
+            button: Graphics
             title: GRAPHIC SETTINGS
             description: |
                 Modify rendering quality, chunk size and toggle animations in order to balance performance.\n
@@ -344,17 +346,21 @@ settings:
                 display: Display
                 apply: Apply
         hotkeys:
+            button: Hotkeys
             title: KEYBOARD HOTKEYS & SHORTCUTS
             description: |
                 Edit or add new keyboard hotkeys and shortcuts.\n
         video:
+            button: Video
             title: VIDEO SETTINGS
             description: |
                 Change fullscreen settings, window resolution and toggle VSync.\n
         interface:
+            button: Interface
             title: INTERFACE SETTINGS
             description: |
                 Toggle interface elements and modify their scale.\n
+    apply: Apply
 recruitment:
     archer: Archer
     spearman: Spearman
@@ -408,6 +414,21 @@ tips:
         structuresInTheWay: There are structures in the way!
         needArmoury: You need an armoury to build this!
         closeToQuarry: Needs to be placed close to an existing quarry!
+ui:
+    mainMenu:
+        freebuild: Freebuild
+        campaign: Campaign
+        load: Load
+        options: Options
+        exit: Exit
+    campaign:
+        economicMissions: Economic Missions
+    load:
+        title: Load Game
+        saveName: Save name
+        map: Map
+        dateSaved: Date saved
+        version: Version
 gold: gold
 wood: wood
 stone: stone
