@@ -253,6 +253,9 @@ buildings:
   largeGarden:
     name: Duży Ogród
     description: Duży ogródek.
+  stable:
+    name: Stable
+    descriptin: Produces horses
 freebuild:
   fernhaven:
     name: Fernhaven
@@ -314,24 +317,42 @@ popularityText:
 settings:
   categories:
     sound:
+      button: Sound
       title: POZIOM GŁOŚNOŚCI
       description: Zmień głośność efektów lub wypowiedzi.
+      items:
+        masterVolume: Master volume
+        musicVolume: Music volume
+        soundVolume: Sound volume
+        speechVolume: Speech volume
     graphics:
+      button: Graphics
       title: USTAWIENIA GRAFIKI
       description: |
         Modyfikacja jakości renderowania, rozmiaru fragmentów i animacji przełączania w celu zrównoważenia wydajności.\n
+      items:
+        fullScreen: Full Screen
+        borderless: Borderless
+        vsync: VSync
+        resolution: Resolution
+        display: Display
+        apply: Apply
     hotkeys:
+      button: Hotkeys
       title: SKRÓTY I PRZYPISANIE KLAWISZY
       description: |
         Edytuj lub dodaj nowe skróty klawiszowe.\n
     video:
+      button: Video
       title: USTAWIENIA OBRAZU
       description: |
         Ustawienia rozdzielczości, ekranu i VSync.\n
     interface:
+      button: Interface
       title: USTAWIENIA INTERFEJSU
       description: |
         Przełącz elementy interfejsu i zmodyfikuj ich skale.\n
+  apply: Apply
 recruitment:
   archer: Łucznik
   spearman: Włócznik
@@ -385,6 +406,21 @@ tips:
     structuresInTheWay: Struktury na drodze!
     needArmoury: Potrzebujesz zbrojowni, by to zbudować!
     closeToQuarry: Musi być wybudowany blisko istniejącego kamieniołomu!
+ui:
+  mainMenu:
+    freebuild: Freebuild
+    campaign: Campaign
+    load: Load
+    options: Options
+    exit: Exit
+  campaign:
+    economicMissions: Economic Missions
+  load:
+    title: Load Game
+    saveName: Save name
+    map: Map
+    dateSaved: Date saved
+    version: Version
 gold: złoto
 wood: drewno
 stone: kamień

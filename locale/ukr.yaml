@@ -42,7 +42,7 @@ mission5:
 groups:
   castle:
     name: Замок
-    description: Стіни, вежі, ворота та все інше, що потрібно для захисту вашої фортеці.
+    description: Стіни, вежі, ворота та все інше, що потрібно для захисту вашої цитаделі.
   industry:
     name: Галузь
     description: Створюйте могутні галузі, щоб перемогти ваших ворогів ... або набити свої кишені.
@@ -73,7 +73,7 @@ buildings:
     name: Мисливська хатина
     description: Hunts deer in the environment for meat.
   granary:
-    name: Комора
+    name: Зерносховище
     description: Зерносховище – це місце, де ви зберігаєте запаси продовольства свого королівства.
   orchard:
     name: Сад
@@ -95,29 +95,29 @@ buildings:
     description: |
       Increases resource capacity.\nMust be placed adjacent to a stockpile.
   woodenKeep:
-    name: Дерев'яна фортеця
+    name: Дерев'яна башта
     description: Upgrade your Saxon hall to a Wooden keep
   keep:
-    name: Keep
-    description: Upgrade your Wooden keep to a Stone keep
+    name: Башта
+    description: Покращіть вашу дерев'яну башту до кам'яної башти
   fortress:
     name: Фортеця
-    description: Upgrade your Stone keep to a Fortress
+    description: Покращіть вашу башту до фортеці
   stronghold:
-    name: Stronghold
-    description: Upgrade your Fortress to a Stronghold (not supported yet)
+    name: Цитадель
+    description: Покращить свою фортецю до цитаделі (ще не підтримується)
   barracks:
     name: Казарми
-    description: A building allowing you to recruit units.
+    description: Будівля, яка дає змогу наймати підрозділи.
   stoneBarracks:
     name: Кам’яні казарми
-    description: A building allowing you to recruit units.
+    description: Будівля, яка дає змогу наймати підрозділи.
   engineersGuild:
     name: Гільдія інженерів
     description: Будівля, яка дає змогу наймати облогові одиниці.
   tunnelersGuild:
-    name: Tunnelers Guild
-    description: A building allowing you to recruit tunnelers.
+    name: Гільдія тунельників
+    description: Будівля, яка дає змогу наймати тунельників.
   chapel:
     name: Каплиця
     description: Підвищуйте свою популярність за допомогою релігії. Наразі не працює.
@@ -240,53 +240,56 @@ buildings:
     description: Велика резиденція - дає притулок 16 людям
   maypole:
     name: Травневе дерево
-    description: A tall wooden pole, around which a maypole dance often takes place. Temporarily disabled.
+    description: Висока дерев'яна жердина, навколо якої часто влаштовують хороводи. Тимчасово недоступно.
   smallPond:
-    name: Small Pond
-    description: A small pond.
+    name: Малий ставок
+    description: Маленький ставок.
   largePond:
-    name: Large Pond
-    description: A large pond.
+    name: Великий ставок
+    description: Великий ставок.
   smallGarden:
-    name: Small Garden
-    description: A small garden.
+    name: Малий сад
+    description: Маленький сад.
   mediumGarden:
-    name: Medium Garden
-    description: A medium-sized garden.
+    name: Середній сад
+    description: Сад середнього розміру.
   largeGarden:
-    name: Large Garden
-    description: A large garden.
+    name: Великий сад
+    description: Великий сад.
+  stable:
+    name: Stable
+    descriptin: Produces horses
 freebuild:
   fernhaven:
     name: Fernhaven
-    description: Build a new castle on the ruins of an ancient city.
+    description: Збудуйте новий замок на руїнах давнього міста.
   grasslands:
-    name: Grasslands
+    name: Галявина
     description: |
       Some plain grasslands.\nThis map doesn't really exist yet (placeholder), so it will load Fernhaven.
 rations:
   no:
-    name: No Rations
+    name: Без раціону
     description: |
-      No rations for each worker.\nDecreases their happiness by 8.
+      Жодного раціону для кожного працівника.\nЗменшує їх щастя на 8.
   half:
-    name: Half Rations
+    name: Половина раціону
     description: |
-      0.5x rations for each worker.\nDecreases their happiness by 4.
+      0,5x раціону для кожного працівника.\nЗменшує їхнє щастя на 4.
   full:
-    name: Full Rations
+    name: Повний раціон
     description: |
-      Normal rations for each worker.
+      Нормальний раціон для кожного працівника.
   extra:
-    name: Extra Rations
+    name: Додатковий раціон
     description: |
-      1.5x rations for each worker.\nIncreases their happiness by 4.
+      1.5х раціону для кожного працівника.\nЗбільшує їхнє щастя на 4.
   double:
-    name: Double Rations
+    name: Подвійний раціон
     description: |
-      2x rations for each worker.\nIncreases their happiness by 8.
+      2х раціону для кожного працівника.\nЗбільшує їхнє щастя на 8.
 houses:
-  upgradeButton: UPGRADE
+  upgradeButton: ВДОСКОНАЛИТИ
   description: Пропонує притулок %s людям
 taxes:
   no: Без податку
@@ -302,14 +305,14 @@ taxes:
   downrightCruel: Відверто жорстокі податки
 popularityText:
   total: Всього
-  rations: Rations
+  rations: Раціони
   taxes: Податки
   fearFactor: Фактор страху
   crowding: Crowding
   religion: Релігія
   aleCoverage: Ale Coverage
-  enclosedKeep: Keep Enclosed
-  openKeep: Open Keep
+  enclosedKeep: Закрити фортецю
+  openKeep: Відкрити фортецю
   popularity: Популярність
   inTheComingMonth: "У наступному місяці"
   typesOfFoodConsumed: "%d види споживаної їжі"
@@ -317,30 +320,48 @@ popularityText:
 settings:
   categories:
     sound:
+      button: Sound
       title: РІВНІ ЗВУКУ
       description: Тут ви можете змінити рівень звуку звукових ефектів або розмов на свій смак.
+      items:
+        masterVolume: Master volume
+        musicVolume: Music volume
+        soundVolume: Sound volume
+        speechVolume: Speech volume
     graphics:
+      button: Graphics
       title: НАЛАШТУВАННЯ ГРАФІКИ
       description: |
-        Modify rendering quality, chunk size and toggle animations in order to balance performance.\n
+        Змініть якість візуалізації, розмір фрагмента та перемикайте анімацію, щоб збалансувати продуктивність.\n
+      items:
+        fullScreen: Full Screen
+        borderless: Borderless
+        vsync: VSync
+        resolution: Resolution
+        display: Display
+        apply: Apply
     hotkeys:
+      button: Hotkeys
       title: ГАРЯЧІ КЛАВІШІ & ЯРЛИКИ
       description: |
         Редагування або додавання нових гарячих клавіш і ярликів.\n
     video:
+      button: Video
       title: НАЛАШТУВАННЯ ВІДЕО
       description: |
         Зміна налаштувань повноекранного режиму, роздільна здатність вікна і увімкнення/вимкнення VSync.\n
     interface:
+      button: Interface
       title: НАЛАШТУВАННЯ ІНТЕРФЕЙСУ
       description: |
         Увімкнути/вимкнути елементи інтерфейсу та змінити їх масштаб.\n
+  apply: Apply
 recruitment:
   archer: Лучник
   spearman: Списоносець
   maceman: Maceman
   crossbowman: Арбалетник
-  pikeman: Pikeman
+  pikeman: Пікінер
   swordsman: Мечник
   knight: Лицар
   availablePeasants: Доступні селяни
@@ -349,51 +370,66 @@ objects:
     barracks: Натисніть, щоб найняти підрозділи
     engineersGuild: Натисніть, щоб найняти облогові підрозділи
     fortress: Натисніть, щоб керувати податками
-    granary: Click to manage food rations
+    granary: Натисніть, щоб керувати харчовими раціонами
     keep: Натисніть, щоб керувати податками
     market: Натисніть, щоб торгувати ресурсами
     saxonHall: Натисніть, щоб керувати податками
-    stockpile: Click to manage resources
+    stockpile: Натисніть, щоб керувати ресурсами
     stoneBarracks: Натисніть, щоб найняти підрозділи
-    tunnelersGuild: Click to recruit tunnelers
+    tunnelersGuild: Натисніть, щоб найняти тунельників
 tips:
-  upgradeKeep: You need to upgrade your keep to build this
+  upgradeKeep: Вам потрібно покращити вашу фортецю, щоб побудувати це
   notAvailableInMission: Недоступно в цій місії
   buildMarket: Побудуйте ринок для торгівлі!
   cantTrade: Ви не можете торгувати цим!
   notImplemented: Ще не впроваджено.
-  increaseTradeQuantity: Increase quantity of items you want to trade by 5
-  decreaseTradeQuantity: Decrease quantity of items you want to trade by 5
+  increaseTradeQuantity: Збільште кількість предметів, якими ви хочете торгувати, на 5
+  decreaseTradeQuantity: Зменште кількість предметів, якими ви хочете торгувати, на 5
   actionBar:
     woodenStructures:
-      title: Wooden Structures
-      description: Towers, gates and walls.
+      title: Дерев’яні споруди
+      description: Вежі, ворота й стіни.
     stoneStructures:
-      title: Stone Structures
-      description: Stronger towers, gates and walls.
+      title: Кам'яні споруди
+      description: Міцніші вежі, ворота й стіни.
   warning:
-    obstacle: There is an obstacle in the way!
-    tooCloseToKeep: Too close to the keep!
-    cliffs: Cannot build on cliffs!
-    water: Cannot build on top of water!
-    unevenTerrain: Cannot build on too uneven terrain!
-    notEnoughResources: Not enough resources!
-    outOfBounds: Cannot build outside of map bounds!
-    adjacentStockpile: Needs to placed adjacent to a stockpile!
-    adjacentGranary: Needs to placed adjacent to a granary!
-    adjacentArmoury: Needs to placed adjacent to an armoury!
-    onTopOfStone: Needs to placed on top of stone!
-    onTopOfIron: Needs to placed on top of iron ore!
-    unitsInTheWay: There are units in the way!
-    structuresInTheWay: There are structures in the way!
-    needArmoury: You need an armoury to build this!
-    closeToQuarry: Needs to be placed close to an existing quarry!
-gold: gold
-wood: wood
-stone: stone
-wheat: wheat
-iron: iron
-flour: flour
-hop: hops
+    obstacle: На шляху стоїть перешкода!
+    tooCloseToKeep: Занадто близько до фортеці!
+    cliffs: Неможливо побудувати на скелях!
+    water: Неможливо побудувати поверх води!
+    unevenTerrain: Неможливо побудувати на занадто нерівномірному ґрунті!
+    notEnoughResources: Недостатньо ресурсів!
+    outOfBounds: Неможливо будувати за межами карти!
+    adjacentStockpile: Необхідно розмістити поруч із запасами!
+    adjacentGranary: Потрібно розмістити поруч із зерносховищем!
+    adjacentArmoury: Потрібно розмістити поруч зі зброярнею!
+    onTopOfStone: Потрібно розмістити поверх каменю!
+    onTopOfIron: Потрібно розмістити поверх залізної руди!
+    unitsInTheWay: На шляху є підрозділи!
+    structuresInTheWay: На шляху є споруди!
+    needArmoury: Щоб побудувати це, вам потрібна зброярня!
+    closeToQuarry: Потрібно розташувати поблизу існуючого кар'єру!
+ui:
+  mainMenu:
+    freebuild: Freebuild
+    campaign: Campaign
+    load: Load
+    options: Options
+    exit: Exit
+  campaign:
+    economicMissions: Economic Missions
+  load:
+    title: Load Game
+    saveName: Save name
+    map: Map
+    dateSaved: Date saved
+    version: Version
+gold: золото
+wood: деревина
+stone: каміння
+wheat: пшениця
+iron: залізо
+flour: борошно
+hop: хміль
 tar: pitch
-ale: ale
+ale: ель
