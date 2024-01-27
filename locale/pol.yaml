@@ -254,7 +254,7 @@ buildings:
     name: Duży Ogród
     description: Duży ogródek.
   stable:
-    name: Stable
+    name: Stajnia
     descriptin: Produces horses
 freebuild:
   fernhaven:
@@ -317,26 +317,26 @@ popularityText:
 settings:
   categories:
     sound:
-      button: Sound
+      button: Dźwięk
       title: POZIOM GŁOŚNOŚCI
       description: Zmień głośność efektów lub wypowiedzi.
       items:
-        masterVolume: Master volume
-        musicVolume: Music volume
-        soundVolume: Sound volume
-        speechVolume: Speech volume
+        masterVolume: Główny poziom głośności
+        musicVolume: Głośność muzyki
+        soundVolume: Głośność dźwięku
+        speechVolume: Głośność mowy
     graphics:
-      button: Graphics
+      button: Grafika
       title: USTAWIENIA GRAFIKI
       description: |
         Modyfikacja jakości renderowania, rozmiaru fragmentów i animacji przełączania w celu zrównoważenia wydajności.\n
       items:
-        fullScreen: Full Screen
+        fullScreen: Pełny ekran
         borderless: Borderless
         vsync: VSync
-        resolution: Resolution
-        display: Display
-        apply: Apply
+        resolution: Rozdzielczość
+        display: Wyświetlacz
+        apply: Zastosuj
     hotkeys:
       button: Hotkeys
       title: SKRÓTY I PRZYPISANIE KLAWISZY
@@ -352,7 +352,7 @@ settings:
       title: USTAWIENIA INTERFEJSU
       description: |
         Przełącz elementy interfejsu i zmodyfikuj ich skale.\n
-  apply: Apply
+  apply: Zastosuj
 recruitment:
   archer: Łucznik
   spearman: Włócznik
@@ -410,17 +410,17 @@ ui:
   mainMenu:
     freebuild: Freebuild
     campaign: Campaign
-    load: Load
-    options: Options
+    load: Wczytaj
+    options: Opcje
     exit: Exit
   campaign:
     economicMissions: Economic Missions
   load:
     title: Load Game
     saveName: Save name
-    map: Map
+    map: Mapa
     dateSaved: Date saved
-    version: Version
+    version: Wersja
 gold: złoto
 wood: drewno
 stone: kamień
