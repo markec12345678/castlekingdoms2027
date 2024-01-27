@@ -170,7 +170,7 @@ buildings:
     name: Karczma
     description: Dostarcza piwo dla mieszkańców.
   pitchRig:
-    name: Pitch Rig
+    name: Odkrywka smoły
     description: Small platform to collect pitch from the swamp.
   perimeterTower:
     name: Wieża Obserwacyjna
@@ -409,7 +409,7 @@ tips:
 ui:
   mainMenu:
     freebuild: Freebuild
-    campaign: Campaign
+    campaign: Kampania
     load: Wczytaj
     options: Opcje
     exit: Exit
