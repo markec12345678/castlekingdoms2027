@@ -362,7 +362,7 @@ archerIconButton.OnClick = function(self)
         makeSoldier("Archer")
     elseif _G.state.weapons[WEAPON.bow] == 0 then
         _G.playSpeech("weapons_needed")
-    elseif not peasantAvailable then
+    elseif not hasAvailablePeasants() then
         _G.playSpeech("recruits_needed")
     end
 end
@@ -413,7 +413,7 @@ spearmanIconButton.OnClick = function(self)
         makeSoldier("Spearman")
     elseif _G.state.weapons[WEAPON.spear] == 0 then
         _G.playSpeech("weapons_needed")
-    elseif not peasantAvailable then
+    elseif not hasAvailablePeasants() then
         _G.playSpeech("recruits_needed")
     end
 end
@@ -469,7 +469,7 @@ macemanIconButton.OnClick = function(self)
         makeSoldier("Maceman")
     elseif _G.state.weapons[WEAPON.mace] == 0 or _G.state.weapons[WEAPON.leatherArmor] == 0 then
         _G.playSpeech("weapons_needed")
-    elseif not peasantAvailable then
+    elseif not hasAvailablePeasants() then
         _G.playSpeech("recruits_needed")
     end
 end
@@ -526,7 +526,7 @@ crossbowmanIconButton.OnClick = function(self)
         makeSoldier("Crossbowman")
     elseif _G.state.weapons[WEAPON.crossbow] == 0 or _G.state.weapons[WEAPON.leatherArmor] == 0 then
         _G.playSpeech("weapons_needed")
-    elseif not peasantAvailable then
+    elseif not hasAvailablePeasants() then
         _G.playSpeech("recruits_needed")
     end
 end
@@ -583,7 +583,7 @@ pikemanIconButton.OnClick = function(self)
         makeSoldier("Pikeman")
     elseif _G.state.weapons[WEAPON.pike] == 0 or _G.state.weapons[WEAPON.leatherArmor] == 0 then
         _G.playSpeech("weapons_needed")
-    elseif not peasantAvailable then
+    elseif not hasAvailablePeasants() then
         _G.playSpeech("recruits_needed")
     end
 end
@@ -640,7 +640,7 @@ swordsmanIconButton.OnClick = function(self)
         makeSoldier("Swordsman")
     elseif _G.state.weapons[WEAPON.shield] == 0 or _G.state.weapons[WEAPON.sword] == 0 then
         _G.playSpeech("weapons_needed")
-    elseif not peasantAvailable then
+    elseif not hasAvailablePeasants() then
         _G.playSpeech("recruits_needed")
     end
 end
@@ -709,8 +709,6 @@ end
 
 
 function group.DisplayCurrentStock()
-    local peasantAvailable = hasAvailablePeasants()
-
     if _G.state.weapons[WEAPON.leatherArmor] > 0 then
         leatherIconButton:SetImage(leatherIconAvailable)
     else
@@ -743,7 +741,7 @@ function group.DisplayCurrentStock()
     end
 
     if _G.state.weapons[WEAPON.bow] > 0 then
-        if peasantAvailable then
+        if hasAvailablePeasants() then
             archerIconButton:SetImage(archerIconAvailable)
         else
             archerIconButton:SetImage(archerIconNotAvailable)
@@ -754,7 +752,7 @@ function group.DisplayCurrentStock()
         bowIconButton:SetImage(bowIconNormal)
     end
     if _G.state.weapons[WEAPON.spear] > 0 then
-        if peasantAvailable then
+        if hasAvailablePeasants() then
             spearmanIconButton:SetImage(spearmanIconAvailable)
         else
             spearmanIconButton:SetImage(spearmanIconNotAvailable)
@@ -764,22 +762,22 @@ function group.DisplayCurrentStock()
         spearmanIconButton:SetImage(spearmanIconNotAvailable)
         spearIconButton:SetImage(spearIconNormal)
     end
-    if _G.state.weapons[WEAPON.mace] > 0 and _G.state.weapons[WEAPON.leatherArmor] > 0 and peasantAvailable then
+    if _G.state.weapons[WEAPON.mace] > 0 and _G.state.weapons[WEAPON.leatherArmor] > 0 and hasAvailablePeasants() then
         macemanIconButton:SetImage(macemanIconAvailable)
     else
         macemanIconButton:SetImage(macemanIconNotAvailable)
     end
-    if _G.state.weapons[WEAPON.crossbow] > 0 and _G.state.weapons[WEAPON.leatherArmor] > 0 and peasantAvailable then
+    if _G.state.weapons[WEAPON.crossbow] > 0 and _G.state.weapons[WEAPON.leatherArmor] > 0 and hasAvailablePeasants() then
         crossbowmanIconButton:SetImage(crossbowmanIconAvailable)
     else
         crossbowmanIconButton:SetImage(crossbowmanIconNotAvailable)
     end
-    if _G.state.weapons[WEAPON.pike] > 0 and _G.state.weapons[WEAPON.shield] > 0 and peasantAvailable then
+    if _G.state.weapons[WEAPON.pike] > 0 and _G.state.weapons[WEAPON.shield] > 0 and hasAvailablePeasants() then
         pikemanIconButton:SetImage(pikemanIconAvailable)
     else
         pikemanIconButton:SetImage(pikemanIconNotAvailable)
     end
-    if _G.state.weapons[WEAPON.sword] > 0 and _G.state.weapons[WEAPON.shield] > 0 and peasantAvailable then
+    if _G.state.weapons[WEAPON.sword] > 0 and _G.state.weapons[WEAPON.shield] > 0 and hasAvailablePeasants() then
         swordsmanIconButton:SetImage(swordsmanIconAvailable)
     else
         swordsmanIconButton:SetImage(swordsmanIconNotAvailable)
