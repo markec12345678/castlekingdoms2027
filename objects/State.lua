@@ -201,6 +201,7 @@ function State:serializeObject(obj)
             error("Serialized object has no data!")
         end
     end
+
     return {
         _ref = obj.id,
         info = tostring(obj)
@@ -499,5 +500,12 @@ function State:load(filename, decompress)
     _G.channel2.mapUpdate:push("final")
     self:updateKeepUpgradeButton()
 end
+
+local console = require("libraries.console")
+console.addCommand("addGold", function()
+    _G.state.gold = _G.state.gold + 10000
+    local ActionBar = require("states.ui.ActionBar")
+    ActionBar:updateGoldCount()
+end, "Add 10000 gold.")
 
 return State
