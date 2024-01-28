@@ -69,28 +69,28 @@ groups:
     description: Gardens, statues and entertainment to increase your popularity.
 buildings:
   hunterHut:
-    name: Hunter's hut
+    name: Puesto de caza
     description: Hunts deer in the environment for meat.
   granary:
-    name: Granary
+    name: Granero
     description: The granary is where you store your kingdom's food reserves.
   orchard:
-    name: Orchard
+    name: Huerto de manzanas
     description: Produces apples.
   wheatFarm:
-    name: Wheat Farm
+    name: Granja de trigo
     description: Produces wheat which can be processed into flour.
   dairyFarm:
-    name: Dairy Farm
+    name: Vaquería
     description: Produces cheese.
   hopsFarm:
-    name: Hops Farm
+    name: Granja de lúpulo
     description: Produces hops which can be processed into ale.
   castle:
     name: Saxon Hall
     description: Your Saxon hall is the center of your castle.
   stockpile:
-    name: Stockpile
+    name: Almacén
     description: |
       Increases resource capacity.\nMust be placed adjacent to a stockpile.
   woodenKeep:
@@ -106,7 +106,7 @@ buildings:
     name: Stronghold
     description: Upgrade your Fortress to a Stronghold (not supported yet)
   barracks:
-    name: Barracks
+    name: Cuartel
     description: A building allowing you to recruit units.
   stoneBarracks:
     name: Stone Barracks
@@ -118,37 +118,37 @@ buildings:
     name: Tunnelers Guild
     description: A building allowing you to recruit tunnelers.
   chapel:
-    name: Chapel
+    name: Capilla
     description: Increase your popularity with religion. Currently not functional.
   church:
-    name: Church
+    name: Iglesia
     description: Increase your popularity with religion. Currently not functional.
   cathedral:
-    name: Cathedral
+    name: Catedral
     description: Increase your popularity with religion. Currently not functional.
   apothecary:
     name: Apothecary
     description: Currently not functional.
   woodcutter:
-    name: Woodcutter Hut
+    name: Cabaña del leñador
     description: Cuts down nearby trees to produce wood.
   ironMine:
-    name: Mine
+    name: Mina de hierro
     description: Produces iron ingots from ground iron ore.
   market:
-    name: Market
+    name: Plaza de Mercado
     description: Allows you to trade your goods.
   ox:
-    name: Ox Tether
+    name: Yunta de bueyes
     description: Transport stone from the quarry to the stockpile.
   quarry:
-    name: Quarry
+    name: Cantera
     description: Produces stone blocks from the ground resource.
   armoury:
-    name: Armoury
+    name: Armería
     description: Weapons and armour is stored here, which is used by troops from the barracks upon recruitment.
   fletcher:
-    name: Fletcher Workshop
+    name: Taller del fabricante de arcos
     description: Produces bows and crossbows from wood.
   poleturner:
     name: Poleturner Workshop
@@ -160,19 +160,19 @@ buildings:
     name: Armorer
     description: Makes armor from iron.
   windmill:
-    name: Windmill
+    name: Molino
     description: Processes wheat into flour.
   bakery:
-    name: Bakery
+    name: Panadería
     description: Processes flour into bread.
   brewery:
-    name: Brewery
+    name: Cervecería
     description: Processes hops into ale.
   inn:
-    name: Inn
+    name: Posada
     description: Distributes ale.
   pitchRig:
-    name: Pitch Rig
+    name: Plataforma de brea
     description: Small platform to collect pitch from the swamp.
   perimeterTower:
     name: Perimeter Tower
@@ -184,7 +184,7 @@ buildings:
     name: Square Tower
     description: Crucial for your castle - you can place war machines on the top.
   roundTower:
-    name: Round Tower
+    name: Torre redonda
     description: The strongest tower - you can place war machines on the top.
   stoneGateSouth:
     name: Stone Gate South
@@ -226,7 +226,7 @@ buildings:
     name: Wooden Wall
     description: A defensive wall made from sharpened tree trunks.
   hovel:
-    name: House
+    name: Choza
     description: A small hut - gives shelter to 4 people.
   flat:
     name: Flat
@@ -256,7 +256,7 @@ buildings:
     name: Large Garden
     description: A large garden.
   stable:
-    name: Stable
+    name: Establos
     descriptin: Produces horses
 freebuild:
   fernhaven:
@@ -336,9 +336,9 @@ settings:
         fullScreen: Full Screen
         borderless: Borderless
         vsync: VSync
-        resolution: Resolution
+        resolution: Resolución
         display: Display
-        apply: Apply
+        apply: Aplicar
     hotkeys:
       button: Hotkeys
       title: KEYBOARD HOTKEYS & SHORTCUTS
@@ -354,7 +354,7 @@ settings:
       title: INTERFACE SETTINGS
       description: |
         Toggle interface elements and modify their scale.\n
-  apply: Apply
+  apply: Aplicar
 recruitment:
   archer: Archer
   spearman: Spearman
