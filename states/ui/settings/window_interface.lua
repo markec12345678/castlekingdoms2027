@@ -108,7 +108,7 @@ local function addTranslationButton(row, w, h, text, xboffset, xscale, yscale, c
 end
 
 local function addLabel(row, w, h, text, xboffset, xscale, yscale)
-    local labelColor = {1, 1, 1}
+    local labelColor = { 1, 1, 1 }
     local bw = w * xscale
     local bh = h * yscale
 
@@ -118,8 +118,8 @@ local function addLabel(row, w, h, text, xboffset, xscale, yscale)
             local textWidth = loveframes.font_vera_bold:getWidth(text)
             local textHeight = loveframes.font_vera_bold:getHeight()
             self.label:SetPos(row.x + row.width - xboffset + (bw - textWidth) / 2,
-                row.y + (row.height - bh) / 2  + (bh - textHeight) / 2)
-                self.label:SetText({{ color = labelColor }, text })
+                row.y + (row.height - bh) / 2 + (bh - textHeight) / 2)
+            self.label:SetText({ { color = labelColor }, text })
         end
     }
 
@@ -137,7 +137,7 @@ local buttonWidth = widgets.images.button:getWidth()
 local buttonHeight = widgets.images.button:getHeight()
 
 local translationsRow = widgets.addRow(settingsWidgets.elements, 1, true)
-widgets.addLabel(settingsWidgets.elements, translationsRow, "Language")
+widgets.addLabel(settingsWidgets.elements, translationsRow, LanguageController.lines.settings.categories.interface.items.language)
 
 xboffset = 10 + buttonWidth * 0.3
 settingsWidgets.translation.buttons.next = addTranslationButton(translationsRow, buttonWidth, buttonHeight, ">", xboffset, 0.3, 0.7, function(self)
@@ -153,7 +153,7 @@ settingsWidgets.translation.buttons.prev = addTranslationButton(translationsRow,
 end)
 
 local applyRow = widgets.addRow(settingsWidgets.elements, 2, false)
-settingsWidgets.translation.buttons.apply = widgets.addButton(settingsWidgets.elements, applyRow, LanguageController.lines.settings.apply, widgets.alignment.RIGHT, function (self)
+settingsWidgets.translation.buttons.apply = widgets.addButton(settingsWidgets.elements, applyRow, LanguageController.lines.settings.apply, widgets.alignment.RIGHT, function(self)
     config.general.language = currentTranslation
     _G.currentLang = currentTranslation
     config:save(config)
