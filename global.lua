@@ -230,7 +230,7 @@ end
 --- Play a sound from the origin of an object.
 --- @param obj table
 --- @param sfx table
---- @param disallowMultipleSources? boolean Allow multiple effect so play simultaneously
+--- @param disallowMultipleSources? boolean Allow multiple effects to play simultaneously
 function _G.playSfx(obj, sfx, disallowMultipleSources)
     if type(sfx) == "table" then
         sfx = sfx[math.random(#sfx)]

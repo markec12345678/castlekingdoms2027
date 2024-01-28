@@ -7,6 +7,9 @@ local an = require("objects.Animations.Archer")
 
 local Archer = _G.class("Archer", Soldier)
 
+Archer.static.MOVE_SOUNDS = { _G.fx["Archer_Move_1"], _G.fx["Archer_Move_2"], _G.fx["Archer_Move_3"] }
+Archer.static.MOVE_INACCESSIBLE_SOUND = _G.fx["Archer_Move_Inaccessible"]
+
 function Archer:initialize(gx, gy)
     Soldier.initialize(self, gx, gy, "Archer")
     self.count = 1
