@@ -91,7 +91,7 @@ return function(loveframes)
         local update = self.Update
 
         self.width = self.maxw or math.max(textobject:GetWidth(), titleobject.width) + padding * 2
-        self.height = textobject.height + titleobject.height + padding * 2
+        self.height = ((self.rawText and textobject.height) or 0) + titleobject.height + self.padding * 2
 
         if object then
             if object == loveframes.base then
@@ -200,10 +200,11 @@ return function(loveframes)
         local internals = self.internals
         local textobject = internals[1]
         local titleobject = internals[2]
-
+        self.rawText = text
+        self.rawTitle = title
         textobject:SetText(text)
         titleobject:SetText(title)
-        self.height = textobject.height + titleobject.height + self.padding * 2
+        self.height = ((self.rawText and textobject.height) or 0) + titleobject.height + self.padding * 2
         return self
     end
 
