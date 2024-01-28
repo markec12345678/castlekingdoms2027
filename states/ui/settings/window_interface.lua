@@ -112,6 +112,10 @@ local function addLabel(row, w, h, text, xboffset, xscale, yscale)
     local bw = w * xscale
     local bh = h * yscale
 
+    if not text then
+        text = ""
+    end
+
     local button = {
         label = nil,
         SetText = function(self, text)

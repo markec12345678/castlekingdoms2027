@@ -691,3 +691,34 @@ _G.fx["windmill-interior-old-mill-big-5"]:setVolumeLimits(0, 85 / 100)
 _G.fx["windmill-interior-old-mill-big-6"]:setVolumeLimits(0, 85 / 100)
 _G.fx["windmill-interior-old-mill-big-7"]:setVolumeLimits(0, 85 / 100)
 _G.fx["windmill-interior-old-mill-big-8"]:setVolumeLimits(0, 85 / 100)
+
+-- @todo set correct volume limits
+_G.fx["Archer_Move_1"]:setVolumeLimits(0, 100 / 100)
+_G.fx["Archer_Move_2"]:setVolumeLimits(0, 100 / 100)
+_G.fx["Archer_Move_3"]:setVolumeLimits(0, 100 / 100)
+_G.fx["Archer_Move_Inaccessible"]:setVolumeLimits(0, 100 / 100)
+
+_G.fx["Crossbowman_Move_1"]:setVolumeLimits(0, 100 / 100)
+_G.fx["Crossbowman_Move_2"]:setVolumeLimits(0, 100 / 100)
+_G.fx["Crossbowman_Move_3"]:setVolumeLimits(0, 100 / 100)
+_G.fx["Crossbowman_Move_Inaccessible"]:setVolumeLimits(0, 100 / 100)
+
+_G.fx["Maceman_Move_1"]:setVolumeLimits(0, 100 / 100)
+_G.fx["Maceman_Move_2"]:setVolumeLimits(0, 100 / 100)
+_G.fx["Maceman_Move_3"]:setVolumeLimits(0, 100 / 100)
+_G.fx["Maceman_Move_Inaccessible"]:setVolumeLimits(0, 100 / 100)
+
+_G.fx["Pikeman_Move_1"]:setVolumeLimits(0, 100 / 100)
+_G.fx["Pikeman_Move_2"]:setVolumeLimits(0, 100 / 100)
+_G.fx["Pikeman_Move_3"]:setVolumeLimits(0, 100 / 100)
+_G.fx["Pikeman_Move_Inaccessible"]:setVolumeLimits(0, 100 / 100)
+
+_G.fx["Spearman_Move_1"]:setVolumeLimits(0, 100 / 100)
+_G.fx["Spearman_Move_2"]:setVolumeLimits(0, 100 / 100)
+_G.fx["Spearman_Move_3"]:setVolumeLimits(0, 100 / 100)
+_G.fx["Spearman_Move_Inaccessible"]:setVolumeLimits(0, 100 / 100)
+
+_G.fx["Swordsman_Move_1"]:setVolumeLimits(0, 100 / 100)
+_G.fx["Swordsman_Move_2"]:setVolumeLimits(0, 100 / 100)
+_G.fx["Swordsman_Move_3"]:setVolumeLimits(0, 100 / 100)
+_G.fx["Swordsman_Move_Inaccessible"]:setVolumeLimits(0, 100 / 100)

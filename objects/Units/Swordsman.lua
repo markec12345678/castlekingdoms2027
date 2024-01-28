@@ -7,6 +7,9 @@ local an = require("objects.Animations.Swordsman")
 
 local Swordsman = _G.class("Swordsman", Soldier)
 
+Swordsman.static.MOVE_SOUNDS = { _G.fx["Swordsman_Move_1"], _G.fx["Swordsman_Move_2"], _G.fx["Swordsman_Move_3"] }
+Swordsman.static.MOVE_INACCESSIBLE_SOUND = _G.fx["Swordsman_Move_Inaccessible"]
+
 function Swordsman:initialize(gx, gy)
     Soldier.initialize(self, gx, gy, "Swordsman")
     self.count = 1

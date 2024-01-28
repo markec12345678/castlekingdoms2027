@@ -7,6 +7,9 @@ local an = require("objects.Animations.Pikeman")
 
 local Pikeman = _G.class("Pikeman", Soldier)
 
+Pikeman.static.MOVE_SOUNDS = { _G.fx["Pikeman_Move_1"], _G.fx["Pikeman_Move_2"], _G.fx["Pikeman_Move_3"] }
+Pikeman.static.MOVE_INACCESSIBLE_SOUND = _G.fx["Pikeman_Move_Inaccessible"]
+
 function Pikeman:initialize(gx, gy)
     Soldier.initialize(self, gx, gy, "Pikeman")
     self.count = 1

@@ -1,3 +1,14 @@
+local folder = "sounds/speech/" .. string.lower(_G.currentLang) .. "/"
+
+function getSoundSource(fileName)
+    local filePath = folder .. fileName
+    if not love.filesystem.getInfo(filePath) then
+        filePath = "sounds/speech/eng/" .. fileName
+    end
+
+    return love.audio.newSource(filePath, "static")
+end
+
 local fx = {
     ["shieldclick"] = love.audio.newSource("sounds/fx/Shieldclick.ogg", "static"),
     ["streamlp_02"] = love.audio.newSource("sounds/fx/Streamlp_02.ogg", "static"),
@@ -698,7 +709,37 @@ local fx = {
     ["footstep_grass_2"] = love.audio.newSource("sounds/fx/footstep_grass_2.ogg", "static"),
     ["footstep_grass_3"] = love.audio.newSource("sounds/fx/footstep_grass_3.ogg", "static"),
     ["footstep_grass_4"] = love.audio.newSource("sounds/fx/footstep_grass_4.ogg", "static"),
-    ["footstep_grass_5"] = love.audio.newSource("sounds/fx/footstep_grass_5.ogg", "static")
+    ["footstep_grass_5"] = love.audio.newSource("sounds/fx/footstep_grass_5.ogg", "static"),
+
+    ["Archer_Move_1"] = getSoundSource("Archer_Move_1.ogg"),
+    ["Archer_Move_2"] = getSoundSource("Archer_Move_2.ogg"),
+    ["Archer_Move_3"] = getSoundSource("Archer_Move_3.ogg"),
+    ["Archer_Move_Inaccessible"] = getSoundSource("Archer_Move_Inaccessible.ogg"),
+
+    ["Crossbowman_Move_1"] = getSoundSource("Crossbowman_Move_1.ogg"),
+    ["Crossbowman_Move_2"] = getSoundSource("Crossbowman_Move_2.ogg"),
+    ["Crossbowman_Move_3"] = getSoundSource("Crossbowman_Move_3.ogg"),
+    ["Crossbowman_Move_Inaccessible"] = getSoundSource("Crossbowman_Move_Inaccessible.ogg"),
+
+    ["Maceman_Move_1"] = getSoundSource("Maceman_Move_1.ogg"),
+    ["Maceman_Move_2"] = getSoundSource("Maceman_Move_2.ogg"),
+    ["Maceman_Move_3"] = getSoundSource("Maceman_Move_3.ogg"),
+    ["Maceman_Move_Inaccessible"] = getSoundSource("Maceman_Move_Inaccessible.ogg"),
+
+    ["Pikeman_Move_1"] = getSoundSource("Pikeman_Move_1.ogg"),
+    ["Pikeman_Move_2"] = getSoundSource("Pikeman_Move_2.ogg"),
+    ["Pikeman_Move_3"] = getSoundSource("Pikeman_Move_3.ogg"),
+    ["Pikeman_Move_Inaccessible"] = getSoundSource("Pikeman_Move_Inaccessible.ogg"),
+
+    ["Spearman_Move_1"] = getSoundSource("Spearman_Move_1.ogg"),
+    ["Spearman_Move_2"] = getSoundSource("Spearman_Move_2.ogg"),
+    ["Spearman_Move_3"] = getSoundSource("Spearman_Move_3.ogg"),
+    ["Spearman_Move_Inaccessible"] = getSoundSource("Spearman_Move_Inaccessible.ogg"),
+
+    ["Swordsman_Move_1"] = getSoundSource("Swordsman_Move_1.ogg"),
+    ["Swordsman_Move_2"] = getSoundSource("Swordsman_Move_2.ogg"),
+    ["Swordsman_Move_3"] = getSoundSource("Swordsman_Move_3.ogg"),
+    ["Swordsman_Move_Inaccessible"] = getSoundSource("Swordsman_Move_Inaccessible.ogg")
 }
 
 return fx

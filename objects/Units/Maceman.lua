@@ -7,6 +7,9 @@ local an = require("objects.Animations.Maceman")
 
 local Maceman = _G.class("Maceman", Soldier)
 
+Maceman.static.MOVE_SOUNDS = { _G.fx["Maceman_Move_1"], _G.fx["Maceman_Move_2"], _G.fx["Maceman_Move_3"] }
+Maceman.static.MOVE_INACCESSIBLE_SOUND = _G.fx["Maceman_Move_Inaccessible"]
+
 function Maceman:initialize(gx, gy)
     Soldier.initialize(self, gx, gy, "Maceman")
     self.count = 1

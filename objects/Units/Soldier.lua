@@ -2,6 +2,9 @@ local Unit = require("objects.Units.Unit")
 
 local Soldier = _G.class("Soldier", Unit)
 
+Soldier.static.MOVE_SOUNDS = {}
+Soldier.static.MOVE_INACCESSIBLE_SOUND = nil
+
 function Soldier:initialize(gx, gy, type)
     Unit.initialize(self, gx, gy, type)
     self.health = 100
@@ -72,8 +75,24 @@ function Soldier:gotoUserWaypoint(gx, gy, waypointFloat, callback)
     end
     if not pathfindable then
         print("Soldier: can't go there my lord")
+        if self.class.MOVE_INACCESSIBLE_SOUND and not self.class.MOVE_INACCESSIBLE_SOUND:isPlaying() then
+            _G.playSfx(self, self.class.MOVE_INACCESSIBLE_SOUND, true)
+        end
         if callback then callback() end
         return
+    end
+    if #self.class.MOVE_SOUNDS > 0 then
+        local randomNumber = math.random(1, #self.class.MOVE_SOUNDS)
+        local isPlaying = false
+        for _, sfx in pairs(self.class.MOVE_SOUNDS) do
+            if sfx:isPlaying() then
+                isPlaying = true
+                break
+            end
+        end
+        if not isPlaying then
+            _G.playSfx(self, self.class.MOVE_SOUNDS[randomNumber], true)
+        end
     end
     if callback then self.pathFoundCallback = callback end
     self.waypointFloat = waypointFloat
