@@ -122,11 +122,15 @@ function CampfireFloatPop:emigrantCallback()
     local actionBar = require("states.ui.ActionBar")
     local oldPopulationValue = _G.state.population
     return function()
-        _G.state.population = _G.state.population - 1
         actionBar:updatePopulationCount()
         local peasantLeft = _G.campfire:makePeasantLeave()
         if not peasantLeft then
-            _G.BuildingManager:makeWorkerLeave()
+            local workerLeft = _G.BuildingManager:makeWorkerLeave()
+            if workerLeft then
+                _G.state.population = _G.state.population - 1
+            end
+        else
+            _G.state.population = _G.state.population - 1
         end
         _G.bus.emit(Events.OnPopulationChange, oldPopulationValue, _G.state.population)
     end
@@ -496,7 +500,6 @@ _G.bus.on(Events.OnMaxPopChanged, function(name, x, y)
     local totalPop = hovelPop + flatPop + residencePop + bigresidencePop
     _G.state.maxPopulation = 5 + totalPop
     ActionBar:updatePopulationCount()
-    print(_G.state.maxPopulation)
 end)
 
 return Campfire
