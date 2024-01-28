@@ -40,20 +40,20 @@ mission5:
     You will need to make strategic decisions and manage your time carefully to ensure the completion of your cathedral within the allotted timeframe. Good luck!
 groups:
   castle:
-    name: Castle
+    name: Hrad
     description: Walls, Towers, Gates and everything else you need to defend your Stronghold.
   industry:
-    name: Industry
+    name: Průmysl
     description: Build mighty Industries to defeat your enemies ... or fill your pockets.
   apple:
-    name: Farms
+    name: Statky
     description: Produce basic agricultural products.
   house:
     name: Civilian
     description: Houses and amenities for your citizens.
   shield:
-    name: Military
-    description: Raise mighty armies and build terrifying siege weapons to crush your enemies.
+    name: Vojsko
+    description: Vybudujte mocné armády a postavte děsivé obléhací stroje, pomocí nichž rozdrtíte své nepřátele.
   sickle:
     name: Food Production
     description: Turn basic farm products into high quality goods.
@@ -69,19 +69,19 @@ groups:
     description: Gardens, statues and entertainment to increase your popularity.
 buildings:
   hunterHut:
-    name: Hunter's hut
+    name: Lovecká chata
     description: Hunts deer in the environment for meat.
   granary:
-    name: Granary
+    name: Sýpka
     description: The granary is where you store your kingdom's food reserves.
   orchard:
-    name: Orchard
+    name: Ovocný sad
     description: Produces apples.
   wheatFarm:
     name: Wheat Farm
     description: Produces wheat which can be processed into flour.
   dairyFarm:
-    name: Dairy Farm
+    name: Mléčná farma
     description: Produces cheese.
   hopsFarm:
     name: Hops Farm
@@ -90,17 +90,17 @@ buildings:
     name: Saxon Hall
     description: Your Saxon hall is the center of your castle.
   stockpile:
-    name: Stockpile
+    name: Skladiště
     description: |
       Increases resource capacity.\nMust be placed adjacent to a stockpile.
   woodenKeep:
     name: Wooden Keep
     description: Upgrade your Saxon hall to a Wooden keep
   keep:
-    name: Keep
+    name: Hradní pevnost
     description: Upgrade your Wooden keep to a Stone keep
   fortress:
-    name: Fortress
+    name: Pevnost
     description: Upgrade your Stone keep to a Fortress
   stronghold:
     name: Stronghold
@@ -118,31 +118,31 @@ buildings:
     name: Tunnelers Guild
     description: A building allowing you to recruit tunnelers.
   chapel:
-    name: Chapel
-    description: Increase your popularity with religion. Currently not functional.
+    name: Kaple
+    description: Zvyš svoji popularitu díky náboženství. V současné době nefunkční.
   church:
-    name: Church
-    description: Increase your popularity with religion. Currently not functional.
+    name: Kostel
+    description: Zvyš svoji popularitu díky náboženství. V současné době nefunkční.
   cathedral:
-    name: Cathedral
-    description: Increase your popularity with religion. Currently not functional.
+    name: Katedrála
+    description: Zvyš svoji popularitu díky náboženství. V současné době nefunkční.
   apothecary:
-    name: Apothecary
-    description: Currently not functional.
+    name: Lékárník
+    description: V současné době nefunkční.
   woodcutter:
-    name: Woodcutter Hut
-    description: Cuts down nearby trees to produce wood.
+    name: Dřevorubecká chýše
+    description: Kácí stromy k okolí a produkuje dřevo.
   ironMine:
-    name: Mine
-    description: Produces iron ingots from ground iron ore.
+    name: Důl
+    description: Vyrábí železné ingoty ze surové železné rudy.
   market:
-    name: Market
-    description: Allows you to trade your goods.
+    name: Tržiště
+    description: Umožňuje obchodovat s Vašim zbožím.
   ox:
-    name: Ox Tether
+    name: Uvázání býka
     description: Transport stone from the quarry to the stockpile.
   quarry:
-    name: Quarry
+    name: Kamenolom
     description: Produces stone blocks from the ground resource.
   armoury:
     name: Armoury
@@ -157,20 +157,20 @@ buildings:
     name: Blacksmith Workshop
     description: Produces swords and maces from iron.
   armorer:
-    name: Armorer
+    name: Zbrojíř
     description: Makes armor from iron.
   windmill:
-    name: Windmill
+    name: Větrný mlýn
     description: Processes wheat into flour.
   bakery:
-    name: Bakery
-    description: Processes flour into bread.
+    name: Pekárna
+    description: Zpracovává mouku na chléb.
   brewery:
-    name: Brewery
+    name: Pivovar
     description: Processes hops into ale.
   inn:
-    name: Inn
-    description: Distributes ale.
+    name: Hostinec
+    description: Distribuuje pivo.
   pitchRig:
     name: Pitch Rig
     description: Small platform to collect pitch from the swamp.
@@ -179,9 +179,9 @@ buildings:
     description: A small perimeter tower - good for the observation.
   defenseTower:
     name: Defense Tower
-    description: A defense tower made for defense.
+    description: Obranná věž sloužící k obraně.
   squareTower:
-    name: Square Tower
+    name: Čtvercová věž
     description: Crucial for your castle - you can place war machines on the top.
   roundTower:
     name: Round Tower
