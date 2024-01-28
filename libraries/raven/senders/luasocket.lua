@@ -9,7 +9,6 @@
 -- @license BSD 3-clause (see LICENSE file)
 
 local util = require 'libraries.raven.util'
-local http = require("socket.http")
 local ltn12 = require 'ltn12'
 
 -- try to load luassl (not mandatory, so do not hard fail if the module is
@@ -17,14 +16,15 @@ local ltn12 = require 'ltn12'
 local https
 local os = love.system.getOS()
 local ogpath = love.filesystem.getCRequirePath()
-if os == "Windows" then
+if os == "Windows" or os == "Linux" then
     love.filesystem.setCRequirePath("libraries/windows/??")
-    ok, val = pcall(require, "https")
+    local ok, val = pcall(require, "https")
     if ok then
         https = val
     end
+    love.filesystem.setCRequirePath(ogpath)
 else
-    print("os is not windows, not sending sentry requests")
+    print("os is not windows/linux, not sending sentry requests")
 end
 
 local assert = assert
