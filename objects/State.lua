@@ -195,6 +195,10 @@ function State:save()
 end
 
 function State:serializeObject(obj)
+    if obj and obj._ref then
+        -- already serialized
+        return obj
+    end
     if not self.serializedObjectIds[obj.id] then
         self.serializedObjectIds[obj.id] = obj:serialize()
         if not self.serializedObjectIds[obj.id] then
