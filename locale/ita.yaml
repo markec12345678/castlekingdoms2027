@@ -354,6 +354,8 @@ settings:
       title: IMPOSTAZIONI INTERFACCIA
       description: |
         Attiva/disattiva elementi di interfaccia e modifica la loro grandezza.\n
+      items:
+        language: Language
   apply: Applica
 recruitment:
   archer: Arciere
