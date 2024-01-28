@@ -355,6 +355,8 @@ settings:
       title: НАЛАШТУВАННЯ ІНТЕРФЕЙСУ
       description: |
         Увімкнути/вимкнути елементи інтерфейсу та змінити їх масштаб.\n
+      items:
+        language: Language
   apply: Apply
 recruitment:
   archer: Лучник

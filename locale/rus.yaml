@@ -72,10 +72,10 @@ buildings:
     name: Hunter's hut
     description: Hunts deer in the environment for meat.
   granary:
-    name: Granary
+    name: Амбар
     description: The granary is where you store your kingdom's food reserves.
   orchard:
-    name: Orchard
+    name: Яблоневый сад
     description: Produces apples.
   wheatFarm:
     name: Wheat Farm
@@ -84,13 +84,13 @@ buildings:
     name: Dairy Farm
     description: Produces cheese.
   hopsFarm:
-    name: Hops Farm
+    name: Хмельник
     description: Produces hops which can be processed into ale.
   castle:
     name: Saxon Hall
     description: Your Saxon hall is the center of your castle.
   stockpile:
-    name: Stockpile
+    name: Склад
     description: |
       Increases resource capacity.\nMust be placed adjacent to a stockpile.
   woodenKeep:
@@ -130,13 +130,13 @@ buildings:
     name: Apothecary
     description: Currently not functional.
   woodcutter:
-    name: Woodcutter Hut
+    name: Лесопилка
     description: Cuts down nearby trees to produce wood.
   ironMine:
     name: Mine
     description: Produces iron ingots from ground iron ore.
   market:
-    name: Market
+    name: Рынок
     description: Allows you to trade your goods.
   ox:
     name: Ox Tether
@@ -148,7 +148,7 @@ buildings:
     name: Armoury
     description: Weapons and armour is stored here, which is used by troops from the barracks upon recruitment.
   fletcher:
-    name: Fletcher Workshop
+    name: Мастерская стрельника
     description: Produces bows and crossbows from wood.
   poleturner:
     name: Poleturner Workshop
@@ -354,6 +354,8 @@ settings:
       title: INTERFACE SETTINGS
       description: |
         Toggle interface elements and modify their scale.\n
+      items:
+        language: Language
   apply: Apply
 recruitment:
   archer: Archer

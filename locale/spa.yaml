@@ -354,6 +354,8 @@ settings:
       title: INTERFACE SETTINGS
       description: |
         Toggle interface elements and modify their scale.\n
+      items:
+        language: Language
   apply: Aplicar
 recruitment:
   archer: Archer

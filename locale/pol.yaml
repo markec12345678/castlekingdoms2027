@@ -332,26 +332,28 @@ settings:
         Modyfikacja jakości renderowania, rozmiaru fragmentów i animacji przełączania w celu zrównoważenia wydajności.\n
       items:
         fullScreen: Pełny ekran
-        borderless: Borderless
+        borderless: Bez ramek
         vsync: VSync
         resolution: Rozdzielczość
         display: Wyświetlacz
         apply: Zastosuj
     hotkeys:
-      button: Hotkeys
+      button: Skróty klawiszowe
       title: SKRÓTY I PRZYPISANIE KLAWISZY
       description: |
         Edytuj lub dodaj nowe skróty klawiszowe.\n
     video:
-      button: Video
+      button: Wideo
       title: USTAWIENIA OBRAZU
       description: |
         Ustawienia rozdzielczości, ekranu i VSync.\n
     interface:
-      button: Interface
+      button: Interfejs
       title: USTAWIENIA INTERFEJSU
       description: |
         Przełącz elementy interfejsu i zmodyfikuj ich skale.\n
+      items:
+        language: Język
   apply: Zastosuj
 recruitment:
   archer: Łucznik
@@ -412,14 +414,14 @@ ui:
     campaign: Kampania
     load: Wczytaj
     options: Opcje
-    exit: Exit
+    exit: Wyjdź
   campaign:
-    economicMissions: Economic Missions
+    economicMissions: Misje ekonomiczne
   load:
-    title: Load Game
-    saveName: Save name
+    title: Wczytaj grę
+    saveName: Nazwa zapisu
     map: Mapa
-    dateSaved: Date saved
+    dateSaved: Data zapisu
     version: Wersja
 gold: złoto
 wood: drewno

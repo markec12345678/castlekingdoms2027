@@ -340,6 +340,8 @@ settings:
       title: CONFIGURAÇÕES DE INTERFACE
       description: |
         Alterna os elementos da interface e modifique sua escala.\n
+      items:
+        language: Language
   apply: Apply
 recruitment:
   archer: Arqueiro
