@@ -69,12 +69,13 @@ function Object:render()
             self.vertId = newVert
             self.lastI, self.lastO = self.i, self.o
         else
-            error("Object did not receive Vertex for rendering, it should be of highest priority:" ..
+            print("Object did not receive Vertex for rendering, it should be of highest priority:" ..
                 tostring(self) .. "\n coordinates: " .. tostring(self.gx) .. ", " .. tostring(self.gy))
+            return
         end
         self.instancemesh = _G.state.objectMesh[self.cx][self.cy]
         if (not self.instancemesh) then
-            error("Object haveno instance mesh " ..
+            error("Object has no instance mesh " ..
                 tostring(self) .. "\n coordinates: " .. tostring(self.gx) .. ", " .. tostring(self.gy))
         end
 
