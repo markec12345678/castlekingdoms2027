@@ -287,6 +287,7 @@ BlacksmithWorkshop.static.WIDTH = 4
 BlacksmithWorkshop.static.LENGTH = 4
 BlacksmithWorkshop.static.HEIGHT = 17
 BlacksmithWorkshop.static.DESTRUCTIBLE = true
+BlacksmithWorkshop.static.NAMEINDEX = "blacksmith"
 
 function BlacksmithWorkshop:initialize(gx, gy)
     _G.JobController:add("Blacksmith", self)

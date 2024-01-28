@@ -55,6 +55,7 @@ House.static.LENGTH = 4
 House.static.HEIGHT = 17
 House.static.ALIAS_NAME = "HouseAlias"
 House.static.DESTRUCTIBLE = true
+House.static.NAMEINDEX = "hovel"
 
 function House:initialize(gx, gy)
     Structure.initialize(self, gx, gy, "House")

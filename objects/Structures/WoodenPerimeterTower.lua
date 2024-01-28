@@ -48,6 +48,8 @@ WoodenPerimeterTower.static.WIDTH = 4
 WoodenPerimeterTower.static.LENGTH = 4
 WoodenPerimeterTower.static.HEIGHT = 17
 WoodenPerimeterTower.static.DESTRUCTIBLE = true
+WoodenPerimeterTower.static.NAMEINDEX = "woodenPermimeterTower"
+
 function WoodenPerimeterTower:initialize(gx, gy, type)
     local mytype = "Wooden Perimeter Tower"
     Structure.initialize(self, gx, gy, mytype)

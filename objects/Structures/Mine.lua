@@ -684,6 +684,8 @@ Mine.static.LENGTH = 4
 Mine.static.HEIGHT = 16
 Mine.static.ALIAS_NAME = "MineAlias"
 Mine.static.DESTRUCTIBLE = true
+Mine.static.NAMEINDEX = "ironMine"
+
 function Mine:initialize(gx, gy, irons)
     _G.JobController:add("Miner", self)
     Structure.initialize(self, gx, gy, "Mine")

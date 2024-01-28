@@ -78,6 +78,8 @@ OxTether.static.EFFECTIVE_LENGTH = 4
 OxTether.static.HEIGHT = 4
 OxTether.static.ALIAS_NAME = nil
 OxTether.static.DESTRUCTIBLE = true
+OxTether.static.NAMEINDEX = "ox"
+
 function OxTether:initialize(gx, gy)
     _G.JobController:add("OxHandler", self)
     Structure.initialize(self, gx, gy, "OxTether")
