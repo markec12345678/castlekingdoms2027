@@ -168,20 +168,17 @@ function CampfireFloatPop.static:deserialize(data)
     Structure.load(obj, data)
     if data.animation then
         local anData = data.animation
+        obj.redAnimation = _G.anim.newAnimation(an[data.redAnimation.animationIdentifier], 1,
+            obj:emigrantCallback(), data.redAnimation.animationIdentifier)
+        obj.redAnimation:deserialize(data.redAnimation)
+        obj.greenAnimation = _G.anim.newAnimation(an[data.greenAnimation.animationIdentifier], 1,
+            obj:immigrantCallback(), data.greenAnimation.animationIdentifier)
+        obj.greenAnimation:deserialize(data.greenAnimation)
         local callback
-        if anData.animationIdentifier == ANIM_FLOAT_CIRCLE_GREEN then
-            callback = obj:immigrantCallback()
-        else
-            obj.redAnimation = _G.anim.newAnimation(an[data.redAnimation.animationIdentifier], 1,
-                obj:emigrantCallback(), data.redAnimation.animationIdentifier)
-            obj.redAnimation:deserialize(data.redAnimation)
-        end
         if anData.animationIdentifier == ANIM_FLOAT_CIRCLE_RED then
             callback = obj:emigrantCallback()
-        else
-            obj.greenAnimation = _G.anim.newAnimation(an[data.greenAnimation.animationIdentifier], 1,
-                obj:immigrantCallback(), data.greenAnimation.animationIdentifier)
-            obj.greenAnimation:deserialize(data.greenAnimation)
+        elseif anData.animationIdentifier == ANIM_FLOAT_CIRCLE_GREEN then
+            callback = obj:immigrantCallback()
         end
         obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], 1, callback, anData.animationIdentifier)
         obj.animation:deserialize(anData)
@@ -426,7 +423,7 @@ function Campfire:serialize()
         freeSpots[xx] = {}
         for yy = -1, 5 do
             freeSpots[xx][yy] = self.freeSpots[xx][yy]
-            if freeSpots[xx][yy] and type(freeSpots[xx][yy]) ~= "boolean" then
+            if type(freeSpots[xx][yy]) ~= "boolean" and freeSpots[xx][yy] then
                 freeSpots[xx][yy] = _G.state:serializeObject(freeSpots[xx][yy])
             end
         end
@@ -435,7 +432,7 @@ function Campfire:serialize()
         freeSpots[xx] = {}
         for yy = -2, 4 do
             freeSpots[xx][yy] = self.freeSpots[xx][yy]
-            if freeSpots[xx][yy] and type(freeSpots[xx][yy]) ~= "boolean" then
+            if type(freeSpots[xx][yy]) ~= "boolean" and freeSpots[xx][yy] then
                 freeSpots[xx][yy] = _G.state:serializeObject(freeSpots[xx][yy])
             end
         end

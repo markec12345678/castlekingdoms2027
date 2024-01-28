@@ -156,7 +156,7 @@ function Barracks:serialize()
         freeSpots[xx] = {}
         for yy = 0, 9 do
             freeSpots[xx][yy] = self.freeSpots[xx][yy]
-            if freeSpots[xx][yy] and type(freeSpots[xx][yy]) ~= "boolean" then
+            if type(freeSpots[xx][yy]) ~= "boolean" and freeSpots[xx][yy] then
                 freeSpots[xx][yy] = _G.state:serializeObject(freeSpots[xx][yy])
             end
         end
