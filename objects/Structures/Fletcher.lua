@@ -163,6 +163,7 @@ FletcherWorkshop.static.WIDTH = 4
 FletcherWorkshop.static.LENGTH = 4
 FletcherWorkshop.static.HEIGHT = 17
 FletcherWorkshop.static.DESTRUCTIBLE = true
+FletcherWorkshop.static.NAMEINDEX = "fletcher"
 
 function FletcherWorkshop:initialize(gx, gy)
     _G.JobController:add("Fletcher", self)

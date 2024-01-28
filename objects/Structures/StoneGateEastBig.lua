@@ -5,6 +5,8 @@ StoneGateBigEast.static.WIDTH = 7
 StoneGateBigEast.static.LENGTH = 7
 StoneGateBigEast.static.HEIGHT = 17
 StoneGateBigEast.static.DESTRUCTIBLE = true
+StoneGateBigEast.static.NAMEINDEX = "stoneGateEastBig"
+
 function StoneGateBigEast:initialize(gx, gy)
     StoneGateBig.initialize(self, gx, gy, "east")
 end

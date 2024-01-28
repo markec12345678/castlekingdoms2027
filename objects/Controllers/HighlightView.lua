@@ -67,6 +67,9 @@ function HighlightView:update()
         structure:enterHover()
     end
     local buildingStringIndex = structure.class.NAMEINDEX
+    if not buildingStringIndex then
+        buildingStringIndex = (structure.class.name:gsub("^%u", string.lower))
+    end
     local buildingName = SID.buildings[buildingStringIndex] and SID.buildings[buildingStringIndex].name or structure.class.name
     buildingTooltip:ShowTooltip(buildingName, structure.class.HOVERTEXT)
     self.lastScale = _G.state.scaleX

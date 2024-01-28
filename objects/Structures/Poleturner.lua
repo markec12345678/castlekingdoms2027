@@ -166,6 +166,7 @@ PoleturnerWorkshop.static.WIDTH = 4
 PoleturnerWorkshop.static.LENGTH = 4
 PoleturnerWorkshop.static.HEIGHT = 17
 PoleturnerWorkshop.static.DESTRUCTIBLE = true
+PoleturnerWorkshop.static.NAMEINDEX = "poleturner"
 
 function PoleturnerWorkshop:initialize(gx, gy)
     _G.JobController:add("Poleturner", self)

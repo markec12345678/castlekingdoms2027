@@ -378,6 +378,7 @@ WoodcutterHut.static.LENGTH = 3
 WoodcutterHut.static.HEIGHT = 14
 WoodcutterHut.static.ALIAS_NAME = "WoodcutterHutAlias"
 WoodcutterHut.static.DESTRUCTIBLE = true
+WoodcutterHut.static.NAMEINDEX = "woodcutter"
 
 function WoodcutterHut:initialize(gx, gy, type)
     _G.JobController:add("Woodcutter", self)
