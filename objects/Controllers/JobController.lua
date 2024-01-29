@@ -72,6 +72,8 @@ function JobController:makeWorker()
                             end
                         end
                         return
+                    else
+                        return
                     end
                 end
                 self.workers = self.workers - 1
@@ -103,7 +105,6 @@ function JobController:makeSoldier(class)
     else
         local peasant = _G.campfire:getFreePeasant()
         if peasant then
-            self.workers = self.workers - 1
             peasant:enlist(soldierClass)
             return true
         else

@@ -132,6 +132,7 @@ function CampfireFloatPop:emigrantCallback()
         else
             _G.state.population = _G.state.population - 1
         end
+        if _G.state.population < 0 then _G.state.population = 0 end
         _G.bus.emit(Events.OnPopulationChange, oldPopulationValue, _G.state.population)
     end
 end
@@ -306,16 +307,10 @@ function Campfire:update()
 end
 
 function Campfire:makePeasantLeave()
-    for xx = -1, 3 do
-        for yy = -2, 3 do
-            if self.freeSpots[xx][yy] ~= true and type(self.freeSpots[xx][yy]) == "table" then
-                local peasant = self.freeSpots[xx][yy]
-                peasant:remove()
-                self.freeSpots[xx][yy] = true
-                self.peasants = self.peasants - 1
-                return true
-            end
-        end
+    local peasant = self:getFreePeasant()
+    if peasant then
+        peasant:remove()
+        return true
     end
     return false
 end
