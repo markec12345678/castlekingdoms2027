@@ -136,7 +136,13 @@ function _G.manhattanDistance(x1, y1, x2, y2)
     return (dx + dy)
 end
 
+local scrollOnceMore = false
+
 local function scale(y)
+    if scrollOnceMore then
+        scrollOnceMore = false
+        return
+    end
     startScale = _G.state.scaleX
     if y > 0 and _G.state.scaleX < 4 then
         easeTimer = 0
@@ -147,25 +153,30 @@ local function scale(y)
         elseif _G.state.scaleX >= 3 then
             targetScale = _G.state.scaleX + 1 * math.abs(y)
         else
-            targetScale = _G.state.scaleX + 0.1 * math.abs(y)
+            targetScale = math.min(_G.state.scaleX + 0.1 * math.abs(y), 1)
         end
         if targetScale > 4 then
             targetScale = 4
         end
     elseif y < 0 and _G.state.scaleX > 0.3 then
         easeTimer = 0
-        if _G.state.scaleX >= 1 then
+        if _G.state.scaleX == 1 then
             targetScale = _G.state.scaleX - 0.25 * math.abs(y)
+        elseif _G.state.scaleX > 1 then
+            targetScale = math.max(_G.state.scaleX - 0.5 * math.abs(y), 1)
         elseif _G.state.scaleX >= 2 then
-            targetScale = _G.state.scaleX - 0.5 * math.abs(y)
+            targetScale = math.max(_G.state.scaleX - 0.5 * math.abs(y), 1)
         elseif _G.state.scaleX >= 3 then
-            targetScale = _G.state.scaleX - 1 * math.abs(y)
+            targetScale = math.max(_G.state.scaleX - 1 * math.abs(y), 1)
         else
             targetScale = _G.state.scaleX - 0.1 * math.abs(y)
         end
         if targetScale < 0.3 then
             targetScale = 0.3
         end
+    end
+    if targetScale == 1 and math.abs(startScale - targetScale) < 0.4 then
+        scrollOnceMore = true
     end
     love.audio.setPosition((_G.state.viewXview) / 100, (_G.state.viewYview) / 100, camera.getZFromZoom())
 end
