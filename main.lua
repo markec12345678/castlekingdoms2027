@@ -80,9 +80,7 @@ end
 
 function love.quit()
     loader.quit()
-    if _G.state then
-        _G.state:cleanupPathfindingThreads()
-    end
+    if _G.state then _G.state:destroy() end
     love.event.quit("quit", 0)
 end
 
