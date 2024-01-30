@@ -108,14 +108,8 @@ function State:cleanupPathfindingThreads()
         love.thread.getChannel("stop1"):push(true)
         love.thread.getChannel("stop2"):push(true)
         if not _G.testMode then -- don't run in tests because it will run forever
-            while love.thread.getChannel("stop1"):getCount() > 1 and self.thread:isRunning() do
-                -- spin cycle to wait
-                love.timer.sleep(0.1)
-            end
-            while love.thread.getChannel("stop2"):getCount() > 1 and self.thread2:isRunning() do
-                -- spin cycle to wait
-                love.timer.sleep(0.1)
-            end
+            if self.thread:isRunning() then self.thread:wait() end
+            if self.thread2:isRunning() then self.thread2:wait() end
         end
         love.thread.getChannel("stop1"):clear()
         love.thread.getChannel("stop2"):clear()
