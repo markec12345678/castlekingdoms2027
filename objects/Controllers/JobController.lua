@@ -72,8 +72,6 @@ function JobController:makeWorker()
                             end
                         end
                         return
-                    else
-                        return
                     end
                 end
                 self.workers = self.workers - 1

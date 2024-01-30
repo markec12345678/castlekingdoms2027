@@ -638,7 +638,7 @@ function Quarry:initialize(gx, gy, stones)
     self.puller = QuarryPuller:new(self.gx + 4, self.gy + 2, self, self.offsetX - 64 - 16, self.offsetY)
     self.puller:deactivate()
     self.hook = QuarryHook:new(self.gx + 2, self.gy + 5, self, self.offsetX - 64 - 16)
-    self.stack = QuarryStack:new(self.gx + 9, self.gy + 10, self)
+    self.stack = QuarryStack:new(self.gx + 5, self.gy + 5, self)
     self.stack:deactivate()
     self.stones = stones
     for xx = 0, 5 do
@@ -664,8 +664,8 @@ function Quarry:initialize(gx, gy, stones)
         qur.tileKey = tiles + 1 + tile
     end
 
-    for xx = 0, 4 do
-        for yy = 0, 4 do
+    for xx = 0, 5 do
+        for yy = 0, 5 do
             if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + yy, Structure) then
                 QuarryAlias:new(tileQuads["empty"], self.gx + xx, self.gy + yy, self, 12 + 8 * 4, 16)
             end
