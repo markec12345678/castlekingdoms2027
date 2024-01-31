@@ -22,49 +22,49 @@ mission3:
     Bedenkt, dass der Erfolg dieser Mission von euren Fähigkeiten abhängt, wie ihr Ressourcen verwalten und gleichzeitig eure Ziele priorisieren könnt.
     Ihr müsst eure Finanzen gut verwalten und richtige strategische Entscheidungen treffen, um den Wohlstand eures Königsreichs sicherzustellen. Viel Glück!
 mission4:
-  name: The Kingdom's Fortune
+  name: Des Königreichs Wohlstand
   desc: |
-    In this mission, your goal is to accumulate a substantial amount of wealth by acquiring 5000 units of gold.
-    Unlike previous missions, there is no time limit on this objective, so you will have the freedom to pursue your goals at your own pace.\n
-    To achieve this, you will need to develop a strong economy by building and managing workshops, investing in trade and commerce, and making strategic financial decisions.\n
-    Keep in mind that your success in this mission will depend on your ability to make wise investments and manage your finances carefully.
-    You will need to balance your resources and take calculated risks to ensure the prosperity of your kingdom. Good luck!
+    In dieser Mission, müsst ihr erheblichen Reichtum anhäufen, indem ihr 5000 Einheiten Gold ansammelt.
+    Anders als in vorherigen Missionen, gibt es bei dieser Aufgabe keine Zeitvorgabe. Also könnt ihr eure Ziele eurem Tempo anpassen.\n
+    Um dies zu erreichen, müsst ihr eine starke Wirtschaft etablieren, indem ihr Produktionsstätten baut und verwaltet, Handel treibt und strategische finanzielle Entscheidungen trefft.\n
+    Bedenkt, dass der Erfolg der Mission von euren Investitions- und Finanzverwaltungsfähigkeiten abhängt.
+    Ihr werdet eure Ressourcen im Gleichgewicht halten müssen und kalkulierte Risiken eingehen, um den Wohlstand eures Königreichs zu gewährleisten. Viel Glück!
 mission5:
-  name: Faith in Architecture
+  name: Glaube an die Architektur
   desc: |
-    In this mission, you will need to focus on constructing a grand cathedral to serve as the centerpiece of your kingdom's religious and cultural life.
-    Your objective is to build a cathedral within the next 10 years.\n
-    Keep in mind that your success in this mission will depend on your ability to manage a complex construction project and balance your resources effectively.
-    You will need to make strategic decisions and manage your time carefully to ensure the completion of your cathedral within the allotted timeframe. Good luck!
+    In dieser Mission, ist es eure Aufgabe eine große Kathedrale zu errichten, die als Zentrum eures religiösen und kulturellen Lebens dient.
+    Eure Aufgabe ist es diese Kathedrale innerhalb der nächsten 10 Jahre zu errichten.\n
+    Bedenkt, dass der Erfolg der Mission davon abhängt, wie effektiv ihr eure Ressourcen und komplexe Bauprojekte verwalten könnt.
+    Ihr werdet strategische Entscheidungen treffen und eure Zeit klug einteilen müssen, um die Kathedrale in genannter Zeit errichten zu können. Viel Glück!
 groups:
   castle:
     name: Burg
-    description: Walls, Towers, Gates and everything else you need to defend your Stronghold.
+    description: Mauern, Türme, Tore und andere Dinge, die zur Verteidigung eurer Festung benötigt werden.
   industry:
     name: Industrie
-    description: Build mighty Industries to defeat your enemies ... or fill your pockets.
+    description: Errichtet mächtige Industrien, um eure Feinde zu besiegen .... oder um eure Taschen zu füllen.
   apple:
     name: Farmen
-    description: Produce basic agricultural products.
+    description: Produziere grundlegende landwirtschaftliche Produkte.
   house:
-    name: Civilian
-    description: Houses and amenities for your citizens.
+    name: Zivil
+    description: Häuser und Annehmlichkeiten für eure Bürger.
   shield:
     name: Militär
-    description: Raise mighty armies and build terrifying siege weapons to crush your enemies.
+    description: Stellt mächtige Armeen auf und baut furchteinflößende Belagerungswaffen, um eure Feinde zu vernichten.
   sickle:
     name: Nahrungsmittelproduktion
-    description: Turn basic farm products into high quality goods.
+    description: Verarbeite landwirtschaftliche zu hochwertigen Waren.
   destroy:
-    name: Demolish
-    description: Enter demolish mode. Click on a building to destroy.
-    exitTooltip: Exit Demolish Mode
+    name: Abreißen
+    description: In den Abrissmodus wechseln. Klickt auf ein Gebäude, um es abzureißen.
+    exitTooltip: Den Abrissmodus verlassen
   houses:
-    name: Houses
-    description: Houses to increase your population limit.
+    name: Häuser
+    description: Häuser, um das Bevölkerungslimit zu erhöhen.
   goodThings:
-    name: Good things
-    description: Gardens, statues and entertainment to increase your popularity.
+    name: Gute Dinge
+    description: Gärten, Statuen und Unterhaltungselemente um eure Beliebtheit zu steigern.
 buildings:
   hunterHut:
     name: Jagdhütte
@@ -141,7 +141,7 @@ buildings:
     description: Transportiert Stein vom Steinbruch zum Vorratslager.
   quarry:
     name: Steinbruch
-    description: Produces stone blocks from the ground resource.
+    description: Produziert Steinblöcke aus der Bodenressource.
   armoury:
     name: Waffenkammer
     description: Waffen und Rüstungen, die Einheiten bei Rekrutierung benötigen, werden hier gelagert.
@@ -174,67 +174,67 @@ buildings:
     description: Eine kleine Plattform um Pech aus dem Sumpf zu sammeln.
   perimeterTower:
     name: Außenturm
-    description: A small perimeter tower - good for the observation.
+    description: Ein kleiner Außenturm - gut zur Beobachtung.
   defenseTower:
     name: Verteidigungsturm
-    description: A defense tower made for defense.
+    description: Gebaut, um zu verteidigen.
   squareTower:
     name: Quadratischer Turm
-    description: Crucial for your castle - you can place war machines on the top.
+    description: Essenziell für eure Burg - ihr könnt Kriegsgeräte darauf positionieren.
   roundTower:
     name: Rundturm
-    description: The strongest tower - you can place war machines on the top.
+    description: Der stärkste Turm - ihr könnt Kriegsgeräte darauf platzieren.
   stoneGateSouth:
-    name: Stone Gate South
+    name: Steinernes Südtor
     description: Ein steinernes Tor, das verbündete Truppen passieren lässt.
   stoneGateEast:
-    name: Stone Gate East
+    name: Steinernes Osttor
     description: Ein steinernes Tor, das verbündete Truppen passieren lässt.
   stoneGateEastBig:
-    name: Stone Gate Big East
+    name: Großes steinernes Osttor
     description: Ein starkes steinernes Tor, das verbündete Truppen passieren lässt.
   stoneGateSouthBig:
-    name: Stone Gate Big South
+    name: Großes steinernes Südtor
     description: Ein starkes steinernes Tor, das verbündete Truppen passieren lässt.
   walkableWoodenWall:
     name: Begehbare Holzmauer
-    description: A defensive wall made that is walkable on the top.
+    description: Ein hölzerner Wall, den Truppen begehen können.
   woodenTower:
     name: Hölzerner Turm
-    description: A wooden tower that is missing some stairs apparently.
+    description: Ein hölzerner Turm ohne Stufen.
   woodenGateEast:
-    name: Wooden Gate East
+    name: Hölzernes Osttor
     description: Ein hölzernes Tor, das verbündete Truppen passieren lässt.
   woodenGateSouth:
-    name: Wooden Gate South
+    name: Hölzernes Südtor
     description: Ein hölzernes Tor, das verbündete Truppen passieren lässt.
   woodenGateEastBig:
-    name: Big Wooden Gate East
+    name: Großes hölzernes Osttor
     description: Ein hölzernes Tor, das verbündete Truppen passieren lässt.
   woodenGateSouthBig:
-    name: Big Wooden Gate South
+    name: Großes hölzernes Südtor
     description: Ein hölzernes Tor, das verbündete Truppen passieren lässt.
   woodenPermimeterTower:
-    name: Wooden Perimeter Tower
-    description: A wooden tower that is missing some stairs apparently.
+    name: Hölzerner Außenturm
+    description: Ein hölzerner Turm ohne Stufen.
   woodenDefenseTower:
-    name: Wooden Defense Tower
-    description: A wooden tower that is missing some stairs apparently.
+    name: Hölzerner Verteidigungsturm
+    description: Ein hölzerner Turm ohne Stufen.
   woodenWall:
     name: Holzpalisade
-    description: A defensive wall made from sharpened tree trunks.
+    description: Ein Verteidigungswall aus angespitzten Baumstämmen.
   hovel:
-    name: House
-    description: A small hut - gives shelter to 4 people.
+    name: Hütte
+    description: Eine kleine Hütte - bietet Platz für 4 Personen.
   flat:
-    name: Flat
-    description: A small, cosy flat - gives shelter to 8 people
+    name: Behausung
+    description: Eine kleine, gemütliche Behausung - bietet Platz für 8 Personen
   residence:
-    name: Residence
-    description: A nice and elegant house - gives shelter to 12 peole.
+    name: Wohnhaus
+    description: Ein elegantes Wohnhaus - bietet Platz für 12 Personen.
   bigResidence:
-    name: Big Residence
-    description: A big residence - gives shelter to 16 people
+    name: Großes Wohnhaus
+    description: Ein großes Wohnhaus - bietet Platz für 16 Personen
   maypole:
     name: Maibaum
     description: Ein hölzerner Pfahl, um den Maibaum-Tänze stattfinden. Temporär deaktiviert.
@@ -248,11 +248,11 @@ buildings:
     name: Kleiner Garten
     description: Ein kleiner Garten.
   mediumGarden:
-    name: Medium Garden
-    description: A medium-sized garden.
+    name: Mittlerer Garten
+    description: Ein mittelgroßer Garten.
   largeGarden:
-    name: Large Garden
-    description: A large garden.
+    name: Großer Garten
+    description: Ein großer Garten.
   stable:
     name: Stall
     descriptin: Züchtet Pferde
@@ -261,9 +261,9 @@ freebuild:
     name: Fernhaven
     description: Baut eine neue Burg auf den Ruinen einer antiken Stadt.
   grasslands:
-    name: Grasslands
+    name: Grasflächen
     description: |
-      Some plain grasslands.\nThis map doesn't really exist yet (placeholder), so it will load Fernhaven.
+      Flache Graslandschaften.\n Diese Karte existiert noch nicht (Platzhalter), daher wird Fernhaven geladen.
 rations:
   no:
     name: Keine Rationen
@@ -291,9 +291,9 @@ houses:
 taxes:
   no: Keine Steuern
   auto: Automatische Steuer
-  generousBribe: Generous Bribe
-  largeBribe: Large Bribe
-  smallBribe: Small Bribe
+  generousBribe: Großzügige Spende
+  largeBribe: Große Spende
+  smallBribe: Kleine Spende
   low: Niedrige Steuern
   avg: Normale Steuern
   high: Hohe Steuern
@@ -307,19 +307,19 @@ popularityText:
   fearFactor: Angstfaktor
   crowding: Bevölkerung
   religion: Religion
-  aleCoverage: Ale Coverage
-  enclosedKeep: Keep Enclosed
-  openKeep: Open Keep
+  aleCoverage: Bierversorgung
+  enclosedKeep: Festung abgeschlossen
+  openKeep: Festung offen
   popularity: Beliebtheit
-  inTheComingMonth: "In the coming month"
-  typesOfFoodConsumed: "%d types of food consumed"
+  inTheComingMonth: "Im kommenden Monat"
+  typesOfFoodConsumed: "%d Arten von Nahrungsmitteln verbraucht"
   foodInGranary: "%d Nahrungseinheiten im Kornspeicher"
 settings:
   categories:
     sound:
       button: Sound
-      title: SOUND LEVELS
-      description: Here you can change the sound levels of sound effects or speech to your liking.
+      title: LAUTSTÄRKE
+      description: Hier kann die Lautstärke angepasst werden.
       items:
         masterVolume: Gesamtlautstärke
         musicVolume: Musiklautstärke
@@ -329,29 +329,29 @@ settings:
       button: Grafik
       title: GRAFIKEINSTELLUNGEN
       description: |
-        Modify rendering quality, chunk size and toggle animations in order to balance performance.\n
+        Verändern der Renderqualität, Chunkgrößen und Aktivieren/Deaktivieren von Animationen um die Performance zu regeln.\n
       items:
         fullScreen: Vollbild
         borderless: Rahmenlos
         vsync: VSync
         resolution: Auflösung
-        display: Display
+        display: Anzeige
         apply: Anwenden
     hotkeys:
       button: Tastenkürzel
       title: Tastaturbelegung und Hotkeys
       description: |
-        Edit or add new keyboard hotkeys and shortcuts.\n
+        Verändern oder Hinzufügen neuer Tastenkürzel.\n
     video:
       button: Anzeige
       title: ANZEIGEEINSTELLUNGEN
       description: |
-        Change fullscreen settings, window resolution and toggle VSync.\n
+        Auflösung, Bildschirm- und VSync-Einstellungen.\n
     interface:
       button: Interface
       title: INTERFACEEINSTELLUNGEN
       description: |
-        Toggle interface elements and modify their scale.\n
+        Passen Sie Interface-Elemente an um und ändern Sie deren Größe.\n
       items:
         language: Sprache
   apply: Anwenden
@@ -369,9 +369,9 @@ objects:
     barracks: Klickt hier, um Einheiten zu rekrutieren
     engineersGuild: Klickt hier, um Belagerungseinheiten zu rekrutieren
     fortress: Klickt hier, um Steuern zu verwalten
-    granary: Click to manage food rations
+    granary: Klickt, um Nahrungsrationen zu verwalten
     keep: Klickt hier, um Steuern zu verwalten
-    market: Click to trade resources
+    market: Klickt, um Waren zu handeln
     saxonHall: Klickt hier, um eure Steuern zu verwalten
     stockpile: Klickt, um eure Ressourcen zu verwalten
     stoneBarracks: Klickt, um Einheiten zu rekrutieren
@@ -382,44 +382,44 @@ tips:
   buildMarket: Errichtet einen Markt, um zu handeln!
   cantTrade: Damit könnt ihr nicht handeln!
   notImplemented: Noch nicht implementiert.
-  increaseTradeQuantity: Increase quantity of items you want to trade by 5
-  decreaseTradeQuantity: Decrease quantity of items you want to trade by 5
+  increaseTradeQuantity: Erhöhe die Warenzahl um 5
+  decreaseTradeQuantity: Verringere die Warenzahl um 5
   actionBar:
     woodenStructures:
-      title: Wooden Structures
-      description: Towers, gates and walls.
+      title: Hölzerne Strukturen
+      description: Türme, Tore und Mauern.
     stoneStructures:
-      title: Stone Structures
-      description: Stronger towers, gates and walls.
+      title: Steinerne Strukturen
+      description: Stärkere Türme, Tore und Mauern.
   warning:
-    obstacle: There is an obstacle in the way!
+    obstacle: Ein Hindernis ist im Weg!
     tooCloseToKeep: Zu nah am Bergfried!
     cliffs: Kann nicht auf Klippen gebaut werden!
     water: Kann nicht auf Wasser gebaut werden!
     unevenTerrain: Kann nicht im unebenen Gelände gebaut werden!
     notEnoughResources: Nicht genügend Ressourcen!
     outOfBounds: Kann nicht außerhalb der Kartengrenzen gebaut werden!
-    adjacentStockpile: Needs to placed adjacent to a stockpile!
-    adjacentGranary: Needs to placed adjacent to a granary!
-    adjacentArmoury: Needs to placed adjacent to an armoury!
+    adjacentStockpile: Muss direkt ans Vorratslager gebaut werden!
+    adjacentGranary: Muss direkt an den Kornspeicher gebaut werden!
+    adjacentArmoury: Muss direkt an die Waffenkammer gebaut werden!
     onTopOfStone: Muss auf Stein errichtet werden!
     onTopOfIron: Muss auf einer Eisenerzader errichtet werden!
     unitsInTheWay: Es sind Einheiten im Weg!
     structuresInTheWay: Es sind Gebäude im Weg!
     needArmoury: Ihr benötigt eine Waffenkammer, um dies bauen zu können!
-    closeToQuarry: Needs to be placed close to an existing quarry!
+    closeToQuarry: Muss in die Nähe eines bestehenden Steinbruchs gebaut werden!
 ui:
   mainMenu:
     freebuild: Freies Bauen
     campaign: Kampagne
     load: Laden
     options: Optionen
-    exit: Exit
+    exit: Verlassen
   campaign:
     economicMissions: Wirtschaftsmissionen
   load:
     title: Spiel laden
-    saveName: Save name
+    saveName: Name des Spielstands
     map: Karte
     dateSaved: Speicherdatum
     version: Version

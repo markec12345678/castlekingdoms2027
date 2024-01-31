@@ -432,3 +432,16 @@ flour: mąka
 hop: chmiel
 tar: smoła
 ale: piwo
+months:
+  jan: Sty
+  feb: Lut
+  mar: Mar
+  apr: Kwi
+  may: Maj
+  jun: Cze
+  jul: Lip
+  aug: Sie
+  sep: Wrz
+  oct: Paź
+  nov: Lis
+  dec: Gru
