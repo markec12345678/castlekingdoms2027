@@ -477,8 +477,8 @@ function QuarryStack:initialize(gx, gy, parent)
     self.parent = parent
     self.quantity = 0
     Structure.initialize(self, gx, gy, mytype)
-    self.offsetX = 11
-    self.offsetY = -105
+    self.offsetX = 11 - 16
+    self.offsetY = -105 + 5 * 16 - 8
     self.animated = true
     self.animation = anim.newAnimation(an[ANIM_STACK], 0.11, nil, ANIM_STACK)
     self.animation:pause()
