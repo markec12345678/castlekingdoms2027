@@ -1,18 +1,19 @@
 local TimeController = _G.class("TimeController")
 local actionBar = require("states.ui.ActionBar")
+local SID = require("objects.Controllers.LanguageController").lines
 TimeController.static.TIME_MONTHS = {
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec"
+    SID.months.jan,
+    SID.months.feb,
+    SID.months.mar,
+    SID.months.apr,
+    SID.months.may,
+    SID.months.jun,
+    SID.months.jul,
+    SID.months.aug,
+    SID.months.sep,
+    SID.months.oct,
+    SID.months.nov,
+    SID.months.dec,
 }
 TimeController.static.TIME_INTERVAL = 30
 function TimeController:initialize()
