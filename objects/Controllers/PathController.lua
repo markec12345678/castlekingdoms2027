@@ -5,6 +5,7 @@ local PathController = _G.class('PathController')
 function PathController:initialize()
     self.paths = newAutotable(4)
     self.onPathFoundCallbacks = {}
+    self.rememberedPaths = {}
 end
 
 function PathController:requestPath(startx, starty, endx, endy)
@@ -39,8 +40,18 @@ function PathController:requestPathToMultipleGoalsWithWalkableTargetArea(centerx
     self.onPathFoundCallbacks[uuid] = onPathFoundCallback
 end
 
+local framesPassed = 0
+
 function PathController:update()
     local pathdata
+    framesPassed = framesPassed + 1
+    if framesPassed > 200 then
+        if #self.rememberedPaths > 1 then
+            local pathToForget = table.remove(self.rememberedPaths)
+            self.paths[pathToForget[1]][pathToForget[2]][pathToForget[3]][pathToForget[4]] = nil
+        end
+        framesPassed = 0
+    end
     repeat
         pathdata = _G.channel.receive:pop()
         if pathdata then
@@ -72,7 +83,8 @@ function PathController:getPath(startx, starty, endx, endy)
             return 2
         elseif type(self.paths[startx][starty][endx][endy]) == 'table' then
             local returnval = self.paths[startx][starty][endx][endy]
-            self.paths[startx][starty][endx][endy] = nil
+            self.rememberedPaths[#self.rememberedPaths + 1] = { startx, starty, endx, endy }
+            -- self.paths[startx][starty][endx][endy] = nil temporarily disabled
             return returnval
         end
     end
