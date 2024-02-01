@@ -355,7 +355,7 @@ settings:
       description: |
         Attiva/disattiva elementi di interfaccia e modifica la loro grandezza.\n
       items:
-        language: Language
+        language: Lingua
   apply: Applica
 recruitment:
   archer: Arciere
@@ -435,15 +435,15 @@ hop: luppolo
 tar: pece
 ale: birra
 months:
-  jan: Jan
+  jan: Gen
   feb: Feb
   mar: Mar
   apr: Apr
-  may: May
-  jun: Jun
-  jul: Jul
-  aug: Aug
-  sep: Sep
-  oct: Oct
+  may: Mag
+  jun: Giu
+  jul: Lug
+  aug: Ago
+  sep: Set
+  oct: Ott
   nov: Nov
-  dec: Dec
+  dec: Dic
