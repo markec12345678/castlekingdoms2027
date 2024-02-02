@@ -15,14 +15,14 @@ local ltn12 = require 'ltn12'
 -- not there
 local https
 local os = love.system.getOS()
-local ogpath = love.filesystem.getCRequirePath()
 if os == "Windows" or os == "Linux" then
-    love.filesystem.setCRequirePath("libraries/windows/??")
     local ok, val = pcall(require, "https")
     if ok then
+        print("https module loaded successfully")
         https = val
+    else
+        print("failed to load https module, will not error report")
     end
-    love.filesystem.setCRequirePath(ogpath)
 else
     print("os is not windows/linux, not sending sentry requests")
 end

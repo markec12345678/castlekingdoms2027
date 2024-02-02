@@ -11,7 +11,7 @@ _G.OPTIONS = {
     MUSIC_VOLUME = config.sound.music / 100
 }
 
-_G.version = "0.7.0-dev"
+_G.version = "0.6.0"
 _G.classes = {}
 _G.anim = require("libraries.anim8")
 _G.class = require("libraries.middleclass").class
