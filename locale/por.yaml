@@ -242,8 +242,8 @@ buildings:
     name: Grande Jardim
     description: Um grande jardim.
   stable:
-    name: Stable
-    descriptin: Produces horses
+    name: Estábulo
+    descriptin: Cria cavalos
 freebuild:
   fernhaven:
     name: Refúgio da Samambaia
@@ -305,33 +305,33 @@ popularityText:
 settings:
   categories:
     sound:
-      button: Sound
+      button: Som
       title: NÍVEIS DE SOM
       description: Aqui você pode mudar o volume dos efeitos sonoros ou conversas ao seu gosto.
       items:
-        masterVolume: Master volume
-        musicVolume: Music volume
-        soundVolume: Sound volume
-        speechVolume: Speech volume
+        masterVolume: Volume geral
+        musicVolume: Volume da música
+        soundVolume: Volume do efeito
+        speechVolume: Volume do diálogo
     graphics:
-      button: Graphics
+      button: Gráficos
       title: CONFIGURAÇÕES GRÁFICAS
       description: |
         Modifique a qualidade de renderização, tamanho de chunk e alterne as animações para equilibrar o desempenho.\n
       items:
-        fullScreen: Full Screen
-        borderless: Borderless
-        vsync: VSync
-        resolution: Resolution
-        display: Display
-        apply: Apply
+        fullScreen: Tela Cheia
+        borderless: Janela sem bordas
+        vsync: Sincronização vertical
+        resolution: Resolução
+        display: Tela
+        apply: Aplicar
     hotkeys:
-      button: Hotkeys
+      button: Teclas de Atalho
       title: CONTROLES  E ATALHOS DO TECLADO
       description: |
         Edite ou adicione novos controles e atalhos de teclado.\n
     video:
-      button: Video
+      button: Vídeo
       title: CONFIGURAÇÕES DE VÍDEO
       description: |
         Alterar configurações de tela cheia, resolução da janela e alternar o VSync.\n
@@ -341,8 +341,8 @@ settings:
       description: |
         Alterna os elementos da interface e modifique sua escala.\n
       items:
-        language: Language
-  apply: Apply
+        language: Linguagem
+  apply: Aplicar
 recruitment:
   archer: Arqueiro
   spearman: Lanceiro
@@ -398,19 +398,25 @@ tips:
     closeToQuarry: Precisa ser colocado perto de uma pedreira existente!
 ui:
   mainMenu:
-    freebuild: Freebuild
-    campaign: Campaign
-    load: Load
-    options: Options
-    exit: Exit
+    freebuild: Construção Livre
+    campaign: Campanha
+    load: Carregar
+    options: Opções
+    exit: Sair
   campaign:
-    economicMissions: Economic Missions
+    economicMissions: Missões Econômicas
   load:
-    title: Load Game
-    saveName: Save name
-    map: Map
-    dateSaved: Date saved
-    version: Version
+    title: Carregar Jogo
+    saveName: Nome do jogo salvo
+    map: Mapa
+    dateSaved: Data de Salvamento
+    version: Versão
+    states:
+      loadingTextures: Carregando texturas...
+      initializingTerrain: Inicializando o terreno...
+      updatingTerrain: Atualizando o terreno...
+      updatingObjects: Atualizando objetos...
+      renderingTerrain: Renderizando o terreno...
 gold: ouro
 wood: madeira
 stone: pedra
@@ -422,14 +428,14 @@ tar: piche
 ale: cerveja
 months:
   jan: Jan
-  feb: Feb
+  feb: Fev
   mar: Mar
-  apr: Apr
-  may: May
+  apr: Abr
+  may: Mai
   jun: Jun
   jul: Jul
-  aug: Aug
-  sep: Sep
-  oct: Oct
+  aug: Ago
+  sep: Set
+  oct: Out
   nov: Nov
-  dec: Dec
+  dec: Dez

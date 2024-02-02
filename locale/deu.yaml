@@ -423,6 +423,12 @@ ui:
     map: Karte
     dateSaved: Speicherdatum
     version: Version
+    states:
+      loadingTextures: Lade Texturen...
+      initializingTerrain: Gelände initialisieren...
+      updatingTerrain: Gelände aktualisieren...
+      updatingObjects: Objekte aktualisieren...
+      renderingTerrain: Gelände rendern...
 gold: Gold
 wood: Holz
 stone: Stein
@@ -435,13 +441,13 @@ ale: Bier
 months:
   jan: Jan
   feb: Feb
-  mar: Mar
+  mar: Mär
   apr: Apr
-  may: May
+  may: Mai
   jun: Jun
   jul: Jul
   aug: Aug
   sep: Sep
-  oct: Oct
+  oct: Okt
   nov: Nov
-  dec: Dec
+  dec: Dez
