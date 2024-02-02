@@ -255,7 +255,7 @@ buildings:
     description: Duży ogródek.
   stable:
     name: Stajnia
-    descriptin: Produces horses
+    descriptin: Produkuje konie
 freebuild:
   fernhaven:
     name: Fernhaven
@@ -423,6 +423,12 @@ ui:
     map: Mapa
     dateSaved: Data zapisu
     version: Wersja
+    states:
+      loadingTextures: Wczytywanie tekstur...
+      initializingTerrain: Inicjowanie terenu...
+      updatingTerrain: Aktualizowanie terenu...
+      updatingObjects: Aktualizowanie obiektów...
+      renderingTerrain: Rysowanie terenu...
 gold: złoto
 wood: drewno
 stone: kamień
