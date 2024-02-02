@@ -1,3 +1,61 @@
+# 0.6.0
+
+### New Buildings
+
+- **Wooden Perimeter Tower**: A small wooden defensive tower.
+- **Wooden Defensive Tower**: A large wooden defensive tower.
+- **Wooden Big Gate**: A bigger kind of wooden gate.
+- **Pich Rig**: Small platform to collect pitch from the swamp.
+- **Apothecary**: It creates a healer that wanders around. Temporarely not functional.
+- **Stable**: It produces horses. Temporarely not functional.
+
+### Gameplay
+
+- Added military units (they can only be moved around for now, there's no combat yet).
+- Switched popularity system to be more similar to Stronghold.
+- Buildings will now be unlocked by upgrading the keep.
+- Added ability to upgrade houses to increase the population.
+- Added priest worker for the chapel (he blesses buildings, but there's no popularity bonus yet).
+- Workers now leave their job when they're unhappy.
+- Added sleep feature to buildings.
+
+### Misc
+
+- Added new tree types: birch and chestnut.
+- Added [translations framework](https://crowdin.com/project/stone-kingdoms). Currently supported languages are German, Italian, Polish, Portuguese (BR) and Ukrainian. Contributions are welcome!
+- Changes some fonts to improves language support.
+- Extended soundtrack (check below for credits).
+- Added drunkard. They will wander around the inn and houses.
+- Added automatic crash reporting via Sentry.
+- Made woodcutter's tree finding algorithm smarter.
+- Added master volume slider in the settings.
+- Added a new main menu soundtrack.
+- Major overhaul of the graphics settings.
+- Added language picker to the menu.
+
+### Bug Fixes
+
+- Fixed workers not able to enter buildings when they're built next to other buildings.
+- Fixed an issue where you couldn't trade goods when you select them from the stockpile.
+- Fixed crash when completing the last mission in the campaign.
+- Fixed crash on load when having a Maypole.
+- Fixed crash on load when having an Inn.
+- Fixed Orchard farmer crash.
+- Fixed Chicken related crash.
+- Fixed not reloading prices at the market.
+- Fixed woodcutters getting stuck in various situations.
+- Fixed inaccurate gold counter when trading weapons.
+- Fixed multiple woodcutters chopping the same tree.
+- Fixed game music not stopping when return back to main menu.
+- Fixed crash loading a game with a windmill.
+- Fixed "cannot build" sounds not always playing.
+
+### Credits
+
+- Features additional art by Ho6org, Lord Steinhauer, Monsterfish and Zarentreuer Lenin.
+- Extended soundtrack was made by Alexander Nakarada, Kevin MacLeod & Random Mind. See `/sounds/music` for full attribution & licensing info.
+- Thanks to UCP team and Project Reconquista for technical support.
+
 # 0.5.0
 
 ### New Buildings

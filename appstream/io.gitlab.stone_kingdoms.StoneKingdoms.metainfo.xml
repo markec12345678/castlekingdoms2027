@@ -32,6 +32,21 @@
   <url type="help">https://discord.gg/PRh8SPZxEf</url>
 
   <releases>
+    <release version="0.6.0" date="2024-02-01">
+      <description>
+        <p>Military units, new buildings, translations and more!</p>
+        <p>Here are some of the highlights of this version:</p>
+        <ul>
+          <li>Military units: Archers, spearmen, monks and more.</li>
+          <li>New buildings: Apothecary, pich rig and new wooden defensive structures.</li>
+          <li>New soundtrack.</li>
+          <li>Translations.</li>
+        </ul>
+      </description>
+
+      <url>https://gitlab.com/stone-kingdoms/stone-kingdoms/-/blob/master/CHANGELOG.md#anchor-060</url>
+    </release>
+
     <release version="0.5.0" date="2023-05-30">
       <description>
         <p>This release contains many new features and bug fixes to make the experience more thrilling.</p>
