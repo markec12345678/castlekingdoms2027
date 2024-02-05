@@ -1,12 +1,12 @@
 mission1:
-  name: Timber and Stone
+  name: Bois et Pierre
   desc: |
-    In this mission, you will need to focus on gathering resources to develop your kingdom's infrastructure.
-    Your objective is to collect 50 units of wood and 20 units of stone within the next 5 years.\n
-    To achieve this, you will need to establish a network of woodcutter's huts and quarries to extract these resources from the surrounding environment.
-    This may involve the construction of stockpiles to store your resources.
+    Dans cette mission, vous devrez vous concentrer sur la récolte des ressources pour développer l'infrastructure de votre royaume.
+    Votre objectif est de collecter 50 unités de bois et 20 unités de pierre dans les 5 prochaines années.\n
+    Pour y arriver, vous devrez établir a réseau de cabanes de bûcheron et de carrières pour extraire ces ressources de l'environnement qui vous entoure.
+    Cela vous ammènera peut-être à construire des stocks pour stocker vos ressources.
 mission2:
-  name: Arms Race
+  name: Course à l'Armement
   desc: |
     In this mission, you will need to focus on developing a strong military to defend your kingdom against potential threats.
     Your objective is to produce 40 units each of bows, spears, maces, and armor within the next 20 years.\n
@@ -261,11 +261,11 @@ buildings:
 freebuild:
   fernhaven:
     name: Fernhaven
-    description: Build a new castle on the ruins of an ancient city.
+    description: Construisez un nouveau château sur les ruines d'une cité antique.
   grasslands:
-    name: Grasslands
+    name: Prairies
     description: |
-      Some plain grasslands.\nThis map doesn't really exist yet (placeholder), so it will load Fernhaven.
+      Quelques prairies plaines.\nCette carte n'existe pas vraiment pour le moment (placeholder), Fernhaven sera donc chargé.
 rations:
   no:
     name: No Rations
@@ -319,44 +319,44 @@ popularityText:
 settings:
   categories:
     sound:
-      button: Sound
-      title: SOUND LEVELS
-      description: Here you can change the sound levels of sound effects or speech to your liking.
+      button: Audio
+      title: NIVEAU SONORE
+      description: Vous pouvez ajuster ici le niveau sonore des effets sonores ou des voix à votre convenance.
       items:
-        masterVolume: Master volume
-        musicVolume: Music volume
-        soundVolume: Sound volume
-        speechVolume: Speech volume
+        masterVolume: Volume principal
+        musicVolume: Volume de la musique
+        soundVolume: Volume des sons
+        speechVolume: Volume des voix
     graphics:
-      button: Graphics
-      title: GRAPHIC SETTINGS
+      button: Graphismes
+      title: PARAMÈTRES GRAPHIQUES
       description: |
-        Modify rendering quality, chunk size and toggle animations in order to balance performance.\n
+        Modifier la qualité du rendu, la taille des tronçons et les animations afin d'équilibrer les performances.\n
       items:
-        fullScreen: Full Screen
-        borderless: Borderless
+        fullScreen: Plein écran
+        borderless: Sans bordure
         vsync: VSync
-        resolution: Resolution
-        display: Display
-        apply: Apply
+        resolution: Résolution
+        display: Affichage
+        apply: Appliquer
     hotkeys:
-      button: Hotkeys
-      title: KEYBOARD HOTKEYS & SHORTCUTS
+      button: Contrôles
+      title: CONTRÔLES DU CLAVIER & RACCOURCIS
       description: |
-        Edit or add new keyboard hotkeys and shortcuts.\n
+        Modifier ou ajouter de nouveaux contrôles du clavier et raccourcis.\n
     video:
-      button: Video
-      title: VIDEO SETTINGS
+      button: Vidéo
+      title: PARAMÈTRES VIDÉO
       description: |
-        Change fullscreen settings, window resolution and toggle VSync.\n
+        Modifiez les paramètres plein écran, la résolution de la fenêtre et l'activation du VSync.\n
     interface:
       button: Interface
-      title: INTERFACE SETTINGS
+      title: PARAMÈTRES DE L'INTERFACE
       description: |
-        Toggle interface elements and modify their scale.\n
+        Activez les éléments de l'interface et modifiez leur taille.\n
       items:
-        language: Language
-  apply: Apply
+        language: Langue
+  apply: Appliquer
 recruitment:
   archer: Archer
   spearman: Spearman
@@ -383,7 +383,7 @@ tips:
   notAvailableInMission: Not available in this mission
   buildMarket: Build a market to trade!
   cantTrade: You can't trade that!
-  notImplemented: Not implemented yet.
+  notImplemented: Pas encore disponible.
   increaseTradeQuantity: Increase quantity of items you want to trade by 5
   decreaseTradeQuantity: Decrease quantity of items you want to trade by 5
   actionBar:
@@ -412,11 +412,11 @@ tips:
     closeToQuarry: Needs to be placed close to an existing quarry!
 ui:
   mainMenu:
-    freebuild: Freebuild
-    campaign: Campaign
-    load: Load
-    options: Options
-    exit: Exit
+    freebuild: Bac à sable
+    campaign: Campagne
+    load: Charger
+    options: Paramètres
+    exit: Quitter
   campaign:
     economicMissions: Economic Missions
   load:
@@ -442,14 +442,14 @@ tar: pitch
 ale: ale
 months:
   jan: Jan
-  feb: Feb
+  feb: Fév
   mar: Mar
-  apr: Apr
-  may: May
-  jun: Jun
-  jul: Jul
-  aug: Aug
+  apr: Avr
+  may: Mai
+  jun: Juin
+  jul: Juil
+  aug: Aoû
   sep: Sep
   oct: Oct
   nov: Nov
-  dec: Dec
+  dec: Déc

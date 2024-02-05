@@ -410,7 +410,7 @@ tips:
     closeToQuarry: Musi być wybudowany blisko istniejącego kamieniołomu!
 ui:
   mainMenu:
-    freebuild: Freebuild
+    freebuild: Swobodna gra
     campaign: Kampania
     load: Wczytaj
     options: Opcje

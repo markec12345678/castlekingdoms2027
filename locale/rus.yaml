@@ -78,7 +78,7 @@ buildings:
     name: Яблоневый сад
     description: Produces apples.
   wheatFarm:
-    name: Wheat Farm
+    name: Пшеничная ферма
     description: Produces wheat which can be processed into flour.
   dairyFarm:
     name: Dairy Farm
