@@ -409,10 +409,14 @@ tips:
     needArmoury: Potrzebujesz zbrojowni, by to zbudować!
     closeToQuarry: Musi być wybudowany blisko istniejącego kamieniołomu!
 ui:
+  global:
+    start: Start
   mainMenu:
     freebuild: Swobodna gra
     campaign: Kampania
     load: Wczytaj
+    save: Save
+    resume: Resume
     options: Opcje
     exit: Wyjdź
   campaign:

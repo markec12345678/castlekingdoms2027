@@ -174,280 +174,284 @@ buildings:
     description: Kis platform a szurok összegyűjtésére a mocsárból.
   perimeterTower:
     name: Kerületi torony
-    description: A small perimeter tower - good for the observation.
+    description: Egy kis kerületi torony - jó a megfigyeléshez.
   defenseTower:
-    name: Defense Tower
-    description: A defense tower made for defense.
+    name: Védelmi torony
+    description: Védekezésre készült védőtorony.
   squareTower:
-    name: Square Tower
-    description: Crucial for your castle - you can place war machines on the top.
+    name: Négyzetes torony
+    description: Kulcsfontosságú a kastélyod számára – a tetejére hadigépeket helyezhetsz el.
   roundTower:
-    name: Round Tower
-    description: The strongest tower - you can place war machines on the top.
+    name: Kerek torony
+    description: A legerősebb torony – harci gépeket helyezhetsz el a tetején.
   stoneGateSouth:
-    name: Stone Gate South
-    description: A stone gate that can let friendly units pass through.
+    name: Déli kőkapu
+    description: Egy kőkapu, amelyen átengedik a barátságos egységeket.
   stoneGateEast:
-    name: Stone Gate East
-    description: A stone gate that can let friendly units pass through.
+    name: Keleti Kőkapu
+    description: Egy kőkapu, amelyen átengedik a barátságos egységeket.
   stoneGateEastBig:
-    name: Stone Gate Big East
-    description: A strong stone gate that can let friendly units pass through.
+    name: Keleti nagy kőkapu
+    description: Egy erős kőkapu, amelyen átengedik a barátságos egységeket.
   stoneGateSouthBig:
-    name: Stone Gate Big South
-    description: A strong stone gate that can let friendly units pass through.
+    name: Nagy déli kőkapu
+    description: Egy erős kőkapu, amelyen átengedik a barátságos egységeket.
   walkableWoodenWall:
-    name: Walkable WoodenWall
-    description: A defensive wall made that is walkable on the top.
+    name: Járható fa fal
+    description: A tetején járható védőfal készült.
   woodenTower:
-    name: Wooden Tower
-    description: A wooden tower that is missing some stairs apparently.
+    name: Fa torony
+    description: Egy fából készült torony, amiből látszólag hiányzik néhány lépcső.
   woodenGateEast:
-    name: Wooden Gate East
-    description: A wooden gate that can let friendly units pass through.
+    name: Keleti fa kapu
+    description: Egy fa kapu, amelyen átengedik a barátságos egységeket.
   woodenGateSouth:
-    name: Wooden Gate South
-    description: A wooden gate that can let friendly units pass through.
+    name: Déli fa kapu
+    description: Egy fa kapu, amelyen átengedik a barátságos egységeket.
   woodenGateEastBig:
-    name: Big Wooden Gate East
-    description: A wooden gate that can let friendly units pass through.
+    name: Keleti nagy fa kapu
+    description: Egy fa kapu, amelyen átengedik a barátságos egységeket.
   woodenGateSouthBig:
-    name: Big Wooden Gate South
-    description: A wooden gate that can let friendly units pass through.
+    name: Nagy déli fa kapu
+    description: Egy fa kapu, amelyen átengedik a barátságos egységeket.
   woodenPermimeterTower:
-    name: Wooden Perimeter Tower
-    description: A wooden tower that is missing some stairs apparently.
+    name: Fából készült peremtorony
+    description: Egy fából készült torony, amiből látszólag hiányzik néhány lépcső.
   woodenDefenseTower:
-    name: Wooden Defense Tower
-    description: A wooden tower that is missing some stairs apparently.
+    name: Fából készült védelmi torony
+    description: Egy fából készült torony, amiből látszólag hiányzik néhány lépcső.
   woodenWall:
-    name: Wooden Wall
-    description: A defensive wall made from sharpened tree trunks.
+    name: Fa fal
+    description: Kihegyezett fatörzsekből készült védőfal.
   hovel:
-    name: House
-    description: A small hut - gives shelter to 4 people.
+    name: Ház
+    description: Egy kis kunyhó - 4 embernek ad menedéket.
   flat:
-    name: Flat
-    description: A small, cosy flat - gives shelter to 8 people
+    name: Lakás
+    description: Kicsi, hangulatos lakás - 8 főnek ad menedéket
   residence:
-    name: Residence
-    description: A nice and elegant house - gives shelter to 12 peole.
+    name: Rezidencia
+    description: Egy szép, és elegáns ház - 12 főnek ad menedéket.
   bigResidence:
-    name: Big Residence
-    description: A big residence - gives shelter to 16 people
+    name: Nagy rezidencia
+    description: Nagy rezidencia - 16 embernek ad menedéket
   maypole:
-    name: Maypole
-    description: A tall wooden pole, around which a maypole dance often takes place. Temporarily disabled.
+    name: Májusfa
+    description: Egy magas fa oszlop, amely körül gyakran májusfa táncot járnak. Ideiglenesen letiltva.
   smallPond:
-    name: Small Pond
-    description: A small pond.
+    name: Kis tó
+    description: Egy kis tó.
   largePond:
-    name: Large Pond
-    description: A large pond.
+    name: Nagy tó
+    description: Egy nagy tó.
   smallGarden:
-    name: Small Garden
-    description: A small garden.
+    name: Kis kert
+    description: Egy kis kert.
   mediumGarden:
-    name: Medium Garden
-    description: A medium-sized garden.
+    name: Közepes kert
+    description: Egy közepes méretű kert.
   largeGarden:
-    name: Large Garden
-    description: A large garden.
+    name: Nagy kert
+    description: Egy nagy kert.
   stable:
-    name: Stable
-    descriptin: Produces horses
+    name: Istálló
+    descriptin: Lovakat tenyészt
 freebuild:
   fernhaven:
     name: Fernhaven
-    description: Build a new castle on the ruins of an ancient city.
+    description: Építs egy új kastélyt egy ősi város romjain.
   grasslands:
-    name: Grasslands
+    name: Gyepek
     description: |
-      Some plain grasslands.\nThis map doesn't really exist yet (placeholder), so it will load Fernhaven.
+      Néhány sima gyep.\nEz a térkép még nem igazán létezik (helyőrző), ezért Fernhavent fogja betölteni.
 rations:
   no:
-    name: No Rations
+    name: Nincs adag
     description: |
-      No rations for each worker.\nDecreases their happiness by 8.
+      Nincs adag minden dolgozónak.\n8-cal csökkenti a boldogságukat.
   half:
-    name: Half Rations
+    name: Fél adag
     description: |
-      0.5x rations for each worker.\nDecreases their happiness by 4.
+      0,5-szeres adag minden dolgozónak.\n4-gyel csökkenti a boldogságukat.
   full:
-    name: Full Rations
+    name: Teljes adag
     description: |
-      Normal rations for each worker.
+      Normál adag minden dolgozónak.
   extra:
-    name: Extra Rations
+    name: Extra adag
     description: |
-      1.5x rations for each worker.\nIncreases their happiness by 4.
+      1,5-szeres adag minden dolgozónak.\n4-gyel növeli a boldogságukat.
   double:
-    name: Double Rations
+    name: Dupla adag
     description: |
-      2x rations for each worker.\nIncreases their happiness by 8.
+      2-szeres adag minden dolgozónak.\n8-cal növeli a boldogságukat.
 houses:
-  upgradeButton: UPGRADE
-  description: Offers shelter to %s people
+  upgradeButton: Fejlesztés
+  description: '%s embernek nyújt menedéket'
 taxes:
-  no: No Tax
-  auto: Auto Tax
-  generousBribe: Generous Bribe
-  largeBribe: Large Bribe
-  smallBribe: Small Bribe
-  low: Low Taxes
-  avg: Average Taxes
-  high: High Taxes
-  mean: Mean Taxes
-  extra: Extortionate Taxes
-  downrightCruel: Downright Cruel Taxes
+  no: Nincs adó
+  auto: Automatikus adó
+  generousBribe: Nagylelkű kenőpénz
+  largeBribe: Nagy kenőpénz
+  smallBribe: Kis kenőpénz
+  low: Alacsony adók
+  avg: Átlagos adók
+  high: Magas adók
+  mean: Közepes adók
+  extra: Zsaroló adók
+  downrightCruel: Egyenesen kegyetlen adók
 popularityText:
-  total: Total
-  rations: Rations
-  taxes: Taxes
-  fearFactor: Fear factor
-  crowding: Crowding
-  religion: Religion
-  aleCoverage: Ale Coverage
-  enclosedKeep: Keep Enclosed
-  openKeep: Open Keep
-  popularity: Popularity
-  inTheComingMonth: "In the coming month"
-  typesOfFoodConsumed: "%d types of food consumed"
-  foodInGranary: "%d food in granary"
+  total: Összesen
+  rations: Adagok
+  taxes: Adók
+  fearFactor: Félelem faktor
+  crowding: Zsúfoltság
+  religion: Vallás
+  aleCoverage: Sör lefedettség
+  enclosedKeep: Zárva tartandó
+  openKeep: Nyitva tartás
+  popularity: Népszerűség
+  inTheComingMonth: "A következő hónapban"
+  typesOfFoodConsumed: "%d fajta elfogyasztott étel"
+  foodInGranary: "%d étel a magtárban"
 settings:
   categories:
     sound:
-      button: Sound
-      title: SOUND LEVELS
-      description: Here you can change the sound levels of sound effects or speech to your liking.
+      button: Hang
+      title: Hangerő
+      description: Itt tetszés szerint módosíthatod a hangeffektusok, vagy a beszéd hangerejét.
       items:
-        masterVolume: Master volume
-        musicVolume: Music volume
-        soundVolume: Sound volume
-        speechVolume: Speech volume
+        masterVolume: Fő hangerő
+        musicVolume: Zene hangerő
+        soundVolume: Hangok hangereje
+        speechVolume: Beszéd hangereje
     graphics:
-      button: Graphics
-      title: GRAPHIC SETTINGS
+      button: Grafika
+      title: Grafikus beállítások
       description: |
-        Modify rendering quality, chunk size and toggle animations in order to balance performance.\n
+        Módosítsd a renderelés minőségét, a darabok méretét, és kapcsold ki, vagy be az animációkat a teljesítmény kiegyensúlyozása érdekében.\n
       items:
-        fullScreen: Full Screen
-        borderless: Borderless
-        vsync: VSync
-        resolution: Resolution
-        display: Display
-        apply: Apply
+        fullScreen: Teljes képernyő
+        borderless: Határtalan
+        vsync: Függőleges képszinkronizálás
+        resolution: Felbontás
+        display: Kijelző
+        apply: Alkalmaz
     hotkeys:
-      button: Hotkeys
-      title: KEYBOARD HOTKEYS & SHORTCUTS
+      button: Gyorsbillentyűk
+      title: BILLENTYŰZET GYORSBILLENTYŰK & BILLENTYŰPARANCSOK
       description: |
-        Edit or add new keyboard hotkeys and shortcuts.\n
+        Szerkessz, vagy adj hozzá új gyorsbillentyűket és billentyűparancsokat.\n
     video:
-      button: Video
-      title: VIDEO SETTINGS
+      button: Videó
+      title: VIDEÓ BEÁLLÍTÁSOK
       description: |
-        Change fullscreen settings, window resolution and toggle VSync.\n
+        Módosítsd a teljes képernyős beállításokat, az ablakfelbontást, és kapcsold át a függőleges képszinkronizálást.\n
     interface:
-      button: Interface
-      title: INTERFACE SETTINGS
+      button: Felület
+      title: FELÜLET BEÁLLÍTÁSOK
       description: |
-        Toggle interface elements and modify their scale.\n
+        Váltsd át a felület elemeit, és módosítsd a léptéküket.\n
       items:
-        language: Language
-  apply: Apply
+        language: Nyelv
+  apply: Alkalmaz
 recruitment:
-  archer: Archer
-  spearman: Spearman
-  maceman: Maceman
-  crossbowman: Crossbowman
-  pikeman: Pikeman
-  swordsman: Swordsman
-  knight: Knight
-  availablePeasants: Available peasants
+  archer: Íjász
+  spearman: Dárdás
+  maceman: Buzogányos
+  crossbowman: Számszeríjász
+  pikeman: Lándzsás ember
+  swordsman: Kardforgató
+  knight: Lovag
+  availablePeasants: Elérhető parasztok
 objects:
   hoverText:
-    barracks: Click to recruit units
-    engineersGuild: Click to recruit siege units
-    fortress: Click to manage taxes
-    granary: Click to manage food rations
-    keep: Click to manage taxes
-    market: Click to trade resources
-    saxonHall: Click to manage taxes
-    stockpile: Click to manage resources
-    stoneBarracks: Click to recruit units
-    tunnelersGuild: Click to recruit tunnelers
+    barracks: Kattints az egységek toborzásához
+    engineersGuild: Kattints az ostrom egységek toborzásához
+    fortress: Kattints az adók kezeléséhez
+    granary: Kattints az ételadagok kezeléséhez
+    keep: Kattints az adók kezeléséhez
+    market: Kattints a nyersanyagok kereskedelméhez
+    saxonHall: Kattints az adók kezeléséhez
+    stockpile: Kattints a nyersanyagok kezeléséhez
+    stoneBarracks: Kattints az egységek toborzásához
+    tunnelersGuild: Kattints az alagútépítők toborzásához
 tips:
-  upgradeKeep: You need to upgrade your keep to build this
-  notAvailableInMission: Not available in this mission
-  buildMarket: Build a market to trade!
-  cantTrade: You can't trade that!
-  notImplemented: Not implemented yet.
-  increaseTradeQuantity: Increase quantity of items you want to trade by 5
-  decreaseTradeQuantity: Decrease quantity of items you want to trade by 5
+  upgradeKeep: Ennek felépítéséhez fejlesztened kell a tárolód
+  notAvailableInMission: Nem érhető el ebben a küldetésben
+  buildMarket: Építs piacot a kereskedéshez!
+  cantTrade: Ezzel nem kereskedhetsz!
+  notImplemented: Még nem valósult meg.
+  increaseTradeQuantity: 5-tel növeli a kereskedni kívánt cikkek számát
+  decreaseTradeQuantity: 5-tel csökkenti a kereskedni kívánt cikkek számát
   actionBar:
     woodenStructures:
-      title: Wooden Structures
-      description: Towers, gates and walls.
+      title: Fa szerkezetek
+      description: Tornyok, kapuk és falak.
     stoneStructures:
-      title: Stone Structures
-      description: Stronger towers, gates and walls.
+      title: Kő szerkezetek
+      description: Erősebb tornyok, kapuk és falak.
   warning:
-    obstacle: There is an obstacle in the way!
-    tooCloseToKeep: Too close to the keep!
-    cliffs: Cannot build on cliffs!
-    water: Cannot build on top of water!
-    unevenTerrain: Cannot build on too uneven terrain!
-    notEnoughResources: Not enough resources!
-    outOfBounds: Cannot build outside of map bounds!
-    adjacentStockpile: Needs to placed adjacent to a stockpile!
-    adjacentGranary: Needs to placed adjacent to a granary!
-    adjacentArmoury: Needs to placed adjacent to an armoury!
-    onTopOfStone: Needs to placed on top of stone!
-    onTopOfIron: Needs to placed on top of iron ore!
-    unitsInTheWay: There are units in the way!
-    structuresInTheWay: There are structures in the way!
-    needArmoury: You need an armoury to build this!
-    closeToQuarry: Needs to be placed close to an existing quarry!
+    obstacle: Útban van egy akadály!
+    tooCloseToKeep: Túl közel van a raktárhoz!
+    cliffs: Nem lehet sziklákra építeni!
+    water: Nem lehet vízre építeni!
+    unevenTerrain: Nem lehet túl egyenetlen terepen építeni!
+    notEnoughResources: Nincs elég nyersanyag!
+    outOfBounds: A térkép határain kívül nem építhető!
+    adjacentStockpile: Raktár mellett kell elhelyezni!
+    adjacentGranary: Magtár mellett kell elhelyezni!
+    adjacentArmoury: Fegyvertár mellett kell elhelyezni!
+    onTopOfStone: Kő tetejére kell helyezni!
+    onTopOfIron: Vasérc tetejére kell helyezni!
+    unitsInTheWay: Egységek vannak útban!
+    structuresInTheWay: Szerkezetek vannak útban!
+    needArmoury: Ennek felépítéséhez fegyvertárra van szükséged!
+    closeToQuarry: Meglévő kőbánya közelében kell elhelyezni!
 ui:
+  global:
+    start: Indítás
   mainMenu:
-    freebuild: Freebuild
-    campaign: Campaign
-    load: Load
-    options: Options
-    exit: Exit
+    freebuild: Szabad építés
+    campaign: Kampány
+    load: Betöltés
+    save: Mentés
+    resume: Folytatás
+    options: Lehetőségek
+    exit: Kilépés
   campaign:
-    economicMissions: Economic Missions
+    economicMissions: Gazdasági küldetések
   load:
-    title: Load Game
-    saveName: Save name
-    map: Map
-    dateSaved: Date saved
-    version: Version
+    title: Játék betöltése
+    saveName: Név mentése
+    map: Térkép
+    dateSaved: Mentés dátuma
+    version: Verzió
     states:
-      loadingTextures: Loading textures...
-      initializingTerrain: Initializing terrain...
-      updatingTerrain: Updating terrain...
-      updatingObjects: Updating objects...
-      renderingTerrain: Rendering terrain...
-gold: gold
-wood: wood
-stone: stone
-wheat: wheat
-iron: iron
-flour: flour
-hop: hops
-tar: pitch
-ale: ale
+      loadingTextures: Struktúrák betöltése...
+      initializingTerrain: Terep inicializálása...
+      updatingTerrain: Terep frissítése...
+      updatingObjects: Objektumok frissítése...
+      renderingTerrain: Terep renderelése...
+gold: arany
+wood: fa
+stone: kő
+wheat: gabona
+iron: vas
+flour: liszt
+hop: komló
+tar: szurok
+ale: sör
 months:
-  jan: Jan
-  feb: Feb
-  mar: Mar
-  apr: Apr
-  may: May
-  jun: Jun
-  jul: Jul
-  aug: Aug
-  sep: Sep
-  oct: Oct
-  nov: Nov
-  dec: Dec
+  jan: jan.
+  feb: febr.
+  mar: márc.
+  apr: ápr.
+  may: máj.
+  jun: jún.
+  jul: júl.
+  aug: aug.
+  sep: szept.
+  oct: okt.
+  nov: nov.
+  dec: dec.

@@ -397,10 +397,14 @@ tips:
     needArmoury: Você precisa de um arsenal para construir isso!
     closeToQuarry: Precisa ser colocado perto de uma pedreira existente!
 ui:
+  global:
+    start: Start
   mainMenu:
     freebuild: Construção Livre
     campaign: Campanha
     load: Carregar
+    save: Save
+    resume: Resume
     options: Opções
     exit: Sair
   campaign:

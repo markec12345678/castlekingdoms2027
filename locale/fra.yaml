@@ -30,7 +30,7 @@ mission4:
     Dans cette mission, votre but est d'accumuler une quantitée pharamineuse d'or.
     Contrairement à vos précédentes missions, il n'y a pas de limite de temps pour cet objectif, vous allez donc avoir la libertée de suivre vôtre propre rythme pour atteindre votre objectif.\n
     Pour réussir cela, vous aurez besoin de développer une économie forte par la construction et la gestion de vos marchés via les échanges et le commerce, et donc faire des décisions financières statégiques.\n
-    Gardez à l'esprit que votre succès dans cette mission va dépendre de vos habilitées à faire de bons investissements et gérer vos finances avec attention. 
+    Gardez à l'esprit que votre succès dans cette mission va dépendre de vos habilitées à faire de bons investissements et gérer vos finances avec attention.
     Vous allez avoir besoin de gérer vos ressources et de calculer les risques pour assurer la prospéritée de vôtre royaume. Bonne chance!
 mission5:
   name: La Foi dans l'Architecture
@@ -412,10 +412,14 @@ tips:
     needArmoury: Vous avez besoin d'une armurerie pour construire ceci!
     closeToQuarry: Nécessite d'être placé à proximité d'une carrière existante!
 ui:
+  global:
+    start: Start
   mainMenu:
     freebuild: Bac à sable
     campaign: Campagne
     load: Charger
+    save: Save
+    resume: Resume
     options: Paramètres
     exit: Quitter
   campaign:
