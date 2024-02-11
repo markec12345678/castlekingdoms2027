@@ -1,181 +1,179 @@
 mission1:
-  name: Timber and Stone
+  name: Faanyag és Kő
   desc: |
-    In this mission, you will need to focus on gathering resources to develop your kingdom's infrastructure.
-    Your objective is to collect 50 units of wood and 20 units of stone within the next 5 years.\n
-    To achieve this, you will need to establish a network of woodcutter's huts and quarries to extract these resources from the surrounding environment.
-    This may involve the construction of stockpiles to store your resources.
+    Ebben a küldetésben arra kell összpontosítanod, hogy erőforrásokat gyűjts a királyságod infrastruktúrájának fejlesztéséhez.
+    A cél az, hogy a következő 5 évben 50 egység fát és 20 egység követ gyűjts össze.\n
+    Ennek eléréséhez favágó kunyhók és kőbányák hálózatát kell létrehoznod, hogy kinyerd ezeket az erőforrásokat a környezetedből.
+    Ez magában foglalhatja az erőforrások tárolására szolgáló készletek felépítését is.
 mission2:
-  name: Arms Race
+  name: Fegyverkezési verseny
   desc: |
-    In this mission, you will need to focus on developing a strong military to defend your kingdom against potential threats.
-    Your objective is to produce 40 units each of bows, spears, maces, and armor within the next 20 years.\n
-    To achieve this, you will need to establish a robust metalworking industry to craft high-quality weapons and armor.
-    This may involve the construction of blacksmiths, workshops, and mines, as well as the recruitment of skilled craftsmen.\n
-    Keep in mind that your success in this mission will depend on your ability to balance your resources and prioritize your goals.
-    You will need to carefully manage your finances and make strategic decisions to ensure the safety and security of your kingdom. Good luck!
+    Ebben a küldetésben egy erős hadsereg kialakítására kell összpontosítanod, hogy meg tudd védeni a királyságod a lehetséges fenyegetésekkel szemben.
+    A cél az, hogy a következő 20 évben 40 darab íjat, lándzsát, buzogányt és páncélt állíts elő.\n
+    Ennek eléréséhez robusztus fémmegmunkáló ipart kell létrehoznod a kiváló minőségű fegyverek és páncélok készítéséhez.
+    Ez magában foglalhatja kovácsok, műhelyek és bányák építését, valamint szakképzett kézművesek toborzását.\n
+    Ne feledd, hogy a küldetésben elért sikered azon múlik, hogy képes vagy-e egyensúlyba hozni erőforrásaid és prioritást adni a céljaidnak.
+    Gondosan kell kezelned pénzügyeid, és stratégiai döntéseket kell hoznod, hogy biztosítsd királyságod biztonságát. Sok szerencsét!
 mission3:
-  name: Feast or famine
+  name: Ünnep vagy éhínség
   desc: |
-    In this mission, you will need to focus on food production to sustain your growing population. Your goal is to produce 250 units of bread,
-    100 units of meat,
-    200 units of cheese, and 250 units of apples within the next 20 years.\n
-    To achieve this, you will need to develop a robust agriculture system to grow crops and raise livestock. This will require the construction of farms, mills, and pastures, as well as the recruitment of skilled laborers.\n
-    In addition to food production, you will also need to consider the storage and distribution of these resources. This may involve building granaries and markets to store and sell your products.\n
-    Keep in mind that your success in this mission will depend on your ability to balance your resources and prioritize your goals. You will need to carefully manage your finances and make strategic decisions to ensure the prosperity of your kingdom. Good luck!
+    Ebben a küldetésben az élelmiszer termelésre kell összpontosítanod, hogy fenntartsd növekvő népességed. A célod, hogy a következő 20 évben előállíts 250 egység kenyeret, 100 egység húst, 200 egység sajtot, és 250 egység almát.\n
+    Ennek eléréséhez robusztus mezőgazdasági rendszert kell kidolgoznod a növénytermesztéshez és az állattenyésztéshez. Ehhez farmok, malmok és legelők építésére, valamint szakképzett munkaerő toborzására lesz szükséged.\n
+    Az élelmiszer-termelésen kívül, ezen erőforrások tárolását, és elosztását is figyelembe kell venned. Ez magában foglalhatja magtárak és piacok építését a termékek tárolására és értékesítésére.\n
+    Ne feledd, a küldetésben elért sikered azon múlik, hogy képes vagy-e egyensúlyba hozni erőforrásaid és prioritást adni a céljaidnak. Gondosan kell kezelned pénzügyeid, és stratégiai döntéseket kell hoznod, hogy biztosítsd birodalmad jólétét. Sok szerencsét!
 mission4:
-  name: The Kingdom's Fortune
+  name: A Királyság szerencséje
   desc: |
-    In this mission, your goal is to accumulate a substantial amount of wealth by acquiring 5000 units of gold.
-    Unlike previous missions, there is no time limit on this objective, so you will have the freedom to pursue your goals at your own pace.\n
-    To achieve this, you will need to develop a strong economy by building and managing workshops, investing in trade and commerce, and making strategic financial decisions.\n
-    Keep in mind that your success in this mission will depend on your ability to make wise investments and manage your finances carefully.
-    You will need to balance your resources and take calculated risks to ensure the prosperity of your kingdom. Good luck!
+    Ebben a küldetésben az a cél, hogy jelentős mennyiségű vagyont halmozz fel 5000 egység arany megszerzésével.
+    A korábbi küldetésekkel ellentétben ennek a célkitűzésnek nincs időkorlátja, így szabadon követheted céljaid a saját tempódban.\n
+    Ennek eléréséhez erős gazdaságot kell kialakítanod, műhelyek építésével és irányításával, kereskedelembe való befektetéssel, valamint stratégiai pénzügyi döntések meghozatalával.\n
+    Ne feledd, hogy a küldetésben elért sikered azon múlik, hogy képes vagy-e bölcs befektetésekre és gondosan kezelni pénzügyeid.
+    Ki kell egyensúlyoznod erőforrásaidat, és kiszámított kockázatokat kell vállalnod, hogy biztosítsd királyságod jólétét. Sok szerencsét!
 mission5:
-  name: Faith in Architecture
+  name: Az építészetbe vetett hit
   desc: |
-    In this mission, you will need to focus on constructing a grand cathedral to serve as the centerpiece of your kingdom's religious and cultural life.
-    Your objective is to build a cathedral within the next 10 years.\n
-    Keep in mind that your success in this mission will depend on your ability to manage a complex construction project and balance your resources effectively.
-    You will need to make strategic decisions and manage your time carefully to ensure the completion of your cathedral within the allotted timeframe. Good luck!
+    Ebben a küldetésben egy hatalmas katedrális felépítésére kell összpontosítanod, amely királyságod vallási és kulturális életének központi elemeként szolgálhat.
+    A célod egy katedrális felépítése a következő 10 éven belül.\n
+    Ne feledd, hogy a küldetésben elért sikered azon múlik, hogy képes vagy-e irányítani egy összetett építési projektet, és hatékonyan kiegyensúlyozni az erőforrásaid.
+    Stratégiai döntéseket kell hoznod, és gondosan kell beosztanod az időt annak érdekében, hogy a katedrális a megadott időkereten belül elkészüljön. Sok szerencsét!
 groups:
   castle:
-    name: Castle
-    description: Walls, Towers, Gates and everything else you need to defend your Stronghold.
+    name: Kastély
+    description: Falak, tornyok, kapuk és minden más, amire szükséged van, hogy megvédd az Erődöd.
   industry:
-    name: Industry
-    description: Build mighty Industries to defeat your enemies ... or fill your pockets.
+    name: Ipar
+    description: Építs hatalmas ipart, hogy legyőzd az ellenségeid... vagy töltsd meg a zsebeid.
   apple:
-    name: Farms
-    description: Produce basic agricultural products.
+    name: Gazdaságok
+    description: Alapvető mezőgazdasági termékek előállítása.
   house:
-    name: Civilian
-    description: Houses and amenities for your citizens.
+    name: Polgári
+    description: Házak és szolgáltatások az állampolgárok számára.
   shield:
-    name: Military
-    description: Raise mighty armies and build terrifying siege weapons to crush your enemies.
+    name: Katonaság
+    description: Hozz létre hatalmas hadseregeket, és építs félelmetes ostromfegyvereket, hogy legyűrd ellenségeidet.
   sickle:
-    name: Food Production
-    description: Turn basic farm products into high quality goods.
+    name: Élelmiszer termelés
+    description: Alakítsd át az alapvető mezőgazdasági termékeket kiváló minőségű árukká.
   destroy:
-    name: Demolish
-    description: Enter demolish mode. Click on a building to destroy.
-    exitTooltip: Exit Demolish Mode
+    name: Lebontás
+    description: Lépj be a bontási módba. Kattints egy épületre, hogy lerombold.
+    exitTooltip: Lépj ki a bontási módból
   houses:
-    name: Houses
-    description: Houses to increase your population limit.
+    name: Házak
+    description: Házak, hogy növeld a lakosságod létszám korlátját.
   goodThings:
-    name: Good things
-    description: Gardens, statues and entertainment to increase your popularity.
+    name: Jó dolgok
+    description: Kertek, szobrok és szórakozás a népszerűséged növelése érdekében.
 buildings:
   hunterHut:
-    name: Hunter's hut
-    description: Hunts deer in the environment for meat.
+    name: Vadász kunyhója
+    description: Szarvasra vadászik a környéken húsért.
   granary:
-    name: Granary
-    description: The granary is where you store your kingdom's food reserves.
+    name: Magtár
+    description: A magtárban tárolhatod a királyságod élelmiszertartalékait.
   orchard:
-    name: Orchard
-    description: Produces apples.
+    name: Gyümölcsöskert
+    description: Almát termel.
   wheatFarm:
-    name: Wheat Farm
-    description: Produces wheat which can be processed into flour.
+    name: Gabona farm
+    description: Búzát termel, amelyet lisztté lehet feldolgozni.
   dairyFarm:
-    name: Dairy Farm
-    description: Produces cheese.
+    name: Tejüzem
+    description: Sajtot termel.
   hopsFarm:
-    name: Hops Farm
-    description: Produces hops which can be processed into ale.
+    name: Komló ültetvény
+    description: Komlót termel, amelyből sört lehet előállítani.
   castle:
-    name: Saxon Hall
-    description: Your Saxon hall is the center of your castle.
+    name: Szász csarnok
+    description: A szász csarnok a kastélyod központja.
   stockpile:
-    name: Stockpile
+    name: Készlet
     description: |
-      Increases resource capacity.\nMust be placed adjacent to a stockpile.
+      Növeli az erőforráskapacitást.\nEgy raktár mellett kell elhelyezni.
   woodenKeep:
-    name: Wooden Keep
-    description: Upgrade your Saxon hall to a Wooden keep
+    name: Fa tároló
+    description: Fejleszd a szász csarnokod fa tárolóvá
   keep:
-    name: Keep
-    description: Upgrade your Wooden keep to a Stone keep
+    name: Tároló
+    description: Fejleszd a fa tárolód kő tárolóvá
   fortress:
-    name: Fortress
-    description: Upgrade your Stone keep to a Fortress
+    name: Erőd
+    description: Fejleszd a kő tárolód erőddé
   stronghold:
-    name: Stronghold
-    description: Upgrade your Fortress to a Stronghold (not supported yet)
+    name: Erődítmény
+    description: Fejleszd az erődöd erődítménnyé (még nem támogatott)
   barracks:
-    name: Barracks
-    description: A building allowing you to recruit units.
+    name: Laktanya
+    description: Egy épület, amely lehetővé teszi egységek toborzását.
   stoneBarracks:
-    name: Stone Barracks
-    description: A building allowing you to recruit units.
+    name: Kő laktanya
+    description: Egy épület, amely lehetővé teszi egységek toborzását.
   engineersGuild:
-    name: Engineers Guild
-    description: A building allowing you to recruit siege units.
+    name: Mérnökök Céhe
+    description: Egy épület, amely lehetővé teszi az ostromegységek toborzását.
   tunnelersGuild:
-    name: Tunnelers Guild
-    description: A building allowing you to recruit tunnelers.
+    name: Alagútépítők Céhe
+    description: Egy épület, amely lehetővé teszi alagútépítők toborzását.
   chapel:
-    name: Chapel
-    description: Increase your popularity with religion. Currently not functional.
+    name: Kápolna
+    description: Növeld népszerűséged a vallással. Jelenleg nem működőképes.
   church:
-    name: Church
-    description: Increase your popularity with religion. Currently not functional.
+    name: Templom
+    description: Növeld népszerűséged a vallással. Jelenleg nem működőképes.
   cathedral:
-    name: Cathedral
-    description: Increase your popularity with religion. Currently not functional.
+    name: Székesegyház
+    description: Növeld népszerűséged a vallással. Jelenleg nem működőképes.
   apothecary:
-    name: Apothecary
-    description: Currently not functional.
+    name: Patikus
+    description: Jelenleg nem működőképes.
   woodcutter:
-    name: Woodcutter Hut
-    description: Cuts down nearby trees to produce wood.
+    name: Favágó kunyhó
+    description: Kivágja a közeli fákat, hogy fát termeljen.
   ironMine:
-    name: Mine
-    description: Produces iron ingots from ground iron ore.
+    name: Bánya
+    description: Őrölt vasércből vasrudakat állít elő.
   market:
-    name: Market
-    description: Allows you to trade your goods.
+    name: Piac
+    description: Lehetővé teszi számodra az áruid kereskedelmét.
   ox:
-    name: Ox Tether
-    description: Transport stone from the quarry to the stockpile.
+    name: Ökörszíj
+    description: Kő szállítása a kőbányából a raktárba.
   quarry:
-    name: Quarry
-    description: Produces stone blocks from the ground resource.
+    name: Kőbánya
+    description: A földi erőforrásból kőtömböket állít elő.
   armoury:
-    name: Armoury
-    description: Weapons and armour is stored here, which is used by troops from the barracks upon recruitment.
+    name: Fegyvertár
+    description: Fegyvereket és páncélokat tárolnak itt, amelyeket a laktanyából érkező csapatok toborzásakor használnak.
   fletcher:
-    name: Fletcher Workshop
-    description: Produces bows and crossbows from wood.
+    name: Vesszőkészítő műhely
+    description: Fából íjakat és számszeríjakat gyárt.
   poleturner:
-    name: Poleturner Workshop
-    description: Produces spears and pikes from wood.
+    name: Rúdforgató műhely
+    description: Fából lándzsát és dárdát állít elő.
   blacksmith:
-    name: Blacksmith Workshop
-    description: Produces swords and maces from iron.
+    name: Kovácsműhely
+    description: Vasból kardot és buzogányt gyárt.
   armorer:
-    name: Armorer
-    description: Makes armor from iron.
+    name: Páncélos
+    description: Páncélt készít vasból.
   windmill:
-    name: Windmill
-    description: Processes wheat into flour.
+    name: Szélmalom
+    description: A búzát lisztté őrli.
   bakery:
-    name: Bakery
-    description: Processes flour into bread.
+    name: Pékség
+    description: Kenyeret süt a lisztből.
   brewery:
-    name: Brewery
-    description: Processes hops into ale.
+    name: Sörfőzde
+    description: Sört állít elő komlóból.
   inn:
-    name: Inn
-    description: Distributes ale.
+    name: Fogadó
+    description: Sört oszt.
   pitchRig:
-    name: Pitch Rig
-    description: Small platform to collect pitch from the swamp.
+    name: Szurokfúró torony
+    description: Kis platform a szurok összegyűjtésére a mocsárból.
   perimeterTower:
-    name: Perimeter Tower
+    name: Kerületi torony
     description: A small perimeter tower - good for the observation.
   defenseTower:
     name: Defense Tower

@@ -8,314 +8,315 @@ mission1:
 mission2:
   name: Course à l'Armement
   desc: |
-    In this mission, you will need to focus on developing a strong military to defend your kingdom against potential threats.
-    Your objective is to produce 40 units each of bows, spears, maces, and armor within the next 20 years.\n
-    To achieve this, you will need to establish a robust metalworking industry to craft high-quality weapons and armor.
-    This may involve the construction of blacksmiths, workshops, and mines, as well as the recruitment of skilled craftsmen.\n
-    Keep in mind that your success in this mission will depend on your ability to balance your resources and prioritize your goals.
-    You will need to carefully manage your finances and make strategic decisions to ensure the safety and security of your kingdom. Good luck!
+    Dans cette mission, vous allez devoir vous concentrer sur la constitution d'une grande armée pour défendre votre royaume contre de potentielles attaques.
+    Votre objectif est de produire des arcs, lances, masses et armure, pour 40 unités de chaque en 20 ans.\n
+    Pour réussir cela, vous allez avoir besoin d'établir une robuste industrie métallurgique pour fabriquer des armes et armures de haute qualité.
+    Cela peut induire la construction de forges, marchés et des mines, avec bien sûr le recrutement d'artisans compétant.\n
+    Gardez à l'esprit que votre succès dans cette mission va dépendre de vos habilitées à équilibrer vos ressources et prioriser vos buts.
+    Vous allez avoir besoin de faire attention à votre gestion des finances et de prendre des décisions stratégiques pour assurer la sécurité et la sureté de vôtre royaume. Bonne chance!
 mission3:
-  name: Feast or famine
+  name: Festin ou famine
   desc: |
-    In this mission, you will need to focus on food production to sustain your growing population. Your goal is to produce 250 units of bread,
-    100 units of meat,
-    200 units of cheese, and 250 units of apples within the next 20 years.\n
-    To achieve this, you will need to develop a robust agriculture system to grow crops and raise livestock. This will require the construction of farms, mills, and pastures, as well as the recruitment of skilled laborers.\n
-    In addition to food production, you will also need to consider the storage and distribution of these resources. This may involve building granaries and markets to store and sell your products.\n
-    Keep in mind that your success in this mission will depend on your ability to balance your resources and prioritize your goals. You will need to carefully manage your finances and make strategic decisions to ensure the prosperity of your kingdom. Good luck!
+    Dans cette mission, vous allez avoir besoin de vous concentrer sur la production de nourriture pour soutenir l'accroissement de votre population. Votre but est de produire 250 unités de pain,
+    100 unités de viande,
+    200 unités de fromage, et 250 unités de pomme en 20 ans.\n
+    Pour y parvenir, vous devrez développer un système agricole robuste en faisant pousser des cultures et en élevant du bétail.
+    Cela va requerir la construction de fermes, de moulins et de pâturages, avec biensûr le recrutement de fermiers experimentés.\n
+    En plus de la production de nourriture, vous allez aussi avoir besoin de considérer le stockage et la distribution de ces ressources. Ce qui peut induire la construction de greniers et de marchés pour stocker et vendre vos productions.\n
+    Gardez à l'esprit que votre succès dans cette mission va dépendre de vos habilitées dans la gestion de vos ressources et prioriser vos objectifs. Vous allez avoir besoin de gérer avec attention vos finances et prendre des décisions stratégiques pour assurer la prospéritée de vôtre royaume. Bonne chance!
 mission4:
-  name: The Kingdom's Fortune
+  name: La Fortune du Royaume
   desc: |
-    In this mission, your goal is to accumulate a substantial amount of wealth by acquiring 5000 units of gold.
-    Unlike previous missions, there is no time limit on this objective, so you will have the freedom to pursue your goals at your own pace.\n
-    To achieve this, you will need to develop a strong economy by building and managing workshops, investing in trade and commerce, and making strategic financial decisions.\n
-    Keep in mind that your success in this mission will depend on your ability to make wise investments and manage your finances carefully.
-    You will need to balance your resources and take calculated risks to ensure the prosperity of your kingdom. Good luck!
+    Dans cette mission, votre but est d'accumuler une quantitée pharamineuse d'or.
+    Contrairement à vos précédentes missions, il n'y a pas de limite de temps pour cet objectif, vous allez donc avoir la libertée de suivre vôtre propre rythme pour atteindre votre objectif.\n
+    Pour réussir cela, vous aurez besoin de développer une économie forte par la construction et la gestion de vos marchés via les échanges et le commerce, et donc faire des décisions financières statégiques.\n
+    Gardez à l'esprit que votre succès dans cette mission va dépendre de vos habilitées à faire de bons investissements et gérer vos finances avec attention. 
+    Vous allez avoir besoin de gérer vos ressources et de calculer les risques pour assurer la prospéritée de vôtre royaume. Bonne chance!
 mission5:
-  name: Faith in Architecture
+  name: La Foi dans l'Architecture
   desc: |
-    In this mission, you will need to focus on constructing a grand cathedral to serve as the centerpiece of your kingdom's religious and cultural life.
-    Your objective is to build a cathedral within the next 10 years.\n
-    Keep in mind that your success in this mission will depend on your ability to manage a complex construction project and balance your resources effectively.
-    You will need to make strategic decisions and manage your time carefully to ensure the completion of your cathedral within the allotted timeframe. Good luck!
+    Dans cette mission, vous allez vous devoir concentrer sur la construction d'une grande cathédrale pour servir de pièce centrale pour la religion et la vie culturelle de vôtre royaume.
+    Votre objectif est de construire une cathédrale en 10 ans.\n
+    Gardez en tête que votre succès dans cette mission va dépendre de vos habilitées à gérer un projet complexe de construction et d'avoir un équilibre de vos ressources efficace.
+    Vous allez avoir besoin de prendre des décisions stratégiques et de gérer votre temps avec attention pour être sûr de construire vôtre cathédrale dans le temps imparti. Bonne chance!
 groups:
   castle:
-    name: Castle
-    description: Walls, Towers, Gates and everything else you need to defend your Stronghold.
+    name: Château
+    description: Murs, Tours, Ponts et tout ce qui peut vous servir pour défendre vôtre donjon.
   industry:
-    name: Industry
-    description: Build mighty Industries to defeat your enemies ... or fill your pockets.
+    name: Industrie
+    description: Concevez une industrie forte for défaire vos ennemis... Ou remplir vos poches.
   apple:
-    name: Farms
-    description: Produce basic agricultural products.
+    name: Fermes
+    description: Produisez les produits basiques de l'agriculture.
   house:
-    name: Civilian
-    description: Houses and amenities for your citizens.
+    name: Constructions Civiles
+    description: Des maisons et des aménagements pour vos citoyens.
   shield:
-    name: Military
-    description: Raise mighty armies and build terrifying siege weapons to crush your enemies.
+    name: Armée
+    description: Élevez de puissantes armées et construisez des engins de sièges terrifiants pour annihiler vos ennemis.
   sickle:
-    name: Food Production
-    description: Turn basic farm products into high quality goods.
+    name: Production Alimentaire
+    description: Transformez des produits fermiers basiques en produits de grande qualité.
   destroy:
-    name: Demolish
-    description: Enter demolish mode. Click on a building to destroy.
-    exitTooltip: Exit Demolish Mode
+    name: Démolir
+    description: Entrer dans le mode Démolition. Cliquez sur un bâtiment pour le détruire.
+    exitTooltip: Sortir du mode Démolition
   houses:
-    name: Houses
-    description: Houses to increase your population limit.
+    name: Masures
+    description: Des maisons pour agrandir votre limite de population.
   goodThings:
-    name: Good things
-    description: Gardens, statues and entertainment to increase your popularity.
+    name: Bonnes choses
+    description: Jardins, statues et loisirs pour augmenter vôtre popularité.
 buildings:
   hunterHut:
-    name: Hunter's hut
-    description: Hunts deer in the environment for meat.
+    name: Cabane de chasseurs
+    description: Chassent les cerfs pour leur viande.
   granary:
-    name: Granary
-    description: The granary is where you store your kingdom's food reserves.
+    name: Grenier
+    description: Le grenier est l'endroit où votre nourriture sera stocker pour les réserves du royaume.
   orchard:
-    name: Orchard
-    description: Produces apples.
+    name: Pommeraies
+    description: Produit des pommes.
   wheatFarm:
-    name: Wheat Farm
-    description: Produces wheat which can be processed into flour.
+    name: Champs de blé
+    description: Produit du blé permettant de produire de la farine.
   dairyFarm:
-    name: Dairy Farm
-    description: Produces cheese.
+    name: Fromagerie
+    description: Produit du fromage.
   hopsFarm:
-    name: Hops Farm
-    description: Produces hops which can be processed into ale.
+    name: Fermes à Houblon
+    description: Cultive du Houblon permettant de produire de la bière.
   castle:
-    name: Saxon Hall
-    description: Your Saxon hall is the center of your castle.
+    name: Salle des Saxons
+    description: La salle des Saxons est le centre de vôtre château.
   stockpile:
-    name: Stockpile
+    name: Réserve
     description: |
-      Increases resource capacity.\nMust be placed adjacent to a stockpile.
+      Augmente l'espace pour les ressources.\nDoit être placer à coter d'une autre réserve.
   woodenKeep:
-    name: Wooden Keep
-    description: Upgrade your Saxon hall to a Wooden keep
+    name: Maison Forte en Bois
+    description: Amélioriez votre Salle des Saxons en une forteresse en bois
   keep:
-    name: Keep
-    description: Upgrade your Wooden keep to a Stone keep
+    name: Maison Forte en Pierre
+    description: Améliorez votre Forteresse en bois en Forteresse en pierre
   fortress:
-    name: Fortress
-    description: Upgrade your Stone keep to a Fortress
+    name: Forteresse
+    description: Améliorez votre Maison forte en pierre en Forteresse
   stronghold:
-    name: Stronghold
-    description: Upgrade your Fortress to a Stronghold (not supported yet)
+    name: Donjon
+    description: Amélioriez votre Forteresse en Donjon (pas encore supporter)
   barracks:
-    name: Barracks
-    description: A building allowing you to recruit units.
+    name: Caserne
+    description: Une construction permettant de recruter des troupes.
   stoneBarracks:
-    name: Stone Barracks
-    description: A building allowing you to recruit units.
+    name: Caserne en Pierre
+    description: Une construction permettant de recruter des troupes.
   engineersGuild:
-    name: Engineers Guild
-    description: A building allowing you to recruit siege units.
+    name: Guilde des Ingénieurs
+    description: Une construction permettant de recruter des unités de siège.
   tunnelersGuild:
-    name: Tunnelers Guild
-    description: A building allowing you to recruit tunnelers.
+    name: Guilde des Tunneliers
+    description: Une construction permettant de recruter des tunneliers.
   chapel:
-    name: Chapel
-    description: Increase your popularity with religion. Currently not functional.
+    name: Chapelle
+    description: Augmenter la foi de vôtre population. Actuellement non fonctionnel.
   church:
-    name: Church
-    description: Increase your popularity with religion. Currently not functional.
+    name: Église
+    description: Augmenter la foi de vôtre population. Actuellement non fonctionnel.
   cathedral:
-    name: Cathedral
-    description: Increase your popularity with religion. Currently not functional.
+    name: Cathédrale
+    description: Augmenter la foi de vôtre population. Actuellement non fonctionnel.
   apothecary:
-    name: Apothecary
-    description: Currently not functional.
+    name: Apothicaire
+    description: Pas fonctionnel actuellement.
   woodcutter:
-    name: Woodcutter Hut
-    description: Cuts down nearby trees to produce wood.
+    name: Cabane de Bûcheron
+    description: Coupe les arbres les plus proches pour produire du bois.
   ironMine:
     name: Mine
-    description: Produces iron ingots from ground iron ore.
+    description: Produit des lingots de fer à partir de minerais de fer.
   market:
-    name: Market
-    description: Allows you to trade your goods.
+    name: Marché
+    description: Permet le marchandage de vos biens.
   ox:
-    name: Ox Tether
-    description: Transport stone from the quarry to the stockpile.
+    name: Attache à Bœufs
+    description: Transporte la pierre des carrières de pierre vers la réserve.
   quarry:
-    name: Quarry
-    description: Produces stone blocks from the ground resource.
+    name: Carrière
+    description: Produit des blocs de pierre depuis les ressources des sols.
   armoury:
-    name: Armoury
-    description: Weapons and armour is stored here, which is used by troops from the barracks upon recruitment.
+    name: Armurerie
+    description: Les armées et armures sont stockés ici, et utilisés par les troupes produites à la caserne.
   fletcher:
-    name: Fletcher Workshop
-    description: Produces bows and crossbows from wood.
+    name: Atelier d'Arcs et Arbalètes
+    description: Produit des arcs et des arbalètes à partir de bois.
   poleturner:
-    name: Poleturner Workshop
-    description: Produces spears and pikes from wood.
+    name: Atelier de Tourneur de Perches
+    description: Produit des lances et des piques à partir de bois.
   blacksmith:
-    name: Blacksmith Workshop
-    description: Produces swords and maces from iron.
+    name: Atelier de Forgeron
+    description: Produit des épées et des masses à partir de fer.
   armorer:
-    name: Armorer
-    description: Makes armor from iron.
+    name: Armurier
+    description: Fabrique des armures à partir de fer.
   windmill:
-    name: Windmill
-    description: Processes wheat into flour.
+    name: Moulin à Vent
+    description: Transforme le blé en farine.
   bakery:
-    name: Bakery
-    description: Processes flour into bread.
+    name: Boulangerie
+    description: Produit du pain à partir de farine.
   brewery:
-    name: Brewery
-    description: Processes hops into ale.
+    name: Brasserie
+    description: Produit des tonneaux de bière à partir de houblon.
   inn:
-    name: Inn
-    description: Distributes ale.
+    name: Auberge
+    description: Distribue de la bière.
   pitchRig:
-    name: Pitch Rig
-    description: Small platform to collect pitch from the swamp.
+    name: Récolteur de Braie
+    description: Petite plateforme collectant des pots de brais à partir des marais.
   perimeterTower:
-    name: Perimeter Tower
-    description: A small perimeter tower - good for the observation.
+    name: Tour Périphérique
+    description: Une petite tour périphérique - bonne pour de l'observation.
   defenseTower:
-    name: Defense Tower
-    description: A defense tower made for defense.
+    name: Tour de Défense
+    description: Une tour de défense faite pour de la défense.
   squareTower:
-    name: Square Tower
-    description: Crucial for your castle - you can place war machines on the top.
+    name: Tour Carrée
+    description: Cruciales pour votre château - vous pouvez placer des engins de guerres dessus.
   roundTower:
-    name: Round Tower
-    description: The strongest tower - you can place war machines on the top.
+    name: Tour Ronde
+    description: La tour la plus solide - vous pouvez placer un engin de guerre dessus.
   stoneGateSouth:
-    name: Stone Gate South
-    description: A stone gate that can let friendly units pass through.
+    name: Porte en Pierre Sud
+    description: Une porte en pierre qui laisse passer les unités amies passer.
   stoneGateEast:
-    name: Stone Gate East
-    description: A stone gate that can let friendly units pass through.
+    name: Porte en Pierre Est
+    description: Une porte en pierre qui laisse passer les unités amies passer.
   stoneGateEastBig:
-    name: Stone Gate Big East
-    description: A strong stone gate that can let friendly units pass through.
+    name: Grande Porte en Pierre Est
+    description: Une solide et grande porte en pierre qui laisse passer les unités amies.
   stoneGateSouthBig:
-    name: Stone Gate Big South
-    description: A strong stone gate that can let friendly units pass through.
+    name: Grande Porte en Pierre Sud
+    description: Une solide et grande porte en pierre qui laisse passer les unités amies.
   walkableWoodenWall:
-    name: Walkable WoodenWall
-    description: A defensive wall made that is walkable on the top.
+    name: Murs en Bois Praticable
+    description: Un mur défensif en bois praticable.
   woodenTower:
-    name: Wooden Tower
-    description: A wooden tower that is missing some stairs apparently.
+    name: Tour en Bois
+    description: Une tour en bois dont il manque apparemment les escaliers.
   woodenGateEast:
-    name: Wooden Gate East
-    description: A wooden gate that can let friendly units pass through.
+    name: Porte en Bois Est
+    description: Une Porte en bois qui laisse passer les unités amies.
   woodenGateSouth:
-    name: Wooden Gate South
-    description: A wooden gate that can let friendly units pass through.
+    name: Porte en Bois Sud
+    description: Une Porte en bois qui laisse passer les unités amies.
   woodenGateEastBig:
-    name: Big Wooden Gate East
-    description: A wooden gate that can let friendly units pass through.
+    name: Grande Porte en Bois Est
+    description: Une Porte en bois qui laisse passer les unités amies.
   woodenGateSouthBig:
-    name: Big Wooden Gate South
-    description: A wooden gate that can let friendly units pass through.
+    name: Grande Porte en Bois Sud
+    description: Une Porte en bois qui laisse passer les unités amies.
   woodenPermimeterTower:
-    name: Wooden Perimeter Tower
-    description: A wooden tower that is missing some stairs apparently.
+    name: Tour périphérique en Bois
+    description: Une tour en bois dont il manque apparemment les escaliers.
   woodenDefenseTower:
-    name: Wooden Defense Tower
-    description: A wooden tower that is missing some stairs apparently.
+    name: Tour de Défense en Bois
+    description: Une tour en bois dont il manque apparemment les escaliers.
   woodenWall:
-    name: Wooden Wall
-    description: A defensive wall made from sharpened tree trunks.
+    name: Murs en bois
+    description: Un mur défensif fait de troncs d'arbres coupés.
   hovel:
-    name: House
-    description: A small hut - gives shelter to 4 people.
+    name: Masure
+    description: Une petite hutte - abrite 4 personnes.
   flat:
-    name: Flat
-    description: A small, cosy flat - gives shelter to 8 people
+    name: Maisonnée
+    description: Une petite maisonnée confortable - abrite 8 personnes.
   residence:
-    name: Residence
-    description: A nice and elegant house - gives shelter to 12 peole.
+    name: Résidence
+    description: Une belle et élégante maison - abrite 12 personnes.
   bigResidence:
-    name: Big Residence
-    description: A big residence - gives shelter to 16 people
+    name: Grande Résidence
+    description: Une grande résidence spacieuse - abrite 16 personnes.
   maypole:
-    name: Maypole
-    description: A tall wooden pole, around which a maypole dance often takes place. Temporarily disabled.
+    name: Arbre de Mai
+    description: Une haute poutre en bois, où des dances d'arbres de mai prennent place. Temporairement désactiver.
   smallPond:
-    name: Small Pond
-    description: A small pond.
+    name: Petit étang
+    description: Un petit étang verdoyant.
   largePond:
-    name: Large Pond
-    description: A large pond.
+    name: Grand étang
+    description: Un grand étang reposant.
   smallGarden:
-    name: Small Garden
-    description: A small garden.
+    name: Petit Jardin
+    description: Un petit jardin.
   mediumGarden:
-    name: Medium Garden
-    description: A medium-sized garden.
+    name: Jardin Standard
+    description: Un jardin de taille standard.
   largeGarden:
-    name: Large Garden
-    description: A large garden.
+    name: Grand Jardin
+    description: Un grand jardin.
   stable:
-    name: Stable
-    descriptin: Produces horses
+    name: Étable
+    descriptin: Produit des chevaux
 freebuild:
   fernhaven:
-    name: Fernhaven
-    description: Construisez un nouveau château sur les ruines d'une cité antique.
+    name: Carte de verdure
+    description: Construisez un nouveau château sur les ruines d'une ancienne cité.
   grasslands:
     name: Prairies
     description: |
-      Quelques prairies plaines.\nCette carte n'existe pas vraiment pour le moment (placeholder), Fernhaven sera donc chargé.
+      Quelques prairies vertes\nCette carte n'existe pas encore (placeholder), il va donc charger Fernhaven.
 rations:
   no:
-    name: No Rations
+    name: Pas de rations
     description: |
-      No rations for each worker.\nDecreases their happiness by 8.
+      Pas des rations pour chaque travailleur.\nBaisse leur bonheur de 8.
   half:
-    name: Half Rations
+    name: Demi-Rations
     description: |
-      0.5x rations for each worker.\nDecreases their happiness by 4.
+      0.5x de rations pour chaque travailleur.\nBaisse leur bonheur de 4.
   full:
-    name: Full Rations
+    name: Ration Normale
     description: |
-      Normal rations for each worker.
+      Ration normale pour chaque travailleur.
   extra:
-    name: Extra Rations
+    name: Ration Supplémentaire
     description: |
-      1.5x rations for each worker.\nIncreases their happiness by 4.
+      1.5x de rations pour chaque travailleur.\nAugmente leur bonheur de 4.
   double:
-    name: Double Rations
+    name: Double-Ration
     description: |
-      2x rations for each worker.\nIncreases their happiness by 8.
+      2x de rations pour chaque travailleur.\nAugmente leur bonheur de 8.
 houses:
-  upgradeButton: UPGRADE
-  description: Offers shelter to %s people
+  upgradeButton: AMELIORER
+  description: Offre un abri à %s personnes
 taxes:
-  no: No Tax
-  auto: Auto Tax
-  generousBribe: Generous Bribe
-  largeBribe: Large Bribe
-  smallBribe: Small Bribe
-  low: Low Taxes
-  avg: Average Taxes
-  high: High Taxes
-  mean: Mean Taxes
-  extra: Extortionate Taxes
-  downrightCruel: Downright Cruel Taxes
+  no: Pas de Taxes
+  auto: Taxes Automatiques
+  generousBribe: Pot-de-vin Généreux
+  largeBribe: Grand Pot-de-vin
+  smallBribe: Petit Pot-de-vin
+  low: Faibles Impôts
+  avg: Impôts Moyens
+  high: Impôts élevés
+  mean: Impôts Importants
+  extra: Impôts Exorbitants
+  downrightCruel: Impôts Cruels
 popularityText:
   total: Total
   rations: Rations
-  taxes: Taxes
-  fearFactor: Fear factor
-  crowding: Crowding
+  taxes: Impôts
+  fearFactor: Facteur de Peur
+  crowding: Encombrement
   religion: Religion
-  aleCoverage: Ale Coverage
-  enclosedKeep: Keep Enclosed
-  openKeep: Open Keep
-  popularity: Popularity
-  inTheComingMonth: "In the coming month"
-  typesOfFoodConsumed: "%d types of food consumed"
-  foodInGranary: "%d food in granary"
+  aleCoverage: Couverture de Bière
+  enclosedKeep: Porte Fermée
+  openKeep: Porte Ouverte
+  popularity: Popularité
+  inTheComingMonth: "Arrive dans un mois"
+  typesOfFoodConsumed: "%d types de nourritures consommées"
+  foodInGranary: "%d de nourriture dans le grenier"
 settings:
   categories:
     sound:
@@ -359,57 +360,57 @@ settings:
   apply: Appliquer
 recruitment:
   archer: Archer
-  spearman: Spearman
-  maceman: Maceman
-  crossbowman: Crossbowman
-  pikeman: Pikeman
-  swordsman: Swordsman
-  knight: Knight
-  availablePeasants: Available peasants
+  spearman: Lancier
+  maceman: Massier
+  crossbowman: Arbalétrier
+  pikeman: Piquier
+  swordsman: Spadassins
+  knight: Chevaliers
+  availablePeasants: Paysans disponibles
 objects:
   hoverText:
-    barracks: Click to recruit units
-    engineersGuild: Click to recruit siege units
-    fortress: Click to manage taxes
-    granary: Click to manage food rations
-    keep: Click to manage taxes
-    market: Click to trade resources
-    saxonHall: Click to manage taxes
-    stockpile: Click to manage resources
-    stoneBarracks: Click to recruit units
-    tunnelersGuild: Click to recruit tunnelers
+    barracks: Cliquez pour recruter des unités
+    engineersGuild: Cliquez pour recruter des unités de siège
+    fortress: Cliquez pour gérer les impôts
+    granary: Cliquez pour gérer les rations de nourriture
+    keep: Cliquez pour gérer les impôts
+    market: Cliquez pour marchander des ressources
+    saxonHall: Cliquez pour gérer les impôts
+    stockpile: Cliquez pour gérer les ressources
+    stoneBarracks: Cliquez pour recruter des unités
+    tunnelersGuild: Cliquez pour recruter tunneliers
 tips:
-  upgradeKeep: You need to upgrade your keep to build this
-  notAvailableInMission: Not available in this mission
-  buildMarket: Build a market to trade!
-  cantTrade: You can't trade that!
+  upgradeKeep: Vous devez améliorer votre donjon pour construire cela
+  notAvailableInMission: Pas disponible dans cette mission
+  buildMarket: Construisez un marché pour échanger!
+  cantTrade: Vous ne pouvez pas marchander cela!
   notImplemented: Pas encore disponible.
-  increaseTradeQuantity: Increase quantity of items you want to trade by 5
-  decreaseTradeQuantity: Decrease quantity of items you want to trade by 5
+  increaseTradeQuantity: Augmente la quantité d'éléments que vous voulez échanger par 5
+  decreaseTradeQuantity: Diminue la quantité d'éléments que vous voulez échanger par 5
   actionBar:
     woodenStructures:
-      title: Wooden Structures
-      description: Towers, gates and walls.
+      title: Structures en Bois
+      description: Tours, portes et murs.
     stoneStructures:
-      title: Stone Structures
-      description: Stronger towers, gates and walls.
+      title: Structures en Pierre
+      description: Tours, portes et murs solides.
   warning:
-    obstacle: There is an obstacle in the way!
-    tooCloseToKeep: Too close to the keep!
-    cliffs: Cannot build on cliffs!
-    water: Cannot build on top of water!
-    unevenTerrain: Cannot build on too uneven terrain!
-    notEnoughResources: Not enough resources!
-    outOfBounds: Cannot build outside of map bounds!
-    adjacentStockpile: Needs to placed adjacent to a stockpile!
-    adjacentGranary: Needs to placed adjacent to a granary!
-    adjacentArmoury: Needs to placed adjacent to an armoury!
-    onTopOfStone: Needs to placed on top of stone!
-    onTopOfIron: Needs to placed on top of iron ore!
-    unitsInTheWay: There are units in the way!
-    structuresInTheWay: There are structures in the way!
-    needArmoury: You need an armoury to build this!
-    closeToQuarry: Needs to be placed close to an existing quarry!
+    obstacle: Il y a un obstacle sur l'emplacement!
+    tooCloseToKeep: Trop proche du donjon!
+    cliffs: Impossible de construire sur les falaises!
+    water: Impossible de construire sur l'eau!
+    unevenTerrain: Impossible de construire sur un terrain trop irrégulier!
+    notEnoughResources: Pas assez de ressources!
+    outOfBounds: Impossible de construire en dehors des limites de la carte!
+    adjacentStockpile: Nécessite d'être placé à côté d'une réserve!
+    adjacentGranary: Nécessite d'être placé à côté d'un grenier!
+    adjacentArmoury: Nécessite d'être placé à côté d'une armurerie!
+    onTopOfStone: Doit être placé sur de la pierre !
+    onTopOfIron: Doit d'être placé sur du minerai de fer!
+    unitsInTheWay: Il y a des unités sur le chemin!
+    structuresInTheWay: Il y a des structures sur le chemin!
+    needArmoury: Vous avez besoin d'une armurerie pour construire ceci!
+    closeToQuarry: Nécessite d'être placé à proximité d'une carrière existante!
 ui:
   mainMenu:
     freebuild: Bac à sable
@@ -418,28 +419,28 @@ ui:
     options: Paramètres
     exit: Quitter
   campaign:
-    economicMissions: Economic Missions
+    economicMissions: Missions Économiques
   load:
-    title: Load Game
-    saveName: Save name
-    map: Map
-    dateSaved: Date saved
+    title: Chargement de Partie
+    saveName: Nom de sauvegarde
+    map: Carte
+    dateSaved: Date enregistrée
     version: Version
     states:
-      loadingTextures: Loading textures...
-      initializingTerrain: Initializing terrain...
-      updatingTerrain: Updating terrain...
-      updatingObjects: Updating objects...
-      renderingTerrain: Rendering terrain...
-gold: gold
-wood: wood
-stone: stone
-wheat: wheat
-iron: iron
-flour: flour
-hop: hops
-tar: pitch
-ale: ale
+      loadingTextures: Chargement des textures...
+      initializingTerrain: Initialisation du terrain...
+      updatingTerrain: Mise à jour du terrain...
+      updatingObjects: Mise à jour des objets...
+      renderingTerrain: Rendu du terrain...
+gold: or
+wood: bois
+stone: pierre
+wheat: blé
+iron: fer
+flour: farine
+hop: houblon
+tar: braie
+ale: bière
 months:
   jan: Jan
   feb: Fév
