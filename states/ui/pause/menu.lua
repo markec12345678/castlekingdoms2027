@@ -3,6 +3,7 @@ local loveframes = require("libraries.loveframes")
 local states = require("states.ui.states")
 local base = require("states.ui.base")
 local bitser = require("libraries.bitser")
+local SID = require("objects.Controllers.LanguageController").lines
 local w, h = base.w, base.h
 local PAUSE_MENU_SCALE = 50
 local backgroundImage = love.graphics.newImage("assets/ui/menu_flag.png")
@@ -21,6 +22,10 @@ menuBg:SetState(states.STATE_PAUSE_MENU)
 menuBg:SetImage(backgroundImage)
 menuBg:SetOffsetX(menuBg:GetImageWidth() / 2)
 local scale = (h.percent[PAUSE_MENU_SCALE]) / backgroundImage:getHeight()
+
+local baseWidth = 198 * scale
+local baseHeight = math.min(53 * scale, 53)
+
 menuBg:SetScale(scale, scale)
 menuBg:SetPos(w.percent[50], 0)
 
@@ -45,124 +50,63 @@ loveframes.TogglePause = function()
     end
 end
 
-local resumeImage = love.graphics.newImage("assets/ui/button_resume.png")
-local resumeImageHover = love.graphics.newImage("assets/ui/button_resume_hover.png")
-local resumeImageDown = love.graphics.newImage("assets/ui/button_resume_down.png")
-local resume = loveframes.Create("image")
+local resume = loveframes.Create("button")
 resume:SetState(states.STATE_PAUSE_MENU)
-resume:SetImage(resumeImage)
-resume:SetScaleX(frMenu.width / resume:GetImageWidth())
-resume:SetScaleY(resume:GetScaleX())
 resume:SetPos(frMenu.x, frMenu.y)
-resume.OnMouseEnter = function(self)
-    self:SetImage(resumeImageHover)
-end
-resume.OnMouseDown = function(self)
-    self:SetImage(resumeImageDown)
-end
+resume:SetSize(baseWidth, baseHeight)
+resume:SetText(SID.ui.mainMenu.resume)
+resume:SetSkin("StoneKingdoms")
 resume.OnClick = function(self)
     loveframes.TogglePause()
 end
-resume.OnMouseExit = function(self)
-    self:SetImage(resumeImage)
-end
 
-local saveImage = love.graphics.newImage("assets/ui/button_save.png")
-local saveImageHover = love.graphics.newImage("assets/ui/button_save_hover.png")
-local saveImageDown = love.graphics.newImage("assets/ui/button_save_down.png")
-local SaveManager = require("objects.Controllers.SaveManager")
-local save = loveframes.Create("image")
+local save = loveframes.Create("button")
 save:SetState(states.STATE_PAUSE_MENU)
-save:SetImage(saveImage)
-save:SetScaleX(frMenu.width / save:GetImageWidth())
-save:SetScaleY(save:GetScaleX())
-save:SetPos(frMenu.x, frMenu.y + saveImage:getHeight() * save:GetScaleX() + 2 * 10 * save:GetScaleX())
-save.OnMouseEnter = function(self)
-    if _G.BuildController.start then return end
-    self:SetImage(saveImageHover)
-end
-save.OnMouseDown = function(self)
-    if _G.BuildController.start then return end
-    self:SetImage(saveImageDown)
-end
+save:SetPos(frMenu.x, frMenu.y + baseHeight + 2 * 10 * scale)
+save:SetSize(baseWidth, baseHeight)
+save:SetText(SID.ui.mainMenu.save)
+save:SetSkin("StoneKingdoms")
 save.OnClick = function(self)
     if _G.BuildController.start then return end
     _G.playSpeech("General_Saving")
+    local SaveManager = require("objects.Controllers.SaveManager")
     SaveManager:save()
     loveframes.TogglePause()
 end
-save.OnMouseExit = function(self)
-    self:SetImage(saveImage)
-end
 
-local optionsImage = love.graphics.newImage("assets/ui/button_options.png")
-local optionsImageHover = love.graphics.newImage("assets/ui/button_options_hover.png")
-local optionsImageDown = love.graphics.newImage("assets/ui/button_options_down.png")
-local options = loveframes.Create("image")
+local options = loveframes.Create("button")
 options:SetState(states.STATE_PAUSE_MENU)
-options:SetImage(optionsImage)
-options:SetScaleX(frMenu.width / options:GetImageWidth())
-options:SetScaleY(options:GetScaleX())
-options:SetPos(frMenu.x, frMenu.y + optionsImage:getHeight() * options:GetScaleX() * 2 + 3 * 10 * options:GetScaleX())
-options.OnMouseEnter = function(self)
-    self:SetImage(optionsImageHover)
-end
-options.OnMouseDown = function(self)
-    self:SetImage(optionsImageDown)
-end
+options:SetPos(frMenu.x, frMenu.y + baseHeight * 2 + 3 * 10 * scale)
+options:SetSize(baseWidth, baseHeight)
+options:SetText(SID.ui.mainMenu.options)
+options:SetSkin("StoneKingdoms")
 options.OnClick = function(self)
     loveframes.SetState(states.STATE_SETTINGS)
 end
-options.OnMouseExit = function(self)
-    self:SetImage(optionsImage)
-end
 
-local loadImage = love.graphics.newImage("assets/ui/button_load.png")
-local loadImageHover = love.graphics.newImage("assets/ui/button_load_hover.png")
-local loadImageDown = love.graphics.newImage("assets/ui/button_load_down.png")
-local load = loveframes.Create("image")
+local load = loveframes.Create("button")
 load:SetState(states.STATE_PAUSE_MENU)
-load:SetImage(loadImage)
-load:SetScaleX(frMenu.width / load:GetImageWidth())
-load:SetScaleY(load:GetScaleX())
-load:SetPos(frMenu.x, frMenu.y + loadImage:getHeight() * load:GetScaleX() * 3 + 4 * 10 * load:GetScaleX())
-load.OnMouseEnter = function(self)
-    self:SetImage(loadImageHover)
-end
-load.OnMouseDown = function(self)
-    self:SetImage(loadImageDown)
-end
+load:SetPos(frMenu.x, frMenu.y + baseHeight * 3 + 4 * 10 * scale)
+load:SetSize(baseWidth, baseHeight)
+load:SetText(SID.ui.mainMenu.load)
+load:SetSkin("StoneKingdoms")
 load.OnClick = function(self)
     loveframes.SetState(states.STATE_MAIN_MENU_LOAD_SAVE)
+    local SaveManager = require("objects.Controllers.SaveManager")
     SaveManager:updateInterface(true)
 end
-load.OnMouseExit = function(self)
-    self:SetImage(loadImage)
-end
 
-local exitImage = love.graphics.newImage("assets/ui/button_exit.png")
-local exitImageHover = love.graphics.newImage("assets/ui/button_exit_hover.png")
-local exitImageDown = love.graphics.newImage("assets/ui/button_exit_down.png")
-local exit = loveframes.Create("image")
+local exit = loveframes.Create("button")
 exit:SetState(states.STATE_PAUSE_MENU)
-exit:SetImage(exitImage)
-exit:SetScaleX(frMenu.width / exit:GetImageWidth())
-exit:SetScaleY(exit:GetScaleX())
-exit:SetPos(frMenu.x, frMenu.y + exitImage:getHeight() * exit:GetScaleX() * 4 + 4 * 10 * exit:GetScaleX() * 2)
-exit.OnMouseEnter = function(self)
-    self:SetImage(exitImageHover)
-end
-exit.OnMouseDown = function(self)
-    self:SetImage(exitImageDown)
-end
+exit:SetPos(frMenu.x, frMenu.y + baseHeight * 4 + 4 * 10 * scale * 2)
+exit:SetSize(baseWidth, baseHeight)
+exit:SetText(SID.ui.mainMenu.exit)
+exit:SetSkin("StoneKingdoms")
 exit.OnClick = function(self)
     loveframes.TogglePause()
     if _G.state then _G.state:destroy() end
     local menu = require("states.start_menu")
     Gamestate.switch(menu)
-end
-exit.OnMouseExit = function(self)
-    self:SetImage(exitImage)
 end
 
 return frMenu

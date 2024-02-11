@@ -35,7 +35,6 @@ freebuildButton.OnClick = function(self)
     loveframes.SetState(states.STATE_FREE_BUILD_WINDOW)
 end
 
-local optionsImage = love.graphics.newImage("assets/ui/button_options.png")
 local campaignButton = loveframes.Create("button")
 campaignButton:SetState(states.STATE_MAIN_MENU)
 campaignButton:SetPos(frMenu.x, frMenu.y)

@@ -5,6 +5,7 @@ local base = require("states.ui.base")
 local states = require("states.ui.states")
 local config = require("config_file")
 local Events = require("objects.Enums.Events")
+local SID = require("objects.Controllers.LanguageController").lines
 
 local bitser = require("libraries.bitser")
 local path = "CampaignData.bin"
@@ -26,17 +27,12 @@ windowTitleText:SetPos(frames["frTitle"].x, frames["frTitle"].y)
 windowTitleText:SetShadowColor(0.35, 0.3, 0.26, 1)
 
 local frStartButton = frames["frStart"]
-local buttonStartImage = love.graphics.newImage("assets/ui/freebuild/start.png")
-local buttonStartHoverImage = love.graphics.newImage("assets/ui/freebuild/start_hover.png")
-local buttonStart = loveframes.Create("image")
+local buttonStart = loveframes.Create("button")
 buttonStart:SetState(states.STATE_ECONOMIC_MISSION_PICKER)
-buttonStart:SetImage(buttonStartImage)
-buttonStart:SetScaleX(frStartButton.width / buttonStartImage:getWidth())
-buttonStart:SetScaleY(buttonStart:GetScaleX())
 buttonStart:SetPos(frStartButton.x, frStartButton.y)
-buttonStart.OnMouseEnter = function(self)
-    buttonStart:SetImage(buttonStartHoverImage)
-end
+buttonStart:SetSize(frStartButton.width * scale, math.min(53, 53 * scale))
+buttonStart:SetText(SID.ui.global.start)
+buttonStart:SetSkin("StoneKingdoms")
 buttonStart.OnClick = function(self)
     _G.playSpeech("General_Loading")
     _G.loaded = false
@@ -50,9 +46,6 @@ buttonStart.OnClick = function(self)
     local game = require("states.game")
     local SaveManager = require("objects.Controllers.SaveManager")
     Gamestate.switch(game, SaveManager.defaultMap.name)
-end
-buttonStart.OnMouseExit = function(self)
-    buttonStart:SetImage(buttonStartImage)
 end
 buttonStart:SetVisible(false)
 

@@ -14,17 +14,12 @@ windowTitleText:SetPos(frames["frTitle"].x, frames["frTitle"].y)
 windowTitleText:SetShadowColor(0.35, 0.3, 0.26, 1)
 
 local frStartButton = frames["frStart"]
-local buttonStartImage = love.graphics.newImage("assets/ui/freebuild/start.png")
-local buttonStartHoverImage = love.graphics.newImage("assets/ui/freebuild/start_hover.png")
-local buttonStart = loveframes.Create("image")
+local buttonStart = loveframes.Create("button")
 buttonStart:SetState(states.STATE_FREE_BUILD_WINDOW)
-buttonStart:SetImage(buttonStartImage)
-buttonStart:SetScaleX(frStartButton.width / buttonStartImage:getWidth())
-buttonStart:SetScaleY(buttonStart:GetScaleX())
 buttonStart:SetPos(frStartButton.x, frStartButton.y)
-buttonStart.OnMouseEnter = function(self)
-    buttonStart:SetImage(buttonStartHoverImage)
-end
+buttonStart:SetSize(frStartButton.width * scale, math.min(53, 53 * scale))
+buttonStart:SetText(SID.ui.global.start)
+buttonStart:SetSkin("StoneKingdoms")
 buttonStart.OnClick = function(self)
     _G.playSpeech("General_Loading")
     _G.loaded = false
@@ -38,10 +33,8 @@ buttonStart.OnClick = function(self)
     local SaveManager = require("objects.Controllers.SaveManager")
     Gamestate.switch(game, SaveManager.defaultMap.name)
 end
-buttonStart.OnMouseExit = function(self)
-    buttonStart:SetImage(buttonStartImage)
-end
 buttonStart:SetVisible(false)
+
 
 local titleText = loveframes.Create("text")
 titleText:SetState(states.STATE_FREE_BUILD_WINDOW)
