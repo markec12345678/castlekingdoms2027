@@ -7,6 +7,8 @@ local an = require("objects.Animations.Maceman")
 
 local Maceman = _G.class("Maceman", Soldier)
 
+Maceman.static.SELECTED_SOUNDS = { _G.fx["Maceman_Selected_1"], _G.fx["Maceman_Selected_2"], _G.fx["Maceman_Selected_3"], _G.fx["Maceman_Selected_4"], _G.fx
+    ["Maceman_Selected_5"], _G.fx["Maceman_Selected_6"] }
 Maceman.static.MOVE_SOUNDS = { _G.fx["Maceman_Move_1"], _G.fx["Maceman_Move_2"], _G.fx["Maceman_Move_3"] }
 Maceman.static.MOVE_INACCESSIBLE_SOUND = _G.fx["Maceman_Move_Inaccessible"]
 

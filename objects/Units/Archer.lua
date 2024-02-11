@@ -7,6 +7,7 @@ local an = require("objects.Animations.Archer")
 
 local Archer = _G.class("Archer", Soldier)
 
+Archer.static.SELECTED_SOUNDS = { _G.fx["Archer_Selected_1"], _G.fx["Archer_Selected_2"], _G.fx["Archer_Selected_3"], _G.fx["Archer_Selected_4"], _G.fx["Archer_Selected_5"], _G.fx["Archer_Selected_6"] }
 Archer.static.MOVE_SOUNDS = { _G.fx["Archer_Move_1"], _G.fx["Archer_Move_2"], _G.fx["Archer_Move_3"] }
 Archer.static.MOVE_INACCESSIBLE_SOUND = _G.fx["Archer_Move_Inaccessible"]
 

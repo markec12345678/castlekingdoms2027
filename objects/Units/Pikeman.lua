@@ -7,6 +7,8 @@ local an = require("objects.Animations.Pikeman")
 
 local Pikeman = _G.class("Pikeman", Soldier)
 
+Pikeman.static.SELECTED_SOUNDS = { _G.fx["Pikeman_Selected_1"], _G.fx["Pikeman_Selected_2"], _G.fx["Pikeman_Selected_3"], _G.fx["Pikeman_Selected_4"], _G.fx
+    ["Pikeman_Selected_5"], _G.fx["Pikeman_Selected_6"] }
 Pikeman.static.MOVE_SOUNDS = { _G.fx["Pikeman_Move_1"], _G.fx["Pikeman_Move_2"], _G.fx["Pikeman_Move_3"] }
 Pikeman.static.MOVE_INACCESSIBLE_SOUND = _G.fx["Pikeman_Move_Inaccessible"]
 

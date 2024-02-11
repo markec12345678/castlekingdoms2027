@@ -231,7 +231,7 @@ end
 --- @param obj table
 --- @param sfx table
 --- @param disallowMultipleSources? boolean Allow multiple effects to play simultaneously
-function _G.playSfx(obj, sfx, disallowMultipleSources)
+function _G.playSfx(obj, sfx, disallowMultipleSources, pitchNum)
     if type(sfx) == "table" then
         sfx = sfx[math.random(#sfx)]
     end
@@ -243,7 +243,7 @@ function _G.playSfx(obj, sfx, disallowMultipleSources)
     sfx:setRelative(false)
     sfx:setPosition((obj.x + (obj.cx - obj.cy) * _G.chunkWidth * _G.tileWidth * 0.5) / 100,
         (obj.y + (obj.cx + obj.cy) * _G.chunkHeight * _G.tileHeight * 0.5) / 100, 4.1)
-    sfx:setPitch(1 + love.math.random(-10, 10) / 100)
+    sfx:setPitch(pitchNum or (1 + love.math.random(-10, 10) / 100))
     sfx:play()
 end
 
@@ -270,7 +270,6 @@ function _G.playSpeech(speech)
     local sfx = speechFx[speech]
     local _, volumeLimit = sfx:getVolumeLimits()
     sfx:setVolume((_G.OPTIONS.SPEECH_VOLUME * volumeLimit) * _G.OPTIONS.MASTER_VOLUME)
-    sfx:setPitch(1 + love.math.random(-5, 5) / 100)
     sfx:play()
 end
 

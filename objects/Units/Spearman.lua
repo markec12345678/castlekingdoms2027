@@ -7,6 +7,8 @@ local an = require("objects.Animations.Spearman")
 
 local Spearman = _G.class("Spearman", Soldier)
 
+Spearman.static.SELECTED_SOUNDS = { _G.fx["Spearman_Selected_1"], _G.fx["Spearman_Selected_2"], _G.fx["Spearman_Selected_3"], _G.fx["Spearman_Selected_4"], _G.fx
+    ["Spearman_Selected_5"], _G.fx["Spearman_Selected_6"] }
 Spearman.static.MOVE_SOUNDS = { _G.fx["Spearman_Move_1"], _G.fx["Spearman_Move_2"], _G.fx["Spearman_Move_3"] }
 Spearman.static.MOVE_INACCESSIBLE_SOUND = _G.fx["Spearman_Move_Inaccessible"]
 
