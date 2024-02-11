@@ -411,10 +411,14 @@ tips:
     needArmoury: You need an armoury to build this!
     closeToQuarry: Needs to be placed close to an existing quarry!
 ui:
+  global:
+    start: Start
   mainMenu:
     freebuild: Freebuild
     campaign: Campaign
     load: Load
+    save: Save
+    resume: Resume
     options: Options
     exit: Exit
   campaign:

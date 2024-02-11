@@ -409,10 +409,14 @@ tips:
     needArmoury: Ihr benötigt eine Waffenkammer, um dies bauen zu können!
     closeToQuarry: Muss in die Nähe eines bestehenden Steinbruchs gebaut werden!
 ui:
+  global:
+    start: Start
   mainMenu:
     freebuild: Freies Bauen
     campaign: Kampagne
     load: Laden
+    save: Save
+    resume: Resume
     options: Optionen
     exit: Verlassen
   campaign:

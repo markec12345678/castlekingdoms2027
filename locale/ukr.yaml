@@ -412,10 +412,14 @@ tips:
     needArmoury: Щоб побудувати це, вам потрібна зброярня!
     closeToQuarry: Потрібно розташувати поблизу існуючого кар'єру!
 ui:
+  global:
+    start: Start
   mainMenu:
     freebuild: Freebuild
     campaign: Campaign
     load: Load
+    save: Save
+    resume: Resume
     options: Options
     exit: Exit
   campaign:

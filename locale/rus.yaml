@@ -409,10 +409,14 @@ tips:
     needArmoury: Вам нужна оружейная, чтобы построить это!
     closeToQuarry: Нужно разместить рядом с каменоломней!
 ui:
+  global:
+    start: Start
   mainMenu:
     freebuild: Свободное строительство
     campaign: Кампания
     load: Загрузить
+    save: Save
+    resume: Resume
     options: Настройки
     exit: Выход
   campaign:

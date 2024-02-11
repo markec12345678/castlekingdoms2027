@@ -411,10 +411,14 @@ tips:
     needArmoury: Hai bisogno di un'armeria per costruirlo!
     closeToQuarry: Deve essere posizionato vicino a una cava esistente!
 ui:
+  global:
+    start: Start
   mainMenu:
     freebuild: Costruzione Libera
     campaign: Campagna
     load: Carica
+    save: Save
+    resume: Resume
     options: Opzioni
     exit: Esci
   campaign:
