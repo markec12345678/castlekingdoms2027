@@ -76,11 +76,12 @@ function Soldier:gotoUserWaypoint(gx, gy, waypointFloat, callback)
     if not pathfindable then
         print("Soldier: can't go there my lord")
         if self.class.MOVE_INACCESSIBLE_SOUND and not self.class.MOVE_INACCESSIBLE_SOUND:isPlaying() then
-            _G.playSfx(self, self.class.MOVE_INACCESSIBLE_SOUND, true)
+            _G.playSfx(self, self.class.MOVE_INACCESSIBLE_SOUND, true, 1)
         end
         if callback then callback() end
         return
     end
+    if callback then self.pathFoundCallback = callback end
     if #self.class.MOVE_SOUNDS > 0 then
         local randomNumber = math.random(1, #self.class.MOVE_SOUNDS)
         local isPlaying = false
@@ -91,16 +92,17 @@ function Soldier:gotoUserWaypoint(gx, gy, waypointFloat, callback)
             end
         end
         if not isPlaying then
-            _G.playSfx(self, self.class.MOVE_SOUNDS[randomNumber], true)
+            _G.playSfx(self, self.class.MOVE_SOUNDS[randomNumber], true, 1)
         end
     end
-    if callback then self.pathFoundCallback = callback end
     self.waypointFloat = waypointFloat
     self.state = "Waiting to go to waypoint"
 end
 
 function Soldier:onClick()
     _G.selectedUnit = self
+    local randomNumber = math.random(1, #self.class.SELECTED_SOUNDS)
+    _G.playSfx(self, self.class.SELECTED_SOUNDS[randomNumber], true, 1)
 end
 
 function Soldier:update()

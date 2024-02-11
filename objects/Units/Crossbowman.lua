@@ -7,6 +7,8 @@ local an = require("objects.Animations.Crossbowman")
 
 local Crossbowman = _G.class("Crossbowman", Soldier)
 
+Crossbowman.static.SELECTED_SOUNDS = { _G.fx["Crossbowman_Selected_1"], _G.fx["Crossbowman_Selected_2"], _G.fx["Crossbowman_Selected_3"], _G.fx["Crossbowman_Selected_4"], _G.fx
+    ["Crossbowman_Selected_5"], _G.fx["Crossbowman_Selected_6"] }
 Crossbowman.static.MOVE_SOUNDS = { _G.fx["Crossbowman_Move_1"], _G.fx["Crossbowman_Move_2"], _G.fx["Crossbowman_Move_3"] }
 Crossbowman.static.MOVE_INACCESSIBLE_SOUND = _G.fx["Crossbowman_Move_Inaccessible"]
 

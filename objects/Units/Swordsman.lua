@@ -7,6 +7,8 @@ local an = require("objects.Animations.Swordsman")
 
 local Swordsman = _G.class("Swordsman", Soldier)
 
+Swordsman.static.SELECTED_SOUNDS = { _G.fx["Swordsman_Selected_1"], _G.fx["Swordsman_Selected_2"], _G.fx["Swordsman_Selected_3"], _G.fx["Swordsman_Selected_4"], _G.fx
+    ["Swordsman_Selected_5"], _G.fx["Swordsman_Selected_6"] }
 Swordsman.static.MOVE_SOUNDS = { _G.fx["Swordsman_Move_1"], _G.fx["Swordsman_Move_2"], _G.fx["Swordsman_Move_3"] }
 Swordsman.static.MOVE_INACCESSIBLE_SOUND = _G.fx["Swordsman_Move_Inaccessible"]
 
