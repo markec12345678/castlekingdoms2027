@@ -263,7 +263,7 @@ function game:mousepressed(x, y, button, istouch)
             end
         end
         if not _G.BuildController.start and (loveframes.GetState() ~= states.STATE_INGAME_CONSTRUCTION or not ActionBar.hasSelectedButton) then
-            if #_G.Commander.selectedUnits <= 1 then
+            if #_G.Commander.selectedUnits < 1 then
                 ActionBar:switchMode()
             end
         else
