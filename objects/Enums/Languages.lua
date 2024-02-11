@@ -12,7 +12,8 @@ local LANGUAGES = {
     RUS = "RUS",
     CZE = "CZE",
     POR = "POR",
-    UKR = "UKR"
+    UKR = "UKR",
+    HUN = "HUN",
 }
 
 return LANGUAGES
