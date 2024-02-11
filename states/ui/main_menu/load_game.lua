@@ -126,7 +126,12 @@ closeWindowButton.Update = function(self)
     end
 end
 closeWindowButton.OnClick = function(self)
-    loveframes.SetState(states.STATE_MAIN_MENU)
+    local Gamestate = require("libraries.gamestate")
+    if Gamestate.current() == require("states.start_menu") then
+        loveframes.SetState(states.STATE_MAIN_MENU)
+    elseif Gamestate.current() == require("states.game") then
+        loveframes.SetState(states.STATE_PAUSE_MENU)
+    end
 end
 closeWindowButton.OnMouseExit = function(self)
     self:SetImage(closeWindowButtonImage)
