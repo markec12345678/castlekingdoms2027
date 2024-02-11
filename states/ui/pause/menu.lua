@@ -2,7 +2,6 @@ local Gamestate = require("libraries.gamestate")
 local loveframes = require("libraries.loveframes")
 local states = require("states.ui.states")
 local base = require("states.ui.base")
-local bitser = require("libraries.bitser")
 local SID = require("objects.Controllers.LanguageController").lines
 local w, h = base.w, base.h
 local PAUSE_MENU_SCALE = 50
@@ -23,8 +22,24 @@ menuBg:SetImage(backgroundImage)
 menuBg:SetOffsetX(menuBg:GetImageWidth() / 2)
 local scale = (h.percent[PAUSE_MENU_SCALE]) / backgroundImage:getHeight()
 
-local baseWidth = 198 * scale
 local baseHeight = math.min(53 * scale, 53)
+
+local buttonLabels = {
+    Resume = SID.ui.mainMenu.resume,
+    Save = SID.ui.mainMenu.save,
+    Load = SID.ui.mainMenu.load,
+    Options = SID.ui.mainMenu.options,
+    Exit = SID.ui.mainMenu.exit
+}
+
+local buttonLabelWidth = 0
+local font = baseHeight < 50 and loveframes.font_times_new_normal_large or loveframes.font_times_new_normal_large_48
+
+for _, value in pairs(buttonLabels) do
+    buttonLabelWidth = math.max(buttonLabelWidth, font:getWidth(value))
+end
+
+local baseWidth = math.max(198 * scale, buttonLabelWidth + 30)
 
 menuBg:SetScale(scale, scale)
 menuBg:SetPos(w.percent[50], 0)
@@ -54,7 +69,7 @@ local resume = loveframes.Create("button")
 resume:SetState(states.STATE_PAUSE_MENU)
 resume:SetPos(frMenu.x, frMenu.y)
 resume:SetSize(baseWidth, baseHeight)
-resume:SetText(SID.ui.mainMenu.resume)
+resume:SetText(buttonLabels.Resume)
 resume:SetSkin("StoneKingdoms")
 resume.OnClick = function(self)
     loveframes.TogglePause()
@@ -64,7 +79,7 @@ local save = loveframes.Create("button")
 save:SetState(states.STATE_PAUSE_MENU)
 save:SetPos(frMenu.x, frMenu.y + baseHeight + 2 * 10 * scale)
 save:SetSize(baseWidth, baseHeight)
-save:SetText(SID.ui.mainMenu.save)
+save:SetText(buttonLabels.Save)
 save:SetSkin("StoneKingdoms")
 save.OnClick = function(self)
     if _G.BuildController.start then return end
@@ -78,7 +93,7 @@ local options = loveframes.Create("button")
 options:SetState(states.STATE_PAUSE_MENU)
 options:SetPos(frMenu.x, frMenu.y + baseHeight * 2 + 3 * 10 * scale)
 options:SetSize(baseWidth, baseHeight)
-options:SetText(SID.ui.mainMenu.options)
+options:SetText(buttonLabels.Options)
 options:SetSkin("StoneKingdoms")
 options.OnClick = function(self)
     loveframes.SetState(states.STATE_SETTINGS)
@@ -88,7 +103,7 @@ local load = loveframes.Create("button")
 load:SetState(states.STATE_PAUSE_MENU)
 load:SetPos(frMenu.x, frMenu.y + baseHeight * 3 + 4 * 10 * scale)
 load:SetSize(baseWidth, baseHeight)
-load:SetText(SID.ui.mainMenu.load)
+load:SetText(buttonLabels.Load)
 load:SetSkin("StoneKingdoms")
 load.OnClick = function(self)
     loveframes.SetState(states.STATE_MAIN_MENU_LOAD_SAVE)
@@ -100,7 +115,7 @@ local exit = loveframes.Create("button")
 exit:SetState(states.STATE_PAUSE_MENU)
 exit:SetPos(frMenu.x, frMenu.y + baseHeight * 4 + 4 * 10 * scale * 2)
 exit:SetSize(baseWidth, baseHeight)
-exit:SetText(SID.ui.mainMenu.exit)
+exit:SetText(buttonLabels.Exit)
 exit:SetSkin("StoneKingdoms")
 exit.OnClick = function(self)
     loveframes.TogglePause()
