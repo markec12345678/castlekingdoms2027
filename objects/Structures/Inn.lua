@@ -3,6 +3,7 @@ local _, _, _, _ = ...
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 local Drunkard = require("objects.Units.Drunkard")
+local NotEnoughWorkersFloat = require("objects.Floats.NotEnoughWorkersFloat")
 
 local tiles, quadArray = _G.indexBuildingQuads("inn", true)
 local InnAlias = _G.class("InnAlias", Structure)
@@ -56,13 +57,20 @@ Inn.static.LENGTH = 5
 Inn.static.HEIGHT = 17
 Inn.static.DESTRUCTIBLE = true
 
+local ALE_CONSUMPTION_DURATION = 0.5
+
 function Inn:initialize(gx, gy)
+    _G.JobController:add("Innkeeper", self)
     Structure.initialize(self, gx, gy, "Inn")
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 200
     self.tile = quadArray[tiles + 1]
     self.offsetX = 0
     self.offsetY = -90
+    self.freeSpots = 1
+    self.worker = nil
+    self.jugsOfAle = 0
+    self.aleConsumptionTimer = 0
     self.drunkard = Drunkard:new(gx + 3, gy + Inn.static.WIDTH, self)
     for tile = 1, tiles do
         local hsl = InnAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
@@ -83,18 +91,86 @@ function Inn:initialize(gx, gy)
         end
     end
     self:applyBuildingHeightMap()
+    
+    self.float = NotEnoughWorkersFloat:new(self.gx, self.gy, 0, -64)
 end
 
 function Inn:destroy()
+    _G.JobController:remove("Innkeeper", self)
+    if self.worker then
+        self.worker:quitJob()
+    end
     if self.drunkard then
         self.drunkard.inn = nil
     end
+    self.float:destroy()
     Structure.destroy(self)
 end
 
 function Inn:onClick()
     local ActionBar = require("states.ui.ActionBar")
     --ActionBar:switchMode("inn")
+end
+
+function Inn:join(worker)
+    if self.health == -1 then
+        _G.JobController:remove("Innkeeper", self)
+        worker:quitJob()
+        return
+    end
+    if self.freeSpots == 1 then
+        self.worker = worker
+        worker.workplace = self
+        self.freeSpots = self.freeSpots - 1
+    end
+    if self.freeSpots == 0 then
+        self.float:deactivate()
+    end
+end
+
+function Inn:leave(sleepInsteadOfLeaving)
+    if self.worker then
+        _G.JobController:add("Innkeeper", self)
+        if sleepInsteadOfLeaving then
+            self.worker:quitJob()
+        else
+            self.worker:leaveVillage()
+        end
+        self.worker = nil
+        self.freeSpots = 1
+        self.float:activate(sleepInsteadOfLeaving)
+        return true
+    end
+end
+
+function Inn:work(worker)
+    worker.gx = self.gx + 3
+    worker.gy = self.gy + 6
+    worker:jobUpdate()
+end
+
+function Inn:exitToStockpile()
+    self:findExitPointTo("Stockpile", function(found, path)
+        if found then
+            self:sendToStockpile()
+        else
+            print("No path found to stockpile!")
+        end
+    end)
+end
+
+function Inn:sendToStockpile()
+    self:respawnWorker(self.worker, "Go to stockpile")
+end
+
+function Inn:consumeAle()
+    if self.jugsOfAle > 0 then
+        self.aleConsumptionTimer = self.aleConsumptionTimer + _G.dt
+        if self.aleConsumptionTimer > ALE_CONSUMPTION_DURATION then
+             self.jugsOfAle = self.jugsOfAle - 1
+             self.aleConsumptionTimer = 0
+        end
+    end
 end
 
 function Inn:load(data)
@@ -105,6 +181,10 @@ function Inn:load(data)
     if data.drunkard then
         self.drunkard = _G.state:dereferenceObject(data.drunkard)
         self.drunkard.inn = self
+    end
+    if data.worker then
+        self.worker = _G.state:dereferenceObject(data.worker)
+        self.worker.workplace = self
     end
 end
 
@@ -119,8 +199,14 @@ function Inn:serialize()
     data.health = self.health
     data.offsetX = self.offsetX
     data.offsetY = self.offsetY
+    data.freeSpots = self.freeSpots
+    data.jugsOfAle = self.jugsOfAle
+    data.aleConsumptionTimer = self.aleConsumptionTimer
     if self.drunkard then
         data.drunkard = _G.state:serializeObject(self.drunkard)
+    end
+    if self.worker then
+        data.worker = _G.state:serializeObject(self.worker)
     end
 
     return data

@@ -57,7 +57,7 @@ for path, structure in pairs(structureClasses) do
         end)
         local serial
         describe("serialization", function()
-            _G.state.rawObjectIds = {}
+            _G.state.serializedObjectIds = {}
             _G.state.deserializedObjectCount = 0
             _G.state.deserDebug = {}
             it("should serialize", function()
@@ -69,8 +69,9 @@ for path, structure in pairs(structureClasses) do
                             local buildingY = building.gy + yy
                             local objects = _G.allObjectsAtGlobal(buildingX, buildingY)
                             for i, v in ipairs(objects) do
+                                -- don't serialize units in the area
                                 local ref = _G.state:serializeObject(v)
-                                _G.state.rawObjectIds[ref._ref] = v:serialize()
+                                _G.state.serializedObjectIds[ref._ref] = v:serialize()
                             end
                         end
                     end
@@ -80,10 +81,11 @@ for path, structure in pairs(structureClasses) do
             it("float should serialize if any", function()
                 if building.float then
                     local ref = _G.state:serializeObject(building.float)
-                    _G.state.rawObjectIds[ref._ref] = building.float:serialize()
+                    _G.state.serializedObjectIds[ref._ref] = building.float:serialize()
                 end
             end)
             it("should deserialize", function()
+                _G.state.rawObjectIds = _G.state.serializedObjectIds
                 if building.float then
                     local obj = bitser.loads(serial)
                     assert.is_true(obj ~= nil)
