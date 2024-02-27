@@ -27,7 +27,8 @@ function JobController:initializeWorkplaces()
         ["OxHandler"] = {},
         ["Pitcher"] = {},
         ["Priest"] = {},
-        ["Healer"] = {}
+        ["Healer"] = {},
+        ["Innkeeper"] = {}
     }
     self.unlimitedWorkers = false
 end
