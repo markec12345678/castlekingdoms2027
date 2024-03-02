@@ -89,7 +89,15 @@ local buildings = {
             Campfire:new(gx + 2, gy + 10)
             Lord:new(gx + 2, gy + 8)
         end,
-        specialRequirements = function(self, _, _)
+        specialRequirements = function(self, gx, gy)
+            if gx - math.ceil(self.w / 2) < 0 or gx + math.floor(self.w + self.w / 2) >= _G.chunkWidth * _G.chunksWide - 2 then
+                warningTooltip:ShowTooltip(SID.tips.warning.keepCloseToEdgeOfMap)
+                return false
+            end
+            if gy - math.ceil(self.w / 2) < 0 or gy + math.ceil(self.w + self.w / 2) >= _G.chunkHeight * _G.chunksHigh - 1 then
+                warningTooltip:ShowTooltip(SID.tips.warning.keepCloseToEdgeOfMap)
+                return false
+            end
             return true
         end
     },
