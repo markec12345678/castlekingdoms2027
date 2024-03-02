@@ -220,10 +220,11 @@ function Structure:findExitPointTo(structure, foundCallback)
         entryPoints,
         self:getStructureAreaPoints(),
         function(path)
-            if path then
+            if path and next(path) ~= nil then
                 self:setSpawnPoint(path[1][1], path[1][2])
                 foundCallback(true, path)
             else
+                -- TODO: handle this better
                 self:setSpawnPoint(-1, -1)
                 foundCallback(false)
             end
