@@ -410,6 +410,7 @@ tips:
     structuresInTheWay: There are structures in the way!
     needArmoury: You need an armoury to build this!
     closeToQuarry: Needs to be placed close to an existing quarry!
+    keepCloseToEdgeOfMap: Too close to the edge of the map!
 ui:
   global:
     start: Start

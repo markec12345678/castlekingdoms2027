@@ -411,6 +411,7 @@ tips:
     structuresInTheWay: На шляху є споруди!
     needArmoury: Щоб побудувати це, вам потрібна зброярня!
     closeToQuarry: Потрібно розташувати поблизу існуючого кар'єру!
+    keepCloseToEdgeOfMap: Too close to the edge of the map!
 ui:
   global:
     start: Start

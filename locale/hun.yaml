@@ -408,6 +408,7 @@ tips:
     structuresInTheWay: Szerkezetek vannak útban!
     needArmoury: Ennek felépítéséhez fegyvertárra van szükséged!
     closeToQuarry: Meglévő kőbánya közelében kell elhelyezni!
+    keepCloseToEdgeOfMap: Too close to the edge of the map!
 ui:
   global:
     start: Indítás

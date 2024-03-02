@@ -411,6 +411,7 @@ tips:
     structuresInTheWay: Il y a des structures sur le chemin!
     needArmoury: Vous avez besoin d'une armurerie pour construire ceci!
     closeToQuarry: Nécessite d'être placé à proximité d'une carrière existante!
+    keepCloseToEdgeOfMap: Too close to the edge of the map!
 ui:
   global:
     start: Start

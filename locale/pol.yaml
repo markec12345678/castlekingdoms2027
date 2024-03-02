@@ -408,6 +408,7 @@ tips:
     structuresInTheWay: Struktury na drodze!
     needArmoury: Potrzebujesz zbrojowni, by to zbudować!
     closeToQuarry: Musi być wybudowany blisko istniejącego kamieniołomu!
+    keepCloseToEdgeOfMap: Too close to the edge of the map!
 ui:
   global:
     start: Start

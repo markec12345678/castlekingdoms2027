@@ -396,6 +396,7 @@ tips:
     structuresInTheWay: Há estruturas no caminho!
     needArmoury: Você precisa de um arsenal para construir isso!
     closeToQuarry: Precisa ser colocado perto de uma pedreira existente!
+    keepCloseToEdgeOfMap: Too close to the edge of the map!
 ui:
   global:
     start: Start
