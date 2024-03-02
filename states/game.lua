@@ -357,10 +357,10 @@ function game:keypressed(key, scancode, isRepeat)
         loveframes.TogglePause()
     elseif event == EVENT.ToggleDebugView then
         _G.DebugView:toggle()
-    elseif event == EVENT.CenterViewToKeep then
+    elseif event == EVENT.CenterViewToKeep and _G.state.keepX then
         _G.state.viewXview = _G.IsoToScreenX(_G.state.keepX, _G.state.keepY)
         _G.state.viewYview = _G.IsoToScreenY(_G.state.keepX, _G.state.keepY)
-    elseif event == EVENT.CenterViewToGranary then
+    elseif event == EVENT.CenterViewToGranary and _G.state.granaryX then
         _G.state.viewXview = _G.IsoToScreenX(_G.state.granaryX, _G.state.granaryY)
         _G.state.viewYview = _G.IsoToScreenY(_G.state.granaryX, _G.state.granaryY)
     end

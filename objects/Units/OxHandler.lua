@@ -33,7 +33,7 @@ function OxHandler:update()
                     local str = _G.objectFromSubclassAtGlobal(x, y, Structure)
                     if not str then goto continue end
                     str = str.parent or str
-                    if str.class.name == "Quarry" then
+                    if str and str.class and str.class.name == "Quarry" then
                         self.targetQuarry = str
                         if self.targetQuarry.stack.quantity > 0 and self.targetQuarry.assignedOxHandler == nil then
                             self.targetQuarry.assignedOxHandler = self

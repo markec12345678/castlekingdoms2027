@@ -118,11 +118,11 @@ function Peasant:initialize(gx, gy, quitting)
         local bowingEnd = function(animation)
             animation:pause()
             self.state = "Going to campfire"
+            local campX, campY, orientation = _G.campfire:getNextFreeSpot(self)
+            self:requestPath(campX, campY)
+            self.orientation = orientation
         end
         self.animation = anim.newAnimation(an[AN_BOWING], 0.12, bowingEnd, AN_BOWING)
-        local campX, campY, orientation = _G.campfire:getNextFreeSpot(self)
-        self.orientation = orientation
-        self:requestPath(campX, campY)
     end
     self.tryTogetAJob = false
 end

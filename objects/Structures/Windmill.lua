@@ -375,6 +375,52 @@ function Windmill:initialize(gx, gy, type)
     self.float = NotEnoughWorkersFloat:new(self.gx + self.class.WIDTH - 1, self.gy + self.class.LENGTH - 1, 1, -280)
 end
 
+function Windmill:leave(sleepInsteadOfLeaving)
+    if self.worker3 then
+        _G.JobController:add("Miller", self)
+        if sleepInsteadOfLeaving then
+            self.worker3:quitJob()
+        else
+            self.worker3:leaveVillage()
+        end
+        self.worker3 = nil
+        self.freeSpots = 1
+        self.float:activate(sleepInsteadOfLeaving)
+        if not sleepInsteadOfLeaving then
+            return true
+        end
+    end
+    if self.worker2 then
+        _G.JobController:add("Miller", self)
+        if sleepInsteadOfLeaving then
+            self.worker2:quitJob()
+        else
+            self.worker2:leaveVillage()
+        end
+        self.worker2 = nil
+        self.freeSpots = 2
+        self.float:activate(sleepInsteadOfLeaving)
+        if not sleepInsteadOfLeaving then
+            return true
+        end
+    end
+    if self.worker then
+        _G.JobController:add("Miller", self)
+        if sleepInsteadOfLeaving then
+            self.worker:quitJob()
+        else
+            self.worker:leaveVillage()
+        end
+        self.worker = nil
+        self.freeSpots = 3
+        self.float:activate(sleepInsteadOfLeaving)
+        if not sleepInsteadOfLeaving then
+            return true
+        end
+        self:deactivate()
+    end
+end
+
 function Windmill:destroy()
     _G.JobController:remove("Miller", self)
     Structure.destroy(self.blade)
