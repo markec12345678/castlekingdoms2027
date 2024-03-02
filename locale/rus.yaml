@@ -408,6 +408,7 @@ tips:
     structuresInTheWay: Мешают постройки!
     needArmoury: Вам нужна оружейная, чтобы построить это!
     closeToQuarry: Нужно разместить рядом с каменоломней!
+    keepCloseToEdgeOfMap: Too close to the edge of the map!
 ui:
   global:
     start: Start

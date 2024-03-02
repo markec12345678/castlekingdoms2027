@@ -410,6 +410,7 @@ tips:
     structuresInTheWay: Ci sono strutture nell'area!
     needArmoury: Hai bisogno di un'armeria per costruirlo!
     closeToQuarry: Deve essere posizionato vicino a una cava esistente!
+    keepCloseToEdgeOfMap: Too close to the edge of the map!
 ui:
   global:
     start: Start
