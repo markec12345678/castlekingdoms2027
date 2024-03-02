@@ -162,6 +162,7 @@ function Structure:serialize()
 end
 
 function Structure:respawnWorker(worker, state)
+    if not worker then return false end
     worker.state = state
     worker.animated = true
     worker.gx = self.spawnpointGX
@@ -179,6 +180,7 @@ function Structure:respawnWorker(worker, state)
     worker.locationsO = { o }
     _G.addObjectAt(cx, cy, i, o, worker)
     worker.needNewVertAsap = true
+    return true
 end
 
 function Structure:findExitPointTo(structure, foundCallback)
