@@ -44,8 +44,10 @@ local framesPassed = 0
 
 function PathController:update()
     local pathdata
-    framesPassed = framesPassed + 1
-    if framesPassed > 200 then
+    if #self.rememberedPaths > 1 then
+        framesPassed = framesPassed + 1
+    end
+    if framesPassed > 250 then
         if #self.rememberedPaths > 1 then
             local pathToForget = table.remove(self.rememberedPaths)
             self.paths[pathToForget[1]][pathToForget[2]][pathToForget[3]][pathToForget[4]] = nil
