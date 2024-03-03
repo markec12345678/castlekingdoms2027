@@ -263,7 +263,7 @@ freebuild:
   grasslands:
     name: Tereny trawiaste
     description: |
-      Duża łąka.\n Mapy nie ma w grze (stanowi placeholder).
+      Empty grasslands. Used for testing due to fast load times.
 rations:
   no:
     name: Zerowe racje

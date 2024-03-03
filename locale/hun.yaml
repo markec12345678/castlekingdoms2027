@@ -263,7 +263,7 @@ freebuild:
   grasslands:
     name: Gyepek
     description: |
-      Néhány sima gyep.\nEz a térkép még nem igazán létezik (helyőrző), ezért Fernhavent fogja betölteni.
+      Empty grasslands. Used for testing due to fast load times.
 rations:
   no:
     name: Nincs adag
