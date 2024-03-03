@@ -197,7 +197,7 @@ function PoleturnerWorkshop:initialize(gx, gy)
     local tileQuads = require("objects.object_quads")
     for xx = 0, PoleturnerWorkshop.static.WIDTH - 1 do
         for yy = 0, PoleturnerWorkshop.static.LENGTH - 1 do
-            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + gy, Structure) then
+            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + yy, Structure) then
                 PoleturnerAlias:new(tileQuads["empty"], self.gx + xx, self.gy + yy, self, 0, 0)
             end
         end

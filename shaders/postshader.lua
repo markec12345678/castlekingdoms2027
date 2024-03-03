@@ -20,7 +20,8 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-]] -- Edited to only include tiltshift
+]]
+   -- Edited to only include tiltshift
 if _G.testMode then return end
 LOVE_POSTSHADER_BUFFER_RENDER = love.graphics.newCanvas()
 LOVE_POSTSHADER_BUFFER_BACK_SWITCH = love.graphics.newCanvas()
@@ -50,8 +51,8 @@ love.postshader.addTiltshift = function(steps)
     love.graphics.setBlendMode("alpha")
 
     -- Blur Shader
-    LOVE_POSTSHADER_BLURV:send("screen", {love.graphics.getWidth(), love.graphics.getHeight()})
-    LOVE_POSTSHADER_BLURH:send("screen", {love.graphics.getWidth(), love.graphics.getHeight()})
+    LOVE_POSTSHADER_BLURV:send("screen", { love.graphics.getWidth(), love.graphics.getHeight() })
+    LOVE_POSTSHADER_BLURH:send("screen", { love.graphics.getWidth(), love.graphics.getHeight() })
     LOVE_POSTSHADER_BLURV:send("steps", steps)
     LOVE_POSTSHADER_BLURH:send("steps", steps)
 
@@ -76,7 +77,7 @@ end
 
 love.postshader.draw = function()
     if LOVE_POSTSHADER_LAST_BUFFER then
-        love.graphics.setBackgroundColor(0, 0, 0)
+        love.graphics.setBackgroundColor(26 / 255, 26 / 255, 26 / 255, 1)
         love.graphics.setBlendMode("alpha")
         love.graphics.setCanvas()
         love.graphics.setShader()

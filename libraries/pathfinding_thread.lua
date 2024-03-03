@@ -42,7 +42,17 @@ end
 local backupMapUpdates = {}
 
 while true do
-    local pathRequest = channel.request:demand()
+    local pathRequest = channel.request:demand(0.5)
+    repeat
+        mapUpdate = channel.mapUpdate:pop()
+        if mapUpdate then
+            if mapUpdate ~= "final" then
+                _G.nodes[mapUpdate[1]][mapUpdate[2]].walkable = mapUpdate[3]
+            end
+        else
+            break
+        end
+    until (not mapUpdate)
     if pathRequest then
         if pathRequest.stop then
             -- Free the memory from the pathfinding nodes
@@ -53,16 +63,6 @@ while true do
             break
         end
         -- Get all map updates before starting pathfinding
-        repeat
-            mapUpdate = channel.mapUpdate:pop()
-            if mapUpdate then
-                if not mapUpdate == "final" then
-                    _G.nodes[mapUpdate[1]][mapUpdate[2]].walkable = mapUpdate[3]
-                end
-            else
-                break
-            end
-        until (not mapUpdate)
         if pathRequest.endNodes and #pathRequest.endNodes == 1 then
             -- Only one valid end node, use regular search
             pathRequest.ex = pathRequest.endNodes[1].x

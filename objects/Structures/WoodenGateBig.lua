@@ -5,8 +5,8 @@ local tilesSouth, quadArraySouth = _G.indexBuildingQuads("large_wooden_gate_sout
 local Structure = require("objects.Structure")
 local Object = require("objects.Object")
 
-local WoodenGateBig = _G.class("WoodenGateBig", Structure)
-function WoodenGateBig:initialize(tile, gx, gy, parent, offsetY, offsetX)
+local WoodenGateBigAlias = _G.class("WoodenGateBigAlias", Structure)
+function WoodenGateBigAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
     self.parent = parent
     Structure.initialize(self, gx, gy)
     self.tile = tile
@@ -15,7 +15,7 @@ function WoodenGateBig:initialize(tile, gx, gy, parent, offsetY, offsetX)
     self:render()
 end
 
-function WoodenGateBig:serialize()
+function WoodenGateBigAlias:serialize()
     local data = {}
     local structData = Structure.serialize(self)
     for k, v in pairs(structData) do
@@ -30,7 +30,7 @@ function WoodenGateBig:serialize()
     return data
 end
 
-function WoodenGateBig.static:deserialize(data)
+function WoodenGateBigAlias.static:deserialize(data)
     local obj = self:allocate()
     Object.deserialize(obj, data)
     Structure.load(obj, data)
@@ -49,12 +49,12 @@ function WoodenGateBig.static:deserialize(data)
     return obj
 end
 
-local StoneGate = _G.class("StoneGate", Structure)
-StoneGate.static.WIDTH = 5
-StoneGate.static.LENGTH = 5
-StoneGate.static.HEIGHT = 17
-StoneGate.static.DESTRUCTIBLE = true
-function StoneGate:initialize(gx, gy, orientation)
+local WoodenGateBig = _G.class("WoodenGateBig", Structure)
+WoodenGateBig.static.WIDTH = 5
+WoodenGateBig.static.LENGTH = 5
+WoodenGateBig.static.HEIGHT = 17
+WoodenGateBig.static.DESTRUCTIBLE = true
+function WoodenGateBig:initialize(gx, gy, orientation)
     Structure.initialize(self, gx, gy)
     self.health = 100
     local arr, tiles
@@ -83,26 +83,26 @@ function StoneGate:initialize(gx, gy, orientation)
     end
 
     for tile = 1, tiles do
-        local wg = WoodenGateBig:new(arr[tile], self.gx, self.gy + (tiles - tile + 1), self,
+        local wg = WoodenGateBigAlias:new(arr[tile], self.gx, self.gy + (tiles - tile + 1), self,
             self.offsetY - 8 * (tiles - tile + 1))
         wg.tileKey = tile
     end
 
     for tile = 1, tiles do
-        local wg = WoodenGateBig:new(arr[tiles + 1 + tile], self.gx + tile, self.gy, self,
+        local wg = WoodenGateBigAlias:new(arr[tiles + 1 + tile], self.gx + tile, self.gy, self,
             self.offsetY - 8 * tile, 16)
         wg.tileKey = tiles + 1 + tile
     end
 
-    local wg = WoodenGateBig:new(arr[tiles + 1], self.gx + 2, self.gy + 2, self,
-        -self.offsetY)
+    local wg = WoodenGateBigAlias:new(arr[tiles + 1], self.gx + 2, self.gy + 2, self,
+        self.offsetY - 32)
     wg.tileKey = tiles + 1
 
     local tileQuads = require("objects.object_quads")
-    for xx = 0, StoneGate.static.WIDTH - 1 do
-        for yy = 0, StoneGate.static.LENGTH - 1 do
-            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + gy, Structure) then
-                WoodenGateBig:new(tileQuads["empty"], self.gx + xx, self.gy + yy, self, 0, 0)
+    for xx = 0, WoodenGateBig.static.WIDTH - 1 do
+        for yy = 0, WoodenGateBig.static.LENGTH - 1 do
+            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + yy, Structure) then
+                WoodenGateBigAlias:new(tileQuads["empty"], self.gx + xx, self.gy + yy, self, 0, 0)
             end
         end
     end
@@ -110,7 +110,7 @@ function StoneGate:initialize(gx, gy, orientation)
     self:applyBuildingHeightMap(nil, true)
 end
 
-function StoneGate:load(data)
+function WoodenGateBig:load(data)
     Object.deserialize(self, data)
     Structure.load(self, data)
     local arr, tiles
@@ -123,7 +123,7 @@ function StoneGate:load(data)
     self:render()
 end
 
-function StoneGate:serialize()
+function WoodenGateBig:serialize()
     local data = {}
     local structData = Structure.serialize(self)
     for k, v in pairs(structData) do
@@ -138,10 +138,10 @@ function StoneGate:serialize()
     return data
 end
 
-function StoneGate.static:deserialize(data)
+function WoodenGateBig.static:deserialize(data)
     local obj = self:allocate()
     obj:load(data)
     return obj
 end
 
-return StoneGate
+return WoodenGateBig

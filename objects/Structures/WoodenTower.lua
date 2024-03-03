@@ -66,6 +66,14 @@ function WoodenTower:initialize(gx, gy, type)
         local wt = WoodenTowerAlias:new(quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, self.offsetY - 16 + 8 * tile, 16)
         wt.tileKey = tiles + 1 + tile
     end
+    local tileQuads = require("objects.object_quads")
+    for xx = 0, WoodenTower.static.WIDTH - 1 do
+        for yy = 0, WoodenTower.static.LENGTH - 1 do
+            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + yy, Structure) then
+                WoodenTowerAlias:new(tileQuads["empty"], self.gx + xx, self.gy + yy, self, 0, 0)
+            end
+        end
+    end
 
     _G.terrainSetTileAt(self.gx, self.gy, _G.terrainBiome.none)
     _G.terrainSetTileAt(self.gx, self.gy + 1, _G.terrainBiome.none)

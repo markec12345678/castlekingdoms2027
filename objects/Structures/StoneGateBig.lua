@@ -95,13 +95,13 @@ function StoneGateBig:initialize(gx, gy, orientation)
     end
 
     local wg = StoneGateBigAlias:new(arr[tiles + 1], self.gx + 2, self.gy + 2, self,
-        -self.offsetY)
+        self.offsetY - 32)
     wg.tileKey = tiles + 1
 
     local tileQuads = require("objects.object_quads")
     for xx = 0, StoneGateBig.static.WIDTH - 1 do
         for yy = 0, StoneGateBig.static.LENGTH - 1 do
-            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + gy, Structure) then
+            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + yy, Structure) then
                 StoneGateBigAlias:new(tileQuads["empty"], self.gx + xx, self.gy + yy, self, 0, 0)
             end
         end
