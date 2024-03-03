@@ -69,8 +69,10 @@ function Object:render()
             self.vertId = newVert
             self.lastI, self.lastO = self.i, self.o
         else
-            print("Object did not receive Vertex for rendering, it should be of highest priority:" ..
-                tostring(self) .. "\n coordinates: " .. tostring(self.gx) .. ", " .. tostring(self.gy))
+            if not _G.testMode then
+                print("Object did not receive Vertex for rendering, it should be of highest priority:" ..
+                    tostring(self) .. "\n coordinates: " .. tostring(self.gx) .. ", " .. tostring(self.gy))
+            end
             return
         end
         self.instancemesh = _G.state.objectMesh[self.cx][self.cy]
@@ -104,7 +106,9 @@ function Object:renderAlias()
             self.vertId = newVert
             self.lastI, self.lastO = self.i, self.o
         else
-            print("Object did not receive Vertex for rendering, it should be of highest priority")
+            if not _G.testMode then
+                print("Object did not receive Vertex for rendering, it should be of highest priority")
+            end
             return
         end
         self.instancemesh = _G.state.objectMesh[self.cx][self.cy]
@@ -220,7 +224,9 @@ function Object:serialize()
         data.className ~= "StockpileAlias" and
         data.className ~= "StoneBarracksAlias" and
         data.className ~= "StoneGateEastAlias" and
-        data.className ~= "StoneGateEastAlias" and
+        data.className ~= "StoneGateAlias" and
+        data.className ~= "StoneGateSouthAlias" and
+        data.className ~= "StoneGateBigAlias" and
         data.className ~= "StoneGateEastBigAlias" and
         data.className ~= "StoneGateSouthBigAlias" and
         data.className ~= "TunnelersGuildAlias" and

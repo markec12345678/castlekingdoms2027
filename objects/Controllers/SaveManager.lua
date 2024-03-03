@@ -122,6 +122,7 @@ function SaveManager:save(name)
     if (type(index) == 'nil') then
         index = #self.savefiles + 1
     end
+    self.savefileChunkSize[metastate.name] = { w = metastate.w or 8, h = metastate.h or 8 }
 
     self.savefiles[index] = metastate
 

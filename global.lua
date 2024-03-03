@@ -218,6 +218,7 @@ _G.channel.receive = love.thread.getChannel("receive")
 _G.channel.mapUpdate = love.thread.getChannel("mapUpdate1")
 _G.channel2 = {}
 _G.channel2.mapUpdate = love.thread.getChannel("mapUpdate2")
+_G.offsetX, _G.offsetY = 0, 0
 
 function _G.string.startsWith(str, start)
     return str:sub(1, #start) == start
