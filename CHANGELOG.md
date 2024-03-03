@@ -1,3 +1,24 @@
+# 0.6.1
+
+### Misc
+
+- Added the innkeeper (partially implemented).
+- Added the Grasslands map which loads an empty 128x128 map for testing purposes.
+- Menu buttons are now sized to the localized caption if necessary
+
+### Bug Fixes
+
+- Pressing exit or loading a game no longer freezes for 1 second.
+- Fixed crash when centering on granary or keep before they were placed
+- Fixed crash with OxHandler
+- Fixed crash when worker leaves their workplace while working
+- Fixed crash with pathfinding when workers couldn't find a path back to the stockpile
+- Fixed crash with Miller boys
+- Fixed the ability for workers to leave/sleep the windmill
+- Fixed crash when upgrading castle placed near edge of map
+- Fixed peasants getting stuck at campfire
+- Fixed various rendering bugs with defensive structures
+
 # 0.6.0
 
 ### New Buildings
