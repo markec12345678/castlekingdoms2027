@@ -11,19 +11,22 @@ local warningTooltip = require("states.ui.warning_tooltip")
 ---@overload fun():State
 local State = _G.class("State")
 function State:initialize()
+    if _G.state and _G.state ~= self then
+        _G.state:cleanupPathfindingThreads()
+    end
     self:cleanupPathfindingThreads()
     self.tier = 1
+    self.map = Map:new()
     self.thread = love.thread.newThread("libraries/pathfinding_thread.lua")
-    self.thread:start("1", 512)
+    self.thread:start("1", self.map:getMapWidthInTiles())
     self.thread2 = love.thread.newThread("libraries/pathfinding_thread.lua")
-    self.thread2:start("2", 512)
+    self.thread2:start("2", self.map:getMapHeightInTiles())
     self.initialized = false
     self.savename = SaveManager:getNextFreeName()
     self.newGame = true
     self.objectBatch = newAutotable(2)
     self.serializedObjectIds = {}
     self.deserializedObjectIds = {}
-    self.map = Map:new()
     self.topLeftChunkX = 0
     self.topLeftChunkY = 0
     self.bottomRightChunkX = 0
@@ -105,18 +108,20 @@ end
 
 function State:cleanupPathfindingThreads()
     if self.thread then
-        love.thread.getChannel("stop1"):push(true)
-        love.thread.getChannel("stop2"):push(true)
-        if not _G.testMode then -- don't run in tests because it will run forever
-            if self.thread:isRunning() then self.thread:wait() end
-            if self.thread2:isRunning() then self.thread2:wait() end
-        end
-        love.thread.getChannel("stop1"):clear()
-        love.thread.getChannel("stop2"):clear()
-        _G.channel.request:clear()
-        _G.channel.receive:clear()
         _G.channel.mapUpdate:clear()
         _G.channel2.mapUpdate:clear()
+        _G.channel.mapUpdate:push("final")
+        _G.channel2.mapUpdate:push("final")
+        _G.channel.request:clear()
+        _G.channel.receive:clear()
+        -- send two messages to make sure both threads get a stop message
+        _G.channel.request:push({ stop = true })
+        _G.channel.request:push({ stop = true })
+        if self.thread:isRunning() then self.thread:wait() end
+        _G.channel.request:push({ stop = true })
+        if self.thread2:isRunning() then self.thread2:wait() end
+        _G.channel.request:clear()
+        _G.channel.receive:clear()
     end
 end
 
@@ -126,13 +131,6 @@ function State:updateKeepUpgradeButton()
 end
 
 function State:destroy()
-    local mapUpdate
-    repeat mapUpdate = _G.channel.mapUpdate:pop() until (not mapUpdate)
-    repeat mapUpdate = _G.channel2.mapUpdate:pop() until (not mapUpdate)
-    _G.channel.mapUpdate:pop()
-    _G.channel2.mapUpdate:pop()
-    love.thread.getChannel("stop1"):push(true)
-    love.thread.getChannel("stop2"):push(true)
     self:cleanupPathfindingThreads()
     _G.BrushController:initialize()
     _G.BuildController:initialize()
@@ -368,7 +366,9 @@ function State:serialize()
         dateModified = os.date("%Y-%m-%d %X"),
         mapName = self.map.name,
         compressed = true,
-        isMap = false
+        isMap = false,
+        w = _G.chunksWide,
+        h = _G.chunksHigh
     }
     local data = {}
     self.serializedObjectIds = {}
@@ -432,6 +432,10 @@ function State:load(filename, decompress)
     if self.savename == "map_Fernhaven" then
         self.savename = SaveManager:getNextFreeName()
     end
+    self:deserialize(load)
+end
+
+function State:deserialize(load)
     self.map:deserialize(load.map)
     self.deserializedObjectCount = 0
     self.deserDebug = {}
@@ -485,7 +489,7 @@ function State:load(filename, decompress)
         _G.stockpile:deserialize(load.stockpileController)
         warningTooltip:HideTooltip()
     end
-    _G.offsetX, _G.offsetY = load.offsetX, load.offsetY
+    _G.offsetX, _G.offsetY = load.offsetX or 0, load.offsetY or 0
     self:deserializeChunkObjects(load.chunkObjects)
     self.object = self:deserializeObjects(load.object)
     _G.state:processLazyReferences()

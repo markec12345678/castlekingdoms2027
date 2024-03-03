@@ -56,9 +56,21 @@ local function delayedInit()
     ----Pathfinding setup
     updateProgress(40)
     _G.finder = require("objects.Controllers.PathController")
-    _G.state.newGame = savegame == "map_Fernhaven"
+    _G.state.newGame = savegame == "map_Fernhaven" or savegame == "map_Grasslands"
     if _G.state.newGame then
-        SaveManager:load(savegame)
+        if savegame == "map_Grasslands" then
+            _G.state.viewYview = -50
+            _G.state:allocateMeshes()
+            for i = 0, _G.chunksWide - 1 do
+                for o = 0, _G.chunksHigh - 1 do -- usually both are 32 (jumper is set like that with magic numbers)
+                    _G.state.Terrain:genTerrain(i, o)
+                end
+            end
+            _G.channel.mapUpdate:push("final")
+            _G.channel2.mapUpdate:push("final")
+        else
+            SaveManager:load(savegame)
+        end
         updateProgress(70)
     else
         updateProgress(70, 3)
@@ -182,11 +194,12 @@ function game:update(dt)
     end
 end
 
-function game:enter(_, savegameName)
+function game:enter(_, savegameName, w, h)
     love.graphics.setBackgroundColor(26 / 255, 26 / 255, 26 / 255, 1)
     savegame = savegameName
     collectgarbage()
     collectgarbage()
+    _G.chunksWide, _G.chunksHigh = w, h
     if _G.loaded then
         _G.paused = false
         loveframes.SetState(states.STATE_INGAME_CONSTRUCTION)

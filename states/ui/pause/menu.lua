@@ -82,7 +82,6 @@ save:SetSize(baseWidth, baseHeight)
 save:SetText(buttonLabels.Save)
 save:SetSkin("StoneKingdoms")
 save.OnClick = function(self)
-    if _G.BuildController.start then return end
     _G.playSpeech("General_Saving")
     local SaveManager = require("objects.Controllers.SaveManager")
     SaveManager:save()
