@@ -226,6 +226,7 @@ function Object:serialize()
         data.className ~= "StoneGateEastAlias" and
         data.className ~= "StoneGateAlias" and
         data.className ~= "StoneGateSouthAlias" and
+        data.className ~= "WoodenGateBigAlias" and
         data.className ~= "StoneGateBigAlias" and
         data.className ~= "StoneGateEastBigAlias" and
         data.className ~= "StoneGateSouthBigAlias" and

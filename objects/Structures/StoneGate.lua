@@ -95,13 +95,13 @@ function StoneGate:initialize(gx, gy, orientation)
     end
 
     local wg = StoneGateAlias:new(arr[tiles + 1], self.gx + 2, self.gy + 2, self,
-        -self.offsetY)
+        self.offsetY - 32)
     wg.tileKey = tiles + 1
 
     local tileQuads = require("objects.object_quads")
     for xx = 0, StoneGate.static.WIDTH - 1 do
         for yy = 0, StoneGate.static.LENGTH - 1 do
-            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + gy, Structure) then
+            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + yy, Structure) then
                 StoneGateAlias:new(tileQuads["empty"], self.gx + xx, self.gy + yy, self, 0, 0)
             end
         end

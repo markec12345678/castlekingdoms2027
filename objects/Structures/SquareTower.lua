@@ -70,7 +70,7 @@ function SquareTower:initialize(gx, gy, type)
     local tileQuads = require("objects.object_quads")
     for xx = 0, SquareTower.static.WIDTH - 1 do
         for yy = 0, SquareTower.static.LENGTH - 1 do
-            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + gy, Structure) then
+            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + yy, Structure) then
                 SquareTowerAlias:new(tileQuads["empty"], self.gx + xx, self.gy + yy, self, 0, 0)
             end
         end

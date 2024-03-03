@@ -420,7 +420,7 @@ function DairyFarm:initialize(gx, gy)
     end
     for xx = 0, DairyFarm.static.WIDTH - 1 do
         for yy = 0, DairyFarm.static.WIDTH - 1 do
-            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + gy, Structure) then
+            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + yy, Structure) then
                 DairyFarmAlias:new(tileQuads["empty"], self.gx + xx, self.gy + yy, self, 0, 0)
             end
         end
@@ -429,7 +429,7 @@ function DairyFarm:initialize(gx, gy)
     --top fence
     for xx = 3, 8 do
         for yy = 0, 0 do
-            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + gy, Structure) then
+            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + yy, Structure) then
                 if xx == 4 or xx == 5 then
                     _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrainBiome.scarceGrass)
                 else
@@ -443,7 +443,7 @@ function DairyFarm:initialize(gx, gy)
     --bottom fence
     for xx = 1, 8 do
         for yy = 9, 9 do
-            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + gy, Structure) then
+            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + yy, Structure) then
                 if xx == 4 or xx == 5 then
                     _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrainBiome.scarceGrass)
                 else
@@ -457,7 +457,7 @@ function DairyFarm:initialize(gx, gy)
     -- left fence
     for xx = 0, 0 do
         for yy = 3, 8 do
-            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + gy, Structure) then
+            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + yy, Structure) then
                 if yy == 4 or yy == 5 then
                     _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrainBiome.scarceGrass)
                 else
@@ -471,7 +471,7 @@ function DairyFarm:initialize(gx, gy)
     --right fence
     for xx = 9, 9 do
         for yy = 1, 8 do
-            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + gy, Structure) then
+            if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + yy, Structure) then
                 if yy == 4 or yy == 5 then
                     _G.terrainSetTileAt(self.gx + xx, self.gy + yy, _G.terrainBiome.scarceGrass)
                 else

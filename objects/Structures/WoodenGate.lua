@@ -112,7 +112,7 @@ function WoodenGate:initialize(gx, gy, orientation)
         end
     end
     local wg = WoodenGateAlias:new(arr[tiles + 1], self.gx + 2, self.gy + 2, self,
-        -self.offsetY)
+        self.offsetY - 32)
     wg.tileKey = tiles + 1
 
     self:applyBuildingHeightMap(nil, true)
