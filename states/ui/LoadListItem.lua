@@ -107,7 +107,9 @@ function LoadListItem:onClick()
     _G.state = State:new()
     if _G.state then _G.state.initialized = false end
     loveframes.SetState()
-    Gamestate.switch(game, self.nameText:GetText())
+    local savefileName = self.nameText:GetText()
+    local w, h = SaveManager:getMapSizeInChunks(savefileName)
+    Gamestate.switch(game, savefileName, w, h)
 end
 
 function LoadListItem:setValues(name, mapName, rawDateModified, version)

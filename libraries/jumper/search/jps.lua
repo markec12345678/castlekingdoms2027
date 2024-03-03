@@ -11,7 +11,7 @@ if (...) then
     local max, abs = math.max, math.abs
 
     local function isWalkableAt(x, y, walkable, clearance)
-        if x >= 512 or x < 0 or y >= 512 or y < 0 or abs(sNodex - x) > 512 or abs(sNodey - y) > 512 then return false end
+        if x >= _G.MAP_W or x < 0 or y >= _G.MAP_H or y < 0 or abs(sNodex - x) > _G.MAP_W or abs(sNodey - y) > _G.MAP_H then return false end
         return (_G.nodes[x][y].walkable == 0)
     end
 

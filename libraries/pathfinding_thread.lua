@@ -1,6 +1,8 @@
 local id, mapWidth = ...
 local ffi = require('ffi')
 
+_G.MAP_W, _G.MAP_H = mapWidth, mapWidth
+
 require("love.timer")
 ffi.cdef [[
         void *calloc(size_t nitems, size_t size);
@@ -24,7 +26,6 @@ local channel = {}
 channel.request = love.thread.getChannel("request")
 channel.receive = love.thread.getChannel("receive")
 channel.mapUpdate = love.thread.getChannel("mapUpdate" .. id)
-channel.stop = love.thread.getChannel("stop" .. id)
 
 local mapUpdate
 local count = 0
@@ -38,30 +39,30 @@ while true do
         _G.nodes[mapUpdate[1]][mapUpdate[2]].walkable = mapUpdate[3]
     end
 end
-
 local backupMapUpdates = {}
 
 while true do
-    if channel.stop:pop() then
-        -- Free the memory from the pathfinding nodes
-        for i = 0, mapWidth - 1 do
-            ffi.C.free(_G.nodes[i])
-        end
-        ffi.C.free(_G.nodes)
-        break
-    end
-    -- Wait while we get next path request, but timeout after 1 second
-    -- so we can check for map updates from time to time
-    local pathRequest = channel.request:demand(1)
-    repeat
-        mapUpdate = channel.mapUpdate:pop()
-        if mapUpdate then
-            _G.nodes[mapUpdate[1]][mapUpdate[2]].walkable = mapUpdate[3]
-        else
+    local pathRequest = channel.request:demand()
+    if pathRequest then
+        if pathRequest.stop then
+            -- Free the memory from the pathfinding nodes
+            for i = 0, mapWidth - 1 do
+                ffi.C.free(_G.nodes[i])
+            end
+            ffi.C.free(_G.nodes)
             break
         end
-    until (not mapUpdate)
-    if pathRequest then
+        -- Get all map updates before starting pathfinding
+        repeat
+            mapUpdate = channel.mapUpdate:pop()
+            if mapUpdate then
+                if not mapUpdate == "final" then
+                    _G.nodes[mapUpdate[1]][mapUpdate[2]].walkable = mapUpdate[3]
+                end
+            else
+                break
+            end
+        until (not mapUpdate)
         if pathRequest.endNodes and #pathRequest.endNodes == 1 then
             -- Only one valid end node, use regular search
             pathRequest.ex = pathRequest.endNodes[1].x

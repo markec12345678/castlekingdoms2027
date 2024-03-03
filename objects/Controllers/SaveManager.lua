@@ -15,6 +15,8 @@ function SaveManager:initialize()
     self.fromPauseMenu = false
     self.autosaveEventCounter = 0
 
+    self.savefileChunkSize = {}
+
     -- If autosave is turned on, register event listener on in-game time changed
     if (SaveManager.static.AUTOSAVE_INTERVAL >= 1) then
         _G.bus.on(Events.OnInGameTimeChanged, function()
@@ -23,13 +25,25 @@ function SaveManager:initialize()
     end
 end
 
+function SaveManager:getMapSizeInChunks(name)
+    local foundMap = self.savefileChunkSize[name]
+    if foundMap then
+        return foundMap.w, foundMap.h
+    end
+    return 8, 8
+end
+
 function SaveManager:getSaveFiles()
     local files = love.filesystem.getDirectoryItems(_G.SAVEGAME_DIR)
     for _, file in ipairs(files) do
         if string.find(file, "_metadata.bin") then
-            self.savefiles[#self.savefiles + 1] = bitser.loadLoveFile(_G.SAVEGAME_DIR .. "/" .. file, false)
-            if self.savefiles[#self.savefiles].isMap then
-                self.defaultMap = self.savefiles[#self.savefiles]
+            local metadataSave = bitser.loadLoveFile(_G.SAVEGAME_DIR .. "/" .. file, false)
+            self.savefiles[#self.savefiles + 1] = metadataSave
+            self.savefileChunkSize[metadataSave.name] = { w = metadataSave.w or 8, h = metadataSave.h or 8 }
+            if metadataSave.isMap then
+                -- TODO: fix, won't work with more than one map
+                -- it works now because we only have fernhaven
+                self.defaultMap = metadataSave
             end
         end
     end

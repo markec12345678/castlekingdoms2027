@@ -3,20 +3,19 @@ local loveframes = require("libraries.loveframes")
 local ActionBar = require("states.ui.ActionBar")
 local states = require("states.ui.states")
 local core = require("misc")
-local thread, thread2, objects, terrain
-local SaveManager = require("objects.Controllers.SaveManager")
-local savegame
+local objects
 
 _G.dt = 0.016
 
 function test:enter()
     _G.updateKeepUpgradeButton = function()
     end
+    _G.chunksWide, _G.chunksHigh = 2, 2
     local State = require("objects.State")
     _G.state = State:new()
     objects = love.filesystem.load("objects/objects.lua")(objectAtlas)
     package.loaded["objects.objects"] = objects
-    terrain = require("terrain.terrain")
+    require("terrain.terrain")
     _G.BrushController = require("objects.Controllers.BrushController")
     _G.DestructionController = require("objects.Controllers.DestructionController"):new()
     RationController = require("objects.Controllers.RationController")
@@ -31,43 +30,37 @@ function test:enter()
     _G.BuildingManager = require("objects.Controllers.BuildingManager")
     _G.DebugView = require("objects.Controllers.DebugView")
     _G.Commander = require("objects.Controllers.Commander")
-    ----Pathfinding setup
-    thread = love.thread.newThread("libraries/pathfinding_thread.lua")
-    thread:start("1", 512)
-    thread2 = love.thread.newThread("libraries/pathfinding_thread.lua")
-    thread2:start("2", 512)
     _G.finder = require("objects.Controllers.PathController")
-    _G.state.newGame = savegame == "map_Fernhaven"
-    if _G.state.newGame then
-        SaveManager:load(savegame)
-
-        _G.BuildController:set("SaxonHall")
-    else
-        SaveManager:load(savegame)
+    _G.state.newGame = true
+    _G.state.viewYview = -50
+    _G.state:allocateMeshes()
+    for i = 0, _G.chunksWide - 1 do
+        for o = 0, _G.chunksHigh - 1 do
+            _G.state.Terrain:genTerrain(i, o)
+        end
     end
+    _G.channel.mapUpdate:push("final")
+    _G.channel2.mapUpdate:push("final")
     core.update()
     objects.update(_G.dt)
     _G.BuildController:update()
     loveframes.update()
     _G.finder:update()
     love.timer.sleep(0.4)
-    local error = thread:getError()
+    local error = _G.state.thread:getError()
+    assert(not error, error)
+    error = _G.state.thread2:getError()
     assert(not error, error)
     loveframes.SetState(states.STATE_INGAME_CONSTRUCTION)
     ActionBar:updateGoldCount()
     ActionBar:updatePopularityCount()
     _G.loaded = true
-    if _G.state.newGame then
-        _G.playSpeech("place_a_keep")
-    end
     _G.playSfx = function()
     end
     _G.playInterfaceSfx = function()
     end
     _G.playSpeech = function()
     end
-    _G.channel.mapUpdate:push("final")
-    _G.channel2.mapUpdate:push("final")
     require('spec.objects_spec')
     love.event.quit("quit", 0)
 end

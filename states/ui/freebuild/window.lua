@@ -12,6 +12,9 @@ windowTitleText:SetFont(loveframes.font_vera_bold_large)
 windowTitleText:SetShadow(true)
 windowTitleText:SetPos(frames["frTitle"].x, frames["frTitle"].y)
 windowTitleText:SetShadowColor(0.35, 0.3, 0.26, 1)
+local SaveManager = require("objects.Controllers.SaveManager")
+local selectedMap = SaveManager.defaultMap.name
+local chunksWide, chunksHigh = 8, 8
 
 local frStartButton = frames["frStart"]
 local buttonStart = loveframes.Create("button")
@@ -30,8 +33,7 @@ buttonStart.OnClick = function(self)
     loveframes.SetState()
     local Gamestate = require("libraries.gamestate")
     local game = require("states.game")
-    local SaveManager = require("objects.Controllers.SaveManager")
-    Gamestate.switch(game, SaveManager.defaultMap.name)
+    Gamestate.switch(game, selectedMap, chunksWide, chunksHigh)
 end
 buttonStart:SetVisible(false)
 
@@ -57,7 +59,12 @@ local MapListItem = require("states.ui.freebuild.MapListButton")
 local mapList = {}
 local callback = function(element)
     for _, item in ipairs(mapList) do
-        if element ~= item then item:unselect() end
+        if element ~= item then
+            item:unselect()
+        else
+            selectedMap = element.mapData.id
+            chunksWide, chunksHigh = element.mapData.w, element.mapData.h
+        end
     end
 end
 mapList[#mapList + 1] =
@@ -70,7 +77,10 @@ mapList[#mapList + 1] =
         {
             name = SID.freebuild.fernhaven.name,
             description = SID.freebuild.fernhaven.description,
-            preview = love.graphics.newImage("saves/fernhaven_preview.png")
+            preview = love.graphics.newImage("saves/fernhaven_preview.png"),
+            id = "map_Fernhaven",
+            w = 8,
+            h = 8,
         },
         buttonStart,
         titleText,
@@ -85,7 +95,10 @@ mapList[#mapList + 1] = MapListItem:new(
     {
         name = SID.freebuild.grasslands.name,
         description = SID.freebuild.grasslands.description,
-        preview = love.graphics.newImage("saves/grasslands_preview.png")
+        preview = love.graphics.newImage("saves/grasslands_preview.png"),
+        id = "map_Grasslands",
+        w = 2,
+        h = 2,
     },
     buttonStart,
     titleText,

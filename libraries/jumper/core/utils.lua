@@ -87,7 +87,7 @@ if (...) then
 
     -- Converts an array to a set of nodes
     local function arrayToNodes(map)
-        local mapw, maph = 512, 512
+        local mapw, maph = _G.MAP_W, _G.MAP_H
         local min_x, max_x = 0, mapw - 1
         local min_y, max_y = 0, maph - 1
         _G.nodes = ffi.cast("node **", ffi.C.calloc(mapw, ffi.sizeof("node*")))

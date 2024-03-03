@@ -11,9 +11,17 @@ function Map:initialize()
     self.terrain = newAutotable(2)
     self.water = newAutotable(2)
     self.animatedTerrain = newAutotable(2)
-    self.collisionMap = _G.ffi.new("unsigned char[512][512]", {})
+    self.collisionMap = _G.ffi.new("unsigned char[" .. self:getMapWidthInTiles() .. "][" .. self:getMapHeightInTiles() .. "]", {})
     -- TODO: Make it dynamic
-    self.walkingHeightmap = _G.ffi.new("unsigned short[512][512]", {})
+    self.walkingHeightmap = _G.ffi.new("unsigned short[" .. self:getMapWidthInTiles() .. "][" .. self:getMapHeightInTiles() .. "]", {})
+end
+
+function Map:getMapWidthInTiles()
+    return _G.chunksWide * _G.chunkWidth
+end
+
+function Map:getMapHeightInTiles()
+    return _G.chunksWide * _G.chunkWidth
 end
 
 ---@param gx number
@@ -23,7 +31,7 @@ end
 function Map:setWalkable(gx, gy, walkable)
     walkable = walkable or 0
     if walkable == self:getWalkable(gx, gy) then return end
-    if gx >= 0 and gx < 512 and gy >= 0 and gy < 512 then
+    if gx >= 0 and gx < self:getMapWidthInTiles() and gy >= 0 and gy < self:getMapHeightInTiles() then
         _G.channel.mapUpdate:push({ gx, gy, walkable })
         _G.channel2.mapUpdate:push({ gx, gy, walkable })
         self.collisionMap[gx][gy] = walkable
@@ -37,14 +45,14 @@ end
 ---@param gy number
 ---@return number
 function Map:getWalkable(gx, gy)
-    if gx >= 0 and gx < 512 and gy >= 0 and gy < 512 then
+    if gx >= 0 and gx < self:getMapWidthInTiles() and gy >= 0 and gy < self:getMapHeightInTiles() then
         return self.collisionMap[gx][gy]
     end
     return 1
 end
 
 function Map:isWalkable(gx, gy)
-    if gx >= 0 and gx < 512 and gy >= 0 and gy < 512 then
+    if gx >= 0 and gx < self:getMapWidthInTiles() and gy >= 0 and gy < self:getMapHeightInTiles() then
         return self.collisionMap[gx][gy] == 0
     end
     return false
@@ -177,9 +185,9 @@ end
 
 function Map:serializeCollisionMap()
     local data = {}
-    for x = 0, 512 do
+    for x = 0, self:getMapWidthInTiles() do
         data[x] = {}
-        for y = 0, 512 do
+        for y = 0, self:getMapHeightInTiles() do
             data[x][y] = self:getWalkable(x, y)
         end
     end
@@ -187,8 +195,8 @@ function Map:serializeCollisionMap()
 end
 
 function Map:deserializeCollisionMap(data)
-    for x = 0, 512 - 1 do
-        for y = 0, 512 - 1 do
+    for x = 0, self:getMapWidthInTiles() - 1 do
+        for y = 0, self:getMapHeightInTiles() - 1 do
             self:setWalkable(x, y, data[x][y])
         end
     end
@@ -266,9 +274,9 @@ end
 
 function Map:serializeWater()
     local data = {}
-    for x = 0, 512 do
+    for x = 0, self:getMapWidthInTiles() do
         data[x] = {}
-        for y = 0, 512 do
+        for y = 0, self:getMapHeightInTiles() do
             data[x][y] = self:isWaterAt(x, y)
         end
     end
@@ -277,9 +285,9 @@ end
 
 function Map:deserializeWater(data)
     if not data then return end
-    for x = 0, 512 - 1 do
+    for x = 0, self:getMapWidthInTiles() - 1 do
         if data[x] then
-            for y = 0, 512 - 1 do
+            for y = 0, self:getMapHeightInTiles() - 1 do
                 if data[x][y] then
                     self.water[x][y] = data[x][y]
                 end

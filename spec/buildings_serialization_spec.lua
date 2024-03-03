@@ -60,40 +60,15 @@ for path, structure in pairs(structureClasses) do
             _G.state.serializedObjectIds = {}
             _G.state.deserializedObjectCount = 0
             _G.state.deserDebug = {}
+            _G.BuildController.start = true
             it("should serialize", function()
-                local data = building:serialize()
-                if structure.name ~= "Campfire" then
-                    for xx = 0, (building.class.EFFECTIVE_WIDTH or building.class.WIDTH) - 1 do
-                        for yy = 0, (building.class.EFFECTIVE_LENGTH or building.class.WIDTH) - 1 do
-                            local buildingX = building.gx + xx
-                            local buildingY = building.gy + yy
-                            local objects = _G.allObjectsAtGlobal(buildingX, buildingY)
-                            for i, v in ipairs(objects) do
-                                -- don't serialize units in the area
-                                local ref = _G.state:serializeObject(v)
-                                _G.state.serializedObjectIds[ref._ref] = v:serialize()
-                            end
-                        end
-                    end
-                end
+                local data = _G.state:serialize()
                 serial = bitser.dumps(data)
-            end)
-            it("float should serialize if any", function()
-                if building.float then
-                    local ref = _G.state:serializeObject(building.float)
-                    _G.state.serializedObjectIds[ref._ref] = building.float:serialize()
-                end
+                assert.is_not_nil(serial)
             end)
             it("should deserialize", function()
-                _G.state.rawObjectIds = _G.state.serializedObjectIds
-                if building.float then
-                    local obj = bitser.loads(serial)
-                    assert.is_true(obj ~= nil)
-                    assert.are.same(structure.name, obj.className)
-                    local object = _G.getClassByName(obj.className)
-                    assert.is_true(object ~= nil)
-                    object:deserialize(obj)
-                end
+                local data = bitser.loads(serial)
+                _G.state:deserialize(data)
             end)
         end)
     end)

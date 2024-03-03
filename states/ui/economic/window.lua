@@ -44,8 +44,8 @@ buttonStart.OnClick = function(self)
     loveframes.SetState()
     local Gamestate = require("libraries.gamestate")
     local game = require("states.game")
-    local SaveManager = require("objects.Controllers.SaveManager")
-    Gamestate.switch(game, SaveManager.defaultMap.name)
+    -- TODO: ability to run missions on different maps
+    Gamestate.switch(game, "map_Fernhaven", 8, 8)
 end
 buttonStart:SetVisible(false)
 
