@@ -266,7 +266,7 @@ freebuild:
   grasslands:
     name: Prairies
     description: |
-      Quelques prairies vertes\nCette carte n'existe pas encore (placeholder), il va donc charger Fernhaven.
+      Empty grasslands. Used for testing due to fast load times.
 rations:
   no:
     name: Pas de rations

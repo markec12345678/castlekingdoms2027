@@ -263,7 +263,7 @@ freebuild:
   grasslands:
     name: Заливные луга
     description: |
-      Равнинные луга.\nЭта карта пока что не существует (заглушка), поэтому будет загружен Фернхавен.
+      Empty grasslands. Used for testing due to fast load times.
 rations:
   no:
     name: Не выдавать

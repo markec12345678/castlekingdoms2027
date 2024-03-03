@@ -251,7 +251,7 @@ freebuild:
   grasslands:
     name: Pradarias
     description: |
-      Algumas pradarias planas.\nEste mapa ainda não existe (espaço reservado), então ele vai carregar Fernhaven.
+      Empty grasslands. Used for testing due to fast load times.
 rations:
   no:
     name: Sem Rações
@@ -396,16 +396,16 @@ tips:
     structuresInTheWay: Há estruturas no caminho!
     needArmoury: Você precisa de um arsenal para construir isso!
     closeToQuarry: Precisa ser colocado perto de uma pedreira existente!
-    keepCloseToEdgeOfMap: Too close to the edge of the map!
+    keepCloseToEdgeOfMap: Muito perto da borda do mapa!
 ui:
   global:
-    start: Start
+    start: Iniciar
   mainMenu:
     freebuild: Construção Livre
     campaign: Campanha
     load: Carregar
-    save: Save
-    resume: Resume
+    save: Salvar
+    resume: Continuar
     options: Opções
     exit: Sair
   campaign:

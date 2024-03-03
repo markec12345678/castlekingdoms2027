@@ -265,7 +265,7 @@ freebuild:
   grasslands:
     name: Grasslands
     description: |
-      Some plain grasslands.\nThis map doesn't really exist yet (placeholder), so it will load Fernhaven.
+      Empty grasslands. Used for testing due to fast load times.
 rations:
   no:
     name: No Rations
