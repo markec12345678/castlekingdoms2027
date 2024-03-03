@@ -33,6 +33,22 @@
   <url type="help">https://discord.gg/PRh8SPZxEf</url>
 
   <releases>
+    <release version="0.6.1" date="2024-03-03">
+      <description>
+        <p>Bug fix release:</p>
+        <ul>
+          <li>Fixed moonwalking peasants at campfire.</li>
+          <li>Fixed freeze before loading or exiting game.</li>
+          <li>Fixed crash when loading a game with placed stone gates.</li>
+          <li>Added Grasslands map for testing purposes.</li>
+          <li>Added partial Hungarian translations.</li>
+          <li>and more!</li>
+        </ul>
+      </description>
+
+      <url>https://gitlab.com/stone-kingdoms/stone-kingdoms/-/blob/master/CHANGELOG.md#anchor-061</url>
+    </release>
+
     <release version="0.6.0" date="2024-02-01">
       <description>
         <p>Military units, new buildings, translations and more!</p>
