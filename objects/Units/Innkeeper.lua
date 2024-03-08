@@ -85,7 +85,7 @@ function Innkeeper:initialize(gx, gy, type)
     self.offsetX = -5
     self.offsetY = -10
     self.count = 1
-    self.animation = anim.newAnimation(an[IDLE_CLEAN_INNKEEPER], CLEAN_IDLE_FRAMETIME, function () self:idleEnd() end, IDLE_CLEAN_INNKEEPER)
+    self.animation = anim.newAnimation(an[IDLE_CLEAN_INNKEEPER], CLEAN_IDLE_FRAMETIME, function() self:idleEnd() end, IDLE_CLEAN_INNKEEPER)
     self.waitTimer = 0
 end
 
@@ -97,7 +97,7 @@ function Innkeeper:update()
     if self.pathState == "Waiting for path" then
         self:pathfind()
         if self.animation and self.animation.animationIdentifier ~= IDLE_SCRATCH_INNKEEPER then
-            self.animation = _G.anim.newAnimation(an[IDLE_SCRATCH_INNKEEPER], SCRATCH_IDLE_FRAMETIME, function () self:idleEnd() end, IDLE_SCRATCH_INNKEEPER)
+            self.animation = _G.anim.newAnimation(an[IDLE_SCRATCH_INNKEEPER], SCRATCH_IDLE_FRAMETIME, function() self:idleEnd() end, IDLE_SCRATCH_INNKEEPER)
         end
     elseif self.pathState == "No path" and not self.state == "Waiting for ale" then --Teleport to workplace
         self.state = "Working in workplace"
@@ -160,8 +160,7 @@ function Innkeeper:update()
     if self:reachedWaypoint() then
         if self.state == "Going to workplace" then
             if self:reachedPathEnd() then
-                self.state = "Working in workplace"
-                self.workplace:work(self)
+                self.state = "Go to stockpile"
                 self:clearPath()
                 return
             else
@@ -234,7 +233,6 @@ function Innkeeper:dirSubUpdate()
         elseif self.state == "Going to workplace with ale" then
             self.animation = anim.newAnimation(an[WALKING_BARREL_INNKEEPER_EAST], WALK_FRAMETIME, nil, WALKING_BARREL_INNKEEPER_EAST)
         end
-
     elseif self.moveDir == "southeast" then
         if self.state == "Going to workplace" or self.state == "Going to stockpile" then
             self.animation = anim.newAnimation(an[WALKING_INNKEEPER_SOUTHEAST], WALK_FRAMETIME, nil, WALKING_INNKEEPER_SOUTHEAST)
@@ -264,26 +262,26 @@ end
 
 function Innkeeper:idleEnd()
     if self.animation and self.animation.animationIdentifier == IDLE_NORMAL_INNKEEPER then
-        self.animation = _G.anim.newAnimation(an[IDLE_REVERSE_INNKEEPER], NORMAL_IDLE_FRAMETIME, function () self:idleEnd() end, IDLE_REVERSE_INNKEEPER)
+        self.animation = _G.anim.newAnimation(an[IDLE_REVERSE_INNKEEPER], NORMAL_IDLE_FRAMETIME, function() self:idleEnd() end, IDLE_REVERSE_INNKEEPER)
     elseif self.animation and self.animation.animationIdentifier == IDLE_REVERSE_INNKEEPER then
         local roll = math.random(10)
         if roll < 4 then
-            self.animation = _G.anim.newAnimation(an[IDLE_SCRATCH_INNKEEPER], SCRATCH_IDLE_FRAMETIME, function () self:idleEnd() end, IDLE_SCRATCH_INNKEEPER)
+            self.animation = _G.anim.newAnimation(an[IDLE_SCRATCH_INNKEEPER], SCRATCH_IDLE_FRAMETIME, function() self:idleEnd() end, IDLE_SCRATCH_INNKEEPER)
         elseif roll < 7 then
-            self.animation = _G.anim.newAnimation(an[IDLE_CLEAN_INNKEEPER], CLEAN_IDLE_FRAMETIME, function () self:idleEnd() end, IDLE_CLEAN_INNKEEPER)
+            self.animation = _G.anim.newAnimation(an[IDLE_CLEAN_INNKEEPER], CLEAN_IDLE_FRAMETIME, function() self:idleEnd() end, IDLE_CLEAN_INNKEEPER)
         else
-            self.animation = _G.anim.newAnimation(an[IDLE_NORMAL_INNKEEPER], NORMAL_IDLE_FRAMETIME, function () self:idleEnd() end, IDLE_NORMAL_INNKEEPER)
+            self.animation = _G.anim.newAnimation(an[IDLE_NORMAL_INNKEEPER], NORMAL_IDLE_FRAMETIME, function() self:idleEnd() end, IDLE_NORMAL_INNKEEPER)
         end
     elseif self.animation and self.animation.animationIdentifier == IDLE_SCRATCH_INNKEEPER then
-        self.animation = _G.anim.newAnimation(an[IDLE_NORMAL_INNKEEPER], NORMAL_IDLE_FRAMETIME, function () self:idleEnd() end, IDLE_NORMAL_INNKEEPER)
+        self.animation = _G.anim.newAnimation(an[IDLE_NORMAL_INNKEEPER], NORMAL_IDLE_FRAMETIME, function() self:idleEnd() end, IDLE_NORMAL_INNKEEPER)
     elseif self.animation and self.animation.animationIdentifier == IDLE_CLEAN_INNKEEPER then
-        self.animation = _G.anim.newAnimation(an[IDLE_NORMAL_INNKEEPER], NORMAL_IDLE_FRAMETIME, function () self:idleEnd() end, IDLE_NORMAL_INNKEEPER)
+        self.animation = _G.anim.newAnimation(an[IDLE_NORMAL_INNKEEPER], NORMAL_IDLE_FRAMETIME, function() self:idleEnd() end, IDLE_NORMAL_INNKEEPER)
     end
 end
 
 function Innkeeper:onAleIsUnavaliable()
     if self.animation and self.animation.animationIdentifier ~= IDLE_NORMAL_INNKEEPER then
-        self.animation = _G.anim.newAnimation(an[IDLE_NORMAL_INNKEEPER], NORMAL_IDLE_FRAMETIME, function () self:idleEnd() end, IDLE_NORMAL_INNKEEPER)
+        self.animation = _G.anim.newAnimation(an[IDLE_NORMAL_INNKEEPER], NORMAL_IDLE_FRAMETIME, function() self:idleEnd() end, IDLE_NORMAL_INNKEEPER)
     end
     self.state = "Waiting for ale"
 end
@@ -312,9 +310,9 @@ function Innkeeper:load(data)
             callback = function() self:idleEnd() end
             frameTime = NORMAL_IDLE_FRAMETIME
             if string.find(anData.animationIdentifier, "clean") then
-               frameTime = CLEAN_IDLE_FRAMETIME 
+                frameTime = CLEAN_IDLE_FRAMETIME
             elseif (string.find(anData.animationIdentifier, "scratch")) then
-               frameTime = SCRATCH_IDLE_FRAMETIME
+                frameTime = SCRATCH_IDLE_FRAMETIME
             end
         end
         self.animation = anim.newAnimation(an[anData.animationIdentifier], frameTime, callback, anData.animationIdentifier)
