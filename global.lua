@@ -86,16 +86,16 @@ function _G.indexBuildingQuads(quadString, trimLast, lastWidthOffset)
     return totalTilesWide - 1, resultArray
 end
 
-function _G.indexQuads(string, endAmount, start, reverse)
+function _G.indexQuads(string, endIndex, startIndex, reverse)
     local tileQuads = require("objects.object_quads")
-    start = start or 1
+    startIndex = startIndex or 1
     local tempArray = {}
-    for i = start, endAmount do
+    for i = startIndex, endIndex do
         tempArray[#tempArray + 1] = tileQuads[string .. " (" .. tostring(i) .. ")"]
     end
     if reverse then
-        for i = 2, endAmount do
-            tempArray[#tempArray + 1] = tileQuads[string .. " (" .. tostring(endAmount - i) .. ")"]
+        for i = 2, endIndex do
+            tempArray[#tempArray + 1] = tileQuads[string .. " (" .. tostring(endIndex - i) .. ")"]
         end
     end
     return tempArray
@@ -107,6 +107,20 @@ function _G.addReverse(tempArray)
         tempArray[#tempArray + 1] = tempArray[i]
     end
     return tempArray
+end
+
+--- Repeat the content of a table timesToRepeat times and add it to the same table
+--- @param arrayToRepeat table A table representing an array indexed from 1
+--- @param timesToRepeat number Number of times the content of the array should be multiplied, and added the same table
+--- @return table arrayToRepeat The same table that was passed in but with repeated contents
+function _G.addRepeat(arrayToRepeat, timesToRepeat)
+    local initalArraySize = #arrayToRepeat
+    for _ = 1, timesToRepeat do
+        for i = 1, initalArraySize do
+            arrayToRepeat[#arrayToRepeat + 1] = arrayToRepeat[i]
+        end
+    end
+    return arrayToRepeat
 end
 
 function _G.newAutotable(dim)
