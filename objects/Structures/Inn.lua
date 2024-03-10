@@ -51,7 +51,7 @@ function InnAnimation:initialize(gx, gy, parent, offsetX, offsetY, nextAnimation
     self.nextAnimationCallback = nextAnimationCallback
     if self.nextAnimationCallback then
         local startingAnimation, frameTime = self.nextAnimationCallback(nil)
-        self.animation = anim.newAnimation(an[startingAnimation], frameTime, function () self:animationEnd() end, startingAnimation)
+        self.animation = anim.newAnimation(an[startingAnimation], frameTime, function() self:animationEnd() end, startingAnimation)
         self.animation:pause()
     end
 
@@ -62,7 +62,7 @@ function InnAnimation:animationEnd()
     if self.nextAnimationCallback then
         local nextAnimation, frametime = self.nextAnimationCallback(self.animation.animationIdentifier)
         if nextAnimation ~= nil then
-            self.animation = anim.newAnimation(an[nextAnimation], frametime, function () self:animationEnd() end, nextAnimation)
+            self.animation = anim.newAnimation(an[nextAnimation], frametime, function() self:animationEnd() end, nextAnimation)
         end
     end
 end
@@ -121,7 +121,6 @@ local function nextFireplaceAnimation(previousAnimation)
 end
 
 local function nextDogAnimation(previousAnimation)
-
     if previousAnimation == nil then
         return ANIM_INN_DOG_SITTING, DOG_ANIMATION_FRAMETIME
     elseif previousAnimation == ANIM_INN_DOG_STANDING_UP then
@@ -132,7 +131,7 @@ local function nextDogAnimation(previousAnimation)
         return ANIM_INN_DOG_LYING, DOG_ANIMATION_FRAMETIME
     elseif previousAnimation == ANIM_INN_DOG_SITTING_UP then
         return ANIM_INN_DOG_SITTING, DOG_ANIMATION_FRAMETIME
-    elseif previousAnimation ==  ANIM_INN_DOG_LICKING then
+    elseif previousAnimation == ANIM_INN_DOG_LICKING then
         return ANIM_INN_DOG_SITTING, DOG_ANIMATION_FRAMETIME
     elseif previousAnimation == ANIM_INN_DOG_STANDING then
         if math.random(1, 4) == 4 then
@@ -160,7 +159,7 @@ local function nextInnkeeperAnimation(previousAnimation)
     if previousAnimation == nil then
         return ANIM_INN_INNKEEPER_STANDING, 0.30
     elseif previousAnimation == ANIM_INN_INNKEEPER_STANDING then
-        local roll = math.random(1,3)
+        local roll = math.random(1, 3)
         if (roll == 3) then
             return ANIM_INN_INNKEEPER_CLEANING, 0.11
         end
@@ -221,7 +220,7 @@ function InnAnimation.static:deserialize(data)
     else
         print("Unknown inn animation: " .. anData.animationIdentifier)
     end
-    obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], frameTime, function () obj:animationEnd() end, anData.animationIdentifier)
+    obj.animation = _G.anim.newAnimation(an[anData.animationIdentifier], frameTime, function() obj:animationEnd() end, anData.animationIdentifier)
     obj.animation:deserialize(anData)
 
     return obj
@@ -279,6 +278,7 @@ Inn.static.HEIGHT = 17
 Inn.static.DESTRUCTIBLE = true
 
 local ALE_CONSUMPTION_DURATION = 0.5
+local CONSUMED_ALE_PER_DRUNKARD = 120
 
 function Inn:initialize(gx, gy)
     _G.JobController:add("Innkeeper", self)
@@ -292,8 +292,8 @@ function Inn:initialize(gx, gy)
     self.worker = nil
     self.hover = false
     self.jugsOfAle = 0
+    self.consumedAleSinceLastDrunkard = 0
     self.aleConsumptionTimer = 0
-    self.drunkard = Drunkard:new(gx + 3, gy + Inn.static.WIDTH, self)
     self.partyObj = InnAnimationFactory("InnParty", self.gx + 3, self.gy + 2, self)
     self.dogObj = InnAnimationFactory("InnDog", self.gx + 3, self.gy + 2, self)
     self.fireplaceObj = InnAnimationFactory("InnFireplace", self.gx + 3, self.gy + 3, self)
@@ -305,7 +305,7 @@ function Inn:initialize(gx, gy)
     end
     for tile = 1, tiles do
         local hsl = InnAlias:new(quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile
-            , 16)
+        , 16)
         hsl.tileKey = tiles + 1 + tile
     end
     local tileQuads = require("objects.object_quads")
@@ -325,9 +325,6 @@ function Inn:destroy()
     _G.JobController:remove("Innkeeper", self)
     if self.worker then
         self.worker:quitJob()
-    end
-    if self.drunkard then
-        self.drunkard.inn = nil
     end
     self.float:destroy()
     Structure.destroy(self.partyObj)
@@ -387,11 +384,8 @@ function Inn:work(worker)
     worker.gx = self.gx + 3
     worker.gy = self.gy + 6
     worker:jobUpdate()
-    self.partyObj:activate()
-    self.dogObj:activate()
     self.innkeeperAnimObj:activate()
     self.fireplaceObj:deactivate()
-    self:enterHover()
 end
 
 function Inn:exitToStockpile()
@@ -406,19 +400,32 @@ end
 
 function Inn:sendToStockpile()
     self:respawnWorker(self.worker, "Go to stockpile")
-    self.partyObj:deactivate()
-    self.dogObj:deactivate()
     self.innkeeperAnimObj:deactivate()
-    self:exitHover()
 end
 
 function Inn:consumeAle()
     if self.jugsOfAle > 0 then
+        if not self.partyObj.animated then
+            self.partyObj:activate()
+            self.dogObj:activate()
+            self:enterHover()
+        end
+
         self.aleConsumptionTimer = self.aleConsumptionTimer + _G.dt
         if self.aleConsumptionTimer > ALE_CONSUMPTION_DURATION then
-             self.jugsOfAle = self.jugsOfAle - 1
-             self.aleConsumptionTimer = 0
+            self.jugsOfAle = self.jugsOfAle - 1
+            self.consumedAleSinceLastDrunkard = self.consumedAleSinceLastDrunkard + 1
+            self.aleConsumptionTimer = 0
         end
+
+        if self.consumedAleSinceLastDrunkard > CONSUMED_ALE_PER_DRUNKARD then
+            Drunkard:new(self.gx + 3, self.gy + Inn.static.WIDTH)
+            self.consumedAleSinceLastDrunkard = 0
+        end
+    elseif self.partyObj.animated then
+        self.partyObj:deactivate()
+        self.dogObj:deactivate()
+        self:exitHover()
     end
 end
 
@@ -483,10 +490,6 @@ function Inn:load(data)
     Structure.load(self, data)
     self.tile = quadArray[tiles + 1]
     Structure.render(self)
-    if data.drunkard then
-        self.drunkard = _G.state:dereferenceObject(data.drunkard)
-        self.drunkard.inn = self
-    end
     if data.worker then
         self.worker = _G.state:dereferenceObject(data.worker)
         self.worker.workplace = self
@@ -506,10 +509,8 @@ function Inn:serialize()
     data.offsetY = self.offsetY
     data.freeSpots = self.freeSpots
     data.jugsOfAle = self.jugsOfAle
+    data.consumedAleSinceLastDrunkard = self.consumedAleSinceLastDrunkard
     data.aleConsumptionTimer = self.aleConsumptionTimer
-    if self.drunkard then
-        data.drunkard = _G.state:serializeObject(self.drunkard)
-    end
     if self.worker then
         data.worker = _G.state:serializeObject(self.worker)
     end

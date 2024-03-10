@@ -75,6 +75,8 @@ local NORMAL_IDLE_FRAMETIME = 0.3
 local CLEAN_IDLE_FRAMETIME = 0.07
 local SCRATCH_IDLE_FRAMETIME = 0.07
 local WALK_FRAMETIME = 0.05
+local JUGS_PER_BARREL = 160
+local MINIMUM_JUGS_IN_INN = JUGS_PER_BARREL * 2
 
 local Innkeeper = _G.class('Innkeeper', Worker)
 
@@ -104,7 +106,7 @@ function Innkeeper:update()
         self.workplace:work(self)
         self.pathState = "none"
     elseif self.state == "Working in workplace" then
-        if self.workplace.jugsOfAle == 0 then
+        if self.workplace.jugsOfAle < MINIMUM_JUGS_IN_INN then
             self.state = "Waiting for exitpoint"
             self.workplace:exitToStockpile()
         end
@@ -184,9 +186,13 @@ function Innkeeper:update()
             self.count = self.count + 1
         elseif self.state == "Going to workplace with ale" then
             if self:reachedPathEnd() then
-                self.workplace.jugsOfAle = self.workplace.jugsOfAle + 160
-                self.state = "Working in workplace"
-                self.workplace:work(self)
+                self.workplace.jugsOfAle = self.workplace.jugsOfAle + JUGS_PER_BARREL
+                if self.workplace.jugsOfAle < MINIMUM_JUGS_IN_INN then
+                    self.state = "Go to stockpile"
+                else
+                    self.state = "Working in workplace"
+                    self.workplace:work(self)
+                end
                 self:clearPath()
             else
                 self:setNextWaypoint()

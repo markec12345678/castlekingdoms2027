@@ -98,11 +98,10 @@ local STANDING_TIME = 4
 local SITTING_TIME = 4
 local IDLE_ANIMATION_FRAME_TIME = 0.20
 local LIFE_TIME = 90
-local RESPAWN_TIME = 10
 
 local Drunkard = _G.class('Drunkard', Worker)
 
-function Drunkard:initialize(gx, gy, inn)
+function Drunkard:initialize(gx, gy)
     Worker.initialize(self, gx, gy, nil)
     self.state = 'Wander'
     self.offsetX = -5
@@ -110,26 +109,15 @@ function Drunkard:initialize(gx, gy, inn)
     self.count = 1
     self.waitingTimer = 0
     self.lifeTimer = 0
-    self.inn = inn
     self.straightWalkSpeed = math.floor(self.straightWalkSpeed * 0.4)
     self.diagonalWalkSpeed = math.floor(self.diagonalWalkSpeed * 0.4)
     self.animation = anim.newAnimation(an[IDLE_DRUNKARD_SOUTH], 0.11, nil, IDLE_DRUNKARD_SOUTH)
 end
 
 function Drunkard:update()
-    if self.state ~= "Waiting for respawn" then
-        self.lifeTimer = self.lifeTimer + _G.dt
-    end
+    self.lifeTimer = self.lifeTimer + _G.dt
     if self.lifeTimer > LIFE_TIME then
-        self.state = "Waiting for respawn"
-        self.waitingTimer = 0
-        self.lifeTimer = 0
-        --Disappear
-        _G.removeObjectAt(self.lrcx, self.lrcy, self.lrx, self.lry, self)
-        _G.freeVertexFromTile(self.cx, self.cy, self.vertId)
-        self.instancemesh = nil
-        self.animation = nil
-        self:clearPath()
+        self:die()
     end
     if self.pathState == "Waiting for path" then
         self:pathfind()
@@ -159,19 +147,6 @@ function Drunkard:update()
                 self.state = "Standing up"
                 self.animation = anim.newAnimation(an[STANDUP_DRUNKARD], 0.20, function() self:standupFinished() end, STANDUP_DRUNKARD)
                 self.waitingTimer = 0
-            end
-        elseif self.state == "Waiting for respawn" then
-            self.waitingTimer = self.waitingTimer + _G.dt
-            if self.waitingTimer > RESPAWN_TIME then
-                if self.inn then
-                    self.state = "Wander"
-                    self.animation = anim.newAnimation(an[IDLE_DRUNKARD_SOUTH], 0.11, nil, IDLE_DRUNKARD_SOUTH)
-                    self.fx = (self.inn.gx + 3) * 1000 + 500 -- teleport in front of the inn
-                    self.fy = (self.inn.gy + 5) * 1000 + 500
-                    self.waitingTimer = 0
-                else
-                    self:die()
-                end
             end
         end
         if self:reachedWaypoint() then
