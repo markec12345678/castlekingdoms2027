@@ -251,7 +251,7 @@ freebuild:
   grasslands:
     name: Pradarias
     description: |
-      Empty grasslands. Used for testing due to fast load times.
+      Grama vazia. Usado para testes devido a tempos de carregamento rápidos.
 rations:
   no:
     name: Sem Rações
