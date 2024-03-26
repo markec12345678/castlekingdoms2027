@@ -189,6 +189,15 @@ function ActionBar:switchMode(mode)
         self.element:SetState(states.STATE_CATHEDRAL)
         self.element:SetImage(ActionBar.actionBarArmouryImage)
         buildingHover:SetState(states.STATE_CATHEDRAL)
+    elseif mode == "inn" then
+        self:showGroup("inn")
+        loveframes.SetState(states.STATE_INN)
+        self.popularityText:SetState(states.STATE_INN)
+        self.populationText:SetState(states.STATE_INN)
+        self.goldText:SetState(states.STATE_INN)
+        self.element:SetState(states.STATE_INN)
+        self.element:SetImage(ActionBar.actionBarStockpileImage)
+        buildingHover:SetState(states.STATE_INN)
     else
         if _G.BuildController.start then
             self:showGroup("start")
@@ -218,7 +227,7 @@ function ActionBar:updatePopularityCount()
     end
     local effects = _G.PopularityController.effects
     local neutral, bad, good = { color = { 0.305 + 0.5, 0.29 + 0.5, 0.125 + 0.5, 1 } }, { color = { 0.79, 0, 0, 1 } }, { color = { 0, 0.89, 0, 1 } }
-    local taxColor, rationColor, fearColor, totalColor
+    local taxColor, rationColor, fearColor, totalColor, aleColor
     if effects.tax < 0 then
         taxColor = bad
     elseif effects.tax == 0 then
@@ -240,7 +249,12 @@ function ActionBar:updatePopularityCount()
     elseif effects.positiveBuildings > 0 then
         fearColor = good
     end
-    local total = effects.tax + effects.rations + effects.positiveBuildings
+    if effects.ale == 0 then
+        aleColor = neutral
+    elseif effects.ale > 0 then
+        aleColor = good
+    end
+    local total = effects.tax + effects.rations + effects.positiveBuildings + effects.ale
     if total < 0 then
         totalColor = bad
     elseif total == 0 then
@@ -252,6 +266,7 @@ function ActionBar:updatePopularityCount()
     local tooltip = {
         taxColor, ("\tTaxes: %d\n"):format(effects.tax),
         rationColor, ("\tRations: %d\n"):format(effects.rations),
+        aleColor, ("\tAle: %d\n"):format(effects.ale),
         fearColor, ("\tFear factor: %d\n"):format(effects.positiveBuildings),
         totalColor, ("\n\tTotal: %s"):format(tostring(total)),
     }

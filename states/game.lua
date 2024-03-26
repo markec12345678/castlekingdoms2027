@@ -41,6 +41,7 @@ local function delayedInit()
     _G.DestructionController = require("objects.Controllers.DestructionController"):new()
     _G.SleepController = require("objects.Controllers.SleepController"):new()
     RationController = require("objects.Controllers.RationController")
+    _G.AleController = require("objects.Controllers.AleController")
     _G.TaxController = require("objects.Controllers.TaxController")
     _G.TimeController = require("objects.Controllers.TimeController")
     _G.MissionController = require("objects.Controllers.MissionController")
@@ -147,6 +148,7 @@ function game:update(dt)
             if not _G.BuildController.start then
                 _G.TimeController:update()
                 RationController:update()
+                _G.AleController:update()
                 _G.TaxController:update()
                 _G.PopularityController:update()
                 _G.ScribeController:update()
@@ -363,7 +365,8 @@ function game:keypressed(key, scancode, isRepeat)
                 loveframes.GetState() == states.STATE_MARKET_MAIN or
                 loveframes.GetState() == states.STATE_KEEP_TAX or
                 loveframes.GetState() == states.STATE_ARMOURY or
-                loveframes.GetState() == states.STATE_UNITS) then
+                loveframes.GetState() == states.STATE_UNITS or
+                loveframes.GetState() == states.STATE_INN) then
             ActionBar:switchMode()
             return
         end
