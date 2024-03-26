@@ -1,10 +1,10 @@
 mission1:
-  name: Timber and Stone
+  name: Madera y Piedra
   desc: |
-    In this mission, you will need to focus on gathering resources to develop your kingdom's infrastructure.
-    Your objective is to collect 50 units of wood and 20 units of stone within the next 5 years.\n
-    To achieve this, you will need to establish a network of woodcutter's huts and quarries to extract these resources from the surrounding environment.
-    This may involve the construction of stockpiles to store your resources.
+    En esta misión, tendrás que enfocarte en obtener recursos para desarrollar la estructura de tu reino.
+    Tu objetivo es colectar 50 unidades de madera y 20 unidades de piedra dentro de los próximos 5 años. \n
+    Para lograr esto, tendrás que establecer una red de cabañas de leñadores y canteras para extraer esos recursos del ambiente.
+    Esto puede implicar la construcción de almacenes para guardar tus recursos.
 mission2:
   name: Arms Race
   desc: |
@@ -40,52 +40,52 @@ mission5:
     You will need to make strategic decisions and manage your time carefully to ensure the completion of your cathedral within the allotted timeframe. Good luck!
 groups:
   castle:
-    name: Castle
-    description: Walls, Towers, Gates and everything else you need to defend your Stronghold.
+    name: Castillo
+    description: Paredes, Torres, Puertas y todo lo demás que necesitas para defender tu castillo.
   industry:
-    name: Industry
+    name: Industria
     description: Build mighty Industries to defeat your enemies ... or fill your pockets.
   apple:
-    name: Farms
-    description: Produce basic agricultural products.
+    name: Granjas
+    description: Produce productos básicos de ganadería.
   house:
-    name: Civilian
-    description: Houses and amenities for your citizens.
+    name: Civil
+    description: Chozas y comodidades para tus civiles.
   shield:
     name: Military
     description: Raise mighty armies and build terrifying siege weapons to crush your enemies.
   sickle:
-    name: Food Production
-    description: Turn basic farm products into high quality goods.
+    name: Producción de Comida
+    description: Convierte productos básicos de ganadería en materiales de buena calidad.
   destroy:
-    name: Demolish
-    description: Enter demolish mode. Click on a building to destroy.
-    exitTooltip: Exit Demolish Mode
+    name: Demoler
+    description: Modo de demolición activado. Cliquea una construcción para destruirla.
+    exitTooltip: Salir de modo de demolición
   houses:
-    name: Houses
-    description: Houses to increase your population limit.
+    name: Chozas
+    description: Chozas para incrementar el límite de población.
   goodThings:
-    name: Good things
-    description: Gardens, statues and entertainment to increase your popularity.
+    name: Cosas buenas
+    description: Jardines, estatuas y entretenimiento para incrementar tu popularidad.
 buildings:
   hunterHut:
     name: Puesto de caza
-    description: Hunts deer in the environment for meat.
+    description: Cazan ciervos en el ambiente para la carne.
   granary:
     name: Granero
-    description: The granary is where you store your kingdom's food reserves.
+    description: El granero es donde guardas la reservas de comida de tu reino.
   orchard:
     name: Huerto de manzanas
-    description: Produces apples.
+    description: Produce manzanas.
   wheatFarm:
     name: Granja de trigo
-    description: Produces wheat which can be processed into flour.
+    description: Produce trigo el cual se puede procesar en harina.
   dairyFarm:
     name: Vaquería
-    description: Produces cheese.
+    description: Produce queso.
   hopsFarm:
     name: Granja de lúpulo
-    description: Produces hops which can be processed into ale.
+    description: Produce lúpulo el cual se puede procesar en cerveza.
   castle:
     name: Saxon Hall
     description: Your Saxon hall is the center of your castle.
@@ -94,25 +94,25 @@ buildings:
     description: |
       Increases resource capacity.\nMust be placed adjacent to a stockpile.
   woodenKeep:
-    name: Wooden Keep
+    name: Torreón de Madera
     description: Upgrade your Saxon hall to a Wooden keep
   keep:
-    name: Keep
-    description: Upgrade your Wooden keep to a Stone keep
+    name: Torreón
+    description: Mejora tu Torreón de madera a un Torreón de piedra
   fortress:
-    name: Fortress
-    description: Upgrade your Stone keep to a Fortress
+    name: Fortaleza
+    description: Mejora tu Torreón de piedra una Fortaleza
   stronghold:
-    name: Stronghold
-    description: Upgrade your Fortress to a Stronghold (not supported yet)
+    name: Castillo
+    description: Mejora tu Fortaleza a un Castillo (aún no soportado)
   barracks:
     name: Cuartel
     description: A building allowing you to recruit units.
   stoneBarracks:
-    name: Stone Barracks
-    description: A building allowing you to recruit units.
+    name: Cuartel de piedra
+    description: Una construcción que te permite reclutar unidades.
   engineersGuild:
-    name: Engineers Guild
+    name: Gremio de ingenieros
     description: A building allowing you to recruit siege units.
   tunnelersGuild:
     name: Tunnelers Guild
