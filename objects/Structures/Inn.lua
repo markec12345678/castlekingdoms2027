@@ -39,6 +39,10 @@ local an = {
 
 local DOG_ANIMATION_FRAMETIME = 0.11
 
+local innFx = {
+    ["Inn"] = { _G.fx["inn_01"], _G.fx["inn_02"] }
+}
+
 local InnAnimation = _G.class("InnAnimation", Structure)
 function InnAnimation:initialize(gx, gy, parent, offsetX, offsetY, nextAnimationCallback)
     self.parent = parent
@@ -319,9 +323,12 @@ function Inn:initialize(gx, gy)
     self:applyBuildingHeightMap()
 
     self.float = NotEnoughWorkersFloat:new(self.gx, self.gy, 0, -64)
+    
+    _G.AleController:registerInn(self)
 end
 
 function Inn:destroy()
+    _G.AleController:removeInn(self)
     _G.JobController:remove("Innkeeper", self)
     if self.worker then
         self.worker:quitJob()
@@ -341,8 +348,9 @@ end
 
 function Inn:onClick()
     local ActionBar = require("states.ui.ActionBar")
-    --ActionBar:switchMode("inn")
-    --TODO: play inn sound
+    ActionBar:switchMode("inn")
+    ActionBar:setChosenInn(self)
+    _G.playSfx(self, innFx["Inn"])
 end
 
 function Inn:join(worker)
@@ -494,6 +502,7 @@ function Inn:load(data)
         self.worker = _G.state:dereferenceObject(data.worker)
         self.worker.workplace = self
     end
+    _G.AleController:registerInn(self)
 end
 
 function Inn:serialize()

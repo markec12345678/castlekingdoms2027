@@ -9,7 +9,7 @@ end
 local PopularityController = _G.class("PopularityController")
 PopularityController.static.POPULARITY_INTERVAL = 3
 function PopularityController:initialize()
-    self.timer = 0
+    self.timer = self.class.POPULARITY_INTERVAL
     self.moodFoodFactor = RationController.moodFactor
     self.moodTaxFactor = _G.TaxController.moodFactor
     self.speedPopModifier = 2
@@ -17,14 +17,14 @@ function PopularityController:initialize()
     self.effects = {
         tax = 0,
         rations = 0,
-        positiveBuildings = 0
+        positiveBuildings = 0,
+        ale = 0
     }
 end
 
 function PopularityController:serialize()
     local data = {}
 
-    data.timer = self.timer
     data.moodFoodFactor = self.moodFoodFactor
     data.moodTaxFactor = self.moodTaxFactor
 
@@ -38,8 +38,10 @@ function PopularityController:deserialize(data)
     self.effects = {
         tax = 0,
         rations = 0,
-        positiveBuildings = 0
+        positiveBuildings = 0,
+        ale = 0
     }
+    self.timer = self.class.POPULARITY_INTERVAL
 end
 
 function PopularityController:calculatePositiveBuildingPopularity()
@@ -57,16 +59,20 @@ function PopularityController:update()
     if not _G.campfireFloatPop then return end
     self.timer = self.timer + _G.dt
     if self.timer >= self.class.POPULARITY_INTERVAL then
-        local tax, rations, positiveBuildings = _G.TaxController:getMoodFactor(), RationController:getMoodLevel(), math.floor(self:calculatePositiveBuildingPopularity())
-        local rate = tax + rations + positiveBuildings
+        local tax = _G.TaxController:getMoodFactor()
+        local rations = RationController:getMoodLevel()
+        local _, ale = _G.AleController:getAleCoverageStats()
+        local positiveBuildings = math.floor(self:calculatePositiveBuildingPopularity())
+        local rate = tax + rations + positiveBuildings + ale
         self.effects["tax"] = tax
         self.effects["rations"] = rations
         self.effects["positiveBuildings"] = positiveBuildings
+        self.effects["ale"] = ale
         _G.state.popularity = clamp(_G.state.popularity + rate, 0, 100)
         if popularityOldValue ~= _G.state.popularity then
             _G.bus.emit(Events.OnPopulationChange, popularityOldValue, _G.state.popularity)
-            actionBar:updatePopularityCount()
         end
+        actionBar:updatePopularityCount()
         self.timer = 0
         local x = _G.state.popularity
         if _G.state.popularity >= 50 then
