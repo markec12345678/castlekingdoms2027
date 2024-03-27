@@ -73,46 +73,29 @@ end
 function FoodController:serialize()
     local data = {}
     data.nodeList = self.nodeList
-    local food = {}
-    for foodtype, foodlist in pairs(self.food) do
-        food[foodtype] = {}
-        for i, foodpile in ipairs(foodlist) do
-            food[foodtype][i] = {}
-            for sk, sv in pairs(foodpile) do
-                if sk == "id" then
-                    food[foodtype][i][sk] = _G.state:serializeObject(sv)
-                else
-                    food[foodtype][i][sk] = sv
-                end
-            end
-        end
-    end
     local granaryList = {}
     for _, v in ipairs(self.list) do
         granaryList[#granaryList + 1] = _G.state:serializeObject(v)
     end
     data.granaryList = granaryList
-    data.rawFood = food
     return data
 end
 
 function FoodController:deserialize(data)
     self.nodeList = data.nodeList
-    for foodtype, foodlist in pairs(data.rawFood) do
-        self.food[foodtype] = {}
-        for i, foodpile in ipairs(foodlist) do
-            self.food[foodtype][i] = {}
-            for sk, sv in pairs(foodpile) do
-                if sk == "id" then
-                    self.food[foodtype][i][sk] = _G.state:dereferenceObject(sv)
-                else
-                    self.food[foodtype][i][sk] = sv
-                end
-            end
-        end
-    end
     for _, v in ipairs(data.granaryList) do
         self.list[#self.list + 1] = _G.state:dereferenceObject(v)
+    end
+    self.food = {}
+    for _, v in pairs(FOOD) do
+        self.food[v] = {}
+    end
+    for _, granary in ipairs(self.list) do
+        for _, pile in ipairs(granary.foodpile) do
+            if pile.quantity > 0 then
+                self.food[pile.type][pile.key] = pile
+            end
+        end
     end
 end
 
