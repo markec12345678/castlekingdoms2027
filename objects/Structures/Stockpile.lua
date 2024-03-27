@@ -433,7 +433,9 @@ function Stockpile:load(data)
         end
         if v.quantity > 0 then
             if type(_G.stockpile.resources[v.type]) == "table" then
-                _G.stockpile.resources[v.type][#_G.stockpile.resources[v.type] + 1] = self.stockpile[idx]
+                local newKey = #_G.stockpile.resources[v.type] + 1
+                _G.stockpile.resources[v.type][newKey] = self.stockpile[idx]
+                self.stockpile[idx].key = newKey
             else
                 _G.stockpile.resources[v.type] = { self.stockpile[idx] }
             end
