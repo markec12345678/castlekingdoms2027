@@ -89,6 +89,7 @@ function Chapel:initialize(gx, gy)
 end
 
 function Chapel:destroy()
+    _G.JobController:remove("Priest", self)
     self.float:destroy()
     if self.worker then
         self.worker:die()
@@ -130,6 +131,23 @@ function Chapel:join(worker)
     end
     if self.freeSpots == 0 then
         self.float:deactivate()
+    end
+end
+
+function Chapel:exitTowardsStockpile()
+    self:findExitPointTo("Stockpile", function(found, path)
+        if found then
+            self:sendWorkerToBlessBuilding()
+        else
+            print("No path found to stockpile!")
+        end
+    end)
+end
+
+function Chapel:sendWorkerToBlessBuilding()
+    if self.worker then
+        self:respawnWorker(self.worker, "Looking to bless")
+        self.worker:onExitPointFound()
     end
 end
 

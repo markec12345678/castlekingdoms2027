@@ -65,6 +65,7 @@ local an = {
 
 local SEARCH_RADIUS = 30
 local WORK_DURATION = 6
+local NO_EXIT_WAIT_DURATION = 5
 
 local Priest = _G.class('Priest', Worker)
 
@@ -91,7 +92,7 @@ function Priest:blessCallback()
             self.moveDir = "none"
             self.count = 1
             self.state = "Going to workplace"
-            self:requestPath(self.workplace.gx + 3, self.workplace.gy + 6, function() self:onNoPathToWorkplace() end)
+            self:requestPathToStructure(self.workplace, function() self:onNoPathToWorkplace() end)
             self.blessedStructures = 0
         end
     end
@@ -182,8 +183,9 @@ function Priest:update()
     if self.state == "Working in workplace" then
         self.waitTimer = self.waitTimer + _G.dt
         if self.waitTimer > WORK_DURATION then
-            self.state = "Looking to bless"
+            self.state = "Waiting for exitpoint"
             self.waitTimer = 0
+            self.workplace:exitTowardsStockpile()
             return
         end
     end
@@ -191,6 +193,13 @@ function Priest:update()
         self:pathfind()
         if self.animation and self.animation.animationIdentifier ~= IDLE then
             self.animation = _G.anim.newAnimation(an[IDLE], 0.11, nil, IDLE)
+        end
+        
+    elseif self.state == "Waiting for exitpoint" then
+        self.waitTimer = self.waitTimer + _G.dt
+        if self.waitTimer > NO_EXIT_WAIT_DURATION then
+            self.workplace:exitTowardsStockpile()
+            self.waitTimer = 0
         end
     elseif self.pathState == "No path" then --Can happen if path for blessig target fails two times
         self.state = "Working in workplace"
@@ -202,7 +211,7 @@ function Priest:update()
         if self.state == "Looking to bless" then
             self:findStrucutures()
         elseif self.state == "Go to workplace" then
-            self:requestPath(self.workplace.gx + 3, self.workplace.gy + 6, function() self:onNoPathToWorkplace() end)
+            self:requestPathToStructure(self.workplace, function() self:onNoPathToWorkplace() end)
             self.state = "Going to workplace"
             self.moveDir = "none"
         elseif self.state == "Going to bless" or self.state == "Going to workplace" or self.state == "Going to waypoint" then
@@ -256,6 +265,10 @@ function Priest:onNoPathToWorkplace()
     if _G.campfire.peasants < _G.campfire.maxPeasants then
         Peasant:new(_G.spawnPointX, _G.spawnPointY)
     end
+end
+
+function Priest:onExitPointFound()
+    self.waitTimer = 0
 end
 
 function Priest:animate()

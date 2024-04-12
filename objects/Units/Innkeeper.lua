@@ -305,6 +305,10 @@ function Innkeeper:onNoPathToWorkplace()
     end
 end
 
+function Innkeeper:onExitPointFound()
+    self.waitTimer = 0
+end
+
 function Innkeeper:load(data)
     Object.deserialize(self, data)
     Worker.load(self, data)
