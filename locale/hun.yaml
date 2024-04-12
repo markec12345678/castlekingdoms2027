@@ -314,6 +314,9 @@ popularityText:
   inTheComingMonth: "A következő hónapban"
   typesOfFoodConsumed: "%d fajta elfogyasztott étel"
   foodInGranary: "%d étel a magtárban"
+  aleInInn: "%d jugs in inn"
+  nextAleBonus: "More bonus at %d%% coverage"
+  maximumAleBonus: "Maximum bonus reached"
 settings:
   categories:
     sound:
