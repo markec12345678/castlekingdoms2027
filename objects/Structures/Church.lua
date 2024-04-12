@@ -55,6 +55,7 @@ Church.static.HEIGHT = 17
 Church.static.DESTRUCTIBLE = true
 
 function Church:initialize(gx, gy)
+    _G.JobController:add("Priest", self)
     Structure.initialize(self, gx, gy, "Church")
     self.animated = false
     _G.state.map:setWalkable(self.gx, self.gy, 1)
@@ -94,6 +95,7 @@ function Church:initialize(gx, gy)
 end
 
 function Church:destroy()
+    _G.JobController:remove("Priest", self)
     for xx = 0, Church.static.WIDTH - 1 do
         for yy = 0, Church.static.LENGTH - 1 do
             if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + yy, Structure) then
@@ -108,6 +110,60 @@ function Church:destroy()
     Structure.destroy(self)
 end
 
+function Church:work(worker)
+    worker.gx = self.gx + 3
+    worker.gy = self.gy + 6
+    worker:jobUpdate()
+end
+
+function Church:leave(sleepInsteadOfLeaving)
+    if self.worker then
+        _G.JobController:add("Priest", self)
+        if sleepInsteadOfLeaving then
+            self.worker:quitJob()
+        else
+            self.worker:leaveVillage()
+        end
+        self.worker = nil
+        self.freeSpots = 1
+        self.float:activate(sleepInsteadOfLeaving)
+        return true
+    end
+end
+
+function Church:join(worker)
+    if self.health == -1 then
+        _G.JobController:remove("Priest", self)
+        worker:quitJob()
+        return
+    end
+    if self.freeSpots == 1 then
+        self.worker = worker
+        worker.workplace = self
+        self.freeSpots = self.freeSpots - 1
+    end
+    if self.freeSpots == 0 then
+        self.float:deactivate()
+    end
+end
+
+function Church:exitTowardsStockpile()
+    self:findExitPointTo("Stockpile", function(found, path)
+        if found then
+            self:sendWorkerToBlessBuilding()
+        else
+            print("No path found to stockpile!")
+        end
+    end)
+end
+
+function Church:sendWorkerToBlessBuilding()
+    if self.worker then
+        self:respawnWorker(self.worker, "Looking to bless")
+        self.worker:onExitPointFound()
+    end
+end
+
 function Church:onClick()
     local ActionBar = require("states.ui.ActionBar")
 end
@@ -115,6 +171,10 @@ end
 function Church:load(data)
     Object.deserialize(self, data)
     Structure.load(self, data)
+    if data.worker then
+        self.worker = _G.state:dereferenceObject(data.worker)
+        self.worker.workplace = self
+    end
     self.tile = quadArray[tiles + 1]
     Structure.render(self)
 end

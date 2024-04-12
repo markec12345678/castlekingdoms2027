@@ -231,12 +231,13 @@ function InnAnimation.static:deserialize(data)
 end
 
 local InnAlias = _G.class("InnAlias", Structure)
-function InnAlias:initialize(tile, gx, gy, parent, offsetY, offsetX)
+function InnAlias:initialize(tile, tileIsInterior, gx, gy, parent, offsetY, offsetX)
     local mytype = "Static structure"
     self.parent = parent
     Structure.initialize(self, gx, gy, mytype)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.tile = tile
+    self.tileIsInterior = tileIsInterior
     self.baseOffsetY = offsetY or 0
     self.additionalOffsetY = 0
     self.offsetX = offsetX or 0
@@ -253,6 +254,7 @@ function InnAlias:serialize()
         end
     end
     data.tileKey = self.tileKey
+    data.tileIsInterior = self.tileIsInterior
     data.baseOffsetY = self.baseOffsetY
     data.additionalOffsetY = self.additionalOffsetY
     data.offsetX = self.offsetX
@@ -267,7 +269,11 @@ function InnAlias.static:deserialize(data)
     Structure.load(obj, data)
     obj.parent = _G.state:dereferenceObject(data.parent)
     if data.tileKey then
-        obj.tile = quadArray[data.tileKey]
+        if obj.tileIsInterior then
+            obj.tile = quadArray[data.tileKey]
+        else
+            obj.tile = quadArrayExt[data.tileKey]
+        end
         obj.tileKey = data.tileKey
         obj:render()
     end
@@ -290,6 +296,7 @@ function Inn:initialize(gx, gy)
     _G.state.map:setWalkable(self.gx, self.gy, 1)
     self.health = 200
     self.tile = quadArray[tiles + 1]
+    self.tileIsInterior = true
     self.offsetX = 0
     self.offsetY = -90
     self.freeSpots = 1
@@ -303,12 +310,12 @@ function Inn:initialize(gx, gy)
     self.fireplaceObj = InnAnimationFactory("InnFireplace", self.gx + 3, self.gy + 3, self)
     self.innkeeperAnimObj = InnAnimationFactory("InnkeeperAnim", self.gx + 3, self.gy + 3, self)
     for tile = 1, tiles do
-        local hsl = InnAlias:new(quadArray[tile], self.gx, self.gy + (tiles - tile + 1), self,
+        local hsl = InnAlias:new(quadArray[tile], true, self.gx, self.gy + (tiles - tile + 1), self,
             -self.offsetY + 8 * (tiles - tile + 1))
         hsl.tileKey = tile
     end
     for tile = 1, tiles do
-        local hsl = InnAlias:new(quadArray[tiles + 1 + tile], self.gx + tile, self.gy, self, -self.offsetY + 8 * tile
+        local hsl = InnAlias:new(quadArray[tiles + 1 + tile], true, self.gx + tile, self.gy, self, -self.offsetY + 8 * tile
         , 16)
         hsl.tileKey = tiles + 1 + tile
     end
@@ -316,7 +323,7 @@ function Inn:initialize(gx, gy)
     for xx = 0, Inn.static.WIDTH - 1 do
         for yy = 0, Inn.static.LENGTH - 1 do
             if not _G.objectFromSubclassAtGlobal(self.gx + xx, self.gy + yy, Structure) then
-                InnAlias:new(tileQuads["empty"], self.gx + xx, self.gy + yy, self, 0, 0)
+                InnAlias:new(tileQuads["empty"], true, self.gx + xx, self.gy + yy, self, 0, 0)
             end
         end
     end
@@ -407,8 +414,11 @@ function Inn:exitToStockpile()
 end
 
 function Inn:sendToStockpile()
-    self:respawnWorker(self.worker, "Go to stockpile")
-    self.innkeeperAnimObj:deactivate()
+    if self.worker then
+        self:respawnWorker(self.worker, "Go to stockpile")
+        self.worker:onExitPointFound()
+        self.innkeeperAnimObj:deactivate()
+    end
 end
 
 function Inn:consumeAle()
@@ -444,6 +454,7 @@ function Inn:enterHover(induced)
         local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tiles - tile + 1), InnAlias)
         if not alias then return end
         alias.tile = quadArray[tile]
+        alias.tileIsInterior = true
         alias.tileKey = tile
         alias:render()
     end
@@ -452,11 +463,13 @@ function Inn:enterHover(induced)
         local alias = _G.objectFromClassAtGlobal(self.gx + tile, self.gy, InnAlias)
         if not alias then return end
         alias.tile = quadArray[tiles + 1 + tile]
+        alias.tileIsInterior = true
         alias.tileKey = tiles + 1 + tile
         alias:render()
     end
 
     self.tile = quadArray[tiles + 1]
+    self.tileIsInterior = true
     self:render()
 
     if (not self.partyObj.animated) then
@@ -475,6 +488,7 @@ function Inn:exitHover(induced)
         local alias = _G.objectFromClassAtGlobal(self.gx, self.gy + (tilesExt - tile + 1), InnAlias)
         if alias then
             alias.tile = quadArrayExt[tile]
+            alias.tileIsInterior = false
             alias.tileKey = tile
             alias:render()
         end
@@ -484,19 +498,25 @@ function Inn:exitHover(induced)
         local alias = _G.objectFromClassAtGlobal(self.gx + tile, self.gy, InnAlias)
         if alias then
             alias.tile = quadArrayExt[tilesExt + 1 + tile]
+            alias.tileIsInterior = false
             alias.tileKey = tilesExt + 1 + tile
             alias:render()
         end
     end
 
     self.tile = quadArrayExt[tilesExt + 1]
+    self.tileIsInterior = false
     self:render()
 end
 
 function Inn:load(data)
     Object.deserialize(self, data)
     Structure.load(self, data)
-    self.tile = quadArray[tiles + 1]
+    if self.tileIsInterior then
+        self.tile = quadArray[tiles + 1]
+    else
+        self.tile = quadArrayExt[tiles + 1]
+    end
     Structure.render(self)
     if data.worker then
         self.worker = _G.state:dereferenceObject(data.worker)
@@ -520,6 +540,7 @@ function Inn:serialize()
     data.jugsOfAle = self.jugsOfAle
     data.consumedAleSinceLastDrunkard = self.consumedAleSinceLastDrunkard
     data.aleConsumptionTimer = self.aleConsumptionTimer
+    data.tileIsInterior = self.tileIsInterior
     if self.worker then
         data.worker = _G.state:serializeObject(self.worker)
     end
