@@ -314,6 +314,9 @@ popularityText:
   inTheComingMonth: "W nadchodzącym miesiącu"
   typesOfFoodConsumed: "%d rodzajów spożywanego jedzenia"
   foodInGranary: "%d jedzenia w spichlerzu"
+  aleInInn: "%d jugs in inn"
+  nextAleBonus: "More bonus at %d%% coverage"
+  maximumAleBonus: "Maximum bonus reached"
 settings:
   categories:
     sound:

@@ -263,7 +263,7 @@ freebuild:
   grasslands:
     name: Заливные луга
     description: |
-      Empty grasslands. Used for testing due to fast load times.
+      Чистые луга. Используется для тестирования благодаря быстрой загрузке.
 rations:
   no:
     name: Не выдавать
@@ -314,6 +314,9 @@ popularityText:
   inTheComingMonth: "В ближайшем месяце"
   typesOfFoodConsumed: "%d разнообразие еды"
   foodInGranary: "%d единиц провизии"
+  aleInInn: "%d кружек в трактире"
+  nextAleBonus: "Бонус увеличится при охвате %d%%"
+  maximumAleBonus: "Достигнут максимум бонуса"
 settings:
   categories:
     sound:
@@ -408,16 +411,16 @@ tips:
     structuresInTheWay: Мешают постройки!
     needArmoury: Вам нужна оружейная, чтобы построить это!
     closeToQuarry: Нужно разместить рядом с каменоломней!
-    keepCloseToEdgeOfMap: Too close to the edge of the map!
+    keepCloseToEdgeOfMap: Слишком близко к границе карты!
 ui:
   global:
-    start: Start
+    start: Начать
   mainMenu:
     freebuild: Свободное строительство
     campaign: Кампания
     load: Загрузить
-    save: Save
-    resume: Resume
+    save: Сохранить
+    resume: Возобновить
     options: Настройки
     exit: Выход
   campaign:

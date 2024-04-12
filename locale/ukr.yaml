@@ -317,6 +317,9 @@ popularityText:
   inTheComingMonth: "У наступному місяці"
   typesOfFoodConsumed: "%d види споживаної їжі"
   foodInGranary: "%d їжі в зерносховищі"
+  aleInInn: "%d jugs in inn"
+  nextAleBonus: "More bonus at %d%% coverage"
+  maximumAleBonus: "Maximum bonus reached"
 settings:
   categories:
     sound:

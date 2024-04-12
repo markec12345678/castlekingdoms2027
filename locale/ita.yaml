@@ -316,6 +316,9 @@ popularityText:
   inTheComingMonth: "Nel prossimo mese"
   typesOfFoodConsumed: "%d tipi di cibo consumato"
   foodInGranary: "%d unità di cibo nel granaio"
+  aleInInn: "%d jugs in inn"
+  nextAleBonus: "More bonus at %d%% coverage"
+  maximumAleBonus: "Maximum bonus reached"
 settings:
   categories:
     sound:
