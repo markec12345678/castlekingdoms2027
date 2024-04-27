@@ -180,15 +180,6 @@ function ActionBar:switchMode(mode)
         self.element:SetState(states.STATE_UNITS)
         self.element:SetImage(ActionBar.actionBarUnits)
         buildingHover:SetState(states.STATE_UNITS)
-    elseif mode == "cathedral" then
-        self:showGroup("cathedral")
-        loveframes.SetState(states.STATE_CATHEDRAL)
-        self.popularityText:SetState(states.STATE_CATHEDRAL)
-        self.populationText:SetState(states.STATE_CATHEDRAL)
-        self.goldText:SetState(states.STATE_CATHEDRAL)
-        self.element:SetState(states.STATE_CATHEDRAL)
-        self.element:SetImage(ActionBar.actionBarArmouryImage)
-        buildingHover:SetState(states.STATE_CATHEDRAL)
     elseif mode == "inn" then
         self:showGroup("inn")
         loveframes.SetState(states.STATE_INN)
@@ -198,6 +189,15 @@ function ActionBar:switchMode(mode)
         self.element:SetState(states.STATE_INN)
         self.element:SetImage(ActionBar.actionBarStockpileImage)
         buildingHover:SetState(states.STATE_INN)
+    elseif mode == "religion" then
+        self:showGroup("religion")
+        loveframes.SetState(states.STATE_RELIGION)
+        self.popularityText:SetState(states.STATE_RELIGION)
+        self.populationText:SetState(states.STATE_RELIGION)
+        self.goldText:SetState(states.STATE_RELIGION)
+        self.element:SetState(states.STATE_RELIGION)
+        self.element:SetImage(ActionBar.actionBarStockpileImage)
+        buildingHover:SetState(states.STATE_RELIGION)
     else
         if _G.BuildController.start then
             self:showGroup("start")
@@ -227,7 +227,7 @@ function ActionBar:updatePopularityCount()
     end
     local effects = _G.PopularityController.effects
     local neutral, bad, good = { color = { 0.305 + 0.5, 0.29 + 0.5, 0.125 + 0.5, 1 } }, { color = { 0.79, 0, 0, 1 } }, { color = { 0, 0.89, 0, 1 } }
-    local taxColor, rationColor, fearColor, totalColor, aleColor
+    local taxColor, rationColor, fearColor, totalColor, aleColor, religionColor
     if effects.tax < 0 then
         taxColor = bad
     elseif effects.tax == 0 then
@@ -254,7 +254,12 @@ function ActionBar:updatePopularityCount()
     elseif effects.ale > 0 then
         aleColor = good
     end
-    local total = effects.tax + effects.rations + effects.positiveBuildings + effects.ale
+    if effects.religion == 0 then
+        religionColor = neutral
+    elseif effects.religion > 0 then
+        religionColor = good
+    end
+    local total = effects.tax + effects.rations + effects.positiveBuildings + effects.ale + effects.religion
     if total < 0 then
         totalColor = bad
     elseif total == 0 then
@@ -267,6 +272,7 @@ function ActionBar:updatePopularityCount()
         taxColor, ("\tTaxes: %d\n"):format(effects.tax),
         rationColor, ("\tRations: %d\n"):format(effects.rations),
         aleColor, ("\tAle: %d\n"):format(effects.ale),
+        religionColor, ("\tReligion: %d\n"):format(effects.religion),
         fearColor, ("\tFear factor: %d\n"):format(effects.positiveBuildings),
         totalColor, ("\n\tTotal: %s"):format(tostring(total)),
     }

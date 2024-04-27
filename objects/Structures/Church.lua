@@ -47,6 +47,10 @@ function ChurchAlias.static:deserialize(data)
     return obj
 end
 
+local churchFx = {
+    ["Church"] = { _G.fx["church_01"] }
+}
+
 local Church = _G.class("Church", Structure)
 
 Church.static.WIDTH = 9
@@ -105,7 +109,7 @@ function Church:destroy()
     end
     self.float:destroy()
     if self.worker then
-        self.worker:die()
+        self.worker:quitJob()
     end
     Structure.destroy(self)
 end
@@ -114,6 +118,13 @@ function Church:work(worker)
     worker.gx = self.gx + 3
     worker.gy = self.gy + 6
     worker:jobUpdate()
+end
+
+function Church:onClick()
+    local ActionBar = require("states.ui.ActionBar")
+    ActionBar:switchMode("religion")
+    ActionBar:showCathedralOptions(false)
+    _G.playSfx(self, churchFx["Church"], true, 1)
 end
 
 function Church:leave(sleepInsteadOfLeaving)
@@ -162,10 +173,6 @@ function Church:sendWorkerToBlessBuilding()
         self:respawnWorker(self.worker, "Looking to bless")
         self.worker:onExitPointFound()
     end
-end
-
-function Church:onClick()
-    local ActionBar = require("states.ui.ActionBar")
 end
 
 function Church:load(data)

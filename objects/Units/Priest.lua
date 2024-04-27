@@ -2,6 +2,7 @@ local _, _ = ...
 local Worker = require("objects.Units.Worker")
 local Object = require("objects.Object")
 local anim = require("libraries.anim8")
+local Structure = require("objects.Structure")
 
 local fr_walking_priest_walk_east = _G.indexQuads("body_priest_walk_e", 16)
 local fr_walking_priest_walk_north = _G.indexQuads("body_priest_walk_n", 16)
@@ -78,6 +79,7 @@ function Priest:initialize(gx, gy, type)
     self.offsetY = -10
     self.count = 1
     self.blessedStructures = 0
+    self.blessTarget = nil
     self.animation = anim.newAnimation(an[WALKING_PRIEST_WEST], 10, nil, WALKING_PRIEST_WEST)
 end
 
@@ -134,49 +136,38 @@ function Priest:dirSubUpdate()
     end
 end
 
----@return Object|nil
-function Priest:getRandomBuildingInArea()
-    local buildings = _G.BuildingManager:getAllPlayerBuildings()
-    local buildingsInArea = {}
-
-    for _, building in ipairs(buildings) do
-        local dist = _G.manhattanDistance(self.gx, self.gy, building.gx, building.gy)
-        if dist < SEARCH_RADIUS and building.class.name ~= "Stockpile" then
-            table.insert(buildingsInArea, building)
-        end
-    end
-
-    if #buildingsInArea > 0 then
-        return buildingsInArea[math.random(1, #buildingsInArea)]
-    else
-        return nil
+function Priest:selectBlessingAnimation()
+    if self.moveDir == "west" then
+            self.animation = anim.newAnimation(an[BLESSING_PRIEST_WEST], 0.08, function() self:blessCallback() end, BLESSING_PRIEST_WEST)
+    elseif self.moveDir == "southwest" then
+            self.animation = anim.newAnimation(an[BLESSING_PRIEST_SOUTHWEST], 0.08, function() self:blessCallback() end, BLESSING_PRIEST_SOUTHWEST)
+    elseif self.moveDir == "northwest" then
+            self.animation = anim.newAnimation(an[BLESSING_PRIEST_NORTHWEST], 0.08, function() self:blessCallback() end, BLESSING_PRIEST_NORTHWEST)
+    elseif self.moveDir == "north" then
+            self.animation = anim.newAnimation(an[BLESSING_PRIEST_NORTH], 0.08, function() self:blessCallback() end, BLESSING_PRIEST_NORTH)
+    elseif self.moveDir == "south" then
+            self.animation = anim.newAnimation(an[BLESSING_PRIEST_SOUTH], 0.08, function() self:blessCallback() end, BLESSING_PRIEST_SOUTH)
+    elseif self.moveDir == "east" then
+            self.animation = anim.newAnimation(an[BLESSING_PRIEST_EAST], 0.08, function() self:blessCallback() end, BLESSING_PRIEST_EAST)
+    elseif self.moveDir == "southeast" then
+            self.animation = anim.newAnimation(an[BLESSING_PRIEST_SOUTHEAST], 0.08, function() self:blessCallback() end, BLESSING_PRIEST_SOUTHEAST)
+    elseif self.moveDir == "northeast" then
+            self.animation = anim.newAnimation(an[BLESSING_PRIEST_NORTHEAST], 0.08, function() self:blessCallback() end, BLESSING_PRIEST_NORTHEAST)
     end
 end
 
 function Priest:findStrucutures()
-    local objt = self:getRandomBuildingInArea()
-
+    local objt = _G.ReligionController:getBuildingToBless(self.gx, self.gy, SEARCH_RADIUS)
     if not objt then
         self.animation = _G.anim.newAnimation(an[IDLE], 0.11, nil, IDLE)
         self.state = "No structures"
         self:onNoPathToWorkplace()
         return
     end
-
-    self.endx = objt.gx + math.floor(objt.class.WIDTH / 2) --Priest goes in front of the building
-    self.endy = objt.gy + objt.class.LENGTH + 1
-    if self.endx == self.gx and self.endy == self.gy then
-        self.state = "Blessing"
-        self.animation = anim.newAnimation(an[WALKING_PRIEST_NORTHEAST], 0.08, function() self:blessCallback() end, WALKING_PRIEST_NORTHEAST)
-        self:clearPath()
-        return
-    else
-        self.state = "Going to bless"
-        self.moveDir = "none"
-        -- TODO see if thats walkable
-        self:requestPath(self.endx, self.endy, function() self:onNoPathToBless() end)
-        return
-    end
+    self.blessTarget = { ["gx"] = objt.gx, ["gy"] = objt.gy }
+    self.state = "Going to bless"
+    self.moveDir = "none"
+    self:requestPathToStructure(objt, function() self:onNoPathToBless() end)
 end
 
 function Priest:update()
@@ -225,7 +216,14 @@ function Priest:update()
             if self.state == "Going to bless" then
                 if self:reachedPathEnd() then
                     self.state = "Blessing"
-                    self.animation = anim.newAnimation(an[BLESSING_PRIEST_NORTHEAST], 0.08, function() self:blessCallback() end, BLESSING_PRIEST_NORTHEAST)
+                    self:selectBlessingAnimation()
+                    if self.blessTarget then
+                        local building = _G.objectFromSubclassAtGlobal(self.blessTarget.gx, self.blessTarget.gy, Structure)
+                        if building then
+                            building.lastBlessed = _G.state.gameTime
+                        end
+                        self.blessTarget = nil
+                    end
                     self:clearPath()
                     return
                 else
@@ -307,6 +305,7 @@ function Priest:serialize()
     data.offsetX = self.offsetX
     data.count = self.count
     data.blessedStructures = self.blessedStructures
+    data.blessTarget = self.blessTarget
     return data
 end
 

@@ -47,6 +47,10 @@ function CathedralAlias.static:deserialize(data)
     return obj
 end
 
+local cathedralFx = {
+    ["Cathedral"] = { _G.fx["cathedral_01"] }
+}
+
 local Cathedral = _G.class("Cathedral", Structure)
 
 Cathedral.static.WIDTH = 13
@@ -137,7 +141,7 @@ function Cathedral:destroy()
     _G.JobController:remove("Priest", self)
     self.float:destroy()
     if self.worker then
-        self.worker:die()
+        self.worker:quitJob()
     end
     Structure.destroy(self)
 end
@@ -198,8 +202,10 @@ end
 
 function Cathedral:onClick()
     local ActionBar = require("states.ui.ActionBar")
-    ActionBar:switchMode("cathedral")
+    ActionBar:switchMode("religion")
+    ActionBar:showCathedralOptions(true)
     _G.selectedRecruitLocation = self
+    _G.playSfx(self, cathedralFx["Cathedral"], true, 1)
 end
 
 function Cathedral:load(data)

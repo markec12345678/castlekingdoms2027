@@ -672,6 +672,7 @@ local function update(dt)
     end
     prof.pop("CUL")
     prof.push("AE")
+    _G.state.gameTime = _G.state.gameTime + dt
     _G.state.previousTopLeftChunkX = _G.state.topLeftChunkX
     _G.state.wheatSeasonCounter = _G.state.wheatSeasonCounter + dt
     if _G.state.wheatSeasonCounter > 5 then
