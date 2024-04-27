@@ -18,7 +18,8 @@ function PopularityController:initialize()
         tax = 0,
         rations = 0,
         positiveBuildings = 0,
-        ale = 0
+        ale = 0,
+        religion = 0
     }
 end
 
@@ -39,7 +40,8 @@ function PopularityController:deserialize(data)
         tax = 0,
         rations = 0,
         positiveBuildings = 0,
-        ale = 0
+        ale = 0,
+        religion = 0
     }
     self.timer = self.class.POPULARITY_INTERVAL
 end
@@ -62,12 +64,14 @@ function PopularityController:update()
         local tax = _G.TaxController:getMoodFactor()
         local rations = RationController:getMoodLevel()
         local _, ale = _G.AleController:getAleCoverageStats()
+        local _, religion = _G.ReligionController:getCoverageStats()
         local positiveBuildings = math.floor(self:calculatePositiveBuildingPopularity())
-        local rate = tax + rations + positiveBuildings + ale
+        local rate = tax + rations + positiveBuildings + ale + religion
         self.effects["tax"] = tax
         self.effects["rations"] = rations
         self.effects["positiveBuildings"] = positiveBuildings
         self.effects["ale"] = ale
+        self.effects["religion"] = religion
         _G.state.popularity = clamp(_G.state.popularity + rate, 0, 100)
         if popularityOldValue ~= _G.state.popularity then
             _G.bus.emit(Events.OnPopulationChange, popularityOldValue, _G.state.popularity)

@@ -48,6 +48,10 @@ function ChapelAlias.static:deserialize(data)
     return obj
 end
 
+local chapelFx = {
+    ["Chapel"] = { _G.fx["chapel"] }
+}
+
 local Chapel = _G.class("Chapel", Structure)
 
 Chapel.static.WIDTH = 6
@@ -92,9 +96,16 @@ function Chapel:destroy()
     _G.JobController:remove("Priest", self)
     self.float:destroy()
     if self.worker then
-        self.worker:die()
+        self.worker:quitJob()
     end
     Structure.destroy(self)
+end
+
+function Chapel:onClick()
+    local ActionBar = require("states.ui.ActionBar")
+    ActionBar:switchMode("religion")
+    ActionBar:showCathedralOptions(false)
+    _G.playSfx(self, chapelFx["Chapel"], true, 1)
 end
 
 function Chapel:work(worker)

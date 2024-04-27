@@ -1,4 +1,5 @@
 local Object = require("objects.Object")
+local ReligionController = require("objects.Controllers.ReligionController")
 
 ---@class Structure : Object
 ---@field animation table
@@ -11,6 +12,7 @@ function Structure:initialize(gx, gy, type)
     self.sleeping = false
     self.restoreExitPoint = false
     _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
+    self.lastBlessed = - ReligionController.class.static.BLESSING_DURATION - 1
 end
 
 ---@param self Object|Structure
@@ -157,6 +159,7 @@ function Structure:serialize()
     if data.className then
         data.sleeping = self.sleeping
         data.restoreExitPoint = self.restoreExitPoint
+        data.lastBlessed = self.lastBlessed
     end
     return data
 end
@@ -320,6 +323,7 @@ function Structure:load(data)
         self.float = _G.state:dereferenceObject(data.float)
         data.float = nil
     end
+    self.lastBlessed = data.lastBlessed or (- ReligionController.class.static.BLESSING_DURATION - 1)
 end
 
 return Structure

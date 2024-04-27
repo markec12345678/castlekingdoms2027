@@ -16,8 +16,8 @@ local states = {
     STATE_FREE_BUILD_WINDOW = 15,
     STATE_ECONOMIC_MISSION_PICKER = 16,
     STATE_UNITS = 17,
-    STATE_CATHEDRAL = 18,
-    STATE_INN = 19,
+    STATE_INN = 18,
+    STATE_RELIGION = 19,
 }
 
 return states
