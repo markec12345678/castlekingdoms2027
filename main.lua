@@ -42,7 +42,7 @@ function love.load()
     end
 
     local supportedResolutions = getAvailableResolutions()
-    if not isResolutonSupported(supportedResolutions) then
+    if not isResolutonSupported(supportedResolutions) and next(supportedResolutions) then
         local maxResolution = supportedResolutions[1]
         config.video.resolutionWidth, config.video.resolutionHeight = maxResolution.width, maxResolution.height
         config:save(config)
