@@ -42,10 +42,18 @@ function love.load()
     end
 
     local supportedResolutions = getAvailableResolutions()
-    if not isResolutonSupported(supportedResolutions) and next(supportedResolutions) then
+    if next(supportedResolutions) == nil then
+        local width, height, flags = love.window.getMode()
+        local currentDisplay = flags.display
+        config.video.display = currentDisplay
+        config:save()
+        supportedResolutions = getAvailableResolutions()
+    end
+
+    if not isResolutonSupported(supportedResolutions) then
         local maxResolution = supportedResolutions[1]
         config.video.resolutionWidth, config.video.resolutionHeight = maxResolution.width, maxResolution.height
-        config:save(config)
+        config:save()
         love.event.quit("restart")
     end
 

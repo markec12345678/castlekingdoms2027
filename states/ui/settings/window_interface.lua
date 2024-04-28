@@ -160,7 +160,7 @@ local applyRow = widgets.addRow(settingsWidgets.elements, 2, false)
 settingsWidgets.translation.buttons.apply = widgets.addButton(settingsWidgets.elements, applyRow, LanguageController.lines.settings.apply, widgets.alignment.RIGHT, function(self)
     config.general.language = currentTranslation
     _G.currentLang = currentTranslation
-    config:save(config)
+    config:save()
     love.event.quit("restart")
 end)
 

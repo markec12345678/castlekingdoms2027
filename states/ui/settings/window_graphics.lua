@@ -302,7 +302,7 @@ local function addResolutionsButtons()
         config.video.vsync = vsync
         oldDisplayIndex = currentDisplayIndex
         config.video.display = currentDisplayIndex
-        config:save(config)
+        config:save()
         love.event.quit("restart")
     end)
 

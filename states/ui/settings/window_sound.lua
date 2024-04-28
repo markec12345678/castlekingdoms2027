@@ -10,7 +10,7 @@ local masterRow = widgets.addRow(elements, 1, true, SID.settings.categories.soun
 widgets.addSlider(elements, masterRow, config.sound.master, function(volume)
     config.sound.master = volume * 100
     _G.OPTIONS.MASTER_VOLUME = volume
-    config:save(config)
+    config:save()
     if _G.CURRENT_MUSIC and _G.CURRENT_MUSIC:isPlaying() then
         _G.CURRENT_MUSIC:setVolume(_G.OPTIONS.MUSIC_VOLUME * _G.OPTIONS.MASTER_VOLUME)
     end
@@ -22,7 +22,7 @@ local musicRow = widgets.addRow(elements, 2, true, SID.settings.categories.sound
 widgets.addSlider(elements, musicRow, config.sound.music, function(volume)
     config.sound.music = volume * 100
     _G.OPTIONS.MUSIC_VOLUME = volume
-    config:save(config)
+    config:save()
     if _G.CURRENT_MUSIC and _G.CURRENT_MUSIC:isPlaying() then
         _G.CURRENT_MUSIC:setVolume(_G.OPTIONS.MUSIC_VOLUME * _G.OPTIONS.MASTER_VOLUME)
     end
@@ -34,7 +34,7 @@ local soundRow = widgets.addRow(elements, 3, true, SID.settings.categories.sound
 widgets.addSlider(elements, soundRow, config.sound.effects, function(volume)
     config.sound.effects = volume * 100
     _G.OPTIONS.SFX_VOLUME = volume
-    config:save(config)
+    config:save()
 end)
 
 -- SPEECH VOLUME
@@ -43,7 +43,7 @@ local speechRow = widgets.addRow(elements, 4, true, SID.settings.categories.soun
 widgets.addSlider(elements, speechRow, config.sound.speech, function(volume)
     config.sound.speech = volume * 100
     _G.OPTIONS.SPEECH_VOLUME = volume
-    config:save(config)
+    config:save()
 end)
 
 return elements

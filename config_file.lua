@@ -43,10 +43,10 @@ local defaultConfig = {
 
 local config = {}
 
-function config:save(config_in)
+function config:save()
     -- Only get the relevent sections from config
     local config_save = {}
-    for k, v in pairs(config_in) do
+    for k, v in pairs(self) do
         if type(v) == "table" then
             config_save[k] = v
         end
