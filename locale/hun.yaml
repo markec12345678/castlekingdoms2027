@@ -117,13 +117,13 @@ buildings:
     description: Egy épület, amely lehetővé teszi alagútépítők toborzását.
   chapel:
     name: Kápolna
-    description: Növeld népszerűséged a vallással. Jelenleg nem működőképes.
+    description: Increase your popularity with religion.
   church:
     name: Templom
-    description: Növeld népszerűséged a vallással. Jelenleg nem működőképes.
+    description: Increase your popularity with religion.
   cathedral:
     name: Székesegyház
-    description: Növeld népszerűséged a vallással. Jelenleg nem működőképes.
+    description: Increase your popularity with religion and train warrior monks.
   apothecary:
     name: Patikus
     description: Jelenleg nem működőképes.
@@ -308,6 +308,7 @@ popularityText:
   crowding: Zsúfoltság
   religion: Vallás
   aleCoverage: Sör lefedettség
+  blessingCoverage: Ratio of blessed buildings
   enclosedKeep: Zárva tartandó
   openKeep: Nyitva tartás
   popularity: Népszerűség
@@ -317,6 +318,8 @@ popularityText:
   aleInInn: "%d jugs in inn"
   nextAleBonus: "More bonus at %d%% coverage"
   maximumAleBonus: "Maximum bonus reached"
+  nextBlessingBonus: "More bonus at %d%% coverage"
+  maximumBlessingBonus: "Maximum bonus reached"
 settings:
   categories:
     sound:

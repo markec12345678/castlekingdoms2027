@@ -119,13 +119,13 @@ buildings:
     description: Un edificio che permette di reclutare scavatori.
   chapel:
     name: Cappella
-    description: Aumenta la popolarità con la religione. Attualmente non funzionale.
+    description: Increase your popularity with religion.
   church:
     name: Chiesa
-    description: Aumenta la popolarità con la religione. Attualmente non funzionale.
+    description: Increase your popularity with religion.
   cathedral:
     name: Cattedrale
-    description: Aumenta la popolarità con la religione. Attualmente non funzionale.
+    description: Increase your popularity with religion and train warrior monks.
   apothecary:
     name: Speziale
     description: Attualmente non funzionale.
@@ -310,6 +310,7 @@ popularityText:
   crowding: Affollamento
   religion: Religione
   aleCoverage: Fornitura di Birra
+  blessingCoverage: Ratio of blessed buildings
   enclosedKeep: Fortezza Chiusa
   openKeep: Fortezza Aperta
   popularity: Popolarità
@@ -319,6 +320,8 @@ popularityText:
   aleInInn: "%d jugs in inn"
   nextAleBonus: "More bonus at %d%% coverage"
   maximumAleBonus: "Maximum bonus reached"
+  nextBlessingBonus: "More bonus at %d%% coverage"
+  maximumBlessingBonus: "Maximum bonus reached"
 settings:
   categories:
     sound:

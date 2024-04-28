@@ -105,13 +105,13 @@ buildings:
     description: Um edifício que lhe permite recrutar cavadores de túneis.
   chapel:
     name: Capela
-    description: Aumente sua popularidade com religião. Atualmente não funcional.
+    description: Increase your popularity with religion.
   church:
     name: Igreja
-    description: Aumente sua popularidade com religião. Atualmente não funcional.
+    description: Increase your popularity with religion.
   cathedral:
     name: Catedral
-    description: Aumente sua popularidade com religião. Atualmente não funcional.
+    description: Increase your popularity with religion and train warrior monks.
   apothecary:
     name: Curandeiro
     description: Atualmente não funcional.
@@ -296,6 +296,7 @@ popularityText:
   crowding: Aglomeração
   religion: Religião
   aleCoverage: Cobertura da Cerveja
+  blessingCoverage: Ratio of blessed buildings
   enclosedKeep: Fortaleza Fechada
   openKeep: Fortaleza Aberta
   popularity: Popularidade
@@ -305,6 +306,8 @@ popularityText:
   aleInInn: "%d jugs in inn"
   nextAleBonus: "More bonus at %d%% coverage"
   maximumAleBonus: "Maximum bonus reached"
+  nextBlessingBonus: "More bonus at %d%% coverage"
+  maximumBlessingBonus: "Maximum bonus reached"
 settings:
   categories:
     sound:

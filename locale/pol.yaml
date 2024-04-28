@@ -117,13 +117,13 @@ buildings:
     description: Pozwala na rekrutowanie kopaczy.
   chapel:
     name: Kaplica
-    description: Poprawia popularność za pomocą religii.
+    description: Increase your popularity with religion.
   church:
     name: Kościół
-    description: Poprawia popularność za pomocą religii.
+    description: Increase your popularity with religion.
   cathedral:
     name: Katedra
-    description: Poprawia popularność za pomocą religii.
+    description: Increase your popularity with religion and train warrior monks.
   apothecary:
     name: Apteka
     description: Dom uzdrowiciela, który dba o zdrowie i czystość w zamku.
@@ -308,6 +308,7 @@ popularityText:
   crowding: Crowding
   religion: Religia
   aleCoverage: Ale Coverage
+  blessingCoverage: Ratio of blessed buildings
   enclosedKeep: Keep Enclosed
   openKeep: Open Keep
   popularity: Popularność
@@ -317,6 +318,8 @@ popularityText:
   aleInInn: "%d jugs in inn"
   nextAleBonus: "More bonus at %d%% coverage"
   maximumAleBonus: "Maximum bonus reached"
+  nextBlessingBonus: "More bonus at %d%% coverage"
+  maximumBlessingBonus: "Maximum bonus reached"
 settings:
   categories:
     sound:

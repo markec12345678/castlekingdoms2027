@@ -117,13 +117,13 @@ buildings:
     description: Ein Gebäude, das euch ermöglicht Tunnelbauer zu rekrutieren.
   chapel:
     name: Kapelle
-    description: Erhöht eure Beliebtheit mit Religion. Derzeit nicht funktional.
+    description: Increase your popularity with religion.
   church:
     name: Kirche
-    description: Erhöht eure Beliebtheit mit Religion. Derzeit nicht funktional.
+    description: Increase your popularity with religion.
   cathedral:
     name: Kathedrale
-    description: Erhöht eure Beliebtheit mit Religion. Derzeit nicht funktional.
+    description: Increase your popularity with religion and train warrior monks.
   apothecary:
     name: Apotheke
     description: Derzeit nicht funktional.
@@ -308,6 +308,7 @@ popularityText:
   crowding: Bevölkerung
   religion: Religion
   aleCoverage: Bierversorgung
+  blessingCoverage: Ratio of blessed buildings
   enclosedKeep: Festung abgeschlossen
   openKeep: Festung offen
   popularity: Beliebtheit
@@ -317,6 +318,8 @@ popularityText:
   aleInInn: "%d jugs in inn"
   nextAleBonus: "More bonus at %d%% coverage"
   maximumAleBonus: "Maximum bonus reached"
+  nextBlessingBonus: "More bonus at %d%% coverage"
+  maximumBlessingBonus: "Maximum bonus reached"
 settings:
   categories:
     sound:
