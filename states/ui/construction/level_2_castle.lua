@@ -1,10 +1,11 @@
-local el, backButton, destroyButton, setBuildingsTooltips, disableUnavailableButtons = ...
+local el, setBuildingsTooltips, disableUnavailableButtons = ...
 
 local states = require("states.ui.states")
 local ActionBarButton = require("states.ui.ActionBarButton")
 local ActionBar = require("states.ui.ActionBar")
 local Events = require("objects.Enums.Events")
 local SID = require("objects.Controllers.LanguageController").lines
+local createBackButton = require("states.ui.construction.back_button_factory")
 
 local castleButton = ActionBarButton:new(love.graphics.newImage("assets/ui/wooden_keep_ab.png"),
     states.STATE_INGAME_CONSTRUCTION, 1, false, nil)
@@ -128,14 +129,15 @@ local elements = {
 }
 
 
+local createDestroyButton = require("states.ui.construction.destroy_button_factory")
 ActionBar:registerGroup("castle",
     { castleButton, woodenBuildings, stoneBuildings, barracksButton, stoneBarracksButton, engineersGuildButton,
-        tunnelersGuildButton, stableButton, backButton, destroyButton })
+        tunnelersGuildButton, stableButton, createBackButton(), createDestroyButton() })
 
 package.loaded["states.ui.construction.level_3_castleWood"] = love.filesystem.load(
-    "states/ui/construction/level_3_castleWood.lua")(elements, backButton, destroyButton, setBuildingsTooltips)
+    "states/ui/construction/level_3_castleWood.lua")(elements, setBuildingsTooltips)
 package.loaded["states.ui.construction.level_3_castleStone"] = love.filesystem.load(
-    "states/ui/construction/level_3_castleStone.lua")(elements, backButton, destroyButton, setBuildingsTooltips)
+    "states/ui/construction/level_3_castleStone.lua")(elements, setBuildingsTooltips)
 
 local keepImage = love.graphics.newImage("assets/ui/keep_ab.png")
 local fortressImage = love.graphics.newImage("assets/ui/fortress_ab.png")

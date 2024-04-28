@@ -1,3 +1,4 @@
+---@diagnostic disable: duplicate-set-field
 local config = require("config_file")
 
 math.randomseed(os.time())
@@ -276,7 +277,9 @@ function _G.playInterfaceSfx(sfx, pitchNum, disallowMultipleSources)
     end
     sfx:setVolume((_G.OPTIONS.SFX_VOLUME * volumeLimit) * _G.OPTIONS.MASTER_VOLUME)
     sfx:setPitch(pitchNum or (1 + love.math.random(-10, 10) / 100))
-    sfx:setRelative(true)
+    if not sfx:isRelative() then
+        sfx:setRelative(true)
+    end
     sfx:play()
 end
 

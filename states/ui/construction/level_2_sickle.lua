@@ -1,4 +1,4 @@
-local el, backButton, destroyButton, setBuildingsTooltips, disableUnavailableButtons = ...
+local el, setBuildingsTooltips, disableUnavailableButtons = ...
 
 local states = require("states.ui.states")
 local ActionBarButton = require("states.ui.ActionBarButton")
@@ -78,5 +78,6 @@ el.buttons.sickleButton:setOnClick(function(self)
     displayTooltips()
 end)
 
-
-ActionBar:registerGroup("sickle", { windmillButton, bakeryButton, innButton, breweryButton, backButton, destroyButton })
+local createBackButton = require("states.ui.construction.back_button_factory")
+local createDestroyButton = require("states.ui.construction.destroy_button_factory")
+ActionBar:registerGroup("sickle", { windmillButton, bakeryButton, innButton, breweryButton, createBackButton(), createDestroyButton() })

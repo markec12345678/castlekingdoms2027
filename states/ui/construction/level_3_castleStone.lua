@@ -1,4 +1,4 @@
-local el, backButton, destroyButton, setBuildingsTooltips = ...
+local el, setBuildingsTooltips = ...
 
 local states = require("states.ui.states")
 local ActionBarButton = require("states.ui.ActionBarButton")
@@ -119,7 +119,9 @@ el.buttons.stoneBuildings:setOnClick(function(self)
     displayTooltips()
 end)
 
+local createBackButton = require("states.ui.construction.back_button_factory")
+local createDestroyButton = require("states.ui.construction.destroy_button_factory")
 ActionBar:registerGroup("stoneBuildings",
     { perimeterTowerButton, defenseTowerButton, squareTowerButton, roundTowerButton, stoneGateEastButton,
-        stoneGateSouthButton, stoneGateEastBigButton, stoneGateSouthBigButton, backButton,
-        destroyButton })
+        stoneGateSouthButton, stoneGateEastBigButton, stoneGateSouthBigButton, createBackButton(),
+        createDestroyButton() })

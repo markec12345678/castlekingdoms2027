@@ -1,4 +1,4 @@
-local el, backButton, destroyButton, setBuildingsTooltips = ...
+local el, setBuildingsTooltips = ...
 
 local states = require("states.ui.states")
 local ActionBarButton = require("states.ui.ActionBarButton")
@@ -74,6 +74,10 @@ _G.bus.on(Events.OnResourceStore, displayTooltips)
 _G.bus.on(Events.OnResourceTake, displayTooltips)
 _G.bus.on(Events.OnTierUpgraded, displayTooltips)
 
+
+local createBackButton = require("states.ui.construction.back_button_factory")
+local createDestroyButton = require("states.ui.construction.destroy_button_factory")
+
 ActionBar:registerGroup("houses",
     { HovelButton, FlatButton, ResidenceButton, BigResidenceButton,
-        backButton, destroyButton })
+        createBackButton(), createDestroyButton() })

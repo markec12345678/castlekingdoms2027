@@ -775,7 +775,8 @@ local fx = {
     ["Swordsman_Selected_3"] = getSoundSource("Swordsman_Selected_3.ogg"),
     ["Swordsman_Selected_4"] = getSoundSource("Swordsman_Selected_4.ogg"),
     ["Swordsman_Selected_5"] = getSoundSource("Swordsman_Selected_5.ogg"),
-    ["Swordsman_Selected_6"] = getSoundSource("Swordsman_Selected_6.ogg")
+    ["Swordsman_Selected_6"] = getSoundSource("Swordsman_Selected_6.ogg"),
+    ["action_bar_rotate"] = love.audio.newSource("sounds/fx/action_bar_rotate.ogg", "static"),
 }
 
 return fx
