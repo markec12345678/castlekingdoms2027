@@ -119,13 +119,13 @@ buildings:
     description: A building allowing you to recruit tunnelers.
   chapel:
     name: Kaple
-    description: Zvyš svoji popularitu díky náboženství. V současné době nefunkční.
+    description: Increase your popularity with religion.
   church:
     name: Kostel
-    description: Zvyš svoji popularitu díky náboženství. V současné době nefunkční.
+    description: Increase your popularity with religion.
   cathedral:
     name: Katedrála
-    description: Zvyš svoji popularitu díky náboženství. V současné době nefunkční.
+    description: Increase your popularity with religion and train warrior monks.
   apothecary:
     name: Lékárník
     description: V současné době nefunkční.
@@ -310,6 +310,7 @@ popularityText:
   crowding: Crowding
   religion: Religion
   aleCoverage: Ale Coverage
+  blessingCoverage: Ratio of blessed buildings
   enclosedKeep: Keep Enclosed
   openKeep: Open Keep
   popularity: Popularity
@@ -319,6 +320,8 @@ popularityText:
   aleInInn: "%d jugs in inn"
   nextAleBonus: "More bonus at %d%% coverage"
   maximumAleBonus: "Maximum bonus reached"
+  nextBlessingBonus: "More bonus at %d%% coverage"
+  maximumBlessingBonus: "Maximum bonus reached"
 settings:
   categories:
     sound:

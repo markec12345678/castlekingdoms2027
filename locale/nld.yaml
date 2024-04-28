@@ -117,13 +117,13 @@ buildings:
     description: A building allowing you to recruit tunnelers.
   chapel:
     name: Chapel
-    description: Increase your popularity with religion. Currently not functional.
+    description: Increase your popularity with religion.
   church:
     name: Church
-    description: Increase your popularity with religion. Currently not functional.
+    description: Increase your popularity with religion.
   cathedral:
     name: Cathedral
-    description: Increase your popularity with religion. Currently not functional.
+    description: Increase your popularity with religion and train warrior monks.
   apothecary:
     name: Apothecary
     description: Currently not functional.
@@ -308,6 +308,7 @@ popularityText:
   crowding: Crowding
   religion: Religion
   aleCoverage: Ale Coverage
+  blessingCoverage: Ratio of blessed buildings
   enclosedKeep: Keep Enclosed
   openKeep: Open Keep
   popularity: Popularity
@@ -317,6 +318,8 @@ popularityText:
   aleInInn: "%d jugs in inn"
   nextAleBonus: "More bonus at %d%% coverage"
   maximumAleBonus: "Maximum bonus reached"
+  nextBlessingBonus: "More bonus at %d%% coverage"
+  maximumBlessingBonus: "Maximum bonus reached"
 settings:
   categories:
     sound:

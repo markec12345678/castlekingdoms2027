@@ -120,13 +120,13 @@ buildings:
     description: Une construction permettant de recruter des tunneliers.
   chapel:
     name: Chapelle
-    description: Augmenter la foi de vôtre population. Actuellement non fonctionnel.
+    description: Increase your popularity with religion.
   church:
     name: Église
-    description: Augmenter la foi de vôtre population. Actuellement non fonctionnel.
+    description: Increase your popularity with religion.
   cathedral:
     name: Cathédrale
-    description: Augmenter la foi de vôtre population. Actuellement non fonctionnel.
+    description: Increase your popularity with religion and train warrior monks.
   apothecary:
     name: Apothicaire
     description: Pas fonctionnel actuellement.
@@ -311,6 +311,7 @@ popularityText:
   crowding: Encombrement
   religion: Religion
   aleCoverage: Couverture de Bière
+  blessingCoverage: Ratio of blessed buildings
   enclosedKeep: Porte Fermée
   openKeep: Porte Ouverte
   popularity: Popularité
@@ -320,6 +321,8 @@ popularityText:
   aleInInn: "%d jugs in inn"
   nextAleBonus: "More bonus at %d%% coverage"
   maximumAleBonus: "Maximum bonus reached"
+  nextBlessingBonus: "More bonus at %d%% coverage"
+  maximumBlessingBonus: "Maximum bonus reached"
 settings:
   categories:
     sound:

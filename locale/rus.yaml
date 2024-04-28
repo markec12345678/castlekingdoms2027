@@ -117,13 +117,13 @@ buildings:
     description: Строение, позволяющее нанимать сапёров.
   chapel:
     name: Часовня
-    description: Увеличивает популярность за счёт религии. В настоящее время не работает.
+    description: Increase your popularity with religion.
   church:
     name: Церковь
-    description: Увеличивает популярность за счёт религии. В настоящее время не работает.
+    description: Increase your popularity with religion.
   cathedral:
     name: Собор
-    description: Увеличивает популярность за счёт религии. В настоящее время не работает.
+    description: Increase your popularity with religion and train warrior monks.
   apothecary:
     name: Дом знахаря
     description: В настоящее время не работает.
@@ -308,6 +308,7 @@ popularityText:
   crowding: Перенаселение
   religion: Религия
   aleCoverage: Снабжение элем
+  blessingCoverage: Ratio of blessed buildings
   enclosedKeep: Закрыть ворота
   openKeep: Открыть ворота
   popularity: Популярность
@@ -317,6 +318,8 @@ popularityText:
   aleInInn: "%d кружек в трактире"
   nextAleBonus: "Бонус увеличится при охвате %d%%"
   maximumAleBonus: "Достигнут максимум бонуса"
+  nextBlessingBonus: "Бонус увеличится при охвате %d%%"
+  maximumBlessingBonus: "Достигнут максимум бонуса"
 settings:
   categories:
     sound:

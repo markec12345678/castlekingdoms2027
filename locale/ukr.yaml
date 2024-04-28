@@ -120,13 +120,13 @@ buildings:
     description: Будівля, яка дає змогу наймати тунельників.
   chapel:
     name: Каплиця
-    description: Підвищуйте свою популярність за допомогою релігії. Наразі не працює.
+    description: Increase your popularity with religion.
   church:
     name: Церква
-    description: Підвищуйте свою популярність за допомогою релігії. Наразі не працює.
+    description: Increase your popularity with religion.
   cathedral:
     name: Собор
-    description: Підвищуйте свою популярність за допомогою релігії. Наразі не працює.
+    description: Increase your popularity with religion and train warrior monks.
   apothecary:
     name: Аптекар
     description: Наразі не працює.
@@ -311,6 +311,7 @@ popularityText:
   crowding: Crowding
   religion: Релігія
   aleCoverage: Ale Coverage
+  blessingCoverage: Ratio of blessed buildings
   enclosedKeep: Закрити фортецю
   openKeep: Відкрити фортецю
   popularity: Популярність
@@ -320,6 +321,8 @@ popularityText:
   aleInInn: "%d jugs in inn"
   nextAleBonus: "More bonus at %d%% coverage"
   maximumAleBonus: "Maximum bonus reached"
+  nextBlessingBonus: "More bonus at %d%% coverage"
+  maximumBlessingBonus: "Maximum bonus reached"
 settings:
   categories:
     sound:
