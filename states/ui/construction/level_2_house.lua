@@ -115,6 +115,6 @@ ActionBar:registerGroup("house",
         createDestroyButton() })
 
 package.loaded["states.ui.construction.level_3_positive_buildings"] = love.filesystem.load(
-    "states/ui/construction/level_3_positive_buildings.lua")(elements, destroyButton, setBuildingsTooltips)
+    "states/ui/construction/level_3_positive_buildings.lua")(elements, setBuildingsTooltips)
 package.loaded["states.ui.construction.level_3_house"] = love.filesystem.load(
-    "states/ui/construction/level_3_house.lua")(elements, destroyButton, setBuildingsTooltips)
+    "states/ui/construction/level_3_house.lua")(elements, setBuildingsTooltips)
