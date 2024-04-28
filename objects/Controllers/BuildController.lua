@@ -406,7 +406,7 @@ function BuildController:isBuildingAffordable(buildingKey, amountOfBuildings)
                 return false
             end
         elseif _G.state.resources[resource] < amount * amountOfBuildings then
-            if self.building == "WoodcutterHut" and _G.BuildingManager:count("WoodcutterHut") == 0 then
+            if buildingKey == "WoodcutterHut" and _G.BuildingManager:count("WoodcutterHut") == 0 then
                 return true
             end
             self.resourceSound = resource

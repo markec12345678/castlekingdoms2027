@@ -64,10 +64,11 @@ function ActionBarButton:initialize(image, state, position, bigFrameForeground, 
     self.background.stopPropagation = true
     self.background:SetClickBounds(frame.x, frame.y, frame.width, frame.height)
     if (frame.width) / self.background:GetImageWidth() < (frame.height) / self.background:GetImageHeight() then
-        self.background:SetScale((frame.width) / self.background:GetImageWidth())
+        self.targetBackgroundScale = (frame.width) / self.background:GetImageWidth()
     else
-        self.background:SetScale((frame.height) / self.background:GetImageHeight())
+        self.targetBackgroundScale = (frame.height) / self.background:GetImageHeight()
     end
+    self.background:SetScale(self.targetBackgroundScale)
     self.background.OnMouseEnter = function(element)
         self:onMouseEnter(element)
     end
@@ -84,10 +85,11 @@ function ActionBarButton:initialize(image, state, position, bigFrameForeground, 
         self.foregroundFrame.y + self.foregroundFrame.height / 2)
     if (self.foregroundFrame.width) / self.foreground:GetImageWidth() < (self.foregroundFrame.height) /
         self.foreground:GetImageHeight() then
-        self.foreground:SetScale((self.foregroundFrame.width) / self.foreground:GetImageWidth())
+        self.targetForegroundScale = (self.foregroundFrame.width) / self.foreground:GetImageWidth()
     else
-        self.foreground:SetScale((self.foregroundFrame.height) / self.foreground:GetImageHeight())
+        self.targetForegroundScale = (self.foregroundFrame.height) / self.foreground:GetImageHeight()
     end
+    self.foreground:SetScale(self.targetForegroundScale)
     self.foreground.enabled = not self.disabled
     if self.disabled then
         self.foreground:SetColor(0.6, 0.6, 0.6, 0.6)
@@ -95,6 +97,121 @@ function ActionBarButton:initialize(image, state, position, bigFrameForeground, 
     -- hidden by default
     self.background.visible = false
     self.foreground.visible = false
+    self.bgx, self.bgy = self.background:GetPos()
+    self.fgx, self.fgy = self.foreground:GetPos()
+end
+
+function ActionBarButton:update()
+    if self.actionBarAnim then
+        local ActionBar = require("states.ui.ActionBar")
+        local bgx, bgy = self.bgx, self.bgy
+        local fgx, fgy = self.fgx, self.fgy
+        local hideBackground = false
+        local scaleFactor = 1
+        if self.actionBarAnim == ActionBar.animation and ActionBar.animation.position == 2 then
+            self.background:SetPos(bgx, bgy - 3 * ActionBar.element.scalex)
+            self.foreground:SetPos(fgx, fgy - 3 * ActionBar.element.scalex)
+            scaleFactor = 0.95
+            self.foreground:SetScaleY(self.foreground.scalex * 0.95)
+        elseif self.actionBarAnim == ActionBar.animation and ActionBar.animation.position == 3 then
+            self.background:SetPos(bgx, bgy - 8 * ActionBar.element.scalex)
+            self.foreground:SetPos(fgx, fgy - 8 * ActionBar.element.scalex)
+            scaleFactor = 0.92
+            self.foreground:SetScaleY(self.foreground.scalex * 0.92)
+        elseif self.actionBarAnim ~= ActionBar.animation and ActionBar.animation.position == 1 then
+            self.background:SetPos(bgx, bgy - 13 * ActionBar.element.scalex)
+            self.foreground:SetPos(fgx, fgy - 13 * ActionBar.element.scalex)
+            scaleFactor = 0.80
+            self.foreground:SetScaleY(self.foreground.scalex * 0.80)
+        elseif self.actionBarAnim ~= ActionBar.animation and ActionBar.animation.position == 2 then
+            self.background:SetPos(bgx, bgy - 20 * ActionBar.element.scalex)
+            self.foreground:SetPos(fgx, fgy - 20 * ActionBar.element.scalex)
+            scaleFactor = 0.63
+            self.foreground:SetScaleY(self.foreground.scalex * 0.63)
+        elseif self.actionBarAnim ~= ActionBar.animation and ActionBar.animation.position == 3 then
+            self.background:SetPos(bgx, bgy - 21 * ActionBar.element.scalex)
+            self.foreground:SetPos(fgx, fgy - 24 * ActionBar.element.scalex)
+            scaleFactor = 0.53
+            self.foreground:SetScaleY(self.foreground.scalex * 0.53)
+        elseif self.actionBarAnim ~= ActionBar.animation and ActionBar.animation.position == 4 then
+            self.background:SetPos(bgx, bgy - 17 * ActionBar.element.scalex)
+            self.foreground:SetPos(fgx, fgy - 25 * ActionBar.element.scalex)
+            scaleFactor = 0.24
+            self.foreground:SetScaleY(self.foreground.scalex * 0.24)
+        elseif self.actionBarAnim ~= ActionBar.animation and ActionBar.animation.position == 5 then
+            self.background:SetPos(bgx, bgy)
+            self.foreground:SetPos(fgx, fgy)
+            self.foreground:SetScaleY(self.foreground.scalex)
+            self.actionBarAnim = nil
+            self:hide()
+            ActionBar.rowBackground.visible = false
+            hideBackground = true
+        end
+        if self.position == 1 and not hideBackground then
+            ActionBar.rowBackground.visible = true
+            ActionBar.rowBackground:SetPos(self.background.x - 31 * ActionBar.element.scalex, self.background.y - 27 * ActionBar.element.scalex)
+            ActionBar.rowBackground:SetScale(ActionBar.rowBackground.scalex, scaleFactor)
+        end
+    else
+        if self.actionBarAnimDown then
+            local ActionBar = require("states.ui.ActionBar")
+            local bgx, bgy = self.bgx, self.bgy
+            local fgx, fgy = self.fgx, self.fgy
+            if self.actionBarAnimDown.position == 1 then
+                if self.resetOnNextFrame then
+                    self.background:SetPos(bgx, bgy)
+                    self.foreground:SetPos(fgx, fgy)
+                    self.actionBarAnimDown = nil
+                    self.resetOnNextFrame = nil
+                else
+                    self.background:SetPos(bgx, bgy + (49 + 10) * ActionBar.element.scalex)
+                    self.foreground:SetPos(fgx, fgy + (49 + 10) * ActionBar.element.scalex)
+                    self.foreground:SetScaleY(self.foreground.scalex * 0.22)
+                end
+            elseif self.actionBarAnimDown.position == 2 then
+                self.background:SetPos(bgx, bgy + (41 + 10) * ActionBar.element.scalex)
+                self.foreground:SetPos(fgx, fgy + (41 + 10) * ActionBar.element.scalex)
+                self.foreground:SetScaleY(self.foreground.scalex * 0.43)
+            elseif self.actionBarAnimDown.position == 3 then
+                self.background:SetPos(bgx, bgy + (29 + 11) * ActionBar.element.scalex)
+                self.foreground:SetPos(fgx, fgy + (29 + 11) * ActionBar.element.scalex)
+                self.foreground:SetScaleY(self.foreground.scalex * 0.62)
+            elseif self.actionBarAnimDown.position == 4 then
+                self.background:SetPos(bgx, bgy + (17 + 8) * ActionBar.element.scalex)
+                self.foreground:SetPos(fgx, fgy + (17 + 8) * ActionBar.element.scalex)
+                self.foreground:SetScaleY(self.foreground.scalex * 0.79)
+            elseif self.actionBarAnimDown.position == 5 then
+                self.background:SetPos(bgx, bgy + 10 * ActionBar.element.scalex)
+                self.foreground:SetPos(fgx, fgy + 10 * ActionBar.element.scalex)
+                self.foreground:SetScaleY(self.foreground.scalex)
+            elseif self.actionBarAnimDown.position == 6 then
+                self.background:SetPos(bgx, bgy + (9 + 10) * ActionBar.element.scalex)
+                self.foreground:SetPos(fgx, fgy + (9 + 10) * ActionBar.element.scalex)
+                self.foreground:SetScaleY(self.foreground.scalex * 0.91)
+            elseif self.actionBarAnimDown.position == 7 then
+                self.background:SetPos(bgx, bgy + (11 + 10) * ActionBar.element.scalex)
+                self.foreground:SetPos(fgx, fgy + (11 + 10) * ActionBar.element.scalex)
+                self.foreground:SetScaleY(self.foreground.scalex * 0.88)
+            elseif self.actionBarAnimDown.position == 8 then
+                self.background:SetPos(bgx, bgy + 24 * ActionBar.element.scalex)
+                self.foreground:SetPos(fgx, fgy + 24 * ActionBar.element.scalex)
+            elseif self.actionBarAnimDown.position == 9 then
+                self.background:SetPos(bgx, bgy + 25 * ActionBar.element.scalex)
+                self.foreground:SetPos(fgx, fgy + 25 * ActionBar.element.scalex)
+            elseif self.actionBarAnimDown.position == 10 then
+                self.background:SetPos(bgx, bgy + 23 * ActionBar.element.scalex)
+                self.foreground:SetPos(fgx, fgy + 23 * ActionBar.element.scalex)
+                self.foreground:SetScaleY(self.foreground.scalex * 0.93)
+            elseif self.actionBarAnimDown.position == 11 then
+                self.background:SetPos(bgx, bgy + 18 * ActionBar.element.scalex)
+                self.foreground:SetPos(fgx, fgy + 18 * ActionBar.element.scalex)
+            elseif self.actionBarAnimDown.position == 12 then
+                self.background:SetPos(bgx, bgy + 12 * ActionBar.element.scalex)
+                self.foreground:SetPos(fgx, fgy + 12 * ActionBar.element.scalex)
+                self.resetOnNextFrame = true
+            end
+        end
+    end
 end
 
 function ActionBarButton:disable(tooltipText)
@@ -147,6 +264,22 @@ function ActionBarButton:hide()
 end
 
 function ActionBarButton:show()
+    self.background.visible = true
+    self.foreground.visible = true
+    self.background:SetPos(self.bgx, self.bgy)
+    self.foreground:SetPos(self.fgx, self.fgy)
+    self.foreground:SetScale(self.targetForegroundScale)
+    self.background:SetScale(self.targetBackgroundScale)
+end
+
+function ActionBarButton:scrollUp(actionBarAnim)
+    self.actionBarAnim = actionBarAnim
+    self.background.visible = true
+    self.foreground.visible = true
+end
+
+function ActionBarButton:scrollDown(actionBarAnim)
+    self.actionBarAnimDown = actionBarAnim
     self.background.visible = true
     self.foreground.visible = true
 end

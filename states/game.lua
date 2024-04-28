@@ -127,6 +127,8 @@ function game:update(dt)
         _G.state.initialized = true
     else
         prof.push("core")
+
+        ActionBar:animate()
         core.update()
         if scrollCountDown > 0 then
             scrollCountDown = scrollCountDown - love.timer.getDelta()
@@ -236,6 +238,7 @@ function game:draw()
             core.draw()
             prof.push("ui_draw")
             loveframes.draw()
+            ActionBar:draw()
             prof.pop("ui_draw")
             if not _G.paused then
                 _G.ScribeController:draw()
@@ -281,6 +284,7 @@ function game:mousepressed(x, y, button, istouch)
         end
         if not _G.BuildController.start and (loveframes.GetState() ~= states.STATE_INGAME_CONSTRUCTION or not ActionBar.hasSelectedButton) then
             if #_G.Commander.selectedUnits < 1 then
+                ActionBar.lastCommand = nil
                 ActionBar:switchMode()
             end
         else

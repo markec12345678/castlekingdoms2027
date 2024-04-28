@@ -15,6 +15,8 @@ end
 
 local ActionBar = _G.class("ActionBar")
 ActionBar.static.actionBarImage = love.graphics.newImage("assets/ui/action_bar.png")
+ActionBar.static.actionBarRowImage = love.graphics.newImage("assets/action_bar_entire_row.png")
+ActionBar.static.actionBarCutoffImage = love.graphics.newImage("assets/ui/action_bar_cutoff.png")
 ActionBar.static.actionBarGranaryImage = love.graphics.newImage("assets/ui/action_bar_granary.png")
 ActionBar.static.actionBarStockpileImage = love.graphics.newImage("assets/ui/action_bar_market_main.png")
 ActionBar.static.actionBarMarketImageMain = love.graphics.newImage("assets/ui/action_bar_market_main.png")
@@ -25,6 +27,8 @@ ActionBar.static.actionBarBarracksImage = love.graphics.newImage("assets/ui/acti
 ActionBar.static.actionBarHouseImage = love.graphics.newImage("assets/ui/action_bar_house.png")
 ActionBar.static.actionBarHouseMaxLevelImage = ActionBar.static.actionBarArmouryImage
 ActionBar.static.actionBarUnits = love.graphics.newImage("assets/ui/action_bar_units.png")
+ActionBar.static.actionBarAnimation = love.graphics.newImage('assets/action_bar_animation.png')
+ActionBar.static.actionBarAnimationGrid = anim.newGrid(765, 118, ActionBar.actionBarAnimation:getWidth(), ActionBar.actionBarAnimation:getHeight())
 
 function ActionBar:initialize()
     local element = loveframes.Create("image")
@@ -34,6 +38,13 @@ function ActionBar:initialize()
     local scale_1 = (w.percent[ACTION_BAR_USER_SCALE_W]) / ActionBar.actionBarImage:getWidth()
     local scale_2 = (h.percent[ACTION_BAR_USER_SCALE_H]) / ActionBar.actionBarImage:getHeight()
     local scale = math.min(scale_1, scale_2)
+    local rowBackground = loveframes.Create("image")
+    rowBackground:SetState(states.STATE_INGAME_CONSTRUCTION)
+    rowBackground:SetImage(ActionBar.actionBarRowImage)
+    rowBackground:SetScale(scale, scale)
+    rowBackground.visible = false
+    rowBackground.disableHover = true
+    self.rowBackground = rowBackground
     element:SetScale(scale, scale)
     element:SetPos(w.percent[50], h.percent[100] - element:GetImageHeight() * element:GetScaleY())
     local frPopularity = {
@@ -77,6 +88,30 @@ function ActionBar:initialize()
     self.currentGroup = "main"
     self.hasSelectedButton = false
     self.callback = {}
+    self.buttonsToAnimate = {}
+    self.lastButtonsToAnimate = {}
+
+    self.secondAnimation = anim.newAnimation(ActionBar.actionBarAnimationGrid("4-15", 1), 0.035, function(an)
+        an:pause()
+        if loveframes.GetState() == states.STATE_INGAME_CONSTRUCTION then
+            self.element:SetImage(ActionBar.actionBarImage)
+        end
+        if self.lastCommand and self.lastCommand ~= "ignoreCommands" then
+            local command = self.lastCommand
+            self.lastCommand = nil
+            self:showGroup(command)
+        end
+    end)
+    self.secondAnimation:pause()
+    self.firstAnimation = anim.newAnimation(ActionBar.actionBarAnimationGrid("1-3", 1), 0.035, function(an)
+        an:pause()
+        self:startButtonAnimation()
+        self.animation = self.secondAnimation
+        self.animation:gotoFrame(1)
+        self.animation:resume()
+    end)
+    self.firstAnimation:pause()
+    self.animation = self.firstAnimation
 end
 
 function ActionBar:switchMode(mode)
@@ -87,7 +122,6 @@ function ActionBar:switchMode(mode)
     local buildingHover = require("states.ui.building_tooltip")
     _G.DestructionController.active = false
     if mode == "granary" then
-        self:showGroup("granary")
         loveframes.SetState(states.STATE_GRANARY)
         self.popularityText:SetState(states.STATE_GRANARY)
         self.populationText:SetState(states.STATE_GRANARY)
@@ -95,8 +129,8 @@ function ActionBar:switchMode(mode)
         self.element:SetState(states.STATE_GRANARY)
         self.element:SetImage(ActionBar.actionBarGranaryImage)
         buildingHover:SetState(states.STATE_GRANARY)
+        self:showGroup(mode)
     elseif mode == "stockpile" then
-        self:showGroup("stockpile")
         loveframes.SetState(states.STATE_STOCKPILE)
         self.popularityText:SetState(states.STATE_STOCKPILE)
         self.populationText:SetState(states.STATE_STOCKPILE)
@@ -104,8 +138,8 @@ function ActionBar:switchMode(mode)
         self.element:SetState(states.STATE_STOCKPILE)
         self.element:SetImage(ActionBar.actionBarStockpileImage)
         buildingHover:SetState(states.STATE_STOCKPILE)
+        self:showGroup(mode)
     elseif mode == "house" or mode == "max_house" then
-        self:showGroup("house")
         loveframes.SetState(states.STATE_HOUSE)
         self.popularityText:SetState(states.STATE_HOUSE)
         self.populationText:SetState(states.STATE_HOUSE)
@@ -117,8 +151,8 @@ function ActionBar:switchMode(mode)
             self.element:SetImage(ActionBar.actionBarHouseMaxLevelImage)
         end
         buildingHover:SetState(states.STATE_HOUSE)
+        self:showGroup(mode)
     elseif mode == "market" then
-        self:showGroup("market")
         loveframes.SetState(states.STATE_MARKET_MAIN)
         self.popularityText:SetState(states.STATE_MARKET_MAIN)
         self.populationText:SetState(states.STATE_MARKET_MAIN)
@@ -126,8 +160,8 @@ function ActionBar:switchMode(mode)
         self.element:SetState(states.STATE_MARKET_MAIN)
         self.element:SetImage(ActionBar.actionBarMarketImageMain)
         buildingHover:SetState(states.STATE_MARKET_MAIN)
+        self:showGroup(mode)
     elseif mode == "market_trade" then
-        self:showGroup("market_trade")
         loveframes.SetState(states.STATE_MARKET)
         self.popularityText:SetState(states.STATE_MARKET)
         self.populationText:SetState(states.STATE_MARKET)
@@ -135,8 +169,8 @@ function ActionBar:switchMode(mode)
         self.element:SetState(states.STATE_MARKET)
         self.element:SetImage(ActionBar.actionBarMarketImage)
         buildingHover:SetState(states.STATE_MARKET)
+        self:showGroup(mode)
     elseif mode == "keep_tax" then
-        self:showGroup("keep_tax")
         loveframes.SetState(states.STATE_KEEP_TAX)
         self.popularityText:SetState(states.STATE_KEEP_TAX)
         self.populationText:SetState(states.STATE_KEEP_TAX)
@@ -144,8 +178,8 @@ function ActionBar:switchMode(mode)
         self.element:SetState(states.STATE_KEEP_TAX)
         self.element:SetImage(ActionBar.actionBarKeepTaxImage)
         buildingHover:SetState(states.STATE_KEEP_TAX)
+        self:showGroup(mode)
     elseif mode == "armoury" then
-        self:showGroup("armoury")
         loveframes.SetState(states.STATE_ARMOURY)
         self.popularityText:SetState(states.STATE_ARMOURY)
         self.populationText:SetState(states.STATE_ARMOURY)
@@ -153,8 +187,8 @@ function ActionBar:switchMode(mode)
         self.element:SetState(states.STATE_ARMOURY)
         self.element:SetImage(ActionBar.actionBarArmouryImage)
         buildingHover:SetState(states.STATE_ARMOURY)
+        self:showGroup(mode)
     elseif mode == "barracks" then
-        self:showGroup("barracks")
         loveframes.SetState(states.STATE_BARRACKS)
         self.popularityText:SetState(states.STATE_BARRACKS)
         self.populationText:SetState(states.STATE_BARRACKS)
@@ -162,8 +196,8 @@ function ActionBar:switchMode(mode)
         self.element:SetState(states.STATE_BARRACKS)
         self.element:SetImage(ActionBar.actionBarBarracksImage)
         buildingHover:SetState(states.STATE_BARRACKS)
+        self:showGroup(mode)
     elseif mode == "guilds" then
-        self:showGroup("guilds")
         loveframes.SetState(states.STATE_GUILDS)
         self.popularityText:SetState(states.STATE_GUILDS)
         self.populationText:SetState(states.STATE_GUILDS)
@@ -171,8 +205,8 @@ function ActionBar:switchMode(mode)
         self.element:SetState(states.STATE_GUILDS)
         self.element:SetImage(ActionBar.actionBarArmouryImage)
         buildingHover:SetState(states.STATE_GUILDS)
+        self:showGroup(mode)
     elseif mode == "unitsUI" then
-        self:showGroup("unitsUI")
         loveframes.SetState(states.STATE_UNITS)
         self.popularityText:SetState(states.STATE_UNITS)
         self.populationText:SetState(states.STATE_UNITS)
@@ -180,8 +214,8 @@ function ActionBar:switchMode(mode)
         self.element:SetState(states.STATE_UNITS)
         self.element:SetImage(ActionBar.actionBarUnits)
         buildingHover:SetState(states.STATE_UNITS)
+        self:showGroup(mode)
     elseif mode == "inn" then
-        self:showGroup("inn")
         loveframes.SetState(states.STATE_INN)
         self.popularityText:SetState(states.STATE_INN)
         self.populationText:SetState(states.STATE_INN)
@@ -189,8 +223,8 @@ function ActionBar:switchMode(mode)
         self.element:SetState(states.STATE_INN)
         self.element:SetImage(ActionBar.actionBarStockpileImage)
         buildingHover:SetState(states.STATE_INN)
+        self:showGroup(mode)
     elseif mode == "religion" then
-        self:showGroup("religion")
         loveframes.SetState(states.STATE_RELIGION)
         self.popularityText:SetState(states.STATE_RELIGION)
         self.populationText:SetState(states.STATE_RELIGION)
@@ -198,12 +232,9 @@ function ActionBar:switchMode(mode)
         self.element:SetState(states.STATE_RELIGION)
         self.element:SetImage(ActionBar.actionBarStockpileImage)
         buildingHover:SetState(states.STATE_RELIGION)
+        self:showGroup(mode)
     else
-        if _G.BuildController.start then
-            self:showGroup("start")
-        else
-            self:showGroup("main")
-        end
+        local previousState = loveframes.GetState()
         loveframes.SetState(states.STATE_INGAME_CONSTRUCTION)
         self.popularityText:SetState(states.STATE_INGAME_CONSTRUCTION)
         self.populationText:SetState(states.STATE_INGAME_CONSTRUCTION)
@@ -211,6 +242,36 @@ function ActionBar:switchMode(mode)
         self.element:SetState(states.STATE_INGAME_CONSTRUCTION)
         self.element:SetImage(ActionBar.actionBarImage)
         buildingHover:SetState(states.STATE_INGAME_CONSTRUCTION)
+        if _G.BuildController.start then
+            self:showGroup("start", nil, true)
+        else
+            self:showGroup("main", nil)
+        end
+    end
+end
+
+function ActionBar:animate()
+    if self.lastCommand and self.lastCommand ~= "ignoreCommands" then
+        -- update faster when we have an extra command
+        self.animation:update(love.timer.getDelta())
+    end
+    self.animation:update(love.timer.getDelta())
+    for _, btn in ipairs(self.buttonsToAnimate) do
+        btn:update()
+    end
+    for _, btn in ipairs(self.lastButtonsToAnimate) do
+        btn:update()
+    end
+end
+
+function ActionBar:draw()
+    local actionBarFrames = require("states.ui.action_bar_frames")
+    if self.animation.status ~= "paused" then
+        local scale = self.element.scalex
+        self.animation:draw(ActionBar.actionBarAnimation, actionBarFrames.frFull.x + 228 * scale,
+            actionBarFrames.frFull.y + 109 * scale, 0,
+            scale,
+            scale)
     end
 end
 
@@ -366,9 +427,6 @@ function ActionBar:unselectAll()
 end
 
 function ActionBar:selectButton(element)
-    if not element.background.visible then
-        error("trying to select an invisible button")
-    end
     for _, el in pairs(self.groups[element.group]) do
         if el ~= element then
             el:unselect()
@@ -399,23 +457,78 @@ function ActionBar:getCurrentGroup()
     return self.currentGroup
 end
 
-function ActionBar:showGroup(name, playSound)
+function ActionBar:showGroup(name, playSound, skipAnimation)
+    if name == self.currentGroup then return end
+    if self.animation.status ~= "paused" then
+        if self.lastCommand == nil then
+            self.lastCommand = name
+        else
+            self.lastCommand = "ignoreCommands"
+        end
+        return
+    end
     if playSound then
         _G.playInterfaceSfx(playSound, 1)
     end
+    if loveframes.GetState() ~= states.STATE_INGAME_CONSTRUCTION then
+        self.animation:pause()
+        for k, _ in pairs(self.groups) do
+            if k ~= name then
+                self:hideGroup(k)
+            end
+        end
+    end
+    local animateConstructionBar = loveframes.GetState() == states.STATE_INGAME_CONSTRUCTION and not skipAnimation
     self.currentGroup = name
     if self.callback[name] then
         self.callback[name]()
     end
-    for k, _ in pairs(self.groups) do
-        if k ~= name then
-            self:hideGroup(k)
+    if animateConstructionBar then
+        self.firstAnimation = anim.newAnimation(ActionBar.actionBarAnimationGrid("1-3", 1), 0.035, function(an)
+            an:pause()
+            self:startButtonAnimation()
+            self.animation = self.secondAnimation
+            self.animation:gotoFrame(1)
+            self.animation:resume()
+            for _, btn in ipairs(self.buttonsToAnimate) do
+                btn:scrollDown(self.animation)
+            end
+        end)
+        self.lastButtonsToAnimate = {}
+        for _, btn in ipairs(self.buttonsToAnimate) do
+            btn:scrollUp(self.firstAnimation)
+            self.lastButtonsToAnimate[#self.lastButtonsToAnimate + 1] = btn
+        end
+    else
+        for k, _ in pairs(self.groups) do
+            if k ~= name then
+                self:hideGroup(k)
+            end
         end
     end
+    self.buttonsToAnimate = {}
     if name then
         for _, el in pairs(self.groups[name]) do
-            el:show()
+            if animateConstructionBar then
+                self.buttonsToAnimate[#self.buttonsToAnimate + 1] = el
+            else
+                el:show(true)
+            end
         end
+    end
+    self.targetImage = self.actionBarAnim
+    if animateConstructionBar then
+        self.animation = self.firstAnimation
+        self.animation:gotoFrame(1)
+        self.animation:resume()
+        _G.playInterfaceSfx(_G.fx["action_bar_rotate"])
+        self.element:SetImage(ActionBar.actionBarCutoffImage)
+    end
+end
+
+function ActionBar:startButtonAnimation()
+    for _, btn in ipairs(self.buttonsToAnimate) do
+        btn:show()
     end
 end
 

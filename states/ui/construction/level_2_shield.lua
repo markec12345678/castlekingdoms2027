@@ -1,4 +1,4 @@
-local el, backButton, destroyButton, setBuildingsTooltips, disableUnavailableButtons = ...
+local el, setBuildingsTooltips, disableUnavailableButtons = ...
 
 local states = require("states.ui.states")
 local ActionBarButton = require("states.ui.ActionBarButton")
@@ -94,5 +94,7 @@ el.buttons.shieldButton:setOnClick(function(self)
 end)
 
 
+local createBackButton = require("states.ui.construction.back_button_factory")
+local createDestroyButton = require("states.ui.construction.destroy_button_factory")
 ActionBar:registerGroup("shield",
-    { armouryButton, fletcherButton, poleturnerButton, blacksmithButton, armorerButton, backButton, destroyButton })
+    { armouryButton, fletcherButton, poleturnerButton, blacksmithButton, armorerButton, createBackButton(), createDestroyButton() })

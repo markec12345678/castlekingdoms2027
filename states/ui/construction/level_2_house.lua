@@ -1,4 +1,4 @@
-local el, backButton, destroyButton, setBuildingsTooltips, disableUnavailableButtons = ...
+local el, setBuildingsTooltips, disableUnavailableButtons = ...
 
 local states = require('states.ui.states')
 local ActionBarButton = require('states.ui.ActionBarButton')
@@ -108,11 +108,13 @@ local elements = {
     },
 }
 
+local createBackButton = require("states.ui.construction.back_button_factory")
+local createDestroyButton = require("states.ui.construction.destroy_button_factory")
 ActionBar:registerGroup("house",
-    { hovelButton, positiveBuildingButton, chapelButton, churchButton, cathedralButton, apothecaryButton, backButton,
-        destroyButton })
+    { hovelButton, positiveBuildingButton, chapelButton, churchButton, cathedralButton, apothecaryButton, createBackButton(),
+        createDestroyButton() })
 
 package.loaded["states.ui.construction.level_3_positive_buildings"] = love.filesystem.load(
-    "states/ui/construction/level_3_positive_buildings.lua")(elements, backButton, destroyButton, setBuildingsTooltips)
+    "states/ui/construction/level_3_positive_buildings.lua")(elements, destroyButton, setBuildingsTooltips)
 package.loaded["states.ui.construction.level_3_house"] = love.filesystem.load(
-    "states/ui/construction/level_3_house.lua")(elements, backButton, destroyButton, setBuildingsTooltips)
+    "states/ui/construction/level_3_house.lua")(elements, destroyButton, setBuildingsTooltips)

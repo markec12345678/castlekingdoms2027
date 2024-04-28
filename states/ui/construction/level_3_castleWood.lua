@@ -1,4 +1,4 @@
-local el, backButton, destroyButton, setBuildingsTooltips = ...
+local el, setBuildingsTooltips = ...
 
 local states = require("states.ui.states")
 local ActionBarButton = require("states.ui.ActionBarButton")
@@ -144,6 +144,8 @@ el.buttons.woodenBuildings:setOnClick(function(self)
 end)
 
 
+local createBackButton = require("states.ui.construction.back_button_factory")
+local createDestroyButton = require("states.ui.construction.destroy_button_factory")
 ActionBar:registerGroup("woodenBuildings",
     { woodenWallButton, walkableWoodenWallButton, woodenTowerButton, woodenGateEastButton,
-        woodenGateSouthButton, woodenGateEastBigButton, woodenGateSouthBigButton, woodenPermimeterTowerButton, woodenDefenseTowerButton, backButton, destroyButton })
+        woodenGateSouthButton, woodenGateEastBigButton, woodenGateSouthBigButton, woodenPermimeterTowerButton, woodenDefenseTowerButton, createBackButton(), createDestroyButton() })
