@@ -105,13 +105,13 @@ buildings:
     description: Um edifício que lhe permite recrutar cavadores de túneis.
   chapel:
     name: Capela
-    description: Increase your popularity with religion.
+    description: Aumente sua popularidade com religião.
   church:
     name: Igreja
-    description: Increase your popularity with religion.
+    description: Aumente sua popularidade com religião.
   cathedral:
     name: Catedral
-    description: Increase your popularity with religion and train warrior monks.
+    description: Aumente sua popularidade com religião e treine monges guerreiros.
   apothecary:
     name: Curandeiro
     description: Atualmente não funcional.
@@ -296,18 +296,18 @@ popularityText:
   crowding: Aglomeração
   religion: Religião
   aleCoverage: Cobertura da Cerveja
-  blessingCoverage: Ratio of blessed buildings
+  blessingCoverage: Taxa de edifícios abençoados
   enclosedKeep: Fortaleza Fechada
   openKeep: Fortaleza Aberta
   popularity: Popularidade
   inTheComingMonth: "No próximo mês"
   typesOfFoodConsumed: " %d  tipos de alimentos consumidos"
   foodInGranary: "%d de alimento no celeiro"
-  aleInInn: "%d jugs in inn"
-  nextAleBonus: "More bonus at %d%% coverage"
-  maximumAleBonus: "Maximum bonus reached"
-  nextBlessingBonus: "More bonus at %d%% coverage"
-  maximumBlessingBonus: "Maximum bonus reached"
+  aleInInn: " %d barris na taverna"
+  nextAleBonus: "Mais bônus a %d%% de cobertura"
+  maximumAleBonus: "Bônus máximo alcançado"
+  nextBlessingBonus: "Mais bônus a %d%% de cobertura"
+  maximumBlessingBonus: "Bônus máximo alcançado"
 settings:
   categories:
     sound:
