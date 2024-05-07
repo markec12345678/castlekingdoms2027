@@ -1,466 +1,466 @@
 mission1:
-  name: Timber and Stone
+  name: Cherestea și piatră
   desc: |
-    In this mission, you will need to focus on gathering resources to develop your kingdom's infrastructure.
-    Your objective is to collect 50 units of wood and 20 units of stone within the next 5 years.\n
-    To achieve this, you will need to establish a network of woodcutter's huts and quarries to extract these resources from the surrounding environment.
-    This may involve the construction of stockpiles to store your resources.
+    În această misiune, trebuie să concentrezi pe colectarea resurselor pentru a dezvolta infrastructura regatului tău.
+    Scopul tău este să colectezi 50 de unități de lemn și 20 de unități de piatră în următoarele 5 ani.\n
+    Pentru a realiza acest lucru, va trebui să creați o rețea de colibe și cariere de tăietori de lemne pentru a extrage aceste resurse din mediul înconjurător.
+    Acest lucru poate implica construirea de depozite pentru a stoca resursele.
 mission2:
-  name: Arms Race
+  name: Cursa înarmărilor
   desc: |
-    In this mission, you will need to focus on developing a strong military to defend your kingdom against potential threats.
-    Your objective is to produce 40 units each of bows, spears, maces, and armor within the next 20 years.\n
-    To achieve this, you will need to establish a robust metalworking industry to craft high-quality weapons and armor.
-    This may involve the construction of blacksmiths, workshops, and mines, as well as the recruitment of skilled craftsmen.\n
-    Keep in mind that your success in this mission will depend on your ability to balance your resources and prioritize your goals.
-    You will need to carefully manage your finances and make strategic decisions to ensure the safety and security of your kingdom. Good luck!
+    În această misiune, va trebui să te concentrezi pe dezvoltarea unei armate puternice pentru a-ți apăra regatul de potențiale amenințări.
+    Obiectivul tău este să produci 40 de unități de arcuri, sulițe, macete și armuri în următorii 20 de ani.\n
+    Pentru a realiza acest lucru, va trebui să înființați o industrie metalurgică robustă pentru a confecționa arme și armuri de înaltă calitate.
+    Acest lucru poate implica construirea de fierării, ateliere și mine, precum și recrutarea de meșteri calificați.\n
+    Reține că succesul în această misiune va depinde de abilitatea ta de a-ți echilibra resursele și de a-ți stabili prioritățile obiectivelor.
+    Va trebui să-ți gestionezi cu atenție finanțele și să iei decizii strategice pentru a asigura siguranța și securitatea regatului tău. Mult noroc!
 mission3:
-  name: Feast or famine
+  name: Festin sau foamete
   desc: |
-    In this mission, you will need to focus on food production to sustain your growing population. Your goal is to produce 250 units of bread,
-    100 units of meat,
-    200 units of cheese, and 250 units of apples within the next 20 years.\n
-    To achieve this, you will need to develop a robust agriculture system to grow crops and raise livestock. This will require the construction of farms, mills, and pastures, as well as the recruitment of skilled laborers.\n
-    In addition to food production, you will also need to consider the storage and distribution of these resources. This may involve building granaries and markets to store and sell your products.\n
-    Keep in mind that your success in this mission will depend on your ability to balance your resources and prioritize your goals. You will need to carefully manage your finances and make strategic decisions to ensure the prosperity of your kingdom. Good luck!
+    În această misiune, va trebui să te concentrezi pe producția de hrană pentru a-ți susţine populaţia în creştere. Scopul este de a produce 250 de unități de pâine,
+    100 de unități de carne,
+    200 unități de brânză şi 250 unități de mere în următorii 20 de ani.\n
+    Pentru a realiza acest lucru, va trebui să dezvolți un sistem agricol solid pentru creşterea culturilor şi creşterea animalelor. Acest lucru va necesita construirea de ferme, mori și pășuni, precum și recrutarea de lucrători calificați.\n
+    Pe lângă producția de hrană, va trebui să luați în considerare și stocarea și distribuirea acestor resurse. Acest lucru poate implica construirea de hambare şi piețe pentru a-ți stoca şi vinde produsele.\n
+    Reține că succesul tău în această misiune va depinde de capacitatea ta de a echilibra resursele și de a prioritiza obiectivele. Va trebui să îți gestionezi cu atenție finanțele și să iei decizii strategice pentru a asigura prosperitatea regatului tău. Mult noroc!
 mission4:
-  name: The Kingdom's Fortune
+  name: Fortuna Regatului
   desc: |
-    In this mission, your goal is to accumulate a substantial amount of wealth by acquiring 5000 units of gold.
-    Unlike previous missions, there is no time limit on this objective, so you will have the freedom to pursue your goals at your own pace.\n
-    To achieve this, you will need to develop a strong economy by building and managing workshops, investing in trade and commerce, and making strategic financial decisions.\n
-    Keep in mind that your success in this mission will depend on your ability to make wise investments and manage your finances carefully.
-    You will need to balance your resources and take calculated risks to ensure the prosperity of your kingdom. Good luck!
+    În această misiune, obiectivul tău este să acumulezi o cantitate considerabila de avere prin cumpărarea a 5000 de unități de aur.
+    Spre deosebire de misiunile anterioare, nu există o limită de timp pentru acest obiectiv, astfel încât să aveți libertatea de a te urmări obiectivele în ritmul propriu.\n
+    Pentru a realiza acest lucru, va trebui să dezvolți o economie puternică prin construirea și gestionarea atelierelor, investiții în comerț și comerț și luarea de decizii financiare strategice.\n
+    Rețineți că succesul dumneavoastră în această misiune va depinde de capacitatea ta de a face investiții înțelepte și de a-ți gestiona finanțele cu atenție.
+    Va trebui să soliciți resursele și să îți asumi riscuri calculate pentru a asigura prosperitatea regatului tău. Mult noroc!
 mission5:
-  name: Faith in Architecture
+  name: Încredere în arhitectură
   desc: |
-    In this mission, you will need to focus on constructing a grand cathedral to serve as the centerpiece of your kingdom's religious and cultural life.
-    Your objective is to build a cathedral within the next 10 years.\n
-    Keep in mind that your success in this mission will depend on your ability to manage a complex construction project and balance your resources effectively.
-    You will need to make strategic decisions and manage your time carefully to ensure the completion of your cathedral within the allotted timeframe. Good luck!
+    În această misiune, va trebui să te concentrezi pe construirea unei mari catedrale care va servi drept centru al vieții religioase și culturale a regatului tău.
+    Obiectivul tău este să construiești catedrala în următorii 10 ani.\n
+    Rețineți că succesul în această misiune va depinde de capacitatea ta de a gestiona un proiect de construcție complex și de a echilibra eficient resursele.
+    Va trebui să luați decizii strategice și să îți gestionați timpul cu atenție pentru a asigura că catedrala este finalizată la timp. Mult succes!
 groups:
   castle:
-    name: Castle
-    description: Walls, Towers, Gates and everything else you need to defend your Stronghold.
+    name: Castel
+    description: Ziduri, turnuri, porți și orice altceva pentru a apăra Bastionul Tău.
   industry:
-    name: Industry
-    description: Build mighty Industries to defeat your enemies ... or fill your pockets.
+    name: Industrie
+    description: Construiește industrii puternice pentru a-ți învinge inamicii... sau pentru a-ți umple buzunarele.
   apple:
-    name: Farms
-    description: Produce basic agricultural products.
+    name: Ferme
+    description: Produ produse agricole de bază.
   house:
-    name: Civilian
-    description: Houses and amenities for your citizens.
+    name: Civil
+    description: Case și facilități pentru cetățeni.
   shield:
-    name: Military
-    description: Raise mighty armies and build terrifying siege weapons to crush your enemies.
+    name: Armată
+    description: Ridică armate puternice și construiește arme de asediu terifiante pentru a zdrobi inamicii.
   sickle:
-    name: Food Production
-    description: Turn basic farm products into high quality goods.
+    name: Producție de hrană
+    description: Transformarea produselor agricole de bază în bunuri de înaltă calitate.
   destroy:
-    name: Demolish
-    description: Enter demolish mode. Click on a building to destroy.
-    exitTooltip: Exit Demolish Mode
+    name: Distruge
+    description: Intră în modul demolare. Apasă pe o clădire pentru a distruge.
+    exitTooltip: Ieși din modul demolare
   houses:
-    name: Houses
-    description: Houses to increase your population limit.
+    name: Case
+    description: Case pentru a crește limita de populație.
   goodThings:
-    name: Good things
-    description: Gardens, statues and entertainment to increase your popularity.
+    name: Lucruri bune
+    description: Grădini, statui și divertisment pentru a-ți crește popularitatea.
 buildings:
   hunterHut:
-    name: Hunter's hut
-    description: Hunts deer in the environment for meat.
+    name: Colibă a vânătorului
+    description: Vână căprioară în mediu pentru carne.
   granary:
-    name: Granary
-    description: The granary is where you store your kingdom's food reserves.
+    name: Hambar
+    description: Hambarul este locul unde păstrezi rezervele de mâncare ale regatului tău.
   orchard:
-    name: Orchard
-    description: Produces apples.
+    name: Livadă
+    description: Produce mere.
   wheatFarm:
-    name: Wheat Farm
-    description: Produces wheat which can be processed into flour.
+    name: Fermă de grâu
+    description: Produce grâu care poate fi prelucrat în făină.
   dairyFarm:
-    name: Dairy Farm
-    description: Produces cheese.
+    name: Fermă de lapte
+    description: Produce brânză.
   hopsFarm:
-    name: Hops Farm
-    description: Produces hops which can be processed into ale.
+    name: Fermă de hamei
+    description: Produce hamei care poate fi procesat în bere.
   castle:
-    name: Saxon Hall
-    description: Your Saxon hall is the center of your castle.
+    name: Sala saxonă
+    description: Sala ta saxonă este centrul castelului tău.
   stockpile:
-    name: Stockpile
+    name: Stoc
     description: |
-      Increases resource capacity.\nMust be placed adjacent to a stockpile.
+      Crește capacitatea de resurse.\nTrebuie plasat lângă un stoc.
   woodenKeep:
-    name: Wooden Keep
-    description: Upgrade your Saxon hall to a Wooden keep
+    name: Turn de lemn
+    description: Îmbunătățește-ți sala saxonă la turn de lemn
   keep:
-    name: Keep
-    description: Upgrade your Wooden keep to a Stone keep
+    name: Turn de piatră
+    description: Îmbunătățește-ți turnul de lemn la turn de piatră
   fortress:
-    name: Fortress
-    description: Upgrade your Stone keep to a Fortress
+    name: Cetate
+    description: Îmbunătățește-ți turnul de piatră la cetate
   stronghold:
-    name: Stronghold
-    description: Upgrade your Fortress to a Stronghold (not supported yet)
+    name: Bastion
+    description: Îmbunătățește-ți cetatea la bastion (nu suportat pentru acum)
   barracks:
-    name: Barracks
-    description: A building allowing you to recruit units.
+    name: Cazărmi
+    description: O clădire care îți permite să recrutezi unități.
   stoneBarracks:
-    name: Stone Barracks
-    description: A building allowing you to recruit units.
+    name: Cazări de piatră
+    description: O clădire care îți permite să recrutezi unități.
   engineersGuild:
-    name: Engineers Guild
-    description: A building allowing you to recruit siege units.
+    name: Breasla inginerilor
+    description: O clădire care îți permite să recrutezi unități de asediu.
   tunnelersGuild:
-    name: Tunnelers Guild
-    description: A building allowing you to recruit tunnelers.
+    name: Breasla tuneliștilor
+    description: O clădire care îți permite să recrutezi tuneliști.
   chapel:
-    name: Chapel
-    description: Increase your popularity with religion.
+    name: Capelă
+    description: Crește-ți popularitatea cu religia.
   church:
-    name: Church
-    description: Increase your popularity with religion.
+    name: Biserică
+    description: Crește-ți popularitatea cu religia.
   cathedral:
-    name: Cathedral
-    description: Increase your popularity with religion and train warrior monks.
+    name: Catedrală
+    description: Crește-ți popularitatea cu religia și antrenează călugări de război.
   apothecary:
-    name: Apothecary
-    description: Currently not functional.
+    name: Farmacie
+    description: În prezent nu funcționează.
   woodcutter:
-    name: Woodcutter Hut
-    description: Cuts down nearby trees to produce wood.
+    name: Colibă a tăietorului
+    description: Taie copaci din apropiere pentru a produce lemn.
   ironMine:
-    name: Mine
-    description: Produces iron ingots from ground iron ore.
+    name: Mină
+    description: Produce lingouri de fier din minereu de fier.
   market:
-    name: Market
-    description: Allows you to trade your goods.
+    name: Piață
+    description: Îți permite să tranzacționezi bunurile.
   ox:
-    name: Ox Tether
-    description: Transport stone from the quarry to the stockpile.
+    name: Ox muncitor
+    description: Transportă piatra din carieră în depozit.
   quarry:
-    name: Quarry
-    description: Produces stone blocks from the ground resource.
+    name: Carieră
+    description: Produce blocuri de piatră din resursa terestră.
   armoury:
-    name: Armoury
-    description: Weapons and armour is stored here, which is used by troops from the barracks upon recruitment.
+    name: Armură
+    description: Armele și armura sunt depozitate aici, care sunt folosite de trupele din cazarmă după recrutare.
   fletcher:
-    name: Fletcher Workshop
-    description: Produces bows and crossbows from wood.
+    name: Atelier al arcașului
+    description: Produce arcuri și arbalete din lemn.
   poleturner:
-    name: Poleturner Workshop
-    description: Produces spears and pikes from wood.
+    name: Atelier al turnătorului
+    description: Produce sulițe și țevi din lemn.
   blacksmith:
-    name: Blacksmith Workshop
-    description: Produces swords and maces from iron.
+    name: Atelier a fierarului
+    description: Produce săbii și macarale din fier.
   armorer:
-    name: Armorer
-    description: Makes armor from iron.
+    name: Armurier
+    description: Face armură din fier.
   windmill:
-    name: Windmill
-    description: Processes wheat into flour.
+    name: Moară de vânt
+    description: Prelucrează grâu în făină.
   bakery:
-    name: Bakery
-    description: Processes flour into bread.
+    name: Brutărie
+    description: Procesează făina în pâine.
   brewery:
-    name: Brewery
-    description: Processes hops into ale.
+    name: Berărie
+    description: Procesează hameiul în bere.
   inn:
-    name: Inn
-    description: Distributes ale.
+    name: Han
+    description: Distribuie berea.
   pitchRig:
-    name: Pitch Rig
-    description: Small platform to collect pitch from the swamp.
+    name: Platformă de mlăștină
+    description: O platformă mică pentru a aduna teren de pe mlaștină.
   perimeterTower:
-    name: Perimeter Tower
-    description: A small perimeter tower - good for the observation.
+    name: Turn perimetral
+    description: Un turn perimetral, bun pentru observare.
   defenseTower:
-    name: Defense Tower
-    description: A defense tower made for defense.
+    name: Turn de apărare
+    description: Un turn făcut pentru apărare.
   squareTower:
-    name: Square Tower
-    description: Crucial for your castle - you can place war machines on the top.
+    name: Turn pătrat
+    description: Esențial pentru castelul tău, poți plasa mașini de război în vârf.
   roundTower:
-    name: Round Tower
-    description: The strongest tower - you can place war machines on the top.
+    name: Turn rotund
+    description: Cel mai puternic turn, poți plasa mașini de război în vârf.
   stoneGateSouth:
-    name: Stone Gate South
-    description: A stone gate that can let friendly units pass through.
+    name: Poartă de piatră (sud)
+    description: O poartă de piatră care poate permite unităților prietenoase să treacă prin ea.
   stoneGateEast:
-    name: Stone Gate East
-    description: A stone gate that can let friendly units pass through.
+    name: Poartă de piatră (est)
+    description: O poartă de piatră care poate permite unităților prietenoase să treacă prin ea.
   stoneGateEastBig:
-    name: Stone Gate Big East
-    description: A strong stone gate that can let friendly units pass through.
+    name: Poartă de piatră mare (est)
+    description: O poartă de piatră puternică care poate permite unităților prietenoase să treacă prin ea.
   stoneGateSouthBig:
-    name: Stone Gate Big South
-    description: A strong stone gate that can let friendly units pass through.
+    name: Poartă de piatră mare (sud)
+    description: O poartă de piatră puternică care poate permite unităților prietenoase să treacă prin ea.
   walkableWoodenWall:
-    name: Walkable WoodenWall
-    description: A defensive wall made that is walkable on the top.
+    name: Zid de lemn pasibil
+    description: Un zid defensiv așa făcut ca acesta să fie plimbabil în vârf.
   woodenTower:
-    name: Wooden Tower
-    description: A wooden tower that is missing some stairs apparently.
+    name: Turn de lemn
+    description: Un turn de lemn căruia îi lipsesc câteva scări aparent.
   woodenGateEast:
-    name: Wooden Gate East
-    description: A wooden gate that can let friendly units pass through.
+    name: Poartă de lemn (est)
+    description: O poartă de lemn care poate permite unităților prietenoase să treacă prin ea.
   woodenGateSouth:
-    name: Wooden Gate South
-    description: A wooden gate that can let friendly units pass through.
+    name: Poartă de lemn (sud)
+    description: O poartă de lemn care poate permite unităților prietenoase să treacă prin ea.
   woodenGateEastBig:
-    name: Big Wooden Gate East
-    description: A wooden gate that can let friendly units pass through.
+    name: Poarta de lemn mare (est)
+    description: O poartă de lemn care poate permite unităților prietenoase să treacă prin ea.
   woodenGateSouthBig:
-    name: Big Wooden Gate South
-    description: A wooden gate that can let friendly units pass through.
+    name: Poartă de lemn mare (sud)
+    description: O poartă de lemn care poate permite unităților prietenoase să treacă prin ea.
   woodenPermimeterTower:
-    name: Wooden Perimeter Tower
-    description: A wooden tower that is missing some stairs apparently.
+    name: Turn perimetral de lemn
+    description: Un turn din lemn căruia îi lipsesc câteva scări aparent.
   woodenDefenseTower:
-    name: Wooden Defense Tower
-    description: A wooden tower that is missing some stairs apparently.
+    name: Turn de apărare din lemn
+    description: Un turn din lemn căruia îi lipsesc câteva scări aparent.
   woodenWall:
-    name: Wooden Wall
-    description: A defensive wall made from sharpened tree trunks.
+    name: Zid de lemn
+    description: Un zid defensiv făcut din trunchiuri ascuțite.
   hovel:
-    name: House
-    description: A small hut - gives shelter to 4 people.
+    name: Casă
+    description: O colibă mică - oferă adăpost pentru 4 persoane.
   flat:
-    name: Flat
-    description: A small, cosy flat - gives shelter to 8 people
+    name: Apartament
+    description: Un mic plat costum - oferă un adăpost pentru 8 persoane.
   residence:
-    name: Residence
-    description: A nice and elegant house - gives shelter to 12 peole.
+    name: Reședință
+    description: O casă drăguță și elegantă - oferă adăpost pentru 12 persoane.
   bigResidence:
-    name: Big Residence
-    description: A big residence - gives shelter to 16 people
+    name: Reședință mare
+    description: O reședință mare - oferă adăpost pentru 16 persoane.
   maypole:
-    name: Maypole
-    description: A tall wooden pole, around which a maypole dance often takes place. Temporarily disabled.
+    name: Arminden
+    description: Un stâlp înalt de lemn, în jurul căruia are loc adesea un dans de arminden. Dezactivat temporar.
   smallPond:
-    name: Small Pond
-    description: A small pond.
+    name: Iaz mic
+    description: Un iaz mic.
   largePond:
-    name: Large Pond
-    description: A large pond.
+    name: Iaz mare
+    description: Un iaz mare.
   smallGarden:
-    name: Small Garden
-    description: A small garden.
+    name: Grădină mică
+    description: O grădină mică.
   mediumGarden:
-    name: Medium Garden
-    description: A medium-sized garden.
+    name: Grădină medie
+    description: O grădină medie.
   largeGarden:
-    name: Large Garden
-    description: A large garden.
+    name: Grădină mare
+    description: O grădină mare.
   stable:
-    name: Stable
-    descriptin: Produces horses
+    name: Grajd
+    descriptin: Produce cai.
 freebuild:
   fernhaven:
     name: Fernhaven
-    description: Build a new castle on the ruins of an ancient city.
+    description: Construiește un nou castel pe ruinele unui oraș antic.
   grasslands:
-    name: Grasslands
+    name: Pajiști
     description: |
-      Empty grasslands. Used for testing due to fast load times.
+      Pajiști goale. Folosit pentru testare din cauza timpilor rapizi de încărcare.
 rations:
   no:
-    name: No Rations
+    name: Fără rații
     description: |
-      No rations for each worker.\nDecreases their happiness by 8.
+      Fără rații pentru fiecare lucrător.\n Scade fericirea lor cu 8.
   half:
-    name: Half Rations
+    name: Jumătate de rații
     description: |
-      0.5x rations for each worker.\nDecreases their happiness by 4.
+      0.5x rații pentru fiecare lucrător.\n Scade fericirea lor cu 4.
   full:
-    name: Full Rations
+    name: Rații complete
     description: |
-      Normal rations for each worker.
+      Rații normale pentru fiecare lucrător.
   extra:
-    name: Extra Rations
+    name: Rații suplimentare
     description: |
-      1.5x rations for each worker.\nIncreases their happiness by 4.
+      1.5x rații pentru fiecare lucrător.\n Își crește fericirea cu 4.
   double:
-    name: Double Rations
+    name: Rații duble
     description: |
-      2x rations for each worker.\nIncreases their happiness by 8.
+      2x rații pentru fiecare lucrător.\n Își crește fericirea cu 8.
 houses:
-  upgradeButton: UPGRADE
-  description: Offers shelter to %s people
+  upgradeButton: ÎMBUNĂTĂȚEȘTE
+  description: Oferă adăpost pentru %s persoane.
 taxes:
-  no: No Tax
-  auto: Auto Tax
-  generousBribe: Generous Bribe
-  largeBribe: Large Bribe
-  smallBribe: Small Bribe
-  low: Low Taxes
-  avg: Average Taxes
-  high: High Taxes
-  mean: Mean Taxes
-  extra: Extortionate Taxes
-  downrightCruel: Downright Cruel Taxes
+  no: Fără taxe
+  auto: Taxe automate
+  generousBribe: Mită generoasă
+  largeBribe: Mită uriașă
+  smallBribe: Mită mică
+  low: Taxe mici
+  avg: Taxe medii
+  high: Taxe mari
+  mean: Taxe răutăcioase
+  extra: Taxe exagerate
+  downrightCruel: Taxe teribil de umilitoare și crude
 popularityText:
   total: Total
-  rations: Rations
-  taxes: Taxes
-  fearFactor: Fear factor
-  crowding: Crowding
-  religion: Religion
-  aleCoverage: Ale Coverage
-  blessingCoverage: Ratio of blessed buildings
-  enclosedKeep: Keep Enclosed
-  openKeep: Open Keep
-  popularity: Popularity
-  inTheComingMonth: "In the coming month"
-  typesOfFoodConsumed: "%d types of food consumed"
-  foodInGranary: "%d food in granary"
-  aleInInn: "%d jugs in inn"
-  nextAleBonus: "More bonus at %d%% coverage"
-  maximumAleBonus: "Maximum bonus reached"
-  nextBlessingBonus: "More bonus at %d%% coverage"
-  maximumBlessingBonus: "Maximum bonus reached"
+  rations: Rații
+  taxes: Taxe
+  fearFactor: Factorul de teamă
+  crowding: Aglomerație
+  religion: Religie
+  aleCoverage: Acoperirea berii
+  blessingCoverage: Ponderea clădirilor binecuvântate
+  enclosedKeep: Donjon închis
+  openKeep: Donjon deschis
+  popularity: Popularitate
+  inTheComingMonth: "În luna următoare"
+  typesOfFoodConsumed: "%d tipuri de hrană consumate"
+  foodInGranary: "%d mâncare în hambar"
+  aleInInn: "%d ulcioare în han"
+  nextAleBonus: "Mai mult bonus la acoperirea %d%%"
+  maximumAleBonus: "Bonusul maxim atins"
+  nextBlessingBonus: "Mai mult bonus la acoperirea %d%%"
+  maximumBlessingBonus: "Bonusul maxim atins"
 settings:
   categories:
     sound:
-      button: Sound
-      title: SOUND LEVELS
-      description: Here you can change the sound levels of sound effects or speech to your liking.
+      button: Sunet
+      title: NIVELURI DE SUNET
+      description: Aici poți schimba nivelul de sunet al efectelor de sunet sau al vorbirii după cum dorești.
       items:
-        masterVolume: Master volume
-        musicVolume: Music volume
-        soundVolume: Sound volume
-        speechVolume: Speech volume
+        masterVolume: Volum principal
+        musicVolume: Muzică
+        soundVolume: Sunet
+        speechVolume: Vorbire
     graphics:
-      button: Graphics
-      title: GRAPHIC SETTINGS
+      button: Grafică
+      title: SETĂRI GRAFICE
       description: |
-        Modify rendering quality, chunk size and toggle animations in order to balance performance.\n
+        Modifică calitatea redării, dimensiunea chunk-ului și comută animațiile pentru a echilibra performanța.\n
       items:
-        fullScreen: Full Screen
-        borderless: Borderless
+        fullScreen: Ecran complet
+        borderless: Fără margini
         vsync: VSync
-        resolution: Resolution
-        display: Display
-        apply: Apply
+        resolution: Rezoluție
+        display: Afișare
+        apply: Aplică
     hotkeys:
-      button: Hotkeys
-      title: KEYBOARD HOTKEYS & SHORTCUTS
+      button: Taste rapide
+      title: TASTE RAPIDE ȘI SCURTĂTURI
       description: |
-        Edit or add new keyboard hotkeys and shortcuts.\n
+        Editează sau adaugă noi taste rapide și scurtături.\n
     video:
       button: Video
-      title: VIDEO SETTINGS
+      title: SETĂRI VIDEO
       description: |
-        Change fullscreen settings, window resolution and toggle VSync.\n
+        Schimbă setările ecranului complet, rezoluția ferestrei și comutarea VSync.\n
     interface:
-      button: Interface
-      title: INTERFACE SETTINGS
+      button: Interfață
+      title: SETĂRI DE INTERFAȚĂ
       description: |
-        Toggle interface elements and modify their scale.\n
+        Comută elementele interfeței și modifică scara lor.\n
       items:
-        language: Language
-  apply: Apply
+        language: Limbă
+  apply: Aplică
 recruitment:
-  archer: Archer
-  spearman: Spearman
-  maceman: Maceman
-  crossbowman: Crossbowman
-  pikeman: Pikeman
-  swordsman: Swordsman
-  knight: Knight
-  availablePeasants: Available peasants
+  archer: Arcaș
+  spearman: Spătar
+  maceman: Soldat cu buzduganul
+  crossbowman: Arbaletrier
+  pikeman: Lăncier
+  swordsman: Spadasin
+  knight: Cavaler
+  availablePeasants: Țărani disponibili
 objects:
   hoverText:
-    barracks: Click to recruit units
-    engineersGuild: Click to recruit siege units
-    fortress: Click to manage taxes
-    granary: Click to manage food rations
-    keep: Click to manage taxes
-    market: Click to trade resources
-    saxonHall: Click to manage taxes
-    stockpile: Click to manage resources
-    stoneBarracks: Click to recruit units
-    tunnelersGuild: Click to recruit tunnelers
+    barracks: Dă clic pentru a recruta unități
+    engineersGuild: Dă clic pentru a recruta unități de asediu
+    fortress: Dă clic pentru a gestiona taxele
+    granary: Dă clic pentru a gestiona rațiile de hrană
+    keep: Dă clic pentru a gestiona taxele
+    market: Dă clic pentru a tranzacționa resurse
+    saxonHall: Dă clic pentru a gestiona taxele
+    stockpile: Dă clic pentru a gestiona resursele
+    stoneBarracks: Dă clic pentru a recruta unități
+    tunnelersGuild: Dă clic pentru a recruta tuneliști
 tips:
-  upgradeKeep: You need to upgrade your keep to build this
-  notAvailableInMission: Not available in this mission
-  buildMarket: Build a market to trade!
-  cantTrade: You can't trade that!
-  notImplemented: Not implemented yet.
-  increaseTradeQuantity: Increase quantity of items you want to trade by 5
-  decreaseTradeQuantity: Decrease quantity of items you want to trade by 5
+  upgradeKeep: Trebuie să îți îmbunătățești donjonul pentru a construi aceasta
+  notAvailableInMission: Nu este disponibil în această misiune
+  buildMarket: Construiește o piață pentru a tranzacționa!
+  cantTrade: Nu poți tranzacționa aceasta!
+  notImplemented: Nu este încă implementat.
+  increaseTradeQuantity: Crește cantitatea de produse pe care dorești să le tranzacționezi cu 5
+  decreaseTradeQuantity: Scade cantitatea de produse pe care dorești să le tranzacționezi cu 5
   actionBar:
     woodenStructures:
-      title: Wooden Structures
-      description: Towers, gates and walls.
+      title: Structuri din lemn
+      description: Turnuri, porți și ziduri.
     stoneStructures:
-      title: Stone Structures
-      description: Stronger towers, gates and walls.
+      title: Structuri din piatră
+      description: Turnuri, porți și ziduri mai puternice.
   warning:
-    obstacle: There is an obstacle in the way!
-    tooCloseToKeep: Too close to the keep!
-    cliffs: Cannot build on cliffs!
-    water: Cannot build on top of water!
-    unevenTerrain: Cannot build on too uneven terrain!
-    notEnoughResources: Not enough resources!
-    outOfBounds: Cannot build outside of map bounds!
-    adjacentStockpile: Needs to placed adjacent to a stockpile!
-    adjacentGranary: Needs to placed adjacent to a granary!
-    adjacentArmoury: Needs to placed adjacent to an armoury!
-    onTopOfStone: Needs to placed on top of stone!
-    onTopOfIron: Needs to placed on top of iron ore!
-    unitsInTheWay: There are units in the way!
-    structuresInTheWay: There are structures in the way!
-    needArmoury: You need an armoury to build this!
-    closeToQuarry: Needs to be placed close to an existing quarry!
-    keepCloseToEdgeOfMap: Too close to the edge of the map!
+    obstacle: Există un obstacol pe drum!
+    tooCloseToKeep: Prea aproape de donjon!
+    cliffs: Nu se poate construi pe stânci!
+    water: Nu se poate construi peste apă!
+    unevenTerrain: Nu se poate construi pe un teren prea neuniform!
+    notEnoughResources: Nu ai suficiente resurse!
+    outOfBounds: Nu se poate construi în afara limitelor hărții!
+    adjacentStockpile: Trebuie să fie plasat lângă un stoc!
+    adjacentGranary: Trebuie să fie plasat lângă un hambar!
+    adjacentArmoury: Trebuie să fie plasat lângă o armură!
+    onTopOfStone: Trebuie să fie plasat peste piatră!
+    onTopOfIron: Trebuie să fie plasat peste minereului de fier!
+    unitsInTheWay: Există unități pe drum!
+    structuresInTheWay: Există structuri pe drum!
+    needArmoury: Ai nevoie de o armură pentru a construi aceasta!
+    closeToQuarry: Trebuie să fie plasat aproape de o carieră existentă!
+    keepCloseToEdgeOfMap: Prea aproape de marginea hărții!
 ui:
   global:
-    start: Start
+    start: Începe
   mainMenu:
-    freebuild: Freebuild
-    campaign: Campaign
-    load: Load
-    save: Save
-    resume: Resume
-    options: Options
-    exit: Exit
+    freebuild: Mod liber
+    campaign: Campanie
+    load: Încărcare
+    save: Salvare
+    resume: Reluare
+    options: Opțiuni
+    exit: Ieși
   campaign:
-    economicMissions: Economic Missions
+    economicMissions: Misiuni economice
   load:
-    title: Load Game
-    saveName: Save name
-    map: Map
-    dateSaved: Date saved
-    version: Version
+    title: Încarcă jocul
+    saveName: Salvează numele
+    map: Hartă
+    dateSaved: Date salvate
+    version: Versiune
     states:
-      loadingTextures: Loading textures...
-      initializingTerrain: Initializing terrain...
-      updatingTerrain: Updating terrain...
-      updatingObjects: Updating objects...
-      renderingTerrain: Rendering terrain...
-gold: gold
-wood: wood
-stone: stone
-wheat: wheat
-iron: iron
-flour: flour
-hop: hops
-tar: pitch
-ale: ale
+      loadingTextures: Se încarcă texturile...
+      initializingTerrain: Se inițializează terenul...
+      updatingTerrain: Se actualizează terenul...
+      updatingObjects: Se actualizează obiectele...
+      renderingTerrain: Redarea terenului...
+gold: aur
+wood: lemn
+stone: piatră
+wheat: grâu
+iron: fier
+flour: făină
+hop: hamei
+tar: mlăștină
+ale: bere
 months:
-  jan: Jan
-  feb: Feb
-  mar: Mar
-  apr: Apr
-  may: May
-  jun: Jun
-  jul: Jul
-  aug: Aug
-  sep: Sep
-  oct: Oct
-  nov: Nov
-  dec: Dec
+  jan: ian
+  feb: feb
+  mar: mar
+  apr: apr
+  may: mai
+  jun: iun
+  jul: iul
+  aug: aug
+  sep: sep
+  oct: oct
+  nov: noi
+  dec: dec
