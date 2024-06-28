@@ -12,6 +12,7 @@ function JobController:initializeWorkplaces()
     self.list = {
         ["Stonemason"] = {},
         ["Woodcutter"] = {},
+        ["Hunter"] = {},
         ["Miner"] = {},
         ["OrchardFarmer"] = {},
         ["WheatFarmer"] = {},
