@@ -202,6 +202,7 @@ function Object:serialize()
         data.className ~= "GranaryAlias" and
         data.className ~= "HopsFarmAlias" and
         data.className ~= "HouseAlias" and
+        data.className ~= "HunterHutAlias" and
         data.className ~= "InnAlias" and
         data.className ~= "LargeGardenAlias" and
         data.className ~= "LargePondAlias" and

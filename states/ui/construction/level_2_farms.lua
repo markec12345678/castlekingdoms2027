@@ -17,7 +17,14 @@ granaryButton:setOnClick(function(self)
 end)
 
 local hunterButton = ActionBarButton:new(love.graphics.newImage('assets/ui/hunter_ab.png'),
-    states.STATE_INGAME_CONSTRUCTION, 2, true, nil, true)
+    states.STATE_INGAME_CONSTRUCTION, 2, true)
+
+hunterButton:setOnClick(function(self)
+    _G.BuildController:set("HunterHut", function()
+        hunterButton:select()
+    end)
+    ActionBar:selectButton(hunterButton)
+end)
 
 local appleFarmButton = ActionBarButton:new(love.graphics.newImage('assets/ui/apple_farm_ab.png'),
     states.STATE_INGAME_CONSTRUCTION, 3, true)
@@ -58,6 +65,7 @@ end)
 local buildings = {
     { button = granaryButton,    id = "Granary",   name = SID.buildings.granary.name,   description = SID.buildings.granary.description,   tier = 1 },
     { button = appleFarmButton,  id = "Orchard",   name = SID.buildings.orchard.name,   description = SID.buildings.orchard.description,   tier = 1 },
+    { button = hunterButton,     id = "HunterHut", name = SID.buildings.hunterHut.name, description = SID.buildings.hunterHut.description, tier = 1 },
     { button = wheatFarmButton,  id = "WheatFarm", name = SID.buildings.wheatFarm.name, description = SID.buildings.wheatFarm.description, tier = 3 },
     { button = cheeseFarmButton, id = "DairyFarm", name = SID.buildings.dairyFarm.name, description = SID.buildings.dairyFarm.description, tier = 2 },
     { button = hopsFarmButton,   id = "HopsFarm",  name = SID.buildings.hopsFarm.name,  description = SID.buildings.hopsFarm.description,  tier = 3 }
@@ -68,9 +76,8 @@ local function displayTooltips()
 
     setBuildingsTooltips(buildings)
 
-    hunterButton:setTooltip(SID.buildings.hunterHut, SID.tips.warning.notImplemented)
     local buttonList = {
-        --hunter = hunterButton, NOT IMPLEMENTED YET
+        hunter = hunterButton,
         appleFarm = appleFarmButton,
         dairyFarm = cheeseFarmButton,
         wheatFarm = wheatFarmButton,

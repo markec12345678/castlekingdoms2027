@@ -142,6 +142,7 @@ function State:destroy()
     local RationController = require("objects.Controllers.RationController")
     RationController:initialize()
     _G.AleController:initialize()
+    _G.HerdController:initialize()
     _G.ReligionController:initialize()
     _G.TaxController:initialize()
     _G.TimeController:initialize()
@@ -408,6 +409,7 @@ function State:serialize()
     local RationController = require("objects.Controllers.RationController")
     data.rationController = RationController:serialize()
     data.religionController = _G.ReligionController:serialize()
+    data.herdController = _G.HerdController:serialize()
     data.popularityController = _G.PopularityController:serialize()
     -- end
     data.verticesPerTile = self.verticesPerTile
@@ -490,6 +492,7 @@ function State:deserialize(load)
         _G.foodpile:deserialize(load.foodController)
         _G.TimeController:deserialize(load.timeController)
         _G.ReligionController:deserialize(load.religionController)
+        _G.HerdController:deserialize(load.herdController)
         if load.weaponController then
             _G.weaponpile:deserialize(load.weaponController)
         end

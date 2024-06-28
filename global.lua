@@ -102,6 +102,14 @@ function _G.indexQuads(string, endIndex, startIndex, reverse)
     return tempArray
 end
 
+--- Return the first array with the elements of the second array concatenated onto it
+function _G.addOther(arrayToExtend, arrayToAdd)
+    for i = 1, #arrayToAdd do
+        arrayToExtend[#arrayToExtend + 1] = arrayToAdd[i]
+    end
+    return arrayToExtend
+end
+
 function _G.addReverse(tempArray)
     local endAmount = #tempArray
     for i = endAmount, 2, -1 do
