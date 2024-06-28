@@ -301,6 +301,12 @@ function HunterHut:initialize(gx, gy)
         end
     end
 
+    for xx = 1, self.class.WIDTH - 1 do
+        for yy = 1, self.class.LENGTH - 1 do
+            HunterHutAlias:new(tileQuads["empty"], self.gx + xx, self.gy + yy, self, self.offsetX, self.offsetY)
+        end
+    end
+
     self.float = NotEnoughWorkersFloat:new(self.gx, self.gy, 8, -64)
     Structure.render(self)
 end
