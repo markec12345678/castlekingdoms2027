@@ -111,9 +111,14 @@ function ReligionController:serialize()
 end
 
 function ReligionController:deserialize(data)
-    self.updateTimer = data.updateTimer
-    for _, v in ipairs(data.alreadyBlessing) do
-        self.alreadyBlessing[_G.state:dereferenceObject(v.building)] = v.timestamp
+    if data then
+        self.updateTimer = data.updateTimer
+        for _, v in ipairs(data.alreadyBlessing) do
+            self.alreadyBlessing[_G.state:dereferenceObject(v.building)] = v.timestamp
+        end
+    else
+        self.updateTimer = UPDATE_PERIOD
+        self.alreadyBlessing = {}
     end
 end
 
