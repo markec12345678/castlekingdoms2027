@@ -170,15 +170,13 @@ end
 
 function DeerHerds:deserialize(data)
     if data then
-        for index,herd in ipairs(self.deerHerds) do
-            local savedHerd = data.deerHerds[index]
-            if savedHerd then
+        for index,savedHerd in ipairs(data.deerHerds) do
+            local herd = self.deerHerds[index]
+            if herd then
                 herd.gx = savedHerd.gx
                 herd.gy = savedHerd.gy
                 herd.waitTimer = savedHerd.waitTimer
                 herd.migrating = savedHerd.migrating
-            else
-                print("Inconsistent deer herd save data")
             end
         end
         self.initialHerdsSpawned = data.initialHerdsSpawned
