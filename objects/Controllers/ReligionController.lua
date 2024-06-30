@@ -47,7 +47,7 @@ function ReligionController:selectBuildingToBless(centerGX, centerGY, radius, bu
         local dist = _G.manhattanDistance(centerGX, centerGY, building.gx, building.gy)
         if dist < radius and 
            building.lastBlessed < oldestBlessed and
-           building.class.name ~= "Stockpile" then
+           self:isBuildingBlessable(building.class.name) then
             if not tryNotToBlessSameBuilding or not self.alreadyBlessing[building] then
                 oldestBlessed = building.lastBlessed
                 selectedBuildingIndex = i
@@ -68,11 +68,18 @@ function ReligionController:selectBuildingToBless(centerGX, centerGY, radius, bu
     end
 end
 
+function ReligionController:isBuildingBlessable(name)
+    return (name ~= "Stockpile" and 
+            name ~= "Chapel" and 
+            name ~= "Church" and 
+            name ~= "Cathedral")
+end
+
 function ReligionController:getCoverageStats()
     local buildings = _G.BuildingManager:getAllPlayerBuildings()
     local numberOfBuildingsToBless = 0
     for _, building in ipairs(buildings) do
-        if building.class.name ~= "Stockpile" then
+        if self:isBuildingBlessable(building.class.name) then
             numberOfBuildingsToBless = numberOfBuildingsToBless + 1
         end
     end
