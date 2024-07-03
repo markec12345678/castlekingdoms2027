@@ -229,6 +229,7 @@ function game:draw()
                 _G.BuildController:draw()
                 _G.DebugView:draw()
                 _G.BrushController:draw()
+                _G.ArrowController:draw()
             end
             _G.Commander:draw()
             love.graphics.pop()

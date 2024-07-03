@@ -710,6 +710,18 @@ local function update(dt)
             return not objectsToBeDeleted[i]
         end)
     end
+
+    for idx, projectile in ipairs(_G.state.projectiles) do
+        -- if projectile.toBeDeleted then
+        --     if needsToBeDeleted == false then
+        --         needsToBeDeleted = true
+        --         objectsToBeDeleted = {}
+        --     end
+        --     objectsToBeDeleted[idx] = true
+        -- else
+        projectile:update(dt)
+        -- end
+    end
     prof.pop("AE")
 
     prof.push("UPDATE_CHUNK_OBJ")
