@@ -117,13 +117,13 @@ buildings:
     description: Pozwala na rekrutowanie kopaczy.
   chapel:
     name: Kaplica
-    description: Increase your popularity with religion.
+    description: Zwiększ swoją popularność za pomocą religii.
   church:
     name: Kościół
-    description: Increase your popularity with religion.
+    description: Zwiększ swoją popularność za pomocą religii.
   cathedral:
     name: Katedra
-    description: Increase your popularity with religion and train warrior monks.
+    description: Zwiększa popularność za pomocą religii oraz pozwala na trenowanie mnichów.
   apothecary:
     name: Apteka
     description: Dom uzdrowiciela, który dba o zdrowie i czystość w zamku.
@@ -171,7 +171,7 @@ buildings:
     description: Dostarcza piwo dla mieszkańców.
   pitchRig:
     name: Odkrywka smoły
-    description: Small platform to collect pitch from the swamp.
+    description: Mała platforma zbierająca smołę z bagien.
   perimeterTower:
     name: Wieża Obserwacyjna
     description: Mała wieża obserwacyjna, dobra do obserwacji.
@@ -263,7 +263,7 @@ freebuild:
   grasslands:
     name: Tereny trawiaste
     description: |
-      Empty grasslands. Used for testing due to fast load times.
+      Pusta łąka. Używana do testów.
 rations:
   no:
     name: Zerowe racje
@@ -301,25 +301,25 @@ taxes:
   extra: Zabójcze Podatki
   downrightCruel: Okrutne Podatki
 popularityText:
-  total: Total
+  total: Wszystko
   rations: Racje
   taxes: Podatki
   fearFactor: Współczynnik strachu
-  crowding: Crowding
+  crowding: Zatłoczenie
   religion: Religia
-  aleCoverage: Ale Coverage
-  blessingCoverage: Ratio of blessed buildings
-  enclosedKeep: Keep Enclosed
-  openKeep: Open Keep
+  aleCoverage: Pokrycie Zapotrzebowania
+  blessingCoverage: Wartość pobłogosławionych budynków
+  enclosedKeep: Twierdza Otoczona
+  openKeep: Twierdza Otwarta
   popularity: Popularność
   inTheComingMonth: "W nadchodzącym miesiącu"
   typesOfFoodConsumed: "%d rodzajów spożywanego jedzenia"
   foodInGranary: "%d jedzenia w spichlerzu"
-  aleInInn: "%d jugs in inn"
-  nextAleBonus: "More bonus at %d%% coverage"
-  maximumAleBonus: "Maximum bonus reached"
-  nextBlessingBonus: "More bonus at %d%% coverage"
-  maximumBlessingBonus: "Maximum bonus reached"
+  aleInInn: "%d kufli w karczmie"
+  nextAleBonus: "Kolejny bonus na %d%% poziomie"
+  maximumAleBonus: "Osiągnięto maksymalny bonus"
+  nextBlessingBonus: "Kolejny bonus na %d%% poziomie"
+  maximumBlessingBonus: "Osiągnięto maksymalny bonus"
 settings:
   categories:
     sound:
@@ -414,7 +414,7 @@ tips:
     structuresInTheWay: Struktury na drodze!
     needArmoury: Potrzebujesz zbrojowni, by to zbudować!
     closeToQuarry: Musi być wybudowany blisko istniejącego kamieniołomu!
-    keepCloseToEdgeOfMap: Too close to the edge of the map!
+    keepCloseToEdgeOfMap: Za blisko krawędzi mapy!
 ui:
   global:
     start: Start
@@ -422,8 +422,8 @@ ui:
     freebuild: Swobodna gra
     campaign: Kampania
     load: Wczytaj
-    save: Save
-    resume: Resume
+    save: Zapisz
+    resume: Wznów
     options: Opcje
     exit: Wyjdź
   campaign:
