@@ -33,7 +33,7 @@ mission4:
     Gardez à l'esprit que votre succès dans cette mission va dépendre de vos habilitées à faire de bons investissements et gérer vos finances avec attention.
     Vous allez avoir besoin de gérer vos ressources et de calculer les risques pour assurer la prospéritée de vôtre royaume. Bonne chance!
 mission5:
-  name: La Foi dans l'Architecture
+  name: Architectures Religieuses
   desc: |
     Dans cette mission, vous allez vous devoir concentrer sur la construction d'une grande cathédrale pour servir de pièce centrale pour la religion et la vie culturelle de vôtre royaume.
     Votre objectif est de construire une cathédrale en 10 ans.\n
@@ -45,7 +45,7 @@ groups:
     description: Murs, Tours, Ponts et tout ce qui peut vous servir pour défendre vôtre donjon.
   industry:
     name: Industrie
-    description: Concevez une industrie forte for défaire vos ennemis... Ou remplir vos poches.
+    description: Construisez une industrie forte pour défaire vos ennemis... Ou remplir vos poches.
   apple:
     name: Fermes
     description: Produisez les produits basiques de l'agriculture.
@@ -66,12 +66,12 @@ groups:
     name: Masures
     description: Des maisons pour agrandir votre limite de population.
   goodThings:
-    name: Bonnes choses
+    name: Choses de bon augure
     description: Jardins, statues et loisirs pour augmenter vôtre popularité.
 buildings:
   hunterHut:
-    name: Cabane de chasseurs
-    description: Chassent les cerfs pour leur viande.
+    name: Cabane des chasseurs
+    description: Chassent les cerfs pour récupérer leur viande.
   granary:
     name: Grenier
     description: Le grenier est l'endroit où votre nourriture sera stocker pour les réserves du royaume.
@@ -120,13 +120,13 @@ buildings:
     description: Une construction permettant de recruter des tunneliers.
   chapel:
     name: Chapelle
-    description: Increase your popularity with religion.
+    description: Augmentez votre popularité grâce à la religion.
   church:
     name: Église
-    description: Increase your popularity with religion.
+    description: Augmentez votre popularité grâce à la religion.
   cathedral:
     name: Cathédrale
-    description: Increase your popularity with religion and train warrior monks.
+    description: Augmentez votre popularité grâce à la religion et entraînez des moines guerriers.
   apothecary:
     name: Apothicaire
     description: Pas fonctionnel actuellement.
@@ -147,7 +147,7 @@ buildings:
     description: Produit des blocs de pierre depuis les ressources des sols.
   armoury:
     name: Armurerie
-    description: Les armées et armures sont stockés ici, et utilisés par les troupes produites à la caserne.
+    description: Les armes et armures sont stockés ici, et utilisés par les troupes produites à la caserne.
   fletcher:
     name: Atelier d'Arcs et Arbalètes
     description: Produit des arcs et des arbalètes à partir de bois.
@@ -171,7 +171,7 @@ buildings:
     description: Produit des tonneaux de bière à partir de houblon.
   inn:
     name: Auberge
-    description: Distribue de la bière.
+    description: Distribue de la bière. Influe sur vôtre popularitée.
   pitchRig:
     name: Récolteur de Braie
     description: Petite plateforme collectant des pots de brais à partir des marais.
@@ -266,7 +266,7 @@ freebuild:
   grasslands:
     name: Prairies
     description: |
-      Empty grasslands. Used for testing due to fast load times.
+      Prairies vides. Utilisée pour des tests en raison de temps de chargement rapide.
 rations:
   no:
     name: Pas de rations
@@ -307,22 +307,22 @@ popularityText:
   total: Total
   rations: Rations
   taxes: Impôts
-  fearFactor: Facteur de Peur
+  fearFactor: Niveau de peur
   crowding: Encombrement
   religion: Religion
   aleCoverage: Couverture de Bière
-  blessingCoverage: Ratio of blessed buildings
+  blessingCoverage: Pourcentage de bâtiments bénis
   enclosedKeep: Porte Fermée
   openKeep: Porte Ouverte
   popularity: Popularité
   inTheComingMonth: "Arrive dans un mois"
   typesOfFoodConsumed: "%d types de nourritures consommées"
   foodInGranary: "%d de nourriture dans le grenier"
-  aleInInn: "%d jugs in inn"
-  nextAleBonus: "More bonus at %d%% coverage"
-  maximumAleBonus: "Maximum bonus reached"
-  nextBlessingBonus: "More bonus at %d%% coverage"
-  maximumBlessingBonus: "Maximum bonus reached"
+  aleInInn: "%d Cruches dans l'auberge"
+  nextAleBonus: "Plus de bonus a %d%% de couverture"
+  maximumAleBonus: "Bonus maximum atteint"
+  nextBlessingBonus: "Plus de bonus a %d%% de couverture"
+  maximumBlessingBonus: "Bonus maximum atteint"
 settings:
   categories:
     sound:
@@ -417,16 +417,16 @@ tips:
     structuresInTheWay: Il y a des structures sur le chemin!
     needArmoury: Vous avez besoin d'une armurerie pour construire ceci!
     closeToQuarry: Nécessite d'être placé à proximité d'une carrière existante!
-    keepCloseToEdgeOfMap: Too close to the edge of the map!
+    keepCloseToEdgeOfMap: Trop proche de la bordure de la carte !
 ui:
   global:
-    start: Start
+    start: Commencer
   mainMenu:
     freebuild: Bac à sable
     campaign: Campagne
     load: Charger
-    save: Save
-    resume: Resume
+    save: Sauvegarder
+    resume: Retour
     options: Paramètres
     exit: Quitter
   campaign:

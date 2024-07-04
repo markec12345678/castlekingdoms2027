@@ -1,10 +1,10 @@
 mission1:
-  name: Timber and Stone
+  name: حطب و حجر
   desc: |
-    In this mission, you will need to focus on gathering resources to develop your kingdom's infrastructure.
-    Your objective is to collect 50 units of wood and 20 units of stone within the next 5 years.\n
-    To achieve this, you will need to establish a network of woodcutter's huts and quarries to extract these resources from the surrounding environment.
-    This may involve the construction of stockpiles to store your resources.
+    في هذه المهمة، يجب عليك أن تركز على جمع الموارد لبناء مملكتك.
+    مهمتك هي جمع ٥٠ وحدة من الخشب و ٢٠ وحدة من الحجر خلال خمس سنوات.\n
+    لتحقيق هذا يجب عليك أن تبني شبكة من بيوت الحطابين و مقلعين لاستخراج الموارد من البيئة المحيطة.
+    قد تحتاج لبناء مخازن للموارد.
 mission2:
   name: Arms Race
   desc: |
