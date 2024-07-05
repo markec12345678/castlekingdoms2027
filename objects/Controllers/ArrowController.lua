@@ -39,7 +39,7 @@ function Arrow:update(dt)
 
     local cx, cy, xx, yy = _G.getLocalCoordinatesFromGlobal(math.floor(self.fx / 10), math.floor(self.fy / 10))
     local elevationOffsetY = (_G.state.map.heightmap[cx][cy][xx][yy] or 0) * 2
-    print(self.altitude, elevationOffsetY)
+    -- print(self.vsp, self.altitude, elevationOffsetY)
     if self.altitude <= elevationOffsetY then --TOOD: should check for terrain altitude
         self._hsp = 0
         self.flying = false
@@ -78,7 +78,7 @@ function ArrowController:shootArrow(originUnit, targetGX, targetGY)
     local low_arc = true
     -- todo calculate distance and angle
     local ox, oy = (originUnit.fx / 1000), (originUnit.fy / 1000)
-    local distance = distanceFrom(ox * 10, oy * 10, targetGX * 10, targetGY * 10) - 20
+    local distance = distanceFrom(ox * 10, oy * 10, targetGX * 10, targetGY * 10)
     if distance < 0 then
         print("too close to shoot")
         return
@@ -101,7 +101,24 @@ function ArrowController:shootArrow(originUnit, targetGX, targetGY)
         print("not in range")
         return
     end
-    low_arc = _a > 100000
+    local bresenham = require('libraries.bresenham')
+    local directLOS = bresenham.los(math.floor(ox), math.floor(oy), targetGX, targetGY, function(gx, gy)
+        if gx == math.floor(ox) and gy == math.floor(oy) then return true end
+        local cx, cy, xx, yy = _G.getLocalCoordinatesFromGlobal(math.floor(gx), math.floor(gy))
+        local elevationOffsetAtTile = (_G.state.map.heightmap[cx][cy][xx][yy] or 0) * 2
+        if elevationOffsetY > targetElevationOffsetY then
+            if elevationOffsetY >= elevationOffsetAtTile - 10 and elevationOffsetAtTile + 10 >= targetElevationOffsetY then
+                return true
+            end
+        else
+            if targetElevationOffsetY >= elevationOffsetAtTile - 10 and elevationOffsetAtTile + 10 >= elevationOffsetY then
+                return true
+            end
+        end
+        return false
+    end)
+
+    low_arc = directLOS                         -- _a > 100000
     if low_arc then
         _b = -(_v2 - math.sqrt(_a)) / (_g * _x) --low arc trajectory
     else
@@ -109,7 +126,7 @@ function ArrowController:shootArrow(originUnit, targetGX, targetGY)
     end --high arc
     local _an = math.atan(_b);
     local _hsp = math.cos(_an) * _v;
-    local _vsp = math.sin(_an) * _v - _g * 1;
+    local _vsp = math.sin(_an) * _v;
     -- pr.shoot = true
     -- pr._hsp = _hsp
     -- pr._vsp = _vsp

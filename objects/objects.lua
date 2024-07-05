@@ -710,17 +710,23 @@ local function update(dt)
             return not objectsToBeDeleted[i]
         end)
     end
-
+    local projectilesToBeDeleted
+    needsToBeDeleted = false
     for idx, projectile in ipairs(_G.state.projectiles) do
-        -- if projectile.toBeDeleted then
-        --     if needsToBeDeleted == false then
-        --         needsToBeDeleted = true
-        --         objectsToBeDeleted = {}
-        --     end
-        --     objectsToBeDeleted[idx] = true
-        -- else
-        projectile:update(dt)
-        -- end
+        if projectile.toBeDeleted then
+            if needsToBeDeleted == false then
+                needsToBeDeleted = true
+                projectilesToBeDeleted = {}
+            end
+            projectilesToBeDeleted[idx] = true
+        else
+            projectile:update(dt)
+        end
+    end
+    if needsToBeDeleted then
+        _G.state.projectiles = _G.removeFromObjectsArray(_G.state.projectiles, function(t, i, j)
+            return not projectilesToBeDeleted[i]
+        end)
     end
     prof.pop("AE")
 

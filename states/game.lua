@@ -54,6 +54,7 @@ local function delayedInit()
     _G.JobController = require("objects.Controllers.JobController")
     _G.BuildingManager = require("objects.Controllers.BuildingManager")
     _G.Commander = require("objects.Controllers.Commander")
+    _G.ArrowController = require("objects.Controllers.ArrowController")
     _G.DebugView = require("objects.Controllers.DebugView")
     updateProgress(35)
     ----Pathfinding setup
@@ -265,6 +266,11 @@ end
 
 function game:mousepressed(x, y, button, istouch)
     if not _G.loaded then return end
+    if _G.goldenUnit then
+        print("shoot")
+        local tileGX, tileGY = _G.getTerrainTileOnMouse(x, y)
+        _G.ArrowController:shootArrow(_G.goldenUnit, tileGX, tileGY)
+    end
     if loveframes.mousepressed(x, y, button) then
         return
     end
