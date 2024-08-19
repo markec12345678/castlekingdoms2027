@@ -415,7 +415,7 @@ function game:keyreleased(key, scancode)
     end
     -- if not _G.BuildController.start then
     if key == "b" then
-        _G.BrushController:toggleBuilding()
+        _G.BrushController:toggle()
     elseif key == "delete" then
         _G.DestructionController:toggle()
     end

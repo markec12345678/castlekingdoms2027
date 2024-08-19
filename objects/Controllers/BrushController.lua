@@ -1,7 +1,9 @@
 local brushType = {
     ["Remove"] = 1,
     ["PaintTerrainObjects"] = 2,
-    ["Count"] = 3
+    ["Count"] = 3,
+    ["RaiseTerrain"] = 4,
+    ["LowerTerrain"] = 5
 }
 local brushObjects = {
     ["Stone"] = require("objects.Environment.Stone"),
@@ -58,14 +60,18 @@ function BrushController:setType(type)
 end
 
 function BrushController:cycleType()
-    self.type = self.type + 1
-    if (self.type >= brushType.Count) then
+    if (self.type >= brushType.LowerTerrain) then
         self.type = brushType.Remove
     end
+    self.type = self.type + 1
     if self.type == brushType.Remove then
         print("Delete Mode activated")
     elseif self.type == brushType.PaintTerrainObjects then
         print("Paint mode activated")
+    elseif self.type == brushType.RaiseTerrain then
+        print("Raise Terrain mode activated")
+    elseif self.type == brushType.LowerTerrain then
+        print("Lower Terrain mode activated")
     end
 end
 
@@ -83,13 +89,12 @@ function BrushController:setObject(object)
     end
 end
 
-function BrushController:toggleBuilding()
-    if not self.active then
-        self.active = true
+function BrushController:toggle()
+    self.active = not self.active
+    if self.active then
         self:setObject("Stone")
-        print("Brush Mode: Stone")
+        print("Brush Mode: Activated")
     else
-        self.active = false
         print("Brush Mode: Deactivated")
     end
 end
@@ -231,6 +236,22 @@ function BrushController:paintSolid()
                     if self:canPaint(XX + LX, LY + YY) then
                         self.brushObject:new(LX + XX, LY + YY)
                     end
+                elseif self.type == brushType.RaiseTerrain then
+                    local mx, my = love.mouse.getPosition()
+                    local gx, gy = _G.getTerrainTileOnMouse(mx, my)
+                    local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(LX,LY)
+                    if _G.state.Terrain.heightmap[cx][cy][x][y] ~= nil then
+                        _G.state.Terrain:terrainElevateTileAt(LX + XX, LY + YY)
+                    else
+                        _G.state.Terrain:terrainSetHeight(LX + XX, LY + YY, 1)
+                    end
+                elseif self.type == brushType.LowerTerrain then
+                    local mx, my = love.mouse.getPosition()
+                    local gx, gy = _G.getTerrainTileOnMouse(mx, my)
+                    local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(LX,LY)
+                    if _G.state.Terrain.heightmap[cx][cy][x][y] ~= nil then
+                        _G.state.Terrain:terrainDescendTileAt(gx + XX, gy + YY, _G.state.Terrain.heightmap[cx][cy][x][y] - 1)
+                    end
                 end
             end
         end
@@ -249,6 +270,22 @@ function BrushController:paintSolid()
                     elseif self.type == brushType.PaintTerrainObjects then
                         if self:canPaint(LX + XX, LY + YY) then
                             self.brushObject:new(LX + XX, LY + YY)
+                        end
+                    elseif self.type == brushType.RaiseTerrain then
+                        local mx, my = love.mouse.getPosition()
+                        local gx, gy = _G.getTerrainTileOnMouse(mx, my)
+                        local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(LX,LY)
+                        if _G.state.Terrain.heightmap[cx][cy][x][y] ~= nil then
+                            _G.state.Terrain:terrainElevateTileAt(gx + XX, gy + YY, _G.state.Terrain.heightmap[cx][cy][x][y] + 1)
+                        else
+                            _G.state.Terrain:terrainSetHeight(gx + XX, gy + YY, 1)
+                        end
+                    elseif self.type == brushType.LowerTerrain then
+                        local mx, my = love.mouse.getPosition()
+                        local gx, gy = _G.getTerrainTileOnMouse(mx, my)
+                        local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(LX,LY)
+                        if _G.state.Terrain.heightmap[cx][cy][x][y] ~= nil then
+                            _G.state.Terrain:terrainDescendTileAt(gx + XX, gy + YY, _G.state.Terrain.heightmap[cx][cy][x][y] - 1)
                         end
                     end
                 end
@@ -372,8 +409,12 @@ function BrushController:draw()
     love.graphics.printf("Brush Size: " .. tostring(self.size + 1), x + 5, y + 25, 200, "left")
     if (self.type == brushType.Remove) then
         love.graphics.printf("Paint Mode: Delete", x + 5, y + 45, 200, "left")
-    else
+    elseif (self.type == brushType.Paint) then
         love.graphics.printf("Paint Mode: Paint", x + 5, y + 45, 200, "left")
+    elseif (self.type == brushType.RaiseTerrain) then
+        love.graphics.printf("Paint Mode: Raise Terrain", x + 5, y + 45, 200, "left")
+    elseif (self.type == brushType.LowerTerrain) then
+        love.graphics.printf("Paint Mode: Lower Terrain", x + 5, y + 45, 200, "left")
     end
     love.graphics.printf("Alt + v: Remove/Paint", x + 5, y + 85, 200, "left")
     love.graphics.printf("Alt + s: Stone", x + 5, y + 105, 200, "left")
