@@ -55,10 +55,6 @@ function DeerHerds:getHerdPosition(herdIndex)
     return self.deerHerds[herdIndex].gx, self.deerHerds[herdIndex].gy
 end
 
-function DeerHerds:getHerdPosition(herdIndex)
-    return self.deerHerds[herdIndex].gx, self.deerHerds[herdIndex].gy
-end
-
 function DeerHerds:getDeerHerds()
     return self.deerHerds
 end
