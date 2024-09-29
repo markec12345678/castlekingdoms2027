@@ -9,6 +9,7 @@ local prof = require("libraries.jprof")
 local inspect = require("libraries.inspect")
 local Object = require("objects.Object")
 local console = require("libraries.console")
+local Events = require("objects.Enums.Events")
 local showPaths = false
 console.addCommand("togglePaths", function() showPaths = not showPaths end, "Show units paths")
 
@@ -571,15 +572,19 @@ local function mousepressed(x, y, button)
         local structure = _G.objectFromSubclassAtGlobal(press.gx, press.gy, Structure)
         local Unit = require("objects.Units.Unit")
         local unit = _G.objectFromSubclassAtGlobal(press.gx, press.gy, Unit)
-        if structure then
+        local Soldier = require("objects.Units.Soldier")
+        local ActionBar = require("states.ui.ActionBar")
+        if unit and not unit:isInstanceOf(Soldier) then
+            ActionBar:switchMode("unit_details")
+            _G.bus.emit(Events.OnUnitDetailsSelected, unit)
+        elseif structure then
             structure = structure.parent or structure
             if structure.onClick and not _G.DestructionController.active and not _G.BuildController.start then
                 structure:onClick()
             else
                 _G.BuildController:mousepressed(mx, my)
             end
-        elseif unit and unit.onClick then
-            local ActionBar = require("states.ui.ActionBar")
+        elseif unit and unit.onClick then  
             if _G.selectedUnit ~= nil then
                 _G.selectedUnitUI = _G.selectedUnit.type --TEMPORARY SOLUTION IT WOULD BE NICE TO HANDLE IT WITH AN EVENT
                 print(_G.selectedUnitUI)

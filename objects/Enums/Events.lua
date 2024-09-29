@@ -21,6 +21,7 @@ local EVENTS = {
     OnInGameTimeChanged = 19,
     OnUnitsSelected = 20,
     OnUnitsDeselected = 21,
+    OnUnitDetailsSelected = 22,
 }
 
 return EVENTS

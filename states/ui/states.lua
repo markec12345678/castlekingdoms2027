@@ -18,6 +18,7 @@ local states = {
     STATE_UNITS = 17,
     STATE_INN = 18,
     STATE_RELIGION = 19,
+    STATE_UNIT_DETAILS = 20
 }
 
 return states
