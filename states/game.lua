@@ -23,6 +23,7 @@ local BarracksUI = require("states.ui.barracks.units_recruitment")
 local GuildsUI = require("states.ui.guilds.guild_ui")
 local WorkshopsUI = require("states.ui.workshops.workshops_ui")
 local UnitsUI = require("states.ui.units.units_control")
+local UnitDetails = require("states.ui.unit_details.unit_details")
 local console = require "libraries.console"
 
 local function updateProgress(prgs, lState)
@@ -373,6 +374,7 @@ function game:keypressed(key, scancode, isRepeat)
                 loveframes.GetState() == states.STATE_MARKET_MAIN or
                 loveframes.GetState() == states.STATE_KEEP_TAX or
                 loveframes.GetState() == states.STATE_ARMOURY or
+                loveframes.GetState() == states.STATE_UNIT_DETAILS or
                 loveframes.GetState() == states.STATE_UNITS or
                 loveframes.GetState() == states.STATE_INN or
                 loveframes.GetState() == states.STATE_RELIGION) then
