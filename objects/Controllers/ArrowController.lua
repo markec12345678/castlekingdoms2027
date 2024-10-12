@@ -1,3 +1,13 @@
+local images = {}
+
+for group = 1, 16 do
+    images[group] = {}
+    for count = 1, 9 do
+        local filename = string.format("assets/projectiles/arrows/arrows_%d (%d).png", group, count)
+        images[group][count] = love.graphics.newImage(filename)
+    end
+end
+
 local ArrowController = _G.class("ArrowController")
 function ArrowController:initialize()
 end
@@ -5,7 +15,7 @@ end
 local ARROW_CONSTANT = 490
 
 local Arrow = _G.class("Arrow")
-function Arrow:initialize(originx, originy, hsp, vsp, direction, lowArc, originh)
+function Arrow:initialize(originx, originy, hsp, vsp, direction, lowArc, originh, onhit)
     self.flying = true
     self.hsp = hsp
     self.vsp = vsp
@@ -15,11 +25,31 @@ function Arrow:initialize(originx, originy, hsp, vsp, direction, lowArc, originh
     self.altitude = 0 -- TODO: starting altitude needs to be a parameter
     self.fx, self.fy = originx, originy
     self._x, self._y = 0, ARROW_CONSTANT - 40 - originh
+    self.onHit = onhit or function()
+    end
     self:registerAsProjectile()
 end
 
 function Arrow:registerAsProjectile()
     table.insert(_G.state.projectiles, self)
+end
+
+function Arrow:getHorizontalSpriteIndex()
+    local val = math.floor((math.deg(self.direction) / 22.5) + 0.5) - 12
+    return (val % 16) + 1
+end
+
+function Arrow:getVerticalSpriteIndex()
+    -- we have 9 sprites, so that leaves us at about 20 degrees per sprite
+    -- vertical angle is from -90 to +90
+    local verticalAngle = math.deg(self.arrowAngle)
+    if verticalAngle > -10 and verticalAngle <= 10 then
+        return 5
+    end
+    if verticalAngle < 0 then
+        return math.ceil(9 - (verticalAngle + 90) / 20)
+    end
+    return math.floor(10 - (verticalAngle + 90) / 20)
 end
 
 function Arrow:update(dt)
@@ -39,30 +69,16 @@ function Arrow:update(dt)
 
     local cx, cy, xx, yy = _G.getLocalCoordinatesFromGlobal(math.floor(self.fx / 10), math.floor(self.fy / 10))
     local elevationOffsetY = (_G.state.map.heightmap[cx][cy][xx][yy] or 0) * 2
-    -- print(self.vsp, self.altitude, elevationOffsetY)
-    if self.altitude <= elevationOffsetY then --TOOD: should check for terrain altitude
+    if self.altitude <= elevationOffsetY then
         self._hsp = 0
         self.flying = false
-        print("arrow hit!")
-        --self:onHit() -- TODO: implement
+        self:onHit()
+        self.toBeDeleted = true
     end
+
 
     self.fx = self.fx + (self.hsp * dt * SPEED_MODIFIER * math.cos(self.direction));
     self.fy = self.fy + (self.hsp * dt * SPEED_MODIFIER * math.sin(self.direction));
-    -- print(self.fx, self.fy, self.altitude)
-    -- love.graphics.push()
-    -- love.graphics.translate(pr.x - 20, pr.y + 5)
-    -- love.graphics.rotate(angle)
-    -- love.graphics.rectangle("fill", 0, 0, 20, 5, angle)
-    -- love.graphics.pop()
-
-
-    -- love.graphics.push()
-    -- love.graphics.translate(velocityX, velocityY)
-    -- love.graphics.scale(1 + altitude / 20, (1 + altitude / 20))
-    -- love.graphics.rotate(pr.tdangle)
-    -- love.graphics.rectangle("fill", 0, 0, 20 * (angle + 1), 5, pr.tdangle)
-    -- love.graphics.pop()
 end
 
 local function sign(x)
@@ -73,10 +89,9 @@ local function anglerad(x1, y1, x2, y2)
     return math.atan2(y2 - y1, x2 - x1)
 end
 
-function ArrowController:shootArrow(originUnit, targetGX, targetGY)
+function ArrowController:shootArrow(originUnit, targetGX, targetGY, onHit)
     local x = 0
     local low_arc = true
-    -- todo calculate distance and angle
     local ox, oy = (originUnit.fx / 1000), (originUnit.fy / 1000)
     local distance = distanceFrom(ox * 10, oy * 10, targetGX * 10, targetGY * 10)
     if distance < 0 then
@@ -95,10 +110,9 @@ function ArrowController:shootArrow(originUnit, targetGX, targetGY)
     local _g = 1.0;             --gravitational acceleration (1.0 pixels per step per step)
     ----------------------------------------------------------
     local _a = _v2 * _v2 - _g * (_g * _x * _x - 2 * _y * _v2);
-    -- if (_a > 0) then --if (_a > 0) then target is in range
     local _b = 0
     if _a < 0 then
-        print("not in range")
+        print("not in range") -- TODO: handle this better
         return
     end
     local bresenham = require('libraries.bresenham')
@@ -118,7 +132,7 @@ function ArrowController:shootArrow(originUnit, targetGX, targetGY)
         return false
     end)
 
-    low_arc = directLOS                         -- _a > 100000
+    low_arc = directLOS
     if low_arc then
         _b = -(_v2 - math.sqrt(_a)) / (_g * _x) --low arc trajectory
     else
@@ -127,26 +141,13 @@ function ArrowController:shootArrow(originUnit, targetGX, targetGY)
     local _an = math.atan(_b);
     local _hsp = math.cos(_an) * _v;
     local _vsp = math.sin(_an) * _v;
-    -- pr.shoot = true
-    -- pr._hsp = _hsp
-    -- pr._vsp = _vsp
-    -- pr.x = 0
-    -- pr.y = 490
-    -- pr.tdangle = angle
-    return Arrow:new(ox * 10, oy * 10, _hsp, _vsp, angle, low_arc, elevationOffsetY)
+    return Arrow:new(ox * 10, oy * 10, _hsp, _vsp, angle, low_arc, elevationOffsetY, onHit)
 end
 
 function ArrowController:draw()
-    for k, proj in ipairs(_G.state.projectiles) do
-        -- if proj.flying then
+    for _, proj in ipairs(_G.state.projectiles) do
         local gx, gy = proj.fx / 10, proj.fy / 10
-        -- if proj.flying then
-        --     print("ALT", proj.altitude)
-        -- end
         local sx, sy = gx + proj.altitude / 50, gy
-        -- print(gx, gy, proj.altitude)
-        -- local cx, cy, x, y = _G.getLocalCoordinatesFromGlobal(gx, gy)
-        -- local elevationOffsetY = (_G.state.map.heightmap[cx][cy][x][y] or 0) * 2
         local fx = IsoToScreenX(gx, gy) - _G.state.viewXview - ((IsoToScreenX(gx, gy)) - _G.state.viewXview) * (1 - _G.state.scaleX)
         local fy = IsoToScreenY(gx, gy) - _G.state.viewYview - ((IsoToScreenY(gx, gy)) - _G.state.viewYview) * (1 - _G.state.scaleX)
         local sfx = IsoToScreenX(sx, sy) - _G.state.viewXview - ((IsoToScreenX(sx, sy)) - _G.state.viewXview) * (1 - _G.state.scaleX)
@@ -154,18 +155,13 @@ function ArrowController:draw()
 
         local cx, cy, xx, yy = _G.getLocalCoordinatesFromGlobal(math.floor(gx), math.floor(gy))
         local elevationOffsetY = (_G.state.map.heightmap[cx][cy][xx][yy] or 0) * 2
-        -- print(fx, fy)
-        -- love.graphics.push()
-        -- love.graphics.translate(fx, fy)
+        -- render arrow itself
         love.graphics.setColor(1, 1, 1, 1)
-        love.graphics.rectangle("fill", fx, fy + (-proj.altitude) * _G.state.scaleX, 10, 10)
-        love.graphics.setColor(0, 0, 0, 0.3)
-        -- love.graphics.rectangle("fill", fx, fy, 10, 10)
-        love.graphics.rectangle("fill", sfx, sfy - (elevationOffsetY * _G.state.scaleX), 10, 10)
+        love.graphics.draw(images[proj:getHorizontalSpriteIndex()][proj:getVerticalSpriteIndex()], fx - 27, fy - 27 + (-proj.altitude) * _G.state.scaleX)
+        -- render arrow shadow
+        love.graphics.setColor(0, 0, 0, 0.7)
+        love.graphics.draw(images[proj:getHorizontalSpriteIndex()][5], sfx - 27, sfy - 27 + (elevationOffsetY * _G.state.scaleX) * _G.state.scaleX)
         love.graphics.setColor(1, 1, 1, 1)
-        -- love.graphics.rotate(proj.direction)
-        -- love.graphics.pop()
-        -- end
     end
 end
 

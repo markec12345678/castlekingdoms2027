@@ -91,7 +91,7 @@ function ActionBar:initialize()
     self.buttonsToAnimate = {}
     self.lastButtonsToAnimate = {}
 
-    self.secondAnimation = anim.newAnimation(ActionBar.actionBarAnimationGrid("4-15", 1), 0.035, function(an)
+    self.secondAnimation = anim.newAnimation(ActionBar.actionBarAnimationGrid("4-15", 1), 0.025, function(an)
         an:pause()
         if loveframes.GetState() == states.STATE_INGAME_CONSTRUCTION then
             self.element:SetImage(ActionBar.actionBarImage)
@@ -103,7 +103,7 @@ function ActionBar:initialize()
         end
     end)
     self.secondAnimation:pause()
-    self.firstAnimation = anim.newAnimation(ActionBar.actionBarAnimationGrid("1-3", 1), 0.035, function(an)
+    self.firstAnimation = anim.newAnimation(ActionBar.actionBarAnimationGrid("1-3", 1), 0.025, function(an)
         an:pause()
         self:startButtonAnimation()
         self.animation = self.secondAnimation
@@ -484,7 +484,7 @@ function ActionBar:showGroup(name, playSound, skipAnimation)
         self.callback[name]()
     end
     if animateConstructionBar then
-        self.firstAnimation = anim.newAnimation(ActionBar.actionBarAnimationGrid("1-3", 1), 0.035, function(an)
+        self.firstAnimation = anim.newAnimation(ActionBar.actionBarAnimationGrid("1-3", 1), 0.025, function(an)
             an:pause()
             self:startButtonAnimation()
             self.animation = self.secondAnimation

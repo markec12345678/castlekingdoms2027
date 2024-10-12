@@ -724,7 +724,7 @@ local function update(dt)
         end
     end
     if needsToBeDeleted then
-        _G.state.projectiles = _G.removeFromObjectsArray(_G.state.projectiles, function(t, i, j)
+        _G.state.projectiles = _G.removeFromProjectilesArray(_G.state.projectiles, function(t, i, j)
             return not projectilesToBeDeleted[i]
         end)
     end
