@@ -266,11 +266,6 @@ end
 
 function game:mousepressed(x, y, button, istouch)
     if not _G.loaded then return end
-    if _G.goldenUnit then
-        print("shoot")
-        local tileGX, tileGY = _G.getTerrainTileOnMouse(x, y)
-        _G.ArrowController:shootArrow(_G.goldenUnit, tileGX, tileGY)
-    end
     if loveframes.mousepressed(x, y, button) then
         return
     end
