@@ -26,6 +26,7 @@ function State:initialize()
     self.newGame = true
     self.objectBatch = newAutotable(2)
     self.serializedObjectIds = {}
+    self.projectiles = {}
     self.deserializedObjectIds = {}
     self.topLeftChunkX = 0
     self.topLeftChunkY = 0

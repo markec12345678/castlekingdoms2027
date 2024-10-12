@@ -166,7 +166,8 @@ local an = {
 }
 
 local hunterFx = {
-    ["shoot"] = { _G.fx["arrowbasic_01"] }
+    ["shoot"] = { _G.fx["arrowshoot1 22k"] },
+    ["hit"] = { _G.fx["arrowbasic_01"], _G.fx["arrowbasic_02"] }
 }
 
 local ANIMATION_FRAMETIME = 0.05
@@ -269,19 +270,25 @@ function Hunter:collectDeer()
 end
 
 function Hunter:shootCallback()
---    _G.playSfx(self, hunterFx["shoot"])
-    self.targetDeer:kill()
-    self.state = "Running to deer"
-    self:setMovementSpeed("run")
-    self:requestPath(self.endx, self.endy, function() self:onNoAvailableDeer() end)
+    _G.playSfx(self, hunterFx["shoot"])
+    self.animation:pause()
+    local tx, ty = math.round(self.targetDeer.gx), math.round(self.targetDeer.gy)
+    _G.ArrowController:shootArrow(self, tx, ty, function()
+        self.targetDeer:kill()
+        self.state = "Running to deer"
+        _G.playSfx(self.targetDeer, hunterFx["hit"])
+        self:setMovementSpeed("run")
+        self:requestPath(self.endx, self.endy, function() self:onNoAvailableDeer() end)
+    end)
 end
 
 function Hunter:inRangeForSneak()
-    return _G.manhattanDistance(self.gx, self.gy, self.targetDeer.gx, self.targetDeer.gy) < 33
+    return _G.manhattanDistance(self.gx, self.gy, self.targetDeer.gx, self.targetDeer.gy) < 27
 end
 
 function Hunter:inRangeForShoot()
-    return _G.manhattanDistance(self.gx, self.gy, self.targetDeer.gx, self.targetDeer.gy) < 30
+    -- TODO: calculate arrow distance instead of magic number
+    return _G.manhattanDistance(self.gx, self.gy, self.targetDeer.gx, self.targetDeer.gy) < 25
 end
 
 function Hunter:jobUpdate()
@@ -342,7 +349,7 @@ function Hunter:findDeer()
         self:onNoAvailableDeer()
         return
     end
-    self.targetDeer = selectedDeer 
+    self.targetDeer = selectedDeer
     self.targetDeer:waitForHunter()
     self.endx = selectedDeer.gx
     self.endy = selectedDeer.gy + 1
@@ -511,7 +518,7 @@ function Hunter:setMovementSpeed(speed)
         self.diagonalWalkSpeed = DIAGONAL_WALK_SPEED
     elseif speed == "carry" then
         self.straightWalkSpeed = STRAIGHT_CARRY_SPEED
-        self.diagonalWalkSpeed = DIAGONAL_CARRY_SPEED 
+        self.diagonalWalkSpeed = DIAGONAL_CARRY_SPEED
     else
         print("Error: Movement speed for hunter does not exist: " .. speed)
     end
