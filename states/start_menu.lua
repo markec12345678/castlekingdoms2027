@@ -19,7 +19,9 @@ end
 
 local framesFromStart = 0
 function startMenu:update(dt)
-    startMenuTimer = startMenuTimer + dt
+    if _G.objectAtlas then
+        startMenuTimer = startMenuTimer + dt
+    end
     if 0 < startMenuTimer and startMenuTimer < startMenuFadeIn then
         startMenuAplha = startMenuTimer / startMenuFadeIn
     end
@@ -38,7 +40,21 @@ end
 
 function startMenu:draw()
     renderLoadingScreen("", startMenuAplha)
-    loveframes.draw()
+    love.graphics.setColor(1, 1, 1, 1)
+    if _G.objectAtlas then
+        loveframes.draw()
+    else
+        local screenWidth = love.graphics.getWidth()
+        local screenHeight = love.graphics.getHeight()
+
+        local textWidth = love.graphics.getFont():getWidth("Loading textures...")
+        local textHeight = love.graphics.getFont():getHeight()
+
+        local x = (screenWidth - textWidth) / 2
+        local y = (screenHeight - textHeight) / 2
+
+        love.graphics.print("Loading textures...", x, y)
+    end
     love.graphics.print(_G.version, _G.ScreenWidth - love.graphics.getFont():getWidth(_G.version .. "----"),
         _G.ScreenHeight - love.graphics.getFont():getHeight() * 2)
 end

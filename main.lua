@@ -67,15 +67,17 @@ function love.load()
     LanguageController:loadLanguage()
     _G.fx = require("sounds.fx")
     if _G.testMode then
-        _G.objectAtlas = love.graphics.newImage("assets/tiles/stronghold_assets_packed_v11-hd.dds")
+        _G.objectAtlas = love.graphics.newImage("assets/tiles/stronghold_assets_packed_v12-hd.png")
         Gamestate.switch(test)
         return
     else
         local splashscreen = require("states.splash_screen")
         Gamestate.switch(splashscreen)
     end
-    loader.newImage("assets/tiles/stronghold_assets_packed_v11-hd.dds"):onComplete(function(_, image)
+    loader.newImage("assets/tiles/stronghold_assets_packed_v12-hd.png"):onComplete(function(_, image)
+        print("loading...")
         _G.objectAtlas = image
+        print("loaded object atlas")
         loader.quit()
     end)
     local cursorImg = love.image.newImageData("assets/ui/cursor.png")

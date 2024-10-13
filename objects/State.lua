@@ -169,14 +169,18 @@ end
 function State:allocateMesh(cx, cy)
     local chunkX = cx
     local chunkY = cy
-    local treeverts = { { 0, 0, 0, 0, 1.0, 1.0, 1.0, 1.0, 1.0 }, { 1, 0, 1, 0, 1.0, 1.0, 1.0, 1.0, 1.0 },
-        { 0, 1, 0, 1, 1.0, 1.0, 1.0, 1.0, 1.0 }, { 1, 1, 1, 1, 1.0, 1.0, 1.0, 1.0, 1.0 } }
+    local treeverts = {
+        { 0, 0, 0, 0, 1.0, 1.0, 1.0, 1.0, 1.0 },
+        { 1, 0, 1, 0, 1.0, 1.0, 1.0, 1.0, 1.0 },
+        { 0, 1, 0, 1, 1.0, 1.0, 1.0, 1.0, 1.0 },
+        { 1, 1, 1, 1, 1.0, 1.0, 1.0, 1.0, 1.0 }
+    }
     if self.objectBatch[chunkX][chunkY] == nil then
         self.objectBatch[chunkX][chunkY] = love.graphics.newMesh(treeverts, "strip", "static")
     end
     local instancemesh = love.graphics.newMesh({ { "InstancePosition", "float", 2 }, { "UVOffset", "float", 2 },
             { "ImageDim",         "float", 2 }, { "ImageShade", "float", 1 },
-            { "Scale", "float", 2 } },
+            { "Scale", "float", 2 }, { "Pallete", "float", 1 } },
         _G.chunkWidth * _G.chunkHeight * self.verticesPerTile + 1000, nil, "dynamic")
     self.objectMesh[chunkX][chunkY] = instancemesh
     self.objectBatch[chunkX][chunkY]:setTexture(objectAtlas)
@@ -185,6 +189,7 @@ function State:allocateMesh(cx, cy)
     self.objectBatch[chunkX][chunkY]:attachAttribute("ImageDim", instancemesh, "perinstance")
     self.objectBatch[chunkX][chunkY]:attachAttribute("ImageShade", instancemesh, "perinstance")
     self.objectBatch[chunkX][chunkY]:attachAttribute("Scale", instancemesh, "perinstance")
+    self.objectBatch[chunkX][chunkY]:attachAttribute("Pallete", instancemesh, "perinstance")
 end
 
 function State:save()

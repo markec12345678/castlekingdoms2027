@@ -517,7 +517,15 @@ function _G.genObjects(cx, cy)
     end
 end
 
+local colortables = {}
+for i = 1, 10 do
+    local filename = string.format("colortables/tree_pine/ColorTable%d.png", i)
+    print(filename, i)
+    colortables[i] = love.image.newImageData(filename)
+end
+local colortableVolume = love.graphics.newVolumeImage(colortables)
 local shader = love.graphics.newShader("shaders/main.glsl")
+shader:send("colortables", colortableVolume)
 local function drawObject()
     local tileStartX, tileStartY, tileEndX, tileEndY = _G.state.topLeftChunkX - 1, _G.state.topLeftChunkY,
         _G.state.bottomRightChunkX + 1, _G.state.bottomRightChunkY
