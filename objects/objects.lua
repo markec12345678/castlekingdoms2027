@@ -541,8 +541,10 @@ function _G.genObjects(cx, cy)
     end
 end
 
-local shader = love.graphics.newShader("shaders/main.glsl")
-shader:send("colortables", colortableVolume)
+if not _G.test then
+    local shader = love.graphics.newShader("shaders/main.glsl")
+    shader:send("colortables", colortableVolume)
+end
 local function drawObject()
     local tileStartX, tileStartY, tileEndX, tileEndY = _G.state.topLeftChunkX - 1, _G.state.topLeftChunkY,
         _G.state.bottomRightChunkX + 1, _G.state.bottomRightChunkY
