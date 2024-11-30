@@ -98,7 +98,9 @@ function DebugView:update()
                 self.info = "(1) Not Walkable"
             end
             local cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(OX, OY)
+            local elevation = (_G.state.map.heightmap[cx][cy][i][o] or 0)
             self.info = self.info .. "\n Shadow: " .. tostring(_G.state.map.shadowmap[cx][cy][i][o] or 0)
+            self.info = self.info .. "\n ELV: " .. elevation
             self.info = self.info .. "\n cx, cy, i, o: " .. cx .. ", " .. cy .. ", " .. i .. ", " .. o
             self.info = self.info .. "\n gx, gy: " .. OX .. ", " .. OY
             _, self.lineCount = self.info:gsub("\n", "\n")

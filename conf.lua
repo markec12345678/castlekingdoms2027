@@ -45,7 +45,7 @@ function love.conf(t)
             language = "POR"
         end
     end
-    
+
     _G.currentLang = language
 
     -- Apply config
@@ -61,6 +61,7 @@ function love.conf(t)
     t.window.height = resolutionHeight       -- The window height (number)
     t.window.borderless = borderless         -- Remove all border visuals from the window (boolean)
     t.window.resizable = resizable           -- Let the window be user-resizable (boolean)
+    t.window.depth = 24
     t.window.minwidth = 1                    -- Minimum window width if the window is resizable (number)
     t.window.minheight = 1                   -- Minimum window height if the window is resizable (number)
     t.window.fullscreen = fullscreen         -- config.video.fullscreen -- Enable fullscreen (boolean)

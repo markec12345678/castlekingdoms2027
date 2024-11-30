@@ -19,7 +19,6 @@ local config = require("config_file")
 
 --extend native error handler
 require("objects.Controllers.ErrorHandler")
-
 function love.load()
     local function getAvailableResolutions()
         local result = {}
@@ -161,7 +160,8 @@ function love.run()
         prof.pop("update")
         prof.push("draw")
         if love.graphics and love.graphics.isActive() then
-            love.graphics.clear(love.graphics.getBackgroundColor())
+            local r, g, b, a = love.graphics.getBackgroundColor()
+            love.graphics.clear(r, g, b, a, false, 0) -- also resets the depth buffer
             love.graphics.origin()
             if love.draw then
                 love.draw()

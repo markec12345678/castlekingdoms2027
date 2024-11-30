@@ -43,6 +43,7 @@ function PineTree:initialize(gx, gy, type)
     self.baseOffsetX = -3 - 38
     self.trunkTile = tileQuads["tree_pine_trunk (1)"]
     self.dead = false
+    self:usePallete(math.random(1, 10))
 
     for xx = -1, 1 do
         for yy = -1, 1 do
@@ -97,6 +98,11 @@ end
 function PineTree:load(data)
     Object.deserialize(self, data)
     Tree.load(self, data)
+    if data.palleteNumber then
+        self:usePallete(data.palleteNumber)
+    else
+        self:usePallete(math.random(1, 10))
+    end
     local anData = data.animation
     if anData then
         local callback

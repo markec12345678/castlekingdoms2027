@@ -106,6 +106,7 @@ local an = {
 local Peasant = _G.class("Peasant", Unit)
 function Peasant:initialize(gx, gy, quitting)
     Unit.initialize(self, gx, gy, type)
+    self:usePallete(math.random(1, 10))
     self.workplace = nil
     self.state = "Bowing"
     self.marked = 0

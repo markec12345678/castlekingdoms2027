@@ -219,6 +219,16 @@ end
 
 local HEALTHBARS = {
     REGULAR = {
+        love.graphics.newImage("assets/ui/healthbars/regular/healthbar_regular (1).png"),
+        love.graphics.newImage("assets/ui/healthbars/regular/healthbar_regular (2).png"),
+        love.graphics.newImage("assets/ui/healthbars/regular/healthbar_regular (3).png"),
+        love.graphics.newImage("assets/ui/healthbars/regular/healthbar_regular (4).png"),
+        love.graphics.newImage("assets/ui/healthbars/regular/healthbar_regular (5).png"),
+        love.graphics.newImage("assets/ui/healthbars/regular/healthbar_regular (6).png"),
+        love.graphics.newImage("assets/ui/healthbars/regular/healthbar_regular (7).png"),
+        love.graphics.newImage("assets/ui/healthbars/regular/healthbar_regular (8).png"),
+        love.graphics.newImage("assets/ui/healthbars/regular/healthbar_regular (9).png"),
+        love.graphics.newImage("assets/ui/healthbars/regular/healthbar_regular (10).png"),
         love.graphics.newImage("assets/ui/healthbars/regular/healthbar_regular (11).png")
     }
 }
@@ -249,7 +259,7 @@ function Commander:draw()
         local fy = IsoToScreenY(gx, gy) - _G.state.viewYview - ((IsoToScreenY(gx, gy)) - _G.state.viewYview) * (1 - _G.state.scaleX)
 
         love.graphics.draw(
-            HEALTHBARS.REGULAR[1],
+            HEALTHBARS.REGULAR[math.ceil(unit.health / 10)],
             fx,
             fy + (-elevationOffsetY - 50) * _G.state.scaleX,
             0, _G.state.scaleX

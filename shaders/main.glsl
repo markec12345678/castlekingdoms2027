@@ -6,7 +6,7 @@ varying float pallete;
 extern VolumeImage colortables;
 
 #ifdef VERTEX
-attribute vec2 InstancePosition;
+attribute vec3 InstancePosition;
 attribute vec2 UVOffset;
 attribute vec2 ImageDim;
 attribute float ImageShade;
@@ -29,7 +29,8 @@ vec4 position(mat4 transform_projection, vec4 vertex_position)
     }
     vertex_position.xy *= ImageDim;
     vertex_position.xy *= imgscale;
-    vertex_position.xy += InstancePosition;
+    vertex_position.xy += InstancePosition.xy;
+    vertex_position.z = 1.0-InstancePosition.z;
 	return transform_projection * vertex_position;
 }
 #endif
@@ -51,12 +52,16 @@ vec4 effect( vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords )
     color.xyz *= imgshd;
     ivec2 textr = ivec2(int(ceil(uvoff.x + imgdim.x*texture_coords.x)), int(ceil(uvoff.y + imgdim.y*texture_coords.y)));
     vec4 texcolor = texelFetch(tex, textr, 0);
+    if (texcolor.a < 1.0) {
+        discard;
+    }
     if (pallete > 0) {
         vec2 ct = redGreenToPosition(texcolor.x, texcolor.y);
         if (ct.x == 0 && ct.y == 0) {
             return vec4(0,0,0,0);
         }
         return texelFetch(colortables, ivec3(int(ct.x), int(ct.y), int(floor(pallete-1))), 0) * color;
+        // return Texel(colortables, vec3(float(ct.x)/320.0, float(ct.y)/80.0, pallete)) * color;
     }
     return texcolor * color;
 }

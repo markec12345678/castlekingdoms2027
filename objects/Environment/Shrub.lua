@@ -18,10 +18,12 @@ function Shrub:initialize(gx, gy, type)
         self.animation = _G.anim.newAnimation(frShrub_1, 0.1)
         self.offsetX = -32
         self.offsetY = -57
+        self:usePallete(math.random(1, 10))
     elseif type == "Short shrub" then
         self.animation = _G.anim.newAnimation(frShrub_2, 0.1)
         self.offsetX = -11
         self.offsetY = -32
+        self:usePallete(math.random(11, 20))
     end
     self.chop = false
     self.animated = true
@@ -58,7 +60,7 @@ function Shrub:animate()
             elevationOffsetY = _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] * 2
         end
         y = y - elevationOffsetY
-        self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, 1)
+        self.instancemesh:setVertex(self.vertId, x, y, self:inferZ(), qx, qy, qw, qh, 1, nil, nil, self.pallete)
         return
     end
     if not self.instancemesh and _G.state.objectMesh then
@@ -76,13 +78,13 @@ function Shrub:animate()
             elevationOffsetY = _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] * 2
         end
         y = y - elevationOffsetY
-        self.vertId = _G.getFreeVertexFromTile(self.cx, self.cy, self.i, self.o)
+        self.vertId = _G.getFreeVertexFromTile(self.cx, self.cy, self)
         if not self.vertId then
             self.toBeRemoved = true
             return
         end
         self.instancemesh = instancemesh
-        self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, 1)
+        self.instancemesh:setVertex(self.vertId, x, y, self:inferZ(), qx, qy, qw, qh, 1, nil, nil, self.pallete)
     end
 end
 

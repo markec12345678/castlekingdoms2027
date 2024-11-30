@@ -19,8 +19,8 @@ local ANIM_VERY_SMALL_FALLING = "Very_Small_Falling"
 local ANIM_VERY_SMALL_CHOP = "Very_Small_Chop"
 
 local an = {
-    [STATIC_TRUNK] = {tileQuads["tree_chestnut_trunk (1)"]},
-    [ANIM_DEAD_STATIC] = {tileQuads["tree_chestnut_dead (1)"]},
+    [STATIC_TRUNK] = { tileQuads["tree_chestnut_trunk (1)"] },
+    [ANIM_DEAD_STATIC] = { tileQuads["tree_chestnut_dead (1)"] },
     [ANIM_STATIC] = _G.indexQuads("tree_chestnut_large", 25, nil, true),
     [ANIM_FALLING] = _G.indexQuads("tree_chestnut_large_falling", 7),
     [ANIM_CHOP] = _G.indexQuads("tree_chestnut_large_falling", 10, 7),
@@ -43,6 +43,7 @@ function Chestnut:initialize(gx, gy, type)
     self.baseOffsetX = -33 - 38
     self.trunkTile = tileQuads["tree_chestnut_trunk (1)"]
     self.dead = false
+    self:usePallete(math.random(1, 10))
 
     for xx = -1, 1 do
         for yy = -1, 1 do

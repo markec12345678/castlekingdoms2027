@@ -24,7 +24,7 @@ _G.prof.connect()
 _G.bus = require("libraries.eventbus")
 -- Whether the game is currently paused
 _G.paused = false
-_G.MAX_FPS = 60
+_G.MAX_FPS = 120
 _G.CURRENT_PLAYLIST_INDEX = 0
 _G.CURRENT_MUSIC = nil
 _G.CURRENT_MUSIC_MOOD = nil
@@ -149,57 +149,12 @@ function _G.newAutotable(dim)
 end
 
 ----Tiles
-function _G.getFreeVertexFromTile(cx, cy, localX, localY, isStructure)
-    isStructure = isStructure or false
-    local vertId = _G.state.verticesPerTile * (localX + localY * chunkWidth) + 1
-    local chunkVertices = _G.state.objectMeshVertIdMap[cx][cy]
-    if isStructure then
-        for i = 3, _G.state.verticesPerTile - 1 do
-            if not chunkVertices[vertId + i] then
-                _G.state.objectMeshVertIdMap[cx][cy][vertId + i] = true
-                return vertId + i
-            end
-        end
-    else
-        for i = _G.state.verticesPerTile - 1, 4, -1 do
-            if not chunkVertices[vertId + i] then
-                _G.state.objectMeshVertIdMap[cx][cy][vertId + i] = true
-                return vertId + i
-            end
-        end
-    end
-    return false
-end
-
-function _G.getTerrainVertex(cx, cy, localX, localY)
-    local vertId = _G.state.verticesPerTile * (localX + localY * chunkWidth) + 3
-    _G.state.objectMeshVertIdMap[cx][cy][vertId] = true
-    return vertId
-end
-
-function _G.getChevronVertexLeft(cx, cy, localX, localY)
-    local vertId = _G.state.verticesPerTile * (localX + localY * chunkWidth) + 1
-    _G.state.objectMeshVertIdMap[cx][cy][vertId] = true
-    return vertId
+function _G.getFreeVertexFromTile(cx, cy, object)
+    return _G.state.vertexKeeper[cx][cy]:allocate(object)
 end
 
 function _G.getChevronVertexRight(cx, cy, localX, localY)
-    local vertId = _G.state.verticesPerTile * (localX + localY * chunkWidth) + 2
-    _G.state.objectMeshVertIdMap[cx][cy][vertId] = true
-    return vertId
-end
-
-function _G.freeVertexFromTile(cx, cy, vertId)
-    if not vertId then
-        return
-    end
-    local chunkVertices = _G.state.objectMeshVertIdMap[cx][cy]
-    if chunkVertices then
-        _G.state.objectMesh[cx][cy]:setVertex(vertId)
-        chunkVertices[vertId] = false
-    else
-        return true
-    end
+    return 1 --TODO: not supported yet
 end
 
 _G.SAVEGAME_DIR = "saves"
@@ -312,4 +267,28 @@ function _G.manualGc(timeBudget, safetynetMegabytes, disableOtherwise)
     if disableOtherwise then
         collectgarbage("stop")
     end
+end
+
+function _G.getTerrainVertex(cx, cy, localX, localY)
+    return _G.state.tileKeeper[cx][cy]:getTerrainVert(localX, localY)
+end
+
+function _G.freeTerrainVertex(vertId, cx, cy)
+    return _G.state.tileKeeper[cx][cy]:free(vertId)
+end
+
+function _G.getChevronVertexLeft(cx, cy, localX, localY)
+    return _G.state.cliffKeeper[cx][cy]:getTerrainVert(localX, localY)
+end
+
+function _G.freeChevronVertexLeft(vertId, cx, cy)
+    return _G.state.cliffKeeper[cx][cy]:free(vertId)
+end
+
+function _G.freeVertexFromTile(cx, cy, vertId)
+    if not vertId then return end
+    _G.state.tileKeeper[cx][cy]:free(vertId)
+    _G.state.cliffKeeper[cx][cy]:free(vertId)
+    _G.state.objectMesh[cx][cy]:setVertex(vertId)
+    _G.state.vertexKeeper[cx][cy]:free(vertId)
 end

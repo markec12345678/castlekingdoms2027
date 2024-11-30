@@ -21,7 +21,6 @@ function Tree:initialize(gx, gy, type)
     self.cuttable = true
     self.tree = true
     self.active = false
-    self.pallete = math.random(1, 10)
     self.offsetTimer = 0
     self.instancemesh = nil
     self.updateTimer = 0
@@ -104,7 +103,7 @@ function Tree:render()
         end
         local x, y = self.x + (self.offsetX or 0) + offsetX, self.y + (self.offsetY or 0) + offsetY
         local qx, qy, qw, qh = self.tile:getViewport()
-        self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, 1, 1, 1, self.pallete)
+        self.instancemesh:setVertex(self.vertId, x, y, self:inferZ(), qx, qy, qw, qh, 1, 1, 1, self.pallete)
     end
 end
 
@@ -180,7 +179,7 @@ function Tree:animate(dt, forceUpdate)
         end
         y = y - elevationOffsetY
         local qx, qy, qw, qh = quad:getViewport()
-        self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, self.shadowValue, 1, 1, self.pallete)
+        self.instancemesh:setVertex(self.vertId, x, y, self:inferZ(), qx, qy, qw, qh, self.shadowValue, 1, 1, self.pallete)
         return
     end
     if not self.instancemesh and _G.state.objectMesh then
@@ -199,10 +198,10 @@ function Tree:animate(dt, forceUpdate)
         end
         y = y - elevationOffsetY
         local qx, qy, qw, qh = quad:getViewport()
-        self.vertId = _G.getFreeVertexFromTile(self.cx, self.cy, self.i, self.o)
+        self.vertId = _G.getFreeVertexFromTile(self.cx, self.cy, self)
         if self.vertId then
             self.instancemesh = instancemesh
-            self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, 1, 1, 1, self.pallete)
+            self.instancemesh:setVertex(self.vertId, x, y, self:inferZ(), qx, qy, qw, qh, 1, 1, 1, self.pallete)
         end
     end
 end
@@ -271,10 +270,6 @@ end
 
 function Tree:load(data)
     Object.initialize(self, data.gx, data.gy, data.type)
-
-    if not data.pallete then
-        self.pallete = math.random(1, 10)
-    end
 end
 
 function Tree.static:deserialize(data)

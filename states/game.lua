@@ -129,7 +129,6 @@ function game:update(dt)
         _G.state.initialized = true
     else
         prof.push("core")
-
         ActionBar:animate()
         core.update()
         if scrollCountDown > 0 then
