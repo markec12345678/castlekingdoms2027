@@ -38,13 +38,13 @@ vec4 position(mat4 transform_projection, vec4 vertex_position)
 #ifdef PIXEL
 
 ivec2 redGreenToPosition(float redValue, float greenValue) {
-    int redIndex = int(floor(redValue * 255.0));  // Scale redValue to 0-255
-    int x = (redIndex / 8) * 10;  // Each increment of 8 pixels to the next cell in x because of 5 bits per channel
+    int redIndex = int(floor(redValue * 255.0));
+    int x = (redIndex / 8) * 10;
 
-    int greenIndex = int(floor(greenValue * 255.0));  // Scale greenValue to 0-255
-    int y = (greenIndex / 8) * 10;  // Each increment of 8 pixels to the next cell in y because of 5 bits per channel
+    int greenIndex = int(floor(greenValue * 255.0));
+    int y = (greenIndex / 8) * 10;
 
-    return ivec2(x, y);  // Return the (x, y) grid position in pixels
+    return ivec2(x, y);
 }
 
 vec4 effect( vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords )
@@ -61,7 +61,6 @@ vec4 effect( vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords )
             return vec4(0,0,0,0);
         }
         return texelFetch(colortables, ivec3(int(ct.x), int(ct.y), int(floor(pallete-1))), 0) * color;
-        // return Texel(colortables, vec3(float(ct.x)/320.0, float(ct.y)/80.0, pallete)) * color;
     }
     return texcolor * color;
 }
