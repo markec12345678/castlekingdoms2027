@@ -541,8 +541,9 @@ function _G.genObjects(cx, cy)
     end
 end
 
-if not _G.test then
-    local shader = love.graphics.newShader("shaders/main.glsl")
+local shader
+if not _G.testMode then
+    shader = love.graphics.newShader("shaders/main.glsl")
     shader:send("colortables", colortableVolume)
 end
 local function drawObject()
