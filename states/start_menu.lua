@@ -6,8 +6,8 @@ local renderLoadingScreen = require("states.ui.loading_screen")
 local playlist = require("sounds.music_playlist")
 local console = require "libraries.console"
 console.addCommand("debug", function()
-    local lldebugger = pcall(require, "lldebugger")
-    if lldebugger then
+    local haslldebugger, lldebugger = pcall(require, "lldebugger")
+    if haslldebugger then
         lldebugger.start()
         print("Debugger attached!")
     else
