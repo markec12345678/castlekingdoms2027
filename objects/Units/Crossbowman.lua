@@ -14,6 +14,7 @@ Crossbowman.static.MOVE_INACCESSIBLE_SOUND = _G.fx["Crossbowman_Move_Inaccessibl
 
 function Crossbowman:initialize(gx, gy)
     Soldier.initialize(self, gx, gy, "Crossbowman")
+    self:usePallete(2)
     self.count = 1
     self.offsetY = -10
     self.offsetX = -6

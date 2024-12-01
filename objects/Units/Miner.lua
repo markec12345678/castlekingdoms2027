@@ -42,6 +42,7 @@ local Miner = _G.class('Miner', Worker)
 
 function Miner:initialize(gx, gy, type)
     Worker.initialize(self, gx, gy, type)
+    self:usePallete(2)
     self.state = 'Find a job'
     self.offsetY = -10
     self.offsetX = -5

@@ -14,6 +14,7 @@ Pikeman.static.MOVE_INACCESSIBLE_SOUND = _G.fx["Pikeman_Move_Inaccessible"]
 
 function Pikeman:initialize(gx, gy)
     Soldier.initialize(self, gx, gy, "Pikeman")
+    self:usePallete(2)
     self.count = 1
     self.offsetY = -10
     self.offsetX = -6

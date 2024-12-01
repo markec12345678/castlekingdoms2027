@@ -14,6 +14,7 @@ Maceman.static.MOVE_INACCESSIBLE_SOUND = _G.fx["Maceman_Move_Inaccessible"]
 
 function Maceman:initialize(gx, gy)
     Soldier.initialize(self, gx, gy, "Maceman")
+    self:usePallete(2)
     self.count = 1
     self.offsetY = -10
     self.offsetX = -6

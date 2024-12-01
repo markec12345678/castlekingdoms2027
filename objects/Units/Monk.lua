@@ -9,6 +9,7 @@ local Monk = _G.class("Monk", Soldier)
 
 function Monk:initialize(gx, gy)
     Soldier.initialize(self, gx, gy, "Monk")
+    self:usePallete(2)
     self.count = 1
     self.offsetY = -10
     self.offsetX = -6

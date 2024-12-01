@@ -72,6 +72,7 @@ local Priest = _G.class('Priest', Worker)
 
 function Priest:initialize(gx, gy, type)
     Worker.initialize(self, gx, gy, type)
+    self:usePallete(2)
     self.workplace = nil
     self.state = 'Find a job'
     self.waitTimer = 0
@@ -138,21 +139,21 @@ end
 
 function Priest:selectBlessingAnimation()
     if self.moveDir == "west" then
-            self.animation = anim.newAnimation(an[BLESSING_PRIEST_WEST], 0.08, function() self:blessCallback() end, BLESSING_PRIEST_WEST)
+        self.animation = anim.newAnimation(an[BLESSING_PRIEST_WEST], 0.08, function() self:blessCallback() end, BLESSING_PRIEST_WEST)
     elseif self.moveDir == "southwest" then
-            self.animation = anim.newAnimation(an[BLESSING_PRIEST_SOUTHWEST], 0.08, function() self:blessCallback() end, BLESSING_PRIEST_SOUTHWEST)
+        self.animation = anim.newAnimation(an[BLESSING_PRIEST_SOUTHWEST], 0.08, function() self:blessCallback() end, BLESSING_PRIEST_SOUTHWEST)
     elseif self.moveDir == "northwest" then
-            self.animation = anim.newAnimation(an[BLESSING_PRIEST_NORTHWEST], 0.08, function() self:blessCallback() end, BLESSING_PRIEST_NORTHWEST)
+        self.animation = anim.newAnimation(an[BLESSING_PRIEST_NORTHWEST], 0.08, function() self:blessCallback() end, BLESSING_PRIEST_NORTHWEST)
     elseif self.moveDir == "north" then
-            self.animation = anim.newAnimation(an[BLESSING_PRIEST_NORTH], 0.08, function() self:blessCallback() end, BLESSING_PRIEST_NORTH)
+        self.animation = anim.newAnimation(an[BLESSING_PRIEST_NORTH], 0.08, function() self:blessCallback() end, BLESSING_PRIEST_NORTH)
     elseif self.moveDir == "south" then
-            self.animation = anim.newAnimation(an[BLESSING_PRIEST_SOUTH], 0.08, function() self:blessCallback() end, BLESSING_PRIEST_SOUTH)
+        self.animation = anim.newAnimation(an[BLESSING_PRIEST_SOUTH], 0.08, function() self:blessCallback() end, BLESSING_PRIEST_SOUTH)
     elseif self.moveDir == "east" then
-            self.animation = anim.newAnimation(an[BLESSING_PRIEST_EAST], 0.08, function() self:blessCallback() end, BLESSING_PRIEST_EAST)
+        self.animation = anim.newAnimation(an[BLESSING_PRIEST_EAST], 0.08, function() self:blessCallback() end, BLESSING_PRIEST_EAST)
     elseif self.moveDir == "southeast" then
-            self.animation = anim.newAnimation(an[BLESSING_PRIEST_SOUTHEAST], 0.08, function() self:blessCallback() end, BLESSING_PRIEST_SOUTHEAST)
+        self.animation = anim.newAnimation(an[BLESSING_PRIEST_SOUTHEAST], 0.08, function() self:blessCallback() end, BLESSING_PRIEST_SOUTHEAST)
     elseif self.moveDir == "northeast" then
-            self.animation = anim.newAnimation(an[BLESSING_PRIEST_NORTHEAST], 0.08, function() self:blessCallback() end, BLESSING_PRIEST_NORTHEAST)
+        self.animation = anim.newAnimation(an[BLESSING_PRIEST_NORTHEAST], 0.08, function() self:blessCallback() end, BLESSING_PRIEST_NORTHEAST)
     end
 end
 
@@ -185,7 +186,6 @@ function Priest:update()
         if self.animation and self.animation.animationIdentifier ~= IDLE then
             self.animation = _G.anim.newAnimation(an[IDLE], 0.11, nil, IDLE)
         end
-        
     elseif self.state == "Waiting for exitpoint" then
         self.waitTimer = self.waitTimer + _G.dt
         if self.waitTimer > NO_EXIT_WAIT_DURATION then

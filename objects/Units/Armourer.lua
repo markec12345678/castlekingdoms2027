@@ -67,6 +67,7 @@ local Armourer = _G.class('Armourer', Worker)
 
 function Armourer:initialize(gx, gy, type)
     Worker.initialize(self, gx, gy, type)
+    self:usePallete(2)
     self.state = 'Find a job'
     self.waitTimer = 0
     self.offsetY = -10

@@ -134,14 +134,13 @@ function Object:renderAlias()
     end
 end
 
-function Object:usePallete(number)
-    -- TODO: make sure deserialization works
-    -- we need to keep the original number as well
-    -- to make sure game still loads after someone has added/deleted a colortable
+function Object:usePallete(number, classNameOverride)
+    local classname = classNameOverride or self.class.name
     number = tostring(number)
-    if _G.colortables[self.class.name] and _G.colortables[self.class.name][number] then
-        self.pallete = _G.ctables[_G.colortables[self.class.name][number]] + 1
+    if _G.colortables[classname] and _G.colortables[classname][number] then
+        self.pallete = _G.ctables[_G.colortables[classname][number]] + 1
         self.palleteNumber = number
+        self.palleteOverride = classNameOverride
     else
         error("pallete number not found")
     end
@@ -205,6 +204,8 @@ function Object:serialize()
     data.y = self.y
     data.gx = self.gx
     data.gy = self.gy
+    data.palleteNumber = self.palleteNumber
+    data.palleteOverride = self.palleteOverride
     data.type = self.type
     data.shadowValue = self.shadowValue
     data.toBeDeleted = self.toBeDeleted
@@ -285,6 +286,9 @@ function Object.static.deserialize(self, load)
         if k ~= "id" then
             self[k] = v
         end
+    end
+    if self.palleteNumber then
+        self:usePallete(self.palleteNumber, self.palleteOverride)
     end
 end
 

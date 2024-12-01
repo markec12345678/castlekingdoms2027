@@ -94,6 +94,7 @@ local Fletcher = _G.class('Fletcher', Worker)
 
 function Fletcher:initialize(gx, gy, type)
     Worker.initialize(self, gx, gy, type)
+    self:usePallete(2)
     self.state = 'Find a job'
     self.waitTimer = 0
     self.weaponType = WEAPON.bow

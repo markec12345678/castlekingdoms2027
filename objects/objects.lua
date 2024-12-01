@@ -16,6 +16,7 @@ _G.colortables = {}
 _G.ctables = {}
 local contiguousColortables = {}
 local colortableCounter = 0
+local loadedFarmerColortables = false
 
 function _G.recursiveLoadModules(folder, fileTree, modules)
     modules = modules or {}
@@ -31,6 +32,10 @@ function _G.recursiveLoadModules(folder, fileTree, modules)
                     local filename = filename:gsub("/", ".")
                     if string.find(file, "/Units/") or string.find(file, "Environment/") then
                         local className = string.match(filename, "%.([^.]+)$")
+                        if string.find(className, "Farmer") and not loadedFarmerColortables then
+                            className = "Farmer"
+                            loadedFarmerColortables = true
+                        end
                         local folderPath = "colortables/" .. className
                         local classColortables = {}
                         if love.filesystem.getInfo(folderPath, "directory") then

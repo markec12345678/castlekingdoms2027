@@ -19,8 +19,8 @@ local ANIM_VERY_SMALL_FALLING = "Very_Small_Falling"
 local ANIM_VERY_SMALL_CHOP = "Very_Small_Chop"
 
 local an = {
-    [STATIC_TRUNK] = {tileQuads["tree_birch_trunk (1)"]},
-    [ANIM_DEAD_STATIC] = {tileQuads["tree_birch_dead (1)"]},
+    [STATIC_TRUNK] = { tileQuads["tree_birch_trunk (1)"] },
+    [ANIM_DEAD_STATIC] = { tileQuads["tree_birch_dead (1)"] },
     [ANIM_STATIC] = _G.indexQuads("tree_birch_large", 25, nil, true),
     [ANIM_FALLING] = _G.indexQuads("tree_birch_large_falling", 7),
     [ANIM_CHOP] = _G.indexQuads("tree_birch_large_falling", 10, 7),
@@ -39,8 +39,9 @@ local BirchTree = _G.class("BirchTree", Tree)
 function BirchTree:initialize(gx, gy, type)
     type = type or "Birch tree"
     Tree.initialize(self, gx, gy, type)
+    self:usePallete(math.random(1, 10))
     self.offsetY = -136
-    self.baseOffsetX = -17 - 38 
+    self.baseOffsetX = -17 - 38
     self.trunkTile = tileQuads["tree_birch_trunk (1)"]
     self.dead = false
 

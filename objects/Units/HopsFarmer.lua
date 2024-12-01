@@ -253,6 +253,7 @@ local an = {
 local HopsFarmer = _G.class("HopsFarmer", Worker)
 function HopsFarmer:initialize(gx, gy, type)
     Worker.initialize(self, gx, gy, type)
+    self:usePallete(2, "Farmer")
     self.workplace = nil
     self.state = "Find a job"
     self.marked = 0

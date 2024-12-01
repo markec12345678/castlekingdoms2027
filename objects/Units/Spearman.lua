@@ -14,6 +14,7 @@ Spearman.static.MOVE_INACCESSIBLE_SOUND = _G.fx["Spearman_Move_Inaccessible"]
 
 function Spearman:initialize(gx, gy)
     Soldier.initialize(self, gx, gy, "Spearman")
+    self:usePallete(2)
     self.count = 1
     self.offsetY = -10
     self.offsetX = -6
