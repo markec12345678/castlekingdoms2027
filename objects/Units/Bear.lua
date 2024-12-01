@@ -121,7 +121,7 @@ function Bear:chooseNextTask()
 end
 
 function Bear:startLaying()
-    self.animation = anim.newAnimation(an[LAYING_BEAR], LAYING_BEAR_FRAMERATE, function() self:startBreathingOrScratching() end, LAYING_BEAR)
+        self.animation = anim.newAnimation(an[LAYING_BEAR], LAYING_BEAR_FRAMERATE, function() self:startBreathingOrScratching() end, LAYING_BEAR)
 end
 
 function Bear:startBreathingOrScratching()
@@ -164,21 +164,21 @@ end
 
 function Bear:dirSubUpdate()
     if self.moveDir == "west" then
-        self.animation = anim.newAnimation(an[WALKING_BEAR_WEST], WALKING_FRAMETIME, nil, WALKING_BEAR_WEST)
+            self.animation = anim.newAnimation(an[WALKING_BEAR_WEST], WALKING_FRAMETIME, nil, WALKING_BEAR_WEST)
     elseif self.moveDir == "southwest" then
-        self.animation = anim.newAnimation(an[WALKING_BEAR_SOUTHWEST], WALKING_FRAMETIME, nil, WALKING_BEAR_SOUTHWEST)
+            self.animation = anim.newAnimation(an[WALKING_BEAR_SOUTHWEST], WALKING_FRAMETIME, nil, WALKING_BEAR_SOUTHWEST)
     elseif self.moveDir == "northwest" then
-        self.animation = anim.newAnimation(an[WALKING_BEAR_NORTHWEST], WALKING_FRAMETIME, nil, WALKING_BEAR_NORTHWEST)
+            self.animation = anim.newAnimation(an[WALKING_BEAR_NORTHWEST], WALKING_FRAMETIME, nil, WALKING_BEAR_NORTHWEST)
     elseif self.moveDir == "north" then
-        self.animation = anim.newAnimation(an[WALKING_BEAR_NORTH], WALKING_FRAMETIME, nil, WALKING_BEAR_NORTH)
+            self.animation = anim.newAnimation(an[WALKING_BEAR_NORTH], WALKING_FRAMETIME, nil, WALKING_BEAR_NORTH)
     elseif self.moveDir == "south" then
-        self.animation = anim.newAnimation(an[WALKING_BEAR_SOUTH], WALKING_FRAMETIME, nil, WALKING_BEAR_SOUTH)
+            self.animation = anim.newAnimation(an[WALKING_BEAR_SOUTH], WALKING_FRAMETIME, nil, WALKING_BEAR_SOUTH)
     elseif self.moveDir == "east" then
-        self.animation = anim.newAnimation(an[WALKING_BEAR_EAST], WALKING_FRAMETIME, nil, WALKING_BEAR_EAST)
+            self.animation = anim.newAnimation(an[WALKING_BEAR_EAST], WALKING_FRAMETIME, nil, WALKING_BEAR_EAST)
     elseif self.moveDir == "southeast" then
-        self.animation = anim.newAnimation(an[WALKING_BEAR_SOUTHEAST], WALKING_FRAMETIME, nil, WALKING_BEAR_SOUTHEAST)
+            self.animation = anim.newAnimation(an[WALKING_BEAR_SOUTHEAST], WALKING_FRAMETIME, nil, WALKING_BEAR_SOUTHEAST)
     elseif self.moveDir == "northeast" then
-        self.animation = anim.newAnimation(an[WALKING_BEAR_NORTHEAST], WALKING_FRAMETIME, nil, WALKING_BEAR_NORTHEAST)
+            self.animation = anim.newAnimation(an[WALKING_BEAR_NORTHEAST], WALKING_FRAMETIME, nil, WALKING_BEAR_NORTHEAST)
     end
 end
 

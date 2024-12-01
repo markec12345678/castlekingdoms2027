@@ -214,7 +214,7 @@ function MissionController:Display()
             end
             if value["resourceType"] == "buildings" then
                 if _G.BuildingManager:count(value["taskResource"]) ~= nil then
-                    if BuildingManager:count(value["taskResource"]) >= value["taskValue"] and value["taskDone"] == false then
+                    if BuildingManager:count(value["taskResource"]) >= value["taskValue"] then
                         value["taskDone"] = true
                         self.goalsList = self.goalsList ..
                             "\n" ..

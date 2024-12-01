@@ -7,7 +7,7 @@ local groupTypeMarket = require("states.ui.market.market_trade_main")
 local ActionBarButton = require("states.ui.ActionBarButton")
 local backButtonImage = love.graphics.newImage("assets/ui/goods/back_ab_market.png")
 local backButtonHover = love.graphics.newImage("assets/ui/goods/back_ab_market_hover.png")
-local backButtonA = ActionBarButton:new(love.graphics.newImage("assets/ui/goods/emptyIcon.png"), states.STATE_MARKET, 12)
+local backButtonA = ActionBarButton:new(love.graphics.newImage("assets/ui/back_ab.png"), states.STATE_MARKET, 12)
 local backButton = loveframes.Create("image")
 local RESOURCES = require("objects.Enums.Resources")
 local FOOD = require("objects.Enums.Food")
@@ -341,6 +341,9 @@ local frWeapon = {
 
 backButtonA.background:SetPos(frBackButtonA.x, frBackButtonA.y)
 backButtonA.foreground:SetPos(frBackButtonA.x, frBackButtonA.y)
+backButtonA:setOnClick(function(self)
+    actionBar:switchMode("market")
+end)
 
 backButton:SetState(states.STATE_MARKET)
 backButton:SetImage(backButtonImage)
@@ -446,6 +449,7 @@ woodIconButton.OnClick = function(self)
     good = RESOURCES.wood
     goodPrice = goodsPrice.wood.gold
     DisplayCurrentStock(2)
+    backButtonA:hide()
     _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 
@@ -470,6 +474,7 @@ stoneIconButton.OnClick = function(self)
     good = RESOURCES.stone
     goodPrice = goodsPrice.stone.gold
     DisplayCurrentStock(2)
+    backButtonA:hide()
     _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 woodIconButton.OnMouseExit = function(self)
@@ -497,6 +502,7 @@ wheatIconButton.OnClick = function(self)
     good = RESOURCES.wheat
     goodPrice = goodsPrice.wheat.gold
     DisplayCurrentStock(2)
+    backButtonA:hide()
     _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 wheatIconButton.OnMouseExit = function(self)
@@ -524,6 +530,7 @@ tarIconButton.OnClick = function(self)
     good = RESOURCES.tar
     goodPrice = goodsPrice.tar.gold
     DisplayCurrentStock(2)
+    backButtonA:hide()
     _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 tarIconButton.OnMouseExit = function(self)
@@ -551,6 +558,7 @@ aleIconButton.OnClick = function(self)
     good = RESOURCES.ale
     goodPrice = goodsPrice.ale.gold
     DisplayCurrentStock(2)
+    backButtonA:hide()
     _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 aleIconButton.OnMouseExit = function(self)
@@ -578,6 +586,7 @@ ironIconButton.OnClick = function(self)
     good = RESOURCES.iron
     goodPrice = goodsPrice.iron.gold
     DisplayCurrentStock(2)
+    backButtonA:hide()
     _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 ironIconButton.OnMouseExit = function(self)
@@ -605,6 +614,7 @@ hopIconButton.OnClick = function(self)
     good = RESOURCES.hop
     goodPrice = goodsPrice.hop.gold
     DisplayCurrentStock(2)
+    backButtonA:hide()
     _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 hopIconButton.OnMouseExit = function(self)
@@ -632,6 +642,7 @@ flourIconButton.OnClick = function(self)
     good = RESOURCES.flour
     goodPrice = goodsPrice.flour.gold
     DisplayCurrentStock(2)
+    backButtonA:hide()
     _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 flourIconButton.OnMouseExit = function(self)
@@ -660,6 +671,7 @@ meatIconButton.OnClick = function(self)
     good = FOOD.meat
     goodPrice = goodsPrice.meat.gold
     DisplayCurrentStock(1)
+    backButtonA:hide()
     _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 meatIconButton.OnMouseExit = function(self)
@@ -688,6 +700,7 @@ cheeseIconButton.OnClick = function(self)
     good = FOOD.cheese
     goodPrice = goodsPrice.cheese.gold
     DisplayCurrentStock(1)
+    backButtonA:hide()
     _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 cheeseIconButton.OnMouseExit = function(self)
@@ -716,6 +729,7 @@ appleIconButton.OnClick = function(self)
     good = FOOD.apples
     goodPrice = goodsPrice.apples.gold
     DisplayCurrentStock(1)
+    backButtonA:hide()
     _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 appleIconButton.OnMouseExit = function(self)
@@ -742,6 +756,7 @@ breadIconButton.OnClick = function(self)
     good = FOOD.bread
     goodPrice = goodsPrice.bread.gold
     DisplayCurrentStock(1)
+    backButtonA:hide()
     _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 breadIconButton.OnMouseExit = function(self)
@@ -770,6 +785,7 @@ bowIconButton.OnClick = function(self)
     good = WEAPON.bow
     goodPrice = goodsPrice.bow.gold
     DisplayCurrentStock(3)
+    backButtonA:hide()
     _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 bowIconButton.OnMouseExit = function(self)
@@ -797,6 +813,7 @@ crossbowIconButton.OnClick = function(self)
     good = WEAPON.crossbow
     goodPrice = goodsPrice.crossbow.gold
     DisplayCurrentStock(3)
+    backButtonA:hide()
     _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 crossbowIconButton.OnMouseExit = function(self)
@@ -824,6 +841,7 @@ spearIconButton.OnClick = function(self)
     good = WEAPON.spear
     goodPrice = goodsPrice.spear.gold
     DisplayCurrentStock(3)
+    backButtonA:hide()
     _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 spearIconButton.OnMouseExit = function(self)
@@ -851,6 +869,7 @@ maceIconButton.OnClick = function(self)
     good = WEAPON.mace
     goodPrice = goodsPrice.mace.gold
     DisplayCurrentStock(3)
+    backButtonA:hide()
     _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 maceIconButton.OnMouseExit = function(self)
@@ -878,6 +897,7 @@ swordIconButton.OnClick = function(self)
     good = WEAPON.sword
     goodPrice = goodsPrice.sword.gold
     DisplayCurrentStock(3)
+    backButtonA:hide()
     _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 swordIconButton.OnMouseExit = function(self)
@@ -905,6 +925,7 @@ pikeIconButton.OnClick = function(self)
     good = WEAPON.pike
     goodPrice = goodsPrice.pike.gold
     DisplayCurrentStock(3)
+    backButtonA:hide()
     _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 pikeIconButton.OnMouseExit = function(self)
@@ -932,6 +953,7 @@ leatherIconButton.OnClick = function(self)
     good = WEAPON.leatherArmor
     goodPrice = goodsPrice.leatherArmor.gold
     DisplayCurrentStock(3)
+    backButtonA:hide()
     _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 leatherIconButton.OnMouseExit = function(self)
@@ -959,6 +981,7 @@ armourIconButton.OnClick = function(self)
     good = WEAPON.shield
     goodPrice = goodsPrice.shield.gold
     DisplayCurrentStock(3)
+    backButtonA:hide()
     _G.bus.emit(Events.OnMarketResourceClicked, good)
 end
 armourIconButton.OnMouseExit = function(self)
@@ -1018,6 +1041,7 @@ local function DisplayFoodIcons(option)
 end
 
 local function DisplayMaterialIcons(option)
+    backButtonA:show()
     local materialList = _G.MissionController:getLockedTradeResources()
     option = (option ~= false)
     for _, button in pairs(materialButtons) do

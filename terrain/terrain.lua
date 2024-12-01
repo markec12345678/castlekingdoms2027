@@ -410,6 +410,22 @@ function Terrain:terrainElevateTileAt(gx, gy)
     end
 end
 
+--- Elevates tile at position. Triggers a self.terrain update at position.
+---@param gx integer Global X tile position
+---@param gy integer Global Y tile position
+function Terrain:terrainDescendTileAt(gx, gy)
+    local cx, cy, i, o = _G.getLocalCoordinatesFromGlobal(gx, gy)
+    if self.state.map.terrain[cx] and self.state.map.terrain[cx][cy] then
+        if self.heightmap[cx][cy][i][o] then
+            self.heightmap[cx][cy][i][o] = self.heightmap[cx][cy][i][o] - 1
+        else
+            self.heightmap[cx][cy][i][o] = -1
+        end
+        self.heightmap[cx][cy][i][o] = math.max(self.heightmap[cx][cy][i][o], -20)
+        self:scheduleTerrainUpdate(cx, cy, i, o)
+    end
+end
+
 --- Sets the tile height to a specific value.
 ---@param gx integer Global X tile position
 ---@param gy integer Global Y tile position

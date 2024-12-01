@@ -4,6 +4,17 @@ local loveframes = require("libraries.loveframes")
 local states = require("states.ui.states")
 local renderLoadingScreen = require("states.ui.loading_screen")
 local playlist = require("sounds.music_playlist")
+local console = require "libraries.console"
+console.addCommand("debug", function()
+    local haslldebugger, lldebugger = pcall(require, "lldebugger")
+    if haslldebugger then
+        lldebugger.start()
+        print("Debugger attached!")
+    else
+        print("Couldn't enable debug.")
+        print("You need to start the game using VSCode Run and Debug in order to use the debugger!")
+    end
+end, "Attach VSCode debugger")
 
 local startMenuFadeIn = 1.5
 local startMenuDisplay = 4
@@ -15,6 +26,10 @@ local startMenuAplha = 0
 function startMenu:enter()
     loveframes.SetState(states.STATE_MAIN_MENU)
     playlist("menu")
+end
+
+function startMenu:textinput(text)
+    console.textinput(text)
 end
 
 local framesFromStart = 0
@@ -57,6 +72,18 @@ function startMenu:draw()
     end
     love.graphics.print(_G.version, _G.ScreenWidth - love.graphics.getFont():getWidth(_G.version .. "----"),
         _G.ScreenHeight - love.graphics.getFont():getHeight() * 2)
+    console.draw()
+end
+
+function startMenu:keypressed(key, scancode, isRepeat)
+    if love.keyboard.isScancodeDown("`") and love.keyboard.isScancodeDown("lshift") then
+        console:toggleEnable()
+        return
+    end
+    if console.isEnabled() then
+        console.keypressed(key, scancode, isRepeat)
+        return
+    end
 end
 
 function startMenu:mousepressed(x, y, button)

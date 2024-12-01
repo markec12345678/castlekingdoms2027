@@ -135,7 +135,7 @@ end
 ---handles mousepresses
 ---@return boolean consumed whether the mouse press should be propagated to other controllers
 function Commander:mousepressed(x, y, button)
-    if button == 1 and not _G.BuildController.active and not _G.DestructionController.active then
+    if button == 1 and not _G.BuildController.active and not _G.DestructionController.active and not _G.BrushController.active then
         self.initialMX, self.initialMY = x, y
         self.initialPressGX, self.initialPressGY = _G.getTerrainTileOnMouse(x, y)
         self.isDown = true
