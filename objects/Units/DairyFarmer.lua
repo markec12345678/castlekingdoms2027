@@ -70,6 +70,7 @@ local DairyFarmer = _G.class('DairyFarmer', Worker)
 
 function DairyFarmer:initialize(gx, gy, type)
     Worker.initialize(self, gx, gy, type)
+    self:usePallete(2, "Farmer")
     self.state = 'Find a job'
     self.waitTimer = 0
     self.offsetY = -10

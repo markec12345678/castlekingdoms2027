@@ -82,6 +82,7 @@ local Innkeeper = _G.class('Innkeeper', Worker)
 
 function Innkeeper:initialize(gx, gy, type)
     Worker.initialize(self, gx, gy, type)
+    self:usePallete(2)
     self.workplace = nil
     self.state = 'Find a job'
     self.offsetX = -5

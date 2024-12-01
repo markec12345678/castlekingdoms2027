@@ -12,7 +12,7 @@ function Structure:initialize(gx, gy, type)
     self.sleeping = false
     self.restoreExitPoint = false
     _G.addObjectAt(self.cx, self.cy, self.i, self.o, self)
-    self.lastBlessed = - ReligionController.class.static.BLESSING_DURATION - 1
+    self.lastBlessed = -ReligionController.class.static.BLESSING_DURATION - 1
 end
 
 ---@param self Object|Structure
@@ -117,10 +117,10 @@ function Structure:animate(dt, forceUpdate)
         end
         y = y - elevationOffsetY
         local qx, qy, qw, qh = quad:getViewport()
-        self.vertId = _G.getFreeVertexFromTile(self.cx, self.cy, self.i, self.o)
+        self.vertId = _G.getFreeVertexFromTile(self.cx, self.cy, self)
         if self.vertId then
             self.instancemesh = instancemesh
-            self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, self.shadowValue)
+            self.instancemesh:setVertex(self.vertId, x, y, self:inferZ(), qx, qy, qw, qh, self.shadowValue, nil, nil, self.pallete)
         end
         return
     end
@@ -139,7 +139,7 @@ function Structure:animate(dt, forceUpdate)
         y = y - elevationOffsetY
         if quad then
             local qx, qy, qw, qh = quad:getViewport()
-            self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, self.shadowValue)
+            self.instancemesh:setVertex(self.vertId, x, y, self:inferZ(), qx, qy, qw, qh, self.shadowValue, nil, nil, self.pallete)
         end
         return
     end
@@ -323,7 +323,7 @@ function Structure:load(data)
         self.float = _G.state:dereferenceObject(data.float)
         data.float = nil
     end
-    self.lastBlessed = data.lastBlessed or (- ReligionController.class.static.BLESSING_DURATION - 1)
+    self.lastBlessed = data.lastBlessed or (-ReligionController.class.static.BLESSING_DURATION - 1)
 end
 
 return Structure

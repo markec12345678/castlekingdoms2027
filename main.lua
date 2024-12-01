@@ -14,7 +14,6 @@ local config = require("config_file")
 
 --extend native error handler
 require("objects.Controllers.ErrorHandler")
-
 function love.load()
     local function getAvailableResolutions()
         local result = {}
@@ -62,15 +61,17 @@ function love.load()
     LanguageController:loadLanguage()
     _G.fx = require("sounds.fx")
     if _G.testMode then
-        _G.objectAtlas = love.graphics.newImage("assets/tiles/stronghold_assets_packed_v11-hd.dds")
+        _G.objectAtlas = love.graphics.newImage("assets/tiles/stronghold_assets_packed_v12-hd.png")
         Gamestate.switch(test)
         return
     else
         local splashscreen = require("states.splash_screen")
         Gamestate.switch(splashscreen)
     end
-    loader.newImage("assets/tiles/stronghold_assets_packed_v11-hd.dds"):onComplete(function(_, image)
+    loader.newImage("assets/tiles/stronghold_assets_packed_v12-hd.png"):onComplete(function(_, image)
+        print("loading...")
         _G.objectAtlas = image
+        print("loaded object atlas")
         loader.quit()
     end)
     local cursorImg = love.image.newImageData("assets/ui/cursor.png")
@@ -154,7 +155,8 @@ function love.run()
         prof.pop("update")
         prof.push("draw")
         if love.graphics and love.graphics.isActive() then
-            love.graphics.clear(love.graphics.getBackgroundColor())
+            local r, g, b, a = love.graphics.getBackgroundColor()
+            love.graphics.clear(r, g, b, a, false, 0) -- also resets the depth buffer
             love.graphics.origin()
             if love.draw then
                 love.draw()

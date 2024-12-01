@@ -8,6 +8,7 @@ local Lord = _G.class("Lord", Unit)
 
 function Lord:initialize(gx, gy)
     Unit.initialize(self, gx, gy, type)
+    self:usePallete(2)
     self.state = "Going to keep"
     self.count = 1
     self.offsetY = -5 - 8

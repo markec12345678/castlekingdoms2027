@@ -64,7 +64,7 @@ function Object:render()
         local x, y = self.x + (self.offsetX or 0) + offsetX, self.y + (self.offsetY or 0) + offsetY - elevationOffsetY
         local qx, qy, qw, qh = self.tile:getViewport()
 
-        local newVert = _G.getFreeVertexFromTile(self.cx, self.cy, self.i, self.o, true)
+        local newVert = _G.getFreeVertexFromTile(self.cx, self.cy, self)
         if newVert ~= false then
             self.vertId = newVert
             self.lastI, self.lastO = self.i, self.o
@@ -81,8 +81,26 @@ function Object:render()
                 tostring(self) .. "\n coordinates: " .. tostring(self.gx) .. ", " .. tostring(self.gy))
         end
 
-        self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, self.shadowValue, self.lScale or 1)
+        self.instancemesh:setVertex(self.vertId, x, y, self:inferZ(), qx, qy, qw, qh, self.shadowValue, self.lScale or 1)
     end
+end
+
+function Object:onVertChange(oldVert, newVert)
+    local cx, cy = self.cx, self.cy
+    self.previousVertId = oldVert
+    self.vertId = newVert
+    local instancemesh = _G.state.objectMesh[cx][cy]
+    local x, y, z, qx, qy, qw, qh, sv, sx, pl = instancemesh:getVertex(oldVert)
+    instancemesh:setVertex(newVert, x, y, z, qx, qy, qw, qh, sv, sx, pl)
+    instancemesh:setVertex(oldVert)
+end
+
+function Object:inferZ()
+    local elevationOffsetY = 0
+    if _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] then
+        elevationOffsetY = _G.state.map.heightmap[self.cx][self.cy][self.i][self.o]
+    end
+    return (math.round(self.gx) * 0.5 + math.round(self.gy) + (((elevationOffsetY + 1) / 90))) / 3081
 end
 
 function Object:renderAlias()
@@ -101,7 +119,7 @@ function Object:renderAlias()
         local x, y = self.x + (self.offsetX or 0) + offsetX, self.y + (self.offsetY or 0) + offsetY - elevationOffsetY
         local qx, qy, qw, qh = self.tile:getViewport()
         local cx, cy, xx, yy = _G.getLocalCoordinatesFromGlobal(self.gx - 1, self.gy - 1)
-        local newVert = _G.getFreeVertexFromTile(cx, cy, xx, yy, true)
+        local newVert = _G.getFreeVertexFromTile(cx, cy, self)
         if newVert ~= false then
             self.vertId = newVert
             self.lastI, self.lastO = self.i, self.o
@@ -112,7 +130,19 @@ function Object:renderAlias()
             return
         end
         self.instancemesh = _G.state.objectMesh[self.cx][self.cy]
-        self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, self.shadowValue, self.lScale or 1)
+        self.instancemesh:setVertex(self.vertId, x, y, self:inferZ(), qx, qy, qw, qh, self.shadowValue, self.lScale or 1)
+    end
+end
+
+function Object:usePallete(number, classNameOverride)
+    local classname = classNameOverride or self.class.name
+    number = tostring(number)
+    if _G.colortables[classname] and _G.colortables[classname][number] then
+        self.pallete = _G.ctables[_G.colortables[classname][number]] + 1
+        self.palleteNumber = number
+        self.palleteOverride = classNameOverride
+    else
+        error("pallete number not found")
     end
 end
 
@@ -138,7 +168,7 @@ function Object:updateVertex()
         local x, y = self.x + (self.offsetX or 0) + offsetX, self.y + (self.offsetY or 0) + offsetY - elevationOffsetY
         local qx, qy, qw, qh = self.tile:getViewport()
         self.instancemesh = _G.state.objectMesh[self.cx][self.cy]
-        self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, self.shadowValue, self.lScale or 1)
+        self.instancemesh:setVertex(self.vertId, x, y, self:inferZ(), qx, qy, qw, qh, self.shadowValue, self.lScale or 1)
     end
 end
 
@@ -174,6 +204,8 @@ function Object:serialize()
     data.y = self.y
     data.gx = self.gx
     data.gy = self.gy
+    data.palleteNumber = self.palleteNumber
+    data.palleteOverride = self.palleteOverride
     data.type = self.type
     data.shadowValue = self.shadowValue
     data.toBeDeleted = self.toBeDeleted
@@ -254,6 +286,9 @@ function Object.static.deserialize(self, load)
         if k ~= "id" then
             self[k] = v
         end
+    end
+    if self.palleteNumber then
+        self:usePallete(self.palleteNumber, self.palleteOverride)
     end
 end
 

@@ -59,6 +59,7 @@ local Chicken = _G.class('Chicken', Unit)
 
 function Chicken:initialize(gx, gy, type, anchor)
     Unit.initialize(self, gx, gy, type)
+    self:usePallete(1)
     self.state = "Idle"
     self.waitTimer = 0
     self.offsetY = -10

@@ -13,6 +13,12 @@ local Events = require("objects.Enums.Events")
 local showPaths = false
 console.addCommand("togglePaths", function() showPaths = not showPaths end, "Show units paths")
 
+_G.colortables = {}
+_G.ctables = {}
+local contiguousColortables = {}
+local colortableCounter = 0
+local loadedFarmerColortables = false
+
 function _G.recursiveLoadModules(folder, fileTree, modules)
     modules = modules or {}
     local filesTable = love.filesystem.getDirectoryItems(folder)
@@ -25,6 +31,28 @@ function _G.recursiveLoadModules(folder, fileTree, modules)
                 if extension == ".lua" then
                     local filename = file:gsub("%.lua", "")
                     local filename = filename:gsub("/", ".")
+                    if string.find(file, "/Units/") or string.find(file, "Environment/") then
+                        local className = string.match(filename, "%.([^.]+)$")
+                        if string.find(className, "Farmer") and not loadedFarmerColortables then
+                            className = "Farmer"
+                            loadedFarmerColortables = true
+                        end
+                        local folderPath = "colortables/" .. className
+                        local classColortables = {}
+                        if love.filesystem.getInfo(folderPath, "directory") then
+                            for _, file in ipairs(love.filesystem.getDirectoryItems(folderPath)) do
+                                local number = string.match(file, "^ColorTable(%d+)%.png$")
+                                if number then
+                                    local filePath = folderPath .. "/" .. file
+                                    classColortables[number] = love.image.newImageData(filePath)
+                                    ctables[classColortables[number]] = colortableCounter
+                                    colortableCounter = colortableCounter + 1
+                                    contiguousColortables[colortableCounter] = classColortables[number]
+                                end
+                            end
+                        end
+                        colortables[className] = classColortables
+                    end
                     modules[filename] = require(filename)
                 end
             elseif info.type == "directory" then
@@ -38,6 +66,7 @@ end
 _G.recursiveLoadModules("objects/Units", "")
 _G.recursiveLoadModules("objects/Structures", "")
 _G.recursiveLoadModules("objects/Environment", "")
+local colortableVolume = love.graphics.newVolumeImage(contiguousColortables)
 
 local PineTree = require("objects.Environment.PineTree")
 local Shrub = require("objects.Environment.Shrub")
@@ -518,7 +547,11 @@ function _G.genObjects(cx, cy)
     end
 end
 
-local shader = love.graphics.newShader("shaders/main.glsl")
+local shader
+if not _G.testMode then
+    shader = love.graphics.newShader("shaders/main.glsl")
+    shader:send("colortables", colortableVolume)
+end
 local function drawObject()
     local tileStartX, tileStartY, tileEndX, tileEndY = _G.state.topLeftChunkX - 1, _G.state.topLeftChunkY,
         _G.state.bottomRightChunkX + 1, _G.state.bottomRightChunkY
@@ -529,6 +562,7 @@ local function drawObject()
     local firstColumn = math.min(tileStartX - tileStartY, tileEndX - tileEndY)
     local lastColumn = math.max(tileStartX - tileStartY, tileEndX - tileEndY)
 
+    love.graphics.setDepthMode("greater", true)
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.setShader(shader)
     for row = firstRow, lastRow do
@@ -536,7 +570,7 @@ local function drawObject()
         for column = firstColumn + shift, lastColumn, 2 do
             local xx, yy = bit.rshift(row + column, 1), bit.rshift(row - column, 1)
             if _G.state.objectBatch[xx][yy] ~= nil then
-                love.graphics.drawInstanced(_G.state.objectBatch[xx][yy], _G.state.objectMesh[xx][yy]:getVertexCount(),
+                love.graphics.drawInstanced(_G.state.objectBatch[xx][yy], #_G.state.vertexKeeper[xx][yy].data + 1,
                     -_G.state.viewXview * _G.state.scaleX +
                     (xx * _G.state.scaleX - yy * _G.state.scaleX) * chunkWidth *
                     tileWidth * 0.5, -_G.state.viewYview * _G.state.scaleX +
@@ -545,8 +579,10 @@ local function drawObject()
             end
         end
     end
+
     love.graphics.setShader()
     love.graphics.setColor(1, 1, 1, 1)
+    love.graphics.setDepthMode()
 
     if showPaths then
         for _, obj in ipairs(_G.state.activeEntities) do

@@ -88,6 +88,7 @@ local Miller = _G.class('Miller', Worker)
 
 function Miller:initialize(gx, gy, type)
     Worker.initialize(self, gx, gy, type)
+    self:usePallete(2)
     self.state = 'Find a job'
     self.waitTimer = 0
     self.offsetY = -10

@@ -188,6 +188,7 @@ local DIAGONAL_RUN_SPEED = math.floor(DIAGONAL_CARRY_SPEED * 2.5)
 local Hunter = _G.class('Hunter', Worker)
 function Hunter:initialize(gx, gy, type)
     Worker.initialize(self, gx, gy, type)
+    self:usePallete(2)
     self.workplace = nil
     self.state = 'Find a job'
     self.count = 1

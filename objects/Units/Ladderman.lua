@@ -9,6 +9,7 @@ local Ladderman = _G.class("Ladderman", Soldier)
 
 function Ladderman:initialize(gx, gy)
     Soldier.initialize(self, gx, gy, "Ladderman")
+    self:usePallete(2)
     self.state = "Go to guild"
     self.count = 1
     self.offsetY = -60

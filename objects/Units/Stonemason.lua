@@ -58,6 +58,7 @@ local Stonemason = _G.class("Stonemason", Worker)
 Stonemason.static.animations = an
 function Stonemason:initialize(gx, gy, type)
     Worker.initialize(self, gx, gy, type)
+    self:usePallete(2, "Stonemason") -- explicit due to the OxHandler inheriting this class
     self.workplace = nil
     self.state = "Find a job"
     self.count = 1

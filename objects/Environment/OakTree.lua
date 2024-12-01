@@ -3,7 +3,7 @@ local tileQuads = require("objects.object_quads")
 local anim = require("libraries.anim8")
 local indexQuads = _G.indexQuads
 
-local frDeadStatic = {tileQuads["tree_oak_dead (1)"]}
+local frDeadStatic = { tileQuads["tree_oak_dead (1)"] }
 
 local frStatic = indexQuads("tree_oak_large", 25, nil, true)
 local frFalling = indexQuads("tree_oak_large_falling", 7)
@@ -31,6 +31,7 @@ function OakTree:initialize(gx, gy, type)
     self.trunkTile = tileQuads["tree_oak_trunk (1)"]
     self.trunkOffsetY = -166 + 10
     self.trunkOffsetX = -41 - 20
+    self:usePallete(math.random(1, 10))
 
     if type == "Oak tree" then
         self.health = 10

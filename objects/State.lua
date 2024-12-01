@@ -4,6 +4,8 @@ local SaveManager = require("objects.Controllers.SaveManager")
 local FOOD = require("objects.Enums.Food")
 local WEAPON = require("objects.Enums.Weapon")
 local warningTooltip = require("states.ui.warning_tooltip")
+local TileKeeper = require("objects.Controllers.TileKeeper")
+local CompactArray = require("libraries.compact_array")
 
 ---@class State
 ---@field new fun():State
@@ -94,6 +96,21 @@ function State:initialize()
     self.hopsGrowingSeason = false
     self.keepX = 0
     self.keepY = 0
+
+    self.vertexKeeper = {}
+    self.tileKeeper = {}
+    self.cliffKeeper = {}
+    for i = 0, _G.chunksWide - 1 do
+        self.vertexKeeper[i] = {}
+        self.tileKeeper[i] = {}
+        self.cliffKeeper[i] = {}
+        for o = 0, _G.chunksHigh - 1 do
+            self.vertexKeeper[i][o] = CompactArray:new(i, o)
+            self.tileKeeper[i][o] = TileKeeper:new(i, o, self.vertexKeeper[i][o])
+            self.cliffKeeper[i][o] = TileKeeper:new(i, o, self.vertexKeeper[i][o])
+        end
+    end
+
     self:allocateMeshes()
     local Terrain = require("terrain.terrain")
     self.Terrain = Terrain:new(self)
@@ -154,6 +171,20 @@ function State:destroy()
     _G.stockpile:initialize()  --stockpileController
     _G.foodpile:initialize()   -- foodController
     _G.weaponpile:initialize() --WeaponController
+
+    self.vertexKeeper = {}
+    self.tileKeeper = {}
+    self.cliffKeeper = {}
+    for i = 0, _G.chunksWide - 1 do
+        self.vertexKeeper[i] = {}
+        self.tileKeeper[i] = {}
+        self.cliffKeeper[i] = {}
+        for o = 0, _G.chunksHigh - 1 do
+            self.vertexKeeper[i][o] = CompactArray:new(i, o)
+            self.tileKeeper[i][o] = TileKeeper:new(i, o, self.vertexKeeper[i][o])
+            self.cliffKeeper[i][o] = TileKeeper:new(i, o, self.vertexKeeper[i][o])
+        end
+    end
     collectgarbage()
 end
 
@@ -169,14 +200,18 @@ end
 function State:allocateMesh(cx, cy)
     local chunkX = cx
     local chunkY = cy
-    local treeverts = { { 0, 0, 0, 0, 1.0, 1.0, 1.0, 1.0, 1.0 }, { 1, 0, 1, 0, 1.0, 1.0, 1.0, 1.0, 1.0 },
-        { 0, 1, 0, 1, 1.0, 1.0, 1.0, 1.0, 1.0 }, { 1, 1, 1, 1, 1.0, 1.0, 1.0, 1.0, 1.0 } }
+    local treeverts = {
+        { 0, 0, 0, 0, 1.0, 1.0, 1.0, 1.0, 1.0 },
+        { 1, 0, 1, 0, 1.0, 1.0, 1.0, 1.0, 1.0 },
+        { 0, 1, 0, 1, 1.0, 1.0, 1.0, 1.0, 1.0 },
+        { 1, 1, 1, 1, 1.0, 1.0, 1.0, 1.0, 1.0 }
+    }
     if self.objectBatch[chunkX][chunkY] == nil then
         self.objectBatch[chunkX][chunkY] = love.graphics.newMesh(treeverts, "strip", "static")
     end
-    local instancemesh = love.graphics.newMesh({ { "InstancePosition", "float", 2 }, { "UVOffset", "float", 2 },
+    local instancemesh = love.graphics.newMesh({ { "InstancePosition", "float", 3 }, { "UVOffset", "float", 2 },
             { "ImageDim",         "float", 2 }, { "ImageShade", "float", 1 },
-            { "Scale", "float", 2 } },
+            { "Scale", "float", 2 }, { "Pallete", "float", 1 } },
         _G.chunkWidth * _G.chunkHeight * self.verticesPerTile + 1000, nil, "dynamic")
     self.objectMesh[chunkX][chunkY] = instancemesh
     self.objectBatch[chunkX][chunkY]:setTexture(objectAtlas)
@@ -185,6 +220,7 @@ function State:allocateMesh(cx, cy)
     self.objectBatch[chunkX][chunkY]:attachAttribute("ImageDim", instancemesh, "perinstance")
     self.objectBatch[chunkX][chunkY]:attachAttribute("ImageShade", instancemesh, "perinstance")
     self.objectBatch[chunkX][chunkY]:attachAttribute("Scale", instancemesh, "perinstance")
+    self.objectBatch[chunkX][chunkY]:attachAttribute("Pallete", instancemesh, "perinstance")
 end
 
 function State:save()

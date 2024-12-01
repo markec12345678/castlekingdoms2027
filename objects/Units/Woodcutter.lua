@@ -92,6 +92,7 @@ local an = {
 local Woodcutter = _G.class('Woodcutter', Worker)
 function Woodcutter:initialize(gx, gy, type)
     Worker.initialize(self, gx, gy, type)
+    self:usePallete(2)
     local anSpd = 0.05
     self.workplace = nil
     self.anWalkingPlankWest = anim.newAnimation(an[AN_WALKING_PLANK_WEST], anSpd, nil, AN_WALKING_PLANK_WEST)

@@ -9,6 +9,7 @@ local Engineer = _G.class("Engineer", Soldier)
 
 function Engineer:initialize(gx, gy)
     Soldier.initialize(self, gx, gy, "Engineer")
+    self:usePallete(2)
     self.state = "Go to guild"
     self.count = 1
     self.offsetY = -10

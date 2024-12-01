@@ -17,6 +17,13 @@ function Archer:initialize(gx, gy)
     self.offsetY = -10
     self.offsetX = -6
     self.animated = true
+    self.timer = 1
+    if love.keyboard.isDown(",") then
+        self:usePallete(3)
+    else
+        self:usePallete(2)
+    end
+    self.targeted = false
 end
 
 function Archer:load(data)
@@ -33,6 +40,75 @@ end
 function Archer:dirSubUpdate()
     local walkAnimationName = "body_archer_walk"
     self.animation = self:getDirectionalAnimation(an, walkAnimationName, 0.08, nil, self.moveDir)
+end
+
+function Archer:getClosestAvailableEnemyArchers()
+    -- TODO: this is just to test enemy projectiles, remove later
+    if self.selectedTarget and self.selectedTarget.health > 0 then return self.selectedTarget end
+    for idx, obj in ipairs(_G.state.activeEntities) do
+        if obj.class.isSubclassOf and obj.class:isSubclassOf(Soldier) and obj.targeted == false then
+            if self.pallete ~= obj.pallete then
+                obj.targeted = true
+                return obj
+            end
+        end
+    end
+end
+
+local hunterFx = {
+    ["shoot"] = { _G.fx["arrowshoot1 22k"] },
+    ["hit"] = { _G.fx["arrowbasic_01"], _G.fx["arrowbasic_02"] }
+}
+
+
+function Archer:update()
+    if self.timer > 0 then
+        self.timer = self.timer + _G.dt
+        if self.timer > 4 then
+            self:findDeer()
+        end
+    end
+    Soldier.update(self)
+end
+
+function Archer:damage()
+    self.health = self.health - 10
+    if self.health < 10 then self.health = 10 end
+end
+
+function Archer:findDeer()
+    local selectedDeer = self:getClosestAvailableEnemyArchers()
+    if not selectedDeer then
+        self.timer = 0.1
+        return
+    end
+    self.selectedTarget = selectedDeer
+
+    _G.playSfx(self, hunterFx["shoot"])
+    local tx, ty = math.round(selectedDeer.gx), math.round(selectedDeer.gy)
+    self.timer = 0.1
+    _G.ArrowController:shootArrow(self, tx, ty, function()
+        selectedDeer:damage()
+        _G.playSfx(selectedDeer, hunterFx["hit"])
+        self.timer = 0.1
+    end)
+
+
+    -- self.targetDeer = selectedDeer
+    -- self.targetDeer:waitForHunter()
+    -- self.endx = selectedDeer.gx
+    -- self.endy = selectedDeer.gy + 1
+    -- if self.endx == self.gx and self.endy == self.gy then
+    --     self.state = "Collecting deer"
+    --     self:clearPath()
+    --     self:collectDeer()
+    --     return
+    -- else
+    --     self.state = "Walking to deer"
+    --     self:setMovementSpeed("walk")
+    --     self:requestPath(self.endx, self.endy, function() self:onNoAvailableDeer() end)
+    --     return
+    -- end
 end
 
 function Archer:serialize()

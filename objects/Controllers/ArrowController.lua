@@ -39,10 +39,13 @@ function Arrow:getHorizontalSpriteIndex()
     return (val % 16) + 1
 end
 
-function Arrow:getVerticalSpriteIndex()
+function Arrow:getVerticalSpriteIndex(reverse)
     -- we have 9 sprites, so that leaves us at about 20 degrees per sprite
     -- vertical angle is from -90 to +90
     local verticalAngle = math.deg(self.arrowAngle)
+    if reverse then
+        verticalAngle = -verticalAngle / 2
+    end
     if verticalAngle > -10 and verticalAngle <= 10 then
         return 5
     end
@@ -157,10 +160,12 @@ function ArrowController:draw()
         local elevationOffsetY = (_G.state.map.heightmap[cx][cy][xx][yy] or 0) * 2
         -- render arrow itself
         love.graphics.setColor(1, 1, 1, 1)
-        love.graphics.draw(images[proj:getHorizontalSpriteIndex()][proj:getVerticalSpriteIndex()], fx - 27, fy - 27 + (-proj.altitude) * _G.state.scaleX)
+        love.graphics.draw(images[proj:getHorizontalSpriteIndex()][proj:getVerticalSpriteIndex()], fx - 27 * _G.state.scaleX, fy - 27 * _G.state.scaleX + (-proj.altitude) * _G.state.scaleX, nil,
+            _G.state.scaleX + 0.2)
         -- render arrow shadow
         love.graphics.setColor(0, 0, 0, 0.7)
-        love.graphics.draw(images[proj:getHorizontalSpriteIndex()][5], sfx - 27, sfy - 27 + (elevationOffsetY * _G.state.scaleX) * _G.state.scaleX)
+        love.graphics.draw(images[proj:getHorizontalSpriteIndex()][proj:getVerticalSpriteIndex(true)], sfx - 27 * _G.state.scaleX, sfy - 27 * _G.state.scaleX + elevationOffsetY * _G.state.scaleX, nil,
+            _G.state.scaleX)
         love.graphics.setColor(1, 1, 1, 1)
     end
 end

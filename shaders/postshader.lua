@@ -21,7 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ]]
-   -- Edited to only include tiltshift
+-- Edited to only include tiltshift
 if _G.testMode then return end
 LOVE_POSTSHADER_BUFFER_RENDER = love.graphics.newCanvas()
 LOVE_POSTSHADER_BUFFER_BACK_SWITCH = love.graphics.newCanvas()
@@ -38,9 +38,10 @@ love.postshader.setBuffer = function(path)
     if path == "back" then
         love.graphics.setCanvas(LOVE_POSTSHADER_BUFFER_BACK)
     else
-        love.graphics.setCanvas(LOVE_POSTSHADER_BUFFER_RENDER)
+        love.graphics.setCanvas({ LOVE_POSTSHADER_BUFFER_RENDER, depth = true })
     end
-    love.graphics.clear()
+    local r, g, b, a = love.graphics.getBackgroundColor()
+    love.graphics.clear(r, g, b, a, false, 0)
     LOVE_POSTSHADER_LAST_BUFFER = love.graphics.getCanvas()
 end
 

@@ -62,6 +62,7 @@ local an = {
 local OrchardFarmer = _G.class('OrchardFarmer', Worker)
 function OrchardFarmer:initialize(gx, gy, type)
     Worker.initialize(self, gx, gy, type)
+    self:usePallete(2, "Farmer")
     self.workplace = nil
     self.state = 'Find a job'
     self.count = 1

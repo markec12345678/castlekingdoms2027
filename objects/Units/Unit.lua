@@ -27,6 +27,7 @@ function Unit:initialize(gx, gy, type)
     self.originaly = self.gy
     self.nd = {}
     self.path = 0
+    self.pallete = 0
     self.pathState = "none"
     self.waitingForPathMaxTime = 30
     self.moveDir = "none"
@@ -147,23 +148,6 @@ function Unit:animate()
     end
     local changedTiles = self.i ~= self.lastI or self.o ~= self.lastO or self.needNewVertAsap
     updated = updated or changedTiles
-    if self.instancemesh then
-        if changedTiles then
-            _G.freeVertexFromTile(self.cx, self.cy, self.vertId)
-            self.vertId = nil
-            self.instancemesh = nil
-            local newVert = _G.getFreeVertexFromTile(self.cx, self.cy, self.i, self.o)
-            if newVert ~= false then
-                self.needNewVertAsap = false
-                self.vertId = newVert
-                self.lastI, self.lastO = self.i, self.o
-                updated = true
-            else
-                self.needNewVertAsap = true
-                -- print("didn't receive new vert 1", self, self.vertId)
-            end
-        end
-    end
     self.previousFx, self.previousFy = self.fx, self.fy
     updated = updated or ((self.previousFx ~= self.fx or self.previousFy ~= self.fy) and Object.isVisibleOnScreen(self))
     if self.instancemesh and self.animation and updated and self.vertId then
@@ -193,7 +177,7 @@ function Unit:animate()
         else
             shadowValue = 0
         end
-        self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, 1 - shadowValue / 1.5)
+        self.instancemesh:setVertex(self.vertId, x, y, self:inferZ(), qx, qy, qw, qh, 1 - shadowValue / 1.5, 1, 1, self.pallete or 0)
         return
     end
     if not self.instancemesh and _G.state.objectMesh then
@@ -218,7 +202,7 @@ function Unit:animate()
             _G.freeVertexFromTile(self.cx, self.cy, self.vertId)
             self.vertId = nil
         end
-        local newVert = _G.getFreeVertexFromTile(self.cx, self.cy, self.i, self.o)
+        local newVert = _G.getFreeVertexFromTile(self.cx, self.cy, self)
         if newVert then
             self.needNewVertAsap = false
             self.vertId = newVert
@@ -230,11 +214,10 @@ function Unit:animate()
             else
                 shadowValue = 0
             end
-            self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, 1 - shadowValue / 1.5)
+            self.instancemesh:setVertex(self.vertId, x, y, self:inferZ(), qx, qy, qw, qh, 1 - shadowValue / 1.5, 1, 1, self.pallete or 0)
             self.hasAnimation = true
         else
             self.needNewVertAsap = true
-            -- print("didn't receive new vert 2")
         end
     end
 end
@@ -502,6 +485,17 @@ function Unit:updateDirection()
     self.previousDir = self.moveDir
 end
 
+function Unit:inferZ()
+    -- memoize later if possible
+    local elevationOffsetY = 0
+    if _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] then
+        elevationOffsetY = _G.state.map.heightmap[self.cx][self.cy][self.i][self.o] * 2
+    end
+    -- (i + o + (elevation / 90)) / 138
+    return (math.round(self.gx) * 0.5 + math.round(self.gy) + (((elevationOffsetY + 1) / 90))) / 3081
+    -- return (self.i * 0.5 + self.o + ((elevationOffsetY / 90) + 1)) / 74
+end
+
 function Unit:updatePosition()
     self.previousCx, self.previousCy = self.cx, self.cy
     self.gx, self.gy = self.fx * 0.001, self.fy * 0.001
@@ -529,7 +523,7 @@ function Unit:updatePosition()
                 self.x + (self.offsetX or 0) + _G.offsetX, self.y + (self.offsetY or 0) + _G.offsetY -
                 _G.state.map.walkingHeightmap[math.floor(self.gx)][math.floor(self.gy)])
             local qx, qy, qw, qh = quad:getViewport()
-            local newVert = _G.getFreeVertexFromTile(self.cx, self.cy, self.i, self.o)
+            local newVert = _G.getFreeVertexFromTile(self.cx, self.cy, self)
             if newVert then
                 self.vertId = newVert
                 self.needNewVertAsap = false
@@ -543,7 +537,7 @@ function Unit:updatePosition()
                 else
                     shadowValue = 0
                 end
-                self.instancemesh:setVertex(self.vertId, x, y, qx, qy, qw, qh, 1 - shadowValue / 1.5)
+                self.instancemesh:setVertex(self.vertId, x, y, self:inferZ(), qx, qy, qw, qh, 1 - shadowValue / 1.5, 1, 1, self.pallete or 0)
                 self.hasAnimation = true
             else
                 -- print("didn't receive new vert 3")
@@ -568,9 +562,6 @@ function Unit:updatePosition()
         self.originalx = newGX
         self.originaly = newGY
         self:updateDirection()
-
-
-        self.needNewVertAsap = true
     end
     self:calculatePosition()
 end
