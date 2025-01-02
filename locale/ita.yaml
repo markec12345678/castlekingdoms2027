@@ -119,13 +119,13 @@ buildings:
     description: Un edificio che permette di reclutare scavatori.
   chapel:
     name: Cappella
-    description: Increase your popularity with religion.
+    description: Aumenta la tua popolarità con la religione.
   church:
     name: Chiesa
-    description: Increase your popularity with religion.
+    description: Aumenta la tua popolarità con la religione.
   cathedral:
     name: Cattedrale
-    description: Increase your popularity with religion and train warrior monks.
+    description: Aumenta la tua popolarità con la religione e addestra monaci guerrieri.
   apothecary:
     name: Speziale
     description: Attualmente non funzionale.
@@ -265,7 +265,7 @@ freebuild:
   grasslands:
     name: Praterie
     description: |
-      Empty grasslands. Used for testing due to fast load times.
+      Terreni erbosi vuoti. Utilizzata per testare grazie ai veloci tempi di caricamento.
 rations:
   no:
     name: Nessuna Razione
@@ -310,18 +310,18 @@ popularityText:
   crowding: Affollamento
   religion: Religione
   aleCoverage: Fornitura di Birra
-  blessingCoverage: Ratio of blessed buildings
+  blessingCoverage: Rapporto degli edifici benedetti
   enclosedKeep: Fortezza Chiusa
   openKeep: Fortezza Aperta
   popularity: Popolarità
   inTheComingMonth: "Nel prossimo mese"
   typesOfFoodConsumed: "%d tipi di cibo consumato"
   foodInGranary: "%d unità di cibo nel granaio"
-  aleInInn: "%d jugs in inn"
-  nextAleBonus: "More bonus at %d%% coverage"
-  maximumAleBonus: "Maximum bonus reached"
-  nextBlessingBonus: "More bonus at %d%% coverage"
-  maximumBlessingBonus: "Maximum bonus reached"
+  aleInInn: "%d brocche nella locanda"
+  nextAleBonus: "Più bonus alla copertura del %d%%"
+  maximumAleBonus: "Bonus massimo raggiunto"
+  nextBlessingBonus: "Più bonus alla copertura del %d%%"
+  maximumBlessingBonus: "Massimo bonus raggiunto"
 settings:
   categories:
     sound:
@@ -416,16 +416,16 @@ tips:
     structuresInTheWay: Ci sono strutture nell'area!
     needArmoury: Hai bisogno di un'armeria per costruirlo!
     closeToQuarry: Deve essere posizionato vicino a una cava esistente!
-    keepCloseToEdgeOfMap: Too close to the edge of the map!
+    keepCloseToEdgeOfMap: Troppo vicino al bordo della mappa!
 ui:
   global:
-    start: Start
+    start: Inizia
   mainMenu:
     freebuild: Costruzione Libera
     campaign: Campagna
     load: Carica
-    save: Save
-    resume: Resume
+    save: Salva
+    resume: Riprendi
     options: Opzioni
     exit: Esci
   campaign:

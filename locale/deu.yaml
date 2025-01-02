@@ -117,13 +117,13 @@ buildings:
     description: Ein Gebäude, das euch ermöglicht Tunnelbauer zu rekrutieren.
   chapel:
     name: Kapelle
-    description: Increase your popularity with religion.
+    description: Steigert eure Beliebtheit durch Religion.
   church:
     name: Kirche
-    description: Increase your popularity with religion.
+    description: Steigert eure Beliebtheit durch Religion.
   cathedral:
     name: Kathedrale
-    description: Increase your popularity with religion and train warrior monks.
+    description: Steigert eure Beliebtheit durch Religion und ermöglicht euch Kriegermönche auszubilden.
   apothecary:
     name: Apotheke
     description: Derzeit nicht funktional.
@@ -263,7 +263,7 @@ freebuild:
   grasslands:
     name: Grasflächen
     description: |
-      Empty grasslands. Used for testing due to fast load times.
+      Leeres Grasland. Wird aufgrund schneller Ladezeiten zum Testen verwendet.
 rations:
   no:
     name: Keine Rationen
@@ -308,18 +308,18 @@ popularityText:
   crowding: Bevölkerung
   religion: Religion
   aleCoverage: Bierversorgung
-  blessingCoverage: Ratio of blessed buildings
+  blessingCoverage: Anteil gesegneter Gebäude
   enclosedKeep: Festung abgeschlossen
   openKeep: Festung offen
   popularity: Beliebtheit
   inTheComingMonth: "Im kommenden Monat"
   typesOfFoodConsumed: "%d Arten von Nahrungsmitteln verbraucht"
   foodInGranary: "%d Nahrungseinheiten im Kornspeicher"
-  aleInInn: "%d jugs in inn"
-  nextAleBonus: "More bonus at %d%% coverage"
-  maximumAleBonus: "Maximum bonus reached"
-  nextBlessingBonus: "More bonus at %d%% coverage"
-  maximumBlessingBonus: "Maximum bonus reached"
+  aleInInn: "%d Krüge in der Schenke"
+  nextAleBonus: "Mehr Bonus bei %d%% Abdeckung"
+  maximumAleBonus: "Maximalen Bonus erreicht"
+  nextBlessingBonus: "Mehr Bonus bei %d%% Abdeckung"
+  maximumBlessingBonus: "Maximalen Bonus erreicht"
 settings:
   categories:
     sound:
@@ -414,7 +414,7 @@ tips:
     structuresInTheWay: Es sind Gebäude im Weg!
     needArmoury: Ihr benötigt eine Waffenkammer, um dies bauen zu können!
     closeToQuarry: Muss in die Nähe eines bestehenden Steinbruchs gebaut werden!
-    keepCloseToEdgeOfMap: Too close to the edge of the map!
+    keepCloseToEdgeOfMap: Zu nah am Rand der Karte!
 ui:
   global:
     start: Start
@@ -422,8 +422,8 @@ ui:
     freebuild: Freies Bauen
     campaign: Kampagne
     load: Laden
-    save: Save
-    resume: Resume
+    save: Speichern
+    resume: Fortsetzen
     options: Optionen
     exit: Verlassen
   campaign:
