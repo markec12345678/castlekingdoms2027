@@ -7,7 +7,6 @@ local patchy = require("libraries.patchy.patchy")
 ------------------------------------------------
 return function(loveframes)
     ---------- module start ----------
-
     -- skin table
     local skin = {}
 
@@ -44,7 +43,6 @@ return function(loveframes)
     skin.directives.text_title_color = skin.controls.color_tooltip_bright
     skin.directives.text_default_color = skin.controls.color_tooltip_dark
     local function ParseHeaderText(str, hx, hwidth, tx)
-        local font = love.graphics.getFont()
         local twidth = love.graphics.getFont():getWidth(str)
 
         if (tx + twidth) - hwidth / 2 > hx + hwidth then
@@ -142,7 +140,6 @@ return function(loveframes)
 
         if icon then
             local iconwidth = icon:getWidth()
-            local iconheight = icon:getHeight()
             -- icon:setFilter("nearest", "nearest")
             love.graphics.setColor(skin.controls.color_image)
             love.graphics.draw(icon, x + 5, y + 5)
@@ -165,6 +162,11 @@ return function(loveframes)
 	- desc: draws the button object
 --]]
     ---------------------------------------------------------
+    local bgpressed = patchy.load("assets/ui/button_pressed.9.png")
+    local bghover = patchy.load("assets/ui/button_hover.9.png")
+    local bgnormal = patchy.load("assets/ui/button.9.png")
+    local buttonHighlight = love.graphics.newImage('assets/ui/button-highlight.png')
+
 
     function skin.button(object)
         local skin = object:GetSkin()
@@ -237,17 +239,17 @@ return function(loveframes)
             skin.OutlinedRectangle(x, y, width, height)
         else
             if down or checked then
-                bg = patchy.load("assets/ui/button_pressed.9.png")
+                bg = bgpressed
                 back = skin.controls.color_fore0
                 fore = skin.controls.color_back0
                 border = skin.controls.color_fore2
             elseif hover then
-                bg = patchy.load("assets/ui/button_hover.9.png")
+                bg = bghover
                 back = skin.controls.color_active
                 fore = skin.controls.color_back0
                 border = skin.controls.color_fore1
             else
-                bg = patchy.load("assets/ui/button.9.png")
+                bg = bgnormal
                 back = skin.controls.color_back2
                 fore = color "B2835C" -- skin.controls.color_fore0
                 border = skin.controls.color_fore0
@@ -263,8 +265,6 @@ return function(loveframes)
             end
 
             if hover then
-                local buttonHighlight = love.graphics.newImage('assets/ui/button-highlight.png')
-
                 local scalex, scaley = (cw - 18) / buttonHighlight:getWidth(), buttonHighlight:getHeight() / height
                 love.graphics.draw(buttonHighlight, cx + 9, (cy + ch) - ((buttonHighlight:getHeight() / 2) + 9), 0, scalex, 1, 0, 0)
             end
