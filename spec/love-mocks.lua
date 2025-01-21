@@ -57,6 +57,7 @@ love.graphics = {
         return setmetatable({ ... }, Quadmt)
     end,
     newImage = function(filename)
+        if filename and filename.clone then return font end
         if type(filename) ~= "string" then error("love.graphics.newImage expects a string, but got a " .. filename) end
         local fileExists = love.filesystem.getInfo(filename)
         if not fileExists then error("trying to load file: " .. tostring(filename) .. " but it doesn't exist") end
@@ -184,7 +185,7 @@ love.graphics = {
 }
 
 love.window = {
-    getMode = function() return 1920, 1080, true end,
+    getMode = function() return 1920, 1080, { fullscreen = true, fullscreentype = "desktop", vsync = true, msaa = 2, resizable = true, borderless = true, centered = true, display = 2, srgb = false } end,
     setFullscreen = function() return end,
     getFullscreenModes = function(a) return { { width = 1920, height = 1080 } } end
 }
