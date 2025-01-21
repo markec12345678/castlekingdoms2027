@@ -1138,12 +1138,10 @@ function Terrain:getTerrainTileOnMouse(mx, my, ignoreElevation, ignoreStructureO
         local elevationOffsetY = (self.heightmap[cx][cy][i][o] or 0) * 2
         local t = self.terrainTile[cx][cy][i][o]
         local cyOffset = (cx + cy) * chunkHeight * tileHeight * 0.5
-        if not t or #t <= 0 then
-            t = { nil, _G.IsoX + (i - o) * tileWidth * 0.5, _G.IsoY + (i + o) * tileHeight * 0.5, 0, 1.06, 1.06 }
-        end
+        local tileIsoY = t and #t >= 3 and t[3] or _G.IsoY + (i + o) * tileHeight * 0.5
         local structureOffset = getStructureOffset(gx, gy)
         if ignoreStructureOffset then ignoreStructureOffset = 0 end
-        local recty = t[3] - elevationOffsetY + cyOffset + structureOffset
+        local recty = tileIsoY - elevationOffsetY + cyOffset + structureOffset
         if rMY >= recty then
             lastValidGx, lastValidGy = gx, gy
         end
