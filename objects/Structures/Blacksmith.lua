@@ -564,6 +564,7 @@ end
 
 function BlacksmithWorkshop:sendToArmoury()
     self:respawnWorker(self.worker, "Go to armoury")
+    self.worker.weaponType = self.weaponType
     self.working = false
     self.swordCrafting:deactivate()
     self.anvilCrafting:deactivate()
