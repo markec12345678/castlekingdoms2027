@@ -1,0 +1,465 @@
+mission1:
+  name: Drevo a Kameň
+  desc: |
+    V tejto misii sa budete musieť zamerať na zhromažďovanie zdrojov na rozvoj infraštruktúry vášho kráľovstva.
+Vaším cieľom je v priebehu nasledujúcich 5 rokov nazbierať 50 jednotiek dreva a 20 jednotiek kameňa.
+
+Na dosiahnutie tohto cieľa budete musieť vybudovať sieť drevorubačských chatrčí a lomov, aby ste tieto zdroje ťažili z okolitého prostredia.
+To môže zahŕňať výstavbu zásob na uskladnenie vašich zdrojov.
+mission2:
+  name: Preteky v zbrojení
+  desc: |
+    V tejto misii sa budete musieť zamerať na rozvoj silnej armády na obranu svojho kráľovstva pred potenciálnymi hrozbami.
+Vaším cieľom je v priebehu nasledujúcich 20 rokov vyrobiť 40 kusov lukov, oštepov, kyjakov a brnení.\n
+Aby ste to dosiahli, budete musieť vybudovať robustný kovospracujúci priemysel na výrobu vysokokvalitných zbraní a brnení.
+To môže zahŕňať výstavbu kováčov, dielní a baní, ako aj nábor zručných remeselníkov.\n
+Majte na pamäti, že váš úspech v tejto misii bude závisieť od vašej schopnosti vyvážiť svoje zdroje a uprednostniť svoje ciele.
+Budete musieť starostlivo spravovať svoje financie a robiť strategické rozhodnutia, aby ste zaistili bezpečnosť a ochranu svojho kráľovstva. Veľa šťastia!
+mission3:
+  name: Hostina alebo hladomor
+  desc: |
+    V tejto misii sa budete musieť zamerať na produkciu potravín, aby ste udržali svoju rastúcu populáciu. Vaším cieľom je v priebehu nasledujúcich 20 rokov vyprodukovať 250 jednotiek chleba, 100 jednotiek mäsa, 200 jednotiek syra a 250 jednotiek jabĺk.\n
+Na dosiahnutie tohto cieľa budete musieť vyvinúť robustný poľnohospodársky systém na pestovanie plodín a chov hospodárskych zvierat. To si bude vyžadovať výstavbu fariem, mlynov a pastvín, ako aj nábor kvalifikovaných pracovníkov.\n
+Okrem produkcie potravín budete musieť zvážiť aj skladovanie a distribúciu týchto zdrojov. To môže zahŕňať výstavbu sýpok a trhovísk na skladovanie a predaj vašich produktov.\n
+Majte na pamäti, že váš úspech v tejto misii bude závisieť od vašej schopnosti vyvážiť svoje zdroje a uprednostniť svoje ciele. Budete musieť starostlivo spravovať svoje financie a robiť strategické rozhodnutia, aby ste zabezpečili prosperitu svojho kráľovstva. Veľa šťastia!
+mission4:
+  name: Šťastie kráľovstva
+  desc: |
+    V tejto misii je vaším cieľom nahromadiť značné množstvo bohatstva získaním 5 000 jednotiek zlata.
+Na rozdiel od predchádzajúcich misií nie je tento cieľ časovo obmedzený, takže budete mať slobodu sledovať svoje ciele vlastným tempom.\n
+Na dosiahnutie tohto cieľa budete musieť vybudovať silnú ekonomiku budovaním a riadením dielní, investovaním do obchodu a komerčných činností a prijímaním strategických finančných rozhodnutí.\n
+Majte na pamäti, že váš úspech v tejto misii bude závisieť od vašej schopnosti rozumne investovať a starostlivo spravovať svoje financie.
+Budete musieť vyvážiť svoje zdroje a podstupovať premyslené riziká, aby ste zabezpečili prosperitu svojho kráľovstva. Veľa šťastia!
+mission5:
+  name: Viera v architektúre
+  desc: |
+    V tejto misii sa budete musieť zamerať na výstavbu veľkolepej katedrály, ktorá bude slúžiť ako ústredný bod náboženského a kultúrneho života vášho kráľovstva.
+Vaším cieľom je postaviť katedrálu v priebehu nasledujúcich 10 rokov.\n
+Majte na pamäti, že váš úspech v tejto misii bude závisieť od vašej schopnosti riadiť zložitý stavebný projekt a efektívne vyvážiť svoje zdroje.
+Budete musieť robiť strategické rozhodnutia a starostlivo si riadiť čas, aby ste zabezpečili dokončenie svojej katedrály v stanovenom časovom rámci. Veľa šťastia!
+groups:
+  castle:
+    name: Hrad
+    description: Hradby, veže, brány a všetko ostatné, čo potrebujete na obranu svojej pevnosti.
+  industry:
+    name: Priemysel
+    description: Vybudujte mocné priemyselné odvetvia, aby ste porazili svojich nepriateľov... alebo si naplnili vrecká.
+  apple:
+    name: Farmy
+    description: Produkovať základné poľnohospodárske produkty.
+  house:
+    name: Civilisti
+    description: Domy a vybavenie pre vašich občanov.
+  shield:
+    name: Vojenské
+    description: Zhromaždite mocné armády a postavte desivé obliehacie zbrane, aby ste rozdrvili svojich nepriateľov.
+  sickle:
+    name: Výroba potravín
+    description: Premeňte základné poľnohospodárske produkty na vysoko kvalitný tovar.
+  destroy:
+    name: Zbúranie
+    description: Vstúpte do režimu demolácie. Kliknite na budovu, ktorú chcete zničiť.
+    exitTooltip: Ukončiť režim demolácie
+  houses:
+    name: Domy
+    description: Domy na zvýšenie vášho populačného limitu.
+  goodThings:
+    name: Good things
+    description: Záhrady, sochy a zábava na zvýšenie vašej popularity.
+buildings:
+  hunterHut:
+    name: Poľovnícka chatrč
+    description: Loví jelene v prostredí kvôli mäsu.
+  granary:
+    name: Sýpka
+    description: Sýpka je miesto, kde uchovávate potravinové zásoby svojho kráľovstva.
+  orchard:
+    name: Jablkový Sad
+    description: Produkuje jablká.
+  wheatFarm:
+    name: Pšeničná farma
+    description: Produkuje pšenicu, ktorú možno spracovať na múku.
+  dairyFarm:
+    name: Mliečna farma
+    description: Vyrába syr.
+  hopsFarm:
+    name: Chmeľová farma
+    description: Produkuje chmeľ, ktorý sa dá spracovať na pivo.
+  castle:
+    name: Saská Sála
+    description: Vaša saská sála je stredom vášho hradu.
+  stockpile:
+    name: Zásoby
+    description: |
+      Zvyšuje kapacitu zdrojov.\nMusí byť umiestnené vedľa zásob.
+  woodenKeep:
+    name: Drevená Veža
+    description: Vylepšite si svoju saskú sieň na drevenú vežu
+  keep:
+    name: Veža
+    description: Vylepšite si drevenú vežu na kamennú vežu
+  fortress:
+    name: Pevnosť
+    description: Vylepšite si kamennú tvrz na pevnosť
+  stronghold:
+    name: Pevnosť
+    description: Vylepšite svoju pevnosť na lepšiu pevnosť(zatiaľ nie je podporované)
+  barracks:
+    name: Kasárne
+    description: Budova, ktorá umožňuje verbovať jednotky.
+  stoneBarracks:
+    name: Kamenné kasárne
+    description: Budova, ktorá umožňuje verbovať jednotky.
+  engineersGuild:
+    name: Cech inžinierov
+    description: Budova, ktorá umožňuje verbovať obliehacie jednotky.
+  tunnelersGuild:
+    name: Tunelársky Cech
+    description: Budova, ktorá umožňuje verbovať tunelárov.
+  chapel:
+    name: Kaplnka
+    description: Zvýšte si popularitu pomocou náboženstva.
+  church:
+    name: Kostol
+    description: Zvýšte si popularitu pomocou náboženstva.
+  cathedral:
+    name: Katedrála
+    description: Zvýšte si popularitu v náboženstve a vycvičte si bojovných mníchov.
+  apothecary:
+    name: Lekárnik
+    description: Momentálne nefunkčné.
+  woodcutter:
+    name: Drevorubačská chata
+    description: Vyrúbe blízke stromy na výrobu dreveného materiálu.
+  ironMine:
+    name: Štôlňa
+    description: Vyrába železné ingoty z mletej železnej rudy.
+  market:
+    name: Trhovisko
+    description: Umožňuje vám obchodovať s vaším tovarom.
+  ox:
+    name: Stanovište pre prepravu.
+    description: Preprava kameňa z lomu do skladu.
+  quarry:
+    name: Kameňolom
+    description: Vyrába kamenné bloky z pozemných surovín (kameňa).
+  armoury:
+    name: Zbrojnica
+    description: Tu sa skladujú zbrane a brnenie, ktoré používajú vojaci z kasární pri nábore.
+  fletcher:
+    name: Dielňa na kuše a luky
+    description: Vyrába luky a kuše z dreva.
+  poleturner:
+    name: Dielňa na Nástroje
+    description: Vyrába oštepy a píky z dreva.
+  blacksmith:
+    name: Kováčska Dielňa
+    description: Vyrába meče a kyjaky zo železa.
+  armorer:
+    name: Zbrojár
+    description: Vyrába brnenie zo železa.
+  windmill:
+    name: Veterný mlyn
+    description: Spracováva pšenicu na múku.
+  bakery:
+    name: Pekáreň
+    description: Spracováva múku na chlieb.
+  brewery:
+    name: Pivovar
+    description: Spracováva chmeľ na pivo.
+  inn:
+    name: Hostinec
+    description: Rozdáva pivo.
+  pitchRig:
+    name: Roztečová plošina
+    description: Malá plošina na zber smoly z močiara.
+  perimeterTower:
+    name: Pozorovacia Vež
+    description: Malá obvodová veža - dobrá na pozorovanie.
+  defenseTower:
+    name: Obranná veža
+    description: Obranná veža postavená na obranu.
+  squareTower:
+    name: Štvorcová veža
+    description: Rozhodujúce pre váš hrad-na vrchol môžete umiestniť vojnové stroje.
+  roundTower:
+    name: Okrúhla Veža
+    description: Najsilnejšia veža - na vrchol môžete umiestniť vojnové stroje.
+  stoneGateSouth:
+    name: Kamenná brána Juh
+    description: Kamenná brána, ktorou môžu prejsť spriaznené jednotky.
+  stoneGateEast:
+    name: Kamenná brána východ
+    description: Kamenná brána, ktorou môžu prejsť spriaznené jednotky.
+  stoneGateEastBig:
+    name: Kamenná brána Veľký Východ
+    description: Silná kamenná brána, ktorou môžu prejsť spriaznené jednotky.
+  stoneGateSouthBig:
+    name: Kamenná brána Veľký Juh
+    description: Silná kamenná brána, ktorou môžu prejsť spriaznené jednotky.
+  walkableWoodenWall:
+    name: Pochôdzny drevený obranný múr
+    description: Bol vybudovaný obranný múr, po ktorom sa dá prejsť pešo.
+  woodenTower:
+    name: Drevená Veža
+    description: Drevená veža, ktorej zrejme chýbajú schody.
+  woodenGateEast:
+    name: Drevená Brána na Východ
+    description: Drevená brána, ktorou môžu prejsť spriaznené jednotky.
+  woodenGateSouth:
+    name: Drevená Brána na Juh
+    description: Drevená brána, ktorou môžu prejsť spriaznené jednotky.
+  woodenGateEastBig:
+    name: Veľká Drevená Brána na Východ
+    description: Drevená brána, ktorou môžu prejsť spriaznené jednotky.
+  woodenGateSouthBig:
+    name: Veľká Drevená Brána na Juh
+    description: Drevená brána, ktorou môžu prejsť spriaznené jednotky.
+  woodenPermimeterTower:
+    name: Drevená obvodová veža
+    description: Drevená veža, ktorej zrejme chýbajú schody.
+  woodenDefenseTower:
+    name: Drevená Obranná Veža
+    description: Drevená veža, ktorej zrejme chýbajú schody.
+  woodenWall:
+    name: Drevenné Opevnenie
+    description: Obranný múr vyrobený z naostrených kmeňov.
+  hovel:
+    name: Domček
+    description: Malá chatrč - poskytuje útočisko pre 4 osoby.
+  flat:
+    name: Byt
+    description: Malý, útulný byt - poskytuje útočisko pre 8 osôb.
+  residence:
+    name: Rezidencia
+    description: Pekný a elegantný dom - poskytuje útočisko 12 ľuďom.
+  bigResidence:
+    name: Veľký Dom
+    description: Veľký dom - poskytuje útočisko 16 ľuďom
+  maypole:
+    name: Maypole
+    description: Vysoká drevená tyč, okolo ktorej sa často koná májový tanec. Dočasne nedostupné.
+  smallPond:
+    name: Malý Rybník
+    description: Malý rybník.
+  largePond:
+    name: Veľký Rybník
+    description: Veľký rybník.
+  smallGarden:
+    name: Malá Záhrada.
+    description: Malá záhrada.
+  mediumGarden:
+    name: Stredne veľká Záhrada
+    description: Stredne veľká záhrada.
+  largeGarden:
+    name: LVeľká Záhrada
+    description: Veľká záhrada.
+  stable:
+    name: Stabilný
+    descriptin: Produkuje kone
+freebuild:
+  fernhaven:
+    name: Fernhaven
+    description: Postavte nový hrad na ruinách starobylého mesta.
+  grasslands:
+    name: Trávnaté porasty
+    description: |
+      Prázdne trávnaté porasty. Používa sa na testovanie kvôli rýchlemu načítaniu.
+rations:
+  no:
+    name: Žiadne Dávky
+    description: |
+      Žiadne dávky pre každého pracovníka.\nZnižuje ich spokojnosť o 8.
+  half:
+    name: Polovičné Dávky
+    description: |
+      0,5x dávky pre každého pracovníka.\nZnižuje ich spokojnosť o 4.
+  full:
+    name: Plné dávky
+    description: |
+      Normálne dávky pre každého pracovníka.
+  extra:
+    name: Extra dávky
+    description: |
+      1,5x dávky pre každého pracovníka.\nZvyšuje ich šťastie o 4.
+  double:
+    name: Dvojité dávky
+    description: |
+      2x dávky pre každého pracovníka.\nZvyšuje ich šťastie o 8.
+houses:
+  upgradeButton: AKTUALIZÁCIA
+  description: Ponúka útočisko pre %s ľudí
+taxes:
+  no: Žiadne dane
+  auto: Daň zo zvierat
+  generousBribe: Štedrý úplatok
+  largeBribe: Veľký úplatok
+  smallBribe: Malý úplatok
+  low: Nízke dane
+  avg: Priemerné dane
+  high: Vysoké dane
+  mean: Priemerné dane
+  extra: Vydieračské dane
+  downrightCruel: Priam kruté dane
+popularityText:
+  total: Celkom
+  rations: Dávky
+  taxes: Dane
+  fearFactor: Faktor strachu
+  crowding: Preplnenosť
+  religion: Náboženstvo
+  aleCoverage: Pokrytie pivom
+  blessingCoverage: Pomer požehnaných budov
+  enclosedKeep: Veža Zavretá
+  openKeep: Otvorená Veža
+  popularity: Popularita
+  inTheComingMonth: "V nasledujúcom mesiaci"
+  typesOfFoodConsumed: "%d druhy konzumovaných potravín"
+  foodInGranary: "%d jedla v sýpke"
+  aleInInn: "%d džbánov v hostinci"
+  nextAleBonus: "Viac bonusov pri %d%% pokrytí"
+  maximumAleBonus: "Dosiahnutý maximálny bonus"
+  nextBlessingBonus: "Viac bonusov pri %d%% pokrytí"
+  maximumBlessingBonus: "Dosiahnutý maximálny bonus"
+settings:
+  categories:
+    sound:
+      button: Zvuk
+      title: HLADINY ZVUKU
+      description: Tu si môžete podľa potreby zmeniť úroveň zvuku zvukových efektov alebo reči.
+      items:
+        masterVolume: Hlavná hlasitosť
+        musicVolume: Hlasitosť hudby
+        soundVolume: Hlasitosť zvuku
+        speechVolume: Hlasitosť reči
+    graphics:
+      button: Grafika
+      title: GRAFICKÉ NASTAVENIA
+      description: |
+        Upravte kvalitu vykresľovania, veľkosť blokov a prepínajte animácie, aby ste vyvážili výkon.\n
+      items:
+        fullScreen: Plná obrazovka
+        borderless: Bez okrajov
+        vsync: VSync
+        resolution: Rozlíšenie
+        display: Obrazovka
+        apply: Použiť
+    hotkeys:
+      button: Klávesové skratky
+      title: KLÁVESOVÉ SKRATKY.
+      description: |
+        Upravte alebo pridajte nové klávesové skratky.\n
+    video:
+      button: Video
+      title: NASTAVENIE VIDEA
+      description: |
+        Zmeňte nastavenia celej obrazovky, rozlíšenie okna a prepnite VSync.
+    interface:
+      button: Rozhranie
+      title: NASTAVENIA ROZHRANIA
+      description: |
+        Prepínať prvky rozhrania a upravovať ich mierku.\n
+      items:
+        language: Jazyk
+  apply: Použiť
+recruitment:
+  archer: Lukostrelec
+  spearman: Oštepník
+  maceman: Bojovník s kyjakom
+  crossbowman: Strelec z kuše
+  pikeman: Kopijník
+  swordsman: Šermiar
+  knight: Rytier
+  availablePeasants: Dostupní roľníci
+objects:
+  hoverText:
+    barracks: Kliknite pre nábor jednotiek
+    engineersGuild: Kliknite pre verbovanie obliehajúcich jednotiek
+    fortress: Kliknite pre správu daní
+    granary: Kliknite pre správu potravinových dávok
+    keep: Kliknite pre správu daní
+    market: Kliknite pre obchodovanie so zdrojmi
+    saxonHall: Kliknite pre správu daní
+    stockpile: Kliknite pre správu zdrojov
+    stoneBarracks: Kliknite pre nábor jednotiek
+    tunnelersGuild: Kliknite pre nábor tunelárov
+tips:
+  upgradeKeep: Na postavenie tejto budovy musíte vylepšiť svoju pevnosť.
+  notAvailableInMission: Nie je k dispozícii v tejto misii
+  buildMarket: Vybudujte si trh na obchodovanie!
+  cantTrade: S tým sa nedá obchodovať!
+  notImplemented: Zatiaľ neimplementované.
+  increaseTradeQuantity: Zvýšte počet položiek, s ktorými chcete obchodovať, o 5
+  decreaseTradeQuantity: Znížte počet položiek, ktoré chcete vymeniť, o 5
+  actionBar:
+    woodenStructures:
+      title: Drevené konštrukcie
+      description: Veže, brány a hradby.
+    stoneStructures:
+      title: Kamenné stavby
+      description: Silnejšie veže, brány a hradby.
+  warning:
+    obstacle: V ceste je prekážka!
+    tooCloseToKeep: Príliš blízko k pevnosti!
+    cliffs: Na útesoch sa nedá stavať!
+    water: Nemôže sa stavať na vode!
+    unevenTerrain: Nedá sa stavať na príliš nerovnom teréne!
+    notEnoughResources: Nie je dostatok zdrojov!
+    outOfBounds: Nemožno stavať mimo hraníc mapy!
+    adjacentStockpile: Musí byť umiestnené vedľa zásob!
+    adjacentGranary: Musí byť umiestnený vedľa sýpky!
+    adjacentArmoury: Musí byť umiestnené vedľa zbrojnice!
+    onTopOfStone: Treba umiestniť na ložisko kameňa!
+    onTopOfIron: Treba umiestniť na železnú rudu!
+    unitsInTheWay: V ceste sú jednotky!
+    structuresInTheWay: V ceste sa nachádzajú stavby!
+    needArmoury: Na stavbu potrebuješ celú zbrojnicu!
+    closeToQuarry: Musí byť umiestnené blízko existujúceho lomu!
+    keepCloseToEdgeOfMap: Príliš blízko okraja mapy!
+ui:
+  global:
+    start: Štart
+  mainMenu:
+    freebuild: Voľná Hra
+    campaign: Kampaň
+    load: Nahraj
+    save: Ulož
+    resume: Návrat
+    options: Možnosti
+    exit: Východ
+  campaign:
+    economicMissions: Ekonomická Misia
+  load:
+    title: Nahraj Hru
+    saveName: Ulož meno
+    map: Mapa
+    dateSaved: Dáta uložené 
+    version: Verzia
+    states:
+      loadingTextures: Nahrávam textúry...
+      initializingTerrain: Inicializujem terén...
+      updatingTerrain: Aktualizujem terén...
+      updatingObjects: Aktualizujem objekty...
+      renderingTerrain: Vykresľujem terén...
+gold: zlato
+wood: drevo
+stone: kameň
+wheat: pšenica
+iron: železo
+flour: múka
+hop: chmeľ
+tar: decht
+ale: pivo
+months:
+  jan: Jan
+  feb: Feb
+  mar: Mar
+  apr: Apr
+  may: May
+  jun: Jun
+  jul: Jul
+  aug: Aug
+  sep: Sep
+  oct: Oct
+  nov: Nov
+  dec: Dec
