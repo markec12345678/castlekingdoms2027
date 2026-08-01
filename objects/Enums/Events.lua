@@ -22,6 +22,16 @@ local EVENTS = {
     OnUnitsSelected = 20,
     OnUnitsDeselected = 21,
     OnUnitDetailsSelected = 22,
+    -- Combat events (Stronghold 2027)
+    OnUnitAttacked = 23,
+    OnUnitDamaged = 24,
+    OnUnitKilled = 25,
+    OnCombatStart = 26,
+    OnCombatEnd = 27,
+    OnProjectileFired = 28,
+    OnProjectileHit = 29,
+    OnBuildingAttacked = 30,
+    OnBuildingDestroyed = 31,
 }
 
 return EVENTS

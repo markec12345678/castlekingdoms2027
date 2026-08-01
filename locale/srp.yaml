@@ -1,47 +1,36 @@
 mission1:
-  name: Timber and Stone
-  desc: |
-    In this mission, you will need to focus on gathering resources to develop your kingdom's infrastructure.
-    Your objective is to collect 50 units of wood and 20 units of stone within the next 5 years.\n
-    To achieve this, you will need to establish a network of woodcutter's huts and quarries to extract these resources from the surrounding environment.
-    This may involve the construction of stockpiles to store your resources.
+  name: Дрво и камен
+  desc: 'У овој мисији фокусирајте се на прикупљање ресурса за развој инфраструктуре
+    вашег краљевства.
+
+    Ваш циљ је прикупити 50 јединица дрвета и 20 јединица камена у наредних 5 година.
+
+    Да бисте то постигли, успоставите мрежу колиба дрвосеча и каменолома.'
 mission2:
-  name: Arms Race
-  desc: |
-    In this mission, you will need to focus on developing a strong military to defend your kingdom against potential threats.
-    Your objective is to produce 40 units each of bows, spears, maces, and armor within the next 20 years.\n
-    To achieve this, you will need to establish a robust metalworking industry to craft high-quality weapons and armor.
-    This may involve the construction of blacksmiths, workshops, and mines, as well as the recruitment of skilled craftsmen.\n
-    Keep in mind that your success in this mission will depend on your ability to balance your resources and prioritize your goals.
-    You will need to carefully manage your finances and make strategic decisions to ensure the safety and security of your kingdom. Good luck!
+  name: Трка у наоружању
+  desc: 'У овој мисији развијте јаку војску за одбрану краљевства.
+
+    Ваш циљ је произвести 40 јединица лукова, копаља, буздовања и оклопа у наредних
+    20 година.'
 mission3:
-  name: Feast or famine
-  desc: |
-    In this mission, you will need to focus on food production to sustain your growing population. Your goal is to produce 250 units of bread,
-    100 units of meat,
-    200 units of cheese, and 250 units of apples within the next 20 years.\n
-    To achieve this, you will need to develop a robust agriculture system to grow crops and raise livestock. This will require the construction of farms, mills, and pastures, as well as the recruitment of skilled laborers.\n
-    In addition to food production, you will also need to consider the storage and distribution of these resources. This may involve building granaries and markets to store and sell your products.\n
-    Keep in mind that your success in this mission will depend on your ability to balance your resources and prioritize your goals. You will need to carefully manage your finances and make strategic decisions to ensure the prosperity of your kingdom. Good luck!
+  name: Гозба или глад
+  desc: 'У овој мисији фокусирајте се на производњу хране.
+
+    Ваш циљ је произвести 250 јединица хлеба, 100 јединица меса, 200 јединица сира
+    и 250 јединица јабука у наредних 20 година.'
 mission4:
-  name: The Kingdom's Fortune
-  desc: |
-    In this mission, your goal is to accumulate a substantial amount of wealth by acquiring 5000 units of gold.
-    Unlike previous missions, there is no time limit on this objective, so you will have the freedom to pursue your goals at your own pace.\n
-    To achieve this, you will need to develop a strong economy by building and managing workshops, investing in trade and commerce, and making strategic financial decisions.\n
-    Keep in mind that your success in this mission will depend on your ability to make wise investments and manage your finances carefully.
-    You will need to balance your resources and take calculated risks to ensure the prosperity of your kingdom. Good luck!
+  name: Богатство краљевства
+  desc: 'У овој мисији ваш циљ је акумулирати 5000 јединица злата.
+
+    Развијте снажну економију кроз трговину и занате.'
 mission5:
-  name: Faith in Architecture
-  desc: |
-    In this mission, you will need to focus on constructing a grand cathedral to serve as the centerpiece of your kingdom's religious and cultural life.
-    Your objective is to build a cathedral within the next 10 years.\n
-    Keep in mind that your success in this mission will depend on your ability to manage a complex construction project and balance your resources effectively.
-    You will need to make strategic decisions and manage your time carefully to ensure the completion of your cathedral within the allotted timeframe. Good luck!
+  name: Вера у архитектуру
+  desc: У овој мисији изградите величанствену катедралу у наредних 10 година.
 groups:
   castle:
     name: Castle
-    description: Walls, Towers, Gates and everything else you need to defend your Stronghold.
+    description: Walls, Towers, Gates and everything else you need to defend your
+      Stronghold.
   industry:
     name: Industry
     description: Build mighty Industries to defeat your enemies ... or fill your pockets.
@@ -53,7 +42,8 @@ groups:
     description: Houses and amenities for your citizens.
   shield:
     name: Military
-    description: Raise mighty armies and build terrifying siege weapons to crush your enemies.
+    description: Raise mighty armies and build terrifying siege weapons to crush your
+      enemies.
   sickle:
     name: Food Production
     description: Turn basic farm products into high quality goods.
@@ -91,8 +81,9 @@ buildings:
     description: Your Saxon hall is the center of your castle.
   stockpile:
     name: Stockpile
-    description: |
-      Increases resource capacity.\nMust be placed adjacent to a stockpile.
+    description: 'Increases resource capacity.\nMust be placed adjacent to a stockpile.
+
+      '
   woodenKeep:
     name: Wooden Keep
     description: Upgrade your Saxon hall to a Wooden keep
@@ -146,7 +137,8 @@ buildings:
     description: Produces stone blocks from the ground resource.
   armoury:
     name: Armoury
-    description: Weapons and armour is stored here, which is used by troops from the barracks upon recruitment.
+    description: Weapons and armour is stored here, which is used by troops from the
+      barracks upon recruitment.
   fletcher:
     name: Fletcher Workshop
     description: Produces bows and crossbows from wood.
@@ -239,7 +231,8 @@ buildings:
     description: A big residence - gives shelter to 16 people
   maypole:
     name: Maypole
-    description: A tall wooden pole, around which a maypole dance often takes place. Temporarily disabled.
+    description: A tall wooden pole, around which a maypole dance often takes place.
+      Temporarily disabled.
   smallPond:
     name: Small Pond
     description: A small pond.
@@ -264,34 +257,40 @@ freebuild:
     description: Build a new castle on the ruins of an ancient city.
   grasslands:
     name: Grasslands
-    description: |
-      Empty grasslands. Used for testing due to fast load times.
+    description: 'Empty grasslands. Used for testing due to fast load times.
+
+      '
 rations:
-  no:
+  false:
     name: No Rations
-    description: |
-      No rations for each worker.\nDecreases their happiness by 8.
+    description: 'No rations for each worker.\nDecreases their happiness by 8.
+
+      '
   half:
     name: Half Rations
-    description: |
-      0.5x rations for each worker.\nDecreases their happiness by 4.
+    description: '0.5x rations for each worker.\nDecreases their happiness by 4.
+
+      '
   full:
     name: Full Rations
-    description: |
-      Normal rations for each worker.
+    description: 'Normal rations for each worker.
+
+      '
   extra:
     name: Extra Rations
-    description: |
-      1.5x rations for each worker.\nIncreases their happiness by 4.
+    description: '1.5x rations for each worker.\nIncreases their happiness by 4.
+
+      '
   double:
     name: Double Rations
-    description: |
-      2x rations for each worker.\nIncreases their happiness by 8.
+    description: '2x rations for each worker.\nIncreases their happiness by 8.
+
+      '
 houses:
   upgradeButton: UPGRADE
   description: Offers shelter to %s people
 taxes:
-  no: No Tax
+  false: No Tax
   auto: Auto Tax
   generousBribe: Generous Bribe
   largeBribe: Large Bribe
@@ -314,20 +313,21 @@ popularityText:
   enclosedKeep: Keep Enclosed
   openKeep: Open Keep
   popularity: Popularity
-  inTheComingMonth: "In the coming month"
-  typesOfFoodConsumed: "%d types of food consumed"
-  foodInGranary: "%d food in granary"
-  aleInInn: "%d jugs in inn"
-  nextAleBonus: "More bonus at %d%% coverage"
-  maximumAleBonus: "Maximum bonus reached"
-  nextBlessingBonus: "More bonus at %d%% coverage"
-  maximumBlessingBonus: "Maximum bonus reached"
+  inTheComingMonth: In the coming month
+  typesOfFoodConsumed: '%d types of food consumed'
+  foodInGranary: '%d food in granary'
+  aleInInn: '%d jugs in inn'
+  nextAleBonus: More bonus at %d%% coverage
+  maximumAleBonus: Maximum bonus reached
+  nextBlessingBonus: More bonus at %d%% coverage
+  maximumBlessingBonus: Maximum bonus reached
 settings:
   categories:
     sound:
       button: Sound
       title: SOUND LEVELS
-      description: Here you can change the sound levels of sound effects or speech to your liking.
+      description: Here you can change the sound levels of sound effects or speech
+        to your liking.
       items:
         masterVolume: Master volume
         musicVolume: Music volume
@@ -336,8 +336,10 @@ settings:
     graphics:
       button: Graphics
       title: GRAPHIC SETTINGS
-      description: |
-        Modify rendering quality, chunk size and toggle animations in order to balance performance.\n
+      description: 'Modify rendering quality, chunk size and toggle animations in
+        order to balance performance.\n
+
+        '
       items:
         fullScreen: Full Screen
         borderless: Borderless
@@ -348,30 +350,33 @@ settings:
     hotkeys:
       button: Hotkeys
       title: KEYBOARD HOTKEYS & SHORTCUTS
-      description: |
-        Edit or add new keyboard hotkeys and shortcuts.\n
+      description: 'Edit or add new keyboard hotkeys and shortcuts.\n
+
+        '
     video:
       button: Video
       title: VIDEO SETTINGS
-      description: |
-        Change fullscreen settings, window resolution and toggle VSync.\n
+      description: 'Change fullscreen settings, window resolution and toggle VSync.\n
+
+        '
     interface:
       button: Interface
       title: INTERFACE SETTINGS
-      description: |
-        Toggle interface elements and modify their scale.\n
+      description: 'Toggle interface elements and modify their scale.\n
+
+        '
       items:
         language: Language
   apply: Apply
 recruitment:
-  archer: Archer
-  spearman: Spearman
-  maceman: Maceman
-  crossbowman: Crossbowman
-  pikeman: Pikeman
-  swordsman: Swordsman
-  knight: Knight
-  availablePeasants: Available peasants
+  archer: Стрелац
+  spearman: Копаљаш
+  maceman: Буздованаш
+  crossbowman: Самострелaц
+  pikeman: Сулицар
+  swordsman: Мачевалац
+  knight: Витез
+  availablePeasants: Доступни сељаци
 objects:
   hoverText:
     barracks: Click to recruit units
@@ -421,13 +426,13 @@ ui:
   global:
     start: Start
   mainMenu:
-    freebuild: Freebuild
-    campaign: Campaign
-    load: Load
-    save: Save
-    resume: Resume
-    options: Options
-    exit: Exit
+    freebuild: Слободна градња
+    campaign: Кампања
+    load: Учитај
+    save: Сачувај
+    resume: Настави
+    options: Опције
+    exit: Излаз
   campaign:
     economicMissions: Economic Missions
   load:
@@ -442,25 +447,25 @@ ui:
       updatingTerrain: Updating terrain...
       updatingObjects: Updating objects...
       renderingTerrain: Rendering terrain...
-gold: gold
-wood: wood
-stone: stone
-wheat: wheat
-iron: iron
-flour: flour
-hop: hops
-tar: pitch
-ale: ale
+gold: злато
+wood: дрво
+stone: камен
+wheat: пшеница
+iron: гвожђе
+flour: брашно
+hop: хмељ
+tar: смола
+ale: пиво
 months:
-  jan: Jan
-  feb: Feb
-  mar: Mar
-  apr: Apr
-  may: May
-  jun: Jun
-  jul: Jul
-  aug: Aug
-  sep: Sep
-  oct: Oct
-  nov: Nov
-  dec: Dec
+  jan: Јан
+  feb: Феб
+  mar: Мар
+  apr: Апр
+  may: Мај
+  jun: Јун
+  jul: Јул
+  aug: Авг
+  sep: Сеп
+  oct: Окт
+  nov: Нов
+  dec: Дец
