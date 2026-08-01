@@ -27,35 +27,32 @@ mission5:
   desc: Šajā misijā uzbūvējiet majestātisku katedrāli nākamo 10 gadu laikā.
 groups:
   castle:
-    name: Castle
-    description: Walls, Towers, Gates and everything else you need to defend your
-      Stronghold.
+    name: Pils
+    description: Mūri, torņi aizsardzībai.
   industry:
-    name: Industry
-    description: Build mighty Industries to defeat your enemies ... or fill your pockets.
+    name: Rūpniecība
+    description: Būvējiet rūpniecību.
   apple:
-    name: Farms
-    description: Produce basic agricultural products.
+    name: Fermas
+    description: Ražojiet produktus.
   house:
-    name: Civilian
-    description: Houses and amenities for your citizens.
+    name: Civilie
+    description: Mājas iedzīvotājiem.
   shield:
-    name: Military
-    description: Raise mighty armies and build terrifying siege weapons to crush your
-      enemies.
+    name: Armija
+    description: Veidojiet armijas.
   sickle:
-    name: Food Production
-    description: Turn basic farm products into high quality goods.
+    name: Apstrāde
+    description: Pārvērsiet precēs.
   destroy:
-    name: Demolish
-    description: Enter demolish mode. Click on a building to destroy.
-    exitTooltip: Exit Demolish Mode
+    name: Nojaukšana
+    description: Klikšķiniet nojaukt.
   houses:
-    name: Houses
-    description: Houses to increase your population limit.
+    name: Mājas
+    description: Mājas iedzīvotājiem.
   goodThings:
-    name: Good things
-    description: Gardens, statues and entertainment to increase your popularity.
+    name: Dekorācijas
+    description: Dārzi popularitātei.
 buildings:
   hunterHut:
     name: Mednieku būda
@@ -257,46 +254,36 @@ freebuild:
 
       '
 rations:
-  false:
-    name: No Rations
-    description: 'No rations for each worker.\nDecreases their happiness by 8.
-
-      '
+  'no':
+    name: Be devumi
+    description: Bez ēdiena. -8 laimi.
   half:
-    name: Half Rations
-    description: '0.5x rations for each worker.\nDecreases their happiness by 4.
-
-      '
+    name: Pus devumi
+    description: 0.5x. -4 laimi.
   full:
-    name: Full Rations
-    description: 'Normal rations for each worker.
-
-      '
+    name: Pilni devumi
+    description: Normāli devumi.
   extra:
-    name: Extra Rations
-    description: '1.5x rations for each worker.\nIncreases their happiness by 4.
-
-      '
+    name: Papildu
+    description: 1.5x. +4 laimi.
   double:
-    name: Double Rations
-    description: '2x rations for each worker.\nIncreases their happiness by 8.
-
-      '
+    name: Dubulti
+    description: 2x. +8 laimi.
 houses:
   upgradeButton: UPGRADE
   description: Offers shelter to %s people
 taxes:
-  false: No Tax
-  auto: Auto Tax
-  generousBribe: Generous Bribe
-  largeBribe: Large Bribe
-  smallBribe: Small Bribe
-  low: Low Taxes
-  avg: Average Taxes
-  high: High Taxes
-  mean: Mean Taxes
-  extra: Extortionate Taxes
-  downrightCruel: Downright Cruel Taxes
+  'no': Bez nodokļa
+  auto: Auto nodoklis
+  generousBribe: Dāsna kukulis
+  largeBribe: Liels kukulis
+  smallBribe: Mazs kukulis
+  low: Zemi nodokļi
+  avg: Vidēji
+  high: Augsti nodokļi
+  mean: Ļauni nodokļi
+  extra: Izsūcēju
+  downrightCruel: Neyīgie nodokļi
 popularityText:
   total: Total
   rations: Rations
@@ -320,50 +307,26 @@ popularityText:
 settings:
   categories:
     sound:
-      button: Sound
-      title: SOUND LEVELS
-      description: Here you can change the sound levels of sound effects or speech
-        to your liking.
-      items:
-        masterVolume: Master volume
-        musicVolume: Music volume
-        soundVolume: Sound volume
-        speechVolume: Speech volume
+      button: Skaņa
+      title: SKAŅAS LĪMEŅI
+      description: Mainiet skaņu.
     graphics:
-      button: Graphics
-      title: GRAPHIC SETTINGS
-      description: 'Modify rendering quality, chunk size and toggle animations in
-        order to balance performance.\n
-
-        '
-      items:
-        fullScreen: Full Screen
-        borderless: Borderless
-        vsync: VSync
-        resolution: Resolution
-        display: Display
-        apply: Apply
+      button: Grafika
+      title: GRAFISKIE IESTATĪJUMI
+      description: Mainiet kvalitāti.
     hotkeys:
-      button: Hotkeys
-      title: KEYBOARD HOTKEYS & SHORTCUTS
-      description: 'Edit or add new keyboard hotkeys and shortcuts.\n
-
-        '
+      button: Īsinājumtaustiņi
+      title: TAUSTIŅU ĪSINĀJUMI
+      description: Rediģējiet taustiņus.
     video:
       button: Video
-      title: VIDEO SETTINGS
-      description: 'Change fullscreen settings, window resolution and toggle VSync.\n
-
-        '
+      title: VIDEO IESTATĪJUMI
+      description: Ekrāna iestatījumi.
     interface:
-      button: Interface
-      title: INTERFACE SETTINGS
-      description: 'Toggle interface elements and modify their scale.\n
-
-        '
-      items:
-        language: Language
-  apply: Apply
+      button: Saskarne
+      title: SASKARNES IESTATĪJUMI
+      description: Saskarnes elementi.
+  apply: Pielietot
 recruitment:
   archer: Lokšāvējs
   spearman: Šķēpnesis
@@ -386,63 +349,24 @@ objects:
     stoneBarracks: Click to recruit units
     tunnelersGuild: Click to recruit tunnelers
 tips:
-  upgradeKeep: You need to upgrade your keep to build this
-  notAvailableInMission: Not available in this mission
-  buildMarket: Build a market to trade!
-  cantTrade: You can't trade that!
-  notImplemented: Not implemented yet.
-  increaseTradeQuantity: Increase quantity of items you want to trade by 5
-  decreaseTradeQuantity: Decrease quantity of items you want to trade by 5
-  actionBar:
-    woodenStructures:
-      title: Wooden Structures
-      description: Towers, gates and walls.
-    stoneStructures:
-      title: Stone Structures
-      description: Stronger towers, gates and walls.
+  notImplemented: Vēl nav ieviests.
+  buildMarket: Būvējiet tirgu!
+  cantTrade: Nevarat tirgot!
   warning:
-    obstacle: There is an obstacle in the way!
-    tooCloseToKeep: Too close to the keep!
-    cliffs: Cannot build on cliffs!
-    water: Cannot build on top of water!
-    unevenTerrain: Cannot build on too uneven terrain!
-    notEnoughResources: Not enough resources!
-    outOfBounds: Cannot build outside of map bounds!
-    adjacentStockpile: Needs to placed adjacent to a stockpile!
-    adjacentGranary: Needs to placed adjacent to a granary!
-    adjacentArmoury: Needs to placed adjacent to an armoury!
-    onTopOfStone: Needs to placed on top of stone!
-    onTopOfIron: Needs to placed on top of iron ore!
-    unitsInTheWay: There are units in the way!
-    structuresInTheWay: There are structures in the way!
-    needArmoury: You need an armoury to build this!
-    closeToQuarry: Needs to be placed close to an existing quarry!
-    keepCloseToEdgeOfMap: Too close to the edge of the map!
+    obstacle: Ir šķērslis!
+    tooCloseToKeep: Pārāk tuvu!
+    water: Ne uz ūdens!
+    notEnoughResources: Nepietiek resursu!
+    outOfBounds: Ārpus robežām!
 ui:
-  global:
-    start: Start
   mainMenu:
-    freebuild: Brīvā būvēšana
+    freebuild: Brīva būvēšana
     campaign: Kampaņa
     load: Ielādēt
     save: Saglabāt
     resume: Turpināt
     options: Opcijas
     exit: Iziet
-  campaign:
-    economicMissions: Economic Missions
-  load:
-    title: Load Game
-    saveName: Save name
-    map: Map
-    dateSaved: Date saved
-    version: Version
-    states:
-      loadingTextures: Loading textures...
-      initializingTerrain: Initializing terrain...
-      updatingTerrain: Updating terrain...
-      updatingObjects: Updating objects...
-      renderingTerrain: Rendering terrain...
 gold: zelts
 wood: koks
 stone: akmens
