@@ -13,6 +13,9 @@ local loadState, progress = 1, 15
 local SaveManager = require("objects.Controllers.SaveManager")
 local keybindManager = require("objects.Controllers.KeybindManager")
 local EVENT = require("objects.Enums.KeyEvents")
+-- Stronghold 2027 - Combat system integration
+local CombatIntegration = require("objects.Combat.CombatIntegration")
+local CombatTestScenario = require("objects.Combat.CombatTestScenario")
 local savegame
 local playlist = require("sounds.music_playlist")
 local RationController
@@ -104,6 +107,8 @@ local function delayedInit()
     _G.state:shadeBuildings()
     _G.loaded = true
     _G.speedModifier = 1
+    -- Stronghold 2027: Initialize combat system
+    CombatIntegration.init()
     if _G.state.newGame then
         _G.playSpeech("place_a_keep")
         _G.BuildController.start = true
@@ -161,6 +166,8 @@ function game:update(dt)
                 _G.ScribeController:update()
                 _G.DestructionController:update()
                 _G.SleepController:update()
+                -- Stronghold 2027: Update combat system
+                CombatIntegration.update(dt)
                 _G.MissionStart = true
                 if (loveframes.GetState() == states.STATE_ARMOURY) then
                     ArmouryUI.DisplayCurrentStock()
@@ -233,6 +240,8 @@ function game:draw()
                 _G.ArrowController:draw()
             end
             _G.Commander:draw()
+            -- Stronghold 2027: Draw combat system (projectiles, damage numbers, health bars)
+            CombatIntegration.draw()
             love.graphics.pop()
             if _G.paused then
                 love.postshader.addTiltshift(12)
@@ -314,6 +323,28 @@ function game:keypressed(key, scancode, isRepeat)
     ActionBar:keypressed(key, scancode)
 
     local event = keybindManager:getEventForKeypress(key)
+
+    -- Stronghold 2027: F8 = Toggle combat test scenario
+    if key == "f8" then
+        CombatTestScenario.activate()
+        return
+    end
+    -- F9 = Print combat stats
+    if key == "f9" then
+        if CombatIntegration.isInitialized() then
+            local stats = CombatIntegration.getStats()
+            print("=== Combat Stats ===")
+            print(string.format("Total attacks: %d", stats.totalAttacks))
+            print(string.format("Total kills: %d", stats.totalKills))
+            print(string.format("Total damage: %d", stats.totalDamage))
+            print(string.format("Active projectiles: %d", stats.activeProjectiles))
+            print(string.format("Visible health bars: %d", stats.visibleHealthBars))
+            if stats.aiStats then
+                print(string.format("AI units: %d", stats.aiStats.totalUnits))
+            end
+        end
+        return
+    end
 
     if event == EVENT.Screenshot then
         -- Screenshot
