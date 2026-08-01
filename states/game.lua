@@ -22,6 +22,8 @@ local SoundSystem = require("objects.Audio.SoundSystem")
 local WeatherSystem = require("objects.Weather.WeatherSystem")
 local ModernUI = require("objects.UI.ModernUISystem")
 local LightingSystem = require("objects.Environment.LightingSystem")
+-- Stronghold 2027 - AI system
+local AIIntegration = require("objects.AI.AIIntegration")
 local savegame
 local playlist = require("sounds.music_playlist")
 local RationController
@@ -186,6 +188,8 @@ function game:update(dt)
                 WeatherSystem.update(dt)
                 ModernUI.update(dt)
                 LightingSystem.update(dt)
+                -- Stronghold 2027: Update AI system
+                AIIntegration.update(dt)
                 _G.MissionStart = true
                 if (loveframes.GetState() == states.STATE_ARMOURY) then
                     ArmouryUI.DisplayCurrentStock()
@@ -367,6 +371,43 @@ function game:keypressed(key, scancode, isRepeat)
                 print(string.format("AI units: %d", stats.aiStats.totalUnits))
             end
         end
+        return
+    end
+    -- F7 = Spawn AI opponent (Stronghold 2027)
+    if key == "f7" then
+        if not _G.state or not _G.state.initialized then
+            ModernUI.notifyError("Game not initialized")
+            return
+        end
+        -- Find player's keep as reference
+        local playerKeepX, playerKeepY = 50, 50
+        if _G.state.gameObjectList then
+            for _, obj in ipairs(_G.state.gameObjectList) do
+                if obj.class and obj.class.name then
+                    local name = obj.class.name
+                    if (name == "Keep" or name == "WoodenKeep" or name == "SaxonHall")
+                        and (not obj.faction or obj.faction == 1) then
+                        playerKeepX, playerKeepY = obj.gx, obj.gy
+                        break
+                    end
+                end
+            end
+        end
+        -- Spawn AI at distance from player
+        local personalities = {"aggressive", "balanced", "defensive", "economic"}
+        local difficulties = {"easy", "medium", "hard"}
+        local personality = personalities[math.random(#personalities)]
+        local difficulty = difficulties[math.random(#difficulties)]
+        local aiX = playerKeepX + math.random(30, 50)
+        local aiY = playerKeepY + math.random(30, 50)
+        AIIntegration.spawnAIFaction(personality, difficulty, aiX, aiY)
+        ModernUI.notifySuccess(string.format("AI spawned! %s/%s at (%d, %d)",
+            personality, difficulty, aiX, aiY))
+        return
+    end
+    -- F10 = Print AI debug info (Stronghold 2027)
+    if key == "f10" then
+        AIIntegration.printDebugInfo()
         return
     end
     -- F5 = Cycle weather (Stronghold 2027)
