@@ -1,68 +1,202 @@
 # Stronghold 2027
 
-> Fork of [Stone Kingdoms](https://gitlab.com/stone-kingdoms/stone-kingdoms) — modernized edition targeting 2026-2027 release with HD graphics and improved gameplay.
+> Open source medieval castle RTS - a modernized fork of Stone Kingdoms with HD graphics, dynamic economy, AI opponents, and a 10-mission campaign.
 
-[![Upstream](https://img.shields.io/badge/upstream-Stone%20Kingdoms-orange)](https://gitlab.com/stone-kingdoms/stone-kingdoms)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
-[![Status](https://img.shields.io/badge/status-pre--alpha-red)]()
+[![Status](https://img.shields.io/badge/status-feature--complete-brightgreen)]()
+[![Version](https://img.shields.io/badge/version-v1.3.2--completeness-orange)]()
 
 ---
 
-## What is this?
+## 🎮 Features
 
-**Stronghold 2027** is a fork of the open-source Stone Kingdoms project (an Apache 2.0 licensed remake of Firefly Studios' Stronghold 2001, developed with permission from Firefly Studios). Our goal is to modernize the game with:
+### Campaign (10 Missions)
+- **The Lord of Fernhaven** - complete story arc
+- Sir Markus returns from exile to claim the throne of Valdemar
+- Progressive difficulty (⭐ to ⭐⭐⭐⭐⭐)
+- 6-phase final siege (Mission 10)
+- Campaign progress saved between sessions
+- 3 achievements (First Victory, Halfway, King of Valdemar)
 
-- HD / 4K graphical assets (replacing original sprites)
-- Modern UI/UX with cleaner visual design
-- Performance optimizations for modern hardware
-- Slovenian localization (in addition to existing languages)
-- Bug fixes and gameplay improvements
-- Optional new content (units, buildings, campaigns)
+### AI System
+- 4 personalities: Aggressive, Balanced, Defensive, Economic
+- 4 difficulties: Easy, Medium, Hard, Brutal
+- Smart building placement (no clustering)
+- Strategic attack timing (not random)
+- Defense response (recalls units when keep attacked)
+- Difficulty adaptation (adjusts to player strength)
+- 5-minute grace period (no early attacks)
 
-## Roadmap
+### Combat
+- 8 unit types (Archer, Crossbowman, Spearman, Pikeman, Maceman, Swordsman, Knight, Lord)
+- Damage calculation with armor reduction
+- Projectile system (arrows, bolts, catapult rocks with arc)
+- Health bars with color indicators
+- Screen shake, hit flash, punch zoom
+- Combat order visualizer (red lines to targets, yellow to destinations)
+- Formation system (line, column, wedge, spread)
 
-- **Phase 1 (1-2 months):** Fork stabilization, dev environment setup, Slovenian localization
-- **Phase 2 (2-4 months):** Bug fixes, performance optimizations
-- **Phase 3 (4-8 months):** HD graphical asset replacement
-- **Phase 4 (8-12 months):** New content and features
-- **Phase 5 (12-14 months):** Beta, polish, release on Steam/GOG
+### Economy
+- Dynamic market with supply/demand pricing
+- 20 tradeable resources
+- 4 seasons (Spring, Summer, Autumn, Winter) affecting production
+- 10 random economic events (blight, gold rush, plague, festival, etc.)
+- Trade caravans to AI factions (30% better prices, escort system)
+- Inflation system
 
-## Prerequisites for development
+### Game Feel
+- Screen shake (4 intensity levels)
+- Hit flash on damaged units
+- Punch zoom on deaths/explosions
+- Smooth camera (lerp)
+- Build preview (ghost building with valid/invalid indicator)
+- Selection glow rings (pulsing)
+- Hover highlight
+- Drag-select box
 
-1. Install [Git Large File Storage](https://git-lfs.github.com/)
-2. Install LÖVE 11.4 from the [official website](https://love2d.org/)
-3. Clone this repository: `git clone https://github.com/markec12345678/stronghold2027.git`
-4. Run `git lfs install && git lfs pull` to fetch binary assets
+### Visual Systems
+- HD shaders (bloom, color grading, vignette, dynamic lighting)
+- Day/night cycle (10-minute default)
+- Weather system (clear, rain, heavy rain, snow, fog, storm)
+- Lightning effects during storms
+- Torch/fire light sources with flicker
+- Season-colored UI widgets
 
-## Run from source
+### Audio
+- Ambient sound crossfading (wind, birds, fire, rain, crowd)
+- SFX with distance attenuation and stereo panning
+- Music state machine (explore, combat, victory, defeat)
+- Auto-adjust ambients based on game state
 
-1. Open terminal in the repository directory (where `main.lua` is located)
-2. Run `love .` and play!
+### UI/UX
+- Dynamic market UI (M key) - 20 resources with trends
+- Caravan UI (C key) - send trade caravans with escort
+- Settings panel (V key) - 16 settings in 3 tabs (Game Feel, Audio, Graphics)
+- Keybind help (H key) - 25+ shortcuts in 8 categories
+- Mission end screen (victory/defeat with stats)
+- Credits screen (scrolling, after campaign)
+- Tutorial hints (12 contextual tips)
+- Performance overlay (F3) - 25+ profiling sections
+- Season info widget (always visible)
+- Economic event log (toast notifications)
 
-## How to contribute
+### Infrastructure
+- Settings persistence (settings.json)
+- Campaign progress persistence (campaign_progress.json)
+- Auto-save every 5 minutes (3 rotating slots)
+- Performance profiling system
+- Tiered entity update (60Hz/10Hz/2Hz)
+- AI tick optimizer (5 frequency categories)
+- Memory profiler with leak detection
+- Modding API (alpha)
+- CI/CD pipeline (GitHub Actions)
+- Custom test suite (343 checks)
 
-This is a small-team fork. Two developers currently working on the project. To contribute:
+### Localization
+- 16 languages supported
+- Slovenian (complete, 472 lines)
+- Serbian, Greek, Bulgarian, Macedonian, Lithuanian, Latvian (partial)
+- English, German, French, Italian, Polish, Portuguese, Russian, Ukrainian, Hungarian (complete)
 
-1. Create an issue describing the change you want to make
-2. Fork the repository, create a feature branch
-3. Open a pull request with a clear description
+---
 
-## Upstream relationship
+## 🚀 Quick Start
 
-- **Upstream:** [gitlab.com/stone-kingdoms/stone-kingdoms](https://gitlab.com/stone-kingdoms/stone-kingdoms)
-- **License:** Apache 2.0 (preserved from upstream)
-- **Attribution:** All upstream contributors are acknowledged in `ATTRIBUTION.md`
+### Option A: Download .love package (recommended)
+1. Install [LÖVE 11.5+](https://love2d.org/)
+2. Download `stronghold2027-v1.2.1.love` from [Releases](https://github.com/markec12345678/stronghold2027/releases)
+3. Double-click the .love file
 
-To sync with upstream changes:
+### Option B: Build from source
 ```bash
-git fetch upstream
-git merge upstream/main
+git lfs install
+git clone https://github.com/markec12345678/stronghold2027.git
+cd stronghold2027
+git lfs pull
+love .
 ```
 
-## License
+---
 
-Apache 2.0 License — see [LICENSE](LICENSE) for details.
+## ⌨️ Keybinds
 
-Original Stone Kingdoms uses image assets, property of Firefly Studios' Stronghold (2001), used with permission. This fork maintains the same permission scope.
+| Key | Function |
+|-----|----------|
+| H | Keybind help |
+| V | Settings (game feel, audio, graphics) |
+| M | Market UI (dynamic prices) |
+| C | Caravan UI (trade with AI) |
+| F3 | Performance overlay |
+| F5 | Change weather |
+| F6 | Change time of day |
+| F7 | Spawn AI opponent |
+| F8 | Combat test scenario |
+| F9 | Combat statistics |
+| F10 | AI debug info |
+| F11 | Economy debug info |
+| F12 | Load campaign mission 1 |
 
-Individual libraries in `/libraries` or root directory retain their original licenses — see respective files for details.
+---
+
+## 📁 Project Structure
+
+```
+stronghold2027/
+├── objects/
+│   ├── AI/                    # AI system (5 modules)
+│   ├── Animation/             # Animation state machine
+│   ├── Audio/                 # Sound system
+│   ├── Combat/                # Combat system (3 modules)
+│   ├── Config/                # Balance & settings config
+│   ├── Controllers/           # Game controllers (20+)
+│   ├── Economy/               # Dynamic market, seasons, events, caravans
+│   ├── Environment/           # Lighting system
+│   ├── Feedback/              # Game feel (6 modules)
+│   ├── Mission/               # Mission framework, campaign progress
+│   ├── Performance/           # Profiling (4 modules)
+│   └── UI/                    # Modern UI system
+├── states/
+│   ├── ui/
+│   │   ├── economy/           # Market & caravan UI
+│   │   ├── hud/               # HUD widgets (6 modules)
+│   │   └── settings/          # Settings panel
+│   └── game.lua               # Main game loop
+├── saves/Missions/campaign/   # 10 campaign missions
+├── locale/                    # 16 language files
+├── shaders/                   # GLSL shaders (8 files)
+├── mods/                      # Modding API
+└── scripts/                   # Tests, benchmarks, build scripts
+```
+
+---
+
+## 📊 Stats
+
+| Metric | Value |
+|--------|-------|
+| Lua files | 300+ |
+| Lines of code | 215,000+ |
+| Buildings | 71 |
+| Units | 42 |
+| Campaign missions | 10 |
+| AI personalities | 4 |
+| Languages | 16 |
+| Git tags | 28 |
+| Test checks | 343 (100% pass) |
+
+---
+
+## 📜 License
+
+Apache 2.0 - see [LICENSE](LICENSE)
+
+Original Stone Kingdoms assets used with permission from Firefly Studios.
+
+---
+
+## 🙏 Credits
+
+- **Firefly Studios** - Original Stronghold game and asset permission
+- **Stone Kingdoms team** - Open source base
+- **LÖVE community** - Game engine
+- **markec12345678** - Stronghold 2027 development
