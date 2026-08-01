@@ -191,6 +191,16 @@ function SelectionFeedbackSystem.drawHoverRing()
     -- Get mouse position
     local mouseX, mouseY = love.mouse.getPosition()
 
+    -- Stronghold 2027: Skip hover ring when mouse is over UI (action bar, top UI)
+    local screenH = love.graphics.getHeight()
+    if mouseY > screenH - 150 or mouseY < 80 then
+        return  -- Mouse is over UI, don't draw hover ring
+    end
+    -- Also skip when any UI panel is open
+    if _G.DynamicMarketUI and _G.DynamicMarketUI.isVisible and _G.DynamicMarketUI.isVisible() then return end
+    if _G.CaravanUI and _G.CaravanUI.isVisible and _G.CaravanUI.isVisible() then return end
+    if _G.GameFeelSettings and _G.GameFeelSettings.isVisible and _G.GameFeelSettings.isVisible() then return end
+
     -- Find unit under mouse (simplified)
     if not _G.state or not _G.state.gameObjectList then return end
 

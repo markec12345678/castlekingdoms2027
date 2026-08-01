@@ -82,6 +82,14 @@ end
 function BuildPreviewSystem.update(dt)
     if not enabled or not preview.active then return end
 
+    -- Stronghold 2027: Skip preview when mouse is over UI
+    local mx, my = love.mouse.getPosition()
+    local screenH = love.graphics.getHeight()
+    if my > screenH - 150 then
+        -- Mouse is over action bar, don't update preview position
+        return
+    end
+
     -- Get mouse position and convert to world coords
     if _G.getTerrainTileOnMouse then
         local gx, gy = _G.getTerrainTileOnMouse(love.mouse.getPosition())

@@ -17,6 +17,7 @@ local KenneySpriteOverlay = {}
 function KenneySpriteOverlay.draw()
     -- Draw CC0 status badge (top-left, below season widget)
     local screenW = love.graphics.getWidth()
+    local screenH = love.graphics.getHeight()
     local badgeX = 10
     local badgeY = 80
 
@@ -33,65 +34,42 @@ function KenneySpriteOverlay.draw()
     love.graphics.setColor(0.3, 1, 0.3, 1)
     love.graphics.print("CC0 Asseti (Kenney)", badgeX + 10, badgeY + 5)
 
-    -- Draw building sprites in the game world
-    -- This replaces the original sprite batch rendering
-    if _G.state and _G.state.gameObjectList then
-        for _, obj in ipairs(_G.state.gameObjectList) do
-            if obj and not obj.toBeDeleted and obj.class and obj.class.name then
-                local name = obj.class.name
+    -- Stronghold 2027: Only render visible objects (frustum culling)
+    -- Use activeEntities instead of gameObjectList for better performance
+    if _G.state and _G.state.activeEntities then
+        local viewX = _G.state.viewXview or 0
+        local viewY = _G.state.viewYview or 0
+        local scale = _G.state.scaleX or 1
 
-                -- Check if it's a building (has gx, gy but no health)
-                if obj.gx and obj.gy and (not obj._combatAttached or obj.className == "Peasant") then
-                    -- Convert world to screen
-                    local screenX = obj.gx * 32 - obj.gy * 32
-                    local screenY = (obj.gx + obj.gy) * 16
+        -- Calculate visible bounds (with margin)
+        local visLeft = viewX - 100
+        local visRight = viewX + screenW / scale + 100
+        local visTop = viewY - 100
+        local visBottom = viewY + screenH / scale + 100
 
-                    if _G.state.viewXview then
-                        screenX = screenX - _G.state.viewXview
-                    end
-                    if _G.state.viewYview then
-                        screenY = screenY - _G.state.viewYview
-                    end
+        for _, obj in ipairs(_G.state.activeEntities) do
+            if obj and not obj.toBeDeleted and obj.gx and obj.gy then
+                -- Convert world to screen
+                local screenX = obj.gx * 32 - obj.gy * 32
+                local screenY = (obj.gx + obj.gy) * 16
 
-                    local scale = _G.state.scaleX or 1
-                    screenX = screenX * scale
-                    screenY = screenY * scale
+                -- Frustum culling: skip off-screen objects
+                if screenX >= visLeft and screenX <= visRight and
+                   screenY >= visTop and screenY <= visBottom then
 
-                    -- Only render if on-screen
-                    if screenX > -100 and screenX < screenW + 100 then
-                        KenneySpriteRenderer.drawBuilding(name, screenX, screenY, scale, scale)
-                    end
-                end
+                    screenX = (screenX - viewX) * scale
+                    screenY = (screenY - viewY) * scale
 
-                -- Check if it's a unit (has _combatAttached)
-                if obj._combatAttached and obj.className and obj.className ~= "Peasant" then
-                    if obj.gx and obj.gy then
-                        local screenX = obj.gx * 32 - obj.gy * 32
-                        local screenY = (obj.gx + obj.gy) * 16
-
-                        if _G.state.viewXview then
-                            screenX = screenX - _G.state.viewXview
-                        end
-                        if _G.state.viewYview then
-                            screenY = screenY - _G.state.viewYview
-                        end
-
-                        local scale = _G.state.scaleX or 1
-                        screenX = screenX * scale
-                        screenY = screenY * scale
-
-                        if screenX > -100 and screenX < screenW + 100 then
-                            KenneySpriteRenderer.drawUnit(obj.className, screenX, screenY, obj.moveDir)
-                        end
+                    -- Draw unit or building
+                    if obj._combatAttached and obj.className and obj.className ~= "Peasant" then
+                        KenneySpriteRenderer.drawUnit(obj.className, screenX, screenY, obj.moveDir)
+                    elseif obj.class and obj.class.name then
+                        KenneySpriteRenderer.drawBuilding(obj.class.name, screenX, screenY, scale, scale)
                     end
                 end
             end
         end
     end
-
-    -- Draw Kenney resource icons in the action bar area
-    -- (overlay on top of existing UI)
-    KenneySpriteOverlay.drawResourceBar()
 
     love.graphics.setColor(1, 1, 1, 1)
 end
