@@ -17,9 +17,15 @@ Zadnja posodobitev: 2026-08-01
 | CI/CD pipeline | ✅ Končano | - |
 | Dev veje | ✅ Končano | - |
 | Bug analiza | ✅ Končano | - |
-| Pathfinding fix | ⏳ Načrtovano | - |
+| Test suite (343 checks) | ✅ Končano | - |
+| Modding API (alpha) | ✅ Končano | 0.1.0 |
+| HD Shaderji | ✅ Končano | - |
+| Performance Profiler | ✅ Končano | - |
+| HD Asset Guide | ✅ Končano | - |
+| v0.7.0-alpha release | ✅ Končano | 0.7.0 |
 | HD asseti | ⏳ Načrtovano | - |
 | Combat sistem | ⏳ Načrtovano | - |
+| Multiplayer | ⏳ Raziskovano | - |
 
 ---
 
