@@ -51,6 +51,10 @@ local CombatOrderViz = require("objects.Feedback.CombatOrderVisualizer")
 -- Stronghold 2027 - Settings
 local GameFeelSettings = require("states.ui.settings.gamefeel_settings")
 local SettingsPersistence = require("objects.Config.SettingsPersistence")
+-- Stronghold 2027 - UX screens
+local MissionEndScreen = require("states.ui.hud.mission_end_screen")
+local CreditsScreen = require("states.ui.hud.credits_screen")
+local TutorialHints = require("objects.Feedback.TutorialHints")
 local savegame
 local playlist = require("sounds.music_playlist")
 local RationController
@@ -174,6 +178,8 @@ local function delayedInit()
     _G.SelectionFeedback = SelectionFeedback
     _G.CombatOrderViz = CombatOrderViz
     ModernUI.notifySuccess("Stronghold 2027 loaded! Press F8 for combat test.")
+    -- Stronghold 2027: Show tutorial hints on first game
+    TutorialHints.onGameStart()
     if _G.state.newGame then
         _G.playSpeech("place_a_keep")
         _G.BuildController.start = true
@@ -268,6 +274,10 @@ function game:update(dt)
                 BuildPreview.update(dt)
                 SelectionFeedback.update(dt)
                 CombatOrderViz.update(dt)
+                -- Stronghold 2027: Update UX screens
+                MissionEndScreen.update(dt)
+                CreditsScreen.update(dt)
+                TutorialHints.update(dt)
                 -- Update selection box position while dragging
                 if _G.Commander and _G.Commander.isDown then
                     local mx, my = love.mouse.getPosition()
@@ -392,6 +402,9 @@ function game:draw()
             CombatOrderViz.draw()
             -- Stronghold 2027: Draw settings panel (V key)
             GameFeelSettings.draw()
+            -- Stronghold 2027: Draw mission end screen and credits
+            MissionEndScreen.draw()
+            CreditsScreen.draw()
         else
             renderLoadingScreen("")
             renderLoadingBar(loadState, progress)
@@ -414,6 +427,9 @@ function game:mousepressed(x, y, button, istouch)
     end
     if GameFeelSettings.isVisible() then
         if GameFeelSettings.mousepressed(x, y, button) then return end
+    end
+    if MissionEndScreen.isVisible() then
+        if MissionEndScreen.mousepressed(x, y, button) then return end
     end
     if _G.paused then return end
     if objects.mousepressed(x, y, button, istouch) then
