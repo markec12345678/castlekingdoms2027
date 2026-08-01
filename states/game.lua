@@ -50,6 +50,7 @@ local SelectionFeedback = require("objects.Feedback.SelectionFeedbackSystem")
 local CombatOrderViz = require("objects.Feedback.CombatOrderVisualizer")
 -- Stronghold 2027 - Settings
 local GameFeelSettings = require("states.ui.settings.gamefeel_settings")
+local SettingsPersistence = require("objects.Config.SettingsPersistence")
 local savegame
 local playlist = require("sounds.music_playlist")
 local RationController
@@ -163,6 +164,9 @@ local function delayedInit()
     BuildPreview.init()
     SelectionFeedback.init()
     CombatOrderViz.init()
+    -- Stronghold 2027: Load persisted settings
+    SettingsPersistence.init()
+    SettingsPersistence.applyAll()
     GameFeelSettings.applySettings()
     -- Register globally for other systems to access
     _G.GameFeel = GameFeel
