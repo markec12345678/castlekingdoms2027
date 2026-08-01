@@ -61,6 +61,10 @@ end
 function BuildController:disable()
     self.active = false
     warningTooltip:HideTooltip()
+    -- Stronghold 2027: Clear build preview
+    if _G.BuildPreview then
+        _G.BuildPreview.clear()
+    end
 end
 
 function BuildController:serialize()
@@ -122,6 +126,13 @@ function BuildController:set(type, callback)
             type = 2
             self.batch:add(self.quads[type], (x - y) * tileWidth * 0.5, (x + y) * tileHeight * 0.5, 0, 1.06666, 1)
         end
+    end
+
+    -- Stronghold 2027: Activate build preview
+    if _G.BuildPreview then
+        local BalanceConfig = require("objects.Config.BalanceConfig")
+        local cost = BalanceConfig.buildings[type]
+        _G.BuildPreview.setBuilding(type, nil, cost)
     end
     self.batch:flush()
     self.active = true
