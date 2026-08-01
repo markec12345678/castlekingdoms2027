@@ -56,37 +56,35 @@ groups:
     description: Gardens, statues and entertainment to increase your popularity.
 buildings:
   hunterHut:
-    name: Hunter's hut
-    description: Hunts deer in the environment for meat.
+    name: Medžiotojų trobelė
+    description: Medžioja elnius mėsai.
   granary:
-    name: Granary
-    description: The granary is where you store your kingdom's food reserves.
+    name: Sandėlis
+    description: Didina maisto talpą.
   orchard:
-    name: Orchard
-    description: Produces apples.
+    name: Vaisių sodas
+    description: Gamina obuolius.
   wheatFarm:
-    name: Wheat Farm
-    description: Produces wheat which can be processed into flour.
+    name: Kvietų ferma
+    description: Gamina kviešius.
   dairyFarm:
-    name: Dairy Farm
-    description: Produces cheese.
+    name: Pieninė ferma
+    description: Gamina sūrį.
   hopsFarm:
-    name: Hops Farm
-    description: Produces hops which can be processed into ale.
+    name: Apynių ferma
+    description: Gamina apynius.
   castle:
     name: Saxon Hall
     description: Your Saxon hall is the center of your castle.
   stockpile:
-    name: Stockpile
-    description: 'Increases resource capacity.\nMust be placed adjacent to a stockpile.
-
-      '
+    name: Atsarga
+    description: Laiko statybines medžiagas.
   woodenKeep:
-    name: Wooden Keep
-    description: Upgrade your Saxon hall to a Wooden keep
+    name: Medinis bokštas
+    description: Medinis bokštas.
   keep:
-    name: Keep
-    description: Upgrade your Wooden keep to a Stone keep
+    name: Bokštas
+    description: Akmeninis bokštas.
   fortress:
     name: Fortress
     description: Upgrade your Stone keep to a Fortress
@@ -94,8 +92,8 @@ buildings:
     name: Stronghold
     description: Upgrade your Fortress to a Stronghold (not supported yet)
   barracks:
-    name: Barracks
-    description: A building allowing you to recruit units.
+    name: Kareivinės
+    description: Pastatas karių samdymui.
   stoneBarracks:
     name: Stone Barracks
     description: A building allowing you to recruit units.
@@ -106,60 +104,59 @@ buildings:
     name: Tunnelers Guild
     description: A building allowing you to recruit tunnelers.
   chapel:
-    name: Chapel
-    description: Increase your popularity with religion.
+    name: Koplyčia
+    description: Didina populiarumą su religija.
   church:
-    name: Church
-    description: Increase your popularity with religion.
+    name: Bažnyčia
+    description: Didina populiarumą su religija.
   cathedral:
-    name: Cathedral
-    description: Increase your popularity with religion and train warrior monks.
+    name: Katedra
+    description: Didina populiarumą su religija.
   apothecary:
     name: Apothecary
     description: Currently not functional.
   woodcutter:
-    name: Woodcutter Hut
-    description: Cuts down nearby trees to produce wood.
+    name: Miškinkio trobelė
+    description: Kerta medžius.
   ironMine:
-    name: Mine
-    description: Produces iron ingots from ground iron ore.
+    name: Kasykla
+    description: Gamina geležį.
   market:
-    name: Market
-    description: Allows you to trade your goods.
+    name: Turgus
+    description: Leidžia prekybą.
   ox:
     name: Ox Tether
     description: Transport stone from the quarry to the stockpile.
   quarry:
-    name: Quarry
-    description: Produces stone blocks from the ground resource.
+    name: Akmenslaužtė
+    description: Gamina akmenį.
   armoury:
-    name: Armoury
-    description: Weapons and armour is stored here, which is used by troops from the
-      barracks upon recruitment.
+    name: Ginklinė
+    description: Laiko ginklus ir šarvus.
   fletcher:
-    name: Fletcher Workshop
-    description: Produces bows and crossbows from wood.
+    name: Lankų dirbtuvė
+    description: Gamina lankus.
   poleturner:
     name: Poleturner Workshop
     description: Produces spears and pikes from wood.
   blacksmith:
-    name: Blacksmith Workshop
-    description: Produces swords and maces from iron.
+    name: Kalvė
+    description: Gamina kalavijus.
   armorer:
-    name: Armorer
-    description: Makes armor from iron.
+    name: Šarvų meistras
+    description: Gamina šarvus.
   windmill:
-    name: Windmill
-    description: Processes wheat into flour.
+    name: Vėjo malūnas
+    description: Mala kviešus į miltus.
   bakery:
-    name: Bakery
-    description: Processes flour into bread.
+    name: Kepykla
+    description: Keppa duoną.
   brewery:
-    name: Brewery
-    description: Processes hops into ale.
+    name: Alaus daryklą
+    description: Gamina alų.
   inn:
-    name: Inn
-    description: Distributes ale.
+    name: Užeiga
+    description: Dalina alų.
   pitchRig:
     name: Pitch Rig
     description: Small platform to collect pitch from the swamp.

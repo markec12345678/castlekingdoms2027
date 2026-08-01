@@ -58,37 +58,35 @@ groups:
     description: Gardens, statues and entertainment to increase your popularity.
 buildings:
   hunterHut:
-    name: Hunter's hut
-    description: Hunts deer in the environment for meat.
+    name: Mednieku būda
+    description: Medī briežus gaļai.
   granary:
-    name: Granary
-    description: The granary is where you store your kingdom's food reserves.
+    name: Klēts
+    description: Palielina ēdienu kapacitāti.
   orchard:
-    name: Orchard
-    description: Produces apples.
+    name: Ābeļdārzs
+    description: Ražo ābolus.
   wheatFarm:
-    name: Wheat Farm
-    description: Produces wheat which can be processed into flour.
+    name: Kviešu ferma
+    description: Ražo kviešus.
   dairyFarm:
-    name: Dairy Farm
-    description: Produces cheese.
+    name: Piena ferma
+    description: Ražo sieru.
   hopsFarm:
-    name: Hops Farm
-    description: Produces hops which can be processed into ale.
+    name: Apiņu ferma
+    description: Ražo apiņus.
   castle:
     name: Saxon Hall
     description: Your Saxon hall is the center of your castle.
   stockpile:
-    name: Stockpile
-    description: 'Increases resource capacity.\nMust be placed adjacent to a stockpile.
-
-      '
+    name: Krātuve
+    description: Glabā būvmateriālus.
   woodenKeep:
-    name: Wooden Keep
-    description: Upgrade your Saxon hall to a Wooden keep
+    name: Koka tornis
+    description: Koka tornis.
   keep:
-    name: Keep
-    description: Upgrade your Wooden keep to a Stone keep
+    name: Tornis
+    description: Akmens tornis.
   fortress:
     name: Fortress
     description: Upgrade your Stone keep to a Fortress
@@ -96,8 +94,8 @@ buildings:
     name: Stronghold
     description: Upgrade your Fortress to a Stronghold (not supported yet)
   barracks:
-    name: Barracks
-    description: A building allowing you to recruit units.
+    name: Kazarmas
+    description: Ēka karavīru vervēšanai.
   stoneBarracks:
     name: Stone Barracks
     description: A building allowing you to recruit units.
@@ -108,60 +106,59 @@ buildings:
     name: Tunnelers Guild
     description: A building allowing you to recruit tunnelers.
   chapel:
-    name: Chapel
-    description: Increase your popularity with religion.
+    name: Kapela
+    description: Palielina popularitāti ar reliģiju.
   church:
-    name: Church
-    description: Increase your popularity with religion.
+    name: Baznīca
+    description: Palielina popularitāti ar reliģiju.
   cathedral:
-    name: Cathedral
-    description: Increase your popularity with religion and train warrior monks.
+    name: Katedrāle
+    description: Palielina popularitāti ar reliģiju.
   apothecary:
     name: Apothecary
     description: Currently not functional.
   woodcutter:
-    name: Woodcutter Hut
-    description: Cuts down nearby trees to produce wood.
+    name: Mežsarga būda
+    description: Cērt kokus.
   ironMine:
-    name: Mine
-    description: Produces iron ingots from ground iron ore.
+    name: Raktuve
+    description: Ražo dzelzi.
   market:
-    name: Market
-    description: Allows you to trade your goods.
+    name: Tirgus
+    description: Atļauj tirdzniecību.
   ox:
     name: Ox Tether
     description: Transport stone from the quarry to the stockpile.
   quarry:
-    name: Quarry
-    description: Produces stone blocks from the ground resource.
+    name: Akmenslauztuve
+    description: Ražo akmeni.
   armoury:
-    name: Armoury
-    description: Weapons and armour is stored here, which is used by troops from the
-      barracks upon recruitment.
+    name: Ieroču glabātuve
+    description: Glabā ieročus un bruņas.
   fletcher:
-    name: Fletcher Workshop
-    description: Produces bows and crossbows from wood.
+    name: Loku darbnīca
+    description: Gaida lokus.
   poleturner:
     name: Poleturner Workshop
     description: Produces spears and pikes from wood.
   blacksmith:
-    name: Blacksmith Workshop
-    description: Produces swords and maces from iron.
+    name: Kalve
+    description: Gaida zobenus.
   armorer:
-    name: Armorer
-    description: Makes armor from iron.
+    name: Bruņu meistrs
+    description: Gaida bruņas.
   windmill:
-    name: Windmill
-    description: Processes wheat into flour.
+    name: Vēdzirnavas
+    description: Maļ kviešus miltos.
   bakery:
-    name: Bakery
-    description: Processes flour into bread.
+    name: Maiznīca
+    description: Cep maizi.
   brewery:
-    name: Brewery
-    description: Processes hops into ale.
+    name: Alus darītava
+    description: Ražo alu.
   inn:
-    name: Inn
-    description: Distributes ale.
+    name: Krogs
+    description: Izdala alu.
   pitchRig:
     name: Pitch Rig
     description: Small platform to collect pitch from the swamp.
