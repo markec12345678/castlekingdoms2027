@@ -57,37 +57,35 @@ groups:
     description: Gardens, statues and entertainment to increase your popularity.
 buildings:
   hunterHut:
-    name: Hunter's hut
-    description: Hunts deer in the environment for meat.
+    name: Ловечка колиба
+    description: Лови елени за месо.
   granary:
-    name: Granary
-    description: The granary is where you store your kingdom's food reserves.
+    name: Житница
+    description: Го зголемува капацитетот на храна.
   orchard:
-    name: Orchard
-    description: Produces apples.
+    name: Овоштарник
+    description: Произведува јаболка.
   wheatFarm:
-    name: Wheat Farm
-    description: Produces wheat which can be processed into flour.
+    name: Пченична фарма
+    description: Произведува пченица.
   dairyFarm:
-    name: Dairy Farm
-    description: Produces cheese.
+    name: Млечна фарма
+    description: Произведува сирење.
   hopsFarm:
-    name: Hops Farm
-    description: Produces hops which can be processed into ale.
+    name: Фарма хмељ
+    description: Произведува хмељ.
   castle:
     name: Saxon Hall
     description: Your Saxon hall is the center of your castle.
   stockpile:
-    name: Stockpile
-    description: 'Increases resource capacity.\nMust be placed adjacent to a stockpile.
-
-      '
+    name: Складиште
+    description: Чува градежни материјали.
   woodenKeep:
-    name: Wooden Keep
-    description: Upgrade your Saxon hall to a Wooden keep
+    name: Дрвена тврдина
+    description: Дрвена тврдина.
   keep:
-    name: Keep
-    description: Upgrade your Wooden keep to a Stone keep
+    name: Тврдина
+    description: Камена тврдина.
   fortress:
     name: Fortress
     description: Upgrade your Stone keep to a Fortress
@@ -95,8 +93,8 @@ buildings:
     name: Stronghold
     description: Upgrade your Fortress to a Stronghold (not supported yet)
   barracks:
-    name: Barracks
-    description: A building allowing you to recruit units.
+    name: Касарна
+    description: Зграда за регрутирање единици.
   stoneBarracks:
     name: Stone Barracks
     description: A building allowing you to recruit units.
@@ -107,60 +105,59 @@ buildings:
     name: Tunnelers Guild
     description: A building allowing you to recruit tunnelers.
   chapel:
-    name: Chapel
-    description: Increase your popularity with religion.
+    name: Капела
+    description: Го зголемува популарноста со религија.
   church:
-    name: Church
-    description: Increase your popularity with religion.
+    name: Црква
+    description: Го зголемува популарноста со религија.
   cathedral:
-    name: Cathedral
-    description: Increase your popularity with religion and train warrior monks.
+    name: Катедрала
+    description: Го зголемува популарноста со религија.
   apothecary:
     name: Apothecary
     description: Currently not functional.
   woodcutter:
-    name: Woodcutter Hut
-    description: Cuts down nearby trees to produce wood.
+    name: Колиба на дрвар
+    description: Сече дрва.
   ironMine:
-    name: Mine
-    description: Produces iron ingots from ground iron ore.
+    name: Рудник
+    description: Произведува железо.
   market:
-    name: Market
-    description: Allows you to trade your goods.
+    name: Пазар
+    description: Овозможува трговија.
   ox:
     name: Ox Tether
     description: Transport stone from the quarry to the stockpile.
   quarry:
-    name: Quarry
-    description: Produces stone blocks from the ground resource.
+    name: Каменолом
+    description: Произведува камен.
   armoury:
-    name: Armoury
-    description: Weapons and armour is stored here, which is used by troops from the
-      barracks upon recruitment.
+    name: Оружарница
+    description: Чува оружје и оклоп.
   fletcher:
-    name: Fletcher Workshop
-    description: Produces bows and crossbows from wood.
+    name: Работилница за лакови
+    description: Прави лакови.
   poleturner:
     name: Poleturner Workshop
     description: Produces spears and pikes from wood.
   blacksmith:
-    name: Blacksmith Workshop
-    description: Produces swords and maces from iron.
+    name: Ковачница
+    description: Прави мечеви.
   armorer:
-    name: Armorer
-    description: Makes armor from iron.
+    name: Оклопник
+    description: Прави оклоп.
   windmill:
-    name: Windmill
-    description: Processes wheat into flour.
+    name: Ветерница
+    description: Мели пченица во брашно.
   bakery:
-    name: Bakery
-    description: Processes flour into bread.
+    name: Пекара
+    description: Пече леб.
   brewery:
-    name: Brewery
-    description: Processes hops into ale.
+    name: Пиварница
+    description: Произведува пиво.
   inn:
-    name: Inn
-    description: Distributes ale.
+    name: Крчма
+    description: Дели пиво.
   pitchRig:
     name: Pitch Rig
     description: Small platform to collect pitch from the swamp.
