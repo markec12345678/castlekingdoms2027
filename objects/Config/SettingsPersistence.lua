@@ -43,6 +43,7 @@ local DEFAULT_SETTINGS = {
     gameSpeed = 1.0,
     autoSave = true,
     showFps = false,
+    useKenneyAssets = false,  -- CC0 asset toggle (Kenney vs original)
 }
 
 -- Current settings (loaded from file or defaults)
@@ -190,6 +191,12 @@ function SettingsPersistence.applyAll()
 
     -- Graphics
     SettingsPersistence.applyGraphics()
+
+    -- CC0 Assets (Kenney)
+    local KenneyAssetLoader = _G.KenneyAssetLoader
+    if KenneyAssetLoader then
+        KenneyAssetLoader.setEnabled(currentSettings.useKenneyAssets == true)
+    end
 
     print("[SettingsPersistence] All settings applied")
 end

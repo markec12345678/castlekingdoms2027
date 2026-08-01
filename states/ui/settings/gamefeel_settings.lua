@@ -156,6 +156,12 @@ local SETTING_DEFS = {
         tab = "graphics",
         type = "toggle",
     },
+    useKenneyAssets = {
+        label = "CC0 Asseti (Kenney)",
+        tooltip = "Uporabi CC0 (public domain) Kenney assete namesto originalnih. Popolna neodvisnost od Firefly Studios. Brez atribucije, komercialno brezplačno.",
+        tab = "graphics",
+        type = "toggle",
+    },
 }
 
 -- Tab definitions
