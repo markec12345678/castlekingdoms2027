@@ -1,62 +1,68 @@
-<div align="center">
-  <img alt="Stone Kingdoms" src="assets/other/sk_logo_medium.png"/>
-</div>
+# Stronghold 2027
 
-<div align="center">
-  <a href="https://stonekingdoms.itch.io/stone-kingdoms-rts">
-    <img height="48" alt="Download on Itch" src="https://static.itch.io/images/badge.svg"/>
-  </a>
-  <a href="https://flathub.org/apps/details/io.gitlab.stone_kingdoms.StoneKingdoms">
-    <img height="48" alt="Download on Flathub" src="https://flathub.org/assets/badges/flathub-badge-en.svg"/>
-  </a>
-</div>
+> Fork of [Stone Kingdoms](https://gitlab.com/stone-kingdoms/stone-kingdoms) — modernized edition targeting 2026-2027 release with HD graphics and improved gameplay.
 
-<div align="center">
-  <a href="https://gitlab.com/stone-kingdoms/stone-kingdoms/-/commits/master">
-    <img alt="pipeline status" src="https://gitlab.com/stone-kingdoms/stone-kingdoms/badges/master/pipeline.svg" />
-  </a>
-  <a href="https://gitlab.com/stone-kingdoms/stone-kingdoms/-/commits/master">
-    <img alt="coverage report" src="https://gitlab.com/stone-kingdoms/stone-kingdoms/badges/master/coverage.svg?min_medium=25&min_acceptable=40&min_good=65" />
-  </a>
-  <a href="https://discord.gg/PRh8SPZxEf">
-    <img alt="discord server" src="https://img.shields.io/discord/409340503767777281" />
-  </a>
-</div>
+[![Upstream](https://img.shields.io/badge/upstream-Stone%20Kingdoms-orange)](https://gitlab.com/stone-kingdoms/stone-kingdoms)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
+[![Status](https://img.shields.io/badge/status-pre--alpha-red)]()
 
+---
 
-<br/>
+## What is this?
 
-<div align="center">
-  <img src="assets/other/screenshot_1.jpg" alt="Screenshot"/>
-</div>
+**Stronghold 2027** is a fork of the open-source Stone Kingdoms project (an Apache 2.0 licensed remake of Firefly Studios' Stronghold 2001, developed with permission from Firefly Studios). Our goal is to modernize the game with:
 
-<br/>
+- HD / 4K graphical assets (replacing original sprites)
+- Modern UI/UX with cleaner visual design
+- Performance optimizations for modern hardware
+- Slovenian localization (in addition to existing languages)
+- Bug fixes and gameplay improvements
+- Optional new content (units, buildings, campaigns)
 
-Open source fan remake of the famous Stronghold from Firefly Studios
+## Roadmap
 
-Experience the thrill of medieval castle building and destruction in our
-isometric, open source strategy game - a modern remake of Firefly Studios'
-classic Stronghold. Immerse yourself in a world of strategy and tactical
-decision making as you design and defend your own castles in medieval Europe.
+- **Phase 1 (1-2 months):** Fork stabilization, dev environment setup, Slovenian localization
+- **Phase 2 (2-4 months):** Bug fixes, performance optimizations
+- **Phase 3 (4-8 months):** HD graphical asset replacement
+- **Phase 4 (8-12 months):** New content and features
+- **Phase 5 (12-14 months):** Beta, polish, release on Steam/GOG
 
 ## Prerequisites for development
+
 1. Install [Git Large File Storage](https://git-lfs.github.com/)
 2. Install LÖVE 11.4 from the [official website](https://love2d.org/)
+3. Clone this repository: `git clone https://github.com/markec12345678/stronghold2027.git`
+4. Run `git lfs install && git lfs pull` to fetch binary assets
 
-## Install from source
+## Run from source
 
-1. Download the repository from [here](https://gitlab.com/kaylemaster/stone-kingdoms/-/archive/master/stone-kingdoms-master.zip) or clone via git
-2. Open terminal or command line in the directory where `main.lua` is located
-3. Run `love .` and play!
+1. Open terminal in the repository directory (where `main.lua` is located)
+2. Run `love .` and play!
 
 ## How to contribute
-Contact Kayle in the discord server for more instructions.
-We can use help in the programming, design and game balance department.
+
+This is a small-team fork. Two developers currently working on the project. To contribute:
+
+1. Create an issue describing the change you want to make
+2. Fork the repository, create a feature branch
+3. Open a pull request with a clear description
+
+## Upstream relationship
+
+- **Upstream:** [gitlab.com/stone-kingdoms/stone-kingdoms](https://gitlab.com/stone-kingdoms/stone-kingdoms)
+- **License:** Apache 2.0 (preserved from upstream)
+- **Attribution:** All upstream contributors are acknowledged in `ATTRIBUTION.md`
+
+To sync with upstream changes:
+```bash
+git fetch upstream
+git merge upstream/main
+```
 
 ## License
 
-Stone Kingdoms is licensed under Apache 2.0 License. See LICENSE.md for more details.
+Apache 2.0 License — see [LICENSE](LICENSE) for details.
 
-Stone Kingdoms uses image assets, property of Firefly Studios' Stronghold (2001).
+Original Stone Kingdoms uses image assets, property of Firefly Studios' Stronghold (2001), used with permission. This fork maintains the same permission scope.
 
-Please see respective files for license of the libraries located in /libraries or root directory (busted).
+Individual libraries in `/libraries` or root directory retain their original licenses — see respective files for details.
