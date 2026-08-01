@@ -43,6 +43,10 @@ local PriorityUpdate = require("objects.Performance.PriorityUpdateSystem")
 local AITickOptimizer = require("objects.Performance.AITickOptimizer")
 local MemoryProfiler = require("objects.Performance.MemoryProfiler")
 local PerformanceOverlay = require("states.ui.hud.performance_overlay")
+-- Stronghold 2027 - Game feel feedback
+local GameFeel = require("objects.Feedback.GameFeelSystem")
+local BuildPreview = require("objects.Feedback.BuildPreviewSystem")
+local SelectionFeedback = require("objects.Feedback.SelectionFeedbackSystem")
 local savegame
 local playlist = require("sounds.music_playlist")
 local RationController
@@ -151,6 +155,10 @@ local function delayedInit()
     PriorityUpdate.init()
     AITickOptimizer.init()
     MemoryProfiler.init()
+    -- Stronghold 2027: Initialize game feel feedback
+    GameFeel.init()
+    BuildPreview.init()
+    SelectionFeedback.init()
     ModernUI.notifySuccess("Stronghold 2027 loaded! Press F8 for combat test.")
     if _G.state.newGame then
         _G.playSpeech("place_a_keep")
@@ -241,6 +249,10 @@ function game:update(dt)
                 PerformanceManager.update(dt)
                 MemoryProfiler.update(dt)
                 AITickOptimizer.update(dt)
+                -- Stronghold 2027: Update game feel feedback
+                GameFeel.update(dt)
+                BuildPreview.update(dt)
+                SelectionFeedback.update(dt)
                 _G.MissionStart = true
                 if (loveframes.GetState() == states.STATE_ARMOURY) then
                     ArmouryUI.DisplayCurrentStock()
@@ -354,6 +366,9 @@ function game:draw()
             EventLog.draw()
             -- Stronghold 2027: Draw performance overlay (F3/F4)
             PerformanceOverlay.draw()
+            -- Stronghold 2027: Draw game feel feedback (selection rings, build preview)
+            SelectionFeedback.draw()
+            BuildPreview.draw()
         else
             renderLoadingScreen("")
             renderLoadingBar(loadState, progress)
