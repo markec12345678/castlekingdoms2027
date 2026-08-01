@@ -19,6 +19,7 @@ local AIStrategyController = require("objects.AI.AIStrategyController")
 local EconomyAI = require("objects.AI.EconomyAI")
 local MilitaryAI = require("objects.AI.MilitaryAI")
 local AICommander = require("objects.AI.AICommander")
+local AIEnhancements = require("objects.AI.AIEnhancements")
 
 local COMBAT = require("objects.Enums.Combat")
 
@@ -36,8 +37,9 @@ function AIIntegration.init()
     _G.EconomyAI = EconomyAI
     _G.MilitaryAI = MilitaryAI
     _G.AICommander = AICommander
+    _G.AIEnhancements = AIEnhancements
 
-    print("[AIIntegration] AI system initialized")
+    print("[AIIntegration] AI system initialized (with enhancements)")
 end
 
 -- Spawn a new AI faction
@@ -82,10 +84,13 @@ function AIIntegration.update(dt)
     AIStrategyController:update(dt)
 
     -- Update each faction's economy and military
-    for faction, _ in pairs(AIStrategyController.factions) do
+    for faction, state in pairs(AIStrategyController.factions) do
         EconomyAI:update(faction, dt)
         MilitaryAI:update(faction, dt)
         AICommander:update(faction, dt)
+
+        -- Stronghold 2027: AI behavior enhancements
+        AIEnhancements.update(faction, state, dt)
 
         -- Execute pending build orders
         AIIntegration.processBuildOrders(faction)
