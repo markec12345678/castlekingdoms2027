@@ -26,35 +26,32 @@ mission5:
   desc: В тази мисия изградете величествена катедрала в следващите 10 години.
 groups:
   castle:
-    name: Castle
-    description: Walls, Towers, Gates and everything else you need to defend your
-      Stronghold.
+    name: Крепост
+    description: Стени, кули, порти за защита.
   industry:
-    name: Industry
-    description: Build mighty Industries to defeat your enemies ... or fill your pockets.
+    name: Индустрия
+    description: Постройте мощна индустрия.
   apple:
-    name: Farms
-    description: Produce basic agricultural products.
+    name: Ферми
+    description: Произвеждайте продукти.
   house:
-    name: Civilian
-    description: Houses and amenities for your citizens.
+    name: Граждански
+    description: Къщи за граждани.
   shield:
-    name: Military
-    description: Raise mighty armies and build terrifying siege weapons to crush your
-      enemies.
+    name: Армия
+    description: Възпитавайте армии.
   sickle:
-    name: Food Production
-    description: Turn basic farm products into high quality goods.
+    name: Преработка
+    description: Превърнете в качествени стоки.
   destroy:
-    name: Demolish
-    description: Enter demolish mode. Click on a building to destroy.
-    exitTooltip: Exit Demolish Mode
+    name: Разрушаване
+    description: Кликнете за разрушаване.
   houses:
-    name: Houses
-    description: Houses to increase your population limit.
+    name: Къщи
+    description: Къщи за население.
   goodThings:
-    name: Good things
-    description: Gardens, statues and entertainment to increase your popularity.
+    name: Украси
+    description: Градини за популярност.
 buildings:
   hunterHut:
     name: Ловна колиба
@@ -256,46 +253,36 @@ freebuild:
 
       '
 rations:
-  false:
-    name: No Rations
-    description: 'No rations for each worker.\nDecreases their happiness by 8.
-
-      '
+  'no':
+    name: Без дажби
+    description: Без храна. -8 щастие.
   half:
-    name: Half Rations
-    description: '0.5x rations for each worker.\nDecreases their happiness by 4.
-
-      '
+    name: Половин дажби
+    description: 0.5x. -4 щастие.
   full:
-    name: Full Rations
-    description: 'Normal rations for each worker.
-
-      '
+    name: Пълни дажби
+    description: Нормални дажби.
   extra:
-    name: Extra Rations
-    description: '1.5x rations for each worker.\nIncreases their happiness by 4.
-
-      '
+    name: Допълнителни
+    description: 1.5x. +4 щастие.
   double:
-    name: Double Rations
-    description: '2x rations for each worker.\nIncreases their happiness by 8.
-
-      '
+    name: Двойни дажби
+    description: 2x. +8 щастие.
 houses:
   upgradeButton: UPGRADE
   description: Offers shelter to %s people
 taxes:
-  false: No Tax
-  auto: Auto Tax
-  generousBribe: Generous Bribe
-  largeBribe: Large Bribe
-  smallBribe: Small Bribe
-  low: Low Taxes
-  avg: Average Taxes
-  high: High Taxes
-  mean: Mean Taxes
-  extra: Extortionate Taxes
-  downrightCruel: Downright Cruel Taxes
+  'no': Без данък
+  auto: Авто данък
+  generousBribe: Щедър подкуп
+  largeBribe: Голям подкуп
+  smallBribe: Малък подкуп
+  low: Ниски данъци
+  avg: Средни данъци
+  high: Високи данъци
+  mean: Зли данъци
+  extra: Изнудвачески
+  downrightCruel: Жестоки данъци
 popularityText:
   total: Total
   rations: Rations
@@ -319,50 +306,26 @@ popularityText:
 settings:
   categories:
     sound:
-      button: Sound
-      title: SOUND LEVELS
-      description: Here you can change the sound levels of sound effects or speech
-        to your liking.
-      items:
-        masterVolume: Master volume
-        musicVolume: Music volume
-        soundVolume: Sound volume
-        speechVolume: Speech volume
+      button: Звук
+      title: НИВА НА ЗВУК
+      description: Променете звука.
     graphics:
-      button: Graphics
-      title: GRAPHIC SETTINGS
-      description: 'Modify rendering quality, chunk size and toggle animations in
-        order to balance performance.\n
-
-        '
-      items:
-        fullScreen: Full Screen
-        borderless: Borderless
-        vsync: VSync
-        resolution: Resolution
-        display: Display
-        apply: Apply
+      button: Графика
+      title: ГРАФИЧНИ НАСТРОЙКИ
+      description: Променете качеството.
     hotkeys:
-      button: Hotkeys
-      title: KEYBOARD HOTKEYS & SHORTCUTS
-      description: 'Edit or add new keyboard hotkeys and shortcuts.\n
-
-        '
+      button: Бързи клавиши
+      title: БЪРЗИ КЛАВИШИ
+      description: Редактирайте клавиши.
     video:
-      button: Video
-      title: VIDEO SETTINGS
-      description: 'Change fullscreen settings, window resolution and toggle VSync.\n
-
-        '
+      button: Видео
+      title: ВИДЕО НАСТРОЙКИ
+      description: Настройки на екрана.
     interface:
-      button: Interface
-      title: INTERFACE SETTINGS
-      description: 'Toggle interface elements and modify their scale.\n
-
-        '
-      items:
-        language: Language
-  apply: Apply
+      button: Интерфейс
+      title: НАСТРОЙКИ НА ИНТЕРФЕЙСА
+      description: Елементи на интерфейса.
+  apply: Приложи
 recruitment:
   archer: Стрелец
   spearman: Копиеносец
@@ -385,41 +348,16 @@ objects:
     stoneBarracks: Click to recruit units
     tunnelersGuild: Click to recruit tunnelers
 tips:
-  upgradeKeep: You need to upgrade your keep to build this
-  notAvailableInMission: Not available in this mission
-  buildMarket: Build a market to trade!
-  cantTrade: You can't trade that!
-  notImplemented: Not implemented yet.
-  increaseTradeQuantity: Increase quantity of items you want to trade by 5
-  decreaseTradeQuantity: Decrease quantity of items you want to trade by 5
-  actionBar:
-    woodenStructures:
-      title: Wooden Structures
-      description: Towers, gates and walls.
-    stoneStructures:
-      title: Stone Structures
-      description: Stronger towers, gates and walls.
+  notImplemented: Не е имплементирано.
+  buildMarket: Построете пазар!
+  cantTrade: Не можете да търгувате!
   warning:
-    obstacle: There is an obstacle in the way!
-    tooCloseToKeep: Too close to the keep!
-    cliffs: Cannot build on cliffs!
-    water: Cannot build on top of water!
-    unevenTerrain: Cannot build on too uneven terrain!
-    notEnoughResources: Not enough resources!
-    outOfBounds: Cannot build outside of map bounds!
-    adjacentStockpile: Needs to placed adjacent to a stockpile!
-    adjacentGranary: Needs to placed adjacent to a granary!
-    adjacentArmoury: Needs to placed adjacent to an armoury!
-    onTopOfStone: Needs to placed on top of stone!
-    onTopOfIron: Needs to placed on top of iron ore!
-    unitsInTheWay: There are units in the way!
-    structuresInTheWay: There are structures in the way!
-    needArmoury: You need an armoury to build this!
-    closeToQuarry: Needs to be placed close to an existing quarry!
-    keepCloseToEdgeOfMap: Too close to the edge of the map!
+    obstacle: Има пречка!
+    tooCloseToKeep: Твърде близо!
+    water: Не на вода!
+    notEnoughResources: Няма ресурси!
+    outOfBounds: Извън границите!
 ui:
-  global:
-    start: Start
   mainMenu:
     freebuild: Свободно строене
     campaign: Кампания
@@ -428,20 +366,6 @@ ui:
     resume: Продължи
     options: Опции
     exit: Изход
-  campaign:
-    economicMissions: Economic Missions
-  load:
-    title: Load Game
-    saveName: Save name
-    map: Map
-    dateSaved: Date saved
-    version: Version
-    states:
-      loadingTextures: Loading textures...
-      initializingTerrain: Initializing terrain...
-      updatingTerrain: Updating terrain...
-      updatingObjects: Updating objects...
-      renderingTerrain: Rendering terrain...
 gold: злато
 wood: дърво
 stone: камък
