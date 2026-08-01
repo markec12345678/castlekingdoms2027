@@ -59,6 +59,8 @@ local KeybindHelp = require("states.ui.hud.keybind_help")
 -- Stronghold 2027 - Campaign progress & auto-save
 local CampaignProgress = require("objects.Mission.CampaignProgress")
 local AutoSaveSystem = require("objects.AutoSaveSystem")
+-- Stronghold 2027 - Kenney CC0 asset loader
+local KenneyAssetLoader = require("objects.Config.KenneyAssetLoader")
 local savegame
 local playlist = require("sounds.music_playlist")
 local RationController
@@ -188,6 +190,9 @@ local function delayedInit()
     CampaignProgress.init()
     AutoSaveSystem.init()
     AutoSaveSystem.setEnabledFromSettings()
+    -- Stronghold 2027: Initialize Kenney CC0 asset loader
+    KenneyAssetLoader.init()
+    _G.KenneyAssetLoader = KenneyAssetLoader
     if _G.state.newGame then
         _G.playSpeech("place_a_keep")
         _G.BuildController.start = true
