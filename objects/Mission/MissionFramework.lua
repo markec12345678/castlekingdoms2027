@@ -398,6 +398,17 @@ function MissionFramework.onMissionWon()
     if currentMission.rewards then
         MissionFramework.giveResources(currentMission.rewards)
     end
+
+    -- Stronghold 2027: Show mission end screen
+    local ok, MissionEndScreen = pcall(require, "states.ui.hud.mission_end_screen")
+    if ok and MissionEndScreen then
+        local stats = {
+            time = missionTimer,
+            missionName = currentMission.nameSlv or currentMission.name,
+            goldEarned = currentMission.rewards and currentMission.rewards.gold or 0,
+        }
+        MissionEndScreen.show("victory", stats)
+    end
 end
 
 -- Mission lost
@@ -409,6 +420,16 @@ function MissionFramework.onMissionLost()
 
     local ModernUI = require("objects.UI.ModernUISystem")
     ModernUI.notifyError("MISSION FAILED! " .. (currentMission.name or ""), 10)
+
+    -- Stronghold 2027: Show mission end screen
+    local ok, MissionEndScreen = pcall(require, "states.ui.hud.mission_end_screen")
+    if ok and MissionEndScreen then
+        local stats = {
+            time = missionTimer,
+            missionName = currentMission.nameSlv or currentMission.name,
+        }
+        MissionEndScreen.show("defeat", stats)
+    end
 end
 
 -- Get current mission info
