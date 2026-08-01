@@ -31,35 +31,32 @@ mission5:
     10 χρόνια.
 groups:
   castle:
-    name: Castle
-    description: Walls, Towers, Gates and everything else you need to defend your
-      Stronghold.
+    name: Κάστρο
+    description: Τείχη, πύργοι, πύλες για άμυνα.
   industry:
-    name: Industry
-    description: Build mighty Industries to defeat your enemies ... or fill your pockets.
+    name: Βιομηχανία
+    description: Χτίστε ισχυρή βιομηχανία.
   apple:
-    name: Farms
-    description: Produce basic agricultural products.
+    name: Φάρμες
+    description: Παράγετε γεωργικά προϊόντα.
   house:
-    name: Civilian
-    description: Houses and amenities for your citizens.
+    name: Πολίτες
+    description: Σπίτια για πολίτες.
   shield:
-    name: Military
-    description: Raise mighty armies and build terrifying siege weapons to crush your
-      enemies.
+    name: Στρατός
+    description: Συγκροτήστε στρατούς.
   sickle:
-    name: Food Production
-    description: Turn basic farm products into high quality goods.
+    name: Επεξεργασία Τροφίμων
+    description: Μετατρέψτε σε ποιοτικά αγαθά.
   destroy:
-    name: Demolish
-    description: Enter demolish mode. Click on a building to destroy.
-    exitTooltip: Exit Demolish Mode
+    name: Κατεδάφιση
+    description: Κλικ σε κτίριο για κατεδάφιση.
   houses:
-    name: Houses
-    description: Houses to increase your population limit.
+    name: Σπίτια
+    description: Σπίτια για πληθυσμό.
   goodThings:
-    name: Good things
-    description: Gardens, statues and entertainment to increase your popularity.
+    name: Διακοσμήσεις
+    description: Κήποι για δημοτικότητα.
 buildings:
   hunterHut:
     name: Καλύβα Κυνηγού
@@ -261,46 +258,36 @@ freebuild:
 
       '
 rations:
-  false:
-    name: No Rations
-    description: 'No rations for each worker.\nDecreases their happiness by 8.
-
-      '
+  'no':
+    name: Χωρίς μερίδες
+    description: Χωρίς φαγητό. -8 ευτυχία.
   half:
-    name: Half Rations
-    description: '0.5x rations for each worker.\nDecreases their happiness by 4.
-
-      '
+    name: Μισές μερίδες
+    description: 0.5x. -4 ευτυχία.
   full:
-    name: Full Rations
-    description: 'Normal rations for each worker.
-
-      '
+    name: Πλήρεις μερίδες
+    description: Κανονικές μερίδες.
   extra:
-    name: Extra Rations
-    description: '1.5x rations for each worker.\nIncreases their happiness by 4.
-
-      '
+    name: Επιπλέον μερίδες
+    description: 1.5x. +4 ευτυχία.
   double:
-    name: Double Rations
-    description: '2x rations for each worker.\nIncreases their happiness by 8.
-
-      '
+    name: Διπλές μερίδες
+    description: 2x. +8 ευτυχία.
 houses:
   upgradeButton: UPGRADE
   description: Offers shelter to %s people
 taxes:
-  false: No Tax
-  auto: Auto Tax
-  generousBribe: Generous Bribe
-  largeBribe: Large Bribe
-  smallBribe: Small Bribe
-  low: Low Taxes
-  avg: Average Taxes
-  high: High Taxes
-  mean: Mean Taxes
-  extra: Extortionate Taxes
-  downrightCruel: Downright Cruel Taxes
+  'no': Χωρίς φόρο
+  auto: Αυτόματος φόρος
+  generousBribe: Γενναιόδωρο δώρο
+  largeBribe: Μεγάλο δώρο
+  smallBribe: Μικρό δώρο
+  low: Χαμηλοί φόροι
+  avg: Μέσοι φόροι
+  high: Υψηλοί φόροι
+  mean: Σκληροί φόροι
+  extra: Εξαντλητικοί φόροι
+  downrightCruel: Βάρβαροι φόροι
 popularityText:
   total: Total
   rations: Rations
@@ -324,50 +311,26 @@ popularityText:
 settings:
   categories:
     sound:
-      button: Sound
-      title: SOUND LEVELS
-      description: Here you can change the sound levels of sound effects or speech
-        to your liking.
-      items:
-        masterVolume: Master volume
-        musicVolume: Music volume
-        soundVolume: Sound volume
-        speechVolume: Speech volume
+      button: Ήχος
+      title: ΕΠΙΠΕΔΑ ΗΧΟΥ
+      description: Αλλάξτε επίπεδα ήχου.
     graphics:
-      button: Graphics
-      title: GRAPHIC SETTINGS
-      description: 'Modify rendering quality, chunk size and toggle animations in
-        order to balance performance.\n
-
-        '
-      items:
-        fullScreen: Full Screen
-        borderless: Borderless
-        vsync: VSync
-        resolution: Resolution
-        display: Display
-        apply: Apply
+      button: Γραφικά
+      title: ΓΡΑΦΙΚΕΣ ΡΥΘΜΙΣΕΙΣ
+      description: Αλλάξτε ποιότητα.
     hotkeys:
-      button: Hotkeys
-      title: KEYBOARD HOTKEYS & SHORTCUTS
-      description: 'Edit or add new keyboard hotkeys and shortcuts.\n
-
-        '
+      button: Συντομεύσεις
+      title: ΣΥΝΤΟΜΕΥΣΕΙΣ
+      description: Επεξεργασία συντομεύσεων.
     video:
-      button: Video
-      title: VIDEO SETTINGS
-      description: 'Change fullscreen settings, window resolution and toggle VSync.\n
-
-        '
+      button: Βίντεο
+      title: ΡΥΘΜΙΣΕΙΣ ΒΙΝΤΕΟ
+      description: Ρυθμίσεις οθόνης.
     interface:
-      button: Interface
-      title: INTERFACE SETTINGS
-      description: 'Toggle interface elements and modify their scale.\n
-
-        '
-      items:
-        language: Language
-  apply: Apply
+      button: Διεπαφή
+      title: ΡΥΘΜΙΣΕΙΣ ΔΙΕΠΑΦΗΣ
+      description: Στοιχεία διεπαφής.
+  apply: Εφαρμογή
 recruitment:
   archer: Τοξότης
   spearman: Δορατοφόρος
@@ -390,41 +353,16 @@ objects:
     stoneBarracks: Click to recruit units
     tunnelersGuild: Click to recruit tunnelers
 tips:
-  upgradeKeep: You need to upgrade your keep to build this
-  notAvailableInMission: Not available in this mission
-  buildMarket: Build a market to trade!
-  cantTrade: You can't trade that!
-  notImplemented: Not implemented yet.
-  increaseTradeQuantity: Increase quantity of items you want to trade by 5
-  decreaseTradeQuantity: Decrease quantity of items you want to trade by 5
-  actionBar:
-    woodenStructures:
-      title: Wooden Structures
-      description: Towers, gates and walls.
-    stoneStructures:
-      title: Stone Structures
-      description: Stronger towers, gates and walls.
+  notImplemented: Δεν έχει υλοποιηθεί.
+  buildMarket: Χτίστε αγορά!
+  cantTrade: Δεν μπορείτε να το εμπορευτείτε!
   warning:
-    obstacle: There is an obstacle in the way!
-    tooCloseToKeep: Too close to the keep!
-    cliffs: Cannot build on cliffs!
-    water: Cannot build on top of water!
-    unevenTerrain: Cannot build on too uneven terrain!
-    notEnoughResources: Not enough resources!
-    outOfBounds: Cannot build outside of map bounds!
-    adjacentStockpile: Needs to placed adjacent to a stockpile!
-    adjacentGranary: Needs to placed adjacent to a granary!
-    adjacentArmoury: Needs to placed adjacent to an armoury!
-    onTopOfStone: Needs to placed on top of stone!
-    onTopOfIron: Needs to placed on top of iron ore!
-    unitsInTheWay: There are units in the way!
-    structuresInTheWay: There are structures in the way!
-    needArmoury: You need an armoury to build this!
-    closeToQuarry: Needs to be placed close to an existing quarry!
-    keepCloseToEdgeOfMap: Too close to the edge of the map!
+    obstacle: Υπάρχει εμπόδιο!
+    tooCloseToKeep: Πολύ κοντά στο κάστρο!
+    water: Δεν μπορείτε στο νερό!
+    notEnoughResources: Αρκετοί πόροι!
+    outOfBounds: Εκτός ορίων!
 ui:
-  global:
-    start: Start
   mainMenu:
     freebuild: Ελεύθερη κατασκευή
     campaign: Εκστρατεία
@@ -433,20 +371,6 @@ ui:
     resume: Συνέχεια
     options: Επιλογές
     exit: Έξοδος
-  campaign:
-    economicMissions: Economic Missions
-  load:
-    title: Load Game
-    saveName: Save name
-    map: Map
-    dateSaved: Date saved
-    version: Version
-    states:
-      loadingTextures: Loading textures...
-      initializingTerrain: Initializing terrain...
-      updatingTerrain: Updating terrain...
-      updatingObjects: Updating objects...
-      renderingTerrain: Rendering terrain...
 gold: χρυσός
 wood: ξυλεία
 stone: πέτρα

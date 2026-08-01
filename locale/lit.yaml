@@ -25,35 +25,32 @@ mission5:
   desc: Šioje misijoje pastatykite didingą katedrą per kitus 10 metų.
 groups:
   castle:
-    name: Castle
-    description: Walls, Towers, Gates and everything else you need to defend your
-      Stronghold.
+    name: Pilis
+    description: Sienos, bokštai gynybai.
   industry:
-    name: Industry
-    description: Build mighty Industries to defeat your enemies ... or fill your pockets.
+    name: Pramonė
+    description: Statykite pramonę.
   apple:
-    name: Farms
-    description: Produce basic agricultural products.
+    name: Ūkiai
+    description: Gamykite produktus.
   house:
-    name: Civilian
-    description: Houses and amenities for your citizens.
+    name: Civiliai
+    description: Namai gyventojams.
   shield:
-    name: Military
-    description: Raise mighty armies and build terrifying siege weapons to crush your
-      enemies.
+    name: Kariuomenė
+    description: Sukurkite kariuomenes.
   sickle:
-    name: Food Production
-    description: Turn basic farm products into high quality goods.
+    name: Perdirbimas
+    description: Paverskite prekėmis.
   destroy:
-    name: Demolish
-    description: Enter demolish mode. Click on a building to destroy.
-    exitTooltip: Exit Demolish Mode
+    name: Griovimas
+    description: Spustelėkite griauti.
   houses:
-    name: Houses
-    description: Houses to increase your population limit.
+    name: Namai
+    description: Namai gyventojams.
   goodThings:
-    name: Good things
-    description: Gardens, statues and entertainment to increase your popularity.
+    name: Dekoracijos
+    description: Sodai populiarumui.
 buildings:
   hunterHut:
     name: Medžiotojų trobelė
@@ -255,46 +252,36 @@ freebuild:
 
       '
 rations:
-  false:
-    name: No Rations
-    description: 'No rations for each worker.\nDecreases their happiness by 8.
-
-      '
+  'no':
+    name: Be davinio
+    description: Be maisto. -8 laimė.
   half:
-    name: Half Rations
-    description: '0.5x rations for each worker.\nDecreases their happiness by 4.
-
-      '
+    name: Pusė davinio
+    description: 0.5x. -4 laimė.
   full:
-    name: Full Rations
-    description: 'Normal rations for each worker.
-
-      '
+    name: Pilnas davinys
+    description: Normalus davinys.
   extra:
-    name: Extra Rations
-    description: '1.5x rations for each worker.\nIncreases their happiness by 4.
-
-      '
+    name: Papildomas
+    description: 1.5x. +4 laimė.
   double:
-    name: Double Rations
-    description: '2x rations for each worker.\nIncreases their happiness by 8.
-
-      '
+    name: Dvigubas
+    description: 2x. +8 laimė.
 houses:
   upgradeButton: UPGRADE
   description: Offers shelter to %s people
 taxes:
-  false: No Tax
-  auto: Auto Tax
-  generousBribe: Generous Bribe
-  largeBribe: Large Bribe
-  smallBribe: Small Bribe
-  low: Low Taxes
-  avg: Average Taxes
-  high: High Taxes
-  mean: Mean Taxes
-  extra: Extortionate Taxes
-  downrightCruel: Downright Cruel Taxes
+  'no': Be mokesčių
+  auto: Auto mokestis
+  generousBribe: Dosodus kyšis
+  largeBribe: Didelis kyšis
+  smallBribe: Mažas kyšis
+  low: Žemi mokesčiai
+  avg: Vidutiniai
+  high: Aukšti mokesčiai
+  mean: Pikti mokesčiai
+  extra: Išžvalgūs
+  downrightCruel: Žiaurūs mokesčiai
 popularityText:
   total: Total
   rations: Rations
@@ -318,50 +305,26 @@ popularityText:
 settings:
   categories:
     sound:
-      button: Sound
-      title: SOUND LEVELS
-      description: Here you can change the sound levels of sound effects or speech
-        to your liking.
-      items:
-        masterVolume: Master volume
-        musicVolume: Music volume
-        soundVolume: Sound volume
-        speechVolume: Speech volume
+      button: Garsas
+      title: GARSO LYGIAI
+      description: Keiskite garso lygius.
     graphics:
-      button: Graphics
-      title: GRAPHIC SETTINGS
-      description: 'Modify rendering quality, chunk size and toggle animations in
-        order to balance performance.\n
-
-        '
-      items:
-        fullScreen: Full Screen
-        borderless: Borderless
-        vsync: VSync
-        resolution: Resolution
-        display: Display
-        apply: Apply
+      button: Grafika
+      title: GRAFINIAI NUSTATYMAI
+      description: Keiskite kokybę.
     hotkeys:
-      button: Hotkeys
-      title: KEYBOARD HOTKEYS & SHORTCUTS
-      description: 'Edit or add new keyboard hotkeys and shortcuts.\n
-
-        '
+      button: Spartieji klavišai
+      title: SPARTIEJI KLAVIŠAI
+      description: Redaguokite klavišus.
     video:
-      button: Video
-      title: VIDEO SETTINGS
-      description: 'Change fullscreen settings, window resolution and toggle VSync.\n
-
-        '
+      button: Vaizdas
+      title: VAIZDO NUSTATYMAI
+      description: Ekrano nustatymai.
     interface:
-      button: Interface
-      title: INTERFACE SETTINGS
-      description: 'Toggle interface elements and modify their scale.\n
-
-        '
-      items:
-        language: Language
-  apply: Apply
+      button: Sąsaja
+      title: SĄSAJOS NUSTATYMAI
+      description: Sąsajos elementai.
+  apply: Taikyti
 recruitment:
   archer: Lankininkas
   spearman: Ietininkas
@@ -384,41 +347,16 @@ objects:
     stoneBarracks: Click to recruit units
     tunnelersGuild: Click to recruit tunnelers
 tips:
-  upgradeKeep: You need to upgrade your keep to build this
-  notAvailableInMission: Not available in this mission
-  buildMarket: Build a market to trade!
-  cantTrade: You can't trade that!
-  notImplemented: Not implemented yet.
-  increaseTradeQuantity: Increase quantity of items you want to trade by 5
-  decreaseTradeQuantity: Decrease quantity of items you want to trade by 5
-  actionBar:
-    woodenStructures:
-      title: Wooden Structures
-      description: Towers, gates and walls.
-    stoneStructures:
-      title: Stone Structures
-      description: Stronger towers, gates and walls.
+  notImplemented: Dar neįgyvendinta.
+  buildMarket: Pastatykite turgų!
+  cantTrade: Negalite parduoti!
   warning:
-    obstacle: There is an obstacle in the way!
-    tooCloseToKeep: Too close to the keep!
-    cliffs: Cannot build on cliffs!
-    water: Cannot build on top of water!
-    unevenTerrain: Cannot build on too uneven terrain!
-    notEnoughResources: Not enough resources!
-    outOfBounds: Cannot build outside of map bounds!
-    adjacentStockpile: Needs to placed adjacent to a stockpile!
-    adjacentGranary: Needs to placed adjacent to a granary!
-    adjacentArmoury: Needs to placed adjacent to an armoury!
-    onTopOfStone: Needs to placed on top of stone!
-    onTopOfIron: Needs to placed on top of iron ore!
-    unitsInTheWay: There are units in the way!
-    structuresInTheWay: There are structures in the way!
-    needArmoury: You need an armoury to build this!
-    closeToQuarry: Needs to be placed close to an existing quarry!
-    keepCloseToEdgeOfMap: Too close to the edge of the map!
+    obstacle: Yra kliūtis!
+    tooCloseToKeep: Per arti pilies!
+    water: Ne ant vandens!
+    notEnoughResources: Nepakanka išteklių!
+    outOfBounds: Už ribų!
 ui:
-  global:
-    start: Start
   mainMenu:
     freebuild: Laisva statyba
     campaign: Kampanija
@@ -427,20 +365,6 @@ ui:
     resume: Tęsti
     options: Parinktys
     exit: Išeiti
-  campaign:
-    economicMissions: Economic Missions
-  load:
-    title: Load Game
-    saveName: Save name
-    map: Map
-    dateSaved: Date saved
-    version: Version
-    states:
-      loadingTextures: Loading textures...
-      initializingTerrain: Initializing terrain...
-      updatingTerrain: Updating terrain...
-      updatingObjects: Updating objects...
-      renderingTerrain: Rendering terrain...
 gold: auksas
 wood: mediena
 stone: akmuo
