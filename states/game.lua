@@ -16,6 +16,12 @@ local EVENT = require("objects.Enums.KeyEvents")
 -- Stronghold 2027 - Combat system integration
 local CombatIntegration = require("objects.Combat.CombatIntegration")
 local CombatTestScenario = require("objects.Combat.CombatTestScenario")
+-- Stronghold 2027 - Immersion systems
+local AnimationSystem = require("objects.Animation.AnimationSystem")
+local SoundSystem = require("objects.Audio.SoundSystem")
+local WeatherSystem = require("objects.Weather.WeatherSystem")
+local ModernUI = require("objects.UI.ModernUISystem")
+local LightingSystem = require("objects.Environment.LightingSystem")
 local savegame
 local playlist = require("sounds.music_playlist")
 local RationController
@@ -109,6 +115,12 @@ local function delayedInit()
     _G.speedModifier = 1
     -- Stronghold 2027: Initialize combat system
     CombatIntegration.init()
+    -- Stronghold 2027: Initialize immersion systems
+    SoundSystem.init()
+    WeatherSystem.init()
+    ModernUI.init()
+    LightingSystem.init()
+    ModernUI.notifySuccess("Stronghold 2027 loaded! Press F8 for combat test.")
     if _G.state.newGame then
         _G.playSpeech("place_a_keep")
         _G.BuildController.start = true
@@ -168,6 +180,12 @@ function game:update(dt)
                 _G.SleepController:update()
                 -- Stronghold 2027: Update combat system
                 CombatIntegration.update(dt)
+                -- Stronghold 2027: Update immersion systems
+                AnimationSystem.updateAll(dt)
+                SoundSystem.update(dt)
+                WeatherSystem.update(dt)
+                ModernUI.update(dt)
+                LightingSystem.update(dt)
                 _G.MissionStart = true
                 if (loveframes.GetState() == states.STATE_ARMOURY) then
                     ArmouryUI.DisplayCurrentStock()
@@ -242,6 +260,10 @@ function game:draw()
             _G.Commander:draw()
             -- Stronghold 2027: Draw combat system (projectiles, damage numbers, health bars)
             CombatIntegration.draw()
+            -- Stronghold 2027: Draw light sources (torches, fires)
+            LightingSystem.drawLights()
+            -- Stronghold 2027: Draw weather (rain, snow, fog)
+            WeatherSystem.draw()
             love.graphics.pop()
             if _G.paused then
                 love.postshader.addTiltshift(12)
@@ -265,6 +287,8 @@ function game:draw()
                 WallController:drawMouse()
             end
             console.draw()
+            -- Stronghold 2027: Draw modern UI (tooltips, notifications)
+            ModernUI.draw()
         else
             renderLoadingScreen("")
             renderLoadingBar(loadState, progress)
@@ -343,6 +367,32 @@ function game:keypressed(key, scancode, isRepeat)
                 print(string.format("AI units: %d", stats.aiStats.totalUnits))
             end
         end
+        return
+    end
+    -- F5 = Cycle weather (Stronghold 2027)
+    if key == "f5" then
+        local weathers = {"clear", "rain", "heavy_rain", "fog", "snow", "storm"}
+        local current = WeatherSystem.getCurrentWeather()
+        local idx = 1
+        for i, w in ipairs(weathers) do
+            if w == current then idx = i; break end
+        end
+        local next = weathers[(idx % #weathers) + 1]
+        WeatherSystem.setWeather(next)
+        ModernUI.notifyInfo("Weather: " .. next)
+        return
+    end
+    -- F6 = Cycle time of day (Stronghold 2027)
+    if key == "f6" then
+        local periods = {"dawn", "day", "dusk", "night"}
+        local current = LightingSystem.getTimePeriod():lower()
+        local idx = 1
+        for i, p in ipairs(periods) do
+            if p == current then idx = i; break end
+        end
+        local next = periods[(idx % #periods) + 1]
+        LightingSystem.setTimePeriod(next)
+        ModernUI.notifyInfo("Time: " .. next .. " (" .. LightingSystem.getTimeString() .. ")")
         return
     end
 
