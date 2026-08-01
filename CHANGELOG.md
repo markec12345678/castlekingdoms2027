@@ -1,3 +1,77 @@
+# 0.7.0-stronghold2027-alpha (2026-08-01)
+
+Prvi alpha release Stronghold 2027 - forka Stone Kingdoms z dodatnimi izboljšavami.
+
+### Features
+
+- **Slovenski prevod (slv.yaml)**: Popoln prevod vseh 472 vrstic besedila (5 misij, 63 zgradb, 12 mesecev, UI, nastavitve)
+- **Modding API (alpha)**: Osnovni sistem za uporabniške mode z lifecycle hook-i (onLoad, onTick, onBuildingPlaced, onUnitRecruited)
+- **HD Shaderji**: Moderni post-processing shaderji (bloom, color grading, vignette, dynamic lighting) za izboljšano vizualno izkušnjo
+- **Performance Profiler**: Debug overlay s FPS, memory usage, custom counters (F3 za toggle, F4 za detailed mode)
+- **CI/CD Pipeline**: GitHub Actions z luacheck, YAML validacijo, custom test runnerjem in build pipeline
+- **Comprehensive Test Suite**: 343 preverjanj - sintaksa, YAML, dokumentacija, arhitektura
+
+### Documentation
+
+- **README.md**: Posodobljen z informacijami o forku in roadmapom
+- **FORK_NOTICE.md**: Dokumentacija odnosa do upstream Stone Kingdoms
+- **CONTRIBUTING.md**: Navodila za sodelovanje z Conventional Commits
+- **ROADMAP.md**: Razvojni načrt do 2027-09-01
+- **BUGFIX_STRATEGY.md**: Strategija popravkov v 4 fazah
+- **HD_ASSETS_GUIDE.md**: Specifikacije za grafične oblikovalce (4K tileset, UI, animacije)
+- **MODDING_API.md**: Dokumentacija modding API za ustvarjalce modov
+
+### Branches
+
+- `main` - Stabilna produkcija
+- `dev` - Integracijska veja
+- `feat/bugfixes` - Popravki bug-ov
+- `feat/hd-assets` - HD grafični asseti
+- `feat/slovenian-polish` - Izboljšave slovenskega prevoda
+
+### GitHub Templates
+
+- Issue template za bug report
+- Issue template za feature request
+- Pull request template s checklist
+
+### Infrastructure
+
+- Git LFS konfiguriran za vse binarne datoteke (PNG, DDS, MP3, DEB, DXT5, BIN)
+- 1151 LFS objektov (1.8 GB) sinhronizirano z GitHubom
+- 4 nove razvojne veje ustvarjene
+- Slovenščina registrirana kot 10. podprti jezik
+
+### Stats
+
+- 280 Lua datotek v projektu (213,215 vrstic kode)
+- 71 struktur (zgradbe)
+- 42 enot
+- 15+ krmilnikov (Controllers)
+- 33 jezikovnih datotek v locale/
+- 343 test preverjanj - 100% pass rate
+
+### Known Issues
+
+- Xvfb (virtual display) ne podpira GLX v strežniškem okolju - dejansko grafično testiranje zahteva lokalni računalnik
+- GitHub LFS storage trenutno porabljen 1.8 GB (free plan = 1 GB) - priporočen nakup GitHub Pro ($4/mesec)
+- Apothecary, Stable, Maypole so še vedno nefunkcionalni (enako kot upstream v0.6.1)
+- Combat sistem še ni implementiran (enake kot upstream v0.6.1)
+
+### Credits
+
+- Original Stone Kingdoms team - celotna koda, arhitektura in asseti
+- Firefly Studios - dovoljenje za uporabo originalnih Stronghold assetov
+- Stronghold 2027 ekipa - slovenski prevod, CI/CD, modding API, HD shaderji, dokumentacija
+
+### Breaking Changes
+
+- Branch renamed: `master` → `main`
+- `*.dds` files migrated to Git LFS in history (to bypass GitHub 100MB limit)
+- README.md replaced with fork-specific documentation
+
+---
+
 # 0.6.1
 
 ### Misc
