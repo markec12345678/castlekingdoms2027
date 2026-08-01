@@ -61,6 +61,8 @@ local CampaignProgress = require("objects.Mission.CampaignProgress")
 local AutoSaveSystem = require("objects.AutoSaveSystem")
 -- Stronghold 2027 - Kenney CC0 asset loader
 local KenneyAssetLoader = require("objects.Config.KenneyAssetLoader")
+local KenneySpriteRenderer = require("objects.Config.KenneySpriteRenderer")
+local KenneySpriteOverlay = require("states.ui.hud.kenney_sprite_overlay")
 local savegame
 local playlist = require("sounds.music_playlist")
 local RationController
@@ -193,6 +195,7 @@ local function delayedInit()
     -- Stronghold 2027: Initialize Kenney CC0 asset loader
     KenneyAssetLoader.init()
     _G.KenneyAssetLoader = KenneyAssetLoader
+    _G.KenneySpriteRenderer = KenneySpriteRenderer
     if _G.state.newGame then
         _G.playSpeech("place_a_keep")
         _G.BuildController.start = true
@@ -422,6 +425,10 @@ function game:draw()
             CreditsScreen.draw()
             -- Stronghold 2027: Draw keybind help (H key)
             KeybindHelp.draw()
+            -- Stronghold 2027: Draw Kenney CC0 overlay (if enabled)
+            if _G.KenneySpriteRenderer and _G.KenneySpriteRenderer.isActive() then
+                KenneySpriteOverlay.draw()
+            end
         else
             renderLoadingScreen("")
             renderLoadingBar(loadState, progress)
