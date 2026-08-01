@@ -37,6 +37,12 @@ local CaravanUI = require("states.ui.economy.caravan_ui")
 -- Stronghold 2027 - HUD widgets
 local SeasonWidget = require("states.ui.hud.season_info_widget")
 local EventLog = require("states.ui.hud.economic_event_log")
+-- Stronghold 2027 - Performance profiling
+local PerformanceManager = require("objects.Performance.PerformanceManager")
+local PriorityUpdate = require("objects.Performance.PriorityUpdateSystem")
+local AITickOptimizer = require("objects.Performance.AITickOptimizer")
+local MemoryProfiler = require("objects.Performance.MemoryProfiler")
+local PerformanceOverlay = require("states.ui.hud.performance_overlay")
 local savegame
 local playlist = require("sounds.music_playlist")
 local RationController
@@ -140,6 +146,11 @@ local function delayedInit()
     SeasonalSystem.init()
     EconomicEvents.init()
     TradeCaravans.init()
+    -- Stronghold 2027: Initialize performance profiling
+    PerformanceManager.init()
+    PriorityUpdate.init()
+    AITickOptimizer.init()
+    MemoryProfiler.init()
     ModernUI.notifySuccess("Stronghold 2027 loaded! Press F8 for combat test.")
     if _G.state.newGame then
         _G.playSpeech("place_a_keep")
@@ -206,14 +217,18 @@ function game:update(dt)
                 WeatherSystem.update(dt)
                 ModernUI.update(dt)
                 LightingSystem.update(dt)
-                -- Stronghold 2027: Update AI system
+                -- Stronghold 2027: Update AI system (with profiling)
+                PerformanceManager.beginSection("ai_update")
                 AIIntegration.update(dt)
-                -- Stronghold 2027: Update economy systems
+                PerformanceManager.endSection("ai_update")
+                -- Stronghold 2027: Update economy systems (with profiling)
+                PerformanceManager.beginSection("economy")
                 DynamicMarket.update(dt)
                 DynamicMarket.updateEvents()
                 SeasonalSystem.update(dt)
                 EconomicEvents.update(dt)
                 TradeCaravans.update(dt)
+                PerformanceManager.endSection("economy")
                 -- Stronghold 2027: Update mission framework
                 MissionFramework.update(dt)
                 -- Stronghold 2027: Update economy UI
@@ -222,6 +237,10 @@ function game:update(dt)
                 -- Stronghold 2027: Update HUD widgets
                 SeasonWidget.update(dt)
                 EventLog.update(dt)
+                -- Stronghold 2027: Update performance profiling
+                PerformanceManager.update(dt)
+                MemoryProfiler.update(dt)
+                AITickOptimizer.update(dt)
                 _G.MissionStart = true
                 if (loveframes.GetState() == states.STATE_ARMOURY) then
                     ArmouryUI.DisplayCurrentStock()
@@ -333,6 +352,8 @@ function game:draw()
             -- Stronghold 2027: Draw HUD widgets (season, events)
             SeasonWidget.draw()
             EventLog.draw()
+            -- Stronghold 2027: Draw performance overlay (F3/F4)
+            PerformanceOverlay.draw()
         else
             renderLoadingScreen("")
             renderLoadingBar(loadState, progress)
@@ -600,6 +621,8 @@ function game:keypressed(key, scancode, isRepeat)
         loveframes.TogglePause()
     elseif event == EVENT.ToggleDebugView then
         _G.DebugView:toggle()
+        -- Stronghold 2027: Toggle performance overlay with F3
+        PerformanceOverlay.toggle()
     elseif event == EVENT.CenterViewToKeep and _G.state.keepX then
         _G.state.viewXview = _G.IsoToScreenX(_G.state.keepX, _G.state.keepY)
         _G.state.viewYview = _G.IsoToScreenY(_G.state.keepX, _G.state.keepY)
