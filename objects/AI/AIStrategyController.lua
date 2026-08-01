@@ -209,7 +209,8 @@ end
 function AIStrategyController:evaluateStrategicState(faction, state)
     local enemyThreats = self:countEnemyThreats(faction, state)
     local armySize = self:countArmyUnits(faction, state)
-    local resourceLevel = state.resources.gold + state.resources.wood + state.resources.stone
+    -- Nil-safe resource access (default to 0 if missing)
+    local resourceLevel = (state.resources.gold or 0) + (state.resources.wood or 0) + (state.resources.stone or 0)
 
     -- Check grace period (AI won't attack player for first 5 minutes)
     local timeSinceRegistration = love.timer.getTime() - state.registrationTime
