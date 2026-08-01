@@ -51,7 +51,7 @@ local function tableMerge(t1, t2)
 end
 
 function LanguageController:initialize()
-    self.translations = { LANG.DEU, LANG.ENG, LANG.FRA, LANG.ITA, LANG.POL, LANG.POR, LANG.RUS, LANG.UKR, LANG.HUN }
+    self.translations = { LANG.DEU, LANG.ENG, LANG.FRA, LANG.ITA, LANG.POL, LANG.POR, LANG.RUS, LANG.UKR, LANG.HUN, LANG.SLV }
     self.translationNames = {
         DEU = "Deutsch",
         ENG = "English",
@@ -62,6 +62,7 @@ function LanguageController:initialize()
         RUS = "Русский",
         UKR = "Українська",
         HUN = "Magyar",
+        SLV = "Slovenščina",
     }
     self.allTranslations = loadTranslations("locale")
     self.currentLanguage = _G.currentLang or "ENG"

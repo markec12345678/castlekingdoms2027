@@ -1,0 +1,472 @@
+mission1:
+    name: Les in Kamen
+    desc: |
+      V tem poslanstvu se boste osredotočili na zbiranje surovin za razvoj infrastrukture vašega kraljestva.
+      Vaš cilj je zbrati 50 enot lesa in 20 enot kamna v naslednjih 5 letih.\n
+      Da to dosežete, boste morali vzpostaviti mrežo kolib za drvarje in kamnolomov za pridobivanje teh surovin iz okolice.
+      To lahko vključuje gradnjo skladišč za shranjevanje surovin.
+mission2:
+    name: Tekma v oboroževanju
+    desc: |
+      V tem poslanstvu se boste osredotočili na razvoj močne vojske za obrambo kraljestva pred morebitnimi grožnjami.
+      Vaš cilj je proizvesti 40 enot lokov, kopij, buzdovanov in oklepov v naslednjih 20 letih.\n
+      Da to dosežete, boste morali vzpostaviti močno kovinsko industrijo za izdelavo visokokakovostnega orožja in oklepov.
+      To lahko vključuje gradnjo kovačij, delavnic in rudnikov ter rekrutiranje spretnih obrtnikov.\n
+      Ne pozabite, da bo vaš uspeh v tem poslanstvu odvisen od vaše sposobnosti uravnoteženja surovin in določanja prioritet.
+      Skrbno boste morali upravljati finance in sprejemati strateške odločitve za zagotovitev varnosti vašega kraljestva. Vso srečo!
+mission3:
+    name: Praznik ali lakota
+    desc: |
+      V tem poslanstvu se boste osredotočili na pridelavo hrane za preživetje rastočega prebivalstva. Vaš cilj je proizvesti 250 enot kruha,
+      100 enot mesa,
+      200 enot sira in 250 enot jabolk v naslednjih 20 letih.\n
+      Da to dosežete, boste morali razviti močan kmetijski sistem za pridelovanje pridelkov in rejo živine. To bo zahtevalo gradnjo kmetij, mlinov in pašnikov ter rekrutiranje spretnih delavcev.\n
+      Poleg pridelave hrane boste morali razmisliti tudi o shranjevanju in distribuciji teh surovin. To lahko vključuje gradnjo žitnic in trgov za shranjevanje in prodajo vaših izdelkov.\n
+      Ne pozabite, da bo vaš uspeh v tem poslanstvu odvisen od vaše sposobnosti uravnoteženja surovin in določanja prioritet. Skrbno boste morali upravljati finance in sprejemati strateške odločitve za zagotovitev blaginje vašega kraljestva. Vso srečo!
+mission4:
+    name: Bogastvo kraljestva
+    desc: |
+      V tem poslanstvu je vaš cilj akumulirati veliko bogastvo s pridobitvijo 5000 enot zlata.
+      V nasprotju s prejšnjimi poslanstvi pri tem cilju ni časovne omejitve, zato boste lahko svoje cilje dosegali v svojem tempu.\n
+      Da to dosežete, boste morali razviti močno gospodarstvo z gradnjo in upravljanjem delavnic, vlaganjem v trgovino in sprejemanjem strateških finančnih odločitev.\n
+      Ne pozabite, da bo vaš uspeh v tem poslanstvu odvisen od vaše sposobnosti pametnega vlaganja in skrbnega upravljanja financ.
+      Balansirati boste morali svoje surovine in prevzemati izračunana tveganja za zagotovitev blaginje vašega kraljestva. Vso srečo!
+mission5:
+    name: Vera v arhitekturo
+    desc: |
+      V tem poslanstvu se boste osredotočili na gradnjo veličastne katedrale, ki bo središče verskega in kulturnega življenja vašega kraljestva.
+      Vaš cilj je zgraditi katedralo v naslednjih 10 letih.\n
+      Ne pozabite, da bo vaš uspeh v tem poslanstvu odvisen od vaše sposobnosti upravljanja kompleksnega gradbenega projekta in učinkovitega uravnoteženja surovin.
+      Sprejemali boste strateške odločitve in skrbno upravljali svoj čas za zagotovitev dokončanja katedrale v predvidenem roku. Vso srečo!
+groups:
+    castle:
+        name: Grad
+        description: Zidovi, stolpi, vrata in vse ostalo, kar potrebujete za obrambo vašega oporišča.
+    industry:
+        name: Industrija
+        description: Zgradite mogočne industrije za poraz sovražnikov ... ali polnjenje žepov.
+    apple:
+        name: Kmetije
+        description: Pridelajte osnovne kmetijske izdelke.
+    house:
+        name: Civilno
+        description: Hiše in ustanove za vaše državljane.
+    shield:
+        name: Vojska
+        description: Vzgojite mogočne vojske in zgradite strašne oblegovalne stroje za zdrobitev sovražnikov.
+    sickle:
+        name: Predelava hrane
+        description: Spremenite osnovne kmetijske izdelke v visokokakovostna blaga.
+    destroy:
+        name: Rušenje
+        description: Vstopite v način rušenja. Kliknite na zgradbo, da jo uničite.
+        exitTooltip: Izhod iz načina rušenja
+    houses:
+        name: Hiše
+        description: Hiše za povečanje omejitve prebivalstva.
+    goodThings:
+        name: Okraski
+        description: Vrtovi, kipi in zabava za povečanje vaše priljubljenosti.
+buildings:
+    hunterHut:
+        name: Lovčeva koliba
+        description: Lovi jelene v okolici za meso.
+    granary:
+        name: Žitnica
+        description: Poveča kapaciteto hrane.
+    orchard:
+        name: Sadovnjak
+        description: Priseljuje jabolka.
+    wheatFarm:
+        name: Pšenčna kmetija
+        description: Priseljuje pšenico, ki se lahko predela v moko.
+    dairyFarm:
+        name: Mlečna kmetija
+        description: Priseljuje sir.
+    hopsFarm:
+        name: Hmeljeva kmetija
+        description: Priseljuje hmelj, ki se lahko predela v ale.
+    castle:
+        name: Saška dvorana
+        description: Vaša Saška dvorana je središče vašega gradu.
+    stockpile:
+        name: Skladišče
+        description: Skladišče hrani vaše gradbene surovine.
+    granary:
+        name: Žitnica
+        description: Žitnica je kraj, kjer shranjujete hranske rezerve vašega kraljestva.
+    woodenKeep:
+        name: Lesena trdnjava
+        description: Nadgradite vašo Saško dvorano v Leseno trdnjavo
+    keep:
+        name: Trdnjava
+        description: Nadgradite vašo Leseno trdnjavo v Kamnito trdnjavo
+    fortress:
+        name: Fortica
+        description: Nadgradite vašo Kamnito trdnjavo v Fortico
+    stronghold:
+        name: Oporišče
+        description: Nadgradite vašo Fortico v Oporišče (še ni podprto)
+    barracks:
+        name: Vojašnica
+        description: Zgradba, ki vam omogoča rekrutiranje enot.
+    stoneBarracks:
+        name: Kamnita vojašnica
+        description: Zgradba, ki vam omogoča rekrutiranje enot.
+    engineersGuild:
+        name: Ceh inženirjev
+        description: Zgradba, ki vam omogoča rekrutiranje oblegovalnih enot.
+    tunnelersGuild:
+        name: Ceh tunelcev
+        description: Zgradba, ki vam omogoča rekrutiranje tunelcev.
+    chapel:
+        name: Kapela
+        description: Povečajte vašo priljubljenost z religijo.
+    church:
+        name: Cerkev
+        description: Povečajte vašo priljubljenost z religijo.
+    cathedral:
+        name: Katedrala
+        description: Povečajte vašo priljubljenost z religijo in vzgojite vojaške menihe.
+    apothecary:
+        name: Lekarna
+        description: Trenutno nefunkcionalno.
+    woodcutter:
+        name: Koliba za drvarja
+        description: Poseka bližnja drevesa za pridobivanje lesa.
+    ironMine:
+        name: Rudnik
+        description: Priseljuje železne ingote iz železove rude.
+    market:
+        name: Trg
+        description: Omogoča vam trgovino z blagom.
+    ox:
+        name: Vprežni vol
+        description: Prevaža kamen iz kamnoloma v skladišče.
+    quarry:
+        name: Kamnolom
+        description: Priseljuje kamnite bloke iz talne surovine.
+    stockpile:
+        name: Skladišče
+        description: |
+            Poveča kapaciteto surovin.\nMora biti postavljeno poleg obstoječega skladišča.
+    armoury:
+        name: Orožarna
+        description: Tukaj je shranjeno orožje in oklep, ki ga uporabljajo čete iz vojašnice ob rekrutiranju.
+    fletcher:
+        name: Delavnica upogljenikov
+        description: Izdeluje loke in samostrele iz lesa.
+    poleturner:
+        name: Delavnica strugarjev
+        description: Izdeluje kopja in sulice iz lesa.
+    blacksmith:
+        name: Kovaška delavnica
+        description: Izdeluje meče in buzdoane iz železa.
+    armorer:
+        name: Oklepar
+        description: Izdeluje oklepe iz železa.
+    windmill:
+        name: Mlin na veter
+        description: Predeluje pšenico v moko.
+    bakery:
+        name: Pekarna
+        description: Predeluje moko v kruh.
+    brewery:
+        name: Pivovarna
+        description: Predeluje hmelj v ale.
+    inn:
+        name: Krčma
+        description: Distribuira ale.
+    pitchRig:
+        name: Naprava za smolo
+        description: Majhna platforma za zbiranje smole iz močvirja.
+    perimeterTower:
+        name: Obodni stolp
+        description: Majhen obodni stolp - dober za opazovanje.
+    defenseTower:
+        name: Obrambni stolp
+        description: Obrambni stolp, narejen za obrambo.
+    squareTower:
+        name: Kvadratni stolp
+        description: Ključen za vaš grad - na vrh lahko postavite vojne stroje.
+    roundTower:
+        name: Okrogli stolp
+        description: Najmočnejši stolp - na vrh lahko postavite vojne stroje.
+    stoneGateSouth:
+        name: Kamnita vrata jug
+        description: Kamnita vrata, skozi katere lahko prihajajo prijazne enote.
+    stoneGateEast:
+        name: Kamnita vrata vzhod
+        description: Kamnita vrata, skozi katere lahko prihajajo prijazne enote.
+    stoneGateEastBig:
+        name: Velika kamnita vrata vzhod
+        description: Močna kamnita vrata, skozi katere lahko prihajajo prijazne enote.
+    stoneGateSouthBig:
+        name: Velika kamnita vrata jug
+        description: Močna kamnita vrata, skozi katere lahko prihajajo prijazne enote.
+    walkableWoodenWall:
+        name: Hojljiv leseni zid
+        description: Obrambni zid, po katerem se lahko hodi po vrhu.
+    woodenTower:
+        name: Leseni stolp
+        description: Leseni stolp, ki mu očitno manjkajo nekatere stopnice.
+    woodenGateEast:
+        name: Lesena vrata vzhod
+        description: Lesena vrata, skozi katere lahko prihajajo prijazne enote.
+    woodenGateSouth:
+        name: Lesena vrata jug
+        description: Lesena vrata, skozi katere lahko prihajajo prijazne enote.
+    woodenGateEastBig:
+        name: Velika lesena vrata vzhod
+        description: Lesena vrata, skozi katere lahko prihajajo prijazne enote.
+    woodenGateSouthBig:
+        name: Velika lesena vrata jug
+        description: Lesena vrata, skozi katere lahko prihajajo prijazne enote.
+    woodenPermimeterTower:
+        name: Leseni obodni stolp
+        description: Leseni stolp, ki mu očitno manjkajo nekatere stopnice.
+    woodenDefenseTower:
+        name: Leseni obrambni stolp
+        description: Leseni stolp, ki mu očitno manjkajo nekatere stopnice.
+    woodenWall:
+        name: Leseni zid
+        description: Obrambni zid iz nabrusenih debel.
+    hovel:
+        name: Hiša
+        description: Majhna koča - daje zavetje 4 ljudem.
+    flat:
+        name: Stanovanje
+        description: Majhno, prijazno stanovanje - daje zavetje 8 ljudem.
+    residence:
+        name: Rezidenca
+        description: Lepa in elegantna hiša - daje zavetje 12 ljudem.
+    bigResidence:
+        name: Velika rezidenca
+        description: Velika rezidenca - daje zavetje 16 ljudem.
+    maypole:
+        name: Majska brinja
+        description: Visok leseni kol, okrog katerega se pogosto odvija majska ples. Začasno onemogočeno.
+    smallPond:
+        name: Majhen ribnik
+        description: Majhen ribnik.
+    largePond:
+        name: Velik ribnik
+        description: Velik ribnik.
+    smallGarden:
+        name: Majhen vrt
+        description: Majhen vrt.
+    mediumGarden:
+        name: Srednji vrt
+        description: Srednje velik vrt.
+    largeGarden:
+        name: Velik vrt
+        description: Velik vrt.
+    stable:
+        name: Konjušnica
+        descriptin: Vzreja konje
+freebuild:
+    fernhaven:
+        name: Fernhaven
+        description: Zgradite nov grad na ruševinah starodavnega mesta.
+    grasslands:
+        name: Travniki
+        description: |
+            Prazni travniki. Uporablja se za testiranje zaradi hitrega nalaganja.
+rations:
+    no:
+        name: Brez obrokov
+        description: |
+            Brez obrokov za vsakega delavca.\nZmanjša njihovo srečo za 8.
+    half:
+        name: Polovični obroki
+        description: |
+            0,5x obrokov za vsakega delavca.\nZmanjša njihovo srečo za 4.
+    full:
+        name: Polni obroki
+        description: |
+            Normalni obroki za vsakega delavca.
+    extra:
+        name: Dodatni obroki
+        description: |
+            1,5x obrokov za vsakega delavca.\nPoveča njihovo srečo za 4.
+    double:
+        name: Dvojni obroki
+        description: |
+            2x obrokov za vsakega delavca.\nPoveča njihovo srečo za 8.
+houses:
+    upgradeButton: NADGRADI
+    description: Nudi zavetje %s ljudem
+taxes:
+    no: Brez davka
+    auto: Samodejni davek
+    generousBribe: Radodarna podkupnina
+    largeBribe: Velika podkupnina
+    smallBribe: Majhna podkupnina
+    low: Nizki davki
+    avg: Povprečni davki
+    high: Visoki davki
+    mean: Zlobni davki
+    extra: Izsiljevalni davki
+    downrightCruel: Kruti davki
+popularityText:
+    total: Skupno
+    rations: Obroki
+    taxes: Davki
+    fearFactor: Strah
+    crowding: Prenaseljenost
+    religion: Religija
+    aleCoverage: Pokritost z alejem
+    blessingCoverage: Razmerje blagoslovljenih zgradb
+    enclosedKeep: Trdnjava obdana
+    openKeep: Odprta trdnjava
+    popularity: Priljubljenost
+    inTheComingMonth: "V prihajajočem mesecu"
+    typesOfFoodConsumed: "%d vrst hrane porabljeno"
+    foodInGranary: "%d hrane v žitnici"
+    aleInInn: "%d vrčev v krčmi"
+    nextAleBonus: "Več bonusa pri %d%% pokritosti"
+    maximumAleBonus: "Maksimalni bonus dosežen"
+    nextBlessingBonus: "Več bonusa pri %d%% pokritosti"
+    maximumBlessingBonus: "Maksimalni bonus dosežen"
+settings:
+    categories:
+        sound:
+            button: Zvok
+            title: NIVOJI ZVOKA
+            description: Tukaj lahko spremenite nivoje zvoka zvočnih efektov ali govora po svoji želji.
+            items:
+                masterVolume: Glavna glasnost
+                musicVolume: Glasnost glasbe
+                soundVolume: Glasnost zvoka
+                speechVolume: Glasnost govora
+        graphics:
+            button: Grafika
+            title: GRAFIČNE NASTAVITVE
+            description: |
+                Spremenite kakovost upodabljanja, velikost chunkov in preklopite animacije za uravnoteženje zmogljivosti.\n
+            items:
+                fullScreen: Celozaslonsko
+                borderless: Brez robov
+                vsync: VSync
+                resolution: Ločljivost
+                display: Zaslon
+                apply: Uporabi
+        hotkeys:
+            button: Bližnjice
+            title: TIPKOVNE BLIŽNJICE & HITRI GUMBI
+            description: |
+                Uredite ali dodajte nove tipkovne bližnjice in hitre gumbe.\n
+        video:
+            button: Video
+            title: VIDEO NASTAVITVE
+            description: |
+                Spremenite nastavitve celozaslonskega načina, ločljivost okna in preklopite VSync.\n
+        interface:
+            button: Vmesnik
+            title: NASTAVITVE VMESNIKA
+            description: |
+                Preklopite elemente vmesnika in spremenite njihovo velikost.\n
+            items:
+                language: Jezik
+    apply: Uporabi
+recruitment:
+    archer: Lokostrelec
+    spearman: Kopjaš
+    maceman: Buzdovanaš
+    crossbowman: Samostrelcu
+    pikeman: Suličar
+    swordsman: Mečevalcu
+    knight: Vitez
+    availablePeasants: Razpoložljivi kmetje
+objects:
+    hoverText:
+        barracks: Kliknite za rekrutiranje enot
+        engineersGuild: Kliknite za rekrutiranje oblegovalnih enot
+        fortress: Kliknite za upravljanje davkov
+        granary: Kliknite za upravljanje obrokov
+        keep: Kliknite za upravljanje davkov
+        market: Kliknite za trgovino s surovinami
+        saxonHall: Kliknite za upravljanje davkov
+        stockpile: Kliknite za upravljanje surovin
+        stoneBarracks: Kliknite za rekrutiranje enot
+        tunnelersGuild: Kliknite za rekrutiranje tunelcev
+tips:
+    upgradeKeep: Nadgraditi morate vašo trdnjavo za gradnjo tega
+    notAvailableInMission: Ni na voljo v tem poslanstvu
+    buildMarket: Zgradite trg za trgovino!
+    cantTrade: Tega ne morete trgovati!
+    notImplemented: Še ni implementirano.
+    increaseTradeQuantity: Povečajte količino izdelkov za trgovino za 5
+    decreaseTradeQuantity: Zmanjšajte količino izdelkov za trgovino za 5
+    actionBar:
+        woodenStructures:
+            title: Lesene zgradbe
+            description: Stolpi, vrata in zidovi.
+        stoneStructures:
+            title: Kamnite zgradbe
+            description: Močnejši stolpi, vrata in zidovi.
+    warning:
+        obstacle: Na poti je ovira!
+        tooCloseToKeep: Preveč blizu trdnjave!
+        cliffs: Ne morete graditi na pečinah!
+        water: Ne morete graditi na vodi!
+        unevenTerrain: Ne morete graditi na preveč neenakem terenu!
+        notEnoughResources: Ni dovolj surovin!
+        outOfBounds: Ne morete graditi izven meja zemljevida!
+        adjacentStockpile: Mora biti postavljeno poleg skladišča!
+        adjacentGranary: Mora biti postavljeno poleg žitnice!
+        adjacentArmoury: Mora biti postavljeno poleg orožarne!
+        onTopOfStone: Mora biti postavljeno na kamen!
+        onTopOfIron: Mora biti postavljeno na železovo rudo!
+        unitsInTheWay: Na poti so enote!
+        structuresInTheWay: Na poti so zgradbe!
+        needArmoury: Za gradnjo tega potrebujete orožarno!
+        closeToQuarry: Mora biti postavljeno blizu obstoječega kamnoloma!
+        keepCloseToEdgeOfMap: Preveč blizu roba zemljevida!
+ui:
+    global:
+        start: Začni
+    mainMenu:
+        freebuild: Prosta gradnja
+        campaign: Kampanja
+        load: Naloži
+        save: Shrani
+        resume: Nadaljuj
+        options: Možnosti
+        exit: Izhod
+    campaign:
+        economicMissions: Gospodarska poslanstva
+    load:
+        title: Naloži igro
+        saveName: Ime shranjene igre
+        map: Zemljevid
+        dateSaved: Datum shranjevanja
+        version: Verzija
+        states:
+            loadingTextures: Nalaganje tekstur...
+            initializingTerrain: Inicializacija terena...
+            updatingTerrain: Posodabljanje terena...
+            updatingObjects: Posodabljanje objektov...
+            renderingTerrain: Upodabljanje terena...
+gold: zlato
+wood: les
+stone: kamen
+wheat: pšenica
+iron: železo
+flour: moka
+hop: hmelj
+tar: smola
+ale: ale
+months:
+  jan: Jan
+  feb: Feb
+  mar: Mar
+  apr: Apr
+  may: Maj
+  jun: Jun
+  jul: Jul
+  aug: Avg
+  sep: Sep
+  oct: Okt
+  nov: Nov
+  dec: Dec

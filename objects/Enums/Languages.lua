@@ -14,6 +14,7 @@ local LANGUAGES = {
     POR = "POR",
     UKR = "UKR",
     HUN = "HUN",
+    SLV = "SLV",
 }
 
 return LANGUAGES
