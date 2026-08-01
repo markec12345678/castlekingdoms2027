@@ -556,6 +556,12 @@ function BuildController:draw()
         if (self.building == "WoodenWall" or self.building == "WalkableWoodenWall") and WallController.clicked then
             WallController:draw()
         else
+            -- Stronghold 2027: Use Kenney CC0 sprite if enabled
+            if _G.KenneySpriteRenderer and _G.KenneySpriteRenderer.isActive() then
+                if _G.KenneySpriteRenderer.drawBuildPreview(self.building, self.FX, self.FY, self.canBuild) then
+                    return
+                end
+            end
             love.graphics.setColor(1, 1, 1, 0.5)
             love.graphics.draw(self.batch, self.FX, self.FY, nil, _G.state.scaleX)
             local quad = building[self.building].quad
