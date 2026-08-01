@@ -233,7 +233,7 @@ function AIStrategyController:evaluateStrategicState(faction, state)
         end
     elseif state.state == STRATEGY_STATES.MILITARY_BUILDUP then
         if armySize >= state.personality.attackThreshold and
-           state.resources.gold >= state.personality.resourceStockpileTarget then
+           (state.resources.gold or 0) >= state.personality.resourceStockpileTarget then
 
             -- Don't attack during grace period
             if inGracePeriod then
@@ -293,8 +293,8 @@ function AIStrategyController:stateEconomyBuildup(faction, state, dt)
     -- Always train a few workers
     self:trainWorkers(faction, state)
 
-    -- Maybe build market for trade
-    if state.resources.gold > 300 and not self:hasBuilding(state, "Market") then
+    -- Maybe build market for trade (nil-safe)
+    if (state.resources.gold or 0) > 300 and not self:hasBuilding(state, "Market") then
         self:queueBuild(faction, state, "Market")
     end
 
@@ -379,8 +379,8 @@ function AIStrategyController:stateEndgame(faction, state, dt)
     if targetGx then
         self:orderAttack(faction, state, targetGx, targetGy)
 
-        -- Also build siege weapons
-        if state.resources.gold > 500 then
+        -- Also build siege weapons (nil-safe)
+        if (state.resources.gold or 0) > 500 then
             self:trainUnit(faction, state, "Engineer")  -- for siege
         end
     end
