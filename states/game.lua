@@ -31,6 +31,9 @@ local EconomicEvents = require("objects.Economy.EconomicEventsSystem")
 local TradeCaravans = require("objects.Economy.TradeCaravanSystem")
 -- Stronghold 2027 - Mission framework
 local MissionFramework = require("objects.Mission.MissionFramework")
+-- Stronghold 2027 - Economy UI
+local DynamicMarketUI = require("states.ui.economy.dynamic_market_ui")
+local CaravanUI = require("states.ui.economy.caravan_ui")
 local savegame
 local playlist = require("sounds.music_playlist")
 local RationController
@@ -210,6 +213,9 @@ function game:update(dt)
                 TradeCaravans.update(dt)
                 -- Stronghold 2027: Update mission framework
                 MissionFramework.update(dt)
+                -- Stronghold 2027: Update economy UI
+                DynamicMarketUI.update(dt)
+                CaravanUI.update(dt)
                 _G.MissionStart = true
                 if (loveframes.GetState() == states.STATE_ARMOURY) then
                     ArmouryUI.DisplayCurrentStock()
@@ -315,6 +321,9 @@ function game:draw()
             ModernUI.draw()
             -- Stronghold 2027: Draw mission UI (objectives, timer)
             MissionFramework.draw()
+            -- Stronghold 2027: Draw economy UI (market, caravans)
+            DynamicMarketUI.draw()
+            CaravanUI.draw()
         else
             renderLoadingScreen("")
             renderLoadingBar(loadState, progress)
@@ -327,6 +336,13 @@ function game:mousepressed(x, y, button, istouch)
     if not _G.loaded then return end
     if loveframes.mousepressed(x, y, button) then
         return
+    end
+    -- Stronghold 2027: Handle economy UI clicks first
+    if DynamicMarketUI.isVisible() then
+        if DynamicMarketUI.mousepressed(x, y, button) then return end
+    end
+    if CaravanUI.isVisible() then
+        if CaravanUI.mousepressed(x, y, button) then return end
     end
     if _G.paused then return end
     if objects.mousepressed(x, y, button, istouch) then
@@ -466,6 +482,16 @@ function game:keypressed(key, scancode, isRepeat)
         else
             ModernUI.notifyError("Could not load mission")
         end
+        return
+    end
+    -- M = Toggle dynamic market UI (Stronghold 2027)
+    if key == "m" then
+        DynamicMarketUI.toggle()
+        return
+    end
+    -- C = Toggle caravan UI (Stronghold 2027)
+    if key == "c" then
+        CaravanUI.toggle()
         return
     end
     -- F5 = Cycle weather (Stronghold 2027)
