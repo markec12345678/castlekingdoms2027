@@ -159,6 +159,10 @@ local function delayedInit()
     GameFeel.init()
     BuildPreview.init()
     SelectionFeedback.init()
+    -- Register globally for other systems to access
+    _G.GameFeel = GameFeel
+    _G.BuildPreview = BuildPreview
+    _G.SelectionFeedback = SelectionFeedback
     ModernUI.notifySuccess("Stronghold 2027 loaded! Press F8 for combat test.")
     if _G.state.newGame then
         _G.playSpeech("place_a_keep")
@@ -253,6 +257,11 @@ function game:update(dt)
                 GameFeel.update(dt)
                 BuildPreview.update(dt)
                 SelectionFeedback.update(dt)
+                -- Update selection box position while dragging
+                if _G.Commander and _G.Commander.isDown then
+                    local mx, my = love.mouse.getPosition()
+                    SelectionFeedback.updateBox(mx, my)
+                end
                 _G.MissionStart = true
                 if (loveframes.GetState() == states.STATE_ARMOURY) then
                     ArmouryUI.DisplayCurrentStock()

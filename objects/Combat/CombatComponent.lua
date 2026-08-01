@@ -88,11 +88,20 @@ function CombatComponent.takeDamage(self, amount, attacker)
         _G.CombatController:spawnDamageNumber(self, actualDamage)
     end
 
+    -- Stronghold 2027: Game feel feedback (screen shake, hit flash)
+    if _G.GameFeel then
+        _G.GameFeel.onUnitDamaged(self, actualDamage, attacker)
+    end
+
     if self.health <= 0 then
         self.health = 0
         self.combatState = COMBAT.STATE_DEAD
         if attacker then
             attacker.kills = (attacker.kills or 0) + 1
+        end
+        -- Stronghold 2027: Game feel feedback for death
+        if _G.GameFeel then
+            _G.GameFeel.onUnitDeath(self, attacker)
         end
         if self._originalDie then
             self._originalDie(self)
