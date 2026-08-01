@@ -62,37 +62,35 @@ groups:
     description: Gardens, statues and entertainment to increase your popularity.
 buildings:
   hunterHut:
-    name: Hunter's hut
-    description: Hunts deer in the environment for meat.
+    name: Καλύβα Κυνηγού
+    description: Κυνηγάει ελάφια για κρέας.
   granary:
-    name: Granary
-    description: The granary is where you store your kingdom's food reserves.
+    name: Σιταποθήκη
+    description: Αυξάνει τη χωρητικότητα τροφίμων.
   orchard:
-    name: Orchard
-    description: Produces apples.
+    name: Οπωρώνας
+    description: Παράγει μήλα.
   wheatFarm:
-    name: Wheat Farm
-    description: Produces wheat which can be processed into flour.
+    name: Φάρμα Σιταριού
+    description: Παράγει σιτάρι.
   dairyFarm:
-    name: Dairy Farm
-    description: Produces cheese.
+    name: Γαλακτοκομική Φάρμα
+    description: Παράγει τυρί.
   hopsFarm:
-    name: Hops Farm
-    description: Produces hops which can be processed into ale.
+    name: Φάρμα Λυκίσκου
+    description: Παράγει λυκίσκο.
   castle:
     name: Saxon Hall
     description: Your Saxon hall is the center of your castle.
   stockpile:
-    name: Stockpile
-    description: 'Increases resource capacity.\nMust be placed adjacent to a stockpile.
-
-      '
+    name: Αποθήκη
+    description: Φυλάει υλικά κατασκευής.
   woodenKeep:
-    name: Wooden Keep
-    description: Upgrade your Saxon hall to a Wooden keep
+    name: Ξύλινος Πύργος
+    description: Ξύλινος πύργος.
   keep:
-    name: Keep
-    description: Upgrade your Wooden keep to a Stone keep
+    name: Πύργος
+    description: Πέτρινος πύργος.
   fortress:
     name: Fortress
     description: Upgrade your Stone keep to a Fortress
@@ -100,8 +98,8 @@ buildings:
     name: Stronghold
     description: Upgrade your Fortress to a Stronghold (not supported yet)
   barracks:
-    name: Barracks
-    description: A building allowing you to recruit units.
+    name: Στρατώνας
+    description: Κτίριο για στρατολόγηση.
   stoneBarracks:
     name: Stone Barracks
     description: A building allowing you to recruit units.
@@ -112,60 +110,59 @@ buildings:
     name: Tunnelers Guild
     description: A building allowing you to recruit tunnelers.
   chapel:
-    name: Chapel
-    description: Increase your popularity with religion.
+    name: Παρεκκλήσι
+    description: Αυξάνει δημοτικότητα με θρησκεία.
   church:
-    name: Church
-    description: Increase your popularity with religion.
+    name: Εκκλησία
+    description: Αυξάνει δημοτικότητα με θρησκεία.
   cathedral:
-    name: Cathedral
-    description: Increase your popularity with religion and train warrior monks.
+    name: Καθεδρικός
+    description: Αυξάνει δημοτικότητα με θρησκεία.
   apothecary:
     name: Apothecary
     description: Currently not functional.
   woodcutter:
-    name: Woodcutter Hut
-    description: Cuts down nearby trees to produce wood.
+    name: Καλύβα Υλοτόμου
+    description: Κόβει δέντρα.
   ironMine:
-    name: Mine
-    description: Produces iron ingots from ground iron ore.
+    name: Ορυχείο
+    description: Παράγει σίδηρο.
   market:
-    name: Market
-    description: Allows you to trade your goods.
+    name: Αγορά
+    description: Επιτρέπει το εμπόριο.
   ox:
     name: Ox Tether
     description: Transport stone from the quarry to the stockpile.
   quarry:
-    name: Quarry
-    description: Produces stone blocks from the ground resource.
+    name: Λατομείο
+    description: Παράγει πέτρα.
   armoury:
-    name: Armoury
-    description: Weapons and armour is stored here, which is used by troops from the
-      barracks upon recruitment.
+    name: Οπλοθήκη
+    description: Φυλάει όπλα και πανοπλίες.
   fletcher:
-    name: Fletcher Workshop
-    description: Produces bows and crossbows from wood.
+    name: Εργαστήριο Τοξοποιίας
+    description: Κατασκευάζει τόξα.
   poleturner:
     name: Poleturner Workshop
     description: Produces spears and pikes from wood.
   blacksmith:
-    name: Blacksmith Workshop
-    description: Produces swords and maces from iron.
+    name: Σιδηρουργείο
+    description: Κατασκευάζει σπαθιά.
   armorer:
-    name: Armorer
-    description: Makes armor from iron.
+    name: Πανοπλοποιός
+    description: Κατασκευάζει πανοπλίες.
   windmill:
-    name: Windmill
-    description: Processes wheat into flour.
+    name: Ανεμόμυλος
+    description: Αλέθει σιτάρι σε αλεύρι.
   bakery:
-    name: Bakery
-    description: Processes flour into bread.
+    name: Φούρνος
+    description: Ψήνει ψωμί.
   brewery:
-    name: Brewery
-    description: Processes hops into ale.
+    name: Ζυθοποιείο
+    description: Παράγει μπύρα.
   inn:
-    name: Inn
-    description: Distributes ale.
+    name: Πανδοχείο
+    description: Διανέμει μπύρα.
   pitchRig:
     name: Pitch Rig
     description: Small platform to collect pitch from the swamp.
