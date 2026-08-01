@@ -399,6 +399,12 @@ function MissionFramework.onMissionWon()
         MissionFramework.giveResources(currentMission.rewards)
     end
 
+    -- Stronghold 2027: Track campaign progress
+    local ok, CampaignProgress = pcall(require, "objects.Mission.CampaignProgress")
+    if ok and CampaignProgress then
+        CampaignProgress.completeMission(currentMission.key or "")
+    end
+
     -- Stronghold 2027: Show mission end screen
     local ok, MissionEndScreen = pcall(require, "states.ui.hud.mission_end_screen")
     if ok and MissionEndScreen then
