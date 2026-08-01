@@ -78,3 +78,35 @@ jobs:
           name: stronghold2027-love
           path: stronghold2027.love
           retention-days: 14
+
+  custom-tests:
+    name: Custom project tests
+    runs-on: ubuntu-latest
+    needs: [lint, yaml-validate]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Setup Lua 5.1
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libreadline-dev
+          curl -L -o lua-5.1.tar.gz https://www.lua.org/ftp/lua-5.1.5.tar.gz
+          tar -xzf lua-5.1.tar.gz
+          cd lua-5.1.5
+          sed -i 's/MYCFLAGS=-DLUA_USE_LINUX/MYCFLAGS="-DLUA_USE_POSIX"/' src/Makefile
+          sed -i 's/MYLIBS="-Wl,-E -ldl -lreadline -lhistory -lncurses"/MYLIBS="-Wl,-E -ldl"/' src/Makefile
+          make posix
+          sudo cp src/lua src/luac /usr/local/bin/
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install PyYAML
+        run: pip install pyyaml
+
+      - name: Run custom project tests
+        run: lua scripts/test.lua
