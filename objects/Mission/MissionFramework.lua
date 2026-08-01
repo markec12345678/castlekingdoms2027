@@ -314,7 +314,7 @@ function MissionFramework.countBuildings(buildingName)
 
     local count = 0
     for _, obj in ipairs(_G.state.gameObjectList) do
-        if (not obj.faction or obj.faction == 1)  -- COMBAT.FACTION_PLAYER
+        if (not obj.faction or obj.faction == COMBAT.FACTION_PLAYER)  -- COMBAT.FACTION_PLAYER
             and obj.class and obj.class.name == buildingName then
             count = count + 1
         end
@@ -328,7 +328,7 @@ function MissionFramework.countUnits(unitType)
 
     local count = 0
     for _, obj in ipairs(_G.state.gameObjectList) do
-        if (not obj.faction or obj.faction == 1)
+        if (not obj.faction or obj.faction == COMBAT.FACTION_PLAYER)
             and obj.className == unitType then
             count = count + 1
         end
@@ -370,7 +370,7 @@ function MissionFramework.checkLoseConditions()
     if _G.state and _G.state.gameObjectList then
         local hasKeep = false
         for _, obj in ipairs(_G.state.gameObjectList) do
-            if (not obj.faction or obj.faction == 1) and obj.class and obj.class.name then
+            if (not obj.faction or obj.faction == COMBAT.FACTION_PLAYER) and obj.class and obj.class.name then
                 local name = obj.class.name
                 if name == "Keep" or name == "WoodenKeep" or name == "SaxonHall" then
                     hasKeep = true

@@ -19,6 +19,8 @@
 -- - Strategic depth (more complex plans = harder)
 -- - Cheat bonus (extra resources = harder)
 
+local COMBAT = require("objects.Enums.Combat")
+
 local AIStrategyController = _G.class("AIStrategyController")
 
 -- AI Personalities
@@ -92,14 +94,14 @@ local DIFFICULTIES = {
     hard = {
         decisionInterval = 1.5,
         resourceEfficiency = 0.95,
-        cheatBonus = 0.2,           -- 20% extra resources
+        cheatBonus = 0.15,          -- 15% extra resources (reduced from 20%)
         maxArmySize = 40,
         defenseResponseTime = 2,
     },
     brutal = {
         decisionInterval = 0.8,
         resourceEfficiency = 1.0,
-        cheatBonus = 0.5,           -- 50% extra resources (cheating)
+        cheatBonus = 0.30,          -- 30% extra resources (reduced from 50%, less unfair feel)
         maxArmySize = 60,
         defenseResponseTime = 1,
     },
@@ -141,6 +143,10 @@ function AIStrategyController:registerFaction(faction, personality, difficulty)
         state = STRATEGY_STATES.INITIALIZING,
         lastDecision = 0,
         lastAttack = 0,
+        -- Grace period: AI won't attack player for first 5 minutes
+        -- (gives player time to set up)
+        registrationTime = love.timer.getTime(),
+        gracePeriod = 300,  -- 5 minutes
         buildQueue = {},
         attackQueue = {},
         resources = { gold = 1000, wood = 100, stone = 50, food = 50 },
@@ -150,8 +156,8 @@ function AIStrategyController:registerFaction(faction, personality, difficulty)
         expansionTargets = {},  -- potential expansion spots
     }
 
-    print(string.format("[AIStrategyController] Registered faction %d (%s/%s)",
-        faction, personality or "balanced", difficulty or "medium"))
+    print(string.format("[AIStrategyController] Registered faction %d (%s/%s) - grace period: %ds",
+        faction, personality or "balanced", difficulty or "medium", 300))
     return true
 end
 
@@ -205,13 +211,13 @@ function AIStrategyController:evaluateStrategicState(faction, state)
     local armySize = self:countArmyUnits(faction, state)
     local resourceLevel = state.resources.gold + state.resources.wood + state.resources.stone
 
-    -- Under attack?
+    -- Check grace period (AI won't attack player for first 5 minutes)
+    local timeSinceRegistration = love.timer.getTime() - state.registrationTime
+    local inGracePeriod = timeSinceRegistration < state.gracePeriod
+
+    -- Under attack? (always allowed to defend, even during grace period)
     if enemyThreats > 0 then
-        if armySize < 3 and resourceLevel < 200 then
-            state.state = STRATEGY_STATES.DEFENDING
-        else
-            state.state = STRATEGY_STATES.DEFENDING
-        end
+        state.state = STRATEGY_STATES.DEFENDING
         return
     end
 
@@ -227,6 +233,12 @@ function AIStrategyController:evaluateStrategicState(faction, state)
     elseif state.state == STRATEGY_STATES.MILITARY_BUILDUP then
         if armySize >= state.personality.attackThreshold and
            state.resources.gold >= state.personality.resourceStockpileTarget then
+
+            -- Don't attack during grace period
+            if inGracePeriod then
+                return  -- stay in MILITARY_BUILDUP, build up more
+            end
+
             -- Chance to attack
             local timeSinceLastAttack = love.timer.getTime() - state.lastAttack
             if timeSinceLastAttack > 60 then  -- at least 1 min between attacks
@@ -237,6 +249,7 @@ function AIStrategyController:evaluateStrategicState(faction, state)
             end
         end
     elseif state.state == STRATEGY_STATES.ATTACKING then
+        -- Retreat if outnumbered (less suicidal AI)
         if armySize < 3 then
             state.state = STRATEGY_STATES.RETREATING
         end
@@ -451,7 +464,7 @@ function AIStrategyController:findPlayerKeep(faction, state)
         if obj.class and obj.class.name then
             local name = obj.class.name
             if (name == "Keep" or name == "WoodenKeep" or name == "SaxonHall")
-                and obj.faction == 1 then  -- COMBAT.FACTION_PLAYER
+                and obj.faction == COMBAT.FACTION_PLAYER then
                 return obj.gx, obj.gy
             end
         end
