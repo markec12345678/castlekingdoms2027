@@ -419,9 +419,13 @@ function game:draw()
             -- Stronghold 2027: Draw performance overlay (F3/F4)
             PerformanceOverlay.draw()
             -- Stronghold 2027: Draw game feel feedback (selection rings, build preview, combat orders)
+            -- Use scissor to prevent drawing over action bar
+            local screenWidth, screenHeight = love.graphics.getDimensions()
+            love.graphics.setScissor(0, 0, screenWidth, screenHeight - 150)
             SelectionFeedback.draw()
             BuildPreview.draw()
             CombatOrderViz.draw()
+            love.graphics.setScissor()
             -- Stronghold 2027: Draw settings panel (V key)
             GameFeelSettings.draw()
             -- Stronghold 2027: Draw mission end screen and credits
@@ -431,7 +435,9 @@ function game:draw()
             KeybindHelp.draw()
             -- Stronghold 2027: Draw Kenney CC0 overlay (if enabled)
             if _G.KenneySpriteRenderer and _G.KenneySpriteRenderer.isActive() then
+                love.graphics.setScissor(0, 0, screenWidth, screenHeight - 150)
                 KenneySpriteOverlay.draw()
+                love.graphics.setScissor()
             end
         else
             renderLoadingScreen("")
