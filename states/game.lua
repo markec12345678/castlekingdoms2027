@@ -24,6 +24,13 @@ local ModernUI = require("objects.UI.ModernUISystem")
 local LightingSystem = require("objects.Environment.LightingSystem")
 -- Stronghold 2027 - AI system
 local AIIntegration = require("objects.AI.AIIntegration")
+-- Stronghold 2027 - Economy systems
+local DynamicMarket = require("objects.Economy.DynamicMarketSystem")
+local SeasonalSystem = require("objects.Economy.SeasonalSystem")
+local EconomicEvents = require("objects.Economy.EconomicEventsSystem")
+local TradeCaravans = require("objects.Economy.TradeCaravanSystem")
+-- Stronghold 2027 - Mission framework
+local MissionFramework = require("objects.Mission.MissionFramework")
 local savegame
 local playlist = require("sounds.music_playlist")
 local RationController
@@ -122,6 +129,11 @@ local function delayedInit()
     WeatherSystem.init()
     ModernUI.init()
     LightingSystem.init()
+    -- Stronghold 2027: Initialize economy systems
+    DynamicMarket.init()
+    SeasonalSystem.init()
+    EconomicEvents.init()
+    TradeCaravans.init()
     ModernUI.notifySuccess("Stronghold 2027 loaded! Press F8 for combat test.")
     if _G.state.newGame then
         _G.playSpeech("place_a_keep")
@@ -190,6 +202,14 @@ function game:update(dt)
                 LightingSystem.update(dt)
                 -- Stronghold 2027: Update AI system
                 AIIntegration.update(dt)
+                -- Stronghold 2027: Update economy systems
+                DynamicMarket.update(dt)
+                DynamicMarket.updateEvents()
+                SeasonalSystem.update(dt)
+                EconomicEvents.update(dt)
+                TradeCaravans.update(dt)
+                -- Stronghold 2027: Update mission framework
+                MissionFramework.update(dt)
                 _G.MissionStart = true
                 if (loveframes.GetState() == states.STATE_ARMOURY) then
                     ArmouryUI.DisplayCurrentStock()
@@ -293,6 +313,8 @@ function game:draw()
             console.draw()
             -- Stronghold 2027: Draw modern UI (tooltips, notifications)
             ModernUI.draw()
+            -- Stronghold 2027: Draw mission UI (objectives, timer)
+            MissionFramework.draw()
         else
             renderLoadingScreen("")
             renderLoadingBar(loadState, progress)
@@ -408,6 +430,42 @@ function game:keypressed(key, scancode, isRepeat)
     -- F10 = Print AI debug info (Stronghold 2027)
     if key == "f10" then
         AIIntegration.printDebugInfo()
+        return
+    end
+    -- F11 = Print economy debug info (Stronghold 2027)
+    if key == "f11" then
+        print("\n=== Economy Debug Info ===")
+        local marketStats = DynamicMarket.getStats()
+        print(string.format("Inflation: %.3f", marketStats.inflation))
+        print(string.format("Total gold in circulation: %d", marketStats.totalGold))
+        print(string.format("Active events: %d", marketStats.activeEvents))
+        print(string.format("Most volatile resource: %s (%.0f%%)", marketStats.mostVolatile, marketStats.maxVolatility * 100))
+
+        local seasonInfo = SeasonalSystem.getSeasonInfo()
+        print(string.format("\nSeason: %s (Year %d)", seasonInfo.nameSlv, seasonInfo.year))
+        print(string.format("Time remaining: %.0fs", seasonInfo.timeRemaining))
+        print(string.format("Next season: %s", SeasonalSystem.getNextSeason()))
+
+        local eventStats = EconomicEvents.getStats()
+        print(string.format("\nActive events: %d", eventStats.activeCount))
+        print(string.format("History: %d events", eventStats.historyCount))
+
+        local caravanStats = TradeCaravans.getStats()
+        print(string.format("\nCaravans: %d active, %d completed", caravanStats.activeCount, caravanStats.completedCount))
+        print(string.format("Success rate: %.0f%%", caravanStats.successRate * 100))
+        print(string.format("Total profit: %d gold", caravanStats.totalProfit))
+        print("=========================\n")
+        return
+    end
+    -- F12 = Load campaign mission 1 (Stronghold 2027)
+    if key == "f12" then
+        local success = MissionFramework.loadMission("campaign.mission1_return_to_fernhaven")
+        if success then
+            MissionFramework.startMission()
+            ModernUI.notifySuccess("Campaign mission loaded: Return to Fernhaven")
+        else
+            ModernUI.notifyError("Could not load mission")
+        end
         return
     end
     -- F5 = Cycle weather (Stronghold 2027)
