@@ -34,6 +34,9 @@ local MissionFramework = require("objects.Mission.MissionFramework")
 -- Stronghold 2027 - Economy UI
 local DynamicMarketUI = require("states.ui.economy.dynamic_market_ui")
 local CaravanUI = require("states.ui.economy.caravan_ui")
+-- Stronghold 2027 - HUD widgets
+local SeasonWidget = require("states.ui.hud.season_info_widget")
+local EventLog = require("states.ui.hud.economic_event_log")
 local savegame
 local playlist = require("sounds.music_playlist")
 local RationController
@@ -216,6 +219,9 @@ function game:update(dt)
                 -- Stronghold 2027: Update economy UI
                 DynamicMarketUI.update(dt)
                 CaravanUI.update(dt)
+                -- Stronghold 2027: Update HUD widgets
+                SeasonWidget.update(dt)
+                EventLog.update(dt)
                 _G.MissionStart = true
                 if (loveframes.GetState() == states.STATE_ARMOURY) then
                     ArmouryUI.DisplayCurrentStock()
@@ -324,6 +330,9 @@ function game:draw()
             -- Stronghold 2027: Draw economy UI (market, caravans)
             DynamicMarketUI.draw()
             CaravanUI.draw()
+            -- Stronghold 2027: Draw HUD widgets (season, events)
+            SeasonWidget.draw()
+            EventLog.draw()
         else
             renderLoadingScreen("")
             renderLoadingBar(loadState, progress)
