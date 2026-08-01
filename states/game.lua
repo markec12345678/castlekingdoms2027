@@ -48,6 +48,8 @@ local GameFeel = require("objects.Feedback.GameFeelSystem")
 local BuildPreview = require("objects.Feedback.BuildPreviewSystem")
 local SelectionFeedback = require("objects.Feedback.SelectionFeedbackSystem")
 local CombatOrderViz = require("objects.Feedback.CombatOrderVisualizer")
+-- Stronghold 2027 - Settings
+local GameFeelSettings = require("states.ui.settings.gamefeel_settings")
 local savegame
 local playlist = require("sounds.music_playlist")
 local RationController
@@ -161,6 +163,7 @@ local function delayedInit()
     BuildPreview.init()
     SelectionFeedback.init()
     CombatOrderViz.init()
+    GameFeelSettings.applySettings()
     -- Register globally for other systems to access
     _G.GameFeel = GameFeel
     _G.BuildPreview = BuildPreview
@@ -383,6 +386,8 @@ function game:draw()
             SelectionFeedback.draw()
             BuildPreview.draw()
             CombatOrderViz.draw()
+            -- Stronghold 2027: Draw settings panel (V key)
+            GameFeelSettings.draw()
         else
             renderLoadingScreen("")
             renderLoadingBar(loadState, progress)
@@ -402,6 +407,9 @@ function game:mousepressed(x, y, button, istouch)
     end
     if CaravanUI.isVisible() then
         if CaravanUI.mousepressed(x, y, button) then return end
+    end
+    if GameFeelSettings.isVisible() then
+        if GameFeelSettings.mousepressed(x, y, button) then return end
     end
     if _G.paused then return end
     if objects.mousepressed(x, y, button, istouch) then
@@ -551,6 +559,11 @@ function game:keypressed(key, scancode, isRepeat)
     -- C = Toggle caravan UI (Stronghold 2027)
     if key == "c" then
         CaravanUI.toggle()
+        return
+    end
+    -- V = Toggle game feel settings (Stronghold 2027)
+    if key == "v" then
+        GameFeelSettings.toggle()
         return
     end
     -- F5 = Cycle weather (Stronghold 2027)
