@@ -547,19 +547,21 @@ end
 
 function AIStrategyController:canAfford(state, cost)
     if not cost then return true end
-    if cost.gold and state.resources.gold < cost.gold then return false end
-    if cost.wood and state.resources.wood < cost.wood then return false end
-    if cost.stone and state.resources.stone < cost.stone then return false end
-    if cost.food and state.resources.food < cost.food then return false end
+    -- Nil-safe: use (state.resources.X or 0) to prevent crash if resource is nil
+    if cost.gold and (state.resources.gold or 0) < cost.gold then return false end
+    if cost.wood and (state.resources.wood or 0) < cost.wood then return false end
+    if cost.stone and (state.resources.stone or 0) < cost.stone then return false end
+    if cost.food and (state.resources.food or 0) < cost.food then return false end
     return true
 end
 
 function AIStrategyController:spendResources(state, cost)
     if not cost then return end
-    if cost.gold then state.resources.gold = state.resources.gold - cost.gold end
-    if cost.wood then state.resources.wood = state.resources.wood - cost.wood end
-    if cost.stone then state.resources.stone = state.resources.stone - cost.stone end
-    if cost.food then state.resources.food = state.resources.food - cost.food end
+    -- Nil-safe: initialize to 0 if nil before subtracting
+    if cost.gold then state.resources.gold = (state.resources.gold or 0) - cost.gold end
+    if cost.wood then state.resources.wood = (state.resources.wood or 0) - cost.wood end
+    if cost.stone then state.resources.stone = (state.resources.stone or 0) - cost.stone end
+    if cost.food then state.resources.food = (state.resources.food or 0) - cost.food end
 end
 
 -- Building costs (simplified - real values from game data)
