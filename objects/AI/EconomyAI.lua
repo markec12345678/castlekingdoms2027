@@ -95,13 +95,19 @@ end
 function EconomyAI:determinePhase(faction, state)
     local resources = self:getResources(faction)
 
-    if resources.wood < 50 or resources.stone < 20 then
+    -- Nil-safe access
+    local wood = resources.wood or 0
+    local stone = resources.stone or 0
+    local food = resources.food or 0
+    local gold = resources.gold or 0
+
+    if wood < 50 or stone < 20 then
         state.phase = "startup"
-    elseif resources.food < 30 then
+    elseif food < 30 then
         state.phase = "economy"
-    elseif resources.gold < 200 then
+    elseif gold < 200 then
         state.phase = "economy"
-    elseif resources.gold > 500 and resources.wood > 100 then
+    elseif gold > 500 and wood > 100 then
         state.phase = "military"
     else
         state.phase = "economy"
@@ -111,8 +117,8 @@ end
 -- Get current resources for a faction
 function EconomyAI:getResources(faction)
     -- In a full implementation, this would query the actual game state
-    -- For now, return defaults
-    return { wood = 100, stone = 50, food = 50, gold = 500 }
+    -- For now, return defaults (including all resources checked by evaluateTrade)
+    return { wood = 100, stone = 50, food = 50, gold = 500, iron = 20 }
 end
 
 -- Update production rates (per second)
@@ -202,19 +208,26 @@ function EconomyAI:evaluateTrade(faction, state)
 
     local resources = self:getResources(faction)
 
+    -- Nil-safe resource access (default to 0 if missing)
+    local wood = resources.wood or 0
+    local stone = resources.stone or 0
+    local food = resources.food or 0
+    local gold = resources.gold or 0
+    local iron = resources.iron or 0
+
     -- Sell excess resources
-    if resources.wood > 200 then
+    if wood > 200 then
         self:sellResource(faction, "wood", 50)
     end
-    if resources.stone > 150 then
+    if stone > 150 then
         self:sellResource(faction, "stone", 30)
     end
 
     -- Buy needed resources
-    if resources.food < 20 and resources.gold > 200 then
+    if food < 20 and gold > 200 then
         self:buyResource(faction, "food", 30)
     end
-    if resources.iron < 10 and resources.gold > 300 then
+    if iron < 10 and gold > 300 then
         self:buyResource(faction, "iron", 20)
     end
 end
