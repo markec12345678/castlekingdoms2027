@@ -55,6 +55,10 @@ local SettingsPersistence = require("objects.Config.SettingsPersistence")
 local MissionEndScreen = require("states.ui.hud.mission_end_screen")
 local CreditsScreen = require("states.ui.hud.credits_screen")
 local TutorialHints = require("objects.Feedback.TutorialHints")
+local KeybindHelp = require("states.ui.hud.keybind_help")
+-- Stronghold 2027 - Campaign progress & auto-save
+local CampaignProgress = require("objects.Mission.CampaignProgress")
+local AutoSaveSystem = require("objects.AutoSaveSystem")
 local savegame
 local playlist = require("sounds.music_playlist")
 local RationController
@@ -180,6 +184,10 @@ local function delayedInit()
     ModernUI.notifySuccess("Stronghold 2027 loaded! Press F8 for combat test.")
     -- Stronghold 2027: Show tutorial hints on first game
     TutorialHints.onGameStart()
+    -- Stronghold 2027: Initialize campaign progress & auto-save
+    CampaignProgress.init()
+    AutoSaveSystem.init()
+    AutoSaveSystem.setEnabledFromSettings()
     if _G.state.newGame then
         _G.playSpeech("place_a_keep")
         _G.BuildController.start = true
@@ -278,6 +286,8 @@ function game:update(dt)
                 MissionEndScreen.update(dt)
                 CreditsScreen.update(dt)
                 TutorialHints.update(dt)
+                -- Stronghold 2027: Update auto-save
+                AutoSaveSystem.update(dt)
                 -- Update selection box position while dragging
                 if _G.Commander and _G.Commander.isDown then
                     local mx, my = love.mouse.getPosition()
@@ -405,6 +415,8 @@ function game:draw()
             -- Stronghold 2027: Draw mission end screen and credits
             MissionEndScreen.draw()
             CreditsScreen.draw()
+            -- Stronghold 2027: Draw keybind help (H key)
+            KeybindHelp.draw()
         else
             renderLoadingScreen("")
             renderLoadingBar(loadState, progress)
@@ -584,6 +596,11 @@ function game:keypressed(key, scancode, isRepeat)
     -- V = Toggle game feel settings (Stronghold 2027)
     if key == "v" then
         GameFeelSettings.toggle()
+        return
+    end
+    -- H = Toggle keybind help (Stronghold 2027)
+    if key == "h" then
+        KeybindHelp.toggle()
         return
     end
     -- F5 = Cycle weather (Stronghold 2027)
