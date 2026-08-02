@@ -68,7 +68,7 @@ function ActionBarButton:initialize(image, state, position, bigFrameForeground, 
     else
         self.targetBackgroundScale = (frame.height) / self.background:GetImageHeight()
     end
-    self.background:SetScale(self.targetBackgroundScale)
+    self.background:SetScale(self.targetBackgroundScale, self.targetBackgroundScale)
     self.background.OnMouseEnter = function(element)
         self:onMouseEnter(element)
     end
@@ -89,7 +89,7 @@ function ActionBarButton:initialize(image, state, position, bigFrameForeground, 
     else
         self.targetForegroundScale = (self.foregroundFrame.height) / self.foreground:GetImageHeight()
     end
-    self.foreground:SetScale(self.targetForegroundScale)
+    self.foreground:SetScale(self.targetForegroundScale, self.targetForegroundScale)
     self.foreground.enabled = not self.disabled
     if self.disabled then
         self.foreground:SetColor(0.6, 0.6, 0.6, 0.6)
@@ -234,9 +234,11 @@ function ActionBarButton:setImage(image)
         image:getWidth() / 2):SetOffsetY(image:getHeight() / 2)
     if (self.foregroundFrame.width) / self.foreground:GetImageWidth() < (self.foregroundFrame.height) /
         self.foreground:GetImageHeight() then
-        self.foreground:SetScale((self.foregroundFrame.width) / self.foreground:GetImageWidth())
+        local s = (self.foregroundFrame.width) / self.foreground:GetImageWidth()
+        self.foreground:SetScale(s, s)
     else
-        self.foreground:SetScale((self.foregroundFrame.height) / self.foreground:GetImageHeight())
+        local s = (self.foregroundFrame.height) / self.foreground:GetImageHeight()
+        self.foreground:SetScale(s, s)
     end
     self.image = image
 end
@@ -268,8 +270,8 @@ function ActionBarButton:show()
     self.foreground.visible = true
     self.background:SetPos(self.bgx, self.bgy)
     self.foreground:SetPos(self.fgx, self.fgy)
-    self.foreground:SetScale(self.targetForegroundScale)
-    self.background:SetScale(self.targetBackgroundScale)
+    self.foreground:SetScale(self.targetForegroundScale, self.targetForegroundScale)
+    self.background:SetScale(self.targetBackgroundScale, self.targetBackgroundScale)
 end
 
 function ActionBarButton:scrollUp(actionBarAnim)
@@ -302,14 +304,16 @@ function ActionBarButton:onMouseEnter(element)
     _G.playInterfaceSfx(ButtonFx["BuildHover"], 1)
     if not self.selected and not self.disabled then
         element:SetImage(ActionBarButton.backgroundHoverImage)
-        element:SetScale((self.frame.width) / element:GetImageWidth())
+        local s = (self.frame.width) / element:GetImageWidth()
+        element:SetScale(s, s)
     end
 end
 
 function ActionBarButton:onMouseExit(element)
     if not self.selected and not self.disabled then
         element:SetImage(ActionBarButton.backgroundImage)
-        element:SetScale((self.frame.width) / element:GetImageWidth())
+        local s = (self.frame.width) / element:GetImageWidth()
+        element:SetScale(s, s)
     end
 end
 
