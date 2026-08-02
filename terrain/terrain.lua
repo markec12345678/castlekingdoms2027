@@ -579,11 +579,15 @@ function Terrain:updateTerrain2ndPass(chunkX, chunkY)
                     if curIdx["size"] then
                         multiTileOrigin = curIdx
                     else
-                        multiTileOrigin = self.keysToSkip[cx][cy][curIdx[1]][curIdx[2]]
+                        if curIdx[1] and curIdx[2] then
+                            multiTileOrigin = self.keysToSkip[cx][cy][curIdx[1]][curIdx[2]]
+                        else
+                            goto continue
+                        end
                     end
                     local mt = multiTileOrigin
                     if mt.biome ~= currentBiome then
-                        self.terrainTile[cx][cy][curIdx[1]][curIdx[2]] = {}
+                        self.terrainTile[cx][cy][mt[1]][mt[2]] = {}
                         self:freeMultiTileTerrain(multiTileOrigin.size, cx, cy, mt[1], mt[2])
                     end
                 end
@@ -713,7 +717,11 @@ function Terrain:updateTerrain(chunkX, chunkY)
                     if curIdx["size"] then
                         multiTileOrigin = curIdx
                     else
-                        multiTileOrigin = self.keysToSkip[cx][cy][curIdx[1]][curIdx[2]]
+                        if curIdx[1] and curIdx[2] then
+                            multiTileOrigin = self.keysToSkip[cx][cy][curIdx[1]][curIdx[2]]
+                        else
+                            goto continue
+                        end
                     end
                     local mt = multiTileOrigin
                     local maxSize = self:checkMaxSizeBiome(currentBiome, mt.cx, mt.cy, mt[1], mt[2])
@@ -738,7 +746,11 @@ function Terrain:updateTerrain(chunkX, chunkY)
                     if curIdx["size"] then
                         multiTileOrigin = curIdx
                     else
-                        multiTileOrigin = self.keysToSkip[cx][cy][curIdx[1]][curIdx[2]]
+                        if curIdx[1] and curIdx[2] then
+                            multiTileOrigin = self.keysToSkip[cx][cy][curIdx[1]][curIdx[2]]
+                        else
+                            goto continue
+                        end
                     end
                     local mt = multiTileOrigin
                     local maxSize = self:checkMaxSizeBiome(currentBiome, mt.cx, mt.cy, mt[1], mt[2], emptyTable)
