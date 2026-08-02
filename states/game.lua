@@ -22,6 +22,7 @@ local SoundSystem = require("objects.Audio.SoundSystem")
 local WeatherSystem = require("objects.Weather.WeatherSystem")
 local ModernUI = require("objects.UI.ModernUISystem")
 local LightingSystem = require("objects.Environment.LightingSystem")
+local HDRenderPipeline = require("objects.Environment.HDRenderPipeline")
 -- Stronghold 2027 - AI system
 local AIIntegration = require("objects.AI.AIIntegration")
 -- Stronghold 2027 - Economy systems
@@ -162,6 +163,8 @@ local function delayedInit()
     WeatherSystem.init()
     ModernUI.init()
     LightingSystem.init()
+    -- Stronghold 2027: Initialize HD render pipeline
+    HDRenderPipeline.init()
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -263,6 +266,8 @@ function game:update(dt)
                 WeatherSystem.update(dt)
                 ModernUI.update(dt)
                 LightingSystem.update(dt)
+                -- Stronghold 2027: Update HD render pipeline (normal maps, lights)
+                HDRenderPipeline.update(dt)
                 -- Stronghold 2027: Update AI system (with profiling)
                 PerformanceManager.beginSection("ai_update")
                 AIIntegration.update(dt)
@@ -294,6 +299,13 @@ function game:update(dt)
                 CombatOrderViz.update(dt)
                 -- Stronghold 2027: Update render optimizer (camera bounds)
                 RenderOptimizer.updateCameraBounds()
+                -- Stronghold 2027: Auto-detect HD light sources every 2 seconds
+                if not _G._hdLightTimer then _G._hdLightTimer = 0 end
+                _G._hdLightTimer = _G._hdLightTimer + dt
+                if _G._hdLightTimer > 2.0 then
+                    _G._hdLightTimer = 0
+                    pcall(function() HDRenderPipeline.autoDetectLights() end)
+                end
                 -- Stronghold 2027: Update UX screens
                 MissionEndScreen.update(dt)
                 CreditsScreen.update(dt)
@@ -649,6 +661,20 @@ function game:keypressed(key, scancode, isRepeat)
         local next = periods[(idx % #periods) + 1]
         LightingSystem.setTimePeriod(next)
         ModernUI.notifyInfo("Time: " .. next .. " (" .. LightingSystem.getTimeString() .. ")")
+        return
+    end
+    -- F7 = Toggle HD render pipeline (Stronghold 2027)
+    if key == "f7" then
+        local newState = not HDRenderPipeline.isEnabled()
+        HDRenderPipeline.setEnabled(newState)
+        ModernUI.notifyInfo("HD Pipeline: " .. (newState and "ON" or "OFF"))
+        return
+    end
+    -- F8 = Force refresh light sources (Stronghold 2027)
+    if key == "f8" then
+        HDRenderPipeline.autoDetectLights()
+        local info = HDRenderPipeline.getInfo()
+        ModernUI.notifyInfo("Lights refreshed: " .. info.lightCount .. " active")
         return
     end
 
