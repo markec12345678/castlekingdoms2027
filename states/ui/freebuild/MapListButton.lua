@@ -90,8 +90,11 @@ function MapListItem:onClick()
     self.startButton:SetVisible(true)
     self.titleText:SetText(self.mapData.name)
     self.descriptionText:SetText(self.mapData.description)
-    self.mapPreview:SetImage(self.mapData.preview)
-    self.mapPreview:SetScaleX(frames["frMapPreview"].width / self.mapData.preview:getWidth())
+    -- Stronghold 2027: nil-safe preview image (LFS pointer fallback)
+    if self.mapData.preview then
+        self.mapPreview:SetImage(self.mapData.preview)
+        self.mapPreview:SetScaleX(frames["frMapPreview"].width / self.mapData.preview:getWidth())
+    end
     self.mapPreview:SetScaleY(self.mapPreview:GetScaleX())
 end
 

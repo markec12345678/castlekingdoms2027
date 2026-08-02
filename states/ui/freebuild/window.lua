@@ -77,7 +77,10 @@ mapList[#mapList + 1] =
         {
             name = SID.freebuild.fernhaven.name,
             description = SID.freebuild.fernhaven.description,
-            preview = love.graphics.newImage("saves/fernhaven_preview.png"),
+            preview = (function()
+                        local ok, img = pcall(love.graphics.newImage, "saves/fernhaven_preview.png")
+                        return ok and img or nil
+                    end)(),
             id = "map_Fernhaven",
             w = 8,
             h = 8,
@@ -95,7 +98,10 @@ mapList[#mapList + 1] = MapListItem:new(
     {
         name = SID.freebuild.grasslands.name,
         description = SID.freebuild.grasslands.description,
-        preview = love.graphics.newImage("saves/grasslands_preview.png"),
+        preview = (function()
+                        local ok, img = pcall(love.graphics.newImage, "saves/grasslands_preview.png")
+                        return ok and img or nil
+                    end)(),
         id = "map_Grasslands",
         w = 2,
         h = 2,
