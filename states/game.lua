@@ -35,6 +35,10 @@ local MissionTestSuite = require("objects.QA.MissionTestSuite")
 local CrashHandler = require("objects.QA.CrashHandler")
 local PerfWatchdog = require("objects.QA.PerformanceWatchdog")
 local AudioMix = require("objects.Audio.AudioMixSystem")
+-- Stronghold 2027 - Sound Design
+local DynamicMusic = require("objects.Audio.DynamicMusicManager")
+local SFXLibrary = require("objects.Audio.SFXLibrary")
+local VoiceOver = require("objects.Audio.SlovenianVoiceOver")
 -- Stronghold 2027 - Modding & Steam
 local ModLoader = require("objects.Modding.ModLoader")
 local CustomBuildingLoader = require("objects.Modding.CustomBuildingLoader")
@@ -190,6 +194,15 @@ local function delayedInit()
     CrashHandler.init()
     PerfWatchdog.init()
     AudioMix.init()
+    -- Stronghold 2027: Initialize sound design
+    DynamicMusic.init()
+    SFXLibrary.init()
+    VoiceOver.init()
+    DynamicMusic.playPeaceMusic()
+    -- Register sound globals for combat system access
+    _G.DynamicMusic = DynamicMusic
+    _G.SFXLibrary = SFXLibrary
+    _G.VoiceOver = VoiceOver
     -- Stronghold 2027: Initialize modding & Steam
     ModLoader.init()
     CustomBuildingLoader.init()
@@ -316,6 +329,8 @@ function game:update(dt)
                 -- Stronghold 2027: Update QA systems
                 PerfWatchdog.update(dt)
                 AudioMix.update(dt)
+                -- Stronghold 2027: Update dynamic music
+                DynamicMusic.update(dt)
                 -- Stronghold 2027: Update mods
                 ModLoader.update(dt)
                 -- Stronghold 2027: Update AI system (with profiling)

@@ -93,6 +93,14 @@ function CombatComponent.takeDamage(self, amount, attacker)
         _G.GameFeel.onUnitDamaged(self, actualDamage, attacker)
     end
 
+    -- Stronghold 2027: Report combat to music manager + play SFX
+    if _G.DynamicMusic then
+        _G.DynamicMusic.reportCombat(1)
+    end
+    if _G.SFXLibrary then
+        _G.SFXLibrary.playCombat("sword_hit", self.gx, self.gy)
+    end
+
     if self.health <= 0 then
         self.health = 0
         self.combatState = COMBAT.STATE_DEAD
@@ -102,6 +110,10 @@ function CombatComponent.takeDamage(self, amount, attacker)
         -- Stronghold 2027: Game feel feedback for death
         if _G.GameFeel then
             _G.GameFeel.onUnitDeath(self, attacker)
+        end
+        -- Stronghold 2027: Play death SFX
+        if _G.SFXLibrary then
+            _G.SFXLibrary.playCombat("death", self.gx, self.gy)
         end
         if self._originalDie then
             self._originalDie(self)
