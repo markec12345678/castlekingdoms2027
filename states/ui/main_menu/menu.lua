@@ -83,9 +83,21 @@ optionsButton.OnClick = function(self)
     loveframes.SetState(states.STATE_SETTINGS)
 end
 
+-- Stronghold 2027: Multiplayer button
+local multiplayerButton = loveframes.Create("button")
+multiplayerButton:SetState(states.STATE_MAIN_MENU)
+multiplayerButton:SetPos(buttonX, frMenu.y + (baseHeight * 3) + SPACING * 3)
+multiplayerButton:SetSize(baseWidth, baseHeight)
+multiplayerButton:SetText("Multiplayer")
+multiplayerButton:SetSkin("StoneKingdoms")
+multiplayerButton.OnClick = function(self)
+    local Lobby = require("states.ui.multiplayer.lobby")
+    Lobby.show()
+end
+
 local exitButton = loveframes.Create("button")
 exitButton:SetState(states.STATE_MAIN_MENU)
-exitButton:SetPos(buttonX, frMenu.y + (baseHeight * 3) + SPACING * 5)
+exitButton:SetPos(buttonX, frMenu.y + (baseHeight * 4) + SPACING * 5)
 exitButton:SetSize(baseWidth, baseHeight)
 exitButton:SetText(buttonLabels.Exit)
 exitButton:SetSkin("StoneKingdoms")

@@ -23,6 +23,10 @@ local WeatherSystem = require("objects.Weather.WeatherSystem")
 local ModernUI = require("objects.UI.ModernUISystem")
 local LightingSystem = require("objects.Environment.LightingSystem")
 local HDRenderPipeline = require("objects.Environment.HDRenderPipeline")
+-- Stronghold 2027 - Multiplayer
+local GameServer = require("objects.Network.GameServer")
+local GameClient = require("objects.Network.GameClient")
+local Chat = require("states.ui.multiplayer.chat")
 -- Stronghold 2027 - AI system
 local AIIntegration = require("objects.AI.AIIntegration")
 -- Stronghold 2027 - Economy systems
@@ -165,6 +169,8 @@ local function delayedInit()
     LightingSystem.init()
     -- Stronghold 2027: Initialize HD render pipeline
     HDRenderPipeline.init()
+    -- Stronghold 2027: Initialize multiplayer chat
+    Chat.init()
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -268,6 +274,10 @@ function game:update(dt)
                 LightingSystem.update(dt)
                 -- Stronghold 2027: Update HD render pipeline (normal maps, lights)
                 HDRenderPipeline.update(dt)
+                -- Stronghold 2027: Update multiplayer networking
+                GameServer.update(dt)
+                GameClient.update(dt)
+                Chat.update(dt)
                 -- Stronghold 2027: Update AI system (with profiling)
                 PerformanceManager.beginSection("ai_update")
                 AIIntegration.update(dt)
@@ -511,12 +521,23 @@ function game:textinput(text)
 end
 
 function game:keypressed(key, scancode, isRepeat)
+    -- Stronghold 2027: Chat input takes priority
+    if Chat.isInputActive() then
+        if Chat.keypressed(key) then return end
+    end
+
     if love.keyboard.isScancodeDown("`") and love.keyboard.isScancodeDown("lshift") then
         console:toggleEnable()
         return
     end
     if console.isEnabled() then
         console.keypressed(key, scancode, isRepeat)
+        return
+    end
+
+    -- Stronghold 2027: Enter = toggle chat
+    if key == "return" or key == "kpenter" then
+        Chat.keypressed(key)
         return
     end
     ActionBar:keypressed(key, scancode)
