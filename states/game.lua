@@ -504,23 +504,40 @@ function game:mousepressed(x, y, button, istouch)
     end
     -- Stronghold 2027: FALLBACK - manually check action bar buttons if loveframes didn't consume
     -- This handles cases where the hover state is out of sync with the actual mouse position
+    -- Uses the button's ACTUAL position (not cached frames) for accuracy
     if button == 1 then
         local ActionBar = require("states.ui.ActionBar")
-        local ab = require("states.ui.action_bar_frames")
         if ActionBar and ActionBar.groups and ActionBar.currentGroup then
             local group = ActionBar.groups[ActionBar.currentGroup]
             if group then
                 for position = 1, 12 do
                     local btn = group[position]
                     if btn and btn.background and btn.background.visible and not btn.disabled then
-                        local frame = ab["frAction_" .. tostring(position)]
-                        if frame then
-                            if x >= frame.x and x <= frame.x + frame.width and
-                               y >= frame.y and y <= frame.y + frame.height then
-                                -- Found a button at this position - activate it
-                                pcall(function() btn:press() end)
-                                return
+                        -- Use the button's ACTUAL position and clickbounds
+                        local bg = btn.background
+                        local bx, by = bg.x, bg.y
+                        local bw = bg.width * (bg.scalex or 1)
+                        local bh = bg.height * (bg.scaley or 1)
+                        -- Also check clickbounds if set
+                        local cb = bg.clickbounds
+                        local inBounds = false
+                        if cb then
+                            if x >= cb.x and x <= cb.x + cb.width and
+                               y >= cb.y and y <= cb.y + cb.height then
+                                inBounds = true
                             end
+                        end
+                        -- Also check against the button's frame (cached but useful as fallback)
+                        if not inBounds and btn.frame then
+                            local f = btn.frame
+                            if x >= f.x and x <= f.x + f.width and
+                               y >= f.y and y <= f.y + f.height then
+                                inBounds = true
+                            end
+                        end
+                        if inBounds then
+                            pcall(function() btn:press() end)
+                            return
                         end
                     end
                 end
@@ -828,6 +845,47 @@ function game:mousereleased(x, y, button, istouch)
     -- Stronghold 2027: Always forward to loveframes (for button clicks)
     pcall(loveframes.mousereleased, x, y, button)
     pcall(function() _G.BrushController:mousereleased(button) end)
+    -- Stronghold 2027: FALLBACK - if loveframes didn't handle the click, try manual hit-test
+    -- This ensures button OnClick fires even if hover state was out of sync
+    if button == 1 then
+        local ActionBar = require("states.ui.ActionBar")
+        if ActionBar and ActionBar.groups and ActionBar.currentGroup then
+            local group = ActionBar.groups[ActionBar.currentGroup]
+            if group then
+                for position = 1, 12 do
+                    local btn = group[position]
+                    if btn and btn.background and btn.background.visible and not btn.disabled then
+                        local bg = btn.background
+                        local cb = bg.clickbounds
+                        local inBounds = false
+                        if cb then
+                            if x >= cb.x and x <= cb.x + cb.width and
+                               y >= cb.y and y <= cb.y + cb.height then
+                                inBounds = true
+                            end
+                        end
+                        if not inBounds and btn.frame then
+                            local f = btn.frame
+                            if x >= f.x and x <= f.x + f.width and
+                               y >= f.y and y <= f.y + f.height then
+                                inBounds = true
+                            end
+                        end
+                        if inBounds then
+                            pcall(function() btn:press() end)
+                            return
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+
+function game:mousemoved(x, y, dx, dy, istouch)
+    -- Stronghold 2027: Forward mouse movement to loveframes so hover state stays in sync
+    -- Without this, loveframes.hoverobject is never updated and button clicks are silently dropped
+    pcall(loveframes.mousemoved, x, y, dx, dy, istouch)
 end
 
 function game:wheelmoved(x, y)
