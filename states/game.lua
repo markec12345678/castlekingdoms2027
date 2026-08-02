@@ -34,6 +34,9 @@ local DiplomacyPanel = require("states.ui.multiplayer.diplomacy_panel")
 local MissionTestSuite = require("objects.QA.MissionTestSuite")
 local CrashHandler = require("objects.QA.CrashHandler")
 local PerfWatchdog = require("objects.QA.PerformanceWatchdog")
+local ReplaySystem = require("objects.QA.ReplaySystem")
+local StatisticsDashboard = require("objects.QA.StatisticsDashboard")
+local MapEditor = require("objects.QA.MapEditor")
 local AudioMix = require("objects.Audio.AudioMixSystem")
 -- Stronghold 2027 - Sound Design
 local DynamicMusic = require("objects.Audio.DynamicMusicManager")
@@ -193,6 +196,9 @@ local function delayedInit()
     -- Stronghold 2027: Initialize QA & polish systems
     CrashHandler.init()
     PerfWatchdog.init()
+    ReplaySystem.init()
+    StatisticsDashboard.init()
+    MapEditor.init()
     AudioMix.init()
     -- Stronghold 2027: Initialize sound design
     DynamicMusic.init()
@@ -329,6 +335,9 @@ function game:update(dt)
                 -- Stronghold 2027: Update QA systems
                 PerfWatchdog.update(dt)
                 AudioMix.update(dt)
+                ReplaySystem.update(dt)
+                StatisticsDashboard.updateStats()
+                MapEditor.update(dt)
                 -- Stronghold 2027: Update dynamic music
                 DynamicMusic.update(dt)
                 -- Stronghold 2027: Update mods
@@ -775,6 +784,33 @@ function game:keypressed(key, scancode, isRepeat)
             summary.totalErrors, modStats.loaded, modStats.total,
             steamInfo.achievementsUnlocked, steamInfo.totalAchievements))
         return
+    end
+    -- F12 = Toggle Map Editor (Stronghold 2027)
+    if key == "f12" then
+        MapEditor.toggle()
+        return
+    end
+    -- Ctrl+R = Toggle replay recording (Stronghold 2027)
+    if key == "r" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+        if ReplaySystem.isRecording() then
+            ReplaySystem.stopRecording()
+            ModernUI.notifySuccess("Replay saved!")
+        else
+            ReplaySystem.startRecording()
+            ModernUI.notifyInfo("Replay recording started")
+        end
+        return
+    end
+    -- Ctrl+S = Print statistics (Stronghold 2027)
+    if key == "s" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl"))
+        and not (love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift")) then
+        -- Don't interfere with map editor save
+        if not MapEditor.isActive() then
+            StatisticsDashboard.printSummary()
+            StatisticsDashboard.save()
+            ModernUI.notifyInfo("Statistics saved (check console)")
+            return
+        end
     end
 
     if event == EVENT.Screenshot then
