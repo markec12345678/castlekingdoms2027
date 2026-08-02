@@ -454,6 +454,31 @@ function game:mousepressed(x, y, button, istouch)
     if lfOk and lfResult then
         return
     end
+    -- Stronghold 2027: FALLBACK - manually check action bar buttons if loveframes didn't consume
+    -- This handles cases where the hover state is out of sync with the actual mouse position
+    if button == 1 then
+        local ActionBar = require("states.ui.ActionBar")
+        local ab = require("states.ui.action_bar_frames")
+        if ActionBar and ActionBar.groups and ActionBar.currentGroup then
+            local group = ActionBar.groups[ActionBar.currentGroup]
+            if group then
+                for position = 1, 12 do
+                    local btn = group[position]
+                    if btn and btn.background and btn.background.visible and not btn.disabled then
+                        local frame = ab["frAction_" .. tostring(position)]
+                        if frame then
+                            if x >= frame.x and x <= frame.x + frame.width and
+                               y >= frame.y and y <= frame.y + frame.height then
+                                -- Found a button at this position - activate it
+                                pcall(function() btn:press() end)
+                                return
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
     -- Stronghold 2027: Handle economy UI clicks first
     if DynamicMarketUI.isVisible() then
         if DynamicMarketUI.mousepressed(x, y, button) then return end
@@ -744,12 +769,17 @@ function game:keypressed(key, scancode, isRepeat)
 end
 
 function game:mousereleased(x, y, button, istouch)
-    -- TODO: Check if event is consumed
-    if _G.Commander:mousereleased(x, y, button) then
+    -- Stronghold 2027: Only let Commander consume if it was actually pressing
+    local commanderConsumed = false
+    pcall(function()
+        commanderConsumed = _G.Commander:mousereleased(x, y, button)
+    end)
+    if commanderConsumed then
         return
     end
-    loveframes.mousereleased(x, y, button)
-    _G.BrushController:mousereleased(button)
+    -- Stronghold 2027: Always forward to loveframes (for button clicks)
+    pcall(loveframes.mousereleased, x, y, button)
+    pcall(function() _G.BrushController:mousereleased(button) end)
 end
 
 function game:wheelmoved(x, y)
@@ -770,6 +800,39 @@ function game:keyreleased(key, scancode)
         _G.BrushController:toggle()
     elseif key == "delete" then
         _G.DestructionController:toggle()
+    elseif key == "escape" or key == "backspace" then
+        -- Stronghold 2027: ESC/Backspace goes back to main action bar group
+        local ActionBar = require("states.ui.ActionBar")
+        local states = require("states.ui.states")
+        if loveframes.GetState() == states.STATE_INGAME_CONSTRUCTION then
+            local currentGroup = ActionBar:getCurrentGroup()
+            if currentGroup and currentGroup ~= "main" and currentGroup ~= "start" then
+                pcall(function() ActionBar:showGroup("main", nil, true) end)
+                -- Force-hide all other groups
+                pcall(function()
+                    for k, _ in pairs(ActionBar.groups) do
+                        if k ~= "main" then
+                            ActionBar:hideGroup(k)
+                        end
+                    end
+                    if ActionBar.groups["main"] then
+                        for _, el in pairs(ActionBar.groups["main"]) do
+                            pcall(function() el:show(true) end)
+                        end
+                    end
+                end)
+                -- Disable build controller
+                if not _G.BuildController.start then
+                    pcall(function() _G.BuildController:disable() end)
+                end
+                -- Force animation pause
+                pcall(function()
+                    if ActionBar.firstAnimation then ActionBar.firstAnimation:pause() end
+                    if ActionBar.secondAnimation then ActionBar.secondAnimation:pause() end
+                end)
+                return
+            end
+        end
     end
 
     if _G.BrushController:activated() then

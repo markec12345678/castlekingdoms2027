@@ -393,7 +393,7 @@ function ActionBar:activateButton(position)
     if self.groups[self.currentGroup] then
         local button = self.groups[self.currentGroup][position]
         if button and not button.disabled then
-            button:press()
+            pcall(function() button:press() end)
         end
     end
 end
@@ -430,21 +430,22 @@ end
 function ActionBar:unselectAll()
     for _, group in pairs(self.groups) do
         for _, el in pairs(group) do
-            el:unselect()
+            pcall(function() el:unselect() end)
         end
     end
     self.hasSelectedButton = false
 end
 
 function ActionBar:selectButton(element)
+    if not element or not element.group or not self.groups[element.group] then return end
     for _, el in pairs(self.groups[element.group]) do
         if el ~= element then
-            el:unselect()
+            pcall(function() el:unselect() end)
         end
     end
-    element:select()
+    pcall(function() element:select() end)
     self.hasSelectedButton = true
-    _G.playInterfaceSfx(_G.fx["woodpush2"], 1)
+    pcall(function() _G.playInterfaceSfx(_G.fx["woodpush2"], 1) end)
 end
 
 function ActionBar:registerGroup(name, listOfElements, callback)
@@ -458,8 +459,9 @@ function ActionBar:registerGroup(name, listOfElements, callback)
 end
 
 function ActionBar:hideGroup(name)
+    if not self.groups[name] then return end
     for _, el in pairs(self.groups[name]) do
-        el:hide()
+        pcall(function() el:hide() end)
     end
 end
 
@@ -469,13 +471,22 @@ end
 
 function ActionBar:showGroup(name, playSound, skipAnimation)
     if name == self.currentGroup then return end
-    if self.animation.status ~= "paused" then
+    -- Stronghold 2027: Safety check - force pause animation if it's been playing too long
+    if self.animation and self.animation.status ~= "paused" then
+        -- Try to queue the command, but also set a fallback timer
         if self.lastCommand == nil then
             self.lastCommand = name
         else
             self.lastCommand = "ignoreCommands"
         end
-        return
+        -- Force-skip animation if skipAnimation is requested (back button uses this)
+        if skipAnimation then
+            if self.firstAnimation then self.firstAnimation:pause() end
+            if self.secondAnimation then self.secondAnimation:pause() end
+            self.lastCommand = nil
+        else
+            return
+        end
     end
     if playSound then
         _G.playInterfaceSfx(playSound, 1)
