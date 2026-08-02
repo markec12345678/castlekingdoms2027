@@ -27,6 +27,9 @@ local HDRenderPipeline = require("objects.Environment.HDRenderPipeline")
 local GameServer = require("objects.Network.GameServer")
 local GameClient = require("objects.Network.GameClient")
 local Chat = require("states.ui.multiplayer.chat")
+local DiplomacyController = require("objects.Network.DiplomacyController")
+local TradeController = require("objects.Network.TradeController")
+local DiplomacyPanel = require("states.ui.multiplayer.diplomacy_panel")
 -- Stronghold 2027 - AI system
 local AIIntegration = require("objects.AI.AIIntegration")
 -- Stronghold 2027 - Economy systems
@@ -171,6 +174,9 @@ local function delayedInit()
     HDRenderPipeline.init()
     -- Stronghold 2027: Initialize multiplayer chat
     Chat.init()
+    -- Stronghold 2027: Initialize diplomacy & trade
+    DiplomacyController.init()
+    TradeController.init()
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -278,6 +284,12 @@ function game:update(dt)
                 GameServer.update(dt)
                 GameClient.update(dt)
                 Chat.update(dt)
+                -- Stronghold 2027: Update diplomacy & trade
+                DiplomacyController.update(dt)
+                TradeController.update(dt)
+                if DiplomacyPanel.isVisible() then
+                    DiplomacyPanel.refresh()
+                end
                 -- Stronghold 2027: Update AI system (with profiling)
                 PerformanceManager.beginSection("ai_update")
                 AIIntegration.update(dt)
@@ -696,6 +708,11 @@ function game:keypressed(key, scancode, isRepeat)
         HDRenderPipeline.autoDetectLights()
         local info = HDRenderPipeline.getInfo()
         ModernUI.notifyInfo("Lights refreshed: " .. info.lightCount .. " active")
+        return
+    end
+    -- F9 = Toggle diplomacy & trade panel (Stronghold 2027)
+    if key == "f9" then
+        DiplomacyPanel.toggle()
         return
     end
 
