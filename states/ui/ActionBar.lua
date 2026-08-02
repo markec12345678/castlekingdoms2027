@@ -86,7 +86,7 @@ function ActionBar:initialize()
     populationText:SetText("")
     self.element = element
     self.groups = {}
-    self.currentGroup = "main"
+    self.currentGroup = nil
     self.hasSelectedButton = false
     self.callback = {}
     self.buttonsToAnimate = {}
@@ -470,34 +470,14 @@ function ActionBar:getCurrentGroup()
 end
 
 function ActionBar:showGroup(name, playSound, skipAnimation)
-    if name == self.currentGroup then
-        -- Stronghold 2027: Even if same group, ensure buttons are visible
-        -- This fixes the case where buttons were never shown initially
-        if name and self.groups[name] then
-            for _, el in pairs(self.groups[name]) do
-                if el and el.background and not el.background.visible then
-                    pcall(function() el:show(true) end)
-                end
-            end
-        end
-        return
-    end
-    -- Stronghold 2027: Safety check - force pause animation if it's been playing too long
-    if self.animation and self.animation.status ~= "paused" then
-        -- Try to queue the command, but also set a fallback timer
+    if name == self.currentGroup then return end
+    if self.animation.status ~= "paused" then
         if self.lastCommand == nil then
             self.lastCommand = name
         else
             self.lastCommand = "ignoreCommands"
         end
-        -- Force-skip animation if skipAnimation is requested (back button uses this)
-        if skipAnimation then
-            if self.firstAnimation then self.firstAnimation:pause() end
-            if self.secondAnimation then self.secondAnimation:pause() end
-            self.lastCommand = nil
-        else
-            return
-        end
+        return
     end
     if playSound then
         _G.playInterfaceSfx(playSound, 1)
@@ -510,7 +490,7 @@ function ActionBar:showGroup(name, playSound, skipAnimation)
             end
         end
     end
-    local animateConstructionBar = loveframes.GetState() == states.STATE_INGAME_CONSTRUCTION and not skipAnimation
+    local animateConstructionBar = loveframes.GetState() == states.STATE_INGAME_CONSTRUCTION
     self.currentGroup = name
     if self.callback[name] then
         self.callback[name]()

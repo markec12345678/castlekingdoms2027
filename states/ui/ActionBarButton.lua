@@ -78,9 +78,6 @@ function ActionBarButton:initialize(image, state, position, bigFrameForeground, 
     if self.onClick then
         self.background.OnClick = self.onClick
     end
-    -- Stronghold 2027: Ensure clickable and enabled defaults
-    self.background.clickable = true
-    self.background.enabled = true
     self.foreground = loveframes.Create("image"):SetState(self.state):SetImage(self.image):SetOffsetX(
         self.image:getWidth() / 2):SetOffsetY(self.image:getHeight() / 2)
     self.foreground.disablehover = true
@@ -295,8 +292,8 @@ function ActionBarButton:setOnClick(callback)
 end
 
 function ActionBarButton:press()
-    if self.background and self.background.OnClick then
-        pcall(self.background.OnClick, self.background)
+    if self.background.OnClick then
+        self.background.OnClick()
     end
 end
 

@@ -211,17 +211,6 @@ local function delayedInit()
     end
     _G.paused = false
     loveframes.SetState(states.STATE_INGAME_CONSTRUCTION)
-    -- Stronghold 2027: Force-show all buttons in current group (safety net)
-    -- This ensures buttons are visible even if animation system fails
-    pcall(function()
-        if ActionBar.currentGroup and ActionBar.groups[ActionBar.currentGroup] then
-            for _, el in pairs(ActionBar.groups[ActionBar.currentGroup]) do
-                if el and el.background and not el.background.visible then
-                    el:show(true)
-                end
-            end
-        end
-    end)
 end
 
 function game:init()
@@ -237,43 +226,6 @@ function game:update(dt)
         prof.push("core")
         ActionBar:animate()
         core.update()
-        -- Stronghold 2027: Force-show current group buttons every frame (safety net)
-        -- This ensures buttons stay visible even if animation system fails or gets stuck
-        if ActionBar.currentGroup and ActionBar.groups[ActionBar.currentGroup] then
-            for _, el in pairs(ActionBar.groups[ActionBar.currentGroup]) do
-                if el and el.background and not el.background.visible then
-                    pcall(function() el:show(true) end)
-                end
-                -- Also ensure foreground is visible if background is
-                if el and el.background and el.background.visible and 
-                   el.foreground and not el.foreground.visible then
-                    el.foreground.visible = true
-                end
-            end
-        end
-        -- Stronghold 2027: Force-pause stuck animations
-        -- If animation has been playing for too long, pause it
-        if ActionBar.animation and ActionBar.animation.status == "playing" then
-            if not ActionBar._animWatchdog then
-                ActionBar._animWatchdog = 0
-            end
-            ActionBar._animWatchdog = ActionBar._animWatchdog + dt
-            if ActionBar._animWatchdog > 2 then
-                -- Animation has been playing for over 2 seconds - force pause
-                pcall(function()
-                    if ActionBar.firstAnimation then ActionBar.firstAnimation:pause() end
-                    if ActionBar.secondAnimation then ActionBar.secondAnimation:pause() end
-                    if ActionBar.element then
-                        ActionBar.element:SetImage(ActionBar.actionBarImage)
-                    end
-                end)
-                ActionBar._animWatchdog = 0
-            end
-        else
-            if ActionBar._animWatchdog then
-                ActionBar._animWatchdog = 0
-            end
-        end
         if scrollCountDown > 0 then
             scrollCountDown = scrollCountDown - love.timer.getDelta()
         elseif scrollCountDown < 0 then
@@ -497,54 +449,10 @@ end
 
 function game:mousepressed(x, y, button, istouch)
     if not _G.loaded then return end
-    -- Stronghold 2027: pcall to catch LFS pointer crashes in loveframes
-    local lfOk, lfResult = pcall(loveframes.mousepressed, x, y, button)
-    if lfOk and lfResult then
+    if loveframes.mousepressed(x, y, button) then
         return
     end
-    -- Stronghold 2027: FALLBACK - manually check action bar buttons if loveframes didn't consume
-    -- This handles cases where the hover state is out of sync with the actual mouse position
-    -- Uses the button's ACTUAL position (not cached frames) for accuracy
-    if button == 1 then
-        local ActionBar = require("states.ui.ActionBar")
-        if ActionBar and ActionBar.groups and ActionBar.currentGroup then
-            local group = ActionBar.groups[ActionBar.currentGroup]
-            if group then
-                for position = 1, 12 do
-                    local btn = group[position]
-                    if btn and btn.background and btn.background.visible and not btn.disabled then
-                        -- Use the button's ACTUAL position and clickbounds
-                        local bg = btn.background
-                        local bx, by = bg.x, bg.y
-                        local bw = bg.width * (bg.scalex or 1)
-                        local bh = bg.height * (bg.scaley or 1)
-                        -- Also check clickbounds if set
-                        local cb = bg.clickbounds
-                        local inBounds = false
-                        if cb then
-                            if x >= cb.x and x <= cb.x + cb.width and
-                               y >= cb.y and y <= cb.y + cb.height then
-                                inBounds = true
-                            end
-                        end
-                        -- Also check against the button's frame (cached but useful as fallback)
-                        if not inBounds and btn.frame then
-                            local f = btn.frame
-                            if x >= f.x and x <= f.x + f.width and
-                               y >= f.y and y <= f.y + f.height then
-                                inBounds = true
-                            end
-                        end
-                        if inBounds then
-                            pcall(function() btn:press() end)
-                            return
-                        end
-                    end
-                end
-            end
-        end
-    end
-    -- Stronghold 2027: Handle economy UI clicks first
+    -- Stronghold 2027: Handle economy UI clicks
     if DynamicMarketUI.isVisible() then
         if DynamicMarketUI.mousepressed(x, y, button) then return end
     end
@@ -558,19 +466,11 @@ function game:mousepressed(x, y, button, istouch)
         if MissionEndScreen.mousepressed(x, y, button) then return end
     end
     if _G.paused then return end
-    -- Stronghold 2027: Skip game world clicks over action bar (bottom 150px)
-    local screenH = love.graphics.getHeight()
-    if y <= screenH - 150 then
-        local objOk, objResult = pcall(objects.mousepressed, x, y, button, istouch)
-        if objOk and objResult then
-            return
-        end
+    if objects.mousepressed(x, y, button, istouch) then
+        return
     end
-    -- Stronghold 2027: Commander only for game world (not action bar)
-    if y <= screenH - 150 then
-        if _G.Commander:mousepressed(x, y, button) then
-            return
-        end
+    if _G.Commander:mousepressed(x, y, button) then
+        return
     end
     if button == 2 then
         if not _G.BuildController.start then
@@ -834,58 +734,12 @@ function game:keypressed(key, scancode, isRepeat)
 end
 
 function game:mousereleased(x, y, button, istouch)
-    -- Stronghold 2027: Only let Commander consume if it was actually pressing
-    local commanderConsumed = false
-    pcall(function()
-        commanderConsumed = _G.Commander:mousereleased(x, y, button)
-    end)
-    if commanderConsumed then
+    -- TODO: Check if event is consumed
+    if _G.Commander:mousereleased(x, y, button) then
         return
     end
-    -- Stronghold 2027: Always forward to loveframes (for button clicks)
-    pcall(loveframes.mousereleased, x, y, button)
-    pcall(function() _G.BrushController:mousereleased(button) end)
-    -- Stronghold 2027: FALLBACK - if loveframes didn't handle the click, try manual hit-test
-    -- This ensures button OnClick fires even if hover state was out of sync
-    if button == 1 then
-        local ActionBar = require("states.ui.ActionBar")
-        if ActionBar and ActionBar.groups and ActionBar.currentGroup then
-            local group = ActionBar.groups[ActionBar.currentGroup]
-            if group then
-                for position = 1, 12 do
-                    local btn = group[position]
-                    if btn and btn.background and btn.background.visible and not btn.disabled then
-                        local bg = btn.background
-                        local cb = bg.clickbounds
-                        local inBounds = false
-                        if cb then
-                            if x >= cb.x and x <= cb.x + cb.width and
-                               y >= cb.y and y <= cb.y + cb.height then
-                                inBounds = true
-                            end
-                        end
-                        if not inBounds and btn.frame then
-                            local f = btn.frame
-                            if x >= f.x and x <= f.x + f.width and
-                               y >= f.y and y <= f.y + f.height then
-                                inBounds = true
-                            end
-                        end
-                        if inBounds then
-                            pcall(function() btn:press() end)
-                            return
-                        end
-                    end
-                end
-            end
-        end
-    end
-end
-
-function game:mousemoved(x, y, dx, dy, istouch)
-    -- Stronghold 2027: Forward mouse movement to loveframes so hover state stays in sync
-    -- Without this, loveframes.hoverobject is never updated and button clicks are silently dropped
-    pcall(loveframes.mousemoved, x, y, dx, dy, istouch)
+    loveframes.mousereleased(x, y, button)
+    _G.BrushController:mousereleased(button)
 end
 
 function game:wheelmoved(x, y)
@@ -906,39 +760,6 @@ function game:keyreleased(key, scancode)
         _G.BrushController:toggle()
     elseif key == "delete" then
         _G.DestructionController:toggle()
-    elseif key == "escape" or key == "backspace" then
-        -- Stronghold 2027: ESC/Backspace goes back to main action bar group
-        local ActionBar = require("states.ui.ActionBar")
-        local states = require("states.ui.states")
-        if loveframes.GetState() == states.STATE_INGAME_CONSTRUCTION then
-            local currentGroup = ActionBar:getCurrentGroup()
-            if currentGroup and currentGroup ~= "main" and currentGroup ~= "start" then
-                pcall(function() ActionBar:showGroup("main", nil, true) end)
-                -- Force-hide all other groups
-                pcall(function()
-                    for k, _ in pairs(ActionBar.groups) do
-                        if k ~= "main" then
-                            ActionBar:hideGroup(k)
-                        end
-                    end
-                    if ActionBar.groups["main"] then
-                        for _, el in pairs(ActionBar.groups["main"]) do
-                            pcall(function() el:show(true) end)
-                        end
-                    end
-                end)
-                -- Disable build controller
-                if not _G.BuildController.start then
-                    pcall(function() _G.BuildController:disable() end)
-                end
-                -- Force animation pause
-                pcall(function()
-                    if ActionBar.firstAnimation then ActionBar.firstAnimation:pause() end
-                    if ActionBar.secondAnimation then ActionBar.secondAnimation:pause() end
-                end)
-                return
-            end
-        end
     end
 
     if _G.BrushController:activated() then
