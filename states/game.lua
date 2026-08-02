@@ -35,6 +35,10 @@ local MissionTestSuite = require("objects.QA.MissionTestSuite")
 local CrashHandler = require("objects.QA.CrashHandler")
 local PerfWatchdog = require("objects.QA.PerformanceWatchdog")
 local AudioMix = require("objects.Audio.AudioMixSystem")
+-- Stronghold 2027 - Modding & Steam
+local ModLoader = require("objects.Modding.ModLoader")
+local CustomBuildingLoader = require("objects.Modding.CustomBuildingLoader")
+local SteamWorks = require("objects.Steam.SteamWorks")
 -- Stronghold 2027 - AI system
 local AIIntegration = require("objects.AI.AIIntegration")
 -- Stronghold 2027 - Economy systems
@@ -186,6 +190,16 @@ local function delayedInit()
     CrashHandler.init()
     PerfWatchdog.init()
     AudioMix.init()
+    -- Stronghold 2027: Initialize modding & Steam
+    ModLoader.init()
+    CustomBuildingLoader.init()
+    SteamWorks.init()
+    -- Register callback for custom buildings
+    ModLoader.onBuildingRegistered = function(def)
+        CustomBuildingLoader.register(def)
+    end
+    -- Load all mods
+    ModLoader.loadAll()
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -302,6 +316,8 @@ function game:update(dt)
                 -- Stronghold 2027: Update QA systems
                 PerfWatchdog.update(dt)
                 AudioMix.update(dt)
+                -- Stronghold 2027: Update mods
+                ModLoader.update(dt)
                 -- Stronghold 2027: Update AI system (with profiling)
                 PerformanceManager.beginSection("ai_update")
                 AIIntegration.update(dt)
@@ -734,12 +750,15 @@ function game:keypressed(key, scancode, isRepeat)
         ModernUI.notifyInfo(string.format("Mission tests: %d/%d passed", results.passed, results.total))
         return
     end
-    -- F11 = Write crash log (Stronghold 2027)
+    -- F11 = Write crash log + mod/Steam info (Stronghold 2027)
     if key == "f11" then
         CrashHandler.writeLog()
         local summary = CrashHandler.getSummary()
-        ModernUI.notifyInfo(string.format("Crash log: %d errors, %d systems disabled",
-            summary.totalErrors, summary.disabledSystems))
+        local modStats = ModLoader.getStats()
+        local steamInfo = SteamWorks.getInfo()
+        ModernUI.notifyInfo(string.format("Crash: %d errs | Mods: %d/%d loaded | Achievements: %d/%d",
+            summary.totalErrors, modStats.loaded, modStats.total,
+            steamInfo.achievementsUnlocked, steamInfo.totalAchievements))
         return
     end
 
