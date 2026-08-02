@@ -36,13 +36,21 @@ function splashScreen:enter()
     if config.general.skipSplashScreen then
         splashScreen:finish()
     else
-        isOTenOne = true
-        splashScreen.splash = one_ten_one({
-            background = { 0, 0, 0 },
-            delay_after = 0.5
-        })
-        splashScreen.splash.onDone = function()
+        -- Stronghold 2027: pcall to catch LFS pointer crashes in splash library
+        local splashOk, splashErr = pcall(function()
+            isOTenOne = true
+            splashScreen.splash = one_ten_one({
+                background = { 0, 0, 0 },
+                delay_after = 0.5
+            })
+            splashScreen.splash.onDone = function()
+                isOTenOne = false
+            end
+        end)
+        if not splashOk then
+            print("Splash screen skipped due to error: " .. tostring(splashErr))
             isOTenOne = false
+            skTimer = skFadeOut + 1
         end
     end
 end

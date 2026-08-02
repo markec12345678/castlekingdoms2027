@@ -211,6 +211,17 @@ local function delayedInit()
     end
     _G.paused = false
     loveframes.SetState(states.STATE_INGAME_CONSTRUCTION)
+    -- Stronghold 2027: Force-show all buttons in current group (safety net)
+    -- This ensures buttons are visible even if animation system fails
+    pcall(function()
+        if ActionBar.currentGroup and ActionBar.groups[ActionBar.currentGroup] then
+            for _, el in pairs(ActionBar.groups[ActionBar.currentGroup]) do
+                if el and el.background and not el.background.visible then
+                    el:show(true)
+                end
+            end
+        end
+    end)
 end
 
 function game:init()
@@ -226,6 +237,43 @@ function game:update(dt)
         prof.push("core")
         ActionBar:animate()
         core.update()
+        -- Stronghold 2027: Force-show current group buttons every frame (safety net)
+        -- This ensures buttons stay visible even if animation system fails or gets stuck
+        if ActionBar.currentGroup and ActionBar.groups[ActionBar.currentGroup] then
+            for _, el in pairs(ActionBar.groups[ActionBar.currentGroup]) do
+                if el and el.background and not el.background.visible then
+                    pcall(function() el:show(true) end)
+                end
+                -- Also ensure foreground is visible if background is
+                if el and el.background and el.background.visible and 
+                   el.foreground and not el.foreground.visible then
+                    el.foreground.visible = true
+                end
+            end
+        end
+        -- Stronghold 2027: Force-pause stuck animations
+        -- If animation has been playing for too long, pause it
+        if ActionBar.animation and ActionBar.animation.status == "playing" then
+            if not ActionBar._animWatchdog then
+                ActionBar._animWatchdog = 0
+            end
+            ActionBar._animWatchdog = ActionBar._animWatchdog + dt
+            if ActionBar._animWatchdog > 2 then
+                -- Animation has been playing for over 2 seconds - force pause
+                pcall(function()
+                    if ActionBar.firstAnimation then ActionBar.firstAnimation:pause() end
+                    if ActionBar.secondAnimation then ActionBar.secondAnimation:pause() end
+                    if ActionBar.element then
+                        ActionBar.element:SetImage(ActionBar.actionBarImage)
+                    end
+                end)
+                ActionBar._animWatchdog = 0
+            end
+        else
+            if ActionBar._animWatchdog then
+                ActionBar._animWatchdog = 0
+            end
+        end
         if scrollCountDown > 0 then
             scrollCountDown = scrollCountDown - love.timer.getDelta()
         elseif scrollCountDown < 0 then

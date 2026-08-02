@@ -470,7 +470,18 @@ function ActionBar:getCurrentGroup()
 end
 
 function ActionBar:showGroup(name, playSound, skipAnimation)
-    if name == self.currentGroup then return end
+    if name == self.currentGroup then
+        -- Stronghold 2027: Even if same group, ensure buttons are visible
+        -- This fixes the case where buttons were never shown initially
+        if name and self.groups[name] then
+            for _, el in pairs(self.groups[name]) do
+                if el and el.background and not el.background.visible then
+                    pcall(function() el:show(true) end)
+                end
+            end
+        end
+        return
+    end
     -- Stronghold 2027: Safety check - force pause animation if it's been playing too long
     if self.animation and self.animation.status ~= "paused" then
         -- Try to queue the command, but also set a fallback timer
