@@ -706,7 +706,13 @@ function Terrain:updateTerrain(chunkX, chunkY)
             if not isInShadow then
                 local interpolatedShadowVal = (prev1ShadowValue * 2 + prev2ShadowValue * 2 + prev3ShadowValue +
                     prev4ShadowValue) / 6
-                self.state.map.shadowmap[cx][cy][i][o] = interpolatedShadowVal
+                -- Stronghold 2027: nil-safe shadowmap access
+                if self.state.map.shadowmap and 
+                   self.state.map.shadowmap[cx] and 
+                   self.state.map.shadowmap[cx][cy] and 
+                   self.state.map.shadowmap[cx][cy][i] then
+                    self.state.map.shadowmap[cx][cy][i][o] = interpolatedShadowVal
+                end
             end
 
             if self.tilesToUpdateInChunk[cx][cy][i] and self.tilesToUpdateInChunk[cx][cy][i][o] then
