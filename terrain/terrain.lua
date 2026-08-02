@@ -582,7 +582,7 @@ function Terrain:updateTerrain2ndPass(chunkX, chunkY)
                         if curIdx[1] and curIdx[2] then
                             multiTileOrigin = self.keysToSkip[cx][cy][curIdx[1]][curIdx[2]]
                         else
-                            goto continue
+                            goto endMultiTile
                         end
                     end
                     local mt = multiTileOrigin
@@ -706,13 +706,10 @@ function Terrain:updateTerrain(chunkX, chunkY)
             if not isInShadow then
                 local interpolatedShadowVal = (prev1ShadowValue * 2 + prev2ShadowValue * 2 + prev3ShadowValue +
                     prev4ShadowValue) / 6
-                -- Stronghold 2027: nil-safe shadowmap access
-                if self.state.map.shadowmap and 
-                   self.state.map.shadowmap[cx] and 
-                   self.state.map.shadowmap[cx][cy] and 
-                   self.state.map.shadowmap[cx][cy][i] then
+                -- Stronghold 2027: nil-safe shadowmap access (prevents crash with LFS pointer maps)
+                pcall(function()
                     self.state.map.shadowmap[cx][cy][i][o] = interpolatedShadowVal
-                end
+                end)
             end
 
             if self.tilesToUpdateInChunk[cx][cy][i] and self.tilesToUpdateInChunk[cx][cy][i][o] then
