@@ -30,6 +30,11 @@ local Chat = require("states.ui.multiplayer.chat")
 local DiplomacyController = require("objects.Network.DiplomacyController")
 local TradeController = require("objects.Network.TradeController")
 local DiplomacyPanel = require("states.ui.multiplayer.diplomacy_panel")
+-- Stronghold 2027 - QA & Polish
+local MissionTestSuite = require("objects.QA.MissionTestSuite")
+local CrashHandler = require("objects.QA.CrashHandler")
+local PerfWatchdog = require("objects.QA.PerformanceWatchdog")
+local AudioMix = require("objects.Audio.AudioMixSystem")
 -- Stronghold 2027 - AI system
 local AIIntegration = require("objects.AI.AIIntegration")
 -- Stronghold 2027 - Economy systems
@@ -177,6 +182,10 @@ local function delayedInit()
     -- Stronghold 2027: Initialize diplomacy & trade
     DiplomacyController.init()
     TradeController.init()
+    -- Stronghold 2027: Initialize QA & polish systems
+    CrashHandler.init()
+    PerfWatchdog.init()
+    AudioMix.init()
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -290,6 +299,9 @@ function game:update(dt)
                 if DiplomacyPanel.isVisible() then
                     DiplomacyPanel.refresh()
                 end
+                -- Stronghold 2027: Update QA systems
+                PerfWatchdog.update(dt)
+                AudioMix.update(dt)
                 -- Stronghold 2027: Update AI system (with profiling)
                 PerformanceManager.beginSection("ai_update")
                 AIIntegration.update(dt)
@@ -713,6 +725,21 @@ function game:keypressed(key, scancode, isRepeat)
     -- F9 = Toggle diplomacy & trade panel (Stronghold 2027)
     if key == "f9" then
         DiplomacyPanel.toggle()
+        return
+    end
+    -- F10 = Run mission test suite (Stronghold 2027)
+    if key == "f10" then
+        local results = MissionTestSuite.runAll()
+        MissionTestSuite.printResults(results)
+        ModernUI.notifyInfo(string.format("Mission tests: %d/%d passed", results.passed, results.total))
+        return
+    end
+    -- F11 = Write crash log (Stronghold 2027)
+    if key == "f11" then
+        CrashHandler.writeLog()
+        local summary = CrashHandler.getSummary()
+        ModernUI.notifyInfo(string.format("Crash log: %d errors, %d systems disabled",
+            summary.totalErrors, summary.disabledSystems))
         return
     end
 
