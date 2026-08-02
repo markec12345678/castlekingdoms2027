@@ -449,7 +449,9 @@ end
 
 function game:mousepressed(x, y, button, istouch)
     if not _G.loaded then return end
-    if loveframes.mousepressed(x, y, button) then
+    -- Stronghold 2027: pcall to catch LFS pointer crashes in loveframes
+    local lfOk, lfResult = pcall(loveframes.mousepressed, x, y, button)
+    if lfOk and lfResult then
         return
     end
     -- Stronghold 2027: Handle economy UI clicks first
@@ -466,11 +468,19 @@ function game:mousepressed(x, y, button, istouch)
         if MissionEndScreen.mousepressed(x, y, button) then return end
     end
     if _G.paused then return end
-    if objects.mousepressed(x, y, button, istouch) then
-        return
+    -- Stronghold 2027: Skip game world clicks over action bar (bottom 150px)
+    local screenH = love.graphics.getHeight()
+    if y <= screenH - 150 then
+        local objOk, objResult = pcall(objects.mousepressed, x, y, button, istouch)
+        if objOk and objResult then
+            return
+        end
     end
-    if _G.Commander:mousepressed(x, y, button) then
-        return
+    -- Stronghold 2027: Commander only for game world (not action bar)
+    if y <= screenH - 150 then
+        if _G.Commander:mousepressed(x, y, button) then
+            return
+        end
     end
     if button == 2 then
         if not _G.BuildController.start then

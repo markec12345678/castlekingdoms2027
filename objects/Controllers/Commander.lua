@@ -135,11 +135,6 @@ end
 ---handles mousepresses
 ---@return boolean consumed whether the mouse press should be propagated to other controllers
 function Commander:mousepressed(x, y, button)
-    -- Stronghold 2027: Don't handle clicks over action bar (bottom 150px)
-    local screenH = love.graphics.getHeight()
-    if y > screenH - 150 then
-        return false  -- Let loveframes handle the click
-    end
     if button == 1 and not _G.BuildController.active and not _G.DestructionController.active and not _G.BrushController.active then
         self.initialMX, self.initialMY = x, y
         self.initialPressGX, self.initialPressGY = _G.getTerrainTileOnMouse(x, y)
