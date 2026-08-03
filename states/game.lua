@@ -54,6 +54,11 @@ local TutorialSystem = require("objects.Tutorial.TutorialSystem")
 local CampaignStory = require("objects.Mission.CampaignStorySystem")
 local SiegeWeapons = require("objects.Combat.SiegeWeaponsSystem")
 local UnifiedSettings = require("states.ui.settings.unified_settings")
+-- Stronghold 2027 - Final Polish
+local FinalBugFix = require("objects.QA.FinalBugFixPass")
+local PerfOpt = require("objects.Performance.PerformanceOptimizer")
+local AchievementIntegration = require("objects.Steam.AchievementIntegration")
+local ReleaseChecklist = require("objects.QA.ReleaseChecklist")
 -- Stronghold 2027 - AI system
 local AIIntegration = require("objects.AI.AIIntegration")
 -- Stronghold 2027 - Economy systems
@@ -234,6 +239,10 @@ local function delayedInit()
     -- Stronghold 2027: Initialize story & siege
     CampaignStory.init()
     SiegeWeapons.init()
+    -- Stronghold 2027: Final polish
+    FinalBugFix.init()
+    PerfOpt.init()
+    AchievementIntegration.init()
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -362,6 +371,9 @@ function game:update(dt)
                 -- Stronghold 2027: Update siege weapons
                 SiegeWeapons.update(dt)
                 CampaignStory.update(dt)
+                -- Stronghold 2027: Performance optimization
+                PerfOpt.checkGC()
+                PerfOpt.resetFrameStats()
                 -- Stronghold 2027: Update AI system (with profiling)
                 PerformanceManager.beginSection("ai_update")
                 AIIntegration.update(dt)
@@ -838,6 +850,13 @@ function game:keypressed(key, scancode, isRepeat)
             SiegeWeapons.create("catapult", _G.state.keepX + 5, _G.state.keepY + 5, 1)
             ModernUI.notifySuccess("Catapult created near keep")
         end
+        return
+    end
+    -- Ctrl+L = Run release checklist (Stronghold 2027)
+    if key == "l" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+        local results = ReleaseChecklist.runAll()
+        ReleaseChecklist.printResults()
+        ModernUI.notifyInfo(string.format("Release checklist: %d/%d passed", results.passed, results.total))
         return
     end
     -- Handle story dialogue input
