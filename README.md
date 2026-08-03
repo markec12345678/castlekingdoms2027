@@ -1,202 +1,225 @@
 # Stronghold 2027
 
-> Open source medieval castle RTS - a modernized fork of Stone Kingdoms with HD graphics, dynamic economy, AI opponents, and a 10-mission campaign.
+Modernizirana različica igre Stronghold (2001) za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT).
 
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
-[![Status](https://img.shields.io/badge/status-feature--complete-brightgreen)]()
-[![Version](https://img.shields.io/badge/version-v1.3.2--completeness-orange)]()
+[![Version](https://img.shields.io/badge/version-1.18.0-blue.svg)](https://github.com/markec12345678/stronghold2027)
+[![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
+[![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
 
----
+## Prenosi
 
-## 🎮 Features
+- **Zadnja izdaja**: [v1.18.0](https://github.com/markec12345678/stronghold2027/releases/tag/v1.18.0)
+- **.love datoteka**: `stronghold2027-v1.18.0.love` (305 MB)
 
-### Campaign (10 Missions)
-- **The Lord of Fernhaven** - complete story arc
-- Sir Markus returns from exile to claim the throne of Valdemar
-- Progressive difficulty (⭐ to ⭐⭐⭐⭐⭐)
-- 6-phase final siege (Mission 10)
-- Campaign progress saved between sessions
-- 3 achievements (First Victory, Halfway, King of Valdemar)
+## Zagon
 
-### AI System
-- 4 personalities: Aggressive, Balanced, Defensive, Economic
-- 4 difficulties: Easy, Medium, Hard, Brutal
-- Smart building placement (no clustering)
-- Strategic attack timing (not random)
-- Defense response (recalls units when keep attacked)
-- Difficulty adaptation (adjusts to player strength)
-- 5-minute grace period (no early attacks)
+```cmd
+& "C:\Program Files\LOVE\love.exe" "F:\pot\do\stronghold2027-v1.18.0.love"
+```
 
-### Combat
-- 8 unit types (Archer, Crossbowman, Spearman, Pikeman, Maceman, Swordsman, Knight, Lord)
-- Damage calculation with armor reduction
-- Projectile system (arrows, bolts, catapult rocks with arc)
-- Health bars with color indicators
-- Screen shake, hit flash, punch zoom
-- Combat order visualizer (red lines to targets, yellow to destinations)
-- Formation system (line, column, wedge, spread)
-
-### Economy
-- Dynamic market with supply/demand pricing
-- 20 tradeable resources
-- 4 seasons (Spring, Summer, Autumn, Winter) affecting production
-- 10 random economic events (blight, gold rush, plague, festival, etc.)
-- Trade caravans to AI factions (30% better prices, escort system)
-- Inflation system
-
-### Game Feel
-- Screen shake (4 intensity levels)
-- Hit flash on damaged units
-- Punch zoom on deaths/explosions
-- Smooth camera (lerp)
-- Build preview (ghost building with valid/invalid indicator)
-- Selection glow rings (pulsing)
-- Hover highlight
-- Drag-select box
-
-### Visual Systems
-- HD shaders (bloom, color grading, vignette, dynamic lighting)
-- Day/night cycle (10-minute default)
-- Weather system (clear, rain, heavy rain, snow, fog, storm)
-- Lightning effects during storms
-- Torch/fire light sources with flicker
-- Season-colored UI widgets
-
-### Audio
-- Ambient sound crossfading (wind, birds, fire, rain, crowd)
-- SFX with distance attenuation and stereo panning
-- Music state machine (explore, combat, victory, defeat)
-- Auto-adjust ambients based on game state
-
-### UI/UX
-- Dynamic market UI (M key) - 20 resources with trends
-- Caravan UI (C key) - send trade caravans with escort
-- Settings panel (V key) - 16 settings in 3 tabs (Game Feel, Audio, Graphics)
-- Keybind help (H key) - 25+ shortcuts in 8 categories
-- Mission end screen (victory/defeat with stats)
-- Credits screen (scrolling, after campaign)
-- Tutorial hints (12 contextual tips)
-- Performance overlay (F3) - 25+ profiling sections
-- Season info widget (always visible)
-- Economic event log (toast notifications)
-
-### Infrastructure
-- Settings persistence (settings.json)
-- Campaign progress persistence (campaign_progress.json)
-- Auto-save every 5 minutes (3 rotating slots)
-- Performance profiling system
-- Tiered entity update (60Hz/10Hz/2Hz)
-- AI tick optimizer (5 frequency categories)
-- Memory profiler with leak detection
-- Modding API (alpha)
-- CI/CD pipeline (GitHub Actions)
-- Custom test suite (343 checks)
-
-### Localization
-- 16 languages supported
-- Slovenian (complete, 472 lines)
-- Serbian, Greek, Bulgarian, Macedonian, Lithuanian, Latvian (partial)
-- English, German, French, Italian, Polish, Portuguese, Russian, Ukrainian, Hungarian (complete)
-
----
-
-## 🚀 Quick Start
-
-### Option A: Download .love package (recommended)
-1. Install [LÖVE 11.5+](https://love2d.org/)
-2. Download `stronghold2027-v1.2.1.love` from [Releases](https://github.com/markec12345678/stronghold2027/releases)
-3. Double-click the .love file
-
-### Option B: Build from source
-```bash
-git lfs install
+Ali iz git checkout-a (zahteva [git-lfs](https://git-lfs.com/)):
+```cmd
 git clone https://github.com/markec12345678/stronghold2027.git
 cd stronghold2027
+git lfs install
 git lfs pull
 love .
 ```
 
----
+## Funkcije
 
-## ⌨️ Keybinds
+### 🎮 Jedro igre
+- **10 misij kampanje** s story cutscene-i v slovenščini
+- **Freebuild način** za sproščeno igranje
+- **4 AI osebnosti** (aggressive, balanced, defensive, economic) × 4 težavnosti
+- **Dynamic economy** — supply/demand, inflacija, sezonski modifikatorji
+- **Combat system** — projektili, oklep, damage variance, game feel
 
-| Key | Function |
-|-----|----------|
+### 🌐 Multiplayer
+- **TCP/IP socket networking** (do 8 igralcev)
+- **Lobby UI** — host/join, seznam igralcev, ready status
+- **In-game chat** (Enter za odprtje)
+- **Diplomacy** — 6 stanj (neutral, allied, war, truce, proposed_alliance, proposed_peace)
+- **Trade system** — predlogi, darila, trade routes
+- **F9** — diplomacy & trade panel
+
+### 🎨 HD Grafika
+- **Normal mapping** za teren (Sobel filter iz heightmap)
+- **Dynamic point lights** (do 32 luči — bakle, ogenj, zgradbe)
+- **SSAO** (Screen-Space Ambient Occlusion)
+- **ACES filmic tone mapping** + gamma korekcija
+- **Bloom, color grading, vignette** shaderji
+- **Day/night cycle** z dinamično osvetlitvijo
+- **Weather system** (dež, sneg, megla, nevihta)
+
+### 🔊 Zvok
+- **Dynamic music** — 5 stanj (menu, peace, combat, victory, defeat)
+- **SFX library** — 4 kategorije (combat, building, UI, environment)
+- **3D positional audio** (glasnost glede na razdaljo)
+- **Slovenian voice-over** — 30+ notifikacij v slovenščini
+- **5 kategorij glasnosti** (master, sfx, music, speech, ambient)
+
+### 🌍 Lokalizacija
+- **32 jezikov** (slovenščina, angleščina, srbščina, grščina, bolgarščina, ...)
+- **RTL podpora** (arabščina, hebrejščina)
+- **Font detection** (cyrillic, greek, cjk, arabic)
+- **Runtime preklop jezika**
+
+### ♿ Dostopnost
+- **Colorblind mode-i** (protanopia, deuteranopia, tritanopia)
+- **Font scaling** (small, medium, large, extra large)
+- **Reduced motion** (izklop screen shake)
+- **High contrast mode**
+- **Subtitles for speech**
+- **Auto-pause na focus loss**
+
+### 🛠️ Orodja
+- **Map Editor** (F12) — terrain painting, objects, save/load
+- **Replay System** (Ctrl+R) — snemanje/predvajanje
+- **Statistics Dashboard** (Ctrl+S) — session + lifetime statistike
+- **Debug Console** (Tilde ~) — 12 ukazov
+- **Crash Handler** (F11) — auto-disable failing systems
+- **Performance Watchdog** — auto quality adjustment
+- **Release Checklist** (Ctrl+L) — 20 pre-release preverjanj
+
+### 🔌 Modding
+- **Mod loader** — scan /mods, load manifest.lua
+- **Custom buildings, units, maps, scripts**
+- **Hot-reload** za development
+- **Sample mod** vključen (GoldMine building)
+
+### 🏆 Steam Integration
+- **10 achievements** (first_victory, campaign_complete, master_builder, ...)
+- **Stats tracking** (buildings, kills, trades, alliances)
+- **Leaderboard** (stub)
+- **Rich presence** (stub)
+
+### 📚 Vadba
+- **10-korak interaktivni tutorial** v slovenščini
+- **Ctrl+T** za zagon
+
+## Tipke
+
+| Tipka | Funkcija |
+|-------|----------|
+| F5 | Cycle weather |
+| F6 | Cycle time of day |
+| F7 | Toggle HD pipeline |
+| F8 | Refresh lights |
+| F9 | Diplomacy & trade panel |
+| F10 | Run mission tests |
+| F11 | Crash log + stats |
+| F12 | Map Editor |
+| Ctrl+T | Tutorial |
+| Ctrl+O | Unified Settings |
+| Ctrl+B | Spawn catapult |
+| Ctrl+L | Release checklist |
+| Ctrl+R | Replay recording |
+| Ctrl+S | Statistics |
+| Tilde (~) | Debug console |
+| Enter | Chat |
+| M | Market UI |
+| C | Caravan UI |
+| V | Game feel settings |
 | H | Keybind help |
-| V | Settings (game feel, audio, graphics) |
-| M | Market UI (dynamic prices) |
-| C | Caravan UI (trade with AI) |
-| F3 | Performance overlay |
-| F5 | Change weather |
-| F6 | Change time of day |
-| F7 | Spawn AI opponent |
-| F8 | Combat test scenario |
-| F9 | Combat statistics |
-| F10 | AI debug info |
-| F11 | Economy debug info |
-| F12 | Load campaign mission 1 |
 
----
-
-## 📁 Project Structure
+## Arhitektura
 
 ```
 stronghold2027/
-├── objects/
-│   ├── AI/                    # AI system (5 modules)
-│   ├── Animation/             # Animation state machine
-│   ├── Audio/                 # Sound system
-│   ├── Combat/                # Combat system (3 modules)
-│   ├── Config/                # Balance & settings config
-│   ├── Controllers/           # Game controllers (20+)
-│   ├── Economy/               # Dynamic market, seasons, events, caravans
-│   ├── Environment/           # Lighting system
-│   ├── Feedback/              # Game feel (6 modules)
-│   ├── Mission/               # Mission framework, campaign progress
-│   ├── Performance/           # Profiling (4 modules)
-│   └── UI/                    # Modern UI system
-├── states/
-│   ├── ui/
-│   │   ├── economy/           # Market & caravan UI
-│   │   ├── hud/               # HUD widgets (6 modules)
-│   │   └── settings/          # Settings panel
-│   └── game.lua               # Main game loop
-├── saves/Missions/campaign/   # 10 campaign missions
-├── locale/                    # 16 language files
-├── shaders/                   # GLSL shaders (8 files)
-├── mods/                      # Modding API
-└── scripts/                   # Tests, benchmarks, build scripts
+├── main.lua                    # Vhodna točka
+├── conf.lua                    # LÖVE konfiguracija
+├── states/                     # Game states
+│   ├── game.lua               # Glavna igra
+│   ├── start_menu.lua         # Glavni meni
+│   ├── splash_screen.lua      # Splash
+│   └── ui/                    # UI komponente
+│       ├── multiplayer/       # Lobby, chat, diplomacy
+│       ├── settings/          # Unified settings
+│       └── construction/      # Action bar buttons
+├── objects/                    # Game objects & systems
+│   ├── AI/                    # AI controller, strategy
+│   ├── Audio/                 # Music, SFX, voice-over
+│   ├── Combat/                # Combat, siege weapons
+│   ├── Config/                # Balance, localization, accessibility
+│   ├── Economy/               # Market, trade, caravans
+│   ├── Environment/           # Lighting, HD pipeline, normal maps
+│   ├── Mission/               # Campaign, story
+│   ├── Modding/               # Mod loader, custom buildings
+│   ├── Network/               # Multiplayer, diplomacy, trade
+│   ├── Performance/           # Optimizer, profiler
+│   ├── QA/                    # Tests, crash handler, replay
+│   ├── Steam/                 # Achievements, integration
+│   └── Tutorial/              # Tutorial system
+├── shaders/                    # GLSL shaders
+│   ├── normal_mapping.glsl
+│   ├── point_lights.glsl
+│   ├── ssao.glsl
+│   ├── tonemap.glsl
+│   ├── bloom.glsl
+│   └── dynamic_lighting.glsl
+├── locale/                     # 32 jezikov (YAML)
+├── mods/                       # Mod direktorij
+│   └── sample_mod/            # Sample mod (GoldMine)
+├── assets/                     # Slike, zvoki, fonti
+├── saves/                      # Save datoteke
+└── sounds/                     # Glasba, SFX, speech
 ```
 
----
+## Razvoj
 
-## 📊 Stats
+### Zahteve
+- [LÖVE 11.5](https://love2d.org)
+- [Git LFS](https://git-lfs.com) (za asset checkout)
+- Lua 5.1 / LuaJIT
 
-| Metric | Value |
-|--------|-------|
-| Lua files | 300+ |
-| Lines of code | 215,000+ |
-| Buildings | 71 |
-| Units | 42 |
-| Campaign missions | 10 |
-| AI personalities | 4 |
-| Languages | 16 |
-| Git tags | 28 |
-| Test checks | 343 (100% pass) |
+### Build
+```cmd
+git clone https://github.com/markec12345678/stronghold2027.git
+cd stronghold2027
+git lfs install
+git lfs pull
+:: Zagon:
+love .
+:: Ali build .love datoteke:
+zip -r stronghold2027.love . -x ".git/*"
+```
 
----
+### Testiranje
+- **F10** — Run mission test suite (10 campaign missions)
+- **Ctrl+L** — Release checklist (20 checks)
+- **Tilde (~)** — Debug console
 
-## 📜 License
+## Zgodovina razvoja
 
-Apache 2.0 - see [LICENSE](LICENSE)
+| Verzija | Datum | Opis |
+|---------|-------|------|
+| v1.7.9 | 2025-08-02 | Action bar SetScale fix |
+| v1.8.0 | 2025-08-02 | HD Asset Pipeline |
+| v1.9.0 | 2025-08-02 | Multiplayer (TCP/IP) |
+| v1.10.0 | 2025-08-02 | Diplomacy & Trade |
+| v1.11.0 | 2025-08-02 | Polish & Bug Fix |
+| v1.12.0 | 2025-08-02 | Modding API + Steam |
+| v1.13.0 | 2025-08-02 | Sound Design |
+| v1.14.0 | 2025-08-02 | Replay + Stats + Map Editor |
+| v1.15.0 | 2025-08-02 | Localization + Accessibility + Tutorial |
+| v1.16.0 | 2025-08-02 | Campaign Story + Siege Weapons |
+| v1.17.0 | 2025-08-02 | Release Candidate |
+| v1.18.0 | 2025-08-02 | Save Compat + Profiles + Console |
 
-Original Stone Kingdoms assets used with permission from Firefly Studios.
+## Licenca
 
----
+Apache License 2.0 — glej [LICENSE](LICENSE)
 
-## 🙏 Credits
+## Avtorji
 
-- **Firefly Studios** - Original Stronghold game and asset permission
-- **Stone Kingdoms team** - Open source base
-- **LÖVE community** - Game engine
-- **markec12345678** - Stronghold 2027 development
+- **markec12345678** — razvoj
+- **Stone Kingdoms** — osnovni codebase (Apache 2.0)
+- **Kenney.nl** — CC0 asseti
+- **Firefly Studios** — original Stronghold (2001)
+
+## Povezave
+
+- [GitHub](https://github.com/markec12345678/stronghold2027)
+- [LÖVE](https://love2d.org)
+- [Stone Kingdoms](https://gitlab.com/stone-kingdoms/stone-kingdoms)
