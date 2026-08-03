@@ -261,6 +261,16 @@ local function delayedInit()
     _G.DynamicMusic = DynamicMusic
     _G.SFXLibrary = SFXLibrary
     _G.VoiceOver = VoiceOver
+    -- Stronghold 2027: Register other globals for cross-system access
+    _G.VisualPolish = VisualPolish
+    _G.WeatherGameplay = WeatherGameplay
+    _G.FormationSystem = FormationSystem
+    _G.FestivalSystem = FestivalSystem
+    _G.ThreatAI = ThreatAI
+    _G.Veterancy = Veterancy
+    _G.ResourceFlow = ResourceFlow
+    _G.ConstructionAnim = ConstructionAnim
+    _G.AIDialogue = AIDialogue
     -- Stronghold 2027: Initialize modding & Steam
     ModLoader.init()
     CustomBuildingLoader.init()
@@ -473,6 +483,13 @@ function game:update(dt)
                 ThreatAI.update(dt)
                 ResourceFlow.update(dt)
                 Veterancy.cleanup(_G.state.gameObjectList or {})
+                -- Stronghold 2027: Update fog of war periodically
+                if not _G._fogTimer then _G._fogTimer = 0 end
+                _G._fogTimer = _G._fogTimer + dt
+                if _G._fogTimer > 1.0 then
+                    _G._fogTimer = 0
+                    pcall(function() FogOfWar.updateVisibility() end)
+                end
                 -- Stronghold 2027: Update AI system (with profiling)
                 PerformanceManager.beginSection("ai_update")
                 AIIntegration.update(dt)
@@ -666,8 +683,8 @@ function game:draw()
             DebugConsole.draw()
             -- Stronghold 2027: Draw visual polish particles
             VisualPolish.draw()
-            -- Stronghold 2027: Draw loading tips + credits
-            LoadingTips.draw(50, love.graphics.getHeight() - 200, love.graphics.getWidth() - 100)
+            -- Stronghold 2027: Draw loading tips (bottom-left, above action bar)
+            LoadingTips.draw(10, love.graphics.getHeight() - 310, 300)
             CreditsScreen.draw()
             -- Stronghold 2027: Draw improvements
             Minimap.draw()
@@ -707,6 +724,11 @@ function game:mousepressed(x, y, button, istouch)
     if MissionEndScreen.isVisible() then
         if MissionEndScreen.mousepressed(x, y, button) then return end
     end
+    -- Stronghold 2027: Minimap + GameSpeed click handling
+    if Minimap.isVisible() then
+        if Minimap.mousepressed(x, y, button) then return end
+    end
+    if GameSpeedControl.mousepressed(x, y, button) then return end
     if _G.paused then return end
     if objects.mousepressed(x, y, button, istouch) then
         return
@@ -761,6 +783,18 @@ function game:keypressed(key, scancode, isRepeat)
     -- Stronghold 2027: Enter = toggle chat
     if key == "return" or key == "kpenter" then
         Chat.keypressed(key)
+        return
+    end
+    -- Stronghold 2027: Game speed control (Space, 1-4)
+    if GameSpeedControl.keypressed(key) then return end
+    -- Stronghold 2027: Building hotkeys (Ctrl+1-9)
+    if (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+        if BuildingHotkeys.handleKey(key, true) then return end
+    end
+    -- Stronghold 2027: Toggle resource flow (Ctrl+Y)
+    if key == "y" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+        ResourceFlow.toggle()
+        ModernUI.notifyInfo("Tok surovin: " .. (ResourceFlow.isVisible() and "ON" or "OFF"))
         return
     end
     ActionBar:keypressed(key, scancode)

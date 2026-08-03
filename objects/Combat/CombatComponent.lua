@@ -100,6 +100,10 @@ function CombatComponent.takeDamage(self, amount, attacker)
     if _G.SFXLibrary then
         _G.SFXLibrary.playCombat("sword_hit", self.gx, self.gy)
     end
+    -- Stronghold 2027: Award XP to attacker for damage dealt
+    if _G.Veterancy and attacker then
+        _G.Veterancy.onDamageDealt(attacker, actualDamage)
+    end
 
     if self.health <= 0 then
         self.health = 0
@@ -114,6 +118,16 @@ function CombatComponent.takeDamage(self, amount, attacker)
         -- Stronghold 2027: Play death SFX
         if _G.SFXLibrary then
             _G.SFXLibrary.playCombat("death", self.gx, self.gy)
+        end
+        -- Stronghold 2027: Award kill XP to attacker
+        if _G.Veterancy and attacker then
+            _G.Veterancy.onKill(attacker, self)
+        end
+        -- Stronghold 2027: Spawn death visual effect
+        if _G.VisualPolish and self.gx and self.gy then
+            local sx = _G.IsoToScreenX(self.gx, self.gy) - (_G.state.viewXview or 0)
+            local sy = _G.IsoToScreenY(self.gx, self.gy) - (_G.state.viewYview or 0)
+            _G.VisualPolish.spawnDeathEffect(sx, sy)
         end
         if self._originalDie then
             self._originalDie(self)

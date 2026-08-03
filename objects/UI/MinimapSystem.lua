@@ -87,17 +87,30 @@ function Minimap._renderToCanvas()
     local stepX = mapW / minimapSize
     local stepY = mapH / minimapSize
 
-    if _G.state.map and _G.state.map.terrainType then
+    if _G.state.map and _G.state.map.terrain then
         for py = 0, minimapSize - 1 do
             for px = 0, minimapSize - 1 do
                 local gx = math.floor(px * stepX)
                 local gy = math.floor(py * stepY)
 
-                -- Get terrain type (simplified)
+                -- Get terrain type from actual terrain data
                 local terrainType = "grass"
-                if _G.state.map.terrainType[gx] and _G.state.map.terrainType[gx][gy] then
-                    terrainType = _G.state.map.terrainType[gx][gy]
-                end
+                local cx = math.floor(gx / (_G.chunkWidth or 32))
+                local cy = math.floor(gy / (_G.chunkHeight or 32))
+                local lx = gx % (_G.chunkWidth or 32)
+                local ly = gy % (_G.chunkHeight or 32)
+
+                pcall(function()
+                    if _G.state.map.terrain[cx] and _G.state.map.terrain[cx][cy] then
+                        local biome = _G.state.map.terrain[cx][cy][lx] and _G.state.map.terrain[cx][cy][lx][ly]
+                        if biome == 0 then terrainType = "grass"
+                        elseif biome == 1 then terrainType = "dirt"
+                        elseif biome == 2 then terrainType = "stone"
+                        elseif biome == 3 then terrainType = "water"
+                        elseif biome == 4 then terrainType = "sand"
+                        end
+                    end
+                end)
 
                 local color = COLORS.terrain[terrainType] or COLORS.terrain.grass
                 love.graphics.setColor(color[1], color[2], color[3], 0.8)
