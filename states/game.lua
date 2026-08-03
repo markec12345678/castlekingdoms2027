@@ -87,6 +87,12 @@ local EndGameScreen = require("states.ui.hud.end_game_screen")
 local ScreenshotManager = require("objects.QA.ScreenshotManager")
 local DifficultyPresets = require("objects.Config.DifficultyPresets")
 local FinalReleasePrep = require("objects.QA.FinalReleasePrep")
+-- Stronghold 2027 - Improvements
+local Minimap = require("objects.UI.MinimapSystem")
+local CommandQueue = require("objects.Combat.UnitCommandQueue")
+local AIDialogue = require("objects.AI.AIPersonalityDialogue")
+local GameSpeedControl = require("objects.UI.GameSpeedControl")
+local ConstructionAnim = require("objects.Feedback.ConstructionAnimation")
 -- Stronghold 2027 - AI system
 local AIIntegration = require("objects.AI.AIIntegration")
 -- Stronghold 2027 - Economy systems
@@ -294,6 +300,12 @@ local function delayedInit()
     -- Stronghold 2027: Initialize final systems
     ScreenshotManager.init()
     DifficultyPresets.init()
+    -- Stronghold 2027: Initialize improvements
+    Minimap.init()
+    CommandQueue.init()
+    AIDialogue.init()
+    GameSpeedControl.init()
+    ConstructionAnim.init()
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -436,6 +448,14 @@ function game:update(dt)
                 CreditsScreen.update(dt)
                 -- Stronghold 2027: Update screenshot manager
                 ScreenshotManager.update(dt)
+                -- Stronghold 2027: Update improvements
+                Minimap.update(dt)
+                AIDialogue.update(dt)
+                ConstructionAnim.update(dt)
+                -- Clean up dead unit command queues
+                if _G.state and _G.state.gameObjectList then
+                    CommandQueue.cleanup(_G.state.gameObjectList)
+                end
                 -- Stronghold 2027: Update AI system (with profiling)
                 PerformanceManager.beginSection("ai_update")
                 AIIntegration.update(dt)
@@ -632,6 +652,15 @@ function game:draw()
             -- Stronghold 2027: Draw loading tips + credits
             LoadingTips.draw(50, love.graphics.getHeight() - 200, love.graphics.getWidth() - 100)
             CreditsScreen.draw()
+            -- Stronghold 2027: Draw improvements
+            Minimap.draw()
+            GameSpeedControl.draw()
+            ConstructionAnim.draw()
+            AIDialogue.draw()
+            -- Draw command queue indicators for selected units
+            if _G.Commander and _G.Commander.selectedUnits then
+                CommandQueue.drawSelected(_G.Commander.selectedUnits)
+            end
         else
             renderLoadingScreen("")
             renderLoadingBar(loadState, progress)
