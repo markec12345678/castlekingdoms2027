@@ -59,6 +59,11 @@ local FinalBugFix = require("objects.QA.FinalBugFixPass")
 local PerfOpt = require("objects.Performance.PerformanceOptimizer")
 local AchievementIntegration = require("objects.Steam.AchievementIntegration")
 local ReleaseChecklist = require("objects.QA.ReleaseChecklist")
+-- Stronghold 2027 - Save, Profiles, Console, Feedback
+local SaveCompat = require("objects.QA.SaveGameCompatibility")
+local ConfigProfiles = require("objects.Config.ConfigProfileSystem")
+local DebugConsole = require("objects.QA.DebugConsoleSystem")
+local CommunityFeedback = require("objects.QA.CommunityFeedbackSystem")
 -- Stronghold 2027 - AI system
 local AIIntegration = require("objects.AI.AIIntegration")
 -- Stronghold 2027 - Economy systems
@@ -243,6 +248,11 @@ local function delayedInit()
     FinalBugFix.init()
     PerfOpt.init()
     AchievementIntegration.init()
+    -- Stronghold 2027: Initialize save, profiles, console, feedback
+    SaveCompat.init()
+    ConfigProfiles.init()
+    DebugConsole.init()
+    CommunityFeedback.init()
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -563,6 +573,8 @@ function game:draw()
             SiegeWeapons.draw()
             -- Stronghold 2027: Draw campaign story dialogue
             CampaignStory.draw()
+            -- Stronghold 2027: Draw debug console
+            DebugConsole.draw()
         else
             renderLoadingScreen("")
             renderLoadingBar(loadState, progress)
@@ -619,6 +631,9 @@ function game:mousepressed(x, y, button, istouch)
 end
 
 function game:textinput(text)
+    if DebugConsole.isVisible() then
+        if DebugConsole.textinput(text) then return end
+    end
     console.textinput(text)
 end
 
@@ -858,6 +873,15 @@ function game:keypressed(key, scancode, isRepeat)
         ReleaseChecklist.printResults()
         ModernUI.notifyInfo(string.format("Release checklist: %d/%d passed", results.passed, results.total))
         return
+    end
+    -- Tilde (~) = Toggle debug console (Stronghold 2027)
+    if key == "`" or key == "~" then
+        DebugConsole.toggle()
+        return
+    end
+    -- Handle debug console input
+    if DebugConsole.isVisible() then
+        if DebugConsole.keypressed(key) then return end
     end
     -- Handle story dialogue input
     if CampaignStory.isActive() then
