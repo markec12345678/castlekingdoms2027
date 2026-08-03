@@ -104,6 +104,20 @@ function CombatComponent.takeDamage(self, amount, attacker)
     if _G.Veterancy and attacker then
         _G.Veterancy.onDamageDealt(attacker, actualDamage)
     end
+    -- Stronghold 2027: Apply formation defense bonus to damage received
+    if _G.FormationSystem and self.faction == 1 then
+        local defBonus = _G.FormationSystem.getDefenseBonus() or 1.0
+        if defBonus > 1.0 then
+            actualDamage = math.floor(actualDamage / defBonus)
+        end
+    end
+    -- Stronghold 2027: Apply formation attack bonus to damage dealt
+    if _G.FormationSystem and attacker and attacker.faction == 1 then
+        local atkBonus = _G.FormationSystem.getAttackBonus() or 1.0
+        if atkBonus > 1.0 then
+            actualDamage = math.floor(actualDamage * atkBonus)
+        end
+    end
 
     if self.health <= 0 then
         self.health = 0

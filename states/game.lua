@@ -300,6 +300,15 @@ local function delayedInit()
     -- Stronghold 2027: Initialize GameEventBus and integrate all systems
     GameEventBus.integrateAll()
     _G.GameEventBus = GameEventBus
+    -- Stronghold 2027: Connect victory/defeat to EndGameScreen
+    GameEventBus.on(GameEventBus.EVENTS.VICTORY, function(data)
+        local Stats = require("objects.QA.StatisticsDashboard")
+        EndGameScreen.show("victory", Stats.getSessionStats())
+    end)
+    GameEventBus.on(GameEventBus.EVENTS.DEFEAT, function(data)
+        local Stats = require("objects.QA.StatisticsDashboard")
+        EndGameScreen.show("defeat", Stats.getSessionStats())
+    end)
     -- Stronghold 2027: Final polish systems
     GameBalancePass.init()
     GameBalancePass.applyAll()
@@ -729,6 +738,10 @@ function game:mousepressed(x, y, button, istouch)
         if Minimap.mousepressed(x, y, button) then return end
     end
     if GameSpeedControl.mousepressed(x, y, button) then return end
+    -- Stronghold 2027: Map Editor click handling
+    if MapEditor.isActive() then
+        if MapEditor.mousepressed(x, y, button) then return end
+    end
     if _G.paused then return end
     if objects.mousepressed(x, y, button, istouch) then
         return
@@ -1112,6 +1125,10 @@ function game:keypressed(key, scancode, isRepeat)
     -- Handle story dialogue input
     if CampaignStory.isActive() then
         if CampaignStory.keypressed(key) then return end
+    end
+    -- Stronghold 2027: Handle Map Editor input
+    if MapEditor.isActive() then
+        if MapEditor.keypressed(key) then return end
     end
     -- Ctrl+R = Toggle replay recording (Stronghold 2027)
     if key == "r" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then

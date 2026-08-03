@@ -246,6 +246,10 @@ function AIStrategyController:evaluateStrategicState(faction, state)
                 if math.random() < state.personality.attackChancePerMin then
                     state.state = STRATEGY_STATES.ATTACKING
                     state.lastAttack = love.timer.getTime()
+                    -- Stronghold 2027: Trigger AI dialogue on attack
+                    if _G.AIDialogue then
+                        _G.AIDialogue.trigger(state.playerId or 2, state.personalityName or "balanced", "attacking")
+                    end
                 end
             end
         end

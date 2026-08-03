@@ -136,6 +136,24 @@ function BuildController:set(type, callback)
     end
     self.batch:flush()
     self.active = true
+    -- Stronghold 2027: Start construction animation when building is placed
+    -- (triggered after placement, not on selection)
+end
+
+-- Stronghold 2027: Called when a building is actually placed on the map
+function BuildController:onBuildingPlaced(gx, gy, buildingType)
+    if _G.ConstructionAnim then
+        local BalanceConfig = require("objects.Config.BalanceConfig")
+        local buildTime = 15
+        if BalanceConfig.buildings and BalanceConfig.buildings[buildingType] then
+            buildTime = BalanceConfig.buildings[buildingType].buildTime or 15
+        end
+        _G.ConstructionAnim.start(buildingType .. "_" .. gx .. "_" .. gy, gx, gy, buildTime)
+    end
+    -- Emit event
+    if _G.GameEventBus then
+        _G.GameEventBus.emit("building_built", { buildingType = buildingType, gx = gx, gy = gy })
+    end
 end
 
 function BuildController:upgradeKeep(level)
