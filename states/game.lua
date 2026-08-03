@@ -112,6 +112,12 @@ local SpectatorMode = require("objects.Network.SpectatorMode")
 local CoopCampaign = require("objects.Network.CoopCampaignFramework")
 local PathOpt = require("objects.AI.PathfindingOptimizer")
 local Workshop = require("objects.Steam.SteamWorkshopIntegration")
+-- Stronghold 2027 - v1.28 Content & Performance
+local SkirmishTrail = require("objects.Mission.SkirmishTrailSystem")
+local ObjectPool = require("objects.Performance.ObjectPoolingSystem")
+local Gamepad = require("objects.UI.GamepadSupport")
+local MapSharing = require("objects.Gameplay.CustomMapSharing")
+local AutoSaveIndicator = require("objects.UI.AutoSaveIndicator")
 -- Stronghold 2027 - AI system
 local AIIntegration = require("objects.AI.AIIntegration")
 -- Stronghold 2027 - Economy systems
@@ -375,6 +381,17 @@ local function delayedInit()
     _G.CoopCampaign = CoopCampaign
     _G.PathOpt = PathOpt
     _G.Workshop = Workshop
+    -- Stronghold 2027: Initialize v1.28 systems
+    SkirmishTrail.init()
+    ObjectPool.init()
+    Gamepad.init()
+    MapSharing.init()
+    AutoSaveIndicator.init()
+    -- Register globals
+    _G.SkirmishTrail = SkirmishTrail
+    _G.ObjectPool = ObjectPool
+    _G.Gamepad = Gamepad
+    _G.MapSharing = MapSharing
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -536,6 +553,9 @@ function game:update(dt)
                 -- Stronghold 2027: Update v1.27 systems
                 SpectatorMode.update(dt)
                 Workshop.update(dt)
+                -- Stronghold 2027: Update v1.28 systems
+                AutoSaveIndicator.update(dt)
+                Gamepad.update(dt)
                 -- Stronghold 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
@@ -756,6 +776,9 @@ function game:draw()
             BuildingQueue.draw()
             -- Stronghold 2027: Draw v1.27 visuals
             SpectatorMode.draw()
+            -- Stronghold 2027: Draw v1.28 visuals
+            AutoSaveIndicator.draw()
+            Gamepad.draw()
         else
             renderLoadingScreen("")
             renderLoadingBar(loadState, progress)
