@@ -50,6 +50,10 @@ local SteamWorks = require("objects.Steam.SteamWorks")
 local LocalizationSystem = require("objects.Config.LocalizationSystem")
 local AccessibilitySystem = require("objects.Config.AccessibilitySystem")
 local TutorialSystem = require("objects.Tutorial.TutorialSystem")
+-- Stronghold 2027 - Story, Siege, Unified Settings
+local CampaignStory = require("objects.Mission.CampaignStorySystem")
+local SiegeWeapons = require("objects.Combat.SiegeWeaponsSystem")
+local UnifiedSettings = require("states.ui.settings.unified_settings")
 -- Stronghold 2027 - AI system
 local AIIntegration = require("objects.AI.AIIntegration")
 -- Stronghold 2027 - Economy systems
@@ -227,6 +231,9 @@ local function delayedInit()
     LocalizationSystem.init()
     AccessibilitySystem.init()
     TutorialSystem.init()
+    -- Stronghold 2027: Initialize story & siege
+    CampaignStory.init()
+    SiegeWeapons.init()
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -352,6 +359,9 @@ function game:update(dt)
                 ModLoader.update(dt)
                 -- Stronghold 2027: Update tutorial
                 TutorialSystem.update(dt)
+                -- Stronghold 2027: Update siege weapons
+                SiegeWeapons.update(dt)
+                CampaignStory.update(dt)
                 -- Stronghold 2027: Update AI system (with profiling)
                 PerformanceManager.beginSection("ai_update")
                 AIIntegration.update(dt)
@@ -537,6 +547,10 @@ function game:draw()
             end
             -- Stronghold 2027: Draw tutorial overlay
             TutorialSystem.draw()
+            -- Stronghold 2027: Draw siege weapons
+            SiegeWeapons.draw()
+            -- Stronghold 2027: Draw campaign story dialogue
+            CampaignStory.draw()
         else
             renderLoadingScreen("")
             renderLoadingBar(loadState, progress)
@@ -812,6 +826,23 @@ function game:keypressed(key, scancode, isRepeat)
             ModernUI.notifyInfo("Tutorial started")
         end
         return
+    end
+    -- Ctrl+O = Toggle unified settings (Stronghold 2027)
+    if key == "o" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+        UnifiedSettings.toggle()
+        return
+    end
+    -- Ctrl+B = Spawn catapult for testing (Stronghold 2027)
+    if key == "b" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+        if _G.state and _G.state.keepX then
+            SiegeWeapons.create("catapult", _G.state.keepX + 5, _G.state.keepY + 5, 1)
+            ModernUI.notifySuccess("Catapult created near keep")
+        end
+        return
+    end
+    -- Handle story dialogue input
+    if CampaignStory.isActive() then
+        if CampaignStory.keypressed(key) then return end
     end
     -- Ctrl+R = Toggle replay recording (Stronghold 2027)
     if key == "r" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
