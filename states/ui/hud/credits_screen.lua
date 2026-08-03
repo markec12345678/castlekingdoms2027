@@ -1,179 +1,172 @@
 -- states/ui/hud/credits_screen.lua
 -- Stronghold 2027 - Credits Screen
---
--- Shows scrolling credits when campaign is completed.
--- Press ESC or click to skip.
+-- End game credits with scrolling text
 
 local CreditsScreen = {}
 
-local visible = false
-local scrollY = 0
-local scrollSpeed = 50  -- pixels per second
-local alpha = 0
-
--- Credits content
-local CREDITS = {
+local credits = {
     { type = "title", text = "STRONGHOLD 2027" },
-    { type = "subtitle", text = "The Lord of Fernhaven" },
     { type = "spacer" },
-    { type = "header", text = "RAZVOJ" },
+    { type = "section", text = "RAZVOJ" },
     { type = "name", text = "markec12345678" },
     { type = "role", text = "Glavni razvijalec" },
     { type = "spacer" },
-    { type = "header", text = "ZGODBA" },
-    { type = "name", text = "Sir Markus" },
-    { type = "role", text = "Lord of Fernhaven" },
-    { type = "name", text = "Lady Elara" },
-    { type = "role", text = "Zaveznica Westmarsha" },
-    { type = "name", text = "Lord Draven" },
-    { type = "role", text = "Antagonist" },
-    { type = "name", text = "Brother Cedric" },
-    { type = "role", text = "Mentor in svetovalec" },
-    { type = "name", text = "Captain Roric" },
-    { type = "role", text = "Vojaški poveljnik" },
+    { type = "section", text = "OSNOVA" },
+    { type = "name", text = "Stone Kingdoms" },
+    { type = "role", text = "Odprtokodni projekt (Apache 2.0)" },
     { type = "spacer" },
-    { type = "header", text = "POVZETEK KAMPANJE" },
-    { type = "text", text = "1. Vrnitev v Fernhaven" },
-    { type = "text", text = "2. Prvi branilci" },
-    { type = "text", text = "3. Zavezništvo z Westmarshem" },
-    { type = "text", text = "4. Železni griči" },
-    { type = "text", text = "5. Banditski kralj" },
-    { type = "text", text = "6. Izdaja pri Eastvalu" },
-    { type = "text", text = "7. Severni prelaz" },
-    { type = "text", text = "8. Katedrala" },
-    { type = "text", text = "9. Žrtev Lady Elare" },
-    { type = "text", text = "10. Prestol Valdemarja" },
+    { type = "section", text = "ASSETI" },
+    { type = "name", text = "Kenney.nl" },
+    { type = "role", text = "CC0 gradivo (grad, enote, teren)" },
     { type = "spacer" },
-    { type = "header", text = "ZAHVALE" },
-    { type = "text", text = "Firefly Studios" },
-    { type = "role", text = "Za originalno igro Stronghold in dovoljenje za asset-e" },
-    { type = "text", text = "Stone Kingdoms ekipa" },
-    { type = "role", text = "Za odprtokodno bazo in vzdrževanje projekta" },
-    { type = "text", text = "LÖVE community" },
-    { type = "role", text = "Za odličen game engine" },
-    { type = "text", text = "Crowdin prevajalci" },
-    { type = "role", text = "Za prevode v 16 jezikov" },
+    { type = "section", text = "GLASBA" },
+    { type = "name", text = "Stronghold OST" },
+    { type = "role", text = "Firefly Studios" },
+    { type = "name", text = "Alexander Nakarada" },
+    { type = "name", text = "Kevin MacLeod" },
+    { type = "role", text = "Razširjeni soundtrack" },
     { type = "spacer" },
-    { type = "header", text = "TEHNOLOGIJE" },
-    { type = "text", text = "LÖVE 11.5 (Lua)" },
-    { type = "text", text = "Git LFS za binarne datoteke" },
-    { type = "text", text = "GitHub Actions za CI/CD" },
-    { type = "text", text = "GLSL shaderji za vizualne efekti" },
+    { type = "section", text = "LOKALIZACIJA" },
+    { type = "name", text = "Slovenščina, Angleščina, Srbščina" },
+    { type = "role", text = "32 jezikov" },
     { type = "spacer" },
-    { type = "header", text = "POVZETEK PROJEKTA" },
-    { type = "text", text = "280+ Lua datotek" },
-    { type = "text", text = "213,000+ vrstic kode" },
-    { type = "text", text = "71 zgradb, 42 enot" },
-    { type = "text", text = "16 podprtih jezikov" },
-    { type = "text", text = "10 misij kampanje" },
-    { type = "text", text = "4 AI osebnosti, 4 težavnosti" },
+    { type = "section", text = "TEHNOLOGIJE" },
+    { type = "name", text = "LÖVE 11.5" },
+    { type = "role", text = "Game engine (Lua/LuaJIT)" },
+    { type = "name", text = "LuaSocket" },
+    { type = "role", text = "Multiplayer networking" },
+    { type = "name", text = "GLSL" },
+    { type = "role", text = "HD shaderji" },
+    { type = "spacer" },
+    { type = "section", text = "ZAHVALE" },
+    { type = "name", text = "Firefly Studios" },
+    { type = "role", text = "Originalni Stronghold (2001)" },
+    { type = "name", text = "Stone Kingdoms ekipa" },
+    { type = "role", text = "Odprtokodna osnova" },
+    { type = "name", text = "Kenney.nl" },
+    { type = "role", text = "CC0 asseti za indie razvoj" },
+    { type = "spacer" },
+    { type = "section", text = "POSEBNO HVALA" },
+    { type = "name", text = "Vsem testnim igralcem" },
+    { type = "role", text = "Za povratne informacije in podporo" },
     { type = "spacer" },
     { type = "spacer" },
     { type = "title", text = "HVALA ZA IGRANJE!" },
-    { type = "subtitle", text = "Sir Markus je postal Kralj Valdemarja" },
     { type = "spacer" },
-    { type = "spacer" },
-    { type = "text", text = "Stronghold 2027" },
-    { type = "text", text = "Apache 2.0 License" },
-    { type = "text", text = "github.com/markec12345678/stronghold2027" },
+    { type = "subtitle", text = "Stronghold 2027 v1.22.0" },
+    { type = "subtitle", text = "© 2025-2027 markec12345678" },
 }
 
+local scrollY = 0
+local scrollSpeed = 50  -- pixels per second
+local isActive = false
+local initialized = false
+
+function CreditsScreen.init()
+    if initialized then return end
+    initialized = true
+    print("[CreditsScreen] Initialized")
+end
+
 function CreditsScreen.show()
-    visible = true
+    CreditsScreen.init()
+    isActive = true
     scrollY = 0
-    alpha = 0
+    if _G.GameEventBus then
+        _G.GameEventBus.emit("credits_started")
+    end
+    print("[CreditsScreen] Showing credits")
 end
 
 function CreditsScreen.hide()
-    visible = false
+    isActive = false
+    if _G.GameEventBus then
+        _G.GameEventBus.emit("credits_ended")
+    end
 end
 
-function CreditsScreen.isVisible()
-    return visible
+function CreditsScreen.isActive()
+    return isActive
 end
 
 function CreditsScreen.update(dt)
-    if not visible then return end
+    if not isActive then return end
     scrollY = scrollY + scrollSpeed * dt
-    alpha = math.min(1, alpha + dt * 1.5)
-
-    -- Auto-hide when credits finish
-    local totalHeight = #CREDITS * 30 + 200
-    if scrollY > totalHeight + love.graphics.getHeight() then
-        CreditsScreen.hide()
-    end
 end
 
 function CreditsScreen.draw()
-    if not visible then return end
+    if not isActive then return end
 
-    local screenW, screenH = love.graphics.getDimensions()
+    local w, h = love.graphics.getDimensions()
 
-    -- Dark background
-    love.graphics.setColor(0, 0, 0, alpha * 0.9)
-    love.graphics.rectangle("fill", 0, 0, screenW, screenH)
+    -- Black background
+    love.graphics.setColor(0, 0, 0, 1)
+    love.graphics.rectangle("fill", 0, 0, w, h)
 
-    -- Scroll credits
-    local startY = screenH - scrollY
-    local y = startY
-    local centerX = screenW / 2
+    -- Draw credits
+    local y = h - scrollY
+    local centerX = w / 2
 
-    for _, entry in ipairs(CREDITS) do
-        if entry.type == "title" then
-            love.graphics.setColor(1, 0.85, 0.3, alpha)
-            local font = love.graphics.getFont()
-            local w = font:getWidth(entry.text)
-            love.graphics.print(entry.text, centerX - w / 2, y)
-            y = y + 50
-        elseif entry.type == "subtitle" then
-            love.graphics.setColor(0.8, 0.8, 0.8, alpha)
-            local font = love.graphics.getFont()
-            local w = font:getWidth(entry.text)
-            love.graphics.print(entry.text, centerX - w / 2, y)
-            y = y + 35
-        elseif entry.type == "header" then
-            love.graphics.setColor(0.6, 0.5, 0.3, alpha)
-            local font = love.graphics.getFont()
-            local w = font:getWidth(entry.text)
-            love.graphics.print(entry.text, centerX - w / 2, y)
+    for _, entry in ipairs(credits) do
+        if y > -50 and y < h + 50 then
+            if entry.type == "title" then
+                love.graphics.setColor(1, 0.85, 0.3, 1)
+                love.graphics.setFont(love.graphics.newFont(32))
+                love.graphics.printf(entry.text, 0, y, w, "center")
+            elseif entry.type == "section" then
+                love.graphics.setColor(0.7, 0.8, 1, 1)
+                love.graphics.setFont(love.graphics.newFont(22))
+                love.graphics.printf(entry.text, 0, y, w, "center")
+            elseif entry.type == "name" then
+                love.graphics.setColor(1, 1, 1, 1)
+                love.graphics.setFont(love.graphics.newFont(18))
+                love.graphics.printf(entry.text, 0, y, w, "center")
+            elseif entry.type == "role" then
+                love.graphics.setColor(0.6, 0.6, 0.6, 1)
+                love.graphics.setFont(love.graphics.newFont(14))
+                love.graphics.printf(entry.text, 0, y, w, "center")
+            elseif entry.type == "subtitle" then
+                love.graphics.setColor(0.5, 0.5, 0.5, 1)
+                love.graphics.setFont(love.graphics.newFont(14))
+                love.graphics.printf(entry.text, 0, y, w, "center")
+            end
+        end
+
+        -- Increment Y based on entry type
+        if entry.type == "spacer" then
             y = y + 30
+        elseif entry.type == "title" then
+            y = y + 60
+        elseif entry.type == "section" then
+            y = y + 40
         elseif entry.type == "name" then
-            love.graphics.setColor(1, 1, 1, alpha)
-            local font = love.graphics.getFont()
-            local w = font:getWidth(entry.text)
-            love.graphics.print(entry.text, centerX - w / 2, y)
-            y = y + 20
-        elseif entry.type == "role" then
-            love.graphics.setColor(0.6, 0.6, 0.6, alpha)
-            local font = love.graphics.getFont()
-            local w = font:getWidth(entry.text)
-            love.graphics.print(entry.text, centerX - w / 2, y)
-            y = y + 20
-        elseif entry.type == "text" then
-            love.graphics.setColor(0.8, 0.8, 0.8, alpha)
-            local font = love.graphics.getFont()
-            local w = font:getWidth(entry.text)
-            love.graphics.print(entry.text, centerX - w / 2, y)
-            y = y + 22
-        elseif entry.type == "spacer" then
             y = y + 25
+        elseif entry.type == "role" then
+            y = y + 20
+        elseif entry.type == "subtitle" then
+            y = y + 20
         end
     end
 
-    -- Skip hint
-    love.graphics.setColor(0.4, 0.4, 0.4, alpha)
-    love.graphics.print("[ESC] Preskoči", 20, screenH - 30)
+    -- Reset color
+    love.graphics.setColor(1, 1, 1, 1)
 
+    -- Check if credits finished scrolling
+    if y < 0 then
+        CreditsScreen.hide()
+    end
+
+    -- Skip hint
+    love.graphics.setColor(0.4, 0.4, 0.4, 1)
+    love.graphics.setFont(love.graphics.newFont(12))
+    love.graphics.printf("Pritisnite ESC za preskok", 0, h - 30, w, "center")
     love.graphics.setColor(1, 1, 1, 1)
 end
 
 function CreditsScreen.keypressed(key)
-    if key == "escape" and visible then
+    if not isActive then return false end
+    if key == "escape" then
         CreditsScreen.hide()
-        -- Return to main menu
-        local Gamestate = require("libraries.gamestate")
-        local startMenu = require("states.start_menu")
-        Gamestate.switch(startMenu)
         return true
     end
     return false

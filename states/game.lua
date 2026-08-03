@@ -77,6 +77,11 @@ local WeatherGameplay = require("objects.Weather.WeatherGameplayIntegration")
 local FogOfWar = require("objects.Gameplay.FogOfWarSystem")
 local FestivalSystem = require("objects.Gameplay.FestivalSystem")
 local AchievementGallery = require("states.ui.hud.achievement_gallery")
+-- Stronghold 2027 - Formations, Upgrades, Tips, Credits
+local FormationSystem = require("objects.Combat.UnitFormationSystem")
+local UpgradeTree = require("objects.Config.BuildingUpgradeTree")
+local LoadingTips = require("objects.UI.LoadingTipsSystem")
+local CreditsScreen = require("states.ui.hud.credits_screen")
 -- Stronghold 2027 - AI system
 local AIIntegration = require("objects.AI.AIIntegration")
 -- Stronghold 2027 - Economy systems
@@ -278,6 +283,10 @@ local function delayedInit()
     WeatherGameplay.init()
     FogOfWar.init()
     FestivalSystem.init()
+    -- Stronghold 2027: Initialize formations, upgrades, tips
+    FormationSystem.init()
+    UpgradeTree.init()
+    LoadingTips.init()
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -415,6 +424,9 @@ function game:update(dt)
                 PerfBenchmark.update(dt)
                 -- Stronghold 2027: Update gameplay systems
                 FestivalSystem.update(dt)
+                -- Stronghold 2027: Update loading tips + credits
+                LoadingTips.update(dt)
+                CreditsScreen.update(dt)
                 -- Stronghold 2027: Update AI system (with profiling)
                 PerformanceManager.beginSection("ai_update")
                 AIIntegration.update(dt)
@@ -608,6 +620,9 @@ function game:draw()
             DebugConsole.draw()
             -- Stronghold 2027: Draw visual polish particles
             VisualPolish.draw()
+            -- Stronghold 2027: Draw loading tips + credits
+            LoadingTips.draw(50, love.graphics.getHeight() - 200, love.graphics.getWidth() - 100)
+            CreditsScreen.draw()
         else
             renderLoadingScreen("")
             renderLoadingBar(loadState, progress)
@@ -956,6 +971,22 @@ function game:keypressed(key, scancode, isRepeat)
         FogOfWar.revealAll()
         ModernUI.notifyInfo("Megla razkrita (debug)")
         return
+    end
+    -- Ctrl+G = Cycle formation (Stronghold 2027)
+    if key == "g" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+        local next = FormationSystem.cycleFormation()
+        local info = FormationSystem.getStats()
+        ModernUI.notifyInfo("Formacija: " .. info.name .. " (def x" .. info.defenseBonus .. ", atk x" .. info.attackBonus .. ")")
+        return
+    end
+    -- Ctrl+E = Show credits (Stronghold 2027)
+    if key == "e" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+        CreditsScreen.show()
+        return
+    end
+    -- Handle credits ESC
+    if CreditsScreen.isActive() then
+        if CreditsScreen.keypressed(key) then return end
     end
     -- Tilde (~) = Toggle debug console (Stronghold 2027)
     if key == "`" or key == "~" then
