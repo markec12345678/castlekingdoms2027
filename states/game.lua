@@ -99,6 +99,13 @@ local BuildingHotkeys = require("objects.UI.BuildingHotkeys")
 local ResourceFlow = require("objects.UI.ResourceFlowVisualizer")
 local AutoSaveEnhancer = require("objects.QA.AutoSaveEnhancer")
 local ThreatAI = require("objects.AI.ThreatAssessmentAI")
+-- Stronghold 2027 - v1.26 QoL Improvements
+local RallyPoint = require("objects.Gameplay.RallyPointSystem")
+local RightClickDismiss = require("objects.UI.RightClickDismiss")
+local BuildingQueue = require("objects.Gameplay.BuildingQueueSystem")
+local MinimapDrag = require("objects.UI.MinimapDragScroll")
+local AutoWorker = require("objects.Gameplay.AutoWorkerAssign")
+local DynamicUnitCap = require("objects.Gameplay.DynamicUnitCap")
 -- Stronghold 2027 - AI system
 local AIIntegration = require("objects.AI.AIIntegration")
 -- Stronghold 2027 - Economy systems
@@ -337,6 +344,19 @@ local function delayedInit()
     ResourceFlow.init()
     AutoSaveEnhancer.init()
     ThreatAI.init()
+    -- Stronghold 2027: Initialize v1.26 QoL systems
+    RallyPoint.init()
+    RightClickDismiss.init()
+    RightClickDismiss.autoRegister()
+    BuildingQueue.init()
+    MinimapDrag.init()
+    AutoWorker.init()
+    DynamicUnitCap.init()
+    -- Register globals
+    _G.RallyPoint = RallyPoint
+    _G.BuildingQueue = BuildingQueue
+    _G.AutoWorker = AutoWorker
+    _G.DynamicUnitCap = DynamicUnitCap
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -492,6 +512,9 @@ function game:update(dt)
                 ThreatAI.update(dt)
                 ResourceFlow.update(dt)
                 Veterancy.cleanup(_G.state.gameObjectList or {})
+                -- Stronghold 2027: Update v1.26 QoL systems
+                AutoWorker.update(dt)
+                DynamicUnitCap.update(dt)
                 -- Stronghold 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
@@ -707,6 +730,9 @@ function game:draw()
             -- Stronghold 2027: Draw v1.25 visuals
             ResourceFlow.draw()
             Veterancy.drawSelected()
+            -- Stronghold 2027: Draw v1.26 QoL visuals
+            RallyPoint.draw()
+            BuildingQueue.draw()
         else
             renderLoadingScreen("")
             renderLoadingBar(loadState, progress)
@@ -736,8 +762,11 @@ function game:mousepressed(x, y, button, istouch)
     -- Stronghold 2027: Minimap + GameSpeed click handling
     if Minimap.isVisible() then
         if Minimap.mousepressed(x, y, button) then return end
+        if MinimapDrag.mousepressed(x, y, button) then return end
     end
     if GameSpeedControl.mousepressed(x, y, button) then return end
+    -- Stronghold 2027: Right-click dismiss panels
+    if RightClickDismiss.handleRightClick(x, y, button) then return end
     -- Stronghold 2027: Map Editor click handling
     if MapEditor.isActive() then
         if MapEditor.mousepressed(x, y, button) then return end
@@ -1235,12 +1264,19 @@ function game:keypressed(key, scancode, isRepeat)
 end
 
 function game:mousereleased(x, y, button, istouch)
+    -- Stronghold 2027: Handle minimap drag release
+    MinimapDrag.mousereleased(x, y, button)
     -- TODO: Check if event is consumed
     if _G.Commander:mousereleased(x, y, button) then
         return
     end
     loveframes.mousereleased(x, y, button)
     _G.BrushController:mousereleased(button)
+end
+
+function game:mousemoved(x, y, dx, dy, istouch)
+    -- Stronghold 2027: Handle minimap drag scrolling
+    MinimapDrag.mousemoved(x, y, dx, dy)
 end
 
 function game:wheelmoved(x, y)
