@@ -72,6 +72,11 @@ local GameBalancePass = require("objects.Config.GameBalancePass")
 local VisualPolish = require("objects.Feedback.VisualPolishSystem")
 local PerfBenchmark = require("objects.QA.PerformanceBenchmark")
 local ReleaseNotesGen = require("objects.QA.ReleaseNotesGenerator")
+-- Stronghold 2027 - Gameplay Systems
+local WeatherGameplay = require("objects.Weather.WeatherGameplayIntegration")
+local FogOfWar = require("objects.Gameplay.FogOfWarSystem")
+local FestivalSystem = require("objects.Gameplay.FestivalSystem")
+local AchievementGallery = require("states.ui.hud.achievement_gallery")
 -- Stronghold 2027 - AI system
 local AIIntegration = require("objects.AI.AIIntegration")
 -- Stronghold 2027 - Economy systems
@@ -269,6 +274,10 @@ local function delayedInit()
     GameBalancePass.applyAll()
     VisualPolish.init()
     PerfBenchmark.init()
+    -- Stronghold 2027: Initialize gameplay systems
+    WeatherGameplay.init()
+    FogOfWar.init()
+    FestivalSystem.init()
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -404,6 +413,8 @@ function game:update(dt)
                 VisualPolish.update(dt)
                 -- Stronghold 2027: Update performance benchmark
                 PerfBenchmark.update(dt)
+                -- Stronghold 2027: Update gameplay systems
+                FestivalSystem.update(dt)
                 -- Stronghold 2027: Update AI system (with profiling)
                 PerformanceManager.beginSection("ai_update")
                 AIIntegration.update(dt)
@@ -915,8 +926,35 @@ function game:keypressed(key, scancode, isRepeat)
     end
     -- Ctrl+N = Generate release notes (Stronghold 2027)
     if key == "n" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
-        local filename = ReleaseNotesGen.save("1.20.0")
+        local filename = ReleaseNotesGen.save("1.21.0")
         ModernUI.notifyInfo("Release notes saved: " .. tostring(filename))
+        return
+    end
+    -- Ctrl+A = Toggle achievement gallery (Stronghold 2027)
+    if key == "a" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+        AchievementGallery.toggle()
+        return
+    end
+    -- Ctrl+W = Cycle weather gameplay (Stronghold 2027)
+    if key == "w" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+        local newWeather = WeatherGameplay.cycleWeather()
+        local mods = WeatherGameplay.getModifiers()
+        ModernUI.notifyInfo("Vreme: " .. mods.name .. " (farm x" .. mods.farmMult .. ", speed x" .. mods.speedMult .. ")")
+        return
+    end
+    -- Ctrl+F = Start tournament festival (Stronghold 2027)
+    if key == "f" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+        if FestivalSystem.start("tournament") then
+            ModernUI.notifySuccess("Turnir zacel! (+10 popularnost)")
+        else
+            ModernUI.notifyError("Ni dovolj zlata za turnir (200)")
+        end
+        return
+    end
+    -- Ctrl+V = Reveal all fog (debug, Stronghold 2027)
+    if key == "v" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rshift")) then
+        FogOfWar.revealAll()
+        ModernUI.notifyInfo("Megla razkrita (debug)")
         return
     end
     -- Tilde (~) = Toggle debug console (Stronghold 2027)
