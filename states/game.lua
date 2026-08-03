@@ -46,6 +46,10 @@ local VoiceOver = require("objects.Audio.SlovenianVoiceOver")
 local ModLoader = require("objects.Modding.ModLoader")
 local CustomBuildingLoader = require("objects.Modding.CustomBuildingLoader")
 local SteamWorks = require("objects.Steam.SteamWorks")
+-- Stronghold 2027 - Localization, Accessibility, Tutorial
+local LocalizationSystem = require("objects.Config.LocalizationSystem")
+local AccessibilitySystem = require("objects.Config.AccessibilitySystem")
+local TutorialSystem = require("objects.Tutorial.TutorialSystem")
 -- Stronghold 2027 - AI system
 local AIIntegration = require("objects.AI.AIIntegration")
 -- Stronghold 2027 - Economy systems
@@ -219,6 +223,10 @@ local function delayedInit()
     end
     -- Load all mods
     ModLoader.loadAll()
+    -- Stronghold 2027: Initialize localization, accessibility, tutorial
+    LocalizationSystem.init()
+    AccessibilitySystem.init()
+    TutorialSystem.init()
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -342,6 +350,8 @@ function game:update(dt)
                 DynamicMusic.update(dt)
                 -- Stronghold 2027: Update mods
                 ModLoader.update(dt)
+                -- Stronghold 2027: Update tutorial
+                TutorialSystem.update(dt)
                 -- Stronghold 2027: Update AI system (with profiling)
                 PerformanceManager.beginSection("ai_update")
                 AIIntegration.update(dt)
@@ -525,6 +535,8 @@ function game:draw()
                 KenneySpriteOverlay.draw()
                 love.graphics.setScissor()
             end
+            -- Stronghold 2027: Draw tutorial overlay
+            TutorialSystem.draw()
         else
             renderLoadingScreen("")
             renderLoadingBar(loadState, progress)
@@ -788,6 +800,17 @@ function game:keypressed(key, scancode, isRepeat)
     -- F12 = Toggle Map Editor (Stronghold 2027)
     if key == "f12" then
         MapEditor.toggle()
+        return
+    end
+    -- Ctrl+T = Toggle tutorial (Stronghold 2027)
+    if key == "t" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+        if TutorialSystem.isActive() then
+            TutorialSystem.stop()
+            ModernUI.notifyInfo("Tutorial stopped")
+        else
+            TutorialSystem.start()
+            ModernUI.notifyInfo("Tutorial started")
+        end
         return
     end
     -- Ctrl+R = Toggle replay recording (Stronghold 2027)
