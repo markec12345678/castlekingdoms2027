@@ -93,6 +93,12 @@ local CommandQueue = require("objects.Combat.UnitCommandQueue")
 local AIDialogue = require("objects.AI.AIPersonalityDialogue")
 local GameSpeedControl = require("objects.UI.GameSpeedControl")
 local ConstructionAnim = require("objects.Feedback.ConstructionAnimation")
+-- Stronghold 2027 - v1.25 Improvements
+local Veterancy = require("objects.Combat.UnitVeterancySystem")
+local BuildingHotkeys = require("objects.UI.BuildingHotkeys")
+local ResourceFlow = require("objects.UI.ResourceFlowVisualizer")
+local AutoSaveEnhancer = require("objects.QA.AutoSaveEnhancer")
+local ThreatAI = require("objects.AI.ThreatAssessmentAI")
 -- Stronghold 2027 - AI system
 local AIIntegration = require("objects.AI.AIIntegration")
 -- Stronghold 2027 - Economy systems
@@ -306,6 +312,12 @@ local function delayedInit()
     AIDialogue.init()
     GameSpeedControl.init()
     ConstructionAnim.init()
+    -- Stronghold 2027: Initialize v1.25 improvements
+    Veterancy.init()
+    BuildingHotkeys.init()
+    ResourceFlow.init()
+    AutoSaveEnhancer.init()
+    ThreatAI.init()
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -456,6 +468,11 @@ function game:update(dt)
                 if _G.state and _G.state.gameObjectList then
                     CommandQueue.cleanup(_G.state.gameObjectList)
                 end
+                -- Stronghold 2027: Update v1.25 systems
+                AutoSaveEnhancer.update(dt)
+                ThreatAI.update(dt)
+                ResourceFlow.update(dt)
+                Veterancy.cleanup(_G.state.gameObjectList or {})
                 -- Stronghold 2027: Update AI system (with profiling)
                 PerformanceManager.beginSection("ai_update")
                 AIIntegration.update(dt)
@@ -661,6 +678,9 @@ function game:draw()
             if _G.Commander and _G.Commander.selectedUnits then
                 CommandQueue.drawSelected(_G.Commander.selectedUnits)
             end
+            -- Stronghold 2027: Draw v1.25 visuals
+            ResourceFlow.draw()
+            Veterancy.drawSelected()
         else
             renderLoadingScreen("")
             renderLoadingBar(loadState, progress)
