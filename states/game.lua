@@ -908,6 +908,25 @@ function game:keypressed(key, scancode, isRepeat)
         ModernUI.notifyInfo("Velikost mape: " .. info.name .. " (" .. info.tiles .. " tiles)")
         return
     end
+    -- Stronghold 2027: Skirmish trail (Ctrl+Shift+T = start next unlocked)
+    if key == "t" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
+        local missions = SkirmishTrail.getAllMissions()
+        for _, m in ipairs(missions) do
+            if m.unlocked and not m.completed then
+                SkirmishTrail.start(m.id)
+                ModernUI.notifySuccess("Skirmish: " .. m.name)
+                return
+            end
+        end
+        ModernUI.notifyInfo("Vse skirmish misije končane!")
+        return
+    end
+    -- Stronghold 2027: Building queue toggle (Ctrl+Shift+Q = clear queue)
+    if key == "q" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
+        BuildingQueue.clear()
+        ModernUI.notifyInfo("Vrsta gradnje pociscena")
+        return
+    end
     -- Handle spectator mode keys
     if SpectatorMode.isSpectating() then
         if SpectatorMode.keypressed(key) then return end
@@ -1352,6 +1371,30 @@ function game:mousemoved(x, y, dx, dy, istouch)
     MinimapDrag.mousemoved(x, y, dx, dy)
 end
 
+-- Stronghold 2027: Gamepad support
+function game:gamepadpressed(joystick, button)
+    Gamepad.handleButton(joystick, button)
+end
+
+function game:gamepadaxis(joystick, axis, value)
+    Gamepad.handleAxis(joystick, axis, value)
+end
+
+function game:gamepadconnected(joystick)
+    Gamepad.setConnected(true)
+    if ModernUI then
+        ModernUI.notifySuccess("Krmilnik prikljucen: " .. joystick:getName())
+    end
+end
+
+function game:gamepaddisconnected(joystick)
+    Gamepad.setConnected(false)
+    if ModernUI then
+        ModernUI.notifyInfo("Krmilnik odklopljen")
+    end
+end
+
+-- Stronghold 2027: Skirmish trail access (Ctrl+Shift+T = start skirmish 1)
 function game:wheelmoved(x, y)
     if scrollCountDown == 0 then
         scrollCountDown = 0.05

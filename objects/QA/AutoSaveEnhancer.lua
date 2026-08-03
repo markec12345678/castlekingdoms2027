@@ -41,6 +41,11 @@ end
 function AutoSaveEnhancer.saveNow()
     if not _G.state or not _G.loaded then return false end
 
+    -- Show save indicator
+    if _G.AutoSaveIndicator then
+        pcall(function() _G.AutoSaveIndicator.show() end)
+    end
+
     local timestamp = os.date("%Y%m%d_%H%M%S")
     local saveName = "autosave_" .. timestamp
 
