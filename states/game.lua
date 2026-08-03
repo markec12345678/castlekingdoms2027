@@ -106,6 +106,12 @@ local BuildingQueue = require("objects.Gameplay.BuildingQueueSystem")
 local MinimapDrag = require("objects.UI.MinimapDragScroll")
 local AutoWorker = require("objects.Gameplay.AutoWorkerAssign")
 local DynamicUnitCap = require("objects.Gameplay.DynamicUnitCap")
+-- Stronghold 2027 - v1.27 Expansions
+local MapSizeSelector = require("objects.Gameplay.MapSizeSelector")
+local SpectatorMode = require("objects.Network.SpectatorMode")
+local CoopCampaign = require("objects.Network.CoopCampaignFramework")
+local PathOpt = require("objects.AI.PathfindingOptimizer")
+local Workshop = require("objects.Steam.SteamWorkshopIntegration")
 -- Stronghold 2027 - AI system
 local AIIntegration = require("objects.AI.AIIntegration")
 -- Stronghold 2027 - Economy systems
@@ -357,6 +363,18 @@ local function delayedInit()
     _G.BuildingQueue = BuildingQueue
     _G.AutoWorker = AutoWorker
     _G.DynamicUnitCap = DynamicUnitCap
+    -- Stronghold 2027: Initialize v1.27 systems
+    MapSizeSelector.init()
+    SpectatorMode.init()
+    CoopCampaign.init()
+    PathOpt.init()
+    Workshop.init()
+    -- Register globals
+    _G.MapSizeSelector = MapSizeSelector
+    _G.SpectatorMode = SpectatorMode
+    _G.CoopCampaign = CoopCampaign
+    _G.PathOpt = PathOpt
+    _G.Workshop = Workshop
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -515,6 +533,9 @@ function game:update(dt)
                 -- Stronghold 2027: Update v1.26 QoL systems
                 AutoWorker.update(dt)
                 DynamicUnitCap.update(dt)
+                -- Stronghold 2027: Update v1.27 systems
+                SpectatorMode.update(dt)
+                Workshop.update(dt)
                 -- Stronghold 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
@@ -733,6 +754,8 @@ function game:draw()
             -- Stronghold 2027: Draw v1.26 QoL visuals
             RallyPoint.draw()
             BuildingQueue.draw()
+            -- Stronghold 2027: Draw v1.27 visuals
+            SpectatorMode.draw()
         else
             renderLoadingScreen("")
             renderLoadingBar(loadState, progress)
@@ -838,6 +861,33 @@ function game:keypressed(key, scancode, isRepeat)
         ResourceFlow.toggle()
         ModernUI.notifyInfo("Tok surovin: " .. (ResourceFlow.isVisible() and "ON" or "OFF"))
         return
+    end
+    -- Stronghold 2027: Spectator mode (Ctrl+Shift+S)
+    if key == "s" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
+        if SpectatorMode.isSpectating() then
+            SpectatorMode.exit()
+            ModernUI.notifyInfo("Opsazevalni nacin izklopljen")
+        else
+            SpectatorMode.enter(1)
+        end
+        return
+    end
+    -- Stronghold 2027: Co-op campaign (Ctrl+Shift+C)
+    if key == "c" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
+        CoopCampaign.start("mission1")
+        ModernUI.notifySuccess("Kooperativna kampanja zaceta!")
+        return
+    end
+    -- Stronghold 2027: Cycle map size (Ctrl+Shift+M)
+    if key == "m" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
+        local next = MapSizeSelector.cycle()
+        local info = MapSizeSelector.getInfo()
+        ModernUI.notifyInfo("Velikost mape: " .. info.name .. " (" .. info.tiles .. " tiles)")
+        return
+    end
+    -- Handle spectator mode keys
+    if SpectatorMode.isSpectating() then
+        if SpectatorMode.keypressed(key) then return end
     end
     ActionBar:keypressed(key, scancode)
 
