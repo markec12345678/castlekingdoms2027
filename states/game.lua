@@ -64,6 +64,9 @@ local SaveCompat = require("objects.QA.SaveGameCompatibility")
 local ConfigProfiles = require("objects.Config.ConfigProfileSystem")
 local DebugConsole = require("objects.QA.DebugConsoleSystem")
 local CommunityFeedback = require("objects.QA.CommunityFeedbackSystem")
+-- Stronghold 2027 - Core Event Bus
+local GameEventBus = require("objects.Core.GameEventBus")
+local IntegrationTestSuite = require("objects.QA.IntegrationTestSuite")
 -- Stronghold 2027 - AI system
 local AIIntegration = require("objects.AI.AIIntegration")
 -- Stronghold 2027 - Economy systems
@@ -253,6 +256,9 @@ local function delayedInit()
     ConfigProfiles.init()
     DebugConsole.init()
     CommunityFeedback.init()
+    -- Stronghold 2027: Initialize GameEventBus and integrate all systems
+    GameEventBus.integrateAll()
+    _G.GameEventBus = GameEventBus
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -872,6 +878,13 @@ function game:keypressed(key, scancode, isRepeat)
         local results = ReleaseChecklist.runAll()
         ReleaseChecklist.printResults()
         ModernUI.notifyInfo(string.format("Release checklist: %d/%d passed", results.passed, results.total))
+        return
+    end
+    -- Ctrl+I = Run integration test suite (Stronghold 2027)
+    if key == "i" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+        local results = IntegrationTestSuite.runAll()
+        IntegrationTestSuite.printResults()
+        ModernUI.notifyInfo(string.format("Integration tests: %d/%d passed", results.passed, results.total))
         return
     end
     -- Tilde (~) = Toggle debug console (Stronghold 2027)
