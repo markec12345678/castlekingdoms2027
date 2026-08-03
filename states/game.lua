@@ -67,6 +67,11 @@ local CommunityFeedback = require("objects.QA.CommunityFeedbackSystem")
 -- Stronghold 2027 - Core Event Bus
 local GameEventBus = require("objects.Core.GameEventBus")
 local IntegrationTestSuite = require("objects.QA.IntegrationTestSuite")
+-- Stronghold 2027 - Final Polish
+local GameBalancePass = require("objects.Config.GameBalancePass")
+local VisualPolish = require("objects.Feedback.VisualPolishSystem")
+local PerfBenchmark = require("objects.QA.PerformanceBenchmark")
+local ReleaseNotesGen = require("objects.QA.ReleaseNotesGenerator")
 -- Stronghold 2027 - AI system
 local AIIntegration = require("objects.AI.AIIntegration")
 -- Stronghold 2027 - Economy systems
@@ -259,6 +264,11 @@ local function delayedInit()
     -- Stronghold 2027: Initialize GameEventBus and integrate all systems
     GameEventBus.integrateAll()
     _G.GameEventBus = GameEventBus
+    -- Stronghold 2027: Final polish systems
+    GameBalancePass.init()
+    GameBalancePass.applyAll()
+    VisualPolish.init()
+    PerfBenchmark.init()
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -390,6 +400,10 @@ function game:update(dt)
                 -- Stronghold 2027: Performance optimization
                 PerfOpt.checkGC()
                 PerfOpt.resetFrameStats()
+                -- Stronghold 2027: Update visual polish (particles, animations)
+                VisualPolish.update(dt)
+                -- Stronghold 2027: Update performance benchmark
+                PerfBenchmark.update(dt)
                 -- Stronghold 2027: Update AI system (with profiling)
                 PerformanceManager.beginSection("ai_update")
                 AIIntegration.update(dt)
@@ -581,6 +595,8 @@ function game:draw()
             CampaignStory.draw()
             -- Stronghold 2027: Draw debug console
             DebugConsole.draw()
+            -- Stronghold 2027: Draw visual polish particles
+            VisualPolish.draw()
         else
             renderLoadingScreen("")
             renderLoadingBar(loadState, progress)
@@ -885,6 +901,22 @@ function game:keypressed(key, scancode, isRepeat)
         local results = IntegrationTestSuite.runAll()
         IntegrationTestSuite.printResults()
         ModernUI.notifyInfo(string.format("Integration tests: %d/%d passed", results.passed, results.total))
+        return
+    end
+    -- Ctrl+P = Run performance benchmark (Stronghold 2027)
+    if key == "p" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+        if PerfBenchmark.isRunning() then
+            ModernUI.notifyInfo("Benchmark already running...")
+        else
+            PerfBenchmark.start()
+            ModernUI.notifyInfo("Benchmark started (30s)")
+        end
+        return
+    end
+    -- Ctrl+N = Generate release notes (Stronghold 2027)
+    if key == "n" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+        local filename = ReleaseNotesGen.save("1.20.0")
+        ModernUI.notifyInfo("Release notes saved: " .. tostring(filename))
         return
     end
     -- Tilde (~) = Toggle debug console (Stronghold 2027)
