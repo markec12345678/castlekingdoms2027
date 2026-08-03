@@ -82,6 +82,11 @@ local FormationSystem = require("objects.Combat.UnitFormationSystem")
 local UpgradeTree = require("objects.Config.BuildingUpgradeTree")
 local LoadingTips = require("objects.UI.LoadingTipsSystem")
 local CreditsScreen = require("states.ui.hud.credits_screen")
+-- Stronghold 2027 - Final Systems
+local EndGameScreen = require("states.ui.hud.end_game_screen")
+local ScreenshotManager = require("objects.QA.ScreenshotManager")
+local DifficultyPresets = require("objects.Config.DifficultyPresets")
+local FinalReleasePrep = require("objects.QA.FinalReleasePrep")
 -- Stronghold 2027 - AI system
 local AIIntegration = require("objects.AI.AIIntegration")
 -- Stronghold 2027 - Economy systems
@@ -114,7 +119,6 @@ local GameFeelSettings = require("states.ui.settings.gamefeel_settings")
 local SettingsPersistence = require("objects.Config.SettingsPersistence")
 -- Stronghold 2027 - UX screens
 local MissionEndScreen = require("states.ui.hud.mission_end_screen")
-local CreditsScreen = require("states.ui.hud.credits_screen")
 local TutorialHints = require("objects.Feedback.TutorialHints")
 local KeybindHelp = require("states.ui.hud.keybind_help")
 -- Stronghold 2027 - Campaign progress & auto-save
@@ -287,6 +291,9 @@ local function delayedInit()
     FormationSystem.init()
     UpgradeTree.init()
     LoadingTips.init()
+    -- Stronghold 2027: Initialize final systems
+    ScreenshotManager.init()
+    DifficultyPresets.init()
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -427,6 +434,8 @@ function game:update(dt)
                 -- Stronghold 2027: Update loading tips + credits
                 LoadingTips.update(dt)
                 CreditsScreen.update(dt)
+                -- Stronghold 2027: Update screenshot manager
+                ScreenshotManager.update(dt)
                 -- Stronghold 2027: Update AI system (with profiling)
                 PerformanceManager.beginSection("ai_update")
                 AIIntegration.update(dt)
@@ -982,6 +991,26 @@ function game:keypressed(key, scancode, isRepeat)
     -- Ctrl+E = Show credits (Stronghold 2027)
     if key == "e" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
         CreditsScreen.show()
+        return
+    end
+    -- Ctrl+D = Cycle difficulty (Stronghold 2027)
+    if key == "d" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+        local next = DifficultyPresets.cycle()
+        local info = DifficultyPresets.getCurrentInfo()
+        ModernUI.notifyInfo("Tezavnost: " .. info.name .. " - " .. info.description)
+        return
+    end
+    -- Ctrl+M = Capture screenshot (Stronghold 2027)
+    if key == "m" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+        local file = ScreenshotManager.capture("manual")
+        ModernUI.notifySuccess("Screenshot shranjen: " .. tostring(file))
+        return
+    end
+    -- Ctrl+Shift+L = Final release prep (Stronghold 2027)
+    if key == "l" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
+        FinalReleasePrep.printResults()
+        local results = FinalReleasePrep.runAll()
+        ModernUI.notifyInfo(string.format("Release prep: %d/%d passed", results.passed, results.total))
         return
     end
     -- Handle credits ESC
