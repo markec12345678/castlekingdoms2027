@@ -81,16 +81,37 @@ end
 
 function Veterancy.onKill(killer, victim)
     if not killer then return end
-    local xp = 10
-    if victim and victim.maxHealth then xp = math.floor(victim.maxHealth / 10) end
-    if victim and victim.veterancyLevel and victim.veterancyLevel > 1 then xp = xp + victim.veterancyLevel * 10 end
+    -- Stronghold 2027 v2.3.3: Improved XP formula
+    -- Base XP + bonus for victim maxHealth + bonus for victim veterancy level
+    local xp = 15  -- Base XP per kill (was 10)
+    if victim and victim.maxHealth then
+        xp = xp + math.floor(victim.maxHealth / 8)  -- Was /10, now more generous
+    end
+    if victim and victim.veterancyLevel and victim.veterancyLevel > 1 then
+        xp = xp + victim.veterancyLevel * 15  -- Was *10, now *15
+    end
+    -- Stronghold 2027 v2.3.3: Bonus XP if killer is low-level (catch-up mechanic)
+    local killerLevel = Veterancy.getLevel(killer)
+    if killerLevel <= 2 then
+        xp = math.floor(xp * 1.25)  -- 25% bonus XP for novices
+    end
     Veterancy.awardXP(killer, xp)
 end
 
 function Veterancy.onDamageDealt(attacker, damage)
     if not attacker then return end
-    local xp = math.floor((damage or 0) / 5)
+    -- Stronghold 2027 v2.3.3: Increased XP per damage (was /5, now /4)
+    -- This rewards aggressive play and tanks (who deal steady damage)
+    local xp = math.floor((damage or 0) / 4)
     if xp > 0 then Veterancy.awardXP(attacker, xp) end
+end
+
+-- Stronghold 2027 v2.3.3: New - award XP for taking damage (defensive veterancy)
+-- Tanks and frontline units level up by surviving, not just killing
+function Veterancy.onDamageTaken(victim, damage)
+    if not victim then return end
+    local xp = math.floor((damage or 0) / 8)
+    if xp > 0 then Veterancy.awardXP(victim, xp) end
 end
 
 function Veterancy.getLevel(unit)

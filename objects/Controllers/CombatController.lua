@@ -132,12 +132,20 @@ function CombatController:calculateDamage(attacker, target)
     local baseDamage = self:getDamage(attacker)
     local armor = self:getArmor(target)
 
-    -- Apply armor reduction
-    local actualDamage = baseDamage * (1 - armor)
+    -- Stronghold 2027 v2.3.3: Diminishing returns on armor
+    -- Old formula: damage * (1 - armor) — heavy armor was too strong
+    -- New formula: damage * (1 - armor^1.5 * 0.8) — softer reduction curve
+    -- Example: armor=0.45 (Knight) -> reduction = 0.45^1.5 * 0.8 = 0.242 (24.2% reduction)
+    --          vs old: 45% reduction
+    local armorReduction = math.pow(armor, 1.5) * 0.8
+    local actualDamage = baseDamage * (1 - armorReduction)
 
     -- Add small random variance (±10%)
     local variance = 0.9 + math.random() * 0.2
     actualDamage = actualDamage * variance
+
+    -- Stronghold 2027 v2.3.3: Minimum damage of 1 (always possible to chip damage)
+    actualDamage = math.max(1, actualDamage)
 
     return math.floor(actualDamage + 0.5)
 end
@@ -203,6 +211,15 @@ function CombatController:applyDamage(attacker, target)
         damage = damage,
         remainingHealth = target.health
     })
+
+    -- Stronghold 2027 v2.3.3: Award XP to attacker for damage dealt
+    if _G.Veterancy and attacker then
+        pcall(function() _G.Veterancy.onDamageDealt(attacker, damage) end)
+    end
+    -- Stronghold 2027 v2.3.3: Award XP to target for taking damage (defensive veterancy)
+    if _G.Veterancy and target then
+        pcall(function() _G.Veterancy.onDamageTaken(target, damage) end)
+    end
 
     -- Check for death
     if target.health <= 0 then
