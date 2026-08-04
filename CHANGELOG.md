@@ -2,6 +2,27 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.3.3] — 2026-08-04 — Visual + Combat Balance Update
+
+### Dodano
+- **Pravi sprite-i za oblegovalna orožja** — catapult, trebuchet, siege tower, battering ram
+  zdaj uporabljajo prave ikone iz assets/ui/unit_ui/ namesto placeholder krog
+- **Defensive veterancy** — enote zdaj pridobivajo XP tudi ko prejmejo damage (ne samo ko ga delijo)
+- **Catch-up mechanic** — novice enote (level 1-2) dobivajo 25% bonus XP pri kill-ih
+
+### Popravljeno (combat balance)
+- **Armor formula** — prej `damage * (1 - armor)`, zdaj `damage * (1 - armor^1.5 * 0.8)`
+  - Knight: 45% → 24.2% reduction (bil preveč tanky)
+  - Lord: 60% → 37.2% reduction (bil skoraj nepremagljiv)
+- **Minimum damage 1** — vedno mogoče narediti vsaj 1 damage (chip damage)
+- **Veterancy XP** — povečan base kill XP (10→15), damage XP (/5→/4), veterancy bonus (*10→*15)
+
+### Implementacija
+- `SiegeWeaponsSystem.lua` — getIcon() helper z caching, faction tint, fallback na circle
+- `CombatController.calculateDamage` — nova armor formula z diminishing returns
+- `CombatController.applyDamage` — kliče Veterancy.onDamageDealt in onDamageTaken (pcall)
+- `UnitVeterancySystem.lua` — nova onDamageTaken() funkcija
+
 ## [v2.3.2] — 2026-08-04 — CRITICAL Nil-Global Fix
 
 ### Popravljeno (kritično — 22 nil globalov)
