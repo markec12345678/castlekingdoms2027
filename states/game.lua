@@ -118,6 +118,9 @@ local ObjectPool = require("objects.Performance.ObjectPoolingSystem")
 local Gamepad = require("objects.UI.GamepadSupport")
 local MapSharing = require("objects.Gameplay.CustomMapSharing")
 local AutoSaveIndicator = require("objects.UI.AutoSaveIndicator")
+-- Stronghold 2027 - v2.2 Community & Updates
+local CommunityToolkit = require("objects.QA.CommunityToolkit")
+local AutoUpdater = require("objects.QA.AutoUpdater")
 -- Stronghold 2027 - AI system
 local AIIntegration = require("objects.AI.AIIntegration")
 -- Stronghold 2027 - Economy systems
@@ -401,6 +404,10 @@ local function delayedInit()
     _G.Gamepad = Gamepad
     _G.MapSharing = MapSharing
     _G.AutoSaveIndicator = AutoSaveIndicator
+    -- Stronghold 2027: Initialize v2.2 systems
+    CommunityToolkit.init()
+    AutoUpdater.init()
+    AutoUpdater.checkForUpdates()
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -565,6 +572,8 @@ function game:update(dt)
                 -- Stronghold 2027: Update v1.28 systems
                 AutoSaveIndicator.update(dt)
                 Gamepad.update(dt)
+                -- Stronghold 2027: Update v2.2 systems
+                AutoUpdater.update(dt)
                 -- Stronghold 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
@@ -946,6 +955,27 @@ function game:keypressed(key, scancode, isRepeat)
         ModernUI.notifyInfo("Samodejna delavci: " .. (newState and "ON" or "OFF"))
         return
     end
+    -- Stronghold 2027: Bug report (Ctrl+Shift+B)
+    if key == "b" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
+        CommunityToolkit.submitBugReport()
+        return
+    end
+    -- Stronghold 2027: Open Discord (Ctrl+Shift+D)
+    if key == "d" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
+        CommunityToolkit.openDiscord()
+        ModernUI.notifyInfo("Odpiranje Discord...")
+        return
+    end
+    -- Stronghold 2027: Check for updates (Ctrl+Shift+U)
+    if key == "u" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
+        if AutoUpdater.isUpdateAvailable() then
+            ModernUI.notifySuccess("Nova verzija: " .. tostring(AutoUpdater.getLatestVersion()))
+            AutoUpdater.openReleasesPage()
+        else
+            ModernUI.notifyInfo("Posodobljeni ste (v" .. AutoUpdater.getCurrentVersion() .. ")")
+        end
+        return
+    end
     -- Handle spectator mode keys
     if SpectatorMode.isSpectating() then
         if SpectatorMode.keypressed(key) then return end
@@ -1055,7 +1085,7 @@ function game:keypressed(key, scancode, isRepeat)
         return
     end
     -- V = Toggle game feel settings (Stronghold 2027)
-    if key == "v" then
+    if key == "v" and not (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
         GameFeelSettings.toggle()
         return
     end
@@ -1149,7 +1179,7 @@ function game:keypressed(key, scancode, isRepeat)
         return
     end
     -- Ctrl+B = Spawn catapult for testing (Stronghold 2027)
-    if key == "b" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+    if key == "b" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and not love.keyboard.isDown("lshift") and not love.keyboard.isDown("rshift") then
         if _G.state and _G.state.keepX then
             SiegeWeapons.create("catapult", _G.state.keepX + 5, _G.state.keepY + 5, 1)
             ModernUI.notifySuccess("Catapult created near keep")
@@ -1207,8 +1237,8 @@ function game:keypressed(key, scancode, isRepeat)
         end
         return
     end
-    -- Ctrl+V = Reveal all fog (debug, Stronghold 2027)
-    if key == "v" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rshift")) then
+    -- Ctrl+Shift+V = Reveal all fog (debug, Stronghold 2027)
+    if key == "v" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
         FogOfWar.revealAll()
         ModernUI.notifyInfo("Megla razkrita (debug)")
         return
@@ -1226,7 +1256,7 @@ function game:keypressed(key, scancode, isRepeat)
         return
     end
     -- Ctrl+D = Cycle difficulty (Stronghold 2027)
-    if key == "d" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+    if key == "d" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and not love.keyboard.isDown("lshift") and not love.keyboard.isDown("rshift") then
         local next = DifficultyPresets.cycle()
         local info = DifficultyPresets.getCurrentInfo()
         ModernUI.notifyInfo("Tezavnost: " .. info.name .. " - " .. info.description)
