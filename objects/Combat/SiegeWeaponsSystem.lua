@@ -16,6 +16,8 @@ local SIEGE_TYPES = {
         splashRadius = 3,
         speed = 0.5,
         description = "Long-range siege weapon. Deals area damage to buildings.",
+        icon = "assets/ui/unit_ui/catapult_icon.png",
+        iconScale = 0.5,
     },
     trebuchet = {
         name = "Trebuchet",
@@ -28,6 +30,8 @@ local SIEGE_TYPES = {
         splashRadius = 4,
         speed = 0.3,
         description = "Devastating long-range weapon. Slow but powerful.",
+        icon = "assets/ui/unit_ui/treb_icon.png",
+        iconScale = 0.5,
     },
     siege_tower = {
         name = "Siege Tower",
@@ -40,6 +44,8 @@ local SIEGE_TYPES = {
         splashRadius = 0,
         speed = 0.4,
         description = "Mobile tower for scaling walls. High health, no attack.",
+        icon = "assets/ui/unit_ui/tower_icon.png",
+        iconScale = 0.5,
     },
     battering_ram = {
         name = "Battering Ram",
@@ -52,6 +58,8 @@ local SIEGE_TYPES = {
         splashRadius = 0,
         speed = 0.6,
         description = "Melee siege weapon. Devastates gates and walls.",
+        icon = "assets/ui/unit_ui/ram_icon.png",
+        iconScale = 0.5,
     },
 }
 
@@ -59,11 +67,30 @@ Siege.SIEGE_TYPES = SIEGE_TYPES
 
 local activeSiegeWeapons = {}
 local initialized = false
+local loadedIcons = {}  -- cache of loaded Image objects
+
+local function getIcon(path)
+    if not path then return nil end
+    if loadedIcons[path] then return loadedIcons[path] end
+    -- Check if file exists before loading to avoid errors
+    local info = love.filesystem.getInfo(path)
+    if not info then return nil end
+    local ok, img = pcall(love.graphics.newImage, path)
+    if ok and img then
+        loadedIcons[path] = img
+        return img
+    end
+    return nil
+end
 
 function Siege.init()
     if initialized then return end
     initialized = true
-    print("[SiegeWeapons] Initialized with " .. #Siege._getTypeCount() .. " siege weapon types")
+    -- Preload all siege weapon icons
+    for _, def in pairs(SIEGE_TYPES) do
+        getIcon(def.icon)
+    end
+    print("[SiegeWeapons] Initialized with " .. Siege._getTypeCount() .. " siege weapon types")
 end
 
 function Siege._getTypeCount()
@@ -219,21 +246,37 @@ function Siege.draw()
             local sx = _G.IsoToScreenX(w.gx, w.gy) - _G.state.viewXview
             local sy = _G.IsoToScreenY(w.gx, w.gy) - _G.state.viewYview
 
-            -- Draw siege weapon (colored circle as placeholder)
-            local color = w.faction == 1 and {0.3, 0.5, 0.9} or {0.9, 0.3, 0.3}
-            love.graphics.setColor(color[1], color[2], color[3], 1)
-            love.graphics.circle("fill", sx, sy, 15)
-            love.graphics.setColor(0, 0, 0, 1)
-            love.graphics.circle("line", sx, sy, 15)
+            -- Stronghold 2027 v2.3.3: Draw siege weapon using real sprite icon
+            local icon = getIcon(w.def.icon)
+            if icon then
+                -- Tint by faction (subtle color overlay for enemy units)
+                if w.faction == 1 then
+                    love.graphics.setColor(1, 1, 1, 1)
+                else
+                    -- Slight red tint for enemy siege weapons
+                    love.graphics.setColor(1, 0.85, 0.85, 1)
+                end
+                local scale = w.def.iconScale or 0.5
+                local iw, ih = icon:getDimensions()
+                -- Center icon on tile center
+                love.graphics.draw(icon, sx - (iw * scale) / 2, sy - (ih * scale) / 2, 0, scale, scale)
+            else
+                -- Fallback: colored circle (placeholder) if icon fails to load
+                local color = w.faction == 1 and {0.3, 0.5, 0.9} or {0.9, 0.3, 0.3}
+                love.graphics.setColor(color[1], color[2], color[3], 1)
+                love.graphics.circle("fill", sx, sy, 15)
+                love.graphics.setColor(0, 0, 0, 1)
+                love.graphics.circle("line", sx, sy, 15)
+            end
 
-            -- Health bar
+            -- Health bar (above the weapon)
             local hp = w.health / w.maxHealth
             love.graphics.setColor(1, 0, 0, 1)
             love.graphics.rectangle("fill", sx - 15, sy - 25, 30, 4)
             love.graphics.setColor(0, 1, 0, 1)
             love.graphics.rectangle("fill", sx - 15, sy - 25, 30 * hp, 4)
 
-            -- Label
+            -- Label (weapon name, 4 chars)
             love.graphics.setColor(1, 1, 1, 1)
             love.graphics.print(w.def.name:sub(1, 4), sx - 10, sy + 18)
         end
