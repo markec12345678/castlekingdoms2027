@@ -55,12 +55,20 @@ Complete list of all keyboard shortcuts (v2.0.2).
 
 | Key | Function |
 |-----|----------|
+| Ctrl+Shift+B | Submit bug report (auto-collects game state) |
 | Ctrl+Shift+C | Start co-op campaign |
+| Ctrl+Shift+D | Open Discord in browser |
+| Ctrl+Shift+F10 | Print AI debug info |
+| Ctrl+Shift+F11 | Print economy debug info |
+| Ctrl+Shift+F12 | Load campaign mission 1 |
+| Ctrl+Shift+F7 | Spawn AI opponent (debug) |
+| Ctrl+Shift+F9 | Print combat stats |
 | Ctrl+Shift+L | Final release prep (45 checks) |
 | Ctrl+Shift+M | Cycle map size (Small → Huge) |
 | Ctrl+Shift+Q | Clear building queue |
 | Ctrl+Shift+S | Toggle spectator mode |
 | Ctrl+Shift+T | Start next skirmish trail mission |
+| Ctrl+Shift+U | Check for updates |
 | Ctrl+Shift+V | Reveal all fog of war (debug) |
 | Ctrl+Shift+W | Toggle auto-worker assignment |
 
