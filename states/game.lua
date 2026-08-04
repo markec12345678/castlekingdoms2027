@@ -319,14 +319,22 @@ local function delayedInit()
     -- Stronghold 2027: Initialize GameEventBus and integrate all systems
     GameEventBus.integrateAll()
     _G.GameEventBus = GameEventBus
-    -- Stronghold 2027: Connect victory/defeat to EndGameScreen
+    -- Stronghold 2027: Connect victory/defeat to EndGameScreen + SkirmishTrail + CoopCampaign
     GameEventBus.on(GameEventBus.EVENTS.VICTORY, function(data)
         local Stats = require("objects.QA.StatisticsDashboard")
         EndGameScreen.show("victory", Stats.getSessionStats())
+        -- Complete skirmish trail mission if active
+        if SkirmishTrail.getCurrentMission() > 0 then
+            SkirmishTrail.complete(SkirmishTrail.getCurrentMission())
+        end
     end)
     GameEventBus.on(GameEventBus.EVENTS.DEFEAT, function(data)
         local Stats = require("objects.QA.StatisticsDashboard")
         EndGameScreen.show("defeat", Stats.getSessionStats())
+        -- Stop co-op campaign on defeat
+        if CoopCampaign.isActive() then
+            CoopCampaign.stop()
+        end
     end)
     -- Stronghold 2027: Final polish systems
     GameBalancePass.init()
@@ -660,6 +668,10 @@ function game:enter(_, savegameName, w, h)
     collectgarbage()
     collectgarbage()
     _G.chunksWide, _G.chunksHigh = w, h
+    -- Stronghold 2027: Apply selected map size if not overridden
+    if MapSizeSelector and not w then
+        MapSizeSelector.applyToGame()
+    end
     if _G.loaded then
         _G.paused = false
         loveframes.SetState(states.STATE_INGAME_CONSTRUCTION)
@@ -925,6 +937,13 @@ function game:keypressed(key, scancode, isRepeat)
     if key == "q" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
         BuildingQueue.clear()
         ModernUI.notifyInfo("Vrsta gradnje pociscena")
+        return
+    end
+    -- Stronghold 2027: Toggle auto-worker assignment (Ctrl+Shift+W)
+    if key == "w" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
+        local newState = not AutoWorker.isEnabled()
+        AutoWorker.setEnabled(newState)
+        ModernUI.notifyInfo("Samodejna delavci: " .. (newState and "ON" or "OFF"))
         return
     end
     -- Handle spectator mode keys

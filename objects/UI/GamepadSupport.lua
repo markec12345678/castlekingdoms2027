@@ -66,6 +66,44 @@ function Gamepad.isConnected()
     return isConnected
 end
 
+-- Update (called every frame — handles continuous gamepad input)
+function Gamepad.update(dt)
+    if not initialized or not isConnected then return end
+
+    -- Handle continuous left stick camera movement
+    local joysticks = love.joystick.getJoysticks()
+    for _, joy in ipairs(joysticks) do
+        if joy:isGamepad() then
+            -- Left stick = camera
+            local lx = joy:getGamepadAxis("leftx")
+            local ly = joy:getGamepadAxis("lefty")
+            if math.abs(lx) > deadzone and _G.state and _G.state.viewXview then
+                _G.state.viewXview = _G.state.viewXview - lx * cursorSpeed * dt
+            end
+            if math.abs(ly) > deadzone and _G.state and _G.state.viewYview then
+                _G.state.viewYview = _G.state.viewYview - ly * cursorSpeed * dt
+            end
+
+            -- Right stick = virtual cursor
+            if useVirtualCursor then
+                local rx = joy:getGamepadAxis("rightx")
+                local ry = joy:getGamepadAxis("righty")
+                if math.abs(rx) > deadzone then
+                    virtualCursor.x = virtualCursor.x + rx * cursorSpeed * 2 * dt
+                end
+                if math.abs(ry) > deadzone then
+                    virtualCursor.y = virtualCursor.y + ry * cursorSpeed * 2 * dt
+                end
+                -- Clamp to screen
+                local w, h = love.graphics.getDimensions()
+                virtualCursor.x = math.max(0, math.min(w, virtualCursor.x))
+                virtualCursor.y = math.max(0, math.min(h, virtualCursor.y))
+            end
+            break  -- Only use first gamepad
+        end
+    end
+end
+
 function Gamepad.setVirtualCursor(enabled)
     useVirtualCursor = enabled
 end
