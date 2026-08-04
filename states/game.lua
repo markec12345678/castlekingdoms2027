@@ -400,6 +400,7 @@ local function delayedInit()
     _G.ObjectPool = ObjectPool
     _G.Gamepad = Gamepad
     _G.MapSharing = MapSharing
+    _G.AutoSaveIndicator = AutoSaveIndicator
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -747,9 +748,8 @@ function game:draw()
             love.graphics.setScissor()
             -- Stronghold 2027: Draw settings panel (V key)
             GameFeelSettings.draw()
-            -- Stronghold 2027: Draw mission end screen and credits
+            -- Stronghold 2027: Draw mission end screen
             MissionEndScreen.draw()
-            CreditsScreen.draw()
             -- Stronghold 2027: Draw keybind help (H key)
             KeybindHelp.draw()
             -- Stronghold 2027: Draw Kenney CC0 overlay (if enabled)
