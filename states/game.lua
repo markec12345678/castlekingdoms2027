@@ -954,13 +954,9 @@ function game:keypressed(key, scancode, isRepeat)
 
     local event = keybindManager:getEventForKeypress(key)
 
-    -- Stronghold 2027: F8 = Toggle combat test scenario
-    if key == "f8" then
-        CombatTestScenario.activate()
-        return
-    end
-    -- F9 = Print combat stats
-    if key == "f9" then
+    -- F8 combat test removed (use debug console). F8 = refresh lights (see below)
+    -- Ctrl+Shift+F9 = Print combat stats (moved from F9)
+    if key == "f9" and love.keyboard.isDown("lshift") then
         if CombatIntegration.isInitialized() then
             local stats = CombatIntegration.getStats()
             print("=== Combat Stats ===")
@@ -975,8 +971,8 @@ function game:keypressed(key, scancode, isRepeat)
         end
         return
     end
-    -- F7 = Spawn AI opponent (Stronghold 2027)
-    if key == "f7" then
+    -- Ctrl+Shift+F7 = Spawn AI opponent (moved from F7 to avoid conflict)
+    if key == "f7" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
         if not _G.state or not _G.state.initialized then
             ModernUI.notifyError("Game not initialized")
             return
@@ -1037,8 +1033,8 @@ function game:keypressed(key, scancode, isRepeat)
         print("=========================\n")
         return
     end
-    -- F12 = Load campaign mission 1 (Stronghold 2027)
-    if key == "f12" then
+    -- Ctrl+Shift+F12 = Load campaign mission 1 (moved from F12 to avoid conflict)
+    if key == "f12" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
         local success = MissionFramework.loadMission("campaign.mission1_return_to_fernhaven")
         if success then
             MissionFramework.startMission()
