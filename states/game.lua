@@ -1003,13 +1003,13 @@ function game:keypressed(key, scancode, isRepeat)
             personality, difficulty, aiX, aiY))
         return
     end
-    -- F10 = Print AI debug info (Stronghold 2027)
-    if key == "f10" then
+    -- Ctrl+Shift+F10 = Print AI debug info (moved from F10)
+    if key == "f10" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
         AIIntegration.printDebugInfo()
         return
     end
-    -- F11 = Print economy debug info (Stronghold 2027)
-    if key == "f11" then
+    -- Ctrl+Shift+F11 = Print economy debug info (moved from F11)
+    if key == "f11" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
         print("\n=== Economy Debug Info ===")
         local marketStats = DynamicMarket.getStats()
         print(string.format("Inflation: %.3f", marketStats.inflation))
