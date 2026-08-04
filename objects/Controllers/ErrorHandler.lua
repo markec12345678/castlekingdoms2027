@@ -83,10 +83,10 @@ function love.errorhandler(msg)
 
     table.insert(err, "\n")
 
-    for l in trace:gmatch("(.-)\n") do
-        if not l:match("boot.lua") then
-            l = l:gsub("stack traceback:", "Traceback\n")
-            table.insert(err, l)
+    for line in trace:gmatch("(.-)\n") do
+        if not line:match("boot.lua") then
+            local modified = line:gsub("stack traceback:", "Traceback\n")
+            table.insert(err, modified)
         end
     end
 
