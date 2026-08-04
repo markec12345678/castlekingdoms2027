@@ -26,9 +26,9 @@ function RallyPoint.set(building, gx, gy)
     print(string.format("[RallyPoint] Set for %s at (%d, %d)", id, gx, gy))
 
     -- Visual feedback
-    if _G.VisualPolish and _G.state then
-        local sx = _G.IsoToScreenX(gx, gy) - _G.state.viewXview
-        local sy = _G.IsoToScreenY(gx, gy) - _G.state.viewYview
+    if _G.VisualPolish and _G.state and _G.state.viewXview then
+        local sx = _G.IsoToScreenX(gx, gy) - (_G.state.viewXview or 0)
+        local sy = _G.IsoToScreenY(gx, gy) - (_G.state.viewYview or 0)
         _G.VisualPolish.spawnEffect(sx, sy, "spark", 8)
     end
 

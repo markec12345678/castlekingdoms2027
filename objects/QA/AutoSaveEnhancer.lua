@@ -52,19 +52,19 @@ function AutoSaveEnhancer.saveNow()
     -- Create save data
     local saveData = {
         timestamp = os.time(),
-        version = _G.version or "1.25.0",
+        version = _G.version or "2.0.4",
         state = {
-            gold = _G.state.gold,
-            popularity = _G.state.popularity,
-            population = _G.state.population,
-            maxPopulation = _G.state.maxPopulation,
-            resources = _G.state.resources,
-            viewX = _G.state.viewXview,
-            viewY = _G.state.viewYview,
-            scaleX = _G.state.scaleX,
-            keepX = _G.state.keepX,
-            keepY = _G.state.keepY,
-            tier = _G.state.tier,
+            gold = _G.state.gold or 0,
+            popularity = _G.state.popularity or 0,
+            population = _G.state.population or 0,
+            maxPopulation = _G.state.maxPopulation or 0,
+            resources = _G.state.resources or {},
+            viewX = _G.state.viewXview or 0,
+            viewY = _G.state.viewYview or 0,
+            scaleX = _G.state.scaleX or 1,
+            keepX = _G.state.keepX or 0,
+            keepY = _G.state.keepY or 0,
+            tier = _G.state.tier or 1,
         },
     }
 

@@ -45,9 +45,9 @@ function ConstructionAnim.update(dt)
 
             -- Periodic dust particles
             if math.random() < dt * 2 then  -- ~2 particles per second
-                if _G.VisualPolish and _G.state then
-                    local sx = _G.IsoToScreenX(anim.gx, anim.gy) - _G.state.viewXview
-                    local sy = _G.IsoToScreenY(anim.gx, anim.gy) - _G.state.viewYview
+                if _G.VisualPolish and _G.state and _G.state.viewXview then
+                    local sx = _G.IsoToScreenX(anim.gx, anim.gy) - (_G.state.viewXview or 0)
+                    local sy = _G.IsoToScreenY(anim.gx, anim.gy) - (_G.state.viewYview or 0)
                     _G.VisualPolish.spawnEffect(sx + math.random(-15, 15), sy + math.random(-10, 10), "dust", 1)
                 end
             end
