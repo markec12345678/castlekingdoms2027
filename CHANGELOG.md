@@ -2,6 +2,77 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.0.7] — 2025-08-04 — FINAL RELEASE
+
+### Dodano
+- **README.md** posodobljen z vsemi funkcijami in statistiko
+- **STEAM_STORE_PAGE.md** — opis za Steam store page
+- **KEYBINDS.md** — popoln seznam 50+ tipkovnih bližnjic
+
+### Popravljeno (10 krogov pregleda — 45 popravkov)
+- Krog 1 (v1.25.1): 11 integracijskih napak (BuildingHotkeys, Veterancy, FogOfWar, GameSpeedControl, VisualPolish, Minimap, ResourceFlow, 8 globalov)
+- Krog 2 (v1.25.2): 6 napak (MapEditor keypressed/mousepressed, ConstructionAnim, EndGameScreen, AIDialogue, FormationSystem)
+- Krog 3 (v2.0.0): 5 napak (AutoSaveIndicator, Gamepad events, SkirmishTrail, BuildingQueue.clear, Gamepad connect/disconnect)
+- Krog 4 (v2.0.1): 4 napake (SkirmishTrail.complete, MapSizeSelector.applyToGame, CoopCampaign.stop, AutoWorker toggle, Gamepad.update)
+- Krog 5 (v2.0.2): 7 keybind konfliktov (Ctrl+W/S/T/C/M/L vs Ctrl+Shift variant)
+- Krog 6 (v2.0.3): 2 napaki (duplicate CreditsScreen.draw, AutoSaveIndicator global)
+- Krog 7 (v2.0.4): 3 nil-safety popravki (ConstructionAnim, RallyPoint, AutoSaveEnhancer)
+- Krog 8 (v2.0.5): 4 F-key konflikti (F7, F8, F9, F12)
+- Krog 9 (v2.0.6): 2 F-key konflikti (F10, F11)
+- Krog 10 (v2.0.7): 1 syntax error (ErrorHandler.lua const variable)
+
+### Končna statistika
+- 570 Lua datotek, 286.918 vrstic kode
+- 393/393 syntax pass (100%)
+- 12 GLSL shaderjev, 33 jezikov
+- 45 bug popravkov v 10 krogih
+
+## [v1.28.0] — 2025-08-03
+
+### Dodano
+- **Skirmish Trail System** — 10 progresivnih skirmish misij
+- **Object Pooling System** — performance optimizacija (projectiles, particles, effects)
+- **Gamepad Support** — polna podpora krmilnika z virtualnim kazalcem
+- **Custom Map Sharing** — deljenje map med igralci
+- **Auto-Save Indicator** — vizualni indikator shranjevanja
+
+## [v1.27.0] — 2025-08-03
+
+### Dodano
+- **Map Size Selector** — 4 velikosti (Small 128 → Huge 768)
+- **Spectator Mode** — opazovanje multiplayer iger
+- **Co-op Campaign Framework** — 2-igralec co-op
+- **Pathfinding Optimizer** — JPS + caching
+- **Steam Workshop Integration** — subscribe/upload modov
+
+## [v1.26.0] — 2025-08-03
+
+### Dodano
+- **Rally Point System** — zbirno mesto za barake
+- **Right-Click Dismiss** — desni klik zapre panele
+- **Building Queue** — shift+klik za vrsto gradenj
+- **Minimap Drag Scroll** — vlečenje po minimap-u
+- **Auto Worker Assignment** — samodejna dodelitev delavcev
+- **Dynamic Unit Cap** — prilagoditev glede na FPS
+
+## [v1.25.0] — 2025-08-03
+
+### Dodano
+- **Unit Veterancy System** — 5 stopenj z bonusi
+- **Building Hotkeys** — Ctrl+1-9 za hitro gradnjo
+- **Resource Flow Visualizer** — proizvodnja/poraba surovin
+- **Auto-Save Enhancer** — crash recovery backup-i
+- **Threat Assessment AI** — prilagodljiv AI
+
+## [v1.24.0] — 2025-08-03
+
+### Dodano
+- **Minimap System** — teren, zgradbe, kamera viewport
+- **Unit Command Queue** — shift+klik za več ukazov
+- **AI Personality Dialogue** — 30+ dialogov v slovenščini
+- **Game Speed Control** — pavza, 1x, 2x, 3x, 5x
+- **Construction Animation** — progress bar, delci
+
 ## [v1.18.0] — 2025-08-02
 
 ### Dodano

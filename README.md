@@ -2,19 +2,21 @@
 
 Modernizirana različica igre Stronghold (2001) za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT).
 
-[![Version](https://img.shields.io/badge/version-1.18.0-blue.svg)](https://github.com/markec12345678/stronghold2027)
+[![Version](https://img.shields.io/badge/version-2.0.7-blue.svg)](https://github.com/markec12345678/stronghold2027/releases/tag/v2.0.7)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
+[![Syntax](https://img.shields.io/badge/syntax-393%2F393%20pass-brightgreen.svg)](#)
+[![Bugs](https://img.shields.io/badge/bugs%20fixed-45-brightgreen.svg)](#)
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v1.18.0](https://github.com/markec12345678/stronghold2027/releases/tag/v1.18.0)
-- **.love datoteka**: `stronghold2027-v1.18.0.love` (305 MB)
+- **Zadnja izdaja**: [v2.0.7](https://github.com/markec12345678/stronghold2027/releases/tag/v2.0.7)
+- **.love datoteka**: `stronghold2027-v2.0.7.love` (305 MB)
 
 ## Zagon
 
 ```cmd
-& "C:\Program Files\LOVE\love.exe" "F:\pot\do\stronghold2027-v1.18.0.love"
+& "C:\Program Files\LOVE\love.exe" "F:\pot\do\stronghold2027-v2.0.7.love"
 ```
 
 Ali iz git checkout-a (zahteva [git-lfs](https://git-lfs.com/)):
@@ -26,14 +28,38 @@ git lfs pull
 love .
 ```
 
+## Statistika projekta
+
+| Metrika | Vrednost |
+|---------|----------|
+| Lua datoteke | 570 |
+| Vrstic kode | 286.914 |
+| GLSL shaderji | 12 |
+| Jezikov | 33 |
+| Verzij | 33 (v1.7.9 → v2.0.7) |
+| Bug popravkov | 45 (10 krogov pregleda) |
+| Syntax pass rate | 393/393 (100%) |
+
 ## Funkcije
 
 ### 🎮 Jedro igre
 - **10 misij kampanje** s story cutscene-i v slovenščini
+- **10 skirmish misij** s progresivno težavnostjo (Skirmish Trail)
+- **5 co-op misij** za 2 igralca
 - **Freebuild način** za sproščeno igranje
-- **4 AI osebnosti** (aggressive, balanced, defensive, economic) × 4 težavnosti
+- **4 AI osebnosti** (aggressive, balanced, defensive, economic) × 6 težavnosti
 - **Dynamic economy** — supply/demand, inflacija, sezonski modifikatorji
 - **Combat system** — projektili, oklep, damage variance, game feel
+- **5 bojnih formacij** (line, column, wedge, scatter, box) z bonusi
+- **5 stopenj veterancy** (Novinec → Legendarni) z stat bonusi
+- **4 oblegovalna orožja** (catapult, trebuchet, siege tower, battering ram)
+- **6 vremenskih tipov** ki vplivajo na gameplay (farme, hitrost, vidljivost)
+- **Fog of War** s 3 stanji (hidden, explored, visible)
+- **5 festivalov** (turnir, gostija, plesi, sejem, verski praznik)
+- **4 velikosti map** (Small 128 → Huge 768)
+- **Dynamic unit cap** glede na FPS
+- **Auto worker assignment** s prioriteto
+- **Building upgrade tree** (5 poti, 2-4 tier-i)
 
 ### 🌐 Multiplayer
 - **TCP/IP socket networking** (do 8 igralcev)
@@ -41,6 +67,9 @@ love .
 - **In-game chat** (Enter za odprtje)
 - **Diplomacy** — 6 stanj (neutral, allied, war, truce, proposed_alliance, proposed_peace)
 - **Trade system** — predlogi, darila, trade routes
+- **Spectator mode** — opazovanje iger (TAB za preklop igralca)
+- **Co-op campaign** — 2 igralca skupaj
+- **Custom map sharing** — deljenje map med igralci
 - **F9** — diplomacy & trade panel
 
 ### 🎨 HD Grafika
@@ -51,6 +80,9 @@ love .
 - **Bloom, color grading, vignette** shaderji
 - **Day/night cycle** z dinamično osvetlitvijo
 - **Weather system** (dež, sneg, megla, nevihta)
+- **Particle effects** (7 tipov: spark, smoke, blood, dust, gold, fire, magic)
+- **Construction animations** (progress bar, delci, proslava)
+- **Visual polish** (UI animacije, hit/build/death efekti)
 
 ### 🔊 Zvok
 - **Dynamic music** — 5 stanj (menu, peace, combat, victory, defeat)
@@ -58,6 +90,7 @@ love .
 - **3D positional audio** (glasnost glede na razdaljo)
 - **Slovenian voice-over** — 30+ notifikacij v slovenščini
 - **5 kategorij glasnosti** (master, sfx, music, speech, ambient)
+- **AI personality dialogue** — 30+ unikatnih dialogov v slovenščini
 
 ### 🌍 Lokalizacija
 - **32 jezikov** (slovenščina, angleščina, srbščina, grščina, bolgarščina, ...)
@@ -71,6 +104,7 @@ love .
 - **Reduced motion** (izklop screen shake)
 - **High contrast mode**
 - **Subtitles for speech**
+- **Gamepad support** (polna podpora krmilnika z virtualnim kazalcem)
 - **Auto-pause na focus loss**
 
 ### 🛠️ Orodja
@@ -80,132 +114,73 @@ love .
 - **Debug Console** (Tilde ~) — 12 ukazov
 - **Crash Handler** (F11) — auto-disable failing systems
 - **Performance Watchdog** — auto quality adjustment
-- **Release Checklist** (Ctrl+L) — 20 pre-release preverjanj
+- **Performance Benchmark** (Ctrl+P) — 6 avtomatiziranih testov
+- **Release Checklist** (Ctrl+L) — 45 pre-release preverjanj
+- **Integration Tests** (Ctrl+I) — 25 testov
+- **Screenshot Manager** (Ctrl+M) — avtomatsko zajemanje
+- **Object Pooling** — performance optimizacija
+- **Pathfinding Optimizer** — JPS + caching
+- **Auto-save** z crash recovery (vsakih 5 minut)
+- **Save compatibility** z migration system
 
 ### 🔌 Modding
 - **Mod loader** — scan /mods, load manifest.lua
 - **Custom buildings, units, maps, scripts**
 - **Hot-reload** za development
+- **Steam Workshop integration** (subscribe/upload)
 - **Sample mod** vključen (GoldMine building)
 
 ### 🏆 Steam Integration
 - **10 achievements** (first_victory, campaign_complete, master_builder, ...)
 - **Stats tracking** (buildings, kills, trades, alliances)
 - **Leaderboard** (stub)
-- **Rich presence** (stub)
+- **Steam Workshop** (subscribe/upload/import)
 
-### 📚 Vadba
-- **10-korak interaktivni tutorial** v slovenščini
-- **Ctrl+T** za zagon
+### 📚 Vadba & UX
+- **10-korak interaktivni tutorial** v slovenščini (Ctrl+T)
+- **40+ loading tips** v 8 kategorijah
+- **Credits screen** (Ctrl+E)
+- **End game screen** s statistiko
+- **Loading tips** med nalaganjem
+
+### 🎯 QoL izboljšave
+- **Rally points** za barake (desni klik)
+- **Right-click dismiss** za vse panele
+- **Building queue** (shift+klik, max 10)
+- **Minimap drag scroll** (klik in vlečenje)
+- **Auto worker assignment** s prioriteto (Ctrl+Shift+W toggle)
+- **Dynamic unit cap** glede na FPS
+- **Building hotkeys** (Ctrl+1-9)
+- **Game speed control** (Space, 1-4)
+- **Unit command queue** (shift+klik za več ukazov)
+- **Minimap** s terenom, zgradbami, kamero
+- **Resource flow visualizer** (Ctrl+Y)
+- **Auto-save indicator**
+
+### 🧠 AI
+- **4 osebnosti** z edinstvenimi dialogi
+- **6 težavnosti** (Story → Nightmare)
+- **Threat assessment** — AI se prilagaja moči igralca
+- **AI personality dialogue** — 30+ dialogov v slovenščini
+- **Smart building placement**
+- **Defense response**
+- **Difficulty adaptation**
 
 ## Tipke
 
-| Tipka | Funkcija |
-|-------|----------|
-| F5 | Cycle weather |
-| F6 | Cycle time of day |
-| F7 | Toggle HD pipeline |
-| F8 | Refresh lights |
-| F9 | Diplomacy & trade panel |
-| F10 | Run mission tests |
-| F11 | Crash log + stats |
-| F12 | Map Editor |
-| Ctrl+T | Tutorial |
-| Ctrl+O | Unified Settings |
-| Ctrl+B | Spawn catapult |
-| Ctrl+L | Release checklist |
-| Ctrl+R | Replay recording |
-| Ctrl+S | Statistics |
-| Tilde (~) | Debug console |
-| Enter | Chat |
-| M | Market UI |
-| C | Caravan UI |
-| V | Game feel settings |
-| H | Keybind help |
+Glej [KEYBINDS.md](KEYBINDS.md) za celovit seznam 50+ tipkovnih bližnjic.
 
 ## Arhitektura
 
-```
-stronghold2027/
-├── main.lua                    # Vhodna točka
-├── conf.lua                    # LÖVE konfiguracija
-├── states/                     # Game states
-│   ├── game.lua               # Glavna igra
-│   ├── start_menu.lua         # Glavni meni
-│   ├── splash_screen.lua      # Splash
-│   └── ui/                    # UI komponente
-│       ├── multiplayer/       # Lobby, chat, diplomacy
-│       ├── settings/          # Unified settings
-│       └── construction/      # Action bar buttons
-├── objects/                    # Game objects & systems
-│   ├── AI/                    # AI controller, strategy
-│   ├── Audio/                 # Music, SFX, voice-over
-│   ├── Combat/                # Combat, siege weapons
-│   ├── Config/                # Balance, localization, accessibility
-│   ├── Economy/               # Market, trade, caravans
-│   ├── Environment/           # Lighting, HD pipeline, normal maps
-│   ├── Mission/               # Campaign, story
-│   ├── Modding/               # Mod loader, custom buildings
-│   ├── Network/               # Multiplayer, diplomacy, trade
-│   ├── Performance/           # Optimizer, profiler
-│   ├── QA/                    # Tests, crash handler, replay
-│   ├── Steam/                 # Achievements, integration
-│   └── Tutorial/              # Tutorial system
-├── shaders/                    # GLSL shaders
-│   ├── normal_mapping.glsl
-│   ├── point_lights.glsl
-│   ├── ssao.glsl
-│   ├── tonemap.glsl
-│   ├── bloom.glsl
-│   └── dynamic_lighting.glsl
-├── locale/                     # 32 jezikov (YAML)
-├── mods/                       # Mod direktorij
-│   └── sample_mod/            # Sample mod (GoldMine)
-├── assets/                     # Slike, zvoki, fonti
-├── saves/                      # Save datoteke
-└── sounds/                     # Glasba, SFX, speech
-```
+Glej [SYSTEMS.md](SYSTEMS.md) za popoln seznam vseh 130+ modulov.
 
 ## Razvoj
 
-### Zahteve
-- [LÖVE 11.5](https://love2d.org)
-- [Git LFS](https://git-lfs.com) (za asset checkout)
-- Lua 5.1 / LuaJIT
-
-### Build
-```cmd
-git clone https://github.com/markec12345678/stronghold2027.git
-cd stronghold2027
-git lfs install
-git lfs pull
-:: Zagon:
-love .
-:: Ali build .love datoteke:
-zip -r stronghold2027.love . -x ".git/*"
-```
-
-### Testiranje
-- **F10** — Run mission test suite (10 campaign missions)
-- **Ctrl+L** — Release checklist (20 checks)
-- **Tilde (~)** — Debug console
+Glej [CONTRIBUTING.md](CONTRIBUTING.md) za vodič za razvijalce.
 
 ## Zgodovina razvoja
 
-| Verzija | Datum | Opis |
-|---------|-------|------|
-| v1.7.9 | 2025-08-02 | Action bar SetScale fix |
-| v1.8.0 | 2025-08-02 | HD Asset Pipeline |
-| v1.9.0 | 2025-08-02 | Multiplayer (TCP/IP) |
-| v1.10.0 | 2025-08-02 | Diplomacy & Trade |
-| v1.11.0 | 2025-08-02 | Polish & Bug Fix |
-| v1.12.0 | 2025-08-02 | Modding API + Steam |
-| v1.13.0 | 2025-08-02 | Sound Design |
-| v1.14.0 | 2025-08-02 | Replay + Stats + Map Editor |
-| v1.15.0 | 2025-08-02 | Localization + Accessibility + Tutorial |
-| v1.16.0 | 2025-08-02 | Campaign Story + Siege Weapons |
-| v1.17.0 | 2025-08-02 | Release Candidate |
-| v1.18.0 | 2025-08-02 | Save Compat + Profiles + Console |
+Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v2.0.7.
 
 ## Licenca
 
