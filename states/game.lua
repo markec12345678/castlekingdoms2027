@@ -1061,12 +1061,14 @@ function game:keypressed(key, scancode, isRepeat)
         return
     end
     -- M = Toggle dynamic market UI (Stronghold 2027)
-    if key == "m" then
+    -- NOTE: must exclude Ctrl so Ctrl+M (screenshot) is reachable
+    if key == "m" and not (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
         DynamicMarketUI.toggle()
         return
     end
     -- C = Toggle caravan UI (Stronghold 2027)
-    if key == "c" then
+    -- NOTE: must exclude Ctrl so Ctrl+C / Ctrl+Shift+C are reachable
+    if key == "c" and not (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
         CaravanUI.toggle()
         return
     end
@@ -1075,8 +1077,9 @@ function game:keypressed(key, scancode, isRepeat)
         GameFeelSettings.toggle()
         return
     end
-    -- H = Toggle keybind help (Stronghold 2027)
-    if key == "h" then
+    -- F1 = Toggle keybind help (Stronghold 2027)
+    -- NOTE: moved from H (H is the original CenterViewToKeep keybind)
+    if key == "f1" then
         KeybindHelp.toggle()
         return
     end
@@ -1143,9 +1146,15 @@ function game:keypressed(key, scancode, isRepeat)
             steamInfo.achievementsUnlocked, steamInfo.totalAchievements))
         return
     end
-    -- F12 = Toggle Map Editor (Stronghold 2027)
-    if key == "f12" then
+    -- F4 = Toggle Map Editor (Stronghold 2027)
+    -- NOTE: moved from F12 (F12 is the standard screenshot key, now handled via EVENT.Screenshot)
+    if key == "f4" then
         S.MapEditor.toggle()
+        return
+    end
+    -- F3 = Toggle performance overlay (Stronghold 2027)
+    if key == "f3" then
+        PerformanceOverlay.toggle()
         return
     end
     -- Ctrl+T = Toggle tutorial (Stronghold 2027)
@@ -1294,7 +1303,8 @@ function game:keypressed(key, scancode, isRepeat)
         return
     end
     -- Ctrl+S = Print statistics (Stronghold 2027)
-    if key == "s" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and not love.keyboard.isDown("lshift") and not love.keyboard.isDown("rshift")
+    -- NOTE: excludes Shift so Ctrl+Shift+S (spectator mode) is reachable
+    if key == "s" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl"))
         and not (love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift")) then
         -- Don't interfere with map editor save
         if not S.MapEditor.isActive() then
@@ -1306,10 +1316,9 @@ function game:keypressed(key, scancode, isRepeat)
     end
 
     if event == EVENT.Screenshot then
-        -- Screenshot
-        local filename = string.format("%s_%d.png", _G.version, os.time())
-        love.graphics.captureScreenshot(filename)
-        print(string.format("Screenshot [%s] saved in [%s]", filename, love.filesystem.getSaveDirectory()))
+        -- Screenshot (F12) — use ScreenshotManager for organized storage
+        local filename = S.ScreenshotManager.capture("f12")
+        ModernUI.notifySuccess("Screenshot: " .. tostring(filename))
     elseif event == EVENT.IncreaseGameSpeed then
         if _G.speedModifier == 0.5 then
             _G.speedModifier = _G.speedModifier + 0.5
@@ -1439,8 +1448,10 @@ function game:keyreleased(key, scancode)
     if console.isEnabled() then
         return
     end
+    -- Stronghold 2027: exclude Ctrl modifiers so Ctrl+B (catapult) doesn't toggle brush on release
+    local ctrl_down = love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")
     -- if not _G.BuildController.start then
-    if key == "b" then
+    if key == "b" and not ctrl_down then
         _G.BrushController:toggle()
     elseif key == "delete" then
         _G.DestructionController:toggle()

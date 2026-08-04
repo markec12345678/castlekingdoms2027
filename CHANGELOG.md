@@ -2,6 +2,29 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.3.1] — 2026-08-04 — Keybind Conflict Fix Round 14
+
+### Popravljeno (6 kritičnih popravkov tipkovnih bližnjic)
+- **M (plain)** — dodana izključitev Ctrl, da Ctrl+M (screenshot) postane dosegljiv
+- **C (plain)** — dodana izključitev Ctrl, da Ctrl+C / Ctrl+Shift+C (co-op) postaneta dosegljiva
+- **H = KeybindHelp** — premaknjeno na F1; H je obnovljen kot CenterViewToKeep (originalna bližnjica)
+- **F12 = Map Editor** — premaknjeno na F4; F12 je obnovljen kot Screenshot (Steam konvencija)
+- **F3 = Performance Overlay** — eksplicitno vezan na F3 (prej je bil le stranski učinek F2)
+- **B (keyreleased)** — dodana izključitev Ctrl, da Ctrl+B (catapult) ne toggle-a brush tool ob sprostitvi tipke
+- **Ctrl+S** — poenostavljena logika izključevanja Shift (odstranjena redundantna dvojna preverba)
+- **EVENT.Screenshot** — zdaj uporablja ScreenshotManager.capture() za organizirano shranjevanje
+
+### Statistika
+- 572 Lua datotek, 569/572 syntax pass (3 lažni pozitivi zaradi LuaJIT specifične sintakse)
+- 50 keybind handlerjev v game.lua, 0 konfliktov
+- 30 KeybindManager mapiranj, 0 konfliktov z game.lua
+
+## [v2.3.0] — 2026-08-04 — Critical LuaJIT Upvalue Fix
+
+### Popravljeno (kritično)
+- **LuaJIT 60-upvalue limit** — 84 sistemskih require() konsolidiranih v S tabelo
+- Game prej ni mogel startati (error: "function at line 185 has more than 60 upvalues")
+
 ## [v2.0.7] — 2025-08-04 — FINAL RELEASE
 
 ### Dodano

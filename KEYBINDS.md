@@ -1,6 +1,6 @@
 # Stronghold 2027 — Keybind Reference
 
-Complete list of all keyboard shortcuts (v2.0.2).
+Complete list of all keyboard shortcuts (v2.3.1).
 
 ## Game Controls
 
@@ -20,6 +20,10 @@ Complete list of all keyboard shortcuts (v2.0.2).
 
 | Key | Function |
 |-----|----------|
+| F1 | Toggle keybind help |
+| F2 | Toggle debug view |
+| F3 | Toggle performance overlay |
+| F4 | Toggle map editor |
 | F5 | Cycle weather (clear → rain → fog → snow → storm) |
 | F6 | Cycle time of day (dawn → day → dusk → night) |
 | F7 | Toggle HD render pipeline |
@@ -27,7 +31,7 @@ Complete list of all keyboard shortcuts (v2.0.2).
 | F9 | Toggle diplomacy & trade panel |
 | F10 | Run mission test suite |
 | F11 | Crash log + mod/Steam stats |
-| F12 | Toggle map editor |
+| F12 | Capture screenshot (standard Steam convention) |
 
 ## Ctrl Shortcuts
 
@@ -118,14 +122,15 @@ Complete list of all keyboard shortcuts (v2.0.2).
 
 | Key | Function |
 |-----|----------|
-| M | Toggle dynamic market UI |
-| C | Toggle caravan UI |
-| V | Toggle game feel settings |
-| H | Toggle keybind help |
+| M | Toggle dynamic market UI (Ctrl+M = screenshot) |
+| C | Toggle caravan UI (Ctrl+Shift+C = co-op) |
+| V | Toggle game feel settings (Ctrl+Shift+V = reveal fog) |
+| H | Center view to keep (original keybind, restored) |
+| G | Center view to granary |
 | Right-Click | Dismiss topmost panel / Set rally point on barracks |
 | Shift+Click | Queue building construction / Queue unit orders |
 
-## Map Editor (F12)
+## Map Editor (F4)
 
 | Key | Function |
 |-----|----------|
