@@ -266,19 +266,19 @@ local function delayedInit()
     S.VoiceOver.init()
     S.DynamicMusic.playPeaceMusic()
     -- Register sound globals for combat system access
-    _G.DynamicMusic = DynamicMusic
-    _G.SFXLibrary = SFXLibrary
-    _G.VoiceOver = VoiceOver
+    _G.DynamicMusic = S.DynamicMusic
+    _G.SFXLibrary = S.SFXLibrary
+    _G.VoiceOver = S.VoiceOver
     -- Stronghold 2027: Register other globals for cross-system access
-    _G.VisualPolish = VisualPolish
-    _G.WeatherGameplay = WeatherGameplay
-    _G.FormationSystem = FormationSystem
-    _G.FestivalSystem = FestivalSystem
-    _G.ThreatAI = ThreatAI
-    _G.Veterancy = Veterancy
-    _G.ResourceFlow = ResourceFlow
-    _G.ConstructionAnim = ConstructionAnim
-    _G.AIDialogue = AIDialogue
+    _G.VisualPolish = S.VisualPolish
+    _G.WeatherGameplay = S.WeatherGameplay
+    _G.FormationSystem = S.FormationSystem
+    _G.FestivalSystem = S.FestivalSystem
+    _G.ThreatAI = S.ThreatAI
+    _G.Veterancy = S.Veterancy
+    _G.ResourceFlow = S.ResourceFlow
+    _G.ConstructionAnim = S.ConstructionAnim
+    _G.AIDialogue = S.AIDialogue
     -- Stronghold 2027: Initialize modding & Steam
     S.ModLoader.init()
     S.CustomBuildingLoader.init()
@@ -362,10 +362,10 @@ local function delayedInit()
     S.AutoWorker.init()
     S.DynamicUnitCap.init()
     -- Register globals
-    _G.RallyPoint = RallyPoint
-    _G.BuildingQueue = BuildingQueue
-    _G.AutoWorker = AutoWorker
-    _G.DynamicUnitCap = DynamicUnitCap
+    _G.RallyPoint = S.RallyPoint
+    _G.BuildingQueue = S.BuildingQueue
+    _G.AutoWorker = S.AutoWorker
+    _G.DynamicUnitCap = S.DynamicUnitCap
     -- Stronghold 2027: Initialize v1.27 systems
     S.MapSizeSelector.init()
     S.SpectatorMode.init()
@@ -373,11 +373,11 @@ local function delayedInit()
     S.PathOpt.init()
     S.Workshop.init()
     -- Register globals
-    _G.MapSizeSelector = MapSizeSelector
-    _G.SpectatorMode = SpectatorMode
-    _G.CoopCampaign = CoopCampaign
-    _G.PathOpt = PathOpt
-    _G.Workshop = Workshop
+    _G.MapSizeSelector = S.MapSizeSelector
+    _G.SpectatorMode = S.SpectatorMode
+    _G.CoopCampaign = S.CoopCampaign
+    _G.PathOpt = S.PathOpt
+    _G.Workshop = S.Workshop
     -- Stronghold 2027: Initialize v1.28 systems
     S.SkirmishTrail.init()
     S.ObjectPool.init()
@@ -385,11 +385,11 @@ local function delayedInit()
     S.MapSharing.init()
     S.AutoSaveIndicator.init()
     -- Register globals
-    _G.SkirmishTrail = SkirmishTrail
-    _G.ObjectPool = ObjectPool
-    _G.Gamepad = Gamepad
-    _G.MapSharing = MapSharing
-    _G.AutoSaveIndicator = AutoSaveIndicator
+    _G.SkirmishTrail = S.SkirmishTrail
+    _G.ObjectPool = S.ObjectPool
+    _G.Gamepad = S.Gamepad
+    _G.MapSharing = S.MapSharing
+    _G.AutoSaveIndicator = S.AutoSaveIndicator
     -- Stronghold 2027: Initialize v2.2 systems
     S.CommunityToolkit.init()
     S.AutoUpdater.init()
@@ -419,7 +419,7 @@ local function delayedInit()
     _G.BuildPreview = BuildPreview
     _G.SelectionFeedback = SelectionFeedback
     _G.CombatOrderViz = CombatOrderViz
-    ModernUI.notifySuccess("Stronghold 2027 loaded! Press F8 for combat test.")
+    ModernUI.notifySuccess("Stronghold 2027 loaded! Press F1 for help, F3 for perf overlay.")
     -- Stronghold 2027: Show tutorial hints on first game
     TutorialHints.onGameStart()
     -- Stronghold 2027: Initialize campaign progress & auto-save

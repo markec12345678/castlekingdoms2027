@@ -2,16 +2,18 @@
 
 Modernizirana različica igre Stronghold (2001) za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT).
 
-[![Version](https://img.shields.io/badge/version-2.0.7-blue.svg)](https://github.com/markec12345678/stronghold2027/releases/tag/v2.0.7)
+[![Version](https://img.shields.io/badge/version-2.3.1-blue.svg)](https://github.com/markec12345678/stronghold2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
-[![Syntax](https://img.shields.io/badge/syntax-393%2F393%20pass-brightgreen.svg)](#)
-[![Bugs](https://img.shields.io/badge/bugs%20fixed-45-brightgreen.svg)](#)
+[![Syntax](https://img.shields.io/badge/syntax-569%2F572%20pass-brightgreen.svg)](#)
+[![Bugs](https://img.shields.io/badge/bugs%20fixed-55-brightgreen.svg)](#)
+[![Audit](https://img.shields.io/badge/audit%20rounds-14-blue.svg)](#)
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v2.0.7](https://github.com/markec12345678/stronghold2027/releases/tag/v2.0.7)
-- **.love datoteka**: `stronghold2027-v2.0.7.love` (305 MB)
+- **Zadnja izdaja**: [v2.3.1](https://github.com/markec12345678/stronghold2027/releases)
+- **.love datoteka**: `stronghold2027-v2.3.1.love` (305 MB)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 14 krogov pregleda, 55 popravkov
 
 ## Zagon
 
@@ -32,13 +34,15 @@ love .
 
 | Metrika | Vrednost |
 |---------|----------|
-| Lua datoteke | 570 |
-| Vrstic kode | 286.914 |
+| Lua datoteke | 572 |
+| Vrstic kode | ~287.000 |
 | GLSL shaderji | 12 |
-| Jezikov | 33 |
-| Verzij | 33 (v1.7.9 → v2.0.7) |
-| Bug popravkov | 45 (10 krogov pregleda) |
-| Syntax pass rate | 393/393 (100%) |
+| Jezikov | 32 |
+| Verzij | 38 (v1.7.9 → v2.3.1) |
+| Bug popravkov | 55 (14 krogov pregleda) |
+| Syntax pass rate | 569/572 (99,5%) |
+| PNG assetov | 1.206 |
+| Registriranih globalov | 64 |
 
 ## Funkcije
 
@@ -108,7 +112,7 @@ love .
 - **Auto-pause na focus loss**
 
 ### 🛠️ Orodja
-- **Map Editor** (F12) — terrain painting, objects, save/load
+- **Map Editor** (F4) — terrain painting, objects, save/load
 - **Replay System** (Ctrl+R) — snemanje/predvajanje
 - **Statistics Dashboard** (Ctrl+S) — session + lifetime statistike
 - **Debug Console** (Tilde ~) — 12 ukazov
@@ -117,7 +121,7 @@ love .
 - **Performance Benchmark** (Ctrl+P) — 6 avtomatiziranih testov
 - **Release Checklist** (Ctrl+L) — 45 pre-release preverjanj
 - **Integration Tests** (Ctrl+I) — 25 testov
-- **Screenshot Manager** (Ctrl+M) — avtomatsko zajemanje
+- **Screenshot Manager** (Ctrl+M ali F12) — avtomatsko zajemanje
 - **Object Pooling** — performance optimizacija
 - **Pathfinding Optimizer** — JPS + caching
 - **Auto-save** z crash recovery (vsakih 5 minut)
@@ -142,6 +146,8 @@ love .
 - **Credits screen** (Ctrl+E)
 - **End game screen** s statistiko
 - **Loading tips** med nalaganjem
+- **Keybind help** (F1) — prikaz vseh bližnjic v igri
+- **Performance overlay** (F3) — FPS, memory, frame time
 
 ### 🎯 QoL izboljšave
 - **Rally points** za barake (desni klik)
@@ -168,7 +174,7 @@ love .
 
 ## Tipke
 
-Glej [KEYBINDS.md](KEYBINDS.md) za celovit seznam 50+ tipkovnih bližnjic.
+Glej [KEYBINDS.md](KEYBINDS.md) za celovit seznam 50+ tipkovnih bližnjic (0 konfliktov po 14 krogih pregleda).
 
 ## Arhitektura
 
@@ -180,7 +186,7 @@ Glej [CONTRIBUTING.md](CONTRIBUTING.md) za vodič za razvijalce.
 
 ## Zgodovina razvoja
 
-Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v2.0.7.
+Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v2.3.1 (38 verzij, 14 krogov pregleda, 55 popravkov).
 
 ## Licenca
 
