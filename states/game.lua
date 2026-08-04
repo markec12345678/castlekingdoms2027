@@ -13,114 +13,100 @@ local loadState, progress = 1, 15
 local SaveManager = require("objects.Controllers.SaveManager")
 local keybindManager = require("objects.Controllers.KeybindManager")
 local EVENT = require("objects.Enums.KeyEvents")
--- Stronghold 2027 - Combat system integration
-local CombatIntegration = require("objects.Combat.CombatIntegration")
-local CombatTestScenario = require("objects.Combat.CombatTestScenario")
--- Stronghold 2027 - Immersion systems
-local AnimationSystem = require("objects.Animation.AnimationSystem")
-local SoundSystem = require("objects.Audio.SoundSystem")
-local WeatherSystem = require("objects.Weather.WeatherSystem")
-local ModernUI = require("objects.UI.ModernUISystem")
-local LightingSystem = require("objects.Environment.LightingSystem")
-local HDRenderPipeline = require("objects.Environment.HDRenderPipeline")
--- Stronghold 2027 - Multiplayer
-local GameServer = require("objects.Network.GameServer")
-local GameClient = require("objects.Network.GameClient")
-local Chat = require("states.ui.multiplayer.chat")
-local DiplomacyController = require("objects.Network.DiplomacyController")
-local TradeController = require("objects.Network.TradeController")
-local DiplomacyPanel = require("states.ui.multiplayer.diplomacy_panel")
--- Stronghold 2027 - QA & Polish
-local MissionTestSuite = require("objects.QA.MissionTestSuite")
-local CrashHandler = require("objects.QA.CrashHandler")
-local PerfWatchdog = require("objects.QA.PerformanceWatchdog")
-local ReplaySystem = require("objects.QA.ReplaySystem")
-local StatisticsDashboard = require("objects.QA.StatisticsDashboard")
-local MapEditor = require("objects.QA.MapEditor")
-local AudioMix = require("objects.Audio.AudioMixSystem")
--- Stronghold 2027 - Sound Design
-local DynamicMusic = require("objects.Audio.DynamicMusicManager")
-local SFXLibrary = require("objects.Audio.SFXLibrary")
-local VoiceOver = require("objects.Audio.SlovenianVoiceOver")
--- Stronghold 2027 - Modding & Steam
-local ModLoader = require("objects.Modding.ModLoader")
-local CustomBuildingLoader = require("objects.Modding.CustomBuildingLoader")
-local SteamWorks = require("objects.Steam.SteamWorks")
--- Stronghold 2027 - Localization, Accessibility, Tutorial
-local LocalizationSystem = require("objects.Config.LocalizationSystem")
-local AccessibilitySystem = require("objects.Config.AccessibilitySystem")
-local TutorialSystem = require("objects.Tutorial.TutorialSystem")
--- Stronghold 2027 - Story, Siege, Unified Settings
-local CampaignStory = require("objects.Mission.CampaignStorySystem")
-local SiegeWeapons = require("objects.Combat.SiegeWeaponsSystem")
-local UnifiedSettings = require("states.ui.settings.unified_settings")
--- Stronghold 2027 - Final Polish
-local FinalBugFix = require("objects.QA.FinalBugFixPass")
-local PerfOpt = require("objects.Performance.PerformanceOptimizer")
-local AchievementIntegration = require("objects.Steam.AchievementIntegration")
-local ReleaseChecklist = require("objects.QA.ReleaseChecklist")
--- Stronghold 2027 - Save, Profiles, Console, Feedback
-local SaveCompat = require("objects.QA.SaveGameCompatibility")
-local ConfigProfiles = require("objects.Config.ConfigProfileSystem")
-local DebugConsole = require("objects.QA.DebugConsoleSystem")
-local CommunityFeedback = require("objects.QA.CommunityFeedbackSystem")
--- Stronghold 2027 - Core Event Bus
-local GameEventBus = require("objects.Core.GameEventBus")
-local IntegrationTestSuite = require("objects.QA.IntegrationTestSuite")
--- Stronghold 2027 - Final Polish
-local GameBalancePass = require("objects.Config.GameBalancePass")
-local VisualPolish = require("objects.Feedback.VisualPolishSystem")
-local PerfBenchmark = require("objects.QA.PerformanceBenchmark")
-local ReleaseNotesGen = require("objects.QA.ReleaseNotesGenerator")
--- Stronghold 2027 - Gameplay Systems
-local WeatherGameplay = require("objects.Weather.WeatherGameplayIntegration")
-local FogOfWar = require("objects.Gameplay.FogOfWarSystem")
-local FestivalSystem = require("objects.Gameplay.FestivalSystem")
-local AchievementGallery = require("states.ui.hud.achievement_gallery")
--- Stronghold 2027 - Formations, Upgrades, Tips, Credits
-local FormationSystem = require("objects.Combat.UnitFormationSystem")
-local UpgradeTree = require("objects.Config.BuildingUpgradeTree")
-local LoadingTips = require("objects.UI.LoadingTipsSystem")
-local CreditsScreen = require("states.ui.hud.credits_screen")
--- Stronghold 2027 - Final Systems
-local EndGameScreen = require("states.ui.hud.end_game_screen")
-local ScreenshotManager = require("objects.QA.ScreenshotManager")
-local DifficultyPresets = require("objects.Config.DifficultyPresets")
-local FinalReleasePrep = require("objects.QA.FinalReleasePrep")
--- Stronghold 2027 - Improvements
-local Minimap = require("objects.UI.MinimapSystem")
-local CommandQueue = require("objects.Combat.UnitCommandQueue")
-local AIDialogue = require("objects.AI.AIPersonalityDialogue")
-local GameSpeedControl = require("objects.UI.GameSpeedControl")
-local ConstructionAnim = require("objects.Feedback.ConstructionAnimation")
--- Stronghold 2027 - v1.25 Improvements
-local Veterancy = require("objects.Combat.UnitVeterancySystem")
-local BuildingHotkeys = require("objects.UI.BuildingHotkeys")
-local ResourceFlow = require("objects.UI.ResourceFlowVisualizer")
-local AutoSaveEnhancer = require("objects.QA.AutoSaveEnhancer")
-local ThreatAI = require("objects.AI.ThreatAssessmentAI")
--- Stronghold 2027 - v1.26 QoL Improvements
-local RallyPoint = require("objects.Gameplay.RallyPointSystem")
-local RightClickDismiss = require("objects.UI.RightClickDismiss")
-local BuildingQueue = require("objects.Gameplay.BuildingQueueSystem")
-local MinimapDrag = require("objects.UI.MinimapDragScroll")
-local AutoWorker = require("objects.Gameplay.AutoWorkerAssign")
-local DynamicUnitCap = require("objects.Gameplay.DynamicUnitCap")
--- Stronghold 2027 - v1.27 Expansions
-local MapSizeSelector = require("objects.Gameplay.MapSizeSelector")
-local SpectatorMode = require("objects.Network.SpectatorMode")
-local CoopCampaign = require("objects.Network.CoopCampaignFramework")
-local PathOpt = require("objects.AI.PathfindingOptimizer")
-local Workshop = require("objects.Steam.SteamWorkshopIntegration")
--- Stronghold 2027 - v1.28 Content & Performance
-local SkirmishTrail = require("objects.Mission.SkirmishTrailSystem")
-local ObjectPool = require("objects.Performance.ObjectPoolingSystem")
-local Gamepad = require("objects.UI.GamepadSupport")
-local MapSharing = require("objects.Gameplay.CustomMapSharing")
-local AutoSaveIndicator = require("objects.UI.AutoSaveIndicator")
--- Stronghold 2027 - v2.2 Community & Updates
-local CommunityToolkit = require("objects.QA.CommunityToolkit")
-local AutoUpdater = require("objects.QA.AutoUpdater")
+-- Stronghold 2027 - All systems consolidated into S table to avoid LuaJIT 60-upvalue limit
+local S = {}
+S.CombatIntegration = require("objects.Combat.CombatIntegration")
+S.CombatTestScenario = require("objects.Combat.CombatTestScenario")
+S.AnimationSystem = require("objects.Animation.AnimationSystem")
+S.SoundSystem = require("objects.Audio.SoundSystem")
+S.WeatherSystem = require("objects.Weather.WeatherSystem")
+S.ModernUI = require("objects.UI.ModernUISystem")
+S.LightingSystem = require("objects.Environment.LightingSystem")
+S.HDRenderPipeline = require("objects.Environment.HDRenderPipeline")
+S.GameServer = require("objects.Network.GameServer")
+S.GameClient = require("objects.Network.GameClient")
+S.Chat = require("states.ui.multiplayer.chat")
+S.DiplomacyController = require("objects.Network.DiplomacyController")
+S.TradeController = require("objects.Network.TradeController")
+S.DiplomacyPanel = require("states.ui.multiplayer.diplomacy_panel")
+S.MissionTestSuite = require("objects.QA.MissionTestSuite")
+S.CrashHandler = require("objects.QA.CrashHandler")
+S.PerfWatchdog = require("objects.QA.PerformanceWatchdog")
+S.ReplaySystem = require("objects.QA.ReplaySystem")
+S.StatisticsDashboard = require("objects.QA.StatisticsDashboard")
+S.MapEditor = require("objects.QA.MapEditor")
+S.AudioMix = require("objects.Audio.AudioMixSystem")
+S.DynamicMusic = require("objects.Audio.DynamicMusicManager")
+S.SFXLibrary = require("objects.Audio.SFXLibrary")
+S.VoiceOver = require("objects.Audio.SlovenianVoiceOver")
+S.ModLoader = require("objects.Modding.ModLoader")
+S.CustomBuildingLoader = require("objects.Modding.CustomBuildingLoader")
+S.SteamWorks = require("objects.Steam.SteamWorks")
+S.LocalizationSystem = require("objects.Config.LocalizationSystem")
+S.AccessibilitySystem = require("objects.Config.AccessibilitySystem")
+S.TutorialSystem = require("objects.Tutorial.TutorialSystem")
+S.CampaignStory = require("objects.Mission.CampaignStorySystem")
+S.SiegeWeapons = require("objects.Combat.SiegeWeaponsSystem")
+S.UnifiedSettings = require("states.ui.settings.unified_settings")
+S.FinalBugFix = require("objects.QA.FinalBugFixPass")
+S.PerfOpt = require("objects.Performance.PerformanceOptimizer")
+S.AchievementIntegration = require("objects.Steam.AchievementIntegration")
+S.ReleaseChecklist = require("objects.QA.ReleaseChecklist")
+S.SaveCompat = require("objects.QA.SaveGameCompatibility")
+S.ConfigProfiles = require("objects.Config.ConfigProfileSystem")
+S.DebugConsole = require("objects.QA.DebugConsoleSystem")
+S.CommunityFeedback = require("objects.QA.CommunityFeedbackSystem")
+S.GameEventBus = require("objects.Core.GameEventBus")
+S.IntegrationTestSuite = require("objects.QA.IntegrationTestSuite")
+S.GameBalancePass = require("objects.Config.GameBalancePass")
+S.VisualPolish = require("objects.Feedback.VisualPolishSystem")
+S.PerfBenchmark = require("objects.QA.PerformanceBenchmark")
+S.ReleaseNotesGen = require("objects.QA.ReleaseNotesGenerator")
+S.WeatherGameplay = require("objects.Weather.WeatherGameplayIntegration")
+S.FogOfWar = require("objects.Gameplay.FogOfWarSystem")
+S.FestivalSystem = require("objects.Gameplay.FestivalSystem")
+S.AchievementGallery = require("states.ui.hud.achievement_gallery")
+S.FormationSystem = require("objects.Combat.UnitFormationSystem")
+S.UpgradeTree = require("objects.Config.BuildingUpgradeTree")
+S.LoadingTips = require("objects.UI.LoadingTipsSystem")
+S.CreditsScreen = require("states.ui.hud.credits_screen")
+S.EndGameScreen = require("states.ui.hud.end_game_screen")
+S.ScreenshotManager = require("objects.QA.ScreenshotManager")
+S.DifficultyPresets = require("objects.Config.DifficultyPresets")
+S.FinalReleasePrep = require("objects.QA.FinalReleasePrep")
+S.Minimap = require("objects.UI.MinimapSystem")
+S.CommandQueue = require("objects.Combat.UnitCommandQueue")
+S.AIDialogue = require("objects.AI.AIPersonalityDialogue")
+S.GameSpeedControl = require("objects.UI.GameSpeedControl")
+S.ConstructionAnim = require("objects.Feedback.ConstructionAnimation")
+S.Veterancy = require("objects.Combat.UnitVeterancySystem")
+S.BuildingHotkeys = require("objects.UI.BuildingHotkeys")
+S.ResourceFlow = require("objects.UI.ResourceFlowVisualizer")
+S.AutoSaveEnhancer = require("objects.QA.AutoSaveEnhancer")
+S.ThreatAI = require("objects.AI.ThreatAssessmentAI")
+S.RallyPoint = require("objects.Gameplay.RallyPointSystem")
+S.RightClickDismiss = require("objects.UI.RightClickDismiss")
+S.BuildingQueue = require("objects.Gameplay.BuildingQueueSystem")
+S.MinimapDrag = require("objects.UI.MinimapDragScroll")
+S.AutoWorker = require("objects.Gameplay.AutoWorkerAssign")
+S.DynamicUnitCap = require("objects.Gameplay.DynamicUnitCap")
+S.MapSizeSelector = require("objects.Gameplay.MapSizeSelector")
+S.SpectatorMode = require("objects.Network.SpectatorMode")
+S.CoopCampaign = require("objects.Network.CoopCampaignFramework")
+S.PathOpt = require("objects.AI.PathfindingOptimizer")
+S.Workshop = require("objects.Steam.SteamWorkshopIntegration")
+S.SkirmishTrail = require("objects.Mission.SkirmishTrailSystem")
+S.ObjectPool = require("objects.Performance.ObjectPoolingSystem")
+S.Gamepad = require("objects.UI.GamepadSupport")
+S.MapSharing = require("objects.Gameplay.CustomMapSharing")
+S.AutoSaveIndicator = require("objects.UI.AutoSaveIndicator")
+S.CommunityToolkit = require("objects.QA.CommunityToolkit")
+S.AutoUpdater = require("objects.QA.AutoUpdater")
+-- Create local aliases for most-used systems (keeps upvalue count low)
+local CombatIntegration = S.CombatIntegration
+local ModernUI = S.ModernUI
+local GameEventBus = S.GameEventBus
+local ActionBar = require("states.ui.ActionBar")
 -- Stronghold 2027 - AI system
 local AIIntegration = require("objects.AI.AIIntegration")
 -- Stronghold 2027 - Economy systems
@@ -256,29 +242,29 @@ local function delayedInit()
     -- Stronghold 2027: Initialize combat system
     CombatIntegration.init()
     -- Stronghold 2027: Initialize immersion systems
-    SoundSystem.init()
-    WeatherSystem.init()
+    S.SoundSystem.init()
+    S.WeatherSystem.init()
     ModernUI.init()
-    LightingSystem.init()
+    S.LightingSystem.init()
     -- Stronghold 2027: Initialize HD render pipeline
-    HDRenderPipeline.init()
+    S.HDRenderPipeline.init()
     -- Stronghold 2027: Initialize multiplayer chat
-    Chat.init()
+    S.Chat.init()
     -- Stronghold 2027: Initialize diplomacy & trade
-    DiplomacyController.init()
-    TradeController.init()
+    S.DiplomacyController.init()
+    S.TradeController.init()
     -- Stronghold 2027: Initialize QA & polish systems
-    CrashHandler.init()
-    PerfWatchdog.init()
-    ReplaySystem.init()
-    StatisticsDashboard.init()
-    MapEditor.init()
-    AudioMix.init()
+    S.CrashHandler.init()
+    S.PerfWatchdog.init()
+    S.ReplaySystem.init()
+    S.StatisticsDashboard.init()
+    S.MapEditor.init()
+    S.AudioMix.init()
     -- Stronghold 2027: Initialize sound design
-    DynamicMusic.init()
-    SFXLibrary.init()
-    VoiceOver.init()
-    DynamicMusic.playPeaceMusic()
+    S.DynamicMusic.init()
+    S.SFXLibrary.init()
+    S.VoiceOver.init()
+    S.DynamicMusic.playPeaceMusic()
     -- Register sound globals for combat system access
     _G.DynamicMusic = DynamicMusic
     _G.SFXLibrary = SFXLibrary
@@ -294,98 +280,98 @@ local function delayedInit()
     _G.ConstructionAnim = ConstructionAnim
     _G.AIDialogue = AIDialogue
     -- Stronghold 2027: Initialize modding & Steam
-    ModLoader.init()
-    CustomBuildingLoader.init()
-    SteamWorks.init()
+    S.ModLoader.init()
+    S.CustomBuildingLoader.init()
+    S.SteamWorks.init()
     -- Register callback for custom buildings
-    ModLoader.onBuildingRegistered = function(def)
-        CustomBuildingLoader.register(def)
+    S.ModLoader.onBuildingRegistered = function(def)
+        S.CustomBuildingLoader.register(def)
     end
     -- Load all mods
-    ModLoader.loadAll()
+    S.ModLoader.loadAll()
     -- Stronghold 2027: Initialize localization, accessibility, tutorial
-    LocalizationSystem.init()
-    AccessibilitySystem.init()
-    TutorialSystem.init()
+    S.LocalizationSystem.init()
+    S.AccessibilitySystem.init()
+    S.TutorialSystem.init()
     -- Stronghold 2027: Initialize story & siege
-    CampaignStory.init()
-    SiegeWeapons.init()
+    S.CampaignStory.init()
+    S.SiegeWeapons.init()
     -- Stronghold 2027: Final polish
-    FinalBugFix.init()
-    PerfOpt.init()
-    AchievementIntegration.init()
+    S.FinalBugFix.init()
+    S.PerfOpt.init()
+    S.AchievementIntegration.init()
     -- Stronghold 2027: Initialize save, profiles, console, feedback
-    SaveCompat.init()
-    ConfigProfiles.init()
-    DebugConsole.init()
-    CommunityFeedback.init()
+    S.SaveCompat.init()
+    S.ConfigProfiles.init()
+    S.DebugConsole.init()
+    S.CommunityFeedback.init()
     -- Stronghold 2027: Initialize GameEventBus and integrate all systems
     GameEventBus.integrateAll()
     _G.GameEventBus = GameEventBus
     -- Stronghold 2027: Connect victory/defeat to EndGameScreen + SkirmishTrail + CoopCampaign
     GameEventBus.on(GameEventBus.EVENTS.VICTORY, function(data)
         local Stats = require("objects.QA.StatisticsDashboard")
-        EndGameScreen.show("victory", Stats.getSessionStats())
+        S.EndGameScreen.show("victory", Stats.getSessionStats())
         -- Complete skirmish trail mission if active
-        if SkirmishTrail.getCurrentMission() > 0 then
-            SkirmishTrail.complete(SkirmishTrail.getCurrentMission())
+        if S.SkirmishTrail.getCurrentMission() > 0 then
+            S.SkirmishTrail.complete(S.SkirmishTrail.getCurrentMission())
         end
     end)
     GameEventBus.on(GameEventBus.EVENTS.DEFEAT, function(data)
         local Stats = require("objects.QA.StatisticsDashboard")
-        EndGameScreen.show("defeat", Stats.getSessionStats())
+        S.EndGameScreen.show("defeat", Stats.getSessionStats())
         -- Stop co-op campaign on defeat
-        if CoopCampaign.isActive() then
-            CoopCampaign.stop()
+        if S.CoopCampaign.isActive() then
+            S.CoopCampaign.stop()
         end
     end)
     -- Stronghold 2027: Final polish systems
-    GameBalancePass.init()
-    GameBalancePass.applyAll()
-    VisualPolish.init()
-    PerfBenchmark.init()
+    S.GameBalancePass.init()
+    S.GameBalancePass.applyAll()
+    S.VisualPolish.init()
+    S.PerfBenchmark.init()
     -- Stronghold 2027: Initialize gameplay systems
-    WeatherGameplay.init()
-    FogOfWar.init()
-    FestivalSystem.init()
+    S.WeatherGameplay.init()
+    S.FogOfWar.init()
+    S.FestivalSystem.init()
     -- Stronghold 2027: Initialize formations, upgrades, tips
-    FormationSystem.init()
-    UpgradeTree.init()
-    LoadingTips.init()
+    S.FormationSystem.init()
+    S.UpgradeTree.init()
+    S.LoadingTips.init()
     -- Stronghold 2027: Initialize final systems
-    ScreenshotManager.init()
-    DifficultyPresets.init()
+    S.ScreenshotManager.init()
+    S.DifficultyPresets.init()
     -- Stronghold 2027: Initialize improvements
-    Minimap.init()
-    CommandQueue.init()
-    AIDialogue.init()
-    GameSpeedControl.init()
-    ConstructionAnim.init()
+    S.Minimap.init()
+    S.CommandQueue.init()
+    S.AIDialogue.init()
+    S.GameSpeedControl.init()
+    S.ConstructionAnim.init()
     -- Stronghold 2027: Initialize v1.25 improvements
-    Veterancy.init()
-    BuildingHotkeys.init()
-    ResourceFlow.init()
-    AutoSaveEnhancer.init()
-    ThreatAI.init()
+    S.Veterancy.init()
+    S.BuildingHotkeys.init()
+    S.ResourceFlow.init()
+    S.AutoSaveEnhancer.init()
+    S.ThreatAI.init()
     -- Stronghold 2027: Initialize v1.26 QoL systems
-    RallyPoint.init()
-    RightClickDismiss.init()
-    RightClickDismiss.autoRegister()
-    BuildingQueue.init()
-    MinimapDrag.init()
-    AutoWorker.init()
-    DynamicUnitCap.init()
+    S.RallyPoint.init()
+    S.RightClickDismiss.init()
+    S.RightClickDismiss.autoRegister()
+    S.BuildingQueue.init()
+    S.MinimapDrag.init()
+    S.AutoWorker.init()
+    S.DynamicUnitCap.init()
     -- Register globals
     _G.RallyPoint = RallyPoint
     _G.BuildingQueue = BuildingQueue
     _G.AutoWorker = AutoWorker
     _G.DynamicUnitCap = DynamicUnitCap
     -- Stronghold 2027: Initialize v1.27 systems
-    MapSizeSelector.init()
-    SpectatorMode.init()
-    CoopCampaign.init()
-    PathOpt.init()
-    Workshop.init()
+    S.MapSizeSelector.init()
+    S.SpectatorMode.init()
+    S.CoopCampaign.init()
+    S.PathOpt.init()
+    S.Workshop.init()
     -- Register globals
     _G.MapSizeSelector = MapSizeSelector
     _G.SpectatorMode = SpectatorMode
@@ -393,11 +379,11 @@ local function delayedInit()
     _G.PathOpt = PathOpt
     _G.Workshop = Workshop
     -- Stronghold 2027: Initialize v1.28 systems
-    SkirmishTrail.init()
-    ObjectPool.init()
-    Gamepad.init()
-    MapSharing.init()
-    AutoSaveIndicator.init()
+    S.SkirmishTrail.init()
+    S.ObjectPool.init()
+    S.Gamepad.init()
+    S.MapSharing.init()
+    S.AutoSaveIndicator.init()
     -- Register globals
     _G.SkirmishTrail = SkirmishTrail
     _G.ObjectPool = ObjectPool
@@ -405,9 +391,9 @@ local function delayedInit()
     _G.MapSharing = MapSharing
     _G.AutoSaveIndicator = AutoSaveIndicator
     -- Stronghold 2027: Initialize v2.2 systems
-    CommunityToolkit.init()
-    AutoUpdater.init()
-    AutoUpdater.checkForUpdates()
+    S.CommunityToolkit.init()
+    S.AutoUpdater.init()
+    S.AutoUpdater.checkForUpdates()
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -504,82 +490,82 @@ function game:update(dt)
                 -- Stronghold 2027: Update combat system
                 CombatIntegration.update(dt)
                 -- Stronghold 2027: Update immersion systems
-                AnimationSystem.updateAll(dt)
-                SoundSystem.update(dt)
-                WeatherSystem.update(dt)
+                S.AnimationSystem.updateAll(dt)
+                S.SoundSystem.update(dt)
+                S.WeatherSystem.update(dt)
                 ModernUI.update(dt)
-                LightingSystem.update(dt)
+                S.LightingSystem.update(dt)
                 -- Stronghold 2027: Update HD render pipeline (normal maps, lights)
-                HDRenderPipeline.update(dt)
+                S.HDRenderPipeline.update(dt)
                 -- Stronghold 2027: Update multiplayer networking
-                GameServer.update(dt)
-                GameClient.update(dt)
-                Chat.update(dt)
+                S.GameServer.update(dt)
+                S.GameClient.update(dt)
+                S.Chat.update(dt)
                 -- Stronghold 2027: Update diplomacy & trade
-                DiplomacyController.update(dt)
-                TradeController.update(dt)
-                if DiplomacyPanel.isVisible() then
-                    DiplomacyPanel.refresh()
+                S.DiplomacyController.update(dt)
+                S.TradeController.update(dt)
+                if S.DiplomacyPanel.isVisible() then
+                    S.DiplomacyPanel.refresh()
                 end
                 -- Stronghold 2027: Update QA systems
-                PerfWatchdog.update(dt)
-                AudioMix.update(dt)
-                ReplaySystem.update(dt)
-                StatisticsDashboard.updateStats()
-                MapEditor.update(dt)
+                S.PerfWatchdog.update(dt)
+                S.AudioMix.update(dt)
+                S.ReplaySystem.update(dt)
+                S.StatisticsDashboard.updateStats()
+                S.MapEditor.update(dt)
                 -- Stronghold 2027: Update dynamic music
-                DynamicMusic.update(dt)
+                S.DynamicMusic.update(dt)
                 -- Stronghold 2027: Update mods
-                ModLoader.update(dt)
+                S.ModLoader.update(dt)
                 -- Stronghold 2027: Update tutorial
-                TutorialSystem.update(dt)
+                S.TutorialSystem.update(dt)
                 -- Stronghold 2027: Update siege weapons
-                SiegeWeapons.update(dt)
-                CampaignStory.update(dt)
+                S.SiegeWeapons.update(dt)
+                S.CampaignStory.update(dt)
                 -- Stronghold 2027: Performance optimization
-                PerfOpt.checkGC()
-                PerfOpt.resetFrameStats()
+                S.PerfOpt.checkGC()
+                S.PerfOpt.resetFrameStats()
                 -- Stronghold 2027: Update visual polish (particles, animations)
-                VisualPolish.update(dt)
+                S.VisualPolish.update(dt)
                 -- Stronghold 2027: Update performance benchmark
-                PerfBenchmark.update(dt)
+                S.PerfBenchmark.update(dt)
                 -- Stronghold 2027: Update gameplay systems
-                FestivalSystem.update(dt)
+                S.FestivalSystem.update(dt)
                 -- Stronghold 2027: Update loading tips + credits
-                LoadingTips.update(dt)
-                CreditsScreen.update(dt)
+                S.LoadingTips.update(dt)
+                S.CreditsScreen.update(dt)
                 -- Stronghold 2027: Update screenshot manager
-                ScreenshotManager.update(dt)
+                S.ScreenshotManager.update(dt)
                 -- Stronghold 2027: Update improvements
-                Minimap.update(dt)
-                AIDialogue.update(dt)
-                ConstructionAnim.update(dt)
+                S.Minimap.update(dt)
+                S.AIDialogue.update(dt)
+                S.ConstructionAnim.update(dt)
                 -- Clean up dead unit command queues
                 if _G.state and _G.state.gameObjectList then
-                    CommandQueue.cleanup(_G.state.gameObjectList)
+                    S.CommandQueue.cleanup(_G.state.gameObjectList)
                 end
                 -- Stronghold 2027: Update v1.25 systems
-                AutoSaveEnhancer.update(dt)
-                ThreatAI.update(dt)
-                ResourceFlow.update(dt)
-                Veterancy.cleanup(_G.state.gameObjectList or {})
+                S.AutoSaveEnhancer.update(dt)
+                S.ThreatAI.update(dt)
+                S.ResourceFlow.update(dt)
+                S.Veterancy.cleanup(_G.state.gameObjectList or {})
                 -- Stronghold 2027: Update v1.26 QoL systems
-                AutoWorker.update(dt)
-                DynamicUnitCap.update(dt)
+                S.AutoWorker.update(dt)
+                S.DynamicUnitCap.update(dt)
                 -- Stronghold 2027: Update v1.27 systems
-                SpectatorMode.update(dt)
-                Workshop.update(dt)
+                S.SpectatorMode.update(dt)
+                S.Workshop.update(dt)
                 -- Stronghold 2027: Update v1.28 systems
-                AutoSaveIndicator.update(dt)
-                Gamepad.update(dt)
+                S.AutoSaveIndicator.update(dt)
+                S.Gamepad.update(dt)
                 -- Stronghold 2027: Update v2.2 systems
-                AutoUpdater.update(dt)
+                S.AutoUpdater.update(dt)
                 -- Stronghold 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
                 if _G._fogTimer > 1.0 then
                     _G._fogTimer = 0
-                    pcall(function() FogOfWar.updateVisibility() end)
+                    pcall(function() S.FogOfWar.updateVisibility() end)
                 end
                 -- Stronghold 2027: Update AI system (with profiling)
                 PerformanceManager.beginSection("ai_update")
@@ -617,11 +603,11 @@ function game:update(dt)
                 _G._hdLightTimer = _G._hdLightTimer + dt
                 if _G._hdLightTimer > 2.0 then
                     _G._hdLightTimer = 0
-                    pcall(function() HDRenderPipeline.autoDetectLights() end)
+                    pcall(function() S.HDRenderPipeline.autoDetectLights() end)
                 end
                 -- Stronghold 2027: Update UX screens
                 MissionEndScreen.update(dt)
-                CreditsScreen.update(dt)
+                S.CreditsScreen.update(dt)
                 TutorialHints.update(dt)
                 -- Stronghold 2027: Update auto-save
                 AutoSaveSystem.update(dt)
@@ -680,7 +666,7 @@ function game:enter(_, savegameName, w, h)
     _G.chunksWide, _G.chunksHigh = w, h
     -- Stronghold 2027: Apply selected map size if not overridden
     if MapSizeSelector and not w then
-        MapSizeSelector.applyToGame()
+        S.MapSizeSelector.applyToGame()
     end
     if _G.loaded then
         _G.paused = false
@@ -709,9 +695,9 @@ function game:draw()
             -- Stronghold 2027: Draw combat system (projectiles, damage numbers, health bars)
             CombatIntegration.draw()
             -- Stronghold 2027: Draw light sources (torches, fires)
-            LightingSystem.drawLights()
+            S.LightingSystem.drawLights()
             -- Stronghold 2027: Draw weather (rain, snow, fog)
-            WeatherSystem.draw()
+            S.WeatherSystem.draw()
             love.graphics.pop()
             if _G.paused then
                 love.postshader.addTiltshift(12)
@@ -768,38 +754,38 @@ function game:draw()
                 love.graphics.setScissor()
             end
             -- Stronghold 2027: Draw tutorial overlay
-            TutorialSystem.draw()
+            S.TutorialSystem.draw()
             -- Stronghold 2027: Draw siege weapons
-            SiegeWeapons.draw()
+            S.SiegeWeapons.draw()
             -- Stronghold 2027: Draw campaign story dialogue
-            CampaignStory.draw()
+            S.CampaignStory.draw()
             -- Stronghold 2027: Draw debug console
-            DebugConsole.draw()
+            S.DebugConsole.draw()
             -- Stronghold 2027: Draw visual polish particles
-            VisualPolish.draw()
+            S.VisualPolish.draw()
             -- Stronghold 2027: Draw loading tips (bottom-left, above action bar)
-            LoadingTips.draw(10, love.graphics.getHeight() - 310, 300)
-            CreditsScreen.draw()
+            S.LoadingTips.draw(10, love.graphics.getHeight() - 310, 300)
+            S.CreditsScreen.draw()
             -- Stronghold 2027: Draw improvements
-            Minimap.draw()
-            GameSpeedControl.draw()
-            ConstructionAnim.draw()
-            AIDialogue.draw()
+            S.Minimap.draw()
+            S.GameSpeedControl.draw()
+            S.ConstructionAnim.draw()
+            S.AIDialogue.draw()
             -- Draw command queue indicators for selected units
             if _G.Commander and _G.Commander.selectedUnits then
-                CommandQueue.drawSelected(_G.Commander.selectedUnits)
+                S.CommandQueue.drawSelected(_G.Commander.selectedUnits)
             end
             -- Stronghold 2027: Draw v1.25 visuals
-            ResourceFlow.draw()
-            Veterancy.drawSelected()
+            S.ResourceFlow.draw()
+            S.Veterancy.drawSelected()
             -- Stronghold 2027: Draw v1.26 QoL visuals
-            RallyPoint.draw()
-            BuildingQueue.draw()
+            S.RallyPoint.draw()
+            S.BuildingQueue.draw()
             -- Stronghold 2027: Draw v1.27 visuals
-            SpectatorMode.draw()
+            S.SpectatorMode.draw()
             -- Stronghold 2027: Draw v1.28 visuals
-            AutoSaveIndicator.draw()
-            Gamepad.draw()
+            S.AutoSaveIndicator.draw()
+            S.Gamepad.draw()
         else
             renderLoadingScreen("")
             renderLoadingBar(loadState, progress)
@@ -827,16 +813,16 @@ function game:mousepressed(x, y, button, istouch)
         if MissionEndScreen.mousepressed(x, y, button) then return end
     end
     -- Stronghold 2027: Minimap + GameSpeed click handling
-    if Minimap.isVisible() then
-        if Minimap.mousepressed(x, y, button) then return end
-        if MinimapDrag.mousepressed(x, y, button) then return end
+    if S.Minimap.isVisible() then
+        if S.Minimap.mousepressed(x, y, button) then return end
+        if S.MinimapDrag.mousepressed(x, y, button) then return end
     end
-    if GameSpeedControl.mousepressed(x, y, button) then return end
+    if S.GameSpeedControl.mousepressed(x, y, button) then return end
     -- Stronghold 2027: Right-click dismiss panels
-    if RightClickDismiss.handleRightClick(x, y, button) then return end
+    if S.RightClickDismiss.handleRightClick(x, y, button) then return end
     -- Stronghold 2027: Map Editor click handling
-    if MapEditor.isActive() then
-        if MapEditor.mousepressed(x, y, button) then return end
+    if S.MapEditor.isActive() then
+        if S.MapEditor.mousepressed(x, y, button) then return end
     end
     if _G.paused then return end
     if objects.mousepressed(x, y, button, istouch) then
@@ -868,16 +854,16 @@ function game:mousepressed(x, y, button, istouch)
 end
 
 function game:textinput(text)
-    if DebugConsole.isVisible() then
-        if DebugConsole.textinput(text) then return end
+    if S.DebugConsole.isVisible() then
+        if S.DebugConsole.textinput(text) then return end
     end
     console.textinput(text)
 end
 
 function game:keypressed(key, scancode, isRepeat)
     -- Stronghold 2027: Chat input takes priority
-    if Chat.isInputActive() then
-        if Chat.keypressed(key) then return end
+    if S.Chat.isInputActive() then
+        if S.Chat.keypressed(key) then return end
     end
 
     if love.keyboard.isScancodeDown("`") and love.keyboard.isScancodeDown("lshift") then
@@ -891,50 +877,50 @@ function game:keypressed(key, scancode, isRepeat)
 
     -- Stronghold 2027: Enter = toggle chat
     if key == "return" or key == "kpenter" then
-        Chat.keypressed(key)
+        S.Chat.keypressed(key)
         return
     end
     -- Stronghold 2027: Game speed control (Space, 1-4)
-    if GameSpeedControl.keypressed(key) then return end
+    if S.GameSpeedControl.keypressed(key) then return end
     -- Stronghold 2027: Building hotkeys (Ctrl+1-9)
     if (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
-        if BuildingHotkeys.handleKey(key, true) then return end
+        if S.BuildingHotkeys.handleKey(key, true) then return end
     end
     -- Stronghold 2027: Toggle resource flow (Ctrl+Y)
     if key == "y" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
-        ResourceFlow.toggle()
-        ModernUI.notifyInfo("Tok surovin: " .. (ResourceFlow.isVisible() and "ON" or "OFF"))
+        S.ResourceFlow.toggle()
+        ModernUI.notifyInfo("Tok surovin: " .. (S.ResourceFlow.isVisible() and "ON" or "OFF"))
         return
     end
     -- Stronghold 2027: Spectator mode (Ctrl+Shift+S)
     if key == "s" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
-        if SpectatorMode.isSpectating() then
-            SpectatorMode.exit()
+        if S.SpectatorMode.isSpectating() then
+            S.SpectatorMode.exit()
             ModernUI.notifyInfo("Opsazevalni nacin izklopljen")
         else
-            SpectatorMode.enter(1)
+            S.SpectatorMode.enter(1)
         end
         return
     end
     -- Stronghold 2027: Co-op campaign (Ctrl+Shift+C)
     if key == "c" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
-        CoopCampaign.start("mission1")
+        S.CoopCampaign.start("mission1")
         ModernUI.notifySuccess("Kooperativna kampanja zaceta!")
         return
     end
     -- Stronghold 2027: Cycle map size (Ctrl+Shift+M)
     if key == "m" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
-        local next = MapSizeSelector.cycle()
-        local info = MapSizeSelector.getInfo()
+        local next = S.MapSizeSelector.cycle()
+        local info = S.MapSizeSelector.getInfo()
         ModernUI.notifyInfo("Velikost mape: " .. info.name .. " (" .. info.tiles .. " tiles)")
         return
     end
     -- Stronghold 2027: Skirmish trail (Ctrl+Shift+T = start next unlocked)
     if key == "t" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
-        local missions = SkirmishTrail.getAllMissions()
+        local missions = S.SkirmishTrail.getAllMissions()
         for _, m in ipairs(missions) do
             if m.unlocked and not m.completed then
-                SkirmishTrail.start(m.id)
+                S.SkirmishTrail.start(m.id)
                 ModernUI.notifySuccess("Skirmish: " .. m.name)
                 return
             end
@@ -944,41 +930,41 @@ function game:keypressed(key, scancode, isRepeat)
     end
     -- Stronghold 2027: Building queue toggle (Ctrl+Shift+Q = clear queue)
     if key == "q" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
-        BuildingQueue.clear()
+        S.BuildingQueue.clear()
         ModernUI.notifyInfo("Vrsta gradnje pociscena")
         return
     end
     -- Stronghold 2027: Toggle auto-worker assignment (Ctrl+Shift+W)
     if key == "w" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
-        local newState = not AutoWorker.isEnabled()
-        AutoWorker.setEnabled(newState)
+        local newState = not S.AutoWorker.isEnabled()
+        S.AutoWorker.setEnabled(newState)
         ModernUI.notifyInfo("Samodejna delavci: " .. (newState and "ON" or "OFF"))
         return
     end
     -- Stronghold 2027: Bug report (Ctrl+Shift+B)
     if key == "b" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
-        CommunityToolkit.submitBugReport()
+        S.CommunityToolkit.submitBugReport()
         return
     end
     -- Stronghold 2027: Open Discord (Ctrl+Shift+D)
     if key == "d" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
-        CommunityToolkit.openDiscord()
+        S.CommunityToolkit.openDiscord()
         ModernUI.notifyInfo("Odpiranje Discord...")
         return
     end
     -- Stronghold 2027: Check for updates (Ctrl+Shift+U)
     if key == "u" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
-        if AutoUpdater.isUpdateAvailable() then
-            ModernUI.notifySuccess("Nova verzija: " .. tostring(AutoUpdater.getLatestVersion()))
-            AutoUpdater.openReleasesPage()
+        if S.AutoUpdater.isUpdateAvailable() then
+            ModernUI.notifySuccess("Nova verzija: " .. tostring(S.AutoUpdater.getLatestVersion()))
+            S.AutoUpdater.openReleasesPage()
         else
-            ModernUI.notifyInfo("Posodobljeni ste (v" .. AutoUpdater.getCurrentVersion() .. ")")
+            ModernUI.notifyInfo("Posodobljeni ste (v" .. S.AutoUpdater.getCurrentVersion() .. ")")
         end
         return
     end
     -- Handle spectator mode keys
-    if SpectatorMode.isSpectating() then
-        if SpectatorMode.keypressed(key) then return end
+    if S.SpectatorMode.isSpectating() then
+        if S.SpectatorMode.keypressed(key) then return end
     end
     ActionBar:keypressed(key, scancode)
 
@@ -1097,61 +1083,61 @@ function game:keypressed(key, scancode, isRepeat)
     -- F5 = Cycle weather (Stronghold 2027)
     if key == "f5" then
         local weathers = {"clear", "rain", "heavy_rain", "fog", "snow", "storm"}
-        local current = WeatherSystem.getCurrentWeather()
+        local current = S.WeatherSystem.getCurrentWeather()
         local idx = 1
         for i, w in ipairs(weathers) do
             if w == current then idx = i; break end
         end
         local next = weathers[(idx % #weathers) + 1]
-        WeatherSystem.setWeather(next)
+        S.WeatherSystem.setWeather(next)
         ModernUI.notifyInfo("Weather: " .. next)
         return
     end
     -- F6 = Cycle time of day (Stronghold 2027)
     if key == "f6" then
         local periods = {"dawn", "day", "dusk", "night"}
-        local current = LightingSystem.getTimePeriod():lower()
+        local current = S.LightingSystem.getTimePeriod():lower()
         local idx = 1
         for i, p in ipairs(periods) do
             if p == current then idx = i; break end
         end
         local next = periods[(idx % #periods) + 1]
-        LightingSystem.setTimePeriod(next)
-        ModernUI.notifyInfo("Time: " .. next .. " (" .. LightingSystem.getTimeString() .. ")")
+        S.LightingSystem.setTimePeriod(next)
+        ModernUI.notifyInfo("Time: " .. next .. " (" .. S.LightingSystem.getTimeString() .. ")")
         return
     end
     -- F7 = Toggle HD render pipeline (Stronghold 2027)
     if key == "f7" then
-        local newState = not HDRenderPipeline.isEnabled()
-        HDRenderPipeline.setEnabled(newState)
+        local newState = not S.HDRenderPipeline.isEnabled()
+        S.HDRenderPipeline.setEnabled(newState)
         ModernUI.notifyInfo("HD Pipeline: " .. (newState and "ON" or "OFF"))
         return
     end
     -- F8 = Force refresh light sources (Stronghold 2027)
     if key == "f8" then
-        HDRenderPipeline.autoDetectLights()
-        local info = HDRenderPipeline.getInfo()
+        S.HDRenderPipeline.autoDetectLights()
+        local info = S.HDRenderPipeline.getInfo()
         ModernUI.notifyInfo("Lights refreshed: " .. info.lightCount .. " active")
         return
     end
     -- F9 = Toggle diplomacy & trade panel (Stronghold 2027)
     if key == "f9" then
-        DiplomacyPanel.toggle()
+        S.DiplomacyPanel.toggle()
         return
     end
     -- F10 = Run mission test suite (Stronghold 2027)
     if key == "f10" then
-        local results = MissionTestSuite.runAll()
-        MissionTestSuite.printResults(results)
+        local results = S.MissionTestSuite.runAll()
+        S.MissionTestSuite.printResults(results)
         ModernUI.notifyInfo(string.format("Mission tests: %d/%d passed", results.passed, results.total))
         return
     end
     -- F11 = Write crash log + mod/Steam info (Stronghold 2027)
     if key == "f11" then
-        CrashHandler.writeLog()
-        local summary = CrashHandler.getSummary()
-        local modStats = ModLoader.getStats()
-        local steamInfo = SteamWorks.getInfo()
+        S.CrashHandler.writeLog()
+        local summary = S.CrashHandler.getSummary()
+        local modStats = S.ModLoader.getStats()
+        local steamInfo = S.SteamWorks.getInfo()
         ModernUI.notifyInfo(string.format("Crash: %d errs | Mods: %d/%d loaded | Achievements: %d/%d",
             summary.totalErrors, modStats.loaded, modStats.total,
             steamInfo.achievementsUnlocked, steamInfo.totalAchievements))
@@ -1159,78 +1145,78 @@ function game:keypressed(key, scancode, isRepeat)
     end
     -- F12 = Toggle Map Editor (Stronghold 2027)
     if key == "f12" then
-        MapEditor.toggle()
+        S.MapEditor.toggle()
         return
     end
     -- Ctrl+T = Toggle tutorial (Stronghold 2027)
     if key == "t" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and not love.keyboard.isDown("lshift") and not love.keyboard.isDown("rshift") then
-        if TutorialSystem.isActive() then
-            TutorialSystem.stop()
+        if S.TutorialSystem.isActive() then
+            S.TutorialSystem.stop()
             ModernUI.notifyInfo("Tutorial stopped")
         else
-            TutorialSystem.start()
+            S.TutorialSystem.start()
             ModernUI.notifyInfo("Tutorial started")
         end
         return
     end
     -- Ctrl+O = Toggle unified settings (Stronghold 2027)
     if key == "o" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
-        UnifiedSettings.toggle()
+        S.UnifiedSettings.toggle()
         return
     end
     -- Ctrl+B = Spawn catapult for testing (Stronghold 2027)
     if key == "b" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and not love.keyboard.isDown("lshift") and not love.keyboard.isDown("rshift") then
         if _G.state and _G.state.keepX then
-            SiegeWeapons.create("catapult", _G.state.keepX + 5, _G.state.keepY + 5, 1)
+            S.SiegeWeapons.create("catapult", _G.state.keepX + 5, _G.state.keepY + 5, 1)
             ModernUI.notifySuccess("Catapult created near keep")
         end
         return
     end
     -- Ctrl+L = Run release checklist (Stronghold 2027)
     if key == "l" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and not love.keyboard.isDown("lshift") and not love.keyboard.isDown("rshift") then
-        local results = ReleaseChecklist.runAll()
-        ReleaseChecklist.printResults()
+        local results = S.ReleaseChecklist.runAll()
+        S.ReleaseChecklist.printResults()
         ModernUI.notifyInfo(string.format("Release checklist: %d/%d passed", results.passed, results.total))
         return
     end
     -- Ctrl+I = Run integration test suite (Stronghold 2027)
     if key == "i" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
-        local results = IntegrationTestSuite.runAll()
-        IntegrationTestSuite.printResults()
+        local results = S.IntegrationTestSuite.runAll()
+        S.IntegrationTestSuite.printResults()
         ModernUI.notifyInfo(string.format("Integration tests: %d/%d passed", results.passed, results.total))
         return
     end
     -- Ctrl+P = Run performance benchmark (Stronghold 2027)
     if key == "p" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
-        if PerfBenchmark.isRunning() then
+        if S.PerfBenchmark.isRunning() then
             ModernUI.notifyInfo("Benchmark already running...")
         else
-            PerfBenchmark.start()
+            S.PerfBenchmark.start()
             ModernUI.notifyInfo("Benchmark started (30s)")
         end
         return
     end
     -- Ctrl+N = Generate release notes (Stronghold 2027)
     if key == "n" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
-        local filename = ReleaseNotesGen.save("1.21.0")
+        local filename = S.ReleaseNotesGen.save("1.21.0")
         ModernUI.notifyInfo("Release notes saved: " .. tostring(filename))
         return
     end
     -- Ctrl+A = Toggle achievement gallery (Stronghold 2027)
     if key == "a" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
-        AchievementGallery.toggle()
+        S.AchievementGallery.toggle()
         return
     end
     -- Ctrl+W = Cycle weather gameplay (Stronghold 2027)
     if key == "w" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and not love.keyboard.isDown("lshift") and not love.keyboard.isDown("rshift") then
-        local newWeather = WeatherGameplay.cycleWeather()
-        local mods = WeatherGameplay.getModifiers()
+        local newWeather = S.WeatherGameplay.cycleWeather()
+        local mods = S.WeatherGameplay.getModifiers()
         ModernUI.notifyInfo("Vreme: " .. mods.name .. " (farm x" .. mods.farmMult .. ", speed x" .. mods.speedMult .. ")")
         return
     end
     -- Ctrl+F = Start tournament festival (Stronghold 2027)
     if key == "f" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
-        if FestivalSystem.start("tournament") then
+        if S.FestivalSystem.start("tournament") then
             ModernUI.notifySuccess("Turnir zacel! (+10 popularnost)")
         else
             ModernUI.notifyError("Ni dovolj zlata za turnir (200)")
@@ -1239,70 +1225,70 @@ function game:keypressed(key, scancode, isRepeat)
     end
     -- Ctrl+Shift+V = Reveal all fog (debug, Stronghold 2027)
     if key == "v" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
-        FogOfWar.revealAll()
+        S.FogOfWar.revealAll()
         ModernUI.notifyInfo("Megla razkrita (debug)")
         return
     end
     -- Ctrl+G = Cycle formation (Stronghold 2027)
     if key == "g" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
-        local next = FormationSystem.cycleFormation()
-        local info = FormationSystem.getStats()
+        local next = S.FormationSystem.cycleFormation()
+        local info = S.FormationSystem.getStats()
         ModernUI.notifyInfo("Formacija: " .. info.name .. " (def x" .. info.defenseBonus .. ", atk x" .. info.attackBonus .. ")")
         return
     end
     -- Ctrl+E = Show credits (Stronghold 2027)
     if key == "e" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
-        CreditsScreen.show()
+        S.CreditsScreen.show()
         return
     end
     -- Ctrl+D = Cycle difficulty (Stronghold 2027)
     if key == "d" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and not love.keyboard.isDown("lshift") and not love.keyboard.isDown("rshift") then
-        local next = DifficultyPresets.cycle()
-        local info = DifficultyPresets.getCurrentInfo()
+        local next = S.DifficultyPresets.cycle()
+        local info = S.DifficultyPresets.getCurrentInfo()
         ModernUI.notifyInfo("Tezavnost: " .. info.name .. " - " .. info.description)
         return
     end
     -- Ctrl+M = Capture screenshot (Stronghold 2027)
     if key == "m" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and not love.keyboard.isDown("lshift") and not love.keyboard.isDown("rshift") then
-        local file = ScreenshotManager.capture("manual")
+        local file = S.ScreenshotManager.capture("manual")
         ModernUI.notifySuccess("Screenshot shranjen: " .. tostring(file))
         return
     end
     -- Ctrl+Shift+L = Final release prep (Stronghold 2027)
     if key == "l" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
-        FinalReleasePrep.printResults()
-        local results = FinalReleasePrep.runAll()
+        S.FinalReleasePrep.printResults()
+        local results = S.FinalReleasePrep.runAll()
         ModernUI.notifyInfo(string.format("Release prep: %d/%d passed", results.passed, results.total))
         return
     end
     -- Handle credits ESC
-    if CreditsScreen.isActive() then
-        if CreditsScreen.keypressed(key) then return end
+    if S.CreditsScreen.isActive() then
+        if S.CreditsScreen.keypressed(key) then return end
     end
     -- Tilde (~) = Toggle debug console (Stronghold 2027)
     if key == "`" or key == "~" then
-        DebugConsole.toggle()
+        S.DebugConsole.toggle()
         return
     end
     -- Handle debug console input
-    if DebugConsole.isVisible() then
-        if DebugConsole.keypressed(key) then return end
+    if S.DebugConsole.isVisible() then
+        if S.DebugConsole.keypressed(key) then return end
     end
     -- Handle story dialogue input
-    if CampaignStory.isActive() then
-        if CampaignStory.keypressed(key) then return end
+    if S.CampaignStory.isActive() then
+        if S.CampaignStory.keypressed(key) then return end
     end
     -- Stronghold 2027: Handle Map Editor input
-    if MapEditor.isActive() then
-        if MapEditor.keypressed(key) then return end
+    if S.MapEditor.isActive() then
+        if S.MapEditor.keypressed(key) then return end
     end
     -- Ctrl+R = Toggle replay recording (Stronghold 2027)
     if key == "r" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
-        if ReplaySystem.isRecording() then
-            ReplaySystem.stopRecording()
+        if S.ReplaySystem.isRecording() then
+            S.ReplaySystem.stopRecording()
             ModernUI.notifySuccess("Replay saved!")
         else
-            ReplaySystem.startRecording()
+            S.ReplaySystem.startRecording()
             ModernUI.notifyInfo("Replay recording started")
         end
         return
@@ -1311,9 +1297,9 @@ function game:keypressed(key, scancode, isRepeat)
     if key == "s" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and not love.keyboard.isDown("lshift") and not love.keyboard.isDown("rshift")
         and not (love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift")) then
         -- Don't interfere with map editor save
-        if not MapEditor.isActive() then
-            StatisticsDashboard.printSummary()
-            StatisticsDashboard.save()
+        if not S.MapEditor.isActive() then
+            S.StatisticsDashboard.printSummary()
+            S.StatisticsDashboard.save()
             ModernUI.notifyInfo("Statistics saved (check console)")
             return
         end
@@ -1402,7 +1388,7 @@ end
 
 function game:mousereleased(x, y, button, istouch)
     -- Stronghold 2027: Handle minimap drag release
-    MinimapDrag.mousereleased(x, y, button)
+    S.MinimapDrag.mousereleased(x, y, button)
     -- TODO: Check if event is consumed
     if _G.Commander:mousereleased(x, y, button) then
         return
@@ -1413,27 +1399,27 @@ end
 
 function game:mousemoved(x, y, dx, dy, istouch)
     -- Stronghold 2027: Handle minimap drag scrolling
-    MinimapDrag.mousemoved(x, y, dx, dy)
+    S.MinimapDrag.mousemoved(x, y, dx, dy)
 end
 
 -- Stronghold 2027: Gamepad support
 function game:gamepadpressed(joystick, button)
-    Gamepad.handleButton(joystick, button)
+    S.Gamepad.handleButton(joystick, button)
 end
 
 function game:gamepadaxis(joystick, axis, value)
-    Gamepad.handleAxis(joystick, axis, value)
+    S.Gamepad.handleAxis(joystick, axis, value)
 end
 
 function game:gamepadconnected(joystick)
-    Gamepad.setConnected(true)
+    S.Gamepad.setConnected(true)
     if ModernUI then
         ModernUI.notifySuccess("Krmilnik prikljucen: " .. joystick:getName())
     end
 end
 
 function game:gamepaddisconnected(joystick)
-    Gamepad.setConnected(false)
+    S.Gamepad.setConnected(false)
     if ModernUI then
         ModernUI.notifyInfo("Krmilnik odklopljen")
     end
