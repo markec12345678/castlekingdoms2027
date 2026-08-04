@@ -225,6 +225,24 @@ function DiplomacyController.canTrade(targetPlayerId)
     return relation == RELATION.NEUTRAL or relation == RELATION.ALLIED or relation == RELATION.TRUCE
 end
 
+-- Stronghold 2027 v2.3.4: Improve relations with a faction (trade bonus)
+-- @param targetPlayerId number Target faction/player ID
+-- @param amount number Relation improvement amount (default 5)
+function DiplomacyController.improveRelations(targetPlayerId, amount)
+    amount = amount or 5
+    local current = DiplomacyController.getRelation(myPlayerId, targetPlayerId)
+    -- Only improve if currently neutral (don't change war/alliance status via trade)
+    if current == RELATION.NEUTRAL then
+        -- Track relationship score (internal, for future alliance proposals)
+        if not relationshipScores then relationshipScores = {} end
+        if not relationshipScores[myPlayerId] then relationshipScores[myPlayerId] = {} end
+        relationshipScores[myPlayerId][targetPlayerId] =
+            (relationshipScores[myPlayerId][targetPlayerId] or 0) + amount
+        print(string.format("[Diplomacy] Relations with player %d improved by %d (total: %d)",
+            targetPlayerId, amount, relationshipScores[myPlayerId][targetPlayerId]))
+    end
+end
+
 -- Check if has shared vision (allies see each other's units)
 function DiplomacyController.hasSharedVision(targetPlayerId)
     local relation = DiplomacyController.getRelation(myPlayerId, targetPlayerId)

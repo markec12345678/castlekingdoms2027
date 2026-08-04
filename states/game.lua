@@ -399,6 +399,8 @@ local function delayedInit()
     SeasonalSystem.init()
     EconomicEvents.init()
     TradeCaravans.init()
+    -- Stronghold 2027 v2.3.4: Register SeasonalSystem as global for AI access
+    _G.SeasonalSystem = SeasonalSystem
     -- Stronghold 2027: Initialize performance profiling
     PerformanceManager.init()
     PriorityUpdate.init()

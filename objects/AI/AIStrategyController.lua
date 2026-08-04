@@ -179,9 +179,13 @@ function AIStrategyController:updateFaction(faction, state, dt)
     -- Apply cheat bonus (resource generation)
     if state.difficulty.cheatBonus > 0 then
         local bonus = state.difficulty.cheatBonus
+        -- Stronghold 2027 v2.3.4: Apply seasonal modifiers to cheat bonus too
+        local SeasonalSystem = _G.SeasonalSystem
+        local woodMod = (SeasonalSystem and SeasonalSystem.getProductionModifier("wood")) or 1.0
+        local stoneMod = (SeasonalSystem and SeasonalSystem.getProductionModifier("stone")) or 1.0
         state.resources.gold = state.resources.gold + math.floor(10 * bonus)
-        state.resources.wood = state.resources.wood + math.floor(5 * bonus)
-        state.resources.stone = state.resources.stone + math.floor(2 * bonus)
+        state.resources.wood = state.resources.wood + math.floor(5 * bonus * woodMod)
+        state.resources.stone = state.resources.stone + math.floor(2 * bonus * stoneMod)
     end
 
     -- Update state based on game conditions
@@ -434,9 +438,14 @@ end
 function AIStrategyController:gatherResources(faction, state)
     -- Simulate resource gathering (in real game, workers would do this)
     local efficiency = state.difficulty.resourceEfficiency
-    state.resources.wood = state.resources.wood + math.floor(20 * efficiency)
-    state.resources.stone = state.resources.stone + math.floor(10 * efficiency)
-    state.resources.food = state.resources.food + math.floor(15 * efficiency)
+    -- Stronghold 2027 v2.3.4: Apply seasonal production modifiers
+    local SeasonalSystem = _G.SeasonalSystem
+    local woodMod = (SeasonalSystem and SeasonalSystem.getProductionModifier("wood")) or 1.0
+    local stoneMod = (SeasonalSystem and SeasonalSystem.getProductionModifier("stone")) or 1.0
+    local foodMod = (SeasonalSystem and SeasonalSystem.getProductionModifier("food")) or 1.0
+    state.resources.wood = state.resources.wood + math.floor(20 * efficiency * woodMod)
+    state.resources.stone = state.resources.stone + math.floor(10 * efficiency * stoneMod)
+    state.resources.food = state.resources.food + math.floor(15 * efficiency * foodMod)
 end
 
 function AIStrategyController:hasBuilding(state, buildingName)

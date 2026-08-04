@@ -246,8 +246,24 @@ end
 
 -- Deduct goods from player's stockpile
 function TradeCaravanSystem.deductGoods(goods)
-    -- In a full implementation, this would check actual stockpile
-    -- For now, just return true (assume player has the goods)
+    -- Stronghold 2027 v2.3.4: Actually check and deduct resources from player
+    if not _G.state or not _G.state.resources then return false end
+
+    -- First pass: verify all goods are available
+    for resource, qty in pairs(goods) do
+        local available = _G.state.resources[resource] or 0
+        if available < qty then
+            local ModernUI = require("objects.UI.ModernUISystem")
+            ModernUI.notifyError(string.format("Ni dovolj %s (ima: %d, potrebuje: %d)",
+                resource, available, qty))
+            return false
+        end
+    end
+
+    -- Second pass: deduct
+    for resource, qty in pairs(goods) do
+        _G.state.resources[resource] = _G.state.resources[resource] - qty
+    end
     return true
 end
 
@@ -262,8 +278,15 @@ end
 
 -- Improve diplomatic relations with a faction
 function TradeCaravanSystem.improveRelations(faction)
-    -- In a full implementation, this would update a relations table
-    -- For now, just log it
+    -- Stronghold 2027 v2.3.4: Actually update diplomacy relations
+    local DiplomacyController = _G.DiplomacyController or (require("objects.Network.DiplomacyController"))
+    if DiplomacyController and DiplomacyController.improveRelations then
+        pcall(function() DiplomacyController.improveRelations(faction, 5) end)
+    end
+    -- Also fire event for other systems
+    if _G.GameEventBus then
+        pcall(function() _G.GameEventBus.emit("trade_completed", {faction = faction}) end)
+    end
     print(string.format("[TradeCaravans] Relations with faction %d improved", faction))
 end
 
