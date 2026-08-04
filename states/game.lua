@@ -1137,7 +1137,7 @@ function game:keypressed(key, scancode, isRepeat)
         return
     end
     -- Ctrl+T = Toggle tutorial (Stronghold 2027)
-    if key == "t" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+    if key == "t" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and not love.keyboard.isDown("lshift") and not love.keyboard.isDown("rshift") then
         if TutorialSystem.isActive() then
             TutorialSystem.stop()
             ModernUI.notifyInfo("Tutorial stopped")
@@ -1161,7 +1161,7 @@ function game:keypressed(key, scancode, isRepeat)
         return
     end
     -- Ctrl+L = Run release checklist (Stronghold 2027)
-    if key == "l" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+    if key == "l" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and not love.keyboard.isDown("lshift") and not love.keyboard.isDown("rshift") then
         local results = ReleaseChecklist.runAll()
         ReleaseChecklist.printResults()
         ModernUI.notifyInfo(string.format("Release checklist: %d/%d passed", results.passed, results.total))
@@ -1196,7 +1196,7 @@ function game:keypressed(key, scancode, isRepeat)
         return
     end
     -- Ctrl+W = Cycle weather gameplay (Stronghold 2027)
-    if key == "w" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+    if key == "w" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and not love.keyboard.isDown("lshift") and not love.keyboard.isDown("rshift") then
         local newWeather = WeatherGameplay.cycleWeather()
         local mods = WeatherGameplay.getModifiers()
         ModernUI.notifyInfo("Vreme: " .. mods.name .. " (farm x" .. mods.farmMult .. ", speed x" .. mods.speedMult .. ")")
@@ -1237,7 +1237,7 @@ function game:keypressed(key, scancode, isRepeat)
         return
     end
     -- Ctrl+M = Capture screenshot (Stronghold 2027)
-    if key == "m" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+    if key == "m" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and not love.keyboard.isDown("lshift") and not love.keyboard.isDown("rshift") then
         local file = ScreenshotManager.capture("manual")
         ModernUI.notifySuccess("Screenshot shranjen: " .. tostring(file))
         return
@@ -1282,7 +1282,7 @@ function game:keypressed(key, scancode, isRepeat)
         return
     end
     -- Ctrl+S = Print statistics (Stronghold 2027)
-    if key == "s" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl"))
+    if key == "s" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and not love.keyboard.isDown("lshift") and not love.keyboard.isDown("rshift")
         and not (love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift")) then
         -- Don't interfere with map editor save
         if not MapEditor.isActive() then
