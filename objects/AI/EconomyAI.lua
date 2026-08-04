@@ -116,8 +116,30 @@ end
 
 -- Get current resources for a faction
 function EconomyAI:getResources(faction)
-    -- In a full implementation, this would query the actual game state
-    -- For now, return defaults (including all resources checked by evaluateTrade)
+    -- Stronghold 2027 v2.3.2: Query real game state when available
+    if faction == 1 and _G.state and _G.state.resources then
+        local r = _G.state.resources
+        return {
+            wood = r.wood or 0,
+            stone = r.stone or 0,
+            food = r.food or 0,
+            gold = r.gold or 0,
+            iron = r.iron or 0,
+            pitch = r.pitch or 0,
+            ale = r.ale or 0,
+            wheat = r.wheat or 0,
+            bows = r.bows or 0,
+            spears = r.spears or 0,
+            swords = r.swords or 0,
+            armor = r.armor or 0
+        }
+    end
+    -- AI factions: return tracked state resources, or sensible defaults
+    local state = self.factionStates[faction]
+    if state and state.resources then
+        return state.resources
+    end
+    -- Default fallback (includes all resources checked by evaluateTrade)
     return { wood = 100, stone = 50, food = 50, gold = 500, iron = 20 }
 end
 

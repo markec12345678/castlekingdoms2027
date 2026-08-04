@@ -2,6 +2,27 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.3.2] — 2026-08-04 — CRITICAL Nil-Global Fix
+
+### Popravljeno (kritično — 22 nil globalov)
+- **22 sistemskih globalov** je bilo nastavljenih na `nil` zaradi v2.3.0 konsolidacije
+- Vse `_G.X = X` vrstice so bile popravljene na `_G.X = S.X`
+- Prizadeti sistemi:
+  - **Zvok**: DynamicMusic, SFXLibrary, VoiceOver
+  - **Vizualno**: VisualPolish, WeatherGameplay, FormationSystem, FestivalSystem
+  - **AI**: ThreatAI, AIDialogue
+  - **Boj**: Veterancy
+  - **UI**: ResourceFlow, ConstructionAnim
+  - **QoL**: RallyPoint, BuildingQueue, AutoWorker, DynamicUnitCap
+  - **Multiplayer**: MapSizeSelector, SpectatorMode, CoopCampaign, PathOpt, Workshop
+  - **v1.28**: SkirmishTrail, ObjectPool, Gamepad, MapSharing, AutoSaveIndicator
+- **Posodobljena startup notifikacija**: "F8 for combat test" → "F1 for help, F3 for perf overlay"
+
+### Posodobljena dokumentacija
+- **README.md**: badge-i posodobljeni na v2.3.1, statistika 572 datotek, 14 krogov pregleda
+- **Map Editor**: F12 → F4 v README
+- **Screenshot**: dodan F12 poleg Ctrl+M
+
 ## [v2.3.1] — 2026-08-04 — Keybind Conflict Fix Round 14
 
 ### Popravljeno (6 kritičnih popravkov tipkovnih bližnjic)
