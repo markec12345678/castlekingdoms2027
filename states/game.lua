@@ -113,6 +113,7 @@ S.ArmyCommand = require("objects.Combat.ArmyCommandSystem")
 S.TradeRoute = require("objects.Economy.TradeRouteSystem")
 S.RandomEvent = require("objects.Gameplay.RandomEventSystem")
 S.NotificationCenter = require("objects.UI.NotificationCenter")
+S.BuildingManager = require("objects.Controllers.BuildingManagerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -426,6 +427,9 @@ local function delayedInit()
     -- Stronghold 2027 v2.7.2: Initialize Notification Center
     S.NotificationCenter.init()
     _G.NotificationCenter = S.NotificationCenter
+    -- Stronghold 2027 v2.7.3: Initialize Building Manager
+    S.BuildingManager.init()
+    _G.BuildingManager = S.BuildingManager
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -618,6 +622,8 @@ function game:update(dt)
                 S.RandomEvent.update(dt)
                 -- Stronghold 2027 v2.7.2: Update Notification Center
                 S.NotificationCenter.update(dt)
+                -- Stronghold 2027 v2.7.3: Update Building Manager
+                S.BuildingManager.update(dt)
                 -- Stronghold 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
