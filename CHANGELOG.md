@@ -2,6 +2,24 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.6.0] — 2026-08-04 — Fix giveResources + Casualty Tracking
+
+### Popravljeno
+- **MissionFramework.giveResources()** — prej dodal samo gold
+  zdaj dodaja vse surovine (wood, stone, food, iron, etc.) v `_G.state.resources`
+  - Mission rewards so zdaj popolni (prej so wood/stone tiho izpuščeni)
+- **Casualty tracking** za no_casualties achievement:
+  - loadMission() inicializira `_playerLosses = 0`
+  - Nova `MissionFramework.reportPlayerLoss()` funkcija
+  - CombatComponent kliče reportPlayerLoss() ko igralčeva enota umre
+  - `_checkNoCasualties()` zdaj pravilno vrne true pri 0 izgubah
+
+### Impact
+- Mission rewards dajejo vse surovine (ne samo gold)
+- no_casualties achievement je zdaj dosegljiv ("Flawless")
+- Igralci ki zmaga brez izgub odklenejo achievement
+- MissionFramework registriran kot `_G.MissionFramework`
+
 ## [v2.5.9] — 2026-08-04 — Fix 2 Critical Stubs (getResourceCount + spawnEnemyGroup)
 
 ### Popravljeno (2 kritični stub funkciji)
