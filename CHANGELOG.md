@@ -2,6 +2,32 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.6.9] — 2026-08-04 — Army Command System (7 order types)
+
+### Dodano
+- **Army Command System** — upravljanje vojaških formacij
+  - Ustvari imenovane armade (Vanguard, Reserve, Scouts...)
+  - 7 tipov ukazov: Hold, Advance, Charge, Retreat, Patrol, Siege, Flank
+  - Dodeljevanje enot k armadam
+  - Sledenje moči in sestave
+  - Samodejna razpustitev praznih armad
+  - Čiščenje mrtvih enot
+  - Koordinacija več armad
+
+### Tipi ukazov (7)
+1. Hold — drži položaj, napadaj bližnje sovražnike
+2. Advance — premakni se k cilju
+3. Charge — polni napad
+4. Retreat — umik v bazo
+5. Patrol — patrulja med točkami
+6. Siege — oblegaj sovražnikov grad
+7. Flank — napad z boka
+
+### Statistika
+- 597 Lua datotek (+1)
+- 594/597 syntax pass
+- 7 tipov ukazov (nov)
+
 ## [v2.6.8] — 2026-08-04 — Diplomatic Relations System (5 levels)
 
 ### Dodano
