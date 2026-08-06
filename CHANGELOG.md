@@ -2,6 +2,27 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.7.0] — 2026-08-04 — Trade Route Manager (persistent routes)
+
+### Dodano
+- **Trade Route Manager** — persistentne trgovske poti
+  - 3 tipi poti: standard (200g), luxury (500g), military (400g)
+  - Samodejni dohodek vsakih 60s
+  - Učinkovitost glede na razdaljo, diplomacijo, sezono
+  - 5% šansa za napad banditov (+10% če sovražni)
+  - Nadgradnja poti za +15% učinkovitost na nivo
+  - GameEventBus dogodki: trade_income, trade_route_raided
+
+### Tipi poti (3)
+1. Standard — 200g, 50 base income, 1.0× ef.
+2. Luxury — 500g, 100 base income, 1.5× ef.
+3. Military — 400g, 75 base income, 1.2× ef.
+
+### Statistika
+- 598 Lua datotek (+1)
+- 595/598 syntax pass
+- 3 tipi trgovskih poti (nov)
+
 ## [v2.6.9] — 2026-08-04 — Army Command System (7 order types)
 
 ### Dodano
