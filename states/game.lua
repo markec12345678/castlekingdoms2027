@@ -105,6 +105,7 @@ S.CommunityToolkit = require("objects.QA.CommunityToolkit")
 S.AutoUpdater = require("objects.QA.AutoUpdater")
 S.DailyChallenge = require("objects.Mission.DailyChallengeSystem")
 S.TechnologyTree = require("objects.Config.TechnologyTree")
+S.PopulationSystem = require("objects.Config.PopulationSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -401,6 +402,8 @@ local function delayedInit()
     S.DailyChallenge.init()
     -- Stronghold 2027 v2.6.4: Initialize Technology Tree
     S.TechnologyTree.init()
+    -- Stronghold 2027 v2.6.5: Initialize Population System
+    S.PopulationSystem.init()
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -577,6 +580,8 @@ function game:update(dt)
                 S.AutoUpdater.update(dt)
                 -- Stronghold 2027 v2.6.4: Update Technology Tree research
                 S.TechnologyTree.update(dt)
+                -- Stronghold 2027 v2.6.5: Update Population System
+                S.PopulationSystem.update(dt)
                 -- Stronghold 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
@@ -1324,6 +1329,18 @@ function game:keypressed(key, scancode, isRepeat)
                 ModernUI.notifyInfo(string.format("[Dostopno] %s (%dg)", t.name, t.cost.gold or 0))
                 shown = shown + 1
             end
+        end
+        return
+    end
+    -- Stronghold 2027 v2.6.5: Ctrl+Shift+P = Show population & happiness
+    if key == "p" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
+        local stats = S.PopulationSystem.getStats()
+        ModernUI.notifyInfo(string.format("Populacija: %d/%d | Sreca: %d/100 | Rast: %.1f",
+            stats.population, stats.maxPopulation, stats.happiness, stats.growthRate))
+        local breakdown = S.PopulationSystem.getHappinessBreakdown()
+        for _, mod in ipairs(breakdown.modifiers) do
+            local sign = mod.value >= 0 and "+" or ""
+            ModernUI.notifyInfo(string.format("  %s: %s%d (%s)", mod.category, sign, mod.value, mod.description))
         end
         return
     end
