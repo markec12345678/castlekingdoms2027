@@ -2,6 +2,26 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.5.7] — 2026-08-04 — Fix Food Hint + 5 Tutorial Hints + 10 Loading Tips
+
+### Popravljeno
+- **TutorialHints.checkResources()** — food je bil nastavljen na gold (placeholder)
+  zdaj pravilno preverja `_G.state.resources.food`
+- Dodan low_food hint trigger (food < 20)
+
+### Dodano
+- **5 novih tutorial hints** (skupno 16):
+  - veterancy_tip, formation_tip, festival_tip, diplomacy_tip, siege_tip
+- **10 novih loading tips** (skupno 50+):
+  - Veterancy (2), Formacije (1), Festivali (1), Diplomacija (1)
+  - AI (2), Zgodovina (3 — Norman Conquest)
+
+### Statistika
+- 590 Lua datotek
+- 587/590 syntax pass
+- 16 tutorial hints (+5)
+- 50+ loading tips (+10)
+
 ## [v2.5.6] — 2026-08-04 — 3 New Festivals + 5 New Achievements
 
 ### Dodano
