@@ -2,6 +2,26 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.5.5] — 2026-08-04 — 5 New Economic Events + README Sync
+
+### Dodano
+- **5 novih ekonomskih dogodkov** (skupno 15):
+  - Iron Discovery — iron production ×2, cene -40%
+  - Drought — food -60%, wood -30% (poletje)
+  - Trade Boom — wood/stone cene +30%
+  - Bandit Raid — -300 gold, -2% populacije (instant)
+  - Holy Pilgrimage — +30 popularity, ale/bread -10-20%
+- **README sinhroniziran** z v2.5.4:
+  - Posodobljeni badge-i (587/590, 70 popravkov, 16 krogov)
+  - Razširjena statistika (16 vrstic)
+  - AI sekcija (8 osebnosti, 48 konfiguracij)
+  - Ključne verzije sekcija (8 verzij)
+
+### Statistika
+- 590 Lua datotek
+- 587/590 syntax pass
+- 15 ekonomskih dogodkov (+5)
+
 ## [v2.5.4] — 2026-08-04 — 4 New Units + 3 New Buildings (Norman Era)
 
 ### Dodano
