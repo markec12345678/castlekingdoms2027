@@ -21,6 +21,36 @@ function AchievementIntegration.init()
     else
         print("[AchievementIntegration] Initialized (SteamWorks not available)")
     end
+
+    -- Stronghold 2027 v2.3.9: Subscribe to GameEventBus events
+    -- (GameEventBus.integrateAll already calls hookEvent, but we also subscribe
+    --  directly to ensure achievements fire even if integrateAll order changes)
+    local GameEventBus = _G.GameEventBus
+    if GameEventBus then
+        pcall(function()
+            GameEventBus.on(GameEventBus.EVENTS.BUILDING_BUILT, function(data)
+                AchievementIntegration.hookEvent("building_built", data)
+            end)
+            GameEventBus.on(GameEventBus.EVENTS.UNIT_KILLED, function(data)
+                AchievementIntegration.hookEvent("unit_killed", data)
+            end)
+            GameEventBus.on(GameEventBus.EVENTS.VICTORY, function(data)
+                AchievementIntegration.hookEvent("victory", data)
+            end)
+            GameEventBus.on(GameEventBus.EVENTS.ALLIANCE_FORMED, function(data)
+                AchievementIntegration.hookEvent("alliance_formed", data)
+            end)
+            GameEventBus.on(GameEventBus.EVENTS.TRADE_COMPLETED, function(data)
+                AchievementIntegration.hookEvent("trade_completed", data)
+            end)
+            GameEventBus.on(GameEventBus.EVENTS.GOLD_EARNED, function(data)
+                if data and data.total and data.total >= 10000 then
+                    AchievementIntegration.hookEvent("gold_threshold", {amount = data.total})
+                end
+            end)
+        end)
+        print("[AchievementIntegration] Subscribed to GameEventBus events")
+    end
 end
 
 -- Hook a game event to achievement checking
