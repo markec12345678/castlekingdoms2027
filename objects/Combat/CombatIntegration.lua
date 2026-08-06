@@ -309,4 +309,33 @@ function CombatIntegration.isInitialized()
     return initialized
 end
 
+-- Stronghold 2027 v2.4.1: Spawn a projectile (for siege weapons)
+-- @param fromGx, fromGy number Source position
+-- @param toGx, toGy number Target position
+-- @param damage number Damage on impact
+-- @param splashRadius number Splash radius (0 = single target)
+function CombatIntegration.spawnProjectile(fromGx, fromGy, toGx, toGy, damage, splashRadius)
+    if not initialized then return end
+    if not ProjectileController then return end
+    -- Create a pseudo-attacker for the projectile
+    local projectile = {
+        gx = fromGx,
+        gy = fromGy,
+        targetGx = toGx,
+        targetGy = toGy,
+        damage = damage or 50,
+        splashRadius = splashRadius or 0,
+        faction = 1,  -- assume player faction for siege weapons
+    }
+    -- Use ProjectileController to spawn if it has a spawn method
+    if ProjectileController.spawn then
+        pcall(function() ProjectileController:spawn(projectile) end)
+    elseif ProjectileController.add then
+        pcall(function() ProjectileController:add(projectile) end)
+    end
+    -- Log the projectile
+    CombatIntegration.log(string.format("Projectile: (%d,%d) -> (%d,%d) dmg=%d splash=%d",
+        fromGx, fromGy, toGx, toGy, damage or 0, splashRadius or 0))
+end
+
 return CombatIntegration

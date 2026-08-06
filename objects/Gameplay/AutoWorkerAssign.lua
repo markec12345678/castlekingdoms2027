@@ -120,6 +120,22 @@ function AutoWorker.assignNow()
     AutoWorker._assignWorkers()
 end
 
+-- Stronghold 2027 v2.4.1: Assign a worker to a specific building
+-- @param building object The building to assign a worker to
+-- @return boolean True if worker was assigned
+function AutoWorker.assignToBuilding(building)
+    if not building then return false end
+    -- Try common worker assignment methods
+    if building.assignWorker then
+        local ok = pcall(function() building:assignWorker() end)
+        return ok
+    elseif building.addWorker then
+        local ok = pcall(function() building:addWorker() end)
+        return ok
+    end
+    return false
+end
+
 function AutoWorker.getStats()
     if not _G.state then return { needyBuildings = 0 } end
     local needy = 0
