@@ -2,6 +2,26 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.7.2] — 2026-08-04 — Notification Center (4 priorities, 6 categories)
+
+### Dodano
+- **Notification Center** — centralizirano upravljanje obvestil
+  - 4 prioritete: CRITICAL (persistent), HIGH (8s), NORMAL (5s), LOW (3s)
+  - 6 kategorij: combat, economy, diplomacy, mission, system, social
+  - Zgodovina (zadnjih 100 obvestil)
+  - Samodejno iztekanje ne-kritičnih obvestil
+  - Barvni okvirji in ikone po kategoriji
+  - Zvočni efekti po kategoriji
+  - Max 5 sočasnih obvestil
+  - Fade-out animacija v zadnji sekundi
+  - Prikaz v spodnjem desnem kotu
+
+### Statistika
+- **600 Lua datotek** (+1) — mejnik!
+- 597/600 syntax pass
+- 4 prioritete (nov)
+- 6 kategorij (nov)
+
 ## [v2.7.1] — 2026-08-04 — Random Event System + 8 New Resources
 
 ### Dodano
