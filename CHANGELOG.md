@@ -2,6 +2,28 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.3.8] — 2026-08-04 — Mission Achievements + Victory/Defeat Events
+
+### Popravljeno
+- **CampaignProgress.checkAchievements()** — zdaj odklene Steam achievemente
+  (first_victory, campaign_complete) in prikaže obvestila
+- **MissionFramework.onMissionWon()** — zdaj pošlje GameEventBus VICTORY event
+  z missionKey, missionName, duration, noCasualties
+- **MissionFramework.onMissionLost()** — zdaj pošlje GameEventBus DEFEAT event
+
+### Dodano
+- **_checkNoCasualties()** — helper za no_casualties achievement
+- **campaign_complete event** — se sproži ob odklepanju King of Valdemar
+
+### Impact
+- Steam achievementi se pravilno odklenejo ob kampanjskih mejnikih
+- Missija zmaga/poraz pravilno sproži vse sisteme:
+  - EndGameScreen.show()
+  - SkirmishTrail.complete()
+  - CoopCampaign.stop()
+  - AchievementIntegration.hookEvent('victory')
+- Speed run achievement (< 600s) zdaj dosegljiv
+
 ## [v2.3.7] — 2026-08-04 — EconomyAI Real Trade + Workers + Weather
 
 ### Popravljeno (3 stub funkcije nadomeščene z resnično implementacijo)
