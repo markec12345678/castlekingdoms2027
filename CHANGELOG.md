@@ -2,6 +2,22 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.6.2] — 2026-08-04 — 3 New Extreme Weather Types
+
+### Dodano
+- **3 novi ekstremni vremenski tipi** (skupno 9):
+  - Blizzard (Meteh) — farm ×0.10, speed ×0.30, vision ×0.40 (najhujša zima)
+  - Heatwave (Vroinski val) — farm ×0.60, fire risk 1.0 (nevarnost pozara)
+  - Sandstorm (Pehana) — vision ×0.30, archer ×0.40 (skoraj slepilo)
+- F5 weather cycling posodobljen z vsemi 9 tipi
+
+### Impact
+- 9 vremenskih tipov (prej 6) — večja strateška raznolikost
+- Ekstremno vreme ustvarja taktične odločitve
+- Blizzard skoraj uniči kmetijstvo (×0.10)
+- Heatwave ustvarja nevarnost pozara (risk 1.0)
+- Sandstorm skoraj oslepi vse enote (×0.30 vision)
+
 ## [v2.6.1] — 2026-08-04 — 2 New Upgrade Paths + 2 New Formations
 
 ### Dodano
