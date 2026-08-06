@@ -73,10 +73,71 @@ local PERSONALITIES = {
         preferredBuildings = {"Market", "Stockpile", "Granary", "Bakery", "Brewery"},
         resourceStockpileTarget = 2000,
     },
+    -- Stronghold 2027 v2.5.2: 4 new specialized personalities
+    siege_master = {
+        name = "Siege Master",
+        economyFocus = 0.4,
+        militaryFocus = 0.6,
+        expansionFocus = 0.3,
+        attackThreshold = 8,
+        attackChancePerMin = 0.4,
+        defensePriority = 0.6,
+        preferredUnits = {"Engineer", "Knight", "Crossbowman"},
+        preferredBuildings = {"EngineersGuild", "StoneBarracks", "SquareTower"},
+        resourceStockpileTarget = 800,
+        specialization = "siege",  -- builds siege weapons preferentially
+    },
+    fortress_keeper = {
+        name = "Fortress Keeper",
+        economyFocus = 0.5,
+        militaryFocus = 0.4,
+        expansionFocus = 0.2,
+        attackThreshold = 25,
+        attackChancePerMin = 0.08,
+        defensePriority = 0.95,
+        preferredUnits = {"Pikeman", "Crossbowman", "Maceman"},
+        preferredBuildings = {"SquareTower", "RoundTower", "StoneGateSouth", "WoodenWall", "StoneBarracks"},
+        resourceStockpileTarget = 1500,
+        specialization = "fortification",  -- max defenses
+    },
+    raider = {
+        name = "Raider",
+        economyFocus = 0.2,
+        militaryFocus = 0.8,
+        expansionFocus = 0.5,
+        attackThreshold = 3,
+        attackChancePerMin = 0.7,
+        defensePriority = 0.3,
+        preferredUnits = {"Maceman", "Archer", "Knight"},
+        preferredBuildings = {"Barracks", "Barracks", "Barracks"},  -- spam barracks
+        resourceStockpileTarget = 100,
+        specialization = "raid",  -- fast raids, hit and run
+    },
+    diplomat = {
+        name = "Diplomat",
+        economyFocus = 0.6,
+        militaryFocus = 0.3,
+        expansionFocus = 0.4,
+        attackThreshold = 15,
+        attackChancePerMin = 0.15,
+        defensePriority = 0.7,
+        preferredUnits = {"Knight", "Crossbowman", "Spearman"},
+        preferredBuildings = {"Market", "Barracks", "SquareTower", "Inn"},
+        resourceStockpileTarget = 1200,
+        specialization = "diplomacy",  -- forms alliances, trades aggressively
+    },
 }
 
 -- Difficulty levels
 local DIFFICULTIES = {
+    -- Stronghold 2027 v2.5.2: Added story and legendary difficulties
+    story = {
+        decisionInterval = 6.0,    -- very slow thinking
+        resourceEfficiency = 0.4,  -- wastes 60% of resources
+        cheatBonus = 0,
+        maxArmySize = 10,
+        defenseResponseTime = 15,  -- very slow to defend
+    },
     easy = {
         decisionInterval = 5.0,    -- thinks every 5 seconds
         resourceEfficiency = 0.6,  -- wastes 40% of resources
@@ -104,6 +165,13 @@ local DIFFICULTIES = {
         cheatBonus = 0.30,          -- 30% extra resources (reduced from 50%, less unfair feel)
         maxArmySize = 60,
         defenseResponseTime = 1,
+    },
+    legendary = {
+        decisionInterval = 0.5,    -- thinks every 0.5s (super fast)
+        resourceEfficiency = 1.0,
+        cheatBonus = 0.50,          -- 50% extra resources
+        maxArmySize = 80,
+        defenseResponseTime = 0.5,  -- instant defense
     },
 }
 

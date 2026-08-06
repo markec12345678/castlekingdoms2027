@@ -150,6 +150,159 @@ local DIALOGUES = {
             "Skupaj bomo bogati! Zavezništvo sklenjeno!",
         },
     },
+    -- Stronghold 2027 v2.5.2: 4 new personality dialogues
+    siege_master = {
+        greeting = {
+            "Moji oblegovalni stroji so pripravljeni!",
+            "Zidovi so le kamen. Moj trebuchet jih zlomi!",
+            "Inženirji, pripravite ovne! Gradovi bodo padli!",
+            "Vsak grad je le še ena tarča.",
+        },
+        attacking = {
+            "Trebuchet, ogenj! Zidovi naj padejo!",
+            "Ovno, odbij! Vrata ne bodo zdržala!",
+            "Moji inženirji so geniji. Občuti njihovo delo!",
+            "Oblegovalni stolp je pripravljen. Penjite se!",
+        },
+        losing = {
+            "Moji oblegovalni stroji... uničeni!",
+            "Inženirji so me razočarali.",
+            "Zidovi so bili premočni. Tokrat.",
+            "Umik! Tovor je predrag za izgubo!",
+        },
+        winning = {
+            "Zidovi so padli! Zmaga je moja!",
+            "Noben grad ne more ustaviti mojih strojev!",
+            "Inženirska genialnost zmaguje!",
+            "Tvoj grad je zdaj moj. Hvala za gradnjo!",
+        },
+        low_resources = {
+            "Potrebujem les za oblegovalne stroje!",
+            "Železo je ključno za ovne in katapulte!",
+        },
+        alliance_rejected = {
+            "Zavezništvo? Moji stroji ne potrebujejo zaveznikov!",
+            "Oblegaj drugi grad. Ta je moj!",
+        },
+        alliance_accepted = {
+            "Združimo oblegovalne stroje! Skupaj bomo neustavljivi!",
+            "Tvoj grad je varen. Moji stroji gredo drugam.",
+        },
+    },
+    fortress_keeper = {
+        greeting = {
+            "Moj grad je neprimljiv. Poskusi, če drzneš!",
+            "Zidovi so debeli, stolpi visoki. Pridi!",
+            "Obramba je moja specialiteta.",
+            "Vsak napad na mojo trdnjavo je samomor.",
+        },
+        attacking = {
+            "Redko napadam, a ko napadem, je odločilno!",
+            "Iz zavoja v napad. Tako deluje trdnjava!",
+            "Moj stolp je varen. Tvoj pa ne!",
+            "Obramba se spremeni v napad!",
+        },
+        losing = {
+            "Zidovi so počili... nemogoče!",
+            "Stolpi so padli. A jaz ne!",
+            "Trdnjava je kompromitirana. A ne padla!",
+            "Umik v notranje dvorišče. Tam bom zdržal!",
+        },
+        winning = {
+            "Kot sem rekel. Neprimljiv!",
+            "Tvoj napad je bil zaman. Moja trdnjava zmaga!",
+            "Stolpi in zidovi so zmagali!",
+            "Nauči se graditi. Potem poskusi znova.",
+        },
+        low_resources = {
+            "Kamen! Potrebujem kamen za zidove!",
+            "Brez železa ni oklepnih vrat!",
+        },
+        alliance_rejected = {
+            "Moja trdnjava ne potrebuje zaveznikov.",
+            "Obrani se sam, kot se jaz!",
+        },
+        alliance_accepted = {
+            "Naša trdnjava skupaj bo neprimljiva!",
+            "Združimo obrambo. Skupaj zdržimo!",
+        },
+    },
+    raider = {
+        greeting = {
+            "Tvoj grad izgleda bogat. Preveč bogat!",
+            "Prihajam! Skrij kar imaš!",
+            "Hitrost je moja moč. Tvoja slabost!",
+            "Napad, plen, beg. Tako delujem!",
+        },
+        attacking = {
+            "NAPAD! Vse je moj plen!",
+            "Hitro noter, hitro ven! Zlato je naše!",
+            "Branite se, če morete. Prepozdno!",
+            "Vaše zlato je moje!",
+        },
+        losing = {
+            "Prehitro... preveč njih...",
+            "Plen ni bil vreden te izgube!",
+            "Beg! Beg! Naslednjič bolje!",
+            "Naučil se bom. In vrnil.",
+        },
+        winning = {
+            "Plen je moj! Hvala!",
+            "Hitrost zmaga nad močjo!",
+            "Tvoje zlato je zdaj moje. Hvala!",
+            "Naslednjič skrij bolje. A ne bo pomagalo!",
+        },
+        low_resources = {
+            "Brez plena ni zlata. Napadi!",
+            "Glad. Napad je edina rešitev!",
+        },
+        alliance_rejected = {
+            "Zavezništvo? Plenilci delujejo sami!",
+            "Zakaj deliti plen? Vse je moje!",
+        },
+        alliance_accepted = {
+            "Skupaj bomo več plenili!",
+            "Ti napadi, jaz begam s plenom!",
+        },
+    },
+    diplomat = {
+        greeting = {
+            "Pogovorimo se. Vojna ni edina pot.",
+            "Zavezništvo? Trgovina? Govoriva!",
+            "Mir je boljši od vojne. A imam vojsko.",
+            "Spoštujem moč. Tvojo in mojo.",
+        },
+        attacking = {
+            "Pogajanja so odpadla. Napadam!",
+            "Poskusil sem z mirom. Zdaj pride vojna.",
+            "Tvoja ne-pripravljenost na dialog je napaka!",
+            " Diplomacija je odpovedala. Meč govori!",
+        },
+        losing = {
+            "Morda bi morali še enkrat pogajati?",
+            "Mir... mir je zdaj edina možnost!",
+            "Premagan. A še lahko sklepava mir!",
+            "Predaja je tudi diplomacija.",
+        },
+        winning = {
+            "Vidiš? Diplomacija z backup vojsko deluje!",
+            "Poskusil sem z mirom. Ni hotel. Zmaga!",
+            "Pogajanja so odpadla. Zmaga je moja!",
+            "Naslednjič sprejmi mojo ponudbo miru!",
+        },
+        low_resources = {
+            "Trgovina bi rešila to. A s kom?",
+            "Inflacija. Potrebujem nove partnerje!",
+        },
+        alliance_rejected = {
+            "Zelo škodljivo. A spoštujem odločitev.",
+            "Morda drugič. Vrata so odprta.",
+        },
+        alliance_accepted = {
+            "Modra odločitev! Skupaj bomo močnejši!",
+            "Zavezništvo sklenjeno. Trgovina odprta!",
+        },
+    },
 }
 
 local initialized = false
@@ -160,7 +313,7 @@ local activeDialogues = {}  -- {playerId = {text, timer}}
 function AIDialogue.init()
     if initialized then return end
     initialized = true
-    print("[AIDialogue] Initialized for 4 AI personalities")
+    print("[AIDialogue] Initialized for 8 AI personalities")
 end
 
 -- Get a random dialogue for a personality and situation
@@ -199,7 +352,11 @@ function AIDialogue.trigger(aiPlayerId, personality, situation)
         if personality == "aggressive" then prefix = "[Agresiven AI] "
         elseif personality == "balanced" then prefix = "[Uravnovešen AI] "
         elseif personality == "defensive" then prefix = "[Obramben AI] "
-        elseif personality == "economic" then prefix = "[Ekonomski AI] " end
+        elseif personality == "economic" then prefix = "[Ekonomski AI] "
+        elseif personality == "siege_master" then prefix = "[Oblegovalni Mojster] "
+        elseif personality == "fortress_keeper" then prefix = "[Čuvar Trdnjave] "
+        elseif personality == "raider" then prefix = "[Plenilec] "
+        elseif personality == "diplomat" then prefix = "[Diplomat] " end
         _G.ModernUI.notifyInfo(prefix .. text)
     end
 
@@ -249,7 +406,11 @@ function AIDialogue.draw()
         local color = {0.8, 0.3, 0.3}
         if dialogue.personality == "balanced" then color = {0.3, 0.6, 0.8}
         elseif dialogue.personality == "defensive" then color = {0.3, 0.8, 0.3}
-        elseif dialogue.personality == "economic" then color = {0.8, 0.7, 0.2} end
+        elseif dialogue.personality == "economic" then color = {0.8, 0.7, 0.2}
+        elseif dialogue.personality == "siege_master" then color = {0.6, 0.4, 0.2}
+        elseif dialogue.personality == "fortress_keeper" then color = {0.5, 0.5, 0.6}
+        elseif dialogue.personality == "raider" then color = {0.9, 0.5, 0.1}
+        elseif dialogue.personality == "diplomat" then color = {0.4, 0.8, 0.6} end
 
         love.graphics.setColor(color[1], color[2], color[3], alpha)
         love.graphics.setLineWidth(2)
