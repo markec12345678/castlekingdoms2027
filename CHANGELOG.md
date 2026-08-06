@@ -2,6 +2,24 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.5.1] — 2026-08-04 — 5 Historical Maps + MapRegistry
+
+### Dodano
+- **5 novih zgodovinskih map** za kampanjo Norman Conquest:
+  - Hastings (192×192) — bojišče 1066 s Senlac Hill
+  - London (192×192) — srednjeveški London s Temzo in mostovoma
+  - Yorkshire (192×192) — opustošen sever s snegom, 3 igralci
+  - WelshBorders (192×192) — gorato teren, gverilsko bojevanje
+  - Rouen (192×192) — normanska prestolnica, 4 igralci, nightmare
+- **MapRegistry** (terrain/Maps/MapRegistry.lua) — centralni registr map
+  - getMap(key), getAllMaps(), getMapsByEra(era), getMapCount()
+  - Kategorizacija po eri (Fernhaven Saga / Norman Conquest)
+
+### Statistika
+- 590 Lua datotek (+6)
+- 587/590 syntax pass
+- 6 map total (1 → 6)
+
 ## [v2.5.0] — 2026-08-04 — MAJOR: 21 Campaign Missions + Steam Cloud + Stability Tests
 
 ### Dodano
