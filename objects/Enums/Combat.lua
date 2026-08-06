@@ -52,6 +52,11 @@ local COMBAT = {
         Swordsman = 22,
         Knight = 30,
         Lord = 50,
+        -- Stronghold 2027 v2.5.4: 4 new Norman-era units
+        Huscarl = 28,        -- Elite Saxon axeman, devastating melee
+        Longbowman = 18,     -- Welsh longbow, longer range than archer
+        NormanKnight = 35,   -- Heavily armored Norman cavalry
+        Javelinman = 16,     -- Skirmisher with throwing javelins
     },
 
     -- Health values per unit type
@@ -64,6 +69,11 @@ local COMBAT = {
         Swordsman = 120,
         Knight = 180,
         Lord = 500,
+        -- Stronghold 2027 v2.5.4: 4 new Norman-era units
+        Huscarl = 150,       -- Tough Saxon elite
+        Longbowman = 55,     -- Similar to archer
+        NormanKnight = 220,  -- Heavily armored
+        Javelinman = 65,     -- Light skirmisher
     },
 
     -- Armor values (damage reduction percentage 0-1)
@@ -76,6 +86,11 @@ local COMBAT = {
         Swordsman = 0.30,
         Knight = 0.45,
         Lord = 0.60,
+        -- Stronghold 2027 v2.5.4: 4 new Norman-era units
+        Huscarl = 0.40,      -- Heavy chainmail
+        Longbowman = 0.05,   -- Light armor
+        NormanKnight = 0.55, -- Heaviest armor
+        Javelinman = 0.10,   -- Light skirmisher
     },
 
     -- Aggro range (when unit detects enemies)
