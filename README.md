@@ -2,23 +2,23 @@
 
 Modernizirana različica igre Stronghold (2001) za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT).
 
-[![Version](https://img.shields.io/badge/version-2.5.0-blue.svg)](https://github.com/markec12345678/stronghold2027/releases)
+[![Version](https://img.shields.io/badge/version-2.5.4-blue.svg)](https://github.com/markec12345678/stronghold2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
-[![Syntax](https://img.shields.io/badge/syntax-569%2F572%20pass-brightgreen.svg)](#)
-[![Bugs](https://img.shields.io/badge/bugs%20fixed-65-brightgreen.svg)](#)
-[![Audit](https://img.shields.io/badge/audit%20rounds-15-blue.svg)](#)
+[![Syntax](https://img.shields.io/badge/syntax-587%2F590%20pass-brightgreen.svg)](#)
+[![Bugs](https://img.shields.io/badge/bugs%20fixed-70-brightgreen.svg)](#)
+[![Audit](https://img.shields.io/badge/audit%20rounds-16-blue.svg)](#)
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v2.3.1](https://github.com/markec12345678/stronghold2027/releases)
-- **.love datoteka**: `stronghold2027-v2.5.0.love` (305 MB)
-- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 15 krogov pregleda, 65 popravkov
+- **Zadnja izdaja**: [v2.5.4](https://github.com/markec12345678/stronghold2027/releases)
+- **.love datoteka**: `stronghold2027-v2.5.4.love` (32 MB brez LFS, 305 MB z LFS)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 16 krogov pregleda, 70+ popravkov
 
 ## Zagon
 
 ```cmd
-& "C:\Program Files\LOVE\love.exe" "F:\pot\do\stronghold2027-v2.0.7.love"
+& "C:\Program Files\LOVE\love.exe" "F:\pot\do\stronghold2027-v2.5.4.love"
 ```
 
 Ali iz git checkout-a (zahteva [git-lfs](https://git-lfs.com/)):
@@ -34,33 +34,44 @@ love .
 
 | Metrika | Vrednost |
 |---------|----------|
-| Lua datoteke | 572 |
-| Vrstic kode | ~287.000 |
+| Lua datoteke | 590 |
+| Vrstic kode | ~290.000 |
 | GLSL shaderji | 12 |
 | Jezikov | 32 |
-| Verzij | 38 (v1.7.9 → v2.5.0) |
-| Bug popravkov | 55 (15 krogov pregleda) |
-| Syntax pass rate | 581/584 (99,5%) |
+| Verzij | 45 (v1.7.9 → v2.5.4) |
+| Bug popravkov | 70 (16 krogov pregleda) |
+| Syntax pass rate | 587/590 (99,5%) |
 | PNG assetov | 1.206 |
 | Registriranih globalov | 64 |
+| Kampanjske misije | 21 (10 Fernhaven + 11 zgodovinskih) |
+| Skirmish misije | 15 |
+| Co-op misije | 10 |
+| AI osebnosti | 8 |
+| Težavnosti | 6 |
+| AI konfiguracije | 48 (8×6) |
+| Vojaške enote | 11 |
+| Zgradbe | 35+ |
+| Mape | 6 |
+| Steam achievementi | 10 |
 
 ## Funkcije
 
 ### 🎮 Jedro igre
-- **21 misij kampanje** s story cutscene-i v slovenščini
-- **10 skirmish misij** s progresivno težavnostjo (Skirmish Trail)
-- **5 co-op misij** za 2 igralca
+- **21 misij kampanje** s story cutscene-i v slovenščini (10 Fernhaven + 11 zgodovinskih Norman Conquest 1066-1087)
+- **15 skirmish misij** s progresivno težavnostjo (Skirmish Trail)
+- **10 co-op misij** za 2 igralca
 - **Freebuild način** za sproščeno igranje
-- **4 AI osebnosti** (aggressive, balanced, defensive, economic) × 6 težavnosti
-- **Dynamic economy** — supply/demand, inflacija, sezonski modifikatorji
+- **8 AI osebnosti** (aggressive, balanced, defensive, economic, siege_master, fortress_keeper, raider, diplomat) × 6 težavnosti
+- **Dynamic economy** — supply/demand, inflacija, sezonski modifikatorji, 10 ekonomskih dogodkov
 - **Combat system** — projektili, oklep, damage variance, game feel
 - **5 bojnih formacij** (line, column, wedge, scatter, box) z bonusi
 - **5 stopenj veterancy** (Novinec → Legendarni) z stat bonusi
-- **4 oblegovalna orožja** (catapult, trebuchet, siege tower, battering ram)
+- **11 vojaških enot** (Archer, Crossbowman, Spearman, Pikeman, Maceman, Swordsman, Knight, Huscarl, Longbowman, NormanKnight, Javelinman)
+- **4 oblegovalna orožja** (catapult, trebuchet, siege tower, battering ram) z resničnimi sprite-i
 - **6 vremenskih tipov** ki vplivajo na gameplay (farme, hitrost, vidljivost)
 - **Fog of War** s 3 stanji (hidden, explored, visible)
 - **5 festivalov** (turnir, gostija, plesi, sejem, verski praznik)
-- **4 velikosti map** (Small 128 → Huge 768)
+- **6 velikosti map** (Fernhaven, Hastings, London, Yorkshire, WelshBorders, Rouen)
 - **Dynamic unit cap** glede na FPS
 - **Auto worker assignment** s prioriteto
 - **Building upgrade tree** (5 poti, 2-4 tier-i)
@@ -164,10 +175,13 @@ love .
 - **Auto-save indicator**
 
 ### 🧠 AI
-- **4 osebnosti** z edinstvenimi dialogi
-- **6 težavnosti** (Story → Nightmare)
+- **8 osebnosti** z edinstvenimi dialogi (aggressive, balanced, defensive, economic, siege_master, fortress_keeper, raider, diplomat)
+- **6 težavnosti** (Story → Legendary)
+- **48 AI konfiguracij** (8 osebnosti × 6 težavnosti)
 - **Threat assessment** — AI se prilagaja moči igralca
-- **AI personality dialogue** — 30+ dialogov v slovenščini
+- **AI personality dialogue** — 60+ dialogov v slovenščini
+- **Resnični bojni ukazi** — AI dejansko napada, brani, se umika
+- **Polno funkcionalna AI ekonomija** — proizvodnja, trgovina, delavci
 - **Smart building placement**
 - **Defense response**
 - **Difficulty adaptation**
@@ -186,7 +200,18 @@ Glej [CONTRIBUTING.md](CONTRIBUTING.md) za vodič za razvijalce.
 
 ## Zgodovina razvoja
 
-Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v2.3.1 (42 verzij, 15 krogov pregleda, 65 popravkov).
+Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v2.5.4 (45 verzij, 16 krogov pregleda, 70+ popravkov).
+
+## Ključne verzije
+
+- **v2.5.4** — 4 nove normanske enote + 3 nove zgradbe
+- **v2.5.3** — 15 skirmish + 10 co-op misij + modding API
+- **v2.5.2** — 8 AI osebnosti + 6 težavnosti (48 konfiguracij)
+- **v2.5.1** — 5 zgodovinskih map + MapRegistry
+- **v2.5.0** — 21 kampanjskih misij + Steam cloud + stability tests
+- **v2.4.0** — Tutorial auto-progress + GameFeel fix
+- **v2.3.0** — LuaJIT upvalue fix (kritično)
+- **v2.0.0** — Final Release Candidate
 
 ## Licenca
 
