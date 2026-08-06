@@ -2,6 +2,32 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.7.3] — 2026-08-04 — Building Manager System (7 categories)
+
+### Dodano
+- **Building Manager System** — centralizirano upravljanje zgradb
+  - 7 kategorij: economy, military, defense, housing, religious, storage, keep
+  - Caching (osvežitev vsakih 2s)
+  - Filtriranje po kategoriji, imenu, dosegu
+  - Odkrivanje poškodovanih zgradb
+  - repairAll() — popravi vse za 1g/HP
+  - Izračun stanovanjske kapacitete
+  - Štetje produkcije/obrambe/vojaških zgradb
+
+### Kategorije zgradb (7)
+1. Economy (18 tipov) — farme, rudniki, delavnice
+2. Military (6 tipov) — barake, cehi, arena
+3. Defense (7 tipov) — zidovi, stolpi, vrata
+4. Housing (4 tipi) — hiše, stanovanja
+5. Religious (4 tipi) — kapele, cerkve, katedrale
+6. Storage (2 tipa) — skladišča, kašče
+7. Keep (5 tipov) — gradovi
+
+### Statistika
+- 601 Lua datotek (+1)
+- 598/601 syntax pass
+- 7 kategorij zgradb (nov)
+
 ## [v2.7.2] — 2026-08-04 — Notification Center (4 priorities, 6 categories)
 
 ### Dodano
