@@ -2,6 +2,27 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.5.6] — 2026-08-04 — 3 New Festivals + 5 New Achievements
+
+### Dodano
+- **3 novi festivali** (skupno 8):
+  - Praznik letine — food production ×1.5, +10 pop (80g, 40 food)
+  - Tournamentska igra — +20 pop (300g, 50 wood)
+  - Kronanje — +35 pop, največji boost (500g, 100 stone, 100 food)
+- **5 novih Steam achievementov** (skupno 15):
+  - Siege Master — uniči 50 zgradb z oblegovalnimi orožji
+  - Legendary Army — usposobi Legendarno (level 5) enoto
+  - Trail Conqueror — končaj vseh 15 skirmish misij
+  - Co-op Master — končaj vseh 10 co-op misij
+  - Storm Lord — zmagaj v bitki med nevihto
+- **5 novih event hookov** v onGameEvent
+
+### Statistika
+- 590 Lua datotek
+- 587/590 syntax pass
+- 8 festivalov (+3)
+- 15 Steam achievementov (+5)
+
 ## [v2.5.5] — 2026-08-04 — 5 New Economic Events + README Sync
 
 ### Dodano
