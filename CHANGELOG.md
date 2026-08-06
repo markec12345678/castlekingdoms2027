@@ -2,6 +2,26 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.4.0] — 2026-08-04 — Tutorial Auto-Progress + GameFeel Fix
+
+### Popravljeno (2 integracijski vrzeli)
+- **Tutorial.completeStep()** je bil definiran a nikoli klican — tutorial je
+  obtičal pri korakih z waitForAction. Zdaj se Tutorial.init() naroči na
+  GameEventBus BUILDING_BUILT in samodejno napreduje:
+  - keep → build_keep
+  - stockpile → build_stockpile
+  - woodcutter → build_woodcutter
+  - granary → build_granary
+  - wheat/farm → build_wheat_farm
+  - barracks → build_barracks
+- **GameFeel.addShake()** v SiegeWeaponsSystem — funkcija ne obstaja
+  (prava je shake()). Popravljeno na _G.GameFeel.shake() z pcall.
+
+### Impact
+- Tutorial je zdaj dejansko dokončljiv (prej je obtičal pri koraku 2)
+- Novi igralci se lahko naučijo igro skozi vodeni tutorial
+- Oblegovalna orožja ne crash-ajo več ob screen shake
+
 ## [v2.3.9] — 2026-08-04 — AchievementIntegration Subscribes to Events
 
 ### Popravljeno
