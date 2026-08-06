@@ -108,6 +108,7 @@ S.TechnologyTree = require("objects.Config.TechnologyTree")
 S.PopulationSystem = require("objects.Config.PopulationSystem")
 S.ProductionChain = require("objects.Economy.ProductionChainSystem")
 S.Espionage = require("objects.Gameplay.EspionageSystem")
+S.DiplomaticRelations = require("objects.Network.DiplomaticRelationsSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -410,6 +411,8 @@ local function delayedInit()
     S.ProductionChain.init()
     -- Stronghold 2027 v2.6.7: Initialize Espionage System
     S.Espionage.init()
+    -- Stronghold 2027 v2.6.8: Initialize Diplomatic Relations System
+    S.DiplomaticRelations.init()
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -592,6 +595,8 @@ function game:update(dt)
                 S.ProductionChain.update(dt)
                 -- Stronghold 2027 v2.6.7: Update Espionage System
                 S.Espionage.update(dt)
+                -- Stronghold 2027 v2.6.8: Update Diplomatic Relations (slow decay)
+                S.DiplomaticRelations.update(dt)
                 -- Stronghold 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
