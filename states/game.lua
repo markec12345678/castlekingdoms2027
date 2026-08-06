@@ -104,6 +104,7 @@ S.AutoSaveIndicator = require("objects.UI.AutoSaveIndicator")
 S.CommunityToolkit = require("objects.QA.CommunityToolkit")
 S.AutoUpdater = require("objects.QA.AutoUpdater")
 S.DailyChallenge = require("objects.Mission.DailyChallengeSystem")
+S.TechnologyTree = require("objects.Config.TechnologyTree")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -398,6 +399,8 @@ local function delayedInit()
     S.AutoUpdater.checkForUpdates()
     -- Stronghold 2027 v2.6.3: Initialize Daily Challenges
     S.DailyChallenge.init()
+    -- Stronghold 2027 v2.6.4: Initialize Technology Tree
+    S.TechnologyTree.init()
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -572,6 +575,8 @@ function game:update(dt)
                 S.Gamepad.update(dt)
                 -- Stronghold 2027: Update v2.2 systems
                 S.AutoUpdater.update(dt)
+                -- Stronghold 2027 v2.6.4: Update Technology Tree research
+                S.TechnologyTree.update(dt)
                 -- Stronghold 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
@@ -1299,6 +1304,26 @@ function game:keypressed(key, scancode, isRepeat)
         for _, c in ipairs(challenges) do
             local status = c.completed and "[OK]" or string.format("[%d/%d]", c.progress, c.target)
             ModernUI.notifyInfo(status .. " " .. c.description)
+        end
+        return
+    end
+    -- Stronghold 2027 v2.6.4: Ctrl+Shift+Y = Show technology tree
+    if key == "y" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
+        local stats = S.TechnologyTree.getStats()
+        local current = S.TechnologyTree.getCurrentResearch()
+        ModernUI.notifyInfo(string.format("Tehnologije: %d/%d raziskanih", stats.researched, stats.totalTechs))
+        if current then
+            ModernUI.notifyInfo(string.format("Raziskujem: %s (%.0f%%)", current.name, current.percent))
+        end
+        -- Show first 3 available techs
+        local techs = S.TechnologyTree.getAllTechs()
+        local shown = 0
+        for _, t in ipairs(techs) do
+            if shown >= 3 then break end
+            if not t.researched and t.canResearch then
+                ModernUI.notifyInfo(string.format("[Dostopno] %s (%dg)", t.name, t.cost.gold or 0))
+                shown = shown + 1
+            end
         end
         return
     end
