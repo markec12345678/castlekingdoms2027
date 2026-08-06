@@ -2,6 +2,23 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.6.1] — 2026-08-04 — 2 New Upgrade Paths + 2 New Formations
+
+### Dodano
+- **2 novi upgrade poti** (skupno 7):
+  - Siege progression (3 tier-i): EngineersGuild → SiegeWorkshop → RoyalSiegeGuild
+  - Economy progression (3 tier-i): Market → TradePost → RoyalExchange
+- **2 novi formaciji** (skupno 7):
+  - Phalanx (Falanga) — obramba 1.6×, hitrost 0.6× (najpočasnejša, najmočnejša obramba)
+  - Skirmish (Razpršena) — hitrost 1.3×, napad 1.2× (najhitrejša, za lokostrelce)
+- cycleFormation posodobljen z vsemi 7 formacijami
+
+### Statistika
+- 590 Lua datotek
+- 587/590 syntax pass
+- 7 upgrade poti (+2)
+- 7 formacij (+2)
+
 ## [v2.6.0] — 2026-08-04 — Fix giveResources + Casualty Tracking
 
 ### Popravljeno
