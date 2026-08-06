@@ -215,7 +215,8 @@ function Siege._fire(weapon)
 
     -- Screen shake
     if _G.GameFeel then
-        _G.GameFeel.addShake(5, 0.3)
+        -- Stronghold 2027 v2.4.0: Use shake() (addShake doesn't exist)
+        pcall(function() _G.GameFeel.shake(5, 0.3) end)
     end
 
     print(string.format("[SiegeWeapons] %s fired at (%.0f,%.0f) dmg=%d",

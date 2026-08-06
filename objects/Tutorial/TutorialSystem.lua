@@ -86,6 +86,26 @@ function Tutorial.init()
         file:close()
     end
 
+    -- Stronghold 2027 v2.4.0: Subscribe to GameEventBus for auto-completing steps
+    local GameEventBus = _G.GameEventBus
+    if GameEventBus then
+        pcall(function()
+            GameEventBus.on(GameEventBus.EVENTS.BUILDING_BUILT, function(data)
+                if data and data.buildingType then
+                    local btype = string.lower(data.buildingType)
+                    if btype:match("keep") then Tutorial.completeStep("build_keep")
+                    elseif btype:match("stockpile") then Tutorial.completeStep("build_stockpile")
+                    elseif btype:match("woodcutter") then Tutorial.completeStep("build_woodcutter")
+                    elseif btype:match("granary") then Tutorial.completeStep("build_granary")
+                    elseif btype:match("wheat") or btype:match("farm") then Tutorial.completeStep("build_wheat_farm")
+                    elseif btype:match("barracks") then Tutorial.completeStep("build_barracks")
+                    end
+                end
+            end)
+        end)
+        print("[TutorialSystem] Subscribed to GameEventBus BUILDING_BUILT events")
+    end
+
     print("[TutorialSystem] Initialized")
 end
 
