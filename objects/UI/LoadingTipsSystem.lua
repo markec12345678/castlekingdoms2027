@@ -63,6 +63,17 @@ local TIPS = {
     { category = "Grafika", text = "F6 spremeni čas dneva (zora, dan, mrak, noč)." },
     { category = "Grafika", text = "F5 spremeni vreme (jasno, dež, megla, sneg, nevihta)." },
     { category = "Grafika", text = "Ponoči bakle in zgradbe svetijo. Gradite ob vodnih virih." },
+    -- Stronghold 2027 v2.5.7: New tips
+    { category = "Veterancy", text = "Enote pridobivajo XP iz kills, damage dealt in damage taken!" },
+    { category = "Veterancy", text = "Legendarna (level 5) enota ima +60% HP in +50% damage!" },
+    { category = "Formacije", text = "Ctrl+G preklopi formacijo. Box formation daje +obrambo." },
+    { category = "Festivali", text = "Ctrl+F za turnir! Kronanje da +35 popularnosti (najdražji)." },
+    { category = "Diplomacija", text = "F9 za diplomacijo. Tribute izboljšuje odnose z nevtralnimi." },
+    { category = "AI", text = "AI ima 8 osebnosti! Siege Master gradi oblegovalna orožja." },
+    { category = "AI", text = "Legendary težavnost: AI razmišlja vsakih 0.5s z 80 enotami!" },
+    { category = "Zgodovina", text = "Kampanja pokriva Norman Conquest 1066-1087 (Hastings do Rouen)." },
+    { category = "Zgodovina", text = "Bitka pri Hastingsu: 14. oktober 1066. Viljem premagal Harolda." },
+    { category = "Zgodovina", text = "Domesday Book (1086): popis vse Anglije pod Viljemom." },
 }
 
 local shownTips = {}

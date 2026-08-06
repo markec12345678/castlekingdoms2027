@@ -69,6 +69,27 @@ local HINTS = {
         text = "Pritisni F5 za spreminjanje vremena. Letni časi vplivajo na proizvodnjo!",
         priority = 9,
     },
+    -- Stronghold 2027 v2.5.7: 5 new tutorial hints
+    veterancy_tip = {
+        text = "Tvoje enote pridobivajo XP iz bojev! 5 stopenj veterancy z bonusi.",
+        priority = 11,
+    },
+    formation_tip = {
+        text = "Ctrl+G za preklop formacije! Line, column, wedge, scatter, box.",
+        priority = 12,
+    },
+    festival_tip = {
+        text = "Ctrl+F za zagon turnirja! Festivali povečujejo popularnost.",
+        priority = 13,
+    },
+    diplomacy_tip = {
+        text = "F9 za diplomacijo! Sklepaj zavezništva ali napoveduj vojno.",
+        priority = 14,
+    },
+    siege_tip = {
+        text = "Ctrl+B za ustvarjanje katapulta! Oblegovalna orožja uničujejo zgradbe.",
+        priority = 15,
+    },
 }
 
 -- Show a hint (if not already shown this session)
@@ -168,12 +189,22 @@ end
 function TutorialHints.checkResources()
     if not _G.state then return end
 
-    local food = _G.state.gold or 0  -- placeholder, would check actual food
+    -- Stronghold 2027 v2.5.7: Fixed food check (was using gold as placeholder)
     local gold = _G.state.gold or 0
+    local food = 0
+    if _G.state.resources and _G.state.resources.food then
+        food = _G.state.resources.food
+    elseif _G.state.food then
+        food = _G.state.food
+    end
 
     -- Check every 30 seconds (called from update)
     if gold < 100 and not TutorialHints.wasShown("low_gold") then
         TutorialHints.show("low_gold")
+    end
+    -- Stronghold 2027 v2.5.7: Added low food hint
+    if food < 20 and not TutorialHints.wasShown("low_food") then
+        TutorialHints.show("low_food")
     end
 end
 
