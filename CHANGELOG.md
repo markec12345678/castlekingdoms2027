@@ -2,6 +2,27 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.7.1] — 2026-08-04 — Random Event System + 8 New Resources
+
+### Dodano
+- **Random Event System** — 7 tipov naključnih dogodkov
+  - Hero Visit (5%) — brezplačna veteran enota
+  - Merchant Caravan (8%) — +200-600 zlata
+  - Plague (4%) — -15% populacije, -10 sreče
+  - Fire (6%) — 50% HP na 10% zgradb
+  - Earthquake (2%) — 30% HP na 20% zgradb
+  - Golden Age (3%) — +500 zlata, bogata letina
+  - Refugee Crisis (5%) — +20 populacije, -15 sreče
+- **8 novih tipov surovin** (skupno 17):
+  - pitch (25g), leather (40g), silk (120g), spices (80g)
+  - wine (60g), wool (20g), coal (35g), gold, food
+
+### Statistika
+- 599 Lua datotek (+1)
+- 596/599 syntax pass
+- 7 naključnih dogodkov (nov)
+- 17 tipov surovin (+8)
+
 ## [v2.7.0] — 2026-08-04 — Trade Route Manager (persistent routes)
 
 ### Dodano
