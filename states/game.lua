@@ -58,6 +58,7 @@ S.DebugConsole = require("objects.QA.DebugConsoleSystem")
 S.CommunityFeedback = require("objects.QA.CommunityFeedbackSystem")
 S.GameEventBus = require("objects.Core.GameEventBus")
 S.IntegrationTestSuite = require("objects.QA.IntegrationTestSuite")
+S.StabilityTests = require("objects.QA.StabilityTestSuite")
 S.GameBalancePass = require("objects.Config.GameBalancePass")
 S.VisualPolish = require("objects.Feedback.VisualPolishSystem")
 S.PerfBenchmark = require("objects.QA.PerformanceBenchmark")
@@ -1274,6 +1275,13 @@ function game:keypressed(key, scancode, isRepeat)
         S.FinalReleasePrep.printResults()
         local results = S.FinalReleasePrep.runAll()
         ModernUI.notifyInfo(string.format("Release prep: %d/%d passed", results.passed, results.total))
+        return
+    end
+    -- Stronghold 2027 v2.5.0: Ctrl+Shift+X = Run stability test suite
+    if key == "x" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
+        local results = S.StabilityTests.runAll()
+        S.StabilityTests.printResults()
+        ModernUI.notifyInfo(string.format("Stability tests: %d/%d passed", results.passed, results.total))
         return
     end
     -- Handle credits ESC

@@ -25,6 +25,8 @@ local isSteamRunning = false
 local steamId = ""
 local achievements = {}
 local stats = {}
+local richPresence = {}  -- Stronghold 2027 v2.5.0: rich presence data
+local overlayUsage = {}  -- Stronghold 2027 v2.5.0: overlay usage tracking
 
 -- Achievement definitions
 local ACHIEVEMENTS = {
@@ -146,19 +148,74 @@ end
 
 -- Set rich presence
 function SteamWorks.setRichPresence(key, value)
+    -- Stronghold 2027 v2.5.0: Store rich presence locally for display
+    if not richPresence then richPresence = {} end
+    richPresence[key] = value
     -- In production: steamworks.setRichPresence(key, value)
+end
+
+-- Get rich presence value (for UI display)
+function SteamWorks.getRichPresence(key)
+    return richPresence and richPresence[key] or nil
+end
+
+-- Set common rich presence strings
+function SteamWorks.setGameStatus(status, details)
+    SteamWorks.setRichPresence("steam_display", status)
+    SteamWorks.setRichPresence("steam_player_group", details or "")
 end
 
 -- Open Steam overlay
 function SteamWorks.openOverlay(page)
     -- page: "friends", "community", "players", "settings", "officialgamegroup", "stats"
     print("[SteamWorks] Opening overlay: " .. tostring(page))
+    -- Stronghold 2027 v2.5.0: Track overlay usage for analytics
+    if not overlayUsage then overlayUsage = {} end
+    overlayUsage[page] = (overlayUsage[page] or 0) + 1
     -- In production: steamworks.openOverlay(page)
 end
 
 -- Open Steam overlay to a specific URL
 function SteamWorks.openOverlayURL(url)
+    print("[SteamWorks] Opening overlay URL: " .. tostring(url))
     -- In production: steamworks.openOverlayBrowser(url)
+end
+
+-- Stronghold 2027 v2.5.0: Cloud save stub (local file persistence)
+function SteamWorks.cloudSave(filename, data)
+    -- In production: steamworks.fileWrite(filename, data)
+    -- For now: save to love.filesystem (acts as local cloud)
+    local file = love.filesystem.newFile("cloud/" .. filename)
+    if file:open("w") then
+        file:write(data)
+        file:close()
+        print("[SteamWorks] Cloud save: " .. filename)
+        return true
+    end
+    return false
+end
+
+-- Stronghold 2027 v2.5.0: Cloud load stub
+function SteamWorks.cloudLoad(filename)
+    -- In production: steamworks.fileRead(filename)
+    local file = love.filesystem.newFile("cloud/" .. filename)
+    if file:open("r") then
+        local data = file:read()
+        file:close()
+        return data
+    end
+    return nil
+end
+
+-- Stronghold 2027 v2.5.0: Check if cloud is available
+function SteamWorks.isCloudEnabled()
+    -- In production: steamworks.isCloudEnabled()
+    return true  -- stub: always available
+end
+
+-- Stronghold 2027 v2.5.0: Get overlay usage stats (for analytics)
+function SteamWorks.getOverlayUsage()
+    return overlayUsage or {}
 end
 
 -- Save achievements to file

@@ -10,24 +10,37 @@ local CampaignProgress = {}
 local PROGRESS_FILE = "campaign_progress.json"
 local initialized = false
 
--- All 10 missions in order
+-- Stronghold 2027 v2.5.0: All 21 missions in order (10 Fernhaven + 11 Historical Norman Conquest)
 local MISSION_LIST = {
-    { key = "campaign.mission1_return_to_fernhaven",   name = "Vrnitev v Fernhaven",      difficulty = 1 },
-    { key = "campaign.mission2_first_defenders",        name = "Prvi branilci",            difficulty = 2 },
-    { key = "campaign.mission3_alliance_with_westmarsh", name = "Zavezništvo z Westmarshem", difficulty = 2 },
-    { key = "campaign.mission4_the_iron_hills",         name = "Železni griči",            difficulty = 3 },
-    { key = "campaign.mission5_the_bandit_king",        name = "Banditski kralj",          difficulty = 5 },
-    { key = "campaign.mission6_betrayal_at_eastvale",   name = "Izdaja pri Eastvalu",      difficulty = 4 },
-    { key = "campaign.mission7_the_northern_pass",      name = "Severni prelaz",           difficulty = 5 },
-    { key = "campaign.mission8_the_cathedral",          name = "Katedrala",                difficulty = 3 },
-    { key = "campaign.mission9_lady_elaras_sacrifice",  name = "Žrtev Lady Elare",         difficulty = 5 },
-    { key = "campaign.mission10_the_throne_of_valdemar", name = "Prestol Valdemarja",      difficulty = 5 },
+    -- Fernhaven Saga (missions 1-10)
+    { key = "campaign.mission1_return_to_fernhaven",   name = "Vrnitev v Fernhaven",      difficulty = 1, era = "Fernhaven Saga" },
+    { key = "campaign.mission2_first_defenders",        name = "Prvi branilci",            difficulty = 2, era = "Fernhaven Saga" },
+    { key = "campaign.mission3_alliance_with_westmarsh", name = "Zavezništvo z Westmarshem", difficulty = 2, era = "Fernhaven Saga" },
+    { key = "campaign.mission4_the_iron_hills",         name = "Železni griči",            difficulty = 3, era = "Fernhaven Saga" },
+    { key = "campaign.mission5_the_bandit_king",        name = "Banditski kralj",          difficulty = 5, era = "Fernhaven Saga" },
+    { key = "campaign.mission6_betrayal_at_eastvale",   name = "Izdaja pri Eastvalu",      difficulty = 4, era = "Fernhaven Saga" },
+    { key = "campaign.mission7_the_northern_pass",      name = "Severni prelaz",           difficulty = 5, era = "Fernhaven Saga" },
+    { key = "campaign.mission8_the_cathedral",          name = "Katedrala",                difficulty = 3, era = "Fernhaven Saga" },
+    { key = "campaign.mission9_lady_elaras_sacrifice",  name = "Žrtev Lady Elare",         difficulty = 5, era = "Fernhaven Saga" },
+    { key = "campaign.mission10_the_throne_of_valdemar", name = "Prestol Valdemarja",      difficulty = 5, era = "Fernhaven Saga" },
+    -- Historical: Norman Conquest 1066-1087 (missions 11-21)
+    { key = "campaign.mission11_hastings_1066",         name = "Bitka pri Hastingsu (1066)",   difficulty = 4, era = "Norman Conquest" },
+    { key = "campaign.mission12_london_1066",           name = "Kronanje v Londonu (1066)",    difficulty = 3, era = "Norman Conquest" },
+    { key = "campaign.mission13_harrying_north_1069",   name = "Pustošenje severa (1069)",     difficulty = 5, era = "Norman Conquest" },
+    { key = "campaign.mission14_domesday_1086",         name = "Sodni dan Knjiga (1086)",      difficulty = 3, era = "Norman Conquest" },
+    { key = "campaign.mission15_welsh_wars_1081",       name = "Valižanski spopadi (1081)",    difficulty = 4, era = "Norman Conquest" },
+    { key = "campaign.mission16_robert_rebellion_1078", name = "Robertova vstaja (1078)",      difficulty = 4, era = "Norman Conquest" },
+    { key = "campaign.mission17_scottish_borders_1072", name = "Škotska kampanja (1072)",      difficulty = 4, era = "Norman Conquest" },
+    { key = "campaign.mission18_danish_invasion_1075",  name = "Danska invazija (1075)",       difficulty = 5, era = "Norman Conquest" },
+    { key = "campaign.mission19_earls_revolt_1075",     name = "Vstaja grofov (1075)",         difficulty = 4, era = "Norman Conquest" },
+    { key = "campaign.mission20_normandy_defense_1087", name = "Obramba Normandije (1087)",    difficulty = 5, era = "Norman Conquest" },
+    { key = "campaign.mission21_legacy_conqueror",      name = "Dediščina Osvajalca (Epilog)", difficulty = 2, era = "Norman Conquest" },
 }
 
 -- Progress state
 local progress = {
     completedMissions = {},  -- set of mission keys
-    currentMission = 1,      -- index of current mission (1-10)
+    currentMission = 1,      -- index of current mission (1-21)
     totalPlaytime = 0,       -- total seconds played
     achievements = {},       -- unlocked achievements
 }
@@ -36,7 +49,7 @@ function CampaignProgress.init()
     if initialized then return end
     initialized = true
     CampaignProgress.load()
-    print("[CampaignProgress] Initialized - " .. CampaignProgress.getCompletedCount() .. "/10 missions completed")
+    print("[CampaignProgress] Initialized - " .. CampaignProgress.getCompletedCount() .. "/21 missions completed")
 end
 
 -- Load progress from file

@@ -43,6 +43,113 @@ local STORY_BEATS = {
             { speaker = "Pripovedovalec", portrait = "narrator", text = "Tako se začne nova doba. Doba miru. Doba upanja. Doba Stronghold 2027." },
         },
     },
+    -- Stronghold 2027 v2.5.0: Historical Norman Conquest story beats (1066-1087)
+    mission11 = {
+        intro = {
+            { speaker = "Pripovedovalec", portrait = "narrator", text = "Leto 1066. Kralj Edward Spoznavalec je mrtev. Harold Godwinson si je prilastil angleški prestol." },
+            { speaker = "Pripovedovalec", portrait = "narrator", text = "Viljem, vojvoda Normandije, verjame, da mu je Edward obljubil krono. Z 7000 vojaki pluje čez kanal." },
+            { speaker = "Viljem Osvajalec", portrait = "noble", text = "Harold je prelomil zahteva! Angleški prestol je moj po pravici. Pri Hastingsu se bomo odločili!" },
+        },
+        outro = {
+            { speaker = "Pripovedovalec", portrait = "narrator", text = "Harold je mrtev — puščica v očesu po izročilu. Saški ščitni zid je zlomljen." },
+            { speaker = "Viljem Osvajalec", portrait = "noble", text = "Anglija je moja! Zmaga pri Hastingsu bo odmevala skozi stoletja!" },
+        },
+    },
+    mission12 = {
+        intro = {
+            { speaker = "Pripovedovalec", portrait = "narrator", text = "Božič 1066. Viljem pluje po Temzo do Londona. Westminster Abbey čaka na kronanje." },
+            { speaker = "Viljem Osvajalec", portrait = "noble", text = "London mora biti varen pred uporniki. Tower bo simbol normanske moči!" },
+        },
+        outro = {
+            { speaker = "Škof", portrait = "noble", text = "Vaše Veličanstvo, Anglija ima novega kralja. Viljem I., Osvajalec!" },
+        },
+    },
+    mission13 = {
+        intro = {
+            { speaker = "Pripovedovalec", portrait = "narrator", text = "Zima 1069. Severna Anglija se je uprla. Danska vojska je pristala v Humberju." },
+            { speaker = "Viljem Osvajalec", portrait = "noble", text = "Sever mora izvedeti, kaj pomeni prekleti normanski kralj. Pustošenje bo popolno!" },
+        },
+        outro = {
+            { speaker = "Pripovedovalec", portrait = "narrator", text = "Yorkshire je opustošen. Tisoči stradajo. Normanski nadzor je vzpostavljen — s ceno krvi." },
+        },
+    },
+    mission14 = {
+        intro = {
+            { speaker = "Pripovedovalec", portrait = "narrator", text = "Leto 1086. Viljem želi vedeti, kaj točno poseduje. Ukaze popis vse Anglije." },
+            { speaker = "Viljem Osvajalec", portrait = "noble", text = "Vsak drobec zemlje, vsaka krava, vsak kmet — vse mora biti zabeleženo v Domesday Knjigi!" },
+        },
+        outro = {
+            { speaker = "Pisar", portrait = "peasant", text = "Vaše Veličanstvo, popis je končan. Anglija je bogata dežela, resnično bogata." },
+        },
+    },
+    mission15 = {
+        intro = {
+            { speaker = "Pripovedovalec", portrait = "narrator", text = "Leto 1081. Valižani napadajo obmejne vasi. Viljem vodi vojsko v gorski Wales." },
+            { speaker = "Viljem Osvajalec", portrait = "noble", text = "Ti gore skrivajo gverilce. Gradili bomo obmejne gradove in jih stisnili!" },
+        },
+        outro = {
+            { speaker = "Pripovedovalec", portrait = "narrator", text = "Wales je delno pokorjen. Obmejni gradovi bodo varovali mejo še stoletja." },
+        },
+    },
+    mission16 = {
+        intro = {
+            { speaker = "Pripovedovalec", portrait = "narrator", text = "Leto 1078. Robert Curthose, Viljemov najstarejši sin, se upre očetu." },
+            { speaker = "Robert Curthose", portrait = "noble", text = "Oče mi odteguje moje dediščino! Prevzel bom, kar je moje!" },
+            { speaker = "Viljem Osvajalec", portrait = "noble", text = "Moj lastni sin proti meni! Kleknil bo — ali padel!" },
+        },
+        outro = {
+            { speaker = "Pripovedovalec", portrait = "narrator", text = "Pri Gerberoyu je Viljem bil ranjen — od lastnega sina. Leta 1080 so se spravili." },
+        },
+    },
+    mission17 = {
+        intro = {
+            { speaker = "Pripovedovalec", portrait = "narrator", text = "Leto 1072. Škotski kralj Malcolm III. podpira saške upornike. Viljem vodi vojsko na sever." },
+            { speaker = "Viljem Osvajalec", portrait = "noble", text = "Škotska čaka. Malcolm bo kleknil pred normansko krono!" },
+        },
+        outro = {
+            { speaker = "Malcolm III.", portrait = "noble", text = "Predajam se, kralj Viljem. Škotska je tvoja." },
+        },
+    },
+    mission18 = {
+        intro = {
+            { speaker = "Pripovedovalec", portrait = "narrator", text = "Leto 1075. Danska flota 200 ladij je pristala v Yorku. Zadnja vikinška invazija Anglije!" },
+            { speaker = "Viljem Osvajalec", portrait = "noble", text = "Vikingi spet na naših obalah! K orožju! Ta bo zadnjič, da plenijo Angleško!" },
+        },
+        outro = {
+            { speaker = "Pripovedovalec", portrait = "narrator", text = "Dance so odkupili, uporniki pa zlomljeni. Zadnja vikinška doba je končana." },
+        },
+    },
+    mission19 = {
+        intro = {
+            { speaker = "Pripovedovalec", portrait = "narrator", text = "Leto 1075. Grofje Ralph in Roger sta se uprla. Vstaja grofov grozi normanski oblasti." },
+            { speaker = "Viljem Osvajalec", portrait = "noble", text = "Ti grofje pozabljajo, kdo jih je postavil! Zdrobili jih bomo!" },
+        },
+        outro = {
+            { speaker = "Pripovedovalec", portrait = "narrator", text = "Ralph je pobegnil na Dansko, Roger je v ječi za vse življenje. Upor je končan." },
+        },
+    },
+    mission20 = {
+        intro = {
+            { speaker = "Pripovedovalec", portrait = "narrator", text = "Leto 1087. Francoski kralj Filip I. je vdrl v Normandijo in požgal Mantes." },
+            { speaker = "Viljem Osvajalec", portrait = "noble", text = "Filip si drzne napasti MOJA ozemlja? Spoznal bo ceno!" },
+        },
+        outro = {
+            { speaker = "Pripovedovalec", portrait = "narrator", text = "Viljem je zmagal, a bil ranjen v obleganju. Njegov konc se je spotaknil pri gorečih razvalinah Mantesa." },
+            { speaker = "Pripovedovalec", portrait = "narrator", text = "Umrl je v Rouenu 9. septembra 1087. Osvajalec je šel — a njegova dediščina traja." },
+        },
+    },
+    mission21 = {
+        intro = {
+            { speaker = "Pripovedovalec", portrait = "narrator", text = "Epilog. Viljemova dediščina traja. Njegovi sinovi Viljem Rufus in Henrik bodo vladali Angliji." },
+            { speaker = "Viljem Rufus", portrait = "noble", text = "Oče bi bil ponosen. Anglija je naša." },
+            { speaker = "Henrik Beauclerc", portrait = "noble", text = "In nekoč bo tudi moja. Taka je usoda kraljev." },
+        },
+        outro = {
+            { speaker = "Pripovedovalec", portrait = "narrator", text = "Normanska dinastija, ki jo je ustanovil Viljem, bo vladala Angliji do leta 1154." },
+            { speaker = "Pripovedovalec", portrait = "narrator", text = "Njegov vpliv je oblikoval angleško pravo, jezik in kulturo za vedno." },
+            { speaker = "Pripovedovalec", portrait = "narrator", text = "Od Hastingsa do Domesday Knjige — oblikovali ste zgodovino. Dobro opravljeno, moj gospod." },
+        },
+    },
 }
 
 local currentDialogue = nil
@@ -51,7 +158,7 @@ local isActive = false
 local onComplete = nil
 
 function CampaignStory.init()
-    print("[CampaignStory] Initialized with " .. #CampaignStory._getBeatCount() .. " story beats")
+    print("[CampaignStory] Initialized with " .. CampaignStory._getBeatCount() .. " story beats")
 end
 
 function CampaignStory._getBeatCount()
