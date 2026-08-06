@@ -285,10 +285,17 @@ end
 
 -- Spawn a group of enemy units at position
 function AIController:spawnEnemyGroup(faction, unitClass, count, gx, gy)
-    -- This is a stub - actual spawning requires integration with existing Unit system
-    -- Will be implemented when we have spawn points defined
-    print(string.format("[AIController] Would spawn %d %s for faction %d at (%d, %d)",
-        count, unitClass, faction, gx, gy))
+    -- Stronghold 2027 v2.5.9: Actually spawn units via CombatIntegration
+    local CombatIntegration = _G.CombatIntegration
+    if CombatIntegration and CombatIntegration.spawnEnemyGroup then
+        CombatIntegration.spawnEnemyGroup(unitClass, count, gx, gy, faction)
+        print(string.format("[AIController] Spawned %d %s for faction %d at (%d, %d)",
+            count, unitClass, faction, gx, gy))
+    else
+        -- Fallback: print if CombatIntegration not available
+        print(string.format("[AIController] Would spawn %d %s for faction %d at (%d, %d)",
+            count, unitClass, faction, gx, gy))
+    end
 end
 
 -- Get AI stats

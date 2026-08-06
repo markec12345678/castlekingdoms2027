@@ -303,8 +303,15 @@ end
 
 -- Get resource count
 function MissionFramework.getResourceCount(resource)
-    -- This would query the actual stockpile
-    -- For now, return 0 (placeholder)
+    -- Stronghold 2027 v2.5.9: Actually query game state for resources
+    if not _G.state then return 0 end
+    if resource == "gold" then
+        return _G.state.gold or 0
+    end
+    -- Check resources table
+    if _G.state.resources then
+        return _G.state.resources[resource] or 0
+    end
     return 0
 end
 
