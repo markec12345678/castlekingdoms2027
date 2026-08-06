@@ -2,6 +2,26 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.5.8] — 2026-08-04 — 12 New Voice-Over + 4 New SFX Categories
+
+### Dodano
+- **12 novih voice-over sporočil** (skupno 42+):
+  - unit_veteran, unit_legendary, siege_weapon_ready
+  - festival_started, festival_ended, economic_event
+  - season_changed, trade_completed, tribute_sent
+  - coop_mission_start, skirmish_start
+- **4 nove SFX kategorije** (skupno 8):
+  - siege (5 zvokov) — catapult_fire, trebuchet_fire, ram_hit, tower_deploy, wall_collapse
+  - festival (3 zvoki) — cheer, fanfare, bell
+  - weather (3 zvoki) — rain, thunder, wind
+  - veterancy (2 zvoka) — level_up, legendary_fanfare
+
+### Statistika
+- 590 Lua datotek
+- 587/590 syntax pass
+- 42+ voice-over sporočil (+12)
+- 8 SFX kategorij (+4)
+
 ## [v2.5.7] — 2026-08-04 — Fix Food Hint + 5 Tutorial Hints + 10 Loading Tips
 
 ### Popravljeno
