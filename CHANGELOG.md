@@ -2,6 +2,29 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.5.3] — 2026-08-04 — 15 Skirmish + 10 Co-op Missions + Modding API
+
+### Dodano
+- **5 novih skirmish misij** (skupno 15):
+  - Oblegovalni mojster (vs Siege Master)
+  - Čuvar trdnjave (vs Fortress Keeper x2)
+  - Plenilski napad (vs Raider x3)
+  - Diplomatska kriza (vs Diplomat x2)
+  - Legendarne legije (vs Aggressive x4, legendary)
+- **5 novih co-op misij** (skupno 10) — zgodovinske Norman Conquest:
+  - Hastings 1066, Pustošenje severa, Škotska kampanja, Danska invazija, Obramba Normandije
+- **4 nove ModLoader funkcije**:
+  - getModInfo(modId) — informacije o modu brez nalaganja
+  - listAvailableMods() — seznam vseh modov
+  - validateManifest(manifest) — validacija formata
+  - exportModList() — JSON-compatibelni izvoz
+
+### Statistika
+- 590 Lua datotek
+- 587/590 syntax pass
+- 15 skirmish misij (+5)
+- 10 co-op misij (+5)
+
 ## [v2.5.2] — 2026-08-04 — 8 AI Personalities + 6 Difficulty Levels
 
 ### Dodano
