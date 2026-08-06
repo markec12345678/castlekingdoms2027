@@ -56,6 +56,27 @@ local UPGRADE_PATHS = {
             { building = "StoneWall",      tier = 2, cost = { stone = 10 } },
         },
     },
+    -- Stronghold 2027 v2.6.1: New upgrade paths
+    -- Siege progression
+    siege = {
+        current = "EngineersGuild",
+        name = "Oblegovalna",
+        tiers = {
+            { building = "EngineersGuild",  tier = 1, cost = { wood = 30, stone = 20 }, units = {"Catapult"} },
+            { building = "SiegeWorkshop",   tier = 2, cost = { wood = 50, stone = 40, gold = 200 }, units = {"Trebuchet", "SiegeTower"} },
+            { building = "RoyalSiegeGuild", tier = 3, cost = { wood = 80, stone = 60, gold = 500 }, units = {"BatteringRam", "AllSiegeUnits"} },
+        },
+    },
+    -- Economy progression
+    economy = {
+        current = "Market",
+        name = "Ekonomija",
+        tiers = {
+            { building = "Market",        tier = 1, cost = { wood = 30, stone = 15 }, bonus = "trade_routes" },
+            { building = "TradePost",     tier = 2, cost = { wood = 50, stone = 30, gold = 300 }, bonus = "caravan_bonus" },
+            { building = "RoyalExchange", tier = 3, cost = { wood = 80, stone = 60, gold = 800 }, bonus = "dynamic_prices" },
+        },
+    },
 }
 
 UpgradeTree.UPGRADE_PATHS = UPGRADE_PATHS

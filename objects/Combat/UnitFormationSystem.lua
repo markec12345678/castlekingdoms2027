@@ -102,6 +102,42 @@ local FORMATIONS = {
         attackBonus = 0.9,
         speedBonus = 0.8,
     },
+    -- Stronghold 2027 v2.6.1: 2 new formations
+    phalanx = {
+        name = "Falanga",
+        description = "Gosta kopjaška formacija. Maksimalna obramba, počasna.",
+        spacing = 0.7,
+        layout = function(count)
+            local positions = {}
+            local ranks = math.max(2, math.ceil(count / 6))
+            for i = 1, count do
+                local rank = math.floor((i-1) / 6)
+                local file = (i-1) % 6
+                positions[i] = { x = (file - 2.5) * 0.7, y = rank * 0.5 }
+            end
+            return positions
+        end,
+        defenseBonus = 1.6,
+        attackBonus = 1.1,
+        speedBonus = 0.6,
+    },
+    skirmish = {
+        name = "Razpršena",
+        description = "Razpršena formacija. Hitra, odlična za lokostrelce.",
+        spacing = 1.8,
+        layout = function(count)
+            local positions = {}
+            for i = 1, count do
+                local angle = (i / count) * math.pi * 2
+                local radius = 1.5 + (i % 3) * 0.5
+                positions[i] = { x = math.cos(angle) * radius, y = math.sin(angle) * radius }
+            end
+            return positions
+        end,
+        defenseBonus = 0.8,
+        attackBonus = 1.2,
+        speedBonus = 1.3,
+    },
 }
 
 FormationSystem.FORMATIONS = FORMATIONS
@@ -194,7 +230,8 @@ end
 
 -- Cycle through formations
 function FormationSystem.cycleFormation()
-    local order = {"line", "column", "wedge", "scatter", "box"}
+    -- Stronghold 2027 v2.6.1: Added phalanx and skirmish to cycle
+    local order = {"line", "column", "wedge", "scatter", "box", "phalanx", "skirmish"}
     local idx = 1
     for i, f in ipairs(order) do
         if f == currentFormation then idx = i break end
