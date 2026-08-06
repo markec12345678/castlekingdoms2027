@@ -2,6 +2,32 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.6.8] — 2026-08-04 — Diplomatic Relations System (5 levels)
+
+### Dodano
+- **Diplomatic Relations System** — 5 stopenj odnosov
+  - Hostile (-100 do -50): vojna, brez diplomacije
+  - Unfriendly (-49 do -20): brez trgovine
+  - Neutral (-19 do 19): osnovna trgovina
+  - Friendly (20 do 49): +15% trgovina, obramba
+  - Allied (50 do 100): +30% trgovina, skupna vizija
+- 9 diplomatskih akcij z modifikatorji
+- Zgodovina odnosov (zadnjih 20 akcij)
+- Počasno razpadanje proti nevtralnem
+- Zrcaljenje odnosov (80% teža)
+- Trade bonusi, defense pact, shared vision
+
+### Diplomatske akcije (9)
+1. trade_completed (+3), 2. tribute_sent (+5), 3. alliance_formed (+20)
+4. peace_proposed (+10), 5. war_declared (-30), 6. assassination_attempt (-40)
+7. sabotage (-25), 8. border_violation (-10), 9. shared_enemy (+8)
+
+### Statistika
+- 596 Lua datotek (+1)
+- 593/596 syntax pass
+- 5 stopenj odnosov (nov)
+- 9 diplomatskih akcij (nov)
+
 ## [v2.6.7] — 2026-08-04 — Espionage & Intelligence System
 
 ### Dodano
