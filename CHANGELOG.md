@@ -2,6 +2,25 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.5.2] — 2026-08-04 — 8 AI Personalities + 6 Difficulty Levels
+
+### Dodano
+- **4 nove AI osebnosti** (skupno 8):
+  - Siege Master — specializacija za oblegovalna orožja
+  - Fortress Keeper — maksimalna fortifikacija, 95% obramba
+  - Raider — hitri napadi, 70% attack chance, 3+ enot
+  - Diplomat — diplomacija in trgovina, zavezništva
+- **2 novi težavnosti** (skupno 6):
+  - Story — zelo počasen AI (6s), 60% waste, 10 enot max
+  - Legendary — super hitro (0.5s), 50% cheat, 80 enot max
+- **32+ novih AI dialogov** v slovenščini (4 osebnosti × 7 situacij × ~4 dialogi)
+- UI prefix-i in barve za vse 8 osebnosti
+
+### Impact
+- **48 unikatnih AI konfiguracij** (8 osebnosti × 6 težavnosti)
+- Večja raznolikost nasprotnikov
+- Pokriva vse nivoje igralcev (od casual do hardcore)
+
 ## [v2.5.1] — 2026-08-04 — 5 Historical Maps + MapRegistry
 
 ### Dodano
