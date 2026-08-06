@@ -2,6 +2,28 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.6.5] — 2026-08-04 — Population & Happiness System
+
+### Dodano
+- **Population & Happiness System** — dinamično upravljanje populacije
+  - 6 faktorjev sreče: hrana, davki, stanovanja, religija, festivali, osnova
+  - Rast populacije glede na srečo in hrano (-2 do +2 na 5s)
+  - Maksimalna populacija iz stanovanjskih zgradb
+  - Ctrl+Shift+P za prikaz populacije in razčlenitve sreče
+  - Posodablja _G.state.population, maxPopulation, popularity
+
+### Faktorji sreče (6)
+1. Hrana — izobilje (+10), pomanjkanje (-20)
+2. Davki — nizki (+5), visoki (-15)
+3. Stanovanja — prostorno (+5), prenapolnjeno (-2/overflow)
+4. Religija — kapele (+3), cerkve (+6), katedrale (+15)
+5. Festivali — aktivni (+10)
+6. Osnova — 50 (nevtralno)
+
+### Statistika
+- 593 Lua datotek (+1)
+- 590/593 syntax pass
+
 ## [v2.6.4] — 2026-08-04 — Technology Tree System (14 technologies)
 
 ### Dodano
