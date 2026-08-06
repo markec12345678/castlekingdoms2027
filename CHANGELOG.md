@@ -2,6 +2,26 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.6.4] — 2026-08-04 — Technology Tree System (14 technologies)
+
+### Dodano
+- **Technology Tree System** — 14 tehnologij v 4 kategorijah
+  - Military (4): Archery, Steel Weapons, Cavalry School, Siege Tech
+  - Economy (4): Agriculture, Mining, Trade Routes, Trade Bonuses
+  - Defense (3): Reinforced Walls, Tower Improvements, Armored Gates
+  - Civil (3): Advanced Housing, Religious Institutions, Education
+- Raziskovanje z zlatom + časom (50-150s na tehnologijo)
+- Tehnološke odvisnosti (requires field)
+- Dinamični bonusi za enote, zgradbe, produkcijo
+- Ctrl+Shift+Y za prikaz tech tree statusa
+- GameEventBus event 'technology_researched'
+
+### Statistika
+- 592 Lua datotek (+1)
+- 589/592 syntax pass
+- 14 tehnologij (nov)
+- 4 kategorije: military, economy, defense, civil
+
 ## [v2.6.3] — 2026-08-04 — Daily Challenge System
 
 ### Dodano
