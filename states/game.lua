@@ -1094,7 +1094,8 @@ function game:keypressed(key, scancode, isRepeat)
     end
     -- F5 = Cycle weather (Stronghold 2027)
     if key == "f5" then
-        local weathers = {"clear", "rain", "heavy_rain", "fog", "snow", "storm"}
+        -- Stronghold 2027 v2.6.2: Added blizzard, heatwave, sandstorm
+        local weathers = {"clear", "rain", "heavy_rain", "fog", "snow", "storm", "blizzard", "heatwave", "sandstorm"}
         local current = S.WeatherSystem.getCurrentWeather()
         local idx = 1
         for i, w in ipairs(weathers) do
