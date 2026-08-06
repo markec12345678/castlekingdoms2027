@@ -40,6 +40,12 @@ local ACHIEVEMENTS = {
     diplomate             = { name = "Diplomat", desc = "Form 3 alliances in one game" },
     trader                = { name = "Merchant", desc = "Complete 50 trades" },
     hd_enthusiast         = { name = "Beauty in HD", desc = "Play with HD pipeline for 1 hour" },
+    -- Stronghold 2027 v2.5.6: 5 new achievements
+    siege_master          = { name = "Siege Master", desc = "Destroy 50 buildings with siege weapons" },
+    legendary_army        = { name = "Legendary Army", desc = "Train a Legendary (level 5) unit" },
+    skirmish_trail        = { name = "Trail Conqueror", desc = "Complete all 15 skirmish missions" },
+    coop_master           = { name = "Co-op Master", desc = "Complete all 10 co-op missions" },
+    weather_master        = { name = "Storm Lord", desc = "Win a battle during a storm" },
 }
 
 SteamWorks.ACHIEVEMENTS = ACHIEVEMENTS
@@ -308,6 +314,33 @@ function SteamWorks.onGameEvent(event, data)
         if SteamWorks.getStat("trades_completed") >= 50 then
             SteamWorks.unlockAchievement("trader")
         end
+
+    -- Stronghold 2027 v2.5.6: New achievement events
+    elseif event == "siege_destroy" then
+        SteamWorks.incrementStat("buildings_destroyed_siege")
+        if SteamWorks.getStat("buildings_destroyed_siege") >= 50 then
+            SteamWorks.unlockAchievement("siege_master")
+        end
+
+    elseif event == "unit_levelup" then
+        if data and data.newLevel and data.newLevel >= 5 then
+            SteamWorks.unlockAchievement("legendary_army")
+        end
+
+    elseif event == "skirmish_complete" then
+        SteamWorks.incrementStat("skirmish_completed")
+        if SteamWorks.getStat("skirmish_completed") >= 15 then
+            SteamWorks.unlockAchievement("skirmish_trail")
+        end
+
+    elseif event == "coop_complete" then
+        SteamWorks.incrementStat("coop_completed")
+        if SteamWorks.getStat("coop_completed") >= 10 then
+            SteamWorks.unlockAchievement("coop_master")
+        end
+
+    elseif event == "storm_victory" then
+        SteamWorks.unlockAchievement("weather_master")
     end
 end
 
