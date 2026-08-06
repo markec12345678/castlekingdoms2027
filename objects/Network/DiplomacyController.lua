@@ -206,8 +206,32 @@ function DiplomacyController.sendTribute(targetPlayerId, resources)
 
     print(string.format("[DiplomacyController] Tribute sent to player %d", targetPlayerId))
 
+    -- Stronghold 2027 v2.3.5: Tributes improve relations
+    -- Calculate relation improvement based on tribute value
+    local tributeValue = 0
+    for resourceType, amount in pairs(resources) do
+        -- Rough value estimation: gold=1, others=2 per unit
+        if resourceType == "gold" then
+            tributeValue = tributeValue + amount
+        else
+            tributeValue = tributeValue + amount * 2
+        end
+    end
+    -- Every 50 gold value = +1 relation improvement
+    local improvement = math.max(1, math.floor(tributeValue / 50))
+    DiplomacyController.improveRelations(targetPlayerId, improvement)
+
     if DiplomacyController.onTributeReceived then
         DiplomacyController.onTributeReceived(myPlayerId, resources)
+    end
+
+    -- Fire event
+    if _G.GameEventBus then
+        pcall(function() _G.GameEventBus.emit("tribute_sent", {
+            targetPlayerId = targetPlayerId,
+            resources = resources,
+            improvement = improvement
+        }) end)
     end
 
     return true

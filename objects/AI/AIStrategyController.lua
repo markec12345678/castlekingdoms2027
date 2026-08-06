@@ -443,6 +443,13 @@ function AIStrategyController:gatherResources(faction, state)
     local woodMod = (SeasonalSystem and SeasonalSystem.getProductionModifier("wood")) or 1.0
     local stoneMod = (SeasonalSystem and SeasonalSystem.getProductionModifier("stone")) or 1.0
     local foodMod = (SeasonalSystem and SeasonalSystem.getProductionModifier("food")) or 1.0
+    -- Stronghold 2027 v2.3.5: Apply economic event modifiers (blight, bumper harvest, etc.)
+    local EconomicEvents = _G.EconomicEvents
+    if EconomicEvents then
+        woodMod = woodMod * ((EconomicEvents.getProductionModifier and EconomicEvents.getProductionModifier("wood")) or 1.0)
+        stoneMod = stoneMod * ((EconomicEvents.getProductionModifier and EconomicEvents.getProductionModifier("stone")) or 1.0)
+        foodMod = foodMod * ((EconomicEvents.getProductionModifier and EconomicEvents.getProductionModifier("food")) or 1.0)
+    end
     state.resources.wood = state.resources.wood + math.floor(20 * efficiency * woodMod)
     state.resources.stone = state.resources.stone + math.floor(10 * efficiency * stoneMod)
     state.resources.food = state.resources.food + math.floor(15 * efficiency * foodMod)
