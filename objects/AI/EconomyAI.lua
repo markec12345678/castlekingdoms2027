@@ -218,8 +218,26 @@ function EconomyAI:manageWorkers(faction, state)
         end
     end
 
-    -- Assign workers to appropriate buildings
-    -- (In real implementation, this would issue worker assignment orders)
+    -- Stronghold 2027 v2.3.7: Actually assign workers to buildings
+    if not _G.state or not _G.state.gameObjectList then return end
+    local buildingType = nil
+    if needed == "wood" then buildingType = "WoodcutterHut"
+    elseif needed == "stone" then buildingType = "Quarry"
+    elseif needed == "food" then buildingType = "WheatFarm"
+    elseif needed == "iron" then buildingType = "IronMine"
+    elseif needed == "gold" then buildingType = "Market"
+    end
+    if buildingType then
+        for _, obj in ipairs(_G.state.gameObjectList) do
+            if obj.faction == faction and obj.class and obj.class.name == buildingType then
+                -- AutoWorker system handles actual assignment if available
+                if _G.AutoWorker and _G.AutoWorker.assignToBuilding then
+                    pcall(function() _G.AutoWorker.assignToBuilding(obj) end)
+                end
+                break  -- assign to first matching building
+            end
+        end
+    end
 end
 
 -- Evaluate trade opportunities
@@ -256,24 +274,76 @@ end
 
 -- Sell resource at market
 function EconomyAI:sellResource(faction, resource, amount)
-    print(string.format("[EconomyAI %d] Sell %d %s", faction, amount, resource))
-    table.insert(self.factionStates[faction].tradeHistory, {
+    local state = self.factionStates[faction]
+    if not state then return end
+    -- Stronghold 2027 v2.3.7: Actually deduct resource and add gold
+    local resources = self:getResources(faction)
+    local available = resources[resource] or 0
+    if available < amount then return end  -- not enough to sell
+    -- Get sell price from DynamicMarket
+    local DynamicMarket = _G.DynamicMarket or require("objects.Economy.DynamicMarketSystem")
+    local pricePerUnit = 5  -- fallback price
+    if DynamicMarket and DynamicMarket.getPrice then
+        pricePerUnit = DynamicMarket.getPrice(resource, "sell") or 5
+    end
+    local totalGold = amount * pricePerUnit
+    -- Deduct resource
+    if state.resources then
+        state.resources[resource] = (state.resources[resource] or 0) - amount
+    end
+    -- Add gold
+    if state.resources then
+        state.resources.gold = (state.resources.gold or 0) + totalGold
+    end
+    -- Record transaction in market (affects supply/demand)
+    if DynamicMarket and DynamicMarket.recordTransaction then
+        pcall(function() DynamicMarket.recordTransaction(resource, amount, "sell") end)
+    end
+    table.insert(state.tradeHistory, {
         type = "sell",
         resource = resource,
         amount = amount,
+        gold = totalGold,
         time = love.timer.getTime(),
     })
+    print(string.format("[EconomyAI %d] Sold %d %s for %d gold", faction, amount, resource, totalGold))
 end
 
 -- Buy resource at market
 function EconomyAI:buyResource(faction, resource, amount)
-    print(string.format("[EconomyAI %d] Buy %d %s", faction, amount, resource))
-    table.insert(self.factionStates[faction].tradeHistory, {
+    local state = self.factionStates[faction]
+    if not state then return end
+    -- Stronghold 2027 v2.3.7: Actually deduct gold and add resource
+    local resources = self:getResources(faction)
+    local availableGold = resources.gold or 0
+    -- Get buy price from DynamicMarket
+    local DynamicMarket = _G.DynamicMarket or require("objects.Economy.DynamicMarketSystem")
+    local pricePerUnit = 5  -- fallback price
+    if DynamicMarket and DynamicMarket.getPrice then
+        pricePerUnit = DynamicMarket.getPrice(resource, "buy") or 5
+    end
+    local totalCost = amount * pricePerUnit
+    if availableGold < totalCost then return end  -- not enough gold
+    -- Deduct gold
+    if state.resources then
+        state.resources.gold = (state.resources.gold or 0) - totalCost
+    end
+    -- Add resource
+    if state.resources then
+        state.resources[resource] = (state.resources[resource] or 0) + amount
+    end
+    -- Record transaction in market
+    if DynamicMarket and DynamicMarket.recordTransaction then
+        pcall(function() DynamicMarket.recordTransaction(resource, amount, "buy") end)
+    end
+    table.insert(state.tradeHistory, {
         type = "buy",
         resource = resource,
         amount = amount,
+        gold = totalCost,
         time = love.timer.getTime(),
     })
+    print(string.format("[EconomyAI %d] Bought %d %s for %d gold", faction, amount, resource, totalCost))
 end
 
 -- Get next building to construct

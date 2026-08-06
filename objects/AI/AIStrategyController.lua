@@ -450,6 +450,11 @@ function AIStrategyController:gatherResources(faction, state)
         stoneMod = stoneMod * ((EconomicEvents.getProductionModifier and EconomicEvents.getProductionModifier("stone")) or 1.0)
         foodMod = foodMod * ((EconomicEvents.getProductionModifier and EconomicEvents.getProductionModifier("food")) or 1.0)
     end
+    -- Stronghold 2027 v2.3.7: Apply weather farm multiplier to food
+    local WeatherGameplay = _G.WeatherGameplay
+    if WeatherGameplay and WeatherGameplay.getFarmMultiplier then
+        foodMod = foodMod * (WeatherGameplay.getFarmMultiplier() or 1.0)
+    end
     state.resources.wood = state.resources.wood + math.floor(20 * efficiency * woodMod)
     state.resources.stone = state.resources.stone + math.floor(10 * efficiency * stoneMod)
     state.resources.food = state.resources.food + math.floor(15 * efficiency * foodMod)
