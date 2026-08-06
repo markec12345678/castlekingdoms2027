@@ -2,6 +2,29 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.6.3] — 2026-08-04 — Daily Challenge System
+
+### Dodano
+- **Daily Challenge System** — 3 naključni izzivi na dan
+  - 4 kategorije: economic, military, building, diplomatic
+  - 14 predlog izzivov z variabilnimi cilji (±20%)
+  - Zlati dodatki za dokončanje (200-500 gold)
+  - Save/load persistenca (daily_challenges.json)
+  - Ctrl+Shift+H za prikaz trenutnih izzivov
+- **GameEventBus** event 'daily_challenge_complete' ob dokončanju
+
+### Predloge izzivov (14)
+- Economic (5): gather_wood, gather_stone, gather_food, gather_gold, gather_iron
+- Military (4): kill_enemies, win_battles, train_units, siege_destroy
+- Building (2): build_structures, build_towers
+- Diplomatic (3): form_alliances, complete_trades, send_tributes
+
+### Statistika
+- 591 Lua datotek (+1)
+- 588/591 syntax pass
+- 14 challenge predlog (nov)
+- 3 dnevni izzivi na dan
+
 ## [v2.6.2] — 2026-08-04 — 3 New Extreme Weather Types
 
 ### Dodano
