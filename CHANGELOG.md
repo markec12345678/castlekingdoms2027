@@ -2,7 +2,27 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
-## [v2.3.3] — 2026-08-04 — Visual + Combat Balance Update
+## [v2.3.5] — 2026-08-04 — Economic Events + Tribute Diplomacy
+
+### Dodano
+- **Economic events zdaj vplivajo na AI produkcijo** — blight, bumper harvest
+  in drugi dogodki dejansko vplivajo na AI resource gathering
+- **Tribute sistem z diplomacijo** — pošiljanje tributa zdaj izboljšuje odnose
+  z nevtralnimi frakcijami (vsakih 50 gold vrednosti = +1 odnos)
+
+### Popravljeno
+- **EconomicEvents.getProductionModifier()** je bil definiran a nikoli klican
+  — zdaj AIStrategyController.gatherResources() uporablja ta modifikator
+- **DiplomacyController.sendTribute()** ni izboljševal odnosov
+  — zdaj izračuna vrednost tributa in pokliče improveRelations()
+- **_G.EconomicEvents** registriran kot global za AI dostop
+
+### Implementacija
+- `AIStrategyController.gatherResources()` — množi seasonal * economic modifier
+- `DiplomacyController.sendTribute()` — izračun vrednosti, improveRelations, event
+- `states/game.lua` — _G.EconomicEvents registriran
+
+## [v2.3.4] — 2026-08-04 — Seasonal Modifiers + Trade Caravan Fixes
 
 ### Dodano
 - **Pravi sprite-i za oblegovalna orožja** — catapult, trebuchet, siege tower, battering ram
