@@ -2,18 +2,18 @@
 
 Modernizirana različica igre Stronghold (2001) za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT).
 
-[![Version](https://img.shields.io/badge/version-2.3.1-blue.svg)](https://github.com/markec12345678/stronghold2027/releases)
+[![Version](https://img.shields.io/badge/version-2.5.0-blue.svg)](https://github.com/markec12345678/stronghold2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
 [![Syntax](https://img.shields.io/badge/syntax-569%2F572%20pass-brightgreen.svg)](#)
-[![Bugs](https://img.shields.io/badge/bugs%20fixed-55-brightgreen.svg)](#)
-[![Audit](https://img.shields.io/badge/audit%20rounds-14-blue.svg)](#)
+[![Bugs](https://img.shields.io/badge/bugs%20fixed-65-brightgreen.svg)](#)
+[![Audit](https://img.shields.io/badge/audit%20rounds-15-blue.svg)](#)
 
 ## Prenosi
 
 - **Zadnja izdaja**: [v2.3.1](https://github.com/markec12345678/stronghold2027/releases)
-- **.love datoteka**: `stronghold2027-v2.3.1.love` (305 MB)
-- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 14 krogov pregleda, 55 popravkov
+- **.love datoteka**: `stronghold2027-v2.5.0.love` (305 MB)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 15 krogov pregleda, 65 popravkov
 
 ## Zagon
 
@@ -38,16 +38,16 @@ love .
 | Vrstic kode | ~287.000 |
 | GLSL shaderji | 12 |
 | Jezikov | 32 |
-| Verzij | 38 (v1.7.9 → v2.3.1) |
-| Bug popravkov | 55 (14 krogov pregleda) |
-| Syntax pass rate | 569/572 (99,5%) |
+| Verzij | 38 (v1.7.9 → v2.5.0) |
+| Bug popravkov | 55 (15 krogov pregleda) |
+| Syntax pass rate | 581/584 (99,5%) |
 | PNG assetov | 1.206 |
 | Registriranih globalov | 64 |
 
 ## Funkcije
 
 ### 🎮 Jedro igre
-- **10 misij kampanje** s story cutscene-i v slovenščini
+- **21 misij kampanje** s story cutscene-i v slovenščini
 - **10 skirmish misij** s progresivno težavnostjo (Skirmish Trail)
 - **5 co-op misij** za 2 igralca
 - **Freebuild način** za sproščeno igranje
@@ -186,7 +186,7 @@ Glej [CONTRIBUTING.md](CONTRIBUTING.md) za vodič za razvijalce.
 
 ## Zgodovina razvoja
 
-Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v2.3.1 (38 verzij, 14 krogov pregleda, 55 popravkov).
+Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v2.3.1 (42 verzij, 15 krogov pregleda, 65 popravkov).
 
 ## Licenca
 

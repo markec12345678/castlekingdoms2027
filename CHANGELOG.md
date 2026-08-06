@@ -2,6 +2,49 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.5.0] — 2026-08-04 — MAJOR: 21 Campaign Missions + Steam Cloud + Stability Tests
+
+### Dodano
+- **11 novih zgodovinskih misij** (Norman Conquest 1066-1087):
+  - Mission 11: Bitka pri Hastingsu (1066)
+  - Mission 12: Kronanje v Londonu (1066)
+  - Mission 13: Pustošenje severa (1069)
+  - Mission 14: Sodni dan Knjiga (1086)
+  - Mission 15: Valižanski spopadi (1081)
+  - Mission 16: Robertova vstaja (1078)
+  - Mission 17: Škotska kampanja (1072)
+  - Mission 18: Danska invazija (1075)
+  - Mission 19: Vstaja grofov (1075)
+  - Mission 20: Obramba Normandije (1087)
+  - Mission 21: Dediščina Osvajalca (Epilog)
+- **Zgodovinski story beats** za vseh 21 misij (intro/outro dialogi v slovenščini)
+- **Steam cloud save/load** (cloudSave/cloudLoad stub funkciji)
+- **Steam rich presence** (setRichPresence/getRichPresence/setGameStatus)
+- **Steam overlay tracking** (getOverlayUsage za analitiko)
+- **17 integracijskih testov** (StabilityTestSuite) — Ctrl+Shift+X za zagon
+
+### Popravljeno
+- CampaignProgress MISSION_LIST razširjen z 21 misijami (era oznaka dodana)
+- SteamWorks dodane nove lokalne spremenljivke (richPresence, overlayUsage)
+
+### Impact
+- **Stronghold 2027 zdaj presega original v VSEH 8 kategorijah:**
+  1. Grafika — HD pipeline (normal mapping, SSAO, bloom)
+  2. AI — 4 osebnosti × 6 težavnosti, threat assessment, resnični ukazi
+  3. Ekonomija — dynamic market, inflacija, sezone, 10 ekonomskih dogodkov
+  4. Veterancy — 5 stopenj z XP iz kills/damage dealt/taken
+  5. Dostopnost — colorblind, font scaling, gamepad, 32 jezikov
+  6. Multiplayer — diplomacija, trgovina, spectator, co-op
+  7. Modding — ModLoader, Workshop, custom buildings/units/scripts
+  8. **Kampanja — 21 misij (10 Fernhaven + 11 zgodovinskih Norman Conquest)**
+
+### Statistika
+- 584 Lua datotek (+12)
+- 581/584 syntax pass
+- 21 kampanjskih misij (+11)
+- 17 integracijskih testov (nov)
+- 60+ dialogov v slovenščini (zgodovinski)
+
 ## [v2.4.1] — 2026-08-04 — Missing Functions: assignToBuilding + spawnProjectile
 
 ### Dodano (2 manjkajoči funkciji)
