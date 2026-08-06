@@ -2,6 +2,28 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.3.6] — 2026-08-04 — AI Issues Real Combat Orders
+
+### Popravljeno (3 stub funkcije nadomeščene z resničnimi ukazi)
+- **orderAttack()** — prej le print, zdaj dejansko izda ukaz vsem vojaškim enotam
+  (nastavi target, STATE_AGGRO, gotoUserWaypoint)
+- **orderDefend()** — prej le print, zdaj pošlje IDLE enote na položaj obrambe
+- **orderRetreat()** — prej le print, zdaj umakne vse enote v bazo (STATE_RETREATING)
+
+### Implementacija
+- Vse 3 funkcije iterirajo `_G.state.gameObjectList` za enote frakcije
+- Preverjajo `_combatAttached`, `health > 0`, `toBeDeleted`
+- `gotoUserWaypoint` klican z `pcall` (nil-safety)
+- orderDefend ne moti enot, ki že napadajo (samo IDLE)
+- orderRetreat nastavi STATE_RETREATING in počisti target
+
+### Impact
+- AI zdaj dejansko napada, brani in se umika
+- stateAttacking, stateDefending, stateRetreating stanja so funkcionalna
+- AI odgovarja na grožnje z obrambo
+- AI se umika ko izgublja (ohrani sile)
+- Temelj za smiselno enoigralsko bojevanje
+
 ## [v2.3.5] — 2026-08-04 — Economic Events + Tribute Diplomacy
 
 ### Dodano
