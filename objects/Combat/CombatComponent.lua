@@ -143,6 +143,13 @@ function CombatComponent.takeDamage(self, amount, attacker)
             local sy = _G.IsoToScreenY(self.gx, self.gy) - (_G.state.viewYview or 0)
             _G.VisualPolish.spawnDeathEffect(sx, sy)
         end
+        -- Stronghold 2027 v2.6.0: Track player losses for no_casualties achievement
+        if self.faction == COMBAT.FACTION_PLAYER or not self.faction then
+            local MissionFramework = _G.MissionFramework
+            if MissionFramework and MissionFramework.reportPlayerLoss then
+                pcall(function() MissionFramework.reportPlayerLoss() end)
+            end
+        end
         if self._originalDie then
             self._originalDie(self)
         elseif self.die then

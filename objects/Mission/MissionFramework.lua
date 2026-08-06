@@ -51,6 +51,8 @@ function MissionFramework.loadMission(missionKey)
     end
 
     currentMission = missionData
+    -- Stronghold 2027 v2.6.0: Track player unit losses for no_casualties achievement
+    currentMission._playerLosses = 0
     objectives = {}
     events = {}
     dialogues = {}
@@ -290,13 +292,14 @@ end
 -- Give resources to player
 function MissionFramework.giveResources(resources)
     if not _G.state then return end
+    -- Stronghold 2027 v2.6.0: Actually add all resources to game state
+    if not _G.state.resources then _G.state.resources = {} end
     for resource, amount in pairs(resources) do
         if resource == "gold" then
             _G.state.gold = (_G.state.gold or 0) + amount
-        elseif resource == "wood" then
-            -- Add to stockpile (would need actual stockpile integration)
-        elseif resource == "stone" then
-            -- Add to stockpile
+        else
+            -- Add to resources table (covers wood, stone, food, iron, etc.)
+            _G.state.resources[resource] = (_G.state.resources[resource] or 0) + amount
         end
     end
 end
@@ -438,12 +441,18 @@ end
 
 -- Stronghold 2027 v2.3.8: Check if player had no casualties (for achievement)
 function MissionFramework._checkNoCasualties()
-    -- Track player unit losses during mission
-    -- For now, return false unless we have tracking data
-    if currentMission and currentMission._playerLosses == 0 then
+    -- Stronghold 2027 v2.6.0: Properly track player unit losses
+    if currentMission and (currentMission._playerLosses or 0) == 0 then
         return true
     end
     return false
+end
+
+-- Stronghold 2027 v2.6.0: Track player unit loss (call when a player unit dies)
+function MissionFramework.reportPlayerLoss()
+    if currentMission then
+        currentMission._playerLosses = (currentMission._playerLosses or 0) + 1
+    end
 end
 
 -- Mission lost

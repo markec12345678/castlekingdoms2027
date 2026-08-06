@@ -406,6 +406,8 @@ local function delayedInit()
     _G.EconomicEvents = EconomicEvents
     -- Stronghold 2027 v2.3.7: Register DynamicMarket as global for AI trade
     _G.DynamicMarket = DynamicMarket
+    -- Stronghold 2027 v2.6.0: Register MissionFramework as global for combat casualty tracking
+    _G.MissionFramework = MissionFramework
     -- Stronghold 2027: Initialize performance profiling
     PerformanceManager.init()
     PriorityUpdate.init()
