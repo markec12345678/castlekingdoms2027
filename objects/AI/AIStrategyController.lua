@@ -551,18 +551,64 @@ function AIStrategyController:findEnemyThreats(faction, state)
 end
 
 function AIStrategyController:orderAttack(faction, state, targetGx, targetGy)
-    -- Move all military units to attack target
-    -- (in real implementation, this would issue actual move/attack orders)
-    print(string.format("[AI %d] Ordering attack on (%d, %d) with %d units",
-        faction, targetGx, targetGy, #state.units))
+    -- Stronghold 2027 v2.3.6: Actually issue attack orders to military units
+    if not _G.state or not _G.state.gameObjectList then return end
+    local ordered = 0
+    for _, unit in ipairs(_G.state.gameObjectList) do
+        if unit.faction == faction and unit._combatAttached
+            and unit.health and unit.health > 0
+            and unit.combatState ~= COMBAT.STATE_RETREATING then
+            -- Set attack target
+            unit.target = { gx = targetGx, gy = targetGy, faction = COMBAT.FACTION_PLAYER }
+            unit.combatState = COMBAT.STATE_AGGRO
+            -- Move toward target if unit supports waypoint movement
+            if unit.gotoUserWaypoint then
+                pcall(function() unit:gotoUserWaypoint(targetGx, targetGy, nil, nil) end)
+            end
+            ordered = ordered + 1
+        end
+    end
+    print(string.format("[AI %d] Attack ordered: %d units -> (%d, %d)",
+        faction, ordered, targetGx, targetGy))
 end
 
 function AIStrategyController:orderDefend(faction, state, threatGx, threatGy)
-    print(string.format("[AI %d] Ordering defense at (%d, %d)", faction, threatGx, threatGy))
+    -- Stronghold 2027 v2.3.6: Send nearby military units to defend
+    if not _G.state or not _G.state.gameObjectList then return end
+    local ordered = 0
+    for _, unit in ipairs(_G.state.gameObjectList) do
+        if unit.faction == faction and unit._combatAttached
+            and unit.health and unit.health > 0
+            and unit.combatState == COMBAT.STATE_IDLE then
+            -- Move to defend position
+            if unit.gotoUserWaypoint then
+                pcall(function() unit:gotoUserWaypoint(threatGx, threatGy, nil, nil) end)
+            end
+            ordered = ordered + 1
+        end
+    end
+    print(string.format("[AI %d] Defense ordered: %d units to (%d, %d)",
+        faction, ordered, threatGx, threatGy))
 end
 
 function AIStrategyController:orderRetreat(faction, state, baseGx, baseGy)
-    print(string.format("[AI %d] Ordering retreat to (%d, %d)", faction, baseGx, baseGy))
+    -- Stronghold 2027 v2.3.6: Order all military units to retreat to base
+    if not _G.state or not _G.state.gameObjectList then return end
+    local ordered = 0
+    for _, unit in ipairs(_G.state.gameObjectList) do
+        if unit.faction == faction and unit._combatAttached
+            and unit.health and unit.health > 0 then
+            unit.combatState = COMBAT.STATE_RETREATING
+            unit.target = nil  -- clear attack target
+            -- Move back to base
+            if unit.gotoUserWaypoint then
+                pcall(function() unit:gotoUserWaypoint(baseGx, baseGy, nil, nil) end)
+            end
+            ordered = ordered + 1
+        end
+    end
+    print(string.format("[AI %d] Retreat ordered: %d units to base (%d, %d)",
+        faction, ordered, baseGx, baseGy))
 end
 
 function AIStrategyController:canAfford(state, cost)
