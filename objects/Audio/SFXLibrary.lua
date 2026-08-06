@@ -50,6 +50,28 @@ local CATEGORY_MAP = {
         water        = { "streamlp_02" },
         fire         = { "fire_loop" },
     },
+    -- Stronghold 2027 v2.5.8: New SFX categories
+    siege = {
+        catapult_fire    = { "catapult_fire_01", "catapult_fire_02" },
+        trebuchet_fire   = { "trebuchet_fire_01" },
+        ram_hit          = { "ram_hit_01", "ram_hit_02", "ram_hit_03" },
+        tower_deploy     = { "tower_deploy_01" },
+        wall_collapse    = { "wall_collapse_01", "wall_collapse_02" },
+    },
+    festival = {
+        cheer        = { "crowd_cheer_01", "crowd_cheer_02" },
+        fanfare      = { "fanfare_01" },
+        bell         = { "bell_ring_01", "bell_ring_02" },
+    },
+    weather = {
+        rain         = { "rain_loop" },
+        thunder      = { "thunder_01", "thunder_02", "thunder_03" },
+        wind         = { "wind_loop" },
+    },
+    veterancy = {
+        level_up     = { "level_up_01", "level_up_02" },
+        legendary    = { "legendary_fanfare" },
+    },
 }
 
 -- Initialize
