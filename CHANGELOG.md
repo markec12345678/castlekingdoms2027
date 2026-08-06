@@ -2,6 +2,30 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.5.4] — 2026-08-04 — 4 New Units + 3 New Buildings (Norman Era)
+
+### Dodano
+- **4 nove vojaške enote** (skupno 11):
+  - Huscarl — elite Saxon axeman (HP 150, DMG 28, armor 0.40)
+  - Longbowman — Welsh longbow (HP 55, DMG 18, range 11)
+  - NormanKnight — heaviest cavalry (HP 220, DMG 35, armor 0.55)
+  - Javelinman — light skirmisher (HP 65, DMG 16, range 6)
+- **3 nove zgradbe** (skupno 35+):
+  - TournamentArena — boosti veterancy gain (40w, 30s, 100g)
+  - Shrine — boosti popularity (20w, 40s, 50g)
+  - WatchTower — razširi vision range (10w, 30s)
+- AI osebnosti posodobljene z novimi enotami:
+  - Siege Master: NormanKnight, TournamentArena
+  - Fortress Keeper: Huscarl, Longbowman, WatchTower
+  - Raider: Javelinman, NormanKnight
+  - Diplomat: Longbowman, Shrine
+
+### Impact
+- 11 vojaških enot (prej 7)
+- 35+ zgradb (prej 32)
+- Nove strateške možnosti za igralce in AI
+- Zgodovinsko avtentičen Norman Conquest roster
+
 ## [v2.5.3] — 2026-08-04 — 15 Skirmish + 10 Co-op Missions + Modding API
 
 ### Dodano
