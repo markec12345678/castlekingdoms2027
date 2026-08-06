@@ -2,6 +2,23 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.5.9] — 2026-08-04 — Fix 2 Critical Stubs (getResourceCount + spawnEnemyGroup)
+
+### Popravljeno (2 kritični stub funkciji)
+- **MissionFramework.getResourceCount()** — prej vedno vrnil 0 (placeholder)
+  zdaj pravilno poizveduje `_G.state.gold` in `_G.state.resources[resource]`
+  - Resource gathering cilji (npr. "zberi 50 lesa") so zdaj zaznavni
+  - Win conditions ki temeljijo na surovinah zdaj delujejo
+- **AIController:spawnEnemyGroup()** — prej le print (stub)
+  zdaj delegira na `CombatIntegration.spawnEnemyGroup()`
+  - AI lahko zdaj dejansko ustvari sovražne skupine
+  - Scenario triggerji ki kličejo to imajo zdaj učinek
+
+### Impact
+- Resource gathering objektivi zdaj delujejo (bili so zlomljeni)
+- AI spawning za scenarije zdaj funkcionalen
+- 2 stub-a odstranjena iz codebase
+
 ## [v2.5.8] — 2026-08-04 — 12 New Voice-Over + 4 New SFX Categories
 
 ### Dodano
