@@ -405,6 +405,18 @@ function MissionFramework.onMissionWon()
         CampaignProgress.completeMission(currentMission.key or "")
     end
 
+    -- Stronghold 2027 v2.3.8: Fire GameEventBus VICTORY for other systems
+    if _G.GameEventBus then
+        pcall(function()
+            _G.GameEventBus.emit(_G.GameEventBus.EVENTS.VICTORY, {
+                missionKey = currentMission.key,
+                missionName = currentMission.name,
+                duration = missionTimer,
+                noCasualties = MissionFramework._checkNoCasualties(),
+            })
+        end)
+    end
+
     -- Stronghold 2027: Show mission end screen
     local ok, MissionEndScreen = pcall(require, "states.ui.hud.mission_end_screen")
     if ok and MissionEndScreen then
@@ -417,6 +429,16 @@ function MissionFramework.onMissionWon()
     end
 end
 
+-- Stronghold 2027 v2.3.8: Check if player had no casualties (for achievement)
+function MissionFramework._checkNoCasualties()
+    -- Track player unit losses during mission
+    -- For now, return false unless we have tracking data
+    if currentMission and currentMission._playerLosses == 0 then
+        return true
+    end
+    return false
+end
+
 -- Mission lost
 function MissionFramework.onMissionLost()
     if missionState == "lost" then return end
@@ -426,6 +448,17 @@ function MissionFramework.onMissionLost()
 
     local ModernUI = require("objects.UI.ModernUISystem")
     ModernUI.notifyError("MISSION FAILED! " .. (currentMission.name or ""), 10)
+
+    -- Stronghold 2027 v2.3.8: Fire GameEventBus DEFEAT for other systems
+    if _G.GameEventBus then
+        pcall(function()
+            _G.GameEventBus.emit(_G.GameEventBus.EVENTS.DEFEAT, {
+                missionKey = currentMission.key,
+                missionName = currentMission.name,
+                duration = missionTimer,
+            })
+        end)
+    end
 
     -- Stronghold 2027: Show mission end screen
     local ok, MissionEndScreen = pcall(require, "states.ui.hud.mission_end_screen")

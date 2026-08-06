@@ -167,20 +167,32 @@ end
 -- Check and unlock achievements
 function CampaignProgress.checkAchievements()
     local count = CampaignProgress.getCompletedCount()
+    -- Stronghold 2027 v2.3.8: Unlock Steam achievements + show notification
+    local SteamWorks = _G.SteamWorks
+    local ModernUI = _G.ModernUI or (require("objects.UI.ModernUISystem"))
 
     if count >= 1 and not progress.achievements["first_victory"] then
         progress.achievements["first_victory"] = true
         print("[CampaignProgress] Achievement unlocked: First Victory!")
+        if SteamWorks then pcall(function() SteamWorks.unlockAchievement("first_victory") end) end
+        if ModernUI then pcall(function() ModernUI.notifySuccess("Achievement: First Victory!") end) end
     end
 
     if count >= 5 and not progress.achievements["halfway"] then
         progress.achievements["halfway"] = true
         print("[CampaignProgress] Achievement unlocked: Halfway There!")
+        if ModernUI then pcall(function() ModernUI.notifySuccess("Achievement: Halfway There!") end) end
     end
 
     if count >= 10 and not progress.achievements["king_of_valdemar"] then
         progress.achievements["king_of_valdemar"] = true
         print("[CampaignProgress] Achievement unlocked: King of Valdemar!")
+        if SteamWorks then pcall(function() SteamWorks.unlockAchievement("campaign_complete") end) end
+        if ModernUI then pcall(function() ModernUI.notifySuccess("Achievement: King of Valdemar!") end) end
+        -- Fire game event for other systems
+        if _G.GameEventBus then
+            pcall(function() _G.GameEventBus.emit("campaign_complete", {count = count}) end)
+        end
     end
 end
 
