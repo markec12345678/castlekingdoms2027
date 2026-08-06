@@ -21,5 +21,13 @@ goodsPrice["leatherArmor"] = { gold = 25, quantity = 1 }
 goodsPrice["shield"] = { gold = 58, quantity = 1 }
 goodsPrice["ale"] = { gold = 20, quantity = 1 }
 goodsPrice["hop"] = { gold = 15, quantity = 1 }
+-- Stronghold 2027 v2.7.1: New resource prices
+goodsPrice["pitch"] = { gold = 25, quantity = 1 }
+goodsPrice["leather"] = { gold = 40, quantity = 1 }
+goodsPrice["silk"] = { gold = 120, quantity = 1 }
+goodsPrice["spices"] = { gold = 80, quantity = 1 }
+goodsPrice["wine"] = { gold = 60, quantity = 1 }
+goodsPrice["wool"] = { gold = 20, quantity = 1 }
+goodsPrice["coal"] = { gold = 35, quantity = 1 }
 
 return goodsPrice
