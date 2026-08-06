@@ -2,6 +2,30 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.3.7] — 2026-08-04 — EconomyAI Real Trade + Workers + Weather
+
+### Popravljeno (3 stub funkcije nadomeščene z resnično implementacijo)
+- **sellResource()** — prej le print, zdaj dejanska transakcija:
+  preveri razpoložljivost, dobi ceno iz DynamicMarket, odšteje surovino,
+  doda zlato, zabeleži transakcijo (vpliva na supply/demand)
+- **buyResource()** — prej le print, zdaj dejanska transakcija:
+  preveri zlato, dobi ceno iz DynamicMarket, odšteje zlato, doda surovino,
+  zabeleži transakcijo
+- **manageWorkers()** — prej prazen, zdaj dejansko dodeli delavce:
+  maps needed resource to building type, najde ustrezen objekt,
+  pokliče AutoWorker.assignToBuilding()
+
+### Dodano
+- **Weather farm multiplier** zdaj vpliva na AI food produkcijo
+  (dež ×1.5, močan dež ×1.8, sneg ×0.4, nevihta ×1.2)
+- **DynamicMarket** registriran kot `_G.DynamicMarket` za AI dostop
+
+### Impact
+- AI ekonomija je zdaj polno funkcionalna: proizvaja, trguje, dodeljuje delavce
+- AI trguje po realnih tržnih cenah (ne več fiksno 5 zlata)
+- AI transakcije vplivajo na tržno ponudbo/povprašanje
+- Vreme zdaj vpliva na AI food produkcijo
+
 ## [v2.3.6] — 2026-08-04 — AI Issues Real Combat Orders
 
 ### Popravljeno (3 stub funkcije nadomeščene z resničnimi ukazi)
