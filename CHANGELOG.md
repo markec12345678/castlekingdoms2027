@@ -2,6 +2,19 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.3.9] — 2026-08-04 — AchievementIntegration Subscribes to Events
+
+### Popravljeno
+- **AchievementIntegration.init()** — zdaj direktno subscribes na GameEventBus
+  dogodke (BUILDING_BUILT, UNIT_KILLED, VICTORY, ALLIANCE_FORMED,
+  TRADE_COMPLETED, GOLD_EARNED) za robustno odklepanje achievementov
+
+### Impact
+- Steam achievementi se zdaj zanesljivo sprožijo ne glede na vrstni red init
+- master_builder (100 zgradb), diplomate (3 zavezništva), trader (50 trgovin),
+  economy_guru (10000 zlata) so zdaj pravilno sledeni
+- first_victory, no_casualties, speed_run se sprožijo ob victory eventu
+
 ## [v2.3.8] — 2026-08-04 — Mission Achievements + Victory/Defeat Events
 
 ### Popravljeno
