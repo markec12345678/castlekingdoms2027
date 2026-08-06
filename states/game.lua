@@ -103,6 +103,7 @@ S.MapSharing = require("objects.Gameplay.CustomMapSharing")
 S.AutoSaveIndicator = require("objects.UI.AutoSaveIndicator")
 S.CommunityToolkit = require("objects.QA.CommunityToolkit")
 S.AutoUpdater = require("objects.QA.AutoUpdater")
+S.DailyChallenge = require("objects.Mission.DailyChallengeSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -395,6 +396,8 @@ local function delayedInit()
     S.CommunityToolkit.init()
     S.AutoUpdater.init()
     S.AutoUpdater.checkForUpdates()
+    -- Stronghold 2027 v2.6.3: Initialize Daily Challenges
+    S.DailyChallenge.init()
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1285,6 +1288,18 @@ function game:keypressed(key, scancode, isRepeat)
         local results = S.StabilityTests.runAll()
         S.StabilityTests.printResults()
         ModernUI.notifyInfo(string.format("Stability tests: %d/%d passed", results.passed, results.total))
+        return
+    end
+    -- Stronghold 2027 v2.6.3: Ctrl+Shift+H = Show daily challenges
+    if key == "h" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
+        local challenges = S.DailyChallenge.getChallenges()
+        local stats = S.DailyChallenge.getStats()
+        ModernUI.notifyInfo(string.format("Dnevni izzivi: %d/%d končani (%s)",
+            stats.completed, stats.total, stats.date or "danes"))
+        for _, c in ipairs(challenges) do
+            local status = c.completed and "[OK]" or string.format("[%d/%d]", c.progress, c.target)
+            ModernUI.notifyInfo(status .. " " .. c.description)
+        end
         return
     end
     -- Handle credits ESC
