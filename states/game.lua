@@ -112,6 +112,7 @@ S.DiplomaticRelations = require("objects.Network.DiplomaticRelationsSystem")
 S.ArmyCommand = require("objects.Combat.ArmyCommandSystem")
 S.TradeRoute = require("objects.Economy.TradeRouteSystem")
 S.RandomEvent = require("objects.Gameplay.RandomEventSystem")
+S.NotificationCenter = require("objects.UI.NotificationCenter")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -422,6 +423,9 @@ local function delayedInit()
     S.TradeRoute.init()
     -- Stronghold 2027 v2.7.1: Initialize Random Event System
     S.RandomEvent.init()
+    -- Stronghold 2027 v2.7.2: Initialize Notification Center
+    S.NotificationCenter.init()
+    _G.NotificationCenter = S.NotificationCenter
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -612,6 +616,8 @@ function game:update(dt)
                 S.TradeRoute.update(dt)
                 -- Stronghold 2027 v2.7.1: Update Random Event System
                 S.RandomEvent.update(dt)
+                -- Stronghold 2027 v2.7.2: Update Notification Center
+                S.NotificationCenter.update(dt)
                 -- Stronghold 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
@@ -838,6 +844,8 @@ function game:draw()
             -- Stronghold 2027: Draw v1.28 visuals
             S.AutoSaveIndicator.draw()
             S.Gamepad.draw()
+            -- Stronghold 2027 v2.7.2: Draw Notification Center
+            S.NotificationCenter.draw()
         else
             renderLoadingScreen("")
             renderLoadingBar(loadState, progress)
