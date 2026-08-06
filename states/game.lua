@@ -110,6 +110,7 @@ S.ProductionChain = require("objects.Economy.ProductionChainSystem")
 S.Espionage = require("objects.Gameplay.EspionageSystem")
 S.DiplomaticRelations = require("objects.Network.DiplomaticRelationsSystem")
 S.ArmyCommand = require("objects.Combat.ArmyCommandSystem")
+S.TradeRoute = require("objects.Economy.TradeRouteSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -416,6 +417,8 @@ local function delayedInit()
     S.DiplomaticRelations.init()
     -- Stronghold 2027 v2.6.9: Initialize Army Command System
     S.ArmyCommand.init()
+    -- Stronghold 2027 v2.7.0: Initialize Trade Route System
+    S.TradeRoute.init()
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -602,6 +605,8 @@ function game:update(dt)
                 S.DiplomaticRelations.update(dt)
                 -- Stronghold 2027 v2.6.9: Update Army Command System
                 S.ArmyCommand.update(dt)
+                -- Stronghold 2027 v2.7.0: Update Trade Route System
+                S.TradeRoute.update(dt)
                 -- Stronghold 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
