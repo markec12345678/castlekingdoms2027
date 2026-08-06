@@ -2,6 +2,24 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.6.6] — 2026-08-04 — Production Chain System (7 chains)
+
+### Dodano
+- **Production Chain System** — 7 produkcijskih verig v 3 kategorijah
+  - Food (2): Wheat→Bread, Hops→Ale
+  - Weapon (4): Iron→Swords, Wood→Bows, Wood→Pikes, Iron→Armor
+  - Building (1): Stone→Towers
+- Večstopenjska obdelava (raw → processed → final)
+- Odkrivanje ozkih grl (bottleneck detection)
+- Štetje zgradb na stopnjo
+- Izračun produkcije na uro
+
+### Statistika
+- 594 Lua datotek (+1)
+- 591/594 syntax pass
+- 7 produkcijskih verig (nov)
+- 3 kategorije: food, weapon, building
+
 ## [v2.6.5] — 2026-08-04 — Population & Happiness System
 
 ### Dodano
