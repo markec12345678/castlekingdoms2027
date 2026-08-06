@@ -156,11 +156,18 @@ end
 -- Get list of co-op compatible missions
 function CoopCampaign.getCoopMissions()
     return {
-        { id = "mission1", name = "Vrnitev v Fernhaven", difficulty = 1 },
-        { id = "mission2", name = "Prvi branilci", difficulty = 2 },
-        { id = "mission5", name = "Kralj banditov", difficulty = 3 },
-        { id = "mission8", name = "Katedrala", difficulty = 4 },
-        { id = "mission10", name = "Prestol Valdemarja", difficulty = 5 },
+        -- Original 5 co-op missions
+        { id = "mission1", name = "Vrnitev v Fernhaven", difficulty = 1, era = "Fernhaven Saga" },
+        { id = "mission2", name = "Prvi branilci", difficulty = 2, era = "Fernhaven Saga" },
+        { id = "mission5", name = "Kralj banditov", difficulty = 3, era = "Fernhaven Saga" },
+        { id = "mission8", name = "Katedrala", difficulty = 4, era = "Fernhaven Saga" },
+        { id = "mission10", name = "Prestol Valdemarja", difficulty = 5, era = "Fernhaven Saga" },
+        -- Stronghold 2027 v2.5.3: 5 new historical co-op missions (Norman Conquest)
+        { id = "mission11", name = "Hastings 1066 (Co-op)", difficulty = 3, era = "Norman Conquest" },
+        { id = "mission13", name = "Pustošenje severa (Co-op)", difficulty = 4, era = "Norman Conquest" },
+        { id = "mission17", name = "Škotska kampanja (Co-op)", difficulty = 4, era = "Norman Conquest" },
+        { id = "mission18", name = "Danska invazija (Co-op)", difficulty = 5, era = "Norman Conquest" },
+        { id = "mission20", name = "Obramba Normandije (Co-op)", difficulty = 5, era = "Norman Conquest" },
     }
 end
 

@@ -376,4 +376,55 @@ return ModAPI
     print("[ModLoader] Created sample mod in mods/sample_mod/")
 end
 
+-- Stronghold 2027 v2.5.3: Get mod info without loading
+function ModLoader.getModInfo(modId)
+    local manifest = ModLoader.loadManifest(modId)
+    if not manifest then return nil end
+    return {
+        id = modId,
+        name = manifest.name or modId,
+        version = manifest.version or "0.0.0",
+        author = manifest.author or "Unknown",
+        description = manifest.description or "",
+        enabled = mods[modId] and mods[modId].enabled or false,
+        loaded = mods[modId] and mods[modId].loaded or false,
+    }
+end
+
+-- Stronghold 2027 v2.5.3: List all available mods (loaded or not)
+function ModLoader.listAvailableMods()
+    local available = ModLoader.scanMods()
+    local result = {}
+    for _, modId in ipairs(available) do
+        table.insert(result, ModLoader.getModInfo(modId))
+    end
+    return result
+end
+
+-- Stronghold 2027 v2.5.3: Validate mod manifest
+function ModLoader.validateManifest(manifest)
+    if type(manifest) ~= "table" then return false, "Manifest is not a table" end
+    if not manifest.name then return false, "Missing required field: name" end
+    if not manifest.version then return false, "Missing required field: version" end
+    -- Version format check (X.Y.Z)
+    if not manifest.version:match("^%d+%.%d+%.%d+$") then
+        return false, "Invalid version format (expected X.Y.Z)"
+    end
+    return true
+end
+
+-- Stronghold 2027 v2.5.3: Export mod list as JSON-compatible table
+function ModLoader.exportModList()
+    local list = ModLoader.listAvailableMods()
+    local export = {
+        totalMods = #list,
+        loadedMods = ModLoader.getLoadedCount(),
+        mods = {},
+    }
+    for _, info in ipairs(list) do
+        table.insert(export.mods, info)
+    end
+    return export
+end
+
 return ModLoader

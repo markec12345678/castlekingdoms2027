@@ -15,6 +15,12 @@ local TRAIL_MISSIONS = {
     { id = 8,  name = "Zavezništvo zla",     difficulty = 5, aiCount = 4, aiPersonality = "balanced",    aiDifficulty = "hard",   mapSize = "large",  description = "Štirje nasprotniki v zavezništvu. Skoraj nemogoče." },
     { id = 9,  name = "Ekonomski kolaps",    difficulty = 5, aiCount = 2, aiPersonality = "economic",    aiDifficulty = "brutal", mapSize = "huge",   description = "Dva brutalna ekonomska nasprotnika na ogromni mapi." },
     { id = 10, name = "Zadnji boj",          difficulty = 5, aiCount = 3, aiPersonality = "aggressive",  aiDifficulty = "brutal", mapSize = "huge",   description = "Trije brutalni agresivni nasprotniki. Končni preizkus." },
+    -- Stronghold 2027 v2.5.3: 5 new skirmish missions using new AI personalities
+    { id = 11, name = "Oblegovalni mojster", difficulty = 3, aiCount = 1, aiPersonality = "siege_master", aiDifficulty = "medium", mapSize = "medium", description = "Nasprotnik specializiran za oblegovalna orožja. Zgradite močne zidove!" },
+    { id = 12, name = "Čuvar trdnjave",      difficulty = 4, aiCount = 2, aiPersonality = "fortress_keeper", aiDifficulty = "hard", mapSize = "large", description = "Dva nasprotnika z maksimalno fortifikacijo. Trebuchet-i so ključni!" },
+    { id = 13, name = "Plenilski napad",     difficulty = 4, aiCount = 3, aiPersonality = "raider",       aiDifficulty = "hard", mapSize = "large",  description = "Trije plenilci napadajo hitro in pogosto. Obramba je nujna!" },
+    { id = 14, name = "Diplomatska kriza",   difficulty = 5, aiCount = 2, aiPersonality = "diplomat",     aiDifficulty = "brutal", mapSize = "huge", description = "Diplomati bodo poskušali skleniti zavezništva proti vam. Preprečite to!" },
+    { id = 15, name = "Legendarne legije",   difficulty = 5, aiCount = 4, aiPersonality = "aggressive",   aiDifficulty = "legendary", mapSize = "huge", description = "Štirje legendarni agresivci. Najtežji izziv v igri!" },
 }
 
 SkirmishTrail.MISSIONS = TRAIL_MISSIONS
