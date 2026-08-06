@@ -2,6 +2,21 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.4.1] — 2026-08-04 — Missing Functions: assignToBuilding + spawnProjectile
+
+### Dodano (2 manjkajoči funkciji)
+- **AutoWorker.assignToBuilding(building)** — EconomyAI.manageWorkers() jo je
+  klical a ni obstajala. Zdaj delegira na building.assignWorker() ali
+  building.addWorker() (pcall wrapped)
+- **CombatIntegration.spawnProjectile()** — SiegeWeaponsSystem._fire() jo je
+  klical a ni obstajala. Zdaj ustvari projectile in delegira na
+  ProjectileController:spawn() ali :add()
+
+### Impact
+- AI dodeljevanje delavcev zdaj dejansko deluje (prej tiho fail-alo)
+- Oblegovalna orožja zdaj ustvarijo projectile v combat sistemu
+- Vsi _G.X.function() klici se zdaj razrešijo v dejanske funkcije
+
 ## [v2.4.0] — 2026-08-04 — Tutorial Auto-Progress + GameFeel Fix
 
 ### Popravljeno (2 integracijski vrzeli)
