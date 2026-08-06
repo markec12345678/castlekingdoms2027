@@ -2,6 +2,25 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.6.7] — 2026-08-04 — Espionage & Intelligence System
+
+### Dodano
+- **Espionage & Intelligence System** — 5 tipov vohunskih misij
+  - Scout (100g, 30s, 90%) — razkrij sovražnikovo ozemlje
+  - Sabotage (300g, 60s, 60%) — uniči sovražnikovo zgradbo
+  - Steal Gold (50g, 45s, 75%) — ukradi 200-800 zlata
+  - Assassinate (500g, 90s, 40%) — ubij sovražnikovega vodjo
+  - Counter-spy (150g, instant, 100%) — 24h zaščita
+- Usposabljanje vohunov v gostilnah (250g, max 5)
+- Zbiranje obveščevalnih podatkov o sovražniku
+- GameEventBus dogodki za uspeh/napako
+
+### Statistika
+- 595 Lua datotek (+1)
+- 592/595 syntax pass
+- 5 tipov misij (nov)
+- Max 5 vohunov (glede na gostilne)
+
 ## [v2.6.6] — 2026-08-04 — Production Chain System (7 chains)
 
 ### Dodano
