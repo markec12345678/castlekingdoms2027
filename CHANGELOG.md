@@ -2,6 +2,25 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v2.8.8] — 2026-08-07 — Time Manager System (8 speeds, auto-pause, schedule)
+
+### Dodano
+- **Time Manager System** — napredno upravljanje časa
+  - 8 hitrosti (Pavza, 0.25×, 0.5×, 1×, 2×, 3×, 5×, 10×)
+  - Samodejne pavze (focus loss, hero death, combat, mission complete)
+  - Urnik dneva (polnoč, zora, poldne, mrak)
+  - Time-lapse (preskok na naslednji dogodek)
+  - Per-system time scaling (AI, ekonomija, boj, vreme, animacija)
+  - Sledenje časovnega proračuna
+  - Razmerje game/real čas
+
+### Statistika
+- 615 Lua datotek (+1)
+- 612/615 syntax pass
+- 8 hitrosti (nov)
+- 4 auto-pause pogoji (nov)
+- 5 sistemov time scaling (nov)
+
 ## [v2.8.7] — 2026-08-07 — Hero Unit System (6 heroes, leveling, abilities)
 
 ### Dodano
