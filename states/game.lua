@@ -124,6 +124,7 @@ S.Tournament = require("objects.Gameplay.TournamentSystem")
 S.Scenario = require("objects.Mission.CustomScenarioSystem")
 S.Leaderboard = require("objects.Steam.LeaderboardSystem")
 S.ReplayEnhanced = require("objects.QA.ReplayEnhancementSystem")
+S.ModAPI = require("objects.Modding.ModdingAPI")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -470,6 +471,9 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v2.8.4: Initialize Replay Enhancement
     S.ReplayEnhanced.init()
     _G.ReplayEnhanced = S.ReplayEnhanced
+    -- Castle Kingdoms 2027 v2.8.5: Initialize Modding API
+    S.ModAPI.init()
+    _G.ModAPI = S.ModAPI
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
