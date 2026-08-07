@@ -120,6 +120,7 @@ S.QuestSystem = require("objects.Mission.QuestSystem")
 S.Analytics = require("objects.QA.GameAnalyticsDashboard")
 S.TacticalOverlay = require("objects.UI.TacticalMapOverlay")
 S.Prestige = require("objects.Config.PrestigeSystem")
+S.Tournament = require("objects.Gameplay.TournamentSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -454,6 +455,9 @@ local function delayedInit()
     -- Stronghold 2027 v2.7.9: Initialize Prestige System
     S.Prestige.init()
     _G.Prestige = S.Prestige
+    -- Stronghold 2027 v2.8.0: Initialize Tournament System
+    S.Tournament.init()
+    _G.Tournament = S.Tournament
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -656,6 +660,8 @@ function game:update(dt)
                 S.Analytics.update(dt)
                 -- Stronghold 2027 v2.7.8: Update Tactical Overlay
                 S.TacticalOverlay.update(dt)
+                -- Stronghold 2027 v2.8.0: Update Tournament System
+                S.Tournament.update(dt)
                 -- Stronghold 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
