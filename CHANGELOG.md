@@ -2,6 +2,21 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.1.6] — 2026-08-08 — Cultural & Education System (5 institutions, 6 arts, achievements)
+
+### Dodano
+- **Cultural & Education System** — pismenost, umetnost in kultura
+  - 5 izobraževalnih ustanov (skriptorij, knjižnica, akademija, univerza, observatorij)
+  - 6 umetnostnih oblik (rokopis, slika, kip, glasba, poezija, arhitektura)
+  - Pismenost (0-100%, vpliva na raziskovalno hitrost)
+  - Knowledge točke (valuta za umetnost in raziskave)
+  - Kulturni prestiž (vpliva na diplomacijo in turizem)
+  - Turizem (pasivni dohodek iz umetniških del)
+  - 8 slavnih obiskovalcev (Tomaž Akvinski, Hildegarda, Dante, Giotto, ...)
+  - 6 kulturnih dosežkov (prva knjižnica, 100% pismenost, renesančni dvor, ...)
+  - Pokroviteljstvo (naročanje umetnin z zlatom in znanjem)
+  - Bonus multiplierji (pismenost → raziskave)
+
 ## [v3.1.5] — 2026-08-08 — Royal Decrees & Edicts System (12 decrees, 4 categories, chains)
 
 ### Dodano
