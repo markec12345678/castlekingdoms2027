@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.2.9] — 2026-08-08 — Medieval Law & Justice System (8 crimes, 6 punishments, trials)
+
+### Dodano
+- **Medieval Law & Justice System** — sojenja, kazni in pravosodje
+  - 8 tipov zločinov (kraja, umor, izdaja, herezija, tihotapljenje, napad, goljufija, čarovništvo)
+  - 6 tipov kazni (globa, steber sramote, bičanje, zapor, izgon, usmrtitev)
+  - 4 sodne zgradbe (vaško, mestno, kraljevo, vrhovno sodišče)
+  - Sodniki (NPC s spretnostjo in integriteto)
+  - Trial sistem (dokazi, pričevalci, sodnikova spretnost)
+  - Crime rate (odvisen od sreče)
+  - Justice reputation (perceived fairness)
+  - Globe za državo (denarne kazni)
+  - Public opinion (vpliva na srečo)
+
 ## [v3.2.8] — 2026-08-08 — Royal Progress & Tour System (6 destinations, entourage, petitions)
 
 ### Dodano
