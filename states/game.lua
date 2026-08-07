@@ -130,6 +130,7 @@ S.HeroSystem = require("objects.Combat.HeroUnitSystem")
 S.TimeManager = require("objects.Controllers.TimeManagerSystem")
 S.CameraEnhanced = require("objects.UI.CameraEnhancementSystem")
 S.MapGen = require("objects.Gameplay.ProceduralMapGenerator")
+S.SummaryGen = require("objects.QA.GameSummaryGenerator")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -494,6 +495,9 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v2.9.0: Initialize Procedural Map Generator
     S.MapGen.init()
     _G.MapGen = S.MapGen
+    -- Castle Kingdoms 2027 v2.9.1: Initialize Game Summary Generator
+    S.SummaryGen.init()
+    _G.SummaryGen = S.SummaryGen
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
