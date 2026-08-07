@@ -150,6 +150,7 @@ S.Disease = require("objects.Gameplay.DiseaseHealthSystem")
 S.Religion = require("objects.Gameplay.ReligionFaithSystem")
 S.TradeGuild = require("objects.Economy.TradeGuildSystem")
 S.Mercenary = require("objects.Combat.MercenaryContractSystem")
+S.Prisoner = require("objects.Gameplay.PrisonerRansomSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -574,6 +575,9 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v3.1.0: Initialize Mercenary Contract System
     S.Mercenary.init()
     _G.Mercenary = S.Mercenary
+    -- Castle Kingdoms 2027 v3.1.1: Initialize Prisoner & Ransom System
+    S.Prisoner.init()
+    _G.Prisoner = S.Prisoner
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -822,6 +826,8 @@ function game:update(dt)
                 S.TradeGuild.update(dt)
                 -- Castle Kingdoms 2027 v3.1.0: Update Mercenaries
                 S.Mercenary.update(dt)
+                -- Castle Kingdoms 2027 v3.1.1: Update Prisoners
+                S.Prisoner.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

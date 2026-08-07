@@ -2,6 +2,22 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.1.1] — 2026-08-08 — Prisoner & Ransom System (5 classes, capture, exchange)
+
+### Dodano
+- **Prisoner & Ransom System** — zajemanje sovražnikov in odkupnine
+  - 5 razredov zapornikov (kmet, vojak, vitez, plemič, kraljevska oseba)
+  - 4 zapore (zapora, temnica, stolp, trdnjavska ječa) s kapaciteto 10-200
+  - Capture chance glede na razred (1% do 30%)
+  - Negotiacija odkupnin (5 rund, counter-offer sistem)
+  - Sistem izmenjav zapornikov (uravnotežene glede na težo)
+  - Usmrtitev (velik diplomatski udarec, vpliva na prihodnje zajetje)
+  - Izpust (usmiljenje, dvigne ugled pri plemičih)
+  - Dnevno vzdrževanje zapornikov (zlato na dan)
+  - Escape mehanika (vsakih 60s, glede na jakost zapore)
+  - Random eventi: družina ponuja odkupnino
+  - Ugled pri plemičih (0-100, vpliva na capture chance)
+
 ## [v3.1.0] — 2026-08-08 — Mercenary Contract System (8 companies, betrayal)
 
 ### Dodano
