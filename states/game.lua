@@ -123,6 +123,7 @@ S.Prestige = require("objects.Config.PrestigeSystem")
 S.Tournament = require("objects.Gameplay.TournamentSystem")
 S.Scenario = require("objects.Mission.CustomScenarioSystem")
 S.Leaderboard = require("objects.Steam.LeaderboardSystem")
+S.ReplayEnhanced = require("objects.QA.ReplayEnhancementSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -466,6 +467,9 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v2.8.2: Initialize Leaderboard System
     S.Leaderboard.init()
     _G.Leaderboard = S.Leaderboard
+    -- Castle Kingdoms 2027 v2.8.4: Initialize Replay Enhancement
+    S.ReplayEnhanced.init()
+    _G.ReplayEnhanced = S.ReplayEnhanced
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -670,6 +674,8 @@ function game:update(dt)
                 S.TacticalOverlay.update(dt)
                 -- Castle Kingdoms 2027 v2.8.0: Update Tournament System
                 S.Tournament.update(dt)
+                -- Castle Kingdoms 2027 v2.8.4: Update Replay Enhancement
+                S.ReplayEnhanced.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
