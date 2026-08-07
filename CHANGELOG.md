@@ -2,6 +2,31 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.8.0] — 2026-08-04 — Tournament System (5 tournament types)
+
+### Dodano
+- **Tournament System** — periodicna tekmovanja z nagradami
+  - 5 tipov: Jousting, Archery, Siege, Economy, Grand
+  - Vstopnine 50-300g, nagrade 80-1500g + prestige
+  - 3-5 AI tekmacev na turnir
+  - Top 3 uvrstitve dobijo nagrade
+  - Real-time sledenje rezultatov
+  - Zgodovina (zadnjih 20 turnirjev)
+  - Statistika win rate
+  - Vsakih 6 minut nov turnir
+
+### Tipi turnirjev (5)
+1. Jousting (300s, 100g) — 1. mesto: 500g+30p
+2. Archery (240s, 75g) — 1. mesto: 400g+25p
+3. Siege (360s, 200g) — 1. mesto: 800g+40p
+4. Economy (300s, 50g) — 1. mesto: 600g+20p
+5. Grand (600s, 300g) — 1. mesto: 1500g+75p
+
+### Statistika
+- 608 Lua datotek (+1)
+- 605/608 syntax pass
+- 5 tipov turnirjev (nov)
+
 ## [v2.7.9] — 2026-08-04 — Prestige & Ranking System (9 ranks)
 
 ### Dodano
