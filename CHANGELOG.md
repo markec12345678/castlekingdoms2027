@@ -2,6 +2,24 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v2.9.6] — 2026-08-07 — Achievement Unlock Animation (slide, glow, sparkles)
+
+### Dodano
+- **Achievement Unlock Animation** — animirana notifikacija ob odklepanju dosežkov
+  - 3-stopenjska animacija: slideIn (0.3s) → hold (3s) → slideOut (0.3s)
+  - 4 redkosti z barvami (common, rare, epic, legendary)
+  - Pulsirajoč glow efekt
+  - Sparkle delci
+  - Queue sistem (več dosežkov v zaporedju)
+  - Easing funkcije za smooth animacijo
+  - Zvočni efekt ob prikazu
+
+### Statistika
+- 623 Lua datotek (+1)
+- 620/623 syntax pass
+- 3 stopnje animacije (nov)
+- 4 redkosti s stilizacijo (nov)
+
 ## [v2.9.5] — 2026-08-07 — Enhanced Tooltip System (7 types, cost preview, fade)
 
 ### Dodano
