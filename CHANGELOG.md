@@ -2,6 +2,21 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.2.0] — 2026-08-08 — Royal Treasury & Taxation System (6 taxes, loans, corruption)
+
+### Dodano
+- **Royal Treasury & Taxation System** — popoln sistem davkov in financ
+  - 6 tipov davkov (dohodnina, posestnina, trgovski, solni, ognjiščarina, desetina)
+  - 5 davčnih stopenj (oproščeno, nizko, srednje, visoko, tiransko)
+  - Kraljeva zakladnica (ločena od delovnega zlata, do 50.000)
+  - Davčni uradi (povečajo učinkovitost pobiranja)
+  - Sistem posojil (obresti, roki, neplačilo = pobuda)
+  - Inflacija (raste, ko je zakladnica polna)
+  - Korupcija (davki izginejo v žepih uradnikov)
+  - Davčni prazniki (začasna olajšava, dvigne srečo)
+  - Rebellion risk (pri tiranski stopnji, kmečki upor)
+  - Treasury deposit/withdraw (ločeno od delovnega zlata)
+
 ## [v3.1.9] — 2026-08-08 — Winter Quarters & Hibernation System (4 seasons, attrition)
 
 ### Dodano
