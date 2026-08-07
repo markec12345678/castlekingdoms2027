@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.0.9] — 2026-08-08 — Trade Guild System (5 guilds, 4 tiers, contracts)
+
+### Dodano
+- **Trade Guild System** — srednjeveški cehovski sistem z economicnimi bonusi
+  - 5 tipov cehov (trgovski, kovaški, tesarski, zidarski, pivovarski)
+  - 4 stopnje članstva (vajenec, pomočnik, mojster, starešina ceha)
+  - Cehovske dvorane (gradnja + 2 nadgradnje, do 3 stopnje)
+  - Tedenske cehovnine (avtomatsko, glede na stopnjo)
+  - Cehovske zakladnice (samo starešina lahko dvigne)
+  - 5 tipov cehovskih pogodb (dostava, kvota, rekrutacija, sabotaža, obrt)
+  - Ugled pri cehovih (-100 do +100, 7 stopenj)
+  - Rivalstva in zavezništva med cehovi
+  - Passivni bonusi: popusti, hitrost karavan, kakovost orožja, proizvodnja
+
 ## [v3.0.8] — 2026-08-08 — Religion & Faith System (5 religions, 7 buildings, 6 actions)
 
 ### Dodano
