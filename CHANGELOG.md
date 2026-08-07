@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.0.7] — 2026-08-07 — Disease & Health System (6 diseases, 5 infrastructure)
+
+### Dodano
+- **Disease & Health System** — bolezni in zdravstvena infrastruktura
+  - 6 tipov bolezni (kuga, dizenterija, gripa, črne koze, lakotna vročica, kolera)
+  - 5 tipov zdravstvene infrastrukture (apoteka, zdravilnica, čisti vodnjak, bolnišnica, kanalizacija)
+  - Simulacija širjenja (proximity-based, vsakih 5s = 1 dan)
+  - Karantenski sistem (izolacija območij, -70% širjenje)
+  - Raziskava zdravil (4 raziskave = zdravilo)
+  - Health rating (0-100, vpliva na rast populacije)
+  - Naključni izbruhi (vsakih 5 min, glede na health + pop)
+  - Production modifier (bolezni zmanjšujejo produkcijo)
+  - Happiness modifier (bolezni zmanjšujejo srečo)
+
+### Tipi bolezni (6)
+1. Kuga — 15% smrtnost, 8% širjenje, 30 dni
+2. Dizenterija — 5% smrtnost, 12% širjenje, 15 dni
+3. Gripa — 2% smrtnost, 15% širjenje, 10 dni
+4. Črne koze — 25% smrtnost, 10% širjenje, 25 dni
+5. Lakotna vročica — 8% smrtnost, 6% širjenje, 20 dni
+6. Kolera — 10% smrtnost, 14% širjenje, 18 dni
+
+### Statistika
+- 634 Lua datotek (+1)
+- 631/634 syntax pass
+- 6 tipov bolezni (nov)
+- 5 tipov infrastrukture (nov)
+
 ## [v3.0.6] — 2026-08-07 — Court & Nobility System (6 advisors, marriages, plots)
 
 ### Dodano
