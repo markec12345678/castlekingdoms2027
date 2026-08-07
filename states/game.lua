@@ -137,6 +137,7 @@ S.SaveState = require("objects.QA.SaveStateManager")
 S.TooltipSystem = require("objects.Feedback.TooltipSystem")
 S.AchievementAnim = require("objects.UI.AchievementUnlockAnimation")
 S.MapEditorEnhanced = require("objects.QA.MapEditorEnhanced")
+S.DDA = require("objects.Config.DynamicDifficultyAdjuster")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -522,6 +523,9 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v2.9.7: Initialize Enhanced Map Editor
     S.MapEditorEnhanced.init()
     _G.MapEditorEnhanced = S.MapEditorEnhanced
+    -- Castle Kingdoms 2027 v2.9.8: Initialize Dynamic Difficulty Adjuster
+    S.DDA.init()
+    _G.DDA = S.DDA
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -744,6 +748,8 @@ function game:update(dt)
                 S.AchievementAnim.update(dt)
                 -- Castle Kingdoms 2027 v2.9.7: Update Map Editor (mouse tracking)
                 S.MapEditorEnhanced.mousemoved(love.mouse.getPosition())
+                -- Castle Kingdoms 2027 v2.9.8: Update Dynamic Difficulty Adjuster
+                S.DDA.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
