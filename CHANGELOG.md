@@ -2,6 +2,24 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.7.8] — 2026-08-04 — Tactical Map Overlay (5 strategic modes)
+
+### Dodano
+- **Tactical Map Overlay** — strateška vizualizacija zemljevida
+  - 5 načinov: Threat, Supply, Territory, Economy, Military
+  - Threat (rdeča) — cone groženj z velikostjo glede na moč enot
+  - Supply (zelena) — doseg oskrbnih zgradb
+  - Territory (modra) — nadzor ozemlja po frakcijah
+  - Economy (rumena) — produkcijski centri
+  - Military (vijolična) — enote z HP trakovi
+  - Osvežitev vsako sekundo
+  - Nastavljiva prosojnost
+
+### Statistika
+- 606 Lua datotek (+1)
+- 603/606 syntax pass
+- 5 taktičnih načinov (nov)
+
 ## [v2.7.7] — 2026-08-04 — Game Analytics Dashboard (real-time metrics)
 
 ### Dodano
