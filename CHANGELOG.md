@@ -2,6 +2,21 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.1.9] — 2026-08-08 — Winter Quarters & Hibernation System (4 seasons, attrition)
+
+### Dodano
+- **Winter Quarters & Hibernation System** — sezonski ciklus zimskega vojskovanja
+  - 4 letni časi (pomlad, poletje, jesen, zima) z različnimi učinki
+  - 4 zimske kvartire (tabor, barake, trdnjava, zalogovnik)
+  - Atricija vojske pozimi (HP izguba, smrtne žrtve)
+  - Frostbite (ozebline, dodatne žrtve v hudi zimi)
+  - Supply sistem (zaloge, skladišča, rekvizicije)
+  - Hibernacija vojske (spanje do pomladi)
+  - Spring wakeup (morale boost)
+  - Foraging (rekvizicija zmanjšajo srečo)
+  - Letni ciklus (pomlad → poletje → jesen → zima)
+  - Movement modifier (počasneje pozimi)
+
 ## [v3.1.8] — 2026-08-08 — Naval Combat & Trade System (5 ships, 4 buildings, battles)
 
 ### Dodano
