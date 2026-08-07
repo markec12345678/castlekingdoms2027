@@ -2,6 +2,25 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v2.8.9] — 2026-08-07 — Camera Enhancement System (smooth, cinematic, zoom)
+
+### Dodano
+- **Camera Enhancement System** — napredna kamera
+  - Smooth movement (lerp, nastavljiv smoothing)
+  - 5 zoom nivojev (Very Close do Very Far) z miškinim koleščkom
+  - Cinematic način (krožni let okoli gradu z dinamičnim zoomom)
+  - 10 shranjenih pozicij kamere (hitri skok)
+  - Edge scrolling (miška ob robu zaslona)
+  - Focus follow (kamera sledi izbrani enoti)
+  - Screenshot mode (skrije UI za čiste posnetke)
+  - Center na grad / kaščo
+
+### Statistika
+- 616 Lua datotek (+1)
+- 613/616 syntax pass
+- 5 zoom nivojev (nov)
+- Cinematic mode (nov)
+
 ## [v2.8.8] — 2026-08-07 — Time Manager System (8 speeds, auto-pause, schedule)
 
 ### Dodano
