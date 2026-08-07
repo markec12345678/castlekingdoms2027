@@ -131,6 +131,7 @@ S.TimeManager = require("objects.Controllers.TimeManagerSystem")
 S.CameraEnhanced = require("objects.UI.CameraEnhancementSystem")
 S.MapGen = require("objects.Gameplay.ProceduralMapGenerator")
 S.SummaryGen = require("objects.QA.GameSummaryGenerator")
+S.SoundtrackMgr = require("objects.Audio.SoundtrackManager")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -498,6 +499,9 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v2.9.1: Initialize Game Summary Generator
     S.SummaryGen.init()
     _G.SummaryGen = S.SummaryGen
+    -- Castle Kingdoms 2027 v2.9.2: Initialize Soundtrack Manager
+    S.SoundtrackMgr.init()
+    _G.SoundtrackMgr = S.SoundtrackMgr
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -712,6 +716,8 @@ function game:update(dt)
                 S.TimeManager.update(dt)
                 -- Castle Kingdoms 2027 v2.8.9: Update Camera Enhancement
                 S.CameraEnhanced.update(dt)
+                -- Castle Kingdoms 2027 v2.9.2: Update Soundtrack Manager
+                S.SoundtrackMgr.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
