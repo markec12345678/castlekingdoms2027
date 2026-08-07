@@ -2,6 +2,30 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.7.6] — 2026-08-04 — Quest System (9 side quests, 4 types)
+
+### Dodano
+- **Quest System** — stranske misije za dodatne nagrade
+  - 4 tipi: Bounty, Delivery, Construction, Challenge
+  - 9 quest predlog z nagradami
+  - Sprejemanje/opuščanje questov
+  - Sledenje napredka
+  - Časovne omejitve za izzive
+  - Level zahteve
+  - GameEventBus dogodki
+
+### Tipi questov (4)
+1. **Bounty** (2) — ubij določene sovražnikove enote
+2. **Delivery** (2) — zberi surovine
+3. **Construction** (2) — zgradi strukture
+4. **Challenge** (3) — doseži cilje z omejitvami
+
+### Statistika
+- 604 Lua datotek (+1)
+- 601/604 syntax pass
+- 9 quest predlog (nov)
+- 4 tipi questov (nov)
+
 ## [v2.7.5] — 2026-08-04 — Supply Line Manager (logistics system)
 
 ### Dodano
