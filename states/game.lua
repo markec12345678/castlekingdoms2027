@@ -169,6 +169,7 @@ S.Entertainment = require("objects.Gameplay.RoyalCourtEntertainmentSystem")
 S.Archive = require("objects.QA.RoyalArchiveRecordsSystem")
 S.Progress = require("objects.Gameplay.RoyalProgressTourSystem")
 S.Justice = require("objects.Config.MedievalLawJusticeSystem")
+S.Guard = require("objects.Combat.RoyalGuardSecuritySystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -650,6 +651,9 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v3.2.9: Initialize Medieval Law & Justice System
     S.Justice.init()
     _G.Justice = S.Justice
+    -- Castle Kingdoms 2027 v3.3.0: Initialize Royal Guard & Security System
+    S.Guard.init()
+    _G.Guard = S.Guard
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -932,6 +936,8 @@ function game:update(dt)
                 S.Progress.update(dt)
                 -- Castle Kingdoms 2027 v3.2.9: Update Law & Justice
                 S.Justice.update(dt)
+                -- Castle Kingdoms 2027 v3.3.0: Update Royal Guard
+                S.Guard.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

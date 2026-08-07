@@ -2,6 +2,21 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.3.0] — 2026-08-08 — Royal Guard & Personal Security System (5 guards, 6 threats)
+
+### Dodano
+- **Royal Guard & Personal Security System** — osebna zaščita vladarja
+  - 5 tipov stražarjev (dvorna, elitna, tuja, najemniška, viteški poveljnik)
+  - 6 tipov groženj (morilec, strup, tropa, rivalni lord, heretik, tuj agent)
+  - 5 nalog stražarjev (patrulja, spremstvo, palača, potovanje, preiskava)
+  - Plot detection (odkrivanje zarot pred izvršitvijo)
+  - Food taster (zaščita pred strupom)
+  - Escape route (pobeg v sili, zmanjša škodo)
+  - Security level (0-100, glede na stražarje)
+  - Guard training (izkušnje in napredovanje)
+  - Ruler health (poškodbe pri neuspešni obrambi)
+  - Ruler death (sproži nasledstvo preko Dynasty sistema)
+
 ## [v3.2.9] — 2026-08-08 — Medieval Law & Justice System (8 crimes, 6 punishments, trials)
 
 ### Dodano
