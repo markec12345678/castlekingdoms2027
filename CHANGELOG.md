@@ -2,6 +2,31 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v2.9.7] — 2026-08-07 — Enhanced Map Editor (layers, undo/redo, export)
+
+### Dodano
+- **Enhanced Map Editor** — napredni urejevalnik map
+  - 7 tipov čopičev (grass, dirt, stone, water, sand, mountain, erase)
+  - 5 velikosti čopičev (1×1 do 9×9)
+  - 3 sloji (terrain, objects, triggers)
+  - 10 tipov objektov (drevesa, rude, zgradbe, sprožilci)
+  - Undo/redo zgodovina (50 korakov)
+  - Grid overlay
+  - Predogled čopiča ob kazalcu
+  - Export/import .map datoteke
+  - Editor HUD s kontrole
+
+### Kontrole
+- [B] čopič, [S] velikost, [L] sloj, [G] mreža, [E] izvoz
+- [Ctrl+Z] undo, [Ctrl+Y] redo, F4 toggle
+
+### Statistika
+- 624 Lua datotek (+1)
+- 621/624 syntax pass
+- 7 tipov čopičev (nov)
+- 10 tipov objektov (nov)
+- 3 sloji (nov)
+
 ## [v2.9.6] — 2026-08-07 — Achievement Unlock Animation (slide, glow, sparkles)
 
 ### Dodano
