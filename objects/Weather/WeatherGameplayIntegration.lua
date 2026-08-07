@@ -1,5 +1,5 @@
 -- objects/Weather/WeatherGameplayIntegration.lua
--- Stronghold 2027 - Weather affects gameplay
+-- Castle Kingdoms 2027 - Weather affects gameplay
 
 local WeatherGameplay = {}
 
@@ -10,7 +10,7 @@ local WEATHER_EFFECTS = {
     fog = { name = "Megla", farmMult = 0.90, speedMult = 0.95, visionMult = 0.50, fireRisk = 0.0, archerMult = 0.70, desc = "Megla mochno zmanjhuje vidljivost." },
     snow = { name = "Sneg", farmMult = 0.40, speedMult = 0.60, visionMult = 0.80, fireRisk = -0.3, archerMult = 0.85, desc = "Sneg unichuje pridelek." },
     storm = { name = "Nevihta", farmMult = 1.2, speedMult = 0.50, visionMult = 0.60, fireRisk = 0.3, archerMult = 0.50, desc = "Nevihta je nevarna." },
-    -- Stronghold 2027 v2.6.2: 3 new weather types
+    -- Castle Kingdoms 2027 v2.6.2: 3 new weather types
     blizzard = { name = "Meteh", farmMult = 0.10, speedMult = 0.30, visionMult = 0.40, fireRisk = -1.0, archerMult = 0.30, desc = "Meteh je najhujsha zima. Skoraj nemogoe bojevanje." },
     heatwave = { name = "Vroinski val", farmMult = 0.60, speedMult = 0.90, visionMult = 1.0, fireRisk = 1.0, archerMult = 1.1, desc = "Vroinski val posui usevaline, poveaa nevarnost pozara." },
     sandstorm = { name = "Pehana", farmMult = 0.30, speedMult = 0.50, visionMult = 0.30, fireRisk = 0.0, archerMult = 0.40, desc = "Pehana onemogoa vidljivost in bojevanje." },

@@ -1,5 +1,5 @@
 -- states/ui/multiplayer/lobby.lua
--- Stronghold 2027 - Multiplayer Lobby UI
+-- Castle Kingdoms 2027 - Multiplayer Lobby UI
 
 local loveframes = require("libraries.loveframes")
 local states = require("states.ui.states")
@@ -29,7 +29,7 @@ function Lobby.init()
     local frameY = (h - frameH) / 2
 
     lobbyFrame = loveframes.Create("frame")
-    lobbyFrame:SetName("Multiplayer Lobby - Stronghold 2027")
+    lobbyFrame:SetName("Multiplayer Lobby - Castle Kingdoms 2027")
     lobbyFrame:SetSize(frameW, frameH)
     lobbyFrame:SetPos(frameX, frameY)
     lobbyFrame:SetState(states.STATE_MULTIPLAYER_LOBBY)

@@ -1,5 +1,5 @@
 -- objects/QA/AutoSaveEnhancer.lua
--- Stronghold 2027 - Auto-Save Enhancer
+-- Castle Kingdoms 2027 - Auto-Save Enhancer
 -- Timed auto-saves with crash recovery
 
 local AutoSaveEnhancer = {}

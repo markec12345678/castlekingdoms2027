@@ -1,5 +1,5 @@
 -- objects/UI/ResourceFlowVisualizer.lua
--- Stronghold 2027 - Resource Flow Visualizer
+-- Castle Kingdoms 2027 - Resource Flow Visualizer
 -- Shows production/consumption rates for all resources
 
 local ResourceFlow = {}

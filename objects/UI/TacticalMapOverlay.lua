@@ -1,5 +1,5 @@
 -- objects/UI/TacticalMapOverlay.lua
--- Stronghold 2027 v2.7.8 - Tactical Map Overlay
+-- Castle Kingdoms 2027 v2.7.8 - Tactical Map Overlay
 --
 -- Strategic overlay system that visualizes tactical information on the map.
 -- Can be toggled to show: threat zones, supply coverage, territory control,

@@ -1,5 +1,5 @@
 -- objects/AI/AIEnhancements.lua
--- Stronghold 2027 - AI Behavior Enhancements
+-- Castle Kingdoms 2027 - AI Behavior Enhancements
 --
 -- Improves AI behavior to feel more natural and less "cheaty":
 -- 1. Smarter building placement (avoid clustering, spread out)

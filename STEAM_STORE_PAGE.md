@@ -1,8 +1,8 @@
-# Stronghold 2027 — Steam Store Page Description
+# Castle Kingdoms 2027 — Steam Store Page Description
 
 ## About This Game
 
-Stronghold 2027 is a modernized reimagining of the classic 2001 castle-building RTS, built for a new generation of strategy players. Construct mighty fortresses, manage a thriving medieval economy, and lead your armies to victory in an immersive isometric world.
+Castle Kingdoms 2027 is a modernized reimagining of the classic 2001 castle-building RTS, built for a new generation of strategy players. Construct mighty fortresses, manage a thriving medieval economy, and lead your armies to victory in an immersive isometric world.
 
 ## Key Features
 

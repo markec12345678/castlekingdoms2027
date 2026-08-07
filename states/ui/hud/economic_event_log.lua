@@ -1,5 +1,5 @@
 -- states/ui/hud/economic_event_log.lua
--- Stronghold 2027 - Economic Event Log HUD Widget
+-- Castle Kingdoms 2027 - Economic Event Log HUD Widget
 --
 -- Discreet toast/banner notifications for economic events:
 -- - Shows active events with icons and time remaining

@@ -1,5 +1,5 @@
 -- objects/Combat/SiegeWeaponsSystem.lua
--- Stronghold 2027 - Siege Weapons
+-- Castle Kingdoms 2027 - Siege Weapons
 -- Catapults, trebuchets, siege towers, battering rams
 
 local Siege = {}
@@ -215,7 +215,7 @@ function Siege._fire(weapon)
 
     -- Screen shake
     if _G.GameFeel then
-        -- Stronghold 2027 v2.4.0: Use shake() (addShake doesn't exist)
+        -- Castle Kingdoms 2027 v2.4.0: Use shake() (addShake doesn't exist)
         pcall(function() _G.GameFeel.shake(5, 0.3) end)
     end
 
@@ -247,7 +247,7 @@ function Siege.draw()
             local sx = _G.IsoToScreenX(w.gx, w.gy) - _G.state.viewXview
             local sy = _G.IsoToScreenY(w.gx, w.gy) - _G.state.viewYview
 
-            -- Stronghold 2027 v2.3.3: Draw siege weapon using real sprite icon
+            -- Castle Kingdoms 2027 v2.3.3: Draw siege weapon using real sprite icon
             local icon = getIcon(w.def.icon)
             if icon then
                 -- Tint by faction (subtle color overlay for enemy units)

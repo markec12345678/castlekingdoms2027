@@ -1,5 +1,5 @@
 #!/usr/bin/env lua
--- Comprehensive test script za Stronghold 2027
+-- Comprehensive test script za Castle Kingdoms 2027
 -- Preverja sintakso VSEH Lua datotek in vseh YAML prevodov
 
 local function printHeader(title)

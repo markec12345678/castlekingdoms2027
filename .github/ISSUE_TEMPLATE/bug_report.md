@@ -26,7 +26,7 @@ Kaj se dejansko zgodi.
 ## okolje
 - OS: [npr. Windows 11, macOS 14, Ubuntu 24.04]
 - LÖVE verzija: [npr. 11.5]
-- Igra verzija: [npr. 0.6.1-stronghold2027]
+- Igra verzija: [npr. 0.6.1-castlekingdoms2027]
 - Jezik: [npr. Slovenščina]
 
 ## Dodatne informacije

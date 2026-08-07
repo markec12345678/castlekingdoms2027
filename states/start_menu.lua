@@ -5,7 +5,7 @@ local states = require("states.ui.states")
 local renderLoadingScreen = require("states.ui.loading_screen")
 local playlist = require("sounds.music_playlist")
 local console = require "libraries.console"
--- Stronghold 2027: Settings in main menu
+-- Castle Kingdoms 2027: Settings in main menu
 local GameFeelSettings = require("states.ui.settings.gamefeel_settings")
 local SettingsPersistence = require("objects.Config.SettingsPersistence")
 console.addCommand("debug", function()
@@ -29,7 +29,7 @@ local startMenuAplha = 0
 function startMenu:enter()
     loveframes.SetState(states.STATE_MAIN_MENU)
     playlist("menu")
-    -- Stronghold 2027: Load settings on menu enter
+    -- Castle Kingdoms 2027: Load settings on menu enter
     SettingsPersistence.init()
     SettingsPersistence.applyAll()
 end
@@ -79,7 +79,7 @@ function startMenu:draw()
     love.graphics.print(_G.version, _G.ScreenWidth - love.graphics.getFont():getWidth(_G.version .. "----"),
         _G.ScreenHeight - love.graphics.getFont():getHeight() * 2)
     console.draw()
-    -- Stronghold 2027: Draw settings panel if visible
+    -- Castle Kingdoms 2027: Draw settings panel if visible
     GameFeelSettings.draw()
 end
 
@@ -92,14 +92,14 @@ function startMenu:keypressed(key, scancode, isRepeat)
         console.keypressed(key, scancode, isRepeat)
         return
     end
-    -- Stronghold 2027: V key for settings
+    -- Castle Kingdoms 2027: V key for settings
     if GameFeelSettings.keypressed(key) then
         return
     end
 end
 
 function startMenu:mousepressed(x, y, button)
-    -- Stronghold 2027: Handle settings clicks
+    -- Castle Kingdoms 2027: Handle settings clicks
     if GameFeelSettings.isVisible() then
         if GameFeelSettings.mousepressed(x, y, button) then return end
     end

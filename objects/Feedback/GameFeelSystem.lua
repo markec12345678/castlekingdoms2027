@@ -1,5 +1,5 @@
 -- objects/Feedback/GameFeelSystem.lua
--- Stronghold 2027 - Game Feel System
+-- Castle Kingdoms 2027 - Game Feel System
 --
 -- Adds "juice" to the game:
 -- - Screen shake on explosions/combat

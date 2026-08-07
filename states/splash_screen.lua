@@ -18,7 +18,7 @@ local skAlpha = 0
 
 local splashScreenFont = love.graphics.newFont("assets/fonts/IMMORTAL.ttf", 24)
 local fireflyNotice =
-"Assets, Music & Sound effects provided at the courtesy of Firefly Studios Limited.\n Features additional art by Lord Steinhauer, Monsterfish and Zarentreuer Lenin\n    Thanks to UCP team and Project Reconquista for technical support."
+"Assets, Music & Sound effects provided at the courtesy of Stone Kingdoms community.\n Features additional art by Lord Steinhauer, Monsterfish and Zarentreuer Lenin\n    Thanks to UCP team and Project Reconquista for technical support."
 local repoLink = "https://gitlab.com/stone-kingdoms/stone-kingdoms"
 
 function splashScreen:enter()
@@ -36,7 +36,7 @@ function splashScreen:enter()
     if config.general.skipSplashScreen then
         splashScreen:finish()
     else
-        -- Stronghold 2027: pcall to catch LFS pointer crashes in splash library
+        -- Castle Kingdoms 2027: pcall to catch LFS pointer crashes in splash library
         local splashOk, splashErr = pcall(function()
             isOTenOne = true
             splashScreen.splash = one_ten_one({

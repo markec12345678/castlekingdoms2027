@@ -1,5 +1,5 @@
 -- objects/Gameplay/BuildingQueueSystem.lua
--- Stronghold 2027 - Building Queue System
+-- Castle Kingdoms 2027 - Building Queue System
 -- Shift+click to queue multiple buildings for construction
 
 local BuildingQueue = {}

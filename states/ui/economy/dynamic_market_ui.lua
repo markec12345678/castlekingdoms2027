@@ -1,5 +1,5 @@
 -- states/ui/economy/dynamic_market_ui.lua
--- Stronghold 2027 - Dynamic Market UI
+-- Castle Kingdoms 2027 - Dynamic Market UI
 --
 -- Displays all 20 resources with:
 -- - Current buy/sell prices

@@ -1,5 +1,5 @@
 -- objects/Performance/RenderOptimizer.lua
--- Stronghold 2027 - Render Optimization
+-- Castle Kingdoms 2027 - Render Optimization
 --
 -- Fixes the rendering bottleneck (11-18 FPS → 60 FPS target):
 -- 1. Frustum culling for active entities (skip off-screen units)

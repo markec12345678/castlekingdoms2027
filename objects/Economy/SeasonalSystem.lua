@@ -1,5 +1,5 @@
 -- objects/Economy/SeasonalSystem.lua
--- Stronghold 2027 - Seasonal System
+-- Castle Kingdoms 2027 - Seasonal System
 --
 -- Manages 4 seasons (Spring, Summer, Autumn, Winter) that affect:
 -- - Food production (winter = -50%)

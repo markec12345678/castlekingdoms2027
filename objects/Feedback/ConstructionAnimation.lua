@@ -1,5 +1,5 @@
 -- objects/Feedback/ConstructionAnimation.lua
--- Stronghold 2027 - Building Construction Animation
+-- Castle Kingdoms 2027 - Building Construction Animation
 -- Visual progress indicator during building construction
 
 local ConstructionAnim = {}

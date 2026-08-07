@@ -1,4 +1,4 @@
--- Example Mod for Stronghold 2027
+-- Example Mod for Castle Kingdoms 2027
 -- This mod demonstrates the basic structure and API
 --
 -- To enable this mod, rename the directory from 'example_mod' to something else
@@ -7,7 +7,7 @@
 -- Mod metadata (required)
 name = "Example Mod"
 version = "1.0.0"
-author = "Stronghold 2027 Team"
+author = "Castle Kingdoms 2027 Team"
 description = "An example mod that demonstrates the modding API. Adds a debug message when buildings are placed."
 
 -- Dependencies (optional)

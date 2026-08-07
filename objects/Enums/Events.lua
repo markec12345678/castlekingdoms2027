@@ -22,7 +22,7 @@ local EVENTS = {
     OnUnitsSelected = 20,
     OnUnitsDeselected = 21,
     OnUnitDetailsSelected = 22,
-    -- Combat events (Stronghold 2027)
+    -- Combat events (Castle Kingdoms 2027)
     OnUnitAttacked = 23,
     OnUnitDamaged = 24,
     OnUnitKilled = 25,

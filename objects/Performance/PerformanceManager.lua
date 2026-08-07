@@ -1,5 +1,5 @@
 -- objects/Performance/PerformanceManager.lua
--- Stronghold 2027 - Central Performance Profiling System
+-- Castle Kingdoms 2027 - Central Performance Profiling System
 --
 -- Provides frame-accurate timing for all subsystems:
 -- - Game loop (update, render)

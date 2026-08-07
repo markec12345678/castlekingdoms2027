@@ -1,5 +1,5 @@
 -- scripts/benchmark.lua
--- Stronghold 2027 - Automated Performance Benchmark
+-- Castle Kingdoms 2027 - Automated Performance Benchmark
 --
 -- Runs a series of performance tests and reports results.
 -- Run from game console: benchmark()

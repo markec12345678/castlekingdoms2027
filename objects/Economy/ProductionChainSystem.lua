@@ -1,5 +1,5 @@
 -- objects/Economy/ProductionChainSystem.lua
--- Stronghold 2027 v2.6.6 - Resource Production Chain System
+-- Castle Kingdoms 2027 v2.6.6 - Resource Production Chain System
 --
 -- Manages production chains where raw materials are processed into refined goods.
 -- Example: wheat -> flour -> bread (3-stage chain)

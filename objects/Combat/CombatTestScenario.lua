@@ -1,5 +1,5 @@
 -- objects/Combat/CombatTestScenario.lua
--- Stronghold 2027 - Combat Test Scenario
+-- Castle Kingdoms 2027 - Combat Test Scenario
 --
 -- Spawns enemy units for combat testing.
 -- Activated via console command: combat_test()
@@ -107,7 +107,7 @@ function CombatTestScenario.findPlayerKeep()
         if obj.class and obj.class.name then
             local name = obj.class.name
             if name == "Keep" or name == "WoodenKeep" or name == "Fortress"
-                or name == "Stronghold" or name == "SaxonHall" then
+                or name == "Castle Kingdoms" or name == "SaxonHall" then
                 if obj.gx and obj.gy then
                     return obj.gx, obj.gy
                 end

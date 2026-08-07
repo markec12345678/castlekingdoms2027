@@ -1,5 +1,5 @@
 -- objects/Performance/PriorityUpdateSystem.lua
--- Stronghold 2027 - Tiered Entity Update System
+-- Castle Kingdoms 2027 - Tiered Entity Update System
 --
 -- Instead of updating every entity every frame (60Hz), entities are
 -- assigned to priority tiers:

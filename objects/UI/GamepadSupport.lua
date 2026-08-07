@@ -1,5 +1,5 @@
 -- objects/UI/GamepadSupport.lua
--- Stronghold 2027 - Gamepad Support
+-- Castle Kingdoms 2027 - Gamepad Support
 -- Controller input for accessibility and console-like experience
 
 local Gamepad = {}

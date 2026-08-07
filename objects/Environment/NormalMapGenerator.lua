@@ -1,5 +1,5 @@
 -- objects/Environment/NormalMapGenerator.lua
--- Stronghold 2027 - Generates normal maps from terrain heightmap data
+-- Castle Kingdoms 2027 - Generates normal maps from terrain heightmap data
 --
 -- Converts heightmap elevation data into a normal map texture that can
 -- be used with the normal_mapping.glsl shader for dynamic terrain lighting.

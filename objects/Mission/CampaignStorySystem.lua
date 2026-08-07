@@ -1,5 +1,5 @@
 -- objects/Mission/CampaignStorySystem.lua
--- Stronghold 2027 - Campaign Story System
+-- Castle Kingdoms 2027 - Campaign Story System
 -- Cutscenes, dialogue, story progression between missions
 
 local CampaignStory = {}
@@ -40,10 +40,10 @@ local STORY_BEATS = {
             { speaker = "Pripovedovalec", portrait = "narrator", text = "S Temnim Kraljem poraženim je Valdemar končno svoboden. Sir Aldric, nekoč pregnani vitez, sedaj stoji na prestolu." },
             { speaker = "Sir Aldric", portrait = "hero", text = "Nisem iskal krune. A če je moram nositi, jo bom nosil s častjo." },
             { speaker = "Lady Elara", portrait = "heroine", text = "In mi bomo ob tebi. Vedno." },
-            { speaker = "Pripovedovalec", portrait = "narrator", text = "Tako se začne nova doba. Doba miru. Doba upanja. Doba Stronghold 2027." },
+            { speaker = "Pripovedovalec", portrait = "narrator", text = "Tako se začne nova doba. Doba miru. Doba upanja. Doba Castle Kingdoms 2027." },
         },
     },
-    -- Stronghold 2027 v2.5.0: Historical Norman Conquest story beats (1066-1087)
+    -- Castle Kingdoms 2027 v2.5.0: Historical Norman Conquest story beats (1066-1087)
     mission11 = {
         intro = {
             { speaker = "Pripovedovalec", portrait = "narrator", text = "Leto 1066. Kralj Edward Spoznavalec je mrtev. Harold Godwinson si je prilastil angleški prestol." },

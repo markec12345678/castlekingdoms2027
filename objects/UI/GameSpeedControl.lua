@@ -1,5 +1,5 @@
 -- objects/UI/GameSpeedControl.lua
--- Stronghold 2027 - Game Speed Control
+-- Castle Kingdoms 2027 - Game Speed Control
 -- Pause, 1x, 2x, 3x speed with visual UI
 
 local GameSpeedControl = {}

@@ -1,5 +1,5 @@
 -- objects/Feedback/CombatOrderVisualizer.lua
--- Stronghold 2027 - Combat Order Visualizer
+-- Castle Kingdoms 2027 - Combat Order Visualizer
 --
 -- Draws visual indicators for unit orders:
 -- - Attack orders: red line from unit to target

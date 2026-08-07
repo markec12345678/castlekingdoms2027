@@ -1,5 +1,5 @@
 -- objects/QA/StatisticsDashboard.lua
--- Stronghold 2027 - Statistics Dashboard
+-- Castle Kingdoms 2027 - Statistics Dashboard
 --
 -- Tracks player statistics across all game sessions:
 -- - Games played, won, lost

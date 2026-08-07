@@ -1,5 +1,5 @@
 -- objects/Steam/AchievementTracker.lua
--- Stronghold 2027 v2.7.4 - Achievement Tracker
+-- Castle Kingdoms 2027 v2.7.4 - Achievement Tracker
 --
 -- Detailed achievement tracking with progress bars, categories, and statistics.
 -- Extends SteamWorks with granular progress tracking and display.

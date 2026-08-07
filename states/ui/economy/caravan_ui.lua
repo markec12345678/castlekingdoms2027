@@ -1,5 +1,5 @@
 -- states/ui/economy/caravan_ui.lua
--- Stronghold 2027 - Trade Caravan UI
+-- Castle Kingdoms 2027 - Trade Caravan UI
 --
 -- Allows player to:
 -- - Select target AI faction

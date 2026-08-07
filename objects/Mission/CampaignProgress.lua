@@ -1,5 +1,5 @@
 -- objects/Mission/CampaignProgress.lua
--- Stronghold 2027 - Campaign Progress Tracking
+-- Castle Kingdoms 2027 - Campaign Progress Tracking
 --
 -- Tracks which missions the player has completed.
 -- Persists between game sessions in campaign_progress.json.
@@ -10,7 +10,7 @@ local CampaignProgress = {}
 local PROGRESS_FILE = "campaign_progress.json"
 local initialized = false
 
--- Stronghold 2027 v2.5.0: All 21 missions in order (10 Fernhaven + 11 Historical Norman Conquest)
+-- Castle Kingdoms 2027 v2.5.0: All 21 missions in order (10 Fernhaven + 11 Historical Norman Conquest)
 local MISSION_LIST = {
     -- Fernhaven Saga (missions 1-10)
     { key = "campaign.mission1_return_to_fernhaven",   name = "Vrnitev v Fernhaven",      difficulty = 1, era = "Fernhaven Saga" },
@@ -180,7 +180,7 @@ end
 -- Check and unlock achievements
 function CampaignProgress.checkAchievements()
     local count = CampaignProgress.getCompletedCount()
-    -- Stronghold 2027 v2.3.8: Unlock Steam achievements + show notification
+    -- Castle Kingdoms 2027 v2.3.8: Unlock Steam achievements + show notification
     local SteamWorks = _G.SteamWorks
     local ModernUI = _G.ModernUI or (require("objects.UI.ModernUISystem"))
 

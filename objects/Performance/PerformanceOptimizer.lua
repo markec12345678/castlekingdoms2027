@@ -1,5 +1,5 @@
 -- objects/Performance/PerformanceOptimizer.lua
--- Stronghold 2027 - Final Performance Optimizer
+-- Castle Kingdoms 2027 - Final Performance Optimizer
 -- Batch rendering, LOD, frustum culling, update tiering
 
 local PerfOpt = {}

@@ -1,5 +1,5 @@
 -- objects/Gameplay/RallyPointSystem.lua
--- Stronghold 2027 - Rally Point System
+-- Castle Kingdoms 2027 - Rally Point System
 -- Barracks and military buildings auto-send trained units to a rally point
 
 local RallyPoint = {}

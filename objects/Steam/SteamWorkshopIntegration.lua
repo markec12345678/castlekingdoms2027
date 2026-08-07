@@ -1,5 +1,5 @@
 -- objects/Steam/SteamWorkshopIntegration.lua
--- Stronghold 2027 - Steam Workshop Integration
+-- Castle Kingdoms 2027 - Steam Workshop Integration
 -- Upload and download mods through Steam Workshop
 
 local Workshop = {}

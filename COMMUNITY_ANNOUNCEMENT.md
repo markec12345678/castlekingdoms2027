@@ -1,4 +1,4 @@
-# Stronghold 2027 - Community Announcement
+# Castle Kingdoms 2027 - Community Announcement
 
 > Osnutek objave za predstavitev projekta skupnosti (Reddit, Discord, forumi)
 
@@ -6,13 +6,13 @@
 
 ## 📢 Reddit r/stronghold
 
-**Title:** Stronghold 2027 - Open source remake with modern graphics, modding API, and Slovenian translation (alpha v0.7.0)
+**Title:** Castle Kingdoms 2027 - Open source remake with modern graphics, modding API, and Slovenian translation (alpha v0.7.0)
 
 **Body:**
 
-Zdravo Stronghold skupnost!
+Zdravo Castle Kingdoms skupnost!
 
-Predstavljam vam **Stronghold 2027** - fork odprtokodnega Stone Kingdoms projekta, ki ga razvijava z namenom moderne izkušnje klasike iz 2001. Ciljno leto izida je 2027.
+Predstavljam vam **Castle Kingdoms 2027** - fork odprtokodnega Stone Kingdoms projekta, ki ga razvijava z namenom moderne izkušnje klasike iz 2001. Ciljno leto izida je 2027.
 
 ### Kaj je novo v 0.7.0-alpha?
 
@@ -50,7 +50,7 @@ Predstavljam vam **Stronghold 2027** - fork odprtokodnega Stone Kingdoms projekt
 
 - **Engine:** LÖVE 11.5 (Lua)
 - **Licenca:** Apache 2.0 (dovoljuje komercialno uporabo)
-- **Repozitorij:** [github.com/markec12345678/stronghold2027](https://github.com/markec12345678/stronghold2027)
+- **Repozitorij:** [github.com/markec12345678/castlekingdoms2027](https://github.com/markec12345678/castlekingdoms2027)
 - **CI/CD:** GitHub Actions z 343 test checks (100% pass)
 - **Statistika:** 213,215 vrstic kode, 280 Lua datotek, 71 zgradb, 42 enot
 
@@ -77,27 +77,26 @@ Predstavljam vam **Stronghold 2027** - fork odprtokodnega Stone Kingdoms projekt
 
 ### Zahvale
 
-- **Firefly Studios** - za originalno igro in dovoljenje za uporabo assetov
 - **Stone Kingdoms ekipa** - za odlično odprtokodno bazo
 - **LÖVE community** - za odličen game engine
 
 Povezave:
-- 📂 GitHub: https://github.com/markec12345678/stronghold2027
+- 📂 GitHub: https://github.com/markec12345678/castlekingdoms2027
 - 📖 Dokumentacija: README.md, ROADMAP.md, CONTRIBUTING.md
 - 🐛 Issue tracker: GitHub Issues
 - 💬 Discord: (prihaja)
 
-Vprašanja dobrodošla! Kaj bi radi videli v Stronghold 2027?
+Vprašanja dobrodošla! Kaj bi radi videli v Castle Kingdoms 2027?
 
 ---
 
 ## 📢 Reddit r/linux_gaming
 
-**Title:** [Open Source] Stronghold 2027 - alpha release with HD shaders, modding API, and Slovenian translation
+**Title:** [Open Source] Castle Kingdoms 2027 - alpha release with HD shaders, modding API, and Slovenian translation
 
 **Body:**
 
-Pozdravljeni! Predstavljam **Stronghold 2027** - fork odprtokodnega Stone Kingdoms projekta (Apache 2.0 licenca), ki ga razvijava z namenom moderne različice klasike.
+Pozdravljeni! Predstavljam **Castle Kingdoms 2027** - fork odprtokodnega Stone Kingdoms projekta (Apache 2.0 licenca), ki ga razvijava z namenom moderne različice klasike.
 
 ### Cross-platform
 
@@ -116,7 +115,7 @@ Pozdravljeni! Predstavljam **Stronghold 2027** - fork odprtokodnega Stone Kingdo
 
 ### Povezave
 
-- GitHub: https://github.com/markec12345678/stronghold2027
+- GitHub: https://github.com/markec12345678/castlekingdoms2027
 - License: Apache 2.0
 - Tech: LÖVE 11.5 (Lua)
 
@@ -133,9 +132,9 @@ Kaj menite? Vprašanja dobrodošla!
 
 @everyone
 
-🎉 **Stronghold 2027 - Alpha Release v0.7.0** 🎉
+🎉 **Castle Kingdoms 2027 - Alpha Release v0.7.0** 🎉
 
-Predstavljamo vam prvi alpha release Stronghold 2027!
+Predstavljamo vam prvi alpha release Castle Kingdoms 2027!
 
 ### Kaj je novo?
 
@@ -146,7 +145,7 @@ Predstavljamo vam prvi alpha release Stronghold 2027!
 
 ### Povezave
 
-🔗 GitHub: https://github.com/markec12345678/stronghold2027
+🔗 GitHub: https://github.com/markec12345678/castlekingdoms2027
 📖 Roadmap: ROADMAP.md v repozitoriju
 🐛 Bugs: GitHub Issues
 
@@ -157,17 +156,17 @@ Predstavljamo vam prvi alpha release Stronghold 2027!
 - 🎮 Beta testiralce
 - 💻 Modders
 
-Pridruži se in pomagaj ustvariti najboljši Stronghold doslej! 🏰
+Pridruži se in pomagaj ustvariti najboljši Castle Kingdoms doslej! 🏰
 
 ---
 
 ## 📢 GitHub Discussions
 
-**Title:** Welcome to Stronghold 2027 - Read this first!
+**Title:** Welcome to Castle Kingdoms 2027 - Read this first!
 
 **Body:**
 
-Dobrodošli v Stronghold 2027! 🏰
+Dobrodošli v Castle Kingdoms 2027! 🏰
 
 Ta projekt je fork odprtokodnega Stone Kingdoms, z dodatnimi izboljšavami za moderno izkušnjo.
 
@@ -195,7 +194,7 @@ Ta projekt je fork odprtokodnega Stone Kingdoms, z dodatnimi izboljšavami za mo
 
 ### Status
 
-- Verzija: 0.7.0-stronghold2027-alpha
+- Verzija: 0.7.0-castlekingdoms2027-alpha
 - Test pass rate: 100% (343/343)
 - Ciljni izid: 2027-09-01
 

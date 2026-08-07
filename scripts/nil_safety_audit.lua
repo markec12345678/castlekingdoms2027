@@ -1,5 +1,5 @@
 -- scripts/nil_safety_audit.lua
--- Stronghold 2027 - Nil Safety Audit
+-- Castle Kingdoms 2027 - Nil Safety Audit
 --
 -- Pregleda vse naše datoteke za potential nil crash-e:
 -- - Dostop do .property brez prejšnjega nil check-a
@@ -113,7 +113,7 @@ end
 
 -- Main
 print("==========================================")
-print("  Stronghold 2027 - Nil Safety Audit")
+print("  Castle Kingdoms 2027 - Nil Safety Audit")
 print("==========================================")
 print("")
 

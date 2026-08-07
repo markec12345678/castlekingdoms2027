@@ -1,5 +1,5 @@
 -- objects/Combat/CombatIntegration.lua
--- Stronghold 2027 - Combat System Integration
+-- Castle Kingdoms 2027 - Combat System Integration
 --
 -- This module integrates the combat system into the main game loop.
 -- It hooks into states/game.lua to update and draw combat-related entities.
@@ -309,7 +309,7 @@ function CombatIntegration.isInitialized()
     return initialized
 end
 
--- Stronghold 2027 v2.4.1: Spawn a projectile (for siege weapons)
+-- Castle Kingdoms 2027 v2.4.1: Spawn a projectile (for siege weapons)
 -- @param fromGx, fromGy number Source position
 -- @param toGx, toGy number Target position
 -- @param damage number Damage on impact

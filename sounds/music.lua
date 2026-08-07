@@ -9,7 +9,7 @@ local music = {
     ["combat"] = {}
 }
 
--- Stronghold OST
+-- Castle Kingdoms OST
 if strongholdOstEnabled then
     table.insert(music["menu"], love.audio.newSource("sounds/music/stronghold_ost/01 The Chant.mp3", "stream"))
 

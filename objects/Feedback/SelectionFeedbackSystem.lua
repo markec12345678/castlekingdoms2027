@@ -1,5 +1,5 @@
 -- objects/Feedback/SelectionFeedbackSystem.lua
--- Stronghold 2027 - Unit Selection Visual Feedback
+-- Castle Kingdoms 2027 - Unit Selection Visual Feedback
 --
 -- Provides visual feedback for selected units:
 -- - Glowing ring under selected units
@@ -191,7 +191,7 @@ function SelectionFeedbackSystem.drawHoverRing()
     -- Get mouse position
     local mouseX, mouseY = love.mouse.getPosition()
 
-    -- Stronghold 2027: Skip hover ring when mouse is over UI (action bar, top UI)
+    -- Castle Kingdoms 2027: Skip hover ring when mouse is over UI (action bar, top UI)
     local screenH = love.graphics.getHeight()
     if mouseY > screenH - 150 or mouseY < 80 then
         return  -- Mouse is over UI, don't draw hover ring

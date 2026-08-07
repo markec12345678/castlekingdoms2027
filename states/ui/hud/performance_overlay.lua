@@ -1,5 +1,5 @@
 -- states/ui/hud/performance_overlay.lua
--- Stronghold 2027 - Performance Overlay HUD
+-- Castle Kingdoms 2027 - Performance Overlay HUD
 --
 -- Visual breakdown of frame timing:
 -- - Bar chart showing time spent in each subsystem

@@ -1,5 +1,5 @@
 -- objects/Combat/CombatComponent.lua
--- Stronghold 2027 - Combat Component for Units
+-- Castle Kingdoms 2027 - Combat Component for Units
 --
 -- Mixin that adds combat capabilities to any Unit.
 -- Usage in Unit:initialize():
@@ -88,30 +88,30 @@ function CombatComponent.takeDamage(self, amount, attacker)
         _G.CombatController:spawnDamageNumber(self, actualDamage)
     end
 
-    -- Stronghold 2027: Game feel feedback (screen shake, hit flash)
+    -- Castle Kingdoms 2027: Game feel feedback (screen shake, hit flash)
     if _G.GameFeel then
         _G.GameFeel.onUnitDamaged(self, actualDamage, attacker)
     end
 
-    -- Stronghold 2027: Report combat to music manager + play SFX
+    -- Castle Kingdoms 2027: Report combat to music manager + play SFX
     if _G.DynamicMusic then
         _G.DynamicMusic.reportCombat(1)
     end
     if _G.SFXLibrary then
         _G.SFXLibrary.playCombat("sword_hit", self.gx, self.gy)
     end
-    -- Stronghold 2027: Award XP to attacker for damage dealt
+    -- Castle Kingdoms 2027: Award XP to attacker for damage dealt
     if _G.Veterancy and attacker then
         _G.Veterancy.onDamageDealt(attacker, actualDamage)
     end
-    -- Stronghold 2027: Apply formation defense bonus to damage received
+    -- Castle Kingdoms 2027: Apply formation defense bonus to damage received
     if _G.FormationSystem and self.faction == 1 then
         local defBonus = _G.FormationSystem.getDefenseBonus() or 1.0
         if defBonus > 1.0 then
             actualDamage = math.floor(actualDamage / defBonus)
         end
     end
-    -- Stronghold 2027: Apply formation attack bonus to damage dealt
+    -- Castle Kingdoms 2027: Apply formation attack bonus to damage dealt
     if _G.FormationSystem and attacker and attacker.faction == 1 then
         local atkBonus = _G.FormationSystem.getAttackBonus() or 1.0
         if atkBonus > 1.0 then
@@ -125,25 +125,25 @@ function CombatComponent.takeDamage(self, amount, attacker)
         if attacker then
             attacker.kills = (attacker.kills or 0) + 1
         end
-        -- Stronghold 2027: Game feel feedback for death
+        -- Castle Kingdoms 2027: Game feel feedback for death
         if _G.GameFeel then
             _G.GameFeel.onUnitDeath(self, attacker)
         end
-        -- Stronghold 2027: Play death SFX
+        -- Castle Kingdoms 2027: Play death SFX
         if _G.SFXLibrary then
             _G.SFXLibrary.playCombat("death", self.gx, self.gy)
         end
-        -- Stronghold 2027: Award kill XP to attacker
+        -- Castle Kingdoms 2027: Award kill XP to attacker
         if _G.Veterancy and attacker then
             _G.Veterancy.onKill(attacker, self)
         end
-        -- Stronghold 2027: Spawn death visual effect
+        -- Castle Kingdoms 2027: Spawn death visual effect
         if _G.VisualPolish and self.gx and self.gy then
             local sx = _G.IsoToScreenX(self.gx, self.gy) - (_G.state.viewXview or 0)
             local sy = _G.IsoToScreenY(self.gx, self.gy) - (_G.state.viewYview or 0)
             _G.VisualPolish.spawnDeathEffect(sx, sy)
         end
-        -- Stronghold 2027 v2.6.0: Track player losses for no_casualties achievement
+        -- Castle Kingdoms 2027 v2.6.0: Track player losses for no_casualties achievement
         if self.faction == COMBAT.FACTION_PLAYER or not self.faction then
             local MissionFramework = _G.MissionFramework
             if MissionFramework and MissionFramework.reportPlayerLoss then

@@ -1,5 +1,5 @@
 -- objects/Mission/DailyChallengeSystem.lua
--- Stronghold 2027 v2.6.3 - Daily Challenge System
+-- Castle Kingdoms 2027 v2.6.3 - Daily Challenge System
 --
 -- Generates daily challenges that refresh every 24 hours.
 -- Players can complete challenges for bonus gold and achievement progress.

@@ -1,5 +1,5 @@
 -- objects/Combat/UnitCommandQueue.lua
--- Stronghold 2027 - Unit Command Queue
+-- Castle Kingdoms 2027 - Unit Command Queue
 -- Shift+click to queue multiple movement/attack orders
 
 local CommandQueue = {}

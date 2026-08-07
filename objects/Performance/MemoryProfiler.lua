@@ -1,5 +1,5 @@
 -- objects/Performance/MemoryProfiler.lua
--- Stronghold 2027 - Memory Profiler
+-- Castle Kingdoms 2027 - Memory Profiler
 --
 -- Tracks memory usage, GC cycles, entity counts, and detects leaks:
 -- - Lua heap memory (KB/MB)

@@ -1,5 +1,5 @@
 -- objects/Network/TradeController.lua
--- Stronghold 2027 - Trade System
+-- Castle Kingdoms 2027 - Trade System
 --
 -- Manages resource trading between players in multiplayer games:
 -- - Direct trades (offer X for Y)

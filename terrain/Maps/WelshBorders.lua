@@ -1,5 +1,5 @@
 -- terrain/Maps/WelshBorders.lua
--- Stronghold 2027 - Map: Welsh Borders (1081)
+-- Castle Kingdoms 2027 - Map: Welsh Borders (1081)
 -- Mountainous frontier between England and Wales.
 
 local Map = {}

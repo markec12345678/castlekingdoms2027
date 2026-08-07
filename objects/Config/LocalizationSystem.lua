@@ -1,5 +1,5 @@
 -- objects/Config/LocalizationSystem.lua
--- Stronghold 2027 - Localization System
+-- Castle Kingdoms 2027 - Localization System
 --
 -- Manages multi-language support:
 -- - 32 languages (SL, EN, SR, EL, BG, MK, LT, LV, DE, FR, ES, IT, ...)

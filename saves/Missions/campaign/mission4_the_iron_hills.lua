@@ -1,5 +1,5 @@
 -- saves/Missions/campaign/mission4_the_iron_hills.lua
--- Stronghold 2027 - Campaign Mission 4: The Iron Hills
+-- Castle Kingdoms 2027 - Campaign Mission 4: The Iron Hills
 --
 -- Fourth mission of "The Lord of Fernhaven" campaign.
 -- Focus on capturing iron mine and military assault on fortified positions.

@@ -1,5 +1,5 @@
 -- objects/Performance/ObjectPoolingSystem.lua
--- Stronghold 2027 - Object Pooling System
+-- Castle Kingdoms 2027 - Object Pooling System
 -- Reuses objects instead of creating/destroying (performance optimization)
 
 local ObjectPool = {}

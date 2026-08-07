@@ -1,5 +1,5 @@
 -- objects/Combat/UnitVeterancySystem.lua
--- Stronghold 2027 - Unit Veterancy System
+-- Castle Kingdoms 2027 - Unit Veterancy System
 -- Units gain XP from combat, level up, and receive stat bonuses
 
 local Veterancy = {}
@@ -81,7 +81,7 @@ end
 
 function Veterancy.onKill(killer, victim)
     if not killer then return end
-    -- Stronghold 2027 v2.3.3: Improved XP formula
+    -- Castle Kingdoms 2027 v2.3.3: Improved XP formula
     -- Base XP + bonus for victim maxHealth + bonus for victim veterancy level
     local xp = 15  -- Base XP per kill (was 10)
     if victim and victim.maxHealth then
@@ -90,7 +90,7 @@ function Veterancy.onKill(killer, victim)
     if victim and victim.veterancyLevel and victim.veterancyLevel > 1 then
         xp = xp + victim.veterancyLevel * 15  -- Was *10, now *15
     end
-    -- Stronghold 2027 v2.3.3: Bonus XP if killer is low-level (catch-up mechanic)
+    -- Castle Kingdoms 2027 v2.3.3: Bonus XP if killer is low-level (catch-up mechanic)
     local killerLevel = Veterancy.getLevel(killer)
     if killerLevel <= 2 then
         xp = math.floor(xp * 1.25)  -- 25% bonus XP for novices
@@ -100,13 +100,13 @@ end
 
 function Veterancy.onDamageDealt(attacker, damage)
     if not attacker then return end
-    -- Stronghold 2027 v2.3.3: Increased XP per damage (was /5, now /4)
+    -- Castle Kingdoms 2027 v2.3.3: Increased XP per damage (was /5, now /4)
     -- This rewards aggressive play and tanks (who deal steady damage)
     local xp = math.floor((damage or 0) / 4)
     if xp > 0 then Veterancy.awardXP(attacker, xp) end
 end
 
--- Stronghold 2027 v2.3.3: New - award XP for taking damage (defensive veterancy)
+-- Castle Kingdoms 2027 v2.3.3: New - award XP for taking damage (defensive veterancy)
 -- Tanks and frontline units level up by surviving, not just killing
 function Veterancy.onDamageTaken(victim, damage)
     if not victim then return end

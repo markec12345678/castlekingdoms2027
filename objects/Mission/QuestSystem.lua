@@ -1,5 +1,5 @@
 -- objects/Mission/QuestSystem.lua
--- Stronghold 2027 v2.7.6 - Quest System
+-- Castle Kingdoms 2027 v2.7.6 - Quest System
 --
 -- Side quests that players can accept for additional rewards.
 -- Quests are separate from the main campaign and can be completed in any order.

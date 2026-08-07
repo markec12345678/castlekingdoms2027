@@ -1,45 +1,34 @@
-# Fork Notice
+# Fork Notice — Castle Kingdoms 2027
 
-This repository is a **fork** of the [Stone Kingdoms](https://gitlab.com/stone-kingdoms/stone-kingdoms) project.
+## Project Rename
 
-## Origin
-- **Upstream repository:** https://gitlab.com/stone-kingdoms/stone-kingdoms
-- **Upstream license:** Apache 2.0
-- **Original authors:** Stone Kingdoms contributors (see `ATTRIBUTION.md`)
-- **Fork date:** 2026-08-01
+This project was originally called "Stronghold 2027" but has been renamed to **Castle Kingdoms 2027** to avoid any potential IP conflicts with Firefly Studios, the creators of the original Stronghold game series.
 
-## Purpose of this fork
-This fork targets a **2026-2027 release** of a modernized edition of the Stronghold-style castle RTS game, with focus on:
+## What Changed
 
-1. HD / 4K graphical assets
-2. Modern UI/UX redesign
-3. Performance optimizations
-4. Slovenian localization
-5. Bug fixes and gameplay improvements
+- **Project name**: Stronghold 2027 → Castle Kingdoms 2027
+- **GitHub repo**: stronghold2027 → castlekingdoms2027
+- **All documentation**, in-game strings, and config files updated
+- **No game logic, mechanics, or code structure changed**
 
-## Maintaining sync with upstream
-To pull in future changes from the upstream Stone Kingdoms project:
+## What Stayed the Same
 
-```bash
-# Fetch latest upstream commits
-git fetch upstream
+- All file paths and directory structure
+- All function names and API
+- All game mechanics and systems
+- Stone Kingdoms codebase credit (Apache 2.0 — open source, no IP issue)
+- Kenney.nl CC0 assets credit (public domain, no IP issue)
 
-# Inspect what changed
-git log upstream/main --oneline -20
+## Inspiration
 
-# Merge into our main branch
-git merge upstream/main
+Castle Kingdoms 2027 is inspired by classic castle-building RTS games. It is NOT affiliated with, endorsed by, or connected to any specific game studio or franchise.
 
-# Resolve any conflicts (especially in README.md, .gitattributes)
-```
+## Open Source Credits
 
-## Differences from upstream
-- Branch renamed: `master` → `main`
-- Git LFS configured for `*.dds` files in history (to bypass GitHub 100MB limit)
-- README.md replaced with fork-specific documentation
-- This `FORK_NOTICE.md` file added
+- **Stone Kingdoms** — open source codebase (Apache 2.0 License)
+- **Kenney.nl** — CC0 public domain game assets
+- **LÖVE 11.5** — open source game engine (Lua/LuaJIT)
 
-## Credits
-All credit for the original game design, code architecture, and assets goes to the Stone Kingdoms team. This fork builds upon their work.
+## License
 
-Original image assets are property of Firefly Studios, used with their permission under the terms specified by the Stone Kingdoms project.
+Apache License 2.0 — see [LICENSE](LICENSE)

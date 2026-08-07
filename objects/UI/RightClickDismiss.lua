@@ -1,5 +1,5 @@
 -- objects/UI/RightClickDismiss.lua
--- Stronghold 2027 - Right-Click Dismiss
+-- Castle Kingdoms 2027 - Right-Click Dismiss
 -- Right-clicking anywhere closes the topmost open panel
 
 local RightClickDismiss = {}

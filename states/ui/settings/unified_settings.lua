@@ -1,5 +1,5 @@
 -- states/ui/settings/unified_settings.lua
--- Stronghold 2027 - Unified Settings Panel
+-- Castle Kingdoms 2027 - Unified Settings Panel
 -- Integrates all settings: audio, graphics, accessibility, localization, HD, game
 
 local loveframes = require("libraries.loveframes")
@@ -21,7 +21,7 @@ function UnifiedSettings.init()
 
     local w, h = love.graphics.getDimensions()
     panel = loveframes.Create("frame")
-    panel:SetName("Stronghold 2027 - Settings")
+    panel:SetName("Castle Kingdoms 2027 - Settings")
     panel:SetSize(700, 550)
     panel:SetPos((w-700)/2, (h-550)/2)
     panel:SetState(states.STATE_INGAME_CONSTRUCTION)

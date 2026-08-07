@@ -1,5 +1,5 @@
 -- objects/Weather/WeatherSystem.lua
--- Stronghold 2027 - Weather System
+-- Castle Kingdoms 2027 - Weather System
 --
 -- Manages weather effects: rain, snow, fog, clear
 -- Each weather has:

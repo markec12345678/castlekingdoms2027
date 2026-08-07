@@ -1,5 +1,5 @@
 -- terrain/Maps/Hastings.lua
--- Stronghold 2027 - Map: Hastings (1066)
+-- Castle Kingdoms 2027 - Map: Hastings (1066)
 -- Historical battlefield where William the Conqueror defeated King Harold.
 -- Rolling hills with strategic high ground for the Saxon shield wall.
 

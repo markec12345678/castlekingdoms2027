@@ -83,7 +83,7 @@ optionsButton.OnClick = function(self)
     loveframes.SetState(states.STATE_SETTINGS)
 end
 
--- Stronghold 2027: Multiplayer button
+-- Castle Kingdoms 2027: Multiplayer button
 local multiplayerButton = loveframes.Create("button")
 multiplayerButton:SetState(states.STATE_MAIN_MENU)
 multiplayerButton:SetPos(buttonX, frMenu.y + (baseHeight * 3) + SPACING * 3)

@@ -1,5 +1,5 @@
 -- objects/Gameplay/MapSizeSelector.lua
--- Stronghold 2027 - Map Size Selector
+-- Castle Kingdoms 2027 - Map Size Selector
 -- Allows players to choose map size: Small, Medium, Large, Huge
 
 local MapSizeSelector = {}

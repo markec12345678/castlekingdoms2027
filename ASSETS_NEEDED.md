@@ -1,4 +1,4 @@
-# Stronghold 2027 - Assets Needed
+# Castle Kingdoms 2027 - Assets Needed
 
 > Konkreten seznam vseh grafičnih in zvočnih assetov, ki jih projekt potrebuje.
 > Namizni oblikovaleci lahko izberejo kategorijo in prispevajo.
@@ -40,7 +40,7 @@ Vsaka zgradba potrebuje naslednje frame-e:
 | Wooden Keep | 1 | 3 | 1 | 1 | ⚠️ |
 | Stone Keep | 1 | 3 | 1 | 1 | ⚠️ |
 | Fortress | 1 | 3 | 1 | 1 | ⚠️ |
-| Stronghold | 1 | 3 | 1 | 1 | ⚠️ |
+| Castle Kingdoms | 1 | 3 | 1 | 1 | ⚠️ |
 | Stockpile | 1 | 3 | 1 | 1 | ⚠️ |
 | Granary | 1 | 3 | 1 | 1 | ⚠️ |
 | Barracks | 1 | 3 | 1 | 1 | ⚠️ |
@@ -146,10 +146,10 @@ Vsaka enota potrebuje **8 smeri × 8 state-ov × 8 frame-ov = 512 frame-ov na en
 
 | Asset | Format | Velikost | Status |
 |-------|--------|----------|--------|
-| Stronghold 2027 - main logo | PNG z alpha | 3840×2160 | ❌ |
-| Stronghold 2027 - small logo | PNG z alpha | 1024×256 | ❌ |
-| Stronghold 2027 - splash screen | PNG | 3840×2160 | ❌ |
-| Stronghold 2027 - favicon | ICO/PNG | 32×32, 64×64, 128×128 | ❌ |
+| Castle Kingdoms 2027 - main logo | PNG z alpha | 3840×2160 | ❌ |
+| Castle Kingdoms 2027 - small logo | PNG z alpha | 1024×256 | ❌ |
+| Castle Kingdoms 2027 - splash screen | PNG | 3840×2160 | ❌ |
+| Castle Kingdoms 2027 - favicon | ICO/PNG | 32×32, 64×64, 128×128 | ❌ |
 | Steam capsule (main) | PNG | 616×353 | ❌ |
 | Steam capsule (small) | PNG | 231×87 | ❌ |
 | Steam library capsule | PNG | 248×352 | ❌ |
@@ -329,7 +329,7 @@ assets/ui/
 1. **Main tileset HD** - zamenja 2775×1962 z 7680×4320 (40 ur)
 2. **UI ikone** - resource icons + building icons (20 ur)
 3. **Loading screen** - cinematic grad ob zalivu (10 ur)
-4. **Logotip** - Stronghold 2027 branding (10 ur)
+4. **Logotip** - Castle Kingdoms 2027 branding (10 ur)
 
 ### Tier 2 (drugi teden, ~120 ur)
 5. **Attack animacije** za 8 vojaških enot (60 ur)
@@ -366,7 +366,7 @@ assets/ui/
 
 ### Slog
 - **Cilj:** Medieval realistic, vendar stiliziran (ne photorealistic)
-- **Reference:** Age of Empires IV, Stronghold Definitive Edition, Manor Lords
+- **Reference:** Age of Empires IV, Castle Kingdoms Definitive Edition, Manor Lords
 - **Barvna paleta:** Tople zemeljske barve, bogate teksture
 
 ### Tehnične zahteve
@@ -382,4 +382,4 @@ assets/ui/
 
 ---
 
-Hvala za tvoj prispevek k Stronghold 2027! 🏰🎨
+Hvala za tvoj prispevek k Castle Kingdoms 2027! 🏰🎨

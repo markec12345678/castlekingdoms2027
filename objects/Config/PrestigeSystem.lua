@@ -1,5 +1,5 @@
 -- objects/Config/PrestigeSystem.lua
--- Stronghold 2027 v2.7.9 - Prestige & Ranking System
+-- Castle Kingdoms 2027 v2.7.9 - Prestige & Ranking System
 --
 -- Tracks player prestige points earned through achievements, victories,
 -- and milestones. Prestige unlocks cosmetic options and bonuses.

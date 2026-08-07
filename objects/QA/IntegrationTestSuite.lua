@@ -1,5 +1,5 @@
 -- objects/QA/IntegrationTestSuite.lua
--- Stronghold 2027 - Integration Test Suite
+-- Castle Kingdoms 2027 - Integration Test Suite
 -- Verifies all systems work together correctly
 
 local IntegrationTestSuite = {}

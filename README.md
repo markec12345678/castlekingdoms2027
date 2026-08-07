@@ -1,8 +1,8 @@
-# Stronghold 2027
+# Castle Kingdoms 2027
 
-Modernizirana različica igre Stronghold (2001) za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT).
+Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT). Navdihnjen s klasičnimi srednjeveškimi strateškimi igrami.
 
-[![Version](https://img.shields.io/badge/version-2.7.8-blue.svg)](https://github.com/markec12345678/stronghold2027/releases)
+[![Version](https://img.shields.io/badge/version-2.7.8-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
 [![Syntax](https://img.shields.io/badge/syntax-603%2F606%20pass-brightgreen.svg)](#)
@@ -11,20 +11,20 @@ Modernizirana različica igre Stronghold (2001) za leto 2027, zgrajena na LÖVE 
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v2.7.8](https://github.com/markec12345678/stronghold2027/releases)
-- **.love datoteka**: `stronghold2027-v2.7.8.love` (32 MB brez LFS, 305 MB z LFS)
+- **Zadnja izdaja**: [v2.7.8](https://github.com/markec12345678/castlekingdoms2027/releases)
+- **.love datoteka**: `castlekingdoms2027-v2.7.8.love` (32 MB brez LFS, 305 MB z LFS)
 - **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 20 krogov pregleda, 80+ popravkov
 
 ## Zagon
 
 ```cmd
-& "C:\Program Files\LOVE\love.exe" "F:\pot\do\stronghold2027-v2.7.8.love"
+& "C:\Program Files\LOVE\love.exe" "F:\pot\do\castlekingdoms2027-v2.7.8.love"
 ```
 
 Ali iz git checkout-a (zahteva [git-lfs](https://git-lfs.com/)):
 ```cmd
-git clone https://github.com/markec12345678/stronghold2027.git
-cd stronghold2027
+git clone https://github.com/markec12345678/castlekingdoms2027.git
+cd castlekingdoms2027
 git lfs install
 git lfs pull
 love .
@@ -263,10 +263,10 @@ Apache License 2.0 — glej [LICENSE](LICENSE)
 - **markec12345678** — razvoj
 - **Stone Kingdoms** — osnovni codebase (Apache 2.0)
 - **Kenney.nl** — CC0 asseti
-- **Firefly Studios** — original Stronghold (2001)
 
 ## Povezave
 
-- [GitHub](https://github.com/markec12345678/stronghold2027)
+- [GitHub](https://github.com/markec12345678/castlekingdoms2027)
 - [LÖVE](https://love2d.org)
 - [Stone Kingdoms](https://gitlab.com/stone-kingdoms/stone-kingdoms)
+- [Kenney.nl](https://kenney.nl) — CC0 assets

@@ -1,5 +1,5 @@
 -- objects/Environment/HDRenderPipeline.lua
--- Stronghold 2027 - HD Render Pipeline
+-- Castle Kingdoms 2027 - HD Render Pipeline
 --
 -- Integrates all HD rendering systems:
 -- - Normal mapping for terrain (dynamic sun lighting)

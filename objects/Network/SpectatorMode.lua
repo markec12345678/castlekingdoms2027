@@ -1,5 +1,5 @@
 -- objects/Network/SpectatorMode.lua
--- Stronghold 2027 - Spectator Mode
+-- Castle Kingdoms 2027 - Spectator Mode
 -- Watch multiplayer games as a spectator
 
 local SpectatorMode = {}
@@ -79,7 +79,7 @@ function SpectatorMode.update(dt)
             for _, obj in ipairs(_G.state.gameObjectList) do
                 if obj.faction == spectatedPlayer and obj.class and obj.class.name then
                     local name = obj.class.name
-                    if name == "Keep" or name == "WoodenKeep" or name == "Fortress" or name == "Stronghold" then
+                    if name == "Keep" or name == "WoodenKeep" or name == "Fortress" or name == "Castle Kingdoms" then
                         if obj.gx and obj.gy and _G.state.viewXview then
                             -- Smoothly move camera towards target
                             local targetX = -_G.IsoToScreenX(obj.gx, obj.gy) + love.graphics.getWidth() / 2

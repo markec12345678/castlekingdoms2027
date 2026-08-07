@@ -1,13 +1,13 @@
 -- objects/QA/CommunityToolkit.lua
--- Stronghold 2027 - Community Toolkit
+-- Castle Kingdoms 2027 - Community Toolkit
 -- Discord integration, bug report launcher, feedback collection
 
 local CommunityToolkit = {}
 
 local initialized = false
 local DISCORD_INVITE_URL = "https://discord.gg/your-invite-code"
-local GITHUB_ISSUES_URL = "https://github.com/markec12345678/stronghold2027/issues"
-local GITHUB_REPO_URL = "https://github.com/markec12345678/stronghold2027"
+local GITHUB_ISSUES_URL = "https://github.com/markec12345678/castlekingdoms2027/issues"
+local GITHUB_REPO_URL = "https://github.com/markec12345678/castlekingdoms2027"
 
 function CommunityToolkit.init()
     if initialized then return end

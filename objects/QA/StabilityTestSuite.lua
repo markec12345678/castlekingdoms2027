@@ -1,5 +1,5 @@
 -- objects/QA/StabilityTestSuite.lua
--- Stronghold 2027 v2.5.0 - Stability Integration Test Suite
+-- Castle Kingdoms 2027 v2.5.0 - Stability Integration Test Suite
 --
 -- Comprehensive integration tests that verify all systems work together.
 -- Tests cover: mission loading, combat, economy, AI, achievements, save/load.

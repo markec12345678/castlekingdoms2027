@@ -1,5 +1,5 @@
 -- objects/UI/BuildingHotkeys.lua
--- Stronghold 2027 - Building Hotkeys
+-- Castle Kingdoms 2027 - Building Hotkeys
 -- Quick build with number keys (Ctrl+1-9 for common buildings)
 
 local BuildingHotkeys = {}

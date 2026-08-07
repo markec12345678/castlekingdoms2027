@@ -1,5 +1,5 @@
 -- saves/Missions/campaign/mission17_scottish_borders_1072.lua
--- Stronghold 2027 - Historical Campaign Mission 17: Scottish Campaign (1072)
+-- Castle Kingdoms 2027 - Historical Campaign Mission 17: Scottish Campaign (1072)
 --
 -- Historical: 1072 — William invades Scotland, forcing King Malcolm III to submit.
 -- Long-distance campaign with supply lines.

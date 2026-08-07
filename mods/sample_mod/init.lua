@@ -1,5 +1,5 @@
 -- Sample Mod - Entry Point
--- Demonstrates the Stronghold 2027 modding API.
+-- Demonstrates the Castle Kingdoms 2027 modding API.
 
 local ModAPI = {}
 

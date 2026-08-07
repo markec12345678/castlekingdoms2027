@@ -1,5 +1,5 @@
 -- saves/Missions/campaign/mission15_welsh_wars_1081.lua
--- Stronghold 2027 - Historical Campaign Mission 15: Welsh Border Wars (1081)
+-- Castle Kingdoms 2027 - Historical Campaign Mission 15: Welsh Border Wars (1081)
 --
 -- Historical: 1081 — William invades Wales to suppress Welsh raids.
 -- Mountain warfare against guerrilla fighters.

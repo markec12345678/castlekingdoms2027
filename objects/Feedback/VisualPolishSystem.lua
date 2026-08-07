@@ -1,5 +1,5 @@
 -- objects/Feedback/VisualPolishSystem.lua
--- Stronghold 2027 - Visual Polish
+-- Castle Kingdoms 2027 - Visual Polish
 -- UI animations, particle effects, smooth transitions
 
 local VisualPolish = {}

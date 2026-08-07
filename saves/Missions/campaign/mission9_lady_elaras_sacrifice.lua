@@ -1,5 +1,5 @@
 -- saves/Missions/campaign/mission9_lady_elaras_sacrifice.lua
--- Stronghold 2027 - Campaign Mission 9: Lady Elara's Sacrifice
+-- Castle Kingdoms 2027 - Campaign Mission 9: Lady Elara's Sacrifice
 --
 -- Ninth mission of "The Lord of Fernhaven" campaign.
 -- The most emotional mission - rescue the captive Lady Elara.

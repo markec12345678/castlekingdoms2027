@@ -1,5 +1,5 @@
 -- objects/AI/EconomyAI.lua
--- Stronghold 2027 - AI Economy Manager
+-- Castle Kingdoms 2027 - AI Economy Manager
 --
 -- Handles economic decisions for AI factions:
 -- - Resource gathering priorities
@@ -116,7 +116,7 @@ end
 
 -- Get current resources for a faction
 function EconomyAI:getResources(faction)
-    -- Stronghold 2027 v2.3.2: Query real game state when available
+    -- Castle Kingdoms 2027 v2.3.2: Query real game state when available
     if faction == 1 and _G.state and _G.state.resources then
         local r = _G.state.resources
         return {
@@ -218,7 +218,7 @@ function EconomyAI:manageWorkers(faction, state)
         end
     end
 
-    -- Stronghold 2027 v2.3.7: Actually assign workers to buildings
+    -- Castle Kingdoms 2027 v2.3.7: Actually assign workers to buildings
     if not _G.state or not _G.state.gameObjectList then return end
     local buildingType = nil
     if needed == "wood" then buildingType = "WoodcutterHut"
@@ -276,7 +276,7 @@ end
 function EconomyAI:sellResource(faction, resource, amount)
     local state = self.factionStates[faction]
     if not state then return end
-    -- Stronghold 2027 v2.3.7: Actually deduct resource and add gold
+    -- Castle Kingdoms 2027 v2.3.7: Actually deduct resource and add gold
     local resources = self:getResources(faction)
     local available = resources[resource] or 0
     if available < amount then return end  -- not enough to sell
@@ -313,7 +313,7 @@ end
 function EconomyAI:buyResource(faction, resource, amount)
     local state = self.factionStates[faction]
     if not state then return end
-    -- Stronghold 2027 v2.3.7: Actually deduct gold and add resource
+    -- Castle Kingdoms 2027 v2.3.7: Actually deduct gold and add resource
     local resources = self:getResources(faction)
     local availableGold = resources.gold or 0
     -- Get buy price from DynamicMarket

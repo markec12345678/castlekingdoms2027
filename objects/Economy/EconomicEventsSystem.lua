@@ -1,5 +1,5 @@
 -- objects/Economy/EconomicEventsSystem.lua
--- Stronghold 2027 - Random Economic Events
+-- Castle Kingdoms 2027 - Random Economic Events
 --
 -- Triggers random events that affect gameplay:
 -- - Blight: -50% crop yield for 60s
@@ -164,7 +164,7 @@ local EVENTS = {
         },
         type = "positive",
     },
-    -- Stronghold 2027 v2.5.5: 5 new economic events
+    -- Castle Kingdoms 2027 v2.5.5: 5 new economic events
     iron_discovery = {
         name = "Iron Discovery",
         nameSlv = "Odkritje železa",

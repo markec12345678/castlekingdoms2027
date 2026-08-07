@@ -1,5 +1,5 @@
 -- states/ui/multiplayer/chat.lua
--- Stronghold 2027 - In-Game Chat System
+-- Castle Kingdoms 2027 - In-Game Chat System
 --
 -- Shows a chat overlay during multiplayer games.
 -- Press Enter to open chat, type message, Enter to send.

@@ -1,5 +1,5 @@
 -- objects/AI/AIStrategyController.lua
--- Stronghold 2027 - High-level AI Strategy
+-- Castle Kingdoms 2027 - High-level AI Strategy
 --
 -- Controls overall strategy for AI opponents:
 -- - Decides when to gather, build, expand, attack, defend
@@ -73,7 +73,7 @@ local PERSONALITIES = {
         preferredBuildings = {"Market", "Stockpile", "Granary", "Bakery", "Brewery"},
         resourceStockpileTarget = 2000,
     },
-    -- Stronghold 2027 v2.5.2: 4 new specialized personalities
+    -- Castle Kingdoms 2027 v2.5.2: 4 new specialized personalities
     siege_master = {
         name = "Siege Master",
         economyFocus = 0.4,
@@ -130,7 +130,7 @@ local PERSONALITIES = {
 
 -- Difficulty levels
 local DIFFICULTIES = {
-    -- Stronghold 2027 v2.5.2: Added story and legendary difficulties
+    -- Castle Kingdoms 2027 v2.5.2: Added story and legendary difficulties
     story = {
         decisionInterval = 6.0,    -- very slow thinking
         resourceEfficiency = 0.4,  -- wastes 60% of resources
@@ -247,7 +247,7 @@ function AIStrategyController:updateFaction(faction, state, dt)
     -- Apply cheat bonus (resource generation)
     if state.difficulty.cheatBonus > 0 then
         local bonus = state.difficulty.cheatBonus
-        -- Stronghold 2027 v2.3.4: Apply seasonal modifiers to cheat bonus too
+        -- Castle Kingdoms 2027 v2.3.4: Apply seasonal modifiers to cheat bonus too
         local SeasonalSystem = _G.SeasonalSystem
         local woodMod = (SeasonalSystem and SeasonalSystem.getProductionModifier("wood")) or 1.0
         local stoneMod = (SeasonalSystem and SeasonalSystem.getProductionModifier("stone")) or 1.0
@@ -318,7 +318,7 @@ function AIStrategyController:evaluateStrategicState(faction, state)
                 if math.random() < state.personality.attackChancePerMin then
                     state.state = STRATEGY_STATES.ATTACKING
                     state.lastAttack = love.timer.getTime()
-                    -- Stronghold 2027: Trigger AI dialogue on attack
+                    -- Castle Kingdoms 2027: Trigger AI dialogue on attack
                     if _G.AIDialogue then
                         _G.AIDialogue.trigger(state.playerId or 2, state.personalityName or "balanced", "attacking")
                     end
@@ -506,19 +506,19 @@ end
 function AIStrategyController:gatherResources(faction, state)
     -- Simulate resource gathering (in real game, workers would do this)
     local efficiency = state.difficulty.resourceEfficiency
-    -- Stronghold 2027 v2.3.4: Apply seasonal production modifiers
+    -- Castle Kingdoms 2027 v2.3.4: Apply seasonal production modifiers
     local SeasonalSystem = _G.SeasonalSystem
     local woodMod = (SeasonalSystem and SeasonalSystem.getProductionModifier("wood")) or 1.0
     local stoneMod = (SeasonalSystem and SeasonalSystem.getProductionModifier("stone")) or 1.0
     local foodMod = (SeasonalSystem and SeasonalSystem.getProductionModifier("food")) or 1.0
-    -- Stronghold 2027 v2.3.5: Apply economic event modifiers (blight, bumper harvest, etc.)
+    -- Castle Kingdoms 2027 v2.3.5: Apply economic event modifiers (blight, bumper harvest, etc.)
     local EconomicEvents = _G.EconomicEvents
     if EconomicEvents then
         woodMod = woodMod * ((EconomicEvents.getProductionModifier and EconomicEvents.getProductionModifier("wood")) or 1.0)
         stoneMod = stoneMod * ((EconomicEvents.getProductionModifier and EconomicEvents.getProductionModifier("stone")) or 1.0)
         foodMod = foodMod * ((EconomicEvents.getProductionModifier and EconomicEvents.getProductionModifier("food")) or 1.0)
     end
-    -- Stronghold 2027 v2.3.7: Apply weather farm multiplier to food
+    -- Castle Kingdoms 2027 v2.3.7: Apply weather farm multiplier to food
     local WeatherGameplay = _G.WeatherGameplay
     if WeatherGameplay and WeatherGameplay.getFarmMultiplier then
         foodMod = foodMod * (WeatherGameplay.getFarmMultiplier() or 1.0)
@@ -624,7 +624,7 @@ function AIStrategyController:findEnemyThreats(faction, state)
 end
 
 function AIStrategyController:orderAttack(faction, state, targetGx, targetGy)
-    -- Stronghold 2027 v2.3.6: Actually issue attack orders to military units
+    -- Castle Kingdoms 2027 v2.3.6: Actually issue attack orders to military units
     if not _G.state or not _G.state.gameObjectList then return end
     local ordered = 0
     for _, unit in ipairs(_G.state.gameObjectList) do
@@ -646,7 +646,7 @@ function AIStrategyController:orderAttack(faction, state, targetGx, targetGy)
 end
 
 function AIStrategyController:orderDefend(faction, state, threatGx, threatGy)
-    -- Stronghold 2027 v2.3.6: Send nearby military units to defend
+    -- Castle Kingdoms 2027 v2.3.6: Send nearby military units to defend
     if not _G.state or not _G.state.gameObjectList then return end
     local ordered = 0
     for _, unit in ipairs(_G.state.gameObjectList) do
@@ -665,7 +665,7 @@ function AIStrategyController:orderDefend(faction, state, threatGx, threatGy)
 end
 
 function AIStrategyController:orderRetreat(faction, state, baseGx, baseGy)
-    -- Stronghold 2027 v2.3.6: Order all military units to retreat to base
+    -- Castle Kingdoms 2027 v2.3.6: Order all military units to retreat to base
     if not _G.state or not _G.state.gameObjectList then return end
     local ordered = 0
     for _, unit in ipairs(_G.state.gameObjectList) do

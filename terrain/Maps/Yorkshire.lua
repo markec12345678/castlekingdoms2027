@@ -1,5 +1,5 @@
 -- terrain/Maps/Yorkshire.lua
--- Stronghold 2027 - Map: Yorkshire (1069)
+-- Castle Kingdoms 2027 - Map: Yorkshire (1069)
 -- Devastated northern England during the Harrying of the North.
 
 local Map = {}

@@ -1,5 +1,5 @@
 -- saves/Missions/campaign/mission2_first_defenders.lua
--- Stronghold 2027 - Campaign Mission 2: First Defenders
+-- Castle Kingdoms 2027 - Campaign Mission 2: First Defenders
 --
 -- Second mission of "The Lord of Fernhaven" campaign.
 -- Introduces military recruitment and defense.

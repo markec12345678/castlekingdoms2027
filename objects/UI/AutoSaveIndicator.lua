@@ -1,5 +1,5 @@
 -- objects/UI/AutoSaveIndicator.lua
--- Stronghold 2027 - Auto-Save Indicator
+-- Castle Kingdoms 2027 - Auto-Save Indicator
 -- Visual feedback when auto-saving
 
 local AutoSaveIndicator = {}

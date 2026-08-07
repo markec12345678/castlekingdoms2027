@@ -1,5 +1,5 @@
 -- objects/Audio/AudioMixSystem.lua
--- Stronghold 2027 - Audio Mix System
+-- Castle Kingdoms 2027 - Audio Mix System
 --
 -- Centralized audio management:
 -- - Master/SFX/Music/Speech volume control

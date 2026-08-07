@@ -1,7 +1,7 @@
 -- objects/Config/KenneySpriteRenderer.lua
--- Stronghold 2027 - Kenney CC0 Sprite Renderer
+-- Castle Kingdoms 2027 - Kenney CC0 Sprite Renderer
 --
--- Hooks into the existing rendering pipeline to replace Firefly sprites
+-- Hooks into the existing rendering pipeline to replace Original RTS sprites
 -- with Kenney CC0 sprites when useKenneyAssets is enabled.
 --
 -- This module provides drop-in replacement functions for:

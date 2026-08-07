@@ -1,5 +1,5 @@
 -- objects/Gameplay/DynamicUnitCap.lua
--- Stronghold 2027 - Dynamic Unit Cap
+-- Castle Kingdoms 2027 - Dynamic Unit Cap
 -- Adjusts max unit count based on hardware performance
 
 local DynamicUnitCap = {}

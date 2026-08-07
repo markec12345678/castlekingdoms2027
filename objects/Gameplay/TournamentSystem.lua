@@ -1,5 +1,5 @@
 -- objects/Gameplay/TournamentSystem.lua
--- Stronghold 2027 v2.8.0 - Tournament System
+-- Castle Kingdoms 2027 v2.8.0 - Tournament System
 --
 -- Periodic tournaments that players can participate in for rewards and prestige.
 -- Tournaments occur every game year (4 seasons) and last 5 minutes.

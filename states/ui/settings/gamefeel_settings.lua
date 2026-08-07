@@ -1,5 +1,5 @@
 -- states/ui/settings/gamefeel_settings.lua
--- Stronghold 2027 - Full Settings Panel
+-- Castle Kingdoms 2027 - Full Settings Panel
 --
 -- Comprehensive settings with:
 -- - 3 tabs: Game Feel, Audio, Graphics
@@ -158,7 +158,7 @@ local SETTING_DEFS = {
     },
     useKenneyAssets = {
         label = "CC0 Asseti (Kenney)",
-        tooltip = "Uporabi CC0 (public domain) Kenney assete namesto originalnih. Popolna neodvisnost od Firefly Studios. Brez atribucije, komercialno brezplačno.",
+        tooltip = "Uporabi CC0 (public domain) Kenney assete namesto originalnih. Popolna neodvisnost od Stone Kingdoms community. Brez atribucije, komercialno brezplačno.",
         tab = "graphics",
         type = "toggle",
     },

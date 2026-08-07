@@ -1,5 +1,5 @@
 -- objects/UI/ModernUISystem.lua
--- Stronghold 2027 - Modern UI System
+-- Castle Kingdoms 2027 - Modern UI System
 --
 -- Enhances the existing loveframes UI with:
 -- - Animated tooltips (smooth fade-in)

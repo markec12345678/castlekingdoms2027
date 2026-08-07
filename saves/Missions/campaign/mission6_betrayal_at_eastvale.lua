@@ -1,5 +1,5 @@
 -- saves/Missions/campaign/mission6_betrayal_at_eastvale.lua
--- Stronghold 2027 - Campaign Mission 6: Betrayal at Eastvale
+-- Castle Kingdoms 2027 - Campaign Mission 6: Betrayal at Eastvale
 --
 -- Sixth mission of "The Lord of Fernhaven" campaign.
 -- Opening of the second act - political drama and betrayal.

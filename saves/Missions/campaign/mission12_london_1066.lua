@@ -1,5 +1,5 @@
 -- saves/Missions/campaign/mission12_london_1066.lua
--- Stronghold 2027 - Historical Campaign Mission 12: Coronation in London (December 1066)
+-- Castle Kingdoms 2027 - Historical Campaign Mission 12: Coronation in London (December 1066)
 --
 -- Historical: Christmas Day 1066 — William is crowned King of England at Westminster Abbey.
 -- Player must secure London and prepare for coronation.

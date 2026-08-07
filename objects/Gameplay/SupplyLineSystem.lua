@@ -1,5 +1,5 @@
 -- objects/Gameplay/SupplyLineSystem.lua
--- Stronghold 2027 v2.7.5 - Supply Line Manager
+-- Castle Kingdoms 2027 v2.7.5 - Supply Line Manager
 --
 -- Manages supply lines between buildings and military units.
 -- Units far from supply sources suffer penalties; cutting supply lines is a valid strategy.

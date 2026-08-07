@@ -1,5 +1,5 @@
 -- objects/Audio/SFXLibrary.lua
--- Stronghold 2027 - SFX Library
+-- Castle Kingdoms 2027 - SFX Library
 --
 -- Organized sound effects library with categories:
 -- - Combat (sword hits, arrow shots, death sounds)
@@ -50,7 +50,7 @@ local CATEGORY_MAP = {
         water        = { "streamlp_02" },
         fire         = { "fire_loop" },
     },
-    -- Stronghold 2027 v2.5.8: New SFX categories
+    -- Castle Kingdoms 2027 v2.5.8: New SFX categories
     siege = {
         catapult_fire    = { "catapult_fire_01", "catapult_fire_02" },
         trebuchet_fire   = { "trebuchet_fire_01" },

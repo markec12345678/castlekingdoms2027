@@ -1,5 +1,5 @@
 -- states/ui/multiplayer/diplomacy_panel.lua
--- Stronghold 2027 - Diplomacy & Trade Panel
+-- Castle Kingdoms 2027 - Diplomacy & Trade Panel
 --
 -- Shows diplomatic relationships and trade interface.
 -- Press F9 to open/close.
@@ -40,7 +40,7 @@ function DiplomacyPanel.init()
     local panelY = (h - panelH) / 2
 
     panel = loveframes.Create("frame")
-    panel:SetName("Diplomacy & Trade - Stronghold 2027")
+    panel:SetName("Diplomacy & Trade - Castle Kingdoms 2027")
     panel:SetSize(panelW, panelH)
     panel:SetPos(panelX, panelY)
     panel:SetState(states.STATE_INGAME_CONSTRUCTION)

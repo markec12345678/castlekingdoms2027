@@ -1,5 +1,5 @@
 -- objects/QA/ReplaySystem.lua
--- Stronghold 2027 - Replay System
+-- Castle Kingdoms 2027 - Replay System
 --
 -- Records game inputs and state snapshots for playback.
 -- Useful for:

@@ -1,5 +1,5 @@
 -- objects/Config/PopulationSystem.lua
--- Stronghold 2027 v2.6.5 - Population & Happiness System
+-- Castle Kingdoms 2027 v2.6.5 - Population & Happiness System
 --
 -- Manages population growth, happiness, and taxation effects.
 -- Population grows based on housing capacity and food availability.

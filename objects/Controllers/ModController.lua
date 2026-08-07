@@ -1,5 +1,5 @@
 -- objects/Controllers/ModController.lua
--- Stronghold 2027 - Modding API
+-- Castle Kingdoms 2027 - Modding API
 --
 -- Loads and manages user-created mods from the mods/ directory.
 -- Mods can extend gameplay, add buildings, units, or modify existing behavior.

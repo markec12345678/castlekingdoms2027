@@ -1,5 +1,5 @@
 -- objects/Controllers/ProjectileController.lua
--- Stronghold 2027 - Projectile System
+-- Castle Kingdoms 2027 - Projectile System
 --
 -- Manages all projectiles (arrows, bolts, catapult rocks, etc.)
 -- Separates projectile logic from main CombatController for performance

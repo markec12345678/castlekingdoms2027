@@ -1,5 +1,5 @@
 -- objects/QA/CommunityFeedbackSystem.lua
--- Stronghold 2027 - Community Feedback System
+-- Castle Kingdoms 2027 - Community Feedback System
 -- Bug reports, suggestions, crash reports
 
 local CommunityFeedback = {}
@@ -116,7 +116,7 @@ end
 function CommunityFeedback._formatReport(report)
     local lines = {}
     table.insert(lines, "========================================")
-    table.insert(lines, "Stronghold 2027 - " .. (report.type or "feedback"):upper() .. " REPORT")
+    table.insert(lines, "Castle Kingdoms 2027 - " .. (report.type or "feedback"):upper() .. " REPORT")
     table.insert(lines, "========================================")
     table.insert(lines, "")
     table.insert(lines, "Timestamp: " .. report.timeStr)

@@ -1,5 +1,5 @@
 -- objects/QA/GameAnalyticsDashboard.lua
--- Stronghold 2027 v2.7.7 - Game Analytics Dashboard
+-- Castle Kingdoms 2027 v2.7.7 - Game Analytics Dashboard
 --
 -- Real-time analytics dashboard tracking all game metrics.
 -- Provides comprehensive statistics for players and developers.

@@ -1,5 +1,5 @@
 -- objects/Combat/ArmyCommandSystem.lua
--- Stronghold 2027 v2.6.9 - Army Command System
+-- Castle Kingdoms 2027 v2.6.9 - Army Command System
 --
 -- Manages army groups, their composition, and strategic orders.
 -- Allows players to organize units into named armies with persistent orders.

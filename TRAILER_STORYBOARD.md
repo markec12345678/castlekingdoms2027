@@ -1,4 +1,4 @@
-# Stronghold 2027 — Trailer Storyboard
+# Castle Kingdoms 2027 — Trailer Storyboard
 
 ## Trailer Duration: 60 seconds
 

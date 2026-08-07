@@ -1,5 +1,5 @@
 -- objects/Controllers/BuildingManagerSystem.lua
--- Stronghold 2027 v2.7.3 - Building Manager System
+-- Castle Kingdoms 2027 v2.7.3 - Building Manager System
 --
 -- Centralized building management with categorization, statistics, and optimization.
 -- Tracks all player buildings, provides filtering, and calculates bonuses.
@@ -58,7 +58,7 @@ local CATEGORIES = {
     },
     keep = {
         name = "Grad",
-        buildings = {"WoodenKeep", "Keep", "Fortress", "Stronghold", "SaxonHall"},
+        buildings = {"WoodenKeep", "Keep", "Fortress", "Castle Kingdoms", "SaxonHall"},
     },
 }
 

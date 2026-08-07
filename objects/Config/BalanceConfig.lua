@@ -1,5 +1,5 @@
 -- objects/Config/BalanceConfig.lua
--- Stronghold 2027 - Balance Configuration
+-- Castle Kingdoms 2027 - Balance Configuration
 --
 -- Centralized balance values for easy tuning.
 -- All gameplay numbers should reference this file.
@@ -45,7 +45,7 @@ BalanceConfig.combat = {
         Knight       = { health = 180, damage = 30, armor = 0.45, range = 1.5, cooldown = 1.6, cost = { gold = 150, iron = 20 } },
         Lord         = { health = 500, damage = 50, armor = 0.60, range = 1.5, cooldown = 1.5, cost = { gold = 0                } },
         Peasant      = { health = 30,  damage = 5,  armor = 0.00, range = 1.5, cooldown = 2.0, cost = { gold = 0,   food = 1  } },
-        -- Stronghold 2027 v2.5.4: 4 new Norman-era units
+        -- Castle Kingdoms 2027 v2.5.4: 4 new Norman-era units
         Huscarl      = { health = 150, damage = 28, armor = 0.40, range = 1.5, cooldown = 1.4, cost = { gold = 120, iron = 15 } },
         Longbowman   = { health = 55,  damage = 18, armor = 0.05, range = 11,  cooldown = 0.9, cost = { gold = 70,  wood = 8  } },
         NormanKnight = { health = 220, damage = 35, armor = 0.55, range = 1.5, cooldown = 1.7, cost = { gold = 200, iron = 25 } },
@@ -145,7 +145,7 @@ BalanceConfig.buildings = {
     BigResidence    = { wood = 60,  stone = 30,  gold = 0,   buildTime = 30, capacity = 16 },
     Catapult        = { wood = 50,  stone = 20,  gold = 100, buildTime = 60 },
     Trebuchet       = { wood = 80,  stone = 40,  gold = 200, buildTime = 90 },
-    -- Stronghold 2027 v2.5.4: 3 new Norman-era buildings
+    -- Castle Kingdoms 2027 v2.5.4: 3 new Norman-era buildings
     TournamentArena = { wood = 40,  stone = 30,  gold = 100, buildTime = 40 },  -- Boosts unit veterancy
     Shrine          = { wood = 20,  stone = 40,  gold = 50,  buildTime = 35 },  -- Boosts popularity
     WatchTower      = { wood = 10,  stone = 30,  gold = 0,   buildTime = 20 },  -- Extended vision range

@@ -1,5 +1,5 @@
 -- terrain/Maps/London.lua
--- Stronghold 2027 - Map: London (1066)
+-- Castle Kingdoms 2027 - Map: London (1066)
 -- Medieval London with the Thames river. Site of William's coronation.
 
 local Map = {}

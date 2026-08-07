@@ -1,5 +1,5 @@
 -- saves/Missions/campaign/mission1_return_to_fernhaven.lua
--- Stronghold 2027 - Campaign Mission 1: Return to Fernhaven
+-- Castle Kingdoms 2027 - Campaign Mission 1: Return to Fernhaven
 --
 -- First mission of "The Lord of Fernhaven" campaign.
 -- Tutorial mission - teach basic economy.

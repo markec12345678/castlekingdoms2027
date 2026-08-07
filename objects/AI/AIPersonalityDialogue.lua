@@ -1,5 +1,5 @@
 -- objects/AI/AIPersonalityDialogue.lua
--- Stronghold 2027 - AI Personality Dialogue
+-- Castle Kingdoms 2027 - AI Personality Dialogue
 -- AI opponents send taunts, greetings, and threats based on personality
 
 local AIDialogue = {}
@@ -150,7 +150,7 @@ local DIALOGUES = {
             "Skupaj bomo bogati! Zavezništvo sklenjeno!",
         },
     },
-    -- Stronghold 2027 v2.5.2: 4 new personality dialogues
+    -- Castle Kingdoms 2027 v2.5.2: 4 new personality dialogues
     siege_master = {
         greeting = {
             "Moji oblegovalni stroji so pripravljeni!",

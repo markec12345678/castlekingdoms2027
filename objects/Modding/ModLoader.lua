@@ -1,5 +1,5 @@
 -- objects/Modding/ModLoader.lua
--- Stronghold 2027 - Mod Loader
+-- Castle Kingdoms 2027 - Mod Loader
 --
 -- Loads mods from the /mods directory. Each mod has a manifest.lua file
 -- that declares its metadata and entry points.
@@ -344,7 +344,7 @@ function ModLoader.createSampleMod()
     local manifest = [[return {
     name = "Sample Mod",
     version = "1.0.0",
-    author = "Stronghold 2027 Team",
+    author = "Castle Kingdoms 2027 Team",
     description = "A sample mod demonstrating the modding API.",
     entryPoint = "init",
 }
@@ -356,7 +356,7 @@ function ModLoader.createSampleMod()
 
     -- Write init.lua
     local init = [[-- Sample Mod - Entry Point
--- This mod demonstrates the Stronghold 2027 modding API.
+-- This mod demonstrates the Castle Kingdoms 2027 modding API.
 
 local ModAPI = {}
 
@@ -376,7 +376,7 @@ return ModAPI
     print("[ModLoader] Created sample mod in mods/sample_mod/")
 end
 
--- Stronghold 2027 v2.5.3: Get mod info without loading
+-- Castle Kingdoms 2027 v2.5.3: Get mod info without loading
 function ModLoader.getModInfo(modId)
     local manifest = ModLoader.loadManifest(modId)
     if not manifest then return nil end
@@ -391,7 +391,7 @@ function ModLoader.getModInfo(modId)
     }
 end
 
--- Stronghold 2027 v2.5.3: List all available mods (loaded or not)
+-- Castle Kingdoms 2027 v2.5.3: List all available mods (loaded or not)
 function ModLoader.listAvailableMods()
     local available = ModLoader.scanMods()
     local result = {}
@@ -401,7 +401,7 @@ function ModLoader.listAvailableMods()
     return result
 end
 
--- Stronghold 2027 v2.5.3: Validate mod manifest
+-- Castle Kingdoms 2027 v2.5.3: Validate mod manifest
 function ModLoader.validateManifest(manifest)
     if type(manifest) ~= "table" then return false, "Manifest is not a table" end
     if not manifest.name then return false, "Missing required field: name" end
@@ -413,7 +413,7 @@ function ModLoader.validateManifest(manifest)
     return true
 end
 
--- Stronghold 2027 v2.5.3: Export mod list as JSON-compatible table
+-- Castle Kingdoms 2027 v2.5.3: Export mod list as JSON-compatible table
 function ModLoader.exportModList()
     local list = ModLoader.listAvailableMods()
     local export = {

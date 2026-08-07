@@ -1,5 +1,5 @@
 -- objects/QA/FinalReleasePrep.lua
--- Stronghold 2027 - Final Release Preparation
+-- Castle Kingdoms 2027 - Final Release Preparation
 -- v2.0.0 release checklist and verification
 
 local FinalReleasePrep = {}
@@ -156,7 +156,7 @@ end
 function FinalReleasePrep.generateReleaseSummary()
     local summary = {}
 
-    table.insert(summary, "# Stronghold 2027 - v2.0.0 Release Summary")
+    table.insert(summary, "# Castle Kingdoms 2027 - v2.0.0 Release Summary")
     table.insert(summary, "")
     table.insert(summary, "Datum: " .. os.date("%Y-%m-%d %H:%M"))
     table.insert(summary, "")

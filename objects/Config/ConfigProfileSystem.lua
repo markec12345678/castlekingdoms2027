@@ -1,5 +1,5 @@
 -- objects/Config/ConfigProfileSystem.lua
--- Stronghold 2027 - Config Profile System
+-- Castle Kingdoms 2027 - Config Profile System
 -- Preset graphics profiles for different hardware
 
 local ConfigProfiles = {}

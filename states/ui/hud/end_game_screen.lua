@@ -1,5 +1,5 @@
 -- states/ui/hud/end_game_screen.lua
--- Stronghold 2027 - End Game Screen
+-- Castle Kingdoms 2027 - End Game Screen
 -- Victory/defeat screen with game statistics summary
 
 local loveframes = require("libraries.loveframes")

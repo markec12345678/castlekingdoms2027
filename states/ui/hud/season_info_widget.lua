@@ -1,5 +1,5 @@
 -- states/ui/hud/season_info_widget.lua
--- Stronghold 2027 - Season Info HUD Widget
+-- Castle Kingdoms 2027 - Season Info HUD Widget
 --
 -- Small, elegant widget in screen corner showing:
 -- - Current season with icon

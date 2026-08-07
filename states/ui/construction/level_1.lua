@@ -68,7 +68,7 @@ local elements = {
 ---@return table|string
 local function getCostAndType(buildId, buildingDescription)
     local buildings = require("objects.buildings")
-    if buildId == "Stronghold" then
+    if buildId == "Castle Kingdoms" then
         return "Not supported yet"
     end
     local c = buildings[buildId].cost

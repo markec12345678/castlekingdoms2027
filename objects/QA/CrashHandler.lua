@@ -1,5 +1,5 @@
 -- objects/QA/CrashHandler.lua
--- Stronghold 2027 - Crash Handler & Error Recovery
+-- Castle Kingdoms 2027 - Crash Handler & Error Recovery
 --
 -- Catches runtime errors, logs them, and attempts recovery:
 -- - Wrap critical game loops in pcall
@@ -113,7 +113,7 @@ end
 function CrashHandler.writeLog()
     if #errorLog == 0 then return end
 
-    local logText = "Stronghold 2027 - Crash Log\n"
+    local logText = "Castle Kingdoms 2027 - Crash Log\n"
     logText = logText .. "Generated: " .. os.date("%Y-%m-%d %H:%M:%S") .. "\n"
     logText = logText .. "Total errors: " .. #errorLog .. "\n"
     logText = logText .. string.rep("=", 60) .. "\n\n"

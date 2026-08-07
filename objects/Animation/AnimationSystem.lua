@@ -1,5 +1,5 @@
 -- objects/Animation/AnimationSystem.lua
--- Stronghold 2027 - Animation State Machine
+-- Castle Kingdoms 2027 - Animation State Machine
 --
 -- Manages animations for all units with state machine:
 -- idle, walk, run, attack, death, hit, build, repair

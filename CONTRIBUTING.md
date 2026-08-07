@@ -1,6 +1,6 @@
-# Contributing to Stronghold 2027
+# Contributing to Castle Kingdoms 2027
 
-Hvala, da želite prispevati k Stronghold 2027! Tukaj je vodič za razvijalce.
+Hvala, da želite prispevati k Castle Kingdoms 2027! Tukaj je vodič za razvijalce.
 
 ## 🚀 Hitri začetek
 
@@ -14,8 +14,8 @@ Hvala, da želite prispevati k Stronghold 2027! Tukaj je vodič za razvijalce.
 
 ```bash
 # 1. Kloniraj repozitorij
-git clone https://github.com/markec12345678/stronghold2027.git
-cd stronghold2027
+git clone https://github.com/markec12345678/castlekingdoms2027.git
+cd castlekingdoms2027
 
 # 2. Namesti Git LFS
 git lfs install
@@ -141,7 +141,7 @@ V igri pošlji bug report prek debug konzole ali:
 2. Vtipkaj: `bug_report "Naslov" "Opis" "Koraki"`
 
 ### Ali na GitHubu
-1. Preveri, če napaka že obstaja v [Issues](https://github.com/markec12345678/stronghold2027/issues)
+1. Preveri, če napaka že obstaja v [Issues](https://github.com/markec12345678/castlekingdoms2027/issues)
 2. Ustvari nov Issue z:
    - Naslovom
    - Opisom
@@ -169,7 +169,7 @@ V igri pošlji bug report prek debug konzole ali:
 
 ### .love datoteka
 ```bash
-zip -r stronghold2027.love . -x ".git/*" "*.md"
+zip -r castlekingdoms2027.love . -x ".git/*" "*.md"
 ```
 
 ### Release
@@ -181,8 +181,8 @@ zip -r stronghold2027.love . -x ".git/*" "*.md"
 
 ## ❓ Vprašanja
 
-- [GitHub Issues](https://github.com/markec12345678/stronghold2027/issues)
-- [GitHub Discussions](https://github.com/markec12345678/stronghold2027/discussions)
+- [GitHub Issues](https://github.com/markec12345678/castlekingdoms2027/issues)
+- [GitHub Discussions](https://github.com/markec12345678/castlekingdoms2027/discussions)
 
 ---
 

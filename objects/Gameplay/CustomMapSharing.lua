@@ -1,5 +1,5 @@
 -- objects/Gameplay/CustomMapSharing.lua
--- Stronghold 2027 - Custom Map Sharing
+-- Castle Kingdoms 2027 - Custom Map Sharing
 -- Share custom maps between players via network
 
 local MapSharing = {}

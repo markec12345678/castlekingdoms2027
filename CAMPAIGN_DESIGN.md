@@ -1,4 +1,4 @@
-# Stronghold 2027 - Campaign Design
+# Castle Kingdoms 2027 - Campaign Design
 
 > Načrt kampanje z 10 misijami in povezovo zgodbo.
 

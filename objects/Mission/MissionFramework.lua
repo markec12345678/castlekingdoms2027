@@ -1,5 +1,5 @@
 -- objects/Mission/MissionFramework.lua
--- Stronghold 2027 - Mission Framework
+-- Castle Kingdoms 2027 - Mission Framework
 --
 -- Provides a framework for creating and managing campaign missions:
 -- - Objective tracking (build X, gather Y, survive Z minutes, etc.)
@@ -51,7 +51,7 @@ function MissionFramework.loadMission(missionKey)
     end
 
     currentMission = missionData
-    -- Stronghold 2027 v2.6.0: Track player unit losses for no_casualties achievement
+    -- Castle Kingdoms 2027 v2.6.0: Track player unit losses for no_casualties achievement
     currentMission._playerLosses = 0
     objectives = {}
     events = {}
@@ -292,7 +292,7 @@ end
 -- Give resources to player
 function MissionFramework.giveResources(resources)
     if not _G.state then return end
-    -- Stronghold 2027 v2.6.0: Actually add all resources to game state
+    -- Castle Kingdoms 2027 v2.6.0: Actually add all resources to game state
     if not _G.state.resources then _G.state.resources = {} end
     for resource, amount in pairs(resources) do
         if resource == "gold" then
@@ -306,7 +306,7 @@ end
 
 -- Get resource count
 function MissionFramework.getResourceCount(resource)
-    -- Stronghold 2027 v2.5.9: Actually query game state for resources
+    -- Castle Kingdoms 2027 v2.5.9: Actually query game state for resources
     if not _G.state then return 0 end
     if resource == "gold" then
         return _G.state.gold or 0
@@ -409,13 +409,13 @@ function MissionFramework.onMissionWon()
         MissionFramework.giveResources(currentMission.rewards)
     end
 
-    -- Stronghold 2027: Track campaign progress
+    -- Castle Kingdoms 2027: Track campaign progress
     local ok, CampaignProgress = pcall(require, "objects.Mission.CampaignProgress")
     if ok and CampaignProgress then
         CampaignProgress.completeMission(currentMission.key or "")
     end
 
-    -- Stronghold 2027 v2.3.8: Fire GameEventBus VICTORY for other systems
+    -- Castle Kingdoms 2027 v2.3.8: Fire GameEventBus VICTORY for other systems
     if _G.GameEventBus then
         pcall(function()
             _G.GameEventBus.emit(_G.GameEventBus.EVENTS.VICTORY, {
@@ -427,7 +427,7 @@ function MissionFramework.onMissionWon()
         end)
     end
 
-    -- Stronghold 2027: Show mission end screen
+    -- Castle Kingdoms 2027: Show mission end screen
     local ok, MissionEndScreen = pcall(require, "states.ui.hud.mission_end_screen")
     if ok and MissionEndScreen then
         local stats = {
@@ -439,16 +439,16 @@ function MissionFramework.onMissionWon()
     end
 end
 
--- Stronghold 2027 v2.3.8: Check if player had no casualties (for achievement)
+-- Castle Kingdoms 2027 v2.3.8: Check if player had no casualties (for achievement)
 function MissionFramework._checkNoCasualties()
-    -- Stronghold 2027 v2.6.0: Properly track player unit losses
+    -- Castle Kingdoms 2027 v2.6.0: Properly track player unit losses
     if currentMission and (currentMission._playerLosses or 0) == 0 then
         return true
     end
     return false
 end
 
--- Stronghold 2027 v2.6.0: Track player unit loss (call when a player unit dies)
+-- Castle Kingdoms 2027 v2.6.0: Track player unit loss (call when a player unit dies)
 function MissionFramework.reportPlayerLoss()
     if currentMission then
         currentMission._playerLosses = (currentMission._playerLosses or 0) + 1
@@ -465,7 +465,7 @@ function MissionFramework.onMissionLost()
     local ModernUI = require("objects.UI.ModernUISystem")
     ModernUI.notifyError("MISSION FAILED! " .. (currentMission.name or ""), 10)
 
-    -- Stronghold 2027 v2.3.8: Fire GameEventBus DEFEAT for other systems
+    -- Castle Kingdoms 2027 v2.3.8: Fire GameEventBus DEFEAT for other systems
     if _G.GameEventBus then
         pcall(function()
             _G.GameEventBus.emit(_G.GameEventBus.EVENTS.DEFEAT, {
@@ -476,7 +476,7 @@ function MissionFramework.onMissionLost()
         end)
     end
 
-    -- Stronghold 2027: Show mission end screen
+    -- Castle Kingdoms 2027: Show mission end screen
     local ok, MissionEndScreen = pcall(require, "states.ui.hud.mission_end_screen")
     if ok and MissionEndScreen then
         local stats = {

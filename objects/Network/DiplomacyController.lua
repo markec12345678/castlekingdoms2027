@@ -1,5 +1,5 @@
 -- objects/Network/DiplomacyController.lua
--- Stronghold 2027 - Diplomacy System
+-- Castle Kingdoms 2027 - Diplomacy System
 --
 -- Manages relationships between players in multiplayer games:
 -- - Alliances (mutual defense, shared vision)
@@ -206,7 +206,7 @@ function DiplomacyController.sendTribute(targetPlayerId, resources)
 
     print(string.format("[DiplomacyController] Tribute sent to player %d", targetPlayerId))
 
-    -- Stronghold 2027 v2.3.5: Tributes improve relations
+    -- Castle Kingdoms 2027 v2.3.5: Tributes improve relations
     -- Calculate relation improvement based on tribute value
     local tributeValue = 0
     for resourceType, amount in pairs(resources) do
@@ -249,7 +249,7 @@ function DiplomacyController.canTrade(targetPlayerId)
     return relation == RELATION.NEUTRAL or relation == RELATION.ALLIED or relation == RELATION.TRUCE
 end
 
--- Stronghold 2027 v2.3.4: Improve relations with a faction (trade bonus)
+-- Castle Kingdoms 2027 v2.3.4: Improve relations with a faction (trade bonus)
 -- @param targetPlayerId number Target faction/player ID
 -- @param amount number Relation improvement amount (default 5)
 function DiplomacyController.improveRelations(targetPlayerId, amount)

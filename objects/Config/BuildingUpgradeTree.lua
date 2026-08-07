@@ -1,5 +1,5 @@
 -- objects/Config/BuildingUpgradeTree.lua
--- Stronghold 2027 - Building Upgrade Tree
+-- Castle Kingdoms 2027 - Building Upgrade Tree
 -- Visual tech tree showing building progression and unlocks
 
 local UpgradeTree = {}
@@ -14,7 +14,7 @@ local UPGRADE_PATHS = {
             { building = "WoodenKeep",  tier = 1, cost = { gold = 0   }, unlocks = {"Barracks", "Stockpile", "Granary"} },
             { building = "Keep",         tier = 2, cost = { gold = 500 }, unlocks = {"StoneBarracks", "Market", "Armoury"} },
             { building = "Fortress",     tier = 3, cost = { gold = 1500 }, unlocks = {"EngineersGuild", "TunnelersGuild", "Stable"} },
-            { building = "Stronghold",   tier = 4, cost = { gold = 3000 }, unlocks = {"Cathedral", "BigResidence", "AllBuildings"} },
+            { building = "Castle Kingdoms",   tier = 4, cost = { gold = 3000 }, unlocks = {"Cathedral", "BigResidence", "AllBuildings"} },
         },
     },
     -- House progression
@@ -56,7 +56,7 @@ local UPGRADE_PATHS = {
             { building = "StoneWall",      tier = 2, cost = { stone = 10 } },
         },
     },
-    -- Stronghold 2027 v2.6.1: New upgrade paths
+    -- Castle Kingdoms 2027 v2.6.1: New upgrade paths
     -- Siege progression
     siege = {
         current = "EngineersGuild",

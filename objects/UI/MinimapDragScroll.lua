@@ -1,5 +1,5 @@
 -- objects/UI/MinimapDragScroll.lua
--- Stronghold 2027 - Minimap Drag Scroll
+-- Castle Kingdoms 2027 - Minimap Drag Scroll
 -- Drag on minimap to pan camera smoothly
 
 local MinimapDrag = {}

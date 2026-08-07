@@ -1,5 +1,5 @@
 -- objects/QA/ScreenshotManager.lua
--- Stronghold 2027 - Screenshot Manager
+-- Castle Kingdoms 2027 - Screenshot Manager
 -- Automated screenshot capture for marketing materials
 
 local ScreenshotManager = {}

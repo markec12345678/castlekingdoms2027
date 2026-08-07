@@ -1,5 +1,5 @@
 -- saves/Missions/campaign/mission16_robert_rebellion_1078.lua
--- Stronghold 2027 - Historical Campaign Mission 16: Robert's Rebellion (1078-1080)
+-- Castle Kingdoms 2027 - Historical Campaign Mission 16: Robert's Rebellion (1078-1080)
 --
 -- Historical: 1078-1080 — Robert Curthose, William's eldest son, rebels against his father.
 -- Family conflict with siege warfare.

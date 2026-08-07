@@ -1,5 +1,5 @@
 -- saves/Missions/campaign/mission10_the_throne_of_valdemar.lua
--- Stronghold 2027 - Campaign Mission 10: The Throne of Valdemar
+-- Castle Kingdoms 2027 - Campaign Mission 10: The Throne of Valdemar
 --
 -- FINAL MISSION of "The Lord of Fernhaven" campaign.
 -- The grand finale - assault on the capital city with 6 phases.
@@ -437,7 +437,7 @@ local mission = {
             name = "credits_notification",
             type = "notification",
             triggerTime = 0,
-            message = "Stronghold 2027 - The Lord of Fernhaven. Zahvale: Firefly Studios, Stone Kingdoms, LÖVE",
+            message = "Castle Kingdoms 2027 - The Lord of Fernhaven. Zahvale: Stone Kingdoms community, Stone Kingdoms, LÖVE",
             notifType = "info",
             duration = 20,
         },

@@ -1,5 +1,5 @@
 -- objects/Performance/AITickOptimizer.lua
--- Stronghold 2027 - AI Tick Frequency Optimizer
+-- Castle Kingdoms 2027 - AI Tick Frequency Optimizer
 --
 -- Instead of all AI thinking every frame, AI is split into tick frequencies:
 --

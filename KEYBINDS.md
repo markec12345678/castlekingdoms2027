@@ -1,4 +1,4 @@
-# Stronghold 2027 — Keybind Reference
+# Castle Kingdoms 2027 — Keybind Reference
 
 Complete list of all keyboard shortcuts (v2.3.1).
 

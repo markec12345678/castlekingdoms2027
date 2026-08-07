@@ -1,5 +1,5 @@
 -- saves/Missions/campaign/mission5_the_bandit_king.lua
--- Stronghold 2027 - Campaign Mission 5: The Bandit King
+-- Castle Kingdoms 2027 - Campaign Mission 5: The Bandit King
 --
 -- Fifth mission of "The Lord of Fernhaven" campaign.
 -- Culmination of the first half - major battle with siege weapons.

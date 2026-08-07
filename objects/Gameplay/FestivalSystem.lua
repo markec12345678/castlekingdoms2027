@@ -1,5 +1,5 @@
 -- objects/Gameplay/FestivalSystem.lua
--- Stronghold 2027 - Festivals boost morale
+-- Castle Kingdoms 2027 - Festivals boost morale
 
 local FestivalSystem = {}
 
@@ -9,7 +9,7 @@ local FESTIVAL_TYPES = {
     maypole = { name="Plesi", desc="Tradicionalni plesi povechujejo srecho.", dur=60, popBoost=8, cost={gold=50, wood=20} },
     fair = { name="Sejem", desc="Trgovski sejem povechuje prihodke.", dur=150, popBoost=5, cost={gold=100} },
     religious = { name="Verski praznik", desc="Verski praznik povechuje popularnost.", dur=120, popBoost=12, cost={gold=100, food=30} },
-    -- Stronghold 2027 v2.5.6: 3 new festivals
+    -- Castle Kingdoms 2027 v2.5.6: 3 new festivals
     harvest = { name="Praznik letine", desc="Praznik letine povečuje pridelke in moralo.", dur=100, popBoost=10, cost={gold=80, food=40}, productionBoost={food=1.5} },
     joust = { name="Tournamentska igra", desc="Velika viteška turnirska igra povečuje popularnost.", dur=180, popBoost=20, cost={gold=300, wood=50} },
     coronation = { name="Kronanje", desc="Kraljevo kronanje povečuje popularnost vseh subjektov.", dur=300, popBoost=35, cost={gold=500, stone=100, food=100} },

@@ -1,5 +1,5 @@
 -- saves/Missions/campaign/mission11_hastings_1066.lua
--- Stronghold 2027 - Historical Campaign Mission 11: Battle of Hastings (1066)
+-- Castle Kingdoms 2027 - Historical Campaign Mission 11: Battle of Hastings (1066)
 --
 -- Historical: October 14, 1066 — William the Conqueror defeats King Harold II.
 -- This is the decisive battle that began the Norman conquest of England.

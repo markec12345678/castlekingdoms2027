@@ -1,5 +1,5 @@
 -- objects/QA/DebugConsoleSystem.lua
--- Stronghold 2027 - Debug Console
+-- Castle Kingdoms 2027 - Debug Console
 -- In-game console for development commands
 
 local DebugConsole = {}

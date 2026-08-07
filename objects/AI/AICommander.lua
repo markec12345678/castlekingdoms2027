@@ -1,5 +1,5 @@
 -- objects/AI/AICommander.lua
--- Stronghold 2027 - AI Execution Layer
+-- Castle Kingdoms 2027 - AI Execution Layer
 --
 -- Executes decisions from AIStrategyController, EconomyAI, MilitaryAI:
 -- - Places buildings at valid locations

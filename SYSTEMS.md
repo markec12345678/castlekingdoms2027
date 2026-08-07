@@ -1,4 +1,4 @@
-# Stronghold 2027 — Systems Reference
+# Castle Kingdoms 2027 — Systems Reference
 
 Popoln seznam vseh sistemov v igri z njihovimi datotekami in funkcijami.
 

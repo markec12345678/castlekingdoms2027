@@ -1,5 +1,5 @@
 -- objects/AI/AIIntegration.lua
--- Stronghold 2027 - AI System Integration
+-- Castle Kingdoms 2027 - AI System Integration
 --
 -- Coordinates all AI subsystems:
 -- - AIStrategyController (high-level decisions)
@@ -89,7 +89,7 @@ function AIIntegration.update(dt)
         MilitaryAI:update(faction, dt)
         AICommander:update(faction, dt)
 
-        -- Stronghold 2027: AI behavior enhancements
+        -- Castle Kingdoms 2027: AI behavior enhancements
         AIEnhancements.update(faction, state, dt)
 
         -- Execute pending build orders

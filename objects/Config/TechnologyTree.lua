@@ -1,5 +1,5 @@
 -- objects/Config/TechnologyTree.lua
--- Stronghold 2027 v2.6.4 - Technology Tree System
+-- Castle Kingdoms 2027 v2.6.4 - Technology Tree System
 --
 -- Research technologies to unlock new units, buildings, and bonuses.
 -- Technologies require gold and research time to unlock.

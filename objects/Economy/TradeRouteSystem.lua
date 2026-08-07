@@ -1,5 +1,5 @@
 -- objects/Economy/TradeRouteSystem.lua
--- Stronghold 2027 v2.7.0 - Trade Route Manager
+-- Castle Kingdoms 2027 v2.7.0 - Trade Route Manager
 --
 -- Persistent trade routes between player and AI factions.
 -- Routes automatically generate income over time.

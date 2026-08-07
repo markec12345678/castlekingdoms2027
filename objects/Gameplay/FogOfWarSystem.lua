@@ -1,5 +1,5 @@
 -- objects/Gameplay/FogOfWarSystem.lua
--- Stronghold 2027 - Fog of War
+-- Castle Kingdoms 2027 - Fog of War
 
 local FogOfWar = {}
 local TILE_HIDDEN = 0

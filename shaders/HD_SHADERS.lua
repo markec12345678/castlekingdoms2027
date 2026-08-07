@@ -1,5 +1,5 @@
 -- shaders/HD_SHADERS.lua
--- Stronghold 2027 - HD Shader Manager
+-- Castle Kingdoms 2027 - HD Shader Manager
 -- Loads and manages modern post-processing shaders
 --
 -- Usage:

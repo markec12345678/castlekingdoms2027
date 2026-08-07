@@ -1,11 +1,11 @@
 -- objects/QA/AutoUpdater.lua
--- Stronghold 2027 - Auto Update Checker
+-- Castle Kingdoms 2027 - Auto Update Checker
 -- Checks for new versions on GitHub and notifies the player
 
 local AutoUpdater = {}
 
 local CURRENT_VERSION = "2.2.0"
-local GITHUB_API_URL = "https://api.github.com/repos/markec12345678/stronghold2027/releases/latest"
+local GITHUB_API_URL = "https://api.github.com/repos/markec12345678/castlekingdoms2027/releases/latest"
 local initialized = false
 local lastCheckTime = 0
 local checkInterval = 3600  -- Check every hour
@@ -86,7 +86,7 @@ function AutoUpdater.downloadUpdate()
 end
 
 function AutoUpdater.openReleasesPage()
-    love.system.openURL("https://github.com/markec12345678/stronghold2027/releases")
+    love.system.openURL("https://github.com/markec12345678/castlekingdoms2027/releases")
 end
 
 -- Compare version strings (e.g., "2.0.0" vs "2.1.0")

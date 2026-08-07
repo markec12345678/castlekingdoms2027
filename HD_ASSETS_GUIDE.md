@@ -1,9 +1,8 @@
-# HD Assets Guide - Stronghold 2027
+# HD Assets Guide - Castle Kingdoms 2027
 
-> Ta dokument opisuje specifikacije za HD grafične asset-e, ki jih potrebujemo za Stronghold 2027 release. Namenjen je grafičnim oblikovalcem, ki želijo prispevati k projektu.
+> Ta dokument opisuje specifikacije za HD grafične asset-e, ki jih potrebujemo za Castle Kingdoms 2027 release. Namenjen je grafičnim oblikovalcem, ki želijo prispevati k projektu.
 
 Zadnja posodobitev: 2026-08-01
-Trenutna verzija assetov: v0.6.1 (original Firefly Studios)
 Ciljna verzija: v1.0.0 HD (4K)
 
 ---
@@ -89,9 +88,9 @@ Ciljna verzija: v1.0.0 HD (4K)
 - Slog: Cinematic, ep srednjeveški pridih
 
 **Potrebni logotipi:**
-- `stronghold2027_logo_main.png` (4K, glavni logo)
-- `stronghold2027_logo_small.png` (1K, za favicon in UI)
-- `stronghold2027_splash.png` (4K, loading screen)
+- `castlekingdoms2027_logo_main.png` (4K, glavni logo)
+- `castlekingdoms2027_logo_small.png` (1K, za favicon in UI)
+- `castlekingdoms2027_splash.png` (4K, loading screen)
 
 **Potrebna ozadja:**
 - `main_menu_bg.jpg` (4K, grad ob zalivu)
@@ -197,9 +196,9 @@ assets/
 │   ├── panels/
 │   └── cursors/
 ├── other/
-│   ├── stronghold2027_logo_main.png
-│   ├── stronghold2027_logo_small.png
-│   ├── stronghold2027_splash.png
+│   ├── castlekingdoms2027_logo_main.png
+│   ├── castlekingdoms2027_logo_small.png
+│   ├── castlekingdoms2027_splash.png
 │   ├── main_menu_bg.jpg
 │   ├── loading_bg.jpg
 │   └── settings_bg.jpg
@@ -229,7 +228,7 @@ assets/
 
 ### Tier 2 (srednja prioriteta - teden 5-8)
 5. **Loading screen** - z animacijo
-6. **Logotip** - Stronghold 2027 branding
+6. **Logotip** - Castle Kingdoms 2027 branding
 7. **Vodne animacije** - valovi, reflek
 8. **Ogenj in dim** - particle effects
 
@@ -246,7 +245,7 @@ assets/
 ### Pred oddajo
 
 1. **Preveri specifikacije** v tem dokumentu
-2. **Uporabi reference** iz originalnega Stronghold-a (screenshoti)
+2. **Uporabi reference** iz originalnega Castle Kingdoms-a (screenshoti)
 3. **Testiraj v igri** - zaženi `love .` in preveri delovanje
 4. **Optimiziraj** - stisni PNG z `optipng -o7` ali `pngcrush`
 
@@ -254,8 +253,8 @@ assets/
 
 ```bash
 # 1. Kloniraj repozitorij
-git clone https://github.com/markec12345678/stronghold2027.git
-cd stronghold2027
+git clone https://github.com/markec12345678/castlekingdoms2027.git
+cd castlekingdoms2027
 git checkout feat/hd-assets
 
 # 2. Dodaj svoje assete
@@ -326,7 +325,7 @@ print(f'Mode: {img.mode}')
 
 ## 📞 Kontakt in podpora
 
-- **GitHub Issues:** [github.com/markec12345678/stronghold2027/issues](https://github.com/markec12345678/stronghold2027/issues)
+- **GitHub Issues:** [github.com/markec12345678/castlekingdoms2027/issues](https://github.com/markec12345678/castlekingdoms2027/issues)
 - **Asset review:** Pošlji PR z `assets:` prefix v commit message
 - **Vprašanja:** Odpri issue z `question` label
 
@@ -342,4 +341,4 @@ Prispevatelj obdrži avtorske pravice, vendar dovoli uporabo v projektu.
 
 ---
 
-Hvala za tvoj prispevek k Stronghold 2027! 🏰✨
+Hvala za tvoj prispevek k Castle Kingdoms 2027! 🏰✨

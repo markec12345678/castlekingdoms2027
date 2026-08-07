@@ -1,5 +1,5 @@
 -- objects/Environment/LightingSystem.lua
--- Stronghold 2027 - Dynamic Lighting System
+-- Castle Kingdoms 2027 - Dynamic Lighting System
 --
 -- Integrates HD shaders (bloom, color_grading, vignette, dynamic_lighting)
 -- with the game loop. Provides:

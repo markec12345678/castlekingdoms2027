@@ -1,5 +1,5 @@
 -- objects/Gameplay/AutoWorkerAssign.lua
--- Stronghold 2027 - Auto Worker Assignment
+-- Castle Kingdoms 2027 - Auto Worker Assignment
 -- Automatically assigns available workers to buildings that need them
 
 local AutoWorker = {}
@@ -120,7 +120,7 @@ function AutoWorker.assignNow()
     AutoWorker._assignWorkers()
 end
 
--- Stronghold 2027 v2.4.1: Assign a worker to a specific building
+-- Castle Kingdoms 2027 v2.4.1: Assign a worker to a specific building
 -- @param building object The building to assign a worker to
 -- @return boolean True if worker was assigned
 function AutoWorker.assignToBuilding(building)

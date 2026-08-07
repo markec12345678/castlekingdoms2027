@@ -175,7 +175,7 @@ function _G.updateKeepUpgradeButton(tier)
                                         local upgraded = _G.BuildController:upgradeKeep(4)
                                         if upgraded then
                                             castleButton:setImage(strongholdImage)
-                                            buildings[1].id = "Stronghold"
+                                            buildings[1].id = "Castle Kingdoms"
                                             buildings[1].name = SID.buildings.stronghold.name
                                             buildings[1].description = SID.buildings.stronghold.description
                                             displayTooltips()
@@ -214,7 +214,7 @@ function _G.updateKeepUpgradeButton(tier)
                             local upgraded = _G.BuildController:upgradeKeep(4)
                             if upgraded then
                                 castleButton:setImage(strongholdImage)
-                                buildings[1].id = "Stronghold"
+                                buildings[1].id = "Castle Kingdoms"
                                 buildings[1].name = SID.buildings.stronghold.name
                                 buildings[1].description = SID.buildings.stronghold.description
                                 displayTooltips()
@@ -240,7 +240,7 @@ function _G.updateKeepUpgradeButton(tier)
                 local upgraded = _G.BuildController:upgradeKeep(4)
                 if upgraded then
                     castleButton:setImage(strongholdImage)
-                    buildings[1].id = "Stronghold"
+                    buildings[1].id = "Castle Kingdoms"
                     buildings[1].name = SID.buildings.stronghold.name
                     buildings[1].description = SID.buildings.stronghold.description
                     displayTooltips()
@@ -255,7 +255,7 @@ function _G.updateKeepUpgradeButton(tier)
         )
     elseif tier == 4 then
         castleButton:setImage(strongholdImage)
-        buildings[1].id = "Stronghold"
+        buildings[1].id = "Castle Kingdoms"
         buildings[1].name = SID.buildings.stronghold.name
         buildings[1].description = SID.buildings.stronghold.description
         castleButton:setOnClick(function()

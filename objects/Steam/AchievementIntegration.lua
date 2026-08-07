@@ -1,5 +1,5 @@
 -- objects/Steam/AchievementIntegration.lua
--- Stronghold 2027 - Achievement Integration
+-- Castle Kingdoms 2027 - Achievement Integration
 -- Hooks all game events to Steam achievements
 
 local AchievementIntegration = {}
@@ -22,7 +22,7 @@ function AchievementIntegration.init()
         print("[AchievementIntegration] Initialized (SteamWorks not available)")
     end
 
-    -- Stronghold 2027 v2.3.9: Subscribe to GameEventBus events
+    -- Castle Kingdoms 2027 v2.3.9: Subscribe to GameEventBus events
     -- (GameEventBus.integrateAll already calls hookEvent, but we also subscribe
     --  directly to ensure achievements fire even if integrateAll order changes)
     local GameEventBus = _G.GameEventBus

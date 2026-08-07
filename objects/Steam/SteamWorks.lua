@@ -1,5 +1,5 @@
 -- objects/Steam/SteamWorks.lua
--- Stronghold 2027 - Steam Integration
+-- Castle Kingdoms 2027 - Steam Integration
 --
 -- Wrapper for SteamWorks API. Provides:
 -- - Achievement tracking
@@ -25,8 +25,8 @@ local isSteamRunning = false
 local steamId = ""
 local achievements = {}
 local stats = {}
-local richPresence = {}  -- Stronghold 2027 v2.5.0: rich presence data
-local overlayUsage = {}  -- Stronghold 2027 v2.5.0: overlay usage tracking
+local richPresence = {}  -- Castle Kingdoms 2027 v2.5.0: rich presence data
+local overlayUsage = {}  -- Castle Kingdoms 2027 v2.5.0: overlay usage tracking
 
 -- Achievement definitions
 local ACHIEVEMENTS = {
@@ -40,7 +40,7 @@ local ACHIEVEMENTS = {
     diplomate             = { name = "Diplomat", desc = "Form 3 alliances in one game" },
     trader                = { name = "Merchant", desc = "Complete 50 trades" },
     hd_enthusiast         = { name = "Beauty in HD", desc = "Play with HD pipeline for 1 hour" },
-    -- Stronghold 2027 v2.5.6: 5 new achievements
+    -- Castle Kingdoms 2027 v2.5.6: 5 new achievements
     siege_master          = { name = "Siege Master", desc = "Destroy 50 buildings with siege weapons" },
     legendary_army        = { name = "Legendary Army", desc = "Train a Legendary (level 5) unit" },
     skirmish_trail        = { name = "Trail Conqueror", desc = "Complete all 15 skirmish missions" },
@@ -154,7 +154,7 @@ end
 
 -- Set rich presence
 function SteamWorks.setRichPresence(key, value)
-    -- Stronghold 2027 v2.5.0: Store rich presence locally for display
+    -- Castle Kingdoms 2027 v2.5.0: Store rich presence locally for display
     if not richPresence then richPresence = {} end
     richPresence[key] = value
     -- In production: steamworks.setRichPresence(key, value)
@@ -175,7 +175,7 @@ end
 function SteamWorks.openOverlay(page)
     -- page: "friends", "community", "players", "settings", "officialgamegroup", "stats"
     print("[SteamWorks] Opening overlay: " .. tostring(page))
-    -- Stronghold 2027 v2.5.0: Track overlay usage for analytics
+    -- Castle Kingdoms 2027 v2.5.0: Track overlay usage for analytics
     if not overlayUsage then overlayUsage = {} end
     overlayUsage[page] = (overlayUsage[page] or 0) + 1
     -- In production: steamworks.openOverlay(page)
@@ -187,7 +187,7 @@ function SteamWorks.openOverlayURL(url)
     -- In production: steamworks.openOverlayBrowser(url)
 end
 
--- Stronghold 2027 v2.5.0: Cloud save stub (local file persistence)
+-- Castle Kingdoms 2027 v2.5.0: Cloud save stub (local file persistence)
 function SteamWorks.cloudSave(filename, data)
     -- In production: steamworks.fileWrite(filename, data)
     -- For now: save to love.filesystem (acts as local cloud)
@@ -201,7 +201,7 @@ function SteamWorks.cloudSave(filename, data)
     return false
 end
 
--- Stronghold 2027 v2.5.0: Cloud load stub
+-- Castle Kingdoms 2027 v2.5.0: Cloud load stub
 function SteamWorks.cloudLoad(filename)
     -- In production: steamworks.fileRead(filename)
     local file = love.filesystem.newFile("cloud/" .. filename)
@@ -213,13 +213,13 @@ function SteamWorks.cloudLoad(filename)
     return nil
 end
 
--- Stronghold 2027 v2.5.0: Check if cloud is available
+-- Castle Kingdoms 2027 v2.5.0: Check if cloud is available
 function SteamWorks.isCloudEnabled()
     -- In production: steamworks.isCloudEnabled()
     return true  -- stub: always available
 end
 
--- Stronghold 2027 v2.5.0: Get overlay usage stats (for analytics)
+-- Castle Kingdoms 2027 v2.5.0: Get overlay usage stats (for analytics)
 function SteamWorks.getOverlayUsage()
     return overlayUsage or {}
 end
@@ -315,7 +315,7 @@ function SteamWorks.onGameEvent(event, data)
             SteamWorks.unlockAchievement("trader")
         end
 
-    -- Stronghold 2027 v2.5.6: New achievement events
+    -- Castle Kingdoms 2027 v2.5.6: New achievement events
     elseif event == "siege_destroy" then
         SteamWorks.incrementStat("buildings_destroyed_siege")
         if SteamWorks.getStat("buildings_destroyed_siege") >= 50 then

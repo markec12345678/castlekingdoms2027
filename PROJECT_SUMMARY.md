@@ -1,4 +1,4 @@
-# Stronghold 2027 - Project Summary
+# Castle Kingdoms 2027 - Project Summary
 
 > Končni povzetek projekta pred prehodom v asset/testing fazo.
 > Datum: 2026-08-01 | Verzija: v1.6.0-final
@@ -22,7 +22,7 @@
 
 ---
 
-## 🏰 Kaj je Stronghold 2027?
+## 🏰 Kaj je Castle Kingdoms 2027?
 
 Open source medieval castle RTS - modernized fork of Stone Kingdoms z:
 - 10-misijsko kampanjo "The Lord of Fernhaven"
@@ -31,7 +31,6 @@ Open source medieval castle RTS - modernized fork of Stone Kingdoms z:
 - Combat z game feel (screen shake, hit flash, punch zoom, combat lines)
 - 16 jezikov
 - Modding API
-- CC0 Kenney asseti (popolna neodvisnost od Firefly Studios)
 
 ---
 
@@ -109,7 +108,7 @@ Open source medieval castle RTS - modernized fork of Stone Kingdoms z:
 - KenneySpriteRenderer (8 draw funkcij)
 - KenneySpriteOverlay (game world rendering)
 - Settings toggle (V key → Graphics → CC0 Assets)
-- Fallback na original Firefly ko je CC0 OFF
+- Fallback na original Original RTS ko je CC0 OFF
 
 ### Infrastructure (95%)
 - Git LFS za binarne datoteke
@@ -129,8 +128,8 @@ Open source medieval castle RTS - modernized fork of Stone Kingdoms z:
 
 ## 🔗 Povezave
 
-- **GitHub:** https://github.com/markec12345678/stronghold2027
-- **Latest release:** https://github.com/markec12345678/stronghold2027/releases/tag/v1.5.3-kenney-rendering
+- **GitHub:** https://github.com/markec12345678/castlekingdoms2027
+- **Latest release:** https://github.com/markec12345678/castlekingdoms2027/releases/tag/v1.5.3-kenney-rendering
 - **Upstream:** https://gitlab.com/stone-kingdoms/stone-kingdoms
 
 ---
@@ -151,14 +150,12 @@ Open source medieval castle RTS - modernized fork of Stone Kingdoms z:
 
 - **Koda:** Apache 2.0
 - **Kenney asseti:** CC0 (Public Domain)
-- **Original asseti:** Firefly Studios (z dovoljenjem preko Stone Kingdoms)
 - **Engine:** LÖVE 11.5 (Lua)
 
 ---
 
 ## 🙏 Zahvale
 
-- **Firefly Studios** - originalna igra Stronghold
 - **Stone Kingdoms ekipa** - odprtokodna baza
 - **Kenney.nl** - CC0 medieval asseti
 - **LÖVE community** - game engine

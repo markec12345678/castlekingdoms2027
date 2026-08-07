@@ -1,5 +1,5 @@
 -- objects/UI/MinimapSystem.lua
--- Stronghold 2027 - Minimap System
+-- Castle Kingdoms 2027 - Minimap System
 -- Overview of map showing terrain, buildings, units, and camera viewport
 
 local Minimap = {}

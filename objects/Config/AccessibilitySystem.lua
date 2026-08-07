@@ -1,5 +1,5 @@
 -- objects/Config/AccessibilitySystem.lua
--- Stronghold 2027 - Accessibility System
+-- Castle Kingdoms 2027 - Accessibility System
 --
 -- Provides accessibility options:
 -- - Colorblind modes (protanopia, deuteranopia, tritanopia)

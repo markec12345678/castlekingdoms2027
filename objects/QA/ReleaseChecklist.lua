@@ -1,5 +1,5 @@
 -- objects/QA/ReleaseChecklist.lua
--- Stronghold 2027 - Release Checklist
+-- Castle Kingdoms 2027 - Release Checklist
 -- Pre-release verification for v1.17.0 Release Candidate
 
 local ReleaseChecklist = {}

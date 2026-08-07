@@ -1,5 +1,5 @@
 -- objects/QA/SaveGameCompatibility.lua
--- Stronghold 2027 - Save Game Compatibility
+-- Castle Kingdoms 2027 - Save Game Compatibility
 -- Versioned saves with migration support
 
 local SaveCompat = {}

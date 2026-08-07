@@ -1,5 +1,5 @@
 -- objects/Tutorial/TutorialSystem.lua
--- Stronghold 2027 - Tutorial System
+-- Castle Kingdoms 2027 - Tutorial System
 -- Interactive guided tutorial for new players (10 steps in Slovenian)
 
 local Tutorial = {}
@@ -14,7 +14,7 @@ local hasBeenShown = false
 local STEPS = {
     {
         id = "welcome",
-        title = "Dobrodošli v Stronghold 2027!",
+        title = "Dobrodošli v Castle Kingdoms 2027!",
         text = "Ta vadba vam bo pokazala osnove igre. Pritisnite PRESLEDEK za nadaljevanje.",
         waitForAction = false,
     },
@@ -69,7 +69,7 @@ local STEPS = {
     {
         id = "complete",
         title = "Čestitke!",
-        text = "Naučili ste se osnov Stronghold 2027. Zdaj lahko gradite svoje kraljestvo in se borite proti sovražnikom. Srečno!",
+        text = "Naučili ste se osnov Castle Kingdoms 2027. Zdaj lahko gradite svoje kraljestvo in se borite proti sovražnikom. Srečno!",
         waitForAction = false,
     },
 }
@@ -86,7 +86,7 @@ function Tutorial.init()
         file:close()
     end
 
-    -- Stronghold 2027 v2.4.0: Subscribe to GameEventBus for auto-completing steps
+    -- Castle Kingdoms 2027 v2.4.0: Subscribe to GameEventBus for auto-completing steps
     local GameEventBus = _G.GameEventBus
     if GameEventBus then
         pcall(function()

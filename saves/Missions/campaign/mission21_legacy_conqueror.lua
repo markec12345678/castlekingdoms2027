@@ -1,5 +1,5 @@
 -- saves/Missions/campaign/mission21_legacy_conqueror.lua
--- Stronghold 2027 - Historical Campaign Mission 21: Legacy of the Conqueror (Epilogue)
+-- Castle Kingdoms 2027 - Historical Campaign Mission 21: Legacy of the Conqueror (Epilogue)
 --
 -- Historical: After William's death (1087), his sons William Rufus and Henry inherit England.
 -- This epilogue mission celebrates the player's journey through the Norman Conquest.

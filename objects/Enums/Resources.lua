@@ -9,7 +9,7 @@ local RESOURCES = {
     hop = "hop",
     tar = "tar",
     ale = "ale",
-    -- Stronghold 2027 v2.7.1: New resource types
+    -- Castle Kingdoms 2027 v2.7.1: New resource types
     pitch = "pitch",        -- used for fire weapons
     leather = "leather",    -- used for light armor
     silk = "silk",          -- luxury trade good

@@ -1,4 +1,4 @@
-# Stronghold 2027 - Polish Phase (v1.1.0)
+# Castle Kingdoms 2027 - Polish Phase (v1.1.0)
 
 > Po v1.0.0-campaign-complete sledi faza poliranja.
 > **Pravilo: NE dodajati novih sistemov.** Samo izboljšati obstoječe.
@@ -241,11 +241,9 @@ Zadnja posodobitev: 2026-08-01
 
 ### Asset rights
 - ✅ Stone Kingdoms code: Apache 2.0 (commercial use OK)
-- ⚠️ Firefly Studios assets: Used with permission via Stone Kingdoms
 - ❓ **For Steam release**: Need written permission OR replace all assets
 
 ### Recommendations
-1. **Option A**: Get written permission from Firefly Studios
 2. **Option B**: Commission original art (expensive but safe)
 3. **Option C**: Use only open-source assets (limiting but free)
 

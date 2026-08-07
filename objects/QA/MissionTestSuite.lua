@@ -1,5 +1,5 @@
 -- objects/QA/MissionTestSuite.lua
--- Stronghold 2027 - Mission Test Suite
+-- Castle Kingdoms 2027 - Mission Test Suite
 --
 -- Automated tests for all 10 campaign missions.
 

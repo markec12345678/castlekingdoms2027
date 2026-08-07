@@ -1,5 +1,5 @@
 -- objects/Controllers/ProfilerController.lua
--- Stronghold 2027 - Performance Profiler
+-- Castle Kingdoms 2027 - Performance Profiler
 --
 -- Tracks performance metrics and provides debug overlay
 -- Activated with F3 key (toggle debug overlay)
@@ -151,7 +151,7 @@ function Profiler:draw()
 
     -- Header
     love.graphics.setColor(0.5, 1, 0.5, 1)
-    love.graphics.print("Stronghold 2027 - Profiler", x, y)
+    love.graphics.print("Castle Kingdoms 2027 - Profiler", x, y)
     y = y + lineHeight
 
     love.graphics.setColor(1, 1, 1, 1)
@@ -232,7 +232,7 @@ function Profiler:dumpToFile(filename)
     local f = io.open(filename, "w")
     if not f then return false end
 
-    f:write("=== Stronghold 2027 Profiler Dump ===\n")
+    f:write("=== Castle Kingdoms 2027 Profiler Dump ===\n")
     f:write(string.format("Timestamp: %s\n", os.date()))
     f:write(string.format("FPS: %.2f\n", self.frameStats.fps))
     f:write(string.format("Frame time: %.3f ms\n", self.frameStats.frameTime * 1000))

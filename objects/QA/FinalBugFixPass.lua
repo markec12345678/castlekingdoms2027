@@ -1,5 +1,5 @@
 -- objects/QA/FinalBugFixPass.lua
--- Stronghold 2027 - Final Bug Fix Pass
+-- Castle Kingdoms 2027 - Final Bug Fix Pass
 -- Comprehensive nil-safety, error handling, and edge case fixes
 
 local FinalBugFix = {}

@@ -1,5 +1,5 @@
 -- terrain/Maps/MapRegistry.lua
--- Stronghold 2027 v2.5.1 - Map Registry
+-- Castle Kingdoms 2027 v2.5.1 - Map Registry
 -- Central registry of all available maps for campaign and skirmish.
 
 local MapRegistry = {}

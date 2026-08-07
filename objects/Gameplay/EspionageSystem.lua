@@ -1,5 +1,5 @@
 -- objects/Gameplay/EspionageSystem.lua
--- Stronghold 2027 v2.6.7 - Espionage & Intelligence System
+-- Castle Kingdoms 2027 v2.6.7 - Espionage & Intelligence System
 --
 -- Spy on enemy factions, gather intelligence, sabotage buildings.
 -- Spies are trained at the Inn and can be sent on missions.

@@ -1,5 +1,5 @@
 -- objects/Economy/TradeCaravanSystem.lua
--- Stronghold 2027 - International Trade Caravans
+-- Castle Kingdoms 2027 - International Trade Caravans
 --
 -- Allows sending trade caravans to AI factions for better prices:
 -- - Higher sell prices than local market
@@ -246,7 +246,7 @@ end
 
 -- Deduct goods from player's stockpile
 function TradeCaravanSystem.deductGoods(goods)
-    -- Stronghold 2027 v2.3.4: Actually check and deduct resources from player
+    -- Castle Kingdoms 2027 v2.3.4: Actually check and deduct resources from player
     if not _G.state or not _G.state.resources then return false end
 
     -- First pass: verify all goods are available
@@ -278,7 +278,7 @@ end
 
 -- Improve diplomatic relations with a faction
 function TradeCaravanSystem.improveRelations(faction)
-    -- Stronghold 2027 v2.3.4: Actually update diplomacy relations
+    -- Castle Kingdoms 2027 v2.3.4: Actually update diplomacy relations
     local DiplomacyController = _G.DiplomacyController or (require("objects.Network.DiplomacyController"))
     if DiplomacyController and DiplomacyController.improveRelations then
         pcall(function() DiplomacyController.improveRelations(faction, 5) end)

@@ -1,6 +1,6 @@
-# Stronghold 2027 - Modding API
+# Castle Kingdoms 2027 - Modding API
 
-> Ta dokument opisuje modding API za Stronghold 2027. Modding API omogoča ustvarjanje lastnih modov, ki razširjajo igro z novimi zgradbami, enotami, viri, ali spremenijo obstoječe obnašanje.
+> Ta dokument opisuje modding API za Castle Kingdoms 2027. Modding API omogoča ustvarjanje lastnih modov, ki razširjajo igro z novimi zgradbami, enotami, viri, ali spremenijo obstoječe obnašanje.
 
 Zadnja posodobitev: 2026-08-01
 Verzija API: 0.1.0 (alpha)
@@ -205,7 +205,7 @@ Vsi API klici so validirani. Napake v modih ne crash-ajo igre.
 
 ## 📞 Podpora
 
-- **GitHub Issues:** [github.com/markec12345678/stronghold2027/issues](https://github.com/markec12345678/stronghold2027/issues)
+- **GitHub Issues:** [github.com/markec12345678/castlekingdoms2027/issues](https://github.com/markec12345678/castlekingdoms2027/issues)
 - **Modding wiki:** (v pripravi)
 - **Discord:** (v pripravi)
 
@@ -217,7 +217,7 @@ Modi so last njihovih avtorjev. Priporočamo:
 - **MIT licenco** za odprtokodne mode
 - **CC BY 4.0** za asset-e
 
-Stronghold 2027 ne prevzema odgovornosti za vsebino modov.
+Castle Kingdoms 2027 ne prevzema odgovornosti za vsebino modov.
 
 ---
 
@@ -247,4 +247,4 @@ Stronghold 2027 ne prevzema odgovornosti za vsebino modov.
 
 ---
 
-Hvala, da ustvarjaš mode za Stronghold 2027! 🎮
+Hvala, da ustvarjaš mode za Castle Kingdoms 2027! 🎮

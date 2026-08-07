@@ -1,5 +1,5 @@
 -- objects/Config/KenneyAssetMapping.lua
--- Stronghold 2027 - Kenney CC0 Asset Mapping
+-- Castle Kingdoms 2027 - Kenney CC0 Asset Mapping
 --
 -- Maps our building/unit names to Kenney Medieval RTS asset filenames.
 -- All Kenney assets are CC0 (public domain) - no attribution required.

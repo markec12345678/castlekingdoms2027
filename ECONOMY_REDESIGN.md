@@ -1,4 +1,4 @@
-# Stronghold 2027 - Economy Redesign
+# Castle Kingdoms 2027 - Economy Redesign
 
 > Predlog izboljšav ekonomskega sistema za bolj zanimivo in uravnoteženo igro.
 

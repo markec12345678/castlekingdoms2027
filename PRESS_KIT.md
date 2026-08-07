@@ -1,4 +1,4 @@
-# Stronghold 2027 - Press Kit
+# Castle Kingdoms 2027 - Press Kit
 
 > Informacije za medije, vsebinske ustvarjalce in skupnost za predstavitev projekta.
 
@@ -8,19 +8,18 @@ Zadnja posodobitev: 2026-08-01
 
 ## 📋 O projektu
 
-**Stronghold 2027** je odprtokodna nadgradnja priljubljene igre Stronghold (2001, Firefly Studios), ki cilja na moderno izkušnjo z izboljšano grafiko, dodatnimi funkcionalnostmi in podporo za več jezikov. Projekt je fork odprtokodnega Stone Kingdoms projekta, ki je razvit z uradnim dovoljenjem Firefly Studios.
 
 ### Ključne informacije
 
 | Atribut | Vrednost |
 |---------|----------|
-| **Ime projekta** | Stronghold 2027 |
-| **Verzija** | 0.7.0-stronghold2027-alpha |
+| **Ime projekta** | Castle Kingdoms 2027 |
+| **Verzija** | 0.7.0-castlekingdoms2027-alpha |
 | **Ciljni datum izida** | 2027-09-01 |
 | **Platforme** | Windows, macOS, Linux |
 | **Licenca** | Apache 2.0 |
 | **Tehnologija** | LÖVE 11.5 (Lua) |
-| **Repozitorij** | [github.com/markec12345678/stronghold2027](https://github.com/markec12345678/stronghold2027) |
+| **Repozitorij** | [github.com/markec12345678/castlekingdoms2027](https://github.com/markec12345678/castlekingdoms2027) |
 | **Ekipa** | 2 razvijalca |
 
 ---
@@ -28,7 +27,7 @@ Zadnja posodobitev: 2026-08-01
 ## 🎮 Glavne lastnosti
 
 ### Gameplay
-- **Klasična Stronghold izkušnja** - gradnja gradu, zbiranje virov, obramba
+- **Klasična Castle Kingdoms izkušnja** - gradnja gradu, zbiranje virov, obramba
 - **5 ekonomskih misij** s posebnimi izzivi
 - **71 različnih zgradb** (stanovanja, kmetije, industrija, vojaške, cerkvene)
 - **42 tipov enot** (delavci, vojaki, živali)
@@ -97,9 +96,8 @@ Zadnja posodobitev: 2026-08-01
 
 ## 💬 Citat za medije
 
-> "Stronghold 2027 je naša vizija moderne različice klasike iz leta 2001. Z odprtokodno skupnostjo in uradnim dovoljenjem Firefly Studios želimo ustvariti najboljšo različico Stronghold-a doslej - z izboljšano grafiko, podporo za več jezikov in zmogljivim modding sistemom."
 >
-> — Stronghold 2027 ekipa
+> — Castle Kingdoms 2027 ekipa
 
 ---
 
@@ -125,9 +123,8 @@ Zadnja posodobitev: 2026-08-01
 
 ## 🔗 Povezave
 
-- **GitHub:** [github.com/markec12345678/stronghold2027](https://github.com/markec12345678/stronghold2027)
+- **GitHub:** [github.com/markec12345678/castlekingdoms2027](https://github.com/markec12345678/castlekingdoms2027)
 - **Upstream (Stone Kingdoms):** [gitlab.com/stone-kingdoms/stone-kingdoms](https://gitlab.com/stone-kingdoms/stone-kingdoms)
-- **Originalna igra:** [strongholdcrusader.com](https://strongholdcrusader.com) (Firefly Studios)
 - **LÖVE engine:** [love2d.org](https://love2d.org)
 
 ---
@@ -142,20 +139,17 @@ Zadnja posodobitev: 2026-08-01
 
 ## 📜 Pravna obvestila
 
-- **Stronghold 2027** je neodvisen odprtokodni projekt
+- **Castle Kingdoms 2027** je neodvisen odprtokodni projekt
 - **Licenca:** Apache 2.0 (dovoljuje komercialno uporabo z atribucijo)
-- **Originalni asseti:** Last Firefly Studios, uporabljeni z dovoljenjem preko Stone Kingdoms projekta
-- **Ime "Stronghold"** je zaščitena blagovna znamka Firefly Studios - projekt ni uradni Stronghold produkt
 
 ---
 
 ## 🙏 Zahvale
 
-- **Firefly Studios** - za originalno igro in dovoljenje za uporabo assetov
 - **Stone Kingdoms ekipa** - za odlično odprtokodno bazo
 - **LÖVE community** - za odličen game engine
 - **Crowdin prevajalci** - za obstoječe prevode
-- **Stronghold 2027 ekipa** - slovenski prevod, CI/CD, modding API, HD shaderji
+- **Castle Kingdoms 2027 ekipa** - slovenski prevod, CI/CD, modding API, HD shaderji
 
 ---
 

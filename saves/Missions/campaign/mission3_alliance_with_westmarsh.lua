@@ -1,5 +1,5 @@
 -- saves/Missions/campaign/mission3_alliance_with_westmarsh.lua
--- Stronghold 2027 - Campaign Mission 3: Alliance with Westmarsh
+-- Castle Kingdoms 2027 - Campaign Mission 3: Alliance with Westmarsh
 --
 -- Third mission of "The Lord of Fernhaven" campaign.
 -- Introduces trade and diplomacy.

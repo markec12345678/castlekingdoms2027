@@ -13,7 +13,7 @@ local loadState, progress = 1, 15
 local SaveManager = require("objects.Controllers.SaveManager")
 local keybindManager = require("objects.Controllers.KeybindManager")
 local EVENT = require("objects.Enums.KeyEvents")
--- Stronghold 2027 - All systems consolidated into S table to avoid LuaJIT 60-upvalue limit
+-- Castle Kingdoms 2027 - All systems consolidated into S table to avoid LuaJIT 60-upvalue limit
 local S = {}
 S.CombatIntegration = require("objects.Combat.CombatIntegration")
 S.CombatTestScenario = require("objects.Combat.CombatTestScenario")
@@ -128,44 +128,44 @@ local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
 local GameEventBus = S.GameEventBus
 local ActionBar = require("states.ui.ActionBar")
--- Stronghold 2027 - AI system
+-- Castle Kingdoms 2027 - AI system
 local AIIntegration = require("objects.AI.AIIntegration")
--- Stronghold 2027 - Economy systems
+-- Castle Kingdoms 2027 - Economy systems
 local DynamicMarket = require("objects.Economy.DynamicMarketSystem")
 local SeasonalSystem = require("objects.Economy.SeasonalSystem")
 local EconomicEvents = require("objects.Economy.EconomicEventsSystem")
 local TradeCaravans = require("objects.Economy.TradeCaravanSystem")
--- Stronghold 2027 - Mission framework
+-- Castle Kingdoms 2027 - Mission framework
 local MissionFramework = require("objects.Mission.MissionFramework")
--- Stronghold 2027 - Economy UI
+-- Castle Kingdoms 2027 - Economy UI
 local DynamicMarketUI = require("states.ui.economy.dynamic_market_ui")
 local CaravanUI = require("states.ui.economy.caravan_ui")
--- Stronghold 2027 - HUD widgets
+-- Castle Kingdoms 2027 - HUD widgets
 local SeasonWidget = require("states.ui.hud.season_info_widget")
 local EventLog = require("states.ui.hud.economic_event_log")
--- Stronghold 2027 - Performance profiling
+-- Castle Kingdoms 2027 - Performance profiling
 local PerformanceManager = require("objects.Performance.PerformanceManager")
 local PriorityUpdate = require("objects.Performance.PriorityUpdateSystem")
 local AITickOptimizer = require("objects.Performance.AITickOptimizer")
 local MemoryProfiler = require("objects.Performance.MemoryProfiler")
 local PerformanceOverlay = require("states.ui.hud.performance_overlay")
 local RenderOptimizer = require("objects.Performance.RenderOptimizer")
--- Stronghold 2027 - Game feel feedback
+-- Castle Kingdoms 2027 - Game feel feedback
 local GameFeel = require("objects.Feedback.GameFeelSystem")
 local BuildPreview = require("objects.Feedback.BuildPreviewSystem")
 local SelectionFeedback = require("objects.Feedback.SelectionFeedbackSystem")
 local CombatOrderViz = require("objects.Feedback.CombatOrderVisualizer")
--- Stronghold 2027 - Settings
+-- Castle Kingdoms 2027 - Settings
 local GameFeelSettings = require("states.ui.settings.gamefeel_settings")
 local SettingsPersistence = require("objects.Config.SettingsPersistence")
--- Stronghold 2027 - UX screens
+-- Castle Kingdoms 2027 - UX screens
 local MissionEndScreen = require("states.ui.hud.mission_end_screen")
 local TutorialHints = require("objects.Feedback.TutorialHints")
 local KeybindHelp = require("states.ui.hud.keybind_help")
--- Stronghold 2027 - Campaign progress & auto-save
+-- Castle Kingdoms 2027 - Campaign progress & auto-save
 local CampaignProgress = require("objects.Mission.CampaignProgress")
 local AutoSaveSystem = require("objects.AutoSaveSystem")
--- Stronghold 2027 - Kenney CC0 asset loader
+-- Castle Kingdoms 2027 - Kenney CC0 asset loader
 local KenneyAssetLoader = require("objects.Config.KenneyAssetLoader")
 local KenneySpriteRenderer = require("objects.Config.KenneySpriteRenderer")
 local KenneySpriteOverlay = require("states.ui.hud.kenney_sprite_overlay")
@@ -260,28 +260,28 @@ local function delayedInit()
     _G.state:shadeBuildings()
     _G.loaded = true
     _G.speedModifier = 1
-    -- Stronghold 2027: Initialize combat system
+    -- Castle Kingdoms 2027: Initialize combat system
     CombatIntegration.init()
-    -- Stronghold 2027: Initialize immersion systems
+    -- Castle Kingdoms 2027: Initialize immersion systems
     S.SoundSystem.init()
     S.WeatherSystem.init()
     ModernUI.init()
     S.LightingSystem.init()
-    -- Stronghold 2027: Initialize HD render pipeline
+    -- Castle Kingdoms 2027: Initialize HD render pipeline
     S.HDRenderPipeline.init()
-    -- Stronghold 2027: Initialize multiplayer chat
+    -- Castle Kingdoms 2027: Initialize multiplayer chat
     S.Chat.init()
-    -- Stronghold 2027: Initialize diplomacy & trade
+    -- Castle Kingdoms 2027: Initialize diplomacy & trade
     S.DiplomacyController.init()
     S.TradeController.init()
-    -- Stronghold 2027: Initialize QA & polish systems
+    -- Castle Kingdoms 2027: Initialize QA & polish systems
     S.CrashHandler.init()
     S.PerfWatchdog.init()
     S.ReplaySystem.init()
     S.StatisticsDashboard.init()
     S.MapEditor.init()
     S.AudioMix.init()
-    -- Stronghold 2027: Initialize sound design
+    -- Castle Kingdoms 2027: Initialize sound design
     S.DynamicMusic.init()
     S.SFXLibrary.init()
     S.VoiceOver.init()
@@ -290,7 +290,7 @@ local function delayedInit()
     _G.DynamicMusic = S.DynamicMusic
     _G.SFXLibrary = S.SFXLibrary
     _G.VoiceOver = S.VoiceOver
-    -- Stronghold 2027: Register other globals for cross-system access
+    -- Castle Kingdoms 2027: Register other globals for cross-system access
     _G.VisualPolish = S.VisualPolish
     _G.WeatherGameplay = S.WeatherGameplay
     _G.FormationSystem = S.FormationSystem
@@ -300,7 +300,7 @@ local function delayedInit()
     _G.ResourceFlow = S.ResourceFlow
     _G.ConstructionAnim = S.ConstructionAnim
     _G.AIDialogue = S.AIDialogue
-    -- Stronghold 2027: Initialize modding & Steam
+    -- Castle Kingdoms 2027: Initialize modding & Steam
     S.ModLoader.init()
     S.CustomBuildingLoader.init()
     S.SteamWorks.init()
@@ -310,26 +310,26 @@ local function delayedInit()
     end
     -- Load all mods
     S.ModLoader.loadAll()
-    -- Stronghold 2027: Initialize localization, accessibility, tutorial
+    -- Castle Kingdoms 2027: Initialize localization, accessibility, tutorial
     S.LocalizationSystem.init()
     S.AccessibilitySystem.init()
     S.TutorialSystem.init()
-    -- Stronghold 2027: Initialize story & siege
+    -- Castle Kingdoms 2027: Initialize story & siege
     S.CampaignStory.init()
     S.SiegeWeapons.init()
-    -- Stronghold 2027: Final polish
+    -- Castle Kingdoms 2027: Final polish
     S.FinalBugFix.init()
     S.PerfOpt.init()
     S.AchievementIntegration.init()
-    -- Stronghold 2027: Initialize save, profiles, console, feedback
+    -- Castle Kingdoms 2027: Initialize save, profiles, console, feedback
     S.SaveCompat.init()
     S.ConfigProfiles.init()
     S.DebugConsole.init()
     S.CommunityFeedback.init()
-    -- Stronghold 2027: Initialize GameEventBus and integrate all systems
+    -- Castle Kingdoms 2027: Initialize GameEventBus and integrate all systems
     GameEventBus.integrateAll()
     _G.GameEventBus = GameEventBus
-    -- Stronghold 2027: Connect victory/defeat to EndGameScreen + SkirmishTrail + CoopCampaign
+    -- Castle Kingdoms 2027: Connect victory/defeat to EndGameScreen + SkirmishTrail + CoopCampaign
     GameEventBus.on(GameEventBus.EVENTS.VICTORY, function(data)
         local Stats = require("objects.QA.StatisticsDashboard")
         S.EndGameScreen.show("victory", Stats.getSessionStats())
@@ -346,35 +346,35 @@ local function delayedInit()
             S.CoopCampaign.stop()
         end
     end)
-    -- Stronghold 2027: Final polish systems
+    -- Castle Kingdoms 2027: Final polish systems
     S.GameBalancePass.init()
     S.GameBalancePass.applyAll()
     S.VisualPolish.init()
     S.PerfBenchmark.init()
-    -- Stronghold 2027: Initialize gameplay systems
+    -- Castle Kingdoms 2027: Initialize gameplay systems
     S.WeatherGameplay.init()
     S.FogOfWar.init()
     S.FestivalSystem.init()
-    -- Stronghold 2027: Initialize formations, upgrades, tips
+    -- Castle Kingdoms 2027: Initialize formations, upgrades, tips
     S.FormationSystem.init()
     S.UpgradeTree.init()
     S.LoadingTips.init()
-    -- Stronghold 2027: Initialize final systems
+    -- Castle Kingdoms 2027: Initialize final systems
     S.ScreenshotManager.init()
     S.DifficultyPresets.init()
-    -- Stronghold 2027: Initialize improvements
+    -- Castle Kingdoms 2027: Initialize improvements
     S.Minimap.init()
     S.CommandQueue.init()
     S.AIDialogue.init()
     S.GameSpeedControl.init()
     S.ConstructionAnim.init()
-    -- Stronghold 2027: Initialize v1.25 improvements
+    -- Castle Kingdoms 2027: Initialize v1.25 improvements
     S.Veterancy.init()
     S.BuildingHotkeys.init()
     S.ResourceFlow.init()
     S.AutoSaveEnhancer.init()
     S.ThreatAI.init()
-    -- Stronghold 2027: Initialize v1.26 QoL systems
+    -- Castle Kingdoms 2027: Initialize v1.26 QoL systems
     S.RallyPoint.init()
     S.RightClickDismiss.init()
     S.RightClickDismiss.autoRegister()
@@ -387,7 +387,7 @@ local function delayedInit()
     _G.BuildingQueue = S.BuildingQueue
     _G.AutoWorker = S.AutoWorker
     _G.DynamicUnitCap = S.DynamicUnitCap
-    -- Stronghold 2027: Initialize v1.27 systems
+    -- Castle Kingdoms 2027: Initialize v1.27 systems
     S.MapSizeSelector.init()
     S.SpectatorMode.init()
     S.CoopCampaign.init()
@@ -399,7 +399,7 @@ local function delayedInit()
     _G.CoopCampaign = S.CoopCampaign
     _G.PathOpt = S.PathOpt
     _G.Workshop = S.Workshop
-    -- Stronghold 2027: Initialize v1.28 systems
+    -- Castle Kingdoms 2027: Initialize v1.28 systems
     S.SkirmishTrail.init()
     S.ObjectPool.init()
     S.Gamepad.init()
@@ -411,86 +411,86 @@ local function delayedInit()
     _G.Gamepad = S.Gamepad
     _G.MapSharing = S.MapSharing
     _G.AutoSaveIndicator = S.AutoSaveIndicator
-    -- Stronghold 2027: Initialize v2.2 systems
+    -- Castle Kingdoms 2027: Initialize v2.2 systems
     S.CommunityToolkit.init()
     S.AutoUpdater.init()
     S.AutoUpdater.checkForUpdates()
-    -- Stronghold 2027 v2.6.3: Initialize Daily Challenges
+    -- Castle Kingdoms 2027 v2.6.3: Initialize Daily Challenges
     S.DailyChallenge.init()
-    -- Stronghold 2027 v2.6.4: Initialize Technology Tree
+    -- Castle Kingdoms 2027 v2.6.4: Initialize Technology Tree
     S.TechnologyTree.init()
-    -- Stronghold 2027 v2.6.5: Initialize Population System
+    -- Castle Kingdoms 2027 v2.6.5: Initialize Population System
     S.PopulationSystem.init()
-    -- Stronghold 2027 v2.6.6: Initialize Production Chain System
+    -- Castle Kingdoms 2027 v2.6.6: Initialize Production Chain System
     S.ProductionChain.init()
-    -- Stronghold 2027 v2.6.7: Initialize Espionage System
+    -- Castle Kingdoms 2027 v2.6.7: Initialize Espionage System
     S.Espionage.init()
-    -- Stronghold 2027 v2.6.8: Initialize Diplomatic Relations System
+    -- Castle Kingdoms 2027 v2.6.8: Initialize Diplomatic Relations System
     S.DiplomaticRelations.init()
-    -- Stronghold 2027 v2.6.9: Initialize Army Command System
+    -- Castle Kingdoms 2027 v2.6.9: Initialize Army Command System
     S.ArmyCommand.init()
-    -- Stronghold 2027 v2.7.0: Initialize Trade Route System
+    -- Castle Kingdoms 2027 v2.7.0: Initialize Trade Route System
     S.TradeRoute.init()
-    -- Stronghold 2027 v2.7.1: Initialize Random Event System
+    -- Castle Kingdoms 2027 v2.7.1: Initialize Random Event System
     S.RandomEvent.init()
-    -- Stronghold 2027 v2.7.2: Initialize Notification Center
+    -- Castle Kingdoms 2027 v2.7.2: Initialize Notification Center
     S.NotificationCenter.init()
     _G.NotificationCenter = S.NotificationCenter
-    -- Stronghold 2027 v2.7.3: Initialize Building Manager
+    -- Castle Kingdoms 2027 v2.7.3: Initialize Building Manager
     S.BuildingManager.init()
     _G.BuildingManager = S.BuildingManager
-    -- Stronghold 2027 v2.7.4: Initialize Achievement Tracker
+    -- Castle Kingdoms 2027 v2.7.4: Initialize Achievement Tracker
     S.AchievementTracker.init()
     _G.AchievementTracker = S.AchievementTracker
-    -- Stronghold 2027 v2.7.5: Initialize Supply Line System
+    -- Castle Kingdoms 2027 v2.7.5: Initialize Supply Line System
     S.SupplyLine.init()
     _G.SupplyLine = S.SupplyLine
-    -- Stronghold 2027 v2.7.6: Initialize Quest System
+    -- Castle Kingdoms 2027 v2.7.6: Initialize Quest System
     S.QuestSystem.init()
     _G.QuestSystem = S.QuestSystem
-    -- Stronghold 2027 v2.7.7: Initialize Game Analytics Dashboard
+    -- Castle Kingdoms 2027 v2.7.7: Initialize Game Analytics Dashboard
     S.Analytics.init()
     _G.Analytics = S.Analytics
-    -- Stronghold 2027 v2.7.8: Initialize Tactical Map Overlay
+    -- Castle Kingdoms 2027 v2.7.8: Initialize Tactical Map Overlay
     S.TacticalOverlay.init()
     _G.TacticalOverlay = S.TacticalOverlay
-    -- Stronghold 2027 v2.7.9: Initialize Prestige System
+    -- Castle Kingdoms 2027 v2.7.9: Initialize Prestige System
     S.Prestige.init()
     _G.Prestige = S.Prestige
-    -- Stronghold 2027 v2.8.0: Initialize Tournament System
+    -- Castle Kingdoms 2027 v2.8.0: Initialize Tournament System
     S.Tournament.init()
     _G.Tournament = S.Tournament
-    -- Stronghold 2027 v2.8.1: Initialize Custom Scenario Editor
+    -- Castle Kingdoms 2027 v2.8.1: Initialize Custom Scenario Editor
     S.Scenario.init()
     _G.Scenario = S.Scenario
-    -- Stronghold 2027 v2.8.2: Initialize Leaderboard System
+    -- Castle Kingdoms 2027 v2.8.2: Initialize Leaderboard System
     S.Leaderboard.init()
     _G.Leaderboard = S.Leaderboard
-    -- Stronghold 2027: Initialize economy systems
+    -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
     EconomicEvents.init()
     TradeCaravans.init()
-    -- Stronghold 2027 v2.3.4: Register SeasonalSystem as global for AI access
+    -- Castle Kingdoms 2027 v2.3.4: Register SeasonalSystem as global for AI access
     _G.SeasonalSystem = SeasonalSystem
-    -- Stronghold 2027 v2.3.5: Register EconomicEvents as global for AI access
+    -- Castle Kingdoms 2027 v2.3.5: Register EconomicEvents as global for AI access
     _G.EconomicEvents = EconomicEvents
-    -- Stronghold 2027 v2.3.7: Register DynamicMarket as global for AI trade
+    -- Castle Kingdoms 2027 v2.3.7: Register DynamicMarket as global for AI trade
     _G.DynamicMarket = DynamicMarket
-    -- Stronghold 2027 v2.6.0: Register MissionFramework as global for combat casualty tracking
+    -- Castle Kingdoms 2027 v2.6.0: Register MissionFramework as global for combat casualty tracking
     _G.MissionFramework = MissionFramework
-    -- Stronghold 2027: Initialize performance profiling
+    -- Castle Kingdoms 2027: Initialize performance profiling
     PerformanceManager.init()
     PriorityUpdate.init()
     AITickOptimizer.init()
     MemoryProfiler.init()
     RenderOptimizer.init()
-    -- Stronghold 2027: Initialize game feel feedback
+    -- Castle Kingdoms 2027: Initialize game feel feedback
     GameFeel.init()
     BuildPreview.init()
     SelectionFeedback.init()
     CombatOrderViz.init()
-    -- Stronghold 2027: Load persisted settings
+    -- Castle Kingdoms 2027: Load persisted settings
     SettingsPersistence.init()
     SettingsPersistence.applyAll()
     GameFeelSettings.applySettings()
@@ -499,14 +499,14 @@ local function delayedInit()
     _G.BuildPreview = BuildPreview
     _G.SelectionFeedback = SelectionFeedback
     _G.CombatOrderViz = CombatOrderViz
-    ModernUI.notifySuccess("Stronghold 2027 loaded! Press F1 for help, F3 for perf overlay.")
-    -- Stronghold 2027: Show tutorial hints on first game
+    ModernUI.notifySuccess("Castle Kingdoms 2027 loaded! Press F1 for help, F3 for perf overlay.")
+    -- Castle Kingdoms 2027: Show tutorial hints on first game
     TutorialHints.onGameStart()
-    -- Stronghold 2027: Initialize campaign progress & auto-save
+    -- Castle Kingdoms 2027: Initialize campaign progress & auto-save
     CampaignProgress.init()
     AutoSaveSystem.init()
     AutoSaveSystem.setEnabledFromSettings()
-    -- Stronghold 2027: Initialize Kenney CC0 asset loader
+    -- Castle Kingdoms 2027: Initialize Kenney CC0 asset loader
     KenneyAssetLoader.init()
     _G.KenneyAssetLoader = KenneyAssetLoader
     _G.KenneySpriteRenderer = KenneySpriteRenderer
@@ -567,56 +567,56 @@ function game:update(dt)
                 _G.ScribeController:update()
                 _G.DestructionController:update()
                 _G.SleepController:update()
-                -- Stronghold 2027: Update combat system
+                -- Castle Kingdoms 2027: Update combat system
                 CombatIntegration.update(dt)
-                -- Stronghold 2027: Update immersion systems
+                -- Castle Kingdoms 2027: Update immersion systems
                 S.AnimationSystem.updateAll(dt)
                 S.SoundSystem.update(dt)
                 S.WeatherSystem.update(dt)
                 ModernUI.update(dt)
                 S.LightingSystem.update(dt)
-                -- Stronghold 2027: Update HD render pipeline (normal maps, lights)
+                -- Castle Kingdoms 2027: Update HD render pipeline (normal maps, lights)
                 S.HDRenderPipeline.update(dt)
-                -- Stronghold 2027: Update multiplayer networking
+                -- Castle Kingdoms 2027: Update multiplayer networking
                 S.GameServer.update(dt)
                 S.GameClient.update(dt)
                 S.Chat.update(dt)
-                -- Stronghold 2027: Update diplomacy & trade
+                -- Castle Kingdoms 2027: Update diplomacy & trade
                 S.DiplomacyController.update(dt)
                 S.TradeController.update(dt)
                 if S.DiplomacyPanel.isVisible() then
                     S.DiplomacyPanel.refresh()
                 end
-                -- Stronghold 2027: Update QA systems
+                -- Castle Kingdoms 2027: Update QA systems
                 S.PerfWatchdog.update(dt)
                 S.AudioMix.update(dt)
                 S.ReplaySystem.update(dt)
                 S.StatisticsDashboard.updateStats()
                 S.MapEditor.update(dt)
-                -- Stronghold 2027: Update dynamic music
+                -- Castle Kingdoms 2027: Update dynamic music
                 S.DynamicMusic.update(dt)
-                -- Stronghold 2027: Update mods
+                -- Castle Kingdoms 2027: Update mods
                 S.ModLoader.update(dt)
-                -- Stronghold 2027: Update tutorial
+                -- Castle Kingdoms 2027: Update tutorial
                 S.TutorialSystem.update(dt)
-                -- Stronghold 2027: Update siege weapons
+                -- Castle Kingdoms 2027: Update siege weapons
                 S.SiegeWeapons.update(dt)
                 S.CampaignStory.update(dt)
-                -- Stronghold 2027: Performance optimization
+                -- Castle Kingdoms 2027: Performance optimization
                 S.PerfOpt.checkGC()
                 S.PerfOpt.resetFrameStats()
-                -- Stronghold 2027: Update visual polish (particles, animations)
+                -- Castle Kingdoms 2027: Update visual polish (particles, animations)
                 S.VisualPolish.update(dt)
-                -- Stronghold 2027: Update performance benchmark
+                -- Castle Kingdoms 2027: Update performance benchmark
                 S.PerfBenchmark.update(dt)
-                -- Stronghold 2027: Update gameplay systems
+                -- Castle Kingdoms 2027: Update gameplay systems
                 S.FestivalSystem.update(dt)
-                -- Stronghold 2027: Update loading tips + credits
+                -- Castle Kingdoms 2027: Update loading tips + credits
                 S.LoadingTips.update(dt)
                 S.CreditsScreen.update(dt)
-                -- Stronghold 2027: Update screenshot manager
+                -- Castle Kingdoms 2027: Update screenshot manager
                 S.ScreenshotManager.update(dt)
-                -- Stronghold 2027: Update improvements
+                -- Castle Kingdoms 2027: Update improvements
                 S.Minimap.update(dt)
                 S.AIDialogue.update(dt)
                 S.ConstructionAnim.update(dt)
@@ -624,64 +624,64 @@ function game:update(dt)
                 if _G.state and _G.state.gameObjectList then
                     S.CommandQueue.cleanup(_G.state.gameObjectList)
                 end
-                -- Stronghold 2027: Update v1.25 systems
+                -- Castle Kingdoms 2027: Update v1.25 systems
                 S.AutoSaveEnhancer.update(dt)
                 S.ThreatAI.update(dt)
                 S.ResourceFlow.update(dt)
                 S.Veterancy.cleanup(_G.state.gameObjectList or {})
-                -- Stronghold 2027: Update v1.26 QoL systems
+                -- Castle Kingdoms 2027: Update v1.26 QoL systems
                 S.AutoWorker.update(dt)
                 S.DynamicUnitCap.update(dt)
-                -- Stronghold 2027: Update v1.27 systems
+                -- Castle Kingdoms 2027: Update v1.27 systems
                 S.SpectatorMode.update(dt)
                 S.Workshop.update(dt)
-                -- Stronghold 2027: Update v1.28 systems
+                -- Castle Kingdoms 2027: Update v1.28 systems
                 S.AutoSaveIndicator.update(dt)
                 S.Gamepad.update(dt)
-                -- Stronghold 2027: Update v2.2 systems
+                -- Castle Kingdoms 2027: Update v2.2 systems
                 S.AutoUpdater.update(dt)
-                -- Stronghold 2027 v2.6.4: Update Technology Tree research
+                -- Castle Kingdoms 2027 v2.6.4: Update Technology Tree research
                 S.TechnologyTree.update(dt)
-                -- Stronghold 2027 v2.6.5: Update Population System
+                -- Castle Kingdoms 2027 v2.6.5: Update Population System
                 S.PopulationSystem.update(dt)
-                -- Stronghold 2027 v2.6.6: Update Production Chain System
+                -- Castle Kingdoms 2027 v2.6.6: Update Production Chain System
                 S.ProductionChain.update(dt)
-                -- Stronghold 2027 v2.6.7: Update Espionage System
+                -- Castle Kingdoms 2027 v2.6.7: Update Espionage System
                 S.Espionage.update(dt)
-                -- Stronghold 2027 v2.6.8: Update Diplomatic Relations (slow decay)
+                -- Castle Kingdoms 2027 v2.6.8: Update Diplomatic Relations (slow decay)
                 S.DiplomaticRelations.update(dt)
-                -- Stronghold 2027 v2.6.9: Update Army Command System
+                -- Castle Kingdoms 2027 v2.6.9: Update Army Command System
                 S.ArmyCommand.update(dt)
-                -- Stronghold 2027 v2.7.0: Update Trade Route System
+                -- Castle Kingdoms 2027 v2.7.0: Update Trade Route System
                 S.TradeRoute.update(dt)
-                -- Stronghold 2027 v2.7.1: Update Random Event System
+                -- Castle Kingdoms 2027 v2.7.1: Update Random Event System
                 S.RandomEvent.update(dt)
-                -- Stronghold 2027 v2.7.2: Update Notification Center
+                -- Castle Kingdoms 2027 v2.7.2: Update Notification Center
                 S.NotificationCenter.update(dt)
-                -- Stronghold 2027 v2.7.3: Update Building Manager
+                -- Castle Kingdoms 2027 v2.7.3: Update Building Manager
                 S.BuildingManager.update(dt)
-                -- Stronghold 2027 v2.7.5: Update Supply Line System
+                -- Castle Kingdoms 2027 v2.7.5: Update Supply Line System
                 S.SupplyLine.update(dt)
-                -- Stronghold 2027 v2.7.6: Update Quest System
+                -- Castle Kingdoms 2027 v2.7.6: Update Quest System
                 S.QuestSystem.update(dt)
-                -- Stronghold 2027 v2.7.7: Update Analytics
+                -- Castle Kingdoms 2027 v2.7.7: Update Analytics
                 S.Analytics.update(dt)
-                -- Stronghold 2027 v2.7.8: Update Tactical Overlay
+                -- Castle Kingdoms 2027 v2.7.8: Update Tactical Overlay
                 S.TacticalOverlay.update(dt)
-                -- Stronghold 2027 v2.8.0: Update Tournament System
+                -- Castle Kingdoms 2027 v2.8.0: Update Tournament System
                 S.Tournament.update(dt)
-                -- Stronghold 2027: Update fog of war periodically
+                -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
                 if _G._fogTimer > 1.0 then
                     _G._fogTimer = 0
                     pcall(function() S.FogOfWar.updateVisibility() end)
                 end
-                -- Stronghold 2027: Update AI system (with profiling)
+                -- Castle Kingdoms 2027: Update AI system (with profiling)
                 PerformanceManager.beginSection("ai_update")
                 AIIntegration.update(dt)
                 PerformanceManager.endSection("ai_update")
-                -- Stronghold 2027: Update economy systems (with profiling)
+                -- Castle Kingdoms 2027: Update economy systems (with profiling)
                 PerformanceManager.beginSection("economy")
                 DynamicMarket.update(dt)
                 DynamicMarket.updateEvents()
@@ -689,37 +689,37 @@ function game:update(dt)
                 EconomicEvents.update(dt)
                 TradeCaravans.update(dt)
                 PerformanceManager.endSection("economy")
-                -- Stronghold 2027: Update mission framework
+                -- Castle Kingdoms 2027: Update mission framework
                 MissionFramework.update(dt)
-                -- Stronghold 2027: Update economy UI
+                -- Castle Kingdoms 2027: Update economy UI
                 DynamicMarketUI.update(dt)
                 CaravanUI.update(dt)
-                -- Stronghold 2027: Update HUD widgets
+                -- Castle Kingdoms 2027: Update HUD widgets
                 SeasonWidget.update(dt)
                 EventLog.update(dt)
-                -- Stronghold 2027: Update performance profiling
+                -- Castle Kingdoms 2027: Update performance profiling
                 PerformanceManager.update(dt)
                 MemoryProfiler.update(dt)
                 AITickOptimizer.update(dt)
-                -- Stronghold 2027: Update game feel feedback
+                -- Castle Kingdoms 2027: Update game feel feedback
                 GameFeel.update(dt)
                 BuildPreview.update(dt)
                 SelectionFeedback.update(dt)
                 CombatOrderViz.update(dt)
-                -- Stronghold 2027: Update render optimizer (camera bounds)
+                -- Castle Kingdoms 2027: Update render optimizer (camera bounds)
                 RenderOptimizer.updateCameraBounds()
-                -- Stronghold 2027: Auto-detect HD light sources every 2 seconds
+                -- Castle Kingdoms 2027: Auto-detect HD light sources every 2 seconds
                 if not _G._hdLightTimer then _G._hdLightTimer = 0 end
                 _G._hdLightTimer = _G._hdLightTimer + dt
                 if _G._hdLightTimer > 2.0 then
                     _G._hdLightTimer = 0
                     pcall(function() S.HDRenderPipeline.autoDetectLights() end)
                 end
-                -- Stronghold 2027: Update UX screens
+                -- Castle Kingdoms 2027: Update UX screens
                 MissionEndScreen.update(dt)
                 S.CreditsScreen.update(dt)
                 TutorialHints.update(dt)
-                -- Stronghold 2027: Update auto-save
+                -- Castle Kingdoms 2027: Update auto-save
                 AutoSaveSystem.update(dt)
                 -- Update selection box position while dragging
                 if _G.Commander and _G.Commander.isDown then
@@ -774,7 +774,7 @@ function game:enter(_, savegameName, w, h)
     collectgarbage()
     collectgarbage()
     _G.chunksWide, _G.chunksHigh = w, h
-    -- Stronghold 2027: Apply selected map size if not overridden
+    -- Castle Kingdoms 2027: Apply selected map size if not overridden
     if MapSizeSelector and not w then
         S.MapSizeSelector.applyToGame()
     end
@@ -802,11 +802,11 @@ function game:draw()
                 _G.ArrowController:draw()
             end
             _G.Commander:draw()
-            -- Stronghold 2027: Draw combat system (projectiles, damage numbers, health bars)
+            -- Castle Kingdoms 2027: Draw combat system (projectiles, damage numbers, health bars)
             CombatIntegration.draw()
-            -- Stronghold 2027: Draw light sources (torches, fires)
+            -- Castle Kingdoms 2027: Draw light sources (torches, fires)
             S.LightingSystem.drawLights()
-            -- Stronghold 2027: Draw weather (rain, snow, fog)
+            -- Castle Kingdoms 2027: Draw weather (rain, snow, fog)
             S.WeatherSystem.draw()
             love.graphics.pop()
             if _G.paused then
@@ -831,19 +831,19 @@ function game:draw()
                 WallController:drawMouse()
             end
             console.draw()
-            -- Stronghold 2027: Draw modern UI (tooltips, notifications)
+            -- Castle Kingdoms 2027: Draw modern UI (tooltips, notifications)
             ModernUI.draw()
-            -- Stronghold 2027: Draw mission UI (objectives, timer)
+            -- Castle Kingdoms 2027: Draw mission UI (objectives, timer)
             MissionFramework.draw()
-            -- Stronghold 2027: Draw economy UI (market, caravans)
+            -- Castle Kingdoms 2027: Draw economy UI (market, caravans)
             DynamicMarketUI.draw()
             CaravanUI.draw()
-            -- Stronghold 2027: Draw HUD widgets (season, events)
+            -- Castle Kingdoms 2027: Draw HUD widgets (season, events)
             SeasonWidget.draw()
             EventLog.draw()
-            -- Stronghold 2027: Draw performance overlay (F3/F4)
+            -- Castle Kingdoms 2027: Draw performance overlay (F3/F4)
             PerformanceOverlay.draw()
-            -- Stronghold 2027: Draw game feel feedback (selection rings, build preview, combat orders)
+            -- Castle Kingdoms 2027: Draw game feel feedback (selection rings, build preview, combat orders)
             -- Use scissor to prevent drawing over action bar
             local screenWidth, screenHeight = love.graphics.getDimensions()
             love.graphics.setScissor(0, 0, screenWidth, screenHeight - 150)
@@ -851,32 +851,32 @@ function game:draw()
             BuildPreview.draw()
             CombatOrderViz.draw()
             love.graphics.setScissor()
-            -- Stronghold 2027: Draw settings panel (V key)
+            -- Castle Kingdoms 2027: Draw settings panel (V key)
             GameFeelSettings.draw()
-            -- Stronghold 2027: Draw mission end screen
+            -- Castle Kingdoms 2027: Draw mission end screen
             MissionEndScreen.draw()
-            -- Stronghold 2027: Draw keybind help (H key)
+            -- Castle Kingdoms 2027: Draw keybind help (H key)
             KeybindHelp.draw()
-            -- Stronghold 2027: Draw Kenney CC0 overlay (if enabled)
+            -- Castle Kingdoms 2027: Draw Kenney CC0 overlay (if enabled)
             if _G.KenneySpriteRenderer and _G.KenneySpriteRenderer.isActive() then
                 love.graphics.setScissor(0, 0, screenWidth, screenHeight - 150)
                 KenneySpriteOverlay.draw()
                 love.graphics.setScissor()
             end
-            -- Stronghold 2027: Draw tutorial overlay
+            -- Castle Kingdoms 2027: Draw tutorial overlay
             S.TutorialSystem.draw()
-            -- Stronghold 2027: Draw siege weapons
+            -- Castle Kingdoms 2027: Draw siege weapons
             S.SiegeWeapons.draw()
-            -- Stronghold 2027: Draw campaign story dialogue
+            -- Castle Kingdoms 2027: Draw campaign story dialogue
             S.CampaignStory.draw()
-            -- Stronghold 2027: Draw debug console
+            -- Castle Kingdoms 2027: Draw debug console
             S.DebugConsole.draw()
-            -- Stronghold 2027: Draw visual polish particles
+            -- Castle Kingdoms 2027: Draw visual polish particles
             S.VisualPolish.draw()
-            -- Stronghold 2027: Draw loading tips (bottom-left, above action bar)
+            -- Castle Kingdoms 2027: Draw loading tips (bottom-left, above action bar)
             S.LoadingTips.draw(10, love.graphics.getHeight() - 310, 300)
             S.CreditsScreen.draw()
-            -- Stronghold 2027: Draw improvements
+            -- Castle Kingdoms 2027: Draw improvements
             S.Minimap.draw()
             S.GameSpeedControl.draw()
             S.ConstructionAnim.draw()
@@ -885,18 +885,18 @@ function game:draw()
             if _G.Commander and _G.Commander.selectedUnits then
                 S.CommandQueue.drawSelected(_G.Commander.selectedUnits)
             end
-            -- Stronghold 2027: Draw v1.25 visuals
+            -- Castle Kingdoms 2027: Draw v1.25 visuals
             S.ResourceFlow.draw()
             S.Veterancy.drawSelected()
-            -- Stronghold 2027: Draw v1.26 QoL visuals
+            -- Castle Kingdoms 2027: Draw v1.26 QoL visuals
             S.RallyPoint.draw()
             S.BuildingQueue.draw()
-            -- Stronghold 2027: Draw v1.27 visuals
+            -- Castle Kingdoms 2027: Draw v1.27 visuals
             S.SpectatorMode.draw()
-            -- Stronghold 2027: Draw v1.28 visuals
+            -- Castle Kingdoms 2027: Draw v1.28 visuals
             S.AutoSaveIndicator.draw()
             S.Gamepad.draw()
-            -- Stronghold 2027 v2.7.2: Draw Notification Center
+            -- Castle Kingdoms 2027 v2.7.2: Draw Notification Center
             S.NotificationCenter.draw()
         else
             renderLoadingScreen("")
@@ -911,7 +911,7 @@ function game:mousepressed(x, y, button, istouch)
     if loveframes.mousepressed(x, y, button) then
         return
     end
-    -- Stronghold 2027: Handle economy UI clicks
+    -- Castle Kingdoms 2027: Handle economy UI clicks
     if DynamicMarketUI.isVisible() then
         if DynamicMarketUI.mousepressed(x, y, button) then return end
     end
@@ -924,15 +924,15 @@ function game:mousepressed(x, y, button, istouch)
     if MissionEndScreen.isVisible() then
         if MissionEndScreen.mousepressed(x, y, button) then return end
     end
-    -- Stronghold 2027: Minimap + GameSpeed click handling
+    -- Castle Kingdoms 2027: Minimap + GameSpeed click handling
     if S.Minimap.isVisible() then
         if S.Minimap.mousepressed(x, y, button) then return end
         if S.MinimapDrag.mousepressed(x, y, button) then return end
     end
     if S.GameSpeedControl.mousepressed(x, y, button) then return end
-    -- Stronghold 2027: Right-click dismiss panels
+    -- Castle Kingdoms 2027: Right-click dismiss panels
     if S.RightClickDismiss.handleRightClick(x, y, button) then return end
-    -- Stronghold 2027: Map Editor click handling
+    -- Castle Kingdoms 2027: Map Editor click handling
     if S.MapEditor.isActive() then
         if S.MapEditor.mousepressed(x, y, button) then return end
     end
@@ -973,7 +973,7 @@ function game:textinput(text)
 end
 
 function game:keypressed(key, scancode, isRepeat)
-    -- Stronghold 2027: Chat input takes priority
+    -- Castle Kingdoms 2027: Chat input takes priority
     if S.Chat.isInputActive() then
         if S.Chat.keypressed(key) then return end
     end
@@ -987,24 +987,24 @@ function game:keypressed(key, scancode, isRepeat)
         return
     end
 
-    -- Stronghold 2027: Enter = toggle chat
+    -- Castle Kingdoms 2027: Enter = toggle chat
     if key == "return" or key == "kpenter" then
         S.Chat.keypressed(key)
         return
     end
-    -- Stronghold 2027: Game speed control (Space, 1-4)
+    -- Castle Kingdoms 2027: Game speed control (Space, 1-4)
     if S.GameSpeedControl.keypressed(key) then return end
-    -- Stronghold 2027: Building hotkeys (Ctrl+1-9)
+    -- Castle Kingdoms 2027: Building hotkeys (Ctrl+1-9)
     if (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
         if S.BuildingHotkeys.handleKey(key, true) then return end
     end
-    -- Stronghold 2027: Toggle resource flow (Ctrl+Y)
+    -- Castle Kingdoms 2027: Toggle resource flow (Ctrl+Y)
     if key == "y" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
         S.ResourceFlow.toggle()
         ModernUI.notifyInfo("Tok surovin: " .. (S.ResourceFlow.isVisible() and "ON" or "OFF"))
         return
     end
-    -- Stronghold 2027: Spectator mode (Ctrl+Shift+S)
+    -- Castle Kingdoms 2027: Spectator mode (Ctrl+Shift+S)
     if key == "s" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
         if S.SpectatorMode.isSpectating() then
             S.SpectatorMode.exit()
@@ -1014,20 +1014,20 @@ function game:keypressed(key, scancode, isRepeat)
         end
         return
     end
-    -- Stronghold 2027: Co-op campaign (Ctrl+Shift+C)
+    -- Castle Kingdoms 2027: Co-op campaign (Ctrl+Shift+C)
     if key == "c" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
         S.CoopCampaign.start("mission1")
         ModernUI.notifySuccess("Kooperativna kampanja zaceta!")
         return
     end
-    -- Stronghold 2027: Cycle map size (Ctrl+Shift+M)
+    -- Castle Kingdoms 2027: Cycle map size (Ctrl+Shift+M)
     if key == "m" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
         local next = S.MapSizeSelector.cycle()
         local info = S.MapSizeSelector.getInfo()
         ModernUI.notifyInfo("Velikost mape: " .. info.name .. " (" .. info.tiles .. " tiles)")
         return
     end
-    -- Stronghold 2027: Skirmish trail (Ctrl+Shift+T = start next unlocked)
+    -- Castle Kingdoms 2027: Skirmish trail (Ctrl+Shift+T = start next unlocked)
     if key == "t" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
         local missions = S.SkirmishTrail.getAllMissions()
         for _, m in ipairs(missions) do
@@ -1040,31 +1040,31 @@ function game:keypressed(key, scancode, isRepeat)
         ModernUI.notifyInfo("Vse skirmish misije končane!")
         return
     end
-    -- Stronghold 2027: Building queue toggle (Ctrl+Shift+Q = clear queue)
+    -- Castle Kingdoms 2027: Building queue toggle (Ctrl+Shift+Q = clear queue)
     if key == "q" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
         S.BuildingQueue.clear()
         ModernUI.notifyInfo("Vrsta gradnje pociscena")
         return
     end
-    -- Stronghold 2027: Toggle auto-worker assignment (Ctrl+Shift+W)
+    -- Castle Kingdoms 2027: Toggle auto-worker assignment (Ctrl+Shift+W)
     if key == "w" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
         local newState = not S.AutoWorker.isEnabled()
         S.AutoWorker.setEnabled(newState)
         ModernUI.notifyInfo("Samodejna delavci: " .. (newState and "ON" or "OFF"))
         return
     end
-    -- Stronghold 2027: Bug report (Ctrl+Shift+B)
+    -- Castle Kingdoms 2027: Bug report (Ctrl+Shift+B)
     if key == "b" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
         S.CommunityToolkit.submitBugReport()
         return
     end
-    -- Stronghold 2027: Open Discord (Ctrl+Shift+D)
+    -- Castle Kingdoms 2027: Open Discord (Ctrl+Shift+D)
     if key == "d" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
         S.CommunityToolkit.openDiscord()
         ModernUI.notifyInfo("Odpiranje Discord...")
         return
     end
-    -- Stronghold 2027: Check for updates (Ctrl+Shift+U)
+    -- Castle Kingdoms 2027: Check for updates (Ctrl+Shift+U)
     if key == "u" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
         if S.AutoUpdater.isUpdateAvailable() then
             ModernUI.notifySuccess("Nova verzija: " .. tostring(S.AutoUpdater.getLatestVersion()))
@@ -1172,32 +1172,32 @@ function game:keypressed(key, scancode, isRepeat)
         end
         return
     end
-    -- M = Toggle dynamic market UI (Stronghold 2027)
+    -- M = Toggle dynamic market UI (Castle Kingdoms 2027)
     -- NOTE: must exclude Ctrl so Ctrl+M (screenshot) is reachable
     if key == "m" and not (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
         DynamicMarketUI.toggle()
         return
     end
-    -- C = Toggle caravan UI (Stronghold 2027)
+    -- C = Toggle caravan UI (Castle Kingdoms 2027)
     -- NOTE: must exclude Ctrl so Ctrl+C / Ctrl+Shift+C are reachable
     if key == "c" and not (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
         CaravanUI.toggle()
         return
     end
-    -- V = Toggle game feel settings (Stronghold 2027)
+    -- V = Toggle game feel settings (Castle Kingdoms 2027)
     if key == "v" and not (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
         GameFeelSettings.toggle()
         return
     end
-    -- F1 = Toggle keybind help (Stronghold 2027)
+    -- F1 = Toggle keybind help (Castle Kingdoms 2027)
     -- NOTE: moved from H (H is the original CenterViewToKeep keybind)
     if key == "f1" then
         KeybindHelp.toggle()
         return
     end
-    -- F5 = Cycle weather (Stronghold 2027)
+    -- F5 = Cycle weather (Castle Kingdoms 2027)
     if key == "f5" then
-        -- Stronghold 2027 v2.6.2: Added blizzard, heatwave, sandstorm
+        -- Castle Kingdoms 2027 v2.6.2: Added blizzard, heatwave, sandstorm
         local weathers = {"clear", "rain", "heavy_rain", "fog", "snow", "storm", "blizzard", "heatwave", "sandstorm"}
         local current = S.WeatherSystem.getCurrentWeather()
         local idx = 1
@@ -1209,7 +1209,7 @@ function game:keypressed(key, scancode, isRepeat)
         ModernUI.notifyInfo("Weather: " .. next)
         return
     end
-    -- F6 = Cycle time of day (Stronghold 2027)
+    -- F6 = Cycle time of day (Castle Kingdoms 2027)
     if key == "f6" then
         local periods = {"dawn", "day", "dusk", "night"}
         local current = S.LightingSystem.getTimePeriod():lower()
@@ -1222,33 +1222,33 @@ function game:keypressed(key, scancode, isRepeat)
         ModernUI.notifyInfo("Time: " .. next .. " (" .. S.LightingSystem.getTimeString() .. ")")
         return
     end
-    -- F7 = Toggle HD render pipeline (Stronghold 2027)
+    -- F7 = Toggle HD render pipeline (Castle Kingdoms 2027)
     if key == "f7" then
         local newState = not S.HDRenderPipeline.isEnabled()
         S.HDRenderPipeline.setEnabled(newState)
         ModernUI.notifyInfo("HD Pipeline: " .. (newState and "ON" or "OFF"))
         return
     end
-    -- F8 = Force refresh light sources (Stronghold 2027)
+    -- F8 = Force refresh light sources (Castle Kingdoms 2027)
     if key == "f8" then
         S.HDRenderPipeline.autoDetectLights()
         local info = S.HDRenderPipeline.getInfo()
         ModernUI.notifyInfo("Lights refreshed: " .. info.lightCount .. " active")
         return
     end
-    -- F9 = Toggle diplomacy & trade panel (Stronghold 2027)
+    -- F9 = Toggle diplomacy & trade panel (Castle Kingdoms 2027)
     if key == "f9" then
         S.DiplomacyPanel.toggle()
         return
     end
-    -- F10 = Run mission test suite (Stronghold 2027)
+    -- F10 = Run mission test suite (Castle Kingdoms 2027)
     if key == "f10" then
         local results = S.MissionTestSuite.runAll()
         S.MissionTestSuite.printResults(results)
         ModernUI.notifyInfo(string.format("Mission tests: %d/%d passed", results.passed, results.total))
         return
     end
-    -- F11 = Write crash log + mod/Steam info (Stronghold 2027)
+    -- F11 = Write crash log + mod/Steam info (Castle Kingdoms 2027)
     if key == "f11" then
         S.CrashHandler.writeLog()
         local summary = S.CrashHandler.getSummary()
@@ -1259,18 +1259,18 @@ function game:keypressed(key, scancode, isRepeat)
             steamInfo.achievementsUnlocked, steamInfo.totalAchievements))
         return
     end
-    -- F4 = Toggle Map Editor (Stronghold 2027)
+    -- F4 = Toggle Map Editor (Castle Kingdoms 2027)
     -- NOTE: moved from F12 (F12 is the standard screenshot key, now handled via EVENT.Screenshot)
     if key == "f4" then
         S.MapEditor.toggle()
         return
     end
-    -- F3 = Toggle performance overlay (Stronghold 2027)
+    -- F3 = Toggle performance overlay (Castle Kingdoms 2027)
     if key == "f3" then
         PerformanceOverlay.toggle()
         return
     end
-    -- Ctrl+T = Toggle tutorial (Stronghold 2027)
+    -- Ctrl+T = Toggle tutorial (Castle Kingdoms 2027)
     if key == "t" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and not love.keyboard.isDown("lshift") and not love.keyboard.isDown("rshift") then
         if S.TutorialSystem.isActive() then
             S.TutorialSystem.stop()
@@ -1281,12 +1281,12 @@ function game:keypressed(key, scancode, isRepeat)
         end
         return
     end
-    -- Ctrl+O = Toggle unified settings (Stronghold 2027)
+    -- Ctrl+O = Toggle unified settings (Castle Kingdoms 2027)
     if key == "o" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
         S.UnifiedSettings.toggle()
         return
     end
-    -- Ctrl+B = Spawn catapult for testing (Stronghold 2027)
+    -- Ctrl+B = Spawn catapult for testing (Castle Kingdoms 2027)
     if key == "b" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and not love.keyboard.isDown("lshift") and not love.keyboard.isDown("rshift") then
         if _G.state and _G.state.keepX then
             S.SiegeWeapons.create("catapult", _G.state.keepX + 5, _G.state.keepY + 5, 1)
@@ -1294,21 +1294,21 @@ function game:keypressed(key, scancode, isRepeat)
         end
         return
     end
-    -- Ctrl+L = Run release checklist (Stronghold 2027)
+    -- Ctrl+L = Run release checklist (Castle Kingdoms 2027)
     if key == "l" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and not love.keyboard.isDown("lshift") and not love.keyboard.isDown("rshift") then
         local results = S.ReleaseChecklist.runAll()
         S.ReleaseChecklist.printResults()
         ModernUI.notifyInfo(string.format("Release checklist: %d/%d passed", results.passed, results.total))
         return
     end
-    -- Ctrl+I = Run integration test suite (Stronghold 2027)
+    -- Ctrl+I = Run integration test suite (Castle Kingdoms 2027)
     if key == "i" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
         local results = S.IntegrationTestSuite.runAll()
         S.IntegrationTestSuite.printResults()
         ModernUI.notifyInfo(string.format("Integration tests: %d/%d passed", results.passed, results.total))
         return
     end
-    -- Ctrl+P = Run performance benchmark (Stronghold 2027)
+    -- Ctrl+P = Run performance benchmark (Castle Kingdoms 2027)
     if key == "p" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
         if S.PerfBenchmark.isRunning() then
             ModernUI.notifyInfo("Benchmark already running...")
@@ -1318,25 +1318,25 @@ function game:keypressed(key, scancode, isRepeat)
         end
         return
     end
-    -- Ctrl+N = Generate release notes (Stronghold 2027)
+    -- Ctrl+N = Generate release notes (Castle Kingdoms 2027)
     if key == "n" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
         local filename = S.ReleaseNotesGen.save("1.21.0")
         ModernUI.notifyInfo("Release notes saved: " .. tostring(filename))
         return
     end
-    -- Ctrl+A = Toggle achievement gallery (Stronghold 2027)
+    -- Ctrl+A = Toggle achievement gallery (Castle Kingdoms 2027)
     if key == "a" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
         S.AchievementGallery.toggle()
         return
     end
-    -- Ctrl+W = Cycle weather gameplay (Stronghold 2027)
+    -- Ctrl+W = Cycle weather gameplay (Castle Kingdoms 2027)
     if key == "w" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and not love.keyboard.isDown("lshift") and not love.keyboard.isDown("rshift") then
         local newWeather = S.WeatherGameplay.cycleWeather()
         local mods = S.WeatherGameplay.getModifiers()
         ModernUI.notifyInfo("Vreme: " .. mods.name .. " (farm x" .. mods.farmMult .. ", speed x" .. mods.speedMult .. ")")
         return
     end
-    -- Ctrl+F = Start tournament festival (Stronghold 2027)
+    -- Ctrl+F = Start tournament festival (Castle Kingdoms 2027)
     if key == "f" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
         if S.FestivalSystem.start("tournament") then
             ModernUI.notifySuccess("Turnir zacel! (+10 popularnost)")
@@ -1345,52 +1345,52 @@ function game:keypressed(key, scancode, isRepeat)
         end
         return
     end
-    -- Ctrl+Shift+V = Reveal all fog (debug, Stronghold 2027)
+    -- Ctrl+Shift+V = Reveal all fog (debug, Castle Kingdoms 2027)
     if key == "v" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
         S.FogOfWar.revealAll()
         ModernUI.notifyInfo("Megla razkrita (debug)")
         return
     end
-    -- Ctrl+G = Cycle formation (Stronghold 2027)
+    -- Ctrl+G = Cycle formation (Castle Kingdoms 2027)
     if key == "g" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
         local next = S.FormationSystem.cycleFormation()
         local info = S.FormationSystem.getStats()
         ModernUI.notifyInfo("Formacija: " .. info.name .. " (def x" .. info.defenseBonus .. ", atk x" .. info.attackBonus .. ")")
         return
     end
-    -- Ctrl+E = Show credits (Stronghold 2027)
+    -- Ctrl+E = Show credits (Castle Kingdoms 2027)
     if key == "e" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
         S.CreditsScreen.show()
         return
     end
-    -- Ctrl+D = Cycle difficulty (Stronghold 2027)
+    -- Ctrl+D = Cycle difficulty (Castle Kingdoms 2027)
     if key == "d" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and not love.keyboard.isDown("lshift") and not love.keyboard.isDown("rshift") then
         local next = S.DifficultyPresets.cycle()
         local info = S.DifficultyPresets.getCurrentInfo()
         ModernUI.notifyInfo("Tezavnost: " .. info.name .. " - " .. info.description)
         return
     end
-    -- Ctrl+M = Capture screenshot (Stronghold 2027)
+    -- Ctrl+M = Capture screenshot (Castle Kingdoms 2027)
     if key == "m" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and not love.keyboard.isDown("lshift") and not love.keyboard.isDown("rshift") then
         local file = S.ScreenshotManager.capture("manual")
         ModernUI.notifySuccess("Screenshot shranjen: " .. tostring(file))
         return
     end
-    -- Ctrl+Shift+L = Final release prep (Stronghold 2027)
+    -- Ctrl+Shift+L = Final release prep (Castle Kingdoms 2027)
     if key == "l" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
         S.FinalReleasePrep.printResults()
         local results = S.FinalReleasePrep.runAll()
         ModernUI.notifyInfo(string.format("Release prep: %d/%d passed", results.passed, results.total))
         return
     end
-    -- Stronghold 2027 v2.5.0: Ctrl+Shift+X = Run stability test suite
+    -- Castle Kingdoms 2027 v2.5.0: Ctrl+Shift+X = Run stability test suite
     if key == "x" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
         local results = S.StabilityTests.runAll()
         S.StabilityTests.printResults()
         ModernUI.notifyInfo(string.format("Stability tests: %d/%d passed", results.passed, results.total))
         return
     end
-    -- Stronghold 2027 v2.6.3: Ctrl+Shift+H = Show daily challenges
+    -- Castle Kingdoms 2027 v2.6.3: Ctrl+Shift+H = Show daily challenges
     if key == "h" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
         local challenges = S.DailyChallenge.getChallenges()
         local stats = S.DailyChallenge.getStats()
@@ -1402,7 +1402,7 @@ function game:keypressed(key, scancode, isRepeat)
         end
         return
     end
-    -- Stronghold 2027 v2.6.4: Ctrl+Shift+Y = Show technology tree
+    -- Castle Kingdoms 2027 v2.6.4: Ctrl+Shift+Y = Show technology tree
     if key == "y" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
         local stats = S.TechnologyTree.getStats()
         local current = S.TechnologyTree.getCurrentResearch()
@@ -1422,7 +1422,7 @@ function game:keypressed(key, scancode, isRepeat)
         end
         return
     end
-    -- Stronghold 2027 v2.6.5: Ctrl+Shift+P = Show population & happiness
+    -- Castle Kingdoms 2027 v2.6.5: Ctrl+Shift+P = Show population & happiness
     if key == "p" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
         local stats = S.PopulationSystem.getStats()
         ModernUI.notifyInfo(string.format("Populacija: %d/%d | Sreca: %d/100 | Rast: %.1f",
@@ -1438,7 +1438,7 @@ function game:keypressed(key, scancode, isRepeat)
     if S.CreditsScreen.isActive() then
         if S.CreditsScreen.keypressed(key) then return end
     end
-    -- Tilde (~) = Toggle debug console (Stronghold 2027)
+    -- Tilde (~) = Toggle debug console (Castle Kingdoms 2027)
     if key == "`" or key == "~" then
         S.DebugConsole.toggle()
         return
@@ -1451,11 +1451,11 @@ function game:keypressed(key, scancode, isRepeat)
     if S.CampaignStory.isActive() then
         if S.CampaignStory.keypressed(key) then return end
     end
-    -- Stronghold 2027: Handle Map Editor input
+    -- Castle Kingdoms 2027: Handle Map Editor input
     if S.MapEditor.isActive() then
         if S.MapEditor.keypressed(key) then return end
     end
-    -- Ctrl+R = Toggle replay recording (Stronghold 2027)
+    -- Ctrl+R = Toggle replay recording (Castle Kingdoms 2027)
     if key == "r" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
         if S.ReplaySystem.isRecording() then
             S.ReplaySystem.stopRecording()
@@ -1466,7 +1466,7 @@ function game:keypressed(key, scancode, isRepeat)
         end
         return
     end
-    -- Ctrl+S = Print statistics (Stronghold 2027)
+    -- Ctrl+S = Print statistics (Castle Kingdoms 2027)
     -- NOTE: excludes Shift so Ctrl+Shift+S (spectator mode) is reachable
     if key == "s" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl"))
         and not (love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift")) then
@@ -1548,7 +1548,7 @@ function game:keypressed(key, scancode, isRepeat)
         loveframes.TogglePause()
     elseif event == EVENT.ToggleDebugView then
         _G.DebugView:toggle()
-        -- Stronghold 2027: Toggle performance overlay with F3
+        -- Castle Kingdoms 2027: Toggle performance overlay with F3
         PerformanceOverlay.toggle()
     elseif event == EVENT.CenterViewToKeep and _G.state.keepX then
         _G.state.viewXview = _G.IsoToScreenX(_G.state.keepX, _G.state.keepY)
@@ -1560,7 +1560,7 @@ function game:keypressed(key, scancode, isRepeat)
 end
 
 function game:mousereleased(x, y, button, istouch)
-    -- Stronghold 2027: Handle minimap drag release
+    -- Castle Kingdoms 2027: Handle minimap drag release
     S.MinimapDrag.mousereleased(x, y, button)
     -- TODO: Check if event is consumed
     if _G.Commander:mousereleased(x, y, button) then
@@ -1571,11 +1571,11 @@ function game:mousereleased(x, y, button, istouch)
 end
 
 function game:mousemoved(x, y, dx, dy, istouch)
-    -- Stronghold 2027: Handle minimap drag scrolling
+    -- Castle Kingdoms 2027: Handle minimap drag scrolling
     S.MinimapDrag.mousemoved(x, y, dx, dy)
 end
 
--- Stronghold 2027: Gamepad support
+-- Castle Kingdoms 2027: Gamepad support
 function game:gamepadpressed(joystick, button)
     S.Gamepad.handleButton(joystick, button)
 end
@@ -1598,7 +1598,7 @@ function game:gamepaddisconnected(joystick)
     end
 end
 
--- Stronghold 2027: Skirmish trail access (Ctrl+Shift+T = start skirmish 1)
+-- Castle Kingdoms 2027: Skirmish trail access (Ctrl+Shift+T = start skirmish 1)
 function game:wheelmoved(x, y)
     if scrollCountDown == 0 then
         scrollCountDown = 0.05
@@ -1612,7 +1612,7 @@ function game:keyreleased(key, scancode)
     if console.isEnabled() then
         return
     end
-    -- Stronghold 2027: exclude Ctrl modifiers so Ctrl+B (catapult) doesn't toggle brush on release
+    -- Castle Kingdoms 2027: exclude Ctrl modifiers so Ctrl+B (catapult) doesn't toggle brush on release
     local ctrl_down = love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")
     -- if not _G.BuildController.start then
     if key == "b" and not ctrl_down then

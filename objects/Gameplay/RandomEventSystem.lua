@@ -1,5 +1,5 @@
 -- objects/Gameplay/RandomEventSystem.lua
--- Stronghold 2027 v2.7.1 - Random Event System
+-- Castle Kingdoms 2027 v2.7.1 - Random Event System
 --
 -- Triggers random events that affect gameplay unpredictably.
 -- Events range from positive (hero unit visits) to negative (plague).

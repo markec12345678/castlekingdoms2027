@@ -1,4 +1,4 @@
-# Stronghold 2027 — Demo Build Guide
+# Castle Kingdoms 2027 — Demo Build Guide
 
 How to create a demo version for Steam Next Fest or press coverage.
 
@@ -79,7 +79,7 @@ end
 echo "_G.isDemo = true" >> main.lua
 
 # Build
-zip -r stronghold2027-demo.love . -x ".git/*"
+zip -r castlekingdoms2027-demo.love . -x ".git/*"
 
 # Remove demo flag from main.lua (for full build)
 # (use git checkout to restore)

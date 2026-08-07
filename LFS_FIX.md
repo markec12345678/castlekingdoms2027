@@ -1,4 +1,4 @@
-# Stronghold 2027 - LFS Fix Guide
+# Castle Kingdoms 2027 - LFS Fix Guide
 
 ## Problem: Črni kvadratki v gradbenem meniju
 
@@ -72,7 +72,7 @@ love .
 
 Če `git lfs pull` ne deluje (npr. zaradi GitHub LFS quota omejitev):
 
-1. Pojdi na https://github.com/markec12345678/stronghold2027/releases
+1. Pojdi na https://github.com/markec12345678/castlekingdoms2027/releases
 2. Prenesi zadnji release zip (ko bo na voljo)
 3. Razširi zip in zaženi `love .`
 
@@ -95,6 +95,6 @@ Za prihodnost premislek:
 ## Kontakt
 
 Če imaš še vedno težave, odpri issue na GitHubu:
-https://github.com/markec12345678/stronghold2027/issues
+https://github.com/markec12345678/castlekingdoms2027/issues
 
 Priloži output `bash scripts/check_lfs.sh`.

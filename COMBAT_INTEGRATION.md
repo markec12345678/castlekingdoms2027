@@ -1,4 +1,4 @@
-# Stronghold 2027 - Combat Integration Guide
+# Castle Kingdoms 2027 - Combat Integration Guide
 
 > Ta dokument opisuje, kako je combat sistem integriran v igro in kako ga testirati.
 

@@ -1,5 +1,5 @@
 -- objects/Feedback/BuildPreviewSystem.lua
--- Stronghold 2027 - Build Placement Preview
+-- Castle Kingdoms 2027 - Build Placement Preview
 --
 -- Shows a ghost/preview of the building before placement:
 -- - Green tint if valid location
@@ -82,7 +82,7 @@ end
 function BuildPreviewSystem.update(dt)
     if not enabled or not preview.active then return end
 
-    -- Stronghold 2027: Skip preview when mouse is over UI
+    -- Castle Kingdoms 2027: Skip preview when mouse is over UI
     local mx, my = love.mouse.getPosition()
     local screenH = love.graphics.getHeight()
     if my > screenH - 150 then

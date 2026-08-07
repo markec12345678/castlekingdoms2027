@@ -1,5 +1,5 @@
 -- objects/Combat/UnitFormationSystem.lua
--- Stronghold 2027 - Unit Formation System
+-- Castle Kingdoms 2027 - Unit Formation System
 -- Battle formations: line, column, wedge, scatter, box
 
 local FormationSystem = {}
@@ -102,7 +102,7 @@ local FORMATIONS = {
         attackBonus = 0.9,
         speedBonus = 0.8,
     },
-    -- Stronghold 2027 v2.6.1: 2 new formations
+    -- Castle Kingdoms 2027 v2.6.1: 2 new formations
     phalanx = {
         name = "Falanga",
         description = "Gosta kopjaška formacija. Maksimalna obramba, počasna.",
@@ -230,7 +230,7 @@ end
 
 -- Cycle through formations
 function FormationSystem.cycleFormation()
-    -- Stronghold 2027 v2.6.1: Added phalanx and skirmish to cycle
+    -- Castle Kingdoms 2027 v2.6.1: Added phalanx and skirmish to cycle
     local order = {"line", "column", "wedge", "scatter", "box", "phalanx", "skirmish"}
     local idx = 1
     for i, f in ipairs(order) do

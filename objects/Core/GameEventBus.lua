@@ -1,5 +1,5 @@
 -- objects/Core/GameEventBus.lua
--- Stronghold 2027 - Centralized Event Bus
+-- Castle Kingdoms 2027 - Centralized Event Bus
 -- Connects ALL game systems through publish/subscribe pattern
 
 local GameEventBus = {}

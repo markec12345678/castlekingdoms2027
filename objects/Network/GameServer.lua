@@ -1,5 +1,5 @@
 -- objects/Network/GameServer.lua
--- Stronghold 2027 - Game Server
+-- Castle Kingdoms 2027 - Game Server
 --
 -- Hosts a multiplayer game. Accepts client connections, broadcasts
 -- game state, and relays player actions between clients.

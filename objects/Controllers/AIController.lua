@@ -1,5 +1,5 @@
 -- objects/Controllers/AIController.lua
--- Stronghold 2027 - AI for enemy units
+-- Castle Kingdoms 2027 - AI for enemy units
 --
 -- Controls enemy unit behavior: patrolling, aggro detection, attacking player units,
 -- retreating when wounded, and group tactics.
@@ -285,7 +285,7 @@ end
 
 -- Spawn a group of enemy units at position
 function AIController:spawnEnemyGroup(faction, unitClass, count, gx, gy)
-    -- Stronghold 2027 v2.5.9: Actually spawn units via CombatIntegration
+    -- Castle Kingdoms 2027 v2.5.9: Actually spawn units via CombatIntegration
     local CombatIntegration = _G.CombatIntegration
     if CombatIntegration and CombatIntegration.spawnEnemyGroup then
         CombatIntegration.spawnEnemyGroup(unitClass, count, gx, gy, faction)

@@ -1,5 +1,5 @@
 -- saves/Missions/campaign/mission7_the_northern_pass.lua
--- Stronghold 2027 - Campaign Mission 7: The Northern Pass
+-- Castle Kingdoms 2027 - Campaign Mission 7: The Northern Pass
 --
 -- Seventh mission of "The Lord of Fernhaven" campaign.
 -- Siege warfare - use catapults to breach mountain fortress.

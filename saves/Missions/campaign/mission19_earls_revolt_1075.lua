@@ -1,5 +1,5 @@
 -- saves/Missions/campaign/mission19_earls_revolt_1075.lua
--- Stronghold 2027 - Historical Campaign Mission 19: Revolt of the Earls (1075)
+-- Castle Kingdoms 2027 - Historical Campaign Mission 19: Revolt of the Earls (1075)
 --
 -- Historical: 1075 — Earls Ralph de Gael and Roger de Breteuil rebel against William.
 -- Internal political conflict with castle sieges.

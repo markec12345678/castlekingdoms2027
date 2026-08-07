@@ -1,5 +1,5 @@
 -- objects/Audio/DynamicMusicManager.lua
--- Stronghold 2027 - Dynamic Music Manager
+-- Castle Kingdoms 2027 - Dynamic Music Manager
 --
 -- Manages music playback based on game state:
 -- - Menu music (main menu, lobby)

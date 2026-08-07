@@ -2,7 +2,6 @@
 
 ## Art
 
-* The in-game art is property of Firefly Studios. Thanks to Firefly Studios for their fan interaction and great policy on fan games.
 
 ## Code
 
@@ -10,7 +9,7 @@
 
 * Special thanks to PodeCaradox for helping with the rendering shaders and mouse to global coordinates transformation that accounts elevated terrain.
 
-* Special thanks to Lyzzzy for help deciphering the original Stronghold map format.
+* Special thanks to Lyzzzy for help deciphering the original Castle Kingdoms map format.
 
 * Special thanks to Vornicus for the WHCA* algorithm.
 
@@ -18,11 +17,9 @@
 
 ## Sound and speech fx
 
-* In-game sound fx and speech fx are property of Firefly Studios.
 
 ## Music
 
-* Original OST is property of Firefly Studios.
 * Extended soundtrack was made by Alexander Nakarada, Kevin MacLeod & Random Mind. See `/sounds/music` for full attribution & licensing info.
 
 ## Freepik & flatikon

@@ -1,5 +1,5 @@
 -- saves/Missions/campaign/mission13_harrying_north_1069.lua
--- Stronghold 2027 - Historical Campaign Mission 13: Harrying of the North (1069-1070)
+-- Castle Kingdoms 2027 - Historical Campaign Mission 13: Harrying of the North (1069-1070)
 --
 -- Historical: Winter 1069-1070 — William devastates Yorkshire to crush rebellion.
 -- This brutal campaign destroyed villages and farms across northern England.

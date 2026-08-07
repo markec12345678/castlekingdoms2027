@@ -1,5 +1,5 @@
 -- states/ui/hud/achievement_gallery.lua
--- Stronghold 2027 - Achievement Gallery
+-- Castle Kingdoms 2027 - Achievement Gallery
 
 local loveframes = require("libraries.loveframes")
 local states = require("states.ui.states")
@@ -15,7 +15,7 @@ function AchievementGallery.init()
     if panel then return end
     local w, h = love.graphics.getDimensions()
     panel = loveframes.Create("frame")
-    panel:SetName("Dosezki - Stronghold 2027")
+    panel:SetName("Dosezki - Castle Kingdoms 2027")
     panel:SetSize(700, 500)
     panel:SetPos((w-700)/2, (h-500)/2)
     panel:SetState(states.STATE_INGAME_CONSTRUCTION)

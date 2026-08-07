@@ -1,5 +1,5 @@
 -- objects/Audio/SlovenianVoiceOver.lua
--- Stronghold 2027 - Slovenian Voice Over System
+-- Castle Kingdoms 2027 - Slovenian Voice Over System
 --
 -- Provides Slovenian voice-over notifications for game events:
 -- - Combat alerts (attack incoming, enemy spotted)
@@ -67,7 +67,7 @@ local MESSAGES = {
     achievement_unlocked = { text = "Dosežek odklenjen: %s",        priority = 2, cooldown = 0 },
     hd_pipeline_on      = { text = "HD način vklopljen.",           priority = 3, cooldown = 0 },
     hd_pipeline_off     = { text = "HD način izklopljen.",          priority = 3, cooldown = 0 },
-    -- Stronghold 2027 v2.5.8: New voice-over messages
+    -- Castle Kingdoms 2027 v2.5.8: New voice-over messages
     unit_veteran        = { text = "Enota napredovala: %s",         priority = 2, cooldown = 5 },
     unit_legendary      = { text = "Legendarna enota! %s",          priority = 1, cooldown = 0 },
     siege_weapon_ready  = { text = "Oblegovalno orožje pripravljeno!", priority = 2, cooldown = 10 },

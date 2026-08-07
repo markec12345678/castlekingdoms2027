@@ -1,5 +1,5 @@
 -- saves/Missions/campaign/mission20_normandy_defense_1087.lua
--- Stronghold 2027 - Historical Campaign Mission 20: Defense of Normandy (1087)
+-- Castle Kingdoms 2027 - Historical Campaign Mission 20: Defense of Normandy (1087)
 --
 -- Historical: 1087 — William defends Normandy against French invasion.
 -- Final mission — William's last battle before his death.

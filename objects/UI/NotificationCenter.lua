@@ -1,5 +1,5 @@
 -- objects/UI/NotificationCenter.lua
--- Stronghold 2027 v2.7.2 - Notification Center
+-- Castle Kingdoms 2027 v2.7.2 - Notification Center
 --
 -- Centralized notification management with priority, filtering, and history.
 -- Replaces ad-hoc ModernUI.notify calls with a structured system.

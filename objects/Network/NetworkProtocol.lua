@@ -1,5 +1,5 @@
 -- objects/Network/NetworkProtocol.lua
--- Stronghold 2027 - Network Protocol
+-- Castle Kingdoms 2027 - Network Protocol
 --
 -- Defines the message format and serialization for multiplayer communication.
 -- Uses a simple length-prefixed JSON protocol over TCP.

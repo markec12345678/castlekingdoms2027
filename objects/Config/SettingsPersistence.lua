@@ -1,5 +1,5 @@
 -- objects/Config/SettingsPersistence.lua
--- Stronghold 2027 - Settings Persistence
+-- Castle Kingdoms 2027 - Settings Persistence
 --
 -- Saves and loads game settings to/from settings.json
 -- Settings persist between game sessions.

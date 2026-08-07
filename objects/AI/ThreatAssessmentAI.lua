@@ -1,5 +1,5 @@
 -- objects/AI/ThreatAssessmentAI.lua
--- Stronghold 2027 - Threat Assessment AI
+-- Castle Kingdoms 2027 - Threat Assessment AI
 -- AI evaluates player strength and adapts strategy dynamically
 
 local ThreatAI = {}

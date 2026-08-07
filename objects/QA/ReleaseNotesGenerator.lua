@@ -1,5 +1,5 @@
 -- objects/QA/ReleaseNotesGenerator.lua
--- Stronghold 2027 - Release Notes Generator
+-- Castle Kingdoms 2027 - Release Notes Generator
 -- Auto-generates release notes from git log and system info
 
 local ReleaseNotesGen = {}
@@ -8,7 +8,7 @@ function ReleaseNotesGen.generate(version)
     version = version or "1.20.0"
     local notes = {}
 
-    table.insert(notes, "# Stronghold 2027 v" .. version)
+    table.insert(notes, "# Castle Kingdoms 2027 v" .. version)
     table.insert(notes, "")
     table.insert(notes, "Datum izdaje: " .. os.date("%Y-%m-%d"))
     table.insert(notes, "")
@@ -140,9 +140,9 @@ function ReleaseNotesGen.generate(version)
 
     table.insert(notes, "---")
     table.insert(notes, "")
-    table.insert(notes, "Prenesi: [stronghold2027-v" .. version .. ".love](download)")
+    table.insert(notes, "Prenesi: [castlekingdoms2027-v" .. version .. ".love](download)")
     table.insert(notes, "")
-    table.insert(notes, "GitHub: https://github.com/markec12345678/stronghold2027")
+    table.insert(notes, "GitHub: https://github.com/markec12345678/castlekingdoms2027")
 
     return table.concat(notes, "\n")
 end

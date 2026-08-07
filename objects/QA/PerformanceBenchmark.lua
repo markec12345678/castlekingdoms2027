@@ -1,5 +1,5 @@
 -- objects/QA/PerformanceBenchmark.lua
--- Stronghold 2027 - Automated Performance Benchmark
+-- Castle Kingdoms 2027 - Automated Performance Benchmark
 -- Runs standardized tests to measure game performance
 
 local PerfBenchmark = {}

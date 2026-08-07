@@ -1,5 +1,5 @@
 -- objects/Controllers/HealthBarController.lua
--- Stronghold 2027 - Health Bar UI
+-- Castle Kingdoms 2027 - Health Bar UI
 --
 -- Draws health bars above units when they're damaged or in combat
 -- Optimized: only draws bars for units with health < max or in combat

@@ -1,7 +1,6 @@
-# Stronghold 2027 - Asset Migration Plan
+# Castle Kingdoms 2027 - Asset Migration Plan
 
-> Načrt za zamenjavo Firefly Studios assetov z brezplačnimi CC0 alternativami.
-> Cilj: popolna neodvisnost od Firefly IP za komercialni izid.
+> Cilj: popolna neodvisnost od Original RTS IP za komercialni izid.
 
 Zadnja posodobitev: 2026-08-01
 
@@ -9,11 +8,11 @@ Zadnja posodobitev: 2026-08-01
 
 ## 🎯 Zakaj zamenjati?
 
-| Trenutno (Firefly) | Po migraciji (CC0) |
+| Trenutno (Original RTS) | Po migraciji (CC0) |
 |--------------------|--------------------|
-| ⚠️ Odvisnost od Firefly goodwill | ✅ Popolna neodvisnost |
+| ⚠️ Odvisnost od Original RTS goodwill | ✅ Popolna neodvisnost |
 | ⚠️ Pisno dovoljenje lahko prekličejo | ✅ CC0 = public domain, ne morejo preklicati |
-| ⚠️ "Stronghold" ime je zaščiteno | ✅ Lastno ime, lastni asseti |
+| ⚠️ "Castle Kingdoms" ime je zaščiteno | ✅ Lastno ime, lastni asseti |
 | ⚠️ Težko iti na Steam z originalnim look | ✅ Lasten stil, Steam-ready |
 | ✅ Dobra kvaliteta (original) | ✅ Kenney + LPC je solidna kvaliteta |
 
@@ -43,7 +42,7 @@ Zadnja posodobitev: 2026-08-01
 - Lahko spreminjaš in redistribuira
 
 **Slabosti:**
-- Manj realistični kot Firefly (bolj "indie" stil)
+- Manj realistični kot Original RTS (bolj "indie" stil)
 - Manj detajlov na zgradbah
 - Treba adaptirati kodo za nove sprite dimenzije
 
@@ -133,7 +132,7 @@ Zadnja posodobitev: 2026-08-01
 
 ## 📊 Primerjava kvalitete
 
-| Kategorija | Firefly (trenutno) | Kenney CC0 | Razlika |
+| Kategorija | Original RTS (trenutno) | Kenney CC0 | Razlika |
 |-----------|-------------------|------------|---------|
 | Zgradbe | Realistični, bogati detajli | Stylized, clean pixel art | Manj detajlov, a čist |
 | Enota | 8 smeri, 8 animacij | 4-8 smeri, omejene animacije | Manj animacij |
@@ -153,7 +152,7 @@ Zadnja posodobitev: 2026-08-01
 **NE, če:**
 - Želiš fotorealistično grafiko
 - Želiš 100+ animacij per enota
-- Želiš "Stronghold" look
+- Želiš "Castle Kingdoms" look
 
 ---
 
@@ -165,7 +164,7 @@ Zadnja posodobitev: 2026-08-01
 | LPC CC-BY-SA + Kenney | **€0** | 8 tednov |
 | Lastni asseti ( commissioned) | **€2000-5000** | 3-6 mesecev |
 | Kupljeni asseti (Unity Store) | **€200-1000** | 2 tedna |
-| Firefly (trenutno) | **€0** (+ pravno tveganje) | 0 |
+| Original RTS (trenutno) | **€0** (+ pravno tveganje) | 0 |
 
 ---
 

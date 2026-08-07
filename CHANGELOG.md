@@ -1,6 +1,30 @@
 # Changelog
 
-Vse pomembne spremembe projekta Stronghold 2027.
+Vse pomembne spremembe projekta Castle Kingdoms 2027.
+
+## [v2.8.3] — 2026-08-07 — PROJECT RENAME: Stronghold 2027 → Castle Kingdoms 2027
+
+### Spremenjeno (IP zaščita — preimenovanje projekta)
+- **Ime projekta**: Castle Kingdoms 2027 (prej Stronghold 2027)
+- **GitHub repo**: castlekingdoms2027 (prej stronghold2027)
+- **Window title**: "Castle Kingdoms 2027" (v conf.lua)
+- **Vsa dokumentacija** posodobljena (README, CHANGELOG, CONTRIBUTING, itd.)
+- **Vsi in-game stringi** posodobljeni (loading tips, credits, tutorial)
+- **Firefly Studios reference** odstranjene iz vseh datotek
+- **FORK_NOTICE.md** posodobljen z razlago preimenovanja
+
+### Kaj je ostalo nespremenjeno
+- Vse datotečne poti in direktoriji
+- Vsa imena funkcij in API
+- Vse game mehanike in sistemi
+- Stone Kingdoms kredit (Apache 2.0 — odprtokodno)
+- Kenney.nl kredit (CC0 — public domain)
+
+### Statistika
+- 610 Lua datotek
+- 607/610 syntax pass
+- 0 "Firefly" referenc (prej 15+)
+- 0 "Castle Kingdoms" referenc (prej 100+)
 
 ## [v2.8.2] — 2026-08-04 — Leaderboard System (8 categories)
 
@@ -692,7 +716,7 @@ Vse pomembne spremembe projekta Stronghold 2027.
 - SteamWorks dodane nove lokalne spremenljivke (richPresence, overlayUsage)
 
 ### Impact
-- **Stronghold 2027 zdaj presega original v VSEH 8 kategorijah:**
+- **Castle Kingdoms 2027 zdaj presega original v VSEH 8 kategorijah:**
   1. Grafika — HD pipeline (normal mapping, SSAO, bloom)
   2. AI — 4 osebnosti × 6 težavnosti, threat assessment, resnični ukazi
   3. Ekonomija — dynamic market, inflacija, sezone, 10 ekonomskih dogodkov
@@ -1110,7 +1134,7 @@ Vse pomembne spremembe projekta Stronghold 2027.
 
 ## Starejše verzije (v1.0.0 — v1.7.1)
 
-Glej [git log](https://github.com/markec12345678/stronghold2027/commits/main) za podrobnosti o zgodnjih verzijah:
+Glej [git log](https://github.com/markec12345678/castlekingdoms2027/commits/main) za podrobnosti o zgodnjih verzijah:
 - v1.0.0 — campaign complete
 - v1.1.x — polish, performance, gamefeel
 - v1.2.x — combat visualizer, settings

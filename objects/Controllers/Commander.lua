@@ -139,7 +139,7 @@ function Commander:mousepressed(x, y, button)
         self.initialMX, self.initialMY = x, y
         self.initialPressGX, self.initialPressGY = _G.getTerrainTileOnMouse(x, y)
         self.isDown = true
-        -- Stronghold 2027: Start selection box
+        -- Castle Kingdoms 2027: Start selection box
         if _G.SelectionFeedback then
             _G.SelectionFeedback.startBox(x, y)
         end
@@ -155,7 +155,7 @@ function Commander:mousereleased(x, y, button)
         if self.isDown then self.isDown = false else return false end
         local finalPressGX, finalPressGY = _G.getTerrainTileOnMouse(x, y)
         self:selectUnitsInArea(self.initialPressGX, self.initialPressGY, finalPressGX, finalPressGY)
-        -- Stronghold 2027: End selection box
+        -- Castle Kingdoms 2027: End selection box
         if _G.SelectionFeedback then
             _G.SelectionFeedback.endBox()
         end

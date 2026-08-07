@@ -1,5 +1,5 @@
 -- objects/QA/PerformanceWatchdog.lua
--- Stronghold 2027 - Performance Watchdog
+-- Castle Kingdoms 2027 - Performance Watchdog
 --
 -- Monitors game performance and auto-adjusts quality settings:
 -- - FPS tracking (1s average)

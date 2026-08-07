@@ -1,5 +1,5 @@
 -- objects/Controllers/CombatController.lua
--- Stronghold 2027 - Combat System
+-- Castle Kingdoms 2027 - Combat System
 --
 -- Manages all combat interactions between units and buildings.
 -- Handles damage calculation, attack cooldowns, aggro detection, and death.
@@ -31,7 +31,7 @@ function CombatController:initialize()
         combatStartTime = 0,
     }
 
-    print("CombatController initialized (Stronghold 2027 combat system)")
+    print("CombatController initialized (Castle Kingdoms 2027 combat system)")
 end
 
 -- Find nearest enemy in aggro range
@@ -132,7 +132,7 @@ function CombatController:calculateDamage(attacker, target)
     local baseDamage = self:getDamage(attacker)
     local armor = self:getArmor(target)
 
-    -- Stronghold 2027 v2.3.3: Diminishing returns on armor
+    -- Castle Kingdoms 2027 v2.3.3: Diminishing returns on armor
     -- Old formula: damage * (1 - armor) — heavy armor was too strong
     -- New formula: damage * (1 - armor^1.5 * 0.8) — softer reduction curve
     -- Example: armor=0.45 (Knight) -> reduction = 0.45^1.5 * 0.8 = 0.242 (24.2% reduction)
@@ -144,7 +144,7 @@ function CombatController:calculateDamage(attacker, target)
     local variance = 0.9 + math.random() * 0.2
     actualDamage = actualDamage * variance
 
-    -- Stronghold 2027 v2.3.3: Minimum damage of 1 (always possible to chip damage)
+    -- Castle Kingdoms 2027 v2.3.3: Minimum damage of 1 (always possible to chip damage)
     actualDamage = math.max(1, actualDamage)
 
     return math.floor(actualDamage + 0.5)
@@ -212,11 +212,11 @@ function CombatController:applyDamage(attacker, target)
         remainingHealth = target.health
     })
 
-    -- Stronghold 2027 v2.3.3: Award XP to attacker for damage dealt
+    -- Castle Kingdoms 2027 v2.3.3: Award XP to attacker for damage dealt
     if _G.Veterancy and attacker then
         pcall(function() _G.Veterancy.onDamageDealt(attacker, damage) end)
     end
-    -- Stronghold 2027 v2.3.3: Award XP to target for taking damage (defensive veterancy)
+    -- Castle Kingdoms 2027 v2.3.3: Award XP to target for taking damage (defensive veterancy)
     if _G.Veterancy and target then
         pcall(function() _G.Veterancy.onDamageTaken(target, damage) end)
     end

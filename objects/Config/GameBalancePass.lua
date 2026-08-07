@@ -1,5 +1,5 @@
 -- objects/Config/GameBalancePass.lua
--- Stronghold 2027 - Game Balance Pass
+-- Castle Kingdoms 2027 - Game Balance Pass
 -- Fine-tunes economy, combat, and AI based on playtesting data
 
 local GameBalancePass = {}

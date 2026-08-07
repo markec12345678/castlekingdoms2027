@@ -1,5 +1,5 @@
 -- objects/QA/MapEditor.lua
--- Stronghold 2027 - Map Editor
+-- Castle Kingdoms 2027 - Map Editor
 --
 -- Allows players to create and edit custom maps:
 -- - Paint terrain (grass, dirt, stone, water)

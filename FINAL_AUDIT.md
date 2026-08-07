@@ -1,4 +1,4 @@
-# Stronghold 2027 - Final Code Audit
+# Castle Kingdoms 2027 - Final Code Audit
 
 > Zadnji pregled projekta pred prehodom v asset/testing fazo.
 > Datum: 2026-08-01
@@ -193,6 +193,6 @@
 
 ## 📝 Zaključek
 
-Stronghold 2027 je **feature complete**. Vsi sistemi so implementirani, integrirani in povezani v delujočo celoto. Projekt je prešel iz "tehnično impresivne osnove" v "dejansko igrabilno strategijo".
+Castle Kingdoms 2027 je **feature complete**. Vsi sistemi so implementirani, integrirani in povezani v delujočo celoto. Projekt je prešel iz "tehnično impresivne osnove" v "dejansko igrabilno strategijo".
 
 Naslednja faza je **asset creation** (grafika, zvoki) in **testing** - ne dodajanje novih funkcij.

@@ -1,5 +1,5 @@
 -- states/ui/hud/keybind_help.lua
--- Stronghold 2027 - Keyboard Shortcuts Help Screen
+-- Castle Kingdoms 2027 - Keyboard Shortcuts Help Screen
 --
 -- Shows all keyboard shortcuts in an organized panel.
 -- Toggle with 'H' key.

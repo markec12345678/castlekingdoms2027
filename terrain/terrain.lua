@@ -706,7 +706,7 @@ function Terrain:updateTerrain(chunkX, chunkY)
             if not isInShadow then
                 local interpolatedShadowVal = (prev1ShadowValue * 2 + prev2ShadowValue * 2 + prev3ShadowValue +
                     prev4ShadowValue) / 6
-                -- Stronghold 2027: nil-safe shadowmap access (prevents crash with LFS pointer maps)
+                -- Castle Kingdoms 2027: nil-safe shadowmap access (prevents crash with LFS pointer maps)
                 pcall(function()
                     self.state.map.shadowmap[cx][cy][i][o] = interpolatedShadowVal
                 end)

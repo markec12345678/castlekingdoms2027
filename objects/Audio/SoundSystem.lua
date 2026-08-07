@@ -1,5 +1,5 @@
 -- objects/Audio/SoundSystem.lua
--- Stronghold 2027 - Advanced Sound System
+-- Castle Kingdoms 2027 - Advanced Sound System
 --
 -- Manages all game audio:
 -- - Ambient sounds (wind, birds, fire, rain) with crossfading

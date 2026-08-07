@@ -1,5 +1,5 @@
 -- saves/Missions/campaign/mission18_danish_invasion_1075.lua
--- Stronghold 2027 - Historical Campaign Mission 18: Danish Invasion (1075)
+-- Castle Kingdoms 2027 - Historical Campaign Mission 18: Danish Invasion (1075)
 --
 -- Historical: 1075 — Danes allied with English rebels land at York.
 -- Coastal defense against Viking invasion.

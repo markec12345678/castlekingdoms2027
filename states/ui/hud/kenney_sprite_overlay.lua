@@ -1,5 +1,5 @@
 -- states/ui/hud/kenney_sprite_overlay.lua
--- Stronghold 2027 - Kenney CC0 Sprite Overlay
+-- Castle Kingdoms 2027 - Kenney CC0 Sprite Overlay
 --
 -- When Kenney CC0 assets are enabled, this overlay renders:
 -- - CC0 status indicator (top-left corner)
@@ -7,7 +7,7 @@
 -- - Action bar icon replacements
 --
 -- This is a non-intrusive overlay that draws ON TOP of the existing
--- rendering. When disabled, the original Firefly assets show through.
+-- rendering. When disabled, the original Original RTS assets show through.
 
 local KenneySpriteRenderer = require("objects.Config.KenneySpriteRenderer")
 
@@ -34,7 +34,7 @@ function KenneySpriteOverlay.draw()
     love.graphics.setColor(0.3, 1, 0.3, 1)
     love.graphics.print("CC0 Asseti (Kenney)", badgeX + 10, badgeY + 5)
 
-    -- Stronghold 2027: Only render visible objects (frustum culling)
+    -- Castle Kingdoms 2027: Only render visible objects (frustum culling)
     -- Use activeEntities instead of gameObjectList for better performance
     if _G.state and _G.state.activeEntities then
         local viewX = _G.state.viewXview or 0

@@ -1,5 +1,5 @@
 -- objects/Enums/Combat.lua
--- Stronghold 2027 - Combat Enums
+-- Castle Kingdoms 2027 - Combat Enums
 -- Defines combat-related constants and types
 
 ---@enum combat_state
@@ -52,7 +52,7 @@ local COMBAT = {
         Swordsman = 22,
         Knight = 30,
         Lord = 50,
-        -- Stronghold 2027 v2.5.4: 4 new Norman-era units
+        -- Castle Kingdoms 2027 v2.5.4: 4 new Norman-era units
         Huscarl = 28,        -- Elite Saxon axeman, devastating melee
         Longbowman = 18,     -- Welsh longbow, longer range than archer
         NormanKnight = 35,   -- Heavily armored Norman cavalry
@@ -69,7 +69,7 @@ local COMBAT = {
         Swordsman = 120,
         Knight = 180,
         Lord = 500,
-        -- Stronghold 2027 v2.5.4: 4 new Norman-era units
+        -- Castle Kingdoms 2027 v2.5.4: 4 new Norman-era units
         Huscarl = 150,       -- Tough Saxon elite
         Longbowman = 55,     -- Similar to archer
         NormanKnight = 220,  -- Heavily armored
@@ -86,7 +86,7 @@ local COMBAT = {
         Swordsman = 0.30,
         Knight = 0.45,
         Lord = 0.60,
-        -- Stronghold 2027 v2.5.4: 4 new Norman-era units
+        -- Castle Kingdoms 2027 v2.5.4: 4 new Norman-era units
         Huscarl = 0.40,      -- Heavy chainmail
         Longbowman = 0.05,   -- Light armor
         NormanKnight = 0.55, -- Heaviest armor

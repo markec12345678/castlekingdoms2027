@@ -1,5 +1,5 @@
 -- objects/Config/DifficultyPresets.lua
--- Stronghold 2027 - Difficulty Presets
+-- Castle Kingdoms 2027 - Difficulty Presets
 -- Custom difficulty editor with 6 preset levels
 
 local DifficultyPresets = {}

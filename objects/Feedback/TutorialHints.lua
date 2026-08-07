@@ -1,5 +1,5 @@
 -- objects/Feedback/TutorialHints.lua
--- Stronghold 2027 - Contextual Tutorial Hints
+-- Castle Kingdoms 2027 - Contextual Tutorial Hints
 --
 -- Shows helpful tips to new players based on game state:
 -- - First time placing a building
@@ -22,7 +22,7 @@ local hintDuration = 8.0  -- seconds
 -- Hint definitions
 local HINTS = {
     first_game_start = {
-        text = "Dobrodošli v Stronghold 2027! Pritisni F12 za kampanjsko misijo.",
+        text = "Dobrodošli v Castle Kingdoms 2027! Pritisni F12 za kampanjsko misijo.",
         priority = 1,
     },
     first_build = {
@@ -69,7 +69,7 @@ local HINTS = {
         text = "Pritisni F5 za spreminjanje vremena. Letni časi vplivajo na proizvodnjo!",
         priority = 9,
     },
-    -- Stronghold 2027 v2.5.7: 5 new tutorial hints
+    -- Castle Kingdoms 2027 v2.5.7: 5 new tutorial hints
     veterancy_tip = {
         text = "Tvoje enote pridobivajo XP iz bojev! 5 stopenj veterancy z bonusi.",
         priority = 11,
@@ -189,7 +189,7 @@ end
 function TutorialHints.checkResources()
     if not _G.state then return end
 
-    -- Stronghold 2027 v2.5.7: Fixed food check (was using gold as placeholder)
+    -- Castle Kingdoms 2027 v2.5.7: Fixed food check (was using gold as placeholder)
     local gold = _G.state.gold or 0
     local food = 0
     if _G.state.resources and _G.state.resources.food then
@@ -202,7 +202,7 @@ function TutorialHints.checkResources()
     if gold < 100 and not TutorialHints.wasShown("low_gold") then
         TutorialHints.show("low_gold")
     end
-    -- Stronghold 2027 v2.5.7: Added low food hint
+    -- Castle Kingdoms 2027 v2.5.7: Added low food hint
     if food < 20 and not TutorialHints.wasShown("low_food") then
         TutorialHints.show("low_food")
     end

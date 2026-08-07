@@ -1,5 +1,5 @@
 -- objects/Modding/CustomBuildingLoader.lua
--- Stronghold 2027 - Custom Building Loader
+-- Castle Kingdoms 2027 - Custom Building Loader
 --
 -- Registers custom buildings defined by mods. Custom buildings can:
 -- - Have custom costs, build times, production rates

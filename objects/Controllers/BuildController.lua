@@ -61,7 +61,7 @@ end
 function BuildController:disable()
     self.active = false
     warningTooltip:HideTooltip()
-    -- Stronghold 2027: Clear build preview
+    -- Castle Kingdoms 2027: Clear build preview
     if _G.BuildPreview then
         _G.BuildPreview.clear()
     end
@@ -128,7 +128,7 @@ function BuildController:set(type, callback)
         end
     end
 
-    -- Stronghold 2027: Activate build preview
+    -- Castle Kingdoms 2027: Activate build preview
     if _G.BuildPreview then
         local BalanceConfig = require("objects.Config.BalanceConfig")
         local cost = BalanceConfig.buildings[type]
@@ -136,11 +136,11 @@ function BuildController:set(type, callback)
     end
     self.batch:flush()
     self.active = true
-    -- Stronghold 2027: Start construction animation when building is placed
+    -- Castle Kingdoms 2027: Start construction animation when building is placed
     -- (triggered after placement, not on selection)
 end
 
--- Stronghold 2027: Called when a building is actually placed on the map
+-- Castle Kingdoms 2027: Called when a building is actually placed on the map
 function BuildController:onBuildingPlaced(gx, gy, buildingType)
     if _G.ConstructionAnim then
         local BalanceConfig = require("objects.Config.BalanceConfig")
@@ -574,7 +574,7 @@ function BuildController:draw()
         if (self.building == "WoodenWall" or self.building == "WalkableWoodenWall") and WallController.clicked then
             WallController:draw()
         else
-            -- Stronghold 2027: Use Kenney CC0 sprite if enabled
+            -- Castle Kingdoms 2027: Use Kenney CC0 sprite if enabled
             if _G.KenneySpriteRenderer and _G.KenneySpriteRenderer.isActive() then
                 if _G.KenneySpriteRenderer.drawBuildPreview(self.building, self.FX, self.FY, self.canBuild) then
                     return

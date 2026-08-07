@@ -1,8 +1,8 @@
 -- objects/Config/KenneyAssetLoader.lua
--- Stronghold 2027 - Kenney CC0 Asset Loader
+-- Castle Kingdoms 2027 - Kenney CC0 Asset Loader
 --
 -- Provides alternative CC0 assets (Kenney.nl) for buildings, units,
--- and UI elements. Allows the game to run WITHOUT Firefly Studios assets.
+-- and UI elements. Allows the game to run WITHOUT proprietary assets.
 --
 -- All Kenney assets are CC0 (Public Domain) - no attribution required.
 -- Source: https://kenney.nl/assets/medieval-rts
@@ -35,7 +35,7 @@ function KenneyAssetLoader.init()
     print("[KenneyLoader] Initialized - CC0 assets ready as alternative")
 end
 
--- Enable/disable Kenney assets (vs original Firefly assets)
+-- Enable/disable Kenney assets (vs original game assets)
 function KenneyAssetLoader.setEnabled(state)
     enabled = state
     if state then

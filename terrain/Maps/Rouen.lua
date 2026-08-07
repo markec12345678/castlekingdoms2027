@@ -1,5 +1,5 @@
 -- terrain/Maps/Rouen.lua
--- Stronghold 2027 - Map: Rouen (1087)
+-- Castle Kingdoms 2027 - Map: Rouen (1087)
 -- Capital of Normandy, site of William's death. Final defense mission.
 
 local Map = {}

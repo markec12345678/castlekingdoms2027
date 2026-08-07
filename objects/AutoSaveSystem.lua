@@ -1,5 +1,5 @@
 -- objects/AutoSaveSystem.lua
--- Stronghold 2027 - Auto-Save System
+-- Castle Kingdoms 2027 - Auto-Save System
 --
 -- Periodically saves game state to prevent progress loss.
 -- - Auto-saves every 5 minutes (configurable)

@@ -1,5 +1,5 @@
 -- states/ui/hud/mission_end_screen.lua
--- Stronghold 2027 - Mission End Screen
+-- Castle Kingdoms 2027 - Mission End Screen
 --
 -- Shows win/lose screen when mission objectives are completed/failed:
 -- - Victory: gold banner, stats, "Continue" button

@@ -1,5 +1,5 @@
 -- objects/Network/DiplomaticRelationsSystem.lua
--- Stronghold 2027 v2.6.8 - Diplomatic Relations System
+-- Castle Kingdoms 2027 v2.6.8 - Diplomatic Relations System
 --
 -- Deep diplomatic system managing relations between factions.
 -- Tracks reputation, history of actions, and enables complex diplomatic actions.

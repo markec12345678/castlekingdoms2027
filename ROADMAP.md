@@ -1,4 +1,4 @@
-# Stronghold 2027 - Razvojni načrt
+# Castle Kingdoms 2027 - Razvojni načrt
 
 > Ta dokument spremlja napredek projekta in določa kratkoročne ter dolgoročne cilje.
 

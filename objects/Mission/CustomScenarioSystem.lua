@@ -1,5 +1,5 @@
 -- objects/Mission/CustomScenarioSystem.lua
--- Stronghold 2027 v2.8.1 - Custom Scenario Editor
+-- Castle Kingdoms 2027 v2.8.1 - Custom Scenario Editor
 --
 -- Allows players to create, save, and share custom game scenarios.
 -- Scenarios define starting conditions, objectives, events, and AI opponents.

@@ -1,5 +1,5 @@
 -- objects/AI/PathfindingOptimizer.lua
--- Stronghold 2027 - Pathfinding Optimizer
+-- Castle Kingdoms 2027 - Pathfinding Optimizer
 -- Improves pathfinding performance with caching and JPS hints
 
 local PathOpt = {}

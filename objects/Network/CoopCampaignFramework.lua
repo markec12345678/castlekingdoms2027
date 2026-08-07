@@ -1,5 +1,5 @@
 -- objects/Network/CoopCampaignFramework.lua
--- Stronghold 2027 - Co-op Campaign Framework
+-- Castle Kingdoms 2027 - Co-op Campaign Framework
 -- Allows 2 players to play campaign missions together
 
 local CoopCampaign = {}
@@ -162,7 +162,7 @@ function CoopCampaign.getCoopMissions()
         { id = "mission5", name = "Kralj banditov", difficulty = 3, era = "Fernhaven Saga" },
         { id = "mission8", name = "Katedrala", difficulty = 4, era = "Fernhaven Saga" },
         { id = "mission10", name = "Prestol Valdemarja", difficulty = 5, era = "Fernhaven Saga" },
-        -- Stronghold 2027 v2.5.3: 5 new historical co-op missions (Norman Conquest)
+        -- Castle Kingdoms 2027 v2.5.3: 5 new historical co-op missions (Norman Conquest)
         { id = "mission11", name = "Hastings 1066 (Co-op)", difficulty = 3, era = "Norman Conquest" },
         { id = "mission13", name = "Pustošenje severa (Co-op)", difficulty = 4, era = "Norman Conquest" },
         { id = "mission17", name = "Škotska kampanja (Co-op)", difficulty = 4, era = "Norman Conquest" },

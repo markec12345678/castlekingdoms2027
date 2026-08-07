@@ -1,5 +1,5 @@
 -- objects/UI/LoadingTipsSystem.lua
--- Stronghold 2027 - Loading Tips System
+-- Castle Kingdoms 2027 - Loading Tips System
 -- Shows tips during loading screens
 
 local LoadingTips = {}
@@ -63,7 +63,7 @@ local TIPS = {
     { category = "Grafika", text = "F6 spremeni čas dneva (zora, dan, mrak, noč)." },
     { category = "Grafika", text = "F5 spremeni vreme (jasno, dež, megla, sneg, nevihta)." },
     { category = "Grafika", text = "Ponoči bakle in zgradbe svetijo. Gradite ob vodnih virih." },
-    -- Stronghold 2027 v2.5.7: New tips
+    -- Castle Kingdoms 2027 v2.5.7: New tips
     { category = "Veterancy", text = "Enote pridobivajo XP iz kills, damage dealt in damage taken!" },
     { category = "Veterancy", text = "Legendarna (level 5) enota ima +60% HP in +50% damage!" },
     { category = "Formacije", text = "Ctrl+G preklopi formacijo. Box formation daje +obrambo." },

@@ -1,5 +1,5 @@
 -- saves/Missions/campaign/mission8_the_cathedral.lua
--- Stronghold 2027 - Campaign Mission 8: The Cathedral
+-- Castle Kingdoms 2027 - Campaign Mission 8: The Cathedral
 --
 -- Eighth mission of "The Lord of Fernhaven" campaign.
 -- Recovery after betrayal - focus on popularity, faith, and economy.

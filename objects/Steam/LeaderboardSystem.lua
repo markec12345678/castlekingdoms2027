@@ -1,5 +1,5 @@
 -- objects/Steam/LeaderboardSystem.lua
--- Stronghold 2027 v2.8.2 - Leaderboard System
+-- Castle Kingdoms 2027 v2.8.2 - Leaderboard System
 --
 -- Tracks and compares player scores across multiple categories.
 -- Local leaderboard with optional Steam integration (future).

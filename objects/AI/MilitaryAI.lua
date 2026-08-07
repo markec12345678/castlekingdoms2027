@@ -1,5 +1,5 @@
 -- objects/AI/MilitaryAI.lua
--- Stronghold 2027 - AI Military Manager
+-- Castle Kingdoms 2027 - AI Military Manager
 --
 -- Handles military decisions for AI factions:
 -- - Unit production priorities

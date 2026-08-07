@@ -1,5 +1,5 @@
 -- states/ui/hud/credits_screen.lua
--- Stronghold 2027 - Credits Screen
+-- Castle Kingdoms 2027 - Credits Screen
 -- End game credits with scrolling text
 
 local CreditsScreen = {}
@@ -20,8 +20,8 @@ local credits = {
     { type = "role", text = "CC0 gradivo (grad, enote, teren)" },
     { type = "spacer" },
     { type = "section", text = "GLASBA" },
-    { type = "name", text = "Stronghold OST" },
-    { type = "role", text = "Firefly Studios" },
+    { type = "name", text = "Castle Kingdoms OST" },
+    { type = "role", text = "Stone Kingdoms community" },
     { type = "name", text = "Alexander Nakarada" },
     { type = "name", text = "Kevin MacLeod" },
     { type = "role", text = "Razširjeni soundtrack" },
@@ -39,8 +39,8 @@ local credits = {
     { type = "role", text = "HD shaderji" },
     { type = "spacer" },
     { type = "section", text = "ZAHVALE" },
-    { type = "name", text = "Firefly Studios" },
-    { type = "role", text = "Originalni Stronghold (2001)" },
+    { type = "name", text = "Stone Kingdoms community" },
+    { type = "role", text = "Originalni Castle Kingdoms (2001)" },
     { type = "name", text = "Stone Kingdoms ekipa" },
     { type = "role", text = "Odprtokodna osnova" },
     { type = "name", text = "Kenney.nl" },
@@ -53,7 +53,7 @@ local credits = {
     { type = "spacer" },
     { type = "title", text = "HVALA ZA IGRANJE!" },
     { type = "spacer" },
-    { type = "subtitle", text = "Stronghold 2027 v1.22.0" },
+    { type = "subtitle", text = "Castle Kingdoms 2027 v1.22.0" },
     { type = "subtitle", text = "© 2025-2027 markec12345678" },
 }
 

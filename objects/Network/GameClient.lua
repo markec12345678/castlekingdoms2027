@@ -1,5 +1,5 @@
 -- objects/Network/GameClient.lua
--- Stronghold 2027 - Game Client
+-- Castle Kingdoms 2027 - Game Client
 --
 -- Connects to a multiplayer game server. Sends local player actions
 -- and receives remote player actions + game state updates.

@@ -1,5 +1,5 @@
 -- objects/Economy/DynamicMarketSystem.lua
--- Stronghold 2027 - Dynamic Market System
+-- Castle Kingdoms 2027 - Dynamic Market System
 --
 -- Replaces static goodsPrices with dynamic pricing based on:
 -- - Supply/demand (more sellers = lower price)

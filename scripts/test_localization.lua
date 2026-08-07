@@ -1,4 +1,4 @@
--- Test script za Stronghold 2027
+-- Test script za Castle Kingdoms 2027
 -- Preverja sintakso Lua datotek in YAML prevodov
 -- Namen: hitra validacija brez LÖVE graphics modula
 

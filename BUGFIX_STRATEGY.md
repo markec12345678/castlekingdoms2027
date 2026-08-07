@@ -53,11 +53,11 @@ Stran 1 od 1
 - Bojevanje (combat) - enote se lahko premikajo, vendar brez bojevanja
 - Maypole - "Temporarily disabled"
 - Religion popularity bonus - še ni implementiran
-- Nivoji nad Stronghold (poslednji keep upgrade)
+- Nivoji nad Castle Kingdoms (poslednji keep upgrade)
 
 ---
 
-## Strategija popravkov za Stronghold 2027
+## Strategija popravkov za Castle Kingdoms 2027
 
 ### Faza A: Kritični crash-i (1-2 tedna)
 1. **Load saved game crash** z jeleni
