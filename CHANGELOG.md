@@ -2,6 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.0.6] — 2026-08-07 — Court & Nobility System (6 advisors, marriages, plots)
+
+### Dodano
+- **Court & Nobility System** — upravljanje kraljevega dvora
+  - 6 tipov svetovalcev (kancler, maršal, upravitelj, vohun, kaplan, zakladnik)
+  - sistem porok (diplomatska zavezništva)
+  - sistem dedičev (linija nasledstva)
+  - 7 dvornih dogodkov (banketi, turniri, škandali, svatbe, kronanja)
+  - 5 plemiških hiš z vplivom in odnosi
+  - Dvorni prestige (vpliva na srečo in diplomacijo)
+  - Zarote (atrovske zarote z vohunskim bonusom)
+  - Leveling svetovalcev (1-5, +3% na nivo)
+  - Lojalnost svetovalcev (drsi proti 50)
+  - Naključni dvorni dogodki vsake 3 minute
+
+### Tipi svetovalcev (6)
+1. Kancler — +20% diplomacija, +10% davki
+2. Maršal — +15% enote, +15% obramba, +10% damage
+3. Upravitelj — +25% davki, +10% gradnja, +10% hrana
+4. Mojster vohunov — +50% vohunstvo, +30% protivohunstvo
+5. Kaplan — +20% sreča, +15% raziskovanje
+6. Zakladnik — +15% davki, +20% trgovina, +10% zlato
+
+### Statistika
+- 633 Lua datotek (+1)
+- 630/633 syntax pass
+- 6 tipov svetovalcev (nov)
+- 7 dvornih dogodkov (nov)
+- 5 plemiških hiš (nov)
+
 ## [v3.0.5] — 2026-08-07 — Governor & Administration System (6 types, 12 traits)
 
 ### Dodano
