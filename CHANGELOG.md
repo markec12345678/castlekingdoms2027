@@ -2,6 +2,21 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.2.2] — 2026-08-08 — Heraldry & Coat of Arms System (8 tinctures, 12 charges)
+
+### Dodano
+- **Heraldry & Coat of Arms System** — oblikovanje grbov in heraldika
+  - 8 heraldičnih barv (zlato, srebro, rdeča, modra, črna, zelena, škrlatna, oranžna)
+  - 12 simbolov (lev, orel, križ, lilija, zmaj, krona, meč, stolp, zvezda, merjavec, volk, enorog)
+  - 6 delitev ščita (polno, navpično, vodoravno, četrtinsko, poševno, strešica)
+  - Oblikovalec grbov s pravili tincture (kovina na barvi)
+  - Heraldični register (vsi znani grbi)
+  - Prepoznavanje hiš po grbu
+  - Heraldični spori (podobni grbi = konflikt)
+  - Reševanje sporov (popusti ali vztrajaj)
+  - Prikaz na turnirjih (bonus k nastopu)
+  - Heraldic prestige (redke kombinacije = višji prestiž)
+
 ## [v3.2.1] — 2026-08-08 — Chronicle & History System (8 categories, narrative, legacy score)
 
 ### Dodano
