@@ -2,6 +2,24 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v2.9.9] — 2026-08-07 — Performance Auto-Tuner (8 params, predictive)
+
+### Dodano
+- **Performance Auto-Tuner** — samodejno optimiziranje grafike
+  - 8 nastavljivih parametrov (delci, sence, bloom, SSAO, render distance, animacije, vreme, unit cap)
+  - Real-time FPS monitoring (1s, 5s, 30s povprečja)
+  - Prediktivno prilagajanje (zniža kvaliteto preden FPS pade)
+  - Postopna degradacija (ena parameter naenkrat, po prioriteti)
+  - Obnova kvalitete (po 10s stabilnega FPS)
+  - Igralec nastavi ciljni FPS (15-144)
+  - Override mode (zaklep nastavitev)
+  - Zgodovina prilagajanj
+
+### Statistika
+- 626 Lua datotek (+1)
+- 623/626 syntax pass
+- 8 nastavljivih parametrov (nov)
+
 ## [v2.9.8] — 2026-08-07 — Dynamic Difficulty Adjuster (5 factors, real-time)
 
 ### Dodano
