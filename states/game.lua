@@ -141,6 +141,7 @@ S.DDA = require("objects.Config.DynamicDifficultyAdjuster")
 S.AutoTuner = require("objects.Performance.PerformanceAutoTuner")
 S.Forecast = require("objects.Economy.ResourceForecastSystem")
 S.Matchmaking = require("objects.Network.MatchmakingSystem")
+S.StatsWidget = require("objects.UI.StatsDashboardWidget")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -538,6 +539,9 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v3.0.1: Initialize Matchmaking System
     S.Matchmaking.init()
     _G.Matchmaking = S.Matchmaking
+    -- Castle Kingdoms 2027 v3.0.2: Initialize Stats Dashboard Widget
+    S.StatsWidget.init()
+    _G.StatsWidget = S.StatsWidget
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -768,6 +772,8 @@ function game:update(dt)
                 S.Forecast.update(dt)
                 -- Castle Kingdoms 2027 v3.0.1: Update Matchmaking
                 S.Matchmaking.update(dt)
+                -- Castle Kingdoms 2027 v3.0.2: Update Stats Widget
+                S.StatsWidget.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
@@ -996,6 +1002,8 @@ function game:draw()
             S.Gamepad.draw()
             -- Castle Kingdoms 2027 v2.7.2: Draw Notification Center
             S.NotificationCenter.draw()
+            -- Castle Kingdoms 2027 v3.0.2: Draw Stats Dashboard Widget
+            S.StatsWidget.draw()
         else
             renderLoadingScreen("")
             renderLoadingBar(loadState, progress)
