@@ -2,6 +2,30 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v2.8.5] — 2026-08-07 — Enhanced Modding API (events, hooks, content, data)
+
+### Dodano
+- **Enhanced Modding API** — celovit API za modderje
+  - Events: registracija callback-ov za game evente
+  - Hooks: intercept in modifikacija game funkcij
+  - Content: registracija zgradb, enot, surovin, receptov, tehnologij, misij
+  - Data: mod-specifično save/load (mods/<modId>/data.json)
+  - Query: pregled registriranih modov in vsebine
+  - Integracija s CustomBuildingLoader
+  - Vsi callback-i pcall-wrappani za varnost
+  - Samodejno čiščenje ob unregister
+
+### API sekcije (5)
+1. Events — on/off/emit
+2. Hooks — addHook/runHooks
+3. Content — registerBuilding/Unit/Resource/Recipe/Technology/Mission
+4. Data — setData/getData/saveData/loadData
+5. Query — getRegisteredMods/getCustomContent/getStats
+
+### Statistika
+- 612 Lua datotek (+1)
+- 609/612 syntax pass
+
 ## [v2.8.4] — 2026-08-07 — Replay Enhancement System (timeline + bookmarks)
 
 ### Dodano
