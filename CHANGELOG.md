@@ -2,6 +2,21 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.1.7] — 2026-08-08 — Royal Marriage & Dynasty System (6 houses, heirs, succession)
+
+### Dodano
+- **Royal Marriage & Dynasty System** — dinastična politika in nasledstvo
+  - 6 kraljevskih hiš (Normanska, Plantageneti, Habsburžani, Kapetinci, Hohenstaufen, Domača)
+  - 4 tipi porok (osnovna, močna, kraljevska, matrilinearna)
+  - Sistem dedičev (rojstvo, staranje, izobraževanje, obljube)
+  - 4 tipi izobraževanja (pisar, bojevnik, dvorjan, duhovnik)
+  - Dowry (dota) negotiacije
+  - Razveze in ponižitve
+  - Succession crisis (kralj umre brez naslednika → upor)
+  - Dynasty prestige (0-100, vpliva na uspeh porok)
+  - diplomatski bonusi, trgovinski sporazumi, vojaški dostop
+  - Letni ciklus (staranje, rojstva, poroke, smrti)
+
 ## [v3.1.6] — 2026-08-08 — Cultural & Education System (5 institutions, 6 arts, achievements)
 
 ### Dodano

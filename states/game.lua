@@ -156,6 +156,7 @@ S.Rebellion = require("objects.Gameplay.TreasonRebellionSystem")
 S.BlackMarket = require("objects.Economy.BlackMarketSmugglingSystem")
 S.Decrees = require("objects.Config.RoyalDecreesSystem")
 S.Culture = require("objects.Config.CulturalEducationSystem")
+S.Dynasty = require("objects.Config.RoyalMarriageDynastySystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -598,6 +599,9 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v3.1.6: Initialize Cultural & Education System
     S.Culture.init()
     _G.Culture = S.Culture
+    -- Castle Kingdoms 2027 v3.1.7: Initialize Royal Marriage & Dynasty System
+    S.Dynasty.init()
+    _G.Dynasty = S.Dynasty
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -858,6 +862,8 @@ function game:update(dt)
                 S.Decrees.update(dt)
                 -- Castle Kingdoms 2027 v3.1.6: Update Culture & Education
                 S.Culture.update(dt)
+                -- Castle Kingdoms 2027 v3.1.7: Update Royal Dynasty
+                S.Dynasty.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
