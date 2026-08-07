@@ -2,23 +2,23 @@
 
 Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT). Navdihnjen s klasičnimi srednjeveškimi strateškimi igrami.
 
-[![Version](https://img.shields.io/badge/version-2.7.8-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
+[![Version](https://img.shields.io/badge/version-2.9.1-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
-[![Syntax](https://img.shields.io/badge/syntax-603%2F606%20pass-brightgreen.svg)](#)
-[![Bugs](https://img.shields.io/badge/bugs%20fixed-80-brightgreen.svg)](#)
-[![Audit](https://img.shields.io/badge/audit%20rounds-20-blue.svg)](#)
+[![Syntax](https://img.shields.io/badge/syntax-615%2F618%20pass-brightgreen.svg)](#)
+[![Bugs](https://img.shields.io/badge/bugs%20fixed-85-brightgreen.svg)](#)
+[![Audit](https://img.shields.io/badge/audit%20rounds-22-blue.svg)](#)
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v2.7.8](https://github.com/markec12345678/castlekingdoms2027/releases)
-- **.love datoteka**: `castlekingdoms2027-v2.7.8.love` (32 MB brez LFS, 305 MB z LFS)
-- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 20 krogov pregleda, 80+ popravkov
+- **Zadnja izdaja**: [v2.9.1](https://github.com/markec12345678/castlekingdoms2027/releases)
+- **.love datoteka**: `castlekingdoms2027-v2.9.1.love` (32 MB brez LFS, 305 MB z LFS)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 22 krogov pregleda, 85+ popravkov
 
 ## Zagon
 
 ```cmd
-& "C:\Program Files\LOVE\love.exe" "F:\pot\do\castlekingdoms2027-v2.7.8.love"
+& "C:\Program Files\LOVE\love.exe" "F:\pot\do\castlekingdoms2027-v2.9.1.love"
 ```
 
 Ali iz git checkout-a (zahteva [git-lfs](https://git-lfs.com/)):
@@ -34,13 +34,13 @@ love .
 
 | Metrika | Vrednost |
 |---------|----------|
-| Lua datoteke | 606 |
-| Vrstic kode | ~300.000 |
+| Lua datoteke | 618 |
+| Vrstic kode | ~305.000 |
 | GLSL shaderji | 12 |
 | Jezikov | 32 |
-| Verzij | 55+ (v1.7.9 → v2.7.8) |
-| Bug popravkov | 80 (20 krogov pregleda) |
-| Syntax pass rate | 603/606 (99,5%) |
+| Verzij | 60+ (v1.7.9 → v2.9.1) |
+| Bug popravkov | 85 (22 krogov pregleda) |
+| Syntax pass rate | 615/618 (99,5%) |
 | PNG assetov | 1.206 |
 | Kampanjske misije | 21 (10 Fernhaven + 11 zgodovinskih) |
 | Skirmish misije | 15 |
@@ -56,7 +56,7 @@ love .
 | Festivali | 8 |
 | Ekonomski dogodki | 15 |
 | Tehnologije | 14 |
-| Mape | 6 |
+| Mape | 6 + procedural generation |
 | Steam achievementi | 15 |
 | Voice-over sporočila | 42+ |
 | SFX kategorije | 8 |
@@ -79,6 +79,18 @@ love .
 | Taktični načini | 5 |
 | Tipi surovin | 17 |
 | Diplomatske akcije | 9 |
+| Tipi herojev | 6 |
+| Vremenske sposobnosti | 7 |
+| Zoom nivoji | 5 |
+| Hitrosti igre | 8 |
+| Stopnje ugleda | 9 |
+| Leaderboard kategorije | 8 |
+| Tipi turnirjev | 5 |
+| Biomi (procedural) | 5 |
+| Velikosti map (procedural) | 4 |
+| Modding API sekcije | 5 |
+| Sekcije povzetka igre | 6 |
+| Stopnje ocen | 6 |
 
 ## Funkcije
 
@@ -226,10 +238,23 @@ Glej [CONTRIBUTING.md](CONTRIBUTING.md) za vodič za razvijalce.
 
 ## Zgodovina razvoja
 
-Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v2.7.8 (55+ verzij, 20 krogov pregleda, 80+ popravkov).
+Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v2.9.1 (60+ verzij, 22 krogov pregleda, 85+ popravkov).
 
 ## Ključne verzije
 
+- **v2.9.1** — Game Summary Generator (6 sekcij, letter grade)
+- **v2.9.0** — Procedural Map Generator (5 biomov, 4 velikosti)
+- **v2.8.9** — Camera Enhancement (smooth, cinematic, 5 zoom)
+- **v2.8.8** — Time Manager (8 hitrosti, auto-pause, schedule)
+- **v2.8.7** — Hero Unit System (6 herojev, leveling, sposobnosti)
+- **v2.8.6** — Weather Warfare (7 vremenskih sposobnosti)
+- **v2.8.5** — Enhanced Modding API (5 sekcij, 6 tipov vsebine)
+- **v2.8.4** — Replay Enhancement (timeline, zaznamki)
+- **v2.8.3** — PROJECT RENAME: Castle Kingdoms 2027
+- **v2.8.2** — Leaderboard System (8 kategorij)
+- **v2.8.1** — Custom Scenario Editor (25+ API funkcij)
+- **v2.8.0** — Tournament System (5 tipov turnirjev)
+- **v2.7.9** — Prestige & Ranking (9 stopenj ugleda)
 - **v2.7.8** — Tactical Map Overlay (5 strateških načinov)
 - **v2.7.7** — Game Analytics Dashboard (25+ metrik)
 - **v2.7.6** — Quest System (9 stranskih misij)
