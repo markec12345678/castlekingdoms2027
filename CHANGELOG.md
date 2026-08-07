@@ -2,6 +2,25 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v2.9.2] — 2026-08-07 — Soundtrack Manager (8 tracks, 5 moods, crossfade)
+
+### Dodano
+- **Soundtrack Manager** — dinamični sistem glasbe
+  - 8 glasbenih skladb v 5 razpoloženjih (menu, peace, tension, combat, victory)
+  - Dinamično crossfading (2s prehod med skladbami)
+  - Sistem prioritete razpoloženja (boj preglasi mir)
+  - Sledenje intenzivnosti boja (auto preklop na bojno glasbo)
+  - Zgodovina skladb (izogiba ponavljanju zadnjih 3)
+  - Per-mood glasnost (nastavitev igralca)
+  - Toggle on/off
+  - Event-driven spremembe (zmaga, poraz, meni)
+
+### Statistika
+- 619 Lua datotek (+1)
+- 616/619 syntax pass
+- 8 skladb (nov)
+- 5 razpoloženj (nov)
+
 ## [v2.9.1] — 2026-08-07 — Game Summary Generator (6 sections, letter grade)
 
 ### Dodano
