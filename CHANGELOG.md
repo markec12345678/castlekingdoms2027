@@ -2,6 +2,31 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v2.9.1] — 2026-08-07 — Game Summary Generator (6 sections, letter grade)
+
+### Dodano
+- **Game Summary Generator** — celovit povzetek igre ob koncu
+  - 6 sekcij: Military, Economy, Diplomacy, Construction, Technology, Special
+  - Letter grade sistem (S, A, B, C, D, F) glede na skupni rezultat (0-1000)
+  - Aggregira podatke iz 10+ sistemov
+  - Formatiran tekstovni izpis
+  - Save to file (.txt)
+  - Barvno kodirane ocene
+
+### Ocene (6 nivojev)
+- S (900+): Legendarna — zlata
+- A (750+): Odlična — zelena
+- B (550+): Dobra — modra
+- C (350+): Povprečna — rumena
+- D (150+): Slaba — oranžna
+- F (0+): Neuspešna — rdeča
+
+### Statistika
+- 618 Lua datotek (+1)
+- 615/618 syntax pass
+- 6 sekcij povzetka (nov)
+- 6 stopenj ocen (nov)
+
 ## [v2.9.0] — 2026-08-07 — Procedural Map Generator (5 biomes, 4 sizes)
 
 ### Dodano
