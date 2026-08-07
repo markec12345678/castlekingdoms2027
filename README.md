@@ -2,18 +2,18 @@
 
 Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT). Navdihnjen s klasičnimi srednjeveškimi strateškimi igrami.
 
-[![Version](https://img.shields.io/badge/version-3.1.6-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
+[![Version](https://img.shields.io/badge/version-3.2.1-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
-[![Syntax](https://img.shields.io/badge/syntax-640%2F643%20pass-brightgreen.svg)](#)
-[![Bugs](https://img.shields.io/badge/bugs%20fixed-95-brightgreen.svg)](#)
-[![Audit](https://img.shields.io/badge/audit%20rounds-30-blue.svg)](#)
+[![Syntax](https://img.shields.io/badge/syntax-645%2F648%20pass-brightgreen.svg)](#)
+[![Bugs](https://img.shields.io/badge/bugs%20fixed-100-brightgreen.svg)](#)
+[![Audit](https://img.shields.io/badge/audit%20rounds-35-blue.svg)](#)
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v3.1.6](https://github.com/markec12345678/castlekingdoms2027/releases)
-- **.love datoteka**: `castlekingdoms2027-v3.1.6.love` (32 MB brez LFS, 305 MB z LFS)
-- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 30 krogov pregleda, 95+ popravkov
+- **Zadnja izdaja**: [v3.2.1](https://github.com/markec12345678/castlekingdoms2027/releases)
+- **.love datoteka**: `castlekingdoms2027-v3.2.1.love` (32 MB brez LFS, 305 MB z LFS)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 35 krogov pregleda, 100+ popravkov
 - **LFS**: Po git clone zahtevaj `git lfs pull` za prave PNG asset-e (305 MB)
 
 ## Zagon
@@ -35,13 +35,13 @@ love .
 
 | Metrika | Vrednost |
 |---------|----------|
-| Lua datoteke | 643 |
-| Vrstic kode | ~325.000 |
+| Lua datoteke | 648 |
+| Vrstic kode | ~333.000 |
 | GLSL shaderji | 12 |
 | Jezikov | 32 |
-| Verzij | 75+ (v1.7.9 → v3.1.6) |
-| Bug popravkov | 95 (30 krogov pregleda) |
-| Syntax pass rate | 640/643 (99,5%) |
+| Verzij | 80+ (v1.7.9 → v3.2.1) |
+| Bug popravkov | 100 (35 krogov pregleda) |
+| Syntax pass rate | 645/648 (99,5%) |
 | PNG assetov | 1.206 |
 | Kampanjske misije | 21 (10 Fernhaven + 11 zgodovinskih) |
 | Skirmish misije | 15 |
@@ -129,6 +129,17 @@ love .
 | **Umetnostne oblike** | **6** |
 | **Slavni obiskovalci** | **8** |
 | **Kulturni dosežki** | **6** |
+| **Kraljeve hiše** | **6** |
+| **Tipi porok** | **4** |
+| **Tipi ladij** | **5** |
+| **Pomorske zgradbe** | **4** |
+| **Pomorske taktike** | **4** |
+| **Letni časi** | **4** |
+| **Zimske kvartire** | **4** |
+| **Tipi davkov** | **6** |
+| **Davčne stopnje** | **5** |
+| **Kategorije kronike** | **8** |
+| **Stopnje kakovosti kronike** | **6** |
 
 ## Funkcije
 
@@ -337,6 +348,52 @@ love .
 - **6 kulturnih dosežkov**
 - **Pokroviteljstvo** umetnosti
 
+### 👑 Kraljevska dinastija (v3.1.7)
+- **6 kraljevskih hiš** (Normanska, Plantageneti, Habsburžani, Kapetinci, Hohenstaufen, Domača)
+- **4 tipi porok** (osnovna, močna, kraljevska, matrilinearna)
+- **Sistem dedičev** (rojstvo, staranje, izobraževanje, obljube)
+- **Dowry** (dota) negotiacije
+- **Razveze** in ponižitve
+- **Succession crisis** (kralj umre brez naslednika → upor)
+- **Letni ciklus** (staranje, rojstva, smrti)
+
+### ⚓ Pomorski boji & trgovina (v3.1.8)
+- **5 tipov ladij** (ribiška, koga, galeja, karaka, vojna ladja)
+- **4 pomorske zgradbe** (pristanišče, ladjedelnica, suhi dok, akademija)
+- **4 taktike boja** (zabijanje, vkrcanje, streljanje, bombardiranje)
+- **Trgovske poti** z visokim profitom in tveganjem piratov
+- **Blokade** sovražnikove trgovine
+- **Zajemanje ladij** (40% chance pri vkrcanju)
+- **Pomorski prestiž**
+
+### ❄️ Zima & hibernacija (v3.1.9)
+- **4 letni časi** z različnimi učinki na vojsko
+- **4 zimske kvartire** (tabor, barake, trdnjava, zalogovnik)
+- **Atricija vojske** pozimi (HP izguba, smrt)
+- **Frostbite** (ozebline, dodatne žrtve)
+- **Supply sistem** z rekvizicijami
+- **Hibernacija** vojske do pomladi
+- **Foraging** (poškoduje podeželje)
+
+### 💰 Kraljeva zakladnica & davki (v3.2.0)
+- **6 tipov davkov** (dohodnina, posestnina, trgovski, solni, ognjiščarina, desetina)
+- **5 davčnih stopenj** (oproščeno do tiransko)
+- **Ločena zakladnica** (do 50.000 zlata)
+- **Davčni uradi** za učinkovitost
+- **Sistem posojil** z obrestmi in roki
+- **Inflacija** in **korupcija**
+- **Davčni prazniki** za srečo
+- **Rebellion risk** pri tiranski stopnji
+
+### 📜 Kronika & zgodovina (v3.2.1)
+- **8 kategorij dogodkov** (vojaško, politično, ekonomsko, versko, socialno, dinastično, kulturno, katastrofalno)
+- **18+ templates** za narativno pisanje
+- **Avtomatsko beleženje** preko event subscriptions
+- **Legacy score** s 6 stopenj kakovosti
+- **Export kronike** v tekstovno datoteko
+- **Reign summary** generator
+- **Legacy rank** (Mitičen, Legendaren, Izjemen, ...)
+
 ### 📚 Vadba & UX
 - **10-korak interaktivni tutorial** v slovenščini (Ctrl+T)
 - **40+ loading tips** v 8 kategorijah
@@ -386,10 +443,15 @@ Glej [CONTRIBUTING.md](CONTRIBUTING.md) za vodič za razvijalce.
 
 ## Zgodovina razvoja
 
-Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v3.1.6 (75+ verzij, 30 krogov pregleda, 95+ popravkov).
+Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v3.2.1 (80+ verzij, 35 krogov pregleda, 100+ popravkov).
 
 ## Ključne verzije
 
+- **v3.2.1** — Chronicle & History System (8 kategorij, narrativno pisanje, legacy)
+- **v3.2.0** — Royal Treasury & Taxation System (6 davkov, posojila, korupcija)
+- **v3.1.9** — Winter Quarters & Hibernation System (4 letni časi, atricija)
+- **v3.1.8** — Naval Combat & Trade System (5 ladij, pomorski boji, pirati)
+- **v3.1.7** — Royal Marriage & Dynasty System (6 hiš, dediči, nasledstvo)
 - **v3.1.6** — Cultural & Education System (5 ustanov, 6 umetnosti, slavni obiskovalci)
 - **v3.1.5** — Royal Decrees & Edicts System (12 odlokov, 4 kategorije, verige)
 - **v3.1.4** — Black Market & Smuggling System (8 kontraband, 4 metode, carina)
