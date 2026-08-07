@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.2.5] — 2026-08-08 — Court Intrigue & Spy Network System (6 spies, 8 missions)
+
+### Dodano
+- **Court Intrigue & Spy Network System** — napreden vohunski sistem
+  - 6 tipov vohunov (dvorna dama, menih, trgovec, norček, služabnik, mojster vohun)
+  - 8 tipov misij (infiltriraj, sabotaža, atentat, kraja, ponarejanje, izsiljevanje, govoric, izvidnica)
+  - Spy skill progression (izkušnje po uspehih)
+  - Cover system (krije se zmanjšuje z vsako misijo)
+  - Counter-intelligence (lovljenje sovražnikovih vohunov)
+  - Zasliševanje ujetih vohunov (bonus protiobveščevalne ravni)
+  - Blackmail material (izsiljevanje za zlato)
+  - Spy upkeep (plačilo za vsakega vohuna)
+  - Detection chance in capture (vohuni so ujeti)
+
 ## [v3.2.4] — 2026-08-08 — Tournament & Jousting System (5 types, 6 venues, betting)
 
 ### Dodano
