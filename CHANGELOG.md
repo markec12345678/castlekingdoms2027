@@ -2,6 +2,31 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v2.8.6] — 2026-08-07 — Weather Warfare System (7 abilities)
+
+### Dodano
+- **Weather Warfare System** — strateško upravljanje vremena
+  - 7 sposobnosti: Summon Rain/Storm/Fog/Blizzard/Heatwave, Lightning Strike, Clear
+  - Stroški zlata (100-600g) + cooldown (30-360s)
+  - Lightning Strike: 50 damage v 3-tile radiju
+  - Aktivni vremenski učinki s trajanjem
+  - Vizualni efekti (iskre, screen shake)
+  - Integracija s WeatherSystem in WeatherGameplay
+
+### Sposobnosti (7)
+1. Summon Rain (200g, 120s CD) — dež 60s, kmetije +50%
+2. Summon Storm (500g, 300s CD) — nevihta 90s, hitrost -50%
+3. Summon Fog (300g, 180s CD) — megla 120s, vidljivost -50%
+4. Summon Blizzard (600g, 360s CD) — metež 60s, hitrost -70%
+5. Summon Heatwave (400g, 240s CD) — vročina 75s, kmetije -40%
+6. Lightning Strike (250g, 60s CD) — 50 damage instant
+7. Clear Weather (100g, 30s CD) — odstrani vreme
+
+### Statistika
+- 613 Lua datotek (+1)
+- 610/613 syntax pass
+- 7 vremenskih sposobnosti (nov)
+
 ## [v2.8.5] — 2026-08-07 — Enhanced Modding API (events, hooks, content, data)
 
 ### Dodano
