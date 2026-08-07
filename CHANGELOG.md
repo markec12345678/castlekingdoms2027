@@ -2,6 +2,24 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v2.9.3] — 2026-08-07 — Chat Command System (22 commands, 6 categories)
+
+### Dodano
+- **Chat Command System** — hitri ukazi preko klepeta
+  - 22 ukazov v 6 kategorijah (economy, military, time, world, debug, fun)
+  - /gold, /resource, /tax, /spawn, /hero, /siege
+  - /speed, /pause, /weather, /season, /timeofday, /festival
+  - /stats, /fps, /summary, /prestige, /repair, /tech, /quest
+  - /fireworks, /cinematic, /storm, /help
+  - Zgodovina ukazov (zadnjih 50)
+  - Vsi ukazi pcall-wrappani za varnost
+
+### Statistika
+- 620 Lua datotek (+1)
+- 617/620 syntax pass
+- 22 ukazov (nov)
+- 6 kategorij ukazov (nov)
+
 ## [v2.9.2] — 2026-08-07 — Soundtrack Manager (8 tracks, 5 moods, crossfade)
 
 ### Dodano
