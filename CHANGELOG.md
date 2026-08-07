@@ -2,6 +2,21 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.1.8] — 2026-08-08 — Naval Combat & Trade System (5 ships, 4 buildings, battles)
+
+### Dodano
+- **Naval Combat & Trade System** — pomorski del igre z ladjami in trgovino
+  - 5 tipov ladij (ribiška, koga, galeja, karaka, vojna ladja)
+  - 4 pomorske zgradbe (pristanišče, ladjedelnica, suhi dok, pomorska akademija)
+  - 4 taktike pomorskega boja (zabijanje, vkrcanje, streljanje, bombardiranje)
+  - Pomorske trgovske poti (visok profit, tveganje piratov)
+  - Blokade (odreže sovražnikovo trgovino)
+  - Piratski napadi (random eventi na trgovskih poteh)
+  - Zajemanje ladij (40% chance pri vkrcanju)
+  - Popravilo ladij (strošek glede na HP)
+  - Dnevno vzdrževanje ladij (upkeep)
+  - Pomorski prestiž (0-100)
+
 ## [v3.1.7] — 2026-08-08 — Royal Marriage & Dynasty System (6 houses, heirs, succession)
 
 ### Dodano
