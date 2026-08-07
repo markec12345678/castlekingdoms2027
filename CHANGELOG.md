@@ -2,6 +2,33 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.0.5] — 2026-08-07 — Governor & Administration System (6 types, 12 traits)
+
+### Dodano
+- **Governor & Administration System** — upravljanje provinc z guvernerji
+  - 6 tipov guvernerjev (vojaški, ekonomski, kmetijski, diplomatski, gradbeni, učeni)
+  - 12 naključnih lastnosti (3 na guvernerja, skladni učinki)
+  - Province (ustvarjanje in dodeljevanje ozemelj)
+  - Sistem lojalnosti (drsi proti 50, uporniško tveganje pod 20)
+  - Leveling 1-10 (+2% na nivo)
+  - Izkušnje (100 XP na nivo)
+  - Generiranje naključnih imen
+  - Agregirani bonusi (vsi dodeljeni guvernerji prispevajo)
+
+### Tipi guvernerjev (6)
+1. Vojaški — +30% enote, +20% obramba
+2. Ekonomski — +30% davki, +25% trgovina
+3. Kmetijski — +40% hrana, +20% rast
+4. Diplomatski — +30% diplomacija, +15% trgovina
+5. Gradbeni — +30% gradnja, -15% stroški
+6. Učeni — +40% raziskovanje, +15% sreča
+
+### Statistika
+- 632 Lua datotek (+1)
+- 629/632 syntax pass
+- 6 tipov guvernerjev (nov)
+- 12 lastnosti (nov)
+
 ## [v3.0.4] — 2026-08-07 — Trade Negotiation System (4 types, AI counter-offer)
 
 ### Dodano
