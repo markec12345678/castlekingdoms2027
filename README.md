@@ -2,18 +2,18 @@
 
 Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT). Navdihnjen s klasičnimi srednjeveškimi strateškimi igrami.
 
-[![Version](https://img.shields.io/badge/version-3.2.6-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
+[![Version](https://img.shields.io/badge/version-3.3.1-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
-[![Syntax](https://img.shields.io/badge/syntax-650%2F653%20pass-brightgreen.svg)](#)
-[![Bugs](https://img.shields.io/badge/bugs%20fixed-105-brightgreen.svg)](#)
-[![Audit](https://img.shields.io/badge/audit%20rounds-40-blue.svg)](#)
+[![Syntax](https://img.shields.io/badge/syntax-655%2F658%20pass-brightgreen.svg)](#)
+[![Bugs](https://img.shields.io/badge/bugs%20fixed-110-brightgreen.svg)](#)
+[![Audit](https://img.shields.io/badge/audit%20rounds-45-blue.svg)](#)
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v3.2.6](https://github.com/markec12345678/castlekingdoms2027/releases)
-- **.love datoteka**: `castlekingdoms2027-v3.2.6.love` (32 MB brez LFS, 305 MB z LFS)
-- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 40 krogov pregleda, 105+ popravkov
+- **Zadnja izdaja**: [v3.3.1](https://github.com/markec12345678/castlekingdoms2027/releases)
+- **.love datoteka**: `castlekingdoms2027-v3.3.1.love` (32 MB brez LFS, 305 MB z LFS)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 45 krogov pregleda, 110+ popravkov
 - **LFS**: Po git clone zahtevaj `git lfs pull` za prave PNG asset-e (305 MB)
 
 ## Zagon
@@ -35,13 +35,13 @@ love .
 
 | Metrika | Vrednost |
 |---------|----------|
-| Lua datoteke | 653 |
-| Vrstic kode | ~342.000 |
+| Lua datoteke | 658 |
+| Vrstic kode | ~352.000 |
 | GLSL shaderji | 12 |
 | Jezikov | 32 |
-| Verzij | 85+ (v1.7.9 → v3.2.6) |
-| Bug popravkov | 105 (40 krogov pregleda) |
-| Syntax pass rate | 650/653 (99,5%) |
+| Verzij | 90+ (v1.7.9 → v3.3.1) |
+| Bug popravkov | 110 (45 krogov pregleda) |
+| Syntax pass rate | 655/658 (99,5%) |
 | PNG assetov | 1.206 |
 | Kampanjske misije | 21 (10 Fernhaven + 11 zgodovinskih) |
 | Skirmish misije | 15 |
@@ -152,6 +152,20 @@ love .
 | **Tipi zabavljačev** | **6** |
 | **Tipi predstav** | **11** |
 | **Zabavne zgradbe** | **4** |
+| **Tipi dokumentov** | **6** |
+| **Arhivske zgradbe** | **4** |
+| **Tipi potovanj (progress)** | **6** |
+| **Tipi spremstva** | **6** |
+| **Tipi peticij** | **5** |
+| **Tipi zločinov** | **8** |
+| **Tipi kazni** | **6** |
+| **Sodne zgradbe** | **4** |
+| **Tipi stražarjev** | **5** |
+| **Tipi groženj** | **6** |
+| **Naloge stražarjev** | **5** |
+| **Tipi gostij** | **6** |
+| **Tipi jedi** | **8** |
+| **Kuhinjske zgradbe** | **3** |
 
 ## Funkcije
 
@@ -450,6 +464,45 @@ love .
 - **Skill progression** zabavljačev
 - **Satira** s tveganjem užalitve
 
+### 📚 Kraljevi arhiv (v3.2.7)
+- **6 tipov dokumentov** (pogodba, odlok, darovnica, porokna, davčni, kronika)
+- **4 arhivske zgradbe** (omara, soba, kraljevi arhiv, velika knjižnica)
+- **Document degradation** in preservation
+- **Royal scribes** (NPC za pisanje)
+- **Treaty management** (aktivne, pretečene, prekinjene)
+- **Document search** in restoration
+
+### 🐎 Kraljeva potovanja (v3.2.8)
+- **6 tipov ciljev** (glavno mesto, provinca, vazal, meja, sveto mesto, tuj dvor)
+- **6 tipov spremstva** (stražarji, dvorjani, služabniki, bard, kuhar, duhovnik)
+- **5 tipov peticij** (mejni spori, davki, razbojniki, čudeži, darila)
+- **Incidenti na poti** (nevihte, razbojniki, bolezen)
+- **Bonusi** za lojalnost, srečo, vero, diplomacijo
+
+### ⚖️ Srednjeveško pravo (v3.2.9)
+- **8 tipov zločinov** (kraja, umor, izdaja, herezija, tihotapljenje, ...)
+- **6 tipov kazni** (globa, steber, bičanje, zapor, izgon, usmrtitev)
+- **4 sodne zgradbe** (vaško do vrhovno sodišče)
+- **Sodniki** NPC s spretnostjo
+- **Trial sistem** z dokazi in pričevalci
+- **Crime rate** in justice reputation
+
+### 🛡️ Kraljeva straža (v3.3.0)
+- **5 tipov stražarjev** (dvorna, elitna, tuja, najemniška, viteški poveljnik)
+- **6 tipov groženj** (morilec, strup, tropa, rivalni lord, heretik, tuj agent)
+- **5 nalog** (patrulja, spremstvo, palača, potovanje, preiskava)
+- **Plot detection** in food taster
+- **Escape route** za zmanjšanje škode
+- **Ruler health** in smrt
+
+### 🍽️ Kraljeve gostije (v3.3.1)
+- **6 tipov gostij** (državna večerja, poroka, proslava zmage, verska, pobratna, diplomatska)
+- **8 tipov jedi** (merjavec, labod, pavan, ribe, kruh, vino, pivo, sladica)
+- **3 kuhinjske zgradbe** (kuhinja, kraljeva kuhinja, velika dvorana)
+- **Chef NPC** s spretnostjo
+- **Guest management** in satisfaction
+- **Feast disasters** (zastrupitev, pretepe, požar)
+
 ### 📚 Vadba & UX
 - **10-korak interaktivni tutorial** v slovenščini (Ctrl+T)
 - **40+ loading tips** v 8 kategorijah
@@ -499,10 +552,15 @@ Glej [CONTRIBUTING.md](CONTRIBUTING.md) za vodič za razvijalce.
 
 ## Zgodovina razvoja
 
-Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v3.2.6 (85+ verzij, 40 krogov pregleda, 105+ popravkov).
+Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v3.3.1 (90+ verzij, 45 krogov pregleda, 110+ popravkov).
 
 ## Ključne verzije
 
+- **v3.3.1** — Royal Feast & Banquet System (6 gostij, 8 jedi, katastrofe)
+- **v3.3.0** — Royal Guard & Personal Security System (5 stražarjev, 6 groženj)
+- **v3.2.9** — Medieval Law & Justice System (8 zločinov, sojenja)
+- **v3.2.8** — Royal Progress & Tour System (6 ciljev, peticije)
+- **v3.2.7** — Royal Archive & Records System (6 dokumentov, pogodbe)
 - **v3.2.6** — Royal Court Entertainment System (6 zabavljačev, 11 predstav)
 - **v3.2.5** — Court Intrigue & Spy Network System (6 vohunov, 8 misij)
 - **v3.2.4** — Tournament & Jousting System (5 tipov, 6 prizorišč, stave)
