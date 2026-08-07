@@ -2,6 +2,26 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.7.5] — 2026-08-04 — Supply Line Manager (logistics system)
+
+### Dodano
+- **Supply Line Manager** — strateška logistika
+  - 5 tipov oskrbnih zgradb (Stockpile, Granary, Armoury, Market, Inn)
+  - Enote brez oskrbe: -20% damage, -10% hitrost, brez celjenja
+  - Doseg oskrbe: 30 ploščic (nadgradljivo)
+  - Debug vizualizacija (krogi oskrbe + oznake brez oskrbe)
+  - Izračun pokritosti oskrbe
+
+### Kazni za enote brez oskrbe
+- -20% damage — enote ne morejo polno bojevati
+- -10% hitrost — enote se premikajo počasneje
+- Brez celjenja — enote ne morejo obnoviti HP
+- Kazni se samodejno aplikirajo/odstranjujejo
+
+### Statistika
+- 603 Lua datotek (+1)
+- **600/603 syntax pass** — mejnik!
+
 ## [v2.7.4] — 2026-08-04 — Achievement Tracker (15 achievements, 4 rarities)
 
 ### Dodano
