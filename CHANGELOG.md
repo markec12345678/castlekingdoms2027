@@ -2,6 +2,32 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v2.8.7] — 2026-08-07 — Hero Unit System (6 heroes, leveling, abilities)
+
+### Dodano
+- **Hero Unit System** — posebne herojske enote z unikatnimi sposobnostmi
+  - 6 tipov herojev z aktivnimi sposobnostmi in pasivnimi aurami
+  - Leveling 1-10 (+30 HP, +5 damage na nivo)
+  - Aktivne sposobnosti s cooldown-i (fireball, arrow storm, teleport...)
+  - Pasivne aure (damage, armor, range bonusi v radiju)
+  - Persistentna progresija (hero_progression.json)
+  - Hero smrt = 2 min respawn timer
+  - Full heal ob level up
+  - Integracija s Prestige, VisualPolish, GameFeel, VoiceOver
+
+### Heroji (6)
+1. Knight Commander (1000g) — Battle Cry: +50% dmg aura
+2. Master Archer (800g) — Arrow Storm: 20 dmg/s AoE
+3. Siege Engineer (900g) — Rapid Construction: instant Trebuchet
+4. Battle Mage (1200g) — Fireball: 80+40 splash damage
+5. Shield Maiden (950g) — Aegis Shield: -90% dmg aura
+6. Shadow Assassin (1100g) — Shadow Step: teleport + 100 backstab
+
+### Statistika
+- 614 Lua datotek (+1)
+- 611/614 syntax pass
+- 6 tipov herojev (nov)
+
 ## [v2.8.6] — 2026-08-07 — Weather Warfare System (7 abilities)
 
 ### Dodano
