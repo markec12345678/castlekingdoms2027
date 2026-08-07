@@ -2,6 +2,31 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v2.9.4] — 2026-08-07 — Save State Manager (10 slots, auto-rotation, checksum)
+
+### Dodano
+- **Save State Manager** — napredno upravljanje shranjevanja
+  - 10 ročnih slotov + quick save + auto-save
+  - Metadata (timestamp, playtime, mission, gold, population)
+  - Auto-save rotacija (zadnjih 5)
+  - Quick save/load (slot 0)
+  - Checksum za preverjanje integritete
+  - Save migracija (verzionirani save-i)
+  - Cloud sync stub (SteamWorks)
+  - Save serializacija z Lua tabelami
+  - Sledenje velikosti save-ov
+
+### Tipi save-ov (3)
+1. Ročni (sloti 1-10) — igralec poimenuje
+2. Quick save (slot 0) — F5/F9
+3. Auto-save (rotacija 1-5) — vsakih 5 min
+
+### Statistika
+- 621 Lua datotek (+1)
+- 618/621 syntax pass
+- 10 save slotov (nov)
+- 3 tipi save-ov (nov)
+
 ## [v2.9.3] — 2026-08-07 — Chat Command System (22 commands, 6 categories)
 
 ### Dodano
