@@ -2,6 +2,31 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.7.4] — 2026-08-04 — Achievement Tracker (15 achievements, 4 rarities)
+
+### Dodano
+- **Achievement Tracker** — podrobno sledenje napredka
+  - 15 achievementov s progress trakovi
+  - 4 redkosti: common, rare, epic, legendary
+  - 5 kategorij: combat, economy, campaign, social, special
+  - Datumi odklepanja
+  - Export/import za backup
+  - HD playtime sledenje (3600s = 1 ura)
+  - Integracija s SteamWorks
+
+### Redkosti (4)
+- **Common** — lahki (First Victory, HD Enthusiast)
+- **Rare** — srednji (Flawless, Speed Run, Master Builder, Trader)
+- **Epic** — težki (Siege Master, Legendary Army, Economy Guru)
+- **Legendary** — ultimativni (Campaign Complete)
+
+### Statistika
+- 602 Lua datotek (+1)
+- 599/602 syntax pass
+- 15 achievementov s sledenjem (nov)
+- 4 redkosti (nov)
+- 5 kategorij (nov)
+
 ## [v2.7.3] — 2026-08-04 — Building Manager System (7 categories)
 
 ### Dodano
