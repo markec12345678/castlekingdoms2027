@@ -2,18 +2,18 @@
 
 Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT). Navdihnjen s klasičnimi srednjeveškimi strateškimi igrami.
 
-[![Version](https://img.shields.io/badge/version-3.1.1-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
+[![Version](https://img.shields.io/badge/version-3.1.6-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
-[![Syntax](https://img.shields.io/badge/syntax-635%2F638%20pass-brightgreen.svg)](#)
-[![Bugs](https://img.shields.io/badge/bugs%20fixed-90-brightgreen.svg)](#)
-[![Audit](https://img.shields.io/badge/audit%20rounds-26-blue.svg)](#)
+[![Syntax](https://img.shields.io/badge/syntax-640%2F643%20pass-brightgreen.svg)](#)
+[![Bugs](https://img.shields.io/badge/bugs%20fixed-95-brightgreen.svg)](#)
+[![Audit](https://img.shields.io/badge/audit%20rounds-30-blue.svg)](#)
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v3.1.1](https://github.com/markec12345678/castlekingdoms2027/releases)
-- **.love datoteka**: `castlekingdoms2027-v3.1.1.love` (32 MB brez LFS, 305 MB z LFS)
-- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 26 krogov pregleda, 90+ popravkov
+- **Zadnja izdaja**: [v3.1.6](https://github.com/markec12345678/castlekingdoms2027/releases)
+- **.love datoteka**: `castlekingdoms2027-v3.1.6.love` (32 MB brez LFS, 305 MB z LFS)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 30 krogov pregleda, 95+ popravkov
 - **LFS**: Po git clone zahtevaj `git lfs pull` za prave PNG asset-e (305 MB)
 
 ## Zagon
@@ -35,13 +35,13 @@ love .
 
 | Metrika | Vrednost |
 |---------|----------|
-| Lua datoteke | 638 |
-| Vrstic kode | ~318.000 |
+| Lua datoteke | 643 |
+| Vrstic kode | ~325.000 |
 | GLSL shaderji | 12 |
 | Jezikov | 32 |
-| Verzij | 70+ (v1.7.9 → v3.1.1) |
-| Bug popravkov | 90 (26 krogov pregleda) |
-| Syntax pass rate | 635/638 (99,5%) |
+| Verzij | 75+ (v1.7.9 → v3.1.6) |
+| Bug popravkov | 95 (30 krogov pregleda) |
+| Syntax pass rate | 640/643 (99,5%) |
 | PNG assetov | 1.206 |
 | Kampanjske misije | 21 (10 Fernhaven + 11 zgodovinskih) |
 | Skirmish misije | 15 |
@@ -116,6 +116,19 @@ love .
 | **Svetovalci (court)** | **6** |
 | **Tournament arene** | **5** |
 | **Shrines** | **3** |
+| **Scarcity eventi** | **6** |
+| **Stopnje racioniranja** | **4** |
+| **Tipi uporov** | **6** |
+| **Pacifikacijske opcije** | **6** |
+| **Kontrabanda** | **8** |
+| **Tihotapske metode** | **4** |
+| **Kraljevski odloki** | **12** |
+| **Kategorije odlokov** | **4** |
+| **Verige odlokov** | **3** |
+| **Izobraževalne ustanove** | **5** |
+| **Umetnostne oblike** | **6** |
+| **Slavni obiskovalci** | **8** |
+| **Kulturni dosežki** | **6** |
 
 ## Funkcije
 
@@ -282,6 +295,48 @@ love .
 - **5 oblegovalnih strojev**
 - **4 obrambni sistemi** (katapulti, olje, smodnik, pikeman)
 
+### 🌾 Lakota & redkost (v3.1.2)
+- **6 scarcity eventov** (suša, nežit, kobilice, ostra zima, poplava, leto kuge)
+- **4 stopnje racioniranja** (izobilje, normalno, zmanjšano, stradanje)
+- **Žitnice** (gradnja, kapaciteta 2000 hrane)
+- **Uvoz hrane** in **pakti o medsebojni pomoči**
+- **Podnebni ciklus** (8 faz, leta obilja vs leta lakote)
+- **Stradanje** z žrtvami prebivalstva
+
+### ⚔️ Upori & državljanska vojna (v3.1.3)
+- **6 tipov uporov** (kmečki, plemiški, verski, vojaški, nasledstveni, tuji)
+- **6 opcij pacifikacije** (darila, davki, festival, usmrtitev, amnestija, vojaško)
+- **Loyalty tracker** per regija in plemič (0-100)
+- **Conspiracies** (detekcija preko špijonaže, 4 tipi)
+- **Državljanska vojna** (3+ sočasni upori)
+- **Spread mehanika** in sistem zahtev
+
+### 💀 Črni trg & tihotapljenje (v3.1.4)
+- **8 tipov kontrabande** (začimbe, svila, orožje, žganje, nakit, relikvije, strupi, sužnji)
+- **4 metode tihotapljenja** (karavana, ladja, nočni tekač, podkupljenci)
+- **Črni trgovci** (skriti NPC z random inventarjem)
+- **Tax evasion** (skrivanje prihodka)
+- **Carinski nadzor** (auditi, globe, zaplembe)
+- **Podkupovanje uradnikov**
+- **Criminal reputation** in **law enforcement level**
+
+### 📜 Kraljevski odloki (v3.1.5)
+- **12 odlokov** v 4 kategorijah (ekonomski, vojaški, socialni, verski)
+- **Max 5 aktivnih** hkrati, trajanje ali permanentno
+- **Predpogoji** (raziskava zahteva 1000 zlata)
+- **3 verige odlokov** z bonusi (Razsvetljeni vladar, Vojni lord, Bogataš)
+- **Edict fatigue** (preveč odlokov → utrujenost)
+
+### 🎨 Kultura & izobraževanje (v3.1.6)
+- **5 izobraževalnih ustanov** (skriptorij, knjižnica, akademija, univerza, observatorij)
+- **6 umetnostnih oblik** (rokopis, slika, kip, glasba, poezija, arhitektura)
+- **Pismenost** (0-100%, vpliva na raziskave)
+- **Knowledge točke** (valuta za umetnost)
+- **Kulturni prestiž** in **turizem**
+- **8 slavnih obiskovalcev** (Tomaž Akvinski, Dante, Giotto, ...)
+- **6 kulturnih dosežkov**
+- **Pokroviteljstvo** umetnosti
+
 ### 📚 Vadba & UX
 - **10-korak interaktivni tutorial** v slovenščini (Ctrl+T)
 - **40+ loading tips** v 8 kategorijah
@@ -331,10 +386,15 @@ Glej [CONTRIBUTING.md](CONTRIBUTING.md) za vodič za razvijalce.
 
 ## Zgodovina razvoja
 
-Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v3.1.1 (70+ verzij, 26 krogov pregleda, 90+ popravkov).
+Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v3.1.6 (75+ verzij, 30 krogov pregleda, 95+ popravkov).
 
 ## Ključne verzije
 
+- **v3.1.6** — Cultural & Education System (5 ustanov, 6 umetnosti, slavni obiskovalci)
+- **v3.1.5** — Royal Decrees & Edicts System (12 odlokov, 4 kategorije, verige)
+- **v3.1.4** — Black Market & Smuggling System (8 kontraband, 4 metode, carina)
+- **v3.1.3** — Treason & Rebellion System (6 tipov uporov, državljanska vojna)
+- **v3.1.2** — Famine & Resource Scarcity System (6 eventov, racioniranje)
 - **v3.1.1** — Prisoner & Ransom System (5 razredov, capture, exchange)
 - **v3.1.0** — Mercenary Contract System (8 podjetij, izdaja, aukcije)
 - **v3.0.9** — Trade Guild System (5 cehov, 4 stopnje, pogodbe)
