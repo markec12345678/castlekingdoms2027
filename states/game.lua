@@ -160,6 +160,7 @@ S.Dynasty = require("objects.Config.RoyalMarriageDynastySystem")
 S.Naval = require("objects.Combat.NavalCombatTradeSystem")
 S.Winter = require("objects.Gameplay.WinterQuartersSystem")
 S.Treasury = require("objects.Economy.RoyalTreasuryTaxationSystem")
+S.Chronicle = require("objects.QA.ChronicleHistorySystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -614,6 +615,9 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v3.2.0: Initialize Royal Treasury & Taxation System
     S.Treasury.init()
     _G.Treasury = S.Treasury
+    -- Castle Kingdoms 2027 v3.2.1: Initialize Chronicle & History System
+    S.Chronicle.init()
+    _G.Chronicle = S.Chronicle
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()

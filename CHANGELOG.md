@@ -2,6 +2,21 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.2.1] — 2026-08-08 — Chronicle & History System (8 categories, narrative, legacy score)
+
+### Dodano
+- **Chronicle & History System** — beleženje zgodovine z avtomatskim pisanjem
+  - 8 kategorij dogodkov (vojaško, politično, ekonomsko, versko, socialno, dinastično, kulturno, katastrofalno)
+  - 18+ templates za narativno pisanje
+  - Avtomatsko beleženje preko GameEventBus subscriptions
+  - Legacy score (točkovanje dogodkov po pomembnosti)
+  - 6 stopenj kakovosti (povprečno, običajno, omembno, izjemno, legendarno, mitično)
+  - 10 slavnih citatov
+  - Export kronike v tekstovno datoteko
+  - Reign summary generator (povzetek vladanja)
+  - Legacy rank (Mitičen, Legendaren, Izjemen, itd.)
+  - Filtriranje po letu in kategoriji
+
 ## [v3.2.0] — 2026-08-08 — Royal Treasury & Taxation System (6 taxes, loans, corruption)
 
 ### Dodano
