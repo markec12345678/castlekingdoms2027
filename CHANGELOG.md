@@ -2,6 +2,30 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.0.2] — 2026-08-07 — Stats Dashboard Widget (6 panels, collapsible)
+
+### Dodano
+- **Stats Dashboard Widget** — real-time HUD z statistiko
+  - 6 panojev: ekonomija, vojaško, populacija, diplomacija, tehnologija, performance
+  - Panoji lahko zloženi (klik na naslov)
+  - 6 pozicij (4 koti + top/bottom center)
+  - Barvno kodirane vrednosti (zelena=dobro, rdeča=slabo)
+  - Prosojno ozadje z obrobo
+  - Podatki iz 10+ sistemov
+
+### Panoji (6)
+1. Ekonomija — zlato, les, kamen, hrana, železo, učinkovitost
+2. Vojaško — armade, enote, moč, heroji, K/D, zmage/porazi
+3. Populacija — prebivalstvo, sreča, rast
+4. Diplomacija — zavezništva, sovražniki, trgovine, poti
+5. Tehnologija — raziskave, questi, prestige, rank
+6. Performance — FPS, spomin, DDA, matchmaking rating
+
+### Statistika
+- 629 Lua datotek (+1)
+- 626/629 syntax pass
+- 6 panojev (nov)
+
 ## [v3.0.1] — 2026-08-07 — Matchmaking System (ELO, 5 match types, 7 ranks)
 
 ### Dodano
