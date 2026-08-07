@@ -2,6 +2,21 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.1.4] — 2026-08-08 — Black Market & Smuggling System (8 contraband, 4 methods)
+
+### Dodano
+- **Black Market & Smuggling System** — podzemna ekonomija s tihotapljenjem
+  - 8 tipov kontrabande (začimbe, svila, orožje, žganje, nakit, relikvije, strupi, sužnji)
+  - 4 metode tihotapljenja (karavana, ladja, nočni tekač, podkupljeni uradniki)
+  - Črni trgovci (skriti NPC, 5 min razpoložljivost, random inventar)
+  - Tax evasion (skrivanje prihodka pred davki)
+  - Carinski nadzor (auditi, globe, zaplemba kontrabande)
+  - Podkupovanje uradnikov (zniža enforcement, prekliče audite)
+  - Carinske postaje (povečajo enforcement level)
+  - Criminal reputation (0-100, vpliva na cene)
+  - Law enforcement level (0-100, drifta nazaj na 50)
+  - Risk/reward (visoki dobički, težke globe)
+
 ## [v3.1.3] — 2026-08-08 — Treason & Rebellion System (6 types, civil war, conspiracies)
 
 ### Dodano
