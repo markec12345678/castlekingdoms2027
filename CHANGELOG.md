@@ -2,6 +2,26 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v2.9.0] — 2026-08-07 — Procedural Map Generator (5 biomes, 4 sizes)
+
+### Dodano
+- **Procedural Map Generator** — ustvarjanje naključnih map
+  - 5 biomov: Temperate, Arid, Mountainous, Coastal, Mixed
+  - 4 velikosti: Small (128), Medium (192), Large (256), Huge (384)
+  - Seed-based generacija za reproducibilnost
+  - Generacija terena, rek, gozdov, gorovij
+  - Postavljanje surovin (wood, stone, iron, food)
+  - Startne pozicije za 2-8 igralcev
+  - Identifikacija strateških točk (chokepoints)
+  - 20 kombinacij biom×velikost
+
+### Statistika
+- 617 Lua datotek (+1)
+- 614/617 syntax pass
+- 5 biomov (nov)
+- 4 velikosti map (nov)
+- 20 kombinacij (nov)
+
 ## [v2.8.9] — 2026-08-07 — Camera Enhancement System (smooth, cinematic, zoom)
 
 ### Dodano
