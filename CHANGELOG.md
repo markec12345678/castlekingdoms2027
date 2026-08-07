@@ -2,6 +2,21 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.3.1] — 2026-08-08 — Royal Feast & Banquet System (6 feasts, 8 dishes, disasters)
+
+### Dodano
+- **Royal Feast & Banquet System** — velike gostije in dvorne prireditve
+  - 6 tipov gostij (državna večerja, poroka, proslava zmage, verska, pobratna, diplomatska)
+  - 8 tipov jedi (pečen merjavec, labod, pavan, ribe, kruh, vino, pivo, sladica)
+  - 3 kuhinjske zgradbe (kuhinja, kraljeva kuhinja, velika dvorana)
+  - Chef NPC (spretnost vpliva na kakovost)
+  - Guest management (vabljenje plemičev in zaveznikov)
+  - Satisfaction sistem (kombinacija jedi in kakovosti)
+  - Diplomatic bonus (izboljšanje odnosov z gosti)
+  - Faith bonus (pri verskih gostijah)
+  - Feast disasters (zastrupitev, pretepe, požar)
+  - Quality bonus iz zgradb in kuharja
+
 ## [v3.3.0] — 2026-08-08 — Royal Guard & Personal Security System (5 guards, 6 threats)
 
 ### Dodano
