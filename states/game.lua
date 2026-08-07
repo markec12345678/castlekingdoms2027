@@ -134,6 +134,7 @@ S.SummaryGen = require("objects.QA.GameSummaryGenerator")
 S.SoundtrackMgr = require("objects.Audio.SoundtrackManager")
 S.ChatCmd = require("objects.Network.ChatCommandSystem")
 S.SaveState = require("objects.QA.SaveStateManager")
+S.TooltipSystem = require("objects.Feedback.TooltipSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -510,6 +511,9 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v2.9.4: Initialize Save State Manager
     S.SaveState.init()
     _G.SaveState = S.SaveState
+    -- Castle Kingdoms 2027 v2.9.5: Initialize Tooltip System
+    S.TooltipSystem.init()
+    _G.TooltipSystem = S.TooltipSystem
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -726,6 +730,8 @@ function game:update(dt)
                 S.CameraEnhanced.update(dt)
                 -- Castle Kingdoms 2027 v2.9.2: Update Soundtrack Manager
                 S.SoundtrackMgr.update(dt)
+                -- Castle Kingdoms 2027 v2.9.5: Update Tooltip System
+                S.TooltipSystem.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
