@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.0.8] — 2026-08-08 — Religion & Faith System (5 religions, 7 buildings, 6 actions)
+
+### Dodano
+- **Religion & Faith System** — organizirana vera in verski vpliv na igro
+  - 5 tipov religij (katolištvo, pravoslavje, poganstvo, herezija, državna vera)
+  - 7 verskih zgradb (kapela, cerkev, katedrala, samostan, svetišče, tempelj, sveto mesto)
+  - 6 verskih akcij (blagoslov, izobčenje, sveta vojna, pokrščevanje, donacija, romanje)
+  - 7 svetih dni v letu (Božič, Velika noč, Binkošti, vsi svetniki, kronanje, itd.)
+  - Sistem relikvij (7 tipov, passivni bonusi k veri in sreči)
+  - Herezija in inkvizicija (širjenje herezije, zatiranje z vero)
+  - Verska toleranca (0-100, vpliva na širjenje herezije)
+  - Diplomatski modifikatorji (zavezniki in rivali med religijami)
+  - UI: vera meter, indikator herezije, simbol državne vere
+
 ## [v3.0.7] — 2026-08-07 — Disease & Health System (6 diseases, 5 infrastructure)
 
 ### Dodano

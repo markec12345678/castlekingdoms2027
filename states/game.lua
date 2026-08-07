@@ -147,6 +147,7 @@ S.TradeNeg = require("objects.Economy.TradeNegotiationSystem")
 S.Governor = require("objects.Config.GovernorSystem")
 S.Court = require("objects.Config.CourtNobilitySystem")
 S.Disease = require("objects.Gameplay.DiseaseHealthSystem")
+S.Religion = require("objects.Gameplay.ReligionFaithSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -562,6 +563,9 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v3.0.7: Initialize Disease & Health System
     S.Disease.init()
     _G.Disease = S.Disease
+    -- Castle Kingdoms 2027 v3.0.8: Initialize Religion & Faith System
+    S.Religion.init()
+    _G.Religion = S.Religion
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -804,6 +808,8 @@ function game:update(dt)
                 S.Court.update(dt)
                 -- Castle Kingdoms 2027 v3.0.7: Update Disease & Health
                 S.Disease.update(dt)
+                -- Castle Kingdoms 2027 v3.0.8: Update Religion & Faith
+                S.Religion.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
@@ -1034,6 +1040,8 @@ function game:draw()
             S.NotificationCenter.draw()
             -- Castle Kingdoms 2027 v3.0.2: Draw Stats Dashboard Widget
             S.StatsWidget.draw()
+            -- Castle Kingdoms 2027 v3.0.8: Draw Religion & Faith overlay
+            S.Religion.draw()
         else
             renderLoadingScreen("")
             renderLoadingBar(loadState, progress)
