@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.1.3] — 2026-08-08 — Treason & Rebellion System (6 types, civil war, conspiracies)
+
+### Dodano
+- **Treason & Rebellion System** — notranji spopadi, zarote in državljanska vojna
+  - 6 tipov uporov (kmečki, plemiški, verski, vojaški, nasledstveni, tujim sponzoriran)
+  - 6 opcij pacifikacije (darila, zmanjšaj davke, festival, usmrtitev, amnestija, vojaško)
+  - Loyalty tracker per regija in plemič (0-100)
+  - Unrest build-up (sreča, davki, herezija, lakota)
+  - Conspiracies (detekcija preko špijonaže, 4 tipi zarot)
+  - Civil war (ko 3+ upori aktivni, dežela razklana)
+  - Spread mehanika (upori se širijo v druge regije)
+  - Demand sistem (uporniki zastavljajo zahteve)
+  - Victory/defeat za upornike (zahteve uresničene če zmagajo)
+
 ## [v3.1.2] — 2026-08-08 — Famine & Resource Scarcity System (6 events, rationing)
 
 ### Dodano

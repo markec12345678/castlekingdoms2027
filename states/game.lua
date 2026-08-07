@@ -152,6 +152,7 @@ S.TradeGuild = require("objects.Economy.TradeGuildSystem")
 S.Mercenary = require("objects.Combat.MercenaryContractSystem")
 S.Prisoner = require("objects.Gameplay.PrisonerRansomSystem")
 S.Famine = require("objects.Gameplay.FamineScarcitySystem")
+S.Rebellion = require("objects.Gameplay.TreasonRebellionSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -582,6 +583,9 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v3.1.2: Initialize Famine & Scarcity System
     S.Famine.init()
     _G.Famine = S.Famine
+    -- Castle Kingdoms 2027 v3.1.3: Initialize Treason & Rebellion System
+    S.Rebellion.init()
+    _G.Rebellion = S.Rebellion
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -834,6 +838,8 @@ function game:update(dt)
                 S.Prisoner.update(dt)
                 -- Castle Kingdoms 2027 v3.1.2: Update Famine & Scarcity
                 S.Famine.update(dt)
+                -- Castle Kingdoms 2027 v3.1.3: Update Treason & Rebellion
+                S.Rebellion.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
