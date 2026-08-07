@@ -2,6 +2,21 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.1.0] — 2026-08-08 — Mercenary Contract System (8 companies, betrayal)
+
+### Dodano
+- **Mercenary Contract System** — najemniške čete z negotiacijo pogodb in izdajo
+  - 8 tipov najemniških podjetij (mečevci, samostrelci, kopjaši, konjenica, inženirji, saparji, izvidniki, stražarji)
+  - 4 trajanja pogodb (kratko 14d, standardno 30d, podaljšano 90d, permanentno 365d)
+  - Negocijske opcije: ekskluzivnost, bonus po uspehu, ponudbe nasprotnikov
+  - Ugled pri podjetjih (0-100, vpliva na ceno in zanesljivost)
+  - Dnevna plačila (avtomatsko, zlato vsak dan)
+  - Mehansika izdaje (premajhen ugled → prestop k nasprotniku)
+  - Bonus po ubitih sovražnikih (5 zlata na uboj)
+  - Podaljšanje pogodb s 15% popustom
+  - Aukcije z nasprotniki (ponudbeni vojni)
+  - Specifični bonusi: napad, obramba, hitrost, obleganje
+
 ## [v3.0.9] — 2026-08-08 — Trade Guild System (5 guilds, 4 tiers, contracts)
 
 ### Dodano
