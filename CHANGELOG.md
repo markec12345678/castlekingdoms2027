@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.2.6] — 2026-08-08 — Royal Court Entertainment System (6 entertainers, 11 performances)
+
+### Dodano
+- **Royal Court Entertainment System** — dvorna zabava z zabavljači
+  - 6 tipov zabavljačev (bard, norček, glasbenik, trubadur, plesalec, krotilce živali)
+  - 11 tipov predstav (pesem, šala, epska pripoved, poezija, akrobatika, satira, ples, instrumental, romansa, ...)
+  - 4 zabavne zgradbe (dvorna odra, gledališče, glasbena dvorana, veliki amfiteater)
+  - Sistem najemanja in odpuščanja zabavljačev
+  - Court reputation (0-100, vpliva na ugled dvora)
+  - Touring (pošlji zabavljača na turnejo k zavezniku)
+  - Skill progression (izkušnje po predstavah)
+  - Satira s tveganjem užalitve plemstva
+  - Pasivna sreča iz zgradb
+
 ## [v3.2.5] — 2026-08-08 — Court Intrigue & Spy Network System (6 spies, 8 missions)
 
 ### Dodano
