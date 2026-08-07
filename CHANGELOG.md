@@ -2,6 +2,24 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.8.1] — 2026-08-04 — Custom Scenario Editor (create, save, share)
+
+### Dodano
+- **Custom Scenario Editor** — ustvarjanje lastnih scenarijev
+  - Definiranje začetnih surovin, populacije, zgradb
+  - Cilji (destroy, gather, protect, survive)
+  - AI nasprotniki (osebnost, težavnost, enote)
+  - Časovni dogodki (napadi, okrepitve, vreme)
+  - Win/lose pogoji
+  - Save/load v datoteke (scenarios/)
+  - Export/import za deljenje
+  - Playtest način
+  - 25+ API funkcij
+
+### Statistika
+- 609 Lua datotek (+1)
+- 606/609 syntax pass
+
 ## [v2.8.0] — 2026-08-04 — Tournament System (5 tournament types)
 
 ### Dodano
