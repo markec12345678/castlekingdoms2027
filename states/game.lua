@@ -126,6 +126,7 @@ S.Leaderboard = require("objects.Steam.LeaderboardSystem")
 S.ReplayEnhanced = require("objects.QA.ReplayEnhancementSystem")
 S.ModAPI = require("objects.Modding.ModdingAPI")
 S.WeatherWarfare = require("objects.Gameplay.WeatherWarfareSystem")
+S.HeroSystem = require("objects.Combat.HeroUnitSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -478,6 +479,9 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v2.8.6: Initialize Weather Warfare
     S.WeatherWarfare.init()
     _G.WeatherWarfare = S.WeatherWarfare
+    -- Castle Kingdoms 2027 v2.8.7: Initialize Hero Unit System
+    S.HeroSystem.init()
+    _G.HeroSystem = S.HeroSystem
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -686,6 +690,8 @@ function game:update(dt)
                 S.ReplayEnhanced.update(dt)
                 -- Castle Kingdoms 2027 v2.8.6: Update Weather Warfare
                 S.WeatherWarfare.update(dt)
+                -- Castle Kingdoms 2027 v2.8.7: Update Hero System
+                S.HeroSystem.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
