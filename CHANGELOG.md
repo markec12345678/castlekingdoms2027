@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.2.3] — 2026-08-08 — Royal Mint & Currency System (5 coins, debasement, exchange)
+
+### Dodano
+- **Royal Mint & Currency System** — kovanje denarja in valutni sistem
+  - 5 tipov kovancev (denar, groat, florin, plemič, dukat) z različno vrednostjo
+  - 4 tuje valute (bizantinski solidus, beneški dukat, arabski dinar, hanzna marka)
+  - Kovnice (gradnja, proizvodnja kovancev)
+  - Mintmaster (NPC s spretnostjo, poveča proizvodnjo)
+  - Debasement (znižanje čistosti za takojšnje zlato, vpliva na zaupanje)
+  - Exchange rates (fluktuirajo, vpliva trust level)
+  - Counterfeiting (ponarejanje kovancev, varnostni ukrepi)
+  - Trust level (0-100, vpliva na menjalne tečaje)
+  - Pretvorba kovancev v zlato (glede na čistost)
+
 ## [v3.2.2] — 2026-08-08 — Heraldry & Coat of Arms System (8 tinctures, 12 charges)
 
 ### Dodano
