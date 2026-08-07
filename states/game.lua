@@ -122,6 +122,7 @@ S.TacticalOverlay = require("objects.UI.TacticalMapOverlay")
 S.Prestige = require("objects.Config.PrestigeSystem")
 S.Tournament = require("objects.Gameplay.TournamentSystem")
 S.Scenario = require("objects.Mission.CustomScenarioSystem")
+S.Leaderboard = require("objects.Steam.LeaderboardSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -462,6 +463,9 @@ local function delayedInit()
     -- Stronghold 2027 v2.8.1: Initialize Custom Scenario Editor
     S.Scenario.init()
     _G.Scenario = S.Scenario
+    -- Stronghold 2027 v2.8.2: Initialize Leaderboard System
+    S.Leaderboard.init()
+    _G.Leaderboard = S.Leaderboard
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
