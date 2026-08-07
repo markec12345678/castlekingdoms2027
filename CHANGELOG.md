@@ -2,6 +2,19 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.2.8] — 2026-08-08 — Royal Progress & Tour System (6 destinations, entourage, petitions)
+
+### Dodano
+- **Royal Progress & Tour System** — kraljeva potovanja po provincah
+  - 6 tipov ciljev (glavno mesto, provinca, vazalska dežela, meja, sveto mesto, tuj dvor)
+  - 6 tipov spremstva (stražarji, dvorjani, služabniki, bard, kuhar, duhovnik)
+  - 5 tipov peticij (mejni spori, davki, razbojniki, čudeži, darila)
+  - Spremembe poti (godi incidenti: nevihte, razbojniki, bolezen)
+  - Bonusi za lojalnost, srečo, vero, diplomacijo
+  - Tveganje incidenta (znižano s stražarji)
+  - Progress prestige (dolgoročni ugled)
+  - Diplomatski obiski tujih dvorov
+
 ## [v3.2.7] — 2026-08-08 — Royal Archive & Records System (6 doc types, 4 buildings)
 
 ### Dodano
