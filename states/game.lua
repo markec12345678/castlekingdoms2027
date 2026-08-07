@@ -119,6 +119,7 @@ S.SupplyLine = require("objects.Gameplay.SupplyLineSystem")
 S.QuestSystem = require("objects.Mission.QuestSystem")
 S.Analytics = require("objects.QA.GameAnalyticsDashboard")
 S.TacticalOverlay = require("objects.UI.TacticalMapOverlay")
+S.Prestige = require("objects.Config.PrestigeSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -450,6 +451,9 @@ local function delayedInit()
     -- Stronghold 2027 v2.7.8: Initialize Tactical Map Overlay
     S.TacticalOverlay.init()
     _G.TacticalOverlay = S.TacticalOverlay
+    -- Stronghold 2027 v2.7.9: Initialize Prestige System
+    S.Prestige.init()
+    _G.Prestige = S.Prestige
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
