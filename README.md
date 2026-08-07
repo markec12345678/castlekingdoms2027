@@ -2,18 +2,18 @@
 
 Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT). Navdihnjen s klasičnimi srednjeveškimi strateškimi igrami.
 
-[![Version](https://img.shields.io/badge/version-3.2.1-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
+[![Version](https://img.shields.io/badge/version-3.2.6-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
-[![Syntax](https://img.shields.io/badge/syntax-645%2F648%20pass-brightgreen.svg)](#)
-[![Bugs](https://img.shields.io/badge/bugs%20fixed-100-brightgreen.svg)](#)
-[![Audit](https://img.shields.io/badge/audit%20rounds-35-blue.svg)](#)
+[![Syntax](https://img.shields.io/badge/syntax-650%2F653%20pass-brightgreen.svg)](#)
+[![Bugs](https://img.shields.io/badge/bugs%20fixed-105-brightgreen.svg)](#)
+[![Audit](https://img.shields.io/badge/audit%20rounds-40-blue.svg)](#)
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v3.2.1](https://github.com/markec12345678/castlekingdoms2027/releases)
-- **.love datoteka**: `castlekingdoms2027-v3.2.1.love` (32 MB brez LFS, 305 MB z LFS)
-- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 35 krogov pregleda, 100+ popravkov
+- **Zadnja izdaja**: [v3.2.6](https://github.com/markec12345678/castlekingdoms2027/releases)
+- **.love datoteka**: `castlekingdoms2027-v3.2.6.love` (32 MB brez LFS, 305 MB z LFS)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 40 krogov pregleda, 105+ popravkov
 - **LFS**: Po git clone zahtevaj `git lfs pull` za prave PNG asset-e (305 MB)
 
 ## Zagon
@@ -35,13 +35,13 @@ love .
 
 | Metrika | Vrednost |
 |---------|----------|
-| Lua datoteke | 648 |
-| Vrstic kode | ~333.000 |
+| Lua datoteke | 653 |
+| Vrstic kode | ~342.000 |
 | GLSL shaderji | 12 |
 | Jezikov | 32 |
-| Verzij | 80+ (v1.7.9 → v3.2.1) |
-| Bug popravkov | 100 (35 krogov pregleda) |
-| Syntax pass rate | 645/648 (99,5%) |
+| Verzij | 85+ (v1.7.9 → v3.2.6) |
+| Bug popravkov | 105 (40 krogov pregleda) |
+| Syntax pass rate | 650/653 (99,5%) |
 | PNG assetov | 1.206 |
 | Kampanjske misije | 21 (10 Fernhaven + 11 zgodovinskih) |
 | Skirmish misije | 15 |
@@ -140,6 +140,18 @@ love .
 | **Davčne stopnje** | **5** |
 | **Kategorije kronike** | **8** |
 | **Stopnje kakovosti kronike** | **6** |
+| **Heraldične barve (tinctures)** | **8** |
+| **Heraldični simboli (charges)** | **12** |
+| **Delitve ščita** | **6** |
+| **Tipi kovancev** | **5** |
+| **Tuje valute** | **4** |
+| **Tipi turnirjev** | **5** |
+| **Turnirska prizorišča** | **6** |
+| **Tipi vohunov** | **6** |
+| **Vohunske misije** | **8** |
+| **Tipi zabavljačev** | **6** |
+| **Tipi predstav** | **11** |
+| **Zabavne zgradbe** | **4** |
 
 ## Funkcije
 
@@ -394,6 +406,50 @@ love .
 - **Reign summary** generator
 - **Legacy rank** (Mitičen, Legendaren, Izjemen, ...)
 
+### 🛡️ Heraldika & grbi (v3.2.2)
+- **8 heraldičnih barv** (zlato, srebro, rdeča, modra, črna, zelena, škrlatna, oranžna)
+- **12 simbolov** (lev, orel, križ, lilija, zmaj, krona, meč, ...)
+- **6 delitev ščita** (polno, navpično, vodoravno, četrtinsko, ...)
+- **Pravila tincture** (kovina na barvi ali obratno)
+- **Heraldični register** in prepoznavanje hiš
+- **Heraldični spori** in reševanje
+- **Heraldic prestige** (redke kombinacije)
+
+### 💎 Kraljevska kovnica & valuta (v3.2.3)
+- **5 tipov kovancev** (denar, groat, florin, plemič, dukat)
+- **4 tuje valute** z menjalnimi tečaji
+- **Kovnice** in **mintmaster** NPC
+- **Debasement** (znižanje čistosti za zlato)
+- **Counterfeiting** in varnostni ukrepi
+- **Trust level** in exchange rates
+
+### ⚔️ Turnirji & jousting (v3.2.4)
+- **5 tipov turnirjev** (joust, melee, strelništvo, veliki melee, kraljevi)
+- **6 prizorišč** (vaški travnik do velikega stadiona)
+- **Rekrutiranje vitezov** s spretnostjo in zdravjem
+- **Single elimination** simulacija
+- **Sistem stavnjenja** (2x-3x izplačilo)
+- **Poškodbe** in prize money
+- **Tournament fame** (dolgoročna slava)
+
+### 🕵️ Vohunstvo & dvorske spletke (v3.2.5)
+- **6 tipov vohunov** (dvorna dama, menih, trgovec, norček, služabnik, mojster)
+- **8 tipov misij** (infiltriraj, sabotaža, atentat, kraja, ...)
+- **Spy skill progression** in cover system
+- **Counter-intelligence** (lovljenje vohunov)
+- **Zasliševanje** ujetih vohunov
+- **Blackmail material** in izsiljevanje
+- **Spy upkeep** in detection chance
+
+### 🎭 Dvorna zabava (v3.2.6)
+- **6 tipov zabavljačev** (bard, norček, glasbenik, trubadur, plesalec, krotilce)
+- **11 tipov predstav** (pesem, šala, epska pripoved, satira, romansa, ...)
+- **4 zabavne zgradbe** (odra, gledališče, glasbena dvorana, amfiteater)
+- **Court reputation** sistem
+- **Touring** (pošiljanje k zaveznikom)
+- **Skill progression** zabavljačev
+- **Satira** s tveganjem užalitve
+
 ### 📚 Vadba & UX
 - **10-korak interaktivni tutorial** v slovenščini (Ctrl+T)
 - **40+ loading tips** v 8 kategorijah
@@ -443,10 +499,15 @@ Glej [CONTRIBUTING.md](CONTRIBUTING.md) za vodič za razvijalce.
 
 ## Zgodovina razvoja
 
-Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v3.2.1 (80+ verzij, 35 krogov pregleda, 100+ popravkov).
+Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v3.2.6 (85+ verzij, 40 krogov pregleda, 105+ popravkov).
 
 ## Ključne verzije
 
+- **v3.2.6** — Royal Court Entertainment System (6 zabavljačev, 11 predstav)
+- **v3.2.5** — Court Intrigue & Spy Network System (6 vohunov, 8 misij)
+- **v3.2.4** — Tournament & Jousting System (5 tipov, 6 prizorišč, stave)
+- **v3.2.3** — Royal Mint & Currency System (5 kovancev, debasement)
+- **v3.2.2** — Heraldry & Coat of Arms System (8 barv, 12 simbolov)
 - **v3.2.1** — Chronicle & History System (8 kategorij, narrativno pisanje, legacy)
 - **v3.2.0** — Royal Treasury & Taxation System (6 davkov, posojila, korupcija)
 - **v3.1.9** — Winter Quarters & Hibernation System (4 letni časi, atricija)
