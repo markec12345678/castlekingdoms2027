@@ -2,6 +2,32 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.0.1] — 2026-08-07 — Matchmaking System (ELO, 5 match types, 7 ranks)
+
+### Dodano
+- **Multiplayer Matchmaking System** — iskanje igralcev za multiplayer
+  - ELO rating sistem (start 1000, win +25, loss -20)
+  - 5 tipov iger (1v1, 2v2, 3v3, 4-FFA, 8-FFA)
+  - 7 rangov (Bronze → Grandmaster)
+  - Lobby management z ready sistemom
+  - Connection quality (ping + packet loss)
+  - Match history (zadnjih 50)
+  - Win/loss tracking z win streak
+  - Disconnect handling (-30 rating)
+  - Persistent stats (matchmaking_stats.json)
+  - Leaderboard integracija
+
+### Rangovi (7)
+- Bronze (500-999), Silver (1000-1199), Gold (1200-1399)
+- Platinum (1400-1599), Diamond (1600-1799)
+- Master (1800-1999), Grandmaster (2000+)
+
+### Statistika
+- 628 Lua datotek (+1)
+- 625/628 syntax pass
+- 5 tipov iger (nov)
+- 7 rangov (nov)
+
 ## [v3.0.0] — 2026-08-07 — MILESTONE: Resource Forecast System
 
 ### Dodano
