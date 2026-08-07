@@ -2,6 +2,32 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.0.4] — 2026-08-07 — Trade Negotiation System (4 types, AI counter-offer)
+
+### Dodano
+- **Trade Negotiation System** — kompleksna trgovinska pogajanja
+  - 4 tipi: trgovina, barter, posojilo, darilo
+  - AI protiponudbe (AI oceni in odgovori s prilagojenimi pogoji)
+  - Odnos-cene (zavezniki do -20% popusta)
+  - 8 AI osebnostnih modifikatorjev (markup, accept threshold, counter chance)
+  - Večkrožna pogajanja (do 3 krogi ponudb)
+  - Trgovinski embargi (blokada trgovine s sovražnimi frakcijami)
+  - Trgovinski sporazumi (ponavljajoče se avtomatske trgovine)
+  - Vpliv na DynamicMarket (supply/demand)
+  - Zgodovina pogajanj (zadnjih 50)
+
+### Tipi pogajanj (4)
+1. Trgovina — kupi/prodaj za zlato
+2. Barter — zamenjaj surovine brez zlata
+3. Posojilo — posodi/zapoši zlato z obrestmi
+4. Darilo — daruj za izboljšanje odnosov
+
+### Statistika
+- 631 Lua datotek (+1)
+- 628/631 syntax pass
+- 4 tipi pogajanj (nov)
+- 8 AI modifikatorjev (nov)
+
 ## [v3.0.3] — 2026-08-07 — Castle Siege System (4 phases, walls, equipment)
 
 ### Dodano
