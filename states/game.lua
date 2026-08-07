@@ -146,6 +146,7 @@ S.CastleSiege = require("objects.Gameplay.CastleSiegeSystem")
 S.TradeNeg = require("objects.Economy.TradeNegotiationSystem")
 S.Governor = require("objects.Config.GovernorSystem")
 S.Court = require("objects.Config.CourtNobilitySystem")
+S.Disease = require("objects.Gameplay.DiseaseHealthSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -558,6 +559,9 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v3.0.6: Initialize Court & Nobility System
     S.Court.init()
     _G.Court = S.Court
+    -- Castle Kingdoms 2027 v3.0.7: Initialize Disease & Health System
+    S.Disease.init()
+    _G.Disease = S.Disease
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -798,6 +802,8 @@ function game:update(dt)
                 S.Governor.update(dt)
                 -- Castle Kingdoms 2027 v3.0.6: Update Court & Nobility
                 S.Court.update(dt)
+                -- Castle Kingdoms 2027 v3.0.7: Update Disease & Health
+                S.Disease.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
