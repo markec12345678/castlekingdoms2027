@@ -128,6 +128,7 @@ S.ModAPI = require("objects.Modding.ModdingAPI")
 S.WeatherWarfare = require("objects.Gameplay.WeatherWarfareSystem")
 S.HeroSystem = require("objects.Combat.HeroUnitSystem")
 S.TimeManager = require("objects.Controllers.TimeManagerSystem")
+S.CameraEnhanced = require("objects.UI.CameraEnhancementSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -486,6 +487,9 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v2.8.8: Initialize Time Manager
     S.TimeManager.init()
     _G.TimeManager = S.TimeManager
+    -- Castle Kingdoms 2027 v2.8.9: Initialize Camera Enhancement
+    S.CameraEnhanced.init()
+    _G.CameraEnhanced = S.CameraEnhanced
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -698,6 +702,8 @@ function game:update(dt)
                 S.HeroSystem.update(dt)
                 -- Castle Kingdoms 2027 v2.8.8: Update Time Manager
                 S.TimeManager.update(dt)
+                -- Castle Kingdoms 2027 v2.8.9: Update Camera Enhancement
+                S.CameraEnhanced.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
