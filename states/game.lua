@@ -114,6 +114,7 @@ S.TradeRoute = require("objects.Economy.TradeRouteSystem")
 S.RandomEvent = require("objects.Gameplay.RandomEventSystem")
 S.NotificationCenter = require("objects.UI.NotificationCenter")
 S.BuildingManager = require("objects.Controllers.BuildingManagerSystem")
+S.AchievementTracker = require("objects.Steam.AchievementTracker")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -430,6 +431,9 @@ local function delayedInit()
     -- Stronghold 2027 v2.7.3: Initialize Building Manager
     S.BuildingManager.init()
     _G.BuildingManager = S.BuildingManager
+    -- Stronghold 2027 v2.7.4: Initialize Achievement Tracker
+    S.AchievementTracker.init()
+    _G.AchievementTracker = S.AchievementTracker
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
