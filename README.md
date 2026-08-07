@@ -2,23 +2,23 @@
 
 Modernizirana različica igre Stronghold (2001) za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT).
 
-[![Version](https://img.shields.io/badge/version-2.7.5-blue.svg)](https://github.com/markec12345678/stronghold2027/releases)
+[![Version](https://img.shields.io/badge/version-2.7.8-blue.svg)](https://github.com/markec12345678/stronghold2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
-[![Syntax](https://img.shields.io/badge/syntax-600%2F603%20pass-brightgreen.svg)](#)
-[![Bugs](https://img.shields.io/badge/bugs%20fixed-75-brightgreen.svg)](#)
-[![Audit](https://img.shields.io/badge/audit%20rounds-18-blue.svg)](#)
+[![Syntax](https://img.shields.io/badge/syntax-603%2F606%20pass-brightgreen.svg)](#)
+[![Bugs](https://img.shields.io/badge/bugs%20fixed-80-brightgreen.svg)](#)
+[![Audit](https://img.shields.io/badge/audit%20rounds-20-blue.svg)](#)
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v2.7.5](https://github.com/markec12345678/stronghold2027/releases)
-- **.love datoteka**: `stronghold2027-v2.7.5.love` (32 MB brez LFS, 305 MB z LFS)
-- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 18 krogov pregleda, 75+ popravkov
+- **Zadnja izdaja**: [v2.7.8](https://github.com/markec12345678/stronghold2027/releases)
+- **.love datoteka**: `stronghold2027-v2.7.8.love` (32 MB brez LFS, 305 MB z LFS)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 20 krogov pregleda, 80+ popravkov
 
 ## Zagon
 
 ```cmd
-& "C:\Program Files\LOVE\love.exe" "F:\pot\do\stronghold2027-v2.7.5.love"
+& "C:\Program Files\LOVE\love.exe" "F:\pot\do\stronghold2027-v2.7.8.love"
 ```
 
 Ali iz git checkout-a (zahteva [git-lfs](https://git-lfs.com/)):
@@ -34,13 +34,13 @@ love .
 
 | Metrika | Vrednost |
 |---------|----------|
-| Lua datoteke | 603 |
-| Vrstic kode | ~295.000 |
+| Lua datoteke | 606 |
+| Vrstic kode | ~300.000 |
 | GLSL shaderji | 12 |
 | Jezikov | 32 |
-| Verzij | 50+ (v1.7.9 → v2.7.5) |
-| Bug popravkov | 75 (18 krogov pregleda) |
-| Syntax pass rate | 600/603 (99,5%) |
+| Verzij | 55+ (v1.7.9 → v2.7.8) |
+| Bug popravkov | 80 (20 krogov pregleda) |
+| Syntax pass rate | 603/606 (99,5%) |
 | PNG assetov | 1.206 |
 | Kampanjske misije | 21 (10 Fernhaven + 11 zgodovinskih) |
 | Skirmish misije | 15 |
@@ -74,6 +74,11 @@ love .
 | Redkosti achievementov | 4 |
 | Oskrbne zgradbe | 5 |
 | Naključni dogodki | 7 |
+| Quest predloge | 9 |
+| Sledene metrike | 25+ |
+| Taktični načini | 5 |
+| Tipi surovin | 17 |
+| Diplomatske akcije | 9 |
 
 ## Funkcije
 
@@ -221,10 +226,13 @@ Glej [CONTRIBUTING.md](CONTRIBUTING.md) za vodič za razvijalce.
 
 ## Zgodovina razvoja
 
-Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v2.7.5 (50+ verzij, 18 krogov pregleda, 75+ popravkov).
+Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v2.7.8 (55+ verzij, 20 krogov pregleda, 80+ popravkov).
 
 ## Ključne verzije
 
+- **v2.7.8** — Tactical Map Overlay (5 strateških načinov)
+- **v2.7.7** — Game Analytics Dashboard (25+ metrik)
+- **v2.7.6** — Quest System (9 stranskih misij)
 - **v2.7.5** — Supply Line Manager (logistika)
 - **v2.7.4** — Achievement Tracker (15 achievementov, 4 redkosti)
 - **v2.7.3** — Building Manager (7 kategorij zgradb)
