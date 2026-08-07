@@ -2,6 +2,23 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.7.9] — 2026-08-04 — Prestige & Ranking System (9 ranks)
+
+### Dodano
+- **Prestige & Ranking System** — 9 stopenj ugleda
+  - Novice (0) → Squire (50) → Knight (150) → Baron (300) → Count (500)
+  - Duke (800) → King (1200) → Emperor (2000) → Legend (3500)
+  - 18 virov točk (misije, achievementi, multiplayer, tehnologije...)
+  - Bonus k zlatu: +2% na rang (max +16% pri Legend)
+  - Save/load persistenca (prestige.json)
+  - GameEventBus dogodki ob promociji
+
+### Statistika
+- 607 Lua datotek (+1)
+- 604/607 syntax pass
+- 9 stopenj ugleda (nov)
+- 18 virov točk (nov)
+
 ## [v2.7.8] — 2026-08-04 — Tactical Map Overlay (5 strategic modes)
 
 ### Dodano
