@@ -2,23 +2,23 @@
 
 Modernizirana različica igre Stronghold (2001) za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT).
 
-[![Version](https://img.shields.io/badge/version-2.5.4-blue.svg)](https://github.com/markec12345678/stronghold2027/releases)
+[![Version](https://img.shields.io/badge/version-2.7.5-blue.svg)](https://github.com/markec12345678/stronghold2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
-[![Syntax](https://img.shields.io/badge/syntax-587%2F590%20pass-brightgreen.svg)](#)
-[![Bugs](https://img.shields.io/badge/bugs%20fixed-70-brightgreen.svg)](#)
-[![Audit](https://img.shields.io/badge/audit%20rounds-16-blue.svg)](#)
+[![Syntax](https://img.shields.io/badge/syntax-600%2F603%20pass-brightgreen.svg)](#)
+[![Bugs](https://img.shields.io/badge/bugs%20fixed-75-brightgreen.svg)](#)
+[![Audit](https://img.shields.io/badge/audit%20rounds-18-blue.svg)](#)
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v2.5.4](https://github.com/markec12345678/stronghold2027/releases)
-- **.love datoteka**: `stronghold2027-v2.5.4.love` (32 MB brez LFS, 305 MB z LFS)
-- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 16 krogov pregleda, 70+ popravkov
+- **Zadnja izdaja**: [v2.7.5](https://github.com/markec12345678/stronghold2027/releases)
+- **.love datoteka**: `stronghold2027-v2.7.5.love` (32 MB brez LFS, 305 MB z LFS)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 18 krogov pregleda, 75+ popravkov
 
 ## Zagon
 
 ```cmd
-& "C:\Program Files\LOVE\love.exe" "F:\pot\do\stronghold2027-v2.5.4.love"
+& "C:\Program Files\LOVE\love.exe" "F:\pot\do\stronghold2027-v2.7.5.love"
 ```
 
 Ali iz git checkout-a (zahteva [git-lfs](https://git-lfs.com/)):
@@ -34,15 +34,14 @@ love .
 
 | Metrika | Vrednost |
 |---------|----------|
-| Lua datoteke | 590 |
-| Vrstic kode | ~290.000 |
+| Lua datoteke | 603 |
+| Vrstic kode | ~295.000 |
 | GLSL shaderji | 12 |
 | Jezikov | 32 |
-| Verzij | 45 (v1.7.9 → v2.5.4) |
-| Bug popravkov | 70 (16 krogov pregleda) |
-| Syntax pass rate | 587/590 (99,5%) |
+| Verzij | 50+ (v1.7.9 → v2.7.5) |
+| Bug popravkov | 75 (18 krogov pregleda) |
+| Syntax pass rate | 600/603 (99,5%) |
 | PNG assetov | 1.206 |
-| Registriranih globalov | 64 |
 | Kampanjske misije | 21 (10 Fernhaven + 11 zgodovinskih) |
 | Skirmish misije | 15 |
 | Co-op misije | 10 |
@@ -51,8 +50,30 @@ love .
 | AI konfiguracije | 48 (8×6) |
 | Vojaške enote | 11 |
 | Zgradbe | 35+ |
+| Formacije | 7 |
+| Upgrade poti | 7 |
+| Vremenski tipi | 9 |
+| Festivali | 8 |
+| Ekonomski dogodki | 15 |
+| Tehnologije | 14 |
 | Mape | 6 |
-| Steam achievementi | 10 |
+| Steam achievementi | 15 |
+| Voice-over sporočila | 42+ |
+| SFX kategorije | 8 |
+| Tutorial hints | 16 |
+| Loading tips | 50+ |
+| Daily challenge predloge | 14 |
+| Vohunske misije | 5 |
+| Produkcijske verige | 7 |
+| Stopnje odnosov | 5 |
+| Tipi trgovskih poti | 3 |
+| Tipi ukazov | 7 |
+| Prioritete obvestil | 4 |
+| Kategorije obvestil | 6 |
+| Kategorije zgradb | 7 |
+| Redkosti achievementov | 4 |
+| Oskrbne zgradbe | 5 |
+| Naključni dogodki | 7 |
 
 ## Funkcije
 
@@ -200,16 +221,28 @@ Glej [CONTRIBUTING.md](CONTRIBUTING.md) za vodič za razvijalce.
 
 ## Zgodovina razvoja
 
-Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v2.5.4 (45 verzij, 16 krogov pregleda, 70+ popravkov).
+Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v2.7.5 (50+ verzij, 18 krogov pregleda, 75+ popravkov).
 
 ## Ključne verzije
 
-- **v2.5.4** — 4 nove normanske enote + 3 nove zgradbe
-- **v2.5.3** — 15 skirmish + 10 co-op misij + modding API
-- **v2.5.2** — 8 AI osebnosti + 6 težavnosti (48 konfiguracij)
-- **v2.5.1** — 5 zgodovinskih map + MapRegistry
-- **v2.5.0** — 21 kampanjskih misij + Steam cloud + stability tests
-- **v2.4.0** — Tutorial auto-progress + GameFeel fix
+- **v2.7.5** — Supply Line Manager (logistika)
+- **v2.7.4** — Achievement Tracker (15 achievementov, 4 redkosti)
+- **v2.7.3** — Building Manager (7 kategorij zgradb)
+- **v2.7.2** — Notification Center (4 prioritete, 6 kategorij)
+- **v2.7.1** — Random Event System + 8 novih surovin
+- **v2.7.0** — Trade Route Manager (persistentne trgovske poti)
+- **v2.6.9** — Army Command System (7 tipov ukazov)
+- **v2.6.8** — Diplomatic Relations (5 stopenj odnosov)
+- **v2.6.7** — Espionage & Intelligence (5 tipov misij)
+- **v2.6.6** — Production Chain System (7 verig)
+- **v2.6.5** — Population & Happiness System
+- **v2.6.4** — Technology Tree (14 tehnologij)
+- **v2.6.3** — Daily Challenge System
+- **v2.6.2** — 3 ekstremni vremenski tipi
+- **v2.6.1** — 2 upgrade poti + 2 formaciji
+- **v2.6.0** — giveResources fix + casualty tracking
+- **v2.5.4** — 4 normanske enote + 3 zgradbe
+- **v2.5.0** — 21 kampanjskih misij + Steam cloud
 - **v2.3.0** — LuaJIT upvalue fix (kritično)
 - **v2.0.0** — Final Release Candidate
 
