@@ -2,6 +2,30 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.0.0] — 2026-08-07 — MILESTONE: Resource Forecast System
+
+### Dodano
+- **Resource Forecast System** — napovedovanje surovin
+  - Sledenje produkcije/porabe v realnem času (11 surovin)
+  - 5-minutna projekcija (kje bodo surovine čez 5 min?)
+  - Opozorila o pomanjkanju (kritična < 60s, opozorilo < 3min)
+  - Indikatorji presežka (> 5/s kopičenje)
+  - Zgodovina trendov (zadnjih 60s)
+  - Izračun učinkovitosti (produkcija vs poraba %)
+  - NotificationCenter integracija za kritična opozorila
+
+### Tipi opozoril (4)
+1. Kritično pomanjkanje — konec < 60s
+2. Pomanjkanje — konec < 3 min
+3. Nizke zaloge — pod pragom (20/100)
+4. Presežek — kopičenje > 5/s
+
+### Statistika
+- 627 Lua datotek (+1)
+- 624/627 syntax pass
+- 11 sledenih surovin (nov)
+- 4 tipi opozoril (nov)
+
 ## [v2.9.9] — 2026-08-07 — Performance Auto-Tuner (8 params, predictive)
 
 ### Dodano
