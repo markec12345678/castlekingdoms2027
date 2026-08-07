@@ -2,18 +2,19 @@
 
 Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT). Navdihnjen s klasičnimi srednjeveškimi strateškimi igrami.
 
-[![Version](https://img.shields.io/badge/version-2.9.1-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
+[![Version](https://img.shields.io/badge/version-3.1.1-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
-[![Syntax](https://img.shields.io/badge/syntax-615%2F618%20pass-brightgreen.svg)](#)
-[![Bugs](https://img.shields.io/badge/bugs%20fixed-85-brightgreen.svg)](#)
-[![Audit](https://img.shields.io/badge/audit%20rounds-22-blue.svg)](#)
+[![Syntax](https://img.shields.io/badge/syntax-635%2F638%20pass-brightgreen.svg)](#)
+[![Bugs](https://img.shields.io/badge/bugs%20fixed-90-brightgreen.svg)](#)
+[![Audit](https://img.shields.io/badge/audit%20rounds-26-blue.svg)](#)
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v2.9.1](https://github.com/markec12345678/castlekingdoms2027/releases)
-- **.love datoteka**: `castlekingdoms2027-v2.9.1.love` (32 MB brez LFS, 305 MB z LFS)
-- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 22 krogov pregleda, 85+ popravkov
+- **Zadnja izdaja**: [v3.1.1](https://github.com/markec12345678/castlekingdoms2027/releases)
+- **.love datoteka**: `castlekingdoms2027-v3.1.1.love` (32 MB brez LFS, 305 MB z LFS)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 26 krogov pregleda, 90+ popravkov
+- **LFS**: Po git clone zahtevaj `git lfs pull` za prave PNG asset-e (305 MB)
 
 ## Zagon
 
@@ -34,13 +35,13 @@ love .
 
 | Metrika | Vrednost |
 |---------|----------|
-| Lua datoteke | 618 |
-| Vrstic kode | ~305.000 |
+| Lua datoteke | 638 |
+| Vrstic kode | ~318.000 |
 | GLSL shaderji | 12 |
 | Jezikov | 32 |
-| Verzij | 60+ (v1.7.9 → v2.9.1) |
-| Bug popravkov | 85 (22 krogov pregleda) |
-| Syntax pass rate | 615/618 (99,5%) |
+| Verzij | 70+ (v1.7.9 → v3.1.1) |
+| Bug popravkov | 90 (26 krogov pregleda) |
+| Syntax pass rate | 635/638 (99,5%) |
 | PNG assetov | 1.206 |
 | Kampanjske misije | 21 (10 Fernhaven + 11 zgodovinskih) |
 | Skirmish misije | 15 |
@@ -49,7 +50,7 @@ love .
 | Težavnosti | 6 |
 | AI konfiguracije | 48 (8×6) |
 | Vojaške enote | 11 |
-| Zgradbe | 35+ |
+| Zgradbe | 50+ |
 | Formacije | 7 |
 | Upgrade poti | 7 |
 | Vremenski tipi | 9 |
@@ -91,6 +92,30 @@ love .
 | Modding API sekcije | 5 |
 | Sekcije povzetka igre | 6 |
 | Stopnje ocen | 6 |
+| **Religije** | **5** |
+| **Verske zgradbe** | **7** |
+| **Verske akcije** | **6** |
+| **Sveti dnevi** | **7** |
+| **Tipi relikvij** | **7** |
+| **Cehi (guilds)** | **5** |
+| **Stopnje članstva ceha** | **4** |
+| **Cehovske pogodbe** | **5** |
+| **Stopnje ugleda ceha** | **7** |
+| **Najemniška podjetja** | **8** |
+| **Trajanja najemniških pogodb** | **4** |
+| **Tipi sapovnih pogodb** | **5** |
+| **Razredi zapornikov** | **5** |
+| **Zapore** | **4** |
+| **Bolezni** | **6** |
+| **Zdravstvena infrastruktura** | **5** |
+| **Governor tipi** | **6** |
+| **Governor lastnosti** | **12** |
+| **Svetovalci (court)** | **6** |
+| **Plemiške hiše** | **5** |
+| **Dvoranski eventi** | **7** |
+| **Svetovalci (court)** | **6** |
+| **Tournament arene** | **5** |
+| **Shrines** | **3** |
 
 ## Funkcije
 
@@ -184,10 +209,78 @@ love .
 - **Sample mod** vključen (GoldMine building)
 
 ### 🏆 Steam Integration
-- **10 achievements** (first_victory, campaign_complete, master_builder, ...)
+- **15 achievements** (first_victory, campaign_complete, master_builder, ...)
 - **Stats tracking** (buildings, kills, trades, alliances)
-- **Leaderboard** (stub)
+- **8 leaderboard kategorij** z AI competitors
 - **Steam Workshop** (subscribe/upload/import)
+- **Cloud saves** z rich presence
+
+### ⛪ Vera & Religija (v3.0.8)
+- **5 religij** (katolištvo, pravoslavje, poganstvo, herezija, državna vera)
+- **7 verskih zgradb** (kapela, cerkev, katedrala, samostan, svetišče, tempelj, sveto mesto)
+- **6 verskih akcij** (blagoslov, izobčenje, sveta vojna, pokrščevanje, donacija, romanje)
+- **7 svetih dni** v letu (Božič, Velika noč, kronanje, ...)
+- **Sistem relikvij** (7 tipov, passivni bonusi)
+- **Herezija in inkvizicija** (širjenje, zatiranje z vero)
+- **Verska toleranca** (0-100, vpliva na širjenje herezije)
+- **Diplomatski modifikatorji** med religijami
+
+### 🏛️ Cehovski sistem (v3.0.9)
+- **5 cehov** (trgovski, kovaški, tesarski, zidarski, pivovarski)
+- **4 stopnje članstva** (vajenec, pomočnik, mojster, starešina)
+- **Cehovske dvorane** (gradnja + 2 nadgradnje)
+- **Tedenske cehovnine** (avtomatsko)
+- **Cehovske zakladnice** (samo starešina dviguje)
+- **5 tipov pogodb** (dostava, kvota, rekrutacija, sabotaža, obrt)
+- **Ugled** (-100 do +100, 7 stopenj)
+- **Rivalstva in zavezništva** med cehovi
+- **Passivni bonusi** (popusti, proizvodnja, kakovost)
+
+### ⚔️ Najemniške čete (v3.1.0)
+- **8 najemniških podjetij** (mečevci, samostrelci, kopjaši, konjenica, inženirji, saparji, izvidniki, stražarji)
+- **4 trajanja pogodb** (14d, 30d, 90d, 365d)
+- **Negocijske opcije** (ekskluzivnost, bonus po uspehu, aukcije)
+- **Ugled** pri podjetjih (0-100)
+- **Dnevne plače** (zlato vsak dan)
+- **Mehanika izdaje** (premajhen ugled → prestop k nasprotniku)
+- **Aukcije z nasprotniki** (ponudbeni vojni)
+- **Specifični bojni bonusi** (napad, obramba, hitrost, obleganje)
+
+### 🔒 Zaporniki & odkupnine (v3.1.1)
+- **5 razredov zapornikov** (kmet, vojak, vitez, plemič, kraljevska oseba)
+- **4 zapore** (zapora, temnica, stolp, trdnjavska ječa)
+- **Capture chance** glede na razred (1%-30%)
+- **Negotiacija odkupnin** (5 rund, counter-offer)
+- **Sistem izmenjav** zapornikov (uravnotežene glede na težo)
+- **Usmrtitev in izpust** z diplomatskimi posledicami
+- **Dnevno vzdrževanje** zapornikov
+- **Escape mehanika** (glede na jakost zapore)
+- **Random eventi** (družina ponuja odkupnino)
+- **Ugled pri plemičih** (vpliva na capture chance)
+
+### 🩺 Zdravje & bolezni (v3.0.7)
+- **6 tipov bolezni** (kuga, dizenterija, gripa, črne koze, lakotna vročica, kolera)
+- **5 zdravstvenih objektov** (apoteka, zdravilnica, čisti vodnjak, bolnišnica, kanalizacija)
+- **Karantenski sistem** (-70% širjenje)
+- **Raziskava zdravil**
+- **Health rating** (0-100, vpliva na rast populacije)
+
+### 👑 Plemiči & dvor (v3.0.6)
+- **6 svetovalcev** (kancler, zakladnik, maršal, špijon, diplomant, dvorni župnik)
+- **5 plemiških hiš** z dinastičnimi zvezami
+- **7 dvoranskih eventov** (zarote, poroke, atentati)
+- **Sistem porok in dedičev**
+
+### 🏛️ Governorji (v3.0.5)
+- **6 tipov governorjev** (ekonom, general, inženir, diplomat, špijon, duhovnik)
+- **12 lastnosti** (pravičnost, krutost, modrost, itd.)
+- **Realna prilagoditev** težavnosti
+
+### 🏰 Obleganje gradov (v3.0.3)
+- **4 faze obleganja** (priprava, napad, prodor, predaja)
+- **9 sekcij zidov**
+- **5 oblegovalnih strojev**
+- **4 obrambni sistemi** (katapulti, olje, smodnik, pikeman)
 
 ### 📚 Vadba & UX
 - **10-korak interaktivni tutorial** v slovenščini (Ctrl+T)
@@ -238,10 +331,25 @@ Glej [CONTRIBUTING.md](CONTRIBUTING.md) za vodič za razvijalce.
 
 ## Zgodovina razvoja
 
-Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v2.9.1 (60+ verzij, 22 krogov pregleda, 85+ popravkov).
+Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v3.1.1 (70+ verzij, 26 krogov pregleda, 90+ popravkov).
 
 ## Ključne verzije
 
+- **v3.1.1** — Prisoner & Ransom System (5 razredov, capture, exchange)
+- **v3.1.0** — Mercenary Contract System (8 podjetij, izdaja, aukcije)
+- **v3.0.9** — Trade Guild System (5 cehov, 4 stopnje, pogodbe)
+- **v3.0.8** — Religion & Faith System (5 religij, 7 zgradb, herezija)
+- **v3.0.7** — Disease & Health System (6 bolezni, karantena)
+- **v3.0.6** — Court & Nobility System (6 svetovalcev, plemiške hiše)
+- **v3.0.5** — Governor & Administration System (6 tipov, 12 lastnosti)
+- **v3.0.4** — Trade Negotiation System (4 tipi, AI counter-offer)
+- **v3.0.3** — Castle Siege System (4 faze, zidovi, predaja)
+- **v3.0.2** — Stats Dashboard Widget (6 panojev)
+- **v3.0.1** — Matchmaking System (ELO, 5 tipov, 7 stopenj)
+- **v3.0.0** — Resource Forecast System (projekcija, opozorila)
+- **v2.9.9** — Performance Auto-Tuner (8 parametrov)
+- **v2.9.8** — Dynamic Difficulty Adjuster (5 faktorjev)
+- **v2.9.7** — Enhanced Map Editor (plasti, undo/redo)
 - **v2.9.1** — Game Summary Generator (6 sekcij, letter grade)
 - **v2.9.0** — Procedural Map Generator (5 biomov, 4 velikosti)
 - **v2.8.9** — Camera Enhancement (smooth, cinematic, 5 zoom)
