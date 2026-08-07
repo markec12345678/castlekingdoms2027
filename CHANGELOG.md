@@ -2,6 +2,25 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v2.9.8] — 2026-08-07 — Dynamic Difficulty Adjuster (5 factors, real-time)
+
+### Dodano
+- **Dynamic Difficulty Adjuster (DDA)** — samodejno prilagajanje težavnosti
+  - 5 faktorjev: AI agresivnost, bonus surovin, HP sovražnikov, DMG sovražnikov, frekvenca dogodkov
+  - Performance score (-100 do +100) iz 5 metrik (army ratio, gold, populacija, sreča, K/D)
+  - Smooth prehodi (brez nenadnih skokov)
+  - 5 stopenj prilagajanja (Lažje → Težje)
+  - Igralec lahko nastavi ciljno težavnost
+  - Zgodovina performans (30 vnosov)
+  - Toggle on/off
+  - Preračun vsakih 10s
+
+### Statistika
+- 625 Lua datotek (+1)
+- 622/625 syntax pass
+- 5 faktorjev prilagajanja (nov)
+- 5 stopenj prilagajanja (nov)
+
 ## [v2.9.7] — 2026-08-07 — Enhanced Map Editor (layers, undo/redo, export)
 
 ### Dodano
