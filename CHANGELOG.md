@@ -2,6 +2,31 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.7.7] — 2026-08-04 — Game Analytics Dashboard (real-time metrics)
+
+### Dodano
+- **Game Analytics Dashboard** — sledenje 25+ metrik v realnem času
+  - 6 kategorij: Military, Economy, Construction, Diplomacy, Espionage, Quests
+  - APM (akcije na minuto)
+  - Session + lifetime podatki z persistenco
+  - Neto vrednost (zlato + surovine)
+  - K/D razmerje
+  - Formatiran povzetek za prikaz
+  - Auto-save v analytics_lifetime.json
+
+### Sledene metrike (25+)
+- **Military**: usposobljene/izgubljene enote, ubiti sovražniki, K/D, zmage/porazi
+- **Economy**: zaslužek/poraba/neto zlato, neto vrednost, trgovine, profit
+- **Construction**: zgrajene/uničene/popravljene zgradbe
+- **Diplomacy**: zavezništva, vojne, tributi poslani/prejeti
+- **Espionage**: misije, uspešnost
+- **Quests & Tech**: questi, tehnologije
+- **Performance**: čas igranja, akcije, APM
+
+### Statistika
+- 605 Lua datotek (+1)
+- 602/605 syntax pass
+
 ## [v2.7.6] — 2026-08-04 — Quest System (9 side quests, 4 types)
 
 ### Dodano
