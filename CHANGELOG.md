@@ -2,6 +2,25 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v2.8.4] — 2026-08-07 — Replay Enhancement System (timeline + bookmarks)
+
+### Dodano
+- **Replay Enhancement System** — izboljšano predvajanje replayev
+  - Timeline scrubbing (skok na poljuben čas)
+  - 6 hitrosti: 0.25×, 0.5×, 1×, 2×, 4×, 8×
+  - Pavza/nadaljevanje
+  - Preskakovanje (±10s)
+  - Zaznamki (note, combat, economy, highlight)
+  - Skok na zaznamke
+  - Statistika replaya
+  - Izvoz povzetka kot tekst
+  - On-screen kontrolna vrstica
+  - Tipke: Space=pavza, Levo/Desno=skip, Up=hitrost, B=zaznamek
+
+### Statistika
+- 611 Lua datotek (+1)
+- 608/611 syntax pass
+
 ## [v2.8.3] — 2026-08-07 — PROJECT RENAME: Stronghold 2027 → Castle Kingdoms 2027
 
 ### Spremenjeno (IP zaščita — preimenovanje projekta)
