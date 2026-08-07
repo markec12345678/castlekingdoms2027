@@ -2,6 +2,21 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.2.7] — 2026-08-08 — Royal Archive & Records System (6 doc types, 4 buildings)
+
+### Dodano
+- **Royal Archive & Records System** — shranjevanje dokumentov in pogodb
+  - 6 tipov dokumentov (pogodba, odlok, darovnica, porokna pogodba, davčni zapis, kronika)
+  - 4 arhivske zgradbe (omara, soba, kraljevi arhiv, velika knjižnica)
+  - Document degradation (razpadanje čez čas)
+  - Preservation bonus (zgradbe upočasnjujejo razpad)
+  - Royal scribes (NPC za hitrejše pisanje)
+  - Treaty management (aktivne, pretečene, prekinjene)
+  - Land grant tracking (darovnice zemlje)
+  - Document search (iskanje po naslovu/vsebini)
+  - Document restoration (obnova poškodovanih)
+  - Legal bonus (iz velike knjižnice)
+
 ## [v3.2.6] — 2026-08-08 — Royal Court Entertainment System (6 entertainers, 11 performances)
 
 ### Dodano
