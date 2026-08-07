@@ -2,6 +2,23 @@
 
 Vse pomembne spremembe projekta Stronghold 2027.
 
+## [v2.8.2] — 2026-08-04 — Leaderboard System (8 categories)
+
+### Dodano
+- **Leaderboard System** — primerjava rezultatov v 8 kategorijah
+  - Total Score, Speed Run, Economy, Military, Builder, Diplomat, Survivor, Tournament
+  - Lokalna tabela z AI tekmovalci (5 na kategorijo)
+  - Osebni rekordi
+  - Save/load persistenca (leaderboard.json)
+  - Medalje za top 3 (zlato, srebro, bron)
+  - Časovne in številske kategorije
+  - GameEventBus dogodki
+
+### Statistika
+- 610 Lua datotek (+1)
+- 607/610 syntax pass
+- 8 kategorij leaderboarda (nov)
+
 ## [v2.8.1] — 2026-08-04 — Custom Scenario Editor (create, save, share)
 
 ### Dodano
