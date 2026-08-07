@@ -139,6 +139,7 @@ S.AchievementAnim = require("objects.UI.AchievementUnlockAnimation")
 S.MapEditorEnhanced = require("objects.QA.MapEditorEnhanced")
 S.DDA = require("objects.Config.DynamicDifficultyAdjuster")
 S.AutoTuner = require("objects.Performance.PerformanceAutoTuner")
+S.Forecast = require("objects.Economy.ResourceForecastSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -530,6 +531,9 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v2.9.9: Initialize Performance Auto-Tuner
     S.AutoTuner.init()
     _G.AutoTuner = S.AutoTuner
+    -- Castle Kingdoms 2027 v3.0.0: Initialize Resource Forecast System
+    S.Forecast.init()
+    _G.Forecast = S.Forecast
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -756,6 +760,8 @@ function game:update(dt)
                 S.DDA.update(dt)
                 -- Castle Kingdoms 2027 v2.9.9: Update Performance Auto-Tuner
                 S.AutoTuner.update(dt)
+                -- Castle Kingdoms 2027 v3.0.0: Update Resource Forecast
+                S.Forecast.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
