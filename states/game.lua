@@ -133,6 +133,7 @@ S.MapGen = require("objects.Gameplay.ProceduralMapGenerator")
 S.SummaryGen = require("objects.QA.GameSummaryGenerator")
 S.SoundtrackMgr = require("objects.Audio.SoundtrackManager")
 S.ChatCmd = require("objects.Network.ChatCommandSystem")
+S.SaveState = require("objects.QA.SaveStateManager")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -506,6 +507,9 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v2.9.3: Initialize Chat Command System
     S.ChatCmd.init()
     _G.ChatCmd = S.ChatCmd
+    -- Castle Kingdoms 2027 v2.9.4: Initialize Save State Manager
+    S.SaveState.init()
+    _G.SaveState = S.SaveState
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
