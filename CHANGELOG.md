@@ -2,6 +2,21 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.1.2] — 2026-08-08 — Famine & Resource Scarcity System (6 events, rationing)
+
+### Dodano
+- **Famine & Resource Scarcity System** — suše, nežit, kobilice in stradanje
+  - 6 tipov scarcity eventov (suša, nežit, kobilice, ostra zima, poplava, leto kuge)
+  - 4 stopnje racioniranja (izobilje, normalno, zmanjšano, stradanje)
+  - Žitnice (gradnja, kapaciteta 2000 hrane na zgradbo)
+  - Sistem rezerv (depozit/umik iz žitnice)
+  - Uvoz hrane (plačilo zlata, dostava po 60 sekundah)
+  - Pakti o medsebojni pomoči z zavezniki (brezplačna hrana)
+  - Podnebni ciklus (8 faz: pomlad/poletje/jesen/zima × dobro/slabo)
+  - Casualties od stradanja (5% prebivalstva na dan v stradanju)
+  - Population loss v letu kuge (10% čez 90 dni)
+  - Happiness penalty in productivity bonus glede na racioniranje
+
 ## [v3.1.1] — 2026-08-08 — Prisoner & Ransom System (5 classes, capture, exchange)
 
 ### Dodano
