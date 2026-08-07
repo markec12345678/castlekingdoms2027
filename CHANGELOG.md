@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.1.5] — 2026-08-08 — Royal Decrees & Edicts System (12 decrees, 4 categories, chains)
+
+### Dodano
+- **Royal Decrees & Edicts System** — kraljevi odloki z dolgoročnimi učinki
+  - 12 tipov odlokov (davčna reforma, vpis, verska strpnost, sveta desetina, ...)
+  - 4 kategorije (ekonomski, vojaški, socialni, verski)
+  - Aktivni limit (max 5 aktivnih odlokov hkrati)
+  - Trajanje (začasno ali permanentno)
+  - Preklic (možno kadarkoli, vpliva na srečo)
+  - Predpogoji (raziskava zahteva 1000 zlata)
+  - Verige odlokov (3 verige z bonusi: Razsvetljeni vladar, Vojni lord, Bogataš)
+  - Edict fatigue (preveč odlokov → utrujenost ljudstva)
+  - Aktivni efekti: proizvodnja, sreča, loyaltyn, heresy, faith
+
 ## [v3.1.4] — 2026-08-08 — Black Market & Smuggling System (8 contraband, 4 methods)
 
 ### Dodano

@@ -154,6 +154,7 @@ S.Prisoner = require("objects.Gameplay.PrisonerRansomSystem")
 S.Famine = require("objects.Gameplay.FamineScarcitySystem")
 S.Rebellion = require("objects.Gameplay.TreasonRebellionSystem")
 S.BlackMarket = require("objects.Economy.BlackMarketSmugglingSystem")
+S.Decrees = require("objects.Config.RoyalDecreesSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -590,6 +591,9 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v3.1.4: Initialize Black Market & Smuggling
     S.BlackMarket.init()
     _G.BlackMarket = S.BlackMarket
+    -- Castle Kingdoms 2027 v3.1.5: Initialize Royal Decrees System
+    S.Decrees.init()
+    _G.Decrees = S.Decrees
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -846,6 +850,8 @@ function game:update(dt)
                 S.Rebellion.update(dt)
                 -- Castle Kingdoms 2027 v3.1.4: Update Black Market
                 S.BlackMarket.update(dt)
+                -- Castle Kingdoms 2027 v3.1.5: Update Royal Decrees
+                S.Decrees.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
