@@ -2,6 +2,25 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v2.9.5] — 2026-08-07 — Enhanced Tooltip System (7 types, cost preview, fade)
+
+### Dodano
+- **Enhanced Tooltip System** — bogati tooltips z kontekstualnimi informacijami
+  - 7 tipov (building, unit, resource, technology, hero, stats, default)
+  - Večvrstično besedilo z barvnimi sekcijami
+  - Predogled stroškov (barvno kodirani resource-i)
+  - Statistika (HP, damage, armor, itd.)
+  - Zakasnitev prikaza (0.5s, nastavljivo)
+  - Fade-in/fade-out animacija
+  - Pametno pozicioniranje (izogiba robovom zaslona)
+  - Zgodovina tooltipov (zadnjih 20)
+  - 6 hitrih helper metod
+
+### Statistika
+- 622 Lua datotek (+1)
+- 619/622 syntax pass
+- 7 tipov tooltipov (nov)
+
 ## [v2.9.4] — 2026-08-07 — Save State Manager (10 slots, auto-rotation, checksum)
 
 ### Dodano
