@@ -163,6 +163,7 @@ S.Treasury = require("objects.Economy.RoyalTreasuryTaxationSystem")
 S.Chronicle = require("objects.QA.ChronicleHistorySystem")
 S.Heraldry = require("objects.Config.HeraldryCoatOfArmsSystem")
 S.Mint = require("objects.Economy.RoyalMintCurrencySystem")
+S.Tournament = require("objects.Gameplay.TournamentJoustingSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -626,6 +627,9 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v3.2.3: Initialize Royal Mint & Currency System
     S.Mint.init()
     _G.Mint = S.Mint
+    -- Castle Kingdoms 2027 v3.2.4: Initialize Tournament & Jousting System
+    S.Tournament.init()
+    _G.Tournament = S.Tournament
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -896,6 +900,8 @@ function game:update(dt)
                 S.Treasury.update(dt)
                 -- Castle Kingdoms 2027 v3.2.3: Update Royal Mint
                 S.Mint.update(dt)
+                -- Castle Kingdoms 2027 v3.2.4: Update Tournaments
+                S.Tournament.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

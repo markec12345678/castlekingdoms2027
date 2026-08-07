@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.2.4] — 2026-08-08 — Tournament & Jousting System (5 types, 6 venues, betting)
+
+### Dodano
+- **Tournament & Jousting System** — srednjeveški turnirji z vitezi in nagradami
+  - 5 tipov turnirjev (joust, melee, strelništvo, veliki melee, kraljevi turnir)
+  - 6 prizorišč (vaški travnik, mestna arena, dvorišče gradu, kraljeva arena, turnirsko polje, veliki stadion)
+  - Rekrutiranje vitezov (NPC s spretnostjo, zdravje, statistika)
+  - Single elimination bracket simulacija
+  - Sistem stavnjenja (2x-3x izplačilo)
+  - Poškodbe (risk glede na tip turnirja)
+  - Prize money (zlato za zmagovalca)
+  - Prestiž in tournament fame (dolgoročna slava)
+  - 16 viteških imen za NPC
+
 ## [v3.2.3] — 2026-08-08 — Royal Mint & Currency System (5 coins, debasement, exchange)
 
 ### Dodano
