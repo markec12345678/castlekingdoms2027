@@ -143,6 +143,7 @@ S.Forecast = require("objects.Economy.ResourceForecastSystem")
 S.Matchmaking = require("objects.Network.MatchmakingSystem")
 S.StatsWidget = require("objects.UI.StatsDashboardWidget")
 S.CastleSiege = require("objects.Gameplay.CastleSiegeSystem")
+S.TradeNeg = require("objects.Economy.TradeNegotiationSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -546,6 +547,9 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v3.0.3: Initialize Castle Siege System
     S.CastleSiege.init()
     _G.CastleSiege = S.CastleSiege
+    -- Castle Kingdoms 2027 v3.0.4: Initialize Trade Negotiation System
+    S.TradeNeg.init()
+    _G.TradeNeg = S.TradeNeg
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -780,6 +784,8 @@ function game:update(dt)
                 S.StatsWidget.update(dt)
                 -- Castle Kingdoms 2027 v3.0.3: Update Castle Siege
                 S.CastleSiege.update(dt)
+                -- Castle Kingdoms 2027 v3.0.4: Update Trade Negotiations
+                S.TradeNeg.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
