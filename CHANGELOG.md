@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.0.3] — 2026-08-07 — Castle Siege System (4 phases, walls, equipment)
+
+### Dodano
+- **Castle Siege System** — napredne mehanike obleganja
+  - 4 faze: pristop, bombardiranje, napad, preboj
+  - 9 sekcijskih zidov (8 smeri + vrata) z integriteto
+  - 5 tipov oblegovalne opreme (lesnice, stolp, oven, katapult, trebuchet)
+  - 4 obrambni odgovori (vrelo olje, salvo, skale, izpad)
+  - Sistem prebojev (zid pade pri 0 integriteti)
+  - Morale sistem (napadalec + branilec)
+  - Presek oskrbe (stradanje braniteljev)
+  - Pogajanja o predaji
+  - Zgodovina obleganj (zadnjih 20)
+
+### Faze (4)
+1. Pristop (30s) — priprava položajev
+2. Bombardiranje (120s) — uničevanje zidov
+3. Napad (60s) — penjanje prek zidov
+4. Preboj — vdor skozi vrzeli
+
+### Statistika
+- 630 Lua datotek (+1)
+- 627/630 syntax pass
+- 4 faze obleganja (nov)
+- 9 sekcijskih zidov (nov)
+- 5 tipov opreme (nov)
+- 4 obrambni odgovori (nov)
+
 ## [v3.0.2] — 2026-08-07 — Stats Dashboard Widget (6 panels, collapsible)
 
 ### Dodano
