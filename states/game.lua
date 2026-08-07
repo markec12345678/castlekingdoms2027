@@ -115,6 +115,7 @@ S.RandomEvent = require("objects.Gameplay.RandomEventSystem")
 S.NotificationCenter = require("objects.UI.NotificationCenter")
 S.BuildingManager = require("objects.Controllers.BuildingManagerSystem")
 S.AchievementTracker = require("objects.Steam.AchievementTracker")
+S.SupplyLine = require("objects.Gameplay.SupplyLineSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -434,6 +435,9 @@ local function delayedInit()
     -- Stronghold 2027 v2.7.4: Initialize Achievement Tracker
     S.AchievementTracker.init()
     _G.AchievementTracker = S.AchievementTracker
+    -- Stronghold 2027 v2.7.5: Initialize Supply Line System
+    S.SupplyLine.init()
+    _G.SupplyLine = S.SupplyLine
     -- Stronghold 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -628,6 +632,8 @@ function game:update(dt)
                 S.NotificationCenter.update(dt)
                 -- Stronghold 2027 v2.7.3: Update Building Manager
                 S.BuildingManager.update(dt)
+                -- Stronghold 2027 v2.7.5: Update Supply Line System
+                S.SupplyLine.update(dt)
                 -- Stronghold 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
