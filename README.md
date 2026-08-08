@@ -2,18 +2,18 @@
 
 Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT). Navdihnjen s klasičnimi srednjeveškimi strateškimi igrami.
 
-[![Version](https://img.shields.io/badge/version-3.4.6-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
+[![Version](https://img.shields.io/badge/version-3.5.1-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
-[![Syntax](https://img.shields.io/badge/syntax-670%2F673%20pass-brightgreen.svg)](#)
-[![Bugs](https://img.shields.io/badge/bugs%20fixed-125-brightgreen.svg)](#)
-[![Audit](https://img.shields.io/badge/audit%20rounds-60-blue.svg)](#)
+[![Syntax](https://img.shields.io/badge/syntax-675%2F678%20pass-brightgreen.svg)](#)
+[![Bugs](https://img.shields.io/badge/bugs%20fixed-130-brightgreen.svg)](#)
+[![Audit](https://img.shields.io/badge/audit%20rounds-65-blue.svg)](#)
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v3.4.6](https://github.com/markec12345678/castlekingdoms2027/releases)
-- **.love datoteka**: `castlekingdoms2027-v3.4.6.love` (32 MB brez LFS, 305 MB z LFS)
-- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 60 krogov pregleda, 125+ popravkov
+- **Zadnja izdaja**: [v3.5.1](https://github.com/markec12345678/castlekingdoms2027/releases)
+- **.love datoteka**: `castlekingdoms2027-v3.5.1.love` (33 MB brez LFS, 305 MB z LFS)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 65 krogov pregleda, 130+ popravkov
 - **LFS**: Po git clone zahtevaj `git lfs pull` za prave PNG asset-e (305 MB)
 
 ## Zagon
@@ -35,13 +35,13 @@ love .
 
 | Metrika | Vrednost |
 |---------|----------|
-| Lua datoteke | 673 |
-| Vrstic kode | ~383.000 |
+| Lua datoteke | 678 |
+| Vrstic kode | ~395.000 |
 | GLSL shaderji | 12 |
 | Jezikov | 32 |
-| Verzij | 105+ (v1.7.9 → v3.4.6) |
-| Bug popravkov | 125 (60 krogov pregleda) |
-| Syntax pass rate | 670/673 (99,5%) |
+| Verzij | 110+ (v1.7.9 → v3.5.1) |
+| Bug popravkov | 130 (65 krogov pregleda) |
+| Syntax pass rate | 675/678 (99,5%) |
 | PNG assetov | 1.206 |
 | Kampanjske misije | 21 (10 Fernhaven + 11 zgodovinskih) |
 | Skirmish misije | 15 |
@@ -205,6 +205,21 @@ love .
 | **Filozofske šole** | **6** |
 | **Teme modrosti** | **8** |
 | **Akademske zgradbe** | **3** |
+| **Tipi bolezni** | **6** |
+| **Tipi zdravljenj** | **8** |
+| **Medicinske zgradbe** | **4** |
+| **Zodiakalni znaki** | **12** |
+| **Nebesni dogodki** | **8** |
+| **Tipi horoskopov** | **6** |
+| **Oblegovalni stroji** | **8** |
+| **Tipi utrdb** | **6** |
+| **Inženirske zgradbe** | **4** |
+| **Tipi odposlancev** | **6** |
+| **Diplomatske misije** | **8** |
+| **Diplomatske zgradbe** | **4** |
+| **Tipi kronik** | **6** |
+| **Zgodovinske teme** | **8** |
+| **Arhivske zgradbe** | **4** |
 
 ## Funkcije
 
@@ -718,10 +733,15 @@ Glej [CONTRIBUTING.md](CONTRIBUTING.md) za vodič za razvijalce.
 
 ## Zgodovina razvoja
 
-Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v3.4.6 (105+ verzij, 60 krogov pregleda, 125+ popravkov).
+Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v3.5.1 (110+ verzij, 65 krogov pregleda, 130+ popravkov).
 
 ## Ključne verzije
 
+- **v3.5.1** — Royal Historian & Chronicle Advanced System (6 kronik, genealogija, legacy)
+- **v3.5.0** — Royal Diplomat & Envoy System (6 odposlancev, 8 misij, ambasade)
+- **v3.4.9** — Royal Engineer & Siege Works System (8 strojev, 6 utrdb)
+- **v3.4.8** — Royal Astrologer Advanced System (12 zodiak, horoskopi)
+- **v3.4.7** — Royal Physician & Health System (6 bolezni, 8 zdravljenj)
 - **v3.4.6** — Royal Philosopher & Wisdom System (6 šol, 8 tem, raziskave)
 - **v3.4.5** — Royal Composer & Music System (6 instrumentov, 8 kompozicij)
 - **v3.4.4** — Royal Falconry Breeding & Genetics System (8 lastnosti, 6 linij)
