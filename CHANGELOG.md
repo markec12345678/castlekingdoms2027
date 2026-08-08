@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.6] — 2026-08-08 — Royal Wax Modeler & Seal Press System (6 products, wax models)
+## [v3.11.5] — 2026-08-08 — Royal Needle & Pin Maker System (6 products, needles)
+## [v3.11.4] — 2026-08-08 — Royal Musical String Maker System (6 products, strings)
+## [v3.11.3] — 2026-08-08 — Royal Sundial & Gnomon Maker System (6 products, sundials)
+## [v3.11.2] — 2026-08-08 — Royal Chess Piece & Board Game Carver System (6 products, chess)
+
+### Dodano (5 sistemov naenkrat)
+- **Royal Chess Piece & Board Game Carver System** — šahovske figure in deske
+  - 6 produktov (kmet, skakač, garnitura, deska, slonokoščena, kraljevski šah)
+  - 4 zgradbe (delavnica, rezbarski atelje, intarzijska, kraljevski rezbar)
+  - Wood, bone, ivory, paint, gold, jewel supply, happiness in knowledge bonuses
+- **Royal Sundial & Gnomon Maker System** — sončne ure in gnomoni
+  - 6 produktov (vrtni, zidni, prenosni, ekvatorialni, mnogognomon, kraljevski sončnik)
+  - 4 zgradbe (delavnica, kamnito dvorišče, gnomonski atelje, kraljevski sončničar)
+  - Stone, metal, brass, paint, gold supply, accuracy 0.45-0.95
+- **Royal Musical String Maker System** — strune za glasbila
+  - 6 produktov (lutnja, harfa, violinska, srebrna, zlata, kraljevski set)
+  - 4 zgradbe (delavnica, vlečilnica, kovinska navitnica, kraljevska strunarna)
+  - Gut, silver, gold supply, sound quality system
+- **Royal Needle & Pin Maker System** — igle in zaponke
+  - 6 produktov (šivalna, vezilna, varnostna, klobučna, srebrna, kraljevski set)
+  - 4 zgradbe (delavnica, žična vlečilnica, brusilnica, kraljevski iglar)
+  - Steel, brass, silver, gold supply, quantity per batch
+- **Royal Wax Modeler & Seal Press System** — voščeni modeli in pečatne stiske
+  - 6 produktov (model, pečatna stiska, figura, posmrtna maska, tabla, kraljevski dvojnik)
+  - 4 zgradbe (delavnica, modelirni atelje, livarska priprava, kraljevska voščarna)
+  - Wax, wood, metal, paint, plaster, gold, silk supply, security in faith bonuses
+
 ## [v3.11.1] — 2026-08-08 — Royal Horologist & Watchmaker System (6 products, precision timepieces)
 ## [v3.11.0] — 2026-08-08 — Royal Engraver & Etcher System (6 products, metal engraving)
 ## [v3.10.9] — 2026-08-08 — Royal Token & Medal Maker System (6 products, commemorative)
