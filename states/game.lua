@@ -292,6 +292,12 @@ S.AltarFrontalMaker = require("objects.Gameplay.RoyalAltarFrontalMakerSystem")
 S.ReliquaryMaker = require("objects.Gameplay.RoyalReliquaryMakerSystem")
 S.ChrismatoryMaker = require("objects.Gameplay.RoyalChrismatoryMakerSystem")
 S.ProcessionalCrossMaker = require("objects.Gameplay.RoyalProcessionalCrossMakerSystem")
+-- Castle Kingdoms 2027 v3.11.37-v3.11.41: 5 new liturgical vessel systems
+S.MonstranceMaker = require("objects.Gameplay.RoyalMonstranceMakerSystem")
+S.CiboriumMaker = require("objects.Gameplay.RoyalCiboriumMakerSystem")
+S.ChaliceMaker = require("objects.Gameplay.RoyalChaliceMakerSystem")
+S.PatenMaker = require("objects.Gameplay.RoyalPatenMakerSystem")
+S.ThuribleMaker = require("objects.Gameplay.RoyalThuribleCenserMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1007,6 +1013,12 @@ local function delayedInit()
     S.ReliquaryMaker.init(); _G.ReliquaryMaker = S.ReliquaryMaker
     S.ChrismatoryMaker.init(); _G.ChrismatoryMaker = S.ChrismatoryMaker
     S.ProcessionalCrossMaker.init(); _G.ProcessionalCrossMaker = S.ProcessionalCrossMaker
+    -- Castle Kingdoms 2027 v3.11.37-v3.11.41: Initialize 5 new liturgical vessel systems
+    S.MonstranceMaker.init(); _G.MonstranceMaker = S.MonstranceMaker
+    S.CiboriumMaker.init(); _G.CiboriumMaker = S.CiboriumMaker
+    S.ChaliceMaker.init(); _G.ChaliceMaker = S.ChaliceMaker
+    S.PatenMaker.init(); _G.PatenMaker = S.PatenMaker
+    S.ThuribleMaker.init(); _G.ThuribleMaker = S.ThuribleMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1467,6 +1479,12 @@ function game:update(dt)
                 S.ReliquaryMaker.update(dt)
                 S.ChrismatoryMaker.update(dt)
                 S.ProcessionalCrossMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.37-v3.11.41: Update 5 new liturgical vessel systems
+                S.MonstranceMaker.update(dt)
+                S.CiboriumMaker.update(dt)
+                S.ChaliceMaker.update(dt)
+                S.PatenMaker.update(dt)
+                S.ThuribleMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

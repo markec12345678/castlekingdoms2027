@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.41] — 2026-08-09 — Royal Thurible & Censer Maker System (6 products, thuribles)
+## [v3.11.40] — 2026-08-09 — Royal Paten Maker System (6 products, patens)
+## [v3.11.39] — 2026-08-09 — Royal Chalice Maker System (6 products, chalices)
+## [v3.11.38] — 2026-08-09 — Royal Ciborium Maker System (6 products, ciboria)
+## [v3.11.37] — 2026-08-09 — Royal Monstrance Maker System (6 products, monstrances)
+
+### Dodano (5 sistemov naenkrat — liturgična posoda)
+- **Royal Monstrance Maker System** — monstrance za adoracijo
+  - 6 produktov (medeninasta, srebrna, zlata, žarki, draguljna, kraljevska svetiščna)
+  - 4 zgradbe (delavnica, kovačija, kristalna soba, kraljevski atelje)
+  - Brass, silver, gold, glass, jewel, pearl supply, sanctity (6-40), GameEventBus publish
+- **Royal Ciborium Maker System** — ciboriji za hostije
+  - 6 produktov (pustrast, medeninast, srebrni, zlati, draguljni, kraljevski tabernakelj)
+  - 4 zgradbe (delavnica, kovačija, dokončevalnica, kraljevski atelje)
+  - Tin, brass, silver, gold, jewel, pearl supply, sanctity (4-32)
+- **Royal Chalice Maker System** — kalihi za maše
+  - 6 produktov (pustrast, medeninast, srebrni, zlati, draguljni, kraljevski papeški)
+  - 4 zgradbe (delavnica, kovačija, pozlatnica, kraljevski atelje)
+  - Tin, brass, silver, gold, jewel, pearl supply, sanctity (4-34)
+- **Royal Paten Maker System** — patene za hostijo
+  - 6 produktov (pustrasta, medeninasta, srebrna, zlata, draguljna, kraljevska papeška)
+  - 4 zgradbe (delavnica, kovačija, pozlatnica, kraljevski atelje)
+  - Tin, brass, silver, gold, jewel, pearl supply, sanctity (3-30)
+- **Royal Thurible & Censer Maker System** — kadila za kadilo
+  - 6 produktov (železno, medeninasto, srebrno, zlato, draguljno, kraljevsko papeško)
+  - 4 zgradbe (delavnica, kovačija, verižna soba, kraljevski atelje)
+  - Iron, brass, silver, gold, jewel, pearl supply, sanctity (4-33), GameEventBus publish
+
 ## [v3.11.36] — 2026-08-09 — Royal Processional Cross Maker System (6 products, crosses)
 ## [v3.11.35] — 2026-08-09 — Royal Chrismatory Maker System (6 products, chrismatories)
 ## [v3.11.34] — 2026-08-09 — Royal Reliquary Maker System (6 products, reliquaries)
