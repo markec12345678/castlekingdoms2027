@@ -2,6 +2,19 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.7.3] — 2026-08-08 — Royal Tax Collector & Revenue System (6 methods, 8 districts, evasion)
+
+### Dodano
+- **Royal Tax Collector & Revenue System** — pobiranje davkov in prihodki
+  - 6 metod pobiranja (glavarski, zemljiški, premoženjski, trgovski, desetina, carina)
+  - 8 davčnih okrožij (glavno mesto, sever, jug, vzhod, zahod, pristanišče, rudnik, meja)
+  - 4 davčne zgradbe (pisarna, računovodstvo, filiala kovnice, kraljeva blagajna)
+  - Tax Collector NPC s spretnostjo
+  - District-based collection (pobiranje po okrožjih)
+  - Tax evasion detection (odkrivanje utaje z bonusom)
+  - Revenue forecasting (napoved prihodkov glede na prebivalstvo in bogastvo)
+  - Efficiency system (učinkovitost iz zgradb in pobiralca)
+
 ## [v3.7.2] — 2026-08-08 — Royal Surveyor & Land Measurement System (6 surveys, 8 tools)
 
 ### Dodano

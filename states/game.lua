@@ -212,6 +212,7 @@ S.Painter = require("objects.Gameplay.RoyalPainterFrescoSystem")
 S.Metalworker = require("objects.Economy.RoyalMetalworkerBronzeCastingSystem")
 S.Leatherworker = require("objects.Economy.RoyalLeatherworkerTannerySystem")
 S.Surveyor = require("objects.QA.RoyalSurveyorLandMeasurementSystem")
+S.TaxCollector = require("objects.Economy.RoyalTaxCollectorRevenueSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -822,6 +823,9 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v3.7.2: Initialize Royal Surveyor & Land Measurement System
     S.Surveyor.init()
     _G.Surveyor = S.Surveyor
+    -- Castle Kingdoms 2027 v3.7.3: Initialize Royal Tax Collector & Revenue System
+    S.TaxCollector.init()
+    _G.TaxCollector = S.TaxCollector
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1190,6 +1194,8 @@ function game:update(dt)
                 S.Leatherworker.update(dt)
                 -- Castle Kingdoms 2027 v3.7.2: Update Royal Surveyor
                 S.Surveyor.update(dt)
+                -- Castle Kingdoms 2027 v3.7.3: Update Royal Tax Collector
+                S.TaxCollector.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
