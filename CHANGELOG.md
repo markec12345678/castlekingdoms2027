@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.6.0] — 2026-08-08 — Royal Glassmaker & Stained Glass System (6 glass types, 8 products, vitraži)
+
+### Dodano
+- **Royal Glassmaker & Stained Glass System** — steklarstvo in vitraji
+  - 6 tipov stekla (kronsko, valjasto, svinčeno, barvno, kristal, zrcalno)
+  - 8 steklenih produktov (okno, vrč, koralde, leča, zrcalo, vitraj, luster, kelih)
+  - 4 steklarske zgradbe (peč, delavnica, trgovina, kraljevska steklarna)
+  - Glassmaker NPC s spretnostjo
+  - Sand supply management (pesek za taljenje)
+  - Glass melting (časovno taljenje z nevarnostjo razpok)
+  - Stained glass creation (vitraji za cerkev z faith bonus)
+  - Glassblowing and product making
+  - Quality system (kakovost iz zgradb in steklarja)
+
 ## [v3.5.9] — 2026-08-08 — Royal Weaver & Textile System (6 fabrics, 8 products, dyeing)
 
 ### Dodano
