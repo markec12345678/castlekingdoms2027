@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.4.7] — 2026-08-08 — Royal Physician & Health System (6 diseases, 8 treatments, surgery)
+
+### Dodano
+- **Royal Physician & Health System** — zdravniki, diagnoze in kirurgija
+  - 6 tipov bolezni (vročina, okužba, protin, sušica, črne koze, norost)
+  - 8 tipov zdravljenj (puščanje krvi, zelišča, operacija, molitev, dieta, počitek, čiščenje, kauterizacija)
+  - 4 medicinske zgradbe (bolnišnica, velika bolnišnica, operacijska dvorana, karantena)
+  - Physician NPC s spretnostjo
+  - Diagnosis sistem (simptom-based)
+  - Surgical procedures (tvegano a učinkovito)
+  - Court health tracking (povprečno zdravje dvora)
+  - Epidemic prevention (kontagija in karantena)
+  - Treatment complications in mortality
+
 ## [v3.4.6] — 2026-08-08 — Royal Philosopher & Wisdom System (6 schools, 8 topics, research)
 
 ### Dodano
