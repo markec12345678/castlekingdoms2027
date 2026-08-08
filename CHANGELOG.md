@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.5.8] — 2026-08-08 — Royal Potter & Ceramics System (6 pottery types, 8 products, firing)
+
+### Dodano
+- **Royal Potter & Ceramics System** — lončarstvo in keramična umetnost
+  - 6 tipov keramike (lončarina, kamnina, porcelan, terrakota, fajansa, majolika)
+  - 8 keramičnih produktov (skleda, krožnik, vrč, vaza, ploščica, figura, urna, lonček)
+  - 4 lončarske zgradbe (peč, delavnica, glazirna, kraljevska lončarija)
+  - Potter NPC s spretnostjo
+  - Clay supply management (nakup gline)
+  - Firing process (časovno žganje z nevarnostjo razpok)
+  - Glazing and decoration
+  - Ceramic art collection (okrasna zbirka)
+  - Quality system (kakovost iz zgradb in lončarja)
+
 ## [v3.5.7] — 2026-08-08 — Royal Chandlery & Wax Works System (6 candles, 8 products)
 
 ### Dodano
