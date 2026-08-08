@@ -2,6 +2,21 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.5.1] — 2026-08-08 — Royal Historian & Chronicle Advanced System (6 volumes, 8 topics)
+
+### Dodano
+- **Royal Historian & Chronicle Advanced System** — napredno pisanje zgodovine
+  - 6 tipov kronik (vladanja, vojaška, gospodarska, verska, kulturna, dinastična)
+  - 8 tem zgodovinskega raziskovanja (genealogija, bitke, pogodbe, običaji, ...)
+  - 4 arhivske zgradbe (skriptorij, dvorana kronik, kraljevi arhiv, muzej)
+  - Royal Historian NPC s spretnostjo in natančnostjo
+  - Multi-volume chronicle compilation (časovno pisanje)
+  - Historical accuracy tracking
+  - Dynasty genealogy (družinsko drevo)
+  - Historical commentary
+  - Legacy score z rangi (Pozabljen → Mitičen)
+  - Museum tourism bonus
+
 ## [v3.5.0] — 2026-08-08 — Royal Diplomat & Envoy System (6 envoys, 8 missions, embassies)
 
 ### Dodano
