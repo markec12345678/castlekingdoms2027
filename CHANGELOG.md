@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.5.6] — 2026-08-08 — Royal Cupbearer & Taster System (6 beverages, 8 dishes, poison detection)
+
+### Dodano
+- **Royal Cupbearer & Taster System** — točaj, degustator in varnost prehrane
+  - 6 tipov pijač (vino, pivo, medovec, voda, jabolčnik, žgane pijače)
+  - 8 tipov jedi (pečenka, enolončnica, ribe, kruh, sir, sadje, divjačina, sladica)
+  - 4 jedilne zgradbe (kuhinja, shramba, vinska klet, kraljevska jedilnica)
+  - Cupbearer NPC s spretnostjo in detekcijsko stopnjo
+  - Meal preparation (časovna priprava obrokov)
+  - Poison detection (zaznavanje strupa v hrani)
+  - Spoilage management (pokvarljivost živil)
+  - Beverage aging in storage
+  - Dining quality tracking (0-100)
+
 ## [v3.5.5] — 2026-08-08 — Royal Jester Advanced & Court Comedy System (8 jokes, 6 archetypes)
 
 ### Dodano
