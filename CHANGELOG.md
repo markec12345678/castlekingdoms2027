@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.10.1] — 2026-08-08 — Royal Book Illuminator & Gilder System (6 products, gold leaf)
+## [v3.10.0] — 2026-08-08 — Royal Embroiderer & Needlework System (6 products, gold thread)
+## [v3.9.9] — 2026-08-08 — Royal Dice & Game Maker System (6 products, games)
+## [v3.9.8] — 2026-08-08 — Royal Lens Grinder & Optician System (6 products, optics)
+## [v3.9.7] — 2026-08-08 — Royal Compass & Navigation Maker System (6 products, navigation)
+
+### Dodano (5 sistemov naenkrat)
+- **Royal Compass & Navigation Maker System** — navigacijske naprave
+  - 6 produktov (kompas, astrolab, sekstant, zvezdna karta, portolan, magnet)
+  - 4 zgradbe (delavnica, observatorij, kartografska soba, kraljevski inštitut)
+  - Iron, brass, glass, parchment, ink supply, accuracy system
+- **Royal Lens Grinder & Optician System** — optika in leče
+  - 6 produktov (očala, povečevalo, daljnogled, mikroskop, leča, bralni kamen)
+  - 4 zgradbe (delavnica, brusilnica, optični laboratorij, kraljevski optik)
+  - Glass, metal, wood supply, vision in knowledge bonuses
+- **Royal Dice & Game Maker System** — igre in igrače
+  - 6 produktov (kocke, kostene kocke, šah, tavla, igralne karte, tablična igra)
+  - 4 zgradbe (delavnica, igračarna, atelje, kraljevski igračar)
+  - Wood, bone, parchment, ink, paint supply, happiness in knowledge
+- **Royal Embroiderer & Needlework System** — vezenje in needlework
+  - 6 produktov (vezano blago, heraldična zastava, oltarno pregrinjalo, mašna oblačila, tapiserija, kraljevski plašč)
+  - 4 zgradbe (delavnica, atelje, zlatonitna, kraljevska vezilja)
+  - Thread, cloth, gold thread, ermine supply, prestige in faith
+- **Royal Book Illuminator & Gilder System** — pozlačevanje in iluminacije
+  - 6 produktov (pozlačena stran, začetnica, okvir, kip, oltar, krona)
+  - 4 zgradbe (delavnica, atelje, zlatarski mlin, kraljevski pozlatar)
+  - Gold, parchment, wood, bronze, stone, jewel supply, prestige in faith
+
 ## [v3.9.6] — 2026-08-08 — Royal Organ Builder & Instrument Maker System (6 instruments)
 ## [v3.9.5] — 2026-08-08 — Royal Bell Founder & Campanology System (6 bells, casting)
 ## [v3.9.4] — 2026-08-08 — Royal Glazier & Window Maker System (6 products, glazing)
