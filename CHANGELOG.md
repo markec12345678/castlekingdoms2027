@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.5.3] — 2026-08-08 — Royal Confessor & Spiritual Guidance System (6 sins, 8 penances)
+
+### Dodano
+- **Royal Confessor & Spiritual Guidance System** — spoved, pokora in odpuščanje
+  - 6 smrtnih grehov (oholost, pohlep, pohota, zavist, pojedljivost, jes)
+  - 8 tipov pokore (molitev, post, milostinja, romanje, samobičanje, spoved, maša, dobrodelno delo)
+  - 4 duhovne zgradbe (kapela, spovednica, puščavnica, samostan)
+  - Royal Confessor NPC s spretnostjo in pobožnostjo
+  - Sin commitment sistem (krivda in moral authority)
+  - Penance & absolution (verjetnost odpuščanja)
+  - Indulgence system (kupi odpuščanje za vse grehe)
+  - Spiritual counseling (svetovanje za srečo in vero)
+  - Moral authority tracking (0-100)
+
 ## [v3.5.2] — 2026-08-08 — Royal Master of Ceremonies & Protocol System (8 ceremonies, 6 protocols)
 
 ### Dodano

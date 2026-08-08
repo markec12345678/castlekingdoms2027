@@ -192,6 +192,7 @@ S.Engineer = require("objects.Combat.RoyalEngineerSiegeWorksSystem")
 S.Diplomat = require("objects.Network.RoyalDiplomatEnvoySystem")
 S.Historian = require("objects.QA.RoyalHistorianChronicleAdvancedSystem")
 S.Ceremonies = require("objects.Gameplay.RoyalMasterOfCeremoniesProtocolSystem")
+S.Confessor = require("objects.Config.RoyalConfessorSpiritualGuidanceSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -742,6 +743,9 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v3.5.2: Initialize Royal Master of Ceremonies & Protocol System
     S.Ceremonies.init()
     _G.Ceremonies = S.Ceremonies
+    -- Castle Kingdoms 2027 v3.5.3: Initialize Royal Confessor & Spiritual Guidance System
+    S.Confessor.init()
+    _G.Confessor = S.Confessor
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1070,6 +1074,8 @@ function game:update(dt)
                 S.Historian.update(dt)
                 -- Castle Kingdoms 2027 v3.5.2: Update Royal Ceremonies
                 S.Ceremonies.update(dt)
+                -- Castle Kingdoms 2027 v3.5.3: Update Royal Confessor
+                S.Confessor.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
