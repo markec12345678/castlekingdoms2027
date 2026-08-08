@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.6.6] — 2026-08-08 — Royal Dyer & Color System (8 dye sources, 6 colors, extraction)
+
+### Dodano
+- **Royal Dyer & Color System** — barvarstvo, pigmenti in barvna teorija
+  - 8 virov barv (woad, broč, žafran, košenilj, indigo, sivka, lak, kermes)
+  - 6 kategorij barv (rdeča, modra, rumena, zelena, škrlatna, črna)
+  - 4 barvarske zgradbe (barvni vrt, delavnica, kadnica, kraljevska barvarna)
+  - Dyer NPC s spretnostjo
+  - Dye extraction (ekstrakcija barv iz surovin z intenziteto)
+  - Raw material management (nakup barvnih surovin)
+  - Color quality and intensity system
+  - Color prestige (škrlatna = najdražja)
+  - Dye trade in usage
+
 ## [v3.6.5] — 2026-08-08 — Royal Perfumer & Fragrance System (8 ingredients, 6 perfumes, blending)
 
 ### Dodano
