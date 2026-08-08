@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.6.2] — 2026-08-08 — Royal Jeweler & Gemstone System (8 gemstones, 6 jewelry, cutting)
+
+### Dodano
+- **Royal Jeweler & Gemstone System** — zlatarstvo, dragi kameni in nakit
+  - 8 tipov dragih kamnov (diamant, rubin, safir, smaragd, ametist, topaz, biser, granat)
+  - 6 tipov nakita (prstan, naglavni okras, krona, broška, zapestnica, uhani)
+  - 4 zlatarske zgradbe (delavnica, rezilnica, trezor, kraljevski atelje)
+  - Jeweler NPC s spretnostjo
+  - Gemstone cutting (rezanje z nevarnostjo počenja)
+  - Jewelry making (časovna izdelava z kvaliteto)
+  - Royal regalia collection (kraljevske regalije)
+  - Precious metal management (zlato za izdelavo)
+  - Quality system (kakovost iz zgradb in zlatarja)
+
 ## [v3.6.1] — 2026-08-08 — Royal Clockmaker & Timekeeping System (6 clocks, 8 products, precision)
 
 ### Dodano
