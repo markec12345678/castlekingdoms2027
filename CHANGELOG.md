@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.6.3] — 2026-08-08 — Royal Calligrapher & Illumination System (6 manuscripts, 8 illuminations)
+
+### Dodano
+- **Royal Calligrapher & Illumination System** — kaligrafija, iluminacije in rokopisi
+  - 6 tipov rokopisov (biblija, psaltir, bestiarij, kronika, pravna knjiga, pesmarica)
+  - 8 stilov iluminacij (zlati listič, miniatura, okvir, začetnica, celotna stran, ...)
+  - 4 skriptorijske zgradbe (skriptorij, iluminacijska soba, vezava, kraljevski skriptorij)
+  - Calligrapher NPC s spretnostjo
+  - Manuscript copying (časovno kopiranje z iluminacijo)
+  - Vellum and ink supply management
+  - Gold leaf application (zlati listič za okras)
+  - Faith, knowledge in happiness bonusi iz rokopisov
+  - Quality system (kakovost iz zgradb, kaligrafa in iluminacije)
+
 ## [v3.6.2] — 2026-08-08 — Royal Jeweler & Gemstone System (8 gemstones, 6 jewelry, cutting)
 
 ### Dodano
