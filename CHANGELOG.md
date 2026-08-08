@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.4.2] — 2026-08-08 — Royal Master of Hunt & Game System (6 animals, 5 hunts, dogs)
+
+### Dodano
+- **Royal Master of Hunt & Game System** — kraljevski lov in upravljanje divjadi
+  - 6 tipov divjadi (jelen, merjavec, lisica, zajec, fazan, medved)
+  - 4 lovske zgradbe (gozd, park, zajčji vrt, kraljevi rezervat)
+  - 5 tipov lovov (kraljevi, sokolarski, lokostrelski, kopljični, poganjalni)
+  - Master of Hunt NPC s spretnostjo
+  - Game population management (trajnostni lov)
+  - Hunting dogs (4 pasme: krvavi pes, hrt, mastif, bigel)
+  - Trophy system (redke trofeje za prestiž)
+  - Hunting incidents (nevarnost pri veliki divjadi)
+  - Sustainability bonus iz zgradb
+
 ## [v3.4.1] — 2026-08-08 — Royal Alchemist & Transmutation System (6 processes, philosopher's stone)
 
 ### Dodano
