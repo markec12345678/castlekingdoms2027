@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.46] — 2026-08-09 — Royal Drummer Maker System (6 products, drums)
+## [v3.11.45] — 2026-08-09 — Royal Harp Maker System (6 products, harps)
+## [v3.11.44] — 2026-08-09 — Royal Cymbal Maker System (6 products, cymbals)
+## [v3.11.43] — 2026-08-09 — Royal Bell Wheel Maker System (6 products, bell wheels)
+## [v3.11.42] — 2026-08-09 — Royal Organ Pipe Maker System (6 products, organ pipes)
+
+### Dodano (5 sistemov naenkrat — srednjeveška glasbila)
+- **Royal Organ Pipe Maker System** — orgelske piščali
+  - 6 produktov (lesena, kositrna, svinčena, medeninasta, srebrna, kraljevski register)
+  - 4 zgradbe (delavnica, kovinska soba, intonirnica, kraljevski atelje)
+  - Wood, tin, lead, brass, silver, gold supply, sound quality (8-40), GameEventBus publish
+- **Royal Bell Wheel Maker System** — zvoneča kolesca in zvonce
+  - 6 produktov (ročni, oltarni, posvetilni, ladjani, srebrni, kraljevski kariljonski)
+  - 4 zgradbe (delavnica, kovačija, naglasilnica, kraljevski atelje)
+  - Brass, iron, silver, gold supply, sound quality (6-35)
+- **Royal Cymbal Maker System** — činele za godbe
+  - 6 produktov (medeninasti, bronasti, prstni, srebrni, zlati, kraljevski par)
+  - 4 zgradbe (delavnica, kovačija, kladivnica, kraljevski atelje)
+  - Brass, bronze, silver, gold supply, sound quality (8-35)
+- **Royal Harp Maker System** — harfe za dvor
+  - 6 produktov (lira, mala, črevesna, žična, srebrna, kraljevska zlata)
+  - 4 zgradbe (delavnica, strunarska soba, zvočna soba, kraljevski atelje)
+  - Wood, gut, brass, silver, gold, jewel supply, sound quality (8-38)
+- **Royal Drummer Maker System** — bobni in pavioni
+  - 6 produktov (tabor, stranski, pavilon, tenorski, srebrni pavion, kraljevska timpana)
+  - 4 zgradbe (delavnica, strgarna, kovinska soba, kraljevski atelje)
+  - Wood, leather, copper, brass, silver, gold supply, sound quality (6-36), GameEventBus publish
+
 ## [v3.11.41] — 2026-08-09 — Royal Thurible & Censer Maker System (6 products, thuribles)
 ## [v3.11.40] — 2026-08-09 — Royal Paten Maker System (6 products, patens)
 ## [v3.11.39] — 2026-08-09 — Royal Chalice Maker System (6 products, chalices)
