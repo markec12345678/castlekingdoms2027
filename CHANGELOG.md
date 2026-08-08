@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.4.0] — 2026-08-08 — Royal Gardener & Ornamental Gardens System (6 gardens, 8 plants)
+
+### Dodano
+- **Royal Gardener & Ornamental Gardens System** — okrasni vrtovi in botanika
+  - 6 tipov vrtov (vrt vrtnic, zeliščni, vozliščni, vodni, topiarij, botanični)
+  - 8 tipov rastlin in okrasov (vrtnice, lilije, tulipani, sivka, bukvica, fontana, kip, živa meja)
+  - Gardener NPC s spretnostjo
+  - Seasonal blooming (različne rastline v različnih sezonah)
+  - Garden tours (obiskovalci prinašajo zlato in prestiž)
+  - Botanical collection (redke rastline z exploracije)
+  - Garden competitions (tekmovanja z nagradami)
+  - Garden beauty in health management
+  - Meditation bonus (sreča iz miroljubnih vrtov)
+
 ## [v3.3.9] — 2026-08-08 — Royal Falconer & Hawking System (6 raptors, hunting, breeding)
 
 ### Dodano
