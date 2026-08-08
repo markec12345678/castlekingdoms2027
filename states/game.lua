@@ -174,6 +174,7 @@ S.Feast = require("objects.Gameplay.RoyalFeastBanquetSystem")
 S.Menagerie = require("objects.Gameplay.RoyalPetMenagerieSystem")
 S.Astrology = require("objects.Config.RoyalAstrologerOmensSystem")
 S.Apothecary = require("objects.Gameplay.RoyalApothecaryMedicineSystem")
+S.Cartographer = require("objects.QA.RoyalCartographerMapsSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -670,6 +671,9 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v3.3.4: Initialize Royal Apothecary & Medicine System
     S.Apothecary.init()
     _G.Apothecary = S.Apothecary
+    -- Castle Kingdoms 2027 v3.3.5: Initialize Royal Cartographer & Maps System
+    S.Cartographer.init()
+    _G.Cartographer = S.Cartographer
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -962,6 +966,8 @@ function game:update(dt)
                 S.Astrology.update(dt)
                 -- Castle Kingdoms 2027 v3.3.4: Update Royal Apothecary
                 S.Apothecary.update(dt)
+                -- Castle Kingdoms 2027 v3.3.5: Update Royal Cartographer
+                S.Cartographer.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

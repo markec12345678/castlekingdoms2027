@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.3.5] — 2026-08-08 — Royal Cartographer & Maps System (6 map types, exploration)
+
+### Dodano
+- **Royal Cartographer & Maps System** — kartografija in raziskovanje
+  - 6 tipov zemljevidov (svet, regionalni, vojaški, trgovski, zaklad, pomorska karta)
+  - 3 kartografske zgradbe (skriptorij, kartografska soba, arhiv)
+  - Cartographer NPC s spretnostjo in natančnostjo
+  - Map creation (ustvarjanje z časom)
+  - Exploration tracking (odkrivanje novih regij)
+  - Treasure maps in treasures (naključni zakladi)
+  - Map trading (prodaja in nakup zemljevidov)
+  - Map accuracy (izboljšuje se z zgradbami)
+  - Strategic bonuses (vojaški, trgovski, pomorski)
+
 ## [v3.3.4] — 2026-08-08 — Royal Apothecary & Medicine System (8 herbs, 6 remedies, poisons)
 
 ### Dodano
