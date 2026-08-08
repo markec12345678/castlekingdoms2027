@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.4.3] — 2026-08-08 — Royal Forester & Woodland System (6 trees, timber, charcoal)
+
+### Dodano
+- **Royal Forester & Woodland System** — gozdarstvo in upravljanje gozdov
+  - 6 tipov dreves (hrast, bor, breza, bukev, tisa, kostanj)
+  - 4 gozdske zgradbe (koča, žaga, kopica za oglje, drevesnica)
+  - Forester NPC s spretnostjo
+  - Sustainable forestry (trajnostna sečnja z pogozdovanjem)
+  - Timber production (les za gradnjo)
+  - Charcoal production (oglje za kovaške peči)
+  - Foraging (pasivna hrana iz gozdov)
+  - Forest health management
+  - Tree planting in growth cycles
+
 ## [v3.4.2] — 2026-08-08 — Royal Master of Hunt & Game System (6 animals, 5 hunts, dogs)
 
 ### Dodano
