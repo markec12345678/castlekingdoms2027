@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.1] — 2026-08-08 — Royal Horologist & Watchmaker System (6 products, precision timepieces)
+## [v3.11.0] — 2026-08-08 — Royal Engraver & Etcher System (6 products, metal engraving)
+## [v3.10.9] — 2026-08-08 — Royal Token & Medal Maker System (6 products, commemorative)
+## [v3.10.8] — 2026-08-08 — Royal Mat Maker & Floor Covering System (6 products, rugs)
+## [v3.10.7] — 2026-08-08 — Royal Basket Weaver & Wickerwork System (6 products, baskets)
+
+### Dodano (5 sistemov naenkrat)
+- **Royal Basket Weaver & Wickerwork System** — košarstvo in pletenje iz vrbe
+  - 6 produktov (košara, velika košara, pleteni stol, ribja past, zibka, kraljevska košara)
+  - 4 zgradbe (delavnica, vrbovje, pletiljski atelje, kraljevska košararna)
+  - Willow, silk, gold supply, capacity system
+- **Royal Mat Maker & Floor Covering System** — preproge in talne obloge
+  - 6 produktov (tlatnik, slamnata, tkana, filc, svilena, kraljevska preproga)
+  - 4 zgradbe (delavnica, rogozničnik, statva, kraljevska preprogarna)
+  - Rush, straw, wool, thread, silk, gold thread supply
+- **Royal Token & Medal Maker System** — žetoni in medalje
+  - 6 produktov (igralni žeton, trgovski, romarski znak, spominska medalja, srebrna, kraljevska)
+  - 4 zgradbe (delavnica, kovinska stiska, graverska, kraljevska kovnica)
+  - Metal, silver, gold, jewel supply, faith in prestige bonuses
+- **Royal Engraver & Etcher System** — graviranje in jedkanje
+  - 6 produktov (napisna plošča, spominska, bakrenična, vgraviran kelih, oklep, kraljevska gravura)
+  - 4 zgradbe (delavnica, jedska, kislinska soba, kraljevski graver)
+  - Metal, copper, gold, jewel supply, military in knowledge bonuses
+- **Royal Horologist & Watchmaker System** — horologija in izdelova ur
+  - 6 produktov (žepna ura, mizna, potovalna, marinski kronometer, ponavljalna, kraljevski kronometer)
+  - 4 zgradbe (delavnica, atelje, laboratorij natančnosti, kraljevski horolog)
+  - Brass, glass, wood, gold, jewel supply, accuracy system (0.65-0.99)
+
 ## [v3.10.6] — 2026-08-08 — Royal Button & Buckle Maker System (6 products, fasteners)
 ## [v3.10.5] — 2026-08-08 — Royal Puppet & Marionette Maker System (6 products, puppets)
 ## [v3.10.4] — 2026-08-08 — Royal Fan Maker & Fan Painter System (6 products, fans)
