@@ -2,6 +2,19 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.3.3] — 2026-08-08 — Royal Astrologer & Omens System (6 omens, 8 prophecies)
+
+### Dodano
+- **Royal Astrologer & Omens System** — astrologi, znamenja in prerokbe
+  - 6 tipov znamenj (komet, mrk, krvavi mesec, padajoča zvezda, poravnava, severni siji)
+  - 8 tipov prerokb (zmaga, poraz, lakota, kuga, rojstvo, smrt, zveza, izdaja)
+  - Astrolog NPC s spretnostjo in natančnostjo
+  - Observatorij (izboljša natančnost)
+  - Omen interpretation (igralčeve izbire)
+  - Prophecy fulfillment tracking
+  - Superstition level (vpliva na srečo iz znamenj)
+  - Skill progression astrologa
+
 ## [v3.3.2] — 2026-08-08 — Royal Pet & Menagerie System (8 animals, breeding, exhibitions)
 
 ### Dodano
