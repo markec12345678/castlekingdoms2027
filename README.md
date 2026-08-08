@@ -2,18 +2,18 @@
 
 Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT). Navdihnjen s klasičnimi srednjeveškimi strateškimi igrami.
 
-[![Version](https://img.shields.io/badge/version-3.3.1-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
+[![Version](https://img.shields.io/badge/version-3.3.6-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
-[![Syntax](https://img.shields.io/badge/syntax-655%2F658%20pass-brightgreen.svg)](#)
-[![Bugs](https://img.shields.io/badge/bugs%20fixed-110-brightgreen.svg)](#)
-[![Audit](https://img.shields.io/badge/audit%20rounds-45-blue.svg)](#)
+[![Syntax](https://img.shields.io/badge/syntax-660%2F663%20pass-brightgreen.svg)](#)
+[![Bugs](https://img.shields.io/badge/bugs%20fixed-115-brightgreen.svg)](#)
+[![Audit](https://img.shields.io/badge/audit%20rounds-50-blue.svg)](#)
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v3.3.1](https://github.com/markec12345678/castlekingdoms2027/releases)
-- **.love datoteka**: `castlekingdoms2027-v3.3.1.love` (32 MB brez LFS, 305 MB z LFS)
-- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 45 krogov pregleda, 110+ popravkov
+- **Zadnja izdaja**: [v3.3.6](https://github.com/markec12345678/castlekingdoms2027/releases)
+- **.love datoteka**: `castlekingdoms2027-v3.3.6.love` (32 MB brez LFS, 305 MB z LFS)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 50 krogov pregleda, 115+ popravkov
 - **LFS**: Po git clone zahtevaj `git lfs pull` za prave PNG asset-e (305 MB)
 
 ## Zagon
@@ -35,13 +35,13 @@ love .
 
 | Metrika | Vrednost |
 |---------|----------|
-| Lua datoteke | 658 |
-| Vrstic kode | ~352.000 |
+| Lua datoteke | 663 |
+| Vrstic kode | ~362.000 |
 | GLSL shaderji | 12 |
 | Jezikov | 32 |
-| Verzij | 90+ (v1.7.9 → v3.3.1) |
-| Bug popravkov | 110 (45 krogov pregleda) |
-| Syntax pass rate | 655/658 (99,5%) |
+| Verzij | 95+ (v1.7.9 → v3.3.6) |
+| Bug popravkov | 115 (50 krogov pregleda) |
+| Syntax pass rate | 660/663 (99,5%) |
 | PNG assetov | 1.206 |
 | Kampanjske misije | 21 (10 Fernhaven + 11 zgodovinskih) |
 | Skirmish misije | 15 |
@@ -166,6 +166,18 @@ love .
 | **Tipi gostij** | **6** |
 | **Tipi jedi** | **8** |
 | **Kuhinjske zgradbe** | **3** |
+| **Tipi živali** | **8** |
+| **Menažerijske zgradbe** | **4** |
+| **Tipi znamenj** | **6** |
+| **Tipi prerokb** | **8** |
+| **Tipi zelišč** | **8** |
+| **Tipi zdravil** | **6** |
+| **Tipi strupov** | **4** |
+| **Apothekarske zgradbe** | **3** |
+| **Tipi zemljevidov** | **6** |
+| **Kartografske zgradbe** | **3** |
+| **Tipi konjev** | **6** |
+| **Hlevske zgradbe** | **4** |
 
 ## Funkcije
 
@@ -503,6 +515,46 @@ love .
 - **Guest management** in satisfaction
 - **Feast disasters** (zastrupitev, pretepe, požar)
 
+### 🦁 Kraljeva menažerija (v3.3.2)
+- **8 tipov živali** (lev, medved, sokol, pes, panter, slon, opica, pavan)
+- **4 menažerijske zgradbe** (kletka, ograja, ptičnjak, velika menažerija)
+- **Caretakers** NPC s spretnostjo
+- **Breeding program** (mladiči, redke živali)
+- **Public exhibitions** (dvigujejo srečo in prestiž)
+- **Hunting with animals** (sokoli in psi)
+
+### 🔮 Astrolog in znamenja (v3.3.3)
+- **6 tipov znamenj** (komet, mrk, krvavi mesec, padajoča zvezda, poravnava, severni siji)
+- **8 tipov prerokb** (zmaga, poraz, lakota, kuga, rojstvo, smrt, zveza, izdaja)
+- **Astrolog NPC** z natančnostjo
+- **Observatorij** (izboljša natančnost)
+- **Superstition level** (vpliva na srečo)
+
+### 🌿 Apothekar in medicina (v3.3.4)
+- **8 tipov zelišč** (mandragora, špaj, žajbelj, rožmarin, česen, volčje jabolko, pelin, vrobnica)
+- **6 tipov zdravil** (zdravilni napoj, protistrup, sredstvo proti bolečini, tonik, umirjevalo, poživilo)
+- **4 tipi strupov** (strup podgan, volčji, počasna smrt, uspavalni napoj)
+- **3 apothekarske zgradbe** (zeliščni vrt, delavnica, laboratorij)
+- **Herb cultivation** in remedy crafting
+- **Healing the ruler** in disease prevention
+
+### 🗺️ Kartograf in zemljevidi (v3.3.5)
+- **6 tipov zemljevidov** (svet, regionalni, vojaški, trgovski, zaklad, pomorska karta)
+- **3 kartografske zgradbe** (skriptorij, kartografska soba, arhiv)
+- **Cartographer NPC** z natančnostjo
+- **Exploration tracking** (odkrivanje regij)
+- **Treasure maps** in treasures
+- **Map trading** in strategic bonuses
+
+### 🐎 Mojster konj in hlevi (v3.3.6)
+- **6 tipov konjev** (bojni, hitrovec, palfrej, vsestranski, tovorni, težki bojni)
+- **4 hlevske zgradbe** (pašnik, hlev, jahalna dvorana, farma za rejo)
+- **Master of Horse NPC** s spretnostjo
+- **Horse training** (urjenje za boj in hitrost)
+- **Horse breeding** (vzreja z verjetnostjo uspeha)
+- **Equestrian events** (dirke in predstave z nagradami)
+- **Cavalry bonuses** (hitrost, boj, prestiž)
+
 ### 📚 Vadba & UX
 - **10-korak interaktivni tutorial** v slovenščini (Ctrl+T)
 - **40+ loading tips** v 8 kategorijah
@@ -552,10 +604,15 @@ Glej [CONTRIBUTING.md](CONTRIBUTING.md) za vodič za razvijalce.
 
 ## Zgodovina razvoja
 
-Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v3.3.1 (90+ verzij, 45 krogov pregleda, 110+ popravkov).
+Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v3.3.6 (95+ verzij, 50 krogov pregleda, 115+ popravkov).
 
 ## Ključne verzije
 
+- **v3.3.6** — Royal Master of Horse & Stables System (6 konjev, vzreja, dirke)
+- **v3.3.5** — Royal Cartographer & Maps System (6 zemljevidov, raziskovanje)
+- **v3.3.4** — Royal Apothecary & Medicine System (8 zelišč, 6 zdravil, strupi)
+- **v3.3.3** — Royal Astrologer & Omens System (6 znamenj, 8 prerokb)
+- **v3.3.2** — Royal Pet & Menagerie System (8 živali, vzreja, predstave)
 - **v3.3.1** — Royal Feast & Banquet System (6 gostij, 8 jedi, katastrofe)
 - **v3.3.0** — Royal Guard & Personal Security System (5 stražarjev, 6 groženj)
 - **v3.2.9** — Medieval Law & Justice System (8 zločinov, sojenja)
