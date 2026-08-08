@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.9.6] — 2026-08-08 — Royal Organ Builder & Instrument Maker System (6 instruments)
+## [v3.9.5] — 2026-08-08 — Royal Bell Founder & Campanology System (6 bells, casting)
+## [v3.9.4] — 2026-08-08 — Royal Glazier & Window Maker System (6 products, glazing)
+## [v3.9.3] — 2026-08-08 — Royal Plasterer & Decorator System (6 products, plastering)
+## [v3.9.2] — 2026-08-08 — Royal Thatcher & Roofing System (6 roofs, materials)
+
+### Dodano (5 sistemov naenkrat)
+- **Royal Thatcher & Roofing System** — krovičarstvo in strehe
+  - 6 tipov streh (slamnata, skodle, strešniki, skrilavec, svinčena, bakrena)
+  - 4 zgradbe (delavnica, tršičnik, peč za strešnike, kraljevska krovska)
+  - Reed, wood, clay, stone, lead, copper supply, insulation in durability
+- **Royal Plasterer & Decorator System** — ometarstvo in dekoracija
+  - 6 produktov (omet, polirani, freska podlaga, štukatura, pozlačeni, mozaik)
+  - 4 zgradbe (delavnica, apnena peč, atelje, kraljevsko ometarstvo)
+  - Lime, sand, marble, gold, tile supply, smoothness in prestige
+- **Royal Glazier & Window Maker System** — ostekljevanje in okna
+  - 6 produktov (okno, vitraj, svinčeno, zrcalo, strešno, vitrina)
+  - 4 zgradbe (delavnica, ostekljevalnica, svinčarska, kraljevska)
+  - Glass, lead, wood, silver supply, light, faith in prestige bonuses
+- **Royal Bell Founder & Campanology System** — zvonolivarstvo in zvonovi
+  - 6 tipov zvonov (ročni, cerkevni, karilon, angel, kraljevski, alarmni)
+  - 4 zgradbe (zvonarna, zvonik, urnavalnica, kraljevska zvonarna)
+  - Bronze, iron, gold supply, sound quality, casting risk, faith bonus
+- **Royal Organ Builder & Instrument Maker System** — orglarstvo in instrumenti
+  - 6 instrumentov (cevne orgle, portativ, pozitiv, regal, čembalo, klavikord)
+  - 4 zgradbe (delavnica, cevna delavnica, intonacijska, kraljevska orglarna)
+  - Wood, metal, leather supply, sound quality, faith in prestige bonuses
+
 ## [v3.9.1] — 2026-08-08 — Royal Ink Maker & Writing Materials System (6 inks, pigments)
 ## [v3.9.0] — 2026-08-08 — Royal Soap Maker & Cleansing System (6 products, hygiene)
 ## [v3.8.9] — 2026-08-08 — Royal Nail Maker & Hardware System (6 products, fittings)
