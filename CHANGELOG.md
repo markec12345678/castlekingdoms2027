@@ -2,6 +2,18 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.4.8] — 2026-08-08 — Royal Astrologer Advanced System (12 zodiac, 8 events, horoscopes)
+
+### Dodano
+- **Royal Astrologer Advanced System** — napredna astrologija z zodiakom
+  - 12 zodiakalnih znakov (Oven, Bik, ..., Ribe) z elementi in lastnostmi
+  - 8 nebesnih dogodkov (meteorji, mrki, kometi, supernove, ...)
+  - 6 tipov horoskopov (dnevni, tedenski, mesečni, letni, natalni, mundana)
+  - Star chart creation (zvezdne karte z natančnostjo)
+  - Celestial calendar (koledar nebesnih dogodkov)
+  - Astrological predictions (pozitivne, nevtralne, negativne)
+  - Accuracy system (izboljšuje se z astrologom in observatorijem)
+
 ## [v3.4.7] — 2026-08-08 — Royal Physician & Health System (6 diseases, 8 treatments, surgery)
 
 ### Dodano
