@@ -217,6 +217,10 @@ S.Postal = require("objects.Network.RoyalMessengerPostalSystem")
 S.Distiller = require("objects.Economy.RoyalBrewerAdvancedDistillerySystem")
 S.Forge = require("objects.Combat.RoyalSmithAdvancedWeaponForgeSystem")
 S.Woodworker = require("objects.Economy.RoyalWoodworkerCarpenterSystem")
+S.Mason = require("objects.Economy.RoyalMasonStonecutterSystem")
+S.Armorer = require("objects.Combat.RoyalArmorerShieldSystem")
+S.Scribe = require("objects.Config.RoyalScribeNotarySystem")
+S.Barber = require("objects.Gameplay.RoyalBarberSurgeonSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -842,6 +846,18 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v3.7.7: Initialize Royal Woodworker & Carpenter System
     S.Woodworker.init()
     _G.Woodworker = S.Woodworker
+    -- Castle Kingdoms 2027 v3.7.8: Initialize Royal Mason & Stonecutter System
+    S.Mason.init()
+    _G.Mason = S.Mason
+    -- Castle Kingdoms 2027 v3.7.9: Initialize Royal Armorer & Shield System
+    S.Armorer.init()
+    _G.Armorer = S.Armorer
+    -- Castle Kingdoms 2027 v3.8.0: Initialize Royal Scribe & Notary System
+    S.Scribe.init()
+    _G.Scribe = S.Scribe
+    -- Castle Kingdoms 2027 v3.8.1: Initialize Royal Barber & Surgeon System
+    S.Barber.init()
+    _G.Barber = S.Barber
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()

@@ -2,6 +2,28 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.8.1] — 2026-08-08 — Royal Barber & Surgeon System (6 services, surgery)
+## [v3.8.0] — 2026-08-08 — Royal Scribe & Notary System (6 documents, notary)
+## [v3.7.9] — 2026-08-08 — Royal Armorer & Shield System (6 armor, 6 metals)
+## [v3.7.8] — 2026-08-08 — Royal Mason & Stonecutter System (8 stones, 6 products)
+
+### Dodano (4 sistemi naenkrat)
+- **Royal Mason & Stonecutter System** — kamnoseštvo in klesanje kamna
+  - 8 tipov kamna (granit, marmor, apnenec, peščenjak, skrilavec, bazalt, travertin, kremen)
+  - 6 produktov (zidanica, steber, kapitel, nadpražnik, vodnjak, nagrobnik)
+  - 4 kamnoseške zgradbe (kamnolom, delavnica, dvorišče, kraljevski kamnolom)
+- **Royal Armorer & Shield System** — izdelava oklepov in ščitov
+  - 6 tipov oklepa (čelada, oklep, ščit, rokavice, nogavice, polni oklep)
+  - 6 kovin (železo, jeklo, bron, srebro, zlato, mitril)
+  - 4 okleparske zgradbe (okleparna, kovašnica, ploščasta, kraljevska)
+- **Royal Scribe & Notary System** — pisarstvo in notariat
+  - 6 tipov dokumentov (pogodba, listina, odredba, diploma, bula, zapis)
+  - 4 pisarske zgradbe (skriptorij, kancelarija, notarska, kraljevska kancelarija)
+- **Royal Barber & Surgeon System** — brivstvo in kirurgija
+  - 6 storitev (striženje, britje, puščanje krvi, vlečenje zoba, nega ran, operacija)
+  - 4 zgradbe (brivnica, operacijska soba, lekarnarna, kraljevski brivec)
+  - Surgery risk in komplikacije
+
 ## [v3.7.7] — 2026-08-08 — Royal Woodworker & Carpenter System (6 furniture, 8 woods)
 
 ### Dodano
