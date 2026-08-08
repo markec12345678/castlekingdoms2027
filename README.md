@@ -2,18 +2,18 @@
 
 Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT). Navdihnjen s klasičnimi srednjeveškimi strateškimi igrami.
 
-[![Version](https://img.shields.io/badge/version-3.7.1-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
+[![Version](https://img.shields.io/badge/version-3.7.6-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
-[![Syntax](https://img.shields.io/badge/syntax-695%2F698%20pass-brightgreen.svg)](#)
-[![Bugs](https://img.shields.io/badge/bugs%20fixed-150-brightgreen.svg)](#)
-[![Audit](https://img.shields.io/badge/audit%20rounds-85-blue.svg)](#)
+[![Syntax](https://img.shields.io/badge/syntax-700%2F703%20pass-brightgreen.svg)](#)
+[![Bugs](https://img.shields.io/badge/bugs%20fixed-155-brightgreen.svg)](#)
+[![Audit](https://img.shields.io/badge/audit%20rounds-90-blue.svg)](#)
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v3.7.1](https://github.com/markec12345678/castlekingdoms2027/releases)
-- **.love datoteka**: `castlekingdoms2027-v3.7.1.love` (35 MB brez LFS, 305 MB z LFS)
-- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 85 krogov pregleda, 150+ popravkov
+- **Zadnja izdaja**: [v3.7.6](https://github.com/markec12345678/castlekingdoms2027/releases)
+- **.love datoteka**: `castlekingdoms2027-v3.7.6.love` (35 MB brez LFS, 305 MB z LFS)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 90 krogov pregleda, 155+ popravkov
 - **LFS**: Po git clone zahtevaj `git lfs pull` za prave PNG asset-e (305 MB)
 
 ## Zagon
@@ -35,13 +35,13 @@ love .
 
 | Metrika | Vrednost |
 |---------|----------|
-| Lua datoteke | 698 |
-| Vrstic kode | ~449.000 |
+| Lua datoteke | 703 |
+| Vrstic kode | ~463.000 |
 | GLSL shaderji | 12 |
 | Jezikov | 32 |
-| Verzij | 130+ (v1.7.9 → v3.7.1) |
-| Bug popravkov | 150 (85 krogov pregleda) |
-| Syntax pass rate | 695/698 (99,5%) |
+| Verzij | 135+ (v1.7.9 → v3.7.6) |
+| Bug popravkov | 155 (90 krogov pregleda) |
+| Syntax pass rate | 700/703 (99,5%) |
 | PNG assetov | 1.206 |
 | Kampanjske misije | 21 (10 Fernhaven + 11 zgodovinskih) |
 | Skirmish misije | 15 |
@@ -280,6 +280,21 @@ love .
 | **Usnjeni produkti** | **6** |
 | **Tipi kož** | **8** |
 | **Usnjarske zgradbe** | **4** |
+| **Tipi surveyjev** | **6** |
+| **Merilni instrumenti** | **8** |
+| **Geodetske zgradbe** | **4** |
+| **Davčne metode** | **6** |
+| **Davčna okrožja** | **8** |
+| **Davčne zgradbe** | **4** |
+| **Tipi sporočil** | **6** |
+| **Tipi kurirjev** | **8** |
+| **Poštne zgradbe** | **4** |
+| **Tipi žganih pijač** | **6** |
+| **Destilarske sestavine** | **8** |
+| **Destilarske zgradbe** | **4** |
+| **Kategorije orožja** | **6** |
+| **Kovinske zlitine** | **8** |
+| **Kovaške zgradbe** | **4** |
 
 ## Funkcije
 
@@ -793,11 +808,16 @@ Glej [CONTRIBUTING.md](CONTRIBUTING.md) za vodič za razvijalce.
 
 ## Zgodovina razvoja
 
-Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v3.7.1 (130+ verzij, 85 krogov pregleda, 150+ popravkov).
+Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v3.7.6 (135+ verzij, 90 krogov pregleda, 155+ popravkov).
 
 ## Ključne verzije
 
-- **v3.7.1** — Royal Leatherworker & Tannery System (6 produktov, 8 kož, strojenje)
+- **v3.7.6** — Royal Smith Advanced & Weapon Forge System (6 orožij, 8 zlitin, quality grades)
+- **v3.7.5** — Royal Brewer Advanced & Distillery System (6 žganih pijač, 8 sestavin)
+- **v3.7.4** — Royal Messenger & Postal System (6 sporočil, 8 kurirjev, relay)
+- **v3.7.3** — Royal Tax Collector & Revenue System (6 metod, 8 okrožij, utaja)
+- **v3.7.2** — Royal Surveyor & Land Measurement System (6 surveyjev, 8 instrumentov)
+- **v3.7.1** — Royal Leatherworker & Tannery System (6 produktov, 8 kož)
 - **v3.7.0** — Royal Metalworker & Bronze Casting System (6 produktov, 8 kovin, litje)
 - **v3.6.9** — Royal Painter & Fresco System (6 slik, 8 pigmentov)
 - **v3.6.8** — Royal Sculptor & Stone Carving System (6 kiparstev, 8 kamnov)
