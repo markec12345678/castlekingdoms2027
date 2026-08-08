@@ -2,6 +2,19 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.7.1] — 2026-08-08 — Royal Leatherworker & Tannery System (6 products, 8 hides, tanning)
+
+### Dodano
+- **Royal Leatherworker & Tannery System** — usnjarstvo, strojenje in usnjeni izdelki
+  - 6 tipov produktov (škornji, oklepa, vrečka, pas, rokavice, knjižni vez)
+  - 8 tipov kož (kravje, ovčje, kozje, jelenje, svinjsko, teletje, konjsko, egzotično)
+  - 4 usnjarske zgradbe (strojarna, delavnica, barvarna, kraljevska usnjarna)
+  - Leatherworker NPC s spretnostjo
+  - Hide tanning (časovno strojenje z odor penalty)
+  - Leather quality and durability system
+  - Leather dyeing in product making
+  - Quality system (kakovost iz zgradb, usnjarja in kože)
+
 ## [v3.7.0] — 2026-08-08 — Royal Metalworker & Bronze Casting System (6 products, 8 metals, casting)
 
 ### Dodano
