@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.8.6] — 2026-08-08 — Royal Chandler & Lamp Maker System (6 products, light, oil)
+## [v3.8.5] — 2026-08-08 — Royal Locksmith & Security System (6 products, locks, keys)
+## [v3.8.4] — 2026-08-08 — Royal Ropemaker & Cordage System (6 products, 6 fibers)
+## [v3.8.3] — 2026-08-08 — Royal Cooper & Barrel Maker System (6 products, barrels)
+## [v3.8.2] — 2026-08-08 — Royal Baker & Confectioner System (6 products, baking)
+
+### Dodano (5 sistemov naenkrat)
+- **Royal Baker & Confectioner System** — peka, slaščice in torte
+  - 6 produktov (kruh, torta, testenina, pita, biskvit, svatbena torta)
+  - 4 zgradbe (pekarna, slaščičarna, mlin, kraljevska pekarna)
+  - Flour, sugar, butter, meat supply management
+- **Royal Cooper & Barrel Maker System** — sodarstvo in izdelava sodov
+  - 6 produktov (sod, bočka, tuna, firkin, hogshead, butt)
+  - 4 zgradbe (delavnica, sodarna, sušilno dvorišče, kraljevska sodarna)
+  - Wood in iron supply, capacity per barrel type
+- **Royal Ropemaker & Cordage System** — vrvarstvo in izdelava vrvi
+  - 6 produktov (vrv, debela vrv, vrvica, mreža, tovorna vrv, tetiva)
+  - 6 vlaken (konoplja, len, juta, svila, bombaž, kitica)
+  - 4 zgradbe (vrvarna, delavnica, vrt vlaken, kraljevska vrvana)
+- **Royal Locksmith & Security System** — ključavničarstvo in varnost
+  - 6 produktov (viseči ključavnik, vratna, skladiščna, kombinacijska, začarana, set ključev)
+  - 4 zgradbe (delavnica, kovašnica, varnostni trezor, kraljevski ključavničar)
+  - Security level system, magic locks
+- **Royal Chandler & Lamp Maker System** — svetilke, oljenke in osvetlitev
+  - 6 produktov (oljenka, svečna svetilka, luster, fenir, bakla, oltarna svetila)
+  - 4 zgradbe (delavnica, svetilkarna, stiskalnica olja, kraljevska svetilkarna)
+  - Oil, wax, metal supply management, light radius, faith bonus
+
 ## [v3.8.1] — 2026-08-08 — Royal Barber & Surgeon System (6 services, surgery)
 ## [v3.8.0] — 2026-08-08 — Royal Scribe & Notary System (6 documents, notary)
 ## [v3.7.9] — 2026-08-08 — Royal Armorer & Shield System (6 armor, 6 metals)

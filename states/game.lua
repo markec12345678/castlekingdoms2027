@@ -221,6 +221,11 @@ S.Mason = require("objects.Economy.RoyalMasonStonecutterSystem")
 S.Armorer = require("objects.Combat.RoyalArmorerShieldSystem")
 S.Scribe = require("objects.Config.RoyalScribeNotarySystem")
 S.Barber = require("objects.Gameplay.RoyalBarberSurgeonSystem")
+S.Baker = require("objects.Economy.RoyalBakerConfectionerSystem")
+S.Cooper = require("objects.Economy.RoyalCooperBarrelMakerSystem")
+S.Ropemaker = require("objects.Economy.RoyalRopemakerCordageSystem")
+S.Locksmith = require("objects.Config.RoyalLocksmithSecuritySystem")
+S.Chandler = require("objects.Gameplay.RoyalChandlerLampMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -858,6 +863,12 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v3.8.1: Initialize Royal Barber & Surgeon System
     S.Barber.init()
     _G.Barber = S.Barber
+    -- Castle Kingdoms 2027 v3.8.2-v3.8.6: Initialize 5 new craft systems
+    S.Baker.init(); _G.Baker = S.Baker
+    S.Cooper.init(); _G.Cooper = S.Cooper
+    S.Ropemaker.init(); _G.Ropemaker = S.Ropemaker
+    S.Locksmith.init(); _G.Locksmith = S.Locksmith
+    S.Chandler.init(); _G.Chandler = S.Chandler
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1236,6 +1247,16 @@ function game:update(dt)
                 S.Forge.update(dt)
                 -- Castle Kingdoms 2027 v3.7.7: Update Royal Woodworker
                 S.Woodworker.update(dt)
+                -- Castle Kingdoms 2027 v3.7.8-v3.8.6: Update 9 new craft systems
+                S.Mason.update(dt)
+                S.Armorer.update(dt)
+                S.Scribe.update(dt)
+                S.Barber.update(dt)
+                S.Baker.update(dt)
+                S.Cooper.update(dt)
+                S.Ropemaker.update(dt)
+                S.Locksmith.update(dt)
+                S.Chandler.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
