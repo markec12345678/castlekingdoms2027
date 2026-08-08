@@ -2,18 +2,18 @@
 
 Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT). Navdihnjen s klasičnimi srednjeveškimi strateškimi igrami.
 
-[![Version](https://img.shields.io/badge/version-3.3.6-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
+[![Version](https://img.shields.io/badge/version-3.4.1-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
-[![Syntax](https://img.shields.io/badge/syntax-660%2F663%20pass-brightgreen.svg)](#)
-[![Bugs](https://img.shields.io/badge/bugs%20fixed-115-brightgreen.svg)](#)
-[![Audit](https://img.shields.io/badge/audit%20rounds-50-blue.svg)](#)
+[![Syntax](https://img.shields.io/badge/syntax-665%2F668%20pass-brightgreen.svg)](#)
+[![Bugs](https://img.shields.io/badge/bugs%20fixed-120-brightgreen.svg)](#)
+[![Audit](https://img.shields.io/badge/audit%20rounds-55-blue.svg)](#)
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v3.3.6](https://github.com/markec12345678/castlekingdoms2027/releases)
-- **.love datoteka**: `castlekingdoms2027-v3.3.6.love` (32 MB brez LFS, 305 MB z LFS)
-- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 50 krogov pregleda, 115+ popravkov
+- **Zadnja izdaja**: [v3.4.1](https://github.com/markec12345678/castlekingdoms2027/releases)
+- **.love datoteka**: `castlekingdoms2027-v3.4.1.love` (32 MB brez LFS, 305 MB z LFS)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 55 krogov pregleda, 120+ popravkov
 - **LFS**: Po git clone zahtevaj `git lfs pull` za prave PNG asset-e (305 MB)
 
 ## Zagon
@@ -35,13 +35,13 @@ love .
 
 | Metrika | Vrednost |
 |---------|----------|
-| Lua datoteke | 663 |
-| Vrstic kode | ~362.000 |
+| Lua datoteke | 668 |
+| Vrstic kode | ~372.000 |
 | GLSL shaderji | 12 |
 | Jezikov | 32 |
-| Verzij | 95+ (v1.7.9 → v3.3.6) |
-| Bug popravkov | 115 (50 krogov pregleda) |
-| Syntax pass rate | 660/663 (99,5%) |
+| Verzij | 100+ (v1.7.9 → v3.4.1) |
+| Bug popravkov | 120 (55 krogov pregleda) |
+| Syntax pass rate | 665/668 (99,5%) |
 | PNG assetov | 1.206 |
 | Kampanjske misije | 21 (10 Fernhaven + 11 zgodovinskih) |
 | Skirmish misije | 15 |
@@ -178,6 +178,19 @@ love .
 | **Kartografske zgradbe** | **3** |
 | **Tipi konjev** | **6** |
 | **Hlevske zgradbe** | **4** |
+| **Tipi panjev** | **6** |
+| **Čebelji produkti** | **4** |
+| **Tipi medovca** | **3** |
+| **Sorte grozdja** | **6** |
+| **Tipi vin** | **4** |
+| **Vinogradniške zgradbe** | **3** |
+| **Tipi ptic prey** | **6** |
+| **Falconry zgradbe** | **4** |
+| **Tipi vrtov** | **6** |
+| **Tipi rastlin** | **8** |
+| **Alkimistični procesi** | **6** |
+| **Alkimistični materiali** | **4** |
+| **Laboratorijske zgradbe** | **3** |
 
 ## Funkcije
 
@@ -555,6 +568,48 @@ love .
 - **Equestrian events** (dirke in predstave z nagradami)
 - **Cavalry bonuses** (hitrost, boj, prestiž)
 
+### 🐝 Čebelar in med (v3.3.7)
+- **6 tipov panjev** (brosten, slamnati, škatlasti, okvirni, kraljevski, apiarij)
+- **4 produkti** (med, vosak, propolis, matični mleček)
+- **3 tipi medovca** (navadni, začinjeni, kraljevski)
+- **Seasonal production** (pomlad/poletje = več)
+- **Pollination bonus** (do +30% pridelka hrane)
+- **Swarm events** (čebele se množijo ali pobegnejo)
+
+### 🍇 Vinograd in vino (v3.3.8)
+- **6 sort grozdja** (pinot noir, chardonnay, merlot, riesling, cabernet, muškat)
+- **4 tipi vin** (namizno, dobro, letnik, kraljevska rezerva)
+- **3 vinogradniške zgradbe** (vinograd, vinska klet, skladišče za staranje)
+- **Vintner NPC** s spretnostjo
+- **Wine aging** (vina se izboljšujejo s starostjo)
+- **Vintage system** z bonusi
+
+### 🦅 Sokolar in lov (v3.3.9)
+- **6 tipov ptic prey** (skalnar, kragulj, orel, mali sokol, kobac, polarni sokol)
+- **4 falconry zgradbe** (sokolarnica, letarica, urjenišče, reja)
+- **Falconer NPC** s spretnostjo
+- **Bird training** in hawking expeditions
+- **Bird breeding** (vzreja redkih ptic)
+- **Molting system** in competitions
+
+### 🌹 Vrtnar in okrasni vrtovi (v3.4.0)
+- **6 tipov vrtov** (vrtnice, zeliščni, vozliščni, vodni, topiarij, botanični)
+- **8 tipov rastlin** (vrtnice, lilije, tulipani, sivka, bukvica, fontana, kip, živa meja)
+- **Gardener NPC** s spretnostjo
+- **Seasonal blooming** (različne rastline v različnih sezonah)
+- **Garden tours** (obiskovalci prinašajo zlato)
+- **Botanical collection** in competitions
+
+### ⚗️ Alkimist in transmutacija (v3.4.1)
+- **6 alkimističnih procesov** (transmutacija, eliksir življenja, kamen modrosti, ...)
+- **4 materiali** (živo srebro, žveplo, sol, svinec)
+- **3 laboratorijske zgradbe** (koča, laboratorij, veliki laboratorij)
+- **Alchemist NPC** s spretnostjo
+- **Transmutation** (svinec v zlato, 15% uspeh)
+- **Elixir brewing** (zdravilni, moči, nevidnosti)
+- **Philosopher's stone** (legendarni quest, neskončno zlato)
+- **Explosion risk** in alchemical discoveries
+
 ### 📚 Vadba & UX
 - **10-korak interaktivni tutorial** v slovenščini (Ctrl+T)
 - **40+ loading tips** v 8 kategorijah
@@ -604,10 +659,15 @@ Glej [CONTRIBUTING.md](CONTRIBUTING.md) za vodič za razvijalce.
 
 ## Zgodovina razvoja
 
-Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v3.3.6 (95+ verzij, 50 krogov pregleda, 115+ popravkov).
+Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v3.4.1 (100+ verzij, 55 krogov pregleda, 120+ popravkov).
 
 ## Ključne verzije
 
+- **v3.4.1** — Royal Alchemist & Transmutation System (6 procesov, kamen modrosti)
+- **v3.4.0** — Royal Gardener & Ornamental Gardens System (6 vrtov, 8 rastlin)
+- **v3.3.9** — Royal Falconer & Hawking System (6 ptic, lov, vzreja)
+- **v3.3.8** — Royal Vineyard & Wine System (6 sort, 4 vina, staranje)
+- **v3.3.7** — Royal Beekeeper & Honey System (6 panjev, medovec)
 - **v3.3.6** — Royal Master of Horse & Stables System (6 konjev, vzreja, dirke)
 - **v3.3.5** — Royal Cartographer & Maps System (6 zemljevidov, raziskovanje)
 - **v3.3.4** — Royal Apothecary & Medicine System (8 zelišč, 6 zdravil, strupi)
