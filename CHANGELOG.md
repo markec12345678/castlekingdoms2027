@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.10.6] — 2026-08-08 — Royal Button & Buckle Maker System (6 products, fasteners)
+## [v3.10.5] — 2026-08-08 — Royal Puppet & Marionette Maker System (6 products, puppets)
+## [v3.10.4] — 2026-08-08 — Royal Fan Maker & Fan Painter System (6 products, fans)
+## [v3.10.3] — 2026-08-08 — Royal Seal Engraver & Signet Maker System (6 products, seals)
+## [v3.10.2] — 2026-08-08 — Royal Comb & Hair Accessory Maker System (6 products, combs)
+
+### Dodano (5 sistemov naenkrat)
+- **Royal Comb & Hair Accessory Maker System** — glavničarstvo in lasni nakit
+  - 6 produktov (leseni glavnik, kosten, slonokoščeni, lasnica, draguljarni, kraljevski lasnik)
+  - 4 zgradbe (delavnica, kostarska, nakitarska, kraljevski glavničar)
+  - Wood, bone, ivory, metal, jewel, gold, silk supply
+- **Royal Seal Engraver & Signet Maker System** — pečatniki in signeti
+  - 6 produktov (voščeni pečat, pečatnik, uradni, kraljevski, matrica, protipečat)
+  - 4 zgradbe (delavnica, graverski atelje, pečatni trezor, kraljevski graver)
+  - Wax, metal, gold, jewel supply, security level system
+- **Royal Fan Maker & Fan Painter System** — pahljače in pahljačarstvo
+  - 6 produktov (palmino, zložljiva, poslikana, svilena, draguljarna, ceremonialna)
+  - 4 zgradbe (delavnica, atelje, slikarska soba, kraljevski pahljačar)
+  - Wood, cloth, parchment, paint, silk, jewel, gold supply
+- **Royal Puppet & Marionette Maker System** — lutkarstvo in marionete
+  - 6 produktov (ročna lutka, marioneta, lutka rokavica, senčna, mehanska, kraljevska)
+  - 4 zgradbe (delavnica, lutkovno gledališče, marionetni atelje, kraljevski lutkar)
+  - Wood, cloth, thread, leather, metal, gold, jewel supply
+- **Royal Button & Buckle Maker System** — gumbi in sponje
+  - 6 produktov (leseni, kosteni, kovinski, srebrna spona, zlata spona, kraljevski gumb)
+  - 4 zgradbe (delavnica, gumbarna, kovinska, kraljevski gumbar)
+  - Wood, bone, metal, silver, gold, jewel supply
+
 ## [v3.10.1] — 2026-08-08 — Royal Book Illuminator & Gilder System (6 products, gold leaf)
 ## [v3.10.0] — 2026-08-08 — Royal Embroiderer & Needlework System (6 products, gold thread)
 ## [v3.9.9] — 2026-08-08 — Royal Dice & Game Maker System (6 products, games)
