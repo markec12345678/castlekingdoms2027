@@ -178,6 +178,7 @@ S.Cartographer = require("objects.QA.RoyalCartographerMapsSystem")
 S.Stables = require("objects.Combat.RoyalMasterOfHorseStablesSystem")
 S.Beekeeper = require("objects.Economy.RoyalBeekeeperHoneySystem")
 S.Vineyard = require("objects.Economy.RoyalVineyardWineSystem")
+S.Falconer = require("objects.Gameplay.RoyalFalconerHawkingSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -686,6 +687,9 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v3.3.8: Initialize Royal Vineyard & Wine System
     S.Vineyard.init()
     _G.Vineyard = S.Vineyard
+    -- Castle Kingdoms 2027 v3.3.9: Initialize Royal Falconer & Hawking System
+    S.Falconer.init()
+    _G.Falconer = S.Falconer
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -986,6 +990,8 @@ function game:update(dt)
                 S.Beekeeper.update(dt)
                 -- Castle Kingdoms 2027 v3.3.8: Update Royal Vineyard
                 S.Vineyard.update(dt)
+                -- Castle Kingdoms 2027 v3.3.9: Update Royal Falconer
+                S.Falconer.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.3.9] — 2026-08-08 — Royal Falconer & Hawking System (6 raptors, hunting, breeding)
+
+### Dodano
+- **Royal Falconer & Hawking System** — sokolarstvo in lov s pticami prey
+  - 6 tipov ptic prey (skalnar, kragulj, orel, mali sokol, kobac, polarni sokol)
+  - 4 falconry zgradbe (sokolarnica, letarica, urjenišče, reja)
+  - Falconer NPC s spretnostjo
+  - Bird training (urjenje za poslušnost in lov)
+  - Hawking expeditions (lov za hrano in prestiž)
+  - Bird breeding (vzreja redkih ptic)
+  - Molting system (ptice menajajo perje)
+  - Falconry competitions (tekmovanja z nagradami)
+  - Bird health and aging
+
 ## [v3.3.8] — 2026-08-08 — Royal Vineyard & Wine System (6 grapes, 4 wines, aging)
 
 ### Dodano
