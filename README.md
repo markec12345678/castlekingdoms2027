@@ -2,18 +2,18 @@
 
 Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT). Navdihnjen s klasičnimi srednjeveškimi strateškimi igrami.
 
-[![Version](https://img.shields.io/badge/version-3.5.1-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
+[![Version](https://img.shields.io/badge/version-3.5.6-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
-[![Syntax](https://img.shields.io/badge/syntax-675%2F678%20pass-brightgreen.svg)](#)
-[![Bugs](https://img.shields.io/badge/bugs%20fixed-130-brightgreen.svg)](#)
-[![Audit](https://img.shields.io/badge/audit%20rounds-65-blue.svg)](#)
+[![Syntax](https://img.shields.io/badge/syntax-680%2F683%20pass-brightgreen.svg)](#)
+[![Bugs](https://img.shields.io/badge/bugs%20fixed-135-brightgreen.svg)](#)
+[![Audit](https://img.shields.io/badge/audit%20rounds-70-blue.svg)](#)
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v3.5.1](https://github.com/markec12345678/castlekingdoms2027/releases)
-- **.love datoteka**: `castlekingdoms2027-v3.5.1.love` (33 MB brez LFS, 305 MB z LFS)
-- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 65 krogov pregleda, 130+ popravkov
+- **Zadnja izdaja**: [v3.5.6](https://github.com/markec12345678/castlekingdoms2027/releases)
+- **.love datoteka**: `castlekingdoms2027-v3.5.6.love` (33 MB brez LFS, 305 MB z LFS)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 70 krogov pregleda, 135+ popravkov
 - **LFS**: Po git clone zahtevaj `git lfs pull` za prave PNG asset-e (305 MB)
 
 ## Zagon
@@ -35,13 +35,13 @@ love .
 
 | Metrika | Vrednost |
 |---------|----------|
-| Lua datoteke | 678 |
-| Vrstic kode | ~395.000 |
+| Lua datoteke | 683 |
+| Vrstic kode | ~408.000 |
 | GLSL shaderji | 12 |
 | Jezikov | 32 |
-| Verzij | 110+ (v1.7.9 → v3.5.1) |
-| Bug popravkov | 130 (65 krogov pregleda) |
-| Syntax pass rate | 675/678 (99,5%) |
+| Verzij | 115+ (v1.7.9 → v3.5.6) |
+| Bug popravkov | 135 (70 krogov pregleda) |
+| Syntax pass rate | 680/683 (99,5%) |
 | PNG assetov | 1.206 |
 | Kampanjske misije | 21 (10 Fernhaven + 11 zgodovinskih) |
 | Skirmish misije | 15 |
@@ -220,6 +220,21 @@ love .
 | **Tipi kronik** | **6** |
 | **Zgodovinske teme** | **8** |
 | **Arhivske zgradbe** | **4** |
+| **Tipi slovesnosti** | **8** |
+| **Protokoli** | **6** |
+| **Slovesne zgradbe** | **4** |
+| **Smrtni grehi** | **6** |
+| **Tipi pokore** | **8** |
+| **Duhovne zgradbe** | **4** |
+| **Tipi glasbenikov** | **6** |
+| **Tipi pesmi** | **8** |
+| **Prizorišča** | **4** |
+| **Tipi šal** | **8** |
+| **Tipi norčkov** | **6** |
+| **Komedijska prizorišča** | **4** |
+| **Tipi pijač** | **6** |
+| **Tipi jedi** | **8** |
+| **Jedilne zgradbe** | **4** |
 
 ## Funkcije
 
@@ -733,10 +748,15 @@ Glej [CONTRIBUTING.md](CONTRIBUTING.md) za vodič za razvijalce.
 
 ## Zgodovina razvoja
 
-Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v3.5.1 (110+ verzij, 65 krogov pregleda, 130+ popravkov).
+Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v3.5.6 (115+ verzij, 70 krogov pregleda, 135+ popravkov).
 
 ## Ključne verzije
 
+- **v3.5.6** — Royal Cupbearer & Taster System (6 pijač, 8 jedi, detekcija strupa)
+- **v3.5.5** — Royal Jester Advanced & Court Comedy System (8 šal, 6 norčkov)
+- **v3.5.4** — Royal Minstrel & Troubadour System (6 glasbenikov, 8 pesmi, turneje)
+- **v3.5.3** — Royal Confessor & Spiritual Guidance System (6 grehov, 8 pokor)
+- **v3.5.2** — Royal Master of Ceremonies & Protocol System (8 slovesnosti, 6 protokolov)
 - **v3.5.1** — Royal Historian & Chronicle Advanced System (6 kronik, genealogija, legacy)
 - **v3.5.0** — Royal Diplomat & Envoy System (6 odposlancev, 8 misij, ambasade)
 - **v3.4.9** — Royal Engineer & Siege Works System (8 strojev, 6 utrdb)
