@@ -2,6 +2,19 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.5.2] — 2026-08-08 — Royal Master of Ceremonies & Protocol System (8 ceremonies, 6 protocols)
+
+### Dodano
+- **Royal Master of Ceremonies & Protocol System** — dvorne slovesnosti in protokol
+  - 8 tipov slovesnosti (kronanje, investitura, audienco, recepcija, banket, turnir, poroka, pogreb)
+  - 6 protokolov (sedežni red, obravnava, darovanje, prednost, obleka, audiencni protokol)
+  - 4 slovesne zgradbe (prestolna dvorana, velika dvorana, audiencna dvorana, recepcijska dvorana)
+  - Master of Ceremonies NPC s spretnostjo
+  - Protocol adoption z etiquette bonusi
+  - Courtier etiquette training (0-100)
+  - Quality system (kakovost iz zgradb in ceremoniarja)
+  - Diplomatic protocol bonuses
+
 ## [v3.5.1] — 2026-08-08 — Royal Historian & Chronicle Advanced System (6 volumes, 8 topics)
 
 ### Dodano
