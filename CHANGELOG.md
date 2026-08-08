@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.6.4] — 2026-08-08 — Royal Embalmer & Funerary System (6 funerals, 8 embalming, tombs)
+
+### Dodano
+- **Royal Embalmer & Funerary System** — pogrebi, balzamiranje in grobnice
+  - 6 tipov pogrebov (revni, navadni, viteški, plemiški, kraljevski, državni)
+  - 8 tehnik balzamiranja (sušenje, izločitev organov, potopitev, zavijanje, smola, začimbe, vosek, mumifikacija)
+  - 4 pogrebne zgradbe (kostnica, kripta, mavzolej, kraljevska grobnica)
+  - Embalmer NPC s spretnostjo
+  - Funeral organization (časovno organiziranje pogrebov)
+  - Embalming techniques (ohranitev teles z različnimi metodami)
+  - Ancestor tracking (sledenje prednikov)
+  - Preservation bonus iz zgradb
+  - Faith, happiness in prestige bonusi iz pogrebov
+
 ## [v3.6.3] — 2026-08-08 — Royal Calligrapher & Illumination System (6 manuscripts, 8 illuminations)
 
 ### Dodano
