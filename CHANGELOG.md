@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.11] — 2026-08-09 — Royal Lantern & Street Light System (6 products, lanterns)
+## [v3.11.10] — 2026-08-09 — Royal Sign Board & Inn Sign System (6 products, signs)
+## [v3.11.9] — 2026-08-09 — Royal Sconce & Wall Light System (6 products, sconces)
+## [v3.11.8] — 2026-08-09 — Royal Clay Pipe Maker System (6 products, pipes)
+## [v3.11.7] — 2026-08-09 — Royal Tile Maker & Floor System (6 products, tiles)
+
+### Dodano (5 sistemov naenkrat)
+- **Royal Tile Maker & Floor System** — tlakovce in keramične ploščice
+  - 6 produktov (tlakovca, stenska, mozaik, fajansa, majolika, kraljevski mozaik panel)
+  - 4 zgradbe (delavnica, peč, glazurnica, kraljevski atelje)
+  - Clay, glass, tin, gold supply, durability system (10-40)
+- **Royal Clay Pipe Maker System** — glinene pipe za kajenje
+  - 6 produktov (navadna, okrasna, dolgovrata, glazirana, srebrno obrobljena, kraljevsko naročilo)
+  - 4 zgradbe (delavnica, peč, kalupniča, kraljevski atelje)
+  - Clay, glass, silver, gold supply, durability system (8-40)
+- **Royal Sconce & Wall Light System** — zidne svečnike in luči
+  - 6 produktov (zidni nosilec, svečnik, baklonosilec, medeninasta, srebrna, kraljevski sconce-luster)
+  - 4 zgradbe (delavnica, kovačija, polirnica, kraljevski atelje)
+  - Iron, brass, silver, gold supply, light radius (3-18)
+- **Royal Sign Board & Inn Sign System** — napise za gostilne in trgovine
+  - 6 produktov (trgovska tabla, gostilniški napis, cehovski znak, poslikani, pozlačeni, kraljevski heraldični)
+  - 4 zgradbe (delavnica, slikalnica, pozlatnica, kraljevski atelje)
+  - Wood, iron, paint, gold, silver supply, visibility system (5-30)
+- **Royal Lantern & Street Light System** — lantern in ulično razsvetljavo
+  - 6 produktov (papirnata, rogova, steklena, medeninasta viseča, srebrna ulična, kraljevski veliki luster)
+  - 4 zgradbe (delavnica, steklarnica, kovinarska, kraljevski atelje)
+  - Paper, horn, glass, iron, brass, silver, gold supply, light radius (4-22)
+
 ## [v3.11.6] — 2026-08-08 — Royal Wax Modeler & Seal Press System (6 products, wax models)
 ## [v3.11.5] — 2026-08-08 — Royal Needle & Pin Maker System (6 products, needles)
 ## [v3.11.4] — 2026-08-08 — Royal Musical String Maker System (6 products, strings)
