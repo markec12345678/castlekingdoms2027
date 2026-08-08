@@ -2,6 +2,21 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.5.4] — 2026-08-08 — Royal Minstrel & Troubadour System (6 minstrels, 8 songs, touring)
+
+### Dodano
+- **Royal Minstrel & Troubadour System** — potujoči glasbeniki in trubadurji
+  - 6 tipov glasbenikov (trubadur, žongler, minnesinger, bard, gliman, skald)
+  - 8 tipov pesmi (ljubezenska, junaška, šaljiva, elegija, balada, pijančevanje, jutranja, večerna)
+  - 4 prizorišča (krčma, trg, vrata gradu, rižišče)
+  - Minstrel management (najem, energy, status)
+  - Song composition (ustvarjanje pesmi)
+  - Performance sistema (tips, happiness, quality)
+  - Touring (pošiljanje k tujim dvorom)
+  - News spreading (glasbeniki nosijo novice)
+  - Visiting minstrels (gostujoči izvajalci)
+  - Reputation system (0-100)
+
 ## [v3.5.3] — 2026-08-08 — Royal Confessor & Spiritual Guidance System (6 sins, 8 penances)
 
 ### Dodano
