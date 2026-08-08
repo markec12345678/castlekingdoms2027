@@ -2,6 +2,19 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.5.7] — 2026-08-08 — Royal Chandlery & Wax Works System (6 candles, 8 products)
+
+### Dodano
+- **Royal Chandlery & Wax Works System** — sveče, voščeni produkti in pečatni vosek
+  - 6 tipov sveč (lojeva, čebeljavoščena, lovorova, stearinska, spermacetna, cerkvena)
+  - 8 tipov voščenih produktov (pečatni vosek, tablice, kipi, laki, barvice, barve, pečati, dišeči vosek)
+  - 4 svečarske zgradbe (svečarna, livarna, skladišče voska, kraljevska svečarna)
+  - Chandler NPC s spretnostjo
+  - Candle making (časovna proizvodnja)
+  - Wax supply management (nakup in shranjevanje voska)
+  - Quality system (kakovost iz zgradb in svečarja)
+  - Faith bonus iz cerkvenih sveč
+
 ## [v3.5.6] — 2026-08-08 — Royal Cupbearer & Taster System (6 beverages, 8 dishes, poison detection)
 
 ### Dodano
