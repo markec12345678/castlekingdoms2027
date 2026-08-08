@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.5.0] — 2026-08-08 — Royal Diplomat & Envoy System (6 envoys, 8 missions, embassies)
+
+### Dodano
+- **Royal Diplomat & Envoy System** — diplomacija z odposlanci in misijami
+  - 6 tipov odposlancev (ambasador, odposlanec, konzul, legat, pooblaščenec, vohun-diplomat)
+  - 8 tipov diplomatskih misij (zavezništvo, trgovski sporazum, mir, poroka, davek, ...)
+  - 4 diplomatske zgradbe (ambasada, kancelarija, tuje cone, protokolarna pisarna)
+  - Master Diplomat NPC s spretnostjo
+  - Diplomatic missions (časovne z verjetnostjo uspeha)
+  - Envoy management (najem, status, recovery)
+  - International reputation (0-100, vpliva na uspeh)
+  - Diplomatic immunity in expulsion/killing risk
+  - Mission rewards (odnosi, zlato, trgovina, znanje)
+
 ## [v3.4.9] — 2026-08-08 — Royal Engineer & Siege Works System (8 engines, 6 fortifications)
 
 ### Dodano
