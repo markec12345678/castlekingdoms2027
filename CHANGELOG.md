@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.36] — 2026-08-09 — Royal Processional Cross Maker System (6 products, crosses)
+## [v3.11.35] — 2026-08-09 — Royal Chrismatory Maker System (6 products, chrismatories)
+## [v3.11.34] — 2026-08-09 — Royal Reliquary Maker System (6 products, reliquaries)
+## [v3.11.33] — 2026-08-09 — Royal Altar Frontal Maker System (6 products, antependia)
+## [v3.11.32] — 2026-08-09 — Royal Cope & Vestment Maker System (6 products, vestments)
+
+### Dodano (5 sistemov naenkrat — liturgična serija)
+- **Royal Cope & Vestment Maker System** — cerkvena oblačila
+  - 6 produktov (lnena alba, volnena kazula, svileni štol, vezena pluvial, zlatorobna pluvial, kraljevski pontifikalno oblačilo)
+  - 4 zgradbe (delavnica, šivalnica, vezenilnica, kraljevski atelje)
+  - Linen, wool, silk, thread, gold, silver, jewel, pearl supply, sanctity (4-30), GameEventBus publish
+- **Royal Altar Frontal Maker System** — antependiji za oltarje
+  - 6 produktov (lneni, poslikani, vezeni, svileni, draguljni, kraljevska katedralna)
+  - 4 zgradbe (delavnica, slikalnica, vezenilnica, kraljevski atelje)
+  - Linen, silk, paint, thread, gold, silver, jewel, pearl supply, sanctity (3-30)
+- **Royal Reliquary Maker System** — relikviarji za relikvije
+  - 6 produktov (leseni, srebrni, zlati, kristalni, draguljni, kraljevski svetiščni)
+  - 4 zgradbe (delavnica, kovačija, kristalna soba, kraljevski atelje)
+  - Wood, silver, gold, glass, jewel, pearl supply, sanctity (4-40)
+- **Royal Chrismatory Maker System** — krizmatije za sveta olja
+  - 6 produktov (pustrasta, srebrna, kristalna, zlata, draguljna, kraljevska trojna)
+  - 4 zgradbe (delavnica, kovačija, kristalna soba, kraljevski atelje)
+  - Tin, silver, gold, glass, jewel, pearl supply, sanctity (3-32)
+- **Royal Processional Cross Maker System** — procesijski križi
+  - 6 produktov (leseni, medeninast, srebrni, zlati, draguljni, kraljevski katedralni)
+  - 4 zgradbe (delavnica, kovačija, draguljna soba, kraljevski atelje)
+  - Wood, brass, silver, gold, jewel, pearl supply, sanctity (4-38), GameEventBus publish
+
 ## [v3.11.31] — 2026-08-09 — Royal Heraldic Flag Maker System (6 products, flags)
 ## [v3.11.30] — 2026-08-09 — Royal Banner Maker System (6 products, banners)
 ## [v3.11.29] — 2026-08-09 — Royal Cushion Maker System (6 products, cushions)
