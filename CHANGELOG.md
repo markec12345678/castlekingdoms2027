@@ -2,6 +2,19 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.7.0] — 2026-08-08 — Royal Metalworker & Bronze Casting System (6 products, 8 metals, casting)
+
+### Dodano
+- **Royal Metalworker & Bronze Casting System** — kovinarstvo, litje brona in zvonovi
+  - 6 tipov produktov (zvon, bronasti kip, top, medalja, luster, vrata)
+  - 8 kovin (baker, kositer, bron, medenina, pewter, svinec, železo, srebro)
+  - 4 kovinarske zgradbe (livarna, kovašnica, livna dvorana, kraljevska livarna)
+  - Metalworker NPC s spretnostjo
+  - Bronze casting (časovno litje z nevarnostjo defektov)
+  - Metal supply management (nakup kovin)
+  - Bell founding z zvokom, vojaški topovi
+  - Quality system (kakovost iz zgradb, kovinarja in kovine)
+
 ## [v3.6.9] — 2026-08-08 — Royal Painter & Fresco System (6 paintings, 8 pigments)
 
 ### Dodano
