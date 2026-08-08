@@ -2,6 +2,18 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.7.2] — 2026-08-08 — Royal Surveyor & Land Measurement System (6 surveys, 8 tools)
+
+### Dodano
+- **Royal Surveyor & Land Measurement System** — geodezija in merjenje zemljišč
+  - 6 tipov surveyjev (mejna, topografska, katastrska, gradbena, kmetijska, rudarska)
+  - 8 merilnih instrumentov (veriga, palica, astrolab, teodolit, libela, kompas, vrv, kol)
+  - 4 geodetske zgradbe (pisarna, observatorij, kartografska soba, kraljevski inštitut)
+  - Surveyor NPC s spretnostjo
+  - Land parcel registration (register parcel)
+  - Measurement accuracy system (natančnost iz zgradb, instrumentov in geodeta)
+  - Boundary dispute resolution
+
 ## [v3.7.1] — 2026-08-08 — Royal Leatherworker & Tannery System (6 products, 8 hides, tanning)
 
 ### Dodano
