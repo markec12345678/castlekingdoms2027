@@ -2,6 +2,21 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.3.7] — 2026-08-08 — Royal Beekeeper & Honey System (6 hives, mead, pollination)
+
+### Dodano
+- **Royal Beekeeper & Honey System** — čebelarstvo, med in medovec
+  - 6 tipov panjev (brosten, slamnati, škatlasti, okvirni, kraljevski, apiarij)
+  - 4 produkti (med, čebelji vosek, propolis, matični mleček)
+  - 3 tipi medovca (navadni, začinjeni, kraljevski)
+  - Beekeeper NPC s spretnostjo
+  - Seasonal production (pomlad/poletje = več, zima = manj)
+  - Mead brewing (priprava medovca z časom)
+  - Wax candles (faith bonus)
+  - Pollination bonus (do +30% pridelka hrane)
+  - Swarm events (čebele se množijo ali pobegnejo)
+  - Disease and health management
+
 ## [v3.3.6] — 2026-08-08 — Royal Master of Horse & Stables System (6 horses, breeding, events)
 
 ### Dodano
