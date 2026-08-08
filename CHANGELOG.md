@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.4.9] — 2026-08-08 — Royal Engineer & Siege Works System (8 engines, 6 fortifications)
+
+### Dodano
+- **Royal Engineer & Siege Works System** — vojaško inženirstvo in oblegovalni stroji
+  - 8 tipov oblegovalnih strojev (katapult, trebuchet, balista, stolp, oven, mangonel, bombarda, stražni stolp)
+  - 6 tipov utrdb (palisada, kamniti zid, stolp, jarek, vratarnica, bastion)
+  - 4 inženirske zgradbe (delavnica, arzenal, oblegovalna delavnica, vojaška akademija)
+  - Master Engineer NPC s spretnostjo
+  - Siege engine construction (časovna gradnja)
+  - Fortification construction z obrambnimi bonusi
+  - Bridge and road construction
+  - Quality system (kakovost iz zgradb in inženirja)
+  - Combat bonuses (napad iz strojev, obramba iz utrdb)
+
 ## [v3.4.8] — 2026-08-08 — Royal Astrologer Advanced System (12 zodiac, 8 events, horoscopes)
 
 ### Dodano
