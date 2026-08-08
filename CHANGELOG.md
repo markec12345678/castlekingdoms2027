@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.6.1] — 2026-08-08 — Royal Clockmaker & Timekeeping System (6 clocks, 8 products, precision)
+
+### Dodano
+- **Royal Clockmaker & Timekeeping System** — urarstvo in merjenje časa
+  - 6 tipov ur (sončna, vodna, peščena, mehanska, astronomska, stolpna)
+  - 8 časovnih produktov (žepna ura, zvon, zvonoglasje, koledar, astrolab, kronometer, ciferblat, nihalo)
+  - 4 urarske zgradbe (delavnica, livarna, observatorijska ura, kraljevski stolp)
+  - Clockmaker NPC s spretnostjo
+  - Clock construction (časovna gradnja z natančnostjo)
+  - Time precision tracking (0-100)
+  - Accuracy system (natančnost iz zgradb in urarja)
+  - Product making (žepne ure, zvoni, astrolabi)
+  - Prestige from astronomical and turret clocks
+
 ## [v3.6.0] — 2026-08-08 — Royal Glassmaker & Stained Glass System (6 glass types, 8 products, vitraži)
 
 ### Dodano
