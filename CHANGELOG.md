@@ -2,6 +2,21 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.3.8] — 2026-08-08 — Royal Vineyard & Wine System (6 grapes, 4 wines, aging)
+
+### Dodano
+- **Royal Vineyard & Wine System** — vinogradi in proizvodnja vina
+  - 6 sort grozdja (pinot noir, chardonnay, merlot, riesling, cabernet, muškat)
+  - 4 tipi vin (namizno, dobro, letnik, kraljevska rezerva)
+  - 3 vinogradniške zgradbe (vinograd, vinska klet, skladišče za staranje)
+  - Vintner NPC s spretnostjo
+  - Grape planting in harvesting (z rastnim časom)
+  - Wine making (priprava z dolgim časom za vrhunska vina)
+  - Wine aging (vina se izboljšujejo s starostjo)
+  - Vintage system (letniki z bonusi)
+  - Wine trade in consumption
+  - Quality bonus iz zgradb in vinarja
+
 ## [v3.3.7] — 2026-08-08 — Royal Beekeeper & Honey System (6 hives, mead, pollination)
 
 ### Dodano
