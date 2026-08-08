@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.51] — 2026-08-09 — Royal Recorder Maker System (6 products, recorders)
+## [v3.11.50] — 2026-08-09 — Royal Hurdy-Gurdy Maker System (6 products, hurdy-gurdies)
+## [v3.11.49] — 2026-08-09 — Royal Psaltery Maker System (6 products, psalteries)
+## [v3.11.48] — 2026-08-09 — Royal Fiddle Maker System (6 products, fiddles)
+## [v3.11.47] — 2026-08-09 — Royal Lute Maker System (6 products, lutes)
+
+### Dodano (5 sistemov naenkrat — godala in pihala)
+- **Royal Lute Maker System** — lutnje in teorbe
+  - 6 produktov (učenci, alt, tenor, teorba, arhilutnja, kraljevska pandora)
+  - 4 zgradbe (delavnica, strunarska soba, zvočna soba, kraljevski atelje)
+  - Wood, gut, gold, silver, pearl supply, sound quality (8-38), GameEventBus publish
+- **Royal Fiddle Maker System** — gusli, vijele, rebeci
+  - 6 produktov (kmečka, vijela, tristrunska, rebec, srebrna, kraljevska dvorna)
+  - 4 zgradbe (delavnica, strunarska soba, lokarska soba, kraljevski atelje)
+  - Wood, gut, brass, silver, gold, pearl supply, sound quality (7-36)
+- **Royal Psaltery Maker System** — psalteriji in cimbale
+  - 6 produktov (trikotni, kvadratni, lokani, dvojni, srebrni, kraljevski kladivčasti)
+  - 4 zgradbe (delavnica, strunarska soba, naglasilnica, kraljevski atelje)
+  - Wood, gut, silver, gold, pearl supply, sound quality (8-38)
+- **Royal Hurdy-Gurdy Maker System** — vrtavke
+  - 6 produktov (preprosta, diatonska, kromatska, dvonosilčna, srebrna, kraljevska lutnjarska)
+  - 4 zgradbe (delavnica, kolesna soba, tipkarska soba, kraljevski atelje)
+  - Wood, gut, brass, silver, gold, pearl supply, sound quality (10-40)
+- **Royal Recorder Maker System** — flavte in konzorti
+  - 6 produktov (soprano, alt, tenor, bas, slonokoščena, kraljevski konzort)
+  - 4 zgradbe (delavnica, vrtalnica, dokončevalnica, kraljevski atelje)
+  - Wood, brass, ivory, silver, gold, jewel supply, sound quality (8-34), GameEventBus publish
+
 ## [v3.11.46] — 2026-08-09 — Royal Drummer Maker System (6 products, drums)
 ## [v3.11.45] — 2026-08-09 — Royal Harp Maker System (6 products, harps)
 ## [v3.11.44] — 2026-08-09 — Royal Cymbal Maker System (6 products, cymbals)

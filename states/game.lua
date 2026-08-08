@@ -304,6 +304,12 @@ S.BellWheelMaker = require("objects.Economy.RoyalBellWheelMakerSystem")
 S.CymbalMaker = require("objects.Economy.RoyalCymbalMakerSystem")
 S.HarpMaker = require("objects.Economy.RoyalHarpMakerSystem")
 S.DrummerMaker = require("objects.Economy.RoyalDrummerMakerSystem")
+-- Castle Kingdoms 2027 v3.11.47-v3.11.51: 5 new musical instrument systems (string/wind)
+S.LuteMaker = require("objects.Economy.RoyalLuteMakerSystem")
+S.FiddleMaker = require("objects.Economy.RoyalFiddleMakerSystem")
+S.PsalteryMaker = require("objects.Economy.RoyalPsalteryMakerSystem")
+S.HurdyGurdyMaker = require("objects.Economy.RoyalHurdyGurdyMakerSystem")
+S.RecorderMaker = require("objects.Economy.RoyalRecorderMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1031,6 +1037,12 @@ local function delayedInit()
     S.CymbalMaker.init(); _G.CymbalMaker = S.CymbalMaker
     S.HarpMaker.init(); _G.HarpMaker = S.HarpMaker
     S.DrummerMaker.init(); _G.DrummerMaker = S.DrummerMaker
+    -- Castle Kingdoms 2027 v3.11.47-v3.11.51: Initialize 5 new musical instrument systems
+    S.LuteMaker.init(); _G.LuteMaker = S.LuteMaker
+    S.FiddleMaker.init(); _G.FiddleMaker = S.FiddleMaker
+    S.PsalteryMaker.init(); _G.PsalteryMaker = S.PsalteryMaker
+    S.HurdyGurdyMaker.init(); _G.HurdyGurdyMaker = S.HurdyGurdyMaker
+    S.RecorderMaker.init(); _G.RecorderMaker = S.RecorderMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1503,6 +1515,12 @@ function game:update(dt)
                 S.CymbalMaker.update(dt)
                 S.HarpMaker.update(dt)
                 S.DrummerMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.47-v3.11.51: Update 5 new musical instrument systems
+                S.LuteMaker.update(dt)
+                S.FiddleMaker.update(dt)
+                S.PsalteryMaker.update(dt)
+                S.HurdyGurdyMaker.update(dt)
+                S.RecorderMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
