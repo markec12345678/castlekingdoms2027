@@ -215,6 +215,7 @@ S.Surveyor = require("objects.QA.RoyalSurveyorLandMeasurementSystem")
 S.TaxCollector = require("objects.Economy.RoyalTaxCollectorRevenueSystem")
 S.Postal = require("objects.Network.RoyalMessengerPostalSystem")
 S.Distiller = require("objects.Economy.RoyalBrewerAdvancedDistillerySystem")
+S.Forge = require("objects.Combat.RoyalSmithAdvancedWeaponForgeSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -834,6 +835,9 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v3.7.5: Initialize Royal Brewer Advanced & Distillery System
     S.Distiller.init()
     _G.Distiller = S.Distiller
+    -- Castle Kingdoms 2027 v3.7.6: Initialize Royal Smith Advanced & Weapon Forge System
+    S.Forge.init()
+    _G.Forge = S.Forge
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1208,6 +1212,8 @@ function game:update(dt)
                 S.Postal.update(dt)
                 -- Castle Kingdoms 2027 v3.7.5: Update Royal Distiller
                 S.Distiller.update(dt)
+                -- Castle Kingdoms 2027 v3.7.6: Update Royal Forge
+                S.Forge.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

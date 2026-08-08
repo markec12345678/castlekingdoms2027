@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.7.6] — 2026-08-08 — Royal Smith Advanced & Weapon Forge System (6 weapons, 8 alloys, quality grades)
+
+### Dodano
+- **Royal Smith Advanced & Weapon Forge System** — kovaštvo orožja in oklepa
+  - 6 kategorij orožja (meč, kopje, sekira, buzdovan, lok, samostrel)
+  - 8 kovinskih zlitin (železo, jeklo, damask, bron, srebrno okrašen, zlato okrašen, začarano, meteorno železo)
+  - 4 kovaške zgradbe (kovašnica, orožarna, kovašnica orožja, kraljevska orožarna)
+  - Master Smith NPC s spretnostjo
+  - Weapon forging (časovno kovanje z nevarnostjo napak)
+  - Quality grading (common, fine, superior, masterwork, legendary)
+  - Metal alloy management (nakup zlitin)
+  - Attack value scaling z kakovostjo
+  - Prestige in faith bonusi iz dragocenih zlitin
+
 ## [v3.7.5] — 2026-08-08 — Royal Brewer Advanced & Distillery System (6 spirits, 8 ingredients, distillation)
 
 ### Dodano
