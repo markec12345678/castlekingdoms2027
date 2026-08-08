@@ -194,6 +194,7 @@ S.Historian = require("objects.QA.RoyalHistorianChronicleAdvancedSystem")
 S.Ceremonies = require("objects.Gameplay.RoyalMasterOfCeremoniesProtocolSystem")
 S.Confessor = require("objects.Config.RoyalConfessorSpiritualGuidanceSystem")
 S.Minstrel = require("objects.Gameplay.RoyalMinstrelTroubadourSystem")
+S.Comedy = require("objects.Gameplay.RoyalJesterAdvancedCourtComedySystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -750,6 +751,9 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v3.5.4: Initialize Royal Minstrel & Troubadour System
     S.Minstrel.init()
     _G.Minstrel = S.Minstrel
+    -- Castle Kingdoms 2027 v3.5.5: Initialize Royal Jester Advanced & Court Comedy System
+    S.Comedy.init()
+    _G.Comedy = S.Comedy
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1082,6 +1086,8 @@ function game:update(dt)
                 S.Confessor.update(dt)
                 -- Castle Kingdoms 2027 v3.5.4: Update Royal Minstrel
                 S.Minstrel.update(dt)
+                -- Castle Kingdoms 2027 v3.5.5: Update Royal Comedy
+                S.Comedy.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

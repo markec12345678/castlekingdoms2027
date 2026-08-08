@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.5.5] — 2026-08-08 — Royal Jester Advanced & Court Comedy System (8 jokes, 6 archetypes)
+
+### Dodano
+- **Royal Jester Advanced & Court Comedy System** — napredna komedija in norčki
+  - 8 tipov šal (pohabljenje, besedne igre, satira, opazovalna, črna, igre besed, telesna, absurdna)
+  - 6 tipov norčkov (norček, prebrisanež, dušjak, bedak, satirik, norec)
+  - 4 komedijska prizorišča (prestolna dvorana, velika dvorana, vrtni oder, trg)
+  - Jester NPC s comedy skill in immunity
+  - Routine composition (ustvarjanje rutin)
+  - Audience reaction system (success, offense, immunity)
+  - Political satire (visoko tveganje, visoka nagrada)
+  - Jester immunity (licenca za zmerjanje)
+  - Court morale tracking (0-100)
+
 ## [v3.5.4] — 2026-08-08 — Royal Minstrel & Troubadour System (6 minstrels, 8 songs, touring)
 
 ### Dodano
