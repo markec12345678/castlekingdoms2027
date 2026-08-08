@@ -2,18 +2,18 @@
 
 Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT). Navdihnjen s klasičnimi srednjeveškimi strateškimi igrami.
 
-[![Version](https://img.shields.io/badge/version-3.4.1-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
+[![Version](https://img.shields.io/badge/version-3.4.6-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
-[![Syntax](https://img.shields.io/badge/syntax-665%2F668%20pass-brightgreen.svg)](#)
-[![Bugs](https://img.shields.io/badge/bugs%20fixed-120-brightgreen.svg)](#)
-[![Audit](https://img.shields.io/badge/audit%20rounds-55-blue.svg)](#)
+[![Syntax](https://img.shields.io/badge/syntax-670%2F673%20pass-brightgreen.svg)](#)
+[![Bugs](https://img.shields.io/badge/bugs%20fixed-125-brightgreen.svg)](#)
+[![Audit](https://img.shields.io/badge/audit%20rounds-60-blue.svg)](#)
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v3.4.1](https://github.com/markec12345678/castlekingdoms2027/releases)
-- **.love datoteka**: `castlekingdoms2027-v3.4.1.love` (32 MB brez LFS, 305 MB z LFS)
-- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 55 krogov pregleda, 120+ popravkov
+- **Zadnja izdaja**: [v3.4.6](https://github.com/markec12345678/castlekingdoms2027/releases)
+- **.love datoteka**: `castlekingdoms2027-v3.4.6.love` (32 MB brez LFS, 305 MB z LFS)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 60 krogov pregleda, 125+ popravkov
 - **LFS**: Po git clone zahtevaj `git lfs pull` za prave PNG asset-e (305 MB)
 
 ## Zagon
@@ -35,13 +35,13 @@ love .
 
 | Metrika | Vrednost |
 |---------|----------|
-| Lua datoteke | 668 |
-| Vrstic kode | ~372.000 |
+| Lua datoteke | 673 |
+| Vrstic kode | ~383.000 |
 | GLSL shaderji | 12 |
 | Jezikov | 32 |
-| Verzij | 100+ (v1.7.9 → v3.4.1) |
-| Bug popravkov | 120 (55 krogov pregleda) |
-| Syntax pass rate | 665/668 (99,5%) |
+| Verzij | 105+ (v1.7.9 → v3.4.6) |
+| Bug popravkov | 125 (60 krogov pregleda) |
+| Syntax pass rate | 670/673 (99,5%) |
 | PNG assetov | 1.206 |
 | Kampanjske misije | 21 (10 Fernhaven + 11 zgodovinskih) |
 | Skirmish misije | 15 |
@@ -191,6 +191,20 @@ love .
 | **Alkimistični procesi** | **6** |
 | **Alkimistični materiali** | **4** |
 | **Laboratorijske zgradbe** | **3** |
+| **Tipi divjadi** | **6** |
+| **Lovske zgradbe** | **4** |
+| **Tipi lovov** | **5** |
+| **Lovski psi** | **4** |
+| **Tipi dreves** | **6** |
+| **Gozdske zgradbe** | **4** |
+| **Genetske lastnosti** | **8** |
+| **Krvne linije** | **6** |
+| **Glasbeni instrumenti** | **6** |
+| **Glasbene kompozicije** | **8** |
+| **Glasbene zgradbe** | **3** |
+| **Filozofske šole** | **6** |
+| **Teme modrosti** | **8** |
+| **Akademske zgradbe** | **3** |
 
 ## Funkcije
 
@@ -610,6 +624,51 @@ love .
 - **Philosopher's stone** (legendarni quest, neskončno zlato)
 - **Explosion risk** in alchemical discoveries
 
+### 🏹 Mojster lova in divjad (v3.4.2)
+- **6 tipov divjadi** (jelen, merjavec, lisica, zajec, fazan, medved)
+- **4 lovske zgradbe** (gozd, park, zajčji vrt, kraljevi rezervat)
+- **5 tipov lovov** (kraljevi, sokolarski, lokostrelski, kopljični, poganjalni)
+- **Master of Hunt NPC** s spretnostjo
+- **Game population management** (trajnostni lov)
+- **Hunting dogs** (4 pasme)
+- **Trophy system** in hunting incidents
+
+### 🌲 Gozdar in gozdovi (v3.4.3)
+- **6 tipov dreves** (hrast, bor, breza, bukev, tisa, kostanj)
+- **4 gozdske zgradbe** (koča, žaga, kopica za oglje, drevesnica)
+- **Forester NPC** s spretnostjo
+- **Sustainable forestry** (pogozdovanje)
+- **Timber production** (les za gradnjo)
+- **Charcoal production** (oglje za kovaške peči)
+- **Foraging** (pasivna hrana iz gozdov)
+
+### 🧬 Genetika in vzreja (v3.4.4)
+- **8 genetskih lastnosti** (hitrost, moč, inteligenca, agresivnost, ...)
+- **6 krvnih linij** (kraljevska, divja, gorska, puščavska, severna, cesarska)
+- **Trait inheritance** in mutation system
+- **Bloodline purity** tracking
+- **Champion breeding** program
+- **Lineage tracking** (družinsko drevo)
+- **Breeding contracts** z drugimi dvori
+
+### 🎵 Skladatelj in glasba (v3.4.5)
+- **6 tipov instrumentov** (lutnja, harfa, flavta, boben, orgle, violina)
+- **8 tipov kompozicij** (maša, madrigal, balada, ples, himna, žalostinka, sonata, opera)
+- **3 glasbene zgradbe** (soba, koncertna dvorana, operna hiša)
+- **Composer NPC** s spretnostjo
+- **Composition creation** in public performances
+- **Court orchestra** (najem glasbenikov)
+- **Quality system** iz zgradb in skladatelja
+
+### 📚 Filozof in modrost (v3.4.6)
+- **6 filozofskih šol** (stoicizem, platonizem, aristotelizem, sholastika, misticizem, humanizem)
+- **8 tem modrosti** (etika, politika, metafizika, logika, estetika, ...)
+- **3 akademske zgradbe** (študijska soba, akademija, velika univerza)
+- **Philosopher NPC** s spretnostjo in šolo
+- **School adoption** z bonusi
+- **Research system** in philosophical works publication
+- **Student mentoring** (3-mesečni program)
+
 ### 📚 Vadba & UX
 - **10-korak interaktivni tutorial** v slovenščini (Ctrl+T)
 - **40+ loading tips** v 8 kategorijah
@@ -659,10 +718,15 @@ Glej [CONTRIBUTING.md](CONTRIBUTING.md) za vodič za razvijalce.
 
 ## Zgodovina razvoja
 
-Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v3.4.1 (100+ verzij, 55 krogov pregleda, 120+ popravkov).
+Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v3.4.6 (105+ verzij, 60 krogov pregleda, 125+ popravkov).
 
 ## Ključne verzije
 
+- **v3.4.6** — Royal Philosopher & Wisdom System (6 šol, 8 tem, raziskave)
+- **v3.4.5** — Royal Composer & Music System (6 instrumentov, 8 kompozicij)
+- **v3.4.4** — Royal Falconry Breeding & Genetics System (8 lastnosti, 6 linij)
+- **v3.4.3** — Royal Forester & Woodland System (6 dreves, les, oglje)
+- **v3.4.2** — Royal Master of Hunt & Game System (6 divjadi, 5 lovov, psi)
 - **v3.4.1** — Royal Alchemist & Transmutation System (6 procesov, kamen modrosti)
 - **v3.4.0** — Royal Gardener & Ornamental Gardens System (6 vrtov, 8 rastlin)
 - **v3.3.9** — Royal Falconer & Hawking System (6 ptic, lov, vzreja)
