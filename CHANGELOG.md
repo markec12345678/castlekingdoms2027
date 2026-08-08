@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.3.6] — 2026-08-08 — Royal Master of Horse & Stables System (6 horses, breeding, events)
+
+### Dodano
+- **Royal Master of Horse & Stables System** — konji, hlevi in konjeništvo
+  - 6 tipov konjev (bojni, hitrovec, palfrej, vsestranski, tovorni, težki bojni)
+  - 4 hlevske zgradbe (pašnik, hlev, jahalna dvorana, farma za rejo)
+  - Master of Horse NPC s spretnostjo
+  - Horse training (urjenje za boj in hitrost)
+  - Horse breeding (vzreja z verjetnostjo uspeha)
+  - Equestrian events (dirke in predstave z nagradami)
+  - Cavalry bonuses (hitrost, boj, prestiž)
+  - Horse trading and aging
+  - Foal breeding (žrebiči z izboljšanimi stati)
+
 ## [v3.3.5] — 2026-08-08 — Royal Cartographer & Maps System (6 map types, exploration)
 
 ### Dodano
