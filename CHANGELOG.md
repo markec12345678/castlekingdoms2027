@@ -2,6 +2,19 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.7.7] — 2026-08-08 — Royal Woodworker & Carpenter System (6 furniture, 8 woods)
+
+### Dodano
+- **Royal Woodworker & Carpenter System** — mizarstvo, pohištvo in rezbarije
+  - 6 tipov pohištva (prestol, miza, stol, skrinja, postelja, omara)
+  - 8 tipov lesa (hrast, oreh, mahagonij, bor, cedra, ebenovina, češnja, breza)
+  - 4 mizarske zgradbe (delavnica, rezbarski atelje, žaga, kraljevska delavnica)
+  - Woodworker NPC s spretnostjo
+  - Furniture making (časovna izdelava s kakovostjo)
+  - Wood quality in prestige bonusi (ebenovina, mahagonij = višji prestiž)
+  - Aroma bonus iz cedar lesa
+  - Quality system (kakovost iz zgradb, mizarja in lesa)
+
 ## [v3.7.6] — 2026-08-08 — Royal Smith Advanced & Weapon Forge System (6 weapons, 8 alloys, quality grades)
 
 ### Dodano
