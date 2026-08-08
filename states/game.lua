@@ -316,6 +316,12 @@ S.CrumhornMaker = require("objects.Economy.RoyalCrumhornMakerSystem")
 S.SackbutMaker = require("objects.Economy.RoyalSackbutMakerSystem")
 S.BagpipeMaker = require("objects.Economy.RoyalBagpipeMakerSystem")
 S.PipeTaborMaker = require("objects.Economy.RoyalPipeTaborMakerSystem")
+-- Castle Kingdoms 2027 v3.11.57-v3.11.61: 5 new weapons & armor systems
+S.SwordsmithMaker = require("objects.Gameplay.RoyalSwordsmithMakerSystem")
+S.DaggerMaker = require("objects.Gameplay.RoyalDaggerMakerSystem")
+S.HelmetMaker = require("objects.Gameplay.RoyalHelmetMakerSystem")
+S.ShieldMaker = require("objects.Gameplay.RoyalShieldMakerSystem")
+S.ArmorMaker = require("objects.Gameplay.RoyalArmorMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1055,6 +1061,12 @@ local function delayedInit()
     S.SackbutMaker.init(); _G.SackbutMaker = S.SackbutMaker
     S.BagpipeMaker.init(); _G.BagpipeMaker = S.BagpipeMaker
     S.PipeTaborMaker.init(); _G.PipeTaborMaker = S.PipeTaborMaker
+    -- Castle Kingdoms 2027 v3.11.57-v3.11.61: Initialize 5 new weapons & armor systems
+    S.SwordsmithMaker.init(); _G.SwordsmithMaker = S.SwordsmithMaker
+    S.DaggerMaker.init(); _G.DaggerMaker = S.DaggerMaker
+    S.HelmetMaker.init(); _G.HelmetMaker = S.HelmetMaker
+    S.ShieldMaker.init(); _G.ShieldMaker = S.ShieldMaker
+    S.ArmorMaker.init(); _G.ArmorMaker = S.ArmorMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1539,6 +1551,12 @@ function game:update(dt)
                 S.SackbutMaker.update(dt)
                 S.BagpipeMaker.update(dt)
                 S.PipeTaborMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.57-v3.11.61: Update 5 new weapons & armor systems
+                S.SwordsmithMaker.update(dt)
+                S.DaggerMaker.update(dt)
+                S.HelmetMaker.update(dt)
+                S.ShieldMaker.update(dt)
+                S.ArmorMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

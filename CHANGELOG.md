@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.61] — 2026-08-09 — Royal Armor Maker System (6 products, armor)
+## [v3.11.60] — 2026-08-09 — Royal Shield Maker System (6 products, shields)
+## [v3.11.59] — 2026-08-09 — Royal Helmet Maker System (6 products, helmets)
+## [v3.11.58] — 2026-08-09 — Royal Dagger Maker System (6 products, daggers)
+## [v3.11.57] — 2026-08-09 — Royal Swordsmith Maker System (6 products, swords)
+
+### Dodano (5 sistemov naenkrat — orožarska in okleplarska serija)
+- **Royal Swordsmith Maker System** — meči za viteze in kralje
+  - 6 produktov (železen, jeklen dolg, srebrnjak ročajski, damascenski, draguljni, kraljevski slovesni)
+  - 4 zgradbe (delavnica, kovačija, žarilnica, kraljevski atelje)
+  - Iron, steel, silver, gold, jewel, pearl supply, attack (8-45), durability (20-80), GameEventBus publish
+- **Royal Dagger Maker System** — bodalci in stileti
+  - 6 produktov (železen, jeklen, srebrnorčajni, stilet, draguljni, kraljevski slovesni)
+  - 4 zgradbe (delavnica, kovačija, žarilnica, kraljevski atelje)
+  - Iron, steel, silver, gold, jewel, pearl supply, attack (4-28), durability (15-60)
+- **Royal Helmet Maker System** — čelade za boj
+  - 6 produktov (kapica, lonec, nosna, velika, srebrna, kraljevska slovesna)
+  - 4 zgradbe (delavnica, kovačija, polirnica, kraljevski atelje)
+  - Iron, steel, silver, gold, jewel, pearl supply, defense (4-35), durability (18-80)
+- **Royal Shield Maker System** — ščiti z grbi
+  - 6 produktov (lesen, železno okovan, okrogli, trapezni, srebrno okrašen, kraljevski slovesni)
+  - 4 zgradbe (delavnica, kovačija, slikalnica, kraljevski atelje)
+  - Wood, iron, steel, leather, silver, gold, jewel, pearl supply, defense (3-32), durability (15-80)
+- **Royal Armor Maker System** — oklepi od usnja do kraljevskega slovesnega
+  - 6 produktov (usnjeni jopič, verižna srajca, jeklena veriga, ploščati, srebrni, kraljevski slovesni)
+  - 4 zgradbe (delavnica, kovačija, dokončevalnica, kraljevski atelje)
+  - Leather, iron, steel, silver, gold, jewel, pearl supply, defense (5-48), durability (20-100), GameEventBus publish
+
 ## [v3.11.56] — 2026-08-09 — Royal Pipe & Tabor Maker System (6 products, pipes & tabors)
 ## [v3.11.55] — 2026-08-09 — Royal Bagpipe Maker System (6 products, bagpipes)
 ## [v3.11.54] — 2026-08-09 — Royal Sackbut Maker System (6 products, sackbuts)
