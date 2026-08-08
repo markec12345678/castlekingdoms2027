@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.56] — 2026-08-09 — Royal Pipe & Tabor Maker System (6 products, pipes & tabors)
+## [v3.11.55] — 2026-08-09 — Royal Bagpipe Maker System (6 products, bagpipes)
+## [v3.11.54] — 2026-08-09 — Royal Sackbut Maker System (6 products, sackbuts)
+## [v3.11.53] — 2026-08-09 — Royal Crumhorn Maker System (6 products, crumhorns)
+## [v3.11.52] — 2026-08-09 — Royal Shawm Maker System (6 products, shawms)
+
+### Dodano (5 sistemov naenkrat — pihala in trobila)
+- **Royal Shawm Maker System** — šalmaji in bombarda
+  - 6 produktov (soprano, alt, tenor, bombarda, srebrni, kraljevski konzort)
+  - 4 zgradbe (delavnica, vrtalnica, trobilnica, kraljevski atelje)
+  - Wood, reed, brass, silver, gold, ivory supply, sound quality (9-38), GameEventBus publish
+- **Royal Crumhorn Maker System** — krumhorni z usnjato kapo
+  - 6 produktov (soprano, alt, tenor, bas, veliki bas, kraljevski konzort)
+  - 4 zgradbe (delavnica, vrtalnica, kapnica, kraljevski atelje)
+  - Wood, reed, leather, brass, silver, gold, ivory supply, sound quality (9-36)
+- **Royal Sackbut Maker System** — sakbuti (zgodnji pozavni)
+  - 6 produktov (alt, tenor, bas, srebrni, zlatorobni, kraljevski slovesni)
+  - 4 zgradbe (delavnica, kovačija, drsničnica, kraljevski atelje)
+  - Brass, leather, silver, gold, ivory, pearl supply, sound quality (11-38)
+- **Royal Bagpipe Maker System** — dude za vas in dvor
+  - 6 produktov (vasja, dvorne, srebrnjačeve, italijanske, zlatorobne, kraljevske slovesne)
+  - 4 zgradbe (delavnica, usnjiška soba, trobilnica, kraljevski atelje)
+  - Wood, leather, reed, silver, gold, ivory, pearl supply, sound quality (10-38)
+- **Royal Pipe & Tabor Maker System** — piščali in tabor bobni
+  - 6 produktov (kmečka, trojnična, tabor, tenor, srebrna, kraljevski komplet)
+  - 4 zgradbe (delavnica, vrtalnica, dokončevalnica, kraljevski atelje)
+  - Wood, brass, silver, gold, ivory, leather, pearl supply, sound quality (7-35), GameEventBus publish
+
 ## [v3.11.51] — 2026-08-09 — Royal Recorder Maker System (6 products, recorders)
 ## [v3.11.50] — 2026-08-09 — Royal Hurdy-Gurdy Maker System (6 products, hurdy-gurdies)
 ## [v3.11.49] — 2026-08-09 — Royal Psaltery Maker System (6 products, psalteries)

@@ -310,6 +310,12 @@ S.FiddleMaker = require("objects.Economy.RoyalFiddleMakerSystem")
 S.PsalteryMaker = require("objects.Economy.RoyalPsalteryMakerSystem")
 S.HurdyGurdyMaker = require("objects.Economy.RoyalHurdyGurdyMakerSystem")
 S.RecorderMaker = require("objects.Economy.RoyalRecorderMakerSystem")
+-- Castle Kingdoms 2027 v3.11.52-v3.11.56: 5 new wind instrument systems
+S.ShawmMaker = require("objects.Economy.RoyalShawmMakerSystem")
+S.CrumhornMaker = require("objects.Economy.RoyalCrumhornMakerSystem")
+S.SackbutMaker = require("objects.Economy.RoyalSackbutMakerSystem")
+S.BagpipeMaker = require("objects.Economy.RoyalBagpipeMakerSystem")
+S.PipeTaborMaker = require("objects.Economy.RoyalPipeTaborMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1043,6 +1049,12 @@ local function delayedInit()
     S.PsalteryMaker.init(); _G.PsalteryMaker = S.PsalteryMaker
     S.HurdyGurdyMaker.init(); _G.HurdyGurdyMaker = S.HurdyGurdyMaker
     S.RecorderMaker.init(); _G.RecorderMaker = S.RecorderMaker
+    -- Castle Kingdoms 2027 v3.11.52-v3.11.56: Initialize 5 new wind instrument systems
+    S.ShawmMaker.init(); _G.ShawmMaker = S.ShawmMaker
+    S.CrumhornMaker.init(); _G.CrumhornMaker = S.CrumhornMaker
+    S.SackbutMaker.init(); _G.SackbutMaker = S.SackbutMaker
+    S.BagpipeMaker.init(); _G.BagpipeMaker = S.BagpipeMaker
+    S.PipeTaborMaker.init(); _G.PipeTaborMaker = S.PipeTaborMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1521,6 +1533,12 @@ function game:update(dt)
                 S.PsalteryMaker.update(dt)
                 S.HurdyGurdyMaker.update(dt)
                 S.RecorderMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.52-v3.11.56: Update 5 new wind instrument systems
+                S.ShawmMaker.update(dt)
+                S.CrumhornMaker.update(dt)
+                S.SackbutMaker.update(dt)
+                S.BagpipeMaker.update(dt)
+                S.PipeTaborMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
