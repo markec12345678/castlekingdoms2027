@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.4.4] — 2026-08-08 — Royal Falconry Breeding & Genetics System (8 traits, 6 bloodlines)
+
+### Dodano
+- **Royal Falconry Breeding & Genetics System** — napredna genetika za vzrejo ptic
+  - 8 genetskih lastnosti (hitrost, moč, inteligenca, agresivnost, zvestoba, vid, vzdržljivost, velikost)
+  - 6 krvnih linij (kraljevska, divja, gorska, puščavska, severna, cesarska)
+  - Trait inheritance (starši prenesejo lastnosti na potomce)
+  - Mutation system (5% možnost naključnih izboljšav)
+  - Bloodline purity tracking
+  - Champion breeding program (povprečje > 75 = šampion)
+  - Lineage tracking (družinsko drevo)
+  - Breeding contracts (zamenjava z drugimi dvori)
+  - Inbreeding prevention
+
 ## [v3.4.3] — 2026-08-08 — Royal Forester & Woodland System (6 trees, timber, charcoal)
 
 ### Dodano
