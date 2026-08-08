@@ -268,6 +268,12 @@ S.CofferMaker = require("objects.Economy.RoyalCofferLockboxSystem")
 S.BellPullMaker = require("objects.Economy.RoyalBellPullSystem")
 S.KeyMaker = require("objects.Economy.RoyalKeyMakerSystem")
 S.ChainMaker = require("objects.Economy.RoyalChainMakerSystem")
+-- Castle Kingdoms 2027 v3.11.17-v3.11.21: 5 new craft systems
+S.HingeMaker = require("objects.Economy.RoyalHingeMakerSystem")
+S.BoltLatchMaker = require("objects.Economy.RoyalBoltLatchMakerSystem")
+S.RivetMaker = require("objects.Economy.RoyalRivetMakerSystem")
+S.CrownMaker = require("objects.Gameplay.RoyalCrownMakerSystem")
+S.ScepterMaker = require("objects.Gameplay.RoyalScepterMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -959,6 +965,12 @@ local function delayedInit()
     S.BellPullMaker.init(); _G.BellPullMaker = S.BellPullMaker
     S.KeyMaker.init(); _G.KeyMaker = S.KeyMaker
     S.ChainMaker.init(); _G.ChainMaker = S.ChainMaker
+    -- Castle Kingdoms 2027 v3.11.17-v3.11.21: Initialize 5 new craft systems
+    S.HingeMaker.init(); _G.HingeMaker = S.HingeMaker
+    S.BoltLatchMaker.init(); _G.BoltLatchMaker = S.BoltLatchMaker
+    S.RivetMaker.init(); _G.RivetMaker = S.RivetMaker
+    S.CrownMaker.init(); _G.CrownMaker = S.CrownMaker
+    S.ScepterMaker.init(); _G.ScepterMaker = S.ScepterMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1395,6 +1407,12 @@ function game:update(dt)
                 S.BellPullMaker.update(dt)
                 S.KeyMaker.update(dt)
                 S.ChainMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.17-v3.11.21: Update 5 new craft systems
+                S.HingeMaker.update(dt)
+                S.BoltLatchMaker.update(dt)
+                S.RivetMaker.update(dt)
+                S.CrownMaker.update(dt)
+                S.ScepterMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

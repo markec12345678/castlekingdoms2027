@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.21] — 2026-08-09 — Royal Scepter Maker System (6 products, scepters)
+## [v3.11.20] — 2026-08-09 — Royal Crown Maker System (6 products, crowns)
+## [v3.11.19] — 2026-08-09 — Royal Rivet Maker System (6 products, rivets)
+## [v3.11.18] — 2026-08-09 — Royal Bolt & Latch Maker System (6 products, bolts)
+## [v3.11.17] — 2026-08-09 — Royal Hinge Maker System (6 products, hinges)
+
+### Dodano (5 sistemov naenkrat)
+- **Royal Hinge Maker System** — šarnirji za vrata in omare
+  - 6 produktov (železen, pasasti, medeninast, T-šarnir, srebrn, kraljevski vrtljivi)
+  - 4 zgradbe (delavnica, kovačija, dokončevalnica, kraljevski atelje)
+  - Iron, steel, brass, silver, gold supply, load capacity (20-80)
+- **Royal Bolt & Latch Maker System** — zavori in zasuki za ključavnice
+  - 6 produktov (železen zavor, zasuk, medeninast, mrtvi zavor, srebrni, kraljevski slovesni)
+  - 4 zgradbe (delavnica, kovačija, brusilnica, kraljevski atelje)
+  - Iron, steel, brass, silver, gold, jewel supply, security (4-32)
+- **Royal Rivet Maker System** — zakovice za pločevino in oklepe
+  - 6 produktov (železen, bakren, jeklen, medeninast, srebrn, kraljevski zlat)
+  - 4 zgradbe (delavnica, kovačija, glavčilnica, kraljevski atelje)
+  - Iron, copper, steel, brass, silver, gold supply, shear strength (15-30), batch qty 20
+- **Royal Crown Maker System** — krone in diademi za plemstvo
+  - 6 produktov (bronast diadem, srebrna korona, zlat diadem, draguljna korona, kraljevska odprta krona, cesarska zaprta krona)
+  - 4 zgradbe (delavnica, kovačija, draguljarska soba, kraljevski atelje)
+  - Bronze, silver, gold, jewel, pearl supply, prestige (2-50), qty 1, GameEventBus publish
+- **Royal Scepter Maker System** — žezla za plemiče in kralje
+  - 6 produktov (lesena palica, medeninasto, srebrno, zlato, draguljno, kraljevsko cesarsko žezlo)
+  - 4 zgradbe (delavnica, kovačija, draguljna stavilnica, kraljevski atelje)
+  - Wood, brass, silver, gold, jewel, pearl supply, prestige (1-45), GameEventBus publish
+
 ## [v3.11.16] — 2026-08-09 — Royal Chain Maker System (6 products, chains)
 ## [v3.11.15] — 2026-08-09 — Royal Key Maker System (6 products, keys)
 ## [v3.11.14] — 2026-08-09 — Royal Bell Pull System (6 products, bell pulls)
