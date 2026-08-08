@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.9.1] — 2026-08-08 — Royal Ink Maker & Writing Materials System (6 inks, pigments)
+## [v3.9.0] — 2026-08-08 — Royal Soap Maker & Cleansing System (6 products, hygiene)
+## [v3.8.9] — 2026-08-08 — Royal Nail Maker & Hardware System (6 products, fittings)
+## [v3.8.8] — 2026-08-08 — Royal Saddler & Tack Maker System (6 products, horse gear)
+## [v3.8.7] — 2026-08-08 — Royal Fletcher & Arrow Maker System (6 products, ammunition)
+
+### Dodano (5 sistemov naenkrat)
+- **Royal Fletcher & Arrow Maker System** — puščičarstvo in izdelava puščic
+  - 6 produktov (puščica, oklepna, samostrelska, ognjena, tulec, strupena)
+  - 4 zgradbe (delavnica, puščičarna, kovašnica, kraljevska puščičarna)
+  - Wood, metal, feather, oil, poison, leather supply management
+- **Royal Saddler & Tack Maker System** — sedlarstvo in konjska oprema
+  - 6 produktov (sedlo, uzda, vprega, sedlarne vreče, bojno sedlo, kraljevsko sedlo)
+  - 4 zgradbe (delavnica, konjska oprema, usnjarnica, kraljevska sedlarna)
+  - Speed, combat, control, load, cargo bonuses
+- **Royal Nail Maker & Hardware System** — žebljarstvo in kovinska oprema
+  - 6 produktov (žeblji, tečaji, nosilci, rešetke, ključavnice, okrasni okovji)
+  - 4 zgradbe (žebeljarna, žebeljnica, železnina, kraljevska železnina)
+  - Iron, copper supply, security bonuses
+- **Royal Soap Maker & Cleansing System** — milarstvo in higiena
+  - 6 produktov (milo, dišeče milo, lužina, pralni prašek, zdravilno milo, kraljevsko milo)
+  - 4 zgradbe (milarna, milarna, pepelarna, kraljevska milarna)
+  - Fat, ash, herb, water, oil supply, hygiene in aroma bonuses
+- **Royal Ink Maker & Writing Materials System** — črnilkarstvo in pisalne potrebščine
+  - 6 produktov (železno galno, čađno, rdeče, zlato, nevidno, kraljevsko črnilo)
+  - 4 zgradbe (črnilnica, mlin, pigmentna delavnica, kraljevska črnilnica)
+  - Iron, gall, soot, oil, cinnabar, gold, gum, lemon supply management
+
 ## [v3.8.6] — 2026-08-08 — Royal Chandler & Lamp Maker System (6 products, light, oil)
 ## [v3.8.5] — 2026-08-08 — Royal Locksmith & Security System (6 products, locks, keys)
 ## [v3.8.4] — 2026-08-08 — Royal Ropemaker & Cordage System (6 products, 6 fibers)
