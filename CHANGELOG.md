@@ -2,6 +2,19 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.6.8] — 2026-08-08 — Royal Sculptor & Stone Carving System (6 sculptures, 8 stones)
+
+### Dodano
+- **Royal Sculptor & Stone Carving System** — kiparstvo in kamnoseštvo
+  - 6 tipov kiparstev (kip, poprsje, relief, gargoj, sarkofag, spomenik)
+  - 8 tipov kamna (marmor, granit, peščenjak, apnenec, alabaster, bazalt, porfir, žad)
+  - 4 kiparske zgradbe (delavnica, kamnolom, rezbarski atelje, kraljevski atelje)
+  - Sculptor NPC s spretnostjo
+  - Stone carving (časovno klesanje z nevarnostjo počenja)
+  - Stone quality in prestige bonusi (marmor, porfir, žad = višji prestiž)
+  - Monument construction za javne spomenike
+  - Quality system (kakovost iz zgradb, kiparja in kamna)
+
 ## [v3.6.7] — 2026-08-08 — Royal Bookbinder & Library System (6 bindings, 8 categories)
 
 ### Dodano
