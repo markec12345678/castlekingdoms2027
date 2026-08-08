@@ -2,6 +2,19 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.6.7] — 2026-08-08 — Royal Bookbinder & Library System (6 bindings, 8 categories)
+
+### Dodano
+- **Royal Bookbinder & Library System** — vezave knjig in knjižničarstvo
+  - 6 tipov vezav (mehka, usnjena, lesena, draguljarna, prikovana, kraljevska)
+  - 8 kategorij knjig (teologija, filozofija, pravo, medicina, zgodovina, poezija, znanost, bestiarij)
+  - 4 knjižnične zgradbe (omarica, knjižnica, skriptorijski arhiv, kraljevska knjižnica)
+  - Bookbinder NPC s spretnostjo
+  - Book binding (časovna vezava s kvaliteto)
+  - Knowledge, faith, health in happiness bonusi iz knjig
+  - Library capacity management
+  - Quality system (kakovost iz zgradb in vezalca)
+
 ## [v3.6.6] — 2026-08-08 — Royal Dyer & Color System (8 dye sources, 6 colors, extraction)
 
 ### Dodano
