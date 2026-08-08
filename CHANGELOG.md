@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.7.5] — 2026-08-08 — Royal Brewer Advanced & Distillery System (6 spirits, 8 ingredients, distillation)
+
+### Dodano
+- **Royal Brewer Advanced & Distillery System** — destilacija žganih pijač in žganja
+  - 6 tipov žganih pijač (viski, žganje, gin, vodka, rum, absint)
+  - 8 sestavin (žito, grozdje, brinje, krompir, sladkorni trs, pelin, zelišča, sadje)
+  - 4 destilarske zgradbe (peklena, destilarna, sklep za staranje, kraljevska destilarna)
+  - Distiller NPC s spretnostjo
+  - Distillation process (časovna destilacija z nevarnostjo napak)
+  - Proof level (alkoholna stopnja za vsak tip)
+  - Aging potential ( potencial za staranje)
+  - Quality system (kakovost iz zgradb in destilatarja)
+  - Ingredient management (nakup surovin)
+
 ## [v3.7.4] — 2026-08-08 — Royal Messenger & Postal System (6 messages, 8 messengers, relay)
 
 ### Dodano
