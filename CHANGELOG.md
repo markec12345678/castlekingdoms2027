@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.26] — 2026-08-09 — Royal Tapestry Loom System (6 products, tapestries)
+## [v3.11.25] — 2026-08-09 — Royal Medal Maker System (6 products, medals)
+## [v3.11.24] — 2026-08-09 — Royal Seal Ring Maker System (6 products, seal rings)
+## [v3.11.23] — 2026-08-09 — Royal Orb Maker System (6 products, orbs)
+## [v3.11.22] — 2026-08-09 — Royal Throne Maker System (6 products, thrones)
+
+### Dodano (5 sistemov naenkrat)
+- **Royal Throne Maker System** — plemiška in kraljevska stegna
+  - 6 produktov (hrastovo, rezljano, pozlačeno, marmornato, draguljno, kraljevsko cesarsko)
+  - 4 zgradbe (delavnica, rezbarski atelje, pozlatna soba, kraljevski atelje)
+  - Wood, stone, gold, silver, jewel, pearl, silk supply, prestige (2-80), GameEventBus publish
+- **Royal Orb Maker System** — obla (državne krogle) za insignije
+  - 6 produktov (lesena, medeninasta, srebrna, zlata, draguljna, kraljevska cesarska)
+  - 4 zgradbe (delavnica, kovačija, draguljna soba, kraljevski atelje)
+  - Wood, brass, silver, gold, jewel, pearl supply, prestige (1-40)
+- **Royal Seal Ring Maker System** — pečatni prstani za uradnike in plemiče
+  - 6 produktov (železen, medeninast, srebrn, zlat, draguljni, kraljevski signetni)
+  - 4 zgradbe (delavnica, kovačija, vgravirnica, kraljevski atelje)
+  - Iron, brass, silver, gold, jewel, pearl supply, authority (2-40)
+- **Royal Medal Maker System** — medalje in redni redi za zasluge
+  - 6 produktov (pustrasta, bronasta, srebrna, zlata, emajlirana, kraljevski red)
+  - 4 zgradbe (delavnica, kovačija, emajlnica, kraljevski atelje)
+  - Tin, bronze, silver, gold, glass, jewel, silk supply, prestige (1-35)
+- **Royal Tapestry Loom System** — tapiserije in stenske obešalke
+  - 6 produktov (lnena, volnena, barvna, svila, zlatorobna, kraljevska lovna)
+  - 4 zgradbe (delavnica, stenska soba, barvilnica, kraljevski atelje)
+  - Linen, wool, silk, dye, gold, silver, jewel supply, warmth (5-20), GameEventBus publish
+
 ## [v3.11.21] — 2026-08-09 — Royal Scepter Maker System (6 products, scepters)
 ## [v3.11.20] — 2026-08-09 — Royal Crown Maker System (6 products, crowns)
 ## [v3.11.19] — 2026-08-09 — Royal Rivet Maker System (6 products, rivets)

@@ -274,6 +274,12 @@ S.BoltLatchMaker = require("objects.Economy.RoyalBoltLatchMakerSystem")
 S.RivetMaker = require("objects.Economy.RoyalRivetMakerSystem")
 S.CrownMaker = require("objects.Gameplay.RoyalCrownMakerSystem")
 S.ScepterMaker = require("objects.Gameplay.RoyalScepterMakerSystem")
+-- Castle Kingdoms 2027 v3.11.22-v3.11.26: 5 new craft systems
+S.ThroneMaker = require("objects.Gameplay.RoyalThroneMakerSystem")
+S.OrbMaker = require("objects.Gameplay.RoyalOrbMakerSystem")
+S.SealRingMaker = require("objects.Gameplay.RoyalSealRingMakerSystem")
+S.MedalMaker = require("objects.Gameplay.RoyalMedalMakerSystem")
+S.TapestryLoom = require("objects.Economy.RoyalTapestryLoomSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -971,6 +977,12 @@ local function delayedInit()
     S.RivetMaker.init(); _G.RivetMaker = S.RivetMaker
     S.CrownMaker.init(); _G.CrownMaker = S.CrownMaker
     S.ScepterMaker.init(); _G.ScepterMaker = S.ScepterMaker
+    -- Castle Kingdoms 2027 v3.11.22-v3.11.26: Initialize 5 new craft systems
+    S.ThroneMaker.init(); _G.ThroneMaker = S.ThroneMaker
+    S.OrbMaker.init(); _G.OrbMaker = S.OrbMaker
+    S.SealRingMaker.init(); _G.SealRingMaker = S.SealRingMaker
+    S.MedalMaker.init(); _G.MedalMaker = S.MedalMaker
+    S.TapestryLoom.init(); _G.TapestryLoom = S.TapestryLoom
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1413,6 +1425,12 @@ function game:update(dt)
                 S.RivetMaker.update(dt)
                 S.CrownMaker.update(dt)
                 S.ScepterMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.22-v3.11.26: Update 5 new craft systems
+                S.ThroneMaker.update(dt)
+                S.OrbMaker.update(dt)
+                S.SealRingMaker.update(dt)
+                S.MedalMaker.update(dt)
+                S.TapestryLoom.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
