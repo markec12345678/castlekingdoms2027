@@ -2,6 +2,22 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.3.4] — 2026-08-08 — Royal Apothecary & Medicine System (8 herbs, 6 remedies, poisons)
+
+### Dodano
+- **Royal Apothecary & Medicine System** — zdravilstvo, zelišča in strupi
+  - 8 tipov zelišč (mandragora, špaj, žajbelj, rožmarin, česen, volčje jabolko, pelin, vrobnica)
+  - 6 tipov zdravil (zdravilni napoj, protistrup, sredstvo proti bolečini, tonik, umirjevalo, poživilo)
+  - 4 tipi strupov (strup podgan, volčji, počasna smrt, uspavalni napoj)
+  - 3 apothekarske zgradbe (zeliščni vrt, delavnica, laboratorij)
+  - Apothecary NPC s spretnostjo
+  - Herb cultivation (gojenje zelišč na vrtu)
+  - Remedy crafting (priprava zdravil)
+  - Poison crafting (samo v laboratoriju)
+  - Healing the ruler (zdravljenje vladarja)
+  - Disease prevention (protistrupi)
+  - Skill progression apothekarja
+
 ## [v3.3.3] — 2026-08-08 — Royal Astrologer & Omens System (6 omens, 8 prophecies)
 
 ### Dodano
