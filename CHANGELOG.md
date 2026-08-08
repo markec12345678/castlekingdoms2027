@@ -2,6 +2,21 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.4.1] — 2026-08-08 — Royal Alchemist & Transmutation System (6 processes, philosopher's stone)
+
+### Dodano
+- **Royal Alchemist & Transmutation System** — alkimija in transmutacija
+  - 6 alkimističnih procesov (transmutacija, eliksir življenja, kamen modrosti, ...)
+  - 4 alkimistični materiali (živo srebro, žveplo, sol, svinec)
+  - 3 laboratorijske zgradbe (koča, laboratorij, veliki laboratorij)
+  - Alchemist NPC s spretnostjo
+  - Transmutation attempts (svinec v zlato, 15% uspeh)
+  - Elixir brewing (zdravilni, moči, nevidnosti)
+  - Philosopher's stone (legendarni quest, neskončno zlato)
+  - Explosion risk (neuspešni poskusi lahko eksplodirajo)
+  - Alchemical discoveries (random bonusi)
+  - Material trading (kupovanje materialov)
+
 ## [v3.4.0] — 2026-08-08 — Royal Gardener & Ornamental Gardens System (6 gardens, 8 plants)
 
 ### Dodano
