@@ -184,6 +184,7 @@ S.Alchemist = require("objects.Config.RoyalAlchemistTransmutationSystem")
 S.Hunt = require("objects.Gameplay.RoyalMasterOfHuntGameSystem")
 S.Forester = require("objects.Gameplay.RoyalForesterWoodlandSystem")
 S.Genetics = require("objects.Gameplay.RoyalFalconryBreedingGeneticsSystem")
+S.Music = require("objects.Gameplay.RoyalComposerMusicSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -710,6 +711,9 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v3.4.4: Initialize Royal Falconry Breeding & Genetics System
     S.Genetics.init()
     _G.Genetics = S.Genetics
+    -- Castle Kingdoms 2027 v3.4.5: Initialize Royal Composer & Music System
+    S.Music.init()
+    _G.Music = S.Music
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1022,6 +1026,8 @@ function game:update(dt)
                 S.Forester.update(dt)
                 -- Castle Kingdoms 2027 v3.4.4: Update Genetics System
                 S.Genetics.update(dt)
+                -- Castle Kingdoms 2027 v3.4.5: Update Royal Music
+                S.Music.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

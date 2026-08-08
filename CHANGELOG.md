@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.4.5] — 2026-08-08 — Royal Composer & Music System (6 instruments, 8 compositions)
+
+### Dodano
+- **Royal Composer & Music System** — dvorna glasba in kompozicije
+  - 6 tipov instrumentov (lutnja, harfa, flavta, boben, orgle, violina)
+  - 8 tipov kompozicij (maša, madrigal, balada, ples, himna, žalostinka, sonata, opera)
+  - 3 glasbene zgradbe (soba, koncertna dvorana, operna hiša)
+  - Composer NPC s spretnostjo
+  - Composition creation (časovno ustvarjanje)
+  - Public performances (z bonusi k sreči, veri, morali)
+  - Court orchestra (najem glasbenikov)
+  - Instrument condition (degradacija s časom)
+  - Quality system (kakovost iz zgradb in skladatelja)
+
 ## [v3.4.4] — 2026-08-08 — Royal Falconry Breeding & Genetics System (8 traits, 6 bloodlines)
 
 ### Dodano
