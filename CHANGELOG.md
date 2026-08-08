@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.7.4] — 2026-08-08 — Royal Messenger & Postal System (6 messages, 8 messengers, relay)
+
+### Dodano
+- **Royal Messenger & Postal System** — kurirji, pošta in komunikacijska mreža
+  - 6 tipov sporočil (odlok, diplomatsko, vojaško, trgovsko, osebno, vohunsko)
+  - 8 tipov kurirjev (kurir, jahač, relay, golob, signalni ogenj, mornariški, diplomatski, vohun)
+  - 4 poštne zgradbe (postaja, relay hiša, golobnjak, kraljevska pošta)
+  - Postmaster NPC s spretnostjo
+  - Message delivery (časovna dostava z hitrostjo in zanesljivostjo)
+  - Interception risk (nevarnost prestrezanja za tajna sporočila)
+  - Relay network za dolge razdalje
+  - Carrier pigeon system
+  - Energy management za kurirje
+
 ## [v3.7.3] — 2026-08-08 — Royal Tax Collector & Revenue System (6 methods, 8 districts, evasion)
 
 ### Dodano
