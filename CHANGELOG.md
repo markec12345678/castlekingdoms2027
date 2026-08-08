@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.5.9] — 2026-08-08 — Royal Weaver & Textile System (6 fabrics, 8 products, dyeing)
+
+### Dodano
+- **Royal Weaver & Textile System** — tkanje, tekstil in tapiserije
+  - 6 tipov tkanin (lan, volna, svila, bombaž, žamet, brokat)
+  - 8 tekstilnih produktov (tkanina, obleka, tapiserija, zastava, preproga, zavesa, oltarno pregrinjalo, prijem)
+  - 4 tekstilne zgradbe (tkalna delavnica, barvarska hiša, valilnica, kraljevska statva)
+  - Weaver NPC s spretnostjo
+  - Raw material management (lan, volna, svila)
+  - Dyeing system (barvanje iz barvarske hiše)
+  - Tapestry creation (časovno tkanje umetnin)
+  - Fabric weaving in product making
+  - Quality system (kakovost iz zgradb in tkalčka)
+
 ## [v3.5.8] — 2026-08-08 — Royal Potter & Ceramics System (6 pottery types, 8 products, firing)
 
 ### Dodano

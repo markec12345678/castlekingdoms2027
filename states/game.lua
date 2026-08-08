@@ -198,6 +198,7 @@ S.Comedy = require("objects.Gameplay.RoyalJesterAdvancedCourtComedySystem")
 S.Cupbearer = require("objects.Gameplay.RoyalCupbearerTasterSystem")
 S.Chandlery = require("objects.Economy.RoyalChandleryWaxWorksSystem")
 S.Potter = require("objects.Economy.RoyalPotterCeramicsSystem")
+S.Weaver = require("objects.Economy.RoyalWeaverTextileSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -766,6 +767,9 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v3.5.8: Initialize Royal Potter & Ceramics System
     S.Potter.init()
     _G.Potter = S.Potter
+    -- Castle Kingdoms 2027 v3.5.9: Initialize Royal Weaver & Textile System
+    S.Weaver.init()
+    _G.Weaver = S.Weaver
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1106,6 +1110,8 @@ function game:update(dt)
                 S.Chandlery.update(dt)
                 -- Castle Kingdoms 2027 v3.5.8: Update Royal Potter
                 S.Potter.update(dt)
+                -- Castle Kingdoms 2027 v3.5.9: Update Royal Weaver
+                S.Weaver.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
