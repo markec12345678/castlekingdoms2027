@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.31] — 2026-08-09 — Royal Heraldic Flag Maker System (6 products, flags)
+## [v3.11.30] — 2026-08-09 — Royal Banner Maker System (6 products, banners)
+## [v3.11.29] — 2026-08-09 — Royal Cushion Maker System (6 products, cushions)
+## [v3.11.28] — 2026-08-09 — Royal Carpet Loom System (6 products, carpets)
+## [v3.11.27] — 2026-08-09 — Royal Stained Glass Maker System (6 products, stained glass)
+
+### Dodano (5 sistemov naenkrat)
+- **Royal Stained Glass Maker System** — svetla steklena okna
+  - 6 produktov (preprosta svinčevana, geometrijski, floralno, heraldično, zlatorobno, kraljevski rozetno okno)
+  - 4 zgradbe (delavnica, pečnica, slikalnica, kraljevski atelje)
+  - Glass, lead, paint, gold, silver, jewel supply, light transmission (5-20), GameEventBus publish
+- **Royal Carpet Loom System** — tkane preproge
+  - 6 produktov (trotasta, volnena, barvna, vozlana, svilena perzijska, kraljevska lovna)
+  - 4 zgradbe (delavnica, tkalnica, barvilnica, kraljevski atelje)
+  - Rush, wool, silk, dye, gold, silver, jewel supply, warmth (3-16)
+- **Royal Cushion Maker System** — blazine in prestolne blazine
+  - 6 produktov (slamnata, volnena, peresna, vezena, zlatorobna, kraljevska prestolna)
+  - 4 zgradbe (delavnica, šivalnica, vezenilnica, kraljevski atelje)
+  - Straw, linen, wool, feather, silk, thread, gold, silver, jewel supply, comfort (4-22)
+- **Royal Banner Maker System** — transparenti za dvor in procesije
+  - 6 produktov (lneni, poslikani, svileni, vezeni, zlatorobni, kraljevski procesijski)
+  - 4 zgradbe (delavnica, slikalnica, vezenilnica, kraljevski atelje)
+  - Linen, silk, paint, thread, gold, silver, jewel supply, visibility (8-35)
+- **Royal Heraldic Flag Maker System** — heraldične zastave in bojni standardi
+  - 6 produktov (kljunasta, gonfalon, standard, hišna zastava, bojni standard, kraljevski slovesni)
+  - 4 zgradbe (delavnica, heraldična soba, pozlatnica, kraljevski atelje)
+  - Linen, silk, paint, thread, gold, silver, jewel supply, morale boost (2-35), GameEventBus publish
+
 ## [v3.11.26] — 2026-08-09 — Royal Tapestry Loom System (6 products, tapestries)
 ## [v3.11.25] — 2026-08-09 — Royal Medal Maker System (6 products, medals)
 ## [v3.11.24] — 2026-08-09 — Royal Seal Ring Maker System (6 products, seal rings)

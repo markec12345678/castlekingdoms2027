@@ -280,6 +280,12 @@ S.OrbMaker = require("objects.Gameplay.RoyalOrbMakerSystem")
 S.SealRingMaker = require("objects.Gameplay.RoyalSealRingMakerSystem")
 S.MedalMaker = require("objects.Gameplay.RoyalMedalMakerSystem")
 S.TapestryLoom = require("objects.Economy.RoyalTapestryLoomSystem")
+-- Castle Kingdoms 2027 v3.11.27-v3.11.31: 5 new craft systems
+S.StainedGlassMaker = require("objects.Economy.RoyalStainedGlassMakerSystem")
+S.CarpetLoom = require("objects.Economy.RoyalCarpetLoomSystem")
+S.CushionMaker = require("objects.Economy.RoyalCushionMakerSystem")
+S.BannerMaker = require("objects.Economy.RoyalBannerMakerSystem")
+S.HeraldicFlagMaker = require("objects.Gameplay.RoyalHeraldicFlagMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -983,6 +989,12 @@ local function delayedInit()
     S.SealRingMaker.init(); _G.SealRingMaker = S.SealRingMaker
     S.MedalMaker.init(); _G.MedalMaker = S.MedalMaker
     S.TapestryLoom.init(); _G.TapestryLoom = S.TapestryLoom
+    -- Castle Kingdoms 2027 v3.11.27-v3.11.31: Initialize 5 new craft systems
+    S.StainedGlassMaker.init(); _G.StainedGlassMaker = S.StainedGlassMaker
+    S.CarpetLoom.init(); _G.CarpetLoom = S.CarpetLoom
+    S.CushionMaker.init(); _G.CushionMaker = S.CushionMaker
+    S.BannerMaker.init(); _G.BannerMaker = S.BannerMaker
+    S.HeraldicFlagMaker.init(); _G.HeraldicFlagMaker = S.HeraldicFlagMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1431,6 +1443,12 @@ function game:update(dt)
                 S.SealRingMaker.update(dt)
                 S.MedalMaker.update(dt)
                 S.TapestryLoom.update(dt)
+                -- Castle Kingdoms 2027 v3.11.27-v3.11.31: Update 5 new craft systems
+                S.StainedGlassMaker.update(dt)
+                S.CarpetLoom.update(dt)
+                S.CushionMaker.update(dt)
+                S.BannerMaker.update(dt)
+                S.HeraldicFlagMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
