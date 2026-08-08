@@ -2,6 +2,21 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.4.6] — 2026-08-08 — Royal Philosopher & Wisdom System (6 schools, 8 topics, research)
+
+### Dodano
+- **Royal Philosopher & Wisdom System** — filozofija in modrost na dvoru
+  - 6 filozofskih šol (stoicizem, platonizem, aristotelizem, sholastika, misticizem, humanizem)
+  - 8 tem modrosti (etika, politika, metafizika, logika, estetika, epistemologija, teologija, naravna filozofija)
+  - 3 akademske zgradbe (študijska soba, akademija, velika univerza)
+  - Philosopher NPC s spretnostjo in šolo
+  - School adoption (sprejetje filozofske šole z bonusi)
+  - Research system (raziskovanje tem z časom)
+  - Philosophical works publication
+  - Student mentoring (3-mesečni program)
+  - Knowledge in culture bonusi
+  - Quality system (kakovost iz zgradb in filozofa)
+
 ## [v3.4.5] — 2026-08-08 — Royal Composer & Music System (6 instruments, 8 compositions)
 
 ### Dodano
