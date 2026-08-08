@@ -262,6 +262,12 @@ S.ClayPipeMaker = require("objects.Economy.RoyalClayPipeMakerSystem")
 S.SconceMaker = require("objects.Economy.RoyalSconceWallLightSystem")
 S.SignBoardMaker = require("objects.Gameplay.RoyalSignBoardInnSignSystem")
 S.LanternMaker = require("objects.Economy.RoyalLanternStreetLightSystem")
+-- Castle Kingdoms 2027 v3.11.12-v3.11.16: 5 new craft systems
+S.FunnelMaker = require("objects.Economy.RoyalFunnelMakerSystem")
+S.CofferMaker = require("objects.Economy.RoyalCofferLockboxSystem")
+S.BellPullMaker = require("objects.Economy.RoyalBellPullSystem")
+S.KeyMaker = require("objects.Economy.RoyalKeyMakerSystem")
+S.ChainMaker = require("objects.Economy.RoyalChainMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -947,6 +953,12 @@ local function delayedInit()
     S.SconceMaker.init(); _G.SconceMaker = S.SconceMaker
     S.SignBoardMaker.init(); _G.SignBoardMaker = S.SignBoardMaker
     S.LanternMaker.init(); _G.LanternMaker = S.LanternMaker
+    -- Castle Kingdoms 2027 v3.11.12-v3.11.16: Initialize 5 new craft systems
+    S.FunnelMaker.init(); _G.FunnelMaker = S.FunnelMaker
+    S.CofferMaker.init(); _G.CofferMaker = S.CofferMaker
+    S.BellPullMaker.init(); _G.BellPullMaker = S.BellPullMaker
+    S.KeyMaker.init(); _G.KeyMaker = S.KeyMaker
+    S.ChainMaker.init(); _G.ChainMaker = S.ChainMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1377,6 +1389,12 @@ function game:update(dt)
                 S.SconceMaker.update(dt)
                 S.SignBoardMaker.update(dt)
                 S.LanternMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.12-v3.11.16: Update 5 new craft systems
+                S.FunnelMaker.update(dt)
+                S.CofferMaker.update(dt)
+                S.BellPullMaker.update(dt)
+                S.KeyMaker.update(dt)
+                S.ChainMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

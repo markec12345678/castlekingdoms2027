@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.16] — 2026-08-09 — Royal Chain Maker System (6 products, chains)
+## [v3.11.15] — 2026-08-09 — Royal Key Maker System (6 products, keys)
+## [v3.11.14] — 2026-08-09 — Royal Bell Pull System (6 products, bell pulls)
+## [v3.11.13] — 2026-08-09 — Royal Coffer & Lockbox System (6 products, coffers)
+## [v3.11.12] — 2026-08-09 — Royal Funnel Maker System (6 products, funnels)
+
+### Dodano (5 sistemov naenkrat)
+- **Royal Funnel Maker System** — lijaki za prelive in pretoke
+  - 6 produktov (kositrni, bakreni, medeninasti, srebrni, zlatorobi, kraljevski alkimični)
+  - 4 zgradbe (delavnica, livarna, natančnostna soba, kraljevski atelje)
+  - Tin, copper, brass, silver, gold, glass supply, flow rate (5-20)
+- **Royal Coffer & Lockbox System** — skrinje, zaboji in zakladniški zaboji
+  - 6 produktov (borova skrinjica, hrastova skrinja, železno okovana, cedrova omara, srebrno obrobljena, kraljevski zakladniški zaboj)
+  - 4 zgradbe (delavnica, mizarski atelje, železarna, kraljevski atelje)
+  - Wood, iron, silver, gold, jewel supply, capacity (50-1000)
+- **Royal Bell Pull System** — povodi za zvonce in kordice
+  - 6 produktov (konopljev, pleteni, svileni, kitasti, srebrnožični, kraljevski slovesni)
+  - 4 zgradbe (delavnica, pletilnica, svilničnica, kraljevski atelje)
+  - Hemp, silk, silver, gold supply, length (5-30)
+- **Royal Key Maker System** — ključi za ključavnice
+  - 6 produktov (železen, jeklen, medeninast, srebrn, zlat, kraljevski glavni ključ)
+  - 4 zgradbe (delavnica, kovačija, brusilnica, kraljevski atelje)
+  - Iron, steel, brass, silver, gold, jewel supply, security (5-35)
+- **Royal Chain Maker System** — verige za praktične in okrasne namene
+  - 6 produktov (železna, jeklena, medeninasta, srebrna, zlata, kraljevski verižni pas)
+  - 4 zgradbe (delavnica, kovačija, žična vlečilnica, kraljevski atelje)
+  - Iron, steel, brass, silver, gold, jewel supply, tensile strength (20-40)
+
 ## [v3.11.11] — 2026-08-09 — Royal Lantern & Street Light System (6 products, lanterns)
 ## [v3.11.10] — 2026-08-09 — Royal Sign Board & Inn Sign System (6 products, signs)
 ## [v3.11.9] — 2026-08-09 — Royal Sconce & Wall Light System (6 products, sconces)
