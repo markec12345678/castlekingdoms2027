@@ -2,18 +2,18 @@
 
 Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT). Navdihnjen s klasičnimi srednjeveškimi strateškimi igrami.
 
-[![Version](https://img.shields.io/badge/version-3.6.1-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
+[![Version](https://img.shields.io/badge/version-3.6.6-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
-[![Syntax](https://img.shields.io/badge/syntax-685%2F688%20pass-brightgreen.svg)](#)
-[![Bugs](https://img.shields.io/badge/bugs%20fixed-140-brightgreen.svg)](#)
-[![Audit](https://img.shields.io/badge/audit%20rounds-75-blue.svg)](#)
+[![Syntax](https://img.shields.io/badge/syntax-690%2F693%20pass-brightgreen.svg)](#)
+[![Bugs](https://img.shields.io/badge/bugs%20fixed-145-brightgreen.svg)](#)
+[![Audit](https://img.shields.io/badge/audit%20rounds-80-blue.svg)](#)
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v3.6.1](https://github.com/markec12345678/castlekingdoms2027/releases)
-- **.love datoteka**: `castlekingdoms2027-v3.6.1.love` (34 MB brez LFS, 305 MB z LFS)
-- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 75 krogov pregleda, 140+ popravkov
+- **Zadnja izdaja**: [v3.6.6](https://github.com/markec12345678/castlekingdoms2027/releases)
+- **.love datoteka**: `castlekingdoms2027-v3.6.6.love` (34 MB brez LFS, 305 MB z LFS)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 80 krogov pregleda, 145+ popravkov
 - **LFS**: Po git clone zahtevaj `git lfs pull` za prave PNG asset-e (305 MB)
 
 ## Zagon
@@ -35,13 +35,13 @@ love .
 
 | Metrika | Vrednost |
 |---------|----------|
-| Lua datoteke | 688 |
-| Vrstic kode | ~421.000 |
+| Lua datoteke | 693 |
+| Vrstic kode | ~435.000 |
 | GLSL shaderji | 12 |
 | Jezikov | 32 |
-| Verzij | 120+ (v1.7.9 → v3.6.1) |
-| Bug popravkov | 140 (75 krogov pregleda) |
-| Syntax pass rate | 685/688 (99,5%) |
+| Verzij | 125+ (v1.7.9 → v3.6.6) |
+| Bug popravkov | 145 (80 krogov pregleda) |
+| Syntax pass rate | 690/693 (99,5%) |
 | PNG assetov | 1.206 |
 | Kampanjske misije | 21 (10 Fernhaven + 11 zgodovinskih) |
 | Skirmish misije | 15 |
@@ -250,6 +250,21 @@ love .
 | **Tipi ur** | **6** |
 | **Časovni produkti** | **8** |
 | **Urarske zgradbe** | **4** |
+| **Dragi kamni** | **8** |
+| **Tipi nakita** | **6** |
+| **Zlatarske zgradbe** | **4** |
+| **Tipi rokopisov** | **6** |
+| **Iluminacije** | **8** |
+| **Skriptorijske zgradbe** | **4** |
+| **Tipi pogrebov** | **6** |
+| **Tehnike balzamiranja** | **8** |
+| **Pogrebne zgradbe** | **4** |
+| **Dišavne sestavine** | **8** |
+| **Tipi parfumov** | **6** |
+| **Perfumerske zgradbe** | **4** |
+| **Viri barv** | **8** |
+| **Kategorije barv** | **6** |
+| **Barvarske zgradbe** | **4** |
 
 ## Funkcije
 
@@ -763,11 +778,16 @@ Glej [CONTRIBUTING.md](CONTRIBUTING.md) za vodič za razvijalce.
 
 ## Zgodovina razvoja
 
-Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v3.6.1 (120+ verzij, 75 krogov pregleda, 140+ popravkov).
+Glej [CHANGELOG.md](CHANGELOG.md) za vse verzije od v1.7.9 do v3.6.6 (125+ verzij, 80 krogov pregleda, 145+ popravkov).
 
 ## Ključne verzije
 
-- **v3.6.1** — Royal Clockmaker & Timekeeping System (6 ur, 8 produktov, natančnost)
+- **v3.6.6** — Royal Dyer & Color System (8 virov barv, 6 barv, ekstrakcija)
+- **v3.6.5** — Royal Perfumer & Fragrance System (8 sestavin, 6 parfumov)
+- **v3.6.4** — Royal Embalmer & Funerary System (6 pogrebov, 8 balzamiranj)
+- **v3.6.3** — Royal Calligrapher & Illumination System (6 rokopisov, 8 iluminacij)
+- **v3.6.2** — Royal Jeweler & Gemstone System (8 kamnov, 6 nakita)
+- **v3.6.1** — Royal Clockmaker & Timekeeping System (6 ur, 8 produktov)
 - **v3.6.0** — Royal Glassmaker & Stained Glass System (6 stekel, 8 produktov, vitraji)
 - **v3.5.9** — Royal Weaver & Textile System (6 tkanin, 8 produktov, tapiserije)
 - **v3.5.8** — Royal Potter & Ceramics System (6 keramik, 8 produktov, žganje)
