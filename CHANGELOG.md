@@ -2,6 +2,21 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.3.2] — 2026-08-08 — Royal Pet & Menagerie System (8 animals, breeding, exhibitions)
+
+### Dodano
+- **Royal Pet & Menagerie System** — eksotične živali in kraljevska menažerija
+  - 8 tipov živali (lev, medved, sokol, pes, panter, slon, opica, pavan)
+  - 4 menažerijske zgradbe (kletka, ograja, ptičnjak, velika menažerija)
+  - Caretakers (NPC skrbniki s spretnostjo)
+  - Animal training (za predstave in lov)
+  - Animal health and happiness
+  - Breeding program (redke živali, mladiči)
+  - Public exhibitions (dvigujejo srečo in prestiž)
+  - Hunting with animals (sokoli in psi za lov)
+  - Animal lifespan in staranje
+  - Random danger eventi (poškodbe)
+
 ## [v3.3.1] — 2026-08-08 — Royal Feast & Banquet System (6 feasts, 8 dishes, disasters)
 
 ### Dodano
