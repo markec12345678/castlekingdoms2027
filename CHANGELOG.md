@@ -2,6 +2,19 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.6.9] — 2026-08-08 — Royal Painter & Fresco System (6 paintings, 8 pigments)
+
+### Dodano
+- **Royal Painter & Fresco System** — slikarstvo, freske in portreti
+  - 6 tipov slik (portret, freska, oltarna slika, krajina, miniatura, ikona)
+  - 8 pigmentov (cinabarit, ultramarine, zlata barva, svinčeno belo, okra, umbra, verdigris, črno oglje)
+  - 4 slikarske zgradbe (atelje, freskarska delavnica, cehovska hiša, kraljevski atelje)
+  - Painter NPC s spretnostjo
+  - Fresco painting (časovno slikanje z intenziteto pigmentov)
+  - Pigment management (nakup in uporaba različnih barv)
+  - Prestige, happiness in faith bonusi iz slik
+  - Quality system (kakovost iz zgradb, slikarja in pigmentov)
+
 ## [v3.6.8] — 2026-08-08 — Royal Sculptor & Stone Carving System (6 sculptures, 8 stones)
 
 ### Dodano
