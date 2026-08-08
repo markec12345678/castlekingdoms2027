@@ -204,6 +204,7 @@ S.Clockmaker = require("objects.Config.RoyalClockmakerTimekeepingSystem")
 S.Jeweler = require("objects.Economy.RoyalJewelerGemstoneSystem")
 S.Calligraphy = require("objects.Config.RoyalCalligrapherIlluminationSystem")
 S.Funerary = require("objects.Gameplay.RoyalEmbalmerFunerarySystem")
+S.Perfumer = require("objects.Economy.RoyalPerfumerFragranceSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -790,6 +791,9 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v3.6.4: Initialize Royal Embalmer & Funerary System
     S.Funerary.init()
     _G.Funerary = S.Funerary
+    -- Castle Kingdoms 2027 v3.6.5: Initialize Royal Perfumer & Fragrance System
+    S.Perfumer.init()
+    _G.Perfumer = S.Perfumer
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1142,6 +1146,8 @@ function game:update(dt)
                 S.Calligraphy.update(dt)
                 -- Castle Kingdoms 2027 v3.6.4: Update Royal Funerary
                 S.Funerary.update(dt)
+                -- Castle Kingdoms 2027 v3.6.5: Update Royal Perfumer
+                S.Perfumer.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

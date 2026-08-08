@@ -2,6 +2,20 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.6.5] — 2026-08-08 — Royal Perfumer & Fragrance System (8 ingredients, 6 perfumes, blending)
+
+### Dodano
+- **Royal Perfumer & Fragrance System** — parfumi, dišave in eterična olja
+  - 8 dišavnih sestavin (vrtnica, sivka, jasmin, sandalovina, mošus, jantar, kadilo, mira)
+  - 6 tipov parfumov (cologne, toilette, parfum, attar, pomander, kadilo)
+  - 4 perfumerske zgradbe (destilarna, delavnica, sklep za staranje, kraljevska perfumerija)
+  - Perfumer NPC s spretnostjo
+  - Fragrance blending (mešanje sestavin z aromatsko močjo)
+  - Essential oil distillation
+  - Ingredient management (nakup dišavnih sestavin)
+  - Happiness, faith in health bonusi iz dišav
+  - Quality system (kakovost iz zgradb, perfumista in aromatske moči)
+
 ## [v3.6.4] — 2026-08-08 — Royal Embalmer & Funerary System (6 funerals, 8 embalming, tombs)
 
 ### Dodano
