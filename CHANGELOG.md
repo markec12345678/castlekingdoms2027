@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.356] — 2026-08-09 — Royal Evaporating Basin Maker System (6 products, evaporating basins)
+## [v3.11.355] — 2026-08-09 — Royal Crystallization Dish Maker System (6 products, crystallization dishes)
+## [v3.11.354] — 2026-08-09 — Royal Sublimation Apparatus Maker System (6 products, sublimation apparatuses)
+## [v3.11.353] — 2026-08-09 — Royal Filtration Apparatus Maker System (6 products, filtration apparatuses)
+## [v3.11.352] — 2026-08-09 — Royal Distillation Apparatus Maker System (6 products, distillation apparatuses)
 ## [v3.11.351] — 2026-08-09 — Royal Processional Canopy Maker System (6 products, processional canopies)
+
+### Dodano (5 sistemov naenkrat — kemijski laboratorijski pripomočki)
+- **Royal Distillation Apparatus Maker System** — destilatorne naprave
+  - 6 produktov (steklena, medeninasto okvirjena, srebrnospojna, zlatookrasna, draguljnoventilna, kraljevska velika)
+  - 4 zgradbe (destilatorna delavnica, alkemična podstrešje, mojstrski destilatorski atelje, kraljevska alkemična palača)
+  - Glass, clay, brass, silver, gold, jewel, pearl supply, science (25-95), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Filtration Apparatus Maker System** — filtrirne naprave
+  - 6 produktov (glinena, medeninasto okvirjena, srebrnospojna, zlatookrasna, draguljnoventilna, kraljevska velika)
+  - 4 zgradbe (filtrirna delavnica, alkemična podstrešje, mojstrski filtrirni atelje, kraljevska alkemična palača)
+  - Clay, glass, brass, silver, gold, jewel, pearl supply, science (20-95), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Sublimation Apparatus Maker System** — sublimatorne naprave
+  - 6 produktov (steklena, medeninasto okvirjena, srebrnospojna, zlatookrasna, draguljnoventilna, kraljevska velika)
+  - 4 zgradbe (sublimatorna delavnica, alkemična podstrešje, mojstrski sublimatorski atelje, kraljevska alkemična palača)
+  - Glass, clay, brass, silver, gold, jewel, pearl supply, science (22-95), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Crystallization Dish Maker System** — kristalizacijske posode
+  - 6 produktov (glinena, steklena, srebrnorobna, zlatookrasna, draguljasta, kraljevska velika)
+  - 4 zgradbe (kristalizacijska delavnica, alkemična podstrešje, mojstrski kristalizacijski atelje, kraljevska alkemična palača)
+  - Clay, glass, silver, gold, jewel, pearl supply, science (18-95), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Evaporating Basin Maker System** — uparjevalne kadi
+  - 6 produktov (glinena, bakrena, srebrnorobna, zlatookrasna, draguljasta, kraljevska velika)
+  - 4 zgradbe (uparjevalna delavnica, alkemična podstrešje, mojstrski uparjevalni atelje, kraljevska alkemična palača)
+  - Clay, copper, silver, gold, jewel, pearl supply, science (20-95), happiness (1-12), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.350] — 2026-08-09 — Royal Court Fan Maker System (6 products, court fans)
 ## [v3.11.349] — 2026-08-09 — Royal Parade Shield Maker System (6 products, parade shields)
 ## [v3.11.348] — 2026-08-09 — Royal Ceremonial Sash Maker System (6 products, ceremonial sashes)

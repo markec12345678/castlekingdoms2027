@@ -2,18 +2,18 @@
 
 Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT). Navdihnjen s klasičnimi srednjeveškimi strateškimi igrami.
 
-[![Version](https://img.shields.io/badge/version-3.11.351-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
+[![Version](https://img.shields.io/badge/version-3.11.356-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
-[![Syntax](https://img.shields.io/badge/syntax-1085%2F1088%20pass-brightgreen.svg)](#)
-[![Systems](https://img.shields.io/badge/Royal%20systems-439-blue.svg)](#)
-[![Lua](https://img.shields.io/badge/Lua%20files-1088-green.svg)](#)
+[![Syntax](https://img.shields.io/badge/syntax-1090%2F1093%20pass-brightgreen.svg)](#)
+[![Systems](https://img.shields.io/badge/Royal%20systems-444-blue.svg)](#)
+[![Lua](https://img.shields.io/badge/Lua%20files-1093-green.svg)](#)
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v3.11.351](https://github.com/markec12345678/castlekingdoms2027/releases)
-- **.love datoteka**: `castlekingdoms2027-v3.11.351.love` (34 MB brez LFS, 305 MB z LFS)
-- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 439 Royal sistemov, 1088 Lua datotek
+- **Zadnja izdaja**: [v3.11.356](https://github.com/markec12345678/castlekingdoms2027/releases)
+- **.love datoteka**: `castlekingdoms2027-v3.11.356.love` (34 MB brez LFS, 305 MB z LFS)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 444 Royal sistemov, 1093 Lua datotek
 - **LFS**: Po git clone zahtevaj `git lfs pull` za prave PNG asset-e (305 MB)
 
 ## Zagon

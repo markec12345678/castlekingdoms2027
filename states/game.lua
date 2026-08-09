@@ -637,6 +637,11 @@ S.CeremonialSashMaker = require("objects.Economy.RoyalCeremonialSashMakerSystem"
 S.ParadeShieldMaker = require("objects.Economy.RoyalParadeShieldMakerSystem")
 S.CourtFanMaker = require("objects.Economy.RoyalCourtFanMakerSystem")
 S.ProcessionalCanopyMaker = require("objects.Economy.RoyalProcessionalCanopyMakerSystem")
+S.DistillationApparatusMaker = require("objects.Economy.RoyalDistillationApparatusMakerSystem")
+S.FiltrationApparatusMaker = require("objects.Economy.RoyalFiltrationApparatusMakerSystem")
+S.SublimationApparatusMaker = require("objects.Economy.RoyalSublimationApparatusMakerSystem")
+S.CrystallizationDishMaker = require("objects.Economy.RoyalCrystallizationDishMakerSystem")
+S.EvaporatingBasinMaker = require("objects.Economy.RoyalEvaporatingBasinMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1697,6 +1702,11 @@ local function delayedInit()
     S.ParadeShieldMaker.init(); _G.ParadeShieldMaker = S.ParadeShieldMaker
     S.CourtFanMaker.init(); _G.CourtFanMaker = S.CourtFanMaker
     S.ProcessionalCanopyMaker.init(); _G.ProcessionalCanopyMaker = S.ProcessionalCanopyMaker
+    S.DistillationApparatusMaker.init(); _G.DistillationApparatusMaker = S.DistillationApparatusMaker
+    S.FiltrationApparatusMaker.init(); _G.FiltrationApparatusMaker = S.FiltrationApparatusMaker
+    S.SublimationApparatusMaker.init(); _G.SublimationApparatusMaker = S.SublimationApparatusMaker
+    S.CrystallizationDishMaker.init(); _G.CrystallizationDishMaker = S.CrystallizationDishMaker
+    S.EvaporatingBasinMaker.init(); _G.EvaporatingBasinMaker = S.EvaporatingBasinMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -2502,6 +2512,11 @@ function game:update(dt)
                 S.ParadeShieldMaker.update(dt)
                 S.CourtFanMaker.update(dt)
                 S.ProcessionalCanopyMaker.update(dt)
+                S.DistillationApparatusMaker.update(dt)
+                S.FiltrationApparatusMaker.update(dt)
+                S.SublimationApparatusMaker.update(dt)
+                S.CrystallizationDishMaker.update(dt)
+                S.EvaporatingBasinMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
