@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.366] — 2026-08-09 — Royal Fishing Boat Maker System (6 products, fishing boats)
+## [v3.11.365] — 2026-08-09 — Royal Harpoon Maker System (6 products, harpoons)
+## [v3.11.364] — 2026-08-09 — Royal Fishing Rod Maker System (6 products, fishing rods)
+## [v3.11.363] — 2026-08-09 — Royal Fishing Trap Maker System (6 products, fishing traps)
+## [v3.11.362] — 2026-08-09 — Royal Fishing Net Maker System (6 products, fishing nets)
 ## [v3.11.361] — 2026-08-09 — Royal Sorting Machine Maker System (6 products, sorting machines)
+
+### Dodano (5 sistemov naenkrat — ribiški pripomočki)
+- **Royal Fishing Net Maker System** — ribiške mreže
+  - 6 produktov (vrvična, lanena odmetna, srebrnoobtežena, zlatookrasna, draguljasta, kraljevska velika)
+  - 4 zgradbe (mrežna delavnica, ribiška podstrešje, mojstrski mrežni atelje, kraljevska ribiška palača)
+  - Rope, thread, linen, silver, gold, jewel, pearl supply, food (15-90), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Fishing Trap Maker System** — ribiške vrše
+  - 6 produktov (lesena, vrbovapletena, srebrnooplaščena, zlatookrasna, draguljasta, kraljevska velika)
+  - 4 zgradbe (vršarska delavnica, ribiška podstrešje, mojstrski vršarski atelje, kraljevska ribiška palača)
+  - Wood, rope, leather, silver, gold, jewel, pearl supply, food (12-85), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Fishing Rod Maker System** — ribiške palice
+  - 6 produktov (lesena, bambusova, srebrnavodilna, zlatookrasna, draguljnavaltasta, kraljevska velika)
+  - 4 zgradbe (palicna delavnica, ribiška podstrešje, mojstrski palicni atelje, kraljevska ribiška palača)
+  - Wood, rope, thread, silver, gold, jewel, pearl supply, food (8-72), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Harpoon Maker System** — harpune
+  - 6 produktov (železen, jeklenobodena, srebrnovložena, zlatookrasna, draguljasta, kraljevska velika)
+  - 4 zgradbe (harpunarska delavnica, ribiška podstrešje, mojstrski harpunarski atelje, kraljevska ribiška palača)
+  - Iron, steel, wood, rope, silver, gold, jewel, pearl supply, food (18-95), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Fishing Boat Maker System** — ribiški čolni
+  - 6 produktov (leseni, hrastovotrupni, srebrnoopremljeni, zlatookrasni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (čolnarska delavnica, ladjedelska podstrešje, mojstrski čolnarski atelje, kraljevska ladjedelska palača)
+  - Wood, iron, rope, silver, gold, jewel, pearl supply, food (30-110), happiness (2-13), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.360] — 2026-08-09 — Royal Winnowing Machine Maker System (6 products, winnowing machines)
 ## [v3.11.359] — 2026-08-09 — Royal Thresher Maker System (6 products, threshers)
 ## [v3.11.358] — 2026-08-09 — Royal Reaper Maker System (6 products, reapers)
