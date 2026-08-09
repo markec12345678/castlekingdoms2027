@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.146] — 2026-08-09 — Royal War Dog Trainer System (6 products, war dogs)
+## [v3.11.145] — 2026-08-09 — Royal Hunting Falconer System (6 products, hunts)
+## [v3.11.144] — 2026-08-09 — Royal Hound Breeder System (6 products, hounds)
+## [v3.11.143] — 2026-08-09 — Royal Pigeon Courier System (6 products, pigeons)
+## [v3.11.142] — 2026-08-09 — Royal Falcon Breeder System (6 products, falcons)
+
+### Dodano (5 sistemov naenkrat — živalske rejne serija)
+- **Royal Falcon Breeder System** — vzreja sokolov
+  - 6 produktov (selivski, kragulj, stepska postarna, polarni, srebrno remenski, kraljevski veliki)
+  - 4 zgradbe (sokolarska postaja, sokolarica, trezensko polje, kraljevski atelje)
+  - Falcon egg, meat, silver, gold, jewel supply, yield (40-100), happiness (1-10), batch qty 1, GameEventBus publish
+- **Royal Pigeon Courier System** — golobja pošta
+  - 6 produktov (domovračni, dirkalni, kurirski, srebrno obročkasti, srebrno kletki, kraljevski veliki)
+  - 4 zgradbe (golobja postaja, golobnjak, sporočilnica, kraljevski atelje)
+  - Pigeon, grain, silver, gold, jewel supply, speed (40-100), happiness (1-8), batch qty 1, GameEventBus publish
+- **Royal Hound Breeder System** — vzreja psov za lov
+  - 6 produktov (lovski, sledilni, hrt, srebrnodlaki, srebrno ovratnični, kraljevski veliki)
+  - 4 zgradbe (pasja postaja, pasjak, dresurni dvori, kraljevski atelje)
+  - Hound pup, meat, silver, gold, jewel supply, yield (40-100), happiness (1-9), batch qty 1, GameEventBus publish
+- **Royal Hunting Falconer System** — lov s sokoli
+  - 6 produktov (zajce, fazane, čaplje, žerjave, srebrno remenski, kraljevski veliki)
+  - 4 zgradbe (lovska postaja, lovska koča, sokolarsko polje, kraljevski atelje)
+  - Trained falcon, silver, gold, jewel supply, yield (35-100), happiness (1-9), batch qty 1, GameEventBus publish
+- **Royal War Dog Trainer System** — dresura bojnih psov
+  - 6 produktov (čuvaj, napadni, mastif, srebrno oklepni, srebrno ovratnični, kraljevski veliki)
+  - 4 zgradbe (pasja vojaška postaja, vojaški pasjak, bojni dresurni dvori, kraljevski atelje)
+  - Dog pup, meat, silver, gold, jewel supply, attack (8-55), defense (6-40), happiness (1-10), batch qty 1, GameEventBus publish
+
 ## [v3.11.141] — 2026-08-09 — Royal Ice Cutter System (6 products, ice)
 ## [v3.11.140] — 2026-08-09 — Royal Salt Pan Worker System (6 products, salt)
 ## [v3.11.139] — 2026-08-09 — Royal Whaling Captain System (6 products, whales)

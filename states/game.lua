@@ -418,6 +418,12 @@ S.OysterFarmer = require("objects.Economy.RoyalOysterFarmerSystem")
 S.WhalingCaptain = require("objects.Economy.RoyalWhalingCaptainSystem")
 S.SaltPanWorker = require("objects.Economy.RoyalSaltPanWorkerSystem")
 S.IceCutter = require("objects.Economy.RoyalIceCutterSystem")
+-- Castle Kingdoms 2027 v3.11.142-v3.11.146: 5 new animal breeding systems
+S.FalconBreeder = require("objects.Gameplay.RoyalFalconBreederSystem")
+S.PigeonCourier = require("objects.Gameplay.RoyalPigeonCourierSystem")
+S.HoundBreeder = require("objects.Gameplay.RoyalHoundBreederSystem")
+S.HuntingFalconer = require("objects.Gameplay.RoyalHuntingFalconerSystem")
+S.WarDogTrainer = require("objects.Gameplay.RoyalWarDogTrainerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1259,6 +1265,12 @@ local function delayedInit()
     S.WhalingCaptain.init(); _G.WhalingCaptain = S.WhalingCaptain
     S.SaltPanWorker.init(); _G.SaltPanWorker = S.SaltPanWorker
     S.IceCutter.init(); _G.IceCutter = S.IceCutter
+    -- Castle Kingdoms 2027 v3.11.142-v3.11.146: Initialize 5 new animal breeding systems
+    S.FalconBreeder.init(); _G.FalconBreeder = S.FalconBreeder
+    S.PigeonCourier.init(); _G.PigeonCourier = S.PigeonCourier
+    S.HoundBreeder.init(); _G.HoundBreeder = S.HoundBreeder
+    S.HuntingFalconer.init(); _G.HuntingFalconer = S.HuntingFalconer
+    S.WarDogTrainer.init(); _G.WarDogTrainer = S.WarDogTrainer
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1845,6 +1857,12 @@ function game:update(dt)
                 S.WhalingCaptain.update(dt)
                 S.SaltPanWorker.update(dt)
                 S.IceCutter.update(dt)
+                -- Castle Kingdoms 2027 v3.11.142-v3.11.146: Update 5 new animal breeding systems
+                S.FalconBreeder.update(dt)
+                S.PigeonCourier.update(dt)
+                S.HoundBreeder.update(dt)
+                S.HuntingFalconer.update(dt)
+                S.WarDogTrainer.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
