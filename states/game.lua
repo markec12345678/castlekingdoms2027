@@ -430,6 +430,12 @@ S.StarChartMaker = require("objects.Economy.RoyalStarChartMakerSystem")
 S.PaperMaker = require("objects.Economy.RoyalPaperMakerSystem")
 S.ParchmentMaker = require("objects.Economy.RoyalParchmentMakerSystem")
 S.QuillPenMaker = require("objects.Economy.RoyalQuillPenMakerSystem")
+-- Castle Kingdoms 2027 v3.11.152-v3.11.156: 5 new scientific instrument systems
+S.AstrolabeMaker = require("objects.Economy.RoyalAstrolabeMakerSystem")
+S.AbacusMaker = require("objects.Economy.RoyalAbacusMakerSystem")
+S.BalanceScaleMaker = require("objects.Economy.RoyalBalanceScaleMakerSystem")
+S.SextantMaker = require("objects.Economy.RoyalSextantMakerSystem")
+S.ArmillarySphereMaker = require("objects.Economy.RoyalArmillarySphereMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1283,6 +1289,12 @@ local function delayedInit()
     S.PaperMaker.init(); _G.PaperMaker = S.PaperMaker
     S.ParchmentMaker.init(); _G.ParchmentMaker = S.ParchmentMaker
     S.QuillPenMaker.init(); _G.QuillPenMaker = S.QuillPenMaker
+    -- Castle Kingdoms 2027 v3.11.152-v3.11.156: Initialize 5 new scientific instrument systems
+    S.AstrolabeMaker.init(); _G.AstrolabeMaker = S.AstrolabeMaker
+    S.AbacusMaker.init(); _G.AbacusMaker = S.AbacusMaker
+    S.BalanceScaleMaker.init(); _G.BalanceScaleMaker = S.BalanceScaleMaker
+    S.SextantMaker.init(); _G.SextantMaker = S.SextantMaker
+    S.ArmillarySphereMaker.init(); _G.ArmillarySphereMaker = S.ArmillarySphereMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1881,6 +1893,12 @@ function game:update(dt)
                 S.PaperMaker.update(dt)
                 S.ParchmentMaker.update(dt)
                 S.QuillPenMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.152-v3.11.156: Update 5 new scientific instrument systems
+                S.AstrolabeMaker.update(dt)
+                S.AbacusMaker.update(dt)
+                S.BalanceScaleMaker.update(dt)
+                S.SextantMaker.update(dt)
+                S.ArmillarySphereMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

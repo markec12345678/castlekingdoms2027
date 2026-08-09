@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.156] — 2026-08-09 — Royal Armillary Sphere Maker System (6 products, armillary spheres)
+## [v3.11.155] — 2026-08-09 — Royal Sextant Maker System (6 products, sextants)
+## [v3.11.154] — 2026-08-09 — Royal Balance Scale Maker System (6 products, scales)
+## [v3.11.153] — 2026-08-09 — Royal Abacus Maker System (6 products, abacuses)
+## [v3.11.152] — 2026-08-09 — Royal Astrolabe Maker System (6 products, astrolabes)
+
+### Dodano (5 sistemov naenkrat — znanstveni inštrumenti)
+- **Royal Astrolabe Maker System** — astrolabi za merjenje zvezd
+  - 6 produktov (medeninast, srebrn, vgraviran, srebrno retrogradni, pozlačen, kraljevski veliki)
+  - 4 zgradbe (astrolabska delavnica, inštrumentska kovačija, vgravirnica, kraljevski atelje)
+  - Brass, silver, gold, jewel, pearl supply, accuracy (50-100), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Abacus Maker System** — abaki za računanje
+  - 6 produktov (leseni, medeninast, srebrn, srebrnožični, zlatokroglični, kraljevski veliki)
+  - 4 zgradbe (abakarska delavnica, krogličarna, natančnostna soba, kraljevski atelje)
+  - Wood, brass, silver, gold, jewel, pearl supply, precision (40-100), batch qty 1, GameEventBus publish
+- **Royal Balance Scale Maker System** — tehtnice za trgovino
+  - 6 produktov (železna, medeninasta, srebrna, srebrnokljuna, zlatorobna, kraljevski veliki)
+  - 4 zgradbe (tehtničarska delavnica, kalibrirnica, natančnostna soba, kraljevski atelje)
+  - Iron, brass, wood, silver, gold, jewel, pearl supply, precision (50-100), batch qty 1, GameEventBus publish
+- **Royal Sextant Maker System** — sekstant za navigacijo
+  - 6 produktov (medeninast, srebrn, vgraviran, srebrno ločni, zlatolocni, kraljevski veliki)
+  - 4 zgradbe (sekstantska delavnica, inštrumentska kovačija, kalibrirnica, kraljevski atelje)
+  - Brass, glass, silver, gold, jewel, pearl supply, accuracy (60-100), happiness (1-13), batch qty 1, GameEventBus publish
+- **Royal Armillary Sphere Maker System** — armilarne sfere za astronomijo
+  - 6 produktov (medeninasta, srebrna, vgravirana, srebrnomeridian, zlatorobna, kraljevski veliki)
+  - 4 zgradbe (armilarska delavnica, sferna kovačija, kalibracijski observatorij, kraljevski atelje)
+  - Brass, silver, gold, jewel, pearl supply, accuracy (55-100), happiness (1-14), batch qty 1, GameEventBus publish
+
 ## [v3.11.151] — 2026-08-09 — Royal Quill Pen Maker System (6 products, quills)
 ## [v3.11.150] — 2026-08-09 — Royal Parchment Maker System (6 products, parchment)
 ## [v3.11.149] — 2026-08-09 — Royal Paper Maker System (6 products, paper)
