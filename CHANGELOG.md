@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.236] — 2026-08-09 — Royal Apothecary Mortar Maker System (6 products, mortars)
+## [v3.11.235] — 2026-08-09 — Royal Alambic Still Maker System (6 products, alambic stills)
+## [v3.11.234] — 2026-08-09 — Royal Hydrometer Maker System (6 products, hydrometers)
+## [v3.11.233] — 2026-08-09 — Royal Retort Maker System (6 products, retorts)
+## [v3.11.232] — 2026-08-09 — Royal Crucible Maker System (6 products, crucibles)
 ## [v3.11.231] — 2026-08-09 — Royal Coronation Cushion Maker System (6 products, coronation cushions)
+
+### Dodano (5 sistemov naenkrat — znanstveni instrumenti)
+- **Royal Crucible Maker System** — talilnice
+  - 6 produktov (glinena, šamotna, bronastorokavna, srebrnalivna, zlatookrasna, kraljevski veliki)
+  - 4 zgradbe (talilniška delavnica, ognjevarna podstrešje, mojstrski talilniški atelje, kraljevska talilniška palača)
+  - Clay, stone, bronze, silver, gold, jewel, pearl supply, science (18-92), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Retort Maker System** — retorte za destilacijo
+  - 6 produktov (steklena, upognjenovratna, srebrnospojna, zlatookrasna, draguljasta, kraljevski veliki)
+  - 4 zgradbe (retortna delavnica, destilacijska podstrešje, mojstrski steklarsski atelje, kraljevska retortna palača)
+  - Glass, clay, silver, gold, jewel, pearl supply, science (18-92), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Hydrometer Maker System** — areometri
+  - 6 produktov (steklen, svinčevo obteženi, srebrnaskalni, zlatoznačeni, draguljnoležajni, kraljevski veliki)
+  - 4 zgradbe (aremetrijska delavnica, kalibracijska podstrešje, mojstrski steklarsski atelje, kraljevska aremetrijska palača)
+  - Glass, lead, silver, gold, jewel, pearl supply, science (18-92), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Alambic Still Maker System** — alembiki
+  - 6 produktov (bakrena, kositrnozaprta, srebrnohlajena, zlatookrasna, draguljnoventilna, kraljevski veliki)
+  - 4 zgradbe (alembična delavnica, destilatorska podstrešje, mojstrski bakrokleparski atelje, kraljevska alembična palača)
+  - Copper, tin, silver, gold, jewel, pearl supply, science (22-95), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Apothecary Mortar Maker System** — aptekarski možnarji
+  - 6 produktov (kamnit, bronastozgiban, marmornat, srebrnookrasni, zlatovloženi, kraljevski veliki)
+  - 4 zgradbe (možnarska delavnica, aptekarska podstrešje, mojstrski aptekarski atelje, kraljevska možnarska palača)
+  - Stone, marble, wood, bronze, silver, gold, jewel, pearl supply, science (18-92), healing (5-75), happiness (1-12), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.230] — 2026-08-09 — Royal Banner Herald System (6 products, heraldic banners)
 ## [v3.11.229] — 2026-08-09 — Royal Seal Stamp Maker System (6 products, seal stamps)
 ## [v3.11.228] — 2026-08-09 — Royal Crest Carver System (6 products, heraldic crests)
