@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.241] — 2026-08-09 — Royal Wooden Spoon Carver System (6 products, wooden spoons)
+## [v3.11.240] — 2026-08-09 — Royal Serving Plate Maker System (6 products, serving plates)
+## [v3.11.239] — 2026-08-09 — Royal Cookware Founder System (6 products, cookware)
+## [v3.11.238] — 2026-08-09 — Royal Cutlery Smith System (6 products, cutlery)
+## [v3.11.237] — 2026-08-09 — Royal Kitchen Knife Maker System (6 products, kitchen knives)
 ## [v3.11.236] — 2026-08-09 — Royal Apothecary Mortar Maker System (6 products, mortars)
+
+### Dodano (5 sistemov naenkrat — kuhinjski pripomočki)
+- **Royal Kitchen Knife Maker System** — kuhinjski noži
+  - 6 produktov (železni, jeklenorezni kuharski, srebrnorokavi rezilni, zlatookrasni filejni, draguljnogrbi slovesnostni, kraljevski veliki set)
+  - 4 zgradbe (nožniška delavnica, priborno podstrešje, mojstrski rezbarski atelje, kraljevska nožniška palača)
+  - Iron, wood, leather, silver, gold, jewel, pearl supply, culinary (18-92), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Cutlery Smith System** — jedilni pribor
+  - 6 produktov (železna vilice, bronasta žličkasta, srebrna večerja, zlatookrasni jedilni, draguljnorokavni jedilni, kraljevski veliki jedilni)
+  - 4 zgradbe (priborna delavnica, priborno podstrešje, mojstrski srebrarsski atelje, kraljevska priborna palača)
+  - Iron, bronze, silver, gold, jewel, pearl supply, culinary (15-92), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Cookware Founder System** — kuhinjska posoda
+  - 6 produktov (železna ponev, bronast kotel, bakreni lonček, srebrnopokrovka lonec, zlatovložena ponev, kraljevski veliki set)
+  - 4 zgradbe (kuhinjska posoda delavnica, livna podstrešje, mojstrski livarski atelje, kraljevska kuhinjska palača)
+  - Iron, bronze, copper, silver, gold, jewel, pearl supply, culinary (18-92), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Serving Plate Maker System** — servisirni krožniki
+  - 6 produktov (kositrna, keramična poslikana, srebrna večerja, zlatookrasni podstavek, draguljasta pladenj, kraljevski veliki set)
+  - 4 zgradbe (ploščna delavnica, porcelanasta podstrešje, mojstrski ploščni atelje, kraljevska jedilna palača)
+  - Tin, clay, paint, glass, silver, gold, jewel, pearl supply, culinary (18-92), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Wooden Spoon Carver System** — lesene žlice in rezbarije
+  - 6 produktov (lesena žlica, izrezljan zajemalka, srebrnopasna žlica, zlatookrasni lopatica, draguljnorokavni rezilni set, kraljevski veliki set)
+  - 4 zgradbe (žličkasta delavnica, rezbarska podstrešje, mojstrski rezbarski atelje, kraljevska rezbarska palača)
+  - Wood, silver, gold, jewel, pearl supply, culinary (15-92), happiness (1-11), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.235] — 2026-08-09 — Royal Alambic Still Maker System (6 products, alambic stills)
 ## [v3.11.234] — 2026-08-09 — Royal Hydrometer Maker System (6 products, hydrometers)
 ## [v3.11.233] — 2026-08-09 — Royal Retort Maker System (6 products, retorts)
