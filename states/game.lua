@@ -657,6 +657,11 @@ S.EngravingMachineMaker = require("objects.Economy.RoyalEngravingMachineMakerSys
 S.TypesettingMachineMaker = require("objects.Economy.RoyalTypesettingMachineMakerSystem")
 S.BookbindingPressMaker = require("objects.Economy.RoyalBookbindingPressMakerSystem")
 S.PaperCuttingMachineMaker = require("objects.Economy.RoyalPaperCuttingMachineMakerSystem")
+S.MedalMinter = require("objects.Economy.RoyalMedalMinterSystem")
+S.RibbonWeaver = require("objects.Economy.RoyalRibbonWeaverSystem")
+S.OrderInsignia = require("objects.Economy.RoyalOrderInsigniaSystem")
+S.CommendationScroll = require("objects.Economy.RoyalCommendationScrollSystem")
+S.CollarOfEstate = require("objects.Economy.RoyalCollarOfEstateSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1737,6 +1742,11 @@ local function delayedInit()
     S.TypesettingMachineMaker.init(); _G.TypesettingMachineMaker = S.TypesettingMachineMaker
     S.BookbindingPressMaker.init(); _G.BookbindingPressMaker = S.BookbindingPressMaker
     S.PaperCuttingMachineMaker.init(); _G.PaperCuttingMachineMaker = S.PaperCuttingMachineMaker
+    S.MedalMinter.init(); _G.MedalMinter = S.MedalMinter
+    S.RibbonWeaver.init(); _G.RibbonWeaver = S.RibbonWeaver
+    S.OrderInsignia.init(); _G.OrderInsignia = S.OrderInsignia
+    S.CommendationScroll.init(); _G.CommendationScroll = S.CommendationScroll
+    S.CollarOfEstate.init(); _G.CollarOfEstate = S.CollarOfEstate
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -2562,6 +2572,11 @@ function game:update(dt)
                 S.TypesettingMachineMaker.update(dt)
                 S.BookbindingPressMaker.update(dt)
                 S.PaperCuttingMachineMaker.update(dt)
+                S.MedalMinter.update(dt)
+                S.RibbonWeaver.update(dt)
+                S.OrderInsignia.update(dt)
+                S.CommendationScroll.update(dt)
+                S.CollarOfEstate.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

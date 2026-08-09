@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.376] — 2026-08-10 — Royal Collar of Estate System (6 products, estate collars)
+## [v3.11.375] — 2026-08-10 — Royal Commendation Scroll System (6 products, commendation scrolls)
+## [v3.11.374] — 2026-08-10 — Royal Order Insignia System (6 products, knightly order insignia)
+## [v3.11.373] — 2026-08-10 — Royal Ribbon Weaver System (6 products, honor ribbons and sashes)
+## [v3.11.372] — 2026-08-10 — Royal Medal Minter System (6 products, military and civil medals)
+
+### Dodano (5 sistemov naenkrat — kraljevske časti in odlikovanja)
+- **Royal Medal Minter System** — kovanje vojaških in civilnih medalj
+  - 6 produktov (bronasta službena, srebrna hrabrostna, pozlačena zaslužna, draguljasta meščanska, veliki križec, kraljevska suverena)
+  - 4 zgradbe (medaljarska delavnica, kraljevska kovnica priključek, mojstrski medaljarski atelje, suverena kovniška palača)
+  - Bronze, iron, silver, gold, jewel, pearl supply, prestige (3-78), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Ribbon Weaver System** — pletenje častnih pentelj in rut
+  - 6 produktov (preprosta svilena, pletena častna ruta, srebronitni cordon, zlatobrokatna ruta, draguljasta podkolenska pentlja, kraljevska suverena ruta)
+  - 4 zgradbe (pentljearska tkalska stroj, častna tekstilna hiša, mojstrski pentljaški atelje, suverena častna palača)
+  - Silk, silver, gold, jewel, pearl supply, prestige (1-60), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Order Insignia System** — izdelovanje znakov viteških redov
+  - 6 produktov (bronast redni, srebrni viteški, pozlačeni poveljniški, draguljasti veliki križ, verižni ovratniški, kraljevski suvereni)
+  - 4 zgradbe (insignijska delavnica, viteška dvorana reda, mojstrski insignijski atelje, suverena palača redov)
+  - Bronze, iron, silver, gold, jewel, pearl supply, prestige (4-88), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Commendation Scroll System** — pisanje in iluminacija častnih listin
+  - 6 produktov (preprosta pergamentna, iluminirani sprehvalni, srebrnopesačani odlok, pozlačeni častni patent, draguljasta kraljeva listina, suvereni veliki diplom)
+  - 4 zgradbe (zvitočno skriptorij, častna pisarna, mojstrski listinarski atelje, suverena listinarska palača)
+  - Parchment, ink, silver, gold, jewel, pearl supply, prestige (2-72), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Collar of Estate System** — izdelovanje verižnih ovratnikov državnih časti
+  - 6 produktov (železna verižna, srebrnoverižna, pozlačena kanclerska, draguljasta dvorna, bisernoverižna državna, kraljevska suverena)
+  - 4 zgradbe (verižna delavnica, državna draginarska hiša, mojstrski ovratniški atelje, suverena državna palača)
+  - Iron, silver, gold, jewel, pearl supply, prestige (3-86), happiness (1-12), batch qty 1, GameEventBus publish
+
 ## [v3.11.371] — 2026-08-09 — Royal Paper Cutting Machine Maker System (6 products, paper cutting machines)
 ## [v3.11.370] — 2026-08-09 — Royal Bookbinding Press Maker System (6 products, bookbinding presses)
 ## [v3.11.369] — 2026-08-09 — Royal Typesetting Machine Maker System (6 products, typesetting machines)
