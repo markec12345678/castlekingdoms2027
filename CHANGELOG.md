@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.331] — 2026-08-09 — Royal Latrine Builder System (6 products, latrines)
+## [v3.11.330] — 2026-08-09 — Royal Cistern Maker System (6 products, cisterns)
+## [v3.11.329] — 2026-08-09 — Royal Bath Fixture Maker System (6 products, bath fixtures)
+## [v3.11.328] — 2026-08-09 — Royal Aqueduct Maker System (6 products, aqueducts)
+## [v3.11.327] — 2026-08-09 — Royal Well Builder System (6 products, wells)
 ## [v3.11.326] — 2026-08-09 — Royal Vestibule Light Maker System (6 products, vestibule lights)
+
+### Dodano (5 sistemov naenkrat — vodovodni sistemi)
+- **Royal Well Builder System** — vodnjaki
+  - 6 produktov (kamnit, opečnoobložen, marmornatorobni, srebrnovedrni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (vodnjakarska delavnica, vodovodna podstrešje, mojstrski vodnjakarski atelje, kraljevska vodovodna palača)
+  - Stone, brick, marble, wood, rope, silver, gold, jewel, pearl supply, waterSupply (30-150), happiness (2-13), batch qty 1, GameEventBus publish
+- **Royal Aqueduct Maker System** — akvadukti
+  - 6 produktov (kamnit, opečnolokastni, marmornatoobložen, srebrnovloženi, draguljasta, kraljevski veliki)
+  - 4 zgradbe (akvaduktna delavnica, vodovodna podstrešje, mojstrski akvaduktni atelje, kraljevska vodovodna palača)
+  - Stone, brick, marble, clay, silver, gold, jewel, pearl supply, waterSupply (40-160), happiness (2-13), batch qty 1, GameEventBus publish
+- **Royal Bath Fixture Maker System** — kopalna oprema
+  - 6 produktov (kamnita kopalna kad, marmornata, srebrnopipna, zlatookrasna, draguljasta, kraljevska velika)
+  - 4 zgradbe (kopalna delavnica, vodovodna podstrešje, mojstrski kopalni atelje, kraljevska kopalna palača)
+  - Stone, marble, clay, silver, gold, jewel, pearl supply, health (8-55), happiness (2-13), batch qty 1, GameEventBus publish
+- **Royal Cistern Maker System** — cisterne
+  - 6 produktov (glinena, opečnoobložena, marmornata, srebrnopasna, draguljasta, kraljevska velika)
+  - 4 zgradbe (cisternska delavnica, vodovodna podstrešje, mojstrski cisterski atelje, kraljevska vodovodna palača)
+  - Clay, stone, brick, marble, silver, gold, jewel, pearl supply, waterSupply (35-155), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Latrine Builder System** — stranišča
+  - 6 produktov (leseni, kamnit jamski, opečna privatna, marmornata, srebrnoopremljena, kraljevski veliki)
+  - 4 zgradbe (straniščna delavnica, sanitarna podstrešje, mojstrski sanitarni atelje, kraljevska sanitarna palača)
+  - Wood, stone, brick, marble, silver, gold, jewel, pearl supply, health (6-45), happiness (1-12), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.325] — 2026-08-09 — Royal Beacon Light Maker System (6 products, beacon lights)
 ## [v3.11.324] — 2026-08-09 — Royal Candlestick Maker System (6 products, candlesticks)
 ## [v3.11.323] — 2026-08-09 — Royal Torch Holder Maker System (6 products, torch holders)
