@@ -394,6 +394,12 @@ S.IngotSmelter = require("objects.Economy.RoyalIngotSmelterSystem")
 S.LimeBurner = require("objects.Economy.RoyalLimeBurnerSystem")
 S.BrickMaker = require("objects.Economy.RoyalBrickMakerSystem")
 S.PotteryKiln = require("objects.Economy.RoyalPotteryKilnSystem")
+-- Castle Kingdoms 2027 v3.11.122-v3.11.126: 5 new wood & stone raw material systems
+S.TimberFeller = require("objects.Economy.RoyalTimberFellerSystem")
+S.Sawmill = require("objects.Economy.RoyalSawmillSystem")
+S.QuarryMiner = require("objects.Economy.RoyalQuarryMinerSystem")
+S.ClayDigger = require("objects.Economy.RoyalClayDiggerSystem")
+S.GemMiner = require("objects.Economy.RoyalGemMinerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1211,6 +1217,12 @@ local function delayedInit()
     S.LimeBurner.init(); _G.LimeBurner = S.LimeBurner
     S.BrickMaker.init(); _G.BrickMaker = S.BrickMaker
     S.PotteryKiln.init(); _G.PotteryKiln = S.PotteryKiln
+    -- Castle Kingdoms 2027 v3.11.122-v3.11.126: Initialize 5 new wood & stone raw material systems
+    S.TimberFeller.init(); _G.TimberFeller = S.TimberFeller
+    S.Sawmill.init(); _G.Sawmill = S.Sawmill
+    S.QuarryMiner.init(); _G.QuarryMiner = S.QuarryMiner
+    S.ClayDigger.init(); _G.ClayDigger = S.ClayDigger
+    S.GemMiner.init(); _G.GemMiner = S.GemMiner
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1773,6 +1785,12 @@ function game:update(dt)
                 S.LimeBurner.update(dt)
                 S.BrickMaker.update(dt)
                 S.PotteryKiln.update(dt)
+                -- Castle Kingdoms 2027 v3.11.122-v3.11.126: Update 5 new wood & stone raw material systems
+                S.TimberFeller.update(dt)
+                S.Sawmill.update(dt)
+                S.QuarryMiner.update(dt)
+                S.ClayDigger.update(dt)
+                S.GemMiner.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

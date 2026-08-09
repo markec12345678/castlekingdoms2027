@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.126] — 2026-08-09 — Royal Gem Miner System (6 products, gems)
+## [v3.11.125] — 2026-08-09 — Royal Clay Digger System (6 products, clay)
+## [v3.11.124] — 2026-08-09 — Royal Quarry Miner System (6 products, stone)
+## [v3.11.123] — 2026-08-09 — Royal Sawmill System (6 products, planks)
+## [v3.11.122] — 2026-08-09 — Royal Timber Feller System (6 products, logs)
+
+### Dodano (5 sistemov naenkrat — lesna in kamnita surovinska serija)
+- **Royal Timber Feller System** — sekanje dreves v hlode
+  - 6 produktov (borov, hrastov, jesenov, tisov, ebenov, kraljevski veliki)
+  - 4 zgradbe (gozdarska postaja, lesna tabor, hlodovnica, kraljevski atelje)
+  - Pine, oak, ash, yew, ebony, gold, jewel supply, quality (30-100), batch qty 10, GameEventBus publish
+- **Royal Sawmill System** — žaganje hlodov v deske
+  - 6 produktov (borova, hrastova, jesenova, tisova, ebenova, kraljevski veliki)
+  - 4 zgradbe (žagarska delavnica, vodna žaga, listna hiša, kraljevski atelje)
+  - Pine/oak/ash/yew/ebony logs, gold, jewel supply, quality (30-100), batch qty 10
+- **Royal Quarry Miner System** — kopanje kamna v kamnolomu
+  - 6 produktov (apnenčev, peščenjak, granitni, marmornat, srebrno žilnati, kraljevski veliki)
+  - 4 zgradbe (kamnoseka postaja, kamnolom, obdelovalnica, kraljevski atelje)
+  - Limestone, sandstone, granite, marble, silver, gold, jewel supply, quality (30-100), batch qty 5
+- **Royal Clay Digger System** — kopanje gline
+  - 6 produktov (navadna, rdeča, beli kaolin, ognjevzdržna, srebrno prašna, kraljevski veliki)
+  - 4 zgradbe (glinaška postaja, glinokop, pralnica, kraljevski atelje)
+  - Clay bed, kaolin bed, fire clay bed, silver, gold, jewel supply, quality (30-100), batch qty 10
+- **Royal Gem Miner System** — kopanje dragih kamnov
+  - 6 produktov (kvarčni, ametist, safir, rubin, smaragd, kraljevski veliki diamant)
+  - 4 zgradbe (draguljska postaja, draguljski rudnik, rezalnica, kraljevski atelje)
+  - Gem vein, silver, gold, jewel supply, quality (30-100), happiness (1-11), batch qty 1, GameEventBus publish
+
 ## [v3.11.121] — 2026-08-09 — Royal Pottery Kiln System (6 products, pottery)
 ## [v3.11.120] — 2026-08-09 — Royal Brick Maker System (6 products, bricks)
 ## [v3.11.119] — 2026-08-09 — Royal Lime Burner System (6 products, lime)
