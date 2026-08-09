@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.271] — 2026-08-09 — Royal Locket Maker System (6 products, lockets)
+## [v3.11.270] — 2026-08-09 — Royal Brooch Maker System (6 products, brooches)
+## [v3.11.269] — 2026-08-09 — Royal Pendant Maker System (6 products, pendants)
+## [v3.11.268] — 2026-08-09 — Royal Commemorative Token Maker System (6 products, tokens)
+## [v3.11.267] — 2026-08-09 — Royal Trophy Maker System (6 products, trophies)
 ## [v3.11.266] — 2026-08-09 — Royal Chest Maker System (6 products, chests)
+
+### Dodano (5 sistemov naenkrat — spominki in medalje)
+- **Royal Trophy Maker System** — trofeje
+  - 6 produktov (bronasta, srebrni pokal, zlati kelih, draguljnookronana, bisernavi velika, kraljevska velika)
+  - 4 zgradbe (trofejna delavnica, graverska podstrešje, mojstrski trofejni atelje, kraljevska trofejna palača)
+  - Bronze, marble, silver, gold, jewel, pearl supply, beauty (22-95), prestige (4-75), happiness (2-13), batch qty 1, GameEventBus publish
+- **Royal Commemorative Token Maker System** — spominski žetoni in kovanci
+  - 6 produktov (svinčev, bronast kovan, srebrni spominski, zlati spominski, draguljasta medaljon, kraljevski veliki)
+  - 4 zgradbe (žetonska delavnica, kovinska podstrešje, mojstrski kovinarski atelje, kraljevska kovinska palača)
+  - Lead, bronze, silver, gold, jewel, pearl supply, beauty (15-92), prestige (2-60), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Pendant Maker System** — obeski
+  - 6 produktov (bronast, srebrnoverižni, zlato verižni, draguljnokrožni, bisernovesljajoči, kraljevski veliki)
+  - 4 zgradbe (obesna delavnica, nakitna podstrešje, mojstrski nakitni atelje, kraljevska nakitna palača)
+  - Bronze, leather, silver, gold, jewel, pearl supply, beauty (20-95), prestige (2-62), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Brooch Maker System** — broške
+  - 6 produktov (bronasta, srebrnofiligranska, zlati kameja, draguljasta, bisernookrasna, kraljevska velika)
+  - 4 zgradbe (broškarska delavnica, filigranska podstrešje, mojstrski broškarski atelje, kraljevska broškarska palača)
+  - Bronze, iron, silver, gold, jewel, pearl supply, beauty (22-95), prestige (3-65), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Locket Maker System** — medaljoni
+  - 6 produktov (srebrni, gravirani zlati, portretni miniaturni, draguljnorobni, bisernavi, kraljevski veliki)
+  - 4 zgradbe (medaljonska delavnica, miniaturna podstrešje, mojstrski medaljonski atelje, kraljevska medaljonska palača)
+  - Silver, gold, glass, paint, jewel, pearl supply, beauty (25-95), prestige (4-68), happiness (2-13), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.265] — 2026-08-09 — Royal Bed Maker System (6 products, beds)
 ## [v3.11.264] — 2026-08-09 — Royal Cabinet Maker System (6 products, cabinets)
 ## [v3.11.263] — 2026-08-09 — Royal Table Maker System (6 products, tables)
