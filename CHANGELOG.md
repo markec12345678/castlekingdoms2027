@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.281] — 2026-08-09 — Royal Tavern Game Maker System (6 products, tavern games)
+## [v3.11.280] — 2026-08-09 — Royal Tarot Card Maker System (6 products, tarot cards)
+## [v3.11.279] — 2026-08-09 — Royal Billiard Maker System (6 products, billiards)
+## [v3.11.278] — 2026-08-09 — Royal Backgammon Maker System (6 products, backgammons)
+## [v3.11.277] — 2026-08-09 — Royal Roulette Maker System (6 products, roulettes)
 ## [v3.11.276] — 2026-08-09 — Royal Hat Maker System (6 products, hats)
+
+### Dodano (5 sistemov naenkrat — igre na srečo in družabne igre)
+- **Royal Roulette Maker System** — ruleti
+  - 6 produktov (lesen, medeninasto kolo, srebrnooznačevalni, zlatookrasni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (ruletna delavnica, igralna podstrešje, mojstrski ruletni atelje, kraljevska igralniška palača)
+  - Wood, iron, brass, silver, gold, jewel, pearl supply, happiness (3-14), prestige (2-62), batch qty 1, GameEventBus publish
+- **Royal Backgammon Maker System** — tavle
+  - 6 produktov (leseni, vložkana orehov, srebrnoobrobljeni, zlatovloženi, draguljasta, kraljevski veliki)
+  - 4 zgradbe (tavlarska delavnica, igralna podstrešje, mojstrski tavlarski atelje, kraljevska igralska palača)
+  - Wood, leather, paint, silver, gold, jewel, pearl supply, happiness (3-14), prestige (2-60), batch qty 1, GameEventBus publish
+- **Royal Billiard Maker System** — biljardi
+  - 6 produktov (leseni, filcnopokrita, srebrnoreznična, zlatookrasna, draguljasta, kraljevski veliki)
+  - 4 zgradbe (biljardna delavnica, igralna podstrešje, mojstrski biljardni atelje, kraljevska igralska palača)
+  - Wood, wool, leather, silver, gold, jewel, pearl supply, happiness (4-15), prestige (3-65), batch qty 1, GameEventBus publish
+- **Royal Tarot Card Maker System** — tarot karte
+  - 6 produktov (leseni, poslikani pergamentni, srebrnorobni, zlatookrasni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (tarotna delavnica, vedeževalna podstrešje, mojstrski tarotni atelje, kraljevska vedeževalna palača)
+  - Parchment, wood, paint, silver, gold, jewel, pearl supply, mysticism (18-95), happiness (2-13), batch qty 1, GameEventBus publish
+- **Royal Tavern Game Maker System** — krčemske igre
+  - 6 produktov (preprosta, izrezljana kockarska, srebrnoobrobljena, zlatovložena, draguljasta, kraljevski veliki)
+  - 4 zgradbe (krčemska igrarska delavnica, igralna podstrešje, mojstrski igrarski atelje, kraljevska igralska palača)
+  - Wood, leather, paint, silver, gold, jewel, pearl supply, happiness (3-13), prestige (1-58), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.275] — 2026-08-09 — Royal Glove Maker System (6 products, gloves)
 ## [v3.11.274] — 2026-08-09 — Royal Walking Stick Maker System (6 products, walking sticks)
 ## [v3.11.273] — 2026-08-09 — Royal Pocket Watch Maker System (6 products, pocket watches)
