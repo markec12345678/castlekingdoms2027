@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.131] — 2026-08-09 — Royal Apiary Keeper System (6 products, apiary)
+## [v3.11.130] — 2026-08-09 — Royal Herb Gardener System (6 products, herbs)
+## [v3.11.129] — 2026-08-09 — Royal Vineyard Planter System (6 products, grapes)
+## [v3.11.128] — 2026-08-09 — Royal Orchardist System (6 products, fruit)
+## [v3.11.127] — 2026-08-09 — Royal Grain Farmer System (6 products, grain)
+
+### Dodano (5 sistemov naenkrat — kmetijska pridelovalna serija)
+- **Royal Grain Farmer System** — pridelovanje žit
+  - 6 produktov (ječmen, pšenica, rž, oves, srebrni snop, kraljevski veliki)
+  - 4 zgradbe (kmetijska postaja, žitna kmetija, mlatilnica, kraljevski atelje)
+  - Barley/wheat/rye/oat seeds, water, silver, gold, jewel supply, yield (30-100), batch qty 10, GameEventBus publish
+- **Royal Orchardist System** — sadjarstvo
+  - 6 produktov (jabolka, hruške, češnje, slive, srebrno cvetoče, kraljevski veliki)
+  - 4 zgradbe (sadjarstvo postaja, sadovnjak, tisčna staja, kraljevski atelje)
+  - Apple/pear/cherry/plum saplings, water, silver, gold, jewel supply, yield (35-100), batch qty 10
+- **Royal Vineyard Planter System** — gojenje vinskih trt
+  - 6 produktov (namizno grozdje, rdeče, belo, rozinasto, srebrno grozd, kraljevski veliki)
+  - 4 zgradbe (vinogradniška postaja, vinograd, rešetka hiša, kraljevski atelje)
+  - Grape/red/white vines, water, silver, gold, jewel supply, yield (30-100), batch qty 10
+- **Royal Herb Gardener System** — zeliščarstvo
+  - 6 produktov (rožmarin, žajbelj, timijan, sivka, srebrno cvetlična, kraljevski veliki)
+  - 4 zgradbe (zeliščarska postaja, zeliščni vrt, sušilnica, kraljevski atelje)
+  - Herb/lavender seeds, water, silver, gold, jewel supply, flavorStrength (30-100), batch qty 5
+- **Royal Apiary Keeper System** — čebelarstvo (surovi produkti)
+  - 6 produktov (surovi med, čebelji vosek, matični mleček, propolis, srebrno satje, kraljevski veliki)
+  - 4 zgradbe (čebelarska postaja, čebelnjak, medena hiša, kraljevski atelje)
+  - Hive, flower, silver, gold, jewel supply, yield (30-100), happiness (1-8), batch qty 5, GameEventBus publish
+
 ## [v3.11.126] — 2026-08-09 — Royal Gem Miner System (6 products, gems)
 ## [v3.11.125] — 2026-08-09 — Royal Clay Digger System (6 products, clay)
 ## [v3.11.124] — 2026-08-09 — Royal Quarry Miner System (6 products, stone)

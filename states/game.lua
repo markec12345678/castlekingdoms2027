@@ -400,6 +400,12 @@ S.Sawmill = require("objects.Economy.RoyalSawmillSystem")
 S.QuarryMiner = require("objects.Economy.RoyalQuarryMinerSystem")
 S.ClayDigger = require("objects.Economy.RoyalClayDiggerSystem")
 S.GemMiner = require("objects.Economy.RoyalGemMinerSystem")
+-- Castle Kingdoms 2027 v3.11.127-v3.11.131: 5 new agricultural systems
+S.GrainFarmer = require("objects.Economy.RoyalGrainFarmerSystem")
+S.Orchardist = require("objects.Economy.RoyalOrchardistSystem")
+S.VineyardPlanter = require("objects.Economy.RoyalVineyardPlanterSystem")
+S.HerbGardener = require("objects.Economy.RoyalHerbGardenerSystem")
+S.ApiaryKeeper = require("objects.Economy.RoyalApiaryKeeperSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1223,6 +1229,12 @@ local function delayedInit()
     S.QuarryMiner.init(); _G.QuarryMiner = S.QuarryMiner
     S.ClayDigger.init(); _G.ClayDigger = S.ClayDigger
     S.GemMiner.init(); _G.GemMiner = S.GemMiner
+    -- Castle Kingdoms 2027 v3.11.127-v3.11.131: Initialize 5 new agricultural systems
+    S.GrainFarmer.init(); _G.GrainFarmer = S.GrainFarmer
+    S.Orchardist.init(); _G.Orchardist = S.Orchardist
+    S.VineyardPlanter.init(); _G.VineyardPlanter = S.VineyardPlanter
+    S.HerbGardener.init(); _G.HerbGardener = S.HerbGardener
+    S.ApiaryKeeper.init(); _G.ApiaryKeeper = S.ApiaryKeeper
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1791,6 +1803,12 @@ function game:update(dt)
                 S.QuarryMiner.update(dt)
                 S.ClayDigger.update(dt)
                 S.GemMiner.update(dt)
+                -- Castle Kingdoms 2027 v3.11.127-v3.11.131: Update 5 new agricultural systems
+                S.GrainFarmer.update(dt)
+                S.Orchardist.update(dt)
+                S.VineyardPlanter.update(dt)
+                S.HerbGardener.update(dt)
+                S.ApiaryKeeper.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
