@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.211] — 2026-08-09 — Royal Pan Flute Maker System (6 products, pan flutes)
+## [v3.11.210] — 2026-08-09 — Royal Mandolin Maker System (6 products, mandolins)
+## [v3.11.209] — 2026-08-09 — Royal Flute Maker System (6 products, flutes)
+## [v3.11.208] — 2026-08-09 — Royal Trumpet Maker System (6 products, trumpets)
+## [v3.11.207] — 2026-08-09 — Royal Lyre Maker System (6 products, lyres)
 ## [v3.11.206] — 2026-08-09 — Royal Sampler Stitcher System (6 products, embroidered samplers)
+
+### Dodano (5 sistemov naenkrat — glasbeni instrumenti)
+- **Royal Lyre Maker System** — lire
+  - 6 produktov (lesena, slonovinasta, bronastovrvena, srebrnovrvena, zlatookrasna, kraljevska Apolonova)
+  - 4 zgradbe (lirna delavnica, strunska podstrešje, mojstrski lutar atelje, kraljevska lirna palača)
+  - Wood, leather, rope, bronze, silver, gold, jewel, pearl supply, music (18-95), happiness (2-13), batch qty 1, GameEventBus publish
+- **Royal Trumpet Maker System** — trobente
+  - 6 produktov (bronasta, medeninasta glasniška, srebrna godbeniška, srebrna pasovna, zlatookrasna fanfarna, kraljevski veliki)
+  - 4 zgradbe (trobentna delavnica, medeninasta livarna, mojstrski trobetni atelje, kraljevska trobentna palača)
+  - Bronze, brass, wood, silver, gold, silk, jewel, pearl supply, music (20-95), happiness (2-12), batch qty 1, GameEventBus publish
+- **Royal Flute Maker System** — flavte
+  - 6 produktov (trstna, blokflavta, pušpanova, srebrnopasna, zlatookrasna, kraljevski veliki)
+  - 4 zgradbe (flavtna delavnica, podstrešje za pihala, mojstrski pihalni atelje, kraljevska flavtna palača)
+  - Wood, leather, silver, gold, jewel, pearl supply, music (18-92), happiness (1-11), batch qty 1, GameEventBus publish
+- **Royal Mandolin Maker System** — mandoline
+  - 6 produktov (lesena, vložkana palisandrova, bronastovrvena, srebrnopasna, zlatookrasna, kraljevski velika)
+  - 4 zgradbe (mandolinska delavnica, strunska podstrešje, mojstrski lutar atelje, kraljevska mandolinska palača)
+  - Wood, leather, rope, bronze, silver, gold, jewel, pearl supply, music (22-95), happiness (2-12), batch qty 1, GameEventBus publish
+- **Royal Pan Flute Maker System** — panove flavte
+  - 6 produktov (trstna, lesenovezana, pušpanova, srebrnovezana, zlatookrasna, kraljevski veliki)
+  - 4 zgradbe (panova delavnica, pihalna podstrešje, mojstrski pihalni atelje, kraljevska panova palača)
+  - Wood, leather, rope, silver, gold, jewel, pearl supply, music (18-92), happiness (1-11), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.205] — 2026-08-09 — Royal Lace Maker System (6 products, lace)
 ## [v3.11.204] — 2026-08-09 — Royal Crocheter System (6 products, crochet)
 ## [v3.11.203] — 2026-08-09 — Royal Knitter System (6 products, knitwear)

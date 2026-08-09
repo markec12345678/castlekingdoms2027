@@ -492,6 +492,11 @@ S.Knitter = require("objects.Economy.RoyalKnitterSystem")
 S.Crocheter = require("objects.Economy.RoyalCrocheterSystem")
 S.LaceMaker = require("objects.Economy.RoyalLaceMakerSystem")
 S.SamplerStitcher = require("objects.Economy.RoyalSamplerStitcherSystem")
+S.LyreMaker = require("objects.Economy.RoyalLyreMakerSystem")
+S.TrumpetMaker = require("objects.Economy.RoyalTrumpetMakerSystem")
+S.FluteMaker = require("objects.Economy.RoyalFluteMakerSystem")
+S.MandolinMaker = require("objects.Economy.RoyalMandolinMakerSystem")
+S.PanFluteMaker = require("objects.Economy.RoyalPanFluteMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1407,6 +1412,11 @@ local function delayedInit()
     S.Crocheter.init(); _G.Crocheter = S.Crocheter
     S.LaceMaker.init(); _G.LaceMaker = S.LaceMaker
     S.SamplerStitcher.init(); _G.SamplerStitcher = S.SamplerStitcher
+    S.LyreMaker.init(); _G.LyreMaker = S.LyreMaker
+    S.TrumpetMaker.init(); _G.TrumpetMaker = S.TrumpetMaker
+    S.FluteMaker.init(); _G.FluteMaker = S.FluteMaker
+    S.MandolinMaker.init(); _G.MandolinMaker = S.MandolinMaker
+    S.PanFluteMaker.init(); _G.PanFluteMaker = S.PanFluteMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -2067,6 +2077,11 @@ function game:update(dt)
                 S.Crocheter.update(dt)
                 S.LaceMaker.update(dt)
                 S.SamplerStitcher.update(dt)
+                S.LyreMaker.update(dt)
+                S.TrumpetMaker.update(dt)
+                S.FluteMaker.update(dt)
+                S.MandolinMaker.update(dt)
+                S.PanFluteMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
