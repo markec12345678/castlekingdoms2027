@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.186] — 2026-08-09 — Royal Fountain Maker System (6 products, fountains)
+## [v3.11.185] — 2026-08-09 — Royal Candelabra Maker System (6 products, candelabras)
+## [v3.11.184] — 2026-08-09 — Royal Chandelier Maker System (6 products, chandeliers)
+## [v3.11.183] — 2026-08-09 — Royal Curtain Maker System (6 products, curtains)
+## [v3.11.182] — 2026-08-09 — Royal Clock Face Painter System (6 products, clock dials)
+
+### Dodano (5 sistemov naenkrat — okrasne oprema)
+- **Royal Clock Face Painter System** — poslikava številčnic ur
+  - 6 produktov (poslikana, pozlačena, emajlirana, srebrnomesečna, zlatoastrološka, kraljevski veliki)
+  - 4 zgradbe (številčničarska delavnica, emajlnica, pozlatnica, kraljevski atelje)
+  - Enamel, paint, silver, gold, jewel, pearl supply, artistry (40-100), happiness (1-10), batch qty 1, GameEventBus publish
+- **Royal Curtain Maker System** — zavese
+  - 6 produktov (lnene, volnene, tapiserijske, srebrno obrobljene, zlatorobne, kraljevski velike)
+  - 4 zgradbe (zavesarska delavnica, šivalnica, vezenilnica, kraljevski atelje)
+  - Linen, wool, silk, thread, rope, silver, gold, jewel, pearl supply, warmth (40-100), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Chandelier Maker System** — lustri
+  - 6 produktov (železni, medeninast, srebrni, kristalni, zlatolistni, kraljevski veliki)
+  - 4 zgradbe (lustrarska delavnica, kovačija, kristalna soba, kraljevski atelje)
+  - Iron, brass, silver, gold, glass, wax, jewel, pearl supply, lightRadius (30-100), happiness (1-14), batch qty 1, GameEventBus publish
+- **Royal Candelabra Maker System** — svečniki
+  - 6 produktov (železni, medeninast, srebrni, srebrnorogasti, zlatorobni, kraljevski veliki)
+  - 4 zgradbe (svečniška delavnica, kovačija, dokončevalnica, kraljevski atelje)
+  - Iron, brass, silver, gold, wax, jewel, pearl supply, lightRadius (20-75), happiness (1-10), batch qty 1, GameEventBus publish
+- **Royal Fountain Maker System** — vodometi
+  - 6 produktov (kamniti, marmornat, bronast, srebrnolivni, zlatokipni, kraljevski veliki)
+  - 4 zgradbe (vodometna delavnica, kamnito dvorišče, livarna, kraljevski atelje)
+  - Stone, marble, clay, bronze, silver, gold, jewel, pearl supply, beauty (40-100), happiness (1-14), batch qty 1, GameEventBus publish
+
 ## [v3.11.181] — 2026-08-09 — Royal Perfume Bottle Maker System (6 products, perfume bottles)
 ## [v3.11.180] — 2026-08-09 — Royal Marble Statue Maker System (6 products, marble statues)
 ## [v3.11.179] — 2026-08-09 — Royal Doll House Maker System (6 products, doll houses)

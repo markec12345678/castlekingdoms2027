@@ -466,6 +466,12 @@ S.TopMaker = require("objects.Economy.RoyalTopMakerSystem")
 S.DollHouseMaker = require("objects.Economy.RoyalDollHouseMakerSystem")
 S.MarbleStatueMaker = require("objects.Economy.RoyalMarbleStatueMakerSystem")
 S.PerfumeBottleMaker = require("objects.Economy.RoyalPerfumeBottleMakerSystem")
+-- Castle Kingdoms 2027 v3.11.182-v3.11.186: 5 new decorative furnishing systems
+S.ClockFacePainter = require("objects.Economy.RoyalClockFacePainterSystem")
+S.CurtainMaker = require("objects.Economy.RoyalCurtainMakerSystem")
+S.ChandelierMaker = require("objects.Economy.RoyalChandelierMakerSystem")
+S.CandelabraMaker = require("objects.Economy.RoyalCandelabraMakerSystem")
+S.FountainMaker = require("objects.Economy.RoyalFountainMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1355,6 +1361,12 @@ local function delayedInit()
     S.DollHouseMaker.init(); _G.DollHouseMaker = S.DollHouseMaker
     S.MarbleStatueMaker.init(); _G.MarbleStatueMaker = S.MarbleStatueMaker
     S.PerfumeBottleMaker.init(); _G.PerfumeBottleMaker = S.PerfumeBottleMaker
+    -- Castle Kingdoms 2027 v3.11.182-v3.11.186: Initialize 5 new decorative furnishing systems
+    S.ClockFacePainter.init(); _G.ClockFacePainter = S.ClockFacePainter
+    S.CurtainMaker.init(); _G.CurtainMaker = S.CurtainMaker
+    S.ChandelierMaker.init(); _G.ChandelierMaker = S.ChandelierMaker
+    S.CandelabraMaker.init(); _G.CandelabraMaker = S.CandelabraMaker
+    S.FountainMaker.init(); _G.FountainMaker = S.FountainMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1989,6 +2001,12 @@ function game:update(dt)
                 S.DollHouseMaker.update(dt)
                 S.MarbleStatueMaker.update(dt)
                 S.PerfumeBottleMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.182-v3.11.186: Update 5 new decorative furnishing systems
+                S.ClockFacePainter.update(dt)
+                S.CurtainMaker.update(dt)
+                S.ChandelierMaker.update(dt)
+                S.CandelabraMaker.update(dt)
+                S.FountainMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
