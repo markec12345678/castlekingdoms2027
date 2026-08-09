@@ -547,6 +547,11 @@ S.RecurveBowMaker = require("objects.Economy.RoyalRecurveBowMakerSystem")
 S.ArbalestMaker = require("objects.Economy.RoyalArbalestMakerSystem")
 S.QuiverMaker = require("objects.Economy.RoyalQuiverMakerSystem")
 S.HuntingTrapMaker = require("objects.Economy.RoyalHuntingTrapMakerSystem")
+S.ChairMaker = require("objects.Economy.RoyalChairMakerSystem")
+S.TableMaker = require("objects.Economy.RoyalTableMakerSystem")
+S.CabinetMaker = require("objects.Economy.RoyalCabinetMakerSystem")
+S.BedMaker = require("objects.Economy.RoyalBedMakerSystem")
+S.ChestMaker = require("objects.Economy.RoyalChestMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1517,6 +1522,11 @@ local function delayedInit()
     S.ArbalestMaker.init(); _G.ArbalestMaker = S.ArbalestMaker
     S.QuiverMaker.init(); _G.QuiverMaker = S.QuiverMaker
     S.HuntingTrapMaker.init(); _G.HuntingTrapMaker = S.HuntingTrapMaker
+    S.ChairMaker.init(); _G.ChairMaker = S.ChairMaker
+    S.TableMaker.init(); _G.TableMaker = S.TableMaker
+    S.CabinetMaker.init(); _G.CabinetMaker = S.CabinetMaker
+    S.BedMaker.init(); _G.BedMaker = S.BedMaker
+    S.ChestMaker.init(); _G.ChestMaker = S.ChestMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -2232,6 +2242,11 @@ function game:update(dt)
                 S.ArbalestMaker.update(dt)
                 S.QuiverMaker.update(dt)
                 S.HuntingTrapMaker.update(dt)
+                S.ChairMaker.update(dt)
+                S.TableMaker.update(dt)
+                S.CabinetMaker.update(dt)
+                S.BedMaker.update(dt)
+                S.ChestMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

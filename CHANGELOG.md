@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.266] — 2026-08-09 — Royal Chest Maker System (6 products, chests)
+## [v3.11.265] — 2026-08-09 — Royal Bed Maker System (6 products, beds)
+## [v3.11.264] — 2026-08-09 — Royal Cabinet Maker System (6 products, cabinets)
+## [v3.11.263] — 2026-08-09 — Royal Table Maker System (6 products, tables)
+## [v3.11.262] — 2026-08-09 — Royal Chair Maker System (6 products, chairs)
 ## [v3.11.261] — 2026-08-09 — Royal Hunting Trap Maker System (6 products, hunting traps)
+
+### Dodano (5 sistemov naenkrat — pohištvo)
+- **Royal Chair Maker System** — stoli
+  - 6 produktov (hrastov, izrezljan orehov, srebrnoobrobljeni, zlatovloženi, draguljasta prestolni, kraljevski veliki)
+  - 4 zgradbe (stolni delavnica, pohištvena podstrešje, mojstrski mizarski atelje, kraljevska pohištvena palača)
+  - Wood, leather, silver, gold, jewel, pearl supply, beauty (18-92), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Table Maker System** — mize
+  - 6 produktov (hrastova, izrezljana orehova, srebrnoobrobljena, zlatovložena, draguljasta banketna, kraljevska velika)
+  - 4 zgradbe (mizarska delavnica, pohištvena podstrešje, mojstrski mizarski atelje, kraljevska mizarska palača)
+  - Wood, leather, silver, gold, jewel, pearl supply, beauty (22-92), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Cabinet Maker System** — omare
+  - 6 produktov (borova, izrezljana hrastova, srebrnorokavnata, zlatookrasna, draguljasta, kraljevska velika)
+  - 4 zgradbe (omarska delavnica, pohištvena podstrešje, mojstrski omarski atelje, kraljevska omarska palača)
+  - Wood, iron, leather, silver, gold, jewel, pearl supply, beauty (22-92), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Bed Maker System** — postelje
+  - 6 produktov (lesena, izrezljana hrastova, srebrnoobrobljena, zlatovložena, svilna nebotična, kraljevska velika)
+  - 4 zgradbe (posteljna delavnica, ležišna podstrešje, mojstrski posteljni atelje, kraljevska posteljna palača)
+  - Wood, wool, linen, silk, silver, gold, jewel, pearl supply, beauty (22-95), comfort (25-100), happiness (2-13), batch qty 1, GameEventBus publish
+- **Royal Chest Maker System** — skrinje
+  - 6 produktov (borov, izrezljana hrastov, srebrnopasna, zlatookrasna, draguljnoključna, kraljevska velika)
+  - 4 zgradbe (skrinjarska delavnica, skrinjarska podstrešje, mojstrski skrinjarski atelje, kraljevska skrinjarska palača)
+  - Wood, iron, leather, silver, gold, jewel, pearl supply, beauty (20-95), storage (25-100), happiness (1-12), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.260] — 2026-08-09 — Royal Quiver Maker System (6 products, quivers)
 ## [v3.11.259] — 2026-08-09 — Royal Arbalest Maker System (6 products, arbalests)
 ## [v3.11.258] — 2026-08-09 — Royal Recurve Bow Maker System (6 products, recurve bows)
