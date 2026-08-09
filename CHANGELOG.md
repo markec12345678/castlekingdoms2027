@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.261] — 2026-08-09 — Royal Hunting Trap Maker System (6 products, hunting traps)
+## [v3.11.260] — 2026-08-09 — Royal Quiver Maker System (6 products, quivers)
+## [v3.11.259] — 2026-08-09 — Royal Arbalest Maker System (6 products, arbalests)
+## [v3.11.258] — 2026-08-09 — Royal Recurve Bow Maker System (6 products, recurve bows)
+## [v3.11.257] — 2026-08-09 — Royal Longbow Maker System (6 products, longbows)
 ## [v3.11.256] — 2026-08-09 — Royal Stucco Relief Maker System (6 products, stucco reliefs)
+
+### Dodano (5 sistemov naenkrat — lovstvo in lokostrelstvo)
+- **Royal Longbow Maker System** — dolgi loki
+  - 6 produktov (tisolni, laminirani rogovi, srebrnokončni, zlatovloženi, draguljnoročajni, kraljevski veliki)
+  - 4 zgradbe (lokarska delavnica, lokarska podstrešje, mojstrski lokarski atelje, kraljevska lokarska palača)
+  - Wood, rope, leather, silver, gold, jewel, pearl supply, attack (28-95), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Recurve Bow Maker System** — povratni loki
+  - 6 produktov (lesen, kitemovpovratni, srebrnokončni, zlatovloženi, draguljnoročajni, kraljevski veliki)
+  - 4 zgradbe (povratna delavnica, kompozitna podstrešje, mojstrski kompozitni atelje, kraljevska povratna palača)
+  - Wood, horn, rope, leather, silver, gold, jewel, pearl supply, attack (30-95), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Arbalest Maker System** — težki samostreli
+  - 6 produktov (leseni, jeklenoluk, srebrnovloženi, zlatookrasni, draguljnogrbi, kraljevski veliki)
+  - 4 zgradbe (samostrelarska delavnica, samostrelska podstrešje, mojstrski samostrelski atelje, kraljevska samostrelska palača)
+  - Wood, iron, steel, rope, silver, gold, jewel, pearl supply, attack (38-98), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Quiver Maker System** — tulci za puščice
+  - 6 produktov (usnjen, krznato obrobljeni, srebrnopasni, zlato vezani, draguljasta, kraljevski veliki)
+  - 4 zgradbe (tulce delavnica, usnjena podstrešje, mojstrski usnjarski atelje, kraljevska tulce palača)
+  - Leather, wood, wool, silver, gold, jewel, pearl supply, attack (8-45), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Hunting Trap Maker System** — lovske pasti
+  - 6 produktov (železna zanka, jeklenovelikostna, srebrnonosilna, zlatookrasna medvedja, draguljnopripeta, kraljevski veliki set)
+  - 4 zgradbe (pastna delavnica, pastna podstrešje, mojstrski pastirski atelje, kraljevska pastna palača)
+  - Iron, steel, rope, silver, gold, jewel, pearl supply, attack (8-68), happiness (1-12), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.255] — 2026-08-09 — Royal Wood Paneling Maker System (6 products, wood paneling)
 ## [v3.11.254] — 2026-08-09 — Royal Wallpaper Printer System (6 products, wallpaper)
 ## [v3.11.253] — 2026-08-09 — Royal Mosaic Tile Maker System (6 products, mosaics)
