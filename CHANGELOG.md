@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.106] — 2026-08-09 — Royal Confectioner System (6 products, confections)
+## [v3.11.105] — 2026-08-09 — Royal Pickle Curer System (6 products, pickles)
+## [v3.11.104] — 2026-08-09 — Royal Fish Smoker System (6 products, smoked fish)
+## [v3.11.103] — 2026-08-09 — Royal Smoked Meat Curer System (6 products, smoked meats)
+## [v3.11.102] — 2026-08-09 — Royal Sausage Maker System (6 products, sausages)
+
+### Dodano (5 sistemov naenkrat — mesno-konzervacijska serija)
+- **Royal Sausage Maker System** — klobasarska obrt
+  - 6 produktov (svinja, goveja, prekajena, lovska, srebrno obložena, kraljevski velika)
+  - 4 zgradbe (delavnica, klobasarna, kadilnica, kraljevski atelje)
+  - Pork, beef, gut, spice, fuel, silver, gold, jewel supply, flavorStrength (30-100), happiness (2-14), batch qty 5, GameEventBus publish
+- **Royal Smoked Meat Curer System** — prekajeno meso
+  - 6 produktov (svinjska prsa, šunka, slanina, goveja prsa, srebrno mrežasto, kraljevski veliki)
+  - 4 zgradbe (delavnica, kadilnica, konservirni sklep, kraljevski atelje)
+  - Pork, beef, salt, spice, fuel, silver, gold, jewel supply, flavorStrength (40-100), happiness (2-15), batch qty 5
+- **Royal Fish Smoker System** — prekajene ribe
+  - 6 produktov (sled, postrv, losos, začinjena, srebrno pladenj, kraljevski veliki)
+  - 4 zgradbe (ribja kadilnica, kadilnica, slanica, kraljevski atelje)
+  - Fish, salt, spice, fuel, silver, gold, jewel supply, flavorStrength (30-100), happiness (1-13), batch qty 5
+- **Royal Pickle Curer System** — kisle zelenjave
+  - 6 produktov (kumarica, kislo zelje, kislo čebula, začinjena mešana, srebrno kozarec, kraljevski veliki)
+  - 4 zgradbe (delavnica, slanica kadi, shramba, kraljevski atelje)
+  - Cucumber, cabbage, onion, vinegar, salt, spice, silver, gold, jewel supply, flavorStrength (25-100), happiness (1-13), batch qty 5
+- **Royal Confectioner System** — sladkarstvo
+  - 6 produktov (sladkorna sliva, kandirana lupina, karamela, marcipanasta oblika, zlatolistna, kraljevski veliki)
+  - 4 zgradbe (delavnica, sladkarnica, okrasovalnica, kraljevski atelje)
+  - Sugar, fruit, butter, honey, almond, spice, silver, gold, jewel supply, flavorStrength (35-100), happiness (2-15), batch qty 5, GameEventBus publish
+
 ## [v3.11.101] — 2026-08-09 — Royal Pastry Chef System (6 products, pastries)
 ## [v3.11.100] — 2026-08-09 — Royal Bread Baker System (6 products, breads)
 ## [v3.11.99] — 2026-08-09 — Royal Yogurt Fermenter System (6 products, yogurts)

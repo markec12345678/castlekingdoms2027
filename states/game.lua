@@ -370,6 +370,12 @@ S.ButterChurner = require("objects.Economy.RoyalButterChurnerSystem")
 S.YogurtFermenter = require("objects.Economy.RoyalYogurtFermenterSystem")
 S.BreadBaker = require("objects.Economy.RoyalBreadBakerSystem")
 S.PastryChef = require("objects.Economy.RoyalPastryChefSystem")
+-- Castle Kingdoms 2027 v3.11.102-v3.11.106: 5 new meat & preservation systems
+S.SausageMaker = require("objects.Economy.RoyalSausageMakerSystem")
+S.SmokedMeatCurer = require("objects.Economy.RoyalSmokedMeatCurerSystem")
+S.FishSmoker = require("objects.Economy.RoyalFishSmokerSystem")
+S.PickleCurer = require("objects.Economy.RoyalPickleCurerSystem")
+S.Confectioner = require("objects.Economy.RoyalConfectionerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1163,6 +1169,12 @@ local function delayedInit()
     S.YogurtFermenter.init(); _G.YogurtFermenter = S.YogurtFermenter
     S.BreadBaker.init(); _G.BreadBaker = S.BreadBaker
     S.PastryChef.init(); _G.PastryChef = S.PastryChef
+    -- Castle Kingdoms 2027 v3.11.102-v3.11.106: Initialize 5 new meat & preservation systems
+    S.SausageMaker.init(); _G.SausageMaker = S.SausageMaker
+    S.SmokedMeatCurer.init(); _G.SmokedMeatCurer = S.SmokedMeatCurer
+    S.FishSmoker.init(); _G.FishSmoker = S.FishSmoker
+    S.PickleCurer.init(); _G.PickleCurer = S.PickleCurer
+    S.Confectioner.init(); _G.Confectioner = S.Confectioner
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1701,6 +1713,12 @@ function game:update(dt)
                 S.YogurtFermenter.update(dt)
                 S.BreadBaker.update(dt)
                 S.PastryChef.update(dt)
+                -- Castle Kingdoms 2027 v3.11.102-v3.11.106: Update 5 new meat & preservation systems
+                S.SausageMaker.update(dt)
+                S.SmokedMeatCurer.update(dt)
+                S.FishSmoker.update(dt)
+                S.PickleCurer.update(dt)
+                S.Confectioner.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
