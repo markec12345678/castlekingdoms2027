@@ -497,6 +497,11 @@ S.TrumpetMaker = require("objects.Economy.RoyalTrumpetMakerSystem")
 S.FluteMaker = require("objects.Economy.RoyalFluteMakerSystem")
 S.MandolinMaker = require("objects.Economy.RoyalMandolinMakerSystem")
 S.PanFluteMaker = require("objects.Economy.RoyalPanFluteMakerSystem")
+S.PlanetariumMaker = require("objects.Economy.RoyalPlanetariumMakerSystem")
+S.SundialMaker = require("objects.Economy.RoyalSundialMakerSystem")
+S.CompassMaker = require("objects.Economy.RoyalCompassMakerSystem")
+S.QuadrantMaker = require("objects.Economy.RoyalQuadrantMakerSystem")
+S.NocturnalMaker = require("objects.Economy.RoyalNocturnalMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1417,6 +1422,11 @@ local function delayedInit()
     S.FluteMaker.init(); _G.FluteMaker = S.FluteMaker
     S.MandolinMaker.init(); _G.MandolinMaker = S.MandolinMaker
     S.PanFluteMaker.init(); _G.PanFluteMaker = S.PanFluteMaker
+    S.PlanetariumMaker.init(); _G.PlanetariumMaker = S.PlanetariumMaker
+    S.SundialMaker.init(); _G.SundialMaker = S.SundialMaker
+    S.CompassMaker.init(); _G.CompassMaker = S.CompassMaker
+    S.QuadrantMaker.init(); _G.QuadrantMaker = S.QuadrantMaker
+    S.NocturnalMaker.init(); _G.NocturnalMaker = S.NocturnalMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -2082,6 +2092,11 @@ function game:update(dt)
                 S.FluteMaker.update(dt)
                 S.MandolinMaker.update(dt)
                 S.PanFluteMaker.update(dt)
+                S.PlanetariumMaker.update(dt)
+                S.SundialMaker.update(dt)
+                S.CompassMaker.update(dt)
+                S.QuadrantMaker.update(dt)
+                S.NocturnalMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

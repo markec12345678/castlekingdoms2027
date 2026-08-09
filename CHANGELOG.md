@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.216] — 2026-08-09 — Royal Nocturnal Maker System (6 products, nocturnals)
+## [v3.11.215] — 2026-08-09 — Royal Quadrant Maker System (6 products, quadrants)
+## [v3.11.214] — 2026-08-09 — Royal Compass Maker System (6 products, compasses)
+## [v3.11.213] — 2026-08-09 — Royal Sundial Maker System (6 products, sundials)
+## [v3.11.212] — 2026-08-09 — Royal Planetarium Maker System (6 products, planetariums)
 ## [v3.11.211] — 2026-08-09 — Royal Pan Flute Maker System (6 products, pan flutes)
+
+### Dodano (5 sistemov naenkrat — astronomija in navigacijski instrumenti)
+- **Royal Planetarium Maker System** — planetariji in oreriji
+  - 6 produktov (leseni, medeninasti orerij, srebrna armilarna sfera, zlatopasni orerij, draguljarski, kraljevski veliki)
+  - 4 zgradbe (planetarijska delavnica, astronomska podstrešje, mojstrski kozmografski atelje, kraljevska planetarijska palača)
+  - Wood, brass, glass, silver, gold, jewel, pearl supply, education (18-95), happiness (2-12), batch qty 1, GameEventBus publish
+- **Royal Sundial Maker System** — sončne ure
+  - 6 produktov (kamnita, bronasta okrasna, marmornat žepni, srebrna kompasna, zlatovložena, kraljevski veliki)
+  - 4 zgradbe (sončna delavnica, gnomonska podstrešje, mojstrski horološki atelje, kraljevska sončna palača)
+  - Stone, marble, bronze, brass, silver, gold, jewel, pearl supply, beauty (18-92), education (12-88), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Compass Maker System** — kompasi
+  - 6 produktov (železni, medeninasti, srebrnoprstanski, zlatookrasni, draguljnoležajni, kraljevski veliki)
+  - 4 zgradbe (kompasna delavnica, magnetska podstrešje, mojstrski navigacijski atelje, kraljevska kompasna palača)
+  - Wood, iron, brass, glass, silver, gold, jewel, pearl supply, navigation (18-92), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Quadrant Maker System** — kvadranti
+  - 6 produktov (leseni, medeninast merjeni, marmornatolok, srebrnoprotežni, zlatovloženi, kraljevski veliki)
+  - 4 zgradbe (kvadrantna delavnica, geometrijska podstrešje, mojstrski inštrumentni atelje, kraljevska kvadrantna palača)
+  - Wood, brass, marble, silver, gold, jewel, pearl supply, navigation (15-90), education (10-85), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Nocturnal Maker System** — nokturnali
+  - 6 produktov (leseni, medeninasti, srebrnorokavi, zlatogravirani, draguljnopolnjeni, kraljevski veliki)
+  - 4 zgradbe (nokturnalna delavnica, zvezdna podstrešje, mojstrski astrolabist atelje, kraljevska nokturnalna palača)
+  - Wood, brass, silver, gold, jewel, pearl supply, navigation (18-92), education (14-88), happiness (1-12), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.210] — 2026-08-09 — Royal Mandolin Maker System (6 products, mandolins)
 ## [v3.11.209] — 2026-08-09 — Royal Flute Maker System (6 products, flutes)
 ## [v3.11.208] — 2026-08-09 — Royal Trumpet Maker System (6 products, trumpets)
