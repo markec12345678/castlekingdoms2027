@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.201] — 2026-08-09 — Royal Manuscript Illuminator System (6 products, illuminated manuscripts)
+## [v3.11.200] — 2026-08-09 — Royal Codex Binder System (6 products, bound codices)
+## [v3.11.199] — 2026-08-09 — Royal Calendar Maker System (6 products, calendars)
+## [v3.11.198] — 2026-08-09 — Royal Wax Seal Presser System (6 products, wax seals)
+## [v3.11.197] — 2026-08-09 — Royal Ink Maker System (6 products, ink)
 ## [v3.11.196] — 2026-08-09 — Royal Hops Grower System (6 products, hops)
+
+### Dodano (5 sistemov naenkrat — skriptorij in pisarniški pripomočki)
+- **Royal Ink Maker System** — črnila
+  - 6 produktov (železno-galunovo, črno, rdeče cinabaritno, srebrno, zlatoprašno, kraljevsko imperialno)
+  - 4 zgradbe (črilna delavnica, pigmentni mlin, alkemični atelje, kraljevska črilna palača)
+  - Glass, iron, silver, gold, jewel, pearl supply, happiness (1-11), prestige (1-58), batch qty 1, GameEventBus publish
+- **Royal Wax Seal Presser System** — voščeni pečati
+  - 6 produktov (navadni, rdeči cinabaritni, srebrno vtisnjeni, zlati grbovni, draguljarski, kraljevski imperialni)
+  - 4 zgradbe (pečatna delavnica, grboslovni atelje, zlatarski atelje, kraljevska pečatna palača)
+  - Wax, iron, silver, gold, jewel, pearl supply, happiness (1-10), prestige (1-55), batch qty 1, GameEventBus publish
+- **Royal Calendar Maker System** — koledarji
+  - 6 produktov (leseni, poslikani pergamentni, iluminirani velumski, srebrno obrobljeni, zlato izbočeni, kraljevski astronomski)
+  - 4 zgradbe (koledarska delavnica, skriptorijska podstrešje, astronomski atelje, kraljevska koledarska palača)
+  - Wood, parchment, paint, silver, gold, jewel, pearl supply, happiness (1-11), prestige (1-58), batch qty 1, GameEventBus publish
+- **Royal Codex Binder System** — vezani kodeksi
+  - 6 produktov (leseni, usnjeni, medeninasto sponjeni, srebrnokotni, zlato izbočeni, kraljevski veliki)
+  - 4 zgradbe (vezalna delavnica, skriptorijski atelje, zlatarska vezava, kraljevska kodeksna palača)
+  - Wood, leather, parchment, thread, rope, brass, silver, gold, jewel, pearl supply, happiness (1-12), prestige (1-60), batch qty 1, GameEventBus publish
+- **Royal Manuscript Illuminator System** — iluminirani rokopisi
+  - 6 produktov (poslikan začetnik, pozlačeni robni ornament, srebrnofiligranska, zlatolistna miniatúra, draguljarska, kraljevski velika)
+  - 4 zgradbe (iluminatorjeva celica, skriptorijska dvorana, pozlatorski atelje, kraljevska iluminacijska palača)
+  - Parchment, paint, silver, gold, jewel, pearl supply, happiness (1-13), prestige (1-62), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.195] — 2026-08-09 — Royal Saffron Grower System (6 products, saffron)
 ## [v3.11.194] — 2026-08-09 — Royal Aloe Cultivator System (6 products, aloe medicine)
 ## [v3.11.193] — 2026-08-09 — Royal Mushroom Forager System (6 products, mushrooms)

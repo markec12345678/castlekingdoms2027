@@ -482,6 +482,11 @@ S.MushroomForager = require("objects.Economy.RoyalMushroomForagerSystem")
 S.AloeCultivator = require("objects.Economy.RoyalAloeCultivatorSystem")
 S.SaffronGrower = require("objects.Economy.RoyalSaffronGrowerSystem")
 S.HopsGrower = require("objects.Economy.RoyalHopsGrowerSystem")
+S.InkMaker = require("objects.Economy.RoyalInkMakerSystem")
+S.WaxSealPresser = require("objects.Economy.RoyalWaxSealPresserSystem")
+S.CalendarMaker = require("objects.Economy.RoyalCalendarMakerSystem")
+S.CodexBinder = require("objects.Economy.RoyalCodexBinderSystem")
+S.ManuscriptIlluminator = require("objects.Economy.RoyalManuscriptIlluminatorSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1387,6 +1392,11 @@ local function delayedInit()
     S.AloeCultivator.init(); _G.AloeCultivator = S.AloeCultivator
     S.SaffronGrower.init(); _G.SaffronGrower = S.SaffronGrower
     S.HopsGrower.init(); _G.HopsGrower = S.HopsGrower
+    S.InkMaker.init(); _G.InkMaker = S.InkMaker
+    S.WaxSealPresser.init(); _G.WaxSealPresser = S.WaxSealPresser
+    S.CalendarMaker.init(); _G.CalendarMaker = S.CalendarMaker
+    S.CodexBinder.init(); _G.CodexBinder = S.CodexBinder
+    S.ManuscriptIlluminator.init(); _G.ManuscriptIlluminator = S.ManuscriptIlluminator
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -2037,6 +2047,11 @@ function game:update(dt)
                 S.AloeCultivator.update(dt)
                 S.SaffronGrower.update(dt)
                 S.HopsGrower.update(dt)
+                S.InkMaker.update(dt)
+                S.WaxSealPresser.update(dt)
+                S.CalendarMaker.update(dt)
+                S.CodexBinder.update(dt)
+                S.ManuscriptIlluminator.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
