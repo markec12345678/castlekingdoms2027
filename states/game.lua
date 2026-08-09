@@ -632,6 +632,11 @@ S.AnnealingLehrMaker = require("objects.Economy.RoyalAnnealingLehrMakerSystem")
 S.CrucibleFurnaceMaker = require("objects.Economy.RoyalCrucibleFurnaceMakerSystem")
 S.MoldKilnMaker = require("objects.Economy.RoyalMoldKilnMakerSystem")
 S.TemperingFurnaceMaker = require("objects.Economy.RoyalTemperingFurnaceMakerSystem")
+S.StateCordonMaker = require("objects.Economy.RoyalStateCordonMakerSystem")
+S.CeremonialSashMaker = require("objects.Economy.RoyalCeremonialSashMakerSystem")
+S.ParadeShieldMaker = require("objects.Economy.RoyalParadeShieldMakerSystem")
+S.CourtFanMaker = require("objects.Economy.RoyalCourtFanMakerSystem")
+S.ProcessionalCanopyMaker = require("objects.Economy.RoyalProcessionalCanopyMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1687,6 +1692,11 @@ local function delayedInit()
     S.CrucibleFurnaceMaker.init(); _G.CrucibleFurnaceMaker = S.CrucibleFurnaceMaker
     S.MoldKilnMaker.init(); _G.MoldKilnMaker = S.MoldKilnMaker
     S.TemperingFurnaceMaker.init(); _G.TemperingFurnaceMaker = S.TemperingFurnaceMaker
+    S.StateCordonMaker.init(); _G.StateCordonMaker = S.StateCordonMaker
+    S.CeremonialSashMaker.init(); _G.CeremonialSashMaker = S.CeremonialSashMaker
+    S.ParadeShieldMaker.init(); _G.ParadeShieldMaker = S.ParadeShieldMaker
+    S.CourtFanMaker.init(); _G.CourtFanMaker = S.CourtFanMaker
+    S.ProcessionalCanopyMaker.init(); _G.ProcessionalCanopyMaker = S.ProcessionalCanopyMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -2487,6 +2497,11 @@ function game:update(dt)
                 S.CrucibleFurnaceMaker.update(dt)
                 S.MoldKilnMaker.update(dt)
                 S.TemperingFurnaceMaker.update(dt)
+                S.StateCordonMaker.update(dt)
+                S.CeremonialSashMaker.update(dt)
+                S.ParadeShieldMaker.update(dt)
+                S.CourtFanMaker.update(dt)
+                S.ProcessionalCanopyMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

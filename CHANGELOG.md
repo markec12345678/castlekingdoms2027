@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.351] — 2026-08-09 — Royal Processional Canopy Maker System (6 products, processional canopies)
+## [v3.11.350] — 2026-08-09 — Royal Court Fan Maker System (6 products, court fans)
+## [v3.11.349] — 2026-08-09 — Royal Parade Shield Maker System (6 products, parade shields)
+## [v3.11.348] — 2026-08-09 — Royal Ceremonial Sash Maker System (6 products, ceremonial sashes)
+## [v3.11.347] — 2026-08-09 — Royal State Cordon Maker System (6 products, state cordons)
 ## [v3.11.346] — 2026-08-09 — Royal Tempering Furnace Maker System (6 products, tempering furnaces)
+
+### Dodano (5 sistemov naenkrat — ceremonialni predmeti)
+- **Royal State Cordon Maker System** — državni cordoni
+  - 6 produktov (svileni, srebrnoresasti, zlatopleteni, draguljnoprity, bisernavi, kraljevski veliki)
+  - 4 zgradbe (cordonska delavnica, slovesna podstrešje, mojstrski cordonski atelje, kraljevska slovesna palača)
+  - Silk, thread, gold, silver, jewel, pearl supply, prestige (5-72), happiness (2-13), batch qty 1, GameEventBus publish
+- **Royal Ceremonial Sash Maker System** — slovesni pasovi
+  - 6 produktov (svileni, srebrnovezeni, zlatopleteni, draguljnoprity, bisernavi, kraljevski veliki)
+  - 4 zgradbe (pasna delavnica, slovesna podstrešje, mojstrski pasni atelje, kraljevska slovesna palača)
+  - Silk, thread, silver, gold, jewel, pearl supply, prestige (4-70), happiness (2-13), batch qty 1, GameEventBus publish
+- **Royal Parade Shield Maker System** — paradni ščiti
+  - 6 produktov (leseni, železnopasni, srebrnoobrobljeni, zlatookrasni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (paradna ščitna delavnica, orožarna podstrešje, mojstrski ščitni atelje, kraljevska orožarna palača)
+  - Wood, iron, paint, silver, gold, jewel, pearl supply, prestige (5-72), happiness (2-13), batch qty 1, GameEventBus publish
+- **Royal Court Fan Maker System** — dvorne pahljače
+  - 6 produktov (peresna, svilo nagubana, srebrnahrbetna, zlatookrasna, draguljasta, kraljevska velika)
+  - 4 zgradbe (dvorna pahljačna delavnica, slovesna podstrešje, mojstrski pahljačni atelje, kraljevska slovesna palača)
+  - Silk, leather, wood, wool, silver, gold, jewel, pearl supply, prestige (5-72), happiness (2-13), batch qty 1, GameEventBus publish
+- **Royal Processional Canopy Maker System** — procesijski baldahini
+  - 6 produktov (laneni, sviloobeseni, srebrnoobrobljeni, zlatookrasni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (baldahinska delavnica, slovesna podstrešje, mojstrski baldahinski atelje, kraljevska slovesna palača)
+  - Silk, linen, wood, rope, silver, gold, jewel, pearl supply, prestige (8-80), happiness (3-14), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.345] — 2026-08-09 — Royal Mold Kiln Maker System (6 products, mold kilns)
 ## [v3.11.344] — 2026-08-09 — Royal Crucible Furnace Maker System (6 products, crucible furnaces)
 ## [v3.11.343] — 2026-08-09 — Royal Annealing Lehr Maker System (6 products, annealing lehrs)
