@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.71] — 2026-08-09 — Royal Cavalry Banner Maker System (6 products, cavalry banners)
+## [v3.11.70] — 2026-08-09 — Royal Lance Maker System (6 products, lances)
+## [v3.11.69] — 2026-08-09 — Royal Horse Armor Maker System (6 products, barding)
+## [v3.11.68] — 2026-08-09 — Royal Spur Maker System (6 products, spurs)
+## [v3.11.67] — 2026-08-09 — Royal Saddle Maker System (6 products, saddles)
+
+### Dodano (5 sistemov naenkrat — konjeniška oprema)
+- **Royal Saddle Maker System** — sedli za konjenico
+  - 6 produktov (usnjeni sedež, blazirani, vojaški, srebrnorogi, vezeni, kraljevski slovesni)
+  - 4 zgradbe (delavnica, usnjiška soba, vezenilnica, kraljevski atelje)
+  - Leather, wood, wool, iron, silver, silk, thread, gold, jewel, pearl supply, comfort (5-22), durability (18-80), GameEventBus publish
+- **Royal Spur Maker System** — ostroge za konjenico
+  - 6 produktov (železne, jeklene, medeninaste, srebrne zvezdne, zlate, kraljevski viteške)
+  - 4 zgradbe (delavnica, kovačija, polirnica, kraljevski atelje)
+  - Iron, steel, brass, silver, gold, jewel, pearl supply, cavalryBoost (4-30), durability (18-75)
+- **Royal Horse Armor Maker System** — bardingi za konje
+  - 6 produktov (usnjeni, blazirani, verižni, jekleni ploščati, srebrno okrašen, kraljevski slovesni)
+  - 4 zgradbe (delavnica, kovačija, dokončevalnica, kraljevski atelje)
+  - Leather, wool, iron, steel, silver, gold, jewel, pearl supply, defense (8-60), durability (25-110)
+- **Royal Lance Maker System** — turnirske sulice
+  - 6 produktov (lesena, železnokljuna, jeklenokljuna, srebrnokljuna, zlatorobna, kraljevska turnirska)
+  - 4 zgradbe (delavnica, kovačija, dokončevalnica, kraljevski atelje)
+  - Wood, iron, steel, silver, gold, jewel, pearl supply, attack (10-50), durability (22-90)
+- **Royal Cavalry Banner Maker System** — konjeniški prapori
+  - 6 produktov (pennon, guidon, standard, svila konjeniška, zlatorobna, kraljevski konjeniški standard)
+  - 4 zgradbe (delavnica, heraldična soba, pozlatnica, kraljevski atelje)
+  - Linen, silk, paint, thread, silver, gold, jewel, pearl supply, cavalryBoost (3-35), GameEventBus publish
+
 ## [v3.11.66] — 2026-08-09 — Royal Mace & Axe Maker System (6 products, maces & axes)
 ## [v3.11.65] — 2026-08-09 — Royal Polearm Maker System (6 products, polearms)
 ## [v3.11.64] — 2026-08-09 — Royal Crossbow Maker System (6 products, crossbows)

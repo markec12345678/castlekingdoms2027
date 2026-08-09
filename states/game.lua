@@ -328,6 +328,12 @@ S.Fletcher = require("objects.Gameplay.RoyalFletcherSystem")
 S.CrossbowMaker = require("objects.Gameplay.RoyalCrossbowMakerSystem")
 S.PolearmMaker = require("objects.Gameplay.RoyalPolearmMakerSystem")
 S.MaceAxeMaker = require("objects.Gameplay.RoyalMaceAxeMakerSystem")
+-- Castle Kingdoms 2027 v3.11.67-v3.11.71: 5 new cavalry equipment systems
+S.SaddleMaker = require("objects.Gameplay.RoyalSaddleMakerSystem")
+S.SpurMaker = require("objects.Gameplay.RoyalSpurMakerSystem")
+S.HorseArmorMaker = require("objects.Gameplay.RoyalHorseArmorMakerSystem")
+S.LanceMaker = require("objects.Gameplay.RoyalLanceMakerSystem")
+S.CavalryBannerMaker = require("objects.Gameplay.RoyalCavalryBannerMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1079,6 +1085,12 @@ local function delayedInit()
     S.CrossbowMaker.init(); _G.CrossbowMaker = S.CrossbowMaker
     S.PolearmMaker.init(); _G.PolearmMaker = S.PolearmMaker
     S.MaceAxeMaker.init(); _G.MaceAxeMaker = S.MaceAxeMaker
+    -- Castle Kingdoms 2027 v3.11.67-v3.11.71: Initialize 5 new cavalry equipment systems
+    S.SaddleMaker.init(); _G.SaddleMaker = S.SaddleMaker
+    S.SpurMaker.init(); _G.SpurMaker = S.SpurMaker
+    S.HorseArmorMaker.init(); _G.HorseArmorMaker = S.HorseArmorMaker
+    S.LanceMaker.init(); _G.LanceMaker = S.LanceMaker
+    S.CavalryBannerMaker.init(); _G.CavalryBannerMaker = S.CavalryBannerMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1575,6 +1587,12 @@ function game:update(dt)
                 S.CrossbowMaker.update(dt)
                 S.PolearmMaker.update(dt)
                 S.MaceAxeMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.67-v3.11.71: Update 5 new cavalry equipment systems
+                S.SaddleMaker.update(dt)
+                S.SpurMaker.update(dt)
+                S.HorseArmorMaker.update(dt)
+                S.LanceMaker.update(dt)
+                S.CavalryBannerMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
