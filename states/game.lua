@@ -582,6 +582,11 @@ S.DrawbridgeMaker = require("objects.Economy.RoyalDrawbridgeMakerSystem")
 S.PortcullisMaker = require("objects.Economy.RoyalPortcullisMakerSystem")
 S.BattlementMaker = require("objects.Economy.RoyalBattlementMakerSystem")
 S.WatchtowerMaker = require("objects.Economy.RoyalWatchtowerMakerSystem")
+S.CeremonialSwordMaker = require("objects.Economy.RoyalCeremonialSwordMakerSystem")
+S.ParadeMaceMaker = require("objects.Economy.RoyalParadeMaceMakerSystem")
+S.RitualDaggerMaker = require("objects.Economy.RoyalRitualDaggerMakerSystem")
+S.StateSpearMaker = require("objects.Economy.RoyalStateSpearMakerSystem")
+S.PresentationAxeMaker = require("objects.Economy.RoyalPresentationAxeMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1587,6 +1592,11 @@ local function delayedInit()
     S.PortcullisMaker.init(); _G.PortcullisMaker = S.PortcullisMaker
     S.BattlementMaker.init(); _G.BattlementMaker = S.BattlementMaker
     S.WatchtowerMaker.init(); _G.WatchtowerMaker = S.WatchtowerMaker
+    S.CeremonialSwordMaker.init(); _G.CeremonialSwordMaker = S.CeremonialSwordMaker
+    S.ParadeMaceMaker.init(); _G.ParadeMaceMaker = S.ParadeMaceMaker
+    S.RitualDaggerMaker.init(); _G.RitualDaggerMaker = S.RitualDaggerMaker
+    S.StateSpearMaker.init(); _G.StateSpearMaker = S.StateSpearMaker
+    S.PresentationAxeMaker.init(); _G.PresentationAxeMaker = S.PresentationAxeMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -2337,6 +2347,11 @@ function game:update(dt)
                 S.PortcullisMaker.update(dt)
                 S.BattlementMaker.update(dt)
                 S.WatchtowerMaker.update(dt)
+                S.CeremonialSwordMaker.update(dt)
+                S.ParadeMaceMaker.update(dt)
+                S.RitualDaggerMaker.update(dt)
+                S.StateSpearMaker.update(dt)
+                S.PresentationAxeMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

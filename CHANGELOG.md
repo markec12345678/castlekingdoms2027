@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.301] — 2026-08-09 — Royal Presentation Axe Maker System (6 products, presentation axes)
+## [v3.11.300] — 2026-08-09 — Royal State Spear Maker System (6 products, state spears)
+## [v3.11.299] — 2026-08-09 — Royal Ritual Dagger Maker System (6 products, ritual daggers)
+## [v3.11.298] — 2026-08-09 — Royal Parade Mace Maker System (6 products, parade maces)
+## [v3.11.297] — 2026-08-09 — Royal Ceremonial Sword Maker System (6 products, ceremonial swords)
 ## [v3.11.296] — 2026-08-09 — Royal Watchtower Maker System (6 products, watchtowers)
+
+### Dodano (5 sistemov naenkrat — ceremonialno orožje)
+- **Royal Ceremonial Sword Maker System** — slovesni meči
+  - 6 produktov (jekleni, srebrnorokavni, zlatookrasni, draguljnogrbi, bisernavi, kraljevski veliki)
+  - 4 zgradbe (slovesna delavnica, okleparska podstrešje, mojstrski slovesni atelje, kraljevska orožarnaica palača)
+  - Steel, iron, wood, silver, gold, jewel, pearl supply, prestige (5-75), happiness (2-13), batch qty 1, GameEventBus publish
+- **Royal Parade Mace Maker System** — paradne buzdvane
+  - 6 produktov (bronasta, srebrnoglava, zlatookrasna, draguljasta, bisernavi, kraljevski veliki)
+  - 4 zgradbe (paradna delavnica, okleparska podstrešje, mojstrski paradni atelje, kraljevska orožarnaica palača)
+  - Bronze, wood, silver, gold, jewel, pearl supply, prestige (5-72), happiness (2-13), batch qty 1, GameEventBus publish
+- **Royal Ritual Dagger Maker System** — ritualna bodala
+  - 6 produktov (železni, srebrnorezni, zlatookrasni, draguljnogrbi, bisernavi, kraljevski veliki)
+  - 4 zgradbe (ritualna delavnica, mistična podstrešje, mojstrski ritualni atelje, kraljevska ritualna palača)
+  - Iron, wood, silver, gold, jewel, pearl supply, prestige (4-65), mysticism (12-80), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal State Spear Maker System** — državna kopja
+  - 6 produktov (železni, srebrnoglavi, zlatookrasni, draguljasta, bisernavi, kraljevski veliki)
+  - 4 zgradbe (državno kopje delavnica, okleparska podstrešje, mojstrski kopjarski atelje, kraljevska orožarnaica palača)
+  - Iron, wood, silver, gold, jewel, pearl supply, prestige (5-72), happiness (2-13), batch qty 1, GameEventBus publish
+- **Royal Presentation Axe Maker System** — predstavitvene sekire
+  - 6 produktov (železni, srebrnorezna, zlatookrasna, draguljasta, bisernavi, kraljevski veliki)
+  - 4 zgradbe (predstavitvena delavnica, okleparska podstrešje, mojstrski sekiarski atelje, kraljevska orožarnaica palača)
+  - Iron, wood, silver, gold, jewel, pearl supply, prestige (5-72), happiness (2-13), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.295] — 2026-08-09 — Royal Battlement Maker System (6 products, battlements)
 ## [v3.11.294] — 2026-08-09 — Royal Portcullis Maker System (6 products, portcullises)
 ## [v3.11.293] — 2026-08-09 — Royal Drawbridge Maker System (6 products, drawbridges)
