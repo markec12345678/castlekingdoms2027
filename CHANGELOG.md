@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.191] — 2026-08-09 — Royal Bonsai Cultivator System (6 products, bonsai trees)
+## [v3.11.190] — 2026-08-09 — Royal Butterfly Breeder System (6 products, butterfly displays)
+## [v3.11.189] — 2026-08-09 — Royal Terrarium Keeper System (6 products, terrariums)
+## [v3.11.188] — 2026-08-09 — Royal Aviary Keeper System (6 products, bird aviaries)
+## [v3.11.187] — 2026-08-09 — Royal Aquarium Keeper System (6 products, aquariums)
 ## [v3.11.186] — 2026-08-09 — Royal Fountain Maker System (6 products, fountains)
+
+### Dodano (5 sistemov naenkrat — eksotične zbirke in vzgoja)
+- **Royal Aquarium Keeper System** — akvariji z ribami
+  - 6 produktov (majhen steklen, izrezljan, bronastookvirni, srebrnofiligranski, zlatonivojski, kraljevski veliki)
+  - 4 zgradbe (ribiška hiša, vodna dvorana, morski atelje, kraljevska vodna palača)
+  - Glass, wood, marble, bronze, silver, gold, jewel, pearl supply, beauty (25-95), happiness (1-13), batch qty 1, GameEventBus publish
+- **Royal Aviary Keeper System** — ptičje kletke in ptičniki
+  - 6 produktov (majhna pletena, izrezljan, medeninasta, srebrnatična, pozlačena, kraljevski veliki)
+  - 4 zgradbe (ptičja hiša, ptičja dvorana, egzotični atelje, kraljevska ptičja palača)
+  - Wood, iron, brass, marble, silver, gold, jewel, pearl supply, beauty (18-92), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Terrarium Keeper System** — terariji za kuščarje in rastline
+  - 6 produktov (majhen steklen, izrezljan, medeninastični, srebrnofiligranski, zlatookrasni, kraljevski veliki)
+  - 4 zgradbe (terarijska hiša, botanična dvorana, egzotični atelje, kraljevska botanična palača)
+  - Glass, wood, brass, marble, silver, gold, jewel, pearl supply, beauty (22-93), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Butterfly Breeder System** — zbirke metuljev v vitrinah
+  - 6 produktov (navadni pisanček, izrezljanja zbirka večerov, egzotična vitrina, srebrnopripeta zbirka, zlatookrasna vitrina, kraljevski muzej)
+  - 4 zgradbe (metuljna hiša, lepidopterološka dvorana, egzotični atelje, kraljevska metuljna palača)
+  - Silk, glass, wood, brass, silver, gold, marble, jewel, pearl supply, beauty (18-90), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Bonsai Cultivator System** — vzgoja bonsajev
+  - 6 produktov (majhen brinov, izrezljan borov, bronastolonec, srebrnopolica, zlatookrasni, kraljevski veliki)
+  - 4 zgradbe (bonsajski vrt, vzgojna dvorana, mojstrski atelje, kraljevska bonsajska palača)
+  - Wood, clay, bronze, marble, silver, gold, jewel, pearl supply, beauty (22-94), happiness (1-13), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.185] — 2026-08-09 — Royal Candelabra Maker System (6 products, candelabras)
 ## [v3.11.184] — 2026-08-09 — Royal Chandelier Maker System (6 products, chandeliers)
 ## [v3.11.183] — 2026-08-09 — Royal Curtain Maker System (6 products, curtains)
