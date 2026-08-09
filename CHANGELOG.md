@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.256] — 2026-08-09 — Royal Stucco Relief Maker System (6 products, stucco reliefs)
+## [v3.11.255] — 2026-08-09 — Royal Wood Paneling Maker System (6 products, wood paneling)
+## [v3.11.254] — 2026-08-09 — Royal Wallpaper Printer System (6 products, wallpaper)
+## [v3.11.253] — 2026-08-09 — Royal Mosaic Tile Maker System (6 products, mosaics)
+## [v3.11.252] — 2026-08-09 — Royal Parquet Floor Maker System (6 products, parquet floors)
 ## [v3.11.251] — 2026-08-09 — Royal Halberd Smith System (6 products, halberds)
+
+### Dodano (5 sistemov naenkrat — talne obloge in notranja oprema)
+- **Royal Parquet Floor Maker System** — lesen parket
+  - 6 produktov (hrastov, ribja kost, orehov vloženi, srebrnoobrobljeni, zlatovloženi, kraljevski veliki)
+  - 4 zgradbe (parketna delavnica, talna podstrešje, mojstrski talni atelje, kraljevska parketna palača)
+  - Wood, leather, silver, gold, jewel, pearl supply, beauty (22-92), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Mosaic Tile Maker System** — mozaike
+  - 6 produktov (glinena, steklena tesera, marmornatavložena, srebrnopasna, zlatolistna, kraljevska velika)
+  - 4 zgradbe (mozaikna delavnica, teserska podstrešje, mojstrski mozaikni atelje, kraljevska mozaikna palača)
+  - Clay, glass, marble, silver, gold, jewel, pearl supply, beauty (22-92), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Wallpaper Printer System** — tapete
+  - 6 produktov (poslikano papir, blokovno tiskana, srebrnopasna, zlatolistna, draguljasta, kraljevska velika)
+  - 4 zgradbe (tapetna delavnica, tiskarska podstrešje, mojstrski tiskarski atelje, kraljevska tapetna palača)
+  - Linen, paint, wood, silver, gold, jewel, pearl supply, beauty (22-92), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Wood Paneling Maker System** — lesene obloge
+  - 6 produktov (borov, hrastova obloga, izrezljan orehov, srebrnoobrobljeni, zlatovloženi, kraljevski veliki)
+  - 4 zgradbe (obložna delavnica, lesna podstrešje, mojstrski lesarski atelje, kraljevska obložna palača)
+  - Wood, leather, silver, gold, jewel, pearl supply, beauty (22-92), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Stucco Relief Maker System** — ometne relief
+  - 6 produktov (apneno, poslikana, marmornatiprahni, srebrnoslikani, zlatolistni, kraljevski veliki)
+  - 4 zgradbe (ometna delavnica, ometna podstrešje, mojstrski ometarski atelje, kraljevska ometna palača)
+  - Clay, stone, marble, paint, silver, gold, jewel, pearl supply, beauty (22-92), happiness (1-12), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.250] — 2026-08-09 — Royal Gauntlet Maker System (6 products, gauntlets)
 ## [v3.11.249] — 2026-08-09 — Royal Greave Armorer System (6 products, greaves)
 ## [v3.11.248] — 2026-08-09 — Royal Plate Cuirass Smith System (6 products, cuirasses)

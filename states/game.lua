@@ -537,6 +537,11 @@ S.PlateCuirassSmith = require("objects.Economy.RoyalPlateCuirassSmithSystem")
 S.GreaveArmorer = require("objects.Economy.RoyalGreaveArmorerSystem")
 S.GauntletMaker = require("objects.Economy.RoyalGauntletMakerSystem")
 S.HalberdSmith = require("objects.Economy.RoyalHalberdSmithSystem")
+S.ParquetFloorMaker = require("objects.Economy.RoyalParquetFloorMakerSystem")
+S.MosaicTileMaker = require("objects.Economy.RoyalMosaicTileMakerSystem")
+S.WallpaperPrinter = require("objects.Economy.RoyalWallpaperPrinterSystem")
+S.WoodPanelingMaker = require("objects.Economy.RoyalWoodPanelingMakerSystem")
+S.StuccoReliefMaker = require("objects.Economy.RoyalStuccoReliefMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1497,6 +1502,11 @@ local function delayedInit()
     S.GreaveArmorer.init(); _G.GreaveArmorer = S.GreaveArmorer
     S.GauntletMaker.init(); _G.GauntletMaker = S.GauntletMaker
     S.HalberdSmith.init(); _G.HalberdSmith = S.HalberdSmith
+    S.ParquetFloorMaker.init(); _G.ParquetFloorMaker = S.ParquetFloorMaker
+    S.MosaicTileMaker.init(); _G.MosaicTileMaker = S.MosaicTileMaker
+    S.WallpaperPrinter.init(); _G.WallpaperPrinter = S.WallpaperPrinter
+    S.WoodPanelingMaker.init(); _G.WoodPanelingMaker = S.WoodPanelingMaker
+    S.StuccoReliefMaker.init(); _G.StuccoReliefMaker = S.StuccoReliefMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -2202,6 +2212,11 @@ function game:update(dt)
                 S.GreaveArmorer.update(dt)
                 S.GauntletMaker.update(dt)
                 S.HalberdSmith.update(dt)
+                S.ParquetFloorMaker.update(dt)
+                S.MosaicTileMaker.update(dt)
+                S.WallpaperPrinter.update(dt)
+                S.WoodPanelingMaker.update(dt)
+                S.StuccoReliefMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
