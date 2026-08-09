@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.221] — 2026-08-09 — Royal Snuff Miller System (6 products, snuff)
+## [v3.11.220] — 2026-08-09 — Royal Tobacco Curer System (6 products, tobacco)
+## [v3.11.219] — 2026-08-09 — Royal Chocolate Confectioner System (6 products, chocolate)
+## [v3.11.218] — 2026-08-09 — Royal Tea Blender System (6 products, tea)
+## [v3.11.217] — 2026-08-09 — Royal Coffee Roaster System (6 products, coffee)
 ## [v3.11.216] — 2026-08-09 — Royal Nocturnal Maker System (6 products, nocturnals)
+
+### Dodano (5 sistemov naenkrat — kavarniški in tobačni pripomočki)
+- **Royal Coffee Roaster System** — pražena kava
+  - 6 produktov (navadna pražena, mleta v kozarcu, srebrnopokrovka, zlatookrasna, draguljnopokrovka, kraljevski veliki)
+  - 4 zgradbe (pražilna koča, kavarna, konditorski atelje, kraljevska kavarna palača)
+  - Wood, glass, silver, gold, jewel, pearl supply, food (8-60), happiness (2-12), batch qty 1, GameEventBus publish
+- **Royal Tea Blender System** — čajne mešanice
+  - 6 produktov (zeliščni, svilnata vrečka, porcelanasta, srebrna posoda, zlatookrasni, kraljevski veliki)
+  - 4 zgradbe (čajna koča, mešalna podstrešje, mojstrski čajni atelje, kraljevska čajna palača)
+  - Wood, silk, linen, clay, glass, silver, gold, jewel, pearl supply, healing (5-65), happiness (2-12), batch qty 1, GameEventBus publish
+- **Royal Chocolate Confectioner System** — čokoladne sladice
+  - 6 produktov (tablica, začinjen disk, srebrnoolubljeni, zlatofolijni, draguljasta pralina, kraljevski veliki zaboj)
+  - 4 zgradbe (konditorska koča, čokoladna podstrešje, mojstrski čokoladni atelje, kraljevska čokoladna palača)
+  - Wood, sugar, spice, silver, gold, jewel, pearl supply, food (12-80), happiness (3-13), batch qty 1, GameEventBus publish
+- **Royal Tobacco Curer System** — sušen tobak
+  - 6 produktov (sušen, stisnjena pogača, srebrna škatlica, začinjena mešanica, zlatopokrovka, kraljevski veliki zaboj)
+  - 4 zgradbe (tobakova stodola, sušilna podstrešje, mojstrski mešalni atelje, kraljevska tobakova palača)
+  - Wood, linen, iron, spice, silver, gold, jewel, pearl supply, happiness (2-12), prestige (1-56), batch qty 1, GameEventBus publish
+- **Royal Snuff Miller System** — mleti snuf
+  - 6 produktov (mleti, dišavni, srebrnopokrovka, zlatookrasni, draguljasta škatlica, kraljevska velika skrinja)
+  - 4 zgradbe (snufna koča, mlinska podstrešje, mojstrski snufni atelje, kraljevska snufna palača)
+  - Wood, glass, spice, silver, gold, jewel, pearl supply, happiness (2-12), prestige (1-56), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.215] — 2026-08-09 — Royal Quadrant Maker System (6 products, quadrants)
 ## [v3.11.214] — 2026-08-09 — Royal Compass Maker System (6 products, compasses)
 ## [v3.11.213] — 2026-08-09 — Royal Sundial Maker System (6 products, sundials)
