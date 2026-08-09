@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.116] — 2026-08-09 — Royal Rope Spinner System (6 products, ropes)
+## [v3.11.115] — 2026-08-09 — Royal Canvas Weaver System (6 products, canvas)
+## [v3.11.114] — 2026-08-09 — Royal Cotton Gin System (6 products, cotton)
+## [v3.11.113] — 2026-08-09 — Royal Hemp Retter System (6 products, hemp)
+## [v3.11.112] — 2026-08-09 — Royal Linen Retter System (6 products, linen)
+
+### Dodano (5 sistemov naenkrat — vlaknasta surovinska serija)
+- **Royal Linen Retter System** — predelava lana v vlakna
+  - 6 produktov (razmočeno slamo, lomljena, tolčeni, česan, srebrni kuclji, kraljevski veliki)
+  - 4 zgradbe (delavnica, močilnik, lomilnica, kraljevski atelje)
+  - Flax stalk, water, oil, silver, gold, jewel supply, quality (30-100), batch qty 5, GameEventBus publish
+- **Royal Hemp Retter System** — predelava konoplje v vlakna
+  - 6 produktov (razmočena, lomljena, tolčena, česana, srebrni kuclji, kraljevski veliki)
+  - 4 zgradbe (delavnica, močilnik, lomilnica, kraljevski atelje)
+  - Hemp stalk, water, oil, silver, gold, jewel supply, quality (30-100), batch qty 5
+- **Royal Cotton Gin System** — predelava bombaža
+  - 6 produktov (surov, očesan, česani, glavčan, srebrno preden, kraljevski veliki)
+  - 4 zgradbe (delavnica, česalnica, česana soba, kraljevski atelje)
+  - Cotton boll, oil, silver, gold, jewel supply, quality (30-100), batch qty 5
+- **Royal Canvas Weaver System** — tkanje platna
+  - 6 produktov (hrapavo, jadrno, šotorsko, slikarsko, srebrno nitno, kraljevski veliki)
+  - 4 zgradbe (delavnica, tkalnica, dokončevalnica, kraljevski atelje)
+  - Hemp, linen, oil, wax, gesso, silver, gold, jewel supply, durability (30-100), batch qty 5
+- **Royal Rope Spinner System** — predenje vrvi
+  - 6 produktov (konopljeva, katranova, kabelska, svilena, srebrno žična, kraljevski veliki)
+  - 4 zgradbe (delavnica, vrivarska pot, katranilnica, kraljevski atelje)
+  - Hemp, tar, silk, silver, gold, jewel supply, tensileStrength (30-100), durability (25-95), batch qty 5, GameEventBus publish
+
 ## [v3.11.111] — 2026-08-09 — Royal Silk Reeler System (6 products, silk)
 ## [v3.11.110] — 2026-08-09 — Royal Wool Stapler System (6 products, wool)
 ## [v3.11.109] — 2026-08-09 — Royal Furrier System (6 products, fur)

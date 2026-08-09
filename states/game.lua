@@ -382,6 +382,12 @@ S.RawhideTanner = require("objects.Economy.RoyalRawhideTannerSystem")
 S.Furrier = require("objects.Economy.RoyalFurrierSystem")
 S.WoolStapler = require("objects.Economy.RoyalWoolStaplerSystem")
 S.SilkReeler = require("objects.Economy.RoyalSilkReelerSystem")
+-- Castle Kingdoms 2027 v3.11.112-v3.11.116: 5 new fiber raw material systems
+S.LinenRetter = require("objects.Economy.RoyalLinenRetterSystem")
+S.HempRetter = require("objects.Economy.RoyalHempRetterSystem")
+S.CottonGin = require("objects.Economy.RoyalCottonGinSystem")
+S.CanvasWeaver = require("objects.Economy.RoyalCanvasWeaverSystem")
+S.RopeSpinner = require("objects.Economy.RoyalRopeSpinnerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1187,6 +1193,12 @@ local function delayedInit()
     S.Furrier.init(); _G.Furrier = S.Furrier
     S.WoolStapler.init(); _G.WoolStapler = S.WoolStapler
     S.SilkReeler.init(); _G.SilkReeler = S.SilkReeler
+    -- Castle Kingdoms 2027 v3.11.112-v3.11.116: Initialize 5 new fiber raw material systems
+    S.LinenRetter.init(); _G.LinenRetter = S.LinenRetter
+    S.HempRetter.init(); _G.HempRetter = S.HempRetter
+    S.CottonGin.init(); _G.CottonGin = S.CottonGin
+    S.CanvasWeaver.init(); _G.CanvasWeaver = S.CanvasWeaver
+    S.RopeSpinner.init(); _G.RopeSpinner = S.RopeSpinner
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1737,6 +1749,12 @@ function game:update(dt)
                 S.Furrier.update(dt)
                 S.WoolStapler.update(dt)
                 S.SilkReeler.update(dt)
+                -- Castle Kingdoms 2027 v3.11.112-v3.11.116: Update 5 new fiber raw material systems
+                S.LinenRetter.update(dt)
+                S.HempRetter.update(dt)
+                S.CottonGin.update(dt)
+                S.CanvasWeaver.update(dt)
+                S.RopeSpinner.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
