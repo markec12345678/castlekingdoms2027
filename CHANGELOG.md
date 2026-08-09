@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.246] — 2026-08-09 — Royal Vitrail Foil Maker System (6 products, vitrail foils)
+## [v3.11.245] — 2026-08-09 — Royal Beaker Blower System (6 products, glass beakers)
+## [v3.11.244] — 2026-08-09 — Royal Lens Grinder System (6 products, optical lenses)
+## [v3.11.243] — 2026-08-09 — Royal Glass Bead Maker System (6 products, glass beads)
+## [v3.11.242] — 2026-08-09 — Royal Crystal Goblet Maker System (6 products, crystal goblets)
 ## [v3.11.241] — 2026-08-09 — Royal Wooden Spoon Carver System (6 products, wooden spoons)
+
+### Dodano (5 sistemov naenkrat — steklarstvo in vitraži)
+- **Royal Crystal Goblet Maker System** — kristalni kelihi
+  - 6 produktov (stekleni, svinčevokristalni, srebrnostebelni, zlatookrasni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (keliška delavnica, kristalna podstrešje, mojstrski steklarsski atelje, kraljevska keliška palača)
+  - Glass, lead, silver, gold, jewel, pearl supply, beauty (18-95), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Glass Bead Maker System** — steklene kroglice
+  - 6 produktov (preproste, poslikane trgovske, srebrnojedrne, zlatofolijne, draguljaste, kraljevski veliki ogrlica)
+  - 4 zgradbe (kroglična delavnica, kroglična podstrešje, mojstrski kroglični atelje, kraljevska kroglična palača)
+  - Glass, paint, silver, gold, jewel, pearl supply, beauty (18-92), happiness (1-11), batch qty 1, GameEventBus publish
+- **Royal Lens Grinder System** — optične leče
+  - 6 produktov (steklena, polirana bralna, srebrnookvirna očalna, zlatookrasni teleskopska, draguljasta mikroskopska, kraljevski veliki set)
+  - 4 zgradbe (lečna delavnica, optična podstrešje, mojstrski optični atelje, kraljevska optična palača)
+  - Glass, leather, silver, gold, jewel, pearl supply, science (22-95), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Beaker Blower System** — stekleni lončki
+  - 6 produktov (preprost, merilni, srebrnookrasni, zlatookrasni, draguljasta, kraljevski veliki set)
+  - 4 zgradbe (lončkarska delavnica, pihalna podstrešje, mojstrski steklopihalski atelje, kraljevska lončkarska palača)
+  - Glass, paint, silver, gold, jewel, pearl supply, science (18-92), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Vitrail Foil Maker System** — vitražne folije
+  - 6 produktov (svinčeva, poslikana, srebrnookrasna, zlatofolijna, draguljasta, kraljevski veliki)
+  - 4 zgradbe (vitražna delavnica, vitražna podstrešje, mojstrski vitražni atelje, kraljevska vitražna palača)
+  - Glass, lead, paint, silver, gold, jewel, pearl supply, beauty (22-95), happiness (2-12), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.240] — 2026-08-09 — Royal Serving Plate Maker System (6 products, serving plates)
 ## [v3.11.239] — 2026-08-09 — Royal Cookware Founder System (6 products, cookware)
 ## [v3.11.238] — 2026-08-09 — Royal Cutlery Smith System (6 products, cutlery)
