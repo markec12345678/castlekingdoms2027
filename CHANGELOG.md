@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.306] — 2026-08-09 — Royal Wheelbarrow Maker System (6 products, wheelbarrows)
+## [v3.11.305] — 2026-08-09 — Royal Winch Maker System (6 products, winches)
+## [v3.11.304] — 2026-08-09 — Royal Pulley Maker System (6 products, pulleys)
+## [v3.11.303] — 2026-08-09 — Royal Scaffold Maker System (6 products, scaffolds)
+## [v3.11.302] — 2026-08-09 — Royal Crane Maker System (6 products, cranes)
 ## [v3.11.301] — 2026-08-09 — Royal Presentation Axe Maker System (6 products, presentation axes)
+
+### Dodano (5 sistemov naenkrat — gradbene tehnologije)
+- **Royal Crane Maker System** — žerjavi
+  - 6 produktov (lesen, železnookrepljen, srebrnanični, zlatookrasni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (žerjavna delavnica, strojna podstrešje, mojstrski inženirski atelje, kraljevska inženirska palača)
+  - Wood, iron, rope, silver, gold, jewel, pearl supply, science (18-95), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Scaffold Maker System** — gradbena stojala
+  - 6 produktov (leseno, železnookrepljeno, srebrnopasno, zlatookrasno, draguljasto, kraljevsko veliko)
+  - 4 zgradbe (stojalna delavnica, gradbena podstrešje, mojstrski gradbeni atelje, kraljevska gradbena palača)
+  - Wood, rope, iron, silver, gold, jewel, pearl supply, science (15-90), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Pulley Maker System** — škripci
+  - 6 produktov (leseni, železnoležajni, srebrnaosni, zlatookrasni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (škripčna delavnica, strojna podstrešje, mojstrski mehanični atelje, kraljevska strojna palača)
+  - Wood, iron, brass, rope, silver, gold, jewel, pearl supply, science (18-95), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Winch Maker System** — vitli
+  - 6 produktov (lesen, železnookrepljen, srebrnazobčani, zlatookrasni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (vitelska delavnica, strojna podstrešje, mojstrski inženirski atelje, kraljevska inženirska palača)
+  - Wood, iron, rope, silver, gold, jewel, pearl supply, science (22-95), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Wheelbarrow Maker System** — vozički
+  - 6 produktov (lesen, železnookrepljen, srebrnoobrobljeni, zlatookrasni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (vozičkarska delavnica, kolarska podstrešje, mojstrski kolarski atelje, kraljevska kolarska palača)
+  - Wood, iron, silver, gold, jewel, pearl supply, science (15-90), happiness (1-12), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.300] — 2026-08-09 — Royal State Spear Maker System (6 products, state spears)
 ## [v3.11.299] — 2026-08-09 — Royal Ritual Dagger Maker System (6 products, ritual daggers)
 ## [v3.11.298] — 2026-08-09 — Royal Parade Mace Maker System (6 products, parade maces)
