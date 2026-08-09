@@ -454,6 +454,12 @@ S.WigMaker = require("objects.Economy.RoyalWigMakerSystem")
 S.FortuneTeller = require("objects.Gameplay.RoyalFortuneTellerSystem")
 S.TattooArtist = require("objects.Gameplay.RoyalTattooArtistSystem")
 S.JesterPropsMaker = require("objects.Gameplay.RoyalJesterPropsMakerSystem")
+-- Castle Kingdoms 2027 v3.11.172-v3.11.176: 5 new toy & game systems
+S.BoardGameMaker = require("objects.Economy.RoyalBoardGameMakerSystem")
+S.CardDeckMaker = require("objects.Economy.RoyalCardDeckMakerSystem")
+S.DominoMaker = require("objects.Economy.RoyalDominoMakerSystem")
+S.PlayingCardMaker = require("objects.Economy.RoyalPlayingCardMakerSystem")
+S.JigsawPuzzleMaker = require("objects.Economy.RoyalJigsawPuzzleMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1331,6 +1337,12 @@ local function delayedInit()
     S.FortuneTeller.init(); _G.FortuneTeller = S.FortuneTeller
     S.TattooArtist.init(); _G.TattooArtist = S.TattooArtist
     S.JesterPropsMaker.init(); _G.JesterPropsMaker = S.JesterPropsMaker
+    -- Castle Kingdoms 2027 v3.11.172-v3.11.176: Initialize 5 new toy & game systems
+    S.BoardGameMaker.init(); _G.BoardGameMaker = S.BoardGameMaker
+    S.CardDeckMaker.init(); _G.CardDeckMaker = S.CardDeckMaker
+    S.DominoMaker.init(); _G.DominoMaker = S.DominoMaker
+    S.PlayingCardMaker.init(); _G.PlayingCardMaker = S.PlayingCardMaker
+    S.JigsawPuzzleMaker.init(); _G.JigsawPuzzleMaker = S.JigsawPuzzleMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1953,6 +1965,12 @@ function game:update(dt)
                 S.FortuneTeller.update(dt)
                 S.TattooArtist.update(dt)
                 S.JesterPropsMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.172-v3.11.176: Update 5 new toy & game systems
+                S.BoardGameMaker.update(dt)
+                S.CardDeckMaker.update(dt)
+                S.DominoMaker.update(dt)
+                S.PlayingCardMaker.update(dt)
+                S.JigsawPuzzleMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

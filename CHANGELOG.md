@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.176] — 2026-08-09 — Royal Jigsaw Puzzle Maker System (6 products, puzzles)
+## [v3.11.175] — 2026-08-09 — Royal Playing Card Maker System (6 products, playing cards)
+## [v3.11.174] — 2026-08-09 — Royal Domino Maker System (6 products, dominoes)
+## [v3.11.173] — 2026-08-09 — Royal Card Deck Maker System (6 products, card decks)
+## [v3.11.172] — 2026-08-09 — Royal Board Game Maker System (6 products, board games)
+
+### Dodano (5 sistemov naenkrat — igrače in igre)
+- **Royal Board Game Maker System** — namizne igre
+  - 6 produktov (lesena, poslikana, intarzirana, srebrno obrobljena, zlato intarzirana, kraljevski veliki)
+  - 4 zgradbe (igrarska delavnica, slikalnica, intarzijalnica, kraljevski atelje)
+  - Wood, paint, bone, ivory, silver, gold, jewel, pearl supply, entertainment (40-100), happiness (2-12), batch qty 1, GameEventBus publish
+- **Royal Card Deck Maker System** — karte za igre
+  - 6 produktov (pergamentne, poslikane, pozlačene, srebrno obrobljene, zlatolistne, kraljevski velike)
+  - 4 zgradbe (kartarska delavnica, slikalnica, pozlatnica, kraljevski atelje)
+  - Parchment, ink, paint, silver, gold, jewel, pearl supply, artistry (40-100), happiness (2-12), batch qty 1, GameEventBus publish
+- **Royal Domino Maker System** — domine
+  - 6 produktov (kostne, slonokoščene, poslikane, srebrnopikčaste, zlatointarzirane, kraljevski velike)
+  - 4 zgradbe (dominarska delavnica, rezbarnica, intarzijalnica, kraljevski atelje)
+  - Bone, ivory, ink, paint, silver, gold, jewel, pearl supply, artistry (40-100), happiness (2-12), batch qty 1, GameEventBus publish
+- **Royal Playing Card Maker System** — igralne karte
+  - 6 produktov (lesorezne, ročno poslikane, šablonske, srebrnorobne, zlatorobne, kraljevski velike)
+  - 4 zgradbe (igralkarska delavnica, tiskalnica, pozlatnica, kraljevski atelje)
+  - Paper, ink, paint, silver, gold, jewel, pearl supply, artistry (40-100), happiness (2-12), batch qty 1, GameEventBus publish
+- **Royal Jigsaw Puzzle Maker System** — sestavljenke
+  - 6 produktov (lesene, poslikane, furnirne, srebrno obrobljene, zlatointarzirane, kraljevski velike)
+  - 4 zgradbe (sestavljenkarska delavnica, rezalnica, slikalnica, kraljevski atelje)
+  - Wood, veneer, paint, silver, gold, jewel, pearl supply, artistry (40-100), happiness (2-12), batch qty 1, GameEventBus publish
+
 ## [v3.11.171] — 2026-08-09 — Royal Jester Props Maker System (6 products, jester props)
 ## [v3.11.170] — 2026-08-09 — Royal Tattoo Artist System (6 products, tattoos)
 ## [v3.11.169] — 2026-08-09 — Royal Fortune Teller System (6 products, fortune readings)
