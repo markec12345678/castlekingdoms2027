@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.171] — 2026-08-09 — Royal Jester Props Maker System (6 products, jester props)
+## [v3.11.170] — 2026-08-09 — Royal Tattoo Artist System (6 products, tattoos)
+## [v3.11.169] — 2026-08-09 — Royal Fortune Teller System (6 products, fortune readings)
+## [v3.11.168] — 2026-08-09 — Royal Wig Maker System (6 products, wigs)
+## [v3.11.167] — 2026-08-09 — Royal Mirror Maker System (6 products, mirrors)
+
+### Dodano (5 sistemov naenkrat — osebne in zabavne storitve)
+- **Royal Mirror Maker System** — zrcala
+  - 6 produktov (ročno, stensko, srebrno, srebrno okvirno, zlato okvirno, kraljevski veliki)
+  - 4 zgradbe (zrcalna delavnica, srebrilnica, polirnica, kraljevski atelje)
+  - Glass, wood, tin, silver, gold, jewel, pearl supply, clarity (50-100), happiness (1-8), batch qty 1, GameEventBus publish
+- **Royal Wig Maker System** — lasulje
+  - 6 produktov (konjskodlana, človeškodlana, prašna, srebrno nitna, zlatorobna, kraljevski veliki)
+  - 4 zgradbe (lasuljarska delavnica, lasuljnica, oblikovalnica, kraljevski atelje)
+  - Hair, human hair, linen, silk, starch, silver, gold, jewel, pearl supply, happiness (1-11), batch qty 1, GameEventBus publish
+- **Royal Fortune Teller System** — vedeževanje
+  - 6 produktov (branje dlani, tarot, kristalogledje, srebrnokotansko, zlatoastrološko, kraljevski veliki)
+  - 4 zgradbe (vedeževalska postaja, vedeževalnica, gledalna komora, kraljevski atelje)
+  - Ink, parchment, tarot cards, crystal, silver, gold, jewel, pearl supply, accuracy (40-100), happiness (2-12), batch qty 1, GameEventBus publish
+- **Royal Tattoo Artist System** — tetovaže
+  - 6 produktov (preprosta, plemenska, heraldična, srebrnočrnilna, zlatočrnilna, kraljevski veliki)
+  - 4 zgradbe (tetovažna postaja, tetovažnica, umetniška soba, kraljevski atelje)
+  - Ink, needle, silver, gold, jewel, pearl supply, artistry (40-100), happiness (2-12), batch qty 1, GameEventBus publish
+- **Royal Jester Props Maker System** — norčevi rekviziti
+  - 6 produktov (žonglirske žoge, norčeva žezla, norčeva kapa, srebrno zvončni, zlatorobni kostum, kraljevski veliki)
+  - 4 zgradbe (rekvizitna delavnica, rekvizitnica, kostumnica, kraljevski atelje)
+  - Leather, sand, wood, paint, bell, linen, silk, silver, gold, jewel, pearl supply, comedyValue (30-100), happiness (2-14), batch qty 1, GameEventBus publish
+
 ## [v3.11.166] — 2026-08-09 — Royal Alchemical Elixir Maker System (6 products, elixirs)
 ## [v3.11.165] — 2026-08-09 — Royal Potion Brewer System (6 products, potions)
 ## [v3.11.164] — 2026-08-09 — Royal Plague Doctor Mask Maker System (6 products, masks)

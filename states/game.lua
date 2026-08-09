@@ -448,6 +448,12 @@ S.LeechCollector = require("objects.Gameplay.RoyalLeechCollectorSystem")
 S.PlagueDoctorMaskMaker = require("objects.Gameplay.RoyalPlagueDoctorMaskMakerSystem")
 S.PotionBrewer = require("objects.Gameplay.RoyalPotionBrewerSystem")
 S.AlchemicalElixirMaker = require("objects.Gameplay.RoyalAlchemicalElixirMakerSystem")
+-- Castle Kingdoms 2027 v3.11.167-v3.11.171: 5 new personal & entertainment systems
+S.MirrorMaker = require("objects.Economy.RoyalMirrorMakerSystem")
+S.WigMaker = require("objects.Economy.RoyalWigMakerSystem")
+S.FortuneTeller = require("objects.Gameplay.RoyalFortuneTellerSystem")
+S.TattooArtist = require("objects.Gameplay.RoyalTattooArtistSystem")
+S.JesterPropsMaker = require("objects.Gameplay.RoyalJesterPropsMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1319,6 +1325,12 @@ local function delayedInit()
     S.PlagueDoctorMaskMaker.init(); _G.PlagueDoctorMaskMaker = S.PlagueDoctorMaskMaker
     S.PotionBrewer.init(); _G.PotionBrewer = S.PotionBrewer
     S.AlchemicalElixirMaker.init(); _G.AlchemicalElixirMaker = S.AlchemicalElixirMaker
+    -- Castle Kingdoms 2027 v3.11.167-v3.11.171: Initialize 5 new personal & entertainment systems
+    S.MirrorMaker.init(); _G.MirrorMaker = S.MirrorMaker
+    S.WigMaker.init(); _G.WigMaker = S.WigMaker
+    S.FortuneTeller.init(); _G.FortuneTeller = S.FortuneTeller
+    S.TattooArtist.init(); _G.TattooArtist = S.TattooArtist
+    S.JesterPropsMaker.init(); _G.JesterPropsMaker = S.JesterPropsMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1935,6 +1947,12 @@ function game:update(dt)
                 S.PlagueDoctorMaskMaker.update(dt)
                 S.PotionBrewer.update(dt)
                 S.AlchemicalElixirMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.167-v3.11.171: Update 5 new personal & entertainment systems
+                S.MirrorMaker.update(dt)
+                S.WigMaker.update(dt)
+                S.FortuneTeller.update(dt)
+                S.TattooArtist.update(dt)
+                S.JesterPropsMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
