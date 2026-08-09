@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.276] — 2026-08-09 — Royal Hat Maker System (6 products, hats)
+## [v3.11.275] — 2026-08-09 — Royal Glove Maker System (6 products, gloves)
+## [v3.11.274] — 2026-08-09 — Royal Walking Stick Maker System (6 products, walking sticks)
+## [v3.11.273] — 2026-08-09 — Royal Pocket Watch Maker System (6 products, pocket watches)
+## [v3.11.272] — 2026-08-09 — Royal Umbrella Maker System (6 products, umbrellas)
 ## [v3.11.271] — 2026-08-09 — Royal Locket Maker System (6 products, lockets)
+
+### Dodano (5 sistemov naenkrat — osebni dodatki in modni pripomočki)
+- **Royal Umbrella Maker System** — dežniki in sončniki
+  - 6 produktov (oljnoplásto, svileni sončnik, srebrnorokavni, zlatookrasni, draguljnogrbi, kraljevski veliki)
+  - 4 zgradbe (dežnična delavnica, sončniška podstrešje, mojstrski dežnični atelje, kraljevska dežnična palača)
+  - Wood, linen, silk, silver, gold, jewel, pearl supply, beauty (18-95), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Pocket Watch Maker System** — žepne ure
+  - 6 produktov (medeninasta, srebrnookrovna, zlatoookrovna, draguljnoležajna, bisernolicna, kraljevski veliki)
+  - 4 zgradbe (urnarska delavnica, horološka podstrešje, mojstrski urnarski atelje, kraljevska urnarska palača)
+  - Brass, glass, silver, gold, jewel, pearl supply, science (22-95), happiness (2-13), batch qty 1, GameEventBus publish
+- **Royal Walking Stick Maker System** — sprehodalne palice
+  - 6 produktov (hrastov, izrezljana, srebrnorokavna, zlatookrasna, draguljnogrbi, kraljevski veliki)
+  - 4 zgradbe (palica delavnica, palica podstrešje, mojstrski palica atelje, kraljevska palica palača)
+  - Wood, leather, silver, gold, jewel, pearl supply, beauty (18-92), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Glove Maker System** — rokavice
+  - 6 produktov (volnene, usnjene jahalne, sviloobložene, srebrnovezene, zlatookrasne, kraljevske velike)
+  - 4 zgradbe (rokavičarska delavnica, rokavičarska podstrešje, mojstrski rokavičarski atelje, kraljevska rokavičarska palača)
+  - Wool, leather, silk, thread, silver, gold, jewel, pearl supply, warmth (22-88), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Hat Maker System** — klobuki
+  - 6 produktov (filcana kapa, bober filc, srebrnopasni, zlatookrasni, draguljnopripeti, kraljevski veliki)
+  - 4 zgradbe (klobučarska delavnica, filcna podstrešje, mojstrski klobučarski atelje, kraljevska klobučarska palača)
+  - Wool, leather, silver, gold, jewel, pearl supply, beauty (18-95), warmth (18-65), happiness (1-12), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.270] — 2026-08-09 — Royal Brooch Maker System (6 products, brooches)
 ## [v3.11.269] — 2026-08-09 — Royal Pendant Maker System (6 products, pendants)
 ## [v3.11.268] — 2026-08-09 — Royal Commemorative Token Maker System (6 products, tokens)

@@ -557,6 +557,11 @@ S.CommemorativeTokenMaker = require("objects.Economy.RoyalCommemorativeTokenMake
 S.PendantMaker = require("objects.Economy.RoyalPendantMakerSystem")
 S.BroochMaker = require("objects.Economy.RoyalBroochMakerSystem")
 S.LocketMaker = require("objects.Economy.RoyalLocketMakerSystem")
+S.UmbrellaMaker = require("objects.Economy.RoyalUmbrellaMakerSystem")
+S.PocketWatchMaker = require("objects.Economy.RoyalPocketWatchMakerSystem")
+S.WalkingStickMaker = require("objects.Economy.RoyalWalkingStickMakerSystem")
+S.GloveMaker = require("objects.Economy.RoyalGloveMakerSystem")
+S.HatMaker = require("objects.Economy.RoyalHatMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1537,6 +1542,11 @@ local function delayedInit()
     S.PendantMaker.init(); _G.PendantMaker = S.PendantMaker
     S.BroochMaker.init(); _G.BroochMaker = S.BroochMaker
     S.LocketMaker.init(); _G.LocketMaker = S.LocketMaker
+    S.UmbrellaMaker.init(); _G.UmbrellaMaker = S.UmbrellaMaker
+    S.PocketWatchMaker.init(); _G.PocketWatchMaker = S.PocketWatchMaker
+    S.WalkingStickMaker.init(); _G.WalkingStickMaker = S.WalkingStickMaker
+    S.GloveMaker.init(); _G.GloveMaker = S.GloveMaker
+    S.HatMaker.init(); _G.HatMaker = S.HatMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -2262,6 +2272,11 @@ function game:update(dt)
                 S.PendantMaker.update(dt)
                 S.BroochMaker.update(dt)
                 S.LocketMaker.update(dt)
+                S.UmbrellaMaker.update(dt)
+                S.PocketWatchMaker.update(dt)
+                S.WalkingStickMaker.update(dt)
+                S.GloveMaker.update(dt)
+                S.HatMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
