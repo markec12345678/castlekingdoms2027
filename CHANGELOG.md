@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.166] — 2026-08-09 — Royal Alchemical Elixir Maker System (6 products, elixirs)
+## [v3.11.165] — 2026-08-09 — Royal Potion Brewer System (6 products, potions)
+## [v3.11.164] — 2026-08-09 — Royal Plague Doctor Mask Maker System (6 products, masks)
+## [v3.11.163] — 2026-08-09 — Royal Leech Collector System (6 products, leeches)
+## [v3.11.162] — 2026-08-09 — Royal Surgical Tool Maker System (6 products, surgical tools)
+
+### Dodano (5 sistemov naenkrat — medicinska in alkemijska serija)
+- **Royal Surgical Tool Maker System** — kirurška orodja
+  - 6 produktov (železen skalpel, jeklen, srebrne pincete, srebrni komplet, zlatorobni, kraljevski veliki)
+  - 4 zgradbe (kirurška delavnica, kovačija, brusilnica, kraljevski atelje)
+  - Iron, steel, wood, silver, gold, jewel, pearl supply, sharpness (50-100), happiness (1-8), batch qty 1, GameEventBus publish
+- **Royal Leech Collector System** — pijavke za medicino
+  - 6 produktov (navadna, medicinska, krvna, srebrno kozarčna, srebrno obdelana, kraljevski veliki)
+  - 4 zgradbe (pijavkarska postaja, pijavkarski ribnik, shranjevalnica, kraljevski atelje)
+  - Pond water, herb, silver, gold, jewel supply, healingPower (30-100), happiness (1-7), batch qty 5, GameEventBus publish
+- **Royal Plague Doctor Mask Maker System** — mask za zdravnike kuge
+  - 6 produktov (usnjeni, kljunasti, srebrno kroglični, srebrno obrobljeni, zlatorobni, kraljevski veliki)
+  - 4 zgradbe (maskarska delavnica, usnjiška soba, zeliščna komora, kraljevski atelje)
+  - Leather, herb, silver, gold, jewel, pearl supply, protection (40-100), happiness (1-8), batch qty 1, GameEventBus publish
+- **Royal Potion Brewer System** — medicinski napoji
+  - 6 produktov (zdravilni, vzdržljivosti, protistrup, srebrnoflašni, zlatoflašni, kraljevski veliki)
+  - 4 zgradbe (napojarska delavnica, varilnica, alkemijski laboratorij, kraljevski atelje)
+  - Herb, honey, water, silver, gold, jewel, pearl supply, healingPower (40-100), happiness (1-9), batch qty 1, GameEventBus publish
+- **Royal Alchemical Elixir Maker System** — alkemijski eliksirji
+  - 6 produktov (vitalnosti, dolgoživosti, modrosti, srebrnolončni, zlatožbronasti, kraljevski veliki)
+  - 4 zgradbe (eliksirska delavnica, alkemijska komora, destilacijska soba, kraljevski atelje)
+  - Herb, mineral, water, silver, gold, jewel, pearl supply, potency (40-100), happiness (1-13), batch qty 1, GameEventBus publish
+
 ## [v3.11.161] — 2026-08-09 — Royal Thermometer Maker System (6 products, thermometers)
 ## [v3.11.160] — 2026-08-09 — Royal Barometer Maker System (6 products, barometers)
 ## [v3.11.159] — 2026-08-09 — Royal Microscope Maker System (6 products, microscopes)

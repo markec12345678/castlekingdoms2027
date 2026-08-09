@@ -442,6 +442,12 @@ S.HourglassMaker = require("objects.Economy.RoyalHourglassMakerSystem")
 S.MicroscopeMaker = require("objects.Economy.RoyalMicroscopeMakerSystem")
 S.BarometerMaker = require("objects.Economy.RoyalBarometerMakerSystem")
 S.ThermometerMaker = require("objects.Economy.RoyalThermometerMakerSystem")
+-- Castle Kingdoms 2027 v3.11.162-v3.11.166: 5 new medical & alchemical systems
+S.SurgicalToolMaker = require("objects.Gameplay.RoyalSurgicalToolMakerSystem")
+S.LeechCollector = require("objects.Gameplay.RoyalLeechCollectorSystem")
+S.PlagueDoctorMaskMaker = require("objects.Gameplay.RoyalPlagueDoctorMaskMakerSystem")
+S.PotionBrewer = require("objects.Gameplay.RoyalPotionBrewerSystem")
+S.AlchemicalElixirMaker = require("objects.Gameplay.RoyalAlchemicalElixirMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1307,6 +1313,12 @@ local function delayedInit()
     S.MicroscopeMaker.init(); _G.MicroscopeMaker = S.MicroscopeMaker
     S.BarometerMaker.init(); _G.BarometerMaker = S.BarometerMaker
     S.ThermometerMaker.init(); _G.ThermometerMaker = S.ThermometerMaker
+    -- Castle Kingdoms 2027 v3.11.162-v3.11.166: Initialize 5 new medical & alchemical systems
+    S.SurgicalToolMaker.init(); _G.SurgicalToolMaker = S.SurgicalToolMaker
+    S.LeechCollector.init(); _G.LeechCollector = S.LeechCollector
+    S.PlagueDoctorMaskMaker.init(); _G.PlagueDoctorMaskMaker = S.PlagueDoctorMaskMaker
+    S.PotionBrewer.init(); _G.PotionBrewer = S.PotionBrewer
+    S.AlchemicalElixirMaker.init(); _G.AlchemicalElixirMaker = S.AlchemicalElixirMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1917,6 +1929,12 @@ function game:update(dt)
                 S.MicroscopeMaker.update(dt)
                 S.BarometerMaker.update(dt)
                 S.ThermometerMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.162-v3.11.166: Update 5 new medical & alchemical systems
+                S.SurgicalToolMaker.update(dt)
+                S.LeechCollector.update(dt)
+                S.PlagueDoctorMaskMaker.update(dt)
+                S.PotionBrewer.update(dt)
+                S.AlchemicalElixirMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
