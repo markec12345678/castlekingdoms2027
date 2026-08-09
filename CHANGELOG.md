@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.371] — 2026-08-09 — Royal Paper Cutting Machine Maker System (6 products, paper cutting machines)
+## [v3.11.370] — 2026-08-09 — Royal Bookbinding Press Maker System (6 products, bookbinding presses)
+## [v3.11.369] — 2026-08-09 — Royal Typesetting Machine Maker System (6 products, typesetting machines)
+## [v3.11.368] — 2026-08-09 — Royal Engraving Machine Maker System (6 products, engraving machines)
+## [v3.11.367] — 2026-08-09 — Royal Printing Press Maker System (6 products, printing presses)
 ## [v3.11.366] — 2026-08-09 — Royal Fishing Boat Maker System (6 products, fishing boats)
+
+### Dodano (5 sistemov naenkrat — tiskarski stroji)
+- **Royal Printing Press Maker System** — tiskarske stiskalnice
+  - 6 produktov (lesena, železnookrepljena, srebrnozobčana, zlatookrasna, draguljasta, kraljevska velika)
+  - 4 zgradbe (tiskarska delavnica, tiskarska podstrešje, mojstrski tiskarski atelje, kraljevska tiskarska palača)
+  - Wood, iron, silver, gold, jewel, pearl supply, science (30-95), happiness (2-12), batch qty 1, GameEventBus publish
+- **Royal Engraving Machine Maker System** — gravirni stroji
+  - 6 produktov (leseni, železnookrepljen, srebrnozobčan, zlatookrasni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (gravirna delavnica, tiskarska podstrešje, mojstrski gravirni atelje, kraljevska tiskarska palača)
+  - Wood, iron, brass, silver, gold, jewel, pearl supply, science (25-95), happiness (2-12), batch qty 1, GameEventBus publish
+- **Royal Typesetting Machine Maker System** — tipografski stroji
+  - 6 produktov (leseni, železnookrepljen, srebrnozobčan, zlatookrasni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (tipografska delavnica, tiskarska podstrešje, mojstrski tipografski atelje, kraljevska tiskarska palača)
+  - Wood, iron, lead, silver, gold, jewel, pearl supply, science (28-95), happiness (2-12), batch qty 1, GameEventBus publish
+- **Royal Bookbinding Press Maker System** — vezne stiskalnice
+  - 6 produktov (lesena, železnookrepljena, srebrnozobčana, zlatookrasna, draguljasta, kraljevska velika)
+  - 4 zgradbe (vezna delavnica, tiskarska podstrešje, mojstrski vezni atelje, kraljevska tiskarska palača)
+  - Wood, iron, leather, silver, gold, jewel, pearl supply, science (22-95), happiness (2-12), batch qty 1, GameEventBus publish
+- **Royal Paper Cutting Machine Maker System** — papirni rezniki
+  - 6 produktov (leseni, železnorezni, srebrnozobčan, zlatookrasni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (papirna rezna delavnica, tiskarska podstrešje, mojstrski rezni atelje, kraljevska tiskarska palača)
+  - Wood, iron, silver, gold, jewel, pearl supply, science (20-95), happiness (1-12), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.365] — 2026-08-09 — Royal Harpoon Maker System (6 products, harpoons)
 ## [v3.11.364] — 2026-08-09 — Royal Fishing Rod Maker System (6 products, fishing rods)
 ## [v3.11.363] — 2026-08-09 — Royal Fishing Trap Maker System (6 products, fishing traps)

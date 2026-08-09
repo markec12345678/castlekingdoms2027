@@ -652,6 +652,11 @@ S.FishingTrapMaker = require("objects.Economy.RoyalFishingTrapMakerSystem")
 S.FishingRodMaker = require("objects.Economy.RoyalFishingRodMakerSystem")
 S.HarpoonMaker = require("objects.Economy.RoyalHarpoonMakerSystem")
 S.FishingBoatMaker = require("objects.Economy.RoyalFishingBoatMakerSystem")
+S.PrintingPressMaker = require("objects.Economy.RoyalPrintingPressMakerSystem")
+S.EngravingMachineMaker = require("objects.Economy.RoyalEngravingMachineMakerSystem")
+S.TypesettingMachineMaker = require("objects.Economy.RoyalTypesettingMachineMakerSystem")
+S.BookbindingPressMaker = require("objects.Economy.RoyalBookbindingPressMakerSystem")
+S.PaperCuttingMachineMaker = require("objects.Economy.RoyalPaperCuttingMachineMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1727,6 +1732,11 @@ local function delayedInit()
     S.FishingRodMaker.init(); _G.FishingRodMaker = S.FishingRodMaker
     S.HarpoonMaker.init(); _G.HarpoonMaker = S.HarpoonMaker
     S.FishingBoatMaker.init(); _G.FishingBoatMaker = S.FishingBoatMaker
+    S.PrintingPressMaker.init(); _G.PrintingPressMaker = S.PrintingPressMaker
+    S.EngravingMachineMaker.init(); _G.EngravingMachineMaker = S.EngravingMachineMaker
+    S.TypesettingMachineMaker.init(); _G.TypesettingMachineMaker = S.TypesettingMachineMaker
+    S.BookbindingPressMaker.init(); _G.BookbindingPressMaker = S.BookbindingPressMaker
+    S.PaperCuttingMachineMaker.init(); _G.PaperCuttingMachineMaker = S.PaperCuttingMachineMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -2547,6 +2557,11 @@ function game:update(dt)
                 S.FishingRodMaker.update(dt)
                 S.HarpoonMaker.update(dt)
                 S.FishingBoatMaker.update(dt)
+                S.PrintingPressMaker.update(dt)
+                S.EngravingMachineMaker.update(dt)
+                S.TypesettingMachineMaker.update(dt)
+                S.BookbindingPressMaker.update(dt)
+                S.PaperCuttingMachineMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
