@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.326] — 2026-08-09 — Royal Vestibule Light Maker System (6 products, vestibule lights)
+## [v3.11.325] — 2026-08-09 — Royal Beacon Light Maker System (6 products, beacon lights)
+## [v3.11.324] — 2026-08-09 — Royal Candlestick Maker System (6 products, candlesticks)
+## [v3.11.323] — 2026-08-09 — Royal Torch Holder Maker System (6 products, torch holders)
+## [v3.11.322] — 2026-08-09 — Royal Oil Lamp Maker System (6 products, oil lamps)
 ## [v3.11.321] — 2026-08-09 — Royal Copper Sheet Maker System (6 products, copper sheets)
+
+### Dodano (5 sistemov naenkrat — illuminatorske tehnologije)
+- **Royal Oil Lamp Maker System** — oljne svetilke
+  - 6 produktov (glinena, medeninasta, srebrnoobrobljena, zlatookrasna, draguljasta, kraljevska velika)
+  - 4 zgradbe (oljna svetilkarska delavnica, razsvetljena podstrešje, mojstrski svetilkarski atelje, kraljevska razsvetljenska palača)
+  - Clay, oil, brass, silver, gold, jewel, pearl supply, lightRadius (20-90), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Torch Holder Maker System** — bakloderžalci
+  - 6 produktov (železen, medeninast, srebrnoobrobljeni, zlatookrasni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (bakloderžalna delavnica, razsvetljena podstrešje, mojstrski deržalni atelje, kraljevska razsvetljenska palača)
+  - Iron, wood, brass, silver, gold, jewel, pearl supply, lightRadius (25-92), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Candlestick Maker System** — svečniki
+  - 6 produktov (glineni, medeninast, srebrnoobrobljeni, zlatookrasni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (svečniška delavnica, razsvetljena podstrešje, mojstrski svečniški atelje, kraljevska razsvetljenska palača)
+  - Clay, wax, brass, silver, gold, jewel, pearl supply, lightRadius (18-88), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Beacon Light Maker System** — svetilniki
+  - 6 produktov (leseni, železnookrepljen, srebrnoobrobljeni, zlatookrasni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (svetilniška delavnica, razsvetljena podstrešje, mojstrski svetilniški atelje, kraljevska razsvetljenska palača)
+  - Wood, iron, wax, silver, gold, jewel, pearl supply, lightRadius (50-125), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Vestibule Light Maker System** — vhodne luči
+  - 6 produktov (medeninasta, železnookrepljena, srebrnoobrobljena, zlatookrasna, draguljasta, kraljevska velika)
+  - 4 zgradbe (vhodna lučna delavnica, razsvetljena podstrešje, mojstrski vhodni lučni atelje, kraljevska razsvetljenska palača)
+  - Brass, glass, wax, iron, silver, gold, jewel, pearl supply, lightRadius (30-100), happiness (1-12), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.320] — 2026-08-09 — Royal Iron Forge Tool Maker System (6 products, forge tools)
 ## [v3.11.319] — 2026-08-09 — Royal Metal Mesh Maker System (6 products, metal meshes)
 ## [v3.11.318] — 2026-08-09 — Royal Hook Maker System (6 products, hooks)

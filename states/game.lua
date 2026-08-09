@@ -607,6 +607,11 @@ S.HookMaker = require("objects.Economy.RoyalHookMakerSystem")
 S.MetalMeshMaker = require("objects.Economy.RoyalMetalMeshMakerSystem")
 S.IronForgeToolMaker = require("objects.Economy.RoyalIronForgeToolMakerSystem")
 S.CopperSheetMaker = require("objects.Economy.RoyalCopperSheetMakerSystem")
+S.OilLampMaker = require("objects.Economy.RoyalOilLampMakerSystem")
+S.TorchHolderMaker = require("objects.Economy.RoyalTorchHolderMakerSystem")
+S.CandlestickMaker = require("objects.Economy.RoyalCandlestickMakerSystem")
+S.BeaconLightMaker = require("objects.Economy.RoyalBeaconLightMakerSystem")
+S.VestibuleLightMaker = require("objects.Economy.RoyalVestibuleLightMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1637,6 +1642,11 @@ local function delayedInit()
     S.MetalMeshMaker.init(); _G.MetalMeshMaker = S.MetalMeshMaker
     S.IronForgeToolMaker.init(); _G.IronForgeToolMaker = S.IronForgeToolMaker
     S.CopperSheetMaker.init(); _G.CopperSheetMaker = S.CopperSheetMaker
+    S.OilLampMaker.init(); _G.OilLampMaker = S.OilLampMaker
+    S.TorchHolderMaker.init(); _G.TorchHolderMaker = S.TorchHolderMaker
+    S.CandlestickMaker.init(); _G.CandlestickMaker = S.CandlestickMaker
+    S.BeaconLightMaker.init(); _G.BeaconLightMaker = S.BeaconLightMaker
+    S.VestibuleLightMaker.init(); _G.VestibuleLightMaker = S.VestibuleLightMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -2412,6 +2422,11 @@ function game:update(dt)
                 S.MetalMeshMaker.update(dt)
                 S.IronForgeToolMaker.update(dt)
                 S.CopperSheetMaker.update(dt)
+                S.OilLampMaker.update(dt)
+                S.TorchHolderMaker.update(dt)
+                S.CandlestickMaker.update(dt)
+                S.BeaconLightMaker.update(dt)
+                S.VestibuleLightMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
