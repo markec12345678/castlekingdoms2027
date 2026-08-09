@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.341] — 2026-08-09 — Royal Dye Vat Maker System (6 products, dye vats)
+## [v3.11.340] — 2026-08-09 — Royal Thread Reel Maker System (6 products, thread reels)
+## [v3.11.339] — 2026-08-09 — Royal Bobbin Maker System (6 products, bobbins)
+## [v3.11.338] — 2026-08-09 — Royal Loom Frame Maker System (6 products, loom frames)
+## [v3.11.337] — 2026-08-09 — Royal Spinning Wheel Maker System (6 products, spinning wheels)
 ## [v3.11.336] — 2026-08-09 — Royal Pitchfork Maker System (6 products, pitchforks)
+
+### Dodano (5 sistemov naenkrat — tekstilni pripomočki)
+- **Royal Spinning Wheel Maker System** — predilna vretena
+  - 6 produktov (leseno, železnopasno, srebrnoobrobljeno, zlatookrasno, draguljasto, kraljevsko veliko)
+  - 4 zgradbe (predilna delavnica, tekstilna podstrešje, mojstrski predilni atelje, kraljevska tekstilna palača)
+  - Wood, iron, silver, gold, jewel, pearl supply, science (18-95), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Loom Frame Maker System** — statveni okvirji
+  - 6 produktov (lesen, železnookrepljena, srebrnoobrobljene, zlatookrasne, draguljasta, kraljevske velike)
+  - 4 zgradbe (statvena delavnica, tekstilna podstrešje, mojstrski statveni atelje, kraljevska tekstilna palača)
+  - Wood, iron, rope, silver, gold, jewel, pearl supply, science (20-95), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Bobbin Maker System** — navojnice
+  - 6 produktov (lesena, železnopasna, srebrnoobrobljena, zlatookrasna, draguljasta, kraljevska velika)
+  - 4 zgradbe (navojnična delavnica, tekstilna podstrešje, mojstrski navojnični atelje, kraljevska tekstilna palača)
+  - Wood, iron, silver, gold, jewel, pearl supply, science (15-92), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Thread Reel Maker System** — nitne navijalke
+  - 6 produktov (lesena, železnovretenčna, srebrnoobrobljena, zlatookrasna, draguljasta, kraljevska velika)
+  - 4 zgradbe (navijalna delavnica, tekstilna podstrešje, mojstrski navijalni atelje, kraljevska tekstilna palača)
+  - Wood, iron, silver, gold, jewel, pearl supply, science (12-88), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Dye Vat Maker System** — barvilske kopeli
+  - 6 produktov (glinena, železnorobna, srebrnoobrobljena, zlatookrasna, draguljasta, kraljevska velika)
+  - 4 zgradbe (barvilska kadna delavnica, tekstilna podstrešje, mojstrski barvilski atelje, kraljevska tekstilna palača)
+  - Clay, wood, iron, silver, gold, jewel, pearl supply, science (18-92), happiness (1-12), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.335] — 2026-08-09 — Royal Scythe Smith System (6 products, scythes)
 ## [v3.11.334] — 2026-08-09 — Royal Sickle Smith System (6 products, sickles)
 ## [v3.11.333] — 2026-08-09 — Royal Harrow Maker System (6 products, harrows)
