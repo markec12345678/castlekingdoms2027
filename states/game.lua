@@ -412,6 +412,12 @@ S.SheepShepherd = require("objects.Economy.RoyalSheepShepherdSystem")
 S.PigFarmer = require("objects.Economy.RoyalPigFarmerSystem")
 S.PoultryKeeper = require("objects.Economy.RoyalPoultryKeeperSystem")
 S.HorseBreeder = require("objects.Economy.RoyalHorseBreederSystem")
+-- Castle Kingdoms 2027 v3.11.137-v3.11.141: 5 new water/economic systems
+S.Fisherman = require("objects.Economy.RoyalFishermanSystem")
+S.OysterFarmer = require("objects.Economy.RoyalOysterFarmerSystem")
+S.WhalingCaptain = require("objects.Economy.RoyalWhalingCaptainSystem")
+S.SaltPanWorker = require("objects.Economy.RoyalSaltPanWorkerSystem")
+S.IceCutter = require("objects.Economy.RoyalIceCutterSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1247,6 +1253,12 @@ local function delayedInit()
     S.PigFarmer.init(); _G.PigFarmer = S.PigFarmer
     S.PoultryKeeper.init(); _G.PoultryKeeper = S.PoultryKeeper
     S.HorseBreeder.init(); _G.HorseBreeder = S.HorseBreeder
+    -- Castle Kingdoms 2027 v3.11.137-v3.11.141: Initialize 5 new water/economic systems
+    S.Fisherman.init(); _G.Fisherman = S.Fisherman
+    S.OysterFarmer.init(); _G.OysterFarmer = S.OysterFarmer
+    S.WhalingCaptain.init(); _G.WhalingCaptain = S.WhalingCaptain
+    S.SaltPanWorker.init(); _G.SaltPanWorker = S.SaltPanWorker
+    S.IceCutter.init(); _G.IceCutter = S.IceCutter
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1827,6 +1839,12 @@ function game:update(dt)
                 S.PigFarmer.update(dt)
                 S.PoultryKeeper.update(dt)
                 S.HorseBreeder.update(dt)
+                -- Castle Kingdoms 2027 v3.11.137-v3.11.141: Update 5 new water/economic systems
+                S.Fisherman.update(dt)
+                S.OysterFarmer.update(dt)
+                S.WhalingCaptain.update(dt)
+                S.SaltPanWorker.update(dt)
+                S.IceCutter.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

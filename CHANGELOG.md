@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.141] — 2026-08-09 — Royal Ice Cutter System (6 products, ice)
+## [v3.11.140] — 2026-08-09 — Royal Salt Pan Worker System (6 products, salt)
+## [v3.11.139] — 2026-08-09 — Royal Whaling Captain System (6 products, whales)
+## [v3.11.138] — 2026-08-09 — Royal Oyster Farmer System (6 products, oysters/pearls)
+## [v3.11.137] — 2026-08-09 — Royal Fisherman System (6 products, fish)
+
+### Dodano (5 sistemov naenkrat — vodna/gospodarska serija)
+- **Royal Fisherman System** — ribištvo
+  - 6 produktov (sled, bakalar, postrv, losos, srebrno mrežni, kraljevski veliki)
+  - 4 zgradbe (ribarska postaja, ribje pristanišče, konzervirnica, kraljevski atelje)
+  - Net, bait, silver, gold, jewel supply, yield (40-100), happiness (1-7), batch qty 5, GameEventBus publish
+- **Royal Oyster Farmer System** — ostrigarstvo in bisere
+  - 6 produktov (navadna ostriga, biser, gojen biser, črni biser, srebrnousti, kraljevski veliki)
+  - 4 zgradbe (ostrigarska postaja, ostrigarske postelje, biserna hiša, kraljevski atelje)
+  - Oyster bed, pearl oyster bed, silver, gold, jewel supply, yield (35-100), happiness (1-11), batch qty 1, GameEventBus publish
+- **Royal Whaling Captain System** — kitolov
+  - 6 produktov (kitovo olje, kosti, ambra, spermačetno olje, srebrno harpunski, kraljevski veliki)
+  - 4 zgradbe (kitolovska postaja, kitolovsko pristanišče, kuhalnica, kraljevski atelje)
+  - Harpoon, silver, gold, jewel supply, yield (40-100), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Salt Pan Worker System** — morska solina
+  - 6 produktov (solinska, pahuljasta, solni cvet, srebrno kristalna, srebrno solinska, kraljevski veliki)
+  - 4 zgradbe (solinarska postaja, solina, kristalizacijsko dvorišče, kraljevski atelje)
+  - Seawater, fuel, silver, gold, jewel supply, purity (50-100), batch qty 10
+- **Royal Ice Cutter System** — rezanje ledu
+  - 6 produktov (jezerski, rečni, ledniški, srebrno prašni, srebrno zabojni, kraljevski veliki)
+  - 4 zgradbe (ledarska postaja, ledarna, hladilnica, kraljevski atelje)
+  - Saw, rope, silver, gold, jewel supply, purity (60-100), batch qty 5, GameEventBus publish
+
 ## [v3.11.136] — 2026-08-09 — Royal Horse Breeder System (6 products, horses)
 ## [v3.11.135] — 2026-08-09 — Royal Poultry Keeper System (6 products, poultry)
 ## [v3.11.134] — 2026-08-09 — Royal Pig Farmer System (6 products, pigs)
