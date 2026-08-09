@@ -617,6 +617,11 @@ S.AqueductMaker = require("objects.Economy.RoyalAqueductMakerSystem")
 S.BathFixtureMaker = require("objects.Economy.RoyalBathFixtureMakerSystem")
 S.CisternMaker = require("objects.Economy.RoyalCisternMakerSystem")
 S.LatrineBuilder = require("objects.Economy.RoyalLatrineBuilderSystem")
+S.PlowMaker = require("objects.Economy.RoyalPlowMakerSystem")
+S.HarrowMaker = require("objects.Economy.RoyalHarrowMakerSystem")
+S.SickleSmith = require("objects.Economy.RoyalSickleSmithSystem")
+S.ScytheSmith = require("objects.Economy.RoyalScytheSmithSystem")
+S.PitchforkMaker = require("objects.Economy.RoyalPitchforkMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1657,6 +1662,11 @@ local function delayedInit()
     S.BathFixtureMaker.init(); _G.BathFixtureMaker = S.BathFixtureMaker
     S.CisternMaker.init(); _G.CisternMaker = S.CisternMaker
     S.LatrineBuilder.init(); _G.LatrineBuilder = S.LatrineBuilder
+    S.PlowMaker.init(); _G.PlowMaker = S.PlowMaker
+    S.HarrowMaker.init(); _G.HarrowMaker = S.HarrowMaker
+    S.SickleSmith.init(); _G.SickleSmith = S.SickleSmith
+    S.ScytheSmith.init(); _G.ScytheSmith = S.ScytheSmith
+    S.PitchforkMaker.init(); _G.PitchforkMaker = S.PitchforkMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -2442,6 +2452,11 @@ function game:update(dt)
                 S.BathFixtureMaker.update(dt)
                 S.CisternMaker.update(dt)
                 S.LatrineBuilder.update(dt)
+                S.PlowMaker.update(dt)
+                S.HarrowMaker.update(dt)
+                S.SickleSmith.update(dt)
+                S.ScytheSmith.update(dt)
+                S.PitchforkMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

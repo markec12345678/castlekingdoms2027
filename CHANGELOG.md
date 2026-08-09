@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.336] — 2026-08-09 — Royal Pitchfork Maker System (6 products, pitchforks)
+## [v3.11.335] — 2026-08-09 — Royal Scythe Smith System (6 products, scythes)
+## [v3.11.334] — 2026-08-09 — Royal Sickle Smith System (6 products, sickles)
+## [v3.11.333] — 2026-08-09 — Royal Harrow Maker System (6 products, harrows)
+## [v3.11.332] — 2026-08-09 — Royal Plow Maker System (6 products, plows)
 ## [v3.11.331] — 2026-08-09 — Royal Latrine Builder System (6 products, latrines)
+
+### Dodano (5 sistemov naenkrat — kmetijski pripomočki)
+- **Royal Plow Maker System** — plugi
+  - 6 produktov (leseni, železnovršni, jeklenorezni, srebrnoobrobljeni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (plužna delavnica, kmetijska podstrešje, mojstrski plužni atelje, kraljevska kmetijska palača)
+  - Wood, iron, steel, silver, gold, jewel, pearl supply, food (15-90), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Harrow Maker System** — brana
+  - 6 produktov (leseno, železnozoba, jeklenobodena, srebrnoobrobljena, draguljasta, kraljevska velika)
+  - 4 zgradbe (branska delavnica, kmetijska podstrešje, mojstrski branski atelje, kraljevska kmetijska palača)
+  - Wood, iron, steel, silver, gold, jewel, pearl supply, food (12-82), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Sickle Smith System** — srpi
+  - 6 produktov (železen, jeklenorezni, srebrnoobrobljeni, zlatookrasni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (srparska delavnica, kmetijska podstrešje, mojstrski srparski atelje, kraljevska kmetijska palača)
+  - Iron, steel, wood, silver, gold, jewel, pearl supply, food (10-75), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Scythe Smith System** — kose
+  - 6 produktov (železna, jeklenorezna, srebrnoobrobljena, zlatookrasna, draguljasta, kraljevska velika)
+  - 4 zgradbe (kosarska delavnica, kmetijska podstrešje, mojstrski kosarski atelje, kraljevska kmetijska palača)
+  - Iron, steel, wood, silver, gold, jewel, pearl supply, food (14-82), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Pitchfork Maker System** — vile
+  - 6 produktov (lesene, železnovile, jeklenovile, srebrnoobrobljene, draguljasta, kraljevske velike)
+  - 4 zgradbe (vilna delavnica, kmetijska podstrešje, mojstrski vilni atelje, kraljevska kmetijska palača)
+  - Wood, iron, steel, silver, gold, jewel, pearl supply, food (10-75), happiness (1-12), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.330] — 2026-08-09 — Royal Cistern Maker System (6 products, cisterns)
 ## [v3.11.329] — 2026-08-09 — Royal Bath Fixture Maker System (6 products, bath fixtures)
 ## [v3.11.328] — 2026-08-09 — Royal Aqueduct Maker System (6 products, aqueducts)
