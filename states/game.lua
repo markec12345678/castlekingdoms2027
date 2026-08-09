@@ -406,6 +406,12 @@ S.Orchardist = require("objects.Economy.RoyalOrchardistSystem")
 S.VineyardPlanter = require("objects.Economy.RoyalVineyardPlanterSystem")
 S.HerbGardener = require("objects.Economy.RoyalHerbGardenerSystem")
 S.ApiaryKeeper = require("objects.Economy.RoyalApiaryKeeperSystem")
+-- Castle Kingdoms 2027 v3.11.132-v3.11.136: 5 new livestock farming systems
+S.CattleRancher = require("objects.Economy.RoyalCattleRancherSystem")
+S.SheepShepherd = require("objects.Economy.RoyalSheepShepherdSystem")
+S.PigFarmer = require("objects.Economy.RoyalPigFarmerSystem")
+S.PoultryKeeper = require("objects.Economy.RoyalPoultryKeeperSystem")
+S.HorseBreeder = require("objects.Economy.RoyalHorseBreederSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1235,6 +1241,12 @@ local function delayedInit()
     S.VineyardPlanter.init(); _G.VineyardPlanter = S.VineyardPlanter
     S.HerbGardener.init(); _G.HerbGardener = S.HerbGardener
     S.ApiaryKeeper.init(); _G.ApiaryKeeper = S.ApiaryKeeper
+    -- Castle Kingdoms 2027 v3.11.132-v3.11.136: Initialize 5 new livestock farming systems
+    S.CattleRancher.init(); _G.CattleRancher = S.CattleRancher
+    S.SheepShepherd.init(); _G.SheepShepherd = S.SheepShepherd
+    S.PigFarmer.init(); _G.PigFarmer = S.PigFarmer
+    S.PoultryKeeper.init(); _G.PoultryKeeper = S.PoultryKeeper
+    S.HorseBreeder.init(); _G.HorseBreeder = S.HorseBreeder
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1809,6 +1821,12 @@ function game:update(dt)
                 S.VineyardPlanter.update(dt)
                 S.HerbGardener.update(dt)
                 S.ApiaryKeeper.update(dt)
+                -- Castle Kingdoms 2027 v3.11.132-v3.11.136: Update 5 new livestock farming systems
+                S.CattleRancher.update(dt)
+                S.SheepShepherd.update(dt)
+                S.PigFarmer.update(dt)
+                S.PoultryKeeper.update(dt)
+                S.HorseBreeder.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

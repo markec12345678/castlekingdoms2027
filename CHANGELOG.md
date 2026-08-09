@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.136] — 2026-08-09 — Royal Horse Breeder System (6 products, horses)
+## [v3.11.135] — 2026-08-09 — Royal Poultry Keeper System (6 products, poultry)
+## [v3.11.134] — 2026-08-09 — Royal Pig Farmer System (6 products, pigs)
+## [v3.11.133] — 2026-08-09 — Royal Sheep Shepherd System (6 products, sheep)
+## [v3.11.132] — 2026-08-09 — Royal Cattle Rancher System (6 products, cattle)
+
+### Dodano (5 sistemov naenkrat — živinorejska serija)
+- **Royal Cattle Rancher System** — reja govedi
+  - 6 produktov (mlečna krava, goveja, volovska ekipa, srebrnoroga, srebrno zvončna, kraljevski veliki)
+  - 4 zgradbe (živinorejska postaja, goveja farma, mlečna staja, kraljevski atelje)
+  - Cow, fodder, water, silver, gold, jewel supply, yield (50-100), happiness (1-8), batch qty 5, GameEventBus publish
+- **Royal Sheep Shepherd System** — reja ovc
+  - 6 produktov (volnasta, mlečna, pitno jagnje, srebrnoruna, srebrno zvončna, kraljevski veliki)
+  - 4 zgradbe (ovčarska postaja, ovčja paša, strižnica, kraljevski atelje)
+  - Sheep, fodder, water, silver, gold, jewel supply, yield (40-100), happiness (1-8), batch qty 5
+- **Royal Pig Farmer System** — reja svinj
+  - 6 produktov (slaninasta, mastna, sesna, srebrnokljuna, srebrno zvončna, kraljevski veliki)
+  - 4 zgradbe (svinjarska postaja, svinjak, kadilno-solilna staja, kraljevski atelje)
+  - Pig, fodder, water, silver, gold, jewel supply, yield (40-100), happiness (1-8), batch qty 5
+- **Royal Poultry Keeper System** — reja perutnine
+  - 6 produktov (nesnica, kastriran petelin, gos, srebrno pernata, srebrno zvončni, kraljevski veliki)
+  - 4 zgradbe (perutninska postaja, perutninski dvori, jajčna hiša, kraljevski atelje)
+  - Hen, goose, grain, water, silver, gold, jewel supply, yield (35-100), happiness (1-8), batch qty 5
+- **Royal Horse Breeder System** — reja konj
+  - 6 produktov (tovorni, jahači, bojni, srebrnogrivi, srebrno zvončni destrier, kraljevski veliki)
+  - 4 zgradbe (konjerejska postaja, žrebec farma, dresurna arena, kraljevski atelje)
+  - Horse, fodder, water, silver, gold, jewel supply, yield (40-100), happiness (1-12), batch qty 1, GameEventBus publish
+
 ## [v3.11.131] — 2026-08-09 — Royal Apiary Keeper System (6 products, apiary)
 ## [v3.11.130] — 2026-08-09 — Royal Herb Gardener System (6 products, herbs)
 ## [v3.11.129] — 2026-08-09 — Royal Vineyard Planter System (6 products, grapes)
