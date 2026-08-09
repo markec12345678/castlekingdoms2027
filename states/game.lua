@@ -358,6 +358,12 @@ S.MeadMaker = require("objects.Economy.RoyalMeadMakerSystem")
 S.WineVintner = require("objects.Economy.RoyalWineVintnerSystem")
 S.CiderPress = require("objects.Economy.RoyalCiderPressSystem")
 S.BrandyDistiller = require("objects.Economy.RoyalBrandyDistillerSystem")
+-- Castle Kingdoms 2027 v3.11.92-v3.11.96: 5 new food resource systems
+S.SpiceMerchant = require("objects.Economy.RoyalSpiceMerchantSystem")
+S.SaltRefiner = require("objects.Economy.RoyalSaltRefinerSystem")
+S.SugarRefiner = require("objects.Economy.RoyalSugarRefinerSystem")
+S.HoneyCollector = require("objects.Economy.RoyalHoneyCollectorSystem")
+S.OilPresser = require("objects.Economy.RoyalOilPresserSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1139,6 +1145,12 @@ local function delayedInit()
     S.WineVintner.init(); _G.WineVintner = S.WineVintner
     S.CiderPress.init(); _G.CiderPress = S.CiderPress
     S.BrandyDistiller.init(); _G.BrandyDistiller = S.BrandyDistiller
+    -- Castle Kingdoms 2027 v3.11.92-v3.11.96: Initialize 5 new food resource systems
+    S.SpiceMerchant.init(); _G.SpiceMerchant = S.SpiceMerchant
+    S.SaltRefiner.init(); _G.SaltRefiner = S.SaltRefiner
+    S.SugarRefiner.init(); _G.SugarRefiner = S.SugarRefiner
+    S.HoneyCollector.init(); _G.HoneyCollector = S.HoneyCollector
+    S.OilPresser.init(); _G.OilPresser = S.OilPresser
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1665,6 +1677,12 @@ function game:update(dt)
                 S.WineVintner.update(dt)
                 S.CiderPress.update(dt)
                 S.BrandyDistiller.update(dt)
+                -- Castle Kingdoms 2027 v3.11.92-v3.11.96: Update 5 new food resource systems
+                S.SpiceMerchant.update(dt)
+                S.SaltRefiner.update(dt)
+                S.SugarRefiner.update(dt)
+                S.HoneyCollector.update(dt)
+                S.OilPresser.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

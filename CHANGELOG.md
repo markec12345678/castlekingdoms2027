@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.96] — 2026-08-09 — Royal Oil Presser System (6 products, oils)
+## [v3.11.95] — 2026-08-09 — Royal Honey Collector System (6 products, honey)
+## [v3.11.94] — 2026-08-09 — Royal Sugar Refiner System (6 products, sugar)
+## [v3.11.93] — 2026-08-09 — Royal Salt Refiner System (6 products, salt)
+## [v3.11.92] — 2026-08-09 — Royal Spice Merchant System (6 products, spices)
+
+### Dodano (5 sistemov naenkrat — živilska surovinska serija)
+- **Royal Spice Merchant System** — začimbe za okus
+  - 6 produktov (poper, cimet, nageljnove žbice, muškatni orešček, žafran, kraljevska mešanica)
+  - 4 zgradbe (delavnica, sušilnica, mlinska soba, kraljevski atelje)
+  - Pepper, cinnamon, clove, nutmeg, saffron, silver, gold, jewel supply, flavorStrength (10-60), happiness (1-14), batch qty 5, GameEventBus publish
+- **Royal Salt Refiner System** — sol za konzerviranje in kuhanje
+  - 6 produktov (morska, kamena, rafinirana, namizna, srebrno obdelana, kraljevska čista)
+  - 4 zgradbe (delavnica, izparjevalnica, kristalizirnica, kraljevski atelje)
+  - Seawater, salt ore, water, fuel, silver, gold, jewel supply, purity (60-100), batch qty 10
+- **Royal Sugar Refiner System** — sladkor iz sladkornega trsa
+  - 6 produktov (surov, rafiniran, beli, sladkorni hlebec, srebrno obdelan, kraljevski čisti)
+  - 4 zgradbe (delavnica, vrelnica, kristalizirnica, kraljevski atelje)
+  - Cane, water, fuel, silver, gold, jewel supply, sweetness (50-100), happiness (1-12), batch qty 5
+- **Royal Honey Collector System** — med iz panjev
+  - 6 produktov (divji, deteljin, gozdni cvetlični, sivkin, srebrno satje, kraljevski ambrozij)
+  - 4 zgradbe (delavnica, panjarna, izvlekalnica, kraljevski atelje)
+  - Flower, wax, silver, gold, jewel supply, sweetness (50-100), happiness (1-14), batch qty 5
+- **Royal Oil Presser System** — rastlinska olja
+  - 6 produktov (oljčno, orehovo, laneno, makovo, srebrno ojačano, kraljevski veliki)
+  - 4 zgradbe (delavnica, tisčnica, filtrirnica, kraljevski atelje)
+  - Olive, walnut, flax, poppy, silver, gold, jewel supply, purity (60-100), happiness (1-12), batch qty 5, GameEventBus publish
+
 ## [v3.11.91] — 2026-08-09 — Royal Brandy Distiller System (6 products, brandies)
 ## [v3.11.90] — 2026-08-09 — Royal Cider Press System (6 products, ciders)
 ## [v3.11.89] — 2026-08-09 — Royal Wine Vintner System (6 products, wines)
