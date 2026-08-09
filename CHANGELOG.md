@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.286] — 2026-08-09 — Royal Window Frame Maker System (6 products, window frames)
+## [v3.11.285] — 2026-08-09 — Royal Stone Lintel Maker System (6 products, stone lintels)
+## [v3.11.284] — 2026-08-09 — Royal Wooden Column Maker System (6 products, wooden columns)
+## [v3.11.283] — 2026-08-09 — Royal Iron Beam Maker System (6 products, iron beams)
+## [v3.11.282] — 2026-08-09 — Royal Roof Tile Maker System (6 products, roof tiles)
 ## [v3.11.281] — 2026-08-09 — Royal Tavern Game Maker System (6 products, tavern games)
+
+### Dodano (5 sistemov naenkrat — gradbene komponente)
+- **Royal Roof Tile Maker System** — strešniki
+  - 6 produktov (glinena, žgana pantile, glazurasta modra, srebrnogrebena, zlatookrasna, kraljevski veliki)
+  - 4 zgradbe (strešniška delavnica, pečna podstrešje, mojstrski strešniški atelje, kraljevska strešniška palača)
+  - Clay, wood, glass, silver, gold, jewel, pearl supply, defense (8-55), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Iron Beam Maker System** — železni tramovi
+  - 6 produktov (železni, zakovučeni jekleni, srebrnopolirana, zlatookrasna, draguljasta, kraljevski veliki)
+  - 4 zgradbe (tramska delavnica, livarna podstrešje, mojstrski livarski atelje, kraljevska livarska palača)
+  - Iron, steel, silver, gold, jewel, pearl supply, defense (18-92), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Wooden Column Maker System** — leseni stebri
+  - 6 produktov (borov, izrezljan hrastov, kanelirana orehov, srebrnoobrobljeni, zlatovloženi, kraljevski veliki)
+  - 4 zgradbe (stebrična delavnica, lesna podstrešje, mojstrski stebrični atelje, kraljevska stebrična palača)
+  - Wood, leather, paint, silver, gold, jewel, pearl supply, beauty (18-95), defense (12-50), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Stone Lintel Maker System** — kamniti prekladi
+  - 6 produktov (kamniti, izrezljan apnenčni, marmornat reliefni, srebrnoobrobljeni, zlatovloženi, kraljevski veliki)
+  - 4 zgradbe (prekladna delavnica, zidarska podstrešje, mojstrski zidarski atelje, kraljevska zidarska palača)
+  - Stone, marble, paint, silver, gold, jewel, pearl supply, defense (14-68), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Window Frame Maker System** — okenski okviri
+  - 6 produktov (lesen, izrezljan hrastov, srebrnoobrobljeno, zlatovloženo, draguljasto, kraljevski veliki)
+  - 4 zgradbe (okenska delavnica, steklarska podstrešje, mojstrski okenski atelje, kraljevska okenska palača)
+  - Wood, glass, leather, silver, gold, jewel, pearl supply, beauty (18-95), defense (8-38), happiness (1-12), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.280] — 2026-08-09 — Royal Tarot Card Maker System (6 products, tarot cards)
 ## [v3.11.279] — 2026-08-09 — Royal Billiard Maker System (6 products, billiards)
 ## [v3.11.278] — 2026-08-09 — Royal Backgammon Maker System (6 products, backgammons)
