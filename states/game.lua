@@ -507,6 +507,11 @@ S.TeaBlender = require("objects.Economy.RoyalTeaBlenderSystem")
 S.ChocolateConfectioner = require("objects.Economy.RoyalChocolateConfectionerSystem")
 S.TobaccoCurer = require("objects.Economy.RoyalTobaccoCurerSystem")
 S.SnuffMiller = require("objects.Economy.RoyalSnuffMillerSystem")
+S.StagePropMaker = require("objects.Economy.RoyalStagePropMakerSystem")
+S.CostumeTailor = require("objects.Economy.RoyalCostumeTailorSystem")
+S.TheaterMaskMaker = require("objects.Economy.RoyalTheaterMaskMakerSystem")
+S.EaselMaker = require("objects.Economy.RoyalEaselMakerSystem")
+S.PaintMaker = require("objects.Economy.RoyalPaintMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1437,6 +1442,11 @@ local function delayedInit()
     S.ChocolateConfectioner.init(); _G.ChocolateConfectioner = S.ChocolateConfectioner
     S.TobaccoCurer.init(); _G.TobaccoCurer = S.TobaccoCurer
     S.SnuffMiller.init(); _G.SnuffMiller = S.SnuffMiller
+    S.StagePropMaker.init(); _G.StagePropMaker = S.StagePropMaker
+    S.CostumeTailor.init(); _G.CostumeTailor = S.CostumeTailor
+    S.TheaterMaskMaker.init(); _G.TheaterMaskMaker = S.TheaterMaskMaker
+    S.EaselMaker.init(); _G.EaselMaker = S.EaselMaker
+    S.PaintMaker.init(); _G.PaintMaker = S.PaintMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -2112,6 +2122,11 @@ function game:update(dt)
                 S.ChocolateConfectioner.update(dt)
                 S.TobaccoCurer.update(dt)
                 S.SnuffMiller.update(dt)
+                S.StagePropMaker.update(dt)
+                S.CostumeTailor.update(dt)
+                S.TheaterMaskMaker.update(dt)
+                S.EaselMaker.update(dt)
+                S.PaintMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

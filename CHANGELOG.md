@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.226] — 2026-08-09 — Royal Paint Maker System (6 products, paint pigments)
+## [v3.11.225] — 2026-08-09 — Royal Easel Maker System (6 products, easels)
+## [v3.11.224] — 2026-08-09 — Royal Theater Mask Maker System (6 products, theater masks)
+## [v3.11.223] — 2026-08-09 — Royal Costume Tailor System (6 products, costumes)
+## [v3.11.222] — 2026-08-09 — Royal Stage Prop Maker System (6 products, stage props)
 ## [v3.11.221] — 2026-08-09 — Royal Snuff Miller System (6 products, snuff)
+
+### Dodano (5 sistemov naenkrat — gledališki rekviziti in umetnost)
+- **Royal Stage Prop Maker System** — gledališki rekviziti
+  - 6 produktov (leseni, poslikana kulisa, pozlačeni prestol, srebrnookrašena, draguljarski, kraljevski veliki)
+  - 4 zgradbe (rekvizitna delavnica, kulisna podstrešje, mojstrski rekvizitni atelje, kraljevska gledališka palača)
+  - Wood, paint, linen, silver, gold, jewel, pearl supply, artistry (18-92), happiness (2-12), batch qty 1, GameEventBus publish
+- **Royal Costume Tailor System** — gledališki kostumi
+  - 6 produktov (laneni, poslikani svileni, žamčasti plemiški, srebrnoobrobljeni, zlato vezeni, kraljevski veliki)
+  - 4 zgradbe (kostumna delavnica, garderobna podstrešje, mojstrski kostumerski atelje, kraljevska garderobna palača)
+  - Silk, linen, thread, leather, paint, silver, gold, jewel, pearl supply, artistry (18-92), happiness (2-12), batch qty 1, GameEventBus publish
+- **Royal Theater Mask Maker System** — gledališke maske
+  - 6 produktov (papirnata, poslikana lanena, usnjena komedija, srebrnolistna tragedija, zlatookrasni herojska, kraljevska slovesnostna)
+  - 4 zgradbe (maskarska delavnica, maskarska podstrešje, mojstrski maskarski atelje, kraljevska maskarska palača)
+  - Wood, linen, leather, paint, silver, gold, jewel, pearl supply, artistry (18-92), happiness (2-12), batch qty 1, GameEventBus publish
+- **Royal Easel Maker System** — štafelaji za slikarje
+  - 6 produktov (leseni, nastavljivi hrastov, medeninasti ateljejski, srebrnoplaščni, zlatookrasni razstavni, kraljevski veliki)
+  - 4 zgradbe (štafelajna delavnica, pohištvena podstrešje, mojstrski štafelajski atelje, kraljevska štafelajska palača)
+  - Wood, iron, brass, silver, gold, jewel, pearl supply, artistry (12-88), happiness (1-11), batch qty 1, GameEventBus publish
+- **Royal Paint Maker System** — barve in pigmenti
+  - 6 produktov (zemeljska, lapis modra, košeniljna rdeča, srebrnomleta malahit, zlatomleta škrlatna, kraljevski veliki set)
+  - 4 zgradbe (barvna delavnica, pigmentna podstrešje, mojstrski barvni atelje, kraljevska barvna palača)
+  - Clay, glass, silver, spice, gold, jewel, pearl supply, artistry (15-92), happiness (1-12), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.220] — 2026-08-09 — Royal Tobacco Curer System (6 products, tobacco)
 ## [v3.11.219] — 2026-08-09 — Royal Chocolate Confectioner System (6 products, chocolate)
 ## [v3.11.218] — 2026-08-09 — Royal Tea Blender System (6 products, tea)
