@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.311] — 2026-08-09 — Royal Polisher Maker System (6 products, polishers)
+## [v3.11.310] — 2026-08-09 — Royal Sander Maker System (6 products, sanders)
+## [v3.11.309] — 2026-08-09 — Royal Planer Maker System (6 products, planers)
+## [v3.11.308] — 2026-08-09 — Royal Drill Press Maker System (6 products, drill presses)
+## [v3.11.307] — 2026-08-09 — Royal Wood Lathe Maker System (6 products, wood lathes)
 ## [v3.11.306] — 2026-08-09 — Royal Wheelbarrow Maker System (6 products, wheelbarrows)
+
+### Dodano (5 sistemov naenkrat — leseni stroji)
+- **Royal Wood Lathe Maker System** — leseni stružnice
+  - 6 produktov (lesena, železnookrepljena, srebrnavretenna, zlatookrasna, draguljasta, kraljevska velika)
+  - 4 zgradbe (stružniška delavnica, strojna podstrešje, mojstrski strojniški atelje, kraljevska strojna palača)
+  - Wood, iron, steel, silver, gold, jewel, pearl supply, science (22-95), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Drill Press Maker System** — vrtalni stroji
+  - 6 produktov (leseni, železnookrepljeni, srebrnosponni, zlatookrasni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (vrtna delavnica, strojna podstrešje, mojstrski strojniški atelje, kraljevska strojna palača)
+  - Wood, iron, brass, silver, gold, jewel, pearl supply, science (20-95), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Planer Maker System** — gladilniki
+  - 6 produktov (leseni, železnookrepljeni, srebrnorezni, zlatookrasni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (gladilniška delavnica, strojna podstrešje, mojstrski strojniški atelje, kraljevska strojna palača)
+  - Wood, iron, steel, silver, gold, jewel, pearl supply, science (20-95), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Sander Maker System** — brusilniki
+  - 6 produktov (leseni, železnookrepljeni, srebrnobobenski, zlatookrasni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (brusilniška delavnica, strojna podstrešje, mojstrski strojniški atelje, kraljevska strojna palača)
+  - Wood, iron, leather, sand, silver, gold, jewel, pearl supply, science (18-90), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Polisher Maker System** — polirniki
+  - 6 produktov (leseni, železnookrepljeni, srebrnobobenski, zlatookrasni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (polirniška delavnica, strojna podstrešje, mojstrski strojniški atelje, kraljevska strojna palača)
+  - Wood, iron, leather, wax, silver, gold, jewel, pearl supply, science (18-90), happiness (1-12), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.305] — 2026-08-09 — Royal Winch Maker System (6 products, winches)
 ## [v3.11.304] — 2026-08-09 — Royal Pulley Maker System (6 products, pulleys)
 ## [v3.11.303] — 2026-08-09 — Royal Scaffold Maker System (6 products, scaffolds)
