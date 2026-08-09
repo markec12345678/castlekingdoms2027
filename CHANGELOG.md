@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.321] — 2026-08-09 — Royal Copper Sheet Maker System (6 products, copper sheets)
+## [v3.11.320] — 2026-08-09 — Royal Iron Forge Tool Maker System (6 products, forge tools)
+## [v3.11.319] — 2026-08-09 — Royal Metal Mesh Maker System (6 products, metal meshes)
+## [v3.11.318] — 2026-08-09 — Royal Hook Maker System (6 products, hooks)
+## [v3.11.317] — 2026-08-09 — Royal Wire Drawer Maker System (6 products, wire)
 ## [v3.11.316] — 2026-08-09 — Royal Baking Sheet Maker System (6 products, baking sheets)
+
+### Dodano (5 sistemov naenkrat — kovinske obrti)
+- **Royal Wire Drawer Maker System** — žica
+  - 6 produktov (železna, medeninasta, srebrna, zlata, draguljasta, kraljevska velika)
+  - 4 zgradbe (žična delavnica, vlečna podstrešje, mojstrski žični atelje, kraljevska žična palača)
+  - Iron, brass, silver, gold, jewel, pearl supply, science (15-90), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Hook Maker System** — kovinski kljuki
+  - 6 produktov (železen, medeninast, srebrn, zlatookrasni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (kljukarska delavnica, kovinska podstrešje, mojstrski kljukarski atelje, kraljevska kovinska palača)
+  - Iron, brass, silver, gold, jewel, pearl supply, happiness (1-12), prestige (2-58), batch qty 1, GameEventBus publish
+- **Royal Metal Mesh Maker System** — kovinske mreže
+  - 6 produktov (železna, medeninastovpeta, srebrnatična, zlatookrasna, draguljasta, kraljevska velika)
+  - 4 zgradbe (mrežna delavnica, pletilska podstrešje, mojstrski mrežni atelje, kraljevska mrežna palača)
+  - Iron, brass, silver, gold, jewel, pearl supply, defense (8-52), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Iron Forge Tool Maker System** — kovaško orodje
+  - 6 produktov (klešče, jekleno kladivo, srebrnonakovalo, zlatookrasne klešče, draguljasta nakovalo, kraljevski veliki set)
+  - 4 zgradbe (kovaška orodna delavnica, kovaška podstrešje, mojstrski kovaški atelje, kraljevska kovaška palača)
+  - Iron, steel, wood, silver, gold, jewel, pearl supply, science (15-90), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Copper Sheet Maker System** — bakerjeva pločevina
+  - 6 produktov (bakerjeva, bronastazlitna, srebrnopolirana, zlatookrasna, draguljasta, kraljevska velika)
+  - 4 zgradbe (pločevinska delavnica, valjna podstrešje, mojstrski pločevinski atelje, kraljevska pločevinska palača)
+  - Copper, bronze, silver, gold, jewel, pearl supply, science (15-90), happiness (1-12), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.315] — 2026-08-09 — Royal Kitchen Scale Maker System (6 products, kitchen scales)
 ## [v3.11.314] — 2026-08-09 — Royal Confection Oven Maker System (6 products, confection ovens)
 ## [v3.11.313] — 2026-08-09 — Royal Spice Mill Maker System (6 products, spice mills)

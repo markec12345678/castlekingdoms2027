@@ -602,6 +602,11 @@ S.SpiceMillMaker = require("objects.Economy.RoyalSpiceMillMakerSystem")
 S.ConfectionOvenMaker = require("objects.Economy.RoyalConfectionOvenMakerSystem")
 S.KitchenScaleMaker = require("objects.Economy.RoyalKitchenScaleMakerSystem")
 S.BakingSheetMaker = require("objects.Economy.RoyalBakingSheetMakerSystem")
+S.WireDrawerMaker = require("objects.Economy.RoyalWireDrawerMakerSystem")
+S.HookMaker = require("objects.Economy.RoyalHookMakerSystem")
+S.MetalMeshMaker = require("objects.Economy.RoyalMetalMeshMakerSystem")
+S.IronForgeToolMaker = require("objects.Economy.RoyalIronForgeToolMakerSystem")
+S.CopperSheetMaker = require("objects.Economy.RoyalCopperSheetMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1627,6 +1632,11 @@ local function delayedInit()
     S.ConfectionOvenMaker.init(); _G.ConfectionOvenMaker = S.ConfectionOvenMaker
     S.KitchenScaleMaker.init(); _G.KitchenScaleMaker = S.KitchenScaleMaker
     S.BakingSheetMaker.init(); _G.BakingSheetMaker = S.BakingSheetMaker
+    S.WireDrawerMaker.init(); _G.WireDrawerMaker = S.WireDrawerMaker
+    S.HookMaker.init(); _G.HookMaker = S.HookMaker
+    S.MetalMeshMaker.init(); _G.MetalMeshMaker = S.MetalMeshMaker
+    S.IronForgeToolMaker.init(); _G.IronForgeToolMaker = S.IronForgeToolMaker
+    S.CopperSheetMaker.init(); _G.CopperSheetMaker = S.CopperSheetMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -2397,6 +2407,11 @@ function game:update(dt)
                 S.ConfectionOvenMaker.update(dt)
                 S.KitchenScaleMaker.update(dt)
                 S.BakingSheetMaker.update(dt)
+                S.WireDrawerMaker.update(dt)
+                S.HookMaker.update(dt)
+                S.MetalMeshMaker.update(dt)
+                S.IronForgeToolMaker.update(dt)
+                S.CopperSheetMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
