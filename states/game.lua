@@ -340,6 +340,12 @@ S.TrebuchetMaker = require("objects.Gameplay.RoyalTrebuchetMakerSystem")
 S.BallistaMaker = require("objects.Gameplay.RoyalBallistaMakerSystem")
 S.SiegeTowerMaker = require("objects.Gameplay.RoyalSiegeTowerMakerSystem")
 S.BatteringRamMaker = require("objects.Gameplay.RoyalBatteringRamMakerSystem")
+-- Castle Kingdoms 2027 v3.11.77-v3.11.81: 5 new gunpowder weapon systems
+S.CannonMaker = require("objects.Gameplay.RoyalCannonMakerSystem")
+S.MortarMaker = require("objects.Gameplay.RoyalMortarMakerSystem")
+S.BombardMaker = require("objects.Gameplay.RoyalBombardMakerSystem")
+S.HandCannonMaker = require("objects.Gameplay.RoyalHandCannonMakerSystem")
+S.GrenadeMaker = require("objects.Gameplay.RoyalGrenadeMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1103,6 +1109,12 @@ local function delayedInit()
     S.BallistaMaker.init(); _G.BallistaMaker = S.BallistaMaker
     S.SiegeTowerMaker.init(); _G.SiegeTowerMaker = S.SiegeTowerMaker
     S.BatteringRamMaker.init(); _G.BatteringRamMaker = S.BatteringRamMaker
+    -- Castle Kingdoms 2027 v3.11.77-v3.11.81: Initialize 5 new gunpowder weapon systems
+    S.CannonMaker.init(); _G.CannonMaker = S.CannonMaker
+    S.MortarMaker.init(); _G.MortarMaker = S.MortarMaker
+    S.BombardMaker.init(); _G.BombardMaker = S.BombardMaker
+    S.HandCannonMaker.init(); _G.HandCannonMaker = S.HandCannonMaker
+    S.GrenadeMaker.init(); _G.GrenadeMaker = S.GrenadeMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1611,6 +1623,12 @@ function game:update(dt)
                 S.BallistaMaker.update(dt)
                 S.SiegeTowerMaker.update(dt)
                 S.BatteringRamMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.77-v3.11.81: Update 5 new gunpowder weapon systems
+                S.CannonMaker.update(dt)
+                S.MortarMaker.update(dt)
+                S.BombardMaker.update(dt)
+                S.HandCannonMaker.update(dt)
+                S.GrenadeMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

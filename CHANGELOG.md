@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.81] — 2026-08-09 — Royal Grenade Maker System (6 products, grenades)
+## [v3.11.80] — 2026-08-09 — Royal Hand Cannon Maker System (6 products, hand cannons)
+## [v3.11.79] — 2026-08-09 — Royal Bombard Maker System (6 products, bombards)
+## [v3.11.78] — 2026-08-09 — Royal Mortar Maker System (6 products, mortars)
+## [v3.11.77] — 2026-08-09 — Royal Cannon Maker System (6 products, cannons)
+
+### Dodano (5 sistemov naenkrat — smodniško orožje)
+- **Royal Cannon Maker System** — topovi za obleganje in utrdbe
+  - 6 produktov (ročna kulverina, majhen bronast, železen, težki bronast, srebrno okrašen, kraljevski veliki)
+  - 4 zgradbe (delavnica, livarna, vrtalnica, kraljevski atelje)
+  - Iron, bronze, steel, wood, silver, gold, jewel, gunpowder supply, attack (50-320), range (200-500), durability (35-160), GameEventBus publish
+- **Royal Mortar Maker System** — minometi za visoke kotne napade
+  - 6 produktov (majhen, bronast, železen, težki, srebrno okrašen, kraljevski veliki)
+  - 4 zgradbe (delavnica, livarna, vrtalnica, kraljevski atelje)
+  - Iron, bronze, steel, wood, silver, gold, jewel, gunpowder supply, attack (45-290), range (150-400), durability (30-155)
+- **Royal Bombard Maker System** — bombardi za najmočnejše oblege
+  - 6 produktov (lahka, bronasta, železna, težka, srebrno okrašena, kraljevska velika)
+  - 4 zgradbe (delavnica, livarna, vrtalnica, kraljevski atelje)
+  - Iron, bronze, steel, wood, silver, gold, jewel, gunpowder supply, attack (65-410), range (220-540), durability (40-175)
+- **Royal Hand Cannon Maker System** — ročne topovske in pistole
+  - 6 produktov (preprosta, svečno prižigana, kolesni pistoli, srebrno okrašena, zlatorobna, kraljevska slovesna)
+  - 4 zgradbe (delavnica, kovačija, prižigalnica, kraljevski atelje)
+  - Iron, steel, wood, silver, gold, jewel, pearl, gunpowder supply, attack (25-150), range (60-200), durability (25-100)
+- **Royal Grenade Maker System** — eksplozivne granate
+  - 6 produktov (glina, železna, jeklena, srebrno okrašena, zlatorobna, kraljevska slovesna)
+  - 4 zgradbe (delavnica, smodniška soba, dokončevalnica, kraljevski atelje)
+  - Clay, iron, steel, silver, gold, jewel, pearl, gunpowder supply, attack (25-220), radius (3-12), durability (5-35), batch qty 5, GameEventBus publish
+
 ## [v3.11.76] — 2026-08-09 — Royal Battering Ram Maker System (6 products, rams)
 ## [v3.11.75] — 2026-08-09 — Royal Siege Tower Maker System (6 products, towers)
 ## [v3.11.74] — 2026-08-09 — Royal Ballista Maker System (6 products, ballistae)
