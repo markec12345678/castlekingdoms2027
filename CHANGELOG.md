@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.291] — 2026-08-09 — Royal Chronicle Binder System (6 products, chronicles)
+## [v3.11.290] — 2026-08-09 — Royal Scroll Case Maker System (6 products, scroll cases)
+## [v3.11.289] — 2026-08-09 — Royal Reading Desk Maker System (6 products, reading desks)
+## [v3.11.288] — 2026-08-09 — Royal Library Catalog Maker System (6 products, catalogs)
+## [v3.11.287] — 2026-08-09 — Royal Bookshelf Maker System (6 products, bookshelves)
 ## [v3.11.286] — 2026-08-09 — Royal Window Frame Maker System (6 products, window frames)
+
+### Dodano (5 sistemov naenkrat — knjižnični sistemi)
+- **Royal Bookshelf Maker System** — knjižne police
+  - 6 produktov (borova, izrezljana hrastova, srebrnoobrobljena, zlatovložena, draguljasta, kraljevska velika)
+  - 4 zgradbe (knjižna polica delavnica, knjižnična podstrešje, mojstrski mizarski atelje, kraljevska knjižnična palača)
+  - Wood, leather, silver, gold, jewel, pearl supply, beauty (20-95), education (12-75), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Library Catalog Maker System** — knjižni katalogi
+  - 6 produktov (pergamentni, usnjeni vezani, srebrnosponka, zlatookrasni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (katalogna delavnica, arhivska podstrešje, mojstrski arhivski atelje, kraljevska arhivska palača)
+  - Parchment, wood, leather, silver, gold, jewel, pearl supply, education (18-92), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Reading Desk Maker System** — bralne mize
+  - 6 produktov (hrastov, izrezljan pultni, srebrnoobrobljeni, zlatovloženi, draguljasta, kraljevski veliki)
+  - 4 zgradbe (mizarska delavnica, pohištvena podstrešje, mojstrski mizarski atelje, kraljevska pohištvena palača)
+  - Wood, leather, silver, gold, jewel, pearl supply, beauty (18-95), education (12-75), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Scroll Case Maker System** — tulci za zvitke
+  - 6 produktov (usnjen, medeninastopokrovni, srebrnoobrobljeni, zlatovloženi, draguljasta, kraljevski veliki)
+  - 4 zgradbe (tulce delavnica, arhivska podstrešje, mojstrski tulce atelje, kraljevska arhivska palača)
+  - Leather, wood, brass, silver, gold, jewel, pearl supply, education (8-60), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Chronicle Binder System** — kronike
+  - 6 produktov (zvezek, ilustrirana, srebrnosponka, zlatookrasna, draguljasta, kraljevski veliki)
+  - 4 zgradbe (kronikarska delavnica, arhivska podstrešje, mojstrski kronikarski atelje, kraljevska arhivska palača)
+  - Parchment, leather, thread, paint, silver, gold, jewel, pearl supply, education (18-92), happiness (1-12), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.285] — 2026-08-09 — Royal Stone Lintel Maker System (6 products, stone lintels)
 ## [v3.11.284] — 2026-08-09 — Royal Wooden Column Maker System (6 products, wooden columns)
 ## [v3.11.283] — 2026-08-09 — Royal Iron Beam Maker System (6 products, iron beams)
