@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.251] — 2026-08-09 — Royal Halberd Smith System (6 products, halberds)
+## [v3.11.250] — 2026-08-09 — Royal Gauntlet Maker System (6 products, gauntlets)
+## [v3.11.249] — 2026-08-09 — Royal Greave Armorer System (6 products, greaves)
+## [v3.11.248] — 2026-08-09 — Royal Plate Cuirass Smith System (6 products, cuirasses)
+## [v3.11.247] — 2026-08-09 — Royal Chainmail Forger System (6 products, chainmail)
 ## [v3.11.246] — 2026-08-09 — Royal Vitrail Foil Maker System (6 products, vitrail foils)
+
+### Dodano (5 sistemov naenkrat — vojaška oprema)
+- **Royal Chainmail Forger System** — verižni oklepi
+  - 6 produktov (železni, jekleno zakovučeni, srebrnoobrobljeni, zlatovloženi, draguljnoprity, kraljevski veliki)
+  - 4 zgradbe (verižna delavnica, verižna podstrešje, mojstrski okleparski atelje, kraljevska verižna palača)
+  - Iron, steel, leather, silver, gold, jewel, pearl supply, defense (30-95), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Plate Cuirass Smith System** — ploščasti oklepi
+  - 6 produktov (železni, jekleni prsni, srebrnoizbočeni, zlatookrasni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (oklepna delavnica, ploščna podstrešje, mojstrski ploščarski atelje, kraljevska oklepna palača)
+  - Iron, steel, leather, silver, gold, jewel, pearl supply, defense (38-98), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Greave Armorer System** — golenice
+  - 6 produktov (železne, jeklene, srebrnoobrobljene, zlatoizbočene, draguljaste, kraljevski velike)
+  - 4 zgradbe (golenična delavnica, oklepna podstrešje, mojstrski okleparski atelje, kraljevska golenična palača)
+  - Iron, steel, leather, silver, gold, jewel, pearl supply, defense (22-88), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Gauntlet Maker System** — oklepne rokavice
+  - 6 produktov (usnjene, železnoploščate, srebrnoobrobljene, zlatovložene, draguljaste, kraljevski velike)
+  - 4 zgradbe (rokavična delavnica, oklepna podstrešje, mojstrski okleparski atelje, kraljevska rokavična palača)
+  - Iron, leather, silver, gold, jewel, pearl supply, defense (15-84), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Halberd Smith System** — helebarde
+  - 6 produktov (železna, jeklenosekična, srebrnovložena, zlatookrasna, draguljnogrbi, kraljevski veliki)
+  - 4 zgradbe (helebardska delavnica, sulicepodstrešje, mojstrski sulični atelje, kraljevska helebardska palača)
+  - Iron, steel, wood, silver, gold, jewel, pearl supply, attack (32-98), happiness (1-12), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.245] — 2026-08-09 — Royal Beaker Blower System (6 products, glass beakers)
 ## [v3.11.244] — 2026-08-09 — Royal Lens Grinder System (6 products, optical lenses)
 ## [v3.11.243] — 2026-08-09 — Royal Glass Bead Maker System (6 products, glass beads)
