@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.111] — 2026-08-09 — Royal Silk Reeler System (6 products, silk)
+## [v3.11.110] — 2026-08-09 — Royal Wool Stapler System (6 products, wool)
+## [v3.11.109] — 2026-08-09 — Royal Furrier System (6 products, fur)
+## [v3.11.108] — 2026-08-09 — Royal Rawhide Tanner System (6 products, leather)
+## [v3.11.107] — 2026-08-09 — Royal Dye-Stuff Maker System (6 products, dyes)
+
+### Dodano (5 sistemov naenkrat — tekstilna surovinska serija)
+- **Royal Dye-Stuff Maker System** — proizvodnja barvil
+  - 6 produktov (rumeno weld, modro woad, rdeče madder, karmin, srebrno fiksirano, kraljevski purpur)
+  - 4 zgradbe (delavnica, barvilna kadi, sušilnica, kraljevski atelje)
+  - Weld, woad, madder, cochineal, alum, silver, gold, jewel supply, colorStrength (30-100), batch qty 5, GameEventBus publish
+- **Royal Rawhide Tanner System** — surovo usnje iz surovih kož
+  - 6 produktov (surovo, skorjno, alun, oljno, srebrno obdelano, kraljevski veliki)
+  - 4 zgradbe (delavnica, strojevalnica, mlin lubja, kraljevski atelje)
+  - Hide, lime, water, bark, alum, salt, oil, silver, gold, jewel supply, quality (30-100), batch qty 5
+- **Royal Furrier System** — krzno iz živalskih kož
+  - 6 produktov (kunčje, lisica, kuna, sobolj, srebrno podloženo, kraljevski hermelin)
+  - 4 zgradbe (delavnica, krznavarna, dokončevalnica, kraljevski atelje)
+  - Pelt, salt, alum, oil, silver, gold, jewel supply, warmth (30-100), happiness (1-14), batch qty 5
+- **Royal Wool Stapler System** — predelava volne
+  - 6 produktov (surova runa, prana, česana, glavčana, srebrno predena, kraljevski veliki)
+  - 4 zgradbe (delavnica, pralnica, česalnica, kraljevski atelje)
+  - Fleece, water, soap, oil, silver, gold, jewel supply, quality (30-100), batch qty 5
+- **Royal Silk Reeler System** — svila iz bub
+  - 6 produktov (surova, ovitki, trda, predena, srebrno nitna, kraljevski veliki)
+  - 4 zgradbe (delavnica, ovijalnica, trdilnica, kraljevski atelje)
+  - Cocoon, water, oil, silver, gold, jewel supply, quality (30-100), happiness (1-9), batch qty 5, GameEventBus publish
+
 ## [v3.11.106] — 2026-08-09 — Royal Confectioner System (6 products, confections)
 ## [v3.11.105] — 2026-08-09 — Royal Pickle Curer System (6 products, pickles)
 ## [v3.11.104] — 2026-08-09 — Royal Fish Smoker System (6 products, smoked fish)

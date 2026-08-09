@@ -376,6 +376,12 @@ S.SmokedMeatCurer = require("objects.Economy.RoyalSmokedMeatCurerSystem")
 S.FishSmoker = require("objects.Economy.RoyalFishSmokerSystem")
 S.PickleCurer = require("objects.Economy.RoyalPickleCurerSystem")
 S.Confectioner = require("objects.Economy.RoyalConfectionerSystem")
+-- Castle Kingdoms 2027 v3.11.107-v3.11.111: 5 new textile raw material systems
+S.DyeStuffMaker = require("objects.Economy.RoyalDyeStuffMakerSystem")
+S.RawhideTanner = require("objects.Economy.RoyalRawhideTannerSystem")
+S.Furrier = require("objects.Economy.RoyalFurrierSystem")
+S.WoolStapler = require("objects.Economy.RoyalWoolStaplerSystem")
+S.SilkReeler = require("objects.Economy.RoyalSilkReelerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1175,6 +1181,12 @@ local function delayedInit()
     S.FishSmoker.init(); _G.FishSmoker = S.FishSmoker
     S.PickleCurer.init(); _G.PickleCurer = S.PickleCurer
     S.Confectioner.init(); _G.Confectioner = S.Confectioner
+    -- Castle Kingdoms 2027 v3.11.107-v3.11.111: Initialize 5 new textile raw material systems
+    S.DyeStuffMaker.init(); _G.DyeStuffMaker = S.DyeStuffMaker
+    S.RawhideTanner.init(); _G.RawhideTanner = S.RawhideTanner
+    S.Furrier.init(); _G.Furrier = S.Furrier
+    S.WoolStapler.init(); _G.WoolStapler = S.WoolStapler
+    S.SilkReeler.init(); _G.SilkReeler = S.SilkReeler
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1719,6 +1731,12 @@ function game:update(dt)
                 S.FishSmoker.update(dt)
                 S.PickleCurer.update(dt)
                 S.Confectioner.update(dt)
+                -- Castle Kingdoms 2027 v3.11.107-v3.11.111: Update 5 new textile raw material systems
+                S.DyeStuffMaker.update(dt)
+                S.RawhideTanner.update(dt)
+                S.Furrier.update(dt)
+                S.WoolStapler.update(dt)
+                S.SilkReeler.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
