@@ -436,6 +436,12 @@ S.AbacusMaker = require("objects.Economy.RoyalAbacusMakerSystem")
 S.BalanceScaleMaker = require("objects.Economy.RoyalBalanceScaleMakerSystem")
 S.SextantMaker = require("objects.Economy.RoyalSextantMakerSystem")
 S.ArmillarySphereMaker = require("objects.Economy.RoyalArmillarySphereMakerSystem")
+-- Castle Kingdoms 2027 v3.11.157-v3.11.161: 5 new optical/measurement instrument systems
+S.TelescopeMaker = require("objects.Economy.RoyalTelescopeMakerSystem")
+S.HourglassMaker = require("objects.Economy.RoyalHourglassMakerSystem")
+S.MicroscopeMaker = require("objects.Economy.RoyalMicroscopeMakerSystem")
+S.BarometerMaker = require("objects.Economy.RoyalBarometerMakerSystem")
+S.ThermometerMaker = require("objects.Economy.RoyalThermometerMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1295,6 +1301,12 @@ local function delayedInit()
     S.BalanceScaleMaker.init(); _G.BalanceScaleMaker = S.BalanceScaleMaker
     S.SextantMaker.init(); _G.SextantMaker = S.SextantMaker
     S.ArmillarySphereMaker.init(); _G.ArmillarySphereMaker = S.ArmillarySphereMaker
+    -- Castle Kingdoms 2027 v3.11.157-v3.11.161: Initialize 5 new optical/measurement systems
+    S.TelescopeMaker.init(); _G.TelescopeMaker = S.TelescopeMaker
+    S.HourglassMaker.init(); _G.HourglassMaker = S.HourglassMaker
+    S.MicroscopeMaker.init(); _G.MicroscopeMaker = S.MicroscopeMaker
+    S.BarometerMaker.init(); _G.BarometerMaker = S.BarometerMaker
+    S.ThermometerMaker.init(); _G.ThermometerMaker = S.ThermometerMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1899,6 +1911,12 @@ function game:update(dt)
                 S.BalanceScaleMaker.update(dt)
                 S.SextantMaker.update(dt)
                 S.ArmillarySphereMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.157-v3.11.161: Update 5 new optical/measurement systems
+                S.TelescopeMaker.update(dt)
+                S.HourglassMaker.update(dt)
+                S.MicroscopeMaker.update(dt)
+                S.BarometerMaker.update(dt)
+                S.ThermometerMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

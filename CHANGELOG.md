@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.161] — 2026-08-09 — Royal Thermometer Maker System (6 products, thermometers)
+## [v3.11.160] — 2026-08-09 — Royal Barometer Maker System (6 products, barometers)
+## [v3.11.159] — 2026-08-09 — Royal Microscope Maker System (6 products, microscopes)
+## [v3.11.158] — 2026-08-09 — Royal Hourglass Maker System (6 products, hourglasses)
+## [v3.11.157] — 2026-08-09 — Royal Telescope Maker System (6 products, telescopes)
+
+### Dodano (5 sistemov naenkrat — optični inštrumenti in merilne naprave)
+- **Royal Telescope Maker System** — daljnogledi za astronomijo
+  - 6 produktov (medeninast, srebrn, vgraviran, srebrno trinožni, zlatokondični, kraljevski veliki)
+  - 4 zgradbe (teleskopska delavnica, lečna soba, polirnica, kraljevski atelje)
+  - Brass, glass, wood, silver, gold, jewel, pearl supply, magnification (30-100), happiness (1-13), batch qty 1, GameEventBus publish
+- **Royal Hourglass Maker System** — peščene ure
+  - 6 produktov (majhna, medeninasta, srebrna, srebrno okvirna, zlatorobna, kraljevski veliki)
+  - 4 zgradbe (peščenourška delavnica, steklopihačnica, kalibrirnica, kraljevski atelje)
+  - Glass, sand, wood, brass, silver, gold, jewel, pearl supply, precision (50-100), batch qty 1, GameEventBus publish
+- **Royal Microscope Maker System** — mikroskopi za medicino
+  - 6 produktov (medeninast, srebrn, vgraviran, srebrnomizni, zlatomizni, kraljevski veliki)
+  - 4 zgradbe (mikroskopska delavnica, lečna brusilnica, kalibrirnica, kraljevski atelje)
+  - Brass, glass, silver, gold, jewel, pearl supply, magnification (40-100), happiness (1-14), batch qty 1, GameEventBus publish
+- **Royal Barometer Maker System** — barometri za napovedovanje vremena
+  - 6 produktov (medeninast, srebrn, vgraviran, srebrnokazalni, zlatokondični, kraljevski veliki)
+  - 4 zgradbe (barometerska delavnica, steklenocevna soba, živosrebrna soba, kraljevski atelje)
+  - Brass, glass, mercury, silver, gold, jewel, pearl supply, accuracy (50-100), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Thermometer Maker System** — termometri za merjenje temperature
+  - 6 produktov (stekleni, medeninast, srebrn, srebrnolestvni, zlatookvirni, kraljevski veliki)
+  - 4 zgradbe (termometerska delavnica, steklenocevna soba, kalibrirnica, kraljevski atelje)
+  - Glass, mercury, brass, silver, gold, jewel, pearl supply, accuracy (50-100), happiness (1-9), batch qty 1, GameEventBus publish
+
 ## [v3.11.156] — 2026-08-09 — Royal Armillary Sphere Maker System (6 products, armillary spheres)
 ## [v3.11.155] — 2026-08-09 — Royal Sextant Maker System (6 products, sextants)
 ## [v3.11.154] — 2026-08-09 — Royal Balance Scale Maker System (6 products, scales)
