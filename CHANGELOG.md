@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.296] — 2026-08-09 — Royal Watchtower Maker System (6 products, watchtowers)
+## [v3.11.295] — 2026-08-09 — Royal Battlement Maker System (6 products, battlements)
+## [v3.11.294] — 2026-08-09 — Royal Portcullis Maker System (6 products, portcullises)
+## [v3.11.293] — 2026-08-09 — Royal Drawbridge Maker System (6 products, drawbridges)
+## [v3.11.292] — 2026-08-09 — Royal Iron Gate Maker System (6 products, iron gates)
 ## [v3.11.291] — 2026-08-09 — Royal Chronicle Binder System (6 products, chronicles)
+
+### Dodano (5 sistemov naenkrat — obrambni sistemi)
+- **Royal Iron Gate Maker System** — železna vrata
+  - 6 produktov (preprosta, zakovučena ojačana, srebrnoobrobljena, zlatovložena, draguljasta, kraljevska velika)
+  - 4 zgradbe (vratna delavnica, kovaška podstrešje, mojstrski vratarski atelje, kraljevska vratarska palača)
+  - Iron, steel, wood, silver, gold, jewel, pearl supply, defense (35-100), happiness (1-13), batch qty 1, GameEventBus publish
+- **Royal Drawbridge Maker System** — dvižni mostovi
+  - 6 produktov (lesen, železnookrepljen, srebrnoverižni, zlatookrasni, draguljnoprity, kraljevski veliki)
+  - 4 zgradbe (mostna delavnica, mostna podstrešje, mojstrski mostni atelje, kraljevska mostna palača)
+  - Wood, iron, steel, rope, silver, gold, jewel, pearl supply, defense (28-98), happiness (1-13), batch qty 1, GameEventBus publish
+- **Royal Portcullis Maker System** — padajoče rešetke
+  - 6 produktov (železna, jeklenotična, srebrnoverižna, zlatookrasna, draguljnoprity, kraljevska velika)
+  - 4 zgradbe (rešetkarska delavnica, kovaška podstrešje, mojstrski rešetkarski atelje, kraljevska rešetkarska palača)
+  - Iron, steel, wood, silver, gold, jewel, pearl supply, defense (42-100), happiness (1-13), batch qty 1, GameEventBus publish
+- **Royal Battlement Maker System** — cinasti veneci
+  - 6 produktov (kamnit, marmornata cinaston, srebrnovloženi, zlatookrasni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (cinasna delavnica, zidarska podstrešje, mojstrski zidarski atelje, kraljevska zidarska palača)
+  - Stone, marble, silver, gold, jewel, pearl supply, defense (25-92), happiness (1-13), batch qty 1, GameEventBus publish
+- **Royal Watchtower Maker System** — opazovalni stolpi
+  - 6 produktov (leseni, kamnitookrepljen, srebrnopasni, zlatookrasni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (stolpna delavnica, fortifikacijska podstrešje, mojstrski stolpni atelje, kraljevska fortifikacijska palača)
+  - Wood, stone, iron, silver, gold, jewel, pearl supply, defense (28-98), sightRange (30-100), happiness (1-13), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.290] — 2026-08-09 — Royal Scroll Case Maker System (6 products, scroll cases)
 ## [v3.11.289] — 2026-08-09 — Royal Reading Desk Maker System (6 products, reading desks)
 ## [v3.11.288] — 2026-08-09 — Royal Library Catalog Maker System (6 products, catalogs)
