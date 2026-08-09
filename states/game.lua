@@ -597,6 +597,11 @@ S.DrillPressMaker = require("objects.Economy.RoyalDrillPressMakerSystem")
 S.PlanerMaker = require("objects.Economy.RoyalPlanerMakerSystem")
 S.SanderMaker = require("objects.Economy.RoyalSanderMakerSystem")
 S.PolisherMaker = require("objects.Economy.RoyalPolisherMakerSystem")
+S.GrainMillMaker = require("objects.Economy.RoyalGrainMillMakerSystem")
+S.SpiceMillMaker = require("objects.Economy.RoyalSpiceMillMakerSystem")
+S.ConfectionOvenMaker = require("objects.Economy.RoyalConfectionOvenMakerSystem")
+S.KitchenScaleMaker = require("objects.Economy.RoyalKitchenScaleMakerSystem")
+S.BakingSheetMaker = require("objects.Economy.RoyalBakingSheetMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1617,6 +1622,11 @@ local function delayedInit()
     S.PlanerMaker.init(); _G.PlanerMaker = S.PlanerMaker
     S.SanderMaker.init(); _G.SanderMaker = S.SanderMaker
     S.PolisherMaker.init(); _G.PolisherMaker = S.PolisherMaker
+    S.GrainMillMaker.init(); _G.GrainMillMaker = S.GrainMillMaker
+    S.SpiceMillMaker.init(); _G.SpiceMillMaker = S.SpiceMillMaker
+    S.ConfectionOvenMaker.init(); _G.ConfectionOvenMaker = S.ConfectionOvenMaker
+    S.KitchenScaleMaker.init(); _G.KitchenScaleMaker = S.KitchenScaleMaker
+    S.BakingSheetMaker.init(); _G.BakingSheetMaker = S.BakingSheetMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -2382,6 +2392,11 @@ function game:update(dt)
                 S.PlanerMaker.update(dt)
                 S.SanderMaker.update(dt)
                 S.PolisherMaker.update(dt)
+                S.GrainMillMaker.update(dt)
+                S.SpiceMillMaker.update(dt)
+                S.ConfectionOvenMaker.update(dt)
+                S.KitchenScaleMaker.update(dt)
+                S.BakingSheetMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

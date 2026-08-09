@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.316] — 2026-08-09 — Royal Baking Sheet Maker System (6 products, baking sheets)
+## [v3.11.315] — 2026-08-09 — Royal Kitchen Scale Maker System (6 products, kitchen scales)
+## [v3.11.314] — 2026-08-09 — Royal Confection Oven Maker System (6 products, confection ovens)
+## [v3.11.313] — 2026-08-09 — Royal Spice Mill Maker System (6 products, spice mills)
+## [v3.11.312] — 2026-08-09 — Royal Grain Mill Maker System (6 products, grain mills)
 ## [v3.11.311] — 2026-08-09 — Royal Polisher Maker System (6 products, polishers)
+
+### Dodano (5 sistemov naenkrat — kuhinjske tehnologije)
+- **Royal Grain Mill Maker System** — mlini za žito
+  - 6 produktov (kamnit, železnookrepljen, srebrnozobčani, zlatookrasni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (mlinska delavnica, mlinska podstrešje, mojstrski mlinski atelje, kraljevska mlinska palača)
+  - Stone, iron, wood, silver, gold, jewel, pearl supply, food (15-88), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Spice Mill Maker System** — mlini za začimbe
+  - 6 produktov (kamnit, železnookrepljen, srebrnozobčani, zlatookrasni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (začimbna mlinska delavnica, mlinska podstrešje, mojstrski začimbni mlinski atelje, kraljevska začimbna mlinska palača)
+  - Stone, iron, wood, silver, gold, jewel, pearl supply, food (8-65), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Confection Oven Maker System** — peči za sladice
+  - 6 produktov (opečna, železnookrepljena, srebrnoobrobljena, zlatookrasna, draguljasta, kraljevska velika)
+  - 4 zgradbe (pečna delavnica, pekovska podstrešje, mojstrski pekovski atelje, kraljevska pekovska palača)
+  - Brick, iron, steel, silver, gold, jewel, pearl supply, food (12-80), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Kitchen Scale Maker System** — kuhinjske tehtnice
+  - 6 produktov (železne, medeninastoležajne, srebrnolatežne, zlatookrasne, draguljasta, kraljevske velike)
+  - 4 zgradbe (tehtniška delavnica, inštrumentna podstrešje, mojstrski tehtniški atelje, kraljevska inštrumentna palača)
+  - Iron, brass, silver, gold, jewel, pearl supply, culinary (18-95), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Baking Sheet Maker System** — pekači
+  - 6 produktov (železna, kositrnoobložena, srebrnorobna, zlatookrasna, draguljasta, kraljevski veliki)
+  - 4 zgradbe (pekačna delavnica, pekovska podstrešje, mojstrski pekavski atelje, kraljevska pekavska palača)
+  - Iron, clay, tin, silver, gold, jewel, pearl supply, culinary (18-95), happiness (1-12), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.310] — 2026-08-09 — Royal Sander Maker System (6 products, sanders)
 ## [v3.11.309] — 2026-08-09 — Royal Planer Maker System (6 products, planers)
 ## [v3.11.308] — 2026-08-09 — Royal Drill Press Maker System (6 products, drill presses)
