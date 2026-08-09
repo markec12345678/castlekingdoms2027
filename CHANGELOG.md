@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.86] — 2026-08-09 — Royal Match Cord Maker System (6 products, match cords)
+## [v3.11.85] — 2026-08-09 — Royal Charcoal Burner System (6 products, charcoal)
+## [v3.11.84] — 2026-08-09 — Royal Sulfur Collector System (6 products, sulfur)
+## [v3.11.83] — 2026-08-09 — Royal Saltpeter Refinery System (6 products, saltpeter)
+## [v3.11.82] — 2026-08-09 — Royal Gunpowder Mill System (6 products, gunpowder)
+
+### Dodano (5 sistemov naenkrat — smodniška surovinska serija)
+- **Royal Gunpowder Mill System** — mlin za smodek
+  - 6 produktov (serpentin, zrnati, fino mlet, vojaški, rafiniran, kraljevski veliki)
+  - 4 zgradbe (delavnica, mlinski mlin, zrnica, kraljevski atelje)
+  - Saltpeter, sulfur, charcoal, silver, gold, jewel supply, potency (30-150), batch qty 5, GameEventBus publish
+- **Royal Saltpeter Refinery System** — rafinerija salitre
+  - 6 produktov (surova, rafinirana, kristalizirana, bela, srebrno obdelana, kraljevska čista)
+  - 4 zgradbe (delavnica, izluževalna kadi, kristalizirnica, kraljevski atelje)
+  - Earth, water, charcoal, silver, gold, jewel supply, purity (30-100), batch qty 5
+- **Royal Sulfur Collector System** — zbiralec in rafiner žvepla
+  - 6 produktov (surovo, raztaljeno, rafinirano, sublimirano, srebrno obdelano, kraljevsko čisto)
+  - 4 zgradbe (delavnica, talilnica, sublimirnica, kraljevski atelje)
+  - Ore, fuel, silver, gold, jewel supply, purity (30-100), batch qty 5
+- **Royal Charcoal Burner System** — peč za oglje
+  - 6 produktov (mehko, trdodrevno, komensko, rafinirano, srebrno prašni, kraljevsko čisto)
+  - 4 zgradbe (delavnica, ogljarska peč, retorta, kraljevski atelje)
+  - Wood, clay, silver, gold, jewel supply, burnQuality (30-100), batch qty 10
+- **Royal Match Cord Maker System** — izdelovalec prižigov za topove
+  - 6 produktov (konopljev, lneni, počasni, obdelani, srebrno prašni, kraljevski slovesni)
+  - 4 zgradbe (delavnica, potorilnica, sušilnica, kraljevski atelje)
+  - Hemp, linen, saltpeter, charcoal, silver, gold, silk, jewel, pearl supply, burnRate (30-100), durability (5-35), batch qty 10, GameEventBus publish
+
 ## [v3.11.81] — 2026-08-09 — Royal Grenade Maker System (6 products, grenades)
 ## [v3.11.80] — 2026-08-09 — Royal Hand Cannon Maker System (6 products, hand cannons)
 ## [v3.11.79] — 2026-08-09 — Royal Bombard Maker System (6 products, bombards)

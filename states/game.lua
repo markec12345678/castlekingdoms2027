@@ -346,6 +346,12 @@ S.MortarMaker = require("objects.Gameplay.RoyalMortarMakerSystem")
 S.BombardMaker = require("objects.Gameplay.RoyalBombardMakerSystem")
 S.HandCannonMaker = require("objects.Gameplay.RoyalHandCannonMakerSystem")
 S.GrenadeMaker = require("objects.Gameplay.RoyalGrenadeMakerSystem")
+-- Castle Kingdoms 2027 v3.11.82-v3.11.86: 5 new gunpowder resource systems
+S.GunpowderMill = require("objects.Economy.RoyalGunpowderMillSystem")
+S.SaltpeterRefinery = require("objects.Economy.RoyalSaltpeterRefinerySystem")
+S.SulfurCollector = require("objects.Economy.RoyalSulfurCollectorSystem")
+S.CharcoalBurner = require("objects.Economy.RoyalCharcoalBurnerSystem")
+S.MatchCordMaker = require("objects.Economy.RoyalMatchCordMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1115,6 +1121,12 @@ local function delayedInit()
     S.BombardMaker.init(); _G.BombardMaker = S.BombardMaker
     S.HandCannonMaker.init(); _G.HandCannonMaker = S.HandCannonMaker
     S.GrenadeMaker.init(); _G.GrenadeMaker = S.GrenadeMaker
+    -- Castle Kingdoms 2027 v3.11.82-v3.11.86: Initialize 5 new gunpowder resource systems
+    S.GunpowderMill.init(); _G.GunpowderMill = S.GunpowderMill
+    S.SaltpeterRefinery.init(); _G.SaltpeterRefinery = S.SaltpeterRefinery
+    S.SulfurCollector.init(); _G.SulfurCollector = S.SulfurCollector
+    S.CharcoalBurner.init(); _G.CharcoalBurner = S.CharcoalBurner
+    S.MatchCordMaker.init(); _G.MatchCordMaker = S.MatchCordMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1629,6 +1641,12 @@ function game:update(dt)
                 S.BombardMaker.update(dt)
                 S.HandCannonMaker.update(dt)
                 S.GrenadeMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.82-v3.11.86: Update 5 new gunpowder resource systems
+                S.GunpowderMill.update(dt)
+                S.SaltpeterRefinery.update(dt)
+                S.SulfurCollector.update(dt)
+                S.CharcoalBurner.update(dt)
+                S.MatchCordMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
