@@ -388,6 +388,12 @@ S.HempRetter = require("objects.Economy.RoyalHempRetterSystem")
 S.CottonGin = require("objects.Economy.RoyalCottonGinSystem")
 S.CanvasWeaver = require("objects.Economy.RoyalCanvasWeaverSystem")
 S.RopeSpinner = require("objects.Economy.RoyalRopeSpinnerSystem")
+-- Castle Kingdoms 2027 v3.11.117-v3.11.121: 5 new construction material systems
+S.GlassBatchSmelter = require("objects.Economy.RoyalGlassBatchSmelterSystem")
+S.IngotSmelter = require("objects.Economy.RoyalIngotSmelterSystem")
+S.LimeBurner = require("objects.Economy.RoyalLimeBurnerSystem")
+S.BrickMaker = require("objects.Economy.RoyalBrickMakerSystem")
+S.PotteryKiln = require("objects.Economy.RoyalPotteryKilnSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1199,6 +1205,12 @@ local function delayedInit()
     S.CottonGin.init(); _G.CottonGin = S.CottonGin
     S.CanvasWeaver.init(); _G.CanvasWeaver = S.CanvasWeaver
     S.RopeSpinner.init(); _G.RopeSpinner = S.RopeSpinner
+    -- Castle Kingdoms 2027 v3.11.117-v3.11.121: Initialize 5 new construction material systems
+    S.GlassBatchSmelter.init(); _G.GlassBatchSmelter = S.GlassBatchSmelter
+    S.IngotSmelter.init(); _G.IngotSmelter = S.IngotSmelter
+    S.LimeBurner.init(); _G.LimeBurner = S.LimeBurner
+    S.BrickMaker.init(); _G.BrickMaker = S.BrickMaker
+    S.PotteryKiln.init(); _G.PotteryKiln = S.PotteryKiln
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1755,6 +1767,12 @@ function game:update(dt)
                 S.CottonGin.update(dt)
                 S.CanvasWeaver.update(dt)
                 S.RopeSpinner.update(dt)
+                -- Castle Kingdoms 2027 v3.11.117-v3.11.121: Update 5 new construction material systems
+                S.GlassBatchSmelter.update(dt)
+                S.IngotSmelter.update(dt)
+                S.LimeBurner.update(dt)
+                S.BrickMaker.update(dt)
+                S.PotteryKiln.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

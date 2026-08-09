@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.121] — 2026-08-09 — Royal Pottery Kiln System (6 products, pottery)
+## [v3.11.120] — 2026-08-09 — Royal Brick Maker System (6 products, bricks)
+## [v3.11.119] — 2026-08-09 — Royal Lime Burner System (6 products, lime)
+## [v3.11.118] — 2026-08-09 — Royal Ingot Smelter System (6 products, ingots)
+## [v3.11.117] — 2026-08-09 — Royal Glass Batch Smelter System (6 products, glass)
+
+### Dodano (5 sistemov naenkrat — gradbena surovinska serija)
+- **Royal Glass Batch Smelter System** — taljenje surovega stekla
+  - 6 produktov (surova mešanica, bistro, kristalno, svinčevo, srebrno očiščeno, kraljevski veliki)
+  - 4 zgradbe (steklarska livarna, talilna peč, ohlajevalna peč, kraljevski atelje)
+  - Sand, soda, lead, fuel, silver, gold, jewel supply, purity (30-100), batch qty 5, GameEventBus publish
+- **Royal Ingot Smelter System** — taljenje kovinskih ingotov
+  - 6 produktov (železen, bakren, bronast, medeninast, srebrni rafiniran, kraljevski veliki)
+  - 4 zgradbe (kovinska livarna, visoka peč, rafinerijska peč, kraljevski atelje)
+  - Iron ore, copper ore, tin ore, zinc ore, silver ore, gold ore, lead, fuel, jewel supply, purity (60-100), batch qty 5
+- **Royal Lime Burner System** — žganje apna
+  - 6 produktov (živo apno, ugaslo apno, apnena malta, apnena belila, srebrno obdelano, kraljevski veliki)
+  - 4 zgradbe (apnarska delavnica, apnarska peč, ugaševalnica, kraljevski atelje)
+  - Limestone, fuel, water, sand, silver, gold, jewel supply, quality (50-100), batch qty 5
+- **Royal Brick Maker System** — izdelava opek
+  - 6 produktov (sončno sušena, žgana, glazirana, terrakota, srebrno maltinska, kraljevski veliki)
+  - 4 zgradbe (opekarska delavnica, opekarska peč, glazirnica, kraljevski atelje)
+  - Clay, sand, fuel, glass, silver, gold, jewel supply, durability (30-100), batch qty 10
+- **Royal Pottery Kiln System** — peka lončenine
+  - 6 produktov (glina, kamnina, glazirana, porcelan, srebrno obrobljena, kraljevski veliki)
+  - 4 zgradbe (lončarska delavnica, lončarska peč, glazirnica, kraljevski atelje)
+  - Clay, kaolin, glass, fuel, silver, gold, jewel supply, durability (30-100), happiness (1-9), batch qty 5, GameEventBus publish
+
 ## [v3.11.116] — 2026-08-09 — Royal Rope Spinner System (6 products, ropes)
 ## [v3.11.115] — 2026-08-09 — Royal Canvas Weaver System (6 products, canvas)
 ## [v3.11.114] — 2026-08-09 — Royal Cotton Gin System (6 products, cotton)
