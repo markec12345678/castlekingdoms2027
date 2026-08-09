@@ -424,6 +424,12 @@ S.PigeonCourier = require("objects.Gameplay.RoyalPigeonCourierSystem")
 S.HoundBreeder = require("objects.Gameplay.RoyalHoundBreederSystem")
 S.HuntingFalconer = require("objects.Gameplay.RoyalHuntingFalconerSystem")
 S.WarDogTrainer = require("objects.Gameplay.RoyalWarDogTrainerSystem")
+-- Castle Kingdoms 2027 v3.11.147-v3.11.151: 5 new scientific/cartographic systems
+S.MapMaker = require("objects.Economy.RoyalMapMakerSystem")
+S.StarChartMaker = require("objects.Economy.RoyalStarChartMakerSystem")
+S.PaperMaker = require("objects.Economy.RoyalPaperMakerSystem")
+S.ParchmentMaker = require("objects.Economy.RoyalParchmentMakerSystem")
+S.QuillPenMaker = require("objects.Economy.RoyalQuillPenMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1271,6 +1277,12 @@ local function delayedInit()
     S.HoundBreeder.init(); _G.HoundBreeder = S.HoundBreeder
     S.HuntingFalconer.init(); _G.HuntingFalconer = S.HuntingFalconer
     S.WarDogTrainer.init(); _G.WarDogTrainer = S.WarDogTrainer
+    -- Castle Kingdoms 2027 v3.11.147-v3.11.151: Initialize 5 new scientific/cartographic systems
+    S.MapMaker.init(); _G.MapMaker = S.MapMaker
+    S.StarChartMaker.init(); _G.StarChartMaker = S.StarChartMaker
+    S.PaperMaker.init(); _G.PaperMaker = S.PaperMaker
+    S.ParchmentMaker.init(); _G.ParchmentMaker = S.ParchmentMaker
+    S.QuillPenMaker.init(); _G.QuillPenMaker = S.QuillPenMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1863,6 +1875,12 @@ function game:update(dt)
                 S.HoundBreeder.update(dt)
                 S.HuntingFalconer.update(dt)
                 S.WarDogTrainer.update(dt)
+                -- Castle Kingdoms 2027 v3.11.147-v3.11.151: Update 5 new scientific/cartographic systems
+                S.MapMaker.update(dt)
+                S.StarChartMaker.update(dt)
+                S.PaperMaker.update(dt)
+                S.ParchmentMaker.update(dt)
+                S.QuillPenMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

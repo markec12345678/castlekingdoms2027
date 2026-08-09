@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.151] — 2026-08-09 — Royal Quill Pen Maker System (6 products, quills)
+## [v3.11.150] — 2026-08-09 — Royal Parchment Maker System (6 products, parchment)
+## [v3.11.149] — 2026-08-09 — Royal Paper Maker System (6 products, paper)
+## [v3.11.148] — 2026-08-09 — Royal Star Chart Maker System (6 products, star charts)
+## [v3.11.147] — 2026-08-09 — Royal Map Maker System (6 products, maps)
+
+### Dodano (5 sistemov naenkrat — znanstveno-kartografska serija)
+- **Royal Map Maker System** — kartografija
+  - 6 produktov (regionalni, trgovska pot, obalna, srebrno filigranski, srebrno okvirni, kraljevski veliki atlas)
+  - 4 zgradbe (kartografska postaja, kartografska hiša, geodetski stolp, kraljevski atelje)
+  - Parchment, ink, silver, gold, jewel supply, accuracy (50-100), happiness (1-11), batch qty 1, GameEventBus publish
+- **Royal Star Chart Maker System** — astronomske karte
+  - 6 produktov (ozvezdja, lunarna, planetni efemeride, srebrno vgravirana, srebrno armilarna, kraljevski veliki nebesni atlas)
+  - 4 zgradbe (astronomska postaja, observatorij, kartirnica, kraljevski atelje)
+  - Parchment, ink, silver, gold, jewel supply, accuracy (50-100), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Paper Maker System** — proizvodnja papirja
+  - 6 produktov (hrapavi, pisalni, fine, velum, srebrno posuti, kraljevski veliki)
+  - 4 zgradbe (papirniška postaja, papirnica, dokončevalnica, kraljevski atelje)
+  - Rag, water, starch, silver, gold, jewel supply, quality (40-100), happiness (1-8), batch qty 10
+- **Royal Parchment Maker System** — pergament in velum
+  - 6 produktov (ovčji, kozji, velum, srebrno ostrgani, srebrno obrobljeni, kraljevski veliki)
+  - 4 zgradbe (pergamentna postaja, pergamentnica, strgalnica, kraljevski atelje)
+  - Hide, calf hide, lime, water, silver, gold, jewel supply, quality (50-100), batch qty 5
+- **Royal Quill Pen Maker System** — pero in pisala
+  - 6 produktov (gosje, labodje, jekleno koničasto, srebrno, srebrno ročajno, kraljevski veliki)
+  - 4 zgradbe (pernarska postaja, pernarna, žarilnica, kraljevski atelje)
+  - Feather, swan feather, steel, wood, silver, gold, jewel, pearl supply, quality (40-100), batch qty 5, GameEventBus publish
+
 ## [v3.11.146] — 2026-08-09 — Royal War Dog Trainer System (6 products, war dogs)
 ## [v3.11.145] — 2026-08-09 — Royal Hunting Falconer System (6 products, hunts)
 ## [v3.11.144] — 2026-08-09 — Royal Hound Breeder System (6 products, hounds)
