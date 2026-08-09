@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.381] — 2026-08-10 — Royal Angelus Bell Maker System (6 products, angelus bells)
+## [v3.11.380] — 2026-08-10 — Royal Tubular Bells Maker System (6 products, tubular bells)
+## [v3.11.379] — 2026-08-10 — Royal Handbell Maker System (6 products, handbells)
+## [v3.11.378] — 2026-08-10 — Royal Glockenspiel Maker System (6 products, glockenspiels)
+## [v3.11.377] — 2026-08-10 — Royal Carillon Maker System (6 products, carillons)
+
+### Dodano (5 sistemov naenkrat — kraljevska zvončna in tonsko-udarna glasbila)
+- **Royal Carillon Maker System** — kariljoni (skupine uglašenih zvonov)
+  - 6 produktov (bronasti ročni, železni stolpni, srebrno uglašen, pozlačeni slavnostni, draguljasti kraljevski, suvereni veliki)
+  - 4 zgradbe (kariljonska delavnica, zvonolivarski priključek, mojstrski kariljonski atelje, suverena kampanilna palača)
+  - Bronze, iron, wood, silver, gold, jewel, pearl supply, prestige (3-82), happiness (2-13), batch qty 1, GameEventBus publish
+- **Royal Glockenspiel Maker System** — glockenspieli (tonske kovinske palčke)
+  - 6 produktov (preprosti železni, medeninasto uglašen, srebrnopalični, pozlačeni dvorni, draguljasti kraljevski, suvereni veliki)
+  - 4 zgradbe (glockenspiel delavnica, tonsko-udarna hiša, mojstrski glockenspiel atelje, suverena celesta palača)
+  - Iron, brass, wood, silver, gold, jewel, pearl supply, prestige (2-76), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Handbell Maker System** — ročne zvončnice
+  - 6 produktov (preprosta bronasta, medeninasta zborovska, srebrno uglašena, pozlačena slavnostna, draguljasta kraljevska, suvereni zvončničenje)
+  - 4 zgradbe (zvončničarska delavnica, zvončničarski ceh, mojstrski zvončničarski atelje, suverena kampanološka palača)
+  - Bronze, brass, wood, leather, silver, gold, jewel, pearl supply, prestige (1-64), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Tubular Bells Maker System** — tubular zvonovi (cevasti zvonovi)
+  - 6 produktov (železno zveneče, medeninasto orkestralno, srebrno uglašeno, pozlačeno katedralsko, draguljasto kraljevsko, suvereni veliki)
+  - 4 zgradbe (tubular delavnica, zvončni stolp priključek, mojstrski tubular atelje, suverena resonančna palača)
+  - Iron, brass, wood, rope, silver, gold, jewel, pearl supply, prestige (2-79), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Angelus Bell Maker System** — angelus zvonovi (zvoni za molitvene ure)
+  - 6 produktov (preprost železni, bronast kapelni, srebrni samostanski, pozlačeni katedralski, draguljasta kraljevska, suvereni sanctus)
+  - 4 zgradbe (angelus delavnica, posvetilna zvončna hiša, mojstrski angelus atelje, suverena sanctus palača)
+  - Iron, bronze, wood, rope, silver, gold, jewel, pearl supply, prestige (3-84), happiness (1-12), batch qty 1, GameEventBus publish
+
 ## [v3.11.376] — 2026-08-10 — Royal Collar of Estate System (6 products, estate collars)
 ## [v3.11.375] — 2026-08-10 — Royal Commendation Scroll System (6 products, commendation scrolls)
 ## [v3.11.374] — 2026-08-10 — Royal Order Insignia System (6 products, knightly order insignia)
