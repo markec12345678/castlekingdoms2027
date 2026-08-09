@@ -364,6 +364,12 @@ S.SaltRefiner = require("objects.Economy.RoyalSaltRefinerSystem")
 S.SugarRefiner = require("objects.Economy.RoyalSugarRefinerSystem")
 S.HoneyCollector = require("objects.Economy.RoyalHoneyCollectorSystem")
 S.OilPresser = require("objects.Economy.RoyalOilPresserSystem")
+-- Castle Kingdoms 2027 v3.11.97-v3.11.101: 5 new dairy & bakery systems
+S.CheeseMaker = require("objects.Economy.RoyalCheeseMakerSystem")
+S.ButterChurner = require("objects.Economy.RoyalButterChurnerSystem")
+S.YogurtFermenter = require("objects.Economy.RoyalYogurtFermenterSystem")
+S.BreadBaker = require("objects.Economy.RoyalBreadBakerSystem")
+S.PastryChef = require("objects.Economy.RoyalPastryChefSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1151,6 +1157,12 @@ local function delayedInit()
     S.SugarRefiner.init(); _G.SugarRefiner = S.SugarRefiner
     S.HoneyCollector.init(); _G.HoneyCollector = S.HoneyCollector
     S.OilPresser.init(); _G.OilPresser = S.OilPresser
+    -- Castle Kingdoms 2027 v3.11.97-v3.11.101: Initialize 5 new dairy & bakery systems
+    S.CheeseMaker.init(); _G.CheeseMaker = S.CheeseMaker
+    S.ButterChurner.init(); _G.ButterChurner = S.ButterChurner
+    S.YogurtFermenter.init(); _G.YogurtFermenter = S.YogurtFermenter
+    S.BreadBaker.init(); _G.BreadBaker = S.BreadBaker
+    S.PastryChef.init(); _G.PastryChef = S.PastryChef
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1683,6 +1695,12 @@ function game:update(dt)
                 S.SugarRefiner.update(dt)
                 S.HoneyCollector.update(dt)
                 S.OilPresser.update(dt)
+                -- Castle Kingdoms 2027 v3.11.97-v3.11.101: Update 5 new dairy & bakery systems
+                S.CheeseMaker.update(dt)
+                S.ButterChurner.update(dt)
+                S.YogurtFermenter.update(dt)
+                S.BreadBaker.update(dt)
+                S.PastryChef.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

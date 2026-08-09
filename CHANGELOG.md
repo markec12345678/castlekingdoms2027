@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.101] — 2026-08-09 — Royal Pastry Chef System (6 products, pastries)
+## [v3.11.100] — 2026-08-09 — Royal Bread Baker System (6 products, breads)
+## [v3.11.99] — 2026-08-09 — Royal Yogurt Fermenter System (6 products, yogurts)
+## [v3.11.98] — 2026-08-09 — Royal Butter Churner System (6 products, butters)
+## [v3.11.97] — 2026-08-09 — Royal Cheese Maker System (6 products, cheeses)
+
+### Dodano (5 sistemov naenkrat — mlečno-pekarska serija)
+- **Royal Cheese Maker System** — sirarstvo
+  - 6 produktov (sveža skuta, mehki, trdi, staran, začinjen, kraljevski veliki)
+  - 4 zgradbe (delavnica, sirarna, starilna klet, kraljevski atelje)
+  - Milk, rennet, salt, spice, silver, gold, jewel supply, flavorStrength (20-100), happiness (1-15), batch qty 5, GameEventBus publish
+- **Royal Butter Churner System** — maslo iz mleka
+  - 6 produktov (sveže, slano, kislo, zeliščno, srebrno stepeno, kraljevski veliki)
+  - 4 zgradbe (delavnica, stepnica, dokončevalnica, kraljevski atelje)
+  - Milk, salt, herb, silver, gold, jewel supply, flavorStrength (30-100), happiness (2-14), batch qty 5
+- **Royal Yogurt Fermenter System** — jogurt iz fermentacije
+  - 6 produktov (navaden, medeni, sadni, začinjen, srebrno posodje, kraljevski veliki)
+  - 4 zgradbe (delavnica, fermentirnica, hladilnica, kraljevski atelje)
+  - Milk, culture, honey, fruit, spice, silver, gold, jewel supply, flavorStrength (25-100), happiness (1-13), batch qty 5
+- **Royal Bread Baker System** — pekovski kruh
+  - 6 produktov (rženi, pšenični, beli, začinjen, srebrno prašni, kraljevski veliki)
+  - 4 zgradbe (delavnica, pekarna, kamnita peč, kraljevski atelje)
+  - Rye, wheat, water, fuel, spice, honey, silver, gold, jewel supply, flavorStrength (25-100), happiness (1-14), batch qty 10
+- **Royal Pastry Chef System** — slaščičarstvo
+  - 6 produktov (preprosta pita, medena torta, začinjena torta, marcipan, zlatolistna peciva, kraljevski veliki)
+  - 4 zgradbe (slaščičarna, pekarna, okrasovalnica, kraljevski atelje)
+  - Wheat, fruit, butter, honey, spice, almond, silver, gold, jewel supply, flavorStrength (30-100), happiness (2-15), batch qty 5, GameEventBus publish
+
 ## [v3.11.96] — 2026-08-09 — Royal Oil Presser System (6 products, oils)
 ## [v3.11.95] — 2026-08-09 — Royal Honey Collector System (6 products, honey)
 ## [v3.11.94] — 2026-08-09 — Royal Sugar Refiner System (6 products, sugar)
