@@ -460,6 +460,12 @@ S.CardDeckMaker = require("objects.Economy.RoyalCardDeckMakerSystem")
 S.DominoMaker = require("objects.Economy.RoyalDominoMakerSystem")
 S.PlayingCardMaker = require("objects.Economy.RoyalPlayingCardMakerSystem")
 S.JigsawPuzzleMaker = require("objects.Economy.RoyalJigsawPuzzleMakerSystem")
+-- Castle Kingdoms 2027 v3.11.177-v3.11.181: 5 new toy & decorative systems
+S.KiteMaker = require("objects.Economy.RoyalKiteMakerSystem")
+S.TopMaker = require("objects.Economy.RoyalTopMakerSystem")
+S.DollHouseMaker = require("objects.Economy.RoyalDollHouseMakerSystem")
+S.MarbleStatueMaker = require("objects.Economy.RoyalMarbleStatueMakerSystem")
+S.PerfumeBottleMaker = require("objects.Economy.RoyalPerfumeBottleMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1343,6 +1349,12 @@ local function delayedInit()
     S.DominoMaker.init(); _G.DominoMaker = S.DominoMaker
     S.PlayingCardMaker.init(); _G.PlayingCardMaker = S.PlayingCardMaker
     S.JigsawPuzzleMaker.init(); _G.JigsawPuzzleMaker = S.JigsawPuzzleMaker
+    -- Castle Kingdoms 2027 v3.11.177-v3.11.181: Initialize 5 new toy & decorative systems
+    S.KiteMaker.init(); _G.KiteMaker = S.KiteMaker
+    S.TopMaker.init(); _G.TopMaker = S.TopMaker
+    S.DollHouseMaker.init(); _G.DollHouseMaker = S.DollHouseMaker
+    S.MarbleStatueMaker.init(); _G.MarbleStatueMaker = S.MarbleStatueMaker
+    S.PerfumeBottleMaker.init(); _G.PerfumeBottleMaker = S.PerfumeBottleMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1971,6 +1983,12 @@ function game:update(dt)
                 S.DominoMaker.update(dt)
                 S.PlayingCardMaker.update(dt)
                 S.JigsawPuzzleMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.177-v3.11.181: Update 5 new toy & decorative systems
+                S.KiteMaker.update(dt)
+                S.TopMaker.update(dt)
+                S.DollHouseMaker.update(dt)
+                S.MarbleStatueMaker.update(dt)
+                S.PerfumeBottleMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

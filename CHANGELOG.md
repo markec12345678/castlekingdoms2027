@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.181] — 2026-08-09 — Royal Perfume Bottle Maker System (6 products, perfume bottles)
+## [v3.11.180] — 2026-08-09 — Royal Marble Statue Maker System (6 products, marble statues)
+## [v3.11.179] — 2026-08-09 — Royal Doll House Maker System (6 products, doll houses)
+## [v3.11.178] — 2026-08-09 — Royal Top Maker System (6 products, spinning tops)
+## [v3.11.177] — 2026-08-09 — Royal Kite Maker System (6 products, kites)
+
+### Dodano (5 sistemov naenkrat — igrače in okrasni predmeti)
+- **Royal Kite Maker System** — zmaji
+  - 6 produktov (papirni, svileni, poslikani, srebrnorepni, zlatoropni, kraljevski veliki)
+  - 4 zgradbe (zmajarica delavnica, svilničnica, slikalnica, kraljevski atelje)
+  - Paper, silk, wood, string, paint, silver, gold, jewel, pearl supply, flightQuality (40-100), happiness (2-12), batch qty 1, GameEventBus publish
+- **Royal Top Maker System** — vrtavke
+  - 6 produktov (lesena, poslikana, medeninastovrhovna, srebrno obrobljena, zlatointarzirana, kraljevski veliki)
+  - 4 zgradbe (vrtavkarska delavnica, stružnica, dokončevalnica, kraljevski atelje)
+  - Wood, paint, brass, silver, gold, jewel, pearl supply, spinTime (40-100), happiness (2-12), batch qty 1, GameEventBus publish
+- **Royal Doll House Maker System** — lutkne hiše
+  - 6 produktov (preprosta, poslikana, pohištena, srebrno obrobljena, zlatointarzirana, kraljevski veliki)
+  - 4 zgradbe (lutknarska delavnica, pohištilnica, okrasovalnica, kraljevski atelje)
+  - Wood, paint, fabric, silk, silver, gold, jewel, pearl supply, artistry (40-100), happiness (3-14), batch qty 1, GameEventBus publish
+- **Royal Marble Statue Maker System** — marmorni kipi
+  - 6 produktov (majhen poprsje, vrtni, naravno velik, srebrno poudarjen, zlatolistni, kraljevski veliki)
+  - 4 zgradbe (kiparska delavnica, rezbarski atelje, polirnica, kraljevski atelje)
+  - Marble, chisel, silver, gold, jewel, pearl supply, artistry (40-100), happiness (1-14), batch qty 1, GameEventBus publish
+- **Royal Perfume Bottle Maker System** — stekleničke za parfum
+  - 6 produktov (steklena, poslikana, srebrnopokrovna, srebrnofiligranska, zlatopokrovna, kraljevski veliki)
+  - 4 zgradbe (steklenička delavnica, steklopihačnica, okrasovalnica, kraljevski atelje)
+  - Glass, paint, silver, gold, jewel, pearl supply, artistry (40-100), happiness (1-10), batch qty 1, GameEventBus publish
+
 ## [v3.11.176] — 2026-08-09 — Royal Jigsaw Puzzle Maker System (6 products, puzzles)
 ## [v3.11.175] — 2026-08-09 — Royal Playing Card Maker System (6 products, playing cards)
 ## [v3.11.174] — 2026-08-09 — Royal Domino Maker System (6 products, dominoes)
