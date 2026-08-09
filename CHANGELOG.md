@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.231] — 2026-08-09 — Royal Coronation Cushion Maker System (6 products, coronation cushions)
+## [v3.11.230] — 2026-08-09 — Royal Banner Herald System (6 products, heraldic banners)
+## [v3.11.229] — 2026-08-09 — Royal Seal Stamp Maker System (6 products, seal stamps)
+## [v3.11.228] — 2026-08-09 — Royal Crest Carver System (6 products, heraldic crests)
+## [v3.11.227] — 2026-08-09 — Royal Coronation Mantle Maker System (6 products, coronation mantles)
 ## [v3.11.226] — 2026-08-09 — Royal Paint Maker System (6 products, paint pigments)
+
+### Dodano (5 sistemov naenkrat — ceremonialni predmeti)
+- **Royal Coronation Mantle Maker System** — kronanske mantije
+  - 6 produktov (volnena, svilna hermelinova, srebrnonitna, zlato vezana, draguljasta, kraljevski velika)
+  - 4 zgradbe (mantijska delavnica, kraljevska garderoba, mojstrski slovesnostni atelje, kraljevska kronanska palača)
+  - Silk, wool, leather, thread, silver, gold, jewel, pearl supply, prestige (5-80), happiness (2-15), batch qty 1, GameEventBus publish
+- **Royal Crest Carver System** — grbovni reliefi
+  - 6 produktov (leseni, poslikan, marmornat reliefa, srebrnovloženi, zlatolistni, kraljevski veliki)
+  - 4 zgradbe (grbovna delavnica, heraldikova podstrešje, mojstrski rezbarski atelje, kraljevska grboslovna palača)
+  - Wood, marble, paint, silver, gold, jewel, pearl supply, beauty (25-95), prestige (4-75), happiness (1-13), batch qty 1, GameEventBus publish
+- **Royal Seal Stamp Maker System** — pečatniki
+  - 6 produktov (železni, medeninast gravirani, srebrnorokavi, zlati signet, draguljni signet, kraljevski veliki)
+  - 4 zgradbe (pečatniška delavnica, graverska podstrešje, mojstrski pečatni atelje, kraljevska pečatna palača)
+  - Iron, wood, brass, silver, gold, jewel, pearl supply, prestige (3-70), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Banner Herald System** — grbovne zastave
+  - 6 produktov (lanena, poslikana svilena, srebrnoobrobljena, zlato vezana, draguljakotna, kraljevska velika)
+  - 4 zgradbe (zastavna delavnica, heraldikova podstrešje, mojstrski zastavni atelje, kraljevska zastavna palača)
+  - Silk, linen, thread, paint, wood, silver, gold, jewel, pearl supply, beauty (20-95), prestige (4-72), happiness (1-13), batch qty 1, GameEventBus publish
+- **Royal Coronation Cushion Maker System** — kronanski vzglavniki
+  - 6 produktov (žamčast, resasta svilena, srebrnoobrobljeni, zlato vezani, draguljakotni, kraljevski veliki)
+  - 4 zgradbe (vzglavniška delavnica, tapetniška podstrešje, mojstrski tapetniški atelje, kraljevska tapetniška palača)
+  - Silk, wool, thread, silver, gold, jewel, pearl supply, beauty (22-95), prestige (3-70), happiness (1-12), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.225] — 2026-08-09 — Royal Easel Maker System (6 products, easels)
 ## [v3.11.224] — 2026-08-09 — Royal Theater Mask Maker System (6 products, theater masks)
 ## [v3.11.223] — 2026-08-09 — Royal Costume Tailor System (6 products, costumes)
