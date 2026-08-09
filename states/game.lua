@@ -352,6 +352,12 @@ S.SaltpeterRefinery = require("objects.Economy.RoyalSaltpeterRefinerySystem")
 S.SulfurCollector = require("objects.Economy.RoyalSulfurCollectorSystem")
 S.CharcoalBurner = require("objects.Economy.RoyalCharcoalBurnerSystem")
 S.MatchCordMaker = require("objects.Economy.RoyalMatchCordMakerSystem")
+-- Castle Kingdoms 2027 v3.11.87-v3.11.91: 5 new beverage systems
+S.AleBrewer = require("objects.Economy.RoyalAleBrewerSystem")
+S.MeadMaker = require("objects.Economy.RoyalMeadMakerSystem")
+S.WineVintner = require("objects.Economy.RoyalWineVintnerSystem")
+S.CiderPress = require("objects.Economy.RoyalCiderPressSystem")
+S.BrandyDistiller = require("objects.Economy.RoyalBrandyDistillerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1127,6 +1133,12 @@ local function delayedInit()
     S.SulfurCollector.init(); _G.SulfurCollector = S.SulfurCollector
     S.CharcoalBurner.init(); _G.CharcoalBurner = S.CharcoalBurner
     S.MatchCordMaker.init(); _G.MatchCordMaker = S.MatchCordMaker
+    -- Castle Kingdoms 2027 v3.11.87-v3.11.91: Initialize 5 new beverage systems
+    S.AleBrewer.init(); _G.AleBrewer = S.AleBrewer
+    S.MeadMaker.init(); _G.MeadMaker = S.MeadMaker
+    S.WineVintner.init(); _G.WineVintner = S.WineVintner
+    S.CiderPress.init(); _G.CiderPress = S.CiderPress
+    S.BrandyDistiller.init(); _G.BrandyDistiller = S.BrandyDistiller
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -1647,6 +1659,12 @@ function game:update(dt)
                 S.SulfurCollector.update(dt)
                 S.CharcoalBurner.update(dt)
                 S.MatchCordMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.87-v3.11.91: Update 5 new beverage systems
+                S.AleBrewer.update(dt)
+                S.MeadMaker.update(dt)
+                S.WineVintner.update(dt)
+                S.CiderPress.update(dt)
+                S.BrandyDistiller.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

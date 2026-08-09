@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.91] — 2026-08-09 — Royal Brandy Distiller System (6 products, brandies)
+## [v3.11.90] — 2026-08-09 — Royal Cider Press System (6 products, ciders)
+## [v3.11.89] — 2026-08-09 — Royal Wine Vintner System (6 products, wines)
+## [v3.11.88] — 2026-08-09 — Royal Mead Maker System (6 products, meads)
+## [v3.11.87] — 2026-08-09 — Royal Ale Brewer System (6 products, ales)
+
+### Dodano (5 sistemov naenkrat — pijačna serija)
+- **Royal Ale Brewer System** — pivovar za pivo
+  - 6 produktov (majhno, rjavo, močno, začinjeno, srebrno pivovarsko, kraljevski veliki)
+  - 4 zgradbe (delavnica, pivovarna, starilni sklep, kraljevski atelje)
+  - Barley, hops, water, spice, silver, gold, jewel supply, alcoholContent (3-16), happiness (1-15), batch qty 5, GameEventBus publish
+- **Royal Mead Maker System** — medica iz medu
+  - 6 produktov (preprost, začinjen, melomel, meteglin, srebrno sodni, kraljevski veliki)
+  - 4 zgradbe (delavnica, medičarna, starilni sklep, kraljevski atelje)
+  - Honey, water, spice, fruit, silver, gold, jewel supply, alcoholContent (5-20), happiness (2-18), batch qty 5
+- **Royal Wine Vintner System** — vinarstvo
+  - 6 produktov (namizno, rdeče, belo, začinjeno, staro, kraljevski veliki)
+  - 4 zgradbe (delavnica, vinska klet, sodna starilnica, kraljevski atelje)
+  - Grape, water, oak, spice, honey, silver, gold, jewel supply, alcoholContent (8-22), happiness (2-18), batch qty 5
+- **Royal Cider Press System** — jabolčnik in hruškovec
+  - 6 produktov (kmečki, začinjen, hruškovec, hrastovo staran, srebrno sodni, kraljevski veliki)
+  - 4 zgradbe (delavnica, tisčnica, starilni sklep, kraljevski atelje)
+  - Apple, pear, spice, oak, silver, gold, jewel supply, alcoholContent (4-18), happiness (2-16), batch qty 5
+- **Royal Brandy Distiller System** — destilacija žganja
+  - 6 produktov (jabolčno, grozdno, starano, začinjeno, srebrno destilirano, kraljevski veliki)
+  - 4 zgradbe (delavnica, destilarna, starilni sklep, kraljevski atelje)
+  - Grape, apple, oak, spice, fuel, silver, gold, jewel supply, alcoholContent (30-60), happiness (3-20), batch qty 5, GameEventBus publish
+
 ## [v3.11.86] — 2026-08-09 — Royal Match Cord Maker System (6 products, match cords)
 ## [v3.11.85] — 2026-08-09 — Royal Charcoal Burner System (6 products, charcoal)
 ## [v3.11.84] — 2026-08-09 — Royal Sulfur Collector System (6 products, sulfur)
