@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.206] — 2026-08-09 — Royal Sampler Stitcher System (6 products, embroidered samplers)
+## [v3.11.205] — 2026-08-09 — Royal Lace Maker System (6 products, lace)
+## [v3.11.204] — 2026-08-09 — Royal Crocheter System (6 products, crochet)
+## [v3.11.203] — 2026-08-09 — Royal Knitter System (6 products, knitwear)
+## [v3.11.202] — 2026-08-09 — Royal Tassel Maker System (6 products, tassels)
 ## [v3.11.201] — 2026-08-09 — Royal Manuscript Illuminator System (6 products, illuminated manuscripts)
+
+### Dodano (5 sistemov naenkrat — tekstilni zaključni sistemi)
+- **Royal Tassel Maker System** — resaste kobilice
+  - 6 produktov (navadna, svila okenska, srebrnovrvena, zlatookrasna, draguljarska, kraljevski velika)
+  - 4 zgradbe (kobilna delavnica, pasmenterska delavnica, zlatonitni atelje, kraljevska pasmenterska palača)
+  - Thread, silk, wood, silver, gold, jewel, pearl supply, beauty (12-90), happiness (1-11), batch qty 1, GameEventBus publish
+- **Royal Knitter System** — pletenine
+  - 6 produktov (volnene rokavice, prepleten šal, svilo-lanana nogavica, srebrnonitni pulover, zlato vezen šal, kraljevski hermelinov plašč)
+  - 4 zgradbe (pletenjska koča, pletenjska podstrešje, finopletni atelje, kraljevska pletenjska palača)
+  - Wool, silk, silver, gold, jewel, pearl supply, warmth (25-90), happiness (1-11), batch qty 1, GameEventBus publish
+- **Royal Crocheter System** — kvačkanine
+  - 6 produktov (bombažni podstavek, čipkasti krožnik, svilo obrobljena prt, srebrnonitna pregrinjala, zlato obrobljeno oltarno, kraljevska čipkasta neba)
+  - 4 zgradbe (kvačkana koča, čipkarska podstrešje, finokvačkanski atelje, kraljevska čipkarska palača)
+  - Cotton, linen, silk, silver, gold, jewel, pearl supply, beauty (12-90), happiness (1-11), batch qty 1, GameEventBus publish
+- **Royal Lace Maker System** — čipke
+  - 6 produktov (preprosta čipka iz kobilic, trak navadne čipke, bruseljski ovratnik, srebrnonitna čipka, zlato obrobljena beneška, kraljevska beneška točkasta)
+  - 4 zgradbe (čipkarska delavnica, kobilna podstrešje, beneški atelje, kraljevska čipkarska palača)
+  - Linen, silk, wood, silver, gold, jewel, pearl supply, beauty (18-92), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Sampler Stitcher System** — vezenine
+  - 6 produktov (črkovna, obrobljena motivna, svilena biblijska, srebrnovezena grbada, zlato vezana scena, kraljevski vezani paneli)
+  - 4 zgradbe (vezenjska koča, vezenjska podstrešje, finovezalni atelje, kraljevska vezenjska palača)
+  - Linen, thread, silk, silver, gold, jewel, pearl supply, beauty (20-92), happiness (1-12), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.200] — 2026-08-09 — Royal Codex Binder System (6 products, bound codices)
 ## [v3.11.199] — 2026-08-09 — Royal Calendar Maker System (6 products, calendars)
 ## [v3.11.198] — 2026-08-09 — Royal Wax Seal Presser System (6 products, wax seals)

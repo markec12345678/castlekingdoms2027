@@ -487,6 +487,11 @@ S.WaxSealPresser = require("objects.Economy.RoyalWaxSealPresserSystem")
 S.CalendarMaker = require("objects.Economy.RoyalCalendarMakerSystem")
 S.CodexBinder = require("objects.Economy.RoyalCodexBinderSystem")
 S.ManuscriptIlluminator = require("objects.Economy.RoyalManuscriptIlluminatorSystem")
+S.TasselMaker = require("objects.Economy.RoyalTasselMakerSystem")
+S.Knitter = require("objects.Economy.RoyalKnitterSystem")
+S.Crocheter = require("objects.Economy.RoyalCrocheterSystem")
+S.LaceMaker = require("objects.Economy.RoyalLaceMakerSystem")
+S.SamplerStitcher = require("objects.Economy.RoyalSamplerStitcherSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1397,6 +1402,11 @@ local function delayedInit()
     S.CalendarMaker.init(); _G.CalendarMaker = S.CalendarMaker
     S.CodexBinder.init(); _G.CodexBinder = S.CodexBinder
     S.ManuscriptIlluminator.init(); _G.ManuscriptIlluminator = S.ManuscriptIlluminator
+    S.TasselMaker.init(); _G.TasselMaker = S.TasselMaker
+    S.Knitter.init(); _G.Knitter = S.Knitter
+    S.Crocheter.init(); _G.Crocheter = S.Crocheter
+    S.LaceMaker.init(); _G.LaceMaker = S.LaceMaker
+    S.SamplerStitcher.init(); _G.SamplerStitcher = S.SamplerStitcher
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -2052,6 +2062,11 @@ function game:update(dt)
                 S.CalendarMaker.update(dt)
                 S.CodexBinder.update(dt)
                 S.ManuscriptIlluminator.update(dt)
+                S.TasselMaker.update(dt)
+                S.Knitter.update(dt)
+                S.Crocheter.update(dt)
+                S.LaceMaker.update(dt)
+                S.SamplerStitcher.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
