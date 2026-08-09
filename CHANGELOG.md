@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.196] — 2026-08-09 — Royal Hops Grower System (6 products, hops)
+## [v3.11.195] — 2026-08-09 — Royal Saffron Grower System (6 products, saffron)
+## [v3.11.194] — 2026-08-09 — Royal Aloe Cultivator System (6 products, aloe medicine)
+## [v3.11.193] — 2026-08-09 — Royal Mushroom Forager System (6 products, mushrooms)
+## [v3.11.192] — 2026-08-09 — Royal Vegetable Gardener System (6 products, vegetables)
 ## [v3.11.191] — 2026-08-09 — Royal Bonsai Cultivator System (6 products, bonsai trees)
+
+### Dodano (5 sistemov naenkrat — organski vrtovi in vzgoja)
+- **Royal Vegetable Gardener System** — vrtna zelenjava
+  - 6 produktov (košarica korenja, zaboj zelenja, dedna košara, kisli pridelki, egzotični pridelki, kraljevski pridelek)
+  - 4 zgradbe (kuhinjski vrt, obzidan vrt, topla greda, kraljevski botanični vrt)
+  - Wood, glass, salt, silver supply, food (12-150), happiness (1-7), batch qty 1, GameEventBus publish
+- **Royal Mushroom Forager System** — gobe in tartufi
+  - 6 produktov (poljske gobe, lisičke, jurčki, tartufi, zlatoprašni, kraljevski muzej)
+  - 4 zgradbe (gobarjeva koča, sušilnica, mikološki laboratorij, kraljevska mikološka palača)
+  - Wood, glass, silver, gold, jewel, pearl supply, food (10-130), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Aloe Cultivator System** — aloja in zdravilstvo
+  - 6 produktov (snop listov, gel, tonik, srebrna viale, zlatookrasni eliksir, kraljevski medicinski zaboj)
+  - 4 zgradbe (alojeva greda, destilarna, alkemični laboratorij, kraljevska apoteka)
+  - Wood, clay, glass, iron, silver, gold, jewel, pearl supply, healing (8-150), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Saffron Grower System** — žafran
+  - 6 produktov (snop niti, kozarec, srebrna škatlica, zlatopokrovka, draguljarska skrinjica, kraljevska zakladnica)
+  - 4 zgradbe (žafranovo polje, sušilna hiša, začimbni atelje, kraljevska žafranova palača)
+  - Glass, silver, gold, jewel, pearl supply, food (5-90), happiness (1-13), batch qty 1, GameEventBus publish
+- **Royal Hops Grower System** — hmelj za pivovarne
+  - 6 produktov (bala, vreča, pogača, srebrnopovezan, zlato pleteni venec, kraljevski koš)
+  - 4 zgradbe (hmeljevo polje, sušilna stodola, pivovarski atelje, kraljevska hmeljeva palača)
+  - Wood, rope, linen, iron, silver, gold, jewel, pearl supply, food (5-80), happiness (1-11), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.190] — 2026-08-09 — Royal Butterfly Breeder System (6 products, butterfly displays)
 ## [v3.11.189] — 2026-08-09 — Royal Terrarium Keeper System (6 products, terrariums)
 ## [v3.11.188] — 2026-08-09 — Royal Aviary Keeper System (6 products, bird aviaries)

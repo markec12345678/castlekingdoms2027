@@ -477,6 +477,11 @@ S.AviaryKeeper = require("objects.Economy.RoyalAviaryKeeperSystem")
 S.TerrariumKeeper = require("objects.Economy.RoyalTerrariumKeeperSystem")
 S.ButterflyBreeder = require("objects.Economy.RoyalButterflyBreederSystem")
 S.BonsaiCultivator = require("objects.Economy.RoyalBonsaiCultivatorSystem")
+S.VegetableGardener = require("objects.Economy.RoyalVegetableGardenerSystem")
+S.MushroomForager = require("objects.Economy.RoyalMushroomForagerSystem")
+S.AloeCultivator = require("objects.Economy.RoyalAloeCultivatorSystem")
+S.SaffronGrower = require("objects.Economy.RoyalSaffronGrowerSystem")
+S.HopsGrower = require("objects.Economy.RoyalHopsGrowerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1377,6 +1382,11 @@ local function delayedInit()
     S.TerrariumKeeper.init(); _G.TerrariumKeeper = S.TerrariumKeeper
     S.ButterflyBreeder.init(); _G.ButterflyBreeder = S.ButterflyBreeder
     S.BonsaiCultivator.init(); _G.BonsaiCultivator = S.BonsaiCultivator
+    S.VegetableGardener.init(); _G.VegetableGardener = S.VegetableGardener
+    S.MushroomForager.init(); _G.MushroomForager = S.MushroomForager
+    S.AloeCultivator.init(); _G.AloeCultivator = S.AloeCultivator
+    S.SaffronGrower.init(); _G.SaffronGrower = S.SaffronGrower
+    S.HopsGrower.init(); _G.HopsGrower = S.HopsGrower
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -2022,6 +2032,11 @@ function game:update(dt)
                 S.TerrariumKeeper.update(dt)
                 S.ButterflyBreeder.update(dt)
                 S.BonsaiCultivator.update(dt)
+                S.VegetableGardener.update(dt)
+                S.MushroomForager.update(dt)
+                S.AloeCultivator.update(dt)
+                S.SaffronGrower.update(dt)
+                S.HopsGrower.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
