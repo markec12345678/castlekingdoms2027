@@ -642,6 +642,11 @@ S.FiltrationApparatusMaker = require("objects.Economy.RoyalFiltrationApparatusMa
 S.SublimationApparatusMaker = require("objects.Economy.RoyalSublimationApparatusMakerSystem")
 S.CrystallizationDishMaker = require("objects.Economy.RoyalCrystallizationDishMakerSystem")
 S.EvaporatingBasinMaker = require("objects.Economy.RoyalEvaporatingBasinMakerSystem")
+S.SeedDrillMaker = require("objects.Economy.RoyalSeedDrillMakerSystem")
+S.ReaperMaker = require("objects.Economy.RoyalReaperMakerSystem")
+S.ThresherMaker = require("objects.Economy.RoyalThresherMakerSystem")
+S.WinnowingMachineMaker = require("objects.Economy.RoyalWinnowingMachineMakerSystem")
+S.SortingMachineMaker = require("objects.Economy.RoyalSortingMachineMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1707,6 +1712,11 @@ local function delayedInit()
     S.SublimationApparatusMaker.init(); _G.SublimationApparatusMaker = S.SublimationApparatusMaker
     S.CrystallizationDishMaker.init(); _G.CrystallizationDishMaker = S.CrystallizationDishMaker
     S.EvaporatingBasinMaker.init(); _G.EvaporatingBasinMaker = S.EvaporatingBasinMaker
+    S.SeedDrillMaker.init(); _G.SeedDrillMaker = S.SeedDrillMaker
+    S.ReaperMaker.init(); _G.ReaperMaker = S.ReaperMaker
+    S.ThresherMaker.init(); _G.ThresherMaker = S.ThresherMaker
+    S.WinnowingMachineMaker.init(); _G.WinnowingMachineMaker = S.WinnowingMachineMaker
+    S.SortingMachineMaker.init(); _G.SortingMachineMaker = S.SortingMachineMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -2517,6 +2527,11 @@ function game:update(dt)
                 S.SublimationApparatusMaker.update(dt)
                 S.CrystallizationDishMaker.update(dt)
                 S.EvaporatingBasinMaker.update(dt)
+                S.SeedDrillMaker.update(dt)
+                S.ReaperMaker.update(dt)
+                S.ThresherMaker.update(dt)
+                S.WinnowingMachineMaker.update(dt)
+                S.SortingMachineMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

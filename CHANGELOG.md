@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.361] — 2026-08-09 — Royal Sorting Machine Maker System (6 products, sorting machines)
+## [v3.11.360] — 2026-08-09 — Royal Winnowing Machine Maker System (6 products, winnowing machines)
+## [v3.11.359] — 2026-08-09 — Royal Thresher Maker System (6 products, threshers)
+## [v3.11.358] — 2026-08-09 — Royal Reaper Maker System (6 products, reapers)
+## [v3.11.357] — 2026-08-09 — Royal Seed Drill Maker System (6 products, seed drills)
 ## [v3.11.356] — 2026-08-09 — Royal Evaporating Basin Maker System (6 products, evaporating basins)
+
+### Dodano (5 sistemov naenkrat — kmetijski stroji)
+- **Royal Seed Drill Maker System** — sejalnice
+  - 6 produktov (lesena, železnocévna, srebrnozobčana, zlatookrasna, draguljasta, kraljevska velika)
+  - 4 zgradbe (sejalniška delavnica, kmetijska podstrešje, mojstrski sejalniški atelje, kraljevska kmetijska palača)
+  - Wood, iron, silver, gold, jewel, pearl supply, food (20-95), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Reaper Maker System** — žetveni stroji
+  - 6 produktov (leseni, železnorezni, srebrnozobčani, zlatookrasni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (žetvena delavnica, kmetijska podstrešje, mojstrski žetveni atelje, kraljevska kmetijska palača)
+  - Wood, iron, silver, gold, jewel, pearl supply, food (25-100), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Thresher Maker System** — mlatilni stroji
+  - 6 produktov (leseni, železnobobenski, srebrnozobčani, zlatookrasni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (mlatilna delavnica, kmetijska podstrešje, mojstrski mlatilni atelje, kraljevska kmetijska palača)
+  - Wood, iron, rope, silver, gold, jewel, pearl supply, food (28-100), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Winnowing Machine Maker System** — pihalni stroji
+  - 6 produktov (lesena, železnolopatična, srebrnozobčana, zlatookrasna, draguljasta, kraljevska velika)
+  - 4 zgradbe (pihalna delavnica, kmetijska podstrešje, mojstrski pihalni atelje, kraljevska kmetijska palača)
+  - Wood, iron, leather, silver, gold, jewel, pearl supply, food (22-95), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Sorting Machine Maker System** — sortilni stroji
+  - 6 produktov (leseni, železnosito, srebrnozobčani, zlatookrasni, draguljasta, kraljevski veliki)
+  - 4 zgradbe (sortilna delavnica, kmetijska podstrešje, mojstrski sortilni atelje, kraljevska kmetijska palača)
+  - Wood, iron, silver, gold, jewel, pearl supply, food (18-92), happiness (1-12), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.355] — 2026-08-09 — Royal Crystallization Dish Maker System (6 products, crystallization dishes)
 ## [v3.11.354] — 2026-08-09 — Royal Sublimation Apparatus Maker System (6 products, sublimation apparatuses)
 ## [v3.11.353] — 2026-08-09 — Royal Filtration Apparatus Maker System (6 products, filtration apparatuses)
