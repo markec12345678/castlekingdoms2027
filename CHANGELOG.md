@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.66] — 2026-08-09 — Royal Mace & Axe Maker System (6 products, maces & axes)
+## [v3.11.65] — 2026-08-09 — Royal Polearm Maker System (6 products, polearms)
+## [v3.11.64] — 2026-08-09 — Royal Crossbow Maker System (6 products, crossbows)
+## [v3.11.63] — 2026-08-09 — Royal Fletcher System (6 products, arrows)
+## [v3.11.62] — 2026-08-09 — Royal Bowyer System (6 products, bows)
+
+### Dodano (5 sistemov naenkrat — zaključek orožarske serije)
+- **Royal Bowyer System** — loki od samostrela do kompozita
+  - 6 produktov (samostrel, brestov dolgi, tisov povratni, kompozitni, srebrno okrašen, kraljevski slovesni)
+  - 4 zgradbe (delavnica, ukrivljalnica, kompozitna soba, kraljevski atelje)
+  - Wood, gut, horn, sinew, silver, gold, pearl supply, attack (6-42), durability (18-75), GameEventBus publish
+- **Royal Fletcher System** — puščice za lokostrelstvo
+  - 6 produktov (bobkin, širokokljuna, bodkin, srebrna, zlatoroba, kraljevski komplet tulec)
+  - 4 zgradbe (delavnica, peresnica, kovašnica kljun, kraljevski atelje)
+  - Wood, feather, iron, steel, silver, gold, jewel, pearl supply, attack (3-28), range (25-60), batch qty 20
+- **Royal Crossbow Maker System** — samostreli in arbalesti
+  - 6 produktov (lahki, srednji, jekleni, arbalest, srebrno okrašen, kraljevski slovesni)
+  - 4 zgradbe (delavnica, kovačija, ukrivljalnica, kraljevski atelje)
+  - Wood, gut, iron, steel, horn, silver, gold, jewel, pearl supply, attack (12-56), durability (22-90)
+- **Royal Polearm Maker System** — kopja, pike, halberde
+  - 6 produktov (kopje, pika, halberda, glaive, srebrna sulica, kraljevska slovesna)
+  - 4 zgradbe (delavnica, kovačija, dokončevalnica, kraljevski atelje)
+  - Wood, iron, steel, silver, gold, jewel, pearl supply, attack (8-42), durability (25-80)
+- **Royal Mace & Axe Maker System** — buzdovani, sekire, kladivci
+  - 6 produktov (kijača, buzdovan, bojna sekira, robnik, srebrni kladivec, kraljevski slovesni)
+  - 4 zgradbe (delavnica, kovačija, dokončevalnica, kraljevski atelje)
+  - Wood, iron, steel, silver, gold, jewel, pearl supply, attack (5-42), durability (18-85), GameEventBus publish
+
 ## [v3.11.61] — 2026-08-09 — Royal Armor Maker System (6 products, armor)
 ## [v3.11.60] — 2026-08-09 — Royal Shield Maker System (6 products, shields)
 ## [v3.11.59] — 2026-08-09 — Royal Helmet Maker System (6 products, helmets)
