@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.76] — 2026-08-09 — Royal Battering Ram Maker System (6 products, rams)
+## [v3.11.75] — 2026-08-09 — Royal Siege Tower Maker System (6 products, towers)
+## [v3.11.74] — 2026-08-09 — Royal Ballista Maker System (6 products, ballistae)
+## [v3.11.73] — 2026-08-09 — Royal Trebuchet Maker System (6 products, trebuchets)
+## [v3.11.72] — 2026-08-09 — Royal Catapult Maker System (6 products, catapults)
+
+### Dodano (5 sistemov naenkrat — oblegovalne naprave)
+- **Royal Catapult Maker System** — katapult in sorodne naprave
+  - 6 produktov (mangonel, onager, standardni, težki, srebrno ojačan, kraljevski veliki)
+  - 4 zgradbe (delavnica, oblegovalno dvorišče, napetilnica, kraljevski atelje)
+  - Wood, iron, steel, rope, leather, silver, gold, jewel supply, attack (35-240), range (200-500), durability (40-160), GameEventBus publish
+- **Royal Trebuchet Maker System** — trebucheti (vlečni in protitežni)
+  - 6 produktov (vlečni, protitežni, vojaški, veliki, srebrno okrašen, kraljevski veliki)
+  - 4 zgradbe (delavnica, oblegovalno dvorišče, protitežna soba, kraljevski atelje)
+  - Wood, iron, steel, stone, rope, leather, silver, gold, jewel supply, attack (50-300), range (250-600), durability (45-180)
+- **Royal Ballista Maker System** — baliste in škorpijoni
+  - 6 produktov (škorpijon, lahka, standardna, težka, srebrno okrašena, kraljevska velika)
+  - 4 zgradbe (delavnica, oblegovalno dvorišče, napetilnica, kraljevski atelje)
+  - Wood, iron, steel, rope, gut, silver, gold, jewel supply, attack (30-220), range (250-550), durability (40-160)
+- **Royal Siege Tower Maker System** — oblegovalni stolpi
+  - 6 produktov (majhen, srednji, pokriti, visoki, srebrno okrašen, kraljevski veliki)
+  - 4 zgradbe (delavnica, oblegovalno dvorišče, mizarski atelje, kraljevski atelje)
+  - Wood, iron, steel, leather, rope, silver, gold, jewel supply, defense (30-180), durability (50-200)
+- **Royal Battering Ram Maker System** — oblegovalni ovni
+  - 6 produktov (preprosti, pokriti, železnoglavi, jeklenoglavi, srebrno okrašen, kraljevski veliki)
+  - 4 zgradbe (delavnica, oblegovalno dvorišče, mizarski atelje, kraljevski atelje)
+  - Wood, iron, steel, leather, rope, silver, gold, jewel supply, attack (25-170), durability (40-170), GameEventBus publish
+
 ## [v3.11.71] — 2026-08-09 — Royal Cavalry Banner Maker System (6 products, cavalry banners)
 ## [v3.11.70] — 2026-08-09 — Royal Lance Maker System (6 products, lances)
 ## [v3.11.69] — 2026-08-09 — Royal Horse Armor Maker System (6 products, barding)
