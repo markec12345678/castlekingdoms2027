@@ -627,6 +627,11 @@ S.LoomFrameMaker = require("objects.Economy.RoyalLoomFrameMakerSystem")
 S.BobbinMaker = require("objects.Economy.RoyalBobbinMakerSystem")
 S.ThreadReelMaker = require("objects.Economy.RoyalThreadReelMakerSystem")
 S.DyeVatMaker = require("objects.Economy.RoyalDyeVatMakerSystem")
+S.GlassFurnaceMaker = require("objects.Economy.RoyalGlassFurnaceMakerSystem")
+S.AnnealingLehrMaker = require("objects.Economy.RoyalAnnealingLehrMakerSystem")
+S.CrucibleFurnaceMaker = require("objects.Economy.RoyalCrucibleFurnaceMakerSystem")
+S.MoldKilnMaker = require("objects.Economy.RoyalMoldKilnMakerSystem")
+S.TemperingFurnaceMaker = require("objects.Economy.RoyalTemperingFurnaceMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1677,6 +1682,11 @@ local function delayedInit()
     S.BobbinMaker.init(); _G.BobbinMaker = S.BobbinMaker
     S.ThreadReelMaker.init(); _G.ThreadReelMaker = S.ThreadReelMaker
     S.DyeVatMaker.init(); _G.DyeVatMaker = S.DyeVatMaker
+    S.GlassFurnaceMaker.init(); _G.GlassFurnaceMaker = S.GlassFurnaceMaker
+    S.AnnealingLehrMaker.init(); _G.AnnealingLehrMaker = S.AnnealingLehrMaker
+    S.CrucibleFurnaceMaker.init(); _G.CrucibleFurnaceMaker = S.CrucibleFurnaceMaker
+    S.MoldKilnMaker.init(); _G.MoldKilnMaker = S.MoldKilnMaker
+    S.TemperingFurnaceMaker.init(); _G.TemperingFurnaceMaker = S.TemperingFurnaceMaker
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -2472,6 +2482,11 @@ function game:update(dt)
                 S.BobbinMaker.update(dt)
                 S.ThreadReelMaker.update(dt)
                 S.DyeVatMaker.update(dt)
+                S.GlassFurnaceMaker.update(dt)
+                S.AnnealingLehrMaker.update(dt)
+                S.CrucibleFurnaceMaker.update(dt)
+                S.MoldKilnMaker.update(dt)
+                S.TemperingFurnaceMaker.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

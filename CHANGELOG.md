@@ -2,7 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.346] — 2026-08-09 — Royal Tempering Furnace Maker System (6 products, tempering furnaces)
+## [v3.11.345] — 2026-08-09 — Royal Mold Kiln Maker System (6 products, mold kilns)
+## [v3.11.344] — 2026-08-09 — Royal Crucible Furnace Maker System (6 products, crucible furnaces)
+## [v3.11.343] — 2026-08-09 — Royal Annealing Lehr Maker System (6 products, annealing lehrs)
+## [v3.11.342] — 2026-08-09 — Royal Glass Furnace Maker System (6 products, glass furnaces)
 ## [v3.11.341] — 2026-08-09 — Royal Dye Vat Maker System (6 products, dye vats)
+
+### Dodano (5 sistemov naenkrat — steklarske peči)
+- **Royal Glass Furnace Maker System** — steklarske peči
+  - 6 produktov (opečna, železnookrepljena, srebrnopasna, zlatookrasna, draguljasta, kraljevska velika)
+  - 4 zgradbe (pečna delavnica, steklarska podstrešje, mojstrski pečni atelje, kraljevska steklarska palača)
+  - Brick, clay, wood, iron, silver, gold, jewel, pearl supply, science (25-95), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Annealing Lehr Maker System** — ohlajevalne peči
+  - 6 produktov (opečna, železnookrepljena, srebrnopasna, zlatookrasna, draguljasta, kraljevska velika)
+  - 4 zgradbe (ohlajevalna delavnica, steklarska podstrešje, mojstrski ohlajevalni atelje, kraljevska steklarska palača)
+  - Brick, clay, iron, silver, gold, jewel, pearl supply, science (22-95), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Crucible Furnace Maker System** — talilne peči
+  - 6 produktov (glinena, železnookrepljena, srebrnopasna, zlatookrasna, draguljasta, kraljevska velika)
+  - 4 zgradbe (talilna pečna delavnica, metalurška podstrešje, mojstrski pečni atelje, kraljevska metalurška palača)
+  - Clay, brick, iron, silver, gold, jewel, pearl supply, science (25-95), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Mold Kiln Maker System** — kalupne peči
+  - 6 produktov (glinena, železnookrepljena, srebrnopasna, zlatookrasna, draguljasta, kraljevska velika)
+  - 4 zgradbe (kalupna pečna delavnica, livna podstrešje, mojstrski pečni atelje, kraljevska livna palača)
+  - Clay, brick, iron, silver, gold, jewel, pearl supply, science (22-95), happiness (1-12), batch qty 1, GameEventBus publish
+- **Royal Tempering Furnace Maker System** — kalilne peči
+  - 6 produktov (opečna, železnookrepljena, srebrnopasna, zlatookrasna, draguljasta, kraljevska velika)
+  - 4 zgradbe (kalilna delavnica, metalurška podstrešje, mojstrski kalilni atelje, kraljevska metalurška palača)
+  - Brick, iron, clay, silver, gold, jewel, pearl supply, science (25-95), happiness (1-12), batch qty 1, GameEventBus publish
+
+
 ## [v3.11.340] — 2026-08-09 — Royal Thread Reel Maker System (6 products, thread reels)
 ## [v3.11.339] — 2026-08-09 — Royal Bobbin Maker System (6 products, bobbins)
 ## [v3.11.338] — 2026-08-09 — Royal Loom Frame Maker System (6 products, loom frames)
