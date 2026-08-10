@@ -2,6 +2,45 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.401] — 2026-08-11 — Royal Saddlebag Maker System (6 products, saddlebags)
+## [v3.11.400] — 2026-08-11 — Royal Horse Harness Maker System (6 products, horse harnesses)
+## [v3.11.399] — 2026-08-11 — Royal Stirrup Maker System (6 products, stirrups)
+## [v3.11.398] — 2026-08-11 — Royal Bridle Maker System (6 products, bridles)
+## [v3.11.397] — 2026-08-11 — Royal Saddle Maker System (6 products, saddles)
+
+### Dodano (v3.11.397-v3.11.401 — 5 jermenskih sistemov)
+
+#### v3.11.397 - Royal Saddle Maker System
+- **6 produktov** (železno sedlo, bronasto, srebrno, pozlačeno, draguljasto, kraljevski suvereno)
+- **4 zgradbe** (sedlarska delavnica, sedlarska hiša, mojstrski sedlarski atelje, suverena konjeniška palača)
+- Maker: Sedlar, hire base 590 gold
+- Poudarek na usnju (leatherCost 3-4)
+
+#### v3.11.398 - Royal Bridle Maker System
+- **6 produktov** (železna uzda, bronasta, srebrna, pozlačena, draguljasta, kraljevski suverena)
+- **4 zgradbe** (uzdarska delavnica, uzdarska hiša, mojstrski uzdarski atelje, suverena uzdarska palača)
+- Maker: Uzdar, hire base 575 gold
+
+#### v3.11.399 - Royal Stirrup Maker System
+- **6 produktov** (železno streme, bronasto, srebrno, pozlačeno, draguljasto, kraljevski suvereno)
+- **4 zgradbe** (stremska delavnica, stremska hiša, mojstrski stremski atelje, suverena stremska palača)
+- Maker: Stremar, hire base 580 gold
+- Poudarek na kovini (ironCost/bronzeCost 3)
+
+#### v3.11.400 - Royal Horse Harness Maker System
+- **6 produktov** (železni jermen za konjsko vprego, bronast, srebrni, pozlačeni, draguljasti, kraljevski suvereni)
+- **4 zgradbe** (jermenska delavnica, jermenska hiša, mojstrski jermenski atelje, suverena jermenska palača)
+- Maker: Jermenar, hire base 585 gold
+- Poudarek na usnju (leatherCost 4-5)
+
+#### v3.11.401 - Royal Saddlebag Maker System
+- **6 produktov** (železna sedlarna torba, bronasta, srebrna, pozlačena, draguljasta, kraljevski suverena)
+- **4 zgradbe** (torbarska delavnica, torbarska hiša, mojstrski torbarski atelje, suverena torbarska palača)
+- Maker: Torbar, hire base 565 gold
+- Poudarek na usnju (leatherCost 4-5)
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
 ## [v3.11.396] — 2026-08-11 — Royal Watering Can Maker System (6 products, watering cans)
 ## [v3.11.395] — 2026-08-11 — Royal Hedge Hook Maker System (6 products, hedge hooks)
 ## [v3.11.394] — 2026-08-11 — Royal Garden Trowel Maker System (6 products, garden trowels)

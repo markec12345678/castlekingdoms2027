@@ -685,6 +685,12 @@ S.TopiaryFrameMaker = require("objects.Economy.RoyalTopiaryFrameMakerSystem")
 S.GardenTrowelMaker = require("objects.Economy.RoyalGardenTrowelMakerSystem")
 S.HedgeHookMaker = require("objects.Economy.RoyalHedgeHookMakerSystem")
 S.WateringCanMaker = require("objects.Economy.RoyalWateringCanMakerSystem")
+-- Castle Kingdoms 2027 v3.11.397-v3.11.401: Equestrian equipment batch (5 new Royal systems)
+S.SaddleMaker = require("objects.Economy.RoyalSaddleMakerSystem")
+S.BridleMaker = require("objects.Economy.RoyalBridleMakerSystem")
+S.StirrupMaker = require("objects.Economy.RoyalStirrupMakerSystem")
+S.HorseHarnessMaker = require("objects.Economy.RoyalHorseHarnessMakerSystem")
+S.SaddlebagMaker = require("objects.Economy.RoyalSaddlebagMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1796,6 +1802,12 @@ local function delayedInit()
     S.GardenTrowelMaker.init(); _G.GardenTrowelMaker = S.GardenTrowelMaker
     S.HedgeHookMaker.init(); _G.HedgeHookMaker = S.HedgeHookMaker
     S.WateringCanMaker.init(); _G.WateringCanMaker = S.WateringCanMaker
+    -- Castle Kingdoms 2027 v3.11.397-v3.11.401: Equestrian equipment batch init
+    S.SaddleMaker.init(); _G.SaddleMaker = S.SaddleMaker
+    S.BridleMaker.init(); _G.BridleMaker = S.BridleMaker
+    S.StirrupMaker.init(); _G.StirrupMaker = S.StirrupMaker
+    S.HorseHarnessMaker.init(); _G.HorseHarnessMaker = S.HorseHarnessMaker
+    S.SaddlebagMaker.init(); _G.SaddlebagMaker = S.SaddlebagMaker
     -- Castle Kingdoms 2027 v3.11.382: Initialize Royal Systems Registry (auto-discovers all 347+ systems)
     RoyalSystemsRegistry.init(S)
     _G.RoyalSystemsRegistry = RoyalSystemsRegistry
@@ -2652,6 +2664,12 @@ function game:update(dt)
                 S.GardenTrowelMaker.update(dt)
                 S.HedgeHookMaker.update(dt)
                 S.WateringCanMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.397-v3.11.401: Equestrian equipment batch update
+                S.SaddleMaker.update(dt)
+                S.BridleMaker.update(dt)
+                S.StirrupMaker.update(dt)
+                S.HorseHarnessMaker.update(dt)
+                S.SaddlebagMaker.update(dt)
                 -- Castle Kingdoms 2027 v3.11.382: Royal Systems Registry aggregates stats + grants bonus gold
                 RoyalSystemsRegistry.update(dt)
                 RoyalSystemsPanel.update(dt)
