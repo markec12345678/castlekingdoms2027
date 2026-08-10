@@ -703,6 +703,12 @@ S.CheeseGraterMaker = require("objects.Economy.RoyalCheeseGraterMakerSystem")
 S.ButterChurnMaker = require("objects.Economy.RoyalButterChurnMakerSystem")
 S.SpiceRackMaker = require("objects.Economy.RoyalSpiceRackMakerSystem")
 S.CuttingBoardMaker = require("objects.Economy.RoyalCuttingBoardMakerSystem")
+-- Castle Kingdoms 2027 v3.11.412-v3.11.416: Glassmaking equipment batch (5 new Royal systems)
+S.GlassBlowerPipeMaker = require("objects.Economy.RoyalGlassBlowerPipeMakerSystem")
+S.GlassCutterMaker = require("objects.Economy.RoyalGlassCutterMakerSystem")
+S.GlassMoldMaker = require("objects.Economy.RoyalGlassMoldMakerSystem")
+S.AnnealingTongsMaker = require("objects.Economy.RoyalAnnealingTongsMakerSystem")
+S.GlassEngraverMaker = require("objects.Economy.RoyalGlassEngraverMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1832,6 +1838,12 @@ local function delayedInit()
     S.ButterChurnMaker.init(); _G.ButterChurnMaker = S.ButterChurnMaker
     S.SpiceRackMaker.init(); _G.SpiceRackMaker = S.SpiceRackMaker
     S.CuttingBoardMaker.init(); _G.CuttingBoardMaker = S.CuttingBoardMaker
+    -- Castle Kingdoms 2027 v3.11.412-v3.11.416: Glassmaking equipment batch init
+    S.GlassBlowerPipeMaker.init(); _G.GlassBlowerPipeMaker = S.GlassBlowerPipeMaker
+    S.GlassCutterMaker.init(); _G.GlassCutterMaker = S.GlassCutterMaker
+    S.GlassMoldMaker.init(); _G.GlassMoldMaker = S.GlassMoldMaker
+    S.AnnealingTongsMaker.init(); _G.AnnealingTongsMaker = S.AnnealingTongsMaker
+    S.GlassEngraverMaker.init(); _G.GlassEngraverMaker = S.GlassEngraverMaker
     -- Castle Kingdoms 2027 v3.11.382: Initialize Royal Systems Registry (auto-discovers all 347+ systems)
     RoyalSystemsRegistry.init(S)
     _G.RoyalSystemsRegistry = RoyalSystemsRegistry
@@ -2706,6 +2718,12 @@ function game:update(dt)
                 S.ButterChurnMaker.update(dt)
                 S.SpiceRackMaker.update(dt)
                 S.CuttingBoardMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.412-v3.11.416: Glassmaking equipment batch update
+                S.GlassBlowerPipeMaker.update(dt)
+                S.GlassCutterMaker.update(dt)
+                S.GlassMoldMaker.update(dt)
+                S.AnnealingTongsMaker.update(dt)
+                S.GlassEngraverMaker.update(dt)
                 -- Castle Kingdoms 2027 v3.11.382: Royal Systems Registry aggregates stats + grants bonus gold
                 RoyalSystemsRegistry.update(dt)
                 RoyalSystemsPanel.update(dt)

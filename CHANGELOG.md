@@ -2,6 +2,44 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.416] — 2026-08-11 — Royal Glass Engraver Maker System (6 products, glass engravers)
+## [v3.11.415] — 2026-08-11 — Royal Annealing Tongs Maker System (6 products, annealing tongs)
+## [v3.11.414] — 2026-08-11 — Royal Glass Mold Maker System (6 products, glass molds)
+## [v3.11.413] — 2026-08-11 — Royal Glass Cutter Maker System (6 products, glass cutters)
+## [v3.11.412] — 2026-08-11 — Royal Glass Blower Pipe Maker System (6 products, glass blower pipes)
+
+### Dodano (v3.11.412-v3.11.416 — 5 steklarsskih sistemov)
+
+#### v3.11.412 - Royal Glass Blower Pipe Maker System
+- **6 produktov** (železna pijavka za pihanje stekla, bronasta, srebrna, pozlačena, draguljasta, kraljevski suverena)
+- **4 zgradbe** (pijavkarska delavnica, pijavkarska hiša, mojstrski pijavkarski atelje, suverena pijavkarska palača)
+- Maker: Pijavkar, hire base 585 gold
+- Poudarek na kovini (ironCost/bronzeCost 3)
+
+#### v3.11.413 - Royal Glass Cutter Maker System
+- **6 produktov** (železni rezalec za steklo, bronast, srebrni, pozlačeni, draguljasti, kraljevski suvereni)
+- **4 zgradbe** (rezalna delavnica, rezalna hiša, mojstrski rezalni atelje, suverena rezalna palača)
+- Maker: Rezalec, hire base 580 gold
+
+#### v3.11.414 - Royal Glass Mold Maker System
+- **6 produktov** (železni model za steklo, bronast, srebrni, pozlačeni, draguljasti, kraljevski suvereni)
+- **4 zgradbe** (modelna delavnica, modelna hiša, mojstrski modelni atelje, suverena modelna palača)
+- Maker: Modelar, hire base 590 gold
+
+#### v3.11.415 - Royal Annealing Tongs Maker System
+- **6 produktov** (železne klešče za žarjenje, bronaste, srebrne, pozlačene, draguljaste, kraljevski suverene)
+- **4 zgradbe** (kleščna delavnica, kleščna hiša, mojstrski kleščni atelje, suverena kleščna palača)
+- Maker: Kleščar, hire base 585 gold
+- Poudarek na kovini (ironCost/bronzeCost 4)
+
+#### v3.11.416 - Royal Glass Engraver Maker System
+- **6 produktov** (železni rezkar za steklo, bronast, srebrni, pozlačeni, draguljasti, kraljevski suvereni)
+- **4 zgradbe** (rezkarska delavnica, rezkarska hiša, mojstrski rezkarski atelje, suverena rezkarska palača)
+- Maker: Rezkar, hire base 595 gold
+- Poudarek na srebru (silverCost 4)
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
 ## [v3.11.411] — 2026-08-11 — Royal Cutting Board Maker System (6 products, cutting boards)
 ## [v3.11.410] — 2026-08-11 — Royal Spice Rack Maker System (6 products, spice racks)
 ## [v3.11.409] — 2026-08-11 — Royal Butter Churn Maker System (6 products, butter churns)
