@@ -2,6 +2,41 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.396] — 2026-08-11 — Royal Watering Can Maker System (6 products, watering cans)
+## [v3.11.395] — 2026-08-11 — Royal Hedge Hook Maker System (6 products, hedge hooks)
+## [v3.11.394] — 2026-08-11 — Royal Garden Trowel Maker System (6 products, garden trowels)
+## [v3.11.393] — 2026-08-11 — Royal Topiary Frame Maker System (6 products, topiary frames)
+## [v3.11.392] — 2026-08-11 — Royal Pruning Shears Maker System (6 products, pruning shears)
+
+### Dodano (v3.11.392-v3.11.396 — 5 vrtnarskih sistemov)
+
+#### v3.11.392 - Royal Pruning Shears Maker System
+- **6 produktov** (železne škarje za obrezovanje, bronaste, srebrne, pozlačene, draguljaste, kraljevski suverene)
+- **4 zgradbe** (vrtnarska delavnica, vrtnarska hiša, mojstrski vrtnarski atelje, suverena vrtnarska palača)
+- Maker: Vrtnar, hire base 575 gold
+
+#### v3.11.393 - Royal Topiary Frame Maker System
+- **6 produktov** (železni okvir za topiary, bronast, srebrni, pozlačeni, draguljasti, kraljevski suvereni)
+- **4 zgradbe** (topiarijska delavnica, topiarijska hiša, mojstrski topiarijski atelje, suverena topiarijska palača)
+- Maker: Topiarist, hire base 580 gold
+
+#### v3.11.394 - Royal Garden Trowel Maker System
+- **6 produktov** (železna vrtna lopatka, bronasta, srebrna, pozlačena, draguljasta, kraljevski suverena)
+- **4 zgradbe** (lopatkarska delavnica, lopatkarska hiša, mojstrski lopatkarski atelje, suverena lopatkarska palača)
+- Maker: Lopatkar, hire base 565 gold
+
+#### v3.11.395 - Royal Hedge Hook Maker System
+- **6 produktov** (železni kavelj za živo mejo, bronast, srebrni, pozlačeni, draguljasti, kraljevski suvereni)
+- **4 zgradbe** (kaveljska delavnica, kaveljska hiša, mojstrski kaveljski atelje, suverena kaveljska palača)
+- Maker: Kaveljar, hire base 585 gold
+
+#### v3.11.396 - Royal Watering Can Maker System
+- **6 produktov** (železna zalivalka, bronasta, srebrna, pozlačena, draguljasta, kraljevski suverena)
+- **4 zgradbe** (zalivalna delavnica, zalivalna hiša, mojstrski zalivalni atelje, suverena zalivalna palača)
+- Maker: Zalivalec, hire base 590 gold
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
 ## [v3.11.391] — 2026-08-11 — Royal Physic Potion Maker System (6 products, physic potions)
 ## [v3.11.390] — 2026-08-11 — Royal Surgical Lancet Maker System (6 products, surgical lancets)
 ## [v3.11.389] — 2026-08-11 — Royal Salve Jar Maker System (6 products, salve jars)

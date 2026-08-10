@@ -679,6 +679,12 @@ S.ApothecaryVialMaker = require("objects.Economy.RoyalApothecaryVialMakerSystem"
 S.SalveJarMaker = require("objects.Economy.RoyalSalveJarMakerSystem")
 S.SurgicalLancetMaker = require("objects.Economy.RoyalSurgicalLancetMakerSystem")
 S.PhysicPotionMaker = require("objects.Economy.RoyalPhysicPotionMakerSystem")
+-- Castle Kingdoms 2027 v3.11.392-v3.11.396: Gardening equipment batch (5 new Royal systems)
+S.PruningShearsMaker = require("objects.Economy.RoyalPruningShearsMakerSystem")
+S.TopiaryFrameMaker = require("objects.Economy.RoyalTopiaryFrameMakerSystem")
+S.GardenTrowelMaker = require("objects.Economy.RoyalGardenTrowelMakerSystem")
+S.HedgeHookMaker = require("objects.Economy.RoyalHedgeHookMakerSystem")
+S.WateringCanMaker = require("objects.Economy.RoyalWateringCanMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1784,6 +1790,12 @@ local function delayedInit()
     S.SalveJarMaker.init(); _G.SalveJarMaker = S.SalveJarMaker
     S.SurgicalLancetMaker.init(); _G.SurgicalLancetMaker = S.SurgicalLancetMaker
     S.PhysicPotionMaker.init(); _G.PhysicPotionMaker = S.PhysicPotionMaker
+    -- Castle Kingdoms 2027 v3.11.392-v3.11.396: Gardening equipment batch init
+    S.PruningShearsMaker.init(); _G.PruningShearsMaker = S.PruningShearsMaker
+    S.TopiaryFrameMaker.init(); _G.TopiaryFrameMaker = S.TopiaryFrameMaker
+    S.GardenTrowelMaker.init(); _G.GardenTrowelMaker = S.GardenTrowelMaker
+    S.HedgeHookMaker.init(); _G.HedgeHookMaker = S.HedgeHookMaker
+    S.WateringCanMaker.init(); _G.WateringCanMaker = S.WateringCanMaker
     -- Castle Kingdoms 2027 v3.11.382: Initialize Royal Systems Registry (auto-discovers all 347+ systems)
     RoyalSystemsRegistry.init(S)
     _G.RoyalSystemsRegistry = RoyalSystemsRegistry
@@ -2634,6 +2646,12 @@ function game:update(dt)
                 S.SalveJarMaker.update(dt)
                 S.SurgicalLancetMaker.update(dt)
                 S.PhysicPotionMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.392-v3.11.396: Gardening equipment batch update
+                S.PruningShearsMaker.update(dt)
+                S.TopiaryFrameMaker.update(dt)
+                S.GardenTrowelMaker.update(dt)
+                S.HedgeHookMaker.update(dt)
+                S.WateringCanMaker.update(dt)
                 -- Castle Kingdoms 2027 v3.11.382: Royal Systems Registry aggregates stats + grants bonus gold
                 RoyalSystemsRegistry.update(dt)
                 RoyalSystemsPanel.update(dt)
