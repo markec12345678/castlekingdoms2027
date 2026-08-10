@@ -2,6 +2,46 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.426] — 2026-08-11 — Royal Hat Box Maker System (6 products, hat boxes)
+## [v3.11.425] — 2026-08-11 — Royal Hat Feather Maker System (6 products, hat feathers)
+## [v3.11.424] — 2026-08-11 — Royal Hat Pin Maker System (6 products, hat pins)
+## [v3.11.423] — 2026-08-11 — Royal Hat Band Maker System (6 products, hat bands)
+## [v3.11.422] — 2026-08-11 — Royal Hat Block Maker System (6 products, hat blocks)
+
+### Dodano (v3.11.422-v3.11.426 — 5 klobučarskih sistemov)
+
+#### v3.11.422 - Royal Hat Block Maker System
+- **6 produktov** (železni model za klobuke, bronast, srebrni, pozlačeni, draguljasti, kraljevski suvereni)
+- **4 zgradbe** (modelna delavnica, modelna hiša, mojstrski modelni atelje, suverena modelna palača)
+- Maker: Modelar, hire base 575 gold
+- Poudarek na lesu (woodCost 4-5)
+
+#### v3.11.423 - Royal Hat Band Maker System
+- **6 produktov** (železna poroka za klobuke, bronasta, srebrna, pozlačena, draguljasta, kraljevski suverena)
+- **4 zgradbe** (poročna delavnica, poročna hiša, mojstrski poročni atelje, suverena poročna palača)
+- Maker: Poročnik, hire base 570 gold
+- Poudarek na usnju (leatherCost 3-4)
+
+#### v3.11.424 - Royal Hat Pin Maker System
+- **6 produktov** (železna sponka za klobuke, bronasta, srebrna, pozlačena, draguljasta, kraljevski suverena)
+- **4 zgradbe** (spončna delavnica, spončna hiša, mojstrski spončni atelje, suverena spončna palača)
+- Maker: Sponkar, hire base 580 gold
+- Poudarek na kovini (ironCost/bronzeCost 3)
+
+#### v3.11.425 - Royal Hat Feather Maker System
+- **6 produktov** (železno pero za klobuke, bronasto, srebrno, pozlačeno, draguljasto, kraljevski suvereno)
+- **4 zgradbe** (peresna delavnica, peresna hiša, mojstrski peresni atelje, suverena peresna palača)
+- Maker: Peresar, hire base 585 gold
+- Poudarek na usnju (leatherCost 2)
+
+#### v3.11.426 - Royal Hat Box Maker System
+- **6 produktov** (železna škatla za klobuke, bronasta, srebrna, pozlačena, draguljasta, kraljevski suverena)
+- **4 zgradbe** (škatlena delavnica, škatlena hiša, mojstrski škatleni atelje, suverena škatlena palača)
+- Maker: Škatlar, hire base 565 gold
+- Poudarek na lesu (woodCost 4-5)
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
 ## [v3.11.421] — 2026-08-11 — Royal Sack Loader Maker System (6 products, sack loaders)
 ## [v3.11.420] — 2026-08-11 — Royal Grain Hopper Maker System (6 products, grain hoppers)
 ## [v3.11.419] — 2026-08-11 — Royal Dough Hook Maker System (6 products, dough hooks)

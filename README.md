@@ -2,19 +2,19 @@
 
 Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT). Navdihnjen s klasičnimi srednjeveškimi strateškimi igrami.
 
-[![Version](https://img.shields.io/badge/version-3.11.421-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
+[![Version](https://img.shields.io/badge/version-3.11.426-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
-[![Syntax](https://img.shields.io/badge/syntax-1155%2F1158%20pass-brightgreen.svg)](#)
-[![Systems](https://img.shields.io/badge/Royal%20systems-509-blue.svg)](#)
-[![Lua](https://img.shields.io/badge/Lua%20files-1158-green.svg)](#)
+[![Syntax](https://img.shields.io/badge/syntax-1160%2F1163%20pass-brightgreen.svg)](#)
+[![Systems](https://img.shields.io/badge/Royal%20systems-514-blue.svg)](#)
+[![Lua](https://img.shields.io/badge/Lua%20files-1163-green.svg)](#)
 [![Registry](https://img.shields.io/badge/Royal%20Registry-%2BRoyalSystemsPanel-blueviolet.svg)](#)
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v3.11.421](https://github.com/markec12345678/castlekingdoms2027/releases)
-- **.love datoteka**: `castlekingdoms2027-v3.11.421.love` (34 MB brez LFS, 305 MB z LFS)
-- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 509 Royal sistemov, 1158 Lua datotek, +RoyalSystemsRegistry + Ctrl+R UI Panel
+- **Zadnja izdaja**: [v3.11.426](https://github.com/markec12345678/castlekingdoms2027/releases)
+- **.love datoteka**: `castlekingdoms2027-v3.11.426.love` (34 MB brez LFS, 305 MB z LFS)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 514 Royal sistemov, 1163 Lua datotek, +RoyalSystemsRegistry + Ctrl+R UI Panel
 - **LFS**: Po git clone zahtevaj `git lfs pull` za prave PNG asset-e (305 MB)
 
 ## Zagon
@@ -36,16 +36,16 @@ love .
 
 | Metrika | Vrednost |
 |---------|----------|
-| Lua datoteke | 1158 |
+| Lua datoteke | 1163 |
 | Vrstic kode | ~463.000 |
 | GLSL shaderji | 12 |
 | Jezikov | 32 |
-| Verzij | 135+ (v1.7.9 → v3.11.421) |
+| Verzij | 135+ (v1.7.9 → v3.11.426) |
 | Bug popravkov | 155 (90 krogov pregleda) |
-| Syntax pass rate | 1155/1158 (99,7%) |
+| Syntax pass rate | 1160/1163 (99,7%) |
 | PNG assetov | 1.206 |
-| **Royal sistemov** | **509 (v3.11.421)** |
-| **Royal Systems Registry** | **da (auto-discovers vse 509 sisteme)** |
+| **Royal sistemov** | **514 (v3.11.426)** |
+| **Royal Systems Registry** | **da (auto-discovers vse 514 sisteme)** |
 | **Royal UI Panel** | **Ctrl+R (full-screen browser + actions)** |
 | Kampanjske misije | 21 (10 Fernhaven + 11 zgodovinskih) |
 | Skirmish misije | 15 |

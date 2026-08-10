@@ -1,17 +1,17 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.421**
-- Skupaj Royal sistemov: **509**
-- Skupaj Lua datotek: **1158**
-- Sintaktična preverba: **1155/1158 pass** (3 znani false positives: moonscript.lua, test.lua, grid.lua)
+- Različica: **v3.11.426**
+- Skupaj Royal sistemov: **514**
+- Skupaj Lua datotek: **1163**
+- Sintaktična preverba: **1160/1163 pass** (3 znani false positives: moonscript.lua, test.lua, grid.lua)
 - GitHub: sinhroniziran (vsi tagi pushani)
 - Lokalni repo: `/home/z/my-project/castlekingdoms2027`
 - .love datoteke: `/home/z/my-project/download/`
 
 ## 🎉 NOVO: Royal Systems Registry + UI Panel (v3.11.382)
 
-Od v3.11.382 projekt vključuje **centralen manager in UI panel**, ki povezuje vse 509 Royal sisteme z igro:
+Od v3.11.382 projekt vključuje **centralen manager in UI panel**, ki povezuje vse 514 Royal sisteme z igro:
 
 - **`objects/Economy/RoyalSystemsRegistry.lua`** — auto-discovers vse sisteme, hook-a `completeMaking()`, dodeli bonus zlato (prestige × 10) ob končanem produktu
 - **`states/ui/hud/royal_systems_panel.lua`** — full-screen UI panel (toggle s Ctrl+R), ki omogoča brskanje, najem mojstrov, gradnjo delavnic, izdelavo produktov, prodajo zalog
@@ -27,15 +27,15 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 3. **Grafikon produkcije** — zgodovina proizvodnje v panelu
 4. **Sistemsko odvisnosti** — nekateri sistemi naj zahtevajo druge (npr. BellMaker zahteva Metalwork)
 
-## NASLEDNJI PAKET (v3.11.422–v3.11.426) — KLOBUČARSKA OPREMA
+## NASLEDNJI PAKET (v3.11.427–v3.11.431) — VRVARNA OPREMA
 
 Ustvari 5 novih sistemov v `/home/z/my-project/castlekingdoms2027/objects/Economy/`:
 
-1. **RoyalHatBlockMakerSystem.lua** → `local HatBlockMaker` (modeli za klobuke)
-2. **RoyalHatBandMakerSystem.lua** → `local HatBandMaker` (poroke za klobuke)
-3. **RoyalHatPinMakerSystem.lua** → `local HatPinMaker` (sponke za klobuke)
-4. **RoyalHatFeatherMakerSystem.lua** → `local HatFeatherMaker` (peresa za klobuke)
-5. **RoyalHatBoxMakerSystem.lua** → `local HatBoxMaker` (škatle za klobuke)
+1. **RoyalRopeMakerSystem.lua** → `local RopeMaker` (vrvi)
+2. **RoyalTwineMakerSystem.lua** → `local TwineMaker` (špigelj)
+3. **RoyalNetMakerSystem.lua** → `local NetMaker` (mreže)
+4. **RoyalCordageMakerSystem.lua** → `local CordageMaker` (vrvice)
+5. **RoyalKnotBoardMakerSystem.lua** → `local KnotBoardMaker` (tabele za vozle)
 
 ## PATTERN ZA VSAK SISTEM
 
@@ -50,47 +50,47 @@ Vsak sistem mora imeti:
 
 ## REGISTRACIJA V states/game.lua
 
-3 točke za vsak sistem (najdi zadnji `S.SackLoaderMaker` in dodaj za njim):
+3 točke za vsak sistem (najdi zadnji `S.HatBoxMaker` in dodaj za njim):
 
 ```lua
--- require block (po S.SackLoaderMaker = require(...))
-S.HatBlockMaker = require("objects.Economy.RoyalHatBlockMakerSystem")
-S.HatBandMaker = require("objects.Economy.RoyalHatBandMakerSystem")
-S.HatPinMaker = require("objects.Economy.RoyalHatPinMakerSystem")
-S.HatFeatherMaker = require("objects.Economy.RoyalHatFeatherMakerSystem")
-S.HatBoxMaker = require("objects.Economy.RoyalHatBoxMakerSystem")
+-- require block (po S.HatBoxMaker = require(...))
+S.RopeMaker = require("objects.Economy.RoyalRopeMakerSystem")
+S.TwineMaker = require("objects.Economy.RoyalTwineMakerSystem")
+S.NetMaker = require("objects.Economy.RoyalNetMakerSystem")
+S.CordageMaker = require("objects.Economy.RoyalCordageMakerSystem")
+S.KnotBoardMaker = require("objects.Economy.RoyalKnotBoardMakerSystem")
 
--- init block (po S.SackLoaderMaker.init(); ...)
-S.HatBlockMaker.init(); _G.HatBlockMaker = S.HatBlockMaker
-S.HatBandMaker.init(); _G.HatBandMaker = S.HatBandMaker
-S.HatPinMaker.init(); _G.HatPinMaker = S.HatPinMaker
-S.HatFeatherMaker.init(); _G.HatFeatherMaker = S.HatFeatherMaker
-S.HatBoxMaker.init(); _G.HatBoxMaker = S.HatBoxMaker
+-- init block (po S.HatBoxMaker.init(); ...)
+S.RopeMaker.init(); _G.RopeMaker = S.RopeMaker
+S.TwineMaker.init(); _G.TwineMaker = S.TwineMaker
+S.NetMaker.init(); _G.NetMaker = S.NetMaker
+S.CordageMaker.init(); _G.CordageMaker = S.CordageMaker
+S.KnotBoardMaker.init(); _G.KnotBoardMaker = S.KnotBoardMaker
 
--- update block (po S.SackLoaderMaker.update(dt))
-S.HatBlockMaker.update(dt)
-S.HatBandMaker.update(dt)
-S.HatPinMaker.update(dt)
-S.HatFeatherMaker.update(dt)
-S.HatBoxMaker.update(dt)
+-- update block (po S.HatBoxMaker.update(dt))
+S.RopeMaker.update(dt)
+S.TwineMaker.update(dt)
+S.NetMaker.update(dt)
+S.CordageMaker.update(dt)
+S.KnotBoardMaker.update(dt)
 ```
 
 **POMEMBNO:** `RoyalSystemsRegistry.init(S)` se izvede po vseh `init()` klicih, tako da bo auto-discover tudi teh 5 novih sistemov. Ni potrebno ročno registrirati v Registry.
 
 ## WORKFLOW
 
-1. Preveri duplikate: `ls objects/Economy/ | grep -iE "hatblock|hatband|hatpin|hatfeather|hatbox"` (mora biti prazno)
+1. Preveri duplikate: `ls objects/Economy/ | grep -iE "rope|twine|netmaker|cordage|knotboard"` (mora biti prazno)
 2. Ustvari 5 .lua datotek po predlogi (glej spodaj)
 3. Registriraj v states/game.lua (3 točke)
 4. Poženi: `python3 /home/z/my-project/scripts/check_my_changes.py` (za sintaktično preverbo)
-5. Posodobi CHANGELOG.md (dodaj vnose za v3.11.422 do v3.11.426 na vrh)
+5. Posodobi CHANGELOG.md (dodaj vnose za v3.11.427 do v3.11.431 na vrh)
 6. Posodobi README.md badge-je:
-   - version-3.11.421 → version-3.11.426
-   - syntax-1155%2F1158 → syntax-1160%2F1163
-   - Royal%20systems-509 → Royal%20systems-514
-   - Lua%20files-1158 → Lua%20files-1163
-7. Git: commit, tag (v3.11.422 do v3.11.426), push
-8. Build .love: `cd /home/z/my-project/castlekingdoms2027 && zip -r -q /home/z/my-project/download/castlekingdoms2027-v3.11.426.love . -x ".git/*" "tool-results/*" "*.love" ".gitignore" "scripts/lua_syntax_check.py"`
+   - version-3.11.426 → version-3.11.431
+   - syntax-1160%2F1163 → syntax-1165%2F1168
+   - Royal%20systems-514 → Royal%20systems-519
+   - Lua%20files-1163 → Lua%20files-1168
+7. Git: commit, tag (v3.11.427 do v3.11.431), push
+8. Build .love: `cd /home/z/my-project/castlekingdoms2027 && zip -r -q /home/z/my-project/download/castlekingdoms2027-v3.11.431.love . -x ".git/*" "tool-results/*" "*.love" ".gitignore" "scripts/lua_syntax_check.py"`
 
 ## PREDLOGA ZA SISTEM (primer PickaxeMaker, kot referenca)
 
@@ -119,24 +119,24 @@ function PickaxeMaker.getStats() ... end
 return PickaxeMaker
 ```
 
-Za nove 5 sistemov (klobučarska oprema) spremeni:
-- Imena produktov (npr. "železni model za klobuke", "železna poroka za klobuke", "železna sponka za klobuke", "železno pero za klobuke", "železna škatla za klobuke")
-- Imena zgradb (modelna, poročna, spončna, peresna, škatlena delavnica/hiša/atelje/palača)
-- Maker ime (Modelar, Poročnik, Sponkar, Peresar, Škatlar)
-- Event bus publish (hatblock.completed, hatband.completed, hatpin.completed, hatfeather.completed, hatbox.completed)
+Za nove 5 sistemov (vrvarna oprema) spremeni:
+- Imena produktov (npr. "železna vrv", "železni špigelj", "železna mreža", "železna vrvica", "železna tabla za vozle")
+- Imena zgradb (vrvarna, špigeljna, mrežna, vrvnična, vozlena delavnica/hiša/atelje/palača)
+- Maker ime (Vrvar, Špigeljar, Mrežar, Vrvničar, Vozlar)
+- Event bus publish (rope.completed, twine.completed, net.completed, cordage.completed, knotboard.completed)
 
 ## SPOROČILO ZA NOVO SEJO
 
 Ko začneš novo sejo, pošlji to sporočilo:
 
 ```
-Nadaljuj z razvojem Castle Kingdoms 2027. Preberi /home/z/my-project/castlekingdoms2027/NEXT_BATCH_HANDOFF.md za popolna navodila. Trenutna različica je v3.11.421. Naslednji paket je v3.11.422–v3.11.426 (klobučarska oprema: HatBlockMaker, HatBandMaker, HatPinMaker, HatFeatherMaker, HatBoxMaker). Sledi navodilom v handoff dokumentu. Po končanem paketu ročno posodobi NEXT_BATCH_HANDOFF.md z naslednjim paketom (v3.11.427–v3.11.431 — predlagano: vrvarna oprema: RopeMaker, TwineMaker, NetMaker, CordageMaker, KnotBoardMaker).
+Nadaljuj z razvojem Castle Kingdoms 2027. Preberi /home/z/my-project/castlekingdoms2027/NEXT_BATCH_HANDOFF.md za popolna navodila. Trenutna različica je v3.11.426. Naslednji paket je v3.11.427–v3.11.431 (vrvarna oprema: RopeMaker, TwineMaker, NetMaker, CordageMaker, KnotBoardMaker). Sledi navodilom v handoff dokumentu. Po končanem paketu ročno posodobi NEXT_BATCH_HANDOFF.md z naslednjim paketom (v3.11.432–v3.11.436 — predlagano: česlarska oprema: CombMaker, HairbrushMaker, HairpinMaker, BeardCombMaker, LiceCombMaker).
 ```
 
 ## NASLEDNJI PAKETI (po vrsti)
 
-- v3.11.422–v3.11.426: klobučarska oprema (HatBlockMaker, HatBandMaker, HatPinMaker, HatFeatherMaker, HatBoxMaker)
 - v3.11.427–v3.11.431: vrvarna oprema (RopeMaker, TwineMaker, NetMaker, CordageMaker, KnotBoardMaker)
 - v3.11.432–v3.11.436: česlarska oprema (CombMaker, HairbrushMaker, HairpinMaker, BeardCombMaker, LiceCombMaker)
-- v3.11.437–v3.11.441: sedlarska dodatki (SaddleSoapMaker, SaddlePolishMaker, LeatherConditionerMaker, StirrupLeatherMaker, BridleBuckleMaker)
+- v3.11.437–v3.11.441: sedlarski dodatki (SaddleSoapMaker, SaddlePolishMaker, LeatherConditionerMaker, StirrupLeatherMaker, BridleBuckleMaker)
+- v3.11.442–v3.11.446: voščena oprema (CandleMoldMaker, WickSpinnerMaker, WaxDipperMaker, CandlestickBaseMaker, TaperRollerMaker)
 

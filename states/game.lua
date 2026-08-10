@@ -715,6 +715,12 @@ S.FlourSifterMaker = require("objects.Economy.RoyalFlourSifterMakerSystem")
 S.DoughHookMaker = require("objects.Economy.RoyalDoughHookMakerSystem")
 S.GrainHopperMaker = require("objects.Economy.RoyalGrainHopperMakerSystem")
 S.SackLoaderMaker = require("objects.Economy.RoyalSackLoaderMakerSystem")
+-- Castle Kingdoms 2027 v3.11.422-v3.11.426: Hatmaking equipment batch (5 new Royal systems)
+S.HatBlockMaker = require("objects.Economy.RoyalHatBlockMakerSystem")
+S.HatBandMaker = require("objects.Economy.RoyalHatBandMakerSystem")
+S.HatPinMaker = require("objects.Economy.RoyalHatPinMakerSystem")
+S.HatFeatherMaker = require("objects.Economy.RoyalHatFeatherMakerSystem")
+S.HatBoxMaker = require("objects.Economy.RoyalHatBoxMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1856,6 +1862,12 @@ local function delayedInit()
     S.DoughHookMaker.init(); _G.DoughHookMaker = S.DoughHookMaker
     S.GrainHopperMaker.init(); _G.GrainHopperMaker = S.GrainHopperMaker
     S.SackLoaderMaker.init(); _G.SackLoaderMaker = S.SackLoaderMaker
+    -- Castle Kingdoms 2027 v3.11.422-v3.11.426: Hatmaking equipment batch init
+    S.HatBlockMaker.init(); _G.HatBlockMaker = S.HatBlockMaker
+    S.HatBandMaker.init(); _G.HatBandMaker = S.HatBandMaker
+    S.HatPinMaker.init(); _G.HatPinMaker = S.HatPinMaker
+    S.HatFeatherMaker.init(); _G.HatFeatherMaker = S.HatFeatherMaker
+    S.HatBoxMaker.init(); _G.HatBoxMaker = S.HatBoxMaker
     -- Castle Kingdoms 2027 v3.11.382: Initialize Royal Systems Registry (auto-discovers all 347+ systems)
     RoyalSystemsRegistry.init(S)
     _G.RoyalSystemsRegistry = RoyalSystemsRegistry
@@ -2742,6 +2754,12 @@ function game:update(dt)
                 S.DoughHookMaker.update(dt)
                 S.GrainHopperMaker.update(dt)
                 S.SackLoaderMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.422-v3.11.426: Hatmaking equipment batch update
+                S.HatBlockMaker.update(dt)
+                S.HatBandMaker.update(dt)
+                S.HatPinMaker.update(dt)
+                S.HatFeatherMaker.update(dt)
+                S.HatBoxMaker.update(dt)
                 -- Castle Kingdoms 2027 v3.11.382: Royal Systems Registry aggregates stats + grants bonus gold
                 RoyalSystemsRegistry.update(dt)
                 RoyalSystemsPanel.update(dt)
