@@ -721,6 +721,12 @@ S.HatBandMaker = require("objects.Economy.RoyalHatBandMakerSystem")
 S.HatPinMaker = require("objects.Economy.RoyalHatPinMakerSystem")
 S.HatFeatherMaker = require("objects.Economy.RoyalHatFeatherMakerSystem")
 S.HatBoxMaker = require("objects.Economy.RoyalHatBoxMakerSystem")
+-- Castle Kingdoms 2027 v3.11.427-v3.11.431: Ropemaking equipment batch (5 new Royal systems)
+S.RopeMaker = require("objects.Economy.RoyalRopeMakerSystem")
+S.TwineMaker = require("objects.Economy.RoyalTwineMakerSystem")
+S.NetMaker = require("objects.Economy.RoyalNetMakerSystem")
+S.CordageMaker = require("objects.Economy.RoyalCordageMakerSystem")
+S.KnotBoardMaker = require("objects.Economy.RoyalKnotBoardMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1868,6 +1874,12 @@ local function delayedInit()
     S.HatPinMaker.init(); _G.HatPinMaker = S.HatPinMaker
     S.HatFeatherMaker.init(); _G.HatFeatherMaker = S.HatFeatherMaker
     S.HatBoxMaker.init(); _G.HatBoxMaker = S.HatBoxMaker
+    -- Castle Kingdoms 2027 v3.11.427-v3.11.431: Ropemaking equipment batch init
+    S.RopeMaker.init(); _G.RopeMaker = S.RopeMaker
+    S.TwineMaker.init(); _G.TwineMaker = S.TwineMaker
+    S.NetMaker.init(); _G.NetMaker = S.NetMaker
+    S.CordageMaker.init(); _G.CordageMaker = S.CordageMaker
+    S.KnotBoardMaker.init(); _G.KnotBoardMaker = S.KnotBoardMaker
     -- Castle Kingdoms 2027 v3.11.382: Initialize Royal Systems Registry (auto-discovers all 347+ systems)
     RoyalSystemsRegistry.init(S)
     _G.RoyalSystemsRegistry = RoyalSystemsRegistry
@@ -2760,6 +2772,12 @@ function game:update(dt)
                 S.HatPinMaker.update(dt)
                 S.HatFeatherMaker.update(dt)
                 S.HatBoxMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.427-v3.11.431: Ropemaking equipment batch update
+                S.RopeMaker.update(dt)
+                S.TwineMaker.update(dt)
+                S.NetMaker.update(dt)
+                S.CordageMaker.update(dt)
+                S.KnotBoardMaker.update(dt)
                 -- Castle Kingdoms 2027 v3.11.382: Royal Systems Registry aggregates stats + grants bonus gold
                 RoyalSystemsRegistry.update(dt)
                 RoyalSystemsPanel.update(dt)

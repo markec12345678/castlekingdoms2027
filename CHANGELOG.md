@@ -2,6 +2,44 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.431] — 2026-08-11 — Royal Knot Board Maker System (6 products, knot boards)
+## [v3.11.430] — 2026-08-11 — Royal Cordage Maker System (6 products, cordages)
+## [v3.11.429] — 2026-08-11 — Royal Net Maker System (6 products, nets)
+## [v3.11.428] — 2026-08-11 — Royal Twine Maker System (6 products, twines)
+## [v3.11.427] — 2026-08-11 — Royal Rope Maker System (6 products, ropes)
+
+### Dodano (v3.11.427-v3.11.431 — 5 vrvarnih sistemov)
+
+#### v3.11.427 - Royal Rope Maker System
+- **6 produktov** (železna vrv, bronasta, srebrna, pozlačena, draguljasta, kraljevski suverena)
+- **4 zgradbe** (vrvarna delavnica, vrvarna hiša, mojstrski vrvarski atelje, suverena vrvarna palača)
+- Maker: Vrvar, hire base 570 gold
+
+#### v3.11.428 - Royal Twine Maker System
+- **6 produktov** (železni špigelj, bronast, srebrni, pozlačeni, draguljasti, kraljevski suvereni)
+- **4 zgradbe** (špigeljna delavnica, špigeljna hiša, mojstrski špigeljni atelje, suverena špigeljna palača)
+- Maker: Špigeljar, hire base 560 gold
+- Poudarek na usnju (leatherCost 3-4)
+
+#### v3.11.429 - Royal Net Maker System
+- **6 produktov** (železna mreža, bronasta, srebrna, pozlačena, draguljasta, kraljevski suverena)
+- **4 zgradbe** (mrežna delavnica, mrežna hiša, mojstrski mrežni atelje, suverena mrežna palača)
+- Maker: Mrežar, hire base 580 gold
+
+#### v3.11.430 - Royal Cordage Maker System
+- **6 produktov** (železna vrvica, bronasta, srebrna, pozlačena, draguljasta, kraljevski suverena)
+- **4 zgradbe** (vrvnična delavnica, vrvnična hiša, mojstrski vrvnični atelje, suverena vrvnična palača)
+- Maker: Vrvničar, hire base 575 gold
+- Poudarek na usnju (leatherCost 3-4)
+
+#### v3.11.431 - Royal Knot Board Maker System
+- **6 produktov** (železna tabla za vozle, bronasta, srebrna, pozlačena, draguljasta, kraljevski suverena)
+- **4 zgradbe** (vozlena delavnica, vozlena hiša, mojstrski vozleni atelje, suverena vozlena palača)
+- Maker: Vozlar, hire base 585 gold
+- Poudarek na lesu (woodCost 3-4)
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
 ## [v3.11.426] — 2026-08-11 — Royal Hat Box Maker System (6 products, hat boxes)
 ## [v3.11.425] — 2026-08-11 — Royal Hat Feather Maker System (6 products, hat feathers)
 ## [v3.11.424] — 2026-08-11 — Royal Hat Pin Maker System (6 products, hat pins)
