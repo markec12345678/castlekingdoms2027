@@ -691,6 +691,12 @@ S.BridleMaker = require("objects.Economy.RoyalBridleMakerSystem")
 S.StirrupMaker = require("objects.Economy.RoyalStirrupMakerSystem")
 S.HorseHarnessMaker = require("objects.Economy.RoyalHorseHarnessMakerSystem")
 S.SaddlebagMaker = require("objects.Economy.RoyalSaddlebagMakerSystem")
+-- Castle Kingdoms 2027 v3.11.402-v3.11.406: Painting equipment batch (5 new Royal systems)
+S.EaselMaker = require("objects.Economy.RoyalEaselMakerSystem")
+S.PaintbrushMaker = require("objects.Economy.RoyalPaintbrushMakerSystem")
+S.PaletteMaker = require("objects.Economy.RoyalPaletteMakerSystem")
+S.PigmentGrinderMaker = require("objects.Economy.RoyalPigmentGrinderMakerSystem")
+S.CanvasStretcherMaker = require("objects.Economy.RoyalCanvasStretcherMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1808,6 +1814,12 @@ local function delayedInit()
     S.StirrupMaker.init(); _G.StirrupMaker = S.StirrupMaker
     S.HorseHarnessMaker.init(); _G.HorseHarnessMaker = S.HorseHarnessMaker
     S.SaddlebagMaker.init(); _G.SaddlebagMaker = S.SaddlebagMaker
+    -- Castle Kingdoms 2027 v3.11.402-v3.11.406: Painting equipment batch init
+    S.EaselMaker.init(); _G.EaselMaker = S.EaselMaker
+    S.PaintbrushMaker.init(); _G.PaintbrushMaker = S.PaintbrushMaker
+    S.PaletteMaker.init(); _G.PaletteMaker = S.PaletteMaker
+    S.PigmentGrinderMaker.init(); _G.PigmentGrinderMaker = S.PigmentGrinderMaker
+    S.CanvasStretcherMaker.init(); _G.CanvasStretcherMaker = S.CanvasStretcherMaker
     -- Castle Kingdoms 2027 v3.11.382: Initialize Royal Systems Registry (auto-discovers all 347+ systems)
     RoyalSystemsRegistry.init(S)
     _G.RoyalSystemsRegistry = RoyalSystemsRegistry
@@ -2670,6 +2682,12 @@ function game:update(dt)
                 S.StirrupMaker.update(dt)
                 S.HorseHarnessMaker.update(dt)
                 S.SaddlebagMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.402-v3.11.406: Painting equipment batch update
+                S.EaselMaker.update(dt)
+                S.PaintbrushMaker.update(dt)
+                S.PaletteMaker.update(dt)
+                S.PigmentGrinderMaker.update(dt)
+                S.CanvasStretcherMaker.update(dt)
                 -- Castle Kingdoms 2027 v3.11.382: Royal Systems Registry aggregates stats + grants bonus gold
                 RoyalSystemsRegistry.update(dt)
                 RoyalSystemsPanel.update(dt)

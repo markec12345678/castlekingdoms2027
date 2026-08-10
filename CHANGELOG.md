@@ -2,6 +2,43 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.406] — 2026-08-11 — Royal Canvas Stretcher Maker System (6 products, canvas stretchers)
+## [v3.11.405] — 2026-08-11 — Royal Pigment Grinder Maker System (6 products, pigment grinders)
+## [v3.11.404] — 2026-08-11 — Royal Palette Maker System (6 products, palettes)
+## [v3.11.403] — 2026-08-11 — Royal Paintbrush Maker System (6 products, paintbrushes)
+## [v3.11.402] — 2026-08-11 — Royal Easel Maker System (6 products, easels)
+
+### Dodano (v3.11.402-v3.11.406 — 5 slikarskih sistemov)
+
+#### v3.11.402 - Royal Easel Maker System
+- **6 produktov** (železno stojalo za platna, bronasto, srebrno, pozlačeno, draguljasto, kraljevski suvereno)
+- **4 zgradbe** (stojalna delavnica, stojalna hiša, mojstrski stojalni atelje, suverena stojalna palača)
+- Maker: Stojalar, hire base 575 gold
+- Poudarek na lesu (woodCost 3)
+
+#### v3.11.403 - Royal Paintbrush Maker System
+- **6 produktov** (železni čopič, bronasti, srebrni, pozlačeni, draguljasti, kraljevski suvereni)
+- **4 zgradbe** (čopična delavnica, čopična hiša, mojstrski čopični atelje, suverena čopična palača)
+- Maker: Čopičar, hire base 580 gold
+
+#### v3.11.404 - Royal Palette Maker System
+- **6 produktov** (železna paleta, bronasta, srebrna, pozlačena, draguljasta, kraljevski suverena)
+- **4 zgradbe** (paletna delavnica, paletna hiša, mojstrski paletni atelje, suverena paletna palača)
+- Maker: Paletar, hire base 570 gold
+
+#### v3.11.405 - Royal Pigment Grinder Maker System
+- **6 produktov** (železni mlinček za pigmente, bronast, srebrni, pozlačeni, draguljasti, kraljevski suvereni)
+- **4 zgradbe** (pigmentna delavnica, pigmentna hiša, mojstrski pigmentni atelje, suverena pigmentna palača)
+- Maker: Pigmentar, hire base 590 gold
+- Poudarek na kovini (ironCost/bronzeCost 3)
+
+#### v3.11.406 - Royal Canvas Stretcher Maker System
+- **6 produktov** (železni napenjalec platna, bronast, srebrni, pozlačeni, draguljasti, kraljevski suvereni)
+- **4 zgradbe** (napenjalna delavnica, napenjalna hiša, mojstrski napenjalni atelje, suverena napenjalna palača)
+- Maker: Napenjalec, hire base 580 gold
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
 ## [v3.11.401] — 2026-08-11 — Royal Saddlebag Maker System (6 products, saddlebags)
 ## [v3.11.400] — 2026-08-11 — Royal Horse Harness Maker System (6 products, horse harnesses)
 ## [v3.11.399] — 2026-08-11 — Royal Stirrup Maker System (6 products, stirrups)
