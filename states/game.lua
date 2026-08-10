@@ -697,6 +697,12 @@ S.PaintbrushMaker = require("objects.Economy.RoyalPaintbrushMakerSystem")
 S.PaletteMaker = require("objects.Economy.RoyalPaletteMakerSystem")
 S.PigmentGrinderMaker = require("objects.Economy.RoyalPigmentGrinderMakerSystem")
 S.CanvasStretcherMaker = require("objects.Economy.RoyalCanvasStretcherMakerSystem")
+-- Castle Kingdoms 2027 v3.11.407-v3.11.411: Kitchen equipment batch (5 new Royal systems)
+S.RollingPinMaker = require("objects.Economy.RoyalRollingPinMakerSystem")
+S.CheeseGraterMaker = require("objects.Economy.RoyalCheeseGraterMakerSystem")
+S.ButterChurnMaker = require("objects.Economy.RoyalButterChurnMakerSystem")
+S.SpiceRackMaker = require("objects.Economy.RoyalSpiceRackMakerSystem")
+S.CuttingBoardMaker = require("objects.Economy.RoyalCuttingBoardMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1820,6 +1826,12 @@ local function delayedInit()
     S.PaletteMaker.init(); _G.PaletteMaker = S.PaletteMaker
     S.PigmentGrinderMaker.init(); _G.PigmentGrinderMaker = S.PigmentGrinderMaker
     S.CanvasStretcherMaker.init(); _G.CanvasStretcherMaker = S.CanvasStretcherMaker
+    -- Castle Kingdoms 2027 v3.11.407-v3.11.411: Kitchen equipment batch init
+    S.RollingPinMaker.init(); _G.RollingPinMaker = S.RollingPinMaker
+    S.CheeseGraterMaker.init(); _G.CheeseGraterMaker = S.CheeseGraterMaker
+    S.ButterChurnMaker.init(); _G.ButterChurnMaker = S.ButterChurnMaker
+    S.SpiceRackMaker.init(); _G.SpiceRackMaker = S.SpiceRackMaker
+    S.CuttingBoardMaker.init(); _G.CuttingBoardMaker = S.CuttingBoardMaker
     -- Castle Kingdoms 2027 v3.11.382: Initialize Royal Systems Registry (auto-discovers all 347+ systems)
     RoyalSystemsRegistry.init(S)
     _G.RoyalSystemsRegistry = RoyalSystemsRegistry
@@ -2688,6 +2700,12 @@ function game:update(dt)
                 S.PaletteMaker.update(dt)
                 S.PigmentGrinderMaker.update(dt)
                 S.CanvasStretcherMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.407-v3.11.411: Kitchen equipment batch update
+                S.RollingPinMaker.update(dt)
+                S.CheeseGraterMaker.update(dt)
+                S.ButterChurnMaker.update(dt)
+                S.SpiceRackMaker.update(dt)
+                S.CuttingBoardMaker.update(dt)
                 -- Castle Kingdoms 2027 v3.11.382: Royal Systems Registry aggregates stats + grants bonus gold
                 RoyalSystemsRegistry.update(dt)
                 RoyalSystemsPanel.update(dt)

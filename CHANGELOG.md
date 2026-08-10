@@ -2,6 +2,43 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.411] — 2026-08-11 — Royal Cutting Board Maker System (6 products, cutting boards)
+## [v3.11.410] — 2026-08-11 — Royal Spice Rack Maker System (6 products, spice racks)
+## [v3.11.409] — 2026-08-11 — Royal Butter Churn Maker System (6 products, butter churns)
+## [v3.11.408] — 2026-08-11 — Royal Cheese Grater Maker System (6 products, cheese graters)
+## [v3.11.407] — 2026-08-11 — Royal Rolling Pin Maker System (6 products, rolling pins)
+
+### Dodano (v3.11.407-v3.11.411 — 5 kuhinjskih sistemov)
+
+#### v3.11.407 - Royal Rolling Pin Maker System
+- **6 produktov** (železni valjek za testo, bronast, srebrni, pozlačeni, draguljasti, kraljevski suvereni)
+- **4 zgradbe** (valjarska delavnica, valjarska hiša, mojstrski valjarski atelje, suverena valjarska palača)
+- Maker: Valjar, hire base 570 gold
+
+#### v3.11.408 - Royal Cheese Grater Maker System
+- **6 produktov** (železni ribnik za sir, bronast, srebrni, pozlačeni, draguljasti, kraljevski suvereni)
+- **4 zgradbe** (ribniška delavnica, ribniška hiša, mojstrski ribniški atelje, suverena ribniška palača)
+- Maker: Ribnikar, hire base 580 gold
+- Poudarek na kovini (ironCost/bronzeCost 3)
+
+#### v3.11.409 - Royal Butter Churn Maker System
+- **6 produktov** (železna kada za maslo, bronasta, srebrna, pozlačena, draguljasta, kraljevski suverena)
+- **4 zgradbe** (kadna delavnica, kadna hiša, mojstrski kadni atelje, suverena kadna palača)
+- Maker: Kadar, hire base 575 gold
+
+#### v3.11.410 - Royal Spice Rack Maker System
+- **6 produktov** (železno stojalo za začimbe, bronasto, srebrno, pozlačeno, draguljasto, kraljevski suvereno)
+- **4 zgradbe** (začimbična delavnica, začimbična hiša, mojstrski začimbični atelje, suverena začimbična palača)
+- Maker: Začimbar, hire base 565 gold
+
+#### v3.11.411 - Royal Cutting Board Maker System
+- **6 produktov** (železna deska za rezanje, bronasta, srebrna, pozlačena, draguljasta, kraljevski suverena)
+- **4 zgradbe** (rezalna delavnica, rezalna hiša, mojstrski rezalni atelje, suverena rezalna palača)
+- Maker: Rezar, hire base 560 gold
+- Poudarek na lesu (woodCost 4-5)
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
 ## [v3.11.406] — 2026-08-11 — Royal Canvas Stretcher Maker System (6 products, canvas stretchers)
 ## [v3.11.405] — 2026-08-11 — Royal Pigment Grinder Maker System (6 products, pigment grinders)
 ## [v3.11.404] — 2026-08-11 — Royal Palette Maker System (6 products, palettes)
