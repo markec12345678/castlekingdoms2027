@@ -709,6 +709,12 @@ S.GlassCutterMaker = require("objects.Economy.RoyalGlassCutterMakerSystem")
 S.GlassMoldMaker = require("objects.Economy.RoyalGlassMoldMakerSystem")
 S.AnnealingTongsMaker = require("objects.Economy.RoyalAnnealingTongsMakerSystem")
 S.GlassEngraverMaker = require("objects.Economy.RoyalGlassEngraverMakerSystem")
+-- Castle Kingdoms 2027 v3.11.417-v3.11.421: Milling equipment batch (5 new Royal systems)
+S.MillstoneMaker = require("objects.Economy.RoyalMillstoneMakerSystem")
+S.FlourSifterMaker = require("objects.Economy.RoyalFlourSifterMakerSystem")
+S.DoughHookMaker = require("objects.Economy.RoyalDoughHookMakerSystem")
+S.GrainHopperMaker = require("objects.Economy.RoyalGrainHopperMakerSystem")
+S.SackLoaderMaker = require("objects.Economy.RoyalSackLoaderMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1844,6 +1850,12 @@ local function delayedInit()
     S.GlassMoldMaker.init(); _G.GlassMoldMaker = S.GlassMoldMaker
     S.AnnealingTongsMaker.init(); _G.AnnealingTongsMaker = S.AnnealingTongsMaker
     S.GlassEngraverMaker.init(); _G.GlassEngraverMaker = S.GlassEngraverMaker
+    -- Castle Kingdoms 2027 v3.11.417-v3.11.421: Milling equipment batch init
+    S.MillstoneMaker.init(); _G.MillstoneMaker = S.MillstoneMaker
+    S.FlourSifterMaker.init(); _G.FlourSifterMaker = S.FlourSifterMaker
+    S.DoughHookMaker.init(); _G.DoughHookMaker = S.DoughHookMaker
+    S.GrainHopperMaker.init(); _G.GrainHopperMaker = S.GrainHopperMaker
+    S.SackLoaderMaker.init(); _G.SackLoaderMaker = S.SackLoaderMaker
     -- Castle Kingdoms 2027 v3.11.382: Initialize Royal Systems Registry (auto-discovers all 347+ systems)
     RoyalSystemsRegistry.init(S)
     _G.RoyalSystemsRegistry = RoyalSystemsRegistry
@@ -2724,6 +2736,12 @@ function game:update(dt)
                 S.GlassMoldMaker.update(dt)
                 S.AnnealingTongsMaker.update(dt)
                 S.GlassEngraverMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.417-v3.11.421: Milling equipment batch update
+                S.MillstoneMaker.update(dt)
+                S.FlourSifterMaker.update(dt)
+                S.DoughHookMaker.update(dt)
+                S.GrainHopperMaker.update(dt)
+                S.SackLoaderMaker.update(dt)
                 -- Castle Kingdoms 2027 v3.11.382: Royal Systems Registry aggregates stats + grants bonus gold
                 RoyalSystemsRegistry.update(dt)
                 RoyalSystemsPanel.update(dt)

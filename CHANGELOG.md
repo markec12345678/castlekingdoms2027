@@ -2,6 +2,41 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.421] — 2026-08-11 — Royal Sack Loader Maker System (6 products, sack loaders)
+## [v3.11.420] — 2026-08-11 — Royal Grain Hopper Maker System (6 products, grain hoppers)
+## [v3.11.419] — 2026-08-11 — Royal Dough Hook Maker System (6 products, dough hooks)
+## [v3.11.418] — 2026-08-11 — Royal Flour Sifter Maker System (6 products, flour sifters)
+## [v3.11.417] — 2026-08-11 — Royal Millstone Maker System (6 products, millstones)
+
+### Dodano (v3.11.417-v3.11.421 — 5 mlinarskih sistemov)
+
+#### v3.11.417 - Royal Millstone Maker System
+- **6 produktov** (železni mlinček za žito, bronast, srebrni, pozlačeni, draguljasti, kraljevski suvereni)
+- **4 zgradbe** (mlinarska delavnica, mlinarska hiša, mojstrski mlinarski atelje, suverena mlinarska palača)
+- Maker: Mlinar, hire base 595 gold
+
+#### v3.11.418 - Royal Flour Sifter Maker System
+- **6 produktov** (železno sito za moko, bronasto, srebrno, pozlačeno, draguljasto, kraljevski suvereno)
+- **4 zgradbe** (sitna delavnica, sitna hiša, mojstrski sitni atelje, suverena sitna palača)
+- Maker: Sitar, hire base 570 gold
+
+#### v3.11.419 - Royal Dough Hook Maker System
+- **6 produktov** (železni kavelj za testo, bronast, srebrni, pozlačeni, draguljasti, kraljevski suvereni)
+- **4 zgradbe** (kavljeva delavnica, kavljeva hiša, mojstrski kavljev atelje, suverena kavljeva palača)
+- Maker: Kavljist, hire base 580 gold
+
+#### v3.11.420 - Royal Grain Hopper Maker System
+- **6 produktov** (železni ličnik za žito, bronast, srebrni, pozlačeni, draguljasti, kraljevski suvereni)
+- **4 zgradbe** (ličniška delavnica, ličniška hiša, mojstrski ličniški atelje, suverena ličniška palača)
+- Maker: Ličnikar, hire base 575 gold
+
+#### v3.11.421 - Royal Sack Loader Maker System
+- **6 produktov** (železni nalagalec vrečk, bronast, srebrni, pozlačeni, draguljasti, kraljevski suvereni)
+- **4 zgradbe** (nalagalna delavnica, nalagalna hiša, mojstrski nalagalni atelje, suverena nalagalna palača)
+- Maker: Nalagalec, hire base 565 gold
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
 ## [v3.11.416] — 2026-08-11 — Royal Glass Engraver Maker System (6 products, glass engravers)
 ## [v3.11.415] — 2026-08-11 — Royal Annealing Tongs Maker System (6 products, annealing tongs)
 ## [v3.11.414] — 2026-08-11 — Royal Glass Mold Maker System (6 products, glass molds)
