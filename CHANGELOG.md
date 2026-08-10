@@ -2,6 +2,41 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.391] — 2026-08-11 — Royal Physic Potion Maker System (6 products, physic potions)
+## [v3.11.390] — 2026-08-11 — Royal Surgical Lancet Maker System (6 products, surgical lancets)
+## [v3.11.389] — 2026-08-11 — Royal Salve Jar Maker System (6 products, salve jars)
+## [v3.11.388] — 2026-08-11 — Royal Apothecary Vial Maker System (6 products, apothecary vials)
+## [v3.11.387] — 2026-08-11 — Royal Mortar and Pestle Maker System (6 products, mortars and pestles)
+
+### Dodano (v3.11.387-v3.11.391 — 5 lekarniških sistemov)
+
+#### v3.11.387 - Royal Mortar and Pestle Maker System
+- **6 produktov** (železni možnar, bronast možnar, srebrni možnar, pozlačeni možnar, draguljasti možnar, kraljevski suvereni možnar)
+- **4 zgradbe** (možnarska delavnica, možnarska hiša, mojstrski možnarski atelje, suverena lekarniška palača)
+- Maker: Možnarar, hire base 585 gold
+
+#### v3.11.388 - Royal Apothecary Vial Maker System
+- **6 produktov** (železna viala, bronasta viala, srebrna viala, pozlačena viala, draguljasta viala, kraljevski suverena viala)
+- **4 zgradbe** (vialna delavnica, vialna hiša, mojstrski vialni atelje, suverena vialna palača)
+- Maker: Vialar, hire base 575 gold
+
+#### v3.11.389 - Royal Salve Jar Maker System
+- **6 produktov** (železni kozarec za mazila, bronast kozarec, srebrni kozarec, pozlačeni kozarec, draguljasti kozarec, kraljevski suvereni kozarec)
+- **4 zgradbe** (mazilna delavnica, mazilna hiša, mojstrski mazilni atelje, suverena mazilna palača)
+- Maker: Mazilar, hire base 565 gold
+
+#### v3.11.390 - Royal Surgical Lancet Maker System
+- **6 produktov** (železna lanceta, bronasta lanceta, srebrna lanceta, pozlačena lanceta, draguljasta lanceta, kraljevski suverena lanceta)
+- **4 zgradbe** (lancetna delavnica, lancetna hiša, mojstrski lancetni atelje, suverena kirurška palača)
+- Maker: Lancetar, hire base 590 gold
+
+#### v3.11.391 - Royal Physic Potion Maker System
+- **6 produktov** (železni napitek, bronast napitek, srebrni napitek, pozlačeni napitek, draguljasti napitek, kraljevski suvereni napitek)
+- **4 zgradbe** (napitnična delavnica, napitnična hiša, mojstrski napitnični atelje, suverena napitnična palača)
+- Maker: Napitkar, hire base 595 gold
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
 ## [v3.11.386] — 2026-08-11 — Royal Prospecting Pan Maker System (6 products, prospecting pans)
 ## [v3.11.385] — 2026-08-11 — Royal Mining Chisel Maker System (6 products, mining chisels)
 ## [v3.11.384] — 2026-08-11 — Royal Auger Maker System (6 products, augers)

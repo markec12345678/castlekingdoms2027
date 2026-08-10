@@ -673,6 +673,12 @@ S.ShovelMaker = require("objects.Economy.RoyalShovelMakerSystem")
 S.AugerMaker = require("objects.Economy.RoyalAugerMakerSystem")
 S.MiningChiselMaker = require("objects.Economy.RoyalMiningChiselMakerSystem")
 S.ProspectingPanMaker = require("objects.Economy.RoyalProspectingPanMakerSystem")
+-- Castle Kingdoms 2027 v3.11.387-v3.11.391: Apothecary containers batch (5 new Royal systems)
+S.MortarPestleMaker = require("objects.Economy.RoyalMortarPestleMakerSystem")
+S.ApothecaryVialMaker = require("objects.Economy.RoyalApothecaryVialMakerSystem")
+S.SalveJarMaker = require("objects.Economy.RoyalSalveJarMakerSystem")
+S.SurgicalLancetMaker = require("objects.Economy.RoyalSurgicalLancetMakerSystem")
+S.PhysicPotionMaker = require("objects.Economy.RoyalPhysicPotionMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1772,6 +1778,12 @@ local function delayedInit()
     S.AugerMaker.init(); _G.AugerMaker = S.AugerMaker
     S.MiningChiselMaker.init(); _G.MiningChiselMaker = S.MiningChiselMaker
     S.ProspectingPanMaker.init(); _G.ProspectingPanMaker = S.ProspectingPanMaker
+    -- Castle Kingdoms 2027 v3.11.387-v3.11.391: Apothecary containers batch init
+    S.MortarPestleMaker.init(); _G.MortarPestleMaker = S.MortarPestleMaker
+    S.ApothecaryVialMaker.init(); _G.ApothecaryVialMaker = S.ApothecaryVialMaker
+    S.SalveJarMaker.init(); _G.SalveJarMaker = S.SalveJarMaker
+    S.SurgicalLancetMaker.init(); _G.SurgicalLancetMaker = S.SurgicalLancetMaker
+    S.PhysicPotionMaker.init(); _G.PhysicPotionMaker = S.PhysicPotionMaker
     -- Castle Kingdoms 2027 v3.11.382: Initialize Royal Systems Registry (auto-discovers all 347+ systems)
     RoyalSystemsRegistry.init(S)
     _G.RoyalSystemsRegistry = RoyalSystemsRegistry
@@ -2616,6 +2628,12 @@ function game:update(dt)
                 S.AugerMaker.update(dt)
                 S.MiningChiselMaker.update(dt)
                 S.ProspectingPanMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.387-v3.11.391: Apothecary containers batch update
+                S.MortarPestleMaker.update(dt)
+                S.ApothecaryVialMaker.update(dt)
+                S.SalveJarMaker.update(dt)
+                S.SurgicalLancetMaker.update(dt)
+                S.PhysicPotionMaker.update(dt)
                 -- Castle Kingdoms 2027 v3.11.382: Royal Systems Registry aggregates stats + grants bonus gold
                 RoyalSystemsRegistry.update(dt)
                 RoyalSystemsPanel.update(dt)
