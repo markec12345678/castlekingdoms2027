@@ -667,6 +667,12 @@ S.GlockenspielMaker = require("objects.Economy.RoyalGlockenspielMakerSystem")
 S.HandbellMaker = require("objects.Economy.RoyalHandbellMakerSystem")
 S.TubularBellsMaker = require("objects.Economy.RoyalTubularBellsMakerSystem")
 S.AngelusBellMaker = require("objects.Economy.RoyalAngelusBellMakerSystem")
+-- Castle Kingdoms 2027 v3.11.382-v3.11.386: Mining tools batch (5 new Royal systems)
+S.PickaxeMaker = require("objects.Economy.RoyalPickaxeMakerSystem")
+S.ShovelMaker = require("objects.Economy.RoyalShovelMakerSystem")
+S.AugerMaker = require("objects.Economy.RoyalAugerMakerSystem")
+S.MiningChiselMaker = require("objects.Economy.RoyalMiningChiselMakerSystem")
+S.ProspectingPanMaker = require("objects.Economy.RoyalProspectingPanMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -687,6 +693,9 @@ local CaravanUI = require("states.ui.economy.caravan_ui")
 -- Castle Kingdoms 2027 - HUD widgets
 local SeasonWidget = require("states.ui.hud.season_info_widget")
 local EventLog = require("states.ui.hud.economic_event_log")
+-- Castle Kingdoms 2027 - Royal Systems Registry + UI panel (Ctrl+R)
+local RoyalSystemsRegistry = require("objects.Economy.RoyalSystemsRegistry")
+local RoyalSystemsPanel = require("states.ui.hud.royal_systems_panel")
 -- Castle Kingdoms 2027 - Performance profiling
 local PerformanceManager = require("objects.Performance.PerformanceManager")
 local PriorityUpdate = require("objects.Performance.PriorityUpdateSystem")
@@ -1757,6 +1766,15 @@ local function delayedInit()
     S.HandbellMaker.init(); _G.HandbellMaker = S.HandbellMaker
     S.TubularBellsMaker.init(); _G.TubularBellsMaker = S.TubularBellsMaker
     S.AngelusBellMaker.init(); _G.AngelusBellMaker = S.AngelusBellMaker
+    -- Castle Kingdoms 2027 v3.11.382-v3.11.386: Mining tools batch init
+    S.PickaxeMaker.init(); _G.PickaxeMaker = S.PickaxeMaker
+    S.ShovelMaker.init(); _G.ShovelMaker = S.ShovelMaker
+    S.AugerMaker.init(); _G.AugerMaker = S.AugerMaker
+    S.MiningChiselMaker.init(); _G.MiningChiselMaker = S.MiningChiselMaker
+    S.ProspectingPanMaker.init(); _G.ProspectingPanMaker = S.ProspectingPanMaker
+    -- Castle Kingdoms 2027 v3.11.382: Initialize Royal Systems Registry (auto-discovers all 347+ systems)
+    RoyalSystemsRegistry.init(S)
+    _G.RoyalSystemsRegistry = RoyalSystemsRegistry
     -- Castle Kingdoms 2027: Initialize economy systems
     DynamicMarket.init()
     SeasonalSystem.init()
@@ -2592,6 +2610,15 @@ function game:update(dt)
                 S.HandbellMaker.update(dt)
                 S.TubularBellsMaker.update(dt)
                 S.AngelusBellMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.382-v3.11.386: Mining tools batch update
+                S.PickaxeMaker.update(dt)
+                S.ShovelMaker.update(dt)
+                S.AugerMaker.update(dt)
+                S.MiningChiselMaker.update(dt)
+                S.ProspectingPanMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.382: Royal Systems Registry aggregates stats + grants bonus gold
+                RoyalSystemsRegistry.update(dt)
+                RoyalSystemsPanel.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
@@ -2779,6 +2806,8 @@ function game:draw()
             MissionEndScreen.draw()
             -- Castle Kingdoms 2027: Draw keybind help (H key)
             KeybindHelp.draw()
+            -- Castle Kingdoms 2027 v3.11.382: Draw Royal Systems panel (Ctrl+R)
+            RoyalSystemsPanel.draw()
             -- Castle Kingdoms 2027: Draw Kenney CC0 overlay (if enabled)
             if _G.KenneySpriteRenderer and _G.KenneySpriteRenderer.isActive() then
                 love.graphics.setScissor(0, 0, screenWidth, screenHeight - 150)
@@ -2849,6 +2878,10 @@ function game:mousepressed(x, y, button, istouch)
     end
     if MissionEndScreen.isVisible() then
         if MissionEndScreen.mousepressed(x, y, button) then return end
+    end
+    -- Castle Kingdoms 2027 v3.11.382: Royal Systems panel click handling
+    if RoyalSystemsPanel.isVisible() then
+        if RoyalSystemsPanel.mousepressed(x, y, button) then return end
     end
     -- Castle Kingdoms 2027: Minimap + GameSpeed click handling
     if S.Minimap.isVisible() then
@@ -3114,6 +3147,18 @@ function game:keypressed(key, scancode, isRepeat)
     if key == "v" and not (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
         GameFeelSettings.toggle()
         return
+    end
+    -- Ctrl+R = Toggle Royal Systems panel (Castle Kingdoms 2027 v3.11.382)
+    -- Lists all 347+ Royal Maker systems, hire makers, build workshops, queue products
+    if key == "r" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+        RoyalSystemsPanel.toggle()
+        return
+    end
+    -- Forward keys to Royal panel if it's visible
+    if RoyalSystemsPanel.isVisible() then
+        if RoyalSystemsPanel.keypressed(key, scancode, isrepeat) then
+            return
+        end
     end
     -- F1 = Toggle keybind help (Castle Kingdoms 2027)
     -- NOTE: moved from H (H is the original CenterViewToKeep keybind)

@@ -1,0 +1,572 @@
+-- states/ui/hud/royal_systems_panel.lua
+-- Castle Kingdoms 2027 - Royal Systems Panel
+--
+-- Full-screen overlay panel showing all "Royal X Maker" systems discovered
+-- by RoyalSystemsRegistry. Allows the player to:
+--   * Browse all systems (paginated)
+--   * View stats for each system
+--   * Hire a maker
+--   * Build the first workshop
+--   * Queue the first product
+--   * Sell all stock for gold
+--
+-- Toggle with Ctrl+R.
+--
+-- Usage:
+--   local RoyalPanel = require("states.ui.hud.royal_systems_panel")
+--   RoyalPanel.update(dt)
+--   RoyalPanel.draw()
+--   RoyalPanel.toggle()
+--   RoyalPanel.keypressed(key)
+--   RoyalPanel.mousepressed(x, y, button)
+
+local Registry = require("objects.Economy.RoyalSystemsRegistry")
+
+local RoyalPanel = {}
+
+local visible = false
+local selectedIndex = 1   -- which system is selected in the list
+local page = 1              -- current page (10 systems per page)
+local pageSize = 12
+local totalPages = 1
+local actionMessage = ""   -- feedback message shown after actions
+local actionMessageTime = 0
+
+-- UI layout
+local LAYOUT = {
+    panelW = 900,
+    panelH = 640,
+    listW = 280,        -- left column width
+    detailPad = 16,
+}
+
+-- Helper: safely call a system function and show feedback
+local function tryAction(fn, ...)
+    local ok, err = pcall(fn, ...)
+    if ok and err ~= false then
+        actionMessage = "OK: " .. tostring(err or "")
+        actionMessageTime = 3.0
+        return true
+    elseif ok then
+        actionMessage = "Napaka: " .. tostring(err or "Neznana")
+        actionMessageTime = 3.0
+        return false, err
+    else
+        actionMessage = "Izjema: " .. tostring(err or "Neznana")
+        actionMessageTime = 3.0
+        return false, err
+    end
+end
+
+function RoyalPanel.toggle()
+    visible = not visible
+    if visible then
+        -- Refresh pagination
+        local systems = Registry.getSystems()
+        totalPages = math.max(1, math.ceil(#systems / pageSize))
+        if page > totalPages then page = totalPages end
+    end
+end
+
+function RoyalPanel.setVisible(state)
+    visible = state
+end
+
+function RoyalPanel.isVisible()
+    return visible
+end
+
+function RoyalPanel.update(dt)
+    if actionMessageTime > 0 then
+        actionMessageTime = actionMessageTime - dt
+        if actionMessageTime <= 0 then
+            actionMessage = ""
+        end
+    end
+end
+
+-- Mouse click areas (rebuilt each draw)
+local clickAreas = {}
+
+local function registerClick(id, x, y, w, h, action)
+    table.insert(clickAreas, { id = id, x = x, y = y, w = w, h = h, action = action })
+end
+
+-- Helper: draw a button, returns true if clicked
+local function drawButton(id, x, y, w, h, label, enabled, action)
+    enabled = enabled ~= false  -- default true
+    local mx, my = love.mouse.getPosition()
+    local hover = enabled and mx >= x and mx <= x + w and my >= y and my <= y + h
+
+    if not enabled then
+        love.graphics.setColor(0.25, 0.22, 0.18, 0.85)
+    elseif hover then
+        love.graphics.setColor(0.42, 0.34, 0.22, 0.95)
+    else
+        love.graphics.setColor(0.32, 0.26, 0.18, 0.92)
+    end
+    love.graphics.rectangle("fill", x, y, w, h, 4, 4, 4, 4)
+
+    love.graphics.setColor(0.6, 0.5, 0.3, enabled and 1 or 0.4)
+    love.graphics.setLineWidth(1)
+    love.graphics.rectangle("line", x, y, w, h, 4, 4, 4, 4)
+
+    love.graphics.setColor(enabled and 1 or 0.5, enabled and 0.92 or 0.5, enabled and 0.7 or 0.5, 1)
+    local font = love.graphics.getFont()
+    local tw = font:getWidth(label)
+    local th = font:getHeight()
+    love.graphics.print(label, x + (w - tw) / 2, y + (h - th) / 2)
+
+    if enabled and action then
+        registerClick(id, x, y, w, h, action)
+    end
+
+    return hover
+end
+
+function RoyalPanel.draw()
+    if not visible then return end
+
+    clickAreas = {}
+
+    local screenW, screenH = love.graphics.getDimensions()
+    local panelW = math.min(LAYOUT.panelW, screenW - 40)
+    local panelH = math.min(LAYOUT.panelH, screenH - 40)
+    local panelX = (screenW - panelW) / 2
+    local panelY = (screenH - panelH) / 2
+
+    -- Dim background
+    love.graphics.setColor(0, 0, 0, 0.7)
+    love.graphics.rectangle("fill", 0, 0, screenW, screenH)
+
+    -- Panel
+    love.graphics.setColor(0.08, 0.06, 0.04, 0.98)
+    love.graphics.rectangle("fill", panelX, panelY, panelW, panelH, 8, 8, 8, 8)
+
+    -- Border (royal gold)
+    love.graphics.setColor(0.78, 0.62, 0.28, 1)
+    love.graphics.setLineWidth(2)
+    love.graphics.rectangle("line", panelX, panelY, panelW, panelH, 8, 8, 8, 8)
+
+    -- Title
+    love.graphics.setColor(1, 0.92, 0.7, 1)
+    local font = love.graphics.getFont()
+    love.graphics.print("Kraljevi sistemski (Royal Systems)", panelX + 20, panelY + 14)
+    love.graphics.setColor(0.7, 0.6, 0.4, 1)
+    love.graphics.setFont(font)
+    love.graphics.print("Ctrl+R - Zapri", panelX + panelW - 130, panelY + 14)
+
+    -- Aggregate stats bar
+    local agg = Registry.getAggregate()
+    love.graphics.setColor(0.6, 0.5, 0.3, 0.4)
+    love.graphics.setLineWidth(1)
+    love.graphics.line(panelX + 20, panelY + 40, panelX + panelW - 20, panelY + 40)
+
+    local statsText = string.format(
+        "Sistemov: %d  |  Zgradb: %d  |  Mojstrov: %d  |  Produktov: %d  |  V izdelavi: %d  |  Bonus zlato: %d",
+        agg.totalSystems, agg.totalBuildings, agg.totalMakers,
+        agg.totalProducts, agg.totalActiveMaking, agg.totalGoldEarned
+    )
+    love.graphics.setColor(0.85, 0.85, 0.85, 1)
+    love.graphics.print(statsText, panelX + 20, panelY + 48)
+
+    -- Two-column layout
+    local listX = panelX + 16
+    local listY = panelY + 72
+    local listW = LAYOUT.listW
+    local listH = panelH - 100
+
+    local detailX = listX + listW + 16
+    local detailY = listY
+    local detailW = panelW - listW - 48
+    local detailH = listH
+
+    -- Left column: list of systems (paginated)
+    love.graphics.setColor(0.15, 0.12, 0.08, 0.7)
+    love.graphics.rectangle("fill", listX, listY, listW, listH, 4, 4, 4, 4)
+    love.graphics.setColor(0.5, 0.4, 0.25, 0.6)
+    love.graphics.rectangle("line", listX, listY, listW, listH, 4, 4, 4, 4)
+
+    local systems = Registry.getSystems()
+    totalPages = math.max(1, math.ceil(#systems / pageSize))
+
+    -- Page navigation buttons
+    drawButton("prevPage", listX + 8, listY + 8, 24, 22, "<", page > 1,
+        function() page = page - 1; if page < 1 then page = 1 end; selectedIndex = (page - 1) * pageSize + 1 end)
+    love.graphics.setColor(0.85, 0.85, 0.85, 1)
+    love.graphics.print(string.format("%d / %d", page, totalPages), listX + 40, listY + 11)
+    drawButton("nextPage", listX + listW - 32, listY + 8, 24, 22, ">", page < totalPages,
+        function() page = page + 1; if page > totalPages then page = totalPages end; selectedIndex = (page - 1) * pageSize + 1 end)
+
+    -- System list
+    local itemY = listY + 40
+    local itemH = 22
+    local startIdx = (page - 1) * pageSize + 1
+    local endIdx = math.min(startIdx + pageSize - 1, #systems)
+
+    for i = startIdx, endIdx do
+        local sys = systems[i]
+        if not sys then break end
+        local stats = sys.module.getStats()
+        local isSelected = i == selectedIndex
+        local hasBuilding = (stats.numBuildings or 0) > 0
+        local hasMaker = stats.hasMaker
+
+        local rowY = itemY + (i - startIdx) * itemH
+        -- Row background
+        if isSelected then
+            love.graphics.setColor(0.45, 0.36, 0.2, 0.9)
+        elseif hasBuilding and hasMaker then
+            love.graphics.setColor(0.2, 0.3, 0.18, 0.5)
+        else
+            love.graphics.setColor(0.12, 0.1, 0.08, 0.4)
+        end
+        love.graphics.rectangle("fill", listX + 4, rowY, listW - 8, itemH - 2, 2, 2, 2, 2)
+
+        -- Status indicator dot
+        if hasBuilding and hasMaker then
+            love.graphics.setColor(0.3, 1, 0.3, 1)
+        elseif hasBuilding or hasMaker then
+            love.graphics.setColor(1, 0.85, 0.3, 1)
+        else
+            love.graphics.setColor(0.5, 0.5, 0.5, 0.5)
+        end
+        love.graphics.circle("fill", listX + 14, rowY + (itemH - 2) / 2, 4)
+
+        -- Name
+        love.graphics.setColor(1, 1, 1, 0.92)
+        local displayName = sys.name
+        if #displayName > 22 then displayName = displayName:sub(1, 20) .. ".." end
+        love.graphics.print(displayName, listX + 24, rowY + 4)
+
+        -- Mini stats
+        love.graphics.setColor(0.7, 0.7, 0.7, 0.8)
+        local mini = string.format("B%d P%d", stats.numBuildings or 0, stats.totalProducts or 0)
+        love.graphics.print(mini, listX + listW - 60, rowY + 4)
+
+        -- Click area
+        registerClick("sys_" .. i, listX + 4, rowY, listW - 8, itemH - 2,
+            function() selectedIndex = i end)
+    end
+
+    -- Right column: details of selected system
+    love.graphics.setColor(0.15, 0.12, 0.08, 0.7)
+    love.graphics.rectangle("fill", detailX, detailY, detailW, detailH, 4, 4, 4, 4)
+    love.graphics.setColor(0.5, 0.4, 0.25, 0.6)
+    love.graphics.rectangle("line", detailX, detailY, detailW, detailH, 4, 4, 4, 4)
+
+    local selSys = systems[selectedIndex]
+    if not selSys then
+        love.graphics.setColor(0.7, 0.7, 0.7, 1)
+        love.graphics.print("Izberi sistem na levi.", detailX + 16, detailY + 16)
+    else
+        local stats = selSys.module.getStats()
+        local cats = Registry.getCatalogs(selSys.key) or { products = {}, buildings = {} }
+        local cat = Registry.getCatalogs(selSys.key)
+        local products = cat and cat.products or {}
+        local buildings = cat and cat.buildings or {}
+
+        -- Header
+        love.graphics.setColor(1, 0.92, 0.7, 1)
+        love.graphics.print(selSys.name, detailX + 16, detailY + 12)
+        love.graphics.setColor(0.7, 0.7, 0.7, 1)
+        love.graphics.print("(key: " .. selSys.key .. ")", detailX + 16 + font:getWidth(selSys.name) + 10, detailY + 14)
+
+        -- Stats block
+        local y = detailY + 40
+        love.graphics.setColor(0.85, 0.85, 0.85, 1)
+        love.graphics.print(string.format("Mojster: %s (spretnost %d)",
+            stats.makerName or "—", stats.makerSkill or 0), detailX + 16, y)
+        y = y + 20
+        love.graphics.print(string.format("Zgradbe: %d  |  Aktivne izdelave: %d  |  Skupaj produktov: %d",
+            stats.numBuildings or 0, stats.activeMaking or 0, stats.totalProducts or 0), detailX + 16, y)
+        y = y + 20
+
+        -- Stock display
+        love.graphics.setColor(0.6, 0.6, 0.6, 1)
+        love.graphics.print("Zaloga produktov:", detailX + 16, y)
+        y = y + 18
+        local stockShown = 0
+        for prodId, qty in pairs(stats.productStock or {}) do
+            if stockShown >= 6 then
+                love.graphics.print("... (več v zalogi)", detailX + 32, y)
+                y = y + 16
+                break
+            end
+            love.graphics.setColor(0.8, 0.8, 0.7, 1)
+            love.graphics.print(string.format("• %s: %d", prodId, qty), detailX + 32, y)
+            y = y + 16
+            stockShown = stockShown + 1
+        end
+        if stockShown == 0 then
+            love.graphics.setColor(0.5, 0.5, 0.5, 1)
+            love.graphics.print("(prazna zaloga)", detailX + 32, y)
+            y = y + 16
+        end
+
+        -- Resources block
+        y = y + 8
+        love.graphics.setColor(0.6, 0.6, 0.6, 1)
+        love.graphics.print("Surovine v delavnici:", detailX + 16, y)
+        y = y + 18
+        local res = {
+            { "Železo", stats.ironStock },
+            { "Bron", stats.bronzeStock },
+            { "Les", stats.woodStock },
+            { "Usnje", stats.leatherStock },
+            { "Srebro", stats.silverStock },
+            { "Zlato", stats.goldStock },
+            { "Dragulji", stats.jewelStock },
+            { "Biseri", stats.pearlStock },
+        }
+        for i, r in ipairs(res) do
+            if r[2] ~= nil then
+                local col = (i - 1) % 4
+                local row = math.floor((i - 1) / 4)
+                local rx = detailX + 32 + col * 100
+                local ry = y + row * 16
+                love.graphics.setColor(0.85, 0.85, 0.85, 1)
+                love.graphics.print(string.format("%s: %d", r[1], r[2]), rx, ry)
+            end
+        end
+        y = y + 40
+
+        -- Action buttons
+        y = y + 8
+        love.graphics.setColor(0.95, 0.85, 0.5, 1)
+        love.graphics.print("Akcije", detailX + 16, y)
+        y = y + 22
+
+        local btnW = 200
+        local btnH = 28
+        local gap = 8
+
+        -- Hire maker button (cost: ~600-1100 gold)
+        local hireCost = 600 + (stats.makerSkill or 70) * 12
+        local canHire = _G.state and (_G.state.gold or 0) >= hireCost
+        drawButton("hire", detailX + 16, y, btnW, btnH,
+            string.format("Najemi mojstra (%d zlata)", hireCost),
+            canHire and not stats.hasMaker,
+            function()
+                tryAction(function()
+                    local ok, err = Registry.hireMaker(selSys.key)
+                    return ok, err
+                end)
+            end)
+        if stats.hasMaker then
+            love.graphics.setColor(0.5, 0.8, 0.5, 1)
+            love.graphics.print("✓ Mojster najet", detailX + 16 + btnW + 12, y + 6)
+        end
+        y = y + btnH + gap
+
+        -- Build workshop button (find the cheapest building from BUILDINGS table)
+        local firstBuildingId, firstBuildingCost = nil, math.huge
+        for bid, b in pairs(buildings) do
+            local cost = (b.cost and b.cost.gold) or 0
+            if cost < firstBuildingCost then
+                firstBuildingCost = cost
+                firstBuildingId = bid
+            end
+        end
+        if firstBuildingId then
+            local canBuild = _G.state and (_G.state.gold or 0) >= firstBuildingCost
+            drawButton("build", detailX + 16, y, btnW, btnH,
+                string.format("Zgradi delavnico (%d zlata)", firstBuildingCost),
+                canBuild and (stats.numBuildings or 0) == 0,
+                function()
+                    tryAction(function()
+                        local ok, err = Registry.build(selSys.key, firstBuildingId)
+                        return ok, err
+                    end)
+                end)
+            if (stats.numBuildings or 0) > 0 then
+                love.graphics.setColor(0.5, 0.8, 0.5, 1)
+                love.graphics.print("✓ Delavnica zgrajena", detailX + 16 + btnW + 12, y + 6)
+            end
+            y = y + btnH + gap
+        end
+
+        -- Make first product button (find the cheapest product from PRODUCTS table)
+        local firstProductId, firstProductName = nil, nil
+        local firstProductCost = math.huge
+        for pid, p in pairs(products) do
+            local cost = p.cost or 0
+            if cost < firstProductCost then
+                firstProductCost = cost
+                firstProductId = pid
+                firstProductName = p.name
+            end
+        end
+        if firstProductId then
+            local canMake = (stats.numBuildings or 0) > 0 and stats.hasMaker
+            drawButton("make", detailX + 16, y, btnW, btnH,
+                string.format("Izdelaj: %s", firstProductName or firstProductId),
+                canMake,
+                function()
+                    tryAction(function()
+                        local ok, err = Registry.make(selSys.key, firstProductId, 1)
+                        return ok, err
+                    end)
+                end)
+            if not canMake then
+                love.graphics.setColor(0.8, 0.7, 0.4, 1)
+                local reason = (stats.numBuildings or 0) == 0 and "Potrebna delavnica" or "Potreben mojster"
+                love.graphics.print(reason, detailX + 16 + btnW + 12, y + 6)
+            end
+            y = y + btnH + gap
+        end
+
+        -- Quick build all 4 buildings
+        drawButton("buildAll", detailX + 16, y, btnW, btnH,
+            "Zgradi vse 4 zgradbe",
+            _G.state and (_G.state.gold or 0) >= 30000,
+            function()
+                tryAction(function()
+                    local built = 0
+                    for bid, _ in pairs(buildings) do
+                        local ok, _ = Registry.build(selSys.key, bid)
+                        if ok then built = built + 1 end
+                    end
+                    return true, string.format("Zgradih %d zgradb", built)
+                end)
+            end)
+        y = y + btnH + gap
+
+        -- Sell all stock button
+        drawButton("sellAll", detailX + 16, y, btnW, btnH,
+            "Prodaj vso zalogo",
+            (stats.totalProducts or 0) > 0,
+            function()
+                tryAction(function()
+                    local totalSold = 0
+                    local totalGold = 0
+                    local stock = stats.productStock or {}
+                    -- Re-read stock because stats is a snapshot
+                    local freshStats = selSys.module.getStats()
+                    for pid, qty in pairs(freshStats.productStock or {}) do
+                        local prod = products[pid]
+                        if prod and prod.cost then
+                            local gold = prod.cost * qty
+                            totalGold = totalGold + gold
+                            totalSold = totalSold + qty
+                            -- Clear stock
+                            selSys.module.productStock[pid] = 0
+                        end
+                    end
+                    if _G.state then
+                        _G.state.gold = (_G.state.gold or 0) + totalGold
+                    end
+                    return true, string.format("Prodano %d izdelkov za %d zlata", totalSold, totalGold)
+                end)
+            end)
+        y = y + btnH + gap
+
+        -- Add resources button (sandbox/testing - adds 10 of each resource)
+        drawButton("addRes", detailX + 16, y, btnW, btnH,
+            "Dodaj surovine (test)",
+            true,
+            function()
+                tryAction(function()
+                    local m = selSys.module
+                    if m.ironStock then m.ironStock = m.ironStock + 20 end
+                    if m.bronzeStock then m.bronzeStock = m.bronzeStock + 20 end
+                    if m.woodStock then m.woodStock = m.woodStock + 20 end
+                    if m.leatherStock then m.leatherStock = m.leatherStock + 20 end
+                    if m.silverStock then m.silverStock = m.silverStock + 20 end
+                    if m.goldStock then m.goldStock = m.goldStock + 20 end
+                    if m.jewelStock then m.jewelStock = m.jewelStock + 20 end
+                    if m.pearlStock then m.pearlStock = m.pearlStock + 20 end
+                    return true, "Dodane surovine"
+                end)
+            end)
+    end
+
+    -- Action feedback message
+    if actionMessage ~= "" then
+        love.graphics.setColor(0, 0, 0, 0.7)
+        local msgW = font:getWidth(actionMessage) + 20
+        love.graphics.rectangle("fill", panelX + (panelW - msgW) / 2, panelY + panelH - 36, msgW, 24, 4, 4, 4, 4)
+        love.graphics.setColor(1, 0.95, 0.7, 1)
+        love.graphics.print(actionMessage, panelX + (panelW - font:getWidth(actionMessage)) / 2, panelY + panelH - 30)
+    end
+
+    love.graphics.setColor(1, 1, 1, 1)
+end
+
+function RoyalPanel.keypressed(key, scancode, isrepeat)
+    if not visible then return false end
+
+    if key == "r" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+        RoyalPanel.toggle()
+        return true
+    end
+
+    if key == "escape" then
+        RoyalPanel.toggle()
+        return true
+    end
+
+    if key == "left" or key == "a" then
+        if page > 1 then
+            page = page - 1
+            selectedIndex = (page - 1) * pageSize + 1
+        end
+        return true
+    end
+    if key == "right" or key == "d" then
+        if page < totalPages then
+            page = page + 1
+            selectedIndex = (page - 1) * pageSize + 1
+        end
+        return true
+    end
+    if key == "up" or key == "w" then
+        if selectedIndex > 1 then
+            selectedIndex = selectedIndex - 1
+            -- Adjust page if needed
+            local newPage = math.ceil(selectedIndex / pageSize)
+            if newPage ~= page then page = newPage end
+        end
+        return true
+    end
+    if key == "down" or key == "s" then
+        local systems = Registry.getSystems()
+        if selectedIndex < #systems then
+            selectedIndex = selectedIndex + 1
+            local newPage = math.ceil(selectedIndex / pageSize)
+            if newPage ~= page then page = newPage end
+        end
+        return true
+    end
+
+    return false
+end
+
+function RoyalPanel.mousepressed(x, y, button)
+    if not visible then return false end
+    if button ~= 1 then return false end
+
+    for _, area in ipairs(clickAreas) do
+        if x >= area.x and x <= area.x + area.w and y >= area.y and y <= area.y + area.h then
+            if area.action then
+                area.action()
+            end
+            return true
+        end
+    end
+
+    -- Click outside panel closes it
+    local screenW, screenH = love.graphics.getDimensions()
+    local panelW = math.min(LAYOUT.panelW, screenW - 40)
+    local panelH = math.min(LAYOUT.panelH, screenH - 40)
+    local panelX = (screenW - panelW) / 2
+    local panelY = (screenH - panelH) / 2
+    if x < panelX or x > panelX + panelW or y < panelY or y > panelY + panelH then
+        RoyalPanel.toggle()
+        return true
+    end
+
+    return false
+end
+
+return RoyalPanel

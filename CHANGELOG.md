@@ -2,6 +2,57 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.386] — 2026-08-11 — Royal Prospecting Pan Maker System (6 products, prospecting pans)
+## [v3.11.385] — 2026-08-11 — Royal Mining Chisel Maker System (6 products, mining chisels)
+## [v3.11.384] — 2026-08-11 — Royal Auger Maker System (6 products, augers)
+## [v3.11.383] — 2026-08-11 — Royal Shovel Maker System (6 products, shovels)
+## [v3.11.382] — 2026-08-11 — Royal Pickaxe Maker System (6 products, pickaxes) + Royal Systems Registry + UI Panel (Ctrl+R)
+
+### Dodano (v3.11.382-v3.11.386 — 5 rudarskih sistemov + UI integracija)
+
+#### v3.11.382 - Royal Pickaxe Maker System
+- **6 produktov** (železno kramp, bronast kramp, srebrni kramp, pozlačeni kramp, draguljasti kramp, kraljevski suvereni kramp)
+- **4 zgradbe** (rudarska delavnica, rudarska hiša, mojstrski rudarski atelje, suverena rudarska palača)
+- Iron, bronze, wood, leather, silver, gold, jewel, pearl supply, prestige (2-65), happiness (1-12), batch qty 1
+- Maker: Krampar, hire base 580 gold
+
+#### v3.11.383 - Royal Shovel Maker System
+- **6 produktov** (železna lopata, bronasta lopata, srebrna lopata, pozlačena lopata, draguljasta lopata, kraljevski suverena lopata)
+- **4 zgradbe** (lopatarska delavnica, lopatarska hiša, mojstrski lopatarski atelje, suverena izkopavalna palača)
+- Maker: Lopatar, hire base 560 gold
+
+#### v3.11.384 - Royal Auger Maker System
+- **6 produktov** (železni sveder, bronast sveder, srebrni sveder, pozlačeni sveder, draguljasti sveder, kraljevski suvereni sveder)
+- **4 zgradbe** (vrtalna delavnica, vrtalna hiša, mojstrski vrtalni atelje, suverena vrtalna palača)
+- Maker: Svedrar, hire base 590 gold
+
+#### v3.11.385 - Royal Mining Chisel Maker System
+- **6 produktov** (železno dleto, bronasto dleto, srebrno dleto, pozlačeno dleto, draguljasto dleto, kraljevsko suvereno dleto)
+- **4 zgradbe** (dletarska delavnica, dletarska hiša, mojstrski dletarski atelje, suverena klesarska palača)
+- Maker: Dletar, hire base 570 gold
+
+#### v3.11.386 - Royal Prospecting Pan Maker System
+- **6 produktov** (železni porabnik, bronast porabnik, srebrni porabnik, pozlačeni porabnik, draguljasti porabnik, kraljevski suvereni porabnik)
+- **4 zgradbe** (prospekcijska delavnica, prospektorska hiša, mojstrski prospekcijski atelje, suverena prospekcijska palača)
+- Maker: Prospektor, hire base 595 gold
+
+#### v3.11.382 - Royal Systems Registry + UI Panel (glavna nadgradnja)
+- **`objects/Economy/RoyalSystemsRegistry.lua`** — centralen manager, ki:
+  - Auto-discovers vseh 347+ Royal Maker sistemov iz S tabele
+  - Prebere PRODUCTS in BUILDINGS tabele preko `debug.getupvalue`
+  - Hook-a vsak sistemski `completeMaking()` in ob končanem produktu:
+    - Dodeli igralcu bonus zlato = prestige × 10 (real game effect)
+    - Pri visoko-happiness produktih (≥5) dvigne popularity za +1
+  - Aggregira statistike čez vse sisteme
+- **`states/ui/hud/royal_systems_panel.lua`** — full-screen UI panel (toggle s Ctrl+R):
+  - Paginiran seznam vseh 347+ sistemov (12 na stran) z status dot-i
+  - Detail panel z statistikami, zalogo, surovinami
+  - Action gumbi: najemi mojster, zgradi delavnico, izdelaj produkt, zgradi vse, prodaj zalogo, dodaj surovine
+  - Keyboard navigation (puščice/WASD), ESC za zapretje, klik izven panela zapre
+- **`states/game.lua`** — povezava Registry + Panel (require, init, update, draw, keypressed, mousepressed)
+- **`states/ui/hud/keybind_help.lua`** — dodana Ctrl+R bližnjica v EKONOMIJA kategorijo
+- **`scripts/test_registry.lua`** — test skripta (poženi z lupa) ki preverja delovanje Registry-ja
+
 ## [v3.11.381] — 2026-08-10 — Royal Angelus Bell Maker System (6 products, angelus bells)
 ## [v3.11.380] — 2026-08-10 — Royal Tubular Bells Maker System (6 products, tubular bells)
 ## [v3.11.379] — 2026-08-10 — Royal Handbell Maker System (6 products, handbells)
