@@ -2,6 +2,35 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.571] — 2026-08-11 — Royal Millstone Crane Maker System (6 products, millstone cranes)
+## [v3.11.570] — 2026-08-11 — Royal Grain Probe Maker System (6 products, grain probes)
+## [v3.11.569] — 2026-08-11 — Royal Flour Sack Maker System (6 products, flour sacks)
+## [v3.11.568] — 2026-08-11 — Royal Sack Stitcher Maker System (6 products, sack stitchers)
+## [v3.11.567] — 2026-08-11 — Royal Hopper Scale Maker System (6 products, hopper scales)
+## [v3.11.566] — 2026-08-11 — Royal Slack Tub Maker System (6 products, slack tubs)
+## [v3.11.565] — 2026-08-11 — Royal Quench Bucket Maker System (6 products, quench buckets)
+## [v3.11.564] — 2026-08-11 — Royal Tongs Rest Maker System (6 products, tongs rests)
+## [v3.11.563] — 2026-08-11 — Royal Ash Shovel Maker System (6 products, ash shovels)
+## [v3.11.562] — 2026-08-11 — Royal Forge Rake Maker System (6 products, forge rakes)
+
+### Dodano (v3.11.562-v3.11.571 — 10 sistemov: kovaški dodatki 2 + mlinarski dodatki 2)
+
+#### v3.11.562-v3.11.566 — Kovaški dodatki 2 (5 sistemov)
+- v3.11.562: ForgeRakeMaker (Grebar) — grebalci za kovaško ognjišče
+- v3.11.563: AshShovelMaker (Pepelar) — lopate za pepel
+- v3.11.564: TongsRestMaker (Stojalar) — stojala za klešče
+- v3.11.565: QuenchBucketMaker (Kalilec) — vedra za kaljenje
+- v3.11.566: SlackTubMaker (Ohlajevalec) — kadi za ohlajanje
+
+#### v3.11.567-v3.11.571 — Mlinarski dodatki 2 (5 sistemov)
+- v3.11.567: HopperScaleMaker (Tehtar) — tehtnice za lijake
+- v3.11.568: SackStitcherMaker (Šivar) — šivci za vreče
+- v3.11.569: FlourSackMaker (Vrečkar) — vreče za moko
+- v3.11.570: GrainProbeMaker (Sondar) — sonde za žito
+- v3.11.571: MillstoneCraneMaker (Dvigalec) — dvigala za mlinske kamne
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
 ## [v3.11.561] — 2026-08-11 — Royal Hat Band Buckle Maker System (6 products, hat band buckles)
 ## [v3.11.560] — 2026-08-11 — Royal Hat Lining Maker System (6 products, hat linings)
 ## [v3.11.559] — 2026-08-11 — Royal Hat Stretcher Maker System (6 products, hat stretchers)

@@ -1,17 +1,17 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.561**
-- Skupaj Royal sistemov: **649**
-- Skupaj Lua datotek: **1298**
-- Sintaktična preverba: **1295/1298 pass** (3 znani false positives: moonscript.lua, test.lua, grid.lua)
+- Različica: **v3.11.571**
+- Skupaj Royal sistemov: **659**
+- Skupaj Lua datotek: **1308**
+- Sintaktična preverba: **1305/1308 pass** (3 znani false positives: moonscript.lua, test.lua, grid.lua)
 - GitHub: sinhroniziran (vsi tagi pushani)
 - Lokalni repo: `/home/z/my-project/castlekingdoms2027`
 - .love datoteke: `/home/z/my-project/download/`
 
 ## NOVO: Royal Systems Registry + UI Panel (v3.11.382)
 
-Od v3.11.382 projekt vključuje **centralen manager in UI panel**, ki povezuje vse 649 Royal sisteme z igro:
+Od v3.11.382 projekt vključuje **centralen manager in UI panel**, ki povezuje vse 659 Royal sisteme z igro:
 
 - **`objects/Economy/RoyalSystemsRegistry.lua`** — auto-discovers vse sisteme, hook-a `completeMaking()`, dodeli bonus zlato (prestige × 10) ob končanem produktu
 - **`states/ui/hud/royal_systems_panel.lua`** — full-screen UI panel (toggle s Ctrl+R), ki omogoča brskanje, najem mojstrov, gradnjo delavnic, izdelavo produktov, prodajo zalog
@@ -27,15 +27,15 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 3. **Grafikon produkcije** — zgodovina proizvodnje v panelu
 4. **Sistemsko odvisnosti** — nekateri sistemi naj zahtevajo druge (npr. BellMaker zahteva Metalwork)
 
-## NASLEDNJI PAKET (v3.11.562–v3.11.566) — KOVAŠKI DODATKI 2
+## NASLEDNJI PAKET (v3.11.572–v3.11.576) — PERESNI DODATKI 2
 
 Ustvari 5 novih sistemov v `/home/z/my-project/castlekingdoms2027/objects/Economy/`:
 
-1. **RoyalForgeRakeMakerSystem.lua** → `local ForgeRakeMaker` (grebalci za kovaško ognjišče)
-2. **RoyalAshShovelMakerSystem.lua** → `local AshShovelMaker` (lopate za pepel)
-3. **RoyalTongsRestMakerSystem.lua** → `local TongsRestMaker` (stojala za klešče)
-4. **RoyalQuenchBucketMakerSystem.lua** → `local QuenchBucketMaker` (vedra za kaljenje)
-5. **RoyalSlackTubMakerSystem.lua** → `local SlackTubMaker` (kadi za ohlajanje)
+1. **RoyalQuillTrimmerMakerSystem.lua** → `local QuillTrimmerMaker` (strižniki peres)
+2. **RoyalInkwellStopperMakerSystem.lua** → `local InkwellStopperMaker` (zamaški za črnilnice)
+3. **RoyalPenRestMakerSystem.lua** → `local PenRestMaker` (počivališča za peresa)
+4. **RoyalInkwellDustCoverMakerSystem.lua** → `local InkwellDustCoverMaker` (prevleke za črnilnice)
+5. **RoyalQuillMenderMakerSystem.lua** → `local QuillMenderMaker` (popravjalci peres)
 
 ## PATTERN ZA VSAK SISTEM
 
@@ -50,47 +50,47 @@ Vsak sistem mora imeti:
 
 ## REGISTRACIJA V states/game.lua
 
-3 točke za vsak sistem (najdi zadnji `S.HatBandBuckleMaker` in dodaj za njim):
+3 točke za vsak sistem (najdi zadnji `S.MillstoneCraneMaker` in dodaj za njim):
 
 ```lua
--- require block (po S.HatBandBuckleMaker = require(...))
-S.ForgeRakeMaker = require("objects.Economy.RoyalForgeRakeMakerSystem")
-S.AshShovelMaker = require("objects.Economy.RoyalAshShovelMakerSystem")
-S.TongsRestMaker = require("objects.Economy.RoyalTongsRestMakerSystem")
-S.QuenchBucketMaker = require("objects.Economy.RoyalQuenchBucketMakerSystem")
-S.SlackTubMaker = require("objects.Economy.RoyalSlackTubMakerSystem")
+-- require block (po S.MillstoneCraneMaker = require(...))
+S.QuillTrimmerMaker = require("objects.Economy.RoyalQuillTrimmerMakerSystem")
+S.InkwellStopperMaker = require("objects.Economy.RoyalInkwellStopperMakerSystem")
+S.PenRestMaker = require("objects.Economy.RoyalPenRestMakerSystem")
+S.InkwellDustCoverMaker = require("objects.Economy.RoyalInkwellDustCoverMakerSystem")
+S.QuillMenderMaker = require("objects.Economy.RoyalQuillMenderMakerSystem")
 
--- init block (po S.HatBandBuckleMaker.init(); ...)
-S.ForgeRakeMaker.init(); _G.ForgeRakeMaker = S.ForgeRakeMaker
-S.AshShovelMaker.init(); _G.AshShovelMaker = S.AshShovelMaker
-S.TongsRestMaker.init(); _G.TongsRestMaker = S.TongsRestMaker
-S.QuenchBucketMaker.init(); _G.QuenchBucketMaker = S.QuenchBucketMaker
-S.SlackTubMaker.init(); _G.SlackTubMaker = S.SlackTubMaker
+-- init block (po S.MillstoneCraneMaker.init(); ...)
+S.QuillTrimmerMaker.init(); _G.QuillTrimmerMaker = S.QuillTrimmerMaker
+S.InkwellStopperMaker.init(); _G.InkwellStopperMaker = S.InkwellStopperMaker
+S.PenRestMaker.init(); _G.PenRestMaker = S.PenRestMaker
+S.InkwellDustCoverMaker.init(); _G.InkwellDustCoverMaker = S.InkwellDustCoverMaker
+S.QuillMenderMaker.init(); _G.QuillMenderMaker = S.QuillMenderMaker
 
--- update block (po S.HatBandBuckleMaker.update(dt))
-S.ForgeRakeMaker.update(dt)
-S.AshShovelMaker.update(dt)
-S.TongsRestMaker.update(dt)
-S.QuenchBucketMaker.update(dt)
-S.SlackTubMaker.update(dt)
+-- update block (po S.MillstoneCraneMaker.update(dt))
+S.QuillTrimmerMaker.update(dt)
+S.InkwellStopperMaker.update(dt)
+S.PenRestMaker.update(dt)
+S.InkwellDustCoverMaker.update(dt)
+S.QuillMenderMaker.update(dt)
 ```
 
 **POMEMBNO:** `RoyalSystemsRegistry.init(S)` se izvede po vseh `init()` klicih, tako da bo auto-discover tudi teh 5 novih sistemov. Ni potrebno ročno registrirati v Registry.
 
 ## WORKFLOW
 
-1. Preveri duplikate: `ls objects/Economy/ | grep -iE "forgerake|ashshovel|tongsrest|quenchbucket|slacktub"` (mora biti prazno)
+1. Preveri duplikate: `ls objects/Economy/ | grep -iE "quilltrimmer|inkwellstopper|penrest|inkwelldustcover|quillmender"` (mora biti prazno)
 2. Ustvari 5 .lua datotek po predlogi (glej spodaj)
 3. Registriraj v states/game.lua (3 točke)
 4. Poženi: `python3 /home/z/my-project/scripts/check_my_changes.py` (za sintaktično preverbo)
-5. Posodobi CHANGELOG.md (dodaj vnose za v3.11.562 do v3.11.566 na vrh)
+5. Posodobi CHANGELOG.md (dodaj vnose za v3.11.572 do v3.11.576 na vrh)
 6. Posodobi README.md badge-je:
-   - version-3.11.561 → version-3.11.566
-   - syntax-1295%2F1298 → syntax-1300%2F1303
-   - Royal%20systems-649 → Royal%20systems-654
-   - Lua%20files-1298 → Lua%20files-1303
-7. Git: commit, tag (v3.11.562 do v3.11.566), push
-8. Build .love: `cd /home/z/my-project/castlekingdoms2027 && zip -r -q /home/z/my-project/download/castlekingdoms2027-v3.11.566.love . -x ".git/*" "tool-results/*" "*.love" ".gitignore" "scripts/lua_syntax_check.py"`
+   - version-3.11.571 → version-3.11.576
+   - syntax-1305%2F1308 → syntax-1310%2F1313
+   - Royal%20systems-659 → Royal%20systems-664
+   - Lua%20files-1308 → Lua%20files-1313
+7. Git: commit, tag (v3.11.572 do v3.11.576), push
+8. Build .love: `cd /home/z/my-project/castlekingdoms2027 && zip -r -q /home/z/my-project/download/castlekingdoms2027-v3.11.576.love . -x ".git/*" "tool-results/*" "*.love" ".gitignore" "scripts/lua_syntax_check.py"`
 
 ## PREDLOGA ZA SISTEM (primer PickaxeMaker, kot referenca)
 
@@ -119,23 +119,23 @@ function PickaxeMaker.getStats() ... end
 return PickaxeMaker
 ```
 
-Za nove 5 sistemov (kovaški dodatki 2) spremeni:
-- Imena produktov (npr. "železni grebalec za ognjišče", "železna lopata za pepel", "železno stojalo za klešče", "železno vedro za kaljenje", "železna kad za ohlajanje")
-- Imena zgradb (grebalna, pepelna, stojalna, kalilna, ohlajevalna delavnica/hiša/atelje/palača)
-- Maker ime (Grebar, Pepelar, Stojalar, Kalilec, Ohlajevalec)
-- Event bus publish (forgerake.completed, ashshovel.completed, tongsrest.completed, quenchbucket.completed, slacktub.completed)
+Za nove 5 sistemov (peresni dodatki 2) spremeni:
+- Imena produktov (npr. "železni strižnik peres", "železni zamašek za črnilnico", "železno počivališče za peresa", "železna prevleka za črnilnico", "železni popravjalec peres")
+- Imena zgradb (strižna, zamašna, počivalna, prevlečna, popravljena delavnica/hiša/atelje/palača)
+- Maker ime (Strižnik, Zamaškar, Počivalec, Prevlekar, Popravljalec)
+- Event bus publish (quilltrimmer.completed, inkwellstopper.completed, penrest.completed, inkwelldustcover.completed, quillmender.completed)
 
 ## SPOROČILO ZA NOVO SEJO
 
 Ko začneš novo sejo, pošlji to sporočilo:
 
 ```
-Nadaljuj z razvojem Castle Kingdoms 2027. Preberi /home/z/my-project/castlekingdoms2027/NEXT_BATCH_HANDOFF.md za popolna navodila. Trenutna različica je v3.11.561. Naslednji paket je v3.11.562–v3.11.566 (kovaški dodatki 2: ForgeRakeMaker, AshShovelMaker, TongsRestMaker, QuenchBucketMaker, SlackTubMaker). Sledi navodilom v handoff dokumentu. Po končanem paketu ročno posodobi NEXT_BATCH_HANDOFF.md z naslednjim paketom (v3.11.567–v3.11.571 — predlagano: mlinarski dodatki 2: HopperScaleMaker, SackStitcherMaker, FlourSackMaker, GrainProbeMaker, MillstoneCraneMaker).
+Nadaljuj z razvojem Castle Kingdoms 2027. Preberi /home/z/my-project/castlekingdoms2027/NEXT_BATCH_HANDOFF.md za popolna navodila. Trenutna različica je v3.11.571. Naslednji paket je v3.11.572–v3.11.576 (peresni dodatki 2: QuillTrimmerMaker, InkwellStopperMaker, PenRestMaker, InkwellDustCoverMaker, QuillMenderMaker). Sledi navodilom v handoff dokumentu. Po končanem paketu ročno posodobi NEXT_BATCH_HANDOFF.md z naslednjim paketom (v3.11.577–v3.11.581 — predlagano: vrtni dodatki 2: GardenForkMaker, HandTrowelMaker, BulbPlanterMaker, GardenLineMaker, ColdFrameMaker).
 ```
 
 ## NASLEDNJI PAKETI (po vrsti)
 
-- v3.11.562–v3.11.566: kovaški dodatki 2 (ForgeRakeMaker, AshShovelMaker, TongsRestMaker, QuenchBucketMaker, SlackTubMaker)
-- v3.11.567–v3.11.571: mlinarski dodatki 2 (HopperScaleMaker, SackStitcherMaker, FlourSackMaker, GrainProbeMaker, MillstoneCraneMaker)
 - v3.11.572–v3.11.576: peresni dodatki 2 (QuillTrimmerMaker, InkwellStopperMaker, PenRestMaker, InkwellDustCoverMaker, QuillMenderMaker)
 - v3.11.577–v3.11.581: vrtni dodatki 2 (GardenForkMaker, HandTrowelMaker, BulbPlanterMaker, GardenLineMaker, ColdFrameMaker)
+- v3.11.582–v3.11.586: pekovski dodatki 2 (DoughDividerMaker, BreadMoldMaker, CrustScorerMaker, LoafPanMaker, CrumbTrayMaker)
+- v3.11.587–v3.11.591: kuhinjski dodatki 2 (EggCupMaker, ButterDishMaker, CheeseDomeMaker, ServingTongsMaker, SugarTongsMaker)
