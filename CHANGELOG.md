@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.711] — 2026-08-12 — Royal Mill Sail Frame Maker System (6 products, mill sail frames)
+## [v3.11.710] — 2026-08-12 — Royal Millstone Bush Maker System (6 products, millstone bushes)
+## [v3.11.709] — 2026-08-12 — Royal Mill Hopper Shaker Maker System (6 products, mill hopper shakers)
+## [v3.11.708] — 2026-08-12 — Royal Grain Spout Maker System (6 products, grain spouts)
+## [v3.11.707] — 2026-08-12 — Royal Millstone Quill Maker System (6 products, millstone quills)
+## [v3.11.706] — 2026-08-12 — Royal Garden Cloche Maker System (6 products, garden cloches)
+## [v3.11.705] — 2026-08-12 — Royal Garden Tool Rack Maker System (6 products, garden tool racks)
+## [v3.11.704] — 2026-08-12 — Royal Garden Watering Tray Maker System (6 products, garden watering trays)
+## [v3.11.703] — 2026-08-12 — Royal Plant Support Stake Maker System (6 products, plant support stakes)
+## [v3.11.702] — 2026-08-12 — Royal Garden Sieve Frame Maker System (6 products, garden sieve frames)
+
+### Dodano (v3.11.702-v3.11.711 — 10 sistemov: vrtni dodatki 6 + mlinarski dodatki 6)
+
+#### v3.11.702-v3.11.706 — Vrtni dodatki 6 (5 sistemov)
+- v3.11.702: GardenSieveFrameMaker (Okvirnik) — okvirji za sita
+- v3.11.703: PlantSupportStakeMaker (Kolčkar) — kolčki za oporo rastlin
+- v3.11.704: GardenWateringTrayMaker (Pladnjar) — pladnji za zalivanje
+- v3.11.705: GardenToolRackMaker (Stojalnik) — stojala za vrtno orodje
+- v3.11.706: GardenClocheMaker (Pokrovnik) — stekleni pokrovi za rastline
+
+#### v3.11.707-v3.11.711 — Mlinarski dodatki 6 (5 sistemov)
+- v3.11.707: MillstoneQuillMaker (Vretenar) — vretena mlinskih kamnov
+- v3.11.708: GrainSpoutMaker (Žlivkar) — žlivi za žito
+- v3.11.709: MillHopperShakerMaker (Treskar) — tresoče stresalo za lijak
+- v3.11.710: MillstoneBushMaker (Ležajnik) — ležajni bush-i za mlinske kamne
+- v3.11.711: MillSailFrameMaker (Jedrnik) — okvirji za jedra mlina
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
+Pre-flight check: pred generiranjem je bila preverjena git zgodovina za vseh 10 datotek — vse so imele 0 prior commits in so bile odsotne iz workdir. Brez duplikatov.
+
 ## [v3.11.701] — 2026-08-12 — Royal Blacksmith Vise Maker System (6 products, blacksmith vises)
 ## [v3.11.700] — 2026-08-12 — Royal Forge Chimney Damper Maker System (6 products, forge chimney dampers)
 ## [v3.11.699] — 2026-08-12 — Royal Slack Tub Hood Maker System (6 products, slack tub hoods)
