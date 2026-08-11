@@ -2,6 +2,35 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.501] — 2026-08-11 — Royal Scent Cone Maker System (6 products, scent cones)
+## [v3.11.500] — 2026-08-11 — Royal Potpourri Bowl Maker System (6 products, potpourri bowls)
+## [v3.11.499] — 2026-08-11 — Royal Sachet Maker System (6 products, sachets)
+## [v3.11.498] — 2026-08-11 — Royal Perfume Bottle Maker System (6 products, perfume bottles)
+## [v3.11.497] — 2026-08-11 — Royal Incense Molder Maker System (6 products, incense molders)
+## [v3.11.496] — 2026-08-11 — Royal Tailpiece Maker System (6 products, tailpieces)
+## [v3.11.495] — 2026-08-11 — Royal Soundpost Maker System (6 products, soundposts)
+## [v3.11.494] — 2026-08-11 — Royal Bridge Maker System (6 products, bridges)
+## [v3.11.493] — 2026-08-11 — Royal Tuning Pin Maker System (6 products, tuning pins)
+## [v3.11.492] — 2026-08-11 — Royal String Winder Maker System (6 products, string winders)
+
+### Dodano (v3.11.492-v3.11.501 — 10 sistemov: glasbena oprema + aromatska oprema)
+
+#### v3.11.492-v3.11.496 — Glasbena oprema (5 sistemov)
+- v3.11.492: StringWinderMaker (Navijalec) — navijalci strun
+- v3.11.493: TuningPinMaker (Čivkar) — uglaševalni čivki
+- v3.11.494: BridgeMaker (Mostičar) — mostički za glasbila
+- v3.11.495: SoundpostMaker (Zvočar) — zvočni stebrički
+- v3.11.496: TailpieceMaker (Repnik) — repniki za strune
+
+#### v3.11.497-v3.11.501 — Aromatska oprema (5 sistemov)
+- v3.11.497: IncenseMolderMaker (Kadilar) — oblikovalci kadila
+- v3.11.498: PerfumeBottleMaker (Stekleničar) — stekleničke za parfume
+- v3.11.499: SachetMaker (Vrečkar) — voščene vrečice
+- v3.11.500: PotpourriBowlMaker (Skledar) — sklede za potpurije
+- v3.11.501: ScentConeMaker (Stožčar) — stožci za dišave
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
 ## [v3.11.491] — 2026-08-11 — Royal Coin Scale Maker System (6 products, coin scales)
 ## [v3.11.490] — 2026-08-11 — Royal Coin Sorter Maker System (6 products, coin sorters)
 ## [v3.11.489] — 2026-08-11 — Royal Coin Blank Maker System (6 products, coin blanks)

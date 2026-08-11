@@ -799,6 +799,18 @@ S.CoinDieMaker = require("objects.Economy.RoyalCoinDieMakerSystem")
 S.CoinBlankMaker = require("objects.Economy.RoyalCoinBlankMakerSystem")
 S.CoinSorterMaker = require("objects.Economy.RoyalCoinSorterMakerSystem")
 S.CoinScaleMaker = require("objects.Economy.RoyalCoinScaleMakerSystem")
+-- Castle Kingdoms 2027 v3.11.492-v3.11.496: Musical instrument parts batch (5 new Royal systems)
+S.StringWinderMaker = require("objects.Economy.RoyalStringWinderMakerSystem")
+S.TuningPinMaker = require("objects.Economy.RoyalTuningPinMakerSystem")
+S.BridgeMaker = require("objects.Economy.RoyalBridgeMakerSystem")
+S.SoundpostMaker = require("objects.Economy.RoyalSoundpostMakerSystem")
+S.TailpieceMaker = require("objects.Economy.RoyalTailpieceMakerSystem")
+-- Castle Kingdoms 2027 v3.11.497-v3.11.501: Aromatic equipment batch (5 new Royal systems)
+S.IncenseMolderMaker = require("objects.Economy.RoyalIncenseMolderMakerSystem")
+S.PerfumeBottleMaker = require("objects.Economy.RoyalPerfumeBottleMakerSystem")
+S.SachetMaker = require("objects.Economy.RoyalSachetMakerSystem")
+S.PotpourriBowlMaker = require("objects.Economy.RoyalPotpourriBowlMakerSystem")
+S.ScentConeMaker = require("objects.Economy.RoyalScentConeMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -2024,6 +2036,18 @@ local function delayedInit()
     S.CoinBlankMaker.init(); _G.CoinBlankMaker = S.CoinBlankMaker
     S.CoinSorterMaker.init(); _G.CoinSorterMaker = S.CoinSorterMaker
     S.CoinScaleMaker.init(); _G.CoinScaleMaker = S.CoinScaleMaker
+    -- Castle Kingdoms 2027 v3.11.492-v3.11.496: Musical instrument parts batch init
+    S.StringWinderMaker.init(); _G.StringWinderMaker = S.StringWinderMaker
+    S.TuningPinMaker.init(); _G.TuningPinMaker = S.TuningPinMaker
+    S.BridgeMaker.init(); _G.BridgeMaker = S.BridgeMaker
+    S.SoundpostMaker.init(); _G.SoundpostMaker = S.SoundpostMaker
+    S.TailpieceMaker.init(); _G.TailpieceMaker = S.TailpieceMaker
+    -- Castle Kingdoms 2027 v3.11.497-v3.11.501: Aromatic equipment batch init
+    S.IncenseMolderMaker.init(); _G.IncenseMolderMaker = S.IncenseMolderMaker
+    S.PerfumeBottleMaker.init(); _G.PerfumeBottleMaker = S.PerfumeBottleMaker
+    S.SachetMaker.init(); _G.SachetMaker = S.SachetMaker
+    S.PotpourriBowlMaker.init(); _G.PotpourriBowlMaker = S.PotpourriBowlMaker
+    S.ScentConeMaker.init(); _G.ScentConeMaker = S.ScentConeMaker
     -- Castle Kingdoms 2027 v3.11.382: Initialize Royal Systems Registry (auto-discovers all 347+ systems)
     RoyalSystemsRegistry.init(S)
     _G.RoyalSystemsRegistry = RoyalSystemsRegistry
@@ -2994,6 +3018,18 @@ function game:update(dt)
                 S.CoinBlankMaker.update(dt)
                 S.CoinSorterMaker.update(dt)
                 S.CoinScaleMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.492-v3.11.496: Musical instrument parts batch update
+                S.StringWinderMaker.update(dt)
+                S.TuningPinMaker.update(dt)
+                S.BridgeMaker.update(dt)
+                S.SoundpostMaker.update(dt)
+                S.TailpieceMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.497-v3.11.501: Aromatic equipment batch update
+                S.IncenseMolderMaker.update(dt)
+                S.PerfumeBottleMaker.update(dt)
+                S.SachetMaker.update(dt)
+                S.PotpourriBowlMaker.update(dt)
+                S.ScentConeMaker.update(dt)
                 -- Castle Kingdoms 2027 v3.11.382: Royal Systems Registry aggregates stats + grants bonus gold
                 RoyalSystemsRegistry.update(dt)
                 RoyalSystemsPanel.update(dt)
