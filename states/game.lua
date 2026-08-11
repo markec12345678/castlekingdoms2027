@@ -775,6 +775,18 @@ S.GlassColorantMaker = require("objects.Economy.RoyalGlassColorantMakerSystem")
 S.GlassSeedMaker = require("objects.Economy.RoyalGlassSeedMakerSystem")
 S.GlassRibbonMaker = require("objects.Economy.RoyalGlassRibbonMakerSystem")
 S.GlassFritMaker = require("objects.Economy.RoyalGlassFritMakerSystem")
+-- Castle Kingdoms 2027 v3.11.472-v3.11.476: Weaving equipment batch (5 new Royal systems)
+S.LoomHeddleMaker = require("objects.Economy.RoyalLoomHeddleMakerSystem")
+S.ShuttleMaker = require("objects.Economy.RoyalShuttleMakerSystem")
+S.BobbinWinderMaker = require("objects.Economy.RoyalBobbinWinderMakerSystem")
+S.WarpBeamMaker = require("objects.Economy.RoyalWarpBeamMakerSystem")
+S.ClothPresserMaker = require("objects.Economy.RoyalClothPresserMakerSystem")
+-- Castle Kingdoms 2027 v3.11.477-v3.11.481: Bookbinding equipment batch (5 new Royal systems)
+S.BookPressMaker = require("objects.Economy.RoyalBookPressMakerSystem")
+S.StitchingAwlMaker = require("objects.Economy.RoyalStitchingAwlMakerSystem")
+S.BindingCordMaker = require("objects.Economy.RoyalBindingCordMakerSystem")
+S.LeatherCoverMaker = require("objects.Economy.RoyalLeatherCoverMakerSystem")
+S.GildingPressMaker = require("objects.Economy.RoyalGildingPressMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1976,6 +1988,18 @@ local function delayedInit()
     S.GlassSeedMaker.init(); _G.GlassSeedMaker = S.GlassSeedMaker
     S.GlassRibbonMaker.init(); _G.GlassRibbonMaker = S.GlassRibbonMaker
     S.GlassFritMaker.init(); _G.GlassFritMaker = S.GlassFritMaker
+    -- Castle Kingdoms 2027 v3.11.472-v3.11.476: Weaving equipment batch init
+    S.LoomHeddleMaker.init(); _G.LoomHeddleMaker = S.LoomHeddleMaker
+    S.ShuttleMaker.init(); _G.ShuttleMaker = S.ShuttleMaker
+    S.BobbinWinderMaker.init(); _G.BobbinWinderMaker = S.BobbinWinderMaker
+    S.WarpBeamMaker.init(); _G.WarpBeamMaker = S.WarpBeamMaker
+    S.ClothPresserMaker.init(); _G.ClothPresserMaker = S.ClothPresserMaker
+    -- Castle Kingdoms 2027 v3.11.477-v3.11.481: Bookbinding equipment batch init
+    S.BookPressMaker.init(); _G.BookPressMaker = S.BookPressMaker
+    S.StitchingAwlMaker.init(); _G.StitchingAwlMaker = S.StitchingAwlMaker
+    S.BindingCordMaker.init(); _G.BindingCordMaker = S.BindingCordMaker
+    S.LeatherCoverMaker.init(); _G.LeatherCoverMaker = S.LeatherCoverMaker
+    S.GildingPressMaker.init(); _G.GildingPressMaker = S.GildingPressMaker
     -- Castle Kingdoms 2027 v3.11.382: Initialize Royal Systems Registry (auto-discovers all 347+ systems)
     RoyalSystemsRegistry.init(S)
     _G.RoyalSystemsRegistry = RoyalSystemsRegistry
@@ -2922,6 +2946,18 @@ function game:update(dt)
                 S.GlassSeedMaker.update(dt)
                 S.GlassRibbonMaker.update(dt)
                 S.GlassFritMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.472-v3.11.476: Weaving equipment batch update
+                S.LoomHeddleMaker.update(dt)
+                S.ShuttleMaker.update(dt)
+                S.BobbinWinderMaker.update(dt)
+                S.WarpBeamMaker.update(dt)
+                S.ClothPresserMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.477-v3.11.481: Bookbinding equipment batch update
+                S.BookPressMaker.update(dt)
+                S.StitchingAwlMaker.update(dt)
+                S.BindingCordMaker.update(dt)
+                S.LeatherCoverMaker.update(dt)
+                S.GildingPressMaker.update(dt)
                 -- Castle Kingdoms 2027 v3.11.382: Royal Systems Registry aggregates stats + grants bonus gold
                 RoyalSystemsRegistry.update(dt)
                 RoyalSystemsPanel.update(dt)

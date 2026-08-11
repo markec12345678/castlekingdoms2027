@@ -2,6 +2,35 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.481] — 2026-08-11 — Royal Gilding Press Maker System (6 products, gilding presses)
+## [v3.11.480] — 2026-08-11 — Royal Leather Cover Maker System (6 products, leather covers)
+## [v3.11.479] — 2026-08-11 — Royal Binding Cord Maker System (6 products, binding cords)
+## [v3.11.478] — 2026-08-11 — Royal Stitching Awl Maker System (6 products, stitching awls)
+## [v3.11.477] — 2026-08-11 — Royal Book Press Maker System (6 products, book presses)
+## [v3.11.476] — 2026-08-11 — Royal Cloth Presser Maker System (6 products, cloth pressers)
+## [v3.11.475] — 2026-08-11 — Royal Warp Beam Maker System (6 products, warp beams)
+## [v3.11.474] — 2026-08-11 — Royal Bobbin Winder Maker System (6 products, bobbin winders)
+## [v3.11.473] — 2026-08-11 — Royal Shuttle Maker System (6 products, shuttles)
+## [v3.11.472] — 2026-08-11 — Royal Loom Heddle Maker System (6 products, loom heddles)
+
+### Dodano (v3.11.472-v3.11.481 — 10 sistemov: tkalska oprema + knjigoveška oprema)
+
+#### v3.11.472-v3.11.476 — Tkalska oprema (5 sistemov)
+- v3.11.472: LoomHeddleMaker (Listar) — listovnice za statve
+- v3.11.473: ShuttleMaker (Čolničar) — čolničke za tkanje
+- v3.11.474: BobbinWinderMaker (Navijalec) — navijalce vretencev
+- v3.11.475: WarpBeamMaker (Gredičar) — osnovne gredice
+- v3.11.476: ClothPresserMaker (Stiskalec) — stiskalce tkinin
+
+#### v3.11.477-v3.11.481 — Knjigoveška oprema (5 sistemov)
+- v3.11.477: BookPressMaker (Stiskar) — stiskalce knjig
+- v3.11.478: StitchingAwlMaker (Šilar) — šivalna šila
+- v3.11.479: BindingCordMaker (Vezar) — vezalne vrvice
+- v3.11.480: LeatherCoverMaker (Platničar) — usnjeni platnice
+- v3.11.481: GildingPressMaker (Pozlačevalec) — pozlačevalna stiskalca
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
 ## [v3.11.471] — 2026-08-11 — Royal Glass Frit Maker System (6 products, glass frits)
 ## [v3.11.470] — 2026-08-11 — Royal Glass Ribbon Maker System (6 products, glass ribbons)
 ## [v3.11.469] — 2026-08-11 — Royal Glass Seed Maker System (6 products, glass seeds)
