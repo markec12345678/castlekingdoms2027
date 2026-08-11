@@ -2,6 +2,45 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.456] — 2026-08-11 — Royal Forge Tongs Maker System (6 products, forge tongs)
+## [v3.11.455] — 2026-08-11 — Royal Bellows Maker System (6 products, bellows)
+## [v3.11.454] — 2026-08-11 — Royal Anvil Maker System (6 products, anvils)
+## [v3.11.453] — 2026-08-11 — Royal Hammer Maker System (6 products, hammers)
+## [v3.11.452] — 2026-08-11 — Royal Tong Maker System (6 products, tongs)
+
+### Dodano (v3.11.452-v3.11.456 — 5 kovaških sistemov)
+
+#### v3.11.452 - Royal Tong Maker System
+- **6 produktov** (železne kovinarske klešče, bronaste, srebrne, pozlačene, draguljaste, kraljevski suverene)
+- **4 zgradbe** (kleščna delavnica, kleščna hiša, mojstrski kleščni atelje, suverena kleščna palača)
+- Maker: Kleščar, hire base 590 gold
+- Poudarek na kovini (ironCost 5)
+
+#### v3.11.453 - Royal Hammer Maker System
+- **6 produktov** (železno kladivo, bronasto, srebrno, pozlačeno, draguljasto, kraljevski suvereno)
+- **4 zgradbe** (kladivna delavnica, kladivna hiša, mojstrski kladivni atelje, suverena kladivna palača)
+- Maker: Kladivar, hire base 585 gold
+
+#### v3.11.454 - Royal Anvil Maker System
+- **6 produktov** (železno nakovalo, bronasto, srebrno, pozlačeno, draguljasto, kraljevski suvereno)
+- **4 zgradbe** (nakovalna delavnica, nakovalna hiša, mojstrski nakovalni atelje, suverena nakovalna palača)
+- Maker: Nakovalar, hire base 595 gold
+- Poudarek na kovini (ironCost 6) - najbolj kovinsko-zahteven sistem
+
+#### v3.11.455 - Royal Bellows Maker System
+- **6 produktov** (železni meh za kovaško ognjišče, bronast, srebrni, pozlačeni, draguljasti, kraljevski suvereni)
+- **4 zgradbe** (mešna delavnica, mešna hiša, mojstrski mešni atelje, suverena mešna palača)
+- Maker: Mehar, hire base 575 gold
+- Poudarek na usnju (leatherCost 4-5)
+
+#### v3.11.456 - Royal Forge Tongs Maker System
+- **6 produktov** (železne kovaške klešče za žar, bronaste, srebrne, pozlačene, draguljaste, kraljevski suverene)
+- **4 zgradbe** (žarna delavnica, žarna hiša, mojstrski žarni atelje, suverena žarna palača)
+- Maker: Žarist, hire base 590 gold
+- Poudarek na kovini (ironCost 6) - za visoke temperature
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
 ## [v3.11.451] — 2026-08-11 — Royal Casting Ladle Maker System (6 products, casting ladles)
 ## [v3.11.450] — 2026-08-11 — Royal Flask Maker System (6 products, foundry flasks)
 ## [v3.11.449] — 2026-08-11 — Royal Ingot Mold Maker System (6 products, ingot molds)

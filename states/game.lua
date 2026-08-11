@@ -751,6 +751,12 @@ S.SandMoldMaker = require("objects.Economy.RoyalSandMoldMakerSystem")
 S.IngotMoldMaker = require("objects.Economy.RoyalIngotMoldMakerSystem")
 S.FlaskMaker = require("objects.Economy.RoyalFlaskMakerSystem")
 S.CastingLadleMaker = require("objects.Economy.RoyalCastingLadleMakerSystem")
+-- Castle Kingdoms 2027 v3.11.452-v3.11.456: Blacksmith tools batch (5 new Royal systems)
+S.TongMaker = require("objects.Economy.RoyalTongMakerSystem")
+S.HammerMaker = require("objects.Economy.RoyalHammerMakerSystem")
+S.AnvilMaker = require("objects.Economy.RoyalAnvilMakerSystem")
+S.BellowsMaker = require("objects.Economy.RoyalBellowsMakerSystem")
+S.ForgeTongsMaker = require("objects.Economy.RoyalForgeTongsMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1928,6 +1934,12 @@ local function delayedInit()
     S.IngotMoldMaker.init(); _G.IngotMoldMaker = S.IngotMoldMaker
     S.FlaskMaker.init(); _G.FlaskMaker = S.FlaskMaker
     S.CastingLadleMaker.init(); _G.CastingLadleMaker = S.CastingLadleMaker
+    -- Castle Kingdoms 2027 v3.11.452-v3.11.456: Blacksmith tools batch init
+    S.TongMaker.init(); _G.TongMaker = S.TongMaker
+    S.HammerMaker.init(); _G.HammerMaker = S.HammerMaker
+    S.AnvilMaker.init(); _G.AnvilMaker = S.AnvilMaker
+    S.BellowsMaker.init(); _G.BellowsMaker = S.BellowsMaker
+    S.ForgeTongsMaker.init(); _G.ForgeTongsMaker = S.ForgeTongsMaker
     -- Castle Kingdoms 2027 v3.11.382: Initialize Royal Systems Registry (auto-discovers all 347+ systems)
     RoyalSystemsRegistry.init(S)
     _G.RoyalSystemsRegistry = RoyalSystemsRegistry
@@ -2850,6 +2862,12 @@ function game:update(dt)
                 S.IngotMoldMaker.update(dt)
                 S.FlaskMaker.update(dt)
                 S.CastingLadleMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.452-v3.11.456: Blacksmith tools batch update
+                S.TongMaker.update(dt)
+                S.HammerMaker.update(dt)
+                S.AnvilMaker.update(dt)
+                S.BellowsMaker.update(dt)
+                S.ForgeTongsMaker.update(dt)
                 -- Castle Kingdoms 2027 v3.11.382: Royal Systems Registry aggregates stats + grants bonus gold
                 RoyalSystemsRegistry.update(dt)
                 RoyalSystemsPanel.update(dt)

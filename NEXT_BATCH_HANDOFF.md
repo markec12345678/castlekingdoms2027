@@ -1,17 +1,17 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.451**
-- Skupaj Royal sistemov: **539**
-- Skupaj Lua datotek: **1188**
-- Sintaktična preverba: **1185/1188 pass** (3 znani false positives: moonscript.lua, test.lua, grid.lua)
+- Različica: **v3.11.456**
+- Skupaj Royal sistemov: **544**
+- Skupaj Lua datotek: **1193**
+- Sintaktična preverba: **1190/1193 pass** (3 znani false positives: moonscript.lua, test.lua, grid.lua)
 - GitHub: sinhroniziran (vsi tagi pushani)
 - Lokalni repo: `/home/z/my-project/castlekingdoms2027`
 - .love datoteke: `/home/z/my-project/download/`
 
 ## 🎉 NOVO: Royal Systems Registry + UI Panel (v3.11.382)
 
-Od v3.11.382 projekt vključuje **centralen manager in UI panel**, ki povezuje vse 539 Royal sisteme z igro:
+Od v3.11.382 projekt vključuje **centralen manager in UI panel**, ki povezuje vse 544 Royal sisteme z igro:
 
 - **`objects/Economy/RoyalSystemsRegistry.lua`** — auto-discovers vse sisteme, hook-a `completeMaking()`, dodeli bonus zlato (prestige × 10) ob končanem produktu
 - **`states/ui/hud/royal_systems_panel.lua`** — full-screen UI panel (toggle s Ctrl+R), ki omogoča brskanje, najem mojstrov, gradnjo delavnic, izdelavo produktov, prodajo zalog
@@ -27,15 +27,15 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 3. **Grafikon produkcije** — zgodovina proizvodnje v panelu
 4. **Sistemsko odvisnosti** — nekateri sistemi naj zahtevajo druge (npr. BellMaker zahteva Metalwork)
 
-## NASLEDNJI PAKET (v3.11.452–v3.11.456) — KOVAŠKA ORODJA
+## NASLEDNJI PAKET (v3.11.457–v3.11.461) — MIZARSTVO
 
 Ustvari 5 novih sistemov v `/home/z/my-project/castlekingdoms2027/objects/Economy/`:
 
-1. **RoyalTongMakerSystem.lua** → `local TongMaker` (kovinarske klešče)
-2. **RoyalHammerMakerSystem.lua** → `local HammerMaker` (kladiva)
-3. **RoyalAnvilMakerSystem.lua** → `local AnvilMaker` (nakovala)
-4. **RoyalBellowsMakerSystem.lua** → `local BellowsMaker` (mehi za kovaško ognjišče)
-5. **RoyalForgeTongsMakerSystem.lua** → `local ForgeTongsMaker` (kovaške klešče za žar)
+1. **RoyalPlaneIronMakerSystem.lua** → `local PlaneIronMaker` (železa za glodalnike)
+2. **RoyalChiselBladeMakerSystem.lua** → `local ChiselBladeMaker` (rezila za dleta)
+3. **RoyalSawSetMakerSystem.lua** → `local SawSetMaker` (nastavljive žage)
+4. **RoyalAugerBitMakerSystem.lua** → `local AugerBitMaker` (svrdri za vrtanje)
+5. **RoyalClampMakerSystem.lua** → `local ClampMaker` (štspanke)
 
 ## PATTERN ZA VSAK SISTEM
 
@@ -50,47 +50,47 @@ Vsak sistem mora imeti:
 
 ## REGISTRACIJA V states/game.lua
 
-3 točke za vsak sistem (najdi zadnji `S.CastingLadleMaker` in dodaj za njim):
+3 točke za vsak sistem (najdi zadnji `S.ForgeTongsMaker` in dodaj za njim):
 
 ```lua
--- require block (po S.CastingLadleMaker = require(...))
-S.TongMaker = require("objects.Economy.RoyalTongMakerSystem")
-S.HammerMaker = require("objects.Economy.RoyalHammerMakerSystem")
-S.AnvilMaker = require("objects.Economy.RoyalAnvilMakerSystem")
-S.BellowsMaker = require("objects.Economy.RoyalBellowsMakerSystem")
-S.ForgeTongsMaker = require("objects.Economy.RoyalForgeTongsMakerSystem")
+-- require block (po S.ForgeTongsMaker = require(...))
+S.PlaneIronMaker = require("objects.Economy.RoyalPlaneIronMakerSystem")
+S.ChiselBladeMaker = require("objects.Economy.RoyalChiselBladeMakerSystem")
+S.SawSetMaker = require("objects.Economy.RoyalSawSetMakerSystem")
+S.AugerBitMaker = require("objects.Economy.RoyalAugerBitMakerSystem")
+S.ClampMaker = require("objects.Economy.RoyalClampMakerSystem")
 
--- init block (po S.CastingLadleMaker.init(); ...)
-S.TongMaker.init(); _G.TongMaker = S.TongMaker
-S.HammerMaker.init(); _G.HammerMaker = S.HammerMaker
-S.AnvilMaker.init(); _G.AnvilMaker = S.AnvilMaker
-S.BellowsMaker.init(); _G.BellowsMaker = S.BellowsMaker
-S.ForgeTongsMaker.init(); _G.ForgeTongsMaker = S.ForgeTongsMaker
+-- init block (po S.ForgeTongsMaker.init(); ...)
+S.PlaneIronMaker.init(); _G.PlaneIronMaker = S.PlaneIronMaker
+S.ChiselBladeMaker.init(); _G.ChiselBladeMaker = S.ChiselBladeMaker
+S.SawSetMaker.init(); _G.SawSetMaker = S.SawSetMaker
+S.AugerBitMaker.init(); _G.AugerBitMaker = S.AugerBitMaker
+S.ClampMaker.init(); _G.ClampMaker = S.ClampMaker
 
--- update block (po S.CastingLadleMaker.update(dt))
-S.TongMaker.update(dt)
-S.HammerMaker.update(dt)
-S.AnvilMaker.update(dt)
-S.BellowsMaker.update(dt)
-S.ForgeTongsMaker.update(dt)
+-- update block (po S.ForgeTongsMaker.update(dt))
+S.PlaneIronMaker.update(dt)
+S.ChiselBladeMaker.update(dt)
+S.SawSetMaker.update(dt)
+S.AugerBitMaker.update(dt)
+S.ClampMaker.update(dt)
 ```
 
 **POMEMBNO:** `RoyalSystemsRegistry.init(S)` se izvede po vseh `init()` klicih, tako da bo auto-discover tudi teh 5 novih sistemov. Ni potrebno ročno registrirati v Registry.
 
 ## WORKFLOW
 
-1. Preveri duplikate: `ls objects/Economy/ | grep -iE "tongmaker|hammermaker|anvilmaker|bellows|forgetongs"` (mora biti prazno)
+1. Preveri duplikate: `ls objects/Economy/ | grep -iE "planeiron|chiselblade|sawset|augerbit|clampmaker"` (mora biti prazno)
 2. Ustvari 5 .lua datotek po predlogi (glej spodaj)
 3. Registriraj v states/game.lua (3 točke)
 4. Poženi: `python3 /home/z/my-project/scripts/check_my_changes.py` (za sintaktično preverbo)
-5. Posodobi CHANGELOG.md (dodaj vnose za v3.11.452 do v3.11.456 na vrh)
+5. Posodobi CHANGELOG.md (dodaj vnose za v3.11.457 do v3.11.461 na vrh)
 6. Posodobi README.md badge-je:
-   - version-3.11.451 → version-3.11.456
-   - syntax-1185%2F1188 → syntax-1190%2F1193
-   - Royal%20systems-539 → Royal%20systems-544
-   - Lua%20files-1188 → Lua%20files-1193
-7. Git: commit, tag (v3.11.452 do v3.11.456), push
-8. Build .love: `cd /home/z/my-project/castlekingdoms2027 && zip -r -q /home/z/my-project/download/castlekingdoms2027-v3.11.456.love . -x ".git/*" "tool-results/*" "*.love" ".gitignore" "scripts/lua_syntax_check.py"`
+   - version-3.11.456 → version-3.11.461
+   - syntax-1190%2F1193 → syntax-1195%2F1198
+   - Royal%20systems-544 → Royal%20systems-549
+   - Lua%20files-1193 → Lua%20files-1198
+7. Git: commit, tag (v3.11.457 do v3.11.461), push
+8. Build .love: `cd /home/z/my-project/castlekingdoms2027 && zip -r -q /home/z/my-project/download/castlekingdoms2027-v3.11.461.love . -x ".git/*" "tool-results/*" "*.love" ".gitignore" "scripts/lua_syntax_check.py"`
 
 ## PREDLOGA ZA SISTEM (primer PickaxeMaker, kot referenca)
 
@@ -119,24 +119,24 @@ function PickaxeMaker.getStats() ... end
 return PickaxeMaker
 ```
 
-Za nove 5 sistemov (kovaška orodja) spremeni:
-- Imena produktov (npr. "železne kovinarske klešče", "železno kladivo", "železno nakovalo", "železni meh za kovaško ognjišče", "železne kovaške klešče za žar")
-- Imena zgradb (kleščna, kladivna, nakovalna, mešna, žarne delavnica/hiša/atelje/palača)
-- Maker ime (Kleščar, Kladivar, Nakovalar, Mehar, Žarist)
-- Event bus publish (tong.completed, hammer.completed, anvil.completed, bellows.completed, forgetongs.completed)
+Za nove 5 sistemov (mizarstvo) spremeni:
+- Imena produktov (npr. "železna železa za glodalnik", "železno rezilo za dleto", "železna nastavljiva žaga", "železni svrder za vrtanje", "železna štspanka")
+- Imena zgradb (gladilna, rezilna, žagarska, vrtalna, štspančna delavnica/hiša/atelje/palača)
+- Maker ime (Gladar, Rezar, Žagar, Vrtač, Štspankar)
+- Event bus publish (planeiron.completed, chiselblade.completed, sawset.completed, augerbit.completed, clamp.completed)
 
 ## SPOROČILO ZA NOVO SEJO
 
 Ko začneš novo sejo, pošlji to sporočilo:
 
 ```
-Nadaljuj z razvojem Castle Kingdoms 2027. Preberi /home/z/my-project/castlekingdoms2027/NEXT_BATCH_HANDOFF.md za popolna navodila. Trenutna različica je v3.11.451. Naslednji paket je v3.11.452–v3.11.456 (kovaška orodja: TongMaker, HammerMaker, AnvilMaker, BellowsMaker, ForgeTongsMaker). Sledi navodilom v handoff dokumentu. Po končanem paketu ročno posodobi NEXT_BATCH_HANDOFF.md z naslednjim paketom (v3.11.457–v3.11.461 — predlagano: mizarstvo: PlaneIronMaker, ChiselBladeMaker, SawSetMaker, AugerBitMaker, ClampMaker).
+Nadaljuj z razvojem Castle Kingdoms 2027. Preberi /home/z/my-project/castlekingdoms2027/NEXT_BATCH_HANDOFF.md za popolna navodila. Trenutna različica je v3.11.456. Naslednji paket je v3.11.457–v3.11.461 (mizarstvo: PlaneIronMaker, ChiselBladeMaker, SawSetMaker, AugerBitMaker, ClampMaker). Sledi navodilom v handoff dokumentu. Po končanem paketu ročno posodobi NEXT_BATCH_HANDOFF.md z naslednjim paketom (v3.11.462–v3.11.466 — predlagano: keramična oprema: PotteryWheelMaker, KilnFurnitureMaker, ClayExtruderMaker, GlazeSieveMaker, BisqueStandMaker).
 ```
 
 ## NASLEDNJI PAKETI (po vrsti)
 
-- v3.11.452–v3.11.456: kovaška orodja (TongMaker, HammerMaker, AnvilMaker, BellowsMaker, ForgeTongsMaker)
 - v3.11.457–v3.11.461: mizarstvo (PlaneIronMaker, ChiselBladeMaker, SawSetMaker, AugerBitMaker, ClampMaker)
 - v3.11.462–v3.11.466: keramična oprema (PotteryWheelMaker, KilnFurnitureMaker, ClayExtruderMaker, GlazeSieveMaker, BisqueStandMaker)
 - v3.11.467–v3.11.471: steklarska dodatki (GlassBatchMaker, GlassColorantMaker, GlassSeedMaker, GlassRibbonMaker, GlassFritMaker)
+- v3.11.472–v3.11.476: tkalska oprema (LoomHeddleMaker, ShuttleMaker, BobbinWinderMaker, WarpBeamMaker, ClothPresserMaker)
 
