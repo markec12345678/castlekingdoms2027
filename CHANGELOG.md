@@ -2,6 +2,44 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.436] — 2026-08-11 — Royal Lice Comb Maker System (6 products, lice combs)
+## [v3.11.435] — 2026-08-11 — Royal Beard Comb Maker System (6 products, beard combs)
+## [v3.11.434] — 2026-08-11 — Royal Hairpin Maker System (6 products, hairpins)
+## [v3.11.433] — 2026-08-11 — Royal Hairbrush Maker System (6 products, hairbrushes)
+## [v3.11.432] — 2026-08-11 — Royal Comb Maker System (6 products, combs)
+
+### Dodano (v3.11.432-v3.11.436 — 5 česlarskih sistemov)
+
+#### v3.11.432 - Royal Comb Maker System
+- **6 produktov** (železni glavnik, bronast, srebrni, pozlačeni, draguljasti, kraljevski suvereni)
+- **4 zgradbe** (glavnična delavnica, glavnična hiša, mojstrski glavnični atelje, suverena glavnična palača)
+- Maker: Glavnikar, hire base 570 gold
+
+#### v3.11.433 - Royal Hairbrush Maker System
+- **6 produktov** (železna ščetka za lase, bronasta, srebrna, pozlačena, draguljasta, kraljevski suverena)
+- **4 zgradbe** (ščetkarska delavnica, ščetkarska hiša, mojstrski ščetkarski atelje, suverena ščetkarska palača)
+- Maker: Ščetkar, hire base 580 gold
+- Poudarek na lesu in usnju (woodCost 3, leatherCost 2)
+
+#### v3.11.434 - Royal Hairpin Maker System
+- **6 produktov** (železna lasnica, bronasta, srebrna, pozlačena, draguljasta, kraljevski suverena)
+- **4 zgradbe** (lasnična delavnica, lasnična hiša, mojstrski lasnični atelje, suverena lasnična palača)
+- Maker: Lasničar, hire base 575 gold
+- Poudarek na kovini (ironCost/bronzeCost/silverCost 3)
+
+#### v3.11.435 - Royal Beard Comb Maker System
+- **6 produktov** (železni glavnik za brado, bronast, srebrni, pozlačeni, draguljasti, kraljevski suvereni)
+- **4 zgradbe** (bradna delavnica, bradna hiša, mojstrski bradni atelje, suverena bradna palača)
+- Maker: Bradar, hire base 565 gold
+
+#### v3.11.436 - Royal Lice Comb Maker System
+- **6 produktov** (železni glavnik za uši, bronast, srebrni, pozlačeni, draguljasti, kraljevski suvereni)
+- **4 zgradbe** (ušesna delavnica, ušesna hiša, mojstrski ušesni atelje, suverena ušesna palača)
+- Maker: Ušesar, hire base 590 gold
+- Poudarek na kovini (ironCost/bronzeCost/silverCost 4) - gosti zobmi za uši
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
 ## [v3.11.431] — 2026-08-11 — Royal Knot Board Maker System (6 products, knot boards)
 ## [v3.11.430] — 2026-08-11 — Royal Cordage Maker System (6 products, cordages)
 ## [v3.11.429] — 2026-08-11 — Royal Net Maker System (6 products, nets)

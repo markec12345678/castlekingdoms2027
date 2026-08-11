@@ -727,6 +727,12 @@ S.TwineMaker = require("objects.Economy.RoyalTwineMakerSystem")
 S.NetMaker = require("objects.Economy.RoyalNetMakerSystem")
 S.CordageMaker = require("objects.Economy.RoyalCordageMakerSystem")
 S.KnotBoardMaker = require("objects.Economy.RoyalKnotBoardMakerSystem")
+-- Castle Kingdoms 2027 v3.11.432-v3.11.436: Comb-making equipment batch (5 new Royal systems)
+S.CombMaker = require("objects.Economy.RoyalCombMakerSystem")
+S.HairbrushMaker = require("objects.Economy.RoyalHairbrushMakerSystem")
+S.HairpinMaker = require("objects.Economy.RoyalHairpinMakerSystem")
+S.BeardCombMaker = require("objects.Economy.RoyalBeardCombMakerSystem")
+S.LiceCombMaker = require("objects.Economy.RoyalLiceCombMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1880,6 +1886,12 @@ local function delayedInit()
     S.NetMaker.init(); _G.NetMaker = S.NetMaker
     S.CordageMaker.init(); _G.CordageMaker = S.CordageMaker
     S.KnotBoardMaker.init(); _G.KnotBoardMaker = S.KnotBoardMaker
+    -- Castle Kingdoms 2027 v3.11.432-v3.11.436: Comb-making equipment batch init
+    S.CombMaker.init(); _G.CombMaker = S.CombMaker
+    S.HairbrushMaker.init(); _G.HairbrushMaker = S.HairbrushMaker
+    S.HairpinMaker.init(); _G.HairpinMaker = S.HairpinMaker
+    S.BeardCombMaker.init(); _G.BeardCombMaker = S.BeardCombMaker
+    S.LiceCombMaker.init(); _G.LiceCombMaker = S.LiceCombMaker
     -- Castle Kingdoms 2027 v3.11.382: Initialize Royal Systems Registry (auto-discovers all 347+ systems)
     RoyalSystemsRegistry.init(S)
     _G.RoyalSystemsRegistry = RoyalSystemsRegistry
@@ -2778,6 +2790,12 @@ function game:update(dt)
                 S.NetMaker.update(dt)
                 S.CordageMaker.update(dt)
                 S.KnotBoardMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.432-v3.11.436: Comb-making equipment batch update
+                S.CombMaker.update(dt)
+                S.HairbrushMaker.update(dt)
+                S.HairpinMaker.update(dt)
+                S.BeardCombMaker.update(dt)
+                S.LiceCombMaker.update(dt)
                 -- Castle Kingdoms 2027 v3.11.382: Royal Systems Registry aggregates stats + grants bonus gold
                 RoyalSystemsRegistry.update(dt)
                 RoyalSystemsPanel.update(dt)
