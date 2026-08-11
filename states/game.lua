@@ -727,6 +727,128 @@ S.TwineMaker = require("objects.Economy.RoyalTwineMakerSystem")
 S.NetMaker = require("objects.Economy.RoyalNetMakerSystem")
 S.CordageMaker = require("objects.Economy.RoyalCordageMakerSystem")
 S.KnotBoardMaker = require("objects.Economy.RoyalKnotBoardMakerSystem")
+
+-- Castle Kingdoms 2027 v3.11.432-v3.11.551: Missing system registrations (120 systems)
+S.CombMaker = require("objects.Economy.RoyalCombMakerSystem")
+S.HairbrushMaker = require("objects.Economy.RoyalHairbrushMakerSystem")
+S.HairpinMaker = require("objects.Economy.RoyalHairpinMakerSystem")
+S.BeardCombMaker = require("objects.Economy.RoyalBeardCombMakerSystem")
+S.LiceCombMaker = require("objects.Economy.RoyalLiceCombMakerSystem")
+S.SaddleSoapMaker = require("objects.Economy.RoyalSaddleSoapMakerSystem")
+S.SaddlePolishMaker = require("objects.Economy.RoyalSaddlePolishMakerSystem")
+S.LeatherConditionerMaker = require("objects.Economy.RoyalLeatherConditionerMakerSystem")
+S.StirrupLeatherMaker = require("objects.Economy.RoyalStirrupLeatherMakerSystem")
+S.BridleBuckleMaker = require("objects.Economy.RoyalBridleBuckleMakerSystem")
+S.CandleMoldMaker = require("objects.Economy.RoyalCandleMoldMakerSystem")
+S.WickSpinnerMaker = require("objects.Economy.RoyalWickSpinnerMakerSystem")
+S.WaxDipperMaker = require("objects.Economy.RoyalWaxDipperMakerSystem")
+S.CandlestickBaseMaker = require("objects.Economy.RoyalCandlestickBaseMakerSystem")
+S.TaperRollerMaker = require("objects.Economy.RoyalTaperRollerMakerSystem")
+S.CrucibleMaker = require("objects.Economy.RoyalCrucibleMakerSystem")
+S.SandMoldMaker = require("objects.Economy.RoyalSandMoldMakerSystem")
+S.IngotMoldMaker = require("objects.Economy.RoyalIngotMoldMakerSystem")
+S.FlaskMaker = require("objects.Economy.RoyalFlaskMakerSystem")
+S.CastingLadleMaker = require("objects.Economy.RoyalCastingLadleMakerSystem")
+S.TongMaker = require("objects.Economy.RoyalTongMakerSystem")
+S.HammerMaker = require("objects.Economy.RoyalHammerMakerSystem")
+S.AnvilMaker = require("objects.Economy.RoyalAnvilMakerSystem")
+S.BellowsMaker = require("objects.Economy.RoyalBellowsMakerSystem")
+S.ForgeTongsMaker = require("objects.Economy.RoyalForgeTongsMakerSystem")
+S.PlaneIronMaker = require("objects.Economy.RoyalPlaneIronMakerSystem")
+S.ChiselBladeMaker = require("objects.Economy.RoyalChiselBladeMakerSystem")
+S.SawSetMaker = require("objects.Economy.RoyalSawSetMakerSystem")
+S.AugerBitMaker = require("objects.Economy.RoyalAugerBitMakerSystem")
+S.ClampMaker = require("objects.Economy.RoyalClampMakerSystem")
+S.PotteryWheelMaker = require("objects.Economy.RoyalPotteryWheelMakerSystem")
+S.KilnFurnitureMaker = require("objects.Economy.RoyalKilnFurnitureMakerSystem")
+S.ClayExtruderMaker = require("objects.Economy.RoyalClayExtruderMakerSystem")
+S.GlazeSieveMaker = require("objects.Economy.RoyalGlazeSieveMakerSystem")
+S.BisqueStandMaker = require("objects.Economy.RoyalBisqueStandMakerSystem")
+S.GlassBatchMaker = require("objects.Economy.RoyalGlassBatchMakerSystem")
+S.GlassColorantMaker = require("objects.Economy.RoyalGlassColorantMakerSystem")
+S.GlassSeedMaker = require("objects.Economy.RoyalGlassSeedMakerSystem")
+S.GlassRibbonMaker = require("objects.Economy.RoyalGlassRibbonMakerSystem")
+S.GlassFritMaker = require("objects.Economy.RoyalGlassFritMakerSystem")
+S.LoomHeddleMaker = require("objects.Economy.RoyalLoomHeddleMakerSystem")
+S.ShuttleMaker = require("objects.Economy.RoyalShuttleMakerSystem")
+S.BobbinWinderMaker = require("objects.Economy.RoyalBobbinWinderMakerSystem")
+S.WarpBeamMaker = require("objects.Economy.RoyalWarpBeamMakerSystem")
+S.ClothPresserMaker = require("objects.Economy.RoyalClothPresserMakerSystem")
+S.BookPressMaker = require("objects.Economy.RoyalBookPressMakerSystem")
+S.StitchingAwlMaker = require("objects.Economy.RoyalStitchingAwlMakerSystem")
+S.BindingCordMaker = require("objects.Economy.RoyalBindingCordMakerSystem")
+S.LeatherCoverMaker = require("objects.Economy.RoyalLeatherCoverMakerSystem")
+S.GildingPressMaker = require("objects.Economy.RoyalGildingPressMakerSystem")
+S.QuillCutterMaker = require("objects.Economy.RoyalQuillCutterMakerSystem")
+S.InkwellMaker = require("objects.Economy.RoyalInkwellMakerSystem")
+S.ParchmentRackMaker = require("objects.Economy.RoyalParchmentRackMakerSystem")
+S.WaxTabletMaker = require("objects.Economy.RoyalWaxTabletMakerSystem")
+S.WritingStandMaker = require("objects.Economy.RoyalWritingStandMakerSystem")
+S.CoinPressMaker = require("objects.Economy.RoyalCoinPressMakerSystem")
+S.CoinDieMaker = require("objects.Economy.RoyalCoinDieMakerSystem")
+S.CoinBlankMaker = require("objects.Economy.RoyalCoinBlankMakerSystem")
+S.CoinSorterMaker = require("objects.Economy.RoyalCoinSorterMakerSystem")
+S.CoinScaleMaker = require("objects.Economy.RoyalCoinScaleMakerSystem")
+S.StringWinderMaker = require("objects.Economy.RoyalStringWinderMakerSystem")
+S.TuningPinMaker = require("objects.Economy.RoyalTuningPinMakerSystem")
+S.BridgeMaker = require("objects.Economy.RoyalBridgeMakerSystem")
+S.SoundpostMaker = require("objects.Economy.RoyalSoundpostMakerSystem")
+S.TailpieceMaker = require("objects.Economy.RoyalTailpieceMakerSystem")
+S.IncenseMolderMaker = require("objects.Economy.RoyalIncenseMolderMakerSystem")
+S.PerfumeBottleMaker = require("objects.Economy.RoyalPerfumeBottleMakerSystem")
+S.SachetMaker = require("objects.Economy.RoyalSachetMakerSystem")
+S.PotpourriBowlMaker = require("objects.Economy.RoyalPotpourriBowlMakerSystem")
+S.ScentConeMaker = require("objects.Economy.RoyalScentConeMakerSystem")
+S.ShieldBossMaker = require("objects.Economy.RoyalShieldBossMakerSystem")
+S.SwordPommelMaker = require("objects.Economy.RoyalSwordPommelMakerSystem")
+S.ScabbardChapeMaker = require("objects.Economy.RoyalScabbardChapeMakerSystem")
+S.HelmetCrestMaker = require("objects.Economy.RoyalHelmetCrestMakerSystem")
+S.BannerPoleMaker = require("objects.Economy.RoyalBannerPoleMakerSystem")
+S.AstrolabeRingMaker = require("objects.Economy.RoyalAstrolabeRingMakerSystem")
+S.StarChartRackMaker = require("objects.Economy.RoyalStarChartRackMakerSystem")
+S.CelestialGlobeMaker = require("objects.Economy.RoyalCelestialGlobeMakerSystem")
+S.SundialGnomonMaker = require("objects.Economy.RoyalSundialGnomonMakerSystem")
+S.CompassNeedleMaker = require("objects.Economy.RoyalCompassNeedleMakerSystem")
+S.PendulumRodMaker = require("objects.Economy.RoyalPendulumRodMakerSystem")
+S.EscapementLeverMaker = require("objects.Economy.RoyalEscapementLeverMakerSystem")
+S.MainspringWinderMaker = require("objects.Economy.RoyalMainspringWinderMakerSystem")
+S.ClockDialEngraverMaker = require("objects.Economy.RoyalClockDialEngraverMakerSystem")
+S.ChimeHammerMaker = require("objects.Economy.RoyalChimeHammerMakerSystem")
+S.TowelRackMaker = require("objects.Economy.RoyalTowelRackMakerSystem")
+S.SoapDishMaker = require("objects.Economy.RoyalSoapDishMakerSystem")
+S.BathBucketMaker = require("objects.Economy.RoyalBathBucketMakerSystem")
+S.SpongeHolderMaker = require("objects.Economy.RoyalSpongeHolderMakerSystem")
+S.WashstandMaker = require("objects.Economy.RoyalWashstandMakerSystem")
+S.MortarPestleStandMaker = require("objects.Economy.RoyalMortarPestleStandMakerSystem")
+S.SpiceGrinderMaker = require("objects.Economy.RoyalSpiceGrinderMakerSystem")
+S.OlivePressMaker = require("objects.Economy.RoyalOlivePressMakerSystem")
+S.WineStrainerMaker = require("objects.Economy.RoyalWineStrainerMakerSystem")
+S.HoneyDipperMaker = require("objects.Economy.RoyalHoneyDipperMakerSystem")
+S.GardenSieveMaker = require("objects.Economy.RoyalGardenSieveMakerSystem")
+S.PlantSupportMaker = require("objects.Economy.RoyalPlantSupportMakerSystem")
+S.WateringSpikeMaker = require("objects.Economy.RoyalWateringSpikeMakerSystem")
+S.CompostAeratorMaker = require("objects.Economy.RoyalCompostAeratorMakerSystem")
+S.SeedDrillPlowMaker = require("objects.Economy.RoyalSeedDrillPlowMakerSystem")
+S.DoughScraperMaker = require("objects.Economy.RoyalDoughScraperMakerSystem")
+S.ProofingBasketMaker = require("objects.Economy.RoyalProofingBasketMakerSystem")
+S.BreadLameMaker = require("objects.Economy.RoyalBreadLameMakerSystem")
+S.OvenPeelMaker = require("objects.Economy.RoyalOvenPeelMakerSystem")
+S.FlourShovelMaker = require("objects.Economy.RoyalFlourShovelMakerSystem")
+S.FishHookMaker = require("objects.Economy.RoyalFishHookMakerSystem")
+S.FishingLineSpoolMaker = require("objects.Economy.RoyalFishingLineSpoolMakerSystem")
+S.BaitBoxMaker = require("objects.Economy.RoyalBaitBoxMakerSystem")
+S.FishScalerMaker = require("objects.Economy.RoyalFishScalerMakerSystem")
+S.NetMendingNeedleMaker = require("objects.Economy.RoyalNetMendingNeedleMakerSystem")
+S.GlassKilnDoorMaker = require("objects.Economy.RoyalGlassKilnDoorMakerSystem")
+S.GlassAnnealingOvenMaker = require("objects.Economy.RoyalGlassAnnealingOvenMakerSystem")
+S.GlassBatchFurnaceMaker = require("objects.Economy.RoyalGlassBatchFurnaceMakerSystem")
+S.GlassGloryHoleMaker = require("objects.Economy.RoyalGlassGloryHoleMakerSystem")
+S.GlassMarverMaker = require("objects.Economy.RoyalGlassMarverMakerSystem")
+S.SandCasterMaker = require("objects.Economy.RoyalSandCasterMakerSystem")
+S.LostWaxMolderMaker = require("objects.Economy.RoyalLostWaxMolderMakerSystem")
+S.CentrifugalCasterMaker = require("objects.Economy.RoyalCentrifugalCasterMakerSystem")
+S.VacuumCasterMaker = require("objects.Economy.RoyalVacuumCasterMakerSystem")
+S.IngotCasterMaker = require("objects.Economy.RoyalIngotCasterMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1880,6 +2002,127 @@ local function delayedInit()
     S.NetMaker.init(); _G.NetMaker = S.NetMaker
     S.CordageMaker.init(); _G.CordageMaker = S.CordageMaker
     S.KnotBoardMaker.init(); _G.KnotBoardMaker = S.KnotBoardMaker
+    -- Castle Kingdoms 2027 v3.11.432-v3.11.551: Missing system inits (120 systems)
+    S.CombMaker.init(); _G.CombMaker = S.CombMaker
+    S.HairbrushMaker.init(); _G.HairbrushMaker = S.HairbrushMaker
+    S.HairpinMaker.init(); _G.HairpinMaker = S.HairpinMaker
+    S.BeardCombMaker.init(); _G.BeardCombMaker = S.BeardCombMaker
+    S.LiceCombMaker.init(); _G.LiceCombMaker = S.LiceCombMaker
+    S.SaddleSoapMaker.init(); _G.SaddleSoapMaker = S.SaddleSoapMaker
+    S.SaddlePolishMaker.init(); _G.SaddlePolishMaker = S.SaddlePolishMaker
+    S.LeatherConditionerMaker.init(); _G.LeatherConditionerMaker = S.LeatherConditionerMaker
+    S.StirrupLeatherMaker.init(); _G.StirrupLeatherMaker = S.StirrupLeatherMaker
+    S.BridleBuckleMaker.init(); _G.BridleBuckleMaker = S.BridleBuckleMaker
+    S.CandleMoldMaker.init(); _G.CandleMoldMaker = S.CandleMoldMaker
+    S.WickSpinnerMaker.init(); _G.WickSpinnerMaker = S.WickSpinnerMaker
+    S.WaxDipperMaker.init(); _G.WaxDipperMaker = S.WaxDipperMaker
+    S.CandlestickBaseMaker.init(); _G.CandlestickBaseMaker = S.CandlestickBaseMaker
+    S.TaperRollerMaker.init(); _G.TaperRollerMaker = S.TaperRollerMaker
+    S.CrucibleMaker.init(); _G.CrucibleMaker = S.CrucibleMaker
+    S.SandMoldMaker.init(); _G.SandMoldMaker = S.SandMoldMaker
+    S.IngotMoldMaker.init(); _G.IngotMoldMaker = S.IngotMoldMaker
+    S.FlaskMaker.init(); _G.FlaskMaker = S.FlaskMaker
+    S.CastingLadleMaker.init(); _G.CastingLadleMaker = S.CastingLadleMaker
+    S.TongMaker.init(); _G.TongMaker = S.TongMaker
+    S.HammerMaker.init(); _G.HammerMaker = S.HammerMaker
+    S.AnvilMaker.init(); _G.AnvilMaker = S.AnvilMaker
+    S.BellowsMaker.init(); _G.BellowsMaker = S.BellowsMaker
+    S.ForgeTongsMaker.init(); _G.ForgeTongsMaker = S.ForgeTongsMaker
+    S.PlaneIronMaker.init(); _G.PlaneIronMaker = S.PlaneIronMaker
+    S.ChiselBladeMaker.init(); _G.ChiselBladeMaker = S.ChiselBladeMaker
+    S.SawSetMaker.init(); _G.SawSetMaker = S.SawSetMaker
+    S.AugerBitMaker.init(); _G.AugerBitMaker = S.AugerBitMaker
+    S.ClampMaker.init(); _G.ClampMaker = S.ClampMaker
+    S.PotteryWheelMaker.init(); _G.PotteryWheelMaker = S.PotteryWheelMaker
+    S.KilnFurnitureMaker.init(); _G.KilnFurnitureMaker = S.KilnFurnitureMaker
+    S.ClayExtruderMaker.init(); _G.ClayExtruderMaker = S.ClayExtruderMaker
+    S.GlazeSieveMaker.init(); _G.GlazeSieveMaker = S.GlazeSieveMaker
+    S.BisqueStandMaker.init(); _G.BisqueStandMaker = S.BisqueStandMaker
+    S.GlassBatchMaker.init(); _G.GlassBatchMaker = S.GlassBatchMaker
+    S.GlassColorantMaker.init(); _G.GlassColorantMaker = S.GlassColorantMaker
+    S.GlassSeedMaker.init(); _G.GlassSeedMaker = S.GlassSeedMaker
+    S.GlassRibbonMaker.init(); _G.GlassRibbonMaker = S.GlassRibbonMaker
+    S.GlassFritMaker.init(); _G.GlassFritMaker = S.GlassFritMaker
+    S.LoomHeddleMaker.init(); _G.LoomHeddleMaker = S.LoomHeddleMaker
+    S.ShuttleMaker.init(); _G.ShuttleMaker = S.ShuttleMaker
+    S.BobbinWinderMaker.init(); _G.BobbinWinderMaker = S.BobbinWinderMaker
+    S.WarpBeamMaker.init(); _G.WarpBeamMaker = S.WarpBeamMaker
+    S.ClothPresserMaker.init(); _G.ClothPresserMaker = S.ClothPresserMaker
+    S.BookPressMaker.init(); _G.BookPressMaker = S.BookPressMaker
+    S.StitchingAwlMaker.init(); _G.StitchingAwlMaker = S.StitchingAwlMaker
+    S.BindingCordMaker.init(); _G.BindingCordMaker = S.BindingCordMaker
+    S.LeatherCoverMaker.init(); _G.LeatherCoverMaker = S.LeatherCoverMaker
+    S.GildingPressMaker.init(); _G.GildingPressMaker = S.GildingPressMaker
+    S.QuillCutterMaker.init(); _G.QuillCutterMaker = S.QuillCutterMaker
+    S.InkwellMaker.init(); _G.InkwellMaker = S.InkwellMaker
+    S.ParchmentRackMaker.init(); _G.ParchmentRackMaker = S.ParchmentRackMaker
+    S.WaxTabletMaker.init(); _G.WaxTabletMaker = S.WaxTabletMaker
+    S.WritingStandMaker.init(); _G.WritingStandMaker = S.WritingStandMaker
+    S.CoinPressMaker.init(); _G.CoinPressMaker = S.CoinPressMaker
+    S.CoinDieMaker.init(); _G.CoinDieMaker = S.CoinDieMaker
+    S.CoinBlankMaker.init(); _G.CoinBlankMaker = S.CoinBlankMaker
+    S.CoinSorterMaker.init(); _G.CoinSorterMaker = S.CoinSorterMaker
+    S.CoinScaleMaker.init(); _G.CoinScaleMaker = S.CoinScaleMaker
+    S.StringWinderMaker.init(); _G.StringWinderMaker = S.StringWinderMaker
+    S.TuningPinMaker.init(); _G.TuningPinMaker = S.TuningPinMaker
+    S.BridgeMaker.init(); _G.BridgeMaker = S.BridgeMaker
+    S.SoundpostMaker.init(); _G.SoundpostMaker = S.SoundpostMaker
+    S.TailpieceMaker.init(); _G.TailpieceMaker = S.TailpieceMaker
+    S.IncenseMolderMaker.init(); _G.IncenseMolderMaker = S.IncenseMolderMaker
+    S.PerfumeBottleMaker.init(); _G.PerfumeBottleMaker = S.PerfumeBottleMaker
+    S.SachetMaker.init(); _G.SachetMaker = S.SachetMaker
+    S.PotpourriBowlMaker.init(); _G.PotpourriBowlMaker = S.PotpourriBowlMaker
+    S.ScentConeMaker.init(); _G.ScentConeMaker = S.ScentConeMaker
+    S.ShieldBossMaker.init(); _G.ShieldBossMaker = S.ShieldBossMaker
+    S.SwordPommelMaker.init(); _G.SwordPommelMaker = S.SwordPommelMaker
+    S.ScabbardChapeMaker.init(); _G.ScabbardChapeMaker = S.ScabbardChapeMaker
+    S.HelmetCrestMaker.init(); _G.HelmetCrestMaker = S.HelmetCrestMaker
+    S.BannerPoleMaker.init(); _G.BannerPoleMaker = S.BannerPoleMaker
+    S.AstrolabeRingMaker.init(); _G.AstrolabeRingMaker = S.AstrolabeRingMaker
+    S.StarChartRackMaker.init(); _G.StarChartRackMaker = S.StarChartRackMaker
+    S.CelestialGlobeMaker.init(); _G.CelestialGlobeMaker = S.CelestialGlobeMaker
+    S.SundialGnomonMaker.init(); _G.SundialGnomonMaker = S.SundialGnomonMaker
+    S.CompassNeedleMaker.init(); _G.CompassNeedleMaker = S.CompassNeedleMaker
+    S.PendulumRodMaker.init(); _G.PendulumRodMaker = S.PendulumRodMaker
+    S.EscapementLeverMaker.init(); _G.EscapementLeverMaker = S.EscapementLeverMaker
+    S.MainspringWinderMaker.init(); _G.MainspringWinderMaker = S.MainspringWinderMaker
+    S.ClockDialEngraverMaker.init(); _G.ClockDialEngraverMaker = S.ClockDialEngraverMaker
+    S.ChimeHammerMaker.init(); _G.ChimeHammerMaker = S.ChimeHammerMaker
+    S.TowelRackMaker.init(); _G.TowelRackMaker = S.TowelRackMaker
+    S.SoapDishMaker.init(); _G.SoapDishMaker = S.SoapDishMaker
+    S.BathBucketMaker.init(); _G.BathBucketMaker = S.BathBucketMaker
+    S.SpongeHolderMaker.init(); _G.SpongeHolderMaker = S.SpongeHolderMaker
+    S.WashstandMaker.init(); _G.WashstandMaker = S.WashstandMaker
+    S.MortarPestleStandMaker.init(); _G.MortarPestleStandMaker = S.MortarPestleStandMaker
+    S.SpiceGrinderMaker.init(); _G.SpiceGrinderMaker = S.SpiceGrinderMaker
+    S.OlivePressMaker.init(); _G.OlivePressMaker = S.OlivePressMaker
+    S.WineStrainerMaker.init(); _G.WineStrainerMaker = S.WineStrainerMaker
+    S.HoneyDipperMaker.init(); _G.HoneyDipperMaker = S.HoneyDipperMaker
+    S.GardenSieveMaker.init(); _G.GardenSieveMaker = S.GardenSieveMaker
+    S.PlantSupportMaker.init(); _G.PlantSupportMaker = S.PlantSupportMaker
+    S.WateringSpikeMaker.init(); _G.WateringSpikeMaker = S.WateringSpikeMaker
+    S.CompostAeratorMaker.init(); _G.CompostAeratorMaker = S.CompostAeratorMaker
+    S.SeedDrillPlowMaker.init(); _G.SeedDrillPlowMaker = S.SeedDrillPlowMaker
+    S.DoughScraperMaker.init(); _G.DoughScraperMaker = S.DoughScraperMaker
+    S.ProofingBasketMaker.init(); _G.ProofingBasketMaker = S.ProofingBasketMaker
+    S.BreadLameMaker.init(); _G.BreadLameMaker = S.BreadLameMaker
+    S.OvenPeelMaker.init(); _G.OvenPeelMaker = S.OvenPeelMaker
+    S.FlourShovelMaker.init(); _G.FlourShovelMaker = S.FlourShovelMaker
+    S.FishHookMaker.init(); _G.FishHookMaker = S.FishHookMaker
+    S.FishingLineSpoolMaker.init(); _G.FishingLineSpoolMaker = S.FishingLineSpoolMaker
+    S.BaitBoxMaker.init(); _G.BaitBoxMaker = S.BaitBoxMaker
+    S.FishScalerMaker.init(); _G.FishScalerMaker = S.FishScalerMaker
+    S.NetMendingNeedleMaker.init(); _G.NetMendingNeedleMaker = S.NetMendingNeedleMaker
+    S.GlassKilnDoorMaker.init(); _G.GlassKilnDoorMaker = S.GlassKilnDoorMaker
+    S.GlassAnnealingOvenMaker.init(); _G.GlassAnnealingOvenMaker = S.GlassAnnealingOvenMaker
+    S.GlassBatchFurnaceMaker.init(); _G.GlassBatchFurnaceMaker = S.GlassBatchFurnaceMaker
+    S.GlassGloryHoleMaker.init(); _G.GlassGloryHoleMaker = S.GlassGloryHoleMaker
+    S.GlassMarverMaker.init(); _G.GlassMarverMaker = S.GlassMarverMaker
+    S.SandCasterMaker.init(); _G.SandCasterMaker = S.SandCasterMaker
+    S.LostWaxMolderMaker.init(); _G.LostWaxMolderMaker = S.LostWaxMolderMaker
+    S.CentrifugalCasterMaker.init(); _G.CentrifugalCasterMaker = S.CentrifugalCasterMaker
+    S.VacuumCasterMaker.init(); _G.VacuumCasterMaker = S.VacuumCasterMaker
+    S.IngotCasterMaker.init(); _G.IngotCasterMaker = S.IngotCasterMaker
     -- Castle Kingdoms 2027 v3.11.382: Initialize Royal Systems Registry (auto-discovers all 347+ systems)
     RoyalSystemsRegistry.init(S)
     _G.RoyalSystemsRegistry = RoyalSystemsRegistry
@@ -2778,6 +3021,127 @@ function game:update(dt)
                 S.NetMaker.update(dt)
                 S.CordageMaker.update(dt)
                 S.KnotBoardMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.432-v3.11.551: Missing system updates (120 systems)
+                S.CombMaker.update(dt)
+                S.HairbrushMaker.update(dt)
+                S.HairpinMaker.update(dt)
+                S.BeardCombMaker.update(dt)
+                S.LiceCombMaker.update(dt)
+                S.SaddleSoapMaker.update(dt)
+                S.SaddlePolishMaker.update(dt)
+                S.LeatherConditionerMaker.update(dt)
+                S.StirrupLeatherMaker.update(dt)
+                S.BridleBuckleMaker.update(dt)
+                S.CandleMoldMaker.update(dt)
+                S.WickSpinnerMaker.update(dt)
+                S.WaxDipperMaker.update(dt)
+                S.CandlestickBaseMaker.update(dt)
+                S.TaperRollerMaker.update(dt)
+                S.CrucibleMaker.update(dt)
+                S.SandMoldMaker.update(dt)
+                S.IngotMoldMaker.update(dt)
+                S.FlaskMaker.update(dt)
+                S.CastingLadleMaker.update(dt)
+                S.TongMaker.update(dt)
+                S.HammerMaker.update(dt)
+                S.AnvilMaker.update(dt)
+                S.BellowsMaker.update(dt)
+                S.ForgeTongsMaker.update(dt)
+                S.PlaneIronMaker.update(dt)
+                S.ChiselBladeMaker.update(dt)
+                S.SawSetMaker.update(dt)
+                S.AugerBitMaker.update(dt)
+                S.ClampMaker.update(dt)
+                S.PotteryWheelMaker.update(dt)
+                S.KilnFurnitureMaker.update(dt)
+                S.ClayExtruderMaker.update(dt)
+                S.GlazeSieveMaker.update(dt)
+                S.BisqueStandMaker.update(dt)
+                S.GlassBatchMaker.update(dt)
+                S.GlassColorantMaker.update(dt)
+                S.GlassSeedMaker.update(dt)
+                S.GlassRibbonMaker.update(dt)
+                S.GlassFritMaker.update(dt)
+                S.LoomHeddleMaker.update(dt)
+                S.ShuttleMaker.update(dt)
+                S.BobbinWinderMaker.update(dt)
+                S.WarpBeamMaker.update(dt)
+                S.ClothPresserMaker.update(dt)
+                S.BookPressMaker.update(dt)
+                S.StitchingAwlMaker.update(dt)
+                S.BindingCordMaker.update(dt)
+                S.LeatherCoverMaker.update(dt)
+                S.GildingPressMaker.update(dt)
+                S.QuillCutterMaker.update(dt)
+                S.InkwellMaker.update(dt)
+                S.ParchmentRackMaker.update(dt)
+                S.WaxTabletMaker.update(dt)
+                S.WritingStandMaker.update(dt)
+                S.CoinPressMaker.update(dt)
+                S.CoinDieMaker.update(dt)
+                S.CoinBlankMaker.update(dt)
+                S.CoinSorterMaker.update(dt)
+                S.CoinScaleMaker.update(dt)
+                S.StringWinderMaker.update(dt)
+                S.TuningPinMaker.update(dt)
+                S.BridgeMaker.update(dt)
+                S.SoundpostMaker.update(dt)
+                S.TailpieceMaker.update(dt)
+                S.IncenseMolderMaker.update(dt)
+                S.PerfumeBottleMaker.update(dt)
+                S.SachetMaker.update(dt)
+                S.PotpourriBowlMaker.update(dt)
+                S.ScentConeMaker.update(dt)
+                S.ShieldBossMaker.update(dt)
+                S.SwordPommelMaker.update(dt)
+                S.ScabbardChapeMaker.update(dt)
+                S.HelmetCrestMaker.update(dt)
+                S.BannerPoleMaker.update(dt)
+                S.AstrolabeRingMaker.update(dt)
+                S.StarChartRackMaker.update(dt)
+                S.CelestialGlobeMaker.update(dt)
+                S.SundialGnomonMaker.update(dt)
+                S.CompassNeedleMaker.update(dt)
+                S.PendulumRodMaker.update(dt)
+                S.EscapementLeverMaker.update(dt)
+                S.MainspringWinderMaker.update(dt)
+                S.ClockDialEngraverMaker.update(dt)
+                S.ChimeHammerMaker.update(dt)
+                S.TowelRackMaker.update(dt)
+                S.SoapDishMaker.update(dt)
+                S.BathBucketMaker.update(dt)
+                S.SpongeHolderMaker.update(dt)
+                S.WashstandMaker.update(dt)
+                S.MortarPestleStandMaker.update(dt)
+                S.SpiceGrinderMaker.update(dt)
+                S.OlivePressMaker.update(dt)
+                S.WineStrainerMaker.update(dt)
+                S.HoneyDipperMaker.update(dt)
+                S.GardenSieveMaker.update(dt)
+                S.PlantSupportMaker.update(dt)
+                S.WateringSpikeMaker.update(dt)
+                S.CompostAeratorMaker.update(dt)
+                S.SeedDrillPlowMaker.update(dt)
+                S.DoughScraperMaker.update(dt)
+                S.ProofingBasketMaker.update(dt)
+                S.BreadLameMaker.update(dt)
+                S.OvenPeelMaker.update(dt)
+                S.FlourShovelMaker.update(dt)
+                S.FishHookMaker.update(dt)
+                S.FishingLineSpoolMaker.update(dt)
+                S.BaitBoxMaker.update(dt)
+                S.FishScalerMaker.update(dt)
+                S.NetMendingNeedleMaker.update(dt)
+                S.GlassKilnDoorMaker.update(dt)
+                S.GlassAnnealingOvenMaker.update(dt)
+                S.GlassBatchFurnaceMaker.update(dt)
+                S.GlassGloryHoleMaker.update(dt)
+                S.GlassMarverMaker.update(dt)
+                S.SandCasterMaker.update(dt)
+                S.LostWaxMolderMaker.update(dt)
+                S.CentrifugalCasterMaker.update(dt)
+                S.VacuumCasterMaker.update(dt)
+                S.IngotCasterMaker.update(dt)
                 -- Castle Kingdoms 2027 v3.11.382: Royal Systems Registry aggregates stats + grants bonus gold
                 RoyalSystemsRegistry.update(dt)
                 RoyalSystemsPanel.update(dt)

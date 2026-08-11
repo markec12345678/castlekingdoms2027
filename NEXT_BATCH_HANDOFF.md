@@ -1,17 +1,17 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.431**
-- Skupaj Royal sistemov: **519**
-- Skupaj Lua datotek: **1168**
-- Sintaktična preverba: **1165/1168 pass** (3 znani false positives: moonscript.lua, test.lua, grid.lua)
+- Različica: **v3.11.551**
+- Skupaj Royal sistemov: **639**
+- Skupaj Lua datotek: **1288**
+- Sintaktična preverba: **1285/1288 pass** (3 znani false positives: moonscript.lua, test.lua, grid.lua)
 - GitHub: sinhroniziran (vsi tagi pushani)
 - Lokalni repo: `/home/z/my-project/castlekingdoms2027`
 - .love datoteke: `/home/z/my-project/download/`
 
-## 🎉 NOVO: Royal Systems Registry + UI Panel (v3.11.382)
+## NOVO: Royal Systems Registry + UI Panel (v3.11.382)
 
-Od v3.11.382 projekt vključuje **centralen manager in UI panel**, ki povezuje vse 519 Royal sisteme z igro:
+Od v3.11.382 projekt vključuje **centralen manager in UI panel**, ki povezuje vse 639 Royal sisteme z igro:
 
 - **`objects/Economy/RoyalSystemsRegistry.lua`** — auto-discovers vse sisteme, hook-a `completeMaking()`, dodeli bonus zlato (prestige × 10) ob končanem produktu
 - **`states/ui/hud/royal_systems_panel.lua`** — full-screen UI panel (toggle s Ctrl+R), ki omogoča brskanje, najem mojstrov, gradnjo delavnic, izdelavo produktov, prodajo zalog
@@ -27,15 +27,15 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 3. **Grafikon produkcije** — zgodovina proizvodnje v panelu
 4. **Sistemsko odvisnosti** — nekateri sistemi naj zahtevajo druge (npr. BellMaker zahteva Metalwork)
 
-## NASLEDNJI PAKET (v3.11.432–v3.11.436) — ČESLARSKA OPREMA
+## NASLEDNJI PAKET (v3.11.552–v3.11.556) — USNJARSKI DODATKI 2
 
 Ustvari 5 novih sistemov v `/home/z/my-project/castlekingdoms2027/objects/Economy/`:
 
-1. **RoyalCombMakerSystem.lua** → `local CombMaker` (glavniki)
-2. **RoyalHairbrushMakerSystem.lua** → `local HairbrushMaker` (ščetke za lase)
-3. **RoyalHairpinMakerSystem.lua** → `local HairpinMaker` (lasnice)
-4. **RoyalBeardCombMakerSystem.lua** → `local BeardCombMaker` (glavniki za brado)
-5. **RoyalLiceCombMakerSystem.lua** → `local LiceCombMaker` (glavniki za uši)
+1. **RoyalLeatherBurnisherMakerSystem.lua** → `local LeatherBurnisherMaker` (poliralci usnja)
+2. **RoyalLeatherSplitterMakerSystem.lua** → `local LeatherSplitterMaker` (cepalci usnja)
+3. **RoyalLeatherSkiverMakerSystem.lua** → `local LeatherSkiverMaker` (strgalci usnja)
+4. **RoyalLeatherEdgeBevelerMakerSystem.lua** → `local LeatherEdgeBevelerMaker` (poševniki robov)
+5. **RoyalLeatherCreaserMakerSystem.lua** → `local LeatherCreaserMaker` (gubalci usnja)
 
 ## PATTERN ZA VSAK SISTEM
 
@@ -50,47 +50,47 @@ Vsak sistem mora imeti:
 
 ## REGISTRACIJA V states/game.lua
 
-3 točke za vsak sistem (najdi zadnji `S.KnotBoardMaker` in dodaj za njim):
+3 točke za vsak sistem (najdi zadnji `S.IngotCasterMaker` in dodaj za njim):
 
 ```lua
--- require block (po S.KnotBoardMaker = require(...))
-S.CombMaker = require("objects.Economy.RoyalCombMakerSystem")
-S.HairbrushMaker = require("objects.Economy.RoyalHairbrushMakerSystem")
-S.HairpinMaker = require("objects.Economy.RoyalHairpinMakerSystem")
-S.BeardCombMaker = require("objects.Economy.RoyalBeardCombMakerSystem")
-S.LiceCombMaker = require("objects.Economy.RoyalLiceCombMakerSystem")
+-- require block (po S.IngotCasterMaker = require(...))
+S.LeatherBurnisherMaker = require("objects.Economy.RoyalLeatherBurnisherMakerSystem")
+S.LeatherSplitterMaker = require("objects.Economy.RoyalLeatherSplitterMakerSystem")
+S.LeatherSkiverMaker = require("objects.Economy.RoyalLeatherSkiverMakerSystem")
+S.LeatherEdgeBevelerMaker = require("objects.Economy.RoyalLeatherEdgeBevelerMakerSystem")
+S.LeatherCreaserMaker = require("objects.Economy.RoyalLeatherCreaserMakerSystem")
 
--- init block (po S.KnotBoardMaker.init(); ...)
-S.CombMaker.init(); _G.CombMaker = S.CombMaker
-S.HairbrushMaker.init(); _G.HairbrushMaker = S.HairbrushMaker
-S.HairpinMaker.init(); _G.HairpinMaker = S.HairpinMaker
-S.BeardCombMaker.init(); _G.BeardCombMaker = S.BeardCombMaker
-S.LiceCombMaker.init(); _G.LiceCombMaker = S.LiceCombMaker
+-- init block (po S.IngotCasterMaker.init(); ...)
+S.LeatherBurnisherMaker.init(); _G.LeatherBurnisherMaker = S.LeatherBurnisherMaker
+S.LeatherSplitterMaker.init(); _G.LeatherSplitterMaker = S.LeatherSplitterMaker
+S.LeatherSkiverMaker.init(); _G.LeatherSkiverMaker = S.LeatherSkiverMaker
+S.LeatherEdgeBevelerMaker.init(); _G.LeatherEdgeBevelerMaker = S.LeatherEdgeBevelerMaker
+S.LeatherCreaserMaker.init(); _G.LeatherCreaserMaker = S.LeatherCreaserMaker
 
--- update block (po S.KnotBoardMaker.update(dt))
-S.CombMaker.update(dt)
-S.HairbrushMaker.update(dt)
-S.HairpinMaker.update(dt)
-S.BeardCombMaker.update(dt)
-S.LiceCombMaker.update(dt)
+-- update block (po S.IngotCasterMaker.update(dt))
+S.LeatherBurnisherMaker.update(dt)
+S.LeatherSplitterMaker.update(dt)
+S.LeatherSkiverMaker.update(dt)
+S.LeatherEdgeBevelerMaker.update(dt)
+S.LeatherCreaserMaker.update(dt)
 ```
 
 **POMEMBNO:** `RoyalSystemsRegistry.init(S)` se izvede po vseh `init()` klicih, tako da bo auto-discover tudi teh 5 novih sistemov. Ni potrebno ročno registrirati v Registry.
 
 ## WORKFLOW
 
-1. Preveri duplikate: `ls objects/Economy/ | grep -iE "comb|hairbrush|hairpin|beardcomb|licecomb"` (mora biti prazno)
+1. Preveri duplikate: `ls objects/Economy/ | grep -iE "leatherburnisher|leathersplitter|leatherskiver|leatheredgebeveler|leathercreaser"` (mora biti prazno)
 2. Ustvari 5 .lua datotek po predlogi (glej spodaj)
 3. Registriraj v states/game.lua (3 točke)
 4. Poženi: `python3 /home/z/my-project/scripts/check_my_changes.py` (za sintaktično preverbo)
-5. Posodobi CHANGELOG.md (dodaj vnose za v3.11.432 do v3.11.436 na vrh)
+5. Posodobi CHANGELOG.md (dodaj vnose za v3.11.552 do v3.11.556 na vrh)
 6. Posodobi README.md badge-je:
-   - version-3.11.431 → version-3.11.436
-   - syntax-1165%2F1168 → syntax-1170%2F1173
-   - Royal%20systems-519 → Royal%20systems-524
-   - Lua%20files-1168 → Lua%20files-1173
-7. Git: commit, tag (v3.11.432 do v3.11.436), push
-8. Build .love: `cd /home/z/my-project/castlekingdoms2027 && zip -r -q /home/z/my-project/download/castlekingdoms2027-v3.11.436.love . -x ".git/*" "tool-results/*" "*.love" ".gitignore" "scripts/lua_syntax_check.py"`
+   - version-3.11.551 → version-3.11.556
+   - syntax-1285%2F1288 → syntax-1290%2F1293
+   - Royal%20systems-639 → Royal%20systems-644
+   - Lua%20files-1288 → Lua%20files-1293
+7. Git: commit, tag (v3.11.552 do v3.11.556), push
+8. Build .love: `cd /home/z/my-project/castlekingdoms2027 && zip -r -q /home/z/my-project/download/castlekingdoms2027-v3.11.556.love . -x ".git/*" "tool-results/*" "*.love" ".gitignore" "scripts/lua_syntax_check.py"`
 
 ## PREDLOGA ZA SISTEM (primer PickaxeMaker, kot referenca)
 
@@ -119,24 +119,23 @@ function PickaxeMaker.getStats() ... end
 return PickaxeMaker
 ```
 
-Za nove 5 sistemov (česlarska oprema) spremeni:
-- Imena produktov (npr. "železni glavnik", "železna ščetka za lase", "železna lasnica", "železni glavnik za brado", "železni glavnik za uši")
-- Imena zgradb (glavnična, ščetkarska, lasnična, bradna, ušesna delavnica/hiša/atelje/palača)
-- Maker ime (Glavnikar, Ščetkar, Lasničar, Bradar, Ušesar)
-- Event bus publish (comb.completed, hairbrush.completed, hairpin.completed, beardcomb.completed, licecomb.completed)
+Za nove 5 sistemov (usnjarski dodatki 2) spremeni:
+- Imena produktov (npr. "železni poliralec usnja", "železni cepalec usnja", "železni strgalec usnja", "železni poševnik robov", "železni gubalec usnja")
+- Imena zgradb (poliralna, cepalna, strgalna, poševna, gubalna delavnica/hiša/atelje/palača)
+- Maker ime (Poliralec, Cepalec, Strgalec, Poševnik, Gubalec)
+- Event bus publish (leatherburnisher.completed, leathersplitter.completed, leatherskiver.completed, leatheredgebeveler.completed, leathercreaser.completed)
 
 ## SPOROČILO ZA NOVO SEJO
 
 Ko začneš novo sejo, pošlji to sporočilo:
 
 ```
-Nadaljuj z razvojem Castle Kingdoms 2027. Preberi /home/z/my-project/castlekingdoms2027/NEXT_BATCH_HANDOFF.md za popolna navodila. Trenutna različica je v3.11.431. Naslednji paket je v3.11.432–v3.11.436 (česlarska oprema: CombMaker, HairbrushMaker, HairpinMaker, BeardCombMaker, LiceCombMaker). Sledi navodilom v handoff dokumentu. Po končanem paketu ročno posodobi NEXT_BATCH_HANDOFF.md z naslednjim paketom (v3.11.437–v3.11.441 — predlagano: sedlarski dodatki: SaddleSoapMaker, SaddlePolishMaker, LeatherConditionerMaker, StirrupLeatherMaker, BridleBuckleMaker).
+Nadaljuj z razvojem Castle Kingdoms 2027. Preberi /home/z/my-project/castlekingdoms2027/NEXT_BATCH_HANDOFF.md za popolna navodila. Trenutna različica je v3.11.551. Naslednji paket je v3.11.552–v3.11.556 (usnjarski dodatki 2: LeatherBurnisherMaker, LeatherSplitterMaker, LeatherSkiverMaker, LeatherEdgeBevelerMaker, LeatherCreaserMaker). Sledi navodilom v handoff dokumentu. Po končanem paketu ročno posodobi NEXT_BATCH_HANDOFF.md z naslednjim paketom (v3.11.557–v3.11.561 — predlagano: klobučarski dodatki 2: HatBrimCurlerMaker, HatCrownBlockMaker, HatStretcherMaker, HatLiningMaker, HatBandBuckleMaker).
 ```
 
 ## NASLEDNJI PAKETI (po vrsti)
 
-- v3.11.432–v3.11.436: česlarska oprema (CombMaker, HairbrushMaker, HairpinMaker, BeardCombMaker, LiceCombMaker)
-- v3.11.437–v3.11.441: sedlarski dodatki (SaddleSoapMaker, SaddlePolishMaker, LeatherConditionerMaker, StirrupLeatherMaker, BridleBuckleMaker)
-- v3.11.442–v3.11.446: voščena oprema (CandleMoldMaker, WickSpinnerMaker, WaxDipperMaker, CandlestickBaseMaker, TaperRollerMaker)
-- v3.11.447–v3.11.451: livarska oprema (CrucibleMaker, SandMoldMaker, IngotMoldMaker, FlaskMaker, CastingLadleMaker)
-
+- v3.11.552–v3.11.556: usnjarski dodatki 2 (LeatherBurnisherMaker, LeatherSplitterMaker, LeatherSkiverMaker, LeatherEdgeBevelerMaker, LeatherCreaserMaker)
+- v3.11.557–v3.11.561: klobučarski dodatki 2 (HatBrimCurlerMaker, HatCrownBlockMaker, HatStretcherMaker, HatLiningMaker, HatBandBuckleMaker)
+- v3.11.562–v3.11.566: kovaški dodatki 2 (ForgeRakeMaker, AshShovelMaker, TongsRestMaker, QuenchBucketMaker, SlackTubMaker)
+- v3.11.567–v3.11.571: mlinarski dodatki 2 (HopperScaleMaker, SackStitcherMaker, FlourSackMaker, GrainProbeMaker, MillstoneCraneMaker)

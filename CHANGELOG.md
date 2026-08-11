@@ -2,6 +2,39 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.551] — 2026-08-11 — Royal Ingot Caster Maker System (6 products, ingot casters)
+## [v3.11.550] — 2026-08-11 — Royal Vacuum Caster Maker System (6 products, vacuum casters)
+## [v3.11.549] — 2026-08-11 — Royal Centrifugal Caster Maker System (6 products, centrifugal casters)
+## [v3.11.548] — 2026-08-11 — Royal Lost Wax Molder Maker System (6 products, lost wax molders)
+## [v3.11.547] — 2026-08-11 — Royal Sand Caster Maker System (6 products, sand casters)
+## [v3.11.546] — 2026-08-11 — Royal Glass Marver Maker System (6 products, glass marvers)
+## [v3.11.545] — 2026-08-11 — Royal Glass Glory Hole Maker System (6 products, glass glory holes)
+## [v3.11.544] — 2026-08-11 — Royal Glass Batch Furnace Maker System (6 products, glass batch furnaces)
+## [v3.11.543] — 2026-08-11 — Royal Glass Annealing Oven Maker System (6 products, glass annealing ovens)
+## [v3.11.542] — 2026-08-11 — Royal Glass Kiln Door Maker System (6 products, glass kiln doors)
+
+### Dodano (v3.11.542-v3.11.551 — 10 sistemov: steklarski dodatki 2 + livarski dodatki 2)
+
+#### v3.11.542-v3.11.546 — Steklarski dodatki 2 (5 sistemov)
+- v3.11.542: GlassKilnDoorMaker (Vratar) — vrata za steklarske peči
+- v3.11.543: GlassAnnealingOvenMaker (Žarilec) — peči za žarjenje stekla
+- v3.11.544: GlassBatchFurnaceMaker (Talilec) — peči za taljenje stekla
+- v3.11.545: GlassGloryHoleMaker (Komorec) — ognjene komore za oblikovanje
+- v3.11.546: GlassMarverMaker (Marmorist) — marmorirne plošče za steklo
+
+#### v3.11.547-v3.11.551 — Livarski dodatki 2 (5 sistemov)
+- v3.11.547: SandCasterMaker (Peskar) — peskalni ulitki
+- v3.11.548: LostWaxMolderMaker (Voščar) — vosani modeli za precizno litje
+- v3.11.549: CentrifugalCasterMaker (Vrtinec) — centrifugalni ulitki
+- v3.11.550: VacuumCasterMaker (Vakuumec) — vakuumski ulitki
+- v3.11.551: IngotCasterMaker (Palicar) — palicni ulitki
+
+### Popravek: Registracija vseh manjkajočih sistemov (v3.11.432-v3.11.551)
+- V game.lua so bili registrirani vsi manjkajoči sistemi od v3.11.432 do v3.11.551 (120 sistemov)
+- Vsak sistem ima require, init in update vpis v states/game.lua
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
 ## [v3.11.431] — 2026-08-11 — Royal Knot Board Maker System (6 products, knot boards)
 ## [v3.11.430] — 2026-08-11 — Royal Cordage Maker System (6 products, cordages)
 ## [v3.11.429] — 2026-08-11 — Royal Net Maker System (6 products, nets)
