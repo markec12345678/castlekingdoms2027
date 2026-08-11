@@ -2,6 +2,35 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.521] — 2026-08-11 — Royal Washstand Maker System (6 products, washstands)
+## [v3.11.520] — 2026-08-11 — Royal Sponge Holder Maker System (6 products, sponge holders)
+## [v3.11.519] — 2026-08-11 — Royal Bath Bucket Maker System (6 products, bath buckets)
+## [v3.11.518] — 2026-08-11 — Royal Soap Dish Maker System (6 products, soap dishes)
+## [v3.11.517] — 2026-08-11 — Royal Towel Rack Maker System (6 products, towel racks)
+## [v3.11.516] — 2026-08-11 — Royal Chime Hammer Maker System (6 products, chime hammers)
+## [v3.11.515] — 2026-08-11 — Royal Clock Dial Engraver Maker System (6 products, clock dial engravers)
+## [v3.11.514] — 2026-08-11 — Royal Mainspring Winder Maker System (6 products, mainspring winders)
+## [v3.11.513] — 2026-08-11 — Royal Escapement Lever Maker System (6 products, escapement levers)
+## [v3.11.512] — 2026-08-11 — Royal Pendulum Rod Maker System (6 products, pendulum rods)
+
+### Dodano (v3.11.512-v3.11.521 — 10 sistemov: urarski dodatki + kopalniška oprema)
+
+#### v3.11.512-v3.11.516 — Urarski dodatki (5 sistemov)
+- v3.11.512: PendulumRodMaker (Nihajec) — nihajne palice
+- v3.11.513: EscapementLeverMaker (Uhopar) — uhopne ročice
+- v3.11.514: MainspringWinderMaker (Vzmetar) — navijalci vzmeti
+- v3.11.515: ClockDialEngraverMaker (Rezkar) — rezkarji števnic
+- v3.11.516: ChimeHammerMaker (Zvonar) — kladivca za zvonove
+
+#### v3.11.517-v3.11.521 — Kopalniška oprema (5 sistemov)
+- v3.11.517: TowelRackMaker (Vešalkar) — vešalke za brisače
+- v3.11.518: SoapDishMaker (Posodica) — posode za milo
+- v3.11.519: BathBucketMaker (Vedrnar) — kopališka vedra
+- v3.11.520: SpongeHolderMaker (Gobadar) — držala za gobe
+- v3.11.521: WashstandMaker (Umivalnik) — umivalni mizici
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
 ## [v3.11.511] — 2026-08-11 — Royal Compass Needle Maker System (6 products, compass needles)
 ## [v3.11.510] — 2026-08-11 — Royal Sundial Gnomon Maker System (6 products, sundial gnomons)
 ## [v3.11.509] — 2026-08-11 — Royal Celestial Globe Maker System (6 products, celestial globes)

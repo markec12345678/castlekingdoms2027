@@ -823,6 +823,18 @@ S.StarChartRackMaker = require("objects.Economy.RoyalStarChartRackMakerSystem")
 S.CelestialGlobeMaker = require("objects.Economy.RoyalCelestialGlobeMakerSystem")
 S.SundialGnomonMaker = require("objects.Economy.RoyalSundialGnomonMakerSystem")
 S.CompassNeedleMaker = require("objects.Economy.RoyalCompassNeedleMakerSystem")
+-- Castle Kingdoms 2027 v3.11.512-v3.11.516: Clockwork accessories batch (5 new Royal systems)
+S.PendulumRodMaker = require("objects.Economy.RoyalPendulumRodMakerSystem")
+S.EscapementLeverMaker = require("objects.Economy.RoyalEscapementLeverMakerSystem")
+S.MainspringWinderMaker = require("objects.Economy.RoyalMainspringWinderMakerSystem")
+S.ClockDialEngraverMaker = require("objects.Economy.RoyalClockDialEngraverMakerSystem")
+S.ChimeHammerMaker = require("objects.Economy.RoyalChimeHammerMakerSystem")
+-- Castle Kingdoms 2027 v3.11.517-v3.11.521: Bathroom equipment batch (5 new Royal systems)
+S.TowelRackMaker = require("objects.Economy.RoyalTowelRackMakerSystem")
+S.SoapDishMaker = require("objects.Economy.RoyalSoapDishMakerSystem")
+S.BathBucketMaker = require("objects.Economy.RoyalBathBucketMakerSystem")
+S.SpongeHolderMaker = require("objects.Economy.RoyalSpongeHolderMakerSystem")
+S.WashstandMaker = require("objects.Economy.RoyalWashstandMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -2072,6 +2084,18 @@ local function delayedInit()
     S.CelestialGlobeMaker.init(); _G.CelestialGlobeMaker = S.CelestialGlobeMaker
     S.SundialGnomonMaker.init(); _G.SundialGnomonMaker = S.SundialGnomonMaker
     S.CompassNeedleMaker.init(); _G.CompassNeedleMaker = S.CompassNeedleMaker
+    -- Castle Kingdoms 2027 v3.11.512-v3.11.516: Clockwork accessories batch init
+    S.PendulumRodMaker.init(); _G.PendulumRodMaker = S.PendulumRodMaker
+    S.EscapementLeverMaker.init(); _G.EscapementLeverMaker = S.EscapementLeverMaker
+    S.MainspringWinderMaker.init(); _G.MainspringWinderMaker = S.MainspringWinderMaker
+    S.ClockDialEngraverMaker.init(); _G.ClockDialEngraverMaker = S.ClockDialEngraverMaker
+    S.ChimeHammerMaker.init(); _G.ChimeHammerMaker = S.ChimeHammerMaker
+    -- Castle Kingdoms 2027 v3.11.517-v3.11.521: Bathroom equipment batch init
+    S.TowelRackMaker.init(); _G.TowelRackMaker = S.TowelRackMaker
+    S.SoapDishMaker.init(); _G.SoapDishMaker = S.SoapDishMaker
+    S.BathBucketMaker.init(); _G.BathBucketMaker = S.BathBucketMaker
+    S.SpongeHolderMaker.init(); _G.SpongeHolderMaker = S.SpongeHolderMaker
+    S.WashstandMaker.init(); _G.WashstandMaker = S.WashstandMaker
     -- Castle Kingdoms 2027 v3.11.382: Initialize Royal Systems Registry (auto-discovers all 347+ systems)
     RoyalSystemsRegistry.init(S)
     _G.RoyalSystemsRegistry = RoyalSystemsRegistry
@@ -3066,6 +3090,18 @@ function game:update(dt)
                 S.CelestialGlobeMaker.update(dt)
                 S.SundialGnomonMaker.update(dt)
                 S.CompassNeedleMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.512-v3.11.516: Clockwork accessories batch update
+                S.PendulumRodMaker.update(dt)
+                S.EscapementLeverMaker.update(dt)
+                S.MainspringWinderMaker.update(dt)
+                S.ClockDialEngraverMaker.update(dt)
+                S.ChimeHammerMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.517-v3.11.521: Bathroom equipment batch update
+                S.TowelRackMaker.update(dt)
+                S.SoapDishMaker.update(dt)
+                S.BathBucketMaker.update(dt)
+                S.SpongeHolderMaker.update(dt)
+                S.WashstandMaker.update(dt)
                 -- Castle Kingdoms 2027 v3.11.382: Royal Systems Registry aggregates stats + grants bonus gold
                 RoyalSystemsRegistry.update(dt)
                 RoyalSystemsPanel.update(dt)
