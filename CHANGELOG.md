@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.691] — 2026-08-12 — Royal Casting Ladle Skimmer Maker System (6 products, casting ladle skimmers)
+## [v3.11.690] — 2026-08-12 — Royal Ladle Preheater Maker System (6 products, ladle preheaters)
+## [v3.11.689] — 2026-08-12 — Royal Core Oven Maker System (6 products, core ovens)
+## [v3.11.688] — 2026-08-12 — Royal Sand Muller Maker System (6 products, sand mullers)
+## [v3.11.687] — 2026-08-12 — Royal Mold Wash Booth Maker System (6 products, mold wash booths)
+## [v3.11.686] — 2026-08-12 — Royal Glass Engraving Point Maker System (6 products, glass engraving points)
+## [v3.11.685] — 2026-08-12 — Royal Glass Lehr Belt Maker System (6 products, glass lehr belts)
+## [v3.11.684] — 2026-08-12 — Royal Glass Cullet Crusher Maker System (6 products, glass cullet crushers)
+## [v3.11.683] — 2026-08-12 — Royal Glass Kiln Muffle Maker System (6 products, glass kiln muffles)
+## [v3.11.682] — 2026-08-12 — Royal Glass Yoke Maker System (6 products, glass yokes)
+
+### Dodano (v3.11.682-v3.11.691 — 10 sistemov: steklarski dodatki 6 + livarski dodatki 6)
+
+#### v3.11.682-v3.11.686 — Steklarski dodatki 6 (5 sistemov)
+- v3.11.682: GlassYokeMaker (Jarmar) — jarmi za prenos stekla
+- v3.11.683: GlassKilnMuffleMaker (Mufelničar) — mufli za steklarske peči
+- v3.11.684: GlassCulletCrusherMaker (Drobljar) — drobilniki steklenega odpada
+- v3.11.685: GlassLehrBeltMaker (Tračar) — trakovi za ohlajevalne peči
+- v3.11.686: GlassEngravingPointMaker (Konidar) — rezbarske konice za steklo
+
+#### v3.11.687-v3.11.691 — Livarski dodatki 6 (5 sistemov)
+- v3.11.687: MoldWashBoothMaker (Kabinar) — kabine za pranje kalupov
+- v3.11.688: SandMullerMaker (Mešač) — mešalci livarskega peska
+- v3.11.689: CoreOvenMaker (Pečar) — peči za jedrca
+- v3.11.690: LadlePreheaterMaker (Predgrevalec) — predgrevalci zajemalk
+- v3.11.691: CastingLadleSkimmerMaker (Strgar) — površinski strgalci zajemalk
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
+Pre-flight check: pred generiranjem je bila preverjena git zgodovina za vseh 10 datotek — vse so imele 0 prior commits in so bile odsotne iz workdir. Brez duplikatov.
+
 ## [v3.11.681] — 2026-08-12 — Royal Mill Sail Cloth Maker System (6 products, mill sail cloths)
 ## [v3.11.680] — 2026-08-12 — Royal Millstone Balancer Maker System (6 products, millstone balancers)
 ## [v3.11.679] — 2026-08-12 — Royal Mill Hopper Agitator Maker System (6 products, mill hopper agitators)
