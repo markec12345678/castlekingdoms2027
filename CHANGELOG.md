@@ -2,6 +2,35 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.591] — 2026-08-12 — Royal Sugar Tongs Maker System (6 products, sugar tongs)
+## [v3.11.590] — 2026-08-12 — Royal Serving Tongs Maker System (6 products, serving tongs)
+## [v3.11.589] — 2026-08-12 — Royal Cheese Dome Maker System (6 products, cheese domes)
+## [v3.11.588] — 2026-08-12 — Royal Butter Dish Maker System (6 products, butter dishes)
+## [v3.11.587] — 2026-08-12 — Royal Egg Cup Maker System (6 products, egg cups)
+## [v3.11.586] — 2026-08-12 — Royal Crumb Tray Maker System (6 products, crumb trays)
+## [v3.11.585] — 2026-08-12 — Royal Loaf Pan Maker System (6 products, loaf pans)
+## [v3.11.584] — 2026-08-12 — Royal Crust Scorer Maker System (6 products, crust scorers)
+## [v3.11.583] — 2026-08-12 — Royal Bread Mold Maker System (6 products, bread molds)
+## [v3.11.582] — 2026-08-12 — Royal Dough Divider Maker System (6 products, dough dividers)
+
+### Dodano (v3.11.582-v3.11.591 — 10 sistemov: pekovski dodatki 2 + kuhinjski dodatki 2)
+
+#### v3.11.582-v3.11.586 — Pekovski dodatki 2 (5 sistemov)
+- v3.11.582: DoughDividerMaker (Delilnik) — delilniki testa
+- v3.11.583: BreadMoldMaker (Modelar) — modeli za kruh
+- v3.11.584: CrustScorerMaker (Zarezovalec) — zarezovalci skorje
+- v3.11.585: LoafPanMaker (Pekačar) — pekači za hlebce
+- v3.11.586: CrumbTrayMaker (Pladnjar) — pladnji za drobtine
+
+#### v3.11.587-v3.11.591 — Kuhinjski dodatki 2 (5 sistemov)
+- v3.11.587: EggCupMaker (Skodeličar) — skodelice za jajca
+- v3.11.588: ButterDishMaker (Posodičar) — posodice za maslo
+- v3.11.589: CheeseDomeMaker (Klopotar) — klopoti za sir
+- v3.11.590: ServingTongsMaker (Kleščar) — servirne klešče
+- v3.11.591: SugarTongsMaker (Sladkar) — sladkorne klešče
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
 ## [v3.11.581] — 2026-08-11 — Royal Cold Frame Maker System (6 products, cold frames)
 ## [v3.11.580] — 2026-08-11 — Royal Garden Line Maker System (6 products, garden lines)
 ## [v3.11.579] — 2026-08-11 — Royal Bulb Planter Maker System (6 products, bulb planters)
