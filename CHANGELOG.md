@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.681] — 2026-08-12 — Royal Mill Sail Cloth Maker System (6 products, mill sail cloths)
+## [v3.11.680] — 2026-08-12 — Royal Millstone Balancer Maker System (6 products, millstone balancers)
+## [v3.11.679] — 2026-08-12 — Royal Mill Hopper Agitator Maker System (6 products, mill hopper agitators)
+## [v3.11.678] — 2026-08-12 — Royal Grain Sieve Maker System (6 products, grain sieves)
+## [v3.11.677] — 2026-08-12 — Royal Millstone Lifter Hooks Maker System (6 products, millstone lifter hooks)
+## [v3.11.676] — 2026-08-12 — Royal Garden Kneeler Maker System (6 products, garden kneelers)
+## [v3.11.675] — 2026-08-12 — Royal Plant Label Maker System (6 products, plant labels)
+## [v3.11.674] — 2026-08-12 — Royal Garden Twine Dispenser Maker System (6 products, garden twine dispensers)
+## [v3.11.673] — 2026-08-12 — Royal Trellis Maker System (6 products, trellises)
+## [v3.11.672] — 2026-08-12 — Royal Garden Trowel Sharpener Maker System (6 products, garden trowel sharpeners)
+
+### Dodano (v3.11.672-v3.11.681 — 10 sistemov: vrtni dodatki 5 + mlinarski dodatki 5)
+
+#### v3.11.672-v3.11.676 — Vrtni dodatki 5 (5 sistemov)
+- v3.11.672: GardenTrowelSharpenerMaker (Brusilnik) — brusilci lopatk
+- v3.11.673: TrellisMaker (Rešetkar) — loške rešetke za rastline
+- v3.11.674: GardenTwineDispenserMaker (Razdelilnik) — razdelilci vrvice
+- v3.11.675: PlantLabelMaker (Oznakar) — oznake za rastline
+- v3.11.676: GardenKneelerMaker (Klečnik) — pohištvo za klečenje
+
+#### v3.11.677-v3.11.681 — Mlinarski dodatki 5 (5 sistemov)
+- v3.11.677: MillstoneLifterHooksMaker (Dvigalkar) — kljuki za dviganje kamnov
+- v3.11.678: GrainSieveMaker (Sitnikar) — sitane za žito
+- v3.11.679: MillHopperAgitatorMaker (Stresalec) — stresalci za lijak
+- v3.11.680: MillstoneBalancerMaker (Uravnalec) — uravnavalci mlinskih kamnov
+- v3.11.681: MillSailClothMaker (Tkalnik) — jedrna tkanina za mlin
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
+Pre-flight check: pred generiranjem je bila preverjena git zgodovina za vseh 10 datotek — vse so imele 0 prior commits in so bile odsotne iz workdir. Brez duplikatov.
+
 ## [v3.11.671] — 2026-08-12 — Royal Forge Coke Rake Maker System (6 products, forge coke rakes)
 ## [v3.11.670] — 2026-08-12 — Royal Cupola Tuyere Maker System (6 products, cupola tuyeres)
 ## [v3.11.669] — 2026-08-12 — Royal Hot Cut Hardy Maker System (6 products, hot cut hardies)
