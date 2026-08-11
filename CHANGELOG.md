@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.661] — 2026-08-12 — Royal Core Box Maker System (6 products, core boxes)
+## [v3.11.660] — 2026-08-12 — Royal Mold Coating Brush Maker System (6 products, mold coating brushes)
+## [v3.11.659] — 2026-08-12 — Royal Thermocouple Sheath Maker System (6 products, thermocouple sheaths)
+## [v3.11.658] — 2026-08-12 — Royal Degassing Lance Maker System (6 products, degassing lances)
+## [v3.11.657] — 2026-08-12 — Royal Inoculation Ladle Maker System (6 products, inoculation ladles)
+## [v3.11.656] — 2026-08-12 — Royal Glass Polishing Pad Maker System (6 products, glass polishing pads)
+## [v3.11.655] — 2026-08-12 — Royal Glass Kiln Seal Maker System (6 products, glass kiln seals)
+## [v3.11.654] — 2026-08-12 — Royal Glass Batch Mixer Maker System (6 products, glass batch mixers)
+## [v3.11.653] — 2026-08-12 — Royal Glass Cooling Rack Maker System (6 products, glass cooling racks)
+## [v3.11.652] — 2026-08-12 — Royal Glass Blowing Mold Maker System (6 products, glass blowing molds)
+
+### Dodano (v3.11.652-v3.11.661 — 10 sistemov: steklarski dodatki 5 + livarski dodatki 5)
+
+#### v3.11.652-v3.11.656 — Steklarski dodatki 5 (5 sistemov)
+- v3.11.652: GlassBlowingMoldMaker (Modelar) — modeli za pihanje stekla
+- v3.11.653: GlassCoolingRackMaker (Poličar) — ohlajevalne police za steklo
+- v3.11.654: GlassBatchMixerMaker (Mešar) — mešalci steklarske mešanice
+- v3.11.655: GlassKilnSealMaker (Tesnilkar) — tesnila za steklarske peči
+- v3.11.656: GlassPolishingPadMaker (Blaziničar) — polirne blazinice za steklo
+
+#### v3.11.657-v3.11.661 — Livarski dodatki 5 (5 sistemov)
+- v3.11.657: InoculationLadleMaker (Inokulant) — inokulacijske zajemalke
+- v3.11.658: DegassingLanceMaker (Plinilec) — plinilna kopja za livarstvo
+- v3.11.659: ThermocoupleSheathMaker (Zaščitkar) — zaščite termoelementov
+- v3.11.660: MoldCoatingBrushMaker (Čopičar) — čopiči za premaze kalupov
+- v3.11.661: CoreBoxMaker (Jeklenkar) — jeklenke za jedrca
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
+Pre-flight check: pred generiranjem je bila preverjena git zgodovina za vseh 10 datotek — vse so imele 0 prior commits in so bile odsotne iz workdir. Brez duplikatov.
+
 ## [v3.11.651] — 2026-08-12 — Royal Millstone Groove Reframer Maker System (6 products, millstone groove reframers)
 ## [v3.11.650] — 2026-08-12 — Royal Flour Packer Maker System (6 products, flour packers)
 ## [v3.11.649] — 2026-08-12 — Royal Mill Drive Belt Maker System (6 products, mill drive belts)
