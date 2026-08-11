@@ -2,6 +2,44 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.451] — 2026-08-11 — Royal Casting Ladle Maker System (6 products, casting ladles)
+## [v3.11.450] — 2026-08-11 — Royal Flask Maker System (6 products, foundry flasks)
+## [v3.11.449] — 2026-08-11 — Royal Ingot Mold Maker System (6 products, ingot molds)
+## [v3.11.448] — 2026-08-11 — Royal Sand Mold Maker System (6 products, sand molds)
+## [v3.11.447] — 2026-08-11 — Royal Crucible Maker System (6 products, crucibles)
+
+### Dodano (v3.11.447-v3.11.451 — 5 livarskih sistemov)
+
+#### v3.11.447 - Royal Crucible Maker System
+- **6 produktov** (železni talilni lonec, bronast, srebrni, pozlačeni, draguljasti, kraljevski suvereni)
+- **4 zgradbe** (talilna delavnica, talilna hiša, mojstrski talilni atelje, suverena talilna palača)
+- Maker: Talilnik, hire base 595 gold
+- Poudarek na kovini (ironCost/bronzeCost 4) - visoke temperature
+
+#### v3.11.448 - Royal Sand Mold Maker System
+- **6 produktov** (železni peskan model, bronast, srebrni, pozlačeni, draguljasti, kraljevski suvereni)
+- **4 zgradbe** (peskana delavnica, peskana hiša, mojstrski peskani atelje, suverena peskana palača)
+- Maker: Peskar, hire base 580 gold
+
+#### v3.11.449 - Royal Ingot Mold Maker System
+- **6 produktov** (železni model za palice, bronast, srebrni, pozlačeni, draguljasti, kraljevski suvereni)
+- **4 zgradbe** (palična delavnica, palična hiša, mojstrski palični atelje, suverena palična palača)
+- Maker: Paličar, hire base 585 gold
+- Poudarek na kovini (ironCost/bronzeCost 4)
+
+#### v3.11.450 - Royal Flask Maker System
+- **6 produktov** (železna steklenica za livarstvo, bronasta, srebrna, pozlačena, draguljasta, kraljevski suverena)
+- **4 zgradbe** (steklenična delavnica, steklenična hiša, mojstrski steklenični atelje, suverena steklenična palača)
+- Maker: Stekleničar, hire base 575 gold
+
+#### v3.11.451 - Royal Casting Ladle Maker System
+- **6 produktov** (železna livarska zajemalka, bronasta, srebrna, pozlačena, draguljasta, kraljevski suverena)
+- **4 zgradbe** (zajemalna delavnica, zajemalna hiša, mojstrski zajemalni atelje, suverena zajemalna palača)
+- Maker: Zajemalec, hire base 590 gold
+- Poudarek na kovini (ironCost 5, bronzeCost 5) - najbolj kovinsko-zahteven sistem
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
 ## [v3.11.446] — 2026-08-11 — Royal Taper Roller Maker System (6 products, taper rollers)
 ## [v3.11.445] — 2026-08-11 — Royal Candlestick Base Maker System (6 products, candlestick bases)
 ## [v3.11.444] — 2026-08-11 — Royal Wax Dipper Maker System (6 products, wax dippers)

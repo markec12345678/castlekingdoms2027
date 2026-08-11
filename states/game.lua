@@ -745,6 +745,12 @@ S.WickSpinnerMaker = require("objects.Economy.RoyalWickSpinnerMakerSystem")
 S.WaxDipperMaker = require("objects.Economy.RoyalWaxDipperMakerSystem")
 S.CandlestickBaseMaker = require("objects.Economy.RoyalCandlestickBaseMakerSystem")
 S.TaperRollerMaker = require("objects.Economy.RoyalTaperRollerMakerSystem")
+-- Castle Kingdoms 2027 v3.11.447-v3.11.451: Foundry/casting equipment batch (5 new Royal systems)
+S.CrucibleMaker = require("objects.Economy.RoyalCrucibleMakerSystem")
+S.SandMoldMaker = require("objects.Economy.RoyalSandMoldMakerSystem")
+S.IngotMoldMaker = require("objects.Economy.RoyalIngotMoldMakerSystem")
+S.FlaskMaker = require("objects.Economy.RoyalFlaskMakerSystem")
+S.CastingLadleMaker = require("objects.Economy.RoyalCastingLadleMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1916,6 +1922,12 @@ local function delayedInit()
     S.WaxDipperMaker.init(); _G.WaxDipperMaker = S.WaxDipperMaker
     S.CandlestickBaseMaker.init(); _G.CandlestickBaseMaker = S.CandlestickBaseMaker
     S.TaperRollerMaker.init(); _G.TaperRollerMaker = S.TaperRollerMaker
+    -- Castle Kingdoms 2027 v3.11.447-v3.11.451: Foundry/casting equipment batch init
+    S.CrucibleMaker.init(); _G.CrucibleMaker = S.CrucibleMaker
+    S.SandMoldMaker.init(); _G.SandMoldMaker = S.SandMoldMaker
+    S.IngotMoldMaker.init(); _G.IngotMoldMaker = S.IngotMoldMaker
+    S.FlaskMaker.init(); _G.FlaskMaker = S.FlaskMaker
+    S.CastingLadleMaker.init(); _G.CastingLadleMaker = S.CastingLadleMaker
     -- Castle Kingdoms 2027 v3.11.382: Initialize Royal Systems Registry (auto-discovers all 347+ systems)
     RoyalSystemsRegistry.init(S)
     _G.RoyalSystemsRegistry = RoyalSystemsRegistry
@@ -2832,6 +2844,12 @@ function game:update(dt)
                 S.WaxDipperMaker.update(dt)
                 S.CandlestickBaseMaker.update(dt)
                 S.TaperRollerMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.447-v3.11.451: Foundry/casting equipment batch update
+                S.CrucibleMaker.update(dt)
+                S.SandMoldMaker.update(dt)
+                S.IngotMoldMaker.update(dt)
+                S.FlaskMaker.update(dt)
+                S.CastingLadleMaker.update(dt)
                 -- Castle Kingdoms 2027 v3.11.382: Royal Systems Registry aggregates stats + grants bonus gold
                 RoyalSystemsRegistry.update(dt)
                 RoyalSystemsPanel.update(dt)
