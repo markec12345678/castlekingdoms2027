@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.601] — 2026-08-12 — Royal Mold Clamp Maker System (6 products, mold clamps)
+## [v3.11.600] — 2026-08-12 — Royal Pouring Ladle Maker System (6 products, pouring ladles)
+## [v3.11.599] — 2026-08-12 — Royal Sand Riddle Maker System (6 products, sand riddles)
+## [v3.11.598] — 2026-08-12 — Royal Crucible Tongs Maker System (6 products, crucible tongs)
+## [v3.11.597] — 2026-08-12 — Royal Vent Wire Maker System (6 products, vent wires)
+## [v3.11.596] — 2026-08-12 — Royal Glass Polishing Wheel Maker System (6 products, glass polishing wheels)
+## [v3.11.595] — 2026-08-12 — Royal Glass Shears Maker System (6 products, glass shears)
+## [v3.11.594] — 2026-08-12 — Royal Glass Punty Rod Maker System (6 products, glass punty rods)
+## [v3.11.593] — 2026-08-12 — Royal Glass Bench Maker System (6 products, glass benches)
+## [v3.11.592] — 2026-08-12 — Royal Glass Kiln Furniture Maker System (6 products, glass kiln furniture)
+
+### Dodano (v3.11.592-v3.11.601 — 10 sistemov: steklarski dodatki 3 + livarski dodatki 3)
+
+#### v3.11.592-v3.11.596 — Steklarski dodatki 3 (5 sistemov)
+- v3.11.592: GlassKilnFurnitureMaker (Pečar) — oprema za steklarske peči
+- v3.11.593: GlassBenchMaker (Mizar) — delovne mize za steklarje
+- v3.11.594: GlassPuntyRodMaker (Paličar) — palice za prenos stekla
+- v3.11.595: GlassShearsMaker (Škardar) — škarde za steklo
+- v3.11.596: GlassPolishingWheelMaker (Polirar) — polirna kolesa za steklo
+
+#### v3.11.597-v3.11.601 — Livarski dodatki 3 (5 sistemov)
+- v3.11.597: VentWireMaker (Odzračevalnik) — žice za odzračevanje
+- v3.11.598: CrucibleTongsMaker (Kleščar) — klešče za crucible
+- v3.11.599: SandRiddleMaker (Sitar) — sita za pesek
+- v3.11.600: PouringLadleMaker (Zajemalkar) — livarske zajemalke
+- v3.11.601: MoldClampMaker (Sponkar) — sponke za kalupe
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
+Opomba: FlaskMaker je bil predhodno dodan v v3.11.447 (Foundry/casting equipment batch) in je ostal nedotaknjen. V tem paketu je bil namesto njega dodan VentWireMaker (žice za odzračevanje) kot nov livarski sistem.
+
 ## [v3.11.591] — 2026-08-12 — Royal Sugar Tongs Maker System (6 products, sugar tongs)
 ## [v3.11.590] — 2026-08-12 — Royal Serving Tongs Maker System (6 products, serving tongs)
 ## [v3.11.589] — 2026-08-12 — Royal Cheese Dome Maker System (6 products, cheese domes)
