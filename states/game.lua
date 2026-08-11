@@ -739,6 +739,12 @@ S.SaddlePolishMaker = require("objects.Economy.RoyalSaddlePolishMakerSystem")
 S.LeatherConditionerMaker = require("objects.Economy.RoyalLeatherConditionerMakerSystem")
 S.StirrupLeatherMaker = require("objects.Economy.RoyalStirrupLeatherMakerSystem")
 S.BridleBuckleMaker = require("objects.Economy.RoyalBridleBuckleMakerSystem")
+-- Castle Kingdoms 2027 v3.11.442-v3.11.446: Wax equipment batch (5 new Royal systems)
+S.CandleMoldMaker = require("objects.Economy.RoyalCandleMoldMakerSystem")
+S.WickSpinnerMaker = require("objects.Economy.RoyalWickSpinnerMakerSystem")
+S.WaxDipperMaker = require("objects.Economy.RoyalWaxDipperMakerSystem")
+S.CandlestickBaseMaker = require("objects.Economy.RoyalCandlestickBaseMakerSystem")
+S.TaperRollerMaker = require("objects.Economy.RoyalTaperRollerMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1904,6 +1910,12 @@ local function delayedInit()
     S.LeatherConditionerMaker.init(); _G.LeatherConditionerMaker = S.LeatherConditionerMaker
     S.StirrupLeatherMaker.init(); _G.StirrupLeatherMaker = S.StirrupLeatherMaker
     S.BridleBuckleMaker.init(); _G.BridleBuckleMaker = S.BridleBuckleMaker
+    -- Castle Kingdoms 2027 v3.11.442-v3.11.446: Wax equipment batch init
+    S.CandleMoldMaker.init(); _G.CandleMoldMaker = S.CandleMoldMaker
+    S.WickSpinnerMaker.init(); _G.WickSpinnerMaker = S.WickSpinnerMaker
+    S.WaxDipperMaker.init(); _G.WaxDipperMaker = S.WaxDipperMaker
+    S.CandlestickBaseMaker.init(); _G.CandlestickBaseMaker = S.CandlestickBaseMaker
+    S.TaperRollerMaker.init(); _G.TaperRollerMaker = S.TaperRollerMaker
     -- Castle Kingdoms 2027 v3.11.382: Initialize Royal Systems Registry (auto-discovers all 347+ systems)
     RoyalSystemsRegistry.init(S)
     _G.RoyalSystemsRegistry = RoyalSystemsRegistry
@@ -2814,6 +2826,12 @@ function game:update(dt)
                 S.LeatherConditionerMaker.update(dt)
                 S.StirrupLeatherMaker.update(dt)
                 S.BridleBuckleMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.442-v3.11.446: Wax equipment batch update
+                S.CandleMoldMaker.update(dt)
+                S.WickSpinnerMaker.update(dt)
+                S.WaxDipperMaker.update(dt)
+                S.CandlestickBaseMaker.update(dt)
+                S.TaperRollerMaker.update(dt)
                 -- Castle Kingdoms 2027 v3.11.382: Royal Systems Registry aggregates stats + grants bonus gold
                 RoyalSystemsRegistry.update(dt)
                 RoyalSystemsPanel.update(dt)

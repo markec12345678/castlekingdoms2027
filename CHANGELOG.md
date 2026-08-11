@@ -2,6 +2,43 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.446] — 2026-08-11 — Royal Taper Roller Maker System (6 products, taper rollers)
+## [v3.11.445] — 2026-08-11 — Royal Candlestick Base Maker System (6 products, candlestick bases)
+## [v3.11.444] — 2026-08-11 — Royal Wax Dipper Maker System (6 products, wax dippers)
+## [v3.11.443] — 2026-08-11 — Royal Wick Spinner Maker System (6 products, wick spinners)
+## [v3.11.442] — 2026-08-11 — Royal Candle Mold Maker System (6 products, candle molds)
+
+### Dodano (v3.11.442-v3.11.446 — 5 vošenih sistemov)
+
+#### v3.11.442 - Royal Candle Mold Maker System
+- **6 produktov** (železni model za sveče, bronast, srebrni, pozlačeni, draguljasti, kraljevski suvereni)
+- **4 zgradbe** (modelna delavnica, modelna hiša, mojstrski modelni atelje, suverena modelna palača)
+- Maker: Modelar, hire base 575 gold
+- Poudarek na kovini (ironCost/bronzeCost 3)
+
+#### v3.11.443 - Royal Wick Spinner Maker System
+- **6 produktov** (železna predilnica za fitilje, bronasta, srebrna, pozlačena, draguljasta, kraljevski suverena)
+- **4 zgradbe** (predilna delavnica, predilna hiša, mojstrski predilni atelje, suverena predilna palača)
+- Maker: Predilnik, hire base 570 gold
+- Poudarek na lesu (woodCost 3)
+
+#### v3.11.444 - Royal Wax Dipper Maker System
+- **6 produktov** (železni potapljač za voskom, bronast, srebrni, pozlačeni, draguljasti, kraljevski suvereni)
+- **4 zgradbe** (potapljajoča delavnica, potapljajoča hiša, mojstrski potapljajoči atelje, suverena potapljajoča palača)
+- Maker: Potapljač, hire base 580 gold
+
+#### v3.11.445 - Royal Candlestick Base Maker System
+- **6 produktov** (železni podstavka za svečnik, bronast, srebrni, pozlačeni, draguljasti, kraljevski suvereni)
+- **4 zgradbe** (podstavkarska delavnica, podstavkarska hiša, mojstrski podstavkarski atelje, suverena podstavkarska palača)
+- Maker: Podstavkar, hire base 585 gold
+
+#### v3.11.446 - Royal Taper Roller Maker System
+- **6 produktov** (železni valjalec za tanke sveče, bronast, srebrni, pozlačeni, draguljasti, kraljevski suvereni)
+- **4 zgradbe** (valjalna delavnica, valjalna hiša, mojstrski valjalni atelje, suverena valjalna palača)
+- Maker: Valjalec, hire base 590 gold
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
 ## [v3.11.441] — 2026-08-11 — Royal Bridle Buckle Maker System (6 products, bridle buckles)
 ## [v3.11.440] — 2026-08-11 — Royal Stirrup Leather Maker System (6 products, stirrup leathers)
 ## [v3.11.439] — 2026-08-11 — Royal Leather Conditioner Maker System (6 products, leather conditioners)
