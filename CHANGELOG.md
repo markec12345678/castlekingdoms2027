@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.611] — 2026-08-12 — Royal Flatter Maker System (6 products, flatters)
+## [v3.11.610] — 2026-08-12 — Royal Fuller Maker System (6 products, fullers)
+## [v3.11.609] — 2026-08-12 — Royal Treadle Hammer Maker System (6 products, treadle hammers)
+## [v3.11.608] — 2026-08-12 — Royal Hardy Hole Maker System (6 products, hardy holes)
+## [v3.11.607] — 2026-08-12 — Royal Swage Block Maker System (6 products, swage blocks)
+## [v3.11.606] — 2026-08-12 — Royal Book Clasp Maker System (6 products, book clasps)
+## [v3.11.605] — 2026-08-12 — Royal Headband Loom Maker System (6 products, headband looms)
+## [v3.11.604] — 2026-08-12 — Royal Gilding Brush Maker System (6 products, gilding brushes)
+## [v3.11.603] — 2026-08-12 — Royal Book Cover Stamp Maker System (6 products, book cover stamps)
+## [v3.11.602] — 2026-08-12 — Royal Book Stitching Frame Maker System (6 products, book stitching frames)
+
+### Dodano (v3.11.602-v3.11.611 — 10 sistemov: knjigoveški dodatki 3 + kovaški dodatki 3)
+
+#### v3.11.602-v3.11.606 — Knjigoveški dodatki 3 (5 sistemov)
+- v3.11.602: BookStitchingFrameMaker (Okvirjar) — okvirji za šivanje knjig
+- v3.11.603: BookCoverStampMaker (Žigar) — žigi za naslovnice
+- v3.11.604: GildingBrushMaker (Čopičar) — čopiči za pozlačevanje
+- v3.11.605: HeadbandLoomMaker (Statvar) — stati za kapice knjig
+- v3.11.606: BookClaspMaker (Sponkar) — sponke za knjige
+
+#### v3.11.607-v3.11.611 — Kovaški dodatki 3 (5 sistemov)
+- v3.11.607: SwageBlockMaker (Kalupnik) — kalupi za kovanje
+- v3.11.608: HardyHoleMaker (Luknjar) — luknje za trdo orodje
+- v3.11.609: TreadleHammerMaker (Pedalar) — pedalna kladiva
+- v3.11.610: FullerMaker (Utorjar) — fullerji za utorjanje
+- v3.11.611: FlatterMaker (Ploščar) — ploščata kladiva
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
+Pre-flight check: pred generiranjem je bila preverjena git zgodovina za vseh 10 datotek — nobena od njih ni bila predhodno dodana (0 prior commits). Po flask-incidentu v prejšnjem paketu je to sedaj standardni korak.
+
 ## [v3.11.601] — 2026-08-12 — Royal Mold Clamp Maker System (6 products, mold clamps)
 ## [v3.11.600] — 2026-08-12 — Royal Pouring Ladle Maker System (6 products, pouring ladles)
 ## [v3.11.599] — 2026-08-12 — Royal Sand Riddle Maker System (6 products, sand riddles)
