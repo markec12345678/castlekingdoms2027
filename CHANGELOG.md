@@ -2,6 +2,35 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.471] — 2026-08-11 — Royal Glass Frit Maker System (6 products, glass frits)
+## [v3.11.470] — 2026-08-11 — Royal Glass Ribbon Maker System (6 products, glass ribbons)
+## [v3.11.469] — 2026-08-11 — Royal Glass Seed Maker System (6 products, glass seeds)
+## [v3.11.468] — 2026-08-11 — Royal Glass Colorant Maker System (6 products, glass colorants)
+## [v3.11.467] — 2026-08-11 — Royal Glass Batch Maker System (6 products, glass batches)
+## [v3.11.466] — 2026-08-11 — Royal Bisque Stand Maker System (6 products, bisque stands)
+## [v3.11.465] — 2026-08-11 — Royal Glaze Sieve Maker System (6 products, glaze sieves)
+## [v3.11.464] — 2026-08-11 — Royal Clay Extruder Maker System (6 products, clay extruders)
+## [v3.11.463] — 2026-08-11 — Royal Kiln Furniture Maker System (6 products, kiln furniture)
+## [v3.11.462] — 2026-08-11 — Royal Pottery Wheel Maker System (6 products, pottery wheels)
+
+### Dodano (v3.11.462-v3.11.471 — 10 sistemov: keramična oprema + steklarski dodatki)
+
+#### v3.11.462-v3.11.466 — Keramična oprema (5 sistemov)
+- v3.11.462: PotteryWheelMaker (Lončar) — lončarska kolesa
+- v3.11.463: KilnFurnitureMaker (Pešičar) — pešice za peči
+- v3.11.464: ClayExtruderMaker (Ekstruderar) — ekstruderji za glino
+- v3.11.465: GlazeSieveMaker (Sitar) — sita za glazure
+- v3.11.466: BisqueStandMaker (Stojalar) — stojala za žganje keramike
+
+#### v3.11.467-v3.11.471 — Steklarski dodatki (5 sistemov)
+- v3.11.467: GlassBatchMaker (Mešalec) — mešanice za steklo
+- v3.11.468: GlassColorantMaker (Barvar) — barvila za steklo
+- v3.11.469: GlassSeedMaker (Seminar) — semena za steklo
+- v3.11.470: GlassRibbonMaker (Trakar) — trakovi za steklo
+- v3.11.471: GlassFritMaker (Fritar) — frit za steklo
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
 ## [v3.11.461] — 2026-08-11 — Royal Clamp Maker System (6 products, clamps)
 ## [v3.11.460] — 2026-08-11 — Royal Auger Bit Maker System (6 products, auger bits)
 ## [v3.11.459] — 2026-08-11 — Royal Saw Set Maker System (6 products, saw sets)

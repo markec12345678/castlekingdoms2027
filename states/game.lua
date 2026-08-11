@@ -763,6 +763,18 @@ S.ChiselBladeMaker = require("objects.Economy.RoyalChiselBladeMakerSystem")
 S.SawSetMaker = require("objects.Economy.RoyalSawSetMakerSystem")
 S.AugerBitMaker = require("objects.Economy.RoyalAugerBitMakerSystem")
 S.ClampMaker = require("objects.Economy.RoyalClampMakerSystem")
+-- Castle Kingdoms 2027 v3.11.462-v3.11.466: Ceramic equipment batch (5 new Royal systems)
+S.PotteryWheelMaker = require("objects.Economy.RoyalPotteryWheelMakerSystem")
+S.KilnFurnitureMaker = require("objects.Economy.RoyalKilnFurnitureMakerSystem")
+S.ClayExtruderMaker = require("objects.Economy.RoyalClayExtruderMakerSystem")
+S.GlazeSieveMaker = require("objects.Economy.RoyalGlazeSieveMakerSystem")
+S.BisqueStandMaker = require("objects.Economy.RoyalBisqueStandMakerSystem")
+-- Castle Kingdoms 2027 v3.11.467-v3.11.471: Glassmaking accessories batch (5 new Royal systems)
+S.GlassBatchMaker = require("objects.Economy.RoyalGlassBatchMakerSystem")
+S.GlassColorantMaker = require("objects.Economy.RoyalGlassColorantMakerSystem")
+S.GlassSeedMaker = require("objects.Economy.RoyalGlassSeedMakerSystem")
+S.GlassRibbonMaker = require("objects.Economy.RoyalGlassRibbonMakerSystem")
+S.GlassFritMaker = require("objects.Economy.RoyalGlassFritMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1952,6 +1964,18 @@ local function delayedInit()
     S.SawSetMaker.init(); _G.SawSetMaker = S.SawSetMaker
     S.AugerBitMaker.init(); _G.AugerBitMaker = S.AugerBitMaker
     S.ClampMaker.init(); _G.ClampMaker = S.ClampMaker
+    -- Castle Kingdoms 2027 v3.11.462-v3.11.466: Ceramic equipment batch init
+    S.PotteryWheelMaker.init(); _G.PotteryWheelMaker = S.PotteryWheelMaker
+    S.KilnFurnitureMaker.init(); _G.KilnFurnitureMaker = S.KilnFurnitureMaker
+    S.ClayExtruderMaker.init(); _G.ClayExtruderMaker = S.ClayExtruderMaker
+    S.GlazeSieveMaker.init(); _G.GlazeSieveMaker = S.GlazeSieveMaker
+    S.BisqueStandMaker.init(); _G.BisqueStandMaker = S.BisqueStandMaker
+    -- Castle Kingdoms 2027 v3.11.467-v3.11.471: Glassmaking accessories batch init
+    S.GlassBatchMaker.init(); _G.GlassBatchMaker = S.GlassBatchMaker
+    S.GlassColorantMaker.init(); _G.GlassColorantMaker = S.GlassColorantMaker
+    S.GlassSeedMaker.init(); _G.GlassSeedMaker = S.GlassSeedMaker
+    S.GlassRibbonMaker.init(); _G.GlassRibbonMaker = S.GlassRibbonMaker
+    S.GlassFritMaker.init(); _G.GlassFritMaker = S.GlassFritMaker
     -- Castle Kingdoms 2027 v3.11.382: Initialize Royal Systems Registry (auto-discovers all 347+ systems)
     RoyalSystemsRegistry.init(S)
     _G.RoyalSystemsRegistry = RoyalSystemsRegistry
@@ -2886,6 +2910,18 @@ function game:update(dt)
                 S.SawSetMaker.update(dt)
                 S.AugerBitMaker.update(dt)
                 S.ClampMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.462-v3.11.466: Ceramic equipment batch update
+                S.PotteryWheelMaker.update(dt)
+                S.KilnFurnitureMaker.update(dt)
+                S.ClayExtruderMaker.update(dt)
+                S.GlazeSieveMaker.update(dt)
+                S.BisqueStandMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.467-v3.11.471: Glassmaking accessories batch update
+                S.GlassBatchMaker.update(dt)
+                S.GlassColorantMaker.update(dt)
+                S.GlassSeedMaker.update(dt)
+                S.GlassRibbonMaker.update(dt)
+                S.GlassFritMaker.update(dt)
                 -- Castle Kingdoms 2027 v3.11.382: Royal Systems Registry aggregates stats + grants bonus gold
                 RoyalSystemsRegistry.update(dt)
                 RoyalSystemsPanel.update(dt)

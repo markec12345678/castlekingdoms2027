@@ -1,17 +1,17 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.461**
-- Skupaj Royal sistemov: **549**
-- Skupaj Lua datotek: **1198**
-- Sintaktična preverba: **1195/1198 pass** (3 znani false positives: moonscript.lua, test.lua, grid.lua)
+- Različica: **v3.11.471**
+- Skupaj Royal sistemov: **559**
+- Skupaj Lua datotek: **1208**
+- Sintaktična preverba: **1205/1208 pass** (3 znani false positives: moonscript.lua, test.lua, grid.lua)
 - GitHub: sinhroniziran (vsi tagi pushani)
 - Lokalni repo: `/home/z/my-project/castlekingdoms2027`
 - .love datoteke: `/home/z/my-project/download/`
 
 ## 🎉 NOVO: Royal Systems Registry + UI Panel (v3.11.382)
 
-Od v3.11.382 projekt vključuje **centralen manager in UI panel**, ki povezuje vse 549 Royal sisteme z igro:
+Od v3.11.382 projekt vključuje **centralen manager in UI panel**, ki povezuje vse 559 Royal sisteme z igro:
 
 - **`objects/Economy/RoyalSystemsRegistry.lua`** — auto-discovers vse sisteme, hook-a `completeMaking()`, dodeli bonus zlato (prestige × 10) ob končanem produktu
 - **`states/ui/hud/royal_systems_panel.lua`** — full-screen UI panel (toggle s Ctrl+R), ki omogoča brskanje, najem mojstrov, gradnjo delavnic, izdelavo produktov, prodajo zalog
@@ -27,15 +27,15 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 3. **Grafikon produkcije** — zgodovina proizvodnje v panelu
 4. **Sistemsko odvisnosti** — nekateri sistemi naj zahtevajo druge (npr. BellMaker zahteva Metalwork)
 
-## NASLEDNJI PAKET (v3.11.462–v3.11.466) — KERAMIČNA OPREMA
+## NASLEDNJI PAKET (v3.11.472–v3.11.476) — TKALSKA OPREMA
 
 Ustvari 5 novih sistemov v `/home/z/my-project/castlekingdoms2027/objects/Economy/`:
 
-1. **RoyalPotteryWheelMakerSystem.lua** → `local PotteryWheelMaker` (lončarska kolesa)
-2. **RoyalKilnFurnitureMakerSystem.lua** → `local KilnFurnitureMaker` (pešice za peči)
-3. **RoyalClayExtruderMakerSystem.lua** → `local ClayExtruderMaker` (ekstruderji za glino)
-4. **RoyalGlazeSieveMakerSystem.lua** → `local GlazeSieveMaker` (sitata za glazure)
-5. **RoyalBisqueStandMakerSystem.lua** → `local BisqueStandMaker` (stojala za žganje keramike)
+1. **RoyalLoomHeddleMakerSystem.lua** → `local LoomHeddleMaker` (listovnice za statve)
+2. **RoyalShuttleMakerSystem.lua** → `local ShuttleMaker` (čolničke za tkanje)
+3. **RoyalBobbinWinderMakerSystem.lua** → `local BobbinWinderMaker` (navijalce vretencev)
+4. **RoyalWarpBeamMakerSystem.lua** → `local WarpBeamMaker` (osnovne gredice)
+5. **RoyalClothPresserMakerSystem.lua** → `local ClothPresserMaker` (stiskalce tkanin)
 
 ## PATTERN ZA VSAK SISTEM
 
@@ -50,47 +50,47 @@ Vsak sistem mora imeti:
 
 ## REGISTRACIJA V states/game.lua
 
-3 točke za vsak sistem (najdi zadnji `S.ClampMaker` in dodaj za njim):
+3 točke za vsak sistem (najdi zadnji `S.GlassFritMaker` in dodaj za njim):
 
 ```lua
--- require block (po S.ClampMaker = require(...))
-S.PotteryWheelMaker = require("objects.Economy.RoyalPotteryWheelMakerSystem")
-S.KilnFurnitureMaker = require("objects.Economy.RoyalKilnFurnitureMakerSystem")
-S.ClayExtruderMaker = require("objects.Economy.RoyalClayExtruderMakerSystem")
-S.GlazeSieveMaker = require("objects.Economy.RoyalGlazeSieveMakerSystem")
-S.BisqueStandMaker = require("objects.Economy.RoyalBisqueStandMakerSystem")
+-- require block (po S.GlassFritMaker = require(...))
+S.LoomHeddleMaker = require("objects.Economy.RoyalLoomHeddleMakerSystem")
+S.ShuttleMaker = require("objects.Economy.RoyalShuttleMakerSystem")
+S.BobbinWinderMaker = require("objects.Economy.RoyalBobbinWinderMakerSystem")
+S.WarpBeamMaker = require("objects.Economy.RoyalWarpBeamMakerSystem")
+S.ClothPresserMaker = require("objects.Economy.RoyalClothPresserMakerSystem")
 
--- init block (po S.ClampMaker.init(); ...)
-S.PotteryWheelMaker.init(); _G.PotteryWheelMaker = S.PotteryWheelMaker
-S.KilnFurnitureMaker.init(); _G.KilnFurnitureMaker = S.KilnFurnitureMaker
-S.ClayExtruderMaker.init(); _G.ClayExtruderMaker = S.ClayExtruderMaker
-S.GlazeSieveMaker.init(); _G.GlazeSieveMaker = S.GlazeSieveMaker
-S.BisqueStandMaker.init(); _G.BisqueStandMaker = S.BisqueStandMaker
+-- init block (po S.GlassFritMaker.init(); ...)
+S.LoomHeddleMaker.init(); _G.LoomHeddleMaker = S.LoomHeddleMaker
+S.ShuttleMaker.init(); _G.ShuttleMaker = S.ShuttleMaker
+S.BobbinWinderMaker.init(); _G.BobbinWinderMaker = S.BobbinWinderMaker
+S.WarpBeamMaker.init(); _G.WarpBeamMaker = S.WarpBeamMaker
+S.ClothPresserMaker.init(); _G.ClothPresserMaker = S.ClothPresserMaker
 
--- update block (po S.ClampMaker.update(dt))
-S.PotteryWheelMaker.update(dt)
-S.KilnFurnitureMaker.update(dt)
-S.ClayExtruderMaker.update(dt)
-S.GlazeSieveMaker.update(dt)
-S.BisqueStandMaker.update(dt)
+-- update block (po S.GlassFritMaker.update(dt))
+S.LoomHeddleMaker.update(dt)
+S.ShuttleMaker.update(dt)
+S.BobbinWinderMaker.update(dt)
+S.WarpBeamMaker.update(dt)
+S.ClothPresserMaker.update(dt)
 ```
 
 **POMEMBNO:** `RoyalSystemsRegistry.init(S)` se izvede po vseh `init()` klicih, tako da bo auto-discover tudi teh 5 novih sistemov. Ni potrebno ročno registrirati v Registry.
 
 ## WORKFLOW
 
-1. Preveri duplikate: `ls objects/Economy/ | grep -iE "potterywheel|kilnfurniture|clayextruder|glazesieve|bisquestand"` (mora biti prazno)
+1. Preveri duplikate: `ls objects/Economy/ | grep -iE "loomheddle|shuttle|bobbinwinder|warpbeam|clothpresser"` (mora biti prazno)
 2. Ustvari 5 .lua datotek po predlogi (glej spodaj)
 3. Registriraj v states/game.lua (3 točke)
 4. Poženi: `python3 /home/z/my-project/scripts/check_my_changes.py` (za sintaktično preverbo)
-5. Posodobi CHANGELOG.md (dodaj vnose za v3.11.462 do v3.11.466 na vrh)
+5. Posodobi CHANGELOG.md (dodaj vnose za v3.11.472 do v3.11.476 na vrh)
 6. Posodobi README.md badge-je:
-   - version-3.11.461 → version-3.11.466
-   - syntax-1195%2F1198 → syntax-1200%2F1203
-   - Royal%20systems-549 → Royal%20systems-554
-   - Lua%20files-1198 → Lua%20files-1203
-7. Git: commit, tag (v3.11.462 do v3.11.466), push
-8. Build .love: `cd /home/z/my-project/castlekingdoms2027 && zip -r -q /home/z/my-project/download/castlekingdoms2027-v3.11.466.love . -x ".git/*" "tool-results/*" "*.love" ".gitignore" "scripts/lua_syntax_check.py"`
+   - version-3.11.471 → version-3.11.476
+   - syntax-1205%2F1208 → syntax-1210%2F1213
+   - Royal%20systems-559 → Royal%20systems-564
+   - Lua%20files-1208 → Lua%20files-1213
+7. Git: commit, tag (v3.11.472 do v3.11.476), push
+8. Build .love: `cd /home/z/my-project/castlekingdoms2027 && zip -r -q /home/z/my-project/download/castlekingdoms2027-v3.11.476.love . -x ".git/*" "tool-results/*" "*.love" ".gitignore" "scripts/lua_syntax_check.py"`
 
 ## PREDLOGA ZA SISTEM (primer PickaxeMaker, kot referenca)
 
@@ -119,24 +119,24 @@ function PickaxeMaker.getStats() ... end
 return PickaxeMaker
 ```
 
-Za nove 5 sistemov (keramična oprema) spremeni:
-- Imena produktov (npr. "železno lončarsko kolo", "železne pešice za peči", "železni ekstruder za glino", "železno sito za glazure", "železno stojalo za žganje keramike")
-- Imena zgradb (lončarska, pešična, ekstruderska, sitna, stojalna delavnica/hiša/atelje/palača)
-- Maker ime (Lončar, Pešičar, Ekstruderar, Sitar, Stojalar)
-- Event bus publish (potterywheel.completed, kilnfurniture.completed, clayextruder.completed, glazesieve.completed, bisquestand.completed)
+Za nove 5 sistemov (tkalska oprema) spremeni:
+- Imena produktov (npr. "železna listovnica za statve", "železni čolniček za tkanje", "železni navijalec vretencev", "železna osnovna gredica", "železno stiskalec tkanin")
+- Imena zgradb (listovnična, čolnična, navijalna, gredična, stiskalna delavnica/hiša/atelje/palača)
+- Maker ime (Listar, Čolničar, Navijalec, Gredičar, Stiskalec)
+- Event bus publish (loomheddle.completed, shuttle.completed, bobbinwinder.completed, warpbeam.completed, clothpresser.completed)
 
 ## SPOROČILO ZA NOVO SEJO
 
 Ko začneš novo sejo, pošlji to sporočilo:
 
 ```
-Nadaljuj z razvojem Castle Kingdoms 2027. Preberi /home/z/my-project/castlekingdoms2027/NEXT_BATCH_HANDOFF.md za popolna navodila. Trenutna različica je v3.11.461. Naslednji paket je v3.11.462–v3.11.466 (keramična oprema: PotteryWheelMaker, KilnFurnitureMaker, ClayExtruderMaker, GlazeSieveMaker, BisqueStandMaker). Sledi navodilom v handoff dokumentu. Po končanem paketu ročno posodobi NEXT_BATCH_HANDOFF.md z naslednjim paketom (v3.11.467–v3.11.471 — predlagano: steklarski dodatki: GlassBatchMaker, GlassColorantMaker, GlassSeedMaker, GlassRibbonMaker, GlassFritMaker).
+Nadaljuj z razvojem Castle Kingdoms 2027. Preberi /home/z/my-project/castlekingdoms2027/NEXT_BATCH_HANDOFF.md za popolna navodila. Trenutna različica je v3.11.471. Naslednji paket je v3.11.472–v3.11.476 (tkalska oprema: LoomHeddleMaker, ShuttleMaker, BobbinWinderMaker, WarpBeamMaker, ClothPresserMaker). Sledi navodilom v handoff dokumentu. Po končanem paketu ročno posodobi NEXT_BATCH_HANDOFF.md z naslednjim paketom (v3.11.477–v3.11.481 — predlagano: knjigoveška oprema: BookPressMaker, StitchingAwlMaker, BindingCordMaker, LeatherCoverMaker, GildingPressMaker).
 ```
 
 ## NASLEDNJI PAKETI (po vrsti)
 
-- v3.11.462–v3.11.466: keramična oprema (PotteryWheelMaker, KilnFurnitureMaker, ClayExtruderMaker, GlazeSieveMaker, BisqueStandMaker)
-- v3.11.467–v3.11.471: steklarski dodatki (GlassBatchMaker, GlassColorantMaker, GlassSeedMaker, GlassRibbonMaker, GlassFritMaker)
 - v3.11.472–v3.11.476: tkalska oprema (LoomHeddleMaker, ShuttleMaker, BobbinWinderMaker, WarpBeamMaker, ClothPresserMaker)
 - v3.11.477–v3.11.481: knjigoveška oprema (BookPressMaker, StitchingAwlMaker, BindingCordMaker, LeatherCoverMaker, GildingPressMaker)
+- v3.11.482–v3.11.486: peresna oprema (QuillCutterMaker, InkwellMaker, ParchmentRackMaker, WaxTabletMaker, WritingStandMaker)
+- v3.11.487–v3.11.491: kovanska oprema (CoinPressMaker, CoinDieMaker, CoinBlankMaker, CoinSorterMaker, CoinScaleMaker)
 
