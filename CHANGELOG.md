@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.741] — 2026-08-12 — Royal Mill Sail Cloth Reel Maker System (6 products, mill sail cloth reels)
+## [v3.11.740] — 2026-08-12 — Royal Millstone Eye Reamer Maker System (6 products, millstone eye reamers)
+## [v3.11.739] — 2026-08-12 — Royal Mill Hopper Lid Maker System (6 products, mill hopper lids)
+## [v3.11.738] — 2026-08-12 — Royal Grain Auger Spiral Maker System (6 products, grain auger spirals)
+## [v3.11.737] — 2026-08-12 — Royal Millstone Tenter Hook Maker System (6 products, millstone tenter hooks)
+## [v3.11.736] — 2026-08-12 — Royal Garden Soil Aerator Spike Maker System (6 products, garden soil aerator spikes)
+## [v3.11.735] — 2026-08-12 — Royal Garden Leaf Grabber Maker System (6 products, garden leaf grabbers)
+## [v3.11.734] — 2026-08-12 — Royal Garden Dibber Depth Gauge Maker System (6 products, garden dibber depth gauges)
+## [v3.11.733] — 2026-08-12 — Royal Plant Climbing Net Maker System (6 products, plant climbing nets)
+## [v3.11.732] — 2026-08-12 — Royal Garden Border Edger Maker System (6 products, garden border edgers)
+
+### Dodano (v3.11.732-v3.11.741 — 10 sistemov: vrtni dodatki 7 + mlinarski dodatki 7)
+
+#### v3.11.732-v3.11.736 — Vrtni dodatki 7 (5 sistemov)
+- v3.11.732: GardenBorderEdgerMaker (Robnik) — robovi za gredice
+- v3.11.733: PlantClimbingNetMaker (Mrežar) — mreže za plezalke
+- v3.11.734: GardenDibberDepthGaugeMaker (Merilnik) — merilci globine za sadilnik
+- v3.11.735: GardenLeafGrabberMaker (Listar) — grablje za liste
+- v3.11.736: GardenSoilAeratorSpikeMaker (Bodalar) — bodala za zračenje tal
+
+#### v3.11.737-v3.11.741 — Mlinarski dodatki 7 (5 sistemov)
+- v3.11.737: MillstoneTenterHookMaker (Napenjalec) — kljuki za napenjanje kamnov
+- v3.11.738: GrainAugerSpiralMaker (Spiralar) — spirale za transporter žita
+- v3.11.739: MillHopperLidMaker (Pokrovnik) — pokrovi za lijak mlina
+- v3.11.740: MillstoneEyeReamerMaker (Razširjevalec) — razširjevalci očes mlinskih kamnov
+- v3.11.741: MillSailClothReelMaker (Vitičar) — vitice za jedrno tkanino mlina
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
+Pre-flight check: pred generiranjem je bila preverjena git zgodovina za vseh 10 datotek — vse so imele 0 prior commits in so bile odsotne iz workdir. Brez duplikatov.
+
 ## [v3.11.731] — 2026-08-12 — Royal Slack Tub Lid Maker System (6 products, slack tub lids)
 ## [v3.11.730] — 2026-08-12 — Royal Hardy Shank Maker System (6 products, hardy shanks)
 ## [v3.11.729] — 2026-08-12 — Royal Forge Hood Flue Maker System (6 products, forge hood flues)
