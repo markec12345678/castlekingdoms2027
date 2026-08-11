@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.721] — 2026-08-12 — Royal Casting Breakout Chisel Maker System (6 products, casting breakout chisels)
+## [v3.11.720] — 2026-08-12 — Royal Core Paste Mixer Maker System (6 products, core paste mixers)
+## [v3.11.719] — 2026-08-12 — Royal Sand Conditioner Maker System (6 products, sand conditioners)
+## [v3.11.718] — 2026-08-12 — Royal Pouring Cone Maker System (6 products, pouring cones)
+## [v3.11.717] — 2026-08-12 — Royal Mold Drying Stand Maker System (6 products, mold drying stands)
+## [v3.11.716] — 2026-08-12 — Royal Glass Shear Spring Maker System (6 products, glass shear springs)
+## [v3.11.715] — 2026-08-12 — Royal Glass Annealing Cart Maker System (6 products, glass annealing carts)
+## [v3.11.714] — 2026-08-12 — Royal Glass Colorant Spatula Maker System (6 products, glass colorant spatulas)
+## [v3.11.713] — 2026-08-12 — Royal Glass Kiln Spy Maker System (6 products, glass kiln spies)
+## [v3.11.712] — 2026-08-12 — Royal Glass Punty Warmer Maker System (6 products, glass punty warmers)
+
+### Dodano (v3.11.712-v3.11.721 — 10 sistemov: steklarski dodatki 7 + livarski dodatki 7)
+
+#### v3.11.712-v3.11.716 — Steklarski dodatki 7 (5 sistemov)
+- v3.11.712: GlassPuntyWarmerMaker (Grevalnik) — grevalniki palic za steklo
+- v3.11.713: GlassKilnSpyMaker (Opazovalnik) — opazovalne odprtine peči
+- v3.11.714: GlassColorantSpatulaMaker (Lopatičar) — lopatice za steklarske barve
+- v3.11.715: GlassAnnealingCartMaker (Vozičkar) — vozički za ohlajanje stekla
+- v3.11.716: GlassShearSpringMaker (Vzmetnik) — vzmeti za steklarske škarde
+
+#### v3.11.717-v3.11.721 — Livarski dodatki 7 (5 sistemov)
+- v3.11.717: MoldDryingStandMaker (Stojalnik) — stojala za sušenje kalupov
+- v3.11.718: PouringConeMaker (Lijakar) — lijaki za vlivanje
+- v3.11.719: SandConditionerMaker (Kondicionar) — kondicionerji za livarski pesek
+- v3.11.720: CorePasteMixerMaker (Mešalnik) — mešalniki jedrne paste
+- v3.11.721: CastingBreakoutChiselMaker (Dletnik) — dleta za odklešanje
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
+Pre-flight check: pred generiranjem je bila preverjena git zgodovina za vseh 10 datotek — vse so imele 0 prior commits in so bile odsotne iz workdir. Brez duplikatov.
+
 ## [v3.11.711] — 2026-08-12 — Royal Mill Sail Frame Maker System (6 products, mill sail frames)
 ## [v3.11.710] — 2026-08-12 — Royal Millstone Bush Maker System (6 products, millstone bushes)
 ## [v3.11.709] — 2026-08-12 — Royal Mill Hopper Shaker Maker System (6 products, mill hopper shakers)
