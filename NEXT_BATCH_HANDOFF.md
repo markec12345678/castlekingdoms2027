@@ -1,17 +1,17 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.521**
-- Skupaj Royal sistemov: **609**
-- Skupaj Lua datotek: **1258**
-- Sintaktična preverba: **1255/1258 pass** (3 znani false positives: moonscript.lua, test.lua, grid.lua)
+- Različica: **v3.11.531**
+- Skupaj Royal sistemov: **619**
+- Skupaj Lua datotek: **1268**
+- Sintaktična preverba: **1265/1268 pass** (3 znani false positives: moonscript.lua, test.lua, grid.lua)
 - GitHub: sinhroniziran (vsi tagi pushani)
 - Lokalni repo: `/home/z/my-project/castlekingdoms2027`
 - .love datoteke: `/home/z/my-project/download/`
 
 ## NOVO: Royal Systems Registry + UI Panel (v3.11.382)
 
-Od v3.11.382 projekt vključuje **centralen manager in UI panel**, ki povezuje vse 609 Royal sisteme z igro:
+Od v3.11.382 projekt vključuje **centralen manager in UI panel**, ki povezuje vse 619 Royal sisteme z igro:
 
 - **`objects/Economy/RoyalSystemsRegistry.lua`** — auto-discovers vse sisteme, hook-a `completeMaking()`, dodeli bonus zlato (prestige × 10) ob končanem produktu
 - **`states/ui/hud/royal_systems_panel.lua`** — full-screen UI panel (toggle s Ctrl+R), ki omogoča brskanje, najem mojstrov, gradnjo delavnic, izdelavo produktov, prodajo zalog
@@ -27,15 +27,15 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 3. **Grafikon produkcije** — zgodovina proizvodnje v panelu
 4. **Sistemsko odvisnosti** — nekateri sistemi naj zahtevajo druge (npr. BellMaker zahteva Metalwork)
 
-## NASLEDNJI PAKET (v3.11.522–v3.11.526) — KUHINJSKI DODATKI
+## NASLEDNJI PAKET (v3.11.532–v3.11.536) — PEKOVSKI DODATKI
 
 Ustvari 5 novih sistemov v `/home/z/my-project/castlekingdoms2027/objects/Economy/`:
 
-1. **RoyalMortarPestleStandMakerSystem.lua** → `local MortarPestleStandMaker` (stojala za možnarje)
-2. **RoyalSpiceGrinderMakerSystem.lua** → `local SpiceGrinderMaker` (mlinčki za začimbe)
-3. **RoyalOlivePressMakerSystem.lua** → `local OlivePressMaker` (oljčne prese)
-4. **RoyalWineStrainerMakerSystem.lua** → `local WineStrainerMaker` (cedila za vino)
-5. **RoyalHoneyDipperMakerSystem.lua** → `local HoneyDipperMaker` (medne zajemalke)
+1. **RoyalDoughScraperMakerSystem.lua** → `local DoughScraperMaker` (strgalce testa)
+2. **RoyalProofingBasketMakerSystem.lua** → `local ProofingBasketMaker` (vzhodne košare)
+3. **RoyalBreadLameMakerSystem.lua** → `local BreadLameMaker` (rezila za kruh)
+4. **RoyalOvenPeelMakerSystem.lua** → `local OvenPeelMaker` (pekovske lopate)
+5. **RoyalFlourShovelMakerSystem.lua** → `local FlourShovelMaker` (lopate za moko)
 
 ## PATTERN ZA VSAK SISTEM
 
@@ -50,47 +50,47 @@ Vsak sistem mora imeti:
 
 ## REGISTRACIJA V states/game.lua
 
-3 točke za vsak sistem (najdi zadnji `S.WashstandMaker` in dodaj za njim):
+3 točke za vsak sistem (najdi zadnji `S.SeedDrillPlowMaker` in dodaj za njim):
 
 ```lua
--- require block (po S.WashstandMaker = require(...))
-S.MortarPestleStandMaker = require("objects.Economy.RoyalMortarPestleStandMakerSystem")
-S.SpiceGrinderMaker = require("objects.Economy.RoyalSpiceGrinderMakerSystem")
-S.OlivePressMaker = require("objects.Economy.RoyalOlivePressMakerSystem")
-S.WineStrainerMaker = require("objects.Economy.RoyalWineStrainerMakerSystem")
-S.HoneyDipperMaker = require("objects.Economy.RoyalHoneyDipperMakerSystem")
+-- require block (po S.SeedDrillPlowMaker = require(...))
+S.DoughScraperMaker = require("objects.Economy.RoyalDoughScraperMakerSystem")
+S.ProofingBasketMaker = require("objects.Economy.RoyalProofingBasketMakerSystem")
+S.BreadLameMaker = require("objects.Economy.RoyalBreadLameMakerSystem")
+S.OvenPeelMaker = require("objects.Economy.RoyalOvenPeelMakerSystem")
+S.FlourShovelMaker = require("objects.Economy.RoyalFlourShovelMakerSystem")
 
--- init block (po S.WashstandMaker.init(); ...)
-S.MortarPestleStandMaker.init(); _G.MortarPestleStandMaker = S.MortarPestleStandMaker
-S.SpiceGrinderMaker.init(); _G.SpiceGrinderMaker = S.SpiceGrinderMaker
-S.OlivePressMaker.init(); _G.OlivePressMaker = S.OlivePressMaker
-S.WineStrainerMaker.init(); _G.WineStrainerMaker = S.WineStrainerMaker
-S.HoneyDipperMaker.init(); _G.HoneyDipperMaker = S.HoneyDipperMaker
+-- init block (po S.SeedDrillPlowMaker.init(); ...)
+S.DoughScraperMaker.init(); _G.DoughScraperMaker = S.DoughScraperMaker
+S.ProofingBasketMaker.init(); _G.ProofingBasketMaker = S.ProofingBasketMaker
+S.BreadLameMaker.init(); _G.BreadLameMaker = S.BreadLameMaker
+S.OvenPeelMaker.init(); _G.OvenPeelMaker = S.OvenPeelMaker
+S.FlourShovelMaker.init(); _G.FlourShovelMaker = S.FlourShovelMaker
 
--- update block (po S.WashstandMaker.update(dt))
-S.MortarPestleStandMaker.update(dt)
-S.SpiceGrinderMaker.update(dt)
-S.OlivePressMaker.update(dt)
-S.WineStrainerMaker.update(dt)
-S.HoneyDipperMaker.update(dt)
+-- update block (po S.SeedDrillPlowMaker.update(dt))
+S.DoughScraperMaker.update(dt)
+S.ProofingBasketMaker.update(dt)
+S.BreadLameMaker.update(dt)
+S.OvenPeelMaker.update(dt)
+S.FlourShovelMaker.update(dt)
 ```
 
 **POMEMBNO:** `RoyalSystemsRegistry.init(S)` se izvede po vseh `init()` klicih, tako da bo auto-discover tudi teh 5 novih sistemov. Ni potrebno ročno registrirati v Registry.
 
 ## WORKFLOW
 
-1. Preveri duplikate: `ls objects/Economy/ | grep -iE "mortarpestlestand|spicegrinder|olivepress|winestrainer|honeydipper"` (mora biti prazno)
+1. Preveri duplikate: `ls objects/Economy/ | grep -iE "doughscraper|proofingbasket|breadlame|ovenpeel|flourshovel"` (mora biti prazno)
 2. Ustvari 5 .lua datotek po predlogi (glej spodaj)
 3. Registriraj v states/game.lua (3 točke)
 4. Poženi: `python3 /home/z/my-project/scripts/check_my_changes.py` (za sintaktično preverbo)
-5. Posodobi CHANGELOG.md (dodaj vnose za v3.11.522 do v3.11.526 na vrh)
+5. Posodobi CHANGELOG.md (dodaj vnose za v3.11.532 do v3.11.536 na vrh)
 6. Posodobi README.md badge-je:
-   - version-3.11.521 → version-3.11.526
-   - syntax-1255%2F1258 → syntax-1260%2F1263
-   - Royal%20systems-609 → Royal%20systems-614
-   - Lua%20files-1258 → Lua%20files-1263
-7. Git: commit, tag (v3.11.522 do v3.11.526), push
-8. Build .love: `cd /home/z/my-project/castlekingdoms2027 && zip -r -q /home/z/my-project/download/castlekingdoms2027-v3.11.526.love . -x ".git/*" "tool-results/*" "*.love" ".gitignore" "scripts/lua_syntax_check.py"`
+   - version-3.11.531 → version-3.11.536
+   - syntax-1265%2F1268 → syntax-1270%2F1273
+   - Royal%20systems-619 → Royal%20systems-624
+   - Lua%20files-1268 → Lua%20files-1273
+7. Git: commit, tag (v3.11.532 do v3.11.536), push
+8. Build .love: `cd /home/z/my-project/castlekingdoms2027 && zip -r -q /home/z/my-project/download/castlekingdoms2027-v3.11.536.love . -x ".git/*" "tool-results/*" "*.love" ".gitignore" "scripts/lua_syntax_check.py"`
 
 ## PREDLOGA ZA SISTEM (primer PickaxeMaker, kot referenca)
 
@@ -119,23 +119,23 @@ function PickaxeMaker.getStats() ... end
 return PickaxeMaker
 ```
 
-Za nove 5 sistemov (kuhinjski dodatki) spremeni:
-- Imena produktov (npr. "železno stojalo za možnar", "železni mlinček za začimbe", "železna oljčna preša", "železno cedilo za vino", "železna medna zajemalka")
-- Imena zgradb (stojalna, mlinčna, prešna, cedilna, medna delavnica/hiša/atelje/palača)
-- Maker ime (Stojalar, Mlinar, Prešar, Cedilar, Medar)
-- Event bus publish (mortarpestlestand.completed, spicegrinder.completed, olivepress.completed, winestrainer.completed, honeydipper.completed)
+Za nove 5 sistemov (pekovski dodatki) spremeni:
+- Imena produktov (npr. "železno strgalo za testo", "železna vzhodna košara", "železno rezilo za kruh", "železna pekovska lopata", "železna lopata za moko")
+- Imena zgradb (strgalna, košarska, rezilna, lopatna, mokna delavnica/hiša/atelje/palača)
+- Maker ime (Strgalec, Košar, Rezilec, Lopatar, Mokar)
+- Event bus publish (doughscraper.completed, proofingbasket.completed, breadlame.completed, ovenpeel.completed, flourshovel.completed)
 
 ## SPOROČILO ZA NOVO SEJO
 
 Ko začneš novo sejo, pošlji to sporočilo:
 
 ```
-Nadaljuj z razvojem Castle Kingdoms 2027. Preberi /home/z/my-project/castlekingdoms2027/NEXT_BATCH_HANDOFF.md za popolna navodila. Trenutna različica je v3.11.521. Naslednji paket je v3.11.522–v3.11.526 (kuhinjski dodatki: MortarPestleStandMaker, SpiceGrinderMaker, OlivePressMaker, WineStrainerMaker, HoneyDipperMaker). Sledi navodilom v handoff dokumentu. Po končanem paketu ročno posodobi NEXT_BATCH_HANDOFF.md z naslednjim paketom (v3.11.527–v3.11.531 — predlagano: vrtni dodatki: GardenSieveMaker, PlantSupportMaker, WateringSpikeMaker, CompostAeratorMaker, SeedDrillPlowMaker).
+Nadaljuj z razvojem Castle Kingdoms 2027. Preberi /home/z/my-project/castlekingdoms2027/NEXT_BATCH_HANDOFF.md za popolna navodila. Trenutna različica je v3.11.531. Naslednji paket je v3.11.532–v3.11.536 (pekovski dodatki: DoughScraperMaker, ProofingBasketMaker, BreadLameMaker, OvenPeelMaker, FlourShovelMaker). Sledi navodilom v handoff dokumentu. Po končanem paketu ročno posodobi NEXT_BATCH_HANDOFF.md z naslednjim paketom (v3.11.537–v3.11.541 — predlagano: ribiški dodatki: FishHookMaker, FishingLineSpoolMaker, BaitBoxMaker, FishScalerMaker, NetMendingNeedleMaker).
 ```
 
 ## NASLEDNJI PAKETI (po vrsti)
 
-- v3.11.522–v3.11.526: kuhinjski dodatki (MortarPestleStandMaker, SpiceGrinderMaker, OlivePressMaker, WineStrainerMaker, HoneyDipperMaker)
-- v3.11.527–v3.11.531: vrtni dodatki (GardenSieveMaker, PlantSupportMaker, WateringSpikeMaker, CompostAeratorMaker, SeedDrillPlowMaker)
 - v3.11.532–v3.11.536: pekovski dodatki (DoughScraperMaker, ProofingBasketMaker, BreadLameMaker, OvenPeelMaker, FlourShovelMaker)
 - v3.11.537–v3.11.541: ribiški dodatki (FishHookMaker, FishingLineSpoolMaker, BaitBoxMaker, FishScalerMaker, NetMendingNeedleMaker)
+- v3.11.542–v3.11.546: steklarski dodatki 2 (GlassKilnDoorMaker, GlassAnnealingOvenMaker, GlassBatchFurnaceMaker, GlassGloryHoleMaker, GlassMarverMaker)
+- v3.11.547–v3.11.551: livarski dodatki 2 (SandCasterMaker, LostWaxMolderMaker, CentrifugalCasterMaker, VacuumCasterMaker, IngotCasterMaker)

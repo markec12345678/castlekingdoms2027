@@ -2,6 +2,35 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.531] — 2026-08-11 — Royal Seed Drill Plow Maker System (6 products, seed drill plows)
+## [v3.11.530] — 2026-08-11 — Royal Compost Aerator Maker System (6 products, compost aerators)
+## [v3.11.529] — 2026-08-11 — Royal Watering Spike Maker System (6 products, watering spikes)
+## [v3.11.528] — 2026-08-11 — Royal Plant Support Maker System (6 products, plant supports)
+## [v3.11.527] — 2026-08-11 — Royal Garden Sieve Maker System (6 products, garden sieves)
+## [v3.11.526] — 2026-08-11 — Royal Honey Dipper Maker System (6 products, honey dippers)
+## [v3.11.525] — 2026-08-11 — Royal Wine Strainer Maker System (6 products, wine strainers)
+## [v3.11.524] — 2026-08-11 — Royal Olive Press Maker System (6 products, olive presses)
+## [v3.11.523] — 2026-08-11 — Royal Spice Grinder Maker System (6 products, spice grinders)
+## [v3.11.522] — 2026-08-11 — Royal Mortar Pestle Stand Maker System (6 products, mortar pestle stands)
+
+### Dodano (v3.11.522-v3.11.531 — 10 sistemov: kuhinjski dodatki + vrtni dodatki)
+
+#### v3.11.522-v3.11.526 — Kuhinjski dodatki (5 sistemov)
+- v3.11.522: MortarPestleStandMaker (Stojalar) — stojala za možnarje
+- v3.11.523: SpiceGrinderMaker (Mlinar) — mlinčki za začimbe
+- v3.11.524: OlivePressMaker (Prešar) — oljčne preše
+- v3.11.525: WineStrainerMaker (Cedilar) — cedila za vino
+- v3.11.526: HoneyDipperMaker (Medar) — medne zajemalke
+
+#### v3.11.527-v3.11.531 — Vrtni dodatki (5 sistemov)
+- v3.11.527: GardenSieveMaker (Sitar) — vrtna sita
+- v3.11.528: PlantSupportMaker (Opornik) — opore za rastline
+- v3.11.529: WateringSpikeMaker (Koničar) — zalivalne konice
+- v3.11.530: CompostAeratorMaker (Zračnik) — zračniki za kompost
+- v3.11.531: SeedDrillPlowMaker (Vlekar) — sejalni plugovi
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
 ## [v3.11.521] — 2026-08-11 — Royal Washstand Maker System (6 products, washstands)
 ## [v3.11.520] — 2026-08-11 — Royal Sponge Holder Maker System (6 products, sponge holders)
 ## [v3.11.519] — 2026-08-11 — Royal Bath Bucket Maker System (6 products, bath buckets)
