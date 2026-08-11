@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.671] — 2026-08-12 — Royal Forge Coke Rake Maker System (6 products, forge coke rakes)
+## [v3.11.670] — 2026-08-12 — Royal Cupola Tuyere Maker System (6 products, cupola tuyeres)
+## [v3.11.669] — 2026-08-12 — Royal Hot Cut Hardy Maker System (6 products, hot cut hardies)
+## [v3.11.668] — 2026-08-12 — Royal Bell Hammer Maker System (6 products, bell hammers)
+## [v3.11.667] — 2026-08-12 — Royal Pritchel Hole Maker System (6 products, pritchel holes)
+## [v3.11.666] — 2026-08-12 — Royal Book Cover Inlay Maker System (6 products, book cover inlays)
+## [v3.11.665] — 2026-08-12 — Royal Book Mark Tassel Maker System (6 products, book mark tassels)
+## [v3.11.664] — 2026-08-12 — Royal Book Spine Creaser Maker System (6 products, book spine creasers)
+## [v3.11.663] — 2026-08-12 — Royal Bookbinding Press Stone Maker System (6 products, bookbinding press stones)
+## [v3.11.662] — 2026-08-12 — Royal Book Edge Gilder Maker System (6 products, book edge gilders)
+
+### Dodano (v3.11.662-v3.11.671 — 10 sistemov: knjigoveški dodatki 5 + kovaški dodatki 5)
+
+#### v3.11.662-v3.11.666 — Knjigoveški dodatki 5 (5 sistemov)
+- v3.11.662: BookEdgeGilderMaker (Pozlačevalnik) — pozlačevalci robov knjig
+- v3.11.663: BookbindingPressStoneMaker (Kamnar) — kamni za stiskanje knjig
+- v3.11.664: BookSpineCreaserMaker (Hrbtogubalec) — gubalci hrbtov knjig
+- v3.11.665: BookMarkTasselMaker (Lokčar) — loki za zaznamke
+- v3.11.666: BookCoverInlayMaker (Intarzist) — intarzije za naslovnice
+
+#### v3.11.667-v3.11.671 — Kovaški dodatki 5 (5 sistemov)
+- v3.11.667: PritchelHoleMaker (Koničar) — luknje za konice
+- v3.11.668: BellHammerMaker (Zvokobijalec) — zvočna kladiva
+- v3.11.669: HotCutHardyMaker (Vročoreznik) — vroče rezalni trdi nastavki
+- v3.11.670: CupolaTuyereMaker (Šobnik) — šobe za kupole
+- v3.11.671: ForgeCokeRakeMaker (KoksGrebar) — grebalci za koks
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
+Pre-flight check: pred generiranjem je bila preverjena git zgodovina za vseh 10 datotek — vse so imele 0 prior commits in so bile odsotne iz workdir. Brez duplikatov.
+
 ## [v3.11.661] — 2026-08-12 — Royal Core Box Maker System (6 products, core boxes)
 ## [v3.11.660] — 2026-08-12 — Royal Mold Coating Brush Maker System (6 products, mold coating brushes)
 ## [v3.11.659] — 2026-08-12 — Royal Thermocouple Sheath Maker System (6 products, thermocouple sheaths)
