@@ -2,6 +2,35 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.581] — 2026-08-11 — Royal Cold Frame Maker System (6 products, cold frames)
+## [v3.11.580] — 2026-08-11 — Royal Garden Line Maker System (6 products, garden lines)
+## [v3.11.579] — 2026-08-11 — Royal Bulb Planter Maker System (6 products, bulb planters)
+## [v3.11.578] — 2026-08-11 — Royal Hand Trowel Maker System (6 products, hand trowels)
+## [v3.11.577] — 2026-08-11 — Royal Garden Fork Maker System (6 products, garden forks)
+## [v3.11.576] — 2026-08-11 — Royal Quill Mender Maker System (6 products, quill menders)
+## [v3.11.575] — 2026-08-11 — Royal Inkwell Dust Cover Maker System (6 products, inkwell dust covers)
+## [v3.11.574] — 2026-08-11 — Royal Pen Rest Maker System (6 products, pen rests)
+## [v3.11.573] — 2026-08-11 — Royal Inkwell Stopper Maker System (6 products, inkwell stoppers)
+## [v3.11.572] — 2026-08-11 — Royal Quill Trimmer Maker System (6 products, quill trimmers)
+
+### Dodano (v3.11.572-v3.11.581 — 10 sistemov: peresni dodatki 2 + vrtni dodatki 2)
+
+#### v3.11.572-v3.11.576 — Peresni dodatki 2 (5 sistemov)
+- v3.11.572: QuillTrimmerMaker (Strižnik) — strižniki peres
+- v3.11.573: InkwellStopperMaker (Zamaškar) — zamaški za črnilnice
+- v3.11.574: PenRestMaker (Počivalec) — počivališča za peresa
+- v3.11.575: InkwellDustCoverMaker (Prevlekar) — prevleke za črnilnice
+- v3.11.576: QuillMenderMaker (Popravljalec) — popravljalci peres
+
+#### v3.11.577-v3.11.581 — Vrtni dodatki 2 (5 sistemov)
+- v3.11.577: GardenForkMaker (Viliar) — vrtne vilice
+- v3.11.578: HandTrowelMaker (Lopatar) — ročne lopatke
+- v3.11.579: BulbPlanterMaker (Čebuljar) — sadičniki za čebulnice
+- v3.11.580: GardenLineMaker (Vrvicar) — vrtna vrvica
+- v3.11.581: ColdFrameMaker (Okvirjar) — hladni okvirji
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry. Generacijska skripta popravljena: odpravljena bug-a ${MAKER_LOWER} placeholder-ja in okvarjene sintakse productStock.productType] (sedaj pravilno productStock[m.productType]).
+
 ## [v3.11.571] — 2026-08-11 — Royal Millstone Crane Maker System (6 products, millstone cranes)
 ## [v3.11.570] — 2026-08-11 — Royal Grain Probe Maker System (6 products, grain probes)
 ## [v3.11.569] — 2026-08-11 — Royal Flour Sack Maker System (6 products, flour sacks)
