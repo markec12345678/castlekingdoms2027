@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.701] — 2026-08-12 — Royal Blacksmith Vise Maker System (6 products, blacksmith vises)
+## [v3.11.700] — 2026-08-12 — Royal Forge Chimney Damper Maker System (6 products, forge chimney dampers)
+## [v3.11.699] — 2026-08-12 — Royal Slack Tub Hood Maker System (6 products, slack tub hoods)
+## [v3.11.698] — 2026-08-12 — Royal Bick Horn Anvil Maker System (6 products, bick horn anvils)
+## [v3.11.697] — 2026-08-12 — Royal Forge Ash Pan Maker System (6 products, forge ash pans)
+## [v3.11.696] — 2026-08-12 — Royal Bookbinding Screw Press Maker System (6 products, bookbinding screw presses)
+## [v3.11.695] — 2026-08-12 — Royal Book Edge Burnisher Maker System (6 products, book edge burnishers)
+## [v3.11.694] — 2026-08-12 — Royal Book Cover Die Maker System (6 products, book cover dies)
+## [v3.11.693] — 2026-08-12 — Royal Bookbinding Glue Pot Maker System (6 products, bookbinding glue pots)
+## [v3.11.692] — 2026-08-12 — Royal Book Spine Ruler Maker System (6 products, book spine rulers)
+
+### Dodano (v3.11.692-v3.11.701 — 10 sistemov: knjigoveški dodatki 6 + kovaški dodatki 6)
+
+#### v3.11.692-v3.11.696 — Knjigoveški dodatki 6 (5 sistemov)
+- v3.11.692: BookSpineRulerMaker (Merilnik) — merilniki hrbtov knjig
+- v3.11.693: BookbindingGluePotMaker (Lončkar) — lepilni lončki
+- v3.11.694: BookCoverDieMaker (Matrikar) — matrice za naslovnice
+- v3.11.695: BookEdgeBurnisherMaker (Polirnik) — poliralci robov knjig
+- v3.11.696: BookbindingScrewPressMaker (Stiskalnik) — vijačni stiskalniki za knjige
+
+#### v3.11.697-v3.11.701 — Kovaški dodatki 6 (5 sistemov)
+- v3.11.697: ForgeAshPanMaker (Pepelnikar) — pepelniki za kovaške peči
+- v3.11.698: BickHornAnvilMaker (Rogar) — rogaste nakovalo
+- v3.11.699: SlackTubHoodMaker (Pokrovnik) — pokrovi za kalilne kadi
+- v3.11.700: ForgeChimneyDamperMaker (Zaklopnik) — zaklopniki dimnikov
+- v3.11.701: BlacksmithViseMaker (Primernik) — kovaške primernice
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
+Pre-flight check: pred generiranjem je bila preverjena git zgodovina za vseh 10 datotek — vse so imele 0 prior commits in so bile odsotne iz workdir. Brez duplikatov.
+
 ## [v3.11.691] — 2026-08-12 — Royal Casting Ladle Skimmer Maker System (6 products, casting ladle skimmers)
 ## [v3.11.690] — 2026-08-12 — Royal Ladle Preheater Maker System (6 products, ladle preheaters)
 ## [v3.11.689] — 2026-08-12 — Royal Core Oven Maker System (6 products, core ovens)
