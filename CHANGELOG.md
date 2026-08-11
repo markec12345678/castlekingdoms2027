@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.631] — 2026-08-12 — Royal Mold Drying Oven Maker System (6 products, mold drying ovens)
+## [v3.11.630] — 2026-08-12 — Royal Slurry Mixer Maker System (6 products, slurry mixers)
+## [v3.11.629] — 2026-08-12 — Royal Riser Breaker Maker System (6 products, riser breakers)
+## [v3.11.628] — 2026-08-12 — Royal Sprue Cutter Maker System (6 products, sprue cutters)
+## [v3.11.627] — 2026-08-12 — Royal Mold Release Agent Maker System (6 products, mold release agents)
+## [v3.11.626] — 2026-08-12 — Royal Glass Engraving Wheel Maker System (6 products, glass engraving wheels)
+## [v3.11.625] — 2026-08-12 — Royal Glass Kiln Door Lifter Maker System (6 products, glass kiln door lifters)
+## [v3.11.624] — 2026-08-12 — Royal Glass Cane Slicer Maker System (6 products, glass cane slicers)
+## [v3.11.623] — 2026-08-12 — Royal Glass Colorant Mortar Maker System (6 products, glass colorant mortars)
+## [v3.11.622] — 2026-08-12 — Royal Glass Annealing Cradle Maker System (6 products, glass annealing cradles)
+
+### Dodano (v3.11.622-v3.11.631 — 10 sistemov: steklarski dodatki 4 + livarski dodatki 4)
+
+#### v3.11.622-v3.11.626 — Steklarski dodatki 4 (5 sistemov)
+- v3.11.622: GlassAnnealingCradleMaker (Zibkar) — zibke za ohlajanje stekla
+- v3.11.623: GlassColorantMortarMaker (Možnarar) — možnarji za steklarske barve
+- v3.11.624: GlassCaneSlicerMaker (Rezar) — rezalniki steklenih palic
+- v3.11.625: GlassKilnDoorLifterMaker (Dvigovalnik) — dvigalci pečnih vrat
+- v3.11.626: GlassEngravingWheelMaker (Rezbar) — rezbarska kolesa za steklo
+
+#### v3.11.627-v3.11.631 — Livarski dodatki 4 (5 sistemov)
+- v3.11.627: MoldReleaseAgentMaker (Ločilar) — sredstva za ločitev kalupov
+- v3.11.628: SprueCutterMaker (Vtokorezar) — rezalniki vtokov
+- v3.11.629: RiserBreakerMaker (Penolomar) — lomilci pen
+- v3.11.630: SlurryMixerMaker (Mešar) — mešalci livarske kaše
+- v3.11.631: MoldDryingOvenMaker (Sušar) — sušilne peči za kalupe
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
+Pre-flight check: pred generiranjem je bila preverjena git zgodovina za vseh 10 datotek — vse so imele 0 prior commits in so bile odsotne iz workdir. Brez duplikatov.
+
 ## [v3.11.621] — 2026-08-12 — Royal Bran Separator Maker System (6 products, bran separators)
 ## [v3.11.620] — 2026-08-12 — Royal Flour Sieve Maker System (6 products, flour sieves)
 ## [v3.11.619] — 2026-08-12 — Royal Hopper Gate Maker System (6 products, hopper gates)
