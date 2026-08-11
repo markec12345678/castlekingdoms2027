@@ -2,6 +2,44 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.461] — 2026-08-11 — Royal Clamp Maker System (6 products, clamps)
+## [v3.11.460] — 2026-08-11 — Royal Auger Bit Maker System (6 products, auger bits)
+## [v3.11.459] — 2026-08-11 — Royal Saw Set Maker System (6 products, saw sets)
+## [v3.11.458] — 2026-08-11 — Royal Chisel Blade Maker System (6 products, chisel blades)
+## [v3.11.457] — 2026-08-11 — Royal Plane Iron Maker System (6 products, plane irons)
+
+### Dodano (v3.11.457-v3.11.461 — 5 mizarstvo sistemov)
+
+#### v3.11.457 - Royal Plane Iron Maker System
+- **6 produktov** (železna železa za glodalnik, bronasta, srebrna, pozlačena, draguljasta, kraljevski suverena)
+- **4 zgradbe** (gladilna delavnica, gladilna hiša, mojstrski gladilni atelje, suverena gladilna palača)
+- Maker: Gladar, hire base 580 gold
+
+#### v3.11.458 - Royal Chisel Blade Maker System
+- **6 produktov** (železno rezilo za dleto, bronasto, srebrno, pozlačeno, draguljasto, kraljevski suvereno)
+- **4 zgradbe** (rezilna delavnica, rezilna hiša, mojstrski rezilni atelje, suverena rezilna palača)
+- Maker: Rezar, hire base 585 gold
+- Poudarek na kovini (ironCost/bronzeCost 5)
+
+#### v3.11.459 - Royal Saw Set Maker System
+- **6 produktov** (železna nastavljiva žaga, bronasta, srebrna, pozlačena, draguljasta, kraljevski suverena)
+- **4 zgradbe** (žagarska delavnica, žagarska hiša, mojstrski žagarski atelje, suverena žagarska palača)
+- Maker: Žagar, hire base 575 gold
+
+#### v3.11.460 - Royal Auger Bit Maker System
+- **6 produktov** (železni svrder za vrtanje, bronast, srebrni, pozlačeni, draguljasti, kraljevski suvereni)
+- **4 zgradbe** (vrtalna delavnica, vrtalna hiša, mojstrski vrtalni atelje, suverena vrtalna palača)
+- Maker: Vrtač, hire base 590 gold
+- Poudarek na kovini (ironCost 5)
+
+#### v3.11.461 - Royal Clamp Maker System
+- **6 produktov** (železna štspanka, bronasta, srebrna, pozlačena, draguljasta, kraljevski suverena)
+- **4 zgradbe** (štspančna delavnica, štspančna hiša, mojstrski štspančni atelje, suverena štspančna palača)
+- Maker: Štspankar, hire base 565 gold
+- Poudarek na lesu (woodCost 3-4)
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
 ## [v3.11.456] — 2026-08-11 — Royal Forge Tongs Maker System (6 products, forge tongs)
 ## [v3.11.455] — 2026-08-11 — Royal Bellows Maker System (6 products, bellows)
 ## [v3.11.454] — 2026-08-11 — Royal Anvil Maker System (6 products, anvils)

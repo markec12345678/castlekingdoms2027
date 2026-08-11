@@ -757,6 +757,12 @@ S.HammerMaker = require("objects.Economy.RoyalHammerMakerSystem")
 S.AnvilMaker = require("objects.Economy.RoyalAnvilMakerSystem")
 S.BellowsMaker = require("objects.Economy.RoyalBellowsMakerSystem")
 S.ForgeTongsMaker = require("objects.Economy.RoyalForgeTongsMakerSystem")
+-- Castle Kingdoms 2027 v3.11.457-v3.11.461: Woodworking tools batch (5 new Royal systems)
+S.PlaneIronMaker = require("objects.Economy.RoyalPlaneIronMakerSystem")
+S.ChiselBladeMaker = require("objects.Economy.RoyalChiselBladeMakerSystem")
+S.SawSetMaker = require("objects.Economy.RoyalSawSetMakerSystem")
+S.AugerBitMaker = require("objects.Economy.RoyalAugerBitMakerSystem")
+S.ClampMaker = require("objects.Economy.RoyalClampMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1940,6 +1946,12 @@ local function delayedInit()
     S.AnvilMaker.init(); _G.AnvilMaker = S.AnvilMaker
     S.BellowsMaker.init(); _G.BellowsMaker = S.BellowsMaker
     S.ForgeTongsMaker.init(); _G.ForgeTongsMaker = S.ForgeTongsMaker
+    -- Castle Kingdoms 2027 v3.11.457-v3.11.461: Woodworking tools batch init
+    S.PlaneIronMaker.init(); _G.PlaneIronMaker = S.PlaneIronMaker
+    S.ChiselBladeMaker.init(); _G.ChiselBladeMaker = S.ChiselBladeMaker
+    S.SawSetMaker.init(); _G.SawSetMaker = S.SawSetMaker
+    S.AugerBitMaker.init(); _G.AugerBitMaker = S.AugerBitMaker
+    S.ClampMaker.init(); _G.ClampMaker = S.ClampMaker
     -- Castle Kingdoms 2027 v3.11.382: Initialize Royal Systems Registry (auto-discovers all 347+ systems)
     RoyalSystemsRegistry.init(S)
     _G.RoyalSystemsRegistry = RoyalSystemsRegistry
@@ -2868,6 +2880,12 @@ function game:update(dt)
                 S.AnvilMaker.update(dt)
                 S.BellowsMaker.update(dt)
                 S.ForgeTongsMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.457-v3.11.461: Woodworking tools batch update
+                S.PlaneIronMaker.update(dt)
+                S.ChiselBladeMaker.update(dt)
+                S.SawSetMaker.update(dt)
+                S.AugerBitMaker.update(dt)
+                S.ClampMaker.update(dt)
                 -- Castle Kingdoms 2027 v3.11.382: Royal Systems Registry aggregates stats + grants bonus gold
                 RoyalSystemsRegistry.update(dt)
                 RoyalSystemsPanel.update(dt)
