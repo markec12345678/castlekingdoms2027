@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.751] — 2026-08-12 — Royal Casting Ladle Nozzle Maker System (6 products, casting ladle nozzles)
+## [v3.11.750] — 2026-08-12 — Royal Core Drying Rack Maker System (6 products, core drying racks)
+## [v3.11.749] — 2026-08-12 — Royal Sand Sieve Shaker Maker System (6 products, sand sieve shakers)
+## [v3.11.748] — 2026-08-12 — Royal Pouring Crucible Tongs Maker System (6 products, pouring crucible tongs)
+## [v3.11.747] — 2026-08-12 — Royal Mold Vent Wire Cleaner Maker System (6 products, mold vent wire cleaners)
+## [v3.11.746] — 2026-08-12 — Royal Glass Engraving Wheel Rest Maker System (6 products, glass engraving wheel rests)
+## [v3.11.745] — 2026-08-12 — Royal Glass Annealing Roller Maker System (6 products, glass annealing rollers)
+## [v3.11.744] — 2026-08-12 — Royal Glass Colorant Sieve Maker System (6 products, glass colorant sieves)
+## [v3.11.743] — 2026-08-12 — Royal Glass Kiln Flue Damper Maker System (6 products, glass kiln flue dampers)
+## [v3.11.742] — 2026-08-12 — Royal Glass Batch Feeder Maker System (6 products, glass batch feeders)
+
+### Dodano (v3.11.742-v3.11.751 — 10 sistemov: steklarski dodatki 8 + livarski dodatki 8)
+
+#### v3.11.742-v3.11.746 — Steklarski dodatki 8 (5 sistemov)
+- v3.11.742: GlassBatchFeederMaker (Dajalnik) — dajalniki steklarske mešanice
+- v3.11.743: GlassKilnFlueDamperMaker (Zaklopnik) — zaklopniki dimnika peči
+- v3.11.744: GlassColorantSieveMaker (Sitnikar) — sitane za steklarske barve
+- v3.11.745: GlassAnnealingRollerMaker (Valjar) — valji za ohlajanje stekla
+- v3.11.746: GlassEngravingWheelRestMaker (Počivalnik) — počivališča za rezbarska kolesa
+
+#### v3.11.747-v3.11.751 — Livarski dodatki 8 (5 sistemov)
+- v3.11.747: MoldVentWireCleanerMaker (Čistilnik) — čistilci žic za odzračevanje
+- v3.11.748: PouringCrucibleTongsMaker (Kleščar) — klešče za livljenje
+- v3.11.749: SandSieveShakerMaker (Treskar) — tresoče sitane za pesek
+- v3.11.750: CoreDryingRackMaker (Stojalnik) — stojala za sušenje jedrc
+- v3.11.751: CastingLadleNozzleMaker (Šobnik) — šobe za zajemalke
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
+Pre-flight check: pred generiranjem je bila preverjena git zgodovina za vseh 10 datotek — vse so imele 0 prior commits in so bile odsotne iz workdir. Brez duplikatov.
+
 ## [v3.11.741] — 2026-08-12 — Royal Mill Sail Cloth Reel Maker System (6 products, mill sail cloth reels)
 ## [v3.11.740] — 2026-08-12 — Royal Millstone Eye Reamer Maker System (6 products, millstone eye reamers)
 ## [v3.11.739] — 2026-08-12 — Royal Mill Hopper Lid Maker System (6 products, mill hopper lids)
