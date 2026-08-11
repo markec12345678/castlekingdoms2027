@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.731] — 2026-08-12 — Royal Slack Tub Lid Maker System (6 products, slack tub lids)
+## [v3.11.730] — 2026-08-12 — Royal Hardy Shank Maker System (6 products, hardy shanks)
+## [v3.11.729] — 2026-08-12 — Royal Forge Hood Flue Maker System (6 products, forge hood flues)
+## [v3.11.728] — 2026-08-12 — Royal Anvil Stump Maker System (6 products, anvil stumps)
+## [v3.11.727] — 2026-08-12 — Royal Forge Tuyere Block Maker System (6 products, forge tuyere blocks)
+## [v3.11.726] — 2026-08-12 — Royal Book Cover Stamping Foil Maker System (6 products, book cover stamping foils)
+## [v3.11.725] — 2026-08-12 — Royal Book Foredge Fan Maker System (6 products, book foredge fans)
+## [v3.11.724] — 2026-08-12 — Royal Book Spine Glue Brush Maker System (6 products, book spine glue brushes)
+## [v3.11.723] — 2026-08-12 — Royal Book Cover Corner Cutter Maker System (6 products, book cover corner cutters)
+## [v3.11.722] — 2026-08-12 — Royal Book Endband Loom Maker System (6 products, book endband looms)
+
+### Dodano (v3.11.722-v3.11.731 — 10 sistemov: knjigoveški dodatki 7 + kovaški dodatki 7)
+
+#### v3.11.722-v3.11.726 — Knjigoveški dodatki 7 (5 sistemov)
+- v3.11.722: BookEndbandLoomMaker (Statvar) — statvi za kapice knjig
+- v3.11.723: BookCoverCornerCutterMaker (Roborezar) — rezalniki robov naslovnic
+- v3.11.724: BookSpineGlueBrushMaker (Čopičar) — čopiči za lepilo hrbtov
+- v3.11.725: BookForedgeFanMaker (Ventilator) — ventilatorji za prednji rob
+- v3.11.726: BookCoverStampingFoilMaker (Foljar) — folije za žigosanje naslovnic
+
+#### v3.11.727-v3.11.731 — Kovaški dodatki 7 (5 sistemov)
+- v3.11.727: ForgeTuyereBlockMaker (Blokirnik) — bloki šob za peč
+- v3.11.728: AnvilStumpMaker (Panjar) — panji za nakovalo
+- v3.11.729: ForgeHoodFlueMaker (Napačnik) — nape za dim kovaške peči
+- v3.11.730: HardyShankMaker (Drgnik) — drgi za trde nastavke
+- v3.11.731: SlackTubLidMaker (Pokrovnik) — pokrovi za kalilno kad
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
+Pre-flight check: pred generiranjem je bila preverjena git zgodovina za vseh 10 datotek — vse so imele 0 prior commits in so bile odsotne iz workdir. Brez duplikatov.
+
 ## [v3.11.721] — 2026-08-12 — Royal Casting Breakout Chisel Maker System (6 products, casting breakout chisels)
 ## [v3.11.720] — 2026-08-12 — Royal Core Paste Mixer Maker System (6 products, core paste mixers)
 ## [v3.11.719] — 2026-08-12 — Royal Sand Conditioner Maker System (6 products, sand conditioners)
