@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.651] — 2026-08-12 — Royal Millstone Groove Reframer Maker System (6 products, millstone groove reframers)
+## [v3.11.650] — 2026-08-12 — Royal Flour Packer Maker System (6 products, flour packers)
+## [v3.11.649] — 2026-08-12 — Royal Mill Drive Belt Maker System (6 products, mill drive belts)
+## [v3.11.648] — 2026-08-12 — Royal Grain Hopper Liner Maker System (6 products, grain hopper liners)
+## [v3.11.647] — 2026-08-12 — Royal Millstone Crane Hook Maker System (6 products, millstone crane hooks)
+## [v3.11.646] — 2026-08-12 — Royal Compost Sieve Maker System (6 products, compost sieves)
+## [v3.11.645] — 2026-08-12 — Royal Garden Sprayer Maker System (6 products, garden sprayers)
+## [v3.11.644] — 2026-08-12 — Royal Lawn Aerator Maker System (6 products, lawn aerators)
+## [v3.11.643] — 2026-08-12 — Royal Hedge Shears Maker System (6 products, hedge shears)
+## [v3.11.642] — 2026-08-12 — Royal Garden Secateurs Maker System (6 products, garden secateurs)
+
+### Dodano (v3.11.642-v3.11.651 — 10 sistemov: vrtni dodatki 4 + mlinarski dodatki 4)
+
+#### v3.11.642-v3.11.646 — Vrtni dodatki 4 (5 sistemov)
+- v3.11.642: GardenSecateursMaker (Škarjičar) — vrtni škarjici
+- v3.11.643: HedgeShearsMaker (Mejnikar) — škarje za žive meje
+- v3.11.644: LawnAeratorMaker (Zračnik) — zračilci travnikov
+- v3.11.645: GardenSprayerMaker (Škropičar) — vrtni škropilnice
+- v3.11.646: CompostSieveMaker (Sitnikar) — sitane za kompost
+
+#### v3.11.647-v3.11.651 — Mlinarski dodatki 4 (5 sistemov)
+- v3.11.647: MillstoneCraneHookMaker (Kljukar) — kljuki za dvig mlinskih kamnov
+- v3.11.648: GrainHopperLinerMaker (Oblogar) — obloge za lijake
+- v3.11.649: MillDriveBeltMaker (Jermensar) — pogonski jermeni za mline
+- v3.11.650: FlourPackerMaker (Pakar) — pakerji za moko
+- v3.11.651: MillstoneGrooveReframerMaker (Utorovalec) — obnavljalci utorov
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
+Pre-flight check: pred generiranjem je bila preverjena git zgodovina za vseh 10 datotek — vse so imele 0 prior commits in so bile odsotne iz workdir. Brez duplikatov.
+
 ## [v3.11.641] — 2026-08-12 — Royal Anvil Hardy Maker System (6 products, anvil hardies)
 ## [v3.11.640] — 2026-08-12 — Royal Top Fuller Maker System (6 products, top fullers)
 ## [v3.11.639] — 2026-08-12 — Royal Bottom Fuller Maker System (6 products, bottom fullers)
