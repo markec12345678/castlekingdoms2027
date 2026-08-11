@@ -2,6 +2,35 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.511] — 2026-08-11 — Royal Compass Needle Maker System (6 products, compass needles)
+## [v3.11.510] — 2026-08-11 — Royal Sundial Gnomon Maker System (6 products, sundial gnomons)
+## [v3.11.509] — 2026-08-11 — Royal Celestial Globe Maker System (6 products, celestial globes)
+## [v3.11.508] — 2026-08-11 — Royal Star Chart Rack Maker System (6 products, star chart racks)
+## [v3.11.507] — 2026-08-11 — Royal Astrolabe Ring Maker System (6 products, astrolabe rings)
+## [v3.11.506] — 2026-08-11 — Royal Banner Pole Maker System (6 products, banner poles)
+## [v3.11.505] — 2026-08-11 — Royal Helmet Crest Maker System (6 products, helmet crests)
+## [v3.11.504] — 2026-08-11 — Royal Scabbard Chape Maker System (6 products, scabbard chapes)
+## [v3.11.503] — 2026-08-11 — Royal Sword Pommel Maker System (6 products, sword pommels)
+## [v3.11.502] — 2026-08-11 — Royal Shield Boss Maker System (6 products, shield bosses)
+
+### Dodano (v3.11.502-v3.11.511 — 10 sistemov: vojaška oprema + astrološka oprema)
+
+#### v3.11.502-v3.11.506 — Vojaška oprema (5 sistemov)
+- v3.11.502: ShieldBossMaker (Bosar) — ščitni bossi
+- v3.11.503: SwordPommelMaker (Gumbar) — mečni gumbi
+- v3.11.504: ScabbardChapeMaker (Nožničar) — nožnične konice
+- v3.11.505: HelmetCrestMaker (Grenar) — čeladni grebeni
+- v3.11.506: BannerPoleMaker (Zastavar) — zastavni drogi
+
+#### v3.11.507-v3.11.511 — Astrološka oprema (5 sistemov)
+- v3.11.507: AstrolabeRingMaker (Krožar) — astrolabni obroči
+- v3.11.508: StarChartRackMaker (Zvezdar) — stojala za zvezdne karte
+- v3.11.509: CelestialGlobeMaker (Kroglasti) — nebesne krogle
+- v3.11.510: SundialGnomonMaker (Kazalec) — solarski kazalci
+- v3.11.511: CompassNeedleMaker (Iglec) — komp sne igle
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
 ## [v3.11.501] — 2026-08-11 — Royal Scent Cone Maker System (6 products, scent cones)
 ## [v3.11.500] — 2026-08-11 — Royal Potpourri Bowl Maker System (6 products, potpourri bowls)
 ## [v3.11.499] — 2026-08-11 — Royal Sachet Maker System (6 products, sachets)

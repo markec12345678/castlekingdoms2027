@@ -811,6 +811,18 @@ S.PerfumeBottleMaker = require("objects.Economy.RoyalPerfumeBottleMakerSystem")
 S.SachetMaker = require("objects.Economy.RoyalSachetMakerSystem")
 S.PotpourriBowlMaker = require("objects.Economy.RoyalPotpourriBowlMakerSystem")
 S.ScentConeMaker = require("objects.Economy.RoyalScentConeMakerSystem")
+-- Castle Kingdoms 2027 v3.11.502-v3.11.506: Military equipment batch (5 new Royal systems)
+S.ShieldBossMaker = require("objects.Economy.RoyalShieldBossMakerSystem")
+S.SwordPommelMaker = require("objects.Economy.RoyalSwordPommelMakerSystem")
+S.ScabbardChapeMaker = require("objects.Economy.RoyalScabbardChapeMakerSystem")
+S.HelmetCrestMaker = require("objects.Economy.RoyalHelmetCrestMakerSystem")
+S.BannerPoleMaker = require("objects.Economy.RoyalBannerPoleMakerSystem")
+-- Castle Kingdoms 2027 v3.11.507-v3.11.511: Astrological equipment batch (5 new Royal systems)
+S.AstrolabeRingMaker = require("objects.Economy.RoyalAstrolabeRingMakerSystem")
+S.StarChartRackMaker = require("objects.Economy.RoyalStarChartRackMakerSystem")
+S.CelestialGlobeMaker = require("objects.Economy.RoyalCelestialGlobeMakerSystem")
+S.SundialGnomonMaker = require("objects.Economy.RoyalSundialGnomonMakerSystem")
+S.CompassNeedleMaker = require("objects.Economy.RoyalCompassNeedleMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -2048,6 +2060,18 @@ local function delayedInit()
     S.SachetMaker.init(); _G.SachetMaker = S.SachetMaker
     S.PotpourriBowlMaker.init(); _G.PotpourriBowlMaker = S.PotpourriBowlMaker
     S.ScentConeMaker.init(); _G.ScentConeMaker = S.ScentConeMaker
+    -- Castle Kingdoms 2027 v3.11.502-v3.11.506: Military equipment batch init
+    S.ShieldBossMaker.init(); _G.ShieldBossMaker = S.ShieldBossMaker
+    S.SwordPommelMaker.init(); _G.SwordPommelMaker = S.SwordPommelMaker
+    S.ScabbardChapeMaker.init(); _G.ScabbardChapeMaker = S.ScabbardChapeMaker
+    S.HelmetCrestMaker.init(); _G.HelmetCrestMaker = S.HelmetCrestMaker
+    S.BannerPoleMaker.init(); _G.BannerPoleMaker = S.BannerPoleMaker
+    -- Castle Kingdoms 2027 v3.11.507-v3.11.511: Astrological equipment batch init
+    S.AstrolabeRingMaker.init(); _G.AstrolabeRingMaker = S.AstrolabeRingMaker
+    S.StarChartRackMaker.init(); _G.StarChartRackMaker = S.StarChartRackMaker
+    S.CelestialGlobeMaker.init(); _G.CelestialGlobeMaker = S.CelestialGlobeMaker
+    S.SundialGnomonMaker.init(); _G.SundialGnomonMaker = S.SundialGnomonMaker
+    S.CompassNeedleMaker.init(); _G.CompassNeedleMaker = S.CompassNeedleMaker
     -- Castle Kingdoms 2027 v3.11.382: Initialize Royal Systems Registry (auto-discovers all 347+ systems)
     RoyalSystemsRegistry.init(S)
     _G.RoyalSystemsRegistry = RoyalSystemsRegistry
@@ -3030,6 +3054,18 @@ function game:update(dt)
                 S.SachetMaker.update(dt)
                 S.PotpourriBowlMaker.update(dt)
                 S.ScentConeMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.502-v3.11.506: Military equipment batch update
+                S.ShieldBossMaker.update(dt)
+                S.SwordPommelMaker.update(dt)
+                S.ScabbardChapeMaker.update(dt)
+                S.HelmetCrestMaker.update(dt)
+                S.BannerPoleMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.507-v3.11.511: Astrological equipment batch update
+                S.AstrolabeRingMaker.update(dt)
+                S.StarChartRackMaker.update(dt)
+                S.CelestialGlobeMaker.update(dt)
+                S.SundialGnomonMaker.update(dt)
+                S.CompassNeedleMaker.update(dt)
                 -- Castle Kingdoms 2027 v3.11.382: Royal Systems Registry aggregates stats + grants bonus gold
                 RoyalSystemsRegistry.update(dt)
                 RoyalSystemsPanel.update(dt)
