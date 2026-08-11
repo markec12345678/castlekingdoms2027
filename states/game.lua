@@ -847,6 +847,18 @@ S.PlantSupportMaker = require("objects.Economy.RoyalPlantSupportMakerSystem")
 S.WateringSpikeMaker = require("objects.Economy.RoyalWateringSpikeMakerSystem")
 S.CompostAeratorMaker = require("objects.Economy.RoyalCompostAeratorMakerSystem")
 S.SeedDrillPlowMaker = require("objects.Economy.RoyalSeedDrillPlowMakerSystem")
+-- Castle Kingdoms 2027 v3.11.532-v3.11.536: Bakery accessories batch (5 new Royal systems)
+S.DoughScraperMaker = require("objects.Economy.RoyalDoughScraperMakerSystem")
+S.ProofingBasketMaker = require("objects.Economy.RoyalProofingBasketMakerSystem")
+S.BreadLameMaker = require("objects.Economy.RoyalBreadLameMakerSystem")
+S.OvenPeelMaker = require("objects.Economy.RoyalOvenPeelMakerSystem")
+S.FlourShovelMaker = require("objects.Economy.RoyalFlourShovelMakerSystem")
+-- Castle Kingdoms 2027 v3.11.537-v3.11.541: Fishing accessories batch (5 new Royal systems)
+S.FishHookMaker = require("objects.Economy.RoyalFishHookMakerSystem")
+S.FishingLineSpoolMaker = require("objects.Economy.RoyalFishingLineSpoolMakerSystem")
+S.BaitBoxMaker = require("objects.Economy.RoyalBaitBoxMakerSystem")
+S.FishScalerMaker = require("objects.Economy.RoyalFishScalerMakerSystem")
+S.NetMendingNeedleMaker = require("objects.Economy.RoyalNetMendingNeedleMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -2120,6 +2132,18 @@ local function delayedInit()
     S.WateringSpikeMaker.init(); _G.WateringSpikeMaker = S.WateringSpikeMaker
     S.CompostAeratorMaker.init(); _G.CompostAeratorMaker = S.CompostAeratorMaker
     S.SeedDrillPlowMaker.init(); _G.SeedDrillPlowMaker = S.SeedDrillPlowMaker
+    -- Castle Kingdoms 2027 v3.11.532-v3.11.536: Bakery accessories batch init
+    S.DoughScraperMaker.init(); _G.DoughScraperMaker = S.DoughScraperMaker
+    S.ProofingBasketMaker.init(); _G.ProofingBasketMaker = S.ProofingBasketMaker
+    S.BreadLameMaker.init(); _G.BreadLameMaker = S.BreadLameMaker
+    S.OvenPeelMaker.init(); _G.OvenPeelMaker = S.OvenPeelMaker
+    S.FlourShovelMaker.init(); _G.FlourShovelMaker = S.FlourShovelMaker
+    -- Castle Kingdoms 2027 v3.11.537-v3.11.541: Fishing accessories batch init
+    S.FishHookMaker.init(); _G.FishHookMaker = S.FishHookMaker
+    S.FishingLineSpoolMaker.init(); _G.FishingLineSpoolMaker = S.FishingLineSpoolMaker
+    S.BaitBoxMaker.init(); _G.BaitBoxMaker = S.BaitBoxMaker
+    S.FishScalerMaker.init(); _G.FishScalerMaker = S.FishScalerMaker
+    S.NetMendingNeedleMaker.init(); _G.NetMendingNeedleMaker = S.NetMendingNeedleMaker
     -- Castle Kingdoms 2027 v3.11.382: Initialize Royal Systems Registry (auto-discovers all 347+ systems)
     RoyalSystemsRegistry.init(S)
     _G.RoyalSystemsRegistry = RoyalSystemsRegistry
@@ -3138,6 +3162,18 @@ function game:update(dt)
                 S.WateringSpikeMaker.update(dt)
                 S.CompostAeratorMaker.update(dt)
                 S.SeedDrillPlowMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.532-v3.11.536: Bakery accessories batch update
+                S.DoughScraperMaker.update(dt)
+                S.ProofingBasketMaker.update(dt)
+                S.BreadLameMaker.update(dt)
+                S.OvenPeelMaker.update(dt)
+                S.FlourShovelMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.537-v3.11.541: Fishing accessories batch update
+                S.FishHookMaker.update(dt)
+                S.FishingLineSpoolMaker.update(dt)
+                S.BaitBoxMaker.update(dt)
+                S.FishScalerMaker.update(dt)
+                S.NetMendingNeedleMaker.update(dt)
                 -- Castle Kingdoms 2027 v3.11.382: Royal Systems Registry aggregates stats + grants bonus gold
                 RoyalSystemsRegistry.update(dt)
                 RoyalSystemsPanel.update(dt)

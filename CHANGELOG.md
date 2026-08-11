@@ -2,6 +2,35 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.541] — 2026-08-11 — Royal Net Mending Needle Maker System (6 products, net mending needles)
+## [v3.11.540] — 2026-08-11 — Royal Fish Scaler Maker System (6 products, fish scalers)
+## [v3.11.539] — 2026-08-11 — Royal Bait Box Maker System (6 products, bait boxes)
+## [v3.11.538] — 2026-08-11 — Royal Fishing Line Spool Maker System (6 products, fishing line spools)
+## [v3.11.537] — 2026-08-11 — Royal Fish Hook Maker System (6 products, fish hooks)
+## [v3.11.536] — 2026-08-11 — Royal Flour Shovel Maker System (6 products, flour shovels)
+## [v3.11.535] — 2026-08-11 — Royal Oven Peel Maker System (6 products, oven peels)
+## [v3.11.534] — 2026-08-11 — Royal Bread Lame Maker System (6 products, bread lames)
+## [v3.11.533] — 2026-08-11 — Royal Proofing Basket Maker System (6 products, proofing baskets)
+## [v3.11.532] — 2026-08-11 — Royal Dough Scraper Maker System (6 products, dough scrapers)
+
+### Dodano (v3.11.532-v3.11.541 — 10 sistemov: pekovski dodatki + ribiški dodatki)
+
+#### v3.11.532-v3.11.536 — Pekovski dodatki (5 sistemov)
+- v3.11.532: DoughScraperMaker (Strgalec) — strgala za testo
+- v3.11.533: ProofingBasketMaker (Košar) — vzhodne košare
+- v3.11.534: BreadLameMaker (Rezilec) — rezila za kruh
+- v3.11.535: OvenPeelMaker (Lopatar) — pekovske lopate
+- v3.11.536: FlourShovelMaker (Mokar) — lopate za moko
+
+#### v3.11.537-v3.11.541 — Ribiški dodatki (5 sistemov)
+- v3.11.537: FishHookMaker (Kavkar) — ribiške kavke
+- v3.11.538: FishingLineSpoolMaker (Navijalec) — tulčki za ribiško vrvico
+- v3.11.539: BaitBoxMaker (Škatlar) — škatle za vabe
+- v3.11.540: FishScalerMaker (Luskar) — luskalci za ribe
+- v3.11.541: NetMendingNeedleMaker (Iglec) — igle za krpanje mrež
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
 ## [v3.11.531] — 2026-08-11 — Royal Seed Drill Plow Maker System (6 products, seed drill plows)
 ## [v3.11.530] — 2026-08-11 — Royal Compost Aerator Maker System (6 products, compost aerators)
 ## [v3.11.529] — 2026-08-11 — Royal Watering Spike Maker System (6 products, watering spikes)
