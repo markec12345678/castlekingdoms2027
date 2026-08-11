@@ -2,6 +2,45 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.441] — 2026-08-11 — Royal Bridle Buckle Maker System (6 products, bridle buckles)
+## [v3.11.440] — 2026-08-11 — Royal Stirrup Leather Maker System (6 products, stirrup leathers)
+## [v3.11.439] — 2026-08-11 — Royal Leather Conditioner Maker System (6 products, leather conditioners)
+## [v3.11.438] — 2026-08-11 — Royal Saddle Polish Maker System (6 products, saddle polishes)
+## [v3.11.437] — 2026-08-11 — Royal Saddle Soap Maker System (6 products, saddle soaps)
+
+### Dodano (v3.11.437-v3.11.441 — 5 sedlarskih dodatkov)
+
+#### v3.11.437 - Royal Saddle Soap Maker System
+- **6 produktov** (železno milo za sedla, bronasto, srebrno, pozlačeno, draguljasto, kraljevski suvereno)
+- **4 zgradbe** (milna delavnica, milna hiša, mojstrski milni atelje, suverena milna palača)
+- Maker: Milar, hire base 565 gold
+- Poudarek na usnju (leatherCost 3-4)
+
+#### v3.11.438 - Royal Saddle Polish Maker System
+- **6 produktov** (železna polirka za sedla, bronasta, srebrna, pozlačena, draguljasta, kraljevski suverena)
+- **4 zgradbe** (polirna delavnica, polirna hiša, mojstrski polirni atelje, suverena polirna palača)
+- Maker: Polirar, hire base 575 gold
+
+#### v3.11.439 - Royal Leather Conditioner Maker System
+- **6 produktov** (železni kondicioner za usnje, bronast, srebrni, pozlačeni, draguljasti, kraljevski suvereni)
+- **4 zgradbe** (kondicionerna delavnica, kondicionerna hiša, mojstrski kondicionerni atelje, suverena kondicionerna palača)
+- Maker: Kondicionar, hire base 580 gold
+- Poudarek na usnju (leatherCost 4-5)
+
+#### v3.11.440 - Royal Stirrup Leather Maker System
+- **6 produktov** (železno usnje za streme, bronasto, srebrno, pozlačeno, draguljasto, kraljevski suvereno)
+- **4 zgradbe** (stremsko-usnjena delavnica, stremsko-usnjena hiša, mojstrski stremsko-usnjeni atelje, suverena stremsko-usnjena palača)
+- Maker: Stremar, hire base 585 gold
+- Poudarek na usnju (leatherCost 5-6) - najbolj usnje-zahteven sistem
+
+#### v3.11.441 - Royal Bridle Buckle Maker System
+- **6 produktov** (železna sponka za uzde, bronasta, srebrna, pozlačena, draguljasta, kraljevski suverena)
+- **4 zgradbe** (spončna delavnica, spončna hiša, mojstrski spončni atelje, suverena spončna palača)
+- Maker: Sponkar, hire base 590 gold
+- Poudarek na kovini (ironCost/bronzeCost/silverCost 4) - močne sponke
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
 ## [v3.11.436] — 2026-08-11 — Royal Lice Comb Maker System (6 products, lice combs)
 ## [v3.11.435] — 2026-08-11 — Royal Beard Comb Maker System (6 products, beard combs)
 ## [v3.11.434] — 2026-08-11 — Royal Hairpin Maker System (6 products, hairpins)

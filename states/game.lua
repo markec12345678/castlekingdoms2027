@@ -733,6 +733,12 @@ S.HairbrushMaker = require("objects.Economy.RoyalHairbrushMakerSystem")
 S.HairpinMaker = require("objects.Economy.RoyalHairpinMakerSystem")
 S.BeardCombMaker = require("objects.Economy.RoyalBeardCombMakerSystem")
 S.LiceCombMaker = require("objects.Economy.RoyalLiceCombMakerSystem")
+-- Castle Kingdoms 2027 v3.11.437-v3.11.441: Saddler's accessories batch (5 new Royal systems)
+S.SaddleSoapMaker = require("objects.Economy.RoyalSaddleSoapMakerSystem")
+S.SaddlePolishMaker = require("objects.Economy.RoyalSaddlePolishMakerSystem")
+S.LeatherConditionerMaker = require("objects.Economy.RoyalLeatherConditionerMakerSystem")
+S.StirrupLeatherMaker = require("objects.Economy.RoyalStirrupLeatherMakerSystem")
+S.BridleBuckleMaker = require("objects.Economy.RoyalBridleBuckleMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -1892,6 +1898,12 @@ local function delayedInit()
     S.HairpinMaker.init(); _G.HairpinMaker = S.HairpinMaker
     S.BeardCombMaker.init(); _G.BeardCombMaker = S.BeardCombMaker
     S.LiceCombMaker.init(); _G.LiceCombMaker = S.LiceCombMaker
+    -- Castle Kingdoms 2027 v3.11.437-v3.11.441: Saddler's accessories batch init
+    S.SaddleSoapMaker.init(); _G.SaddleSoapMaker = S.SaddleSoapMaker
+    S.SaddlePolishMaker.init(); _G.SaddlePolishMaker = S.SaddlePolishMaker
+    S.LeatherConditionerMaker.init(); _G.LeatherConditionerMaker = S.LeatherConditionerMaker
+    S.StirrupLeatherMaker.init(); _G.StirrupLeatherMaker = S.StirrupLeatherMaker
+    S.BridleBuckleMaker.init(); _G.BridleBuckleMaker = S.BridleBuckleMaker
     -- Castle Kingdoms 2027 v3.11.382: Initialize Royal Systems Registry (auto-discovers all 347+ systems)
     RoyalSystemsRegistry.init(S)
     _G.RoyalSystemsRegistry = RoyalSystemsRegistry
@@ -2796,6 +2808,12 @@ function game:update(dt)
                 S.HairpinMaker.update(dt)
                 S.BeardCombMaker.update(dt)
                 S.LiceCombMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.437-v3.11.441: Saddler's accessories batch update
+                S.SaddleSoapMaker.update(dt)
+                S.SaddlePolishMaker.update(dt)
+                S.LeatherConditionerMaker.update(dt)
+                S.StirrupLeatherMaker.update(dt)
+                S.BridleBuckleMaker.update(dt)
                 -- Castle Kingdoms 2027 v3.11.382: Royal Systems Registry aggregates stats + grants bonus gold
                 RoyalSystemsRegistry.update(dt)
                 RoyalSystemsPanel.update(dt)
