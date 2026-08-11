@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.621] — 2026-08-12 — Royal Bran Separator Maker System (6 products, bran separators)
+## [v3.11.620] — 2026-08-12 — Royal Flour Sieve Maker System (6 products, flour sieves)
+## [v3.11.619] — 2026-08-12 — Royal Hopper Gate Maker System (6 products, hopper gates)
+## [v3.11.618] — 2026-08-12 — Royal Millstone Dresser Maker System (6 products, millstone dressers)
+## [v3.11.617] — 2026-08-12 — Royal Grain Auger Maker System (6 products, grain augers)
+## [v3.11.616] — 2026-08-12 — Royal Garden Wheelbarrow Maker System (6 products, garden wheelbarrows)
+## [v3.11.615] — 2026-08-12 — Royal Pruning Saw Maker System (6 products, pruning saws)
+## [v3.11.614] — 2026-08-12 — Royal Garden Rake Maker System (6 products, garden rakes)
+## [v3.11.613] — 2026-08-12 — Royal Dibber Maker System (6 products, dibbers)
+## [v3.11.612] — 2026-08-12 — Royal Garden Hoe Maker System (6 products, garden hoes)
+
+### Dodano (v3.11.612-v3.11.621 — 10 sistemov: vrtni dodatki 3 + mlinarski dodatki 3)
+
+#### v3.11.612-v3.11.616 — Vrtni dodatki 3 (5 sistemov)
+- v3.11.612: GardenHoeMaker (Motikar) — vrtne motike
+- v3.11.613: DibberMaker (Sadilnikar) — sadilniki za seme
+- v3.11.614: GardenRakeMaker (Gredlar) — vrtne grelde
+- v3.11.615: PruningSawMaker (Žagar) — žage za obrezovanje
+- v3.11.616: GardenWheelbarrowMaker (Vozičkar) — vrtni vozički
+
+#### v3.11.617-v3.11.621 — Mlinarski dodatki 3 (5 sistemov)
+- v3.11.617: GrainAugerMaker (Spiralar) — spiralni transporterji za žito
+- v3.11.618: MillstoneDresserMaker (Oblikovalec) — oblikovalci mlinskih kamnov
+- v3.11.619: HopperGateMaker (Zaporničar) — zapornice za lijake
+- v3.11.620: FlourSieveMaker (Sitnikar) — sitane za moko
+- v3.11.621: BranSeparatorMaker (Ločevalec) — ločilci otrob
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
+Pre-flight check: pred generiranjem je bila preverjena git zgodovina za vseh 10 datotek — vse so imele 0 prior commits in so bile odsotne iz workdir. Brez duplikatov.
+
 ## [v3.11.611] — 2026-08-12 — Royal Flatter Maker System (6 products, flatters)
 ## [v3.11.610] — 2026-08-12 — Royal Fuller Maker System (6 products, fullers)
 ## [v3.11.609] — 2026-08-12 — Royal Treadle Hammer Maker System (6 products, treadle hammers)
