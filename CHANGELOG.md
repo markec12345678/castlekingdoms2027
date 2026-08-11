@@ -2,6 +2,35 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.491] — 2026-08-11 — Royal Coin Scale Maker System (6 products, coin scales)
+## [v3.11.490] — 2026-08-11 — Royal Coin Sorter Maker System (6 products, coin sorters)
+## [v3.11.489] — 2026-08-11 — Royal Coin Blank Maker System (6 products, coin blanks)
+## [v3.11.488] — 2026-08-11 — Royal Coin Die Maker System (6 products, coin dies)
+## [v3.11.487] — 2026-08-11 — Royal Coin Press Maker System (6 products, coin presses)
+## [v3.11.486] — 2026-08-11 — Royal Writing Stand Maker System (6 products, writing stands)
+## [v3.11.485] — 2026-08-11 — Royal Wax Tablet Maker System (6 products, wax tablets)
+## [v3.11.484] — 2026-08-11 — Royal Parchment Rack Maker System (6 products, parchment racks)
+## [v3.11.483] — 2026-08-11 — Royal Inkwell Maker System (6 products, inkwells)
+## [v3.11.482] — 2026-08-11 — Royal Quill Cutter Maker System (6 products, quill cutters)
+
+### Dodano (v3.11.482-v3.11.491 — 10 sistemov: peresna oprema + kovanska oprema)
+
+#### v3.11.482-v3.11.486 — Peresna oprema (5 sistemov)
+- v3.11.482: QuillCutterMaker (Rezar) — rezalci peres
+- v3.11.483: InkwellMaker (Črnilničar) — črnilnice
+- v3.11.484: ParchmentRackMaker (Pergamentist) — stojala za pergament
+- v3.11.485: WaxTabletMaker (Voščar) — voščene tablice
+- v3.11.486: WritingStandMaker (Pisar) — pisalne mizice
+
+#### v3.11.487-v3.11.491 — Kovanska oprema (5 sistemov)
+- v3.11.487: CoinPressMaker (Kovalec) — stiskalce kovancev
+- v3.11.488: CoinDieMaker (Matricar) — matrice za kovance
+- v3.11.489: CoinBlankMaker (Polizdelkar) — kovinski polizdelki
+- v3.11.490: CoinSorterMaker (Sortiralec) — sortiralce kovancev
+- v3.11.491: CoinScaleMaker (Tehtar) — tehtnice za kovance
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
 ## [v3.11.481] — 2026-08-11 — Royal Gilding Press Maker System (6 products, gilding presses)
 ## [v3.11.480] — 2026-08-11 — Royal Leather Cover Maker System (6 products, leather covers)
 ## [v3.11.479] — 2026-08-11 — Royal Binding Cord Maker System (6 products, binding cords)

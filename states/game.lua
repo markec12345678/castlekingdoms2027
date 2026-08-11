@@ -787,6 +787,18 @@ S.StitchingAwlMaker = require("objects.Economy.RoyalStitchingAwlMakerSystem")
 S.BindingCordMaker = require("objects.Economy.RoyalBindingCordMakerSystem")
 S.LeatherCoverMaker = require("objects.Economy.RoyalLeatherCoverMakerSystem")
 S.GildingPressMaker = require("objects.Economy.RoyalGildingPressMakerSystem")
+-- Castle Kingdoms 2027 v3.11.482-v3.11.486: Quill/writing equipment batch (5 new Royal systems)
+S.QuillCutterMaker = require("objects.Economy.RoyalQuillCutterMakerSystem")
+S.InkwellMaker = require("objects.Economy.RoyalInkwellMakerSystem")
+S.ParchmentRackMaker = require("objects.Economy.RoyalParchmentRackMakerSystem")
+S.WaxTabletMaker = require("objects.Economy.RoyalWaxTabletMakerSystem")
+S.WritingStandMaker = require("objects.Economy.RoyalWritingStandMakerSystem")
+-- Castle Kingdoms 2027 v3.11.487-v3.11.491: Coin minting equipment batch (5 new Royal systems)
+S.CoinPressMaker = require("objects.Economy.RoyalCoinPressMakerSystem")
+S.CoinDieMaker = require("objects.Economy.RoyalCoinDieMakerSystem")
+S.CoinBlankMaker = require("objects.Economy.RoyalCoinBlankMakerSystem")
+S.CoinSorterMaker = require("objects.Economy.RoyalCoinSorterMakerSystem")
+S.CoinScaleMaker = require("objects.Economy.RoyalCoinScaleMakerSystem")
 -- Create local aliases for most-used systems (keeps upvalue count low)
 local CombatIntegration = S.CombatIntegration
 local ModernUI = S.ModernUI
@@ -2000,6 +2012,18 @@ local function delayedInit()
     S.BindingCordMaker.init(); _G.BindingCordMaker = S.BindingCordMaker
     S.LeatherCoverMaker.init(); _G.LeatherCoverMaker = S.LeatherCoverMaker
     S.GildingPressMaker.init(); _G.GildingPressMaker = S.GildingPressMaker
+    -- Castle Kingdoms 2027 v3.11.482-v3.11.486: Quill/writing equipment batch init
+    S.QuillCutterMaker.init(); _G.QuillCutterMaker = S.QuillCutterMaker
+    S.InkwellMaker.init(); _G.InkwellMaker = S.InkwellMaker
+    S.ParchmentRackMaker.init(); _G.ParchmentRackMaker = S.ParchmentRackMaker
+    S.WaxTabletMaker.init(); _G.WaxTabletMaker = S.WaxTabletMaker
+    S.WritingStandMaker.init(); _G.WritingStandMaker = S.WritingStandMaker
+    -- Castle Kingdoms 2027 v3.11.487-v3.11.491: Coin minting equipment batch init
+    S.CoinPressMaker.init(); _G.CoinPressMaker = S.CoinPressMaker
+    S.CoinDieMaker.init(); _G.CoinDieMaker = S.CoinDieMaker
+    S.CoinBlankMaker.init(); _G.CoinBlankMaker = S.CoinBlankMaker
+    S.CoinSorterMaker.init(); _G.CoinSorterMaker = S.CoinSorterMaker
+    S.CoinScaleMaker.init(); _G.CoinScaleMaker = S.CoinScaleMaker
     -- Castle Kingdoms 2027 v3.11.382: Initialize Royal Systems Registry (auto-discovers all 347+ systems)
     RoyalSystemsRegistry.init(S)
     _G.RoyalSystemsRegistry = RoyalSystemsRegistry
@@ -2958,6 +2982,18 @@ function game:update(dt)
                 S.BindingCordMaker.update(dt)
                 S.LeatherCoverMaker.update(dt)
                 S.GildingPressMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.482-v3.11.486: Quill/writing equipment batch update
+                S.QuillCutterMaker.update(dt)
+                S.InkwellMaker.update(dt)
+                S.ParchmentRackMaker.update(dt)
+                S.WaxTabletMaker.update(dt)
+                S.WritingStandMaker.update(dt)
+                -- Castle Kingdoms 2027 v3.11.487-v3.11.491: Coin minting equipment batch update
+                S.CoinPressMaker.update(dt)
+                S.CoinDieMaker.update(dt)
+                S.CoinBlankMaker.update(dt)
+                S.CoinSorterMaker.update(dt)
+                S.CoinScaleMaker.update(dt)
                 -- Castle Kingdoms 2027 v3.11.382: Royal Systems Registry aggregates stats + grants bonus gold
                 RoyalSystemsRegistry.update(dt)
                 RoyalSystemsPanel.update(dt)
