@@ -2,6 +2,35 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.561] — 2026-08-11 — Royal Hat Band Buckle Maker System (6 products, hat band buckles)
+## [v3.11.560] — 2026-08-11 — Royal Hat Lining Maker System (6 products, hat linings)
+## [v3.11.559] — 2026-08-11 — Royal Hat Stretcher Maker System (6 products, hat stretchers)
+## [v3.11.558] — 2026-08-11 — Royal Hat Crown Block Maker System (6 products, hat crown blocks)
+## [v3.11.557] — 2026-08-11 — Royal Hat Brim Curler Maker System (6 products, hat brim curlers)
+## [v3.11.556] — 2026-08-11 — Royal Leather Creaser Maker System (6 products, leather creasers)
+## [v3.11.555] — 2026-08-11 — Royal Leather Edge Beveler Maker System (6 products, leather edge bevelers)
+## [v3.11.554] — 2026-08-11 — Royal Leather Skiver Maker System (6 products, leather skivers)
+## [v3.11.553] — 2026-08-11 — Royal Leather Splitter Maker System (6 products, leather splitters)
+## [v3.11.552] — 2026-08-11 — Royal Leather Burnisher Maker System (6 products, leather burnishers)
+
+### Dodano (v3.11.552-v3.11.561 — 10 sistemov: usnjarski dodatki 2 + klobučarski dodatki 2)
+
+#### v3.11.552-v3.11.556 — Usnjarski dodatki 2 (5 sistemov)
+- v3.11.552: LeatherBurnisherMaker (Poliralec) — poliralci usnja
+- v3.11.553: LeatherSplitterMaker (Cepalec) — cepalci usnja
+- v3.11.554: LeatherSkiverMaker (Strgalec) — strgalci usnja
+- v3.11.555: LeatherEdgeBevelerMaker (Poševnik) — poševniki robov
+- v3.11.556: LeatherCreaserMaker (Gubalec) — gubalci usnja
+
+#### v3.11.557-v3.11.561 — Klobučarski dodatki 2 (5 sistemov)
+- v3.11.557: HatBrimCurlerMaker (Kodrnik) — kodrniki za klobuke
+- v3.11.558: HatCrownBlockMaker (Kronar) — krone za klobuke
+- v3.11.559: HatStretcherMaker (Napretevalec) — napretevalci za klobuke
+- v3.11.560: HatLiningMaker (Podstavnik) — podstave za klobuke
+- v3.11.561: HatBandBuckleMaker (Sponkar) — sponke za klobuke
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
 ## [v3.11.541] — 2026-08-11 — Royal Net Mending Needle Maker System (6 products, net mending needles)
 ## [v3.11.540] — 2026-08-11 — Royal Fish Scaler Maker System (6 products, fish scalers)
 ## [v3.11.539] — 2026-08-11 — Royal Bait Box Maker System (6 products, bait boxes)
