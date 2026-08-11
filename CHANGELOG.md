@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.641] — 2026-08-12 — Royal Anvil Hardy Maker System (6 products, anvil hardies)
+## [v3.11.640] — 2026-08-12 — Royal Top Fuller Maker System (6 products, top fullers)
+## [v3.11.639] — 2026-08-12 — Royal Bottom Fuller Maker System (6 products, bottom fullers)
+## [v3.11.638] — 2026-08-12 — Royal Set Hammer Maker System (6 products, set hammers)
+## [v3.11.637] — 2026-08-12 — Royal Cutter Hardy Maker System (6 products, cutter hardies)
+## [v3.11.636] — 2026-08-12 — Royal Book Cover Crimper Maker System (6 products, book cover crimpers)
+## [v3.11.635] — 2026-08-12 — Royal Book Thread Reel Maker System (6 products, book thread reels)
+## [v3.11.634] — 2026-08-12 — Royal Bookbinding Awl Maker System (6 products, bookbinding awls)
+## [v3.11.633] — 2026-08-12 — Royal Book Pressing Weight Maker System (6 products, book pressing weights)
+## [v3.11.632] — 2026-08-12 — Royal Book Edge Painter Maker System (6 products, book edge painters)
+
+### Dodano (v3.11.632-v3.11.641 — 10 sistemov: knjigoveški dodatki 4 + kovaški dodatki 4)
+
+#### v3.11.632-v3.11.636 — Knjigoveški dodatki 4 (5 sistemov)
+- v3.11.632: BookEdgePainterMaker (Roboslikar) — slikalci robov knjig
+- v3.11.633: BookPressingWeightMaker (Utežar) — uteži za stiskanje knjig
+- v3.11.634: BookbindingAwlMaker (Šilar) — šila za knjigoveštvo
+- v3.11.635: BookThreadReelMaker (Vitičar) — vitice za knjigoveške niti
+- v3.11.636: BookCoverCrimperMaker (Gubalec) — gubalci naslovnic
+
+#### v3.11.637-v3.11.641 — Kovaški dodatki 4 (5 sistemov)
+- v3.11.637: CutterHardyMaker (Reznik) — trdi rezalniki za nakovalo
+- v3.11.638: SetHammerMaker (Nastavljalec) — nastavitvena kladiva
+- v3.11.639: BottomFullerMaker (SpodnjiUtor) — spodnji fullerji za utorjanje
+- v3.11.640: TopFullerMaker (ZgornjiUtor) — zgornji fullerji za utorjanje
+- v3.11.641: AnvilHardyMaker (Nastavkar) — trdi nastavki za nakovalo
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
+Pre-flight check: pred generiranjem je bila preverjena git zgodovina za vseh 10 datotek — vse so imele 0 prior commits in so bile odsotne iz workdir. Brez duplikatov.
+
 ## [v3.11.631] — 2026-08-12 — Royal Mold Drying Oven Maker System (6 products, mold drying ovens)
 ## [v3.11.630] — 2026-08-12 — Royal Slurry Mixer Maker System (6 products, slurry mixers)
 ## [v3.11.629] — 2026-08-12 — Royal Riser Breaker Maker System (6 products, riser breakers)
