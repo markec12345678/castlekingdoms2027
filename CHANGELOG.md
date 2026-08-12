@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.761] — 2026-08-12 — Royal Smith Tongs Ring Maker System (6 products, smith tongs rings)
+## [v3.11.760] — 2026-08-12 — Royal Quench Tank Stirrer Maker System (6 products, quench tank stirrers)
+## [v3.11.759] — 2026-08-12 — Royal Forge Brick Maker System (6 products, forge bricks)
+## [v3.11.758] — 2026-08-12 — Royal Anvil Face Hardener Maker System (6 products, anvil face hardeners)
+## [v3.11.757] — 2026-08-12 — Royal Forge Bellows Valve Maker System (6 products, forge bellows valves)
+## [v3.11.756] — 2026-08-12 — Royal Book Cover Board Shears Maker System (6 products, book cover board shears)
+## [v3.11.755] — 2026-08-12 — Royal Book Edge Coloring Sponge Maker System (6 products, book edge coloring sponges)
+## [v3.11.754] — 2026-08-12 — Royal Book Sewing Frame Toggle Maker System (6 products, book sewing frame toggles)
+## [v3.11.753] — 2026-08-12 — Royal Book Cover Gauge Maker System (6 products, book cover gauges)
+## [v3.11.752] — 2026-08-12 — Royal Book Spine Lining Cloth Maker System (6 products, book spine lining cloths)
+
+### Dodano (v3.11.752-v3.11.761 — 10 sistemov: knjigoveški dodatki 8 + kovaški dodatki 8)
+
+#### v3.11.752-v3.11.756 — Knjigoveški dodatki 8 (5 sistemov)
+- v3.11.752: BookSpineLiningClothMaker (Tkalnik) — podstavne tkanine za hrbte
+- v3.11.753: BookCoverGaugeMaker (Merilnik) — merilci za naslovnice
+- v3.11.754: BookSewingFrameToggleMaker (Zatičar) — zatiči za šivalne okvire
+- v3.11.755: BookEdgeColoringSpongeMaker (Gobar) — gobe za barvanje robov
+- v3.11.756: BookCoverBoardShearsMaker (Škardar) — škarde za vezave
+
+#### v3.11.757-v3.11.761 — Kovaški dodatki 8 (5 sistemov)
+- v3.11.757: ForgeBellowsValveMaker (Zaklopkar) — zaklopke za kovaški meh
+- v3.11.758: AnvilFaceHardenerMaker (Utrjevalec) — utrjevalci nakovala
+- v3.11.759: ForgeBrickMaker (Opekar) — opeke za kovaško peč
+- v3.11.760: QuenchTankStirrerMaker (Mešalnik) — mešala za kalilne kadi
+- v3.11.761: SmithTongsRingMaker (Obročnik) — obroči za kovaške klešče
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
+Pre-flight check: pred generiranjem je bila preverjena git zgodovina za vseh 10 datotek — vse so imele 0 prior commits in so bile odsotne iz workdir. Brez duplikatov.
+
 ## [v3.11.751] — 2026-08-12 — Royal Casting Ladle Nozzle Maker System (6 products, casting ladle nozzles)
 ## [v3.11.750] — 2026-08-12 — Royal Core Drying Rack Maker System (6 products, core drying racks)
 ## [v3.11.749] — 2026-08-12 — Royal Sand Sieve Shaker Maker System (6 products, sand sieve shakers)
