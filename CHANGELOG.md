@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.851] — 2026-08-12 — Royal Smith Hammer Face Polisher Maker System (6 products, smith hammer face polishers)
+## [v3.11.850] — 2026-08-12 — Royal Quench Oil Filter Maker System (6 products, quench oil filters)
+## [v3.11.849] — 2026-08-12 — Royal Forge Chimney Cowl Maker System (6 products, forge chimney cowls)
+## [v3.11.848] — 2026-08-12 — Royal Anvil Stump Wedge Maker System (6 products, anvil stump wedges)
+## [v3.11.847] — 2026-08-12 — Royal Forge Ash Gate Valve Maker System (6 products, forge ash gate valves)
+## [v3.11.846] — 2026-08-12 — Royal Book Cover Board Corner Miter Maker System (6 products, book cover board corner miters)
+## [v3.11.845] — 2026-08-12 — Royal Book Edge Gilt Size Applicator Maker System (6 products, book edge gilt size applicators)
+## [v3.11.844] — 2026-08-12 — Royal Book Sewing Cord Spool Maker System (6 products, book sewing cord spools)
+## [v3.11.843] — 2026-08-12 — Royal Book Cover Paste Roller Maker System (6 products, book cover paste rollers)
+## [v3.11.842] — 2026-08-12 — Royal Book Spine Gilt Size Gauge Maker System (6 products, book spine gilt size gauges)
+
+### Dodano (v3.11.842-v3.11.851 — 10 sistemov: knjigoveški dodatki 11 + kovaški dodatki 11)
+
+#### v3.11.842-v3.11.846 — Knjigoveški dodatki 11 (5 sistemov)
+- v3.11.842: BookSpineGiltSizeGaugeMaker (Merilnik) — merilci za pozlate hrbtov
+- v3.11.843: BookCoverPasteRollerMaker (Valjar) — valji za pasto naslovnic
+- v3.11.844: BookSewingCordSpoolMaker (Vitičar) — vitice za šivalne vrvice
+- v3.11.845: BookEdgeGiltSizeApplicatorMaker (Nanašalec) — nanašalci za pozlate robov
+- v3.11.846: BookCoverBoardCornerMiterMaker (Kotnik) — koti za vezave naslovnic
+
+#### v3.11.847-v3.11.851 — Kovaški dodatki 11 (5 sistemov)
+- v3.11.847: ForgeAshGateValveMaker (Zaklopkar) — zaklopke za pepel
+- v3.11.848: AnvilStumpWedgeMaker (Klinar) — klini za panj nakovala
+- v3.11.849: ForgeChimneyCowlMaker (Kapičar) — kapice za dimnike
+- v3.11.850: QuenchOilFilterMaker (Filtrar) — filtri za kalilno olje
+- v3.11.851: SmithHammerFacePolisherMaker (Polirar) — poliralci za kladiva
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
+Pre-flight check: pred generiranjem je bila preverjena git zgodovina za vseh 10 datotek — vse so imele 0 prior commits in so bile odsotne iz workdir. Brez duplikatov.
+
 ## [v3.11.841] — 2026-08-12 — Royal Casting Ladle Preheat Burner Maker System (6 products, casting ladle preheat burners)
 ## [v3.11.840] — 2026-08-12 — Royal Core Gas Vent Pin Maker System (6 products, core gas vent pins)
 ## [v3.11.839] — 2026-08-12 — Royal Sand Muller Blade Maker System (6 products, sand muller blades)
