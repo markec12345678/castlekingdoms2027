@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.801] — 2026-08-12 — Royal Mill Sail Cloth Grommet Maker System (6 products, mill sail cloth grommets)
+## [v3.11.800] — 2026-08-12 — Royal Millstone Dressing Pick Maker System (6 products, millstone dressing picks)
+## [v3.11.799] — 2026-08-12 — Royal Mill Hopper Sight Glass Maker System (6 products, mill hopper sight glasses)
+## [v3.11.798] — 2026-08-12 — Royal Grain Hopper Auger Maker System (6 products, grain hopper augers)
+## [v3.11.797] — 2026-08-12 — Royal Millstone Grain Feed Chute Maker System (6 products, millstone grain feed chutes)
+## [v3.11.796] — 2026-08-12 — Royal Garden Plant Dibber Depth Mark Maker System (6 products, garden plant dibber depth marks)
+## [v3.11.795] — 2026-08-12 — Royal Garden Soil Thermometer Maker System (6 products, garden soil thermometers)
+## [v3.11.794] — 2026-08-12 — Royal Garden Trowel Holster Maker System (6 products, garden trowel holsters)
+## [v3.11.793] — 2026-08-12 — Royal Plant Root Pruner Maker System (6 products, plant root pruners)
+## [v3.11.792] — 2026-08-12 — Royal Garden Pot Brush Maker System (6 products, garden pot brushes)
+
+### Dodano (v3.11.792-v3.11.801 — 10 sistemov: vrtni dodatki 9 + mlinarski dodatki 9)
+
+#### v3.11.792-v3.11.796 — Vrtni dodatki 9 (5 sistemov)
+- v3.11.792: GardenPotBrushMaker (Ščetkar) — ščetke za lonce
+- v3.11.793: PlantRootPrunerMaker (Koreninar) — škarje za korenine
+- v3.11.794: GardenTrowelHolsterMaker (Nositelj) — nositelji za lopatko
+- v3.11.795: GardenSoilThermometerMaker (Termometrar) — termometri za prst
+- v3.11.796: GardenPlantDibberDepthMarkMaker (Oznakar) — oznake globine za sadilnik
+
+#### v3.11.797-v3.11.801 — Mlinarski dodatki 9 (5 sistemov)
+- v3.11.797: MillstoneGrainFeedChuteMaker (Žlebnik) — žlebovi za žito
+- v3.11.798: GrainHopperAugerMaker (Spiralar) — spirale za lijake
+- v3.11.799: MillHopperSightGlassMaker (Okničar) — okence za opazovanje
+- v3.11.800: MillstoneDressingPickMaker (Dletnik) — dleta za oblikovanje
+- v3.11.801: MillSailClothGrommetMaker (Obročnik) — obroči za jedrno tkanino
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
+Pre-flight check: pred generiranjem je bila preverjena git zgodovina za vseh 10 datotek — vse so imele 0 prior commits in so bile odsotne iz workdir. Brez duplikatov.
+
 ## [v3.11.791] — 2026-08-12 — Royal Smith Hammer Wedge Maker System (6 products, smith hammer wedges)
 ## [v3.11.790] — 2026-08-12 — Royal Quench Oil Dipper Maker System (6 products, quench oil dippers)
 ## [v3.11.789] — 2026-08-12 — Royal Forge Spark Shield Maker System (6 products, forge spark shields)
