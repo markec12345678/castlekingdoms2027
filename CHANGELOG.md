@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.841] — 2026-08-12 — Royal Casting Ladle Preheat Burner Maker System (6 products, casting ladle preheat burners)
+## [v3.11.840] — 2026-08-12 — Royal Core Gas Vent Pin Maker System (6 products, core gas vent pins)
+## [v3.11.839] — 2026-08-12 — Royal Sand Muller Blade Maker System (6 products, sand muller blades)
+## [v3.11.838] — 2026-08-12 — Royal Pouring Crucible Drier Maker System (6 products, pouring crucible driers)
+## [v3.11.837] — 2026-08-12 — Royal Mold Flow Tester Maker System (6 products, mold flow testers)
+## [v3.11.836] — 2026-08-12 — Royal Glass Engraving Lathe Chuck Maker System (6 products, glass engraving lathe chucks)
+## [v3.11.835] — 2026-08-12 — Royal Glass Annealing Oven Door Wheel Maker System (6 products, glass annealing oven door wheels)
+## [v3.11.834] — 2026-08-12 — Royal Glass Colorant Mortar Pestle Maker System (6 products, glass colorant mortar pestles)
+## [v3.11.833] — 2026-08-12 — Royal Glass Kiln Sighting Port Cover Maker System (6 products, glass kiln sighting port covers)
+## [v3.11.832] — 2026-08-12 — Royal Glass Pipe Shears Maker System (6 products, glass pipe shears)
+
+### Dodano (v3.11.832-v3.11.841 — 10 sistemov: steklarski dodatki 11 + livarski dodatki 11)
+
+#### v3.11.832-v3.11.836 — Steklarski dodatki 11 (5 sistemov)
+- v3.11.832: GlassPipeShearsMaker (Škardar) — škarde za pihanje stekla
+- v3.11.833: GlassKilnSightingPortCoverMaker (Pokrovnik) — pokrovi za opazovalne odprtine
+- v3.11.834: GlassColorantMortarPestleMaker (Pstičar) — psti za steklarske barve
+- v3.11.835: GlassAnnealingOvenDoorWheelMaker (Kolar) — kolesa za vrata ohlajevalne peči
+- v3.11.836: GlassEngravingLatheChuckMaker (Stiskalnik) — stiskalniki za stružnico
+
+#### v3.11.837-v3.11.841 — Livarski dodatki 11 (5 sistemov)
+- v3.11.837: MoldFlowTesterMaker (Preizkušalec) — preizkuševalci pretoka kalupa
+- v3.11.838: PouringCrucibleDrierMaker (Sušilnik) — sušilci za lončne peči
+- v3.11.839: SandMullerBladeMaker (Lopatičar) — lopice mešalca peska
+- v3.11.840: CoreGasVentPinMaker (Boltnik) — bolti za odzračevanje jedrc
+- v3.11.841: CastingLadlePreheatBurnerMaker (Gorilnik) — gorilniki za predgrevanje zajemalk
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
+Pre-flight check: pred generiranjem je bila preverjena git zgodovina za vseh 10 datotek — vse so imele 0 prior commits in so bile odsotne iz workdir. Brez duplikatov.
+
 ## [v3.11.831] — 2026-08-12 — Royal Mill Sail Cloth Reinforcement Strip Maker System (6 products, mill sail cloth reinforcement strips)
 ## [v3.11.830] — 2026-08-12 — Royal Millstone Dressing Compass Maker System (6 products, millstone dressing compasses)
 ## [v3.11.829] — 2026-08-12 — Royal Mill Hopper Vibrator Spring Maker System (6 products, mill hopper vibrator springs)
