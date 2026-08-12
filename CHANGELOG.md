@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.831] — 2026-08-12 — Royal Mill Sail Cloth Reinforcement Strip Maker System (6 products, mill sail cloth reinforcement strips)
+## [v3.11.830] — 2026-08-12 — Royal Millstone Dressing Compass Maker System (6 products, millstone dressing compasses)
+## [v3.11.829] — 2026-08-12 — Royal Mill Hopper Vibrator Spring Maker System (6 products, mill hopper vibrator springs)
+## [v3.11.828] — 2026-08-12 — Royal Grain Sampler Probe Maker System (6 products, grain sampler probes)
+## [v3.11.827] — 2026-08-12 — Royal Millstone Crane Winch Maker System (6 products, millstone crane winches)
+## [v3.11.826] — 2026-08-12 — Royal Garden Compost Aerator Spike Maker System (6 products, garden compost aerator spikes)
+## [v3.11.825] — 2026-08-12 — Royal Garden Irrigation Timer Maker System (6 products, garden irrigation timers)
+## [v3.11.824] — 2026-08-12 — Royal Garden Transplanting Dibber Maker System (6 products, garden transplanting dibbers)
+## [v3.11.823] — 2026-08-12 — Royal Plant Support Trellis Panel Maker System (6 products, plant support trellis panels)
+## [v3.11.822] — 2026-08-12 — Royal Garden Soil Screen Maker System (6 products, garden soil screens)
+
+### Dodano (v3.11.822-v3.11.831 — 10 sistemov: vrtni dodatki 10 + mlinarski dodatki 10)
+
+#### v3.11.822-v3.11.826 — Vrtni dodatki 10 (5 sistemov)
+- v3.11.822: GardenSoilScreenMaker (Sitnikar) — sitane za prst
+- v3.11.823: PlantSupportTrellisPanelMaker (Panelnik) — paneli za oporo rastlin
+- v3.11.824: GardenTransplantingDibberMaker (Sadilnikar) — sadilniki za presajanje
+- v3.11.825: GardenIrrigationTimerMaker (Časovnikar) — časovniki za namakanje
+- v3.11.826: GardenCompostAeratorSpikeMaker (Bodalar) — bodala za zračenje komposta
+
+#### v3.11.827-v3.11.831 — Mlinarski dodatki 10 (5 sistemov)
+- v3.11.827: MillstoneCraneWinchMaker (Vitjar) — vitki za dvig kamnov
+- v3.11.828: GrainSamplerProbeMaker (Sondar) — sonde za vzorčenje žita
+- v3.11.829: MillHopperVibratorSpringMaker (Vzmetnik) — vzmeti za tresalec lijaka
+- v3.11.830: MillstoneDressingCompassMaker (Šestilar) — šestila za oblikovanje kamnov
+- v3.11.831: MillSailClothReinforcementStripMaker (Trakar) — trakovi za ojačitev jedrne tkanine
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
+Pre-flight check: pred generiranjem je bila preverjena git zgodovina za vseh 10 datotek — vse so imele 0 prior commits in so bile odsotne iz workdir. Brez duplikatov.
+
 ## [v3.11.821] — 2026-08-12 — Royal Smith Hammer Handle Wedge Maker System (6 products, smith hammer handle wedges)
 ## [v3.11.820] — 2026-08-12 — Royal Quench Tank Lid Gasket Maker System (6 products, quench tank lid gaskets)
 ## [v3.11.819] — 2026-08-12 — Royal Forge Tuyere Cooler Maker System (6 products, forge tuyere coolers)
