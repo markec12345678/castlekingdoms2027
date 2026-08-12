@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.861] — 2026-08-12 — Royal Mill Sail Cloth Grommet Installer Maker System (6 products, mill sail cloth grommet installers)
+## [v3.11.860] — 2026-08-12 — Royal Millstone Groove Depth Gauge Maker System (6 products, millstone groove depth gauges)
+## [v3.11.859] — 2026-08-12 — Royal Mill Hopper Lubricator Maker System (6 products, mill hopper lubricators)
+## [v3.11.858] — 2026-08-12 — Royal Grain Hopper Level Sensor Maker System (6 products, grain hopper level sensors)
+## [v3.11.857] — 2026-08-12 — Royal Millstone Balance Weight Maker System (6 products, millstone balance weights)
+## [v3.11.856] — 2026-08-12 — Royal Garden Plant Label Embosser Maker System (6 products, garden plant label embossers)
+## [v3.11.855] — 2026-08-12 — Royal Garden Seed Packet Sealer Maker System (6 products, garden seed packet sealers)
+## [v3.11.854] — 2026-08-12 — Royal Garden Compost Thermometer Probe Maker System (6 products, garden compost thermometer probes)
+## [v3.11.853] — 2026-08-12 — Royal Garden Soil Moisture Meter Maker System (6 products, garden soil moisture meters)
+## [v3.11.852] — 2026-08-12 — Royal Garden Plant Tie Cutter Maker System (6 products, garden plant tie cutters)
+
+### Dodano (v3.11.852-v3.11.861 — 10 sistemov: vrtni dodatki 11 + mlinarski dodatki 11)
+
+#### v3.11.852-v3.11.856 — Vrtni dodatki 11 (5 sistemov)
+- v3.11.852: GardenPlantTieCutterMaker (Reznik) — škarje za veze rastlin
+- v3.11.853: GardenSoilMoistureMeterMaker (Merilnik) — merilci vlage prsti
+- v3.11.854: GardenCompostThermometerProbeMaker (Sondar) — sonde za kompost
+- v3.11.855: GardenSeedPacketSealerMaker (Zatisnjevalec) — zatesnjevalci za semena
+- v3.11.856: GardenPlantLabelEmbosserMaker (Žigosalec) — žigosalci za oznake
+
+#### v3.11.857-v3.11.861 — Mlinarski dodatki 11 (5 sistemov)
+- v3.11.857: MillstoneBalanceWeightMaker (Utežar) — uteži za uravnoteženje kamnov
+- v3.11.858: GrainHopperLevelSensorMaker (Senzornik) — senzorji nivoja žita
+- v3.11.859: MillHopperLubricatorMaker (Mazalec) — mazalci za lijak mlina
+- v3.11.860: MillstoneGrooveDepthGaugeMaker (Merilnik) — merilci globine utorov
+- v3.11.861: MillSailClothGrommetInstallerMaker (Nameščalec) — nameščalci obročev
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
+Pre-flight check: pred generiranjem je bila preverjena git zgodovina za vseh 10 datotek — vse so imele 0 prior commits in so bile odsotne iz workdir. Brez duplikatov.
+
 ## [v3.11.851] — 2026-08-12 — Royal Smith Hammer Face Polisher Maker System (6 products, smith hammer face polishers)
 ## [v3.11.850] — 2026-08-12 — Royal Quench Oil Filter Maker System (6 products, quench oil filters)
 ## [v3.11.849] — 2026-08-12 — Royal Forge Chimney Cowl Maker System (6 products, forge chimney cowls)
