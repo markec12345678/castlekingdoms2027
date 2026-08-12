@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.781] — 2026-08-12 — Royal Casting Ladle Skimmer Hook Maker System (6 products, casting ladle skimmer hooks)
+## [v3.11.780] — 2026-08-12 — Royal Core Washing Dip Maker System (6 products, core washing dips)
+## [v3.11.779] — 2026-08-12 — Royal Sand Reclaimer Maker System (6 products, sand reclaimers)
+## [v3.11.778] — 2026-08-12 — Royal Pouring Ladle Liner Maker System (6 products, pouring ladle liners)
+## [v3.11.777] — 2026-08-12 — Royal Mold Coating Roller Maker System (6 products, mold coating rollers)
+## [v3.11.776] — 2026-08-12 — Royal Glass Engraving Diamond Point Maker System (6 products, glass engraving diamond points)
+## [v3.11.775] — 2026-08-12 — Royal Glass Annealing Fork Maker System (6 products, glass annealing forks)
+## [v3.11.774] — 2026-08-12 — Royal Glass Colorant Muller Maker System (6 products, glass colorant mullers)
+## [v3.11.773] — 2026-08-12 — Royal Glass Kiln Door Chain Maker System (6 products, glass kiln door chains)
+## [v3.11.772] — 2026-08-12 — Royal Glass Gathering Iron Maker System (6 products, glass gathering irons)
+
+### Dodano (v3.11.772-v3.11.781 — 10 sistemov: steklarski dodatki 9 + livarski dodatki 9)
+
+#### v3.11.772-v3.11.776 — Steklarski dodatki 9 (5 sistemov)
+- v3.11.772: GlassGatheringIronMaker (Paličar) — zbiralne železne palice
+- v3.11.773: GlassKilnDoorChainMaker (Verižnik) — verige za vrata peči
+- v3.11.774: GlassColorantMullerMaker (Možnarar) — možnarji za steklarske barve
+- v3.11.775: GlassAnnealingForkMaker (Viliar) — vilice za ohlajanje stekla
+- v3.11.776: GlassEngravingDiamondPointMaker (Diamantar) — diamantne konice za rezbarjenje
+
+#### v3.11.777-v3.11.781 — Livarski dodatki 9 (5 sistemov)
+- v3.11.777: MoldCoatingRollerMaker (Valjar) — valji za premaze kalupov
+- v3.11.778: PouringLadleLinerMaker (Oblogar) — obloge za zajemalke
+- v3.11.779: SandReclaimerMaker (Obnavljalec) — obnavljalci livarskega peska
+- v3.11.780: CoreWashingDipMaker (Kopelnik) — kopeli za pranje jedrc
+- v3.11.781: CastingLadleSkimmerHookMaker (Kljukar) — kljuke za strgalce zajemalk
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
+Pre-flight check: pred generiranjem je bila preverjena git zgodovina za vseh 10 datotek — vse so imele 0 prior commits in so bile odsotne iz workdir. Brez duplikatov.
+
 ## [v3.11.771] — 2026-08-12 — Royal Mill Sail Cloth Tensioner Maker System (6 products, mill sail cloth tensioners)
 ## [v3.11.770] — 2026-08-12 — Royal Millstone Dressing Hammer Maker System (6 products, millstone dressing hammers)
 ## [v3.11.769] — 2026-08-12 — Royal Mill Hopper Vibrator Maker System (6 products, mill hopper vibrators)

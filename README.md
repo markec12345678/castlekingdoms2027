@@ -2,19 +2,19 @@
 
 Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT). Navdihnjen s klasičnimi srednjeveškimi strateškimi igrami.
 
-[![Version](https://img.shields.io/badge/version-3.11.771-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
+[![Version](https://img.shields.io/badge/version-3.11.781-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
-[![Syntax](https://img.shields.io/badge/syntax-1505%2F1508%20pass-brightgreen.svg)](#)
-[![Systems](https://img.shields.io/badge/Royal%20systems-859-blue.svg)](#)
-[![Lua](https://img.shields.io/badge/Lua%20files-1508-green.svg)](#)
+[![Syntax](https://img.shields.io/badge/syntax-1515%2F1518%20pass-brightgreen.svg)](#)
+[![Systems](https://img.shields.io/badge/Royal%20systems-869-blue.svg)](#)
+[![Lua](https://img.shields.io/badge/Lua%20files-1518-green.svg)](#)
 [![Registry](https://img.shields.io/badge/Royal%20Registry-%2BRoyalSystemsPanel-blueviolet.svg)](#)
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v3.11.771](https://github.com/markec12345678/castlekingdoms2027/releases)
-- **.love datoteka**: `castlekingdoms2027-v3.11.771.love` (34 MB brez LFS, 305 MB z LFS)
-- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 859 Royal sistemov, 1508 Lua datotek, +RoyalSystemsRegistry + Ctrl+R UI Panel
+- **Zadnja izdaja**: [v3.11.781](https://github.com/markec12345678/castlekingdoms2027/releases)
+- **.love datoteka**: `castlekingdoms2027-v3.11.781.love` (34 MB brez LFS, 305 MB z LFS)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 869 Royal sistemov, 1518 Lua datotek, +RoyalSystemsRegistry + Ctrl+R UI Panel
 - **LFS**: Po git clone zahtevaj `git lfs pull` za prave PNG asset-e (305 MB)
 
 ## Zagon
