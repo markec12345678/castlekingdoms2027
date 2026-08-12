@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.821] — 2026-08-12 — Royal Smith Hammer Handle Wedge Maker System (6 products, smith hammer handle wedges)
+## [v3.11.820] — 2026-08-12 — Royal Quench Tank Lid Gasket Maker System (6 products, quench tank lid gaskets)
+## [v3.11.819] — 2026-08-12 — Royal Forge Tuyere Cooler Maker System (6 products, forge tuyere coolers)
+## [v3.11.818] — 2026-08-12 — Royal Anvil Saddle Block Maker System (6 products, anvil saddle blocks)
+## [v3.11.817] — 2026-08-12 — Royal Forge Clinker Breaker Maker System (6 products, forge clinker breakers)
+## [v3.11.816] — 2026-08-12 — Royal Book Cover Inlay Router Maker System (6 products, book cover inlay routers)
+## [v3.11.815] — 2026-08-12 — Royal Book Edge Gilt Burnisher Maker System (6 products, book edge gilt burnishers)
+## [v3.11.814] — 2026-08-12 — Royal Book Sewing Bench Hook Maker System (6 products, book sewing bench hooks)
+## [v3.11.813] — 2026-08-12 — Royal Book Cover Paste Brush Maker System (6 products, book cover paste brushes)
+## [v3.11.812] — 2026-08-12 — Royal Book Spine Lining Roller Maker System (6 products, book spine lining rollers)
+
+### Dodano (v3.11.812-v3.11.821 — 10 sistemov: knjigoveški dodatki 10 + kovaški dodatki 10)
+
+#### v3.11.812-v3.11.816 — Knjigoveški dodatki 10 (5 sistemov)
+- v3.11.812: BookSpineLiningRollerMaker (Valjar) — valji za podstavne tkanine
+- v3.11.813: BookCoverPasteBrushMaker (Čopičar) — čopiči za pasto naslovnic
+- v3.11.814: BookSewingBenchHookMaker (Kljukar) — kljuke za šivalne klopi
+- v3.11.815: BookEdgeGiltBurnisherMaker (Polirnik) — poliralci za pozlate robov
+- v3.11.816: BookCoverInlayRouterMaker (Žlebnik) — žlebovi za intarzije naslovnic
+
+#### v3.11.817-v3.11.821 — Kovaški dodatki 10 (5 sistemov)
+- v3.11.817: ForgeClinkerBreakerMaker (Lomilnik) — lomilci žlindre
+- v3.11.818: AnvilSaddleBlockMaker (Blokirnik) — bloki za nakovalo
+- v3.11.819: ForgeTuyereCoolerMaker (Hladilnik) — hladilci za šobe peči
+- v3.11.820: QuenchTankLidGasketMaker (Tesnilkar) — tesnila za pokrove kadi
+- v3.11.821: SmithHammerHandleWedgeMaker (Klinar) — klini za ročaje kladiv
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
+Pre-flight check: pred generiranjem je bila preverjena git zgodovina za vseh 10 datotek — vse so imele 0 prior commits in so bile odsotne iz workdir. Brez duplikatov.
+
 ## [v3.11.811] — 2026-08-12 — Royal Casting Ladle Lining Trowel Maker System (6 products, casting ladle lining trowels)
 ## [v3.11.810] — 2026-08-12 — Royal Core Varnish Brush Maker System (6 products, core varnish brushes)
 ## [v3.11.809] — 2026-08-12 — Royal Sand Cooler Maker System (6 products, sand coolers)
