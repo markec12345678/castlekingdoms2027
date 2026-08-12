@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.811] — 2026-08-12 — Royal Casting Ladle Lining Trowel Maker System (6 products, casting ladle lining trowels)
+## [v3.11.810] — 2026-08-12 — Royal Core Varnish Brush Maker System (6 products, core varnish brushes)
+## [v3.11.809] — 2026-08-12 — Royal Sand Cooler Maker System (6 products, sand coolers)
+## [v3.11.808] — 2026-08-12 — Royal Pouring Ladle Skimmer Sieve Maker System (6 products, pouring ladle skimmer sieves)
+## [v3.11.807] — 2026-08-12 — Royal Mold Flask Clamp Wedge Maker System (6 products, mold flask clamp wedges)
+## [v3.11.806] — 2026-08-12 — Royal Glass Kiln Brick Tongs Maker System (6 products, glass kiln brick tongs)
+## [v3.11.805] — 2026-08-12 — Royal Glass Engraving Copper Wheel Maker System (6 products, glass engraving copper wheels)
+## [v3.11.804] — 2026-08-12 — Royal Glass Annealing Tong Jaws Maker System (6 products, glass annealing tong jaws)
+## [v3.11.803] — 2026-08-12 — Royal Glass Colorant Vial Shaker Maker System (6 products, glass colorant vial shakers)
+## [v3.11.802] — 2026-08-12 — Royal Glass Glory Hole Damper Maker System (6 products, glass glory hole dampers)
+
+### Dodano (v3.11.802-v3.11.811 — 10 sistemov: steklarski dodatki 10 + livarski dodatki 10)
+
+#### v3.11.802-v3.11.806 — Steklarski dodatki 10 (5 sistemov)
+- v3.11.802: GlassGloryHoleDamperMaker (Zaklopnik) — zaklopniki za glory hole
+- v3.11.803: GlassColorantVialShakerMaker (Treskar) — tresilci za vialice barv
+- v3.11.804: GlassAnnealingTongJawsMaker (Čeljustnik) — čeljusti za klešče ohlajanja
+- v3.11.805: GlassEngravingCopperWheelMaker (Bakrenik) — bakrena rezbarska kolesa
+- v3.11.806: GlassKilnBrickTongsMaker (Kleščar) — klešče za opeke peči
+
+#### v3.11.807-v3.11.811 — Livarski dodatki 10 (5 sistemov)
+- v3.11.807: MoldFlaskClampWedgeMaker (Klinar) — klini za sponke steklenic
+- v3.11.808: PouringLadleSkimmerSieveMaker (Sitnikar) — sitane za strgalce
+- v3.11.809: SandCoolerMaker (Hladilnik) — hladilci za livarski pesek
+- v3.11.810: CoreVarnishBrushMaker (Čopičar) — čopiči za lak jedrc
+- v3.11.811: CastingLadleLiningTrowelMaker (Lopatar) — lopatke za obloge zajemalk
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
+Pre-flight check: pred generiranjem je bila preverjena git zgodovina za vseh 10 datotek — vse so imele 0 prior commits in so bile odsotne iz workdir. Brez duplikatov.
+
 ## [v3.11.801] — 2026-08-12 — Royal Mill Sail Cloth Grommet Maker System (6 products, mill sail cloth grommets)
 ## [v3.11.800] — 2026-08-12 — Royal Millstone Dressing Pick Maker System (6 products, millstone dressing picks)
 ## [v3.11.799] — 2026-08-12 — Royal Mill Hopper Sight Glass Maker System (6 products, mill hopper sight glasses)
