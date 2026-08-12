@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.871] — 2026-08-12 — Royal Casting Ladle Skimmer Handle Maker System (6 products, casting ladle skimmer handles)
+## [v3.11.870] — 2026-08-12 — Royal Core Print Box Maker System (6 products, core print boxes)
+## [v3.11.869] — 2026-08-12 — Royal Sand Binder Dispenser Maker System (6 products, sand binder dispensers)
+## [v3.11.868] — 2026-08-12 — Royal Pouring Ladle Lining Cement Maker System (6 products, pouring ladle lining cements)
+## [v3.11.867] — 2026-08-12 — Royal Mold Flask Alignment Pin Maker System (6 products, mold flask alignment pins)
+## [v3.11.866] — 2026-08-12 — Royal Glass Engraving Wheel Dressing Stone Maker System (6 products, glass engraving wheel dressing stones)
+## [v3.11.865] — 2026-08-12 — Royal Glass Annealing Oven Inspection Mirror Maker System (6 products, glass annealing oven inspection mirrors)
+## [v3.11.864] — 2026-08-12 — Royal Glass Colorant Drying Tray Maker System (6 products, glass colorant drying trays)
+## [v3.11.863] — 2026-08-12 — Royal Glass Kiln Brick Saw Maker System (6 products, glass kiln brick saws)
+## [v3.11.862] — 2026-08-12 — Royal Glass Blowpipe Cooling Rack Maker System (6 products, glass blowpipe cooling racks)
+
+### Dodano (v3.11.862-v3.11.871 — 10 sistemov: steklarski dodatki 12 + livarski dodatki 12)
+
+#### v3.11.862-v3.11.866 — Steklarski dodatki 12 (5 sistemov)
+- v3.11.862: GlassBlowpipeCoolingRackMaker (Poličar) — police za ohlajanje pihalnih palic
+- v3.11.863: GlassKilnBrickSawMaker (Žagar) — žage za opeke peči
+- v3.11.864: GlassColorantDryingTrayMaker (Pladnjar) — pladnji za sušenje barv
+- v3.11.865: GlassAnnealingOvenInspectionMirrorMaker (Zrcalar) — zrcala za pregled peči
+- v3.11.866: GlassEngravingWheelDressingStoneMaker (Brusar) — brusilni kamni za kolesa
+
+#### v3.11.867-v3.11.871 — Livarski dodatki 12 (5 sistemov)
+- v3.11.867: MoldFlaskAlignmentPinMaker (Boltnik) — bolti za poravnavo steklenic
+- v3.11.868: PouringLadleLiningCementMaker (Cementar) — cement za obloge zajemalk
+- v3.11.869: SandBinderDispenserMaker (Dajalnik) — dajalniki veziva za pesek
+- v3.11.870: CorePrintBoxMaker (Škatlar) — škatle za odtise jedrc
+- v3.11.871: CastingLadleSkimmerHandleMaker (Ročajnik) — ročaji za strgalce zajemalk
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
+Pre-flight check: pred generiranjem je bila preverjena git zgodovina za vseh 10 datotek — vse so imele 0 prior commits in so bile odsotne iz workdir. Brez duplikatov.
+
 ## [v3.11.861] — 2026-08-12 — Royal Mill Sail Cloth Grommet Installer Maker System (6 products, mill sail cloth grommet installers)
 ## [v3.11.860] — 2026-08-12 — Royal Millstone Groove Depth Gauge Maker System (6 products, millstone groove depth gauges)
 ## [v3.11.859] — 2026-08-12 — Royal Mill Hopper Lubricator Maker System (6 products, mill hopper lubricators)
