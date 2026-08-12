@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.791] — 2026-08-12 — Royal Smith Hammer Wedge Maker System (6 products, smith hammer wedges)
+## [v3.11.790] — 2026-08-12 — Royal Quench Oil Dipper Maker System (6 products, quench oil dippers)
+## [v3.11.789] — 2026-08-12 — Royal Forge Spark Shield Maker System (6 products, forge spark shields)
+## [v3.11.788] — 2026-08-12 — Royal Anvil Clamp Maker System (6 products, anvil clamps)
+## [v3.11.787] — 2026-08-12 — Royal Forge Ash Riddle Maker System (6 products, forge ash riddles)
+## [v3.11.786] — 2026-08-12 — Royal Book Cover Lever Press Maker System (6 products, book cover lever presses)
+## [v3.11.785] — 2026-08-12 — Royal Book Edge Polishing Stone Maker System (6 products, book edge polishing stones)
+## [v3.11.784] — 2026-08-12 — Royal Book Sewing Needle Case Maker System (6 products, book sewing needle cases)
+## [v3.11.783] — 2026-08-12 — Royal Book Cover Cord Winder Maker System (6 products, book cover cord winders)
+## [v3.11.782] — 2026-08-12 — Royal Book Spine Glue Pot Stand Maker System (6 products, book spine glue pot stands)
+
+### Dodano (v3.11.782-v3.11.791 — 10 sistemov: knjigoveški dodatki 9 + kovaški dodatki 9)
+
+#### v3.11.782-v3.11.786 — Knjigoveški dodatki 9 (5 sistemov)
+- v3.11.782: BookSpineGluePotStandMaker (Stojalnik) — stojala za lepilne lončke
+- v3.11.783: BookCoverCordWinderMaker (Navijalec) — navijalci vrvic za naslovnice
+- v3.11.784: BookSewingNeedleCaseMaker (Etuijar) — etuiji za šivalne igle
+- v3.11.785: BookEdgePolishingStoneMaker (Kamnar) — polirni kamni za robove
+- v3.11.786: BookCoverLeverPressMaker (Vzvodnik) — vzvodni stiskalniki za naslovnice
+
+#### v3.11.787-v3.11.791 — Kovaški dodatki 9 (5 sistemov)
+- v3.11.787: ForgeAshRiddleMaker (Sitar) — sitane za pepel
+- v3.11.788: AnvilClampMaker (Sponkar) — sponke za nakovalo
+- v3.11.789: ForgeSparkShieldMaker (Ščitnik) — ščiti za iskre
+- v3.11.790: QuenchOilDipperMaker (Zajemalkar) — zajemalke za kalilno olje
+- v3.11.791: SmithHammerWedgeMaker (Klinar) — klini za kovaška kladiva
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
+Pre-flight check: pred generiranjem je bila preverjena git zgodovina za vseh 10 datotek — vse so imele 0 prior commits in so bile odsotne iz workdir. Brez duplikatov.
+
 ## [v3.11.781] — 2026-08-12 — Royal Casting Ladle Skimmer Hook Maker System (6 products, casting ladle skimmer hooks)
 ## [v3.11.780] — 2026-08-12 — Royal Core Washing Dip Maker System (6 products, core washing dips)
 ## [v3.11.779] — 2026-08-12 — Royal Sand Reclaimer Maker System (6 products, sand reclaimers)
