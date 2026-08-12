@@ -1,10 +1,10 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.761**
-- Skupaj Royal sistemov: **849**
-- Skupaj Lua datotek: **1498**
-- Sintaktična preverba: **1495/1498 pass** (3 znani false positives: moonscript.lua, test.lua, grid.lua)
+- Različica: **v3.11.771**
+- Skupaj Royal sistemov: **859**
+- Skupaj Lua datotek: **1508**
+- Sintaktična preverba: **1505/1508 pass** (3 znani false positives: moonscript.lua, test.lua, grid.lua)
 - GitHub: sinhroniziran (vsi tagi pushani)
 - Lokalni repo: `/home/z/my-project/castlekingdoms2027`
 - .love datoteke: `/home/z/my-project/download/`
@@ -27,29 +27,29 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 3. **Grafikon produkcije** — zgodovina proizvodnje v panelu
 4. **Sistemsko odvisnosti** — nekateri sistemi naj zahtevajo druge (npr. BellMaker zahteva Metalwork)
 
-## ZADNJE ZAKLJUČENI PAKET (v3.11.752–v3.11.761) — KNJIGOVEŠKI DODATKI 8 + KOVAŠKI DODATKI 8
+## ZADNJE ZAKLJUČENI PAKET (v3.11.762–v3.11.771) — VRTNI DODATKI 8 + MLINARSKI DODATKI 8
 
 10 novih sistemov ustvarjenih v `/home/z/my-project/castlekingdoms2027/objects/Economy/`:
 
-### Knjigoveški dodatki 8 (v3.11.752-v3.11.756)
-1. **RoyalBookSpineLiningClothMakerSystem.lua** → `local BookSpineLiningClothMaker` (podstavne tkanine)
-2. **RoyalBookCoverGaugeMakerSystem.lua** → `local BookCoverGaugeMaker` (merilci za naslovnice)
-3. **RoyalBookSewingFrameToggleMakerSystem.lua** → `local BookSewingFrameToggleMaker` (zatiči za okvire)
-4. **RoyalBookEdgeColoringSpongeMakerSystem.lua** → `local BookEdgeColoringSpongeMaker` (gobe za barvanje)
-5. **RoyalBookCoverBoardShearsMakerSystem.lua** → `local BookCoverBoardShearsMaker` (škarde za vezave)
+### Vrtni dodatki 8 (v3.11.762-v3.11.766)
+1. **RoyalGardenFurrowMakerSystem.lua** → `local GardenFurrowMaker` (brazdarji za gredice)
+2. **RoyalPlantTyingTwistMakerSystem.lua** → `local PlantTyingTwistMaker` (veze za rastline)
+3. **RoyalGardenMulchForkMakerSystem.lua** → `local GardenMulchForkMaker` (vilice za zastirko)
+4. **RoyalGardenSeedDibberPlateMakerSystem.lua** → `local GardenSeedDibberPlateMaker` (plošče za seme)
+5. **RoyalGardenBowlSprayerMakerSystem.lua** → `local GardenBowlSprayerMaker` (skledaste škropilnice)
 
-### Kovaški dodatki 8 (v3.11.757-v3.11.761)
-6. **RoyalForgeBellowsValveMakerSystem.lua** → `local ForgeBellowsValveMaker` (zaklopke za meh)
-7. **RoyalAnvilFaceHardenerMakerSystem.lua** → `local AnvilFaceHardenerMaker` (utrjevalci nakovala)
-8. **RoyalForgeBrickMakerSystem.lua** → `local ForgeBrickMaker` (opeke za peč)
-9. **RoyalQuenchTankStirrerMakerSystem.lua** → `local QuenchTankStirrerMaker` (mešala za kadi)
-10. **RoyalSmithTongsRingMakerSystem.lua** → `local SmithTongsRingMaker` (obroči za klešče)
+### Mlinarski dodatki 8 (v3.11.767-v3.11.771)
+6. **RoyalMillstoneTenteringScrewMakerSystem.lua** → `local MillstoneTenteringScrewMaker` (vijačni napenjalci)
+7. **RoyalGrainMoistureMeterMakerSystem.lua** → `local GrainMoistureMeterMaker` (merilci vlage žita)
+8. **RoyalMillHopperVibratorMakerSystem.lua** → `local MillHopperVibratorMaker` (vibratorji za lijak)
+9. **RoyalMillstoneDressingHammerMakerSystem.lua** → `local MillstoneDressingHammerMaker` (kladiva za oblikovanje)
+10. **RoyalMillSailClothTensionerMakerSystem.lua** → `local MillSailClothTensionerMaker` (napenjalci tkanine)
 
 ### PRE-FLIGHT CHECK
 Pred generiranjem je bila preverjena git zgodovina za vseh 10 datotek — vse so imele 0 prior commits in so bile odsotne iz workdir. Brez duplikatov, varno za generiranje.
 
 ### GENERATORSKA SKRIPTA
-- Nova skripta: `/home/z/my-project/scripts/generate_bookbinding8_blacksmith8_systems.py`
+- Nova skripta: `/home/z/my-project/scripts/generate_garden8_milling8_systems.py`
 - Sintaktična preverba: `/home/z/my-project/scripts/check_new_systems_syntax.py`
 - Vseh 10 novih datotek PASS sintaktične preverbe (lupa load())
 
@@ -64,29 +64,29 @@ Vsak sistem mora imeti:
 - Slovenian product/building names
 - **POMEMBNO**: V `completeMaking` uporabljaj `productStock[m.productType]` (z `[m.` pred `productType]`) — ne `productStock.productType]` (to je okvarjena sintaksa)
 
-## NASLEDNJI PAKET (v3.11.762–v3.11.771) — VRTNI DODATKI 8 + MLINARSKI DODATKI 8
+## NASLEDNJI PAKET (v3.11.772–v3.11.781) — STEKLARSKI DODATKI 9 + LIVARSKI DODATKI 9
 
 Ustvari 10 novih sistemov v `/home/z/my-project/castlekingdoms2027/objects/Economy/`:
 
-### Vrtni dodatki 8 (v3.11.762-v3.11.766) — predloga
-1. **RoyalGardenFurrowMakerSystem.lua** → `local GardenFurrowMaker` (brazdari za gredice)
-2. **RoyalPlantTyingTwistMakerSystem.lua** → `local PlantTyingTwistMaker` (veza za rastline)
-3. **RoyalGardenMulchForkMakerSystem.lua** → `local GardenMulchForkMaker` (vilice za zastirko)
-4. **RoyalGardenSeedDibberPlateMakerSystem.lua** → `local GardenSeedDibberPlateMaker` (plošče za seme)
-5. **RoyalGardenBowlSprayerMakerSystem.lua** → `local GardenBowlSprayerMaker` (skledaste škropilnice)
+### Steklarski dodatki 9 (v3.11.772-v3.11.776) — predloga
+1. **RoyalGlassGatheringIronMakerSystem.lua** → `local GlassGatheringIronMaker` (zbiralne železne palice)
+2. **RoyalGlassKilnDoorChainMakerSystem.lua** → `local GlassKilnDoorChainMaker` (verige za vrata peči)
+3. **RoyalGlassColorantMullerMakerSystem.lua** → `local GlassColorantMullerMaker` (možnarji za barve)
+4. **RoyalGlassAnnealingForkMakerSystem.lua** → `local GlassAnnealingForkMaker` (vilice za ohlajanje)
+5. **RoyalGlassEngravingDiamondPointMakerSystem.lua** → `local GlassEngravingDiamondPointMaker` (diamantne konice za rezbarjenje)
 
-### Mlinarski dodatki 8 (v3.11.767-v3.11.771) — predloga
-6. **RoyalMillstoneTenteringScrewMakerSystem.lua** → `local MillstoneTenteringScrewMaker` (vijačni napenjalci)
-7. **RoyalGrainMoistureMeterMakerSystem.lua** → `local GrainMoistureMeterMaker` (merilci vlage žita)
-8. **RoyalMillHopperVibratorMakerSystem.lua** → `local MillHopperVibratorMaker` (vibratorji za lijak)
-9. **RoyalMillstoneDressingHammerMakerSystem.lua** → `local MillstoneDressingHammerMaker` (kladiva za oblikovanje)
-10. **RoyalMillSailClothTensionerMakerSystem.lua** → `local MillSailClothTensionerMaker` (napenjalci jedrne tkanine)
+### Livarski dodatki 9 (v3.11.777-v3.11.781) — predloga
+6. **RoyalMoldCoatingRollerMakerSystem.lua** → `local MoldCoatingRollerMaker` (valji za premaze)
+7. **RoyalPouringLadleLinerMakerSystem.lua** → `local PouringLadleLinerMaker` (obloge za zajemalke)
+8. **RoyalSandReclaimerMakerSystem.lua** → `local SandReclaimerMaker` (obnavljalci peska)
+9. **RoyalCoreWashingDipMakerSystem.lua** → `local CoreWashingDipMaker` (kopeli za pranje jedrc)
+10. **RoyalCastingLadleSkimmerHookMakerSystem.lua** → `local CastingLadleSkimmerHookMaker` (kljuki za strgalce)
 
 ## WORKFLOW ZA NASLEDNJI PAKET
 
 1. **PRE-FLIGHT CHECK (obvezno)**: Preveri git zgodovino za vsako od 10 načrtovanih datotek:
    ```bash
-   for f in RoyalGardenFurrowMakerSystem.lua RoyalPlantTyingTwistMakerSystem.lua RoyalGardenMulchForkMakerSystem.lua RoyalGardenSeedDibberPlateMakerSystem.lua RoyalGardenBowlSprayerMakerSystem.lua RoyalMillstoneTenteringScrewMakerSystem.lua RoyalGrainMoistureMeterMakerSystem.lua RoyalMillHopperVibratorMakerSystem.lua RoyalMillstoneDressingHammerMakerSystem.lua RoyalMillSailClothTensionerMakerSystem.lua; do
+   for f in RoyalGlassGatheringIronMakerSystem.lua RoyalGlassKilnDoorChainMakerSystem.lua RoyalGlassColorantMullerMakerSystem.lua RoyalGlassAnnealingForkMakerSystem.lua RoyalGlassEngravingDiamondPointMakerSystem.lua RoyalMoldCoatingRollerMakerSystem.lua RoyalPouringLadleLinerMakerSystem.lua RoyalSandReclaimerMakerSystem.lua RoyalCoreWashingDipMakerSystem.lua RoyalCastingLadleSkimmerHookMakerSystem.lua; do
      count=$(git -C /home/z/my-project/castlekingdoms2027 log --all --oneline -- "objects/Economy/$f" | wc -l)
      exists=$(test -f "/home/z/my-project/castlekingdoms2027/objects/Economy/$f" && echo "EXISTS" || echo "absent")
      echo "$f: git_history=$count  $exists"
@@ -95,26 +95,26 @@ Ustvari 10 novih sistemov v `/home/z/my-project/castlekingdoms2027/objects/Econo
    Vse morajo imeti `git_history=0` in `absent`. Če katera ima >0, izberi alternativno ime.
 2. Ustvari 10 .lua datotek z generatorsko skripto (glej spodaj)
 3. Poženi sintaktično preverbo: `python3 /home/z/my-project/scripts/check_new_systems_syntax.py` (posodobi NEW_FILES seznam)
-4. Posodobi CHANGELOG.md (dodaj vnose za v3.11.762 do v3.11.771 na vrh)
+4. Posodobi CHANGELOG.md (dodaj vnose za v3.11.772 do v3.11.781 na vrh)
 5. Posodobi README.md badge-je:
-   - version-3.11.761 → version-3.11.771
-   - syntax-1495%2F1498 → syntax-1505%2F1508
-   - Royal%20systems-849 → Royal%20systems-859
-   - Lua%20files-1498 → Lua%20files-1508
+   - version-3.11.771 → version-3.11.781
+   - syntax-1505%2F1508 → syntax-1515%2F1518
+   - Royal%20systems-859 → Royal%20systems-869
+   - Lua%20files-1508 → Lua%20files-1518
 6. Posodobi NEXT_BATCH_HANDOFF.md (ta dokument) z naslednjim paketom
-7. Git: commit, tag (v3.11.762 do v3.11.771), push
+7. Git: commit, tag (v3.11.772 do v3.11.781), push
 8. Build .love (POZOR: vedno cd v castlekingdoms2027 direktorij pred zip!):
    ```bash
-   cd /home/z/my-project/castlekingdoms2027 && zip -r -q /home/z/my-project/download/castlekingdoms2027-v3.11.771.love . -x ".git/*" "tool-results/*" "*.love" ".gitignore"
+   cd /home/z/my-project/castlekingdoms2027 && zip -r -q /home/z/my-project/download/castlekingdoms2027-v3.11.781.love . -x ".git/*" "tool-results/*" "*.love" ".gitignore"
    ```
 
 ## GENERATORSKA SKRIPTA — PRIMER
 
-Glej `/home/z/my-project/scripts/generate_bookbinding8_blacksmith8_systems.py` kot referenco. Za nov paket:
-1. Kopiraj skripto v `generate_garden8_milling8_systems.py`
-2. Spremeni `BOOKBINDING8_SYSTEMS` in `BLACKSMITH8_SYSTEMS` sezname v `GARDEN8_SYSTEMS` in `MILLING8_SYSTEMS`
+Glej `/home/z/my-project/scripts/generate_garden8_milling8_systems.py` kot referenco. Za nov paket:
+1. Kopiraj skripto v `generate_glass9_foundry9_systems.py`
+2. Spremeni `GARDEN8_SYSTEMS` in `MILLING8_SYSTEMS` sezname v `GLASS9_SYSTEMS` in `FOUNDRY9_SYSTEMS`
 3. Spremeni imena produktov, makerjev, delavnic, etc.
-4. Poženi: `python3 /home/z/my-project/scripts/generate_garden8_milling8_systems.py`
+4. Poženi: `python3 /home/z/my-project/scripts/generate_glass9_foundry9_systems.py`
 5. Preveri sintakso: `python3 /home/z/my-project/scripts/check_new_systems_syntax.py`
 
 ## SPOROČILO ZA NOVO SEJO
@@ -122,12 +122,12 @@ Glej `/home/z/my-project/scripts/generate_bookbinding8_blacksmith8_systems.py` k
 Ko začneš novo sejo, pošlji to sporočilo:
 
 ```
-Nadaljuj z razvojem Castle Kingdoms 2027. Preberi /home/z/my-project/castlekingdoms2027/NEXT_BATCH_HANDOFF.md za popolna navodila. Trenutna različica je v3.11.761. Naslednji paket je v3.11.762–v3.11.771 (vrtni dodatki 8 + mlinarski dodatki 8: GardenFurrowMaker, PlantTyingTwistMaker, GardenMulchForkMaker, GardenSeedDibberPlateMaker, GardenBowlSprayerMaker, MillstoneTenteringScrewMaker, GrainMoistureMeterMaker, MillHopperVibratorMaker, MillstoneDressingHammerMaker, MillSailClothTensionerMaker). Sledi navodilom v handoff dokumentu. Po končanem paketu ročno posodobi NEXT_BATCH_HANDOFF.md z naslednjim paketom. POMEMBNO: pred generiranjem obvezno preveri git zgodovino za vsako datoteko!
+Nadaljuj z razvojem Castle Kingdoms 2027. Preberi /home/z/my-project/castlekingdoms2027/NEXT_BATCH_HANDOFF.md za popolna navodila. Trenutna različica je v3.11.771. Naslednji paket je v3.11.772–v3.11.781 (steklarski dodatki 9 + livarski dodatki 9: GlassGatheringIronMaker, GlassKilnDoorChainMaker, GlassColorantMullerMaker, GlassAnnealingForkMaker, GlassEngravingDiamondPointMaker, MoldCoatingRollerMaker, PouringLadleLinerMaker, SandReclaimerMaker, CoreWashingDipMaker, CastingLadleSkimmerHookMaker). Sledi navodilom v handoff dokumentu. Po končanem paketu ročno posodobi NEXT_BATCH_HANDOFF.md z naslednjim paketom. POMEMBNO: pred generiranjem obvezno preveri git zgodovino za vsako datoteko!
 ```
 
 ## NASLEDNJI PAKETI (po vrsti)
 
-- v3.11.762–v3.11.766: vrtni dodatki 8 (GardenFurrowMaker, PlantTyingTwistMaker, GardenMulchForkMaker, GardenSeedDibberPlateMaker, GardenBowlSprayerMaker)
-- v3.11.767–v3.11.771: mlinarski dodatki 8 (MillstoneTenteringScrewMaker, GrainMoistureMeterMaker, MillHopperVibratorMaker, MillstoneDressingHammerMaker, MillSailClothTensionerMaker)
-- v3.11.772–v3.11.776: steklarski dodatki 9 (predlagano)
-- v3.11.777–v3.11.781: livarski dodatki 9 (predlagano)
+- v3.11.772–v3.11.776: steklarski dodatki 9 (GlassGatheringIronMaker, GlassKilnDoorChainMaker, GlassColorantMullerMaker, GlassAnnealingForkMaker, GlassEngravingDiamondPointMaker)
+- v3.11.777–v3.11.781: livarski dodatki 9 (MoldCoatingRollerMaker, PouringLadleLinerMaker, SandReclaimerMaker, CoreWashingDipMaker, CastingLadleSkimmerHookMaker)
+- v3.11.782–v3.11.786: knjigoveški dodatki 9 (predlagano)
+- v3.11.787–v3.11.791: kovaški dodatki 9 (predlagano)

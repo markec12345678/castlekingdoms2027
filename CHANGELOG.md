@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.771] — 2026-08-12 — Royal Mill Sail Cloth Tensioner Maker System (6 products, mill sail cloth tensioners)
+## [v3.11.770] — 2026-08-12 — Royal Millstone Dressing Hammer Maker System (6 products, millstone dressing hammers)
+## [v3.11.769] — 2026-08-12 — Royal Mill Hopper Vibrator Maker System (6 products, mill hopper vibrators)
+## [v3.11.768] — 2026-08-12 — Royal Grain Moisture Meter Maker System (6 products, grain moisture meters)
+## [v3.11.767] — 2026-08-12 — Royal Millstone Tentering Screw Maker System (6 products, millstone tentering screws)
+## [v3.11.766] — 2026-08-12 — Royal Garden Bowl Sprayer Maker System (6 products, garden bowl sprayers)
+## [v3.11.765] — 2026-08-12 — Royal Garden Seed Dibber Plate Maker System (6 products, garden seed dibber plates)
+## [v3.11.764] — 2026-08-12 — Royal Garden Mulch Fork Maker System (6 products, garden mulch forks)
+## [v3.11.763] — 2026-08-12 — Royal Plant Tying Twist Maker System (6 products, plant tying twists)
+## [v3.11.762] — 2026-08-12 — Royal Garden Furrow Maker System (6 products, garden furrows)
+
+### Dodano (v3.11.762-v3.11.771 — 10 sistemov: vrtni dodatki 8 + mlinarski dodatki 8)
+
+#### v3.11.762-v3.11.766 — Vrtni dodatki 8 (5 sistemov)
+- v3.11.762: GardenFurrowMaker (Brazdar) — brazdarji za gredice
+- v3.11.763: PlantTyingTwistMaker (Vezar) — veze za rastline
+- v3.11.764: GardenMulchForkMaker (Viliar) — vilice za zastirko
+- v3.11.765: GardenSeedDibberPlateMaker (Ploščar) — plošče za seme
+- v3.11.766: GardenBowlSprayerMaker (Skledar) — skledaste škropilnice
+
+#### v3.11.767-v3.11.771 — Mlinarski dodatki 8 (5 sistemov)
+- v3.11.767: MillstoneTenteringScrewMaker (Vijačnik) — vijačni napenjalci kamnov
+- v3.11.768: GrainMoistureMeterMaker (Merilnik) — merilci vlage žita
+- v3.11.769: MillHopperVibratorMaker (Treskar) — vibratorji za lijak mlina
+- v3.11.770: MillstoneDressingHammerMaker (Kladivar) — kladiva za oblikovanje kamnov
+- v3.11.771: MillSailClothTensionerMaker (Napenjalec) — napenjalci jedrne tkanine
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
+Pre-flight check: pred generiranjem je bila preverjena git zgodovina za vseh 10 datotek — vse so imele 0 prior commits in so bile odsotne iz workdir. Brez duplikatov.
+
 ## [v3.11.761] — 2026-08-12 — Royal Smith Tongs Ring Maker System (6 products, smith tongs rings)
 ## [v3.11.760] — 2026-08-12 — Royal Quench Tank Stirrer Maker System (6 products, quench tank stirrers)
 ## [v3.11.759] — 2026-08-12 — Royal Forge Brick Maker System (6 products, forge bricks)
