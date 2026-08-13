@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.903] — 2026-08-13 — Royal Market Dashboard (Ctrl+K)
+
+### Dodano
+- **Market Dashboard** (nov UI panel, 378 vrstic) — `states/ui/hud/market_dashboard.lua`:
+  - Full-screen overlay (toggle s **Ctrl+K**)
+  - Pregled vseh 987+ Royal produktov na trgu z: imenom, osnovno ceno, trenutno prodajo/kupnjo, %-nim odstopanjem od base, skupnim številom prodanih kosov, skupnim prihodkom, virom (sistem)
+  - 5 načinov sortiranja (tipka S): abecedno, po prodaji, po prihodku, po nestanovitnosti, po ceni
+  - Iskanje (tipka /) po imenu produkta
+  - Aggregate stats bar na vrhu: število produktov, skupni prihodek, skupno prodano, inflacija, najbolj nestabilen produkt, status auto-sella
+  - Detail panel na dnu za izbrani produkt (vir, cene, razlika od base, skupna prodaja)
+  - Test dogodki (tipka E): sproži naključni tržni dogodek na izbranem produktu (crash -30% ali surge +40% za 60s)
+  - Barvno kodiranje cen: zelena = nad base, rdeča = pod base
+  - Paginacija (20 na stran), navigacija s puščicami/WASD
+  - Cache osvežen vsakih 500ms (ne vsak frame — performanca)
+- **game.lua** — povezave za MarketDashboard: require, update(dt), draw(), keypressed (Ctrl+K), textinput, mousepressed
+- **keybind_help.lua** — dodana Ctrl+K bližnjica v EKONOMIJA kategorijo
+- Vsi fonti lazy-initializirani (preprečuje crash ob require-u pred love.graphics init)
+
+### Spremenjene datoteke
+- `states/ui/hud/market_dashboard.lua` (NOV, 378 vrstic)
+- `states/game.lua` (+8 vrstic) — require + update + draw + Ctrl+K keypressed + textinput + mousepressed forwarding
+- `states/ui/hud/keybind_help.lua` (+1 vrstica) — Ctrl+K v EKONOMIJA
+- `README.md` — posodobljeni badges (v3.11.903, 1640 Lua, +MarketDashboard), nova vrstica v statistiki
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 7 spremenjenih datotek PASS
+- Polna preverba: 1640/1640 (100%) Lua datotek pass
+
 ## [v3.11.902] — 2026-08-13 — Royal Market Integration (DynamicMarket + auto-sell + dinamične cene)
 
 ### Dodano

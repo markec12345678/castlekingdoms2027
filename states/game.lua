@@ -883,6 +883,7 @@ local EventLog = require("states.ui.hud.economic_event_log")
 local RoyalSystemsRegistry = require("objects.Economy.RoyalSystemsRegistry")
 local RoyalMarketIntegration = require("objects.Economy.RoyalMarketIntegration")
 local RoyalSystemsPanel = require("states.ui.hud.royal_systems_panel")
+local MarketDashboard = require("states.ui.hud.market_dashboard")
 -- Castle Kingdoms 2027 - Performance profiling
 local PerformanceManager = require("objects.Performance.PerformanceManager")
 local PriorityUpdate = require("objects.Performance.PriorityUpdateSystem")
@@ -3179,6 +3180,7 @@ function game:update(dt)
                 RoyalSystemsRegistry.update(dt)
                 RoyalMarketIntegration.update(dt)
                 RoyalSystemsPanel.update(dt)
+                MarketDashboard.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
@@ -3368,6 +3370,8 @@ function game:draw()
             KeybindHelp.draw()
             -- Castle Kingdoms 2027 v3.11.382: Draw Royal Systems panel (Ctrl+R)
             RoyalSystemsPanel.draw()
+            -- Castle Kingdoms 2027 v3.11.903: Draw Market Dashboard (Ctrl+K)
+            MarketDashboard.draw()
             -- Castle Kingdoms 2027: Draw Kenney CC0 overlay (if enabled)
             if _G.KenneySpriteRenderer and _G.KenneySpriteRenderer.isActive() then
                 love.graphics.setScissor(0, 0, screenWidth, screenHeight - 150)
@@ -3443,6 +3447,10 @@ function game:mousepressed(x, y, button, istouch)
     if RoyalSystemsPanel.isVisible() then
         if RoyalSystemsPanel.mousepressed(x, y, button) then return end
     end
+    -- Castle Kingdoms 2027 v3.11.903: Market Dashboard click handling
+    if MarketDashboard.isVisible() then
+        if MarketDashboard.mousepressed(x, y, button) then return end
+    end
     -- Castle Kingdoms 2027: Minimap + GameSpeed click handling
     if S.Minimap.isVisible() then
         if S.Minimap.mousepressed(x, y, button) then return end
@@ -3490,6 +3498,9 @@ function game:textinput(text)
     end
     if RoyalSystemsPanel.isVisible() then
         if RoyalSystemsPanel.textinput(text) then return end
+    end
+    if MarketDashboard.isVisible() then
+        if MarketDashboard.textinput(text) then return end
     end
     console.textinput(text)
 end
@@ -3717,9 +3728,21 @@ function game:keypressed(key, scancode, isRepeat)
         RoyalSystemsPanel.toggle()
         return
     end
+    -- Ctrl+K = Toggle Market Dashboard (Castle Kingdoms 2027 v3.11.903)
+    -- Browse all Royal products on the dynamic market with prices, volumes, trends
+    if key == "k" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+        MarketDashboard.toggle()
+        return
+    end
     -- Forward keys to Royal panel if it's visible
     if RoyalSystemsPanel.isVisible() then
         if RoyalSystemsPanel.keypressed(key, scancode, isrepeat) then
+            return
+        end
+    end
+    -- Forward keys to Market Dashboard if it's visible
+    if MarketDashboard.isVisible() then
+        if MarketDashboard.keypressed(key, scancode, isrepeat) then
             return
         end
     end

@@ -24,7 +24,8 @@ local KEYBINDS = {
         bindings = {
             { key = "M",         desc = "Tržnica - dinamične cene 20 surovin" },
             { key = "C",         desc = "Karavane - pošiljanje trgovskih karavan" },
-            { key = "Ctrl+R",    desc = "Kraljevi sistemski (347+ Royal Maker sistemov)" },
+            { key = "Ctrl+R",    desc = "Kraljevi sistemski (987 Royal Maker sistemov + trg)" },
+            { key = "Ctrl+K",    desc = "Kraljevi trg - nadzorna plošča (cene, prodaja, trendi)" },
         },
     },
     {
