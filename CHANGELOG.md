@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.891] — 2026-08-13 — Royal Mill Sail Cloth Tie Down Strap Maker System (6 products, mill sail cloth tie down straps)
+## [v3.11.890] — 2026-08-13 — Royal Millstone Dressing Chalk Maker System (6 products, millstone dressing chalks)
+## [v3.11.889] — 2026-08-13 — Royal Mill Hopper Level Float Maker System (6 products, mill hopper level floats)
+## [v3.11.888] — 2026-08-13 — Royal Grain Hopper Slide Gate Maker System (6 products, grain hopper slide gates)
+## [v3.11.887] — 2026-08-13 — Royal Millstone Spindle Bearing Maker System (6 products, millstone spindle bearings)
+## [v3.11.886] — 2026-08-13 — Royal Garden Frost Cloth Clip Maker System (6 products, garden frost cloth clips)
+## [v3.11.885] — 2026-08-13 — Royal Garden Plant Root Watering Spike Maker System (6 products, garden plant root watering spikes)
+## [v3.11.884] — 2026-08-13 — Royal Garden Compost Sifter Drum Maker System (6 products, garden compost sifter drums)
+## [v3.11.883] — 2026-08-13 — Royal Garden Soil pH Tester Maker System (6 products, garden soil pH testers)
+## [v3.11.882] — 2026-08-13 — Royal Garden Seed Tape Maker System (6 products, garden seed tapes)
+
+### Dodano (v3.11.882-v3.11.891 — 10 sistemov: vrtni dodatki 12 + mlinarski dodatki 12)
+
+#### v3.11.882-v3.11.886 — Vrtni dodatki 12 (5 sistemov)
+- v3.11.882: GardenSeedTapeMaker (Trakar) — traki za seme
+- v3.11.883: GardenSoilpHTesterMaker (Merilnik) — merilci pH prsti
+- v3.11.884: GardenCompostSifterDrumMaker (Bobnar) — bobni za sitanje komposta
+- v3.11.885: GardenPlantRootWateringSpikeMaker (Bodalar) — bodala za zalivanje korenin
+- v3.11.886: GardenFrostClothClipMaker (Ščipalkar) — ščipalke za zadrževalce mraza
+
+#### v3.11.887-v3.11.891 — Mlinarski dodatki 12 (5 sistemov)
+- v3.11.887: MillstoneSpindleBearingMaker (Ležajnik) — ležaji za vretena kamnov
+- v3.11.888: GrainHopperSlideGateMaker (Drsnik) — drsne zaklopnice za lijake
+- v3.11.889: MillHopperLevelFloatMaker (Plavcar) — plavci za nivo žita
+- v3.11.890: MillstoneDressingChalkMaker (Kredar) — kreda za označevanje kamnov
+- v3.11.891: MillSailClothTieDownStrapMaker (Pasovnik) — pasovi za zategovanje tkanine
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
+Pre-flight check: pred generiranjem je bila preverjena git zgodovina za vseh 10 datotek — vse so imele 0 prior commits in so bile odsotne iz workdir. Brez duplikatov.
+
 ## [v3.11.881] — 2026-08-13 — Royal Smith Tongs Jaw Insert Maker System (6 products, smith tongs jaw inserts)
 ## [v3.11.880] — 2026-08-13 — Royal Quench Tank Drain Valve Maker System (6 products, quench tank drain valves)
 ## [v3.11.879] — 2026-08-13 — Royal Forge Coal Rake Tooth Maker System (6 products, forge coal rake teeth)
