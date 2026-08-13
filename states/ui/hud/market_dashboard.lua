@@ -22,7 +22,7 @@ local titleFont, smallFont
 local visible = false
 local selectedIndex = 1
 local page = 1
-local pageSize = 20
+local pageSize = 14
 local totalPages = 1
 
 -- Search & sort state
@@ -307,30 +307,148 @@ function MarketDashboard.draw()
         love.graphics.setFont(font)
     end
 
-    -- Selected product detail panel (bottom)
+    -- Selected product detail panel (bottom) — with price history chart
     if cachedProducts[selectedIndex] then
         local p = cachedProducts[selectedIndex]
-        local detailY = panelY + panelH - 100
+        local detailH = 200
+        local detailY = panelY + panelH - detailH - 20
         love.graphics.setColor(0.2, 0.25, 0.35, 1)
-        love.graphics.rectangle("fill", panelX + 16, detailY, panelW - 32, 80, 4, 4, 4, 4)
+        love.graphics.rectangle("fill", panelX + 16, detailY, panelW - 32, detailH, 4, 4, 4, 4)
         love.graphics.setColor(0.9, 0.85, 0.5, 1)
         love.graphics.setFont(titleFont)
         love.graphics.print("📦 " .. p.productType, panelX + 24, detailY + 8)
         love.graphics.setFont(font)
 
+        -- Left column: text info
+        local leftX = panelX + 24
+        local leftW = 380
         love.graphics.setColor(0.8, 0.8, 0.8, 1)
         local baseSell = math.floor(p.basePrice * 0.7 + 0.5)
         local profit = p.currentSell - baseSell
+        local stats = DynamicMarket.getProductHistoryStats(p.productType, 60)
         local lines = {
             string.format("Vir sistema: %s", p.source or "?"),
-            string.format("Osnovna cena: %d zlata  |  Trenutna prodaja: %d zlata  |  Trenutna kupnja: %d zlata",
-                p.basePrice, p.currentSell, p.currentBuy),
-            string.format("Skupaj prodano: %d kosov  |  Skupaj prihodek: %d zlata  |  Razlika od base: %+d zlata/kos",
-                p.totalSold or 0, p.totalRevenue or 0, profit),
-            "Pritiski E za sprožitev naključnega tržnega dogodka na tem produktu (test).",
+            string.format("Osnovna cena: %d zlata  |  Base sell: %d", p.basePrice, baseSell),
+            string.format("Trenutna prodaja: %d  |  Kupnja: %d  |  Razlika: %+d",
+                p.currentSell, p.currentBuy, profit),
+            string.format("Skupaj prodano: %d kosov  |  Prihodek: %d zlata",
+                p.totalSold or 0, p.totalRevenue or 0),
         }
+        if stats then
+            lines[#lines + 1] = string.format("Zadnja minuta: min %d  |  max %d  |  povp %d  |  trend %+d",
+                stats.min, stats.max, math.floor(stats.avg + 0.5), stats.trend)
+            lines[#lines + 1] = string.format("Vzorcev: %d  |  Stanje: %s",
+                stats.sampleCount,
+                stats.trend > 2 and "📈 raste" or (stats.trend < -2 and "📉 pada" or "➡ stabilno"))
+        else
+            lines[#lines + 1] = "(zbiranje zgodovine cen — počakaj 1-2 sekundi)"
+        end
+        lines[#lines + 1] = "Pritiski E za sprožitev naključnega tržnega dogodka (test)."
         for i, line in ipairs(lines) do
-            love.graphics.print(line, panelX + 24, detailY + 30 + (i - 1) * 12)
+            love.graphics.print(line, leftX, detailY + 30 + (i - 1) * 14)
+        end
+
+        -- Right column: price history line chart
+        local chartX = panelX + 16 + leftW + 20
+        local chartY = detailY + 30
+        local chartW = panelW - 32 - leftW - 40
+        local chartH = detailH - 40
+
+        -- Chart background
+        love.graphics.setColor(0.1, 0.12, 0.16, 1)
+        love.graphics.rectangle("fill", chartX, chartY, chartW, chartH, 3, 3, 3, 3)
+        love.graphics.setColor(0.3, 0.35, 0.45, 1)
+        love.graphics.rectangle("line", chartX, chartY, chartW, chartH, 3, 3, 3, 3)
+
+        -- Chart title
+        love.graphics.setColor(0.7, 0.8, 0.95, 1)
+        love.graphics.setFont(smallFont)
+        love.graphics.print("Zgodovina cene (zadnjih 60s)", chartX + 8, chartY + 6)
+
+        -- Get price history
+        local hist = DynamicMarket.getProductHistory(p.productType, 60)
+        if #hist >= 2 then
+            -- Compute scaling
+            local minPrice, maxPrice = nil, nil
+            for _, e in ipairs(hist) do
+                if minPrice == nil or e.sell < minPrice then minPrice = e.sell end
+                if maxPrice == nil or e.sell > maxPrice then maxPrice = e.sell end
+            end
+            -- Include base sell in range for reference
+            if baseSell then
+                if minPrice == nil or baseSell < minPrice then minPrice = baseSell end
+                if maxPrice == nil or baseSell > maxPrice then maxPrice = baseSell end
+            end
+            -- Add 10% padding
+            local range = maxPrice - minPrice
+            if range < 1 then range = 1 end
+            minPrice = minPrice - range * 0.1
+            maxPrice = maxPrice + range * 0.1
+            local drawRange = maxPrice - minPrice
+
+            -- Plot area (inset)
+            local padX, padTop, padBottom = 32, 22, 14
+            local plotX = chartX + padX
+            local plotY = chartY + padTop
+            local plotW = chartW - padX - 8
+            local plotH = chartH - padTop - padBottom
+
+            -- Y-axis labels (min, max)
+            love.graphics.setColor(0.5, 0.55, 0.6, 1)
+            love.graphics.setFont(smallFont)
+            love.graphics.print(tostring(math.floor(maxPrice)), chartX + 4, plotY - 4)
+            love.graphics.print(tostring(math.floor(minPrice)), chartX + 4, plotY + plotH - 8)
+
+            -- Base price reference line (dashed)
+            if baseSell >= minPrice and baseSell <= maxPrice then
+                local baseY = plotY + plotH - ((baseSell - minPrice) / drawRange) * plotH
+                love.graphics.setColor(0.5, 0.5, 0.5, 0.5)
+                for x = plotX, plotX + plotW, 6 do
+                    love.graphics.line(x, baseY, x + 3, baseY)
+                end
+                love.graphics.setColor(0.6, 0.6, 0.6, 1)
+                love.graphics.print("base", chartX + 4, baseY - 6)
+            end
+
+            -- Plot sell price line
+            love.graphics.setColor(0.4, 0.95, 0.4, 1)
+            love.graphics.setLineWidth(2)
+            local now = love.timer.getTime()
+            local firstT = hist[1].t
+            local lastT = hist[#hist].t
+            local tRange = math.max(1, lastT - firstT)
+            for i = 2, #hist do
+                local x1 = plotX + ((hist[i - 1].t - firstT) / tRange) * plotW
+                local y1 = plotY + plotH - ((hist[i - 1].sell - minPrice) / drawRange) * plotH
+                local x2 = plotX + ((hist[i].t - firstT) / tRange) * plotW
+                local y2 = plotY + plotH - ((hist[i].sell - minPrice) / drawRange) * plotH
+                love.graphics.line(x1, y1, x2, y2)
+            end
+            love.graphics.setLineWidth(1)
+
+            -- Also draw buy price line (dimmer)
+            love.graphics.setColor(0.5, 0.6, 0.95, 0.6)
+            love.graphics.setLineWidth(1)
+            for i = 2, #hist do
+                local x1 = plotX + ((hist[i - 1].t - firstT) / tRange) * plotW
+                local y1 = plotY + plotH - ((hist[i - 1].buy - minPrice) / drawRange) * plotH
+                local x2 = plotX + ((hist[i].t - firstT) / tRange) * plotW
+                local y2 = plotY + plotH - ((hist[i].buy - minPrice) / drawRange) * plotH
+                love.graphics.line(x1, y1, x2, y2)
+            end
+
+            -- Legend
+            love.graphics.setFont(smallFont)
+            love.graphics.setColor(0.4, 0.95, 0.4, 1)
+            love.graphics.print("● sell", chartX + chartW - 80, chartY + 6)
+            love.graphics.setColor(0.5, 0.6, 0.95, 1)
+            love.graphics.print("● buy", chartX + chartW - 40, chartY + 6)
+            love.graphics.setFont(font)
+        else
+            love.graphics.setColor(0.5, 0.5, 0.55, 1)
+            love.graphics.setFont(smallFont)
+            love.graphics.print("Čakam na vzorce...", chartX + 10, chartY + chartH / 2)
+            love.graphics.setFont(font)
         end
     end
 

@@ -2,6 +2,39 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.904] — 2026-08-13 — Price History Chart v Market Dashboard
+
+### Dodano
+- **DynamicMarketSystem** — price history tracking:
+  - Nov state: `priceHistory` (per-product list of `{t, sell, buy}` samples)
+  - Sampling v `update()`: vsakih `config.historySampleInterval` (1.0s) zabeleži trenutno ceno za vsak produkt
+  - Max 120 vzorcev (2 minuti zgodovine pri 1s sampling-u)
+  - Novi API-ji:
+    - `getProductHistory(productType, seconds?)` — vrne list vzorcev (z option window filter)
+    - `getProductHistoryStats(productType, seconds?)` — vrne `{min, max, avg, current, first, trend, sampleCount}`
+  - `reset()` počisti tudi priceHistory
+- **Market Dashboard** — line chart v detail panel:
+  - Detail panel povečan na 200px višine
+  - Levi stolpec: text info z dodano statistiko (min/max/avg/trend za zadnjo minuto, stanje: 📈 raste / 📉 pada / ➡ stabilno)
+  - Desni stolpec: line chart 60s zgodovine cene
+    - Zelena debela črta: sell price
+    - Modra tanka črta: buy price
+    - Siva črtkana črta: base sell price (referenca)
+    - Y-os s min/max labels
+    - Legend (sell/buy)
+  - PageSize zmanjšan z 20 na 14 (da pusti prostor za večji detail panel)
+- Python test (`scripts/test_price_history.py`) — preverja sampling, window filter, max samples trimming, trend detection
+
+### Spremenjene datoteke
+- `objects/Economy/DynamicMarketSystem.lua` (+73 vrstic) — priceHistory state, sampling v update(), getProductHistory/getProductHistoryStats API, reset() cleanup
+- `states/ui/hud/market_dashboard.lua` (+110 vrstic) — line chart v detail panel, pageSize 14, history stats prikaz
+- `README.md` — posodobljeni badges (v3.11.904, +PriceChart), statistika (1640 datotek, +price history chart)
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 7 spremenjenih datotek PASS
+- Python price history test: 5 testov PASS (sampling, trend, window filter, max samples, edge cases)
+- Polna preverba: 1640/1640 (100%) Lua datotek pass
+
 ## [v3.11.903] — 2026-08-13 — Royal Market Dashboard (Ctrl+K)
 
 ### Dodano

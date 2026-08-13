@@ -26,6 +26,12 @@ local tradeHistory = {}    -- recent transactions for supply/demand
 local inflationRate = 1.0  -- grows with gold circulation
 local totalGoldInCirculation = 5000  -- starting gold amount
 
+-- Price history (sampled every config.historySampleInterval seconds)
+-- Structure: { [productType] = { {t=<seconds>, sell=<n>, buy=<n>}, ... } }
+local priceHistory = {}
+local priceHistorySampleTimer = 0
+local priceHistoryMaxSamples = 120  -- 2 minutes at 1s sampling
+
 -- Configuration
 local config = {
     historyDuration = 60,        -- seconds to remember transactions
@@ -36,6 +42,7 @@ local config = {
     inflationRate = 0.0001,      -- 0.01% per second baseline inflation
     transactionPriceImpact = 0.01, -- each unit traded affects price by 1%
     priceRecoveryRate = 0.05,    -- prices recover 5% per second toward base
+    historySampleInterval = 1.0, -- sample price history every 1 second
 }
 
 -- Initialize
@@ -193,6 +200,75 @@ function DynamicMarketSystem.update(dt)
     for _, modifier in pairs(priceModifiers) do
         modifier.inflation = inflationRate
     end
+
+    -- Sample price history every config.historySampleInterval seconds
+    priceHistorySampleTimer = priceHistorySampleTimer + dt
+    if priceHistorySampleTimer >= config.historySampleInterval then
+        priceHistorySampleTimer = 0
+        for resource, _ in pairs(priceModifiers) do
+            if not priceHistory[resource] then
+                priceHistory[resource] = {}
+            end
+            local entry = {
+                t = now,
+                sell = DynamicMarketSystem.getPrice(resource, "sell"),
+                buy = DynamicMarketSystem.getPrice(resource, "buy"),
+            }
+            local hist = priceHistory[resource]
+            hist[#hist + 1] = entry
+            -- Trim to max samples
+            if #hist > priceHistoryMaxSamples then
+                table.remove(hist, 1)
+            end
+        end
+    end
+end
+
+-- Get price history for a product (last N seconds)
+-- @param productType string Resource/product name
+-- @param seconds number Optional: only return samples from last N seconds (default: all)
+-- @return table List of {t, sell, buy} entries (oldest first)
+function DynamicMarketSystem.getProductHistory(productType, seconds)
+    if not initialized then return {} end
+    local hist = priceHistory[productType]
+    if not hist or #hist == 0 then return {} end
+    if not seconds then return hist end
+    local now = love.timer.getTime()
+    local result = {}
+    for _, entry in ipairs(hist) do
+        if now - entry.t <= seconds then
+            result[#result + 1] = entry
+        end
+    end
+    return result
+end
+
+-- Get price history stats (min, max, avg, trend) for a product
+-- @param productType string
+-- @param seconds number Optional window
+-- @return table {min, max, avg, current, trend} or nil if no history
+function DynamicMarketSystem.getProductHistoryStats(productType, seconds)
+    local hist = DynamicMarketSystem.getProductHistory(productType, seconds)
+    if #hist == 0 then return nil end
+    local min, max, sum = nil, nil, 0
+    for _, e in ipairs(hist) do
+        if min == nil or e.sell < min then min = e.sell end
+        if max == nil or e.sell > max then max = e.sell end
+        sum = sum + e.sell
+    end
+    local avg = sum / #hist
+    local current = hist[#hist].sell
+    local first = hist[1].sell
+    local trend = current - first  -- positive = rising, negative = falling
+    return {
+        min = min,
+        max = max,
+        avg = avg,
+        current = current,
+        first = first,
+        trend = trend,
+        sampleCount = #hist,
+    }
 end
 
 -- Set seasonal modifier for a resource
@@ -337,7 +413,9 @@ function DynamicMarketSystem.reset()
         priceModifiers[resource].inflation = 1.0
         priceModifiers[resource].current = 1.0
         tradeHistory[resource] = {}
+        priceHistory[resource] = {}
     end
+    priceHistorySampleTimer = 0
 
     print("[DynamicMarket] Reset")
 end

@@ -1,7 +1,7 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.903**
+- Različica: **v3.11.904**
 - Skupaj Royal sistemov: **987**
 - Skupaj Lua datotek: **1640**
 - Sintaktična preverba (avtentična Lua `load()`): **1640/1640 pass (100%)**
@@ -25,14 +25,15 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 1. **Sprite-i za Royal sisteme** — trenutno so samo podatkovni, brez grafične podobe
 2. **Produkcijski grafikon** — zgodovina proizvodnje v panelu (line chart)
 3. **Sistemske odvisnosti** — nekateri sistemi naj zahtevajo druge (npr. BellMaker zahteva Metalwork)
-4. **Cenovni grafikon** — v Market Dashboard dodati line chart zgodovine cene za izbran produkt
+4. **Multi-product chart** — hkrati prikaži cene več produktov za primerjavo
 
-## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.11.903)
+## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.11.904)
 
 - ✅ **v3.11.382**: Royal Systems Registry + UI Panel (Ctrl+R)
 - ✅ **v3.11.901**: Save/Load persistenca za Royal sisteme (maker, zgradbe, zaloga, surovine)
 - ✅ **v3.11.902**: DynamicMarket integracija — Royal produkti registrirani na trgu, auto-sell toggle, dinamične cene
 - ✅ **v3.11.903**: Market Dashboard (Ctrl+K) — pregled vseh 987 produktov, sortiranje, iskanje, test dogodki
+- ✅ **v3.11.904**: Price History Chart — line chart 60s zgodovine cene v Market Dashboard, trend detection (📈/📉/➡)
 
 ## ZADNJE ZAKLJUČENI PAKET (v3.11.892–v3.11.901) — STEKLARSKI DODATKI 13 + LIVARSKI DODATKI 13
 
