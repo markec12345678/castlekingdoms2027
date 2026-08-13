@@ -3486,6 +3486,9 @@ function game:textinput(text)
     if S.DebugConsole.isVisible() then
         if S.DebugConsole.textinput(text) then return end
     end
+    if RoyalSystemsPanel.isVisible() then
+        if RoyalSystemsPanel.textinput(text) then return end
+    end
     console.textinput(text)
 end
 
