@@ -34,7 +34,13 @@ local autoSellEnabled = false       -- off by default; player toggles via panel
 local autoSellInterval = 30.0       -- seconds between auto-sell sweeps
 local autoSellTimer = 0.0
 local aggregateRevenue = 0          -- total gold earned from Royal sales
-local perSystemRevenue = {}         -- key -> gold earned
+local perSystemRevenue = {}         -- key -> gold earned (cumulative)
+
+-- Sales history (per-system list of {t, productType, qty, gold, unitPrice})
+-- Used for profit leaderboards and revenue charts.
+local salesHistory = {}             -- map: key -> list of entries
+local salesHistoryMaxSamples = 300  -- per-system cap (~5 min at 1/s rate)
+local salesHistoryMaxAge = 600      -- 10 minutes in seconds
 
 -- Configuration
 local config = {
@@ -46,6 +52,29 @@ local config = {
     -- market flooding which would crash prices).
     maxPerSweep = 20,
 }
+
+-- Internal: record a sale in the sales history for charts/leaderboards
+-- @param key string System key
+-- @param productType string Product type sold
+-- @param qty number Units sold
+-- @param gold number Total gold earned
+-- @param unitPrice number Price per unit
+local function recordSale(key, productType, qty, gold, unitPrice)
+    if not key or not productType or qty <= 0 then return end
+    if not salesHistory[key] then salesHistory[key] = {} end
+    local hist = salesHistory[key]
+    hist[#hist + 1] = {
+        t = (love.timer and love.timer.getTime()) or 0,
+        productType = productType,
+        qty = qty,
+        gold = gold,
+        unitPrice = unitPrice,
+    }
+    -- Trim by sample count
+    if #hist > salesHistoryMaxSamples then
+        table.remove(hist, 1)
+    end
+end
 
 -- Initialize: register all Royal product types with the DynamicMarket
 function RoyalMarketIntegration.init()
@@ -130,6 +159,8 @@ function RoyalMarketIntegration.sellStock(key)
                 end
                 -- Record transaction (affects future prices)
                 DynamicMarket.recordTransaction(productType, qty, "sell")
+                -- Record sale in history (for profit leaderboards/charts)
+                recordSale(key, productType, qty, gold, price)
                 -- Clear stock
                 module.productStock[productType] = 0
             end
@@ -168,6 +199,7 @@ function RoyalMarketIntegration.sellProduct(key, productType, qty)
         _G.state.gold = (_G.state.gold or 0) + gold
     end
     DynamicMarket.recordTransaction(productType, toSell, "sell")
+    recordSale(key, productType, toSell, gold, price)
     module.productStock[productType] = available - toSell
 
     aggregateRevenue = aggregateRevenue + gold
@@ -199,6 +231,7 @@ local function autoSellSweep()
                             _G.state.gold = (_G.state.gold or 0) + gold
                         end
                         DynamicMarket.recordTransaction(productType, toSell, "sell")
+                        recordSale(sys.key, productType, toSell, gold, price)
                         m.productStock[productType] = qty - toSell
                         totalGold = totalGold + gold
                         totalUnits = totalUnits + toSell
@@ -281,6 +314,142 @@ function RoyalMarketIntegration.reset()
     for k, _ in pairs(perSystemRevenue) do
         perSystemRevenue[k] = 0
     end
+    salesHistory = {}
+end
+
+-- ============================================================================
+-- SALES HISTORY API (for profit leaderboards and revenue charts)
+-- ============================================================================
+
+-- Get sales history for a system (optionally filtered by time window)
+-- @param key string System key
+-- @param seconds number Optional: only return entries from last N seconds
+-- @return table List of {t, productType, qty, gold, unitPrice} entries
+function RoyalMarketIntegration.getSalesHistory(key, seconds)
+    local hist = salesHistory[key]
+    if not hist then return {} end
+    local now = (love.timer and love.timer.getTime()) or 0
+    if not seconds then
+        -- Filter by max age
+        local result = {}
+        for _, e in ipairs(hist) do
+            if now - e.t <= salesHistoryMaxAge then
+                result[#result + 1] = e
+            end
+        end
+        return result
+    end
+    local result = {}
+    for _, e in ipairs(hist) do
+        if now - e.t <= seconds then
+            result[#result + 1] = e
+        end
+    end
+    return result
+end
+
+-- Get revenue stats for a system (aggregated over time window)
+-- @param key string System key
+-- @param seconds number Optional window (default: 60s)
+-- @return table {totalGold, totalQty, saleCount, avgUnitPrice, firstT, lastT, goldPerMin}
+--         or nil if no history
+function RoyalMarketIntegration.getRevenueStats(key, seconds)
+    local window = seconds or 60
+    local hist = RoyalMarketIntegration.getSalesHistory(key, window)
+    if #hist == 0 then return nil end
+
+    local totalGold = 0
+    local totalQty = 0
+    for _, e in ipairs(hist) do
+        totalGold = totalGold + (e.gold or 0)
+        totalQty = totalQty + (e.qty or 0)
+    end
+    local avgUnitPrice = totalQty > 0 and (totalGold / totalQty) or 0
+    local firstT = hist[1].t
+    local lastT = hist[#hist].t
+    local timeSpan = math.max(1, lastT - firstT)
+    local goldPerMin = (totalGold / timeSpan) * 60
+
+    return {
+        totalGold = totalGold,
+        totalQty = totalQty,
+        saleCount = #hist,
+        avgUnitPrice = avgUnitPrice,
+        firstT = firstT,
+        lastT = lastT,
+        timeSpan = timeSpan,
+        goldPerMin = goldPerMin,
+        windowSeconds = window,
+    }
+end
+
+-- Get top-N most profitable systems in the time window.
+-- @param count number Optional: how many to return (default: 10)
+-- @param seconds number Optional window (default: 60s)
+-- @return table List of {key, name, totalGold, totalQty, saleCount, avgUnitPrice, goldPerMin}
+--                 sorted descending by totalGold
+function RoyalMarketIntegration.getTopProfitProducers(count, seconds)
+    local n = count or 10
+    local window = seconds or 60
+    local systems = RoyalRegistry.getSystems()
+    local list = {}
+    for _, sys in ipairs(systems) do
+        local stats = RoyalMarketIntegration.getRevenueStats(sys.key, window)
+        if stats and stats.totalGold > 0 then
+            list[#list + 1] = {
+                key = sys.key,
+                name = sys.name,
+                totalGold = stats.totalGold,
+                totalQty = stats.totalQty,
+                saleCount = stats.saleCount,
+                avgUnitPrice = stats.avgUnitPrice,
+                goldPerMin = stats.goldPerMin,
+            }
+        end
+    end
+    -- Sort by totalGold descending
+    table.sort(list, function(a, b) return a.totalGold > b.totalGold end)
+    -- Trim to top N
+    local result = {}
+    for i = 1, math.min(n, #list) do
+        result[i] = list[i]
+    end
+    return result
+end
+
+-- Get aggregate revenue stats across all systems in window
+-- @param seconds number Optional window (default: 60s)
+-- @return table {systemsActive, totalGold, totalQty, saleCount, topSystem, topGold}
+function RoyalMarketIntegration.getAggregateRevenue(seconds)
+    local window = seconds or 60
+    local totalGold = 0
+    local totalQty = 0
+    local saleCount = 0
+    local systemsActive = 0
+    local topKey, topGold = nil, 0
+    local systems = RoyalRegistry.getSystems()
+    for _, sys in ipairs(systems) do
+        local stats = RoyalMarketIntegration.getRevenueStats(sys.key, window)
+        if stats and stats.totalGold > 0 then
+            systemsActive = systemsActive + 1
+            totalGold = totalGold + stats.totalGold
+            totalQty = totalQty + stats.totalQty
+            saleCount = saleCount + stats.saleCount
+            if stats.totalGold > topGold then
+                topGold = stats.totalGold
+                topKey = sys.key
+            end
+        end
+    end
+    return {
+        systemsActive = systemsActive,
+        totalGold = totalGold,
+        totalQty = totalQty,
+        saleCount = saleCount,
+        topSystem = topKey,
+        topGold = topGold,
+        windowSeconds = window,
+    }
 end
 
 return RoyalMarketIntegration

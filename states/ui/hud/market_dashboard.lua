@@ -38,6 +38,9 @@ local sortModes = {
     price = "Po ceni",
 }
 
+-- Leaderboard mode: "qty" (top producers by quantity) or "profit" (top by gold earned)
+local leaderboardMode = "qty"
+
 local actionMessage = ""
 local actionMessageTime = 0
 
@@ -159,7 +162,7 @@ function MarketDashboard.draw()
     love.graphics.print("🏰 KRALJEVI TRG — Nadzorna plošča trga", panelX + 16, panelY + 12)
     love.graphics.setFont(font)
     love.graphics.setColor(0.6, 0.6, 0.6, 1)
-    love.graphics.print("Ctrl+K: zapri  |  /: iskanje  |  S: sortiranje  |  E: dogodek  |  ←→: stran",
+    love.graphics.print("Ctrl+K: zapri  |  /: iskanje  |  S: sortiranje  |  E: dogodek  |  Q: preklop leaderboarda  |  ←→: stran",
         panelX + 16, panelY + 36)
 
     -- Aggregate stats bar
@@ -241,28 +244,49 @@ function MarketDashboard.draw()
             chartAreaX + 16, aggChartY + aggChartH / 2 - 4)
     end
 
-    -- Top-10 producers leaderboard (right column)
+    -- Top-10 producers leaderboard (right column) - toggleable: by qty or by profit
     love.graphics.setColor(0.7, 0.85, 0.7, 1)
     if smallFont then love.graphics.setFont(smallFont) end
-    love.graphics.print("🏆 TOP-10 PRODUCENTOV (zadnja minuta)", lbX + 4, aggChartY + 4)
+    local lbTitle
+    if leaderboardMode == "profit" then
+        lbTitle = "💰 TOP-10 PO PRIHODKU (zadnja minuta)  [Q: preklop]"
+    else
+        lbTitle = "🏆 TOP-10 PRODUCENTOV (zadnja minuta)  [Q: preklop]"
+    end
+    love.graphics.print(lbTitle, lbX + 4, aggChartY + 4)
 
-    local topProducers = Registry.getTopProducers(10, 60)
-    if #topProducers > 0 then
-        -- Column headers
+    -- Fetch data based on mode
+    local topList, maxVal
+    if leaderboardMode == "profit" then
+        topList = RMI.getTopProfitProducers(10, 60)
+        maxVal = 1
+        for _, p in ipairs(topList) do
+            if p.totalGold > maxVal then maxVal = p.totalGold end
+        end
+    else
+        topList = Registry.getTopProducers(10, 60)
+        maxVal = 1
+        for _, p in ipairs(topList) do
+            if p.totalQty > maxVal then maxVal = p.totalQty end
+        end
+    end
+
+    if #topList > 0 then
+        -- Column headers (mode-specific)
         love.graphics.setColor(0.45, 0.55, 0.65, 1)
         love.graphics.print("#", lbX + 4, aggChartY + 22)
         love.graphics.print("Sistem", lbX + 22, aggChartY + 22)
-        love.graphics.print("Kosov", lbX + 200, aggChartY + 22)
-        love.graphics.print("/min", lbX + 250, aggChartY + 22)
-        love.graphics.print("Prest.", lbX + 295, aggChartY + 22)
-
-        -- Find max qty for bar scaling
-        local maxQty = 1
-        for _, p in ipairs(topProducers) do
-            if p.totalQty > maxQty then maxQty = p.totalQty end
+        if leaderboardMode == "profit" then
+            love.graphics.print("Zlata", lbX + 200, aggChartY + 22)
+            love.graphics.print("/min", lbX + 250, aggChartY + 22)
+            love.graphics.print("Cena/kos", lbX + 290, aggChartY + 22)
+        else
+            love.graphics.print("Kosov", lbX + 200, aggChartY + 22)
+            love.graphics.print("/min", lbX + 250, aggChartY + 22)
+            love.graphics.print("Prest.", lbX + 295, aggChartY + 22)
         end
 
-        for i, p in ipairs(topProducers) do
+        for i, p in ipairs(topList) do
             local rowY = aggChartY + 36 + (i - 1) * 11
             -- Rank
             local rankColor
@@ -273,9 +297,15 @@ function MarketDashboard.draw()
             love.graphics.setColor(rankColor)
             love.graphics.print(tostring(i), lbX + 4, rowY)
 
-            -- Bar background (proportional to qty)
-            local barFrac = p.totalQty / maxQty
-            love.graphics.setColor(0.2, 0.35, 0.25, 0.5)
+            -- Bar background (proportional to value)
+            local val = leaderboardMode == "profit" and p.totalGold or p.totalQty
+            local barFrac = val / maxVal
+            -- Bar color tint differs by mode
+            if leaderboardMode == "profit" then
+                love.graphics.setColor(0.35, 0.25, 0.2, 0.5)
+            else
+                love.graphics.setColor(0.2, 0.35, 0.25, 0.5)
+            end
             love.graphics.rectangle("fill", lbX + 18, rowY + 1, 180, 9)
 
             -- Bar fill
@@ -289,18 +319,33 @@ function MarketDashboard.draw()
             if #displayName > 22 then displayName = displayName:sub(1, 21) .. "…" end
             love.graphics.print(displayName, lbX + 22, rowY)
 
-            -- Numbers
-            love.graphics.setColor(0.7, 0.85, 0.7, 1)
-            love.graphics.print(tostring(p.totalQty), lbX + 200, rowY)
-            love.graphics.print(string.format("%.1f", p.ratePerMin), lbX + 250, rowY)
-            love.graphics.setColor(0.85, 0.75, 0.5, 1)
-            love.graphics.print(string.format("%.1f", p.avgPrestige), lbX + 295, rowY)
+            -- Numbers (mode-specific)
+            if leaderboardMode == "profit" then
+                love.graphics.setColor(0.95, 0.85, 0.4, 1)  -- gold-ish for revenue
+                love.graphics.print(tostring(p.totalGold), lbX + 200, rowY)
+                love.graphics.setColor(0.7, 0.85, 0.7, 1)
+                love.graphics.print(string.format("%.0f", p.goldPerMin), lbX + 250, rowY)
+                love.graphics.setColor(0.85, 0.75, 0.5, 1)
+                love.graphics.print(string.format("%.0f", p.avgUnitPrice or 0), lbX + 290, rowY)
+            else
+                love.graphics.setColor(0.7, 0.85, 0.7, 1)
+                love.graphics.print(tostring(p.totalQty), lbX + 200, rowY)
+                love.graphics.print(string.format("%.1f", p.ratePerMin), lbX + 250, rowY)
+                love.graphics.setColor(0.85, 0.75, 0.5, 1)
+                love.graphics.print(string.format("%.1f", p.avgPrestige), lbX + 295, rowY)
+            end
         end
     else
         love.graphics.setColor(0.5, 0.55, 0.6, 1)
-        love.graphics.print("(ni aktivnih sistemov)", lbX + 8, aggChartY + 30)
-        love.graphics.print("Začni izdelovati v Royal", lbX + 8, aggChartY + 44)
-        love.graphics.print("sistemih (Ctrl+R).", lbX + 8, aggChartY + 58)
+        if leaderboardMode == "profit" then
+            love.graphics.print("(ni prodaje v zadnji minuti)", lbX + 8, aggChartY + 30)
+            love.graphics.print("Prodaj s 'Prodaj na trgu'", lbX + 8, aggChartY + 44)
+            love.graphics.print("ali vklopi auto-sell.", lbX + 8, aggChartY + 58)
+        else
+            love.graphics.print("(ni aktivnih sistemov)", lbX + 8, aggChartY + 30)
+            love.graphics.print("Začni izdelovati v Royal", lbX + 8, aggChartY + 44)
+            love.graphics.print("sistemih (Ctrl+R).", lbX + 8, aggChartY + 58)
+        end
     end
 
     if font then love.graphics.setFont(font) end
@@ -658,6 +703,18 @@ function MarketDashboard.keypressed(key, scancode, isrepeat)
             local multiplier = math.random() < 0.5 and 0.7 or 1.4
             DynamicMarket.triggerEvent(p.productType, multiplier, 60)
             showMessage(string.format("Dogodek na %s: cena x%.2f za 60s", p.productType, multiplier))
+        end
+        return true
+    end
+
+    -- Toggle leaderboard mode: qty <-> profit
+    if key == "q" and not searchActive then
+        if leaderboardMode == "qty" then
+            leaderboardMode = "profit"
+            showMessage("Leaderboard: TOP-10 PO PRIHODKU (gold)")
+        else
+            leaderboardMode = "qty"
+            showMessage("Leaderboard: TOP-10 PRODUCENTOV (količina)")
         end
         return true
     end

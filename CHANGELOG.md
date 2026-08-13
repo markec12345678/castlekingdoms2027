@@ -2,6 +2,38 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.908] — 2026-08-13 — Profit Leaderboard (Q toggle) v Market Dashboard
+
+### Dodano
+- **RoyalMarketIntegration** — sales history tracking:
+  - Nov state: `salesHistory` (per-system list of `{t, productType, qty, gold, unitPrice}` entries)
+  - Internal helper `recordSale(key, productType, qty, gold, unitPrice)` kliče se v `sellStock`, `sellProduct`, in `autoSellSweep`
+  - Max 300 vzorcev na sistem, max 600s starost
+  - Novi API-ji:
+    - `getSalesHistory(key, seconds?)` — vrne list vnosov z optional time window
+    - `getRevenueStats(key, seconds?)` — vrne `{totalGold, totalQty, saleCount, avgUnitPrice, firstT, lastT, timeSpan, goldPerMin, windowSeconds}`
+    - `getTopProfitProducers(count, seconds)` — vrne top-N sistemov po prihodku (gold) v oknu
+    - `getAggregateRevenue(seconds)` — agregirano čez vse sisteme: `{systemsActive, totalGold, totalQty, saleCount, topSystem, topGold}`
+  - `reset()` počisti tudi salesHistory
+- **Market Dashboard** — Q toggle med leaderboard načinoma:
+  - Nov state: `leaderboardMode` ("qty" ali "profit")
+  - Tipka **Q** preklopi med "TOP-10 PRODUCENTOV (količina)" in "TOP-10 PO PRIHODKU (gold)"
+  - Profit leaderboard prikazuje: rang, ime, gold zaslužek, gold/min, povprečno ceno/kos
+  - Qty leaderboard prikazuje: rang, ime, količina, izdelki/min, povprečni prestiž
+  - Barvno kodiranje: gold naslov (💰) za profit, trophy (🏆) za qty
+  - Bar barve se prilagajajo (rdečkast tint za profit, zelen za qty)
+  - Empty state specifičen za vsak način
+  - Keybind help text posodobljen z Q
+
+### Spremenjene datoteke
+- `objects/Economy/RoyalMarketIntegration.lua` (+135 vrstic) — salesHistory state, recordSale helper, 4 novi API-ji
+- `states/ui/hud/market_dashboard.lua` (+50 vrstic) — leaderboardMode state, Q keybind, mode-specific rendering
+- `README.md` — posodobljeni badges (v3.11.908, +ProfitLeaderboard), statistika
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 7 spremenjenih datotek PASS
+- Polna preverba: 1640/1640 (100%) Lua datotek pass
+
 ## [v3.11.907] — 2026-08-13 — Top-10 Producers Leaderboard v Market Dashboard
 
 ### Dodano
