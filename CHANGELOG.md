@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.901] — 2026-08-13 — Royal Casting Ladle Preheat Stand Maker System (6 products, casting ladle preheat stands)
+## [v3.11.900] — 2026-08-13 — Royal Core Gas Escape Channel Maker System (6 products, core gas escape channels)
+## [v3.11.899] — 2026-08-13 — Royal Sand Test Cup Maker System (6 products, sand test cups)
+## [v3.11.898] — 2026-08-13 — Royal Pouring Ladle Spout Liner Maker System (6 products, pouring ladle spout liners)
+## [v3.11.897] — 2026-08-13 — Royal Mold Coat Brush Spinner Maker System (6 products, mold coat brush spinners)
+## [v3.11.896] — 2026-08-13 — Royal Glass Engraving Wheel Bearing Maker System (6 products, glass engraving wheel bearings)
+## [v3.11.895] — 2026-08-13 — Royal Glass Annealing Oven Thermocouple Maker System (6 products, glass annealing oven thermocouples)
+## [v3.11.894] — 2026-08-13 — Royal Glass Colorant Sieving Cloth Maker System (6 products, glass colorant sieving cloths)
+## [v3.11.893] — 2026-08-13 — Royal Glass Kiln Soot Scraper Maker System (6 products, glass kiln soot scrapers)
+## [v3.11.892] — 2026-08-13 — Royal Glass Molten Glass Skim Ladle Maker System (6 products, glass molten glass skim ladles)
+
+### Dodano (v3.11.892-v3.11.901 — 10 sistemov: steklarski dodatki 13 + livarski dodatki 13)
+
+#### v3.11.892-v3.11.896 — Steklarski dodatki 13 (5 sistemov)
+- v3.11.892: GlassMoltenGlassSkimLadleMaker (Zajemalkar) — zajemalke za strgalce taline
+- v3.11.893: GlassKilnSootScraperMaker (Strgar) — strgalci za sajne
+- v3.11.894: GlassColorantSievingClothMaker (Krpar) — krpe za sitanje barv
+- v3.11.895: GlassAnnealingOvenThermocoupleMaker (Termočlenik) — termoelementi za peči
+- v3.11.896: GlassEngravingWheelBearingMaker (Ležajnik) — ležaji za rezbarska kolesa
+
+#### v3.11.897-v3.11.901 — Livarski dodatki 13 (5 sistemov)
+- v3.11.897: MoldCoatBrushSpinnerMaker (Vrtilnik) — vrtilci za čopiče premaza
+- v3.11.898: PouringLadleSpoutLinerMaker (Oblogar) — obloge za izlive
+- v3.11.899: SandTestCupMaker (Skodeličar) — skodelice za testiranje peska
+- v3.11.900: CoreGasEscapeChannelMaker (Kanalnik) — kanali za plin jedrc
+- v3.11.901: CastingLadlePreheatStandMaker (Stojalnik) — stojala za predgrevanje
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
+Pre-flight check: pred generiranjem je bila preverjena git zgodovina za vseh 10 datotek — vse so imele 0 prior commits in so bile odsotne iz workdir. Brez duplikatov.
+
 ## [v3.11.891] — 2026-08-13 — Royal Mill Sail Cloth Tie Down Strap Maker System (6 products, mill sail cloth tie down straps)
 ## [v3.11.890] — 2026-08-13 — Royal Millstone Dressing Chalk Maker System (6 products, millstone dressing chalks)
 ## [v3.11.889] — 2026-08-13 — Royal Mill Hopper Level Float Maker System (6 products, mill hopper level floats)
