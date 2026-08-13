@@ -464,6 +464,9 @@ function State:serialize()
     data.savename = self.savename
     data.postitiveBuildings = self.postitiveBuildings
     data.gameTime = self.gameTime
+    -- Castle Kingdoms 2027: Save Royal Systems state
+    local RoyalRegistry = require("objects.Economy.RoyalSystemsRegistry")
+    data.royalSystems = RoyalRegistry.serialize()
     return data, metadata
 end
 
@@ -540,6 +543,11 @@ function State:deserialize(load)
     self:deserializeChunkObjects(load.chunkObjects)
     self.object = self:deserializeObjects(load.object)
     _G.state:processLazyReferences()
+    -- Castle Kingdoms 2027: Load Royal Systems state
+    if load.royalSystems then
+        local RoyalRegistry = require("objects.Economy.RoyalSystemsRegistry")
+        RoyalRegistry.deserialize(load.royalSystems)
+    end
     self.scaleX = load.scaleX
     self.viewXview = load.viewXview
     self.viewYview = load.viewYview

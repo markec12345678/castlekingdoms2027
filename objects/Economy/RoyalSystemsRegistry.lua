@@ -273,4 +273,184 @@ function RoyalSystemsRegistry.getSystemsHired()
     return hired
 end
 
+-- ============================================================================
+-- SAVE / LOAD PERSISTENCE
+-- ============================================================================
+
+-- Serialize all Royal system state into a table that can be saved by bitser.
+-- Only saves data that changes during gameplay (maker, buildings, stock, resources,
+-- activeMaking, totalProducts, dayTimer). Static data (PRODUCTS, BUILDINGS) is
+-- defined in code and doesn't need saving.
+function RoyalSystemsRegistry.serialize()
+    local data = {}
+    data.systems = {}
+    data.goldEarned = aggregate.totalGoldEarned or 0
+    for _, sys in ipairs(systems) do
+        local m = sys.module
+        local entry = {
+            key = sys.key,
+            -- Maker data
+            maker = nil,
+            -- Buildings (list of {type=id, builtDay=timestamp})
+            buildings = nil,
+            -- Resource stocks
+            ironStock = m.ironStock,
+            bronzeStock = m.bronzeStock,
+            woodStock = m.woodStock,
+            leatherStock = m.leatherStock,
+            silverStock = m.silverStock,
+            goldStock = m.goldStock,
+            jewelStock = m.jewelStock,
+            pearlStock = m.pearlStock,
+            -- Product stock (dict of productType -> qty)
+            productStock = nil,
+            -- Active making queue
+            activeMaking = nil,
+            -- Counters
+            totalProducts = m.totalProducts or 0,
+            dayTimer = m.dayTimer or 0,
+        }
+        -- Serialize maker (it's a table or nil)
+        if m.maker then
+            entry.maker = {
+                name = m.maker.name,
+                skill = m.maker.skill,
+                hiredDay = m.maker.hiredDay,
+                itemsMade = m.maker.itemsMade or 0,
+            }
+        end
+        -- Serialize buildings (shallow copy the list)
+        if m.buildings and #m.buildings > 0 then
+            entry.buildings = {}
+            for i, b in ipairs(m.buildings) do
+                entry.buildings[i] = { type = b.type, builtDay = b.builtDay }
+            end
+        end
+        -- Serialize productStock (shallow copy)
+        if m.productStock then
+            entry.productStock = {}
+            for k, v in pairs(m.productStock) do
+                entry.productStock[k] = v
+            end
+        end
+        -- Serialize activeMaking (shallow copy, strip functions if any)
+        if m.activeMaking and #m.activeMaking > 0 then
+            entry.activeMaking = {}
+            for i, am in ipairs(m.activeMaking) do
+                entry.activeMaking[i] = {
+                    id = am.id,
+                    productType = am.productType,
+                    productName = am.productName,
+                    cost = am.cost,
+                    quantity = am.quantity,
+                    food = am.food or 0,
+                    prestige = am.prestige or 0,
+                    happiness = am.happiness or 0,
+                    daysRemaining = am.daysRemaining,
+                    started = am.started,
+                }
+            end
+        end
+        data.systems[#data.systems + 1] = entry
+    end
+    return data
+end
+
+-- Deserialize Royal system state from a saved table.
+-- Called after all systems have been initialized (init() has run), so the
+-- module references already exist — we just restore the dynamic state.
+function RoyalSystemsRegistry.deserialize(data)
+    if not data or not data.systems then return end
+
+    -- Build a lookup: key -> module
+    local lookup = {}
+    for _, sys in ipairs(systems) do
+        lookup[sys.key] = sys.module
+    end
+
+    for _, entry in ipairs(data.systems) do
+        local m = lookup[entry.key]
+        if not m then
+            -- System key not found (maybe removed in a newer version). Skip.
+            goto continue
+        end
+
+        -- Restore resource stocks
+        if entry.ironStock ~= nil then m.ironStock = entry.ironStock end
+        if entry.bronzeStock ~= nil then m.bronzeStock = entry.bronzeStock end
+        if entry.woodStock ~= nil then m.woodStock = entry.woodStock end
+        if entry.leatherStock ~= nil then m.leatherStock = entry.leatherStock end
+        if entry.silverStock ~= nil then m.silverStock = entry.silverStock end
+        if entry.goldStock ~= nil then m.goldStock = entry.goldStock end
+        if entry.jewelStock ~= nil then m.jewelStock = entry.jewelStock end
+        if entry.pearlStock ~= nil then m.pearlStock = entry.pearlStock end
+
+        -- Restore maker
+        if entry.maker then
+            m.maker = {
+                name = entry.maker.name,
+                skill = entry.maker.skill,
+                hiredDay = entry.maker.hiredDay,
+                itemsMade = entry.maker.itemsMade or 0,
+            }
+        else
+            m.maker = nil
+        end
+
+        -- Restore buildings
+        if entry.buildings then
+            m.buildings = {}
+            for i, b in ipairs(entry.buildings) do
+                m.buildings[i] = { type = b.type, builtDay = b.builtDay }
+            end
+        else
+            m.buildings = {}
+        end
+
+        -- Restore productStock
+        if entry.productStock then
+            m.productStock = {}
+            for k, v in pairs(entry.productStock) do
+                m.productStock[k] = v
+            end
+        else
+            m.productStock = {}
+        end
+
+        -- Restore activeMaking
+        if entry.activeMaking then
+            m.activeMaking = {}
+            for i, am in ipairs(entry.activeMaking) do
+                m.activeMaking[i] = {
+                    id = am.id,
+                    productType = am.productType,
+                    productName = am.productName,
+                    cost = am.cost,
+                    quantity = am.quantity,
+                    food = am.food or 0,
+                    prestige = am.prestige or 0,
+                    happiness = am.happiness or 0,
+                    daysRemaining = am.daysRemaining,
+                    started = am.started,
+                }
+            end
+        else
+            m.activeMaking = {}
+        end
+
+        -- Restore counters
+        m.totalProducts = entry.totalProducts or 0
+        m.dayTimer = entry.dayTimer or 0
+
+        ::continue::
+    end
+
+    -- Restore aggregate gold earned
+    if data.goldEarned then
+        aggregate.totalGoldEarned = data.goldEarned
+    end
+
+    print("[RoyalSystemsRegistry] Deserialized " .. #data.systems .. " system states")
+end
+
 return RoyalSystemsRegistry
