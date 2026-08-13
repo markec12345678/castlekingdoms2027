@@ -881,6 +881,7 @@ local SeasonWidget = require("states.ui.hud.season_info_widget")
 local EventLog = require("states.ui.hud.economic_event_log")
 -- Castle Kingdoms 2027 - Royal Systems Registry + UI panel (Ctrl+R)
 local RoyalSystemsRegistry = require("objects.Economy.RoyalSystemsRegistry")
+local RoyalMarketIntegration = require("objects.Economy.RoyalMarketIntegration")
 local RoyalSystemsPanel = require("states.ui.hud.royal_systems_panel")
 -- Castle Kingdoms 2027 - Performance profiling
 local PerformanceManager = require("objects.Performance.PerformanceManager")
@@ -3176,6 +3177,7 @@ function game:update(dt)
                 S.NetMendingNeedleMaker.update(dt)
                 -- Castle Kingdoms 2027 v3.11.382: Royal Systems Registry aggregates stats + grants bonus gold
                 RoyalSystemsRegistry.update(dt)
+                RoyalMarketIntegration.update(dt)
                 RoyalSystemsPanel.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end

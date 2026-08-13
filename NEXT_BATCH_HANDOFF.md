@@ -1,10 +1,10 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.901**
+- Različica: **v3.11.902**
 - Skupaj Royal sistemov: **987**
-- Skupaj Lua datotek: **1638**
-- Sintaktična preverba: **1635/1638 pass** (3 znani false positives: moonscript.lua, test.lua, grid.lua)
+- Skupaj Lua datotek: **1639**
+- Sintaktična preverba (avtentična Lua `load()`): **1639/1639 pass (100%)**
 - GitHub: sinhroniziran (vsi tagi pushani)
 - Lokalni repo: `/home/z/my-project/castlekingdoms2027`
 - .love datoteke: `/home/z/my-project/download/`
@@ -22,10 +22,16 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 
 ## ZNANE NADGRADNJE ZA PRIHODNJE PAKETE
 
-1. **Povezava z DynamicMarketSystem** — Royal produkti naj bodo prodani na tržnici
-2. **Sprite-i za Royal sisteme** — trenutno so samo podatkovni, brez grafične podobe
-3. **Grafikon produkcije** — zgodovina proizvodnje v panelu
-4. **Sistemsko odvisnosti** — nekateri sistemi naj zahtevajo druge (npr. BellMaker zahteva Metalwork)
+1. **Sprite-i za Royal sisteme** — trenutno so samo podatkovni, brez grafične podobe
+2. **Grafikon produkcije** — zgodovina proizvodnje v panelu
+3. **Sistemsko odvisnosti** — nekateri sistemi naj zahtevajo druge (npr. BellMaker zahteva Metalwork)
+4. **Market dashboard** — ločen UI zanalašč za trg (pregled vseh 987 sistemov cen, trendov, volume-a)
+
+## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.11.902)
+
+- ✅ **v3.11.382**: Royal Systems Registry + UI Panel (Ctrl+R)
+- ✅ **v3.11.901**: Save/Load persistenca za Royal sisteme (maker, zgradbe, zaloga, surovine)
+- ✅ **v3.11.902**: DynamicMarket integracija — Royal produkti registrirani na trgu, auto-sell toggle, dinamične cene
 
 ## ZADNJE ZAKLJUČENI PAKET (v3.11.892–v3.11.901) — STEKLARSKI DODATKI 13 + LIVARSKI DODATKI 13
 

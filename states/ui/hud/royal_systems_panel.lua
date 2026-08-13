@@ -10,6 +10,7 @@
 -- Toggle with Ctrl+R. Press / to search. Press Tab to cycle categories.
 
 local Registry = require("objects.Economy.RoyalSystemsRegistry")
+local RMI = require("objects.Economy.RoyalMarketIntegration")
 
 local RoyalPanel = {}
 
@@ -438,9 +439,9 @@ function RoyalPanel.draw()
             stats.numBuildings or 0, stats.activeMaking or 0, stats.totalProducts or 0), detailX + 16, y)
         y = y + 20
 
-        -- Stock display
+        -- Stock display (with market sell price)
         love.graphics.setColor(0.6, 0.6, 0.6, 1)
-        love.graphics.print("Zaloga produktov:", detailX + 16, y)
+        love.graphics.print("Zaloga produktov (cena na trgu):", detailX + 16, y)
         y = y + 18
         local stockShown = 0
         for prodId, qty in pairs(stats.productStock or {}) do
@@ -449,8 +450,11 @@ function RoyalPanel.draw()
                 y = y + 16
                 break
             end
+            local sellPrice = RMI.getPrice(prodId) or 0
+            local totalValue = sellPrice * qty
             love.graphics.setColor(0.8, 0.8, 0.7, 1)
-            love.graphics.print(string.format("• %s: %d", prodId, qty), detailX + 32, y)
+            love.graphics.print(string.format("• %s: %d  →  %d zlata/kos (%d skupno)",
+                prodId, qty, sellPrice, totalValue), detailX + 32, y)
             y = y + 16
             stockShown = stockShown + 1
         end
@@ -588,28 +592,30 @@ function RoyalPanel.draw()
             end)
         y = y + btnH + gap
 
-        -- Sell all stock button
+        -- Sell all stock button (uses dynamic market prices)
         drawButton("sellAll", detailX + 16, y, btnW, btnH,
-            "Prodaj vso zalogo",
+            "Prodaj na trgu",
             (stats.totalProducts or 0) > 0,
             function()
                 tryAction(function()
-                    local totalSold = 0
-                    local totalGold = 0
-                    local freshStats = selSys.module.getStats()
-                    for pid, qty in pairs(freshStats.productStock or {}) do
-                        local prod = products[pid]
-                        if prod and prod.cost then
-                            local gold = prod.cost * qty
-                            totalGold = totalGold + gold
-                            totalSold = totalSold + qty
-                            selSys.module.productStock[pid] = 0
-                        end
+                    local gold, units, prods = RMI.sellStock(selSys.key)
+                    if gold > 0 then
+                        return true, string.format("Prodano %d izdelkov za %d zlata (trg)", units, gold)
                     end
-                    if _G.state then
-                        _G.state.gold = (_G.state.gold or 0) + totalGold
-                    end
-                    return true, string.format("Prodano %d izdelkov za %d zlata", totalSold, totalGold)
+                    return false, "Ni zaloge za prodajo"
+                end)
+            end)
+        y = y + btnH + gap
+
+        -- Auto-sell toggle
+        local autoOn = RMI.isAutoSellEnabled()
+        drawButton("autoSell", detailX + 16, y, btnW, btnH,
+            autoOn and "Avtomatska prodaja: ON" or "Avtomatska prodaja: OFF",
+            true,
+            function()
+                tryAction(function()
+                    RMI.setAutoSell(not autoOn)
+                    return true, autoOn and "Auto-prodaja izklopljena" or "Auto-prodaja vklopljena"
                 end)
             end)
         y = y + btnH + gap

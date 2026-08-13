@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.902] — 2026-08-13 — Royal Market Integration (DynamicMarket + auto-sell + dinamične cene)
+
+### Dodano
+- **DynamicMarketSystem razširitev**: dodana `registerProduct(productType, basePrice, source)` za registracijo Royal produktov (chalice, ornament, instrument, ...) na dinamičnem trgu. Vsak produkt dobi `priceModifiers` vstop (supply/demand, seasonal, event, inflation) — enako kot osnovne surovine (wood, stone, iron). Cene Royal produktov nihaajo glede na ponudbo in povprašanje.
+- **RoyalMarketIntegration.lua** (nov modul, 232 vrstic) — centralen most med Royal sistemi in DynamicMarket:
+  - `init()` — ob zagonu registrira vse Royal produkte (iz vseh 987 sistemov) na trgu z base price izpeljano iz `product.cost` (fallback `prestige * 25`).
+  - `sellStock(key)` — ročno proda vso zalogo enega sistema po trenutnih tržnih cenah, zabeleži transakcijo (kar vpliva na prihodnje cene).
+  - `sellProduct(key, productType, qty)` — proda specifičen produkt v določeni količini.
+  - `setAutoSell(enabled)` — vklopi avtomatsko prodajo (vsakih 30s proda vso zalogo, razen ko je cena pod 40% base price — ne flood-a trga).
+  - `update(dt)` — poganja auto-sell sweep v game.lua update loop-u.
+  - `getStats()` — aggregate revenue, total sold, registered products.
+- **RoyalSystemsRegistry.init()** — sedaj lazy-require-a RMI in registrira vse produkte pri init-u.
+- **Royal Systems Panel** — posodobljen UI:
+  - Zaloga produktov sedaj prikazuje trenutno tržno ceno (sell) in skupno vrednost zaloge.
+  - Gumb "Prodaj vso zalogo" preimenovan v "Prodaj na trgu" — uporablja `RMI.sellStock()` z dinamičnimi cenami namesto flat `product.cost`.
+  - Nov gumb "Avtomatska prodaja: ON/OFF" — toggle auto-sella za pasivni dohodek.
+- **game.lua** — dodan `require("objects.Economy.RoyalMarketIntegration")` in `RoyalMarketIntegration.update(dt)` v update loop-u.
+- **Sintaktična preverba (avtentična Lua load())**: **1639/1639 (100%)** datotek pass — prejšnji "1635/1638" je bil false-positive iz bracket-balance audit-a (ki je zgrešil string/comment edge case-e).
+
+### Spremenjene datoteke
+- `objects/Economy/DynamicMarketSystem.lua` (+127 vrstic) — `registerProduct`, `isRegistered`, `getRoyalBasePrice`, `listRoyalProducts`, `getRoyalStats`, `getPrice` override, `recordTransaction` override
+- `objects/Economy/RoyalMarketIntegration.lua` (NOV, 232 vrstic)
+- `objects/Economy/RoyalSystemsRegistry.lua` (+8 vrstic) — lazy-require RMI v init()
+- `states/ui/hud/royal_systems_panel.lua` (+30 vrstic) — market price display, auto-sell toggle, sellStock preko RMI
+- `states/game.lua` (+2 vrstici) — require + update klic za RoyalMarketIntegration
+- `README.md` — posodobljeni badges (1639 Lua, 100% syntax, v3.11.902), nova vrstica v statistiki (Royal Market, Royal Save/Load)
+
+### Funkcionalna preverba
+- Lupa `load()` test: vsi 4 spremenjeni datoteke PASS
+- Python simulacija: 5 Royal produktov registriranih iz 2 sistemov, prodaja 17 GlassMaker izdelkov za 806 gold-a, cena ornamenta pravilno niha s supply-om
+
 ## [v3.11.901] — 2026-08-13 — Royal Casting Ladle Preheat Stand Maker System (6 products, casting ladle preheat stands)
 ## [v3.11.900] — 2026-08-13 — Royal Core Gas Escape Channel Maker System (6 products, core gas escape channels)
 ## [v3.11.899] — 2026-08-13 — Royal Sand Test Cup Maker System (6 products, sand test cups)

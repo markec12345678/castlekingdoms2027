@@ -348,4 +348,130 @@ function DynamicMarketSystem.getBasePrice(resource)
     return data and data.gold or 0
 end
 
+-- ============================================================================
+-- ROYAL PRODUCT REGISTRATION
+-- ============================================================================
+-- Royal Maker systems produce "luxury goods" (chalice, ornament, instrument,
+-- etc.) that are not in the base goodsPrices table. We register them here
+-- so the market can track supply/demand and offer dynamic prices.
+-- The base price is derived from the product's "prestige" stat (prestige * 25)
+-- if no explicit base price is supplied.
+
+local royalProducts = {}  -- map: productType -> { basePrice=, source=, lastSold=, totalSold= }
+
+function DynamicMarketSystem.registerProduct(productType, basePrice, source)
+    if not productType then return end
+    if royalProducts[productType] then
+        -- Already registered; only update base price if explicitly given
+        if basePrice and basePrice > 0 then
+            royalProducts[productType].basePrice = basePrice
+        end
+        return
+    end
+    local price = basePrice
+    if not price or price <= 0 then
+        price = 50  -- default fallback
+    end
+    royalProducts[productType] = {
+        basePrice = price,
+        source = source or "unknown",
+        lastSold = 0,
+        totalSold = 0,
+    }
+    -- Also create a price modifier entry so supply/demand tracking works
+    if not priceModifiers[productType] then
+        priceModifiers[productType] = {
+            base = 1.0,
+            supplyDemand = 1.0,
+            seasonal = 1.0,
+            event = 1.0,
+            inflation = 1.0,
+            current = 1.0,
+        }
+        tradeHistory[productType] = {}
+    end
+end
+
+-- Check if a product type is registered (either base or Royal)
+function DynamicMarketSystem.isRegistered(productType)
+    return basePrices[productType] ~= nil or royalProducts[productType] ~= nil
+end
+
+-- Get the base price for a Royal product (falls back to 0 if unknown)
+function DynamicMarketSystem.getRoyalBasePrice(productType)
+    local rp = royalProducts[productType]
+    return rp and rp.basePrice or 0
+end
+
+-- List all registered Royal product types (for debug / UI)
+function DynamicMarketSystem.listRoyalProducts()
+    local list = {}
+    for pt, info in pairs(royalProducts) do
+        list[#list + 1] = {
+            productType = pt,
+            basePrice = info.basePrice,
+            source = info.source,
+            lastSold = info.lastSold,
+            totalSold = info.totalSold,
+            currentSell = DynamicMarketSystem.getPrice(pt, "sell"),
+            currentBuy = DynamicMarketSystem.getPrice(pt, "buy"),
+        }
+    end
+    table.sort(list, function(a, b) return a.productType < b.productType end)
+    return list
+end
+
+-- Royal product stats (total sold, count, etc.)
+function DynamicMarketSystem.getRoyalStats()
+    local count = 0
+    local totalSold = 0
+    local totalRevenue = 0
+    for pt, info in pairs(royalProducts) do
+        count = count + 1
+        totalSold = totalSold + (info.totalSold or 0)
+        totalRevenue = totalRevenue + (info.totalRevenue or 0)
+    end
+    return {
+        registeredProducts = count,
+        totalSold = totalSold,
+        totalRevenue = totalRevenue,
+    }
+end
+
+-- Override getPrice so it falls back to royalProducts when basePrices lacks the key.
+-- We do this by wrapping the existing function rather than rewriting it.
+local _originalGetPrice = DynamicMarketSystem.getPrice
+DynamicMarketSystem.getPrice = function(resource, transactionType)
+    if not initialized then DynamicMarketSystem.init() end
+    -- If base price is missing but Royal product exists, synthesize a price
+    if not basePrices[resource] and royalProducts[resource] then
+        local rp = royalProducts[resource]
+        local modifier = priceModifiers[resource] or {
+            base = 1.0, supplyDemand = 1.0, seasonal = 1.0, event = 1.0, inflation = 1.0, current = 1.0
+        }
+        local finalModifier = modifier.base * modifier.supplyDemand *
+                              modifier.seasonal * modifier.event * modifier.inflation
+        modifier.current = finalModifier
+        local finalPrice = math.floor(rp.basePrice * finalModifier + 0.5)
+        if transactionType == "sell" then
+            finalPrice = math.floor(finalPrice * 0.7 + 0.5)
+        end
+        return math.max(1, finalPrice)
+    end
+    return _originalGetPrice(resource, transactionType)
+end
+
+-- Wrap recordTransaction so Royal sales update royalProducts stats
+local _originalRecord = DynamicMarketSystem.recordTransaction
+DynamicMarketSystem.recordTransaction = function(resource, quantity, transactionType)
+    _originalRecord(resource, quantity, transactionType)
+    if royalProducts[resource] and transactionType == "sell" then
+        royalProducts[resource].lastSold = love.timer.getTime()
+        royalProducts[resource].totalSold = (royalProducts[resource].totalSold or 0) + quantity
+        -- Track revenue for stats
+        local price = DynamicMarketSystem.getPrice(resource, "sell")
+        royalProducts[resource].totalRevenue = (royalProducts[resource].totalRevenue or 0) + (price * quantity)
+    end
+end
+
 return DynamicMarketSystem

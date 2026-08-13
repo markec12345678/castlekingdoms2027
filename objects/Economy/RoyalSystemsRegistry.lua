@@ -128,6 +128,13 @@ function RoyalSystemsRegistry.init(S)
         end
     end
 
+    -- Register all Royal product types with the DynamicMarket (lazy import
+    -- to avoid require cycle on startup). This makes prices dynamic.
+    pcall(function()
+        local RMI = require("objects.Economy.RoyalMarketIntegration")
+        RMI.init()
+    end)
+
     return RoyalSystemsRegistry
 end
 
