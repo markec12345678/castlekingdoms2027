@@ -13,6 +13,7 @@
 
 local DynamicMarket = require("objects.Economy.DynamicMarketSystem")
 local RMI = require("objects.Economy.RoyalMarketIntegration")
+local Registry = require("objects.Economy.RoyalSystemsRegistry")
 
 local MarketDashboard = {}
 
@@ -22,7 +23,7 @@ local titleFont, smallFont
 local visible = false
 local selectedIndex = 1
 local page = 1
-local pageSize = 14
+local pageSize = 11
 local totalPages = 1
 
 -- Search & sort state
@@ -178,8 +179,81 @@ function MarketDashboard.draw()
         rmiStats.autoSellEnabled and "ON" or "OFF"
     ), panelX + 24, y + 7)
 
+    -- Aggregate production chart (kingdom-wide, last 60s)
+    y = y + 32
+    local aggChartH = 80
+    local aggChartY = y
+    love.graphics.setColor(0.2, 0.22, 0.28, 1)
+    love.graphics.rectangle("fill", panelX + 16, aggChartY, panelW - 32, aggChartH, 4, 4, 4, 4)
+    love.graphics.setColor(0.4, 0.5, 0.7, 0.5)
+    love.graphics.rectangle("line", panelX + 16, aggChartY, panelW - 32, aggChartH, 4, 4, 4, 4)
+
+    -- Chart title
+    love.graphics.setColor(0.7, 0.85, 0.95, 1)
+    if smallFont then love.graphics.setFont(smallFont) end
+    love.graphics.print("🏭 SKUPNA PROIZVODNJA VSEH 987 SISTEMOV (zadnjih 60s)", panelX + 24, aggChartY + 4)
+
+    local aggHist = Registry.getAggregateProductionHistory(60)
+    local aggStats = Registry.getAggregateProduction(60)
+    if aggHist and aggHist.maxQty > 1 and aggStats then
+        -- Plot area
+        local padLeft, padRight, padTop, padBottom = 36, 12, 22, 14
+        local plotX = panelX + 16 + padLeft
+        local plotY = aggChartY + padTop
+        local plotW = panelW - 32 - padLeft - padRight
+        local plotH = aggChartH - padTop - padBottom
+
+        -- Y-axis labels (max and 0)
+        love.graphics.setColor(0.5, 0.55, 0.65, 1)
+        love.graphics.print(tostring(aggHist.maxQty), panelX + 22, plotY - 4)
+        love.graphics.print("0", panelX + 22, plotY + plotH - 8)
+
+        -- Draw line chart for qty
+        love.graphics.setColor(0.4, 0.95, 0.5, 1)
+        love.graphics.setLineWidth(2)
+        local barW = plotW / 60
+        for i = 1, 60 do
+            local b = aggHist.buckets[i]
+            if b and b.qty > 0 then
+                local h = (b.qty / aggHist.maxQty) * plotH
+                local bx = plotX + (i - 1) * barW
+                local by = plotY + plotH - h
+                -- Bar
+                local recency = (60 - (i - 1)) / 60
+                love.graphics.setColor(0.3 + recency * 0.4, 0.85, 0.4, 0.85)
+                love.graphics.rectangle("fill", bx + 0.5, by, math.max(1, barW - 1), h)
+            end
+        end
+        love.graphics.setLineWidth(1)
+
+        -- X-axis time labels
+        love.graphics.setColor(0.5, 0.55, 0.65, 1)
+        love.graphics.print("-60s", plotX, plotY + plotH + 2)
+        love.graphics.print("-30s", plotX + plotW / 2 - 12, plotY + plotH + 2)
+        love.graphics.print("now", plotX + plotW - 20, plotY + plotH + 2)
+
+        -- Right side: aggregate stats
+        love.graphics.setColor(0.85, 0.9, 0.95, 1)
+        local statsX = plotX + plotW + 8
+        if statsX < panelX + panelW - 100 then
+            -- Not enough room for inline stats — show in title bar instead
+        end
+        -- Show stats in title bar (right-aligned)
+        local statsStr = string.format("Skupaj: %d  |  Količina: %d  |  Aktivni sistemi: %d  |  Top: %s (%d)",
+            aggStats.totalCount, aggStats.totalQty, aggStats.systemsActive,
+            aggStats.topSystem or "—", aggStats.topCount)
+        love.graphics.setColor(0.7, 0.85, 0.7, 1)
+        local statsW = smallFont:getWidth(statsStr)
+        love.graphics.print(statsStr, panelX + panelW - 24 - statsW, aggChartY + 4)
+    else
+        love.graphics.setColor(0.5, 0.55, 0.6, 1)
+        love.graphics.print("(čakam na proizvodnjo — začni izdelovati v Royal sistemih)",
+            panelX + 24, aggChartY + aggChartH / 2 - 4)
+    end
+    if font then love.graphics.setFont(font) end
+
     -- Search bar
-    y = y + 36
+    y = y + aggChartH + 8
     love.graphics.setColor(0.6, 0.6, 0.6, 1)
     love.graphics.print("Iskanje:", panelX + 16, y + 4)
     love.graphics.setColor(0.15, 0.15, 0.2, 1)

@@ -2,6 +2,33 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.906] — 2026-08-13 — Aggregate Production Chart v Market Dashboard
+
+### Dodano
+- **RoyalSystemsRegistry** — novi API `getAggregateProductionHistory(seconds)`:
+  - Vrne per-second buckete (60s okno) z agregirano količino in številom izdelkov čez vse 987 sistemov
+  - Format: `{buckets={qty=, count=}, maxQty=, maxCount=, windowSeconds=}`
+  - Uporabno za charting skupne proizvodnje kraljestva
+- **Market Dashboard** — aggregate production chart na vrhu (med stats bar in search bar):
+  - Bar chart 60s v 1s bucketih (60 stolpcev) čez vse sisteme
+  - Naslov: "🏭 SKUPNA PROIZVODNJA VSEH 987 SISTEMOV (zadnjih 60s)"
+  - Y-os z max in 0 labels
+  - X-os z "-60s", "-30s", "now" labels
+  - Barvno kodiranje: novejši (desno) svetlejši zeleni, starejši (levo) temnejši
+  - Stats v naslovu (desno): skupaj, količina, aktivni sistemi, top sistem (+št.)
+  - Empty state: "(čakam na proizvodnjo — začni izdelovati v Royal sistemih)"
+  - Auto-scaling na maxQty v oknu
+  - PageSize zmanjšan z 14 na 11 (da pusti prostor za chart višine 80px)
+
+### Spremenjene datoteke
+- `objects/Economy/RoyalSystemsRegistry.lua` (+44 vrstic) — nov API getAggregateProductionHistory(seconds)
+- `states/ui/hud/market_dashboard.lua` (+72 vrstic) — aggregate production chart + require Registry + pageSize 11
+- `README.md` — posodobljeni badges (v3.11.906, +AggProdChart), statistika
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 7 spremenjenih datotek PASS
+- Polna preverba: 1640/1640 (100%) Lua datotek pass
+
 ## [v3.11.905] — 2026-08-13 — Production History Chart v Royal Systems Panel
 
 ### Dodano

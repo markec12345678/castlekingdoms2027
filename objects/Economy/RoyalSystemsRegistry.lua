@@ -586,6 +586,51 @@ function RoyalSystemsRegistry.getAggregateProduction(seconds)
     }
 end
 
+-- Get aggregate production history as per-second buckets across all systems.
+-- Useful for charting total kingdom-wide production over time.
+-- @param seconds number Optional window (default: 60s)
+-- @return table { buckets = {qty=, count=} for each second, maxQty=, maxCount=, windowSeconds= }
+function RoyalSystemsRegistry.getAggregateProductionHistory(seconds)
+    local window = seconds or 60
+    local now = (love.timer and love.timer.getTime()) or 0
+    -- Initialize buckets: 1 entry per second, oldest first
+    local buckets = {}
+    for i = 1, window do
+        buckets[i] = { qty = 0, count = 0 }
+    end
+
+    -- Iterate all systems' history, bucket by age
+    for _, sys in ipairs(systems) do
+        local hist = productionHistory[sys.key]
+        if hist then
+            for _, e in ipairs(hist) do
+                local age = now - e.t
+                if age >= 0 and age < window then
+                    local bucketIdx = math.floor(age) + 1
+                    if bucketIdx >= 1 and bucketIdx <= window then
+                        buckets[bucketIdx].qty = buckets[bucketIdx].qty + (e.qty or 1)
+                        buckets[bucketIdx].count = buckets[bucketIdx].count + 1
+                    end
+                end
+            end
+        end
+    end
+
+    -- Find max for scaling
+    local maxQty, maxCount = 1, 1
+    for _, b in ipairs(buckets) do
+        if b.qty > maxQty then maxQty = b.qty end
+        if b.count > maxCount then maxCount = b.count end
+    end
+
+    return {
+        buckets = buckets,
+        maxQty = maxQty,
+        maxCount = maxCount,
+        windowSeconds = window,
+    }
+end
+
 -- Clear production history for a system (or all if key is nil)
 function RoyalSystemsRegistry.clearProductionHistory(key)
     if key then
