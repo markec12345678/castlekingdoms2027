@@ -2,6 +2,35 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.910] — 2026-08-13 — Market Event Log v Market Dashboard
+
+### Dodano
+- **DynamicMarketSystem** — event log tracking:
+  - Nov state: `eventLog` (list of `{t, type, productType, multiplier, duration, source, description}` entries)
+  - Max 50 vnosov (zadnji dogodki)
+  - `triggerEvent()` sedaj zapiše v eventLog z auto-detekcijo tipa (surge/crash/neutral glede na multiplier > 1 ali < 1)
+  - `setSeasonalModifier()` sedaj zapiše v eventLog z tipom "seasonal" (samo ob pomembni spremembi, > 0.01 razlike)
+  - Novi API-ji:
+    - `logEvent(eventType, productType, multiplier, duration, source)` — public API za custom dogodke
+    - `getEventLog(limit)` — vrne najnovejše dogodke (default: 20, najprej zadnji)
+    - `getEventStats(seconds)` — števec po tipu v oknu: `{surge, crash, seasonal, inflation, manual, total}`
+  - `reset()` počisti tudi eventLog
+- **Market Dashboard** — event log panel (v vrstici z Results count):
+  - Compact prikaz ob Results count-u
+  - Stats: število dogodkov v zadnjih 5 minutah razčlenjeno po tipu (📈 surge, 📉 crash, ❄ seasonal)
+  - Zadnji dogodek prikazan z ikono, imenom produkta, multiplier-jem in starostjo ("Xs nazaj" / "Xm nazaj")
+  - Barvno kodiranje zadnjega dogodka: zelen (surge), rdeč (crash), moder (seasonal), siv (ostalo)
+  - Prikaz z smallFont za kompaktnost
+
+### Spremenjene datoteke
+- `objects/Economy/DynamicMarketSystem.lua` (+95 vrstic) — eventLog state, logEvent klici v triggerEvent/setSeasonalModifier, 3 novi API-ji
+- `states/ui/hud/market_dashboard.lua` (+45 vrstic) — event log panel v Results count vrstici
+- `README.md` — posodobljeni badges (v3.11.910, +EventLog), statistika
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 7 spremenjenih datotek PASS
+- Polna preverba: 1640/1640 (100%) Lua datotek pass
+
 ## [v3.11.909] — 2026-08-13 — Per-Product Revenue Chart v Market Dashboard
 
 ### Dodano

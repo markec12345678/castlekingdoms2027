@@ -26,6 +26,11 @@ local tradeHistory = {}    -- recent transactions for supply/demand
 local inflationRate = 1.0  -- grows with gold circulation
 local totalGoldInCirculation = 5000  -- starting gold amount
 
+-- Event log: list of market events (crash, surge, seasonal, etc.)
+-- Each entry: { t, type, productType, multiplier, duration, source, description }
+local eventLog = {}
+local eventLogMaxEntries = 50  -- keep last 50 events
+
 -- Price history (sampled every config.historySampleInterval seconds)
 -- Structure: { [productType] = { {t=<seconds>, sell=<n>, buy=<n>}, ... } }
 local priceHistory = {}
@@ -278,7 +283,13 @@ function DynamicMarketSystem.setSeasonalModifier(resource, multiplier)
     if not priceModifiers[resource] then return end
     local maxChange = 1 + config.seasonalImpact
     local minChange = 1 - config.seasonalImpact
-    priceModifiers[resource].seasonal = math.max(minChange, math.min(maxChange, multiplier))
+    local clamped = math.max(minChange, math.min(maxChange, multiplier))
+    local prev = priceModifiers[resource].seasonal
+    priceModifiers[resource].seasonal = clamped
+    -- Log only meaningful changes (avoid spam)
+    if math.abs(clamped - prev) > 0.01 then
+        DynamicMarketSystem.logEvent("seasonal", resource, clamped, nil, "season")
+    end
 end
 
 -- Trigger an event modifier for a resource
@@ -316,8 +327,82 @@ function DynamicMarketSystem.triggerEvent(resource, multiplier, duration)
         originalMultiplier = originalEvent,
     })
 
+    -- Determine event type for log
+    local eventType
+    if clampedMultiplier > 1.0 then eventType = "surge"
+    elseif clampedMultiplier < 1.0 then eventType = "crash"
+    else eventType = "neutral" end
+    local desc = string.format("%s %s x%.2f (%ds)", eventType, resource, clampedMultiplier, duration or 60)
+    -- Record in event log
+    eventLog[#eventLog + 1] = {
+        t = startTime,
+        type = eventType,
+        productType = resource,
+        multiplier = clampedMultiplier,
+        duration = duration or 60,
+        source = "trigger",
+        description = desc,
+    }
+    if #eventLog > eventLogMaxEntries then table.remove(eventLog, 1) end
+
     print(string.format("[DynamicMarket] Event triggered: %s price x%.2f for %ds",
         resource, clampedMultiplier, duration or 60))
+end
+
+-- Internal: log a market event (called by other functions when modifiers change)
+-- @param eventType string: "surge", "crash", "seasonal", "inflation", "manual"
+-- @param productType string
+-- @param multiplier number
+-- @param duration number Optional duration in seconds
+-- @param source string Optional source description
+function DynamicMarketSystem.logEvent(eventType, productType, multiplier, duration, source)
+    local now = (love.timer and love.timer.getTime()) or 0
+    local desc = string.format("%s %s x%.2f", eventType, productType, multiplier)
+    if duration then desc = desc .. string.format(" (%ds)", duration) end
+    eventLog[#eventLog + 1] = {
+        t = now,
+        type = eventType,
+        productType = productType,
+        multiplier = multiplier,
+        duration = duration,
+        source = source or "system",
+        description = desc,
+    }
+    if #eventLog > eventLogMaxEntries then table.remove(eventLog, 1) end
+end
+
+-- Get recent market events (most recent first)
+-- @param limit number Optional: max entries to return (default: 20)
+-- @return table List of event entries (newest first)
+function DynamicMarketSystem.getEventLog(limit)
+    local n = limit or 20
+    local result = {}
+    -- Iterate in reverse (newest first)
+    for i = #eventLog, 1, -1 do
+        result[#result + 1] = eventLog[i]
+        if #result >= n then break end
+    end
+    return result
+end
+
+-- Get count of events by type (for stats)
+-- @param seconds number Optional: only count events from last N seconds
+-- @return table { surge=, crash=, seasonal=, inflation=, manual=, total= }
+function DynamicMarketSystem.getEventStats(seconds)
+    local now = (love.timer and love.timer.getTime()) or 0
+    local stats = { surge = 0, crash = 0, seasonal = 0, inflation = 0, manual = 0, total = 0 }
+    for _, e in ipairs(eventLog) do
+        if not seconds or (now - e.t) <= seconds then
+            if e.type == "surge" then stats.surge = stats.surge + 1
+            elseif e.type == "crash" then stats.crash = stats.crash + 1
+            elseif e.type == "seasonal" then stats.seasonal = stats.seasonal + 1
+            elseif e.type == "inflation" then stats.inflation = stats.inflation + 1
+            elseif e.type == "manual" then stats.manual = stats.manual + 1
+            end
+            stats.total = stats.total + 1
+        end
+    end
+    return stats
 end
 
 -- Check and recover event modifiers
@@ -405,6 +490,7 @@ function DynamicMarketSystem.reset()
     inflationRate = 1.0
     totalGoldInCirculation = 5000
     DynamicMarketSystem._eventTimers = {}
+    eventLog = {}
 
     for resource, _ in pairs(priceModifiers) do
         priceModifiers[resource].supplyDemand = 1.0

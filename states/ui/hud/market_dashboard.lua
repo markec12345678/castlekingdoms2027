@@ -385,11 +385,46 @@ function MarketDashboard.draw()
         chipX = chipX + chipW + 6
     end
 
-    -- Results count
+    -- Results count + event log summary
     y = y + 28
     love.graphics.setColor(0.6, 0.7, 0.5, 1)
     love.graphics.print(string.format("Rezultati: %d produktov  |  Stran %d/%d",
         #cachedProducts, page, totalPages), panelX + 16, y)
+
+    -- Event log (right side of same row) - compact recent events
+    local eventLog = DynamicMarket.getEventLog(5)
+    local eventStats = DynamicMarket.getEventStats(300)  -- last 5 min
+    local evX = panelX + 350
+    local evW = panelW - 32 - (350 - 16)
+    love.graphics.setColor(0.2, 0.22, 0.28, 1)
+    love.graphics.rectangle("fill", evX, y - 2, evW, 22, 3, 3, 3, 3)
+    love.graphics.setColor(0.4, 0.5, 0.7, 0.5)
+    love.graphics.rectangle("line", evX, y - 2, evW, 22, 3, 3, 3, 3)
+    if smallFont then love.graphics.setFont(smallFont) end
+    -- Stats summary
+    love.graphics.setColor(0.7, 0.85, 0.95, 1)
+    local statsStr = string.format("Dogodki (5min): %d  |  📈surge: %d  📉crash: %d  ❄sezon: %d",
+        eventStats.total, eventStats.surge, eventStats.crash, eventStats.seasonal)
+    love.graphics.print(statsStr, evX + 8, y + 3)
+    -- Most recent event (if any)
+    if #eventLog > 0 then
+        local e = eventLog[1]
+        local ageStr = ""
+        local age = ((love.timer and love.timer.getTime()) or 0) - e.t
+        if age < 60 then ageStr = string.format("%ds nazaj", math.floor(age))
+        else ageStr = string.format("%dm nazaj", math.floor(age / 60)) end
+        local typeIcon = e.type == "surge" and "📈" or (e.type == "crash" and "📉" or "•")
+        local typeColor
+        if e.type == "surge" then typeColor = {0.4, 0.95, 0.4, 1}
+        elseif e.type == "crash" then typeColor = {0.95, 0.4, 0.4, 1}
+        elseif e.type == "seasonal" then typeColor = {0.5, 0.7, 0.95, 1}
+        else typeColor = {0.7, 0.7, 0.7, 1} end
+        love.graphics.setColor(typeColor)
+        local lastStr = string.format("  |  Zadnji: %s %s x%.2f (%s)",
+            typeIcon, e.productType, e.multiplier, ageStr)
+        love.graphics.print(lastStr, evX + 8 + smallFont:getWidth(statsStr), y + 3)
+    end
+    if font then love.graphics.setFont(font) end
 
     -- Table header
     y = y + 22
