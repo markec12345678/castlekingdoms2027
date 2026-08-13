@@ -23,7 +23,7 @@ local titleFont, smallFont
 local visible = false
 local selectedIndex = 1
 local page = 1
-local pageSize = 11
+local pageSize = 9
 local totalPages = 1
 
 -- Search & sort state
@@ -179,37 +179,42 @@ function MarketDashboard.draw()
         rmiStats.autoSellEnabled and "ON" or "OFF"
     ), panelX + 24, y + 7)
 
-    -- Aggregate production chart (kingdom-wide, last 60s)
+    -- Aggregate production chart + Top-10 leaderboard (kingdom-wide, last 60s)
     y = y + 32
-    local aggChartH = 80
+    local aggChartH = 130
     local aggChartY = y
     love.graphics.setColor(0.2, 0.22, 0.28, 1)
     love.graphics.rectangle("fill", panelX + 16, aggChartY, panelW - 32, aggChartH, 4, 4, 4, 4)
     love.graphics.setColor(0.4, 0.5, 0.7, 0.5)
     love.graphics.rectangle("line", panelX + 16, aggChartY, panelW - 32, aggChartH, 4, 4, 4, 4)
 
+    -- Layout: chart on left (~70%), leaderboard on right (~30%)
+    local lbW = 340
+    local chartAreaW = panelW - 32 - lbW - 16
+    local chartAreaX = panelX + 16
+    local lbX = chartAreaX + chartAreaW + 16
+
     -- Chart title
     love.graphics.setColor(0.7, 0.85, 0.95, 1)
     if smallFont then love.graphics.setFont(smallFont) end
-    love.graphics.print("🏭 SKUPNA PROIZVODNJA VSEH 987 SISTEMOV (zadnjih 60s)", panelX + 24, aggChartY + 4)
+    love.graphics.print("🏭 SKUPNA PROIZVODNJA VSEH 987 SISTEMOV (zadnjih 60s)", chartAreaX + 8, aggChartY + 4)
 
     local aggHist = Registry.getAggregateProductionHistory(60)
     local aggStats = Registry.getAggregateProduction(60)
     if aggHist and aggHist.maxQty > 1 and aggStats then
         -- Plot area
-        local padLeft, padRight, padTop, padBottom = 36, 12, 22, 14
-        local plotX = panelX + 16 + padLeft
+        local padLeft, padRight, padTop, padBottom = 32, 12, 22, 14
+        local plotX = chartAreaX + padLeft
         local plotY = aggChartY + padTop
-        local plotW = panelW - 32 - padLeft - padRight
+        local plotW = chartAreaW - padLeft - padRight
         local plotH = aggChartH - padTop - padBottom
 
         -- Y-axis labels (max and 0)
         love.graphics.setColor(0.5, 0.55, 0.65, 1)
-        love.graphics.print(tostring(aggHist.maxQty), panelX + 22, plotY - 4)
-        love.graphics.print("0", panelX + 22, plotY + plotH - 8)
+        love.graphics.print(tostring(aggHist.maxQty), chartAreaX + 8, plotY - 4)
+        love.graphics.print("0", chartAreaX + 8, plotY + plotH - 8)
 
-        -- Draw line chart for qty
-        love.graphics.setColor(0.4, 0.95, 0.5, 1)
+        -- Draw bar chart for qty
         love.graphics.setLineWidth(2)
         local barW = plotW / 60
         for i = 1, 60 do
@@ -218,7 +223,6 @@ function MarketDashboard.draw()
                 local h = (b.qty / aggHist.maxQty) * plotH
                 local bx = plotX + (i - 1) * barW
                 local by = plotY + plotH - h
-                -- Bar
                 local recency = (60 - (i - 1)) / 60
                 love.graphics.setColor(0.3 + recency * 0.4, 0.85, 0.4, 0.85)
                 love.graphics.rectangle("fill", bx + 0.5, by, math.max(1, barW - 1), h)
@@ -231,25 +235,74 @@ function MarketDashboard.draw()
         love.graphics.print("-60s", plotX, plotY + plotH + 2)
         love.graphics.print("-30s", plotX + plotW / 2 - 12, plotY + plotH + 2)
         love.graphics.print("now", plotX + plotW - 20, plotY + plotH + 2)
-
-        -- Right side: aggregate stats
-        love.graphics.setColor(0.85, 0.9, 0.95, 1)
-        local statsX = plotX + plotW + 8
-        if statsX < panelX + panelW - 100 then
-            -- Not enough room for inline stats — show in title bar instead
-        end
-        -- Show stats in title bar (right-aligned)
-        local statsStr = string.format("Skupaj: %d  |  Količina: %d  |  Aktivni sistemi: %d  |  Top: %s (%d)",
-            aggStats.totalCount, aggStats.totalQty, aggStats.systemsActive,
-            aggStats.topSystem or "—", aggStats.topCount)
-        love.graphics.setColor(0.7, 0.85, 0.7, 1)
-        local statsW = smallFont:getWidth(statsStr)
-        love.graphics.print(statsStr, panelX + panelW - 24 - statsW, aggChartY + 4)
     else
         love.graphics.setColor(0.5, 0.55, 0.6, 1)
         love.graphics.print("(čakam na proizvodnjo — začni izdelovati v Royal sistemih)",
-            panelX + 24, aggChartY + aggChartH / 2 - 4)
+            chartAreaX + 16, aggChartY + aggChartH / 2 - 4)
     end
+
+    -- Top-10 producers leaderboard (right column)
+    love.graphics.setColor(0.7, 0.85, 0.7, 1)
+    if smallFont then love.graphics.setFont(smallFont) end
+    love.graphics.print("🏆 TOP-10 PRODUCENTOV (zadnja minuta)", lbX + 4, aggChartY + 4)
+
+    local topProducers = Registry.getTopProducers(10, 60)
+    if #topProducers > 0 then
+        -- Column headers
+        love.graphics.setColor(0.45, 0.55, 0.65, 1)
+        love.graphics.print("#", lbX + 4, aggChartY + 22)
+        love.graphics.print("Sistem", lbX + 22, aggChartY + 22)
+        love.graphics.print("Kosov", lbX + 200, aggChartY + 22)
+        love.graphics.print("/min", lbX + 250, aggChartY + 22)
+        love.graphics.print("Prest.", lbX + 295, aggChartY + 22)
+
+        -- Find max qty for bar scaling
+        local maxQty = 1
+        for _, p in ipairs(topProducers) do
+            if p.totalQty > maxQty then maxQty = p.totalQty end
+        end
+
+        for i, p in ipairs(topProducers) do
+            local rowY = aggChartY + 36 + (i - 1) * 11
+            -- Rank
+            local rankColor
+            if i == 1 then rankColor = {0.95, 0.85, 0.3, 1}        -- gold
+            elseif i == 2 then rankColor = {0.8, 0.8, 0.8, 1}       -- silver
+            elseif i == 3 then rankColor = {0.8, 0.55, 0.35, 1}     -- bronze
+            else rankColor = {0.6, 0.65, 0.7, 1} end
+            love.graphics.setColor(rankColor)
+            love.graphics.print(tostring(i), lbX + 4, rowY)
+
+            -- Bar background (proportional to qty)
+            local barFrac = p.totalQty / maxQty
+            love.graphics.setColor(0.2, 0.35, 0.25, 0.5)
+            love.graphics.rectangle("fill", lbX + 18, rowY + 1, 180, 9)
+
+            -- Bar fill
+            local rankColorDim = {rankColor[1] * 0.5, rankColor[2] * 0.5, rankColor[3] * 0.5, 0.7}
+            love.graphics.setColor(rankColorDim[1], rankColorDim[2], rankColorDim[3], 0.7)
+            love.graphics.rectangle("fill", lbX + 18, rowY + 1, 180 * barFrac, 9)
+
+            -- Name
+            love.graphics.setColor(0.85, 0.88, 0.9, 1)
+            local displayName = p.name or p.key
+            if #displayName > 22 then displayName = displayName:sub(1, 21) .. "…" end
+            love.graphics.print(displayName, lbX + 22, rowY)
+
+            -- Numbers
+            love.graphics.setColor(0.7, 0.85, 0.7, 1)
+            love.graphics.print(tostring(p.totalQty), lbX + 200, rowY)
+            love.graphics.print(string.format("%.1f", p.ratePerMin), lbX + 250, rowY)
+            love.graphics.setColor(0.85, 0.75, 0.5, 1)
+            love.graphics.print(string.format("%.1f", p.avgPrestige), lbX + 295, rowY)
+        end
+    else
+        love.graphics.setColor(0.5, 0.55, 0.6, 1)
+        love.graphics.print("(ni aktivnih sistemov)", lbX + 8, aggChartY + 30)
+        love.graphics.print("Začni izdelovati v Royal", lbX + 8, aggChartY + 44)
+        love.graphics.print("sistemih (Ctrl+R).", lbX + 8, aggChartY + 58)
+    end
+
     if font then love.graphics.setFont(font) end
 
     -- Search bar

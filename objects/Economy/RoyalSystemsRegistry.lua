@@ -631,6 +631,37 @@ function RoyalSystemsRegistry.getAggregateProductionHistory(seconds)
     }
 end
 
+-- Get top-N most productive systems in the time window.
+-- @param count number Optional: how many to return (default: 10)
+-- @param seconds number Optional window (default: 60s)
+-- @return table List of {key, name, totalCount, totalQty, avgPrestige, ratePerMin} sorted desc by totalQty
+function RoyalSystemsRegistry.getTopProducers(count, seconds)
+    local n = count or 10
+    local window = seconds or 60
+    local list = {}
+    for _, sys in ipairs(systems) do
+        local stats = RoyalSystemsRegistry.getProductionStats(sys.key, window)
+        if stats and stats.totalQty > 0 then
+            list[#list + 1] = {
+                key = sys.key,
+                name = sys.name,
+                totalCount = stats.totalCount,
+                totalQty = stats.totalQty,
+                avgPrestige = stats.avgPrestige,
+                ratePerMin = stats.ratePerMin,
+            }
+        end
+    end
+    -- Sort by totalQty descending
+    table.sort(list, function(a, b) return a.totalQty > b.totalQty end)
+    -- Trim to top N
+    local result = {}
+    for i = 1, math.min(n, #list) do
+        result[i] = list[i]
+    end
+    return result
+end
+
 -- Clear production history for a system (or all if key is nil)
 function RoyalSystemsRegistry.clearProductionHistory(key)
     if key then

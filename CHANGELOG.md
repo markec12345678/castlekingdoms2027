@@ -2,6 +2,33 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.907] — 2026-08-13 — Top-10 Producers Leaderboard v Market Dashboard
+
+### Dodano
+- **RoyalSystemsRegistry** — novi API `getTopProducers(count, seconds)`:
+  - Vrne top-N najproduktivnejših sistemov v časovnem oknu (default: 10 sistemov v 60s)
+  - Sortirano padajoče po `totalQty`
+  - Format: list `{key, name, totalCount, totalQty, avgPrestige, ratePerMin}`
+- **Market Dashboard** — Top-10 producers leaderboard panel (desno od aggregate chart):
+  - Restrukturiran aggregate chart panel: chart na levi (~70%), leaderboard na desni (~30%, 340px)
+  - Panel povečan na 130px višine
+  - Leaderboard naslov: "🏆 TOP-10 PRODUCENTOV (zadnja minuta)"
+  - Vrstice z rangom (#1-#10), imenom sistema, količino, hitrostjo/min, povprečnim prestižem
+  - Barvno kodiranje rangov: zlata (#1), srebrna (#2), bronasta (#3), siva (#4-10)
+  - Proportional bar za vsako vrstico (fill % glede na max qty)
+  - Column headers: #, Sistem, Kosov, /min, Prest.
+  - Empty state: "(ni aktivnih sistemov) / Začni izdelovati v Royal sistemih (Ctrl+R)."
+  - PageSize zmanjšan z 11 na 9 (da pusti prostor za večji panel)
+
+### Spremenjene datoteke
+- `objects/Economy/RoyalSystemsRegistry.lua` (+33 vrstic) — nov API getTopProducers(count, seconds)
+- `states/ui/hud/market_dashboard.lua` (+85 vrstic) — leaderboard panel, restructure aggregate chart (chart left + leaderboard right), pageSize 9
+- `README.md` — posodobljeni badges (v3.11.907, +Top10Leaderboard), statistika
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 7 spremenjenih datotek PASS
+- Polna preverba: 1640/1640 (100%) Lua datotek pass
+
 ## [v3.11.906] — 2026-08-13 — Aggregate Production Chart v Market Dashboard
 
 ### Dodano
