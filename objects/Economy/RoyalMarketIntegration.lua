@@ -42,6 +42,13 @@ local salesHistory = {}             -- map: key -> list of entries
 local salesHistoryMaxSamples = 300  -- per-system cap (~5 min at 1/s rate)
 local salesHistoryMaxAge = 600      -- 10 minutes in seconds
 
+-- Per-product sales history (aggregated across all systems).
+-- Used for per-product revenue charts in Market Dashboard.
+-- Structure: { [productType] = { {t=<s>, qty=<n>, gold=<n>, unitPrice=<n>}, ... } }
+local productSalesHistory = {}
+local productSalesHistoryMaxSamples = 300  -- per-product cap
+local productSalesHistoryMaxAge = 600      -- 10 minutes
+
 -- Configuration
 local config = {
     -- When auto-selling, products with very low price (crashed market) are
@@ -61,10 +68,12 @@ local config = {
 -- @param unitPrice number Price per unit
 local function recordSale(key, productType, qty, gold, unitPrice)
     if not key or not productType or qty <= 0 then return end
+    local now = (love.timer and love.timer.getTime()) or 0
+    -- Per-system history
     if not salesHistory[key] then salesHistory[key] = {} end
     local hist = salesHistory[key]
     hist[#hist + 1] = {
-        t = (love.timer and love.timer.getTime()) or 0,
+        t = now,
         productType = productType,
         qty = qty,
         gold = gold,
@@ -73,6 +82,20 @@ local function recordSale(key, productType, qty, gold, unitPrice)
     -- Trim by sample count
     if #hist > salesHistoryMaxSamples then
         table.remove(hist, 1)
+    end
+    -- Per-product history (aggregated)
+    if not productSalesHistory[productType] then
+        productSalesHistory[productType] = {}
+    end
+    local phist = productSalesHistory[productType]
+    phist[#phist + 1] = {
+        t = now,
+        qty = qty,
+        gold = gold,
+        unitPrice = unitPrice,
+    }
+    if #phist > productSalesHistoryMaxSamples then
+        table.remove(phist, 1)
     end
 end
 
@@ -315,6 +338,7 @@ function RoyalMarketIntegration.reset()
         perSystemRevenue[k] = 0
     end
     salesHistory = {}
+    productSalesHistory = {}
 end
 
 -- ============================================================================
@@ -448,6 +472,75 @@ function RoyalMarketIntegration.getAggregateRevenue(seconds)
         saleCount = saleCount,
         topSystem = topKey,
         topGold = topGold,
+        windowSeconds = window,
+    }
+end
+
+-- ============================================================================
+-- PER-PRODUCT SALES HISTORY API (for revenue charts in Market Dashboard)
+-- ============================================================================
+
+-- Get sales history for a specific product type (aggregated across all systems)
+-- @param productType string
+-- @param seconds number Optional: only return entries from last N seconds
+-- @return table List of {t, qty, gold, unitPrice} entries (oldest first)
+function RoyalMarketIntegration.getProductSalesHistory(productType, seconds)
+    local hist = productSalesHistory[productType]
+    if not hist or #hist == 0 then return {} end
+    local now = (love.timer and love.timer.getTime()) or 0
+    local maxAge = seconds or productSalesHistoryMaxAge
+    local result = {}
+    for _, e in ipairs(hist) do
+        if now - e.t <= maxAge then
+            result[#result + 1] = e
+        end
+    end
+    return result
+end
+
+-- Get per-product sales history as per-second buckets (qty and gold).
+-- Useful for revenue bar/line charts over time.
+-- @param productType string
+-- @param seconds number Optional window (default: 60s)
+-- @return table { buckets={qty=, gold=, count=}, maxQty=, maxGold=, totalGold=,
+--                 totalQty=, avgUnitPrice=, windowSeconds= }
+function RoyalMarketIntegration.getProductSalesBuckets(productType, seconds)
+    local window = seconds or 60
+    local hist = RoyalMarketIntegration.getProductSalesHistory(productType, window)
+    -- Initialize buckets: 1 per second
+    local buckets = {}
+    for i = 1, window do
+        buckets[i] = { qty = 0, gold = 0, count = 0 }
+    end
+    local now = (love.timer and love.timer.getTime()) or 0
+    for _, e in ipairs(hist) do
+        local age = now - e.t
+        if age >= 0 and age < window then
+            local idx = math.floor(age) + 1
+            if idx >= 1 and idx <= window then
+                buckets[idx].qty = buckets[idx].qty + (e.qty or 0)
+                buckets[idx].gold = buckets[idx].gold + (e.gold or 0)
+                buckets[idx].count = buckets[idx].count + 1
+            end
+        end
+    end
+    -- Find max for scaling + totals
+    local maxQty, maxGold = 1, 1
+    local totalQty, totalGold = 0, 0
+    for _, b in ipairs(buckets) do
+        if b.qty > maxQty then maxQty = b.qty end
+        if b.gold > maxGold then maxGold = b.gold end
+        totalQty = totalQty + b.qty
+        totalGold = totalGold + b.gold
+    end
+    local avgUnitPrice = totalQty > 0 and (totalGold / totalQty) or 0
+    return {
+        buckets = buckets,
+        maxQty = maxQty,
+        maxGold = maxGold,
+        totalQty = totalQty,
+        totalGold = totalGold,
+        avgUnitPrice = avgUnitPrice,
         windowSeconds = window,
     }
 end

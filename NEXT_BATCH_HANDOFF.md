@@ -1,7 +1,7 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.908**
+- Različica: **v3.11.909**
 - Skupaj Royal sistemov: **987**
 - Skupaj Lua datotek: **1640**
 - Sintaktična preverba (avtentična Lua `load()`): **1640/1640 pass (100%)**
@@ -25,9 +25,9 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 1. **Sprite-i za Royal sisteme** — trenutno so samo podatkovni, brez grafične podobe
 2. **Sistemske odvisnosti** — nekateri sistemi naj zahtevajo druge (npr. BellMaker zahteva Metalwork)
 3. **Multi-product chart** — hkrati prikaži cene več produktov za primerjavo
-4. **Revenue chart v detail panel** — line chart zgodovine prihodka za izbran produkt
+4. **Market event log** — zgodovina tržnih dogodkov (crash, surge) v Market Dashboard
 
-## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.11.908)
+## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.11.909)
 
 - ✅ **v3.11.382**: Royal Systems Registry + UI Panel (Ctrl+R)
 - ✅ **v3.11.901**: Save/Load persistenca za Royal sisteme (maker, zgradbe, zaloga, surovine)
@@ -38,6 +38,7 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 - ✅ **v3.11.906**: Aggregate Production Chart — bar chart skupne proizvodnje vseh 987 sistemov v Market Dashboard
 - ✅ **v3.11.907**: Top-10 Producers Leaderboard — seznam 10 najproduktivnejših sistemov z rangi, bar-i, statistiko
 - ✅ **v3.11.908**: Profit Leaderboard (Q toggle) — top-10 sistemov po prihodku (gold), Q preklopi med qty in profit
+- ✅ **v3.11.909**: Per-Product Revenue Chart — bar chart 60s prihodka za izbran produkt v detail panel
 
 ## ZADNJE ZAKLJUČENI PAKET (v3.11.892–v3.11.901) — STEKLARSKI DODATKI 13 + LIVARSKI DODATKI 13
 

@@ -23,7 +23,7 @@ local titleFont, smallFont
 local visible = false
 local selectedIndex = 1
 local page = 1
-local pageSize = 9
+local pageSize = 6
 local totalPages = 1
 
 -- Search & sort state
@@ -479,10 +479,10 @@ function MarketDashboard.draw()
         love.graphics.setFont(font)
     end
 
-    -- Selected product detail panel (bottom) — with price history chart
+    -- Selected product detail panel (bottom) — with price history chart + revenue chart
     if cachedProducts[selectedIndex] then
         local p = cachedProducts[selectedIndex]
-        local detailH = 200
+        local detailH = 280
         local detailY = panelY + panelH - detailH - 20
         love.graphics.setColor(0.2, 0.25, 0.35, 1)
         love.graphics.rectangle("fill", panelX + 16, detailY, panelW - 32, detailH, 4, 4, 4, 4)
@@ -622,6 +622,70 @@ function MarketDashboard.draw()
             love.graphics.print("Čakam na vzorce...", chartX + 10, chartY + chartH / 2)
             love.graphics.setFont(font)
         end
+
+        -- Revenue chart (below price chart, on the right column)
+        -- Shows per-second gold earned for this product over the last 60s
+        local revChartY = chartY + chartH + 10
+        local revChartH = 80
+        -- Background
+        love.graphics.setColor(0.1, 0.12, 0.16, 1)
+        love.graphics.rectangle("fill", chartX, revChartY, chartW, revChartH, 3, 3, 3, 3)
+        love.graphics.setColor(0.3, 0.35, 0.45, 1)
+        love.graphics.rectangle("line", chartX, revChartY, chartW, revChartH, 3, 3, 3, 3)
+        -- Title
+        love.graphics.setColor(0.95, 0.85, 0.4, 1)
+        if smallFont then love.graphics.setFont(smallFont) end
+        love.graphics.print("💰 Prihodek od prodaje (zadnjih 60s)", chartX + 8, revChartY + 6)
+
+        local revBuckets = RMI.getProductSalesBuckets(p.productType, 60)
+        if revBuckets and revBuckets.maxGold > 0 and revBuckets.totalGold > 0 then
+            -- Plot area
+            local rpadX, rpadTop, rpadBottom = 36, 22, 14
+            local rplotX = chartX + rpadX
+            local rplotY = revChartY + rpadTop
+            local rplotW = chartW - rpadX - 8
+            local rplotH = revChartH - rpadTop - rpadBottom
+
+            -- Y-axis labels (max gold and 0)
+            love.graphics.setColor(0.5, 0.55, 0.6, 1)
+            love.graphics.print(tostring(revBuckets.maxGold), chartX + 4, rplotY - 4)
+            love.graphics.print("0", chartX + 4, rplotY + rplotH - 8)
+
+            -- Bar chart of gold per second
+            local rbarW = rplotW / 60
+            for i = 1, 60 do
+                local b = revBuckets.buckets[i]
+                if b and b.gold > 0 then
+                    local h = (b.gold / revBuckets.maxGold) * rplotH
+                    local bx = rplotX + (i - 1) * rbarW
+                    local by = rplotY + rplotH - h
+                    -- Gold-yellow bars; brighter for more recent
+                    local recency = (60 - (i - 1)) / 60
+                    love.graphics.setColor(0.85, 0.7 + recency * 0.25, 0.2 + recency * 0.2, 0.85)
+                    love.graphics.rectangle("fill", bx + 0.5, by, math.max(1, rbarW - 1), h)
+                end
+            end
+
+            -- X-axis time labels
+            love.graphics.setColor(0.5, 0.55, 0.6, 1)
+            love.graphics.print("-60s", rplotX, rplotY + rplotH + 2)
+            love.graphics.print("-30s", rplotX + rplotW / 2 - 12, rplotY + rplotH + 2)
+            love.graphics.print("now", rplotX + rplotW - 20, rplotY + rplotH + 2)
+
+            -- Stats line above chart (right-aligned)
+            local revStatsStr = string.format(
+                "Skupaj: %d zlata  |  %d kosov  |  Povp. cena/kos: %.0f",
+                revBuckets.totalGold, revBuckets.totalQty, revBuckets.avgUnitPrice
+            )
+            love.graphics.setColor(0.85, 0.8, 0.5, 1)
+            local revStatsW = smallFont:getWidth(revStatsStr)
+            love.graphics.print(revStatsStr, chartX + chartW - 8 - revStatsW, revChartY + 6)
+        else
+            love.graphics.setColor(0.5, 0.5, 0.55, 1)
+            love.graphics.print("(ni prodaje — uporabi 'Prodaj na trgu' v Royal panelu)",
+                chartX + 10, revChartY + revChartH / 2 - 4)
+        end
+        if font then love.graphics.setFont(font) end
     end
 
     -- Action feedback message

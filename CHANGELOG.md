@@ -2,6 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.909] — 2026-08-13 — Per-Product Revenue Chart v Market Dashboard
+
+### Dodano
+- **RoyalMarketIntegration** — per-product sales history tracking:
+  - Nov state: `productSalesHistory` (per-product list of `{t, qty, gold, unitPrice}` entries)
+  - `recordSale()` sedaj zapiše tudi v `productSalesHistory[productType]` (agregirano čez vse sisteme)
+  - Max 300 vzorcev na produkt, max 600s starost
+  - Novi API-ji:
+    - `getProductSalesHistory(productType, seconds?)` — vrne list vnosov z optional window
+    - `getProductSalesBuckets(productType, seconds)` — vrne per-second buckete z `{qty, gold, count}`, `maxQty`, `maxGold`, `totalGold`, `totalQty`, `avgUnitPrice`
+  - `reset()` počisti tudi productSalesHistory
+- **Market Dashboard** — revenue chart v detail panel (pod price chart-om):
+  - Detail panel povečan na 280px višine (dodaten 80px za revenue chart)
+  - Bar chart 60s prihodka (gold) za izbran produkt v 1s bucketih
+  - Naslov: "💰 Prihodek od prodaje (zadnjih 60s)"
+  - Barvno kodiranje: zlato-rumene barve, novejši svetlejši
+  - Y-os z max gold in 0, X-os z -60s/-30s/now
+  - Stats vrstica nad chartom: skupaj gold, skupaj količina, povprečna cena/kos
+  - Empty state: "(ni prodaje — uporabi 'Prodaj na trgu' v Royal panelu)"
+  - PageSize zmanjšan z 9 na 6 (da pusti prostor za večji detail panel)
+
+### Spremenjene datoteke
+- `objects/Economy/RoyalMarketIntegration.lua` (+85 vrstic) — productSalesHistory state, recordSale razširitev, 2 nova API-ja
+- `states/ui/hud/market_dashboard.lua` (+70 vrstic) — revenue chart v detail panel, detailH 280, pageSize 6
+- `README.md` — posodobljeni badges (v3.11.909, +RevenueChart), statistika
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 7 spremenjenih datotek PASS
+- Polna preverba: 1640/1640 (100%) Lua datotek pass
+
 ## [v3.11.908] — 2026-08-13 — Profit Leaderboard (Q toggle) v Market Dashboard
 
 ### Dodano
