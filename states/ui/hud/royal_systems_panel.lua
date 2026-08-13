@@ -491,6 +491,83 @@ function RoyalPanel.draw()
         end
         y = y + 40
 
+        -- Production history mini-chart (last 60s)
+        love.graphics.setColor(0.95, 0.85, 0.5, 1)
+        love.graphics.print("Proizvodnja (zadnja minuta):", detailX + 16, y)
+        y = y + 18
+
+        local prodStats = Registry.getProductionStats(selSys.key, 60)
+        local prodHist = Registry.getProductionHistory(selSys.key, 60)
+
+        -- Chart area: spans full detail width, ~60px tall
+        local chartX = detailX + 16
+        local chartY = y
+        local chartW = detailW - 32
+        local chartH = 60
+
+        love.graphics.setColor(0.08, 0.06, 0.04, 1)
+        love.graphics.rectangle("fill", chartX, chartY, chartW, chartH, 3, 3, 3, 3)
+        love.graphics.setColor(0.35, 0.28, 0.18, 0.8)
+        love.graphics.rectangle("line", chartX, chartY, chartW, chartH, 3, 3, 3, 3)
+
+        if prodStats and #prodHist >= 2 then
+            -- Build per-second bucket counts (60 buckets, 1s each)
+            local now = (love.timer and love.timer.getTime()) or 0
+            local buckets = {}
+            for i = 1, 60 do buckets[i] = 0 end
+            for _, e in ipairs(prodHist) do
+                local age = now - e.t
+                if age >= 0 and age < 60 then
+                    local bucketIdx = math.floor(age) + 1
+                    if bucketIdx >= 1 and bucketIdx <= 60 then
+                        buckets[bucketIdx] = buckets[bucketIdx] + (e.qty or 1)
+                    end
+                end
+            end
+            -- Find max for scaling
+            local maxBucket = 1
+            for _, v in ipairs(buckets) do
+                if v > maxBucket then maxBucket = v end
+            end
+
+            -- Draw bar chart (each bucket = 1 second wide)
+            local padTop, padBottom = 4, 4
+            local plotH = chartH - padTop - padBottom
+            local barW = chartW / 60
+            for i = 1, 60 do
+                local v = buckets[i]
+                if v > 0 then
+                    local h = (v / maxBucket) * plotH
+                    local bx = chartX + (i - 1) * barW
+                    local by = chartY + chartH - padBottom - h
+                    -- Color: brighter for more recent (right side)
+                    local recency = (60 - (i - 1)) / 60  -- 1.0 most recent, ~0 oldest
+                    love.graphics.setColor(0.4 + recency * 0.4, 0.85, 0.4, 0.9)
+                    love.graphics.rectangle("fill", bx + 0.5, by, barW - 1, h)
+                end
+            end
+
+            -- Stats line below chart
+            love.graphics.setColor(0.7, 0.85, 0.7, 1)
+            local statusStr
+            if prodStats.ratePerMin > 5 then
+                statusStr = "🔥 zelo aktivna"
+            elseif prodStats.ratePerMin > 1 then
+                statusStr = "✓ aktivna"
+            else
+                statusStr = "○ nizka"
+            end
+            love.graphics.print(string.format(
+                "Skupaj: %d izdelkov  |  Količina: %d  |  Hitrost: %.1f/min  |  Povp. prestiž: %.1f  |  %s",
+                prodStats.totalCount, prodStats.totalQty, prodStats.ratePerMin,
+                prodStats.avgPrestige, statusStr
+            ), chartX + 4, chartY + chartH + 4)
+        else
+            love.graphics.setColor(0.5, 0.5, 0.55, 1)
+            love.graphics.print("(ni podatkov o proizvodnji — začni izdelovati)", chartX + 8, chartY + chartH / 2 - 4)
+        end
+        y = y + chartH + 22
+
         -- Action buttons
         y = y + 8
         love.graphics.setColor(0.95, 0.85, 0.5, 1)

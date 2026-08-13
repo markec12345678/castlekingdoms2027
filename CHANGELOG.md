@@ -2,6 +2,38 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.905] — 2026-08-13 — Production History Chart v Royal Systems Panel
+
+### Dodano
+- **RoyalSystemsRegistry** — production history tracking:
+  - Nov state: `productionHistory` (per-system list of `{t, productName, qty, prestige, happiness}` entries)
+  - Hook v `completeMaking()` razširjen: ko Royal sistem zaključi produkt, zabeleži entry z timestamp, imenom, količino, prestižem in srečo
+  - Max 300 vzorcev na sistem (~5 minut aktivne proizvodnje)
+  - Max 600s starost (samodejno filtriranje starih vnosov v API-jih)
+  - Novi API-ji:
+    - `getProductionHistory(key, seconds?)` — vrne list vnosov (z optional time window)
+    - `getProductionStats(key, seconds?)` — vrne `{totalCount, totalQty, totalPrestige, avgPrestige, firstT, lastT, timeSpan, ratePerMin, windowSeconds}`
+    - `getAggregateProduction(seconds?)` — vsi sistemi agregirano: `{systemsActive, totalCount, totalQty, topSystem, topCount}`
+    - `clearProductionHistory(key?)` — počisti history za en sistem (ali vse)
+- **Royal Systems Panel** — production mini-chart v detail panel:
+  - Bar chart 60 sekund v 1s bucketih (60 stolpcev)
+  - Vsak stolpec višine proporcionalne številu izdelkov v tisti sekundi
+  - Barvno kodiranje: novejši (desno) bolj svetli, starejši (levo) temnejši zeleni
+  - Stats vrstica pod chart-om: skupno izdelkov, količina, hitrost (izdelki/min), povprečni prestiž, status (🔥 zelo aktivna / ✓ aktivna / ○ nizka)
+  - Auto-scaling na max bucket v oknu
+  - Empty state: "(ni podatkov o proizvodnji — začni izdelovati)" ko ni zgodovine
+- Python test (`scripts/test_production_history.py`) — 4 testi PASS: 5 completions → 5 vnosov, window filter, max samples trimming, empty system
+
+### Spremenjene datoteke
+- `objects/Economy/RoyalSystemsRegistry.lua` (+115 vrstic) — productionHistory state, hook razširitev, 4 novi API-ji
+- `states/ui/hud/royal_systems_panel.lua` (+75 vrstic) — production bar chart v detail panel pred action gumbi
+- `README.md` — posodobljeni badges (v3.11.905, +ProdChart), statistika (Ctrl+R + production chart)
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 7 spremenjenih datotek PASS
+- Python production history test: 4 testi PASS
+- Polna preverba: 1640/1640 (100%) Lua datotek pass
+
 ## [v3.11.904] — 2026-08-13 — Price History Chart v Market Dashboard
 
 ### Dodano

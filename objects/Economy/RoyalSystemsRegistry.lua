@@ -35,6 +35,13 @@ local aggregate = {
     totalGoldEarned = 0,  -- bonus gold granted by registry hook
 }
 
+-- Production history: per-system list of {t, productName, qty, prestige, happiness}
+-- Each entry is created when completeMaking() is hooked for that system.
+-- Trimmed to last productionHistoryMaxSamples entries (or by time via API).
+local productionHistory = {}  -- map: key -> list of entries
+local productionHistoryMaxSamples = 300  -- ~5 minutes at 1/sec rate (but actual rate = production rate)
+local productionHistoryMaxAge = 600      -- 10 minutes in seconds
+
 -- Subscribe to all "*.completed" events published by Royal systems.
 -- Each system publishes "<key>.completed" with payload {productName, prestige, happiness, ...}.
 -- We grant the player bonus gold = prestige * 10 (real game effect).
@@ -123,6 +130,22 @@ function RoyalSystemsRegistry.init(S)
                 -- Also boost population cap slightly for high-happiness products
                 if (m.happiness or 0) >= 5 and _G.state then
                     _G.state.popularity = math.min(100, (_G.state.popularity or 0) + 1)
+                end
+                -- Record production history entry for charting
+                if not productionHistory[sys.key] then
+                    productionHistory[sys.key] = {}
+                end
+                local hist = productionHistory[sys.key]
+                hist[#hist + 1] = {
+                    t = love.timer and love.timer.getTime() or 0,
+                    productName = m.productName or m.productType or "unknown",
+                    qty = m.quantity or 1,
+                    prestige = m.prestige or 0,
+                    happiness = m.happiness or 0,
+                }
+                -- Trim by sample count
+                if #hist > productionHistoryMaxSamples then
+                    table.remove(hist, 1)
                 end
             end
         end
@@ -458,6 +481,118 @@ function RoyalSystemsRegistry.deserialize(data)
     end
 
     print("[RoyalSystemsRegistry] Deserialized " .. #data.systems .. " system states")
+end
+
+-- ============================================================================
+-- PRODUCTION HISTORY API
+-- ============================================================================
+
+-- Get production history for a system (optionally filtered by time window)
+-- @param key string System key
+-- @param seconds number Optional: only return entries from last N seconds
+-- @return table List of {t, productName, qty, prestige, happiness} entries
+function RoyalSystemsRegistry.getProductionHistory(key, seconds)
+    local hist = productionHistory[key]
+    if not hist then return {} end
+    if not seconds then
+        -- Also filter by max age to prevent stale data
+        local now = (love.timer and love.timer.getTime()) or 0
+        local result = {}
+        for _, e in ipairs(hist) do
+            if now - e.t <= productionHistoryMaxAge then
+                result[#result + 1] = e
+            end
+        end
+        return result
+    end
+    local now = (love.timer and love.timer.getTime()) or 0
+    local result = {}
+    for _, e in ipairs(hist) do
+        if now - e.t <= seconds then
+            result[#result + 1] = e
+        end
+    end
+    return result
+end
+
+-- Get production stats for a system (aggregated over time window)
+-- @param key string System key
+-- @param seconds number Optional window (default: 60s)
+-- @return table {totalCount, totalQty, totalPrestige, avgPrestige, firstT, lastT, ratePerMin}
+--         or nil if no history
+function RoyalSystemsRegistry.getProductionStats(key, seconds)
+    local window = seconds or 60
+    local hist = RoyalSystemsRegistry.getProductionHistory(key, window)
+    if #hist == 0 then return nil end
+
+    local totalCount = #hist
+    local totalQty = 0
+    local totalPrestige = 0
+    local totalHappiness = 0
+    for _, e in ipairs(hist) do
+        totalQty = totalQty + (e.qty or 1)
+        totalPrestige = totalPrestige + (e.prestige or 0)
+        totalHappiness = totalHappiness + (e.happiness or 0)
+    end
+    local avgPrestige = totalCount > 0 and (totalPrestige / totalCount) or 0
+    local firstT = hist[1].t
+    local lastT = hist[#hist].t
+    local timeSpan = math.max(1, lastT - firstT)
+    -- Rate per minute (extrapolated from window)
+    local ratePerMin = (totalCount / timeSpan) * 60
+
+    return {
+        totalCount = totalCount,
+        totalQty = totalQty,
+        totalPrestige = totalPrestige,
+        totalHappiness = totalHappiness,
+        avgPrestige = avgPrestige,
+        firstT = firstT,
+        lastT = lastT,
+        timeSpan = timeSpan,
+        ratePerMin = ratePerMin,
+        windowSeconds = window,
+    }
+end
+
+-- Get aggregate production stats across all systems
+-- @param seconds number Optional window (default: 60s)
+-- @return table {systemCount, totalCount, totalQty, topSystem}
+function RoyalSystemsRegistry.getAggregateProduction(seconds)
+    local window = seconds or 60
+    local totalCount = 0
+    local totalQty = 0
+    local systemsActive = 0
+    local topKey, topCount = nil, 0
+    for _, sys in ipairs(systems) do
+        local stats = RoyalSystemsRegistry.getProductionStats(sys.key, window)
+        if stats and stats.totalCount > 0 then
+            systemsActive = systemsActive + 1
+            totalCount = totalCount + stats.totalCount
+            totalQty = totalQty + stats.totalQty
+            if stats.totalCount > topCount then
+                topCount = stats.totalCount
+                topKey = sys.key
+            end
+        end
+    end
+    return {
+        systemsActive = systemsActive,
+        totalCount = totalCount,
+        totalQty = totalQty,
+        topSystem = topKey,
+        topCount = topCount,
+        windowSeconds = window,
+    }
+end
+
+-- Clear production history for a system (or all if key is nil)
+function RoyalSystemsRegistry.clearProductionHistory(key)
+    if key then
+        productionHistory[key] = nil
+    else
+        productionHistory = {}
+    end
 end
 
 return RoyalSystemsRegistry
