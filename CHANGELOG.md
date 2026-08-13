@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.881] — 2026-08-13 — Royal Smith Tongs Jaw Insert Maker System (6 products, smith tongs jaw inserts)
+## [v3.11.880] — 2026-08-13 — Royal Quench Tank Drain Valve Maker System (6 products, quench tank drain valves)
+## [v3.11.879] — 2026-08-13 — Royal Forge Coal Rake Tooth Maker System (6 products, forge coal rake teeth)
+## [v3.11.878] — 2026-08-13 — Royal Anvil Horn Polisher Maker System (6 products, anvil horn polishers)
+## [v3.11.877] — 2026-08-13 — Royal Forge Tuyere Brush Maker System (6 products, forge tuyere brushes)
+## [v3.11.876] — 2026-08-13 — Royal Book Cover Board Edge Trimmer Maker System (6 products, book cover board edge trimmers)
+## [v3.11.875] — 2026-08-13 — Royal Book Edge Gilt Size Brush Maker System (6 products, book edge gilt size brushes)
+## [v3.11.874] — 2026-08-13 — Royal Book Sewing Bench Light Maker System (6 products, book sewing bench lights)
+## [v3.11.873] — 2026-08-13 — Royal Book Cover Paste Spatula Maker System (6 products, book cover paste spatulas)
+## [v3.11.872] — 2026-08-13 — Royal Book Spine Label Printer Maker System (6 products, book spine label printers)
+
+### Dodano (v3.11.872-v3.11.881 — 10 sistemov: knjigoveški dodatki 12 + kovaški dodatki 12)
+
+#### v3.11.872-v3.11.876 — Knjigoveški dodatki 12 (5 sistemov)
+- v3.11.872: BookSpineLabelPrinterMaker (Tiskar) — tiskalniki za oznake hrbtov
+- v3.11.873: BookCoverPasteSpatulaMaker (Lopatičar) — lopatice za pasto naslovnic
+- v3.11.874: BookSewingBenchLightMaker (Svetilnikar) — svetila za šivalne klopi
+- v3.11.875: BookEdgeGiltSizeBrushMaker (Čopičar) — čopiči za pozlate robov
+- v3.11.876: BookCoverBoardEdgeTrimmerMaker (Obrezovalec) — obrezovalci robov vezav
+
+#### v3.11.877-v3.11.881 — Kovaški dodatki 12 (5 sistemov)
+- v3.11.877: ForgeTuyereBrushMaker (Ščetkar) — ščetke za šobe peči
+- v3.11.878: AnvilHornPolisherMaker (Polirar) — poliralci za rog nakovala
+- v3.11.879: ForgeCoalRakeToothMaker (Zobnik) — zobje za grebalce oglja
+- v3.11.880: QuenchTankDrainValveMaker (Zaklopkar) — zaklopke za izpust kadi
+- v3.11.881: SmithTongsJawInsertMaker (Vstavljač) — vstavki za čeljusti klešč
+
+Vsi novi sistemski so avtomatsko odkriti in prikazani v Royal Systems Panel (Ctrl+R) preko RoyalSystemsRegistry.
+
+Pre-flight check: pred generiranjem je bila preverjena git zgodovina za vseh 10 datotek — vse so imele 0 prior commits in so bile odsotne iz workdir. Brez duplikatov.
+
 ## [v3.11.871] — 2026-08-12 — Royal Casting Ladle Skimmer Handle Maker System (6 products, casting ladle skimmer handles)
 ## [v3.11.870] — 2026-08-12 — Royal Core Print Box Maker System (6 products, core print boxes)
 ## [v3.11.869] — 2026-08-12 — Royal Sand Binder Dispenser Maker System (6 products, sand binder dispensers)
