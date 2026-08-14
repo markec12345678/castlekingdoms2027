@@ -884,6 +884,7 @@ local RoyalSystemsRegistry = require("objects.Economy.RoyalSystemsRegistry")
 local RoyalMarketIntegration = require("objects.Economy.RoyalMarketIntegration")
 local RoyalSystemsPanel = require("states.ui.hud.royal_systems_panel")
 local MarketDashboard = require("states.ui.hud.market_dashboard")
+local AutoSavePanel = require("states.ui.hud.autosave_panel")
 -- Castle Kingdoms 2027 - Performance profiling
 local PerformanceManager = require("objects.Performance.PerformanceManager")
 local PriorityUpdate = require("objects.Performance.PriorityUpdateSystem")
@@ -3181,6 +3182,7 @@ function game:update(dt)
                 RoyalMarketIntegration.update(dt)
                 RoyalSystemsPanel.update(dt)
                 MarketDashboard.update(dt)
+                AutoSavePanel.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
@@ -3372,6 +3374,8 @@ function game:draw()
             RoyalSystemsPanel.draw()
             -- Castle Kingdoms 2027 v3.11.903: Draw Market Dashboard (Ctrl+K)
             MarketDashboard.draw()
+            -- Castle Kingdoms 2027 v3.11.918: Draw Auto-Save Panel (Ctrl+U)
+            AutoSavePanel.draw()
             -- Castle Kingdoms 2027: Draw Kenney CC0 overlay (if enabled)
             if _G.KenneySpriteRenderer and _G.KenneySpriteRenderer.isActive() then
                 love.graphics.setScissor(0, 0, screenWidth, screenHeight - 150)
@@ -3450,6 +3454,10 @@ function game:mousepressed(x, y, button, istouch)
     -- Castle Kingdoms 2027 v3.11.903: Market Dashboard click handling
     if MarketDashboard.isVisible() then
         if MarketDashboard.mousepressed(x, y, button) then return end
+    end
+    -- Castle Kingdoms 2027 v3.11.918: Auto-Save Panel click handling
+    if AutoSavePanel.isVisible() then
+        if AutoSavePanel.mousepressed(x, y, button) then return end
     end
     -- Castle Kingdoms 2027: Minimap + GameSpeed click handling
     if S.Minimap.isVisible() then
@@ -3734,6 +3742,12 @@ function game:keypressed(key, scancode, isRepeat)
         MarketDashboard.toggle()
         return
     end
+    -- Ctrl+U = Toggle Auto-Save Panel (Castle Kingdoms 2027 v3.11.918)
+    -- Show auto-save status, last save stats, interval presets
+    if key == "u" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+        AutoSavePanel.toggle()
+        return
+    end
     -- Forward keys to Royal panel if it's visible
     if RoyalSystemsPanel.isVisible() then
         if RoyalSystemsPanel.keypressed(key, scancode, isrepeat) then
@@ -3743,6 +3757,12 @@ function game:keypressed(key, scancode, isRepeat)
     -- Forward keys to Market Dashboard if it's visible
     if MarketDashboard.isVisible() then
         if MarketDashboard.keypressed(key, scancode, isrepeat) then
+            return
+        end
+    end
+    -- Forward keys to Auto-Save Panel if it's visible
+    if AutoSavePanel.isVisible() then
+        if AutoSavePanel.keypressed(key, scancode, isrepeat) then
             return
         end
     end

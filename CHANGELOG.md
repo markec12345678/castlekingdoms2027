@@ -2,6 +2,39 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.918] — 2026-08-14 — Auto-Save UI Panel (Ctrl+U)
+
+### Dodano
+- **Auto-Save Panel** (nov UI panel, 232 vrstic) — `states/ui/hud/autosave_panel.lua`:
+  - Toggle s **Ctrl+U** (U za "auto-save UI")
+  - Status block: stanje (vklopljeno/izklopljeno), interval (min), čas do naslednjega save-a
+  - Progress bar: vizualni countdown do naslednjega save-a (barva se spreminja: zelena → rumena → oranžna)
+  - Zadnje shranjevanje info: starost (s/m/h), število save-ov
+  - Royal stats iz zadnjega save-a: število sistemov, produktov, dogodkov, autoSellEnabled, comparisonItems, saveVersion
+  - Akcijski gumbi: Vklopi/Izklopi, Shrani zdaj (force save)
+  - Interval presets: 1 min, 5 min, 15 min, 30 min (trenutni je označen z ✓ in onemogočen)
+  - Click zunaj panela ga zapre
+  - ESC zapre panel
+  - Action feedback message (3s fade)
+- **game.lua** — povezave za AutoSavePanel:
+  - `require("states.ui.hud.autosave_panel")`
+  - `AutoSavePanel.update(dt)` v update loop-u
+  - `AutoSavePanel.draw()` v draw bloku
+  - Ctrl+U keypressed handler
+  - `AutoSavePanel.mousepressed()` forwarding
+  - `AutoSavePanel.keypressed()` forwarding
+- **keybind_help.lua** — dodana Ctrl+U v EKONOMIJA kategorijo
+
+### Spremenjene datoteke
+- `states/ui/hud/autosave_panel.lua` (NOV, 232 vrstic)
+- `states/game.lua` (+12 vrstic) — require + update + draw + Ctrl+U + mousepressed + keypressed forwarding
+- `states/ui/hud/keybind_help.lua` (+1 vrstica) — Ctrl+U v EKONOMIJA
+- `README.md` — posodobljeni badges (v3.11.918, +AutoSavePanel, 1642 datotek, 1642/1642 pass), nova vrstica (Royal Auto-Save Panel)
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 3 spremenjenih datotek PASS (vključno z novim autosave_panel.lua)
+- Polna preverba: 1642/1642 (100%) Lua datotek pass (+1 od prej — autosave_panel.lua je nova)
+
 ## [v3.11.917] — 2026-08-14 — Auto-Save Integration z Royal Diagnostic Stats
 
 ### Dodano
