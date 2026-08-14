@@ -844,6 +844,36 @@ function RoyalPanel.keypressed(key, scancode, isrepeat)
         return true
     end
 
+    -- Castle Kingdoms 2027 v3.11.921: Additional keyboard shortcuts
+    -- Home: jump to first page
+    if key == "home" then
+        page = 1
+        selectedIndex = 1
+        return true
+    end
+    -- End: jump to last page
+    if key == "end" then
+        page = totalPages
+        selectedIndex = (page - 1) * pageSize + 1
+        return true
+    end
+    -- PageUp: previous page (same as left arrow but more intuitive)
+    if key == "pageup" then
+        if page > 1 then
+            page = page - 1
+            selectedIndex = (page - 1) * pageSize + 1
+        end
+        return true
+    end
+    -- PageDown: next page
+    if key == "pagedown" then
+        if page < totalPages then
+            page = page + 1
+            selectedIndex = (page - 1) * pageSize + 1
+        end
+        return true
+    end
+
     return false
 end
 

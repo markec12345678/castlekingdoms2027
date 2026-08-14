@@ -2,6 +2,23 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.921] — 2026-08-14 — Royal Systems Panel Keyboard Shortcuts
+
+### Dodano
+- **Royal Systems Panel** (Ctrl+R) — novi keyboard shortcuts za navigacijo:
+  - **Home**: skok na prvo stran (page=1, selectedIndex=1)
+  - **End**: skok na zadnjo stran (page=totalPages, selectedIndex=prva vrstica zadnje strani)
+  - **PageUp**: isto kot levo puščica (previous page)
+  - **PageDown**: isto kot desno puščica (next page)
+  - Komplementira obstoječe: ←/→ (strani), ↑↓/WS (vrstice), wheel (strani iz v3.11.920)
+
+### Spremenjene datoteke
+- `states/ui/hud/royal_systems_panel.lua` (+25 vrstic) — Home/End/PageUp/PageDown keybinds
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 7 spremenjenih datotek PASS
+- Polna preverba: 1642/1642 (100%) Lua datotek pass
+
 ## [v3.11.920] — 2026-08-14 — Royal Systems Panel Scroll (wheel + scrollbar)
 
 ### Dodano
