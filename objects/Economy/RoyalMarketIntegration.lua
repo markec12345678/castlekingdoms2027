@@ -545,4 +545,53 @@ function RoyalMarketIntegration.getProductSalesBuckets(productType, seconds)
     }
 end
 
+-- ============================================================================
+-- SAVE / LOAD PERSISTENCE
+-- ============================================================================
+
+-- Serialize auto-sell state for saving.
+-- Saves: autoSellEnabled, autoSellInterval, aggregateRevenue, perSystemRevenue
+-- Note: salesHistory and productSalesHistory are NOT saved (they're transient
+-- 60s-window data; would bloat save files for no benefit).
+function RoyalMarketIntegration.serialize()
+    -- Copy perSystemRevenue to a plain table (in case of metatables)
+    local psrCopy = {}
+    for k, v in pairs(perSystemRevenue) do
+        psrCopy[k] = v
+    end
+    return {
+        autoSellEnabled = autoSellEnabled,
+        autoSellInterval = autoSellInterval,
+        aggregateRevenue = aggregateRevenue,
+        perSystemRevenue = psrCopy,
+    }
+end
+
+-- Deserialize auto-sell state from a saved table.
+-- Called after RMI has been initialized (init() has run).
+function RoyalMarketIntegration.deserialize(data)
+    if not data then return end
+    if type(data.autoSellEnabled) == "boolean" then
+        autoSellEnabled = data.autoSellEnabled
+    end
+    if type(data.autoSellInterval) == "number" and data.autoSellInterval >= 5 then
+        autoSellInterval = data.autoSellInterval
+    end
+    if type(data.aggregateRevenue) == "number" then
+        aggregateRevenue = data.aggregateRevenue
+    end
+    if type(data.perSystemRevenue) == "table" then
+        -- Merge into existing perSystemRevenue (init may have already set keys to 0)
+        for k, v in pairs(data.perSystemRevenue) do
+            if type(v) == "number" then
+                perSystemRevenue[k] = v
+            end
+        end
+    end
+    -- Reset auto-sell timer so it doesn't immediately fire on load
+    autoSellTimer = 0
+    print(string.format("[RoyalMarketIntegration] Deserialized: autoSell=%s, interval=%.1fs, revenue=%d",
+        tostring(autoSellEnabled), autoSellInterval, aggregateRevenue))
+end
+
 return RoyalMarketIntegration

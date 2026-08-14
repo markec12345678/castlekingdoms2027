@@ -2,6 +2,30 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.913] — 2026-08-14 — Saved Auto-Sell State (persistenca med sejami)
+
+### Dodano
+- **RoyalMarketIntegration** — serialize/deserialize API:
+  - Novi funkciji `RoyalMarketIntegration.serialize()` in `RoyalMarketIntegration.deserialize(data)`
+  - Shrani: `autoSellEnabled`, `autoSellInterval`, `aggregateRevenue`, `perSystemRevenue`
+  - NE shrani: `salesHistory` in `productSalesHistory` (transient 60s-window podatki, nepotrebni za save)
+  - Deserializacija validira tipe (boolean/number) in omeji `autoSellInterval` na min 5s
+  - `perSystemRevenue` se merge-a v obstoječi (init ga je nastavil na 0 za vse sisteme)
+  - `autoSellTimer` se resetira na 0 (prepreči takojšen fire ob loadu)
+- **State.lua** — povezava v save/load sistem:
+  - `State:serialize()` dodan `data.royalMarket = RMI.serialize()` (lazy require)
+  - `State:load()` dodan `if load.royalMarket then RMI.deserialize(load.royalMarket) end`
+  - Lazy require (prepreči circular dependency)
+
+### Spremenjene datoteke
+- `objects/Economy/RoyalMarketIntegration.lua` (+50 vrstic) — serialize/deserialize funkciji
+- `objects/State.lua` (+6 vrstic) — save/load integracija z lazy require
+- `README.md` — posodobljeni badges (v3.11.913, +SavedAutoSell), Save/Load vrstica dopolnjena
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 8 spremenjenih datotek PASS (vključno z State.lua)
+- Polna preverba: 1640/1640 (100%) Lua datotek pass
+
 ## [v3.11.912] — 2026-08-14 — Saved Comparison List (persistenca med sejami)
 
 ### Dodano

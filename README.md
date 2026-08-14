@@ -2,19 +2,19 @@
 
 Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT). Navdihnjen s klasičnimi srednjeveškimi strateškimi igrami.
 
-[![Version](https://img.shields.io/badge/version-3.11.912-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
+[![Version](https://img.shields.io/badge/version-3.11.913-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
 [![Syntax](https://img.shields.io/badge/syntax-1640%2F1640%20pass-brightgreen.svg)](#)
 [![Systems](https://img.shields.io/badge/Royal%20systems-987-blue.svg)](#)
 [![Lua](https://img.shields.io/badge/Lua%20files-1640-green.svg)](#)
-[![Registry](https://img.shields.io/badge/Royal%20Registry-%2BSavedComparison-blueviolet.svg)](#)
+[![Registry](https://img.shields.io/badge/Royal%20Registry-%2BSavedAutoSell-blueviolet.svg)](#)
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v3.11.912](https://github.com/markec12345678/castlekingdoms2027/releases)
-- **.love datoteka**: `castlekingdoms2027-v3.11.912.love` (34 MB brez LFS, 305 MB z LFS)
-- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 987 Royal sistemov, 1640 Lua datotek, +RoyalSystemsRegistry + Ctrl+R UI Panel + DynamicMarket integracija + Save/Load + Ctrl+K Market Dashboard + price chart + production chart + aggregate chart + top-10 leaderboard (qty/profit) + per-product revenue chart + market event log + multi-product comparison chart + saved comparison list
+- **Zadnja izdaja**: [v3.11.913](https://github.com/markec12345678/castlekingdoms2027/releases)
+- **.love datoteka**: `castlekingdoms2027-v3.11.913.love` (34 MB brez LFS, 305 MB z LFS)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 987 Royal sistemov, 1640 Lua datotek, +RoyalSystemsRegistry + Ctrl+R UI Panel + DynamicMarket integracija + Save/Load (Royal + Market Dashboard + auto-sell) + Ctrl+K Market Dashboard + 7 grafov + saved comparison list + saved auto-sell state
 - **LFS**: Po git clone zahtevaj `git lfs pull` za prave PNG asset-e (305 MB)
 
 ## Zagon
@@ -40,16 +40,16 @@ love .
 | Vrstic kode | ~485.000 |
 | GLSL shaderji | 12 |
 | Jezikov | 32 |
-| Verzij | 140+ (v1.7.9 → v3.11.912) |
+| Verzij | 140+ (v1.7.9 → v3.11.913) |
 | Bug popravkov | 155 (90 krogov pregleda) |
 | Syntax pass rate | 1640/1640 (100%) |
 | PNG assetov | 1.206 |
-| **Royal sistemov** | **987 (v3.11.912)** |
+| **Royal sistemov** | **987 (v3.11.913)** |
 | **Royal Systems Registry** | **da (auto-discovers vse 987 sisteme)** |
 | **Royal UI Panel** | **Ctrl+R (full-screen browser + actions + market prices + production chart)** |
 | **Royal Market** | **DynamicMarket integracija (auto-sell + dinamične cene)** |
 | **Royal Market Dashboard** | **Ctrl+K (987 produktov + price chart + aggregate chart + top-10 leaderboard (qty/profit) + revenue chart + event log + multi-product comparison chart + saved comparison list)** |
-| **Royal Save/Load** | **da (persistenca makerjev, zgradb, zaloge, surovin)** |
+| **Royal Save/Load** | **da (persistenca makerjev, zgradb, zaloge, surovin, comparisonList, autoSellState)** |
 | Kampanjske misije | 21 (10 Fernhaven + 11 zgodovinskih) |
 | Skirmish misije | 15 |
 | Co-op misije | 10 |

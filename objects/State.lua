@@ -470,6 +470,9 @@ function State:serialize()
     -- Castle Kingdoms 2027 v3.11.912: Save Market Dashboard comparison list
     local MarketDashboard = require("states.ui.hud.market_dashboard")
     data.marketDashboard = MarketDashboard.serialize()
+    -- Castle Kingdoms 2027 v3.11.913: Save Royal Market auto-sell state
+    local RMI = require("objects.Economy.RoyalMarketIntegration")
+    data.royalMarket = RMI.serialize()
     return data, metadata
 end
 
@@ -555,6 +558,11 @@ function State:deserialize(load)
     if load.marketDashboard then
         local MarketDashboard = require("states.ui.hud.market_dashboard")
         MarketDashboard.deserialize(load.marketDashboard)
+    end
+    -- Castle Kingdoms 2027 v3.11.913: Load Royal Market auto-sell state
+    if load.royalMarket then
+        local RMI = require("objects.Economy.RoyalMarketIntegration")
+        RMI.deserialize(load.royalMarket)
     end
     self.scaleX = load.scaleX
     self.viewXview = load.viewXview
