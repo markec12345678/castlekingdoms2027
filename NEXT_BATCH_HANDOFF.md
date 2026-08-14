@@ -1,10 +1,10 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.914**
+- Različica: **v3.11.915**
 - Skupaj Royal sistemov: **987**
-- Skupaj Lua datotek: **1640**
-- Sintaktična preverba (avtentična Lua `load()`): **1640/1640 pass (100%)**
+- Skupaj Lua datotek: **1641**
+- Sintaktična preverba (avtentična Lua `load()`): **1641/1641 pass (100%)**
 - GitHub: sinhroniziran (vsi tagi pushani)
 - Lokalni repo: `/home/z/my-project/castlekingdoms2027`
 - .love datoteke: `/home/z/my-project/download/`
@@ -25,9 +25,9 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 1. **Sprite-i za Royal sisteme** — trenutno so samo podatkovni, brez grafične podobe
 2. **Sistemske odvisnosti** — nekateri sistemi naj zahtevajo druge (npr. BellMaker zahteva Metalwork)
 3. **Event log expandable panel** — klik za razširitev event log-a v poln panel z zgodovino
-4. **Save game versioning** — versioning shranjenih podatkov za migracijo starejših save-ov
+4. **Auto-save integration** — integracija Royal sistemov z obstoječim AutoSaveSystem.lua
 
-## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.11.914)
+## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.11.915)
 
 - ✅ **v3.11.382**: Royal Systems Registry + UI Panel (Ctrl+R)
 - ✅ **v3.11.901**: Save/Load persistenca za Royal sisteme (maker, zgradbe, zaloga, surovine)
@@ -44,6 +44,7 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 - ✅ **v3.11.912**: Saved Comparison List — persistenca comparisonList, comparisonMode, leaderboardMode, sortMode med sejami
 - ✅ **v3.11.913**: Saved Auto-Sell State — persistenca autoSellEnabled, autoSellInterval, aggregateRevenue, perSystemRevenue
 - ✅ **v3.11.914**: Saved DynamicMarket State — persistenca priceModifiers, inflationRate, goldInCirculation, eventLog, eventTimers
+- ✅ **v3.11.915**: Save Game Versioning — SaveVersioner modul z migracijsko verigo za future-proofing save-ov
 
 ## ZADNJE ZAKLJUČENI PAKET (v3.11.892–v3.11.901) — STEKLARSKI DODATKI 13 + LIVARSKI DODATKI 13
 

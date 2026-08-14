@@ -476,6 +476,9 @@ function State:serialize()
     -- Castle Kingdoms 2027 v3.11.914: Save DynamicMarket state (prices, inflation, events)
     local DynamicMarket = require("objects.Economy.DynamicMarketSystem")
     data.dynamicMarket = DynamicMarket.serialize()
+    -- Castle Kingdoms 2027 v3.11.915: Stamp save version for future migrations
+    local SaveVersioner = require("objects.Economy.SaveVersioner")
+    SaveVersioner.stamp(data)
     return data, metadata
 end
 
@@ -492,6 +495,11 @@ function State:load(filename, decompress)
 end
 
 function State:deserialize(load)
+    -- Castle Kingdoms 2027 v3.11.915: Migrate save data to current version
+    -- (stamps version if missing, runs migration chain if needed)
+    local SaveVersioner = require("objects.Economy.SaveVersioner")
+    SaveVersioner.migrate(load)
+
     self.map:deserialize(load.map)
     self.deserializedObjectCount = 0
     self.deserDebug = {}

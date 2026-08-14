@@ -2,6 +2,47 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.915] — 2026-08-14 — Save Game Versioning (SaveVersioner modul)
+
+### Dodano
+- **SaveVersioner.lua** (nov modul, 145 vrstic) — `objects/Economy/SaveVersioner.lua`:
+  - Centralen versioning sistem za vse shranjene podatke (Royal, Market Dashboard, auto-sell, market state)
+  - `CURRENT_VERSION = 1` — trenutna verzija save formata
+  - `migrations[v]` — tabela migracijskih funkcij (v -> v+1), verižno izvajanje
+  - `migrate(data)` — zazna verzijo, izvede verigo migracij, vrne `(data, originalVersion, finalVersion)`
+  - `stamp(data)` — nastavi `data.saveVersion = CURRENT_VERSION` (klicano med serialize)
+  - `getInfo()` — human-readable opis za debug UI
+  - `isVersioned(data)` — preveri ali save ima verzijo
+  - Future-version downgrade: če je save iz novejše verzije, gracefully downgrade z warning
+  - Migration failure handling: če migracija failne, se ustavi in stamp-a doseženo verzijo (ne CURRENT)
+  - Pcall okoli vsake migracije (prepreči crash ob pokvarjenem save-u)
+  - v0 -> v1 migracija: no-op (samo stamp verzije, ker obstoječi guard-i že handle-ajo manjkajoče fielde)
+- **State.lua** — povezava v save/load:
+  - `State:serialize()` kliče `SaveVersioner.stamp(data)` na koncu
+  - `State:deserialize()` kliče `SaveVersioner.migrate(load)` na začetku
+  - Lazy require (prepreči circular dependency)
+- Python test (`scripts/test_save_versioner.py`) — 7 testov PASS:
+  - Pre-version save migracija
+  - Current version save unchanged
+  - Future version downgrade
+  - stamp() funkcija
+  - Empty dict migracija
+  - Chained migration z dodajanjem novih field-ov
+  - Migration failure graceful stop
+
+### Spremenjene datoteke
+- `objects/Economy/SaveVersioner.lua` (NOV, 145 vrstic)
+- `objects/State.lua` (+7 vrstic) — stamp v serialize, migrate v deserialize
+- `README.md` — posodobljeni badges (v3.11.915, +SaveVersioner, 1641 datotek, 1641/1641 pass), Save/Load vrstica z saveVersion
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 9 spremenjenih datotek PASS (vključno z SaveVersioner in State)
+- Python SaveVersioner test: 7 testov PASS
+- Polna preverba: 1641/1641 (100%) Lua datotek pass (+1 od prej, ker SaveVersioner.lua je nova)
+
+### Pomembnost
+Z versioning-om lahko v prihodnje dodajamo nove shranjene field-e in čistje migrirati stare save-e. Migracijske funkcije so chain-ane (v1->v2->v3->...) in vsaka je wrapped v pcall, tako da pokvarjen save ne crashne igre.
+
 ## [v3.11.914] — 2026-08-14 — Saved DynamicMarket State (persistenca trga med sejami)
 
 ### Dodano
