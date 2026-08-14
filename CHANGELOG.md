@@ -2,6 +2,31 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.914] — 2026-08-14 — Saved DynamicMarket State (persistenca trga med sejami)
+
+### Dodano
+- **DynamicMarketSystem** — serialize/deserialize API:
+  - Novi funkciji `DynamicMarketSystem.serialize()` in `DynamicMarketSystem.deserialize(data)`
+  - Shrani: `priceModifiers` (per-resource: base, supplyDemand, seasonal, event, inflation, current), `royalProducts` (basePrice, source, totalSold, totalRevenue), `eventLog`, `eventTimers` (aktivni dogodki), `inflationRate`, `totalGoldInCirculation`
+  - NE shrani: `tradeHistory`, `priceHistory` (transient 60s-window podatki, nepotrebni za save)
+  - Deserializacija: merge priceModifiers (samo update obstoječih), merge royalProducts (update statistike), restore eventLog z validacijo tipov, restore eventTimers
+  - Helper `countTable()` za štetje hash table vnosov (Lua `#` ne deluje na hashih)
+- **State.lua** — povezava v save/load sistem:
+  - `State:serialize()` dodan `data.dynamicMarket = DynamicMarket.serialize()` (lazy require)
+  - `State:load()` dodan `if load.dynamicMarket then DynamicMarket.deserialize(load.dynamicMarket) end`
+
+### Spremenjene datoteke
+- `objects/Economy/DynamicMarketSystem.lua` (+150 vrstic) — serialize/deserialize, countTable helper
+- `objects/State.lua` (+6 vrstic) — save/load integracija z lazy require
+- `README.md` — posodobljeni badges (v3.11.914, +SavedMarketState), Save/Load vrstica dopolnjena z marketState
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 8 spremenjenih datotek PASS (vključno z State.lua)
+- Polna preverba: 1640/1640 (100%) Lua datotek pass
+
+### Pomembnost
+Trg sedaj ohrani svoje stanje med sejami — cene, inflation, gold circulation, zgodovina dogodkov. To je ključno za dolge igre, kjer igralec ne želi, da bi trg resetiral ob vsakem loadu.
+
 ## [v3.11.913] — 2026-08-14 — Saved Auto-Sell State (persistenca med sejami)
 
 ### Dodano

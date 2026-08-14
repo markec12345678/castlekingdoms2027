@@ -638,4 +638,153 @@ DynamicMarketSystem.recordTransaction = function(resource, quantity, transaction
     end
 end
 
+-- ============================================================================
+-- SAVE / LOAD PERSISTENCE
+-- ============================================================================
+
+-- Helper: count table entries (since # doesn't work on hash tables)
+local function countTable(t)
+    local n = 0
+    for _ in pairs(t) do n = n + 1 end
+    return n
+end
+
+-- Serialize market state for saving.
+-- Saves: priceModifiers (per-resource), inflationRate, totalGoldInCirculation,
+--        eventLog, royalProducts (registered products with stats)
+-- Does NOT save: tradeHistory, priceHistory (transient 60s-window data)
+function DynamicMarketSystem.serialize()
+    -- Deep copy priceModifiers (it's a nested table)
+    local modsCopy = {}
+    for resource, mod in pairs(priceModifiers) do
+        modsCopy[resource] = {
+            base = mod.base,
+            supplyDemand = mod.supplyDemand,
+            seasonal = mod.seasonal,
+            event = mod.event,
+            inflation = mod.inflation,
+            current = mod.current,
+        }
+    end
+    -- Deep copy royalProducts (only the savable fields, skip lastSold which is a timestamp)
+    local rpCopy = {}
+    for pt, info in pairs(royalProducts) do
+        rpCopy[pt] = {
+            basePrice = info.basePrice,
+            source = info.source,
+            totalSold = info.totalSold,
+            totalRevenue = info.totalRevenue,
+            -- lastSold is transient; don't save
+        }
+    end
+    -- Shallow copy eventLog (entries are flat tables)
+    local logCopy = {}
+    for i, e in ipairs(eventLog) do
+        logCopy[i] = {
+            t = e.t,
+            type = e.type,
+            productType = e.productType,
+            multiplier = e.multiplier,
+            duration = e.duration,
+            source = e.source,
+            description = e.description,
+        }
+    end
+    -- Copy eventTimers (active events that haven't expired yet)
+    local timersCopy = {}
+    if DynamicMarketSystem._eventTimers then
+        for i, t in ipairs(DynamicMarketSystem._eventTimers) do
+            timersCopy[i] = {
+                resource = t.resource,
+                startTime = t.startTime,
+                duration = t.duration,
+                originalMultiplier = t.originalMultiplier,
+            }
+        end
+    end
+    return {
+        priceModifiers = modsCopy,
+        royalProducts = rpCopy,
+        eventLog = logCopy,
+        eventTimers = timersCopy,
+        inflationRate = inflationRate,
+        totalGoldInCirculation = totalGoldInCirculation,
+    }
+end
+
+-- Deserialize market state from a saved table.
+-- Called after DynamicMarket.init() has run (so priceModifiers table exists).
+function DynamicMarketSystem.deserialize(data)
+    if not data then return end
+    -- Restore global market state
+    if type(data.inflationRate) == "number" then
+        inflationRate = data.inflationRate
+    end
+    if type(data.totalGoldInCirculation) == "number" then
+        totalGoldInCirculation = data.totalGoldInCirculation
+    end
+    -- Restore priceModifiers (merge: only update existing, don't add new)
+    if type(data.priceModifiers) == "table" then
+        for resource, mod in pairs(data.priceModifiers) do
+            if priceModifiers[resource] and type(mod) == "table" then
+                if type(mod.base) == "number" then priceModifiers[resource].base = mod.base end
+                if type(mod.supplyDemand) == "number" then priceModifiers[resource].supplyDemand = mod.supplyDemand end
+                if type(mod.seasonal) == "number" then priceModifiers[resource].seasonal = mod.seasonal end
+                if type(mod.event) == "number" then priceModifiers[resource].event = mod.event end
+                if type(mod.inflation) == "number" then priceModifiers[resource].inflation = mod.inflation end
+                if type(mod.current) == "number" then priceModifiers[resource].current = mod.current end
+            end
+        end
+    end
+    -- Restore royalProducts (merge: update stats for existing, add new if registered)
+    if type(data.royalProducts) == "table" then
+        for pt, info in pairs(data.royalProducts) do
+            if royalProducts[pt] and type(info) == "table" then
+                if type(info.totalSold) == "number" then royalProducts[pt].totalSold = info.totalSold end
+                if type(info.totalRevenue) == "number" then royalProducts[pt].totalRevenue = info.totalRevenue end
+                -- Don't restore lastSold (it's a stale timestamp)
+            end
+        end
+    end
+    -- Restore eventLog
+    if type(data.eventLog) == "table" then
+        eventLog = {}
+        for i, e in ipairs(data.eventLog) do
+            if type(e) == "table" then
+                eventLog[i] = {
+                    t = e.t or 0,
+                    type = e.type or "unknown",
+                    productType = e.productType or "?",
+                    multiplier = e.multiplier or 1.0,
+                    duration = e.duration,
+                    source = e.source or "system",
+                    description = e.description or "",
+                }
+            end
+        end
+        -- Trim if exceeds max
+        while #eventLog > eventLogMaxEntries do
+            table.remove(eventLog, 1)
+        end
+    end
+    -- Restore eventTimers (active events)
+    if type(data.eventTimers) == "table" then
+        DynamicMarketSystem._eventTimers = {}
+        for i, t in ipairs(data.eventTimers) do
+            if type(t) == "table" then
+                DynamicMarketSystem._eventTimers[i] = {
+                    resource = t.resource,
+                    startTime = t.startTime,
+                    duration = t.duration,
+                    originalMultiplier = t.originalMultiplier,
+                }
+            end
+        end
+    end
+    print(string.format("[DynamicMarket] Deserialized: inflation=%.2f, gold=%d, %d modifiers, %d events, %d active timers",
+        inflationRate, totalGoldInCirculation,
+        countTable(priceModifiers), #eventLog,
+        DynamicMarketSystem._eventTimers and #DynamicMarketSystem._eventTimers or 0))
+end
+
 return DynamicMarketSystem
