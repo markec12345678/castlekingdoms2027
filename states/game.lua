@@ -4177,6 +4177,10 @@ end
 
 -- Castle Kingdoms 2027: Skirmish trail access (Ctrl+Shift+T = start skirmish 1)
 function game:wheelmoved(x, y)
+    -- Castle Kingdoms 2027 v3.11.919: Forward wheel to Market Dashboard if expanded
+    if MarketDashboard.isVisible() then
+        if MarketDashboard.wheelmoved(x, y) then return end
+    end
     if scrollCountDown == 0 then
         scrollCountDown = 0.05
         scrolledAmountWithinShortPeriod = y

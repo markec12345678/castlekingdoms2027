@@ -44,6 +44,7 @@ local leaderboardMode = "qty"
 -- Event log expanded panel state
 local eventLogExpanded = false
 local eventLogFilter = "all"  -- "all", "surge", "crash", "seasonal", "manual"
+local eventLogScrollOffset = 0  -- scroll position in event list (0 = top)
 
 -- Comparison mode: multi-product price comparison chart
 -- comparisonList: set of productTypes selected for comparison
@@ -474,7 +475,7 @@ function MarketDashboard.draw()
         love.graphics.setFont(font)
         love.graphics.setColor(0.5, 0.6, 0.7, 1)
         if smallFont then love.graphics.setFont(smallFont) end
-        love.graphics.print("V: zapri  |  1-5: filter  |  click zunaj: zapri", overlayX + 16, overlayY + 34)
+        love.graphics.print("V: zapri  |  1-5: filter  |  ↑↓/PgUp/PgDn/wheel: scroll  |  Home: top  |  click zunaj: zapri", overlayX + 16, overlayY + 34)
         love.graphics.setFont(font)
 
         -- Filter chips
@@ -539,18 +540,35 @@ function MarketDashboard.draw()
         love.graphics.print("VIR", cols.source, listY + 4)
         love.graphics.print("OPIS", cols.desc, listY + 4)
 
-        -- Event rows (max 20 visible, scrollable in future)
+        -- Event rows with scroll support
         local rowY = listY + 24
         local rowH = 14
-        local maxRows = math.floor((overlayH - (rowY - overlayY) - 16) / rowH)
-        local visibleCount = math.min(#filteredEvents, maxRows)
+        local listAreaH = overlayH - (rowY - overlayY) - 16
+        local maxRows = math.floor(listAreaH / rowH)
+        -- Clamp scroll offset to valid range
+        local totalFiltered = #filteredEvents
+        local maxScrollOffset = math.max(0, totalFiltered - maxRows)
+        if eventLogScrollOffset > maxScrollOffset then
+            eventLogScrollOffset = maxScrollOffset
+        end
+        if eventLogScrollOffset < 0 then
+            eventLogScrollOffset = 0
+        end
+        local visibleCount = math.min(totalFiltered, maxRows)
+
+        -- Clip rendering to list area (prevent overflow)
+        local clipX, clipY, clipW, clipH = overlayX + 16, rowY, overlayW - 32, listAreaH
+        love.graphics.setScissor(clipX, clipY, clipW, clipH)
+
         for i = 1, visibleCount do
-            local e = filteredEvents[i]
+            local eventIdx = i + eventLogScrollOffset
+            local e = filteredEvents[eventIdx]
+            if not e then break end
             local ry = rowY + (i - 1) * rowH
-            -- Row background (alternating)
-            if i % 2 == 0 then
+            -- Row background (alternating by absolute index)
+            if eventIdx % 2 == 0 then
                 love.graphics.setColor(0.15, 0.17, 0.22, 0.5)
-                love.graphics.rectangle("fill", overlayX + 16, ry, overlayW - 32, rowH, 2, 2, 2, 2)
+                love.graphics.rectangle("fill", overlayX + 16, ry, overlayW - 32 - 14, rowH, 2, 2, 2, 2)
             end
             -- Age
             local age = ((love.timer and love.timer.getTime()) or 0) - e.t
@@ -591,12 +609,41 @@ function MarketDashboard.draw()
             love.graphics.print(desc, cols.desc, ry + 1)
         end
 
-        -- Footer: count info
+        -- Reset scissor
+        love.graphics.setScissor()
+
+        -- Scrollbar (right side of list area)
+        if totalFiltered > maxRows then
+            local sbX = overlayX + overlayW - 28
+            local sbY = rowY
+            local sbW = 10
+            local sbH = listAreaH
+            -- Track
+            love.graphics.setColor(0.1, 0.12, 0.16, 1)
+            love.graphics.rectangle("fill", sbX, sbY, sbW, sbH, 3, 3, 3, 3)
+            love.graphics.setColor(0.3, 0.35, 0.4, 1)
+            love.graphics.rectangle("line", sbX, sbY, sbW, sbH, 3, 3, 3, 3)
+            -- Thumb
+            local thumbH = math.max(20, (maxRows / totalFiltered) * sbH)
+            local thumbY = sbY + (eventLogScrollOffset / maxScrollOffset) * (sbH - thumbH)
+            love.graphics.setColor(0.5, 0.6, 0.75, 0.9)
+            love.graphics.rectangle("fill", sbX + 1, thumbY, sbW - 2, thumbH, 2, 2, 2, 2)
+        end
+
+        -- Footer: count info with scroll position
         love.graphics.setColor(0.5, 0.55, 0.6, 1)
         if smallFont then love.graphics.setFont(smallFont) end
-        love.graphics.print(string.format("Prikazano: %d/%d dogodkov (filter: %s)",
-            visibleCount, #filteredEvents, eventLogFilter),
-            overlayX + 16, overlayY + overlayH - 20)
+        local footerStr
+        if totalFiltered > maxRows then
+            footerStr = string.format("Prikazano: %d-%d/%d dogodkov (filter: %s)  |  ↑↓/wheel: scroll  |  Home: top",
+                eventLogScrollOffset + 1,
+                math.min(eventLogScrollOffset + maxRows, totalFiltered),
+                totalFiltered, eventLogFilter)
+        else
+            footerStr = string.format("Prikazano: %d/%d dogodkov (filter: %s)",
+                visibleCount, totalFiltered, eventLogFilter)
+        end
+        love.graphics.print(footerStr, overlayX + 16, overlayY + overlayH - 20)
         love.graphics.setFont(font)
     end
 
@@ -1152,6 +1199,7 @@ function MarketDashboard.keypressed(key, scancode, isrepeat)
     -- V: toggle event log expanded panel
     if key == "v" and not searchActive then
         eventLogExpanded = not eventLogExpanded
+        eventLogScrollOffset = 0  -- reset scroll on open
         showMessage(eventLogExpanded and "Zgodovina dogodkov: ON" or "Zgodovina dogodkov: OFF")
         return true
     end
@@ -1163,9 +1211,31 @@ function MarketDashboard.keypressed(key, scancode, isrepeat)
         for i, f in ipairs(filters) do
             if key == tostring(i) then
                 eventLogFilter = f
+                eventLogScrollOffset = 0  -- reset scroll on filter change
                 showMessage("Filter: " .. filterLabels[i])
                 return true
             end
+        end
+        -- Up/Down/PageUp/PageDown for scrolling
+        if key == "up" then
+            eventLogScrollOffset = math.max(0, eventLogScrollOffset - 1)
+            return true
+        end
+        if key == "down" then
+            eventLogScrollOffset = eventLogScrollOffset + 1  -- clamped in draw
+            return true
+        end
+        if key == "pageup" then
+            eventLogScrollOffset = math.max(0, eventLogScrollOffset - 10)
+            return true
+        end
+        if key == "pagedown" then
+            eventLogScrollOffset = eventLogScrollOffset + 10  -- clamped in draw
+            return true
+        end
+        if key == "home" then
+            eventLogScrollOffset = 0
+            return true
         end
     end
 
@@ -1225,6 +1295,21 @@ function MarketDashboard.textinput(text)
             selectedIndex = 1
             MarketDashboard.refresh()
         end
+        return true
+    end
+    return false
+end
+
+-- Mouse wheel handler for event log scrolling
+function MarketDashboard.wheelmoved(x, y)
+    if not visible then return false end
+    if not eventLogExpanded then return false end
+    -- y > 0: scroll up, y < 0: scroll down
+    if y > 0 then
+        eventLogScrollOffset = math.max(0, eventLogScrollOffset - 3)
+        return true
+    elseif y < 0 then
+        eventLogScrollOffset = eventLogScrollOffset + 3  -- clamped in draw
         return true
     end
     return false

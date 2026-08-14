@@ -2,6 +2,39 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.919] — 2026-08-14 — Event Log Scroll/Pagination v Expanded Panel
+
+### Dodano
+- **Market Dashboard** — scroll/pagination v expanded event log panel:
+  - Nov state: `eventLogScrollOffset` (0 = top)
+  - **Miškin wheel**: scroll gor/dol (3 vrstice na tick)
+  - **↑/↓** tipke: scroll za 1 vrstico
+  - **PgUp/PgDn** tipke: scroll za 10 vrstic
+  - **Home** tipka: skok na vrh
+  - Scroll offset se resetira ob odpiranju panela (V) ali spremembi filtra (1-5)
+  - Scroll offset se clamp-a na veljaven range (maxScrollOffset = total - maxRows)
+  - **Scrollbar vizualen**: desno od seznama, z track + thumb
+    - Thumb višina proporcionalna (maxRows / total)
+    - Thumb pozicija proporcionalna scroll offsetu
+    - Min thumb višina 20px (berljivost)
+  - **Scissor clipping**: prepreči overflow vrstic izven list area
+  - Footer prikazuje "Prikazano: N-M/Total dogodkov" namesto samo "N/Total" ko je scrollable
+  - Footer dodan hint: "↑↓/wheel: scroll | Home: top"
+  - Naslov panela posodobljen z novimi keybinds
+
+- **game.lua** — wheelmoved forwarding:
+  - `game:wheelmoved(x, y)` sedaj najprej preveri MarketDashboard.wheelmoved()
+  - Če je Market Dashboard viden in je event log expanded, wheel scrolla list (ne mape)
+  - Sicer pa wheel scrolla mapo (obstoječe vedenje)
+
+### Spremenjene datoteke
+- `states/ui/hud/market_dashboard.lua` (+75 vrstic) — eventLogScrollOffset state, ↑↓/PgUp/PgDn/Home keybinds, wheelmoved() funkcija, scissor clipping, scrollbar vizual, dopolnjen footer
+- `states/game.lua` (+5 vrstic) — wheelmoved forwarding v MarketDashboard
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 7 spremenjenih datotek PASS
+- Polna preverba: 1642/1642 (100%) Lua datotek pass
+
 ## [v3.11.918] — 2026-08-14 — Auto-Save UI Panel (Ctrl+U)
 
 ### Dodano
