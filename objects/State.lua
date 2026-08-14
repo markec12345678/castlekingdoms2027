@@ -467,6 +467,9 @@ function State:serialize()
     -- Castle Kingdoms 2027: Save Royal Systems state
     local RoyalRegistry = require("objects.Economy.RoyalSystemsRegistry")
     data.royalSystems = RoyalRegistry.serialize()
+    -- Castle Kingdoms 2027 v3.11.912: Save Market Dashboard comparison list
+    local MarketDashboard = require("states.ui.hud.market_dashboard")
+    data.marketDashboard = MarketDashboard.serialize()
     return data, metadata
 end
 
@@ -547,6 +550,11 @@ function State:deserialize(load)
     if load.royalSystems then
         local RoyalRegistry = require("objects.Economy.RoyalSystemsRegistry")
         RoyalRegistry.deserialize(load.royalSystems)
+    end
+    -- Castle Kingdoms 2027 v3.11.912: Load Market Dashboard comparison list
+    if load.marketDashboard then
+        local MarketDashboard = require("states.ui.hud.market_dashboard")
+        MarketDashboard.deserialize(load.marketDashboard)
     end
     self.scaleX = load.scaleX
     self.viewXview = load.viewXview

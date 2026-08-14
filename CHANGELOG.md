@@ -2,6 +2,29 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.912] — 2026-08-14 — Saved Comparison List (persistenca med sejami)
+
+### Dodano
+- **Market Dashboard** — serialize/deserialize API:
+  - Novi funkciji `MarketDashboard.serialize()` in `MarketDashboard.deserialize(data)`
+  - Shrani: comparisonList, comparisonMode, leaderboardMode, sortMode
+  - Deserializacija validira tipe (string/boolean) in omeji comparisonList na comparisonMaxItems
+  - Sanity check: če je comparisonMode true v save-u, ampak comparisonList ima < 2 elementa, se samodejno izklopi
+  - Stari save-i (brez marketDashboard field) se naložijo brez težav (guard z `if load.marketDashboard`)
+- **State.lua** — povezava v save/load sistem:
+  - `State:serialize()` dodan `data.marketDashboard = MarketDashboard.serialize()`
+  - `State:load()` dodan `if load.marketDashboard then MarketDashboard.deserialize(load.marketDashboard) end`
+  - Lazy require (prepreči circular dependency)
+
+### Spremenjene datoteke
+- `states/ui/hud/market_dashboard.lua` (+50 vrstic) — serialize/deserialize funkciji
+- `objects/State.lua` (+8 vrstic) — save/load integracija z lazy require
+- `README.md` — posodobljeni badges (v3.11.912, +SavedComparison), statistika
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 8 spremenjenih datotek PASS (vključno z State.lua)
+- Polna preverba: 1640/1640 (100%) Lua datotek pass
+
 ## [v3.11.911] — 2026-08-13 — Multi-Product Comparison Chart v Market Dashboard
 
 ### Dodano

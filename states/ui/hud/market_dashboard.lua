@@ -1070,4 +1070,52 @@ function MarketDashboard.mousepressed(x, y, button, istouch, presses)
     return false
 end
 
+-- ============================================================================
+-- SAVE / LOAD PERSISTENCE
+-- ============================================================================
+
+-- Serialize current comparison list state for saving.
+-- Returns a table that can be stored in save file via bitser.
+function MarketDashboard.serialize()
+    return {
+        comparisonList = comparisonList,
+        comparisonMode = comparisonMode,
+        leaderboardMode = leaderboardMode,
+        sortMode = sortMode,
+    }
+end
+
+-- Deserialize comparison list state from a saved table.
+-- Called after Market Dashboard has been loaded; restores player's selection.
+function MarketDashboard.deserialize(data)
+    if not data then return end
+    -- Restore comparison list (validate types to prevent save corruption)
+    if type(data.comparisonList) == "table" then
+        comparisonList = {}
+        comparisonSet = {}
+        for _, pt in ipairs(data.comparisonList) do
+            if type(pt) == "string" and #pt > 0 and #comparisonList < comparisonMaxItems then
+                comparisonList[#comparisonList + 1] = pt
+                comparisonSet[pt] = true
+            end
+        end
+    end
+    if type(data.comparisonMode) == "boolean" then
+        comparisonMode = data.comparisonMode
+        -- Sanity: if comparisonMode is true but list has < 2 items, disable
+        if comparisonMode and #comparisonList < 2 then
+            comparisonMode = false
+        end
+    end
+    if type(data.leaderboardMode) == "string" and
+       (data.leaderboardMode == "qty" or data.leaderboardMode == "profit") then
+        leaderboardMode = data.leaderboardMode
+    end
+    if type(data.sortMode) == "string" and sortModes[data.sortMode] then
+        sortMode = data.sortMode
+    end
+    print(string.format("[MarketDashboard] Deserialized: %d comparison items, mode=%s, lbMode=%s, sort=%s",
+        #comparisonList, tostring(comparisonMode), leaderboardMode, sortMode))
+end
+
 return MarketDashboard
