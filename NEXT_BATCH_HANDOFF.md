@@ -1,7 +1,7 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.916**
+- Različica: **v3.11.917**
 - Skupaj Royal sistemov: **987**
 - Skupaj Lua datotek: **1641**
 - Sintaktična preverba (avtentična Lua `load()`): **1641/1641 pass (100%)**
@@ -24,10 +24,10 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 
 1. **Sprite-i za Royal sisteme** — trenutno so samo podatkovni, brez grafične podobe
 2. **Sistemske odvisnosti** — nekateri sistemi naj zahtevajo druge (npr. BellMaker zahteva Metalwork)
-3. **Auto-save integration** — integracija Royal sistemov z obstoječim AutoSaveSystem.lua
-4. **Event log scroll/pagination** — scrollbar za več kot 20 vidnih dogodkov v expanded panelu
+3. **Event log scroll/pagination** — scrollbar za več kot 20 vidnih dogodkov v expanded panelu
+4. **Auto-save UI panel** — ločen UI panel z auto-save stats (timer, lastSaveStats, disable toggle)
 
-## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.11.916)
+## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.11.917)
 
 - ✅ **v3.11.382**: Royal Systems Registry + UI Panel (Ctrl+R)
 - ✅ **v3.11.901**: Save/Load persistenca za Royal sisteme (maker, zgradbe, zaloga, surovine)
@@ -46,6 +46,7 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 - ✅ **v3.11.914**: Saved DynamicMarket State — persistenca priceModifiers, inflationRate, goldInCirculation, eventLog, eventTimers
 - ✅ **v3.11.915**: Save Game Versioning — SaveVersioner modul z migracijsko verigo za future-proofing save-ov
 - ✅ **v3.11.916**: Expandable Event Log Panel — V/1-5 keybinds za polno zgodovino dogodkov z filtri (surge/crash/seasonal/manual)
+- ✅ **v3.11.917**: Auto-Save Integration z Royal Diagnostic Stats — notification prikazuje kaj je bilo shranjeno, getStats() vključuje lastSaveStats
 
 ## ZADNJE ZAKLJUČENI PAKET (v3.11.892–v3.11.901) — STEKLARSKI DODATKI 13 + LIVARSKI DODATKI 13
 

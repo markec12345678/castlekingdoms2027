@@ -2,6 +2,33 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.917] — 2026-08-14 — Auto-Save Integration z Royal Diagnostic Stats
+
+### Dodano
+- **AutoSaveSystem** — diagnostic stats za Royal subsystems:
+  - Nova internal funkcija `_collectRoyalStats()` — zbere statistiko o Royal podatkih, ki se shranjujejo
+  - Pridobi: število Royal sistemov, število registriranih produktov, število tržnih dogodkov, autoSellEnabled, comparisonItems count, saveVersion
+  - Vse zahteve so wrap-ane v pcall (defenzivno — ne crashne če modul manjka)
+  - Lazy require (prepreči circular dependency)
+  - Nova polja v `lastSaveStats` — shranjeni po vsakem save-u
+  - `getStats()` sedaj vključuje `lastSaveStats` polje
+  - Notification ob shranjevanju prikazuje: "Shranjeno: N Royal sistemov, M produktov, K dogodkov" (namesto generičnega "Samodejno shranjevanje...")
+
+### Pomembna ugotovitev
+AutoSaveSystem **že od prej** pravilno shranjuje vse Royal podatke preko obstoječe verige:
+```
+AutoSaveSystem.save() → SaveManager.save(name) → _G.state:save() → State:serialize() →
+  [royalSystems, marketDashboard, royalMarket, dynamicMarket, saveVersion]
+```
+Ta verzija samo doda **diagnostično vidljivost** — igralec sedaj vidi, kaj točno je bilo shranjeno.
+
+### Spremenjene datoteke
+- `objects/AutoSaveSystem.lua` (+55 vrstic) — _collectRoyalStats(), lastSaveStats, dopolnjen getStats(), bolj informativen notification
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 8 spremenjenih datotek PASS (vključno z AutoSaveSystem)
+- Polna preverba: 1641/1641 (100%) Lua datotek pass
+
 ## [v3.11.916] — 2026-08-14 — Expandable Event Log Panel v Market Dashboard
 
 ### Dodano

@@ -72,19 +72,73 @@ function AutoSaveSystem.save()
             local ok, err = pcall(SaveManager.save, SaveManager, saveName)
             if not ok then
                 print("[AutoSave] Save error: " .. tostring(err))
+            else
+                -- Collect Royal system stats for diagnostic info
+                AutoSaveSystem.lastSaveStats = AutoSaveSystem._collectRoyalStats()
             end
         end
     end
 
     -- Show notification
     if config.showNotification and _G.ModernUI then
-        _G.ModernUI.notifyInfo("Samodejno shranjevanje...", 2)
+        local stats = AutoSaveSystem.lastSaveStats or {}
+        local msg = "Samodejno shranjevanje..."
+        if stats.royalSystems and stats.royalSystems > 0 then
+            msg = string.format("Shranjeno: %d Royal sistemov, %d produktov, %d dogodkov",
+                stats.royalSystems or 0, stats.royalProducts or 0, stats.marketEvents or 0)
+        end
+        _G.ModernUI.notifyInfo(msg, 2)
     end
 
     -- Track campaign progress
     local CampaignProgress = require("objects.Mission.CampaignProgress")
     CampaignProgress.addPlaytime(config.interval)
     CampaignProgress.save()
+end
+
+-- Internal: collect Royal system stats for diagnostic display
+-- Returns a table with counts of saved Royal subsystems' data
+function AutoSaveSystem._collectRoyalStats()
+    local stats = {
+        royalSystems = 0,
+        royalProducts = 0,
+        marketEvents = 0,
+        autoSellEnabled = false,
+        comparisonItems = 0,
+        saveVersion = 0,
+    }
+    -- Royal Systems count
+    local ok1, Registry = pcall(require, "objects.Economy.RoyalSystemsRegistry")
+    if ok1 and Registry then
+        local systems = Registry.getSystems and Registry.getSystems() or {}
+        stats.royalSystems = #systems
+    end
+    -- Royal products + market events
+    local ok2, DM = pcall(require, "objects.Economy.DynamicMarketSystem")
+    if ok2 and DM then
+        local rpStats = DM.getRoyalStats and DM.getRoyalStats() or {}
+        stats.royalProducts = rpStats.registeredProducts or 0
+        local evStats = DM.getEventStats and DM.getEventStats() or {}
+        stats.marketEvents = evStats.total or 0
+    end
+    -- Auto-sell state
+    local ok3, RMI = pcall(require, "objects.Economy.RoyalMarketIntegration")
+    if ok3 and RMI then
+        local rmiStats = RMI.getStats and RMI.getStats() or {}
+        stats.autoSellEnabled = rmiStats.autoSellEnabled or false
+    end
+    -- Comparison list count
+    local ok4, MD = pcall(require, "states.ui.hud.market_dashboard")
+    if ok4 and MD and MD.serialize then
+        local md = MD.serialize()
+        stats.comparisonItems = md.comparisonList and #md.comparisonList or 0
+    end
+    -- Save version
+    local ok5, SV = pcall(require, "objects.Economy.SaveVersioner")
+    if ok5 and SV then
+        stats.saveVersion = SV.CURRENT_VERSION or 0
+    end
+    return stats
 end
 
 -- Force save now
@@ -101,6 +155,7 @@ function AutoSaveSystem.getStats()
         nextSaveIn = math.max(0, config.interval - saveTimer),
         saveCount = saveCount,
         lastSaveTime = lastSaveTime,
+        lastSaveStats = AutoSaveSystem.lastSaveStats or {},
     }
 end
 
