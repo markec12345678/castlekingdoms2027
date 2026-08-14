@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.920] — 2026-08-14 — Royal Systems Panel Scroll (wheel + scrollbar)
+
+### Dodano
+- **Royal Systems Panel** (Ctrl+R) — wheel scroll in vizualen scrollbar:
+  - Nova funkcija `RoyalPanel.wheelmoved(x, y)` — wheel gor/dol navigira med stranimi
+  - Wheel up: previous page (če page > 1)
+  - Wheel down: next page (če page < totalPages)
+  - Ne deluje med iskanjem (searchActive) — ne moti tipkanja
+  - SelectedIndex se posodobi na prvo vrstico nove strani
+  - **Vizualen scrollbar** na desni strani seznama sistemov:
+    - Track (temen background, 6px širok)
+    - Thumb (proporcionalen višini = sbH / totalPages, min 20px)
+    - Thumb pozicija proporcionalna page/totalPages
+    - Zlata/barvna barva thumb-a (zgodovinska tematika panela)
+  - Click area sistemske vrstice je nekoliko ožja (listW - 16) da ne prekriva scrollbar-a
+- **game.lua** — wheelmoved forwarding razširjen:
+  - Najprej MarketDashboard.wheelmoved (če je panel viden)
+  - Nato RoyalSystemsPanel.wheelmoved (če je panel viden)
+  - Sicer wheel scrolla mapo (obstoječe vedenje)
+
+### Spremenjene datoteke
+- `states/ui/hud/royal_systems_panel.lua` (+30 vrstic) — wheelmoved() funkcija, vizualen scrollbar v seznamu, ožja click area
+- `states/game.lua` (+4 vrstice) — wheelmoved forwarding v RoyalSystemsPanel
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 7 spremenjenih datotek PASS
+- Polna preverba: 1642/1642 (100%) Lua datotek pass
+
 ## [v3.11.919] — 2026-08-14 — Event Log Scroll/Pagination v Expanded Panel
 
 ### Dodano

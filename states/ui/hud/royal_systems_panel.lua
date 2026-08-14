@@ -387,8 +387,24 @@ function RoyalPanel.draw()
         love.graphics.print(mini, listX + listW - 58, rowY + 3)
 
         -- Click area
-        registerClick("sys_" .. i, listX + 4, rowY, listW - 8, itemH - 2,
+        registerClick("sys_" .. i, listX + 4, rowY, listW - 16, itemH - 2,
             function() selectedIndex = i end)
+    end
+
+    -- Visual scrollbar for system list (right side of list area)
+    if totalPages > 1 then
+        local sbX = listX + listW - 10
+        local sbY = listY + 30
+        local sbW = 6
+        local sbH = listH - 36
+        -- Track
+        love.graphics.setColor(0.1, 0.08, 0.04, 1)
+        love.graphics.rectangle("fill", sbX, sbY, sbW, sbH, 2, 2, 2, 2)
+        -- Thumb (proportional to page/totalPages)
+        local thumbH = math.max(20, sbH / totalPages)
+        local thumbY = sbY + ((page - 1) / math.max(1, totalPages - 1)) * (sbH - thumbH)
+        love.graphics.setColor(0.55, 0.45, 0.25, 0.9)
+        love.graphics.rectangle("fill", sbX + 1, thumbY, sbW - 2, thumbH, 2, 2, 2, 2)
     end
 
     -- Right column: details of selected system
@@ -841,6 +857,27 @@ function RoyalPanel.textinput(text)
             rebuildFiltered()
         end
         return true
+    end
+    return false
+end
+
+-- Mouse wheel handler for fast page navigation through 987 systems
+function RoyalPanel.wheelmoved(x, y)
+    if not visible then return false end
+    if searchActive then return false end  -- don't interfere with search
+    -- y > 0: scroll up (previous page), y < 0: scroll down (next page)
+    if y > 0 then
+        if page > 1 then
+            page = page - 1
+            selectedIndex = (page - 1) * pageSize + 1
+            return true
+        end
+    elseif y < 0 then
+        if page < totalPages then
+            page = page + 1
+            selectedIndex = (page - 1) * pageSize + 1
+            return true
+        end
     end
     return false
 end

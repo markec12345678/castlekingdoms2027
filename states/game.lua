@@ -4181,6 +4181,10 @@ function game:wheelmoved(x, y)
     if MarketDashboard.isVisible() then
         if MarketDashboard.wheelmoved(x, y) then return end
     end
+    -- Castle Kingdoms 2027 v3.11.920: Forward wheel to Royal Systems Panel for page navigation
+    if RoyalSystemsPanel.isVisible() then
+        if RoyalSystemsPanel.wheelmoved(x, y) then return end
+    end
     if scrollCountDown == 0 then
         scrollCountDown = 0.05
         scrolledAmountWithinShortPeriod = y
