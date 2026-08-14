@@ -2,6 +2,31 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.911] — 2026-08-13 — Multi-Product Comparison Chart v Market Dashboard
+
+### Dodano
+- **Market Dashboard** — multi-product comparison mode:
+  - Nov state: `comparisonList` (ordered list of productTypes), `comparisonSet` (fast lookup), `comparisonMode` (toggle), `comparisonMaxItems = 6`
+  - Barvna paleta `COMPARISON_COLORS` (6 barv: zelena, modra, oranžna, roza, rumena, vijolična)
+  - **SPACE**: doda/odstrani trenutno izbrani produkt v primerjavo (max 6)
+  - **C**: preklopi način primerjave (zahtevajo se vsaj 2 produkti)
+  - **Ctrl+X**: počisti primerjavo
+  - Vrstice tabele prikazujejo barvni dot ob produktih, ki so v primerjavi (z indexirano barvo)
+  - Multi-line chart z normaliziranimi cenami (base = 100%, range 0-200%)
+  - Y-os: 0%, 100% (base, črtkana referenca), 200%
+  - X-os: -60s, -30s, now (60s zgodovina)
+  - End-point dot z labelo trenutnega % ob vsaki črti
+  - Legenda (zgornji desni kot) z barvnimi kvadrati in imeni produktov
+  - Naslov: "📊 PRIMERJAVA CEN (N produktov, normalizirano na base=100%)"
+  - Keybind help text posodobljen z SPACE, C, Ctrl+X
+
+### Spremenjene datoteke
+- `states/ui/hud/market_dashboard.lua` (+115 vrstic) — comparisonList state, COMPARISON_COLORS, SPACE/C/Ctrl+X keybinds, comparison mode render z multi-line chart + legendo, indicator v tabeli
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 7 spremenjenih datotek PASS
+- Polna preverba: 1640/1640 (100%) Lua datotek pass
+
 ## [v3.11.910] — 2026-08-13 — Market Event Log v Market Dashboard
 
 ### Dodano

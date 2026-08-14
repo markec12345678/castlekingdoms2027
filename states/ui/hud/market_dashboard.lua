@@ -41,6 +41,24 @@ local sortModes = {
 -- Leaderboard mode: "qty" (top producers by quantity) or "profit" (top by gold earned)
 local leaderboardMode = "qty"
 
+-- Comparison mode: multi-product price comparison chart
+-- comparisonList: set of productTypes selected for comparison
+-- comparisonMode: when true, show comparison chart instead of single-product detail panel
+local comparisonList = {}  -- ordered list of productType strings
+local comparisonSet = {}   -- set for fast lookup (productType -> true)
+local comparisonMode = false
+local comparisonMaxItems = 6  -- limit to keep chart readable
+
+-- Color palette for comparison lines (cycled by index)
+local COMPARISON_COLORS = {
+    {0.4, 0.95, 0.4},   -- green
+    {0.4, 0.6, 0.95},   -- blue
+    {0.95, 0.7, 0.4},   -- orange
+    {0.95, 0.4, 0.6},   -- pink
+    {0.95, 0.95, 0.4},  -- yellow
+    {0.7, 0.4, 0.95},   -- purple
+}
+
 local actionMessage = ""
 local actionMessageTime = 0
 
@@ -162,7 +180,7 @@ function MarketDashboard.draw()
     love.graphics.print("🏰 KRALJEVI TRG — Nadzorna plošča trga", panelX + 16, panelY + 12)
     love.graphics.setFont(font)
     love.graphics.setColor(0.6, 0.6, 0.6, 1)
-    love.graphics.print("Ctrl+K: zapri  |  /: iskanje  |  S: sortiranje  |  E: dogodek  |  Q: preklop leaderboarda  |  ←→: stran",
+    love.graphics.print("Ctrl+K: zapri  |  /: iskanje  |  S: sort  |  E: dogodek  |  Q: leaderboard  |  SPACE: dodaj v primerjavo  |  C: primerjava  |  ←→: stran",
         panelX + 16, panelY + 36)
 
     -- Aggregate stats bar
@@ -482,6 +500,17 @@ function MarketDashboard.draw()
 
         love.graphics.setColor(0.85, 0.85, 0.85, 1)
         love.graphics.print(p.productType, colXs.productName, rowY + 3)
+        -- Indicator if product is in comparison list
+        if comparisonSet[p.productType] then
+            -- Find index for color
+            local compIdx = 1
+            for ci, pt in ipairs(comparisonList) do
+                if pt == p.productType then compIdx = ci; break end
+            end
+            local cc = COMPARISON_COLORS[((compIdx - 1) % #COMPARISON_COLORS) + 1]
+            love.graphics.setColor(cc[1], cc[2], cc[3], 1)
+            love.graphics.circle("fill", colXs.productName - 8, rowY + 9, 4)
+        end
         love.graphics.setColor(0.7, 0.7, 0.7, 1)
         love.graphics.print(tostring(p.basePrice), colXs.base, rowY + 3)
         love.graphics.setColor(priceColor)
@@ -514,8 +543,102 @@ function MarketDashboard.draw()
         love.graphics.setFont(font)
     end
 
-    -- Selected product detail panel (bottom) — with price history chart + revenue chart
-    if cachedProducts[selectedIndex] then
+    -- Detail panel: comparison mode (multi-product) or single-product mode
+    if comparisonMode and #comparisonList >= 2 then
+        -- COMPARISON MODE: multi-line chart with normalized prices
+        local detailH = 280
+        local detailY = panelY + panelH - detailH - 20
+        love.graphics.setColor(0.2, 0.25, 0.35, 1)
+        love.graphics.rectangle("fill", panelX + 16, detailY, panelW - 32, detailH, 4, 4, 4, 4)
+        love.graphics.setColor(0.9, 0.85, 0.5, 1)
+        love.graphics.setFont(titleFont)
+        love.graphics.print(string.format("📊 PRIMERJAVA CEN (%d produktov, normalizirano na base=100%%)",
+            #comparisonList), panelX + 24, detailY + 8)
+        love.graphics.setFont(font)
+
+        -- Plot area (full width)
+        local plotX = panelX + 56
+        local plotY = detailY + 40
+        local plotW = panelW - 32 - 80
+        local plotH = detailH - 70
+
+        -- Background
+        love.graphics.setColor(0.1, 0.12, 0.16, 1)
+        love.graphics.rectangle("fill", plotX, plotY, plotW, plotH, 3, 3, 3, 3)
+        love.graphics.setColor(0.3, 0.35, 0.45, 1)
+        love.graphics.rectangle("line", plotX, plotY, plotW, plotH, 3, 3, 3, 3)
+
+        -- Y-axis: 0% to 200% (base = 100%)
+        -- Reference line at 100% (base price)
+        local baseY = plotY + plotH * 0.5  -- 100% at middle
+        love.graphics.setColor(0.5, 0.5, 0.5, 0.5)
+        for x = plotX, plotX + plotW, 6 do
+            love.graphics.line(x, baseY, x + 3, baseY)
+        end
+        love.graphics.setColor(0.6, 0.6, 0.6, 1)
+        if smallFont then love.graphics.setFont(smallFont) end
+        love.graphics.print("100% (base)", panelX + 20, baseY - 6)
+        love.graphics.print("200%", panelX + 20, plotY - 4)
+        love.graphics.print("0%", panelX + 20, plotY + plotH - 8)
+
+        -- X-axis time labels
+        love.graphics.print("-60s", plotX, plotY + plotH + 4)
+        love.graphics.print("-30s", plotX + plotW / 2 - 12, plotY + plotH + 4)
+        love.graphics.print("now", plotX + plotW - 20, plotY + plotH + 4)
+
+        -- Draw line for each product in comparison list
+        -- Normalize: sellPrice / baseSellPrice * 100, range 0-200
+        for idx, productType in ipairs(comparisonList) do
+            local color = COMPARISON_COLORS[((idx - 1) % #COMPARISON_COLORS) + 1]
+            local hist = DynamicMarket.getProductHistory(productType, 60)
+            local baseSell = math.floor((DynamicMarket.getRoyalBasePrice(productType) or 1) * 0.7 + 0.5)
+            if baseSell <= 0 then baseSell = 1 end
+
+            if #hist >= 2 then
+                love.graphics.setColor(color[1], color[2], color[3], 1)
+                love.graphics.setLineWidth(2)
+                local firstT = hist[1].t
+                local lastT = hist[#hist].t
+                local tRange = math.max(1, lastT - firstT)
+                for i = 2, #hist do
+                    local x1 = plotX + ((hist[i - 1].t - firstT) / tRange) * plotW
+                    local pct1 = (hist[i - 1].sell / baseSell) * 100
+                    local y1 = plotY + plotH - (pct1 / 200) * plotH
+                    local x2 = plotX + ((hist[i].t - firstT) / tRange) * plotW
+                    local pct2 = (hist[i].sell / baseSell) * 100
+                    local y2 = plotY + plotH - (pct2 / 200) * plotH
+                    love.graphics.line(x1, y1, x2, y2)
+                end
+                love.graphics.setLineWidth(1)
+                -- End-point dot with current price label
+                local last = hist[#hist]
+                local pct = (last.sell / baseSell) * 100
+                local ex = plotX + plotW
+                local ey = plotY + plotH - (pct / 200) * plotH
+                love.graphics.circle("fill", ex, ey, 3)
+                love.graphics.print(string.format("%d%%", math.floor(pct + 0.5)), ex + 6, ey - 6)
+            end
+        end
+
+        -- Legend (top-right)
+        local legendX = plotX + plotW - 200
+        local legendY = plotY + 6
+        for idx, productType in ipairs(comparisonList) do
+            local color = COMPARISON_COLORS[((idx - 1) % #COMPARISON_COLORS) + 1]
+            local rowY = legendY + (idx - 1) * 12
+            -- Color square
+            love.graphics.setColor(color[1], color[2], color[3], 1)
+            love.graphics.rectangle("fill", legendX, rowY + 2, 10, 10)
+            -- Product name
+            love.graphics.setColor(0.85, 0.88, 0.9, 1)
+            local displayName = productType
+            if #displayName > 18 then displayName = displayName:sub(1, 17) .. "…" end
+            love.graphics.print(displayName, legendX + 14, rowY + 2)
+        end
+
+        if font then love.graphics.setFont(font) end
+    elseif cachedProducts[selectedIndex] then
+        -- SINGLE-PRODUCT MODE (existing detail panel with price + revenue charts)
         local p = cachedProducts[selectedIndex]
         local detailH = 280
         local detailY = panelY + panelH - detailH - 20
@@ -815,6 +938,58 @@ function MarketDashboard.keypressed(key, scancode, isrepeat)
             leaderboardMode = "qty"
             showMessage("Leaderboard: TOP-10 PRODUCENTOV (količina)")
         end
+        return true
+    end
+
+    -- SPACE: toggle current product in comparison list
+    if key == "space" and not searchActive then
+        local p = cachedProducts[selectedIndex]
+        if p then
+            if comparisonSet[p.productType] then
+                -- Remove from comparison
+                comparisonSet[p.productType] = nil
+                for i, pt in ipairs(comparisonList) do
+                    if pt == p.productType then
+                        table.remove(comparisonList, i)
+                        break
+                    end
+                end
+                showMessage(string.format("Odstranjeno iz primerjave: %s (%d ostaja)",
+                    p.productType, #comparisonList))
+            else
+                -- Add to comparison (respect max limit)
+                if #comparisonList >= comparisonMaxItems then
+                    showMessage(string.format("Primerjava polna (max %d) — odstrani drug produkt", comparisonMaxItems))
+                else
+                    comparisonSet[p.productType] = true
+                    comparisonList[#comparisonList + 1] = p.productType
+                    showMessage(string.format("Dodano v primerjavo: %s (%d skupaj)",
+                        p.productType, #comparisonList))
+                end
+            end
+        end
+        return true
+    end
+
+    -- C: toggle comparison mode (show comparison chart instead of single-product detail)
+    if key == "c" and not searchActive then
+        if #comparisonList < 2 then
+            showMessage("Dodaj vsaj 2 produkta v primerjavo (SPACE) preden vklopiš način primerjave")
+        else
+            comparisonMode = not comparisonMode
+            showMessage(comparisonMode and
+                string.format("Način primerjave: ON (%d produktov)", #comparisonList) or
+                "Način primerjave: OFF")
+        end
+        return true
+    end
+
+    -- X: clear comparison list
+    if key == "x" and not searchActive and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+        comparisonList = {}
+        comparisonSet = {}
+        comparisonMode = false
+        showMessage("Primerjava počiščena")
         return true
     end
 
