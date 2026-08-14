@@ -2,6 +2,25 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.923] — 2026-08-14 — Auto-Save Quick Toggle (Shift+U)
+
+### Dodano
+- **Shift+U** — hitri shortcut za vklop/izklop auto-save-a brez odpiranja panela:
+  - Preveri trenutno stanje preko `AutoSaveSystem.getStats().enabled`
+  - Preklopi stanje z `AutoSaveSystem.setEnabled(not stats.enabled)`
+  - Prikaže obvestilo: "Auto-save: VKLOPLJEN" ali "Auto-save: IZKLOPLJEN"
+  - **Pametno**: ne aktivira se če je pritisnjen tudi Ctrl (da ne konflikta s Ctrl+U panel)
+  - Lazy require (prepreči circular dependency)
+- **keybind_help.lua** — dodan Shift+U v EKONOMIJA kategorijo
+
+### Spremenjene datoteke
+- `states/game.lua` (+12 vrstic) — Shift+U keybind handler z ModernUI notification
+- `states/ui/hud/keybind_help.lua` (+1 vrstica) — Shift+U v EKONOMIJA
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 7 spremenjenih datotek PASS
+- Polna preverba: 1642/1642 (100%) Lua datotek pass
+
 ## [v3.11.922] — 2026-08-14 — Keybind Help Overlay Dopolnjen z Vsemi Bližnjicami
 
 ### Dodano

@@ -3748,6 +3748,19 @@ function game:keypressed(key, scancode, isRepeat)
         AutoSavePanel.toggle()
         return
     end
+    -- Shift+U = Quick toggle auto-save on/off (Castle Kingdoms 2027 v3.11.923)
+    -- No panel opened - just toggles state with notification
+    if key == "u" and (love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift"))
+                   and not (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+        local AutoSaveSystem = require("objects.AutoSaveSystem")
+        local stats = AutoSaveSystem.getStats()
+        AutoSaveSystem.setEnabled(not stats.enabled)
+        if _G.ModernUI then
+            local msg = stats.enabled and "Auto-save: IZKLOPLJEN" or "Auto-save: VKLOPLJEN"
+            _G.ModernUI.notifyInfo(msg, 2)
+        end
+        return
+    end
     -- Forward keys to Royal panel if it's visible
     if RoyalSystemsPanel.isVisible() then
         if RoyalSystemsPanel.keypressed(key, scancode, isrepeat) then
