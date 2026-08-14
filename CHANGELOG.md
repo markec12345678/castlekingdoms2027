@@ -2,6 +2,25 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.922] — 2026-08-14 — Keybind Help Overlay Dopolnjen z Vsemi Bližnjicami
+
+### Dodano
+- **keybind_help.lua** (F1) — dopolnjen z 3 novimi kategorijami:
+  - **CTRL+R PANEL (Royal Systems)**: /, ←→/AD, ↑↓/WS, Home/End, PgUp/PgDn, Wheel, Tab (7 keybinds)
+  - **CTRL+K PANEL (Market Dashboard)**: /, S, E, Q, Space, C, Ctrl+X, V, 1-5, ↑↓, PgUp/PgDn, Home, Wheel (13 keybinds)
+  - **CTRL+U PANEL (Auto-Save)**: Click, ESC, Ctrl+U (3 keybinds)
+  - Skupaj 23 novih keybind opisov
+- **OSNOVNO** kategorija: V opis dopolnjen z kontekstno opombo ("V v Ctrl+K: zgodovina dogodkov")
+- Panel povečan: širina 520→560, višina 580→760 (math.min z screenH-40 za male zaslone)
+- Close hint pozicija prilagojena novi širini
+
+### Spremenjene datoteke
+- `states/ui/hud/keybind_help.lua` (+40 vrstic) — 3 nove kategorije z 23 keybindi, večji panel, dopolnjen V opis
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 7 spremenjenih datotek PASS
+- Polna preverba: 1642/1642 (100%) Lua datotek pass
+
 ## [v3.11.921] — 2026-08-14 — Royal Systems Panel Keyboard Shortcuts
 
 ### Dodano

@@ -15,7 +15,7 @@ local KEYBINDS = {
         bindings = {
             { key = "ESC",       desc = "Pavza / Zapri meni" },
             { key = "H",         desc = "Pokaži/skrij pomoč (ta okno)" },
-            { key = "V",         desc = "Nastavitve (game feel, audio, grafika)" },
+            { key = "V",         desc = "Nastavitve (game feel) | V v Ctrl+K: zgodovina dogodkov" },
             { key = "` + Shift", desc = "Odpri konzolo" },
         },
     },
@@ -27,6 +27,44 @@ local KEYBINDS = {
             { key = "Ctrl+R",    desc = "Kraljevi sistemski (987 Royal Maker sistemov + trg)" },
             { key = "Ctrl+K",    desc = "Kraljevi trg - nadzorna plošča (cene, prodaja, trendi)" },
             { key = "Ctrl+U",    desc = "Auto-save panel - status, interval, force save" },
+        },
+    },
+    {
+        category = "CTRL+R PANEL (Royal Systems)",
+        bindings = {
+            { key = "/ (slash)",   desc = "Iskanje sistemov po imenu" },
+            { key = "← → / A D",   desc = "Prejšnja/naslednja stran" },
+            { key = "↑ ↓ / W S",   desc = "Navigacija med sistemi" },
+            { key = "Home / End",  desc = "Skok na prvo/zadnjo stran" },
+            { key = "PgUp / PgDn", desc = "Hitra navigacija med stranimi" },
+            { key = "Wheel",       desc = "Scroll med stranimi (miška)" },
+            { key = "Tab",         desc = "Ciklaj kategorije (Steklar/Livar/Knigovez/...)" },
+        },
+    },
+    {
+        category = "CTRL+K PANEL (Market Dashboard)",
+        bindings = {
+            { key = "/ (slash)",    desc = "Iskanje produktov po imenu" },
+            { key = "S",            desc = "Ciklaj sortiranje (abecedno/prodaja/cena/...)" },
+            { key = "E",            desc = "Sproži test dogodek (crash/surge) na izbranem produktu" },
+            { key = "Q",            desc = "Preklopi leaderboard (količina ↔ prihodek)" },
+            { key = "Space",        desc = "Dodaj/odstrani produkt iz primerjave" },
+            { key = "C",            desc = "Preklopi način primerjave (multi-product chart)" },
+            { key = "Ctrl+X",       desc = "Počisti seznam primerjave" },
+            { key = "V",            desc = "Razširi/zapri zgodovino dogodkov" },
+            { key = "1-5",          desc = "Filter dogodkov (Vsi/Surge/Crash/Sezon/Manual)" },
+            { key = "↑ ↓",          desc = "Scroll dogodkov (ko je expanded)" },
+            { key = "PgUp / PgDn",  desc = "Hitri scroll dogodkov (10 vrstic)" },
+            { key = "Home",         desc = "Skok na vrh dogodkov" },
+            { key = "Wheel",        desc = "Scroll dogodkov ali sistemov (miška)" },
+        },
+    },
+    {
+        category = "CTRL+U PANEL (Auto-Save)",
+        bindings = {
+            { key = "Click",    desc = "Vklopi/Izklopi, Shrani zdaj, Interval presets" },
+            { key = "ESC",      desc = "Zapri panel" },
+            { key = "Ctrl+U",   desc = "Zapri panel (toggle)" },
         },
     },
     {
@@ -92,8 +130,8 @@ function KeybindHelp.draw()
     if not visible then return end
 
     local screenW, screenH = love.graphics.getDimensions()
-    local panelW = 520
-    local panelH = 580
+    local panelW = 560
+    local panelH = math.min(760, screenH - 40)
     local panelX = (screenW - panelW) / 2
     local panelY = (screenH - panelH) / 2
 
@@ -146,7 +184,7 @@ function KeybindHelp.draw()
 
     -- Close hint
     love.graphics.setColor(0.5, 0.5, 0.5, 1)
-    love.graphics.print("[H] Zapri pomoč", panelX + panelW - 120, panelY + panelH - 25)
+    love.graphics.print("[H] Zapri pomoč", panelX + panelW - 130, panelY + panelH - 25)
 
     love.graphics.setColor(1, 1, 1, 1)
 end
