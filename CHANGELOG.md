@@ -2,6 +2,30 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.916] — 2026-08-14 — Expandable Event Log Panel v Market Dashboard
+
+### Dodano
+- **Market Dashboard** — expandable event log panel (V keybind):
+  - Nov state: `eventLogExpanded` (toggle), `eventLogFilter` (all/surge/crash/seasonal/manual)
+  - **V** tipka: preklopi expandable panel (overlay z dimmed background)
+  - **1-5** tipke: nastavi filter (1=Vsi, 2=Surge, 3=Crash, 4=Sezon, 5=Manual)
+  - Panel prikazuje zadnjih 20 dogodkov (od 50 max), s filter chips na vrhu
+  - Stolpci: Starost (s/m/h format), Tip (z ikono in barvo), Produkt, Multiplier, Vir, Opis
+  - Alternating row background za berljivost
+  - Barvno kodiranje tipov: zelen (surge), rdeč (crash), moder (seasonal), rumen (manual)
+  - Filter chips z aktivno stanjem (obarvani glede na tip)
+  - Footer: "Prikazano: N/M dogodkov (filter: X)"
+  - Click zunaj panela ga zapre (reuse obstoječega mousepressed handler-ja)
+  - Compact event log (v Results count vrstici) sedaj kaže "[V: razširi]" hint
+  - Keybind help text posodobljen z V
+
+### Spremenjene datoteke
+- `states/ui/hud/market_dashboard.lua` (+155 vrstic) — eventLogExpanded/filter state, V + 1-5 keybinds, expandable overlay panel z filtri in tabelo
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 7 spremenjenih datotek PASS
+- Polna preverba: 1641/1641 (100%) Lua datotek pass
+
 ## [v3.11.915] — 2026-08-14 — Save Game Versioning (SaveVersioner modul)
 
 ### Dodano

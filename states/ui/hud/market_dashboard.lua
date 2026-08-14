@@ -41,6 +41,10 @@ local sortModes = {
 -- Leaderboard mode: "qty" (top producers by quantity) or "profit" (top by gold earned)
 local leaderboardMode = "qty"
 
+-- Event log expanded panel state
+local eventLogExpanded = false
+local eventLogFilter = "all"  -- "all", "surge", "crash", "seasonal", "manual"
+
 -- Comparison mode: multi-product price comparison chart
 -- comparisonList: set of productTypes selected for comparison
 -- comparisonMode: when true, show comparison chart instead of single-product detail panel
@@ -180,7 +184,7 @@ function MarketDashboard.draw()
     love.graphics.print("🏰 KRALJEVI TRG — Nadzorna plošča trga", panelX + 16, panelY + 12)
     love.graphics.setFont(font)
     love.graphics.setColor(0.6, 0.6, 0.6, 1)
-    love.graphics.print("Ctrl+K: zapri  |  /: iskanje  |  S: sort  |  E: dogodek  |  Q: leaderboard  |  SPACE: dodaj v primerjavo  |  C: primerjava  |  ←→: stran",
+    love.graphics.print("Ctrl+K: zapri  |  /: iskanje  |  S: sort  |  E: dogodek  |  Q: leaderboard  |  V: zgodovina dogodkov  |  SPACE: primerjava  |  C: primerjava  |  ←→: stran",
         panelX + 16, panelY + 36)
 
     -- Aggregate stats bar
@@ -421,7 +425,7 @@ function MarketDashboard.draw()
     if smallFont then love.graphics.setFont(smallFont) end
     -- Stats summary
     love.graphics.setColor(0.7, 0.85, 0.95, 1)
-    local statsStr = string.format("Dogodki (5min): %d  |  📈surge: %d  📉crash: %d  ❄sezon: %d",
+    local statsStr = string.format("Dogodki (5min): %d  |  📈surge: %d  📉crash: %d  ❄sezon: %d  [V: razširi]",
         eventStats.total, eventStats.surge, eventStats.crash, eventStats.seasonal)
     love.graphics.print(statsStr, evX + 8, y + 3)
     -- Most recent event (if any)
@@ -443,6 +447,158 @@ function MarketDashboard.draw()
         love.graphics.print(lastStr, evX + 8 + smallFont:getWidth(statsStr), y + 3)
     end
     if font then love.graphics.setFont(font) end
+
+    -- Expanded event log panel (overlay when V is pressed)
+    if eventLogExpanded then
+        local overlayW = math.min(800, panelW - 80)
+        local overlayH = 400
+        local overlayX = panelX + (panelW - overlayW) / 2
+        local overlayY = panelY + (panelH - overlayH) / 2
+
+        -- Dim background
+        love.graphics.setColor(0, 0, 0, 0.7)
+        love.graphics.rectangle("fill", panelX, panelY, panelW, panelH)
+
+        -- Panel
+        love.graphics.setColor(0.12, 0.14, 0.18, 1)
+        love.graphics.rectangle("fill", overlayX, overlayY, overlayW, overlayH, 6, 6, 6, 6)
+        love.graphics.setColor(0.5, 0.7, 0.9, 1)
+        love.graphics.setLineWidth(2)
+        love.graphics.rectangle("line", overlayX, overlayY, overlayW, overlayH, 6, 6, 6, 6)
+        love.graphics.setLineWidth(1)
+
+        -- Title
+        love.graphics.setColor(0.9, 0.85, 0.5, 1)
+        if titleFont then love.graphics.setFont(titleFont) end
+        love.graphics.print("📜 ZGODOVINA TRŽNIH DOGODKOV", overlayX + 16, overlayY + 12)
+        love.graphics.setFont(font)
+        love.graphics.setColor(0.5, 0.6, 0.7, 1)
+        if smallFont then love.graphics.setFont(smallFont) end
+        love.graphics.print("V: zapri  |  1-5: filter  |  click zunaj: zapri", overlayX + 16, overlayY + 34)
+        love.graphics.setFont(font)
+
+        -- Filter chips
+        local filters = {
+            {id = "all",      label = "Vsi",      icon = "•"},
+            {id = "surge",    label = "Surge",    icon = "📈"},
+            {id = "crash",    label = "Crash",    icon = "📉"},
+            {id = "seasonal", label = "Sezon",    icon = "❄"},
+            {id = "manual",   label = "Manual",   icon = "✋"},
+        }
+        local chipX = overlayX + 16
+        local chipY = overlayY + 56
+        for i, f in ipairs(filters) do
+            local chipW = 80
+            local isActive = (eventLogFilter == f.id)
+            if isActive then
+                local fc
+                if f.id == "surge" then fc = {0.3, 0.6, 0.3}
+                elseif f.id == "crash" then fc = {0.6, 0.3, 0.3}
+                elseif f.id == "seasonal" then fc = {0.3, 0.4, 0.6}
+                elseif f.id == "manual" then fc = {0.5, 0.5, 0.3}
+                else fc = {0.4, 0.5, 0.7} end
+                love.graphics.setColor(fc[1], fc[2], fc[3], 1)
+            else
+                love.graphics.setColor(0.2, 0.22, 0.26, 1)
+            end
+            love.graphics.rectangle("fill", chipX, chipY, chipW, 22, 3, 3, 3, 3)
+            love.graphics.setColor(0.85, 0.88, 0.9, 1)
+            if smallFont then love.graphics.setFont(smallFont) end
+            love.graphics.print(string.format("%d: %s %s", i, f.icon, f.label), chipX + 6, chipY + 4)
+            love.graphics.setFont(font)
+            chipX = chipX + chipW + 6
+        end
+
+        -- Event list (filtered)
+        local allEvents = DynamicMarket.getEventLog(50)
+        local filteredEvents = {}
+        for _, e in ipairs(allEvents) do
+            if eventLogFilter == "all" or e.type == eventLogFilter then
+                filteredEvents[#filteredEvents + 1] = e
+            end
+        end
+
+        -- Column headers
+        local listY = overlayY + 90
+        local cols = {
+            time = overlayX + 16,
+            type = overlayX + 100,
+            product = overlayX + 200,
+            mult = overlayX + 440,
+            source = overlayX + 540,
+            desc = overlayX + 640,
+        }
+        love.graphics.setColor(0.3, 0.35, 0.45, 1)
+        love.graphics.rectangle("fill", overlayX + 16, listY, overlayW - 32, 20, 3, 3, 3, 3)
+        love.graphics.setColor(0.9, 0.9, 0.85, 1)
+        if smallFont then love.graphics.setFont(smallFont) end
+        love.graphics.print("STAROST", cols.time, listY + 4)
+        love.graphics.print("TIP", cols.type, listY + 4)
+        love.graphics.print("PRODUKT", cols.product, listY + 4)
+        love.graphics.print("MULTIPL.", cols.mult, listY + 4)
+        love.graphics.print("VIR", cols.source, listY + 4)
+        love.graphics.print("OPIS", cols.desc, listY + 4)
+
+        -- Event rows (max 20 visible, scrollable in future)
+        local rowY = listY + 24
+        local rowH = 14
+        local maxRows = math.floor((overlayH - (rowY - overlayY) - 16) / rowH)
+        local visibleCount = math.min(#filteredEvents, maxRows)
+        for i = 1, visibleCount do
+            local e = filteredEvents[i]
+            local ry = rowY + (i - 1) * rowH
+            -- Row background (alternating)
+            if i % 2 == 0 then
+                love.graphics.setColor(0.15, 0.17, 0.22, 0.5)
+                love.graphics.rectangle("fill", overlayX + 16, ry, overlayW - 32, rowH, 2, 2, 2, 2)
+            end
+            -- Age
+            local age = ((love.timer and love.timer.getTime()) or 0) - e.t
+            local ageStr
+            if age < 60 then ageStr = string.format("%ds", math.floor(age))
+            elseif age < 3600 then ageStr = string.format("%dm", math.floor(age / 60))
+            else ageStr = string.format("%dh", math.floor(age / 3600)) end
+            love.graphics.setColor(0.6, 0.65, 0.7, 1)
+            love.graphics.print(ageStr, cols.time, ry + 1)
+
+            -- Type with color
+            local typeColor, typeIcon
+            if e.type == "surge" then typeColor = {0.4, 0.95, 0.4, 1}; typeIcon = "📈"
+            elseif e.type == "crash" then typeColor = {0.95, 0.4, 0.4, 1}; typeIcon = "📉"
+            elseif e.type == "seasonal" then typeColor = {0.5, 0.7, 0.95, 1}; typeIcon = "❄"
+            else typeColor = {0.85, 0.75, 0.5, 1}; typeIcon = "✋" end
+            love.graphics.setColor(typeColor)
+            love.graphics.print(string.format("%s %s", typeIcon, e.type), cols.type, ry + 1)
+
+            -- Product
+            love.graphics.setColor(0.85, 0.88, 0.9, 1)
+            local ptName = e.productType or "?"
+            if #ptName > 28 then ptName = ptName:sub(1, 27) .. "…" end
+            love.graphics.print(ptName, cols.product, ry + 1)
+
+            -- Multiplier
+            love.graphics.setColor(typeColor)
+            love.graphics.print(string.format("x%.2f", e.multiplier), cols.mult, ry + 1)
+
+            -- Source
+            love.graphics.setColor(0.6, 0.7, 0.8, 1)
+            love.graphics.print(e.source or "?", cols.source, ry + 1)
+
+            -- Description
+            love.graphics.setColor(0.7, 0.72, 0.75, 1)
+            local desc = e.description or ""
+            if #desc > 30 then desc = desc:sub(1, 29) .. "…" end
+            love.graphics.print(desc, cols.desc, ry + 1)
+        end
+
+        -- Footer: count info
+        love.graphics.setColor(0.5, 0.55, 0.6, 1)
+        if smallFont then love.graphics.setFont(smallFont) end
+        love.graphics.print(string.format("Prikazano: %d/%d dogodkov (filter: %s)",
+            visibleCount, #filteredEvents, eventLogFilter),
+            overlayX + 16, overlayY + overlayH - 20)
+        love.graphics.setFont(font)
+    end
 
     -- Table header
     y = y + 22
@@ -991,6 +1147,26 @@ function MarketDashboard.keypressed(key, scancode, isrepeat)
         comparisonMode = false
         showMessage("Primerjava počiščena")
         return true
+    end
+
+    -- V: toggle event log expanded panel
+    if key == "v" and not searchActive then
+        eventLogExpanded = not eventLogExpanded
+        showMessage(eventLogExpanded and "Zgodovina dogodkov: ON" or "Zgodovina dogodkov: OFF")
+        return true
+    end
+
+    -- 1-5: set event log filter (only when expanded)
+    if eventLogExpanded and not searchActive then
+        local filters = {"all", "surge", "crash", "seasonal", "manual"}
+        local filterLabels = {"Vsi", "Surge", "Crash", "Sezon", "Manual"}
+        for i, f in ipairs(filters) do
+            if key == tostring(i) then
+                eventLogFilter = f
+                showMessage("Filter: " .. filterLabels[i])
+                return true
+            end
+        end
     end
 
     -- Pagination
