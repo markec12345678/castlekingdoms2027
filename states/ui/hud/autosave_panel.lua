@@ -18,6 +18,8 @@ local AutoSavePanel = {}
 local visible = false
 local actionMessage = ""
 local actionMessageTime = 0
+local sliderArea = nil  -- {x, y, w, h} set during draw
+local sliderDragging = false
 
 -- Click areas for buttons (rebuilt each draw)
 local clickAreas = {}
@@ -82,7 +84,7 @@ function AutoSavePanel.draw()
 
     -- Panel
     local panelW = math.min(560, W - 80)
-    local panelH = 480
+    local panelH = 530
     local panelX = (W - panelW) / 2
     local panelY = (H - panelH) / 2
 
@@ -250,6 +252,40 @@ function AutoSavePanel.draw()
     end
     y = y + btnH + gap + 12
 
+    -- Overlay opacity slider (Castle Kingdoms 2027 v3.11.931)
+    local AutoSaveOverlay = require("states.ui.hud.autosave_status_overlay")
+    local currentOpacity = AutoSaveOverlay.getOpacity()
+    love.graphics.setColor(0.95, 0.85, 0.5, 1)
+    love.graphics.print("Prosojnost overlay-a", panelX + 16, y)
+    love.graphics.setColor(0.7, 0.78, 0.85, 1)
+    if smallFont then love.graphics.setFont(smallFont) end
+    love.graphics.print(string.format("%.0f%%", currentOpacity * 100), panelX + panelW - 60, y + 2)
+    love.graphics.setFont(font)
+    y = y + 20
+
+    -- Slider track
+    local sliderX = panelX + 16
+    local sliderW = panelW - 32
+    local sliderH = 10
+    local sliderY = y
+    love.graphics.setColor(0.1, 0.12, 0.16, 1)
+    love.graphics.rectangle("fill", sliderX, sliderY, sliderW, sliderH, 3, 3, 3, 3)
+    love.graphics.setColor(0.3, 0.35, 0.4, 1)
+    love.graphics.rectangle("line", sliderX, sliderY, sliderW, sliderH, 3, 3, 3, 3)
+    -- Filled portion
+    local fillW = sliderW * ((currentOpacity - 0.2) / 0.8)  -- 0.2=0%, 1.0=100%
+    love.graphics.setColor(0.4, 0.6, 0.85, 0.9)
+    love.graphics.rectangle("fill", sliderX + 1, sliderY + 1, math.max(0, fillW - 2), sliderH - 2, 2, 2, 2, 2)
+    -- Thumb (draggable handle)
+    local thumbX = sliderX + fillW - 5
+    love.graphics.setColor(0.7, 0.8, 0.95, 1)
+    love.graphics.rectangle("fill", thumbX, sliderY - 2, 10, sliderH + 4, 3, 3, 3, 3)
+
+    -- Store slider area for click/drag handling
+    sliderArea = { x = sliderX, y = sliderY - 4, w = sliderW, h = sliderH + 8 }
+
+    y = y + sliderH + 16
+
     -- Action feedback message
     if actionMessage ~= "" then
         love.graphics.setColor(0, 0, 0, 0.7)
@@ -268,11 +304,23 @@ function AutoSavePanel.mousepressed(x, y, button, istouch, presses)
     local W = love.graphics.getWidth()
     local H = love.graphics.getHeight()
     local panelW = math.min(560, W - 80)
-    local panelH = 480
+    local panelH = 530
     local panelX = (W - panelW) / 2
     local panelY = (H - panelH) / 2
     if x < panelX or x > panelX + panelW or y < panelY or y > panelY + panelH then
         AutoSavePanel.toggle()
+        return true
+    end
+    -- Check slider click (start drag)
+    if sliderArea and x >= sliderArea.x and x <= sliderArea.x + sliderArea.w
+                  and y >= sliderArea.y and y <= sliderArea.y + sliderArea.h then
+        sliderDragging = true
+        -- Immediately update opacity based on click position
+        local frac = (x - sliderArea.x) / sliderArea.w
+        frac = math.max(0, math.min(1, frac))
+        local newOpacity = 0.2 + frac * 0.8  -- range 0.2 to 1.0
+        local AutoSaveOverlay = require("states.ui.hud.autosave_status_overlay")
+        AutoSaveOverlay.setOpacity(newOpacity)
         return true
     end
     -- Check button clicks
@@ -281,6 +329,29 @@ function AutoSavePanel.mousepressed(x, y, button, istouch, presses)
             if area.action then area.action() end
             return true
         end
+    end
+    return false
+end
+
+-- Slider drag: update opacity as mouse moves
+function AutoSavePanel.mousemoved(x, y, dx, dy)
+    if not visible then return false end
+    if not sliderDragging then return false end
+    if not sliderArea then return false end
+    local frac = (x - sliderArea.x) / sliderArea.w
+    frac = math.max(0, math.min(1, frac))
+    local newOpacity = 0.2 + frac * 0.8
+    local AutoSaveOverlay = require("states.ui.hud.autosave_status_overlay")
+    AutoSaveOverlay.setOpacity(newOpacity)
+    return true
+end
+
+function AutoSavePanel.mousereleased(x, y, button)
+    if not visible then return false end
+    if sliderDragging then
+        sliderDragging = false
+        showMessage("Prosojnost nastavljena")
+        return true
     end
     return false
 end

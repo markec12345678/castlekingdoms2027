@@ -2,6 +2,31 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.931] — 2026-08-15 — Overlay Opacity Slider v Auto-Save Panel
+
+### Dodano
+- **Auto-Save Panel** (Ctrl+U) — vizualni drsnik za nastavitev prosojnosti overlay-a:
+  - Drsnik (slider) z track, fill in thumb (10px širok thumb, dragable)
+  - Prosojnost prikazana kot odstotek (20%–100%)
+  - Click na drsnik takoj nastavi prosojnost
+  - Drag po drsniku za kontinuirno spreminjanje
+  - Novi state: `sliderArea` (območje drsnika) in `sliderDragging` (drag stanje)
+  - Novi funkciji `mousemoved()` in `mousereleased()` za drag support
+  - Lazy require AutoSaveOverlay znotraj funkcij (prepreči circular dependency)
+  - Panel povečan: višina 480→530px (dodaten prostor za drsnik)
+  - Dopolnjuje wheel-over-overlay (v3.11.929) z bolj preciznim vizualnim nadzorom
+
+### Spremenjene datoteke
+- `states/ui/hud/autosave_panel.lua` (+60 vrstic) — slider rendering, sliderArea/sliderDragging state, mousepressed/mousemoved/mousereleased za drag, panelH 530
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 7 spremenjenih datotek PASS
+- Polna preverba: 1643/1643 (100%) Lua datotek pass
+
+### Dva načina za nastavitev opacity
+1. **Wheel-over-overlay** (v3.11.929) — hitro, step 0.05, ko je miška nad overlay
+2. **Slider v panel** (v3.11.931) — precizno, drag za kontinuirno spreminjanje
+
 ## [v3.11.930] — 2026-08-15 — Overlay Hidden State Persistence
 
 ### Dodano
