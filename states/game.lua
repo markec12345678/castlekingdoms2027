@@ -885,6 +885,7 @@ local RoyalMarketIntegration = require("objects.Economy.RoyalMarketIntegration")
 local RoyalSystemsPanel = require("states.ui.hud.royal_systems_panel")
 local MarketDashboard = require("states.ui.hud.market_dashboard")
 local AutoSavePanel = require("states.ui.hud.autosave_panel")
+local AutoSaveOverlay = require("states.ui.hud.autosave_status_overlay")
 -- Castle Kingdoms 2027 - Performance profiling
 local PerformanceManager = require("objects.Performance.PerformanceManager")
 local PriorityUpdate = require("objects.Performance.PriorityUpdateSystem")
@@ -3183,6 +3184,7 @@ function game:update(dt)
                 RoyalSystemsPanel.update(dt)
                 MarketDashboard.update(dt)
                 AutoSavePanel.update(dt)
+                AutoSaveOverlay.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
@@ -3376,6 +3378,8 @@ function game:draw()
             MarketDashboard.draw()
             -- Castle Kingdoms 2027 v3.11.918: Draw Auto-Save Panel (Ctrl+U)
             AutoSavePanel.draw()
+            -- Castle Kingdoms 2027 v3.11.924: Draw Auto-Save Status Overlay (always-on HUD)
+            AutoSaveOverlay.draw()
             -- Castle Kingdoms 2027: Draw Kenney CC0 overlay (if enabled)
             if _G.KenneySpriteRenderer and _G.KenneySpriteRenderer.isActive() then
                 love.graphics.setScissor(0, 0, screenWidth, screenHeight - 150)
@@ -3459,6 +3463,8 @@ function game:mousepressed(x, y, button, istouch)
     if AutoSavePanel.isVisible() then
         if AutoSavePanel.mousepressed(x, y, button) then return end
     end
+    -- Castle Kingdoms 2027 v3.11.924: Auto-Save Status Overlay click (opens panel)
+    if AutoSaveOverlay.mousepressed(x, y, button) then return end
     -- Castle Kingdoms 2027: Minimap + GameSpeed click handling
     if S.Minimap.isVisible() then
         if S.Minimap.mousepressed(x, y, button) then return end

@@ -2,6 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.924] — 2026-08-14 — Auto-Save Status Overlay (always-on HUD)
+
+### Dodano
+- **Auto-Save Status Overlay** (nov HUD widget, 130 vrstic) — `states/ui/hud/autosave_status_overlay.lua`:
+  - Compact on-screen indikator v desnem zgornjem kotu (180×38px)
+  - Vedno prikazan med gameplay-om (ni toggle-a — preveč uporabno da bi skrivali)
+  - Prikazuje: status (💾 Auto-save / ⏸ OFF), timer do naslednjega save-a (mm:ss), mini progress bar
+  - Barva mini bara: zelena (pravkar shranjeno) → rumena → oranžna (skoraj zapadlo)
+  - Hover: prikaže hint "klik: odpri panel (Ctrl+U)"
+  - Click: odpre poln Auto-Save Panel (Ctrl+U)
+  - Auto-hide ko je kateri od full-screen panelov odprt (Ctrl+R/Ctrl+K/Ctrl+U) - izogiba clutter-ju
+  - Lazy require z pcall (defenzivno - ne crashne če modul manjka)
+  - Stats osvežene vsakih 500ms (ne vsak frame - performanca)
+- **game.lua** — povezave:
+  - `require("states.ui.hud.autosave_status_overlay")`
+  - `AutoSaveOverlay.update(dt)` v update loop-u
+  - `AutoSaveOverlay.draw()` v draw bloku (za AutoSavePanel)
+  - `AutoSaveOverlay.mousepressed()` forwarding
+- **keybind_help.lua** — dodan "Click (overlay)" v EKONOMIJA kategorijo
+
+### Spremenjene datoteke
+- `states/ui/hud/autosave_status_overlay.lua` (NOV, 130 vrstic)
+- `states/game.lua` (+5 vrstic) — require + update + draw + mousepressed forwarding
+- `states/ui/hud/keybind_help.lua` (+1 vrstica) — Click (overlay) v EKONOMIJA
+- `README.md` — posodobljeni badges (v3.11.924, +AutoSaveOverlay, 1643 datotek, 1643/1643 pass), nova vrstica (Royal Auto-Save Overlay)
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 5 spremenjenih datotek PASS (vključno z novim autosave_status_overlay.lua)
+- Polna preverba: 1643/1643 (100%) Lua datotek pass (+1 od prej — autosave_status_overlay.lua je nova)
+
 ## [v3.11.923] — 2026-08-14 — Auto-Save Quick Toggle (Shift+U)
 
 ### Dodano
