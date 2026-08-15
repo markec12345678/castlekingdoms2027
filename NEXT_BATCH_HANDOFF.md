@@ -1,7 +1,7 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.924**
+- Različica: **v3.11.925**
 - Skupaj Royal sistemov: **987**
 - Skupaj Lua datotek: **1643**
 - Sintaktična preverba (avtentična Lua `load()`): **1643/1643 pass (100%)**
@@ -25,9 +25,9 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 1. **Sprite-i za Royal sisteme** — trenutno so samo podatkovni, brez grafične podobe
 2. **Sistemske odvisnosti** — nekateri sistemi naj zahtevajo druge (npr. BellMaker zahteva Metalwork)
 3. **Keybind help scroll** — scrollbar za F1 help panel če postane prevelik
-4. **Overlay drag-to-move** — igralec lahko premakne overlay na drugo mesto zaslona
+4. **Overlay position reset** — gumb v Auto-Save Panel za reset pozicije overlay-a na default
 
-## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.11.924)
+## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.11.925)
 
 - ✅ **v3.11.382**: Royal Systems Registry + UI Panel (Ctrl+R)
 - ✅ **v3.11.901**: Save/Load persistenca za Royal sisteme (maker, zgradbe, zaloga, surovine)
@@ -54,6 +54,7 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 - ✅ **v3.11.922**: Keybind Help Overlay Dopolnjen — F1 help z 23 novimi keybind opisi za Ctrl+R/Ctrl+K/Ctrl+U panele
 - ✅ **v3.11.923**: Auto-Save Quick Toggle (Shift+U) — hitri vklop/izklop brez odpiranja panela, z notification
 - ✅ **v3.11.924**: Auto-Save Status Overlay — always-on HUD z statusom, timer-jem, mini progress bar, click za odprtje panela
+- ✅ **v3.11.925**: Auto-Save Overlay Drag-to-Move — drag overlay na poljubno mesto, pozicija persistira med sejami
 
 ## ZADNJE ZAKLJUČENI PAKET (v3.11.892–v3.11.901) — STEKLARSKI DODATKI 13 + LIVARSKI DODATKI 13
 

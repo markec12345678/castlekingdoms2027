@@ -29,6 +29,7 @@ local KEYBINDS = {
             { key = "Ctrl+U",    desc = "Auto-save panel - status, interval, force save" },
             { key = "Shift+U",   desc = "Hitri vklop/izklop auto-save (brez panela)" },
             { key = "Click (overlay)", desc = "Klik na auto-save HUD odpre panel" },
+            { key = "Drag (overlay)", desc = "Povleci auto-save HUD za premik pozicije (persisted)" },
         },
     },
     {

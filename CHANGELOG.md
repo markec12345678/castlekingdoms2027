@@ -2,6 +2,35 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.925] — 2026-08-15 — Auto-Save Overlay Drag-to-Move (persisted)
+
+### Dodano
+- **Auto-Save Status Overlay** — drag-to-move z persistenco pozicije:
+  - Igralec lahko povleče overlay na poljubno mesto zaslona
+  - Pozicija se shrani v `love.filesystem` datoteko `autosave_overlay_position.txt`
+  - Pozicija persistira med sejami (avtomatsko naložena ob naslednjem zagonu)
+  - Click (brez drag-a) še vedno odpre poln panel
+  - Drag (z movementom) premakne overlay in shrani pozicijo
+  - Pametno razlikovanje click vs drag: če se miška ni premaknila, je click; če se je, je drag
+  - Drag border highlight (modra barva, 2px) za vizualno povratno informacijo
+  - Hover hint posodobljen: "klik: odpri panel | drag: premakni"
+  - Position clamped na screen bounds (prepreči off-screen)
+  - Position se re-clamp-a ob resolution change (v draw)
+- **game.lua** — mousereleased in mousemoved forwarding:
+  - `game:mousereleased()` sedaj najprej preveri AutoSaveOverlay.mousereleased()
+  - `game:mousemoved()` sedaj najprej preveri AutoSaveOverlay.mousemoved()
+  - Če overlay consume-a event, se ne propagira naprej (minimap drag, itd.)
+- **keybind_help.lua** — dodan "Drag (overlay)" v EKONOMIJA kategorijo
+
+### Spremenjene datoteke
+- `states/ui/hud/autosave_status_overlay.lua` (+85 vrstic) — drag state, position persistence (load/save), mousepressed/mousereleased/mousemoved, drag border highlight, hover hint
+- `states/game.lua` (+4 vrstice) — mousereleased + mousemoved forwarding
+- `states/ui/hud/keybind_help.lua` (+1 vrstica) — Drag (overlay) v EKONOMIJA
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 5 spremenjenih datotek PASS
+- Polna preverba: 1643/1643 (100%) Lua datotek pass
+
 ## [v3.11.924] — 2026-08-14 — Auto-Save Status Overlay (always-on HUD)
 
 ### Dodano

@@ -4156,6 +4156,8 @@ function game:keypressed(key, scancode, isRepeat)
 end
 
 function game:mousereleased(x, y, button, istouch)
+    -- Castle Kingdoms 2027 v3.11.925: Auto-Save Overlay drag release
+    if AutoSaveOverlay.mousereleased(x, y, button) then return end
     -- Castle Kingdoms 2027: Handle minimap drag release
     S.MinimapDrag.mousereleased(x, y, button)
     -- TODO: Check if event is consumed
@@ -4167,6 +4169,8 @@ function game:mousereleased(x, y, button, istouch)
 end
 
 function game:mousemoved(x, y, dx, dy, istouch)
+    -- Castle Kingdoms 2027 v3.11.925: Auto-Save Overlay drag tracking
+    if AutoSaveOverlay.mousemoved(x, y, dx, dy) then return end
     -- Castle Kingdoms 2027: Handle minimap drag scrolling
     S.MinimapDrag.mousemoved(x, y, dx, dy)
 end
