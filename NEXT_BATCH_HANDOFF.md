@@ -1,7 +1,7 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.928**
+- Različica: **v3.11.929**
 - Skupaj Royal sistemov: **987**
 - Skupaj Lua datotek: **1643**
 - Sintaktična preverba (avtentična Lua `load()`): **1643/1643 pass (100%)**
@@ -24,10 +24,10 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 
 1. **Sprite-i za Royal sisteme** — trenutno so samo podatkovni, brez grafične podobe
 2. **Sistemske odvisnosti** — nekateri sistemi naj zahtevajo druge (npr. BellMaker zahteva Metalwork)
-3. **Overlay opacity control** — igralec lahko nastavi prosojnost overlay-a
-4. **Overlay hidden state persistence** — shranjevanje hidden stanja med sejami
+3. **Overlay hidden state persistence** — shranjevanje hidden stanja med sejami
+4. **Overlay opacity slider v panel** — vizualni slider v Ctrl+U panelu za nastavitev opacity
 
-## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.11.928)
+## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.11.929)
 
 - ✅ **v3.11.382**: Royal Systems Registry + UI Panel (Ctrl+R)
 - ✅ **v3.11.901**: Save/Load persistenca za Royal sisteme (maker, zgradbe, zaloga, surovine)
@@ -58,6 +58,7 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 - ✅ **v3.11.926**: Overlay Position Reset Button — gumb v Auto-Save Panel za reset pozicije overlay-a na default
 - ✅ **v3.11.927**: Keybind Help Scroll — scrollbar + wheel + ↑↓/PgUp/PgDn/Home/End za navigacijo po 50+ keybind opisih
 - ✅ **v3.11.928**: Overlay Hide/Show Toggle (Ctrl+Shift+U) — skrij/prikaži overlay brez izklopa auto-save
+- ✅ **v3.11.929**: Overlay Opacity Control — wheel-over-overlay za prosojnost (0.2–1.0), persistira med sejami
 
 ## ZADNJE ZAKLJUČENI PAKET (v3.11.892–v3.11.901) — STEKLARSKI DODATKI 13 + LIVARSKI DODATKI 13
 

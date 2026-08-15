@@ -2,6 +2,40 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.929] — 2026-08-15 — Overlay Opacity Control (wheel-over-overlay, persisted)
+
+### Dodano
+- **Auto-Save Status Overlay** — opacity control z miškinim wheel-om:
+  - Nov state: `opacity` (default 0.85, range 0.2–1.0)
+  - Persistenca: `OPACITY_FILE = "autosave_overlay_opacity.txt"` v love.filesystem
+  - `loadOpacity()` / `saveOpacity()` helper funkciji
+  - `ensureOpacity()` lazy-load na prvi draw
+  - **Wheel-over-overlay**: ko je miška nad overlay, wheel gor/dol spreminja prosojnost (step 0.05, clamped 0.2–1.0)
+  - Vse `setColor` klice v draw() uporabljajo `opacity` za alpha kanal
+  - Hover hint dopolnjen: "klik: odpri panel | drag: premakni | wheel: prosojnost"
+  - Novi API: `getOpacity()`, `setOpacity(val)` za programski dostop
+  - Opacity persistira med sejami (avtomatsko shranjena ob spremembi)
+- **game.lua** — wheelmoved forwarding razširjen:
+  - `game:wheelmoved()` sedaj najprej preveri `AutoSaveOverlay.wheelmoved()`
+  - Če je miška nad overlay, wheel spremeni opacity (ne scroll-a mape)
+  - Sicer wheel propagira naprej (Market Dashboard → Royal Panel → Keybind Help → mapa)
+
+### Spremenjene datoteke
+- `states/ui/hud/autosave_status_overlay.lua` (+55 vrstic) — opacity state, loadOpacity/saveOpacity/ensureOpacity, wheelmoved() za opacity, getOpacity/setOpacity API, vsi draw klice uporabljajo opacity
+- `states/game.lua` (+2 vrstici) — wheelmoved forwarding za overlay opacity
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 7 spremenjenih datotek PASS
+- Polna preverba: 1643/1643 (100%) Lua datotek pass
+
+### Celovit overlay feature set
+Sedaj overlay podpira:
+- **Pozicija**: drag-to-move + position persistence + reset button (v3.11.925–926)
+- **Vidnost**: hide/show z Ctrl+Shift+U (v3.11.928)
+- **Prosojnost**: wheel-over-overlay za opacity (0.2–1.0) + persistence (v3.11.929)
+- **Klik**: odpre poln Auto-Save Panel (v3.11.924)
+- **Auto-hide**: ko je full-screen panel odprt (v3.11.924)
+
 ## [v3.11.928] — 2026-08-15 — Overlay Hide/Show Toggle (Ctrl+Shift+U)
 
 ### Dodano

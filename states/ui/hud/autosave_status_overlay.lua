@@ -23,6 +23,10 @@ local UPDATE_INTERVAL = 0.5  -- refresh stats every 500ms (not every frame)
 -- Hidden state (player can hide overlay without disabling auto-save)
 local hidden = false
 
+-- Opacity state (persisted to file, range 0.2 to 1.0)
+local OPACITY_FILE = "autosave_overlay_opacity.txt"
+local opacity = 0.85  -- default
+
 -- Position state (persisted to file)
 local POSITION_FILE = "autosave_overlay_position.txt"
 local overlayX = nil  -- nil = use default (top-right)
@@ -68,7 +72,22 @@ local function savePosition(x, y)
     pcall(love.filesystem.write, POSITION_FILE, serializePosition(x, y))
 end
 
--- Lazy-load position on first draw
+-- Load opacity from file (range 0.2 to 1.0)
+local function loadOpacity()
+    local ok, content = pcall(love.filesystem.read, OPACITY_FILE)
+    if not ok or not content then return nil end
+    local val = tonumber(content:match("^([%d%.]+)%s*$"))
+    if val then
+        return math.max(0.2, math.min(1.0, val))
+    end
+    return nil
+end
+
+local function saveOpacity(val)
+    pcall(love.filesystem.write, OPACITY_FILE, string.format("%.2f", val))
+end
+
+-- Lazy-load position and opacity on first draw
 local function ensurePosition()
     if overlayX == nil then
         local screenW = love.graphics.getWidth()
@@ -78,6 +97,13 @@ local function ensurePosition()
             overlayX = screenW - boxW - 12
             overlayY = 12
         end
+    end
+end
+
+local function ensureOpacity()
+    if not opacity then
+        local loaded = loadOpacity()
+        opacity = loaded or 0.85
     end
 end
 
@@ -93,6 +119,7 @@ function AutoSaveOverlay.draw()
     if not lastStats then return end
     if hidden then return end  -- player hid the overlay
     ensurePosition()
+    ensureOpacity()
     -- Don't draw if a full-screen overlay panel is open (avoid clutter)
     -- Lazy require (defensive pcall in case of circular dep)
     local skip = false
@@ -122,13 +149,13 @@ function AutoSaveOverlay.draw()
     overlayX = math.max(0, math.min(screenW - boxW, overlayX))
 
     -- Background (highlight when dragging)
-    love.graphics.setColor(0.08, 0.1, 0.14, 0.85)
+    love.graphics.setColor(0.08, 0.1, 0.14, opacity * 0.85)
     love.graphics.rectangle("fill", overlayX, overlayY, boxW, boxH, 4, 4, 4, 4)
     if isDragging then
-        love.graphics.setColor(0.6, 0.8, 1.0, 1)
+        love.graphics.setColor(0.6, 0.8, 1.0, opacity)
         love.graphics.setLineWidth(2)
     else
-        love.graphics.setColor(0.3, 0.4, 0.5, 0.7)
+        love.graphics.setColor(0.3, 0.4, 0.5, opacity * 0.7)
         love.graphics.setLineWidth(1)
     end
     love.graphics.rectangle("line", overlayX, overlayY, boxW, boxH, 4, 4, 4, 4)
@@ -138,7 +165,7 @@ function AutoSaveOverlay.draw()
     local mx, my = love.mouse.getPosition()
     local hovered = mx >= overlayX and mx <= overlayX + boxW and my >= overlayY and my <= overlayY + boxH
     if hovered and not isDragging then
-        love.graphics.setColor(0.5, 0.7, 0.9, 0.3)
+        love.graphics.setColor(0.5, 0.7, 0.9, opacity * 0.3)
         love.graphics.rectangle("fill", overlayX, overlayY, boxW, boxH, 4, 4, 4, 4)
     end
 
@@ -146,11 +173,11 @@ function AutoSaveOverlay.draw()
     local icon, statusColor, statusText
     if lastStats.enabled then
         icon = "💾"
-        statusColor = {0.4, 0.85, 0.4, 1}
+        statusColor = {0.4, 0.85, 0.4, opacity}
         statusText = "Auto-save"
     else
         icon = "⏸"
-        statusColor = {0.7, 0.5, 0.5, 1}
+        statusColor = {0.7, 0.5, 0.5, opacity}
         statusText = "Auto-save OFF"
     end
 
@@ -162,7 +189,7 @@ function AutoSaveOverlay.draw()
     if lastStats.enabled then
         local nextMin = math.floor(lastStats.nextSaveIn / 60)
         local nextSec = math.floor(lastStats.nextSaveIn % 60)
-        love.graphics.setColor(0.7, 0.78, 0.85, 1)
+        love.graphics.setColor(0.7, 0.78, 0.85, opacity)
         love.graphics.print(string.format("naslednji: %dm %02ds", nextMin, nextSec),
             overlayX + 8, overlayY + 18)
 
@@ -172,24 +199,24 @@ function AutoSaveOverlay.draw()
         local barH = 3
         local barX = overlayX + 8
         local barY = overlayY + boxH - 6
-        love.graphics.setColor(0.15, 0.18, 0.22, 1)
+        love.graphics.setColor(0.15, 0.18, 0.22, opacity)
         love.graphics.rectangle("fill", barX, barY, barW, barH)
         -- Color: green (just saved) -> yellow -> orange (almost due)
         local r, g, b
         if progress < 0.5 then r, g, b = 0.3, 0.85, 0.3
         elseif progress < 0.85 then r, g, b = 0.85, 0.85, 0.3
         else r, g, b = 0.95, 0.5, 0.2 end
-        love.graphics.setColor(r, g, b, 0.95)
+        love.graphics.setColor(r, g, b, opacity * 0.95)
         love.graphics.rectangle("fill", barX, barY, barW * progress, barH)
     else
-        love.graphics.setColor(0.6, 0.5, 0.5, 1)
+        love.graphics.setColor(0.6, 0.5, 0.5, opacity)
         love.graphics.print("(onemogočeno - Shift+U)", overlayX + 8, overlayY + 18)
     end
 
     -- Hover hint
     if hovered and not isDragging then
-        love.graphics.setColor(0.7, 0.8, 0.9, 0.9)
-        love.graphics.print("klik: odpri panel  |  drag: premakni", overlayX + 8, overlayY + boxH + 4)
+        love.graphics.setColor(0.7, 0.8, 0.9, opacity * 0.9)
+        love.graphics.print("klik: odpri panel  |  drag: premakni  |  wheel: prosojnost", overlayX + 8, overlayY + boxH + 4)
     end
 
     love.graphics.setFont(font)
@@ -231,8 +258,7 @@ function AutoSaveOverlay.mousereleased(x, y, button)
     return true
 end
 
--- Mouse move: update overlay position if dragging
--- (tracks _movedDuringDrag to distinguish click from drag)
+-- Mouse wheel: if hovering overlay, adjust opacity; otherwise drag scroll
 function AutoSaveOverlay.mousemoved(x, y, dx, dy)
     if not isDragging then return false end
     if dx ~= 0 or dy ~= 0 then
@@ -243,6 +269,24 @@ function AutoSaveOverlay.mousemoved(x, y, dx, dy)
     -- Update position (clamped to screen)
     overlayX = math.max(0, math.min(screenW - boxW, x - dragOffsetX))
     overlayY = math.max(0, math.min(screenH - boxH, y - dragOffsetY))
+    return true
+end
+
+-- Wheel handler: if hovering overlay, adjust opacity; otherwise return false
+-- (so game.lua can forward wheel to other panels like minimap scroll)
+function AutoSaveOverlay.wheelmoved(x, y)
+    if hidden then return false end
+    ensurePosition()
+    local mx, my = love.mouse.getPosition()
+    local hovered = mx >= overlayX and mx <= overlayX + boxW and my >= overlayY and my <= overlayY + boxH
+    if not hovered then return false end
+    -- Adjust opacity (0.2 to 1.0, step 0.05)
+    if y > 0 then
+        opacity = math.min(1.0, opacity + 0.05)
+    elseif y < 0 then
+        opacity = math.max(0.2, opacity - 0.05)
+    end
+    saveOpacity(opacity)
     return true
 end
 
@@ -277,6 +321,18 @@ end
 -- Check if overlay is hidden
 function AutoSaveOverlay.isHidden()
     return hidden
+end
+
+-- Get current opacity (0.2 to 1.0)
+function AutoSaveOverlay.getOpacity()
+    ensureOpacity()
+    return opacity
+end
+
+-- Set opacity explicitly (0.2 to 1.0, clamped)
+function AutoSaveOverlay.setOpacity(val)
+    opacity = math.max(0.2, math.min(1.0, tonumber(val) or 0.85))
+    saveOpacity(opacity)
 end
 
 return AutoSaveOverlay
