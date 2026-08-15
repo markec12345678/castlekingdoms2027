@@ -21,7 +21,9 @@ local updateTimer = 0
 local UPDATE_INTERVAL = 0.5  -- refresh stats every 500ms (not every frame)
 
 -- Hidden state (player can hide overlay without disabling auto-save)
-local hidden = false
+-- Persisted to file so it survives between sessions
+local HIDDEN_FILE = "autosave_overlay_hidden.txt"
+local hidden = nil  -- nil = not yet loaded; false = visible; true = hidden
 
 -- Opacity state (persisted to file, range 0.2 to 1.0)
 local OPACITY_FILE = "autosave_overlay_opacity.txt"
@@ -87,6 +89,25 @@ local function saveOpacity(val)
     pcall(love.filesystem.write, OPACITY_FILE, string.format("%.2f", val))
 end
 
+-- Load hidden state from file
+local function loadHidden()
+    local ok, content = pcall(love.filesystem.read, HIDDEN_FILE)
+    if not ok or not content then return nil end
+    -- "1" = hidden, "0" = visible
+    return content:match("^([01])%s*$") == "1"
+end
+
+local function saveHidden(val)
+    pcall(love.filesystem.write, HIDDEN_FILE, val and "1" or "0")
+end
+
+local function ensureHidden()
+    if hidden == nil then
+        hidden = loadHidden()
+        if hidden == nil then hidden = false end
+    end
+end
+
 -- Lazy-load position and opacity on first draw
 local function ensurePosition()
     if overlayX == nil then
@@ -117,6 +138,7 @@ end
 
 function AutoSaveOverlay.draw()
     if not lastStats then return end
+    ensureHidden()
     if hidden then return end  -- player hid the overlay
     ensurePosition()
     ensureOpacity()
@@ -308,18 +330,23 @@ function AutoSaveOverlay.getPosition()
 end
 
 -- Toggle overlay visibility (hide/show without disabling auto-save)
+-- Persists the new state to file
 function AutoSaveOverlay.toggleHidden()
+    ensureHidden()
     hidden = not hidden
+    saveHidden(hidden)
     return hidden
 end
 
--- Set hidden state explicitly
+-- Set hidden state explicitly (persists to file)
 function AutoSaveOverlay.setHidden(state)
     hidden = state and true or false
+    saveHidden(hidden)
 end
 
 -- Check if overlay is hidden
 function AutoSaveOverlay.isHidden()
+    ensureHidden()
     return hidden
 end
 

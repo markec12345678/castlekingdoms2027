@@ -2,6 +2,31 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.930] — 2026-08-15 — Overlay Hidden State Persistence
+
+### Dodano
+- **Auto-Save Status Overlay** — hidden state persistence:
+  - Nov state file: `HIDDEN_FILE = "autosave_overlay_hidden.txt"` v love.filesystem
+  - `loadHidden()` — prebere "1" (hidden) ali "0" (visible)
+  - `saveHidden(val)` — zapiše "1" ali "0"
+  - `ensureHidden()` — lazy-load na prvi draw (nil → load → default false)
+  - `toggleHidden()` — preklopi in shrani novo stanje
+  - `setHidden(state)` — eksplicitno nastavi in shrani
+  - `isHidden()` — ensureHidden() + vrne stanje
+  - draw() kliče ensureHidden() pred preverbo hidden
+  - **Pomembno**: hidden stanje sedaj preživi restart igre — če je igralec skril overlay, ostane skrit
+- **Celovita persistenca overlay state-a** (3 ločene datoteke):
+  - `autosave_overlay_position.txt` — pozicija (x, y) — v3.11.925
+  - `autosave_overlay_opacity.txt` — prosojnost (0.2–1.0) — v3.11.929
+  - `autosave_overlay_hidden.txt` — vidnost (0/1) — v3.11.930
+
+### Spremenjene datoteke
+- `states/ui/hud/autosave_status_overlay.lua` (+25 vrstic) — HIDDEN_FILE, loadHidden/saveHidden/ensureHidden, toggleHidden/setHidden/isHidden shranjujo stanje
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 7 spremenjenih datotek PASS
+- Polna preverba: 1643/1643 (100%) Lua datotek pass
+
 ## [v3.11.929] — 2026-08-15 — Overlay Opacity Control (wheel-over-overlay, persisted)
 
 ### Dodano

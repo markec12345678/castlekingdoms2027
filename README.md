@@ -2,7 +2,7 @@
 
 Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT). Navdihnjen s klasičnimi srednjeveškimi strateškimi igrami.
 
-[![Version](https://img.shields.io/badge/version-3.11.929-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
+[![Version](https://img.shields.io/badge/version-3.11.930-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
 [![Syntax](https://img.shields.io/badge/syntax-1643%2F1643%20pass-brightgreen.svg)](#)
@@ -12,9 +12,9 @@ Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgraj
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v3.11.929](https://github.com/markec12345678/castlekingdoms2027/releases)
-- **.love datoteka**: `castlekingdoms2027-v3.11.929.love` (34 MB brez LFS, 305 MB z LFS)
-- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 987 Royal sistemov, 1643 Lua datotek, +RoyalSystemsRegistry + Ctrl+R UI Panel + Ctrl+K Market Dashboard + Ctrl+U Auto-Save Panel + Shift+U quick toggle + Ctrl+Shift+U overlay hide + auto-save HUD overlay (drag-to-move, persisted, reset, hide, OPACITY control z wheel) + F1 keybind help (scrollable) + DynamicMarket + Save/Load + 7 grafov
+- **Zadnja izdaja**: [v3.11.930](https://github.com/markec12345678/castlekingdoms2027/releases)
+- **.love datoteka**: `castlekingdoms2027-v3.11.930.love` (34 MB brez LFS, 305 MB z LFS)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 987 Royal sistemov, 1643 Lua datotek, +RoyalSystemsRegistry + Ctrl+R UI Panel + Ctrl+K Market Dashboard + Ctrl+U Auto-Save Panel + Shift+U quick toggle + Ctrl+Shift+U overlay hide (persisted) + auto-save HUD overlay (drag-to-move, persisted, reset, hide persisted, opacity wheel persisted) + F1 keybind help (scrollable) + DynamicMarket + Save/Load + 7 grafov
 - **LFS**: Po git clone zahtevaj `git lfs pull` za prave PNG asset-e (305 MB)
 
 ## Zagon
@@ -40,17 +40,17 @@ love .
 | Vrstic kode | ~485.000 |
 | GLSL shaderji | 12 |
 | Jezikov | 32 |
-| Verzij | 140+ (v1.7.9 → v3.11.929) |
+| Verzij | 140+ (v1.7.9 → v3.11.930) |
 | Bug popravkov | 155 (90 krogov pregleda) |
 | Syntax pass rate | 1643/1643 (100%) |
 | PNG assetov | 1.206 |
-| **Royal sistemov** | **987 (v3.11.929)** |
+| **Royal sistemov** | **987 (v3.11.930)** |
 | **Royal Systems Registry** | **da (auto-discovers vse 987 sisteme)** |
 | **Royal UI Panel** | **Ctrl+R (full-screen browser + actions + market prices + production chart + WHEEL SCROLL + SCROLLBAR + Home/End/PgUp/PgDn)** |
 | **Royal Market** | **DynamicMarket integracija (auto-sell + dinamične cene)** |
 | **Royal Market Dashboard** | **Ctrl+K (987 produktov + 7 grafov + leaderboard (qty/profit) + multi-product comparison + event log + EXPANDABLE event log panel z filtri in SCROLLBAR)** |
 | **Royal Auto-Save Panel** | **Ctrl+U (status, interval, force save, Royal diagnostic, RESET POZICIJE overlay-a)** |
-| **Royal Auto-Save Overlay** | **always-on HUD (status, timer, progress, drag-to-move, hide/show, OPACITY z wheel, persisted)** |
+| **Royal Auto-Save Overlay** | **always-on HUD (status, timer, progress, drag-to-move, hide/show persisted, opacity wheel persisted)** |
 | **Royal Save/Load** | **da (persistenca makerjev, zgradb, zaloge, surovin, comparisonList, autoSellState, marketState, saveVersion, auto-save z diagnostic stats)** |
 | Kampanjske misije | 21 (10 Fernhaven + 11 zgodovinskih) |
 | Skirmish misije | 15 |
