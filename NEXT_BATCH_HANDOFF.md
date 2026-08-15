@@ -1,7 +1,7 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.932**
+- Različica: **v3.11.933**
 - Skupaj Royal sistemov: **987**
 - Skupaj Lua datotek: **1643**
 - Sintaktična preverba (avtentična Lua `load()`): **1643/1643 pass (100%)**
@@ -24,10 +24,10 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 
 1. **Sprite-i za Royal sisteme** — trenutno so samo podatkovni, brez grafične podobe
 2. **Sistemske odvisnosti** — nekateri sistemi naj zahtevajo druge (npr. BellMaker zahteva Metalwork)
-3. **Overlay settings consolidation** — združitev position/opacity/hidden v eno datoteko
-4. **Market Dashboard mousemoved forwarding** — preveri ali Ctrl+K panel pravilno prejema mousemoved
+3. **Market Dashboard mousemoved forwarding** — preveri ali Ctrl+K panel pravilno prejema mousemoved
+4. **Overlay settings migration** — izboljšanje migracije: preberi stare vrednosti pred izbrisom datotek
 
-## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.11.932)
+## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.11.933)
 
 - ✅ **v3.11.382**: Royal Systems Registry + UI Panel (Ctrl+R)
 - ✅ **v3.11.901**: Save/Load persistenca za Royal sisteme (maker, zgradbe, zaloga, surovine)
@@ -62,6 +62,7 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 - ✅ **v3.11.930**: Overlay Hidden State Persistence — hidden stanje shranjeno med sejami (3 persisted datoteke: position, opacity, hidden)
 - ✅ **v3.11.931**: Overlay Opacity Slider v Panel — vizualni drsnik v Ctrl+U za natančno nastavitev prosojnosti (drag support)
 - ✅ **v3.11.932**: Auto-Save Panel Mousemoved/Mousereleased Forwarding — bug fix: slider drag sedaj pravilno deluje
+- ✅ **v3.11.933**: Overlay Settings Consolidation — 3 ločene datoteke združene v 1 (autosave_overlay_settings.txt) z avtomatsko migracijo
 
 ## ZADNJE ZAKLJUČENI PAKET (v3.11.892–v3.11.901) — STEKLARSKI DODATKI 13 + LIVARSKI DODATKI 13
 

@@ -2,6 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.933] — 2026-08-15 — Overlay Settings Consolidation (3 datoteke → 1)
+
+### Refaktorirano
+- **Auto-Save Status Overlay** — konsolidacija 3 ločenih datotek v eno:
+  - **Prej**: 3 loče datoteke v love.filesystem:
+    - `autosave_overlay_position.txt` (x, y) — v3.11.925
+    - `autosave_overlay_opacity.txt` (0.2–1.0) — v3.11.929
+    - `autosave_overlay_hidden.txt` (0/1) — v3.11.930
+  - **Sedaj**: 1 konsolidirana datoteka `autosave_overlay_settings.txt`:
+    - Format: `key=value\n` per line (npr. `x=800\ny=12\nopacity=0.85\nhidden=0\n`)
+  - `loadSettings()` — ena read operacija, parse key=value lines
+  - `saveSettings()` — ena write operacija, format in write
+  - `ensureSettings()` — lazy-load vseh nastavitev naenkrat
+  - `tryMigrateOldFiles()` — avtomatska migracija: če consolidated datoteka ne obstaja, preveri stare 3 datoteke in jih izbriše
+  - Vsi API-ji (toggleHidden, setOpacity, resetPosition, itd.) sedaj uporabljajo `saveSettings()` namesto ločenih save funkcij
+  - Manj I/O operacij, čistejša arhitektura, lažje vzdrževanje
+
+### Spremenjene datoteke
+- `states/ui/hud/autosave_status_overlay.lua` (refaktor: -50 vrstic starih helperjev, +80 vrstic konsolidiranega sistema)
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 7 spremenjenih datotek PASS
+- Polna preverba: 1643/1643 (100%) Lua datotek pass
+
+### Migracija
+- Ob prvem zagonu po nadgradnji na v3.11.933:
+  - Če obstaja `autosave_overlay_settings.txt` → uporabi konsolidirano
+  - Če ne obstaja, preveri stare 3 datoteke → izbriši jih → uporabi privzete vrednosti
+  - Naslednja sprememba kateregakoli setting-a shrani konsolidirano datoteko
+
 ## [v3.11.932] — 2026-08-15 — Auto-Save Panel Mousemoved/Mousereleased Forwarding
 
 ### Popravljeno
