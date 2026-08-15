@@ -30,6 +30,7 @@ local KEYBINDS = {
             { key = "Ctrl+K",    desc = "Kraljevi trg - nadzorna plošča (cene, prodaja, trendi)" },
             { key = "Ctrl+U",    desc = "Auto-save panel - status, interval, force save" },
             { key = "Shift+U",   desc = "Hitri vklop/izklop auto-save (brez panela)" },
+            { key = "Ctrl+Shift+U", desc = "Skrij/prikaži auto-save overlay (brez izklopa)" },
             { key = "Click (overlay)", desc = "Klik na auto-save HUD odpre panel" },
             { key = "Drag (overlay)", desc = "Povleci auto-save HUD za premik pozicije (persisted)" },
         },

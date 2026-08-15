@@ -2,6 +2,38 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.928] — 2026-08-15 — Overlay Hide/Show Toggle (Ctrl+Shift+U)
+
+### Dodano
+- **Auto-Save Status Overlay** — hide/show funkcionalnost:
+  - Nov state: `hidden` (default = false)
+  - `toggleHidden()` — preklopi vidnost overlay-a (vrne novo stanje)
+  - `setHidden(state)` — eksplicitno nastavi stanje
+  - `isHidden()` — preveri ali je overlay skrit
+  - draw() ne render-a ko je `hidden == true`
+  - Mouse pressed/moved ne sprožijo ko je hidden (ni interakcije)
+- **Ctrl+Shift+U** — keybind za hitro skrivanje/prikaz overlay-a:
+  - Preveri se BEFORE Ctrl+U (da ne konflikta s panel toggle)
+  - Prikaže notification: "Auto-save overlay: SKRIT" ali "PRIKAZAN"
+  - **Pomembno**: ne izklopi auto-save — samo skrije vizualni indikator
+- **keybind_help.lua** — dodan "Ctrl+Shift+U" v EKONOMIJA kategorijo
+
+### Spremenjene datoteke
+- `states/ui/hud/autosave_status_overlay.lua` (+20 vrstic) — hidden state, toggleHidden/setHidden/isHidden API, draw() guard
+- `states/game.lua` (+10 vrstic) — Ctrl+Shift+U keybind handler (prestavljen pred Ctrl+U zaradi prioritete)
+- `states/ui/hud/keybind_help.lua` (+1 vrstica) — Ctrl+Shift+U v EKONOMIJA
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 7 spremenjenih datotek PASS
+- Polna preverba: 1643/1643 (100%) Lua datotek pass
+
+### Celovit overlay keybind sistem
+Sedaj so na volu 4 U keybindi z različnimi modifier-ji:
+- **Ctrl+U** — odpri/zapri poln Auto-Save Panel
+- **Shift+U** — hitri vklop/izklop auto-save (brez panela)
+- **Ctrl+Shift+U** — skrij/prikaži overlay (brez izklopa auto-save)
+- **Click na overlay** — odpri panel (samo če ni drag)
+
 ## [v3.11.927] — 2026-08-15 — Keybind Help Scroll (scrollbar + wheel + keys)
 
 ### Dodano

@@ -3748,6 +3748,18 @@ function game:keypressed(key, scancode, isRepeat)
         MarketDashboard.toggle()
         return
     end
+    -- Ctrl+Shift+U = Toggle overlay visibility (Castle Kingdoms 2027 v3.11.928)
+    -- Must be checked BEFORE Ctrl+U to avoid conflict
+    -- Hides/shows the HUD overlay without disabling auto-save
+    if key == "u" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl"))
+                   and (love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift")) then
+        local isHidden = AutoSaveOverlay.toggleHidden()
+        if _G.ModernUI then
+            local msg = isHidden and "Auto-save overlay: SKRIT" or "Auto-save overlay: PRIKAZAN"
+            _G.ModernUI.notifyInfo(msg, 2)
+        end
+        return
+    end
     -- Ctrl+U = Toggle Auto-Save Panel (Castle Kingdoms 2027 v3.11.918)
     -- Show auto-save status, last save stats, interval presets
     if key == "u" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then

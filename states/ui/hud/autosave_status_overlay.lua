@@ -20,6 +20,9 @@ local lastStats = nil
 local updateTimer = 0
 local UPDATE_INTERVAL = 0.5  -- refresh stats every 500ms (not every frame)
 
+-- Hidden state (player can hide overlay without disabling auto-save)
+local hidden = false
+
 -- Position state (persisted to file)
 local POSITION_FILE = "autosave_overlay_position.txt"
 local overlayX = nil  -- nil = use default (top-right)
@@ -88,6 +91,7 @@ end
 
 function AutoSaveOverlay.draw()
     if not lastStats then return end
+    if hidden then return end  -- player hid the overlay
     ensurePosition()
     -- Don't draw if a full-screen overlay panel is open (avoid clutter)
     -- Lazy require (defensive pcall in case of circular dep)
@@ -257,6 +261,22 @@ end
 function AutoSaveOverlay.getPosition()
     ensurePosition()
     return overlayX, overlayY
+end
+
+-- Toggle overlay visibility (hide/show without disabling auto-save)
+function AutoSaveOverlay.toggleHidden()
+    hidden = not hidden
+    return hidden
+end
+
+-- Set hidden state explicitly
+function AutoSaveOverlay.setHidden(state)
+    hidden = state and true or false
+end
+
+-- Check if overlay is hidden
+function AutoSaveOverlay.isHidden()
+    return hidden
 end
 
 return AutoSaveOverlay
