@@ -3791,6 +3791,12 @@ function game:keypressed(key, scancode, isRepeat)
         KeybindHelp.toggle()
         return
     end
+    -- Castle Kingdoms 2027 v3.11.927: Forward scroll keys to Keybind Help if visible
+    if KeybindHelp.isVisible() then
+        if KeybindHelp.keypressed(key) then
+            return
+        end
+    end
     -- F5 = Cycle weather (Castle Kingdoms 2027)
     if key == "f5" then
         -- Castle Kingdoms 2027 v2.6.2: Added blizzard, heatwave, sandstorm
@@ -4207,6 +4213,10 @@ function game:wheelmoved(x, y)
     -- Castle Kingdoms 2027 v3.11.920: Forward wheel to Royal Systems Panel for page navigation
     if RoyalSystemsPanel.isVisible() then
         if RoyalSystemsPanel.wheelmoved(x, y) then return end
+    end
+    -- Castle Kingdoms 2027 v3.11.927: Forward wheel to Keybind Help for scrolling
+    if KeybindHelp.isVisible() then
+        if KeybindHelp.wheelmoved(x, y) then return end
     end
     if scrollCountDown == 0 then
         scrollCountDown = 0.05

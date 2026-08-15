@@ -7,6 +7,8 @@
 local KeybindHelp = {}
 
 local visible = false
+local scrollOffset = 0  -- scroll position (0 = top)
+local contentHeight = 0  -- calculated during draw
 
 -- All keybinds organized by category
 local KEYBINDS = {
@@ -119,6 +121,7 @@ local KEYBINDS = {
 
 function KeybindHelp.toggle()
     visible = not visible
+    scrollOffset = 0  -- reset scroll on toggle
 end
 
 function KeybindHelp.setVisible(state)
@@ -151,7 +154,7 @@ function KeybindHelp.draw()
     love.graphics.setLineWidth(2)
     love.graphics.rectangle("line", panelX, panelY, panelW, panelH, 8, 8, 8, 8)
 
-    -- Title
+    -- Title (fixed, not scrolled)
     love.graphics.setColor(1, 0.9, 0.7, 1)
     love.graphics.print("Tipkovne bližnjice", panelX + 20, panelY + 15)
 
@@ -160,9 +163,30 @@ function KeybindHelp.draw()
     love.graphics.setLineWidth(1)
     love.graphics.line(panelX + 20, panelY + 40, panelX + panelW - 20, panelY + 40)
 
-    local y = panelY + 55
+    -- Content area dimensions
+    local contentTop = panelY + 50
+    local contentBottom = panelY + panelH - 35
+    local contentAreaH = contentBottom - contentTop
     local x = panelX + 25
 
+    -- Calculate total content height
+    contentHeight = 0
+    for _, section in ipairs(KEYBINDS) do
+        contentHeight = contentHeight + 22  -- category header
+        contentHeight = contentHeight + #section.bindings * 20  -- entries
+        contentHeight = contentHeight + 8  -- gap
+    end
+
+    -- Clamp scroll offset
+    local maxScroll = math.max(0, contentHeight - contentAreaH)
+    if scrollOffset > maxScroll then scrollOffset = maxScroll end
+    if scrollOffset < 0 then scrollOffset = 0 end
+
+    -- Scissor clip to content area
+    love.graphics.setScissor(panelX + 4, contentTop, panelW - 8, contentAreaH)
+
+    -- Draw content with scroll offset
+    local y = contentTop - scrollOffset
     for _, section in ipairs(KEYBINDS) do
         -- Category header
         love.graphics.setColor(0.7, 0.6, 0.4, 1)
@@ -185,17 +209,81 @@ function KeybindHelp.draw()
         y = y + 8
     end
 
-    -- Close hint
+    -- Reset scissor
+    love.graphics.setScissor()
+
+    -- Scrollbar (right side of content area) if content overflows
+    if contentHeight > contentAreaH then
+        local sbX = panelX + panelW - 14
+        local sbY = contentTop
+        local sbW = 6
+        local sbH = contentAreaH
+        -- Track
+        love.graphics.setColor(0.05, 0.04, 0.03, 1)
+        love.graphics.rectangle("fill", sbX, sbY, sbW, sbH, 2, 2, 2, 2)
+        -- Thumb
+        local thumbH = math.max(20, (contentAreaH / contentHeight) * sbH)
+        local thumbY = sbY + (scrollOffset / maxScroll) * (sbH - thumbH)
+        love.graphics.setColor(0.55, 0.45, 0.25, 0.9)
+        love.graphics.rectangle("fill", sbX + 1, thumbY, sbW - 2, thumbH, 2, 2, 2, 2)
+    end
+
+    -- Close hint (fixed, not scrolled)
     love.graphics.setColor(0.5, 0.5, 0.5, 1)
-    love.graphics.print("[H] Zapri pomoč", panelX + panelW - 130, panelY + panelH - 25)
+    local hintText = "[H] Zapri pomoč"
+    if contentHeight > contentAreaH then
+        hintText = hintText .. "  |  ↑↓/wheel: scroll"
+    end
+    love.graphics.print(hintText, panelX + panelW - 200, panelY + panelH - 25)
 
     love.graphics.setColor(1, 1, 1, 1)
+end
+
+-- Mouse wheel handler for scrolling
+function KeybindHelp.wheelmoved(x, y)
+    if not visible then return false end
+    if y > 0 then
+        scrollOffset = math.max(0, scrollOffset - 40)
+        return true
+    elseif y < 0 then
+        scrollOffset = scrollOffset + 40  -- clamped in draw
+        return true
+    end
+    return false
 end
 
 function KeybindHelp.keypressed(key)
     if key == "h" then
         KeybindHelp.toggle()
         return true
+    end
+    -- Scroll keys (only when visible)
+    if visible then
+        if key == "up" then
+            scrollOffset = math.max(0, scrollOffset - 40)
+            return true
+        end
+        if key == "down" then
+            scrollOffset = scrollOffset + 40  -- clamped in draw
+            return true
+        end
+        if key == "pageup" then
+            scrollOffset = math.max(0, scrollOffset - 200)
+            return true
+        end
+        if key == "pagedown" then
+            scrollOffset = scrollOffset + 200  -- clamped in draw
+            return true
+        end
+        if key == "home" then
+            scrollOffset = 0
+            return true
+        end
+        if key == "end" then
+            -- Scroll to bottom (will be clamped in draw)
+            scrollOffset = 99999
+            return true
+        end
     end
     return false
 end

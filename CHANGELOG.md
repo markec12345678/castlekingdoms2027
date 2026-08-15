@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.927] — 2026-08-15 — Keybind Help Scroll (scrollbar + wheel + keys)
+
+### Dodano
+- **keybind_help.lua** (F1) — scroll support za 11 kategorij z 50+ keybindi:
+  - Nov state: `scrollOffset` in `contentHeight`
+  - **Miškin wheel**: scroll gor/dol (40px na tick)
+  - **↑/↓** tipke: scroll 40px
+  - **PgUp/PgDn** tipke: scroll 200px
+  - **Home** tipka: skok na vrh
+  - **End** tipka: skok na dno
+  - Scroll offset se resetira ob toggle (F1)
+  - Scroll offset se clamp-a na maxScroll (contentHeight - contentAreaH)
+  - **Scissor clipping** prepreči overflow contenta izven panela
+  - **Vizualen scrollbar** na desni strani: track + thumb (proporcionalen, min 20px)
+  - Naslov in close hint ostajata fiksirana (ne scrollata)
+  - Close hint dopolnjen: "[H] Zapri pomoč | ↑↓/wheel: scroll" ko je scrollable
+- **game.lua** — wheelmoved in keypressed forwarding:
+  - `game:wheelmoved()` sedaj preverja tudi KeybindHelp.wheelmoved()
+  - `game:keypressed()` sedaj forwarda scroll keys na KeybindHelp.keypressed() ko je panel viden
+
+### Spremenjene datoteke
+- `states/ui/hud/keybind_help.lua` (+80 vrstic) — scroll state, wheelmoved(), keyboard scroll, scissor clipping, scrollbar, contentHeight calculation
+- `states/game.lua` (+8 vrstic) — wheelmoved + keypressed forwarding za KeybindHelp
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 7 spremenjenih datotek PASS
+- Polna preverba: 1643/1643 (100%) Lua datotek pass
+
 ## [v3.11.926] — 2026-08-15 — Overlay Position Reset Button
 
 ### Dodano
