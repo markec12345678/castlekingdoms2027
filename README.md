@@ -2,7 +2,7 @@
 
 Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT). Navdihnjen s klasičnimi srednjeveškimi strateškimi igrami.
 
-[![Version](https://img.shields.io/badge/version-3.11.934-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
+[![Version](https://img.shields.io/badge/version-3.11.935-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
 [![Syntax](https://img.shields.io/badge/syntax-1644%2F1644%20pass-brightgreen.svg)](#)
@@ -12,9 +12,9 @@ Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgraj
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v3.11.934](https://github.com/markec12345678/castlekingdoms2027/releases)
-- **.love datoteka**: `castlekingdoms2027-v3.11.934.love` (34 MB brez LFS, 305 MB z LFS)
-- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 987 Royal sistemov, 1644 Lua datotek, +SYSTEM DEPENDENCIES (tech tree) + overlay consolidated settings + opacity slider + drag-to-move + F1 keybind help (scrollable) + DynamicMarket + Save/Load + 7 grafov
+- **Zadnja izdaja**: [v3.11.935](https://github.com/markec12345678/castlekingdoms2027/releases)
+- **.love datoteka**: `castlekingdoms2027-v3.11.935.love` (34 MB brez LFS, 305 MB z LFS)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 987 Royal sistemov, 1644 Lua datotek, +SYSTEM DEPENDENCIES expanded (28 deps, 11 verig) + overlay consolidated settings + opacity slider + DynamicMarket + Save/Load + 7 grafov
 - **LFS**: Po git clone zahtevaj `git lfs pull` za prave PNG asset-e (305 MB)
 
 ## Zagon
@@ -40,12 +40,12 @@ love .
 | Vrstic kode | ~485.000 |
 | GLSL shaderji | 12 |
 | Jezikov | 32 |
-| Verzij | 140+ (v1.7.9 → v3.11.934) |
+| Verzij | 140+ (v1.7.9 → v3.11.935) |
 | Bug popravkov | 155 (90 krogov pregleda) |
 | Syntax pass rate | 1644/1644 (100%) |
 | PNG assetov | 1.206 |
-| **Royal sistemov** | **987 (v3.11.934)** |
-| **Royal System Dependencies** | **da (tech tree: BellMaker→Metalwork, MirrorMaker→GlassBench, itd.)** |
+| **Royal sistemov** | **987 (v3.11.935)** |
+| **Royal System Dependencies** | **da (tech tree: 28 dependencies v 11 verigah — Metalwork, Glass, Pottery, Wood, Textile, Leather, Dye, Forge, Instrument, Cartography)** |
 | **Royal UI Panel** | **Ctrl+R (full-screen browser + actions + market prices + production chart + WHEEL SCROLL + SCROLLBAR + Home/End/PgUp/PgDn)** |
 | **Royal Market** | **DynamicMarket integracija (auto-sell + dinamične cene)** |
 | **Royal Market Dashboard** | **Ctrl+K (987 produktov + 7 grafov + leaderboard (qty/profit) + multi-product comparison + event log + EXPANDABLE event log panel z filtri in SCROLLBAR)** |

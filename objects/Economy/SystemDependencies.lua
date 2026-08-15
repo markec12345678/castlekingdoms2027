@@ -30,26 +30,52 @@ local SystemDependencies = {}
 -- Dependency graph: systemKey -> list of prerequisite systemKeys
 -- A prerequisite is "met" when that system has at least 1 building.
 local dependencyGraph = {
-    -- Metalworking chain
+    -- Metalworking chain (basic → advanced metal goods)
     BellMaker        = {"Metalwork"},
     ChainmailForger  = {"Metalwork"},
     SwordPommelMaker = {"Metalwork"},
     GauntletMaker    = {"Metalwork"},
+    CoinDieMaker     = {"Metalwork"},
+    CoinPressMaker   = {"Metalwork", "BellMaker"},
 
-    -- Glass chain
+    -- Glass chain (basic glass → advanced glass products)
     MirrorMaker      = {"GlassBench"},
+    GlassBeadMaker   = {"GlassBench"},
+    VitrailFoilMaker = {"GlassBench"},
 
-    -- Pottery chain
+    -- Pottery chain (basic ceramics → apothecary/laboratory)
     ApothecaryMortar = {"PotteryWheel"},
     ApothecaryVial   = {"PotteryWheel"},
+    CrystallizationDish = {"PotteryWheel"},
 
-    -- Woodworking chain
+    -- Woodworking chain (basic wood → bookbinding/furniture)
     BookPress        = {"WoodLathe"},
     BookbindingPress = {"WoodLathe"},
+    EaselMaker       = {"WoodLathe"},
 
-    -- Textile chain
+    -- Textile chain (basic spinning → advanced weaving)
     LoomHeddle       = {"SpinningWheel"},
     TapestryLoom     = {"SpinningWheel"},
+    CarpetLoom       = {"SpinningWheel"},
+
+    -- Leatherwork chain (v3.11.935: new chain — tanning → leather goods)
+    SaddleMaker      = {"RawhideTanner"},
+    LeatherCoverMaker = {"RawhideTanner"},
+    GloveMaker       = {"RawhideTanner"},
+
+    -- Dye/pigment chain (v3.11.935: dye stuff → colored textiles)
+    DyerColor        = {"DyeStuff"},
+
+    -- Forge chain (v3.11.935: advanced forging requires both metalwork AND forge)
+    AnvilMaker       = {"ForgeTuyere"},
+    ForgeTongsMaker  = {"ForgeTuyere"},
+
+    -- Instrument chain (v3.11.935: instruments require both woodworking AND metalwork)
+    TrumpetMaker     = {"Metalwork", "WoodLathe"},
+    FluteMaker       = {"WoodLathe"},
+
+    -- Cartography chain (v3.11.935: maps require parchment + ink)
+    MapMaker         = {"ParchmentMaker", "InkMaker"},
 }
 
 -- Register a dependency at runtime (for modding/extensibility)

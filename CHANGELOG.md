@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.935] — 2026-08-15 — Tech Tree Expansion (12→28 dependencies, 5→11 verig)
+
+### Dodano
+- **SystemDependencies.lua** — razširitev dependency grapha z 16 novimi dependencies:
+  - **Metalwork veriga** (razširjena): +CoinDieMaker → Metalwork, +CoinPressMaker → Metalwork + BellMaker (multi-prereq!)
+  - **Glass veriga** (razširjena): +GlassBeadMaker → GlassBench, +VitrailFoilMaker → GlassBench
+  - **Pottery veriga** (razširjena): +CrystallizationDish → PotteryWheel
+  - **Woodworking veriga** (razširjena): +EaselMaker → WoodLathe
+  - **Textile veriga** (razširjena): +CarpetLoom → SpinningWheel
+  - **Leatherwork veriga** (nova): SaddleMaker, LeatherCoverMaker, GloveMaker → RawhideTanner
+  - **Dye veriga** (nova): DyerColor → DyeStuff
+  - **Forge veriga** (nova): AnvilMaker, ForgeTongsMaker → ForgeTuyere
+  - **Instrument veriga** (nova): TrumpetMaker → Metalwork + WoodLathe (multi-prereq!), FluteMaker → WoodLathe
+  - **Cartography veriga** (nova): MapMaker → ParchmentMaker + InkMaker (multi-prereq!)
+- **Multi-prereq sistemi**: CoinPressMaker, TrumpetMaker, MapMaker zahtevajo 2 ali več osnovnih sistemov — bolj strateško načrtovanje
+
+### Statistika
+- Prej: 12 dependencies v 5 verigah (v3.11.934)
+- Sedaj: **28 dependencies v 11 verigah** (v3.11.935)
+- 3 sistemi z multi-prereq (2+ osnovnih sistemov)
+
+### Spremenjene datoteke
+- `objects/Economy/SystemDependencies.lua` (+30 vrstic) — 16 novih dependency entry-jev, 6 novih verig
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS
+- Polna preverba: 1644/1644 (100%) Lua datotek pass
+
 ## [v3.11.934] — 2026-08-15 — System Dependencies (Tech Tree)
 
 ### Dodano
