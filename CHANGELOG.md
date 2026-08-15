@@ -2,6 +2,45 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.934] — 2026-08-15 — System Dependencies (Tech Tree)
+
+### Dodano
+- **SystemDependencies.lua** (nov modul, 115 vrstic) — `objects/Economy/SystemDependencies.lua`:
+  - Dependency graph: sistemKey → lista prerequisitov (sistemov, ki morajo imeti ≥1 zgradbo)
+  - **12 dependencies** definiranih v 5 verigah:
+    - **Metalwork veriga**: BellMaker, ChainmailForger, SwordPommelMaker, GauntletMaker → zahtevajo Metalwork
+    - **Glass veriga**: MirrorMaker → zahteva GlassBench
+    - **Pottery veriga**: ApothecaryMortar, ApothecaryVial → zahtevajo PotteryWheel
+    - **Woodworking veriga**: BookPress, BookbindingPress → zahtevajo WoodLathe
+    - **Textile veriga**: LoomHeddle, TapestryLoom → zahtevajo SpinningWheel
+  - API:
+    - `checkDependencies(systemKey)` → (boolean met, table unmet)
+    - `getDependencies(systemKey)` → lista prerequisitov
+    - `getDependencyDescription(systemKey)` → human-readable "Zahteva: Metalwork (✓), GlassBench (✗)"
+    - `hasDependencies(systemKey)` → boolean
+    - `registerDependency(systemKey, prerequisites)` — runtime registracija (za modding)
+- **RoyalSystemsRegistry** — integracija dependency check:
+  - `hireMaker()` sedaj preverja dependencies pred najemom
+  - `build()` sedaj preverja dependencies pred gradnjo
+  - Če dependencies niso izpolnjene: return false z opisom "Zahteva: X, Y (zgradij delavnico)"
+  - Lazy require (prepreči circular dependency)
+- **Royal Systems Panel** — prikaz dependencies v detail panel:
+  - 🔗 ikona z opisom prerequisitov (npr. "🔗 Zahteva: Metalwork (✓)")
+  - Zelena barva če so vse odvisnosti izpolnjene, oranžna če niso
+  - Prikazan med key in stats blokom
+
+### Spremenjene datoteke
+- `objects/Economy/SystemDependencies.lua` (NOV, 115 vrstic)
+- `objects/Economy/RoyalSystemsRegistry.lua` (+16 vrstic) — dependency check v hireMaker in build
+- `states/ui/hud/royal_systems_panel.lua` (+14 vrstic) — dependency prikaz v detail panel
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 9 spremenjenih datotek PASS (vključno z novim SystemDependencies)
+- Polna preverba: 1644/1644 (100%) Lua datotek pass (+1 od prej — SystemDependencies.lua je nova)
+
+### Pomen
+Tech tree dodaja globino in napredek: igralec mora najprej zgraditi osnovne sisteme (Metalwork, GlassBench, PotteryWheel, WoodLathe, SpinningWheel) preden lahko dostopa do naprednih sistemov (BellMaker, MirrorMaker, Apothecary, BookPress, TapestryLoom, itd.). To ustvarja naravno progresijo in strateško odločanje o tem, katere sisteme graditi prve.
+
 ## [v3.11.933] — 2026-08-15 — Overlay Settings Consolidation (3 datoteke → 1)
 
 ### Refaktorirano

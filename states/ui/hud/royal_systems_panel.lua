@@ -445,8 +445,23 @@ function RoyalPanel.draw()
         love.graphics.setColor(0.7, 0.7, 0.7, 1)
         love.graphics.print("(key: " .. selSys.key .. ")", detailX + 16, detailY + 30)
 
+        -- Castle Kingdoms 2027 v3.11.934: System dependencies (tech tree) display
+        local Deps = require("objects.Economy.SystemDependencies")
+        if Deps.hasDependencies(selSys.key) then
+            local depDesc = Deps.getDependencyDescription(selSys.key)
+            local met, unmet = Deps.checkDependencies(selSys.key)
+            if met then
+                love.graphics.setColor(0.4, 0.85, 0.4, 1)
+            else
+                love.graphics.setColor(0.95, 0.5, 0.3, 1)
+            end
+            love.graphics.setFont(smallFont)
+            love.graphics.print("🔗 " .. depDesc, detailX + 16, detailY + 44)
+            love.graphics.setFont(font)
+        end
+
         -- Stats block
-        local y = detailY + 52
+        local y = detailY + 60
         love.graphics.setColor(0.85, 0.85, 0.85, 1)
         love.graphics.print(string.format("Mojster: %s (spretnost %d)",
             stats.makerName or "—", stats.makerSkill or 0), detailX + 16, y)

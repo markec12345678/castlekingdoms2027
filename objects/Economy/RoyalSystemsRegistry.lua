@@ -201,6 +201,16 @@ function RoyalSystemsRegistry.hireMaker(key, name, skill)
         if s.key == key then sys = s; break end
     end
     if not sys then return false, "Neznan sistem: " .. tostring(key) end
+    -- Castle Kingdoms 2027 v3.11.934: Check system dependencies (tech tree)
+    local Deps = require("objects.Economy.SystemDependencies")
+    local met, unmet = Deps.checkDependencies(key)
+    if not met then
+        local names = {}
+        for _, k in ipairs(unmet) do
+            names[#names + 1] = k:gsub("Maker$", ""):gsub("([a-z])([A-Z])", "%1 %2")
+        end
+        return false, "Zahteva: " .. table.concat(names, ", ") .. " (zgradij delavnico)"
+    end
     return sys.module.hireMaker(name, skill)
 end
 
@@ -210,6 +220,16 @@ function RoyalSystemsRegistry.build(key, buildingId)
         if s.key == key then sys = s; break end
     end
     if not sys then return false, "Neznan sistem: " .. tostring(key) end
+    -- Castle Kingdoms 2027 v3.11.934: Check system dependencies (tech tree)
+    local Deps = require("objects.Economy.SystemDependencies")
+    local met, unmet = Deps.checkDependencies(key)
+    if not met then
+        local names = {}
+        for _, k in ipairs(unmet) do
+            names[#names + 1] = k:gsub("Maker$", ""):gsub("([a-z])([A-Z])", "%1 %2")
+        end
+        return false, "Zahteva: " .. table.concat(names, ", ") .. " (zgradij delavnico)"
+    end
     return sys.module.build(buildingId)
 end
 
