@@ -242,4 +242,21 @@ function AutoSaveOverlay.mousemoved(x, y, dx, dy)
     return true
 end
 
+-- Reset overlay position to default (top-right corner) and delete persisted file
+-- Called from Auto-Save Panel "Reset pozicije" button
+function AutoSaveOverlay.resetPosition()
+    local screenW = love.graphics.getWidth()
+    overlayX = screenW - boxW - 12
+    overlayY = 12
+    -- Delete the persisted position file so default is used on next launch
+    pcall(love.filesystem.remove, POSITION_FILE)
+    print("[AutoSaveOverlay] Position reset to default (top-right)")
+end
+
+-- Get current position (for debug/display)
+function AutoSaveOverlay.getPosition()
+    ensurePosition()
+    return overlayX, overlayY
+end
+
 return AutoSaveOverlay

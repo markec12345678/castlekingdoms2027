@@ -2,6 +2,26 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.926] — 2026-08-15 — Overlay Position Reset Button
+
+### Dodano
+- **Auto-Save Status Overlay** — novi API-ji za reset pozicije:
+  - `resetPosition()` — resetira overlay na privzeto mesto (zgornji desni kot) in izbriše persisted pozicijsko datoteko
+  - `getPosition()` — vrne trenutno pozicijo (x, y) za debug/display
+- **Auto-Save Panel** (Ctrl+U) — nov gumb "Reset pozicije":
+  - Tretji gumb v akcijski vrstici (poleg Vklopi/Izklopi in Shrani zdaj)
+  - Kliče `AutoSaveOverlay.resetPosition()`
+  - Prikaže obvestilo: "Pozicija overlay-a resetirana (zgornji desni kot)"
+  - Lazy require (prepreči circular dependency)
+
+### Spremenjene datoteke
+- `states/ui/hud/autosave_status_overlay.lua` (+15 vrstic) — resetPosition() in getPosition() API-ji
+- `states/ui/hud/autosave_panel.lua` (+7 vrstic) — "Reset pozicije" gumb v akcijski vrstici
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 5 spremenjenih datotek PASS
+- Polna preverba: 1643/1643 (100%) Lua datotek pass
+
 ## [v3.11.925] — 2026-08-15 — Auto-Save Overlay Drag-to-Move (persisted)
 
 ### Dodano

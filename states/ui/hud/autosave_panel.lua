@@ -222,6 +222,13 @@ function AutoSavePanel.draw()
         AutoSaveSystem.forceSave()
         showMessage("Save sprožen - izvedba naslednji frame")
     end)
+
+    -- Reset overlay position (Castle Kingdoms 2027 v3.11.926)
+    drawButton("resetPos", panelX + 16 + 2 * (btnW + gap), y, btnW, btnH, "Reset pozicije", true, function()
+        local AutoSaveOverlay = require("states.ui.hud.autosave_status_overlay")
+        AutoSaveOverlay.resetPosition()
+        showMessage("Pozicija overlay-a resetirana (zgornji desni kot)")
+    end)
     y = y + btnH + gap
 
     -- Interval presets
