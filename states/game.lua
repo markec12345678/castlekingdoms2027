@@ -4174,6 +4174,10 @@ function game:keypressed(key, scancode, isRepeat)
 end
 
 function game:mousereleased(x, y, button, istouch)
+    -- Castle Kingdoms 2027 v3.11.932: Auto-Save Panel slider drag release
+    if AutoSavePanel.isVisible() then
+        if AutoSavePanel.mousereleased(x, y, button) then return end
+    end
     -- Castle Kingdoms 2027 v3.11.925: Auto-Save Overlay drag release
     if AutoSaveOverlay.mousereleased(x, y, button) then return end
     -- Castle Kingdoms 2027: Handle minimap drag release
@@ -4187,6 +4191,10 @@ function game:mousereleased(x, y, button, istouch)
 end
 
 function game:mousemoved(x, y, dx, dy, istouch)
+    -- Castle Kingdoms 2027 v3.11.932: Auto-Save Panel slider drag tracking
+    if AutoSavePanel.isVisible() then
+        if AutoSavePanel.mousemoved(x, y, dx, dy) then return end
+    end
     -- Castle Kingdoms 2027 v3.11.925: Auto-Save Overlay drag tracking
     if AutoSaveOverlay.mousemoved(x, y, dx, dy) then return end
     -- Castle Kingdoms 2027: Handle minimap drag scrolling

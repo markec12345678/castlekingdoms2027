@@ -2,6 +2,22 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.932] — 2026-08-15 — Auto-Save Panel Mousemoved/Mousereleased Forwarding
+
+### Popravljeno
+- **game.lua** — dodan mousemoved in mousereleased forwarding za AutoSavePanel:
+  - `game:mousereleased()` sedaj preverja `AutoSavePanel.mousereleased()` ko je panel viden
+  - `game:mousemoved()` sedaj preverja `AutoSavePanel.mousemoved()` ko je panel viden
+  - **Bug fix**: slider drag v Auto-Save Panelu (v3.11.931) prej ni deloval ker game.lua ni forwardal mousemoved/mousereleased na AutoSavePanel
+  - Sedaj drag po sliderju pravilno spreminja prosojnost overlay-a v realnem času
+
+### Spremenjene datoteke
+- `states/game.lua` (+6 vrstic) — mousereleased + mousemoved forwarding za AutoSavePanel
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 7 spremenjenih datotek PASS
+- Polna preverba: 1643/1643 (100%) Lua datotek pass
+
 ## [v3.11.931] — 2026-08-15 — Overlay Opacity Slider v Auto-Save Panel
 
 ### Dodano
