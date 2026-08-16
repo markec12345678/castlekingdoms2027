@@ -71,6 +71,11 @@ local depthCache = nil  -- map: key -> depth, built lazily
 -- the direction of dependency (base → dependent).
 local arrowsVisible = true  -- toggle with A
 
+-- Sort mode state (v3.11.953)
+-- "alphabetical" = chains ordered as defined in CHAINS (default)
+-- "depth" = chains ordered by max depth (shallow → deep), shows tech progression
+local sortMode = "alphabetical"  -- toggle with S
+
 -- Define chain display order and labels
 local CHAINS = {
     { label = "KOVANJE METALOV", base = "Metalwork", systems = {"BellMaker", "ChainmailForger", "SwordPommelMaker", "GauntletMaker", "CoinDieMaker", "CoinPressMaker"} },
@@ -121,6 +126,7 @@ function TechTreePanel.toggle()
     minimapVisible = true
     depthVisible = true
     arrowsVisible = true
+    sortMode = "alphabetical"
 end
 
 function TechTreePanel.isVisible()
@@ -390,6 +396,44 @@ end
 -- GRAPH VIEW
 -- ============================================================
 
+-- v3.11.953: Get chains in the desired order based on sortMode.
+-- "alphabetical" = as defined in CHAINS (default)
+-- "depth" = sorted by max depth of any node in the chain (shallow → deep)
+local function getOrderedChains()
+    if sortMode ~= "depth" then
+        return CHAINS
+    end
+    -- Compute max depth for each chain
+    local depths = computeDepths()
+    local chainDepths = {}
+    for i, chain in ipairs(CHAINS) do
+        local maxD = 0
+        local bases = chain.multiBase and chain.bases or {chain.base}
+        for _, bk in ipairs(bases) do
+            local d = depths[bk] or 0
+            if d > maxD then maxD = d end
+        end
+        for _, sk in ipairs(chain.systems) do
+            local d = depths[sk] or 0
+            if d > maxD then maxD = d end
+        end
+        chainDepths[i] = { chain = chain, maxDepth = maxD, origIdx = i }
+    end
+    -- Sort by maxDepth (ascending: shallow first), tie-break by original index
+    table.sort(chainDepths, function(a, b)
+        if a.maxDepth ~= b.maxDepth then
+            return a.maxDepth < b.maxDepth
+        end
+        return a.origIdx < b.origIdx
+    end)
+    -- Build ordered list
+    local ordered = {}
+    for _, cd in ipairs(chainDepths) do
+        table.insert(ordered, cd.chain)
+    end
+    return ordered
+end
+
 -- Compute layout: returns list of { chainLabel, chainY, baseNodes=[], depNodes=[], connections={} }
 -- Each node: { key, x, y, w, h, state, isBase }
 -- Each connection: { fromX, fromY, toX, toY, active }
@@ -397,7 +441,7 @@ local function computeGraphLayout(panelX, contentTop)
     local chains = {}
     local y = contentTop
 
-    for _, chain in ipairs(CHAINS) do
+    for _, chain in ipairs(getOrderedChains()) do
         local chainEntry = {
             label = chain.label,
             chainY = y,
@@ -1140,7 +1184,7 @@ function TechTreePanel.draw()
     love.graphics.setColor(0.5, 0.6, 0.7, 1)
     if smallFont then love.graphics.setFont(smallFont) end
     local hintStr = viewMode == "graph"
-        and "Ctrl+Shift+G: zapri  |  G: tekst  |  /: iskanje  |  click: fokus  |  2x click: sistem  |  T: pot  |  M: minimap  |  D: globina  |  A: puščice  |  F/ESC: počisti"
+        and "Ctrl+Shift+G: zapri  |  G: tekst  |  /: iskanje  |  click: fokus  |  2x click: sistem  |  T: pot  |  M: minimap  |  D: globina  |  A: puščice  |  S: sort  |  F/ESC: počisti"
         or  "Ctrl+Shift+G: zapri  |  G: graf  |  /: iskanje  |  ↑↓/wheel: scroll  |  zelena=met  oranžna=ne met"
     love.graphics.print(hintStr, panelX + 16, panelY + 36)
     love.graphics.setFont(font)
@@ -1233,8 +1277,11 @@ function TechTreePanel.draw()
         end
         searchStr = string.format("  |  🔍 \"%s\": %d zadetkov", searchQuery, matchCount)
     end
-    love.graphics.print(string.format("65 deps · 25 verig · 8 multi-prereq · mode: %s%s%s%s",
-        viewMode, focusStr, pathStr, searchStr),
+    -- v3.11.953: Show sort mode
+    local sortLabel = sortMode == "depth" and "po globini" or "abecedno"
+    local sortStr = string.format("  |  📊 sort: %s", sortLabel)
+    love.graphics.print(string.format("65 deps · 25 verig · 8 multi-prereq · mode: %s%s%s%s%s",
+        viewMode, focusStr, pathStr, searchStr, sortStr),
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)
 
@@ -1364,6 +1411,12 @@ function TechTreePanel.keypressed(key)
     -- v3.11.952: A toggles path direction arrows visibility
     if key == "a" then
         arrowsVisible = not arrowsVisible
+        return true
+    end
+    -- v3.11.953: S toggles sort mode (alphabetical vs depth)
+    if key == "s" then
+        sortMode = sortMode == "alphabetical" and "depth" or "alphabetical"
+        scrollOffset = 0  -- reset scroll since layout changes
         return true
     end
     if key == "g" then

@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.953] — 2026-08-16 — Tech Tree Depth-Based Sorting (S: abecedno ↔ po globini)
+
+### Dodano
+- **TechTreePanel.lua** — sortiranje verig po globini:
+  - **`S` tipka** preklopi med `alphabetical` in `depth` načinom
+  - **Alphabetical mode** (default) — verige v originalnem vrstnem redu (kot definirano v CHAINS)
+  - **Depth mode** — verige sortirane po max globini vozlišč (plitev→globok):
+    - Za vsako verigo se izračuna max globina med bazami in odvisniki
+    - Sort ascending: plitev (depth 0) na vrhu, globok (depth 4+) na dnu
+    - Tie-break: originalni indeks (stabilen sort)
+  - **Footer indikator** — '📊 sort: abecedno' ali '📊 sort: po globini'
+  - **Scroll reset** — ob preklopu sort mode se scrollOffset resetira (ker se layout spremeni)
+  - **getOrderedChains()** helper — vrača CHAINS v željenem vrstnem redu
+  - **computeGraphLayout** uporablja getOrderedChains() namesto direktno CHAINS
+- **keybind_help.lua** — nova S vrstica v CTRL+SHIFT+G sekciji
+
+### Spremenjene datoteke
+- `states/ui/hud/tech_tree_panel.lua` (+~45 vrstic) — sortMode state, getOrderedChains() z depth sorting + tie-break, computeGraphLayout uporablja ordered chains, S key handler, footer sort indicator, hint text update, toggle() reset
+- `states/ui/hud/keybind_help.lua` (+1 vrstica) — S toggle opis
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS (tech_tree_panel.lua + keybind_help.lua)
+- Depth sorting — max(depth of all nodes in chain) za sort key
+- Tie-break — original index za stabilnost (enaki globini = originalni vrstni red)
+- Scroll reset — ob preklopu sortMode se scrollOffset = 0 (ker layout spremeni pozicije)
+- getOrderedChains() — vrača CHAINS direktno če sortMode == "alphabetical" (optimizacija)
+
+### Zaključeno
+- Pred: verige vedno v abecednem vrstnem redu (KOVANJE METALOV, STEKLARSTVO, ...)
+- Sedaj: S preklopi na depth sort — plitev verige (osnove) na vrhu, globok verige (napredni) na dnu
+
 ## [v3.11.952] — 2026-08-16 — Tech Tree Path Direction Arrows (A: puščice na krivuljah kažejo smer base→dependent)
 
 ### Dodano
