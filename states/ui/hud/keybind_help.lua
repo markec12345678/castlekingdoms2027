@@ -90,6 +90,8 @@ local KEYBINDS = {
             { key = "A",        desc = "Skrij/prikaži puščice smeri na povezavah (base → dependent)" },
             { key = "S",        desc = "Preklopi sortiranje verig: abecedno ↔ po globini (plitev→globok)" },
             { key = "L",        desc = "Ciklaj filter stanja: vsi → aktivni → razpoložljivi → zaklenjeni" },
+            { key = "Tab",      desc = "Naslednje vozlišče (keyboard navigacija, auto-scroll + fokus)" },
+            { key = "Shift+Tab", desc = "Prejšnje vozlišče (keyboard navigacija nazaj)" },
             { key = "F",        desc = "Počisti fokus (ali klik ponovno na isto vozlišče)" },
             { key = "Hover",    desc = "V graf pogledu: prikaži podrobnosti odvisnosti + število odvisnikov" },
             { key = "↑ ↓",      desc = "Scroll po verigah" },

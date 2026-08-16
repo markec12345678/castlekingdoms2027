@@ -83,6 +83,13 @@ local sortMode = "alphabetical"  -- toggle with S
 -- When not "all", nodes not matching the filter get dimmed (like focus/search).
 local stateFilter = "all"  -- cycle with L
 
+-- Keyboard navigation state (v3.11.958)
+-- Tab/Shift+Tab cycles through all nodes in display order.
+-- keyboardNavIndex is nil when keyboard nav is not active.
+-- When set, the node at that index in the flat list gets a distinct highlight.
+local keyboardNavIndex = nil  -- nil = inactive, number = index in flat node list
+local keyboardNavList = nil  -- flat list of {key, isBase} in display order, rebuilt lazily
+
 -- Define chain display order and labels
 local CHAINS = {
     { label = "KOVANJE METALOV", base = "Metalwork", systems = {"BellMaker", "ChainmailForger", "SwordPommelMaker", "GauntletMaker", "CoinDieMaker", "CoinPressMaker"} },
@@ -136,6 +143,8 @@ function TechTreePanel.toggle()
     arrowsVisible = true
     sortMode = "alphabetical"
     stateFilter = "all"
+    keyboardNavIndex = nil
+    keyboardNavList = nil
 end
 
 function TechTreePanel.isVisible()
@@ -504,6 +513,31 @@ local function getOrderedChains()
         table.insert(ordered, cd.chain)
     end
     return ordered
+end
+
+-- v3.11.958: Build a flat list of all nodes in display order for keyboard navigation.
+-- Each entry: {key, isBase}
+-- Ordered by: chain order (respecting sortMode), then bases first, then dependents.
+local function buildKeyboardNavList()
+    local list = {}
+    for _, chain in ipairs(getOrderedChains()) do
+        local bases = chain.multiBase and chain.bases or {chain.base}
+        for _, bk in ipairs(bases) do
+            table.insert(list, {key = bk, isBase = true})
+        end
+        for _, sk in ipairs(chain.systems) do
+            table.insert(list, {key = sk, isBase = false})
+        end
+    end
+    return list
+end
+
+-- v3.11.958: Get or rebuild the keyboard nav list (lazy)
+local function getKeyboardNavList()
+    if not keyboardNavList then
+        keyboardNavList = buildKeyboardNavList()
+    end
+    return keyboardNavList
 end
 
 -- Compute layout: returns list of { chainLabel, chainY, baseNodes=[], depNodes=[], connections={} }
@@ -1272,7 +1306,7 @@ function TechTreePanel.draw()
     love.graphics.setColor(0.5, 0.6, 0.7, 1)
     if smallFont then love.graphics.setFont(smallFont) end
     local hintStr = viewMode == "graph"
-        and "Ctrl+Shift+G: zapri  |  G: tekst  |  /: iskanje  |  click: fokus  |  2x click: sistem  |  T: pot  |  M: minimap  |  D: globina  |  A: puščice  |  S: sort  |  L: filter  |  F/ESC: počisti"
+        and "Ctrl+Shift+G: zapri  |  G: tekst  |  /: iskanje  |  Tab: naslednji  |  click: fokus  |  2x click: sistem  |  T: pot  |  M: minimap  |  D: globina  |  A: puščice  |  S: sort  |  L: filter  |  F/ESC: počisti"
         or  "Ctrl+Shift+G: zapri  |  G: graf  |  /: iskanje  |  ↑↓/wheel: scroll  |  zelena=met  oranžna=ne met"
     love.graphics.print(hintStr, panelX + 16, panelY + 36)
     love.graphics.setFont(font)
@@ -1529,6 +1563,66 @@ function TechTreePanel.keypressed(key)
         return true
     end
 
+    -- v3.11.958: Tab/Shift+Tab for keyboard navigation between nodes
+    if key == "tab" then
+        local navList = getKeyboardNavList()
+        if #navList == 0 then return true end
+        local shiftDown = love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift")
+        if keyboardNavIndex == nil then
+            -- First activation: start at first (or last if Shift+Tab)
+            keyboardNavIndex = shiftDown and #navList or 1
+        else
+            if shiftDown then
+                keyboardNavIndex = keyboardNavIndex - 1
+                if keyboardNavIndex < 1 then keyboardNavIndex = #navList end
+            else
+                keyboardNavIndex = keyboardNavIndex + 1
+                if keyboardNavIndex > #navList then keyboardNavIndex = 1 end
+            end
+        end
+        -- Set focus to the selected node
+        local entry = navList[keyboardNavIndex]
+        selectedKey = entry.key
+        -- Auto-scroll to make the node visible: compute its Y and adjust scrollOffset
+        -- We need the layout to find the node's Y position
+        local W = love.graphics.getWidth()
+        local H = love.graphics.getHeight()
+        local panelW = math.min(960, W - 40)
+        local panelH = math.min(680, H - 60)
+        local panelX = (W - panelW) / 2
+        local panelY = (H - panelH) / 2
+        local contentTop = panelY + 56
+        local contentBottom = panelY + panelH - 46
+        local contentAreaH = contentBottom - contentTop
+        local chains = computeGraphLayout(panelX, contentTop - scrollOffset)
+        for _, chain in ipairs(chains) do
+            for _, node in ipairs(chain.baseNodes) do
+                if node.key == entry.key then
+                    -- Node Y is node.y; check if it's visible
+                    if node.y < contentTop then
+                        scrollOffset = scrollOffset - (contentTop - node.y) - 10
+                    elseif node.y + node.h > contentBottom then
+                        scrollOffset = scrollOffset + (node.y + node.h - contentBottom) + 10
+                    end
+                    if scrollOffset < 0 then scrollOffset = 0 end
+                    return true
+                end
+            end
+            for _, node in ipairs(chain.depNodes) do
+                if node.key == entry.key then
+                    if node.y < contentTop then
+                        scrollOffset = scrollOffset - (contentTop - node.y) - 10
+                    elseif node.y + node.h > contentBottom then
+                        scrollOffset = scrollOffset + (node.y + node.h - contentBottom) + 10
+                    end
+                    if scrollOffset < 0 then scrollOffset = 0 end
+                    return true
+                end
+            end
+        end
+        return true
+    end
+
     -- v3.11.945: ESC clears focus first if set, otherwise closes panel
     -- v3.11.946: Also clears search query if set (but not active)
     if key == "escape" then
@@ -1574,6 +1668,8 @@ function TechTreePanel.keypressed(key)
     if key == "s" then
         sortMode = sortMode == "alphabetical" and "depth" or "alphabetical"
         scrollOffset = 0  -- reset scroll since layout changes
+        keyboardNavList = nil  -- v3.11.958: invalidate nav list since order changed
+        keyboardNavIndex = nil
         return true
     end
     -- v3.11.954: L cycles state filter (all → active → met → locked → all)

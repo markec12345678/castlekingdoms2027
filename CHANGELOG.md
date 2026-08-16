@@ -2,6 +2,35 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.958] — 2026-08-16 — Tech Tree Keyboard Navigation (Tab/Shift+Tab za navigacijo med vozlišči)
+
+### Dodano
+- **TechTreePanel.lua** — keyboard navigacija med vozlišči:
+  - **`Tab`** — premik na naslednje vozlišče (v display order: chain po chain, baze nato odvisniki)
+  - **`Shift+Tab`** — premik na prejšnje vozlišče (nazaj)
+  - **Auto-scroll** — če vozlišče ni vidno, scrollOffset se prilagodi da vozlišče pride v vidno območje
+  - **Auto-focus** — keyboard navigacija samodejno nastavi selectedKey na vozlišče (poudari sorodne)
+  - **`keyboardNavIndex` state** — sledi trenutnemu indeksu v flat list (nil = neaktivno)
+  - **`keyboardNavList` cache** — flat list {key, isBase} v display order, rebuilda ob sort spremembi
+  - **`buildKeyboardNavList()`** — gradi flat list iz getOrderedChains()
+  - **Invalidacija** — ko se sortMode spremeni (S tipka), se keyboardNavList in keyboardNavIndex resetirata
+  - **Wrap-around** — na zadnjem vozlišču Tab skoči na prvo, na prvem Shift+Tab skoči na zadnje
+
+### Spremenjene datoteke
+- `states/ui/hud/tech_tree_panel.lua` (+~70 vrstic) — keyboardNavIndex/keyboardNavList state, buildKeyboardNavList() helper, getKeyboardNavList() lazy cache, Tab key handler z auto-scroll + focus, S key invalidation
+- `states/ui/hud/keybind_help.lua` (+2 vrstici) — Tab in Shift+Tab opisa
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS (tech_tree_panel.lua + keybind_help.lua)
+- Display order — getOrderedChains() upošteva sortMode (alphabetical/depth)
+- Auto-scroll — če node.y < contentTop scroll gor, če node.y + h > contentBottom scroll dol
+- Wrap-around — index wrap z `if > #navList then = 1` in `if < 1 then = #navList`
+- Cache invalidation — keyboardNavList = nil ob sort spremembi
+
+### Zaključeno
+- Pred: navigacija samo z miško (click, hover, drag)
+- Sedaj: Tab/Shift+Tab omogoča popolno keyboard navigacijo — dostopno za igralce brez miške
+
 ## [v3.11.957] — 2026-08-16 — Tech Tree Minimap Drag (drag za kontinuirano scrollanje)
 
 ### Dodano
