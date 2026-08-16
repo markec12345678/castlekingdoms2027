@@ -2,6 +2,33 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.957] — 2026-08-16 — Tech Tree Minimap Drag (drag za kontinuirano scrollanje)
+
+### Dodano
+- **TechTreePanel.lua** — drag na minimap za kontinuirano scrollanje:
+  - **`minimapDragging` state** — sledi ali je miška pritisnjena na minimap
+  - **mousepressed** — klik na minimap začne drag mode (scrollToMinimapY + minimapDragging = true)
+  - **mousemoved** — če je drag aktiven, kliče scrollToMinimapY(y) za kontinuirano scrollanje
+  - **mousereleased** — konča drag mode (minimapDragging = false)
+  - **Vizualni feedback** — minimap border postane cyan in debelejši (2px) med drag
+  - **`scrollToMinimapY(my)` helper** — ekstrahirana scroll logika iz mousepressed, shared z mousemoved
+  - **Center-on-click** ohranjen — viewport center sledi miškinemu Y
+  - **Clamping** ohranjeno — scroll ne preseže maxScroll ali 0
+
+### Spremenjene datoteke
+- `states/ui/hud/tech_tree_panel.lua` (+~45 vrstic) — minimapDragging state, scrollToMinimapY() helper, mousepressed poenostavljena (uporablja helper + set drag flag), mousemoved drag handling, mousereleased drag end, minimap border highlight med drag, toggle() reset
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS
+- Drag lifecycle — mousepressed začne, mousemoved nadaljuje, mousereleased konča
+- scrollToMinimapY() — shared helper preprečuje duplikacijo scroll logike
+- Visual feedback — cyan border (0.4, 0.85, 1) + 2px width med drag, sicer gray + 1px
+- Center-on-click — viewport center sledi miškinemu Y (ne top edge)
+
+### Zaključeno
+- Pred: klik na minimap je skočil na pozicijo (enkratni jump)
+- Sedaj: drag omogoča kontinuirano drsenje po tech tree-ju v realnem času
+
 ## [v3.11.956] — 2026-08-16 — Tech Tree Progress Bar (vizualni % aktivnih z barvnim gradientom)
 
 ### Dodano

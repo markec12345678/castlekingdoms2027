@@ -57,8 +57,10 @@ local DOUBLE_CLICK_THRESHOLD = 0.4  -- seconds
 -- Minimap state (v3.11.949)
 -- Compact overview of all 25 chains in the bottom-right corner.
 -- Shows current viewport position and allows click-to-scroll.
+-- v3.11.957: Also supports drag for continuous scrolling.
 local minimapVisible = true  -- toggle with M
 local minimapArea = nil  -- {x, y, w, h} set during draw, used by mousepressed
+local minimapDragging = false  -- true while mouse is held down on minimap
 
 -- Depth indicator state (v3.11.951)
 -- Shows the tech-tree depth of each node (layer 0 = root/base, 1, 2, ...)
@@ -129,6 +131,7 @@ function TechTreePanel.toggle()
     searchQuery = ""
     pathMode = "transitive"
     minimapVisible = true
+    minimapDragging = false
     depthVisible = true
     arrowsVisible = true
     sortMode = "alphabetical"
@@ -379,6 +382,46 @@ end
 local function getDepth(key)
     local depths = computeDepths()
     return depths[key] or 0
+end
+
+-- v3.11.957: Scroll the main graph to center on a given minimap Y coordinate.
+-- Shared by mousepressed (click) and mousemoved (drag) for minimap.
+-- @param my number Mouse Y position (screen coordinates)
+local function scrollToMinimapY(my)
+    if not minimapArea then return end
+    local W = love.graphics.getWidth()
+    local H = love.graphics.getHeight()
+    local panelW = math.min(960, W - 40)
+    local panelH = math.min(680, H - 60)
+    local panelX = (W - panelW) / 2
+    local panelY = (H - panelH) / 2
+    local contentTop = panelY + 56
+    local contentBottom = panelY + panelH - 46  -- v3.11.955: adjusted for stats line
+    local contentAreaH = contentBottom - contentTop
+    -- Compute totalH (same as drawMinimap)
+    local chains = computeGraphLayout(panelX, contentTop - scrollOffset)
+    local totalH = contentAreaH
+    if #chains > 0 then
+        local last = chains[#chains]
+        totalH = (last.chainY - (contentTop - scrollOffset)) + CHAIN_HEADER_H + NODE_H + CHAIN_GAP
+    end
+    local maxScroll = math.max(0, totalH - contentAreaH)
+    if maxScroll <= 0 then return end
+    -- Map click Y (relative to minimap content area) to scroll offset
+    local mmContentTop = minimapArea.y + 20
+    local mmContentH = minimapArea.h - 24
+    local scale = mmContentH / totalH
+    local clickYRel = my - mmContentTop
+    -- Center viewport on click position
+    local viewportH = contentAreaH * scale
+    local targetTopRel = clickYRel - viewportH / 2
+    -- Clamp
+    if targetTopRel < 0 then targetTopRel = 0 end
+    if targetTopRel > mmContentH - viewportH then targetTopRel = mmContentH - viewportH end
+    -- Convert back to scroll offset
+    scrollOffset = targetTopRel / scale
+    if scrollOffset > maxScroll then scrollOffset = maxScroll end
+    if scrollOffset < 0 then scrollOffset = 0 end
 end
 
 -- Check if a system key is "active" (has ≥1 building)
@@ -997,9 +1040,16 @@ function TechTreePanel.drawMinimap(panelX, contentTop, contentAreaH, panelW, pan
     -- Background
     love.graphics.setColor(0.03, 0.04, 0.06, 0.92)
     love.graphics.rectangle("fill", mmX, mmY, mmW, mmH, 4, 4, 4, 4)
-    love.graphics.setColor(0.4, 0.5, 0.65, 0.8)
-    love.graphics.setLineWidth(1)
+    -- v3.11.957: Highlight border when dragging (cyan + thicker)
+    if minimapDragging then
+        love.graphics.setColor(0.4, 0.85, 1, 1)
+        love.graphics.setLineWidth(2)
+    else
+        love.graphics.setColor(0.4, 0.5, 0.65, 0.8)
+        love.graphics.setLineWidth(1)
+    end
     love.graphics.rectangle("line", mmX, mmY, mmW, mmH, 4, 4, 4, 4)
+    love.graphics.setLineWidth(1)
 
     -- Title
     love.graphics.setFont(smallFont)
@@ -1594,38 +1644,13 @@ function TechTreePanel.mousepressed(x, y, button)
     end
 
     -- v3.11.949: Check minimap click first (if visible and click is within minimap area)
+    -- v3.11.957: Start drag mode for continuous scrolling
     if viewMode == "graph" and minimapVisible and minimapArea then
         if x >= minimapArea.x and x <= minimapArea.x + minimapArea.w
            and y >= minimapArea.y and y <= minimapArea.y + minimapArea.h then
-            -- Click on minimap: jump scroll to that position
-            local contentTop = panelY + 56
-            local contentBottom = panelY + panelH - 30
-            local contentAreaH = contentBottom - contentTop
-            -- Compute totalH (same as drawMinimap)
-            local chains = computeGraphLayout(panelX, contentTop - scrollOffset)
-            local totalH = contentAreaH
-            if #chains > 0 then
-                local last = chains[#chains]
-                totalH = (last.chainY - (contentTop - scrollOffset)) + CHAIN_HEADER_H + NODE_H + CHAIN_GAP
-            end
-            local maxScroll = math.max(0, totalH - contentAreaH)
-            if maxScroll > 0 then
-                -- Map click Y (relative to minimap content area) to scroll offset
-                local mmContentTop = minimapArea.y + 20
-                local mmContentH = minimapArea.h - 24
-                local scale = mmContentH / totalH
-                local clickYRel = y - mmContentTop
-                -- Center viewport on click position
-                local viewportH = contentAreaH * scale
-                local targetTopRel = clickYRel - viewportH / 2
-                -- Clamp
-                if targetTopRel < 0 then targetTopRel = 0 end
-                if targetTopRel > mmContentH - viewportH then targetTopRel = mmContentH - viewportH end
-                -- Convert back to scroll offset
-                scrollOffset = targetTopRel / scale
-                if scrollOffset > maxScroll then scrollOffset = maxScroll end
-                if scrollOffset < 0 then scrollOffset = 0 end
-            end
+            -- Click on minimap: jump scroll to that position and start drag mode
+            scrollToMinimapY(y)
+            minimapDragging = true
             return true
         end
     end
@@ -1696,6 +1721,12 @@ function TechTreePanel.mousemoved(x, y, dx, dy)
     if not visible then return false end
     if viewMode ~= "graph" then return false end
 
+    -- v3.11.957: If dragging on minimap, update scroll continuously
+    if minimapDragging then
+        scrollToMinimapY(y)
+        return true
+    end
+
     local W = love.graphics.getWidth()
     local H = love.graphics.getHeight()
     local panelW = math.min(960, W - 40)
@@ -1728,7 +1759,13 @@ function TechTreePanel.mousemoved(x, y, dx, dy)
     return false
 end
 
+-- v3.11.957: mousereleased — end minimap drag
 function TechTreePanel.mousereleased(x, y, button)
+    if not visible then return false end
+    if minimapDragging then
+        minimapDragging = false
+        return true
+    end
     return false
 end
 

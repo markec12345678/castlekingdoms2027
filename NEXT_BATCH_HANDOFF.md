@@ -1,7 +1,7 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.956**
+- Različica: **v3.11.957**
 - Skupaj Royal sistemov: **987**
 - Skupaj Lua datotek: **1645**
 - Sintaktična preverba (avtentična Lua `load()`): **1645/1645 pass (100%)**
@@ -77,15 +77,16 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 - ✅ **v3.11.954**: Tech Tree State Filter — L cikla filter stanja (vsi→aktivni→razpoložljivi→zaklenjeni), dimming neujemajočih, kombinacija s focus in search, footer indikator
 - ✅ **v3.11.955**: Tech Tree Stats Summary — povzetek statistike v footerju (X aktivnih, Y razpoložljivih, Z zaklenjenih, skupaj N), contentBottom prilagojen
 - ✅ **v3.11.956**: Tech Tree Progress Bar — vizualni progress bar (% aktivnih) z barvnim gradientom (rdeča→rumena→zelena), procentni tekst, desna stran stats line
+- ✅ **v3.11.957**: Tech Tree Minimap Drag — drag na minimap za kontinuirano scrollanje (ne samo click), scrollToMinimapY() helper, cyan border med drag
 
 ## ZNANE NADGRADNJE ZA PRIHODNJE PAKETE
 
 1. **Sprite-i za Royal sisteme** — trenutno so samo podatkovni, brez grafične podobe
 2. **Več dependency verig** — dodajanje Horticulture+, Apiary+, Surgical+, Coinage+ podverig
-3. **Tech tree minimap drag** — drag na minimap za kontinuirano scrollanje (ne samo click)
-4. **Market Dashboard quick-jump** — dvoklik na produkt v Market Dashboard odpre Royal Systems Panel na sistemu ki ga proizvaja
-5. **Tech tree node hover preview** — hover na vozlišče prikaže preview graf povezanih sistemov v tooltip box
-6. **Tech tree export/import** — izvoz/uvoz tech tree konfiguracije (filtri, sort, focus) kot shareable string
+3. **Market Dashboard quick-jump** — dvoklik na produkt v Market Dashboard odpre Royal Systems Panel na sistemu ki ga proizvaja
+4. **Tech tree node hover preview** — hover na vozlišče prikaže preview graf povezanih sistemov v tooltip box
+5. **Tech tree export/import** — izvoz/uvoz tech tree konfiguracije (filtri, sort, focus) kot shareable string
+6. **Tech tree keyboard navigation** — Tab/Shift+Tab za navigacijo med vozlišči (brez miške)
 
 ## ZADNJE ZAKLJUČENI PAKET (v3.11.892–v3.11.901) — STEKLARSKI DODATKI 13 + LIVARSKI DODATKI 13
 
