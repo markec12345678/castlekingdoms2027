@@ -1352,6 +1352,40 @@ function TechTreePanel.draw()
         activeCount, metCount, lockedCount, totalCount),
         panelX + 16, panelY + panelH - 38)
 
+    -- v3.11.956: Progress bar — visual representation of % active systems
+    -- Drawn on the right side of the stats line
+    local progressPct = totalCount > 0 and (activeCount / totalCount) or 0
+    local pbW = 120
+    local pbH = 10
+    local pbX = panelX + panelW - pbW - 16
+    local pbY = panelY + panelH - 36
+    -- Background
+    love.graphics.setColor(0.1, 0.12, 0.16, 1)
+    love.graphics.rectangle("fill", pbX, pbY, pbW, pbH, 3, 3, 3, 3)
+    -- Fill with color gradient based on progress:
+    -- 0% = red, 50% = yellow, 100% = green
+    local r, g
+    if progressPct < 0.5 then
+        -- red to yellow
+        r = 0.9
+        g = progressPct * 2 * 0.85
+    else
+        -- yellow to green
+        r = (1 - progressPct) * 2 * 0.9
+        g = 0.85
+    end
+    love.graphics.setColor(r, g, 0.3, 0.95)
+    love.graphics.rectangle("fill", pbX + 1, pbY + 1, (pbW - 2) * progressPct, pbH - 2, 2, 2, 2, 2)
+    -- Border
+    love.graphics.setColor(0.4, 0.45, 0.55, 1)
+    love.graphics.setLineWidth(1)
+    love.graphics.rectangle("line", pbX, pbY, pbW, pbH, 3, 3, 3, 3)
+    -- Percentage text above bar
+    love.graphics.setColor(0.7, 0.78, 0.85, 1)
+    local pctStr = string.format("%.0f%% aktivnih", progressPct * 100)
+    local pctW = smallFont:getWidth(pctStr)
+    love.graphics.print(pctStr, pbX + (pbW - pctW) / 2, pbY - 12)
+
     love.graphics.setColor(0.4, 0.45, 0.5, 1)
     love.graphics.print(string.format("65 deps · 25 verig · 8 multi-prereq · mode: %s%s%s%s%s%s",
         viewMode, focusStr, pathStr, searchStr, sortStr, filterStr),

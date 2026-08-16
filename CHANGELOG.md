@@ -2,6 +2,35 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.956] — 2026-08-16 — Tech Tree Progress Bar (vizualni % aktivnih z barvnim gradientom)
+
+### Dodano
+- **TechTreePanel.lua** — progress bar v footerju:
+  - **Vizualni progress bar** (120×10 px) na desni strani stats line
+  - **Prikazuje % aktivnih sistemov** (activeCount / totalCount × 100)
+  - **Barvni gradient** glede na napredek:
+    - 0% = rdeča (0.9, 0, 0.3)
+    - 50% = rumena (0.9, 0.85, 0.3)
+    - 100% = zelena (0, 0.85, 0.3)
+  - **Linearna interpolacija** — < 50% prehod iz rdeče v rumeno, > 50% prehod iz rumene v zeleno
+  - **Ozadje** — temno (0.1, 0.12, 0.16) za kontrast
+  - **Border** — siv (0.4, 0.45, 0.55)
+  - **Procentni tekst** nad barom: 'X% aktivnih' (centriran)
+  - **Pozicioniranje** — desna stran stats line, ne moti stats besedila na levi
+
+### Spremenjene datoteke
+- `states/ui/hud/tech_tree_panel.lua` (+~30 vrstic) — progressPct kalkulacija, progress bar rendering z gradient fill, procentni tekst
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS
+- Progress formula — activeCount / totalCount (z division-by-zero zaščito)
+- Color gradient — linearna interpolacija r→g komponent glede na progressPct
+- Layout — progress bar na desni, stats besedilo na levi, brez overlap
+
+### Zaključeno
+- Pred: stats summary samo številske vrednosti
+- Sedaj: vizualni progress bar takoj pokaže napredek — rdeče=začetek, rumeno=sredina, zeleno=skoraj končano
+
 ## [v3.11.955] — 2026-08-16 — Tech Tree Stats Summary (povzetek: X aktivnih, Y razpoložljivih, Z zaklenjenih)
 
 ### Dodano
