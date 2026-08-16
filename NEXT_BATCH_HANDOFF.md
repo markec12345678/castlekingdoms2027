@@ -1,10 +1,10 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.933**
+- Različica: **v3.11.944**
 - Skupaj Royal sistemov: **987**
-- Skupaj Lua datotek: **1643**
-- Sintaktična preverba (avtentična Lua `load()`): **1643/1643 pass (100%)**
+- Skupaj Lua datotek: **1645**
+- Sintaktična preverba (avtentična Lua `load()`): **1645/1645 pass (100%)**
 - GitHub: sinhroniziran (vsi tagi pushani)
 - Lokalni repo: `/home/z/my-project/castlekingdoms2027`
 - .love datoteke: `/home/z/my-project/download/`
@@ -20,12 +20,12 @@ Od v3.11.382 projekt vključuje **centralen manager in UI panel**, ki povezuje v
 
 Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panelu — ni potrebe po ročni registraciji v Registry. Tudi ni potrebno več ročno registrirati sisteme v states/game.lua (require/init/update bloki) — zadnje pakete (od v3.11.542 naprej) pustimo neregistrirane, ker jih Registry sam odkrije preko S tabele.
 
-## ZNANE NADGRADNJE ZA PRIHODNJE PAKETE
+## ZNANE NADGRADNJE ZA PRIHODNJE PAKETE (stari seznam — vidi spodaj za posodobljen)
 
-1. **Sprite-i za Royal sisteme** — trenutno so samo podatkovni, brez grafične podobe
-2. **Sistemske odvisnosti** — nekateri sistemi naj zahtevajo druge (npr. BellMaker zahteva Metalwork)
-3. **Market Dashboard mousemoved forwarding** — preveri ali Ctrl+K panel pravilno prejema mousemoved
-4. **Overlay settings migration** — izboljšanje migracije: preberi stare vrednosti pred izbrisom datotek
+1. ~~**Sprite-i za Royal sisteme** — trenutno so samo podatkovni, brez grafične podobe~~ (odprto)
+2. ~~**Sistemske odvisnosti** — nekateri sistemi naj zahtevajo druge (npr. BellMaker zahteva Metalwork)~~ ✅ končano v v3.11.934-v3.11.943
+3. ~~**Market Dashboard mousemoved forwarding**~~ ✅ končano
+4. ~~**Overlay settings migration**~~ ✅ končano v v3.11.933
 
 ## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.11.933)
 
@@ -63,6 +63,16 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 - ✅ **v3.11.931**: Overlay Opacity Slider v Panel — vizualni drsnik v Ctrl+U za natančno nastavitev prosojnosti (drag support)
 - ✅ **v3.11.932**: Auto-Save Panel Mousemoved/Mousereleased Forwarding — bug fix: slider drag sedaj pravilno deluje
 - ✅ **v3.11.933**: Overlay Settings Consolidation — 3 ločene datoteke združene v 1 (autosave_overlay_settings.txt) z avtomatsko migracijo
+- ✅ **v3.11.934-v3.11.943**: Tech Tree — SystemDependencies modul (65 deps v 25 verigah, 8 multi-prereq), TechTreePanel (Ctrl+Shift+G) z 100% mouse/wheel forwarding
+- ✅ **v3.11.944**: Tech Tree Node Graph Visualization — node-based graph z bezier krivuljami, hover tooltip z odvisnostmi, G toggle med graf/tekst, keybind_help dopolnjen
+
+## ZNANE NADGRADNJE ZA PRIHODNJE PAKETE
+
+1. **Sprite-i za Royal sisteme** — trenutno so samo podatkovni, brez grafične podobe
+2. **Več dependency verig** — dodajanje Horticulture+, Apiary+, Surgical+, Coinage+ podverig
+3. **Tech tree interaktivnost** — click na vozlišče za "focus" (highlight povezane krivulje)
+4. **Tech tree minimap** — majhen pregledni graf v kotu za hitro navigacijo
+5. **AutoSavePanel wheelmoved** — trenutno stub; implementiraj wheel za hitro spreminjanje intervala
 
 ## ZADNJE ZAKLJUČENI PAKET (v3.11.892–v3.11.901) — STEKLARSKI DODATKI 13 + LIVARSKI DODATKI 13
 

@@ -2,6 +2,45 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.944] — 2026-08-16 — Tech Tree Node Graph Visualization (bezier curves + hover tooltip + G toggle)
+
+### Dodano
+- **TechTreePanel.lua** — nova GRAF vizualizacija (default mode) nad obstoječo tekstovno:
+  - **Node-based layout**: vsak sistem je zaokrožen pravokotnik (132×30 px) z imenom in status simbolom (✓/⚠/✗)
+  - **Bezier povezave**: odvisnosti prikazane kot gladke krivulje od desnega roba baze do levega roba odvisnega sistema
+  - **Barvno kodiranje vozlišč**:
+    - Zeleno (active) — sistem ima ≥1 zgradbo
+    - Rumeno (met) — odvisnosti izpolnjene, a še ni zgrajeno
+    - Rdeče (locked) — odvisnosti niso izpolnjene
+  - **Barvno kodiranje povezav**:
+    - Svetlo zelena (debelejša) — oboje aktivno
+    - Rumena (srednja) — baza aktivna, odvisnik razpoložljiv
+    - Temno rdeča (tanko) — baza neaktivna
+  - **Multi-prereq**: več baznih vozlišč → več krivulj konvergira v enega odvisnika (npr. SurgicalLancetMaker ← Metalwork + ApothecaryMortar)
+  - **Hover tooltip** — miška nad vozliščem prikaže:
+    - Polno ime sistema
+    - Status (AKTIVNA / razpoložljiv / zaklenjen / BASE)
+    - Seznam odvisnosti z ✓/✗ statusom vsakega predpogoja
+  - **Base indicator** — majhen trikotnik v zgornjem levem kotu za baze
+  - **Hover highlight** — bel obrobl okoli vozlišča pod miško
+  - **Širši panel** (960px namesto 620px) za prostor za vozlišča in krivulje
+- **'G' tipka** — preklop med graf in tekst pogledom (text = legacy └─ drevo)
+- **keybind_help.lua** — nova sekcija "CTRL+SHIFT+G PANEL (Tech Tree)" z 7 bližnjicami
+
+### Spremenjene datoteke
+- `states/ui/hud/tech_tree_panel.lua` (+~280 vrstic) — nova funkcija `drawGraph()`, `computeGraphLayout()`, `drawNode()`, `drawConnection()`, hover logika v `mousemoved()`, viewMode state
+- `states/ui/hud/keybind_help.lua` (+12 vrstic) — nova CTRL+SHIFT+G sekcija
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS (tech_tree_panel.lua + keybind_help.lua)
+- Layout computeGraphLayout() — 25 verig, ~75 vozlišč, ~95 povezav
+- Hover tooltip deluje z miško nad katerimkoli vozliščem
+- G toggle pravilno preklopi viewMode in resetira scrollOffset
+
+### Zaključeno
+- Pred: tekstovno drevo z └─ znaki (ctrl+shift+G)
+- Sedaj: polen grafičen node graph z bezier krivuljami in tooltip-i (ctrl+shift+G), z opcijo 'G' za tekstovni pogled
+
 ## [v3.11.943] — 2026-08-16 — Tech Tree Expansion III (46→65 deps, 16→25 verig)
 
 ### Dodano
