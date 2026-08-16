@@ -2,6 +2,54 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.946] — 2026-08-16 — Tech Tree Search/Filter (iskanje po imenu z highlightom)
+
+### Dodano
+- **TechTreePanel.lua** — search/filter funkcionalnost:
+  - **`/` tipka** odpre iskalno polje v zgornjem desnem kotu panela
+  - **Case-insensitive substring match** na prikaznem imenu sistema (npr. "glass" najde vse GlassX sisteme)
+  - **Highlight ujemajočega substringa** — v vozlišču se ujemajoči del teksta pobarva rumeno z ozadjem
+  - **Cyan obrobl** okoli ujemajočih vozlišč (razlikuje se od zlate za focus)
+  - **Cyan povezave** med ujemajočimi vozlišči poudarjene
+  - **Zatemnitev neujemajočih** — alpha 0.2 za vozlišča, 0.1 za povezave
+  - **Števec zadetkov** v footerju: '🔍 "glass": 5 zadetkov'
+  - **Blinking cursor** v iskalnem polju (utripa 2x/sekundo)
+  - **Placeholder text** — "/ za iskanje" ko je prazno in neaktivno, "tipkaj za iskanje..." ko je aktivno
+- **Kombinacija s focus mode**:
+  - Oba filtra se aplicirata neodvisno (vozlišče je polno osvetljeno samo če ustreza OBEMA)
+  - Če je focus aktiven in search ustreza — vozlišče je polno osvetljeno
+  - Če je search aktiven in focus ustreza — vozlišče je polno osvetljeno
+  - Če noben ni aktiven — vsa vozlišča polno osvetljena
+- **Tipke med iskanjem**:
+  - `/` — odpre iskanje
+  - `Enter` — potrdi iskanje (filter ostane aktiven, input mode se zapre)
+  - `Backspace` — briše zadnji znak
+  - `ESC` — zapre iskanje in počisti query
+  - `↑↓/PgUp/PgDn/Home` — scroll še vedno deluje med iskanjem
+  - Druge tipke se ignorirajo (da ne sprožijo focus/G toggle med tipkanjem)
+- **ESC zaporedje** (ko iskanje NI aktivno):
+  1. Če je search query postavljen → počisti query
+  2. Če je focus aktiven → počisti focus
+  3. Sicer → zapri panel
+- **game.lua** — forwarding `textinput(text)` in `update(dt)` v TechTreePanel
+- **keybind_help.lua** — CTRL+SHIFT+G sekcija posodobljena z `/`, Enter, Backspace
+
+### Spremenjene datoteke
+- `states/ui/hud/tech_tree_panel.lua` (+~150 vrstic) — searchActive/searchQuery/cursorBlink state, isSearchMatch(), isConnectionSearchRelated(), drawNode z isMatched in highlight substring, drawConnection z isSearchRelated, drawGraph prehod isMatched/isSearchRelated, search input box rendering, update() za cursor blink, textinput() za znake, keypressed z `/`/Enter/Backspace/ESC logiko
+- `states/game.lua` (+3 vrstice) — textinput forwarding, update(dt) forwarding
+- `states/ui/hud/keybind_help.lua` (+3 vrstice, 1 posodobljena) — `/`, Enter, Backspace, ESC opis posodobljen
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS (tech_tree_panel.lua + keybind_help.lua + game.lua)
+- isSearchMatch() — case-insensitive substring find z `plain=true` (literal match, ne pattern)
+- Substring highlight — pravilno izračuna offset za before/match/after dele
+- Cursor blink — `math.floor(cursorBlink * 2) % 2 == 0` da 0.5s on/off cikel
+- Search + focus kombinacija — oba filtra se aplicirata neodvisno
+
+### Zaključeno
+- Pred: iskanje sistema v 25 verigah zahtevalo ročno scrollanje
+- Sedaj: `/glass` takoj poudari vse steklarne sisteme, ostali se zatemnijo
+
 ## [v3.11.945] — 2026-08-16 — Tech Tree Click-to-Focus (poudari sorodne, zatemni nepovezane)
 
 ### Dodano

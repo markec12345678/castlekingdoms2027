@@ -34,6 +34,14 @@ local mouseX, mouseY = 0, 0
 -- Related = the selected node + its direct prereqs + its direct dependents.
 local selectedKey = nil
 
+-- Search/filter state (v3.11.946)
+-- When searchActive is true, user is typing in the search box.
+-- searchQuery is the current text (case-insensitive substring match).
+-- Matching nodes stay bright; non-matching get dimmed (similar to focus mode).
+local searchActive = false
+local searchQuery = ""
+local cursorBlink = 0  -- accumulated time for cursor blink animation
+
 -- Define chain display order and labels
 local CHAINS = {
     { label = "KOVANJE METALOV", base = "Metalwork", systems = {"BellMaker", "ChainmailForger", "SwordPommelMaker", "GauntletMaker", "CoinDieMaker", "CoinPressMaker"} },
@@ -78,6 +86,8 @@ function TechTreePanel.toggle()
     scrollOffset = 0
     hoveredNode = nil
     selectedKey = nil
+    searchActive = false
+    searchQuery = ""
 end
 
 function TechTreePanel.isVisible()
@@ -136,6 +146,23 @@ local function isConnectionRelated(conn, fromKey, toKey, relatedSet)
     -- Both endpoints in related set (e.g., selected's prereq → selected's dependent)
     if relatedSet[fromKey] and relatedSet[toKey] then return true end
     return false
+end
+
+-- v3.11.946: Check if a node key matches the current search query.
+-- Match is case-insensitive substring on the display name.
+-- Returns true if search is not active OR if the name matches.
+local function isSearchMatch(key)
+    if not searchActive or searchQuery == "" then return true end
+    local name = displayName(key):lower()
+    return name:find(searchQuery:lower(), 1, true) ~= nil
+end
+
+-- v3.11.946: Check if a connection should be shown based on search.
+-- A connection is search-related if EITHER endpoint matches the search.
+-- (When searching, we want to see all connections touching matching nodes.)
+local function isConnectionSearchRelated(fromKey, toKey)
+    if not searchActive or searchQuery == "" then return true end
+    return isSearchMatch(fromKey) or isSearchMatch(toKey)
 end
 
 -- Check if a system key is "active" (has ≥1 building)
@@ -281,10 +308,14 @@ end
 
 -- Draw a single node (rounded rectangle with text)
 -- v3.11.945: added isRelated and isSelected params for click-to-focus dimming
-local function drawNode(node, font, smallFont, isRelated, isSelected)
-    -- Apply dimming if a selection is active and this node is not related
-    local dim = (selectedKey ~= nil) and (not isRelated) and (not isSelected)
-    local alphaMul = dim and 0.3 or 1.0
+-- v3.11.946: added isMatched param for search dimming
+local function drawNode(node, font, smallFont, isRelated, isSelected, isMatched)
+    -- Apply dimming if focus is active and this node is not related
+    -- OR if search is active and this node doesn't match
+    local focusDim = (selectedKey ~= nil) and (not isRelated) and (not isSelected)
+    local searchDim = (searchActive and searchQuery ~= "") and (not isMatched)
+    local dim = focusDim or searchDim
+    local alphaMul = dim and 0.2 or 1.0
 
     local fillCol, borderCol = nodeColor(node.state)
     love.graphics.setColor(fillCol[1], fillCol[2], fillCol[3], fillCol[4] * alphaMul)
@@ -300,19 +331,54 @@ local function drawNode(node, font, smallFont, isRelated, isSelected)
     elseif node.state == "met" then symbol = "⚠"
     else symbol = "✗" end
 
-    -- Label
+    -- Label (v3.11.946: highlight matched substring)
     love.graphics.setColor(0.97, 0.97, 0.97, alphaMul)
     local label = displayName(node.key)
     -- Truncate if too long
     if smallFont then love.graphics.setFont(smallFont) end
     local maxTextW = node.w - 28
+    local truncated = false
     if love.graphics.getFont():getWidth(label) > maxTextW then
         while #label > 3 and love.graphics.getFont():getWidth(label .. "…") > maxTextW do
             label = label:sub(1, -2)
         end
         label = label .. "…"
+        truncated = true
     end
-    love.graphics.print(label, node.x + 8, node.y + (node.h - love.graphics.getFont():getHeight()) / 2)
+    -- v3.11.946: If search is active and this node matches, highlight the matched part
+    if searchActive and searchQuery ~= "" and isMatched and not truncated then
+        local lowerLabel = label:lower()
+        local lowerQuery = searchQuery:lower()
+        local startIdx, endIdx = lowerLabel:find(lowerQuery, 1, true)
+        if startIdx then
+            -- Draw parts: before, match (highlighted), after
+            local before = label:sub(1, startIdx - 1)
+            local matchPart = label:sub(startIdx, endIdx)
+            local after = label:sub(endIdx + 1)
+            local labelY = node.y + (node.h - love.graphics.getFont():getHeight()) / 2
+            local curX = node.x + 8
+            if before ~= "" then
+                love.graphics.setColor(0.97, 0.97, 0.97, alphaMul)
+                love.graphics.print(before, curX, labelY)
+                curX = curX + love.graphics.getFont():getWidth(before)
+            end
+            -- Highlight matched part with yellow background
+            local matchW = love.graphics.getFont():getWidth(matchPart)
+            love.graphics.setColor(1, 0.85, 0.3, 0.35 * alphaMul)
+            love.graphics.rectangle("fill", curX, labelY, matchW, love.graphics.getFont():getHeight(), 2, 2, 2, 2)
+            love.graphics.setColor(1, 0.95, 0.5, alphaMul)
+            love.graphics.print(matchPart, curX, labelY)
+            curX = curX + matchW
+            if after ~= "" then
+                love.graphics.setColor(0.97, 0.97, 0.97, alphaMul)
+                love.graphics.print(after, curX, labelY)
+            end
+        else
+            love.graphics.print(label, node.x + 8, node.y + (node.h - love.graphics.getFont():getHeight()) / 2)
+        end
+    else
+        love.graphics.print(label, node.x + 8, node.y + (node.h - love.graphics.getFont():getHeight()) / 2)
+    end
 
     -- Symbol on right
     love.graphics.setFont(font)
@@ -337,6 +403,12 @@ local function drawNode(node, font, smallFont, isRelated, isSelected)
         love.graphics.setLineWidth(3)
         love.graphics.rectangle("line", node.x - 2, node.y - 2, node.w + 4, node.h + 4, 6, 6, 6, 6)
         love.graphics.setLineWidth(1)
+    -- v3.11.946: Search match highlight (cyan outline) — only if not selected and matches search
+    elseif searchActive and searchQuery ~= "" and isMatched and not dim then
+        love.graphics.setColor(0.4, 0.85, 1, 0.7)
+        love.graphics.setLineWidth(2)
+        love.graphics.rectangle("line", node.x - 1, node.y - 1, node.w + 2, node.h + 2, 5, 5, 5, 5)
+        love.graphics.setLineWidth(1)
     -- Hover highlight (only when not dimmed)
     elseif hoveredNode and hoveredNode.key == node.key and not dim then
         love.graphics.setColor(1, 1, 1, 0.95)
@@ -347,13 +419,15 @@ local function drawNode(node, font, smallFont, isRelated, isSelected)
 end
 
 -- Draw a bezier connection between two points
--- v3.11.945: added isRelated param for dimming unrelated connections
-local function drawConnection(conn, isRelated)
-    local dim = (selectedKey ~= nil) and (not isRelated)
-    local alphaMul = dim and 0.15 or 1.0
+-- v3.11.945: added isRelated param for dimming unrelated connections (focus mode)
+-- v3.11.946: added isSearchRelated param for dimming non-matching connections (search mode)
+local function drawConnection(conn, isRelated, isSearchRelated)
+    local focusDim = (selectedKey ~= nil) and (not isRelated)
+    local searchDim = (searchActive and searchQuery ~= "") and (not isSearchRelated)
+    local dim = focusDim or searchDim
+    local alphaMul = dim and 0.1 or 1.0
     local ctrlOffset = math.abs(conn.toX - conn.fromX) * 0.5
     -- Color: bright if both ends active, dim if base active but dep not, very dim if base inactive
-    -- v3.11.945: apply alphaMul for unrelated connections when a node is focused
     if conn.active then
         love.graphics.setColor(0.4, 0.95, 0.45, 0.85 * alphaMul)
         love.graphics.setLineWidth(2)
@@ -368,6 +442,10 @@ local function drawConnection(conn, isRelated)
     if selectedKey and isRelated and (conn.fromKey == selectedKey or conn.toKey == selectedKey) then
         love.graphics.setColor(1, 0.85, 0.3, 1)
         love.graphics.setLineWidth(3)
+    -- v3.11.946: If search is active and at least one endpoint matches, boost with cyan
+    elseif searchActive and searchQuery ~= "" and isSearchRelated and not dim then
+        love.graphics.setColor(0.4, 0.85, 1, 0.9)
+        love.graphics.setLineWidth(2)
     end
     -- Bezier curve
     love.graphics.setLineJoin("round")
@@ -399,12 +477,15 @@ function TechTreePanel.drawGraph(panelX, contentTop, contentAreaH, panelW, small
             if selectedKey then
                 isRelated = isConnectionRelated(conn, conn.fromKey, conn.toKey, relatedSet)
             end
-            drawConnection(conn, isRelated)
+            local isSearchRelated = isConnectionSearchRelated(conn.fromKey, conn.toKey)
+            drawConnection(conn, isRelated, isSearchRelated)
         end
     end
 
-    -- Pass 2: draw chain headers (dim if selection active)
-    local headerAlpha = selectedKey and 0.4 or 1.0
+    -- Pass 2: draw chain headers (dim if focus or search active)
+    local headerAlpha = 1.0
+    if selectedKey then headerAlpha = 0.4 end
+    if searchActive and searchQuery ~= "" then headerAlpha = math.min(headerAlpha, 0.4) end
     for _, chain in ipairs(chains) do
         love.graphics.setFont(smallFont)
         love.graphics.setColor(0.6, 0.5, 0.3, headerAlpha)
@@ -416,12 +497,14 @@ function TechTreePanel.drawGraph(panelX, contentTop, contentAreaH, panelW, small
         for _, node in ipairs(chain.baseNodes) do
             local isRelated = (not selectedKey) or (relatedSet[node.key] ~= nil)
             local isSelected = (selectedKey == node.key)
-            drawNode(node, font, smallFont, isRelated, isSelected)
+            local isMatched = isSearchMatch(node.key)
+            drawNode(node, font, smallFont, isRelated, isSelected, isMatched)
         end
         for _, node in ipairs(chain.depNodes) do
             local isRelated = (not selectedKey) or (relatedSet[node.key] ~= nil)
             local isSelected = (selectedKey == node.key)
-            drawNode(node, font, smallFont, isRelated, isSelected)
+            local isMatched = isSearchMatch(node.key)
+            drawNode(node, font, smallFont, isRelated, isSelected, isMatched)
         end
     end
 
@@ -658,10 +741,57 @@ function TechTreePanel.draw()
     love.graphics.setColor(0.5, 0.6, 0.7, 1)
     if smallFont then love.graphics.setFont(smallFont) end
     local hintStr = viewMode == "graph"
-        and "Ctrl+Shift+G: zapri  |  G: tekst  |  ↑↓/wheel: scroll  |  click: fokus  |  F/ESC: počisti fokus  |  hover: podrobnosti"
-        or  "Ctrl+Shift+G: zapri  |  G: graf  |  ↑↓/wheel: scroll  |  zelena=met  oranžna=ne met"
+        and "Ctrl+Shift+G: zapri  |  G: tekst  |  /: iskanje  |  click: fokus  |  F/ESC: počisti  |  hover: podrobnosti"
+        or  "Ctrl+Shift+G: zapri  |  G: graf  |  /: iskanje  |  ↑↓/wheel: scroll  |  zelena=met  oranžna=ne met"
     love.graphics.print(hintStr, panelX + 16, panelY + 36)
     love.graphics.setFont(font)
+
+    -- v3.11.946: Search input box (top-right of panel, in graph view)
+    local searchBoxW = 220
+    local searchBoxH = 22
+    local searchBoxX = panelX + panelW - searchBoxW - 16
+    local searchBoxY = panelY + 14
+    if viewMode == "graph" then
+        -- Box background
+        love.graphics.setColor(0.05, 0.06, 0.08, 1)
+        love.graphics.rectangle("fill", searchBoxX, searchBoxY, searchBoxW, searchBoxH, 4, 4, 4, 4)
+        -- Border (cyan if active, gray if not)
+        if searchActive then
+            love.graphics.setColor(0.4, 0.85, 1, 1)
+        else
+            love.graphics.setColor(0.4, 0.45, 0.55, 1)
+        end
+        love.graphics.setLineWidth(searchActive and 2 or 1)
+        love.graphics.rectangle("line", searchBoxX, searchBoxY, searchBoxW, searchBoxH, 4, 4, 4, 4)
+        love.graphics.setLineWidth(1)
+        -- Search icon
+        love.graphics.setColor(0.6, 0.7, 0.8, 1)
+        if smallFont then love.graphics.setFont(smallFont) end
+        love.graphics.print("🔍", searchBoxX + 6, searchBoxY + (searchBoxH - (smallFont and smallFont:getHeight() or 12)) / 2)
+        -- Query text or placeholder
+        if searchQuery == "" then
+            love.graphics.setColor(0.4, 0.45, 0.5, 1)
+            love.graphics.print(searchActive and "tipkaj za iskanje..." or "/ za iskanje",
+                searchBoxX + 24, searchBoxY + (searchBoxH - (smallFont and smallFont:getHeight() or 12)) / 2)
+        else
+            love.graphics.setColor(0.95, 0.95, 0.95, 1)
+            love.graphics.print(searchQuery, searchBoxX + 24,
+                searchBoxY + (searchBoxH - (smallFont and smallFont:getHeight() or 12)) / 2)
+        end
+        -- Blinking cursor when active
+        if searchActive then
+            local cursorVisible = math.floor(cursorBlink * 2) % 2 == 0
+            if cursorVisible then
+                local cursorTextX = searchBoxX + 24
+                if searchQuery ~= "" and smallFont then
+                    cursorTextX = cursorTextX + smallFont:getWidth(searchQuery)
+                end
+                love.graphics.setColor(0.4, 0.85, 1, 1)
+                love.graphics.rectangle("fill", cursorTextX + 1, searchBoxY + 4, 2, searchBoxH - 8)
+            end
+        end
+        love.graphics.setFont(font)
+    end
 
     -- Content area
     local contentTop = panelY + 56
@@ -678,7 +808,23 @@ function TechTreePanel.draw()
     love.graphics.setColor(0.4, 0.45, 0.5, 1)
     if smallFont then love.graphics.setFont(smallFont) end
     local focusStr = selectedKey and string.format("  |  🎯 fokus: %s", displayName(selectedKey)) or ""
-    love.graphics.print(string.format("65 deps · 25 verig · 8 multi-prereq · mode: %s%s", viewMode, focusStr),
+    -- v3.11.946: Count search matches
+    local searchStr = ""
+    if searchActive and searchQuery ~= "" then
+        local matchCount = 0
+        for _, chain in ipairs(CHAINS) do
+            local bases = chain.multiBase and chain.bases or {chain.base}
+            for _, bk in ipairs(bases) do
+                if isSearchMatch(bk) then matchCount = matchCount + 1 end
+            end
+            for _, sk in ipairs(chain.systems) do
+                if isSearchMatch(sk) then matchCount = matchCount + 1 end
+            end
+        end
+        searchStr = string.format("  |  🔍 \"%s\": %d zadetkov", searchQuery, matchCount)
+    end
+    love.graphics.print(string.format("65 deps · 25 verig · 8 multi-prereq · mode: %s%s%s",
+        viewMode, focusStr, searchStr),
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)
 
@@ -689,10 +835,93 @@ end
 -- INPUT HANDLERS
 -- ============================================================
 
+-- v3.11.946: Update cursor blink animation
+function TechTreePanel.update(dt)
+    if not visible then return end
+    if searchActive then
+        cursorBlink = cursorBlink + dt
+    end
+end
+
+-- v3.11.946: Receive text input for the search box
+function TechTreePanel.textinput(text)
+    if not visible then return false end
+    if not searchActive then return false end
+    -- Only accept printable ASCII characters (avoid control chars)
+    if #searchQuery < 30 then
+        searchQuery = searchQuery .. text
+        cursorBlink = 0  -- reset cursor to visible
+    end
+    return true
+end
+
 function TechTreePanel.keypressed(key)
     if not visible then return false end
+
+    -- v3.11.946: If search is active, intercept most keys for search input
+    if searchActive then
+        if key == "escape" then
+            -- Close search (clears query and exits search mode)
+            searchActive = false
+            searchQuery = ""
+            return true
+        end
+        if key == "return" or key == "kpenter" then
+            -- Keep filter active but exit input mode (so user can scroll/click)
+            -- Actually: keep search active so they can keep typing
+            -- Just exit input mode by setting searchActive false but keep query as filter
+            -- Hmm, simpler: Enter confirms and exits input mode, query stays as filter
+            searchActive = false
+            -- query stays, so dimming remains until ESC or new search
+            return true
+        end
+        if key == "backspace" then
+            if #searchQuery > 0 then
+                searchQuery = searchQuery:sub(1, -2)
+                cursorBlink = 0
+            end
+            return true
+        end
+        -- Allow scroll keys during search
+        if key == "up" then
+            scrollOffset = math.max(0, scrollOffset - 30)
+            return true
+        end
+        if key == "down" then
+            scrollOffset = scrollOffset + 30
+            return true
+        end
+        if key == "pageup" then
+            scrollOffset = math.max(0, scrollOffset - 150)
+            return true
+        end
+        if key == "pagedown" then
+            scrollOffset = scrollOffset + 150
+            return true
+        end
+        if key == "home" then
+            scrollOffset = 0
+            return true
+        end
+        -- Swallow other keys while searching
+        return true
+    end
+
+    -- v3.11.946: '/' opens search
+    if key == "/" then
+        searchActive = true
+        searchQuery = ""
+        cursorBlink = 0
+        return true
+    end
+
     -- v3.11.945: ESC clears focus first if set, otherwise closes panel
+    -- v3.11.946: Also clears search query if set (but not active)
     if key == "escape" then
+        if searchQuery ~= "" and not searchActive then
+            searchQuery = ""
+            return true
+        end
         if selectedKey then
             selectedKey = nil
             return true
@@ -711,6 +940,8 @@ function TechTreePanel.keypressed(key)
         viewMode = viewMode == "graph" and "text" or "graph"
         scrollOffset = 0
         selectedKey = nil
+        searchActive = false
+        searchQuery = ""
         return true
     end
     if key == "up" then

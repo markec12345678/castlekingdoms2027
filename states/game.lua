@@ -3186,6 +3186,8 @@ function game:update(dt)
                 MarketDashboard.update(dt)
                 AutoSavePanel.update(dt)
                 AutoSaveOverlay.update(dt)
+                -- Castle Kingdoms 2027 v3.11.946: TechTreePanel cursor blink
+                TechTreePanel.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
@@ -3526,6 +3528,10 @@ function game:textinput(text)
     end
     if MarketDashboard.isVisible() then
         if MarketDashboard.textinput(text) then return end
+    end
+    -- Castle Kingdoms 2027 v3.11.946: TechTreePanel search input
+    if TechTreePanel.isVisible() then
+        if TechTreePanel.textinput(text) then return end
     end
     console.textinput(text)
 end
