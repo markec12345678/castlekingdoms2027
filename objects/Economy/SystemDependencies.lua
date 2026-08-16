@@ -111,6 +111,37 @@ local dependencyGraph = {
     -- Music/performance chain (v3.11.940: instruments → performance)
     BoardGameMaker   = {"WoodLathe"},
     TheaterMaskMaker = {"WoodLathe", "PigmentGrinder"},
+
+    -- Horticulture chain (v3.11.943: garden tools → advanced gardening)
+    TopiaryFrameMaker  = {"GardenRake"},
+    LawnAeratorMaker   = {"GardenRake"},
+    GardenWheelbarrowMaker = {"GardenRake"},
+
+    -- Apiary chain (v3.11.943: beekeeping → honey products)
+    HoneyCollector    = {"HoneyDipperMaker"},
+    HoneyDipperMaker  = {"WoodLathe"},
+
+    -- Glass colorant chain (v3.11.943: glass → colored glass)
+    GlassColorantMaker = {"GlassBench"},
+    GlassColorantMuller = {"GlassBench", "PigmentGrinder"},
+
+    -- Mill accessories chain (v3.11.943: millstone → mill tools)
+    MillstoneBalancerMaker = {"MillstoneSpindleBearing"},
+    MillstoneCraneMaker = {"MillstoneSpindleBearing"},
+
+    -- Cooperage chain (v3.11.943: woodworking → barrel making)
+    CooperBarrelMaker = {"WoodLathe"},
+
+    -- Surgical/medical chain (v3.11.943: metalwork → surgical tools)
+    SurgicalLancetMaker = {"Metalwork", "ApothecaryMortar"},
+
+    -- Coinage chain (v3.11.943: coin die → mint)
+    MintCurrency     = {"CoinDieMaker", "CoinPressMaker"},
+
+    -- Astronomy chain (v3.11.943: brass → instruments)
+    AstrolabeRingMaker = {"Metalwork"},
+    NocturnalMaker     = {"Metalwork"},
+    QuadrantMaker      = {"Metalwork"},
 }
 
 -- Register a dependency at runtime (for modding/extensibility)

@@ -35,6 +35,16 @@ local CHAINS = {
     { label = "SVEČE IN VOSAK", base = "WaxTablet", systems = {"CandlestickBase", "TorchHolderMaker"} },
     { label = "KAMNOSEŠTVO", base = "MasonStonecutter", systems = {"BrickMaker", "RoofTileMaker"} },
     { label = "PREDSTAVE", base = "WoodLathe+PigmentGrinder", systems = {"TheaterMaskMaker"}, multiBase = true, bases = {"WoodLathe", "PigmentGrinder"} },
+    -- v3.11.943: New chains
+    { label = "VRTNARSTVO", base = "GardenRake", systems = {"TopiaryFrameMaker", "LawnAeratorMaker", "GardenWheelbarrowMaker"} },
+    { label = "ČEBELARSTVO", base = "HoneyDipperMaker", systems = {"HoneyCollector"} },
+    { label = "BARVNO STEKLO", base = "GlassBench", systems = {"GlassColorantMaker"} },
+    { label = "BARVNO STEKLO+", base = "GlassBench+PigmentGrinder", systems = {"GlassColorantMuller"}, multiBase = true, bases = {"GlassBench", "PigmentGrinder"} },
+    { label = "MLINSKI PRIBOR", base = "MillstoneSpindleBearing", systems = {"MillstoneBalancerMaker", "MillstoneCraneMaker"} },
+    { label = "SODARSTVO", base = "WoodLathe", systems = {"CooperBarrelMaker"} },
+    { label = "KIRURGIJA", base = "Metalwork+ApothecaryMortar", systems = {"SurgicalLancetMaker"}, multiBase = true, bases = {"Metalwork", "ApothecaryMortar"} },
+    { label = "KOVANJE DENARJA", base = "CoinDieMaker+CoinPressMaker", systems = {"MintCurrency"}, multiBase = true, bases = {"CoinDieMaker", "CoinPressMaker"} },
+    { label = "ASTRONOMIJA", base = "Metalwork", systems = {"AstrolabeRingMaker", "NocturnalMaker", "QuadrantMaker"} },
 }
 
 function TechTreePanel.toggle()
@@ -181,7 +191,7 @@ function TechTreePanel.draw()
     -- Footer
     love.graphics.setColor(0.4, 0.45, 0.5, 1)
     if smallFont then love.graphics.setFont(smallFont) end
-    love.graphics.print("46 dependencies · 16 verig · 5 multi-prereq sistemi", panelX + 16, panelY + panelH - 22)
+    love.graphics.print("65 dependencies · 25 verig · 8 multi-prereq sistemi", panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)
 
     love.graphics.setColor(1, 1, 1, 1)
