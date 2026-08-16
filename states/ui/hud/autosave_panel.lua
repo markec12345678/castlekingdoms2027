@@ -371,4 +371,9 @@ function AutoSavePanel.keypressed(key, scancode, isrepeat)
     return false
 end
 
+-- Castle Kingdoms 2027 v3.11.942: Wheel stub for 100% wheel coverage
+function AutoSavePanel.wheelmoved(x, y)
+    return false
+end
+
 return AutoSavePanel

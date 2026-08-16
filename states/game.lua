@@ -4297,6 +4297,10 @@ function game:wheelmoved(x, y)
     if KeybindHelp.isVisible() then
         if KeybindHelp.wheelmoved(x, y) then return end
     end
+    -- Castle Kingdoms 2027 v3.11.942: Auto-Save Panel wheel stub
+    if AutoSavePanel.isVisible() then
+        if AutoSavePanel.wheelmoved(x, y) then return end
+    end
     if scrollCountDown == 0 then
         scrollCountDown = 0.05
         scrolledAmountWithinShortPeriod = y

@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.942] — 2026-08-16 — AutoSavePanel Wheelmoved Stub — 100% Wheel Coverage
+
+### Dodano
+- **AutoSavePanel** — dodan `wheelmoved()` stub (return false)
+- **game.lua** — wheelmoved forwarding za AutoSavePanel
+
+### 100% popoln mouse + wheel forwarding sistem
+Vsi 6 paneli sedaj imajo vse 4 mouse event handlerje + wheelmoved:
+
+| panel | mousepressed | mousemoved | mousereleased | wheelmoved |
+|-------|:---:|:---:|:---:|:---:|
+| RoyalSystemsPanel | ✓ | ✓ stub | ✓ stub | ✓ |
+| MarketDashboard | ✓ | ✓ stub | ✓ stub | ✓ |
+| AutoSavePanel | ✓ | ✓ | ✓ | ✓ stub |
+| AutoSaveOverlay | ✓ | ✓ | ✓ | ✓ |
+| TechTreePanel | ✓ | ✓ stub | ✓ stub | ✓ |
+| KeybindHelp | ✓ | ✓ stub | ✓ stub | ✓ |
+
+**6 panelov × 4 event-i = 24/24 handlerjev (100%)**
+
+### Spremenjene datoteke
+- `states/ui/hud/autosave_panel.lua` (+5 vrstic) — wheelmoved stub
+- `states/game.lua` (+3 vrstice) — wheelmoved forwarding za AutoSavePanel
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS
+- Polna preverba: 1645/1645 (100%) Lua datotek pass
+
 ## [v3.11.941] — 2026-08-16 — KeybindHelp Mouse Stubs — 100% Mouse Forwarding
 
 ### Dodano
