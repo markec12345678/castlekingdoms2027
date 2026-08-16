@@ -69,7 +69,8 @@ local KEYBINDS = {
     {
         category = "CTRL+U PANEL (Auto-Save)",
         bindings = {
-            { key = "Click",    desc = "Vklopi/Izklopi, Shrani zdaj, Interval presets" },
+            { key = "Click",    desc = "Vklopi/Izklopi, Shrani zdaj, Interval presets, Reset pozicije" },
+            { key = "Wheel",    desc = "Ciklaj interval (gor=krajši, dol= daljši: 1/5/15/30 min)" },
             { key = "ESC",      desc = "Zapri panel" },
             { key = "Ctrl+U",   desc = "Zapri panel (toggle)" },
         },

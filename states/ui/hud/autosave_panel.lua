@@ -106,7 +106,7 @@ function AutoSavePanel.draw()
     love.graphics.setFont(font)
     love.graphics.setColor(0.5, 0.6, 0.7, 1)
     if smallFont then love.graphics.setFont(smallFont) end
-    love.graphics.print("Ctrl+U: zapri  |  click zunaj: zapri", panelX + 16, panelY + 36)
+    love.graphics.print("Ctrl+U: zapri  |  click zunaj: zapri  |  wheel: interval", panelX + 16, panelY + 36)
     love.graphics.setFont(font)
 
     local stats = AutoSaveSystem.getStats()
@@ -372,8 +372,57 @@ function AutoSavePanel.keypressed(key, scancode, isrepeat)
 end
 
 -- Castle Kingdoms 2027 v3.11.942: Wheel stub for 100% wheel coverage
+-- v3.11.950: Implemented actual wheel functionality — cycles interval presets
 function AutoSavePanel.wheelmoved(x, y)
-    return false
+    if not visible then return false end
+    -- Only respond to vertical wheel
+    if y == 0 then return false end
+
+    local stats = AutoSaveSystem.getStats()
+    -- Same presets as the interval buttons
+    local intervals = {60, 300, 900, 1800}  -- 1, 5, 15, 30 min
+    local intervalLabels = {"1 min", "5 min", "15 min", "30 min"}
+
+    -- Find current interval index
+    local currentIdx = nil
+    for i, secs in ipairs(intervals) do
+        if stats.interval == secs then
+            currentIdx = i
+            break
+        end
+    end
+
+    -- If current interval is not a preset (custom value), snap to nearest
+    if not currentIdx then
+        local nearest = 1
+        local nearestDiff = math.abs(stats.interval - intervals[1])
+        for i = 2, #intervals do
+            local diff = math.abs(stats.interval - intervals[i])
+            if diff < nearestDiff then
+                nearest = i
+                nearestDiff = diff
+            end
+        end
+        currentIdx = nearest
+    end
+
+    -- y > 0 = wheel up = shorter interval (decrease index)
+    -- y < 0 = wheel down = longer interval (increase index)
+    local newIdx = currentIdx
+    if y > 0 then
+        newIdx = math.max(1, currentIdx - 1)
+    elseif y < 0 then
+        newIdx = math.min(#intervals, currentIdx + 1)
+    end
+
+    -- Only change if index actually changed
+    if newIdx ~= currentIdx then
+        AutoSaveSystem.setInterval(intervals[newIdx])
+        showMessage("Interval: " .. intervalLabels[newIdx] .. " (wheel)")
+        return true
+    end
+    -- At boundary — still consume the event to prevent background scroll
+    return true
 end
 
 return AutoSavePanel

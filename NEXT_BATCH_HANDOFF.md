@@ -1,7 +1,7 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.949**
+- Različica: **v3.11.950**
 - Skupaj Royal sistemov: **987**
 - Skupaj Lua datotek: **1645**
 - Sintaktična preverba (avtentična Lua `load()`): **1645/1645 pass (100%)**
@@ -70,6 +70,7 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 - ✅ **v3.11.947**: Tech Tree Path Highlight — `T` preklopi med direktno (1. stopnja) in celotna pot (transitivni predniki+potomci), BFS algoritem, footer prikazuje mode + število sorodnih, tooltip label
 - ✅ **v3.11.948**: Tech Tree Click-to-Jump — dvoklik na vozlišče odpre Royal Systems Panel in skoči na izbran sistem (jumpToSystem), poveže tech tree z dejansko igro, lazy require preprečuje circular dependency
 - ✅ **v3.11.949**: Tech Tree Minimap — M skrij/pokaži kompakti pregled vseh 25 verig v kotu, click za skok na pozicijo, viewport indikator, focus/search dimming se preslika
+- ✅ **v3.11.950**: AutoSavePanel Wheelmoved Functionality — wheel cikla interval preseti (1/5/15/30 min), snap-to-nearest za custom vrednosti, feedback message, zadnja znana vrzel v interaktivnosti panela
 
 ## ZNANE NADGRADNJE ZA PRIHODNJE PAKETE
 
@@ -77,8 +78,8 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 2. **Več dependency verig** — dodajanje Horticulture+, Apiary+, Surgical+, Coinage+ podverig
 3. **Tech tree path direction arrows** — puščice na krivuljah ki kažejo smer odvisnosti (base → dependent)
 4. **Tech tree depth indicator** — pokaži stopnjo globine (layer 0 = base, 1, 2...) na vozliščih
-5. **AutoSavePanel wheelmoved** — trenutno stub; implementiraj wheel za hitro spreminjanje intervala
-6. **Tech tree minimap drag** — drag na minimap za kontinuirno scrollanje (ne samo click)
+5. **Tech tree minimap drag** — drag na minimap za kontinuirano scrollanje (ne samo click)
+6. **Market Dashboard quick-jump** — dvoklik na produkt v Market Dashboard odpre Royal Systems Panel na sistemu ki ga proizvaja
 
 ## ZADNJE ZAKLJUČENI PAKET (v3.11.892–v3.11.901) — STEKLARSKI DODATKI 13 + LIVARSKI DODATKI 13
 

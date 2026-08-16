@@ -2,6 +2,35 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.950] — 2026-08-16 — AutoSavePanel Wheelmoved Functionality (ciklaj interval z wheelom)
+
+### Dodano
+- **AutoSavePanel.lua** — wheelmoved implementiran (prej stub od v3.11.942):
+  - **Wheel gor** — cikla na krajši interval (30→15→5→1 min)
+  - **Wheel dol** — cikla na daljši interval (1→5→15→30 min)
+  - **Snap-to-nearest** — če je trenutni interval custom vrednost (ne preset), snapne na najbližji preset
+  - **Feedback message** — "Interval: 5 min (wheel)" se prikaže ob spremembi
+  - **Boundary consume** — na robu (1 min gor ali 30 min dol) še vedno consuma event, da prepreči background scroll
+  - **Hint text** posodobljen: 'Ctrl+U: zapri  |  click zunaj: zapri  |  wheel: interval'
+- **keybind_help.lua** — CTRL+U PANEL sekcija posodobljena:
+  - Click opis razširjen z "Reset pozicije"
+  - Nova Wheel vrstica: "Ciklaj interval (gor=krajši, dol=daljši: 1/5/15/30 min)"
+
+### Spremenjene datoteke
+- `states/ui/hud/autosave_panel.lua` (+~50 vrstic) — wheelmoved() implementacija z interval cycling, snap-to-nearest, feedback, hint text update
+- `states/ui/hud/keybind_help.lua` (2 vrstici posodobljeni) — Wheel vrstica + Click razširitev
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS (autosave_panel.lua + keybind_help.lua)
+- Wheel direction — gor=krajši (index-1), dol=daljši (index+1)
+- Clamp — math.max(1, ...) in math.min(#intervals, ...) preprečujeta out-of-bounds
+- Snap-to-nearest — custom intervali (npr. 600s) snapnejo na najbližji preset (900s = 15 min)
+- Boundary consume — return true tudi ko ni spremembe, da prepreči background scroll
+
+### Zaključeno
+- Pred: wheel nad AutoSavePanel ni delal nič (stub)
+- Sedaj: wheel hitro cikla med 4 interval preseti brez potrebe po klikanju gumbov
+
 ## [v3.11.949] — 2026-08-16 — Tech Tree Minimap (M: skrij/pokaži, click za skok na pozicijo)
 
 ### Dodano
