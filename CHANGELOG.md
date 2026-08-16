@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.938] — 2026-08-16 — Royal Systems Panel Mousemoved/Mousereleased Stubs
+
+### Dodano
+- **RoyalSystemsPanel** — dodani `mousemoved()` in `mousereleased()` stub funkcije:
+  - Trenutno vračata `false` (panel je click-only, brez drag interakcij)
+  - Omogočata game.lua da forwarda evente brez nil check-ov
+  - Pripravljeno za prihodnje drag interakcije
+- **game.lua** — mousereleased in mousemoved forwarding razširjen:
+  - `game:mousereleased()` sedaj preverja `RoyalSystemsPanel.mousereleased()` ko je panel viden
+  - `game:mousemoved()` sedaj preverja `RoyalSystemsPanel.mousemoved()` ko je panel viden
+
+### Popoln mouse forwarding sistem
+Vsi 6 paneli sedaj imajo vse 4 mouse event handlerje:
+
+| panel | mousepressed | mousemoved | mousereleased | wheelmoved |
+|-------|:---:|:---:|:---:|:---:|
+| RoyalSystemsPanel | ✓ | ✓ stub | ✓ stub | ✓ |
+| MarketDashboard | ✓ | ✓ stub | ✓ stub | ✓ |
+| AutoSavePanel | ✓ | ✓ | ✓ | — |
+| AutoSaveOverlay | ✓ | ✓ | ✓ | ✓ |
+| TechTreePanel | ✓ | — | — | ✓ |
+| KeybindHelp | — | — | — | ✓ |
+
+### Spremenjene datoteke
+- `states/ui/hud/royal_systems_panel.lua` (+10 vrstic) — mousemoved/mousereleased stubs
+- `states/game.lua` (+6 vrstic) — mousereleased + mousemoved forwarding za RoyalSystemsPanel
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 7 spremenjenih datotek PASS
+- Polna preverba: 1645/1645 (100%) Lua datotek pass
+
 ## [v3.11.937] — 2026-08-16 — Market Dashboard Mousemoved/Mousereleased Forwarding
 
 ### Dodano

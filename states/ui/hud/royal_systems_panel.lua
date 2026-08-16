@@ -961,4 +961,15 @@ function RoyalPanel.mousepressed(x, y, button)
     return false
 end
 
+-- Castle Kingdoms 2027 v3.11.938: Mouse moved/released stubs for consistency
+-- Currently Royal Systems Panel is click-only (no drag interactions),
+-- but these stubs allow game.lua to forward events without nil checks.
+function RoyalPanel.mousemoved(x, y, dx, dy)
+    return false
+end
+
+function RoyalPanel.mousereleased(x, y, button)
+    return false
+end
+
 return RoyalPanel
