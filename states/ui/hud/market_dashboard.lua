@@ -26,6 +26,15 @@ local page = 1
 local pageSize = 6
 local totalPages = 1
 
+-- v3.11.960: Product row click areas (populated during draw, used by mousepressed)
+-- Each entry: {x, y, w, h, productType, source, index}
+local productRowAreas = {}
+
+-- v3.11.960: Double-click detection state
+local lastClickTime = 0
+local lastClickProductType = nil
+local DOUBLE_CLICK_THRESHOLD = 0.4  -- seconds
+
 -- Search & sort state
 local searchQuery = ""
 local searchActive = false
@@ -185,7 +194,7 @@ function MarketDashboard.draw()
     love.graphics.print("🏰 KRALJEVI TRG — Nadzorna plošča trga", panelX + 16, panelY + 12)
     love.graphics.setFont(font)
     love.graphics.setColor(0.6, 0.6, 0.6, 1)
-    love.graphics.print("Ctrl+K: zapri  |  /: iskanje  |  S: sort  |  E: dogodek  |  Q: leaderboard  |  V: zgodovina dogodkov  |  SPACE: primerjava  |  C: primerjava  |  ←→: stran",
+    love.graphics.print("Ctrl+K: zapri  |  /: iskanje  |  S: sort  |  E: dogodek  |  Q: leaderboard  |  V: zgodovina dogodkov  |  SPACE: primerjava  |  C: primerjava  |  ←→: stran  |  2x click: odpri sistem",
         panelX + 16, panelY + 36)
 
     -- Aggregate stats bar
@@ -678,10 +687,17 @@ function MarketDashboard.draw()
     local rowH = 20
     local startIdx = (page - 1) * pageSize + 1
     local endIdx = math.min(#cachedProducts, startIdx + pageSize - 1)
+    -- v3.11.960: Clear and rebuild product row click areas for this frame
+    productRowAreas = {}
     for i = startIdx, endIdx do
         local p = cachedProducts[i]
         local rowY = y + (i - startIdx) * rowH
         local isSelected = (i == selectedIndex)
+        -- v3.11.960: Store click area for mousepressed
+        productRowAreas[#productRowAreas + 1] = {
+            x = panelX + 16, y = rowY, w = panelW - 32, h = rowH,
+            productType = p.productType, source = p.source, index = i,
+        }
 
         -- Row background
         if isSelected then
@@ -1327,6 +1343,36 @@ function MarketDashboard.mousepressed(x, y, button, istouch, presses)
     if x < panelX or x > panelX + panelW or y < panelY or y > panelY + panelH then
         MarketDashboard.toggle()
         return true
+    end
+    -- v3.11.960: Check product row clicks for selection + double-click jump
+    if button == 1 then
+        for _, area in ipairs(productRowAreas) do
+            if x >= area.x and x <= area.x + area.w
+               and y >= area.y and y <= area.y + area.h then
+                -- Set selectedIndex to clicked row
+                selectedIndex = area.index
+                -- Check for double-click
+                local now = love.timer.getTime()
+                if lastClickProductType == area.productType
+                   and (now - lastClickTime) < DOUBLE_CLICK_THRESHOLD then
+                    -- Double-click: jump to Royal Systems Panel on the source system
+                    local RoyalPanel = require("states.ui.hud.royal_systems_panel")
+                    if not RoyalPanel.isVisible() then
+                        RoyalPanel.toggle()
+                    end
+                    RoyalPanel.jumpToSystem(area.source)
+                    -- Close Market Dashboard to show Royal Systems Panel
+                    MarketDashboard.toggle()
+                    lastClickTime = 0
+                    lastClickProductType = nil
+                else
+                    -- Single click: record for double-click detection
+                    lastClickTime = now
+                    lastClickProductType = area.productType
+                end
+                return true
+            end
+        end
     end
     return false
 end

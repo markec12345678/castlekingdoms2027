@@ -2,6 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.960] — 2026-08-16 — Market Dashboard Quick-Jump (2x click na produkt odpre Royal Systems Panel)
+
+### Dodano
+- **MarketDashboard.lua** — dvoklik na produkt odpre Royal Systems Panel na sistemu, ki ga proizvaja:
+  - **`productRowAreas`** — click areas populirani med draw (x, y, w, h, productType, source, index)
+  - **Double-click detekcija** — 0.4s threshold, isti productType
+  - **Jump akcija**:
+    1. Odpre Royal Systems Panel (Ctrl+R) če ni odprt
+    2. Kliče `RoyalPanel.jumpToSystem(area.source)` — počisti filtre, najde sistem, nastavi selectedIndex in page
+    3. Zapre Market Dashboard (da Royal Systems Panel postane aktivni panel)
+  - **Single-click** — nastavi selectedIndex na klikano vrstico (izbira brez jump)
+  - **Lazy require** v mousepressed preprečuje circular dependency
+  - **Hint text** posodobljen z '2x click: odpri sistem'
+- **keybind_help.lua** — nova '2x Click' vrstica v CTRL+K PANEL sekciji
+
+### Spremenjene datoteke
+- `states/ui/hud/market_dashboard.lua` (+~45 vrstic) — productRowAreas state, lastClickTime/lastClickProductType state, draw populira click areas, mousepressed product click + double-click jump, hint text update
+- `states/ui/hud/keybind_help.lua` (+1 vrstica) — 2x Click opis v CTRL+K sekciji
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS (market_dashboard.lua + keybind_help.lua)
+- Click areas — populirane vsak frame v draw, uporabljene v mousepressed
+- Double-click threshold — 0.4s (konzistentno z tech tree click-to-jump)
+- Lazy require — preprečuje circular dependency med market_dashboard in royal_systems_panel
+- Source field — p.source vsebuje system key (npr. "BellMaker") za jumpToSystem
+
+### Zaključeno
+- Pred: Market Dashboard je bil ločen od Royal Systems Panel
+- Sedaj: 2x click na produkt poveže trg z sistemom — igralec lahko od produkta takoj skoči na sistem za najem/gradnjo
+
 ## [v3.11.959] — 2026-08-16 — Tech Tree Bookmarks/Favorites (B: ★ zaznamek, Shift+B: filter, persisted)
 
 ### Dodano

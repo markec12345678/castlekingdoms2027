@@ -64,6 +64,7 @@ local KEYBINDS = {
             { key = "PgUp / PgDn",  desc = "Hitri scroll dogodkov (10 vrstic)" },
             { key = "Home",         desc = "Skok na vrh dogodkov" },
             { key = "Wheel",        desc = "Scroll dogodkov ali sistemov (miška)" },
+            { key = "2x Click",  desc = "Dvaklik na produkt: odpri Royal Systems Panel na sistemu ki ga proizvaja" },
         },
     },
     {
