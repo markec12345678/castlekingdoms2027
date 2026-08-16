@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.937] — 2026-08-16 — Market Dashboard Mousemoved/Mousereleased Forwarding
+
+### Dodano
+- **MarketDashboard** — dodani `mousemoved()` in `mousereleased()` stub funkcije:
+  - Trenutno vračata `false` (panel je click-only, brez drag interakcij)
+  - Omogočata game.lua da forwarda evente brez nil check-ov
+  - Pripravljeno za prihodnje drag interakcije (npr. draggable stolpce, resize)
+- **game.lua** — mousereleased in mousemoved forwarding razširjen:
+  - `game:mousereleased()` sedaj preverja `MarketDashboard.mousereleased()` ko je panel viden
+  - `game:mousemoved()` sedaj preverja `MarketDashboard.mousemoved()` ko je panel viden
+  - **Konsistenten mouse forwarding** za vse 4 panele: MarketDashboard, AutoSavePanel, AutoSaveOverlay, TechTreePanel
+
+### Spremenjene datoteke
+- `states/ui/hud/market_dashboard.lua` (+10 vrstic) — mousemoved/mousereleased stubs
+- `states/game.lua` (+6 vrstic) — mousereleased + mousemoved forwarding za MarketDashboard
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 7 spremenjenih datotek PASS
+- Polna preverba: 1645/1645 (100%) Lua datotek pass
+
+### Konsistenten mouse forwarding sistem
+Vsi paneli sedaj imajo popoln mouse event handling:
+| panel | mousepressed | mousemoved | mousereleased | wheelmoved |
+|-------|-------------|------------|---------------|------------|
+| MarketDashboard | ✓ (v3.11.903) | ✓ stub (v3.11.937) | ✓ stub (v3.11.937) | ✓ (v3.11.919) |
+| RoyalSystemsPanel | ✓ (v3.11.382) | — | — | ✓ (v3.11.920) |
+| AutoSavePanel | ✓ (v3.11.918) | ✓ (v3.11.931) | ✓ (v3.11.931) | — |
+| AutoSaveOverlay | ✓ (v3.11.924) | ✓ (v3.11.925) | ✓ (v3.11.925) | ✓ (v3.11.929) |
+| TechTreePanel | ✓ (v3.11.936) | — | — | ✓ (v3.11.936) |
+| KeybindHelp | — | — | — | ✓ (v3.11.927) |
+
 ## [v3.11.936] — 2026-08-15 — Tech Tree Visualization Panel (Ctrl+Shift+G)
 
 ### Dodano

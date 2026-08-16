@@ -1379,4 +1379,15 @@ function MarketDashboard.deserialize(data)
         #comparisonList, tostring(comparisonMode), leaderboardMode, sortMode))
 end
 
+-- Castle Kingdoms 2027 v3.11.937: Mouse moved/released stubs for consistency
+-- Currently Market Dashboard is click-only (no drag interactions),
+-- but these stubs allow game.lua to forward events without nil checks.
+function MarketDashboard.mousemoved(x, y, dx, dy)
+    return false
+end
+
+function MarketDashboard.mousereleased(x, y, button)
+    return false
+end
+
 return MarketDashboard
