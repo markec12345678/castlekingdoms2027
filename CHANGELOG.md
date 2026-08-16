@@ -2,6 +2,35 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.959] — 2026-08-16 — Tech Tree Bookmarks/Favorites (B: ★ zaznamek, Shift+B: filter, persisted)
+
+### Dodano
+- **TechTreePanel.lua** — bookmark/favorites sistem:
+  - **`B` tipka** — doda/odstrani zaznamek (★) na hovered vozlišču (ali selected če ni hover)
+  - **`Shift+B`** — preklopi `bookmarksOnly` filter (prikaže samo zaznamovana vozlišča, ostala zatemni)
+  - **★ zvezdica** na vozliščih z zaznamkom (zgornji desni kot, zlata barva)
+  - **Persistenca** — zaznamki shranjeni v `tech_tree_bookmarks.txt` preko love.filesystem
+  - **Lazy load** — bookmarksLoaded flag, naloži ob prvem uporabi
+  - **Tooltip** — prikazuje "★ zaznamek: DA (B: odstrani)" ali "★ zaznamek: ne (B: dodaj)"
+  - **Footer** — prikazuje število zaznamkov: '★ N' ali '★ N (filter)' ko je bookmarksOnly aktiven
+  - **Dimming** — neujemajoča vozlišča in povezave zatemnjene ko je bookmarksOnly aktiven
+  - **Kombinacija** z focus, search, in state filter — vsi štirje filtri se aplicirajo neodvisno
+
+### Spremenjene datoteke
+- `states/ui/hud/tech_tree_panel.lua` (+~80 vrstic) — bookmarks/bookmarksOnly/bookmarksLoaded state, loadBookmarks()/saveBookmarks()/toggleBookmark()/isBookmarked() funkcije, drawNode z bookmark dim + star indicator, drawConnection z bookmark dim, keypressed B/Shift+B handler, tooltip bookmark info, footer bookmark count, hint text update
+- `states/ui/hud/keybind_help.lua` (+2 vrstici) — B in Shift+B opisa
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS (tech_tree_panel.lua + keybind_help.lua)
+- Persistenca — love.filesystem.write/read, en key per vrstico
+- Lazy load — bookmarksLoaded flag preprečuje ponovno nalaganje
+- Bookmark target — hoveredNode.key (prednostna) ali selectedKey (fallback)
+- Filter integration — bookmarkDim dodan k dim logiki (focus OR search OR state OR bookmark)
+
+### Zaključeno
+- Pred: igralec ni mogel označiti sistemov za hitri dostop
+- Sedaj: B označi favorite, Shift+B prikaže samo favorite, ★ zvezdica vizualno označi
+
 ## [v3.11.958] — 2026-08-16 — Tech Tree Keyboard Navigation (Tab/Shift+Tab za navigacijo med vozlišči)
 
 ### Dodano

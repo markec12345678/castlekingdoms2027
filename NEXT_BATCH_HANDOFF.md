@@ -1,7 +1,7 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.958**
+- Različica: **v3.11.959**
 - Skupaj Royal sistemov: **987**
 - Skupaj Lua datotek: **1645**
 - Sintaktična preverba (avtentična Lua `load()`): **1645/1645 pass (100%)**
@@ -79,6 +79,7 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 - ✅ **v3.11.956**: Tech Tree Progress Bar — vizualni progress bar (% aktivnih) z barvnim gradientom (rdeča→rumena→zelena), procentni tekst, desna stran stats line
 - ✅ **v3.11.957**: Tech Tree Minimap Drag — drag na minimap za kontinuirano scrollanje (ne samo click), scrollToMinimapY() helper, cyan border med drag
 - ✅ **v3.11.958**: Tech Tree Keyboard Navigation — Tab/Shift+Tab za navigacijo med vozlišči, auto-scroll, auto-focus, cache invalidation ob sort spremembi, wrap-around
+- ✅ **v3.11.959**: Tech Tree Bookmarks/Favorites — B označi ★ zaznamek, Shift+B filter samo zaznamovani, persisted v tech_tree_bookmarks.txt, lazy load, tooltip + footer info
 
 ## ZNANE NADGRADNJE ZA PRIHODNJE PAKETE
 
@@ -87,7 +88,7 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 3. **Market Dashboard quick-jump** — dvoklik na produkt v Market Dashboard odpre Royal Systems Panel na sistemu ki ga proizvaja
 4. **Tech tree node hover preview** — hover na vozlišče prikaže preview graf povezanih sistemov v tooltip box
 5. **Tech tree export/import** — izvoz/uvoz tech tree konfiguracije (filtri, sort, focus) kot shareable string
-6. **Tech tree bookmark/favorites** — označi favorite sisteme z zvezdico za hitri dostop
+6. **Tech tree multi-select** — Shift+click za izbiro več vozlišč hkrati za primerjavo
 
 ## ZADNJE ZAKLJUČENI PAKET (v3.11.892–v3.11.901) — STEKLARSKI DODATKI 13 + LIVARSKI DODATKI 13
 

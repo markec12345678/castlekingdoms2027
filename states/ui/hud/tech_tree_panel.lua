@@ -90,6 +90,14 @@ local stateFilter = "all"  -- cycle with L
 local keyboardNavIndex = nil  -- nil = inactive, number = index in flat node list
 local keyboardNavList = nil  -- flat list of {key, isBase} in display order, rebuilt lazily
 
+-- Bookmark/favorites state (v3.11.959)
+-- bookmarks is a set: bookmarks[key] = true if bookmarked.
+-- Persisted to tech_tree_bookmarks.txt via love.filesystem.
+-- bookmarksOnly, when true, dims non-bookmarked nodes (like focus/search filter).
+local bookmarks = {}
+local bookmarksOnly = false
+local bookmarksLoaded = false  -- lazy load on first use
+
 -- Define chain display order and labels
 local CHAINS = {
     { label = "KOVANJE METALOV", base = "Metalwork", systems = {"BellMaker", "ChainmailForger", "SwordPommelMaker", "GauntletMaker", "CoinDieMaker", "CoinPressMaker"} },
@@ -540,6 +548,50 @@ local function getKeyboardNavList()
     return keyboardNavList
 end
 
+-- v3.11.959: Load bookmarks from file (one key per line)
+local function loadBookmarks()
+    if bookmarksLoaded then return end
+    bookmarksLoaded = true
+    local path = "tech_tree_bookmarks.txt"
+    if love.filesystem.exists(path) then
+        local data = love.filesystem.read(path)
+        if data then
+            for line in data:gmatch("[^\n]+") do
+                local key = line:match("^%s*(.-)%s*$")  -- trim whitespace
+                if key ~= "" then
+                    bookmarks[key] = true
+                end
+            end
+        end
+    end
+end
+
+-- v3.11.959: Save bookmarks to file
+local function saveBookmarks()
+    local lines = {}
+    for key, _ in pairs(bookmarks) do
+        table.insert(lines, key)
+    end
+    local data = table.concat(lines, "\n")
+    love.filesystem.write("tech_tree_bookmarks.txt", data)
+end
+
+-- v3.11.959: Toggle bookmark on a key
+local function toggleBookmark(key)
+    if not key then return end
+    if bookmarks[key] then
+        bookmarks[key] = nil
+    else
+        bookmarks[key] = true
+    end
+    saveBookmarks()
+end
+
+-- v3.11.959: Check if a key is bookmarked
+local function isBookmarked(key)
+    return bookmarks[key] == true
+end
+
 -- Compute layout: returns list of { chainLabel, chainY, baseNodes=[], depNodes=[], connections={} }
 -- Each node: { key, x, y, w, h, state, isBase }
 -- Each connection: { fromX, fromY, toX, toY, active }
@@ -641,14 +693,20 @@ end
 -- v3.11.945: added isRelated and isSelected params for click-to-focus dimming
 -- v3.11.946: added isMatched param for search dimming
 -- v3.11.954: added isStateMatched param for state filter dimming
+-- v3.11.959: bookmark filter dimming + star indicator
 local function drawNode(node, font, smallFont, isRelated, isSelected, isMatched, isStateMatched)
+    -- v3.11.959: Load bookmarks lazily
+    loadBookmarks()
+    local bm = isBookmarked(node.key)
     -- Apply dimming if focus is active and this node is not related
     -- OR if search is active and this node doesn't match
     -- OR if state filter is active and this node doesn't match
+    -- OR if bookmarksOnly is active and this node is not bookmarked
     local focusDim = (selectedKey ~= nil) and (not isRelated) and (not isSelected)
     local searchDim = (searchActive and searchQuery ~= "") and (not isMatched)
     local stateDim = (stateFilter ~= "all") and (not isStateMatched)
-    local dim = focusDim or searchDim or stateDim
+    local bookmarkDim = bookmarksOnly and (not bm)
+    local dim = focusDim or searchDim or stateDim or bookmarkDim
     local alphaMul = dim and 0.2 or 1.0
 
     local fillCol, borderCol = nodeColor(node.state)
@@ -782,6 +840,15 @@ local function drawNode(node, font, smallFont, isRelated, isSelected, isMatched,
         local numH = love.graphics.getFont():getHeight()
         love.graphics.print(numStr, badgeCX - numW / 2, badgeCY - numH / 2)
     end
+
+    -- v3.11.959: Bookmark star indicator (top-right corner of node)
+    if bm then
+        if smallFont then love.graphics.setFont(smallFont) end
+        love.graphics.setColor(1, 0.85, 0.2, alphaMul)
+        local starX = node.x + node.w - 28
+        local starY = node.y + 2
+        love.graphics.print("★", starX, starY)
+    end
 end
 
 -- Draw a bezier connection between two points
@@ -792,7 +859,10 @@ local function drawConnection(conn, isRelated, isSearchRelated, isStateRelated)
     local focusDim = (selectedKey ~= nil) and (not isRelated)
     local searchDim = (searchActive and searchQuery ~= "") and (not isSearchRelated)
     local stateDim = (stateFilter ~= "all") and (not isStateRelated)
-    local dim = focusDim or searchDim or stateDim
+    -- v3.11.959: Bookmark filter dimming for connections
+    loadBookmarks()
+    local bookmarkDim = bookmarksOnly and (not isBookmarked(conn.fromKey)) and (not isBookmarked(conn.toKey))
+    local dim = focusDim or searchDim or stateDim or bookmarkDim
     local alphaMul = dim and 0.1 or 1.0
     local ctrlOffset = math.abs(conn.toX - conn.fromX) * 0.5
     -- Color: bright if both ends active, dim if base active but dep not, very dim if base inactive
@@ -992,6 +1062,13 @@ function TechTreePanel.drawGraph(panelX, contentTop, contentAreaH, panelW, small
         else
             table.insert(lines, "💡 click: fokusiraj sorodne")
         end
+        -- v3.11.959: Bookmark info
+        loadBookmarks()
+        if isBookmarked(hoveredNode.key) then
+            table.insert(lines, "★ zaznamek: DA (B: odstrani)")
+        else
+            table.insert(lines, "★ zaznamek: ne (B: dodaj)")
+        end
         table.insert(lines, "🚀 2x click: odpri v Royal Systems Panel")
 
         -- Draw tooltip box
@@ -1023,6 +1100,8 @@ function TechTreePanel.drawGraph(panelX, contentTop, contentAreaH, panelW, small
                 love.graphics.setColor(1, 0.85, 0.3, 1)
             elseif l:find("💡") then
                 love.graphics.setColor(0.7, 0.85, 0.7, 1)
+            elseif l:find("★") then
+                love.graphics.setColor(1, 0.85, 0.2, 1)
             elseif l:find("🚀") then
                 love.graphics.setColor(0.5, 0.85, 1, 1)
             else
@@ -1306,7 +1385,7 @@ function TechTreePanel.draw()
     love.graphics.setColor(0.5, 0.6, 0.7, 1)
     if smallFont then love.graphics.setFont(smallFont) end
     local hintStr = viewMode == "graph"
-        and "Ctrl+Shift+G: zapri  |  G: tekst  |  /: iskanje  |  Tab: naslednji  |  click: fokus  |  2x click: sistem  |  T: pot  |  M: minimap  |  D: globina  |  A: puščice  |  S: sort  |  L: filter  |  F/ESC: počisti"
+        and "Ctrl+Shift+G: zapri  |  G: tekst  |  /: iskanje  |  Tab: naslednji  |  click: fokus  |  B: ★  |  Shift+B: filter ★  |  T: pot  |  M: minimap  |  D: globina  |  A: puščice  |  S: sort  |  L: filter  |  F/ESC: počisti"
         or  "Ctrl+Shift+G: zapri  |  G: graf  |  /: iskanje  |  ↑↓/wheel: scroll  |  zelena=met  oranžna=ne met"
     love.graphics.print(hintStr, panelX + 16, panelY + 36)
     love.graphics.setFont(font)
@@ -1411,6 +1490,12 @@ function TechTreePanel.draw()
     else filterLabel = "vsi" end
     local filterStr = string.format("  |  🔻 filter: %s", filterLabel)
 
+    -- v3.11.959: Bookmark count
+    loadBookmarks()
+    local bookmarkCount = 0
+    for _ in pairs(bookmarks) do bookmarkCount = bookmarkCount + 1 end
+    local bookmarkStr = string.format("  |  ★ %d%s", bookmarkCount, bookmarksOnly and " (filter)" or "")
+
     -- v3.11.955: Stats summary — count active/met/locked nodes across all chains
     local activeCount, metCount, lockedCount, totalCount = 0, 0, 0, 0
     for _, chain in ipairs(CHAINS) do
@@ -1471,8 +1556,8 @@ function TechTreePanel.draw()
     love.graphics.print(pctStr, pbX + (pbW - pctW) / 2, pbY - 12)
 
     love.graphics.setColor(0.4, 0.45, 0.5, 1)
-    love.graphics.print(string.format("65 deps · 25 verig · 8 multi-prereq · mode: %s%s%s%s%s%s",
-        viewMode, focusStr, pathStr, searchStr, sortStr, filterStr),
+    love.graphics.print(string.format("65 deps · 25 verig · 8 multi-prereq · mode: %s%s%s%s%s%s%s",
+        viewMode, focusStr, pathStr, searchStr, sortStr, filterStr, bookmarkStr),
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)
 
@@ -1618,6 +1703,22 @@ function TechTreePanel.keypressed(key)
                     if scrollOffset < 0 then scrollOffset = 0 end
                     return true
                 end
+            end
+        end
+        return true
+    end
+
+    -- v3.11.959: B toggles bookmark, Shift+B toggles bookmarks-only filter
+    if key == "b" then
+        loadBookmarks()
+        local shiftDown = love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift")
+        if shiftDown then
+            bookmarksOnly = not bookmarksOnly
+        else
+            -- Toggle bookmark on hovered node, or selected node if no hover
+            local targetKey = (hoveredNode and hoveredNode.key) or selectedKey
+            if targetKey then
+                toggleBookmark(targetKey)
             end
         end
         return true

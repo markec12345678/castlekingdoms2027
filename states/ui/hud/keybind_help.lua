@@ -92,6 +92,8 @@ local KEYBINDS = {
             { key = "L",        desc = "Ciklaj filter stanja: vsi → aktivni → razpoložljivi → zaklenjeni" },
             { key = "Tab",      desc = "Naslednje vozlišče (keyboard navigacija, auto-scroll + fokus)" },
             { key = "Shift+Tab", desc = "Prejšnje vozlišče (keyboard navigacija nazaj)" },
+            { key = "B",        desc = "Dodaj/odstrani zaznamek (★) na hovered/selected vozlišču" },
+            { key = "Shift+B",  desc = "Preklopi filter: prikaži samo zaznamovana vozlišča" },
             { key = "F",        desc = "Počisti fokus (ali klik ponovno na isto vozlišče)" },
             { key = "Hover",    desc = "V graf pogledu: prikaži podrobnosti odvisnosti + število odvisnikov" },
             { key = "↑ ↓",      desc = "Scroll po verigah" },
