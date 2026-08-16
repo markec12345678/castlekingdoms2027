@@ -2,6 +2,45 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.945] — 2026-08-16 — Tech Tree Click-to-Focus (poudari sorodne, zatemni nepovezane)
+
+### Dodano
+- **TechTreePanel.lua** — interaktivni click-to-focus na vozliščih:
+  - **Klik na vozlišče** — izbere vozlišče kot "fokus"
+  - **Poudari sorodne** — selectedKey + direktni predpogoji + direktni odvisniki ostanejo polno osvetljeni
+  - **Zatemni nepovezane** — vsa druga vozlišča in krivulje se zatemnijo (alpha 0.3 za vozlišča, 0.15 za krivulje)
+  - **Pulsing golden border** — izbrano vozlišče ima utripajoč zlat okvir (sinusna modulacija)
+  - **Boost direktnih povezav** — krivulje, ki se neposredno dotikajo izbranega vozlišča, postanejo zlate in debelejše (3px)
+  - **Footer status** — prikazuje "🎯 fokus: <ime sistema>" ko je fokus aktiven
+  - **Tooltip izboljšave**:
+    - Prikaže število odvisnikov ("Odvisniki: N sistemov → tega")
+    - Če je vozlišče fokusirano: "🎯 FOKUSIRANO (click/F: počisti)"
+    - Sicer: "💡 click: fokusiraj sorodne"
+  - **Toggle obnašanje** — klik na že fokusirano vozlišče počisti fokus
+  - **Click na prazno** — klik znotraj panela a ne na vozlišče počisti fokus
+- **Tipke**:
+  - **F** — počisti fokus (alias za klik na prazno)
+  - **ESC** — če je fokus aktiven, ga počisti; sicer zapre panel (dvojni namen)
+  - **G** — preklop pogleda zdaj tudi počisti fokus (brez zastarele selekcije v napačnem pogledu)
+- **keybind_help.lua** — posodobljena CTRL+SHIFT+G sekcija:
+  - Novo: Click, F, ESC dvojna funkcija
+  - Hover opis dopolnjen: "prikaže podrobnosti odvisnosti + število odvisnikov"
+
+### Spremenjene datoteke
+- `states/ui/hud/tech_tree_panel.lua` (+~100 vrstic) — selectedKey state, computeRelatedKeys(), isConnectionRelated(), drawNode/drawConnection alphaMul, mousepressed click detekcija, keypressed F/ESC, tooltip izboljšave
+- `states/ui/hud/keybind_help.lua` (3 posodobljene vrstice, 2 novi) — Click in F bližnjice, ESC dvojna funkcija
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS (tech_tree_panel.lua + keybind_help.lua)
+- computeRelatedKeys() — pravilno najde predpogoje (Deps.getDependencies) in odvisnike (scan CHAINS)
+- isConnectionRelated() — preverja fromKey/toKey proti selectedKey in relatedSet
+- Click-to-focus: deluje v obeh smereh (set in clear)
+- ESC dvojna funkcija: najprej počisti fokus, šele drugi ESC zapre panel
+
+### Zaključeno
+- Pred: graf je bil prikazen le (hover za podrobnosti)
+- Sedaj: graf je interaktiven — klik na vozlišče poudari celotno sorodstveno verigo
+
 ## [v3.11.944] — 2026-08-16 — Tech Tree Node Graph Visualization (bezier curves + hover tooltip + G toggle)
 
 ### Dodano

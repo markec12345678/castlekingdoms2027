@@ -78,12 +78,14 @@ local KEYBINDS = {
         category = "CTRL+SHIFT+G PANEL (Tech Tree)",
         bindings = {
             { key = "G",        desc = "Preklopi pogled: graf vozlišč ↔ tekstovno drevo" },
-            { key = "Hover",    desc = "V graf pogledu: prikaži podrobnosti odvisnosti" },
+            { key = "Click",    desc = "Klik na vozlišče: fokusira sorodne (poudari, druga zatemni)" },
+            { key = "F",        desc = "Počisti fokus (ali klik ponovno na isto vozlišče)" },
+            { key = "Hover",    desc = "V graf pogledu: prikaži podrobnosti odvisnosti + število odvisnikov" },
             { key = "↑ ↓",      desc = "Scroll po verigah" },
             { key = "PgUp / PgDn", desc = "Hitri scroll (150px)" },
             { key = "Home",     desc = "Skok na vrh" },
             { key = "Wheel",    desc = "Scroll (miška)" },
-            { key = "ESC",      desc = "Zapri panel" },
+            { key = "ESC",      desc = "Počisti fokus (če je aktiven) ali zapri panel" },
         },
     },
     {

@@ -12,6 +12,8 @@
 --   * Red    = locked (deps not met)
 --
 -- Hover over a node in graph mode to see full dependency details.
+-- Click a node to "focus" it: related connections highlight, others dim.
+-- Press F or click again to clear focus.
 -- Toggle with Ctrl+Shift+G (G for "Graph").
 
 local Deps = require("objects.Economy.SystemDependencies")
@@ -26,6 +28,11 @@ local viewMode = "graph"  -- "graph" or "text"
 -- Hover state for tooltip
 local hoveredNode = nil  -- { key, x, y, w, h, chainLabel }
 local mouseX, mouseY = 0, 0
+
+-- Click-to-focus state (v3.11.945)
+-- When selectedKey is set, related nodes/connections are highlighted and others dimmed.
+-- Related = the selected node + its direct prereqs + its direct dependents.
+local selectedKey = nil
 
 -- Define chain display order and labels
 local CHAINS = {
@@ -70,10 +77,65 @@ function TechTreePanel.toggle()
     visible = not visible
     scrollOffset = 0
     hoveredNode = nil
+    selectedKey = nil
 end
 
 function TechTreePanel.isVisible()
     return visible
+end
+
+-- Compute the set of keys "related" to a selected key (v3.11.945)
+-- Related = selectedKey + direct prerequisites + direct dependents
+-- Direct dependents = systems whose dependencyGraph entry contains selectedKey
+local function computeRelatedKeys(key)
+    local related = {}
+    related[key] = true
+
+    -- Direct prerequisites (systems that selectedKey depends on)
+    local prereqs = Deps.getDependencies(key)
+    for _, p in ipairs(prereqs) do
+        related[p] = true
+    end
+
+    -- Direct dependents (systems that depend on selectedKey)
+    -- We need to scan the dependency graph; use Deps.getDependencies on all
+    -- systems in the CHAINS table.
+    for _, chain in ipairs(CHAINS) do
+        -- Check base systems
+        local bases = chain.multiBase and chain.bases or {chain.base}
+        for _, baseKey in ipairs(bases) do
+            if baseKey ~= key then
+                local basePrereqs = Deps.getDependencies(baseKey)
+                -- base systems typically have no deps, but check anyway
+                for _, p in ipairs(basePrereqs) do
+                    if p == key then related[baseKey] = true end
+                end
+            end
+        end
+        -- Check dependent systems
+        for _, sysKey in ipairs(chain.systems) do
+            if sysKey ~= key then
+                local sysPrereqs = Deps.getDependencies(sysKey)
+                for _, p in ipairs(sysPrereqs) do
+                    if p == key then related[sysKey] = true end
+                end
+            end
+        end
+    end
+
+    return related
+end
+
+-- Check if a connection is "related" to the selectedKey
+-- A connection is related if either endpoint is the selectedKey, or both
+-- endpoints are in the related set.
+local function isConnectionRelated(conn, fromKey, toKey, relatedSet)
+    if not selectedKey then return true end
+    -- Direct connection to/from selected
+    if fromKey == selectedKey or toKey == selectedKey then return true end
+    -- Both endpoints in related set (e.g., selected's prereq → selected's dependent)
+    if relatedSet[fromKey] and relatedSet[toKey] then return true end
+    return false
 end
 
 -- Check if a system key is "active" (has ≥1 building)
@@ -202,6 +264,8 @@ local function computeGraphLayout(panelX, contentTop)
                 table.insert(chainEntry.connections, {
                     fromX = fromX, fromY = fromY,
                     toX = toX, toY = toY,
+                    fromKey = baseNode.key,
+                    toKey = depNode.key,
                     active = baseActive and depActive,
                     met = baseActive and depMet,
                 })
@@ -216,11 +280,16 @@ local function computeGraphLayout(panelX, contentTop)
 end
 
 -- Draw a single node (rounded rectangle with text)
-local function drawNode(node, font, smallFont)
+-- v3.11.945: added isRelated and isSelected params for click-to-focus dimming
+local function drawNode(node, font, smallFont, isRelated, isSelected)
+    -- Apply dimming if a selection is active and this node is not related
+    local dim = (selectedKey ~= nil) and (not isRelated) and (not isSelected)
+    local alphaMul = dim and 0.3 or 1.0
+
     local fillCol, borderCol = nodeColor(node.state)
-    love.graphics.setColor(fillCol)
+    love.graphics.setColor(fillCol[1], fillCol[2], fillCol[3], fillCol[4] * alphaMul)
     love.graphics.rectangle("fill", node.x, node.y, node.w, node.h, 4, 4, 4, 4)
-    love.graphics.setColor(borderCol)
+    love.graphics.setColor(borderCol[1], borderCol[2], borderCol[3], borderCol[4] * alphaMul)
     love.graphics.setLineWidth(node.isBase and 2 or 1)
     love.graphics.rectangle("line", node.x, node.y, node.w, node.h, 4, 4, 4, 4)
     love.graphics.setLineWidth(1)
@@ -232,7 +301,7 @@ local function drawNode(node, font, smallFont)
     else symbol = "✗" end
 
     -- Label
-    love.graphics.setColor(0.97, 0.97, 0.97, 1)
+    love.graphics.setColor(0.97, 0.97, 0.97, alphaMul)
     local label = displayName(node.key)
     -- Truncate if too long
     if smallFont then love.graphics.setFont(smallFont) end
@@ -252,7 +321,7 @@ local function drawNode(node, font, smallFont)
 
     -- Base indicator (small triangle in top-left)
     if node.isBase then
-        love.graphics.setColor(0.95, 0.85, 0.5, 1)
+        love.graphics.setColor(0.95, 0.85, 0.5, alphaMul)
         local tri = 5
         love.graphics.polygon("fill",
             node.x, node.y,
@@ -260,8 +329,16 @@ local function drawNode(node, font, smallFont)
             node.x, node.y + tri)
     end
 
-    -- Hover highlight
-    if hoveredNode and hoveredNode.key == node.key then
+    -- Selected node: pulsing golden border (v3.11.945)
+    if isSelected then
+        local t = love.timer.getTime() * 3
+        local pulse = 0.6 + 0.4 * (0.5 + 0.5 * math.sin(t))
+        love.graphics.setColor(1, 0.85, 0.3, pulse)
+        love.graphics.setLineWidth(3)
+        love.graphics.rectangle("line", node.x - 2, node.y - 2, node.w + 4, node.h + 4, 6, 6, 6, 6)
+        love.graphics.setLineWidth(1)
+    -- Hover highlight (only when not dimmed)
+    elseif hoveredNode and hoveredNode.key == node.key and not dim then
         love.graphics.setColor(1, 1, 1, 0.95)
         love.graphics.setLineWidth(2)
         love.graphics.rectangle("line", node.x - 1, node.y - 1, node.w + 2, node.h + 2, 5, 5, 5, 5)
@@ -270,18 +347,27 @@ local function drawNode(node, font, smallFont)
 end
 
 -- Draw a bezier connection between two points
-local function drawConnection(conn)
+-- v3.11.945: added isRelated param for dimming unrelated connections
+local function drawConnection(conn, isRelated)
+    local dim = (selectedKey ~= nil) and (not isRelated)
+    local alphaMul = dim and 0.15 or 1.0
     local ctrlOffset = math.abs(conn.toX - conn.fromX) * 0.5
     -- Color: bright if both ends active, dim if base active but dep not, very dim if base inactive
+    -- v3.11.945: apply alphaMul for unrelated connections when a node is focused
     if conn.active then
-        love.graphics.setColor(0.4, 0.95, 0.45, 0.85)
+        love.graphics.setColor(0.4, 0.95, 0.45, 0.85 * alphaMul)
         love.graphics.setLineWidth(2)
     elseif conn.met then
-        love.graphics.setColor(0.85, 0.75, 0.3, 0.6)
+        love.graphics.setColor(0.85, 0.75, 0.3, 0.6 * alphaMul)
         love.graphics.setLineWidth(1.5)
     else
-        love.graphics.setColor(0.5, 0.3, 0.25, 0.45)
+        love.graphics.setColor(0.5, 0.3, 0.25, 0.45 * alphaMul)
         love.graphics.setLineWidth(1)
+    end
+    -- If this connection is directly connected to the selected node, boost it
+    if selectedKey and isRelated and (conn.fromKey == selectedKey or conn.toKey == selectedKey) then
+        love.graphics.setColor(1, 0.85, 0.3, 1)
+        love.graphics.setLineWidth(3)
     end
     -- Bezier curve
     love.graphics.setLineJoin("round")
@@ -300,27 +386,42 @@ function TechTreePanel.drawGraph(panelX, contentTop, contentAreaH, panelW, small
 
     local chains = computeGraphLayout(panelX, contentTop - scrollOffset)
 
+    -- v3.11.945: compute related set if a node is focused
+    local relatedSet = nil
+    if selectedKey then
+        relatedSet = computeRelatedKeys(selectedKey)
+    end
+
     -- Pass 1: draw all connections (behind nodes)
     for _, chain in ipairs(chains) do
         for _, conn in ipairs(chain.connections) do
-            drawConnection(conn)
+            local isRelated = true
+            if selectedKey then
+                isRelated = isConnectionRelated(conn, conn.fromKey, conn.toKey, relatedSet)
+            end
+            drawConnection(conn, isRelated)
         end
     end
 
-    -- Pass 2: draw chain headers
+    -- Pass 2: draw chain headers (dim if selection active)
+    local headerAlpha = selectedKey and 0.4 or 1.0
     for _, chain in ipairs(chains) do
         love.graphics.setFont(smallFont)
-        love.graphics.setColor(0.6, 0.5, 0.3, 1)
+        love.graphics.setColor(0.6, 0.5, 0.3, headerAlpha)
         love.graphics.print("═══ " .. chain.label .. " ═══", panelX + 20, chain.chainY - scrollOffset)
     end
 
     -- Pass 3: draw all nodes
     for _, chain in ipairs(chains) do
         for _, node in ipairs(chain.baseNodes) do
-            drawNode(node, font, smallFont)
+            local isRelated = (not selectedKey) or (relatedSet[node.key] ~= nil)
+            local isSelected = (selectedKey == node.key)
+            drawNode(node, font, smallFont, isRelated, isSelected)
         end
         for _, node in ipairs(chain.depNodes) do
-            drawNode(node, font, smallFont)
+            local isRelated = (not selectedKey) or (relatedSet[node.key] ~= nil)
+            local isSelected = (selectedKey == node.key)
+            drawNode(node, font, smallFont, isRelated, isSelected)
         end
     end
 
@@ -372,6 +473,30 @@ function TechTreePanel.drawGraph(panelX, contentTop, contentAreaH, panelW, small
             table.insert(lines, "Zahteva: (brez odvisnosti)")
         end
 
+        -- v3.11.945: Show dependent count (systems that depend on this one)
+        local dependentCount = 0
+        for _, chain in ipairs(CHAINS) do
+            for _, sysKey in ipairs(chain.systems) do
+                local sysPrereqs = Deps.getDependencies(sysKey)
+                for _, p in ipairs(sysPrereqs) do
+                    if p == hoveredNode.key then
+                        dependentCount = dependentCount + 1
+                        break
+                    end
+                end
+            end
+        end
+        if dependentCount > 0 then
+            table.insert(lines, string.format("Odvisniki: %d sistemov → tega", dependentCount))
+        end
+
+        -- v3.11.945: Show focus hint
+        if selectedKey == hoveredNode.key then
+            table.insert(lines, "🎯 FOKUSIRANO (click/F: počisti)")
+        else
+            table.insert(lines, "💡 click: fokusiraj sorodne")
+        end
+
         -- Draw tooltip box
         love.graphics.setFont(smallFont)
         local tipW = 0
@@ -397,6 +522,10 @@ function TechTreePanel.drawGraph(panelX, contentTop, contentAreaH, panelW, small
         for i, l in ipairs(lines) do
             if i == 1 then
                 love.graphics.setColor(0.95, 0.85, 0.5, 1)
+            elseif l:find("🎯") then
+                love.graphics.setColor(1, 0.85, 0.3, 1)
+            elseif l:find("💡") then
+                love.graphics.setColor(0.7, 0.85, 0.7, 1)
             else
                 love.graphics.setColor(0.85, 0.88, 0.9, 1)
             end
@@ -529,8 +658,8 @@ function TechTreePanel.draw()
     love.graphics.setColor(0.5, 0.6, 0.7, 1)
     if smallFont then love.graphics.setFont(smallFont) end
     local hintStr = viewMode == "graph"
-        and "Ctrl+Shift+G: zapri  |  G: preklopi na tekst  |  ↑↓/wheel: scroll  |  hover: podrobnosti"
-        or  "Ctrl+Shift+G: zapri  |  G: preklopi na graf  |  ↑↓/wheel: scroll  |  zelena=met  oranžna=ne met"
+        and "Ctrl+Shift+G: zapri  |  G: tekst  |  ↑↓/wheel: scroll  |  click: fokus  |  F/ESC: počisti fokus  |  hover: podrobnosti"
+        or  "Ctrl+Shift+G: zapri  |  G: graf  |  ↑↓/wheel: scroll  |  zelena=met  oranžna=ne met"
     love.graphics.print(hintStr, panelX + 16, panelY + 36)
     love.graphics.setFont(font)
 
@@ -548,7 +677,8 @@ function TechTreePanel.draw()
     -- Footer
     love.graphics.setColor(0.4, 0.45, 0.5, 1)
     if smallFont then love.graphics.setFont(smallFont) end
-    love.graphics.print(string.format("65 deps · 25 verig · 8 multi-prereq · mode: %s", viewMode),
+    local focusStr = selectedKey and string.format("  |  🎯 fokus: %s", displayName(selectedKey)) or ""
+    love.graphics.print(string.format("65 deps · 25 verig · 8 multi-prereq · mode: %s%s", viewMode, focusStr),
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)
 
@@ -561,13 +691,26 @@ end
 
 function TechTreePanel.keypressed(key)
     if not visible then return false end
+    -- v3.11.945: ESC clears focus first if set, otherwise closes panel
     if key == "escape" then
+        if selectedKey then
+            selectedKey = nil
+            return true
+        end
         TechTreePanel.toggle()
+        return true
+    end
+    -- v3.11.945: F toggles/clears focus
+    if key == "f" then
+        if selectedKey then
+            selectedKey = nil
+        end
         return true
     end
     if key == "g" then
         viewMode = viewMode == "graph" and "text" or "graph"
         scrollOffset = 0
+        selectedKey = nil
         return true
     end
     if key == "up" then
@@ -618,6 +761,42 @@ function TechTreePanel.mousepressed(x, y, button)
     if x < panelX or x > panelX + panelW or y < panelY or y > panelY + panelH then
         TechTreePanel.toggle()
         return true
+    end
+
+    -- v3.11.945: In graph view, click on a node toggles focus; click on empty space clears focus
+    if viewMode == "graph" then
+        local contentTop = panelY + 56
+        local chains = computeGraphLayout(panelX, contentTop - scrollOffset)
+        for _, chain in ipairs(chains) do
+            for _, node in ipairs(chain.baseNodes) do
+                if x >= node.x and x <= node.x + node.w
+                   and y >= node.y and y <= node.y + node.h then
+                    -- Toggle: if already selected, deselect; otherwise select
+                    if selectedKey == node.key then
+                        selectedKey = nil
+                    else
+                        selectedKey = node.key
+                    end
+                    return true
+                end
+            end
+            for _, node in ipairs(chain.depNodes) do
+                if x >= node.x and x <= node.x + node.w
+                   and y >= node.y and y <= node.y + node.h then
+                    if selectedKey == node.key then
+                        selectedKey = nil
+                    else
+                        selectedKey = node.key
+                    end
+                    return true
+                end
+            end
+        end
+        -- Click on empty space inside panel: clear focus
+        if selectedKey then
+            selectedKey = nil
+            return true
+        end
     end
     return false
 end
