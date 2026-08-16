@@ -2,6 +2,33 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.952] — 2026-08-16 — Tech Tree Path Direction Arrows (A: puščice na krivuljah kažejo smer base→dependent)
+
+### Dodano
+- **TechTreePanel.lua** — arrowheads na koncu vsake bezier krivulje:
+  - **`A` tipka** preklopi vidnost puščic
+  - **Trikotni arrowhead** na odvisnem koncu (toX, toY) krivulje
+  - **Smer**: base → dependent (puščica kaže proti odvisnemu vozlišču)
+  - **Barva**: ista kot krivulja (love.graphics.getColor() za ohranitev dimming/boost logike)
+  - **Velikost**: 7px dolžina, 4px širina (kompaktno a vidno)
+  - **Pozicioniranje**: tip na (toX - 2, toY), base 7px nazaj v -X smeri
+  - **Tangentna kalkulacija**: za cubic bezier P0=(fromX,fromY), P1, P2=(toX-ctrl,toY), P3=(toX,toY) je tangentna v t=1 enaka (ctrlOffset, 0), torej puščica vedno kaže v +X smer
+- **keybind_help.lua** — nova A vrstica v CTRL+SHIFT+G sekciji
+
+### Spremenjene datoteke
+- `states/ui/hud/tech_tree_panel.lua` (+~30 vrstic) — arrowsVisible state, drawConnection arrow rendering z love.graphics.polygon, A key handler, hint text update, toggle() reset
+- `states/ui/hud/keybind_help.lua` (+1 vrstica) — A toggle opis
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS (tech_tree_panel.lua + keybind_help.lua)
+- Arrow direction — cubic bezier tangent at t=1 je vedno (ctrlOffset, 0) = +X smer
+- Color preservation — love.graphics.getColor() ohrani barvo krivulje (z dimming/boost)
+- Polygon rendering — triangle: tip, base-top, base-bottom
+
+### Zaključeno
+- Pred: krivulje so bile simetrične, igralec ni vedel v katero smer teče odvisnost
+- Sedaj: puščice takoj pokažejo smer — base → dependent
+
 ## [v3.11.951] — 2026-08-16 — Tech Tree Depth Indicator (D: barvni krožec z globino sistema)
 
 ### Dodano

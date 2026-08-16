@@ -66,6 +66,11 @@ local minimapArea = nil  -- {x, y, w, h} set during draw, used by mousepressed
 local depthVisible = true  -- toggle with D
 local depthCache = nil  -- map: key -> depth, built lazily
 
+-- Path direction arrows state (v3.11.952)
+-- Draws arrowheads at the dependent end of each bezier curve to indicate
+-- the direction of dependency (base → dependent).
+local arrowsVisible = true  -- toggle with A
+
 -- Define chain display order and labels
 local CHAINS = {
     { label = "KOVANJE METALOV", base = "Metalwork", systems = {"BellMaker", "ChainmailForger", "SwordPommelMaker", "GauntletMaker", "CoinDieMaker", "CoinPressMaker"} },
@@ -115,6 +120,7 @@ function TechTreePanel.toggle()
     pathMode = "transitive"
     minimapVisible = true
     depthVisible = true
+    arrowsVisible = true
 end
 
 function TechTreePanel.isVisible()
@@ -663,6 +669,35 @@ local function drawConnection(conn, isRelated, isSearchRelated)
         conn.toX, conn.toY
     )
     love.graphics.setLineWidth(1)
+
+    -- v3.11.952: Arrowhead at the dependent end (toX, toY)
+    -- Indicates direction: base → dependent
+    if arrowsVisible then
+        -- Tangent at endpoint: from (toX - ctrlOffset, toY) to (toX, toY)
+        local tangentDx = conn.toX - (conn.toX - ctrlOffset)
+        local tangentDy = conn.toY - (conn.toY)  -- always 0 since last control point has same Y as endpoint
+        -- Actually the last control point is (toX - ctrlOffset, toY), so tangent = (ctrlOffset, 0)
+        -- But the curve approaches (toX, toY) from (toX - ctrlOffset, toY), so direction is (1, 0)
+        -- However, if toY != fromY, the curve has a vertical component near the end.
+        -- For a cubic bezier with P0=(fromX,fromY), P1=(fromX+ctrl,fromY), P2=(toX-ctrl,toY), P3=(toX,toY):
+        -- Tangent at t=1 is P3 - P2 = (toX - (toX-ctrl), toY - toY) = (ctrl, 0)
+        -- So the arrow points in +X direction (towards the dependent node).
+        -- But we want it to point AT the node, so we offset slightly back.
+        local arrowLen = 7
+        local arrowW = 4
+        -- Arrow tip is at (toX - 2, toY) (slightly inside the node)
+        local tipX = conn.toX - 2
+        local tipY = conn.toY
+        -- Arrow base is arrowLen pixels back in -X direction
+        local baseX = tipX - arrowLen
+        -- Triangle points: tip, base-top, base-bottom
+        love.graphics.setColor(love.graphics.getColor())
+        love.graphics.polygon("fill",
+            tipX, tipY,
+            baseX, tipY - arrowW,
+            baseX, tipY + arrowW
+        )
+    end
 end
 
 function TechTreePanel.drawGraph(panelX, contentTop, contentAreaH, panelW, smallFont, font)
@@ -1105,7 +1140,7 @@ function TechTreePanel.draw()
     love.graphics.setColor(0.5, 0.6, 0.7, 1)
     if smallFont then love.graphics.setFont(smallFont) end
     local hintStr = viewMode == "graph"
-        and "Ctrl+Shift+G: zapri  |  G: tekst  |  /: iskanje  |  click: fokus  |  2x click: sistem  |  T: pot  |  M: minimap  |  D: globina  |  F/ESC: počisti"
+        and "Ctrl+Shift+G: zapri  |  G: tekst  |  /: iskanje  |  click: fokus  |  2x click: sistem  |  T: pot  |  M: minimap  |  D: globina  |  A: puščice  |  F/ESC: počisti"
         or  "Ctrl+Shift+G: zapri  |  G: graf  |  /: iskanje  |  ↑↓/wheel: scroll  |  zelena=met  oranžna=ne met"
     love.graphics.print(hintStr, panelX + 16, panelY + 36)
     love.graphics.setFont(font)
@@ -1324,6 +1359,11 @@ function TechTreePanel.keypressed(key)
     -- v3.11.951: D toggles depth indicator visibility
     if key == "d" then
         depthVisible = not depthVisible
+        return true
+    end
+    -- v3.11.952: A toggles path direction arrows visibility
+    if key == "a" then
+        arrowsVisible = not arrowsVisible
         return true
     end
     if key == "g" then

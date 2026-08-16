@@ -1,7 +1,7 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.951**
+- Različica: **v3.11.952**
 - Skupaj Royal sistemov: **987**
 - Skupaj Lua datotek: **1645**
 - Sintaktična preverba (avtentična Lua `load()`): **1645/1645 pass (100%)**
@@ -72,15 +72,16 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 - ✅ **v3.11.949**: Tech Tree Minimap — M skrij/pokaži kompakti pregled vseh 25 verig v kotu, click za skok na pozicijo, viewport indikator, focus/search dimming se preslika
 - ✅ **v3.11.950**: AutoSavePanel Wheelmoved Functionality — wheel cikla interval preseti (1/5/15/30 min), snap-to-nearest za custom vrednosti, feedback message, zadnja znana vrzel v interaktivnosti panela
 - ✅ **v3.11.951**: Tech Tree Depth Indicator — D preklopi barvne krožce z globino sistema (0=zeleno root, 4+=rdeče napredno), iterative relaxation algoritem, cache, tooltip z besednim opisom
+- ✅ **v3.11.952**: Tech Tree Path Direction Arrows — A preklopi puščice na krivuljah (base → dependent), trikotni arrowhead na toX,toY z ista barva kot krivulja, cubic bezier tangent kalkulacija
 
 ## ZNANE NADGRADNJE ZA PRIHODNJE PAKETE
 
 1. **Sprite-i za Royal sisteme** — trenutno so samo podatkovni, brez grafične podobe
 2. **Več dependency verig** — dodajanje Horticulture+, Apiary+, Surgical+, Coinage+ podverig
-3. **Tech tree path direction arrows** — puščice na krivuljah ki kažejo smer odvisnosti (base → dependent)
-4. **Tech tree minimap drag** — drag na minimap za kontinuirano scrollanje (ne samo click)
-5. **Market Dashboard quick-jump** — dvoklik na produkt v Market Dashboard odpre Royal Systems Panel na sistemu ki ga proizvaja
-6. **Tech tree depth-based sorting** — sort verig po globini (plitev→globok) namesto abecedno
+3. **Tech tree minimap drag** — drag na minimap za kontinuirano scrollanje (ne samo click)
+4. **Market Dashboard quick-jump** — dvoklik na produkt v Market Dashboard odpre Royal Systems Panel na sistemu ki ga proizvaja
+5. **Tech tree depth-based sorting** — sort verig po globini (plitev→globok) namesto abecedno
+6. **Tech tree node hover preview** — hover na vozlišče prikaže preview graf povezanih sistemov v tooltip box
 
 ## ZADNJE ZAKLJUČENI PAKET (v3.11.892–v3.11.901) — STEKLARSKI DODATKI 13 + LIVARSKI DODATKI 13
 
