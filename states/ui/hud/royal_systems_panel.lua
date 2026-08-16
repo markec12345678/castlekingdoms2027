@@ -139,6 +139,34 @@ function RoyalPanel.isVisible()
     return visible
 end
 
+-- v3.11.948: Jump to a specific system by key.
+-- Clears search/category filters, finds the system, sets selectedIndex and page.
+-- Called from TechTreePanel double-click.
+-- @param key string System key (e.g. "BellMaker", "Metalwork")
+-- @return boolean True if system was found and selected
+function RoyalPanel.jumpToSystem(key)
+    if not key then return false end
+    -- Clear filters to ensure the system is visible
+    searchQuery = ""
+    searchActive = false
+    activeCategory = "all"
+    rebuildFiltered()
+    -- Find the system by key
+    local foundIdx = nil
+    for i, sys in ipairs(filteredSystems) do
+        if sys.key == key then
+            foundIdx = i
+            break
+        end
+    end
+    if not foundIdx then return false end
+    selectedIndex = foundIdx
+    page = math.max(1, math.ceil(selectedIndex / pageSize))
+    actionMessage = "📍 Skok na: " .. (filteredSystems[foundIdx].name or key)
+    actionMessageTime = 3.0
+    return true
+end
+
 function RoyalPanel.update(dt)
     if actionMessageTime > 0 then
         actionMessageTime = actionMessageTime - dt

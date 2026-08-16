@@ -47,6 +47,13 @@ local cursorBlink = 0  -- accumulated time for cursor blink animation
 -- "transitive" = full ancestor chain + full descendant chain (tech lineage)
 local pathMode = "transitive"  -- default to full path for richer visualization
 
+-- Double-click detection (v3.11.948)
+-- Tracks last click time + key for double-click detection.
+-- Double-click on a node opens Royal Systems Panel and jumps to that system.
+local lastClickTime = 0
+local lastClickKey = nil
+local DOUBLE_CLICK_THRESHOLD = 0.4  -- seconds
+
 -- Define chain display order and labels
 local CHAINS = {
     { label = "KOVANJE METALOV", base = "Metalwork", systems = {"BellMaker", "ChainmailForger", "SwordPommelMaker", "GauntletMaker", "CoinDieMaker", "CoinPressMaker"} },
@@ -633,12 +640,14 @@ function TechTreePanel.drawGraph(panelX, contentTop, contentAreaH, panelW, small
 
         -- v3.11.945: Show focus hint
         -- v3.11.947: Show path mode info
+        -- v3.11.948: Show double-click hint
         if selectedKey == hoveredNode.key then
             local modeLabel = pathMode == "transitive" and "celotna pot" or "direktno"
             table.insert(lines, string.format("🎯 FOKUSIRANO [%s] (click/F: počisti, T: preklopi)", modeLabel))
         else
             table.insert(lines, "💡 click: fokusiraj sorodne")
         end
+        table.insert(lines, "🚀 2x click: odpri v Royal Systems Panel")
 
         -- Draw tooltip box
         love.graphics.setFont(smallFont)
@@ -669,6 +678,8 @@ function TechTreePanel.drawGraph(panelX, contentTop, contentAreaH, panelW, small
                 love.graphics.setColor(1, 0.85, 0.3, 1)
             elseif l:find("💡") then
                 love.graphics.setColor(0.7, 0.85, 0.7, 1)
+            elseif l:find("🚀") then
+                love.graphics.setColor(0.5, 0.85, 1, 1)
             else
                 love.graphics.setColor(0.85, 0.88, 0.9, 1)
             end
@@ -801,7 +812,7 @@ function TechTreePanel.draw()
     love.graphics.setColor(0.5, 0.6, 0.7, 1)
     if smallFont then love.graphics.setFont(smallFont) end
     local hintStr = viewMode == "graph"
-        and "Ctrl+Shift+G: zapri  |  G: tekst  |  /: iskanje  |  click: fokus  |  T: pot  |  F/ESC: počisti  |  hover: podrobnosti"
+        and "Ctrl+Shift+G: zapri  |  G: tekst  |  /: iskanje  |  click: fokus  |  2x click: odpri sistem  |  T: pot  |  F/ESC: počisti"
         or  "Ctrl+Shift+G: zapri  |  G: graf  |  /: iskanje  |  ↑↓/wheel: scroll  |  zelena=met  oranžna=ne met"
     love.graphics.print(hintStr, panelX + 16, panelY + 36)
     love.graphics.setFont(font)
@@ -1070,34 +1081,57 @@ function TechTreePanel.mousepressed(x, y, button)
     end
 
     -- v3.11.945: In graph view, click on a node toggles focus; click on empty space clears focus
+    -- v3.11.948: Double-click on a node opens Royal Systems Panel and jumps to that system
     if viewMode == "graph" then
         local contentTop = panelY + 56
         local chains = computeGraphLayout(panelX, contentTop - scrollOffset)
+        local clickedKey = nil
         for _, chain in ipairs(chains) do
             for _, node in ipairs(chain.baseNodes) do
                 if x >= node.x and x <= node.x + node.w
                    and y >= node.y and y <= node.y + node.h then
-                    -- Toggle: if already selected, deselect; otherwise select
-                    if selectedKey == node.key then
-                        selectedKey = nil
-                    else
-                        selectedKey = node.key
-                    end
-                    return true
+                    clickedKey = node.key
+                    break
                 end
             end
+            if clickedKey then break end
             for _, node in ipairs(chain.depNodes) do
                 if x >= node.x and x <= node.x + node.w
                    and y >= node.y and y <= node.y + node.h then
-                    if selectedKey == node.key then
-                        selectedKey = nil
-                    else
-                        selectedKey = node.key
-                    end
-                    return true
+                    clickedKey = node.key
+                    break
                 end
             end
+            if clickedKey then break end
         end
+
+        if clickedKey then
+            -- v3.11.948: Check for double-click
+            local now = love.timer.getTime()
+            if lastClickKey == clickedKey and (now - lastClickTime) < DOUBLE_CLICK_THRESHOLD then
+                -- Double-click: jump to Royal Systems Panel
+                local RoyalPanel = require("states.ui.hud.royal_systems_panel")
+                if not RoyalPanel.isVisible() then
+                    RoyalPanel.toggle()
+                end
+                RoyalPanel.jumpToSystem(clickedKey)
+                -- Close tech tree panel to show Royal Systems Panel
+                TechTreePanel.toggle()
+                lastClickTime = 0
+                lastClickKey = nil
+                return true
+            end
+            -- Single click: record for double-click detection, toggle focus
+            lastClickTime = now
+            lastClickKey = clickedKey
+            if selectedKey == clickedKey then
+                selectedKey = nil
+            else
+                selectedKey = clickedKey
+            end
+            return true
+        end
+
         -- Click on empty space inside panel: clear focus
         if selectedKey then
             selectedKey = nil

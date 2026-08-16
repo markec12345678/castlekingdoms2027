@@ -2,6 +2,43 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.948] — 2026-08-16 — Tech Tree Click-to-Jump (dvoklik odpre Royal Systems Panel)
+
+### Dodano
+- **TechTreePanel.lua** — double-click na vozlišče odpre Royal Systems Panel in skoči na izbran sistem:
+  - **Double-click detekcija** — sledi `lastClickTime` in `lastClickKey`, threshold 0.4s
+  - **Jump akcija**:
+    1. Odpre Royal Systems Panel (Ctrl+R) če ni odprt
+    2. Kliče `RoyalPanel.jumpToSystem(key)` — počisti filtre, najde sistem, nastavi selectedIndex in page
+    3. Zapre Tech Tree Panel (da Royal Systems Panel postane aktivni panel)
+  - **Single-click ostane** — prvi klik fokusira (toggle), drugi klik v 0.4s na isto vozlišče = jump
+  - **Hint text** posodobljen: '2x click: odpri sistem'
+  - **Tooltip** dodana vrstica: '🚀 2x click: odpri v Royal Systems Panel' (cyan barva)
+- **RoyalSystemsPanel.lua** — nova funkcija `jumpToSystem(key)`:
+  - Počisti search query, search active, in category filter (da je sistem viden)
+  - Rebuilda filteredSystems
+  - Najde sistem po key v filteredSystems
+  - Nastavi selectedIndex na najden index
+  - Nastavi page na pravilno stran (ceil(selectedIndex / pageSize))
+  - Prikaže feedback message: '📍 Skok na: <ime>'
+  - Vrne true/false glede na uspeh
+- **keybind_help.lua** — nova '2x Click' vrstica v CTRL+SHIFT+G sekciji
+
+### Spremenjene datoteke
+- `states/ui/hud/tech_tree_panel.lua` (+~40 vrstic) — lastClickTime/lastClickKey state, DOUBLE_CLICK_THRESHOLD, double-click detekcija v mousepressed, jump akcija z require("royal_systems_panel"), hint + tooltip update
+- `states/ui/hud/royal_systems_panel.lua` (+27 vrstic) — jumpToSystem(key) funkcija
+- `states/ui/hud/keybind_help.lua` (+1 vrstica) — 2x Click opis
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS (tech_tree_panel.lua + royal_systems_panel.lua + keybind_help.lua)
+- Double-click threshold: 0.4s (standardni Windows/LÖVE timing)
+- jumpToSystem() — počisti filtre, rebuilda list, najde sistem, nastavi page
+- Lazy require v mousepressed — preprečuje circular dependency ob nalaganju
+
+### Zaključeno
+- Pred: tech tree je bil samo za pregled — ni povezave z dejansko igro
+- Sedaj: dvoklik na vozlišče te takoj pripelje do sistema v Royal Systems Panel, kjer lahko najameš mojstra, zgradiš delavnico, ipd.
+
 ## [v3.11.947] — 2026-08-16 — Tech Tree Path Highlight (T: direktno ↔ celotna pot, transitivni predniki+potomci)
 
 ### Dodano
