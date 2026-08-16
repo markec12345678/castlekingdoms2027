@@ -1,7 +1,7 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.946**
+- Različica: **v3.11.947**
 - Skupaj Royal sistemov: **987**
 - Skupaj Lua datotek: **1645**
 - Sintaktična preverba (avtentična Lua `load()`): **1645/1645 pass (100%)**
@@ -67,15 +67,16 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 - ✅ **v3.11.944**: Tech Tree Node Graph Visualization — node-based graph z bezier krivuljami, hover tooltip z odvisnostmi, G toggle med graf/tekst, keybind_help dopolnjen
 - ✅ **v3.11.945**: Tech Tree Click-to-Focus — klik na vozlišče poudari sorodne (predpogoji + odvisniki), zatemni nepovezane, pulsing golden border, F/ESC počistita fokus, tooltip prikazuje število odvisnikov
 - ✅ **v3.11.946**: Tech Tree Search/Filter — `/` odpre iskanje, case-insensitive substring match z highlightom ujemajočega dela, cyan obrobl za ujemajoča vozlišča, števec zadetkov v footerju, kombinacija s focus mode
+- ✅ **v3.11.947**: Tech Tree Path Highlight — `T` preklopi med direktno (1. stopnja) in celotna pot (transitivni predniki+potomci), BFS algoritem, footer prikazuje mode + število sorodnih, tooltip label
 
 ## ZNANE NADGRADNJE ZA PRIHODNJE PAKETE
 
 1. **Sprite-i za Royal sisteme** — trenutno so samo podatkovni, brez grafične podobe
 2. **Več dependency verig** — dodajanje Horticulture+, Apiary+, Surgical+, Coinage+ podverig
 3. **Tech tree minimap** — majhen pregledni graf v kotu za hitro navigacijo
-4. **Tech tree path highlight** — pri fokusiranem vozlišču pokaži celotno pot od baze do konca verige
+4. **Tech tree click-to-jump** — dvoklik na vozlišče odpre Royal Systems Panel (Ctrl+R) na izbranem sistemu
 5. **AutoSavePanel wheelmoved** — trenutno stub; implementiraj wheel za hitro spreminjanje intervala
-6. **Tech tree click-to-jump** — klik na vozlišče z dvoklikom odpre Royal Systems Panel (Ctrl+R) na izbranem sistemu
+6. **Tech tree path direction arrows** — puščice na krivuljah ki kažejo smer odvisnosti (base → dependent)
 
 ## ZADNJE ZAKLJUČENI PAKET (v3.11.892–v3.11.901) — STEKLARSKI DODATKI 13 + LIVARSKI DODATKI 13
 

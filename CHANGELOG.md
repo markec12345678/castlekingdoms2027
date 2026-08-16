@@ -2,6 +2,38 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.947] — 2026-08-16 — Tech Tree Path Highlight (T: direktno ↔ celotna pot, transitivni predniki+potomci)
+
+### Dodano
+- **TechTreePanel.lua** — path highlight mode z dvema načinoma:
+  - **`T` tipka** preklopi med `direct` in `transitive` načinom
+  - **Direct mode** (v3.11.945 obnašanje):
+    - Poudari samo direktno povezana vozlišča (1. stopnja prednikov + 1. stopnja potomcev)
+    - Uporabno za hitro pregledovanje neposrednih odvisnosti
+  - **Transitive mode** (default, nov v v3.11.947):
+    - Poudari celotno tehnično linijo — vse prednike (rekurzivno gor po prereq verigi) + vse potomce (rekurzivno dol po dependent verigi)
+    - BFS algoritem za poljenje grafa v obeh smereh
+    - Primer: fokus na `MintCurrency` → poudari `CoinDieMaker`, `CoinPressMaker`, `Metalwork`, `BellMaker` (predniki) — nobenih potomcev (MintCurrency je konec verige)
+    - Primer: fokus na `Metalwork` → poudari vse sisteme, ki (transitivno) potrebujejo Metalwork: BellMaker, ChainmailForger, SwordPommelMaker, GauntletMaker, CoinDieMaker, CoinPressMaker, MintCurrency, TrumpetMaker, SurgicalLancetMaker, AstrolabeRingMaker, NocturnalMaker, QuadrantMaker
+  - **Footer indikator**: '🔗 celotna pot (12 sorodnih)' ali '🔗 direktno (3 sorodnih)'
+  - **Tooltip**: '[celotna pot]' ali '[direktno]' label pri fokusiranem vozlišču
+  - **T reset** ob zaprtju panela ali preklopu pogleda (G)
+
+### Spremenjene datoteke
+- `states/ui/hud/tech_tree_panel.lua` (+~70 vrstic) — pathMode state, BFS algoritem za transitive ancestor/descendant chain, reverseDeps map, T key handler, footer path info, tooltip path info
+- `states/ui/hud/keybind_help.lua` (+1 vrstica) — T toggle opis
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS (tech_tree_panel.lua + keybind_help.lua)
+- BFS gor: `Deps.getDependencies(current)` za vsak obiskan node → najde vse prednike
+- BFS dol: reverseDeps map (prereq → [dependents]) zgrajen iz CHAINS scan → najde vse potomce
+- Cycle safety: `visited` in `visitedDown` set-a preprečujeta neskončne zanke (če bi bil ciklus v grafu)
+- T toggle: takojšnja sprememba pathMode, relatedSet se recomputera naslednji frame v drawGraph()
+
+### Zaključeno
+- Pred: fokus je pokazal samo direktno povezana vozlišča (1. stopnja)
+- Sedaj: T preklopi med direktno in celotno potjo — popoln pregled nad tehnično linijo izbranega sistema
+
 ## [v3.11.946] — 2026-08-16 — Tech Tree Search/Filter (iskanje po imenu z highlightom)
 
 ### Dodano

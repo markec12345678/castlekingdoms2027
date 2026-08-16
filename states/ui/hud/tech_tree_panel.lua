@@ -42,6 +42,11 @@ local searchActive = false
 local searchQuery = ""
 local cursorBlink = 0  -- accumulated time for cursor blink animation
 
+-- Path highlight mode (v3.11.947)
+-- "direct" = only direct prereqs + dependents (v3.11.945 behavior)
+-- "transitive" = full ancestor chain + full descendant chain (tech lineage)
+local pathMode = "transitive"  -- default to full path for richer visualization
+
 -- Define chain display order and labels
 local CHAINS = {
     { label = "KOVANJE METALOV", base = "Metalwork", systems = {"BellMaker", "ChainmailForger", "SwordPommelMaker", "GauntletMaker", "CoinDieMaker", "CoinPressMaker"} },
@@ -88,6 +93,7 @@ function TechTreePanel.toggle()
     selectedKey = nil
     searchActive = false
     searchQuery = ""
+    pathMode = "transitive"
 end
 
 function TechTreePanel.isVisible()
@@ -97,37 +103,89 @@ end
 -- Compute the set of keys "related" to a selected key (v3.11.945)
 -- Related = selectedKey + direct prerequisites + direct dependents
 -- Direct dependents = systems whose dependencyGraph entry contains selectedKey
+-- v3.11.947: If pathMode == "transitive", extends to full ancestor + descendant chains
 local function computeRelatedKeys(key)
     local related = {}
     related[key] = true
 
-    -- Direct prerequisites (systems that selectedKey depends on)
-    local prereqs = Deps.getDependencies(key)
-    for _, p in ipairs(prereqs) do
-        related[p] = true
-    end
+    if pathMode == "direct" then
+        -- v3.11.945 behavior: direct prereqs + direct dependents only
+        local prereqs = Deps.getDependencies(key)
+        for _, p in ipairs(prereqs) do
+            related[p] = true
+        end
 
-    -- Direct dependents (systems that depend on selectedKey)
-    -- We need to scan the dependency graph; use Deps.getDependencies on all
-    -- systems in the CHAINS table.
-    for _, chain in ipairs(CHAINS) do
-        -- Check base systems
-        local bases = chain.multiBase and chain.bases or {chain.base}
-        for _, baseKey in ipairs(bases) do
-            if baseKey ~= key then
-                local basePrereqs = Deps.getDependencies(baseKey)
-                -- base systems typically have no deps, but check anyway
-                for _, p in ipairs(basePrereqs) do
-                    if p == key then related[baseKey] = true end
+        for _, chain in ipairs(CHAINS) do
+            local bases = chain.multiBase and chain.bases or {chain.base}
+            for _, baseKey in ipairs(bases) do
+                if baseKey ~= key then
+                    local basePrereqs = Deps.getDependencies(baseKey)
+                    for _, p in ipairs(basePrereqs) do
+                        if p == key then related[baseKey] = true end
+                    end
+                end
+            end
+            for _, sysKey in ipairs(chain.systems) do
+                if sysKey ~= key then
+                    local sysPrereqs = Deps.getDependencies(sysKey)
+                    for _, p in ipairs(sysPrereqs) do
+                        if p == key then related[sysKey] = true end
+                    end
                 end
             end
         end
-        -- Check dependent systems
-        for _, sysKey in ipairs(chain.systems) do
-            if sysKey ~= key then
+    else
+        -- v3.11.947: transitive mode — full ancestor chain + full descendant chain
+        -- BFS up the prereq chain
+        local toVisit = {key}
+        local visited = {[key] = true}
+        while #toVisit > 0 do
+            local current = table.remove(toVisit, 1)
+            local prereqs = Deps.getDependencies(current)
+            for _, p in ipairs(prereqs) do
+                if not visited[p] then
+                    visited[p] = true
+                    related[p] = true
+                    table.insert(toVisit, p)
+                end
+            end
+        end
+
+        -- BFS down the dependent chain
+        -- Build a reverse dependency map first (prereq -> list of dependents)
+        -- by scanning all CHAINS
+        local reverseDeps = {}  -- prereqKey -> {dependentKey1, dependentKey2, ...}
+        for _, chain in ipairs(CHAINS) do
+            local bases = chain.multiBase and chain.bases or {chain.base}
+            for _, baseKey in ipairs(bases) do
+                local basePrereqs = Deps.getDependencies(baseKey)
+                for _, p in ipairs(basePrereqs) do
+                    if not reverseDeps[p] then reverseDeps[p] = {} end
+                    table.insert(reverseDeps[p], baseKey)
+                end
+            end
+            for _, sysKey in ipairs(chain.systems) do
                 local sysPrereqs = Deps.getDependencies(sysKey)
                 for _, p in ipairs(sysPrereqs) do
-                    if p == key then related[sysKey] = true end
+                    if not reverseDeps[p] then reverseDeps[p] = {} end
+                    table.insert(reverseDeps[p], sysKey)
+                end
+            end
+        end
+
+        -- BFS down from key using reverseDeps
+        toVisit = {key}
+        local visitedDown = {[key] = true}
+        while #toVisit > 0 do
+            local current = table.remove(toVisit, 1)
+            local dependents = reverseDeps[current]
+            if dependents then
+                for _, d in ipairs(dependents) do
+                    if not visitedDown[d] then
+                        visitedDown[d] = true
+                        related[d] = true
+                        table.insert(toVisit, d)
+                    end
                 end
             end
         end
@@ -574,8 +632,10 @@ function TechTreePanel.drawGraph(panelX, contentTop, contentAreaH, panelW, small
         end
 
         -- v3.11.945: Show focus hint
+        -- v3.11.947: Show path mode info
         if selectedKey == hoveredNode.key then
-            table.insert(lines, "🎯 FOKUSIRANO (click/F: počisti)")
+            local modeLabel = pathMode == "transitive" and "celotna pot" or "direktno"
+            table.insert(lines, string.format("🎯 FOKUSIRANO [%s] (click/F: počisti, T: preklopi)", modeLabel))
         else
             table.insert(lines, "💡 click: fokusiraj sorodne")
         end
@@ -741,7 +801,7 @@ function TechTreePanel.draw()
     love.graphics.setColor(0.5, 0.6, 0.7, 1)
     if smallFont then love.graphics.setFont(smallFont) end
     local hintStr = viewMode == "graph"
-        and "Ctrl+Shift+G: zapri  |  G: tekst  |  /: iskanje  |  click: fokus  |  F/ESC: počisti  |  hover: podrobnosti"
+        and "Ctrl+Shift+G: zapri  |  G: tekst  |  /: iskanje  |  click: fokus  |  T: pot  |  F/ESC: počisti  |  hover: podrobnosti"
         or  "Ctrl+Shift+G: zapri  |  G: graf  |  /: iskanje  |  ↑↓/wheel: scroll  |  zelena=met  oranžna=ne met"
     love.graphics.print(hintStr, panelX + 16, panelY + 36)
     love.graphics.setFont(font)
@@ -808,6 +868,15 @@ function TechTreePanel.draw()
     love.graphics.setColor(0.4, 0.45, 0.5, 1)
     if smallFont then love.graphics.setFont(smallFont) end
     local focusStr = selectedKey and string.format("  |  🎯 fokus: %s", displayName(selectedKey)) or ""
+    -- v3.11.947: Show path mode + related count when focused
+    local pathStr = ""
+    if selectedKey then
+        local relatedSet = computeRelatedKeys(selectedKey)
+        local count = 0
+        for _ in pairs(relatedSet) do count = count + 1 end
+        local modeLabel = pathMode == "transitive" and "celotna pot" or "direktno"
+        pathStr = string.format("  |  🔗 %s (%d sorodnih)", modeLabel, count)
+    end
     -- v3.11.946: Count search matches
     local searchStr = ""
     if searchActive and searchQuery ~= "" then
@@ -823,8 +892,8 @@ function TechTreePanel.draw()
         end
         searchStr = string.format("  |  🔍 \"%s\": %d zadetkov", searchQuery, matchCount)
     end
-    love.graphics.print(string.format("65 deps · 25 verig · 8 multi-prereq · mode: %s%s%s",
-        viewMode, focusStr, searchStr),
+    love.graphics.print(string.format("65 deps · 25 verig · 8 multi-prereq · mode: %s%s%s%s",
+        viewMode, focusStr, pathStr, searchStr),
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)
 
@@ -936,12 +1005,18 @@ function TechTreePanel.keypressed(key)
         end
         return true
     end
+    -- v3.11.947: T toggles path mode (direct vs transitive)
+    if key == "t" then
+        pathMode = pathMode == "direct" and "transitive" or "direct"
+        return true
+    end
     if key == "g" then
         viewMode = viewMode == "graph" and "text" or "graph"
         scrollOffset = 0
         selectedKey = nil
         searchActive = false
         searchQuery = ""
+        pathMode = "transitive"
         return true
     end
     if key == "up" then
