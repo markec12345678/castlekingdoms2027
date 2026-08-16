@@ -76,6 +76,41 @@ local dependencyGraph = {
 
     -- Cartography chain (v3.11.935: maps require parchment + ink)
     MapMaker         = {"ParchmentMaker", "InkMaker"},
+
+    -- Brewing chain (v3.11.940: grain → ale/brandy distillation)
+    AleBrewer        = {"BranSeparator"},
+    BrandyDistiller  = {"BranSeparator"},
+
+    -- Baking chain (v3.11.940: flour → bread/pastry)
+    BreadBaker       = {"FlourSieve"},
+    PastryChef       = {"FlourSieve"},
+
+    -- Fishing chain (v3.11.940: fishing equipment → advanced fishing)
+    FishingRodMaker  = {"NetMaker"},
+    FishingTrapMaker = {"NetMaker"},
+
+    -- Candle/wax chain (v3.11.940: wax → candles)
+    CandlestickBase  = {"WaxTablet"},
+    TorchHolderMaker = {"WaxTablet"},
+
+    -- Glass accessories chain (v3.11.940: glass bench → glass tools)
+    GlassBlowpipeCoolingRack = {"GlassBench"},
+    GlassMoldMaker   = {"GlassBench"},
+
+    -- Cutlery/smith chain (v3.11.940: forge → cutlery)
+    CutlerySmith     = {"ForgeTuyere"},
+    PlateCuirassSmith = {"ForgeTuyere"},
+
+    -- Book illumination chain (v3.11.940: ink → manuscript illumination)
+    ManuscriptIlluminator = {"InkMaker", "ParchmentMaker"},
+
+    -- Masonry chain (v3.11.940: stone → brick/roof)
+    BrickMaker       = {"MasonStonecutter"},
+    RoofTileMaker    = {"MasonStonecutter"},
+
+    -- Music/performance chain (v3.11.940: instruments → performance)
+    BoardGameMaker   = {"WoodLathe"},
+    TheaterMaskMaker = {"WoodLathe", "PigmentGrinder"},
 }
 
 -- Register a dependency at runtime (for modding/extensibility)

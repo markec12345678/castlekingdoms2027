@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.940] — 2026-08-16 — Tech Tree Expansion II (28→46 deps, 11→16 verig)
+
+### Dodano
+- **SystemDependencies.lua** — 18 novih dependencies v 6 novih verigah:
+  - **Pivovarstvo** (nova): AleBrewer, BrandyDistiller → BranSeparator
+  - **Pekstvo** (nova): BreadBaker, PastryChef → FlourSieve
+  - **Ribolv** (nova): FishingRodMaker, FishingTrapMaker → NetMaker
+  - **Sveče in vosak** (nova): CandlestickBase, TorchHolderMaker → WaxTablet
+  - **Kamnoseštvo** (nova): BrickMaker, RoofTileMaker → MasonStonecutter
+  - **Predstave** (nova): TheaterMaskMaker → WoodLathe + PigmentGrinder (multi-prereq!)
+- **Razširjene obstoječe verige**:
+  - Steklarstvo: +GlassBlowpipeCoolingRack, +GlassMoldMaker → GlassBench
+  - Drvesni obrt: +BoardGameMaker → WoodLathe
+  - Visoka peč: +CutlerySmith, +PlateCuirassSmith → ForgeTuyere
+  - Kartografija: +ManuscriptIlluminator → ParchmentMaker + InkMaker (multi-prereq!)
+- **TechTreePanel** — CHAINS tabela posodobljena z 6 novimi verigami + razširjenimi obstoječimi
+- **Footer** posodobljen: "46 dependencies · 16 verig · 5 multi-prereq sistemi"
+
+### Statistika
+- Prej: 28 dependencies v 11 verigah, 3 multi-prereq (v3.11.935)
+- Sedaj: **46 dependencies v 16 verigah, 5 multi-prereq** (v3.11.940)
+- 5 multi-prereq sistemi: CoinPressMaker, TrumpetMaker, MapMaker, ManuscriptIlluminator, TheaterMaskMaker
+
+### Spremenjene datoteke
+- `objects/Economy/SystemDependencies.lua` (+35 vrstic) — 18 novih dependency entry-jev, 6 novih verig
+- `states/ui/hud/tech_tree_panel.lua` (+8 vrstic) — 6 novih CHAINS entry-jev + razširjeni obstoječi + footer
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS
+- Polna preverba: 1645/1645 (100%) Lua datotek pass
+
 ## [v3.11.939] — 2026-08-16 — TechTreePanel Mousemoved/Mousereleased Stubs — Popoln Mouse Forwarding
 
 ### Dodano
