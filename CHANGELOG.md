@@ -2,6 +2,33 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.955] — 2026-08-16 — Tech Tree Stats Summary (povzetek: X aktivnih, Y razpoložljivih, Z zaklenjenih)
+
+### Dodano
+- **TechTreePanel.lua** — stats summary v footerju:
+  - Pregled vseh 25 verig in štetje vozlišč po stanju
+  - Prikaz na drugi vrstici footerja (nad glavnim footerjem):
+    - `✓ X aktivnih` (zeleno)
+    - `⚠ Y razpoložljivih` (rumeno)
+    - `✗ Z zaklenjenih` (rdeče)
+    - `(skupaj N)` (skupno število)
+  - Content area prilagojena — contentBottom premaknjen z -30 na -46 za stats line
+  - Barva: svetlo zelena (0.5, 0.7, 0.5) za razlikovanje od glavnega footerja
+- Uporablja `getNodeState(key, isBase)` za pravilno klasifikacijo baz in odvisnikov
+
+### Spremenjene datoteke
+- `states/ui/hud/tech_tree_panel.lua` (+~25 vrstic) — stats counting loop, stats line rendering, contentBottom adjustment
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS
+- Štetje — iterira čez vse CHAINS, šteje bazne in odvisne vozlišča posebej
+- Klasifikacija — getNodeState() s isBase parametrom za pravilno določitev stanja
+- Layout — contentBottom premaknjen za 16px navzgor da naredi prostor za stats line
+
+### Zaključeno
+- Pred: igralec je moral ročno šteti aktivne/razpoložljive/zaklenjene sisteme
+- Sedaj: takojšen pregled v footerju — napredek igre je takoj viden
+
 ## [v3.11.954] — 2026-08-16 — Tech Tree State Filter (L: vsi→aktivni→razpoložljivi→zaklenjeni)
 
 ### Dodano

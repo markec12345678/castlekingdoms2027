@@ -1276,7 +1276,8 @@ function TechTreePanel.draw()
 
     -- Content area
     local contentTop = panelY + 56
-    local contentBottom = panelY + panelH - 30
+    -- v3.11.955: Adjust contentBottom to leave room for stats summary line
+    local contentBottom = panelY + panelH - 46  -- was -30, now -46 for stats line
     local contentAreaH = contentBottom - contentTop
 
     if viewMode == "graph" then
@@ -1325,6 +1326,33 @@ function TechTreePanel.draw()
     elseif stateFilter == "locked" then filterLabel = "zaklenjeni"
     else filterLabel = "vsi" end
     local filterStr = string.format("  |  🔻 filter: %s", filterLabel)
+
+    -- v3.11.955: Stats summary — count active/met/locked nodes across all chains
+    local activeCount, metCount, lockedCount, totalCount = 0, 0, 0, 0
+    for _, chain in ipairs(CHAINS) do
+        local bases = chain.multiBase and chain.bases or {chain.base}
+        for _, bk in ipairs(bases) do
+            local state = getNodeState(bk, true)
+            totalCount = totalCount + 1
+            if state == "active" then activeCount = activeCount + 1
+            elseif state == "met" then metCount = metCount + 1
+            else lockedCount = lockedCount + 1 end
+        end
+        for _, sk in ipairs(chain.systems) do
+            local state = getNodeState(sk, false)
+            totalCount = totalCount + 1
+            if state == "active" then activeCount = activeCount + 1
+            elseif state == "met" then metCount = metCount + 1
+            else lockedCount = lockedCount + 1 end
+        end
+    end
+    -- Draw stats summary on a second line (above the main footer)
+    love.graphics.setColor(0.5, 0.7, 0.5, 0.9)
+    love.graphics.print(string.format("✓ %d aktivnih  |  ⚠ %d razpoložljivih  |  ✗ %d zaklenjenih  (skupaj %d)",
+        activeCount, metCount, lockedCount, totalCount),
+        panelX + 16, panelY + panelH - 38)
+
+    love.graphics.setColor(0.4, 0.45, 0.5, 1)
     love.graphics.print(string.format("65 deps · 25 verig · 8 multi-prereq · mode: %s%s%s%s%s%s",
         viewMode, focusStr, pathStr, searchStr, sortStr, filterStr),
         panelX + 16, panelY + panelH - 22)

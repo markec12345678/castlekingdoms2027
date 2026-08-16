@@ -1,7 +1,7 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.954**
+- Različica: **v3.11.955**
 - Skupaj Royal sistemov: **987**
 - Skupaj Lua datotek: **1645**
 - Sintaktična preverba (avtentična Lua `load()`): **1645/1645 pass (100%)**
@@ -75,6 +75,7 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 - ✅ **v3.11.952**: Tech Tree Path Direction Arrows — A preklopi puščice na krivuljah (base → dependent), trikotni arrowhead na toX,toY z ista barva kot krivulja, cubic bezier tangent kalkulacija
 - ✅ **v3.11.953**: Tech Tree Depth-Based Sorting — S preklopi sortiranje verig (abecedno ↔ po globini), getOrderedChains() helper, max depth per chain, stabilen sort z tie-break, footer indikator
 - ✅ **v3.11.954**: Tech Tree State Filter — L cikla filter stanja (vsi→aktivni→razpoložljivi→zaklenjeni), dimming neujemajočih, kombinacija s focus in search, footer indikator
+- ✅ **v3.11.955**: Tech Tree Stats Summary — povzetek statistike v footerju (X aktivnih, Y razpoložljivih, Z zaklenjenih, skupaj N), contentBottom prilagojen
 
 ## ZNANE NADGRADNJE ZA PRIHODNJE PAKETE
 
@@ -83,7 +84,7 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 3. **Tech tree minimap drag** — drag na minimap za kontinuirano scrollanje (ne samo click)
 4. **Market Dashboard quick-jump** — dvoklik na produkt v Market Dashboard odpre Royal Systems Panel na sistemu ki ga proizvaja
 5. **Tech tree node hover preview** — hover na vozlišče prikaže preview graf povezanih sistemov v tooltip box
-6. **Tech tree stats summary** — povzetek statistike (X aktivnih, Y razpoložljivih, Z zaklenjenih) v footerju
+6. **Tech tree progress bar** — vizualni progress bar (% aktivnih sistemov) v footerju poleg stats
 
 ## ZADNJE ZAKLJUČENI PAKET (v3.11.892–v3.11.901) — STEKLARSKI DODATKI 13 + LIVARSKI DODATKI 13
 
