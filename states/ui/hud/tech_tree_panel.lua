@@ -76,6 +76,11 @@ local arrowsVisible = true  -- toggle with A
 -- "depth" = chains ordered by max depth (shallow → deep), shows tech progression
 local sortMode = "alphabetical"  -- toggle with S
 
+-- State filter (v3.11.954)
+-- Cycles: "all" → "active" → "met" → "locked" → "all"
+-- When not "all", nodes not matching the filter get dimmed (like focus/search).
+local stateFilter = "all"  -- cycle with L
+
 -- Define chain display order and labels
 local CHAINS = {
     { label = "KOVANJE METALOV", base = "Metalwork", systems = {"BellMaker", "ChainmailForger", "SwordPommelMaker", "GauntletMaker", "CoinDieMaker", "CoinPressMaker"} },
@@ -127,6 +132,7 @@ function TechTreePanel.toggle()
     depthVisible = true
     arrowsVisible = true
     sortMode = "alphabetical"
+    stateFilter = "all"
 end
 
 function TechTreePanel.isVisible()
@@ -254,6 +260,29 @@ end
 local function isConnectionSearchRelated(fromKey, toKey)
     if not searchActive or searchQuery == "" then return true end
     return isSearchMatch(fromKey) or isSearchMatch(toKey)
+end
+
+-- v3.11.954: Check if a node matches the current state filter.
+-- "all" = no filtering (all nodes pass)
+-- "active" = only nodes with state == "active" (≥1 building built)
+-- "met" = only nodes with state == "met" (deps satisfied, no building)
+-- "locked" = only nodes with state == "locked" (deps not met)
+-- Returns true if filter is "all" OR if the node's state matches.
+local function isStateFilterMatch(key, isBase)
+    if stateFilter == "all" then return true end
+    local state = getNodeState(key, isBase)
+    return state == stateFilter
+end
+
+-- v3.11.954: Check if a connection should be shown based on state filter.
+-- A connection is state-related if EITHER endpoint matches the filter.
+local function isConnectionStateRelated(fromKey, toKey)
+    if stateFilter == "all" then return true end
+    -- For connection check, we don't know isBase here, but getNodeState handles it
+    -- by checking if the key has dependencies. Bases typically have no deps.
+    local fromMatch = isStateFilterMatch(fromKey, false)
+    local toMatch = isStateFilterMatch(toKey, false)
+    return fromMatch or toMatch
 end
 
 -- v3.11.951: Compute tech-tree depth for all nodes.
@@ -534,12 +563,15 @@ end
 -- Draw a single node (rounded rectangle with text)
 -- v3.11.945: added isRelated and isSelected params for click-to-focus dimming
 -- v3.11.946: added isMatched param for search dimming
-local function drawNode(node, font, smallFont, isRelated, isSelected, isMatched)
+-- v3.11.954: added isStateMatched param for state filter dimming
+local function drawNode(node, font, smallFont, isRelated, isSelected, isMatched, isStateMatched)
     -- Apply dimming if focus is active and this node is not related
     -- OR if search is active and this node doesn't match
+    -- OR if state filter is active and this node doesn't match
     local focusDim = (selectedKey ~= nil) and (not isRelated) and (not isSelected)
     local searchDim = (searchActive and searchQuery ~= "") and (not isMatched)
-    local dim = focusDim or searchDim
+    local stateDim = (stateFilter ~= "all") and (not isStateMatched)
+    local dim = focusDim or searchDim or stateDim
     local alphaMul = dim and 0.2 or 1.0
 
     local fillCol, borderCol = nodeColor(node.state)
@@ -678,10 +710,12 @@ end
 -- Draw a bezier connection between two points
 -- v3.11.945: added isRelated param for dimming unrelated connections (focus mode)
 -- v3.11.946: added isSearchRelated param for dimming non-matching connections (search mode)
-local function drawConnection(conn, isRelated, isSearchRelated)
+-- v3.11.954: added isStateRelated param for dimming non-matching connections (state filter)
+local function drawConnection(conn, isRelated, isSearchRelated, isStateRelated)
     local focusDim = (selectedKey ~= nil) and (not isRelated)
     local searchDim = (searchActive and searchQuery ~= "") and (not isSearchRelated)
-    local dim = focusDim or searchDim
+    local stateDim = (stateFilter ~= "all") and (not isStateRelated)
+    local dim = focusDim or searchDim or stateDim
     local alphaMul = dim and 0.1 or 1.0
     local ctrlOffset = math.abs(conn.toX - conn.fromX) * 0.5
     -- Color: bright if both ends active, dim if base active but dep not, very dim if base inactive
@@ -764,14 +798,16 @@ function TechTreePanel.drawGraph(panelX, contentTop, contentAreaH, panelW, small
                 isRelated = isConnectionRelated(conn, conn.fromKey, conn.toKey, relatedSet)
             end
             local isSearchRelated = isConnectionSearchRelated(conn.fromKey, conn.toKey)
-            drawConnection(conn, isRelated, isSearchRelated)
+            local isStateRelated = isConnectionStateRelated(conn.fromKey, conn.toKey)
+            drawConnection(conn, isRelated, isSearchRelated, isStateRelated)
         end
     end
 
-    -- Pass 2: draw chain headers (dim if focus or search active)
+    -- Pass 2: draw chain headers (dim if focus, search, or state filter active)
     local headerAlpha = 1.0
     if selectedKey then headerAlpha = 0.4 end
     if searchActive and searchQuery ~= "" then headerAlpha = math.min(headerAlpha, 0.4) end
+    if stateFilter ~= "all" then headerAlpha = math.min(headerAlpha, 0.4) end
     for _, chain in ipairs(chains) do
         love.graphics.setFont(smallFont)
         love.graphics.setColor(0.6, 0.5, 0.3, headerAlpha)
@@ -784,13 +820,15 @@ function TechTreePanel.drawGraph(panelX, contentTop, contentAreaH, panelW, small
             local isRelated = (not selectedKey) or (relatedSet[node.key] ~= nil)
             local isSelected = (selectedKey == node.key)
             local isMatched = isSearchMatch(node.key)
-            drawNode(node, font, smallFont, isRelated, isSelected, isMatched)
+            local isStateMatched = isStateFilterMatch(node.key, node.isBase)
+            drawNode(node, font, smallFont, isRelated, isSelected, isMatched, isStateMatched)
         end
         for _, node in ipairs(chain.depNodes) do
             local isRelated = (not selectedKey) or (relatedSet[node.key] ~= nil)
             local isSelected = (selectedKey == node.key)
             local isMatched = isSearchMatch(node.key)
-            drawNode(node, font, smallFont, isRelated, isSelected, isMatched)
+            local isStateMatched = isStateFilterMatch(node.key, node.isBase)
+            drawNode(node, font, smallFont, isRelated, isSelected, isMatched, isStateMatched)
         end
     end
 
@@ -1184,7 +1222,7 @@ function TechTreePanel.draw()
     love.graphics.setColor(0.5, 0.6, 0.7, 1)
     if smallFont then love.graphics.setFont(smallFont) end
     local hintStr = viewMode == "graph"
-        and "Ctrl+Shift+G: zapri  |  G: tekst  |  /: iskanje  |  click: fokus  |  2x click: sistem  |  T: pot  |  M: minimap  |  D: globina  |  A: puščice  |  S: sort  |  F/ESC: počisti"
+        and "Ctrl+Shift+G: zapri  |  G: tekst  |  /: iskanje  |  click: fokus  |  2x click: sistem  |  T: pot  |  M: minimap  |  D: globina  |  A: puščice  |  S: sort  |  L: filter  |  F/ESC: počisti"
         or  "Ctrl+Shift+G: zapri  |  G: graf  |  /: iskanje  |  ↑↓/wheel: scroll  |  zelena=met  oranžna=ne met"
     love.graphics.print(hintStr, panelX + 16, panelY + 36)
     love.graphics.setFont(font)
@@ -1280,8 +1318,15 @@ function TechTreePanel.draw()
     -- v3.11.953: Show sort mode
     local sortLabel = sortMode == "depth" and "po globini" or "abecedno"
     local sortStr = string.format("  |  📊 sort: %s", sortLabel)
-    love.graphics.print(string.format("65 deps · 25 verig · 8 multi-prereq · mode: %s%s%s%s%s",
-        viewMode, focusStr, pathStr, searchStr, sortStr),
+    -- v3.11.954: Show state filter
+    local filterLabel
+    if stateFilter == "active" then filterLabel = "aktivni"
+    elseif stateFilter == "met" then filterLabel = "razpoložljivi"
+    elseif stateFilter == "locked" then filterLabel = "zaklenjeni"
+    else filterLabel = "vsi" end
+    local filterStr = string.format("  |  🔻 filter: %s", filterLabel)
+    love.graphics.print(string.format("65 deps · 25 verig · 8 multi-prereq · mode: %s%s%s%s%s%s",
+        viewMode, focusStr, pathStr, searchStr, sortStr, filterStr),
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)
 
@@ -1417,6 +1462,14 @@ function TechTreePanel.keypressed(key)
     if key == "s" then
         sortMode = sortMode == "alphabetical" and "depth" or "alphabetical"
         scrollOffset = 0  -- reset scroll since layout changes
+        return true
+    end
+    -- v3.11.954: L cycles state filter (all → active → met → locked → all)
+    if key == "l" then
+        if stateFilter == "all" then stateFilter = "active"
+        elseif stateFilter == "active" then stateFilter = "met"
+        elseif stateFilter == "met" then stateFilter = "locked"
+        else stateFilter = "all" end
         return true
     end
     if key == "g" then

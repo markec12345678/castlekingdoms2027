@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.954] — 2026-08-16 — Tech Tree State Filter (L: vsi→aktivni→razpoložljivi→zaklenjeni)
+
+### Dodano
+- **TechTreePanel.lua** — filter vozlišč po stanju:
+  - **`L` tipka** cikla skozi 4 filtre: `all` → `active` → `met` → `locked` → `all`
+  - **`all`** (default) — vsa vozlišča polno osvetljena
+  - **`active`** — samo sistemi z ≥1 zgradbo (zeleni)
+  - **`met`** — samo razpoložljivi sistemi (odvisnosti met, rumeni)
+  - **`locked`** — samo zaklenjeni sistemi (odvisnosti niso met, rdeči)
+  - **Dimming** — neujemajoča vozlišča zatemnjena (alpha 0.2), povezave (alpha 0.1)
+  - **Kombinacija** z focus in search — vsi trije filtri se aplicirajo neodvisno
+  - **Header dimming** — verige zatemnjene ko je filter aktiven
+  - **Footer indikator** — '🔻 filter: aktivni' / 'razpoložljivi' / 'zaklenjeni' / 'vsi'
+  - **isStateFilterMatch(key, isBase)** — preverja ali vozlišče ustreza filtru
+  - **isConnectionStateRelated(fromKey, toKey)** — povezava povezana če vsaj en endpoint ustreza
+- **keybind_help.lua** — nova L vrstica v CTRL+SHIFT+G sekciji
+
+### Spremenjene datoteke
+- `states/ui/hud/tech_tree_panel.lua` (+~50 vrstic) — stateFilter state, isStateFilterMatch(), isConnectionStateRelated(), drawNode z isStateMatched param, drawConnection z isStateRelated param, drawGraph prehod isStateMatched/isStateRelated, L key handler, footer filter indicator, hint text update, toggle() reset
+- `states/ui/hud/keybind_help.lua` (+1 vrstica) — L toggle opis
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS (tech_tree_panel.lua + keybind_help.lua)
+- Filter cycling — all→active→met→locked→all (4-state cycle)
+- Independent filters — focus + search + state filter se kombinirajo (dim = OR vseh treh)
+- Connection filter — povezana če vsaj en endpoint ustreza (da ohrani kontekst)
+
+### Zaključeno
+- Pred: vsa vozlišča vedno prikazana enako
+- Sedaj: L hitlo filtrira po stanju — igralec vidi samo aktivne/razpoložljive/zaklenjene sisteme
+
 ## [v3.11.953] — 2026-08-16 — Tech Tree Depth-Based Sorting (S: abecedno ↔ po globini)
 
 ### Dodano
