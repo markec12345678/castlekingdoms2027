@@ -2,6 +2,32 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.939] — 2026-08-16 — TechTreePanel Mousemoved/Mousereleased Stubs — Popoln Mouse Forwarding
+
+### Dodano
+- **TechTreePanel** — dodani `mousemoved()` in `mousereleased()` stub funkcije (return false)
+- **game.lua** — mousereleased in mousemoved forwarding razširjen na TechTreePanel
+
+### Popoln mouse forwarding sistem — 100% pokritost
+Vsi 6 paneli sedaj imajo vse 4 mouse event handlerje:
+
+| panel | mousepressed | mousemoved | mousereleased | wheelmoved |
+|-------|:---:|:---:|:---:|:---:|
+| RoyalSystemsPanel | ✓ | ✓ stub | ✓ stub | ✓ |
+| MarketDashboard | ✓ | ✓ stub | ✓ stub | ✓ |
+| AutoSavePanel | ✓ | ✓ | ✓ | — |
+| AutoSaveOverlay | ✓ | ✓ | ✓ | ✓ |
+| TechTreePanel | ✓ | ✓ stub | ✓ stub | ✓ |
+| KeybindHelp | — | — | — | ✓ |
+
+### Spremenjene datoteke
+- `states/ui/hud/tech_tree_panel.lua` (+8 vrstic) — mousemoved/mousereleased stubs
+- `states/game.lua` (+6 vrstic) — mousereleased + mousemoved forwarding za TechTreePanel
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS
+- Polna preverba: 1645/1645 (100%) Lua datotek pass
+
 ## [v3.11.938] — 2026-08-16 — Royal Systems Panel Mousemoved/Mousereleased Stubs
 
 ### Dodano

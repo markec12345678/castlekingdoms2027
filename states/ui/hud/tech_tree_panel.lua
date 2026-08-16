@@ -238,4 +238,13 @@ function TechTreePanel.mousepressed(x, y, button)
     return false
 end
 
+-- Castle Kingdoms 2027 v3.11.939: Mouse moved/released stubs for consistency
+function TechTreePanel.mousemoved(x, y, dx, dy)
+    return false
+end
+
+function TechTreePanel.mousereleased(x, y, button)
+    return false
+end
+
 return TechTreePanel

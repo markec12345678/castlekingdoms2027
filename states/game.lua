@@ -4191,6 +4191,10 @@ function game:keypressed(key, scancode, isRepeat)
 end
 
 function game:mousereleased(x, y, button, istouch)
+    -- Castle Kingdoms 2027 v3.11.939: Tech Tree Panel mousereleased
+    if TechTreePanel.isVisible() then
+        if TechTreePanel.mousereleased(x, y, button) then return end
+    end
     -- Castle Kingdoms 2027 v3.11.938: Royal Systems Panel mousereleased
     if RoyalSystemsPanel.isVisible() then
         if RoyalSystemsPanel.mousereleased(x, y, button) then return end
@@ -4216,6 +4220,10 @@ function game:mousereleased(x, y, button, istouch)
 end
 
 function game:mousemoved(x, y, dx, dy, istouch)
+    -- Castle Kingdoms 2027 v3.11.939: Tech Tree Panel mousemoved
+    if TechTreePanel.isVisible() then
+        if TechTreePanel.mousemoved(x, y, dx, dy) then return end
+    end
     -- Castle Kingdoms 2027 v3.11.938: Royal Systems Panel mousemoved
     if RoyalSystemsPanel.isVisible() then
         if RoyalSystemsPanel.mousemoved(x, y, dx, dy) then return end
