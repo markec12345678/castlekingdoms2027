@@ -28,6 +28,7 @@ local KEYBINDS = {
             { key = "C",         desc = "Karavane - pošiljanje trgovskih karavan" },
             { key = "Ctrl+R",    desc = "Kraljevi sistemski (987 Royal Maker sistemov + trg)" },
             { key = "Ctrl+K",    desc = "Kraljevi trg - nadzorna plošča (cene, prodaja, trendi)" },
+            { key = "Ctrl+Shift+G", desc = "Tech tree - vizualni prikaz odvisnosti sistemov" },
             { key = "Ctrl+U",    desc = "Auto-save panel - status, interval, force save" },
             { key = "Shift+U",   desc = "Hitri vklop/izklop auto-save (brez panela)" },
             { key = "Ctrl+Shift+U", desc = "Skrij/prikaži auto-save overlay (brez izklopa)" },

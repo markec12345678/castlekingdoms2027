@@ -886,6 +886,7 @@ local RoyalSystemsPanel = require("states.ui.hud.royal_systems_panel")
 local MarketDashboard = require("states.ui.hud.market_dashboard")
 local AutoSavePanel = require("states.ui.hud.autosave_panel")
 local AutoSaveOverlay = require("states.ui.hud.autosave_status_overlay")
+local TechTreePanel = require("states.ui.hud.tech_tree_panel")
 -- Castle Kingdoms 2027 - Performance profiling
 local PerformanceManager = require("objects.Performance.PerformanceManager")
 local PriorityUpdate = require("objects.Performance.PriorityUpdateSystem")
@@ -3380,6 +3381,8 @@ function game:draw()
             AutoSavePanel.draw()
             -- Castle Kingdoms 2027 v3.11.924: Draw Auto-Save Status Overlay (always-on HUD)
             AutoSaveOverlay.draw()
+            -- Castle Kingdoms 2027 v3.11.936: Draw Tech Tree Panel (Ctrl+Shift+G)
+            TechTreePanel.draw()
             -- Castle Kingdoms 2027: Draw Kenney CC0 overlay (if enabled)
             if _G.KenneySpriteRenderer and _G.KenneySpriteRenderer.isActive() then
                 love.graphics.setScissor(0, 0, screenWidth, screenHeight - 150)
@@ -3458,6 +3461,10 @@ function game:mousepressed(x, y, button, istouch)
     -- Castle Kingdoms 2027 v3.11.903: Market Dashboard click handling
     if MarketDashboard.isVisible() then
         if MarketDashboard.mousepressed(x, y, button) then return end
+    end
+    -- Castle Kingdoms 2027 v3.11.936: Tech Tree Panel click handling
+    if TechTreePanel.isVisible() then
+        if TechTreePanel.mousepressed(x, y, button) then return end
     end
     -- Castle Kingdoms 2027 v3.11.918: Auto-Save Panel click handling
     if AutoSavePanel.isVisible() then
@@ -3790,6 +3797,16 @@ function game:keypressed(key, scancode, isRepeat)
         if MarketDashboard.keypressed(key, scancode, isrepeat) then
             return
         end
+    end
+    -- Ctrl+Shift+G = Toggle Tech Tree Panel (Castle Kingdoms 2027 v3.11.936)
+    if key == "g" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl"))
+                   and (love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift")) then
+        TechTreePanel.toggle()
+        return
+    end
+    -- Forward keys to Tech Tree Panel if it's visible
+    if TechTreePanel.isVisible() then
+        if TechTreePanel.keypressed(key, scancode, isrepeat) then return end
     end
     -- Forward keys to Auto-Save Panel if it's visible
     if AutoSavePanel.isVisible() then
@@ -4226,6 +4243,10 @@ end
 
 -- Castle Kingdoms 2027: Skirmish trail access (Ctrl+Shift+T = start skirmish 1)
 function game:wheelmoved(x, y)
+    -- Castle Kingdoms 2027 v3.11.936: Tech Tree Panel wheel scroll
+    if TechTreePanel.isVisible() then
+        if TechTreePanel.wheelmoved(x, y) then return end
+    end
     -- Castle Kingdoms 2027 v3.11.929: Overlay opacity wheel (if hovering overlay)
     if AutoSaveOverlay.wheelmoved(x, y) then return end
     -- Castle Kingdoms 2027 v3.11.919: Forward wheel to Market Dashboard if expanded

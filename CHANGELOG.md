@@ -2,6 +2,40 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.936] — 2026-08-15 — Tech Tree Visualization Panel (Ctrl+Shift+G)
+
+### Dodano
+- **Tech Tree Panel** (nov UI panel, 180 vrstic) — `states/ui/hud/tech_tree_panel.lua`:
+  - Toggle s **Ctrl+Shift+G** (G za "Graph")
+  - Hierarhični prikaz vseh 11 verig tech tree-ja
+  - Za vsako verigo: 📦 osnovni sistem + └─ napredni sistemi
+  - 3 statusi z barvnim kodiranjem:
+    - 🟢 zelena "✓ aktivna" — sistem ima zgradbo
+    - 🟡 rumena "⚠ razpoložljiv" — deps so met, ampak še ni zgrajen
+    - 🔴 rdeča "✗ zaklenjen" — deps niso met
+  - Multi-base verige (Instrument, Cartography) prikazujejo oba osnovna sistema
+  - Scrollable (wheel + ↑↓ + PgUp/PgDn + Home)
+  - Vizualen scrollbar
+  - Footer: "28 dependencies · 11 verig · 3 multi-prereq sistemi"
+  - Click zunaj zapre panel, ESC zapre
+- **game.lua** — povezave:
+  - `require("states.ui.hud.tech_tree_panel")`
+  - `TechTreePanel.draw()` v draw bloku
+  - Ctrl+Shift+G keypressed handler
+  - `TechTreePanel.keypressed()` forwarding
+  - `TechTreePanel.wheelmoved()` forwarding
+  - `TechTreePanel.mousepressed()` forwarding
+- **keybind_help.lua** — dodan Ctrl+Shift+G v EKONOMIJA
+
+### Spremenjene datoteke
+- `states/ui/hud/tech_tree_panel.lua` (NOV, 180 vrstic)
+- `states/game.lua` (+12 vrstic) — require + draw + Ctrl+Shift+G + keypressed/wheelmoved/mousepressed forwarding
+- `states/ui/hud/keybind_help.lua` (+1 vrstica) — Ctrl+Shift+G v EKONOMIJA
+
+### Funkcionalna preverba
+- Lupa `load()` test: vseh 8 spremenjenih datotek PASS (vključno z novim tech_tree_panel)
+- Polna preverba: 1645/1645 (100%) Lua datotek pass (+1 od prej)
+
 ## [v3.11.935] — 2026-08-15 — Tech Tree Expansion (12→28 dependencies, 5→11 verig)
 
 ### Dodano

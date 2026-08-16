@@ -2,19 +2,19 @@
 
 Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT). Navdihnjen s klasičnimi srednjeveškimi strateškimi igrami.
 
-[![Version](https://img.shields.io/badge/version-3.11.935-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
+[![Version](https://img.shields.io/badge/version-3.11.936-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
-[![Syntax](https://img.shields.io/badge/syntax-1644%2F1644%20pass-brightgreen.svg)](#)
+[![Syntax](https://img.shields.io/badge/syntax-1645%2F1645%20pass-brightgreen.svg)](#)
 [![Systems](https://img.shields.io/badge/Royal%20systems-987-blue.svg)](#)
-[![Lua](https://img.shields.io/badge/Lua%20files-1644-green.svg)](#)
-[![Registry](https://img.shields.io/badge/Royal%20Registry-%2BSystemDependencies-blueviolet.svg)](#)
+[![Lua](https://img.shields.io/badge/Lua%20files-1645-green.svg)](#)
+[![Registry](https://img.shields.io/badge/Royal%20Registry-%2BTechTreePanel-blueviolet.svg)](#)
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v3.11.935](https://github.com/markec12345678/castlekingdoms2027/releases)
-- **.love datoteka**: `castlekingdoms2027-v3.11.935.love` (34 MB brez LFS, 305 MB z LFS)
-- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 987 Royal sistemov, 1644 Lua datotek, +SYSTEM DEPENDENCIES expanded (28 deps, 11 verig) + overlay consolidated settings + opacity slider + DynamicMarket + Save/Load + 7 grafov
+- **Zadnja izdaja**: [v3.11.936](https://github.com/markec12345678/castlekingdoms2027/releases)
+- **.love datoteka**: `castlekingdoms2027-v3.11.936.love` (34 MB brez LFS, 305 MB z LFS)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 987 Royal sistemov, 1645 Lua datotek, +TECH TREE PANEL (Ctrl+Shift+G) z vizualnim prikazom 28 deps v 11 verigah + SystemDependencies + overlay consolidated + DynamicMarket + Save/Load + 7 grafov
 - **LFS**: Po git clone zahtevaj `git lfs pull` za prave PNG asset-e (305 MB)
 
 ## Zagon
@@ -36,16 +36,16 @@ love .
 
 | Metrika | Vrednost |
 |---------|----------|
-| Lua datoteke | 1644 |
+| Lua datoteke | 1645 |
 | Vrstic kode | ~485.000 |
 | GLSL shaderji | 12 |
 | Jezikov | 32 |
-| Verzij | 140+ (v1.7.9 → v3.11.935) |
+| Verzij | 140+ (v1.7.9 → v3.11.936) |
 | Bug popravkov | 155 (90 krogov pregleda) |
-| Syntax pass rate | 1644/1644 (100%) |
+| Syntax pass rate | 1645/1645 (100%) |
 | PNG assetov | 1.206 |
-| **Royal sistemov** | **987 (v3.11.935)** |
-| **Royal System Dependencies** | **da (tech tree: 28 dependencies v 11 verigah — Metalwork, Glass, Pottery, Wood, Textile, Leather, Dye, Forge, Instrument, Cartography)** |
+| **Royal sistemov** | **987 (v3.11.936)** |
+| **Royal Tech Tree Panel** | **Ctrl+Shift+G (vizualni prikaz 28 deps v 11 verigah, scrollable)** |
 | **Royal UI Panel** | **Ctrl+R (full-screen browser + actions + market prices + production chart + WHEEL SCROLL + SCROLLBAR + Home/End/PgUp/PgDn)** |
 | **Royal Market** | **DynamicMarket integracija (auto-sell + dinamične cene)** |
 | **Royal Market Dashboard** | **Ctrl+K (987 produktov + 7 grafov + leaderboard (qty/profit) + multi-product comparison + event log + EXPANDABLE event log panel z filtri in SCROLLBAR)** |
