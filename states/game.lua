@@ -3466,6 +3466,10 @@ function game:mousepressed(x, y, button, istouch)
     if TechTreePanel.isVisible() then
         if TechTreePanel.mousepressed(x, y, button) then return end
     end
+    -- Castle Kingdoms 2027 v3.11.941: KeybindHelp click handling (close on outside click)
+    if KeybindHelp.isVisible() then
+        if KeybindHelp.mousepressed(x, y, button) then return end
+    end
     -- Castle Kingdoms 2027 v3.11.918: Auto-Save Panel click handling
     if AutoSavePanel.isVisible() then
         if AutoSavePanel.mousepressed(x, y, button) then return end
@@ -4191,6 +4195,10 @@ function game:keypressed(key, scancode, isRepeat)
 end
 
 function game:mousereleased(x, y, button, istouch)
+    -- Castle Kingdoms 2027 v3.11.941: KeybindHelp mousereleased
+    if KeybindHelp.isVisible() then
+        if KeybindHelp.mousereleased(x, y, button) then return end
+    end
     -- Castle Kingdoms 2027 v3.11.939: Tech Tree Panel mousereleased
     if TechTreePanel.isVisible() then
         if TechTreePanel.mousereleased(x, y, button) then return end
@@ -4220,6 +4228,10 @@ function game:mousereleased(x, y, button, istouch)
 end
 
 function game:mousemoved(x, y, dx, dy, istouch)
+    -- Castle Kingdoms 2027 v3.11.941: KeybindHelp mousemoved
+    if KeybindHelp.isVisible() then
+        if KeybindHelp.mousemoved(x, y, dx, dy) then return end
+    end
     -- Castle Kingdoms 2027 v3.11.939: Tech Tree Panel mousemoved
     if TechTreePanel.isVisible() then
         if TechTreePanel.mousemoved(x, y, dx, dy) then return end

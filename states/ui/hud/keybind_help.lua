@@ -290,4 +290,28 @@ function KeybindHelp.keypressed(key)
     return false
 end
 
+-- Castle Kingdoms 2027 v3.11.941: Mouse stubs for 100% consistency
+function KeybindHelp.mousepressed(x, y, button)
+    if not visible then return false end
+    -- Click outside panel closes
+    local screenW, screenH = love.graphics.getDimensions()
+    local panelW = 560
+    local panelH = math.min(760, screenH - 40)
+    local panelX = (screenW - panelW) / 2
+    local panelY = (screenH - panelH) / 2
+    if x < panelX or x > panelX + panelW or y < panelY or y > panelY + panelH then
+        KeybindHelp.toggle()
+        return true
+    end
+    return false
+end
+
+function KeybindHelp.mousemoved(x, y, dx, dy)
+    return false
+end
+
+function KeybindHelp.mousereleased(x, y, button)
+    return false
+end
+
 return KeybindHelp

@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.941] — 2026-08-16 — KeybindHelp Mouse Stubs — 100% Mouse Forwarding
+
+### Dodano
+- **KeybindHelp** — dodani `mousepressed()`, `mousemoved()`, `mousereleased()` funkcije:
+  - `mousepressed()`: click zunaj panela zapre help (isto vedenje kot drugi paneli)
+  - `mousemoved()` in `mousereleased()`: stubs (return false)
+- **game.lua** — mousepressed/mousemoved/mousereleased forwarding za KeybindHelp
+
+### 100% popoln mouse forwarding sistem
+Vsi 6 paneli sedaj imajo vse 4 mouse event handlerje:
+
+| panel | mousepressed | mousemoved | mousereleased | wheelmoved |
+|-------|:---:|:---:|:---:|:---:|
+| RoyalSystemsPanel | ✓ | ✓ stub | ✓ stub | ✓ |
+| MarketDashboard | ✓ | ✓ stub | ✓ stub | ✓ |
+| AutoSavePanel | ✓ | ✓ | ✓ | — |
+| AutoSaveOverlay | ✓ | ✓ | ✓ | ✓ |
+| TechTreePanel | ✓ | ✓ stub | ✓ stub | ✓ |
+| KeybindHelp | ✓ | ✓ stub | ✓ stub | ✓ |
+
+### Spremenjene datoteke
+- `states/ui/hud/keybind_help.lua` (+24 vrstic) — mousepressed (close on outside click) + mousemoved/mousereleased stubs
+- `states/game.lua` (+9 vrstic) — mousepressed/mousemoved/mousereleased forwarding za KeybindHelp
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS
+- Polna preverba: 1645/1645 (100%) Lua datotek pass
+
 ## [v3.11.940] — 2026-08-16 — Tech Tree Expansion II (28→46 deps, 11→16 verig)
 
 ### Dodano

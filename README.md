@@ -2,19 +2,19 @@
 
 Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT). Navdihnjen s klasičnimi srednjeveškimi strateškimi igrami.
 
-[![Version](https://img.shields.io/badge/version-3.11.940-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
+[![Version](https://img.shields.io/badge/version-3.11.941-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
 [![Syntax](https://img.shields.io/badge/syntax-1645%2F1645%20pass-brightgreen.svg)](#)
 [![Systems](https://img.shields.io/badge/Royal%20systems-987-blue.svg)](#)
 [![Lua](https://img.shields.io/badge/Lua%20files-1645-green.svg)](#)
-[![Registry](https://img.shields.io/badge/Royal%20Registry-%2BTechTreePanel-blueviolet.svg)](#)
+[![Registry](https://img.shields.io/badge/Royal%20Registry-%2B100PercentMouse-blueviolet.svg)](#)
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v3.11.940](https://github.com/markec12345678/castlekingdoms2027/releases)
-- **.love datoteka**: `castlekingdoms2027-v3.11.940.love` (34 MB brez LFS, 305 MB z LFS)
-- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 987 Royal sistemov, 1645 Lua datotek, +TECH TREE 46 deps v 16 verigah (5 multi-prereq) + popoln mouse forwarding + overlay + DynamicMarket + Save/Load + 7 grafov
+- **Zadnja izdaja**: [v3.11.941](https://github.com/markec12345678/castlekingdoms2027/releases)
+- **.love datoteka**: `castlekingdoms2027-v3.11.941.love` (34 MB brez LFS, 305 MB z LFS)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 987 Royal sistemov, 1645 Lua datotek, +100% mouse forwarding (vseh 6 panelov × 4 event-i) + tech tree 46 deps v 16 verigah + overlay + DynamicMarket + Save/Load + 7 grafov
 - **LFS**: Po git clone zahtevaj `git lfs pull` za prave PNG asset-e (305 MB)
 
 ## Zagon
@@ -40,11 +40,11 @@ love .
 | Vrstic kode | ~485.000 |
 | GLSL shaderji | 12 |
 | Jezikov | 32 |
-| Verzij | 140+ (v1.7.9 → v3.11.940) |
+| Verzij | 140+ (v1.7.9 → v3.11.941) |
 | Bug popravkov | 155 (90 krogov pregleda) |
 | Syntax pass rate | 1645/1645 (100%) |
 | PNG assetov | 1.206 |
-| **Royal sistemov** | **987 (v3.11.940)** |
+| **Royal sistemov** | **987 (v3.11.941)** |
 | **Royal Tech Tree Panel** | **Ctrl+Shift+G (46 deps v 16 verigah, 5 multi-prereq, scrollable)** |
 | **Royal UI Panel** | **Ctrl+R (full-screen browser + actions + market prices + production chart + WHEEL SCROLL + SCROLLBAR + Home/End/PgUp/PgDn)** |
 | **Royal Market** | **DynamicMarket integracija (auto-sell + dinamične cene)** |
