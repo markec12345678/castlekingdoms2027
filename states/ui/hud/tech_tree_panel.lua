@@ -60,6 +60,12 @@ local DOUBLE_CLICK_THRESHOLD = 0.4  -- seconds
 local minimapVisible = true  -- toggle with M
 local minimapArea = nil  -- {x, y, w, h} set during draw, used by mousepressed
 
+-- Depth indicator state (v3.11.951)
+-- Shows the tech-tree depth of each node (layer 0 = root/base, 1, 2, ...)
+-- Computed once via BFS from all root nodes (systems with no dependencies).
+local depthVisible = true  -- toggle with D
+local depthCache = nil  -- map: key -> depth, built lazily
+
 -- Define chain display order and labels
 local CHAINS = {
     { label = "KOVANJE METALOV", base = "Metalwork", systems = {"BellMaker", "ChainmailForger", "SwordPommelMaker", "GauntletMaker", "CoinDieMaker", "CoinPressMaker"} },
@@ -108,6 +114,7 @@ function TechTreePanel.toggle()
     searchQuery = ""
     pathMode = "transitive"
     minimapVisible = true
+    depthVisible = true
 end
 
 function TechTreePanel.isVisible()
@@ -235,6 +242,102 @@ end
 local function isConnectionSearchRelated(fromKey, toKey)
     if not searchActive or searchQuery == "" then return true end
     return isSearchMatch(fromKey) or isSearchMatch(toKey)
+end
+
+-- v3.11.951: Compute tech-tree depth for all nodes.
+-- Depth = BFS distance from nearest root (a root = system with no dependencies).
+-- Roots get depth 0. Systems depending on roots get depth 1. Etc.
+-- Multi-prereq systems take the MAX depth of their prereqs + 1 (longest path).
+-- Result is cached in depthCache and reused until invalidated.
+local function computeDepths()
+    if depthCache then return depthCache end
+    depthCache = {}
+
+    -- Collect all keys from CHAINS (bases + dependents)
+    local allKeys = {}
+    local keySet = {}
+    for _, chain in ipairs(CHAINS) do
+        local bases = chain.multiBase and chain.bases or {chain.base}
+        for _, bk in ipairs(bases) do
+            if not keySet[bk] then
+                keySet[bk] = true
+                table.insert(allKeys, bk)
+            end
+        end
+        for _, sk in ipairs(chain.systems) do
+            if not keySet[sk] then
+                keySet[sk] = true
+                table.insert(allKeys, sk)
+            end
+        end
+    end
+
+    -- Build reverse deps map (prereq -> [dependents])
+    local reverseDeps = {}
+    for _, k in ipairs(allKeys) do
+        local prereqs = Deps.getDependencies(k)
+        for _, p in ipairs(prereqs) do
+            if not reverseDeps[p] then reverseDeps[p] = {} end
+            table.insert(reverseDeps[p], k)
+        end
+    end
+
+    -- Find roots: keys with no dependencies
+    local queue = {}
+    for _, k in ipairs(allKeys) do
+        local prereqs = Deps.getDependencies(k)
+        if #prereqs == 0 then
+            depthCache[k] = 0
+            table.insert(queue, k)
+        else
+            depthCache[k] = -1  -- unvisited
+        end
+    end
+
+    -- BFS: process queue, assign depth = max(parent depths) + 1
+    -- But we need to ensure all prereqs are processed first.
+    -- Use iterative relaxation: keep looping until no changes.
+    local changed = true
+    local iterations = 0
+    while changed and iterations < 100 do  -- safety limit
+        changed = false
+        for _, k in ipairs(allKeys) do
+            if depthCache[k] == -1 then
+                local prereqs = Deps.getDependencies(k)
+                local maxPrereqDepth = -1
+                local allPrereqsResolved = true
+                for _, p in ipairs(prereqs) do
+                    if depthCache[p] == -1 or depthCache[p] == nil then
+                        allPrereqsResolved = false
+                        break
+                    end
+                    if depthCache[p] > maxPrereqDepth then
+                        maxPrereqDepth = depthCache[p]
+                    end
+                end
+                if allPrereqsResolved then
+                    depthCache[k] = maxPrereqDepth + 1
+                    changed = true
+                end
+            end
+        end
+        iterations = iterations + 1
+    end
+
+    -- Any remaining -1 means a cycle (shouldn't happen, but safety)
+    for _, k in ipairs(allKeys) do
+        if depthCache[k] == -1 then
+            depthCache[k] = 0  -- treat as root
+        end
+    end
+
+    return depthCache
+end
+
+-- v3.11.951: Get depth for a single key (uses cache)
+local function getDepth(key)
+    local depths = computeDepths()
+    return depths[key] or 0
 end
 
 -- Check if a system key is "active" (has ≥1 building)
@@ -404,11 +507,13 @@ local function drawNode(node, font, smallFont, isRelated, isSelected, isMatched)
     else symbol = "✗" end
 
     -- Label (v3.11.946: highlight matched substring)
+    -- v3.11.951: If depth visible, reserve space for depth badge on the left
+    local depthBadgeW = depthVisible and 18 or 0
     love.graphics.setColor(0.97, 0.97, 0.97, alphaMul)
     local label = displayName(node.key)
     -- Truncate if too long
     if smallFont then love.graphics.setFont(smallFont) end
-    local maxTextW = node.w - 28
+    local maxTextW = node.w - 28 - depthBadgeW
     local truncated = false
     if love.graphics.getFont():getWidth(label) > maxTextW then
         while #label > 3 and love.graphics.getFont():getWidth(label .. "…") > maxTextW do
@@ -428,7 +533,7 @@ local function drawNode(node, font, smallFont, isRelated, isSelected, isMatched)
             local matchPart = label:sub(startIdx, endIdx)
             local after = label:sub(endIdx + 1)
             local labelY = node.y + (node.h - love.graphics.getFont():getHeight()) / 2
-            local curX = node.x + 8
+            local curX = node.x + 8 + depthBadgeW
             if before ~= "" then
                 love.graphics.setColor(0.97, 0.97, 0.97, alphaMul)
                 love.graphics.print(before, curX, labelY)
@@ -446,10 +551,10 @@ local function drawNode(node, font, smallFont, isRelated, isSelected, isMatched)
                 love.graphics.print(after, curX, labelY)
             end
         else
-            love.graphics.print(label, node.x + 8, node.y + (node.h - love.graphics.getFont():getHeight()) / 2)
+            love.graphics.print(label, node.x + 8 + depthBadgeW, node.y + (node.h - love.graphics.getFont():getHeight()) / 2)
         end
     else
-        love.graphics.print(label, node.x + 8, node.y + (node.h - love.graphics.getFont():getHeight()) / 2)
+        love.graphics.print(label, node.x + 8 + depthBadgeW, node.y + (node.h - love.graphics.getFont():getHeight()) / 2)
     end
 
     -- Symbol on right
@@ -487,6 +592,36 @@ local function drawNode(node, font, smallFont, isRelated, isSelected, isMatched)
         love.graphics.setLineWidth(2)
         love.graphics.rectangle("line", node.x - 1, node.y - 1, node.w + 2, node.h + 2, 5, 5, 5, 5)
         love.graphics.setLineWidth(1)
+    end
+
+    -- v3.11.951: Depth indicator badge (small circle with depth number)
+    if depthVisible then
+        local d = getDepth(node.key)
+        -- Badge background: color shifts from green (shallow) to red (deep)
+        local depthColors = {
+            [0] = {0.3, 0.7, 0.3},   -- green (root)
+            [1] = {0.5, 0.75, 0.3},  -- yellow-green
+            [2] = {0.75, 0.7, 0.3},  -- yellow
+            [3] = {0.85, 0.55, 0.3}, -- orange
+            [4] = {0.9, 0.4, 0.3},   -- red-orange
+        }
+        local dc = depthColors[d] or {0.95, 0.3, 0.3}  -- deep red for 5+
+        local badgeR = 7
+        local badgeCX = node.x + 10
+        local badgeCY = node.y + node.h / 2
+        -- Circle background
+        love.graphics.setColor(dc[1], dc[2], dc[3], alphaMul * 0.95)
+        love.graphics.circle("fill", badgeCX, badgeCY, badgeR)
+        love.graphics.setColor(0.15, 0.15, 0.2, alphaMul)
+        love.graphics.setLineWidth(1)
+        love.graphics.circle("line", badgeCX, badgeCY, badgeR)
+        -- Depth number
+        if smallFont then love.graphics.setFont(smallFont) end
+        love.graphics.setColor(1, 1, 1, alphaMul)
+        local numStr = tostring(d)
+        local numW = love.graphics.getFont():getWidth(numStr)
+        local numH = love.graphics.getFont():getHeight()
+        love.graphics.print(numStr, badgeCX - numW / 2, badgeCY - numH / 2)
     end
 end
 
@@ -617,6 +752,15 @@ function TechTreePanel.drawGraph(panelX, contentTop, contentAreaH, panelW, small
                 table.insert(lines, "Status: ✗ zaklenjen (odvisnosti niso met)")
             end
         end
+        -- v3.11.951: Show tech-tree depth
+        local nodeDepth = getDepth(hoveredNode.key)
+        local depthLabel
+        if nodeDepth == 0 then depthLabel = "0 (koren/root)"
+        elseif nodeDepth == 1 then depthLabel = "1 (plitev)"
+        elseif nodeDepth == 2 then depthLabel = "2 (srednji)"
+        elseif nodeDepth == 3 then depthLabel = "3 (globok)"
+        else depthLabel = tostring(nodeDepth) .. " (zelo globok)" end
+        table.insert(lines, "Globina: " .. depthLabel)
         if #deps > 0 then
             local parts = {}
             for _, d in ipairs(deps) do
@@ -961,7 +1105,7 @@ function TechTreePanel.draw()
     love.graphics.setColor(0.5, 0.6, 0.7, 1)
     if smallFont then love.graphics.setFont(smallFont) end
     local hintStr = viewMode == "graph"
-        and "Ctrl+Shift+G: zapri  |  G: tekst  |  /: iskanje  |  click: fokus  |  2x click: sistem  |  T: pot  |  M: minimap  |  F/ESC: počisti"
+        and "Ctrl+Shift+G: zapri  |  G: tekst  |  /: iskanje  |  click: fokus  |  2x click: sistem  |  T: pot  |  M: minimap  |  D: globina  |  F/ESC: počisti"
         or  "Ctrl+Shift+G: zapri  |  G: graf  |  /: iskanje  |  ↑↓/wheel: scroll  |  zelena=met  oranžna=ne met"
     love.graphics.print(hintStr, panelX + 16, panelY + 36)
     love.graphics.setFont(font)
@@ -1175,6 +1319,11 @@ function TechTreePanel.keypressed(key)
     -- v3.11.949: M toggles minimap visibility
     if key == "m" then
         minimapVisible = not minimapVisible
+        return true
+    end
+    -- v3.11.951: D toggles depth indicator visibility
+    if key == "d" then
+        depthVisible = not depthVisible
         return true
     end
     if key == "g" then

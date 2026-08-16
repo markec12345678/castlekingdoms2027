@@ -2,6 +2,43 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.951] — 2026-08-16 — Tech Tree Depth Indicator (D: barvni krožec z globino sistema)
+
+### Dodano
+- **TechTreePanel.lua** — depth indicator na vsakem vozlišču:
+  - **`D` tipka** preklopi vidnost indikatorjev globine
+  - **Barvni krožec** (r=7px) na levi strani vozlišča z številko globine
+  - **Barvno kodiranje globine**:
+    - 0 (koren/root) — zeleno
+    - 1 (plitev) — rumeno-zeleno
+    - 2 (srednji) — rumeno
+    - 3 (globok) — oranžno
+    - 4+ (zelo globok) — rdeče
+  - **Kalkulacija globine** — iterative relaxation algoritem:
+    - Koreni (sistemi brez odvisnosti) dobijo globino 0
+    - Ostali sistemi dobijo max(prereq globine) + 1 (longest path)
+    - Multi-prereq sistemi upoštevajo najglobjega prednika
+    - Cycle safety: 100 iteracij limit, nato treat as root
+  - **Cache** — depthCache se izračuna enkrat in ponovno uporabi (lazy)
+  - **Tooltip** — prikaže "Globina: 2 (srednji)" z besednim opisom
+  - **Label offset** — tekst vozlišča je zamaknjen za 18px desno ko je depth visible
+- **keybind_help.lua** — nova D vrstica v CTRL+SHIFT+G sekciji
+
+### Spremenjene datoteke
+- `states/ui/hud/tech_tree_panel.lua` (+~100 vrstic) — depthVisible/depthCache state, computeDepths() z iterative relaxation, getDepth() helper, drawNode depth badge rendering z barvnim kodiranjem, tooltip depth info, D key handler, label offset
+- `states/ui/hud/keybind_help.lua` (+1 vrstica) — D toggle opis
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS (tech_tree_panel.lua + keybind_help.lua)
+- computeDepths() — iterative relaxation s 100-iteration safety limit
+- Multi-prereq — max(prereq depths) + 1 (longest path, ne shortest)
+- Cache — depthCache se ne ponovno izračuna vsak frame
+- Label offset — 18px rezervirano za badge ko je depthVisible
+
+### Zaključeno
+- Pred: igralec ni vedel kako "globoko" je sistem v tech tree-ju
+- Sedaj: barvni krožec takoj pokaže tehnološko naprednost — zeleno=osnovno, rdeče=napredno
+
 ## [v3.11.950] — 2026-08-16 — AutoSavePanel Wheelmoved Functionality (ciklaj interval z wheelom)
 
 ### Dodano
