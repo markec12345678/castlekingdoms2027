@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.949] — 2026-08-16 — Tech Tree Minimap (M: skrij/pokaži, click za skok na pozicijo)
+
+### Dodano
+- **TechTreePanel.lua** — minimap v spodnjem desnem kotu panela:
+  - **Kompaktni pregled** vseh 25 verig v merilu (140×180 px)
+  - **Verige kot majhni horizontalni stolpči** z barvno kodiranimi vozlišči (enako kot glavni graf)
+  - **Vozlišča kot majhni kvadratki** (3-5 px) z barvo stanja (zeleno/rumeno/rdeče)
+  - **Viewport indikator** — cyan pravokotnik ki prikazuje trenutno vidno območje
+  - **Click za skok** — klik na minimap premakne vidno območje na to pozicijo (centrirano na klik)
+  - **Focus highlight** — izbrano vozlišče ima zlat outline tudi na minimapu
+  - **Search dimming** — neujemajoča vozlišča zatemnjena tudi na minimapu
+  - **`M` tipka** — skrij/prikaži minimap
+  - **Footer hint** na minimapu: 'M: skrij  |  click: skok'
+- **Kalkulacija scale** — totalH minimapa / mmContentH, z clamp na 1.0 (brez upscaling)
+- **Click-to-scroll logika** — maps click Y na scrollOffset z center-on-click obnašanjem
+
+### Spremenjene datoteke
+- `states/ui/hud/tech_tree_panel.lua` (+~140 vrstic) — minimapVisible/minimapArea state, drawMinimap() funkcija z layout/scale/nodes/viewport, mousepressed click detekcija z math za scroll jump, M key handler, hint text update
+- `states/ui/hud/keybind_help.lua` (+1 vrstica) — M toggle opis
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS (tech_tree_panel.lua + keybind_help.lua)
+- Minimap scale — pravilno mapira totalH na mmContentH, ne upscaled
+- Click-to-scroll — center-on-click z clamp na robove
+- Viewport indicator — pravilno prikazuje trenutni scrollOffset
+- Focus/search dimming se preslika tudi na minimap
+
+### Zaključeno
+- Pred: igralec je moral scrollati skozi 25 verig, ni bilo pregleda
+- Sedaj: minimap v kotu da takojšen pregled nad celotnim tech tree-jem + click za hitro navigacijo
+
 ## [v3.11.948] — 2026-08-16 — Tech Tree Click-to-Jump (dvoklik odpre Royal Systems Panel)
 
 ### Dodano

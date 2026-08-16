@@ -54,6 +54,12 @@ local lastClickTime = 0
 local lastClickKey = nil
 local DOUBLE_CLICK_THRESHOLD = 0.4  -- seconds
 
+-- Minimap state (v3.11.949)
+-- Compact overview of all 25 chains in the bottom-right corner.
+-- Shows current viewport position and allows click-to-scroll.
+local minimapVisible = true  -- toggle with M
+local minimapArea = nil  -- {x, y, w, h} set during draw, used by mousepressed
+
 -- Define chain display order and labels
 local CHAINS = {
     { label = "KOVANJE METALOV", base = "Metalwork", systems = {"BellMaker", "ChainmailForger", "SwordPommelMaker", "GauntletMaker", "CoinDieMaker", "CoinPressMaker"} },
@@ -101,6 +107,7 @@ function TechTreePanel.toggle()
     searchActive = false
     searchQuery = ""
     pathMode = "transitive"
+    minimapVisible = true
 end
 
 function TechTreePanel.isVisible()
@@ -690,6 +697,148 @@ function TechTreePanel.drawGraph(panelX, contentTop, contentAreaH, panelW, small
 end
 
 -- ============================================================
+-- MINIMAP (v3.11.949)
+-- Compact overview of all 25 chains in the bottom-right corner.
+-- Shows current viewport position and allows click-to-scroll.
+-- ============================================================
+
+function TechTreePanel.drawMinimap(panelX, contentTop, contentAreaH, panelW, panelH, panelY, smallFont, font)
+    if not minimapVisible then
+        minimapArea = nil
+        return
+    end
+
+    -- Minimap dimensions: compact, bottom-right of panel
+    local mmW = 140
+    local mmH = 180
+    local mmX = panelX + panelW - mmW - 12
+    local mmY = panelY + panelH - mmH - 30  -- above footer
+
+    -- Store for mousepressed click detection
+    minimapArea = { x = mmX, y = mmY, w = mmW, h = mmH }
+
+    -- Compute total content height (same logic as drawGraph scrollbar)
+    -- We need to recompute chains layout to get totalH
+    local chains = computeGraphLayout(panelX, contentTop - scrollOffset)
+    local totalH = contentAreaH  -- default if no chains
+    if #chains > 0 then
+        local last = chains[#chains]
+        totalH = (last.chainY - (contentTop - scrollOffset)) + CHAIN_HEADER_H + NODE_H + CHAIN_GAP
+    end
+    local maxScroll = math.max(0, totalH - contentAreaH)
+
+    -- Compute related set for focus highlight on minimap
+    local relatedSet = nil
+    if selectedKey then
+        relatedSet = computeRelatedKeys(selectedKey)
+    end
+
+    -- Background
+    love.graphics.setColor(0.03, 0.04, 0.06, 0.92)
+    love.graphics.rectangle("fill", mmX, mmY, mmW, mmH, 4, 4, 4, 4)
+    love.graphics.setColor(0.4, 0.5, 0.65, 0.8)
+    love.graphics.setLineWidth(1)
+    love.graphics.rectangle("line", mmX, mmY, mmW, mmH, 4, 4, 4, 4)
+
+    -- Title
+    love.graphics.setFont(smallFont)
+    love.graphics.setColor(0.7, 0.78, 0.85, 1)
+    love.graphics.print("🗺 MINIMAP", mmX + 6, mmY + 4)
+
+    -- Content area inside minimap (below title)
+    local mmContentTop = mmY + 20
+    local mmContentH = mmH - 24
+    local mmContentW = mmW - 8
+
+    -- Scale: map totalH to mmContentH
+    local scale = totalH > 0 and mmContentH / totalH or 1
+    if scale > 1 then scale = 1 end  -- don't upscale if content fits
+
+    -- Set scissor to minimap content area
+    love.graphics.setScissor(mmX + 2, mmContentTop, mmContentW, mmContentH)
+
+    -- Draw each chain as a compact horizontal bar
+    -- Position based on chain's Y in the full layout (without scroll offset)
+    local mmChainY = mmContentTop
+    for i, chain in ipairs(chains) do
+        -- Compute this chain's Y position in unscaled coordinates
+        local chainYUnscrolled = chain.chainY - (contentTop - scrollOffset)
+        -- Map to minimap
+        local mmY2 = mmContentTop + chainYUnscrolled * scale
+
+        -- Chain header bar (tiny)
+        love.graphics.setColor(0.4, 0.35, 0.25, 0.8)
+        love.graphics.rectangle("fill", mmX + 4, mmY2, mmContentW - 4, math.max(2, CHAIN_HEADER_H * scale), 1, 1, 1, 1)
+
+        -- Nodes: base + deps as tiny dots
+        local dotSize = math.max(3, math.floor(NODE_H * scale))
+        for _, node in ipairs(chain.baseNodes) do
+            -- Determine color based on state + focus/search
+            local fillCol, _ = nodeColor(node.state)
+            local isRelated = (not selectedKey) or (relatedSet and relatedSet[node.key] ~= nil)
+            local isMatched = isSearchMatch(node.key)
+            local alpha = 1.0
+            if selectedKey and not isRelated then alpha = 0.25 end
+            if searchActive and searchQuery ~= "" and not isMatched then alpha = math.min(alpha, 0.25) end
+            love.graphics.setColor(fillCol[1], fillCol[2], fillCol[3], alpha)
+            -- Base node: left side
+            local dotX = mmX + 6
+            local dotY = mmY2 + CHAIN_HEADER_H * scale + 2
+            love.graphics.rectangle("fill", dotX, dotY, dotSize, dotSize, 1, 1, 1, 1)
+            -- Selected node: golden outline
+            if selectedKey == node.key then
+                love.graphics.setColor(1, 0.85, 0.3, 1)
+                love.graphics.setLineWidth(1.5)
+                love.graphics.rectangle("line", dotX - 1, dotY - 1, dotSize + 2, dotSize + 2, 1, 1, 1, 1)
+                love.graphics.setLineWidth(1)
+            end
+        end
+        for j, node in ipairs(chain.depNodes) do
+            local fillCol, _ = nodeColor(node.state)
+            local isRelated = (not selectedKey) or (relatedSet and relatedSet[node.key] ~= nil)
+            local isMatched = isSearchMatch(node.key)
+            local alpha = 1.0
+            if selectedKey and not isRelated then alpha = 0.25 end
+            if searchActive and searchQuery ~= "" and not isMatched then alpha = math.min(alpha, 0.25) end
+            love.graphics.setColor(fillCol[1], fillCol[2], fillCol[3], alpha)
+            -- Dep nodes: spread horizontally right of base
+            local dotX = mmX + 6 + 8 + (j - 1) * (dotSize + 1)
+            local dotY = mmY2 + CHAIN_HEADER_H * scale + 2
+            -- Wrap to next row if exceeds minimap width
+            if dotX + dotSize > mmX + mmContentW then
+                dotX = mmX + 6 + 8
+                dotY = dotY + dotSize + 1
+            end
+            love.graphics.rectangle("fill", dotX, dotY, dotSize, dotSize, 1, 1, 1, 1)
+            if selectedKey == node.key then
+                love.graphics.setColor(1, 0.85, 0.3, 1)
+                love.graphics.setLineWidth(1.5)
+                love.graphics.rectangle("line", dotX - 1, dotY - 1, dotSize + 2, dotSize + 2, 1, 1, 1, 1)
+                love.graphics.setLineWidth(1)
+            end
+        end
+    end
+
+    -- Viewport indicator: shows current scroll position
+    if maxScroll > 0 then
+        local vpY = mmContentTop + scrollOffset * scale
+        local vpH = contentAreaH * scale
+        love.graphics.setColor(0.6, 0.85, 1, 0.4)
+        love.graphics.setLineWidth(1.5)
+        love.graphics.rectangle("line", mmX + 2, vpY, mmContentW, vpH, 2, 2, 2, 2)
+        love.graphics.setLineWidth(1)
+    end
+
+    love.graphics.setScissor()
+
+    -- Footer hint
+    love.graphics.setFont(smallFont)
+    love.graphics.setColor(0.45, 0.5, 0.55, 0.9)
+    love.graphics.print("M: skrij  |  click: skok", mmX + 6, mmY + mmH - 14)
+    love.graphics.setFont(font)
+end
+
+-- ============================================================
 -- TEXT VIEW (legacy)
 -- ============================================================
 
@@ -812,7 +961,7 @@ function TechTreePanel.draw()
     love.graphics.setColor(0.5, 0.6, 0.7, 1)
     if smallFont then love.graphics.setFont(smallFont) end
     local hintStr = viewMode == "graph"
-        and "Ctrl+Shift+G: zapri  |  G: tekst  |  /: iskanje  |  click: fokus  |  2x click: odpri sistem  |  T: pot  |  F/ESC: počisti"
+        and "Ctrl+Shift+G: zapri  |  G: tekst  |  /: iskanje  |  click: fokus  |  2x click: sistem  |  T: pot  |  M: minimap  |  F/ESC: počisti"
         or  "Ctrl+Shift+G: zapri  |  G: graf  |  /: iskanje  |  ↑↓/wheel: scroll  |  zelena=met  oranžna=ne met"
     love.graphics.print(hintStr, panelX + 16, panelY + 36)
     love.graphics.setFont(font)
@@ -871,6 +1020,8 @@ function TechTreePanel.draw()
 
     if viewMode == "graph" then
         TechTreePanel.drawGraph(panelX, contentTop, contentAreaH, panelW, smallFont, font)
+        -- v3.11.949: Draw minimap overlay (only in graph view)
+        TechTreePanel.drawMinimap(panelX, contentTop, contentAreaH, panelW, panelH, panelY, smallFont, font)
     else
         TechTreePanel.drawText(panelX, contentTop, contentAreaH, panelW, smallFont, font)
     end
@@ -1021,6 +1172,11 @@ function TechTreePanel.keypressed(key)
         pathMode = pathMode == "direct" and "transitive" or "direct"
         return true
     end
+    -- v3.11.949: M toggles minimap visibility
+    if key == "m" then
+        minimapVisible = not minimapVisible
+        return true
+    end
     if key == "g" then
         viewMode = viewMode == "graph" and "text" or "graph"
         scrollOffset = 0
@@ -1078,6 +1234,43 @@ function TechTreePanel.mousepressed(x, y, button)
     if x < panelX or x > panelX + panelW or y < panelY or y > panelY + panelH then
         TechTreePanel.toggle()
         return true
+    end
+
+    -- v3.11.949: Check minimap click first (if visible and click is within minimap area)
+    if viewMode == "graph" and minimapVisible and minimapArea then
+        if x >= minimapArea.x and x <= minimapArea.x + minimapArea.w
+           and y >= minimapArea.y and y <= minimapArea.y + minimapArea.h then
+            -- Click on minimap: jump scroll to that position
+            local contentTop = panelY + 56
+            local contentBottom = panelY + panelH - 30
+            local contentAreaH = contentBottom - contentTop
+            -- Compute totalH (same as drawMinimap)
+            local chains = computeGraphLayout(panelX, contentTop - scrollOffset)
+            local totalH = contentAreaH
+            if #chains > 0 then
+                local last = chains[#chains]
+                totalH = (last.chainY - (contentTop - scrollOffset)) + CHAIN_HEADER_H + NODE_H + CHAIN_GAP
+            end
+            local maxScroll = math.max(0, totalH - contentAreaH)
+            if maxScroll > 0 then
+                -- Map click Y (relative to minimap content area) to scroll offset
+                local mmContentTop = minimapArea.y + 20
+                local mmContentH = minimapArea.h - 24
+                local scale = mmContentH / totalH
+                local clickYRel = y - mmContentTop
+                -- Center viewport on click position
+                local viewportH = contentAreaH * scale
+                local targetTopRel = clickYRel - viewportH / 2
+                -- Clamp
+                if targetTopRel < 0 then targetTopRel = 0 end
+                if targetTopRel > mmContentH - viewportH then targetTopRel = mmContentH - viewportH end
+                -- Convert back to scroll offset
+                scrollOffset = targetTopRel / scale
+                if scrollOffset > maxScroll then scrollOffset = maxScroll end
+                if scrollOffset < 0 then scrollOffset = 0 end
+            end
+            return true
+        end
     end
 
     -- v3.11.945: In graph view, click on a node toggles focus; click on empty space clears focus

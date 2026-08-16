@@ -84,6 +84,7 @@ local KEYBINDS = {
             { key = "Click",    desc = "Klik na vozlišče: fokusira sorodne (poudari, druga zatemni)" },
             { key = "2x Click", desc = "Dvaklik na vozlišče: odpri Royal Systems Panel (Ctrl+R) in skoči na sistem" },
             { key = "T",        desc = "Preklopi pot: direktno (1 stopnja) ↔ celotna pot (transitivno)" },
+            { key = "M",        desc = "Skrij/prikaži minimap (pregledni graf v kotu, click za skok)" },
             { key = "F",        desc = "Počisti fokus (ali klik ponovno na isto vozlišče)" },
             { key = "Hover",    desc = "V graf pogledu: prikaži podrobnosti odvisnosti + število odvisnikov" },
             { key = "↑ ↓",      desc = "Scroll po verigah" },
