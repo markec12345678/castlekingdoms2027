@@ -118,6 +118,7 @@ end
 
 -- Config presets state (v3.11.963)
 -- 'P' cycles through predefined view configurations for quick switching.
+-- v3.11.965: Custom presets (saved by player via Shift+P) are appended after built-in ones.
 local PRESETS = {
     {
         name = "Vsi (default)",
@@ -167,10 +168,72 @@ local PRESETS = {
 }
 local currentPresetIdx = 1  -- 1-indexed
 
--- v3.11.963: Apply a preset configuration
+-- v3.11.965: Custom presets (user-defined, persisted)
+local customPresets = {}
+local customPresetsLoaded = false
+
+-- v3.11.965: Load custom presets from file
+local function loadCustomPresets()
+    if customPresetsLoaded then return end
+    customPresetsLoaded = true
+    local path = "tech_tree_custom_presets.txt"
+    if love.filesystem.exists(path) then
+        local data = love.filesystem.read(path)
+        if data then
+            -- Format: one preset per line, fields separated by |
+            -- name|sortMode|stateFilter|bookmarksOnly|depthVisible|arrowsVisible|minimapVisible
+            for line in data:gmatch("[^\n]+") do
+                local fields = {}
+                for f in line:gmatch("[^|]+") do
+                    table.insert(fields, f)
+                end
+                if #fields >= 7 then
+                    table.insert(customPresets, {
+                        name = fields[1],
+                        sortMode = fields[2],
+                        stateFilter = fields[3],
+                        bookmarksOnly = fields[4] == "true",
+                        depthVisible = fields[5] == "true",
+                        arrowsVisible = fields[6] == "true",
+                        minimapVisible = fields[7] == "true",
+                    })
+                end
+            end
+        end
+    end
+end
+
+-- v3.11.965: Save custom presets to file
+local function saveCustomPresets()
+    local lines = {}
+    for _, p in ipairs(customPresets) do
+        table.insert(lines, string.format("%s|%s|%s|%s|%s|%s|%s",
+            p.name, p.sortMode, p.stateFilter,
+            tostring(p.bookmarksOnly), tostring(p.depthVisible),
+            tostring(p.arrowsVisible), tostring(p.minimapVisible)))
+    end
+    local data = table.concat(lines, "\n")
+    love.filesystem.write("tech_tree_custom_presets.txt", data)
+end
+
+-- v3.11.965: Get all presets (built-in + custom)
+local function getAllPresets()
+    loadCustomPresets()
+    local all = {}
+    for _, p in ipairs(PRESETS) do
+        table.insert(all, p)
+    end
+    for _, p in ipairs(customPresets) do
+        table.insert(all, p)
+    end
+    return all
+end
+
+-- v3.11.963: Apply a preset configuration (v3.11.965: uses getAllPresets)
 local function applyPreset(idx)
-    if idx < 1 or idx > #PRESETS then return end
-    local p = PRESETS[idx]
+    local all = getAllPresets()
+    if idx < 1 or idx > #all then return end
+    local p = all[idx]
     sortMode = p.sortMode
     stateFilter = p.stateFilter
     bookmarksOnly = p.bookmarksOnly
@@ -182,6 +245,24 @@ local function applyPreset(idx)
     keyboardNavIndex = nil
     currentPresetIdx = idx
     showFeedback("📋 Preset: " .. p.name)
+end
+
+-- v3.11.965: Save current config as a custom preset
+local function saveCurrentAsPreset()
+    loadCustomPresets()
+    local idx = #customPresets + 1
+    local preset = {
+        name = "Custom " .. idx,
+        sortMode = sortMode,
+        stateFilter = stateFilter,
+        bookmarksOnly = bookmarksOnly,
+        depthVisible = depthVisible,
+        arrowsVisible = arrowsVisible,
+        minimapVisible = minimapVisible,
+    }
+    table.insert(customPresets, preset)
+    saveCustomPresets()
+    showFeedback("💾 Preset shranjen: " .. preset.name .. " (skupaj " .. #customPresets .. " custom)")
 end
 
 -- Define chain display order and labels
@@ -1710,8 +1791,10 @@ function TechTreePanel.draw()
     for _ in pairs(multiSelect) do multiCount = multiCount + 1 end
     local multiStr = multiCount > 0 and string.format("  |  🔗 multi: %d", multiCount) or ""
 
-    -- v3.11.963: Preset indicator
-    local presetStr = string.format("  |  📋 preset: %s (%d/%d)", PRESETS[currentPresetIdx].name, currentPresetIdx, #PRESETS)
+    -- v3.11.963/965: Preset indicator (uses getAllPresets for built-in + custom)
+    local allPresets = getAllPresets()
+    local presetName = allPresets[currentPresetIdx] and allPresets[currentPresetIdx].name or "?"
+    local presetStr = string.format("  |  📋 preset: %s (%d/%d)", presetName, currentPresetIdx, #allPresets)
 
     -- v3.11.955: Stats summary — count active/met/locked nodes across all chains
     local activeCount, metCount, lockedCount, totalCount = 0, 0, 0, 0
@@ -2002,10 +2085,19 @@ function TechTreePanel.keypressed(key)
     end
 
     -- v3.11.963: P cycles through config presets
+    -- v3.11.965: Shift+P saves current config as a custom preset
     if key == "p" then
-        local newIdx = currentPresetIdx + 1
-        if newIdx > #PRESETS then newIdx = 1 end
-        applyPreset(newIdx)
+        local shiftDown = love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift")
+        if shiftDown then
+            -- Shift+P: save current config as custom preset
+            saveCurrentAsPreset()
+        else
+            -- P: cycle through all presets (built-in + custom)
+            local all = getAllPresets()
+            local newIdx = currentPresetIdx + 1
+            if newIdx > #all then newIdx = 1 end
+            applyPreset(newIdx)
+        end
         return true
     end
 

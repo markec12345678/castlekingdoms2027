@@ -2,6 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.965] — 2026-08-17 — Tech Tree Custom Presets (Shift+P shrani pogled, persisted)
+
+### Dodano
+- **TechTreePanel.lua** — custom presets z persistenco:
+  - **`Shift+P`** — shrani trenutno konfiguracijo kot custom preset (auto-named "Custom N")
+  - **`P`** — cikla skozi built-in + custom presets (custom so dodane po built-in)
+  - **`getAllPresets()`** — vrača built-in PRESETS + customPresets combined
+  - **`saveCurrentAsPreset()`** — shrani sortMode, stateFilter, bookmarksOnly, depthVisible, arrowsVisible, minimapVisible
+  - **Persistenca** — custom presets shranjeni v `tech_tree_custom_presets.txt`
+  - **Format** — en preset per vrstico, polja ločena z `|`: `name|sortMode|stateFilter|bookmarksOnly|depthVisible|arrowsVisible|minimapVisible`
+  - **Lazy load** — customPresetsLoaded flag, naloži ob prvem uporabi
+  - **Feedback message** — "💾 Preset shranjen: Custom N (skupaj M custom)"
+  - **Footer** — prikazuje total preset count (built-in + custom)
+  - **Wrap-around** — P cikla skozi vse presetov (5 built-in + N custom)
+
+### Spremenjene dateteke
+- `states/ui/hud/tech_tree_panel.lua` (+~60 vrstic) — customPresets/customPresetsLoaded state, loadCustomPresets()/saveCustomPresets(), getAllPresets() helper, applyPreset() z getAllPresets(), saveCurrentAsPreset(), P/Shift+P key handler, footer getAllPresets()
+- `states/ui/hud/keybind_help.lua` (+1 vrstica, 1 posodobljena) — Shift+P + P opis razširjen
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS (tech_tree_panel.lua + keybind_help.lua)
+- getAllPresets() — vrača combined list built-in + custom
+- Persistenca — love.filesystem.write/read, en preset per vrstico
+- Format — 7 polj per preset, ločena z `|`
+- Lazy load — customPresetsLoaded flag preprečuje ponovno nalaganje
+
+### Zaključeno
+- Pred: 5 fixed built-in presetov, igralec ni mogel shraniti lastnih pogledov
+- Sedaj: Shift+P shrani trenutno konfiguracijo kot custom preset, P cikla skozi vse
+
 ## [v3.11.964] — 2026-08-17 — Tech Tree Multi-Select Persistence (shranjevanje med sejami)
 
 ### Dodano
