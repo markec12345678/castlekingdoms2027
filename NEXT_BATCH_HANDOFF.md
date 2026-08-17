@@ -1,7 +1,7 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.977**
+- Različica: **v3.11.978**
 - Skupaj Royal sistemov: **990**
 - Skupaj Lua datotek: **1648**
 - Sintaktična preverba (avtentična Lua `load()`): **1648/1648 pass (100%)**
@@ -98,13 +98,14 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 - ✅ **v3.11.975**: Bookbinding+ Chain — 6 novih deps za obstoječe knjigoveške sisteme (BookClasp, CodexBinder, ChronicleBinder, BookbindingAwl, BookShelf, QuillCutter), KNJIGOVEZSTVO+ chain, 90→96 deps, 32→33 verig, 23→26 multi-prereq
 - ✅ **v3.11.976**: Textile+ Chain — 6 novih deps za obstoječe tekstilne/usnjarske sisteme (CanvasWeaver, CarpetLoom, DyeVat, Bobbin, ClothPresser, LeatherBurnisher), TEKSTIL+ chain, 96→102 deps, 33→34 verig, 26→30 multi-prereq; MEJNIK 100+ deps in 30+ multi-prereq
 - ✅ **v3.11.977**: Pottery+ Chain — 6 novih deps za obstoječe lončarske sisteme (ClayDigger, ClayPipe, GlazeSieve, MosaicTile, KilnFurniture, PotteryKiln), LONČARSTVO+ chain, 102→108 deps, 34→35 verig, 30→33 multi-prereq
+- ✅ **v3.11.978**: Musical Instruments+ Chain — 6 novih deps za obstoječe glasbilske sisteme (Harp, Lute, OrganPipe, Bagpipe, Cymbal, Shawm — vsi multi-prereq!), INSTRUMENTI+ chain, 108→114 deps, 35→36 verig, 33→39 multi-prereq; MEJNIK 39 multi-prereq (skoraj 5x začetnih 8)
 
 ## ZNANE NADGRADNJE ZA PRIHODNJE PAKETE
 
 1. **Sprite-i za Royal sisteme** — trenutno so samo podatkovni, brez grafične podobe
 2. **Tech tree node hover preview** — hover na vozlišče prikaže preview graf povezanih sistemov v tooltip box
 3. **Keybind Help hover tooltip** — hover na keybind v F1 help prikaže dodatne podrobnosti o bližnjici
-4. **Musical Instruments+ chain** — dodajanje novih glasbilskih dependencies za obstoječe sisteme
+4. **Candle/Wax+ chain** — dodajanje novih voščenih dependencies za obstoječe sisteme
 
 ## ZADNJE ZAKLJUČENI PAKET (v3.11.892–v3.11.901) — STEKLARSKI DODATKI 13 + LIVARSKI DODATKI 13
 

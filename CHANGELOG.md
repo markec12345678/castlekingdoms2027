@@ -2,6 +2,28 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.978] — 2026-08-17 — Musical Instruments+ Chain (6 novih deps: Harp, Lute, OrganPipe, Bagpipe, Cymbal, Shawm)
+
+### Dodano
+- **SystemDependencies.lua** — 6 novih dependencies za obstoječe glasbilske sisteme:
+  - HarpMaker → WoodLathe + SpinningWheel (multi-prereq! — strune iz tekstila)
+  - LuteMaker → WoodLathe + Metalwork (multi-prereq! — kovinske strune)
+  - OrganPipeMaker → Metalwork + WoodLathe (multi-prereq! — cevi + ohišje)
+  - BagpipeMaker → WoodLathe + RawhideTanner (multi-prereq! — usnjen meh)
+  - CymbalMaker → Metalwork + BellMaker (multi-prereq! — kovina iz zvonov)
+  - ShawmMaker → WoodLathe + Metalwork (multi-prereq! — les + kovina)
+- **TechTreePanel.lua** — nova INSTRUMENTI+ chain, footer posodobljen (114 deps · 36 verig · 39 multi-prereq)
+
+### Statistika
+- Prej: 990 sistemov, 108 deps, 35 verig, 33 multi-prereq (v3.11.977)
+- Sedaj: **990 sistemov, 114 deps, 36 verig, 39 multi-prereq** (v3.11.978)
+- 6 novih multi-prereq sistemi: vsi 6 novih sistemov so multi-prereq!
+- **MEJNIK: 39 multi-prereq sistemov — skoraj 5x več kot začetnih 8!**
+
+### Zaključeno
+- Pred: 2 glasbilski sistemi z dependencies (TrumpetMaker, FluteMaker)
+- Sedaj: 8 glasbilskih sistemov z dependencies (+ Harp, Lute, OrganPipe, Bagpipe, Cymbal, Shawm)
+
 ## [v3.11.977] — 2026-08-17 — Pottery+ Chain (6 novih deps: ClayDigger, ClayPipe, GlazeSieve, MosaicTile, KilnFurniture, PotteryKiln)
 
 ### Dodano

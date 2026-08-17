@@ -211,6 +211,14 @@ local dependencyGraph = {
     MosaicTileMaker    = {"MasonStonecutter", "BrickMaker"},
     KilnFurnitureMaker = {"PotteryWheel", "MasonStonecutter"},
     PotteryKiln        = {"PotteryWheel"},
+
+    -- v3.11.978: Musical Instruments+ chain (instruments → advanced instruments)
+    HarpMaker       = {"WoodLathe", "SpinningWheel"},
+    LuteMaker       = {"WoodLathe", "Metalwork"},
+    OrganPipeMaker  = {"Metalwork", "WoodLathe"},
+    BagpipeMaker    = {"WoodLathe", "RawhideTanner"},
+    CymbalMaker     = {"Metalwork", "BellMaker"},
+    ShawmMaker      = {"WoodLathe", "Metalwork"},
 }
 
 -- Register a dependency at runtime (for modding/extensibility)
