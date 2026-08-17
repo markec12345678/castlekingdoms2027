@@ -2,6 +2,35 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.961] — 2026-08-16 — Tech Tree Multi-Select (Shift+click za izbiro več vozlišč, union sorodnih)
+
+### Dodano
+- **TechTreePanel.lua** — multi-select za primerjavo več sistemov hkrati:
+  - **`Shift+click`** — doda/odstrani vozlišče iz `multiSelect` seta
+  - **`C` tipka** — počisti multi-select in fokus
+  - **Union sorodnih** — ko je multi-select aktiven, relatedSet = UNION vseh izbranih vozlišč' related setov
+  - **Dimming** — neujemajoča vozlišča zatemnjena (fokusAktiven = selectedKey OR multiSelect)
+  - **isSelected** — vozlišče je "selected" če je v multiSelect setu ali je selectedKey
+  - **Header dimming** — verige zatemnjene ko je multi-select aktiven
+  - **Footer** — prikazuje število izbranih: '🔗 multi: N'
+  - **Click na prazno** — počisti multi-select in fokus
+  - **Regular click** — počisti multi-select in nastavi single focus (obnašanje kot prej)
+
+### Spremenjene datoteke
+- `states/ui/hud/tech_tree_panel.lua` (+~50 vrstic) — multiSelect state, drawGraph union related set, drawNode focusDim z multiActive, mousepressed Shift+click handler + C key handler, footer multi count, hint text update, toggle() reset
+- `states/ui/hud/keybind_help.lua` (+2 vrstici) — Shift+Click in C opisa
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS (tech_tree_panel.lua + keybind_help.lua)
+- Union computation — for each key in multiSelect, compute related set and merge
+- Dim logic — focusDim = (focusActive OR multiActive) AND not isRelated AND not isSelected
+- Regular click clears multi-select — prevents stale multi-select when switching to single focus
+- C key — clears both multi-select and single focus
+
+### Zaključeno
+- Pred: click-to-focus je delal samo na enem vozlišču
+- Sedaj: Shift+click omogoča izbiro več sistemov — igralec vidi skupne odvisnosti/potomce vseh izbranih
+
 ## [v3.11.960] — 2026-08-16 — Market Dashboard Quick-Jump (2x click na produkt odpre Royal Systems Panel)
 
 ### Dodano

@@ -84,6 +84,8 @@ local KEYBINDS = {
             { key = "Enter",    desc = "Potrdi iskanje (filter ostane aktiven)" },
             { key = "Backspace", desc = "Briši zadnji znak iskanja" },
             { key = "Click",    desc = "Klik na vozlišče: fokusira sorodne (poudari, druga zatemni)" },
+            { key = "Shift+Click", desc = "Dodaj/odstrani vozlišče iz multi-izbire (primerjaj več sistemov)" },
+            { key = "C",        desc = "Počisti multi-izbiro in fokus" },
             { key = "2x Click", desc = "Dvaklik na vozlišče: odpri Royal Systems Panel (Ctrl+R) in skoči na sistem" },
             { key = "T",        desc = "Preklopi pot: direktno (1 stopnja) ↔ celotna pot (transitivno)" },
             { key = "M",        desc = "Skrij/prikaži minimap (pregledni graf v kotu, click za skok)" },

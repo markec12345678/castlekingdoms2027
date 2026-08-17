@@ -98,6 +98,12 @@ local bookmarks = {}
 local bookmarksOnly = false
 local bookmarksLoaded = false  -- lazy load on first use
 
+-- Multi-select state (v3.11.961)
+-- Shift+click adds/removes nodes from multiSelect set.
+-- When non-empty, the related set is the UNION of all selected keys' related sets.
+-- This lets the player compare multiple systems' tech lineages at once.
+local multiSelect = {}  -- map: key -> true
+
 -- Define chain display order and labels
 local CHAINS = {
     { label = "KOVANJE METALOV", base = "Metalwork", systems = {"BellMaker", "ChainmailForger", "SwordPommelMaker", "GauntletMaker", "CoinDieMaker", "CoinPressMaker"} },
@@ -153,6 +159,7 @@ function TechTreePanel.toggle()
     stateFilter = "all"
     keyboardNavIndex = nil
     keyboardNavList = nil
+    multiSelect = {}
 end
 
 function TechTreePanel.isVisible()
@@ -702,7 +709,11 @@ local function drawNode(node, font, smallFont, isRelated, isSelected, isMatched,
     -- OR if search is active and this node doesn't match
     -- OR if state filter is active and this node doesn't match
     -- OR if bookmarksOnly is active and this node is not bookmarked
-    local focusDim = (selectedKey ~= nil) and (not isRelated) and (not isSelected)
+    -- v3.11.961: focusDim also considers multiSelect (if any multi-select is active)
+    local focusActive = selectedKey ~= nil
+    local multiActive = false
+    for _ in pairs(multiSelect) do multiActive = true; break end
+    local focusDim = (focusActive or multiActive) and (not isRelated) and (not isSelected)
     local searchDim = (searchActive and searchQuery ~= "") and (not isMatched)
     local stateDim = (stateFilter ~= "all") and (not isStateMatched)
     local bookmarkDim = bookmarksOnly and (not bm)
@@ -932,9 +943,22 @@ function TechTreePanel.drawGraph(panelX, contentTop, contentAreaH, panelW, small
     local chains = computeGraphLayout(panelX, contentTop - scrollOffset)
 
     -- v3.11.945: compute related set if a node is focused
+    -- v3.11.961: If multi-select is active, compute UNION of all selected keys' related sets
     local relatedSet = nil
     if selectedKey then
         relatedSet = computeRelatedKeys(selectedKey)
+    end
+    -- v3.11.961: Merge multi-select related sets
+    local hasMulti = false
+    for _ in pairs(multiSelect) do hasMulti = true; break end
+    if hasMulti then
+        if not relatedSet then relatedSet = {} end
+        for mk, _ in pairs(multiSelect) do
+            local mkRelated = computeRelatedKeys(mk)
+            for k, _ in pairs(mkRelated) do
+                relatedSet[k] = true
+            end
+        end
     end
 
     -- Pass 1: draw all connections (behind nodes)
@@ -955,6 +979,8 @@ function TechTreePanel.drawGraph(panelX, contentTop, contentAreaH, panelW, small
     if selectedKey then headerAlpha = 0.4 end
     if searchActive and searchQuery ~= "" then headerAlpha = math.min(headerAlpha, 0.4) end
     if stateFilter ~= "all" then headerAlpha = math.min(headerAlpha, 0.4) end
+    -- v3.11.961: Also dim headers when multi-select is active
+    if hasMulti then headerAlpha = 0.4 end
     for _, chain in ipairs(chains) do
         love.graphics.setFont(smallFont)
         love.graphics.setColor(0.6, 0.5, 0.3, headerAlpha)
@@ -962,17 +988,20 @@ function TechTreePanel.drawGraph(panelX, contentTop, contentAreaH, panelW, small
     end
 
     -- Pass 3: draw all nodes
+    -- v3.11.961: isRelated considers both selectedKey and multiSelect
     for _, chain in ipairs(chains) do
         for _, node in ipairs(chain.baseNodes) do
-            local isRelated = (not selectedKey) or (relatedSet[node.key] ~= nil)
-            local isSelected = (selectedKey == node.key)
+            local focusActive = selectedKey ~= nil or hasMulti
+            local isRelated = (not focusActive) or (relatedSet and relatedSet[node.key] ~= nil)
+            local isSelected = (selectedKey == node.key) or multiSelect[node.key] ~= nil
             local isMatched = isSearchMatch(node.key)
             local isStateMatched = isStateFilterMatch(node.key, node.isBase)
             drawNode(node, font, smallFont, isRelated, isSelected, isMatched, isStateMatched)
         end
         for _, node in ipairs(chain.depNodes) do
-            local isRelated = (not selectedKey) or (relatedSet[node.key] ~= nil)
-            local isSelected = (selectedKey == node.key)
+            local focusActive = selectedKey ~= nil or hasMulti
+            local isRelated = (not focusActive) or (relatedSet and relatedSet[node.key] ~= nil)
+            local isSelected = (selectedKey == node.key) or multiSelect[node.key] ~= nil
             local isMatched = isSearchMatch(node.key)
             local isStateMatched = isStateFilterMatch(node.key, node.isBase)
             drawNode(node, font, smallFont, isRelated, isSelected, isMatched, isStateMatched)
@@ -1385,7 +1414,7 @@ function TechTreePanel.draw()
     love.graphics.setColor(0.5, 0.6, 0.7, 1)
     if smallFont then love.graphics.setFont(smallFont) end
     local hintStr = viewMode == "graph"
-        and "Ctrl+Shift+G: zapri  |  G: tekst  |  /: iskanje  |  Tab: naslednji  |  click: fokus  |  B: ★  |  Shift+B: filter ★  |  T: pot  |  M: minimap  |  D: globina  |  A: puščice  |  S: sort  |  L: filter  |  F/ESC: počisti"
+        and "Ctrl+Shift+G: zapri  |  G: tekst  |  /: iskanje  |  Tab: naslednji  |  click: fokus  |  Shift+click: multi  |  C: počisti  |  B: ★  |  T: pot  |  M: minimap  |  D: globina  |  A: puščice  |  S: sort  |  L: filter  |  F/ESC: počisti"
         or  "Ctrl+Shift+G: zapri  |  G: graf  |  /: iskanje  |  ↑↓/wheel: scroll  |  zelena=met  oranžna=ne met"
     love.graphics.print(hintStr, panelX + 16, panelY + 36)
     love.graphics.setFont(font)
@@ -1496,6 +1525,11 @@ function TechTreePanel.draw()
     for _ in pairs(bookmarks) do bookmarkCount = bookmarkCount + 1 end
     local bookmarkStr = string.format("  |  ★ %d%s", bookmarkCount, bookmarksOnly and " (filter)" or "")
 
+    -- v3.11.961: Multi-select count
+    local multiCount = 0
+    for _ in pairs(multiSelect) do multiCount = multiCount + 1 end
+    local multiStr = multiCount > 0 and string.format("  |  🔗 multi: %d", multiCount) or ""
+
     -- v3.11.955: Stats summary — count active/met/locked nodes across all chains
     local activeCount, metCount, lockedCount, totalCount = 0, 0, 0, 0
     for _, chain in ipairs(CHAINS) do
@@ -1556,8 +1590,8 @@ function TechTreePanel.draw()
     love.graphics.print(pctStr, pbX + (pbW - pctW) / 2, pbY - 12)
 
     love.graphics.setColor(0.4, 0.45, 0.5, 1)
-    love.graphics.print(string.format("65 deps · 25 verig · 8 multi-prereq · mode: %s%s%s%s%s%s%s",
-        viewMode, focusStr, pathStr, searchStr, sortStr, filterStr, bookmarkStr),
+    love.graphics.print(string.format("65 deps · 25 verig · 8 multi-prereq · mode: %s%s%s%s%s%s%s%s",
+        viewMode, focusStr, pathStr, searchStr, sortStr, filterStr, bookmarkStr, multiStr),
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)
 
@@ -1720,6 +1754,18 @@ function TechTreePanel.keypressed(key)
             if targetKey then
                 toggleBookmark(targetKey)
             end
+        end
+        return true
+    end
+
+    -- v3.11.961: C clears multi-select (and single focus)
+    if key == "c" then
+        local hasMulti = false
+        for _ in pairs(multiSelect) do hasMulti = true; break end
+        if selectedKey or hasMulti then
+            selectedKey = nil
+            multiSelect = {}
+            return true
         end
         return true
     end
@@ -1894,19 +1940,37 @@ function TechTreePanel.mousepressed(x, y, button)
                 return true
             end
             -- Single click: record for double-click detection, toggle focus
+            -- v3.11.961: Shift+click adds/removes from multi-select instead of single focus
             lastClickTime = now
             lastClickKey = clickedKey
-            if selectedKey == clickedKey then
+            local shiftDown = love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift")
+            if shiftDown then
+                -- Shift+click: toggle in multi-select
+                if multiSelect[clickedKey] then
+                    multiSelect[clickedKey] = nil
+                else
+                    multiSelect[clickedKey] = true
+                end
+                -- Clear single selection when using multi-select
                 selectedKey = nil
             else
-                selectedKey = clickedKey
+                -- Regular click: clear multi-select, set single focus
+                multiSelect = {}
+                if selectedKey == clickedKey then
+                    selectedKey = nil
+                else
+                    selectedKey = clickedKey
+                end
             end
             return true
         end
 
-        -- Click on empty space inside panel: clear focus
-        if selectedKey then
+        -- Click on empty space inside panel: clear focus and multi-select
+        local hasMulti = false
+        for _ in pairs(multiSelect) do hasMulti = true; break end
+        if selectedKey or hasMulti then
             selectedKey = nil
+            multiSelect = {}
             return true
         end
     end
