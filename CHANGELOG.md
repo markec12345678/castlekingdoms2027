@@ -2,6 +2,27 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.975] — 2026-08-17 — Bookbinding+ Chain (6 novih deps: BookClasp, CodexBinder, ChronicleBinder, BookbindingAwl, BookShelf, QuillCutter)
+
+### Dodano
+- **SystemDependencies.lua** — 6 novih dependencies za obstoječe knjigoveške sisteme:
+  - BookClaspMaker → WoodLathe + Metalwork (multi-prereq!)
+  - CodexBinder → BookPress + ParchmentMaker (multi-prereq!)
+  - ChronicleBinder → BookbindingPress + InkMaker (multi-prereq!)
+  - BookbindingAwlMaker → Metalwork
+  - BookShelfMaker → WoodLathe
+  - QuillCutterMaker → Metalwork
+- **TechTreePanel.lua** — nova KNJIGOVEZSTVO+ chain, footer posodobljen (96 deps · 33 verig · 26 multi-prereq)
+
+### Statistika
+- Prej: 990 sistemov, 90 deps, 32 verig, 23 multi-prereq (v3.11.974)
+- Sedaj: **990 sistemov, 96 deps, 33 verig, 26 multi-prereq** (v3.11.975)
+- 3 novi multi-prereq sistemi: BookClaspMaker, CodexBinder, ChronicleBinder
+
+### Zaključeno
+- Pred: 4 knjigoveški sistemi z dependencies (BookPress, BookbindingPress, EaselMaker, BoardGameMaker)
+- Sedaj: 10 knjigoveških sistemov z dependencies (+ BookClasp, CodexBinder, ChronicleBinder, BookbindingAwl, BookShelf, QuillCutter)
+
 ## [v3.11.974] — 2026-08-17 — Foundry+ Chain (6 novih deps: Crucible, CrucibleFurnace, CastingLadle, CoreBox, SandMuller, IngotMolder)
 
 ### Dodano

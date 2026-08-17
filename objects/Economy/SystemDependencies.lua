@@ -187,6 +187,14 @@ local dependencyGraph = {
     CoreBoxMaker         = {"ForgeTuyere"},
     SandMullerMaker      = {"ForgeTuyere"},
     IngotMolderMaker     = {"ForgeTuyere", "Metalwork"},
+
+    -- v3.11.975: Bookbinding+ chain (woodworking → advanced bookmaking)
+    BookClaspMaker      = {"WoodLathe", "Metalwork"},
+    CodexBinder         = {"BookPress", "ParchmentMaker"},
+    ChronicleBinder     = {"BookbindingPress", "InkMaker"},
+    BookbindingAwlMaker = {"Metalwork"},
+    BookShelfMaker      = {"WoodLathe"},
+    QuillCutterMaker    = {"Metalwork"},
 }
 
 -- Register a dependency at runtime (for modding/extensibility)
