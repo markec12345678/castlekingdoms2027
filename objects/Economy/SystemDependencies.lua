@@ -283,6 +283,15 @@ local dependencyGraph = {
     PickaxeMaker     = {"Metalwork"},
     AshShovelMaker   = {"WoodLathe"},
     CharcoalBurner   = {"Metalwork", "ForgeTuyere"},
+
+    -- v3.11.987: Armor/Weapon+ chain (metalwork + wood + cross-chain → advanced arms & armor)
+    -- 5 multi-prereq out of 6; 2 CROSS-CHAIN links (GemMiner→Mining+, RawhideTanner→Leatherwork+)
+    CeremonialSwordMaker = {"Metalwork", "GemMiner"},      -- multi! CROSS-CHAIN: ceremonial sword needs jeweled hilt
+    HalberdSmith          = {"Metalwork", "WoodLathe"},    -- multi! polearm: metal head + wooden shaft
+    LongbowMaker          = {"WoodLathe"},                  -- shaped wooden stave
+    RecurveBowMaker       = {"WoodLathe", "RawhideTanner"}, -- multi! CROSS-CHAIN: composite bow uses leather/sinew
+    ParadeShieldMaker    = {"Metalwork", "RawhideTanner"}, -- multi! CROSS-CHAIN: shield with leather backing
+    PresentationAxeMaker = {"Metalwork", "WoodLathe"},    -- multi! axe: metal head + wooden handle
 }
 
 -- Register a dependency at runtime (for modding/extensibility)

@@ -2,6 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.987] — 2026-08-18 — Armor/Weapon+ Chain (6 novih deps: 5 multi-prereq, 2 CROSS-CHAIN!)
+
+### Dodano
+- **SystemDependencies** — 6 novih dependencies za obstoječe oklepno/orožne sisteme:
+  * `CeremonialSwordMaker` → `Metalwork` + `GemMiner` (multi-prereq! CROSS-CHAIN: ceremonial sword needs jeweled hilt — povezuje z RUDARSTVO+ verigo iz v3.11.986)
+  * `HalberdSmith` → `Metalwork` + `WoodLathe` (multi-prereq! polearm: kovina glava + leseno ročaj)
+  * `LongbowMaker` → `WoodLathe` (oblikovan leseni lok)
+  * `RecurveBowMaker` → `WoodLathe` + `RawhideTanner` (multi-prereq! CROSS-CHAIN: kompozitni lok uporablja usnje/kit — povezuje z USNJE+ verigo iz v3.11.935)
+  * `ParadeShieldMaker` → `Metalwork` + `RawhideTanner` (multi-prereq! CROSS-CHAIN: ščit z usnjenim podstavkom)
+  * `PresentationAxeMaker` → `Metalwork` + `WoodLathe` (multi-prereq! sekira: kovina glava + leseno ročaj)
+- **TechTreePanel**: OKLEP IN OROŽJE+ chain, footer (168 deps, 45 verig, 78 multi-prereq)
+- **MEJNIK**: 168 deps, 45 verig, 78 multi-prereq — 10x več multi-prereq kot začetnih 8!
+- 2 CROSS-CHAIN povezave:
+  1. `CeremonialSwordMaker` → `GemMiner` (povezuje OKLEP IN OROŽJE+ z RUDARSTVO+)
+  2. `RecurveBowMaker` + `ParadeShieldMaker` → `RawhideTanner` (povezuje OKLEP IN OROŽJE+ z USNJE+)
+- Pred: 162 deps, 44 verig, 73 multi-prereq
+- Sedaj: 168 deps, 45 verig, 78 multi-prereq
+- Oklepno/orožna veriga sedaj ima 6 sistemov z dependencies (0 prej + 6 novih)
+
+### Spremenjene datoteke
+- `objects/Economy/SystemDependencies.lua` (+10 vrstic) — 6 novih dependency vnosov v dependencyGraph
+- `states/ui/hud/tech_tree_panel.lua` (+2 vrstici) — nova CHAINS entry za OKLEP IN OROŽJE+ in posodobljen footer counter (168/45/78)
+- `README.md` — posodobljeni badges (v3.11.987, +ArmorWeaponChain, statistika)
+- `CHANGELOG.md` — dodan v3.11.987 entry
+- `NEXT_BATCH_HANDOFF.md` — posodobljeno stanje, "Armor/Weapon+ chain" premaknjen v ZAKLJUČENE
+
+### Funkcionalna preverba
+- Lupa `load()` test: obe spremenjeni datoteki PASS
+- Število dependencyGraph vnosov preverjeno s Python regex: 168 vnosov, 78 multi-prereq — ujema se s footerjem
+
 ## [v3.11.986] — 2026-08-17 — Mining+ Chain (6 novih deps: Auger, DrillPress, GemMiner, Pickaxe, AshShovel, CharcoalBurner)
 
 ### Dodano

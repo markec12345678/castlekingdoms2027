@@ -364,6 +364,8 @@ local CHAINS = {
     { label = "URARSTVO+", base = "MasonStonecutter+Metalwork+GlassBench+BellMaker+WoodLathe+PigmentGrinderMaker", systems = {"SundialMaker", "PocketWatchMaker", "MainspringWinderMaker", "EscapementLeverMaker", "PendulumRodMaker", "ClockFacePainter"}, multiBase = true, bases = {"MasonStonecutter", "Metalwork", "GlassBench", "BellMaker", "WoodLathe", "PigmentGrinderMaker"} },
     -- v3.11.986: Mining+ chain
     { label = "RUDARSTVO+", base = "Metalwork+WoodLathe+PickaxeMaker+ForgeTuyere", systems = {"AugerMaker", "DrillPressMaker", "GemMiner", "PickaxeMaker", "AshShovelMaker", "CharcoalBurner"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "PickaxeMaker", "ForgeTuyere"} },
+    -- v3.11.987: Armor/Weapon+ chain (5 multi-prereq, 2 CROSS-CHAIN links)
+    { label = "OKLEP IN OROŽJE+", base = "Metalwork+WoodLathe+GemMiner+RawhideTanner", systems = {"CeremonialSwordMaker", "HalberdSmith", "LongbowMaker", "RecurveBowMaker", "ParadeShieldMaker", "PresentationAxeMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "GemMiner", "RawhideTanner"} },
 }
 
 -- Node dimensions for graph view
@@ -1926,7 +1928,7 @@ function TechTreePanel.draw()
     love.graphics.print(pctStr, pbX + (pbW - pctW) / 2, pbY - 12)
 
     love.graphics.setColor(0.4, 0.45, 0.5, 1)
-    love.graphics.print(string.format("162 deps · 44 verig · 73 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
+    love.graphics.print(string.format("168 deps · 45 verig · 78 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
         viewMode, focusStr, pathStr, searchStr, sortStr, filterStr, bookmarkStr, multiStr, presetStr),
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)
