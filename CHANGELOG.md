@@ -2,6 +2,33 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.966] — 2026-08-17 — Tech Tree Custom Preset Deletion (Shift+X izbriše custom preset)
+
+### Dodano
+- **TechTreePanel.lua** — brisanje custom presetov:
+  - **`Shift+X`** — izbriše trenutno izbran custom preset (samo če je custom, ne built-in)
+  - **`deleteCurrentCustomPreset()`** — preverja ali je currentPresetIdx > #PRESETS (custom), table.remove, saveCustomPresets
+  - **Built-in zaščita** — če currentPresetIdx <= #PRESETS, prikaže "✗ Built-in presetov ni mogoče brisati"
+  - **Prazna zaščita** — če ni custom presetov, prikaže "✗ Ni custom presetov za brisanje"
+  - **Index adjust** — po brisanju currentPresetIdx se prilagodi (clamped na totalPresets)
+  - **Feedback message** — "🗑 Preset izbrisan: <ime> (ostalo N custom)"
+  - **Persistenca** — saveCustomPresets() shrani posodobljeno listo
+
+### Spremenjene dateteke
+- `states/ui/hud/tech_tree_panel.lua` (+~35 vrstic) — deleteCurrentCustomPreset() funkcija, Shift+X key handler
+- `states/ui/hud/keybind_help.lua` (+1 vrstica) — Shift+X opis
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS (tech_tree_panel.lua + keybind_help.lua)
+- Built-in zaščita — preverja currentPresetIdx <= #PRESETS
+- Custom index — customIdx = currentPresetIdx - #PRESETS (1-indexed v customPresets)
+- Index adjust — po brisanju clamp na totalPresets (preprečuje out-of-bounds)
+- Persistenca — saveCustomPresets() shrani posodobljeno listo
+
+### Zaključeno
+- Pred: custom presets so se kopičili, igralec jih ni mogel brisati
+- Sedaj: Shift+X izbriše trenutno izbran custom preset z feedback message
+
 ## [v3.11.965] — 2026-08-17 — Tech Tree Custom Presets (Shift+P shrani pogled, persisted)
 
 ### Dodano

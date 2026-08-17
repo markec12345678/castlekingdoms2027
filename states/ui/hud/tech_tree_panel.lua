@@ -265,6 +265,40 @@ local function saveCurrentAsPreset()
     showFeedback("💾 Preset shranjen: " .. preset.name .. " (skupaj " .. #customPresets .. " custom)")
 end
 
+-- v3.11.966: Delete the currently selected custom preset (if it's a custom one)
+-- Built-in presets (index 1..#PRESETS) cannot be deleted.
+local function deleteCurrentCustomPreset()
+    loadCustomPresets()
+    if #customPresets == 0 then
+        showFeedback("✗ Ni custom presetov za brisanje")
+        return
+    end
+    -- Check if currentPresetIdx points to a custom preset
+    if currentPresetIdx <= #PRESETS then
+        showFeedback("✗ Built-in presetov ni mogoče brisati")
+        return
+    end
+    -- Calculate the custom preset index (0-indexed within customPresets)
+    local customIdx = currentPresetIdx - #PRESETS
+    if customIdx < 1 or customIdx > #customPresets then
+        showFeedback("✗ Ni custom presetov za brisanje")
+        return
+    end
+    local name = customPresets[customIdx].name
+    table.remove(customPresets, customIdx)
+    saveCustomPresets()
+    -- Adjust currentPresetIdx: go to the previous preset (or last if we deleted the last)
+    local totalPresets = #PRESETS + #customPresets
+    if totalPresets > 0 then
+        if currentPresetIdx > totalPresets then
+            currentPresetIdx = totalPresets
+        end
+    else
+        currentPresetIdx = 1
+    end
+    showFeedback("🗑 Preset izbrisan: " .. name .. " (ostalo " .. #customPresets .. " custom)")
+end
+
 -- Define chain display order and labels
 local CHAINS = {
     { label = "KOVANJE METALOV", base = "Metalwork", systems = {"BellMaker", "ChainmailForger", "SwordPommelMaker", "GauntletMaker", "CoinDieMaker", "CoinPressMaker"} },
@@ -2099,6 +2133,15 @@ function TechTreePanel.keypressed(key)
             applyPreset(newIdx)
         end
         return true
+    end
+
+    -- v3.11.966: Shift+X deletes current custom preset (only if it's custom, not built-in)
+    if key == "x" then
+        local shiftDown = love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift")
+        if shiftDown then
+            deleteCurrentCustomPreset()
+            return true
+        end
     end
 
     -- v3.11.945: ESC clears focus first if set, otherwise closes panel

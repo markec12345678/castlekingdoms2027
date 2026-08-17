@@ -101,6 +101,7 @@ local KEYBINDS = {
             { key = "Shift+E",  desc = "Uvozi konfiguracijo iz odložišča" },
             { key = "P",        desc = "Ciklaj preset (Vsi → Aktivni → Razpoložljivi → Zaklenjeni → Zaznamovani → Custom...)" },
             { key = "Shift+P",  desc = "Shrani trenutno konfiguracijo kot custom preset (persisted)" },
+            { key = "Shift+X",  desc = "Izbriši trenutno izbran custom preset (built-in ni mogoče brisati)" },
             { key = "F",        desc = "Počisti fokus (ali klik ponovno na isto vozlišče)" },
             { key = "Hover",    desc = "V graf pogledu: prikaži podrobnosti odvisnosti + število odvisnikov" },
             { key = "↑ ↓",      desc = "Scroll po verigah" },
