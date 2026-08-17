@@ -2,6 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.988] — 2026-08-18 — Anvil+ Chain (6 novih deps: 5 multi-prereq, 2 CROSS-CHAIN!)
+
+### Dodano
+- **SystemDependencies** — 6 novih dependencies za obstoječe sisteme z Anvil priborom in kovaško opremo:
+  * `AnvilClampMaker` → `Metalwork` + `ForgeTuyere` (multi! workholding clamp: kovina telo + kovaška vijačna vez)
+  * `AnvilFaceHardenerMaker` → `Metalwork` + `ForgeTuyere` (multi! postopek strjevanja: kovina + toplotna obdelava)
+  * `AnvilHardyMaker` → `Metalwork` + `ForgeTuyere` (multi! hardy hole rezilno orodje: kovano jeklo)
+  * `AnvilHornPolisherMaker` → `Metalwork` + `GlassBench` (multi! CROSS-CHAIN: poliranje uporablja abrazivno steklo — povezuje s STEKLARSTVO+ verigo iz v3.11.973)
+  * `AnvilSaddleBlockMaker` → `WoodLathe` + `ForgeTuyere` (multi! CROSS-CHAIN: lesena sedežna blokada na kovaštvu — povezuje z Lesarstvom)
+  * `AnvilStumpWedgeMaker` → `WoodLathe` (oblikovani leseni zagozdi za nivelacijo nakovala)
+- **TechTreePanel**: NAKOVALO+ chain, footer (174 deps, 46 verig, 83 multi-prereq)
+- **MEJNIK**: 174 deps, 46 verig, 83 multi-prereq — 10.4x več multi-prereq kot začetnih 8!
+- 2 CROSS-CHAIN povezave:
+  1. `AnvilHornPolisherMaker` → `GlassBench` (povezuje NAKOVALO+ s STEKLARSTVO+)
+  2. `AnvilSaddleBlockMaker` → `WoodLathe` (povezuje NAKOVALO+ z INSTRUMENTI+/KNJIGOVEZSTVO+/URARSTVO+ ki uporabljajo WoodLathe)
+- Pred: 168 deps, 45 verig, 78 multi-prereq
+- Sedaj: 174 deps, 46 verig, 83 multi-prereq
+- Veriga Anvil pribora sedaj ima 6 sistemov z dependencies (0 prej + 6 novih)
+
+### Spremenjene datoteke
+- `objects/Economy/SystemDependencies.lua` (+9 vrstic) — 6 novih dependency vnosov v dependencyGraph
+- `states/ui/hud/tech_tree_panel.lua` (+2 vrstici) — nova CHAINS entry za NAKOVALO+ in posodobljen footer counter (174/46/83)
+- `README.md` — posodobljeni badges (v3.11.988, +AnvilChain, statistika)
+- `CHANGELOG.md` — dodan v3.11.988 entry
+- `NEXT_BATCH_HANDOFF.md` — posodobljeno stanje, "Anvil+ chain" dodan v ZAKLJUČENE
+
+### Funkcionalna preverba
+- Lupa `load()` test: obe spremenjeni datoteki PASS
+- Število dependencyGraph vnosov preverjeno s Python regex: 174 vnosov, 83 multi-prereq — ujema se s footerjem
+
 ## [v3.11.987] — 2026-08-18 — Armor/Weapon+ Chain (6 novih deps: 5 multi-prereq, 2 CROSS-CHAIN!)
 
 ### Dodano

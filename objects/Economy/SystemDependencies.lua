@@ -292,6 +292,15 @@ local dependencyGraph = {
     RecurveBowMaker       = {"WoodLathe", "RawhideTanner"}, -- multi! CROSS-CHAIN: composite bow uses leather/sinew
     ParadeShieldMaker    = {"Metalwork", "RawhideTanner"}, -- multi! CROSS-CHAIN: shield with leather backing
     PresentationAxeMaker = {"Metalwork", "WoodLathe"},    -- multi! axe: metal head + wooden handle
+
+    -- v3.11.988: Anvil+ chain (forge → advanced anvil accessories & blacksmithing equipment)
+    -- 5 multi-prereq out of 6; 2 CROSS-CHAIN links (GlassBench→Steklarstvo+, WoodLathe→Woodworking+)
+    AnvilClampMaker        = {"Metalwork", "ForgeTuyere"},   -- multi! workholding clamp: metal body + forge bolts
+    AnvilFaceHardenerMaker = {"Metalwork", "ForgeTuyere"},  -- multi! hardening process: metal + heat treatment
+    AnvilHardyMaker        = {"Metalwork", "ForgeTuyere"},  -- multi! hardy hole cutting tool: forged steel
+    AnvilHornPolisherMaker = {"Metalwork", "GlassBench"},   -- multi! CROSS-CHAIN: polishing uses glass abrasive
+    AnvilSaddleBlockMaker  = {"WoodLathe", "ForgeTuyere"},  -- multi! CROSS-CHAIN: wooden saddle block on forge
+    AnvilStumpWedgeMaker   = {"WoodLathe"},                  -- shaped wooden wedges for anvil leveling
 }
 
 -- Register a dependency at runtime (for modding/extensibility)
