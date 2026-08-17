@@ -2,6 +2,28 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.980] — 2026-08-17 — Fishing+ Chain (6 novih deps: FishHook, BaitBox, FishingLineSpool, FishingRod, FishSmoker, FishingBoat)
+
+### Dodano
+- **SystemDependencies.lua** — 6 novih dependencies za obstoječe ribiške sisteme:
+  - FishHookMaker → Metalwork
+  - BaitBoxMaker → NetMaker + WoodLathe (multi-prereq!)
+  - FishingLineSpoolMaker → NetMaker
+  - FishingRodMaker → NetMaker + WoodLathe (multi-prereq!)
+  - FishSmoker → NetMaker + ForgeTuyere (multi-prereq!)
+  - FishingBoatMaker → NetMaker + WoodLathe (multi-prereq!)
+- **TechTreePanel.lua** — nova RIBOLOV+ chain, footer posodobljen (126 deps · 38 verig · 47 multi-prereq)
+
+### Statistika
+- Prej: 990 sistemov, 120 deps, 37 verig, 43 multi-prereq (v3.11.979)
+- Sedaj: **990 sistemov, 126 deps, 38 verig, 47 multi-prereq** (v3.11.980)
+- 4 novi multi-prereq sistemi: BaitBoxMaker, FishingRodMaker, FishSmoker, FishingBoatMaker
+- **MEJNIK: 126 deps in 47 multi-prereq — skoraj 6x več multi-prereq kot začetnih 8!**
+
+### Zaključeno
+- Pred: 2 ribiška sistema z dependencies (FishingRodMaker, FishingTrapMaker)
+- Sedaj: 8 ribiških sistemov z dependencies (+ FishHook, BaitBox, FishingLineSpool, FishSmoker, FishingBoat)
+
 ## [v3.11.979] — 2026-08-17 — Candle/Wax+ Chain (6 novih deps: Candelabra, Chandelier, Candlestick, CandleMold, WaxDipper, LanternStreetLight)
 
 ### Dodano

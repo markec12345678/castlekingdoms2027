@@ -227,6 +227,14 @@ local dependencyGraph = {
     CandleMoldMaker   = {"WaxTablet"},
     WaxDipperMaker    = {"WaxTablet"},
     LanternStreetLight = {"Metalwork", "GlassBench"},
+
+    -- v3.11.980: Fishing+ chain (net making → advanced fishing)
+    FishHookMaker      = {"Metalwork"},
+    BaitBoxMaker       = {"NetMaker", "WoodLathe"},
+    FishingLineSpoolMaker = {"NetMaker"},
+    FishingRodMaker    = {"NetMaker", "WoodLathe"},
+    FishSmoker         = {"NetMaker", "ForgeTuyere"},
+    FishingBoatMaker   = {"NetMaker", "WoodLathe"},
 }
 
 -- Register a dependency at runtime (for modding/extensibility)

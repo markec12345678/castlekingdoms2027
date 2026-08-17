@@ -1,7 +1,7 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.979**
+- Različica: **v3.11.980**
 - Skupaj Royal sistemov: **990**
 - Skupaj Lua datotek: **1648**
 - Sintaktična preverba (avtentična Lua `load()`): **1648/1648 pass (100%)**
@@ -100,13 +100,14 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 - ✅ **v3.11.977**: Pottery+ Chain — 6 novih deps za obstoječe lončarske sisteme (ClayDigger, ClayPipe, GlazeSieve, MosaicTile, KilnFurniture, PotteryKiln), LONČARSTVO+ chain, 102→108 deps, 34→35 verig, 30→33 multi-prereq
 - ✅ **v3.11.978**: Musical Instruments+ Chain — 6 novih deps za obstoječe glasbilske sisteme (Harp, Lute, OrganPipe, Bagpipe, Cymbal, Shawm — vsi multi-prereq!), INSTRUMENTI+ chain, 108→114 deps, 35→36 verig, 33→39 multi-prereq; MEJNIK 39 multi-prereq (skoraj 5x začetnih 8)
 - ✅ **v3.11.979**: Candle/Wax+ Chain — 6 novih deps za obstoječe voščene/svečne sisteme (Candelabra, Chandelier, Candlestick, CandleMold, WaxDipper, LanternStreetLight), SVEČE IN VOSAK+ chain, 114→120 deps, 36→37 verig, 39→43 multi-prereq; MEJNIK 120 deps in 43 multi-prereq
+- ✅ **v3.11.980**: Fishing+ Chain — 6 novih deps za obstoječe ribiške sisteme (FishHook, BaitBox, FishingLineSpool, FishingRod, FishSmoker, FishingBoat), RIBOLOV+ chain, 120→126 deps, 37→38 verig, 43→47 multi-prereq; MEJNIK 126 deps in 47 multi-prereq (skoraj 6x začetnih 8)
 
 ## ZNANE NADGRADNJE ZA PRIHODNJE PAKETE
 
 1. **Sprite-i za Royal sisteme** — trenutno so samo podatkovni, brez grafične podobe
 2. **Tech tree node hover preview** — hover na vozlišče prikaže preview graf povezanih sistemov v tooltip box
 3. **Keybind Help hover tooltip** — hover na keybind v F1 help prikaže dodatne podrobnosti o bližnjici
-4. **Fishing+ chain** — dodajanje novih ribiških dependencies za obstoječe sisteme
+4. **Brewing+ chain** — dodajanje novih pivovarskih dependencies za obstoječe sisteme
 
 ## ZADNJE ZAKLJUČENI PAKET (v3.11.892–v3.11.901) — STEKLARSKI DODATKI 13 + LIVARSKI DODATKI 13
 

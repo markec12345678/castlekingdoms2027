@@ -350,6 +350,8 @@ local CHAINS = {
     { label = "INSTRUMENTI+", base = "Metalwork+WoodLathe+SpinningWheel+RawhideTanner+BellMaker", systems = {"HarpMaker", "LuteMaker", "OrganPipeMaker", "BagpipeMaker", "CymbalMaker", "ShawmMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "SpinningWheel", "RawhideTanner", "BellMaker"} },
     -- v3.11.979: Candle/Wax+ chain
     { label = "SVEČE IN VOSAK+", base = "Metalwork+WaxTablet+CandlestickBaseMaker+CandlestickMaker+GlassBench", systems = {"CandelabraMaker", "ChandelierMaker", "CandlestickMaker", "CandleMoldMaker", "WaxDipperMaker", "LanternStreetLight"}, multiBase = true, bases = {"Metalwork", "WaxTablet", "CandlestickBaseMaker", "CandlestickMaker", "GlassBench"} },
+    -- v3.11.980: Fishing+ chain
+    { label = "RIBOLOV+", base = "NetMaker+Metalwork+WoodLathe+ForgeTuyere", systems = {"FishHookMaker", "BaitBoxMaker", "FishingLineSpoolMaker", "FishingRodMaker", "FishSmoker", "FishingBoatMaker"}, multiBase = true, bases = {"NetMaker", "Metalwork", "WoodLathe", "ForgeTuyere"} },
 }
 
 -- Node dimensions for graph view
@@ -1912,7 +1914,7 @@ function TechTreePanel.draw()
     love.graphics.print(pctStr, pbX + (pbW - pctW) / 2, pbY - 12)
 
     love.graphics.setColor(0.4, 0.45, 0.5, 1)
-    love.graphics.print(string.format("120 deps · 37 verig · 43 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
+    love.graphics.print(string.format("126 deps · 38 verig · 47 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
         viewMode, focusStr, pathStr, searchStr, sortStr, filterStr, bookmarkStr, multiStr, presetStr),
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)
