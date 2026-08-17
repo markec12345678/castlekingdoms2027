@@ -1,7 +1,7 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.982**
+- Različica: **v3.11.983**
 - Skupaj Royal sistemov: **990**
 - Skupaj Lua datotek: **1648**
 - Sintaktična preverba (avtentična Lua `load()`): **1648/1648 pass (100%)**
@@ -103,13 +103,14 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 - ✅ **v3.11.980**: Fishing+ Chain — 6 novih deps za obstoječe ribiške sisteme (FishHook, BaitBox, FishingLineSpool, FishingRod, FishSmoker, FishingBoat), RIBOLOV+ chain, 120→126 deps, 37→38 verig, 43→47 multi-prereq; MEJNIK 126 deps in 47 multi-prereq (skoraj 6x začetnih 8)
 - ✅ **v3.11.981**: Brewing/Baking+ Chain — 6 novih deps za obstoječe pivovarske/pekarske sisteme (AlambicStill, DistillationApparatus, BrewerAdvancedDistillery, BreadMold, BakerConfectioner, FlourSifter), PIVOVARSTVO/PEKSTVO+ chain, 126→132 deps, 38→39 verig, 47→52 multi-prereq; MEJNIK 132 deps in 52 multi-prereq (6.5x začetnih 8)
 - ✅ **v3.11.982**: Masonry+ Chain — 6 novih deps za obstoječe kamnoseške sisteme (MarbleStatue, CrestCarver, LimeBurner, StoneLintel, ChiselBlade, MortarPestle), KAMNOSEŠTVO+ chain, 132→138 deps, 39→40 verig, 52→55 multi-prereq; MEJNIK 138 deps, 40 verig, 55 multi-prereq
+- ✅ **v3.11.983**: Dye/Pigment+ Chain — 6 novih deps za obstoječe barvilne/pigmentne sisteme (PigmentGrinder, Paint, Paintbrush, Inkwell, GildingBrush, Washstand), BARVILA+ chain, 138→144 deps, 40→41 verig, 55→58 multi-prereq; MEJNIK 144 deps, 41 verig, 58 multi-prereq
 
 ## ZNANE NADGRADNJE ZA PRIHODNJE PAKETE
 
 1. **Sprite-i za Royal sisteme** — trenutno so samo podatkovni, brez grafične podobe
 2. **Tech tree node hover preview** — hover na vozlišče prikaže preview graf povezanih sistemov v tooltip box
 3. **Keybind Help hover tooltip** — hover na keybind v F1 help prikaže dodatne podrobnosti o bližnjici
-4. **Dye/Pigment+ chain** — dodajanje novih barvilnih dependencies za obstoječe sisteme
+4. **Kitchen+ chain** — dodajanje novih kuhinjskih dependencies za obstoječe sisteme
 
 ## ZADNJE ZAKLJUČENI PAKET (v3.11.892–v3.11.901) — STEKLARSKI DODATKI 13 + LIVARSKI DODATKI 13
 

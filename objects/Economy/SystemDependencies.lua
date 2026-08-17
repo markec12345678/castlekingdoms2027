@@ -251,6 +251,14 @@ local dependencyGraph = {
     StoneLintelMaker   = {"MasonStonecutter", "BrickMaker"},
     ChiselBladeMaker   = {"Metalwork"},
     MortarPestleMaker  = {"MasonStonecutter"},
+
+    -- v3.11.983: Dye/Pigment+ chain (dye stuff → advanced coloring)
+    PigmentGrinderMaker = {"DyeStuff"},
+    PaintMaker          = {"PigmentGrinderMaker", "GlassBench"},
+    PaintbrushMaker     = {"WoodLathe"},
+    InkwellMaker        = {"InkMaker", "GlassBench"},
+    GildingBrushMaker   = {"PigmentGrinderMaker", "Metalwork"},
+    WashstandMaker      = {"WoodLathe"},
 }
 
 -- Register a dependency at runtime (for modding/extensibility)

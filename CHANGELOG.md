@@ -2,6 +2,28 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.983] — 2026-08-17 — Dye/Pigment+ Chain (6 novih deps: PigmentGrinder, Paint, Paintbrush, Inkwell, GildingBrush, Washstand)
+
+### Dodano
+- **SystemDependencies.lua** — 6 novih dependencies za obstoječe barvilne/pigmentne sisteme:
+  - PigmentGrinderMaker → DyeStuff
+  - PaintMaker → PigmentGrinderMaker + GlassBench (multi-prereq!)
+  - PaintbrushMaker → WoodLathe
+  - InkwellMaker → InkMaker + GlassBench (multi-prereq!)
+  - GildingBrushMaker → PigmentGrinderMaker + Metalwork (multi-prereq!)
+  - WashstandMaker → WoodLathe
+- **TechTreePanel.lua** — nova BARVILA+ chain, footer posodobljen (144 deps · 41 verig · 58 multi-prereq)
+
+### Statistika
+- Prej: 990 sistemov, 138 deps, 40 verig, 55 multi-prereq (v3.11.982)
+- Sedaj: **990 sistemov, 144 deps, 41 verig, 58 multi-prereq** (v3.11.983)
+- 3 novi multi-prereq sistemi: PaintMaker, InkwellMaker, GildingBrushMaker
+- **MEJNIK: 144 deps, 41 verig, 58 multi-prereq!**
+
+### Zaključeno
+- Pred: 2 barvilna sistema z dependencies (DyerColor, DyeVatMaker)
+- Sedaj: 8 barvilnih/pigmentnih sistemov z dependencies (+ PigmentGrinder, Paint, Paintbrush, Inkwell, GildingBrush, Washstand)
+
 ## [v3.11.982] — 2026-08-17 — Masonry+ Chain (6 novih deps: MarbleStatue, CrestCarver, LimeBurner, StoneLintel, ChiselBlade, MortarPestle)
 
 ### Dodano
