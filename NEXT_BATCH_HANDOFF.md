@@ -1,7 +1,7 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.962**
+- Različica: **v3.11.963**
 - Skupaj Royal sistemov: **987**
 - Skupaj Lua datotek: **1645**
 - Sintaktična preverba (avtentična Lua `load()`): **1645/1645 pass (100%)**
@@ -83,6 +83,7 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 - ✅ **v3.11.960**: Market Dashboard Quick-Jump — 2x click na produkt odpre Royal Systems Panel na sistemu ki ga proizvaja (jumpToSystem), productRowAreas click detekcija, lazy require
 - ✅ **v3.11.961**: Tech Tree Multi-Select — Shift+click za izbiro več vozlišč, union sorodnih setov, C za počistitev, footer multi count
 - ✅ **v3.11.962**: Tech Tree Export/Import — E izvozi konfiguracijo v odložišče, Shift+E uvozi, format TT|...|..., feedback message z fade out
+- ✅ **v3.11.963**: Tech Tree Config Presets — P cikla 5 presetov (Vsi/Aktivni/Razpoložljivi/Zaklenjeni/Zaznamovani), applyPreset(), footer indikator, feedback message
 
 ## ZNANE NADGRADNJE ZA PRIHODNJE PAKETE
 
@@ -91,7 +92,6 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 3. **Tech tree node hover preview** — hover na vozlišče prikaže preview graf povezanih sistemov v tooltip box
 4. **Market Dashboard product hover tooltip** — hover na produkt prikaže podrobnosti (cena, trend, vir) v tooltip box
 5. **Tech tree multi-select persistence** — shranjevanje multi-izbire med sejami
-6. **Tech tree config presets** — prednastavljene konfiguracije (npr. "samo aktivni", "globoko sistemi") za hitro preklapljanje
 
 ## ZADNJE ZAKLJUČENI PAKET (v3.11.892–v3.11.901) — STEKLARSKI DODATKI 13 + LIVARSKI DODATKI 13
 

@@ -99,6 +99,7 @@ local KEYBINDS = {
             { key = "Shift+B",  desc = "Preklopi filter: prikaži samo zaznamovana vozlišča" },
             { key = "E",        desc = "Izvozi konfiguracijo (filtri, sort, focus, bookmarks) v odložišče" },
             { key = "Shift+E",  desc = "Uvozi konfiguracijo iz odložišča" },
+            { key = "P",        desc = "Ciklaj preset (Vsi → Aktivni → Razpoložljivi → Zaklenjeni → Zaznamovani)" },
             { key = "F",        desc = "Počisti fokus (ali klik ponovno na isto vozlišče)" },
             { key = "Hover",    desc = "V graf pogledu: prikaži podrobnosti odvisnosti + število odvisnikov" },
             { key = "↑ ↓",      desc = "Scroll po verigah" },

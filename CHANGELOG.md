@@ -2,6 +2,38 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.963] — 2026-08-17 — Tech Tree Config Presets (P: ciklaj Vsi/Aktivni/Razpoložljivi/Zaklenjeni/Zaznamovani)
+
+### Dodano
+- **TechTreePanel.lua** — prednastavljene konfiguracije za hitro preklapljanje:
+  - **`P` tipka** — cikla skozi 5 presetov:
+    1. **Vsi (default)** — alphabetical sort, vse prikazano
+    2. **Aktivni sistemi** — depth sort, stateFilter=active
+    3. **Razpoložljivi** — depth sort, stateFilter=met
+    4. **Zaklenjeni** — depth sort, stateFilter=locked
+    5. **Zaznamovani** — alphabetical sort, bookmarksOnly=true
+  - **`applyPreset(idx)`** — nastavi sortMode, stateFilter, bookmarksOnly, depthVisible, arrowsVisible, minimapVisible
+  - **Invalidacija** — keyboardNavList in keyboardNavIndex se resetirata (ker se sort mode spremeni)
+  - **Feedback message** — "📋 Preset: <ime>" se prikaže ob preklopu
+  - **Footer indikator** — '📋 preset: <ime> (N/M)' prikazuje trenutni preset in skupno število
+  - **Wrap-around** — na zadnjem presetu P skoči nazaj na prvega
+  - **5 presetov** — pokriva najpogostejše poglede (vsi, aktivni, razpoložljivi, zaklenjeni, zaznamovani)
+
+### Spremenjene datoteke
+- `states/ui/hud/tech_tree_panel.lua` (+~60 vrstic) — PRESETS tabela, currentPresetIdx state, applyPreset() funkcija, P key handler, footer preset indicator, hint text update
+- `states/ui/hud/keybind_help.lua` (+1 vrstica) — P opis
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS (tech_tree_panel.lua + keybind_help.lua)
+- Preset cycling — P incrementa currentPresetIdx z wrap-around
+- applyPreset — nastavi 6 konfiguracijskih polj (sortMode, stateFilter, bookmarksOnly, depthVisible, arrowsVisible, minimapVisible)
+- Invalidacija — keyboardNavList = nil ker se sort mode lahko spremeni
+- Feedback message — reuse showFeedback() iz v3.11.962
+
+### Zaključeno
+- Pred: igralec je moral ročno nastaviti vsak filter posebej (S za sort, L za filter, Shift+B za bookmarks)
+- Sedaj: P hitlo preklopi med 5 prednastavljenih pogledov z eno tipko
+
 ## [v3.11.962] — 2026-08-17 — Tech Tree Export/Import (E: izvoz v odložišče, Shift+E: uvoz)
 
 ### Dodano

@@ -114,6 +114,74 @@ local function showFeedback(msg)
     feedbackMessageTime = 3.0
 end
 
+-- Config presets state (v3.11.963)
+-- 'P' cycles through predefined view configurations for quick switching.
+local PRESETS = {
+    {
+        name = "Vsi (default)",
+        sortMode = "alphabetical",
+        stateFilter = "all",
+        bookmarksOnly = false,
+        depthVisible = true,
+        arrowsVisible = true,
+        minimapVisible = true,
+    },
+    {
+        name = "Aktivni sistemi",
+        sortMode = "depth",
+        stateFilter = "active",
+        bookmarksOnly = false,
+        depthVisible = true,
+        arrowsVisible = true,
+        minimapVisible = true,
+    },
+    {
+        name = "Razpoložljivi",
+        sortMode = "depth",
+        stateFilter = "met",
+        bookmarksOnly = false,
+        depthVisible = true,
+        arrowsVisible = true,
+        minimapVisible = true,
+    },
+    {
+        name = "Zaklenjeni",
+        sortMode = "depth",
+        stateFilter = "locked",
+        bookmarksOnly = false,
+        depthVisible = true,
+        arrowsVisible = true,
+        minimapVisible = true,
+    },
+    {
+        name = "Zaznamovani",
+        sortMode = "alphabetical",
+        stateFilter = "all",
+        bookmarksOnly = true,
+        depthVisible = true,
+        arrowsVisible = true,
+        minimapVisible = true,
+    },
+}
+local currentPresetIdx = 1  -- 1-indexed
+
+-- v3.11.963: Apply a preset configuration
+local function applyPreset(idx)
+    if idx < 1 or idx > #PRESETS then return end
+    local p = PRESETS[idx]
+    sortMode = p.sortMode
+    stateFilter = p.stateFilter
+    bookmarksOnly = p.bookmarksOnly
+    depthVisible = p.depthVisible
+    arrowsVisible = p.arrowsVisible
+    minimapVisible = p.minimapVisible
+    -- Invalidate nav list since sort mode might have changed
+    keyboardNavList = nil
+    keyboardNavIndex = nil
+    currentPresetIdx = idx
+    showFeedback("📋 Preset: " .. p.name)
+end
+
 -- Define chain display order and labels
 local CHAINS = {
     { label = "KOVANJE METALOV", base = "Metalwork", systems = {"BellMaker", "ChainmailForger", "SwordPommelMaker", "GauntletMaker", "CoinDieMaker", "CoinPressMaker"} },
@@ -1490,7 +1558,7 @@ function TechTreePanel.draw()
     love.graphics.setColor(0.5, 0.6, 0.7, 1)
     if smallFont then love.graphics.setFont(smallFont) end
     local hintStr = viewMode == "graph"
-        and "Ctrl+Shift+G: zapri  |  G: tekst  |  /: iskanje  |  Tab: naslednji  |  click: fokus  |  Shift+click: multi  |  C: počisti  |  B: ★  |  E: izvoz  |  T: pot  |  M: minimap  |  D: globina  |  A: puščice  |  S: sort  |  L: filter  |  F/ESC: počisti"
+        and "Ctrl+Shift+G: zapri  |  G: tekst  |  /: iskanje  |  Tab: naslednji  |  click: fokus  |  P: preset  |  E: izvoz  |  B: ★  |  T: pot  |  M: minimap  |  D: globina  |  A: puščice  |  S: sort  |  L: filter  |  F/ESC: počisti"
         or  "Ctrl+Shift+G: zapri  |  G: graf  |  /: iskanje  |  ↑↓/wheel: scroll  |  zelena=met  oranžna=ne met"
     love.graphics.print(hintStr, panelX + 16, panelY + 36)
     love.graphics.setFont(font)
@@ -1606,6 +1674,9 @@ function TechTreePanel.draw()
     for _ in pairs(multiSelect) do multiCount = multiCount + 1 end
     local multiStr = multiCount > 0 and string.format("  |  🔗 multi: %d", multiCount) or ""
 
+    -- v3.11.963: Preset indicator
+    local presetStr = string.format("  |  📋 preset: %s (%d/%d)", PRESETS[currentPresetIdx].name, currentPresetIdx, #PRESETS)
+
     -- v3.11.955: Stats summary — count active/met/locked nodes across all chains
     local activeCount, metCount, lockedCount, totalCount = 0, 0, 0, 0
     for _, chain in ipairs(CHAINS) do
@@ -1666,8 +1737,8 @@ function TechTreePanel.draw()
     love.graphics.print(pctStr, pbX + (pbW - pctW) / 2, pbY - 12)
 
     love.graphics.setColor(0.4, 0.45, 0.5, 1)
-    love.graphics.print(string.format("65 deps · 25 verig · 8 multi-prereq · mode: %s%s%s%s%s%s%s%s",
-        viewMode, focusStr, pathStr, searchStr, sortStr, filterStr, bookmarkStr, multiStr),
+    love.graphics.print(string.format("65 deps · 25 verig · 8 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
+        viewMode, focusStr, pathStr, searchStr, sortStr, filterStr, bookmarkStr, multiStr, presetStr),
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)
 
@@ -1890,6 +1961,14 @@ function TechTreePanel.keypressed(key)
             love.system.setClipboardText(config)
             showFeedback("✓ Konfiguracija izvožena v odložišče (" .. #config .. " znakov)")
         end
+        return true
+    end
+
+    -- v3.11.963: P cycles through config presets
+    if key == "p" then
+        local newIdx = currentPresetIdx + 1
+        if newIdx > #PRESETS then newIdx = 1 end
+        applyPreset(newIdx)
         return true
     end
 
