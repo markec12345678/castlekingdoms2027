@@ -2,6 +2,28 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.982] — 2026-08-17 — Masonry+ Chain (6 novih deps: MarbleStatue, CrestCarver, LimeBurner, StoneLintel, ChiselBlade, MortarPestle)
+
+### Dodano
+- **SystemDependencies.lua** — 6 novih dependencies za obstoječe kamnoseške sisteme:
+  - MarbleStatueMaker → MasonStonecutter + ChiselBladeMaker (multi-prereq!)
+  - CrestCarver → MasonStonecutter + Metalwork (multi-prereq!)
+  - LimeBurner → MasonStonecutter
+  - StoneLintelMaker → MasonStonecutter + BrickMaker (multi-prereq!)
+  - ChiselBladeMaker → Metalwork
+  - MortarPestleMaker → MasonStonecutter
+- **TechTreePanel.lua** — nova KAMNOSEŠTVO+ chain, footer posodobljen (138 deps · 40 verig · 55 multi-prereq)
+
+### Statistika
+- Prej: 990 sistemov, 132 deps, 39 verig, 52 multi-prereq (v3.11.981)
+- Sedaj: **990 sistemov, 138 deps, 40 verig, 55 multi-prereq** (v3.11.982)
+- 3 novi multi-prereq sistemi: MarbleStatueMaker, CrestCarver, StoneLintelMaker
+- **MEJNIK: 138 deps, 40 verig, 55 multi-prereq!**
+
+### Zaključeno
+- Pred: 2 kamnoseška sistema z dependencies (BrickMaker, RoofTileMaker)
+- Sedaj: 8 kamnoseških sistemov z dependencies (+ MarbleStatue, CrestCarver, LimeBurner, StoneLintel, ChiselBlade, MortarPestle)
+
 ## [v3.11.981] — 2026-08-17 — Brewing/Baking+ Chain (6 novih deps: AlambicStill, DistillationApparatus, BrewerAdvancedDistillery, BreadMold, BakerConfectioner, FlourSifter)
 
 ### Dodano

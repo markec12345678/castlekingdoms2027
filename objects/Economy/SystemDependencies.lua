@@ -243,6 +243,14 @@ local dependencyGraph = {
     BreadMoldMaker            = {"FlourSieve", "PotteryWheel"},
     BakerConfectioner         = {"FlourSieve", "BreadBaker"},
     FlourSifterMaker          = {"FlourSieve"},
+
+    -- v3.11.982: Masonry+ chain (stonecutter → advanced stonework)
+    MarbleStatueMaker  = {"MasonStonecutter", "ChiselBladeMaker"},
+    CrestCarver        = {"MasonStonecutter", "Metalwork"},
+    LimeBurner         = {"MasonStonecutter"},
+    StoneLintelMaker   = {"MasonStonecutter", "BrickMaker"},
+    ChiselBladeMaker   = {"Metalwork"},
+    MortarPestleMaker  = {"MasonStonecutter"},
 }
 
 -- Register a dependency at runtime (for modding/extensibility)

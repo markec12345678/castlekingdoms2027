@@ -2,7 +2,7 @@
 
 Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT). Navdihnjen s klasičnimi srednjeveškimi strateškimi igrami.
 
-[![Version](https://img.shields.io/badge/version-3.11.981-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
+[![Version](https://img.shields.io/badge/version-3.11.982-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
 [![Syntax](https://img.shields.io/badge/syntax-1648%2F1648%20pass-brightgreen.svg)](#)
@@ -12,9 +12,9 @@ Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgraj
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v3.11.981](https://github.com/markec12345678/castlekingdoms2027/releases)
-- **.love datoteka**: `castlekingdoms2027-v3.11.981.love` (34 MB brez LFS, 305 MB z LFS)
-- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 990 Royal sistemov, 1648 Lua datotek, +BREWING/BAKING+ CHAIN (6 novih deps: AlambicStill, DistillationApparatus, BrewerAdvancedDistillery, BreadMold, BakerConfectioner, FlourSifter; 126→132 deps, 38→39 verig, 47→52 multi-prereq; MEJNIK 132 deps in 52 multi-prereq!) + FISHING+ + CANDLE/WAX+ + MUSICAL INSTRUMENTS+ + POTTERY+ + TEXTILE+ + BOOKBINDING+ + FOUNDRY+ + GLASSMAKING+ + ASTRONOMY+ + SURGICAL+ + TECH TREE IV + HOVER TOOLTIP EKOSISTEM + CUSTOM PRESET CRUD + MULTI-SELECT PERSISTENCE + CONFIG PRESETS + EXPORT/IMPORT + 100% mouse/wheel + overlay + DynamicMarket + Save/Load + 7 grafov
+- **Zadnja izdaja**: [v3.11.982](https://github.com/markec12345678/castlekingdoms2027/releases)
+- **.love datoteka**: `castlekingdoms2027-v3.11.982.love` (34 MB brez LFS, 305 MB z LFS)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 990 Royal sistemov, 1648 Lua datotek, +MASONRY+ CHAIN (6 novih deps: MarbleStatue, CrestCarver, LimeBurner, StoneLintel, ChiselBlade, MortarPestle; 132→138 deps, 39→40 verig, 52→55 multi-prereq; MEJNIK 138 deps, 40 verig, 55 multi-prereq!) + BREWING/BAKING+ + FISHING+ + CANDLE/WAX+ + MUSICAL INSTRUMENTS+ + POTTERY+ + TEXTILE+ + BOOKBINDING+ + FOUNDRY+ + GLASSMAKING+ + ASTRONOMY+ + SURGICAL+ + TECH TREE IV + HOVER TOOLTIP EKOSISTEM + CUSTOM PRESET CRUD + MULTI-SELECT PERSISTENCE + CONFIG PRESETS + EXPORT/IMPORT + 100% mouse/wheel + overlay + DynamicMarket + Save/Load + 7 grafov
 - **LFS**: Po git clone zahtevaj `git lfs pull` za prave PNG asset-e (305 MB)
 
 ## Zagon
@@ -40,7 +40,7 @@ love .
 | Vrstic kode | ~485.000 |
 | GLSL shaderji | 12 |
 | Jezikov | 32 |
-| Verzij | 140+ (v1.7.9 → v3.11.981) |
+| Verzij | 140+ (v1.7.9 → v3.11.982) |
 | Bug popravkov | 155 (90 krogov pregleda) |
 | Syntax pass rate | 1648/1648 (100%) |
 | PNG assetov | 1.206 |
