@@ -2,6 +2,43 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.967] — 2026-08-17 — Market Dashboard Product Hover Tooltip (cena, trend, vir, 2x click hint)
+
+### Dodano
+- **MarketDashboard.lua** — hover tooltip na produktih v tabeli:
+  - **`hoveredProduct` state** — nastavljen v `mousemoved` ko je miška nad product row
+  - **Tooltip vsebina** (8 vrstic):
+    - 📦 Ime produkta
+    - Prodajna cena z ↑/↓ trend indicator (zeleno/rdeče)
+    - Nabavna cena
+    - Osnovna cena (basePrice × 0.7)
+    - Skupno prodano (kosov)
+    - Skupni prihodek (zlata)
+    - Vir: sistem (display name, ne raw key)
+    - 🚀 2x click hint za jump v Royal Systems Panel
+  - **Barvno kodiranje**:
+    - Naslov: zlato
+    - ↑ (nad base): zeleno
+    - ↓ (pod base): rdeče
+    - 🚀 hint: cyan
+    - Ostalo: svetlo sivo
+  - **Keep-on-screen** — tooltip se premakne levo/gor če bi šel izven ekrana
+  - **mousemoved** — preverja productRowAreas, nastavlja hoveredProduct z full product data + mouseX/Y
+
+### Spremenjene datoteke
+- `states/ui/hud/market_dashboard.lua` (+~65 vrstic) — hoveredProduct state, mousemoved product hover detection, tooltip rendering z 8 vrsticami + barvno kodiranje
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS
+- Hover detection — productRowAreas (v3.11.960) reused za hit detection
+- Trend indicator — ↑ ce currentSell > baseSell, ↓ ce < baseSell
+- Source display — gsub("Maker$", "") z camelCase split za berljivo ime
+- Keep-on-screen — tipX/tipY clamping na W-8/H-8
+
+### Zaključeno
+- Pred: igralec je moral klikniti na produkt da izbral ga in videl detail panel
+- Sedaj: hover takoj pokaže ceno, trend, prodajo, vir in 2x click hint
+
 ## [v3.11.966] — 2026-08-17 — Tech Tree Custom Preset Deletion (Shift+X izbriše custom preset)
 
 ### Dodano

@@ -35,6 +35,9 @@ local lastClickTime = 0
 local lastClickProductType = nil
 local DOUBLE_CLICK_THRESHOLD = 0.4  -- seconds
 
+-- v3.11.967: Hovered product for tooltip
+local hoveredProduct = nil  -- {productType, source, index, basePrice, currentSell, currentBuy, totalSold, totalRevenue}
+
 -- Search & sort state
 local searchQuery = ""
 local searchActive = false
@@ -1074,6 +1077,70 @@ function MarketDashboard.draw()
         love.graphics.print(actionMessage, panelX + (panelW - font:getWidth(actionMessage)) / 2, panelY + panelH - 30)
     end
 
+    -- v3.11.967: Product hover tooltip
+    if hoveredProduct then
+        local hp = hoveredProduct
+        local lines = {}
+        table.insert(lines, "📦 " .. hp.productType)
+        -- Price info
+        local baseSell = math.floor((hp.basePrice or 0) * 0.7 + 0.5)
+        local sellStr = string.format("Prodajna: %d zlata", hp.currentSell or 0)
+        if (hp.currentSell or 0) > baseSell then
+            sellStr = sellStr .. " ↑"
+        elseif (hp.currentSell or 0) < baseSell then
+            sellStr = sellStr .. " ↓"
+        end
+        table.insert(lines, sellStr)
+        table.insert(lines, string.format("Nabavna: %d zlata", hp.currentBuy or 0))
+        table.insert(lines, string.format("Osnovna: %d zlata", baseSell))
+        -- Sales info
+        table.insert(lines, string.format("Prodano: %d kosov", hp.totalSold or 0))
+        table.insert(lines, string.format("Prihodek: %d zlata", hp.totalRevenue or 0))
+        -- Source
+        local srcName = hp.source or "?"
+        srcName = srcName:gsub("Maker$", ""):gsub("([a-z])([A-Z])", "%1 %2")
+        table.insert(lines, "Vir: " .. srcName)
+        table.insert(lines, "🚀 2x click: odpri sistem")
+
+        -- Draw tooltip box
+        love.graphics.setFont(smallFont)
+        local tipW = 0
+        for _, l in ipairs(lines) do
+            local lw = smallFont:getWidth(l)
+            if lw > tipW then tipW = lw end
+        end
+        tipW = tipW + 16
+        local tipH = #lines * (smallFont:getHeight() + 2) + 10
+        local tipX = hp.mouseX + 16
+        local tipY = hp.mouseY + 16
+        -- Keep on screen
+        local W = love.graphics.getWidth()
+        local H = love.graphics.getHeight()
+        if tipX + tipW > W - 8 then tipX = hp.mouseX - tipW - 16 end
+        if tipY + tipH > H - 8 then tipY = hp.mouseY - tipH - 16 end
+
+        love.graphics.setColor(0.05, 0.06, 0.08, 0.97)
+        love.graphics.rectangle("fill", tipX, tipY, tipW, tipH, 4, 4, 4, 4)
+        love.graphics.setColor(0.5, 0.7, 0.9, 0.9)
+        love.graphics.setLineWidth(1)
+        love.graphics.rectangle("line", tipX, tipY, tipW, tipH, 4, 4, 4, 4)
+        for i, l in ipairs(lines) do
+            if i == 1 then
+                love.graphics.setColor(0.95, 0.85, 0.5, 1)
+            elseif l:find("↑") then
+                love.graphics.setColor(0.4, 0.95, 0.4, 1)
+            elseif l:find("↓") then
+                love.graphics.setColor(0.95, 0.4, 0.4, 1)
+            elseif l:find("🚀") then
+                love.graphics.setColor(0.5, 0.85, 1, 1)
+            else
+                love.graphics.setColor(0.85, 0.88, 0.9, 1)
+            end
+            love.graphics.print(l, tipX + 8, tipY + 6 + (i - 1) * (smallFont:getHeight() + 2))
+        end
+        love.graphics.setFont(font)
+    end
+
     love.graphics.setColor(1, 1, 1, 1)
 end
 
@@ -1425,10 +1492,34 @@ function MarketDashboard.deserialize(data)
         #comparisonList, tostring(comparisonMode), leaderboardMode, sortMode))
 end
 
--- Castle Kingdoms 2027 v3.11.937: Mouse moved/released stubs for consistency
--- Currently Market Dashboard is click-only (no drag interactions),
--- but these stubs allow game.lua to forward events without nil checks.
+-- v3.11.937: Mouse moved/released stubs for consistency
+-- v3.11.967: mousemoved now detects hovered product for tooltip
 function MarketDashboard.mousemoved(x, y, dx, dy)
+    if not visible then return false end
+    -- v3.11.967: Check if mouse is over a product row
+    hoveredProduct = nil
+    for _, area in ipairs(productRowAreas) do
+        if x >= area.x and x <= area.x + area.w
+           and y >= area.y and y <= area.y + area.h then
+            -- Find the full product data
+            local p = cachedProducts[area.index]
+            if p then
+                hoveredProduct = {
+                    productType = p.productType,
+                    source = p.source,
+                    index = area.index,
+                    basePrice = p.basePrice,
+                    currentSell = p.currentSell,
+                    currentBuy = p.currentBuy,
+                    totalSold = p.totalSold,
+                    totalRevenue = p.totalRevenue,
+                    mouseX = x,
+                    mouseY = y,
+                }
+            end
+            return true
+        end
+    end
     return false
 end
 
