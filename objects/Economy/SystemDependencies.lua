@@ -166,6 +166,11 @@ local dependencyGraph = {
     BoneSawMaker   = {"Metalwork", "SurgicalLancetMaker"},
     SutureMaker    = {"SurgicalLancetMaker", "ApothecaryMortar"},
     ForcepsMaker   = {"Metalwork", "SurgicalLancetMaker"},
+
+    -- v3.11.972: Astronomy+ chain (astronomy instruments → advanced astronomy)
+    ArmillarySphereMaker = {"Metalwork", "AstrolabeRingMaker"},
+    SextantMaker         = {"Metalwork", "QuadrantMaker"},
+    TelescopeMaker       = {"Metalwork", "GlassBench"},
 }
 
 -- Register a dependency at runtime (for modding/extensibility)

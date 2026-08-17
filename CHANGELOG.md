@@ -2,6 +2,29 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.972] — 2026-08-17 — Astronomy+ Chain (3 nove deps: ArmillarySphere, Sextant, Telescope)
+
+### Dodano
+- **SystemDependencies.lua** — 3 nove dependencies za obstoječe sisteme:
+  - ArmillarySphereMaker → Metalwork + AstrolabeRingMaker (multi-prereq!)
+  - SextantMaker → Metalwork + QuadrantMaker (multi-prereq!)
+  - TelescopeMaker → Metalwork + GlassBench (multi-prereq!)
+- **TechTreePanel.lua** — nova ASTRONOMIJA+ chain, footer posodobljen (78 deps · 30 verig · 15 multi-prereq)
+- Sistemi so obstoječi (ustvarjeni v prejšnjih paketih) — dodane so samo dependencies in chain entry
+
+### Statistika
+- Prej: 990 sistemov, 75 deps, 29 verig, 12 multi-prereq (v3.11.971)
+- Sedaj: **990 sistemov, 78 deps, 30 verig, 15 multi-prereq** (v3.11.972)
+- 3 novi multi-prereq sistemi: ArmillarySphereMaker, SextantMaker, TelescopeMaker
+
+### Spremenjene dateteke
+- `objects/Economy/SystemDependencies.lua` (+6 vrstic) — 3 nove dependencies
+- `states/ui/hud/tech_tree_panel.lua` (+3 vrstice) — ASTRONOMIJA+ chain, footer count
+
+### Zaključeno
+- Pred: 3 astronomski sistemi (AstrolabeRing, Nocturnal, Quadrant) brez naprednih odvisnikov
+- Sedaj: 6 astronomskih sistemov z ASTRONOMIJA+ verigo (ArmillarySphere, Sextant, Telescope)
+
 ## [v3.11.971] — 2026-08-17 — Surgical+ Chain (3 novi sistemi: BoneSawMaker, SutureMaker, ForcepsMaker)
 
 ### Dodano
