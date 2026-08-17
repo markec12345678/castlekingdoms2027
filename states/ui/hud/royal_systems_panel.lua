@@ -22,6 +22,11 @@ local totalPages = 1
 local actionMessage = ""
 local actionMessageTime = 0
 
+-- v3.11.968: Hovered system for tooltip
+local hoveredSystem = nil  -- {sysIndex, mouseX, mouseY}
+-- v3.11.968: System row click areas (populated during draw)
+local systemRowAreas = {}
+
 -- Search & filter state
 local searchQuery = ""
 local searchActive = false
@@ -362,6 +367,8 @@ function RoyalPanel.draw()
     local itemH = 20
     local startIdx = (page - 1) * pageSize + 1
     local endIdx = math.min(startIdx + pageSize - 1, #systems)
+    -- v3.11.968: Clear system row click areas for this frame
+    systemRowAreas = {}
 
     for i = startIdx, endIdx do
         local sys = systems[i]
@@ -372,6 +379,11 @@ function RoyalPanel.draw()
         local hasMaker = stats.hasMaker
 
         local rowY = itemY + (i - startIdx) * itemH
+        -- v3.11.968: Store click area for hover detection
+        systemRowAreas[#systemRowAreas + 1] = {
+            x = listX + 4, y = rowY, w = listW - 8, h = itemH - 2,
+            sysIndex = i,
+        }
         -- Row background
         if isSelected then
             love.graphics.setColor(0.45, 0.36, 0.2, 0.9)
@@ -785,6 +797,81 @@ function RoyalPanel.draw()
         love.graphics.print(actionMessage, panelX + (panelW - font:getWidth(actionMessage)) / 2, panelY + panelH - 30)
     end
 
+    -- v3.11.968: System hover tooltip
+    if hoveredSystem and hoveredSystem.sysIndex then
+        local sys = filteredSystems[hoveredSystem.sysIndex]
+        if sys then
+            local stats = sys.module.getStats()
+            local lines = {}
+            table.insert(lines, "📦 " .. sys.name)
+            -- Status
+            local hasBuilding = (stats.numBuildings or 0) > 0
+            local hasMaker = stats.hasMaker
+            if hasBuilding and hasMaker then
+                table.insert(lines, "Status: ✓ aktiven (zgradba + mojster)")
+            elseif hasBuilding then
+                table.insert(lines, "Status: ⚠ delno (zgradba, brez mojstra)")
+            elseif hasMaker then
+                table.insert(lines, "Status: ⚠ delno (mojster, brez zgradbe)")
+            else
+                table.insert(lines, "Status: ✗ neaktiven")
+            end
+            -- Stats
+            table.insert(lines, string.format("Zgradbe: %d", stats.numBuildings or 0))
+            table.insert(lines, string.format("Mojster: %s (spretnost %d)",
+                stats.makerName or "—", stats.makerSkill or 0))
+            table.insert(lines, string.format("Aktivne izdelave: %d", stats.activeMaking or 0))
+            table.insert(lines, string.format("Skupno produktov: %d", stats.totalProducts or 0))
+            -- Surovine summary
+            local resStr = string.format("Surovine: Fe%d Br%d Wo%d Le%d",
+                stats.ironStock or 0, stats.bronzeStock or 0,
+                stats.woodStock or 0, stats.leatherStock or 0)
+            table.insert(lines, resStr)
+            table.insert(lines, string.format("          Ag%d Au%d Jew%d Pearl%d",
+                stats.silverStock or 0, stats.goldStock or 0,
+                stats.jewelStock or 0, stats.pearlStock or 0))
+
+            -- Draw tooltip box
+            local sfont = love.graphics.newFont(11)
+            love.graphics.setFont(sfont)
+            local tipW = 0
+            for _, l in ipairs(lines) do
+                local lw = sfont:getWidth(l)
+                if lw > tipW then tipW = lw end
+            end
+            tipW = tipW + 16
+            local tipH = #lines * (sfont:getHeight() + 2) + 10
+            local tipX = hoveredSystem.mouseX + 16
+            local tipY = hoveredSystem.mouseY + 16
+            -- Keep on screen
+            local W = love.graphics.getWidth()
+            local H = love.graphics.getHeight()
+            if tipX + tipW > W - 8 then tipX = hoveredSystem.mouseX - tipW - 16 end
+            if tipY + tipH > H - 8 then tipY = hoveredSystem.mouseY - tipH - 16 end
+
+            love.graphics.setColor(0.05, 0.06, 0.08, 0.97)
+            love.graphics.rectangle("fill", tipX, tipY, tipW, tipH, 4, 4, 4, 4)
+            love.graphics.setColor(0.5, 0.7, 0.9, 0.9)
+            love.graphics.setLineWidth(1)
+            love.graphics.rectangle("line", tipX, tipY, tipW, tipH, 4, 4, 4, 4)
+            for i, l in ipairs(lines) do
+                if i == 1 then
+                    love.graphics.setColor(0.95, 0.85, 0.5, 1)
+                elseif l:find("✓") then
+                    love.graphics.setColor(0.4, 0.95, 0.4, 1)
+                elseif l:find("⚠") then
+                    love.graphics.setColor(0.95, 0.85, 0.3, 1)
+                elseif l:find("✗") then
+                    love.graphics.setColor(0.95, 0.4, 0.4, 1)
+                else
+                    love.graphics.setColor(0.85, 0.88, 0.9, 1)
+                end
+                love.graphics.print(l, tipX + 8, tipY + 6 + (i - 1) * (sfont:getHeight() + 2))
+            end
+            love.graphics.setFont(font)
+        end
+    end
+
     love.graphics.setColor(1, 1, 1, 1)
 end
 
@@ -990,9 +1077,22 @@ function RoyalPanel.mousepressed(x, y, button)
 end
 
 -- Castle Kingdoms 2027 v3.11.938: Mouse moved/released stubs for consistency
--- Currently Royal Systems Panel is click-only (no drag interactions),
--- but these stubs allow game.lua to forward events without nil checks.
+-- v3.11.968: mousemoved now detects hovered system for tooltip
 function RoyalPanel.mousemoved(x, y, dx, dy)
+    if not visible then return false end
+    -- v3.11.968: Check if mouse is over a system row
+    hoveredSystem = nil
+    for _, area in ipairs(systemRowAreas) do
+        if x >= area.x and x <= area.x + area.w
+           and y >= area.y and y <= area.y + area.h then
+            hoveredSystem = {
+                sysIndex = area.sysIndex,
+                mouseX = x,
+                mouseY = y,
+            }
+            return true
+        end
+    end
     return false
 end
 

@@ -1,7 +1,7 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.967**
+- Različica: **v3.11.968**
 - Skupaj Royal sistemov: **987**
 - Skupaj Lua datotek: **1645**
 - Sintaktična preverba (avtentična Lua `load()`): **1645/1645 pass (100%)**
@@ -88,13 +88,14 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 - ✅ **v3.11.965**: Tech Tree Custom Presets — Shift+P shrani trenutno konfiguracijo kot custom preset, persisted v tech_tree_custom_presets.txt, getAllPresets() combined, P cikla skozi built-in + custom
 - ✅ **v3.11.966**: Tech Tree Custom Preset Deletion — Shift+X izbriše trenutno izbran custom preset, built-in zaščita, index adjust, feedback message
 - ✅ **v3.11.967**: Market Dashboard Product Hover Tooltip — hover na produkt prikaže ceno, trend (↑/↓), nabavno, prodano, prihodek, vir, 2x click hint, barvno kodiranje
+- ✅ **v3.11.968**: Royal Systems Panel Hover Tooltip — hover na sistem prikaže status, zgradbe, mojstra, aktivne izdelave, surovine, barvno kodiranje
 
 ## ZNANE NADGRADNJE ZA PRIHODNJE PAKETE
 
 1. **Sprite-i za Royal sisteme** — trenutno so samo podatkovni, brez grafične podobe
 2. **Več dependency verig** — dodajanje Horticulture+, Apiary+, Surgical+, Coinage+ podverig
 3. **Tech tree node hover preview** — hover na vozlišče prikaže preview graf povezanih sistemov v tooltip box
-4. **Royal Systems Panel hover tooltip** — hover na sistem v seznamu prikaže podrobnosti (surovine, produkti, zgradbe)
+4. **Auto-save overlay hover tooltip** — hover na auto-save overlay prikaže podrobnosti (zadnji save, Royal stats)
 
 ## ZADNJE ZAKLJUČENI PAKET (v3.11.892–v3.11.901) — STEKLARSKI DODATKI 13 + LIVARSKI DODATKI 13
 

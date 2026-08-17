@@ -2,6 +2,44 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.968] — 2026-08-17 — Royal Systems Panel Hover Tooltip (status, zgradbe, mojster, surovine)
+
+### Dodano
+- **RoyalSystemsPanel.lua** — hover tooltip na sistemih v seznamu:
+  - **`hoveredSystem` state** — nastavljen v `mousemoved` ko je miška nad system row
+  - **`systemRowAreas`** — click areas populirani med draw (x, y, w, h, sysIndex)
+  - **Tooltip vsebina** (9 vrstic):
+    - 📦 Ime sistema
+    - Status: ✓ aktiven / ⚠ delno / ✗ neaktiven
+    - Število zgradb
+    - Mojster (ime + spretnost)
+    - Aktivne izdelave
+    - Skupno produktov
+    - Surovine: Fe, Br, Wo, Le (železo, bron, les, usnje)
+    - Surovine: Ag, Au, Jew, Pearl (srebro, zlato, dragulji, biseri)
+  - **Barvno kodiranje**:
+    - Naslov: zlato
+    - ✓ (aktiven): zeleno
+    - ⚠ (delno): rumeno
+    - ✗ (neaktiven): rdeče
+    - Ostalo: svetlo sivo
+  - **Keep-on-screen** — tooltip se premakne levo/gor če bi šel izven ekrana
+  - **mousemoved** — preverja systemRowAreas, nastavlja hoveredSystem z sysIndex + mouseX/Y
+
+### Spremenjene dateteke
+- `states/ui/hud/royal_systems_panel.lua` (+~80 vrstic) — hoveredSystem/systemRowAreas state, draw populira systemRowAreas, mousemoved hover detection, tooltip rendering z 9 vrsticami + barvno kodiranje
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS
+- Hover detection — systemRowAreas populirane v draw, uporabljene v mousemoved
+- Status klasifikacija — aktiven (zgradba+mojster), delno (ena brez druge), neaktiven (nobena)
+- Surovine summary — 8 surovin v 2 vrsticah (Fe/Br/Wo/Le + Ag/Au/Jew/Pearl)
+- Keep-on-screen — tipX/tipY clamping na W-8/H-8
+
+### Zaključeno
+- Pred: igralec je moral klikniti na sistem da videl detail panel
+- Sedaj: hover takoj pokaže status, zgradbe, mojstra, surovine
+
 ## [v3.11.967] — 2026-08-17 — Market Dashboard Product Hover Tooltip (cena, trend, vir, 2x click hint)
 
 ### Dodano
