@@ -142,6 +142,25 @@ local dependencyGraph = {
     AstrolabeRingMaker = {"Metalwork"},
     NocturnalMaker     = {"Metalwork"},
     QuadrantMaker      = {"Metalwork"},
+
+    -- v3.11.970: Horticulture+ chain (garden tools → advanced gardening)
+    PruningShearsMaker = {"Metalwork"},
+    PruningSawMaker    = {"Metalwork"},
+    HedgeShearsMaker   = {"Metalwork"},
+    BonsaiCultivator   = {"TopiaryFrameMaker"},
+    FountainMaker      = {"MasonStonecutter"},
+    TrellisMaker       = {"WoodLathe"},
+    VineyardPlanter    = {"GardenRake"},
+
+    -- v3.11.970: Apiary+ chain (beekeeping → advanced products)
+    WaxSealPresser     = {"WaxTablet"},
+    LostWaxMolderMaker = {"WaxTablet", "GlassBench"},  -- multi-prereq!
+    ApiaryKeeper        = {"HoneyDipperMaker"},
+
+    -- v3.11.970: Coinage+ chain (coin production → coin tools)
+    CoinBlankMaker  = {"Metalwork"},
+    CoinScaleMaker  = {"CoinDieMaker"},
+    CoinSorterMaker = {"CoinPressMaker"},
 }
 
 -- Register a dependency at runtime (for modding/extensibility)

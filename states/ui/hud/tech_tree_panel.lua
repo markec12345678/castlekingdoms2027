@@ -328,6 +328,10 @@ local CHAINS = {
     { label = "KIRURGIJA", base = "Metalwork+ApothecaryMortar", systems = {"SurgicalLancetMaker"}, multiBase = true, bases = {"Metalwork", "ApothecaryMortar"} },
     { label = "KOVANJE DENARJA", base = "CoinDieMaker+CoinPressMaker", systems = {"MintCurrency"}, multiBase = true, bases = {"CoinDieMaker", "CoinPressMaker"} },
     { label = "ASTRONOMIJA", base = "Metalwork", systems = {"AstrolabeRingMaker", "NocturnalMaker", "QuadrantMaker"} },
+    -- v3.11.970: New sub-chains
+    { label = "VRTNARSTVO+", base = "Metalwork+MasonStonecutter+WoodLathe+GardenRake", systems = {"PruningShearsMaker", "PruningSawMaker", "HedgeShearsMaker", "BonsaiCultivator", "FountainMaker", "TrellisMaker", "VineyardPlanter"}, multiBase = true, bases = {"Metalwork", "MasonStonecutter", "WoodLathe", "GardenRake"} },
+    { label = "ČEBELARSTVO+", base = "WaxTablet+GlassBench+HoneyDipperMaker", systems = {"WaxSealPresser", "LostWaxMolderMaker", "ApiaryKeeper"}, multiBase = true, bases = {"WaxTablet", "GlassBench", "HoneyDipperMaker"} },
+    { label = "KOVANJE DENARJA+", base = "Metalwork+CoinDieMaker+CoinPressMaker", systems = {"CoinBlankMaker", "CoinScaleMaker", "CoinSorterMaker"}, multiBase = true, bases = {"Metalwork", "CoinDieMaker", "CoinPressMaker"} },
 }
 
 -- Node dimensions for graph view
@@ -1890,7 +1894,7 @@ function TechTreePanel.draw()
     love.graphics.print(pctStr, pbX + (pbW - pctW) / 2, pbY - 12)
 
     love.graphics.setColor(0.4, 0.45, 0.5, 1)
-    love.graphics.print(string.format("65 deps · 25 verig · 8 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
+    love.graphics.print(string.format("72 deps · 28 verig · 9 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
         viewMode, focusStr, pathStr, searchStr, sortStr, filterStr, bookmarkStr, multiStr, presetStr),
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)

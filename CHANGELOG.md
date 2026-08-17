@@ -2,6 +2,42 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.970] — 2026-08-17 — Tech Tree Expansion IV (65→72 deps, 25→28 verig, 8→9 multi-prereq)
+
+### Dodano
+- **SystemDependencies.lua** — 13 novih dependencies v 3 novih podverigah:
+  - **VRTNARSTVO+** (7 novih deps):
+    - PruningShearsMaker → Metalwork
+    - PruningSawMaker → Metalwork
+    - HedgeShearsMaker → Metalwork
+    - BonsaiCultivator → TopiaryFrameMaker
+    - FountainMaker → MasonStonecutter
+    - TrellisMaker → WoodLathe
+    - VineyardPlanter → GardenRake
+  - **ČEBELARSTVO+** (3 nova deps, 1 multi-prereq):
+    - WaxSealPresser → WaxTablet
+    - LostWaxMolderMaker → WaxTablet + GlassBench (multi-prereq!)
+    - ApiaryKeeper → HoneyDipperMaker
+  - **KOVANJE DENARJA+** (3 nova deps):
+    - CoinBlankMaker → Metalwork
+    - CoinScaleMaker → CoinDieMaker
+    - CoinSorterMaker → CoinPressMaker
+- **TechTreePanel.lua** — 3 nove CHAINS entry-ji, footer posodobljen (72 deps · 28 verig · 9 multi-prereq)
+- Vsi novi sistemi so obstoječi Royal sistemi — ni treba generirati novih .lua datotek
+
+### Statistika
+- Prej: 65 deps v 25 verigah, 8 multi-prereq (v3.11.943)
+- Sedaj: **72 deps v 28 verigah, 9 multi-prereq** (v3.11.970)
+- 9 multi-prereq: CoinPressMaker, TrumpetMaker, MapMaker, ManuscriptIlluminator, TheaterMaskMaker, GlassColorantMuller, SurgicalLancetMaker, MintCurrency, LostWaxMolderMaker
+
+### Spremenjene datoteke
+- `objects/Economy/SystemDependencies.lua` (+20 vrstic) — 13 novih dependency entry-jev v 3 novih verigah
+- `states/ui/hud/tech_tree_panel.lua` (+5 vrstic) — 3 nove CHAINS entry-ji, footer count update
+
+### Zaključeno
+- Pred: 25 verig z 65 odvisnostmi
+- Sedaj: 28 verig z 72 odvisnostmi — 3 nove podverige (Horticulture+, Apiary+, Coinage+)
+
 ## [v3.11.969] — 2026-08-17 — Auto-Save Overlay Hover Tooltip (status, timer, save count, Royal stats)
 
 ### Dodano
