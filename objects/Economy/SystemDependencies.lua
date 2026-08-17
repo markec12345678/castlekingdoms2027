@@ -267,6 +267,14 @@ local dependencyGraph = {
     CheeseMaker         = {"BreadBaker", "ApothecaryMortar"},
     KitchenKnifeMaker   = {"Metalwork", "CutlerySmith"},
     ConfectionOvenMaker = {"BreadBaker", "BrickMaker"},
+
+    -- v3.11.985: Clockmaking+ chain (metalwork → advanced timekeeping)
+    SundialMaker           = {"MasonStonecutter"},
+    PocketWatchMaker       = {"Metalwork", "GlassBench"},
+    MainspringWinderMaker  = {"Metalwork", "BellMaker"},
+    EscapementLeverMaker   = {"Metalwork", "WoodLathe"},
+    PendulumRodMaker       = {"Metalwork", "WoodLathe"},
+    ClockFacePainter       = {"PigmentGrinderMaker", "GlassBench"},
 }
 
 -- Register a dependency at runtime (for modding/extensibility)

@@ -360,6 +360,8 @@ local CHAINS = {
     { label = "BARVILA+", base = "DyeStuff+PigmentGrinderMaker+GlassBench+InkMaker+Metalwork+WoodLathe", systems = {"PigmentGrinderMaker", "PaintMaker", "PaintbrushMaker", "InkwellMaker", "GildingBrushMaker", "WashstandMaker"}, multiBase = true, bases = {"DyeStuff", "PigmentGrinderMaker", "GlassBench", "InkMaker", "Metalwork", "WoodLathe"} },
     -- v3.11.984: Kitchen+ chain
     { label = "KUHINJA+", base = "BreadBaker+FlourSieve+ApothecaryMortar+Metalwork+WoodLathe+CutlerySmith+BrickMaker", systems = {"SpiceGrinderMaker", "CoffeeRoaster", "ButterChurner", "CheeseMaker", "KitchenKnifeMaker", "ConfectionOvenMaker"}, multiBase = true, bases = {"BreadBaker", "FlourSieve", "ApothecaryMortar", "Metalwork", "WoodLathe", "CutlerySmith", "BrickMaker"} },
+    -- v3.11.985: Clockmaking+ chain
+    { label = "URARSTVO+", base = "MasonStonecutter+Metalwork+GlassBench+BellMaker+WoodLathe+PigmentGrinderMaker", systems = {"SundialMaker", "PocketWatchMaker", "MainspringWinderMaker", "EscapementLeverMaker", "PendulumRodMaker", "ClockFacePainter"}, multiBase = true, bases = {"MasonStonecutter", "Metalwork", "GlassBench", "BellMaker", "WoodLathe", "PigmentGrinderMaker"} },
 }
 
 -- Node dimensions for graph view
@@ -1922,7 +1924,7 @@ function TechTreePanel.draw()
     love.graphics.print(pctStr, pbX + (pbW - pctW) / 2, pbY - 12)
 
     love.graphics.setColor(0.4, 0.45, 0.5, 1)
-    love.graphics.print(string.format("150 deps · 42 verig · 64 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
+    love.graphics.print(string.format("156 deps · 43 verig · 69 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
         viewMode, focusStr, pathStr, searchStr, sortStr, filterStr, bookmarkStr, multiStr, presetStr),
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)

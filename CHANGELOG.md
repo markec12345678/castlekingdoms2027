@@ -2,6 +2,29 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.985] — 2026-08-17 — Clockmaking+ Chain (6 novih deps: Sundial, PocketWatch, MainspringWinder, EscapementLever, PendulumRod, ClockFacePainter)
+
+### Dodano
+- **SystemDependencies.lua** — 6 novih dependencies za obstoječe urarske sisteme:
+  - SundialMaker → MasonStonecutter
+  - PocketWatchMaker → Metalwork + GlassBench (multi-prereq!)
+  - MainspringWinderMaker → Metalwork + BellMaker (multi-prereq! — vzmeti iz zvonove medenine)
+  - EscapementLeverMaker → Metalwork + WoodLathe (multi-prereq! — precizni mehanizem)
+  - PendulumRodMaker → Metalwork + WoodLathe (multi-prereq! — palica + nastavitev)
+  - ClockFacePainter → PigmentGrinderMaker + GlassBench (multi-prereq! — povezava z barvilno verigo)
+- **TechTreePanel.lua** — nova URARSTVO+ chain, footer posodobljen (156 deps · 43 verig · 69 multi-prereq)
+
+### Statistika
+- Prej: 990 sistemov, 150 deps, 42 verig, 64 multi-prereq (v3.11.984)
+- Sedaj: **990 sistemov, 156 deps, 43 verig, 69 multi-prereq** (v3.11.985)
+- 5 novih multi-prereq sistemi: PocketWatchMaker, MainspringWinderMaker, EscapementLeverMaker, PendulumRodMaker, ClockFacePainter
+- **MEJNIK: 156 deps, 43 verig, 69 multi-prereq — skoraj 9x več multi-prereq kot začetnih 8!**
+- ClockFacePainter je CROSS-CHAIN povezava — povezuje urarstvo z barvilno verigo (PigmentGrinderMaker)!
+
+### Zaključeno
+- Pred: 0 urarskih sistemov z dependencies
+- Sedaj: 6 urarskih sistemov z dependencies (Sundial, PocketWatch, MainspringWinder, EscapementLever, PendulumRod, ClockFacePainter)
+
 ## [v3.11.984] — 2026-08-17 — Kitchen+ Chain (6 novih deps: SpiceGrinder, CoffeeRoaster, ButterChurner, CheeseMaker, KitchenKnife, ConfectionOven)
 
 ### Dodano
