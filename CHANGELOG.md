@@ -2,6 +2,27 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.973] — 2026-08-17 — Glassmaking+ Chain (6 novih deps: CrystalGoblet, StainedGlass, Hourglass, GlassFurnace, GlassCutter, GlassPolishingWheel)
+
+### Dodano
+- **SystemDependencies.lua** — 6 novih dependencies za obstoječe steklarske sisteme:
+  - CrystalGobletMaker → GlassBench + GlassBeadMaker (multi-prereq!)
+  - StainedGlassMaker → GlassBench + GlassColorantMaker (multi-prereq!)
+  - HourglassMaker → GlassBench + GlassBeadMaker (multi-prereq!)
+  - GlassFurnaceMaker → GlassBench + Metalwork (multi-prereq!)
+  - GlassCutterMaker → GlassBench
+  - GlassPolishingWheelMaker → GlassBench
+- **TechTreePanel.lua** — nova STEKLARSTVO+ chain, footer posodobljen (84 deps · 31 verig · 19 multi-prereq)
+
+### Statistika
+- Prej: 990 sistemov, 78 deps, 30 verig, 15 multi-prereq (v3.11.972)
+- Sedaj: **990 sistemov, 84 deps, 31 verig, 19 multi-prereq** (v3.11.973)
+- 4 novi multi-prereq sistemi: CrystalGobletMaker, StainedGlassMaker, HourglassMaker, GlassFurnaceMaker
+
+### Zaključeno
+- Pred: 5 steklarskih sistemov z dependencies (Mirror, Bead, Vitrail, CoolingRack, Mold)
+- Sedaj: 11 steklarskih sistemov z dependencies (+ CrystalGoblet, StainedGlass, Hourglass, GlassFurnace, GlassCutter, GlassPolishingWheel)
+
 ## [v3.11.972] — 2026-08-17 — Astronomy+ Chain (3 nove deps: ArmillarySphere, Sextant, Telescope)
 
 ### Dodano

@@ -171,6 +171,14 @@ local dependencyGraph = {
     ArmillarySphereMaker = {"Metalwork", "AstrolabeRingMaker"},
     SextantMaker         = {"Metalwork", "QuadrantMaker"},
     TelescopeMaker       = {"Metalwork", "GlassBench"},
+
+    -- v3.11.973: Glassmaking+ chain (glass bench → advanced glass products)
+    CrystalGobletMaker   = {"GlassBench", "GlassBeadMaker"},
+    StainedGlassMaker    = {"GlassBench", "GlassColorantMaker"},
+    HourglassMaker       = {"GlassBench", "GlassBeadMaker"},
+    GlassFurnaceMaker    = {"GlassBench", "Metalwork"},
+    GlassCutterMaker     = {"GlassBench"},
+    GlassPolishingWheelMaker = {"GlassBench"},
 }
 
 -- Register a dependency at runtime (for modding/extensibility)
