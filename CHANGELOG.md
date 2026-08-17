@@ -2,6 +2,28 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.979] — 2026-08-17 — Candle/Wax+ Chain (6 novih deps: Candelabra, Chandelier, Candlestick, CandleMold, WaxDipper, LanternStreetLight)
+
+### Dodano
+- **SystemDependencies.lua** — 6 novih dependencies za obstoječe voščene/svečne sisteme:
+  - CandelabraMaker → Metalwork + CandlestickBaseMaker (multi-prereq!)
+  - ChandelierMaker → Metalwork + CandlestickMaker (multi-prereq!)
+  - CandlestickMaker → Metalwork + WaxTablet (multi-prereq!)
+  - CandleMoldMaker → WaxTablet
+  - WaxDipperMaker → WaxTablet
+  - LanternStreetLight → Metalwork + GlassBench (multi-prereq!)
+- **TechTreePanel.lua** — nova SVEČE IN VOSAK+ chain, footer posodobljen (120 deps · 37 verig · 43 multi-prereq)
+
+### Statistika
+- Prej: 990 sistemov, 114 deps, 36 verig, 39 multi-prereq (v3.11.978)
+- Sedaj: **990 sistemov, 120 deps, 37 verig, 43 multi-prereq** (v3.11.979)
+- 4 novi multi-prereq sistemi: CandelabraMaker, ChandelierMaker, CandlestickMaker, LanternStreetLight
+- **MEJNIK: 120 deps in 43 multi-prereq!**
+
+### Zaključeno
+- Pred: 2 voščena sistema z dependencies (CandlestickBase, TorchHolder)
+- Sedaj: 8 voščenih/svečnih sistemov z dependencies (+ Candelabra, Chandelier, Candlestick, CandleMold, WaxDipper, LanternStreetLight)
+
 ## [v3.11.978] — 2026-08-17 — Musical Instruments+ Chain (6 novih deps: Harp, Lute, OrganPipe, Bagpipe, Cymbal, Shawm)
 
 ### Dodano

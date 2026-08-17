@@ -219,6 +219,14 @@ local dependencyGraph = {
     BagpipeMaker    = {"WoodLathe", "RawhideTanner"},
     CymbalMaker     = {"Metalwork", "BellMaker"},
     ShawmMaker      = {"WoodLathe", "Metalwork"},
+
+    -- v3.11.979: Candle/Wax+ chain (wax tablet → advanced candle/lighting)
+    CandelabraMaker   = {"Metalwork", "CandlestickBaseMaker"},
+    ChandelierMaker   = {"Metalwork", "CandlestickMaker"},
+    CandlestickMaker  = {"Metalwork", "WaxTablet"},
+    CandleMoldMaker   = {"WaxTablet"},
+    WaxDipperMaker    = {"WaxTablet"},
+    LanternStreetLight = {"Metalwork", "GlassBench"},
 }
 
 -- Register a dependency at runtime (for modding/extensibility)
