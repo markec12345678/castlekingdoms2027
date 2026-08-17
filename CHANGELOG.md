@@ -2,6 +2,28 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.981] — 2026-08-17 — Brewing/Baking+ Chain (6 novih deps: AlambicStill, DistillationApparatus, BrewerAdvancedDistillery, BreadMold, BakerConfectioner, FlourSifter)
+
+### Dodano
+- **SystemDependencies.lua** — 6 novih dependencies za obstoječe pivovarske/pekarske sisteme:
+  - AlambicStillMaker → BranSeparator + Metalwork (multi-prereq!)
+  - DistillationApparatusMaker → BranSeparator + GlassBench (multi-prereq!)
+  - BrewerAdvancedDistillery → BranSeparator + AleBrewer (multi-prereq!)
+  - BreadMoldMaker → FlourSieve + PotteryWheel (multi-prereq!)
+  - BakerConfectioner → FlourSieve + BreadBaker (multi-prereq!)
+  - FlourSifterMaker → FlourSieve
+- **TechTreePanel.lua** — nova PIVOVARSTVO/PEKSTVO+ chain, footer posodobljen (132 deps · 39 verig · 52 multi-prereq)
+
+### Statistika
+- Prej: 990 sistemov, 126 deps, 38 verig, 47 multi-prereq (v3.11.980)
+- Sedaj: **990 sistemov, 132 deps, 39 verig, 52 multi-prereq** (v3.11.981)
+- 5 novih multi-prereq sistemi: AlambicStillMaker, DistillationApparatusMaker, BrewerAdvancedDistillery, BreadMoldMaker, BakerConfectioner
+- **MEJNIK: 132 deps in 52 multi-prereq — 6.5x več multi-prereq kot začetnih 8!**
+
+### Zaključeno
+- Pred: 4 pivovarski/pekarska sistema z dependencies (AleBrewer, BrandyDistiller, BreadBaker, PastryChef)
+- Sedaj: 10 pivovarskih/pekarskih sistemov z dependencies (+ AlambicStill, DistillationApparatus, BrewerAdvancedDistillery, BreadMold, BakerConfectioner, FlourSifter)
+
 ## [v3.11.980] — 2026-08-17 — Fishing+ Chain (6 novih deps: FishHook, BaitBox, FishingLineSpool, FishingRod, FishSmoker, FishingBoat)
 
 ### Dodano

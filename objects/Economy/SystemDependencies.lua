@@ -235,6 +235,14 @@ local dependencyGraph = {
     FishingRodMaker    = {"NetMaker", "WoodLathe"},
     FishSmoker         = {"NetMaker", "ForgeTuyere"},
     FishingBoatMaker   = {"NetMaker", "WoodLathe"},
+
+    -- v3.11.981: Brewing/Baking+ chain (bran separator → advanced brewing/baking)
+    AlambicStillMaker         = {"BranSeparator", "Metalwork"},
+    DistillationApparatusMaker = {"BranSeparator", "GlassBench"},
+    BrewerAdvancedDistillery  = {"BranSeparator", "AleBrewer"},
+    BreadMoldMaker            = {"FlourSieve", "PotteryWheel"},
+    BakerConfectioner         = {"FlourSieve", "BreadBaker"},
+    FlourSifterMaker          = {"FlourSieve"},
 }
 
 -- Register a dependency at runtime (for modding/extensibility)
