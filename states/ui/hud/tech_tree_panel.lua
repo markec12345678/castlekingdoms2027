@@ -104,6 +104,16 @@ local bookmarksLoaded = false  -- lazy load on first use
 -- This lets the player compare multiple systems' tech lineages at once.
 local multiSelect = {}  -- map: key -> true
 
+-- Feedback message state (v3.11.962)
+local feedbackMessage = ""
+local feedbackMessageTime = 0
+
+-- v3.11.962: Show feedback message (for export/import operations)
+local function showFeedback(msg)
+    feedbackMessage = msg
+    feedbackMessageTime = 3.0
+end
+
 -- Define chain display order and labels
 local CHAINS = {
     { label = "KOVANJE METALOV", base = "Metalwork", systems = {"BellMaker", "ChainmailForger", "SwordPommelMaker", "GauntletMaker", "CoinDieMaker", "CoinPressMaker"} },
@@ -597,6 +607,72 @@ end
 -- v3.11.959: Check if a key is bookmarked
 local function isBookmarked(key)
     return bookmarks[key] == true
+end
+
+-- v3.11.962: Export current tech tree configuration as a shareable string.
+-- Format: "TT|<viewMode>|<pathMode>|<sortMode>|<stateFilter>|<minimapVisible>|<depthVisible>|<arrowsVisible>|<bookmarksOnly>|<selectedKey>|<multiKeys>|<bookmarkKeys>"
+local function exportConfig()
+    loadBookmarks()
+    local parts = {"TT", viewMode, pathMode, sortMode, stateFilter,
+        tostring(minimapVisible), tostring(depthVisible), tostring(arrowsVisible), tostring(bookmarksOnly),
+        selectedKey or ""}
+    -- Multi-select keys (comma-separated)
+    local multiKeys = {}
+    for k, _ in pairs(multiSelect) do
+        table.insert(multiKeys, k)
+    end
+    table.insert(parts, table.concat(multiKeys, ","))
+    -- Bookmark keys (comma-separated)
+    local bmKeys = {}
+    for k, _ in pairs(bookmarks) do
+        table.insert(bmKeys, k)
+    end
+    table.insert(parts, table.concat(bmKeys, ","))
+    return table.concat(parts, "|")
+end
+
+-- v3.11.962: Import tech tree configuration from a string.
+-- Returns true on success, false on parse error.
+local function importConfig(str)
+    if not str or str == "" then return false end
+    local parts = {}
+    for p in str:gmatch("[^|]+") do
+        table.insert(parts, p)
+    end
+    if #parts < 12 or parts[1] ~= "TT" then return false end
+    -- Parse fields
+    viewMode = parts[2] == "text" and "text" or "graph"
+    pathMode = parts[3] == "direct" and "direct" or "transitive"
+    sortMode = parts[4] == "depth" and "depth" or "alphabetical"
+    stateFilter = parts[5]
+    if stateFilter ~= "active" and stateFilter ~= "met" and stateFilter ~= "locked" then
+        stateFilter = "all"
+    end
+    minimapVisible = (parts[6] == "true")
+    depthVisible = (parts[7] == "true")
+    arrowsVisible = (parts[8] == "true")
+    bookmarksOnly = (parts[9] == "true")
+    selectedKey = (parts[10] ~= "" and parts[10]) or nil
+    -- Multi-select keys
+    multiSelect = {}
+    if parts[11] ~= "" then
+        for k in parts[11]:gmatch("[^,]+") do
+            multiSelect[k] = true
+        end
+    end
+    -- Bookmarks (overwrite existing bookmarks)
+    bookmarks = {}
+    bookmarksLoaded = true  -- mark as loaded so we don't overwrite with file
+    if parts[12] ~= "" then
+        for k in parts[12]:gmatch("[^,]+") do
+            bookmarks[k] = true
+        end
+    end
+    saveBookmarks()
+    -- Invalidate nav list since sort mode might have changed
+    keyboardNavList = nil
+    keyboardNavIndex = nil
+    return true
 end
 
 -- Compute layout: returns list of { chainLabel, chainY, baseNodes=[], depNodes=[], connections={} }
@@ -1414,7 +1490,7 @@ function TechTreePanel.draw()
     love.graphics.setColor(0.5, 0.6, 0.7, 1)
     if smallFont then love.graphics.setFont(smallFont) end
     local hintStr = viewMode == "graph"
-        and "Ctrl+Shift+G: zapri  |  G: tekst  |  /: iskanje  |  Tab: naslednji  |  click: fokus  |  Shift+click: multi  |  C: počisti  |  B: ★  |  T: pot  |  M: minimap  |  D: globina  |  A: puščice  |  S: sort  |  L: filter  |  F/ESC: počisti"
+        and "Ctrl+Shift+G: zapri  |  G: tekst  |  /: iskanje  |  Tab: naslednji  |  click: fokus  |  Shift+click: multi  |  C: počisti  |  B: ★  |  E: izvoz  |  T: pot  |  M: minimap  |  D: globina  |  A: puščice  |  S: sort  |  L: filter  |  F/ESC: počisti"
         or  "Ctrl+Shift+G: zapri  |  G: graf  |  /: iskanje  |  ↑↓/wheel: scroll  |  zelena=met  oranžna=ne met"
     love.graphics.print(hintStr, panelX + 16, panelY + 36)
     love.graphics.setFont(font)
@@ -1595,6 +1671,23 @@ function TechTreePanel.draw()
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)
 
+    -- v3.11.962: Feedback message (export/import)
+    if feedbackMessage ~= "" then
+        love.graphics.setFont(font)
+        local msgW = font:getWidth(feedbackMessage)
+        local msgX = panelX + (panelW - msgW) / 2
+        local msgY = panelY + 60
+        love.graphics.setColor(0, 0, 0, 0.8)
+        love.graphics.rectangle("fill", msgX - 8, msgY - 4, msgW + 16, font:getHeight() + 8, 4, 4, 4, 4)
+        local alpha = math.min(1, feedbackMessageTime)  -- fade out
+        if feedbackMessage:find("✓") then
+            love.graphics.setColor(0.4, 0.95, 0.4, alpha)
+        else
+            love.graphics.setColor(0.95, 0.5, 0.4, alpha)
+        end
+        love.graphics.print(feedbackMessage, msgX, msgY)
+    end
+
     love.graphics.setColor(1, 1, 1, 1)
 end
 
@@ -1607,6 +1700,11 @@ function TechTreePanel.update(dt)
     if not visible then return end
     if searchActive then
         cursorBlink = cursorBlink + dt
+    end
+    -- v3.11.962: Update feedback message timer
+    if feedbackMessageTime > 0 then
+        feedbackMessageTime = feedbackMessageTime - dt
+        if feedbackMessageTime <= 0 then feedbackMessage = "" end
     end
 end
 
@@ -1766,6 +1864,31 @@ function TechTreePanel.keypressed(key)
             selectedKey = nil
             multiSelect = {}
             return true
+        end
+        return true
+    end
+
+    -- v3.11.962: E exports config to clipboard, Shift+E imports from clipboard
+    if key == "e" then
+        local shiftDown = love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift")
+        if shiftDown then
+            -- Import from clipboard
+            local clip = love.system.getClipboardText()
+            if clip and clip ~= "" then
+                local ok = importConfig(clip)
+                if ok then
+                    showFeedback("✓ Konfiguracija uvožena iz odložišča")
+                else
+                    showFeedback("✗ Napaka: neveljaven format")
+                end
+            else
+                showFeedback("✗ Odložišče je prazno")
+            end
+        else
+            -- Export to clipboard
+            local config = exportConfig()
+            love.system.setClipboardText(config)
+            showFeedback("✓ Konfiguracija izvožena v odložišče (" .. #config .. " znakov)")
         end
         return true
     end

@@ -2,6 +2,43 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.962] — 2026-08-17 — Tech Tree Export/Import (E: izvoz v odložišče, Shift+E: uvoz)
+
+### Dodano
+- **TechTreePanel.lua** — izvoz/uvoz tech tree konfiguracije preko odložišča:
+  - **`E` tipka** — izvozi konfiguracijo v odložišče (love.system.setClipboardText)
+  - **`Shift+E`** — uvozi konfiguracijo iz odložišča (love.system.getClipboardText)
+  - **Format**: `TT|viewMode|pathMode|sortMode|stateFilter|minimapVisible|depthVisible|arrowsVisible|bookmarksOnly|selectedKey|multiKeys|bookmarkKeys`
+  - **Serializirano**:
+    - viewMode (graph/text)
+    - pathMode (direct/transitive)
+    - sortMode (alphabetical/depth)
+    - stateFilter (all/active/met/locked)
+    - Toggles (minimap, depth, arrows, bookmarksOnly)
+    - selectedKey (fokus)
+    - multiSelect keys (comma-separated)
+    - bookmark keys (comma-separated)
+  - **Validacija** — import preverja format prefix "TT" in število polj (12)
+  - **Feedback message** — prikazuje uspeh/napako nad content area (zeleno za ✓, rdeče za ✗)
+  - **Fade out** — feedback message izgine po 3 sekundah
+  - **Invalidacija** — import počisti keyboardNavList (ker se sort mode lahko spremeni)
+  - **Bookmarks persistenca** — import shrani bookmarks v file (saveBookmarks)
+
+### Spremenjene datoteke
+- `states/ui/hud/tech_tree_panel.lua` (+~80 vrstic) — feedbackMessage state, showFeedback() helper, exportConfig() serializer, importConfig() deserializer, update() feedback timer, E/Shift+E key handler, feedback message rendering
+- `states/ui/hud/keybind_help.lua` (+2 vrstici) — E in Shift+E opisa
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS (tech_tree_panel.lua + keybind_help.lua)
+- Format prefix "TT" — preprečuje uvoz naključnega besedila iz odložišča
+- Validacija — preverja #parts >= 12 in prefix, fallback na "all"/"graph"/"transitive" za neveljavne vrednosti
+- Bookmarks — import označi bookmarksLoaded = true da prepreči overwrite z file
+- Feedback message — fade out z math.min(1, feedbackMessageTime)
+
+### Zaključeno
+- Pred: igralec ni mogel shraniti svojega "pogleda" (filtri, sort, focus, bookmarks)
+- Sedaj: E izvozi celotno konfiguracijo v odložišče — igralec lahko shrani ali deli z drugimi
+
 ## [v3.11.961] — 2026-08-16 — Tech Tree Multi-Select (Shift+click za izbiro več vozlišč, union sorodnih)
 
 ### Dodano

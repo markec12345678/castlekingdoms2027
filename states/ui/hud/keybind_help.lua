@@ -97,6 +97,8 @@ local KEYBINDS = {
             { key = "Shift+Tab", desc = "Prejšnje vozlišče (keyboard navigacija nazaj)" },
             { key = "B",        desc = "Dodaj/odstrani zaznamek (★) na hovered/selected vozlišču" },
             { key = "Shift+B",  desc = "Preklopi filter: prikaži samo zaznamovana vozlišča" },
+            { key = "E",        desc = "Izvozi konfiguracijo (filtri, sort, focus, bookmarks) v odložišče" },
+            { key = "Shift+E",  desc = "Uvozi konfiguracijo iz odložišča" },
             { key = "F",        desc = "Počisti fokus (ali klik ponovno na isto vozlišče)" },
             { key = "Hover",    desc = "V graf pogledu: prikaži podrobnosti odvisnosti + število odvisnikov" },
             { key = "↑ ↓",      desc = "Scroll po verigah" },
