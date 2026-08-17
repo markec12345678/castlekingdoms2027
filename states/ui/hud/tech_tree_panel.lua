@@ -102,7 +102,9 @@ local bookmarksLoaded = false  -- lazy load on first use
 -- Shift+click adds/removes nodes from multiSelect set.
 -- When non-empty, the related set is the UNION of all selected keys' related sets.
 -- This lets the player compare multiple systems' tech lineages at once.
+-- v3.11.964: Persisted to tech_tree_multiselect.txt via love.filesystem.
 local multiSelect = {}  -- map: key -> true
+local multiSelectLoaded = false  -- lazy load on first use
 
 -- Feedback message state (v3.11.962)
 local feedbackMessage = ""
@@ -677,10 +679,39 @@ local function isBookmarked(key)
     return bookmarks[key] == true
 end
 
+-- v3.11.964: Load multi-select from file (one key per line)
+local function loadMultiSelect()
+    if multiSelectLoaded then return end
+    multiSelectLoaded = true
+    local path = "tech_tree_multiselect.txt"
+    if love.filesystem.exists(path) then
+        local data = love.filesystem.read(path)
+        if data then
+            for line in data:gmatch("[^\n]+") do
+                local key = line:match("^%s*(.-)%s*$")  -- trim whitespace
+                if key ~= "" then
+                    multiSelect[key] = true
+                end
+            end
+        end
+    end
+end
+
+-- v3.11.964: Save multi-select to file
+local function saveMultiSelect()
+    local lines = {}
+    for key, _ in pairs(multiSelect) do
+        table.insert(lines, key)
+    end
+    local data = table.concat(lines, "\n")
+    love.filesystem.write("tech_tree_multiselect.txt", data)
+end
+
 -- v3.11.962: Export current tech tree configuration as a shareable string.
 -- Format: "TT|<viewMode>|<pathMode>|<sortMode>|<stateFilter>|<minimapVisible>|<depthVisible>|<arrowsVisible>|<bookmarksOnly>|<selectedKey>|<multiKeys>|<bookmarkKeys>"
 local function exportConfig()
     loadBookmarks()
+    loadMultiSelect()  -- v3.11.964
     local parts = {"TT", viewMode, pathMode, sortMode, stateFilter,
         tostring(minimapVisible), tostring(depthVisible), tostring(arrowsVisible), tostring(bookmarksOnly),
         selectedKey or ""}
@@ -737,6 +768,9 @@ local function importConfig(str)
         end
     end
     saveBookmarks()
+    -- v3.11.964: Mark multi-select as loaded and save imported multi-select
+    multiSelectLoaded = true
+    saveMultiSelect()
     -- Invalidate nav list since sort mode might have changed
     keyboardNavList = nil
     keyboardNavIndex = nil
@@ -848,6 +882,8 @@ end
 local function drawNode(node, font, smallFont, isRelated, isSelected, isMatched, isStateMatched)
     -- v3.11.959: Load bookmarks lazily
     loadBookmarks()
+    -- v3.11.964: Load multi-select lazily
+    loadMultiSelect()
     local bm = isBookmarked(node.key)
     -- Apply dimming if focus is active and this node is not related
     -- OR if search is active and this node doesn't match
@@ -1934,6 +1970,7 @@ function TechTreePanel.keypressed(key)
         if selectedKey or hasMulti then
             selectedKey = nil
             multiSelect = {}
+            saveMultiSelect()  -- v3.11.964
             return true
         end
         return true
@@ -2148,16 +2185,19 @@ function TechTreePanel.mousepressed(x, y, button)
             local shiftDown = love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift")
             if shiftDown then
                 -- Shift+click: toggle in multi-select
+                loadMultiSelect()  -- v3.11.964
                 if multiSelect[clickedKey] then
                     multiSelect[clickedKey] = nil
                 else
                     multiSelect[clickedKey] = true
                 end
+                saveMultiSelect()  -- v3.11.964
                 -- Clear single selection when using multi-select
                 selectedKey = nil
             else
                 -- Regular click: clear multi-select, set single focus
                 multiSelect = {}
+                saveMultiSelect()  -- v3.11.964
                 if selectedKey == clickedKey then
                     selectedKey = nil
                 else
@@ -2173,6 +2213,7 @@ function TechTreePanel.mousepressed(x, y, button)
         if selectedKey or hasMulti then
             selectedKey = nil
             multiSelect = {}
+            saveMultiSelect()  -- v3.11.964
             return true
         end
     end

@@ -2,6 +2,31 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.964] — 2026-08-17 — Tech Tree Multi-Select Persistence (shranjevanje med sejami)
+
+### Dodano
+- **TechTreePanel.lua** — multi-select persistenca preko love.filesystem:
+  - **`loadMultiSelect()`** — lazy load iz `tech_tree_multiselect.txt` (en key per vrstico)
+  - **`saveMultiSelect()`** — write v file
+  - **`multiSelectLoaded` flag** — preprečuje ponovno nalaganje
+  - **Save on every change** — Shift+click (toggle), regular click (clear), click na prazno (clear), C key (clear)
+  - **Load on first use** — `loadMultiSelect()` klican v drawNode (podobno kot loadBookmarks)
+  - **Export/import** — exportConfig() kliče loadMultiSelect(), importConfig() označi multiSelectLoaded=true in saveMultiSelect()
+  - **Format** — en key per vrstico (enako kot bookmarks)
+
+### Spremenjene dateteke
+- `states/ui/hud/tech_tree_panel.lua` (+~40 vrstic) — multiSelectLoaded state, loadMultiSelect()/saveMultiSelect() funkcije, drawNode loadMultiSelect(), mousepressed saveMultiSelect() po vseh spremembah, C key saveMultiSelect(), exportConfig loadMultiSelect(), importConfig saveMultiSelect()
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS
+- Lazy load — multiSelectLoaded flag preprečuje ponovno nalaganje
+- Save on change — vse spremembe multiSelect seta sprožijo saveMultiSelect()
+- Export/import — export kliče loadMultiSelect(), import označi loaded in save
+
+### Zaključeno
+- Pred: multi-select se je izgubil ob zaprtju panela
+- Sedaj: multi-select se persistira v tech_tree_multiselect.txt in preživi restart
+
 ## [v3.11.963] — 2026-08-17 — Tech Tree Config Presets (P: ciklaj Vsi/Aktivni/Razpoložljivi/Zaklenjeni/Zaznamovani)
 
 ### Dodano
