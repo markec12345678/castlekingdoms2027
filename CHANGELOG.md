@@ -2,6 +2,27 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.977] — 2026-08-17 — Pottery+ Chain (6 novih deps: ClayDigger, ClayPipe, GlazeSieve, MosaicTile, KilnFurniture, PotteryKiln)
+
+### Dodano
+- **SystemDependencies.lua** — 6 novih dependencies za obstoječe lončarske sisteme:
+  - ClayDigger → PotteryWheel
+  - ClayPipeMaker → PotteryWheel + MasonStonecutter (multi-prereq!)
+  - GlazeSieveMaker → PotteryWheel
+  - MosaicTileMaker → MasonStonecutter + BrickMaker (multi-prereq!)
+  - KilnFurnitureMaker → PotteryWheel + MasonStonecutter (multi-prereq!)
+  - PotteryKiln → PotteryWheel
+- **TechTreePanel.lua** — nova LONČARSTVO+ chain, footer posodobljen (108 deps · 35 verig · 33 multi-prereq)
+
+### Statistika
+- Prej: 990 sistemov, 102 deps, 34 verig, 30 multi-prereq (v3.11.976)
+- Sedaj: **990 sistemov, 108 deps, 35 verig, 33 multi-prereq** (v3.11.977)
+- 3 novi multi-prereq sistemi: ClayPipeMaker, MosaicTileMaker, KilnFurnitureMaker
+
+### Zaključeno
+- Pred: 3 lončarski sistemi z dependencies (ApothecaryMortar, ApothecaryVial, CrystallizationDish)
+- Sedaj: 9 lončarskih sistemov z dependencies (+ ClayDigger, ClayPipe, GlazeSieve, MosaicTile, KilnFurniture, PotteryKiln)
+
 ## [v3.11.976] — 2026-08-17 — Textile+ Chain (6 novih deps: CanvasWeaver, CarpetLoom, DyeVat, Bobbin, ClothPresser, LeatherBurnisher)
 
 ### Dodano

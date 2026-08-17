@@ -203,6 +203,14 @@ local dependencyGraph = {
     BobbinMaker       = {"SpinningWheel"},
     ClothPresserMaker = {"SpinningWheel"},
     LeatherBurnisherMaker = {"RawhideTanner", "Metalwork"},
+
+    -- v3.11.977: Pottery+ chain (pottery wheel → advanced ceramics)
+    ClayDigger         = {"PotteryWheel"},
+    ClayPipeMaker      = {"PotteryWheel", "MasonStonecutter"},
+    GlazeSieveMaker    = {"PotteryWheel"},
+    MosaicTileMaker    = {"MasonStonecutter", "BrickMaker"},
+    KilnFurnitureMaker = {"PotteryWheel", "MasonStonecutter"},
+    PotteryKiln        = {"PotteryWheel"},
 }
 
 -- Register a dependency at runtime (for modding/extensibility)
