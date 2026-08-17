@@ -2,6 +2,28 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.976] — 2026-08-17 — Textile+ Chain (6 novih deps: CanvasWeaver, CarpetLoom, DyeVat, Bobbin, ClothPresser, LeatherBurnisher)
+
+### Dodano
+- **SystemDependencies.lua** — 6 novih dependencies za obstoječe tekstilne/usnjarske sisteme:
+  - CanvasWeaver → SpinningWheel + LoomHeddle (multi-prereq!)
+  - CarpetLoom → SpinningWheel + TapestryLoom (multi-prereq!)
+  - DyeVatMaker → DyeStuff + Metalwork (multi-prereq!)
+  - BobbinMaker → SpinningWheel
+  - ClothPresserMaker → SpinningWheel
+  - LeatherBurnisherMaker → RawhideTanner + Metalwork (multi-prereq!)
+- **TechTreePanel.lua** — nova TEKSTIL+ chain, footer posodobljen (102 deps · 34 verig · 30 multi-prereq)
+
+### Statistika
+- Prej: 990 sistemov, 96 deps, 33 verig, 26 multi-prereq (v3.11.975)
+- Sedaj: **990 sistemov, 102 deps, 34 verig, 30 multi-prereq** (v3.11.976)
+- 4 novi multi-prereq sistemi: CanvasWeaver, CarpetLoom, DyeVatMaker, LeatherBurnisherMaker
+- **MEJNIK: 100+ deps in 30+ multi-prereq!**
+
+### Zaključeno
+- Pred: 3 tekstilni sistemi z dependencies (LoomHeddle, TapestryLoom, CarpetLoom)
+- Sedaj: 9 tekstilnih/usnjarskih sistemov z dependencies (+ CanvasWeaver, DyeVat, Bobbin, ClothPresser, LeatherBurnisher)
+
 ## [v3.11.975] — 2026-08-17 — Bookbinding+ Chain (6 novih deps: BookClasp, CodexBinder, ChronicleBinder, BookbindingAwl, BookShelf, QuillCutter)
 
 ### Dodano

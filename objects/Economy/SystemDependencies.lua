@@ -195,6 +195,14 @@ local dependencyGraph = {
     BookbindingAwlMaker = {"Metalwork"},
     BookShelfMaker      = {"WoodLathe"},
     QuillCutterMaker    = {"Metalwork"},
+
+    -- v3.11.976: Textile+ chain (spinning → advanced weaving/dyeing)
+    CanvasWeaver      = {"SpinningWheel", "LoomHeddle"},
+    CarpetLoom        = {"SpinningWheel", "TapestryLoom"},
+    DyeVatMaker       = {"DyeStuff", "Metalwork"},
+    BobbinMaker       = {"SpinningWheel"},
+    ClothPresserMaker = {"SpinningWheel"},
+    LeatherBurnisherMaker = {"RawhideTanner", "Metalwork"},
 }
 
 -- Register a dependency at runtime (for modding/extensibility)
