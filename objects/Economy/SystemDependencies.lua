@@ -179,6 +179,14 @@ local dependencyGraph = {
     GlassFurnaceMaker    = {"GlassBench", "Metalwork"},
     GlassCutterMaker     = {"GlassBench"},
     GlassPolishingWheelMaker = {"GlassBench"},
+
+    -- v3.11.974: Foundry+ chain (forge → advanced casting/foundry tools)
+    CrucibleMaker        = {"ForgeTuyere", "Metalwork"},
+    CrucibleFurnaceMaker = {"ForgeTuyere", "CrucibleMaker"},
+    CastingLadleMaker    = {"ForgeTuyere", "Metalwork"},
+    CoreBoxMaker         = {"ForgeTuyere"},
+    SandMullerMaker      = {"ForgeTuyere"},
+    IngotMolderMaker     = {"ForgeTuyere", "Metalwork"},
 }
 
 -- Register a dependency at runtime (for modding/extensibility)

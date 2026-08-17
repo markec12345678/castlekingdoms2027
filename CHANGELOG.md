@@ -2,6 +2,27 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.974] — 2026-08-17 — Foundry+ Chain (6 novih deps: Crucible, CrucibleFurnace, CastingLadle, CoreBox, SandMuller, IngotMolder)
+
+### Dodano
+- **SystemDependencies.lua** — 6 novih dependencies za obstoječe livarske sisteme:
+  - CrucibleMaker → ForgeTuyere + Metalwork (multi-prereq!)
+  - CrucibleFurnaceMaker → ForgeTuyere + CrucibleMaker (multi-prereq!)
+  - CastingLadleMaker → ForgeTuyere + Metalwork (multi-prereq!)
+  - CoreBoxMaker → ForgeTuyere
+  - SandMullerMaker → ForgeTuyere
+  - IngotMolderMaker → ForgeTuyere + Metalwork (multi-prereq!)
+- **TechTreePanel.lua** — nova LIVARSTVO+ chain, footer posodobljen (90 deps · 32 verig · 23 multi-prereq)
+
+### Statistika
+- Prej: 990 sistemov, 84 deps, 31 verig, 19 multi-prereq (v3.11.973)
+- Sedaj: **990 sistemov, 90 deps, 32 verig, 23 multi-prereq** (v3.11.974)
+- 4 novi multi-prereq sistemi: CrucibleMaker, CrucibleFurnaceMaker, CastingLadleMaker, IngotMolderMaker
+
+### Zaključeno
+- Pred: 4 livarski sistemi z dependencies (Anvil, ForgeTongs, Cutlery, PlateCuirass)
+- Sedaj: 10 livarskih sistemov z dependencies (+ Crucible, CrucibleFurnace, CastingLadle, CoreBox, SandMuller, IngotMolder)
+
 ## [v3.11.973] — 2026-08-17 — Glassmaking+ Chain (6 novih deps: CrystalGoblet, StainedGlass, Hourglass, GlassFurnace, GlassCutter, GlassPolishingWheel)
 
 ### Dodano
