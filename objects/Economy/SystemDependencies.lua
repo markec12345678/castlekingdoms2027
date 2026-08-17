@@ -161,6 +161,11 @@ local dependencyGraph = {
     CoinBlankMaker  = {"Metalwork"},
     CoinScaleMaker  = {"CoinDieMaker"},
     CoinSorterMaker = {"CoinPressMaker"},
+
+    -- v3.11.971: Surgical+ chain (surgical lancet → advanced surgical tools)
+    BoneSawMaker   = {"Metalwork", "SurgicalLancetMaker"},
+    SutureMaker    = {"SurgicalLancetMaker", "ApothecaryMortar"},
+    ForcepsMaker   = {"Metalwork", "SurgicalLancetMaker"},
 }
 
 -- Register a dependency at runtime (for modding/extensibility)

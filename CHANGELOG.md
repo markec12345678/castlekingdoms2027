@@ -2,6 +2,44 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.971] — 2026-08-17 — Surgical+ Chain (3 novi sistemi: BoneSawMaker, SutureMaker, ForcepsMaker)
+
+### Dodano
+- **3 novi Royal sistemi** v `objects/Economy/`:
+  1. **RoyalBoneSawMakerSystem.lua** — kostne žage za amputacije (6 produktov, 4 zgradbe)
+  2. **RoyalSutureMakerSystem.lua** — šive za zapiranje ran (6 produktov, 4 zgradbe)
+  3. **RoyalForcepsMakerSystem.lua** — klešče za ekstrakcijo (6 produktov, 4 zgradbe)
+- **SystemDependencies.lua** — 3 nove dependencies:
+  - BoneSawMaker → Metalwork + SurgicalLancetMaker (multi-prereq!)
+  - SutureMaker → SurgicalLancetMaker + ApothecaryMortar (multi-prereq!)
+  - ForcepsMaker → Metalwork + SurgicalLancetMaker (multi-prereq!)
+- **TechTreePanel.lua** — nova KIRURGIJA+ chain, footer posodobljen (75 deps · 29 verig · 12 multi-prereq)
+- Vsak sistem ima 6 produktov (železni → bronasti → srebrni → pozlačeni → draguljasti → kraljevski suvereni)
+- Vsak sistem ima 4 zgradbe (delavnica → hiša → mojstrski atelje → suverena palača)
+- Vse funkcije: init, hireMaker, canBuild, build, getQualityBonus, canMake, make, completeMaking, update, getStats
+- NotificationCenter + GameEventBus integracija s pcall
+
+### Statistika
+- Prej: 987 sistemov, 1645 Lua datotek, 72 deps, 28 verig, 9 multi-prereq (v3.11.970)
+- Sedaj: **990 sistemov, 1648 Lua datotek, 75 deps, 29 verig, 12 multi-prereq** (v3.11.971)
+- 3 novi multi-prereq sistemi: BoneSawMaker, SutureMaker, ForcepsMaker (vsak ima 2 predpogoja)
+
+### Spremenjene datoteke
+- `objects/Economy/RoyalBoneSawMakerSystem.lua` (NEW, 9590 bytes)
+- `objects/Economy/RoyalSutureMakerSystem.lua` (NEW, 9395 bytes)
+- `objects/Economy/RoyalForcepsMakerSystem.lua` (NEW, 9545 bytes)
+- `objects/Economy/SystemDependencies.lua` (+5 vrstic) — 3 nove dependencies
+- `states/ui/hud/tech_tree_panel.lua` (+3 vrstice) — KIRURGIJA+ chain, footer count
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS (vseh 5 spremenjenih datotek)
+- Pattern — vsak sistem sledi SurgicalLancetMaker vzorcu (6 produktov, 4 zgradbe)
+- Multi-prereq — vsi 3 novi sistemi so multi-prereq (2 predpogoja vsak)
+
+### Zaključeno
+- Pred: 866 Royal sistemov, SurgicalLancetMaker je bil edini kirurški sistem
+- Sedaj: 869 Royal sistemov, 3 novi kirurški sistemi dopolnjujejo kirurško verigo
+
 ## [v3.11.970] — 2026-08-17 — Tech Tree Expansion IV (65→72 deps, 25→28 verig, 8→9 multi-prereq)
 
 ### Dodano

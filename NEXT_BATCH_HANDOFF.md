@@ -1,10 +1,10 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.970**
-- Skupaj Royal sistemov: **987**
-- Skupaj Lua datotek: **1645**
-- Sintaktična preverba (avtentična Lua `load()`): **1645/1645 pass (100%)**
+- Različica: **v3.11.971**
+- Skupaj Royal sistemov: **990**
+- Skupaj Lua datotek: **1648**
+- Sintaktična preverba (avtentična Lua `load()`): **1648/1648 pass (100%)**
 - GitHub: sinhroniziran (vsi tagi pushani)
 - Lokalni repo: `/home/z/my-project/castlekingdoms2027`
 - .love datoteke: `/home/z/my-project/download/`
@@ -91,13 +91,14 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 - ✅ **v3.11.968**: Royal Systems Panel Hover Tooltip — hover na sistem prikaže status, zgradbe, mojstra, aktivne izdelave, surovine, barvno kodiranje
 - ✅ **v3.11.969**: Auto-Save Overlay Hover Tooltip — hover na overlay prikaže status, timer, save count, zadnji save čas, Royal stats, interaction hints; celoten hover tooltip ekosistem končan (4/4 paneli)
 - ✅ **v3.11.970**: Tech Tree Expansion IV — 13 novih deps v 3 novih podverigah (Horticulture+, Apiary+, Coinage+), 65→72 deps, 25→28 verig, 8→9 multi-prereq
+- ✅ **v3.11.971**: Surgical+ Chain — 3 novi sistemi (BoneSawMaker, SutureMaker, ForcepsMaker), 3 nove deps, KIRURGIJA+ chain, 987→990 sistemov, 72→75 deps, 28→29 verig, 9→12 multi-prereq
 
 ## ZNANE NADGRADNJE ZA PRIHODNJE PAKETE
 
 1. **Sprite-i za Royal sisteme** — trenutno so samo podatkovni, brez grafične podobe
-2. **Surgical+ dependency chain** — dodajanje BoneSaw, Suture, Forceps sistemov kot novi sistemi
-3. **Tech tree node hover preview** — hover na vozlišče prikaže preview graf povezanih sistemov v tooltip box
-4. **Keybind Help hover tooltip** — hover na keybind v F1 help prikaže dodatne podrobnosti o bližnjici
+2. **Tech tree node hover preview** — hover na vozlišče prikaže preview graf povezanih sistemov v tooltip box
+3. **Keybind Help hover tooltip** — hover na keybind v F1 help prikaže dodatne podrobnosti o bližnjici
+4. **Astronomy+ chain** — dodajanje ArmillarySphere, Sextant, Telescope kot novi sistemi
 
 ## ZADNJE ZAKLJUČENI PAKET (v3.11.892–v3.11.901) — STEKLARSKI DODATKI 13 + LIVARSKI DODATKI 13
 

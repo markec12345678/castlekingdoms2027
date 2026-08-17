@@ -332,6 +332,8 @@ local CHAINS = {
     { label = "VRTNARSTVO+", base = "Metalwork+MasonStonecutter+WoodLathe+GardenRake", systems = {"PruningShearsMaker", "PruningSawMaker", "HedgeShearsMaker", "BonsaiCultivator", "FountainMaker", "TrellisMaker", "VineyardPlanter"}, multiBase = true, bases = {"Metalwork", "MasonStonecutter", "WoodLathe", "GardenRake"} },
     { label = "ČEBELARSTVO+", base = "WaxTablet+GlassBench+HoneyDipperMaker", systems = {"WaxSealPresser", "LostWaxMolderMaker", "ApiaryKeeper"}, multiBase = true, bases = {"WaxTablet", "GlassBench", "HoneyDipperMaker"} },
     { label = "KOVANJE DENARJA+", base = "Metalwork+CoinDieMaker+CoinPressMaker", systems = {"CoinBlankMaker", "CoinScaleMaker", "CoinSorterMaker"}, multiBase = true, bases = {"Metalwork", "CoinDieMaker", "CoinPressMaker"} },
+    -- v3.11.971: Surgical+ chain
+    { label = "KIRURGIJA+", base = "Metalwork+SurgicalLancetMaker+ApothecaryMortar", systems = {"BoneSawMaker", "SutureMaker", "ForcepsMaker"}, multiBase = true, bases = {"Metalwork", "SurgicalLancetMaker", "ApothecaryMortar"} },
 }
 
 -- Node dimensions for graph view
@@ -1894,7 +1896,7 @@ function TechTreePanel.draw()
     love.graphics.print(pctStr, pbX + (pbW - pctW) / 2, pbY - 12)
 
     love.graphics.setColor(0.4, 0.45, 0.5, 1)
-    love.graphics.print(string.format("72 deps · 28 verig · 9 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
+    love.graphics.print(string.format("75 deps · 29 verig · 12 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
         viewMode, focusStr, pathStr, searchStr, sortStr, filterStr, bookmarkStr, multiStr, presetStr),
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)
