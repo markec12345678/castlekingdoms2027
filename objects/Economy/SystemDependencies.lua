@@ -275,6 +275,14 @@ local dependencyGraph = {
     EscapementLeverMaker   = {"Metalwork", "WoodLathe"},
     PendulumRodMaker       = {"Metalwork", "WoodLathe"},
     ClockFacePainter       = {"PigmentGrinderMaker", "GlassBench"},
+
+    -- v3.11.986: Mining+ chain (metalwork → advanced mining tools)
+    AugerMaker       = {"Metalwork", "WoodLathe"},
+    DrillPressMaker  = {"Metalwork", "WoodLathe"},
+    GemMiner         = {"Metalwork", "PickaxeMaker"},
+    PickaxeMaker     = {"Metalwork"},
+    AshShovelMaker   = {"WoodLathe"},
+    CharcoalBurner   = {"Metalwork", "ForgeTuyere"},
 }
 
 -- Register a dependency at runtime (for modding/extensibility)

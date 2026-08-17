@@ -2,6 +2,29 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.986] — 2026-08-17 — Mining+ Chain (6 novih deps: Auger, DrillPress, GemMiner, Pickaxe, AshShovel, CharcoalBurner)
+
+### Dodano
+- **SystemDependencies.lua** — 6 novih dependencies za obstoječe rudarske sisteme:
+  - AugerMaker → Metalwork + WoodLathe (multi-prereq! — kovina + les ročaj)
+  - DrillPressMaker → Metalwork + WoodLathe (multi-prereq! — kovina + les okvir)
+  - GemMiner → Metalwork + PickaxeMaker (multi-prereq! — napredno rudarjenje)
+  - PickaxeMaker → Metalwork
+  - AshShovelMaker → WoodLathe
+  - CharcoalBurner → Metalwork + ForgeTuyere (multi-prereq! — CROSS-CHAIN povezava z livarstvom!)
+- **TechTreePanel.lua** — nova RUDARSTVO+ chain, footer posodobljen (162 deps · 44 verig · 73 multi-prereq)
+
+### Statistika
+- Prej: 990 sistemov, 156 deps, 43 verig, 69 multi-prereq (v3.11.985)
+- Sedaj: **990 sistemov, 162 deps, 44 verig, 73 multi-prereq** (v3.11.986)
+- 4 novi multi-prereq sistemi: AugerMaker, DrillPressMaker, GemMiner, CharcoalBurner
+- **MEJNIK: 162 deps, 44 verig, 73 multi-prereq — 9x več multi-prereq kot začetnih 8!**
+- CharcoalBurner je CROSS-CHAIN povezava — povezuje rudarstvo z livarstvom (ForgeTuyere)!
+
+### Zaključeno
+- Pred: 0 rudarskih sistemov z dependencies
+- Sedaj: 6 rudarskih sistemov z dependencies (Auger, DrillPress, GemMiner, Pickaxe, AshShovel, CharcoalBurner)
+
 ## [v3.11.985] — 2026-08-17 — Clockmaking+ Chain (6 novih deps: Sundial, PocketWatch, MainspringWinder, EscapementLever, PendulumRod, ClockFacePainter)
 
 ### Dodano

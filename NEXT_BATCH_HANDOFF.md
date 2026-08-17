@@ -1,7 +1,7 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.985**
+- Različica: **v3.11.986**
 - Skupaj Royal sistemov: **990**
 - Skupaj Lua datotek: **1648**
 - Sintaktična preverba (avtentična Lua `load()`): **1648/1648 pass (100%)**
@@ -106,13 +106,14 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 - ✅ **v3.11.983**: Dye/Pigment+ Chain — 6 novih deps za obstoječe barvilne/pigmentne sisteme (PigmentGrinder, Paint, Paintbrush, Inkwell, GildingBrush, Washstand), BARVILA+ chain, 138→144 deps, 40→41 verig, 55→58 multi-prereq; MEJNIK 144 deps, 41 verig, 58 multi-prereq
 - ✅ **v3.11.984**: Kitchen+ Chain — 6 novih deps za obstoječe kuhinjske sisteme (SpiceGrinder, CoffeeRoaster, ButterChurner, CheeseMaker, KitchenKnife, ConfectionOven — vsi multi-prereq!), KUHINJA+ chain, 144→150 deps, 41→42 verig, 58→64 multi-prereq; MEJNIK 150 deps, 42 verig, 64 multi-prereq (8x začetnih 8)
 - ✅ **v3.11.985**: Clockmaking+ Chain — 6 novih deps za obstoječe urarske sisteme (Sundial, PocketWatch, MainspringWinder, EscapementLever, PendulumRod, ClockFacePainter — 5 multi-prereq!), URARSTVO+ chain, 150→156 deps, 42→43 verig, 64→69 multi-prereq; MEJNIK 156 deps, 43 verig, 69 multi-prereq (skoraj 9x začetnih 8); ClockFacePainter je cross-chain povezava (PigmentGrinderMaker → barvila)
+- ✅ **v3.11.986**: Mining+ Chain — 6 novih deps za obstoječe rudarske sisteme (Auger, DrillPress, GemMiner, Pickaxe, AshShovel, CharcoalBurner — 4 multi-prereq!), RUDARSTVO+ chain, 156→162 deps, 43→44 verig, 69→73 multi-prereq; MEJNIK 162 deps, 44 verig, 73 multi-prereq (9x začetnih 8); CharcoalBurner je cross-chain povezava (ForgeTuyere → livarstvo)
 
 ## ZNANE NADGRADNJE ZA PRIHODNJE PAKETE
 
 1. **Sprite-i za Royal sisteme** — trenutno so samo podatkovni, brez grafične podobe
 2. **Tech tree node hover preview** — hover na vozlišče prikaže preview graf povezanih sistemov v tooltip box
 3. **Keybind Help hover tooltip** — hover na keybind v F1 help prikaže dodatne podrobnosti o bližnjici
-4. **Mining+ chain** — dodajanje novih rudarskih dependencies za obstoječe sisteme
+4. **Armor/Weapon+ chain** — dodajanje novih oklepno/orožnih dependencies za obstoječe sisteme
 
 ## ZADNJE ZAKLJUČENI PAKET (v3.11.892–v3.11.901) — STEKLARSKI DODATKI 13 + LIVARSKI DODATKI 13
 
