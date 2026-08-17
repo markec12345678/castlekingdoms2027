@@ -2,6 +2,28 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.984] — 2026-08-17 — Kitchen+ Chain (6 novih deps: SpiceGrinder, CoffeeRoaster, ButterChurner, CheeseMaker, KitchenKnife, ConfectionOven)
+
+### Dodano
+- **SystemDependencies.lua** — 6 novih dependencies za obstoječe kuhinjske sisteme:
+  - SpiceGrinderMaker → FlourSieve + ApothecaryMortar (multi-prereq!)
+  - CoffeeRoaster → BreadBaker + Metalwork (multi-prereq!)
+  - ButterChurner → BreadBaker + WoodLathe (multi-prereq!)
+  - CheeseMaker → BreadBaker + ApothecaryMortar (multi-prereq!)
+  - KitchenKnifeMaker → Metalwork + CutlerySmith (multi-prereq!)
+  - ConfectionOvenMaker → BreadBaker + BrickMaker (multi-prereq!)
+- **TechTreePanel.lua** — nova KUHINJA+ chain, footer posodobljen (150 deps · 42 verig · 64 multi-prereq)
+
+### Statistika
+- Prej: 990 sistemov, 144 deps, 41 verig, 58 multi-prereq (v3.11.983)
+- Sedaj: **990 sistemov, 150 deps, 42 verig, 64 multi-prereq** (v3.11.984)
+- 6 novih multi-prereq sistemi: vsi 6 novih sistemov so multi-prereq!
+- **MEJNIK: 150 deps, 42 verig, 64 multi-prereq — 8x več multi-prereq kot začetnih 8!**
+
+### Zaključeno
+- Pred: 3 kuhinjski sistemi z dependencies (BreadBaker, PastryChef, CutlerySmith)
+- Sedaj: 9 kuhinjskih sistemov z dependencies (+ SpiceGrinder, CoffeeRoaster, ButterChurner, CheeseMaker, KitchenKnife, ConfectionOven)
+
 ## [v3.11.983] — 2026-08-17 — Dye/Pigment+ Chain (6 novih deps: PigmentGrinder, Paint, Paintbrush, Inkwell, GildingBrush, Washstand)
 
 ### Dodano

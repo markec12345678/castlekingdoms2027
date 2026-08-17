@@ -259,6 +259,14 @@ local dependencyGraph = {
     InkwellMaker        = {"InkMaker", "GlassBench"},
     GildingBrushMaker   = {"PigmentGrinderMaker", "Metalwork"},
     WashstandMaker      = {"WoodLathe"},
+
+    -- v3.11.984: Kitchen+ chain (bread baker → advanced kitchen tools)
+    SpiceGrinderMaker   = {"FlourSieve", "ApothecaryMortar"},
+    CoffeeRoaster       = {"BreadBaker", "Metalwork"},
+    ButterChurner       = {"BreadBaker", "WoodLathe"},
+    CheeseMaker         = {"BreadBaker", "ApothecaryMortar"},
+    KitchenKnifeMaker   = {"Metalwork", "CutlerySmith"},
+    ConfectionOvenMaker = {"BreadBaker", "BrickMaker"},
 }
 
 -- Register a dependency at runtime (for modding/extensibility)
