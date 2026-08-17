@@ -40,6 +40,11 @@ local dragOffsetY = 0
 local dragStartedOnOverlay = false
 local _movedDuringDrag = false
 
+-- v3.11.969: Hover tooltip state
+local hovered = false
+local hoverMouseX = 0
+local hoverMouseY = 0
+
 -- Default values
 local DEFAULT_OPACITY = 0.85
 local DEFAULT_HIDDEN = false
@@ -241,6 +246,88 @@ function AutoSaveOverlay.draw()
     end
 
     love.graphics.setFont(font)
+
+    -- v3.11.969: Hover tooltip with detailed save stats
+    if hovered and not isDragging then
+        local stats = AutoSaveSystem.getStats()
+        local lines = {}
+        table.insert(lines, "💾 SAMODEJNO SHRANJEVANJE")
+        if stats.enabled then
+            table.insert(lines, "Status: ✓ VKLOPLJENO")
+        else
+            table.insert(lines, "Status: ✗ IZKLOPLJENO")
+        end
+        -- Next save timer
+        if stats.enabled then
+            local nextMin = math.floor(stats.nextSaveIn / 60)
+            local nextSec = math.floor(stats.nextSaveIn % 60)
+            table.insert(lines, string.format("Naslednji save: %dm %02ds", nextMin, nextSec))
+        end
+        -- Save count
+        if stats.saveCount and stats.saveCount > 0 then
+            table.insert(lines, string.format("Število save-ov: %d", stats.saveCount))
+        end
+        -- Last save time
+        if stats.lastSaveTime and stats.lastSaveTime > 0 then
+            local now = love.timer.getTime()
+            local age = now - stats.lastSaveTime
+            local ageStr
+            if age < 60 then ageStr = string.format("%ds nazaj", math.floor(age))
+            elseif age < 3600 then ageStr = string.format("%dm nazaj", math.floor(age / 60))
+            else ageStr = string.format("%dh nazaj", math.floor(age / 3600)) end
+            table.insert(lines, "Zadnji save: " .. ageStr)
+        end
+        -- Royal stats from last save
+        local ls = stats.lastSaveStats or {}
+        if ls.royalSystems and ls.royalSystems > 0 then
+            table.insert(lines, string.format("Royal: %d sistemov, %d produktov, %d dogodkov",
+                ls.royalSystems or 0, ls.royalProducts or 0, ls.marketEvents or 0))
+            table.insert(lines, string.format("Auto-sell: %s  |  Verzija: v%d",
+                ls.autoSellEnabled and "ON" or "OFF", ls.saveVersion or 0))
+        end
+        -- Interaction hints
+        table.insert(lines, "💡 click: odpri panel  |  drag: premakni  |  wheel: prosojnost")
+
+        -- Draw tooltip box
+        local sfont = love.graphics.newFont(11)
+        love.graphics.setFont(sfont)
+        local tipW = 0
+        for _, l in ipairs(lines) do
+            local lw = sfont:getWidth(l)
+            if lw > tipW then tipW = lw end
+        end
+        tipW = tipW + 16
+        local tipH = #lines * (sfont:getHeight() + 2) + 10
+        local tipX = hoverMouseX + 16
+        local tipY = hoverMouseY + 16
+        -- Keep on screen
+        local W = love.graphics.getWidth()
+        local H = love.graphics.getHeight()
+        if tipX + tipW > W - 8 then tipX = hoverMouseX - tipW - 16 end
+        if tipY + tipH > H - 8 then tipY = hoverMouseY - tipH - 16 end
+
+        love.graphics.setColor(0.05, 0.06, 0.08, 0.97)
+        love.graphics.rectangle("fill", tipX, tipY, tipW, tipH, 4, 4, 4, 4)
+        love.graphics.setColor(0.5, 0.7, 0.9, 0.9)
+        love.graphics.setLineWidth(1)
+        love.graphics.rectangle("line", tipX, tipY, tipW, tipH, 4, 4, 4, 4)
+        for i, l in ipairs(lines) do
+            if i == 1 then
+                love.graphics.setColor(0.95, 0.85, 0.5, 1)
+            elseif l:find("✓") then
+                love.graphics.setColor(0.4, 0.95, 0.4, 1)
+            elseif l:find("✗") then
+                love.graphics.setColor(0.95, 0.4, 0.4, 1)
+            elseif l:find("💡") then
+                love.graphics.setColor(0.7, 0.85, 0.7, 1)
+            else
+                love.graphics.setColor(0.85, 0.88, 0.9, 1)
+            end
+            love.graphics.print(l, tipX + 8, tipY + 6 + (i - 1) * (sfont:getHeight() + 2))
+        end
+        love.graphics.setFont(font)
+    end
+
     love.graphics.setColor(1, 1, 1, 1)
 end
 
@@ -281,16 +368,32 @@ end
 
 -- Mouse wheel: if hovering overlay, adjust opacity; otherwise drag scroll
 function AutoSaveOverlay.mousemoved(x, y, dx, dy)
-    if not isDragging then return false end
-    if dx ~= 0 or dy ~= 0 then
-        _movedDuringDrag = true
+    if isDragging then
+        if dx ~= 0 or dy ~= 0 then
+            _movedDuringDrag = true
+        end
+        local screenW = love.graphics.getWidth()
+        local screenH = love.graphics.getHeight()
+        -- Update position (clamped to screen)
+        overlayX = math.max(0, math.min(screenW - boxW, x - dragOffsetX))
+        overlayY = math.max(0, math.min(screenH - boxH, y - dragOffsetY))
+        hovered = false
+        return true
     end
-    local screenW = love.graphics.getWidth()
-    local screenH = love.graphics.getHeight()
-    -- Update position (clamped to screen)
-    overlayX = math.max(0, math.min(screenW - boxW, x - dragOffsetX))
-    overlayY = math.max(0, math.min(screenH - boxH, y - dragOffsetY))
-    return true
+    -- v3.11.969: Check for hover (when not dragging)
+    if not hidden then
+        ensureSettings()
+        if x >= overlayX and x <= overlayX + boxW and y >= overlayY and y <= overlayY + boxH then
+            hovered = true
+            hoverMouseX = x
+            hoverMouseY = y
+        else
+            hovered = false
+        end
+    else
+        hovered = false
+    end
+    return false
 end
 
 -- Wheel handler: if hovering overlay, adjust opacity; otherwise return false

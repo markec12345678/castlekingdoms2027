@@ -2,6 +2,43 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.969] — 2026-08-17 — Auto-Save Overlay Hover Tooltip (status, timer, save count, Royal stats)
+
+### Dodano
+- **AutoSaveOverlay.lua** — hover tooltip na auto-save overlay:
+  - **`hovered` state** — nastavljen v `mousemoved` ko je miška nad overlay (ko ni drag)
+  - **Tooltip vsebina** (do 8 vrstic):
+    - 💽 Naslov
+    - Status: ✓ VKLOPLJENO / ✗ IZKLOPLJENO
+    - Naslednji save timer (mm:ss)
+    - Število save-ov
+    - Zadnji save čas (Xd/Xm/Xs nazaj)
+    - Royal stats (sistemi, produkti, dogodki)
+    - Auto-sell status + save verzija
+    - 💡 Interaction hints (click, drag, wheel)
+  - **Barvno kodiranje**: zlato naslov, zeleno ✓, rdeče ✗, svetlo zeleno 💡, sivo ostalo
+  - **Keep-on-screen** — tooltip se premakne levo/gor če bi šel izven ekrana
+  - **Ne prikazuje med drag** — `hovered = false` ko je isDragging
+
+### Spremenjene dateteke
+- `states/ui/hud/autosave_status_overlay.lua` (+~75 vrstic) — hovered/hoverMouseX/hoverMouseY state, mousemoved hover detection (non-drag), tooltip rendering z 8 vrsticami + barvno kodiranje
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS
+- Hover detection — preverja bounds overlayX..overlayX+boxW, overlayY..overlayY+boxH
+- Drag priority — ko je isDragging, hovered = false (ne prikazuj tooltip med drag)
+- Time formatting — < 60s = "Xs nazaj", < 3600s = "Xm nazaj", else "Xh nazaj"
+- Royal stats — lastSaveStats (royalSystems, royalProducts, marketEvents, autoSellEnabled, saveVersion)
+
+### Zaključeno
+- Pred: igralec je moral klikniti na overlay da odprl panel in videl detail
+- Sedaj: hover takoj pokaže status, timer, save count, Royal stats, interaction hints
+- **Celoten hover tooltip ekosistem končan** — vsi štirje paneli imajo hover tooltip-e:
+  1. Tech Tree Panel (v3.11.944)
+  2. Market Dashboard (v3.11.967)
+  3. Royal Systems Panel (v3.11.968)
+  4. Auto-Save Overlay (v3.11.969)
+
 ## [v3.11.968] — 2026-08-17 — Royal Systems Panel Hover Tooltip (status, zgradbe, mojster, surovine)
 
 ### Dodano
