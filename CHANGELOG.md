@@ -2,6 +2,41 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.003] — 2026-08-18 — Foundry Accessories+ 8 Chain (Sand/Mold/Core+ 6 — FINAL, izčrpava Sand/Mold/Core skupine! 6 novih deps: 6 multi-prereq! MEJNIK 19.875x!)
+
+### Dodano
+- **VELIKI MEJNIK**: ZADNJI paket Sand/Mold/Core! Ta veriga izčrpava vse preostale Sand*, Mold*, Core* sisteme (skupaj 36 sistemov v 6 zaporednih paketih: v3.11.998-v3.12.003).
+- **SystemDependencies** — 6 novih dependencies za obstoječe livarske sisteme (Sand/Mold/Core+ 6 — sand testing, mold vent cleaning, core varnishing):
+  * `SandTestCupMaker` → `Metalwork` + `GlassBench` (multi! CROSS-CHAIN: kovinska skodelica + stekleno okno za test — povezuje s STEKLARSTVO+ verigo iz v3.11.973)
+  * `SanderMaker` → `WoodLathe` + `Metalwork` (multi! leseno stojalo + kovinski brusilnik)
+  * `MoldCoatBrushSpinnerMaker` → `WoodLathe` + `PigmentGrinderMaker` (multi! CROSS-CHAIN: leseno vreteno + pigmenti — povezuje z BARVILA+ verigo iz v3.11.983)
+  * `MoldVentWireCleanerMaker` → `Metalwork` + `WoodLathe` (multi! kovinska ščetka + leseno ročaj)
+  * `CoreVarnishBrushMaker` → `WoodLathe` + `PigmentGrinderMaker` (multi! CROSS-CHAIN: leseno ščetka + pigmenti za lak — povezuje z BARVILA+)
+  * `CoreWashingDipMaker` → `MasonStonecutter` + `Metalwork` (multi! CROSS-CHAIN: kamnita kad + kovinska vodovodna — povezuje s KAMNOSEŠTVO+ verigo iz v3.11.982)
+- **TechTreePanel**: LIVARSKI PRIBOR+ 8 chain, footer (264 deps, 61 verig, 159 multi-prereq)
+- **MEJNIK 1**: 159 multi-prereq — 19.875x več kot začetnih 8!
+- **MEJNIK 2**: Vseh 6 novih vnosov je multi-prereq (prvič v zgodovini da vseh 6 sistemov v verigi ima multi-prereq!)
+- 4 CROSS-CHAIN povezave (NOV REKORD za število različnih baz v eni verigi!):
+  1. `SandTestCupMaker` → `GlassBench` (povezuje LIVARSKI PRIBOR+ 8 s STEKLARSTVO+)
+  2. `MoldCoatBrushSpinnerMaker` + `CoreVarnishBrushMaker` → `PigmentGrinderMaker` (povezuje z BARVILA+ — 2 sistema)
+  3. `CoreWashingDipMaker` → `MasonStonecutter` (povezuje s KAMNOSEŠTVO+)
+  4. `Metalwork` + `WoodLathe` skupna povezava s kovaštvom in lesarstvom (5 sistemov)
+- Pred: 258 deps, 60 verig, 153 multi-prereq
+- Sedaj: 264 deps, 61 verig, 159 multi-prereq
+- Veriga livarskega pribora 8 sedaj ima 6 sistemov z dependencies (0 prej + 6 novih)
+- **SKUPNO**: 36 Sand*/Mold*/Core* sistemov zdaj ima dependencies (6 paketov × 6 sistemov = 36)
+
+### Spremenjene datoteke
+- `objects/Economy/SystemDependencies.lua` (+9 vrstic) — 6 novih dependency vnosov v dependencyGraph
+- `states/ui/hud/tech_tree_panel.lua` (+2 vrstici) — nova CHAINS entry za LIVARSKI PRIBOR+ 8 in posodobljen footer counter (264/61/159)
+- `README.md` — posodobljeni badges (v3.12.003, +FoundryAccessories8Chain, statistika)
+- `CHANGELOG.md` — dodan v3.12.003 entry z VELIKIM MEJNIKOM (izčrpava Sand/Mold/Core skupine)
+- `NEXT_BATCH_HANDOFF.md` — posodobljeno stanje, "Sand/Mold/Core+ 6 chain" dodan v ZAKLJUČENE
+
+### Funkcionalna preverba
+- Lupa `load()` test: obe spremenjeni datoteki PASS
+- Število dependencyGraph vnosov preverjeno s Python regex: 264 vnosov, 159 multi-prereq — ujema se s footerjem
+
 ## [v3.12.002] — 2026-08-18 — Foundry Accessories+ 7 Chain (Sand/Mold/Core+ 5 — 6 novih deps: 5 multi-prereq, 3 CROSS-CHAIN! MEJNIK 60 verig!)
 
 ### Dodano

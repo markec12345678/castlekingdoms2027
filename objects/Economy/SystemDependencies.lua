@@ -427,6 +427,15 @@ local dependencyGraph = {
     MoldFlaskClampWedgeMaker   = {"Metalwork", "MasonStonecutter"},   -- multi! CROSS-CHAIN: metal pins + stone wedges → Kamnoseštvo+
     CoreGasVentPinMaker        = {"Metalwork", "GlassBench"},         -- multi! CROSS-CHAIN: metal pins + glass indicator → Steklarstvo+
     PouringConeMaker           = {"Metalwork"},                       -- metal funnel cone for pouring molten metal
+
+    -- v3.12.003: Foundry Accessories+ 8 chain (Sand/Mold/Core+ 6 — FINAL Sand/Mold/Core batch, exhausts these 3 groups!)
+    -- 5 multi-prereq out of 6; 3 CROSS-CHAIN links (GlassBench→Steklarstvo+, PigmentGrinderMaker→Barvila+ x2, MasonStonecutter→Kamnoseštvo+)
+    SandTestCupMaker           = {"Metalwork", "GlassBench"},         -- multi! CROSS-CHAIN: metal cup + glass inspection window → Steklarstvo+
+    SanderMaker                = {"WoodLathe", "Metalwork"},          -- multi! wooden stand + metal grinding mechanism
+    MoldCoatBrushSpinnerMaker  = {"WoodLathe", "PigmentGrinderMaker"}, -- multi! CROSS-CHAIN: wooden spindle + coating pigments → Barvila+
+    MoldVentWireCleanerMaker   = {"Metalwork", "WoodLathe"},          -- multi! metal brush + wooden handle
+    CoreVarnishBrushMaker      = {"WoodLathe", "PigmentGrinderMaker"}, -- multi! CROSS-CHAIN: wooden brush + varnish pigments → Barvila+
+    CoreWashingDipMaker        = {"MasonStonecutter", "Metalwork"},   -- multi! CROSS-CHAIN: stone tub + metal plumbing → Kamnoseštvo+
 }
 
 -- Register a dependency at runtime (for modding/extensibility)
