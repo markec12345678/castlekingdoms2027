@@ -310,6 +310,15 @@ local dependencyGraph = {
     GardenSoilThermometerMaker          = {"GlassBench", "Metalwork"}, -- multi! CROSS-CHAIN: glass tube + metal probe
     GardenCompostThermometerProbeMaker = {"Metalwork", "GlassBench"}, -- multi! CROSS-CHAIN: probe + glass vial
     GardenToolRackMaker                 = {"WoodLathe"},               -- shaped wooden rack for tools
+
+    -- v3.11.990: Milling+ chain (metalwork + wood + cross-chain → advanced milling machinery)
+    -- 5 multi-prereq out of 6; 3 CROSS-CHAIN links (GlassBench→Steklarstvo+, SpinningWheel→Tekstil+, Metalwork→Kovaštvo+)
+    MillstoneMaker                 = {"Metalwork", "WoodLathe"},  -- multi! millstone needs iron fittings + wooden frame
+    MillstoneSpindleBearingMaker   = {"Metalwork", "WoodLathe"},  -- multi! spindle needs metal bearing + wood housing
+    MillHopperShakerMaker          = {"WoodLathe", "SpinningWheel"}, -- multi! CROSS-CHAIN: cloth/strap drive from textile
+    GrainHopperMaker               = {"WoodLathe", "Metalwork"},    -- multi! wooden box + iron bands
+    MillHopperSightGlassMaker      = {"GlassBench", "WoodLathe"},   -- multi! CROSS-CHAIN: glass window + wooden frame
+    MillstoneDresserMaker          = {"Metalwork"},                  -- dressing tools are pure metal
 }
 
 -- Register a dependency at runtime (for modding/extensibility)

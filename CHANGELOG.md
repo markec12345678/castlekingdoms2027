@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.990] — 2026-08-18 — Milling+ Chain (6 novih deps: 5 multi-prereq, 3 CROSS-CHAIN!)
+
+### Dodano
+- **SystemDependencies** — 6 novih dependencies za obstoječe mlinarske sisteme z napredno mlinarsko mehanizacijo:
+  * `MillstoneMaker` → `Metalwork` + `WoodLathe` (multi! mlinski kamen potrebuje železne okove + lesen okvir)
+  * `MillstoneSpindleBearingMaker` → `Metalwork` + `WoodLathe` (multi! vreteno potrebuje kovinske ležaje + leseno hišico)
+  * `MillHopperShakerMaker` → `WoodLathe` + `SpinningWheel` (multi! CROSS-CHAIN: mehanski jermen/pleten trak iz tekstilne verige — povezuje s TEKSTIL+ verigo iz v3.11.976)
+  * `GrainHopperMaker` → `WoodLathe` + `Metalwork` (multi! lesena skrinja + železni obroči)
+  * `MillHopperSightGlassMaker` → `GlassBench` + `WoodLathe` (multi! CROSS-CHAIN: stekleno okno za nadzor toka + lesen okvir — povezuje s STEKLARSTVO+ verigo iz v3.11.973)
+  * `MillstoneDresserMaker` → `Metalwork` (ostrila za rezkanje mlinskih kamnov so čista kovina)
+- **TechTreePanel**: MLINARSTVO+ chain, footer (186 deps, 48 verig, 93 multi-prereq)
+- **MEJNIK**: 186 deps, 48 verig, 93 multi-prereq — 11.6x več multi-prereq kot začetnih 8!
+- 3 CROSS-CHAIN povezave (NOV SKUPNI REKORD z v3.11.989 — skupno število CROSS-CHAIN povezav preseže 15):
+  1. `MillHopperShakerMaker` → `SpinningWheel` (povezuje MLINARSTVO+ s TEKSTIL+)
+  2. `MillHopperSightGlassMaker` → `GlassBench` (povezuje MLINARSTVO+ s STEKLARSTVO+)
+  3. `MillstoneSpindleBearingMaker` + `MillstoneMaker` + `GrainHopperMaker` → `Metalwork` (povezuje s kovaštvom — CROSS-CHAIN s plus verigami)
+- Pred: 180 deps, 47 verig, 88 multi-prereq
+- Sedaj: 186 deps, 48 verig, 93 multi-prereq
+- Mlinarska veriga sedaj ima 6 novih sistemov z dependencies + 2 obstoječa (MillstoneBalancerMaker, MillstoneCraneMaker) = 8 skupaj
+
+### Spremenjene datoteke
+- `objects/Economy/SystemDependencies.lua` (+9 vrstic) — 6 novih dependency vnosov v dependencyGraph
+- `states/ui/hud/tech_tree_panel.lua` (+2 vrstici) — nova CHAINS entry za MLINARSTVO+ in posodobljen footer counter (186/48/93)
+- `README.md` — posodobljeni badges (v3.11.990, +MillingChain, statistika)
+- `CHANGELOG.md` — dodan v3.11.990 entry
+- `NEXT_BATCH_HANDOFF.md` — posodobljeno stanje, "Mlinarski+ chain" dodan v ZAKLJUČENE
+
+### Funkcionalna preverba
+- Lupa `load()` test: obe spremenjeni datoteki PASS
+- Število dependencyGraph vnosov preverjeno s Python regex: 186 vnosov, 93 multi-prereq — ujema se s footerjem
+
 ## [v3.11.989] — 2026-08-18 — Garden+ 2 Chain (6 novih deps: 5 multi-prereq, 2 CROSS-CHAIN!)
 
 ### Dodano

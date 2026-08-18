@@ -370,6 +370,8 @@ local CHAINS = {
     { label = "NAKOVALO+", base = "Metalwork+ForgeTuyere+GlassBench+WoodLathe", systems = {"AnvilClampMaker", "AnvilFaceHardenerMaker", "AnvilHardyMaker", "AnvilHornPolisherMaker", "AnvilSaddleBlockMaker", "AnvilStumpWedgeMaker"}, multiBase = true, bases = {"Metalwork", "ForgeTuyere", "GlassBench", "WoodLathe"} },
     -- v3.11.989: Garden+ 2 chain (5 multi-prereq, 2 CROSS-CHAIN links)
     { label = "VRTNARSTVO+ 2", base = "Metalwork+WoodLathe+GlassBench", systems = {"GardenSoilAeratorSpikeMaker", "GardenSecateursMaker", "GardenSprayerMaker", "GardenSoilThermometerMaker", "GardenCompostThermometerProbeMaker", "GardenToolRackMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "GlassBench"} },
+    -- v3.11.990: Milling+ chain (5 multi-prereq, 3 CROSS-CHAIN links)
+    { label = "MLINARSTVO+", base = "Metalwork+WoodLathe+GlassBench+SpinningWheel", systems = {"MillstoneMaker", "MillstoneSpindleBearingMaker", "MillHopperShakerMaker", "GrainHopperMaker", "MillHopperSightGlassMaker", "MillstoneDresserMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "GlassBench", "SpinningWheel"} },
 }
 
 -- Node dimensions for graph view
@@ -1932,7 +1934,7 @@ function TechTreePanel.draw()
     love.graphics.print(pctStr, pbX + (pbW - pctW) / 2, pbY - 12)
 
     love.graphics.setColor(0.4, 0.45, 0.5, 1)
-    love.graphics.print(string.format("180 deps · 47 verig · 88 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
+    love.graphics.print(string.format("186 deps · 48 verig · 93 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
         viewMode, focusStr, pathStr, searchStr, sortStr, filterStr, bookmarkStr, multiStr, presetStr),
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)

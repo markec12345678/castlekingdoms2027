@@ -1,11 +1,11 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.989**
+- Različica: **v3.11.990**
 - Skupaj Royal sistemov: **990**
 - Skupaj Lua datotek: **1648**
 - Sintaktična preverba (avtentična Lua `load()`): **1648/1648 pass (100%)**
-- Tech Tree: **180 deps · 47 verig · 88 multi-prereq** (11x zažetnih 8!)
+- Tech Tree: **186 deps · 48 verig · 93 multi-prereq** (11.6x zažetnih 8!)
 - GitHub: sinhroniziran (vsi tagi pushani)
 - Lokalni repo: `/home/z/my-project/castlekingdoms2027`
 - .love datoteke: `/home/z/my-project/download/`
@@ -28,7 +28,7 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 3. ~~**Market Dashboard mousemoved forwarding**~~ ✅ končano
 4. ~~**Overlay settings migration**~~ ✅ končano v v3.11.933
 
-## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.11.989)
+## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.11.990)
 
 - ✅ **v3.11.382**: Royal Systems Registry + UI Panel (Ctrl+R)
 - ✅ **v3.11.901**: Save/Load persistenca za Royal sisteme (maker, zgradbe, zaloga, surovine)
@@ -111,6 +111,7 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 - ✅ **v3.11.987**: Armor/Weapon+ Chain — 6 novih deps za obstoječe oklepno/orožne sisteme (CeremonialSword, Halberd, Longbow, RecurveBow, ParadeShield, PresentationAxe — 5 multi-prereq!), OKLEP IN OROŽJE+ chain, 162→168 deps, 44→45 verig, 73→78 multi-prereq; MEJNIK 168 deps, 45 verig, 78 multi-prereq (10x začetnih 8!); 2 CROSS-CHAIN povezave: CeremonialSwordMaker→GemMiner (Mining+), RecurveBowMaker+ParadeShieldMaker→RawhideTanner (Leatherwork+)
 - ✅ **v3.11.988**: Anvil+ Chain — 6 novih deps za obstoječe sisteme z Anvil priborom (AnvilClamp, AnvilFaceHardener, AnvilHardy, AnvilHornPolisher, AnvilSaddleBlock, AnvilStumpWedge — 5 multi-prereq!), NAKOVALO+ chain, 168→174 deps, 45→46 verig, 78→83 multi-prereq; MEJNIK 174 deps, 46 verig, 83 multi-prereq (10.4x začetnih 8!); 2 CROSS-CHAIN povezave: AnvilHornPolisherMaker→GlassBench (Steklarstvo+), AnvilSaddleBlockMaker→WoodLathe (Woodworking+)
 - ✅ **v3.11.989**: Garden+ 2 Chain — 6 novih deps za obstoječe vrtnarske sisteme (GardenSoilAerator, GardenSecateurs, GardenSprayer, GardenSoilThermometer, GardenCompostThermometerProbe, GardenToolRack — 5 multi-prereq!), VRTNARSTVO+ 2 chain, 174→180 deps, 46→47 verig, 83→88 multi-prereq; MEJNIK 180 deps, 47 verig, 88 multi-prereq (11x začetnih 8!); 3 CROSS-CHAIN povezave (prvič 3 sistemi z isto CROSS-CHAIN bazo!): GardenSprayerMaker+GardenSoilThermometerMaker+GardenCompostThermometerProbeMaker→GlassBench (Steklarstvo+)
+- ✅ **v3.11.990**: Milling+ Chain — 6 novih deps za obstoječe mlinarske sisteme (Millstone, MillstoneSpindleBearing, MillHopperShaker, GrainHopper, MillHopperSightGlass, MillstoneDresser — 5 multi-prereq!), MLINARSTVO+ chain, 180→186 deps, 47→48 verig, 88→93 multi-prereq; MEJNIK 186 deps, 48 verig, 93 multi-prereq (11.6x začetnih 8!); 3 CROSS-CHAIN povezave: MillHopperShakerMaker→SpinningWheel (Tekstil+), MillHopperSightGlassMaker→GlassBench (Steklarstvo+), Metalwork povezuje s Kovastvom+
 
 ## ZNANE NADGRADNJE ZA PRIHODNJE PAKETE
 
@@ -120,10 +121,11 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 4. ~~**Armor/Weapon+ chain**~~ ✅ končano v v3.11.987 (5 multi-prereq, 2 CROSS-CHAIN: GemMiner←Mining+, RawhideTanner←Leatherwork+; 162→168 deps, 44→45 verig, 73→78 multi-prereq; MEJNIK 10x multi-prereq!)
 5. ~~**Anvil+ chain**~~ ✅ končano v v3.11.988 (5 multi-prereq, 2 CROSS-CHAIN: GlassBench←Steklarstvo+, WoodLathe←Woodworking+; 168→174 deps, 45→46 verig, 78→83 multi-prereq; MEJNIK 10.4x multi-prereq!)
 6. ~~**Garden+ 2 chain**~~ ✅ končano v v3.11.989 (5 multi-prereq, 3 CROSS-CHAIN: GlassBench←Steklarstvo+ x3 — prvič 3 sistemi z isto CROSS-CHAIN povezavo!; 174→180 deps, 46→47 verig, 83→88 multi-prereq; MEJNIK 11x multi-prereq!)
-7. **Kirurgija+ chain 2** — dodatni kirurški deps (npr. BoneSawMaker → Metalwork + GemMiner za rezilo)
-8. **Astrologija+ chain 2** — dodatni astronomski deps (npr. Telescope → GlassBench + Metalwork za tube)
-9. **Glass accessories+ chain 2** — dodatni steklarski deps (npr. GlassMoldMaker, GlassBlowpipeCoolingRack so že v STEKLARSTVO+, morda dodaj še GlassKilnBrickSawMaker, GlassColorantDryingTrayMaker iz v3.11.862-v3.11.871 paketa)
-10. **Mlinarski+ chain** — mlinarski sistemi (Mill*, Flour*) so brez deps, velika priložnost za novo verigo
+7. ~~**Mlinarski+ chain**~~ ✅ končano v v3.11.990 (5 multi-prereq, 3 CROSS-CHAIN: SpinningWheel←Tekstil+, GlassBench←Steklarstvo+, Metalwork←Kovastvo+; 180→186 deps, 47→48 verig, 88→93 multi-prereq; MEJNIK 11.6x multi-prereq!)
+8. **Kirurgija+ chain 2** — dodatni kirurški deps (npr. BoneSawMaker → Metalwork + GemMiner za rezilo)
+9. **Astrologija+ chain 2** — dodatni astronomski deps (npr. Telescope → GlassBench + Metalwork za tube)
+10. **Glass accessories+ chain 2** — dodatni steklarski deps (npr. GlassMoldMaker, GlassBlowpipeCoolingRack so že v STEKLARSTVO+, morda dodaj še GlassKilnBrickSawMaker, GlassColorantDryingTrayMaker iz v3.11.862-v3.11.871 paketa)
+11. **Livarski pribor+ 2** — dodatni livarski deps (SandMullerBlade, MoldFlaskAlignmentPin, PouringLadleLiningCement, CastingLadleSkimmerHandle so kandidati iz v3.11.862-v3.11.871 paketa)
 
 ## ZADNJE ZAKLJUČENI PAKET (v3.11.892–v3.11.901) — STEKLARSKI DODATKI 13 + LIVARSKI DODATKI 13
 
