@@ -319,6 +319,15 @@ local dependencyGraph = {
     GrainHopperMaker               = {"WoodLathe", "Metalwork"},    -- multi! wooden box + iron bands
     MillHopperSightGlassMaker      = {"GlassBench", "WoodLathe"},   -- multi! CROSS-CHAIN: glass window + wooden frame
     MillstoneDresserMaker          = {"Metalwork"},                  -- dressing tools are pure metal
+
+    -- v3.11.991: Glass Engraving+ chain (glass + metalwork + cross-chain → advanced glass etching/engraving)
+    -- 5 multi-prereq out of 6; 2 CROSS-CHAIN links (GlassBench→Steklarstvo+, GemMiner→Mining+)
+    GlassEngraverMaker                  = {"Metalwork", "WoodLathe"},    -- multi! engraving tool: metal point + wooden handle
+    GlassEngravingWheelMaker            = {"WoodLathe", "Metalwork"},    -- multi! wheel: wooden frame + metal axis
+    GlassEngravingPointMaker            = {"Metalwork", "GlassBench"},   -- multi! CROSS-CHAIN: glass-abrasive point
+    GlassEngravingDiamondPointMaker     = {"Metalwork", "GemMiner"},    -- multi! CROSS-CHAIN: diamond-tipped → Mining+
+    GlassEngravingCopperWheelMaker      = {"Metalwork", "WoodLathe"},    -- multi! copper wheel + wooden support
+    GlassEngravingWheelDressingStoneMaker = {"GlassBench"},              -- pure glass abrasive stone for dressing wheels
 }
 
 -- Register a dependency at runtime (for modding/extensibility)

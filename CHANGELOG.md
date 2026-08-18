@@ -2,6 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.991] — 2026-08-18 — Glass Engraving+ Chain (6 novih deps: 5 multi-prereq, 2 CROSS-CHAIN!)
+
+### Dodano
+- **SystemDependencies** — 6 novih dependencies za obstoječe sisteme z opremo za graviranje/rezbarjenje stekla:
+  * `GlassEngraverMaker` → `Metalwork` + `WoodLathe` (multi! gravirno orodje: kovinska konica + leseno ročaj)
+  * `GlassEngravingWheelMaker` → `WoodLathe` + `Metalwork` (multi! kolo: lesen okvir + kovinska os)
+  * `GlassEngravingPointMaker` → `Metalwork` + `GlassBench` (multi! CROSS-CHAIN: steklo-abrazivna konica — povezuje s STEKLARSTVO+ verigo iz v3.11.973)
+  * `GlassEngravingDiamondPointMaker` → `Metalwork` + `GemMiner` (multi! CROSS-CHAIN: diamantna konica — povezuje z RUDARSTVO+ verigo iz v3.11.986)
+  * `GlassEngravingCopperWheelMaker` → `Metalwork` + `WoodLathe` (multi! bakreno kolo + leseni podstavek)
+  * `GlassEngravingWheelDressingStoneMaker` → `GlassBench` (čisto steklen abrazivni kamen za ostrenje koles)
+- **TechTreePanel**: STEKLO REZBARSTVO+ chain, footer (192 deps, 49 verig, 98 multi-prereq)
+- **MEJNIK**: 192 deps, 49 verig, 98 multi-prereq — 12.25x več multi-prereq kot začetnih 8!
+- 2 CROSS-CHAIN povezave:
+  1. `GlassEngravingPointMaker` + `GlassEngravingWheelDressingStoneMaker` → `GlassBench` (povezuje STEKLO REZBARSTVO+ s STEKLARSTVO+)
+  2. `GlassEngravingDiamondPointMaker` → `GemMiner` (povezuje STEKLO REZBARSTVO+ z RUDARSTVO+)
+- Pred: 186 deps, 48 verig, 93 multi-prereq
+- Sedaj: 192 deps, 49 verig, 98 multi-prereq
+- Veriga steklene gravure sedaj ima 6 sistemov z dependencies (0 prej + 6 novih)
+
+### Spremenjene datoteke
+- `objects/Economy/SystemDependencies.lua` (+9 vrstic) — 6 novih dependency vnosov v dependencyGraph
+- `states/ui/hud/tech_tree_panel.lua` (+2 vrstici) — nova CHAINS entry za STEKLO REZBARSTVO+ in posodobljen footer counter (192/49/98)
+- `README.md` — posodobljeni badges (v3.11.991, +GlassEngravingChain, statistika)
+- `CHANGELOG.md` — dodan v3.11.991 entry
+- `NEXT_BATCH_HANDOFF.md` — posodobljeno stanje, "Glass Engraving+ chain" dodan v ZAKLJUČENE
+
+### Funkcionalna preverba
+- Lupa `load()` test: obe spremenjeni datoteki PASS
+- Število dependencyGraph vnosov preverjeno s Python regex: 192 vnosov, 98 multi-prereq — ujema se s footerjem
+
 ## [v3.11.990] — 2026-08-18 — Milling+ Chain (6 novih deps: 5 multi-prereq, 3 CROSS-CHAIN!)
 
 ### Dodano
