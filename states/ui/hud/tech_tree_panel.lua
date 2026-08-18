@@ -394,6 +394,8 @@ local CHAINS = {
     { label = "LIVARSKI PRIBOR+ 5", base = "Metalwork+ForgeTuyere+GlassBench+MasonStonecutter+WoodLathe", systems = {"CastingLadleNozzleMaker", "CastingLadlePreheatBurnerMaker", "PouringLadleMaker", "PouringLadleLiningCementMaker", "PouringCrucibleTongsMaker", "CastingBreakoutChiselMaker"}, multiBase = true, bases = {"Metalwork", "ForgeTuyere", "GlassBench", "MasonStonecutter", "WoodLathe"} },
     -- v3.12.001: Foundry Accessories+ 6 chain (Sand/Mold/Core+ 4 — 5 multi-prereq, 3 CROSS-CHAIN links)
     { label = "LIVARSKI PRIBOR+ 6", base = "Metalwork+WoodLathe+GlassBench+MasonStonecutter", systems = {"SandCasterMaker", "SandReclaimerMaker", "MoldKilnMaker", "MoldReleaseAgentMaker", "CoreDryingRackMaker", "CrucibleTongsMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "GlassBench", "MasonStonecutter"} },
+    -- v3.12.002: Foundry Accessories+ 7 chain (Sand/Mold/Core+ 5 — 5 multi-prereq, 3 CROSS-CHAIN links)
+    { label = "LIVARSKI PRIBOR+ 7", base = "Metalwork+MasonStonecutter+WoodLathe+PigmentGrinderMaker+GlassBench", systems = {"SandBinderDispenserMaker", "SandSieveShakerMaker", "MoldCoatingRollerMaker", "MoldFlaskClampWedgeMaker", "CoreGasVentPinMaker", "PouringConeMaker"}, multiBase = true, bases = {"Metalwork", "MasonStonecutter", "WoodLathe", "PigmentGrinderMaker", "GlassBench"} },
 }
 
 -- Node dimensions for graph view
@@ -1956,7 +1958,7 @@ function TechTreePanel.draw()
     love.graphics.print(pctStr, pbX + (pbW - pctW) / 2, pbY - 12)
 
     love.graphics.setColor(0.4, 0.45, 0.5, 1)
-    love.graphics.print(string.format("252 deps · 59 verig · 148 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
+    love.graphics.print(string.format("258 deps · 60 verig · 153 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
         viewMode, focusStr, pathStr, searchStr, sortStr, filterStr, bookmarkStr, multiStr, presetStr),
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)

@@ -418,6 +418,15 @@ local dependencyGraph = {
     MoldReleaseAgentMaker    = {"GlassBench", "Metalwork"},      -- multi! CROSS-CHAIN: glass reservoir + metal pump → Steklarstvo+
     CoreDryingRackMaker      = {"WoodLathe", "Metalwork"},       -- multi! wooden rack + metal fittings
     CrucibleTongsMaker       = {"Metalwork"},                    -- metal tongs for handling crucibles
+
+    -- v3.12.002: Foundry Accessories+ 7 chain (Sand/Mold/Core+ 5 — sand dispensers, mold wedges, core vents)
+    -- 5 multi-prereq out of 6; 3 CROSS-CHAIN links (MasonStonecutter→Kamnoseštvo+ x2, PigmentGrinderMaker→Barvila+, GlassBench→Steklarstvo+)
+    SandBinderDispenserMaker   = {"Metalwork", "MasonStonecutter"},   -- multi! CROSS-CHAIN: metal reservoir + stone weighing base → Kamnoseštvo+
+    SandSieveShakerMaker       = {"WoodLathe", "Metalwork"},          -- multi! wooden frame + metal shaking mechanism
+    MoldCoatingRollerMaker     = {"WoodLathe", "PigmentGrinderMaker"}, -- multi! CROSS-CHAIN: wooden roller + coating pigments → Barvila+
+    MoldFlaskClampWedgeMaker   = {"Metalwork", "MasonStonecutter"},   -- multi! CROSS-CHAIN: metal pins + stone wedges → Kamnoseštvo+
+    CoreGasVentPinMaker        = {"Metalwork", "GlassBench"},         -- multi! CROSS-CHAIN: metal pins + glass indicator → Steklarstvo+
+    PouringConeMaker           = {"Metalwork"},                       -- metal funnel cone for pouring molten metal
 }
 
 -- Register a dependency at runtime (for modding/extensibility)
