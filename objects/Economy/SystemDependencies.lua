@@ -337,6 +337,15 @@ local dependencyGraph = {
     GlassAnnealingRollerMaker                = {"WoodLathe", "Metalwork"},   -- multi! wooden handle + metal axis
     GlassAnnealingCartMaker                  = {"WoodLathe", "Metalwork"},   -- multi! wooden cart + metal wheels
     GlassAnnealingForkMaker                  = {"Metalwork"},                -- metal fork for lifting hot glass
+
+    -- v3.11.993: Glass Colorant+ chain (pigments + stone + cross-chain → advanced glass coloring equipment)
+    -- 5 multi-prereq out of 6; 3 CROSS-CHAIN links (PigmentGrinderMaker→Barvila+, MasonStonecutter→Kamnoseštvo+, Metalwork→Kovaštvo+)
+    GlassColorantMortarMaker         = {"MasonStonecutter", "PigmentGrinderMaker"}, -- multi! CROSS-CHAIN: stone mortar + pigments → Barvila+
+    GlassColorantMortarPestleMaker   = {"MasonStonecutter", "Metalwork"},          -- multi! CROSS-CHAIN: stone bowl + metal pestle → Kamnoseštvo+
+    GlassColorantMullerMaker         = {"Metalwork", "PigmentGrinderMaker"},        -- multi! CROSS-CHAIN: metal muller + pigments → Barvila+
+    GlassColorantSieveMaker           = {"WoodLathe", "PigmentGrinderMaker"},       -- multi! CROSS-CHAIN: wooden frame + pigments → Barvila+
+    GlassColorantSpatulaMaker         = {"Metalwork", "WoodLathe"},                  -- multi! metal spatula + wooden handle
+    GlassColorantDryingTrayMaker      = {"WoodLathe"},                              -- wooden tray for drying colorants
 }
 
 -- Register a dependency at runtime (for modding/extensibility)

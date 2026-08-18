@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.993] — 2026-08-18 — Glass Colorant+ Chain (6 novih deps: 5 multi-prereq, 3 CROSS-CHAIN!)
+
+### Dodano
+- **SystemDependencies** — 6 novih dependencies za obstoječe sisteme z opremo za barvanje stekla:
+  * `GlassColorantMortarMaker` → `MasonStonecutter` + `PigmentGrinderMaker` (multi! CROSS-CHAIN: kamnita malta + pigmenti — povezuje z BARVILA+ verigo iz v3.11.983 in KAMNOSEŠTVO+ verigo iz v3.11.982)
+  * `GlassColorantMortarPestleMaker` → `MasonStonecutter` + `Metalwork` (multi! CROSS-CHAIN: kamnita skleda + kovinski pestle — povezuje z KAMNOSEŠTVO+)
+  * `GlassColorantMullerMaker` → `Metalwork` + `PigmentGrinderMaker` (multi! CROSS-CHAIN: kovinski muller za mletje pigmentov — povezuje z BARVILA+)
+  * `GlassColorantSieveMaker` → `WoodLathe` + `PigmentGrinderMaker` (multi! CROSS-CHAIN: leseno sito za presejanje pigmentov — povezuje z BARVILA+)
+  * `GlassColorantSpatulaMaker` → `Metalwork` + `WoodLathe` (multi! kovinska lopatica + leseno ročaj)
+  * `GlassColorantDryingTrayMaker` → `WoodLathe` (lesena pladenj za sušenje barv)
+- **TechTreePanel**: STEKLO BARVILA+ chain, footer (204 deps, 51 verig, 108 multi-prereq)
+- **MEJNIK**: 108 multi-prereq — 13.5x več kot začetnih 8!
+- 3 CROSS-CHAIN povezave:
+  1. `GlassColorantMortarMaker` + `GlassColorantMullerMaker` + `GlassColorantSieveMaker` → `PigmentGrinderMaker` (povezuje STEKLO BARVILA+ z BARVILA+ — prvič 3 sistemi z isto CROSS-CHAIN bazo za drugo bazo!)
+  2. `GlassColorantMortarMaker` + `GlassColorantMortarPestleMaker` → `MasonStonecutter` (povezuje STEKLO BARVILA+ z KAMNOSEŠTVO+)
+  3. `Metalwork` skupna povezava s kovaštvom prek več sistemov
+- Pred: 198 deps, 50 verig, 103 multi-prereq
+- Sedaj: 204 deps, 51 verig, 108 multi-prereq
+- Veriga barvanja stekla sedaj ima 6 sistemov z dependencies (0 prej + 6 novih)
+
+### Spremenjene datoteke
+- `objects/Economy/SystemDependencies.lua` (+9 vrstic) — 6 novih dependency vnosov v dependencyGraph
+- `states/ui/hud/tech_tree_panel.lua` (+2 vrstici) — nova CHAINS entry za STEKLO BARVILA+ in posodobljen footer counter (204/51/108)
+- `README.md` — posodobljeni badges (v3.11.993, +GlassColorantChain, statistika)
+- `CHANGELOG.md` — dodan v3.11.993 entry
+- `NEXT_BATCH_HANDOFF.md` — posodobljeno stanje, "Glass Colorant+ chain" dodan v ZAKLJUČENE
+
+### Funkcionalna preverba
+- Lupa `load()` test: obe spremenjeni datoteki PASS
+- Število dependencyGraph vnosov preverjeno s Python regex: 204 vnosov, 108 multi-prereq — ujema se s footerjem
+
 ## [v3.11.992] — 2026-08-18 — Glass Annealing+ Chain (6 novih deps: 5 multi-prereq, 3 CROSS-CHAIN! MEJNIK 50 verig!)
 
 ### Dodano

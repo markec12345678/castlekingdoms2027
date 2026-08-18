@@ -1,11 +1,11 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.992**
+- Različica: **v3.11.993**
 - Skupaj Royal sistemov: **990**
 - Skupaj Lua datotek: **1648**
 - Sintaktična preverba (avtentična Lua `load()`): **1648/1648 pass (100%)**
-- Tech Tree: **198 deps · 50 verig · 103 multi-prereq** (12.875x zažetnih 8! MEJNIK 50 verig!)
+- Tech Tree: **204 deps · 51 verig · 108 multi-prereq** (13.5x zažetnih 8!)
 - GitHub: sinhroniziran (vsi tagi pushani)
 - Lokalni repo: `/home/z/my-project/castlekingdoms2027`
 - .love datoteke: `/home/z/my-project/download/`
@@ -28,7 +28,7 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 3. ~~**Market Dashboard mousemoved forwarding**~~ ✅ končano
 4. ~~**Overlay settings migration**~~ ✅ končano v v3.11.933
 
-## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.11.992)
+## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.11.993)
 
 - ✅ **v3.11.382**: Royal Systems Registry + UI Panel (Ctrl+R)
 - ✅ **v3.11.901**: Save/Load persistenca za Royal sisteme (maker, zgradbe, zaloga, surovine)
@@ -114,6 +114,7 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 - ✅ **v3.11.990**: Milling+ Chain — 6 novih deps za obstoječe mlinarske sisteme (Millstone, MillstoneSpindleBearing, MillHopperShaker, GrainHopper, MillHopperSightGlass, MillstoneDresser — 5 multi-prereq!), MLINARSTVO+ chain, 180→186 deps, 47→48 verig, 88→93 multi-prereq; MEJNIK 186 deps, 48 verig, 93 multi-prereq (11.6x začetnih 8!); 3 CROSS-CHAIN povezave: MillHopperShakerMaker→SpinningWheel (Tekstil+), MillHopperSightGlassMaker→GlassBench (Steklarstvo+), Metalwork povezuje s Kovastvom+
 - ✅ **v3.11.991**: Glass Engraving+ Chain — 6 novih deps za obstoječe sisteme z opremo za graviranje stekla (GlassEngraver, GlassEngravingWheel, GlassEngravingPoint, GlassEngravingDiamondPoint, GlassEngravingCopperWheel, GlassEngravingWheelDressingStone — 5 multi-prereq!), STEKLO REZBARSTVO+ chain, 186→192 deps, 48→49 verig, 93→98 multi-prereq; MEJNIK 192 deps, 49 verig, 98 multi-prereq (12.25x začetnih 8!); 2 CROSS-CHAIN povezave: GlassEngravingPointMaker+GlassEngravingWheelDressingStoneMaker→GlassBench (Steklarstvo+), GlassEngravingDiamondPointMaker→GemMiner (Mining+)
 - ✅ **v3.11.992**: Glass Annealing+ Chain — 6 novih deps za obstoječe sisteme z žarilno opremo za steklo (GlassAnnealingOven, GlassAnnealingOvenThermocouple, GlassAnnealingOvenInspectionMirror, GlassAnnealingRoller, GlassAnnealingCart, GlassAnnealingFork — 5 multi-prereq!), STEKLO ŽARENJE+ chain, 192→198 deps, 49→50 verig, 98→103 multi-prereq; MEJNIK 198 deps, 50 verig, 103 multi-prereq (12.875x začetnih 8! + MEJNIK 50 verig!); 3 CROSS-CHAIN povezave: GlassAnnealingOvenMaker→ForgeTuyere (Livarstvo+), GlassAnnealingOvenThermocoupleMaker+GlassAnnealingOvenInspectionMirrorMaker→GlassBench (Steklarstvo+)
+- ✅ **v3.11.993**: Glass Colorant+ Chain — 6 novih deps za obstoječe sisteme z opremo za barvanje stekla (GlassColorantMortar, GlassColorantMortarPestle, GlassColorantMuller, GlassColorantSieve, GlassColorantSpatula, GlassColorantDryingTray — 5 multi-prereq!), STEKLO BARVILA+ chain, 198→204 deps, 50→51 verig, 103→108 multi-prereq; MEJNIK 204 deps, 51 verig, 108 multi-prereq (13.5x začetnih 8!); 3 CROSS-CHAIN povezave: GlassColorantMortarMaker+GlassColorantMullerMaker+GlassColorantSieveMaker→PigmentGrinderMaker (Barvila+), GlassColorantMortarMaker+GlassColorantMortarPestleMaker→MasonStonecutter (Kamnoseštvo+)
 
 ## ZNANE NADGRADNJE ZA PRIHODNJE PAKETE
 
@@ -126,11 +127,12 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 7. ~~**Mlinarski+ chain**~~ ✅ končano v v3.11.990 (5 multi-prereq, 3 CROSS-CHAIN: SpinningWheel←Tekstil+, GlassBench←Steklarstvo+, Metalwork←Kovastvo+; 180→186 deps, 47→48 verig, 88→93 multi-prereq; MEJNIK 11.6x multi-prereq!)
 8. ~~**Glass Engraving+ chain**~~ ✅ končano v v3.11.991 (5 multi-prereq, 2 CROSS-CHAIN: GlassBench←Steklarstvo+ x2, GemMiner←Mining+; 186→192 deps, 48→49 verig, 93→98 multi-prereq; MEJNIK 12.25x multi-prereq!)
 9. ~~**Glass Annealing+ chain**~~ ✅ končano v v3.11.992 (5 multi-prereq, 3 CROSS-CHAIN: ForgeTuyere←Livarstvo+, GlassBench←Steklarstvo+ x2; 192→198 deps, 49→50 verig, 98→103 multi-prereq; MEJNIK 50 verig in 12.875x multi-prereq!)
-10. **Kirurgija+ chain 2** — dodatni kirurški deps (ApothecaryMortarMaker, ApothecaryVialMaker, SalveJarMaker so kandidati; npr. ApothecaryVialMaker → GlassBench + PotteryWheel CROSS-CHAIN)
-11. **Astrologija+ chain 2** — dodatni astronomski deps (npr. Telescope → GlassBench + Metalwork za tube)
-12. **Livarski pribor+ 2** — dodatni livarski deps (SandMullerBlade, MoldFlaskAlignmentPin, PouringLadleLiningCement, CastingLadleSkimmerHandle so kandidati iz v3.11.862-v3.11.871 paketa)
-13. **Glass Colorant+ chain** — GlassColorant* sistemi so brez deps (GlassColorantMortar, GlassColorantSieve, GlassColorantSpatula itd.); veriga bi povezala Dye/Pigment+ s Steklarstvom+
-14. **Glass Batch/Smelter+ chain** — GlassBatch* sistemi so brez deps (GlassBatchFeeder, GlassBatchFurnace, GlassBatchMixer, GlassBatchSmelter); velika priložnost za novo verigo
+10. ~~**Glass Colorant+ chain**~~ ✅ končano v v3.11.993 (5 multi-prereq, 3 CROSS-CHAIN: PigmentGrinderMaker←Barvila+ x3, MasonStonecutter←Kamnoseštvo+ x2, Metalwork←Kovastvo+; 198→204 deps, 50→51 verig, 103→108 multi-prereq; MEJNIK 13.5x multi-prereq!)
+11. **Kirurgija+ chain 2** — dodatni kirurški deps (ApothecaryMortarMaker, ApothecaryVialMaker, SalveJarMaker so kandidati; npr. ApothecaryVialMaker → GlassBench + PotteryWheel CROSS-CHAIN)
+12. **Astrologija+ chain 2** — dodatni astronomski deps (npr. Telescope → GlassBench + Metalwork za tube)
+13. **Livarski pribor+ 2** — dodatni livarski deps (SandMullerBlade, MoldFlaskAlignmentPin, PouringLadleLiningCement, CastingLadleSkimmerHandle so kandidati iz v3.11.862-v3.11.871 paketa)
+14. **Glass Kiln+ chain** — GlassKiln* sistemi so brez deps (GlassKilnBrickSaw, GlassKilnDoor, GlassKilnFurniture, itd.); 15 kandidatov, velika priložnost
+15. **Glass Batch/Smelter+ chain** — GlassBatch* sistemi so brez deps (GlassBatchFeeder, GlassBatchFurnace, GlassBatchMixer, GlassBatchSmelter); velika priložnost za novo verigo
 
 ## ZADNJE ZAKLJUČENI PAKET (v3.11.892–v3.11.901) — STEKLARSKI DODATKI 13 + LIVARSKI DODATKI 13
 
