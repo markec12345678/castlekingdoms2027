@@ -2,6 +2,35 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.009] — 2026-08-18 — Glass Finishing+ Chain (6 novih deps: 6 multi-prereq! 7. zapored vsi multi! VELIKI MEJNIK 300 deps, 24.375x!)
+
+### Dodano
+- **VELIKI MEJNIK 1**: 300 deps v tech tree-ju! (zaokroženo število)
+- **VELIKI MEJNIK 2**: 195 multi-prereq — 24.375x več kot začetnih 8!
+- **NOV REKORD**: 7. zapored da vsi 6 sistemov v verigi ima multi-prereq (v3.12.003-v3.12.009!)
+- **SystemDependencies** — 6 novih dependencies za zadnje preostale sisteme z dokončevalno opremo stekla:
+  * `GlassCaneSlicerMaker` → `Metalwork` + `GlassBench` (multi! CROSS-CHAIN: kovinsko rezilo + steklena vodilnica → Steklarstvo+)
+  * `GlassColorantSievingClothMaker` → `WoodLathe` + `PigmentGrinderMaker` (multi! CROSS-CHAIN: leseni okvir + pigmentna krpa → Barvila+)
+  * `GlassColorantVialShakerMaker` → `Metalwork` + `GlassBench` (multi! CROSS-CHAIN: kovinski stresalnik + steklena viala → Steklarstvo+)
+  * `GlassMoltenGlassSkimLadleMaker` → `Metalwork` + `MasonStonecutter` (multi! CROSS-CHAIN: kovinska zajemalka + kamnita podloga → Kamnoseštvo+)
+  * `GlassRibbonMaker` → `WoodLathe` + `Metalwork` (multi! leseno vreteno + kovinski okvir)
+  * `GlassSeedMaker` → `Metalwork` + `GlassBench` (multi! CROSS-CHAIN: kovinska matrica + stekleno seme → Steklarstvo+)
+- **TechTreePanel**: STEKLO DOKONČANJE+ chain, footer (300 deps, 67 verig, 195 multi-prereq)
+- 4 CROSS-CHAIN povezave (NOV REKORD za število različnih baz v eni verigi!):
+  1. `GlassCaneSlicerMaker` + `GlassColorantVialShakerMaker` + `GlassSeedMaker` → `GlassBench` (Steklarstvo+ x3)
+  2. `GlassColorantSievingClothMaker` → `PigmentGrinderMaker` (Barvila+)
+  3. `GlassMoltenGlassSkimLadleMaker` → `MasonStonecutter` (Kamnoseštvo+)
+  4. `Metalwork` skupna povezava s kovaštvom (5 sistemov)
+- Pred: 294 deps, 66 verig, 189 multi-prereq
+- Sedaj: 300 deps, 67 verig, 195 multi-prereq
+
+### Spremenjene datoteke
+- `objects/Economy/SystemDependencies.lua` (+9 vrstic), `states/ui/hud/tech_tree_panel.lua` (+2 vrstici)
+- `README.md`, `CHANGELOG.md`, `NEXT_BATCH_HANDOFF.md`
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS; Python regex: 300 vnosov, 195 multi-prereq
+
 ## [v3.12.008] — 2026-08-18 — Glass Engraving+ 2 Chain (6 novih deps: 6 multi-prereq! 6. zapored vsi multi! MEJNIK 23.625x!)
 
 ### Dodano

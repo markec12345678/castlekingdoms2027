@@ -481,6 +481,15 @@ local dependencyGraph = {
     GlassPolishingPadMaker           = {"GlassBench", "MasonStonecutter"}, -- multi! CROSS-CHAIN: glass abrasive pad + stone backing → Steklarstvo+ & Kamnoseštvo+
     GlassFritMaker                   = {"Metalwork", "GlassBench"},      -- multi! CROSS-CHAIN: metal crusher + glass frit → Steklarstvo+
     GlassShearSpringMaker            = {"Metalwork", "WoodLathe"},       -- multi! metal spring + wooden handle
+
+    -- v3.12.009: Glass Finishing+ chain (cane slicers, colorant sieving, vial shakers, skim ladles, ribbons, seeds)
+    -- 6 multi-prereq out of 6 (7th time all multi!); 3 CROSS-CHAIN links (GlassBench→Steklarstvo+ x3, PigmentGrinderMaker→Barvila+, MasonStonecutter→Kamnoseštvo+)
+    GlassCaneSlicerMaker              = {"Metalwork", "GlassBench"},      -- multi! CROSS-CHAIN: metal blade + glass guide → Steklarstvo+
+    GlassColorantSievingClothMaker    = {"WoodLathe", "PigmentGrinderMaker"}, -- multi! CROSS-CHAIN: wooden frame + pigment cloth → Barvila+
+    GlassColorantVialShakerMaker     = {"Metalwork", "GlassBench"},      -- multi! CROSS-CHAIN: metal shaker + glass vial → Steklarstvo+
+    GlassMoltenGlassSkimLadleMaker   = {"Metalwork", "MasonStonecutter"}, -- multi! CROSS-CHAIN: metal ladle + stone base → Kamnoseštvo+
+    GlassRibbonMaker                 = {"WoodLathe", "Metalwork"},        -- multi! wooden spindle + metal frame
+    GlassSeedMaker                   = {"Metalwork", "GlassBench"},      -- multi! CROSS-CHAIN: metal mold + glass seed → Steklarstvo+
 }
 
 -- Register a dependency at runtime (for modding/extensibility)
