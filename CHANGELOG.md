@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.989] — 2026-08-18 — Garden+ 2 Chain (6 novih deps: 5 multi-prereq, 2 CROSS-CHAIN!)
+
+### Dodano
+- **SystemDependencies** — 6 novih dependencies za obstoječe vrtnarske sisteme z napredno opremo:
+  * `GardenSoilAeratorSpikeMaker` → `Metalwork` + `WoodLathe` (multi! kovinski žeblji + leseno ročaj)
+  * `GardenSecateursMaker` → `Metalwork` + `WoodLathe` (multi! škarje: kovinska rezila + leseni ročaji)
+  * `GardenSprayerMaker` → `GlassBench` + `Metalwork` (multi! CROSS-CHAIN: steklen rezervoar + kovinska črpalka — povezuje s STEKLARSTVO+ verigo iz v3.11.973)
+  * `GardenSoilThermometerMaker` → `GlassBench` + `Metalwork` (multi! CROSS-CHAIN: steklena cev + kovinska sonda — povezuje s STEKLARSTVO+)
+  * `GardenCompostThermometerProbeMaker` → `Metalwork` + `GlassBench` (multi! CROSS-CHAIN: kovinska sonda + steklena viala — povezuje s STEKLARSTVO+)
+  * `GardenToolRackMaker` → `WoodLathe` (lesena stojala za orodja)
+- **TechTreePanel**: VRTNARSTVO+ 2 chain, footer (180 deps, 47 verig, 88 multi-prereq)
+- **MEJNIK**: 180 deps, 47 verig, 88 multi-prereq — 11x več multi-prereq kot začetnih 8!
+- 3 CROSS-CHAIN povezave (ker 3 sistemi uporabljajo GlassBench):
+  1. `GardenSprayerMaker` → `GlassBench` (steklen rezervoar za tekočino)
+  2. `GardenSoilThermometerMaker` → `GlassBench` (steklena cev za termometer)
+  3. `GardenCompostThermometerProbeMaker` → `GlassBench` (steklena viala za kompostno toploto)
+- Pred: 174 deps, 46 verig, 83 multi-prereq
+- Sedaj: 180 deps, 47 verig, 88 multi-prereq
+- Vrtnarska veriga 2 sedaj ima 6 sistemov z dependencies (0 prej + 6 novih)
+
+### Spremenjene datoteke
+- `objects/Economy/SystemDependencies.lua` (+9 vrstic) — 6 novih dependency vnosov v dependencyGraph
+- `states/ui/hud/tech_tree_panel.lua` (+2 vrstici) — nova CHAINS entry za VRTNARSTVO+ 2 in posodobljen footer counter (180/47/88)
+- `README.md` — posodobljeni badges (v3.11.989, +Garden2Chain, statistika)
+- `CHANGELOG.md` — dodan v3.11.989 entry
+- `NEXT_BATCH_HANDOFF.md` — posodobljeno stanje, "Garden+ 2 chain" dodan v ZAKLJUČENE
+
+### Funkcionalna preverba
+- Lupa `load()` test: obe spremenjeni datoteki PASS
+- Število dependencyGraph vnosov preverjeno s Python regex: 180 vnosov, 88 multi-prereq — ujema se s footerjem
+
 ## [v3.11.988] — 2026-08-18 — Anvil+ Chain (6 novih deps: 5 multi-prereq, 2 CROSS-CHAIN!)
 
 ### Dodano

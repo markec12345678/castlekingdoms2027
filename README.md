@@ -2,7 +2,7 @@
 
 Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT). Navdihnjen s klasičnimi srednjeveškimi strateškimi igrami.
 
-[![Version](https://img.shields.io/badge/version-3.11.988-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
+[![Version](https://img.shields.io/badge/version-3.11.989-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
 [![Syntax](https://img.shields.io/badge/syntax-1648%2F1648%20pass-brightgreen.svg)](#)
@@ -12,9 +12,9 @@ Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgraj
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v3.11.988](https://github.com/markec12345678/castlekingdoms2027/releases)
-- **.love datoteka**: `castlekingdoms2027-v3.11.988.love` (34 MB brez LFS, 305 MB z LFS)
-- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 990 Royal sistemov, 1648 Lua datotek, +ANVIL+ CHAIN (6 novih deps: AnvilClamp, AnvilFaceHardener, AnvilHardy, AnvilHornPolisher, AnvilSaddleBlock, AnvilStumpWedge; 5 multi-prereq; 2 CROSS-CHAIN povezave: GlassBench←Steklarstvo+, WoodLathe←Woodworking+; 168→174 deps, 45→46 verig, 78→83 multi-prereq; MEJNIK 174 deps, 46 verig, 83 multi-prereq = 10.4x začetnih 8!) + ARMOR/WEAPON+ + MINING+ + CLOCKMAKING+ + KITCHEN+ + DYE/PIGMENT+ + MASONRY+ + BREWING/BAKING+ + FISHING+ + CANDLE/WAX+ + MUSICAL INSTRUMENTS+ + POTTERY+ + TEXTILE+ + BOOKBINDING+ + FOUNDRY+ + GLASSMAKING+ + ASTRONOMY+ + SURGICAL+ + TECH TREE IV + HOVER TOOLTIP EKOSISTEM + CUSTOM PRESET CRUD + MULTI-SELECT PERSISTENCE + CONFIG PRESETS + EXPORT/IMPORT + 100% mouse/wheel + overlay + DynamicMarket + Save/Load + 7 grafov
+- **Zadnja izdaja**: [v3.11.989](https://github.com/markec12345678/castlekingdoms2027/releases)
+- **.love datoteka**: `castlekingdoms2027-v3.11.989.love` (34 MB brez LFS, 305 MB z LFS)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 990 Royal sistemov, 1648 Lua datotek, +GARDEN+ 2 CHAIN (6 novih deps: GardenSoilAerator, GardenSecateurs, GardenSprayer, GardenSoilThermometer, GardenCompostThermometerProbe, GardenToolRack; 5 multi-prereq; 3 CROSS-CHAIN povezave: GlassBench←Steklarstvo+ x3; 174→180 deps, 46→47 verig, 83→88 multi-prereq; MEJNIK 180 deps, 47 verig, 88 multi-prereq = 11x začetnih 8!) + ANVIL+ + ARMOR/WEAPON+ + MINING+ + CLOCKMAKING+ + KITCHEN+ + DYE/PIGMENT+ + MASONRY+ + BREWING/BAKING+ + FISHING+ + CANDLE/WAX+ + MUSICAL INSTRUMENTS+ + POTTERY+ + TEXTILE+ + BOOKBINDING+ + FOUNDRY+ + GLASSMAKING+ + ASTRONOMY+ + SURGICAL+ + TECH TREE IV + HOVER TOOLTIP EKOSISTEM + CUSTOM PRESET CRUD + MULTI-SELECT PERSISTENCE + CONFIG PRESETS + EXPORT/IMPORT + 100% mouse/wheel + overlay + DynamicMarket + Save/Load + 7 grafov
 - **LFS**: Po git clone zahtevaj `git lfs pull` za prave PNG asset-e (305 MB)
 
 ## Zagon

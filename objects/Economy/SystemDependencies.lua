@@ -301,6 +301,15 @@ local dependencyGraph = {
     AnvilHornPolisherMaker = {"Metalwork", "GlassBench"},   -- multi! CROSS-CHAIN: polishing uses glass abrasive
     AnvilSaddleBlockMaker  = {"WoodLathe", "ForgeTuyere"},  -- multi! CROSS-CHAIN: wooden saddle block on forge
     AnvilStumpWedgeMaker   = {"WoodLathe"},                  -- shaped wooden wedges for anvil leveling
+
+    -- v3.11.989: Garden+ 2 chain (metalwork + wood + cross-chain → advanced soil/compost instruments)
+    -- 5 multi-prereq out of 6; 2 CROSS-CHAIN links (GlassBench→Steklarstvo+, Metalwork→Kovaštvo+)
+    GardenSoilAeratorSpikeMaker        = {"Metalwork", "WoodLathe"},  -- multi! metal spikes + wooden handle
+    GardenSecateursMaker                = {"Metalwork", "WoodLathe"},  -- multi! shears: metal blades + wooden grips
+    GardenSprayerMaker                  = {"GlassBench", "Metalwork"}, -- multi! CROSS-CHAIN: glass reservoir + metal pump
+    GardenSoilThermometerMaker          = {"GlassBench", "Metalwork"}, -- multi! CROSS-CHAIN: glass tube + metal probe
+    GardenCompostThermometerProbeMaker = {"Metalwork", "GlassBench"}, -- multi! CROSS-CHAIN: probe + glass vial
+    GardenToolRackMaker                 = {"WoodLathe"},               -- shaped wooden rack for tools
 }
 
 -- Register a dependency at runtime (for modding/extensibility)
