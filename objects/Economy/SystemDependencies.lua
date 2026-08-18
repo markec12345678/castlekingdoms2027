@@ -409,6 +409,15 @@ local dependencyGraph = {
     PouringLadleLiningCementMaker    = {"MasonStonecutter", "Metalwork"}, -- multi! CROSS-CHAIN: stone mortar + metal mixer → Kamnoseštvo+
     PouringCrucibleTongsMaker        = {"Metalwork", "WoodLathe"},    -- multi! metal tongs + wooden handle
     CastingBreakoutChiselMaker       = {"Metalwork"},                 -- metal chisel for removing castings from molds
+
+    -- v3.12.001: Foundry Accessories+ 6 chain (Sand/Mold/Core+ 4 — sand processing & mold handling tools)
+    -- 5 multi-prereq out of 6; 3 CROSS-CHAIN links (GlassBench→Steklarstvo+ x2, MasonStonecutter→Kamnoseštvo+, Metalwork→Kovaštvo+ x6)
+    SandCasterMaker          = {"Metalwork", "WoodLathe"},      -- multi! metal mechanism + wooden handle for sand casting
+    SandReclaimerMaker       = {"Metalwork", "GlassBench"},      -- multi! CROSS-CHAIN: metal reclaimer + glass inspection port → Steklarstvo+
+    MoldKilnMaker            = {"MasonStonecutter", "Metalwork"}, -- multi! CROSS-CHAIN: stone chamber + metal door → Kamnoseštvo+
+    MoldReleaseAgentMaker    = {"GlassBench", "Metalwork"},      -- multi! CROSS-CHAIN: glass reservoir + metal pump → Steklarstvo+
+    CoreDryingRackMaker      = {"WoodLathe", "Metalwork"},       -- multi! wooden rack + metal fittings
+    CrucibleTongsMaker       = {"Metalwork"},                    -- metal tongs for handling crucibles
 }
 
 -- Register a dependency at runtime (for modding/extensibility)
