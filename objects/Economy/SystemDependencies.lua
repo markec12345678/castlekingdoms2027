@@ -490,6 +490,15 @@ local dependencyGraph = {
     GlassMoltenGlassSkimLadleMaker   = {"Metalwork", "MasonStonecutter"}, -- multi! CROSS-CHAIN: metal ladle + stone base → Kamnoseštvo+
     GlassRibbonMaker                 = {"WoodLathe", "Metalwork"},        -- multi! wooden spindle + metal frame
     GlassSeedMaker                   = {"Metalwork", "GlassBench"},      -- multi! CROSS-CHAIN: metal mold + glass seed → Steklarstvo+
+
+    -- v3.12.010: Smith Quench+ chain (quench buckets, oil dippers, filters, drain valves, gaskets, thermometers)
+    -- 6 multi-prereq out of 6 (8th time all multi!); 3 CROSS-CHAIN links (GlassBench→Steklarstvo+ x2, MasonStonecutter→Kamnoseštvo+, Metalwork→Kovaštvo+ x6)
+    QuenchBucketMaker           = {"Metalwork", "WoodLathe"},       -- multi! metal bucket + wooden handle
+    QuenchOilDipperMaker         = {"Metalwork", "WoodLathe"},       -- multi! metal dipper + wooden handle
+    QuenchOilFilterMaker         = {"Metalwork", "GlassBench"},      -- multi! CROSS-CHAIN: metal filter + glass container → Steklarstvo+
+    QuenchTankDrainValveMaker    = {"Metalwork", "MasonStonecutter"}, -- multi! CROSS-CHAIN: metal valve + stone tank base → Kamnoseštvo+
+    QuenchTankLidGasketMaker     = {"Metalwork", "WoodLathe"},       -- multi! metal gasket + wooden lid
+    QuenchTankThermometerMaker   = {"Metalwork", "GlassBench"},      -- multi! CROSS-CHAIN: metal instrument + glass tube → Steklarstvo+
 }
 
 -- Register a dependency at runtime (for modding/extensibility)

@@ -2,6 +2,28 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.010] — 2026-08-18 — Smith Quench+ Chain (6 novih deps: 6 multi-prereq! 8. zapored vsi multi! MEJNIK 25x!)
+
+### Dodano
+- **SystemDependencies** — 6 novih dependencies za sisteme s kalilno opremo (quench buckets, oil dippers, filters, drain valves, gaskets, thermometers):
+  * `QuenchBucketMaker` → `Metalwork` + `WoodLathe` (multi! kovinsko vedro + leseno ročaj)
+  * `QuenchOilDipperMaker` → `Metalwork` + `WoodLathe` (multi! kovinska zajemalka + leseno ročaj)
+  * `QuenchOilFilterMaker` → `Metalwork` + `GlassBench` (multi! CROSS-CHAIN: kovinski filter + steklena posoda → Steklarstvo+)
+  * `QuenchTankDrainValveMaker` → `Metalwork` + `MasonStonecutter` (multi! CROSS-CHAIN: kovinski ventil + kamnita osnova kadi → Kamnoseštvo+)
+  * `QuenchTankLidGasketMaker` → `Metalwork` + `WoodLathe` (multi! kovinska tesnila + leseni pokrov)
+  * `QuenchTankThermometerMaker` → `Metalwork` + `GlassBench` (multi! CROSS-CHAIN: kovinski instrument + steklena cev → Steklarstvo+)
+- **TechTreePanel**: KOVAŠKI KVAČ+ chain, footer (306 deps, 68 verig, 201 multi-prereq)
+- **MEJNIK**: 201 multi-prereq — 25.125x več kot začetnih 8! (presežen mejnik 25x!)
+- **NOV REKORD**: 8. zapored da vsi 6 sistemov v verigi ima multi-prereq (v3.12.003-v3.12.010!)
+- 3 CROSS-CHAIN povezave: GlassBench→Steklarstvo+ x2, MasonStonecutter→Kamnoseštvo+, Metalwork→Kovaštvo+ x6
+
+### Spremenjene datoteke
+- `objects/Economy/SystemDependencies.lua` (+9 vrstic), `states/ui/hud/tech_tree_panel.lua` (+2 vrstici)
+- `README.md`, `CHANGELOG.md`, `NEXT_BATCH_HANDOFF.md`
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS; Python regex: 306 vnosov, 201 multi-prereq
+
 ## [v3.12.009] — 2026-08-18 — Glass Finishing+ Chain (6 novih deps: 6 multi-prereq! 7. zapored vsi multi! VELIKI MEJNIK 300 deps, 24.375x!)
 
 ### Dodano
