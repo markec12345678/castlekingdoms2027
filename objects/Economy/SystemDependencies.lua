@@ -472,6 +472,15 @@ local dependencyGraph = {
     GlassGloryHoleMaker              = {"MasonStonecutter", "Metalwork"},  -- multi! CROSS-CHAIN: stone chamber + metal burner → Kamnoseštvo+
     GlassGloryHoleDamperMaker        = {"Metalwork", "MasonStonecutter"},   -- multi! CROSS-CHAIN: metal damper + stone frame → Kamnoseštvo+
     GlassPuntyWarmerMaker            = {"GlassBench", "Metalwork"},         -- multi! CROSS-CHAIN: glass warming tube + metal frame → Steklarstvo+
+
+    -- v3.12.008: Glass Engraving+ 2 chain (engraving lathe chucks, wheel bearings, polishing, frit, shears, ribbons)
+    -- 6 multi-prereq out of 6 (6th time all multi!); 3 CROSS-CHAIN links (GlassBench→Steklarstvo+ x3, MasonStonecutter→Kamnoseštvo+ x2, Metalwork→Kovaštvo+ x5)
+    GlassEngravingLatheChuckMaker   = {"Metalwork", "GlassBench"},      -- multi! CROSS-CHAIN: metal chuck + glass abrasive → Steklarstvo+
+    GlassEngravingWheelBearingMaker  = {"Metalwork", "WoodLathe"},      -- multi! metal bearing + wooden housing
+    GlassEngravingWheelRestMaker     = {"WoodLathe", "MasonStonecutter"}, -- multi! CROSS-CHAIN: wooden rest + stone base → Kamnoseštvo+
+    GlassPolishingPadMaker           = {"GlassBench", "MasonStonecutter"}, -- multi! CROSS-CHAIN: glass abrasive pad + stone backing → Steklarstvo+ & Kamnoseštvo+
+    GlassFritMaker                   = {"Metalwork", "GlassBench"},      -- multi! CROSS-CHAIN: metal crusher + glass frit → Steklarstvo+
+    GlassShearSpringMaker            = {"Metalwork", "WoodLathe"},       -- multi! metal spring + wooden handle
 }
 
 -- Register a dependency at runtime (for modding/extensibility)
