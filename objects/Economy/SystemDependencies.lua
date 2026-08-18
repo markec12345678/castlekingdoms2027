@@ -328,6 +328,15 @@ local dependencyGraph = {
     GlassEngravingDiamondPointMaker     = {"Metalwork", "GemMiner"},    -- multi! CROSS-CHAIN: diamond-tipped → Mining+
     GlassEngravingCopperWheelMaker      = {"Metalwork", "WoodLathe"},    -- multi! copper wheel + wooden support
     GlassEngravingWheelDressingStoneMaker = {"GlassBench"},              -- pure glass abrasive stone for dressing wheels
+
+    -- v3.11.992: Glass Annealing+ chain (metalwork + forge + cross-chain → advanced glass annealing equipment)
+    -- 5 multi-prereq out of 6; 3 CROSS-CHAIN links (GlassBench→Steklarstvo+ x3, ForgeTuyere→Livarstvo+, Metalwork→Kovaštvo+)
+    GlassAnnealingOvenMaker                  = {"Metalwork", "ForgeTuyere"},  -- multi! CROSS-CHAIN: oven shell + forge tuyere → Livarstvo+
+    GlassAnnealingOvenThermocoupleMaker      = {"Metalwork", "GlassBench"}, -- multi! CROSS-CHAIN: glass tube + metal probe → Steklarstvo+
+    GlassAnnealingOvenInspectionMirrorMaker  = {"GlassBench", "Metalwork"}, -- multi! CROSS-CHAIN: glass mirror + metal frame → Steklarstvo+
+    GlassAnnealingRollerMaker                = {"WoodLathe", "Metalwork"},   -- multi! wooden handle + metal axis
+    GlassAnnealingCartMaker                  = {"WoodLathe", "Metalwork"},   -- multi! wooden cart + metal wheels
+    GlassAnnealingForkMaker                  = {"Metalwork"},                -- metal fork for lifting hot glass
 }
 
 -- Register a dependency at runtime (for modding/extensibility)

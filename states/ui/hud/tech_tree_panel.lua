@@ -374,6 +374,8 @@ local CHAINS = {
     { label = "MLINARSTVO+", base = "Metalwork+WoodLathe+GlassBench+SpinningWheel", systems = {"MillstoneMaker", "MillstoneSpindleBearingMaker", "MillHopperShakerMaker", "GrainHopperMaker", "MillHopperSightGlassMaker", "MillstoneDresserMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "GlassBench", "SpinningWheel"} },
     -- v3.11.991: Glass Engraving+ chain (5 multi-prereq, 2 CROSS-CHAIN links)
     { label = "STEKLO REZBARSTVO+", base = "Metalwork+WoodLathe+GlassBench+GemMiner", systems = {"GlassEngraverMaker", "GlassEngravingWheelMaker", "GlassEngravingPointMaker", "GlassEngravingDiamondPointMaker", "GlassEngravingCopperWheelMaker", "GlassEngravingWheelDressingStoneMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "GlassBench", "GemMiner"} },
+    -- v3.11.992: Glass Annealing+ chain (5 multi-prereq, 3 CROSS-CHAIN links)
+    { label = "STEKLO ŽARENJE+", base = "Metalwork+ForgeTuyere+GlassBench+WoodLathe", systems = {"GlassAnnealingOvenMaker", "GlassAnnealingOvenThermocoupleMaker", "GlassAnnealingOvenInspectionMirrorMaker", "GlassAnnealingRollerMaker", "GlassAnnealingCartMaker", "GlassAnnealingForkMaker"}, multiBase = true, bases = {"Metalwork", "ForgeTuyere", "GlassBench", "WoodLathe"} },
 }
 
 -- Node dimensions for graph view
@@ -1936,7 +1938,7 @@ function TechTreePanel.draw()
     love.graphics.print(pctStr, pbX + (pbW - pctW) / 2, pbY - 12)
 
     love.graphics.setColor(0.4, 0.45, 0.5, 1)
-    love.graphics.print(string.format("192 deps · 49 verig · 98 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
+    love.graphics.print(string.format("198 deps · 50 verig · 103 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
         viewMode, focusStr, pathStr, searchStr, sortStr, filterStr, bookmarkStr, multiStr, presetStr),
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)

@@ -2,6 +2,38 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.992] — 2026-08-18 — Glass Annealing+ Chain (6 novih deps: 5 multi-prereq, 3 CROSS-CHAIN! MEJNIK 50 verig!)
+
+### Dodano
+- **SystemDependencies** — 6 novih dependencies za obstoječe sisteme z žarilno opremo za steklo (annealing):
+  * `GlassAnnealingOvenMaker` → `Metalwork` + `ForgeTuyere` (multi! CROSS-CHAIN: peč s kovinsko lupino + kovaški žerjav — povezuje z LIVARSTVO+ verigo iz v3.11.974)
+  * `GlassAnnealingOvenThermocoupleMaker` → `Metalwork` + `GlassBench` (multi! CROSS-CHAIN: steklena cev + kovinska sonda — povezuje s STEKLARSTVO+ verigo iz v3.11.973)
+  * `GlassAnnealingOvenInspectionMirrorMaker` → `GlassBench` + `Metalwork` (multi! CROSS-CHAIN: stekleno ogledalo + kovinski okvir — povezuje s STEKLARSTVO+)
+  * `GlassAnnealingRollerMaker` → `WoodLathe` + `Metalwork` (multi! leseno ročaj + kovinska os)
+  * `GlassAnnealingCartMaker` → `WoodLathe` + `Metalwork` (multi! leseno voziček + kovinska kolesa)
+  * `GlassAnnealingForkMaker` → `Metalwork` (kovinska vila za dviganje vročega stekla)
+- **TechTreePanel**: STEKLO ŽARENJE+ chain, footer (198 deps, 50 verig, 103 multi-prereq)
+- **MEJNIK 1**: 50 verig v tech tree-ju!
+- **MEJNIK 2**: 103 multi-prereq — 12.875x več kot začetnih 8!
+- 3 CROSS-CHAIN povezave:
+  1. `GlassAnnealingOvenMaker` → `ForgeTuyere` (povezuje STEKLO ŽARENJE+ z LIVARSTVO+)
+  2. `GlassAnnealingOvenThermocoupleMaker` → `GlassBench` (povezuje s STEKLARSTVO+)
+  3. `GlassAnnealingOvenInspectionMirrorMaker` → `GlassBench` (povezuje s STEKLARSTVO+)
+- Pred: 192 deps, 49 verig, 98 multi-prereq
+- Sedaj: 198 deps, 50 verig, 103 multi-prereq
+- Veriga steklenega žarenja sedaj ima 6 sistemov z dependencies (0 prej + 6 novih)
+
+### Spremenjene datoteke
+- `objects/Economy/SystemDependencies.lua` (+9 vrstic) — 6 novih dependency vnosov v dependencyGraph
+- `states/ui/hud/tech_tree_panel.lua` (+2 vrstici) — nova CHAINS entry za STEKLO ŽARENJE+ in posodobljen footer counter (198/50/103)
+- `README.md` — posodobljeni badges (v3.11.992, +GlassAnnealingChain, statistika)
+- `CHANGELOG.md` — dodan v3.11.992 entry
+- `NEXT_BATCH_HANDOFF.md` — posodobljeno stanje, "Glass Annealing+ chain" dodan v ZAKLJUČENE
+
+### Funkcionalna preverba
+- Lupa `load()` test: obe spremenjeni datoteki PASS
+- Število dependencyGraph vnosov preverjeno s Python regex: 198 vnosov, 103 multi-prereq — ujema se s footerjem
+
 ## [v3.11.991] — 2026-08-18 — Glass Engraving+ Chain (6 novih deps: 5 multi-prereq, 2 CROSS-CHAIN!)
 
 ### Dodano
