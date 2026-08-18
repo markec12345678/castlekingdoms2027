@@ -382,6 +382,15 @@ local dependencyGraph = {
     GlassShearsMaker         = {"Metalwork", "WoodLathe"},          -- multi! metal blades + wooden handle
     GlassYokeMaker           = {"WoodLathe", "Metalwork"},           -- multi! wooden stand + metal fittings
     GlassLehrBeltMaker       = {"WoodLathe"},                       -- wooden conveyor belt for Lehr oven
+
+    -- v3.11.998: Foundry Accessories+ 3 chain (Sand/Mold/Core+ 2 — advanced sand/mold/core tools)
+    -- 5 multi-prereq out of 6; 3 CROSS-CHAIN links (MasonStonecutter→Kamnoseštvo+, GlassBench→Steklarstvo+ x2, PigmentGrinderMaker→Barvila+)
+    SandMoldMaker            = {"Metalwork", "MasonStonecutter"},  -- multi! CROSS-CHAIN: metal frame + stone mold base → Kamnoseštvo+
+    MoldDryingOvenMaker      = {"Metalwork", "GlassBench"},         -- multi! CROSS-CHAIN: metal oven + glass inspection port → Steklarstvo+
+    MoldCoatingBrushMaker    = {"WoodLathe", "PigmentGrinderMaker"}, -- multi! CROSS-CHAIN: wooden brush + coating pigments → Barvila+
+    CoreOvenMaker            = {"Metalwork", "GlassBench"},         -- multi! CROSS-CHAIN: metal oven + glass inspection port → Steklarstvo+
+    CorePasteMixerMaker      = {"WoodLathe", "Metalwork"},          -- multi! wooden paddle + metal axis for paste mixer
+    MoldClampMaker           = {"Metalwork"},                        -- metal clamp for securing molds
 }
 
 -- Register a dependency at runtime (for modding/extensibility)

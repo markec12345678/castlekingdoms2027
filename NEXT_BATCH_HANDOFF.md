@@ -1,11 +1,11 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.11.997**
+- Različica: **v3.11.998**
 - Skupaj Royal sistemov: **990**
 - Skupaj Lua datotek: **1648**
 - Sintaktična preverba (avtentična Lua `load()`): **1648/1648 pass (100%)**
-- Tech Tree: **228 deps · 55 verig · 128 multi-prereq** (16x zažetnih 8!)
+- Tech Tree: **234 deps · 56 verig · 133 multi-prereq** (16.625x zažetnih 8! MEJNIK 56 verig!)
 - GitHub: sinhroniziran (vsi tagi pushani)
 - Lokalni repo: `/home/z/my-project/castlekingdoms2027`
 - .love datoteke: `/home/z/my-project/download/`
@@ -28,7 +28,7 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 3. ~~**Market Dashboard mousemoved forwarding**~~ ✅ končano
 4. ~~**Overlay settings migration**~~ ✅ končano v v3.11.933
 
-## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.11.997)
+## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.11.998)
 
 - ✅ **v3.11.382**: Royal Systems Registry + UI Panel (Ctrl+R)
 - ✅ **v3.11.901**: Save/Load persistenca za Royal sisteme (maker, zgradbe, zaloga, surovine)
@@ -119,6 +119,7 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 - ✅ **v3.11.995**: Foundry Accessories+ 2 Chain — 6 novih deps za obstoječe livarske sisteme z naprednim priborom (SandMullerBlade, MoldFlaskAlignmentPin, CoreGasEscapeChannel, CastingLadleSkimmerHook, PouringLadleSpoutLiner, SandRiddle — 5 multi-prereq!), LIVARSKI PRIBOR+ 2 chain, 210→216 deps, 52→53 verig, 113→118 multi-prereq; MEJNIK 216 deps, 53 verig, 118 multi-prereq (14.75x začetnih 8!); 3 CROSS-CHAIN povezave: MoldFlaskAlignmentPinMaker→MasonStonecutter (Kamnoseštvo+), CoreGasEscapeChannelMaker+PouringLadleSpoutLinerMaker→GlassBench (Steklarstvo+), Metalwork skupna povezava s Kovastvom+
 - ✅ **v3.11.996**: Glass Batch+ Chain — 6 novih deps za obstoječe sisteme s pripravo in taljenjem steklarske mešanice (GlassBatchFurnace, GlassBatchSmelter, GlassBatchMixer, GlassBatchFeeder, GlassBatch, GlassCulletCrusher — 5 multi-prereq!), STEKLO MEŠANICA+ chain, 216→222 deps, 53→54 verig, 118→123 multi-prereq; MEJNIK 222 deps, 54 verig, 123 multi-prereq (15.375x začetnih 8!); 3 CROSS-CHAIN povezave: GlassBatchFurnaceMaker+GlassBatchSmelter→ForgeTuyere (Livarstvo+), GlassBatchFeederMaker+GlassBatchMaker→MasonStonecutter (Kamnoseštvo+), Metalwork skupna povezava s Kovastvom+ (5 sistemov — NOV REKORD za eno verigo!)
 - ✅ **v3.11.997**: Glass Forming Tools+ Chain — 6 novih deps za obstoječe sisteme z orodji za oblikovanje stekla (GlassMarver, GlassPuntyRod, GlassGatheringIron, GlassShears, GlassYoke, GlassLehrBelt — 5 multi-prereq!), STEKLO OBLIKOVANJE+ chain, 222→228 deps, 54→55 verig, 123→128 multi-prereq; MEJNIK 228 deps, 55 verig, 128 multi-prereq (16x začetnih 8!); 3 CROSS-CHAIN povezave: GlassMarverMaker→MasonStonecutter (Kamnoseštvo+), Metalwork skupna povezava s Kovastvom+ (5 sistemov), WoodLathe skupna povezava z Lesarstvom+ (4 sistemi)
+- ✅ **v3.11.998**: Foundry Accessories+ 3 Chain (Sand/Mold/Core+ 2) — 6 novih deps za obstoječe livarske sisteme (SandMold, MoldDryingOven, MoldCoatingBrush, CoreOven, CorePasteMixer, MoldClamp — 5 multi-prereq!), LIVARSKI PRIBOR+ 3 chain, 228→234 deps, 55→56 verig, 128→133 multi-prereq; MEJNIK 234 deps, 56 verig, 133 multi-prereq (16.625x začetnih 8! + MEJNIK 56 verig!); 3 CROSS-CHAIN povezave: SandMoldMaker→MasonStonecutter (Kamnoseštvo+), MoldDryingOvenMaker+CoreOvenMaker→GlassBench (Steklarstvo+), MoldCoatingBrushMaker→PigmentGrinderMaker (Barvila+)
 
 ## ZNANE NADGRADNJE ZA PRIHODNJE PAKETE
 
@@ -136,11 +137,12 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 12. ~~**Livarski pribor+ 2**~~ ✅ končano v v3.11.995 (5 multi-prereq, 3 CROSS-CHAIN: MasonStonecutter←Kamnoseštvo+, GlassBench←Steklarstvo+ x2, Metalwork←Kovastvo+ x4; 210→216 deps, 52→53 verig, 113→118 multi-prereq; MEJNIK 14.75x multi-prereq!)
 13. ~~**Glass Batch/Smelter+ chain**~~ ✅ končano v v3.11.996 (5 multi-prereq, 3 CROSS-CHAIN: ForgeTuyere←Livarstvo+ x2, MasonStonecutter←Kamnoseštvo+ x2, Metalwork←Kovastvo+ x5 NOV REKORD!; 216→222 deps, 53→54 verig, 118→123 multi-prereq; MEJNIK 15.375x multi-prereq!)
 14. ~~**Glass Forming Tools+ chain**~~ ✅ končano v v3.11.997 (5 multi-prereq, 3 CROSS-CHAIN: MasonStonecutter←Kamnoseštvo+, Metalwork←Kovastvo+ x5, WoodLathe←Woodworking+ x4; 222→228 deps, 54→55 verig, 123→128 multi-prereq; MEJNIK 16x multi-prereq!)
-15. **Kirurgija+ chain 2** — dodatni kirurški deps (ApothecaryMortarMaker, ApothecaryVialMaker, SalveJarMaker so kandidati; npr. ApothecaryVialMaker → GlassBench + PotteryWheel CROSS-CHAIN)
-16. **Astrologija+ chain 2** — dodatni astronomski deps (npr. Telescope → GlassBench + Metalwork za tube)
-17. **Glass Glory Hole+ chain** — GlassGloryHole* sistemi so brez deps (GlassGloryHole, GlassGloryHoleDamper); 2 kandidata, manjša priložnost
-18. **Sand/Mold/Core+ 2 chain** — preostali Sand*, Mold*, Core* sistemi (5 Sand*, 12 Mold*, 7 Core*) so brez deps; velika priložnost za nadaljnjo širitev
+15. ~~**Sand/Mold/Core+ 2 chain**~~ ✅ končano v v3.11.998 (5 multi-prereq, 3 CROSS-CHAIN: MasonStonecutter←Kamnoseštvo+, GlassBench←Steklarstvo+ x2, PigmentGrinderMaker←Barvila+; 228→234 deps, 55→56 verig, 128→133 multi-prereq; MEJNIK 56 verig in 16.625x multi-prereq!)
+16. **Kirurgija+ chain 2** — dodatni kirurški deps (ApothecaryMortarMaker, ApothecaryVialMaker, SalveJarMaker so kandidati; npr. ApothecaryVialMaker → GlassBench + PotteryWheel CROSS-CHAIN)
+17. **Astrologija+ chain 2** — dodatni astronomski deps (npr. Telescope → GlassBench + Metalwork za tube)
+18. **Glass Glory Hole+ chain** — GlassGloryHole* sistemi so brez deps (GlassGloryHole, GlassGloryHoleDamper); 2 kandidata, manjša priložnost
 19. **Glass Remaining+ chain** — preostali Glass* sistemi (PuntyWarmer, CoolingRack, PipeShears, ShearSpring, FritMaker, SeedMaker, RibbonMaker, CaneSlicer) so brez deps; manjša priložnost za še eno verigo
+20. **Sand/Mold/Core+ 3 chain** — preostali Sand*, Mold*, Core* sistemi (8 Sand*, 11 Mold*, 6 Core*) so brez deps; velika priložnost za nadaljnjo širitev
 
 ## ZADNJE ZAKLJUČENI PAKET (v3.11.892–v3.11.901) — STEKLARSKI DODATKI 13 + LIVARSKI DODATKI 13
 
