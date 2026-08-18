@@ -2,6 +2,38 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.999] — 2026-08-18 — Foundry Accessories+ 4 Chain (Sand/Mold/Core+ 3 — 6 novih deps: 5 multi-prereq, 3 CROSS-CHAIN! MEJNIK 240 deps!)
+
+### Dodano
+- **SystemDependencies** — 6 novih dependencies za obstoječe livarske sisteme (Sand/Mold/Core+ 3 — sand treatment & mold handling):
+  * `SandConditionerMaker` → `Metalwork` + `WoodLathe` (multi! kovinski noži + leseno mešalo za pripravo peska)
+  * `SandCoolerMaker` → `Metalwork` + `GlassBench` (multi! CROSS-CHAIN: kovinske hladilne cevi + stekleno okno za nadzor temperature — povezuje s STEKLARSTVO+ verigo iz v3.11.973)
+  * `MoldDryingStandMaker` → `WoodLathe` + `Metalwork` (multi! leseno stojalo + kovinski okovji za sušenje kalupov)
+  * `MoldWashBoothMaker` → `MasonStonecutter` + `Metalwork` (multi! CROSS-CHAIN: kamnita kabina + kovinska vodovodna inštalacija — povezuje s KAMNOSEŠTVO+ verigo iz v3.11.982)
+  * `CorePrintBoxMaker` → `MasonStonecutter` + `WoodLathe` (multi! CROSS-CHAIN: kamnita škatla + lesen pokrov — povezuje s KAMNOSEŠTVO+)
+  * `MoldFlowTesterMaker` → `Metalwork` (kovinski tester pretočnosti za kalupe)
+- **TechTreePanel**: LIVARSKI PRIBOR+ 4 chain, footer (240 deps, 57 verig, 138 multi-prereq)
+- **MEJNIK 1**: 240 deps v tech tree-ju! (zaokroženo število)
+- **MEJNIK 2**: 138 multi-prereq — 17.25x več kot začetnih 8!
+- 3 CROSS-CHAIN povezave:
+  1. `SandCoolerMaker` → `GlassBench` (povezuje LIVARSKI PRIBOR+ 4 s STEKLARSTVO+ — kontrolna okna za temperaturo)
+  2. `MoldWashBoothMaker` + `CorePrintBoxMaker` → `MasonStonecutter` (povezuje s KAMNOSEŠTVO+ — kamnite komponente)
+  3. `Metalwork` skupna povezava s kovaštvom (5 sistemov)
+- Pred: 234 deps, 56 verig, 133 multi-prereq
+- Sedaj: 240 deps, 57 verig, 138 multi-prereq
+- Veriga livarskega pribora 4 sedaj ima 6 sistemov z dependencies (0 prej + 6 novih)
+
+### Spremenjene datoteke
+- `objects/Economy/SystemDependencies.lua` (+9 vrstic) — 6 novih dependency vnosov v dependencyGraph
+- `states/ui/hud/tech_tree_panel.lua` (+2 vrstici) — nova CHAINS entry za LIVARSKI PRIBOR+ 4 in posodobljen footer counter (240/57/138)
+- `README.md` — posodobljeni badges (v3.11.999, +FoundryAccessories4Chain, statistika)
+- `CHANGELOG.md` — dodan v3.11.999 entry z obema mejnikoma
+- `NEXT_BATCH_HANDOFF.md` — posodobljeno stanje, "Sand/Mold/Core+ 3 chain" dodan v ZAKLJUČENE
+
+### Funkcionalna preverba
+- Lupa `load()` test: obe spremenjeni datoteki PASS
+- Število dependencyGraph vnosov preverjeno s Python regex: 240 vnosov, 138 multi-prereq — ujema se s footerjem
+
 ## [v3.11.998] — 2026-08-18 — Foundry Accessories+ 3 Chain (6 novih deps: 5 multi-prereq, 3 CROSS-CHAIN! MEJNIK 56 verig!)
 
 ### Dodano

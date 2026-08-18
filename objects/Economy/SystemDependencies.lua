@@ -391,6 +391,15 @@ local dependencyGraph = {
     CoreOvenMaker            = {"Metalwork", "GlassBench"},         -- multi! CROSS-CHAIN: metal oven + glass inspection port → Steklarstvo+
     CorePasteMixerMaker      = {"WoodLathe", "Metalwork"},          -- multi! wooden paddle + metal axis for paste mixer
     MoldClampMaker           = {"Metalwork"},                        -- metal clamp for securing molds
+
+    -- v3.11.999: Foundry Accessories+ 4 chain (Sand/Mold/Core+ 3 — sand treatment & mold handling)
+    -- 5 multi-prereq out of 6; 3 CROSS-CHAIN links (GlassBench→Steklarstvo+, MasonStonecutter→Kamnoseštvo+ x2, Metalwork→Kovaštvo+ x5)
+    SandConditionerMaker  = {"Metalwork", "WoodLathe"},         -- multi! metal blades + wooden paddle for sand conditioning
+    SandCoolerMaker        = {"Metalwork", "GlassBench"},         -- multi! CROSS-CHAIN: metal cooling coils + glass inspection port → Steklarstvo+
+    MoldDryingStandMaker   = {"WoodLathe", "Metalwork"},          -- multi! wooden stand + metal fittings
+    MoldWashBoothMaker     = {"MasonStonecutter", "Metalwork"},   -- multi! CROSS-CHAIN: stone basin + metal plumbing → Kamnoseštvo+
+    CorePrintBoxMaker      = {"MasonStonecutter", "WoodLathe"},   -- multi! CROSS-CHAIN: stone box + wooden lid → Kamnoseštvo+
+    MoldFlowTesterMaker    = {"Metalwork"},                        -- metal flow testing instrument for molds
 }
 
 -- Register a dependency at runtime (for modding/extensibility)
