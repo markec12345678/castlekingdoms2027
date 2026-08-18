@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.994] — 2026-08-18 — Glass Kiln+ Chain (6 novih deps: 5 multi-prereq, 3 CROSS-CHAIN! MasonStonecutter x4!)
+
+### Dodano
+- **SystemDependencies** — 6 novih dependencies za obstoječe sisteme z opremo za steklarske peči:
+  * `GlassKilnDoorMaker` → `Metalwork` + `MasonStonecutter` (multi! CROSS-CHAIN: kovinska okovina + kamniti okvir — povezuje s KAMNOSEŠTVO+ verigo iz v3.11.982)
+  * `GlassKilnBrickSawMaker` → `Metalwork` + `MasonStonecutter` (multi! CROSS-CHAIN: kovinska žaga + kamnito rezilo — povezuje s KAMNOSEŠTVO+)
+  * `GlassKilnFlueDamperMaker` → `Metalwork` + `GlassBench` (multi! CROSS-CHAIN: kovinska loputa + stekleno okno za nadzor — povezuje s STEKLARSTVO+ verigo iz v3.11.973)
+  * `GlassKilnMuffleMaker` → `MasonStonecutter` + `GlassBench` (multi! CROSS-CHAIN: kamnita mufelna komora + steklena okna — povezuje z KAMNOSEŠTVO+ in STEKLARSTVO+)
+  * `GlassKilnFurnitureMaker` → `WoodLathe` + `MasonStonecutter` (multi! CROSS-CHAIN: leseni regali + kamniti podstavki — povezuje s KAMNOSEŠTVO+)
+  * `GlassKilnSootScraperMaker` → `Metalwork` (kovinska strgala za saje)
+- **TechTreePanel**: STEKLO PEČ+ chain, footer (210 deps, 52 verig, 113 multi-prereq)
+- **MEJNIK**: 113 multi-prereq — 14.125x več kot začetnih 8!
+- 3 CROSS-CHAIN povezave:
+  1. `GlassKilnDoorMaker` + `GlassKilnBrickSawMaker` + `GlassKilnMuffleMaker` + `GlassKilnFurnitureMaker` → `MasonStonecutter` (povezuje STEKLO PEČ+ z KAMNOSEŠTVO+ — NOV REKORD: 4 sistemi z isto CROSS-CHAIN bazo!)
+  2. `GlassKilnFlueDamperMaker` + `GlassKilnMuffleMaker` → `GlassBench` (povezuje s STEKLARSTVO+)
+  3. `Metalwork` skupna povezava s kovaštvom prek 4 sistemov
+- Pred: 204 deps, 51 verig, 108 multi-prereq
+- Sedaj: 210 deps, 52 verig, 113 multi-prereq
+- Veriga steklarskih peči sedaj ima 6 sistemov z dependencies (0 prej + 6 novih)
+
+### Spremenjene datoteke
+- `objects/Economy/SystemDependencies.lua` (+9 vrstic) — 6 novih dependency vnosov v dependencyGraph
+- `states/ui/hud/tech_tree_panel.lua` (+2 vrstici) — nova CHAINS entry za STEKLO PEČ+ in posodobljen footer counter (210/52/113)
+- `README.md` — posodobljeni badges (v3.11.994, +GlassKilnChain, statistika)
+- `CHANGELOG.md` — dodan v3.11.994 entry
+- `NEXT_BATCH_HANDOFF.md` — posodobljeno stanje, "Glass Kiln+ chain" dodan v ZAKLJUČENE
+
+### Funkcionalna preverba
+- Lupa `load()` test: obe spremenjeni datoteki PASS
+- Število dependencyGraph vnosov preverjeno s Python regex: 210 vnosov, 113 multi-prereq — ujema se s footerjem
+
 ## [v3.11.993] — 2026-08-18 — Glass Colorant+ Chain (6 novih deps: 5 multi-prereq, 3 CROSS-CHAIN!)
 
 ### Dodano

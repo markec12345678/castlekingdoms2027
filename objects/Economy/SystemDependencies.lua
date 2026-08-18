@@ -346,6 +346,15 @@ local dependencyGraph = {
     GlassColorantSieveMaker           = {"WoodLathe", "PigmentGrinderMaker"},       -- multi! CROSS-CHAIN: wooden frame + pigments → Barvila+
     GlassColorantSpatulaMaker         = {"Metalwork", "WoodLathe"},                  -- multi! metal spatula + wooden handle
     GlassColorantDryingTrayMaker      = {"WoodLathe"},                              -- wooden tray for drying colorants
+
+    -- v3.11.994: Glass Kiln+ chain (metalwork + stone + cross-chain → advanced glass kiln equipment)
+    -- 5 multi-prereq out of 6; 3 CROSS-CHAIN links (MasonStonecutter→Kamnoseštvo+ x4, GlassBench→Steklarstvo+ x2, Metalwork→Kovaštvo+ x4)
+    GlassKilnDoorMaker          = {"Metalwork", "MasonStonecutter"},   -- multi! CROSS-CHAIN: metal fittings + stone frame → Kamnoseštvo+
+    GlassKilnBrickSawMaker      = {"Metalwork", "MasonStonecutter"},   -- multi! CROSS-CHAIN: metal saw + stone blade → Kamnoseštvo+
+    GlassKilnFlueDamperMaker    = {"Metalwork", "GlassBench"},         -- multi! CROSS-CHAIN: metal damper + glass inspection port → Steklarstvo+
+    GlassKilnMuffleMaker        = {"MasonStonecutter", "GlassBench"},  -- multi! CROSS-CHAIN: stone muffle + glass windows → Kamnoseštvo+ & Steklarstvo+
+    GlassKilnFurnitureMaker     = {"WoodLathe", "MasonStonecutter"},   -- multi! CROSS-CHAIN: wooden shelves + stone supports → Kamnoseštvo+
+    GlassKilnSootScraperMaker   = {"Metalwork"},                       -- metal scraper for kiln soot
 }
 
 -- Register a dependency at runtime (for modding/extensibility)
