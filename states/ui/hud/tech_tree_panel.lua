@@ -384,6 +384,8 @@ local CHAINS = {
     { label = "LIVARSKI PRIBOR+ 2", base = "Metalwork+WoodLathe+MasonStonecutter+GlassBench", systems = {"SandMullerBladeMaker", "MoldFlaskAlignmentPinMaker", "CoreGasEscapeChannelMaker", "CastingLadleSkimmerHookMaker", "PouringLadleSpoutLinerMaker", "SandRiddleMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "MasonStonecutter", "GlassBench"} },
     -- v3.11.996: Glass Batch+ chain (5 multi-prereq, 3 CROSS-CHAIN links)
     { label = "STEKLO MEŠANICA+", base = "Metalwork+ForgeTuyere+WoodLathe+MasonStonecutter", systems = {"GlassBatchFurnaceMaker", "GlassBatchSmelter", "GlassBatchMixerMaker", "GlassBatchFeederMaker", "GlassBatchMaker", "GlassCulletCrusherMaker"}, multiBase = true, bases = {"Metalwork", "ForgeTuyere", "WoodLathe", "MasonStonecutter"} },
+    -- v3.11.997: Glass Forming Tools+ chain (5 multi-prereq, 3 CROSS-CHAIN links)
+    { label = "STEKLO OBLIKOVANJE+", base = "Metalwork+MasonStonecutter+WoodLathe", systems = {"GlassMarverMaker", "GlassPuntyRodMaker", "GlassGatheringIronMaker", "GlassShearsMaker", "GlassYokeMaker", "GlassLehrBeltMaker"}, multiBase = true, bases = {"Metalwork", "MasonStonecutter", "WoodLathe"} },
 }
 
 -- Node dimensions for graph view
@@ -1946,7 +1948,7 @@ function TechTreePanel.draw()
     love.graphics.print(pctStr, pbX + (pbW - pctW) / 2, pbY - 12)
 
     love.graphics.setColor(0.4, 0.45, 0.5, 1)
-    love.graphics.print(string.format("222 deps · 54 verig · 123 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
+    love.graphics.print(string.format("228 deps · 55 verig · 128 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
         viewMode, focusStr, pathStr, searchStr, sortStr, filterStr, bookmarkStr, multiStr, presetStr),
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)

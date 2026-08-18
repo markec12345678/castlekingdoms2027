@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.997] — 2026-08-18 — Glass Forming Tools+ Chain (6 novih deps: 5 multi-prereq, 3 CROSS-CHAIN! MEJNIK 16x!)
+
+### Dodano
+- **SystemDependencies** — 6 novih dependencies za obstoječe sisteme z orodji za oblikovanje stekla:
+  * `GlassMarverMaker` → `Metalwork` + `MasonStonecutter` (multi! CROSS-CHAIN: kovinska plošča + kamnita podlaga — povezuje s KAMNOSEŠTVO+ verigo iz v3.11.982)
+  * `GlassPuntyRodMaker` → `Metalwork` + `WoodLathe` (multi! kovinska konica pontil + leseno ročaj)
+  * `GlassGatheringIronMaker` → `Metalwork` + `WoodLathe` (multi! kovinska pipa za zajemanje + leseno ročaj)
+  * `GlassShearsMaker` → `Metalwork` + `WoodLathe` (multi! kovinska rezila + leseno ročaj)
+  * `GlassYokeMaker` → `WoodLathe` + `Metalwork` (multi! leseno stojalo + kovinski okovji)
+  * `GlassLehrBeltMaker` → `WoodLathe` (leseni transporter za Lehr peč)
+- **TechTreePanel**: STEKLO OBLIKOVANJE+ chain, footer (228 deps, 55 verig, 128 multi-prereq)
+- **MEJNIK**: 128 multi-prereq — 16x več kot začetnih 8!
+- 3 CROSS-CHAIN povezave:
+  1. `GlassMarverMaker` → `MasonStonecutter` (povezuje STEKLO OBLIKOVANJE+ s KAMNOSEŠTVO+)
+  2. `Metalwork` skupna povezava s kovaštvom (5 sistemov)
+  3. `WoodLathe` skupna povezava z lesarstvom (4 sistemi)
+- Pred: 222 deps, 54 verig, 123 multi-prereq
+- Sedaj: 228 deps, 55 verig, 128 multi-prereq
+- Veriga oblikovalnih orodij stekla sedaj ima 6 sistemov z dependencies (0 prej + 6 novih)
+
+### Spremenjene datoteke
+- `objects/Economy/SystemDependencies.lua` (+9 vrstic) — 6 novih dependency vnosov v dependencyGraph
+- `states/ui/hud/tech_tree_panel.lua` (+2 vrstici) — nova CHAINS entry za STEKLO OBLIKOVANJE+ in posodobljen footer counter (228/55/128)
+- `README.md` — posodobljeni badges (v3.11.997, +GlassFormingToolsChain, statistika)
+- `CHANGELOG.md` — dodan v3.11.997 entry
+- `NEXT_BATCH_HANDOFF.md` — posodobljeno stanje, "Glass Forming Tools+ chain" dodan v ZAKLJUČENE
+
+### Funkcionalna preverba
+- Lupa `load()` test: obe spremenjeni datoteki PASS
+- Število dependencyGraph vnosov preverjeno s Python regex: 228 vnosov, 128 multi-prereq — ujema se s footerjem
+
 ## [v3.11.996] — 2026-08-18 — Glass Batch+ Chain (6 novih deps: 5 multi-prereq, 3 CROSS-CHAIN!)
 
 ### Dodano
