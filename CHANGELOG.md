@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.995] — 2026-08-18 — Foundry Accessories+ 2 Chain (6 novih deps: 5 multi-prereq, 3 CROSS-CHAIN!)
+
+### Dodano
+- **SystemDependencies** — 6 novih dependencies za obstoječe livarske sisteme z naprednim priborom:
+  * `SandMullerBladeMaker` → `Metalwork` + `WoodLathe` (multi! kovinsko rezilo + leseno ročaj za muller peska)
+  * `MoldFlaskAlignmentPinMaker` → `Metalwork` + `MasonStonecutter` (multi! CROSS-CHAIN: kovinski zatiči + kamnita osnova za kalupe — povezuje s KAMNOSEŠTVO+ verigo iz v3.11.982)
+  * `CoreGasEscapeChannelMaker` → `Metalwork` + `GlassBench` (multi! CROSS-CHAIN: kovinska cev + stekleno okno za nadzor plinov — povezuje s STEKLARSTVO+ verigo iz v3.11.973)
+  * `CastingLadleSkimmerHookMaker` → `Metalwork` + `WoodLathe` (multi! kovinska kladka + leseno ročaj)
+  * `PouringLadleSpoutLinerMaker` → `GlassBench` + `Metalwork` (multi! CROSS-CHAIN: steklena obloga izliva + kovinska lopatica — povezuje s STEKLARSTVO+)
+  * `SandRiddleMaker` → `WoodLathe` (leseni okvir za presejanje peska)
+- **TechTreePanel**: LIVARSKI PRIBOR+ 2 chain, footer (216 deps, 53 verig, 118 multi-prereq)
+- **MEJNIK**: 118 multi-prereq — 14.75x več kot začetnih 8!
+- 3 CROSS-CHAIN povezave:
+  1. `MoldFlaskAlignmentPinMaker` → `MasonStonecutter` (povezuje LIVARSKI PRIBOR+ 2 s KAMNOSEŠTVO+)
+  2. `CoreGasEscapeChannelMaker` + `PouringLadleSpoutLinerMaker` → `GlassBench` (povezuje s STEKLARSTVO+)
+  3. `Metalwork` skupna povezava s kovaštvom prek 4 sistemov
+- Pred: 210 deps, 52 verig, 113 multi-prereq
+- Sedaj: 216 deps, 53 verig, 118 multi-prereq
+- Veriga livarskega pribora 2 sedaj ima 6 sistemov z dependencies (0 prej + 6 novih)
+
+### Spremenjene datoteke
+- `objects/Economy/SystemDependencies.lua` (+9 vrstic) — 6 novih dependency vnosov v dependencyGraph
+- `states/ui/hud/tech_tree_panel.lua` (+2 vrstici) — nova CHAINS entry za LIVARSKI PRIBOR+ 2 in posodobljen footer counter (216/53/118)
+- `README.md` — posodobljeni badges (v3.11.995, +FoundryAccessories2Chain, statistika)
+- `CHANGELOG.md` — dodan v3.11.995 entry
+- `NEXT_BATCH_HANDOFF.md` — posodobljeno stanje, "Livarski pribor+ 2" dodan v ZAKLJUČENE
+
+### Funkcionalna preverba
+- Lupa `load()` test: obe spremenjeni datoteki PASS
+- Število dependencyGraph vnosov preverjeno s Python regex: 216 vnosov, 118 multi-prereq — ujema se s footerjem
+
 ## [v3.11.994] — 2026-08-18 — Glass Kiln+ Chain (6 novih deps: 5 multi-prereq, 3 CROSS-CHAIN! MasonStonecutter x4!)
 
 ### Dodano

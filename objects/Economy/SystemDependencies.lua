@@ -355,6 +355,15 @@ local dependencyGraph = {
     GlassKilnMuffleMaker        = {"MasonStonecutter", "GlassBench"},  -- multi! CROSS-CHAIN: stone muffle + glass windows → Kamnoseštvo+ & Steklarstvo+
     GlassKilnFurnitureMaker     = {"WoodLathe", "MasonStonecutter"},   -- multi! CROSS-CHAIN: wooden shelves + stone supports → Kamnoseštvo+
     GlassKilnSootScraperMaker   = {"Metalwork"},                       -- metal scraper for kiln soot
+
+    -- v3.11.995: Foundry Accessories+ 2 chain (metalwork + cross-chain → advanced foundry tools)
+    -- 5 multi-prereq out of 6; 3 CROSS-CHAIN links (GlassBench→Steklarstvo+ x2, MasonStonecutter→Kamnoseštvo+, Metalwork→Kovaštvo+ x4)
+    SandMullerBladeMaker           = {"Metalwork", "WoodLathe"},        -- multi! metal blade + wooden handle for sand muller
+    MoldFlaskAlignmentPinMaker     = {"Metalwork", "MasonStonecutter"}, -- multi! CROSS-CHAIN: metal pins + stone mold base → Kamnoseštvo+
+    CoreGasEscapeChannelMaker      = {"Metalwork", "GlassBench"},       -- multi! CROSS-CHAIN: metal tube + glass inspection → Steklarstvo+
+    CastingLadleSkimmerHookMaker  = {"Metalwork", "WoodLathe"},         -- multi! metal hook + wooden handle
+    PouringLadleSpoutLinerMaker   = {"GlassBench", "Metalwork"},        -- multi! CROSS-CHAIN: glass-lined spout → Steklarstvo+
+    SandRiddleMaker                = {"WoodLathe"},                     -- wooden frame for sifting sand
 }
 
 -- Register a dependency at runtime (for modding/extensibility)
