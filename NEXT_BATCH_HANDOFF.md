@@ -1,11 +1,11 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.12.005**
+- Različica: **v3.12.006**
 - Skupaj Royal sistemov: **990**
 - Skupaj Lua datotek: **1648**
 - Sintaktična preverba (avtentična Lua `load()`): **1648/1648 pass (100%)**
-- Tech Tree: **276 deps · 63 verig · 171 multi-prereq** (21.375x zažetnih 8!)
+- Tech Tree: **282 deps · 64 verig · 177 multi-prereq** (22.125x zažetnih 8!)
 - GitHub: sinhroniziran (vsi tagi pushani)
 - Lokalni repo: `/home/z/my-project/castlekingdoms2027`
 - .love datoteke: `/home/z/my-project/download/`
@@ -28,7 +28,7 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 3. ~~**Market Dashboard mousemoved forwarding**~~ ✅ končano
 4. ~~**Overlay settings migration**~~ ✅ končano v v3.11.933
 
-## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.12.005)
+## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.12.006)
 
 - ✅ **v3.11.382**: Royal Systems Registry + UI Panel (Ctrl+R)
 - ✅ **v3.11.901**: Save/Load persistenca za Royal sisteme (maker, zgradbe, zaloga, surovine)
@@ -127,6 +127,7 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 - ✅ **v3.12.003**: Foundry Accessories+ 8 Chain (Sand/Mold/Core+ 6 — FINAL) — 6 novih deps za obstoječe livarske sisteme (SandTestCup, Sander, MoldCoatBrushSpinner, MoldVentWireCleaner, CoreVarnishBrush, CoreWashingDip — 6 multi-prereq, prvič vsi multi!), LIVARSKI PRIBOR+ 8 chain, 258→264 deps, 60→61 verig, 153→159 multi-prereq; VELIKI MEJNIK: izčrpane Sand/Mold/Core skupine (36 sistemov v 6 paketih)! + MEJNIK 264 deps, 61 verig, 159 multi-prereq (19.875x začetnih 8!); 4 CROSS-CHAIN povezave (NOV REKORD za število različnih baz v eni verigi!): SandTestCupMaker→GlassBench (Steklarstvo+), MoldCoatBrushSpinnerMaker+CoreVarnishBrushMaker→PigmentGrinderMaker (Barvila+), CoreWashingDipMaker→MasonStonecutter (Kamnoseštvo+), Metalwork+WoodLathe skupna (5 sistemov)
 - ✅ **v3.12.004**: Foundry Accessories+ 9 Chain (Casting/Pouring+ 2) — 6 novih deps za obstoječe livarske sisteme (CastingLadleLiningTrowel, CastingLadlePreheatStand, CastingLadleSkimmerHandle, PouringCrucibleDrier, PouringLadleLiner, PouringLadleSkimmerSieve — 6 multi-prereq, drugič zapored vsi multi!), LIVARSKI PRIBOR+ 9 chain, 264→270 deps, 61→62 verig, 159→165 multi-prereq; MEJNIK 270 deps, 62 verig, 165 multi-prereq (20.625x začetnih 8! — presežen mejnik 20x!); 3 CROSS-CHAIN povezave: CastingLadleLiningTrowelMaker→MasonStonecutter (Kamnoseštvo+), PouringCrucibleDrierMaker+PouringLadleLinerMaker→GlassBench (Steklarstvo+), Metalwork skupna povezava s Kovastvom+ (6 sistemov — drugi NOV REKORD, izenačeno z v3.12.001 in v3.11.996)
 - ✅ **v3.12.005**: Glass Kiln Accessories+ 2 Chain — 6 novih deps za preostale sisteme z opremo za steklarske peči (GlassKilnDoorChain, GlassKilnDoorLifter, GlassKilnBrickTongs, GlassKilnSeal, GlassKilnSightingPortCover, GlassKilnSpy — 6 multi-prereq, tretjič zapored vsi multi!), STEKLO KILN PRIBOR+ chain, 270→276 deps, 62→63 verig, 165→171 multi-prereq; MEJNIK 276 deps, 63 verig, 171 multi-prereq (21.375x začetnih 8!); 3 CROSS-CHAIN povezave: GlassKilnDoorChainMaker+GlassKilnDoorLifterMaker+GlassKilnBrickTongsMaker+GlassKilnSealMaker→MasonStonecutter (Kamnoseštvo+ x4), GlassKilnSealMaker+GlassKilnSightingPortCoverMaker→GlassBench (Steklarstvo+), Metalwork skupna (Kovaštvo+ x5)
+- ✅ **v3.12.006**: Glass Blowing+ 2 Chain — 6 novih deps za sisteme z opremo za pihanje stekla (GlassBench, GlassBlowerPipe, GlassBlowingMold, GlassBlowpipeCoolingRack, GlassCoolingRack, GlassPipeShears — 6 multi-prereq, 4. zapored vsi multi!), STEKLO PIHALSKO+ 2 chain, 276→282 deps, 63→64 verig, 171→177 multi-prereq; MEJNIK 282 deps, 64 verig, 177 multi-prereq (22.125x začetnih 8!); 3 CROSS-CHAIN povezave: GlassBenchMaker+GlassBlowingMoldMaker+GlassCoolingRackMaker→MasonStonecutter (Kamnoseštvo+ x3), GlassBlowerPipeMaker+GlassCoolingRackMaker→GlassBench (Steklarstvo+ x2), Metalwork skupna (Kovaštvo+ x4)
 
 ## ZNANE NADGRADNJE ZA PRIHODNJE PAKETE
 

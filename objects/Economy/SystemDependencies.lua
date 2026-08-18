@@ -454,6 +454,15 @@ local dependencyGraph = {
     GlassKilnSealMaker            = {"GlassBench", "MasonStonecutter"}, -- multi! CROSS-CHAIN: glass seal + stone frame → Steklarstvo+ & Kamnoseštvo+
     GlassKilnSightingPortCoverMaker = {"Metalwork", "GlassBench"},      -- multi! CROSS-CHAIN: metal cover + glass sighting port → Steklarstvo+
     GlassKilnSpyMaker             = {"Metalwork", "WoodLathe"},         -- multi! metal spy tube + wooden handle
+
+    -- v3.12.006: Glass Blowing+ 2 chain (benches, blowpipes, molds, cooling racks, shears)
+    -- 6 multi-prereq out of 6 (4th time all multi!); 3 CROSS-CHAIN links (MasonStonecutter→Kamnoseštvo+ x3, GlassBench→Steklarstvo+ x2, Metalwork→Kovaštvo+ x4)
+    GlassBenchMaker               = {"Metalwork", "MasonStonecutter"},  -- multi! CROSS-CHAIN: metal frame + stone legs → Kamnoseštvo+
+    GlassBlowerPipeMaker          = {"Metalwork", "GlassBench"},         -- multi! CROSS-CHAIN: metal tube + glass mouthpiece → Steklarstvo+
+    GlassBlowingMoldMaker         = {"WoodLathe", "MasonStonecutter"},  -- multi! CROSS-CHAIN: wooden mold + stone base → Kamnoseštvo+
+    GlassBlowpipeCoolingRackMaker  = {"WoodLathe", "Metalwork"},         -- multi! wooden rack + metal supports
+    GlassCoolingRackMaker          = {"GlassBench", "MasonStonecutter"}, -- multi! CROSS-CHAIN: glass surface + stone base → Steklarstvo+ & Kamnoseštvo+
+    GlassPipeShearsMaker           = {"Metalwork", "WoodLathe"},         -- multi! metal blades + wooden handle
 }
 
 -- Register a dependency at runtime (for modding/extensibility)
