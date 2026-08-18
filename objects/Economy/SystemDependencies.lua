@@ -445,6 +445,15 @@ local dependencyGraph = {
     PouringCrucibleDrierMaker       = {"Metalwork", "GlassBench"},      -- multi! CROSS-CHAIN: metal dryer + glass inspection port → Steklarstvo+
     PouringLadleLinerMaker          = {"GlassBench", "Metalwork"},       -- multi! CROSS-CHAIN: glass liner + metal frame → Steklarstvo+
     PouringLadleSkimmerSieveMaker    = {"WoodLathe", "Metalwork"},        -- multi! wooden sieve frame + metal mesh
+
+    -- v3.12.005: Glass Kiln Accessories+ 2 chain (GlassKiln remaining — door chains, brick tongs, seals)
+    -- 6 multi-prereq out of 6 (3rd time all multi!); 3 CROSS-CHAIN links (MasonStonecutter→Kamnoseštvo+ x3, GlassBench→Steklarstvo+ x2, Metalwork→Kovaštvo+ x5)
+    GlassKilnDoorChainMaker       = {"Metalwork", "MasonStonecutter"},  -- multi! CROSS-CHAIN: metal chain + stone pulley → Kamnoseštvo+
+    GlassKilnDoorLifterMaker     = {"Metalwork", "MasonStonecutter"},  -- multi! CROSS-CHAIN: metal lifter + stone counterweight → Kamnoseštvo+
+    GlassKilnBrickTongsMaker      = {"Metalwork", "MasonStonecutter"},  -- multi! CROSS-CHAIN: metal tongs + stone base → Kamnoseštvo+
+    GlassKilnSealMaker            = {"GlassBench", "MasonStonecutter"}, -- multi! CROSS-CHAIN: glass seal + stone frame → Steklarstvo+ & Kamnoseštvo+
+    GlassKilnSightingPortCoverMaker = {"Metalwork", "GlassBench"},      -- multi! CROSS-CHAIN: metal cover + glass sighting port → Steklarstvo+
+    GlassKilnSpyMaker             = {"Metalwork", "WoodLathe"},         -- multi! metal spy tube + wooden handle
 }
 
 -- Register a dependency at runtime (for modding/extensibility)

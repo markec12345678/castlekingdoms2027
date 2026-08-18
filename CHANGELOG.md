@@ -2,6 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.005] — 2026-08-18 — Glass Kiln Accessories+ 2 Chain (6 novih deps: 6 multi-prereq! MasonStonecutter x4! MEJNIK 21x!)
+
+### Dodano
+- **SystemDependencies** — 6 novih dependencies za preostale sisteme z opremo za steklarske peči (GlassKiln door chains, brick tongs, seals):
+  * `GlassKilnDoorChainMaker` → `Metalwork` + `MasonStonecutter` (multi! CROSS-CHAIN: kovinska veriga + kamnit škripec — povezuje s KAMNOSEŠTVO+)
+  * `GlassKilnDoorLifterMaker` → `Metalwork` + `MasonStonecutter` (multi! CROSS-CHAIN: kovinski dvigalnik + kamnito protoutež)
+  * `GlassKilnBrickTongsMaker` → `Metalwork` + `MasonStonecutter` (multi! CROSS-CHAIN: kovinske klešče + kamnita podlaga)
+  * `GlassKilnSealMaker` → `GlassBench` + `MasonStonecutter` (multi! CROSS-CHAIN: stekleni pečat + kamniti okvir)
+  * `GlassKilnSightingPortCoverMaker` → `Metalwork` + `GlassBench` (multi! CROSS-CHAIN: kovinski pokrov + stekleno okno za opazovanje)
+  * `GlassKilnSpyMaker` → `Metalwork` + `WoodLathe` (multi! kovinska špijonska cev + leseno ročaj)
+- **TechTreePanel**: STEKLO KILN PRIBOR+ chain, footer (276 deps, 63 verig, 171 multi-prereq)
+- **MEJNIK**: 171 multi-prereq — 21.375x več kot začetnih 8!
+- 3 CROSS-CHAIN povezave:
+  1. `GlassKilnDoorChainMaker` + `GlassKilnDoorLifterMaker` + `GlassKilnBrickTongsMaker` + `GlassKilnSealMaker` → `MasonStonecutter` (povezuje s KAMNOSEŠTVO+ — 4 sistemi)
+  2. `GlassKilnSealMaker` + `GlassKilnSightingPortCoverMaker` → `GlassBench` (povezuje s STEKLARSTVO+ — 2 sistema)
+  3. `Metalwork` skupna povezava s kovaštvom (5 sistemov)
+- Pred: 270 deps, 62 verig, 165 multi-prereq
+- Sedaj: 276 deps, 63 verig, 171 multi-prereq
+
+### Spremenjene datoteke
+- `objects/Economy/SystemDependencies.lua` (+9 vrstic) — 6 novih dependency vnosov v dependencyGraph
+- `states/ui/hud/tech_tree_panel.lua` (+2 vrstici) — nova CHAINS entry za STEKLO KILN PRIBOR+ in posodobljen footer counter (276/63/171)
+- `README.md` — posodobljeni badges (v3.12.005, +GlassKilnAccessories2Chain, statistika)
+- `CHANGELOG.md` — dodan v3.12.005 entry
+- `NEXT_BATCH_HANDOFF.md` — posodobljeno stanje
+
+### Funkcionalna preverba
+- Lupa `load()` test: obe spremenjeni datoteki PASS
+- Število dependencyGraph vnosov preverjeno s Python regex: 276 vnosov, 171 multi-prereq — ujema se s footerjem
+
 ## [v3.12.004] — 2026-08-18 — Foundry Accessories+ 9 Chain (Casting/Pouring+ 2 — 6 novih deps: 6 multi-prereq! MEJNIK 20x!)
 
 ### Dodano
