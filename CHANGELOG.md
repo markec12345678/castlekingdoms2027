@@ -2,6 +2,28 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.007] — 2026-08-18 — Glass Annealing+ 2 Chain (6 novih deps: 6 multi-prereq! 5. zapored vsi multi! MEJNIK 22.875x!)
+
+### Dodano
+- **SystemDependencies** — 6 novih dependencies za sisteme z žarilno opremo (annealing cradles, glory holes, punty warmers):
+  * `GlassAnnealingCradleMaker` → `Metalwork` + `MasonStonecutter` (multi! CROSS-CHAIN: kovinska zibelka + kamnita osnova → Kamnoseštvo+)
+  * `GlassAnnealingOvenDoorWheelMaker` → `Metalwork` + `WoodLathe` (multi! kovinsko kolo + lesen okvir)
+  * `GlassAnnealingTongJawsMaker` → `Metalwork` + `GlassBench` (multi! CROSS-CHAIN: kovinska usta + steklena obloga → Steklarstvo+)
+  * `GlassGloryHoleMaker` → `MasonStonecutter` + `Metalwork` (multi! CROSS-CHAIN: kamnita komora + kovinski gorilnik → Kamnoseštvo+)
+  * `GlassGloryHoleDamperMaker` → `Metalwork` + `MasonStonecutter` (multi! CROSS-CHAIN: kovinska loputa + kamniti okvir → Kamnoseštvo+)
+  * `GlassPuntyWarmerMaker` → `GlassBench` + `Metalwork` (multi! CROSS-CHAIN: steklena grelna cev + kovinski okvir → Steklarstvo+)
+- **TechTreePanel**: STEKLO ŽARENJE+ 2 chain, footer (288 deps, 65 verig, 183 multi-prereq)
+- **MEJNIK**: 183 multi-prereq — 22.875x več kot začetnih 8!
+- **NOV REKORD**: 5. zapored da vsi 6 sistemov v verigi ima multi-prereq (v3.12.003-v3.12.007!)
+- 3 CROSS-CHAIN povezave: MasonStonecutter→Kamnoseštvo+ x3, GlassBench→Steklarstvo+ x2, Metalwork→Kovaštvo+ x5
+
+### Spremenjene datoteke
+- `objects/Economy/SystemDependencies.lua` (+9 vrstic), `states/ui/hud/tech_tree_panel.lua` (+2 vrstici)
+- `README.md`, `CHANGELOG.md`, `NEXT_BATCH_HANDOFF.md`
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS; Python regex: 288 vnosov, 183 multi-prereq
+
 ## [v3.12.006] — 2026-08-18 — Glass Blowing+ 2 Chain (6 novih deps: 6 multi-prereq! 4. zapored vsi multi! MEJNIK 22x!)
 
 ### Dodano
