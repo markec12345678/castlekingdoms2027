@@ -2,6 +2,28 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.011] — 2026-08-18 — Forge+ Chain (6 novih deps: 6 multi-prereq! 9. zapored vsi multi! MEJNIK 25.875x!)
+
+### Dodano
+- **SystemDependencies** — 6 novih dependencies za sisteme s kovaško pečjo (forge ash management, tuyere cooling, chimney, clinker):
+  * `ForgeTuyereCoolerMaker` → `Metalwork` + `GlassBench` (multi! CROSS-CHAIN: kovinski hladilnik + stekleno okno → Steklarstvo+)
+  * `ForgeChimneyDamperMaker` → `Metalwork` + `MasonStonecutter` (multi! CROSS-CHAIN: kovinska loputa + kamniti dimnik → Kamnoseštvo+)
+  * `ForgeClinkerBreakerMaker` → `Metalwork` + `MasonStonecutter` (multi! CROSS-CHAIN: kovinski lomilec + kamnito rešetko → Kamnoseštvo+)
+  * `ForgeAshPanMaker` → `Metalwork` + `WoodLathe` (multi! kovinska ponva + leseno ročaj)
+  * `ForgeHoodFlueMaker` → `Metalwork` + `GlassBench` (multi! CROSS-CHAIN: kovinski dimnik + stekleni nadzor → Steklarstvo+)
+  * `ForgeCokeRakeMaker` → `Metalwork` + `WoodLathe` (multi! kovinska greblja + leseno ročaj)
+- **TechTreePanel**: KOVAŠKA PEČ+ chain, footer (312 deps, 69 verig, 207 multi-prereq)
+- **MEJNIK**: 207 multi-prereq — 25.875x več kot začetnih 8!
+- **NOV REKORD**: 9. zapored da vsi 6 sistemov v verigi ima multi-prereq (v3.12.003-v3.12.011!)
+- 3 CROSS-CHAIN povezave: GlassBench→Steklarstvo+ x2, MasonStonecutter→Kamnoseštvo+ x2, Metalwork→Kovaštvo+ x5
+
+### Spremenjene datoteke
+- `objects/Economy/SystemDependencies.lua` (+9 vrstic), `states/ui/hud/tech_tree_panel.lua` (+2 vrstici)
+- `README.md`, `CHANGELOG.md`, `NEXT_BATCH_HANDOFF.md`
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS; Python regex: 312 vnosov, 207 multi-prereq
+
 ## [v3.12.010] — 2026-08-18 — Smith Quench+ Chain (6 novih deps: 6 multi-prereq! 8. zapored vsi multi! MEJNIK 25x!)
 
 ### Dodano

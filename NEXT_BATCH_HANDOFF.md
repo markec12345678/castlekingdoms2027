@@ -1,11 +1,11 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.12.010**
+- Različica: **v3.12.011**
 - Skupaj Royal sistemov: **990**
 - Skupaj Lua datotek: **1648**
 - Sintaktična preverba (avtentična Lua `load()`): **1648/1648 pass (100%)**
-- Tech Tree: **306 deps · 68 verig · 201 multi-prereq** (25.125x zažetnih 8! presežen mejnik 25x!)
+- Tech Tree: **312 deps · 69 verig · 207 multi-prereq** (25.875x zažetnih 8!)
 - GitHub: sinhroniziran (vsi tagi pushani)
 - Lokalni repo: `/home/z/my-project/castlekingdoms2027`
 - .love datoteke: `/home/z/my-project/download/`
@@ -28,7 +28,7 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 3. ~~**Market Dashboard mousemoved forwarding**~~ ✅ končano
 4. ~~**Overlay settings migration**~~ ✅ končano v v3.11.933
 
-## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.12.010)
+## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.12.011)
 
 - ✅ **v3.11.382**: Royal Systems Registry + UI Panel (Ctrl+R)
 - ✅ **v3.11.901**: Save/Load persistenca za Royal sisteme (maker, zgradbe, zaloga, surovine)
@@ -132,6 +132,7 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 - ✅ **v3.12.008**: Glass Engraving+ 2 Chain — 6 novih deps za sisteme z gravirno/dokončevalno opremo (GlassEngravingLatheChuck, GlassEngravingWheelBearing, GlassEngravingWheelRest, GlassPolishingPad, GlassFrit, GlassShearSpring — 6 multi-prereq, 6. zapored vsi multi!), STEKLO REZBARSTVO+ 2 chain, 288→294 deps, 65→66 verig, 183→189 multi-prereq; MEJNIK 294 deps, 66 verig, 189 multi-prereq (23.625x začetnih 8!); 3 CROSS-CHAIN povezave: GlassEngravingLatheChuckMaker+GlassPolishingPadMaker+GlassFritMaker→GlassBench (Steklarstvo+ x3), GlassEngravingWheelRestMaker+GlassPolishingPadMaker→MasonStonecutter (Kamnoseštvo+ x2), Metalwork skupna (Kovaštvo+ x5)
 - ✅ **v3.12.009**: Glass Finishing+ Chain — 6 novih deps za zadnje preostale sisteme z dokončevalno opremo stekla (GlassCaneSlicer, GlassColorantSievingCloth, GlassColorantVialShaker, GlassMoltenGlassSkimLadle, GlassRibbon, GlassSeed — 6 multi-prereq, 7. zapored vsi multi!), STEKLO DOKONČANJE+ chain, 294→300 deps, 66→67 verig, 189→195 multi-prereq; VELIKI MEJNIK: 300 deps (zaokroženo število)! + MEJNIK 300 deps, 67 verig, 195 multi-prereq (24.375x začetnih 8!); 4 CROSS-CHAIN povezave (NOV REKORD za število različnih baz v eni verigi!): GlassCaneSlicerMaker+GlassColorantVialShakerMaker+GlassSeedMaker→GlassBench (Steklarstvo+ x3), GlassColorantSievingClothMaker→PigmentGrinderMaker (Barvila+), GlassMoltenGlassSkimLadleMaker→MasonStonecutter (Kamnoseštvo+), Metalwork skupna (Kovaštvo+ x5)
 - ✅ **v3.12.010**: Smith Quench+ Chain — 6 novih deps za sisteme s kalilno opremo (QuenchBucket, QuenchOilDipper, QuenchOilFilter, QuenchTankDrainValve, QuenchTankLidGasket, QuenchTankThermometer — 6 multi-prereq, 8. zapored vsi multi!), KOVAŠKI KVAČ+ chain, 300→306 deps, 67→68 verig, 195→201 multi-prereq; MEJNIK 306 deps, 68 verig, 201 multi-prereq (25.125x začetnih 8! — presežen mejnik 25x!); 3 CROSS-CHAIN povezave: QuenchOilFilterMaker+QuenchTankThermometerMaker→GlassBench (Steklarstvo+ x2), QuenchTankDrainValveMaker→MasonStonecutter (Kamnoseštvo+), Metalwork skupna (Kovaštvo+ x6)
+- ✅ **v3.12.011**: Forge+ Chain — 6 novih deps za sisteme s kovaško pečjo (ForgeTuyereCooler, ForgeChimneyDamper, ForgeClinkerBreaker, ForgeAshPan, ForgeHoodFlue, ForgeCokeRake — 6 multi-prereq, 9. zapored vsi multi!), KOVAŠKA PEČ+ chain, 306→312 deps, 68→69 verig, 201→207 multi-prereq; MEJNIK 312 deps, 69 verig, 207 multi-prereq (25.875x začetnih 8!); 3 CROSS-CHAIN povezave: ForgeTuyereCoolerMaker+ForgeHoodFlueMaker→GlassBench (Steklarstvo+ x2), ForgeChimneyDamperMaker+ForgeClinkerBreakerMaker→MasonStonecutter (Kamnoseštvo+ x2), Metalwork skupna (Kovaštvo+ x5)
 
 ## ZNANE NADGRADNJE ZA PRIHODNJE PAKETE
 

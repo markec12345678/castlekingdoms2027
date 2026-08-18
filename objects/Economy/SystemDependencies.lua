@@ -499,6 +499,15 @@ local dependencyGraph = {
     QuenchTankDrainValveMaker    = {"Metalwork", "MasonStonecutter"}, -- multi! CROSS-CHAIN: metal valve + stone tank base → Kamnoseštvo+
     QuenchTankLidGasketMaker     = {"Metalwork", "WoodLathe"},       -- multi! metal gasket + wooden lid
     QuenchTankThermometerMaker   = {"Metalwork", "GlassBench"},      -- multi! CROSS-CHAIN: metal instrument + glass tube → Steklarstvo+
+
+    -- v3.12.011: Forge+ chain (forge ash management, tuyere cooling, chimney, clinker)
+    -- 6 multi-prereq out of 6 (9th time all multi!); 3 CROSS-CHAIN links (GlassBench→Steklarstvo+ x2, MasonStonecutter→Kamnoseštvo+ x2, Metalwork→Kovaštvo+ x5)
+    ForgeTuyereCoolerMaker    = {"Metalwork", "GlassBench"},      -- multi! CROSS-CHAIN: metal cooler + glass inspection → Steklarstvo+
+    ForgeChimneyDamperMaker   = {"Metalwork", "MasonStonecutter"}, -- multi! CROSS-CHAIN: metal damper + stone chimney → Kamnoseštvo+
+    ForgeClinkerBreakerMaker  = {"Metalwork", "MasonStonecutter"}, -- multi! CROSS-CHAIN: metal breaker + stone grate → Kamnoseštvo+
+    ForgeAshPanMaker          = {"Metalwork", "WoodLathe"},       -- multi! metal pan + wooden handle
+    ForgeHoodFlueMaker        = {"Metalwork", "GlassBench"},      -- multi! CROSS-CHAIN: metal flue + glass inspection → Steklarstvo+
+    ForgeCokeRakeMaker        = {"Metalwork", "WoodLathe"},       -- multi! metal rake + wooden handle
 }
 
 -- Register a dependency at runtime (for modding/extensibility)
