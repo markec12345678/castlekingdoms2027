@@ -2,6 +2,37 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.11.996] — 2026-08-18 — Glass Batch+ Chain (6 novih deps: 5 multi-prereq, 3 CROSS-CHAIN!)
+
+### Dodano
+- **SystemDependencies** — 6 novih dependencies za obstoječe sisteme s pripravo in taljenjem steklarske mešanice (batch):
+  * `GlassBatchFurnaceMaker` → `Metalwork` + `ForgeTuyere` (multi! CROSS-CHAIN: kovinska peč + kovaški žerjav — povezuje z LIVARSTVO+ verigo iz v3.11.974)
+  * `GlassBatchSmelter` → `Metalwork` + `ForgeTuyere` (multi! CROSS-CHAIN: kovinski talilni lonec + kovaški žerjav — povezuje z LIVARSTVO+)
+  * `GlassBatchMixerMaker` → `WoodLathe` + `Metalwork` (multi! leseno mešalo + kovinska os za mešanje batch-a)
+  * `GlassBatchFeederMaker` → `WoodLathe` + `MasonStonecutter` (multi! CROSS-CHAIN: leseno vedro + kamnit lijak — povezuje s KAMNOSEŠTVO+ verigo iz v3.11.982)
+  * `GlassBatchMaker` → `MasonStonecutter` + `Metalwork` (multi! CROSS-CHAIN: kamnita tehtnica + kovinske uteži — povezuje s KAMNOSEŠTVO+)
+  * `GlassCulletCrusherMaker` → `Metalwork` (kovinski drobilnik za recikliranje stekla)
+- **TechTreePanel**: STEKLO MEŠANICA+ chain, footer (222 deps, 54 verig, 123 multi-prereq)
+- **MEJNIK**: 123 multi-prereq — 15.375x več kot začetnih 8!
+- 3 CROSS-CHAIN povezave:
+  1. `GlassBatchFurnaceMaker` + `GlassBatchSmelter` → `ForgeTuyere` (povezuje STEKLO MEŠANICA+ z LIVARSTVO+ — 2 sistemi)
+  2. `GlassBatchFeederMaker` + `GlassBatchMaker` → `MasonStonecutter` (povezuje s KAMNOSEŠTVO+ — 2 sistemi)
+  3. `Metalwork` skupna povezava s kovaštvom (5 sistemov — NOV REKORD za eno verigo!)
+- Pred: 216 deps, 53 verig, 118 multi-prereq
+- Sedaj: 222 deps, 54 verig, 123 multi-prereq
+- Veriga steklarske mešanice sedaj ima 6 sistemov z dependencies (0 prej + 6 novih)
+
+### Spremenjene datoteke
+- `objects/Economy/SystemDependencies.lua` (+9 vrstic) — 6 novih dependency vnosov v dependencyGraph
+- `states/ui/hud/tech_tree_panel.lua` (+2 vrstici) — nova CHAINS entry za STEKLO MEŠANICA+ in posodobljen footer counter (222/54/123)
+- `README.md` — posodobljeni badges (v3.11.996, +GlassBatchChain, statistika)
+- `CHANGELOG.md` — dodan v3.11.996 entry
+- `NEXT_BATCH_HANDOFF.md` — posodobljeno stanje, "Glass Batch/Smelter+ chain" dodan v ZAKLJUČENE
+
+### Funkcionalna preverba
+- Lupa `load()` test: obe spremenjeni datoteki PASS
+- Število dependencyGraph vnosov preverjeno s Python regex: 222 vnosov, 123 multi-prereq — ujema se s footerjem
+
 ## [v3.11.995] — 2026-08-18 — Foundry Accessories+ 2 Chain (6 novih deps: 5 multi-prereq, 3 CROSS-CHAIN!)
 
 ### Dodano

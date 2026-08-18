@@ -364,6 +364,15 @@ local dependencyGraph = {
     CastingLadleSkimmerHookMaker  = {"Metalwork", "WoodLathe"},         -- multi! metal hook + wooden handle
     PouringLadleSpoutLinerMaker   = {"GlassBench", "Metalwork"},        -- multi! CROSS-CHAIN: glass-lined spout → Steklarstvo+
     SandRiddleMaker                = {"WoodLathe"},                     -- wooden frame for sifting sand
+
+    -- v3.11.996: Glass Batch+ chain (metalwork + forge + cross-chain → advanced glass batch/smelting equipment)
+    -- 5 multi-prereq out of 6; 3 CROSS-CHAIN links (ForgeTuyere→Livarstvo+ x2, MasonStonecutter→Kamnoseštvo+ x2, Metalwork→Kovaštvo+ x5)
+    GlassBatchFurnaceMaker     = {"Metalwork", "ForgeTuyere"},        -- multi! CROSS-CHAIN: metal furnace + forge tuyere → Livarstvo+
+    GlassBatchSmelter          = {"Metalwork", "ForgeTuyere"},        -- multi! CROSS-CHAIN: metal smelter pot + forge tuyere → Livarstvo+
+    GlassBatchMixerMaker       = {"WoodLathe", "Metalwork"},          -- multi! wooden paddle + metal axis for batch mixer
+    GlassBatchFeederMaker      = {"WoodLathe", "MasonStonecutter"},   -- multi! CROSS-CHAIN: wooden bucket + stone hopper → Kamnoseštvo+
+    GlassBatchMaker            = {"MasonStonecutter", "Metalwork"},   -- multi! CROSS-CHAIN: stone weighing + metal weights → Kamnoseštvo+
+    GlassCulletCrusherMaker    = {"Metalwork"},                       -- metal crusher for recycling cullet glass
 }
 
 -- Register a dependency at runtime (for modding/extensibility)

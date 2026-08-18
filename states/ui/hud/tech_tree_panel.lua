@@ -382,6 +382,8 @@ local CHAINS = {
     { label = "STEKLO PEČ+", base = "Metalwork+MasonStonecutter+GlassBench+WoodLathe", systems = {"GlassKilnDoorMaker", "GlassKilnBrickSawMaker", "GlassKilnFlueDamperMaker", "GlassKilnMuffleMaker", "GlassKilnFurnitureMaker", "GlassKilnSootScraperMaker"}, multiBase = true, bases = {"Metalwork", "MasonStonecutter", "GlassBench", "WoodLathe"} },
     -- v3.11.995: Foundry Accessories+ 2 chain (5 multi-prereq, 3 CROSS-CHAIN links)
     { label = "LIVARSKI PRIBOR+ 2", base = "Metalwork+WoodLathe+MasonStonecutter+GlassBench", systems = {"SandMullerBladeMaker", "MoldFlaskAlignmentPinMaker", "CoreGasEscapeChannelMaker", "CastingLadleSkimmerHookMaker", "PouringLadleSpoutLinerMaker", "SandRiddleMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "MasonStonecutter", "GlassBench"} },
+    -- v3.11.996: Glass Batch+ chain (5 multi-prereq, 3 CROSS-CHAIN links)
+    { label = "STEKLO MEŠANICA+", base = "Metalwork+ForgeTuyere+WoodLathe+MasonStonecutter", systems = {"GlassBatchFurnaceMaker", "GlassBatchSmelter", "GlassBatchMixerMaker", "GlassBatchFeederMaker", "GlassBatchMaker", "GlassCulletCrusherMaker"}, multiBase = true, bases = {"Metalwork", "ForgeTuyere", "WoodLathe", "MasonStonecutter"} },
 }
 
 -- Node dimensions for graph view
@@ -1944,7 +1946,7 @@ function TechTreePanel.draw()
     love.graphics.print(pctStr, pbX + (pbW - pctW) / 2, pbY - 12)
 
     love.graphics.setColor(0.4, 0.45, 0.5, 1)
-    love.graphics.print(string.format("216 deps · 53 verig · 118 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
+    love.graphics.print(string.format("222 deps · 54 verig · 123 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
         viewMode, focusStr, pathStr, searchStr, sortStr, filterStr, bookmarkStr, multiStr, presetStr),
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)
