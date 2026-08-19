@@ -508,6 +508,15 @@ local dependencyGraph = {
     ForgeAshPanMaker          = {"Metalwork", "WoodLathe"},       -- multi! metal pan + wooden handle
     ForgeHoodFlueMaker        = {"Metalwork", "GlassBench"},      -- multi! CROSS-CHAIN: metal flue + glass inspection → Steklarstvo+
     ForgeCokeRakeMaker        = {"Metalwork", "WoodLathe"},       -- multi! metal rake + wooden handle
+
+    -- v3.12.012: Smith+ chain (hammer polishers, wedges, tongs jaw inserts, tongs rings)
+    -- 6 multi-prereq out of 6 (10th time all multi!); 3 CROSS-CHAIN links (MasonStonecutter→Kamnoseštvo+ x2, GlassBench→Steklarstvo+, Metalwork→Kovaštvo+ x5)
+    SmithHammerFacePolisherMaker = {"Metalwork", "MasonStonecutter"}, -- multi! CROSS-CHAIN: metal polisher + stone wheel → Kamnoseštvo+
+    SmithHammerHandleWedgeMaker  = {"WoodLathe", "Metalwork"},     -- multi! wooden wedge + metal fitting
+    SmithHammerWedgeMaker         = {"Metalwork", "MasonStonecutter"}, -- multi! CROSS-CHAIN: metal wedge + stone anvil → Kamnoseštvo+
+    SmithTongsJawInsertMaker     = {"Metalwork", "GlassBench"},   -- multi! CROSS-CHAIN: metal jaws + glass inspection → Steklarstvo+
+    SmithTongsRingMaker           = {"Metalwork", "WoodLathe"},    -- multi! metal ring + wooden grip
+    SmithHammerHandleFinisherMaker = {"WoodLathe", "Metalwork"},  -- multi! wooden handle + metal ferrule
 }
 
 -- Register a dependency at runtime (for modding/extensibility)

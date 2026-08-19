@@ -414,6 +414,8 @@ local CHAINS = {
     { label = "KOVAŠKI KVAČ+", base = "Metalwork+WoodLathe+GlassBench+MasonStonecutter", systems = {"QuenchBucketMaker", "QuenchOilDipperMaker", "QuenchOilFilterMaker", "QuenchTankDrainValveMaker", "QuenchTankLidGasketMaker", "QuenchTankThermometerMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "GlassBench", "MasonStonecutter"} },
     -- v3.12.011: Forge+ chain (6 multi-prereq, 3 CROSS-CHAIN links)
     { label = "KOVAŠKA PEČ+", base = "Metalwork+GlassBench+MasonStonecutter+WoodLathe", systems = {"ForgeTuyereCoolerMaker", "ForgeChimneyDamperMaker", "ForgeClinkerBreakerMaker", "ForgeAshPanMaker", "ForgeHoodFlueMaker", "ForgeCokeRakeMaker"}, multiBase = true, bases = {"Metalwork", "GlassBench", "MasonStonecutter", "WoodLathe"} },
+    -- v3.12.012: Smith+ chain (6 multi-prereq, 3 CROSS-CHAIN links)
+    { label = "KOVAŠKO ORODJE+", base = "Metalwork+MasonStonecutter+GlassBench+WoodLathe", systems = {"SmithHammerFacePolisherMaker", "SmithHammerHandleWedgeMaker", "SmithHammerWedgeMaker", "SmithTongsJawInsertMaker", "SmithTongsRingMaker", "SmithHammerHandleFinisherMaker"}, multiBase = true, bases = {"Metalwork", "MasonStonecutter", "GlassBench", "WoodLathe"} },
 }
 
 -- Node dimensions for graph view
@@ -1976,7 +1978,7 @@ function TechTreePanel.draw()
     love.graphics.print(pctStr, pbX + (pbW - pctW) / 2, pbY - 12)
 
     love.graphics.setColor(0.4, 0.45, 0.5, 1)
-    love.graphics.print(string.format("312 deps · 69 verig · 207 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
+    love.graphics.print(string.format("318 deps · 70 verig · 213 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
         viewMode, focusStr, pathStr, searchStr, sortStr, filterStr, bookmarkStr, multiStr, presetStr),
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)
