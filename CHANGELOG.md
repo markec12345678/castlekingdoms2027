@@ -2,6 +2,28 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.013] — 2026-08-18 — Leather+ Chain (6 novih deps: 6 multi-prereq! 11. zapored vsi multi! MEJNIK 27.375x!)
+
+### Dodano
+- **SystemDependencies** — 6 novih dependencies za sisteme z usnjenimi orodji (conditioners, creasers, edge bevelers, skivers, splitters):
+  * `LeatherConditionerMaker` → `RawhideTanner` + `PigmentGrinderMaker` (multi! CROSS-CHAIN: usnjeno kondicioniranje + pigmenti → Barvila+)
+  * `LeatherCreaserMaker` → `Metalwork` + `WoodLathe` (multi! kovinski gubeč + leseno ročaj)
+  * `LeatherEdgeBevelerMaker` → `Metalwork` + `RawhideTanner` (multi! CROSS-CHAIN: kovinski poševnik + usnje → Usnjarstvo+)
+  * `LeatherSkiverMaker` → `Metalwork` + `MasonStonecutter` (multi! CROSS-CHAIN: kovinski skiver + kamnito ostrenje → Kamnoseštvo+)
+  * `LeatherSplitterMaker` → `Metalwork` + `WoodLathe` (multi! kovinski razdelilnik + leseni okvir)
+  * `Leatherworker` → `RawhideTanner` + `WoodLathe` (multi! CROSS-CHAIN: usnja orodja + lesena miza → Usnjarstvo+)
+- **TechTreePanel**: USNJE+ 2 chain, footer (324 deps, 71 verig, 219 multi-prereq)
+- **MEJNIK**: 219 multi-prereq — 27.375x več kot začetnih 8!
+- **NOV REKORD**: 11. zapored da vsi 6 sistemov v verigi ima multi-prereq (v3.12.003-v3.12.013!)
+- 3 CROSS-CHAIN povezave: RawhideTanner→Usnjarstvo+ x2, PigmentGrinderMaker→Barvila+, MasonStonecutter→Kamnoseštvo+
+
+### Spremenjene datoteke
+- `objects/Economy/SystemDependencies.lua` (+9 vrstic), `states/ui/hud/tech_tree_panel.lua` (+2 vrstici)
+- `README.md`, `CHANGELOG.md`, `NEXT_BATCH_HANDOFF.md`
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS; Python regex: 324 vnosov, 219 multi-prereq
+
 ## [v3.12.012] — 2026-08-18 — Smith+ Chain (6 novih deps: 6 multi-prereq! 10. zapored vsi multi! MEJNIK 26.625x!)
 
 ### Dodano

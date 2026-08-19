@@ -1,11 +1,11 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.12.012**
+- Različica: **v3.12.013**
 - Skupaj Royal sistemov: **990**
 - Skupaj Lua datotek: **1648**
 - Sintaktična preverba (avtentična Lua `load()`): **1648/1648 pass (100%)**
-- Tech Tree: **318 deps · 70 verig · 213 multi-prereq** (26.625x zažetnih 8!)
+- Tech Tree: **324 deps · 71 verig · 219 multi-prereq** (27.375x zažetnih 8!)
 - GitHub: sinhroniziran (vsi tagi pushani)
 - Lokalni repo: `/home/z/my-project/castlekingdoms2027`
 - .love datoteke: `/home/z/my-project/download/`
@@ -28,7 +28,7 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 3. ~~**Market Dashboard mousemoved forwarding**~~ ✅ končano
 4. ~~**Overlay settings migration**~~ ✅ končano v v3.11.933
 
-## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.12.012)
+## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.12.013)
 
 - ✅ **v3.11.382**: Royal Systems Registry + UI Panel (Ctrl+R)
 - ✅ **v3.11.901**: Save/Load persistenca za Royal sisteme (maker, zgradbe, zaloga, surovine)
@@ -134,6 +134,7 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 - ✅ **v3.12.010**: Smith Quench+ Chain — 6 novih deps za sisteme s kalilno opremo (QuenchBucket, QuenchOilDipper, QuenchOilFilter, QuenchTankDrainValve, QuenchTankLidGasket, QuenchTankThermometer — 6 multi-prereq, 8. zapored vsi multi!), KOVAŠKI KVAČ+ chain, 300→306 deps, 67→68 verig, 195→201 multi-prereq; MEJNIK 306 deps, 68 verig, 201 multi-prereq (25.125x začetnih 8! — presežen mejnik 25x!); 3 CROSS-CHAIN povezave: QuenchOilFilterMaker+QuenchTankThermometerMaker→GlassBench (Steklarstvo+ x2), QuenchTankDrainValveMaker→MasonStonecutter (Kamnoseštvo+), Metalwork skupna (Kovaštvo+ x6)
 - ✅ **v3.12.011**: Forge+ Chain — 6 novih deps za sisteme s kovaško pečjo (ForgeTuyereCooler, ForgeChimneyDamper, ForgeClinkerBreaker, ForgeAshPan, ForgeHoodFlue, ForgeCokeRake — 6 multi-prereq, 9. zapored vsi multi!), KOVAŠKA PEČ+ chain, 306→312 deps, 68→69 verig, 201→207 multi-prereq; MEJNIK 312 deps, 69 verig, 207 multi-prereq (25.875x začetnih 8!); 3 CROSS-CHAIN povezave: ForgeTuyereCoolerMaker+ForgeHoodFlueMaker→GlassBench (Steklarstvo+ x2), ForgeChimneyDamperMaker+ForgeClinkerBreakerMaker→MasonStonecutter (Kamnoseštvo+ x2), Metalwork skupna (Kovaštvo+ x5)
 - ✅ **v3.12.012**: Smith+ Chain — 6 novih deps za sisteme z kovaškim orodjem (SmithHammerFacePolisher, SmithHammerHandleWedge, SmithHammerWedge, SmithTongsJawInsert, SmithTongsRing, SmithHammerHandleFinisher — 6 multi-prereq, 10. zapored vsi multi!), KOVAŠKO ORODJE+ chain, 312→318 deps, 69→70 verig, 207→213 multi-prereq; MEJNIK 318 deps, 70 verig, 213 multi-prereq (26.625x začetnih 8!); 3 CROSS-CHAIN povezave: SmithHammerFacePolisherMaker+SmithHammerWedgeMaker→MasonStonecutter (Kamnoseštvo+ x2), SmithTongsJawInsertMaker→GlassBench (Steklarstvo+), Metalwork skupna (Kovaštvo+ x5)
+- ✅ **v3.12.013**: Leather+ Chain — 6 novih deps za sisteme z usnjenimi orodji (LeatherConditioner, LeatherCreaser, LeatherEdgeBeveler, LeatherSkiver, LeatherSplitter, Leatherworker — 6 multi-prereq, 11. zapored vsi multi!), USNJE+ 2 chain, 318→324 deps, 70→71 verig, 213→219 multi-prereq; MEJNIK 324 deps, 71 verig, 219 multi-prereq (27.375x začetnih 8!); 3 CROSS-CHAIN povezave: LeatherConditionerMaker+Leatherworker→RawhideTanner (Usnjarstvo+ x2), LeatherConditionerMaker→PigmentGrinderMaker (Barvila+), LeatherSkiverMaker→MasonStonecutter (Kamnoseštvo+)
 
 ## ZNANE NADGRADNJE ZA PRIHODNJE PAKETE
 

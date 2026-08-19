@@ -517,6 +517,15 @@ local dependencyGraph = {
     SmithTongsJawInsertMaker     = {"Metalwork", "GlassBench"},   -- multi! CROSS-CHAIN: metal jaws + glass inspection → Steklarstvo+
     SmithTongsRingMaker           = {"Metalwork", "WoodLathe"},    -- multi! metal ring + wooden grip
     SmithHammerHandleFinisherMaker = {"WoodLathe", "Metalwork"},  -- multi! wooden handle + metal ferrule
+
+    -- v3.12.013: Leather+ chain (leather conditioners, creasers, edge bevelers, skivers, splitters)
+    -- 6 multi-prereq out of 6 (11th time all multi!); 3 CROSS-CHAIN links (RawhideTanner→Usnjarstvo+, PigmentGrinderMaker→Barvila+, MasonStonecutter→Kamnoseštvo+)
+    LeatherConditionerMaker   = {"RawhideTanner", "PigmentGrinderMaker"}, -- multi! CROSS-CHAIN: leather conditioner + pigments → Barvila+
+    LeatherCreaserMaker        = {"Metalwork", "WoodLathe"},              -- multi! metal creaser + wooden handle
+    LeatherEdgeBevelerMaker    = {"Metalwork", "RawhideTanner"},          -- multi! CROSS-CHAIN: metal beveler + leather base → Usnjarstvo+
+    LeatherSkiverMaker         = {"Metalwork", "MasonStonecutter"},       -- multi! CROSS-CHAIN: metal skiver + stone sharpening → Kamnoseštvo+
+    LeatherSplitterMaker       = {"Metalwork", "WoodLathe"},              -- multi! metal splitter + wooden frame
+    Leatherworker              = {"RawhideTanner", "WoodLathe"},          -- multi! CROSS-CHAIN: leather tools + wooden bench → Usnjarstvo+
 }
 
 -- Register a dependency at runtime (for modding/extensibility)
