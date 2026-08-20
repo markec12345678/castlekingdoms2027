@@ -434,6 +434,18 @@ local CHAINS = {
     { label = "KNJIŽNI FINISH+", base = "Metalwork+WoodLathe+SpinningWheel+PigmentGrinderMaker+MasonStonecutter", systems = {"BookCoverPasteSpatulaMaker", "BookEndbandLoomMaker", "BookForedgeFanMaker", "BookMarkTasselMaker", "BookPressMaker", "BookPressingWeightMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "SpinningWheel", "PigmentGrinderMaker", "MasonStonecutter"} },
     -- v3.12.021: Book Spine Remaining+ chain (7 multi-prereq, 3 CROSS-CHAIN links)
     { label = "KNJIŽNI HRBET+ 2", base = "Metalwork+GlassBench+PigmentGrinderMaker+WoodLathe+SpinningWheel+MasonStonecutter", systems = {"BookSewingBenchLightMaker", "BookSpineGiltSizeGaugeMaker", "BookSpineLabelPrinterMaker", "BookSpineLiningClothMaker", "BookSpineRulerMaker", "BookbindingGluePotMaker", "BookbindingPressMaker"}, multiBase = true, bases = {"Metalwork", "GlassBench", "PigmentGrinderMaker", "WoodLathe", "SpinningWheel", "MasonStonecutter"} },
+    -- v3.12.022: Garden Tools+ chain (6 multi-prereq)
+    { label = "VRTNO ORODJE+", base = "Metalwork+WoodLathe", systems = {"GardenForkMaker", "GardenHoeMaker", "GardenRakeMaker", "GardenTrowelMaker", "GardenMulchForkMaker", "GardenFurrowMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe"} },
+    -- v3.12.023: Garden Soil+ chain (6 multi-prereq, 2 CROSS-CHAIN)
+    { label = "VRTNA ZEMLJA+", base = "Metalwork+WoodLathe+MasonStonecutter+GlassBench", systems = {"GardenSieveMaker", "GardenSieveFrameMaker", "GardenSoilScreenMaker", "GardenCompostSifterDrumMaker", "GardenCompostAeratorSpikeMaker", "GardenSoilMoistureMeterMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "MasonStonecutter", "GlassBench"} },
+    -- v3.12.024: Garden Planting+ chain (6 multi-prereq, 1 CROSS-CHAIN)
+    { label = "VRTNO SAJENJE+", base = "Metalwork+WoodLathe+SpinningWheel", systems = {"GardenDibberDepthGaugeMaker", "GardenPlantDibberDepthMarkMaker", "GardenTransplantingDibberMaker", "GardenSeedDibberPlateMaker", "GardenSeedTapeMaker", "GardenSeedPacketSealerMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "SpinningWheel"} },
+    -- v3.12.025: Garden Water & Climate+ chain (6 multi-prereq, 3 CROSS-CHAIN)
+    { label = "VRTNA VODA+", base = "Metalwork+GlassBench+SpinningWheel+WoodLathe", systems = {"GardenBowlSprayerMaker", "GardenClocheMaker", "GardenFrostClothClipMaker", "GardenIrrigationTimerMaker", "GardenPlantRootWateringSpikeMaker", "GardenWateringTrayMaker"}, multiBase = true, bases = {"Metalwork", "GlassBench", "SpinningWheel", "WoodLathe"} },
+    -- v3.12.026: Garden Support+ chain (6 multi-prereq, 2 CROSS-CHAIN)
+    { label = "VRTNA PODPORA+", base = "Metalwork+WoodLathe+RawhideTanner+SpinningWheel", systems = {"GardenBorderEdgerMaker", "GardenKneelerMaker", "GardenLeafGrabberMaker", "GardenLineMaker", "GardenTwineDispenserMaker", "GardenTrowelHolsterMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "RawhideTanner", "SpinningWheel"} },
+    -- v3.12.027: Garden Specialty+ chain (7 multi-prereq, 3 CROSS-CHAIN)
+    { label = "VRTNA SPECIAL+", base = "Metalwork+WoodLathe+GlassBench+MasonStonecutter+GardenRakeMaker", systems = {"GardenPlantLabelEmbosserMaker", "GardenPlantTieCutterMaker", "GardenPotBrushMaker", "GardenSoilpHTesterMaker", "GardenTrowelSharpenerMaker", "HerbGardener", "VegetableGardener"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "GlassBench", "MasonStonecutter", "GardenRakeMaker"} },
 }
 
 -- Node dimensions for graph view
@@ -1996,7 +2008,7 @@ function TechTreePanel.draw()
     love.graphics.print(pctStr, pbX + (pbW - pctW) / 2, pbY - 12)
 
     love.graphics.setColor(0.4, 0.45, 0.5, 1)
-    love.graphics.print(string.format("373 deps · 79 verig · 268 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
+    love.graphics.print(string.format("410 deps · 85 verig · 305 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
         viewMode, focusStr, pathStr, searchStr, sortStr, filterStr, bookmarkStr, multiStr, presetStr),
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)

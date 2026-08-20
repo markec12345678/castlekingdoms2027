@@ -2,6 +2,50 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.027] — 2026-08-20 — Garden Specialty+ Chain (7 novih deps: 7 multi-prereq! 25. zapored all-multi! MEJNIK 38.125x! GARDEN COMPLETE)
+
+### Dodano
+- **SystemDependencies** — 7 novih deps (labels, ties, brush, pH, sharpener, HerbGardener, VegetableGardener):
+  * `GardenPlantLabelEmbosserMaker` → Metalwork + WoodLathe
+  * `GardenPlantTieCutterMaker` → Metalwork + WoodLathe
+  * `GardenPotBrushMaker` → WoodLathe + Metalwork
+  * `GardenSoilpHTesterMaker` → GlassBench + Metalwork (CROSS Steklarstvo+)
+  * `GardenTrowelSharpenerMaker` → MasonStonecutter + Metalwork (CROSS Kamnoseštvo+)
+  * `HerbGardener` → GardenRakeMaker + WoodLathe
+  * `VegetableGardener` → GardenRakeMaker + Metalwork
+- **TechTreePanel**: VRTNA SPECIAL+ chain, footer (410 deps, 85 verig, 305 multi-prereq)
+- **MEJNIK**: 305 multi-prereq = 38.125x · **VSI Garden* sistemi imajo deps** (Garden complete)
+
+## [v3.12.026] — 2026-08-20 — Garden Support+ Chain (6 novih deps: 6 multi-prereq! 24. zapored vsi multi!)
+
+### Dodano
+- GardenBorderEdgerMaker, GardenKneelerMaker (CROSS Usnjarstvo+), GardenLeafGrabberMaker, GardenLineMaker (CROSS Tekstil+), GardenTwineDispenserMaker (CROSS Tekstil+), GardenTrowelHolsterMaker (CROSS Usnjarstvo+)
+- **TechTreePanel**: VRTNA PODPORA+
+
+## [v3.12.025] — 2026-08-20 — Garden Water & Climate+ Chain (6 novih deps: 6 multi-prereq! 23. zapored vsi multi!)
+
+### Dodano
+- GardenBowlSprayerMaker (CROSS Steklarstvo+), GardenClocheMaker (CROSS Steklarstvo+), GardenFrostClothClipMaker (CROSS Tekstil+), GardenIrrigationTimerMaker, GardenPlantRootWateringSpikeMaker, GardenWateringTrayMaker
+- **TechTreePanel**: VRTNA VODA+
+
+## [v3.12.024] — 2026-08-20 — Garden Planting+ Chain (6 novih deps: 6 multi-prereq! 22. zapored vsi multi!)
+
+### Dodano
+- GardenDibberDepthGaugeMaker, GardenPlantDibberDepthMarkMaker, GardenTransplantingDibberMaker, GardenSeedDibberPlateMaker, GardenSeedTapeMaker (CROSS Tekstil+), GardenSeedPacketSealerMaker
+- **TechTreePanel**: VRTNO SAJENJE+
+
+## [v3.12.023] — 2026-08-20 — Garden Soil+ Chain (6 novih deps: 6 multi-prereq! 21. zapored vsi multi!)
+
+### Dodano
+- GardenSieveMaker, GardenSieveFrameMaker, GardenSoilScreenMaker (CROSS Kamnoseštvo+), GardenCompostSifterDrumMaker, GardenCompostAeratorSpikeMaker, GardenSoilMoistureMeterMaker (CROSS Steklarstvo+)
+- **TechTreePanel**: VRTNA ZEMLJA+
+
+## [v3.12.022] — 2026-08-20 — Garden Tools+ Chain (6 novih deps: 6 multi-prereq! 20. zapored vsi multi!)
+
+### Dodano
+- GardenForkMaker, GardenHoeMaker, GardenRakeMaker, GardenTrowelMaker, GardenMulchForkMaker, GardenFurrowMaker — vsi Metalwork + WoodLathe
+- **TechTreePanel**: VRTNO ORODJE+
+
 ## [v3.12.021] — 2026-08-20 — Book Spine Remaining+ Chain (7 novih deps: 7 multi-prereq! 19. zapored all-multi! MEJNIK 33.5x! BOOK COMPLETE)
 
 ### Dodano

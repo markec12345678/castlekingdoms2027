@@ -599,6 +599,61 @@ local dependencyGraph = {
     BookSpineRulerMaker          = {"Metalwork", "WoodLathe"},           -- multi! metal rule + wooden stock
     BookbindingGluePotMaker      = {"Metalwork", "WoodLathe"},           -- multi! metal pot + wooden handle
     BookbindingPressMaker        = {"WoodLathe", "MasonStonecutter"},    -- multi! CROSS-CHAIN: wooden press + stone platen → Kamnoseštvo+
+
+    -- v3.12.022: Garden Tools+ chain (basic hand tools: fork, hoe, rake, trowel, mulch fork, furrow)
+    -- 6 multi-prereq out of 6 (20th consecutive all-multi!); Metalwork+WoodLathe dominant
+    GardenForkMaker      = {"Metalwork", "WoodLathe"},                   -- multi! metal tines + wooden handle
+    GardenHoeMaker       = {"Metalwork", "WoodLathe"},                   -- multi! metal blade + wooden handle
+    GardenRakeMaker      = {"Metalwork", "WoodLathe"},                   -- multi! metal teeth + wooden handle
+    GardenTrowelMaker    = {"Metalwork", "WoodLathe"},                   -- multi! metal blade + wooden handle
+    GardenMulchForkMaker = {"Metalwork", "WoodLathe"},                   -- multi! metal tines + wooden handle
+    GardenFurrowMaker    = {"Metalwork", "WoodLathe"},                   -- multi! metal ploughlet + wooden beam
+
+    -- v3.12.023: Garden Soil+ chain (sieves, screens, compost, moisture)
+    -- 6 multi-prereq out of 6 (21st all-multi!); 2 CROSS-CHAIN (GlassBench→Steklarstvo+, MasonStonecutter→Kamnoseštvo+)
+    GardenSieveMaker                 = {"Metalwork", "WoodLathe"},       -- multi! metal mesh + wooden frame
+    GardenSieveFrameMaker            = {"WoodLathe", "Metalwork"},       -- multi! wooden frame + metal fittings
+    GardenSoilScreenMaker            = {"Metalwork", "MasonStonecutter"}, -- multi! CROSS-CHAIN: metal screen + stone base → Kamnoseštvo+
+    GardenCompostSifterDrumMaker     = {"Metalwork", "WoodLathe"},       -- multi! metal drum + wooden axle
+    GardenCompostAeratorSpikeMaker   = {"Metalwork", "WoodLathe"},       -- multi! metal spikes + wooden handle
+    GardenSoilMoistureMeterMaker     = {"Metalwork", "GlassBench"},      -- multi! CROSS-CHAIN: metal probe + glass tube → Steklarstvo+
+
+    -- v3.12.024: Garden Planting+ chain (dibbers, seed tools)
+    -- 6 multi-prereq out of 6 (22nd all-multi!); Metalwork+WoodLathe
+    GardenDibberDepthGaugeMaker      = {"Metalwork", "WoodLathe"},       -- multi! metal gauge + wooden dibber
+    GardenPlantDibberDepthMarkMaker  = {"Metalwork", "WoodLathe"},       -- multi! metal marks + wooden shaft
+    GardenTransplantingDibberMaker   = {"Metalwork", "WoodLathe"},       -- multi! metal tip + wooden handle
+    GardenSeedDibberPlateMaker       = {"Metalwork", "WoodLathe"},       -- multi! metal plate + wooden base
+    GardenSeedTapeMaker              = {"WoodLathe", "SpinningWheel"},   -- multi! CROSS-CHAIN: wooden spool + tape/thread → Tekstil+
+    GardenSeedPacketSealerMaker      = {"Metalwork", "WoodLathe"},       -- multi! metal sealer + wooden press
+
+    -- v3.12.025: Garden Water & Climate+ chain (sprayers, cloche, frost, irrigation)
+    -- 6 multi-prereq out of 6 (23rd all-multi!); 3 CROSS-CHAIN (GlassBench→Steklarstvo+ x2, SpinningWheel→Tekstil+)
+    GardenBowlSprayerMaker             = {"Metalwork", "GlassBench"},    -- multi! CROSS-CHAIN: metal pump + glass bowl → Steklarstvo+
+    GardenClocheMaker                  = {"GlassBench", "Metalwork"},    -- multi! CROSS-CHAIN: glass dome + metal frame → Steklarstvo+
+    GardenFrostClothClipMaker          = {"Metalwork", "SpinningWheel"}, -- multi! CROSS-CHAIN: metal clip + cloth → Tekstil+
+    GardenIrrigationTimerMaker         = {"Metalwork", "WoodLathe"},     -- multi! metal mechanism + wooden housing
+    GardenPlantRootWateringSpikeMaker  = {"Metalwork", "WoodLathe"},     -- multi! metal spike + wooden top
+    GardenWateringTrayMaker            = {"Metalwork", "WoodLathe"},     -- multi! metal tray + wooden stand
+
+    -- v3.12.026: Garden Support+ chain (edgers, kneeler, grabber, line, twine, holster)
+    -- 6 multi-prereq out of 6 (24th all-multi!); 2 CROSS-CHAIN (SpinningWheel→Tekstil+, RawhideTanner→Usnjarstvo+)
+    GardenBorderEdgerMaker     = {"Metalwork", "WoodLathe"},             -- multi! metal edger + wooden handle
+    GardenKneelerMaker         = {"WoodLathe", "RawhideTanner"},         -- multi! CROSS-CHAIN: wooden frame + leather pad → Usnjarstvo+
+    GardenLeafGrabberMaker     = {"Metalwork", "WoodLathe"},             -- multi! metal claws + wooden handles
+    GardenLineMaker            = {"WoodLathe", "SpinningWheel"},         -- multi! CROSS-CHAIN: wooden reels + line → Tekstil+
+    GardenTwineDispenserMaker  = {"WoodLathe", "SpinningWheel"},         -- multi! CROSS-CHAIN: wooden dispenser + twine → Tekstil+
+    GardenTrowelHolsterMaker   = {"RawhideTanner", "Metalwork"},         -- multi! CROSS-CHAIN: leather holster + metal clip → Usnjarstvo+
+
+    -- v3.12.027: Garden Specialty+ chain (7 systems — labels, ties, brush, pH, sharpener, herb/veg gardeners)
+    -- 7 multi-prereq out of 7 (25th all-multi package!); 3 CROSS-CHAIN (GlassBench, MasonStonecutter, PigmentGrinderMaker)
+    GardenPlantLabelEmbosserMaker = {"Metalwork", "WoodLathe"},          -- multi! metal embosser + wooden press
+    GardenPlantTieCutterMaker     = {"Metalwork", "WoodLathe"},          -- multi! metal cutter + wooden handle
+    GardenPotBrushMaker           = {"WoodLathe", "Metalwork"},          -- multi! wooden brush + metal ferrule
+    GardenSoilpHTesterMaker       = {"GlassBench", "Metalwork"},         -- multi! CROSS-CHAIN: glass vial + metal probe → Steklarstvo+
+    GardenTrowelSharpenerMaker    = {"MasonStonecutter", "Metalwork"},   -- multi! CROSS-CHAIN: stone wheel + metal mount → Kamnoseštvo+
+    HerbGardener                  = {"GardenRakeMaker", "WoodLathe"},    -- multi! requires garden tools base + wooden beds
+    VegetableGardener             = {"GardenRakeMaker", "Metalwork"},    -- multi! requires garden tools base + metal tools
 }
 
 -- Register a dependency at runtime (for modding/extensibility)

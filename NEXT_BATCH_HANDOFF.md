@@ -1,12 +1,12 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.12.021**
+- Različica: **v3.12.027**
 - Skupaj Royal sistemov: **990**
 - Skupaj Lua datotek: **1648**
 - Sintaktična preverba (avtentična Lua `load()`): **1648/1648 pass (100%)**
-- Tech Tree: **373 deps · 79 verig · 268 multi-prereq** (33.5x zažetnih 8!)
-- Zadnji paket: **Book Spine Remaining+ / Finishing+ / Cover Paste&Inlay+** (v3.12.019–v3.12.021) — 19 multi-prereq, BOOK COMPLETE, 19. zapored all-multi!
+- Tech Tree: **410 deps · 85 verig · 305 multi-prereq** (38.125x zažetnih 8!)
+- Zadnji paket: **Garden Specialty+ / Support+ / Water+ / Planting+ / Soil+ / Tools+** (v3.12.022–v3.12.027) — 37 multi-prereq, GARDEN COMPLETE, 25. zapored all-multi!
 - GitHub: pripravljen za push
 - Lokalni repo (sandbox): `/home/workdir/castlekingdoms2027`
 
