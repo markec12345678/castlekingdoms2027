@@ -418,6 +418,8 @@ local CHAINS = {
     { label = "KOVAŠKO ORODJE+", base = "Metalwork+MasonStonecutter+GlassBench+WoodLathe", systems = {"SmithHammerFacePolisherMaker", "SmithHammerHandleWedgeMaker", "SmithHammerWedgeMaker", "SmithTongsJawInsertMaker", "SmithTongsRingMaker", "SmithHammerHandleFinisherMaker"}, multiBase = true, bases = {"Metalwork", "MasonStonecutter", "GlassBench", "WoodLathe"} },
     -- v3.12.013: Leather+ chain (6 multi-prereq, 3 CROSS-CHAIN links)
     { label = "USNJE+ 2", base = "RawhideTanner+PigmentGrinderMaker+Metalwork+WoodLathe+MasonStonecutter", systems = {"LeatherConditionerMaker", "LeatherCreaserMaker", "LeatherEdgeBevelerMaker", "LeatherSkiverMaker", "LeatherSplitterMaker", "Leatherworker"}, multiBase = true, bases = {"RawhideTanner", "PigmentGrinderMaker", "Metalwork", "WoodLathe", "MasonStonecutter"} },
+    -- v3.12.014: Book Cover+ chain (6 multi-prereq, 3 CROSS-CHAIN links)
+    { label = "KNJIGOVEŠTVO+", base = "Metalwork+WoodLathe+MasonStonecutter+PigmentGrinderMaker+RawhideTanner", systems = {"BookCoverBoardShearsMaker", "BookCoverCrimperMaker", "BookCoverDieMaker", "BookEdgeGilderMaker", "BookEdgeBurnisherMaker", "BookSpineCreaserMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "MasonStonecutter", "PigmentGrinderMaker", "RawhideTanner"} },
 }
 
 -- Node dimensions for graph view
@@ -1980,7 +1982,7 @@ function TechTreePanel.draw()
     love.graphics.print(pctStr, pbX + (pbW - pctW) / 2, pbY - 12)
 
     love.graphics.setColor(0.4, 0.45, 0.5, 1)
-    love.graphics.print(string.format("324 deps · 71 verig · 219 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
+    love.graphics.print(string.format("330 deps · 72 verig · 225 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
         viewMode, focusStr, pathStr, searchStr, sortStr, filterStr, bookmarkStr, multiStr, presetStr),
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)

@@ -526,6 +526,15 @@ local dependencyGraph = {
     LeatherSkiverMaker         = {"Metalwork", "MasonStonecutter"},       -- multi! CROSS-CHAIN: metal skiver + stone sharpening → Kamnoseštvo+
     LeatherSplitterMaker       = {"Metalwork", "WoodLathe"},              -- multi! metal splitter + wooden frame
     Leatherworker              = {"RawhideTanner", "WoodLathe"},          -- multi! CROSS-CHAIN: leather tools + wooden bench → Usnjarstvo+
+
+    -- v3.12.014: Book Cover+ chain (book cover tools, edge gilding, spine creasers)
+    -- 6 multi-prereq out of 6 (12th time all multi!); 3 CROSS-CHAIN links (MasonStonecutter→Kamnoseštvo+, PigmentGrinderMaker→Barvila+, RawhideTanner→Usnjarstvo+)
+    BookCoverBoardShearsMaker  = {"Metalwork", "WoodLathe"},              -- multi! metal shears + wooden handles
+    BookCoverCrimperMaker      = {"Metalwork", "WoodLathe"},              -- multi! metal crimper + wooden frame
+    BookCoverDieMaker          = {"Metalwork", "MasonStonecutter"},       -- multi! CROSS-CHAIN: metal die + stone base → Kamnoseštvo+
+    BookEdgeGilderMaker        = {"Metalwork", "PigmentGrinderMaker"},    -- multi! CROSS-CHAIN: metal gilding tools + pigments/gold → Barvila+
+    BookEdgeBurnisherMaker     = {"Metalwork", "RawhideTanner"},          -- multi! CROSS-CHAIN: metal burnisher + leather pad → Usnjarstvo+
+    BookSpineCreaserMaker      = {"Metalwork", "WoodLathe"},              -- multi! metal creaser + wooden spine support
 }
 
 -- Register a dependency at runtime (for modding/extensibility)

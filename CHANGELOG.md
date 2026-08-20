@@ -2,6 +2,28 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.014] — 2026-08-20 — Book Cover+ Chain (6 novih deps: 6 multi-prereq! 12. zapored vsi multi! MEJNIK 28.125x!)
+
+### Dodano
+- **SystemDependencies** — 6 novih dependencies za knjigoveške sisteme (cover shears, crimpers, dies, edge gilders, burnishers, spine creasers):
+  * `BookCoverBoardShearsMaker` → `Metalwork` + `WoodLathe` (multi! kovinske škarje + leseni ročaji)
+  * `BookCoverCrimperMaker` → `Metalwork` + `WoodLathe` (multi! kovinski krimpar + leseni okvir)
+  * `BookCoverDieMaker` → `Metalwork` + `MasonStonecutter` (multi! CROSS-CHAIN: kovinski štampiljka + kamnita baza → Kamnoseštvo+)
+  * `BookEdgeGilderMaker` → `Metalwork` + `PigmentGrinderMaker` (multi! CROSS-CHAIN: kovinska pozlata + pigmenti/zlato → Barvila+)
+  * `BookEdgeBurnisherMaker` → `Metalwork` + `RawhideTanner` (multi! CROSS-CHAIN: kovinski polirnik + usnjeni podstavek → Usnjarstvo+)
+  * `BookSpineCreaserMaker` → `Metalwork` + `WoodLathe` (multi! kovinski gubeč + lesena opora hrbta)
+- **TechTreePanel**: KNJIGOVEŠTVO+ chain, footer (330 deps, 72 verig, 225 multi-prereq)
+- **MEJNIK**: 225 multi-prereq — 28.125x več kot začetnih 8!
+- **NOV REKORD**: 12. zapored da vsi 6 sistemov v verigi ima multi-prereq (v3.12.003–v3.12.014!)
+- 3 CROSS-CHAIN povezave: MasonStonecutter→Kamnoseštvo+, PigmentGrinderMaker→Barvila+, RawhideTanner→Usnjarstvo+
+
+### Spremenjene datoteke
+- `objects/Economy/SystemDependencies.lua` (+10 vrstic), `states/ui/hud/tech_tree_panel.lua` (+2 vrstici)
+- `README.md`, `CHANGELOG.md`, `NEXT_BATCH_HANDOFF.md`
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS; Python regex: 330 vnosov, 225 multi-prereq
+
 ## [v3.12.013] — 2026-08-18 — Leather+ Chain (6 novih deps: 6 multi-prereq! 11. zapored vsi multi! MEJNIK 27.375x!)
 
 ### Dodano
