@@ -571,6 +571,34 @@ local dependencyGraph = {
     BookbindingPressStoneMaker   = {"MasonStonecutter", "WoodLathe"},     -- multi! CROSS-CHAIN: stone weight + wooden press → Kamnoseštvo+
     BookbindingScrewPressMaker   = {"Metalwork", "WoodLathe"},            -- multi! metal screw + wooden press
     BookshelfMaker               = {"WoodLathe", "Metalwork"},            -- multi! wooden shelves + metal brackets
+
+    -- v3.12.019: Book Cover Paste & Inlay+ chain (paste tools, inlay, gauge, cord winder)
+    -- 6 multi-prereq out of 6 (17th time all multi!); 3 CROSS-CHAIN links (PigmentGrinderMaker→Barvila+, MasonStonecutter→Kamnoseštvo+, SpinningWheel→Tekstil+)
+    BookCoverCordWinderMaker   = {"WoodLathe", "SpinningWheel"},         -- multi! CROSS-CHAIN: wooden winder + cord → Tekstil+
+    BookCoverGaugeMaker        = {"Metalwork", "WoodLathe"},             -- multi! metal gauge + wooden handle
+    BookCoverInlayMaker        = {"Metalwork", "WoodLathe"},             -- multi! metal inlay tools + wooden support
+    BookCoverInlayRouterMaker  = {"Metalwork", "MasonStonecutter"},      -- multi! CROSS-CHAIN: metal router + stone guide → Kamnoseštvo+
+    BookCoverPasteBrushMaker   = {"WoodLathe", "PigmentGrinderMaker"},   -- multi! CROSS-CHAIN: wooden brush + paste/pigments → Barvila+
+    BookCoverPasteRollerMaker  = {"WoodLathe", "Metalwork"},             -- multi! wooden roller + metal axle
+
+    -- v3.12.020: Book Finishing+ chain (paste spatula, endband, foredge, tassel, press, weight)
+    -- 6 multi-prereq out of 6 (18th time all multi!); 3 CROSS-CHAIN links (SpinningWheel→Tekstil+, MasonStonecutter→Kamnoseštvo+, PigmentGrinderMaker→Barvila+)
+    BookCoverPasteSpatulaMaker = {"Metalwork", "WoodLathe"},             -- multi! metal spatula + wooden handle
+    BookEndbandLoomMaker       = {"WoodLathe", "SpinningWheel"},         -- multi! CROSS-CHAIN: wooden loom + thread → Tekstil+
+    BookForedgeFanMaker        = {"WoodLathe", "Metalwork"},             -- multi! wooden fan + metal pivot
+    BookMarkTasselMaker        = {"SpinningWheel", "PigmentGrinderMaker"}, -- multi! CROSS-CHAIN: thread + dye → Tekstil+ & Barvila+
+    BookPressMaker             = {"WoodLathe", "Metalwork"},             -- multi! wooden press + metal screw
+    BookPressingWeightMaker    = {"MasonStonecutter", "WoodLathe"},      -- multi! CROSS-CHAIN: stone weight + wooden base → Kamnoseštvo+
+
+    -- v3.12.021: Book Spine Remaining+ chain (7 systems — final Book residual: sewing light, spine tools, glue pot, press)
+    -- 7 multi-prereq out of 7 (19th consecutive all-multi package!); 3 CROSS-CHAIN links (GlassBench→Steklarstvo+, PigmentGrinderMaker→Barvila+, MasonStonecutter→Kamnoseštvo+)
+    BookSewingBenchLightMaker    = {"Metalwork", "GlassBench"},          -- multi! CROSS-CHAIN: metal lamp + glass → Steklarstvo+
+    BookSpineGiltSizeGaugeMaker  = {"Metalwork", "PigmentGrinderMaker"}, -- multi! CROSS-CHAIN: metal gauge + gilt size → Barvila+
+    BookSpineLabelPrinterMaker   = {"Metalwork", "WoodLathe"},           -- multi! metal type + wooden press
+    BookSpineLiningClothMaker    = {"SpinningWheel", "WoodLathe"},       -- multi! CROSS-CHAIN: cloth + wooden stretcher → Tekstil+
+    BookSpineRulerMaker          = {"Metalwork", "WoodLathe"},           -- multi! metal rule + wooden stock
+    BookbindingGluePotMaker      = {"Metalwork", "WoodLathe"},           -- multi! metal pot + wooden handle
+    BookbindingPressMaker        = {"WoodLathe", "MasonStonecutter"},    -- multi! CROSS-CHAIN: wooden press + stone platen → Kamnoseštvo+
 }
 
 -- Register a dependency at runtime (for modding/extensibility)

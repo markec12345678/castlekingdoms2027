@@ -428,6 +428,12 @@ local CHAINS = {
     { label = "KNJIŽNO ŠIVANJE+", base = "Metalwork+WoodLathe+SpinningWheel", systems = {"BookSewingBenchHookMaker", "BookSewingNeedleCaseMaker", "BookSewingCordSpoolMaker", "BookSewingFrameToggleMaker", "BookStitchingFrameMaker", "BookThreadReelMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "SpinningWheel"} },
     -- v3.12.018: Book Spine & Press+ chain (6 multi-prereq, 3 CROSS-CHAIN links)
     { label = "KNJIŽNI HRBET+", base = "WoodLathe+Metalwork+MasonStonecutter", systems = {"BookSpineGlueBrushMaker", "BookSpineGluePotStandMaker", "BookSpineLiningRollerMaker", "BookbindingPressStoneMaker", "BookbindingScrewPressMaker", "BookshelfMaker"}, multiBase = true, bases = {"WoodLathe", "Metalwork", "MasonStonecutter"} },
+    -- v3.12.019: Book Cover Paste & Inlay+ chain (6 multi-prereq, 3 CROSS-CHAIN links)
+    { label = "KNJIGOVEŠTVO+ 3", base = "WoodLathe+SpinningWheel+Metalwork+MasonStonecutter+PigmentGrinderMaker", systems = {"BookCoverCordWinderMaker", "BookCoverGaugeMaker", "BookCoverInlayMaker", "BookCoverInlayRouterMaker", "BookCoverPasteBrushMaker", "BookCoverPasteRollerMaker"}, multiBase = true, bases = {"WoodLathe", "SpinningWheel", "Metalwork", "MasonStonecutter", "PigmentGrinderMaker"} },
+    -- v3.12.020: Book Finishing+ chain (6 multi-prereq, 3 CROSS-CHAIN links)
+    { label = "KNJIŽNI FINISH+", base = "Metalwork+WoodLathe+SpinningWheel+PigmentGrinderMaker+MasonStonecutter", systems = {"BookCoverPasteSpatulaMaker", "BookEndbandLoomMaker", "BookForedgeFanMaker", "BookMarkTasselMaker", "BookPressMaker", "BookPressingWeightMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "SpinningWheel", "PigmentGrinderMaker", "MasonStonecutter"} },
+    -- v3.12.021: Book Spine Remaining+ chain (7 multi-prereq, 3 CROSS-CHAIN links)
+    { label = "KNJIŽNI HRBET+ 2", base = "Metalwork+GlassBench+PigmentGrinderMaker+WoodLathe+SpinningWheel+MasonStonecutter", systems = {"BookSewingBenchLightMaker", "BookSpineGiltSizeGaugeMaker", "BookSpineLabelPrinterMaker", "BookSpineLiningClothMaker", "BookSpineRulerMaker", "BookbindingGluePotMaker", "BookbindingPressMaker"}, multiBase = true, bases = {"Metalwork", "GlassBench", "PigmentGrinderMaker", "WoodLathe", "SpinningWheel", "MasonStonecutter"} },
 }
 
 -- Node dimensions for graph view
@@ -1990,7 +1996,7 @@ function TechTreePanel.draw()
     love.graphics.print(pctStr, pbX + (pbW - pctW) / 2, pbY - 12)
 
     love.graphics.setColor(0.4, 0.45, 0.5, 1)
-    love.graphics.print(string.format("354 deps · 76 verig · 249 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
+    love.graphics.print(string.format("373 deps · 79 verig · 268 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
         viewMode, focusStr, pathStr, searchStr, sortStr, filterStr, bookmarkStr, multiStr, presetStr),
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)

@@ -2,6 +2,53 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.021] — 2026-08-20 — Book Spine Remaining+ Chain (7 novih deps: 7 multi-prereq! 19. zapored all-multi! MEJNIK 33.5x! BOOK COMPLETE)
+
+### Dodano
+- **SystemDependencies** — 7 novih deps (zadnji Book residual):
+  * `BookSewingBenchLightMaker` → `Metalwork` + `GlassBench` (multi! CROSS-CHAIN → Steklarstvo+)
+  * `BookSpineGiltSizeGaugeMaker` → `Metalwork` + `PigmentGrinderMaker` (multi! CROSS-CHAIN → Barvila+)
+  * `BookSpineLabelPrinterMaker` → `Metalwork` + `WoodLathe` (multi!)
+  * `BookSpineLiningClothMaker` → `SpinningWheel` + `WoodLathe` (multi! CROSS-CHAIN → Tekstil+)
+  * `BookSpineRulerMaker` → `Metalwork` + `WoodLathe` (multi!)
+  * `BookbindingGluePotMaker` → `Metalwork` + `WoodLathe` (multi!)
+  * `BookbindingPressMaker` → `WoodLathe` + `MasonStonecutter` (multi! CROSS-CHAIN → Kamnoseštvo+)
+- **TechTreePanel**: KNJIŽNI HRBET+ 2 chain, footer (373 deps, 79 verig, 268 multi-prereq)
+- **MEJNIK**: 268 multi-prereq = 33.5x začetnih 8! · **VSI Book* sistemi imajo deps** (Book chain complete)
+- 3 CROSS-CHAIN: GlassBench→Steklarstvo+, PigmentGrinderMaker→Barvila+, MasonStonecutter→Kamnoseštvo+
+
+### Spremenjene datoteke
+- `objects/Economy/SystemDependencies.lua`, `states/ui/hud/tech_tree_panel.lua`, `README.md`, `CHANGELOG.md`, `NEXT_BATCH_HANDOFF.md`
+
+### Funkcionalna preverba
+- Python regex: 373 vnosov, 268 multi-prereq
+
+## [v3.12.020] — 2026-08-20 — Book Finishing+ Chain (6 novih deps: 6 multi-prereq! 18. zapored vsi multi! MEJNIK 32.75x!)
+
+### Dodano
+- **SystemDependencies** — 6 novih deps (paste spatula, endband, foredge, tassel, press, weight):
+  * `BookCoverPasteSpatulaMaker` → `Metalwork` + `WoodLathe` (multi!)
+  * `BookEndbandLoomMaker` → `WoodLathe` + `SpinningWheel` (multi! CROSS-CHAIN → Tekstil+)
+  * `BookForedgeFanMaker` → `WoodLathe` + `Metalwork` (multi!)
+  * `BookMarkTasselMaker` → `SpinningWheel` + `PigmentGrinderMaker` (multi! CROSS-CHAIN → Tekstil+ & Barvila+)
+  * `BookPressMaker` → `WoodLathe` + `Metalwork` (multi!)
+  * `BookPressingWeightMaker` → `MasonStonecutter` + `WoodLathe` (multi! CROSS-CHAIN → Kamnoseštvo+)
+- **TechTreePanel**: KNJIŽNI FINISH+ chain
+- **MEJNIK**: 18. zapored vsi multi!
+
+## [v3.12.019] — 2026-08-20 — Book Cover Paste & Inlay+ Chain (6 novih deps: 6 multi-prereq! 17. zapored vsi multi! MEJNIK 32.125x!)
+
+### Dodano
+- **SystemDependencies** — 6 novih deps (cord winder, gauge, inlay, paste tools):
+  * `BookCoverCordWinderMaker` → `WoodLathe` + `SpinningWheel` (multi! CROSS-CHAIN → Tekstil+)
+  * `BookCoverGaugeMaker` → `Metalwork` + `WoodLathe` (multi!)
+  * `BookCoverInlayMaker` → `Metalwork` + `WoodLathe` (multi!)
+  * `BookCoverInlayRouterMaker` → `Metalwork` + `MasonStonecutter` (multi! CROSS-CHAIN → Kamnoseštvo+)
+  * `BookCoverPasteBrushMaker` → `WoodLathe` + `PigmentGrinderMaker` (multi! CROSS-CHAIN → Barvila+)
+  * `BookCoverPasteRollerMaker` → `WoodLathe` + `Metalwork` (multi!)
+- **TechTreePanel**: KNJIGOVEŠTVO+ 3 chain
+- **MEJNIK**: 17. zapored vsi multi!
+
 ## [v3.12.018] — 2026-08-20 — Book Spine & Press+ Chain (6 novih deps: 6 multi-prereq! 16. zapored vsi multi! MEJNIK 31.125x!)
 
 ### Dodano
