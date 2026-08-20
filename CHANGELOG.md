@@ -2,6 +2,19 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.038] — 2026-08-20 — Smith / Apothecary / Metalworker / Astrolabe+ Chain (7 multi, 36. zapored all-multi! MEJNIK 46.5x!)
+
+### Dodano
+- Metalworker, ApothecaryMortarMaker (CROSS Lončarstvo+), ApothecaryVialMaker (CROSS Steklarstvo+ & Lončarstvo+), BlacksmithViseMaker, ScytheSmith, SickleSmith, AstrolabeMaker (CROSS Steklarstvo+)
+- **TechTreePanel**: KOVAČ/APOTEKA+, footer (477 deps, 96 verig, 372 multi-prereq)
+- **MEJNIK**: 372 multi-prereq = 46.5x začetnih 8
+
+## [v3.12.037] — 2026-08-20 — Forge Residual+ 2 & Casting+ Chain (6 multi, 35. zapored)
+- ForgeRakeMaker, ForgeSparkShieldMaker, ForgeTuyereBlockMaker (CROSS Kamnoseštvo+), ForgeTuyereBrushMaker, IronForgeToolMaker, CastingLadleSkimmerMaker → KOVAŠKI OSTANEK+ 2
+
+## [v3.12.036] — 2026-08-20 — Forge Residual+ Chain (6 multi, 34. zapored)
+- ForgeAshGateValveMaker, ForgeAshRiddleMaker, ForgeBellowsValveMaker (CROSS Usnjarstvo+), ForgeBrickMaker (CROSS Kamnoseštvo+), ForgeChimneyCowlMaker (CROSS Kamnoseštvo+), ForgeCoalRakeToothMaker → KOVAŠKI OSTANEK+
+
 ## [v3.12.035] — 2026-08-20 — Mill Specialty+ Chain (6 novih deps: 6 multi-prereq! 33. zapored all-multi! MEJNIK 44.125x! MILL COMPLETE)
 
 ### Dodano

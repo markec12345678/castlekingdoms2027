@@ -462,6 +462,12 @@ local CHAINS = {
     { label = "MLINSKI DVIG+", base = "Metalwork+WoodLathe", systems = {"MillstoneCraneHookMaker", "MillstoneCraneWinchMaker", "MillstoneLifterHooksMaker", "MillstoneTenterHookMaker", "MillstoneTenteringScrewMaker", "MillstoneGrainFeedChuteMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe"} },
     -- v3.12.035: Mill Specialty+ chain (6 multi-prereq) — MILL COMPLETE
     { label = "MLIN SPECIAL+", base = "Metalwork+WoodLathe+MasonStonecutter", systems = {"MillstoneGrooveReframerMaker", "MillstoneQuillMaker", "GunpowderMill", "Sawmill", "SnuffMiller", "SpiceMillMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "MasonStonecutter"} },
+    -- v3.12.036: Forge Residual+ chain (6 multi-prereq, 2 CROSS-CHAIN)
+    { label = "KOVAŠKI OSTANEK+", base = "Metalwork+WoodLathe+RawhideTanner+MasonStonecutter", systems = {"ForgeAshGateValveMaker", "ForgeAshRiddleMaker", "ForgeBellowsValveMaker", "ForgeBrickMaker", "ForgeChimneyCowlMaker", "ForgeCoalRakeToothMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "RawhideTanner", "MasonStonecutter"} },
+    -- v3.12.037: Forge Residual+ 2 & Casting+ chain (6 multi-prereq, 1 CROSS-CHAIN)
+    { label = "KOVAŠKI OSTANEK+ 2", base = "Metalwork+WoodLathe+MasonStonecutter", systems = {"ForgeRakeMaker", "ForgeSparkShieldMaker", "ForgeTuyereBlockMaker", "ForgeTuyereBrushMaker", "IronForgeToolMaker", "CastingLadleSkimmerMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "MasonStonecutter"} },
+    -- v3.12.038: Smith / Apothecary / Metalworker / Astrolabe+ chain (7 multi-prereq, 3 CROSS-CHAIN)
+    { label = "KOVAČ/APOTEKA+", base = "Metalwork+WoodLathe+MasonStonecutter+PotteryWheel+GlassBench", systems = {"Metalworker", "ApothecaryMortarMaker", "ApothecaryVialMaker", "BlacksmithViseMaker", "ScytheSmith", "SickleSmith", "AstrolabeMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "MasonStonecutter", "PotteryWheel", "GlassBench"} },
 }
 
 -- Node dimensions for graph view
@@ -2024,7 +2030,7 @@ function TechTreePanel.draw()
     love.graphics.print(pctStr, pbX + (pbW - pctW) / 2, pbY - 12)
 
     love.graphics.setColor(0.4, 0.45, 0.5, 1)
-    love.graphics.print(string.format("458 deps · 93 verig · 353 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
+    love.graphics.print(string.format("477 deps · 96 verig · 372 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
         viewMode, focusStr, pathStr, searchStr, sortStr, filterStr, bookmarkStr, multiStr, presetStr),
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)

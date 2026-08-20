@@ -726,6 +726,34 @@ local dependencyGraph = {
     Sawmill                          = {"Metalwork", "WoodLathe"},       -- multi! metal blade + wooden frame
     SnuffMiller                      = {"Metalwork", "WoodLathe"},       -- multi! metal mill + wooden box
     SpiceMillMaker                   = {"Metalwork", "WoodLathe"},       -- multi! metal grinding + wooden body
+
+    -- v3.12.036: Forge Residual+ chain (ash, bellows, brick, chimney, coal rake, spark)
+    -- 6 multi-prereq out of 6 (34th consecutive all-multi!); 2 CROSS-CHAIN (MasonStonecutter→Kamnoseštvo+, GlassBench→Steklarstvo+)
+    ForgeAshGateValveMaker   = {"Metalwork", "WoodLathe"},               -- multi! metal valve + wooden handle
+    ForgeAshRiddleMaker      = {"Metalwork", "WoodLathe"},               -- multi! metal riddle + wooden frame
+    ForgeBellowsValveMaker   = {"Metalwork", "RawhideTanner"},           -- multi! CROSS-CHAIN: metal valve + leather bellows → Usnjarstvo+
+    ForgeBrickMaker          = {"MasonStonecutter", "Metalwork"},        -- multi! CROSS-CHAIN: stone/brick + metal mold → Kamnoseštvo+
+    ForgeChimneyCowlMaker    = {"Metalwork", "MasonStonecutter"},        -- multi! CROSS-CHAIN: metal cowl + stone chimney → Kamnoseštvo+
+    ForgeCoalRakeToothMaker  = {"Metalwork", "WoodLathe"},               -- multi! metal teeth + wooden rake
+
+    -- v3.12.037: Forge Residual+ 2 & Casting+ chain (rake, spark, tuyere, casting skimmer)
+    -- 6 multi-prereq out of 6 (35th all-multi!); 2 CROSS-CHAIN
+    ForgeRakeMaker               = {"Metalwork", "WoodLathe"},           -- multi! metal rake + wooden handle
+    ForgeSparkShieldMaker        = {"Metalwork", "WoodLathe"},           -- multi! metal shield + wooden mount
+    ForgeTuyereBlockMaker        = {"Metalwork", "MasonStonecutter"},    -- multi! CROSS-CHAIN: metal tuyere + stone block → Kamnoseštvo+
+    ForgeTuyereBrushMaker        = {"Metalwork", "WoodLathe"},           -- multi! metal brush + wooden handle
+    IronForgeToolMaker           = {"Metalwork", "WoodLathe"},           -- multi! iron tools + wooden handles
+    CastingLadleSkimmerMaker     = {"Metalwork", "WoodLathe"},           -- multi! metal skimmer + wooden handle
+
+    -- v3.12.038: Smith / Apothecary / Metalworker / Astrolabe+ chain (7 systems)
+    -- 7 multi-prereq out of 7 (36th all-multi package!); 3 CROSS-CHAIN (GlassBench, PotteryWheel, Metalwork)
+    Metalworker              = {"Metalwork", "WoodLathe"},               -- multi! general metalwork + wooden bench
+    ApothecaryMortarMaker    = {"MasonStonecutter", "PotteryWheel"},     -- multi! CROSS-CHAIN: stone mortar + pottery → Lončarstvo+
+    ApothecaryVialMaker      = {"GlassBench", "PotteryWheel"},           -- multi! CROSS-CHAIN: glass vial + pottery → Steklarstvo+ & Lončarstvo+
+    BlacksmithViseMaker      = {"Metalwork", "WoodLathe"},               -- multi! metal vise + wooden bench mount
+    ScytheSmith              = {"Metalwork", "WoodLathe"},               -- multi! metal blade + wooden snath
+    SickleSmith              = {"Metalwork", "WoodLathe"},               -- multi! metal blade + wooden handle
+    AstrolabeMaker           = {"Metalwork", "GlassBench"},              -- multi! CROSS-CHAIN: metal plates + glass/sight → Steklarstvo+
 }
 
 -- Register a dependency at runtime (for modding/extensibility)
