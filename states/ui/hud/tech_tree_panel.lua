@@ -486,6 +486,17 @@ local CHAINS = {
     { label = "ŽARENJE/ZASTAVA/KOPALNA+", base = "Metalwork+GlassBench+WoodLathe+SpinningWheel", systems = {"AnnealingLehrMaker", "AnnealingTongsMaker", "BannerMaker", "BannerPoleMaker", "BathBucketMaker", "BathFixtureMaker"}, multiBase = true, bases = {"Metalwork", "GlassBench", "WoodLathe", "SpinningWheel"} },
     -- v3.12.047: Bridle+ & Horse+ & Hardy+ chain (6 multi-prereq, 2 CROSS-CHAIN)
     { label = "UZDA/KONJ/KOVAČNICA+", base = "RawhideTanner+Metalwork+WoodLathe", systems = {"BridleMaker", "BridleBuckleMaker", "HorseBreeder", "HorseHarnessMaker", "HardyHoleMaker", "HardyShankMaker"}, multiBase = true, bases = {"RawhideTanner", "Metalwork", "WoodLathe"} },
+    -- v3.12.048–057: pair groups (10 chains × 6 multi)
+    { label = "MASLO/SIR/KOMPAS+", base = "WoodLathe+Metalwork+PotteryWheel+GlassBench", systems = {"ButterChurnMaker", "ButterDishMaker", "CheeseDomeMaker", "CheeseGraterMaker", "CompassMaker", "CompassNeedleMaker"}, multiBase = true, bases = {"WoodLathe", "Metalwork", "PotteryWheel", "GlassBench"} },
+    { label = "KOMPOST/KRONANJE/LIJAK+", base = "Metalwork+WoodLathe+SpinningWheel+RawhideTanner", systems = {"CompostAeratorMaker", "CompostSieveMaker", "CoronationCushionMaker", "CoronationMantleMaker", "HopperGateMaker", "HopperScaleMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "SpinningWheel", "RawhideTanner"} },
+    { label = "ČRNILNIK/ŽELEZO/STATVE+", base = "Metalwork+WoodLathe+GlassBench", systems = {"InkwellDustCoverMaker", "InkwellStopperMaker", "IronBeamMaker", "IronGateMaker", "LoomFrameMaker", "LoomHeddleMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "GlassBench"} },
+    { label = "VRVICA/MREŽA/OLJE+", base = "SpinningWheel+WoodLathe+Metalwork+GlassBench", systems = {"StringMaker", "StringWinderMaker", "NetMaker", "NetMendingNeedleMaker", "OilLampMaker", "OilPresser"}, multiBase = true, bases = {"SpinningWheel", "WoodLathe", "Metalwork", "GlassBench"} },
+    { label = "PAPIR/PERGAMENT/VRV+", base = "WoodLathe+Metalwork+RawhideTanner+SpinningWheel", systems = {"PaperMaker", "PaperCuttingMachineMaker", "ParchmentMaker", "ParchmentRackMaker", "RopeMaker", "RopeSpinner"}, multiBase = true, bases = {"WoodLathe", "Metalwork", "RawhideTanner", "SpinningWheel"} },
+    { label = "VREČA/SEDLO/SOL+", base = "WoodLathe+Metalwork+SpinningWheel+RawhideTanner", systems = {"SackLoaderMaker", "SackStitcherMaker", "SaddlePolishMaker", "SaddleSoapMaker", "SaltPanWorker", "SaltRefiner"}, multiBase = true, bases = {"WoodLathe", "Metalwork", "SpinningWheel", "RawhideTanner"} },
+    { label = "SEME/POSTREŽBA/ZAČIMBE+", base = "Metalwork+WoodLathe+PotteryWheel+GlassBench", systems = {"SeedDrillMaker", "SeedDrillPlowMaker", "ServingPlateMaker", "ServingTongsMaker", "SpiceMerchant", "SpiceRackMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "PotteryWheel", "GlassBench"} },
+    { label = "ZVEZDE/DRŽAVA/STREMENA+", base = "WoodLathe+Metalwork+SpinningWheel+RawhideTanner", systems = {"StarChartMaker", "StarChartRackMaker", "StateCordonMaker", "StateSpearMaker", "StirrupMaker", "StirrupLeatherMaker"}, multiBase = true, bases = {"WoodLathe", "Metalwork", "SpinningWheel", "RawhideTanner"} },
+    { label = "SLADKOR/FULLER/ZALIVANJE+", base = "Metalwork+WoodLathe", systems = {"SugarRefiner", "SugarTongsMaker", "TopMaker", "TopFullerMaker", "WateringCanMaker", "WateringSpikeMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe"} },
+    { label = "VINO/LES+", base = "Metalwork+WoodLathe+GlassBench", systems = {"WineStrainerMaker", "WineVintner", "WoodLatheMaker", "WoodPanelingMaker", "WoodenColumnMaker", "WoodenSpoonCarver"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "GlassBench"} },
 }
 
 -- Node dimensions for graph view
@@ -2048,7 +2059,7 @@ function TechTreePanel.draw()
     love.graphics.print(pctStr, pbX + (pbW - pctW) / 2, pbY - 12)
 
     love.graphics.setColor(0.4, 0.45, 0.5, 1)
-    love.graphics.print(string.format("532 deps · 105 verig · 427 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
+    love.graphics.print(string.format("592 deps · 115 verig · 487 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
         viewMode, focusStr, pathStr, searchStr, sortStr, filterStr, bookmarkStr, multiStr, presetStr),
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)

@@ -2,6 +2,18 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.057] — 2026-08-20 — Wine+ & Wood+ Chain (6 multi, 55. zapored all-multi! MEJNIK 60.875x!)
+
+### Dodano
+- WineStrainerMaker, WineVintner, WoodLatheMaker, WoodPanelingMaker, WoodenColumnMaker, WoodenSpoonCarver
+- **TechTreePanel**: footer (592 deps, 115 verig, 487 multi-prereq)
+- **MEJNIK**: 487 multi-prereq = 60.875x · v3.12.048–057: 10 verig × 6 = 60 multi-prereq (Butter/Cheese/Compass … Wine/Wood)
+
+## [v3.12.048]–[v3.12.056] — 2026-08-20 — Pair-group chains (54 multi across 9 verig)
+- 048 Butter/Cheese/Compass · 049 Compost/Coronation/Hopper · 050 Inkwell/Iron/Loom
+- 051 String/Net/Oil · 052 Paper/Parchment/Rope · 053 Sack/Saddle/Salt
+- 054 Seed/Serving/Spice · 055 Star/State/Stirrup · 056 Sugar/Top/Watering
+
 ## [v3.12.047] — 2026-08-20 — Bridle+ & Horse+ & Hardy+ Chain (6 multi, 45. zapored all-multi! MEJNIK 53.375x!)
 
 ### Dodano
