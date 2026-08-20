@@ -497,6 +497,16 @@ local CHAINS = {
     { label = "ZVEZDE/DRŽAVA/STREMENA+", base = "WoodLathe+Metalwork+SpinningWheel+RawhideTanner", systems = {"StarChartMaker", "StarChartRackMaker", "StateCordonMaker", "StateSpearMaker", "StirrupMaker", "StirrupLeatherMaker"}, multiBase = true, bases = {"WoodLathe", "Metalwork", "SpinningWheel", "RawhideTanner"} },
     { label = "SLADKOR/FULLER/ZALIVANJE+", base = "Metalwork+WoodLathe", systems = {"SugarRefiner", "SugarTongsMaker", "TopMaker", "TopFullerMaker", "WateringCanMaker", "WateringSpikeMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe"} },
     { label = "VINO/LES+", base = "Metalwork+WoodLathe+GlassBench", systems = {"WineStrainerMaker", "WineVintner", "WoodLatheMaker", "WoodPanelingMaker", "WoodenColumnMaker", "WoodenSpoonCarver"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "GlassBench"} },
+    -- v3.12.058–066: singles batches (9 × 6 multi)
+    { label = "ABAKUS–AKVEDUKT+", base = "WoodLathe+Metalwork+PotteryWheel+GlassBench+MasonStonecutter", systems = {"AbacusMaker", "AloeCultivator", "AngelusBellMaker", "AnvilStumpMaker", "AquariumKeeper", "AqueductMaker"}, multiBase = true, bases = {"WoodLathe", "Metalwork", "PotteryWheel", "GlassBench", "MasonStonecutter"} },
+    { label = "ARBALET–PEKA+", base = "Metalwork+WoodLathe+SpinningWheel", systems = {"ArbalestMaker", "AugerBitMaker", "AviaryKeeper", "BackgammonMaker", "Baker", "BakingSheetMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "SpinningWheel"} },
+    { label = "TEHTNICA–ČAŠA+", base = "Metalwork+WoodLathe+GlassBench+SpinningWheel+MasonStonecutter", systems = {"BalanceScaleMaker", "BarometerMaker", "BasketWeaver", "BattlementMaker", "BeaconLightMaker", "BeakerBlower"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "GlassBench", "SpinningWheel", "MasonStonecutter"} },
+    { label = "ČEŠELJ–BILIARD+", base = "WoodLathe+Metalwork+SpinningWheel+RawhideTanner", systems = {"BeardCombMaker", "BedMaker", "Beekeeper", "BellowsMaker", "BickHornAnvilMaker", "BilliardMaker"}, multiBase = true, bases = {"WoodLathe", "Metalwork", "SpinningWheel", "RawhideTanner"} },
+    { label = "VEZALNA–OTROBI+", base = "SpinningWheel+WoodLathe+Metalwork+PotteryWheel", systems = {"BindingCordMaker", "BisqueStandMaker", "BobbinWinderMaker", "BoltLatchMaker", "BottomFullerMaker", "BranSeparatorMaker"}, multiBase = true, bases = {"SpinningWheel", "WoodLathe", "Metalwork", "PotteryWheel"} },
+    { label = "KRUH–METULJ+", base = "Metalwork+WoodLathe+GlassBench", systems = {"BreadLameMaker", "Distiller", "BridgeMaker", "BroochMaker", "BulbPlanterMaker", "ButterflyBreeder"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "GlassBench"} },
+    { label = "GUMB–KARTE+", base = "Metalwork+WoodLathe+SpinningWheel", systems = {"ButtonMaker", "CabinetMaker", "CalendarMaker", "CandlestickBaseMaker", "CanvasStretcherMaker", "CardDeckMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "SpinningWheel"} },
+    { label = "CARILLON–VERIGA+", base = "Metalwork+WoodLathe+RawhideTanner+SpinningWheel", systems = {"CarillonMaker", "CattleRancher", "CelestialGlobeMaker", "CentrifugalCasterMaker", "CeremonialSashMaker", "ChainMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "RawhideTanner", "SpinningWheel"} },
+    { label = "STOL–CIDER+", base = "WoodLathe+Metalwork", systems = {"ChairMaker", "Chandlery", "ChestMaker", "ChimeHammerMaker", "ChocolateConfectioner", "CiderPress"}, multiBase = true, bases = {"WoodLathe", "Metalwork"} },
 }
 
 -- Node dimensions for graph view
@@ -2059,7 +2069,7 @@ function TechTreePanel.draw()
     love.graphics.print(pctStr, pbX + (pbW - pctW) / 2, pbY - 12)
 
     love.graphics.setColor(0.4, 0.45, 0.5, 1)
-    love.graphics.print(string.format("592 deps · 115 verig · 487 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
+    love.graphics.print(string.format("646 deps · 124 verig · 541 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
         viewMode, focusStr, pathStr, searchStr, sortStr, filterStr, bookmarkStr, multiStr, presetStr),
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)

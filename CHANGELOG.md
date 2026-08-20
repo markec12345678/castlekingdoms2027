@@ -2,6 +2,17 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.066] — 2026-08-20 — Chair–Cider singles (6 multi, 64. zapored all-multi! MEJNIK 67.625x!)
+
+### Dodano
+- v3.12.058–066: 9 verig × 6 = 54 multi-prereq (Abacus→CiderPress)
+- **TechTreePanel**: footer (646 deps, 124 verig, 541 multi-prereq)
+- **MEJNIK**: 541 multi-prereq = 67.625x
+
+## [v3.12.058]–[v3.12.065] — 2026-08-20 — Singles batches A–H (48 multi)
+- 058 Abacus–Aqueduct · 059 Arbalest–BakingSheet · 060 Balance–Beaker · 061 BeardComb–Billiard
+- 062 Binding–Bran · 063 Bread–Butterfly · 064 Button–CardDeck · 065 Carillon–Chain
+
 ## [v3.12.057] — 2026-08-20 — Wine+ & Wood+ Chain (6 multi, 55. zapored all-multi! MEJNIK 60.875x!)
 
 ### Dodano
