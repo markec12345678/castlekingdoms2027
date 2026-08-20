@@ -535,6 +535,42 @@ local dependencyGraph = {
     BookEdgeGilderMaker        = {"Metalwork", "PigmentGrinderMaker"},    -- multi! CROSS-CHAIN: metal gilding tools + pigments/gold → Barvila+
     BookEdgeBurnisherMaker     = {"Metalwork", "RawhideTanner"},          -- multi! CROSS-CHAIN: metal burnisher + leather pad → Usnjarstvo+
     BookSpineCreaserMaker      = {"Metalwork", "WoodLathe"},              -- multi! metal creaser + wooden spine support
+
+    -- v3.12.015: Book Cover Tools+ 2 chain (miters, trimmers, cutters, stamps, presses)
+    -- 6 multi-prereq out of 6 (13th time all multi!); 3 CROSS-CHAIN links (MasonStonecutter→Kamnoseštvo+, PigmentGrinderMaker→Barvila+ x2)
+    BookCoverBoardCornerMiterMaker = {"Metalwork", "WoodLathe"},          -- multi! metal miter + wooden guide
+    BookCoverBoardEdgeTrimmerMaker = {"Metalwork", "WoodLathe"},          -- multi! metal trimmer + wooden fence
+    BookCoverCornerCutterMaker     = {"Metalwork", "MasonStonecutter"},   -- multi! CROSS-CHAIN: metal cutter + stone base → Kamnoseštvo+
+    BookCoverStampMaker            = {"Metalwork", "PigmentGrinderMaker"}, -- multi! CROSS-CHAIN: metal stamp + pigments/foil → Barvila+
+    BookCoverStampingFoilMaker     = {"Metalwork", "PigmentGrinderMaker"}, -- multi! CROSS-CHAIN: foil tools + pigments → Barvila+
+    BookCoverLeverPressMaker       = {"Metalwork", "WoodLathe"},          -- multi! metal lever + wooden press frame
+
+    -- v3.12.016: Book Edge+ chain (edge coloring, gilt, polishing, painting)
+    -- 6 multi-prereq out of 6 (14th time all multi!); 3 CROSS-CHAIN links (PigmentGrinderMaker→Barvila+ x3, MasonStonecutter→Kamnoseštvo+, RawhideTanner→Usnjarstvo+)
+    BookEdgeColoringSpongeMaker      = {"WoodLathe", "PigmentGrinderMaker"}, -- multi! CROSS-CHAIN: wooden handle + pigments → Barvila+
+    BookEdgeGiltBurnisherMaker       = {"Metalwork", "RawhideTanner"},      -- multi! CROSS-CHAIN: metal burnisher + leather → Usnjarstvo+
+    BookEdgeGiltSizeApplicatorMaker  = {"Metalwork", "PigmentGrinderMaker"}, -- multi! CROSS-CHAIN: applicator + size/pigments → Barvila+
+    BookEdgeGiltSizeBrushMaker       = {"WoodLathe", "PigmentGrinderMaker"}, -- multi! CROSS-CHAIN: wooden brush + pigments → Barvila+
+    BookEdgePainterMaker             = {"WoodLathe", "PigmentGrinderMaker"}, -- multi! CROSS-CHAIN: wooden brush + pigments → Barvila+
+    BookEdgePolishingStoneMaker      = {"MasonStonecutter", "Metalwork"},   -- multi! CROSS-CHAIN: stone polisher + metal mount → Kamnoseštvo+
+
+    -- v3.12.017: Book Sewing+ chain (sewing bench, cords, needles, frames, reels)
+    -- 6 multi-prereq out of 6 (15th time all multi!); 2 CROSS-CHAIN links (Metalwork+WoodLathe dominant; SpinningWheel for thread)
+    BookSewingBenchHookMaker    = {"Metalwork", "WoodLathe"},             -- multi! metal hook + wooden bench
+    BookSewingNeedleCaseMaker   = {"Metalwork", "WoodLathe"},             -- multi! metal case + wooden lid
+    BookSewingCordSpoolMaker    = {"WoodLathe", "SpinningWheel"},         -- multi! CROSS-CHAIN: wooden spool + thread → Tekstil+
+    BookSewingFrameToggleMaker  = {"Metalwork", "WoodLathe"},             -- multi! metal toggle + wooden frame
+    BookStitchingFrameMaker     = {"WoodLathe", "Metalwork"},             -- multi! wooden frame + metal fittings
+    BookThreadReelMaker         = {"WoodLathe", "SpinningWheel"},         -- multi! CROSS-CHAIN: wooden reel + thread → Tekstil+
+
+    -- v3.12.018: Book Spine & Press+ chain (spine tools, glue, presses, bookshelf)
+    -- 6 multi-prereq out of 6 (16th time all multi!); 3 CROSS-CHAIN links (MasonStonecutter→Kamnoseštvo+, Metalwork, WoodLathe)
+    BookSpineGlueBrushMaker      = {"WoodLathe", "Metalwork"},            -- multi! wooden brush + metal ferrule
+    BookSpineGluePotStandMaker   = {"WoodLathe", "Metalwork"},            -- multi! wooden stand + metal pot ring
+    BookSpineLiningRollerMaker   = {"WoodLathe", "Metalwork"},            -- multi! wooden roller + metal axle
+    BookbindingPressStoneMaker   = {"MasonStonecutter", "WoodLathe"},     -- multi! CROSS-CHAIN: stone weight + wooden press → Kamnoseštvo+
+    BookbindingScrewPressMaker   = {"Metalwork", "WoodLathe"},            -- multi! metal screw + wooden press
+    BookshelfMaker               = {"WoodLathe", "Metalwork"},            -- multi! wooden shelves + metal brackets
 }
 
 -- Register a dependency at runtime (for modding/extensibility)

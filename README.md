@@ -2,7 +2,7 @@
 
 Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT). Navdihnjen s klasičnimi srednjeveškimi strateškimi igrami.
 
-[![Version](https://img.shields.io/badge/version-3.12.014-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
+[![Version](https://img.shields.io/badge/version-3.12.018-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
 [![Syntax](https://img.shields.io/badge/syntax-1648%2F1648%20pass-brightgreen.svg)](#)
@@ -12,9 +12,9 @@ Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgraj
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v3.12.014](https://github.com/markec12345678/castlekingdoms2027/releases)
-- **.love datoteka**: `castlekingdoms2027-v3.12.014.love` (34 MB brez LFS, 305 MB z LFS)
-- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 990 Royal sistemov, 1648 Lua datotek, +BOOK COVER+ CHAIN (6 novih deps: BookCoverBoardShearsMaker, BookCoverCrimperMaker, BookCoverDieMaker, BookEdgeGilderMaker, BookEdgeBurnisherMaker, BookSpineCreaserMaker; 6 multi-prereq — 12. zapored vsi multi!; 3 CROSS-CHAIN: MasonStonecutter←Kamnoseštvo+, PigmentGrinderMaker←Barvila+, RawhideTanner←Usnjarstvo+; 324→330 deps, 71→72 verig, 219→225 multi-prereq; MEJNIK 225 multi-prereq = 28.125x začetnih 8!) + LEATHER+ + SMITH+ + FORGE+ + SMITH QUENCH+ + GLASS FINISHING+ + GLASS ENGRAVING+ 2 + GLASS ANNEALING+ 2 + GLASS BLOWING+ 2 + GLASS KILN ACCESSORIES+ 2 + FOUNDRY ACCESSORIES+ 9 + FOUNDRY ACCESSORIES+ 8 + FOUNDRY ACCESSORIES+ 7 + FOUNDRY ACCESSORIES+ 6 + FOUNDRY ACCESSORIES+ 5 + FOUNDRY ACCESSORIES+ 4 + FOUNDRY ACCESSORIES+ 3 + GLASS FORMING TOOLS+ + GLASS BATCH+ + FOUNDRY ACCESSORIES+ 2 + GLASS KILN+ + GLASS COLORANT+ + GLASS ANNEALING+ + GLASS ENGRAVING+ + MILLING+ + GARDEN+ 2 + ANVIL+ + ARMOR/WEAPON+ + MINING+ + CLOCKMAKING+ + KITCHEN+ + DYE/PIGMENT+ + MASONRY+ + BREWING/BAKING+ + FISHING+ + CANDLE/WAX+ + MUSICAL INSTRUMENTS+ + POTTERY+ + TEXTILE+ + BOOKBINDING+ + FOUNDRY+ + GLASSMAKING+ + ASTRONOMY+ + SURGICAL+ + TECH TREE IV + HOVER TOOLTIP EKOSISTEM + CUSTOM PRESET CRUD + MULTI-SELECT PERSISTENCE + CONFIG PRESETS + EXPORT/IMPORT + 100% mouse/wheel + overlay + DynamicMarket + Save/Load + 7 grafov
+- **Zadnja izdaja**: [v3.12.018](https://github.com/markec12345678/castlekingdoms2027/releases)
+- **.love datoteka**: `castlekingdoms2027-v3.12.018.love` (34 MB brez LFS, 305 MB z LFS)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 990 Royal sistemov, 1648 Lua datotek, +BOOK SPINE/PRESS+ + BOOK SEWING+ + BOOK EDGE+ + BOOK COVER TOOLS+ 2 + BOOK COVER+ (24 novih multi-prereq v 4 verigah; 16. zapored vsi multi!; 330→354 deps, 72→76 verig, 225→249 multi-prereq; MEJNIK 249 multi-prereq = 31.125x začetnih 8!) + LEATHER+ + SMITH+ + FORGE+ + … 
 - **LFS**: Po git clone zahtevaj `git lfs pull` za prave PNG asset-e (305 MB)
 
 ## Zagon

@@ -2,6 +2,58 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.018] — 2026-08-20 — Book Spine & Press+ Chain (6 novih deps: 6 multi-prereq! 16. zapored vsi multi! MEJNIK 31.125x!)
+
+### Dodano
+- **SystemDependencies** — 6 novih deps (spine glue, lining rollers, presses, bookshelf):
+  * `BookSpineGlueBrushMaker` → WoodLathe + Metalwork
+  * `BookSpineGluePotStandMaker` → WoodLathe + Metalwork
+  * `BookSpineLiningRollerMaker` → WoodLathe + Metalwork
+  * `BookbindingPressStoneMaker` → MasonStonecutter + WoodLathe (CROSS Kamnoseštvo+)
+  * `BookbindingScrewPressMaker` → Metalwork + WoodLathe
+  * `BookshelfMaker` → WoodLathe + Metalwork
+- **TechTreePanel**: KNJIŽNI HRBET+ chain, footer (354 deps, 76 verig, 249 multi-prereq)
+- **MEJNIK**: 249 multi-prereq = 31.125x začetnih 8! · 16. zapored vsi multi!
+
+## [v3.12.017] — 2026-08-20 — Book Sewing+ Chain (6 novih deps: 6 multi-prereq! 15. zapored vsi multi! MEJNIK 30.375x!)
+
+### Dodano
+- **SystemDependencies** — 6 novih deps (sewing bench, needles, cords, frames, reels):
+  * `BookSewingBenchHookMaker` → Metalwork + WoodLathe
+  * `BookSewingNeedleCaseMaker` → Metalwork + WoodLathe
+  * `BookSewingCordSpoolMaker` → WoodLathe + SpinningWheel (CROSS Tekstil+)
+  * `BookSewingFrameToggleMaker` → Metalwork + WoodLathe
+  * `BookStitchingFrameMaker` → WoodLathe + Metalwork
+  * `BookThreadReelMaker` → WoodLathe + SpinningWheel (CROSS Tekstil+)
+- **TechTreePanel**: KNJIŽNO ŠIVANJE+ chain
+- **MEJNIK**: 15. zapored vsi multi!
+
+## [v3.12.016] — 2026-08-20 — Book Edge+ Chain (6 novih deps: 6 multi-prereq! 14. zapored vsi multi! MEJNIK 29.625x!)
+
+### Dodano
+- **SystemDependencies** — 6 novih deps (edge coloring, gilt, polishing, painting):
+  * `BookEdgeColoringSpongeMaker` → WoodLathe + PigmentGrinderMaker (CROSS Barvila+)
+  * `BookEdgeGiltBurnisherMaker` → Metalwork + RawhideTanner (CROSS Usnjarstvo+)
+  * `BookEdgeGiltSizeApplicatorMaker` → Metalwork + PigmentGrinderMaker (CROSS Barvila+)
+  * `BookEdgeGiltSizeBrushMaker` → WoodLathe + PigmentGrinderMaker (CROSS Barvila+)
+  * `BookEdgePainterMaker` → WoodLathe + PigmentGrinderMaker (CROSS Barvila+)
+  * `BookEdgePolishingStoneMaker` → MasonStonecutter + Metalwork (CROSS Kamnoseštvo+)
+- **TechTreePanel**: KNJIŽNI ROB+ chain
+- **MEJNIK**: 14. zapored vsi multi!
+
+## [v3.12.015] — 2026-08-20 — Book Cover Tools+ 2 Chain (6 novih deps: 6 multi-prereq! 13. zapored vsi multi! MEJNIK 28.875x!)
+
+### Dodano
+- **SystemDependencies** — 6 novih deps (miters, trimmers, cutters, stamps, presses):
+  * `BookCoverBoardCornerMiterMaker` → Metalwork + WoodLathe
+  * `BookCoverBoardEdgeTrimmerMaker` → Metalwork + WoodLathe
+  * `BookCoverCornerCutterMaker` → Metalwork + MasonStonecutter (CROSS Kamnoseštvo+)
+  * `BookCoverStampMaker` → Metalwork + PigmentGrinderMaker (CROSS Barvila+)
+  * `BookCoverStampingFoilMaker` → Metalwork + PigmentGrinderMaker (CROSS Barvila+)
+  * `BookCoverLeverPressMaker` → Metalwork + WoodLathe
+- **TechTreePanel**: KNJIGOVEŠTVO+ 2 chain
+- **MEJNIK**: 13. zapored vsi multi!
+
 ## [v3.12.014] — 2026-08-20 — Book Cover+ Chain (6 novih deps: 6 multi-prereq! 12. zapored vsi multi! MEJNIK 28.125x!)
 
 ### Dodano
