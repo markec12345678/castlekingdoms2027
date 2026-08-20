@@ -2,6 +2,17 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.082] — 2026-08-20 — Linen–Mat singles (6 multi, 80. zapored all-multi! MEJNIK 79.625x!)
+
+### Dodano
+- v3.12.075–082: 8 verig × 6 = 48 multi-prereq (FunnelMaker→MatMaker)
+- **TechTreePanel**: footer (742 deps, 140 verig, 637 multi-prereq)
+- **MEJNIK**: 637 multi-prereq = 79.625x · **140 verig**
+
+## [v3.12.075]–[v3.12.081] — 2026-08-20 — Singles Funnel→LiceComb (42 multi)
+- 075 Funnel–Greave · 076 Hairbrush–Harpoon · 077 Harrow–Hinge · 078 Hook–Hydrometer
+- 079 Ice–Jigsaw · 080 Key–Lace · 081 Ladle–LiceComb
+
 ## [v3.12.074] — 2026-08-20 — Fish–Fuller singles (6 multi, 72. zapored all-multi! MEJNIK 73.625x!)
 
 ### Dodano

@@ -516,6 +516,15 @@ local CHAINS = {
     { label = "DIBBER–BARVILO+", base = "WoodLathe+Metalwork+RawhideTanner+PigmentGrinderMaker", systems = {"DibberMaker", "DollHouseMaker", "DominoMaker", "DrawbridgeMaker", "DrummerMaker", "DyeStuffMaker"}, multiBase = true, bases = {"WoodLathe", "Metalwork", "RawhideTanner", "PigmentGrinderMaker"} },
     { label = "BARVAR–FILTRACIJA+", base = "PigmentGrinderMaker+SpinningWheel+PotteryWheel+Metalwork+WoodLathe+GlassBench", systems = {"Dyer", "EggCupMaker", "EngravingMachineMaker", "EvaporatingBasinMaker", "FiddleMaker", "FiltrationApparatusMaker"}, multiBase = true, bases = {"PigmentGrinderMaker", "SpinningWheel", "PotteryWheel", "Metalwork", "WoodLathe", "GlassBench"} },
     { label = "RIBA–FULLER+", base = "Metalwork+WoodLathe+SpinningWheel+GlassBench", systems = {"FishScalerMaker", "Fisherman", "FishingNetMaker", "FlaskMaker", "FlatterMaker", "FullerMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "SpinningWheel", "GlassBench"} },
+    -- v3.12.075–082: singles Funnel→Mat (8 × 6)
+    { label = "LIJAK–NAGOJNIK+", base = "Metalwork+WoodLathe+RawhideTanner+GlassBench", systems = {"FunnelMaker", "Furrier", "GildingPressMaker", "Glassmaker", "GlockenspielMaker", "GreaveArmorer"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "RawhideTanner", "GlassBench"} },
+    { label = "KRTAČA–HARPOON+", base = "WoodLathe+Metalwork", systems = {"HairbrushMaker", "HairpinMaker", "HammerMaker", "HandTrowelMaker", "HandbellMaker", "HarpoonMaker"}, multiBase = true, bases = {"WoodLathe", "Metalwork"} },
+    { label = "BRANA–TEČAJ+", base = "Metalwork+WoodLathe+SpinningWheel", systems = {"HarrowMaker", "HeadbandLoomMaker", "HedgeHookMaker", "HelmetCrestMaker", "HempRetter", "HingeMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "SpinningWheel"} },
+    { label = "KLJUKA–HIDROMETER+", base = "Metalwork+WoodLathe+SpinningWheel+GlassBench", systems = {"HookMaker", "HopsGrower", "HotCutHardyMaker", "HuntingTrapMaker", "HurdyGurdyMaker", "HydrometerMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "SpinningWheel", "GlassBench"} },
+    { label = "LED–SESTAVLJANKA+", base = "Metalwork+WoodLathe+PigmentGrinderMaker+GlassBench", systems = {"IceCutter", "IncenseMolderMaker", "InkMaker", "InoculationLadleMaker", "Jeweler", "JigsawPuzzleMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "PigmentGrinderMaker", "GlassBench"} },
+    { label = "KLJUČ–ČIPKA+", base = "Metalwork+WoodLathe+SpinningWheel", systems = {"KeyMaker", "KitchenScaleMaker", "KiteMaker", "Knitter", "KnotBoardMaker", "LaceMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "SpinningWheel"} },
+    { label = "ŽLICA–GLAVNIK+", base = "Metalwork+WoodLathe+GlassBench+MasonStonecutter", systems = {"LadlePreheaterMaker", "LanternMaker", "LatrineBuilder", "LensGrinder", "LibraryCatalogMaker", "LiceCombMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "GlassBench", "MasonStonecutter"} },
+    { label = "LAN–PREPROGA+", base = "WoodLathe+SpinningWheel+Metalwork", systems = {"LinenRetter", "LoafPanMaker", "LocketMaker", "LyreMaker", "MandolinMaker", "MatMaker"}, multiBase = true, bases = {"WoodLathe", "SpinningWheel", "Metalwork"} },
 }
 
 -- Node dimensions for graph view
@@ -2078,7 +2087,7 @@ function TechTreePanel.draw()
     love.graphics.print(pctStr, pbX + (pbW - pctW) / 2, pbY - 12)
 
     love.graphics.setColor(0.4, 0.45, 0.5, 1)
-    love.graphics.print(string.format("694 deps · 132 verig · 589 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
+    love.graphics.print(string.format("742 deps · 140 verig · 637 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
         viewMode, focusStr, pathStr, searchStr, sortStr, filterStr, bookmarkStr, multiStr, presetStr),
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)
