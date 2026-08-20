@@ -2,6 +2,17 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.074] — 2026-08-20 — Fish–Fuller singles (6 multi, 72. zapored all-multi! MEJNIK 73.625x!)
+
+### Dodano
+- v3.12.067–074: 8 verig × 6 = 48 multi-prereq (CisternMaker→FullerMaker)
+- **TechTreePanel**: footer (694 deps, 132 verig, 589 multi-prereq)
+- **MEJNIK**: 589 multi-prereq = 73.625x
+
+## [v3.12.067]–[v3.12.073] — 2026-08-20 — Singles Cistern→Filtration (42 multi)
+- 067 Cistern–ColdFrame · 068 Collar–Cookware · 069 Cooper–CourtFan · 070 Crane–Crystallization
+- 071 Cupola–Degassing · 072 Dibber–DyeStuff · 073 Dyer–Filtration
+
 ## [v3.12.066] — 2026-08-20 — Chair–Cider singles (6 multi, 64. zapored all-multi! MEJNIK 67.625x!)
 
 ### Dodano

@@ -507,6 +507,15 @@ local CHAINS = {
     { label = "GUMB–KARTE+", base = "Metalwork+WoodLathe+SpinningWheel", systems = {"ButtonMaker", "CabinetMaker", "CalendarMaker", "CandlestickBaseMaker", "CanvasStretcherMaker", "CardDeckMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "SpinningWheel"} },
     { label = "CARILLON–VERIGA+", base = "Metalwork+WoodLathe+RawhideTanner+SpinningWheel", systems = {"CarillonMaker", "CattleRancher", "CelestialGlobeMaker", "CentrifugalCasterMaker", "CeremonialSashMaker", "ChainMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "RawhideTanner", "SpinningWheel"} },
     { label = "STOL–CIDER+", base = "WoodLathe+Metalwork", systems = {"ChairMaker", "Chandlery", "ChestMaker", "ChimeHammerMaker", "ChocolateConfectioner", "CiderPress"}, multiBase = true, bases = {"WoodLathe", "Metalwork"} },
+    -- v3.12.067–074: singles Cistern→Fuller (8 × 6)
+    { label = "CISTERNA–HLADNI OKVIR+", base = "MasonStonecutter+Metalwork+WoodLathe+GlassBench", systems = {"CisternMaker", "ClampMaker", "ClayExtruderMaker", "ClockDialEngraverMaker", "CofferMaker", "ColdFrameMaker"}, multiBase = true, bases = {"MasonStonecutter", "Metalwork", "WoodLathe", "GlassBench"} },
+    { label = "OVRATNIK–POSODA+", base = "Metalwork+SpinningWheel+WoodLathe", systems = {"CollarOfEstate", "CombMaker", "CommemorativeTokenMaker", "CommendationScroll", "Confectioner", "CookwareFounder"}, multiBase = true, bases = {"Metalwork", "SpinningWheel", "WoodLathe"} },
+    { label = "SODOVEC–VEJALNIK+", base = "WoodLathe+Metalwork+SpinningWheel", systems = {"Cooper", "CopperSheetMaker", "CordageMaker", "CostumeTailor", "CottonGin", "CourtFanMaker"}, multiBase = true, bases = {"WoodLathe", "Metalwork", "SpinningWheel"} },
+    { label = "ŽERJAV–KRISTAL+", base = "Metalwork+WoodLathe+SpinningWheel+GlassBench", systems = {"CraneMaker", "Crocheter", "CrumbTrayMaker", "CrumhornMaker", "CrustScorerMaker", "CrystallizationDishMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "SpinningWheel", "GlassBench"} },
+    { label = "KUPOLA–RAZPLINJEVANJE+", base = "Metalwork+MasonStonecutter+SpinningWheel+RawhideTanner+WoodLathe", systems = {"CupolaTuyereMaker", "CurtainMaker", "CushionMaker", "CutterHardyMaker", "CuttingBoardMaker", "DegassingLanceMaker"}, multiBase = true, bases = {"Metalwork", "MasonStonecutter", "SpinningWheel", "RawhideTanner", "WoodLathe"} },
+    { label = "DIBBER–BARVILO+", base = "WoodLathe+Metalwork+RawhideTanner+PigmentGrinderMaker", systems = {"DibberMaker", "DollHouseMaker", "DominoMaker", "DrawbridgeMaker", "DrummerMaker", "DyeStuffMaker"}, multiBase = true, bases = {"WoodLathe", "Metalwork", "RawhideTanner", "PigmentGrinderMaker"} },
+    { label = "BARVAR–FILTRACIJA+", base = "PigmentGrinderMaker+SpinningWheel+PotteryWheel+Metalwork+WoodLathe+GlassBench", systems = {"Dyer", "EggCupMaker", "EngravingMachineMaker", "EvaporatingBasinMaker", "FiddleMaker", "FiltrationApparatusMaker"}, multiBase = true, bases = {"PigmentGrinderMaker", "SpinningWheel", "PotteryWheel", "Metalwork", "WoodLathe", "GlassBench"} },
+    { label = "RIBA–FULLER+", base = "Metalwork+WoodLathe+SpinningWheel+GlassBench", systems = {"FishScalerMaker", "Fisherman", "FishingNetMaker", "FlaskMaker", "FlatterMaker", "FullerMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "SpinningWheel", "GlassBench"} },
 }
 
 -- Node dimensions for graph view
@@ -2069,7 +2078,7 @@ function TechTreePanel.draw()
     love.graphics.print(pctStr, pbX + (pbW - pctW) / 2, pbY - 12)
 
     love.graphics.setColor(0.4, 0.45, 0.5, 1)
-    love.graphics.print(string.format("646 deps · 124 verig · 541 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
+    love.graphics.print(string.format("694 deps · 132 verig · 589 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
         viewMode, focusStr, pathStr, searchStr, sortStr, filterStr, bookmarkStr, multiStr, presetStr),
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)
