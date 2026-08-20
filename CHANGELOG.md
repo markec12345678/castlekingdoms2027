@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.035] — 2026-08-20 — Mill Specialty+ Chain (6 novih deps: 6 multi-prereq! 33. zapored all-multi! MEJNIK 44.125x! MILL COMPLETE)
+
+### Dodano
+- MillstoneGrooveReframerMaker (CROSS Kamnoseštvo+), MillstoneQuillMaker, GunpowderMill, Sawmill, SnuffMiller, SpiceMillMaker
+- **TechTreePanel**: MLIN SPECIAL+, footer (458 deps, 93 verig, 353 multi-prereq)
+- **MEJNIK**: 353 multi-prereq = 44.125x · **VSI Mill/Grain* sistemi imajo deps** (Mill complete)
+
+## [v3.12.034] — 2026-08-20 — Millstone Lift & Tenter+ Chain (6 multi, 32. zapored)
+- MillstoneCraneHookMaker, MillstoneCraneWinchMaker, MillstoneLifterHooksMaker, MillstoneTenterHookMaker, MillstoneTenteringScrewMaker, MillstoneGrainFeedChuteMaker → MLIN DVIG+
+
+## [v3.12.033] — 2026-08-20 — Millstone Dressing+ Chain (6 multi, 31. zapored)
+- Dressing chalk/compass/hammer/pick, groove gauge, eye reamer → MLINSKI KAMEN+
+
+## [v3.12.032] — 2026-08-20 — Mill Sail Cloth+ 2 Chain (6 multi, 30. zapored)
+- Sail reinforcement/tension/ties/frame, balance weight, bush → MLIN JADRO+ 2
+
+## [v3.12.031] — 2026-08-20 — Mill Hopper Mech+ & Sail Cloth+ Chain (6 multi, 29. zapored)
+- Hopper vibrator/spring, sail cloth/reel/grommet → MLIN JADRO+
+
+## [v3.12.030] — 2026-08-20 — Grain Sampling & Mill Drive+ Chain (6 multi, 28. zapored)
+- Sampler probe, drive belt (CROSS Tekstil+), hopper agitator/float/lid/lubricator → MLIN POGON+
+
+## [v3.12.029] — 2026-08-20 — Grain Hopper+ Chain (6 multi, 27. zapored)
+- Hopper auger/sensor/liner/gate, moisture meter, probe → ŽITO LIJAK+
+
+## [v3.12.028] — 2026-08-20 — Grain Core+ Chain (6 multi, 26. zapored)
+- GrainMillMaker, GrainFarmer, GrainSieveMaker, GrainSpoutMaker, GrainAugerMaker, GrainAugerSpiralMaker → ŽITO JEDRO+
+
 ## [v3.12.027] — 2026-08-20 — Garden Specialty+ Chain (7 novih deps: 7 multi-prereq! 25. zapored all-multi! MEJNIK 38.125x! GARDEN COMPLETE)
 
 ### Dodano

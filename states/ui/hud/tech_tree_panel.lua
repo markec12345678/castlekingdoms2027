@@ -446,6 +446,22 @@ local CHAINS = {
     { label = "VRTNA PODPORA+", base = "Metalwork+WoodLathe+RawhideTanner+SpinningWheel", systems = {"GardenBorderEdgerMaker", "GardenKneelerMaker", "GardenLeafGrabberMaker", "GardenLineMaker", "GardenTwineDispenserMaker", "GardenTrowelHolsterMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "RawhideTanner", "SpinningWheel"} },
     -- v3.12.027: Garden Specialty+ chain (7 multi-prereq, 3 CROSS-CHAIN)
     { label = "VRTNA SPECIAL+", base = "Metalwork+WoodLathe+GlassBench+MasonStonecutter+GardenRakeMaker", systems = {"GardenPlantLabelEmbosserMaker", "GardenPlantTieCutterMaker", "GardenPotBrushMaker", "GardenSoilpHTesterMaker", "GardenTrowelSharpenerMaker", "HerbGardener", "VegetableGardener"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "GlassBench", "MasonStonecutter", "GardenRakeMaker"} },
+    -- v3.12.028: Grain Core+ chain (6 multi-prereq)
+    { label = "ŽITO JEDRO+", base = "Metalwork+WoodLathe", systems = {"GrainMillMaker", "GrainFarmer", "GrainSieveMaker", "GrainSpoutMaker", "GrainAugerMaker", "GrainAugerSpiralMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe"} },
+    -- v3.12.029: Grain Hopper+ chain (6 multi-prereq, 2 CROSS-CHAIN)
+    { label = "ŽITO LIJAK+", base = "Metalwork+WoodLathe+GlassBench", systems = {"GrainHopperAugerMaker", "GrainHopperLevelSensorMaker", "GrainHopperLinerMaker", "GrainHopperSlideGateMaker", "GrainMoistureMeterMaker", "GrainProbeMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "GlassBench"} },
+    -- v3.12.030: Grain Sampling & Mill Drive+ chain (6 multi-prereq, 1 CROSS-CHAIN)
+    { label = "MLIN POGON+", base = "Metalwork+WoodLathe+SpinningWheel", systems = {"GrainSamplerProbeMaker", "MillDriveBeltMaker", "MillHopperAgitatorMaker", "MillHopperLevelFloatMaker", "MillHopperLidMaker", "MillHopperLubricatorMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "SpinningWheel"} },
+    -- v3.12.031: Mill Hopper Mech+ & Sail Cloth+ chain (6 multi-prereq, 3 CROSS-CHAIN)
+    { label = "MLIN JADRO+", base = "Metalwork+WoodLathe+SpinningWheel", systems = {"MillHopperVibratorMaker", "MillHopperVibratorSpringMaker", "MillSailClothMaker", "MillSailClothReelMaker", "MillSailClothGrommetMaker", "MillSailClothGrommetInstallerMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "SpinningWheel"} },
+    -- v3.12.032: Mill Sail Cloth+ 2 chain (6 multi-prereq, 3 CROSS-CHAIN)
+    { label = "MLIN JADRO+ 2", base = "SpinningWheel+WoodLathe+Metalwork+MasonStonecutter", systems = {"MillSailClothReinforcementStripMaker", "MillSailClothTensionerMaker", "MillSailClothTieDownStrapMaker", "MillSailFrameMaker", "MillstoneBalanceWeightMaker", "MillstoneBushMaker"}, multiBase = true, bases = {"SpinningWheel", "WoodLathe", "Metalwork", "MasonStonecutter"} },
+    -- v3.12.033: Millstone Dressing+ chain (6 multi-prereq, 2 CROSS-CHAIN)
+    { label = "MLINSKI KAMEN+", base = "Metalwork+WoodLathe+MasonStonecutter", systems = {"MillstoneDressingChalkMaker", "MillstoneDressingCompassMaker", "MillstoneDressingHammerMaker", "MillstoneDressingPickMaker", "MillstoneGrooveDepthGaugeMaker", "MillstoneEyeReamerMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "MasonStonecutter"} },
+    -- v3.12.034: Millstone Lift & Tenter+ chain (6 multi-prereq)
+    { label = "MLINSKI DVIG+", base = "Metalwork+WoodLathe", systems = {"MillstoneCraneHookMaker", "MillstoneCraneWinchMaker", "MillstoneLifterHooksMaker", "MillstoneTenterHookMaker", "MillstoneTenteringScrewMaker", "MillstoneGrainFeedChuteMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe"} },
+    -- v3.12.035: Mill Specialty+ chain (6 multi-prereq) — MILL COMPLETE
+    { label = "MLIN SPECIAL+", base = "Metalwork+WoodLathe+MasonStonecutter", systems = {"MillstoneGrooveReframerMaker", "MillstoneQuillMaker", "GunpowderMill", "Sawmill", "SnuffMiller", "SpiceMillMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "MasonStonecutter"} },
 }
 
 -- Node dimensions for graph view
@@ -2008,7 +2024,7 @@ function TechTreePanel.draw()
     love.graphics.print(pctStr, pbX + (pbW - pctW) / 2, pbY - 12)
 
     love.graphics.setColor(0.4, 0.45, 0.5, 1)
-    love.graphics.print(string.format("410 deps · 85 verig · 305 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
+    love.graphics.print(string.format("458 deps · 93 verig · 353 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
         viewMode, focusStr, pathStr, searchStr, sortStr, filterStr, bookmarkStr, multiStr, presetStr),
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)

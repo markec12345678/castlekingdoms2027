@@ -654,6 +654,78 @@ local dependencyGraph = {
     GardenTrowelSharpenerMaker    = {"MasonStonecutter", "Metalwork"},   -- multi! CROSS-CHAIN: stone wheel + metal mount → Kamnoseštvo+
     HerbGardener                  = {"GardenRakeMaker", "WoodLathe"},    -- multi! requires garden tools base + wooden beds
     VegetableGardener             = {"GardenRakeMaker", "Metalwork"},    -- multi! requires garden tools base + metal tools
+
+    -- v3.12.028: Grain Core+ chain (mill, farmer, sieve, spout, auger)
+    -- 6 multi-prereq out of 6 (26th consecutive all-multi!)
+    GrainMillMaker         = {"Metalwork", "WoodLathe"},                 -- multi! metal millworks + wooden housing
+    GrainFarmer            = {"WoodLathe", "Metalwork"},                 -- multi! wooden tools + metal implements
+    GrainSieveMaker        = {"Metalwork", "WoodLathe"},                 -- multi! metal mesh + wooden frame
+    GrainSpoutMaker        = {"Metalwork", "WoodLathe"},                 -- multi! metal spout + wooden chute
+    GrainAugerMaker        = {"Metalwork", "WoodLathe"},                 -- multi! metal screw + wooden trough
+    GrainAugerSpiralMaker  = {"Metalwork", "WoodLathe"},                 -- multi! metal spiral + wooden core
+
+    -- v3.12.029: Grain Hopper+ chain (hopper gates, liners, sensors, probes)
+    -- 6 multi-prereq out of 6 (27th all-multi!); 2 CROSS-CHAIN (GlassBench→Steklarstvo+)
+    GrainHopperAugerMaker        = {"Metalwork", "WoodLathe"},           -- multi! metal auger + wooden hopper
+    GrainHopperLevelSensorMaker  = {"Metalwork", "GlassBench"},          -- multi! CROSS-CHAIN: metal sensor + glass → Steklarstvo+
+    GrainHopperLinerMaker        = {"Metalwork", "WoodLathe"},           -- multi! metal liner + wooden box
+    GrainHopperSlideGateMaker    = {"Metalwork", "WoodLathe"},           -- multi! metal gate + wooden frame
+    GrainMoistureMeterMaker      = {"Metalwork", "GlassBench"},          -- multi! CROSS-CHAIN: probe + glass tube → Steklarstvo+
+    GrainProbeMaker              = {"Metalwork", "WoodLathe"},           -- multi! metal probe + wooden handle
+
+    -- v3.12.030: Grain Sampling & Mill Drive+ chain
+    -- 6 multi-prereq out of 6 (28th all-multi!); 1 CROSS-CHAIN (SpinningWheel→Tekstil+ for belt)
+    GrainSamplerProbeMaker       = {"Metalwork", "WoodLathe"},           -- multi! metal probe + wooden shaft
+    MillDriveBeltMaker           = {"SpinningWheel", "WoodLathe"},       -- multi! CROSS-CHAIN: belt cloth + wooden pulleys → Tekstil+
+    MillHopperAgitatorMaker      = {"Metalwork", "WoodLathe"},           -- multi! metal agitator + wooden shaft
+    MillHopperLevelFloatMaker    = {"WoodLathe", "Metalwork"},           -- multi! wooden float + metal pivot
+    MillHopperLidMaker           = {"WoodLathe", "Metalwork"},           -- multi! wooden lid + metal hinges
+    MillHopperLubricatorMaker    = {"Metalwork", "WoodLathe"},           -- multi! metal oiler + wooden reservoir
+
+    -- v3.12.031: Mill Hopper Mech+ chain (vibrator, springs)
+    -- 6 multi-prereq out of 6 (29th all-multi!); sail cloth start
+    MillHopperVibratorMaker              = {"Metalwork", "WoodLathe"},   -- multi! metal vibrator + wooden mount
+    MillHopperVibratorSpringMaker        = {"Metalwork", "WoodLathe"},   -- multi! metal spring + wooden seat
+    MillSailClothMaker                   = {"SpinningWheel", "WoodLathe"}, -- multi! CROSS-CHAIN: woven sail + wooden loft → Tekstil+
+    MillSailClothReelMaker               = {"WoodLathe", "SpinningWheel"}, -- multi! CROSS-CHAIN: wooden reel + cloth → Tekstil+
+    MillSailClothGrommetMaker            = {"Metalwork", "SpinningWheel"}, -- multi! CROSS-CHAIN: metal grommet + sail → Tekstil+
+    MillSailClothGrommetInstallerMaker   = {"Metalwork", "WoodLathe"},   -- multi! metal tool + wooden anvil block
+
+    -- v3.12.032: Mill Sail Cloth+ 2 chain (reinforcement, tension, ties, frame)
+    -- 6 multi-prereq out of 6 (30th all-multi!); 3 CROSS-CHAIN Tekstil+
+    MillSailClothReinforcementStripMaker = {"SpinningWheel", "WoodLathe"}, -- multi! CROSS-CHAIN: reinforced cloth + wooden form → Tekstil+
+    MillSailClothTensionerMaker          = {"Metalwork", "SpinningWheel"}, -- multi! CROSS-CHAIN: metal tensioner + sail → Tekstil+
+    MillSailClothTieDownStrapMaker       = {"SpinningWheel", "Metalwork"}, -- multi! CROSS-CHAIN: strap + metal buckle → Tekstil+
+    MillSailFrameMaker                   = {"WoodLathe", "Metalwork"},   -- multi! wooden frame + metal fittings
+    MillstoneBalanceWeightMaker          = {"Metalwork", "MasonStonecutter"}, -- multi! CROSS-CHAIN: metal weight + stone → Kamnoseštvo+
+    MillstoneBushMaker                   = {"Metalwork", "WoodLathe"},   -- multi! metal bush + wooden housing
+
+    -- v3.12.033: Millstone Dressing+ chain (chalk, compass, hammer, pick, gauge, reamer)
+    -- 6 multi-prereq out of 6 (31st all-multi!); 2 CROSS-CHAIN (MasonStonecutter→Kamnoseštvo+)
+    MillstoneDressingChalkMaker      = {"MasonStonecutter", "WoodLathe"}, -- multi! CROSS-CHAIN: chalk/stone + wooden holder → Kamnoseštvo+
+    MillstoneDressingCompassMaker    = {"Metalwork", "WoodLathe"},       -- multi! metal compass + wooden beam
+    MillstoneDressingHammerMaker     = {"Metalwork", "WoodLathe"},       -- multi! metal head + wooden handle
+    MillstoneDressingPickMaker       = {"Metalwork", "WoodLathe"},       -- multi! metal pick + wooden handle
+    MillstoneGrooveDepthGaugeMaker   = {"Metalwork", "MasonStonecutter"}, -- multi! CROSS-CHAIN: metal gauge + stone reference → Kamnoseštvo+
+    MillstoneEyeReamerMaker          = {"Metalwork", "WoodLathe"},       -- multi! metal reamer + wooden stock
+
+    -- v3.12.034: Millstone Lift & Tenter+ chain (crane, hooks, winch, tenter, quill, chute)
+    -- 6 multi-prereq out of 6 (32nd all-multi!)
+    MillstoneCraneHookMaker          = {"Metalwork", "WoodLathe"},       -- multi! metal hook + wooden crane arm
+    MillstoneCraneWinchMaker         = {"Metalwork", "WoodLathe"},       -- multi! metal winch + wooden drum
+    MillstoneLifterHooksMaker        = {"Metalwork", "WoodLathe"},       -- multi! metal hooks + wooden beam
+    MillstoneTenterHookMaker         = {"Metalwork", "WoodLathe"},       -- multi! metal tenter + wooden lever
+    MillstoneTenteringScrewMaker     = {"Metalwork", "WoodLathe"},       -- multi! metal screw + wooden nut block
+    MillstoneGrainFeedChuteMaker     = {"WoodLathe", "Metalwork"},       -- multi! wooden chute + metal liner
+
+    -- v3.12.035: Mill Specialty+ chain (groove, quill, gunpowder, sawmill, snuff, spice)
+    -- 6 multi-prereq out of 6 (33rd all-multi!); MILL COMPLETE
+    MillstoneGrooveReframerMaker     = {"Metalwork", "MasonStonecutter"}, -- multi! CROSS-CHAIN: metal reframer + stone → Kamnoseštvo+
+    MillstoneQuillMaker              = {"Metalwork", "WoodLathe"},       -- multi! metal quill + wooden sleeve
+    GunpowderMill                    = {"Metalwork", "WoodLathe"},       -- multi! metal mill + wooden housing (careful process)
+    Sawmill                          = {"Metalwork", "WoodLathe"},       -- multi! metal blade + wooden frame
+    SnuffMiller                      = {"Metalwork", "WoodLathe"},       -- multi! metal mill + wooden box
+    SpiceMillMaker                   = {"Metalwork", "WoodLathe"},       -- multi! metal grinding + wooden body
 }
 
 -- Register a dependency at runtime (for modding/extensibility)
