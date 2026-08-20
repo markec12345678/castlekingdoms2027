@@ -468,6 +468,14 @@ local CHAINS = {
     { label = "KOVAŠKI OSTANEK+ 2", base = "Metalwork+WoodLathe+MasonStonecutter", systems = {"ForgeRakeMaker", "ForgeSparkShieldMaker", "ForgeTuyereBlockMaker", "ForgeTuyereBrushMaker", "IronForgeToolMaker", "CastingLadleSkimmerMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "MasonStonecutter"} },
     -- v3.12.038: Smith / Apothecary / Metalworker / Astrolabe+ chain (7 multi-prereq, 3 CROSS-CHAIN)
     { label = "KOVAČ/APOTEKA+", base = "Metalwork+WoodLathe+MasonStonecutter+PotteryWheel+GlassBench", systems = {"Metalworker", "ApothecaryMortarMaker", "ApothecaryVialMaker", "BlacksmithViseMaker", "ScytheSmith", "SickleSmith", "AstrolabeMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "MasonStonecutter", "PotteryWheel", "GlassBench"} },
+    -- v3.12.039: Hat+ chain (6 multi-prereq, 2 CROSS-CHAIN)
+    { label = "KLOBUK+", base = "WoodLathe+Metalwork+SpinningWheel+RawhideTanner", systems = {"HatBlockMaker", "HatCrownBlockMaker", "HatBrimCurlerMaker", "HatBandMaker", "HatBandBuckleMaker", "HatPinMaker"}, multiBase = true, bases = {"WoodLathe", "Metalwork", "SpinningWheel", "RawhideTanner"} },
+    -- v3.12.040: Hat+ 2 chain (5 multi-prereq, 3 CROSS-CHAIN)
+    { label = "KLOBUK+ 2", base = "WoodLathe+Metalwork+SpinningWheel+RawhideTanner+HatBlockMaker", systems = {"HatBoxMaker", "HatFeatherMaker", "HatLiningMaker", "HatMaker", "HatStretcherMaker"}, multiBase = true, bases = {"WoodLathe", "Metalwork", "SpinningWheel", "RawhideTanner", "HatBlockMaker"} },
+    -- v3.12.041: Plant Support+ chain (7 multi-prereq, 3 CROSS-CHAIN)
+    { label = "RASTLINE+", base = "SpinningWheel+WoodLathe+Metalwork", systems = {"PlantClimbingNetMaker", "PlantLabelMaker", "PlantRootPrunerMaker", "PlantSupportMaker", "PlantSupportStakeMaker", "PlantSupportTrellisPanelMaker", "PlantTyingTwistMaker"}, multiBase = true, bases = {"SpinningWheel", "WoodLathe", "Metalwork"} },
+    -- v3.12.042: Flour & Dough+ chain (7 multi-prereq, 1 CROSS-CHAIN)
+    { label = "MUKA/TESTO+", base = "WoodLathe+Metalwork+SpinningWheel", systems = {"FlourPackerMaker", "FlourSackMaker", "FlourShovelMaker", "FlourSieveMaker", "DoughDividerMaker", "DoughHookMaker", "DoughScraperMaker"}, multiBase = true, bases = {"WoodLathe", "Metalwork", "SpinningWheel"} },
 }
 
 -- Node dimensions for graph view
@@ -2030,7 +2038,7 @@ function TechTreePanel.draw()
     love.graphics.print(pctStr, pbX + (pbW - pctW) / 2, pbY - 12)
 
     love.graphics.setColor(0.4, 0.45, 0.5, 1)
-    love.graphics.print(string.format("477 deps · 96 verig · 372 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
+    love.graphics.print(string.format("502 deps · 100 verig · 397 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
         viewMode, focusStr, pathStr, searchStr, sortStr, filterStr, bookmarkStr, multiStr, presetStr),
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)

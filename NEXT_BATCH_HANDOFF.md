@@ -1,12 +1,12 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.12.038**
+- Različica: **v3.12.042**
 - Skupaj Royal sistemov: **990**
 - Skupaj Lua datotek: **1648**
 - Sintaktična preverba (avtentična Lua `load()`): **1648/1648 pass (100%)**
-- Tech Tree: **477 deps · 96 verig · 372 multi-prereq** (46.5x zažetnih 8!)
-- Zadnji paket: **Forge Residual+ / Casting+ / Smith-Apothecary-Astrolabe+** (v3.12.036–038) — 19 multi-prereq, 36. zapored all-multi!
+- Tech Tree: **502 deps · 100 verig · 397 multi-prereq** (49.625x zažetnih 8!)
+- Zadnji paket: **Hat+ / Plant Support+ / Flour&Dough+** (v3.12.039–042) — 25 multi-prereq, 40. zapored all-multi, 100 verig!
 - GitHub: pripravljen za push
 - Lokalni repo (sandbox): `/home/workdir/castlekingdoms2027`
 

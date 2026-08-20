@@ -754,6 +754,43 @@ local dependencyGraph = {
     ScytheSmith              = {"Metalwork", "WoodLathe"},               -- multi! metal blade + wooden snath
     SickleSmith              = {"Metalwork", "WoodLathe"},               -- multi! metal blade + wooden handle
     AstrolabeMaker           = {"Metalwork", "GlassBench"},              -- multi! CROSS-CHAIN: metal plates + glass/sight → Steklarstvo+
+
+    -- v3.12.039: Hat+ chain (blocks, bands, brim, crown, pins)
+    -- 6 multi-prereq out of 6 (37th consecutive all-multi!); 2 CROSS-CHAIN (SpinningWheel→Tekstil+, RawhideTanner→Usnjarstvo+)
+    HatBlockMaker        = {"WoodLathe", "Metalwork"},                   -- multi! wooden block + metal fittings
+    HatCrownBlockMaker   = {"WoodLathe", "Metalwork"},                   -- multi! wooden crown form + metal bands
+    HatBrimCurlerMaker   = {"Metalwork", "WoodLathe"},                   -- multi! metal curler + wooden handle
+    HatBandMaker         = {"SpinningWheel", "WoodLathe"},               -- multi! CROSS-CHAIN: woven band + wooden loom → Tekstil+
+    HatBandBuckleMaker   = {"Metalwork", "RawhideTanner"},               -- multi! CROSS-CHAIN: metal buckle + leather band → Usnjarstvo+
+    HatPinMaker          = {"Metalwork", "WoodLathe"},                   -- multi! metal pin + wooden head
+
+    -- v3.12.040: Hat+ 2 chain (box, feather, lining, maker, stretcher)
+    -- 5 multi-prereq out of 5 (38th all-multi package!); 3 CROSS-CHAIN
+    HatBoxMaker          = {"WoodLathe", "Metalwork"},                   -- multi! wooden box + metal hinges
+    HatFeatherMaker      = {"WoodLathe", "SpinningWheel"},               -- multi! CROSS-CHAIN: wooden mount + thread binding → Tekstil+
+    HatLiningMaker       = {"SpinningWheel", "RawhideTanner"},           -- multi! CROSS-CHAIN: cloth lining + leather sweatband → Tekstil+ & Usnjarstvo+
+    HatMaker             = {"HatBlockMaker", "SpinningWheel"},           -- multi! requires hat block + textiles
+    HatStretcherMaker    = {"WoodLathe", "Metalwork"},                   -- multi! wooden stretcher + metal screws
+
+    -- v3.12.041: Plant Support+ chain (7 systems — nets, labels, pruners, stakes, trellis, ties)
+    -- 7 multi-prereq out of 7 (39th all-multi!); 3 CROSS-CHAIN (SpinningWheel→Tekstil+)
+    PlantClimbingNetMaker          = {"SpinningWheel", "WoodLathe"},     -- multi! CROSS-CHAIN: net cord + wooden frame → Tekstil+
+    PlantLabelMaker                = {"WoodLathe", "Metalwork"},         -- multi! wooden label + metal stake
+    PlantRootPrunerMaker           = {"Metalwork", "WoodLathe"},         -- multi! metal pruner + wooden handle
+    PlantSupportMaker              = {"WoodLathe", "Metalwork"},         -- multi! wooden support + metal fittings
+    PlantSupportStakeMaker         = {"WoodLathe", "Metalwork"},         -- multi! wooden stake + metal tip
+    PlantSupportTrellisPanelMaker  = {"WoodLathe", "SpinningWheel"},     -- multi! CROSS-CHAIN: wooden panel + cord → Tekstil+
+    PlantTyingTwistMaker           = {"SpinningWheel", "WoodLathe"},     -- multi! CROSS-CHAIN: twist ties + wooden spool → Tekstil+
+
+    -- v3.12.042: Flour & Dough+ chain (flour tools + dough tools — bakery chain)
+    -- 7 multi-prereq out of 7 (40th all-multi!); 1 CROSS-CHAIN (SpinningWheel→Tekstil+ for sacks)
+    FlourPackerMaker     = {"WoodLathe", "Metalwork"},                   -- multi! wooden packer + metal scoop
+    FlourSackMaker       = {"SpinningWheel", "WoodLathe"},               -- multi! CROSS-CHAIN: woven sack + wooden form → Tekstil+
+    FlourShovelMaker     = {"Metalwork", "WoodLathe"},                   -- multi! metal blade + wooden handle
+    FlourSieveMaker      = {"Metalwork", "WoodLathe"},                   -- multi! metal mesh + wooden frame
+    DoughDividerMaker    = {"Metalwork", "WoodLathe"},                   -- multi! metal divider + wooden handle
+    DoughHookMaker       = {"Metalwork", "WoodLathe"},                   -- multi! metal hook + wooden handle
+    DoughScraperMaker    = {"Metalwork", "WoodLathe"},                   -- multi! metal scraper + wooden handle
 }
 
 -- Register a dependency at runtime (for modding/extensibility)

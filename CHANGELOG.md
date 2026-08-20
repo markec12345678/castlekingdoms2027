@@ -2,6 +2,22 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.042] — 2026-08-20 — Flour & Dough+ Chain (7 multi, 40. zapored all-multi! MEJNIK 49.625x!)
+
+### Dodano
+- FlourPackerMaker, FlourSackMaker (CROSS Tekstil+), FlourShovelMaker, FlourSieveMaker, DoughDividerMaker, DoughHookMaker, DoughScraperMaker
+- **TechTreePanel**: MUKA/TESTO+, footer (502 deps, 100 verig, 397 multi-prereq)
+- **MEJNIK**: 397 multi-prereq = 49.625x · **100 verig**
+
+## [v3.12.041] — 2026-08-20 — Plant Support+ Chain (7 multi, 39. zapored)
+- PlantClimbingNetMaker, PlantLabelMaker, PlantRootPrunerMaker, PlantSupportMaker, PlantSupportStakeMaker, PlantSupportTrellisPanelMaker, PlantTyingTwistMaker → RASTLINE+
+
+## [v3.12.040] — 2026-08-20 — Hat+ 2 Chain (5 multi, 38. zapored)
+- HatBoxMaker, HatFeatherMaker, HatLiningMaker, HatMaker, HatStretcherMaker → KLOBUK+ 2 · HAT COMPLETE
+
+## [v3.12.039] — 2026-08-20 — Hat+ Chain (6 multi, 37. zapored)
+- HatBlockMaker, HatCrownBlockMaker, HatBrimCurlerMaker, HatBandMaker, HatBandBuckleMaker, HatPinMaker → KLOBUK+
+
 ## [v3.12.038] — 2026-08-20 — Smith / Apothecary / Metalworker / Astrolabe+ Chain (7 multi, 36. zapored all-multi! MEJNIK 46.5x!)
 
 ### Dodano
