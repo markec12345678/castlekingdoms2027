@@ -2,6 +2,17 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.090] — 2026-08-20 — Processional–Quarry singles (6 multi, 88. zapored all-multi! MEJNIK 85.625x!)
+
+### Dodano
+- v3.12.083–090: 8 verig × 6 = 48 multi-prereq (MatchCordMaker→QuarryMiner)
+- **TechTreePanel**: footer (790 deps, 148 verig, 685 multi-prereq)
+- **MEJNIK**: 685 multi-prereq = 85.625x
+
+## [v3.12.083]–[v3.12.089] — 2026-08-20 — Singles MatchCord→Pritchel (42 multi)
+- 083 MatchCord–MiningChisel · 084 Mint–Needle · 085 Orchardist–PanFlute · 086 ParadeMace–Pendant
+- 087 Physic–PlaneIron · 088 Planer–Polisher · 089 Potpourri–PotteryWheel
+
 ## [v3.12.082] — 2026-08-20 — Linen–Mat singles (6 multi, 80. zapored all-multi! MEJNIK 79.625x!)
 
 ### Dodano
