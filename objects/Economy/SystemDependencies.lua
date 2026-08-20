@@ -1180,6 +1180,141 @@ local dependencyGraph = {
     PsalteryMaker            = {"WoodLathe", "SpinningWheel"},           -- multi! CROSS-CHAIN: wooden body + strings → Tekstil+
     PulleyMaker              = {"WoodLathe", "Metalwork"},               -- multi! wooden pulley + metal axle
     QuarryMiner               = {"Metalwork", "MasonStonecutter"},        -- multi! CROSS-CHAIN: metal tools + stone work → Kamnoseštvo+
+
+    -- v3.12.091: Quench–Retort (6 multi, 89th)
+    QuenchTankStirrerMaker   = {"Metalwork", "WoodLathe"},               -- multi! metal stirrer + wooden handle
+    QuiverMaker              = {"RawhideTanner", "WoodLathe"},           -- multi! CROSS-CHAIN: leather quiver + wooden frame → Usnjarstvo+
+    ReadingDeskMaker         = {"WoodLathe", "Metalwork"},               -- multi! wooden desk + metal fittings
+    ReaperMaker              = {"Metalwork", "WoodLathe"},               -- multi! metal blade + wooden beam
+    RecorderMaker            = {"WoodLathe", "Metalwork"},               -- multi! wooden recorder + metal rings
+    RetortMaker              = {"GlassBench", "Metalwork"},              -- multi! CROSS-CHAIN: glass retort + metal stand → Steklarstvo+
+
+    -- v3.12.092: Ribbon–Rope (6 multi, 90th)
+    RibbonWeaver             = {"SpinningWheel", "WoodLathe"},           -- multi! CROSS-CHAIN: ribbon + wooden loom → Tekstil+
+    RiserBreakerMaker        = {"Metalwork", "WoodLathe"},               -- multi! metal breaker + wooden handle
+    RitualDaggerMaker        = {"Metalwork", "WoodLathe"},               -- multi! metal blade + wooden hilt
+    RivetMaker               = {"Metalwork", "WoodLathe"},               -- multi! metal rivets + wooden forms
+    RollingPinMaker          = {"WoodLathe", "Metalwork"},               -- multi! wooden pin + metal ends
+    Ropemaker                = {"SpinningWheel", "WoodLathe"},           -- multi! CROSS-CHAIN: rope walk + wooden posts → Tekstil+
+
+    -- v3.12.093: Roulette–Saffron (6 multi, 91st)
+    RouletteMaker            = {"WoodLathe", "Metalwork"},               -- multi! wooden wheel + metal spindle
+    SachetMaker              = {"SpinningWheel", "WoodLathe"},           -- multi! CROSS-CHAIN: cloth sachet + wooden form → Tekstil+
+    SackbutMaker             = {"Metalwork", "WoodLathe"},               -- multi! metal trombone + wooden case
+    SaddlebagMaker           = {"RawhideTanner", "Metalwork"},           -- multi! CROSS-CHAIN: leather bags + metal buckles → Usnjarstvo+
+    Saddler                  = {"RawhideTanner", "WoodLathe"},           -- multi! CROSS-CHAIN: leather saddle + wooden tree → Usnjarstvo+
+    SaffronGrower            = {"WoodLathe", "PotteryWheel"},            -- multi! CROSS-CHAIN: wooden beds + pottery → Lončarstvo+
+
+    -- v3.12.094: Saltpeter–Scabbard (6 multi, 92nd)
+    SaltpeterRefinery        = {"Metalwork", "WoodLathe"},               -- multi! metal pans + wooden troughs
+    SalveJarMaker            = {"PotteryWheel", "GlassBench"},           -- multi! CROSS-CHAIN: pottery/glass jars → Lončarstvo+ & Steklarstvo+
+    SamplerStitcher          = {"SpinningWheel", "WoodLathe"},           -- multi! CROSS-CHAIN: embroidery + wooden hoop → Tekstil+
+    SausageMaker             = {"Metalwork", "WoodLathe"},               -- multi! metal grinder + wooden stuffer
+    SawSetMaker              = {"Metalwork", "WoodLathe"},               -- multi! metal set + wooden handle
+    ScabbardChapeMaker       = {"Metalwork", "RawhideTanner"},           -- multi! CROSS-CHAIN: metal chape + leather scabbard → Usnjarstvo+
+
+    -- v3.12.095: Scaffold–Sheep (6 multi, 93rd)
+    ScaffoldMaker            = {"WoodLathe", "Metalwork"},               -- multi! wooden scaffold + metal fittings
+    ScentConeMaker           = {"Metalwork", "WoodLathe"},               -- multi! metal mold + wooden press
+    SconceMaker              = {"Metalwork", "WoodLathe"},               -- multi! metal sconce + wooden mount
+    ScrollCaseMaker          = {"WoodLathe", "Metalwork"},               -- multi! wooden case + metal fittings
+    SetHammerMaker           = {"Metalwork", "WoodLathe"},               -- multi! metal hammer + wooden handle
+    SheepShepherd            = {"WoodLathe", "SpinningWheel"},           -- multi! CROSS-CHAIN: wooden pens + wool → Tekstil+
+
+    -- v3.12.096: Shield–Smoked (6 multi, 94th)
+    ShieldBossMaker          = {"Metalwork", "WoodLathe"},               -- multi! metal boss + wooden shield
+    ShovelMaker              = {"Metalwork", "WoodLathe"},               -- multi! metal blade + wooden handle
+    ShuttleMaker             = {"WoodLathe", "Metalwork"},               -- multi! wooden shuttle + metal tip
+    SilkReeler               = {"SpinningWheel", "WoodLathe"},           -- multi! CROSS-CHAIN: silk + wooden reeler → Tekstil+
+    SlurryMixerMaker         = {"Metalwork", "WoodLathe"},               -- multi! metal mixer + wooden vat
+    SmokedMeatCurer          = {"WoodLathe", "Metalwork"},               -- multi! wooden smokehouse + metal hooks
+
+    -- v3.12.097: Soap–Sprue (6 multi, 95th)
+    SoapDishMaker            = {"PotteryWheel", "WoodLathe"},            -- multi! CROSS-CHAIN: pottery dish + wooden → Lončarstvo+
+    SortingMachineMaker      = {"Metalwork", "WoodLathe"},               -- multi! metal sorter + wooden frame
+    SoundpostMaker           = {"WoodLathe", "Metalwork"},               -- multi! wooden post + metal tools
+    SpinningWheelMaker       = {"WoodLathe", "Metalwork"},               -- multi! wooden wheel + metal axle
+    SpongeHolderMaker        = {"WoodLathe", "Metalwork"},               -- multi! wooden holder + metal fittings
+    SprueCutterMaker         = {"Metalwork", "WoodLathe"},               -- multi! metal cutter + wooden handle
+
+    -- v3.12.098: Stage–Sundial (6 multi, 96th)
+    StagePropMaker           = {"WoodLathe", "SpinningWheel"},           -- multi! CROSS-CHAIN: wooden props + cloth → Tekstil+
+    StitchingAwlMaker        = {"Metalwork", "WoodLathe"},               -- multi! metal awl + wooden handle
+    StuccoReliefMaker        = {"MasonStonecutter", "WoodLathe"},        -- multi! CROSS-CHAIN: stucco/stone + wooden forms → Kamnoseštvo+
+    SublimationApparatusMaker = {"GlassBench", "Metalwork"},             -- multi! CROSS-CHAIN: glass apparatus + metal → Steklarstvo+
+    SulfurCollector          = {"Metalwork", "WoodLathe"},               -- multi! metal collector + wooden frame
+    SundialGnomonMaker       = {"Metalwork", "WoodLathe"},               -- multi! metal gnomon + wooden base
+
+    -- v3.12.099: Swage–Tassel (6 multi, 97th)
+    SwageBlockMaker          = {"Metalwork", "WoodLathe"},               -- multi! metal block + wooden stand
+    TableMaker               = {"WoodLathe", "Metalwork"},               -- multi! wooden table + metal fittings
+    TailpieceMaker           = {"WoodLathe", "Metalwork"},               -- multi! wooden tailpiece + metal fine tuners
+    TaperRollerMaker         = {"WoodLathe", "Metalwork"},               -- multi! wooden roller + metal axle
+    TarotCardMaker           = {"WoodLathe", "SpinningWheel"},           -- multi! CROSS-CHAIN: wooden press + paper → Tekstil+
+    TasselMaker              = {"SpinningWheel", "WoodLathe"},           -- multi! CROSS-CHAIN: thread tassel + wooden form → Tekstil+
+
+    -- v3.12.100: Tavern–Thermocouple (6 multi, 98th) MEJNIK v3.12.100!
+    TavernGameMaker          = {"WoodLathe", "Metalwork"},               -- multi! wooden games + metal pieces
+    TaxCollector             = {"WoodLathe", "Metalwork"},               -- multi! wooden office + metal strongbox
+    TeaBlender               = {"WoodLathe", "Metalwork"},               -- multi! wooden chests + metal scoops
+    TemperingFurnaceMaker    = {"Metalwork", "MasonStonecutter"},        -- multi! CROSS-CHAIN: metal furnace + stone → Kamnoseštvo+
+    TerrariumKeeper          = {"GlassBench", "WoodLathe"},              -- multi! CROSS-CHAIN: glass case + wooden base → Steklarstvo+
+    ThermocoupleSheathMaker  = {"Metalwork", "GlassBench"},              -- multi! CROSS-CHAIN: metal sheath + glass → Steklarstvo+
+
+    -- v3.12.101: Thermometer–Tobacco (6 multi, 99th)
+    ThermometerMaker         = {"GlassBench", "Metalwork"},              -- multi! CROSS-CHAIN: glass tube + metal scale → Steklarstvo+
+    ThreadReelMaker          = {"WoodLathe", "SpinningWheel"},           -- multi! CROSS-CHAIN: wooden reel + thread → Tekstil+
+    ThresherMaker            = {"Metalwork", "WoodLathe"},               -- multi! metal thresher + wooden frame
+    TileMaker                = {"PotteryWheel", "MasonStonecutter"},     -- multi! CROSS-CHAIN: pottery/stone tiles → Lončarstvo+ & Kamnoseštvo+
+    TimberFeller             = {"Metalwork", "WoodLathe"},               -- multi! metal axe + wooden handle
+    TobaccoCurer             = {"WoodLathe", "Metalwork"},               -- multi! wooden racks + metal tools
+
+    -- v3.12.102: Tong–Trophy (6 multi, 100th all-multi package!)
+    TongMaker                = {"Metalwork", "WoodLathe"},               -- multi! metal tongs + wooden grips
+    TongsRestMaker           = {"Metalwork", "WoodLathe"},               -- multi! metal rest + wooden base
+    TowelRackMaker           = {"WoodLathe", "Metalwork"},               -- multi! wooden rack + metal fittings
+    TreadleHammerMaker       = {"Metalwork", "WoodLathe"},               -- multi! metal hammer + wooden treadle
+    Treasury                 = {"WoodLathe", "Metalwork"},               -- multi! wooden vault + metal locks
+    TrophyMaker              = {"Metalwork", "WoodLathe"},               -- multi! metal trophy + wooden base
+
+    -- v3.12.103: Tubular–Umbrella (6 multi, 101st)
+    TubularBellsMaker        = {"Metalwork", "WoodLathe"},               -- multi! metal tubes + wooden frame
+    TuningPinMaker           = {"Metalwork", "WoodLathe"},               -- multi! metal pins + wooden block
+    TwineMaker               = {"SpinningWheel", "WoodLathe"},           -- multi! CROSS-CHAIN: twine + wooden winder → Tekstil+
+    TypesettingMachineMaker  = {"Metalwork", "WoodLathe"},               -- multi! metal type + wooden press
+    UmbrellaMaker            = {"WoodLathe", "SpinningWheel"},           -- multi! CROSS-CHAIN: wooden ribs + cloth → Tekstil+
+    VacuumCasterMaker        = {"Metalwork", "GlassBench"},              -- multi! CROSS-CHAIN: metal caster + glass chamber → Steklarstvo+
+
+    -- v3.12.104: Vent–Warp (6 multi, 102nd)
+    VentWireMaker            = {"Metalwork", "WoodLathe"},               -- multi! metal wire + wooden forms
+    VestibuleLightMaker      = {"Metalwork", "GlassBench"},              -- multi! CROSS-CHAIN: metal fixture + glass → Steklarstvo+
+    Vineyard                 = {"WoodLathe", "Metalwork"},               -- multi! wooden trellis + metal tools
+    WalkingStickMaker        = {"WoodLathe", "Metalwork"},               -- multi! wooden stick + metal tip
+    WallpaperPrinter         = {"WoodLathe", "PigmentGrinderMaker"},     -- multi! CROSS-CHAIN: wooden press + pigments → Barvila+
+    WarpBeamMaker            = {"WoodLathe", "Metalwork"},               -- multi! wooden beam + metal fittings
+
+    -- v3.12.105: Watchtower–Wheelbarrow (6 multi, 103rd)
+    WatchtowerMaker          = {"WoodLathe", "MasonStonecutter"},        -- multi! CROSS-CHAIN: wooden tower + stone base → Kamnoseštvo+
+    WaxTabletMaker           = {"WoodLathe", "Metalwork"},               -- multi! wooden tablet + metal stylus
+    Weaver                   = {"SpinningWheel", "WoodLathe"},           -- multi! CROSS-CHAIN: loom cloth + wooden loom → Tekstil+
+    WellBuilder              = {"MasonStonecutter", "WoodLathe"},        -- multi! CROSS-CHAIN: stone well + wooden winch → Kamnoseštvo+
+    WhalingCaptain           = {"WoodLathe", "Metalwork"},               -- multi! wooden ship tools + metal harpoons
+    WheelbarrowMaker         = {"WoodLathe", "Metalwork"},               -- multi! wooden barrow + metal wheel fittings
+
+    -- v3.12.106: Wick–Wire (6 multi, 104th)
+    WickSpinnerMaker         = {"SpinningWheel", "WoodLathe"},           -- multi! CROSS-CHAIN: wick + wooden spinner → Tekstil+
+    WigMaker                 = {"SpinningWheel", "WoodLathe"},           -- multi! CROSS-CHAIN: hair/thread + wooden forms → Tekstil+
+    WinchMaker               = {"Metalwork", "WoodLathe"},               -- multi! metal winch + wooden drum
+    WindowFrameMaker         = {"WoodLathe", "GlassBench"},              -- multi! CROSS-CHAIN: wooden frame + glass → Steklarstvo+
+    WinnowingMachineMaker    = {"WoodLathe", "Metalwork"},               -- multi! wooden machine + metal screens
+    WireDrawerMaker          = {"Metalwork", "WoodLathe"},               -- multi! metal dies + wooden drawbench
+
+    -- v3.12.107: Woodworker–Yogurt + Mason (5 multi, 105th) — REMAINING MAKERS COMPLETE
+    Woodworker               = {"WoodLathe", "Metalwork"},               -- multi! wooden work + metal tools
+    WoolStapler              = {"SpinningWheel", "WoodLathe"},           -- multi! CROSS-CHAIN: wool + wooden staples → Tekstil+
+    WritingStandMaker        = {"WoodLathe", "Metalwork"},               -- multi! wooden stand + metal fittings
+    YogurtFermenter          = {"PotteryWheel", "WoodLathe"},            -- multi! CROSS-CHAIN: pottery pots + wooden racks → Lončarstvo+
+    Mason                    = {"MasonStonecutter", "Metalwork"},        -- multi! CROSS-CHAIN: stone work + metal tools → Kamnoseštvo+
 }
 
 -- Register a dependency at runtime (for modding/extensibility)

@@ -534,6 +534,24 @@ local CHAINS = {
     { label = "SKOBELJNIK–DVIGALO+", base = "Metalwork+WoodLathe+SpinningWheel", systems = {"PlanerMaker", "PlanetariumMaker", "PlayingCardMaker", "PlowMaker", "PolisherMaker", "PortcullisMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "SpinningWheel"} },
     { label = "DIŠAVE–PRITCHEL+", base = "PotteryWheel+WoodLathe+Metalwork", systems = {"PotpourriBowlMaker", "Potter", "PotteryWheelMaker", "PoultryKeeper", "PrintingPressMaker", "PritchelHoleMaker"}, multiBase = true, bases = {"PotteryWheel", "WoodLathe", "Metalwork"} },
     { label = "PROCESIJA–KAMNOLOM+", base = "SpinningWheel+WoodLathe+Metalwork+MasonStonecutter", systems = {"ProcessionalCanopyMaker", "ProofingBasketMaker", "ProspectingPanMaker", "PsalteryMaker", "PulleyMaker", "QuarryMiner"}, multiBase = true, bases = {"SpinningWheel", "WoodLathe", "Metalwork", "MasonStonecutter"} },
+    -- v3.12.091–107: final singles Quench→Yogurt/Mason (MAKERS COMPLETE)
+    { label = "KALJENJE–RETORTA+", base = "Metalwork+WoodLathe+RawhideTanner+GlassBench", systems = {"QuenchTankStirrerMaker", "QuiverMaker", "ReadingDeskMaker", "ReaperMaker", "RecorderMaker", "RetortMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "RawhideTanner", "GlassBench"} },
+    { label = "TRAK–VRV+", base = "SpinningWheel+WoodLathe+Metalwork", systems = {"RibbonWeaver", "RiserBreakerMaker", "RitualDaggerMaker", "RivetMaker", "RollingPinMaker", "Ropemaker"}, multiBase = true, bases = {"SpinningWheel", "WoodLathe", "Metalwork"} },
+    { label = "RULETA–ŽAFRAN+", base = "WoodLathe+Metalwork+SpinningWheel+RawhideTanner+PotteryWheel", systems = {"RouletteMaker", "SachetMaker", "SackbutMaker", "SaddlebagMaker", "Saddler", "SaffronGrower"}, multiBase = true, bases = {"WoodLathe", "Metalwork", "SpinningWheel", "RawhideTanner", "PotteryWheel"} },
+    { label = "SALPETRA–NOŽNICA+", base = "Metalwork+WoodLathe+PotteryWheel+GlassBench+SpinningWheel+RawhideTanner", systems = {"SaltpeterRefinery", "SalveJarMaker", "SamplerStitcher", "SausageMaker", "SawSetMaker", "ScabbardChapeMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "PotteryWheel", "GlassBench", "SpinningWheel", "RawhideTanner"} },
+    { label = "ODR–OVCE+", base = "WoodLathe+Metalwork+SpinningWheel", systems = {"ScaffoldMaker", "ScentConeMaker", "SconceMaker", "ScrollCaseMaker", "SetHammerMaker", "SheepShepherd"}, multiBase = true, bases = {"WoodLathe", "Metalwork", "SpinningWheel"} },
+    { label = "ŠČIT–DIMLJENO+", base = "Metalwork+WoodLathe+SpinningWheel", systems = {"ShieldBossMaker", "ShovelMaker", "ShuttleMaker", "SilkReeler", "SlurryMixerMaker", "SmokedMeatCurer"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "SpinningWheel"} },
+    { label = "MILO–SPRUE+", base = "PotteryWheel+WoodLathe+Metalwork", systems = {"SoapDishMaker", "SortingMachineMaker", "SoundpostMaker", "SpinningWheelMaker", "SpongeHolderMaker", "SprueCutterMaker"}, multiBase = true, bases = {"PotteryWheel", "WoodLathe", "Metalwork"} },
+    { label = "ODER–SONČNA+", base = "WoodLathe+SpinningWheel+Metalwork+MasonStonecutter+GlassBench", systems = {"StagePropMaker", "StitchingAwlMaker", "StuccoReliefMaker", "SublimationApparatusMaker", "SulfurCollector", "SundialGnomonMaker"}, multiBase = true, bases = {"WoodLathe", "SpinningWheel", "Metalwork", "MasonStonecutter", "GlassBench"} },
+    { label = "SWAGE–ČOP+", base = "Metalwork+WoodLathe+SpinningWheel", systems = {"SwageBlockMaker", "TableMaker", "TailpieceMaker", "TaperRollerMaker", "TarotCardMaker", "TasselMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "SpinningWheel"} },
+    { label = "GOSTILNA–TERMO+", base = "WoodLathe+Metalwork+MasonStonecutter+GlassBench", systems = {"TavernGameMaker", "TaxCollector", "TeaBlender", "TemperingFurnaceMaker", "TerrariumKeeper", "ThermocoupleSheathMaker"}, multiBase = true, bases = {"WoodLathe", "Metalwork", "MasonStonecutter", "GlassBench"} },
+    { label = "TERMOMETER–TOBAK+", base = "GlassBench+Metalwork+WoodLathe+SpinningWheel+PotteryWheel+MasonStonecutter", systems = {"ThermometerMaker", "ThreadReelMaker", "ThresherMaker", "TileMaker", "TimberFeller", "TobaccoCurer"}, multiBase = true, bases = {"GlassBench", "Metalwork", "WoodLathe", "SpinningWheel", "PotteryWheel", "MasonStonecutter"} },
+    { label = "KLEŠČE–TROFEJA+", base = "Metalwork+WoodLathe", systems = {"TongMaker", "TongsRestMaker", "TowelRackMaker", "TreadleHammerMaker", "Treasury", "TrophyMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe"} },
+    { label = "ZVONCI–DEŽNIK+", base = "Metalwork+WoodLathe+SpinningWheel+GlassBench", systems = {"TubularBellsMaker", "TuningPinMaker", "TwineMaker", "TypesettingMachineMaker", "UmbrellaMaker", "VacuumCasterMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "SpinningWheel", "GlassBench"} },
+    { label = "VENTIL–OSNOVA+", base = "Metalwork+WoodLathe+GlassBench+PigmentGrinderMaker", systems = {"VentWireMaker", "VestibuleLightMaker", "Vineyard", "WalkingStickMaker", "WallpaperPrinter", "WarpBeamMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "GlassBench", "PigmentGrinderMaker"} },
+    { label = "STRAŽA–SAMOKOLNICA+", base = "WoodLathe+MasonStonecutter+Metalwork+SpinningWheel", systems = {"WatchtowerMaker", "WaxTabletMaker", "Weaver", "WellBuilder", "WhalingCaptain", "WheelbarrowMaker"}, multiBase = true, bases = {"WoodLathe", "MasonStonecutter", "Metalwork", "SpinningWheel"} },
+    { label = "STENJ–ŽICA+", base = "SpinningWheel+WoodLathe+Metalwork+GlassBench", systems = {"WickSpinnerMaker", "WigMaker", "WinchMaker", "WindowFrameMaker", "WinnowingMachineMaker", "WireDrawerMaker"}, multiBase = true, bases = {"SpinningWheel", "WoodLathe", "Metalwork", "GlassBench"} },
+    { label = "MIZAR–JOGURT+", base = "WoodLathe+Metalwork+SpinningWheel+PotteryWheel+MasonStonecutter", systems = {"Woodworker", "WoolStapler", "WritingStandMaker", "YogurtFermenter", "Mason"}, multiBase = true, bases = {"WoodLathe", "Metalwork", "SpinningWheel", "PotteryWheel", "MasonStonecutter"} },
 }
 
 -- Node dimensions for graph view
@@ -2096,7 +2114,7 @@ function TechTreePanel.draw()
     love.graphics.print(pctStr, pbX + (pbW - pctW) / 2, pbY - 12)
 
     love.graphics.setColor(0.4, 0.45, 0.5, 1)
-    love.graphics.print(string.format("790 deps · 148 verig · 685 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
+    love.graphics.print(string.format("891 deps · 165 verig · 786 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
         viewMode, focusStr, pathStr, searchStr, sortStr, filterStr, bookmarkStr, multiStr, presetStr),
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)

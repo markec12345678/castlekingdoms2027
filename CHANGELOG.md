@@ -2,6 +2,19 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.107] — 2026-08-20 — Woodworker–Yogurt/Mason (5 multi, 105. zapored! MAKERS COMPLETE! MEJNIK 98.25x!)
+
+### Dodano
+- v3.12.091–107: final ~101 multi-prereq (QuenchTankStirrerMaker→YogurtFermenter + Mason)
+- **TechTreePanel**: footer (891 deps, 165 verig, 786 multi-prereq)
+- **MEJNIK**: 786 multi-prereq = 98.25x · **VSI Maker sistemi imajo deps** (ostanejo le managerji BlackMarket/ProductionChain/Forecast, RMI, base RawhideTanner)
+
+## [v3.12.091]–[v3.12.106] — 2026-08-20 — Final singles Quench→Wire (96 multi)
+- 091 Quench–Retort · 092 Ribbon–Rope · 093 Roulette–Saffron · 094 Saltpeter–Scabbard
+- 095 Scaffold–Sheep · 096 Shield–Smoked · 097 Soap–Sprue · 098 Stage–Sundial
+- 099 Swage–Tassel · 100 Tavern–Thermocouple · 101 Thermometer–Tobacco · 102 Tong–Trophy
+- 103 Tubular–Umbrella · 104 Vent–Warp · 105 Watchtower–Wheelbarrow · 106 Wick–Wire
+
 ## [v3.12.090] — 2026-08-20 — Processional–Quarry singles (6 multi, 88. zapored all-multi! MEJNIK 85.625x!)
 
 ### Dodano

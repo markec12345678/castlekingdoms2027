@@ -1,12 +1,12 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.12.090**
+- Različica: **v3.12.107**
 - Skupaj Royal sistemov: **990**
 - Skupaj Lua datotek: **1648**
 - Sintaktična preverba (avtentična Lua `load()`): **1648/1648 pass (100%)**
-- Tech Tree: **790 deps · 148 verig · 685 multi-prereq** (85.625x zažetnih 8!)
-- Zadnji paket: **v3.12.083–090 singles MatchCord→Quarry** (48 multi-prereq, 88. zapored all-multi, 685 multi = 85.625x)
+- Tech Tree: **891 deps · 165 verig · 786 multi-prereq** (98.25x zažetnih 8!)
+- Zadnji paket: **v3.12.091–107 FINAL** — MAKERS COMPLETE (786 multi-prereq = 98.25x, 165 verig)
 - GitHub: pripravljen za push
 - Lokalni repo (sandbox): `/home/workdir/castlekingdoms2027`
 
