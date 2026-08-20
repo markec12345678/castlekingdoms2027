@@ -791,6 +791,51 @@ local dependencyGraph = {
     DoughDividerMaker    = {"Metalwork", "WoodLathe"},                   -- multi! metal divider + wooden handle
     DoughHookMaker       = {"Metalwork", "WoodLathe"},                   -- multi! metal hook + wooden handle
     DoughScraperMaker    = {"Metalwork", "WoodLathe"},                   -- multi! metal scraper + wooden handle
+
+    -- v3.12.043: Bell+ & Slack Tub+ chain
+    -- 6 multi-prereq out of 6 (41st consecutive all-multi!); 2 CROSS-CHAIN
+    BellHammerMaker      = {"Metalwork", "WoodLathe"},                   -- multi! metal hammer + wooden handle
+    BellPullMaker        = {"SpinningWheel", "WoodLathe"},               -- multi! CROSS-CHAIN: rope pull + wooden wheel → Tekstil+
+    BellWheelMaker       = {"WoodLathe", "Metalwork"},                   -- multi! wooden wheel + metal axle
+    SlackTubMaker        = {"Metalwork", "WoodLathe"},                   -- multi! metal tub + wooden stand
+    SlackTubLidMaker     = {"WoodLathe", "Metalwork"},                   -- multi! wooden lid + metal hinges
+    SlackTubHoodMaker    = {"Metalwork", "WoodLathe"},                   -- multi! metal hood + wooden frame
+
+    -- v3.12.044: Ingot+ & Quill+ chain
+    -- 6 multi-prereq out of 6 (42nd all-multi!); 1 CROSS-CHAIN (ForgeTuyere for smelter)
+    IngotCasterMaker     = {"Metalwork", "WoodLathe"},                   -- multi! metal caster + wooden mold frame
+    IngotMoldMaker       = {"Metalwork", "MasonStonecutter"},            -- multi! CROSS-CHAIN: metal mold + stone form → Kamnoseštvo+
+    IngotSmelter         = {"Metalwork", "ForgeTuyere"},                 -- multi! CROSS-CHAIN: metal furnace + forge tuyere → Livarstvo+
+    QuillPenMaker        = {"WoodLathe", "Metalwork"},                   -- multi! quill shaft tools + metal knife
+    QuillTrimmerMaker    = {"Metalwork", "WoodLathe"},                   -- multi! metal trimmer + wooden handle
+    QuillMenderMaker     = {"Metalwork", "WoodLathe"},                   -- multi! metal mender + wooden rest
+
+    -- v3.12.045: Royal Heraldry+ & Trade+ chain
+    -- 6 multi-prereq out of 6 (43rd all-multi!); 2 CROSS-CHAIN
+    RoyalBannerHerald    = {"SpinningWheel", "WoodLathe"},               -- multi! CROSS-CHAIN: cloth banner + wooden pole → Tekstil+
+    RoyalCrestCarver     = {"WoodLathe", "Metalwork"},                   -- multi! wooden crest + metal tools
+    RoyalSealStampMaker  = {"Metalwork", "WoodLathe"},                   -- multi! metal seal + wooden handle
+    TradeGuild           = {"WoodLathe", "Metalwork"},                   -- multi! guild hall wood + metal fittings
+    TradeNeg             = {"WoodLathe", "SpinningWheel"},               -- multi! CROSS-CHAIN: ledger desk + cloth samples → Tekstil+
+    TradeRoute           = {"WoodLathe", "Metalwork"},                   -- multi! wooden posts + metal markers
+
+    -- v3.12.046: Annealing+ & Banner+ & Bath+ chain
+    -- 6 multi-prereq out of 6 (44th all-multi!); 2 CROSS-CHAIN (GlassBench, ForgeTuyere)
+    AnnealingLehrMaker   = {"Metalwork", "GlassBench"},                  -- multi! CROSS-CHAIN: metal lehr + glass → Steklarstvo+
+    AnnealingTongsMaker  = {"Metalwork", "WoodLathe"},                   -- multi! metal tongs + wooden grips
+    BannerMaker          = {"SpinningWheel", "WoodLathe"},               -- multi! CROSS-CHAIN: cloth banner + wooden frame → Tekstil+
+    BannerPoleMaker      = {"WoodLathe", "Metalwork"},                   -- multi! wooden pole + metal finial
+    BathBucketMaker      = {"Metalwork", "WoodLathe"},                   -- multi! metal bucket + wooden handle
+    BathFixtureMaker     = {"Metalwork", "WoodLathe"},                   -- multi! metal fixtures + wooden mounts
+
+    -- v3.12.047: Bridle+ & Horse+ & Hardy+ chain
+    -- 6 multi-prereq out of 6 (45th all-multi!); 2 CROSS-CHAIN (RawhideTanner→Usnjarstvo+)
+    BridleMaker          = {"RawhideTanner", "Metalwork"},               -- multi! CROSS-CHAIN: leather bridle + metal bits → Usnjarstvo+
+    BridleBuckleMaker    = {"Metalwork", "RawhideTanner"},               -- multi! CROSS-CHAIN: metal buckle + leather → Usnjarstvo+
+    HorseBreeder         = {"WoodLathe", "RawhideTanner"},               -- multi! CROSS-CHAIN: wooden stalls + leather tack → Usnjarstvo+
+    HorseHarnessMaker    = {"RawhideTanner", "Metalwork"},               -- multi! CROSS-CHAIN: leather harness + metal rings → Usnjarstvo+
+    HardyHoleMaker       = {"Metalwork", "WoodLathe"},                   -- multi! metal hardy + wooden anvil block
+    HardyShankMaker      = {"Metalwork", "WoodLathe"},                   -- multi! metal shank + wooden handle
 }
 
 -- Register a dependency at runtime (for modding/extensibility)

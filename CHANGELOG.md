@@ -2,6 +2,25 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.047] — 2026-08-20 — Bridle+ & Horse+ & Hardy+ Chain (6 multi, 45. zapored all-multi! MEJNIK 53.375x!)
+
+### Dodano
+- BridleMaker, BridleBuckleMaker (CROSS Usnjarstvo+), HorseBreeder, HorseHarnessMaker, HardyHoleMaker, HardyShankMaker
+- **TechTreePanel**: UZDA/KONJ/KOVAČNICA+, footer (532 deps, 105 verig, 427 multi-prereq)
+- **MEJNIK**: 427 multi-prereq = 53.375x
+
+## [v3.12.046] — 2026-08-20 — Annealing+ & Banner+ & Bath+ Chain (6 multi, 44. zapored)
+- AnnealingLehrMaker (CROSS Steklarstvo+), AnnealingTongsMaker, BannerMaker, BannerPoleMaker, BathBucketMaker, BathFixtureMaker
+
+## [v3.12.045] — 2026-08-20 — Royal Heraldry+ & Trade+ Chain (6 multi, 43. zapored)
+- RoyalBannerHerald, RoyalCrestCarver, RoyalSealStampMaker, TradeGuild, TradeNeg, TradeRoute
+
+## [v3.12.044] — 2026-08-20 — Ingot+ & Quill+ Chain (6 multi, 42. zapored)
+- IngotCasterMaker, IngotMoldMaker (CROSS Kamnoseštvo+), IngotSmelter (CROSS Livarstvo+), QuillPenMaker, QuillTrimmerMaker, QuillMenderMaker
+
+## [v3.12.043] — 2026-08-20 — Bell+ & Slack Tub+ Chain (6 multi, 41. zapored)
+- BellHammerMaker, BellPullMaker (CROSS Tekstil+), BellWheelMaker, SlackTubMaker, SlackTubLidMaker, SlackTubHoodMaker
+
 ## [v3.12.042] — 2026-08-20 — Flour & Dough+ Chain (7 multi, 40. zapored all-multi! MEJNIK 49.625x!)
 
 ### Dodano

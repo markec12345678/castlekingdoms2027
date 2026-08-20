@@ -476,6 +476,16 @@ local CHAINS = {
     { label = "RASTLINE+", base = "SpinningWheel+WoodLathe+Metalwork", systems = {"PlantClimbingNetMaker", "PlantLabelMaker", "PlantRootPrunerMaker", "PlantSupportMaker", "PlantSupportStakeMaker", "PlantSupportTrellisPanelMaker", "PlantTyingTwistMaker"}, multiBase = true, bases = {"SpinningWheel", "WoodLathe", "Metalwork"} },
     -- v3.12.042: Flour & Dough+ chain (7 multi-prereq, 1 CROSS-CHAIN)
     { label = "MUKA/TESTO+", base = "WoodLathe+Metalwork+SpinningWheel", systems = {"FlourPackerMaker", "FlourSackMaker", "FlourShovelMaker", "FlourSieveMaker", "DoughDividerMaker", "DoughHookMaker", "DoughScraperMaker"}, multiBase = true, bases = {"WoodLathe", "Metalwork", "SpinningWheel"} },
+    -- v3.12.043: Bell+ & Slack Tub+ chain (6 multi-prereq, 2 CROSS-CHAIN)
+    { label = "ZVON/KAD+", base = "Metalwork+WoodLathe+SpinningWheel", systems = {"BellHammerMaker", "BellPullMaker", "BellWheelMaker", "SlackTubMaker", "SlackTubLidMaker", "SlackTubHoodMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "SpinningWheel"} },
+    -- v3.12.044: Ingot+ & Quill+ chain (6 multi-prereq, 2 CROSS-CHAIN)
+    { label = "INGOT/PERO+", base = "Metalwork+WoodLathe+MasonStonecutter+ForgeTuyere", systems = {"IngotCasterMaker", "IngotMoldMaker", "IngotSmelter", "QuillPenMaker", "QuillTrimmerMaker", "QuillMenderMaker"}, multiBase = true, bases = {"Metalwork", "WoodLathe", "MasonStonecutter", "ForgeTuyere"} },
+    -- v3.12.045: Royal Heraldry+ & Trade+ chain (6 multi-prereq, 2 CROSS-CHAIN)
+    { label = "HERALDIKA/TRGOVINA+", base = "SpinningWheel+WoodLathe+Metalwork", systems = {"RoyalBannerHerald", "RoyalCrestCarver", "RoyalSealStampMaker", "TradeGuild", "TradeNeg", "TradeRoute"}, multiBase = true, bases = {"SpinningWheel", "WoodLathe", "Metalwork"} },
+    -- v3.12.046: Annealing+ & Banner+ & Bath+ chain (6 multi-prereq, 2 CROSS-CHAIN)
+    { label = "ŽARENJE/ZASTAVA/KOPALNA+", base = "Metalwork+GlassBench+WoodLathe+SpinningWheel", systems = {"AnnealingLehrMaker", "AnnealingTongsMaker", "BannerMaker", "BannerPoleMaker", "BathBucketMaker", "BathFixtureMaker"}, multiBase = true, bases = {"Metalwork", "GlassBench", "WoodLathe", "SpinningWheel"} },
+    -- v3.12.047: Bridle+ & Horse+ & Hardy+ chain (6 multi-prereq, 2 CROSS-CHAIN)
+    { label = "UZDA/KONJ/KOVAČNICA+", base = "RawhideTanner+Metalwork+WoodLathe", systems = {"BridleMaker", "BridleBuckleMaker", "HorseBreeder", "HorseHarnessMaker", "HardyHoleMaker", "HardyShankMaker"}, multiBase = true, bases = {"RawhideTanner", "Metalwork", "WoodLathe"} },
 }
 
 -- Node dimensions for graph view
@@ -2038,7 +2048,7 @@ function TechTreePanel.draw()
     love.graphics.print(pctStr, pbX + (pbW - pctW) / 2, pbY - 12)
 
     love.graphics.setColor(0.4, 0.45, 0.5, 1)
-    love.graphics.print(string.format("502 deps · 100 verig · 397 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
+    love.graphics.print(string.format("532 deps · 105 verig · 427 multi-prereq · mode: %s%s%s%s%s%s%s%s%s",
         viewMode, focusStr, pathStr, searchStr, sortStr, filterStr, bookmarkStr, multiStr, presetStr),
         panelX + 16, panelY + panelH - 22)
     love.graphics.setFont(font)
