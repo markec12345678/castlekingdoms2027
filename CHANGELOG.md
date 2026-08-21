@@ -2,6 +2,32 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.111] — 2026-08-21 — Royal Systems Panel Sort Modes (F key cycle! 5 sort modes!)
+
+### Dodano
+- **royal_systems_panel.lua** — sort modes za Ctrl+R panel:
+  - Nov state: `sortMode` (default "alpha") in `SORT_MODES` tabela
+  - 5 sort modes:
+    1. **Abecedno** (alpha) — privzeto, po imenu
+    2. **Po zgradbah** (buildings) — po številu zgradb (največ → najmanj)
+    3. **Po produktih** (products) — po skupnem številu izdelanih produktov
+    4. **Po zaslužku** (gold) — po gold zaslužku iz RoyalMarketIntegration
+    5. **Po aktivnosti** (active) — po številu aktivnih izdelav
+  - Tipka **F** cikla skozi sort modes (konzistentno z Tech Tree "F: focus" — različna funkcija)
+  - Sort mode indicator (130px chip) levo od search box-a, zelenkasta barva
+  - Header hint posodobljen z "F: Sortiranje"
+  - Lazy require RMI za gold sort (preprečuje circular dependency)
+  - Reset pagination (page=1, selectedIndex=1) ob spremembi sorta
+
+### Spremenjene datoteke
+- `states/ui/hud/royal_systems_panel.lua` (+35 vrstic) — sortMode/SORT_MODES state, 5-way sort v rebuildFiltered, F keybind, sort indicator chip
+- `README.md` — posodobljen badge (v3.12.111)
+- `CHANGELOG.md` — dodan v3.12.111 entry
+- `NEXT_BATCH_HANDOFF.md` — posodobljeno stanje
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS
+
 ## [v3.12.110] — 2026-08-21 — Keybind Help Click-to-Open Panels (klik na keybind odpre panel!)
 
 ### Dodano

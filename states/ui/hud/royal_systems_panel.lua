@@ -31,6 +31,14 @@ local systemRowAreas = {}
 local searchQuery = ""
 local searchActive = false
 local activeCategory = "all"  -- "all", "glass", "foundry", "bookbinding", "blacksmith", "garden", "milling", "other"
+local sortMode = "alpha"  -- "alpha", "buildings", "products", "gold", "active"
+local SORT_MODES = {
+    alpha      = "Abecedno",
+    buildings  = "Po zgradbah",
+    products   = "Po produktih",
+    gold       = "Po zaslužku",
+    active     = "Po aktivnosti",
+}
 
 -- Cached filtered list (rebuilt on search/category change)
 local filteredSystems = {}
@@ -93,8 +101,34 @@ local function rebuildFiltered()
         ::continue::
     end
 
-    -- Sort alphabetically by name
-    table.sort(filteredSystems, function(a, b) return a.name < b.name end)
+    -- Sort by current sort mode
+    if sortMode == "alpha" then
+        table.sort(filteredSystems, function(a, b) return a.name < b.name end)
+    elseif sortMode == "buildings" then
+        table.sort(filteredSystems, function(a, b)
+            local sa = a.module.getStats and a.module.getStats() or {}
+            local sb = b.module.getStats and b.module.getStats() or {}
+            return (sa.numBuildings or 0) > (sb.numBuildings or 0)
+        end)
+    elseif sortMode == "products" then
+        table.sort(filteredSystems, function(a, b)
+            local sa = a.module.getStats and a.module.getStats() or {}
+            local sb = b.module.getStats and b.module.getStats() or {}
+            return (sa.totalProducts or 0) > (sb.totalProducts or 0)
+        end)
+    elseif sortMode == "gold" then
+        local RMI = require("objects.Economy.RoyalMarketIntegration")
+        local rev = RMI.getPerSystemRevenue()
+        table.sort(filteredSystems, function(a, b)
+            return (rev[a.key] or 0) > (rev[b.key] or 0)
+        end)
+    elseif sortMode == "active" then
+        table.sort(filteredSystems, function(a, b)
+            local sa = a.module.getStats and a.module.getStats() or {}
+            local sb = b.module.getStats and b.module.getStats() or {}
+            return (sa.activeMaking or 0) > (sb.activeMaking or 0)
+        end)
+    end
 
     -- Reset pagination
     totalPages = math.max(1, math.ceil(#filteredSystems / pageSize))
@@ -277,7 +311,7 @@ function RoyalPanel.draw()
     local font = love.graphics.getFont()
     love.graphics.print("Kraljevi sistemski (Royal Systems)", panelX + 20, panelY + 10)
     love.graphics.setColor(0.7, 0.6, 0.4, 1)
-    love.graphics.print("Ctrl+R: Zapri  |  /: Iskanje  |  Tab: Kategorije", panelX + panelW - 310, panelY + 10)
+    love.graphics.print("Ctrl+R: Zapri  |  /: Iskanje  |  Tab: Kategorije  |  F: Sortiranje", panelX + panelW - 420, panelY + 10)
 
     -- Aggregate stats bar
     local agg = Registry.getAggregate()
@@ -328,6 +362,16 @@ function RoyalPanel.draw()
     love.graphics.print("Iskanje: " .. displayQuery, searchX + 8, searchY + 3)
     registerClick("searchBox", searchX, searchY, searchW, searchH,
         function() searchActive = true end)
+
+    -- Sort mode indicator (next to search box, left side)
+    local sortLabelX = searchX - 140
+    love.graphics.setColor(0.15, 0.12, 0.08, 0.9)
+    love.graphics.rectangle("fill", sortLabelX, searchY, 130, searchH, 3, 3, 3, 3)
+    love.graphics.setColor(0.5, 0.6, 0.4, 0.8)
+    love.graphics.setLineWidth(1)
+    love.graphics.rectangle("line", sortLabelX, searchY, 130, searchH, 3, 3, 3, 3)
+    love.graphics.setColor(0.7, 0.85, 0.6, 1)
+    love.graphics.print("F: " .. (SORT_MODES[sortMode] or "?"), sortLabelX + 8, searchY + 3)
 
     -- Two-column layout
     local listX = panelX + 16
@@ -937,6 +981,21 @@ function RoyalPanel.keypressed(key, scancode, isrepeat)
         end
         curIdx = curIdx % #CATEGORIES + 1
         activeCategory = CATEGORIES[curIdx].id
+        page = 1
+        selectedIndex = 1
+        rebuildFiltered()
+        return true
+    end
+
+    -- F cycles sort modes
+    if key == "f" then
+        local modes = {"alpha", "buildings", "products", "gold", "active"}
+        for i, m in ipairs(modes) do
+            if m == sortMode then
+                sortMode = modes[(i % #modes) + 1]
+                break
+            end
+        end
         page = 1
         selectedIndex = 1
         rebuildFiltered()
