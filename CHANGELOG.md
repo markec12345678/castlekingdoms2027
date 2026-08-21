@@ -2,6 +2,33 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.108] — 2026-08-21 — Keybind Help Hover Tooltip (F1 help z hover podrobnostmi!)
+
+### Dodano
+- **keybind_help.lua** — hover tooltip za F1 help overlay:
+  - Nov state: `hoveredBinding` (katero vrstico miška trenutno pokriva)
+  - Nov state: `rowPositions` (tabela pozicij vrstic, populirana med draw za hit-testing)
+  - `mousemoved()` sedaj preverja, ali je miška nad katero vrstico in nastavi `hoveredBinding`
+  - Hover poudari vrstico (temno ozadje + svetlo rumen tekst)
+  - Tooltip box (340x80px) se prikaže ob miškinem kazalcu z:
+    - Kategorija badge (npr. `[CTRL+K PANEL (Market Dashboard)]`)
+    - Tipka (velika, poudarjena zlata)
+    - Opis z word-wrap (če je predolg za eno vrstico)
+  - Tooltip se samodejno prestavi, da ne gre izven ekrana
+  - Footer posodobljen z "Hover: podrobnosti" hint
+- **Prehod iz +Chain ere v UI feature ero**: po zaključku MAKERS COMPLETE (891 deps, 786 multi = 98.25x), prehod na izboljšave uporabniškega vmesnika
+
+### Spremenjene datoteke
+- `states/ui/hud/keybind_help.lua` (+55 vrstic) — hoveredBinding/rowPositions state, mousemoved hover detection, tooltip draw z word-wrap
+- `README.md` — posodobljen badge (v3.12.108)
+- `CHANGELOG.md` — dodan v3.12.108 entry
+- `NEXT_BATCH_HANDOFF.md` — posodobljeno stanje
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS
+
+## [v3.12.091–107] — 2026-08-18 — FINAL singles Quench→Yogurt/Mason — MAKERS COMPLETE (891 deps, 165 verig, 786 multi = 98.25x)
+
 ## [v3.12.107] — 2026-08-20 — Woodworker–Yogurt/Mason (5 multi, 105. zapored! MAKERS COMPLETE! MEJNIK 98.25x!)
 
 ### Dodano

@@ -9,6 +9,8 @@ local KeybindHelp = {}
 local visible = false
 local scrollOffset = 0  -- scroll position (0 = top)
 local contentHeight = 0  -- calculated during draw
+local hoveredBinding = nil  -- { key, desc, category, y } set during mousemoved
+local rowPositions = {}  -- populated during draw for hit-testing
 
 -- All keybinds organized by category
 local KEYBINDS = {
@@ -226,6 +228,7 @@ function KeybindHelp.draw()
 
     -- Draw content with scroll offset
     local y = contentTop - scrollOffset
+    rowPositions = {}  -- reset for this frame
     for _, section in ipairs(KEYBINDS) do
         -- Category header
         love.graphics.setColor(0.7, 0.6, 0.4, 1)
@@ -234,12 +237,26 @@ function KeybindHelp.draw()
 
         -- Bindings
         for _, binding in ipairs(section.bindings) do
+            -- Record row position for hover hit-testing
+            rowPositions[#rowPositions + 1] = {
+                x = x, y = y, w = panelW - 50, h = 20,
+                key = binding.key, desc = binding.desc, category = section.category,
+            }
+
             -- Key (highlighted)
-            love.graphics.setColor(1, 0.85, 0.3, 1)
+            local isHovered = hoveredBinding and hoveredBinding.key == binding.key
+                           and hoveredBinding.category == section.category
+            if isHovered then
+                love.graphics.setColor(0.25, 0.2, 0.1, 0.8)
+                love.graphics.rectangle("fill", x, y, panelW - 50, 20, 2, 2, 2, 2)
+                love.graphics.setColor(1, 1, 0.5, 1)
+            else
+                love.graphics.setColor(1, 0.85, 0.3, 1)
+            end
             love.graphics.print(binding.key, x + 15, y)
 
             -- Description
-            love.graphics.setColor(0.8, 0.8, 0.8, 1)
+            love.graphics.setColor(isHovered and 1 or 0.8, isHovered and 1 or 0.8, isHovered and 1 or 0.8, 1)
             love.graphics.print(binding.desc, x + 130, y)
 
             y = y + 20
@@ -269,11 +286,64 @@ function KeybindHelp.draw()
 
     -- Close hint (fixed, not scrolled)
     love.graphics.setColor(0.5, 0.5, 0.5, 1)
-    local hintText = "[H] Zapri pomoč"
+    local hintText = "[H] Zapri pomoč  |  Hover: podrobnosti"
     if contentHeight > contentAreaH then
         hintText = hintText .. "  |  ↑↓/wheel: scroll"
     end
     love.graphics.print(hintText, panelX + panelW - 200, panelY + panelH - 25)
+
+    -- Hover tooltip (drawn after scissor reset, so it's not clipped)
+    if hoveredBinding then
+        local mx, my = love.mouse.getPosition()
+        local ttW = 340
+        local ttH = 80
+        local ttX = mx + 16
+        local ttY = my + 16
+        -- Keep tooltip on screen
+        if ttX + ttW > screenW then ttX = mx - ttW - 16 end
+        if ttY + ttH > screenH then ttY = my - ttH - 16 end
+
+        -- Tooltip background
+        love.graphics.setColor(0.08, 0.06, 0.04, 0.97)
+        love.graphics.rectangle("fill", ttX, ttY, ttW, ttH, 6, 6, 6, 6)
+        love.graphics.setColor(0.6, 0.5, 0.3, 0.8)
+        love.graphics.setLineWidth(1)
+        love.graphics.rectangle("line", ttX, ttY, ttW, ttH, 6, 6, 6, 6)
+
+        -- Category badge
+        love.graphics.setColor(0.5, 0.6, 0.4, 1)
+        love.graphics.print("[" .. hoveredBinding.category .. "]", ttX + 10, ttY + 6)
+
+        -- Key (large, highlighted)
+        love.graphics.setColor(1, 0.85, 0.3, 1)
+        love.graphics.print(hoveredBinding.key, ttX + 10, ttY + 26)
+
+        -- Description (wrapped if needed)
+        love.graphics.setColor(0.85, 0.85, 0.85, 1)
+        local desc = hoveredBinding.desc or ""
+        -- Simple word wrap
+        local maxW = ttW - 20
+        local font = love.graphics.getFont()
+        local words = {}
+        for w in desc:gmatch("%S+") do words[#words + 1] = w end
+        local line = ""
+        local lineY = ttY + 46
+        for _, w in ipairs(words) do
+            local test = line == "" and w or (line .. " " .. w)
+            if font:getWidth(test) > maxW then
+                if line ~= "" then
+                    love.graphics.print(line, ttX + 10, lineY)
+                    lineY = lineY + 14
+                end
+                line = w
+            else
+                line = test
+            end
+        end
+        if line ~= "" then
+            love.graphics.print(line, ttX + 10, lineY)
+        end
+    end
 
     love.graphics.setColor(1, 1, 1, 1)
 end
@@ -344,6 +414,26 @@ function KeybindHelp.mousepressed(x, y, button)
 end
 
 function KeybindHelp.mousemoved(x, y, dx, dy)
+    if not visible then
+        hoveredBinding = nil
+        return false
+    end
+    -- Check if mouse is over any binding row
+    hoveredBinding = nil
+    for _, row in ipairs(rowPositions) do
+        if x >= row.x and x <= row.x + row.w and y >= row.y and y <= row.y + row.h then
+            -- Also check the row is within the visible content area
+            local screenH = love.graphics.getHeight()
+            local panelH = math.min(760, screenH - 40)
+            local panelY = (screenH - panelH) / 2
+            local contentTop = panelY + 50
+            local contentBottom = panelY + panelH - 35
+            if y >= contentTop and y <= contentBottom then
+                hoveredBinding = { key = row.key, desc = row.desc, category = row.category }
+            end
+            break
+        end
+    end
     return false
 end
 
