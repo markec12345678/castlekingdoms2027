@@ -2,6 +2,33 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.109] — 2026-08-21 — Keybind Help Search Filter (F1 help z iskanjem!)
+
+### Dodano
+- **keybind_help.lua** — search filter za F1 help overlay:
+  - Nov state: `searchActive` (kdy je iskanje aktivno) in `searchQuery` (trenutno iskalno besedilo)
+  - Tipka **/** aktivira iskanje (konzistentno z Ctrl+R, Ctrl+K, Tech Tree)
+  - Tipkanje filtrira keybinds po tipki in opisu (case-insensitive substring match)
+  - **Backspace** briše zadnji znak
+  - **Enter** potrdi iskanje (izhod iz search mode, filter ostane aktiven)
+  - **Escape** počisti iskanje in izhod iz search mode
+  - Search bar (fixed, ne scrolla) z aktivno/o pasivno barvo
+  - Results counter (desno od search bar): "Rezultati: N"
+  - Samodejno reset scroll ob iskanju
+  - Content area prilagojena (contentTop premaknjen z +50 na +72 za search bar)
+  - `textinput()` handler za sprejemanje natisnjenih znakov
+  - Footer posodobljen z "/: iskanje"
+- **Konzistentnost**: vsi 4 glavni paneli (Ctrl+R, Ctrl+K, Tech Tree, F1 Help) sedaj imajo search z `/`
+
+### Spremenjene datoteke
+- `states/ui/hud/keybind_help.lua` (+65 vrstic) — searchActive/searchQuery state, search bar, filteredSections, textinput handler
+- `README.md` — posodobljen badge (v3.12.109)
+- `CHANGELOG.md` — dodan v3.12.109 entry
+- `NEXT_BATCH_HANDOFF.md` — posodobljeno stanje
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS
+
 ## [v3.12.108] — 2026-08-21 — Keybind Help Hover Tooltip (F1 help z hover podrobnostmi!)
 
 ### Dodano

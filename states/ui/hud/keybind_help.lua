@@ -11,6 +11,8 @@ local scrollOffset = 0  -- scroll position (0 = top)
 local contentHeight = 0  -- calculated during draw
 local hoveredBinding = nil  -- { key, desc, category, y } set during mousemoved
 local rowPositions = {}  -- populated during draw for hit-testing
+local searchActive = false  -- when true, typing filters keybinds
+local searchQuery = ""  -- current search text
 
 -- All keybinds organized by category
 local KEYBINDS = {
@@ -163,6 +165,9 @@ local KEYBINDS = {
 function KeybindHelp.toggle()
     visible = not visible
     scrollOffset = 0  -- reset scroll on toggle
+    searchActive = false
+    searchQuery = ""
+    hoveredBinding = nil
 end
 
 function KeybindHelp.setVisible(state)
@@ -204,15 +209,66 @@ function KeybindHelp.draw()
     love.graphics.setLineWidth(1)
     love.graphics.line(panelX + 20, panelY + 40, panelX + panelW - 20, panelY + 40)
 
-    -- Content area dimensions
-    local contentTop = panelY + 50
+    -- Search bar (fixed, not scrolled)
+    love.graphics.setColor(0.5, 0.5, 0.5, 1)
+    love.graphics.print("Iskanje:", panelX + 20, panelY + 48)
+    love.graphics.setColor(0.15, 0.12, 0.08, 1)
+    love.graphics.rectangle("fill", panelX + 90, panelY + 46, 300, 20, 3, 3, 3, 3)
+    if searchActive then
+        love.graphics.setColor(0.9, 0.8, 0.4, 1)
+        love.graphics.rectangle("line", panelX + 90, panelY + 46, 300, 20, 3, 3, 3, 3)
+    end
+    love.graphics.setColor(0.9, 0.9, 0.9, 1)
+    local searchDisplay = searchQuery
+    if searchActive then searchDisplay = searchDisplay .. "_" end
+    love.graphics.print(searchDisplay, panelX + 96, panelY + 49)
+    -- Search hint
+    if not searchActive and searchQuery == "" then
+        love.graphics.setColor(0.4, 0.4, 0.4, 1)
+        love.graphics.print("(pritisni / za iskanje)", panelX + 96, panelY + 49)
+    end
+
+    -- Content area dimensions (adjusted for search bar)
+    local contentTop = panelY + 72
     local contentBottom = panelY + panelH - 35
     local contentAreaH = contentBottom - contentTop
     local x = panelX + 25
 
-    -- Calculate total content height
-    contentHeight = 0
+    -- Build filtered list based on search query
+    local query = searchQuery:lower()
+    local filteredSections = {}
     for _, section in ipairs(KEYBINDS) do
+        if query == "" then
+            filteredSections[#filteredSections + 1] = section
+        else
+            local filteredBindings = {}
+            for _, binding in ipairs(section.bindings) do
+                if binding.key:lower():find(query, 1, true) or binding.desc:lower():find(query, 1, true) then
+                    filteredBindings[#filteredBindings + 1] = binding
+                end
+            end
+            if #filteredBindings > 0 then
+                filteredSections[#filteredSections + 1] = {
+                    category = section.category,
+                    bindings = filteredBindings,
+                }
+            end
+        end
+    end
+
+    -- Results count
+    local totalResults = 0
+    for _, s in ipairs(filteredSections) do
+        totalResults = totalResults + #s.bindings
+    end
+    if query ~= "" then
+        love.graphics.setColor(0.6, 0.7, 0.5, 1)
+        love.graphics.print(string.format("Rezultati: %d", totalResults), panelX + 400, panelY + 49)
+    end
+
+    -- Calculate total content height (based on filtered sections)
+    contentHeight = 0
+    for _, section in ipairs(filteredSections) do
         contentHeight = contentHeight + 22  -- category header
         contentHeight = contentHeight + #section.bindings * 20  -- entries
         contentHeight = contentHeight + 8  -- gap
@@ -229,7 +285,7 @@ function KeybindHelp.draw()
     -- Draw content with scroll offset
     local y = contentTop - scrollOffset
     rowPositions = {}  -- reset for this frame
-    for _, section in ipairs(KEYBINDS) do
+    for _, section in ipairs(filteredSections) do
         -- Category header
         love.graphics.setColor(0.7, 0.6, 0.4, 1)
         love.graphics.print(section.category, x, y)
@@ -286,7 +342,7 @@ function KeybindHelp.draw()
 
     -- Close hint (fixed, not scrolled)
     love.graphics.setColor(0.5, 0.5, 0.5, 1)
-    local hintText = "[H] Zapri pomoč  |  Hover: podrobnosti"
+    local hintText = "[H] Zapri pomoč  |  /: iskanje  |  Hover: podrobnosti"
     if contentHeight > contentAreaH then
         hintText = hintText .. "  |  ↑↓/wheel: scroll"
     end
@@ -361,38 +417,67 @@ function KeybindHelp.wheelmoved(x, y)
     return false
 end
 
-function KeybindHelp.keypressed(key)
+function KeybindHelp.keypressed(key, scancode, isrepeat)
+    if not visible then return false end
+
+    -- Search mode: handle text input keys
+    if searchActive then
+        if key == "escape" then
+            searchActive = false
+            searchQuery = ""
+            scrollOffset = 0
+            return true
+        end
+        if key == "return" then
+            searchActive = false  -- exit search mode but keep query
+            return true
+        end
+        if key == "backspace" then
+            searchQuery = searchQuery:sub(1, -2)
+            scrollOffset = 0
+            return true
+        end
+        -- Don't process other keys in search mode
+        return true
+    end
+
+    -- Normal mode
     if key == "h" then
         KeybindHelp.toggle()
         return true
     end
-    -- Scroll keys (only when visible)
-    if visible then
-        if key == "up" then
-            scrollOffset = math.max(0, scrollOffset - 40)
-            return true
-        end
-        if key == "down" then
-            scrollOffset = scrollOffset + 40  -- clamped in draw
-            return true
-        end
-        if key == "pageup" then
-            scrollOffset = math.max(0, scrollOffset - 200)
-            return true
-        end
-        if key == "pagedown" then
-            scrollOffset = scrollOffset + 200  -- clamped in draw
-            return true
-        end
-        if key == "home" then
-            scrollOffset = 0
-            return true
-        end
-        if key == "end" then
-            -- Scroll to bottom (will be clamped in draw)
-            scrollOffset = 99999
-            return true
-        end
+    -- Activate search with /
+    if key == "/" then
+        searchActive = true
+        searchQuery = ""
+        scrollOffset = 0
+        return true
+    end
+    -- Scroll keys (only when visible and not in search mode)
+    if key == "up" then
+        scrollOffset = math.max(0, scrollOffset - 40)
+        return true
+    end
+    if key == "down" then
+        scrollOffset = scrollOffset + 40  -- clamped in draw
+        return true
+    end
+    if key == "pageup" then
+        scrollOffset = math.max(0, scrollOffset - 200)
+        return true
+    end
+    if key == "pagedown" then
+        scrollOffset = scrollOffset + 200  -- clamped in draw
+        return true
+    end
+    if key == "home" then
+        scrollOffset = 0
+        return true
+    end
+    if key == "end" then
+        -- Scroll to bottom (will be clamped in draw)
+        scrollOffset = 99999
+        return true
     end
     return false
 end
@@ -438,6 +523,19 @@ function KeybindHelp.mousemoved(x, y, dx, dy)
 end
 
 function KeybindHelp.mousereleased(x, y, button)
+    return false
+end
+
+function KeybindHelp.textinput(text)
+    if not visible then return false end
+    if searchActive then
+        -- Only accept printable characters
+        if text:match("^[%w _+/-]$") then
+            searchQuery = searchQuery .. text
+            scrollOffset = 0
+        end
+        return true
+    end
     return false
 end
 
