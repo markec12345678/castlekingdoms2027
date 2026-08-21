@@ -2,6 +2,33 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.110] — 2026-08-21 — Keybind Help Click-to-Open Panels (klik na keybind odpre panel!)
+
+### Dodano
+- **keybind_help.lua** — click-to-open funkcionalnost za F1 help overlay:
+  - Nov state: `PANEL_SHORTCUTS` tabela, ki mapira keybind tipke na module poti:
+    - `Ctrl+R` → Royal Systems Panel
+    - `Ctrl+K` → Market Dashboard
+    - `Ctrl+U` → Auto-Save Panel
+    - `Ctrl+Shift+G` → Tech Tree Panel
+  - `mousepressed()` sedaj preverja, ali je klik na binding row in ali je key clickable
+  - `openPanel()` — lazy require modula, zapre help, odpre panel
+  - `isClickablePanel()` — preverja, ali je keybind povezan s panelom
+  - Vizualna povratna informacija:
+    - Clickable rows imajo zeleno barvo pri hover (namesto rumene)
+    - "→ klik" oznaka desno od vrstice pri hover
+    - "→ Klik za odprtje panela" v tooltip box-u za clickable rows
+  - Lazy require preprečuje circular dependency
+
+### Spremenjene datoteke
+- `states/ui/hud/keybind_help.lua` (+40 vrstic) — PANEL_SHORTCUTS, isClickablePanel, openPanel, mousepressed click detection, hover visual feedback
+- `README.md` — posodobljen badge (v3.12.110)
+- `CHANGELOG.md` — dodan v3.12.110 entry
+- `NEXT_BATCH_HANDOFF.md` — posodobljeno stanje
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS
+
 ## [v3.12.109] — 2026-08-21 — Keybind Help Search Filter (F1 help z iskanjem!)
 
 ### Dodano

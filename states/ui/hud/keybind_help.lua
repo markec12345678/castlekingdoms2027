@@ -302,10 +302,15 @@ function KeybindHelp.draw()
             -- Key (highlighted)
             local isHovered = hoveredBinding and hoveredBinding.key == binding.key
                            and hoveredBinding.category == section.category
+            local isClickable = isClickablePanel(binding.key)
             if isHovered then
                 love.graphics.setColor(0.25, 0.2, 0.1, 0.8)
                 love.graphics.rectangle("fill", x, y, panelW - 50, 20, 2, 2, 2, 2)
-                love.graphics.setColor(1, 1, 0.5, 1)
+                if isClickable then
+                    love.graphics.setColor(0.5, 1, 0.5, 1)  -- green for clickable
+                else
+                    love.graphics.setColor(1, 1, 0.5, 1)  -- yellow for normal hover
+                end
             else
                 love.graphics.setColor(1, 0.85, 0.3, 1)
             end
@@ -314,6 +319,12 @@ function KeybindHelp.draw()
             -- Description
             love.graphics.setColor(isHovered and 1 or 0.8, isHovered and 1 or 0.8, isHovered and 1 or 0.8, 1)
             love.graphics.print(binding.desc, x + 130, y)
+
+            -- Click-to-open hint for panel shortcuts
+            if isHovered and isClickable then
+                love.graphics.setColor(0.4, 0.9, 0.4, 0.8)
+                love.graphics.print("→ klik", x + panelW - 80, y)
+            end
 
             y = y + 20
         end
@@ -399,6 +410,12 @@ function KeybindHelp.draw()
         if line ~= "" then
             love.graphics.print(line, ttX + 10, lineY)
         end
+
+        -- Click-to-open hint for panel shortcuts
+        if isClickablePanel(hoveredBinding.key) then
+            love.graphics.setColor(0.4, 0.9, 0.4, 1)
+            love.graphics.print("→ Klik za odprtje panela", ttX + 10, ttY + ttH - 16)
+        end
     end
 
     love.graphics.setColor(1, 1, 1, 1)
@@ -482,6 +499,32 @@ function KeybindHelp.keypressed(key, scancode, isrepeat)
     return false
 end
 
+-- Map of keybind keys to panel module paths for click-to-open
+local PANEL_SHORTCUTS = {
+    ["Ctrl+R"]         = "states.ui.hud.royal_systems_panel",
+    ["Ctrl+K"]          = "states.ui.hud.market_dashboard",
+    ["Ctrl+U"]          = "states.ui.hud.autosave_panel",
+    ["Ctrl+Shift+G"]    = "states.ui.hud.tech_tree_panel",
+}
+
+-- Check if a binding key is a panel shortcut (clickable)
+local function isClickablePanel(key)
+    return PANEL_SHORTCUTS[key] ~= nil
+end
+
+-- Open the panel referenced by a keybind key
+local function openPanel(key)
+    local modulePath = PANEL_SHORTCUTS[key]
+    if not modulePath then return false end
+    local ok, mod = pcall(require, modulePath)
+    if ok and mod and mod.toggle then
+        KeybindHelp.toggle()  -- close help first
+        mod.toggle()
+        return true
+    end
+    return false
+end
+
 -- Castle Kingdoms 2027 v3.11.941: Mouse stubs for 100% consistency
 function KeybindHelp.mousepressed(x, y, button)
     if not visible then return false end
@@ -494,6 +537,23 @@ function KeybindHelp.mousepressed(x, y, button)
     if x < panelX or x > panelX + panelW or y < panelY or y > panelY + panelH then
         KeybindHelp.toggle()
         return true
+    end
+    -- Check if click is on a binding row (click-to-open panels)
+    if button == 1 then  -- left click
+        for _, row in ipairs(rowPositions) do
+            if x >= row.x and x <= row.x + row.w and y >= row.y and y <= row.y + row.h then
+                -- Check the row is within the visible content area
+                local contentTop = panelY + 72
+                local contentBottom = panelY + panelH - 35
+                if y >= contentTop and y <= contentBottom then
+                    if isClickablePanel(row.key) then
+                        openPanel(row.key)
+                        return true
+                    end
+                end
+                break
+            end
+        end
     end
     return false
 end
