@@ -14,6 +14,7 @@
 local DynamicMarket = require("objects.Economy.DynamicMarketSystem")
 local RMI = require("objects.Economy.RoyalMarketIntegration")
 local Registry = require("objects.Economy.RoyalSystemsRegistry")
+local PanelAnim = require("states.ui.hud.PanelAnimations")
 
 local MarketDashboard = {}
 
@@ -25,6 +26,14 @@ local selectedIndex = 1
 local page = 1
 local pageSize = 6
 local totalPages = 1
+
+-- v3.12.126: Panel animation state (fade-in/out + slide-right)
+local animState = require("states.ui.hud.PanelAnimations").createState({
+    duration = 0.20,
+    slideDir = "right",
+    slideDist = 22,
+    easing = "easeOut",
+})
 
 -- v3.11.960: Product row click areas (populated during draw, used by mousepressed)
 -- Each entry: {x, y, w, h, productType, source, index}
@@ -216,15 +225,18 @@ local SORT_COLORS = {
 }
 
 function MarketDashboard.toggle()
-    visible = not visible
-    if visible then
+    if not visible then
+        visible = true
+        PanelAnim.open(animState)
         MarketDashboard.refresh()
         love.keyboard.setTextInput(false)  -- ensure text input is off when first opened
+    else
+        PanelAnim.close(animState)
     end
 end
 
 function MarketDashboard.isVisible()
-    return visible
+    return visible or PanelAnim.isAnimating(animState)
 end
 
 -- Rebuild the cached product list (sorted, filtered)
@@ -265,7 +277,13 @@ function MarketDashboard.refresh()
 end
 
 function MarketDashboard.update(dt)
-    if not visible then return end
+    if not visible and not PanelAnim.isAnimating(animState) then return end
+
+    -- v3.12.126: Update panel animation
+    PanelAnim.update(animState, dt)
+    if animState.phase == "closed" then
+        visible = false
+    end
 
     -- Refresh cache periodically
     cacheTimer = cacheTimer + dt
@@ -287,13 +305,17 @@ local function showMessage(msg)
 end
 
 function MarketDashboard.draw()
-    if not visible then return end
+    if not visible and not PanelAnim.isAnimating(animState) then return end
+
+    -- v3.12.126: Apply panel animation (alpha + slide offset)
+    local alpha = PanelAnim.getProgress(animState)
+    local offsetX, offsetY = PanelAnim.getOffset(animState)
 
     local W = love.graphics.getWidth()
     local H = love.graphics.getHeight()
 
-    -- Dim background
-    love.graphics.setColor(0, 0, 0, 0.85)
+    -- Dim background (fades in/out)
+    love.graphics.setColor(0, 0, 0, 0.85 * alpha)
     love.graphics.rectangle("fill", 0, 0, W, H)
 
     -- Panel
@@ -302,9 +324,12 @@ function MarketDashboard.draw()
     local panelX = (W - panelW) / 2
     local panelY = (H - panelH) / 2
 
-    love.graphics.setColor(0.12, 0.13, 0.18, 1)
+    love.graphics.push("all")
+    love.graphics.translate(offsetX, offsetY)
+
+    love.graphics.setColor(0.12, 0.13, 0.18, alpha)
     love.graphics.rectangle("fill", panelX, panelY, panelW, panelH, 8, 8, 8, 8)
-    love.graphics.setColor(0.4, 0.5, 0.7, 1)
+    love.graphics.setColor(0.4, 0.5, 0.7, alpha)
     love.graphics.setLineWidth(2)
     love.graphics.rectangle("line", panelX, panelY, panelW, panelH, 8, 8, 8, 8)
     love.graphics.setLineWidth(1)
@@ -1262,6 +1287,9 @@ function MarketDashboard.draw()
         end
         love.graphics.setFont(font)
     end
+
+    -- v3.12.126: Close the slide-offset transform
+    love.graphics.pop()
 
     love.graphics.setColor(1, 1, 1, 1)
 end

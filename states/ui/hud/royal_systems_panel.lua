@@ -11,6 +11,7 @@
 
 local Registry = require("objects.Economy.RoyalSystemsRegistry")
 local RMI = require("objects.Economy.RoyalMarketIntegration")
+local PanelAnim = require("states.ui.hud.PanelAnimations")
 
 local RoyalPanel = {}
 
@@ -21,6 +22,14 @@ local pageSize = 20
 local totalPages = 1
 local actionMessage = ""
 local actionMessageTime = 0
+
+-- v3.12.126: Panel animation state (fade-in/out + slide-left)
+local animState = PanelAnim.createState({
+    duration = 0.20,
+    slideDir = "left",
+    slideDist = 22,
+    easing = "easeOut",
+})
 
 -- v3.11.968: Hovered system for tooltip
 local hoveredSystem = nil  -- {sysIndex, mouseX, mouseY}
@@ -226,18 +235,26 @@ loadCategory()
 loadSearchQuery()
 
 function RoyalPanel.toggle()
-    visible = not visible
-    if visible then
+    if not visible then
+        visible = true
+        PanelAnim.open(animState)
         rebuildFiltered()
+    else
+        PanelAnim.close(animState)
     end
 end
 
 function RoyalPanel.setVisible(state)
-    visible = state
+    if state and not visible then
+        visible = true
+        PanelAnim.open(animState)
+    elseif not state and visible then
+        PanelAnim.close(animState)
+    end
 end
 
 function RoyalPanel.isVisible()
-    return visible
+    return visible or PanelAnim.isAnimating(animState)
 end
 
 -- v3.11.948: Jump to a specific system by key.
@@ -269,6 +286,11 @@ function RoyalPanel.jumpToSystem(key)
 end
 
 function RoyalPanel.update(dt)
+    if not visible and not PanelAnim.isAnimating(animState) then return end
+    PanelAnim.update(animState, dt)
+    if animState.phase == "closed" then
+        visible = false
+    end
     if actionMessageTime > 0 then
         actionMessageTime = actionMessageTime - dt
         if actionMessageTime <= 0 then
@@ -345,9 +367,13 @@ local function drawCategoryTab(id, x, y, w, h, label, catColor, isActive, action
 end
 
 function RoyalPanel.draw()
-    if not visible then return end
+    if not visible and not PanelAnim.isAnimating(animState) then return end
 
     clickAreas = {}
+
+    -- v3.12.126: Apply panel animation (alpha + slide offset)
+    local alpha = PanelAnim.getProgress(animState)
+    local offsetX, offsetY = PanelAnim.getOffset(animState)
 
     local screenW, screenH = love.graphics.getDimensions()
     local panelW = math.min(LAYOUT.panelW, screenW - 40)
@@ -355,16 +381,19 @@ function RoyalPanel.draw()
     local panelX = (screenW - panelW) / 2
     local panelY = (screenH - panelH) / 2
 
-    -- Dim background
-    love.graphics.setColor(0, 0, 0, 0.7)
+    -- Dim background (fades in/out)
+    love.graphics.setColor(0, 0, 0, 0.7 * alpha)
     love.graphics.rectangle("fill", 0, 0, screenW, screenH)
 
-    -- Panel
-    love.graphics.setColor(0.08, 0.06, 0.04, 0.98)
+    -- Panel (with slide offset)
+    love.graphics.push("all")
+    love.graphics.translate(offsetX, offsetY)
+
+    love.graphics.setColor(0.08, 0.06, 0.04, 0.98 * alpha)
     love.graphics.rectangle("fill", panelX, panelY, panelW, panelH, 8, 8, 8, 8)
 
     -- Border (royal gold)
-    love.graphics.setColor(0.78, 0.62, 0.28, 1)
+    love.graphics.setColor(0.78, 0.62, 0.28, alpha)
     love.graphics.setLineWidth(2)
     love.graphics.rectangle("line", panelX, panelY, panelW, panelH, 8, 8, 8, 8)
 
@@ -978,6 +1007,9 @@ function RoyalPanel.draw()
             love.graphics.setFont(font)
         end
     end
+
+    -- v3.12.126: Close the slide-offset transform
+    love.graphics.pop()
 
     love.graphics.setColor(1, 1, 1, 1)
 end

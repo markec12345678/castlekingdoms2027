@@ -12,6 +12,7 @@
 -- Toggle with Ctrl+U. Click outside to close.
 
 local AutoSaveSystem = require("objects.AutoSaveSystem")
+local PanelAnim = require("states.ui.hud.PanelAnimations")
 
 local AutoSavePanel = {}
 
@@ -24,16 +25,33 @@ local sliderDragging = false
 -- Click areas for buttons (rebuilt each draw)
 local clickAreas = {}
 
+-- v3.12.126: Panel animation state (fade-in/out + slide-up)
+local animState = PanelAnim.createState({
+    duration = 0.18,
+    slideDir = "up",
+    slideDist = 18,
+    easing = "easeOut",
+})
+
 function AutoSavePanel.toggle()
-    visible = not visible
+    if not visible then
+        visible = true
+        PanelAnim.open(animState)
+    else
+        PanelAnim.close(animState)
+    end
 end
 
 function AutoSavePanel.isVisible()
-    return visible
+    return visible or PanelAnim.isAnimating(animState)
 end
 
 function AutoSavePanel.update(dt)
-    if not visible then return end
+    if not visible and not PanelAnim.isAnimating(animState) then return end
+    PanelAnim.update(animState, dt)
+    if animState.phase == "closed" then
+        visible = false
+    end
     if actionMessageTime > 0 then
         actionMessageTime = actionMessageTime - dt
         if actionMessageTime <= 0 then actionMessage = "" end
@@ -72,14 +90,18 @@ local function drawButton(id, x, y, w, h, label, enabled, action)
 end
 
 function AutoSavePanel.draw()
-    if not visible then return end
+    if not visible and not PanelAnim.isAnimating(animState) then return end
     clickAreas = {}
+
+    -- v3.12.126: Apply panel animation (alpha + slide offset)
+    local alpha = PanelAnim.getProgress(animState)
+    local offsetX, offsetY = PanelAnim.getOffset(animState)
 
     local W = love.graphics.getWidth()
     local H = love.graphics.getHeight()
 
-    -- Dim background
-    love.graphics.setColor(0, 0, 0, 0.6)
+    -- Dim background (fades in/out)
+    love.graphics.setColor(0, 0, 0, 0.6 * alpha)
     love.graphics.rectangle("fill", 0, 0, W, H)
 
     -- Panel
@@ -88,9 +110,12 @@ function AutoSavePanel.draw()
     local panelX = (W - panelW) / 2
     local panelY = (H - panelH) / 2
 
-    love.graphics.setColor(0.12, 0.14, 0.18, 1)
+    love.graphics.push("all")
+    love.graphics.translate(offsetX, offsetY)
+
+    love.graphics.setColor(0.12, 0.14, 0.18, alpha)
     love.graphics.rectangle("fill", panelX, panelY, panelW, panelH, 8, 8, 8, 8)
-    love.graphics.setColor(0.5, 0.7, 0.9, 1)
+    love.graphics.setColor(0.5, 0.7, 0.9, alpha)
     love.graphics.setLineWidth(2)
     love.graphics.rectangle("line", panelX, panelY, panelW, panelH, 8, 8, 8, 8)
     love.graphics.setLineWidth(1)
@@ -288,12 +313,15 @@ function AutoSavePanel.draw()
 
     -- Action feedback message
     if actionMessage ~= "" then
-        love.graphics.setColor(0, 0, 0, 0.7)
+        love.graphics.setColor(0, 0, 0, 0.7 * alpha)
         local msgW = font:getWidth(actionMessage) + 20
         love.graphics.rectangle("fill", panelX + (panelW - msgW) / 2, panelY + panelH - 36, msgW, 24, 4, 4, 4, 4)
-        love.graphics.setColor(1, 0.95, 0.7, 1)
+        love.graphics.setColor(1, 0.95, 0.7, alpha)
         love.graphics.print(actionMessage, panelX + (panelW - font:getWidth(actionMessage)) / 2, panelY + panelH - 30)
     end
+
+    -- v3.12.126: Close the slide-offset transform
+    love.graphics.pop()
 
     love.graphics.setColor(1, 1, 1, 1)
 end

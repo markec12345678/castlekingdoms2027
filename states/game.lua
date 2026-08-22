@@ -3188,6 +3188,8 @@ function game:update(dt)
                 AutoSaveOverlay.update(dt)
                 -- Castle Kingdoms 2027 v3.11.946: TechTreePanel cursor blink
                 TechTreePanel.update(dt)
+                -- Castle Kingdoms 2027 v3.12.126: KeybindHelp panel animation update
+                KeybindHelp.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt

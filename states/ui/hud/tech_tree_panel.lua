@@ -18,12 +18,21 @@
 
 local Deps = require("objects.Economy.SystemDependencies")
 local Registry = require("objects.Economy.RoyalSystemsRegistry")
+local PanelAnim = require("states.ui.hud.PanelAnimations")
 
 local TechTreePanel = {}
 
 local visible = false
 local scrollOffset = 0
 local viewMode = "graph"  -- "graph" or "text"
+
+-- v3.12.126: Panel animation state (fade-in/out + slide-up + zoom effect)
+local animState = PanelAnim.createState({
+    duration = 0.22,
+    slideDir = "up",
+    slideDist = 26,
+    easing = "easeOut",
+})
 
 -- Hover state for tooltip
 local hoveredNode = nil  -- { key, x, y, w, h, chainLabel }
@@ -615,7 +624,12 @@ local CHAIN_HEADER_H = 22
 local CHAIN_GAP = 18
 
 function TechTreePanel.toggle()
-    visible = not visible
+    if not visible then
+        visible = true
+        PanelAnim.open(animState)
+    else
+        PanelAnim.close(animState)
+    end
     scrollOffset = 0
     hoveredNode = nil
     selectedKey = nil
@@ -634,7 +648,7 @@ function TechTreePanel.toggle()
 end
 
 function TechTreePanel.isVisible()
-    return visible
+    return visible or PanelAnim.isAnimating(animState)
 end
 
 -- Compute the set of keys "related" to a selected key (v3.11.945)
@@ -2075,7 +2089,11 @@ end
 -- ============================================================
 
 function TechTreePanel.draw()
-    if not visible then return end
+    if not visible and not PanelAnim.isAnimating(animState) then return end
+
+    -- v3.12.126: Apply panel animation (alpha + slide offset)
+    local animAlpha = PanelAnim.getProgress(animState)
+    local offsetX, offsetY = PanelAnim.getOffset(animState)
 
     -- Track mouse for hover
     mouseX, mouseY = love.mouse.getPosition()
@@ -2093,14 +2111,17 @@ function TechTreePanel.draw()
     local titleFont = love.graphics.newFont(16)
     local smallFont = love.graphics.newFont(11)
 
-    -- Dim background
-    love.graphics.setColor(0, 0, 0, 0.75)
+    -- Dim background (fades in/out)
+    love.graphics.setColor(0, 0, 0, 0.75 * animAlpha)
     love.graphics.rectangle("fill", 0, 0, W, H)
 
-    -- Panel
-    love.graphics.setColor(0.08, 0.09, 0.12, 0.98)
+    -- Panel (with slide offset)
+    love.graphics.push("all")
+    love.graphics.translate(offsetX, offsetY)
+
+    love.graphics.setColor(0.08, 0.09, 0.12, 0.98 * animAlpha)
     love.graphics.rectangle("fill", panelX, panelY, panelW, panelH, 8, 8, 8, 8)
-    love.graphics.setColor(0.5, 0.65, 0.85, 1)
+    love.graphics.setColor(0.5, 0.65, 0.85, animAlpha)
     love.graphics.setLineWidth(2)
     love.graphics.rectangle("line", panelX, panelY, panelW, panelH, 8, 8, 8, 8)
     love.graphics.setLineWidth(1)
@@ -2317,6 +2338,9 @@ function TechTreePanel.draw()
         love.graphics.print(feedbackMessage, msgX, msgY)
     end
 
+    -- v3.12.126: Close the slide-offset transform
+    love.graphics.pop()
+
     love.graphics.setColor(1, 1, 1, 1)
 end
 
@@ -2326,7 +2350,11 @@ end
 
 -- v3.11.946: Update cursor blink animation
 function TechTreePanel.update(dt)
-    if not visible then return end
+    if not visible and not PanelAnim.isAnimating(animState) then return end
+    PanelAnim.update(animState, dt)
+    if animState.phase == "closed" then
+        visible = false
+    end
     if searchActive then
         cursorBlink = cursorBlink + dt
     end

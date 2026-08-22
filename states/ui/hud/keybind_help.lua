@@ -6,6 +6,8 @@
 
 local KeybindHelp = {}
 
+local PanelAnim = require("states.ui.hud.PanelAnimations")
+
 local visible = false
 local scrollOffset = 0  -- scroll position (0 = top)
 local contentHeight = 0  -- calculated during draw
@@ -13,6 +15,14 @@ local hoveredBinding = nil  -- { key, desc, category, y } set during mousemoved
 local rowPositions = {}  -- populated during draw for hit-testing
 local searchActive = false  -- when true, typing filters keybinds
 local searchQuery = ""  -- current search text
+
+-- v3.12.126: Panel animation state (fade-in/out + slide-down)
+local animState = PanelAnim.createState({
+    duration = 0.18,
+    slideDir = "down",
+    slideDist = 18,
+    easing = "easeOut",
+})
 
 local SEARCH_FILE = "keybind_help_search.txt"
 
@@ -185,7 +195,13 @@ local KEYBINDS = {
 }
 
 function KeybindHelp.toggle()
-    visible = not visible
+    if not visible then
+        visible = true
+        PanelAnim.open(animState)
+    else
+        PanelAnim.close(animState)
+        -- visible stays true until close animation completes
+    end
     scrollOffset = 0  -- reset scroll on toggle
     searchActive = false
     searchQuery = ""
@@ -193,15 +209,36 @@ function KeybindHelp.toggle()
 end
 
 function KeybindHelp.setVisible(state)
-    visible = state
+    if state and not visible then
+        visible = true
+        PanelAnim.open(animState)
+    elseif not state and visible then
+        PanelAnim.close(animState)
+    end
 end
 
 function KeybindHelp.isVisible()
-    return visible
+    -- During close animation, visible flag is still true but we want input routing
+    -- to continue until close finishes (so ESC key during close is processed here)
+    return visible or PanelAnim.isAnimating(animState)
+end
+
+-- v3.12.126: Update animation state
+function KeybindHelp.update(dt)
+    if not visible and not PanelAnim.isAnimating(animState) then return end
+    PanelAnim.update(animState, dt)
+    -- Auto-clear visibility once close animation completes
+    if animState.phase == "closed" then
+        visible = false
+    end
 end
 
 function KeybindHelp.draw()
-    if not visible then return end
+    if not visible and not PanelAnim.isAnimating(animState) then return end
+
+    -- v3.12.126: Apply panel animation (alpha + slide offset)
+    local alpha = PanelAnim.getProgress(animState)
+    local offsetX, offsetY = PanelAnim.getOffset(animState)
 
     local screenW, screenH = love.graphics.getDimensions()
     local panelW = 560
@@ -209,16 +246,19 @@ function KeybindHelp.draw()
     local panelX = (screenW - panelW) / 2
     local panelY = (screenH - panelH) / 2
 
-    -- Dim background
-    love.graphics.setColor(0, 0, 0, 0.6)
+    -- Dim background (fades in/out)
+    love.graphics.setColor(0, 0, 0, 0.6 * alpha)
     love.graphics.rectangle("fill", 0, 0, screenW, screenH)
 
-    -- Panel
-    love.graphics.setColor(0.1, 0.08, 0.06, 0.97)
+    -- Panel (with slide offset)
+    love.graphics.push("all")
+    love.graphics.translate(offsetX, offsetY)
+
+    love.graphics.setColor(0.1, 0.08, 0.06, 0.97 * alpha)
     love.graphics.rectangle("fill", panelX, panelY, panelW, panelH, 8, 8, 8, 8)
 
     -- Border
-    love.graphics.setColor(0.6, 0.5, 0.3, 1)
+    love.graphics.setColor(0.6, 0.5, 0.3, alpha)
     love.graphics.setLineWidth(2)
     love.graphics.rectangle("line", panelX, panelY, panelW, panelH, 8, 8, 8, 8)
 
@@ -439,6 +479,9 @@ function KeybindHelp.draw()
             love.graphics.print("→ Klik za odprtje panela", ttX + 10, ttY + ttH - 16)
         end
     end
+
+    -- v3.12.126: Close the slide-offset transform
+    love.graphics.pop()
 
     love.graphics.setColor(1, 1, 1, 1)
 end

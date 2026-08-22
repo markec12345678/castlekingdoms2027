@@ -2,6 +2,69 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.126] — 2026-08-22 — UI Panel Animations (fade-in/out + slide efekt za VSE 6 panele!)
+
+### Dodano
+- **`states/ui/hud/PanelAnimations.lua`** — nov skupni modul za animacije UI panelov:
+  - `createState(opts)` — ustvari novo animacijsko stanje z konfiguracijo:
+    - `duration` (default 0.20s) — trajanje open/close animacije
+    - `slideDir` — `"up"` / `"down"` / `"left"` / `"right"` / `"none"` (default `"down"`)
+    - `slideDist` (default 24px) — koliko pikslov se premakne
+    - `easing` — `"linear"` / `"easeOut"` / `"easeInOut"` (default `"easeOut"`)
+  - `open(state)` / `close(state)` — začne animacijo odpiranja/zapiranja
+  - `snapOpen(state)` / `snapClosed(state)` — brez animacije (za prvi frame)
+  - `update(state, dt)` — posodobi progress (odpri/zapri)
+  - `getProgress(state)` — vrne eased vrednost 0..1 (za alpha multiplikator)
+  - `getOffset(state)` — vrne `(dx, dy)` slide offset za trenutni frame
+  - `isAnimating(state)` — true če je v fazi opening/closing
+  - `isShown(state)` — true če ni v fazi "closed"
+  - Podprte faze: `"closed"` → `"opening"` → `"open"` → `"closing"` → `"closed"`
+  - Easing funkcije: easeLinear, easeOut (1 - (1-t)^2), easeInOut (quadratic)
+
+- **Animacije integrirane v 6 panelov** — vsak panel ima svoj edinstven "vnos":
+  - **KeybindHelp (F1)** — slide-down, 0.18s, easeOut — občutek kot dropdown meni
+  - **AutoSavePanel (Ctrl+U)** — slide-up, 0.18s, easeOut — občutek kot toast notification
+  - **RoyalSystemsPanel (Ctrl+R)** — slide-left, 0.20s, easeOut — drsi z desne na levo
+  - **MarketDashboard (Ctrl+K)** — slide-right, 0.20s, easeOut — drsi z leve na desno
+  - **TechTreePanel (Ctrl+Shift+G)** — slide-up, 0.22s, easeOut — malce daljši za bolj dramatičen vstop
+  - **AutoSaveStatusOverlay** — (že vedno viden, brez animacije)
+
+- **`isVisible()` popravki** — vsi paneli sedaj vračajo `true` tudi med close animacijo:
+  - Prej: ko igralec pritisne ESC, panel takoj izgine iz vidnega polja in input handlerji nehajo delovati
+  - Zdaj: `isVisible()` vrača `true` dokler close animacija ne konča — ESC pritisnjen med close ne šteje kot "outside click" in ne izgubi inputa
+  - To omogoča, da tudi med close animacijo interakcije (klik, wheel, keys) še naprej delujejo pravilno
+
+- **`update(dt)` integracija** — vsi paneli imajo zdaj pravilno update funkcijo:
+  - Preveri `if not visible and not PanelAnim.isAnimating(animState) then return end`
+  - Kliče `PanelAnim.update(animState, dt)` da posodobi progress
+  - Ko `animState.phase == "closed"`, nastavi `visible = false`
+  - game.lua: dodan `KeybindHelp.update(dt)` klic (prej KeybindHelp ni imel update funkcije)
+
+- **`draw()` integracija** — vsi paneli uporabljajo naslednji vzorec:
+  - Preveri `if not visible and not PanelAnim.isAnimating(animState) then return end`
+  - Pridobi `alpha = PanelAnim.getProgress(animState)` in `offsetX, offsetY = PanelAnim.getOffset(animState)`
+  - Dim background: `love.graphics.setColor(0, 0, 0, 0.X * alpha)` — alpha fading
+  - Panel in border: `love.graphics.push("all")` + `love.graphics.translate(offsetX, offsetY)` za slide efekt
+  - Vse barve (panel fill, border) se pomnožijo z `alpha` za consistent fade
+  - Na koncu draw: `love.graphics.pop()` da zapre transform
+
+### Spremenjeno
+- **`states/game.lua`** — dodan `KeybindHelp.update(dt)` v update blok (prej KeybindHelp ni imel update funkcije v game.lua)
+- **`states/ui/hud/keybind_help.lua`** — toggle() in setVisible() refaktorirana za animacije; dodana update(dt) funkcija
+- **`states/ui/hud/autosave_panel.lua`** — toggle() refaktorirana; update(dt) razširjena
+- **`states/ui/hud/royal_systems_panel.lua`** — toggle() in setVisible() refaktorirana; update(dt) razširjena
+- **`states/ui/hud/market_dashboard.lua`** — toggle() refaktorirana; update(dt) razširjena
+- **`states/ui/hud/tech_tree_panel.lua`** — toggle() refaktorirana; update(dt) razširjena
+
+### Tehnične podrobnosti
+- Lokalno `animState` v vsakem modulu — prepreči konflikt stanja med paneli
+- `love.graphics.push("all")` ohrani celotno stanje (color, font, scissor, transform) — varno za gnezdenje
+- `love.graphics.translate(offsetX, offsetY)` premakne celoten koordinatni sistem — vsi poznejši draw klici so v novem koordinatnem sistemu
+- Ko je `slideDir = "down"`, panel drsi od zgoraj navzdol; offset Y je `(1-t) * slideDist` (pozitivno, torej panel začne nižje)
+- Za close animacijo se formula obrne: progress gre 1→0, offset se povečuje
+- Trajanje 0.18-0.22s je "sweet spot" — dovolj hitro da ne moti, dovolj počasi da je vidno
+- Easing "easeOut" naredi animacijo bolj naravno (počasi konča, hitro začne)
+
 ## [v3.12.125] — 2026-08-22 — Tech Tree Hover Preview Graph (mini 1-hop podgraf v tooltipu!)
 
 ### Dodano
