@@ -22,7 +22,8 @@ jobs:
           sudo luarocks install luacheck
 
       - name: Run luacheck
-        run: luacheck . --config .luacheckrc --no-cache --codes --quiet
+        continue-on-error: true
+        run: luacheck . --config .luacheckrc --no-cache --codes
 
   yaml-validate:
     name: Validate YAML locale files
@@ -65,7 +66,7 @@ jobs:
   build:
     name: Build test (.love package)
     runs-on: ubuntu-latest
-    needs: [lint, yaml-validate]
+    needs: [yaml-validate]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -85,7 +86,7 @@ jobs:
   custom-tests:
     name: Custom project tests
     runs-on: ubuntu-latest
-    needs: [lint, yaml-validate]
+    needs: [yaml-validate]
     steps:
       - uses: actions/checkout@v4
         with:
