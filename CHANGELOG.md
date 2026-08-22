@@ -2,6 +2,32 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.117] — 2026-08-22 — Market Dashboard Sort & Leaderboard Persistence (save/load sortMode + leaderboardMode!)
+
+### Dodano
+- **market_dashboard.lua** — persistenca sortMode in leaderboardMode med sejami:
+  - Nov `SORT_FILE = "market_dashboard_sort.txt"` — shranjevanje sortMode (S key)
+  - Nov `LEADERBOARD_FILE = "market_dashboard_leaderboard.txt"` — shranjevanje leaderboardMode (Q key)
+  - `loadSortMode()` — prebere sortMode iz datoteke ob init (s validacijo)
+  - `saveSortMode()` — zapiše ob S key spremembi
+  - `loadLeaderboardMode()` — prebere leaderboardMode iz datoteke ob init (s validacijo "qty"/"profit")
+  - `saveLeaderboardMode()` — zapiše ob Q key spremembi
+  - pcall wrapper za varno IO
+- **Market Dashboard persistence popoln** (6 datotek skupno):
+  - searchQuery (v3.12.116)
+  - sortMode (v3.12.117) ← NOV!
+  - leaderboardMode (v3.12.117) ← NOV!
+  - comparisonList, auto-sell state (že prej od v3.11.912-v3.11.913)
+
+### Spremenjene datoteke
+- `states/ui/hud/market_dashboard.lua` (+35 vrstic) — SORT_FILE, LEADERBOARD_FILE, load/save funkcije, init load, S/Q key save calls
+- `README.md` — posodobljen badge (v3.12.117)
+- `CHANGELOG.md` — dodan v3.12.117 entry
+- `NEXT_BATCH_HANDOFF.md` — posodobljeno stanje
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS
+
 ## [v3.12.116] — 2026-08-22 — Market Dashboard Search Persistence (save/load searchQuery! Persistence popoln za vse 5 panelov!)
 
 ### Dodano

@@ -54,6 +54,8 @@ local sortModes = {
 local leaderboardMode = "qty"
 
 local SEARCH_FILE = "market_dashboard_search.txt"
+local SORT_FILE = "market_dashboard_sort.txt"
+local LEADERBOARD_FILE = "market_dashboard_leaderboard.txt"
 
 -- Load persisted search query on init
 local function loadSearchQuery()
@@ -71,8 +73,42 @@ local function saveSearchQuery()
     pcall(love.filesystem.write, SEARCH_FILE, searchQuery .. "\n")
 end
 
+-- Load persisted sort mode on init
+local function loadSortMode()
+    local ok, content = pcall(love.filesystem.read, SORT_FILE)
+    if ok and content then
+        content = content:gsub("%s+$", "")
+        if sortModes[content] then
+            sortMode = content
+        end
+    end
+end
+
+-- Save sort mode to file
+local function saveSortMode()
+    pcall(love.filesystem.write, SORT_FILE, sortMode .. "\n")
+end
+
+-- Load persisted leaderboard mode on init
+local function loadLeaderboardMode()
+    local ok, content = pcall(love.filesystem.read, LEADERBOARD_FILE)
+    if ok and content then
+        content = content:gsub("%s+$", "")
+        if content == "qty" or content == "profit" then
+            leaderboardMode = content
+        end
+    end
+end
+
+-- Save leaderboard mode to file
+local function saveLeaderboardMode()
+    pcall(love.filesystem.write, LEADERBOARD_FILE, leaderboardMode .. "\n")
+end
+
 -- Load on init
 loadSearchQuery()
+loadSortMode()
+loadLeaderboardMode()
 
 -- Event log expanded panel state
 local eventLogExpanded = false
@@ -1221,6 +1257,7 @@ function MarketDashboard.keypressed(key, scancode, isrepeat)
                 break
             end
         end
+        saveSortMode()
         page = 1
         selectedIndex = 1
         MarketDashboard.refresh()
@@ -1247,6 +1284,7 @@ function MarketDashboard.keypressed(key, scancode, isrepeat)
             showMessage("Leaderboard: TOP-10 PO PRIHODKU (gold)")
         else
             leaderboardMode = "qty"
+        saveLeaderboardMode()
             showMessage("Leaderboard: TOP-10 PRODUCENTOV (količina)")
         end
         return true
