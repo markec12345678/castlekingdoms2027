@@ -59,6 +59,7 @@ local KEYBINDS = {
             { key = "N",         desc = "Toast zgodovina - pokaži vsa pretekla obvestila (v3.12.127)" },
             { key = "Ctrl+Shift+A", desc = "Dosežki - modern achievement panel z animacijami (v3.12.128)" },
             { key = "Ctrl+Shift+I", desc = "Statistika - pregled, proizvodnja, trg, lestvice z grafi (v3.12.129)" },
+            { key = "Ctrl+Shift+O", desc = "Tutorial manager - vsi hinti z reset/toggle funkcijami (v3.12.132)" },
             { key = "Ctrl+A",    desc = "Dosežki - stari loveframes achievement gallery" },
             { key = "` + Shift", desc = "Odpri konzolo" },
             { key = "Shift+R",   desc = "Ponastavi vse nastavitve (zbriše 16 persisted datotek, zahteva restart)" },

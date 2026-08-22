@@ -912,6 +912,8 @@ local KeybindHelp = require("states.ui.hud.keybind_help")
 local AchievementPanel = require("states.ui.hud.achievement_panel")
 -- Castle Kingdoms 2027 v3.12.129: Statistics Panel (Ctrl+Shift+I)
 local StatsPanel = require("states.ui.hud.stats_panel")
+-- Castle Kingdoms 2027 v3.12.132: Tutorial Manager Panel (Ctrl+Shift+O)
+local TutorialPanel = require("states.ui.hud.tutorial_panel")
 -- Castle Kingdoms 2027 - Campaign progress & auto-save
 local CampaignProgress = require("objects.Mission.CampaignProgress")
 local AutoSaveSystem = require("objects.AutoSaveSystem")
@@ -3208,6 +3210,8 @@ function game:update(dt)
                 StatsPanel.update(dt)
                 -- Castle Kingdoms 2027 v3.12.131: Particle effects update
                 S.ParticleEffects.update(dt)
+                -- Castle Kingdoms 2027 v3.12.132: Tutorial panel animation update
+                TutorialPanel.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
@@ -3416,6 +3420,8 @@ function game:draw()
             StatsPanel.draw()
             -- Castle Kingdoms 2027 v3.12.131: Draw Particle Effects (confetti, sparks, gold, flash)
             S.ParticleEffects.draw()
+            -- Castle Kingdoms 2027 v3.12.132: Draw Tutorial Manager Panel (Ctrl+Shift+O)
+            TutorialPanel.draw()
             -- Castle Kingdoms 2027: Draw Kenney CC0 overlay (if enabled)
             if _G.KenneySpriteRenderer and _G.KenneySpriteRenderer.isActive() then
                 love.graphics.setScissor(0, 0, screenWidth, screenHeight - 150)
@@ -3509,6 +3515,10 @@ function game:mousepressed(x, y, button, istouch)
     if StatsPanel.isVisible() then
         if StatsPanel.mousepressed(x, y, button) then return end
     end
+    -- Castle Kingdoms 2027 v3.12.132: Tutorial panel click handling
+    if TutorialPanel.isVisible() then
+        if TutorialPanel.mousepressed(x, y, button) then return end
+    end
     -- Castle Kingdoms 2027 v3.11.941: KeybindHelp click handling (close on outside click)
     if KeybindHelp.isVisible() then
         if KeybindHelp.mousepressed(x, y, button) then return end
@@ -3585,6 +3595,10 @@ function game:textinput(text)
     -- Castle Kingdoms 2027 v3.12.129: Stats panel search input
     if StatsPanel.isVisible() then
         if StatsPanel.textinput(text) then return end
+    end
+    -- Castle Kingdoms 2027 v3.12.132: Tutorial panel search input
+    if TutorialPanel.isVisible() then
+        if TutorialPanel.textinput(text) then return end
     end
     console.textinput(text)
 end
@@ -3879,6 +3893,10 @@ function game:keypressed(key, scancode, isRepeat)
     if StatsPanel.isVisible() then
         if StatsPanel.keypressed(key, scancode, isrepeat) then return end
     end
+    -- Castle Kingdoms 2027 v3.12.132: Forward keys to Tutorial Panel if visible
+    if TutorialPanel.isVisible() then
+        if TutorialPanel.keypressed(key, scancode, isrepeat) then return end
+    end
     -- Forward keys to Auto-Save Panel if it's visible
     if AutoSavePanel.isVisible() then
         if AutoSavePanel.keypressed(key, scancode, isrepeat) then
@@ -4069,6 +4087,12 @@ function game:keypressed(key, scancode, isRepeat)
     if key == "i" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl"))
                   and (love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift")) then
         StatsPanel.toggle()
+        return
+    end
+    -- v3.12.132: Ctrl+Shift+O = Toggle Tutorial Manager Panel
+    if key == "o" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl"))
+                  and (love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift")) then
+        TutorialPanel.toggle()
         return
     end
     -- Ctrl+W = Cycle weather gameplay (Castle Kingdoms 2027)
@@ -4351,6 +4375,10 @@ function game:mousemoved(x, y, dx, dy, istouch)
     if StatsPanel.isVisible() then
         if StatsPanel.mousemoved(x, y, dx, dy) then return end
     end
+    -- Castle Kingdoms 2027 v3.12.132: Tutorial panel mousemoved (for future use)
+    if TutorialPanel.isVisible() then
+        if TutorialPanel.mousemoved(x, y, dx, dy) then return end
+    end
     -- Castle Kingdoms 2027 v3.11.938: Royal Systems Panel mousemoved
     if RoyalSystemsPanel.isVisible() then
         if RoyalSystemsPanel.mousemoved(x, y, dx, dy) then return end
@@ -4405,6 +4433,10 @@ function game:wheelmoved(x, y)
     -- Castle Kingdoms 2027 v3.12.129: Stats panel wheel scroll
     if StatsPanel.isVisible() then
         if StatsPanel.wheelmoved(x, y) then return end
+    end
+    -- Castle Kingdoms 2027 v3.12.132: Tutorial panel wheel scroll
+    if TutorialPanel.isVisible() then
+        if TutorialPanel.wheelmoved(x, y) then return end
     end
     -- Castle Kingdoms 2027 v3.11.929: Overlay opacity wheel (if hovering overlay)
     if AutoSaveOverlay.wheelmoved(x, y) then return end

@@ -2,6 +2,84 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.132] — 2026-08-22 — Tutorial Manager System (persistenca + 13 novih hintov + Ctrl+Shift+O panel!)
+
+### Dodano
+- **`objects/Feedback/TutorialHints.lua`** — popolna nadgradnja z persistenco:
+  - **Persistenca** — `tutorial_hints_shown.txt` in `tutorial_enabled.txt`:
+    - Stanje shranjenih hintov se persistira med sejami (pred tem se je izgubilo vsak restart)
+    - `enabled` flag se persistira
+    - `loadPersistedState()` se kliče ob require-u (modul se sam naloži)
+  - **13 novih hintov** za moderne panele:
+    - `royal_systems_panel` (P20) — Ctrl+R za 990 Royal sistemov
+    - `market_dashboard` (P21) — Ctrl+K za trg
+    - `autosave_panel` (P22) — Ctrl+U za auto-save
+    - `tech_tree_panel` (P23) — Ctrl+Shift+G za 891 deps v 165 verigah
+    - `keybind_help` (P24) — F1 za vse tipke
+    - `toast_history` (P25) — N za zgodovino obvestil
+    - `achievement_panel` (P26) — Ctrl+Shift+A za 26 dosežkov
+    - `stats_panel` (P27) — Ctrl+Shift+I za 4 zavihke statistike
+    - `ui_sfx_toggle` (P28) — F2 za UI zvoke
+    - `first_royal_system` (P30) — prvi aktiviran sistem
+    - `first_market_event` (P31) — prvi tržni dogodek
+    - `first_bookmark` (P32) — prvi zaznamek v Tech Tree
+  - **Novo API** za upravljanje:
+    - `getAll()` — vrne tabelo vseh hintov z {key, text, priority, shown} (sortirano po prioriteti)
+    - `getHint(key)` — vrne info o enem hintu
+    - `markShown(key)` — označi hint kot prikazan brez prikaza toast-a
+    - `unmarkShown(key)` — odznači hint (prikazano znova naslednjič)
+    - `getStats()` — vrne {totalHints, shownHints, remainingHints, enabled}
+  - **NotificationCenter integracija** — `show()` sedaj pošlje tudi low-priority toast z "💡 " prefixom
+
+- **`states/ui/hud/tutorial_panel.lua`** — nov modern UI panel (~400 vrstic):
+  - **Toggle**: Ctrl+Shift+O (O kot "Onboarding")
+  - **Animacija**: slide-right + fade-in/out (0.22s, easeOut, 24px)
+  - **Layout**:
+    - Naslov "🎓 TUTORIAL MANAGER — Castle Kingdoms 2027"
+    - Hint line z navodili
+    - Stats: skupaj/prikazani/skriti/status (VKLOPLJENO/IZKLOPLJENO)
+    - 3 filter gumbi: VSI / PRIKAZANI / SKRITI
+    - Search box z "/" aktivacijo
+    - Scrollable lista hintov z vizualnim scrollbar
+  - **Vsaka vrstica** prikazuje:
+    - Status ikona: ✓ (prikazan, zeleno) ali ○ (skrit, oranžno)
+    - Hint key (npr. "royal_systems_panel")
+    - Priority badge (P20, P21, itd.)
+    - Hint text (truncated na 70 znakov)
+    - Hover: action hint "klik: skrij znova" / "klik: označi kot prikazan"
+  - **Akcijske tipke**:
+    - **C** — počisti vse (reset persisted state, vsi hinti bodo spet prikazani)
+    - **E** — toggle enabled/disabled (omogoči/onemogoči vse tuts)
+    - **Tab** — ciklaj filter (VSI → PRIKAZANI → SKRITI → VSI)
+    - **/** — aktiviraj iskanje
+    - **ESC** — zapri panel
+    - **↑↓/wheel/PgUp/PgDn/Home** — navigacija
+  - **Click interakcije**:
+    - Klik na filter gumb → spremeni filter
+    - Klik na search box → aktivira iskanje
+    - Klik na vrstico → toggle shown/hidden tega hinta
+    - Klik zunaj panela → zapri panel
+
+### Spremenjeno
+- **`states/game.lua`** — integracija TutorialPanel:
+  - `local TutorialPanel = require(...)` require na vrhu
+  - `TutorialPanel.update(dt)` v update bloku
+  - `TutorialPanel.draw()` v draw bloku (za Particle Effects)
+  - Ctrl+Shift+O keybind
+  - Input forward: mousepressed, wheelmoved, keypressed, textinput, mousemoved
+- **`states/ui/hud/keybind_help.lua`** — dodan Ctrl+Shift+O vnos v OSNOVNO kategorijo
+
+### Tehnične podrobnosti
+- TutorialHints je bil že prej v projektu (v2.5.7) — imel je 17 hintov in osnovno prioriteto logiko. Sedaj jih ima 30 z persistenco in polnim API.
+- Persistenca uporablja `love.filesystem.append` za dodajanje hintov (učinkovito) in `love.filesystem.write` za clear
+- `unmarkShown` obnovi celoten file (da prepreči duplikate)
+- Hints so organizirani po prioriteti (P1-P32), kjer nižja prioriteta = prikazan prej
+- Tutorial panel uporablja `TutorialHints.getAll()` ki vrača sortirano tabelo
+- Hover efekt v tutorial panelu prilagodi mouse pozicijo za slide offset (da hover detection deluje pravilno med animacijo)
+- Vsi hinti so vklopljeni po defaultu (enabled = true)
+- `markShown` omogoča igralcu da "preskoči" tutorial brez prikaza toast-a
+- NotificationCenter integracija omogoča, da tutorial hinti prikažejo kot toast ne samo kot ModernUI obvestilo
+
 ## [v3.12.131] — 2026-08-22 — Particle Effects System (konfeti, iskre, zlato, screen shake + flash!)
 
 ### Dodano

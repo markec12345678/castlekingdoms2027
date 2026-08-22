@@ -19,6 +19,31 @@ local activeHint = nil
 local hintTimer = 0
 local hintDuration = 8.0  -- seconds
 
+-- v3.12.132: Persistence file
+local SHOWN_FILE = "tutorial_hints_shown.txt"
+local ENABLED_FILE = "tutorial_enabled.txt"
+
+-- v3.12.132: Load persisted state on require
+local function loadPersistedState()
+    -- Load shown hints
+    local ok, content = pcall(love.filesystem.read, SHOWN_FILE)
+    if ok and content then
+        for line in content:gmatch("[^\n]+") do
+            local key = line:gsub("^%s+", ""):gsub("%s+$", "")
+            if key ~= "" then
+                hintsShown[key] = true
+            end
+        end
+    end
+    -- Load enabled state
+    local ok2, content2 = pcall(love.filesystem.read, ENABLED_FILE)
+    if ok2 and content2 then
+        content2 = content2:gsub("%s+$", "")
+        if content2 == "false" then enabled = false end
+    end
+end
+loadPersistedState()
+
 -- Hint definitions
 local HINTS = {
     first_game_start = {
@@ -90,6 +115,56 @@ local HINTS = {
         text = "Ctrl+B za ustvarjanje katapulta! Oblegovalna orožja uničujejo zgradbe.",
         priority = 15,
     },
+
+    -- v3.12.132: New hints for modern UI panels (added when they were created)
+    royal_systems_panel = {
+        text = "Ctrl+R odpre Kraljeve sisteme — 990 proizvodnih sistemov z iskanjem, kategorijami in sortiranjem!",
+        priority = 20,
+    },
+    market_dashboard = {
+        text = "Ctrl+K odpre Nadzorno ploščo trga — cene, prodaja, trendi, dogodki!",
+        priority = 21,
+    },
+    autosave_panel = {
+        text = "Ctrl+U odpre Auto-Save panel — status, interval, force save, nastavitve!",
+        priority = 22,
+    },
+    tech_tree_panel = {
+        text = "Ctrl+Shift+G odpre Tech Tree graf — 891 odvisnosti v 165 verigah z barvno kodiranjem!",
+        priority = 23,
+    },
+    keybind_help = {
+        text = "F1 odpre Tipkovne bližnjice — vse tipke organizirane po kategorijah z iskanjem!",
+        priority = 24,
+    },
+    toast_history = {
+        text = "N odpre Zgodovino obvestil — vsa pretekla obvestila z iskanjem in filtri!",
+        priority = 25,
+    },
+    achievement_panel = {
+        text = "Ctrl+Shift+A odpre Dosežke — 26 dosežkov z rarity barvami, progress bari in tooltipi!",
+        priority = 26,
+    },
+    stats_panel = {
+        text = "Ctrl+Shift+I odpre Statistiko — 4 zavihki z grafi, lestvicami in realno-časnim pregledom!",
+        priority = 27,
+    },
+    ui_sfx_toggle = {
+        text = "F2 preklopi UI zvoke — zvok za vse panele (odpiranje, klik, tab switch, dosežki)!",
+        priority = 28,
+    },
+    first_royal_system = {
+        text = "Aktiviral si svoj prvi Royal sistem! Odklenjen dosežek: Kraljevi pionir (★).",
+        priority = 30,
+    },
+    first_market_event = {
+        text = "Sprožil si prvi tržni dogodek! Cene se bodo spreminjale 60s — izkoristi priložnost!",
+        priority = 31,
+    },
+    first_bookmark = {
+        text = "Označil si prvi zaznamek v Tech Tree! B za zaznamovanje, Shift+B za filter zaznamovanih.",
+        priority = 32,
+    },
 }
 
 -- Show a hint (if not already shown this session)
@@ -104,6 +179,8 @@ function TutorialHints.show(hintKey, force)
     end
 
     hintsShown[hintKey] = true
+    -- v3.12.132: Persist shown state
+    pcall(love.filesystem.append, SHOWN_FILE, hintKey .. "\n")
     activeHint = hintKey
     hintTimer = hintDuration
 
@@ -111,6 +188,13 @@ function TutorialHints.show(hintKey, force)
     if _G.ModernUI then
         local hint = HINTS[hintKey]
         _G.ModernUI.notifyInfo(hint.text, hintDuration)
+    end
+    -- v3.12.132: Also send to NotificationCenter as a low-priority toast
+    if _G.NotificationCenter then
+        local hint = HINTS[hintKey]
+        pcall(function()
+            _G.NotificationCenter.system("💡 " .. hint.text, _G.NotificationCenter.PRIORITY.LOW, hintDuration)
+        end)
     end
 end
 
@@ -129,16 +213,86 @@ function TutorialHints.draw()
     -- Hints are shown via ModernUI notifications, no separate drawing needed
 end
 
--- Reset hints (new game)
+-- Reset hints (new game) — v3.12.132: also clears persisted file
 function TutorialHints.reset()
     hintsShown = {}
     activeHint = nil
     hintTimer = 0
+    -- Clear persisted shown file
+    pcall(love.filesystem.write, SHOWN_FILE, "")
+    print("[TutorialHints] Reset all hints (persisted file cleared)")
 end
 
--- Enable/disable hints
+-- Enable/disable hints — v3.12.132: persists state
 function TutorialHints.setEnabled(state)
     enabled = state
+    pcall(love.filesystem.write, ENABLED_FILE, tostring(state) .. "\n")
+end
+
+-- v3.12.132: Get all hints with shown status (for tutorial panel)
+function TutorialHints.getAll()
+    local result = {}
+    for key, hint in pairs(HINTS) do
+        result[#result + 1] = {
+            key = key,
+            text = hint.text,
+            priority = hint.priority,
+            shown = hintsShown[key] == true,
+        }
+    end
+    -- Sort by priority
+    table.sort(result, function(a, b) return a.priority < b.priority end)
+    return result
+end
+
+-- v3.12.132: Get hint info by key
+function TutorialHints.getHint(hintKey)
+    if not HINTS[hintKey] then return nil end
+    return {
+        key = hintKey,
+        text = HINTS[hintKey].text,
+        priority = HINTS[hintKey].priority,
+        shown = hintsShown[hintKey] == true,
+    }
+end
+
+-- v3.12.132: Mark a hint as shown without showing the toast (used by tutorial panel)
+function TutorialHints.markShown(hintKey)
+    if not HINTS[hintKey] then return false end
+    if not hintsShown[hintKey] then
+        hintsShown[hintKey] = true
+        pcall(love.filesystem.append, SHOWN_FILE, hintKey .. "\n")
+    end
+    return true
+end
+
+-- v3.12.132: Unmark a hint as shown (re-show next time)
+function TutorialHints.unmarkShown(hintKey)
+    if not HINTS[hintKey] then return false end
+    hintsShown[hintKey] = nil
+    -- Rebuild persisted file
+    local lines = {}
+    for k, _ in pairs(hintsShown) do
+        lines[#lines + 1] = k
+    end
+    pcall(love.filesystem.write, SHOWN_FILE, table.concat(lines, "\n") .. "\n")
+    return true
+end
+
+-- v3.12.132: Get stats
+function TutorialHints.getStats()
+    local total = 0
+    local shownCount = 0
+    for key, _ in pairs(HINTS) do
+        total = total + 1
+        if hintsShown[key] then shownCount = shownCount + 1 end
+    end
+    return {
+        totalHints = total,
+        shownHints = shownCount,
+        remainingHints = total - shownCount,
+        enabled = enabled,
+    }
 end
 
 -- Check if a hint has been shown
