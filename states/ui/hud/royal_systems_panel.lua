@@ -40,6 +40,24 @@ local SORT_MODES = {
     active     = "Po aktivnosti",
 }
 
+local SEARCH_FILE = "royal_systems_search.txt"
+
+-- Load persisted search query on init
+local function loadSearchQuery()
+    local ok, content = pcall(love.filesystem.read, SEARCH_FILE)
+    if ok and content then
+        content = content:gsub("%s+$", "")  -- trim trailing whitespace
+        if content ~= "" then
+            searchQuery = content
+        end
+    end
+end
+
+-- Save search query to file
+local function saveSearchQuery()
+    pcall(love.filesystem.write, SEARCH_FILE, searchQuery .. "\n")
+end
+
 -- Cached filtered list (rebuilt on search/category change)
 local filteredSystems = {}
 
@@ -205,6 +223,7 @@ end
 -- Load on init
 loadSortMode()
 loadCategory()
+loadSearchQuery()
 
 function RoyalPanel.toggle()
     visible = not visible
@@ -977,6 +996,7 @@ function RoyalPanel.keypressed(key, scancode, isrepeat)
         if searchActive then
             searchActive = false
             searchQuery = ""
+            saveSearchQuery()
             rebuildFiltered()
         else
             RoyalPanel.toggle()
@@ -988,10 +1008,12 @@ function RoyalPanel.keypressed(key, scancode, isrepeat)
     if searchActive then
         if key == "backspace" then
             searchQuery = searchQuery:sub(1, -2)
+            saveSearchQuery()
             rebuildFiltered()
             return true
         elseif key == "return" or key == "kpenter" then
             searchActive = false
+            saveSearchQuery()
             return true
         elseif key == "tab" then
             -- Cycle categories while in search
@@ -1014,6 +1036,7 @@ function RoyalPanel.keypressed(key, scancode, isrepeat)
     if key == "/" then
         searchActive = true
         searchQuery = ""
+        saveSearchQuery()
         return true
     end
 
@@ -1119,6 +1142,7 @@ function RoyalPanel.textinput(text)
         -- Only accept printable characters
         if text:match("[%w _-]") then
             searchQuery = searchQuery .. text
+            saveSearchQuery()
             rebuildFiltered()
         end
         return true

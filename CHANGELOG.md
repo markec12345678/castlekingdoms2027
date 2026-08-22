@@ -2,6 +2,32 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.115] — 2026-08-22 — Royal Systems Panel Search Persistence (save/load searchQuery med sejami!)
+
+### Dodano
+- **royal_systems_panel.lua** — persistenca searchQuery med sejami:
+  - Nov `SEARCH_FILE = "royal_systems_search.txt"`
+  - `loadSearchQuery()` — prebere searchQuery iz datoteke ob init (s trim trailing whitespace)
+  - `saveSearchQuery()` — zapiše searchQuery v datoteko ob spremembi
+  - `loadSearchQuery()` klicana ob init (skupaj z loadSortMode in loadCategory)
+  - `saveSearchQuery()` klicana v:
+    - Escape key (počisti iskanje)
+    - Backspace key (briše zadnji znak)
+    - Return/Enter key (potrdi iskanje)
+    - `/` key (aktivira novo iskanje, počisti query)
+    - `textinput()` handler (tipkanje)
+  - pcall wrapper za varno branje/pisanje
+- **Royal Systems Panel persistence popoln**: sortMode (v3.12.112) + activeCategory (v3.12.113) + searchQuery (v3.12.115)
+
+### Spremenjene datoteke
+- `states/ui/hud/royal_systems_panel.lua` (+25 vrstic) — SEARCH_FILE, loadSearchQuery, saveSearchQuery, init load, 5 save calls
+- `README.md` — posodobljen badge (v3.12.115)
+- `CHANGELOG.md` — dodan v3.12.115 entry
+- `NEXT_BATCH_HANDOFF.md` — posodobljeno stanje
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS
+
 ## [v3.12.114] — 2026-08-22 — Keybind Help Search Persistence (save/load searchQuery med sejami!)
 
 ### Dodano
