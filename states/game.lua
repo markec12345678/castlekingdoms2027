@@ -921,6 +921,8 @@ local DifficultySettings = require("objects.Gameplay.DifficultySettings")
 local MinimapWidget = require("states.ui.hud.minimap_widget")
 -- Castle Kingdoms 2027 v3.12.143: Help Overlay System
 local HelpOverlay = require("states.ui.hud.help_overlay")
+-- Castle Kingdoms 2027 v3.12.144: Keybind Editor
+local KeybindEditor = require("states.ui.hud.keybind_editor")
 -- Castle Kingdoms 2027 - Campaign progress & auto-save
 local CampaignProgress = require("objects.Mission.CampaignProgress")
 local AutoSaveSystem = require("objects.AutoSaveSystem")
@@ -3225,6 +3227,8 @@ function game:update(dt)
                 -- Castle Kingdoms 2027 v3.12.142: Minimap animation update (passive, no update needed)
                 -- Castle Kingdoms 2027 v3.12.143: Help overlay update
                 HelpOverlay.update(dt)
+                -- Castle Kingdoms 2027 v3.12.144: Keybind editor update
+                KeybindEditor.update(dt)
                 -- Castle Kingdoms 2027 v3.12.133: Difficulty panel animation update
                 DifficultyPanel.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
@@ -3443,6 +3447,8 @@ function game:draw()
             MinimapWidget.draw()
             -- Castle Kingdoms 2027 v3.12.143: Draw Help Overlay (context help + tips)
             HelpOverlay.draw()
+            -- Castle Kingdoms 2027 v3.12.144: Draw Keybind Editor (Ctrl+Shift+K)
+            KeybindEditor.draw()
             -- Castle Kingdoms 2027: Draw Kenney CC0 overlay (if enabled)
             if _G.KenneySpriteRenderer and _G.KenneySpriteRenderer.isActive() then
                 love.graphics.setScissor(0, 0, screenWidth, screenHeight - 150)
@@ -3544,6 +3550,10 @@ function game:mousepressed(x, y, button, istouch)
     if DifficultyPanel.isVisible() then
         if DifficultyPanel.mousepressed(x, y, button) then return end
     end
+    -- Castle Kingdoms 2027 v3.12.144: Keybind Editor click handling
+    if KeybindEditor.isVisible() then
+        if KeybindEditor.mousepressed(x, y, button) then return end
+    end
     -- Castle Kingdoms 2027 v3.12.142: Minimap click-to-navigate
     if MinimapWidget.isVisible() then
         if MinimapWidget.mousepressed(x, y, button) then return end
@@ -3629,9 +3639,13 @@ function game:textinput(text)
     if TutorialPanel.isVisible() then
         if TutorialPanel.textinput(text) then return end
     end
-    -- Castle Kingdoms 2027 v3.12.133: Difficulty panel search input (no-op, but for consistency)
-    if DifficultyPanel.isVisible() then
-        if DifficultyPanel.textinput(text) then return end
+    -- Castle Kingdoms 2027 v3.12.143: Help overlay search input (no-op, but for consistency)
+    if HelpOverlay.isEnabled() then
+        if HelpOverlay.isEnabled() then return end
+    end
+    -- Castle Kingdoms 2027 v3.12.144: Keybind Editor search input
+    if KeybindEditor.isVisible() then
+        if KeybindEditor.textinput(text) then return end
     end
     console.textinput(text)
 end
@@ -3930,6 +3944,10 @@ function game:keypressed(key, scancode, isRepeat)
     if TutorialPanel.isVisible() then
         if TutorialPanel.keypressed(key, scancode, isrepeat) then return end
     end
+    -- Castle Kingdoms 2027 v3.12.144: Forward keys to Keybind Editor if visible
+    if KeybindEditor.isVisible() then
+        if KeybindEditor.keypressed(key, scancode, isrepeat) then return end
+    end
     -- Castle Kingdoms 2027 v3.12.133: Forward keys to Difficulty Panel if visible
     if DifficultyPanel.isVisible() then
         if DifficultyPanel.keypressed(key, scancode, isrepeat) then return end
@@ -3975,6 +3993,12 @@ function game:keypressed(key, scancode, isRepeat)
     if key == "h" and not (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl"))
                     and not (love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift")) then
         HelpOverlay.toggle()
+        return
+    end
+    -- v3.12.144: Ctrl+Shift+K = Toggle Keybind Editor
+    if key == "k" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl"))
+                  and (love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift")) then
+        KeybindEditor.toggle()
         return
     end
     -- v3.12.127: Forward keys to NotificationCenter history panel if visible
@@ -4434,9 +4458,13 @@ function game:mousemoved(x, y, dx, dy, istouch)
     if TutorialPanel.isVisible() then
         if TutorialPanel.mousemoved(x, y, dx, dy) then return end
     end
-    -- Castle Kingdoms 2027 v3.12.133: Difficulty panel mousemoved (for future use)
-    if DifficultyPanel.isVisible() then
-        if DifficultyPanel.mousemoved(x, y, dx, dy) then return end
+    -- Castle Kingdoms 2027 v3.12.143: Help overlay mousemoved
+    if HelpOverlay.isEnabled() then
+        if HelpOverlay.mousemoved(x, y, dx, dy) then return end
+    end
+    -- Castle Kingdoms 2027 v3.12.144: Keybind editor mousemoved
+    if KeybindEditor.isVisible() then
+        if KeybindEditor.mousemoved(x, y, dx, dy) then return end
     end
     -- Castle Kingdoms 2027 v3.12.142: Minimap drag-to-navigate
     if MinimapWidget.isVisible() then
@@ -4500,6 +4528,10 @@ function game:wheelmoved(x, y)
     -- Castle Kingdoms 2027 v3.12.132: Tutorial panel wheel scroll
     if TutorialPanel.isVisible() then
         if TutorialPanel.wheelmoved(x, y) then return end
+    end
+    -- Castle Kingdoms 2027 v3.12.144: Keybind Editor wheel scroll
+    if KeybindEditor.isVisible() then
+        if KeybindEditor.wheelmoved(x, y) then return end
     end
     -- Castle Kingdoms 2027 v3.12.133: Difficulty panel wheel scroll (no-op)
     if DifficultyPanel.isVisible() then
