@@ -54,6 +54,8 @@ local KEYBINDS = {
             { key = "H",         desc = "Pokaži/skrij pomoč (ta okno)" },
             { key = "V",         desc = "Nastavitve (game feel) | V v Ctrl+K: zgodovina dogodkov" },
             { key = "N",         desc = "Toast zgodovina - pokaži vsa pretekla obvestila (v3.12.127)" },
+            { key = "Ctrl+Shift+A", desc = "Dosežki - modern achievement panel z animacijami (v3.12.128)" },
+            { key = "Ctrl+A",    desc = "Dosežki - stari loveframes achievement gallery" },
             { key = "` + Shift", desc = "Odpri konzolo" },
             { key = "Shift+R",   desc = "Ponastavi vse nastavitve (zbriše 16 persisted datotek, zahteva restart)" },
         },

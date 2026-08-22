@@ -2,6 +2,85 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.128] — 2026-08-22 — Modern Achievement Panel (10 novih Royal dosežkov + Ctrl+Shift+A panel!)
+
+### Dodano
+- **`objects/Steam/AchievementTracker.lua`** — 10 novih Royal Systems dosežkov:
+  - `royal_first` (common) — Kraljevi pionir — aktiviraj prvi Royal sistem
+  - `royal_apprentice` (common) — Kraljevi vajenec — aktiviraj 10 sistemov
+  - `royal_journeyman` (rare) — Kraljevi pomočnik — aktiviraj 50 sistemov
+  - `royal_master` (epic) — Kraljevi mojster — aktiviraj 100 sistemov
+  - `royal_grandmaster` (legendary) — Kraljevi velemojster — aktiviraj 500 sistemov
+  - `royal_completionist` (legendary) — Kraljevi kolekcionar — aktiviraj VSE 990 sistemov
+  - `royal_economist` (epic) — Kraljevi ekonomist — prisluži 10.000 zlata iz Royal proizvodnje
+  - `royal_market_mogul` (rare) — Tržni mogulec — sproži 25 tržnih dogodkov
+  - `royal_tech_explorer` (rare) — Raziskovalec tehnologije — zaznamuj 10 sistemov v Tech Tree
+  - `royal_saver` (common) — Vztrajni graditelj — shrani igro 50-krat
+
+- **`unlock()` nadgradnja** — ob odklepu dosežka se sproži toast notification:
+  - **CRITICAL** priority za legendary dosežke (★ ikona, category=mission)
+  - **HIGH** priority za epic (◆) in rare (▲) dosežke
+  - **NORMAL** priority za common (●) dosežke
+  - Toast prikazuje: ikona + "DOSEŽEK: ime (rarity)" z 8s duration
+  - Toast barva se ujema s prioriteto (rdeča=CRITICAL, oranžna=HIGH, belo=NORMAL)
+  - `ach.progressCurrent = ach.progressMax` — dosežek se dokončno označi kot complete
+
+- **`states/ui/hud/achievement_panel.lua`** — nov modern UI panel (~480 vrstic):
+  - **Toggle**: Ctrl+Shift+A (Ctrl+A ostane za stari loveframes gallery)
+  - **Animacija**: slide-down + fade-in/out (0.22s, easeOut, 26px)
+  - **Layout**:
+    - Naslov "🏆 DOSEŽKI — Castle Kingdoms 2027"
+    - Hint line z navodili ( Ctrl+Shift+A: zapri | /: iskanje | Tab: kategorija | scroll)
+    - Stats summary: odklenjenih X/Y (Z%)
+    - Progress bar z barvnim gradientom (rdeča→rumena→zelena glede na procent)
+    - 6 kategorij filter gumbov: VSI / BOJEVANJE / EKONOMIJA / KAMPAJA / DRUŽBENO / POSEBNO
+    - Search box z "/" aktivacijo
+    - Scrollable lista dosežkov z vizualnim scrollbar
+  - **Vsako vrstico** prikazuje:
+    - Leva barvna stranica (rarity barva): common=siva, rare=modra, epic=vijolična, legendary=zlata
+    - Rarity ikona (velika): ● (common), ▲ (rare), ◆ (epic), ★ (legendary)
+    - Slovenian ime (glavno) + English ime (manjše)
+    - Slovenian opis + English opis
+    - Progress bar z odstotkom in števcem (npr. 47/100)
+    - Status: ✓ ODKLENJENO z datumom (DD.MM.YYYY HH:MM) ali "zaklenjeno"
+  - **Hover tooltip**:
+    - Ikona + ime (rarity barva)
+    - EN ime
+    - Kategorija labela
+    - SL + EN opis
+    - Napredek (X/Y, Z%)
+    - Status + datum odklepa
+  - **Sortiranje**: odklenjeni najprej, potem po kategoriji, potem po imenu
+  - **Navigacija**: ↑↓/wheel/PgUp/PgDn/Home/End za scroll
+  - **Kategorije**: Tab cikla skozi kategorije
+  - **Iskanje**: / odpre iskanje, ESC prekliče, ENTER potrdi
+  - **Click interakcije**:
+    - Klik na kategorijo gumb → spremeni filter
+    - Klik na search box → aktivira iskanje
+    - Klik zunaj panela → zapre panel
+
+- **Hook v RoyalSystemsRegistry.lua**:
+  - `build()` — po uspešni gradnji šteje aktivne sisteme in posodablja vseh 6 milestone dosežkov (royal_first do royal_completionist)
+  - `completeMaking()` — ob vsakem končanem produktu prišteje bonus zlata k royal_economist dosežku
+
+### Spremenjeno
+- **`states/game.lua`** — integracija AchievementPanel:
+  - `local AchievementPanel = require(...)` require na vrhu
+  - `AchievementPanel.update(dt)` v update bloku
+  - `AchievementPanel.draw()` v draw bloku
+  - Ctrl+Shift+A keybind (Ctrl+A ostane za stari gallery)
+  - Input forward: mousepressed, wheelmoved, keypressed, textinput, mousemoved
+- **`states/ui/hud/keybind_help.lua`** — dodana Ctrl+Shift+A in Ctrl+A keybind vnos v OSNOVNO kategorijo
+
+### Tehnične podrobnosti
+- AchievementTracker je bil že prej v projektu (v2.7.4) — imel je 16 dosežkov (combat/economy/campaign/social/special). Sedaj jih ima 26.
+- `_G.AchievementTracker` je nastavljen v `game.lua:1190` ob init-u
+- Vsak dosežek ima `progressMax` in `progressCurrent` — progress bar se izračuna kot `min(100, current/max * 100)`
+- Ko `progressCurrent >= progressMax`, se samodejno pokliče `unlock(achievementId)` (znotraj `updateProgress`)
+- `unlock()` je idempotent — če je dosežek že odklenjen, ne naredi nič (vrne false)
+- Royal Systems milestone dosežki so vsebinsko povezani — ko aktiviraš 100 sistemov, samodejno odkleneš tudi vse nižje milestone (10, 50, 1)
+- RoyalSystemsRegistry.build() kliče `s.module.getStats()` za vsak sistem da prešteje aktivne — O(N) pri vsaki gradnji, vendar je to redka akcija
+
 ## [v3.12.127] — 2026-08-22 — Toast Notification System (animirana obvestila + zgodovinski panel N!)
 
 ### Dodano

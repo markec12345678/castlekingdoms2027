@@ -126,6 +126,10 @@ function RoyalSystemsRegistry.init(S)
                 if bonus > 0 and _G.state then
                     _G.state.gold = (_G.state.gold or 0) + bonus
                     aggregate.totalGoldEarned = aggregate.totalGoldEarned + bonus
+                    -- v3.12.128: Track progress for royal_economist achievement (10,000 gold)
+                    if _G.AchievementTracker then
+                        pcall(function() _G.AchievementTracker.addProgress("royal_economist", bonus) end)
+                    end
                 end
                 -- Also boost population cap slightly for high-happiness products
                 if (m.happiness or 0) >= 5 and _G.state then
@@ -230,7 +234,27 @@ function RoyalSystemsRegistry.build(key, buildingId)
         end
         return false, "Zahteva: " .. table.concat(names, ", ") .. " (zgradij delavnico)"
     end
-    return sys.module.build(buildingId)
+    local result = sys.module.build(buildingId)
+    -- v3.12.128: Update Royal systems achievement progress when a system becomes active
+    if result and _G.AchievementTracker then
+        pcall(function()
+            local activeCount = 0
+            for _, s in ipairs(systems) do
+                local stats = s.module.getStats()
+                if stats and (stats.numBuildings or 0) > 0 then
+                    activeCount = activeCount + 1
+                end
+            end
+            -- Update all milestone achievements
+            _G.AchievementTracker.updateProgress("royal_first", math.min(1, activeCount))
+            _G.AchievementTracker.updateProgress("royal_apprentice", activeCount)
+            _G.AchievementTracker.updateProgress("royal_journeyman", activeCount)
+            _G.AchievementTracker.updateProgress("royal_master", activeCount)
+            _G.AchievementTracker.updateProgress("royal_grandmaster", activeCount)
+            _G.AchievementTracker.updateProgress("royal_completionist", activeCount)
+        end)
+    end
+    return result
 end
 
 function RoyalSystemsRegistry.make(key, productId, qty)

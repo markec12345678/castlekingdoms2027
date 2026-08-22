@@ -115,6 +115,71 @@ local ACHIEVEMENTS = {
         category = "special", rarity = "common",
         progressMax = 3600, progressCurrent = 0,  -- 3600 seconds
     },
+
+    -- v3.12.128: Royal Systems achievements
+    royal_first = {
+        name = "Royal Pioneer", nameSlv = "Kraljevi pionir",
+        desc = "Activate your first Royal system", descSlv = "Aktiviraj svoj prvi Royal sistem",
+        category = "economy", rarity = "common",
+        progressMax = 1, progressCurrent = 0,
+    },
+    royal_apprentice = {
+        name = "Royal Apprentice", nameSlv = "Kraljevi vajenec",
+        desc = "Activate 10 Royal systems", descSlv = "Aktiviraj 10 Royal sistemov",
+        category = "economy", rarity = "common",
+        progressMax = 10, progressCurrent = 0,
+    },
+    royal_journeyman = {
+        name = "Royal Journeyman", nameSlv = "Kraljevi pomočnik",
+        desc = "Activate 50 Royal systems", descSlv = "Aktiviraj 50 Royal sistemov",
+        category = "economy", rarity = "rare",
+        progressMax = 50, progressCurrent = 0,
+    },
+    royal_master = {
+        name = "Royal Master", nameSlv = "Kraljevi mojster",
+        desc = "Activate 100 Royal systems", descSlv = "Aktiviraj 100 Royal sistemov",
+        category = "economy", rarity = "epic",
+        progressMax = 100, progressCurrent = 0,
+    },
+    royal_grandmaster = {
+        name = "Royal Grandmaster", nameSlv = "Kraljevi velemojster",
+        desc = "Activate 500 Royal systems", descSlv = "Aktiviraj 500 Royal sistemov",
+        category = "economy", rarity = "legendary",
+        progressMax = 500, progressCurrent = 0,
+    },
+    royal_completionist = {
+        name = "Royal Completionist", nameSlv = "Kraljevi kolekcionar",
+        desc = "Activate ALL 990 Royal systems", descSlv = "Aktiviraj VSE 990 Royal sisteme",
+        category = "special", rarity = "legendary",
+        progressMax = 990, progressCurrent = 0,
+    },
+    royal_economist = {
+        name = "Royal Economist", nameSlv = "Kraljevi ekonomist",
+        desc = "Earn 10,000 gold from Royal system production",
+        descSlv = "Prisluži 10.000 zlata iz Royal proizvodnje",
+        category = "economy", rarity = "epic",
+        progressMax = 10000, progressCurrent = 0,
+    },
+    royal_market_mogul = {
+        name = "Market Mogul", nameSlv = "Tržni mogulec",
+        desc = "Trigger 25 market events", descSlv = "Sproži 25 tržnih dogodkov",
+        category = "economy", rarity = "rare",
+        progressMax = 25, progressCurrent = 0,
+    },
+    royal_tech_explorer = {
+        name = "Tech Explorer", nameSlv = "Raziskovalec tehnologije",
+        desc = "Bookmark 10 systems in Tech Tree",
+        descSlv = "Zaznamuj 10 sistemov v Tech Tree",
+        category = "special", rarity = "rare",
+        progressMax = 10, progressCurrent = 0,
+    },
+    royal_saver = {
+        name = "Persistent Builder", nameSlv = "Vztrajni graditelj",
+        desc = "Save game 50 times (manual or auto)",
+        descSlv = "Shrani igro 50-krat (ročno ali avtomatsko)",
+        category = "special", rarity = "common",
+        progressMax = 50, progressCurrent = 0,
+    },
 }
 
 AchievementTracker.ACHIEVEMENTS = ACHIEVEMENTS
@@ -165,9 +230,36 @@ function AchievementTracker.unlock(achievementId)
     if unlockedAchievements[achievementId] then return false end  -- already unlocked
 
     unlockedAchievements[achievementId] = os.time()
+    ach.progressCurrent = ach.progressMax  -- mark as complete
     print("[AchievementTracker] UNLOCKED: " .. ach.name)
 
-    -- Notify
+    -- v3.12.128: Send toast notification (priority based on rarity)
+    if _G.NotificationCenter then
+        local PRIORITY = _G.NotificationCenter.PRIORITY
+        local priority = PRIORITY.NORMAL
+        local category = "mission"
+        if ach.rarity == "legendary" then
+            priority = PRIORITY.CRITICAL
+            category = "mission"
+        elseif ach.rarity == "epic" then
+            priority = PRIORITY.HIGH
+            category = "mission"
+        elseif ach.rarity == "rare" then
+            priority = PRIORITY.HIGH
+            category = "social"
+        end
+        local rarityIcon = ach.rarity == "legendary" and "★" or
+                          (ach.rarity == "epic" and "◆" or
+                          (ach.rarity == "rare" and "▲" or "●"))
+        pcall(function()
+            _G.NotificationCenter.show(
+                rarityIcon .. " DOSEŽEK: " .. ach.nameSlv .. " (" .. ach.rarity .. ")",
+                category, priority, 8
+            )
+        end)
+    end
+
+    -- Notify (legacy)
     if _G.ModernUI then
         _G.ModernUI.notifySuccess("Dosežek: " .. ach.nameSlv .. " (" .. ach.rarity .. ")")
     end
