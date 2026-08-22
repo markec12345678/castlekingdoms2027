@@ -53,6 +53,7 @@ local KEYBINDS = {
             { key = "ESC",       desc = "Pavza / Zapri meni" },
             { key = "H",         desc = "Pokaži/skrij pomoč (ta okno)" },
             { key = "V",         desc = "Nastavitve (game feel) | V v Ctrl+K: zgodovina dogodkov" },
+            { key = "N",         desc = "Toast zgodovina - pokaži vsa pretekla obvestila (v3.12.127)" },
             { key = "` + Shift", desc = "Odpri konzolo" },
             { key = "Shift+R",   desc = "Ponastavi vse nastavitve (zbriše 16 persisted datotek, zahteva restart)" },
         },

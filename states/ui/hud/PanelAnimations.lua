@@ -53,13 +53,18 @@
 --     .duration   = number (seconds, default 0.20) — open/close duration
 --     .slideDir   = "up" | "down" | "left" | "right" | "none" (default "down")
 --     .slideDist  = number (pixels, default 24) — how far to slide
---     .easing     = "linear" | "easeOut" | "easeInOut" (default "easeOut")
+--     .easing     = "linear" | "easeIn" | "easeOut" | "easeInOut" (default "easeOut")
 
 local PanelAnimations = {}
 
 -- Easing functions
 local function easeLinear(t)
     return t
+end
+
+local function easeIn(t)
+    -- Quadratic ease-in: t^2 (slow start, fast end)
+    return t * t
 end
 
 local function easeOut(t)
@@ -87,6 +92,7 @@ function PanelAnimations.createState(opts)
     opts = opts or {}
     local easingFn = easeOut
     if opts.easing == "linear" then easingFn = easeLinear
+    elseif opts.easing == "easeIn" then easingFn = easeIn
     elseif opts.easing == "easeInOut" then easingFn = easeInOut
     elseif opts.easing == "easeOut" then easingFn = easeOut
     end

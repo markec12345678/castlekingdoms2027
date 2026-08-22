@@ -1,12 +1,12 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.12.126**
+- Različica: **v3.12.127**
 - Skupaj Royal sistemov: **990**
-- Skupaj Lua datotek: **1649** (+1: PanelAnimations.lua)
+- Skupaj Lua datotek: **1649**
 - Sintaktična preverba (avtentična Lua `load()`): **1649/1649 pass (100%)**
 - Tech Tree: **891 deps · 165 verig · 786 multi-prereq** (98.25x zažetnih 8!)
-- Zadnji paket: **v3.12.126 — UI Panel Animations** (fade-in/out + slide efekt za vseh 6 panelov)
+- Zadnji paket: **v3.12.127 — Toast Notification System** (animirana obvestila + zgodovinski panel N)
 - GitHub: pripravljen za push
 - Lokalni repo (sandbox): `/home/workdir/castlekingdoms2027`
 
@@ -28,8 +28,9 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 3. ~~**Market Dashboard mousemoved forwarding**~~ ✅ končano
 4. ~~**Overlay settings migration**~~ ✅ končano v v3.11.933
 
-## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.12.126)
+## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.12.127)
 
+- ✅ **v3.12.127**: Toast Notification System — animirana obvestila + zgodovinski panel! NotificationCenter nadgradnja z slide-in/out animacijami (0.25s open, 0.20s close, easeIn/easeOut). Click-to-dismiss, hover efekt z "× klik" hint. Novo API: `toggleHistoryPanel()`, `drawHistoryPanel()`, `isHistoryPanelVisible()`, `mousepressed/wheelmoved/keypressed` za input. Toast History Panel (N tipka) prikazuje zadnjih 100 obvestil z ikono, tekstom, časom (HH:MM:SS) in prioritetno oznako. Scrollable z ↑↓/wheel/PgUp/PgDn/Home/End, C=počisti, N/ESC=zapri. Nova easing funkcija `easeIn(t) = t²` v PanelAnimations. Toast triggerji v Royal Systems Panel (tryAction) in Market Dashboard (showMessage).
 - ✅ **v3.12.126**: UI Panel Animations — fade-in/out + slide efekt za VSE 6 panelov! Nov `PanelAnimations.lua` modul z easing funkcijami (linear, easeOut, easeInOut). Vsak panel ima svoj edinstven slide smer: KeybindHelp=down, AutoSavePanel=up, RoyalSystems=left, MarketDashboard=right, TechTree=up. `isVisible()` vrača true tudi med close animacijo — input handlerji ostanejo aktivni. Dodan `KeybindHelp.update(dt)` v game.lua. Trajanje 0.18-0.22s (sweet spot). `love.graphics.push("all") + translate(offsetX, offsetY)` za slide efekt.
 - ✅ **v3.12.125**: Tech Tree Hover Preview Graph — mini 1-hop podgraf v tooltipu! Ko igralec hover-a nad vozliščem, tooltip dobi novo sekcijo **🔗 PREDZADNJI GRAF** s prikazom predpogojev (zgornja vrstica), hovered vozlišča (sredina, zlato) in odvisnikov (spodnja vrstica). Povezovalne črte z barvno kodiranjem (zelena=aktiven, rdeče-rjava=zaklenjen). Novo API v `SystemDependencies.lua`: `getDependents(key)` in `getNeighborhood(key)` za reverse lookup. Refaktoriran inline scan v tooltipu (odvisnikov štetje). Max 6 vozlišč na vrstico z "+N več" overflow indikatorjem.
 - ✅ **v3.12.124**: Auto-Save Interval & Enabled Persistence — save/load interval + crash backup state med sejami. 20 persistence datotek skupno!

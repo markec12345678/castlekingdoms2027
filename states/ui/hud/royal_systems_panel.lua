@@ -178,14 +178,26 @@ local function tryAction(fn, ...)
     if ok and err ~= false then
         actionMessage = "OK: " .. tostring(err or "")
         actionMessageTime = 3.0
+        -- v3.12.127: Show toast notification for successful action
+        if _G.NotificationCenter then
+            pcall(function() _G.NotificationCenter.economy(actionMessage) end)
+        end
         return true
     elseif ok then
         actionMessage = "Napaka: " .. tostring(err or "Neznana")
         actionMessageTime = 3.0
+        -- v3.12.127: Show toast for error
+        if _G.NotificationCenter then
+            pcall(function() _G.NotificationCenter.system(actionMessage) end)
+        end
         return false, err
     else
         actionMessage = "Izjema: " .. tostring(err or "Neznana")
         actionMessageTime = 3.0
+        -- v3.12.127: Show toast for exception
+        if _G.NotificationCenter then
+            pcall(function() _G.NotificationCenter.combat(actionMessage) end)
+        end
         return false, err
     end
 end

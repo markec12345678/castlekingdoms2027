@@ -302,6 +302,10 @@ end
 local function showMessage(msg)
     actionMessage = msg
     actionMessageTime = 3.0
+    -- v3.12.127: Show toast notification for market events
+    if _G.NotificationCenter then
+        pcall(function() _G.NotificationCenter.economy(msg) end)
+    end
 end
 
 function MarketDashboard.draw()

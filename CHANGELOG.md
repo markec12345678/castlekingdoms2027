@@ -2,6 +2,67 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.127] — 2026-08-22 — Toast Notification System (animirana obvestila + zgodovinski panel N!)
+
+### Dodano
+- **`objects/UI/NotificationCenter.lua`** — nadgradnja z animacijami in zgodovinskim panelom:
+  - **Slide-in animacija** ob pojavu novega obvestila (0.25s, easeOut, slideDir=right, 60px)
+  - **Slide-out animacija** ob izteku ali dismiss-u (0.20s, easeIn, slideDir=right)
+  - **Click-to-dismiss** — klik na obvestilo ga zapre (z animacijo, ne instant)
+  - **Hover efekt** — hover poudari obvestilo (svetlejši bg + bel border)
+  - **Hover tooltip** "× klik" v spodnjem desnem kotu obvestila
+  - **Animacijsko stanje per obvestilo** (`animState` za opening, `closeAnimState` za closing)
+  - `dismiss(id)` sedaj začne close animacijo namesto instant odstranitve
+  - `update(dt)` posodobi tako opening kot closing animacije; čisti obvestila šele ko je close končan
+
+- **Toast History Panel** (dostopen z **N** tipko):
+  - **`toggleHistoryPanel()`** — odpre/zapre panel z animacijo (slide-up, 0.20s, easeOut)
+  - **`drawHistoryPanel()`** — polno zaslužen panel:
+    - Naslov "🔔 ZGODOVINA OBVEŠČANJ"
+    - Stats line: skupaj obvestil, aktivnih, zgodovina
+    - Scrollable lista zadnjih 100 obvestil (novska zgoraj)
+    - Vsako obvestilo prikaže: ikona, tekst, čas (HH:MM:SS), prioritetna oznaka (KRITIČNO/VISOKO/NORMALNO/NIZKO)
+    - Barvni levi border po kategoriji (combat=rdeča, economy=zelena, itd.)
+    - Vizualen scrollbar na desni
+    - Footer z navodili
+  - **Navigacija**: ↑↓/wheel/PgUp/PgDn/Home/End
+  - **C tipka** — počisti zgodovino
+  - **N ali ESC** — zapri panel
+  - `isHistoryPanelVisible()` vrača true tudi med close animacijo
+
+- **`PanelAnimations.lua`** — dodana nova easing funkcija:
+  - `easeIn(t)` — kvadratna ease-in (t^2, slow start, fast end)
+  - Sedaj podpira 4 easing funkcije: linear, easeIn, easeOut, easeInOut
+
+- **Toast triggerji v panelih** — ob akcijah se prikaže toast:
+  - **Royal Systems Panel** — `tryAction()` pošlje toast:
+    - Uspeh → `economy` kategorija (zelena)
+    - Napaka → `system` kategorija (siva)
+    - Izjema → `combat` kategorija (rdeča)
+  - **Market Dashboard** — `showMessage()` pošlje toast `economy` kategorije za:
+    - Sortiranje sprememba
+    - Tržni dogodek (crash/surge)
+    - Leaderboard preklop
+    - Primerjava akcije
+
+### Spremenjeno
+- **`states/game.lua`** — integracija NotificationCenter z game.lua:
+  - `S.NotificationCenter.drawHistoryPanel()` klic v draw bloku (po draw())
+  - `N` keybind v keypressed handlerju (z Ctrl+N zaščito — ne konflikta z release notes)
+  - `_G.NotificationCenter.isHistoryPanelVisible()` — forward keypressed, wheelmoved, mousepressed
+  - Click-to-dismiss forward: `_G.NotificationCenter.mousepressed(x, y, button)`
+  - Wheel scroll forward: `_G.NotificationCenter.wheelmoved(x, y)` za history panel scroll
+- **`states/ui/hud/keybind_help.lua`** — dodan N keybind v OSNOVNO kategorijo
+
+### Tehnične podrobnosti
+- Animacijsko stanje je per-notification (vsako obvestilo ima svoj `animState` in `closeAnimState`)
+- `notif.closing` flag prepreči dvojno dismiss — ko je true, dismiss() ne naredi nič
+- `notif.expired` flag se nastavi šele ko `closeAnimState.phase == "closed"` — šele takrat se odstrani iz activeNotifications
+- Critical priority obvestila so še vedno persistent (duration = 0) in se ne samodejno zaprejo
+- `notifClickAreas` se rebuild-a vsak frame v draw() — uporablja se v mousepressed za click-to-dismiss
+- History panel uporablja `setScissor` za clipping content area in `getHistory(nil, 100)` za vse kategorije
+- `maxActive = 5` — največ 5 obvestil hkrati na zaslonu (CRITICAL imajo prednost)
+
 ## [v3.12.126] — 2026-08-22 — UI Panel Animations (fade-in/out + slide efekt za VSE 6 panele!)
 
 ### Dodano

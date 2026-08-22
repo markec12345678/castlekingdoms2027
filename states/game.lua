@@ -3428,6 +3428,8 @@ function game:draw()
             S.Gamepad.draw()
             -- Castle Kingdoms 2027 v2.7.2: Draw Notification Center
             S.NotificationCenter.draw()
+            -- Castle Kingdoms 2027 v3.12.127: Draw Toast History Panel (N key)
+            S.NotificationCenter.drawHistoryPanel()
             -- Castle Kingdoms 2027 v3.0.2: Draw Stats Dashboard Widget
             S.StatsWidget.draw()
             -- Castle Kingdoms 2027 v3.0.8: Draw Religion & Faith overlay
@@ -3473,6 +3475,10 @@ function game:mousepressed(x, y, button, istouch)
     -- Castle Kingdoms 2027 v3.11.941: KeybindHelp click handling (close on outside click)
     if KeybindHelp.isVisible() then
         if KeybindHelp.mousepressed(x, y, button) then return end
+    end
+    -- Castle Kingdoms 2027 v3.12.127: NotificationCenter click-to-dismiss handling
+    if _G.NotificationCenter then
+        if _G.NotificationCenter.mousepressed(x, y, button) then return end
     end
     -- Castle Kingdoms 2027 v3.11.918: Auto-Save Panel click handling
     if AutoSavePanel.isVisible() then
@@ -3831,6 +3837,19 @@ function game:keypressed(key, scancode, isRepeat)
     if key == "f1" then
         KeybindHelp.toggle()
         return
+    end
+    -- Castle Kingdoms 2027 v3.12.127: N = Toggle Toast History Panel
+    if key == "n" and not (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+        if _G.NotificationCenter then
+            _G.NotificationCenter.toggleHistoryPanel()
+            return
+        end
+    end
+    -- v3.12.127: Forward keys to NotificationCenter history panel if visible
+    if _G.NotificationCenter and _G.NotificationCenter.isHistoryPanelVisible() then
+        if _G.NotificationCenter.keypressed(key) then
+            return
+        end
     end
     -- Castle Kingdoms 2027 v3.11.927: Forward scroll keys to Keybind Help if visible
     if KeybindHelp.isVisible() then
@@ -4308,6 +4327,10 @@ function game:wheelmoved(x, y)
     -- Castle Kingdoms 2027 v3.11.942: Auto-Save Panel wheel stub
     if AutoSavePanel.isVisible() then
         if AutoSavePanel.wheelmoved(x, y) then return end
+    end
+    -- Castle Kingdoms 2027 v3.12.127: NotificationCenter history panel wheel scroll
+    if _G.NotificationCenter and _G.NotificationCenter.isHistoryPanelVisible() then
+        if _G.NotificationCenter.wheelmoved(x, y) then return end
     end
     if scrollCountDown == 0 then
         scrollCountDown = 0.05
