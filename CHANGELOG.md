@@ -2,6 +2,30 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.113] — 2026-08-22 — Royal Systems Panel Category Persistence (save/load activeCategory med sejami!)
+
+### Dodano
+- **royal_systems_panel.lua** — persistenca activeCategory med sejami:
+  - Nov `CATEGORY_FILE = "royal_systems_category.txt"`
+  - `loadCategory()` — prebere activeCategory iz datoteke ob init (s validacijo category ID)
+  - `saveCategory()` — zapiše activeCategory v datoteko ob spremembi (Tab key ali klik na chip)
+  - `loadCategory()` klicana ob init (modul load)
+  - `saveCategory()` klicana v:
+    - Tab keybind handler (ciklanje kategorij)
+    - Category chip click handler (klik na kategorijo)
+  - pcall wrapper za varno branje/pisanje
+  - Validacija: preveri, ali category ID obstaja v CATEGORIES tabeli
+- **Persistence ekosistem popoln**: Royal Systems Panel sedaj persistira tako sortMode (v3.12.112) kot activeCategory (v3.12.113)
+
+### Spremenjene datoteke
+- `states/ui/hud/royal_systems_panel.lua` (+20 vrstic) — CATEGORY_FILE, loadCategory, saveCategory, init load, Tab/click save calls
+- `README.md` — posodobljen badge (v3.12.113)
+- `CHANGELOG.md` — dodan v3.12.113 entry
+- `NEXT_BATCH_HANDOFF.md` — posodobljeno stanje
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS
+
 ## [v3.12.112] — 2026-08-21 — Royal Systems Panel Sort Persistence (save/load sortMode med sejami!)
 
 ### Dodano

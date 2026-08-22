@@ -164,6 +164,7 @@ local function tryAction(fn, ...)
 end
 
 local SETTINGS_FILE = "royal_systems_sort.txt"
+local CATEGORY_FILE = "royal_systems_category.txt"
 
 -- Load persisted sort mode on init
 local function loadSortMode()
@@ -181,8 +182,29 @@ local function saveSortMode()
     pcall(love.filesystem.write, SETTINGS_FILE, sortMode .. "\n")
 end
 
+-- Load persisted category on init
+local function loadCategory()
+    local ok, content = pcall(love.filesystem.read, CATEGORY_FILE)
+    if ok and content then
+        content = content:gsub("%s", "")
+        -- Validate category ID exists
+        for _, cat in ipairs(CATEGORIES) do
+            if cat.id == content then
+                activeCategory = content
+                break
+            end
+        end
+    end
+end
+
+-- Save category to file
+local function saveCategory()
+    pcall(love.filesystem.write, CATEGORY_FILE, activeCategory .. "\n")
+end
+
 -- Load on init
 loadSortMode()
+loadCategory()
 
 function RoyalPanel.toggle()
     visible = not visible
@@ -360,6 +382,7 @@ function RoyalPanel.draw()
             activeCategory == cat.id,
             function()
                 activeCategory = cat.id
+                saveCategory()
                 page = 1
                 selectedIndex = 1
                 rebuildFiltered()
@@ -1002,6 +1025,7 @@ function RoyalPanel.keypressed(key, scancode, isrepeat)
         end
         curIdx = curIdx % #CATEGORIES + 1
         activeCategory = CATEGORIES[curIdx].id
+        saveCategory()
         page = 1
         selectedIndex = 1
         rebuildFiltered()
