@@ -232,6 +232,34 @@ function GameBalancePass.applyAll()
         end
     end
 
+    -- v3.12.138: Apply difficulty playerBuildCostMultiplier to all building costs
+    -- (peaceful: 0.7 = 30% cheaper, brutal: 1.35 = 35% more expensive)
+    if _G.DifficultySettings and BalanceConfig.buildings then
+        local mult = _G.DifficultySettings.getModifier("playerBuildCostMultiplier") or 1.0
+        if mult ~= 1.0 then
+            for building, cost in pairs(BalanceConfig.buildings) do
+                if type(cost) == "table" then
+                    for k, v in pairs(cost) do
+                        if type(v) == "number" then
+                            cost[k] = math.floor(v * mult + 0.5)
+                        end
+                    end
+                end
+            end
+            print("[GameBalancePass] Applied difficulty playerBuildCostMultiplier: " .. mult)
+        end
+    end
+
+    -- v3.12.138: Apply difficulty startingGoldBonus to BalanceConfig.economy.startingGold
+    -- (peaceful: +500 bonus, easy: +200, normal: 0, hard: 0, brutal: 0)
+    if _G.DifficultySettings and BalanceConfig.economy then
+        local bonus = _G.DifficultySettings.getModifier("startingGoldBonus") or 0
+        if bonus > 0 then
+            BalanceConfig.economy.startingGold = (BalanceConfig.economy.startingGold or 500) + bonus
+            print("[GameBalancePass] Applied difficulty startingGoldBonus: +" .. bonus)
+        end
+    end
+
     print("[GameBalancePass] All balance adjustments applied to BalanceConfig")
 end
 

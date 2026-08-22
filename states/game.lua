@@ -1108,6 +1108,10 @@ local function delayedInit()
         end
     end)
     -- Castle Kingdoms 2027: Final polish systems
+    -- v3.12.138: Initialize DifficultySettings BEFORE GameBalancePass.applyAll()
+    -- so playerBuildCostMultiplier and startingGoldBonus are applied
+    DifficultySettings.init()
+    _G.DifficultySettings = DifficultySettings
     S.GameBalancePass.init()
     S.GameBalancePass.applyAll()
     S.VisualPolish.init()
@@ -1203,9 +1207,7 @@ local function delayedInit()
     -- Castle Kingdoms 2027 v2.7.4: Initialize Achievement Tracker
     S.AchievementTracker.init()
     _G.AchievementTracker = S.AchievementTracker
-    -- Castle Kingdoms 2027 v3.12.133: Initialize Difficulty Settings
-    DifficultySettings.init()
-    _G.DifficultySettings = DifficultySettings
+    -- Castle Kingdoms 2027 v3.12.133: Difficulty Settings initialized earlier (before GameBalancePass)
     -- Castle Kingdoms 2027 v2.7.5: Initialize Supply Line System
     S.SupplyLine.init()
     _G.SupplyLine = S.SupplyLine

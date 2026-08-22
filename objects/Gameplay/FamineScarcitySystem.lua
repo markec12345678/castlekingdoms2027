@@ -382,6 +382,12 @@ function Famine.processDay()
     -- Rationing affects consumption (not production)
     local rationing = RATIONING_LEVELS[Famine.rationingLevel]
     local consumptionMult = rationing.foodConsumption
+    -- v3.12.138: Apply difficulty resourceDepletionMultiplier
+    -- (peaceful: 0.5 = 50% less consumption, brutal: 1.5 = 50% more consumption)
+    if _G.DifficultySettings then
+        local diffMult = _G.DifficultySettings.getModifier("resourceDepletionMultiplier") or 1.0
+        consumptionMult = consumptionMult * diffMult
+    end
     -- Apply to state
     local baseFood = (_G.state.resources.foodProduction or 50) * productionMult
     local baseConsumption = (_G.state.population or 100) * 0.5 * consumptionMult
@@ -411,6 +417,18 @@ function Famine.processDay()
             _G.state.population = math.max(0, _G.state.population - loss)
         end
     end
+    -- v3.12.138: Track hoarder achievement (5000+ of any resource)
+    if _G.AchievementTracker and _G.state.resources then
+        local maxResource = 0
+        for _, amount in pairs(_G.state.resources) do
+            if type(amount) == "number" and amount > maxResource then
+                maxResource = amount
+            end
+        end
+        if maxResource > 0 then
+            pcall(function() _G.AchievementTracker.updateProgress("hoarder", maxResource) end)
+        end
+    end
 end
 
 function Famine.applyStarvation(deficit)
@@ -438,6 +456,14 @@ function Famine.updateEvents(dt)
         if event.daysRemaining <= 0 then
             if _G.NotificationCenter then
                 pcall(_G.NotificationCenter.notify, event.name .. " se končuje.", "success")
+            end
+            -- v3.12.138: Track if a famine event was survived without casualties
+            if event.type == "famine" and _G.AchievementTracker then
+                -- Check if population loss during this event was zero
+                local casualtiesDuringEvent = Famine.starvationCasualties or 0
+                if casualtiesDuringEvent == 0 then
+                    pcall(function() _G.AchievementTracker.updateProgress("famine_survivor", 1) end)
+                end
             end
             table.remove(Famine.activeEvents, i)
         end

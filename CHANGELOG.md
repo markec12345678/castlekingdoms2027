@@ -2,6 +2,70 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.138] — 2026-08-22 — Final Difficulty Hooks (3 preostali modifierji + 2 dosežki!)
+
+### Dodano
+- **`resourceDepletionMultiplier` apliciran v `FamineScarcitySystem.processDay()`**:
+  - `consumptionMult` se množi z modifierjem
+  - Peaceful (0.5): 50% manj porabe hrane
+  - Brutal (1.5): 50% več porabe hrane
+  - Vpliva na `baseConsumption = population * 0.5 * consumptionMult`
+  - Granary reserves in starvation še vedno spoštovane
+
+- **`playerBuildCostMultiplier` apliciran v `GameBalancePass.applyAll()`**:
+  - Vse gradbene cene v `BalanceConfig.buildings` se pomnožijo z modifierjem
+  - Peaceful (0.7): 30% cenejše zgradbe
+  - Brutal (1.35): 35% dražje zgradbe
+  - `math.floor(v * mult + 0.5)` za zaokrožitev
+  - Samo če mult ≠ 1.0 (preskoči normal)
+
+- **`startingGoldBonus` apliciran v `GameBalancePass.applyAll()`**:
+  - `BalanceConfig.economy.startingGold` += bonus
+  - Peaceful: +500 zlata (1000 skupaj)
+  - Easy: +200 zlata (700 skupaj)
+  - Normal/Hard/Brutal: 0 bonus (500 default)
+
+- **2 nova Resource Management dosežka** v `AchievementTracker.lua`:
+  - `hoarder` (rare) — Zbiralec — zberi 5000 kateregakoli vira
+  - `famine_survivor` (epic) — Preživeli lakoto — preživi famine brez izgube prebivalstva
+  - Skupaj: 35 → **37 dosežkov**
+
+- **Hoarder tracking** v `FamineScarcitySystem.processDay()`:
+  - Vsak dan preverja največjo količino kateregakoli vira
+  - Posodablja `hoarder` dosežek progress (max 5000)
+
+- **Famine Survivor tracking** v `FamineScarcitySystem.updateEvents()`:
+  - Ko famine event poteče, preveri če `starvationCasualties == 0`
+  - Če da, odklene `famine_survivor` dosežek
+  - Samo za event tipa "famine" (ne druge scarcity evente)
+
+### Spremenjeno
+- **`states/game.lua`** — DifficultySettings.init() premaknjen PRED GameBalancePass.applyAll():
+  - Prej: GameBalancePass.applyAll() (1112) → DifficultySettings.init() (1207)
+  - Zdaj: DifficultySettings.init() (1113) → GameBalancePass.applyAll() (1116)
+  - Razlog: GameBalancePass.applyAll() sedaj bere `_G.DifficultySettings.getModifier()`
+  - `_G.DifficultySettings = DifficultySettings` nastavljen pred applyAll
+  - Odstranjen duplikat init na vrstici 1210 (komentar označuje premik)
+
+### Tehnične podrobnosti
+- **Vseh 11 modifierjev sedaj apliciranih** v gameplay:
+  1. playerGoldMultiplier (v3.12.133, v completeMaking)
+  2. playerProductionMultiplier (v3.12.134, v update dt)
+  3. enemySpawnMultiplier (v3.12.134, v spawnEnemyGroup)
+  4. enemyHealthMultiplier (v3.12.134, v spawnEnemyGroup)
+  5. playerHealthMultiplier (v3.12.135, v attach)
+  6. playerDamageMultiplier (v3.12.135, v takeDamage)
+  7. enemyDamageMultiplier (v3.12.135, v takeDamage)
+  8. enemyAggressionMultiplier (v3.12.137, v AIStrategyController)
+  9. resourceDepletionMultiplier (v3.12.138, v FamineScarcitySystem)
+  10. playerBuildCostMultiplier (v3.12.138, v GameBalancePass)
+  11. startingGoldBonus (v3.12.138, v GameBalancePass)
+- Difficulty sistem je sedaj 100% integriran v gameplay
+- `playerBuildCostMultiplier` aplikira samo v `applyAll()` kar se kliče ob init — če igralec spremeni težavnost sredi igre, se build costs NE posodobijo (za to bi bilo potrebno re-apply)
+- `startingGoldBonus` je efektivno samo ob novi igri (ker startingGold se prebere samo enkrat)
+- Famine survivor preverja global `starvationCasualties` counter — to je cummulative, ne per-event
+- Hoarder tracking iterira `_G.state.resources` z `pairs()` — najde max vrednost
+
 ## [v3.12.137] — 2026-08-22 — AI Aggression Hook (peaceful = no AI attacks + Auto-Save Overlay difficulty display!)
 
 ### Dodano

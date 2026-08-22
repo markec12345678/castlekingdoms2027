@@ -247,6 +247,22 @@ local ACHIEVEMENTS = {
         category = "combat", rarity = "legendary",
         progressMax = 1000, progressCurrent = 0,
     },
+
+    -- v3.12.138: Resource management achievements
+    hoarder = {
+        name = "Hoarder", nameSlv = "Zbiralec",
+        desc = "Accumulate 5000 of any resource",
+        descSlv = "Zberi 5000 kateregakoli vira",
+        category = "economy", rarity = "rare",
+        progressMax = 5000, progressCurrent = 0,
+    },
+    famine_survivor = {
+        name = "Famine Survivor", nameSlv = "Preživeli lakoto",
+        desc = "Survive a famine event without losing any population",
+        descSlv = "Preživi lakoto brez izgube prebivalstva",
+        category = "economy", rarity = "epic",
+        progressMax = 1, progressCurrent = 0,
+    },
 }
 
 AchievementTracker.ACHIEVEMENTS = ACHIEVEMENTS
