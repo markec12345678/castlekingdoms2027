@@ -24,6 +24,12 @@ function CombatComponent.attach(unit, className, faction)
     unit.className = className or unit.class and unit.class.name or "Peasant"
     unit.faction = faction or COMBAT.FACTION_PLAYER
     unit.maxHealth = COMBAT.HEALTH[unit.className] or 50
+    -- v3.12.135: Apply difficulty playerHealthMultiplier to player units
+    -- (peaceful: 1.5x more health, brutal: 0.75x less health)
+    if faction == COMBAT.FACTION_PLAYER and _G.DifficultySettings then
+        local mult = _G.DifficultySettings.getModifier("playerHealthMultiplier") or 1.0
+        unit.maxHealth = math.floor(unit.maxHealth * mult + 0.5)
+    end
     unit.health = unit.maxHealth
     unit.armor = COMBAT.ARMOR[unit.className] or 0
     unit.baseDamage = COMBAT.DAMAGE[unit.className] or 10
@@ -73,7 +79,23 @@ end
 function CombatComponent.takeDamage(self, amount, attacker)
     if self.toBeDeleted or self.health <= 0 then return 0 end
 
-    local actualDamage = amount * (1 - (self.armor or 0))
+    -- v3.12.135: Apply difficulty damage multipliers
+    -- Player units take less damage on peaceful (0.5x), more on brutal (1.5x)
+    -- Enemy units take more damage on peaceful (1.5x), less on brutal (0.8x)
+    local actualDamage = amount
+    if _G.DifficultySettings then
+        if self.faction == COMBAT.FACTION_PLAYER then
+            -- Player unit being damaged — apply playerDamageMultiplier (lower = takes less damage)
+            local mult = _G.DifficultySettings.getModifier("playerDamageMultiplier") or 1.0
+            actualDamage = actualDamage * mult
+        elseif attacker and attacker.faction == COMBAT.FACTION_PLAYER then
+            -- Player attacking an enemy — apply enemyDamageMultiplier (lower = takes more damage)
+            local mult = _G.DifficultySettings.getModifier("enemyDamageMultiplier") or 1.0
+            actualDamage = actualDamage * mult
+        end
+    end
+
+    actualDamage = actualDamage * (1 - (self.armor or 0))
     actualDamage = actualDamage * (0.9 + math.random() * 0.2)
     actualDamage = math.floor(actualDamage + 0.5)
 
@@ -124,6 +146,15 @@ function CombatComponent.takeDamage(self, amount, attacker)
         self.combatState = COMBAT.STATE_DEAD
         if attacker then
             attacker.kills = (attacker.kills or 0) + 1
+        end
+        -- v3.12.135: Track player kills/deaths for combat achievements
+        if _G.CombatIntegration then
+            if attacker and (attacker.faction == COMBAT.FACTION_PLAYER) then
+                pcall(function() _G.CombatIntegration.onPlayerKill() end)
+            end
+            if self.faction == COMBAT.FACTION_PLAYER then
+                pcall(function() _G.CombatIntegration.onPlayerDeath() end)
+            end
         end
         -- Castle Kingdoms 2027: Game feel feedback for death
         if _G.GameFeel then

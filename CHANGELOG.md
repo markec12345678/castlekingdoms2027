@@ -2,6 +2,59 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.135] — 2026-08-22 — Combat Difficulty Hooks (3 modifierji + kill tracking + 3 dosežki!)
+
+### Dodano
+- **3 novi Combat milestone dosežki** v `AchievementTracker.lua`:
+  - `combat_kills_50` (common) — Krilivec — premagaj 50 sovražnikov
+  - `combat_kills_250` (rare) — Vojskovodja — premagaj 250 sovražnikov
+  - `combat_kills_1000` (legendary) — Legenda bojišča — premagaj 1000 sovražnikov
+  - Skupaj: 32 → **35 dosežkov**
+
+- **Kill tracking** v `CombatIntegration.lua`:
+  - `playerKills` in `playerDeaths` counterji (lokalni)
+  - `onPlayerKill()` — klicana ko player ubije sovražnika
+  - `onPlayerDeath()` — klicana ko player enota umre
+  - `getStats()` — vrne {playerKills, playerDeaths, kdr}
+  - `resetStats()` — reset na novo igro
+  - Kill tracking posodablja vse 4 combat dosežke (first_victory, combat_kills_50/250/1000)
+
+### Spremenjeno — apliciranje modifierjev v CombatComponent
+
+- **`CombatComponent.attach()`** — `playerHealthMultiplier` apliciran:
+  - Ko player enota dobi combat stats, se maxHealth pomnoži z modifierjem
+  - Peaceful: 1.5x (50% več zdravja)
+  - Brutal: 0.75x (25% manj zdravja)
+  - `math.floor(maxHealth * mult + 0.5)` za zaokrožitev
+  - `unit.health = unit.maxHealth` — začne z novim max zdravjem
+
+- **`CombatComponent.takeDamage()`** — dva nova modifierji aplicirana:
+  - **`playerDamageMultiplier`** — aplikira na damage ki ga prejme player enota
+    - Peaceful: 0.5x (player prejme 50% manj poškodbe)
+    - Brutal: 1.5x (player prejme 50% več poškodbe)
+    - Preverja `self.faction == COMBAT.FACTION_PLAYER`
+  - **`enemyDamageMultiplier`** — aplikira na damage ki ga player povzroča sovražniku
+    - Peaceful: 1.5x (sovražnik prejme 50% več poškodbe)
+    - Brutal: 0.8x (sovražnik prejme 20% manj poškodbe)
+    - Preverja `attacker.faction == COMBAT.FACTION_PLAYER`
+  - Modifier aplikira PRED armor in random variance (da ohrani realistic combat)
+
+- **`CombatComponent.takeDamage()` — death section** — kill tracking:
+  - Ko player enota ubije sovražnika → `CombatIntegration.onPlayerKill()`
+  - Ko player enota umre → `CombatIntegration.onPlayerDeath()`
+  - Pcall wrapper za crash zaščito
+
+### Tehnične podrobnosti
+- Difficulty damage modifierji so aplicirani na začetku takeDamage (pred armor/random)
+- `playerDamageMultiplier` = "koliko poškodbe player prejme" (lower = boljše za player)
+- `enemyDamageMultiplier` = "koliko poškodbe player povzroča" (lower = slabše za player, ker enemy prejme manj)
+- To je malce confusing naming — semantic je: "damage na player/enemy"
+- Combat integration kill tracking je preprost counter brez persistente (reset ob novo igro)
+- `first_victory` dosežek se posodobi ko player prvič ubije sovražnika (existing dosežek)
+- 3 novi milestone dosežki: 50/250/1000 kills
+- KDR (Kill/Death Ratio) je dostopen preko getStats() — lahko se uporabi v stats panel v prihodnosti
+- Vsi hook-i so wrappani v `if _G.DifficultySettings then` za varnost
+
 ## [v3.12.134] — 2026-08-22 — Difficulty Hooks Expansion (6 novih dosežkov + 3 modifierji aplicirani!)
 
 ### Dodano

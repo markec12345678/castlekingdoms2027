@@ -22,6 +22,10 @@ local CombatIntegration = {}
 local initialized = false
 local combatLog = {}  -- Recent combat events for UI
 local maxLogEntries = 10
+-- v3.12.135: Kill tracking for combat achievements
+local playerKills = 0
+local playerDeaths = 0
+local biggestBattleWon = false
 
 -- Initialize combat system
 function CombatIntegration.init()
@@ -354,6 +358,47 @@ function CombatIntegration.spawnProjectile(fromGx, fromGy, toGx, toGy, damage, s
     -- Log the projectile
     CombatIntegration.log(string.format("Projectile: (%d,%d) -> (%d,%d) dmg=%d splash=%d",
         fromGx, fromGy, toGx, toGy, damage or 0, splashRadius or 0))
+end
+
+-- ============================================================
+-- v3.12.135: Kill tracking and combat stats
+-- ============================================================
+
+-- Called when a player unit kills an enemy
+function CombatIntegration.onPlayerKill()
+    playerKills = playerKills + 1
+    if _G.AchievementTracker then
+        -- Update first_victory (kills >= 1)
+        pcall(function()
+            _G.AchievementTracker.updateProgress("first_victory", math.min(1, playerKills))
+            -- v3.12.135: Combat achievements based on kills
+            _G.AchievementTracker.updateProgress("combat_kills_50", playerKills)
+            _G.AchievementTracker.updateProgress("combat_kills_250", playerKills)
+            _G.AchievementTracker.updateProgress("combat_kills_1000", playerKills)
+        end)
+    end
+end
+
+-- Called when a player unit dies
+function CombatIntegration.onPlayerDeath()
+    playerDeaths = playerDeaths + 1
+end
+
+-- Get kill/death stats
+function CombatIntegration.getStats()
+    local kdr = playerDeaths > 0 and (playerKills / playerDeaths) or playerKills
+    return {
+        playerKills = playerKills,
+        playerDeaths = playerDeaths,
+        kdr = kdr,
+    }
+end
+
+-- Reset stats (new game)
+function CombatIntegration.resetStats()
+    playerKills = 0
+    playerDeaths = 0
+    biggestBattleWon = false
 end
 
 return CombatIntegration

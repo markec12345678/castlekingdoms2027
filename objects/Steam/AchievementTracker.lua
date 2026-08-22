@@ -224,6 +224,29 @@ local ACHIEVEMENTS = {
         category = "campaign", rarity = "legendary",
         progressMax = 4, progressCurrent = 0,
     },
+
+    -- v3.12.135: Combat milestone achievements (kill-based)
+    combat_kills_50 = {
+        name = "Slayer", nameSlv = "Krilivec",
+        desc = "Defeat 50 enemies",
+        descSlv = "Premagaj 50 sovražnikov",
+        category = "combat", rarity = "common",
+        progressMax = 50, progressCurrent = 0,
+    },
+    combat_kills_250 = {
+        name = "Warlord", nameSlv = "Vojskovodja",
+        desc = "Defeat 250 enemies",
+        descSlv = "Premagaj 250 sovražnikov",
+        category = "combat", rarity = "rare",
+        progressMax = 250, progressCurrent = 0,
+    },
+    combat_kills_1000 = {
+        name = "Legend of the Battlefield", nameSlv = "Legenda bojišča",
+        desc = "Defeat 1000 enemies",
+        descSlv = "Premagaj 1000 sovražnikov",
+        category = "combat", rarity = "legendary",
+        progressMax = 1000, progressCurrent = 0,
+    },
 }
 
 AchievementTracker.ACHIEVEMENTS = ACHIEVEMENTS
