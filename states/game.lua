@@ -917,6 +917,8 @@ local TutorialPanel = require("states.ui.hud.tutorial_panel")
 -- Castle Kingdoms 2027 v3.12.133: Difficulty Settings Panel (Ctrl+Shift+F)
 local DifficultyPanel = require("states.ui.hud.difficulty_panel")
 local DifficultySettings = require("objects.Gameplay.DifficultySettings")
+-- Castle Kingdoms 2027 v3.12.142: Minimap HUD Widget
+local MinimapWidget = require("states.ui.hud.minimap_widget")
 -- Castle Kingdoms 2027 - Campaign progress & auto-save
 local CampaignProgress = require("objects.Mission.CampaignProgress")
 local AutoSaveSystem = require("objects.AutoSaveSystem")
@@ -3434,6 +3436,8 @@ function game:draw()
             TutorialPanel.draw()
             -- Castle Kingdoms 2027 v3.12.133: Draw Difficulty Settings Panel (Ctrl+Shift+F)
             DifficultyPanel.draw()
+            -- Castle Kingdoms 2027 v3.12.142: Draw Minimap Widget (Ctrl+M to toggle)
+            MinimapWidget.draw()
             -- Castle Kingdoms 2027: Draw Kenney CC0 overlay (if enabled)
             if _G.KenneySpriteRenderer and _G.KenneySpriteRenderer.isActive() then
                 love.graphics.setScissor(0, 0, screenWidth, screenHeight - 150)
@@ -3534,6 +3538,10 @@ function game:mousepressed(x, y, button, istouch)
     -- Castle Kingdoms 2027 v3.12.133: Difficulty panel click handling
     if DifficultyPanel.isVisible() then
         if DifficultyPanel.mousepressed(x, y, button) then return end
+    end
+    -- Castle Kingdoms 2027 v3.12.142: Minimap click-to-navigate
+    if MinimapWidget.isVisible() then
+        if MinimapWidget.mousepressed(x, y, button) then return end
     end
     -- Castle Kingdoms 2027 v3.11.941: KeybindHelp click handling (close on outside click)
     if KeybindHelp.isVisible() then
@@ -4125,6 +4133,8 @@ function game:keypressed(key, scancode, isRepeat)
         DifficultyPanel.toggle()
         return
     end
+    -- v3.12.142: Minimap is always-on HUD (like Auto-Save Overlay). No toggle keybind
+    -- to avoid conflict with Ctrl+M (screenshot) and Ctrl+Shift+M (map size)
     -- Ctrl+W = Cycle weather gameplay (Castle Kingdoms 2027)
     if key == "w" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and not love.keyboard.isDown("lshift") and not love.keyboard.isDown("rshift") then
         local newWeather = S.WeatherGameplay.cycleWeather()
@@ -4356,6 +4366,8 @@ function game:keypressed(key, scancode, isRepeat)
 end
 
 function game:mousereleased(x, y, button, istouch)
+    -- Castle Kingdoms 2027 v3.12.142: Minimap drag end
+    MinimapWidget.mousereleased(x, y, button)
     -- Castle Kingdoms 2027 v3.11.941: KeybindHelp mousereleased
     if KeybindHelp.isVisible() then
         if KeybindHelp.mousereleased(x, y, button) then return end
@@ -4412,6 +4424,10 @@ function game:mousemoved(x, y, dx, dy, istouch)
     -- Castle Kingdoms 2027 v3.12.133: Difficulty panel mousemoved (for future use)
     if DifficultyPanel.isVisible() then
         if DifficultyPanel.mousemoved(x, y, dx, dy) then return end
+    end
+    -- Castle Kingdoms 2027 v3.12.142: Minimap drag-to-navigate
+    if MinimapWidget.isVisible() then
+        if MinimapWidget.mousemoved(x, y, dx, dy) then return end
     end
     -- Castle Kingdoms 2027 v3.11.938: Royal Systems Panel mousemoved
     if RoyalSystemsPanel.isVisible() then

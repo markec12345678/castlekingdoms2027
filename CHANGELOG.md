@@ -2,7 +2,43 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
-## [v3.12.141] — 2026-08-22 — Load State Restoration (obnovitev težavnosti + hitrosti + dosežkov ob loadu!)
+## [v3.12.142] — 2026-08-22 — Minimap HUD Widget (vedno-viden minimap z click-to-navigate!)
+
+### Dodano
+- **`states/ui/hud/minimap_widget.lua`** — nov modul (~180 vrstic) z kompaktnim minimapom:
+  - **Vedno viden HUD** (bottom-right, nad action bar) — 160×160px kvadrat
+  - **Pozicije enot**:
+    - Player combat units — **zeleni pikice** (2px radius)
+    - Enemy units — **rdeči pikici** (2px radius)
+    - Player buildings — **zlata kvadratki** (2×2px)
+  - **Viewport indikator** — bel pravokotnik ki prikazuje trenutno pozicijo kamere
+  - **Click-to-navigate** — klik na minimap premakne kamero na to pozicijo
+  - **Drag-to-navigate** — držanje miške in vlečenje po minimapu kontinuirano premika kamero
+  - **Persistenca** — `minimap_visible.txt` shrani vidnost med sejami (default: visible)
+  - **UI feedback** — `playClick()` zvok ob kliku
+  - **Toast notification** ob toggle (če implementirano v prihodnosti)
+  - **Performance**: iterira `_G.state.gameObjectList` z range check — samo objekti z gx/gy so narisani
+
+### Spremenjeno
+- **`states/game.lua`** — integracija MinimapWidget:
+  - `local MinimapWidget = require(...)` na vrhu
+  - `MinimapWidget.draw()` v draw bloku (za DifficultyPanel)
+  - `MinimapWidget.mousepressed()` — click-to-navigate
+  - `MinimapWidget.mousemoved()` — drag-to-navigate
+  - `MinimapWidget.mousereleased()` — drag end
+  - No keybind added — minimap is always-on (Ctrl+M=screenshot, Ctrl+Shift+M=map size)
+
+### Tehnične podrobnosti
+- Minimap je 160×160px, pozicioniran v spodnjem desnem kotu nad action bar
+- World-to-minimap scale: `mmW / (chunksWide * 16)` in `mmH / (chunksHigh * 16)`
+- Viewport indikator uporablja `_G.state.viewXview` in `viewYview` za pozicijo kamere
+- Camera navigation uporablja `_G.IsoToScreenX/Y` za konverzijo world→screen
+- Drag detection preko `isDragging` flag v mousepressed/mousemoved/mousereleased
+- Vsi objekti z `gx` in `gy` so narisani — range check preprečuje risanje zunaj minimap-a
+- Minimap je passive HUD element (vedno viden) — podobno kot Auto-Save Status Overlay
+- Brez keybind-a da se izogne konfliktu z Ctrl+M (screenshot) in Ctrl+Shift+M (map size cycle)
+
+## [v3.12.141] — 2026-08-22 — Load State Restoration + CI Fix (obnovitev + 55 file syntax fix!)
 
 ### Dodano
 - **`objects/State.lua:deserialize()`** — 4 novi restoration hook-i ob nalaganju save datoteke:
