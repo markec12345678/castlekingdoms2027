@@ -2,6 +2,28 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.121] — 2026-08-22 — Market Dashboard Event Log Persistence (save/load expanded + filter! 18 datotek!)
+
+### Dodano
+- **market_dashboard.lua** — persistenca event log stanja med sejami:
+  - Nov `EVENTLOG_FILE = "market_dashboard_eventlog.txt"` — expanded stanja (V key)
+  - Nov `EVENTFILTER_FILE = "market_dashboard_eventfilter.txt"` — filter stanja (1-5 keys)
+  - `loadEventLogState()` / `saveEventLogState()` — load ob init, save ob V key
+  - `loadEventFilter()` / `saveEventFilter()` — load ob init, save ob 1-5 keys
+  - pcall wrapper za varno IO
+- **Market Dashboard persistence popoln** (6 datotek):
+  - searchQuery, sortMode, leaderboardMode, comparisonList, eventLogExpanded, eventLogFilter ← NOV!
+- **Persistence ekosistem: 18 datotek skupno za vseh 6 panelov!**
+
+### Spremenjene datoteke
+- `states/ui/hud/market_dashboard.lua` (+35 vrstic)
+- `README.md` — posodobljen badge (v3.12.121)
+- `CHANGELOG.md` — dodan v3.12.121 entry
+- `NEXT_BATCH_HANDOFF.md` — posodobljeno stanje
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS
+
 ## [v3.12.120] — 2026-08-22 — Tech Tree Config Persistence (save/load 7 toggle states! Persistence ekosistem popoln!)
 
 ### Dodano

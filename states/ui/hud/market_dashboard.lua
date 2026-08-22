@@ -110,11 +110,48 @@ loadSearchQuery()
 loadSortMode()
 loadLeaderboardMode()
 loadComparisonList()
+loadEventLogState()
+loadEventFilter()
 
 -- Event log expanded panel state
 local eventLogExpanded = false
 local eventLogFilter = "all"  -- "all", "surge", "crash", "seasonal", "manual"
 local eventLogScrollOffset = 0  -- scroll position in event list (0 = top)
+
+local EVENTLOG_FILE = "market_dashboard_eventlog.txt"
+
+-- Load persisted event log state on init
+local function loadEventLogState()
+    local ok, content = pcall(love.filesystem.read, EVENTLOG_FILE)
+    if ok and content then
+        content = content:gsub("%s+$", "")
+        if content == "true" then eventLogExpanded = true
+        elseif content == "false" then eventLogExpanded = false end
+    end
+end
+
+-- Save event log state to file
+local function saveEventLogState()
+    pcall(love.filesystem.write, EVENTLOG_FILE, tostring(eventLogExpanded) .. "\n")
+end
+
+local EVENTFILTER_FILE = "market_dashboard_eventfilter.txt"
+
+-- Load persisted event filter on init
+local function loadEventFilter()
+    local ok, content = pcall(love.filesystem.read, EVENTFILTER_FILE)
+    if ok and content then
+        content = content:gsub("%s+$", "")
+        if content == "all" or content == "surge" or content == "crash" or content == "seasonal" or content == "manual" then
+            eventLogFilter = content
+        end
+    end
+end
+
+-- Save event filter to file
+local function saveEventFilter()
+    pcall(love.filesystem.write, EVENTFILTER_FILE, eventLogFilter .. "\n")
+end
 
 -- Comparison mode: multi-product price comparison chart
 -- comparisonList: set of productTypes selected for comparison
@@ -1376,6 +1413,7 @@ function MarketDashboard.keypressed(key, scancode, isrepeat)
     -- V: toggle event log expanded panel
     if key == "v" and not searchActive then
         eventLogExpanded = not eventLogExpanded
+        saveEventLogState()
         eventLogScrollOffset = 0  -- reset scroll on open
         showMessage(eventLogExpanded and "Zgodovina dogodkov: ON" or "Zgodovina dogodkov: OFF")
         return true
@@ -1388,6 +1426,7 @@ function MarketDashboard.keypressed(key, scancode, isrepeat)
         for i, f in ipairs(filters) do
             if key == tostring(i) then
                 eventLogFilter = f
+                saveEventFilter()
                 eventLogScrollOffset = 0  -- reset scroll on filter change
                 showMessage("Filter: " .. filterLabels[i])
                 return true
