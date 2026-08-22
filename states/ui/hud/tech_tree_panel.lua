@@ -43,6 +43,7 @@ local searchQuery = ""
 local cursorBlink = 0  -- accumulated time for cursor blink animation
 
 local SEARCH_FILE = "tech_tree_search.txt"
+local CONFIG_FILE = "tech_tree_config.txt"
 
 -- Load persisted search query on init
 local function loadSearchQuery()
@@ -60,8 +61,38 @@ local function saveSearchQuery()
     pcall(love.filesystem.write, SEARCH_FILE, searchQuery .. "\n")
 end
 
+-- Load persisted config (viewMode, pathMode, depthVisible, arrowsVisible, minimapVisible, sortMode, stateFilter) on init
+local function loadConfig()
+    local ok, content = pcall(love.filesystem.read, CONFIG_FILE)
+    if ok and content then
+        -- Format: viewMode|pathMode|sortMode|stateFilter|minimapVisible|depthVisible|arrowsVisible
+        local fields = {}
+        for f in content:gmatch("[^|\n]+") do
+            fields[#fields + 1] = f:gsub("%s+$", "")
+        end
+        if #fields >= 7 then
+            if fields[1] == "graph" or fields[1] == "text" then viewMode = fields[1] end
+            if fields[2] == "direct" or fields[2] == "transitive" then pathMode = fields[2] end
+            if fields[3] == "alphabetical" or fields[3] == "depth" then sortMode = fields[3] end
+            if fields[4] == "all" or fields[4] == "active" or fields[4] == "available" or fields[4] == "locked" or fields[4] == "bookmarked" then stateFilter = fields[4] end
+            minimapVisible = fields[5] == "true"
+            depthVisible = fields[6] == "true"
+            arrowsVisible = fields[7] == "true"
+        end
+    end
+end
+
+-- Save config to file
+local function saveConfig()
+    local data = string.format("%s|%s|%s|%s|%s|%s|%s\n",
+        viewMode, pathMode, sortMode, stateFilter,
+        tostring(minimapVisible), tostring(depthVisible), tostring(arrowsVisible))
+    pcall(love.filesystem.write, CONFIG_FILE, data)
+end
+
 -- Load on init
 loadSearchQuery()
+loadConfig()
 
 -- Path highlight mode (v3.11.947)
 -- "direct" = only direct prereqs + dependents (v3.11.945 behavior)
@@ -2412,26 +2443,31 @@ function TechTreePanel.keypressed(key)
     -- v3.11.947: T toggles path mode (direct vs transitive)
     if key == "t" then
         pathMode = pathMode == "direct" and "transitive" or "direct"
+        saveConfig()
         return true
     end
     -- v3.11.949: M toggles minimap visibility
     if key == "m" then
         minimapVisible = not minimapVisible
+        saveConfig()
         return true
     end
     -- v3.11.951: D toggles depth indicator visibility
     if key == "d" then
         depthVisible = not depthVisible
+        saveConfig()
         return true
     end
     -- v3.11.952: A toggles path direction arrows visibility
     if key == "a" then
         arrowsVisible = not arrowsVisible
+        saveConfig()
         return true
     end
     -- v3.11.953: S toggles sort mode (alphabetical vs depth)
     if key == "s" then
         sortMode = sortMode == "alphabetical" and "depth" or "alphabetical"
+        saveConfig()
         scrollOffset = 0  -- reset scroll since layout changes
         keyboardNavList = nil  -- v3.11.958: invalidate nav list since order changed
         keyboardNavIndex = nil
@@ -2443,10 +2479,12 @@ function TechTreePanel.keypressed(key)
         elseif stateFilter == "active" then stateFilter = "met"
         elseif stateFilter == "met" then stateFilter = "locked"
         else stateFilter = "all" end
+        saveConfig()
         return true
     end
     if key == "g" then
         viewMode = viewMode == "graph" and "text" or "graph"
+        saveConfig()
         scrollOffset = 0
         selectedKey = nil
         searchActive = false

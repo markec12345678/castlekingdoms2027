@@ -2,6 +2,41 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.120] — 2026-08-22 — Tech Tree Config Persistence (save/load 7 toggle states! Persistence ekosistem popoln!)
+
+### Dodano
+- **tech_tree_panel.lua** — persistenca 7 konfiguracijskih stanj med sejami:
+  - Nov `CONFIG_FILE = "tech_tree_config.txt"`
+  - Format: `viewMode|pathMode|sortMode|stateFilter|minimapVisible|depthVisible|arrowsVisible`
+  - `loadConfig()` — prebere konfiguracijo iz datoteke ob init (z validacijo vseh vrednosti)
+  - `saveConfig()` — zapiše konfiguracijo v datoteko ob spremembi
+  - `loadConfig()` klicana ob init
+  - `saveConfig()` klicana v 7 keybind handlerjih:
+    - **G** (viewMode: graph ↔ text)
+    - **T** (pathMode: direct ↔ transitive)
+    - **M** (minimapVisible: on/off)
+    - **D** (depthVisible: on/off)
+    - **A** (arrowsVisible: on/off)
+    - **S** (sortMode: alphabetical ↔ depth)
+    - **L** (stateFilter: all → active → met → locked → all)
+  - pcall wrapper za varno IO
+  - Validacija: preveri enum vrednosti (viewMode, pathMode, sortMode, stateFilter) in boolean (minimap, depth, arrows)
+- **Persistence ekosistem popoln za VSE 6 panelov (16 datotek skupaj)!**
+  - Royal Systems Panel: sortMode, activeCategory, searchQuery (3 datoteke)
+  - Market Dashboard: searchQuery, sortMode, leaderboardMode, comparisonList (4 datoteke)
+  - Tech Tree: bookmarks, multi-select, custom presets, searchQuery, config ← NOV! (5 datotek)
+  - Auto-Save Overlay: position, opacity, hidden (3 datoteke)
+  - Keybind Help: searchQuery (1 datoteka)
+
+### Spremenjene datoteke
+- `states/ui/hud/tech_tree_panel.lua` (+40 vrstic) — CONFIG_FILE, loadConfig, saveConfig, init load, 7 save calls v keybind handlerjih
+- `README.md` — posodobljen badge (v3.12.120)
+- `CHANGELOG.md` — dodan v3.12.120 entry
+- `NEXT_BATCH_HANDOFF.md` — posodobljeno stanje
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS
+
 ## [v3.12.119] — 2026-08-22 — Tech Tree Search Persistence (save/load searchQuery! Persistence popoln za VSE panele!)
 
 ### Dodano
