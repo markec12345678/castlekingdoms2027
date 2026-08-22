@@ -2,6 +2,28 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.112] — 2026-08-21 — Royal Systems Panel Sort Persistence (save/load sortMode med sejami!)
+
+### Dodano
+- **royal_systems_panel.lua** — persistenca sortMode med sejami:
+  - Nov `SETTINGS_FILE = "royal_systems_sort.txt"`
+  - `loadSortMode()` — prebere sortMode iz datoteke ob init (s validacijo)
+  - `saveSortMode()` — zapiše sortMode v datoteko ob spremembi (F key)
+  - `loadSortMode()` klicana ob init (modul load)
+  - `saveSortMode()` klicana v F keybind handler-ju
+  - pcall wrapper za varno branje/pisanje
+  - Trim whitespace pri branju
+- **Konzistentnost**: Tech Tree že persistira bookmarks (v3.11.959), multi-select (v3.11.964), custom presets (v3.11.965); Market Dashboard persistira comparisonList (v3.11.912), auto-sell state (v3.11.913)
+
+### Spremenjene datoteke
+- `states/ui/hud/royal_systems_panel.lua` (+20 vrstic) — SETTINGS_FILE, loadSortMode, saveSortMode, init load, F key save call
+- `README.md` — posodobljen badge (v3.12.112)
+- `CHANGELOG.md` — dodan v3.12.112 entry
+- `NEXT_BATCH_HANDOFF.md` — posodobljeno stanje
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS
+
 ## [v3.12.111] — 2026-08-21 — Royal Systems Panel Sort Modes (F key cycle! 5 sort modes!)
 
 ### Dodano

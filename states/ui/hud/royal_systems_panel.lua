@@ -163,6 +163,27 @@ local function tryAction(fn, ...)
     end
 end
 
+local SETTINGS_FILE = "royal_systems_sort.txt"
+
+-- Load persisted sort mode on init
+local function loadSortMode()
+    local ok, content = pcall(love.filesystem.read, SETTINGS_FILE)
+    if ok and content then
+        content = content:gsub("%s", "")  -- trim whitespace
+        if SORT_MODES[content] then
+            sortMode = content
+        end
+    end
+end
+
+-- Save sort mode to file
+local function saveSortMode()
+    pcall(love.filesystem.write, SETTINGS_FILE, sortMode .. "\n")
+end
+
+-- Load on init
+loadSortMode()
+
 function RoyalPanel.toggle()
     visible = not visible
     if visible then
@@ -996,6 +1017,7 @@ function RoyalPanel.keypressed(key, scancode, isrepeat)
                 break
             end
         end
+        saveSortMode()
         page = 1
         selectedIndex = 1
         rebuildFiltered()
