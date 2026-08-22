@@ -12,20 +12,60 @@ local crashBackupEnabled = true
 local maxBackups = 5
 local backupDir = "saves/backups/"
 
+local INTERVAL_FILE = "autosave_interval.txt"
+local ENABLED_FILE = "autosave_enabled.txt"
+
+-- Load persisted interval on init
+local function loadInterval()
+    local ok, content = pcall(love.filesystem.read, INTERVAL_FILE)
+    if ok and content then
+        content = content:gsub("%s+$", "")
+        local val = tonumber(content)
+        if val and val >= 30 then
+            saveInterval = val
+        end
+    end
+end
+
+-- Save interval to file
+local function saveIntervalToFile()
+    pcall(love.filesystem.write, INTERVAL_FILE, tostring(saveInterval) .. "\n")
+end
+
+-- Load persisted enabled state on init
+local function loadEnabled()
+    local ok, content = pcall(love.filesystem.read, ENABLED_FILE)
+    if ok and content then
+        content = content:gsub("%s+$", "")
+        if content == "false" then
+            crashBackupEnabled = false
+        end
+    end
+end
+
+-- Save enabled state to file
+local function saveEnabledToFile()
+    pcall(love.filesystem.write, ENABLED_FILE, tostring(crashBackupEnabled) .. "\n")
+end
+
 function AutoSaveEnhancer.init()
     if initialized then return end
     initialized = true
     love.filesystem.createDirectory(backupDir)
+    loadInterval()
+    loadEnabled()
     print("[AutoSaveEnhancer] Initialized (interval: " .. saveInterval .. "s, backups: " .. maxBackups .. ")")
 end
 
 function AutoSaveEnhancer.setInterval(seconds)
     saveInterval = math.max(30, seconds)
+    saveIntervalToFile()
     print("[AutoSaveEnhancer] Interval set to " .. saveInterval .. "s")
 end
 
 function AutoSaveEnhancer.setCrashBackup(enabled)
     crashBackupEnabled = enabled
+    saveEnabledToFile()
 end
 
 function AutoSaveEnhancer.update(dt)

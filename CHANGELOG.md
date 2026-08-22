@@ -2,6 +2,35 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.124] — 2026-08-22 — Auto-Save Interval & Enabled Persistence (save/load interval + crash backup state!)
+
+### Dodano
+- **AutoSaveEnhancer.lua** — persistenca interval in crash backup enabled state med sejami:
+  - Nov `INTERVAL_FILE = "autosave_interval.txt"` — shranjevanje saveInterval
+  - Nov `ENABLED_FILE = "autosave_enabled.txt"` — shranjevanje crashBackupEnabled
+  - `loadInterval()` — prebere interval iz datoteke ob init (s validacijo tonumber + min 30s)
+  - `saveIntervalToFile()` — zapiše interval ob `setInterval()` klicu
+  - `loadEnabled()` — prebere enabled stanje iz datoteke ob init (s validacijo "true"/"false")
+  - `saveEnabledToFile()` — zapiše enabled stanje ob `setCrashBackup()` klicu
+  - `loadInterval()` in `loadEnabled()` klicani v `init()` funkciji
+  - pcall wrapper za varno IO
+- **Persistence ekosistem: 20 datotek skupno za vseh 6 panelov!**
+  - Royal Systems Panel: 3 (sort, category, search)
+  - Market Dashboard: 6 (search, sort, leaderboard, comparison, eventlog, eventfilter)
+  - Tech Tree: 5 (search, config, bookmarks, multiselect, custom presets)
+  - Auto-Save Overlay: 3 (position, opacity, hidden)
+  - Auto-Save Enhancer: 2 (interval, enabled) ← NOV!
+  - Keybind Help: 1 (search)
+
+### Spremenjene datoteke
+- `objects/QA/AutoSaveEnhancer.lua` (+35 vrstic) — INTERVAL_FILE, ENABLED_FILE, load/save funkcije, init load, save calls v setInterval/setCrashBackup
+- `README.md` — posodobljen badge (v3.12.124)
+- `CHANGELOG.md` — dodan v3.12.124 entry
+- `NEXT_BATCH_HANDOFF.md` — posodobljeno stanje
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS
+
 ## [v3.12.123] — 2026-08-22 — Auto-Save Panel Keyboard Shortcuts (R + O keybinds! Reset position + toggle visibility)
 
 ### Dodano
