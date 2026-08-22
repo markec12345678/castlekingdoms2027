@@ -54,6 +54,8 @@ local KEYBINDS = {
             { key = "ESC",       desc = "Pavza / Zapri meni" },
             { key = "F1",        desc = "Pokaži/skrij pomoč (to okno)" },
             { key = "F2",        desc = "Toggle UI zvokovne efekta (v3.12.130)" },
+            { key = "Space",     desc = "Pavza / nadaljuj igro (v3.12.139)" },
+            { key = "1/2/3/4",    desc = "Hitrost igre: 1x/2x/3x/5x (v3.12.139)" },
             { key = "H",         desc = "Center view to keep (original keybind)" },
             { key = "V",         desc = "Nastavitve (game feel) | V v Ctrl+K: zgodovina dogodkov" },
             { key = "N",         desc = "Toast zgodovina - pokaži vsa pretekla obvestila (v3.12.127)" },

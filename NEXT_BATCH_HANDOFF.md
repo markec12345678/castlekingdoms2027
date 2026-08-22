@@ -1,16 +1,17 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.12.138**
+- Različica: **v3.12.139**
 - Skupaj Royal sistemov: **990**
 - Skupaj Lua datotek: **1656**
 - Sintaktična preverba (avtentična Lua `load()`): **1656/1656 pass (100%)**
 - Tech Tree: **891 deps · 165 verig · 786 multi-prereq** (98.25x zažetnih 8!)
-- Dosežki: **37 skupaj** (16 originalni + 10 Royal + 6 Difficulty Master + 3 Combat milestone + 2 Resource) — dostop z Ctrl+Shift+A
+- Dosežki: **37 skupaj** — dostop z Ctrl+Shift+A
 - Tutorial hinti: **30 skupaj** — dostop z Ctrl+Shift+O
-- UI Paneli: **11 skupaj** (Stats Panel ima 5 zavihkov) + UI Sound + Particle Effects + Difficulty System
-- Težavnost: **5 stopenj** z **11 modifierji — VSI APLICIRANI** (gold, production, spawn, enemyHealth, playerHealth, playerDamage, enemyDamage, aggression, depletion, buildCost, startingGold) — dostop z Ctrl+Shift+F
-- Zadnji paket: **v3.12.138 — Final Difficulty Hooks** (3 preostali modifierji + 2 dosežki — 100% integracija)
+- UI Paneli: **11 skupaj** + UI Sound + Particle Effects + Difficulty System + Game Speed Control
+- Težavnost: **5 stopenj** z **11 modifierji — VSI APLICIRANI** — dostop z Ctrl+Shift+F
+- Game Speed: **5 hitrosti** (pavza/1x/2x/3x/5x) z persistenco, zvokom in toast-i — Space/1-4
+- Zadnji paket: **v3.12.139 — Game Speed Control Upgrade** (persistenca + zvok + toast + modern UI)
 - GitHub: pripravljen za push
 - Lokalni repo (sandbox): `/home/workdir/castlekingdoms2027`
 
@@ -32,8 +33,9 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 3. ~~**Market Dashboard mousemoved forwarding**~~ ✅ končano
 4. ~~**Overlay settings migration**~~ ✅ končano v v3.11.933
 
-## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.12.138)
+## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.12.139)
 
+- ✅ **v3.12.139**: Game Speed Control Upgrade — persistenca + zvok + toast + modern UI! GameSpeedControl.lua popolna nadgradnja: persistenca v game_speed.txt (save/load hitrosti med sejami), UISoundHelper integracija (playToggleOff za pavza, playToggleOn za odpavza, playClick za spremembo), NotificationCenter toast ob spremembi (NORMAL za pavza, LOW za druge, 2s duration), modern UI styling (rounded corners 6px, barvno kodiranje hitrosti: pavza=oranžna/1x=zelena/2x=modra/3x=zlata/5x=rdeča, hover efekt, key hint SPC/1/2/3/4 pod gumbi, background panel z border). Nova API: getCurrentLabel(), getCurrentIndex(), mousemoved(). 5 hitrosti s slovenskimi oznakami: ⏸ Pavza/1× Normalno/2× Hitro/3× Zelo hitro/5× Ekstremno. Keybind_help dodan Space in 1/2/3/4 vnos. speedModifier se aplikira preko _G.speedModifier (CameraController + game update). _G.paused=true ob pavzi.
 - ✅ **v3.12.138**: Final Difficulty Hooks — 3 preostali modifierji + 2 dosežki — 100% integracija! resourceDepletionMultiplier apliciran v FamineScarcitySystem.processDay() (consumptionMult × mult, peaceful=0.5 = 50% manj porabe, brutal=1.5 = 50% več). playerBuildCostMultiplier apliciran v GameBalancePass.applyAll() — vse gradbene cene × mult (peaceful=0.7 = 30% ceneje, brutal=1.35 = 35% dražje). startingGoldBonus apliciran v GameBalancePass.applyAll() — BalanceConfig.economy.startingGold += bonus (peaceful=+500, easy=+200). DifficultySettings.init() premaknjen PRED GameBalancePass.applyAll() v game.lua. 2 nova Resource Management dosežka: hoarder/rare (5000 kateregakoli vira) in famine_survivor/epic (preživi famine brez izgube). Hoarder tracking v processDay() vsak dan preverja max resource. Famine Survivor tracking v updateEvents() ko famine poteče in starvationCasualties=0. 35→37 dosežkov. VSI 11 modifierjev sedaj aplicirani — difficulty sistem 100% integriran.
 - ✅ **v3.12.137**: AI Aggression Hook — peaceful = no AI attacks + Auto-Save Overlay difficulty display! enemyAggressionMultiplier apliciran v AIStrategyController.lua update() z dvema učinkoma: (1) Attack chance multiplier — attackChancePerMin × mult (peaceful=0.0 = AI nikoli ne napade, brutal=2.0 = 100% več napadov). (2) Min attack interval — math.floor(60 / mult + 0.5) (brutal=30s cooldown namesto 60s). Peaceful mult=0.0 pomeni effectiveAttackChance=0 in effectiveAttackChance>0 check fails — AI nikoli ne začne napada. Vse AI osebnosti (aggressive=0.7, balanced=0.5, defensive=0.3, itd.) so spoštovane kot base rate. Difficulty indicator v Auto-Save Status Overlay (vedno viden HUD) prikazuje "🕊 MIRNO" / "⚖ NORMALNO" / "☠ BRUTALNO" z barvo iz getCurrentInfo().color. 8 od 11 modifierjev sedaj apliciranih v gameplay.
 - ✅ **v3.12.136**: Stats Panel Combat Tab — 5. zavihek z graf-i in milestone dosežki! Nov "BOJEVANJE" zavihek v Stats Panel (Ctrl+Shift+I). 4 metulj kartice: UBOJI (zeleno), IZGUBE (rdeče), K/D RATIO (zlato), EFFICIENCY (zeleno/rdeče glede na KDR). 2 line chart-a (60s): UBOJI SKOZI ČAS (zelena), IZGUBE SKOZI ČAS (rdeča). 4 milestone dosežki z progress bari: Prva zmaga (max 1), Krilivec (max 50), Vojskovodja (max 250), Legenda bojišča (max 1000). sampleHistory() sedaj zajema tudi playerKills in playerDeaths. drawCombat() ~110 vrstic. TAB_ORDER razširjen z "combat" (rdeča barva). Scrollbar condition razširjena za combat zavihek. Bere iz CombatIntegration.getStats() in AchievementTracker.getAll().

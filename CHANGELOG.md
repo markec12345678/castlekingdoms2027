@@ -2,6 +2,52 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.139] — 2026-08-22 — Game Speed Control Upgrade (persistenca + zvok + toast + modern UI!)
+
+### Dodano
+- **`objects/UI/GameSpeedControl.lua`** — popolna nadgradnja obstoječega modula z modernimi vzorci:
+  - **Persistenca** — `game_speed.txt` shrani izbrano hitrost med sejami:
+    - `init()` naloži shranjeno hitrost ob zagonu
+    - `saveSpeed()` shrani ob vsaki spremembi
+    - Hitrost se ohrani med restarti igre
+  - **UISoundHelper integracija** — zvok ob spremembi hitrosti:
+    - Pavza → `playToggleOff()`
+    - Odpavza → `playToggleOn()`
+    - Sprememba hitrosti → `playClick()`
+  - **NotificationCenter integracija** — toast ob spremembi:
+    - Pavza: NORMAL priority (2s duration)
+    - Druge hitrosti: LOW priority (2s duration)
+    - Format: "[ikona] [labela]" (npr. "⏸ Pavza", "2× Hitro", "5× Ekstremno")
+  - **Modern UI styling**:
+    - Rounded corners (6px radius na panelu, 4px na gumbih)
+    - Barvno kodiranje hitrosti: pavza=oranžna, 1x=zelena, 2x=modra, 3x=zlata, 5x=rdeča
+    - Hover efekt (svetlejši bg ob miškinem prehodu)
+    - Trenutna hitrost ima poudarjen barvni rob (2px)
+    - Key hint pod vsakim gumbom (SPC, 1, 2, 3, 4)
+    - Background panel z padding in border
+  - **Nova API**:
+    - `getCurrentLabel()` — vrne slovensko ime (npr. "Normalno", "Hitro")
+    - `getCurrentIndex()` — vrne indeks hitrosti (1-5)
+    - `mousemoved()` — za hover detection (future use)
+  - **5 hitrosti** (posodobljene oznake):
+    - ⏸ Pavza (0x) — SPC
+    - 1× Normalno (1x) — tipka 1
+    - 2× Hitro (2x) — tipka 2
+    - 3× Zelo hitro (3x) — tipka 3
+    - 5× Ekstremno (5x) — tipka 4
+
+### Spremenjeno
+- **`states/ui/hud/keybind_help.lua`** — dodana Space in 1/2/3/4 vnosa v OSNOVNO kategorijo
+
+### Tehnične podrobnosti
+- GameSpeedControl je bil že prej v projektu (v2.6+) — imel je osnovno logiko brez persistente, zvokov in toast-a
+- Sedaj uporablja vse moderne sisteme: UISoundHelper, NotificationCenter, persistenco
+- `speedModifier` se aplikira preko `_G.speedModifier` kar se uporablja v CameraController in drugih sistemih za dt scaling
+- `_G.paused = true` ob pavzi — game.lua update preskoči `if not _G.paused then` blok
+- Persistenca shrani indeks (1-5), ne vrednost — omogoča prihodnje dodajanje novih hitrosti
+- Toast notification je kratek (2s) da ne moti igralca pri hitrem preklapljanju
+- Hover detection deluje v draw() z `love.mouse.getPosition()` — brez potrebe po mousemoved forward
+
 ## [v3.12.138] — 2026-08-22 — Final Difficulty Hooks (3 preostali modifierji + 2 dosežki!)
 
 ### Dodano
