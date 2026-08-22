@@ -44,6 +44,7 @@ local KEYBINDS = {
             { key = "H",         desc = "Pokaži/skrij pomoč (ta okno)" },
             { key = "V",         desc = "Nastavitve (game feel) | V v Ctrl+K: zgodovina dogodkov" },
             { key = "` + Shift", desc = "Odpri konzolo" },
+            { key = "Shift+R",   desc = "Ponastavi vse nastavitve (zbriše 16 persisted datotek, zahteva restart)" },
         },
     },
     {
@@ -374,7 +375,7 @@ function KeybindHelp.draw()
 
     -- Close hint (fixed, not scrolled)
     love.graphics.setColor(0.5, 0.5, 0.5, 1)
-    local hintText = "[H] Zapri pomoč  |  /: iskanje  |  Hover: podrobnosti"
+    local hintText = "[H] Zapri pomoč  |  /: iskanje  |  Hover: podrobnosti  |  Shift+R: Reset nastavitev"
     if contentHeight > contentAreaH then
         hintText = hintText .. "  |  ↑↓/wheel: scroll"
     end
@@ -484,6 +485,43 @@ function KeybindHelp.keypressed(key, scancode, isrepeat)
 
     -- Normal mode
     if key == "h" then
+        KeybindHelp.toggle()
+        return true
+    end
+    -- Shift+R: Reset all persisted UI settings
+    if key == "r" and (love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift")) then
+        local PERSISTED_FILES = {
+            "royal_systems_sort.txt",
+            "royal_systems_category.txt",
+            "royal_systems_search.txt",
+            "market_dashboard_search.txt",
+            "market_dashboard_sort.txt",
+            "market_dashboard_leaderboard.txt",
+            "market_dashboard_comparison.txt",
+            "market_dashboard_eventlog.txt",
+            "market_dashboard_eventfilter.txt",
+            "tech_tree_search.txt",
+            "tech_tree_config.txt",
+            "tech_tree_bookmarks.txt",
+            "tech_tree_multiselect.txt",
+            "tech_tree_custom_presets.txt",
+            "keybind_help_search.txt",
+            "autosave_overlay_settings.txt",
+        }
+        local deleted = 0
+        for _, f in ipairs(PERSISTED_FILES) do
+            if love.filesystem.getInfo(f) then
+                pcall(love.filesystem.remove, f)
+                deleted = deleted + 1
+            end
+        end
+        -- Reset local state
+        searchQuery = ""
+        searchActive = false
+        scrollOffset = 0
+        hoveredBinding = nil
+        print(string.format("[KeybindHelp] Reset all settings: %d files deleted. Restart game to apply.", deleted))
+        -- Close help panel to show it took effect
         KeybindHelp.toggle()
         return true
     end

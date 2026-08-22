@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.122] — 2026-08-22 — Reset All Settings (Shift+R! Briše vseh 16 persisted datotek!)
+
+### Dodano
+- **keybind_help.lua** — Reset All Settings funkcionalnost:
+  - Tipka **Shift+R** v F1 help panelu pobriše vseh 16 persistence datotek:
+    - 3 Royal Systems (sort, category, search)
+    - 6 Market Dashboard (search, sort, leaderboard, comparison, eventlog, eventfilter)
+    - 4 Tech Tree (search, config, bookmarks, multiselect, custom presets — 5 dejansko)
+    - 1 Auto-Save Overlay (settings)
+    - 1 Keybind Help (search)
+  - `love.filesystem.getInfo()` preveri ali datoteka obstaja
+  - `love.filesystem.remove()` pobriše datoteko (s pcall wrapperjem)
+  - Reset local state (searchQuery, searchActive, scrollOffset, hoveredBinding)
+  - Console output: število pobrisanih datotek
+  - Zapre help panel po resetu
+  - Nov keybind vnos v KEYBINDS tabela (OSNOVNO kategorija)
+  - Footer hint posodobljen z "Shift+R: Reset nastavitev"
+  - **Opomba**: zahteva restart igre za popoln učinek (moduli loadajo nastavitve ob init)
+
+### Spremenjene datoteke
+- `states/ui/hud/keybind_help.lua` (+35 vrstic) — PERSISTED_FILES tabela, Shift+R handler, reset local state, keybind entry, footer hint
+- `README.md` — posodobljen badge (v3.12.122)
+- `CHANGELOG.md` — dodan v3.12.122 entry
+- `NEXT_BATCH_HANDOFF.md` — posodobljeno stanje
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS
+
 ## [v3.12.121] — 2026-08-22 — Market Dashboard Event Log Persistence (save/load expanded + filter! 18 datotek!)
 
 ### Dodano
