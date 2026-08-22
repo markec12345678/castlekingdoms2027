@@ -53,6 +53,27 @@ local sortModes = {
 -- Leaderboard mode: "qty" (top producers by quantity) or "profit" (top by gold earned)
 local leaderboardMode = "qty"
 
+local SEARCH_FILE = "market_dashboard_search.txt"
+
+-- Load persisted search query on init
+local function loadSearchQuery()
+    local ok, content = pcall(love.filesystem.read, SEARCH_FILE)
+    if ok and content then
+        content = content:gsub("%s+$", "")
+        if content ~= "" then
+            searchQuery = content
+        end
+    end
+end
+
+-- Save search query to file
+local function saveSearchQuery()
+    pcall(love.filesystem.write, SEARCH_FILE, searchQuery .. "\n")
+end
+
+-- Load on init
+loadSearchQuery()
+
 -- Event log expanded panel state
 local eventLogExpanded = false
 local eventLogFilter = "all"  -- "all", "surge", "crash", "seasonal", "manual"
@@ -1158,6 +1179,7 @@ function MarketDashboard.keypressed(key, scancode, isrepeat)
         if searchActive then
             searchActive = false
             searchQuery = ""
+            saveSearchQuery()
             MarketDashboard.refresh()
         else
             MarketDashboard.toggle()
@@ -1169,18 +1191,21 @@ function MarketDashboard.keypressed(key, scancode, isrepeat)
     if key == "/" and not searchActive then
         searchActive = true
         searchQuery = ""
+        saveSearchQuery()
         return true
     end
 
     -- Enter confirms search (exits search mode but keeps query)
     if key == "return" and searchActive then
         searchActive = false
+        saveSearchQuery()
         return true
     end
 
     -- Backspace in search mode
     if searchActive and key == "backspace" then
         searchQuery = searchQuery:sub(1, -2)
+        saveSearchQuery()
         page = 1
         selectedIndex = 1
         MarketDashboard.refresh()
@@ -1374,6 +1399,7 @@ function MarketDashboard.textinput(text)
         -- Only accept printable characters
         if text:match("^[%w _-]$") then
             searchQuery = searchQuery .. text
+            saveSearchQuery()
             page = 1
             selectedIndex = 1
             MarketDashboard.refresh()
