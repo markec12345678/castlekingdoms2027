@@ -925,6 +925,8 @@ local HelpOverlay = require("states.ui.hud.help_overlay")
 local KeybindEditor = require("states.ui.hud.keybind_editor")
 -- Castle Kingdoms 2027 v3.12.145: Unified Settings Panel
 local UnifiedSettings = require("states.ui.hud.unified_settings")
+-- Castle Kingdoms 2027 v3.12.146: Color Theme System
+local ColorTheme = require("objects.UI.ColorTheme")
 -- Castle Kingdoms 2027 - Campaign progress & auto-save
 local CampaignProgress = require("objects.Mission.CampaignProgress")
 local AutoSaveSystem = require("objects.AutoSaveSystem")
@@ -1058,6 +1060,9 @@ local function delayedInit()
     _G.SFXLibrary = S.SFXLibrary
     _G.UISoundHelper = S.UISoundHelper
     _G.ParticleEffects = S.ParticleEffects
+    -- v3.12.146: Initialize Color Theme System
+    ColorTheme.init()
+    _G.ColorTheme = ColorTheme
     _G.VoiceOver = S.VoiceOver
     -- Castle Kingdoms 2027: Register other globals for cross-system access
     _G.VisualPolish = S.VisualPolish
@@ -4019,6 +4024,12 @@ function game:keypressed(key, scancode, isRepeat)
     if key == "e" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl"))
                   and (love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift")) then
         UnifiedSettings.toggle()
+        return
+    end
+    -- v3.12.146: Ctrl+Shift+J = Cycle Color Theme (J for "Just change colors")
+    if key == "j" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl"))
+                  and (love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift")) then
+        ColorTheme.cycle()
         return
     end
     -- v3.12.127: Forward keys to NotificationCenter history panel if visible
