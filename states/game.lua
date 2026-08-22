@@ -927,6 +927,8 @@ local KeybindEditor = require("states.ui.hud.keybind_editor")
 local UnifiedSettings = require("states.ui.hud.unified_settings")
 -- Castle Kingdoms 2027 v3.12.146: Color Theme System
 local ColorTheme = require("objects.UI.ColorTheme")
+-- Castle Kingdoms 2027 v3.12.147: Event Log Panel
+local EventLogPanel = require("states.ui.hud.event_log_panel")
 -- Castle Kingdoms 2027 - Campaign progress & auto-save
 local CampaignProgress = require("objects.Mission.CampaignProgress")
 local AutoSaveSystem = require("objects.AutoSaveSystem")
@@ -3238,6 +3240,8 @@ function game:update(dt)
                 KeybindEditor.update(dt)
                 -- Castle Kingdoms 2027 v3.12.145: Unified settings update
                 UnifiedSettings.update(dt)
+                -- Castle Kingdoms 2027 v3.12.147: Event log panel update
+                EventLogPanel.update(dt)
                 -- Castle Kingdoms 2027 v3.12.133: Difficulty panel animation update
                 DifficultyPanel.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
@@ -3460,6 +3464,8 @@ function game:draw()
             KeybindEditor.draw()
             -- Castle Kingdoms 2027 v3.12.145: Draw Unified Settings (Ctrl+Shift+E)
             UnifiedSettings.draw()
+            -- Castle Kingdoms 2027 v3.12.147: Draw Event Log Panel (Ctrl+Shift+L)
+            EventLogPanel.draw()
             -- Castle Kingdoms 2027: Draw Kenney CC0 overlay (if enabled)
             if _G.KenneySpriteRenderer and _G.KenneySpriteRenderer.isActive() then
                 love.graphics.setScissor(0, 0, screenWidth, screenHeight - 150)
@@ -3561,6 +3567,10 @@ function game:mousepressed(x, y, button, istouch)
     if DifficultyPanel.isVisible() then
         if DifficultyPanel.mousepressed(x, y, button) then return end
     end
+    -- Castle Kingdoms 2027 v3.12.147: Event Log Panel click handling
+    if EventLogPanel.isVisible() then
+        if EventLogPanel.mousepressed(x, y, button) then return end
+    end
     -- Castle Kingdoms 2027 v3.12.145: Unified Settings click handling
     if UnifiedSettings.isVisible() then
         if UnifiedSettings.mousepressed(x, y, button) then return end
@@ -3657,6 +3667,10 @@ function game:textinput(text)
     -- Castle Kingdoms 2027 v3.12.143: Help overlay search input (no-op, but for consistency)
     if HelpOverlay.isEnabled() then
         if HelpOverlay.isEnabled() then return end
+    end
+    -- Castle Kingdoms 2027 v3.12.147: Event Log Panel search input
+    if EventLogPanel.isVisible() then
+        if EventLogPanel.textinput(text) then return end
     end
     -- Castle Kingdoms 2027 v3.12.144: Keybind Editor search input
     if KeybindEditor.isVisible() then
@@ -3959,6 +3973,10 @@ function game:keypressed(key, scancode, isRepeat)
     if TutorialPanel.isVisible() then
         if TutorialPanel.keypressed(key, scancode, isrepeat) then return end
     end
+    -- Castle Kingdoms 2027 v3.12.147: Forward keys to Event Log Panel if visible
+    if EventLogPanel.isVisible() then
+        if EventLogPanel.keypressed(key, scancode, isrepeat) then return end
+    end
     -- Castle Kingdoms 2027 v3.12.145: Forward keys to Unified Settings if visible
     if UnifiedSettings.isVisible() then
         if UnifiedSettings.keypressed(key, scancode, isrepeat) then return end
@@ -4030,6 +4048,14 @@ function game:keypressed(key, scancode, isRepeat)
     if key == "j" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl"))
                   and (love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift")) then
         ColorTheme.cycle()
+        return
+    end
+    -- v3.12.147: Ctrl+Shift+L = Toggle Event Log Panel
+    -- NOTE: This conflicts with the old "Final release prep" Ctrl+Shift+L
+    -- which is a dev-only tool — event log is more useful for players
+    if key == "l" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl"))
+                  and (love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift")) then
+        EventLogPanel.toggle()
         return
     end
     -- v3.12.127: Forward keys to NotificationCenter history panel if visible
@@ -4559,6 +4585,10 @@ function game:wheelmoved(x, y)
     -- Castle Kingdoms 2027 v3.12.132: Tutorial panel wheel scroll
     if TutorialPanel.isVisible() then
         if TutorialPanel.wheelmoved(x, y) then return end
+    end
+    -- Castle Kingdoms 2027 v3.12.147: Event Log Panel wheel scroll
+    if EventLogPanel.isVisible() then
+        if EventLogPanel.wheelmoved(x, y) then return end
     end
     -- Castle Kingdoms 2027 v3.12.145: Unified Settings wheel scroll
     if UnifiedSettings.isVisible() then

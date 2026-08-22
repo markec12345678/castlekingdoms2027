@@ -1,27 +1,41 @@
 -- states/ui/hud/event_log_panel.lua
--- Castle Kingdoms 2027 v3.12.146 - Event Log Panel
+-- Castle Kingdoms 2027 v3.12.147 - Event Log Panel
 --
--- Modern UI panel showing the game event log with filtering:
---   * All events listed with timestamp, category badge, message
---   * Filter by category (All / Build / Military / Economy / Royal / etc.)
---   * Search by message text
---   * Click on event to see full data
---   * Clear log button
+-- Central event log showing ALL game events in chronological order:
+--   * Market events (price crash, surge, seasonal)
+--   * Combat events (battles, kills, deaths)
+--   * Achievement unlocks
+--   * Resource milestones (low food, low gold, milestones)
+--   * System events (auto-save, difficulty change, speed change)
 --
+-- Features: filtering by category, search, scrollable, timestamps.
 -- Toggle with Ctrl+Shift+L (L for "Log").
 
 local PanelAnim = require("states.ui.hud.PanelAnimations")
 local UISound = require("objects.Audio.UISoundHelper")
-local EventLog = require("objects.Feedback.GameEventLog")
 
 local EventLogPanel = {}
 
 local visible = false
-local activeFilter = "all"
 local scrollOffset = 0
 local searchActive = false
 local searchQuery = ""
-local rowPositions = {}
+local activeFilter = "all"
+
+-- Event log storage (max 200 events, oldest removed)
+local MAX_EVENTS = 200
+local eventLog = {}
+
+-- Filter definitions
+local FILTERS = {
+    all       = { label = "VSI",        color = {0.6, 0.75, 0.8} },
+    market    = { label = "TRG",         color = {0.4, 0.65, 0.95} },
+    combat    = { label = "BOJ",         color = {0.9, 0.4, 0.4} },
+    achievement = { label = "DOSEŽKI",  color = {0.85, 0.6, 0.95} },
+    system    = { label = "SISTEM",      color = {0.6, 0.6, 0.6} },
+    resource  = { label = "VIRI",        color = {0.4, 0.8, 0.5} },
+}
+local FILTER_ORDER = {"all", "market", "combat", "achievement", "system", "resource"}
 
 local animState = PanelAnim.createState({
     duration = 0.22,
@@ -30,18 +44,24 @@ local animState = PanelAnim.createState({
     easing = "easeOut",
 })
 
-local FILTERS = {
-    all          = { label = "VSI",        color = {0.7, 0.75, 0.8} },
-    build        = { label = "GRADNJA",     color = {0.85, 0.7, 0.3} },
-    military     = { label = "VOJSKA",      color = {0.9, 0.4, 0.4} },
-    economy      = { label = "EKONOMIJA",   color = {0.4, 0.85, 0.4} },
-    royal        = { label = "ROYAL",       color = {0.85, 0.6, 0.95} },
-    achievement  = { label = "DOSEŽKI",     color = {0.95, 0.85, 0.3} },
-    market       = { label = "TRG",          color = {0.4, 0.7, 0.95} },
-    combat       = { label = "BOJ",          color = {0.9, 0.5, 0.3} },
-    system       = { label = "SISTEM",       color = {0.5, 0.65, 0.85} },
-}
-local FILTER_ORDER = {"all", "build", "military", "economy", "royal", "achievement", "market", "combat", "system"}
+-- Add an event to the log
+-- @param category string: "market", "combat", "achievement", "system", "resource"
+-- @param text string: event description
+-- @param icon string: emoji/icon prefix (optional)
+function EventLogPanel.addEvent(category, text, icon)
+    local event = {
+        category = category or "system",
+        text = text or "",
+        icon = icon or "",
+        timestamp = os.time(),
+        timeStr = os.date("%H:%M:%S"),
+    }
+    eventLog[#eventLog + 1] = event
+    -- Trim if too many
+    if #eventLog > MAX_EVENTS then
+        table.remove(eventLog, 1)
+    end
+end
 
 function EventLogPanel.toggle()
     if not visible then
@@ -69,18 +89,19 @@ end
 
 -- Get filtered events
 local function getFilteredEvents()
-    local allEvents = EventLog.getEvents()
-    local filtered = {}
+    local result = {}
     local query = searchQuery:lower()
-    for _, event in ipairs(allEvents) do
-        local matchesFilter = (activeFilter == "all") or (event.category == activeFilter)
-        if matchesFilter then
-            if query == "" or event.message:lower():find(query, 1, true) then
-                filtered[#filtered + 1] = event
+    for i = #eventLog, 1, -1 do  -- newest first
+        local e = eventLog[i]
+        if (activeFilter == "all" or e.category == activeFilter) then
+            if query == "" or
+               e.text:lower():find(query, 1, true) or
+               e.category:lower():find(query, 1, true) then
+                result[#result + 1] = e
             end
         end
     end
-    return filtered
+    return result
 end
 
 function EventLogPanel.draw()
@@ -90,8 +111,8 @@ function EventLogPanel.draw()
     local offsetX, offsetY = PanelAnim.getOffset(animState)
 
     local screenW, screenH = love.graphics.getDimensions()
-    local panelW = math.min(800, screenW - 60)
-    local panelH = math.min(640, screenH - 60)
+    local panelW = math.min(720, screenW - 60)
+    local panelH = math.min(620, screenH - 60)
     local panelX = (screenW - panelW) / 2
     local panelY = (screenH - panelH) / 2
 
@@ -109,14 +130,14 @@ function EventLogPanel.draw()
     -- Panel
     love.graphics.setColor(0.08, 0.07, 0.1, 0.98 * alpha)
     love.graphics.rectangle("fill", panelX, panelY, panelW, panelH, 8, 8, 8, 8)
-    love.graphics.setColor(0.5, 0.6, 0.85, alpha)
+    love.graphics.setColor(0.4, 0.5, 0.6, alpha)
     love.graphics.setLineWidth(2)
     love.graphics.rectangle("line", panelX, panelY, panelW, panelH, 8, 8, 8, 8)
     love.graphics.setLineWidth(1)
 
     -- Title
     love.graphics.setFont(titleFont)
-    love.graphics.setColor(0.85, 0.75, 0.5, alpha)
+    love.graphics.setColor(0.7, 0.78, 0.85, alpha)
     love.graphics.print("📋 DNEVNIK DOGODKOV — Castle Kingdoms 2027", panelX + 16, panelY + 12)
 
     -- Hint
@@ -127,132 +148,106 @@ function EventLogPanel.draw()
     love.graphics.print(hintText, panelX + 16, panelY + 36)
 
     -- Stats
-    local stats = EventLog.getStats()
     love.graphics.setColor(0.8, 0.85, 0.9, alpha)
-    love.graphics.print(string.format("Skupaj: %d dogodkov  |  Max: %d  |  Filter: %s",
-        stats.total, stats.maxEvents, FILTERS[activeFilter].label), panelX + 16, panelY + 52)
+    love.graphics.print(string.format("Skupaj: %d dogodkov  |  Prikazano: %d  |  Filter: %s",
+        #eventLog, #getFilteredEvents(), FILTERS[activeFilter].label), panelX + 16, panelY + 52)
 
-    -- Filter buttons (2 rows of compact buttons)
+    -- Filter tabs
     local fbX = panelX + 16
-    local fbY = panelY + 74
-    local fbW = 80
-    local fbH = 20
-    local fbGap = 3
+    local fbY = panelY + 72
+    local fbW = 100
+    local fbH = 22
+    local fbGap = 4
     for i, filterKey in ipairs(FILTER_ORDER) do
-        local col = (i - 1) % 5
-        local row = math.floor((i - 1) / 5)
-        local bx = fbX + col * (fbW + fbGap)
-        local by = fbY + row * (fbH + fbGap)
-        local isActive = activeFilter == filterKey
         local filterInfo = FILTERS[filterKey]
+        local bx = fbX + (i - 1) * (fbW + fbGap)
+        local isActive = activeFilter == filterKey
         if isActive then
             love.graphics.setColor(filterInfo.color[1] * 0.3, filterInfo.color[2] * 0.3, filterInfo.color[3] * 0.3, alpha)
         else
-            love.graphics.setColor(0.12, 0.13, 0.16, alpha * 0.5)
+            love.graphics.setColor(0.12, 0.13, 0.16, alpha * 0.6)
         end
-        love.graphics.rectangle("fill", bx, by, fbW, fbH, 3, 3, 3, 3)
-        love.graphics.setColor(filterInfo.color[1], filterInfo.color[2], filterInfo.color[3], alpha * 0.7)
-        love.graphics.rectangle("line", bx, by, fbW, fbH, 3, 3, 3, 3)
-        love.graphics.setFont(smallFont)
-        love.graphics.setColor(isActive and 1 or 0.7, isActive and 1 or 0.7, isActive and 1 or 0.75, alpha)
-        -- Show count for this filter
-        local count = filterKey == "all" and stats.total or (stats.byCategory[filterKey] or 0)
-        love.graphics.print(filterInfo.label .. " (" .. count .. ")", bx + 4, by + 4)
+        love.graphics.rectangle("fill", bx, fbY, fbW, fbH, 3, 3, 3, 3)
+        love.graphics.setColor(filterInfo.color[1], filterInfo.color[2], filterInfo.color[3], alpha)
+        love.graphics.rectangle("line", bx, fbY, fbW, fbH, 3, 3, 3, 3)
+        love.graphics.setColor(isActive and 1 or 0.8, isActive and 1 or 0.8, isActive and 1 or 0.85, alpha)
+        love.graphics.print(filterInfo.label, bx + 8, fbY + 5)
     end
-
-    -- Search box
-    local sbX = panelX + panelW - 200
-    local sbY = fbY
-    love.graphics.setColor(0.1, 0.1, 0.12, alpha)
-    love.graphics.rectangle("fill", sbX, sbY, 184, fbH, 3, 3, 3, 3)
-    love.graphics.setColor(0.4, 0.5, 0.7, alpha)
-    love.graphics.rectangle("line", sbX, sbY, 184, fbH, 3, 3, 3, 3)
-    local searchText = searchActive and searchQuery .. "_" or (searchQuery ~= "" and searchQuery or "🔍 Iskanje... (/)")
-    if searchText == "🔍 Iskanje... (/)" then
-        love.graphics.setColor(0.4, 0.45, 0.5, alpha)
-    else
-        love.graphics.setColor(0.8, 0.85, 0.9, alpha)
-    end
-    love.graphics.print(searchText:sub(1, 24), sbX + 6, sbY + 3)
 
     -- Event list
-    local contentTop = panelY + 120
-    local contentH = panelH - 140
-    local rowH = 28
+    local contentTop = panelY + 106
+    local contentH = panelH - 130
+    local rowH = 24
     local contentLeft = panelX + 16
     local contentW = panelW - 32
 
     love.graphics.setScissor(panelX + 8, contentTop, panelW - 16, contentH)
 
-    local filtered = getFilteredEvents()
+    local events = getFilteredEvents()
     local listY = contentTop - scrollOffset
 
-    rowPositions = {}
-
-    if #filtered == 0 then
-        love.graphics.setFont(font)
-        love.graphics.setColor(0.5, 0.55, 0.6, alpha)
-        love.graphics.print("(ni dogodkov za prikaz)", contentLeft, contentTop + 20)
-    end
-
-    love.graphics.setFont(smallFont)
-    for i, event in ipairs(filtered) do
+    for i, e in ipairs(events) do
         local ry = listY + (i - 1) * rowH
         if ry + rowH > contentTop and ry < contentTop + contentH then
-            local catInfo = FILTERS[event.category] or FILTERS.system
+            local filterInfo = FILTERS[e.category] or FILTERS.system
 
-            -- Row bg
-            love.graphics.setColor(0.08, 0.08, 0.1, alpha * 0.4)
-            love.graphics.rectangle("fill", contentLeft, ry, contentW, rowH - 3, 3, 3, 3, 3)
+            -- Row bg (alternating)
+            if i % 2 == 0 then
+                love.graphics.setColor(0.1, 0.1, 0.12, alpha * 0.4)
+            else
+                love.graphics.setColor(0.06, 0.06, 0.08, alpha * 0.3)
+            end
+            love.graphics.rectangle("fill", contentLeft, ry, contentW, rowH - 2, 2, 2, 2, 2)
 
-            -- Category badge (left)
-            love.graphics.setColor(catInfo.color[1] * 0.3, catInfo.color[2] * 0.3, catInfo.color[3] * 0.3, alpha * 0.8)
-            love.graphics.rectangle("fill", contentLeft, ry, 4, rowH - 3, 3, 0, 0, 3)
+            -- Category color bar (left)
+            love.graphics.setColor(filterInfo.color[1], filterInfo.color[2], filterInfo.color[3], alpha)
+            love.graphics.rectangle("fill", contentLeft, ry, 3, rowH - 2, 2, 0, 0, 2)
 
-            -- Category label
-            love.graphics.setColor(catInfo.color[1], catInfo.color[2], catInfo.color[3], alpha)
-            love.graphics.print(catInfo.label, contentLeft + 10, ry + 5)
-
-            -- Message
-            love.graphics.setColor(0.85, 0.88, 0.92, alpha)
-            local msg = event.message
-            if #msg > 70 then msg = msg:sub(1, 67) .. "..." end
-            love.graphics.print(msg, contentLeft + 90, ry + 5)
-
-            -- Time
+            -- Timestamp
+            love.graphics.setFont(smallFont)
             love.graphics.setColor(0.5, 0.55, 0.6, alpha)
-            local timeStr = os.date("%H:%M:%S", event.timestamp)
-            love.graphics.print(timeStr, contentLeft + contentW - 70, ry + 5)
+            love.graphics.print(e.timeStr, contentLeft + 10, ry + 4)
 
-            rowPositions[#rowPositions + 1] = {
-                event = event,
-                x = contentLeft, y = ry, w = contentW, h = rowH - 3,
-            }
+            -- Category badge
+            love.graphics.setColor(filterInfo.color[1], filterInfo.color[2], filterInfo.color[3], alpha)
+            love.graphics.print("[" .. string.upper(e.category:sub(1, 4)) .. "]", contentLeft + 80, ry + 4)
+
+            -- Event text
+            love.graphics.setColor(0.85, 0.88, 0.92, alpha)
+            local text = e.icon .. " " .. e.text
+            if #text > 70 then text = text:sub(1, 67) .. "..." end
+            love.graphics.print(text, contentLeft + 140, ry + 4)
         end
+    end
+
+    if #events == 0 then
+        love.graphics.setFont(font)
+        love.graphics.setColor(0.6, 0.6, 0.6, alpha)
+        love.graphics.print("(ni dogodkov za prikaz)", contentLeft, contentTop + 20)
     end
 
     love.graphics.setScissor()
 
     -- Scrollbar
-    local totalH = #filtered * rowH
+    local totalH = #events * rowH
     if totalH > contentH then
-        local sbX2 = panelX + panelW - 12
-        local sbY2 = contentTop
-        local sbH2 = contentH
+        local sbX = panelX + panelW - 12
+        local sbY = contentTop
+        local sbH = contentH
         love.graphics.setColor(0.2, 0.2, 0.25, alpha * 0.5)
-        love.graphics.rectangle("fill", sbX2, sbY2, 4, sbH2, 2, 2, 2, 2)
-        local thumbH = math.max(20, sbH2 * (contentH / totalH))
+        love.graphics.rectangle("fill", sbX, sbY, 4, sbH, 2, 2, 2, 2)
+        local thumbH = math.max(20, sbH * (contentH / totalH))
         local maxScroll = totalH - contentH
-        local thumbY = sbY2 + (sbH2 - thumbH) * (math.min(scrollOffset, maxScroll) / maxScroll)
+        local thumbY = sbY + (sbH - thumbH) * (math.min(scrollOffset, maxScroll) / maxScroll)
         love.graphics.setColor(0.4, 0.45, 0.55, alpha)
-        love.graphics.rectangle("fill", sbX2 + 1, thumbY, 2, thumbH, 1, 1, 1, 1)
+        love.graphics.rectangle("fill", sbX + 1, thumbY, 2, thumbH, 1, 1, 1, 1)
     end
 
     -- Footer
     love.graphics.setFont(smallFont)
     love.graphics.setColor(0.5, 0.55, 0.6, alpha)
-    love.graphics.print(string.format("%d dogodkov  |  8 kategorij  |  Max %d v pomnilniku",
-        #filtered, 500), panelX + 16, panelY + panelH - 20)
+    love.graphics.print(string.format("Zadnjih %d dogodkov  |  C: počisti  |  Tab: filter", MAX_EVENTS),
+        panelX + 16, panelY + panelH - 20)
 
     love.graphics.setFont(font)
     love.graphics.pop()
@@ -262,10 +257,10 @@ end
 function EventLogPanel.wheelmoved(x, y)
     if not visible and not PanelAnim.isAnimating(animState) then return false end
     if y > 0 then
-        scrollOffset = math.max(0, scrollOffset - 36)
+        scrollOffset = math.max(0, scrollOffset - 24)
         return true
     elseif y < 0 then
-        scrollOffset = scrollOffset + 36
+        scrollOffset = scrollOffset + 24
         return true
     end
     return false
@@ -312,30 +307,25 @@ function EventLogPanel.keypressed(key, scancode, isrepeat)
         return true
     end
     if key == "c" then
-        EventLog.clear()
+        eventLog = {}
         UISound.playToggleOff()
-        if _G.NotificationCenter then
-            pcall(function()
-                _G.NotificationCenter.system("Dnevnik dogodkov: počiščeno",
-                    _G.NotificationCenter.PRIORITY.NORMAL, 3)
-            end)
-        end
+        scrollOffset = 0
         return true
     end
     if key == "up" then
-        scrollOffset = math.max(0, scrollOffset - 36)
+        scrollOffset = math.max(0, scrollOffset - 24)
         return true
     end
     if key == "down" then
-        scrollOffset = scrollOffset + 36
+        scrollOffset = scrollOffset + 24
         return true
     end
     if key == "pageup" then
-        scrollOffset = math.max(0, scrollOffset - 180)
+        scrollOffset = math.max(0, scrollOffset - 120)
         return true
     end
     if key == "pagedown" then
-        scrollOffset = scrollOffset + 180
+        scrollOffset = scrollOffset + 120
         return true
     end
     if key == "home" then
@@ -358,24 +348,21 @@ function EventLogPanel.mousepressed(x, y, button)
     if button ~= 1 then return false end
 
     local screenW = love.graphics.getWidth()
-    local panelW = math.min(800, screenW - 60)
+    local panelW = math.min(720, screenW - 60)
     local panelX = (screenW - panelW) / 2
     local screenH = love.graphics.getHeight()
-    local panelH = math.min(640, screenH - 60)
+    local panelH = math.min(620, screenH - 60)
     local panelY = (screenH - panelH) / 2
 
-    -- Filter button clicks
+    -- Filter tab click
     local fbX = panelX + 16
-    local fbY = panelY + 74
-    local fbW = 80
-    local fbH = 20
-    local fbGap = 3
+    local fbY = panelY + 72
+    local fbW = 100
+    local fbH = 22
+    local fbGap = 4
     for i, filterKey in ipairs(FILTER_ORDER) do
-        local col = (i - 1) % 5
-        local row = math.floor((i - 1) / 5)
-        local bx = fbX + col * (fbW + fbGap)
-        local by = fbY + row * (fbH + fbGap)
-        if x >= bx and x <= bx + fbW and y >= by and y <= by + fbH then
+        local bx = fbX + (i - 1) * (fbW + fbGap)
+        if x >= bx and x <= bx + fbW and y >= fbY and y <= fbY + fbH then
             if activeFilter ~= filterKey then
                 activeFilter = filterKey
                 UISound.playTabSwitch()
@@ -383,14 +370,6 @@ function EventLogPanel.mousepressed(x, y, button)
             scrollOffset = 0
             return true
         end
-    end
-
-    -- Search box click
-    local sbX = panelX + panelW - 200
-    if x >= sbX and x <= sbX + 184 and y >= fbY and y <= fbY + fbH then
-        searchActive = true
-        UISound.playSearchFocus()
-        return true
     end
 
     -- Click outside panel closes

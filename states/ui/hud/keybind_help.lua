@@ -67,6 +67,7 @@ local KEYBINDS = {
             { key = "Ctrl+Shift+K", desc = "Urejevalnik tipk - customizacija bližnjic z persistenco (v3.12.144)" },
             { key = "Ctrl+Shift+E", desc = "Nastavitve - vse na enem mestu (igra/UI/prikaz/igralec) (v3.12.145)" },
             { key = "Ctrl+Shift+J", desc = "Barvna tema - ciklaj 6 tem (zlato/moder/zelen/rdeč/temen/vijoličen) (v3.12.146)" },
+            { key = "Ctrl+Shift+L", desc = "Dnevnik dogodkov - vsi game events z filtriranjem (v3.12.147)" },
             { key = "Ctrl+A",    desc = "Dosežki - stari loveframes achievement gallery" },
             { key = "` + Shift", desc = "Odpri konzolo" },
             { key = "Shift+R",   desc = "Ponastavi vse nastavitve (zbriše 16 persisted datotek, zahteva restart)" },
