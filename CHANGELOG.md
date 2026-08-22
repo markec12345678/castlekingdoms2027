@@ -2,6 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.119] — 2026-08-22 — Tech Tree Search Persistence (save/load searchQuery! Persistence popoln za VSE panele!)
+
+### Dodano
+- **tech_tree_panel.lua** — persistenca searchQuery med sejami:
+  - Nov `SEARCH_FILE = "tech_tree_search.txt"`
+  - `loadSearchQuery()` — prebere searchQuery iz datoteke ob init (s trim trailing whitespace)
+  - `saveSearchQuery()` — zapiše searchQuery v datoteko ob spremembi
+  - `loadSearchQuery()` klicana ob init
+  - `saveSearchQuery()` klicana v:
+    - Escape key (počisti iskanje)
+    - Return/Enter key (potrdi iskanje)
+    - Backspace key (briše zadnji znak)
+    - `textinput()` handler (tipkanje)
+  - pcall wrapper za varno IO
+- **VELIKI MEJNIK: Persistence ekosistem popoln za VSE 6 panelov!**
+  - Royal Systems Panel: sortMode, activeCategory, searchQuery (3 datoteke)
+  - Market Dashboard: searchQuery, sortMode, leaderboardMode, comparisonList (4 datoteke)
+  - Tech Tree: bookmarks, multi-select, custom presets, searchQuery ← NOV! (4 datoteke)
+  - Auto-Save Overlay: position, opacity, hidden (3 datoteke)
+  - Keybind Help: searchQuery (1 datoteka)
+
+### Spremenjene datoteke
+- `states/ui/hud/tech_tree_panel.lua` (+25 vrstic) — SEARCH_FILE, loadSearchQuery, saveSearchQuery, init load, 4 save calls
+- `README.md` — posodobljen badge (v3.12.119)
+- `CHANGELOG.md` — dodan v3.12.119 entry
+- `NEXT_BATCH_HANDOFF.md` — posodobljeno stanje
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS
+
 ## [v3.12.118] — 2026-08-22 — Market Dashboard Comparison List Persistence (save/load comparisonList! Market Dashboard persistence popoln!)
 
 ### Dodano

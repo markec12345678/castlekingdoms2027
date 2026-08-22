@@ -42,6 +42,27 @@ local searchActive = false
 local searchQuery = ""
 local cursorBlink = 0  -- accumulated time for cursor blink animation
 
+local SEARCH_FILE = "tech_tree_search.txt"
+
+-- Load persisted search query on init
+local function loadSearchQuery()
+    local ok, content = pcall(love.filesystem.read, SEARCH_FILE)
+    if ok and content then
+        content = content:gsub("%s+$", "")
+        if content ~= "" then
+            searchQuery = content
+        end
+    end
+end
+
+-- Save search query to file
+local function saveSearchQuery()
+    pcall(love.filesystem.write, SEARCH_FILE, searchQuery .. "\n")
+end
+
+-- Load on init
+loadSearchQuery()
+
 -- Path highlight mode (v3.11.947)
 -- "direct" = only direct prereqs + dependents (v3.11.945 behavior)
 -- "transitive" = full ancestor chain + full descendant chain (tech lineage)
@@ -2163,6 +2184,7 @@ function TechTreePanel.textinput(text)
     -- Only accept printable ASCII characters (avoid control chars)
     if #searchQuery < 30 then
         searchQuery = searchQuery .. text
+        saveSearchQuery()
         cursorBlink = 0  -- reset cursor to visible
     end
     return true
@@ -2177,20 +2199,18 @@ function TechTreePanel.keypressed(key)
             -- Close search (clears query and exits search mode)
             searchActive = false
             searchQuery = ""
+            saveSearchQuery()
             return true
         end
         if key == "return" or key == "kpenter" then
-            -- Keep filter active but exit input mode (so user can scroll/click)
-            -- Actually: keep search active so they can keep typing
-            -- Just exit input mode by setting searchActive false but keep query as filter
-            -- Hmm, simpler: Enter confirms and exits input mode, query stays as filter
             searchActive = false
-            -- query stays, so dimming remains until ESC or new search
+            saveSearchQuery()
             return true
         end
         if key == "backspace" then
             if #searchQuery > 0 then
                 searchQuery = searchQuery:sub(1, -2)
+                saveSearchQuery()
                 cursorBlink = 0
             end
             return true
