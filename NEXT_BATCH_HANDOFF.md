@@ -1,16 +1,16 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.12.136**
+- Različica: **v3.12.137**
 - Skupaj Royal sistemov: **990**
 - Skupaj Lua datotek: **1656**
 - Sintaktična preverba (avtentična Lua `load()`): **1656/1656 pass (100%)**
 - Tech Tree: **891 deps · 165 verig · 786 multi-prereq** (98.25x zažetnih 8!)
 - Dosežki: **35 skupaj** (16 originalni + 10 Royal + 6 Difficulty Master + 3 Combat milestone) — dostop z Ctrl+Shift+A
 - Tutorial hinti: **30 skupaj** — dostop z Ctrl+Shift+O
-- UI Paneli: **11 skupaj** (Stats Panel sedaj ima 5 zavihkov: Pregled, Proizvodnja, Trg, Lestvice, Bojevanje) + UI Sound + Particle Effects + Difficulty System
-- Težavnost: **5 stopenj** z 11 modifierji, 6 aplicirani (gold, production, spawn, health, damage, playerHealth) — dostop z Ctrl+Shift+F
-- Zadnji paket: **v3.12.136 — Stats Panel Combat Tab** (5. zavihek z graf-i in milestone dosežki)
+- UI Paneli: **11 skupaj** (Stats Panel ima 5 zavihkov) + UI Sound + Particle Effects + Difficulty System
+- Težavnost: **5 stopenj** z 11 modifierji, **8 aplicirani** (gold, production, spawn, enemyHealth, playerHealth, playerDamage, enemyDamage, aggression) — dostop z Ctrl+Shift+F
+- Zadnji paket: **v3.12.137 — AI Aggression Hook** (peaceful = no AI attacks + Auto-Save Overlay difficulty display)
 - GitHub: pripravljen za push
 - Lokalni repo (sandbox): `/home/workdir/castlekingdoms2027`
 
@@ -32,8 +32,9 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 3. ~~**Market Dashboard mousemoved forwarding**~~ ✅ končano
 4. ~~**Overlay settings migration**~~ ✅ končano v v3.11.933
 
-## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.12.136)
+## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.12.137)
 
+- ✅ **v3.12.137**: AI Aggression Hook — peaceful = no AI attacks + Auto-Save Overlay difficulty display! enemyAggressionMultiplier apliciran v AIStrategyController.lua update() z dvema učinkoma: (1) Attack chance multiplier — attackChancePerMin × mult (peaceful=0.0 = AI nikoli ne napade, brutal=2.0 = 100% več napadov). (2) Min attack interval — math.floor(60 / mult + 0.5) (brutal=30s cooldown namesto 60s). Peaceful mult=0.0 pomeni effectiveAttackChance=0 in effectiveAttackChance>0 check fails — AI nikoli ne začne napada. Vse AI osebnosti (aggressive=0.7, balanced=0.5, defensive=0.3, itd.) so spoštovane kot base rate. Difficulty indicator v Auto-Save Status Overlay (vedno viden HUD) prikazuje "🕊 MIRNO" / "⚖ NORMALNO" / "☠ BRUTALNO" z barvo iz getCurrentInfo().color. 8 od 11 modifierjev sedaj apliciranih v gameplay (gold, production, spawn, enemyHealth, playerHealth, playerDamage, enemyDamage, aggression). Preostali 3 (playerBuildCost, resourceDepletion, startingGold) zahtevajo globlje spremembe v ekonomskih sistemih.
 - ✅ **v3.12.136**: Stats Panel Combat Tab — 5. zavihek z graf-i in milestone dosežki! Nov "BOJEVANJE" zavihek v Stats Panel (Ctrl+Shift+I). 4 metulj kartice: UBOJI (zeleno), IZGUBE (rdeče), K/D RATIO (zlato), EFFICIENCY (zeleno/rdeče glede na KDR). 2 line chart-a (60s): UBOJI SKOZI ČAS (zelena), IZGUBE SKOZI ČAS (rdeča). 4 milestone dosežki z progress bari: Prva zmaga (max 1), Krilivec (max 50), Vojskovodja (max 250), Legenda bojišča (max 1000). sampleHistory() sedaj zajema tudi playerKills in playerDeaths. drawCombat() ~110 vrstic. TAB_ORDER razširjen z "combat" (rdeča barva). Scrollbar condition razširjena za combat zavihek. Bere iz CombatIntegration.getStats() in AchievementTracker.getAll().
 - ✅ **v3.12.135**: Combat Difficulty Hooks — 3 modifierji v combat + kill tracking + 3 dosežki! 3 novi combat milestone dosežki v AchievementTracker (combat_kills_50/common Krilivec, combat_kills_250/rare Vojskovodja, combat_kills_1000/legendary Legenda bojišča). Kill tracking v CombatIntegration: playerKills, playerDeaths counterji, onPlayerKill(), onPlayerDeath(), getStats() (vrne KDR), resetStats(). playerHealthMultiplier apliciran v CombatComponent.attach() (peaceful=1.5x, brutal=0.75x) — vpliva na maxHealth ob spawn-u. playerDamageMultiplier in enemyDamageMultiplier aplicirana v CombatComponent.takeDamage() (peaceful=0.5x player dmg + 1.5x enemy dmg, brutal=1.5x + 0.8x). Kill tracking hook v takeDamage() death section — klice onPlayerKill() in onPlayerDeath(). 32→35 dosežkov skupaj.
 - ✅ **v3.12.134**: Difficulty Hooks Expansion — 6 novih Difficulty Master dosežkov + 3 modifierji aplicirani v gameplay! 6 novih dosežkov v AchievementTracker (difficulty_easy/common, difficulty_normal/rare, difficulty_hard/epic, difficulty_brutal/legendary, difficulty_peaceful/common, difficulty_collector/legendary). Nova funkcija onGameWon(difficultyKey) za odklepanje dosežkov ob zmagi. playerProductionMultiplier apliciran v RoyalSystemsRegistry.update() (dt multiplier, peaceful=1.3x, brutal=0.75x) — vpliva na vseh 990 Royal sistemov. difficulty_peaceful progress tracking v build() — posodobi dosežek ko 100+ sistemov aktivnih na peaceful. enemySpawnMultiplier in enemyHealthMultiplier aplicirana v CombatIntegration.spawnEnemyGroup() (peaceful=0.3x spawn + 0.7x health, brutal=1.6x spawn + 1.35x health). Stats Panel Overview tab prikazuje trenutno težavnost z ikono in barvo. 26→32 dosežkov skupaj.

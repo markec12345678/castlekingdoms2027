@@ -314,8 +314,24 @@ function AIStrategyController:evaluateStrategicState(faction, state)
 
             -- Chance to attack
             local timeSinceLastAttack = love.timer.getTime() - state.lastAttack
-            if timeSinceLastAttack > 60 then  -- at least 1 min between attacks
-                if math.random() < state.personality.attackChancePerMin then
+            -- v3.12.137: Apply difficulty to min attack interval (brutal: shorter cooldown)
+            local minAttackInterval = 60
+            if _G.DifficultySettings then
+                local mult = _G.DifficultySettings.getModifier("enemyAggressionMultiplier") or 1.0
+                if mult > 0 then
+                    minAttackInterval = math.floor(60 / mult + 0.5)
+                end
+            end
+            if timeSinceLastAttack > minAttackInterval then
+                -- v3.12.137: Apply difficulty enemyAggressionMultiplier
+                -- (peaceful: 0.0 = AI never attacks, brutal: 2.0 = AI much more aggressive)
+                local effectiveAttackChance = state.personality.attackChancePerMin
+                if _G.DifficultySettings then
+                    local mult = _G.DifficultySettings.getModifier("enemyAggressionMultiplier") or 1.0
+                    effectiveAttackChance = effectiveAttackChance * mult
+                end
+                -- v3.12.137: On peaceful (mult=0), skip attack entirely
+                if effectiveAttackChance > 0 and math.random() < effectiveAttackChance then
                     state.state = STRATEGY_STATES.ATTACKING
                     state.lastAttack = love.timer.getTime()
                     -- Castle Kingdoms 2027: Trigger AI dialogue on attack

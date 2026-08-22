@@ -2,7 +2,7 @@
 
 Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT). Navdihnjen s klasičnimi srednjeveškimi strateškimi igrami.
 
-[![Version](https://img.shields.io/badge/version-3.12.136-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
+[![Version](https://img.shields.io/badge/version-3.12.137-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
 [![Syntax](https://img.shields.io/badge/syntax-1656%2F1656%20pass-brightgreen.svg)](#)
@@ -12,8 +12,8 @@ Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgraj
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v3.12.136](https://github.com/markec12345678/castlekingdoms2027/releases)
-- **.love datoteka**: `castlekingdoms2027_v3.12.136.love` (37 MB brez LFS, 305 MB z LFS)
+- **Zadnja izdaja**: [v3.12.137](https://github.com/markec12345678/castlekingdoms2027/releases)
+- **.love datoteka**: `castlekingdoms2027_v3.12.137.love` (37 MB brez LFS, 305 MB z LFS)
 - **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 990 Royal sistemov, 1656 Lua datotek, **Tech Tree: 891 deps · 165 verig · 786 multi-prereq (98.25x)** · BOOK COMPLETE · GARDEN COMPLETE · MILL COMPLETE · FORGE residual COMPLETE · Apothecary/Smith/Astrolabe+ · + LEATHER+ · GLASS+ · FOUNDRY+ …
 - **LFS**: Po git clone zahtevaj `git lfs pull` za prave PNG asset-e (305 MB)
 
@@ -40,7 +40,7 @@ love .
 | Vrstic kode | ~485.000 |
 | GLSL shaderji | 12 |
 | Jezikov | 32 |
-| Verzij | 140+ (v1.7.9 → v3.12.136) |
+| Verzij | 140+ (v1.7.9 → v3.12.137) |
 | Bug popravkov | 155 (90 krogov pregleda) |
 | Syntax pass rate | 1656/1656 (100%) |
 | PNG assetov | 1.206 |

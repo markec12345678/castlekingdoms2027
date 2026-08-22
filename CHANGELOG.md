@@ -2,6 +2,55 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.137] — 2026-08-22 — AI Aggression Hook (peaceful = no AI attacks + Auto-Save Overlay difficulty display!)
+
+### Dodano
+- **`enemyAggressionMultiplier` apliciran v `AIStrategyController.lua`** — dva učinka:
+  1. **Attack chance multiplier** — `attackChancePerMin` se pomnoži z modifierjem
+     - Peaceful (0.0): AI nikoli ne napade (effectiveAttackChance = 0, skip)
+     - Easy (0.5): 50% manj napadov
+     - Normal (1.0): default
+     - Hard (1.5): 50% več napadov
+     - Brutal (2.0): 100% več napadov
+  2. **Min attack interval** — čas med napadi se obratno prilagodi (brutal = krajši cooldown)
+     - Peaceful: AI nikoli ne napade (mult = 0)
+     - Brutal: 60s / 2.0 = 30s cooldown (napada vsakih 30s namesto 60s)
+     - Formula: `math.floor(60 / mult + 0.5)`
+  - Peaceful je sedaj res "peaceful" — AI nikoli ne začne napada
+  - Vse osebnosti AI (aggressive, balanced, defensive, ekonomski, itd.) spoštujejo modifier
+
+- **Difficulty indicator v Auto-Save Status Overlay**:
+  - Vedno viden HUD (bottom-right) sedaj prikazuje trenutno težavnost
+  - Format: "[ikona] [labela]" (npr. "🕊 MIRNO", "⚖ NORMALNO", "☠ BRUTALNO")
+  - Barva se ujema z difficulty barvo (zelena/oranžna/rdeča)
+  - Pozicionirano pod timer info, nad progress bar
+  - Omogoča hitro referenco brez odpiranja Ctrl+Shift+F panela
+
+### Spremenjeno
+- **`objects/AI/AIStrategyController.lua`** — `update()` funkcija:
+  - `minAttackInterval` izračun iz `enemyAggressionMultiplier`
+  - `effectiveAttackChance` izračun iz `attackChancePerMin * mult`
+  - Skip attack če `effectiveAttackChance <= 0`
+- **`states/ui/hud/autosave_status_overlay.lua`** — `draw()`:
+  - Dodan difficulty indicator pod timer info
+  - Barva iz `DifficultySettings.getCurrentInfo().color`
+
+### Tehnične podrobnosti
+- `enemyAggressionMultiplier` je zadnji večji modifier iz v3.12.133 difficulty sistema
+- Sedaj je **7 od 11 modifierjev apliciranih** v gameplay:
+  1. playerGoldMultiplier (v3.12.133, v completeMaking)
+  2. playerProductionMultiplier (v3.12.134, v update dt)
+  3. enemySpawnMultiplier (v3.12.134, v spawnEnemyGroup)
+  4. enemyHealthMultiplier (v3.12.134, v spawnEnemyGroup + v3.12.135)
+  5. playerHealthMultiplier (v3.12.135, v attach)
+  6. playerDamageMultiplier (v3.12.135, v takeDamage)
+  7. enemyDamageMultiplier (v3.12.135, v takeDamage)
+  8. enemyAggressionMultiplier (v3.12.137, v AIStrategyController)
+- Preostali 3 modifierji (playerBuildCostMultiplier, resourceDepletionMultiplier, startingGoldBonus) zahtevajo globlje spremembe v ekonomskih sistemih
+- `minAttackInterval` formula preprečuje deljenje z 0 (mult > 0 check)
+- Peaceful mult = 0.0 pomeni da `effectiveAttackChance = 0` in `effectiveAttackChance > 0` check fails — AI nikoli ne napade
+- AI osebnosti (aggressive=0.7, balanced=0.5, defensive=0.3, itd.) so še vedno spoštovane kot base rate
+
 ## [v3.12.136] — 2026-08-22 — Stats Panel Combat Tab (5. zavihek z graf-i in milestone dosežki!)
 
 ### Dodano

@@ -239,6 +239,13 @@ function AutoSaveOverlay.draw()
         love.graphics.print("(onemogočeno - Shift+U)", overlayX + 8, overlayY + 18)
     end
 
+    -- v3.12.137: Difficulty indicator (bottom of overlay, above progress bar)
+    if _G.DifficultySettings then
+        local diffInfo = _G.DifficultySettings.getCurrentInfo()
+        love.graphics.setColor(diffInfo.color[1], diffInfo.color[2], diffInfo.color[3], opacity * 0.9)
+        love.graphics.print(diffInfo.icon .. " " .. diffInfo.label, overlayX + 8, overlayY + 32)
+    end
+
     -- Hover hint
     if hovered and not isDragging then
         love.graphics.setColor(0.7, 0.8, 0.9, opacity * 0.9)
