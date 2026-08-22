@@ -1,16 +1,16 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.12.135**
+- Različica: **v3.12.136**
 - Skupaj Royal sistemov: **990**
 - Skupaj Lua datotek: **1656**
 - Sintaktična preverba (avtentična Lua `load()`): **1656/1656 pass (100%)**
 - Tech Tree: **891 deps · 165 verig · 786 multi-prereq** (98.25x zažetnih 8!)
 - Dosežki: **35 skupaj** (16 originalni + 10 Royal + 6 Difficulty Master + 3 Combat milestone) — dostop z Ctrl+Shift+A
 - Tutorial hinti: **30 skupaj** — dostop z Ctrl+Shift+O
-- UI Paneli: **11 skupaj** + UI Sound Effects System + Particle Effects System + Difficulty Settings System
+- UI Paneli: **11 skupaj** (Stats Panel sedaj ima 5 zavihkov: Pregled, Proizvodnja, Trg, Lestvice, Bojevanje) + UI Sound + Particle Effects + Difficulty System
 - Težavnost: **5 stopenj** z 11 modifierji, 6 aplicirani (gold, production, spawn, health, damage, playerHealth) — dostop z Ctrl+Shift+F
-- Zadnji paket: **v3.12.135 — Combat Difficulty Hooks** (3 modifierji v combat + kill tracking + 3 dosežki)
+- Zadnji paket: **v3.12.136 — Stats Panel Combat Tab** (5. zavihek z graf-i in milestone dosežki)
 - GitHub: pripravljen za push
 - Lokalni repo (sandbox): `/home/workdir/castlekingdoms2027`
 
@@ -32,8 +32,9 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 3. ~~**Market Dashboard mousemoved forwarding**~~ ✅ končano
 4. ~~**Overlay settings migration**~~ ✅ končano v v3.11.933
 
-## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.12.135)
+## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.12.136)
 
+- ✅ **v3.12.136**: Stats Panel Combat Tab — 5. zavihek z graf-i in milestone dosežki! Nov "BOJEVANJE" zavihek v Stats Panel (Ctrl+Shift+I). 4 metulj kartice: UBOJI (zeleno), IZGUBE (rdeče), K/D RATIO (zlato), EFFICIENCY (zeleno/rdeče glede na KDR). 2 line chart-a (60s): UBOJI SKOZI ČAS (zelena), IZGUBE SKOZI ČAS (rdeča). 4 milestone dosežki z progress bari: Prva zmaga (max 1), Krilivec (max 50), Vojskovodja (max 250), Legenda bojišča (max 1000). sampleHistory() sedaj zajema tudi playerKills in playerDeaths. drawCombat() ~110 vrstic. TAB_ORDER razširjen z "combat" (rdeča barva). Scrollbar condition razširjena za combat zavihek. Bere iz CombatIntegration.getStats() in AchievementTracker.getAll().
 - ✅ **v3.12.135**: Combat Difficulty Hooks — 3 modifierji v combat + kill tracking + 3 dosežki! 3 novi combat milestone dosežki v AchievementTracker (combat_kills_50/common Krilivec, combat_kills_250/rare Vojskovodja, combat_kills_1000/legendary Legenda bojišča). Kill tracking v CombatIntegration: playerKills, playerDeaths counterji, onPlayerKill(), onPlayerDeath(), getStats() (vrne KDR), resetStats(). playerHealthMultiplier apliciran v CombatComponent.attach() (peaceful=1.5x, brutal=0.75x) — vpliva na maxHealth ob spawn-u. playerDamageMultiplier in enemyDamageMultiplier aplicirana v CombatComponent.takeDamage() (peaceful=0.5x player dmg + 1.5x enemy dmg, brutal=1.5x + 0.8x). Kill tracking hook v takeDamage() death section — klice onPlayerKill() in onPlayerDeath(). 32→35 dosežkov skupaj.
 - ✅ **v3.12.134**: Difficulty Hooks Expansion — 6 novih Difficulty Master dosežkov + 3 modifierji aplicirani v gameplay! 6 novih dosežkov v AchievementTracker (difficulty_easy/common, difficulty_normal/rare, difficulty_hard/epic, difficulty_brutal/legendary, difficulty_peaceful/common, difficulty_collector/legendary). Nova funkcija onGameWon(difficultyKey) za odklepanje dosežkov ob zmagi. playerProductionMultiplier apliciran v RoyalSystemsRegistry.update() (dt multiplier, peaceful=1.3x, brutal=0.75x) — vpliva na vseh 990 Royal sistemov. difficulty_peaceful progress tracking v build() — posodobi dosežek ko 100+ sistemov aktivnih na peaceful. enemySpawnMultiplier in enemyHealthMultiplier aplicirana v CombatIntegration.spawnEnemyGroup() (peaceful=0.3x spawn + 0.7x health, brutal=1.6x spawn + 1.35x health). Stats Panel Overview tab prikazuje trenutno težavnost z ikono in barvo. 26→32 dosežkov skupaj.
 - ✅ **v3.12.133**: Difficulty Settings System — 5 stopenj težavnosti z 11 modifierji! Nov `DifficultySettings.lua` modul (~220 vrstic) z 5 stopnjami (peaceful/easy/normal/hard/brutal) z barvno kodiranjem in ikonami (🕊/★/⚖/⚔/☠). 11 modifierjev na stopnjo: playerGold/Production/BuildCost/Damage/Health, enemyDamage/Health/Aggression/Spawn, resourceDepletion, startingGoldBonus. Persistenca v difficulty_setting.txt. API: init, set, getCurrent, getCurrentInfo, getModifier, getModifierFor, getAll, getStats, isHarderThan. Nov modern UI panel difficulty_panel.lua (~310 vrstic) z Ctrl+Shift+F (slide-down 0.22s). 5 horizontalnih kartic z vsemi modifierji, barvno kodiranje (zeleno=bonus, rdeče=kazen), "› IZBRANA" in "★ TRENUTNA" badge-i. Navigacija: 1-5 številke, ←→, ENTER potrdi, ESC zapri. Apply button se prikaže ko izbira≠trenutno. Hook v RoyalSystemsRegistry.completeMaking() aplikira playerGoldMultiplier na bonus zlato (peaceful=1.5x, brutal=0.7x). ROADMAP.md popoln prepis (vse faze posodobljene, vsi tehnični dolg končan, roki prehiteli).

@@ -46,8 +46,9 @@ local TABS = {
     production   = { label = "PROIZVODNJA",   color = {0.9, 0.75, 0.3} },
     market       = { label = "TRG",            color = {0.4, 0.65, 0.95} },
     leaderboards = { label = "LESTVICE",      color = {0.85, 0.45, 0.85} },
+    combat       = { label = "BOJEVANJE",     color = {0.9, 0.4, 0.4} },
 }
-local TAB_ORDER = {"overview", "production", "market", "leaderboards"}
+local TAB_ORDER = {"overview", "production", "market", "leaderboards", "combat"}
 
 function StatsPanel.toggle()
     if not visible then
@@ -100,12 +101,19 @@ end
 -- Sample current stats into history
 local function sampleHistory()
     local agg = Registry.getAggregate()
+    -- v3.12.136: Include combat stats in history samples
+    local combatStats = nil
+    if _G.CombatIntegration and _G.CombatIntegration.getStats then
+        combatStats = _G.CombatIntegration.getStats()
+    end
     local sample = {
         t = love.timer and love.timer.getTime() or 0,
         goldEarned = agg.totalGoldEarned or 0,
         totalProducts = agg.totalProducts or 0,
         totalActive = agg.totalActiveMaking or 0,
         totalBuildings = agg.totalBuildings or 0,
+        playerKills = combatStats and combatStats.playerKills or 0,
+        playerDeaths = combatStats and combatStats.playerDeaths or 0,
     }
     historySamples[#historySamples + 1] = sample
     if #historySamples > MAX_SAMPLES then
@@ -283,12 +291,14 @@ function StatsPanel.draw()
         drawMarket(contentLeft, contentTop, contentW, contentH, alpha, smallFont, font)
     elseif activeTab == "leaderboards" then
         drawLeaderboards(contentLeft, contentTop, contentW, contentH, alpha, smallFont, font)
+    elseif activeTab == "combat" then
+        drawCombat(contentLeft, contentTop, contentW, contentH, alpha, smallFont, font)
     end
 
     love.graphics.setScissor()
 
     -- Scrollbar (only for leaderboards/market which can have long content)
-    if activeTab == "leaderboards" or activeTab == "market" then
+    if activeTab == "leaderboards" or activeTab == "market" or activeTab == "combat" then
         local sbX = panelX + panelW - 12
         local sbY = contentTop
         local sbH = contentH
@@ -703,6 +713,117 @@ function drawLeaderboards(x, y, w, h, alpha, smallFont, font)
     if #buildingList == 0 then
         love.graphics.setColor(0.6, 0.6, 0.6, alpha)
         love.graphics.print("(ni sistemov z zgradbami)", x + 4, list2Y + 16)
+    end
+end
+
+-- ============================================================
+-- v3.12.136: TAB: COMBAT
+-- ============================================================
+function drawCombat(x, y, w, h, alpha, smallFont, font)
+    love.graphics.setFont(font)
+    love.graphics.setColor(0.85, 0.88, 0.92, alpha)
+    love.graphics.print("BOJEVANJE — statistika in zgodovina", x, y)
+
+    -- Get combat stats
+    local combatStats = { playerKills = 0, playerDeaths = 0, kdr = 0 }
+    if _G.CombatIntegration and _G.CombatIntegration.getStats then
+        local s = _G.CombatIntegration.getStats()
+        combatStats.playerKills = s.playerKills or 0
+        combatStats.playerDeaths = s.playerDeaths or 0
+        combatStats.kdr = s.kdr or 0
+    end
+
+    -- Top row: 4 metric cards
+    local cardW = (w - 48) / 4
+    local cardH = 70
+    local cardY = y + 30
+    local cards = {
+        { label = "UBOJI", value = tostring(combatStats.playerKills), sub = "sovražnikov premaganih", color = {0.4, 0.85, 0.4} },
+        { label = "IZGUBE", value = tostring(combatStats.playerDeaths), sub = "lastnih enot izgubljenih", color = {0.9, 0.4, 0.4} },
+        { label = "K/D RATIO", value = string.format("%.2f", combatStats.kdr), sub = "kills / deaths", color = {0.85, 0.7, 0.3} },
+        { label = "EFFICIENCY", value = string.format("%.0f%%", combatStats.kdr >= 1 and 100 or (combatStats.kdr * 100)),
+          sub = "1.0+ = pozitivno", color = combatStats.kdr >= 1 and {0.3, 0.85, 0.4} or {0.85, 0.4, 0.3} },
+    }
+    for i, card in ipairs(cards) do
+        local cx = x + (i - 1) * (cardW + 16)
+        love.graphics.setColor(0.1, 0.1, 0.12, alpha * 0.8)
+        love.graphics.rectangle("fill", cx, cardY, cardW, cardH, 4, 4, 4, 4)
+        love.graphics.setColor(card.color[1], card.color[2], card.color[3], alpha)
+        love.graphics.rectangle("fill", cx, cardY, 4, cardH, 4, 0, 0, 4)
+        love.graphics.setFont(smallFont)
+        love.graphics.setColor(0.6, 0.65, 0.7, alpha)
+        love.graphics.print(card.label, cx + 12, cardY + 8)
+        love.graphics.setFont(font)
+        love.graphics.setColor(card.color[1], card.color[2], card.color[3], alpha)
+        love.graphics.print(card.value, cx + 12, cardY + 22)
+        love.graphics.setFont(smallFont)
+        love.graphics.setColor(0.55, 0.6, 0.65, alpha)
+        love.graphics.print(card.sub, cx + 12, cardY + 48)
+    end
+
+    -- Combat history chart (kills over time)
+    local chart1Y = cardY + cardH + 30
+    local chartH = 100
+    love.graphics.setFont(font)
+    love.graphics.setColor(0.8, 0.85, 0.9, alpha)
+    love.graphics.print("⚔ UBOJI SKOČI ČAS (60s)", x, chart1Y - 18)
+    drawLineChart(x, chart1Y, w, chartH, historySamples, "playerKills", {0.4, 0.85, 0.4}, nil)
+
+    -- Combat deaths chart
+    local chart2Y = chart1Y + chartH + 36
+    love.graphics.print("💀 IZGUBE SKOČI ČAS (60s)", x, chart2Y - 18)
+    drawLineChart(x, chart2Y, w, chartH, historySamples, "playerDeaths", {0.9, 0.4, 0.4}, nil)
+
+    -- Combat milestone progress
+    local chart3Y = chart2Y + chartH + 36
+    love.graphics.print("🏆 MILESTONE DOSEŽKI", x, chart3Y - 18)
+    local milestones = {
+        { id = "first_victory", label = "Prva zmaga", max = 1, color = {0.4, 0.85, 0.4} },
+        { id = "combat_kills_50", label = "Krilivec (50)", max = 50, color = {0.85, 0.7, 0.3} },
+        { id = "combat_kills_250", label = "Vojskovodja (250)", max = 250, color = {0.4, 0.65, 0.95} },
+        { id = "combat_kills_1000", label = "Legenda bojišča (1000)", max = 1000, color = {0.95, 0.75, 0.2} },
+    }
+    local mY = chart3Y + 8
+    for i, m in ipairs(milestones) do
+        local row = i
+        local ry = mY + (row - 1) * 30
+        local current = 0
+        if _G.AchievementTracker then
+            local info = _G.AchievementTracker.getHint(m.id)
+            if info then
+                local all = _G.AchievementTracker.getAll()
+                for _, a in ipairs(all) do
+                    if a.key == m.id then
+                        current = a.progressCurrent or 0
+                        break
+                    end
+                end
+            end
+        end
+        -- Row bg
+        love.graphics.setColor(0.1, 0.1, 0.12, alpha * 0.6)
+        love.graphics.rectangle("fill", x, ry, w, 26, 3, 3, 3, 3)
+        -- Label
+        love.graphics.setFont(smallFont)
+        love.graphics.setColor(0.85, 0.88, 0.92, alpha)
+        love.graphics.print(m.label, x + 8, ry + 4)
+        -- Progress bar
+        local pbX = x + 250
+        local pbY = ry + 8
+        local pbW = w - 380
+        local pbH = 12
+        love.graphics.setColor(0.1, 0.1, 0.12, alpha)
+        love.graphics.rectangle("fill", pbX, pbY, pbW, pbH, 2, 2, 2, 2)
+        local fillW = pbW * (math.min(current, m.max) / m.max)
+        love.graphics.setColor(m.color[1], m.color[2], m.color[3], alpha * 0.85)
+        love.graphics.rectangle("fill", pbX + 1, pbY + 1, math.max(0, fillW - 2), pbH - 2, 2, 2, 2, 2)
+        -- Border
+        love.graphics.setColor(0.4, 0.45, 0.5, alpha)
+        love.graphics.rectangle("line", pbX, pbY, pbW, pbH, 2, 2, 2, 2)
+        -- Progress text
+        love.graphics.setColor(0.85, 0.88, 0.92, alpha)
+        love.graphics.print(string.format("%d/%d (%d%%)", current, m.max, math.floor(current / m.max * 100)),
+            x + w - 110, ry + 4)
     end
 end
 

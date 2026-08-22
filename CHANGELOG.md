@@ -2,6 +2,47 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.136] — 2026-08-22 — Stats Panel Combat Tab (5. zavihek z graf-i in milestone dosežki!)
+
+### Dodano
+- **`states/ui/hud/stats_panel.lua`** — nov "BOJEVANJE" zavihek (5. zavihek v Stats Panel):
+  - **4 metulj kartice** (1×4 mreža):
+    - **UBOJI** (zeleno) — število ubitih sovražnikov
+    - **IZGUBE** (rdeče) — število izgubljenih lastnih enot
+    - **K/D RATIO** (zlato) — kills / deaths ratio
+    - **EFFICIENCY** (zeleno/rdeče glede na KDR) — 100% če je KDR ≥ 1.0, sicer KDR×100%
+  - **2 line chart-a** (60s zgodovina):
+    - ⚔ **UBOJI SKOZI ČAS** — število ubitih sovražnikov skozi čas (zelena črta)
+    - 💀 **IZGUBE SKOZI ČAS** — število izgubljenih enot skozi čas (rdeča črta)
+  - **🏆 MILESTONE DOSEŽKI** — 4 vrstice z progress bari:
+    - Prva zmaga (max 1) — zeleno
+    - Krilivec (max 50) — zlato
+    - Vojskovodja (max 250) — modro
+    - Legenda bojišča (max 1000) — zlato (legendary barva)
+    - Vsaka vrstica prikazuje: label, progress bar, števec (npr. "47/50 (94%)")
+  - Barvno kodiranje: zeleno=uspeh, rdeče=izgube, zlato=legendary milestone
+
+- **Combat history sampling** v `sampleHistory()`:
+  - Sedaj zajema tudi `playerKills` in `playerDeaths` v vsakem vzorcu (1/s, 60s okno)
+  - Line chart-i prikazujeta realno-časni napredek ubojov in izgub
+  - Vzorčenje deluje tudi ko je panel skrit
+
+### Spremenjeno
+- **TAB_ORDER** razširjen z "combat" (5. zavihek, rdeča barva)
+- **TABS** tabela dobi `combat = { label = "BOJEVANJE", color = {0.9, 0.4, 0.4} }`
+- **Scrollbar condition** razširjena: tudi "combat" zavihek je scrollable
+- **drawCombat()** — nova funkcija (~110 vrstic) ki riše combat zavihek
+
+### Tehnične podrobnosti
+- `drawCombat()` bere iz `CombatIntegration.getStats()` (v3.12.135) za realne K/D številke
+- Milestone progress bere iz `AchievementTracker.getAll()` — išče dosežek po ID
+- Line chart-i uporabljajo isto `drawLineChart()` pomožno funkcijo kot druge metrike
+- Efficiency formula: `KDR >= 1 ? 100% : KDR * 100%` (50% KDR = 50% efficiency)
+- Kartice so 4 v vrstici (vsaka široka `(panelW - 48) / 4` px)
+- Panel ima 5 zavihkov × 130px širine + 4 × 4px gap = 666px skupaj (manj kot panelW 1020px — ne prelije)
+- Vsi combat podatki so iz _G.CombatIntegration in _G.AchievementTracker (lazy require)
+- Pcall ni potreben — vsi hook-i preverjajo `if _G.X and _G.X.getStats then`
+
 ## [v3.12.135] — 2026-08-22 — Combat Difficulty Hooks (3 modifierji + kill tracking + 3 dosežki!)
 
 ### Dodano
