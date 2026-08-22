@@ -2,6 +2,64 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.129] — 2026-08-22 — Statistics Panel (4 zavihki z graf-i in lestvicami, Ctrl+Shift+I!)
+
+### Dodano
+- **`states/ui/hud/stats_panel.lua`** — nov modul (~600 vrstic) z realno-časnim pregledom metrik:
+  - **Toggle**: Ctrl+Shift+I (I kot "Insights")
+  - **Animacija**: slide-left + fade-in/out (0.22s, easeOut, 24px)
+  - **4 zavihki** (Tab cikla):
+    - **PREGLED** — skupne metrike:
+      - 6 velikih "kartic" (3×2 mreža) s ključnimi številkami: SISTEMI (aktivnih/skupaj), ZGRADBE, MOJSTRI, IZDELKI, AKTIVNA IZDELAVA, BONUS ZLATO
+      - Vsaka kartica ima barvni levi rob (po kategoriji) in sub-labelo
+      - 6 podrobnosti: tržni prihodek, inflacija %, aktivni dogodki, nestanovitna surovina, tech tree met, dosežki odklenjeni
+      - Line chart zgodovine bonus zlata (60s)
+    - **PROIZVODNJA** — časovni nizi:
+      - Line chart "SKUPNA ZALOGA IZDELKOV" (60s)
+      - Line chart "AKTIVNA IZDELAVA" (60s)
+      - Bar chart "TOP 10 PROIZVAJALCEV" (po zaloga)
+    - **TRG** — tržne metrike:
+      - 3 kartice: TRŽNI PRIHODEK, INFLACIJA %, AKTIVNI DOGODKI
+      - Tabela TOP 10 PRODANIH IZDELKOV z: #, izdelek, prodano, prihodek, vizualni bar
+    - **LESTVICE** — top sistemi:
+      - TOP 15 PO PRIHODKU (gold) — z imenom, vrednostjo in bar-om
+      - TOP 15 PO ŠTEVILU ZGRADB — z imenom, vrednostjo in bar-om
+
+- **Zgodovina vzorčenja** — statistike se vzorčijo vsako sekundo:
+  - `historySamples` tabela z zadnjimi 60 vzorci (1/s, 60s okno)
+  - Vsak vzorec vsebuje: `t` (timestamp), `goldEarned`, `totalProducts`, `totalActive`, `totalBuildings`
+  - Vzorčenje deluje tudi ko je panel skrit (da imamo zgodovino ko ga odpremo)
+  - `sampleHistory()` lokalna funkcija — kliče se iz `update(dt)` vsako sekundo
+
+- **Pomožne funkcije za graf-i**:
+  - `drawBarChart(x, y, w, h, values, maxVal, color, label, valueLabels)` — horizontalni bar chart z value labels
+  - `drawLineChart(x, y, w, h, samples, key, color, label)` — line chart z min/max labelami
+  - Oba imata bg + border + barvo fill
+
+### Spremenjeno
+- **`states/game.lua`** — integracija StatsPanel:
+  - `local StatsPanel = require(...)` require na vrhu
+  - `StatsPanel.update(dt)` v update bloku (vzorči zgodovino tudi ko skrit)
+  - `StatsPanel.draw()` v draw bloku
+  - Ctrl+Shift+I keybind
+  - Input forward: mousepressed, wheelmoved, keypressed, textinput, mousemoved
+- **`states/ui/hud/keybind_help.lua`** — dodan Ctrl+Shift+I vnos v OSNOVNO kategorijo
+
+### Tehnične podrobnosti
+- StatsPanel neposredno bere iz obstoječih modulov:
+  - `Registry.getAggregate()` — totalSystems, totalBuildings, totalMakers, totalProducts, totalActiveMaking, totalGoldEarned
+  - `Registry.getSystems()` — za štetje aktivnih (preverja `stats.numBuildings > 0`)
+  - `DynamicMarket.getStats()` — inflation, activeEvents, mostVolatile, maxVolatility
+  - `DynamicMarket.listRoyalProducts()` — za top sold products
+  - `RMI.getPerSystemRevenue()` — za skupni revenue in leaderboard
+  - `Deps.getDependencies()` / `Deps.checkDependencies()` — za tech tree met ratio
+  - `_G.AchievementTracker.getAll()` — za dosežki odklenjeni count
+- Zavihki so v `TAB_ORDER = {"overview", "production", "market", "leaderboards"}`
+- Vsak zavihek ima svojo `draw*` funkcijo (`drawOverview`, `drawProduction`, `drawMarket`, `drawLeaderboards`)
+- Leaderboards zavihek je scrollable (lahko preseže 15 vrstic × 20px = 300+ višine)
+- Kartice imajo fiksno paleto barv za vizualno konsistenco
+- Charts uporabljajo različne palete barv za razlikovanje med metrikami
+
 ## [v3.12.128] — 2026-08-22 — Modern Achievement Panel (10 novih Royal dosežkov + Ctrl+Shift+A panel!)
 
 ### Dodano

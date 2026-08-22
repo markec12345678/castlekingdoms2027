@@ -908,6 +908,8 @@ local TutorialHints = require("objects.Feedback.TutorialHints")
 local KeybindHelp = require("states.ui.hud.keybind_help")
 -- Castle Kingdoms 2027 v3.12.128: Modern Achievement Panel (Ctrl+Shift+A)
 local AchievementPanel = require("states.ui.hud.achievement_panel")
+-- Castle Kingdoms 2027 v3.12.129: Statistics Panel (Ctrl+Shift+I)
+local StatsPanel = require("states.ui.hud.stats_panel")
 -- Castle Kingdoms 2027 - Campaign progress & auto-save
 local CampaignProgress = require("objects.Mission.CampaignProgress")
 local AutoSaveSystem = require("objects.AutoSaveSystem")
@@ -3194,6 +3196,8 @@ function game:update(dt)
                 KeybindHelp.update(dt)
                 -- Castle Kingdoms 2027 v3.12.128: Achievement panel animation update
                 AchievementPanel.update(dt)
+                -- Castle Kingdoms 2027 v3.12.129: Stats panel animation update
+                StatsPanel.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
@@ -3393,6 +3397,8 @@ function game:draw()
             TechTreePanel.draw()
             -- Castle Kingdoms 2027 v3.12.128: Draw Modern Achievement Panel (Ctrl+Shift+A)
             AchievementPanel.draw()
+            -- Castle Kingdoms 2027 v3.12.129: Draw Statistics Panel (Ctrl+Shift+I)
+            StatsPanel.draw()
             -- Castle Kingdoms 2027: Draw Kenney CC0 overlay (if enabled)
             if _G.KenneySpriteRenderer and _G.KenneySpriteRenderer.isActive() then
                 love.graphics.setScissor(0, 0, screenWidth, screenHeight - 150)
@@ -3482,6 +3488,10 @@ function game:mousepressed(x, y, button, istouch)
     if AchievementPanel.isVisible() then
         if AchievementPanel.mousepressed(x, y, button) then return end
     end
+    -- Castle Kingdoms 2027 v3.12.129: Stats panel click handling
+    if StatsPanel.isVisible() then
+        if StatsPanel.mousepressed(x, y, button) then return end
+    end
     -- Castle Kingdoms 2027 v3.11.941: KeybindHelp click handling (close on outside click)
     if KeybindHelp.isVisible() then
         if KeybindHelp.mousepressed(x, y, button) then return end
@@ -3554,6 +3564,10 @@ function game:textinput(text)
     -- Castle Kingdoms 2027 v3.12.128: Achievement panel search input
     if AchievementPanel.isVisible() then
         if AchievementPanel.textinput(text) then return end
+    end
+    -- Castle Kingdoms 2027 v3.12.129: Stats panel search input
+    if StatsPanel.isVisible() then
+        if StatsPanel.textinput(text) then return end
     end
     console.textinput(text)
 end
@@ -3844,6 +3858,10 @@ function game:keypressed(key, scancode, isRepeat)
     if AchievementPanel.isVisible() then
         if AchievementPanel.keypressed(key, scancode, isrepeat) then return end
     end
+    -- Castle Kingdoms 2027 v3.12.129: Forward keys to Stats Panel if visible
+    if StatsPanel.isVisible() then
+        if StatsPanel.keypressed(key, scancode, isrepeat) then return end
+    end
     -- Forward keys to Auto-Save Panel if it's visible
     if AutoSavePanel.isVisible() then
         if AutoSavePanel.keypressed(key, scancode, isrepeat) then
@@ -4012,6 +4030,12 @@ function game:keypressed(key, scancode, isRepeat)
             return
         end
         S.AchievementGallery.toggle()
+        return
+    end
+    -- v3.12.129: Ctrl+Shift+I = Toggle Statistics Panel
+    if key == "i" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl"))
+                  and (love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift")) then
+        StatsPanel.toggle()
         return
     end
     -- Ctrl+W = Cycle weather gameplay (Castle Kingdoms 2027)
@@ -4290,6 +4314,10 @@ function game:mousemoved(x, y, dx, dy, istouch)
     if AchievementPanel.isVisible() then
         if AchievementPanel.mousemoved(x, y, dx, dy) then return end
     end
+    -- Castle Kingdoms 2027 v3.12.129: Stats panel mousemoved (for future use)
+    if StatsPanel.isVisible() then
+        if StatsPanel.mousemoved(x, y, dx, dy) then return end
+    end
     -- Castle Kingdoms 2027 v3.11.938: Royal Systems Panel mousemoved
     if RoyalSystemsPanel.isVisible() then
         if RoyalSystemsPanel.mousemoved(x, y, dx, dy) then return end
@@ -4340,6 +4368,10 @@ function game:wheelmoved(x, y)
     -- Castle Kingdoms 2027 v3.12.128: Achievement panel wheel scroll
     if AchievementPanel.isVisible() then
         if AchievementPanel.wheelmoved(x, y) then return end
+    end
+    -- Castle Kingdoms 2027 v3.12.129: Stats panel wheel scroll
+    if StatsPanel.isVisible() then
+        if StatsPanel.wheelmoved(x, y) then return end
     end
     -- Castle Kingdoms 2027 v3.11.929: Overlay opacity wheel (if hovering overlay)
     if AutoSaveOverlay.wheelmoved(x, y) then return end
