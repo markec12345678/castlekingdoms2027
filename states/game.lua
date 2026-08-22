@@ -929,6 +929,8 @@ local UnifiedSettings = require("states.ui.hud.unified_settings")
 local ColorTheme = require("objects.UI.ColorTheme")
 -- Castle Kingdoms 2027 v3.12.147: Event Log Panel
 local EventLogPanel = require("states.ui.hud.event_log_panel")
+-- Castle Kingdoms 2027 v3.12.149: Command Palette
+local CommandPalette = require("states.ui.hud.command_palette")
 -- Castle Kingdoms 2027 - Campaign progress & auto-save
 local CampaignProgress = require("objects.Mission.CampaignProgress")
 local AutoSaveSystem = require("objects.AutoSaveSystem")
@@ -3242,6 +3244,8 @@ function game:update(dt)
                 UnifiedSettings.update(dt)
                 -- Castle Kingdoms 2027 v3.12.147: Event log panel update
                 EventLogPanel.update(dt)
+                -- Castle Kingdoms 2027 v3.12.149: Command palette update
+                CommandPalette.update(dt)
                 -- Castle Kingdoms 2027 v3.12.133: Difficulty panel animation update
                 DifficultyPanel.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
@@ -3466,6 +3470,8 @@ function game:draw()
             UnifiedSettings.draw()
             -- Castle Kingdoms 2027 v3.12.147: Draw Event Log Panel (Ctrl+Shift+L)
             EventLogPanel.draw()
+            -- Castle Kingdoms 2027 v3.12.149: Draw Command Palette (Ctrl+Space)
+            CommandPalette.draw()
             -- Castle Kingdoms 2027: Draw Kenney CC0 overlay (if enabled)
             if _G.KenneySpriteRenderer and _G.KenneySpriteRenderer.isActive() then
                 love.graphics.setScissor(0, 0, screenWidth, screenHeight - 150)
@@ -3567,6 +3573,10 @@ function game:mousepressed(x, y, button, istouch)
     if DifficultyPanel.isVisible() then
         if DifficultyPanel.mousepressed(x, y, button) then return end
     end
+    -- Castle Kingdoms 2027 v3.12.149: Command Palette click handling
+    if CommandPalette.isVisible() then
+        if CommandPalette.mousepressed(x, y, button) then return end
+    end
     -- Castle Kingdoms 2027 v3.12.147: Event Log Panel click handling
     if EventLogPanel.isVisible() then
         if EventLogPanel.mousepressed(x, y, button) then return end
@@ -3667,6 +3677,10 @@ function game:textinput(text)
     -- Castle Kingdoms 2027 v3.12.143: Help overlay search input (no-op, but for consistency)
     if HelpOverlay.isEnabled() then
         if HelpOverlay.isEnabled() then return end
+    end
+    -- Castle Kingdoms 2027 v3.12.149: Command Palette text input
+    if CommandPalette.isVisible() then
+        if CommandPalette.textinput(text) then return end
     end
     -- Castle Kingdoms 2027 v3.12.147: Event Log Panel search input
     if EventLogPanel.isVisible() then
@@ -3973,6 +3987,10 @@ function game:keypressed(key, scancode, isRepeat)
     if TutorialPanel.isVisible() then
         if TutorialPanel.keypressed(key, scancode, isrepeat) then return end
     end
+    -- Castle Kingdoms 2027 v3.12.149: Command Palette key forward
+    if CommandPalette.isVisible() then
+        if CommandPalette.keypressed(key, scancode, isrepeat) then return end
+    end
     -- Castle Kingdoms 2027 v3.12.147: Forward keys to Event Log Panel if visible
     if EventLogPanel.isVisible() then
         if EventLogPanel.keypressed(key, scancode, isrepeat) then return end
@@ -4056,6 +4074,11 @@ function game:keypressed(key, scancode, isRepeat)
     if key == "l" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl"))
                   and (love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift")) then
         EventLogPanel.toggle()
+        return
+    end
+    -- v3.12.149: Ctrl+Space = Toggle Command Palette
+    if key == "space" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+        CommandPalette.toggle()
         return
     end
     -- v3.12.127: Forward keys to NotificationCenter history panel if visible
@@ -4585,6 +4608,10 @@ function game:wheelmoved(x, y)
     -- Castle Kingdoms 2027 v3.12.132: Tutorial panel wheel scroll
     if TutorialPanel.isVisible() then
         if TutorialPanel.wheelmoved(x, y) then return end
+    end
+    -- Castle Kingdoms 2027 v3.12.149: Command Palette wheel
+    if CommandPalette.isVisible() then
+        if CommandPalette.wheelmoved(x, y) then return end
     end
     -- Castle Kingdoms 2027 v3.12.147: Event Log Panel wheel scroll
     if EventLogPanel.isVisible() then
