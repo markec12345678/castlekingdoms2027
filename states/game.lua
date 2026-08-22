@@ -923,6 +923,8 @@ local MinimapWidget = require("states.ui.hud.minimap_widget")
 local HelpOverlay = require("states.ui.hud.help_overlay")
 -- Castle Kingdoms 2027 v3.12.144: Keybind Editor
 local KeybindEditor = require("states.ui.hud.keybind_editor")
+-- Castle Kingdoms 2027 v3.12.145: Unified Settings Panel
+local UnifiedSettings = require("states.ui.hud.unified_settings")
 -- Castle Kingdoms 2027 - Campaign progress & auto-save
 local CampaignProgress = require("objects.Mission.CampaignProgress")
 local AutoSaveSystem = require("objects.AutoSaveSystem")
@@ -3229,6 +3231,8 @@ function game:update(dt)
                 HelpOverlay.update(dt)
                 -- Castle Kingdoms 2027 v3.12.144: Keybind editor update
                 KeybindEditor.update(dt)
+                -- Castle Kingdoms 2027 v3.12.145: Unified settings update
+                UnifiedSettings.update(dt)
                 -- Castle Kingdoms 2027 v3.12.133: Difficulty panel animation update
                 DifficultyPanel.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
@@ -3449,6 +3453,8 @@ function game:draw()
             HelpOverlay.draw()
             -- Castle Kingdoms 2027 v3.12.144: Draw Keybind Editor (Ctrl+Shift+K)
             KeybindEditor.draw()
+            -- Castle Kingdoms 2027 v3.12.145: Draw Unified Settings (Ctrl+Shift+E)
+            UnifiedSettings.draw()
             -- Castle Kingdoms 2027: Draw Kenney CC0 overlay (if enabled)
             if _G.KenneySpriteRenderer and _G.KenneySpriteRenderer.isActive() then
                 love.graphics.setScissor(0, 0, screenWidth, screenHeight - 150)
@@ -3549,6 +3555,10 @@ function game:mousepressed(x, y, button, istouch)
     -- Castle Kingdoms 2027 v3.12.133: Difficulty panel click handling
     if DifficultyPanel.isVisible() then
         if DifficultyPanel.mousepressed(x, y, button) then return end
+    end
+    -- Castle Kingdoms 2027 v3.12.145: Unified Settings click handling
+    if UnifiedSettings.isVisible() then
+        if UnifiedSettings.mousepressed(x, y, button) then return end
     end
     -- Castle Kingdoms 2027 v3.12.144: Keybind Editor click handling
     if KeybindEditor.isVisible() then
@@ -3944,6 +3954,10 @@ function game:keypressed(key, scancode, isRepeat)
     if TutorialPanel.isVisible() then
         if TutorialPanel.keypressed(key, scancode, isrepeat) then return end
     end
+    -- Castle Kingdoms 2027 v3.12.145: Forward keys to Unified Settings if visible
+    if UnifiedSettings.isVisible() then
+        if UnifiedSettings.keypressed(key, scancode, isrepeat) then return end
+    end
     -- Castle Kingdoms 2027 v3.12.144: Forward keys to Keybind Editor if visible
     if KeybindEditor.isVisible() then
         if KeybindEditor.keypressed(key, scancode, isrepeat) then return end
@@ -3999,6 +4013,12 @@ function game:keypressed(key, scancode, isRepeat)
     if key == "k" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl"))
                   and (love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift")) then
         KeybindEditor.toggle()
+        return
+    end
+    -- v3.12.145: Ctrl+Shift+E = Toggle Unified Settings
+    if key == "e" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl"))
+                  and (love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift")) then
+        UnifiedSettings.toggle()
         return
     end
     -- v3.12.127: Forward keys to NotificationCenter history panel if visible
@@ -4528,6 +4548,10 @@ function game:wheelmoved(x, y)
     -- Castle Kingdoms 2027 v3.12.132: Tutorial panel wheel scroll
     if TutorialPanel.isVisible() then
         if TutorialPanel.wheelmoved(x, y) then return end
+    end
+    -- Castle Kingdoms 2027 v3.12.145: Unified Settings wheel scroll
+    if UnifiedSettings.isVisible() then
+        if UnifiedSettings.wheelmoved(x, y) then return end
     end
     -- Castle Kingdoms 2027 v3.12.144: Keybind Editor wheel scroll
     if KeybindEditor.isVisible() then

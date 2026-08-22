@@ -65,6 +65,7 @@ local KEYBINDS = {
             { key = "Ctrl+Shift+O", desc = "Tutorial manager - vsi hinti z reset/toggle funkcijami (v3.12.132)" },
             { key = "Ctrl+Shift+F", desc = "Težavnost - 5 stopnj (peaceful/easy/normal/hard/brutal) z modifierji (v3.12.133)" },
             { key = "Ctrl+Shift+K", desc = "Urejevalnik tipk - customizacija bližnjic z persistenco (v3.12.144)" },
+            { key = "Ctrl+Shift+E", desc = "Nastavitve - vse na enem mestu (igra/UI/prikaz/igralec) (v3.12.145)" },
             { key = "Ctrl+A",    desc = "Dosežki - stari loveframes achievement gallery" },
             { key = "` + Shift", desc = "Odpri konzolo" },
             { key = "Shift+R",   desc = "Ponastavi vse nastavitve (zbriše 16 persisted datotek, zahteva restart)" },
