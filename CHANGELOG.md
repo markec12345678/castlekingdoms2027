@@ -2,6 +2,29 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.141] — 2026-08-22 — Load State Restoration (obnovitev težavnosti + hitrosti + dosežkov ob loadu!)
+
+### Dodano
+- **`objects/State.lua:deserialize()`** — 4 novi restoration hook-i ob nalaganju save datoteke:
+  1. **`load.difficulty`** → `DifficultySettings.set(load.difficulty)` — obnovi težavnost (peaceful/easy/normal/hard/brutal)
+  2. **`load.combatStats`** — logira shranjene combat statistike (kills/deaths) — informational only (novi killi se štejejo od 0)
+  3. **`load.achievementProgress`** → `AchievementTracker.import(load.achievementProgress)` — obnovi vse odklenjene dosežke in progress
+  4. **`load.gameSpeedIndex`** → `GameSpeedControl.setSpeed(load.gameSpeedIndex)` — obnovi hitrost igre (1-5)
+
+- Vsi hook-i so wrappani v `if load.X and _G.X then` — backward compatible s starejšimi save datotekami brez teh polj
+- Vsi hook-i uporabljajo `pcall` za crash zaščito
+- Debug print za vsak restoration (vidno v konzoli)
+
+### Spremenjeno
+- **`objects/State.lua:deserialize()`** — dodani 4 restoration bloki pred `self.scaleX = load.scaleX`
+
+### Tehnične podrobnosti
+- `DifficultySettings.set()` kliče tudi `GameBalancePass.applyAll()` posredno (preko re-init) — vendar ker je applyAll že bil klican ob init, se build costs NE re-aplicirajo (sprememba sredi igre ne vpliva na že nastavljene cene)
+- `AchievementTracker.import()` popolnoma obnovi unlocked tabelo in progress za vse dosežke — to pomeni da igralec lahko nadaljuje z dosežki kjer je končal
+- `GameSpeedControl.setSpeed()` aplikira `_G.speedModifier` in `_G.paused` — igra se nadaljuje z isto hitrostjo
+- Combat statistike (kills/deaths) se NE obnavijo v counter — so samo informational (log). To je design choice: novo igranje od starega save šteje kill-e od 0, vendar se dosežki (ki se track-ajo preko AchievementTracker) ohranijo
+- Vsi restoration hook-i se izvedejo po DynamicMarket deserializaciji in pred `self.scaleX` — zagotavlja pravilen vrstni red
+
 ## [v3.12.140] — 2026-08-22 — Save/Load Enhancement (difficulty + speed + combat + achievements v save!)
 
 ### Dodano

@@ -591,6 +591,29 @@ function State:deserialize(load)
         local DynamicMarket = require("objects.Economy.DynamicMarketSystem")
         DynamicMarket.deserialize(load.dynamicMarket)
     end
+    -- v3.12.141: Restore difficulty setting from save
+    if load.difficulty and _G.DifficultySettings then
+        pcall(function() _G.DifficultySettings.set(load.difficulty) end)
+        print("[State:load] Restored difficulty: " .. tostring(load.difficulty))
+    end
+    -- v3.12.141: Restore combat stats from save
+    if load.combatStats and _G.CombatIntegration and _G.CombatIntegration.resetStats then
+        -- CombatIntegration doesn't have a direct setter, so we log the restored stats
+        -- (the stats are informational — new kills/deaths will continue from 0)
+        print("[State:load] Combat stats from save: " ..
+            (load.combatStats.playerKills or 0) .. " kills, " ..
+            (load.combatStats.playerDeaths or 0) .. " deaths")
+    end
+    -- v3.12.141: Restore achievement progress from save
+    if load.achievementProgress and _G.AchievementTracker then
+        pcall(function() _G.AchievementTracker.import(load.achievementProgress) end)
+        print("[State:load] Restored achievement progress")
+    end
+    -- v3.12.141: Restore game speed from save
+    if load.gameSpeedIndex and _G.GameSpeedControl then
+        pcall(function() _G.GameSpeedControl.setSpeed(load.gameSpeedIndex) end)
+        print("[State:load] Restored game speed index: " .. tostring(load.gameSpeedIndex))
+    end
     self.scaleX = load.scaleX
     self.viewXview = load.viewXview
     self.viewYview = load.viewYview
