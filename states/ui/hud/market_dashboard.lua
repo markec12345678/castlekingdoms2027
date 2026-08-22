@@ -109,6 +109,7 @@ end
 loadSearchQuery()
 loadSortMode()
 loadLeaderboardMode()
+loadComparisonList()
 
 -- Event log expanded panel state
 local eventLogExpanded = false
@@ -122,6 +123,33 @@ local comparisonList = {}  -- ordered list of productType strings
 local comparisonSet = {}   -- set for fast lookup (productType -> true)
 local comparisonMode = false
 local comparisonMaxItems = 6  -- limit to keep chart readable
+
+local COMPARISON_FILE = "market_dashboard_comparison.txt"
+
+-- Load persisted comparison list on init
+local function loadComparisonList()
+    local ok, content = pcall(love.filesystem.read, COMPARISON_FILE)
+    if ok and content then
+        comparisonList = {}
+        comparisonSet = {}
+        for line in content:gmatch("[^\n]+") do
+            local pt = line:gsub("%s+$", "")
+            if pt ~= "" and #comparisonList < comparisonMaxItems then
+                comparisonList[#comparisonList + 1] = pt
+                comparisonSet[pt] = true
+            end
+        end
+    end
+end
+
+-- Save comparison list to file
+local function saveComparisonList()
+    local lines = {}
+    for _, pt in ipairs(comparisonList) do
+        lines[#lines + 1] = pt
+    end
+    pcall(love.filesystem.write, COMPARISON_FILE, table.concat(lines, "\n") .. "\n")
+end
 
 -- Color palette for comparison lines (cycled by index)
 local COMPARISON_COLORS = {
@@ -1305,6 +1333,7 @@ function MarketDashboard.keypressed(key, scancode, isrepeat)
                 end
                 showMessage(string.format("Odstranjeno iz primerjave: %s (%d ostaja)",
                     p.productType, #comparisonList))
+                saveComparisonList()
             else
                 -- Add to comparison (respect max limit)
                 if #comparisonList >= comparisonMaxItems then
@@ -1314,6 +1343,7 @@ function MarketDashboard.keypressed(key, scancode, isrepeat)
                     comparisonList[#comparisonList + 1] = p.productType
                     showMessage(string.format("Dodano v primerjavo: %s (%d skupaj)",
                         p.productType, #comparisonList))
+                    saveComparisonList()
                 end
             end
         end
@@ -1338,6 +1368,7 @@ function MarketDashboard.keypressed(key, scancode, isrepeat)
         comparisonList = {}
         comparisonSet = {}
         comparisonMode = false
+        saveComparisonList()
         showMessage("Primerjava počiščena")
         return true
     end

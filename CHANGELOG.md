@@ -2,6 +2,34 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.118] — 2026-08-22 — Market Dashboard Comparison List Persistence (save/load comparisonList! Market Dashboard persistence popoln!)
+
+### Dodano
+- **market_dashboard.lua** — persistenca comparisonList med sejami:
+  - Nov `COMPARISON_FILE = "market_dashboard_comparison.txt"`
+  - `loadComparisonList()` — prebere comparisonList iz datoteke ob init (parsa po vrsticah, max comparisonMaxItems)
+  - `saveComparisonList()` — zapiše comparisonList v datoteko (ena vrstica per produkt)
+  - `loadComparisonList()` klicana ob init
+  - `saveComparisonList()` klicana v:
+    - SPACE key (dodaj/odstrani produkt iz primerjave)
+    - Ctrl+X key (počisti primerjavo)
+  - pcall wrapper za varno IO
+  - Trim trailing whitespace pri branju
+- **Market Dashboard persistence popoln** (4 datoteke skupno):
+  - searchQuery (v3.12.116)
+  - sortMode (v3.12.117)
+  - leaderboardMode (v3.12.117)
+  - comparisonList (v3.12.118) ← NOV!
+
+### Spremenjene datoteke
+- `states/ui/hud/market_dashboard.lua` (+30 vrstic) — COMPARISON_FILE, loadComparisonList, saveComparisonList, init load, SPACE/Ctrl+X save calls
+- `README.md` — posodobljen badge (v3.12.118)
+- `CHANGELOG.md` — dodan v3.12.118 entry
+- `NEXT_BATCH_HANDOFF.md` — posodobljeno stanje
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS
+
 ## [v3.12.117] — 2026-08-22 — Market Dashboard Sort & Leaderboard Persistence (save/load sortMode + leaderboardMode!)
 
 ### Dodano
