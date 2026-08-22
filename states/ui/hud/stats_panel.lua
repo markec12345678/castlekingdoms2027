@@ -18,6 +18,7 @@ local Registry = require("objects.Economy.RoyalSystemsRegistry")
 local RMI = require("objects.Economy.RoyalMarketIntegration")
 local DynamicMarket = require("objects.Economy.DynamicMarketSystem")
 local Deps = require("objects.Economy.SystemDependencies")
+local UISound = require("objects.Audio.UISoundHelper")
 
 local StatsPanel = {}
 
@@ -52,9 +53,11 @@ function StatsPanel.toggle()
     if not visible then
         visible = true
         PanelAnim.open(animState)
+        UISound.playPanelOpen()
         scrollOffset = 0
     else
         PanelAnim.close(animState)
+        UISound.playPanelClose()
     end
 end
 
@@ -733,12 +736,14 @@ function StatsPanel.keypressed(key, scancode, isrepeat)
     end
     if key == "/" then
         searchActive = true
+        UISound.playSearchFocus()
         return true
     end
     if key == "tab" then
         for i, t in ipairs(TAB_ORDER) do
             if t == activeTab then
                 activeTab = TAB_ORDER[(i % #TAB_ORDER) + 1]
+                UISound.playTabSwitch()
                 break
             end
         end
@@ -794,6 +799,9 @@ function StatsPanel.mousepressed(x, y, button)
     for i, tabKey in ipairs(TAB_ORDER) do
         local bx = tabButtonX + (i - 1) * (tabButtonW + tabButtonGap)
         if x >= bx and x <= bx + tabButtonW and y >= tabButtonY and y <= tabButtonY + tabButtonH then
+            if activeTab ~= tabKey then
+                UISound.playTabSwitch()
+            end
             activeTab = tabKey
             scrollOffset = 0
             return true

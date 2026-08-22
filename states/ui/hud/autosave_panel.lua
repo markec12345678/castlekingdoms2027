@@ -13,6 +13,7 @@
 
 local AutoSaveSystem = require("objects.AutoSaveSystem")
 local PanelAnim = require("states.ui.hud.PanelAnimations")
+local UISound = require("objects.Audio.UISoundHelper")
 
 local AutoSavePanel = {}
 
@@ -37,8 +38,10 @@ function AutoSavePanel.toggle()
     if not visible then
         visible = true
         PanelAnim.open(animState)
+        UISound.playPanelOpen()
     else
         PanelAnim.close(animState)
+        UISound.playPanelClose()
     end
 end
 

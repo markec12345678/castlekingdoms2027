@@ -15,6 +15,7 @@ local DynamicMarket = require("objects.Economy.DynamicMarketSystem")
 local RMI = require("objects.Economy.RoyalMarketIntegration")
 local Registry = require("objects.Economy.RoyalSystemsRegistry")
 local PanelAnim = require("states.ui.hud.PanelAnimations")
+local UISound = require("objects.Audio.UISoundHelper")
 
 local MarketDashboard = {}
 
@@ -228,10 +229,12 @@ function MarketDashboard.toggle()
     if not visible then
         visible = true
         PanelAnim.open(animState)
+        UISound.playPanelOpen()
         MarketDashboard.refresh()
         love.keyboard.setTextInput(false)  -- ensure text input is off when first opened
     else
         PanelAnim.close(animState)
+        UISound.playPanelClose()
     end
 end
 

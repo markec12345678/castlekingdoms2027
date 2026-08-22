@@ -1,14 +1,14 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.12.129**
+- Različica: **v3.12.130**
 - Skupaj Royal sistemov: **990**
-- Skupaj Lua datotek: **1651** (+1: stats_panel.lua)
-- Sintaktična preverba (avtentična Lua `load()`): **1651/1651 pass (100%)**
+- Skupaj Lua datotek: **1652** (+1: UISoundHelper.lua)
+- Sintaktična preverba (avtentična Lua `load()`): **1652/1652 pass (100%)**
 - Tech Tree: **891 deps · 165 verig · 786 multi-prereq** (98.25x zažetnih 8!)
 - Dosežki: **26 skupaj** (16 originalni + 10 novih Royal Systems) — dostop z Ctrl+Shift+A
-- UI Paneli: **9 skupaj** (Tech Tree, Royal Systems, Market Dashboard, Auto-Save, Keybind Help, Toast History, Achievement, Stats, Auto-Save Overlay)
-- Zadnji paket: **v3.12.129 — Statistics Panel** (4 zavihki z graf-i in lestvicami, Ctrl+Shift+I)
+- UI Paneli: **9 skupaj** + UI Sound Effects System (F2 toggle)
+- Zadnji paket: **v3.12.130 — UI Sound Effects System** (zvok za vse panele + F2 toggle)
 - GitHub: pripravljen za push
 - Lokalni repo (sandbox): `/home/workdir/castlekingdoms2027`
 
@@ -30,8 +30,9 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 3. ~~**Market Dashboard mousemoved forwarding**~~ ✅ končano
 4. ~~**Overlay settings migration**~~ ✅ končano v v3.11.933
 
-## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.12.129)
+## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.12.130)
 
+- ✅ **v3.12.130**: UI Sound Effects System — zvok za vse panele + F2 toggle! Nov `UISoundHelper.lua` modul z 14 semantičnimi funkcijami (playPanelOpen/Close, playClick, playHover debounced 50ms, playTabSwitch, playSearchFocus, playSearchMatch/NoMatch, playToggleOn/Off, playError/Success, playAchievementUnlock(rarity), playToastAppear(priority), playToastDismiss). 9 novih UI zvokov v SFXLibrary (tab_switch, search_focus/match, toggle_on/off, achievement_common/rare/epic/legendary). OPTIONS.UI_SFX_ENABLED flag z persistenco v ui_sfx_enabled.txt. F2 keybind za toggle z toast notification. Hook v 7 modernih panelih (KeybindHelp, AutoSave, RoyalSystems, Market, TechTree, Achievement, Stats) za toggle zvok. NotificationCenter.show() predvaja priority-based toast zvok, dismiss() predvaja dismiss zvok. AchievementTracker.unlock() predvaja rarity-specifičen zvok (legendary_fanfare za legendary, fanfare_01 za epic, success_chime za rare/common). Vsi zvoki so gated preko OPTIONS.UI_SFX_ENABLED, volume pa preko obstoječega SFX_VOLUME in MASTER_VOLUME.
 - ✅ **v3.12.129**: Statistics Panel — 4 zavihki z graf-i in lestvicami! Nov `stats_panel.lua` (~600 vrstic) z realno-časnim pregledom metrik. Toggle s Ctrl+Shift+I (slide-left animacija 0.22s). 4 zavihki: PREGLED (6 velikih kartic z metrikami + line chart bonus zlata 60s), PROIZVODNJA (line chart zaloga + aktivna izdelava + bar chart top 10 proizvajalcev), TRG (3 kartice + top 10 prodanih izdelkov z vizualnim bar-om), LESTVICE (top 15 po prihodku + top 15 po številu zgradb). Zgodovina vzorčenja 1/s z 60s oknom (deluje tudi ko skrit). Pomožne funkcije `drawBarChart` in `drawLineChart`. Bere iz Registry.getAggregate, DynamicMarket.getStats, RMI.getPerSystemRevenue, Deps.checkDependencies, AchievementTracker.getAll.
 - ✅ **v3.12.128**: Modern Achievement Panel — 10 novih Royal Systems dosežkov (royal_first/apprentice/journeyman/master/grandmaster/completionist za aktivacijske milestone, royal_economist za 10k gold, royal_market_mogul za 25 market event-ov, royal_tech_explorer za 10 zaznamkov, royal_saver za 50 save-ov). Vsak dosežek ima rarity (common/rare/epic/legendary) in toast notification ob odklepu (CRITICAL za legendary, HIGH za epic/rare, NORMAL za common). Nov modern UI panel (Ctrl+Shift+A, slide-down animacija 0.22s) z: 6 kategorij filtra, search box, scrollable lista z progress bari, hover tooltip z datumom odklepa, sort po odklenjenosti/kategoriji/imen. Hook v RoyalSystemsRegistry.build() in completeMaking() za samodejno posodabljanje progressa. AchievementTracker: 16→26 dosežkov skupaj.
 - ✅ **v3.12.127**: Toast Notification System — animirana obvestila + zgodovinski panel! NotificationCenter nadgradnja z slide-in/out animacijami (0.25s open, 0.20s close, easeIn/easeOut). Click-to-dismiss, hover efekt z "× klik" hint. Novo API: `toggleHistoryPanel()`, `drawHistoryPanel()`, `isHistoryPanelVisible()`, `mousepressed/wheelmoved/keypressed` za input. Toast History Panel (N tipka) prikazuje zadnjih 100 obvestil z ikono, tekstom, časom (HH:MM:SS) in prioritetno oznako. Scrollable z ↑↓/wheel/PgUp/PgDn/Home/End, C=počisti, N/ESC=zapri. Nova easing funkcija `easeIn(t) = t²` v PanelAnimations. Toast triggerji v Royal Systems Panel (tryAction) in Market Dashboard (showMessage).

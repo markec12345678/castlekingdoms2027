@@ -2,6 +2,82 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.130] — 2026-08-22 — UI Sound Effects System (zvok za vse panele + F2 toggle!)
+
+### Dodano
+- **`objects/Audio/UISoundHelper.lua`** — nov centralni modul (~165 vrstic) za UI zvoke:
+  - **Semantične funkcije** (vsaka ima jasen namen):
+    - `playPanelOpen()` / `playPanelClose()` — odpiranje/zapiranje panela
+    - `playClick()` — generični klik gumba
+    - `playHover()` — hover z debounce (50ms minimalni interval, prepreči spam)
+    - `playTabSwitch()` — preklop med zavihki
+    - `playSearchFocus()` — aktivacija iskanja
+    - `playSearchMatch()` / `playSearchNoMatch()` — zadetki ali ne
+    - `playToggleOn()` / `playToggleOff()` — vklop/izklop funkcionalnosti
+    - `playError()` / `playSuccess()` — generična error/success
+    - `playAchievementUnlock(rarity)` — rarity-specifičen zvok (common/rare/epic/legendary)
+    - `playToastAppear(priority)` — priority-based zvok za toast (CRITICAL→legendary_fanfare, HIGH→success, NORMAL/LOW→notification)
+    - `playToastDismiss()` — ob dismiss toast-a
+  - **Persistenca** — `ui_sfx_enabled.txt` file:
+    - `loadSettings()` — prebere stanje ob init
+    - `saveSettings()` — zapiše stanje ob spremembi
+    - `toggle()` — preklopi stanje in shrani
+    - `isEnabled()` / `init()` — getter in init funkcija
+
+- **`SFXLibrary.lua`** — 9 novih UI zvokov:
+  - `tab_switch` — `woodrollover7`
+  - `search_focus` — `woodrollover2`
+  - `search_match` — `success_chime`
+  - `toggle_on` — `woodpush2`
+  - `toggle_off` — `woodpush3`
+  - `achievement_common` — `success_chime`
+  - `achievement_rare` — `success_chime` + `notification` (varianta)
+  - `achievement_epic` — `fanfare_01`
+  - `achievement_legendary` — `legendary_fanfare`
+
+- **`global.lua`** — dodan `OPTIONS.UI_SFX_ENABLED = true` (default ON)
+
+- **F2 keybind** — toggle UI zvoke:
+  - Igralec lahko pritisne F2 kadarkoli za preklop UI zvokov
+  - Ob preklopu se prikaže toast notification "UI zvoki: VKLOPLJENI/IZKLOPLJENI"
+  - Stanje se shrani v `ui_sfx_enabled.txt` za naslednjo sejo
+
+- **Hook v 7 panelih** — vsi paneli s trenutno integracijo:
+  - **KeybindHelp (F1)** — toggle + keybind_help OSNOVNO kategorija (F1, F2, H)
+  - **AutoSavePanel (Ctrl+U)** — toggle
+  - **RoyalSystemsPanel (Ctrl+R)** — toggle
+  - **MarketDashboard (Ctrl+K)** — toggle
+  - **TechTreePanel (Ctrl+Shift+G)** — toggle
+  - **AchievementPanel (Ctrl+Shift+A)** — toggle + tab switch + category click + search focus
+  - **StatsPanel (Ctrl+Shift+I)** — toggle + tab switch (klik in Tab) + search focus
+
+- **NotificationCenter.lua**:
+  - `show()` — ob pojavu toast-a se predvaja `playToastAppear(priority)` (priority-based)
+  - `dismiss()` — ob dismiss toast-a se predvaja `playToastDismiss()`
+
+- **AchievementTracker.lua**:
+  - `unlock()` — predvaja `playAchievementUnlock(rarity)` (rarity-specifičen zvok)
+  - `legendary` → `achievement_legendary` (legendary_fanfare)
+  - `epic` → `achievement_epic` (fanfare_01)
+  - `rare` → `achievement_rare` (success_chime + notification)
+  - `common` → `achievement_common` (success_chime)
+
+### Spremenjeno
+- **`states/game.lua`** — integracija UISoundHelper:
+  - `S.UISoundHelper = require(...)` na vrhu
+  - `S.UISoundHelper.init()` po SFXLibrary.init()
+  - `_G.UISoundHelper = S.UISoundHelper` za globalni dostop
+  - F2 keybind za toggle (z toast notification)
+- **`states/ui/hud/keybind_help.lua`** — dodan F1, F2, H vnos v OSNOVNO kategorijo
+
+### Tehnične podrobnosti
+- Vsi zvoki so gated preko `isEnabled()` ki preverja `_G.OPTIONS.UI_SFX_ENABLED`
+- Volume je gated preko obstoječega `_G.OPTIONS.SFX_VOLUME` in `MASTER_VOLUME` (v SFXLibrary.play)
+- Hover zvok je debounced (50ms) da prepreči spam pri hitrem premikanju miške
+- `play()` interna funkcija uporablja `pcall` da prepreči crash če SFXLibrary ni na voljo
+- Vsi hook-i so wrappani v if-checks — ne razbijejo obstoječe logike
+- Per-rarity achievement zvoki omogočajo bolj smiselno feedback: legendary dosežek ima grandiozen fanfare, common pa preprost success chime
+
 ## [v3.12.129] — 2026-08-22 — Statistics Panel (4 zavihki z graf-i in lestvicami, Ctrl+Shift+I!)
 
 ### Dodano

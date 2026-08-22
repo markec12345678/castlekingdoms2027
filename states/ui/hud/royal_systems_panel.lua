@@ -12,6 +12,7 @@
 local Registry = require("objects.Economy.RoyalSystemsRegistry")
 local RMI = require("objects.Economy.RoyalMarketIntegration")
 local PanelAnim = require("states.ui.hud.PanelAnimations")
+local UISound = require("objects.Audio.UISoundHelper")
 
 local RoyalPanel = {}
 
@@ -250,9 +251,11 @@ function RoyalPanel.toggle()
     if not visible then
         visible = true
         PanelAnim.open(animState)
+        UISound.playPanelOpen()
         rebuildFiltered()
     else
         PanelAnim.close(animState)
+        UISound.playPanelClose()
     end
 end
 

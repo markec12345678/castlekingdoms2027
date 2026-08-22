@@ -9,7 +9,9 @@ _G.OPTIONS = {
     MASTER_VOLUME = config.sound.master / 100,
     SFX_VOLUME = config.sound.effects / 100,
     SPEECH_VOLUME = config.sound.speech / 100,
-    MUSIC_VOLUME = config.sound.music / 100
+    MUSIC_VOLUME = config.sound.music / 100,
+    -- v3.12.130: UI SFX toggle (default ON)
+    UI_SFX_ENABLED = true,
 }
 
 _G.version = "0.6.1"

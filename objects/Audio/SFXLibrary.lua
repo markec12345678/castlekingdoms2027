@@ -45,6 +45,16 @@ local CATEGORY_MAP = {
         error        = { "error_beep" },
         success      = { "success_chime" },
         notification = { "notification" },
+        -- v3.12.130: New UI sound types for modern panels
+        tab_switch         = { "woodrollover7" },
+        search_focus       = { "woodrollover2" },
+        search_match       = { "success_chime" },
+        toggle_on          = { "woodpush2" },
+        toggle_off         = { "woodpush3" },
+        achievement_common = { "success_chime" },
+        achievement_rare    = { "success_chime", "notification" },
+        achievement_epic    = { "fanfare_01" },
+        achievement_legendary = { "legendary_fanfare" },
     },
     environment = {
         water        = { "streamlp_02" },

@@ -19,6 +19,7 @@
 local Deps = require("objects.Economy.SystemDependencies")
 local Registry = require("objects.Economy.RoyalSystemsRegistry")
 local PanelAnim = require("states.ui.hud.PanelAnimations")
+local UISound = require("objects.Audio.UISoundHelper")
 
 local TechTreePanel = {}
 
@@ -627,8 +628,10 @@ function TechTreePanel.toggle()
     if not visible then
         visible = true
         PanelAnim.open(animState)
+        UISound.playPanelOpen()
     else
         PanelAnim.close(animState)
+        UISound.playPanelClose()
     end
     scrollOffset = 0
     hoveredNode = nil

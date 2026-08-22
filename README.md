@@ -2,19 +2,19 @@
 
 Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT). Navdihnjen s klasičnimi srednjeveškimi strateškimi igrami.
 
-[![Version](https://img.shields.io/badge/version-3.12.129-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
+[![Version](https://img.shields.io/badge/version-3.12.130-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
-[![Syntax](https://img.shields.io/badge/syntax-1651%2F1651%20pass-brightgreen.svg)](#)
+[![Syntax](https://img.shields.io/badge/syntax-1652%2F1652%20pass-brightgreen.svg)](#)
 [![Systems](https://img.shields.io/badge/Royal%20systems-990-blue.svg)](#)
-[![Lua](https://img.shields.io/badge/Lua%20files-1651-green.svg)](#)
+[![Lua](https://img.shields.io/badge/Lua%20files-1652-green.svg)](#)
 [![Registry](https://img.shields.io/badge/Royal%20Registry-%2B100%25Mouse%2BWheel-blueviolet.svg)](#)
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v3.12.129](https://github.com/markec12345678/castlekingdoms2027/releases)
-- **.love datoteka**: `castlekingdoms2027_v3.12.129.love` (37 MB brez LFS, 305 MB z LFS)
-- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 990 Royal sistemov, 1651 Lua datotek, **Tech Tree: 891 deps · 165 verig · 786 multi-prereq (98.25x)** · BOOK COMPLETE · GARDEN COMPLETE · MILL COMPLETE · FORGE residual COMPLETE · Apothecary/Smith/Astrolabe+ · + LEATHER+ · GLASS+ · FOUNDRY+ …
+- **Zadnja izdaja**: [v3.12.130](https://github.com/markec12345678/castlekingdoms2027/releases)
+- **.love datoteka**: `castlekingdoms2027_v3.12.130.love` (37 MB brez LFS, 305 MB z LFS)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 990 Royal sistemov, 1652 Lua datotek, **Tech Tree: 891 deps · 165 verig · 786 multi-prereq (98.25x)** · BOOK COMPLETE · GARDEN COMPLETE · MILL COMPLETE · FORGE residual COMPLETE · Apothecary/Smith/Astrolabe+ · + LEATHER+ · GLASS+ · FOUNDRY+ …
 - **LFS**: Po git clone zahtevaj `git lfs pull` za prave PNG asset-e (305 MB)
 
 ## Zagon
@@ -36,13 +36,13 @@ love .
 
 | Metrika | Vrednost |
 |---------|----------|
-| Lua datoteke | 1651 |
+| Lua datoteke | 1652 |
 | Vrstic kode | ~485.000 |
 | GLSL shaderji | 12 |
 | Jezikov | 32 |
-| Verzij | 140+ (v1.7.9 → v3.12.129) |
+| Verzij | 140+ (v1.7.9 → v3.12.130) |
 | Bug popravkov | 155 (90 krogov pregleda) |
-| Syntax pass rate | 1651/1651 (100%) |
+| Syntax pass rate | 1652/1652 (100%) |
 | PNG assetov | 1.206 |
 | **Royal sistemov** | **990 (v3.11.971)** |
 | **Royal Tech Tree Panel** | **Ctrl+Shift+G (GRAF + 477 deps · 96 verig · 786 multi-prereq = 98.25x + FILTER L + SORT S + ARROWS A + DEPTH D + MINIMAP M + CLICK-TO-JUMP + PATH HIGHLIGHT T + SEARCH/FILTER + CLICK-TO-FOCUS + hover tooltip + G toggle za tekst, scrollable)** |

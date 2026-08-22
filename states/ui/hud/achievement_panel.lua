@@ -17,6 +17,7 @@
 
 local PanelAnim = require("states.ui.hud.PanelAnimations")
 local Tracker = require("objects.Steam.AchievementTracker")
+local UISound = require("objects.Audio.UISoundHelper")
 
 local AchievementPanel = {}
 
@@ -65,9 +66,11 @@ function AchievementPanel.toggle()
     if not visible then
         visible = true
         PanelAnim.open(animState)
+        UISound.playPanelOpen()
         scrollOffset = 0
     else
         PanelAnim.close(animState)
+        UISound.playPanelClose()
     end
 end
 
@@ -495,6 +498,7 @@ function AchievementPanel.keypressed(key, scancode, isrepeat)
         for i, c in ipairs(catOrder) do
             if c == activeCategory then
                 activeCategory = catOrder[(i % #catOrder) + 1]
+                UISound.playTabSwitch()
                 break
             end
         end
@@ -568,6 +572,7 @@ function AchievementPanel.mousepressed(x, y, button)
         local bx = catButtonX + (i - 1) * (catButtonW + catButtonGap)
         if x >= bx and x <= bx + catButtonW and y >= catButtonY and y <= catButtonY + catButtonH then
             activeCategory = catKey
+            UISound.playClick()
             scrollOffset = 0
             return true
         end
@@ -576,6 +581,7 @@ function AchievementPanel.mousepressed(x, y, button)
     local searchX = panelX + panelW - 200
     if x >= searchX and x <= searchX + 184 and y >= catButtonY and y <= catButtonY + catButtonH then
         searchActive = true
+        UISound.playSearchFocus()
         return true
     end
     -- Click outside panel closes

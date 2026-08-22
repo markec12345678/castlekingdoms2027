@@ -7,6 +7,7 @@
 local KeybindHelp = {}
 
 local PanelAnim = require("states.ui.hud.PanelAnimations")
+local UISound = require("objects.Audio.UISoundHelper")
 
 local visible = false
 local scrollOffset = 0  -- scroll position (0 = top)
@@ -51,7 +52,9 @@ local KEYBINDS = {
         category = "OSNOVNO",
         bindings = {
             { key = "ESC",       desc = "Pavza / Zapri meni" },
-            { key = "H",         desc = "Pokaži/skrij pomoč (ta okno)" },
+            { key = "F1",        desc = "Pokaži/skrij pomoč (to okno)" },
+            { key = "F2",        desc = "Toggle UI zvokovne efekta (v3.12.130)" },
+            { key = "H",         desc = "Center view to keep (original keybind)" },
             { key = "V",         desc = "Nastavitve (game feel) | V v Ctrl+K: zgodovina dogodkov" },
             { key = "N",         desc = "Toast zgodovina - pokaži vsa pretekla obvestila (v3.12.127)" },
             { key = "Ctrl+Shift+A", desc = "Dosežki - modern achievement panel z animacijami (v3.12.128)" },
@@ -202,8 +205,10 @@ function KeybindHelp.toggle()
     if not visible then
         visible = true
         PanelAnim.open(animState)
+        UISound.playPanelOpen()
     else
         PanelAnim.close(animState)
+        UISound.playPanelClose()
         -- visible stays true until close animation completes
     end
     scrollOffset = 0  -- reset scroll on toggle

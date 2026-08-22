@@ -115,6 +115,7 @@ S.RandomEvent = require("objects.Gameplay.RandomEventSystem")
 S.NotificationCenter = require("objects.UI.NotificationCenter")
 S.BuildingManager = require("objects.Controllers.BuildingManagerSystem")
 S.AchievementTracker = require("objects.Steam.AchievementTracker")
+S.UISoundHelper = require("objects.Audio.UISoundHelper")
 S.SupplyLine = require("objects.Gameplay.SupplyLineSystem")
 S.QuestSystem = require("objects.Mission.QuestSystem")
 S.Analytics = require("objects.QA.GameAnalyticsDashboard")
@@ -1032,11 +1033,14 @@ local function delayedInit()
     -- Castle Kingdoms 2027: Initialize sound design
     S.DynamicMusic.init()
     S.SFXLibrary.init()
+    -- v3.12.130: Initialize UI Sound Helper (loads persisted UI_SFX_ENABLED setting)
+    S.UISoundHelper.init()
     S.VoiceOver.init()
     S.DynamicMusic.playPeaceMusic()
     -- Register sound globals for combat system access
     _G.DynamicMusic = S.DynamicMusic
     _G.SFXLibrary = S.SFXLibrary
+    _G.UISoundHelper = S.UISoundHelper
     _G.VoiceOver = S.VoiceOver
     -- Castle Kingdoms 2027: Register other globals for cross-system access
     _G.VisualPolish = S.VisualPolish
@@ -3872,6 +3876,22 @@ function game:keypressed(key, scancode, isRepeat)
     -- NOTE: moved from H (H is the original CenterViewToKeep keybind)
     if key == "f1" then
         KeybindHelp.toggle()
+        return
+    end
+    -- v3.12.130: F2 = Toggle UI Sound Effects
+    if key == "f2" then
+        if _G.UISoundHelper then
+            local newState = _G.UISoundHelper.toggle()
+            if _G.NotificationCenter then
+                pcall(function()
+                    _G.NotificationCenter.system(
+                        "UI zvoki: " .. (newState and "VKLOPLJENI" or "IZKLOPLJENI"),
+                        newState and _G.NotificationCenter.PRIORITY.NORMAL or _G.NotificationCenter.PRIORITY.LOW,
+                        3
+                    )
+                end)
+            end
+        end
         return
     end
     -- Castle Kingdoms 2027 v3.12.127: N = Toggle Toast History Panel

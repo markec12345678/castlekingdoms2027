@@ -20,6 +20,7 @@
 -- - Sound + visual feedback per category
 
 local PanelAnim = require("states.ui.hud.PanelAnimations")
+local UISound = require("objects.Audio.UISoundHelper")
 
 local NotificationCenter = {}
 
@@ -113,6 +114,8 @@ function NotificationCenter.show(text, category, priority, duration)
     }
     -- Start opening animation
     PanelAnim.open(notification.animState)
+    -- v3.12.130: Play toast appear sound (priority-based)
+    UISound.playToastAppear(priority)
     nextId = nextId + 1
 
     -- Add to active list
@@ -201,6 +204,8 @@ function NotificationCenter.dismiss(notificationId)
                 notif.closing = true
                 PanelAnim.snapOpen(notif.closeAnimState)
                 PanelAnim.close(notif.closeAnimState)
+                -- v3.12.130: Play toast dismiss sound
+                UISound.playToastDismiss()
             end
             return true
         end

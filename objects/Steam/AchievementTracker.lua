@@ -234,6 +234,10 @@ function AchievementTracker.unlock(achievementId)
     print("[AchievementTracker] UNLOCKED: " .. ach.name)
 
     -- v3.12.128: Send toast notification (priority based on rarity)
+    -- v3.12.130: Also play rarity-specific achievement sound
+    if _G.UISoundHelper then
+        pcall(function() _G.UISoundHelper.playAchievementUnlock(ach.rarity) end)
+    end
     if _G.NotificationCenter then
         local PRIORITY = _G.NotificationCenter.PRIORITY
         local priority = PRIORITY.NORMAL
