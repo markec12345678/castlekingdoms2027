@@ -180,6 +180,50 @@ local ACHIEVEMENTS = {
         category = "special", rarity = "common",
         progressMax = 50, progressCurrent = 0,
     },
+
+    -- v3.12.134: Difficulty Master achievements
+    difficulty_easy = {
+        name = "Easy Conqueror", nameSlv = "Lahki osvajalec",
+        desc = "Win a game on Easy difficulty",
+        descSlv = "Zmagaj v igri na Lahko težavnosti",
+        category = "campaign", rarity = "common",
+        progressMax = 1, progressCurrent = 0,
+    },
+    difficulty_normal = {
+        name = "Balanced Warrior", nameSlv = "Uravnotežen bojevnik",
+        desc = "Win a game on Normal difficulty",
+        descSlv = "Zmagaj v igri na Normalno težavnosti",
+        category = "campaign", rarity = "rare",
+        progressMax = 1, progressCurrent = 0,
+    },
+    difficulty_hard = {
+        name = "Hardened Veteran", nameSlv = "Kaljeni veteran",
+        desc = "Win a game on Hard difficulty",
+        descSlv = "Zmagaj v igri na Težko težavnosti",
+        category = "campaign", rarity = "epic",
+        progressMax = 1, progressCurrent = 0,
+    },
+    difficulty_brutal = {
+        name = "Brutal Conqueror", nameSlv = "Brutalni osvajalec",
+        desc = "Win a game on Brutal difficulty",
+        descSlv = "Zmagaj v igri na Brutalno težavnosti",
+        category = "campaign", rarity = "legendary",
+        progressMax = 1, progressCurrent = 0,
+    },
+    difficulty_peaceful = {
+        name = "Peaceful Builder", nameSlv = "Mirni graditelj",
+        desc = "Reach 100 Royal systems on Peaceful difficulty",
+        descSlv = "Dosegni 100 Royal sistemov na Mirno težavnosti",
+        category = "special", rarity = "common",
+        progressMax = 100, progressCurrent = 0,
+    },
+    difficulty_collector = {
+        name = "Difficulty Collector", nameSlv = "Zbiratelj težavnosti",
+        desc = "Win at least once on Easy, Normal, Hard, and Brutal",
+        descSlv = "Zmagaj vsaj enkrat na Lahko, Normalno, Težko in Brutalno",
+        category = "campaign", rarity = "legendary",
+        progressMax = 4, progressCurrent = 0,
+    },
 }
 
 AchievementTracker.ACHIEVEMENTS = ACHIEVEMENTS
@@ -417,6 +461,50 @@ end
 function AchievementTracker.updateHDTime(dt)
     hdPlayTime = hdPlayTime + dt
     AchievementTracker.updateProgress("hd_enthusiast", math.floor(hdPlayTime))
+end
+
+-- v3.12.134: Called when the player wins a game/match
+-- Unlocks the appropriate difficulty achievement and updates the difficulty_collector
+-- @param difficultyKey string one of: peaceful, easy, normal, hard, brutal
+function AchievementTracker.onGameWon(difficultyKey)
+    if not difficultyKey then return end
+    -- Map difficulty to achievement ID (peaceful has its own special achievement)
+    local diffAchievements = {
+        easy = "difficulty_easy",
+        normal = "difficulty_normal",
+        hard = "difficulty_hard",
+        brutal = "difficulty_brutal",
+    }
+    -- Unlock specific difficulty achievement (if exists)
+    local achId = diffAchievements[difficultyKey]
+    if achId then
+        AchievementTracker.updateProgress(achId, 1)
+    end
+    -- For peaceful, unlock peaceful builder if has 100+ royal systems
+    if difficultyKey == "peaceful" then
+        if _G.RoyalSystemsRegistry then
+            local agg = _G.RoyalSystemsRegistry.getAggregate()
+            local activeCount = 0
+            local systems = _G.RoyalSystemsRegistry.getSystems()
+            for _, s in ipairs(systems) do
+                local stats = s.module.getStats()
+                if stats and (stats.numBuildings or 0) > 0 then
+                    activeCount = activeCount + 1
+                end
+            end
+            AchievementTracker.updateProgress("difficulty_peaceful", activeCount)
+        end
+    end
+    -- Update difficulty_collector (win on easy/normal/hard/brutal)
+    if diffAchievements[difficultyKey] then
+        local collectorCount = 0
+        for _, k in ipairs({"easy", "normal", "hard", "brutal"}) do
+            if AchievementTracker.isUnlocked(diffAchievements[k]) then
+                collectorCount = collectorCount + 1
+            end
+        end
+        AchievementTracker.updateProgress("difficulty_collector", collectorCount)
+    end
 end
 
 -- Export achievements for backup

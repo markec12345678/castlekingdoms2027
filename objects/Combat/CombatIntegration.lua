@@ -250,18 +250,36 @@ function CombatIntegration.spawnEnemyGroup(unitClass, count, gx, gy, faction)
     faction = faction or COMBAT.FACTION_ENEMY_1
     local spawned = {}
 
-    for i = 1, count do
+    -- v3.12.134: Apply difficulty enemySpawnMultiplier
+    -- (peaceful: 0.3 = spawn only 30% of enemies, brutal: 1.6 = spawn 60% more)
+    local effectiveCount = count
+    if _G.DifficultySettings then
+        local mult = _G.DifficultySettings.getModifier("enemySpawnMultiplier") or 1.0
+        effectiveCount = math.floor(count * mult + 0.5)
+        if effectiveCount < 0 then effectiveCount = 0 end
+    end
+
+    for i = 1, effectiveCount do
         -- Spread units in a small formation
         local offsetX = (i % 3) * 2 - 2
         local offsetY = math.floor(i / 3) * 2
         local unit = CombatIntegration.spawnUnit(unitClass, gx + offsetX, gy + offsetY, faction)
         if unit then
+            -- v3.12.134: Apply difficulty enemyHealthMultiplier to spawned unit
+            if unit.maxHealth and _G.DifficultySettings then
+                local healthMult = _G.DifficultySettings.getModifier("enemyHealthMultiplier") or 1.0
+                if healthMult ~= 1.0 then
+                    local newMax = math.floor((unit.maxHealth or 100) * healthMult + 0.5)
+                    unit.maxHealth = newMax
+                    unit.health = newMax  -- full health on spawn
+                end
+            end
             table.insert(spawned, unit)
         end
     end
 
-    CombatIntegration.log(string.format("Spawned enemy group: %dx %s (faction %d)",
-        count, unitClass, faction))
+    CombatIntegration.log(string.format("Spawned enemy group: %dx %s (faction %d, effective %d)",
+        count, unitClass, faction, effectiveCount))
 
     return spawned
 end

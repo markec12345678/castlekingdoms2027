@@ -2,6 +2,60 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.134] — 2026-08-22 — Difficulty Hooks Expansion (6 novih dosežkov + 3 modifierji aplicirani!)
+
+### Dodano
+- **6 novih Difficulty Master dosežkov** v `AchievementTracker.lua`:
+  - `difficulty_easy` (common) — Lahki osvajalec — zmaga na Lahko
+  - `difficulty_normal` (rare) — Uravnotežen bojevnik — zmaga na Normalno
+  - `difficulty_hard` (epic) — Kaljeni veteran — zmaga na Težko
+  - `difficulty_brutal` (legendary) — Brutalni osvajalec — zmaga na Brutalno
+  - `difficulty_peaceful` (common) — Mirni graditelj — 100 Royal sistemov na Mirno
+  - `difficulty_collector` (legendary) — Zbiratelj težavnosti — zmaga na Easy/Normal/Hard/Brutal
+  - Skupaj: 26 → **32 dosežkov**
+
+- **`AchievementTracker.onGameWon(difficultyKey)`** — nova funkcija:
+  - Klicana ob zmagi igre (npr. ob koncu kampanje ali skirmish)
+  - Odklene specifičen difficulty dosežek (easy/normal/hard/brutal)
+  - Za peaceful preveri število aktivnih Royal sistemov
+  - Posodobi `difficulty_collector` progress (šteje odklenjene difficulty dosežke)
+
+### Spremenjeno — apliciranje modifierjev v obstoječe sisteme
+
+- **`RoyalSystemsRegistry.update(dt)`** — `playerProductionMultiplier` apliciran:
+  - dt se množi z modifierjem pred klicem `sys.module.update(effectiveDt)`
+  - Peaceful: 1.3x hitrejša proizvodnja (30% več)
+  - Brutal: 0.75x počasnejša proizvodnja (25% manj)
+  - Vsi 990 Royal sistemov so sedaj pod vplivom težavnosti
+
+- **`RoyalSystemsRegistry.build()`** — `difficulty_peaceful` progress tracking:
+  - Ko igralec zgradi sistem na peaceful težavnosti, se posodobi `difficulty_peaceful` dosežek
+  - Dosežek se odklene pri 100 aktivnih sistemov na peaceful
+
+- **`CombatIntegration.spawnEnemyGroup()`** — dva nova modifierji aplicirana:
+  - `enemySpawnMultiplier` — število spawnanih sovražnikov se prilagodi
+    - Peaceful: 0.3 (samo 30% sovražnikov)
+    - Brutal: 1.6 (60% več sovražnikov)
+  - `enemyHealthMultiplier` — zdravje spawnanih sovražnikov se prilagodi
+    - Peaceful: 0.7 (30% manj zdravja)
+    - Brutal: 1.35 (35% več zdravja)
+  - Log message prikazuje "effective N" za debug
+
+- **`Stats Panel` (Ctrl+Shift+I)** — Overview tab sedaj prikazuje trenutno težavnost:
+  - "Težavnost: [ikona] [labela]" v PODROBNOSTI sekciji
+  - Barva se ujema z difficulty barvo (zelena/oranžna/rdeča)
+  - Samo prikaz, brez možnosti spreminjanja (za to je Ctrl+Shift+F panel)
+
+### Tehnične podrobnosti
+- `playerGoldMultiplier` je bil že apliciran v v3.12.133 (v `completeMaking()`)
+- `playerProductionMultiplier` je apliciran kot dt-multiplier (učinkovita metoda — vpliva na celotno simulacijo)
+- `enemySpawnMultiplier` uporablja `math.floor(count * mult + 0.5)` za zaokrožitev
+- `enemyHealthMultiplier` aplikira na `unit.maxHealth` in `unit.health` (trenutno zdravje = max na spawn-u)
+- `difficulty_collector` dosežek se posodobi samo ko igralec zmaga na easy/normal/hard/brutal (ne peaceful)
+- `difficulty_peaceful` se posodobi tudi brez zmage — samo 100+ aktivnih sistemov na peaceful
+- Vsi hook-i so wrappani v `if _G.DifficultySettings then` za varnost
+- Stats panel uporablja IIFE (Immediately Invoked Function Expression) za inline difficulty info
+
 ## [v3.12.133] — 2026-08-22 — Difficulty Settings System (5 stopenj + Ctrl+Shift+F panel + ROADMAP sync!)
 
 ### Dodano

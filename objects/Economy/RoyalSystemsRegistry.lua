@@ -192,9 +192,17 @@ function RoyalSystemsRegistry.update(dt)
     aggregate.totalProducts = 0
     aggregate.totalActiveMaking = 0
 
+    -- v3.12.134: Apply difficulty production multiplier to dt
+    -- (peaceful: 1.3x faster production, brutal: 0.75x slower)
+    local effectiveDt = dt
+    if _G.DifficultySettings then
+        local mult = _G.DifficultySettings.getModifier("playerProductionMultiplier") or 1.0
+        effectiveDt = dt * mult
+    end
+
     for _, sys in ipairs(systems) do
-        -- Update the system
-        local ok, err = pcall(sys.module.update, dt)
+        -- Update the system with modified dt for difficulty
+        local ok, err = pcall(sys.module.update, effectiveDt)
         if not ok and _G.NotificationCenter then
             pcall(_G.NotificationCenter.notify, "Royal update error in " .. sys.key .. ": " .. tostring(err), "error")
         end
@@ -264,6 +272,10 @@ function RoyalSystemsRegistry.build(key, buildingId)
             _G.AchievementTracker.updateProgress("royal_master", activeCount)
             _G.AchievementTracker.updateProgress("royal_grandmaster", activeCount)
             _G.AchievementTracker.updateProgress("royal_completionist", activeCount)
+            -- v3.12.134: Update difficulty_peaceful progress if on peaceful difficulty
+            if _G.DifficultySettings and _G.DifficultySettings.getCurrent() == "peaceful" then
+                _G.AchievementTracker.updateProgress("difficulty_peaceful", activeCount)
+            end
         end)
     end
     return result

@@ -413,6 +413,14 @@ function drawOverview(x, y, w, h, alpha, smallFont, font)
         { label = "Nestanovitna surovina", value = tostring(mktStats.mostVolatile or "—"), color = {0.9, 0.5, 0.6} },
         { label = "Tech tree met", value = metDeps .. "/" .. totalDeps, color = {0.5, 0.75, 0.95} },
         { label = "Dosežki odklenjeni", value = achUnlocked .. "/" .. achTotal, color = {0.85, 0.6, 0.95} },
+        -- v3.12.134: Show current difficulty
+        (function()
+            if _G.DifficultySettings then
+                local info = _G.DifficultySettings.getCurrentInfo()
+                return { label = "Težavnost", value = info.icon .. " " .. info.label, color = info.color }
+            end
+            return { label = "Težavnost", value = "—", color = {0.6, 0.6, 0.6} }
+        end)(),
     }
     for i, d in ipairs(details) do
         local col = (i - 1) % 3
