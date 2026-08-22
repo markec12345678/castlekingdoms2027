@@ -1,15 +1,16 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.12.132**
+- Različica: **v3.12.133**
 - Skupaj Royal sistemov: **990**
-- Skupaj Lua datotek: **1654** (+1: tutorial_panel.lua)
-- Sintaktična preverba (avtentična Lua `load()`): **1654/1654 pass (100%)**
+- Skupaj Lua datotek: **1656** (+2: DifficultySettings.lua, difficulty_panel.lua)
+- Sintaktična preverba (avtentična Lua `load()`): **1656/1656 pass (100%)**
 - Tech Tree: **891 deps · 165 verig · 786 multi-prereq** (98.25x zažetnih 8!)
 - Dosežki: **26 skupaj** (16 originalni + 10 novih Royal Systems) — dostop z Ctrl+Shift+A
 - Tutorial hinti: **30 skupaj** (17 originalni + 13 novih za moderne panele) — dostop z Ctrl+Shift+O
-- UI Paneli: **10 skupaj** + UI Sound Effects System + Particle Effects System
-- Zadnji paket: **v3.12.132 — Tutorial Manager System** (persistenca + 13 novih hintov + Ctrl+Shift+O panel)
+- UI Paneli: **11 skupaj** + UI Sound Effects System + Particle Effects System + Difficulty Settings System
+- Težavnost: **5 stopenj** (peaceful/easy/normal/hard/brutal) z 11 modifierji — dostop z Ctrl+Shift+F
+- Zadnji paket: **v3.12.133 — Difficulty Settings System** (5 stopenj + Ctrl+Shift+F panel + ROADMAP sync)
 - GitHub: pripravljen za push
 - Lokalni repo (sandbox): `/home/workdir/castlekingdoms2027`
 
@@ -31,8 +32,9 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 3. ~~**Market Dashboard mousemoved forwarding**~~ ✅ končano
 4. ~~**Overlay settings migration**~~ ✅ končano v v3.11.933
 
-## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.12.132)
+## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.12.133)
 
+- ✅ **v3.12.133**: Difficulty Settings System — 5 stopenj težavnosti z 11 modifierji! Nov `DifficultySettings.lua` modul (~220 vrstic) z 5 stopnjami (peaceful/easy/normal/hard/brutal) z barvno kodiranjem in ikonami (🕊/★/⚖/⚔/☠). 11 modifierjev na stopnjo: playerGold/Production/BuildCost/Damage/Health, enemyDamage/Health/Aggression/Spawn, resourceDepletion, startingGoldBonus. Persistenca v difficulty_setting.txt. API: init, set, getCurrent, getCurrentInfo, getModifier, getModifierFor, getAll, getStats, isHarderThan. Nov modern UI panel difficulty_panel.lua (~310 vrstic) z Ctrl+Shift+F (slide-down 0.22s). 5 horizontalnih kartic z vsemi modifierji, barvno kodiranje (zeleno=bonus, rdeče=kazen), "› IZBRANA" in "★ TRENUTNA" badge-i. Navigacija: 1-5 številke, ←→, ENTER potrdi, ESC zapri. Apply button se prikaže ko izbira≠trenutno. Hook v RoyalSystemsRegistry.completeMaking() aplikira playerGoldMultiplier na bonus zlato (peaceful=1.5x, brutal=0.7x). ROADMAP.md popoln prepis (vse faze posodobljene, vsi tehnični dolg končan, roki prehiteli).
 - ✅ **v3.12.132**: Tutorial Manager System — persistenca + 13 novih hintov + Ctrl+Shift+O panel! TutorialHints.lua nadgradnja z persistenco (tutorial_hints_shown.txt + tutorial_enabled.txt), loadPersistedState() se kliče ob require. 13 novih hintov za moderne panele (royal_systems_panel P20, market_dashboard P21, autosave_panel P22, tech_tree_panel P23, keybind_help P24, toast_history P25, achievement_panel P26, stats_panel P27, ui_sfx_toggle P28, first_royal_system P30, first_market_event P31, first_bookmark P32). Novo API: getAll(), getHint(key), markShown(key), unmarkShown(key), getStats(). show() sedaj pošlje tudi low-priority toast z "💡 " prefixom preko NotificationCenter. Nov modern UI panel tutorial_panel.lua (~400 vrstic) z Ctrl+Shift+O toggle, slide-right animacija 0.22s. 3 filtri (VSI/PRIKAZANI/SKRITI), search box, scrollable lista z status ikonami (✓/○), priority badge-i, hover action hints. Akcijske tipke: C=počisti vse, E=toggle enabled, Tab=ciklaj filter, /=search. Click na vrstico toggle shown/hidden. Hover prilagojen za slide offset.
 - ✅ **v3.12.131**: Particle Effects System — konfeti, iskre, zlato, screen shake + flash! Nov `ParticleEffectsSystem.lua` modul (~260 vrstic) z 500-particle pool. 5 emitorjev: emitConfetti (pisani kvadrati z gravitacijo in rotacijo za legendary), emitSparks (svetleče črte v smeri hitrosti za epic/rare), emitGold (zlate krogle za bonus zlata), screenFlash (full-screen barvni overlay), screenShake (offset kamere z linearnim decay). 3 particle tipi (square z rotacijo, spark kot črta, circle). Fizika: gravitacija (400 px/s²), drag (air resistance), rotacija. Rarity-based efekti v AchievementTracker.unlock(): legendary→100 konfetov+shake(10px,0.6s)+zlat flash, epic→50 vijoličnih isker+vijoličen flash, rare→30 modrih isker, common→15 zelenih isker. Gold burst v RoyalSystemsRegistry.completeMaking() (1 krogel na 5 gold, max 30). Screen flash za critical toast-e v NotificationCenter.show(). Screen shake offset dodan v love.graphics.translate() v game.lua draw().
 - ✅ **v3.12.130**: UI Sound Effects System — zvok za vse panele + F2 toggle! Nov `UISoundHelper.lua` modul z 14 semantičnimi funkcijami (playPanelOpen/Close, playClick, playHover debounced 50ms, playTabSwitch, playSearchFocus, playSearchMatch/NoMatch, playToggleOn/Off, playError/Success, playAchievementUnlock(rarity), playToastAppear(priority), playToastDismiss). 9 novih UI zvokov v SFXLibrary (tab_switch, search_focus/match, toggle_on/off, achievement_common/rare/epic/legendary). OPTIONS.UI_SFX_ENABLED flag z persistenco v ui_sfx_enabled.txt. F2 keybind za toggle z toast notification. Hook v 7 modernih panelih (KeybindHelp, AutoSave, RoyalSystems, Market, TechTree, Achievement, Stats) za toggle zvok. NotificationCenter.show() predvaja priority-based toast zvok, dismiss() predvaja dismiss zvok. AchievementTracker.unlock() predvaja rarity-specifičen zvok (legendary_fanfare za legendary, fanfare_01 za epic, success_chime za rare/common). Vsi zvoki so gated preko OPTIONS.UI_SFX_ENABLED, volume pa preko obstoječega SFX_VOLUME in MASTER_VOLUME.

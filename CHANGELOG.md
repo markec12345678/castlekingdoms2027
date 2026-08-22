@@ -2,6 +2,94 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.133] — 2026-08-22 — Difficulty Settings System (5 stopenj + Ctrl+Shift+F panel + ROADMAP sync!)
+
+### Dodano
+- **`objects/Gameplay/DifficultySettings.lua`** — nov modul (~220 vrstic) z centraliziranim sistemom težavnosti:
+  - **5 stopenj težavnosti**:
+    - `peaceful` (MIRNO) — 🕊 zelena, sproščeno igranje brez AI napadov, velikodušni viri
+    - `easy` (LAHKO) — ★ svetlo zelena, rahli bonusi za igralca, šibkejši AI
+    - `normal` (NORMALNO) — ⚖ rumena, uravnoteženo (default)
+    - `hard` (TEŽKO) — ⚔ oranžna, rahli bonusi za AI, bolj agresivni
+    - `brutal` (BRUTALNO) — ☠ rdeča, zelo agresiven AI, skromni viri
+  - **11 modifierjev** za vsako stopnjo:
+    - `playerGoldMultiplier` — množnik za zlato iz vseh virov (peaceful=1.5, brutal=0.7)
+    - `playerProductionMultiplier` — hitrost proizvodnje (peaceful=1.3, brutal=0.75)
+    - `playerBuildCostMultiplier` — stroški gradnje (peaceful=0.7, brutal=1.35)
+    - `playerDamageMultiplier` — poškodba igralca (peaceful=1.5, brutal=0.8)
+    - `playerHealthMultiplier` — zdravje igralca (peaceful=1.5, brutal=0.75)
+    - `enemyDamageMultiplier` — poškodba AI (peaceful=0.5, brutal=1.5)
+    - `enemyHealthMultiplier` — zdravje AI (peaceful=0.7, brutal=1.35)
+    - `enemyAggressionMultiplier` — AI agresivnost (peaceful=0.0, brutal=2.0)
+    - `enemySpawnMultiplier` — pogostost AI spawn (peaceful=0.3, brutal=1.6)
+    - `resourceDepletionMultiplier` — poraba virov (peaceful=0.5, brutal=1.5)
+    - `startingGoldBonus` — začetni bonus zlata (peaceful=500)
+  - **Persistenca** — `difficulty_setting.txt` shrani izbrano težavnost med sejami
+  - **API**:
+    - `init()` — naloži persisted stanje
+    - `set(key)` — nastavi težavnost, persistira, pošlje toast notification
+    - `getCurrent()` / `getCurrentInfo()` — vrne trenutno težavnost
+    - `getModifier(modifierKey)` — vrne vrednost modifierja za trenutno težavnost
+    - `getModifierFor(diffKey, modKey)` — vrne modifier za specifično težavnost
+    - `getAll()` — vrne tabelo vseh 5 težavnosti z info
+    - `getStats()` — vrne {current, label, icon, color, totalDifficulties}
+    - `isHarderThan(key1, key2)` — primerja dve težavnosti
+
+- **`states/ui/hud/difficulty_panel.lua`** — nov modern UI panel (~310 vrstic):
+  - **Toggle**: Ctrl+Shift+F (F kot "Force"/težavnost)
+  - **Animacija**: slide-down + fade-in/out (0.22s, easeOut, 24px)
+  - **5 kartic težavnosti** (horizontalna vrstica):
+    - Vsaka kartica prikazuje: ikono (veliko), SL label, EN label, opis, 9 modifierjev z barvnim kodiranjem
+    - Barvno kodiranje modifierjev: zeleno=bonus za igralca, rdeče=kazen, sivo=normalno
+    - Izbrana kartica ima poudarjen barvni rob (3px) in "› IZBRANA" badge
+    - Trenutna kartica ima zlat rob (2px) in "★ TRENUTNA" badge
+  - **Apply button** — prikaže se samo ko izbira ≠ trenutno, z ENTER ali klikom potrdi
+  - **Navigacija**:
+    - **1-5 številke** — direktna izbira stopnje
+    - **← →** — premik levo/desno med karticami
+    - **ENTER** — potrdi izbiro
+    - **ESC** — zapri panel
+  - **Click interakcije**:
+    - Klik na kartico → izberi
+    - Klik na Apply button → potrdi
+    - Klik zunaj panela → zapri
+
+- **Hook v `RoyalSystemsRegistry.completeMaking()`**:
+  - `playerGoldMultiplier` se aplikira na bonus zlato iz Royal proizvodnje
+  - Peaceful: bonus × 1.5 (50% več)
+  - Brutal: bonus × 0.7 (30% manj)
+
+### Spremenjeno
+- **`states/game.lua`** — integracija DifficultySettings + DifficultyPanel:
+  - `local DifficultyPanel = require(...)` in `local DifficultySettings = require(...)` na vrhu
+  - `DifficultySettings.init()` in `_G.DifficultySettings = DifficultySettings` v init bloku
+  - `DifficultyPanel.update(dt)` v update bloku
+  - `DifficultyPanel.draw()` v draw bloku
+  - Ctrl+Shift+F keybind
+  - Input forward: mousepressed, wheelmoved, keypressed, textinput, mousemoved
+- **`states/ui/hud/keybind_help.lua`** — dodan Ctrl+Shift+F vnos v OSNOVNO kategorijo
+- **`objects/Economy/RoyalSystemsRegistry.lua`** — `completeMaking()` aplikira `playerGoldMultiplier` na bonus zlato
+
+### Tehnične podrobnosti
+- Vsaka težavnost ima 11 modifierjev — to omogoča fino kontrolo nad gameplay izkušnjo
+- Modifier vrednosti so bile skrbno izbrane za uravnotežen gameplay (peaceful in brutal sta ekstremi)
+- `enemyAggressionMultiplier = 0.0` na peaceful pomeni, da AI nikoli ne napade (relaxed način)
+- Toast notification ob spremembi težavnosti (HIGH priority za brutal, NORMAL za ostale)
+- Vsi hook-i so wrappani v `if _G.DifficultySettings then` da ne razbijejo obstoječe logike
+- Difficulty se persistira v `difficulty_setting.txt` — preživi restart igre
+- Sprememba sredi igre je možna (warning toast se prikaže v prihodnjih verzijah)
+
+### Dodatno
+- **ROADMAP.md popoln prepis** — dokument je bil močno zastarel (datum 2026-08-01, projekt na v3.12.132):
+  - Particle effects: 'planned' → ✅ končano v3.12.131
+  - Combat: 'planned' → ✅ končano v3.0+
+  - AI nasprotniki: 'planned' → ✅ končano v3.0+
+  - Modding: 'planned' → ✅ končano v3.0+
+  - Multiplayer: 'optional' → ✅ končano v3.0+
+  - 32 jezikov (preseglo 12+ cilj)
+  - Vsi tehnični dolg (pathfinding, save/load, apothecary, stable, maypole, religion) končan
+  - Posodobljeni roki (večina prehitela rok za mesece)
+
 ## [v3.12.132] — 2026-08-22 — Tutorial Manager System (persistenca + 13 novih hintov + Ctrl+Shift+O panel!)
 
 ### Dodano

@@ -123,6 +123,11 @@ function RoyalSystemsRegistry.init(S)
                 orig(m)
                 -- Grant bonus gold to player based on prestige
                 local bonus = (m.prestige or 0) * 10
+                -- v3.12.133: Apply difficulty multiplier
+                if _G.DifficultySettings then
+                    local mult = _G.DifficultySettings.getModifier("playerGoldMultiplier") or 1.0
+                    bonus = math.floor(bonus * mult + 0.5)
+                end
                 if bonus > 0 and _G.state then
                     _G.state.gold = (_G.state.gold or 0) + bonus
                     aggregate.totalGoldEarned = aggregate.totalGoldEarned + bonus
