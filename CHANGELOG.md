@@ -2,6 +2,22 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.123] — 2026-08-22 — Auto-Save Panel Keyboard Shortcuts (R + O keybinds! Reset position + toggle visibility)
+
+### Dodano
+- **autosave_panel.lua** — 2 novi keyboard shortcuts za Ctrl+U panel:
+  - Tipka **R** — reset overlay pozicije na default (zgornji desni kot)
+  - Tipka **O** — skrij/prikaži overlay (toggle visibility)
+  - Header hint posodobljen z vsemi 5 keybinds
+- **Konzistentnost**: Ctrl+U panel ima popolno keyboard kontrolo (Ctrl+U, ESC, Wheel, R, O)
+
+### Spremenjene datoteke
+- `states/ui/hud/autosave_panel.lua` (+20 vrstic)
+- `README.md`, `CHANGELOG.md`, `NEXT_BATCH_HANDOFF.md`
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS
+
 ## [v3.12.122] — 2026-08-22 — Reset All Settings (Shift+R! Briše vseh 16 persisted datotek!)
 
 ### Dodano

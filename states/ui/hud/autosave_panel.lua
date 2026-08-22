@@ -106,7 +106,7 @@ function AutoSavePanel.draw()
     love.graphics.setFont(font)
     love.graphics.setColor(0.5, 0.6, 0.7, 1)
     if smallFont then love.graphics.setFont(smallFont) end
-    love.graphics.print("Ctrl+U: zapri  |  click zunaj: zapri  |  wheel: interval", panelX + 16, panelY + 36)
+    love.graphics.print("Ctrl+U: zapri  |  click zunaj: zapri  |  wheel: interval  |  R: reset pozicije  |  O: skrij/prikaži overlay", panelX + 16, panelY + 36)
     love.graphics.setFont(font)
 
     local stats = AutoSaveSystem.getStats()
@@ -366,6 +366,22 @@ function AutoSavePanel.keypressed(key, scancode, isrepeat)
     -- Escape closes
     if key == "escape" then
         AutoSavePanel.toggle()
+        return true
+    end
+    -- R: reset overlay position
+    if key == "r" then
+        local AutoSaveOverlay = require("states.ui.hud.autosave_status_overlay")
+        AutoSaveOverlay.resetPosition()
+        showMessage("Pozicija overlay-a resetirana (zgornji desni kot)")
+        return true
+    end
+    -- O: toggle overlay visibility
+    if key == "o" then
+        local AutoSaveOverlay = require("states.ui.hud.autosave_status_overlay")
+        if AutoSaveOverlay.toggleHidden then
+            AutoSaveOverlay.toggleHidden()
+            showMessage("Overlay preklopljen")
+        end
         return true
     end
     return false
