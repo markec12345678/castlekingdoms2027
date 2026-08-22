@@ -1,3 +1,4 @@
 allow_defined = true
-ignore = {"211", "212", "213", "311", "312", "411", "412", "421", "431", "432", "511", "512", "521", "531", "542", "551", "561", "571", "581", "591", "611", "612", "614", "621", "631"}
+ignore = {"W"}
 globals = {"love", "prof", "objectAtlas", "newAutotable", "_G"}
+max_line_length = false
