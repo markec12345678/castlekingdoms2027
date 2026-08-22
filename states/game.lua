@@ -116,6 +116,7 @@ S.NotificationCenter = require("objects.UI.NotificationCenter")
 S.BuildingManager = require("objects.Controllers.BuildingManagerSystem")
 S.AchievementTracker = require("objects.Steam.AchievementTracker")
 S.UISoundHelper = require("objects.Audio.UISoundHelper")
+S.ParticleEffects = require("objects.Effects.ParticleEffectsSystem")
 S.SupplyLine = require("objects.Gameplay.SupplyLineSystem")
 S.QuestSystem = require("objects.Mission.QuestSystem")
 S.Analytics = require("objects.QA.GameAnalyticsDashboard")
@@ -1035,12 +1036,15 @@ local function delayedInit()
     S.SFXLibrary.init()
     -- v3.12.130: Initialize UI Sound Helper (loads persisted UI_SFX_ENABLED setting)
     S.UISoundHelper.init()
+    -- v3.12.131: Initialize Particle Effects System
+    S.ParticleEffects.init()
     S.VoiceOver.init()
     S.DynamicMusic.playPeaceMusic()
     -- Register sound globals for combat system access
     _G.DynamicMusic = S.DynamicMusic
     _G.SFXLibrary = S.SFXLibrary
     _G.UISoundHelper = S.UISoundHelper
+    _G.ParticleEffects = S.ParticleEffects
     _G.VoiceOver = S.VoiceOver
     -- Castle Kingdoms 2027: Register other globals for cross-system access
     _G.VisualPolish = S.VisualPolish
@@ -3202,6 +3206,8 @@ function game:update(dt)
                 AchievementPanel.update(dt)
                 -- Castle Kingdoms 2027 v3.12.129: Stats panel animation update
                 StatsPanel.update(dt)
+                -- Castle Kingdoms 2027 v3.12.131: Particle effects update
+                S.ParticleEffects.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
                 if not _G._fogTimer then _G._fogTimer = 0 end
                 _G._fogTimer = _G._fogTimer + dt
@@ -3324,7 +3330,12 @@ function game:draw()
                 love.postshader.setBuffer("render")
             end
             love.graphics.push()
-            love.graphics.translate((love.graphics.getWidth() / 2), (love.graphics.getHeight() / 2))
+            -- v3.12.131: Apply screen shake offset to world view
+            local shakeX, shakeY = 0, 0
+            if _G.ParticleEffects then
+                shakeX, shakeY = _G.ParticleEffects.getShakeOffset()
+            end
+            love.graphics.translate((love.graphics.getWidth() / 2) + shakeX, (love.graphics.getHeight() / 2) + shakeY)
             objects.draw()
             if not _G.paused then
                 HighlightView:draw()
@@ -3403,6 +3414,8 @@ function game:draw()
             AchievementPanel.draw()
             -- Castle Kingdoms 2027 v3.12.129: Draw Statistics Panel (Ctrl+Shift+I)
             StatsPanel.draw()
+            -- Castle Kingdoms 2027 v3.12.131: Draw Particle Effects (confetti, sparks, gold, flash)
+            S.ParticleEffects.draw()
             -- Castle Kingdoms 2027: Draw Kenney CC0 overlay (if enabled)
             if _G.KenneySpriteRenderer and _G.KenneySpriteRenderer.isActive() then
                 love.graphics.setScissor(0, 0, screenWidth, screenHeight - 150)

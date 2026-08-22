@@ -130,6 +130,13 @@ function RoyalSystemsRegistry.init(S)
                     if _G.AchievementTracker then
                         pcall(function() _G.AchievementTracker.addProgress("royal_economist", bonus) end)
                     end
+                    -- v3.12.131: Emit gold burst particles at bottom-right (where toast appears)
+                    if _G.ParticleEffects and love.graphics then
+                        local sw, sh = love.graphics.getDimensions()
+                        pcall(function()
+                            _G.ParticleEffects.emitGold(sw - 160, sh - 200, math.min(50, bonus))
+                        end)
+                    end
                 end
                 -- Also boost population cap slightly for high-happiness products
                 if (m.happiness or 0) >= 5 and _G.state then

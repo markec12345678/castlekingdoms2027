@@ -235,6 +235,39 @@ function AchievementTracker.unlock(achievementId)
 
     -- v3.12.128: Send toast notification (priority based on rarity)
     -- v3.12.130: Also play rarity-specific achievement sound
+    -- v3.12.131: Emit rarity-specific particle effects
+    local screenW, screenH = 1, 1
+    if love.graphics then
+        screenW, screenH = love.graphics.getDimensions()
+    end
+    local centerX = screenW / 2
+    local centerY = screenH / 2
+    if _G.ParticleEffects then
+        if ach.rarity == "legendary" then
+            -- Confetti burst + screen shake + gold flash
+            pcall(function()
+                _G.ParticleEffects.emitConfetti(centerX, centerY - 50, 100)
+                _G.ParticleEffects.screenShake(10, 0.6)
+                _G.ParticleEffects.screenFlash({1, 0.85, 0.2}, 0.5, 0.4)
+            end)
+        elseif ach.rarity == "epic" then
+            -- Sparks + light flash
+            pcall(function()
+                _G.ParticleEffects.emitSparks(centerX, centerY - 50, 50, {0.8, 0.3, 0.9})
+                _G.ParticleEffects.screenFlash({0.7, 0.3, 0.9}, 0.3, 0.3)
+            end)
+        elseif ach.rarity == "rare" then
+            -- Sparks only
+            pcall(function()
+                _G.ParticleEffects.emitSparks(centerX, centerY - 50, 30, {0.3, 0.5, 1})
+            end)
+        else
+            -- Small sparks for common
+            pcall(function()
+                _G.ParticleEffects.emitSparks(centerX, centerY - 50, 15, {0.6, 0.85, 0.3})
+            end)
+        end
+    end
     if _G.UISoundHelper then
         pcall(function() _G.UISoundHelper.playAchievementUnlock(ach.rarity) end)
     end

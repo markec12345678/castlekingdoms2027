@@ -116,6 +116,12 @@ function NotificationCenter.show(text, category, priority, duration)
     PanelAnim.open(notification.animState)
     -- v3.12.130: Play toast appear sound (priority-based)
     UISound.playToastAppear(priority)
+    -- v3.12.131: Screen flash for critical priority toasts
+    if priority == PRIORITY.CRITICAL and _G.ParticleEffects then
+        pcall(function()
+            _G.ParticleEffects.screenFlash({0.9, 0.2, 0.2}, 0.3, 0.4)
+        end)
+    end
     nextId = nextId + 1
 
     -- Add to active list

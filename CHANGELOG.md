@@ -2,6 +2,59 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.131] — 2026-08-22 — Particle Effects System (konfeti, iskre, zlato, screen shake + flash!)
+
+### Dodano
+- **`objects/Effects/ParticleEffectsSystem.lua`** — nov modul (~260 vrstic) z lightweight 2D particle sistemom:
+  - **Particle pool** — 500 pre-alociranih particle slot-ov za učinkovitost (brez GC pritiska)
+  - **5 emitorjev**:
+    - `emitConfetti(x, y, count, colors)` — pisani kvadrati z gravitacijo in rotacijo (za legendary dosežke)
+    - `emitSparks(x, y, count, color)` — svetleče črte v smeri hitrosti (za epic/rare dosežke)
+    - `emitGold(x, y, amount)` — zlate krogle (za bonus zlata)
+    - `screenFlash(color, intensity, duration)` — full-screen barvni overlay, ki fade-a
+    - `screenShake(intensity, duration)` — offset kamere z linearnim decay
+  - **Particle tipi**: `square` (z rotacijo), `spark` (črta v smeri hitrosti), `circle` (enostaven krog)
+  - **Fizika**: gravitacija (400 px/s² za confetti/gold), drag (air resistance), rotacija
+  - **API**: `init()`, `update(dt)`, `draw()`, `getShakeOffset()`, `isActive()`, `clear()`, `getStats()`
+  - Particle alpha fade-a glede na preostalo življenje
+
+- **Rarity-based particle efekti** v `AchievementTracker.unlock()`:
+  - **Legendary** → 100 konfetov (center zaslona) + screen shake (10px, 0.6s) + zlat screen flash (0.5 intensity, 0.4s)
+  - **Epic** → 50 vijoličnih isker + vijoličen screen flash (0.3 intensity, 0.3s)
+  - **Rare** → 30 modrih isker
+  - **Common** → 15 zelenih isker (subtilen efekt)
+
+- **Gold burst** v `RoyalSystemsRegistry.completeMaking()`:
+  - Ko sistem proizvede bonus zlato, se prikaže do 30 zlatih krogel na mestu kjer toast prikazuje
+  - Število krogel je sorazmerno bonusu (1 krogel na 5 gold, max 30)
+
+- **Screen flash** za kritične toast-e v `NotificationCenter.show()`:
+  - Kadar toast s CRITICAL prioriteto (rdeča) se pojavi, zaslon utripne rdeče (0.3 intensity, 0.4s)
+
+- **Screen shake** v `game.lua` draw():
+  - `getShakeOffset()` vrača (offsetX, offsetY) ki se doda v `love.graphics.translate()` za world view
+  - Linearni decay — intenziteta se zmanjšuje linearno do 0
+  - Random offset vsak frame (naravno tresetanje)
+
+### Spremenjeno
+- **`states/game.lua`** — integracija ParticleEffectsSystem:
+  - `S.ParticleEffects = require(...)` na vrhu
+  - `S.ParticleEffects.init()` po UISoundHelper.init()
+  - `_G.ParticleEffects = S.ParticleEffects` za globalni dostop
+  - `S.ParticleEffects.update(dt)` v update bloku
+  - `S.ParticleEffects.draw()` v draw bloku (za UI paneli da so particle vidne nad njimi)
+  - Screen shake offset dodan v `love.graphics.translate()` za world view
+
+### Tehnične podrobnosti
+- Particle so screen-space (ne world-space) — appear nad UIjem
+- Screen shake je world-space — offset se doda v camera transform
+- Particle pool je linear scan (O(N) z N=500) — dovolj hitro za 60 FPS
+- `isActive()` omogoča optimizacijo: če ni aktivnih particle-ov, se draw() lahko preskoči
+- Vsi hook-i so wrappani v `pcall` da preprečijo crash če ParticleEffects ni na voljo
+- Particle color alpha se računa kot `life / maxLife` — smooth fade out
+- Confetti ima initial upward bias (-100 vy) da gre najprej gor preden pade
+- Sparks so narisanane kot črte (ne krogi) za boljši "streak" efekt
+
 ## [v3.12.130] — 2026-08-22 — UI Sound Effects System (zvok za vse panele + F2 toggle!)
 
 ### Dodano
