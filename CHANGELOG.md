@@ -2,6 +2,48 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.125] — 2026-08-22 — Tech Tree Hover Preview Graph (mini 1-hop podgraf v tooltipu!)
+
+### Dodano
+- **SystemDependencies.lua** — dve novi funkciji za reverse lookup:
+  - `getDependents(systemKey)` — vrne seznam sistemov, ki zahtevajo ta sistem kot predpogoj (reverse lookup)
+  - `getNeighborhood(systemKey)` — vrne `{prereqs=..., dependents=...}` za 1-hop graf okoli sistema
+  - Replaces inline scan v tech_tree_panel (bolj učinkovito, enovit API)
+
+- **tech_tree_panel.lua** — vizualni mini podgraf v hover tooltipu:
+  - Ko igralec premakne miško nad vozlišče v grafu, tooltip dobi novo sekcijo **🔗 PREDZADNJI GRAF (1-hop)**
+  - Tri vrstice mini-vozlišč:
+    - **Vrh**: do 6 predpogojev (prereqs) — majhne škatle, razporejene horizontalno, centrirane
+    - **Sredina**: hovered vozlišče — večja zlata škatla z debelejšim robom
+    - **Spodaj**: do 6 odvisnikov (dependents) — majhne škatle, razporejene horizontalno
+  - Povezovalne črte:
+    - Zelena (aktivna povezava) če je prereq aktiven (ima zgradbo)
+    - Rdeče-rjava (zaklenjena) če prereq še ni aktiviran
+  - Barvno kodiranje mini-vozlišč (enako kot v glavnem grafu):
+    - Zeleno = aktivno (ima zgradbo)
+    - Rumenkasto = razpoložljivo (deps met)
+    - Rdeče-rjavo = zaklenjeno (deps ni met)
+    - Zlato = hovered/center node
+  - **Overflow indikator**: če sistem ima več kot 6 predpogojev ali 6 odvisnikov, se prikaže "+N več" indikator
+  - Tooltip box se razširi za 110px v višino ko je prisoten preview graf
+  - Pozicioniranje prilagojeno — `if tipY < 8 then tipY = 8 end` prepreči tooltipu da gre čez zgornji rob zaslona
+  - Refactor: `dependentCount` sedaj uporablja `Deps.getDependents()` namesto inline scan skozi CHAINS tabelo (veliko hitreje pri 990 sistemih!)
+
+### Spremenjeno
+- Refaktoriran `tech_tree_panel.lua` tooltip blok (vrstice ~1603-1843) — zdaj bolj razdeljen na:
+  1. Build text lines (status, globina, zahteve, odvisniki, focus hint, zaznamek, 2x click hint)
+  2. Build preview-graph node list (max 6 prereqs + 6 dependents)
+  3. Compute tooltip dimensions (text + preview)
+  4. Draw tooltip box
+  5. Draw text lines
+  6. Draw preview graph (separator, header, lines, nodes, overflow indicator)
+
+### Tehnične podrobnosti
+- Mini-vozlišča so 64×16px, center vozlišče je 96×22px z 2px border
+- Labela se skrajša na 15 znakov + "…" če je predolga
+- Povezovalne črte se rišejo prek `love.graphics.line()` z 1px width
+- Barve mini-vozlišč uporabljajo enako paleto kot glavni graf (konzistentno barvno kodiranje)
+
 ## [v3.12.124] — 2026-08-22 — Auto-Save Interval & Enabled Persistence (save/load interval + crash backup state!)
 
 ### Dodano

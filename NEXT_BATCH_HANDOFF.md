@@ -1,12 +1,12 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.12.124**
+- Različica: **v3.12.125**
 - Skupaj Royal sistemov: **990**
 - Skupaj Lua datotek: **1648**
 - Sintaktična preverba (avtentična Lua `load()`): **1648/1648 pass (100%)**
 - Tech Tree: **891 deps · 165 verig · 786 multi-prereq** (98.25x zažetnih 8!)
-- Zadnji paket: **v3.12.091–107 FINAL** — MAKERS COMPLETE (786 multi-prereq = 98.25x, 165 verig)
+- Zadnji paket: **v3.12.125 — Tech Tree Hover Preview Graph** (mini 1-hop podgraf v tooltipu + `Deps.getDependents/getNeighborhood` API)
 - GitHub: pripravljen za push
 - Lokalni repo (sandbox): `/home/workdir/castlekingdoms2027`
 
@@ -28,7 +28,10 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 3. ~~**Market Dashboard mousemoved forwarding**~~ ✅ končano
 4. ~~**Overlay settings migration**~~ ✅ končano v v3.11.933
 
-## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.12.124)
+## ZAKLJUČENE NADGRADNJE (v3.11.382 - v3.12.125)
+
+- ✅ **v3.12.125**: Tech Tree Hover Preview Graph — mini 1-hop podgraf v tooltipu! Ko igralec hover-a nad vozliščem, tooltip dobi novo sekcijo **🔗 PREDZADNJI GRAF** s prikazom predpogojev (zgornja vrstica), hovered vozlišča (sredina, zlato) in odvisnikov (spodnja vrstica). Povezovalne črte z barvno kodiranjem (zelena=aktiven, rdeče-rjava=zaklenjen). Novo API v `SystemDependencies.lua`: `getDependents(key)` in `getNeighborhood(key)` za reverse lookup. Refaktoriran inline scan v tooltipu (odvisnikov štetje). Max 6 vozlišč na vrstico z "+N več" overflow indikatorjem.
+- ✅ **v3.12.124**: Auto-Save Interval & Enabled Persistence — save/load interval + crash backup state med sejami. 20 persistence datotek skupno!
 
 - ✅ **v3.11.382**: Royal Systems Registry + UI Panel (Ctrl+R)
 - ✅ **v3.11.901**: Save/Load persistenca za Royal sisteme (maker, zgradbe, zaloga, surovine)
@@ -139,7 +142,7 @@ Vsi novi sistemi, dodani po v3.11.382, so samodejno odkriti in prikazani v panel
 ## ZNANE NADGRADNJE ZA PRIHODNJE PAKETE
 
 1. **Sprite-i za Royal sisteme** — trenutno so samo podatkovni, brez grafične podobe
-2. **Tech tree node hover preview** — hover na vozlišče prikaže preview graf povezanih sistemov v tooltip box
+2. ~~**Tech tree node hover preview** — hover na vozlišče prikaže preview graf povezanih sistemov v tooltip box~~ ✅ končano v v3.12.125 (mini 1-hop podgraf s predpogoji in odvisniki, max 6 vozlišč na vrstico, barvno kodiranje)
 3. **Keybind Help hover tooltip** — hover na keybind v F1 help prikaže dodatne podrobnosti o bližnjici
 4. ~~**Armor/Weapon+ chain**~~ ✅ končano v v3.11.987 (5 multi-prereq, 2 CROSS-CHAIN: GemMiner←Mining+, RawhideTanner←Leatherwork+; 162→168 deps, 44→45 verig, 73→78 multi-prereq; MEJNIK 10x multi-prereq!)
 5. ~~**Anvil+ chain**~~ ✅ končano v v3.11.988 (5 multi-prereq, 2 CROSS-CHAIN: GlassBench←Steklarstvo+, WoodLathe←Woodworking+; 168→174 deps, 45→46 verig, 78→83 multi-prereq; MEJNIK 10.4x multi-prereq!)

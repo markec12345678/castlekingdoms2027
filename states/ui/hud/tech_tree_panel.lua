@@ -1637,18 +1637,9 @@ function TechTreePanel.drawGraph(panelX, contentTop, contentAreaH, panelW, small
         end
 
         -- v3.11.945: Show dependent count (systems that depend on this one)
-        local dependentCount = 0
-        for _, chain in ipairs(CHAINS) do
-            for _, sysKey in ipairs(chain.systems) do
-                local sysPrereqs = Deps.getDependencies(sysKey)
-                for _, p in ipairs(sysPrereqs) do
-                    if p == hoveredNode.key then
-                        dependentCount = dependentCount + 1
-                        break
-                    end
-                end
-            end
-        end
+        -- v3.12.125: Use the new Deps.getDependents() helper instead of inline scan
+        local dependents = Deps.getDependents(hoveredNode.key)
+        local dependentCount = #dependents
         if dependentCount > 0 then
             table.insert(lines, string.format("Odvisniki: %d sistemov → tega", dependentCount))
         end
@@ -1671,6 +1662,18 @@ function TechTreePanel.drawGraph(panelX, contentTop, contentAreaH, panelW, small
         end
         table.insert(lines, "🚀 2x click: odpri v Royal Systems Panel")
 
+        -- v3.12.125: Build preview-graph node list (max 6 prereqs + 6 dependents)
+        local MAX_PREVIEW_PER_ROW = 6
+        local previewPrereqs = {}
+        for i = 1, math.min(#deps, MAX_PREVIEW_PER_ROW) do
+            table.insert(previewPrereqs, deps[i])
+        end
+        local previewDeps = {}
+        for i = 1, math.min(#dependents, MAX_PREVIEW_PER_ROW) do
+            table.insert(previewDeps, dependents[i])
+        end
+        local hasPreview = #previewPrereqs > 0 or #previewDeps > 0
+
         -- Draw tooltip box
         love.graphics.setFont(smallFont)
         local tipW = 0
@@ -1679,7 +1682,9 @@ function TechTreePanel.drawGraph(panelX, contentTop, contentAreaH, panelW, small
             if lw > tipW then tipW = lw end
         end
         tipW = tipW + 16
-        local tipH = #lines * (smallFont:getHeight() + 2) + 10
+        -- v3.12.125: Compute preview graph height (always 100px if hasPreview)
+        local PREVIEW_H = hasPreview and 110 or 0
+        local tipH = #lines * (smallFont:getHeight() + 2) + 10 + PREVIEW_H
         local tipX = mouseX + 16
         local tipY = mouseY + 16
         -- Keep on screen
@@ -1687,6 +1692,7 @@ function TechTreePanel.drawGraph(panelX, contentTop, contentAreaH, panelW, small
         local H = love.graphics.getHeight()
         if tipX + tipW > W - 8 then tipX = mouseX - tipW - 16 end
         if tipY + tipH > H - 8 then tipY = mouseY - tipH - 16 end
+        if tipY < 8 then tipY = 8 end
 
         love.graphics.setColor(0.05, 0.06, 0.08, 0.97)
         love.graphics.rectangle("fill", tipX, tipY, tipW, tipH, 4, 4, 4, 4)
@@ -1709,6 +1715,129 @@ function TechTreePanel.drawGraph(panelX, contentTop, contentAreaH, panelW, small
             end
             love.graphics.print(l, tipX + 8, tipY + 6 + (i - 1) * (smallFont:getHeight() + 2))
         end
+
+        -- v3.12.125: Draw mini preview graph below the text lines
+        if hasPreview then
+            local textBlockH = #lines * (smallFont:getHeight() + 2) + 10
+            local pvX = tipX + 8
+            local pvY = tipY + textBlockH
+            local pvW = tipW - 16
+            local pvH = PREVIEW_H - 4
+
+            -- Separator line
+            love.graphics.setColor(0.4, 0.5, 0.65, 0.5)
+            love.graphics.setLineWidth(1)
+            love.graphics.line(pvX, pvY, pvX + pvW, pvY)
+
+            -- Mini header
+            love.graphics.setColor(0.6, 0.75, 0.95, 0.9)
+            love.graphics.print("🔗 PREDZADNJI GRAF (1-hop)", pvX + 2, pvY + 4)
+
+            -- Layout: 3 rows
+            --   row 1 (top):    prereqs  (y = pvY + 22)
+            --   row 2 (middle): hovered node (y = pvY + 50)
+            --   row 3 (bottom): dependents (y = pvY + 80)
+            local row1Y = pvY + 24
+            local row2Y = pvY + 50
+            local row3Y = pvY + 82
+            local centerX = pvX + pvW / 2
+
+            -- Helper: draw a mini node box, returns x center
+            local function drawMiniNode(key, cx, cy, isCenter)
+                local label = displayName(key)
+                if label:len() > 16 then label = label:sub(1, 15) .. "…" end
+                local w = isCenter and 96 or 64
+                local h = isCenter and 22 or 16
+                local bx = cx - w / 2
+                local by = cy - h / 2
+                -- Determine node state for color
+                local active = isSystemActive(key)
+                local met = Deps.checkDependencies(key)
+                local bgColor, borderColor
+                if isCenter then
+                    bgColor = {0.85, 0.7, 0.25, 0.95}
+                    borderColor = {1, 0.95, 0.45, 1}
+                elseif active then
+                    bgColor = {0.2, 0.55, 0.3, 0.9}
+                    borderColor = {0.45, 0.9, 0.55, 1}
+                elseif met then
+                    bgColor = {0.6, 0.55, 0.2, 0.9}
+                    borderColor = {0.9, 0.85, 0.4, 1}
+                else
+                    bgColor = {0.35, 0.18, 0.15, 0.9}
+                    borderColor = {0.7, 0.4, 0.3, 1}
+                end
+                love.graphics.setColor(unpack(bgColor))
+                love.graphics.rectangle("fill", bx, by, w, h, 3, 3, 3, 3)
+                love.graphics.setColor(unpack(borderColor))
+                love.graphics.setLineWidth(isCenter and 2 or 1)
+                love.graphics.rectangle("line", bx, by, w, h, 3, 3, 3, 3)
+                love.graphics.setLineWidth(1)
+                love.graphics.setColor(1, 1, 1, 1)
+                love.graphics.print(label, bx + 4, by + (h - smallFont:getHeight()) / 2 + 1)
+                return cx
+            end
+
+            -- Helper: draw a connecting line between two y positions
+            local function drawConnect(fromX, fromY, toX, toY, isMet)
+                love.graphics.setColor(isMet and {0.45, 0.85, 0.5, 0.85} or {0.7, 0.4, 0.3, 0.7})
+                love.graphics.setLineWidth(1)
+                love.graphics.line(fromX, fromY, toX, toY)
+            end
+
+            -- Compute prereq positions (horizontally distributed)
+            local nPre = #previewPrereqs
+            local preSpacing = math.min(70, (pvW - 16) / math.max(nPre, 1))
+            local preTotalW = (nPre - 1) * preSpacing
+            local preStartX = centerX - preTotalW / 2
+            local preCenters = {}
+            for i, k in ipairs(previewPrereqs) do
+                local cx = preStartX + (i - 1) * preSpacing
+                preCenters[i] = cx
+            end
+
+            -- Compute dependents positions (horizontally distributed)
+            local nDep = #previewDeps
+            local depSpacing = math.min(70, (pvW - 16) / math.max(nDep, 1))
+            local depTotalW = (nDep - 1) * depSpacing
+            local depStartX = centerX - depTotalW / 2
+            local depCenters = {}
+            for i, k in ipairs(previewDeps) do
+                local cx = depStartX + (i - 1) * depSpacing
+                depCenters[i] = cx
+            end
+
+            -- Draw connecting lines first (behind boxes)
+            -- prereqs (top row) → hovered node (center)
+            for i, k in ipairs(previewPrereqs) do
+                local met = isSystemActive(k)
+                drawConnect(preCenters[i], row1Y + 8, centerX, row2Y - 11, met)
+            end
+            -- hovered node (center) → dependents (bottom row)
+            for i, k in ipairs(previewDeps) do
+                local met = isSystemActive(hoveredNode.key)
+                drawConnect(centerX, row2Y + 11, depCenters[i], row3Y - 8, met)
+            end
+
+            -- Draw prereq boxes
+            for i, k in ipairs(previewPrereqs) do
+                drawMiniNode(k, preCenters[i], row1Y + 8, false)
+            end
+            -- Draw hovered node in center (larger, gold)
+            drawMiniNode(hoveredNode.key, centerX, row2Y, true)
+            -- Draw dependent boxes
+            for i, k in ipairs(previewDeps) do
+                drawMiniNode(k, depCenters[i], row3Y + 8, false)
+            end
+
+            -- Overflow indicator if more than MAX_PREVIEW_PER_ROW
+            if #deps > MAX_PREVIEW_PER_ROW or #dependents > MAX_PREVIEW_PER_ROW then
+                love.graphics.setColor(0.7, 0.7, 0.7, 0.8)
+                local moreText = string.format("+%d več", math.max(0, #deps - MAX_PREVIEW_PER_ROW) + math.max(0, #dependents - MAX_PREVIEW_PER_ROW))
+                love.graphics.print(moreText, pvX + 2, pvY + pvH - 14)
+            end
+        end
+
         love.graphics.setFont(font)
     end
 end

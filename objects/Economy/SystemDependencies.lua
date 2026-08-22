@@ -1410,4 +1410,30 @@ function SystemDependencies.hasDependencies(systemKey)
     return deps ~= nil and #deps > 0
 end
 
+-- v3.12.125: Get all systems that directly depend on this one (reverse lookup)
+-- @param systemKey string
+-- @return table List of systemKeys that have systemKey as a prerequisite
+function SystemDependencies.getDependents(systemKey)
+    local result = {}
+    for sysKey, prereqs in pairs(dependencyGraph) do
+        for _, p in ipairs(prereqs) do
+            if p == systemKey then
+                table.insert(result, sysKey)
+                break  -- only one entry per dependent
+            end
+        end
+    end
+    return result
+end
+
+-- v3.12.125: Get immediate neighborhood (1-hop) for preview graph
+-- @param systemKey string
+-- @return table {prereqs = [...], dependents = [...]}
+function SystemDependencies.getNeighborhood(systemKey)
+    return {
+        prereqs = SystemDependencies.getDependencies(systemKey),
+        dependents = SystemDependencies.getDependents(systemKey),
+    }
+end
+
 return SystemDependencies
