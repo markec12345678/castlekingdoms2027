@@ -1,19 +1,20 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.12.142**
+- Različica: **v3.12.143**
 - Skupaj Royal sistemov: **990**
-- Skupaj Lua datotek: **1657** (+1: minimap_widget.lua)
-- Sintaktična preverba (avtentična Lua `load()`): **1657/1657 pass (100%)**
+- Skupaj Lua datotek: **1658** (+1: help_overlay.lua)
+- Sintaktična preverba (avtentična Lua `load()`): **1658/1658 pass (100%)**
 - Tech Tree: **891 deps · 165 verig · 786 multi-prereq** (98.25x zažetnih 8!)
 - Dosežki: **37 skupaj** — dostop z Ctrl+Shift+A
 - Tutorial hinti: **30 skupaj** — dostop z Ctrl+Shift+O
-- UI Paneli: **11 skupaj** + UI Sound + Particle Effects + Difficulty + Game Speed + Minimap HUD
+- UI Paneli: **11 skupaj** + UI Sound + Particle Effects + Difficulty + Game Speed + Minimap HUD + Help Overlay
 - Težavnost: **5 stopenj** z **11 modifierji — VSI APLICIRANI** — dostop z Ctrl+Shift+F
 - Game Speed: **5 hitrosti** — Space/1-4
 - Save/Load: **popoln cikel** — save shrani, load obnovi
 - Minimap: **vedno-viden HUD** z click-to-navigate
-- Zadnji paket: **v3.12.142 — Minimap HUD Widget** (vedno-viden minimap z click-to-navigate)
+- Help Overlay: **kontekstualna pomoč + 15 tips** — H toggle
+- Zadnji paket: **v3.12.143 — Help Overlay System** (kontekstualna pomoč + tips of the day + H toggle)
 - GitHub: pripravljen za push
 - Lokalni repo (sandbox): `/home/workdir/castlekingdoms2027`
 

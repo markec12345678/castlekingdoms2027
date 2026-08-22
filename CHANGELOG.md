@@ -2,6 +2,48 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.143] — 2026-08-22 — Help Overlay System (kontekstualna pomoč + tips of the day + H toggle!)
+
+### Dodano
+- **`states/ui/hud/help_overlay.lua`** — nov modul (~200 vrstic) z kontekstualno pomočjo:
+  - **Tips of the day** — 15 rotirajočih nasvetov (prikaz vsakih 30s):
+    - Nasveti o zgradbah, tržnici, Royal sistemih, dosežkih, tipkovnih bližnjicah
+    - Fade-in/fade-out animacija (0.5s in, 2s full, 0.5s out)
+    - Pozicionirano bottom-left, nad action bar
+    - "💡 Nasvet: ..." format
+  - **Context-sensitive help** — prikaz opozoril glede na stanje igre:
+    - ⚠ Nizko zlato! (<100) → "Postavi davke ali trguj na tržnici (M)."
+    - ⚠ Nizka hrana! (<20) → "Zgradi kmetijo ali sadovnjak."
+    - 🏰 Začetek (new game brez keep) → "Postavi grad (Keep) za začetek igre."
+    - Barvno kodirani obroblji (oranžna za opozorila, zelena za nasvete)
+  - **Persistenca** — `help_overlay_enabled.txt` (default: enabled)
+  - **Toggle s H** — preklop vidnosti pomožnega overlay-a
+  - **UI feedback** — `playToggleOn()` zvok ob preklopu
+  - **Toast notification** ob toggle: "Pomoč: VKLOPLJENA/IZKLOPLJENA"
+  - **API**:
+    - `toggle()` — preklopi enabled stanje
+    - `isEnabled()` / `setEnabled(state)` — getter/setter
+    - `getCurrentTip()` — vrne trenutni nasvet
+    - `nextTip()` — ročno naslednji nasvet (z zvokom)
+
+### Spremenjeno
+- **`states/game.lua`** — integracija HelpOverlay:
+  - `local HelpOverlay = require(...)` na vrhu
+  - `HelpOverlay.update(dt)` v update bloku
+  - `HelpOverlay.draw()` v draw bloku
+  - **H keybind** — toggle help overlay (H je bil prej "CenterViewToKeep" ki je bil prestavljen na F1)
+- **`states/ui/hud/keybind_help.lua`** — dodan H vnos v OSNOVNO kategorijo
+
+### Tehnične podrobnosti
+- H key je bil prej "CenterViewToKeep" (original Stone Kingdoms keybind) ki je bil prestavljen na F1 v zgodnjih verzijah
+- Sedaj je H repurposed za help overlay — Ctrl+Shift+H je še vedno daily challenges
+- Tips rotirajo vsakih 30 sekund (TIP_INTERVAL)
+- Fade animacija: 0.5s fade-in, 2s full, 0.5s fade-out (skupno 3s TIP_FADE_DURATION)
+- Context help preverja `_G.state.gold < 100` in `_G.state.resources.food < 20`
+- Context help se prikaže SAMO če je pogoj izpolnjen (ne vseskozi)
+- Tips se prikažejo tudi če context help ni aktiven
+- Vse prikazano z smallFont (11px) za kompakten izgled
+
 ## [v3.12.142] — 2026-08-22 — Minimap HUD Widget (vedno-viden minimap z click-to-navigate!)
 
 ### Dodano

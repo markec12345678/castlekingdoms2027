@@ -919,6 +919,8 @@ local DifficultyPanel = require("states.ui.hud.difficulty_panel")
 local DifficultySettings = require("objects.Gameplay.DifficultySettings")
 -- Castle Kingdoms 2027 v3.12.142: Minimap HUD Widget
 local MinimapWidget = require("states.ui.hud.minimap_widget")
+-- Castle Kingdoms 2027 v3.12.143: Help Overlay System
+local HelpOverlay = require("states.ui.hud.help_overlay")
 -- Castle Kingdoms 2027 - Campaign progress & auto-save
 local CampaignProgress = require("objects.Mission.CampaignProgress")
 local AutoSaveSystem = require("objects.AutoSaveSystem")
@@ -3220,8 +3222,9 @@ function game:update(dt)
                 StatsPanel.update(dt)
                 -- Castle Kingdoms 2027 v3.12.131: Particle effects update
                 S.ParticleEffects.update(dt)
-                -- Castle Kingdoms 2027 v3.12.132: Tutorial panel animation update
-                TutorialPanel.update(dt)
+                -- Castle Kingdoms 2027 v3.12.142: Minimap animation update (passive, no update needed)
+                -- Castle Kingdoms 2027 v3.12.143: Help overlay update
+                HelpOverlay.update(dt)
                 -- Castle Kingdoms 2027 v3.12.133: Difficulty panel animation update
                 DifficultyPanel.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
@@ -3438,6 +3441,8 @@ function game:draw()
             DifficultyPanel.draw()
             -- Castle Kingdoms 2027 v3.12.142: Draw Minimap Widget (Ctrl+M to toggle)
             MinimapWidget.draw()
+            -- Castle Kingdoms 2027 v3.12.143: Draw Help Overlay (context help + tips)
+            HelpOverlay.draw()
             -- Castle Kingdoms 2027: Draw Kenney CC0 overlay (if enabled)
             if _G.KenneySpriteRenderer and _G.KenneySpriteRenderer.isActive() then
                 love.graphics.setScissor(0, 0, screenWidth, screenHeight - 150)
@@ -3957,12 +3962,20 @@ function game:keypressed(key, scancode, isRepeat)
         end
         return
     end
-    -- Castle Kingdoms 2027 v3.12.127: N = Toggle Toast History Panel
+    -- v3.12.127: N = Toggle Toast History Panel
     if key == "n" and not (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
         if _G.NotificationCenter then
             _G.NotificationCenter.toggleHistoryPanel()
             return
         end
+    end
+    -- v3.12.143: H = Toggle Help Overlay (context help + tips)
+    -- NOTE: H was originally CenterViewToKeep but that was moved to F1 long ago
+    -- Now H is repurposed for context-sensitive help overlay
+    if key == "h" and not (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl"))
+                    and not (love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift")) then
+        HelpOverlay.toggle()
+        return
     end
     -- v3.12.127: Forward keys to NotificationCenter history panel if visible
     if _G.NotificationCenter and _G.NotificationCenter.isHistoryPanelVisible() then
