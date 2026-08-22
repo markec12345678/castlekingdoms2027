@@ -33,8 +33,8 @@ local luaFiles = getLuaFiles(".")
 local luaErrors = 0
 
 for _, file in ipairs(luaFiles) do
-    -- Skip third-party libraries
-    if not file:match("^./libraries/") and not file:match("^./busted/") then
+    -- Skip third-party libraries and this test script itself (shebang # fails loadstring)
+    if not file:match("^./libraries/") and not file:match("^./busted/") and file ~= "./scripts/test.lua" then
         local f = io.open(file, "r")
         if f then
             local content = f:read("*all")
