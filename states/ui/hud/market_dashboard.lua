@@ -309,6 +309,10 @@ local function showMessage(msg)
     if _G.NotificationCenter then
         pcall(function() _G.NotificationCenter.economy(msg) end)
     end
+    -- v3.12.148: Log to EventLogPanel
+    if _G.EventLogPanel then
+        pcall(function() _G.EventLogPanel.addEvent("market", msg, "📈") end)
+    end
 end
 
 function MarketDashboard.draw()

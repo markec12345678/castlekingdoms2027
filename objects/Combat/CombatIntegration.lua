@@ -367,6 +367,10 @@ end
 -- Called when a player unit kills an enemy
 function CombatIntegration.onPlayerKill()
     playerKills = playerKills + 1
+    -- v3.12.148: Log to EventLogPanel
+    if _G.EventLogPanel then
+        pcall(function() _G.EventLogPanel.addEvent("combat", "Ubij sovražnik (#" .. playerKills .. ")", "⚔") end)
+    end
     if _G.AchievementTracker then
         -- Update first_victory (kills >= 1)
         pcall(function()
@@ -382,6 +386,10 @@ end
 -- Called when a player unit dies
 function CombatIntegration.onPlayerDeath()
     playerDeaths = playerDeaths + 1
+    -- v3.12.148: Log to EventLogPanel
+    if _G.EventLogPanel then
+        pcall(function() _G.EventLogPanel.addEvent("combat", "Izgubljena enota (#" .. playerDeaths .. ")", "💀") end)
+    end
 end
 
 -- Get kill/death stats

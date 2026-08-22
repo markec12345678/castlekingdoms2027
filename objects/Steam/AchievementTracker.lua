@@ -319,6 +319,14 @@ function AchievementTracker.unlock(achievementId)
     -- v3.12.128: Send toast notification (priority based on rarity)
     -- v3.12.130: Also play rarity-specific achievement sound
     -- v3.12.131: Emit rarity-specific particle effects
+    -- v3.12.148: Log to EventLogPanel
+    if _G.EventLogPanel then
+        pcall(function()
+            _G.EventLogPanel.addEvent("achievement",
+                "Odklenjen dosežek: " .. ach.nameSlv .. " (" .. ach.rarity .. ")",
+                ach.rarity == "legendary" and "★" or (ach.rarity == "epic" and "◆" or "●"))
+        end)
+    end
     local screenW, screenH = 1, 1
     if love.graphics then
         screenW, screenH = love.graphics.getDimensions()

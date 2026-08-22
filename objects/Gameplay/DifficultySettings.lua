@@ -177,6 +177,14 @@ function DifficultySettings.set(key)
     currentDifficulty = key
     -- Persist
     pcall(love.filesystem.write, DIFFICULTY_FILE, key .. "\n")
+    -- v3.12.148: Log to EventLogPanel
+    if _G.EventLogPanel then
+        pcall(function()
+            _G.EventLogPanel.addEvent("system",
+                "Težavnost spremenjena: " .. DIFFICULTIES[key].label .. " (" .. DIFFICULTIES[key].labelEn .. ")",
+                DIFFICULTIES[key].icon)
+        end)
+    end
     -- Notify via NotificationCenter
     if _G.NotificationCenter then
         local diff = DIFFICULTIES[key]

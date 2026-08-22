@@ -88,6 +88,16 @@ function GameSpeedControl.setSpeed(index)
     -- v3.12.139: Persist
     saveSpeed()
 
+    -- v3.12.148: Log to EventLogPanel
+    if _G.EventLogPanel then
+        local speed = SPEEDS[currentSpeedIndex]
+        pcall(function()
+            _G.EventLogPanel.addEvent("system",
+                "Hitrost: " .. speed.name .. " " .. speed.label,
+                speed.value == 0 and "⏸" or speed.name)
+        end)
+    end
+
     -- v3.12.139: Play sound
     if _G.UISoundHelper then
         if SPEEDS[currentSpeedIndex].value == 0 then
