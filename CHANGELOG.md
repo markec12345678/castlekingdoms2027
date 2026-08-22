@@ -2,6 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.114] — 2026-08-22 — Keybind Help Search Persistence (save/load searchQuery med sejami!)
+
+### Dodano
+- **keybind_help.lua** — persistenca searchQuery med sejami:
+  - Nov `SEARCH_FILE = "keybind_help_search.txt"`
+  - `loadSearchQuery()` — prebere searchQuery iz datoteke ob init (s trim trailing whitespace)
+  - `saveSearchQuery()` — zapiše searchQuery v datoteko ob spremembi
+  - `loadSearchQuery()` klicana ob init (modul load)
+  - `saveSearchQuery()` klicana v:
+    - Escape key (počisti iskanje)
+    - Return key (potrdi iskanje)
+    - Backspace key (briše zadnji znak)
+    - `textinput()` handler (tipkanje)
+  - pcall wrapper za varno branje/pisanje
+- **Persistence ekosistem popoln za vse panele**:
+  - Royal Systems Panel: sortMode (v3.12.112), activeCategory (v3.12.113)
+  - Market Dashboard: comparisonList, auto-sell state, sortMode (v3.11.912-v3.11.913)
+  - Tech Tree: bookmarks, multi-select, custom presets (v3.11.959-v3.11.965)
+  - Auto-Save Overlay: position, opacity, hidden (v3.11.925-v3.11.930)
+  - Keybind Help: searchQuery ← NOV! (v3.12.114)
+
+### Spremenjene datoteke
+- `states/ui/hud/keybind_help.lua` (+25 vrstic) — SEARCH_FILE, loadSearchQuery, saveSearchQuery, init load, 4 save calls
+- `README.md` — posodobljen badge (v3.12.114)
+- `CHANGELOG.md` — dodan v3.12.114 entry
+- `NEXT_BATCH_HANDOFF.md` — posodobljeno stanje
+
+### Funkcionalna preverba
+- Lupa `load()` test: PASS
+
 ## [v3.12.113] — 2026-08-22 — Royal Systems Panel Category Persistence (save/load activeCategory med sejami!)
 
 ### Dodano

@@ -14,6 +14,27 @@ local rowPositions = {}  -- populated during draw for hit-testing
 local searchActive = false  -- when true, typing filters keybinds
 local searchQuery = ""  -- current search text
 
+local SEARCH_FILE = "keybind_help_search.txt"
+
+-- Load persisted search query on init
+local function loadSearchQuery()
+    local ok, content = pcall(love.filesystem.read, SEARCH_FILE)
+    if ok and content then
+        content = content:gsub("%s+$", "")  -- trim trailing whitespace/newline
+        if content ~= "" then
+            searchQuery = content
+        end
+    end
+end
+
+-- Save search query to file
+local function saveSearchQuery()
+    pcall(love.filesystem.write, SEARCH_FILE, searchQuery .. "\n")
+end
+
+-- Load on init
+loadSearchQuery()
+
 -- All keybinds organized by category
 local KEYBINDS = {
     {
@@ -442,15 +463,18 @@ function KeybindHelp.keypressed(key, scancode, isrepeat)
         if key == "escape" then
             searchActive = false
             searchQuery = ""
+            saveSearchQuery()
             scrollOffset = 0
             return true
         end
         if key == "return" then
             searchActive = false  -- exit search mode but keep query
+            saveSearchQuery()
             return true
         end
         if key == "backspace" then
             searchQuery = searchQuery:sub(1, -2)
+            saveSearchQuery()
             scrollOffset = 0
             return true
         end
@@ -592,6 +616,7 @@ function KeybindHelp.textinput(text)
         -- Only accept printable characters
         if text:match("^[%w _+/-]$") then
             searchQuery = searchQuery .. text
+            saveSearchQuery()
             scrollOffset = 0
         end
         return true
