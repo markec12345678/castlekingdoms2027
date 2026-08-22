@@ -479,6 +479,17 @@ function State:serialize()
     -- Castle Kingdoms 2027 v3.11.915: Stamp save version for future migrations
     local SaveVersioner = require("objects.Economy.SaveVersioner")
     SaveVersioner.stamp(data)
+    -- v3.12.140: Save difficulty, game speed, and combat stats
+    if _G.DifficultySettings then
+        data.difficulty = _G.DifficultySettings.getCurrent()
+    end
+    if _G.CombatIntegration and _G.CombatIntegration.getStats then
+        data.combatStats = _G.CombatIntegration.getStats()
+    end
+    if _G.AchievementTracker then
+        data.achievementProgress = _G.AchievementTracker.export()
+    end
+    data.gameSpeedIndex = (_G.GameSpeedControl and _G.GameSpeedControl.getCurrentIndex()) or 2
     return data, metadata
 end
 

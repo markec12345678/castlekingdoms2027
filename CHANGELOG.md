@@ -2,6 +2,29 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.140] — 2026-08-22 — Save/Load Enhancement (difficulty + speed + combat + achievements v save!)
+
+### Dodano
+- **`objects/State.lua`** — `serialize()` razširjen z novimi stanji:
+  - **`data.difficulty`** — trenutna težavnost (peaceful/easy/normal/hard/brutal)
+  - **`data.combatStats`** — {playerKills, playerDeaths, kdr} iz CombatIntegration.getStats()
+  - **`data.achievementProgress`** — vsi dosežki z progress preko AchievementTracker.export()
+  - **`data.gameSpeedIndex`** — trenutni indeks hitrosti igre (1-5) iz GameSpeedControl
+  - Vsa nova stanja se shranjujejo v save datoteko in se lahko naložijo ob ponovnem zagonu
+
+### Spremenjeno
+- **`objects/State.lua:serialize()`** — dodani štirje novi podatkovni polji pred `return data, metadata`
+
+### Tehnične podrobnosti
+- Save/Load sistem uporablja `bitser` za serializacijo — nove tabele so samodejno podprte
+- `AchievementTracker.export()` vrača {version, unlocked, progress, hdPlayTime} — popoln backup
+- `CombatIntegration.getStats()` vrača {playerKills, playerDeaths, kdr} — realno-časna statistika
+- `DifficultySettings.getCurrent()` vrača string key (npr. "peaceful", "brutal")
+- `GameSpeedControl.getCurrentIndex()` vrača število 1-5 (1=pavza, 2=1x, itd.)
+- Vsi hook-i so wrappani v `if _G.X then` za backward compatibility s starejšimi save datotekami
+- SaveVersioner.stamp(data) se kliče pred novimi polji — verzija je vedno prisotna za migracije
+- Novi podatki so dodatni — stari save datoteki še vedno delujejo (polja so nil če manjkajo)
+
 ## [v3.12.139] — 2026-08-22 — Game Speed Control Upgrade (persistenca + zvok + toast + modern UI!)
 
 ### Dodano
