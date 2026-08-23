@@ -2,6 +2,23 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.210] — 2026-08-23 — HD Terrain Overlay Draw (integracija z terrain.lua)
+
+### Dodano
+- **`objects/Environment/TerrainTextureOverride.lua`** — overlay draw funkcija (~70 vrstic)
+  - Bere `_G.state.map.terrainTile` za obstoječe tile podatke
+  - Preverja biome iz `_G.state.map.terrain`
+  - Riše HD teksturo čez obstoječi tile ko je HD enabled
+  - 3x3 chunk culling (samo tiles v screen bounds)
+  - Vsi _G klici v pcall (crash-safe)
+- **`states/game.lua`** — draw klic v draw() blok (za LOD debug)
+
+### Tehnične podrobnosti
+- **Non-invasive**: ne spreminja terrain.lua (1392 vrstic)
+- **Overlay pristop**: HD teksture se rišejo čez obstoječe tile
+- **Performance**: samo ~768 tile-ov (3x3 chunks × 16x16), s screen culling
+- **Off by default**: HD_ENABLED = false, toggle preko Command Palette
+
 ## [v3.12.205] — 2026-08-23 — Tier 2 Sprite Pack Complete (100/100 = 100%!)
 
 ### 🎉 Mejnik: Tier 2 Sprite Pack Popoln!
