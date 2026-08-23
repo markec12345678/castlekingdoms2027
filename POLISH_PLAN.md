@@ -3,7 +3,7 @@
 > Po v1.0.0-campaign-complete sledi faza poliranja.
 > **Pravilo: NE dodajati novih sistemov.** Samo izboljšati obstoječe.
 
-Zadnja posodobitev: 2026-08-23 (v3.12.167)
+Zadnja posodobitev: 2026-08-23 (v3.12.213)
 
 ---
 
@@ -190,12 +190,12 @@ Zadnja posodobitev: 2026-08-23 (v3.12.167)
 - ✅ Modern UI with tooltips and notifications
 
 ### What needs artists
-- ❌ HD tileset (4K)
-- ❌ HD building sprites
-- ❌ HD unit sprites with animations
-- ❌ HD UI icons
-- ❌ Loading screen art
-- ❌ Main menu background
+- ✅ HD tileset (256x256) — v3.12.207-v3.12.211 (12 biome, overlay draw)
+- 🔄 HD building sprites (256x256) — v3.12.212-v3.12.213 (5/50 končanih)
+- ❌ HD unit sprites with animations (need art assets)
+- ❌ HD UI icons (need art assets)
+- ❌ Loading screen art (need art assets)
+- ❌ Main menu background (need art assets)
 
 ---
 
