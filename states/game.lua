@@ -3536,6 +3536,10 @@ function game:draw()
             if S.SpacingSystem then S.SpacingSystem.draw() end
             -- v3.12.165: Draw LOD debug (off by default)
             if S.LODSystem then S.LODSystem.draw() end
+            -- v3.12.210: Draw HD terrain overlay (if HD enabled)
+            if S.TerrainOverride and S.TerrainOverride.draw then
+                pcall(function() S.TerrainOverride.draw() end)
+            end
             -- Castle Kingdoms 2027: Draw v1.26 QoL visuals
             S.RallyPoint.draw()
             S.BuildingQueue.draw()

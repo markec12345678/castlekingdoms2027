@@ -218,4 +218,88 @@ function TerrainOverride.reset()
     checkedCache = {}
 end
 
+-- ============================================================
+-- v3.12.210: Overlay draw system
+-- Draws HD textures over existing terrain when HD is enabled.
+-- Called from game.lua draw() after terrain is rendered.
+-- ============================================================
+
+-- Draw HD terrain overlay for visible tiles
+-- This is a lightweight overlay: it draws HD textures on top of
+-- the existing terrain tiles, replacing the visual without modifying
+-- terrain.lua's internal tile assignment system.
+function TerrainOverride.draw()
+    if not HD_ENABLED then return end
+    if not _G.state or not _G.state.gameObjectList then return end
+    if not _G.state.map or not _G.state.map.terrainTile then return end
+    if not _G.IsoToScreenX or not _G.IsoToScreenY then return end
+
+    local tileW = _G.tileWidth or 64
+    local tileH = _G.tileHeight or 32
+    local viewX = _G.state.viewXview or 0
+    local viewY = _G.state.viewYview or 0
+    local screenW = love.graphics.getWidth()
+    local screenH = love.graphics.getHeight()
+
+    -- Iterate over terrain tiles in visible area
+    -- We check a reasonable range of chunks around the camera
+    local cx = _G.currentChunkX or 0
+    local cy = _G.currentChunkY or 0
+    local chunkW = _G.chunkWidth or 16
+
+    -- Check nearby chunks (3x3 around current)
+    for dcx = -1, 1 do
+        for dcy = -1, 1 do
+            local checkCx = cx + dcx
+            local checkCy = cy + dcy
+            local chunkTiles = _G.state.map.terrainTile[checkCx]
+            if chunkTiles then
+                local cyTiles = chunkTiles[checkCy]
+                if cyTiles then
+                    for i = 0, chunkW - 1 do
+                        local iTiles = cyTiles[i]
+                        if iTiles then
+                            for o = 0, chunkW - 1 do
+                                local tile = iTiles[o]
+                                if tile and tile[1] then
+                                    -- tile = { quad, screenX, screenY, rotation, scaleX, scaleY }
+                                    local screenX = tile[2] - viewX
+                                    local screenY = tile[3] - viewY
+
+                                    -- Cull tiles outside screen bounds
+                                    if screenX > -HD_SIZE and screenX < screenW + HD_SIZE and
+                                       screenY > -HD_SIZE and screenY < screenH + HD_SIZE then
+
+                                        -- Determine biome for this tile
+                                        -- The biome is stored in _G.state.map.terrain
+                                        local biome = nil
+                                        if _G.state.map.terrain and _G.state.map.terrain[checkCx] and
+                                           _G.state.map.terrain[checkCx][checkCy] and
+                                           _G.state.map.terrain[checkCx][checkCy][i] and
+                                           _G.state.map.terrain[checkCx][checkCy][i][o] then
+                                            biome = _G.state.map.terrain[checkCx][checkCy][i][o]
+                                        end
+
+                                        if biome then
+                                            local hdTexture = TerrainOverride.get(biome)
+                                            if hdTexture then
+                                                -- Draw HD texture centered on tile position
+                                                -- Scale to match tile size (HD_SIZE → tileW)
+                                                local scaleX = tileW / HD_SIZE
+                                                local scaleY = tileH / HD_SIZE
+                                                love.graphics.setColor(1, 1, 1, 1)
+                                                love.graphics.draw(hdTexture, screenX, screenY, 0, scaleX, scaleY)
+                                            end
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+
 return TerrainOverride
