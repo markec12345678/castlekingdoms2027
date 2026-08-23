@@ -345,6 +345,14 @@ function RoyalIconGenerator.getIcon(systemName)
         return iconCache[systemName]
     end
 
+    -- v3.12.154: Asset Override - check for PNG sprite in tier folders first
+    -- Lookup order: assets/royal_systems/tier1/<name>.png → tier2 → procedural
+    local sprite = RoyalIconGenerator.loadSpriteOverride(systemName)
+    if sprite then
+        iconCache[systemName] = sprite
+        return sprite
+    end
+
     -- Clean name (remove Royal prefix and Maker/System suffix for display)
     local displayName = systemName
     displayName = displayName:gsub("^Royal", "")
@@ -403,6 +411,112 @@ function RoyalIconGenerator.getIcon(systemName)
     -- Cache and return
     iconCache[systemName] = canvas
     return canvas
+end
+
+-- v3.12.154: Asset Override system
+-- Sprite override folders (checked in order, first match wins)
+-- Tier 1 = highest quality (artist-created), Tier 2 = mid quality (AI-generated)
+local SPRITE_FOLDERS = {
+    { tier = "tier1", quality = 256 },  -- 256x256 PNG, hand-crafted
+    { tier = "tier2", quality = 128 },   -- 128x128 PNG, AI-generated
+}
+
+-- Cache for already-checked (and not found) system names to avoid repeated disk I/O
+local spriteCheckedCache = {}  -- [systemName] = true if checked (regardless of result)
+local spriteImageCache = {}    -- [systemName] = love.Image or nil if not found
+
+-- Normalize system name to a filesystem-safe filename
+-- e.g. "RoyalAbacusMakerSystem" → "Abacus"
+local function normalizeToFilename(systemName)
+    if not systemName then return nil end
+    local name = systemName
+    name = name:gsub("^Royal", "")
+    name = name:gsub("MakerSystem$", "")
+    name = name:gsub("System$", "")
+    name = name:gsub("Maker$", "")
+    return name
+end
+
+-- Try to load a PNG sprite for a system from the override folders
+-- @param systemName string
+-- @return love.Image or nil if not found
+function RoyalIconGenerator.loadSpriteOverride(systemName)
+    if not systemName then
+        return nil
+    end
+
+    -- Already checked? Return cached result
+    if spriteCheckedCache[systemName] then
+        return spriteImageCache[systemName]
+    end
+
+    spriteCheckedCache[systemName] = true  -- mark as checked
+
+    local baseName = normalizeToFilename(systemName)
+    if not baseName or baseName == "" then
+        return nil
+    end
+
+    -- Try each tier folder in order
+    for _, folder in ipairs(SPRITE_FOLDERS) do
+        local path = "assets/royal_systems/" .. folder.tier .. "/" .. baseName .. ".png"
+        local ok, imageData = pcall(love.image.newImageData, path)
+        if ok and imageData then
+            local ok2, image = pcall(love.graphics.newImage, imageData)
+            if ok2 and image then
+                -- Set filtering to smooth for high-quality sprites
+                image:setFilter("linear", "linear")
+                spriteImageCache[systemName] = image
+                -- Optional debug print (remove in production)
+                -- print("[RoyalIcon] Loaded override: " .. path)
+                return image
+            end
+        end
+    end
+
+    -- No override found - return nil (procedural fallback will be used)
+    return nil
+end
+
+-- Check if a system has a PNG override sprite (without loading it)
+-- @param systemName string
+-- @return boolean true if override exists
+function RoyalIconGenerator.hasOverride(systemName)
+    if not systemName then return false end
+    if spriteCheckedCache[systemName] then
+        return spriteImageCache[systemName] ~= nil
+    end
+    -- Force check
+    local result = RoyalIconGenerator.loadSpriteOverride(systemName)
+    return result ~= nil
+end
+
+-- Get list of all systems that have PNG overrides
+-- @return table array of { name, tier, path }
+function RoyalIconGenerator.getOverridesList()
+    local overrides = {}
+    for name, image in pairs(spriteImageCache) do
+        if image then
+            local baseName = normalizeToFilename(name)
+            table.insert(overrides, {
+                name = name,
+                baseName = baseName,
+                path = "assets/royal_systems/<tier>/" .. baseName .. ".png",
+            })
+        end
+    end
+    return overrides
+end
+
+-- Clear sprite override cache (for hot-reload during development)
+function RoyalIconGenerator.clearOverrideCache()
+    for k, img in pairs(spriteImageCache) do
+        if img and img.release then
+            pcall(function() img:release() end)
+        end
+    end
+    spriteImageCache = {}
+    spriteCheckedCache = {}
 end
 
 -- Draw an icon at position with given size
