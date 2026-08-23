@@ -228,6 +228,49 @@ function FormationSystem.getSpeedBonus()
     return f and f.speedBonus or 1.0
 end
 
+-- v3.12.161: Check if a unit is close to its formation position
+-- Used by MoraleSystem to apply RALLY_FORMATION_BONUS
+-- @param unit Unit to check
+-- @return boolean true if unit is within 3 tiles of any other allied unit (formation cohesion)
+function FormationSystem.isUnitInFormation(unit)
+    if not unit or not unit.gx or not unit.gy then
+        return false
+    end
+    -- If no formation active or formation is "scatter", units are not in formation
+    if currentFormation == "scatter" or currentFormation == "none" then
+        return false
+    end
+    -- Check that at least 2 other allied units are nearby (within 4 tiles)
+    -- This indicates the unit is fighting as part of a group, not solo
+    if not _G.state or not _G.state.gameObjectList then
+        return false
+    end
+    local nearbyAllies = 0
+    local rSq = 16  -- 4 tiles squared
+    for _, other in ipairs(_G.state.gameObjectList) do
+        if other ~= unit and other.faction == unit.faction
+            and other._combatAttached and other.gx and other.gy
+            and other.health and other.health > 0
+            and not other.toBeDeleted then
+            local dx = other.gx - unit.gx
+            local dy = other.gy - unit.gy
+            if dx * dx + dy * dy <= rSq then
+                nearbyAllies = nearbyAllies + 1
+                if nearbyAllies >= 2 then
+                    return true
+                end
+            end
+        end
+    end
+    return false
+end
+
+-- v3.12.161: Get current formation name (for UI/morale)
+function FormationSystem.getCurrentFormationName()
+    local f = FORMATIONS[currentFormation]
+    return f and f.name or "None"
+end
+
 -- Cycle through formations
 function FormationSystem.cycleFormation()
     -- Castle Kingdoms 2027 v2.6.1: Added phalanx and skirmish to cycle

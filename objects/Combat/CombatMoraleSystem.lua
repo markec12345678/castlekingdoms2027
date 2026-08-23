@@ -491,6 +491,16 @@ local function tickUnit(unit, state, dt)
         end
     end
 
+    -- v3.12.161: Formation cohesion bonus
+    -- Units fighting in formation (2+ allies nearby) gain a small morale boost
+    -- This represents the cohesion/leadership benefit of fighting as a unit
+    if _G.FormationSystem and _G.FormationSystem.isUnitInFormation then
+        local inFormation = _G.FormationSystem.isUnitInFormation(unit)
+        if inFormation then
+            MoraleSystem.applyRally(unit, RALLY_FORMATION_BONUS * dt, "formation")
+        end
+    end
+
     -- Update damage multiplier based on current morale
     if state.morale >= MORALE_HIGH then
         state.damageMult = DAMAGE_MULT_FULL
