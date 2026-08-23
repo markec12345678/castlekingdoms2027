@@ -938,6 +938,8 @@ local ColorTheme = require("objects.UI.ColorTheme")
 local EventLogPanel = require("states.ui.hud.event_log_panel")
 -- Castle Kingdoms 2027 v3.12.149: Command Palette
 local CommandPalette = require("states.ui.hud.command_palette")
+-- Castle Kingdoms 2027 v3.13.2: Multiplayer Panel
+local MultiplayerPanel = require("states.ui.hud.multiplayer_panel")
 -- Castle Kingdoms 2027 - Campaign progress & auto-save
 local CampaignProgress = require("objects.Mission.CampaignProgress")
 local AutoSaveSystem = require("objects.AutoSaveSystem")
@@ -3285,6 +3287,7 @@ function game:update(dt)
                 EventLogPanel.update(dt)
                 -- Castle Kingdoms 2027 v3.12.149: Command palette update
                 CommandPalette.update(dt)
+                MultiplayerPanel.update(dt)
                 -- Castle Kingdoms 2027 v3.12.133: Difficulty panel animation update
                 DifficultyPanel.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
@@ -3511,6 +3514,7 @@ function game:draw()
             EventLogPanel.draw()
             -- Castle Kingdoms 2027 v3.12.149: Draw Command Palette (Ctrl+Space)
             CommandPalette.draw()
+            MultiplayerPanel.draw()
             -- Castle Kingdoms 2027: Draw Kenney CC0 overlay (if enabled)
             if _G.KenneySpriteRenderer and _G.KenneySpriteRenderer.isActive() then
                 love.graphics.setScissor(0, 0, screenWidth, screenHeight - 150)
@@ -3625,6 +3629,9 @@ function game:mousepressed(x, y, button, istouch)
     -- Castle Kingdoms 2027 v3.12.149: Command Palette click handling
     if CommandPalette.isVisible() then
         if CommandPalette.mousepressed(x, y, button) then return end
+    end
+    if MultiplayerPanel.isVisible() then
+        if MultiplayerPanel.mousepressed(x, y, button) then return end
     end
     -- Castle Kingdoms 2027 v3.12.147: Event Log Panel click handling
     if EventLogPanel.isVisible() then
@@ -4039,6 +4046,10 @@ function game:keypressed(key, scancode, isRepeat)
     -- Castle Kingdoms 2027 v3.12.149: Command Palette key forward
     if CommandPalette.isVisible() then
         if CommandPalette.keypressed(key, scancode, isrepeat) then return end
+    end
+    -- v3.13.2: Multiplayer Panel key forward
+    if MultiplayerPanel.isVisible() then
+        if MultiplayerPanel.keypressed(key) then return end
     end
     -- Castle Kingdoms 2027 v3.12.147: Forward keys to Event Log Panel if visible
     if EventLogPanel.isVisible() then

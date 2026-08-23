@@ -61,6 +61,7 @@ local COMMANDS = {
     { cmd = "toggle_hd_terrain", label = "Toggle HD terrain",         desc = "HD teksture za teren (256x256)",   key = "—",            icon = "🌍" },
     { cmd = "toggle_hd_buildings", label = "Toggle HD buildings",     desc = "HD sprite-i za zgradbe (256x256)", key = "—",            icon = "🏰" },
     { cmd = "toggle_hd_units",     label = "Toggle HD units",          desc = "HD sprite-i za enote (128x128)",   key = "—",            icon = "⚔" },
+    { cmd = "open_multiplayer",    label = "Multiplayer",              desc = "Poveži se ali hostuj multiplayer igro", key = "—",       icon = "🏰" },
 }
 
 -- Execute a command
@@ -95,6 +96,9 @@ local function executeCommand(cmd)
     elseif cmd == "toggle_hd_terrain" and _G.TerrainOverride then _G.TerrainOverride.toggle()
     elseif cmd == "toggle_hd_buildings" and _G.BuildingOverride then _G.BuildingOverride.toggle()
     elseif cmd == "toggle_hd_units" and _G.UnitOverride then _G.UnitOverride.toggle()
+    elseif cmd == "open_multiplayer" then
+        local mp = require("states.ui.hud.multiplayer_panel")
+        mp.toggle()
     end
     UISound.playSuccess()
     CommandPalette.toggle()
