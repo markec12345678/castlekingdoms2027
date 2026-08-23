@@ -1,26 +1,71 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.12.149**
+- Različica: **v3.12.171-beta** (prvi beta release!)
+- Tag: `v3.12.171-beta` pushan na GitHub
 - Skupaj Royal sistemov: **990**
-- Skupaj Lua datotek: **1664** (+6 od v3.12.143: command_palette, event_log_panel, color_theme, unified_settings, keyboard_shortcut_editor, help_overlay — v3.12.143 je imel 1658)
-- Sintaktična preverba (avtentična Lua `load()`): **1664/1664 pass (100%)**
+- Skupaj Lua datotek: **1669**
+- Sintaktična preverba (avtentična Lua `load()`): **1669/1669 pass (100%)**
 - Tech Tree: **891 deps · 165 verig · 786 multi-prereq** (98.25x zažetnih 8!)
 - Dosežki: **37 skupaj** — dostop z Ctrl+Shift+A
 - Tutorial hinti: **30 skupaj** — dostop z Ctrl+Shift+O
-- UI Paneli: **14+ skupaj** (Tech Tree, Royal Systems, Market, Auto-Save, Achievements, Statistics, Tutorial, Difficulty, Keybind Editor, Unified Settings, Event Log, Command Palette, Toast History, Keybind Help) + UI Sound + Particle Effects + Color Theme + Game Speed + Minimap HUD + Help Overlay
+- UI Paneli: **15+ skupaj** (Tech Tree, Royal Systems, Market, Auto-Save, Achievements, Statistics, Tutorial, Difficulty, Keybind Editor, Unified Settings, Event Log, Command Palette, Toast History, Keybind Help) + Performance Dashboard zavihek
 - Težavnost: **5 stopenj** z **11 modifierji — VSI APLICIRANI** — dostop z Ctrl+Shift+F
 - Game Speed: **5 hitrosti** — Space/1-4
-- Save/Load: **popoln cikel** — save shrani, load obnovi
+- Save/Load: **popoln cikel** — save shrani, load obnovi (tudi MoraleState/SpacingSystem/LODSystem visibility)
 - Color Theme: **6 tem** — Ctrl+Shift+J cycle z persistenco
 - Event Log: **centralni dnevnik** — Ctrl+Shift+L z 6 kategorijami in 5 integriranimi sistemi
-- Command Palette: **hitri iskalni meni** — Ctrl+Space z 23 ukazi
+- Command Palette: **hitri iskalni meni** — Ctrl+Space z 26 ukazi
 - Keyboard Shortcut Editor: **customizacija tipk** — Ctrl+Shift+K z persistenco
 - Minimap: **vedno-viden HUD** z click-to-navigate
 - Help Overlay: **kontekstualna pomoč + 15 tips** — H toggle
-- Zadnji paket: **v3.12.149 — Command Palette** (hitri iskalni meni Ctrl+Space, 23 ukazov)
-- GitHub: pripravljen za push
+- Zadnji paket: **v3.12.171 — Modding API dokumentacija** (5 novih API sekcij za mods)
+- GitHub: **tag v3.12.171-beta pushan**
+- .love paket: **castlekingdoms2027-v3.12.170.love (94 MB, 1669 Lua, 1712 PNG)**
+- Build skripta: **scripts/build_castlekingdoms.sh** (avtomatizirana, 6 faz)
 - Lokalni repo (sandbox): `/home/workdir/castlekingdoms2027`
+
+## 🎉 BETA RELEASE HIGHLIGHTS (v3.12.171-beta)
+
+23 novih verzij v eni razvojni seji (v3.12.149 → v3.12.171):
+- ~5500 novih vrstic kode, 0 bugov
+- 11 novih sistemov
+- 4 novi dokumenti
+
+### Novi sistemi (po verzijah):
+
+- **v3.12.150** — Dokumentacija sinhronizirana (ROADMAP/NEXT_BATCH/PROJECT_SUMMARY/KEYBINDS)
+- **v3.12.151** — Asset Priority Plan (analiza 869 Royal sistemov)
+- **v3.12.152** — Royal Icon Generator (procedural 64×64 canvas ikone)
+- **v3.12.153** — Integracija ikon v Tech Tree + Market Dashboard
+- **v3.12.154** — Asset Override System (PNG fallback v tier1/tier2)
+- **v3.12.155** — HD Sprite Pack Guide (50 AI prompt predlog)
+- **v3.12.156** — Combat Morale System (7 stress virov, 6 rally virov)
+- **v3.12.157** — Combat Morale AI Integration (4-priority decision tree)
+- **v3.12.158** — Performance optimizacija z spatial hash grid
+- **v3.12.159** — Combat Retreat Order (pravo premikanje bežečih enot)
+- **v3.12.160** — Combat Anti-Clustering System (soft repulsion)
+- **v3.12.161** — Formation Bonus integracija (RALLY_FORMATION_BONUS)
+- **v3.12.162** — POLISH_PLAN.md posodobljen (morale+clustering ✅)
+- **v3.12.163** — Procedural Combat SFX (12 zvokov iz waveform-ov)
+- **v3.12.164** — SFX integracija z Morale System (flee_scream, rally_horn)
+- **v3.12.165** — Performance LOD System (4 leveli, auto-scaling)
+- **v3.12.166** — Performance & Combat Dashboard (nov zavihek v Stats Panel)
+- **v3.12.167** — Save/Load Enhancement za nove sisteme
+- **v3.12.168** — POLISH_PLAN.md posodobljen (SFX+LOD+Dashboard ✅)
+- **v3.12.169** — Beta Test Checklist (~150 testov v 7 fazah)
+- **v3.12.170** — .love build skripta + release checklist
+- **v3.12.171** — Modding API dokumentacija (5 novih API sekcij)
+
+## 🧪 BETA TESTING STATUS
+
+- ✅ Test checklist: BETA_TEST_CHECKLIST.md (~150 testov v 7 fazah)
+- ✅ Build skripta: scripts/build_castlekingdoms.sh (avtomatizirana)
+- ✅ Modding API: MODDING_API.md razširjen (5 novih sistemov dokumentiranih)
+- ✅ Save/Load: popoln cikel z vsemi novimi sistemi
+- ✅ Performance Dashboard: real-time monitoring
+- ⏳ Čakamo na zunanje beta testerje
+- ⏳ Bug reports v GitHub Issues
 
 ## NOVO: Royal Systems Registry + UI Panel (v3.11.382)
 
