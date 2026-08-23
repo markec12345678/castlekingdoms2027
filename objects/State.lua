@@ -490,6 +490,16 @@ function State:serialize()
         data.achievementProgress = _G.AchievementTracker.export()
     end
     data.gameSpeedIndex = (_G.GameSpeedControl and _G.GameSpeedControl.getCurrentIndex()) or 2
+    -- v3.12.167: Save visibility state of new systems (MoraleSystem, SpacingSystem, LODSystem)
+    if _G.MoraleSystem and _G.MoraleSystem.isVisible then
+        data.moraleVisible = _G.MoraleSystem.isVisible()
+    end
+    if _G.SpacingSystem and _G.SpacingSystem.isVisible then
+        data.spacingVisible = _G.SpacingSystem.isVisible()
+    end
+    if _G.LODSystem and _G.LODSystem.isVisible then
+        data.lodVisible = _G.LODSystem.isVisible()
+    end
     return data, metadata
 end
 
@@ -613,6 +623,30 @@ function State:deserialize(load)
     if load.gameSpeedIndex and _G.GameSpeedControl then
         pcall(function() _G.GameSpeedControl.setSpeed(load.gameSpeedIndex) end)
         print("[State:load] Restored game speed index: " .. tostring(load.gameSpeedIndex))
+    end
+    -- v3.12.167: Restore visibility state of new systems
+    if load.moraleVisible ~= nil and _G.MoraleSystem and _G.MoraleSystem.setVisible then
+        pcall(function() _G.MoraleSystem.setVisible(load.moraleVisible) end)
+        print("[State:load] Restored morale visibility: " .. tostring(load.moraleVisible))
+    end
+    if load.spacingVisible ~= nil and _G.SpacingSystem and _G.SpacingSystem.setVisible then
+        pcall(function() _G.SpacingSystem.setVisible(load.spacingVisible) end)
+        print("[State:load] Restored spacing visibility: " .. tostring(load.spacingVisible))
+    end
+    if load.lodVisible ~= nil and _G.LODSystem and _G.LODSystem.setVisible then
+        pcall(function() _G.LODSystem.setVisible(load.lodVisible) end)
+        print("[State:load] Restored LOD visibility: " .. tostring(load.lodVisible))
+    end
+    -- v3.12.167: Reset runtime state of new systems (morale per-unit cache, LOD cache)
+    -- This is needed because the unit cache references old unit objects that are being re-created
+    if _G.MoraleSystem and _G.MoraleSystem.reset then
+        pcall(function() _G.MoraleSystem.reset() end)
+    end
+    if _G.SpacingSystem and _G.SpacingSystem.reset then
+        pcall(function() _G.SpacingSystem.reset() end)
+    end
+    if _G.LODSystem and _G.LODSystem.reset then
+        pcall(function() _G.LODSystem.reset() end)
     end
     self.scaleX = load.scaleX
     self.viewXview = load.viewXview
