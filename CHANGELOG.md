@@ -2,6 +2,41 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.13.0-rc1] — 2026-08-23 — Release Candidate 1 (vsi asseti končani!)
+
+### 🚀 RC1 Highlights
+
+83 verzij v eni seji (v3.12.149-v3.12.233):
+- ~9300+ novih vrstic kode, 0 bugov
+- 11 novih sistemov
+- 249 pravih PNG assets (vsi AI-generirani)
+- 7 tag-ov na GitHub
+- .love paket: 135 MB (1672 Lua, 1953 PNG)
+
+### Asset sistemi (vsi končani!)
+- Tier 1 sprites: 50/50 (100%)
+- Tier 2 sprites: 100/100 (100%)
+- Tier 3 procedural: 840/840 (100%)
+- HD terrain: 12/12 (100%)
+- HD buildings: 50/50 (100%)
+- HD units: 20/20 (100%)
+- Loading screen: 1/1
+- Main menu bg: 1/1
+- HD UI icons: 17
+
+### Novi sistemi (11)
+1. Combat Morale System (v3.12.156-v3.12.161)
+2. Procedural SFX (v3.12.163-v3.12.164)
+3. Performance LOD System (v3.12.165)
+4. Performance Dashboard (v3.12.166)
+5. Royal Icon Generator + Asset Override (v3.12.152-v3.12.154)
+6. HD Terrain Override (v3.12.207-v3.12.210)
+7. HD Building Override (v3.12.212)
+8. HD Unit Override (v3.12.226)
+9. Beta Test Checklist (v3.12.169)
+10. Auto-build Pipeline (v3.12.170-v3.12.175)
+11. Save/Load Enhancement (v3.12.167)
+
 ## [v3.12.223] — 2026-08-23 — HD Building Sprite Pack Complete (50/50 = 100%!)
 
 ### 🎉 Mejnik: HD Building Sprite Pack Popoln!
