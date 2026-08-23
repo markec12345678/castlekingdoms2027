@@ -17,7 +17,7 @@
 #   - z-ai CLI (for image generation)
 #   - python3 + PIL (for JPEG → PNG conversion)
 
-set -e
+# set -e  # Disabled: we want to continue on individual failures
 
 TIER1_DIR="assets/royal_systems/tier1"
 SCRIPTS_DIR="scripts"
@@ -100,11 +100,25 @@ for sprite_def in "${SPRITES[@]}"; do
     # Check if already exists
     if [ -f "${OUTPUT}" ]; then
         # Check if it's already a proper PNG (not JPEG)
-        HEADER=$(head -c 4 "${OUTPUT}" 2>/dev/null | xxd -p 2>/dev/null | head -c 8)
-        if [ "${HEADER}" = "89504e47" ]; then
+        # PNG header: 89 50 4e 47 (\x89PNG)
+        # JPEG header: ff d8 ff (e0 or e1)
+        HEADER=$(head -c 4 "${OUTPUT}" 2>/dev/null | od -An -tx1 2>/dev/null | tr -d ' \n')
+        if [ "${HEADER:0:8}" = "89504e47" ]; then
             echo "  SKIP ${NAME}.png (already exists as PNG)"
             SKIPPED=$((SKIPPED + 1))
             continue
+        elif [ "${HEADER:0:6}" = "ffd8ff" ]; then
+            # It's a JPEG (despite .png extension) — convert it
+            echo "  CONV ${NAME}.png (JPEG detected, converting to PNG)..."
+            python3 "${SCRIPTS_DIR}/convert_sprites_to_png.py" > /dev/null 2>&1
+            # Verify conversion
+            HEADER=$(head -c 4 "${OUTPUT}" 2>/dev/null | od -An -tx1 2>/dev/null | tr -d ' \n')
+            if [ "${HEADER:0:8}" = "89504e47" ]; then
+                SIZE=$(du -h "${OUTPUT}" | cut -f1)
+                echo "    ✓ ${NAME}.png converted (${SIZE})"
+                SKIPPED=$((SKIPPED + 1))
+                continue
+            fi
         fi
     fi
 
@@ -122,8 +136,8 @@ for sprite_def in "${SPRITES[@]}"; do
         python3 "${SCRIPTS_DIR}/convert_sprites_to_png.py" > /dev/null 2>&1
 
         # Verify it's now a proper PNG
-        HEADER=$(head -c 4 "${OUTPUT}" 2>/dev/null | xxd -p 2>/dev/null | head -c 8)
-        if [ "${HEADER}" = "89504e47" ]; then
+        HEADER=$(head -c 4 "${OUTPUT}" 2>/dev/null | od -An -tx1 2>/dev/null | tr -d ' \n')
+        if [ "${HEADER:0:8}" = "89504e47" ]; then
             SIZE=$(du -h "${OUTPUT}" | cut -f1)
             echo "    ✓ ${NAME}.png (${SIZE})"
             GENERATED=$((GENERATED + 1))
