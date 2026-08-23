@@ -215,6 +215,10 @@ function MoraleSystem.rallyNearbyUnits(x, y, radius, amount)
             end
         end
     end
+    -- v3.12.164: Play rally horn sound (positional)
+    if count > 0 and _G.ProceduralSFX then
+        pcall(function() _G.ProceduralSFX.play("rally_horn", x, y, 0.8) end)
+    end
     -- Show toast notification
     if _G.NotificationCenter and count > 0 then
         pcall(function() _G.NotificationCenter.combat(string.format("Lord rally: %d enot okrepčenih", count)) end)
@@ -537,6 +541,13 @@ local function tickUnit(unit, state, dt)
                 state.originalDiagonalSpeed = unit.diagonalWalkSpeed
                 unit.straightWalkSpeed = unit.straightWalkSpeed * FLEE_SPEED_MULT
                 unit.diagonalWalkSpeed = unit.diagonalWalkSpeed * FLEE_SPEED_MULT
+            end
+            -- v3.12.164: Play flee scream + morale break sounds (positional)
+            if _G.ProceduralSFX and unit.gx and unit.gy then
+                -- Flee scream (the unit panicking)
+                pcall(function() _G.ProceduralSFX.play("flee_scream", unit.gx, unit.gy, 0.6) end)
+                -- Morale break crack (sharp transition sound)
+                pcall(function() _G.ProceduralSFX.play("morale_break", unit.gx, unit.gy, 0.5) end)
             end
             -- Notify game systems
             if _G.NotificationCenter and unit.faction == COMBAT.FACTION_PLAYER then

@@ -434,6 +434,11 @@ function MilitaryAI:orderRetreat(faction, state)
     print(string.format("[MilitaryAI %d] RETREAT ordered: %d units retreating (morale broken)",
         faction, #units))
 
+    -- v3.12.164: Play retreat bell at faction base (army-wide signal)
+    if _G.ProceduralSFX and state.baseGx and state.baseGy then
+        pcall(function() _G.ProceduralSFX.play("retreat_bell", state.baseGx, state.baseGy, 0.7) end)
+    end
+
     -- Notify player if it's an AI faction retreating (visible feedback)
     if _G.NotificationCenter and faction ~= COMBAT.FACTION_PLAYER then
         pcall(function()
