@@ -20,6 +20,7 @@ S.CombatTestScenario = require("objects.Combat.CombatTestScenario")
 S.MoraleSystem = require("objects.Combat.CombatMoraleSystem")  -- v3.12.156
 S.SpacingSystem = require("objects.Combat.CombatSpacingSystem")  -- v3.12.160
 S.ProceduralSFX = require("objects.Audio.ProceduralSFX")  -- v3.12.163
+S.LODSystem = require("objects.Performance.LODSystem")  -- v3.12.165
 S.AnimationSystem = require("objects.Animation.AnimationSystem")
 S.SoundSystem = require("objects.Audio.SoundSystem")
 S.WeatherSystem = require("objects.Weather.WeatherSystem")
@@ -1090,6 +1091,8 @@ local function delayedInit()
     if S.ProceduralSFX and S.ProceduralSFX.init then
         pcall(function() S.ProceduralSFX.init() end)
     end
+    -- v3.12.165: LOD System (performance optimization for 100+ units)
+    _G.LODSystem = S.LODSystem
     -- Castle Kingdoms 2027: Initialize modding & Steam
     S.ModLoader.init()
     S.CustomBuildingLoader.init()
@@ -2417,6 +2420,8 @@ function game:update(dt)
                 if S.MoraleSystem then S.MoraleSystem.update(dt) end
                 -- v3.12.160: Update Combat Spacing System (anti-clustering)
                 if S.SpacingSystem then S.SpacingSystem.update(dt) end
+                -- v3.12.165: Update LOD System (must be before AnimationSystem update)
+                if S.LODSystem then S.LODSystem.update(dt) end
                 -- Castle Kingdoms 2027 v2.8.8: Update Time Manager
                 S.TimeManager.update(dt)
                 -- Castle Kingdoms 2027 v2.8.9: Update Camera Enhancement
@@ -3523,6 +3528,8 @@ function game:draw()
             if S.MoraleSystem then S.MoraleSystem.draw() end
             -- v3.12.160: Draw Combat Spacing debug (off by default)
             if S.SpacingSystem then S.SpacingSystem.draw() end
+            -- v3.12.165: Draw LOD debug (off by default)
+            if S.LODSystem then S.LODSystem.draw() end
             -- Castle Kingdoms 2027: Draw v1.26 QoL visuals
             S.RallyPoint.draw()
             S.BuildingQueue.draw()

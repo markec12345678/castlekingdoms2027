@@ -288,9 +288,15 @@ function AnimationSystem.updateAll(dt)
 
     for _, unit in ipairs(_G.state.gameObjectList) do
         if unit._animationAttached and not unit.toBeDeleted then
-            AnimationSystem.update(unit, dt)
+            -- v3.12.165: LOD check - skip animation update for low-LOD/off-LOD units
+            if _G.LODSystem and not _G.LODSystem.shouldAnimate(unit) then
+                -- Skip animation update for this frame (LOD optimization)
+            else
+                AnimationSystem.update(unit, dt)
+            end
 
             -- Auto-determine animation state based on combat state
+            -- (still runs every frame, but cheap)
             if unit.combatState then
                 local COMBAT = require("objects.Enums.Combat")
                 if unit.combatState == COMBAT.STATE_ATTACKING and unit.animationState ~= "attack" then
