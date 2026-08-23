@@ -56,6 +56,7 @@ local COMMANDS = {
     { cmd = "force_save",       label = "Force save",              desc = "Takojšnje shranjevanje",      key = "—",            icon = "💾" },
     { cmd = "reset_hints",     label = "Reset tutorial hints",     desc = "Ponastavi vse hinte",         key = "—",            icon = "🔄" },
     { cmd = "toggle_morale",   label = "Toggle morale bars",         desc = "Prikaz morale barov nad enotami", key = "Ctrl+Shift+Z", icon = "⚔" },
+    { cmd = "toggle_spacing",  label = "Toggle anti-clustering debug", desc = "Prikaz spacing radiusov v boju (debug)", key = "—",            icon = "🔄" },
 }
 
 -- Execute a command
@@ -85,6 +86,7 @@ local function executeCommand(cmd)
     elseif cmd == "force_save" and _G.AutoSaveSystem then _G.AutoSaveSystem.forceSave()
     elseif cmd == "reset_hints" and _G.TutorialHints then _G.TutorialHints.reset()
     elseif cmd == "toggle_morale" and _G.MoraleSystem then _G.MoraleSystem.toggle()
+    elseif cmd == "toggle_spacing" and _G.SpacingSystem then _G.SpacingSystem.toggle()
     end
     UISound.playSuccess()
     CommandPalette.toggle()
