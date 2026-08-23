@@ -184,6 +184,14 @@ function AIIntegration.printDebugInfo()
         if info.military then
             print(string.format("  Military formation: %s, queue: %d", info.military.formation, info.military.productionQueueSize))
         end
+        -- v3.12.157: Print morale info per faction
+        if MilitaryAI.getFactionMoraleState then
+            local morale = MilitaryAI:getFactionMoraleState(info.faction)
+            if morale.unitCount > 0 then
+                print(string.format("  Morale: %s (%.0f/100, %d/%d fleeing)",
+                    morale.state, morale.avgMorale, morale.fleeingCount, morale.unitCount))
+            end
+        end
     end
     print("===================\n")
 end

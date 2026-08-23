@@ -184,6 +184,7 @@ function MilitaryAI:hasProductionBuilding(faction, unitType)
 end
 
 -- Evaluate tactical situation
+-- v3.12.157: Now considers faction-wide morale when making decisions
 function MilitaryAI:evaluateTacticalSituation(faction, state)
     -- Count friendly vs nearby enemy units
     local friendlyCount = 0
@@ -206,15 +207,302 @@ function MilitaryAI:evaluateTacticalSituation(faction, state)
         end
     end
 
+    -- v3.12.157: Get faction-wide morale state
+    local myMorale = self:getFactionMoraleState(faction)
+    local enemyMorale = self:getFactionMoraleState(self:findStrongestEnemyFaction(faction))
+
+    -- v3.12.157: Priority 1 - If our morale is BROKEN, retreat immediately
+    if myMorale.state == "broken" and friendlyCount > 0 then
+        self:orderRetreat(faction, state)
+        return
+    end
+
+    -- v3.12.157: Priority 2 - If enemy is broken, pursue aggressively (press advantage)
+    if enemyMorale.state == "broken" and enemyCount > 0 then
+        self:orderPursuit(faction, state)
+        return
+    end
+
+    -- v3.12.157: Priority 3 - If our morale is shaken, hold position (don't attack)
+    if myMorale.state == "shaken" then
+        -- Defensive only - don't initiate new attacks
+        if #threats > 0 then
+            self:orderDefense(faction, state, threats)
+        end
+        return
+    end
+
+    -- v3.12.157: Priority 4 - If enemy is wavering/shaken, attack more aggressively
+    -- (lower the threshold for attack)
+    local attackThreshold = 8
+    if enemyMorale.state == "wavering" then
+        attackThreshold = 5  -- Press when enemy wavering
+    elseif enemyMorale.state == "shaken" then
+        attackThreshold = 3  -- Press harder
+    end
+
     -- Decide on action
     if #threats > 0 then
         -- Under threat, defend
         self:orderDefense(faction, state, threats)
-    elseif friendlyCount >= 8 and enemyCount > 0 then
+    elseif friendlyCount >= attackThreshold and enemyCount > 0 then
         -- Strong enough to attack
         if love.timer.getTime() - state.lastAttack > 120 then  -- 2 min cooldown
             self:orderAttack(faction, state)
         end
+    end
+end
+
+-- v3.12.157: Get average morale for a faction (0-100)
+-- @param faction number Faction ID
+-- @return number Average morale (0-100), or 100 if no units
+function MilitaryAI:getFactionMorale(faction)
+    if not _G.MoraleSystem then return 100 end
+    if not _G.state or not _G.state.gameObjectList then return 100 end
+
+    local totalMorale = 0
+    local unitCount = 0
+    for _, unit in ipairs(_G.state.gameObjectList) do
+        if unit.faction == faction and unit._combatAttached
+            and unit.health and unit.health > 0
+            and not unit.toBeDeleted then
+            totalMorale = totalMorale + (_G.MoraleSystem.getMorale(unit) or 100)
+            unitCount = unitCount + 1
+        end
+    end
+
+    if unitCount == 0 then return 100 end
+    return totalMorale / unitCount
+end
+
+-- v3.12.157: Get faction morale as discrete state
+-- @param faction number Faction ID
+-- @return table { state = "high"/"wavering"/"shaken"/"breaking"/"broken", avgMorale = number, fleeingCount = number, unitCount = number }
+function MilitaryAI:getFactionMoraleState(faction)
+    if not _G.MoraleSystem then
+        return { state = "high", avgMorale = 100, fleeingCount = 0, unitCount = 0 }
+    end
+    if not _G.state or not _G.state.gameObjectList then
+        return { state = "high", avgMorale = 100, fleeingCount = 0, unitCount = 0 }
+    end
+
+    local totalMorale = 0
+    local unitCount = 0
+    local fleeingCount = 0
+    for _, unit in ipairs(_G.state.gameObjectList) do
+        if unit.faction == faction and unit._combatAttached
+            and unit.health and unit.health > 0
+            and not unit.toBeDeleted then
+            totalMorale = totalMorale + (_G.MoraleSystem.getMorale(unit) or 100)
+            unitCount = unitCount + 1
+            if _G.MoraleSystem.isFleeing(unit) then
+                fleeingCount = fleeingCount + 1
+            end
+        end
+    end
+
+    if unitCount == 0 then
+        return { state = "high", avgMorale = 100, fleeingCount = 0, unitCount = 0 }
+    end
+
+    local avg = totalMorale / unitCount
+    local fleeingRatio = fleeingCount / unitCount
+    local stateName
+    -- State is determined by the worse of: avg morale OR fleeing ratio
+    if avg < 10 or fleeingRatio > 0.5 then
+        stateName = "broken"
+    elseif avg < 25 or fleeingRatio > 0.25 then
+        stateName = "breaking"
+    elseif avg < 50 then
+        stateName = "shaken"
+    elseif avg < 75 then
+        stateName = "wavering"
+    else
+        stateName = "high"
+    end
+
+    return {
+        state = stateName,
+        avgMorale = avg,
+        fleeingCount = fleeingCount,
+        unitCount = unitCount,
+    }
+end
+
+-- v3.12.157: Find the strongest enemy faction (by unit count)
+-- @param faction number Our faction ID
+-- @return number|nil Strongest enemy faction ID
+function MilitaryAI:findStrongestEnemyFaction(faction)
+    if not _G.state or not _G.state.gameObjectList then return nil end
+
+    local factionCounts = {}
+    for _, unit in ipairs(_G.state.gameObjectList) do
+        if unit._combatAttached and unit.faction and unit.faction ~= faction
+            and unit.faction ~= COMBAT.FACTION_NEUTRAL
+            and unit.health and unit.health > 0 then
+            factionCounts[unit.faction] = (factionCounts[unit.faction] or 0) + 1
+        end
+    end
+
+    local maxFaction = nil
+    local maxCount = 0
+    for f, count in pairs(factionCounts) do
+        if count > maxCount then
+            maxCount = count
+            maxFaction = f
+        end
+    end
+
+    return maxFaction
+end
+
+-- v3.12.157: Order all military units to retreat to base
+-- Triggered when faction morale is broken (50%+ fleeing or avg morale < 10)
+-- @param faction number Faction ID
+-- @param state table Faction state
+function MilitaryAI:orderRetreat(faction, state)
+    local units = self:getMilitaryUnits(faction)
+    if #units == 0 then return end
+
+    -- Get faction base position
+    local baseGx, baseGy = 50, 50  -- Default fallback
+    if state.baseGx then baseGx, baseGy = state.baseGx, state.baseGy end
+
+    -- Find safest direction (away from enemies)
+    local avgEnemyX, avgEnemyY, enemyCount = 0, 0, 0
+    if _G.state and _G.state.gameObjectList then
+        for _, unit in ipairs(units) do
+            -- Find nearest enemy to this unit
+            local nearestEnemy = nil
+            local nearestDist = math.huge
+            for _, obj in ipairs(_G.state.gameObjectList) do
+                if obj._combatAttached and obj.faction and obj.faction ~= faction
+                    and obj.faction ~= COMBAT.FACTION_NEUTRAL
+                    and obj.health and obj.health > 0
+                    and obj.gx and obj.gy and unit.gx and unit.gy then
+                    local dx = obj.gx - unit.gx
+                    local dy = obj.gy - unit.gy
+                    local d = dx * dx + dy * dy
+                    if d < nearestDist then
+                        nearestDist = d
+                        nearestEnemy = obj
+                    end
+                end
+            end
+            if nearestEnemy then
+                avgEnemyX = avgEnemyX + nearestEnemy.gx
+                avgEnemyY = avgEnemyY + nearestEnemy.gy
+                enemyCount = enemyCount + 1
+            end
+        end
+    end
+
+    -- Order each unit to move AWAY from average enemy position, towards base
+    for _, unit in ipairs(units) do
+        -- Calculate retreat target: opposite direction from enemies, towards base
+        local targetX, targetY = baseGx, baseGy
+        if enemyCount > 0 and unit.gx and unit.gy then
+            local enemyAvgX = avgEnemyX / enemyCount
+            local enemyAvgY = avgEnemyY / enemyCount
+            -- Direction from enemy to unit (away from enemy)
+            local dx = unit.gx - enemyAvgX
+            local dy = unit.gy - enemyAvgY
+            local len = math.sqrt(dx * dx + dy * dy)
+            if len > 0 then
+                -- Move 15 tiles in the away direction
+                targetX = unit.gx + (dx / len) * 15
+                targetY = unit.gy + (dy / len) * 15
+                -- Blend with base direction (50% away from enemy, 50% towards base)
+                targetX = (targetX + baseGx) / 2
+                targetY = (targetY + baseGy) / 2
+            end
+        end
+
+        -- Clear current target, mark as retreating
+        unit.target = nil
+        if unit.combatState then
+            unit.combatState = COMBAT.STATE_RETREATING
+        end
+
+        -- Issue move order
+        if unit.gotoUserWaypoint then
+            unit:gotoUserWaypoint(math.floor(targetX), math.floor(targetY), nil, nil)
+        end
+    end
+
+    state.lastRetreat = love.timer.getTime()
+    print(string.format("[MilitaryAI %d] RETREAT ordered: %d units retreating (morale broken)",
+        faction, #units))
+
+    -- Notify player if it's an AI faction retreating (visible feedback)
+    if _G.NotificationCenter and faction ~= COMBAT.FACTION_PLAYER then
+        pcall(function()
+            _G.NotificationCenter.combat(string.format(" Sovražnik se umika! (%d enot)", #units))
+        end)
+    end
+end
+
+-- v3.12.157: Order aggressive pursuit of fleeing enemy
+-- Triggered when enemy morale is broken (50%+ fleeing or avg morale < 10)
+-- @param faction number Faction ID
+-- @param state table Faction state
+function MilitaryAI:orderPursuit(faction, state)
+    if not _G.MoraleSystem then return end
+    if not _G.state or not _G.state.gameObjectList then return end
+
+    -- Find all fleeing enemy units
+    local fleeingEnemies = {}
+    for _, unit in ipairs(_G.state.gameObjectList) do
+        if unit._combatAttached and unit.faction and unit.faction ~= faction
+            and unit.faction ~= COMBAT.FACTION_NEUTRAL
+            and unit.health and unit.health > 0
+            and not unit.toBeDeleted
+            and _G.MoraleSystem.isFleeing(unit) then
+            table.insert(fleeingEnemies, unit)
+        end
+    end
+
+    if #fleeingEnemies == 0 then return end
+
+    -- Order each friendly unit to chase nearest fleeing enemy
+    local units = self:getMilitaryUnits(faction)
+    if #units == 0 then return end
+
+    local pursuitCount = 0
+    for _, unit in ipairs(units) do
+        -- Find nearest fleeing enemy
+        local nearestFleeing = nil
+        local nearestDist = math.huge
+        if unit.gx and unit.gy then
+            for _, enemy in ipairs(fleeingEnemies) do
+                if enemy.gx and enemy.gy then
+                    local dx = enemy.gx - unit.gx
+                    local dy = enemy.gy - unit.gy
+                    local d = dx * dx + dy * dy
+                    if d < nearestDist then
+                        nearestDist = d
+                        nearestFleeing = enemy
+                    end
+                end
+            end
+        end
+
+        -- Issue attack order on fleeing enemy (fleeing units can't fight back effectively)
+        if nearestFleeing and (unit.combatState == COMBAT.STATE_IDLE
+            or unit.combatState == COMBAT.STATE_AGGRO) then
+            unit.target = nearestFleeing
+            unit.combatState = COMBAT.STATE_AGGRO
+            if unit.gotoUserWaypoint and nearestFleeing.gx and nearestFleeing.gy then
+                unit:gotoUserWaypoint(nearestFleeing.gx, nearestFleeing.gy, nil, nil)
+            end
+            pursuitCount = pursuitCount + 1
+        end
+    end
+
+    state.lastPursuit = love.timer.getTime()
+    if pursuitCount > 0 then
+        print(string.format("[MilitaryAI %d] PURSUIT ordered: %d units chasing %d fleeing enemies",
+            faction, pursuitCount, #fleeingEnemies))
     end
 end
 
