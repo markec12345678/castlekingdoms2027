@@ -2,7 +2,7 @@
 
 > Ta dokument spremlja napredek projekta in določa kratkoročne ter dolgoročne cilje.
 
-Zadnja posodobitev: **2026-08-22** (v3.12.132)
+Zadnja posodobitev: **2026-08-22** (v3.12.149)
 
 ---
 
@@ -36,6 +36,16 @@ Zadnja posodobitev: **2026-08-22** (v3.12.132)
 | Modern Achievement Panel | ✅ Končano | v3.12.128 |
 | Statistics Panel | ✅ Končano | v3.12.129 |
 | Tutorial Manager System | ✅ Končano | v3.12.132 |
+| Difficulty Settings System | ✅ Končano | v3.12.133-v3.12.138 (5 stopenj + 11 modifierjev) |
+| Game Speed Control Upgrade | ✅ Končano | v3.12.139 |
+| Save/Load Enhancement | ✅ Končano | v3.12.140-v3.12.141 |
+| Minimap HUD Widget | ✅ Končano | v3.12.142 |
+| Help Overlay System | ✅ Končano | v3.12.143 |
+| Keyboard Shortcut Editor | ✅ Končano | v3.12.144 |
+| Unified Settings Panel | ✅ Končano | v3.12.145 |
+| Color Theme System (6 tem) | ✅ Končano | v3.12.146 |
+| Event Log Panel + Integration | ✅ Končano | v3.12.147-v3.12.148 |
+| Command Palette | ✅ Končano | v3.12.149 |
 | HD asseti | ⏳ Načrtovano | - |
 | Steam/GOG izid | ⏳ Načrtovano | - |
 
@@ -77,26 +87,39 @@ Zadnja posodobitev: **2026-08-22** (v3.12.132)
 - [x] Setup Sentry crash reporting (ločen od upstream)
 - [x] 155 bug popravkov v 90 krogih pregleda
 
-### ✅ Faza 3: Izboljšave UI/UX (končano 2026-08-22)
+### ✅ Faza 3: Izboljšave UI/UX (končano 2026-08-22, razširjeno v v3.12.149)
 - [x] Modernizacija menijev — KeybindHelp (F1), KeybindHelpOSNOVNO kategorija
 - [x] Boljši tooltips — Royal Systems Panel hover, Tech Tree hover preview graf, Achievement hover
 - [x] Configurable hotkeys UI — F1 keybind help z 50+ tipkami organiziranimi po kategorijah
 - [x] Slovenski govori (po potrebi) — SlovenianVoiceOver modul
-- [x] Modern UI panels (10 skupaj):
+- [x] Modern UI panels (11+ skupaj):
   - **Ctrl+Shift+G** Tech Tree graf (891 deps, 165 verig, 786 multi-prereq, minimap, search, depth, arrows, sort, filter, bookmarks, multi-select, presets, export/import, keyboard nav)
   - **Ctrl+R** Royal Systems Panel (990 sistemov, search, sort, categories, production chart, leaderboard)
   - **Ctrl+K** Market Dashboard (cene, prodaja, trendi, dogodki, comparison, leaderboard, event log)
   - **Ctrl+U** Auto-Save Panel (status, interval, force save, slider)
-  - **Ctrl+Shift+A** Modern Achievement Panel (26 dosežkov, 6 kategorij, rarity barve, progress bari)
-  - **Ctrl+Shift+I** Statistics Panel (4 zavihki: Pregled, Proizvodnja, Trg, Lestvice — z grafi)
+  - **Ctrl+Shift+A** Modern Achievement Panel (37 dosežkov, 6 kategorij, rarity barve, progress bari)
+  - **Ctrl+Shift+I** Statistics Panel (5 zavihkov: Pregled, Proizvodnja, Trg, Lestvice, Boj — z grafi)
   - **Ctrl+Shift+O** Tutorial Manager (30 hintov, 3 filtri, persistenca, toggle on/off)
+  - **Ctrl+Shift+F** Difficulty Panel (5 stopenj, 11 modifierjev, ROADMAP sync)
+  - **Ctrl+Shift+E** Unified Settings (4 zavihki: Igra, UI, Prikaz, Igralec)
+  - **Ctrl+Shift+K** Keyboard Shortcut Editor (customizacija tipk z persistenco)
+  - **Ctrl+Shift+L** Event Log Panel (centralni dnevnik z 6 kategorijami)
+  - **Ctrl+Space** Command Palette (hitri iskalni meni, 23 ukazov)
   - **N** Toast History Panel (zadnjih 100 obvestil, scrollable, filter)
-  - **F1** Keybind Help (50+ tipk po kategorijah, search, scroll)
+  - **F1** Keybind Help (50+ tipk po kategorijah, search, scroll, click-to-open)
   - Auto-Save Status Overlay (always-on HUD, drag-to-move, opacity, hide/show)
+  - Minimap HUD Widget (always-on, click-to-navigate)
+  - Help Overlay (kontekstualna pomoč, 15 tips, H toggle)
 - [x] UI Sound Effects System (F2 toggle, 14 semantičnih funkcij, 9 novih zvokov)
 - [x] UI Panel Animations (fade-in/out + slide za vse panele)
 - [x] Toast Notification System (animirana obvestila z slide-in/out, click-to-dismiss)
 - [x] Tutorial Manager System (30 hintov z persistenco med sejami)
+- [x] Difficulty Settings System (5 stopenj + 11 modifierjev, vsi aplicirani)
+- [x] Color Theme System (6 tem z persistenco, Ctrl+Shift+J cycle)
+- [x] Event Log Panel + Integration (5 sistemov povezanih, centralni dnevnik)
+- [x] Keyboard Shortcut Editor (customizacija tipk z persistenco)
+- [x] Unified Settings Panel (vse nastavitve na enem mestu)
+- [x] Command Palette (hitri iskalni meni Ctrl+Space, 23 ukazov)
 
 ### ✅ Faza 4: HD grafika (delno končano 2026-08-22)
 - [x] HD Shaderji (12 GLSL: bloom, blur, color_grading, etc.)
@@ -203,10 +226,27 @@ Zadnja posodobitev: **2026-08-22** (v3.12.132)
 
 ---
 
-## 📦 Nedavne nadgradnje (v3.12.125-v3.12.132)
+## 📦 Nedavne nadgradnje (v3.12.125-v3.12.149)
 
 | Verzija | Datum | Funkcionalnost |
 |---------|-------|----------------|
+| v3.12.149 | 2026-08-22 | Command Palette (hitri iskalni meni Ctrl+Space, 23 ukazov v 2 kategorijah) |
+| v3.12.148 | 2026-08-22 | Event Log Integration (5 sistemov povezanih z EventLogPanel) |
+| v3.12.147 | 2026-08-22 | Event Log Panel (centralni dnevnik dogodkov z filtriranjem, Ctrl+Shift+L) |
+| v3.12.146 | 2026-08-22 | Color Theme System (6 tem z persistenco, Ctrl+Shift+J cycle) |
+| v3.12.145 | 2026-08-22 | Unified Settings Panel (vse nastavitve na enem mestu, Ctrl+Shift+E) |
+| v3.12.144 | 2026-08-22 | Keyboard Shortcut Editor (customizacija tipk z persistenco, Ctrl+Shift+K) |
+| v3.12.143 | 2026-08-22 | Help Overlay System (kontekstualna pomoč + 15 tips, H toggle) |
+| v3.12.142 | 2026-08-22 | Minimap HUD Widget (vedno-viden minimap z click-to-navigate) |
+| v3.12.141 | 2026-08-22 | Load State Restoration (obnovitev težavnosti/hitrosti/dosežkov ob loadu) |
+| v3.12.140 | 2026-08-22 | Save/Load Enhancement (difficulty + speed + combat + achievements v save) |
+| v3.12.139 | 2026-08-22 | Game Speed Control Upgrade (persistenca + zvok + toast + modern UI) |
+| v3.12.138 | 2026-08-22 | Final Difficulty Hooks (3 preostali modifierji + 2 dosežki - 100% integracija) |
+| v3.12.137 | 2026-08-22 | AI Aggression Hook (peaceful = no AI attacks + difficulty display) |
+| v3.12.136 | 2026-08-22 | Stats Panel Combat Tab (5. zavihek z grafi in milestone dosežki) |
+| v3.12.135 | 2026-08-22 | Combat Difficulty Hooks (3 modifierji v combat + kill tracking + 3 dosežki) |
+| v3.12.134 | 2026-08-22 | Difficulty Hooks Expansion (6 novih dosežkov + 3 modifierji aplicirani) |
+| v3.12.133 | 2026-08-22 | Difficulty Settings System (5 stopenj + Ctrl+Shift+F panel + ROADMAP sync) |
 | v3.12.132 | 2026-08-22 | Tutorial Manager System (persistenca + 13 novih hintov + Ctrl+Shift+O panel) |
 | v3.12.131 | 2026-08-22 | Particle Effects System (konfeti, iskre, zlato, screen shake + flash) |
 | v3.12.130 | 2026-08-22 | UI Sound Effects System (zvok za vse panele + F2 toggle) |
@@ -240,7 +280,7 @@ Zadnja posodobitev: **2026-08-22** (v3.12.132)
 ## 📚 Povezani dokumenti
 
 - [README.md](README.md) — glavna dokumentacija
-- [CHANGELOG.md](CHANGELOG.md) — zgodovina sprememb (v3.12.132)
+- [CHANGELOG.md](CHANGELOG.md) — zgodovina sprememb (v3.12.149)
 - [NEXT_BATCH_HANDOFF.md](NEXT_BATCH_HANDOFF.md) — handoff za naslednjo sejo
 - [KEYBINDS.md](KEYBINDS.md) — seznam vseh tipkovnih bližnjic
 - [CONTRIBUTING.md](CONTRIBUTING.md) — vodič za sodelovanje

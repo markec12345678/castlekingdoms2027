@@ -1,7 +1,7 @@
 # Castle Kingdoms 2027 - Project Summary
 
 > Končni povzetek projekta pred prehodom v asset/testing fazo.
-> Datum: 2026-08-01 | Verzija: v1.6.0-final
+> Datum: 2026-08-22 | Verzija: **v3.12.149**
 
 ---
 
@@ -9,16 +9,27 @@
 
 | Metric | Vrednost |
 |--------|----------|
-| Skupne Lua datoteke | 301 |
-| Vrstic kode | ~220,000 |
+| Skupne Lua datoteke | 1664 |
+| Vrstic kode | ~495.000 |
+| GLSL shaderji | 12 |
 | Kenney CC0 datoteke | 831 (14 MB) |
 | Git tag-ov | 39 |
-| Git vej | 20+ |
+| Git vej | 35+ |
 | Test preverjanj | 343 (100% pass) |
 | Nil-safety warnings | 0 |
-| Jeziki | 16 (popolni prevodi) |
-| Dokumentacija | 17 .md datotek |
-| GitHub Releases | 5 (.love paketi) |
+| Jeziki | 32 |
+| Dokumentacija | 17+ .md datotek |
+| GitHub Releases | 5+ (.love paketi) |
+| Royal sistemov | 990 (v3.11.382-v3.11.971) |
+| Royal Tech Tree | 891 deps · 165 verig · 786 multi-prereq (98.25x) |
+| Dosežki | 37 |
+| Tutorial hinti | 30 |
+| UI paneli | 14+ modernih |
+| Barvne teme | 6 |
+| Težavnostne stopnje | 5 (peaceful/easy/normal/hard/brutal) |
+| Game speed stopnje | 5 |
+| Persistence datoteke | 20+ |
+| Verzij od v1.7.9 | 146+
 
 ---
 
@@ -29,8 +40,15 @@ Open source medieval castle RTS - modernized fork of Stone Kingdoms z:
 - 4 AI osebnosti z defense response in adaptation
 - Dinamično ekonomijo z 20 surovinami, 4 letni časi, 10 eventov
 - Combat z game feel (screen shake, hit flash, punch zoom, combat lines)
-- 16 jezikov
+- 32 jezikov
 - Modding API
+- 990 Royal sistemov v povezovanem ekosistemu
+- 14+ modernih UI panelov z animacijami in persistenco
+- 6 barvnih tem
+- 5 stopenj težavnosti z 11 modifierji
+- Centralni event log z 6 kategorijami
+- Command palette za hitri dostop do vseh funkcij
+- Keyboard shortcut editor za customizacijo
 
 ---
 
@@ -90,16 +108,28 @@ Open source medieval castle RTS - modernized fork of Stone Kingdoms z:
 - Music state machine (explore, combat, victory, defeat)
 - Auto-adjust ambients
 
-### UI/UX (95%)
-- Settings panel (V key, 3 tabi, 17 nastavitev, tooltips, reset)
-- Settings persistence (settings.json)
-- Keybind help (H key, 25+ bližnjic)
+### UI/UX (98%)
+- Modern settings panel (Ctrl+Shift+E, 4 zavihki: Igra, UI, Prikaz, Igralec)
+- Settings persistence (20+ persisted datotek)
+- Keybind help (F1, 50+ bližnjic, search, click-to-open)
+- Keyboard Shortcut Editor (Ctrl+Shift+K, customizacija z persistenco)
 - Mission end screen
 - Credits screen
-- Tutorial hints (12 kontekstualnih)
+- Tutorial manager (Ctrl+Shift+O, 30 hintov z persistenco)
 - Performance overlay (F3, 25+ sekcij)
 - Season info widget
-- Economic event log
+- Economic event log (Ctrl+Shift+L, 6 kategorij, 5 integriranih sistemov)
+- Toast notification system (N, animirana obvestila)
+- Color theme system (Ctrl+Shift+J, 6 tem z persistenco)
+- Command palette (Ctrl+Space, 23 ukazov v 2 kategorijah)
+- Minimap HUD widget (vedno-viden, click-to-navigate)
+- Help overlay (H, kontekstualna pomoč + 15 tips)
+- UI sound effects (F2 toggle, 14 semantičnih funkcij)
+- UI panel animations (fade-in/out + slide za vse panele)
+- Particle effects (konfeti, iskre, zlato, screen shake, flash)
+- Difficulty panel (Ctrl+Shift+F, 5 stopenj z 11 modifierji)
+- Game speed control (Space/1-4, 5 hitrosti z persistenco)
+- Auto-save panel + overlay (Ctrl+U, drag-to-move, opacity)
 
 ### CC0 Assets (100%)
 - 831 Kenney CC0 datotek (14 MB)
@@ -121,7 +151,7 @@ Open source medieval castle RTS - modernized fork of Stone Kingdoms z:
 - Modding API (alpha)
 
 ### Localization (100%)
-- 16 jezikov: SLV, SRP, ELL, BUL, MKD, LIT, LAV, ENG, DEU, FRA, ITA, POL, POR, RUS, UKR, HUN
+- 32 jezikov: SLV, SRP, ELL, BUL, MKD, LIT, LAV, ENG, DEU, FRA, ITA, POL, POR, RUS, UKR, HUN, + 16 dodatnih
 - Misije, zgradbe, skupine, obroki, davki, nastavitve, nasveti, UI, enote, surovine, meseci
 
 ---
@@ -163,7 +193,7 @@ Open source medieval castle RTS - modernized fork of Stone Kingdoms z:
 
 ---
 
-## 🗓️ Razvojna zgodovina (39 releasov)
+## 🗓️ Razvojna zgodovina (146+ verzij)
 
 | Verzija | Mejnik |
 |---------|--------|
@@ -181,5 +211,24 @@ Open source medieval castle RTS - modernized fork of Stone Kingdoms z:
 | v1.5.0 | Asset Migration Plan |
 | v1.5.3 | Kenney CC0 Rendering |
 | v1.6.0 | Final documentation |
+| v3.11.382 | Royal Systems Registry + UI Panel |
+| v3.11.971 | Vsi 990 Royal sistemov končani |
+| v3.12.107 | Tech Tree MAKERS COMPLETE (98.25x) |
+| v3.12.127 | Toast Notification System |
+| v3.12.128 | Modern Achievement Panel |
+| v3.12.129 | Statistics Panel |
+| v3.12.130 | UI Sound Effects System |
+| v3.12.131 | Particle Effects System |
+| v3.12.132 | Tutorial Manager System |
+| v3.12.133 | Difficulty Settings System (5 stopenj) |
+| v3.12.139 | Game Speed Control Upgrade |
+| v3.12.140-v3.12.141 | Save/Load Enhancement + Load State Restoration |
+| v3.12.142 | Minimap HUD Widget |
+| v3.12.143 | Help Overlay System |
+| v3.12.144 | Keyboard Shortcut Editor |
+| v3.12.145 | Unified Settings Panel |
+| v3.12.146 | Color Theme System (6 tem) |
+| v3.12.147-v3.12.148 | Event Log Panel + Integration |
+| v3.12.149 | Command Palette (Ctrl+Space) |
 
-**Projekt je feature complete. Naslednja faza: asset creation + testing.**
+**Faza 1-5 končana. Naslednja faza: HD asseti + beta testiranje + Steam/GOG priprava.**

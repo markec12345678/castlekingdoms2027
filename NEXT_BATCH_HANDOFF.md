@@ -1,20 +1,24 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.12.143**
+- Različica: **v3.12.149**
 - Skupaj Royal sistemov: **990**
-- Skupaj Lua datotek: **1658** (+1: help_overlay.lua)
-- Sintaktična preverba (avtentična Lua `load()`): **1658/1658 pass (100%)**
+- Skupaj Lua datotek: **1664** (+6 od v3.12.143: command_palette, event_log_panel, color_theme, unified_settings, keyboard_shortcut_editor, help_overlay — v3.12.143 je imel 1658)
+- Sintaktična preverba (avtentična Lua `load()`): **1664/1664 pass (100%)**
 - Tech Tree: **891 deps · 165 verig · 786 multi-prereq** (98.25x zažetnih 8!)
 - Dosežki: **37 skupaj** — dostop z Ctrl+Shift+A
 - Tutorial hinti: **30 skupaj** — dostop z Ctrl+Shift+O
-- UI Paneli: **11 skupaj** + UI Sound + Particle Effects + Difficulty + Game Speed + Minimap HUD + Help Overlay
+- UI Paneli: **14+ skupaj** (Tech Tree, Royal Systems, Market, Auto-Save, Achievements, Statistics, Tutorial, Difficulty, Keybind Editor, Unified Settings, Event Log, Command Palette, Toast History, Keybind Help) + UI Sound + Particle Effects + Color Theme + Game Speed + Minimap HUD + Help Overlay
 - Težavnost: **5 stopenj** z **11 modifierji — VSI APLICIRANI** — dostop z Ctrl+Shift+F
 - Game Speed: **5 hitrosti** — Space/1-4
 - Save/Load: **popoln cikel** — save shrani, load obnovi
+- Color Theme: **6 tem** — Ctrl+Shift+J cycle z persistenco
+- Event Log: **centralni dnevnik** — Ctrl+Shift+L z 6 kategorijami in 5 integriranimi sistemi
+- Command Palette: **hitri iskalni meni** — Ctrl+Space z 23 ukazi
+- Keyboard Shortcut Editor: **customizacija tipk** — Ctrl+Shift+K z persistenco
 - Minimap: **vedno-viden HUD** z click-to-navigate
 - Help Overlay: **kontekstualna pomoč + 15 tips** — H toggle
-- Zadnji paket: **v3.12.143 — Help Overlay System** (kontekstualna pomoč + tips of the day + H toggle)
+- Zadnji paket: **v3.12.149 — Command Palette** (hitri iskalni meni Ctrl+Space, 23 ukazov)
 - GitHub: pripravljen za push
 - Lokalni repo (sandbox): `/home/workdir/castlekingdoms2027`
 

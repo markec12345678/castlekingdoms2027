@@ -2,6 +2,205 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.149] — 2026-08-22 — Command Palette (hitri iskalni meni Ctrl+Space!)
+
+### Dodano
+- **`states/ui/hud/command_palette.lua`** — nov modul (~260 vrstic) z hitrim iskalnim menijem:
+  - **Realnočasovno iskanje** — tipka za iskanje, rezultati se filtrirajo z vsakim znakom
+  - **↑↓ navigacija** — puščice ali W/S za navigacijo po rezultatih
+  - **ENTER** — izvedi izbrani ukaz
+  - **ESC** — zapri panel
+  - **Click na rezultat** — izvedi ukaz z miško
+  - **Cursor blink** v search boxu
+  - **Max 10 rezultatov** prikazanih hkrati (čist interface)
+  - **23 ukazov v 2 kategorijah**:
+    - **PANELI (13)**: Tech Tree, Royal Systems, Market, Auto-Save, Achievements, Statistics, Tutorial Manager, Difficulty, Keybind Editor, Unified Settings, Event Log, Keybind Help, Toast History
+    - **AKCIJE (10)**: Cycle Theme, Toggle UI SFX, Toggle Help, Toggle Pause, Speed 1x/2x/3x, Screenshot, Force Save, Reset Hints
+  - Vsak ukaz prikazuje: **ikono, label, opis, keybind hint**
+  - Izbrani rezultat ima poudarjeno ozadje
+  - Lighter dim (0.4) kot paneli (0.65) za nevsiljiv izgled
+  - Toggle: **Ctrl+Space**
+
+### Spremenjeno
+- **`states/game.lua`** — integracija CommandPalette:
+  - `local CommandPalette = require(...)` na vrhu
+  - `CommandPalette.update(dt)` v update bloku
+  - `CommandPalette.draw()` v draw bloku
+  - `CommandPalette.keypressed(key)` v keypressed handlerju
+- **`states/ui/hud/keybind_help.lua`** — dodan Ctrl+Space vnos v OSNOVNO kategorijo
+
+### Tehnične podrobnosti
+- Search filter je case-insensitive
+- Rezultati so razvrščeni: najprej tisti kjer query matches na začetku labela, potem tisti kjer query je v opisu
+- Hover in select sta ločena stanja (miška in keyboard ne motita drug drugega)
+- Action history (zadnjih 5 izvedenih ukazov prikazanih na dnu)
+- Click izven search box/zadnje rezultate = zapri (ESC behavior)
+- Vsaka akcija vrne toast notification ob izvedi
+
+## [v3.12.148] — 2026-08-22 — Event Log Integration (5 sistemov povezanih z EventLogPanel!)
+
+### Dodano
+- Event Log Integration povezuje 5 ključnih sistemov z EventLogPanel (v3.12.147):
+  1. **AchievementTracker** — logira vsak odklenjen dosežek (label, rarity, timestamp)
+  2. **AutoSaveEnhancer** — logira vsak save (interval, force, crash backup)
+  3. **DifficultySettings** — logira vsako spremembo težavnosti (old → new, modifierji)
+  4. **GameSpeedControl** — logira spremembe hitrosti (old → new)
+  5. **DynamicMarket** — logira market events (crash, surge, season, manual)
+
+### Spremenjeno
+- Vsi 5 sistemov dobljajo `EventLogPanel.log(category, message, data)` klic na ključnih dogodkih
+- Vsaka integracija je neobvezna (pcall zaščita — če EventLogPanel ne obstaja, sistem še vedno deluje)
+- Data polje je optional in se pretty-printa v detail panelu
+
+### Tehnične podrobnosti
+- Event Log shranjuje do 1000 zadnjih dogodkov v ring buffer
+- Starejši dogodki se samodejno brišejo (FIFO)
+- Vsak dogodek ima: timestamp, category (color-coded), message, optional data
+- Filtriranje po kategoriji (1-5 številke za hitrejši dostop)
+- Search čez message in data
+- Export v JSON (Ctrl+E v panelu)
+
+## [v3.12.147] — 2026-08-22 — Event Log Panel (centralni dnevnik dogodkov z filtriranjem!)
+
+### Dodano
+- **`states/ui/hud/event_log_panel.lua`** — nov modul (~280 vrstic) z centralnim dnevnikom:
+  - **Centralni dnevnik VSEH game dogodkov** na enem mestu
+  - **6 kategorij z barvami**:
+    - 🟢 **SUCCESS** — dosežki, level up, save completed
+    - 🔵 **INFO** — info sporočila, market events, save started
+    - 🟡 **WARNING** — nizko zlato, nizka hrana, low population
+    - 🟠 **DANGER** — AI napad, unit death, building destroyed
+    - 🔴 **ERROR** — crash, save failed, load failed
+    - ⚪ **DEBUG** — debug info, performance warnings
+  - **Search filter** — tipkaj za iskanje čez message in data
+  - **Kategorije filter** — 1-6 številke za hitri toggle kategorije
+  - **Scroll** — Wheel, ↑↓, PgUp/PgDn, Home/End
+  - **Click na entry** — prikaže podrobnosti (data JSON v tooltipu)
+  - **Export v JSON** — Ctrl+E izvozi vse dogodke v datoteko
+  - **Persistenca** — zadnjih 100 dogodkov preživi restart (event_log_persistence.txt)
+  - Toggle: **Ctrl+Shift+L**
+
+### Spremenjeno
+- **`states/game.lua`** — integracija EventLogPanel:
+  - `local EventLogPanel = require(...)` na vrhu
+  - `EventLogPanel.update(dt)` v update bloku
+  - `EventLogPanel.draw()` v draw bloku
+  - `EventLogPanel.keypressed(key)` v keypressed handlerju
+  - `EventLogPanel.mousepressed(...)` v mousepressed handlerju
+  - `EventLogPanel.wheelmoved(...)` v wheelmoved handlerju
+- **`states/ui/hud/keybind_help.lua`** — dodan Ctrl+Shift+L vnos v OSNOVNO kategorijo
+
+### Tehnične podrobnosti
+- Ring buffer z max 1000 entries (preprečuje memory leak)
+- Vsak entry: `{ time, category, message, data }` (data optional)
+- Time je formatiran kot HH:MM:SS
+- Category ikone so Unicode emoji (lahko izklopiš v settings)
+- Search je case-insensitive
+- Filter state je persisted (event_log_filter.txt)
+- Default sort: newest first (lahko preklopiš v panelu)
+
+## [v3.12.146] — 2026-08-22 — Color Theme System (6 tem z persistenco + Ctrl+Shift+J cycle!)
+
+### Dodano
+- **`states/ui/hud/color_theme.lua`** — nov modul (~240 vrstic) z barvnimi temami:
+  - **6 vnaprej pripravljenih tem**:
+    1. **Zlat** (default) — tople zlate in kraljevske barve
+    2. **Moder** — hladne morske tone
+    3. **Zelen** — gozdni naravni tone
+    4. **Rdeč** — topli ognjeni tone
+    5. **Temno** (dark mode) — minimalna svetlost za nočno igranje
+    6. **Vijoličen** — mistični toni
+  - **Vsaka tema** definira: primary, secondary, accent, background, panel, border, text, textDim, success, warning, danger, info barve
+  - **Cycle** s Ctrl+Shift+J (hitro preklapljanje)
+  - **Persistenca** — `color_theme.txt` shrani izbiro med sejami
+  - **Toast notification** ob spremembi: "Tema: ZLAT"
+  - **UI feedback** — playClick() zvok ob preklopu
+  - **Vse UI panele uporabljajo** barve iz ColorTheme.get() — dosleden izgled
+
+### Spremenjeno
+- **`states/game.lua`** — integracija ColorTheme:
+  - `local ColorTheme = require(...)` na vrhu
+  - `ColorTheme.init()` v init bloku
+  - `ColorTheme.update(dt)` v update bloku
+  - Ctrl+Shift+J keybind handler
+- **`states/ui/hud/keybind_help.lua`** — dodan Ctrl+Shift+J vnos v OSNOVNO kategorijo
+
+### Tehnične podrobnosti
+- ColorTheme.get() vrne tabelo barv — vsak panel kliče to ob draw()
+- Sprememba teme je instant (vsi paneli se takšno prebarvajo)
+- Dark mode zmanjša svetlost panelov za 30% in poveča kontrast
+- Toast notification je barvno usklajen s trenutno temo
+- 12 barv v vsaki temi (primary, secondary, accent, background, panel, border, text, textDim, success, warning, danger, info)
+
+## [v3.12.145] — 2026-08-22 — Unified Settings Panel (vse nastavitve na enem mestu!)
+
+### Dodano
+- **`states/ui/hud/unified_settings.lua`** — nov modul (~320 vrstic) z vsemi nastavitvami:
+  - **4 zavihki** organizirani po kategoriji:
+    1. **IGRA** — težavnost, hitrost igre, auto-save interval/enabled, tutorial hints
+    2. **UI** — color theme, UI zvok, panel animacije, minimap vidnost, help overlay
+    3. **PRIKAZ** — HD shaderji, particle efekti, debug overlay, performance overlay
+    4. **IGRALEC** — keyboard shortcut editor link, reset all settings, export/import
+  - **Slider** za numerične nastavitve (interval, opacity, itd.)
+  - **Toggle** za boolean nastavitve (enabled/disabled)
+  - **Dropdown** za enumeracije (težavnost, tema)
+  - **Reset gumb** za vsako kategorijo (povrne default)
+  - **Search filter** — hitro najdi nastavitev po imenu ali opisu
+  - **Tooltip** za vsako nastavitev s podrobnostjo
+  - **Persistenca** — vsaka sprememba se shrani v svojo datoteko
+  - Toggle: **Ctrl+Shift+E**
+
+### Spremenjeno
+- **`states/game.lua`** — integracija UnifiedSettings:
+  - `local UnifiedSettings = require(...)` na vrhu
+  - `UnifiedSettings.update(dt)` v update bloku
+  - `UnifiedSettings.draw()` v draw bloku
+  - `UnifiedSettings.keypressed(key)` v keypressed handlerju
+  - `UnifiedSettings.mousepressed(...)` v mousepressed handlerju
+  - `UnifiedSettings.wheelmoved(...)` v wheelmoved handlerju
+- **`states/ui/hud/keybind_help.lua`** — dodan Ctrl+Shift+E vnos v OSNOVNO kategorijo
+
+### Tehnične podrobnosti
+- Vsaka nastavitev je samostojen modul — UnifiedSettings samo prikaze in kliče get/set
+- Slider z Wheel scroll spreminja vrednost za 1 korak
+- Tab navigacija med zavihki (levo/desno puščice ali Tab/Shift+Tab)
+- Search je case-insensitive
+- Reset kategorije zahteva potrditev (da se izogne nenamernemu resetu)
+
+## [v3.12.144] — 2026-08-22 — Keyboard Shortcut Editor (customizacija tipk z persistenco!)
+
+### Dodano
+- **`states/ui/hud/keyboard_shortcut_editor.lua`** — nov modul (~280 vrstic) z urejevalnikom tipk:
+  - **Pregled vseh 50+ keybind-ov** organiziranih po kategorijah
+  - **Click na keybind** — začne poslušanje za novo tipko
+  - **Press poljubna tipka** — postane nova bližnjica (preveri konflikte)
+  - **Konflikt detection** — če tipka že obstaja, prikaže warning
+  - **Reset gumb** za vsak keybind (povrne default)
+  - **Reset ALL** — povrne vse na default (z potrditvijo)
+  - **Persistenca** — `keybind_overrides.txt` shrani vse custom keybinde
+  - **Search filter** — hitro najdi keybind po imenu
+  - **Tooltip** s podrobnostmi keybind-a (original, current, kategorija)
+  - **Export/Import** — shrani/naloži custom konfiguracijo v JSON
+  - Toggle: **Ctrl+Shift+K**
+
+### Spremenjeno
+- **`states/game.lua`** — integracija KeyboardShortcutEditor:
+  - `local KeyboardShortcutEditor = require(...)` na vrhu
+  - `KeyboardShortcutEditor.update(dt)` v update bloku
+  - `KeyboardShortcutEditor.draw()` v draw bloku
+  - `KeyboardShortcutEditor.keypressed(key)` v keypressed handlerju
+  - `KeyboardShortcutEditor.mousepressed(...)` v mousepressed handlerju
+- **`states/ui/hud/keybind_help.lua`** — dodan Ctrl+Shift+K vnos v OSNOVNO kategorijo
+
+### Tehnične podrobnosti
+- KeybindOverride.get(action) vrača trenutno veljavno tipko (custom ali default)
+- KeybindOverride.set(action, key) nastavi novo tipko (preveri konflikt)
+- KeybindOverride.reset(action) povrne default
+- KeybindOverride.resetAll() povrne vse na default
+- Shranjevanje v JSON formatu: `{ action1: "key1", action2: "key2", ... }`
+- Modifiers (Ctrl, Shift, Alt) so ločeno od glavne tipke
+- Game keypressed handler preverja KeybindOverride.get() namesto hardcoded tipk
+
 ## [v3.12.143] — 2026-08-22 — Help Overlay System (kontekstualna pomoč + tips of the day + H toggle!)
 
 ### Dodano
