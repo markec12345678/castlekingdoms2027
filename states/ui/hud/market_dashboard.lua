@@ -16,6 +16,7 @@ local RMI = require("objects.Economy.RoyalMarketIntegration")
 local Registry = require("objects.Economy.RoyalSystemsRegistry")
 local PanelAnim = require("states.ui.hud.PanelAnimations")
 local UISound = require("objects.Audio.UISoundHelper")
+local RoyalIcon = require("states.ui.hud.royal_icon_generator")  -- v3.12.153: procedural icons in leaderboard
 
 local MarketDashboard = {}
 
@@ -493,24 +494,30 @@ function MarketDashboard.draw()
             -- Bar background (proportional to value)
             local val = leaderboardMode == "profit" and p.totalGold or p.totalQty
             local barFrac = val / maxVal
+            -- v3.12.153: Shift bar right by 18px to make room for icon
+            local barX = lbX + 36
+            local barW = 162  -- reduced from 180 to keep total width
             -- Bar color tint differs by mode
             if leaderboardMode == "profit" then
                 love.graphics.setColor(0.35, 0.25, 0.2, 0.5)
             else
                 love.graphics.setColor(0.2, 0.35, 0.25, 0.5)
             end
-            love.graphics.rectangle("fill", lbX + 18, rowY + 1, 180, 9)
+            love.graphics.rectangle("fill", barX, rowY + 1, barW, 9)
 
             -- Bar fill
             local rankColorDim = {rankColor[1] * 0.5, rankColor[2] * 0.5, rankColor[3] * 0.5, 0.7}
             love.graphics.setColor(rankColorDim[1], rankColorDim[2], rankColorDim[3], 0.7)
-            love.graphics.rectangle("fill", lbX + 18, rowY + 1, 180 * barFrac, 9)
+            love.graphics.rectangle("fill", barX, rowY + 1, barW * barFrac, 9)
+
+            -- v3.12.153: Procedural icon (14x14) before the name
+            RoyalIcon.draw(p.key or p.name, lbX + 18, rowY - 2, 14)
 
             -- Name
             love.graphics.setColor(0.85, 0.88, 0.9, 1)
             local displayName = p.name or p.key
             if #displayName > 22 then displayName = displayName:sub(1, 21) .. "…" end
-            love.graphics.print(displayName, lbX + 22, rowY)
+            love.graphics.print(displayName, lbX + 36, rowY)
 
             -- Numbers (mode-specific)
             if leaderboardMode == "profit" then

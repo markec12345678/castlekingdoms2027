@@ -20,6 +20,7 @@ local Deps = require("objects.Economy.SystemDependencies")
 local Registry = require("objects.Economy.RoyalSystemsRegistry")
 local PanelAnim = require("states.ui.hud.PanelAnimations")
 local UISound = require("objects.Audio.UISoundHelper")
+local RoyalIcon = require("states.ui.hud.royal_icon_generator")  -- v3.12.153: procedural icons in tooltip
 
 local TechTreePanel = {}
 
@@ -1698,10 +1699,14 @@ function TechTreePanel.drawGraph(panelX, contentTop, contentAreaH, panelW, small
             local lw = smallFont:getWidth(l)
             if lw > tipW then tipW = lw end
         end
-        tipW = tipW + 16
+        -- v3.12.153: Reserve space for icon (28px) if we have a hovered node
+        local ICON_PAD = 28
+        tipW = tipW + 16 + ICON_PAD
         -- v3.12.125: Compute preview graph height (always 100px if hasPreview)
         local PREVIEW_H = hasPreview and 110 or 0
         local tipH = #lines * (smallFont:getHeight() + 2) + 10 + PREVIEW_H
+        -- Ensure minimum height for icon (32px)
+        if tipH < 36 then tipH = 36 end
         local tipX = mouseX + 16
         local tipY = mouseY + 16
         -- Keep on screen
@@ -1716,6 +1721,10 @@ function TechTreePanel.drawGraph(panelX, contentTop, contentAreaH, panelW, small
         love.graphics.setColor(0.6, 0.75, 0.95, 0.9)
         love.graphics.setLineWidth(1)
         love.graphics.rectangle("line", tipX, tipY, tipW, tipH, 4, 4, 4, 4)
+        -- v3.12.153: Draw Royal Icon (24x24) at top-left of tooltip
+        if hoveredNode and hoveredNode.key then
+            RoyalIcon.draw(hoveredNode.key, tipX + 4, tipY + 4, 24)
+        end
         for i, l in ipairs(lines) do
             if i == 1 then
                 love.graphics.setColor(0.95, 0.85, 0.5, 1)
@@ -1730,7 +1739,8 @@ function TechTreePanel.drawGraph(panelX, contentTop, contentAreaH, panelW, small
             else
                 love.graphics.setColor(0.85, 0.88, 0.9, 1)
             end
-            love.graphics.print(l, tipX + 8, tipY + 6 + (i - 1) * (smallFont:getHeight() + 2))
+            -- v3.12.153: Indent text to leave room for icon
+            love.graphics.print(l, tipX + 8 + ICON_PAD, tipY + 6 + (i - 1) * (smallFont:getHeight() + 2))
         end
 
         -- v3.12.125: Draw mini preview graph below the text lines
