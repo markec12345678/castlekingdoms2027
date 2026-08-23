@@ -3,7 +3,7 @@
 > Po v1.0.0-campaign-complete sledi faza poliranja.
 > **Pravilo: NE dodajati novih sistemov.** Samo izboljšati obstoječe.
 
-Zadnja posodobitev: 2026-08-23 (v3.12.161)
+Zadnja posodobitev: 2026-08-23 (v3.12.167)
 
 ---
 
@@ -134,7 +134,10 @@ Zadnja posodobitev: 2026-08-23 (v3.12.161)
 - ⏳ Attack animations (need art assets)
 - ⏳ Death animations (need art assets)
 - ⏳ Hit reaction animations (need art assets)
-- ⏳ Combat sound effects (need audio files)
+- ✅ Combat sound effects — v3.12.163-v3.12.164
+  - Procedural SFX synthesis (12 combat zvokov iz waveform-ov, brez audio datotek)
+  - Integracija z Morale System (flee_scream, rally_horn, retreat_bell, morale_break)
+  - SFXLibrary fallback: če _G.fx nima zvoka, uporabi procedural
 - ✅ Morale system (units flee when losing) — v3.12.156-v3.12.159
   - Combat Morale System (7 stress virov, 6 rally virov, 5-stopinjski damage mult)
   - Combat Morale AI Integration (4-priority decision tree: retreat/pursuit/defend/attack)
@@ -145,6 +148,17 @@ Zadnja posodobitev: 2026-08-23 (v3.12.161)
   - Combat Spacing System (anti-clustering z soft repulsion force)
   - Spatial hash grid (ločena od morale grid-a)
   - Toggle preko Command Palette
+- ✅ Performance: LOD system for 100+ units — v3.12.165
+  - 4 LOD levels (HIGH/MED/LOW/OFF) z auto-scaling thresholds
+  - ~50% update reduction pri 200+ enotah
+  - Integracija z AnimationSystem (skip animation za low LOD)
+  - Toggle preko Command Palette
+- ✅ Performance & Combat Dashboard — v3.12.166
+  - Nov PERFORMANCE zavihek v Statistics Panel (Ctrl+Shift+I)
+  - Real-time stats za vse sisteme (LOD, Morale, Spacing, SFX, Formacija)
+- ✅ Save/Load za nove sisteme — v3.12.167
+  - MoraleState, SpacingSystem, LODSystem visibility persisted
+  - Per-unit cache reset ob loadu (prepreči crash zaradi stale references)
 
 ---
 
