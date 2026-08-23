@@ -141,6 +141,19 @@ function CombatComponent.takeDamage(self, amount, attacker)
         end
     end
 
+    -- v3.12.156: Apply morale damage multiplier (units with low morale fight worse)
+    if _G.MoraleSystem then
+        local moraleMult = _G.MoraleSystem.getDamageMultiplier(self) or 1.0
+        if moraleMult < 1.0 then
+            actualDamage = math.floor(actualDamage * moraleMult)
+        end
+    end
+
+    -- v3.12.156: Notify morale system of damage
+    if _G.MoraleSystem then
+        pcall(function() _G.MoraleSystem.onUnitDamaged(self, actualDamage, attacker) end)
+    end
+
     if self.health <= 0 then
         self.health = 0
         self.combatState = COMBAT.STATE_DEAD
@@ -180,6 +193,10 @@ function CombatComponent.takeDamage(self, amount, attacker)
             if MissionFramework and MissionFramework.reportPlayerLoss then
                 pcall(function() MissionFramework.reportPlayerLoss() end)
             end
+        end
+        -- v3.12.156: Notify morale system of unit death
+        if _G.MoraleSystem then
+            pcall(function() _G.MoraleSystem.onUnitDeath(self, attacker) end)
         end
         if self._originalDie then
             self._originalDie(self)

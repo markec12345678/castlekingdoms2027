@@ -55,6 +55,7 @@ local COMMANDS = {
     { cmd = "screenshot",        label = "Screenshot",               desc = "Zajemi zaslon",               key = "Ctrl+M",       icon = "📷" },
     { cmd = "force_save",       label = "Force save",              desc = "Takojšnje shranjevanje",      key = "—",            icon = "💾" },
     { cmd = "reset_hints",     label = "Reset tutorial hints",     desc = "Ponastavi vse hinte",         key = "—",            icon = "🔄" },
+    { cmd = "toggle_morale",   label = "Toggle morale bars",         desc = "Prikaz morale barov nad enotami", key = "Ctrl+Shift+Z", icon = "⚔" },
 }
 
 -- Execute a command
@@ -83,6 +84,7 @@ local function executeCommand(cmd)
         if _G.ScreenshotManager then pcall(function() _G.ScreenshotManager.capture("palette") end) end
     elseif cmd == "force_save" and _G.AutoSaveSystem then _G.AutoSaveSystem.forceSave()
     elseif cmd == "reset_hints" and _G.TutorialHints then _G.TutorialHints.reset()
+    elseif cmd == "toggle_morale" and _G.MoraleSystem then _G.MoraleSystem.toggle()
     end
     UISound.playSuccess()
     CommandPalette.toggle()

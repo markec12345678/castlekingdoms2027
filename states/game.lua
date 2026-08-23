@@ -17,6 +17,7 @@ local EVENT = require("objects.Enums.KeyEvents")
 local S = {}
 S.CombatIntegration = require("objects.Combat.CombatIntegration")
 S.CombatTestScenario = require("objects.Combat.CombatTestScenario")
+S.MoraleSystem = require("objects.Combat.CombatMoraleSystem")  -- v3.12.156
 S.AnimationSystem = require("objects.Animation.AnimationSystem")
 S.SoundSystem = require("objects.Audio.SoundSystem")
 S.WeatherSystem = require("objects.Weather.WeatherSystem")
@@ -1078,6 +1079,8 @@ local function delayedInit()
     _G.ResourceFlow = S.ResourceFlow
     _G.ConstructionAnim = S.ConstructionAnim
     _G.AIDialogue = S.AIDialogue
+    -- v3.12.156: Combat Morale System
+    _G.MoraleSystem = S.MoraleSystem
     -- Castle Kingdoms 2027: Initialize modding & Steam
     S.ModLoader.init()
     S.CustomBuildingLoader.init()
@@ -2401,6 +2404,8 @@ function game:update(dt)
                 S.WeatherWarfare.update(dt)
                 -- Castle Kingdoms 2027 v2.8.7: Update Hero System
                 S.HeroSystem.update(dt)
+                -- v3.12.156: Update Combat Morale System
+                if S.MoraleSystem then S.MoraleSystem.update(dt) end
                 -- Castle Kingdoms 2027 v2.8.8: Update Time Manager
                 S.TimeManager.update(dt)
                 -- Castle Kingdoms 2027 v2.8.9: Update Camera Enhancement
@@ -3503,6 +3508,8 @@ function game:draw()
             -- Castle Kingdoms 2027: Draw v1.25 visuals
             S.ResourceFlow.draw()
             S.Veterancy.drawSelected()
+            -- v3.12.156: Draw Combat Morale bars
+            if S.MoraleSystem then S.MoraleSystem.draw() end
             -- Castle Kingdoms 2027: Draw v1.26 QoL visuals
             S.RallyPoint.draw()
             S.BuildingQueue.draw()
@@ -4354,6 +4361,13 @@ function game:keypressed(key, scancode, isRepeat)
         for _, mod in ipairs(breakdown.modifiers) do
             local sign = mod.value >= 0 and "+" or ""
             ModernUI.notifyInfo(string.format("  %s: %s%d (%s)", mod.category, sign, mod.value, mod.description))
+        end
+        return
+    end
+    -- v3.12.156: Ctrl+Shift+Z = Toggle Combat Morale System visibility
+    if key == "z" and love.keyboard.isDown("lctrl") and love.keyboard.isDown("lshift") then
+        if S.MoraleSystem then
+            S.MoraleSystem.toggle()
         end
         return
     end
