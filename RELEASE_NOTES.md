@@ -7,6 +7,80 @@
 
 ---
 
+## 🚀 v3.13.0-rc1 — Release Candidate 1 (2026-08-23)
+
+**Prvi release candidate za v3.13.0 final.**
+
+### 📊 Statistika RC1
+
+| Metrika | Vrednost |
+|---------|----------|
+| Verzij v seji | 83 (v3.12.149 → v3.12.231) |
+| Novih vrstic kode | ~9300+ |
+| Novih sistemov | 11 |
+| Pravih PNG assets | 239 |
+| .love paket | 135 MB |
+| Lua datotek | 1672 |
+| PNG assetov | 1953 |
+| Tag-ov | 7 |
+| Sintaktičnih napak | 0 |
+
+### 🎨 Asset sistemi (vsi končani!)
+
+| Asset | Resolution | Count | Status |
+|-------|-----------|-------|--------|
+| Tier 1 Sprites | 256×256 | 50/50 | ✅ 100% |
+| Tier 2 Sprites | 128×128 | 100/100 | ✅ 100% |
+| Tier 3 Procedural | 64×64 | 840/840 | ✅ 100% |
+| HD Terrain | 256×256 | 12/12 | ✅ 100% |
+| HD Buildings | 256×256 | 50/50 | ✅ 100% |
+| HD Units | 128×128 | 20/20 | ✅ 100% |
+| Loading Screen | 1152×864 | 1/1 | ✅ |
+| Main Menu BG | 1152×864 | 1/1 | ✅ |
+| HD UI Icons | 64×64 | 7 | 🔄 |
+| **Skupno** | | **239 PNG** | **~100%** |
+
+### ✨ Novi sistemi (11)
+
+1. **Combat Morale System** (v3.12.156-v3.12.161) — 7 stress virov, 6 rally virov, 5-stopinjski damage mult, AI integracija, anti-clustering, formation bonus
+2. **Procedural SFX** (v3.12.163-v3.12.164) — 12 combat zvokov iz waveform-ov, brez audio datotek
+3. **Performance LOD System** (v3.12.165) — 4 LOD leveli, auto-scaling, ~50% update reduction
+4. **Performance Dashboard** (v3.12.166) — real-time stats za 5 sistemov
+5. **Royal Icon Generator + Asset Override** (v3.12.152-v3.12.154) — procedural ikone za 990 sistemov + PNG fallback
+6. **HD Terrain Override** (v3.12.207-v3.12.210) — 12 biome, overlay draw
+7. **HD Building Override** (v3.12.212) — 50 zgradb, lazy load
+8. **HD Unit Override** (v3.12.226) — 20 enot, lazy load
+9. **Beta Test Checklist** (v3.12.169) — ~150 testov v 7 fazah
+10. **Auto-build Pipeline** (v3.12.170-v3.12.175) — avtomatizirana build skripta
+11. **Save/Load Enhancement** (v3.12.167) — visibility persisted za vse nove sisteme
+
+### 🎮 Kako testirati RC1
+
+1. Prenesi `castlekingdoms2027-v3.13.0-rc1.love` (135 MB)
+2. Namesti LÖVE 11.5 iz https://love2d.org
+3. Zaženi: `love castlekingdoms2027-v3.13.0-rc1.love`
+4. Sledi `BETA_TEST_CHECKLIST.md` (~150 testov)
+
+### 📦 Build info
+
+- **Verzija**: v3.13.0-rc1
+- **Commit**: 363686cb
+- **.love**: 135 MB (1672 Lua, 1953 PNG)
+- **LÖVE**: 11.5
+- **Tag**: `v3.13.0-rc1`
+
+### 7 tag-ov na GitHub
+
+1. `v3.12.171-beta` — prvi beta
+2. `v3.12.184-tier1-complete` — Tier 1 = 50/50
+3. `v3.12.205-tier2-complete` — Tier 2 = 100/100
+4. `v3.12.211-hd-terrain-complete` — HD Terrain = 12/12
+5. `v3.12.223-hd-buildings-complete` — HD Buildings = 50/50
+6. `v3.12.229-hd-units-complete` — HD Units = 20/20
+7. `v3.13.0-rc1` — Release Candidate 1
+
+---
+
 ## 🏰 v3.12.171-beta — First Beta Release (2026-08-23)
 
 **Prvi release candidate za zunanje beta testiranje.**
