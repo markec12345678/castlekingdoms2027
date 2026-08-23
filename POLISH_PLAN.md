@@ -3,7 +3,7 @@
 > Po v1.0.0-campaign-complete sledi faza poliranja.
 > **Pravilo: NE dodajati novih sistemov.** Samo izboljšati obstoječe.
 
-Zadnja posodobitev: 2026-08-01
+Zadnja posodobitev: 2026-08-23 (v3.12.161)
 
 ---
 
@@ -135,8 +135,16 @@ Zadnja posodobitev: 2026-08-01
 - ⏳ Death animations (need art assets)
 - ⏳ Hit reaction animations (need art assets)
 - ⏳ Combat sound effects (need audio files)
-- ⏳ Morale system (units flee when losing)
-- ⏳ Better pathfinding in combat (avoid clustering)
+- ✅ Morale system (units flee when losing) — v3.12.156-v3.12.159
+  - Combat Morale System (7 stress virov, 6 rally virov, 5-stopinjski damage mult)
+  - Combat Morale AI Integration (4-priority decision tree: retreat/pursuit/defend/attack)
+  - Performance optimization (spatial hash grid)
+  - Combat Retreat Order (pravo premikanje bežečih enot, 1.4x speed boost)
+  - Formation Bonus integracija (RALLY_FORMATION_BONUS +3/tick ko v formaciji)
+- ✅ Better pathfinding in combat (avoid clustering) — v3.12.160
+  - Combat Spacing System (anti-clustering z soft repulsion force)
+  - Spatial hash grid (ločena od morale grid-a)
+  - Toggle preko Command Palette
 
 ---
 
