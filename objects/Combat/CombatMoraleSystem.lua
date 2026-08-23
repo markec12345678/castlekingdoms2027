@@ -223,10 +223,11 @@ function MoraleSystem.rallyNearbyUnits(x, y, radius, amount)
 end
 
 -- ============================================================
--- Internal update logic
+-- v3.12.158: Spatial Hash Grid for performance optimization
+-- Reduces O(N*M) neighbor queries to O(N) via spatial bucketing
 -- ============================================================
 
--- Calculate distance² between two units
+-- Calculate distance² between two units (defined early, used by all queries)
 local function distSq(a, b)
     if not a or not b or not a.gx or not b.gx then return math.huge end
     local dx = a.gx - b.gx
@@ -234,40 +235,170 @@ local function distSq(a, b)
     return dx * dx + dy * dy
 end
 
--- Count nearby units (allies and enemies) for a given unit
-local function countNearby(unit, radius, faction)
-    if not unit or not unit.gx or not _G.state or not _G.state.gameObjectList then
+-- Grid cell size (tiles). Larger = fewer cells but more entries per cell.
+-- Optimal: roughly equal to the largest query radius (8 tiles for outnumbered check)
+local GRID_CELL_SIZE = 8
+local spatialGrid = {}  -- key = "cellX,cellY", value = { unit1, unit2, ... }
+local gridDirty = true  -- set true when units move (rebuild on next query)
+
+-- Rebuild the spatial grid from current game state
+local function rebuildGrid()
+    spatialGrid = {}
+    if not _G.state or not _G.state.gameObjectList then return end
+
+    for _, unit in ipairs(_G.state.gameObjectList) do
+        if unit and unit.gx and unit.gy and unit.health and unit.health > 0
+            and not unit.toBeDeleted and unit._combatAttached then
+            local cellX = math.floor(unit.gx / GRID_CELL_SIZE)
+            local cellY = math.floor(unit.gy / GRID_CELL_SIZE)
+            local key = cellX .. "," .. cellY
+            if not spatialGrid[key] then
+                spatialGrid[key] = {}
+            end
+            table.insert(spatialGrid[key], unit)
+        end
+    end
+    gridDirty = false
+end
+
+-- Mark grid as dirty (called when units move significantly)
+-- For performance, we just rebuild on next query rather than incrementally updating
+function MoraleSystem.markGridDirty()
+    gridDirty = true
+end
+
+-- Query nearby units using spatial grid (much faster than full scan)
+-- @param unit Unit to query around
+-- @param radius number Search radius in tiles
+-- @return allies count, enemies count
+local function countNearbyOptimized(unit, radius)
+    if not unit or not unit.gx or not unit.gy then
         return 0, 0
     end
+
+    if gridDirty then
+        rebuildGrid()
+    end
+
     local allies = 0
     local enemies = 0
     local rSq = radius * radius
-    for _, obj in ipairs(_G.state.gameObjectList) do
-        if obj ~= unit and obj.gx and obj.health and obj.health > 0 and not obj.toBeDeleted then
-            local d = distSq(unit, obj)
-            if d <= rSq then
-                if obj.faction == unit.faction then
-                    allies = allies + 1
-                elseif obj.faction and obj.faction ~= COMBAT.FACTION_NEUTRAL then
-                    enemies = enemies + 1
+
+    -- Determine cell range to scan
+    local minCellX = math.floor((unit.gx - radius) / GRID_CELL_SIZE)
+    local maxCellX = math.floor((unit.gx + radius) / GRID_CELL_SIZE)
+    local minCellY = math.floor((unit.gy - radius) / GRID_CELL_SIZE)
+    local maxCellY = math.floor((unit.gy + radius) / GRID_CELL_SIZE)
+
+    -- Iterate over all cells that could contain units within radius
+    for cx = minCellX, maxCellX do
+        for cy = minCellY, maxCellY do
+            local key = cx .. "," .. cy
+            local cell = spatialGrid[key]
+            if cell then
+                for _, obj in ipairs(cell) do
+                    if obj ~= unit then
+                        local d = distSq(unit, obj)
+                        if d <= rSq then
+                            if obj.faction == unit.faction then
+                                allies = allies + 1
+                            elseif obj.faction and obj.faction ~= COMBAT.FACTION_NEUTRAL then
+                                enemies = enemies + 1
+                            end
+                        end
+                    end
                 end
             end
         end
     end
+
     return allies, enemies
 end
 
+-- Find nearest enemy using spatial grid
+-- @param unit Unit
+-- @return nearest enemy unit, or nil
+local function findNearestEnemyOptimized(unit, maxRadius)
+    if not unit or not unit.gx or not unit.gy then return nil end
+    maxRadius = maxRadius or 30  -- default 30 tile search
+
+    if gridDirty then
+        rebuildGrid()
+    end
+
+    local nearest = nil
+    local nearestDist = math.huge
+    local maxRSq = maxRadius * maxRadius
+
+    -- Spiral search: start at unit's cell, expand outward
+    local unitCellX = math.floor(unit.gx / GRID_CELL_SIZE)
+    local unitCellY = math.floor(unit.gy / GRID_CELL_SIZE)
+    local maxCellOffset = math.ceil(maxRadius / GRID_CELL_SIZE)
+
+    for dx = -maxCellOffset, maxCellOffset do
+        for dy = -maxCellOffset, maxCellOffset do
+            local key = (unitCellX + dx) .. "," .. (unitCellY + dy)
+            local cell = spatialGrid[key]
+            if cell then
+                for _, obj in ipairs(cell) do
+                    if obj ~= unit and obj.faction and obj.faction ~= unit.faction
+                        and obj.faction ~= COMBAT.FACTION_NEUTRAL
+                        and obj.health and obj.health > 0
+                        and not obj.toBeDeleted then
+                        local d = distSq(unit, obj)
+                        if d <= maxRSq and d < nearestDist then
+                            nearestDist = d
+                            nearest = obj
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    return nearest
+end
+
+-- ============================================================
+-- Internal update logic
+-- ============================================================
+
+-- Count nearby units (allies and enemies) for a given unit
+-- v3.12.158: Uses spatial grid (was O(N*M), now ~O(N))
+local function countNearby(unit, radius, faction)
+    return countNearbyOptimized(unit, radius)
+end
+
 -- Check if Lord/Hero is nearby
+-- v3.12.158: Uses spatial grid
 local function hasCommanderNearby(unit, radius)
-    if not unit or not unit.gx or not _G.state or not _G.state.gameObjectList then
+    if not unit or not unit.gx or not unit.gy then
         return false
     end
+
+    if gridDirty then
+        rebuildGrid()
+    end
+
     local rSq = radius * radius
-    for _, obj in ipairs(_G.state.gameObjectList) do
-        if obj ~= unit and obj.gx and obj.faction == unit.faction then
-            if obj.className == "Lord" or obj.className == "HeroUnit" or obj.isHero then
-                if distSq(unit, obj) <= rSq then
-                    return true
+    local minCellX = math.floor((unit.gx - radius) / GRID_CELL_SIZE)
+    local maxCellX = math.floor((unit.gx + radius) / GRID_CELL_SIZE)
+    local minCellY = math.floor((unit.gy - radius) / GRID_CELL_SIZE)
+    local maxCellY = math.floor((unit.gy + radius) / GRID_CELL_SIZE)
+
+    for cx = minCellX, maxCellX do
+        for cy = minCellY, maxCellY do
+            local key = cx .. "," .. cy
+            local cell = spatialGrid[key]
+            if cell then
+                for _, obj in ipairs(cell) do
+                    if obj ~= unit and obj.faction == unit.faction then
+                        if obj.className == "Lord" or obj.className == "HeroUnit" or obj.isHero then
+                            if distSq(unit, obj) <= rSq then
+                                return true
+                            end
+                        end
+                    end
                 end
             end
         end
@@ -441,6 +572,9 @@ function MoraleSystem.update(dt)
         return
     end
     moraleAccumulator = 0
+
+    -- v3.12.158: Mark grid dirty before tick (units have moved since last tick)
+    gridDirty = true
 
     -- Tick all units
     for unit, state in pairs(unitStates) do
@@ -630,11 +764,19 @@ function MoraleSystem.getStats()
         avgMorale = avgMorale + state.morale
         if state.isFleeing then fleeing = fleeing + 1 end
     end
+    -- v3.12.158: Add spatial grid stats
+    local cellCount = 0
+    for _ in pairs(spatialGrid) do cellCount = cellCount + 1 end
     return {
         trackedUnits = count,
         fleeingUnits = fleeing,
         averageMorale = count > 0 and (avgMorale / count) or 0,
         visible = VISIBLE,
+        -- v3.12.158: Performance stats
+        gridCells = cellCount,
+        gridCellSize = GRID_CELL_SIZE,
+        gridDirty = gridDirty,
+        tickRate = MORALE_TICK,
     }
 end
 
