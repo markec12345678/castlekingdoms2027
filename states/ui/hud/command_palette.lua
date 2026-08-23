@@ -58,6 +58,7 @@ local COMMANDS = {
     { cmd = "toggle_morale",   label = "Toggle morale bars",         desc = "Prikaz morale barov nad enotami", key = "Ctrl+Shift+Z", icon = "⚔" },
     { cmd = "toggle_spacing",  label = "Toggle anti-clustering debug", desc = "Prikaz spacing radiusov v boju (debug)", key = "—",            icon = "🔄" },
     { cmd = "toggle_lod",      label = "Toggle LOD debug",            desc = "Prikaz LOD level-ov enot (debug)",  key = "—",            icon = "📊" },
+    { cmd = "toggle_hd_terrain", label = "Toggle HD terrain",         desc = "HD teksture za teren (256x256)",   key = "—",            icon = "🌍" },
 }
 
 -- Execute a command
@@ -89,6 +90,7 @@ local function executeCommand(cmd)
     elseif cmd == "toggle_morale" and _G.MoraleSystem then _G.MoraleSystem.toggle()
     elseif cmd == "toggle_spacing" and _G.SpacingSystem then _G.SpacingSystem.toggle()
     elseif cmd == "toggle_lod" and _G.LODSystem then _G.LODSystem.toggle()
+    elseif cmd == "toggle_hd_terrain" and _G.TerrainOverride then _G.TerrainOverride.toggle()
     end
     UISound.playSuccess()
     CommandPalette.toggle()

@@ -21,6 +21,7 @@ S.MoraleSystem = require("objects.Combat.CombatMoraleSystem")  -- v3.12.156
 S.SpacingSystem = require("objects.Combat.CombatSpacingSystem")  -- v3.12.160
 S.ProceduralSFX = require("objects.Audio.ProceduralSFX")  -- v3.12.163
 S.LODSystem = require("objects.Performance.LODSystem")  -- v3.12.165
+S.TerrainOverride = require("objects.Environment.TerrainTextureOverride")  -- v3.12.207
 S.AnimationSystem = require("objects.Animation.AnimationSystem")
 S.SoundSystem = require("objects.Audio.SoundSystem")
 S.WeatherSystem = require("objects.Weather.WeatherSystem")
@@ -1093,6 +1094,11 @@ local function delayedInit()
     end
     -- v3.12.165: LOD System (performance optimization for 100+ units)
     _G.LODSystem = S.LODSystem
+    -- v3.12.207: HD Terrain Texture Override System
+    _G.TerrainOverride = S.TerrainOverride
+    if S.TerrainOverride and S.TerrainOverride.isEnabled and S.TerrainOverride.isEnabled() then
+        pcall(function() S.TerrainOverride.init() end)
+    end
     -- Castle Kingdoms 2027: Initialize modding & Steam
     S.ModLoader.init()
     S.CustomBuildingLoader.init()
