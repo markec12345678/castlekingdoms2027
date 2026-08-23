@@ -60,6 +60,7 @@ local COMMANDS = {
     { cmd = "toggle_lod",      label = "Toggle LOD debug",            desc = "Prikaz LOD level-ov enot (debug)",  key = "—",            icon = "📊" },
     { cmd = "toggle_hd_terrain", label = "Toggle HD terrain",         desc = "HD teksture za teren (256x256)",   key = "—",            icon = "🌍" },
     { cmd = "toggle_hd_buildings", label = "Toggle HD buildings",     desc = "HD sprite-i za zgradbe (256x256)", key = "—",            icon = "🏰" },
+    { cmd = "toggle_hd_units",     label = "Toggle HD units",          desc = "HD sprite-i za enote (128x128)",   key = "—",            icon = "⚔" },
 }
 
 -- Execute a command
@@ -93,6 +94,7 @@ local function executeCommand(cmd)
     elseif cmd == "toggle_lod" and _G.LODSystem then _G.LODSystem.toggle()
     elseif cmd == "toggle_hd_terrain" and _G.TerrainOverride then _G.TerrainOverride.toggle()
     elseif cmd == "toggle_hd_buildings" and _G.BuildingOverride then _G.BuildingOverride.toggle()
+    elseif cmd == "toggle_hd_units" and _G.UnitOverride then _G.UnitOverride.toggle()
     end
     UISound.playSuccess()
     CommandPalette.toggle()

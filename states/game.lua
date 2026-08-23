@@ -23,6 +23,7 @@ S.ProceduralSFX = require("objects.Audio.ProceduralSFX")  -- v3.12.163
 S.LODSystem = require("objects.Performance.LODSystem")  -- v3.12.165
 S.TerrainOverride = require("objects.Environment.TerrainTextureOverride")  -- v3.12.207
 S.BuildingOverride = require("objects.Structures.BuildingSpriteOverride")  -- v3.12.212
+S.UnitOverride = require("objects.Units.UnitSpriteOverride")  -- v3.12.226
 S.AnimationSystem = require("objects.Animation.AnimationSystem")
 S.SoundSystem = require("objects.Audio.SoundSystem")
 S.WeatherSystem = require("objects.Weather.WeatherSystem")
@@ -1104,6 +1105,11 @@ local function delayedInit()
     _G.BuildingOverride = S.BuildingOverride
     if S.BuildingOverride and S.BuildingOverride.isEnabled and S.BuildingOverride.isEnabled() then
         pcall(function() S.BuildingOverride.init() end)
+    end
+    -- v3.12.226: HD Unit Sprite Override System
+    _G.UnitOverride = S.UnitOverride
+    if S.UnitOverride and S.UnitOverride.isEnabled and S.UnitOverride.isEnabled() then
+        pcall(function() S.UnitOverride.init() end)
     end
     -- Castle Kingdoms 2027: Initialize modding & Steam
     S.ModLoader.init()
