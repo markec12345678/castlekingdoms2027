@@ -2,6 +2,61 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.175] — 2026-08-23 — Auto-build pipeline + 10 Tier 1 sprite-ev
+
+### Dodano (v3.12.150-v3.12.175 — celotna seja)
+
+**Faza 1: Dokumentacija sinhronizirana (v3.12.150)**
+- ROADMAP.md, NEXT_BATCH_HANDOFF.md, PROJECT_SUMMARY.md, KEYBINDS.md vsi posodobljeni na v3.12.149
+- README.md badge-ji posodobljeni (1658→1664 Lua, v3.12.143→v3.12.149)
+- CHANGELOG.md dodani vnosi za v3.12.144-v3.12.149 (6 novih sekcij)
+
+**Faza 2: Asset sistem (v3.12.151-v3.12.155)**
+- **v3.12.151** — ASSET_PRIORITY_PLAN.md: analiza 869 Royal sistemov, 28 kategorij, 4-fazni plan
+- **v3.12.152** — RoyalIconGenerator: procedural 64×64 canvas ikone za 990 sistemov (28 barvnih kategorij, 25+ dekorativnih elementov)
+- **v3.12.153** — Integracija ikon v Tech Tree (24×24 tooltip) in Market Dashboard (14×14 leaderboard)
+- **v3.12.154** — Asset Override System: PNG fallback v `assets/royal_systems/tier{1,2}/`
+- **v3.12.155** — HD_SPRITE_PACK_GUIDE.md: 50 AI prompt predlog za Tier 1 sprite-e
+
+**Faza 3: Combat Polish komplet (v3.12.156-v3.12.162)**
+- **v3.12.156** — CombatMoraleSystem.lua (~640 vrstic): 7 stress virov, 6 rally virov, 5-stopinjski damage mult, HUD z morale bar-i
+- **v3.12.157** — MilitaryAI.lua: 4-priority decision tree (retreat/pursuit/defend/attack), 5 novih funkcij
+- **v3.12.158** — Spatial hash grid: O(N*M)→O(N) optimizacija, ~2.2x speedup
+- **v3.12.159** — Combat Retreat Order: pravo premikanje bežečih enot, 1.4x speed boost, avtomatski rally
+- **v3.12.160** — CombatSpacingSystem.lua (~330 vrstic): soft repulsion force, spatial grid (3-tile cell)
+- **v3.12.161** — FormationSystem.isUnitInFormation(): RALLY_FORMATION_BONUS (+3/tick) apliciran
+- **v3.12.162** — POLISH_PLAN.md: morale in clustering označena kot ✅ končana
+
+**Faza 4: Audio & Performance (v3.12.163-v3.12.165)**
+- **v3.12.163** — ProceduralSFX.lua (~440 vrstic): 12 combat zvokov iz waveform-ov (sine, square, noise), brez audio datotek
+- **v3.12.164** — SFX integracija: flee_scream + morale_break ob begu, rally_horn ob rally, retreat_bell ob AI retreat
+- **v3.12.165** — LODSystem.lua (~340 vrstic): 4 LOD leveli (HIGH/MED/LOW/OFF), auto-scaling thresholds, ~50% update reduction
+
+**Faza 5: Beta Testing priprava (v3.12.166-v3.12.168)**
+- **v3.12.166** — Performance Dashboard: nov PERFORMANCE zavihek v Stats Panel (Ctrl+Shift+I), real-time stats za 5 sistemov
+- **v3.12.167** — Save/Load Enhancement: visibility persisted za MoraleState/SpacingSystem/LODSystem, per-unit cache reset
+- **v3.12.168** — POLISH_PLAN.md: SFX, LOD, Dashboard označena kot ✅ končana
+
+**Faza 6: Beta Testing infrastructure (v3.12.169-v3.12.171)**
+- **v3.12.169** — BETA_TEST_CHECKLIST.md: ~150 testov v 7 fazah, bug reporting format, acceptance criteria
+- **v3.12.170** — build_castlekingdoms.sh: avtomatizirana build skripta (6 faz), 94MB paket, 1669 Lua, 1712 PNG
+- **v3.12.171** — MODDING_API.md: 5 novih API sekcij (Morale, Spacing, LOD, SFX, Formation), 5 primerov modov
+
+**Faza 7: Beta release + asset validation (v3.12.172-v3.12.175)**
+- **v3.12.172** — README badge + NEXT_BATCH_HANDOFF posodobitev na v3.12.171-beta, RELEASE_NOTES.md
+- **v3.12.173** — Prvi 3 AI-generirani Tier 1 sprite-i (Abacus, AleBrewer, BreadBaker), PIL konverzija
+- **v3.12.174** — Naslednjih 7 AI-generiranih sprite-ev (CutlerySmith, ApothecaryMortar, Banner, Candlestick, Compass, BalanceScale, Brooch)
+- **v3.12.175** — Auto-build pipeline: generate_tier1_sprites.sh (40 definicij), convert_sprites_to_png.py
+
+### Statistika seje
+- **Verzij**: 26 (v3.12.150 → v3.12.175)
+- **Novih vrstic kode**: ~6000+
+- **Novih sistemov**: 11
+- **Novih dokumentov**: 6 (ASSET_PRIORITY_PLAN, HD_SPRITE_PACK_GUIDE, BETA_TEST_CHECKLIST, RELEASE_NOTES, + 2 skripti)
+- **AI-generiranih sprite-ev**: 10 (256×256 RGBA PNG)
+- **Sintaktičnih napak**: 0
+- **Beta tag**: `v3.12.171-beta` pushan na GitHub
+
 ## [v3.12.149] — 2026-08-22 — Command Palette (hitri iskalni meni Ctrl+Space!)
 
 ### Dodano
