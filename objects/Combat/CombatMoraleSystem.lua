@@ -520,6 +520,14 @@ local function tickUnit(unit, state, dt)
             state.fleeTimer = 0
             state.fleeStartX = unit.gx or 0
             state.fleeStartY = unit.gy or 0
+            state.lastFleeOrderTime = 0  -- v3.12.159: track when we last issued move order
+            -- v3.12.159: Boost walk speed for fleeing units
+            if not state.originalStraightSpeed and unit.straightWalkSpeed then
+                state.originalStraightSpeed = unit.straightWalkSpeed
+                state.originalDiagonalSpeed = unit.diagonalWalkSpeed
+                unit.straightWalkSpeed = unit.straightWalkSpeed * FLEE_SPEED_MULT
+                unit.diagonalWalkSpeed = unit.diagonalWalkSpeed * FLEE_SPEED_MULT
+            end
             -- Notify game systems
             if _G.NotificationCenter and unit.faction == COMBAT.FACTION_PLAYER then
                 pcall(function() _G.NotificationCenter.combat("Enota beži!") end)
@@ -537,10 +545,54 @@ local function tickUnit(unit, state, dt)
     -- Fleeing behavior
     if state.isFleeing then
         state.fleeTimer = state.fleeTimer + dt
-        -- Try to move unit away from enemies (handled by CombatComponent/AI integration)
         -- Mark unit as retreating for movement system
         if unit.combatState then
             unit.combatState = COMBAT.STATE_RETREATING
+        end
+
+        -- v3.12.159: Periodically issue flee move order (every 0.5s)
+        -- Move AWAY from nearest enemy
+        state.lastFleeOrderTime = (state.lastFleeOrderTime or 0) + dt
+        if state.lastFleeOrderTime >= 0.5 and unit.gx and unit.gy then
+            state.lastFleeOrderTime = 0
+            -- Find nearest enemy using optimized spatial grid query
+            local nearestEnemy = findNearestEnemyOptimized(unit, 15)
+            if nearestEnemy and nearestEnemy.gx and nearestEnemy.gy then
+                -- Compute flee direction (away from enemy)
+                local dx = unit.gx - nearestEnemy.gx
+                local dy = unit.gy - nearestEnemy.gy
+                local len = math.sqrt(dx * dx + dy * dy)
+                if len > 0 then
+                    -- Flee 10 tiles in opposite direction
+                    local fleeX = math.floor(unit.gx + (dx / len) * 10)
+                    local fleeY = math.floor(unit.gy + (dy / len) * 10)
+                    -- Clamp to map bounds (assume 0-200 range)
+                    fleeX = math.max(5, math.min(195, fleeX))
+                    fleeY = math.max(5, math.min(195, fleeY))
+                    -- Issue move order (clear current target first)
+                    unit.target = nil
+                    if unit.gotoUserWaypoint then
+                        pcall(function() unit:gotoUserWaypoint(fleeX, fleeY, nil, nil) end)
+                    end
+                end
+            else
+                -- No enemy nearby - move towards safer position (rally point or original position)
+                -- Just stop fleeing if no enemy within 15 tiles
+                if state.fleeTimer >= FLEE_DURATION then
+                    state.isFleeing = false
+                    state.fleeTimer = 0
+                    -- v3.12.159: Restore original walk speed
+                    if state.originalStraightSpeed and unit.straightWalkSpeed then
+                        unit.straightWalkSpeed = state.originalStraightSpeed
+                        unit.diagonalWalkSpeed = state.originalDiagonalSpeed
+                        state.originalStraightSpeed = nil
+                        state.originalDiagonalSpeed = nil
+                    end
+                    if unit.combatState then
+                        unit.combatState = COMBAT.STATE_IDLE
+                    end
+                end
+            end
         end
 
         -- Check if unit has fled far enough
@@ -553,6 +605,13 @@ local function tickUnit(unit, state, dt)
                 if state.morale >= MORALE_WAVERING then
                     state.isFleeing = false
                     state.fleeTimer = 0
+                    -- v3.12.159: Restore original walk speed on rally
+                    if state.originalStraightSpeed and unit.straightWalkSpeed then
+                        unit.straightWalkSpeed = state.originalStraightSpeed
+                        unit.diagonalWalkSpeed = state.originalDiagonalSpeed
+                        state.originalStraightSpeed = nil
+                        state.originalDiagonalSpeed = nil
+                    end
                     if unit.combatState then
                         unit.combatState = COMBAT.STATE_IDLE
                     end
