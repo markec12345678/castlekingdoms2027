@@ -2,6 +2,45 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.205] — 2026-08-23 — Tier 2 Sprite Pack Complete (100/100 = 100%!)
+
+### 🎉 Mejnik: Tier 2 Sprite Pack Popoln!
+
+Po 21 batchih (v3.12.185-v3.12.205) je Tier 2 pack končan:
+- 100 AI-generiranih sprite-ev, vsi 128×128 RGBA PNG z alfa
+- ~2.5MB skupna velikost
+- ~87 minut AI generacije (52s na sprite)
+- 28 kategorij pokritih
+- Tag `v3.12.205-tier2-complete` pushan
+
+### Skupni asset status
+- Tier 1: 50/50 (100%) — v3.12.184, tag `v3.12.184-tier1-complete`
+- Tier 2: 100/100 (100%) — v3.12.205, tag `v3.12.205-tier2-complete`
+- Tier 3: 840/840 procedural (100%) — v3.12.152 (auto)
+- **Skupno: 150 pravih PNG sprite-ev + 840 procedural = 990 sistemov (100%)**
+
+### Vse Tier 2 sprite-i (100):
+GemMiner, GlassBatchSmelter, GlassBead, Glove, GunpowderMill,
+Harp, Hat, HempRetter, HerbGardener, HoneyCollector,
+Hook, HopsGrower, Hourglass, HuntingTrap, Hydrometer,
+IceCutter, IngotSmelter, InkWell, Ink, JigsawPuzzle,
+KitchenKnife, Kite, Knitter, Lace, LimeBurner,
+LinenRetter, Lute, Lyre, Map, MarbleStatue,
+MatchCord, Mead, Mirror, MushroomForager, OilLamp,
+OilPresser, Orchardist, OrganPipe, OysterFarmer, Paint,
+PanFlute, Paper, Parchment, PastryChef, Pendant,
+PickleCurer, PigFarmer, PipeTabor, PlayingCard, PotteryKiln,
+PoultryKeeper, Psaltery, Quadrant, QuarryMiner, QuillPen,
+RawhideTanner, Recorder, Retort, RoofTile, RopeSpinner,
+SaltPanWorker, SaltRefiner, SaltpeterRefinery, Sausage, Sawmill,
+ScrollCase, ServingPlate, Shawm, SheepShepherd, SilkReeler,
+SmokedMeatCurer, SnuffMiller, SpiceMerchant, StageProp, StainedGlass,
+StarChart, SugarRefiner, SulfurCollector, Sundial, TapestryLoom,
+Tassel, TeaBlender, TerrariumKeeper, TheaterMask, Thermometer,
+ThreadReel, TobaccoCurer, Top, VineyardPlanter, WallpaperPrinter,
+WaxSealPresser, WhalingCaptain, Wig, WineVintner, WoodenSpoonCarver,
+WoolStapler, YogurtFermenter, AlambicStill, AquariumKeeper, Astrolabe
+
 ## [v3.12.175] — 2026-08-23 — Auto-build pipeline + 10 Tier 1 sprite-ev
 
 ### Dodano (v3.12.150-v3.12.175 — celotna seja)
