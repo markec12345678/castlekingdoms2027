@@ -51,7 +51,7 @@ local COMMANDS = {
     { cmd = "toggle_pause",      label = "Pavza / nadaljuj",         desc = "Pavziraj igro",                key = "Space",        icon = "⏸" },
     { cmd = "speed_1x",         label = "Hitrost: 1x",              desc = "Normalna hitrost",            key = "1",            icon = "▶" },
     { cmd = "speed_2x",         label = "Hitrost: 2x",              desc = "Dvojna hitrost",              key = "2",            icon = "⏩" },
-    { cmd = "speed_3x",         label = "Hitrost: 3x",              desc:sub(1,0) or "Trojna hitrost",     key = "3",            icon = "⏭" },
+    { cmd = "speed_3x",         label = "Hitrost: 3x",              desc = "Trojna hitrost",                key = "3",            icon = "⏭" },
     { cmd = "screenshot",        label = "Screenshot",               desc = "Zajemi zaslon",               key = "Ctrl+M",       icon = "📷" },
     { cmd = "force_save",       label = "Force save",              desc = "Takojšnje shranjevanje",      key = "—",            icon = "💾" },
     { cmd = "reset_hints",     label = "Reset tutorial hints",     desc = "Ponastavi vse hinte",         key = "—",            icon = "🔄" },

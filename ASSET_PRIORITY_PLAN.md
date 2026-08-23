@@ -165,11 +165,32 @@ Za te sisteme zadostuje preprost procedural icon (generiran v Lua iz imena siste
 
 ## 🚀 Implementacijski plan
 
+### ✅ Faza C: Procedural placeholder (KONČANO v v3.12.152)
+- **Modul**: `states/ui/hud/royal_icon_generator.lua` (~470 vrstic)
+- **Pristop**: Procedural generator v Lua generira 64×64 canvas za vsak sistem
+- **Format**: love.Canvas (cached, ne PNG datoteka)
+- **Barva**: 28 kategorij z lastnimi barvami (kovastvo=rdeča, knjigovestvo=modra, itd.)
+- **Decor**: 25+ različnih dekorativnih elementov glede na kategorijo (anvil, book, leaf, bell, shield, star, ...)
+- **API**:
+  - `RoyalIconGenerator.getIcon(systemName)` — vrne cached canvas
+  - `RoyalIconGenerator.draw(systemName, x, y, size)` — narise na pozicijo
+  - `RoyalIconGenerator.prewarm(systemNames)` — batch warm-up za vse sisteme
+  - `RoyalIconGenerator.clearCache()` — sprosti spomin
+  - `RoyalIconGenerator.getCategory(systemName)` — vrne kategorijo
+  - `RoyalIconGenerator.getCategoryColor(category)` — vrne RGB barvo
+- **Integrirano v**:
+  - ✅ `royal_systems_panel.lua` (Ctrl+R) — 16×16 ikona v list, 48×48 v detail
+  - ⏳ `tech_tree_panel.lua` (Ctrl+Shift+G) — TODO v naslednji verziji
+  - ⏳ `market_dashboard.lua` (Ctrl+K) — TODO v naslednji verziji
+- **Performance**: ikone se cache-ajo po prvem generiranju (~16KB na ikono)
+- **Estimated effort**: 1 dan ✓ KONČANO
+
 ### Faza A: Tier 1 (prvih 50 sprite-ev)
 - **Pristop**: AI-generated ali komisioniran umetnik
 - **Format**: 256×256 PNG z alfa kanalom
 - **Stil**: Srednjeveški, top-down, v skladu z obstoječo Stone Kingdoms estetiko
 - **Lokacija**: `assets/royal_systems/tier1/<system_name>.png`
+- **Override**: Modul najprej preveri ali obstaja PNG v `assets/royal_systems/tier1/` in ga uporabi, smer generira procedural
 - **Estimated effort**: 50 sprite-ev × 2 uri/sprite = 100 ur dela
 
 ### Faza B: Tier 2 (naslednjih 100 sprite-ev)
@@ -177,12 +198,6 @@ Za te sisteme zadostuje preprost procedural icon (generiran v Lua iz imena siste
 - **Format**: 128×128 PNG z alfa kanalom
 - **Lokacija**: `assets/royal_systems/tier2/<system_name>.png`
 - **Estimated effort**: 100 sprite-ev × 1 uro/sprite = 100 ur dela
-
-### Faza C: Tier 3 (procedural placeholder)
-- **Pristop**: Procedural generator v Lua (RoyalIconGenerator modul)
-- **Format**: Generira se ob init iz sistemskega imena
-- **Barva**: Baseline na osnovi kategorije (kovac=rdeča, knjigovez=modra, itd.)
-- **Estimated effort**: 1 dan za Lua modul + generične ikone
 
 ### Faza D: Tier 4 + 5 (text-only)
 - **Pristop**: Samo tekst z ikono kategorije

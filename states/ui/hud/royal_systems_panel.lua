@@ -13,6 +13,7 @@ local Registry = require("objects.Economy.RoyalSystemsRegistry")
 local RMI = require("objects.Economy.RoyalMarketIntegration")
 local PanelAnim = require("states.ui.hud.PanelAnimations")
 local UISound = require("objects.Audio.UISoundHelper")
+local RoyalIcon = require("states.ui.hud.royal_icon_generator")  -- v3.12.152: procedural icons
 
 local RoyalPanel = {}
 
@@ -566,11 +567,14 @@ function RoyalPanel.draw()
             love.graphics.rectangle("fill", listX + 4, rowY, 3, itemH - 2)
         end
 
+        -- v3.12.152: Procedural icon (16x16) to the left of name
+        RoyalIcon.draw(sys.name or sys.key, listX + 10, rowY + (itemH - 16) / 2 - 1, 16)
+
         -- Name
         love.graphics.setColor(1, 1, 1, 0.92)
         local displayName = sys.name
         if #displayName > 24 then displayName = displayName:sub(1, 22) .. ".." end
-        love.graphics.print(displayName, listX + 20, rowY + 3)
+        love.graphics.print(displayName, listX + 32, rowY + 3)
 
         -- Mini stats
         love.graphics.setColor(0.7, 0.7, 0.7, 0.8)
@@ -615,8 +619,11 @@ function RoyalPanel.draw()
         local buildings = cat and cat.buildings or {}
 
         -- Header with category badge
+        -- v3.12.152: Larger procedural icon (48x48) next to system name
+        RoyalIcon.draw(selSys.name or selSys.key, detailX + 16, detailY + 8, 48)
+
         love.graphics.setColor(1, 0.92, 0.7, 1)
-        love.graphics.print(selSys.name, detailX + 16, detailY + 10)
+        love.graphics.print(selSys.name, detailX + 76, detailY + 10)
 
         -- Category badge
         local sysCat = detectCategory(selSys.name)
@@ -625,7 +632,7 @@ function RoyalPanel.draw()
             if c.id == sysCat then badgeCat = c break end
         end
         if badgeCat then
-            local badgeX = detailX + 16 + font:getWidth(selSys.name) + 10
+            local badgeX = detailX + 76 + font:getWidth(selSys.name) + 10
             local badgeW = font:getWidth(badgeCat.label) + 12
             love.graphics.setColor(badgeCat.color[1] * 0.4, badgeCat.color[2] * 0.4, badgeCat.color[3] * 0.4, 0.9)
             love.graphics.rectangle("fill", badgeX, detailY + 10, badgeW, 16, 3, 3, 3, 3)
@@ -634,7 +641,7 @@ function RoyalPanel.draw()
         end
 
         love.graphics.setColor(0.7, 0.7, 0.7, 1)
-        love.graphics.print("(key: " .. selSys.key .. ")", detailX + 16, detailY + 30)
+        love.graphics.print("(key: " .. selSys.key .. ")", detailX + 76, detailY + 30)
 
         -- Castle Kingdoms 2027 v3.11.934: System dependencies (tech tree) display
         local Deps = require("objects.Economy.SystemDependencies")
