@@ -61,7 +61,7 @@ local KEYBINDS = {
             { key = "V",         desc = "Nastavitve (game feel) | V v Ctrl+K: zgodovina dogodkov" },
             { key = "N",         desc = "Toast zgodovina - pokaži vsa pretekla obvestila (v3.12.127)" },
             { key = "Ctrl+Shift+A", desc = "Dosežki - modern achievement panel z animacijami (v3.12.128)" },
-            { key = "Ctrl+Shift+I", desc = "Statistika - pregled, proizvodnja, trg, lestvice z grafi (v3.12.129)" },
+            { key = "Ctrl+Shift+I", desc = "Statistika - pregled, proizvodnja, trg, lestvice, boj, PERFORMANCE z grafi (v3.12.129, v3.12.166)" },
             { key = "Ctrl+Shift+O", desc = "Tutorial manager - vsi hinti z reset/toggle funkcijami (v3.12.132)" },
             { key = "Ctrl+Shift+F", desc = "Težavnost - 5 stopnj (peaceful/easy/normal/hard/brutal) z modifierji (v3.12.133)" },
             { key = "Ctrl+Shift+K", desc = "Urejevalnik tipk - customizacija bližnjic z persistenco (v3.12.144)" },

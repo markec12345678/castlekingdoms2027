@@ -47,8 +47,9 @@ local TABS = {
     market       = { label = "TRG",            color = {0.4, 0.65, 0.95} },
     leaderboards = { label = "LESTVICE",      color = {0.85, 0.45, 0.85} },
     combat       = { label = "BOJEVANJE",     color = {0.9, 0.4, 0.4} },
+    performance  = { label = "PERFORMANCE",   color = {0.4, 0.85, 0.85} },  -- v3.12.166
 }
-local TAB_ORDER = {"overview", "production", "market", "leaderboards", "combat"}
+local TAB_ORDER = {"overview", "production", "market", "leaderboards", "combat", "performance"}  -- v3.12.166
 
 function StatsPanel.toggle()
     if not visible then
@@ -293,6 +294,8 @@ function StatsPanel.draw()
         drawLeaderboards(contentLeft, contentTop, contentW, contentH, alpha, smallFont, font)
     elseif activeTab == "combat" then
         drawCombat(contentLeft, contentTop, contentW, contentH, alpha, smallFont, font)
+    elseif activeTab == "performance" then
+        drawPerformance(contentLeft, contentTop, contentW, contentH, alpha, smallFont, font)
     end
 
     love.graphics.setScissor()
@@ -950,6 +953,163 @@ end
 
 function StatsPanel.mousereleased(x, y, button)
     return false
+end
+
+-- ============================================================
+-- v3.12.166: Performance tab
+-- Shows real-time stats from Morale, Spacing, LOD, and Procedural SFX systems
+-- ============================================================
+
+local function formatNum(n)
+    if not n then return "0" end
+    if n >= 1000000 then return string.format("%.1fM", n / 1000000)
+    elseif n >= 1000 then return string.format("%.1fK", n / 1000)
+    else return tostring(math.floor(n)) end
+end
+
+local function drawStatRow(x, y, w, label, value, color, alpha, smallFont)
+    love.graphics.setColor(0.7, 0.7, 0.7, alpha)
+    if smallFont then love.graphics.setFont(smallFont) end
+    love.graphics.print(label, x, y)
+    love.graphics.setColor(color[1], color[2], color[3], alpha)
+    local labelW = smallFont and smallFont:getWidth(label) or 0
+    love.graphics.print(value, x + w - smallFont:getWidth(value) - 8, y)
+end
+
+local function drawSection(x, y, w, title, color, alpha, font)
+    love.graphics.setColor(color[1] * 0.4, color[2] * 0.4, color[3] * 0.4, alpha * 0.9)
+    love.graphics.rectangle("fill", x, y, w, 18, 3, 3, 3, 3)
+    love.graphics.setColor(color[1], color[2], color[3], alpha)
+    love.graphics.rectangle("line", x, y, w, 18, 3, 3, 3, 3)
+    if font then love.graphics.setFont(font) end
+    love.graphics.print(title, x + 6, y + 2)
+end
+
+function drawPerformance(x, y, w, h, alpha, smallFont, font)
+    if not smallFont then return end
+    love.graphics.setFont(smallFont)
+
+    local rowH = 16
+    local sectionH = 22
+    local curY = y
+
+    -- FPS counter (always visible)
+    local fps = love.timer.getFPS()
+    local fpsColor = fps >= 50 and {0.4, 0.85, 0.4} or (fps >= 30 and {0.9, 0.85, 0.3} or {0.95, 0.4, 0.3})
+    drawSection(x, curY, w, "PERFORMANCE", {0.4, 0.85, 0.85}, alpha, font)
+    curY = curY + sectionH
+    drawStatRow(x + 8, curY, w - 16, "FPS:", tostring(fps), fpsColor, alpha, smallFont)
+    curY = curY + rowH
+    drawStatRow(x + 8, curY, w - 16, "Memorija (MB):", string.format("%.1f", collectgarbage("count")), {0.7, 0.8, 0.9}, alpha, smallFont)
+    curY = curY + rowH
+    local totalUnits = 0
+    if _G.state and _G.state.gameObjectList then
+        for _, _ in ipairs(_G.state.gameObjectList) do totalUnits = totalUnits + 1 end
+    end
+    drawStatRow(x + 8, curY, w - 16, "Enote skupaj:", tostring(totalUnits), {0.9, 0.9, 0.9}, alpha, smallFont)
+    curY = curY + rowH + 4
+
+    -- LOD System stats
+    if _G.LODSystem and _G.LODSystem.getStats then
+        drawSection(x, curY, w, "LOD SISTEM", {0.4, 0.85, 0.85}, alpha, font)
+        curY = curY + sectionH
+        local lodStats = _G.LODSystem.getStats()
+        drawStatRow(x + 8, curY, w - 16, "  HIGH (popoln):", tostring(lodStats.lodHigh or 0), {0.4, 0.85, 0.4}, alpha, smallFont)
+        curY = curY + rowH
+        drawStatRow(x + 8, curY, w - 16, "  MED (zmanjšano):", tostring(lodStats.lodMed or 0), {0.9, 0.85, 0.3}, alpha, smallFont)
+        curY = curY + rowH
+        drawStatRow(x + 8, curY, w - 16, "  LOW (minimalno):", tostring(lodStats.lodLow or 0), {0.95, 0.6, 0.2}, alpha, smallFont)
+        curY = curY + rowH
+        drawStatRow(x + 8, curY, w - 16, "  OFF (izven):", tostring(lodStats.lodOff or 0), {0.6, 0.3, 0.3}, alpha, smallFont)
+        curY = curY + rowH
+        drawStatRow(x + 8, curY, w - 16, "  Preskočene update:", tostring(lodStats.skippedUpdates or 0), {0.85, 0.7, 0.4}, alpha, smallFont)
+        curY = curY + rowH
+        drawStatRow(x + 8, curY, w - 16, "  Preskočene animacije:", tostring(lodStats.skippedAnimations or 0), {0.85, 0.7, 0.4}, alpha, smallFont)
+        curY = curY + rowH
+        drawStatRow(x + 8, curY, w - 16, "  Preskočene risbe:", tostring(lodStats.skippedDraws or 0), {0.85, 0.7, 0.4}, alpha, smallFont)
+        curY = curY + rowH + 4
+    else
+        drawSection(x, curY, w, "LOD SISTEM (ni na voljo)", {0.5, 0.5, 0.5}, alpha, font)
+        curY = curY + sectionH + rowH * 2 + 4
+    end
+
+    -- Morale System stats
+    if _G.MoraleSystem and _G.MoraleSystem.getStats then
+        drawSection(x, curY, w, "MORALE SISTEM", {0.9, 0.4, 0.4}, alpha, font)
+        curY = curY + sectionH
+        local moraleStats = _G.MoraleSystem.getStats()
+        drawStatRow(x + 8, curY, w - 16, "  Sledene enote:", tostring(moraleStats.trackedUnits or 0), {0.9, 0.9, 0.9}, alpha, smallFont)
+        curY = curY + rowH
+        drawStatRow(x + 8, curY, w - 16, "  Bežeče enote:", tostring(moraleStats.fleeingUnits or 0), {0.95, 0.4, 0.3}, alpha, smallFont)
+        curY = curY + rowH
+        local avgM = moraleStats.averageMorale or 0
+        local moraleColor = avgM >= 75 and {0.4, 0.85, 0.4} or (avgM >= 50 and {0.9, 0.85, 0.3} or (avgM >= 25 and {0.95, 0.6, 0.2} or {0.95, 0.4, 0.3}))
+        drawStatRow(x + 8, curY, w - 16, "  Povprečna morale:", string.format("%.1f/100", avgM), moraleColor, alpha, smallFont)
+        curY = curY + rowH
+        drawStatRow(x + 8, curY, w - 16, "  Grid celice:", tostring(moraleStats.gridCells or 0), {0.7, 0.7, 0.7}, alpha, smallFont)
+        curY = curY + rowH
+        drawStatRow(x + 8, curY, w - 16, "  Tick rate:", string.format("%.2fs", moraleStats.tickRate or 0.5), {0.7, 0.7, 0.7}, alpha, smallFont)
+        curY = curY + rowH
+        drawStatRow(x + 8, curY, w - 16, "  Vidno:", tostring(moraleStats.visible), moraleStats.visible and {0.4, 0.85, 0.4} or {0.5, 0.5, 0.5}, alpha, smallFont)
+        curY = curY + rowH + 4
+    else
+        drawSection(x, curY, w, "MORALE SISTEM (ni na voljo)", {0.5, 0.5, 0.5}, alpha, font)
+        curY = curY + sectionH + rowH * 2 + 4
+    end
+
+    -- Spacing System stats
+    if _G.SpacingSystem and _G.SpacingSystem.getStats then
+        drawSection(x, curY, w, "SPACING SISTEM", {0.6, 0.85, 0.6}, alpha, font)
+        curY = curY + sectionH
+        local spStats = _G.SpacingSystem.getStats()
+        drawStatRow(x + 8, curY, w - 16, "  Obdelane enote:", tostring(spStats.unitsProcessed or 0), {0.9, 0.9, 0.9}, alpha, smallFont)
+        curY = curY + rowH
+        drawStatRow(x + 8, curY, w - 16, "  Aplikacije repulzije:", tostring(spStats.repulsionsApplied or 0), {0.85, 0.7, 0.4}, alpha, smallFont)
+        curY = curY + rowH
+        drawStatRow(x + 8, curY, w - 16, "  Povprečni push:", string.format("%.3f", spStats.avgPushPerUnit or 0), {0.7, 0.8, 0.9}, alpha, smallFont)
+        curY = curY + rowH
+        drawStatRow(x + 8, curY, w - 16, "  Min spacing (zavezniki):", string.format("%.1f tile", spStats.minSpacingAllies or 1.2), {0.7, 0.7, 0.7}, alpha, smallFont)
+        curY = curY + rowH
+        drawStatRow(x + 8, curY, w - 16, "  Grid celice:", tostring(spStats.gridCells or 0), {0.7, 0.7, 0.7}, alpha, smallFont)
+        curY = curY + rowH + 4
+    else
+        drawSection(x, curY, w, "SPACING SISTEM (ni na voljo)", {0.5, 0.5, 0.5}, alpha, font)
+        curY = curY + sectionH + rowH * 2 + 4
+    end
+
+    -- Procedural SFX stats
+    if _G.ProceduralSFX and _G.ProceduralSFX.getStats then
+        drawSection(x, curY, w, "PROCEDURAL SFX", {0.85, 0.6, 0.95}, alpha, font)
+        curY = curY + sectionH
+        local sfxStats = _G.ProceduralSFX.getStats()
+        drawStatRow(x + 8, curY, w - 16, "  Generirani zvoki:", tostring(sfxStats.soundCount or 0), {0.9, 0.9, 0.9}, alpha, smallFont)
+        curY = curY + rowH
+        drawStatRow(x + 8, curY, w - 16, "  Sample rate:", string.format("%d Hz", sfxStats.sampleRate or 44100), {0.7, 0.7, 0.7}, alpha, smallFont)
+        curY = curY + rowH
+        drawStatRow(x + 8, curY, w - 16, "  Pomnilnik:", string.format("~%d KB", sfxStats.estimatedMemoryKB or 0), {0.7, 0.8, 0.9}, alpha, smallFont)
+        curY = curY + rowH
+        drawStatRow(x + 8, curY, w - 16, "  Inicializiran:", tostring(sfxStats.initialized), sfxStats.initialized and {0.4, 0.85, 0.4} or {0.5, 0.5, 0.5}, alpha, smallFont)
+        curY = curY + rowH + 4
+    else
+        drawSection(x, curY, w, "PROCEDURAL SFX (ni na voljo)", {0.5, 0.5, 0.5}, alpha, font)
+        curY = curY + sectionH + rowH * 2 + 4
+    end
+
+    -- Combat Formation info
+    if _G.FormationSystem and _G.FormationSystem.getCurrentFormationName then
+        drawSection(x, curY, w, "FORMACIJA", {0.85, 0.85, 0.4}, alpha, font)
+        curY = curY + sectionH
+        local formName = _G.FormationSystem.getCurrentFormationName()
+        drawStatRow(x + 8, curY, w - 16, "  Trenutna formacija:", formName or "—", {0.9, 0.9, 0.9}, alpha, smallFont)
+        curY = curY + rowH
+        local defBonus = (_G.FormationSystem.getDefenseBonus and _G.FormationSystem.getDefenseBonus()) or 1.0
+        drawStatRow(x + 8, curY, w - 16, "  Defense bonus:", string.format("%.0f%%", (defBonus - 1) * 100), {0.4, 0.85, 0.4}, alpha, smallFont)
+        curY = curY + rowH
+        local atkBonus = (_G.FormationSystem.getAttackBonus and _G.FormationSystem.getAttackBonus()) or 1.0
+        drawStatRow(x + 8, curY, w - 16, "  Attack bonus:", string.format("%.0f%%", (atkBonus - 1) * 100), {0.95, 0.4, 0.3}, alpha, smallFont)
+    else
+        drawSection(x, curY, w, "FORMACIJA (ni na voljo)", {0.5, 0.5, 0.5}, alpha, font)
+    end
 end
 
 return StatsPanel
