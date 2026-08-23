@@ -1,8 +1,8 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.12.205** (Tier 2 Sprite Pack Complete!)
-- Tags: `v3.12.171-beta` + `v3.12.184-tier1-complete` + `v3.12.205-tier2-complete`
+- Različica: **v3.12.223** (ALL ASSETS COMPLETE!)
+- Tags: `v3.12.171-beta` + `v3.12.184-tier1-complete` + `v3.12.205-tier2-complete` + `v3.12.211-hd-terrain-complete` + `v3.12.223-hd-buildings-complete`
 - Skupaj Royal sistemov: **990**
 - Skupaj Lua datotek: **1669**
 - Sintaktična preverba (avtentična Lua `load()`): **1669/1669 pass (100%)**

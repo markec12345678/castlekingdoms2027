@@ -3,7 +3,7 @@
 > Po v1.0.0-campaign-complete sledi faza poliranja.
 > **Pravilo: NE dodajati novih sistemov.** Samo izboljšati obstoječe.
 
-Zadnja posodobitev: 2026-08-23 (v3.12.213)
+Zadnja posodobitev: 2026-08-23 (v3.12.223)
 
 ---
 
@@ -191,7 +191,7 @@ Zadnja posodobitev: 2026-08-23 (v3.12.213)
 
 ### What needs artists
 - ✅ HD tileset (256x256) — v3.12.207-v3.12.211 (12 biome, overlay draw)
-- 🔄 HD building sprites (256x256) — v3.12.212-v3.12.213 (5/50 končanih)
+- ✅ HD building sprites (256x256) — v3.12.212-v3.12.223 (50/50 zgradb, AI-generirani)
 - ❌ HD unit sprites with animations (need art assets)
 - ❌ HD UI icons (need art assets)
 - ❌ Loading screen art (need art assets)

@@ -2,6 +2,36 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
+## [v3.12.223] — 2026-08-23 — HD Building Sprite Pack Complete (50/50 = 100%!)
+
+### 🎉 Mejnik: HD Building Sprite Pack Popoln!
+
+Po 10 batchih (v3.12.213-v3.12.223) je HD Building pack končan:
+- 50 AI-generiranih zgradb, vsi 256×256 RGBA PNG z alfa
+- ~6MB skupna velikost
+- ~43 minut AI generacije (52s na sprite)
+- Izometrična perspektiva (matching Stone Kingdoms style)
+- Tag `v3.12.223-hd-buildings-complete` pushan
+
+### Vse 50 HD zgradbe:
+Keep, Stockpile, Granary, Barracks, Market, Armoury, Inn, Cathedral,
+Church, Chapel, Blacksmith, Bakery, Brewery, Fletcher, Poleturner,
+Quarry, Mine, House, Residence, Stable, Fortress, RoundTower,
+SquareTower, DefenseTower, StoneWall, StoneGate, StoneGateBig,
+StoneGateEast, StoneStairs, StoneBattlements, EngineersGuild,
+HunterHut, DairyFarm, HopsFarm, Orchard, OxTether, PitchRig, Maypole,
+Campfire, Apothecary, Armorer, SaxonHall, Flat, BigResidence,
+PerimeterTower, LargeGarden, MediumGarden, SmallGarden, LargePond,
+SmallPond
+
+### Skupni asset status (popoln!)
+- Tier 1 sprites: 50/50 (100%) — v3.12.184
+- Tier 2 sprites: 100/100 (100%) — v3.12.205
+- Tier 3 procedural: 840/840 (100%) — v3.12.152
+- HD terrain: 12/12 (100%) — v3.12.211
+- HD buildings: 50/50 (100%) — v3.12.223
+- **Skupno: 212 pravih PNG assets**
+
 ## [v3.12.210] — 2026-08-23 — HD Terrain Overlay Draw (integracija z terrain.lua)
 
 ### Dodano

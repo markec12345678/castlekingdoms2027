@@ -2,13 +2,13 @@
 
 Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT). Navdihnjen s klasičnimi srednjeveškimi strateškimi igrami.
 
-[![Version](https://img.shields.io/badge/version-3.12.205--tier2--complete-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
+[![Version](https://img.shields.io/badge/version-3.12.223--all--assets--complete-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
 [![Syntax](https://img.shields.io/badge/syntax-1669%2F1669%20pass-brightgreen.svg)](#)
 [![Systems](https://img.shields.io/badge/Royal%20systems-990-blue.svg)](#)
 [![Lua](https://img.shields.io/badge/Lua%20files-1669-green.svg)](#)
-[![Sprites](https://img.shields.io/badge/Sprites-150%2F990-success.svg)](#)
+[![Assets](https://img.shields.io/badge/Assets-212%20PNG-success.svg)](#)
 [![Beta](https://img.shields.io/badge/status-BETA-yellow.svg)](https://github.com/markec12345678/castlekingdoms2027/releases/tag/v3.12.171-beta)
 [![Registry](https://img.shields.io/badge/Royal%20Registry-%2B100%25Mouse%2BWheel-blueviolet.svg)](#)
 
