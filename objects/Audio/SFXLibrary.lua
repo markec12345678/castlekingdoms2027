@@ -21,6 +21,25 @@ local SFXLibrary = {}
 local initialized = false
 local sfxCategories = {}
 
+-- v3.12.163: Procedural SFX as fallback when audio files are missing
+-- Maps SFXLibrary logical names to ProceduralSFX names
+-- When _G.fx doesn't have a sound, we try the procedural version
+local PROCEDURAL_FALLBACK = {
+    combat = {
+        sword_hit    = "sword_hit",
+        arrow_shoot  = "arrow_shoot",
+        arrow_hit    = "arrow_hit",
+        shield_block = "shield_block",
+        death        = "death_male",  -- default to male variant
+    },
+    siege = {
+        -- Cavalry/siege: no direct alias, skip
+    },
+    veterancy = {
+        level_up = "rally_horn",  -- use horn as level-up sound
+    },
+}
+
 -- SFX category definitions
 -- Each category maps logical names to actual sound source names from _G.fx
 local CATEGORY_MAP = {
@@ -113,7 +132,6 @@ end
 -- @param volume number Volume override (0-1, optional)
 function SFXLibrary.play(category, name, gx, gy, volume)
     if not initialized then return end
-    if not _G.fx then return end
 
     local cat = sfxCategories[category]
     if not cat then
@@ -127,23 +145,34 @@ function SFXLibrary.play(category, name, gx, gy, volume)
         return
     end
 
-    -- Pick random alias
-    local alias = aliases[math.random(#aliases)]
-    local source = _G.fx[alias]
+    -- Try to play from _G.fx first
+    local source = nil
+    if _G.fx then
+        -- Pick random alias
+        local alias = aliases[math.random(#aliases)]
+        source = _G.fx[alias]
 
+        if not source then
+            -- Try the alias directly as a fx name
+            source = _G.fx[name]
+        end
+
+        -- Handle table of sources (random variant)
+        if type(source) == "table" then
+            source = source[math.random(#source)]
+        end
+    end
+
+    -- v3.12.163: Procedural SFX fallback if no source found
     if not source then
-        -- Try the alias directly as a fx name
-        source = _G.fx[name]
+        local proceduralName = PROCEDURAL_FALLBACK[category] and PROCEDURAL_FALLBACK[category][name]
+        if proceduralName and _G.ProceduralSFX then
+            _G.ProceduralSFX.play(proceduralName, gx, gy, volume)
+            return
+        end
+        -- No procedural fallback either, silently skip
+        return
     end
-
-    if not source then return end
-
-    -- Handle table of sources (random variant)
-    if type(source) == "table" then
-        source = source[math.random(#source)]
-    end
-
-    if not source then return end
 
     -- Calculate volume
     local finalVolume = volume or 1.0

@@ -19,6 +19,7 @@ S.CombatIntegration = require("objects.Combat.CombatIntegration")
 S.CombatTestScenario = require("objects.Combat.CombatTestScenario")
 S.MoraleSystem = require("objects.Combat.CombatMoraleSystem")  -- v3.12.156
 S.SpacingSystem = require("objects.Combat.CombatSpacingSystem")  -- v3.12.160
+S.ProceduralSFX = require("objects.Audio.ProceduralSFX")  -- v3.12.163
 S.AnimationSystem = require("objects.Animation.AnimationSystem")
 S.SoundSystem = require("objects.Audio.SoundSystem")
 S.WeatherSystem = require("objects.Weather.WeatherSystem")
@@ -1084,6 +1085,11 @@ local function delayedInit()
     _G.MoraleSystem = S.MoraleSystem
     -- v3.12.160: Combat Spacing System (anti-clustering)
     _G.SpacingSystem = S.SpacingSystem
+    -- v3.12.163: Procedural SFX (fallback for missing audio files)
+    _G.ProceduralSFX = S.ProceduralSFX
+    if S.ProceduralSFX and S.ProceduralSFX.init then
+        pcall(function() S.ProceduralSFX.init() end)
+    end
     -- Castle Kingdoms 2027: Initialize modding & Steam
     S.ModLoader.init()
     S.CustomBuildingLoader.init()
