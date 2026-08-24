@@ -25,6 +25,7 @@ S.TerrainOverride = require("objects.Environment.TerrainTextureOverride")  -- v3
 S.BuildingOverride = require("objects.Structures.BuildingSpriteOverride")  -- v3.12.212
 S.UnitOverride = require("objects.Units.UnitSpriteOverride")  -- v3.12.226
 S.ScreenshotCapture = require("objects.System.ScreenshotCaptureSystem")  -- v3.13.3
+S.UnitAnimation = require("objects.Animation.UnitAnimationSystem")  -- v3.13.6
 S.AnimationSystem = require("objects.Animation.AnimationSystem")
 S.SoundSystem = require("objects.Audio.SoundSystem")
 S.WeatherSystem = require("objects.Weather.WeatherSystem")
@@ -1116,6 +1117,8 @@ local function delayedInit()
     end
     -- v3.13.3: Screenshot Capture System
     _G.ScreenshotCapture = S.ScreenshotCapture
+    -- v3.13.6: Unit Animation System
+    _G.UnitAnimation = S.UnitAnimation
     -- Castle Kingdoms 2027: Initialize modding & Steam
     S.ModLoader.init()
     S.CustomBuildingLoader.init()
@@ -3292,6 +3295,7 @@ function game:update(dt)
                 CommandPalette.update(dt)
                 MultiplayerPanel.update(dt)
                 if S.ScreenshotCapture then S.ScreenshotCapture.update(dt) end
+                if S.UnitAnimation then S.UnitAnimation.update(dt) end
                 -- Castle Kingdoms 2027 v3.12.133: Difficulty panel animation update
                 DifficultyPanel.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
