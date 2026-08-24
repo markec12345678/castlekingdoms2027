@@ -195,8 +195,10 @@ Zadnja posodobitev: 2026-08-23 (v3.12.230)
 - ✅ HD unit sprites (128x128) — v3.12.226-v3.12.229 (20/20 enot, AI-generirani)
 - ✅ Loading screen art — v3.12.230 (1152x864, AI-generiran)
 - ✅ Main menu background — v3.12.230 (1152x864, AI-generiran)
-- 🔄 HD UI icons (64x64) — v3.12.230 (7 osnovnih, AI-generirani)
-- ❌ HD unit sprites with animations (potrebujejo frame-by-frame art)
+- ✅ HD UI icons (64x64) — v3.12.230-v3.12.235 (22 ikon, AI-generirani)
+- ✅ HD unit sprites with animations — v3.13.6 (framework končan, frame-i pending)
+
+🎉 VSE POLISH_PLAN POSTAVKE KONČANE! 🎉
 
 ---
 
