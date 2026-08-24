@@ -62,6 +62,7 @@ local COMMANDS = {
     { cmd = "toggle_hd_buildings", label = "Toggle HD buildings",     desc = "HD sprite-i za zgradbe (256x256)", key = "—",            icon = "🏰" },
     { cmd = "toggle_hd_units",     label = "Toggle HD units",          desc = "HD sprite-i za enote (128x128)",   key = "—",            icon = "⚔" },
     { cmd = "open_multiplayer",    label = "Multiplayer",              desc = "Poveži se ali hostuj multiplayer igro", key = "—",       icon = "🏰" },
+    { cmd = "screenshot_tour",     label = "Screenshot tour",           desc = "Auto-zajem 20 screenshotov za Steam",  key = "—",       icon = "📷" },
 }
 
 -- Execute a command
@@ -99,6 +100,12 @@ local function executeCommand(cmd)
     elseif cmd == "open_multiplayer" then
         local mp = require("states.ui.hud.multiplayer_panel")
         mp.toggle()
+    elseif cmd == "screenshot_tour" and _G.ScreenshotCapture then
+        if _G.ScreenshotCapture.isTouring() then
+            _G.ScreenshotCapture.stopTour()
+        else
+            _G.ScreenshotCapture.startTour(10, 20)
+        end
     end
     UISound.playSuccess()
     CommandPalette.toggle()

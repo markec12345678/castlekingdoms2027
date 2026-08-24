@@ -24,6 +24,7 @@ S.LODSystem = require("objects.Performance.LODSystem")  -- v3.12.165
 S.TerrainOverride = require("objects.Environment.TerrainTextureOverride")  -- v3.12.207
 S.BuildingOverride = require("objects.Structures.BuildingSpriteOverride")  -- v3.12.212
 S.UnitOverride = require("objects.Units.UnitSpriteOverride")  -- v3.12.226
+S.ScreenshotCapture = require("objects.System.ScreenshotCaptureSystem")  -- v3.13.3
 S.AnimationSystem = require("objects.Animation.AnimationSystem")
 S.SoundSystem = require("objects.Audio.SoundSystem")
 S.WeatherSystem = require("objects.Weather.WeatherSystem")
@@ -1113,6 +1114,8 @@ local function delayedInit()
     if S.UnitOverride and S.UnitOverride.isEnabled and S.UnitOverride.isEnabled() then
         pcall(function() S.UnitOverride.init() end)
     end
+    -- v3.13.3: Screenshot Capture System
+    _G.ScreenshotCapture = S.ScreenshotCapture
     -- Castle Kingdoms 2027: Initialize modding & Steam
     S.ModLoader.init()
     S.CustomBuildingLoader.init()
@@ -3288,6 +3291,7 @@ function game:update(dt)
                 -- Castle Kingdoms 2027 v3.12.149: Command palette update
                 CommandPalette.update(dt)
                 MultiplayerPanel.update(dt)
+                if S.ScreenshotCapture then S.ScreenshotCapture.update(dt) end
                 -- Castle Kingdoms 2027 v3.12.133: Difficulty panel animation update
                 DifficultyPanel.update(dt)
                 -- Castle Kingdoms 2027: Update fog of war periodically
@@ -3630,6 +3634,7 @@ function game:mousepressed(x, y, button, istouch)
     if CommandPalette.isVisible() then
         if CommandPalette.mousepressed(x, y, button) then return end
     end
+    -- v3.13.2: Multiplayer Panel click handling
     if MultiplayerPanel.isVisible() then
         if MultiplayerPanel.mousepressed(x, y, button) then return end
     end
