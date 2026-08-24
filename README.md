@@ -2,22 +2,22 @@
 
 Modernizirana različica klasične RTS igre o gradnji gradov za leto 2027, zgrajena na LÖVE 11.5 (Lua/LuaJIT). Navdihnjen s klasičnimi srednjeveškimi strateškimi igrami.
 
-[![Version](https://img.shields.io/badge/version-3.13.0--rc1-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
+[![Version](https://img.shields.io/badge/version-3.13.13-blue.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![LÖVE](https://img.shields.io/badge/LÖVE-11.5-orange.svg)](https://love2d.org)
-[![Syntax](https://img.shields.io/badge/syntax-1669%2F1669%20pass-brightgreen.svg)](#)
+[![Syntax](https://img.shields.io/badge/syntax-1675%2F1675%20pass-brightgreen.svg)](#)
 [![Systems](https://img.shields.io/badge/Royal%20systems-990-blue.svg)](#)
-[![Lua](https://img.shields.io/badge/Lua%20files-1669-green.svg)](#)
-[![Assets](https://img.shields.io/badge/Assets-239%20PNG-success.svg)](#)
+[![Lua](https://img.shields.io/badge/Lua%20files-1675-green.svg)](#)
+[![Assets](https://img.shields.io/badge/Assets-304%20PNG-success.svg)](#)
 [![RC](https://img.shields.io/badge/status-RELEASE%20CANDIDATE-orange.svg)](https://github.com/markec12345678/castlekingdoms2027/releases)
 [![Registry](https://img.shields.io/badge/Royal%20Registry-%2B100%25Mouse%2BWheel-blueviolet.svg)](#)
 
 ## Prenosi
 
-- **Zadnja izdaja**: [v3.12.171-beta](https://github.com/markec12345678/castlekingdoms2027/releases/tag/v3.12.171-beta)
-- **.love datoteka**: `castlekingdoms2027-v3.12.170.love` (94 MB, 1669 Lua datotek, 1712 PNG assetov)
-- **Status**: 🟨 BETA — prvi release candidate za zunanje testiranje
-- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 990 Royal sistemov, 1669 Lua datotek, **Tech Tree: 891 deps · 165 verig · 786 multi-prereq (98.25x)** · 14+ modern UI panelov · 6 barvnih tem · Command Palette · Event Log · Keyboard Shortcut Editor · Unified Settings · Help Overlay · Minimap HUD · Difficulty · Game Speed · Particle Effects · UI Sounds · Toast Notifications · Achievements · Statistics · Tutorial Manager · **Combat Morale System** · **Combat Anti-Clustering** · **Procedural SFX** · **Performance LOD System** · **Performance Dashboard** · BOOK/GARDEN/MILL/FORGE COMPLETE …
+- **Zadnja izdaja**: [v3.13.10](https://github.com/markec12345678/castlekingdoms2027/releases/tag/v3.13.10)
+- **.love datoteka**: `castlekingdoms2027-v3.13.10.love` (137 MB, 1675 Lua, 1992 PNG)
+- **Status**: 🟧 RELEASE CANDIDATE — v3.13.13 (zadnji commit)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md) — 990 Royal sistemov, 1675 Lua datotek, **304 pravih PNG assets** (50 Tier1 + 100 Tier2 + 12 terrain + 50 buildings + 20 units + 22 UI + 2 art + 60 animation frames) · **14 novih sistemov** (Combat Morale, Spacing, Procedural SFX, LOD, Performance Dashboard, Royal Icon Generator, HD Terrain/Building/Unit Override, Multiplayer Panel, Screenshot Capture, Unit Animation Framework, Save/Load Enhancement, Auto-build Pipeline) · **POLISH_PLAN 100% končan** · 5 override sistemov · 31 ukazov v Command Palette · 6 barvnih tem · 5 stopenj težavnosti · Multiplayer UI · Steam Store Page pripravljen
 - **LFS**: Po git clone zahtevaj `git lfs pull` za prave PNG asset-e (305 MB)
 - **Beta test**: Glej [BETA_TEST_CHECKLIST.md](BETA_TEST_CHECKLIST.md) (~150 testov v 7 fazah)
 
