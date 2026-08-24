@@ -2,7 +2,10 @@
 
 > Ta dokument spremlja napredek projekta in določa kratkoročne ter dolgoročne cilje.
 
-Zadnja posodobitev: **2026-08-22** (v3.12.149)
+Zadnja posodobitev: **2026-08-24** (v3.13.20)
+
+> 🎉 POLISH_PLAN 100% KONČAN! Vsi sistemi, asseti, in animacije so zaključeni.
+> Projekt je pripravljen za distribucijo beta testerjem in Steam/GOG upload.
 
 ---
 

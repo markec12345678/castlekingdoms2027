@@ -2,18 +2,16 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
-## [v3.13.13] — 2026-08-24 — Maceman animation + full sync (60 total animation frames)
+## [v3.13.20] — 2026-08-24 — ALL UNIT ANIMATIONS COMPLETE! (120/120 = 100%)
 
-### 🎬 Unit Animations (5/10 bojnih enot končanih)
+### 🎉 Mejnik: Unit Animation Pack Popoln!
 
-- Archer: 12 PNG (idle/walk/attack/death × 3) ✅ v3.13.8
-- Knight: 12 PNG ✅ v3.13.9
-- Swordsman: 12 PNG ✅ v3.13.11
-- Spearman: 12 PNG ✅ v3.13.12
-- Maceman: 12 PNG ✅ v3.13.13
-- **Skupno: 60 animation frame PNG**
+10 bojnih enot × 4 stanja × 3 frame-i = 120 animation PNG:
+- Archer: 12 ✅ | Knight: 12 ✅ | Swordsman: 12 ✅
+- Spearman: 12 ✅ | Maceman: 12 ✅ | Crossbowman: 12 ✅
+- Pikeman: 12 ✅ | Lord: 12 ✅ | Ladderman: 12 ✅ | Engineer: 12 ✅
 
-### Asset status (popoln!)
+### Skupni asset status (POPOLEN!)
 - Tier 1 sprites: 50 PNG
 - Tier 2 sprites: 100 PNG
 - HD terrain: 12 PNG
@@ -21,8 +19,8 @@ Vse pomembne spremembe projekta Castle Kingdoms 2027.
 - HD units: 20 PNG
 - HD UI icons: 22 PNG
 - Art (loading/menu): 2 PNG
-- Animation frames: 60 PNG
-- **Skupno: 304 pravih PNG assets + 840 procedural = 1144**
+- Animation frames: 120 PNG
+- **Skupno: 316 pravih PNG assets + 840 procedural = 1156**
 
 ### 14 novih sistemov
 1. Combat Morale System (v3.12.156-v3.12.161)
@@ -40,7 +38,9 @@ Vse pomembne spremembe projekta Castle Kingdoms 2027.
 13. Save/Load Enhancement (v3.12.167)
 14. Auto-build Pipeline (v3.12.170-v3.12.175)
 
-### POLISH_PLAN: 100% končan! 🎉
+### POLISH_PLAN: 100% KONČANO! 🎉
+### .love: 141 MB, 1675 Lua, 2088 PNG
+### 10 tag-ov na GitHub
 
 ## [v3.12.223] — 2026-08-23 — HD Building Sprite Pack Complete (50/50 = 100%!)
 

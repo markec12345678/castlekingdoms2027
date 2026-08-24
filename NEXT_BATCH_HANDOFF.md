@@ -1,10 +1,10 @@
 # HANDOFF DOKUMENT — Castle Kingdoms 2027
 
 ## TRENUTNO STANJE
-- Različica: **v3.13.13** (60 animation frames + full sync)
-- Tags: v3.12.171-beta, v3.12.184-tier1-complete, v3.12.205-tier2-complete, v3.12.211-hd-terrain-complete, v3.13.0-rc1, v3.13.0, v3.13.4, v3.13.10
-- .love paket: **castlekingdoms2027-v3.13.10.love (137 MB, 1675 Lua, 1992 PNG)**
-- Skupaj PNG assets: **304 pravih** (50 T1 + 100 T2 + 12 terrain + 50 buildings + 20 units + 22 UI + 2 art + 60 animations)
+- Različica: **v3.13.20** (ALL UNIT ANIMATIONS COMPLETE! 120/120 = 100%!)
+- Tags: 10 tag-ov (v3.12.171-beta do v3.13.20-animations-complete)
+- .love paket: **castlekingdoms2027-v3.13.20.love (141 MB, 1675 Lua, 2088 PNG)**
+- Skupaj PNG assets: **316 pravih** (50 T1 + 100 T2 + 12 terrain + 50 buildings + 20 units + 22 UI + 2 art + 120 animations)
 - Skupaj Royal sistemov: **990**
 - Skupaj Lua datotek: **1669**
 - Sintaktična preverba (avtentična Lua `load()`): **1669/1669 pass (100%)**
