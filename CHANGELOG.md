@@ -2,16 +2,15 @@
 
 Vse pomembne spremembe projekta Castle Kingdoms 2027.
 
-## [v3.13.0-rc1] — 2026-08-23 — Release Candidate 1 (vsi asseti končani!)
+## [v3.13.4] — 2026-08-23 — FINAL (all assets + all systems + recovery)
 
-### 🚀 RC1 Highlights
+### 🚀 Final Release
 
-83 verzij v eni seji (v3.12.149-v3.12.233):
-- ~9300+ novih vrstic kode, 0 bugov
-- 11 novih sistemov
-- 249 pravih PNG assets (vsi AI-generirani)
-- 7 tag-ov na GitHub
-- .love paket: 135 MB (1672 Lua, 1953 PNG)
+- 256 pravih PNG assets (vsi AI-generirani)
+- 13 novih sistemov
+- 1674 Lua datotek, 1968 PNG v .love paketu
+- 135 MB .love paket
+- Multiplayer UI + Screenshot Capture + vse override sistemi integrirani
 
 ### Asset sistemi (vsi končani!)
 - Tier 1 sprites: 50/50 (100%)
@@ -20,22 +19,29 @@ Vse pomembne spremembe projekta Castle Kingdoms 2027.
 - HD terrain: 12/12 (100%)
 - HD buildings: 50/50 (100%)
 - HD units: 20/20 (100%)
-- Loading screen: 1/1
-- Main menu bg: 1/1
-- HD UI icons: 17
+- HD UI icons: 22
+- Loading screen: 1
+- Main menu bg: 1
+- Skupno: 256 pravih PNG
 
-### Novi sistemi (11)
+### Novi sistemi (13)
 1. Combat Morale System (v3.12.156-v3.12.161)
-2. Procedural SFX (v3.12.163-v3.12.164)
-3. Performance LOD System (v3.12.165)
-4. Performance Dashboard (v3.12.166)
-5. Royal Icon Generator + Asset Override (v3.12.152-v3.12.154)
-6. HD Terrain Override (v3.12.207-v3.12.210)
-7. HD Building Override (v3.12.212)
-8. HD Unit Override (v3.12.226)
-9. Beta Test Checklist (v3.12.169)
-10. Auto-build Pipeline (v3.12.170-v3.12.175)
-11. Save/Load Enhancement (v3.12.167)
+2. Combat Spacing System (v3.12.160)
+3. Procedural SFX (v3.12.163-v3.12.164)
+4. Performance LOD System (v3.12.165)
+5. Performance Dashboard (v3.12.166)
+6. Royal Icon Generator + Asset Override (v3.12.152-v3.12.154)
+7. HD Terrain Override (v3.12.207-v3.12.210)
+8. HD Building Override (v3.12.212)
+9. HD Unit Override (v3.12.226)
+10. Multiplayer Connection Panel (v3.13.2)
+11. Screenshot Capture System (v3.13.3)
+12. Save/Load Enhancement (v3.12.167)
+13. Auto-build Pipeline (v3.12.170-v3.12.175)
+
+### Tags
+- v3.12.171-beta, v3.12.184-tier1-complete, v3.12.205-tier2-complete
+- v3.12.211-hd-terrain-complete, v3.13.0-rc1, v3.13.0, v3.13.4
 
 ## [v3.12.223] — 2026-08-23 — HD Building Sprite Pack Complete (50/50 = 100%!)
 
